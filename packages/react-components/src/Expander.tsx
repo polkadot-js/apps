@@ -4,11 +4,11 @@
 import type { Text } from '@polkadot/types';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
 import { useToggle } from '@polkadot/react-hooks';
 
 import Icon from './Icon';
+import { styled } from './styled';
 
 interface Meta {
   docs: Text[];

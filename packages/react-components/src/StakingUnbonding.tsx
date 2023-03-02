@@ -4,13 +4,13 @@
 import type { DeriveSessionProgress, DeriveStakingAccount } from '@polkadot/api-derive/types';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN, BN_ONE, BN_ZERO, formatBalance, formatNumber } from '@polkadot/util';
 
 import Icon from './Icon';
+import { styled } from './styled';
 import Tooltip from './Tooltip';
 import { useTranslation } from './translate';
 

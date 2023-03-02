@@ -15,6 +15,6 @@ export default function create (t: TFunction): Route {
     group: 'developer',
     icon: 'network-wired',
     name: 'rpc',
-    text: t('nav.rpc', 'RPC calls', { ns: 'apps-routing' })
+    text: t<string>('nav.rpc', 'RPC calls', { ns: 'apps-routing' })
   };
 }

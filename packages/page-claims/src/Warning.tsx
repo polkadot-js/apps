@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { AddressMini, Card } from '@polkadot/react-components';
+import { AddressMini, Card, styled } from '@polkadot/react-components';
 
 import { useTranslation } from './translate';
 import usePolkadotPreclaims from './usePolkadotPreclaims';
@@ -26,8 +25,8 @@ function Warning ({ className }: Props): React.ReactElement<Props> | null {
       <StyledDiv className={className}>
         {
           needsAttest.length > 1
-            ? t('You need to sign an attestation for the following accounts:')
-            : t('You need to sign an attestation for the following account:')
+            ? t<string>('You need to sign an attestation for the following accounts:')
+            : t<string>('You need to sign an attestation for the following account:')
         }{
           needsAttest.map((address) => (
             <AddressMini

@@ -4,9 +4,8 @@
 import type { EntryInfoTyped } from './types';
 
 import React, { useCallback, useMemo, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button } from '@polkadot/react-components';
+import { Button, styled } from '@polkadot/react-components';
 import { formatNumber, isString } from '@polkadot/util';
 
 import { useTranslation } from './translate';

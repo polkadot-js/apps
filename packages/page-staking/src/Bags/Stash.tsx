@@ -5,9 +5,8 @@ import type { BN } from '@polkadot/util';
 import type { ListNode } from './types';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
-import { AddressMini, TxButton } from '@polkadot/react-components';
+import { AddressMini, styled, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';

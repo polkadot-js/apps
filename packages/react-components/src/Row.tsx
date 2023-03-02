@@ -4,12 +4,12 @@
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
 import React, { useCallback } from 'react';
-import styled from 'styled-components';
 
 import { useToggle } from '@polkadot/react-hooks';
 
 import EditButton from './EditButton';
 import Input from './Input';
+import { styled } from './styled';
 import Tags from './Tags';
 
 export interface RowProps {

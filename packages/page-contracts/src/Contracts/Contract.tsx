@@ -9,9 +9,8 @@ import type { ContractInfo } from '@polkadot/types/interfaces';
 import type { ContractLink } from './types';
 
 import React, { useCallback } from 'react';
-import styled from 'styled-components';
 
-import { AddressInfo, AddressMini, Button, Forget } from '@polkadot/react-components';
+import { AddressInfo, AddressMini, Button, Forget, styled } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { isUndefined } from '@polkadot/util';

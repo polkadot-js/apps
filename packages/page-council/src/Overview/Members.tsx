@@ -23,7 +23,7 @@ function Members ({ allVotes = {}, className = '', electionsInfo, hasElections, 
   const { t } = useTranslation();
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('members'), 'start', 2]
+    [t<string>('members'), 'start', 2]
   ]);
 
   return (

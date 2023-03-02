@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useMemo } from 'react';
-import styled from 'styled-components';
 
 import { useApi, useDeriveAccountInfo } from '@polkadot/react-hooks';
 
 import AddressMini from './AddressMini';
+import { styled } from './styled';
 import Toggle from './Toggle';
 import { checkVisibility } from './util';
 

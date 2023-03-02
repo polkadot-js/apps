@@ -6,9 +6,8 @@ import type { Codec } from '@polkadot/types/types';
 import type { CodeStored } from '../types';
 
 import React, { useCallback } from 'react';
-import styled from 'styled-components';
 
-import { Button, Card, CopyButton, Forget } from '@polkadot/react-components';
+import { Button, Card, CopyButton, Forget, styled } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 
 import { CodeRow, Messages } from '../shared';
@@ -106,7 +105,7 @@ function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Pro
         {!contractAbi && (
           <Button
             icon='upload'
-            label={t('deploy')}
+            label={t<string>('deploy')}
             onClick={_onShowDeploy}
           />
         )}

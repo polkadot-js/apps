@@ -156,6 +156,37 @@ export const typesBundle = {
             },
             "version": 2
           }
+        ],
+        "PublicCredentials": [
+          {
+            "methods": {
+              "get_by_id": {
+                "description": "Return the public credential with the specified ID, if found.",
+                "params": [
+                  {
+                    "name": "credential_id",
+                    "type": "Hash"
+                  }
+                ],
+                "type": "Option<PublicCredentialsCredentialsCredentialEntry>"
+              },
+              "get_by_subject": {
+                "description": "Return all the public credentials linked to the specified subject.\n          An optional filter can be passed to be applied to the result before being returned to the client.\n          It returns an error if the provided specified subject ID is not valid.\n          ",
+                "params": [
+                  {
+                    "name": "subject",
+                    "type": "Text"
+                  },
+                  {
+                    "name": "filter",
+                    "type": "Option<PublicCredentialFilter>"
+                  }
+                ],
+                "type": "Result<Vec<(Hash, PublicCredentialsCredentialsCredentialEntry)>, PublicCredentialError>"
+              }
+            },
+            "version": 1
+          }
         ]
       },
       "types": [
@@ -165,6 +196,7 @@ export const typesBundle = {
             8
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithDualRefCount",
             "Address": "AccountId",
             "Attestation": {
@@ -249,6 +281,7 @@ export const typesBundle = {
             9
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -430,6 +463,7 @@ export const typesBundle = {
             11
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -668,6 +702,7 @@ export const typesBundle = {
             16
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -912,6 +947,265 @@ export const typesBundle = {
             17
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
+            "AccountInfo": "AccountInfoWithTripleRefCount",
+            "Address": "MultiAddress",
+            "AmountOf": "i128",
+            "Balance": "u128",
+            "BlockNumber": "u64",
+            "Index": "u64",
+            "LookupSource": "MultiAddress",
+            "CtypeCreatorOf": "AccountId",
+            "CtypeHashOf": "Hash",
+            "ClaimHashOf": "Hash",
+            "AttesterOf": "AccountId",
+            "AttestationDetails": {
+              "ctypeHash": "CtypeHashOf",
+              "attester": "AttesterOf",
+              "delegationId": "Option<DelegationNodeIdOf>",
+              "revoked": "bool"
+            },
+            "Permissions": "u32",
+            "DelegationNodeIdOf": "Hash",
+            "DelegatorIdOf": "AccountId",
+            "DelegateSignatureTypeOf": "Vec<u8>",
+            "DelegationRoot": {
+              "ctypeHash": "CtypeHashOf",
+              "owner": "DelegatorIdOf",
+              "revoked": "bool"
+            },
+            "DelegationNode": {
+              "hierarchyRootId": "DelegationNodeIdOf",
+              "parent": "Option<DelegationNodeIdOf>",
+              "children": "BTreeSet<DelegationNodeIdOf>",
+              "details": "DelegationDetails"
+            },
+            "KeyIdOf": "Hash",
+            "DidIdentifierOf": "AccountId",
+            "AccountIdentifierOf": "AccountId",
+            "BlockNumberOf": "BlockNumber",
+            "DidCallableOf": "Call",
+            "DidVerificationKey": {
+              "_enum": {
+                "Ed25519": "[u8; 32]",
+                "Sr25519": "[u8; 32]",
+                "Secp256k1": "[u8; 33]"
+              }
+            },
+            "DidEncryptionKey": {
+              "_enum": {
+                "X25519": "[u8; 32]"
+              }
+            },
+            "DidPublicKey": {
+              "_enum": {
+                "PublicVerificationKey": "DidVerificationKey",
+                "PublicEncryptionKey": "DidEncryptionKey"
+              }
+            },
+            "DidVerificationKeyRelationship": {
+              "_enum": [
+                "Authentication",
+                "CapabilityDelegation",
+                "CapabilityInvocation",
+                "AssertionMethod"
+              ]
+            },
+            "DidSignature": {
+              "_enum": {
+                "Ed25519": "Ed25519Signature",
+                "Sr25519": "Sr25519Signature",
+                "Ecdsa-Secp256k1": "EcdsaSignature"
+              }
+            },
+            "DidError": {
+              "_enum": {
+                "StorageError": "StorageError",
+                "SignatureError": "SignatureError",
+                "UrlError": "UrlError",
+                "InputError": "InputError",
+                "InternalError": "Null"
+              }
+            },
+            "StorageError": {
+              "_enum": {
+                "DidAlreadyPresent": "Null",
+                "DidNotPresent": "Null",
+                "DidKeyNotPresent": "DidVerificationKeyRelationship",
+                "VerificationKeyNotPresent": "Null",
+                "CurrentlyActiveKey": "Null",
+                "MaxTxCounterValue": "Null"
+              }
+            },
+            "SignatureError": {
+              "_enum": [
+                "InvalidSignatureFormat",
+                "InvalidSignature",
+                "InvalidNonce"
+              ]
+            },
+            "KeyError": {
+              "_enum": [
+                "InvalidVerificationKeyFormat",
+                "InvalidEncryptionKeyFormat"
+              ]
+            },
+            "UrlError": {
+              "_enum": [
+                "InvalidUrlEncoding",
+                "InvalidUrlScheme"
+              ]
+            },
+            "InputError": {
+              "_enum": [
+                "MaxKeyAgreementKeysLimitExceeded",
+                "MaxVerificationKeysToRemoveLimitExceeded",
+                "MaxUrlLengthExceeded"
+              ]
+            },
+            "DidPublicKeyDetails": {
+              "key": "DidPublicKey",
+              "blockNumber": "BlockNumberOf"
+            },
+            "DidDetails": {
+              "authenticationKey": "KeyIdOf",
+              "keyAgreementKeys": "BTreeSet<KeyIdOf>",
+              "delegationKey": "Option<KeyIdOf>",
+              "attestationKey": "Option<KeyIdOf>",
+              "publicKeys": "BTreeMap<KeyIdOf, DidPublicKeyDetails>",
+              "endpointUrl": "Option<Url>",
+              "lastTxCounter": "u64"
+            },
+            "DidCreationOperation": {
+              "did": "DidIdentifierOf",
+              "newAuthenticationKey": "DidVerificationKey",
+              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
+              "newAttestationKey": "Option<DidVerificationKey>",
+              "newDelegationKey": "Option<DidVerificationKey>",
+              "newEndpointUrl": "Option<Url>"
+            },
+            "DidUpdateOperation": {
+              "did": "DidIdentifierOf",
+              "newAuthenticationKey": "Option<DidVerificationKey>",
+              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
+              "attestationKeyUpdate": "DidVerificationKeyUpdateAction",
+              "delegationKeyUpdate": "DidVerificationKeyUpdateAction",
+              "publicKeysToRemove": "BTreeSet<KeyIdOf>",
+              "newEndpointUrl": "Option<Url>",
+              "txCounter": "u64"
+            },
+            "DidVerificationKeyUpdateAction": {
+              "_enum": {
+                "Ignore": "Null",
+                "Change": "DidVerificationKey",
+                "Delete": "Null"
+              }
+            },
+            "DidDeletionOperation": {
+              "did": "DidIdentifierOf",
+              "txCounter": "u64"
+            },
+            "DidAuthorizedCallOperation": {
+              "did": "DidIdentifierOf",
+              "txCounter": "u64",
+              "call": "DidCallableOf"
+            },
+            "HttpUrl": {
+              "payload": "Text"
+            },
+            "FtpUrl": {
+              "payload": "Text"
+            },
+            "IpfsUrl": {
+              "payload": "Text"
+            },
+            "Url": {
+              "_enum": {
+                "Http": "HttpUrl",
+                "Ftp": "FtpUrl",
+                "Ipfs": "IpfsUrl"
+              }
+            },
+            "LockedBalance": {
+              "block": "BlockNumber",
+              "amount": "Balance"
+            },
+            "BalanceOf": "Balance",
+            "RoundInfo": {
+              "current": "SessionIndex",
+              "first": "BlockNumber",
+              "length": "BlockNumber"
+            },
+            "OrderedSet": "Vec<Stake>",
+            "Stake": {
+              "owner": "AccountId",
+              "amount": "Balance"
+            },
+            "TotalStake": {
+              "collators": "Balance",
+              "delegators": "Balance"
+            },
+            "InflationInfo": {
+              "collator": "StakingInfo",
+              "delegator": "StakingInfo"
+            },
+            "StakingInfo": {
+              "maxRate": "Perquintill",
+              "rewardRate": "RewardRate"
+            },
+            "RewardRate": {
+              "annual": "Perquintill",
+              "perBlock": "Perquintill"
+            },
+            "Delegator": {
+              "delegations": "Vec<Stake>",
+              "total": "Balance"
+            },
+            "CollatorSnapshot": {
+              "stake": "Balance",
+              "delegators": "Vec<Stake>",
+              "total": "Balance"
+            },
+            "Collator": {
+              "id": "AccountId",
+              "stake": "Balance",
+              "delegators": "Vec<Stake>",
+              "total": "Balance",
+              "state": "CollatorStatus"
+            },
+            "CollatorStatus": {
+              "_enum": {
+                "Active": "Null",
+                "Leaving": "SessionIndex"
+              }
+            },
+            "DelegationCounter": {
+              "round": "SessionIndex",
+              "counter": "u32"
+            },
+            "DelegationDetails": {
+              "owner": "DelegatorIdOf",
+              "revoked": "bool",
+              "permissions": "Permissions"
+            },
+            "DelegationHierarchyDetails": {
+              "ctypeHash": "CtypeHashOf"
+            },
+            "DelegationStorageVersion": {
+              "_enum": [
+                "V1",
+                "V2"
+              ]
+            }
+          }
+        },
+        {
+          "minmax": [
+            18,
+            18
+          ],
+          "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -1138,234 +1432,6 @@ export const typesBundle = {
                 "V1",
                 "V2"
               ]
-            }
-          }
-        },
-        {
-          "minmax": [
-            18,
-            18
-          ],
-          "types": {
-            "AccountInfo": "AccountInfoWithTripleRefCount",
-            "Address": "MultiAddress",
-            "AmountOf": "i128",
-            "Balance": "u128",
-            "BlockNumber": "u64",
-            "Index": "u64",
-            "LookupSource": "MultiAddress",
-            "CtypeCreatorOf": "AccountId",
-            "CtypeHashOf": "Hash",
-            "ClaimHashOf": "Hash",
-            "AttesterOf": "AccountId",
-            "AttestationDetails": {
-              "ctypeHash": "CtypeHashOf",
-              "attester": "AttesterOf",
-              "delegationId": "Option<DelegationNodeIdOf>",
-              "revoked": "bool"
-            },
-            "Permissions": "u32",
-            "DelegationNodeIdOf": "Hash",
-            "DelegatorIdOf": "AccountId",
-            "DelegateSignatureTypeOf": "Vec<u8>",
-            "DelegationRoot": {
-              "ctypeHash": "CtypeHashOf",
-              "owner": "DelegatorIdOf",
-              "revoked": "bool"
-            },
-            "DelegationNode": {
-              "hierarchyRootId": "DelegationNodeIdOf",
-              "parent": "Option<DelegationNodeIdOf>",
-              "children": "BTreeSet<DelegationNodeIdOf>",
-              "details": "DelegationDetails"
-            },
-            "KeyIdOf": "Hash",
-            "DidIdentifierOf": "AccountId",
-            "AccountIdentifierOf": "AccountId",
-            "BlockNumberOf": "BlockNumber",
-            "DidCallableOf": "Call",
-            "DidVerificationKey": {
-              "_enum": {
-                "Ed25519": "[u8; 32]",
-                "Sr25519": "[u8; 32]",
-                "Secp256k1": "[u8; 33]"
-              }
-            },
-            "DidEncryptionKey": {
-              "_enum": {
-                "X25519": "[u8; 32]"
-              }
-            },
-            "DidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "DidVerificationKey",
-                "PublicEncryptionKey": "DidEncryptionKey"
-              }
-            },
-            "DidVerificationKeyRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "DidSignature": {
-              "_enum": {
-                "Ed25519": "Ed25519Signature",
-                "Sr25519": "Sr25519Signature",
-                "Ecdsa-Secp256k1": "EcdsaSignature"
-              }
-            },
-            "DidError": {
-              "_enum": {
-                "StorageError": "StorageError",
-                "SignatureError": "SignatureError",
-                "UrlError": "UrlError",
-                "InputError": "InputError",
-                "InternalError": "Null"
-              }
-            },
-            "StorageError": {
-              "_enum": {
-                "DidAlreadyPresent": "Null",
-                "DidNotPresent": "Null",
-                "DidKeyNotPresent": "DidVerificationKeyRelationship",
-                "VerificationKeyNotPresent": "Null",
-                "CurrentlyActiveKey": "Null",
-                "MaxTxCounterValue": "Null"
-              }
-            },
-            "SignatureError": {
-              "_enum": [
-                "InvalidSignatureFormat",
-                "InvalidSignature",
-                "InvalidNonce"
-              ]
-            },
-            "KeyError": {
-              "_enum": [
-                "InvalidVerificationKeyFormat",
-                "InvalidEncryptionKeyFormat"
-              ]
-            },
-            "UrlError": {
-              "_enum": [
-                "InvalidUrlEncoding",
-                "InvalidUrlScheme"
-              ]
-            },
-            "InputError": {
-              "_enum": [
-                "MaxKeyAgreementKeysLimitExceeded",
-                "MaxVerificationKeysToRemoveLimitExceeded",
-                "MaxUrlLengthExceeded"
-              ]
-            },
-            "DidPublicKeyDetails": {
-              "key": "DidPublicKey",
-              "blockNumber": "BlockNumberOf"
-            },
-            "DidDetails": {
-              "authenticationKey": "KeyIdOf",
-              "keyAgreementKeys": "BTreeSet<KeyIdOf>",
-              "delegationKey": "Option<KeyIdOf>",
-              "attestationKey": "Option<KeyIdOf>",
-              "publicKeys": "BTreeMap<KeyIdOf, DidPublicKeyDetails>",
-              "endpointUrl": "Option<Url>",
-              "lastTxCounter": "u64"
-            },
-            "DidAuthorizedCallOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64",
-              "call": "DidCallableOf"
-            },
-            "HttpUrl": {
-              "payload": "Text"
-            },
-            "FtpUrl": {
-              "payload": "Text"
-            },
-            "IpfsUrl": {
-              "payload": "Text"
-            },
-            "Url": {
-              "_enum": {
-                "Http": "HttpUrl",
-                "Ftp": "FtpUrl",
-                "Ipfs": "IpfsUrl"
-              }
-            },
-            "LockedBalance": {
-              "block": "BlockNumber",
-              "amount": "Balance"
-            },
-            "BalanceOf": "Balance",
-            "RoundInfo": {
-              "current": "SessionIndex",
-              "first": "BlockNumber",
-              "length": "BlockNumber"
-            },
-            "OrderedSet": "Vec<Stake>",
-            "Stake": {
-              "owner": "AccountId",
-              "amount": "Balance"
-            },
-            "TotalStake": {
-              "collators": "Balance",
-              "delegators": "Balance"
-            },
-            "InflationInfo": {
-              "collator": "StakingInfo",
-              "delegator": "StakingInfo"
-            },
-            "StakingInfo": {
-              "maxRate": "Perquintill",
-              "rewardRate": "RewardRate"
-            },
-            "RewardRate": {
-              "annual": "Perquintill",
-              "perBlock": "Perquintill"
-            },
-            "Delegator": {
-              "delegations": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "CollatorSnapshot": {
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "Collator": {
-              "id": "AccountId",
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance",
-              "state": "CollatorStatus"
-            },
-            "CollatorStatus": {
-              "_enum": {
-                "Active": "Null",
-                "Leaving": "SessionIndex"
-              }
-            },
-            "DelegationCounter": {
-              "round": "SessionIndex",
-              "counter": "u32"
-            },
-            "DelegationDetails": {
-              "owner": "DelegatorIdOf",
-              "revoked": "bool",
-              "permissions": "Permissions"
-            },
-            "DelegationHierarchyDetails": {
-              "ctypeHash": "CtypeHashOf"
-            },
-            "DelegationStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
             },
             "DidCreationDetails": {
               "did": "DidIdentifierOf",
@@ -1390,6 +1456,7 @@ export const typesBundle = {
             19
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -1574,6 +1641,11 @@ export const typesBundle = {
               "delegations": "Vec<Stake>",
               "total": "Balance"
             },
+            "CollatorSnapshot": {
+              "stake": "Balance",
+              "delegators": "Vec<Stake>",
+              "total": "Balance"
+            },
             "Collator": {
               "id": "AccountId",
               "stake": "Balance",
@@ -1659,6 +1731,7 @@ export const typesBundle = {
             20
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -1821,6 +1894,7 @@ export const typesBundle = {
               "first": "BlockNumber",
               "length": "BlockNumber"
             },
+            "OrderedSet": "BoundedVec<Stake, MaxCollatorCandidates>",
             "Stake": {
               "owner": "AccountId",
               "amount": "Balance"
@@ -1882,6 +1956,14 @@ export const typesBundle = {
               "newAttestationKey": "Option<DidVerificationKey>",
               "newDelegationKey": "Option<DidVerificationKey>",
               "newServiceEndpoints": "Option<ServiceEndpoints>"
+            },
+            "DidUpdateDetails": {
+              "newAuthenticationKey": "Option<DidVerificationKey>",
+              "newKeyAgreementKeys": "DidNewKeyAgreementKeys",
+              "attestationKeyUpdate": "DidFragmentUpdateAction_DidVerificationKey",
+              "delegationKeyUpdate": "DidFragmentUpdateAction_DidVerificationKey",
+              "publicKeysToRemove": "DidVerificationKeysToRevoke",
+              "serviceEndpointsUpdate": "DidFragmentUpdateAction_ServiceEndpoints"
             },
             "ServiceEndpoints": {
               "contentHash": "Hash",
@@ -1946,6 +2028,7 @@ export const typesBundle = {
             22
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -2132,6 +2215,19 @@ export const typesBundle = {
               "delegations": "Vec<Stake>",
               "total": "Balance"
             },
+            "Collator": {
+              "id": "AccountId",
+              "stake": "Balance",
+              "delegators": "Vec<Stake>",
+              "total": "Balance",
+              "state": "CollatorStatus"
+            },
+            "CollatorStatus": {
+              "_enum": {
+                "Active": "Null",
+                "Leaving": "SessionIndex"
+              }
+            },
             "DelegationCounter": {
               "round": "SessionIndex",
               "counter": "u32"
@@ -2188,6 +2284,7 @@ export const typesBundle = {
                 "V2"
               ]
             },
+            "MaxCollatorCandidates": "u32",
             "MaxDelegatorsPerCollator": "u32",
             "MaxCollatorsPerDelegator": "u32",
             "StakingStorageVersion": {
@@ -2210,7 +2307,8 @@ export const typesBundle = {
             "MaxPublicKeysPerDid": "u32",
             "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
             "MaxUrlLength": "u32",
-            "MaxEndpointUrlsCount": "u32"
+            "MaxEndpointUrlsCount": "u32",
+            "Keys": "SessionKeys1"
           }
         },
         {
@@ -2219,6 +2317,7 @@ export const typesBundle = {
             24
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -2485,6 +2584,7 @@ export const typesBundle = {
             "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
             "MaxUrlLength": "u32",
             "MaxEndpointUrlsCount": "u32",
+            "Keys": "SessionKeys1",
             "MinCollators": "u32",
             "MaxTopCandidates": "u32",
             "Candidate": {
@@ -2508,6 +2608,7 @@ export const typesBundle = {
             2699
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -2529,6 +2630,11 @@ export const typesBundle = {
             "DelegationNodeIdOf": "Hash",
             "DelegatorIdOf": "AccountId",
             "DelegateSignatureTypeOf": "DidSignature",
+            "DelegationRoot": {
+              "ctypeHash": "CtypeHashOf",
+              "owner": "DelegatorIdOf",
+              "revoked": "bool"
+            },
             "DelegationNode": {
               "hierarchyRootId": "DelegationNodeIdOf",
               "parent": "Option<DelegationNodeIdOf>",
@@ -2608,6 +2714,12 @@ export const typesBundle = {
                 "InvalidEncryptionKeyFormat"
               ]
             },
+            "UrlError": {
+              "_enum": [
+                "InvalidUrlEncoding",
+                "InvalidUrlScheme"
+              ]
+            },
             "InputError": {
               "_enum": [
                 "MaxKeyAgreementKeysLimitExceeded",
@@ -2633,6 +2745,22 @@ export const typesBundle = {
               "txCounter": "u64",
               "call": "DidCallableOf",
               "submitter": "AccountId"
+            },
+            "HttpUrl": {
+              "payload": "Text"
+            },
+            "FtpUrl": {
+              "payload": "Text"
+            },
+            "IpfsUrl": {
+              "payload": "Text"
+            },
+            "Url": {
+              "_enum": {
+                "Http": "HttpUrl",
+                "Ftp": "FtpUrl",
+                "Ipfs": "IpfsUrl"
+              }
             },
             "LockedBalance": {
               "block": "BlockNumber",
@@ -2693,6 +2821,11 @@ export const typesBundle = {
               "newCapabilityDelegationKey": "Option<DidVerificationKey>",
               "newServiceEndpoints": "Option<ServiceEndpoints>"
             },
+            "ServiceEndpoints": {
+              "contentHash": "Hash",
+              "urls": "BoundedVec<Url, MaxEndpointUrlsCount>",
+              "contentType": "ContentType"
+            },
             "DidFragmentUpdateAction_ServiceEndpoints": {
               "_enum": {
                 "Ignore": "Null",
@@ -2706,6 +2839,12 @@ export const typesBundle = {
                 "Change": "DidVerificationKey",
                 "Delete": "Null"
               }
+            },
+            "ContentType": {
+              "_enum": [
+                "application/json",
+                "application/ld+json"
+              ]
             },
             "DidStorageVersion": {
               "_enum": [
@@ -2735,6 +2874,9 @@ export const typesBundle = {
             "MaxVerificationKeysToRevoke": "u32",
             "MaxPublicKeysPerDid": "u32",
             "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
+            "MaxUrlLength": "u32",
+            "MaxEndpointUrlsCount": "u32",
+            "Keys": "SessionKeys1",
             "MinCollators": "u32",
             "MaxTopCandidates": "u32",
             "Candidate": {
@@ -2755,7 +2897,265 @@ export const typesBundle = {
         {
           "minmax": [
             2700,
-            10710
+            10409
+          ],
+          "types": {
+            "DispatchError": "DispatchErrorPre6First",
+            "AccountInfo": "AccountInfoWithTripleRefCount",
+            "Address": "MultiAddress",
+            "AmountOf": "i128",
+            "Balance": "u128",
+            "BlockNumber": "u64",
+            "Index": "u64",
+            "LookupSource": "MultiAddress",
+            "CtypeCreatorOf": "AccountId",
+            "CtypeHashOf": "Hash",
+            "ClaimHashOf": "Hash",
+            "AttesterOf": "AccountId",
+            "AttestationDetails": {
+              "ctypeHash": "CtypeHashOf",
+              "attester": "AttesterOf",
+              "delegationId": "Option<DelegationNodeIdOf>",
+              "revoked": "bool",
+              "deposit": "Deposit"
+            },
+            "Permissions": "u32",
+            "DelegationNodeIdOf": "Hash",
+            "DelegatorIdOf": "AccountId",
+            "DelegateSignatureTypeOf": "DidSignature",
+            "DelegationNode": {
+              "hierarchyRootId": "DelegationNodeIdOf",
+              "parent": "Option<DelegationNodeIdOf>",
+              "children": "BoundedBTreeSet<DelegationNodeIdOf, MaxChildren>",
+              "details": "DelegationDetails",
+              "deposit": "Deposit"
+            },
+            "KeyIdOf": "Hash",
+            "DidIdentifierOf": "AccountId",
+            "AccountIdentifierOf": "AccountId",
+            "BlockNumberOf": "BlockNumber",
+            "DidCallableOf": "Call",
+            "DidVerificationKey": {
+              "_enum": {
+                "Ed25519": "[u8; 32]",
+                "Sr25519": "[u8; 32]",
+                "Secp256k1": "[u8; 33]"
+              }
+            },
+            "DidEncryptionKey": {
+              "_enum": {
+                "X25519": "[u8; 32]"
+              }
+            },
+            "DidPublicKey": {
+              "_enum": {
+                "PublicVerificationKey": "DidVerificationKey",
+                "PublicEncryptionKey": "DidEncryptionKey"
+              }
+            },
+            "DidVerificationKeyRelationship": {
+              "_enum": [
+                "Authentication",
+                "CapabilityDelegation",
+                "CapabilityInvocation",
+                "AssertionMethod"
+              ]
+            },
+            "DidSignature": {
+              "_enum": {
+                "Ed25519": "Ed25519Signature",
+                "Sr25519": "Sr25519Signature",
+                "Ecdsa-Secp256k1": "EcdsaSignature"
+              }
+            },
+            "DidError": {
+              "_enum": {
+                "StorageError": "StorageError",
+                "SignatureError": "SignatureError",
+                "InputError": "InputError",
+                "InternalError": "Null"
+              }
+            },
+            "StorageError": {
+              "_enum": {
+                "DidAlreadyPresent": "Null",
+                "DidNotPresent": "Null",
+                "DidKeyNotPresent": "DidVerificationKeyRelationship",
+                "KeyNotPresent": "Null",
+                "CurrentlyActiveKey": "Null",
+                "MaxPublicKeysPerDidExceeded": "Null",
+                "MaxTotalKeyAgreementKeysExceeded": "Null",
+                "DidAlreadyDeleted": "Null"
+              }
+            },
+            "SignatureError": {
+              "_enum": [
+                "InvalidSignatureFormat",
+                "InvalidSignature",
+                "InvalidNonce",
+                "TransactionExpired"
+              ]
+            },
+            "KeyError": {
+              "_enum": [
+                "InvalidVerificationKeyFormat",
+                "InvalidEncryptionKeyFormat"
+              ]
+            },
+            "InputError": {
+              "_enum": [
+                "MaxKeyAgreementKeysLimitExceeded",
+                "MaxVerificationKeysToRemoveLimitExceeded"
+              ]
+            },
+            "DidPublicKeyDetails": {
+              "key": "DidPublicKey",
+              "blockNumber": "BlockNumberOf"
+            },
+            "DidDetails": {
+              "authenticationKey": "KeyIdOf",
+              "keyAgreementKeys": "DidKeyAgreementKeys",
+              "capabilityDelegationKey": "Option<KeyIdOf>",
+              "assertionMethodKey": "Option<KeyIdOf>",
+              "publicKeys": "DidPublicKeyMap",
+              "lastTxCounter": "u64",
+              "deposit": "Deposit"
+            },
+            "DidAuthorizedCallOperation": {
+              "did": "DidIdentifierOf",
+              "txCounter": "u64",
+              "call": "DidCallableOf",
+              "blockNumber": "BlockNumber",
+              "submitter": "AccountId"
+            },
+            "LockedBalance": {
+              "block": "BlockNumber",
+              "amount": "Balance"
+            },
+            "BalanceOf": "Balance",
+            "RoundInfo": {
+              "current": "SessionIndex",
+              "first": "BlockNumber",
+              "length": "BlockNumber"
+            },
+            "Stake": {
+              "owner": "AccountId",
+              "amount": "Balance"
+            },
+            "TotalStake": {
+              "collators": "Balance",
+              "delegators": "Balance"
+            },
+            "InflationInfo": {
+              "collator": "StakingInfo",
+              "delegator": "StakingInfo"
+            },
+            "StakingInfo": {
+              "maxRate": "Perquintill",
+              "rewardRate": "RewardRate"
+            },
+            "RewardRate": {
+              "annual": "Perquintill",
+              "perBlock": "Perquintill"
+            },
+            "Delegator": {
+              "delegations": "Vec<Stake>",
+              "total": "Balance"
+            },
+            "DelegationCounter": {
+              "round": "SessionIndex",
+              "counter": "u32"
+            },
+            "DelegationDetails": {
+              "owner": "DelegatorIdOf",
+              "revoked": "bool",
+              "permissions": "Permissions"
+            },
+            "DelegationHierarchyDetails": {
+              "ctypeHash": "CtypeHashOf"
+            },
+            "DelegationStorageVersion": {
+              "_enum": [
+                "V1",
+                "V2"
+              ]
+            },
+            "DidCreationDetails": {
+              "did": "DidIdentifierOf",
+              "submitter": "AccountId",
+              "newKeyAgreementKeys": "DidNewKeyAgreementKeys",
+              "newAssertionMethodKey": "Option<DidVerificationKey>",
+              "newCapabilityDelegationKey": "Option<DidVerificationKey>"
+            },
+            "DidFragmentUpdateAction_ServiceEndpoints": {
+              "_enum": {
+                "Ignore": "Null",
+                "Change": "ServiceEndpoints",
+                "Delete": "Null"
+              }
+            },
+            "DidFragmentUpdateAction_DidVerificationKey": {
+              "_enum": {
+                "Ignore": "Null",
+                "Change": "DidVerificationKey",
+                "Delete": "Null"
+              }
+            },
+            "DidStorageVersion": {
+              "_enum": [
+                "V1",
+                "V2",
+                "V3"
+              ]
+            },
+            "MaxDelegatorsPerCollator": "u32",
+            "MaxCollatorsPerDelegator": "u32",
+            "StakingStorageVersion": {
+              "_enum": [
+                "V1_0_0",
+                "V2_0_0",
+                "V3_0_0",
+                "V4",
+                "V5"
+              ]
+            },
+            "MaxDelegatedAttestations": "u32",
+            "MaxClaims": "u32",
+            "MaxChildren": "u32",
+            "DidNewKeyAgreementKeys": "BoundedBTreeSet<DidEncryptionKey, MaxNewKeyAgreementKeys>",
+            "DidKeyAgreementKeys": "BoundedBTreeSet<KeyIdOf, MaxTotalKeyAgreementKeys>",
+            "DidVerificationKeysToRevoke": "BoundedBTreeSet<KeyIdOf, MaxVerificationKeysToRevoke>",
+            "MaxNewKeyAgreementKeys": "u32",
+            "MaxTotalKeyAgreementKeys": "u32",
+            "MaxVerificationKeysToRevoke": "u32",
+            "MaxPublicKeysPerDid": "u32",
+            "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
+            "Keys": "SessionKeys1",
+            "MinCollators": "u32",
+            "MaxTopCandidates": "u32",
+            "Candidate": {
+              "id": "AccountId",
+              "stake": "Balance",
+              "delegators": "Vec<Stake>",
+              "total": "Balance",
+              "status": "CandidateStatus"
+            },
+            "CandidateStatus": {
+              "_enum": {
+                "Active": "Null",
+                "Leaving": "SessionIndex"
+              }
+            },
+            "Deposit": {
+              "owner": "AccountId",
+              "amount": "Balance"
+            }
+          }
+        },
+        {
+          "minmax": [
+            10410,
+            10719
           ],
           "types": {
             "AccountInfo": "AccountInfoWithTripleRefCount",
@@ -2987,6 +3387,7 @@ export const typesBundle = {
             "MaxVerificationKeysToRevoke": "u32",
             "MaxPublicKeysPerDid": "u32",
             "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
+            "Keys": "SessionKeys1",
             "MinCollators": "u32",
             "MaxTopCandidates": "u32",
             "Candidate": {
@@ -3038,6 +3439,17 @@ export const typesBundle = {
               "serviceEndpoints": "Vec<DidServiceEndpointsDidEndpoint>",
               "details": "DidDidDetails"
             },
+            "PublicCredentialFilter": {
+              "_enum": {
+                "ctypeHash": "Hash",
+                "attester": "AccountId32"
+              }
+            },
+            "PublicCredentialError": {
+              "_enum": [
+                "InvalidSubjectId"
+              ]
+            },
             "StakingRates": {
               "collatorStakingRate": "Perquintill",
               "collatorRewardRate": "Perquintill",
@@ -3059,6 +3471,17 @@ export const typesBundle = {
               "w3n": "Option<Text>",
               "serviceEndpoints": "Vec<DidServiceEndpointsDidEndpoint>",
               "details": "DidDidDetails"
+            },
+            "PublicCredentialFilter": {
+              "_enum": {
+                "ctypeHash": "Hash",
+                "attester": "AccountId32"
+              }
+            },
+            "PublicCredentialError": {
+              "_enum": [
+                "InvalidSubjectId"
+              ]
             },
             "StakingRates": {
               "collatorStakingRate": "Perquintill",
@@ -3237,6 +3660,37 @@ export const typesBundle = {
             },
             "version": 1
           }
+        ],
+        "PublicCredentials": [
+          {
+            "methods": {
+              "get_by_id": {
+                "description": "Return the public credential with the specified ID, if found.",
+                "params": [
+                  {
+                    "name": "credential_id",
+                    "type": "Hash"
+                  }
+                ],
+                "type": "Option<PublicCredentialsCredentialsCredentialEntry>"
+              },
+              "get_by_subject": {
+                "description": "Return all the public credentials linked to the specified subject.\n          An optional filter can be passed to be applied to the result before being returned to the client.\n          It returns an error if the provided specified subject ID is not valid.\n          ",
+                "params": [
+                  {
+                    "name": "subject",
+                    "type": "Text"
+                  },
+                  {
+                    "name": "filter",
+                    "type": "Option<PublicCredentialFilter>"
+                  }
+                ],
+                "type": "Result<Vec<(Hash, PublicCredentialsCredentialsCredentialEntry)>, PublicCredentialError>"
+              }
+            },
+            "version": 1
+          }
         ]
       },
       "types": [
@@ -3246,6 +3700,7 @@ export const typesBundle = {
             8
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithDualRefCount",
             "Address": "AccountId",
             "Attestation": {
@@ -3330,6 +3785,7 @@ export const typesBundle = {
             9
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -3511,6 +3967,7 @@ export const typesBundle = {
             11
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -3749,6 +4206,7 @@ export const typesBundle = {
             16
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -3993,6 +4451,265 @@ export const typesBundle = {
             17
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
+            "AccountInfo": "AccountInfoWithTripleRefCount",
+            "Address": "MultiAddress",
+            "AmountOf": "i128",
+            "Balance": "u128",
+            "BlockNumber": "u64",
+            "Index": "u64",
+            "LookupSource": "MultiAddress",
+            "CtypeCreatorOf": "AccountId",
+            "CtypeHashOf": "Hash",
+            "ClaimHashOf": "Hash",
+            "AttesterOf": "AccountId",
+            "AttestationDetails": {
+              "ctypeHash": "CtypeHashOf",
+              "attester": "AttesterOf",
+              "delegationId": "Option<DelegationNodeIdOf>",
+              "revoked": "bool"
+            },
+            "Permissions": "u32",
+            "DelegationNodeIdOf": "Hash",
+            "DelegatorIdOf": "AccountId",
+            "DelegateSignatureTypeOf": "Vec<u8>",
+            "DelegationRoot": {
+              "ctypeHash": "CtypeHashOf",
+              "owner": "DelegatorIdOf",
+              "revoked": "bool"
+            },
+            "DelegationNode": {
+              "hierarchyRootId": "DelegationNodeIdOf",
+              "parent": "Option<DelegationNodeIdOf>",
+              "children": "BTreeSet<DelegationNodeIdOf>",
+              "details": "DelegationDetails"
+            },
+            "KeyIdOf": "Hash",
+            "DidIdentifierOf": "AccountId",
+            "AccountIdentifierOf": "AccountId",
+            "BlockNumberOf": "BlockNumber",
+            "DidCallableOf": "Call",
+            "DidVerificationKey": {
+              "_enum": {
+                "Ed25519": "[u8; 32]",
+                "Sr25519": "[u8; 32]",
+                "Secp256k1": "[u8; 33]"
+              }
+            },
+            "DidEncryptionKey": {
+              "_enum": {
+                "X25519": "[u8; 32]"
+              }
+            },
+            "DidPublicKey": {
+              "_enum": {
+                "PublicVerificationKey": "DidVerificationKey",
+                "PublicEncryptionKey": "DidEncryptionKey"
+              }
+            },
+            "DidVerificationKeyRelationship": {
+              "_enum": [
+                "Authentication",
+                "CapabilityDelegation",
+                "CapabilityInvocation",
+                "AssertionMethod"
+              ]
+            },
+            "DidSignature": {
+              "_enum": {
+                "Ed25519": "Ed25519Signature",
+                "Sr25519": "Sr25519Signature",
+                "Ecdsa-Secp256k1": "EcdsaSignature"
+              }
+            },
+            "DidError": {
+              "_enum": {
+                "StorageError": "StorageError",
+                "SignatureError": "SignatureError",
+                "UrlError": "UrlError",
+                "InputError": "InputError",
+                "InternalError": "Null"
+              }
+            },
+            "StorageError": {
+              "_enum": {
+                "DidAlreadyPresent": "Null",
+                "DidNotPresent": "Null",
+                "DidKeyNotPresent": "DidVerificationKeyRelationship",
+                "VerificationKeyNotPresent": "Null",
+                "CurrentlyActiveKey": "Null",
+                "MaxTxCounterValue": "Null"
+              }
+            },
+            "SignatureError": {
+              "_enum": [
+                "InvalidSignatureFormat",
+                "InvalidSignature",
+                "InvalidNonce"
+              ]
+            },
+            "KeyError": {
+              "_enum": [
+                "InvalidVerificationKeyFormat",
+                "InvalidEncryptionKeyFormat"
+              ]
+            },
+            "UrlError": {
+              "_enum": [
+                "InvalidUrlEncoding",
+                "InvalidUrlScheme"
+              ]
+            },
+            "InputError": {
+              "_enum": [
+                "MaxKeyAgreementKeysLimitExceeded",
+                "MaxVerificationKeysToRemoveLimitExceeded",
+                "MaxUrlLengthExceeded"
+              ]
+            },
+            "DidPublicKeyDetails": {
+              "key": "DidPublicKey",
+              "blockNumber": "BlockNumberOf"
+            },
+            "DidDetails": {
+              "authenticationKey": "KeyIdOf",
+              "keyAgreementKeys": "BTreeSet<KeyIdOf>",
+              "delegationKey": "Option<KeyIdOf>",
+              "attestationKey": "Option<KeyIdOf>",
+              "publicKeys": "BTreeMap<KeyIdOf, DidPublicKeyDetails>",
+              "endpointUrl": "Option<Url>",
+              "lastTxCounter": "u64"
+            },
+            "DidCreationOperation": {
+              "did": "DidIdentifierOf",
+              "newAuthenticationKey": "DidVerificationKey",
+              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
+              "newAttestationKey": "Option<DidVerificationKey>",
+              "newDelegationKey": "Option<DidVerificationKey>",
+              "newEndpointUrl": "Option<Url>"
+            },
+            "DidUpdateOperation": {
+              "did": "DidIdentifierOf",
+              "newAuthenticationKey": "Option<DidVerificationKey>",
+              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
+              "attestationKeyUpdate": "DidVerificationKeyUpdateAction",
+              "delegationKeyUpdate": "DidVerificationKeyUpdateAction",
+              "publicKeysToRemove": "BTreeSet<KeyIdOf>",
+              "newEndpointUrl": "Option<Url>",
+              "txCounter": "u64"
+            },
+            "DidVerificationKeyUpdateAction": {
+              "_enum": {
+                "Ignore": "Null",
+                "Change": "DidVerificationKey",
+                "Delete": "Null"
+              }
+            },
+            "DidDeletionOperation": {
+              "did": "DidIdentifierOf",
+              "txCounter": "u64"
+            },
+            "DidAuthorizedCallOperation": {
+              "did": "DidIdentifierOf",
+              "txCounter": "u64",
+              "call": "DidCallableOf"
+            },
+            "HttpUrl": {
+              "payload": "Text"
+            },
+            "FtpUrl": {
+              "payload": "Text"
+            },
+            "IpfsUrl": {
+              "payload": "Text"
+            },
+            "Url": {
+              "_enum": {
+                "Http": "HttpUrl",
+                "Ftp": "FtpUrl",
+                "Ipfs": "IpfsUrl"
+              }
+            },
+            "LockedBalance": {
+              "block": "BlockNumber",
+              "amount": "Balance"
+            },
+            "BalanceOf": "Balance",
+            "RoundInfo": {
+              "current": "SessionIndex",
+              "first": "BlockNumber",
+              "length": "BlockNumber"
+            },
+            "OrderedSet": "Vec<Stake>",
+            "Stake": {
+              "owner": "AccountId",
+              "amount": "Balance"
+            },
+            "TotalStake": {
+              "collators": "Balance",
+              "delegators": "Balance"
+            },
+            "InflationInfo": {
+              "collator": "StakingInfo",
+              "delegator": "StakingInfo"
+            },
+            "StakingInfo": {
+              "maxRate": "Perquintill",
+              "rewardRate": "RewardRate"
+            },
+            "RewardRate": {
+              "annual": "Perquintill",
+              "perBlock": "Perquintill"
+            },
+            "Delegator": {
+              "delegations": "Vec<Stake>",
+              "total": "Balance"
+            },
+            "CollatorSnapshot": {
+              "stake": "Balance",
+              "delegators": "Vec<Stake>",
+              "total": "Balance"
+            },
+            "Collator": {
+              "id": "AccountId",
+              "stake": "Balance",
+              "delegators": "Vec<Stake>",
+              "total": "Balance",
+              "state": "CollatorStatus"
+            },
+            "CollatorStatus": {
+              "_enum": {
+                "Active": "Null",
+                "Leaving": "SessionIndex"
+              }
+            },
+            "DelegationCounter": {
+              "round": "SessionIndex",
+              "counter": "u32"
+            },
+            "DelegationDetails": {
+              "owner": "DelegatorIdOf",
+              "revoked": "bool",
+              "permissions": "Permissions"
+            },
+            "DelegationHierarchyDetails": {
+              "ctypeHash": "CtypeHashOf"
+            },
+            "DelegationStorageVersion": {
+              "_enum": [
+                "V1",
+                "V2"
+              ]
+            }
+          }
+        },
+        {
+          "minmax": [
+            18,
+            18
+          ],
+          "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -4219,234 +4936,6 @@ export const typesBundle = {
                 "V1",
                 "V2"
               ]
-            }
-          }
-        },
-        {
-          "minmax": [
-            18,
-            18
-          ],
-          "types": {
-            "AccountInfo": "AccountInfoWithTripleRefCount",
-            "Address": "MultiAddress",
-            "AmountOf": "i128",
-            "Balance": "u128",
-            "BlockNumber": "u64",
-            "Index": "u64",
-            "LookupSource": "MultiAddress",
-            "CtypeCreatorOf": "AccountId",
-            "CtypeHashOf": "Hash",
-            "ClaimHashOf": "Hash",
-            "AttesterOf": "AccountId",
-            "AttestationDetails": {
-              "ctypeHash": "CtypeHashOf",
-              "attester": "AttesterOf",
-              "delegationId": "Option<DelegationNodeIdOf>",
-              "revoked": "bool"
-            },
-            "Permissions": "u32",
-            "DelegationNodeIdOf": "Hash",
-            "DelegatorIdOf": "AccountId",
-            "DelegateSignatureTypeOf": "Vec<u8>",
-            "DelegationRoot": {
-              "ctypeHash": "CtypeHashOf",
-              "owner": "DelegatorIdOf",
-              "revoked": "bool"
-            },
-            "DelegationNode": {
-              "hierarchyRootId": "DelegationNodeIdOf",
-              "parent": "Option<DelegationNodeIdOf>",
-              "children": "BTreeSet<DelegationNodeIdOf>",
-              "details": "DelegationDetails"
-            },
-            "KeyIdOf": "Hash",
-            "DidIdentifierOf": "AccountId",
-            "AccountIdentifierOf": "AccountId",
-            "BlockNumberOf": "BlockNumber",
-            "DidCallableOf": "Call",
-            "DidVerificationKey": {
-              "_enum": {
-                "Ed25519": "[u8; 32]",
-                "Sr25519": "[u8; 32]",
-                "Secp256k1": "[u8; 33]"
-              }
-            },
-            "DidEncryptionKey": {
-              "_enum": {
-                "X25519": "[u8; 32]"
-              }
-            },
-            "DidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "DidVerificationKey",
-                "PublicEncryptionKey": "DidEncryptionKey"
-              }
-            },
-            "DidVerificationKeyRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "DidSignature": {
-              "_enum": {
-                "Ed25519": "Ed25519Signature",
-                "Sr25519": "Sr25519Signature",
-                "Ecdsa-Secp256k1": "EcdsaSignature"
-              }
-            },
-            "DidError": {
-              "_enum": {
-                "StorageError": "StorageError",
-                "SignatureError": "SignatureError",
-                "UrlError": "UrlError",
-                "InputError": "InputError",
-                "InternalError": "Null"
-              }
-            },
-            "StorageError": {
-              "_enum": {
-                "DidAlreadyPresent": "Null",
-                "DidNotPresent": "Null",
-                "DidKeyNotPresent": "DidVerificationKeyRelationship",
-                "VerificationKeyNotPresent": "Null",
-                "CurrentlyActiveKey": "Null",
-                "MaxTxCounterValue": "Null"
-              }
-            },
-            "SignatureError": {
-              "_enum": [
-                "InvalidSignatureFormat",
-                "InvalidSignature",
-                "InvalidNonce"
-              ]
-            },
-            "KeyError": {
-              "_enum": [
-                "InvalidVerificationKeyFormat",
-                "InvalidEncryptionKeyFormat"
-              ]
-            },
-            "UrlError": {
-              "_enum": [
-                "InvalidUrlEncoding",
-                "InvalidUrlScheme"
-              ]
-            },
-            "InputError": {
-              "_enum": [
-                "MaxKeyAgreementKeysLimitExceeded",
-                "MaxVerificationKeysToRemoveLimitExceeded",
-                "MaxUrlLengthExceeded"
-              ]
-            },
-            "DidPublicKeyDetails": {
-              "key": "DidPublicKey",
-              "blockNumber": "BlockNumberOf"
-            },
-            "DidDetails": {
-              "authenticationKey": "KeyIdOf",
-              "keyAgreementKeys": "BTreeSet<KeyIdOf>",
-              "delegationKey": "Option<KeyIdOf>",
-              "attestationKey": "Option<KeyIdOf>",
-              "publicKeys": "BTreeMap<KeyIdOf, DidPublicKeyDetails>",
-              "endpointUrl": "Option<Url>",
-              "lastTxCounter": "u64"
-            },
-            "DidAuthorizedCallOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64",
-              "call": "DidCallableOf"
-            },
-            "HttpUrl": {
-              "payload": "Text"
-            },
-            "FtpUrl": {
-              "payload": "Text"
-            },
-            "IpfsUrl": {
-              "payload": "Text"
-            },
-            "Url": {
-              "_enum": {
-                "Http": "HttpUrl",
-                "Ftp": "FtpUrl",
-                "Ipfs": "IpfsUrl"
-              }
-            },
-            "LockedBalance": {
-              "block": "BlockNumber",
-              "amount": "Balance"
-            },
-            "BalanceOf": "Balance",
-            "RoundInfo": {
-              "current": "SessionIndex",
-              "first": "BlockNumber",
-              "length": "BlockNumber"
-            },
-            "OrderedSet": "Vec<Stake>",
-            "Stake": {
-              "owner": "AccountId",
-              "amount": "Balance"
-            },
-            "TotalStake": {
-              "collators": "Balance",
-              "delegators": "Balance"
-            },
-            "InflationInfo": {
-              "collator": "StakingInfo",
-              "delegator": "StakingInfo"
-            },
-            "StakingInfo": {
-              "maxRate": "Perquintill",
-              "rewardRate": "RewardRate"
-            },
-            "RewardRate": {
-              "annual": "Perquintill",
-              "perBlock": "Perquintill"
-            },
-            "Delegator": {
-              "delegations": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "CollatorSnapshot": {
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "Collator": {
-              "id": "AccountId",
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance",
-              "state": "CollatorStatus"
-            },
-            "CollatorStatus": {
-              "_enum": {
-                "Active": "Null",
-                "Leaving": "SessionIndex"
-              }
-            },
-            "DelegationCounter": {
-              "round": "SessionIndex",
-              "counter": "u32"
-            },
-            "DelegationDetails": {
-              "owner": "DelegatorIdOf",
-              "revoked": "bool",
-              "permissions": "Permissions"
-            },
-            "DelegationHierarchyDetails": {
-              "ctypeHash": "CtypeHashOf"
-            },
-            "DelegationStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
             },
             "DidCreationDetails": {
               "did": "DidIdentifierOf",
@@ -4471,6 +4960,7 @@ export const typesBundle = {
             19
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -4655,6 +5145,11 @@ export const typesBundle = {
               "delegations": "Vec<Stake>",
               "total": "Balance"
             },
+            "CollatorSnapshot": {
+              "stake": "Balance",
+              "delegators": "Vec<Stake>",
+              "total": "Balance"
+            },
             "Collator": {
               "id": "AccountId",
               "stake": "Balance",
@@ -4740,6 +5235,7 @@ export const typesBundle = {
             20
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -4902,6 +5398,7 @@ export const typesBundle = {
               "first": "BlockNumber",
               "length": "BlockNumber"
             },
+            "OrderedSet": "BoundedVec<Stake, MaxCollatorCandidates>",
             "Stake": {
               "owner": "AccountId",
               "amount": "Balance"
@@ -4963,6 +5460,14 @@ export const typesBundle = {
               "newAttestationKey": "Option<DidVerificationKey>",
               "newDelegationKey": "Option<DidVerificationKey>",
               "newServiceEndpoints": "Option<ServiceEndpoints>"
+            },
+            "DidUpdateDetails": {
+              "newAuthenticationKey": "Option<DidVerificationKey>",
+              "newKeyAgreementKeys": "DidNewKeyAgreementKeys",
+              "attestationKeyUpdate": "DidFragmentUpdateAction_DidVerificationKey",
+              "delegationKeyUpdate": "DidFragmentUpdateAction_DidVerificationKey",
+              "publicKeysToRemove": "DidVerificationKeysToRevoke",
+              "serviceEndpointsUpdate": "DidFragmentUpdateAction_ServiceEndpoints"
             },
             "ServiceEndpoints": {
               "contentHash": "Hash",
@@ -5027,6 +5532,7 @@ export const typesBundle = {
             22
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -5213,6 +5719,19 @@ export const typesBundle = {
               "delegations": "Vec<Stake>",
               "total": "Balance"
             },
+            "Collator": {
+              "id": "AccountId",
+              "stake": "Balance",
+              "delegators": "Vec<Stake>",
+              "total": "Balance",
+              "state": "CollatorStatus"
+            },
+            "CollatorStatus": {
+              "_enum": {
+                "Active": "Null",
+                "Leaving": "SessionIndex"
+              }
+            },
             "DelegationCounter": {
               "round": "SessionIndex",
               "counter": "u32"
@@ -5269,6 +5788,7 @@ export const typesBundle = {
                 "V2"
               ]
             },
+            "MaxCollatorCandidates": "u32",
             "MaxDelegatorsPerCollator": "u32",
             "MaxCollatorsPerDelegator": "u32",
             "StakingStorageVersion": {
@@ -5291,7 +5811,8 @@ export const typesBundle = {
             "MaxPublicKeysPerDid": "u32",
             "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
             "MaxUrlLength": "u32",
-            "MaxEndpointUrlsCount": "u32"
+            "MaxEndpointUrlsCount": "u32",
+            "Keys": "SessionKeys1"
           }
         },
         {
@@ -5300,6 +5821,7 @@ export const typesBundle = {
             24
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -5566,6 +6088,7 @@ export const typesBundle = {
             "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
             "MaxUrlLength": "u32",
             "MaxEndpointUrlsCount": "u32",
+            "Keys": "SessionKeys1",
             "MinCollators": "u32",
             "MaxTopCandidates": "u32",
             "Candidate": {
@@ -5589,6 +6112,7 @@ export const typesBundle = {
             2699
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -5610,6 +6134,11 @@ export const typesBundle = {
             "DelegationNodeIdOf": "Hash",
             "DelegatorIdOf": "AccountId",
             "DelegateSignatureTypeOf": "DidSignature",
+            "DelegationRoot": {
+              "ctypeHash": "CtypeHashOf",
+              "owner": "DelegatorIdOf",
+              "revoked": "bool"
+            },
             "DelegationNode": {
               "hierarchyRootId": "DelegationNodeIdOf",
               "parent": "Option<DelegationNodeIdOf>",
@@ -5689,6 +6218,12 @@ export const typesBundle = {
                 "InvalidEncryptionKeyFormat"
               ]
             },
+            "UrlError": {
+              "_enum": [
+                "InvalidUrlEncoding",
+                "InvalidUrlScheme"
+              ]
+            },
             "InputError": {
               "_enum": [
                 "MaxKeyAgreementKeysLimitExceeded",
@@ -5714,6 +6249,22 @@ export const typesBundle = {
               "txCounter": "u64",
               "call": "DidCallableOf",
               "submitter": "AccountId"
+            },
+            "HttpUrl": {
+              "payload": "Text"
+            },
+            "FtpUrl": {
+              "payload": "Text"
+            },
+            "IpfsUrl": {
+              "payload": "Text"
+            },
+            "Url": {
+              "_enum": {
+                "Http": "HttpUrl",
+                "Ftp": "FtpUrl",
+                "Ipfs": "IpfsUrl"
+              }
             },
             "LockedBalance": {
               "block": "BlockNumber",
@@ -5774,6 +6325,11 @@ export const typesBundle = {
               "newCapabilityDelegationKey": "Option<DidVerificationKey>",
               "newServiceEndpoints": "Option<ServiceEndpoints>"
             },
+            "ServiceEndpoints": {
+              "contentHash": "Hash",
+              "urls": "BoundedVec<Url, MaxEndpointUrlsCount>",
+              "contentType": "ContentType"
+            },
             "DidFragmentUpdateAction_ServiceEndpoints": {
               "_enum": {
                 "Ignore": "Null",
@@ -5787,6 +6343,12 @@ export const typesBundle = {
                 "Change": "DidVerificationKey",
                 "Delete": "Null"
               }
+            },
+            "ContentType": {
+              "_enum": [
+                "application/json",
+                "application/ld+json"
+              ]
             },
             "DidStorageVersion": {
               "_enum": [
@@ -5816,6 +6378,9 @@ export const typesBundle = {
             "MaxVerificationKeysToRevoke": "u32",
             "MaxPublicKeysPerDid": "u32",
             "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
+            "MaxUrlLength": "u32",
+            "MaxEndpointUrlsCount": "u32",
+            "Keys": "SessionKeys1",
             "MinCollators": "u32",
             "MaxTopCandidates": "u32",
             "Candidate": {
@@ -5836,7 +6401,265 @@ export const typesBundle = {
         {
           "minmax": [
             2700,
-            10710
+            10409
+          ],
+          "types": {
+            "DispatchError": "DispatchErrorPre6First",
+            "AccountInfo": "AccountInfoWithTripleRefCount",
+            "Address": "MultiAddress",
+            "AmountOf": "i128",
+            "Balance": "u128",
+            "BlockNumber": "u64",
+            "Index": "u64",
+            "LookupSource": "MultiAddress",
+            "CtypeCreatorOf": "AccountId",
+            "CtypeHashOf": "Hash",
+            "ClaimHashOf": "Hash",
+            "AttesterOf": "AccountId",
+            "AttestationDetails": {
+              "ctypeHash": "CtypeHashOf",
+              "attester": "AttesterOf",
+              "delegationId": "Option<DelegationNodeIdOf>",
+              "revoked": "bool",
+              "deposit": "Deposit"
+            },
+            "Permissions": "u32",
+            "DelegationNodeIdOf": "Hash",
+            "DelegatorIdOf": "AccountId",
+            "DelegateSignatureTypeOf": "DidSignature",
+            "DelegationNode": {
+              "hierarchyRootId": "DelegationNodeIdOf",
+              "parent": "Option<DelegationNodeIdOf>",
+              "children": "BoundedBTreeSet<DelegationNodeIdOf, MaxChildren>",
+              "details": "DelegationDetails",
+              "deposit": "Deposit"
+            },
+            "KeyIdOf": "Hash",
+            "DidIdentifierOf": "AccountId",
+            "AccountIdentifierOf": "AccountId",
+            "BlockNumberOf": "BlockNumber",
+            "DidCallableOf": "Call",
+            "DidVerificationKey": {
+              "_enum": {
+                "Ed25519": "[u8; 32]",
+                "Sr25519": "[u8; 32]",
+                "Secp256k1": "[u8; 33]"
+              }
+            },
+            "DidEncryptionKey": {
+              "_enum": {
+                "X25519": "[u8; 32]"
+              }
+            },
+            "DidPublicKey": {
+              "_enum": {
+                "PublicVerificationKey": "DidVerificationKey",
+                "PublicEncryptionKey": "DidEncryptionKey"
+              }
+            },
+            "DidVerificationKeyRelationship": {
+              "_enum": [
+                "Authentication",
+                "CapabilityDelegation",
+                "CapabilityInvocation",
+                "AssertionMethod"
+              ]
+            },
+            "DidSignature": {
+              "_enum": {
+                "Ed25519": "Ed25519Signature",
+                "Sr25519": "Sr25519Signature",
+                "Ecdsa-Secp256k1": "EcdsaSignature"
+              }
+            },
+            "DidError": {
+              "_enum": {
+                "StorageError": "StorageError",
+                "SignatureError": "SignatureError",
+                "InputError": "InputError",
+                "InternalError": "Null"
+              }
+            },
+            "StorageError": {
+              "_enum": {
+                "DidAlreadyPresent": "Null",
+                "DidNotPresent": "Null",
+                "DidKeyNotPresent": "DidVerificationKeyRelationship",
+                "KeyNotPresent": "Null",
+                "CurrentlyActiveKey": "Null",
+                "MaxPublicKeysPerDidExceeded": "Null",
+                "MaxTotalKeyAgreementKeysExceeded": "Null",
+                "DidAlreadyDeleted": "Null"
+              }
+            },
+            "SignatureError": {
+              "_enum": [
+                "InvalidSignatureFormat",
+                "InvalidSignature",
+                "InvalidNonce",
+                "TransactionExpired"
+              ]
+            },
+            "KeyError": {
+              "_enum": [
+                "InvalidVerificationKeyFormat",
+                "InvalidEncryptionKeyFormat"
+              ]
+            },
+            "InputError": {
+              "_enum": [
+                "MaxKeyAgreementKeysLimitExceeded",
+                "MaxVerificationKeysToRemoveLimitExceeded"
+              ]
+            },
+            "DidPublicKeyDetails": {
+              "key": "DidPublicKey",
+              "blockNumber": "BlockNumberOf"
+            },
+            "DidDetails": {
+              "authenticationKey": "KeyIdOf",
+              "keyAgreementKeys": "DidKeyAgreementKeys",
+              "capabilityDelegationKey": "Option<KeyIdOf>",
+              "assertionMethodKey": "Option<KeyIdOf>",
+              "publicKeys": "DidPublicKeyMap",
+              "lastTxCounter": "u64",
+              "deposit": "Deposit"
+            },
+            "DidAuthorizedCallOperation": {
+              "did": "DidIdentifierOf",
+              "txCounter": "u64",
+              "call": "DidCallableOf",
+              "blockNumber": "BlockNumber",
+              "submitter": "AccountId"
+            },
+            "LockedBalance": {
+              "block": "BlockNumber",
+              "amount": "Balance"
+            },
+            "BalanceOf": "Balance",
+            "RoundInfo": {
+              "current": "SessionIndex",
+              "first": "BlockNumber",
+              "length": "BlockNumber"
+            },
+            "Stake": {
+              "owner": "AccountId",
+              "amount": "Balance"
+            },
+            "TotalStake": {
+              "collators": "Balance",
+              "delegators": "Balance"
+            },
+            "InflationInfo": {
+              "collator": "StakingInfo",
+              "delegator": "StakingInfo"
+            },
+            "StakingInfo": {
+              "maxRate": "Perquintill",
+              "rewardRate": "RewardRate"
+            },
+            "RewardRate": {
+              "annual": "Perquintill",
+              "perBlock": "Perquintill"
+            },
+            "Delegator": {
+              "delegations": "Vec<Stake>",
+              "total": "Balance"
+            },
+            "DelegationCounter": {
+              "round": "SessionIndex",
+              "counter": "u32"
+            },
+            "DelegationDetails": {
+              "owner": "DelegatorIdOf",
+              "revoked": "bool",
+              "permissions": "Permissions"
+            },
+            "DelegationHierarchyDetails": {
+              "ctypeHash": "CtypeHashOf"
+            },
+            "DelegationStorageVersion": {
+              "_enum": [
+                "V1",
+                "V2"
+              ]
+            },
+            "DidCreationDetails": {
+              "did": "DidIdentifierOf",
+              "submitter": "AccountId",
+              "newKeyAgreementKeys": "DidNewKeyAgreementKeys",
+              "newAssertionMethodKey": "Option<DidVerificationKey>",
+              "newCapabilityDelegationKey": "Option<DidVerificationKey>"
+            },
+            "DidFragmentUpdateAction_ServiceEndpoints": {
+              "_enum": {
+                "Ignore": "Null",
+                "Change": "ServiceEndpoints",
+                "Delete": "Null"
+              }
+            },
+            "DidFragmentUpdateAction_DidVerificationKey": {
+              "_enum": {
+                "Ignore": "Null",
+                "Change": "DidVerificationKey",
+                "Delete": "Null"
+              }
+            },
+            "DidStorageVersion": {
+              "_enum": [
+                "V1",
+                "V2",
+                "V3"
+              ]
+            },
+            "MaxDelegatorsPerCollator": "u32",
+            "MaxCollatorsPerDelegator": "u32",
+            "StakingStorageVersion": {
+              "_enum": [
+                "V1_0_0",
+                "V2_0_0",
+                "V3_0_0",
+                "V4",
+                "V5"
+              ]
+            },
+            "MaxDelegatedAttestations": "u32",
+            "MaxClaims": "u32",
+            "MaxChildren": "u32",
+            "DidNewKeyAgreementKeys": "BoundedBTreeSet<DidEncryptionKey, MaxNewKeyAgreementKeys>",
+            "DidKeyAgreementKeys": "BoundedBTreeSet<KeyIdOf, MaxTotalKeyAgreementKeys>",
+            "DidVerificationKeysToRevoke": "BoundedBTreeSet<KeyIdOf, MaxVerificationKeysToRevoke>",
+            "MaxNewKeyAgreementKeys": "u32",
+            "MaxTotalKeyAgreementKeys": "u32",
+            "MaxVerificationKeysToRevoke": "u32",
+            "MaxPublicKeysPerDid": "u32",
+            "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
+            "Keys": "SessionKeys1",
+            "MinCollators": "u32",
+            "MaxTopCandidates": "u32",
+            "Candidate": {
+              "id": "AccountId",
+              "stake": "Balance",
+              "delegators": "Vec<Stake>",
+              "total": "Balance",
+              "status": "CandidateStatus"
+            },
+            "CandidateStatus": {
+              "_enum": {
+                "Active": "Null",
+                "Leaving": "SessionIndex"
+              }
+            },
+            "Deposit": {
+              "owner": "AccountId",
+              "amount": "Balance"
+            }
+          }
+        },
+        {
+          "minmax": [
+            10410,
+            10719
           ],
           "types": {
             "AccountInfo": "AccountInfoWithTripleRefCount",
@@ -6068,6 +6891,7 @@ export const typesBundle = {
             "MaxVerificationKeysToRevoke": "u32",
             "MaxPublicKeysPerDid": "u32",
             "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
+            "Keys": "SessionKeys1",
             "MinCollators": "u32",
             "MaxTopCandidates": "u32",
             "Candidate": {
@@ -6119,6 +6943,17 @@ export const typesBundle = {
               "serviceEndpoints": "Vec<DidServiceEndpointsDidEndpoint>",
               "details": "DidDidDetails"
             },
+            "PublicCredentialFilter": {
+              "_enum": {
+                "ctypeHash": "Hash",
+                "attester": "AccountId32"
+              }
+            },
+            "PublicCredentialError": {
+              "_enum": [
+                "InvalidSubjectId"
+              ]
+            },
             "StakingRates": {
               "collatorStakingRate": "Perquintill",
               "collatorRewardRate": "Perquintill",
@@ -6140,6 +6975,17 @@ export const typesBundle = {
               "w3n": "Option<Text>",
               "serviceEndpoints": "Vec<DidServiceEndpointsDidEndpoint>",
               "details": "DidDidDetails"
+            },
+            "PublicCredentialFilter": {
+              "_enum": {
+                "ctypeHash": "Hash",
+                "attester": "AccountId32"
+              }
+            },
+            "PublicCredentialError": {
+              "_enum": [
+                "InvalidSubjectId"
+              ]
             },
             "StakingRates": {
               "collatorStakingRate": "Perquintill",
@@ -6318,6 +7164,37 @@ export const typesBundle = {
             },
             "version": 1
           }
+        ],
+        "PublicCredentials": [
+          {
+            "methods": {
+              "get_by_id": {
+                "description": "Return the public credential with the specified ID, if found.",
+                "params": [
+                  {
+                    "name": "credential_id",
+                    "type": "Hash"
+                  }
+                ],
+                "type": "Option<PublicCredentialsCredentialsCredentialEntry>"
+              },
+              "get_by_subject": {
+                "description": "Return all the public credentials linked to the specified subject.\n          An optional filter can be passed to be applied to the result before being returned to the client.\n          It returns an error if the provided specified subject ID is not valid.\n          ",
+                "params": [
+                  {
+                    "name": "subject",
+                    "type": "Text"
+                  },
+                  {
+                    "name": "filter",
+                    "type": "Option<PublicCredentialFilter>"
+                  }
+                ],
+                "type": "Result<Vec<(Hash, PublicCredentialsCredentialsCredentialEntry)>, PublicCredentialError>"
+              }
+            },
+            "version": 1
+          }
         ]
       },
       "types": [
@@ -6327,6 +7204,7 @@ export const typesBundle = {
             8
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithDualRefCount",
             "Address": "AccountId",
             "Attestation": {
@@ -6411,6 +7289,7 @@ export const typesBundle = {
             9
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -6592,6 +7471,7 @@ export const typesBundle = {
             11
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -6830,6 +7710,7 @@ export const typesBundle = {
             16
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -7074,6 +7955,265 @@ export const typesBundle = {
             17
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
+            "AccountInfo": "AccountInfoWithTripleRefCount",
+            "Address": "MultiAddress",
+            "AmountOf": "i128",
+            "Balance": "u128",
+            "BlockNumber": "u64",
+            "Index": "u64",
+            "LookupSource": "MultiAddress",
+            "CtypeCreatorOf": "AccountId",
+            "CtypeHashOf": "Hash",
+            "ClaimHashOf": "Hash",
+            "AttesterOf": "AccountId",
+            "AttestationDetails": {
+              "ctypeHash": "CtypeHashOf",
+              "attester": "AttesterOf",
+              "delegationId": "Option<DelegationNodeIdOf>",
+              "revoked": "bool"
+            },
+            "Permissions": "u32",
+            "DelegationNodeIdOf": "Hash",
+            "DelegatorIdOf": "AccountId",
+            "DelegateSignatureTypeOf": "Vec<u8>",
+            "DelegationRoot": {
+              "ctypeHash": "CtypeHashOf",
+              "owner": "DelegatorIdOf",
+              "revoked": "bool"
+            },
+            "DelegationNode": {
+              "hierarchyRootId": "DelegationNodeIdOf",
+              "parent": "Option<DelegationNodeIdOf>",
+              "children": "BTreeSet<DelegationNodeIdOf>",
+              "details": "DelegationDetails"
+            },
+            "KeyIdOf": "Hash",
+            "DidIdentifierOf": "AccountId",
+            "AccountIdentifierOf": "AccountId",
+            "BlockNumberOf": "BlockNumber",
+            "DidCallableOf": "Call",
+            "DidVerificationKey": {
+              "_enum": {
+                "Ed25519": "[u8; 32]",
+                "Sr25519": "[u8; 32]",
+                "Secp256k1": "[u8; 33]"
+              }
+            },
+            "DidEncryptionKey": {
+              "_enum": {
+                "X25519": "[u8; 32]"
+              }
+            },
+            "DidPublicKey": {
+              "_enum": {
+                "PublicVerificationKey": "DidVerificationKey",
+                "PublicEncryptionKey": "DidEncryptionKey"
+              }
+            },
+            "DidVerificationKeyRelationship": {
+              "_enum": [
+                "Authentication",
+                "CapabilityDelegation",
+                "CapabilityInvocation",
+                "AssertionMethod"
+              ]
+            },
+            "DidSignature": {
+              "_enum": {
+                "Ed25519": "Ed25519Signature",
+                "Sr25519": "Sr25519Signature",
+                "Ecdsa-Secp256k1": "EcdsaSignature"
+              }
+            },
+            "DidError": {
+              "_enum": {
+                "StorageError": "StorageError",
+                "SignatureError": "SignatureError",
+                "UrlError": "UrlError",
+                "InputError": "InputError",
+                "InternalError": "Null"
+              }
+            },
+            "StorageError": {
+              "_enum": {
+                "DidAlreadyPresent": "Null",
+                "DidNotPresent": "Null",
+                "DidKeyNotPresent": "DidVerificationKeyRelationship",
+                "VerificationKeyNotPresent": "Null",
+                "CurrentlyActiveKey": "Null",
+                "MaxTxCounterValue": "Null"
+              }
+            },
+            "SignatureError": {
+              "_enum": [
+                "InvalidSignatureFormat",
+                "InvalidSignature",
+                "InvalidNonce"
+              ]
+            },
+            "KeyError": {
+              "_enum": [
+                "InvalidVerificationKeyFormat",
+                "InvalidEncryptionKeyFormat"
+              ]
+            },
+            "UrlError": {
+              "_enum": [
+                "InvalidUrlEncoding",
+                "InvalidUrlScheme"
+              ]
+            },
+            "InputError": {
+              "_enum": [
+                "MaxKeyAgreementKeysLimitExceeded",
+                "MaxVerificationKeysToRemoveLimitExceeded",
+                "MaxUrlLengthExceeded"
+              ]
+            },
+            "DidPublicKeyDetails": {
+              "key": "DidPublicKey",
+              "blockNumber": "BlockNumberOf"
+            },
+            "DidDetails": {
+              "authenticationKey": "KeyIdOf",
+              "keyAgreementKeys": "BTreeSet<KeyIdOf>",
+              "delegationKey": "Option<KeyIdOf>",
+              "attestationKey": "Option<KeyIdOf>",
+              "publicKeys": "BTreeMap<KeyIdOf, DidPublicKeyDetails>",
+              "endpointUrl": "Option<Url>",
+              "lastTxCounter": "u64"
+            },
+            "DidCreationOperation": {
+              "did": "DidIdentifierOf",
+              "newAuthenticationKey": "DidVerificationKey",
+              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
+              "newAttestationKey": "Option<DidVerificationKey>",
+              "newDelegationKey": "Option<DidVerificationKey>",
+              "newEndpointUrl": "Option<Url>"
+            },
+            "DidUpdateOperation": {
+              "did": "DidIdentifierOf",
+              "newAuthenticationKey": "Option<DidVerificationKey>",
+              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
+              "attestationKeyUpdate": "DidVerificationKeyUpdateAction",
+              "delegationKeyUpdate": "DidVerificationKeyUpdateAction",
+              "publicKeysToRemove": "BTreeSet<KeyIdOf>",
+              "newEndpointUrl": "Option<Url>",
+              "txCounter": "u64"
+            },
+            "DidVerificationKeyUpdateAction": {
+              "_enum": {
+                "Ignore": "Null",
+                "Change": "DidVerificationKey",
+                "Delete": "Null"
+              }
+            },
+            "DidDeletionOperation": {
+              "did": "DidIdentifierOf",
+              "txCounter": "u64"
+            },
+            "DidAuthorizedCallOperation": {
+              "did": "DidIdentifierOf",
+              "txCounter": "u64",
+              "call": "DidCallableOf"
+            },
+            "HttpUrl": {
+              "payload": "Text"
+            },
+            "FtpUrl": {
+              "payload": "Text"
+            },
+            "IpfsUrl": {
+              "payload": "Text"
+            },
+            "Url": {
+              "_enum": {
+                "Http": "HttpUrl",
+                "Ftp": "FtpUrl",
+                "Ipfs": "IpfsUrl"
+              }
+            },
+            "LockedBalance": {
+              "block": "BlockNumber",
+              "amount": "Balance"
+            },
+            "BalanceOf": "Balance",
+            "RoundInfo": {
+              "current": "SessionIndex",
+              "first": "BlockNumber",
+              "length": "BlockNumber"
+            },
+            "OrderedSet": "Vec<Stake>",
+            "Stake": {
+              "owner": "AccountId",
+              "amount": "Balance"
+            },
+            "TotalStake": {
+              "collators": "Balance",
+              "delegators": "Balance"
+            },
+            "InflationInfo": {
+              "collator": "StakingInfo",
+              "delegator": "StakingInfo"
+            },
+            "StakingInfo": {
+              "maxRate": "Perquintill",
+              "rewardRate": "RewardRate"
+            },
+            "RewardRate": {
+              "annual": "Perquintill",
+              "perBlock": "Perquintill"
+            },
+            "Delegator": {
+              "delegations": "Vec<Stake>",
+              "total": "Balance"
+            },
+            "CollatorSnapshot": {
+              "stake": "Balance",
+              "delegators": "Vec<Stake>",
+              "total": "Balance"
+            },
+            "Collator": {
+              "id": "AccountId",
+              "stake": "Balance",
+              "delegators": "Vec<Stake>",
+              "total": "Balance",
+              "state": "CollatorStatus"
+            },
+            "CollatorStatus": {
+              "_enum": {
+                "Active": "Null",
+                "Leaving": "SessionIndex"
+              }
+            },
+            "DelegationCounter": {
+              "round": "SessionIndex",
+              "counter": "u32"
+            },
+            "DelegationDetails": {
+              "owner": "DelegatorIdOf",
+              "revoked": "bool",
+              "permissions": "Permissions"
+            },
+            "DelegationHierarchyDetails": {
+              "ctypeHash": "CtypeHashOf"
+            },
+            "DelegationStorageVersion": {
+              "_enum": [
+                "V1",
+                "V2"
+              ]
+            }
+          }
+        },
+        {
+          "minmax": [
+            18,
+            18
+          ],
+          "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -7300,234 +8440,6 @@ export const typesBundle = {
                 "V1",
                 "V2"
               ]
-            }
-          }
-        },
-        {
-          "minmax": [
-            18,
-            18
-          ],
-          "types": {
-            "AccountInfo": "AccountInfoWithTripleRefCount",
-            "Address": "MultiAddress",
-            "AmountOf": "i128",
-            "Balance": "u128",
-            "BlockNumber": "u64",
-            "Index": "u64",
-            "LookupSource": "MultiAddress",
-            "CtypeCreatorOf": "AccountId",
-            "CtypeHashOf": "Hash",
-            "ClaimHashOf": "Hash",
-            "AttesterOf": "AccountId",
-            "AttestationDetails": {
-              "ctypeHash": "CtypeHashOf",
-              "attester": "AttesterOf",
-              "delegationId": "Option<DelegationNodeIdOf>",
-              "revoked": "bool"
-            },
-            "Permissions": "u32",
-            "DelegationNodeIdOf": "Hash",
-            "DelegatorIdOf": "AccountId",
-            "DelegateSignatureTypeOf": "Vec<u8>",
-            "DelegationRoot": {
-              "ctypeHash": "CtypeHashOf",
-              "owner": "DelegatorIdOf",
-              "revoked": "bool"
-            },
-            "DelegationNode": {
-              "hierarchyRootId": "DelegationNodeIdOf",
-              "parent": "Option<DelegationNodeIdOf>",
-              "children": "BTreeSet<DelegationNodeIdOf>",
-              "details": "DelegationDetails"
-            },
-            "KeyIdOf": "Hash",
-            "DidIdentifierOf": "AccountId",
-            "AccountIdentifierOf": "AccountId",
-            "BlockNumberOf": "BlockNumber",
-            "DidCallableOf": "Call",
-            "DidVerificationKey": {
-              "_enum": {
-                "Ed25519": "[u8; 32]",
-                "Sr25519": "[u8; 32]",
-                "Secp256k1": "[u8; 33]"
-              }
-            },
-            "DidEncryptionKey": {
-              "_enum": {
-                "X25519": "[u8; 32]"
-              }
-            },
-            "DidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "DidVerificationKey",
-                "PublicEncryptionKey": "DidEncryptionKey"
-              }
-            },
-            "DidVerificationKeyRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "DidSignature": {
-              "_enum": {
-                "Ed25519": "Ed25519Signature",
-                "Sr25519": "Sr25519Signature",
-                "Ecdsa-Secp256k1": "EcdsaSignature"
-              }
-            },
-            "DidError": {
-              "_enum": {
-                "StorageError": "StorageError",
-                "SignatureError": "SignatureError",
-                "UrlError": "UrlError",
-                "InputError": "InputError",
-                "InternalError": "Null"
-              }
-            },
-            "StorageError": {
-              "_enum": {
-                "DidAlreadyPresent": "Null",
-                "DidNotPresent": "Null",
-                "DidKeyNotPresent": "DidVerificationKeyRelationship",
-                "VerificationKeyNotPresent": "Null",
-                "CurrentlyActiveKey": "Null",
-                "MaxTxCounterValue": "Null"
-              }
-            },
-            "SignatureError": {
-              "_enum": [
-                "InvalidSignatureFormat",
-                "InvalidSignature",
-                "InvalidNonce"
-              ]
-            },
-            "KeyError": {
-              "_enum": [
-                "InvalidVerificationKeyFormat",
-                "InvalidEncryptionKeyFormat"
-              ]
-            },
-            "UrlError": {
-              "_enum": [
-                "InvalidUrlEncoding",
-                "InvalidUrlScheme"
-              ]
-            },
-            "InputError": {
-              "_enum": [
-                "MaxKeyAgreementKeysLimitExceeded",
-                "MaxVerificationKeysToRemoveLimitExceeded",
-                "MaxUrlLengthExceeded"
-              ]
-            },
-            "DidPublicKeyDetails": {
-              "key": "DidPublicKey",
-              "blockNumber": "BlockNumberOf"
-            },
-            "DidDetails": {
-              "authenticationKey": "KeyIdOf",
-              "keyAgreementKeys": "BTreeSet<KeyIdOf>",
-              "delegationKey": "Option<KeyIdOf>",
-              "attestationKey": "Option<KeyIdOf>",
-              "publicKeys": "BTreeMap<KeyIdOf, DidPublicKeyDetails>",
-              "endpointUrl": "Option<Url>",
-              "lastTxCounter": "u64"
-            },
-            "DidAuthorizedCallOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64",
-              "call": "DidCallableOf"
-            },
-            "HttpUrl": {
-              "payload": "Text"
-            },
-            "FtpUrl": {
-              "payload": "Text"
-            },
-            "IpfsUrl": {
-              "payload": "Text"
-            },
-            "Url": {
-              "_enum": {
-                "Http": "HttpUrl",
-                "Ftp": "FtpUrl",
-                "Ipfs": "IpfsUrl"
-              }
-            },
-            "LockedBalance": {
-              "block": "BlockNumber",
-              "amount": "Balance"
-            },
-            "BalanceOf": "Balance",
-            "RoundInfo": {
-              "current": "SessionIndex",
-              "first": "BlockNumber",
-              "length": "BlockNumber"
-            },
-            "OrderedSet": "Vec<Stake>",
-            "Stake": {
-              "owner": "AccountId",
-              "amount": "Balance"
-            },
-            "TotalStake": {
-              "collators": "Balance",
-              "delegators": "Balance"
-            },
-            "InflationInfo": {
-              "collator": "StakingInfo",
-              "delegator": "StakingInfo"
-            },
-            "StakingInfo": {
-              "maxRate": "Perquintill",
-              "rewardRate": "RewardRate"
-            },
-            "RewardRate": {
-              "annual": "Perquintill",
-              "perBlock": "Perquintill"
-            },
-            "Delegator": {
-              "delegations": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "CollatorSnapshot": {
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "Collator": {
-              "id": "AccountId",
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance",
-              "state": "CollatorStatus"
-            },
-            "CollatorStatus": {
-              "_enum": {
-                "Active": "Null",
-                "Leaving": "SessionIndex"
-              }
-            },
-            "DelegationCounter": {
-              "round": "SessionIndex",
-              "counter": "u32"
-            },
-            "DelegationDetails": {
-              "owner": "DelegatorIdOf",
-              "revoked": "bool",
-              "permissions": "Permissions"
-            },
-            "DelegationHierarchyDetails": {
-              "ctypeHash": "CtypeHashOf"
-            },
-            "DelegationStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
             },
             "DidCreationDetails": {
               "did": "DidIdentifierOf",
@@ -7552,6 +8464,7 @@ export const typesBundle = {
             19
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -7736,6 +8649,11 @@ export const typesBundle = {
               "delegations": "Vec<Stake>",
               "total": "Balance"
             },
+            "CollatorSnapshot": {
+              "stake": "Balance",
+              "delegators": "Vec<Stake>",
+              "total": "Balance"
+            },
             "Collator": {
               "id": "AccountId",
               "stake": "Balance",
@@ -7821,6 +8739,7 @@ export const typesBundle = {
             20
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -7983,6 +8902,7 @@ export const typesBundle = {
               "first": "BlockNumber",
               "length": "BlockNumber"
             },
+            "OrderedSet": "BoundedVec<Stake, MaxCollatorCandidates>",
             "Stake": {
               "owner": "AccountId",
               "amount": "Balance"
@@ -8044,6 +8964,14 @@ export const typesBundle = {
               "newAttestationKey": "Option<DidVerificationKey>",
               "newDelegationKey": "Option<DidVerificationKey>",
               "newServiceEndpoints": "Option<ServiceEndpoints>"
+            },
+            "DidUpdateDetails": {
+              "newAuthenticationKey": "Option<DidVerificationKey>",
+              "newKeyAgreementKeys": "DidNewKeyAgreementKeys",
+              "attestationKeyUpdate": "DidFragmentUpdateAction_DidVerificationKey",
+              "delegationKeyUpdate": "DidFragmentUpdateAction_DidVerificationKey",
+              "publicKeysToRemove": "DidVerificationKeysToRevoke",
+              "serviceEndpointsUpdate": "DidFragmentUpdateAction_ServiceEndpoints"
             },
             "ServiceEndpoints": {
               "contentHash": "Hash",
@@ -8108,6 +9036,7 @@ export const typesBundle = {
             22
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -8294,6 +9223,19 @@ export const typesBundle = {
               "delegations": "Vec<Stake>",
               "total": "Balance"
             },
+            "Collator": {
+              "id": "AccountId",
+              "stake": "Balance",
+              "delegators": "Vec<Stake>",
+              "total": "Balance",
+              "state": "CollatorStatus"
+            },
+            "CollatorStatus": {
+              "_enum": {
+                "Active": "Null",
+                "Leaving": "SessionIndex"
+              }
+            },
             "DelegationCounter": {
               "round": "SessionIndex",
               "counter": "u32"
@@ -8350,6 +9292,7 @@ export const typesBundle = {
                 "V2"
               ]
             },
+            "MaxCollatorCandidates": "u32",
             "MaxDelegatorsPerCollator": "u32",
             "MaxCollatorsPerDelegator": "u32",
             "StakingStorageVersion": {
@@ -8372,7 +9315,8 @@ export const typesBundle = {
             "MaxPublicKeysPerDid": "u32",
             "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
             "MaxUrlLength": "u32",
-            "MaxEndpointUrlsCount": "u32"
+            "MaxEndpointUrlsCount": "u32",
+            "Keys": "SessionKeys1"
           }
         },
         {
@@ -8381,6 +9325,7 @@ export const typesBundle = {
             24
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -8647,6 +9592,7 @@ export const typesBundle = {
             "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
             "MaxUrlLength": "u32",
             "MaxEndpointUrlsCount": "u32",
+            "Keys": "SessionKeys1",
             "MinCollators": "u32",
             "MaxTopCandidates": "u32",
             "Candidate": {
@@ -8670,6 +9616,7 @@ export const typesBundle = {
             2699
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -8691,6 +9638,11 @@ export const typesBundle = {
             "DelegationNodeIdOf": "Hash",
             "DelegatorIdOf": "AccountId",
             "DelegateSignatureTypeOf": "DidSignature",
+            "DelegationRoot": {
+              "ctypeHash": "CtypeHashOf",
+              "owner": "DelegatorIdOf",
+              "revoked": "bool"
+            },
             "DelegationNode": {
               "hierarchyRootId": "DelegationNodeIdOf",
               "parent": "Option<DelegationNodeIdOf>",
@@ -8770,6 +9722,12 @@ export const typesBundle = {
                 "InvalidEncryptionKeyFormat"
               ]
             },
+            "UrlError": {
+              "_enum": [
+                "InvalidUrlEncoding",
+                "InvalidUrlScheme"
+              ]
+            },
             "InputError": {
               "_enum": [
                 "MaxKeyAgreementKeysLimitExceeded",
@@ -8795,6 +9753,22 @@ export const typesBundle = {
               "txCounter": "u64",
               "call": "DidCallableOf",
               "submitter": "AccountId"
+            },
+            "HttpUrl": {
+              "payload": "Text"
+            },
+            "FtpUrl": {
+              "payload": "Text"
+            },
+            "IpfsUrl": {
+              "payload": "Text"
+            },
+            "Url": {
+              "_enum": {
+                "Http": "HttpUrl",
+                "Ftp": "FtpUrl",
+                "Ipfs": "IpfsUrl"
+              }
             },
             "LockedBalance": {
               "block": "BlockNumber",
@@ -8855,6 +9829,11 @@ export const typesBundle = {
               "newCapabilityDelegationKey": "Option<DidVerificationKey>",
               "newServiceEndpoints": "Option<ServiceEndpoints>"
             },
+            "ServiceEndpoints": {
+              "contentHash": "Hash",
+              "urls": "BoundedVec<Url, MaxEndpointUrlsCount>",
+              "contentType": "ContentType"
+            },
             "DidFragmentUpdateAction_ServiceEndpoints": {
               "_enum": {
                 "Ignore": "Null",
@@ -8868,6 +9847,12 @@ export const typesBundle = {
                 "Change": "DidVerificationKey",
                 "Delete": "Null"
               }
+            },
+            "ContentType": {
+              "_enum": [
+                "application/json",
+                "application/ld+json"
+              ]
             },
             "DidStorageVersion": {
               "_enum": [
@@ -8897,6 +9882,9 @@ export const typesBundle = {
             "MaxVerificationKeysToRevoke": "u32",
             "MaxPublicKeysPerDid": "u32",
             "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
+            "MaxUrlLength": "u32",
+            "MaxEndpointUrlsCount": "u32",
+            "Keys": "SessionKeys1",
             "MinCollators": "u32",
             "MaxTopCandidates": "u32",
             "Candidate": {
@@ -8917,7 +9905,265 @@ export const typesBundle = {
         {
           "minmax": [
             2700,
-            10710
+            10409
+          ],
+          "types": {
+            "DispatchError": "DispatchErrorPre6First",
+            "AccountInfo": "AccountInfoWithTripleRefCount",
+            "Address": "MultiAddress",
+            "AmountOf": "i128",
+            "Balance": "u128",
+            "BlockNumber": "u64",
+            "Index": "u64",
+            "LookupSource": "MultiAddress",
+            "CtypeCreatorOf": "AccountId",
+            "CtypeHashOf": "Hash",
+            "ClaimHashOf": "Hash",
+            "AttesterOf": "AccountId",
+            "AttestationDetails": {
+              "ctypeHash": "CtypeHashOf",
+              "attester": "AttesterOf",
+              "delegationId": "Option<DelegationNodeIdOf>",
+              "revoked": "bool",
+              "deposit": "Deposit"
+            },
+            "Permissions": "u32",
+            "DelegationNodeIdOf": "Hash",
+            "DelegatorIdOf": "AccountId",
+            "DelegateSignatureTypeOf": "DidSignature",
+            "DelegationNode": {
+              "hierarchyRootId": "DelegationNodeIdOf",
+              "parent": "Option<DelegationNodeIdOf>",
+              "children": "BoundedBTreeSet<DelegationNodeIdOf, MaxChildren>",
+              "details": "DelegationDetails",
+              "deposit": "Deposit"
+            },
+            "KeyIdOf": "Hash",
+            "DidIdentifierOf": "AccountId",
+            "AccountIdentifierOf": "AccountId",
+            "BlockNumberOf": "BlockNumber",
+            "DidCallableOf": "Call",
+            "DidVerificationKey": {
+              "_enum": {
+                "Ed25519": "[u8; 32]",
+                "Sr25519": "[u8; 32]",
+                "Secp256k1": "[u8; 33]"
+              }
+            },
+            "DidEncryptionKey": {
+              "_enum": {
+                "X25519": "[u8; 32]"
+              }
+            },
+            "DidPublicKey": {
+              "_enum": {
+                "PublicVerificationKey": "DidVerificationKey",
+                "PublicEncryptionKey": "DidEncryptionKey"
+              }
+            },
+            "DidVerificationKeyRelationship": {
+              "_enum": [
+                "Authentication",
+                "CapabilityDelegation",
+                "CapabilityInvocation",
+                "AssertionMethod"
+              ]
+            },
+            "DidSignature": {
+              "_enum": {
+                "Ed25519": "Ed25519Signature",
+                "Sr25519": "Sr25519Signature",
+                "Ecdsa-Secp256k1": "EcdsaSignature"
+              }
+            },
+            "DidError": {
+              "_enum": {
+                "StorageError": "StorageError",
+                "SignatureError": "SignatureError",
+                "InputError": "InputError",
+                "InternalError": "Null"
+              }
+            },
+            "StorageError": {
+              "_enum": {
+                "DidAlreadyPresent": "Null",
+                "DidNotPresent": "Null",
+                "DidKeyNotPresent": "DidVerificationKeyRelationship",
+                "KeyNotPresent": "Null",
+                "CurrentlyActiveKey": "Null",
+                "MaxPublicKeysPerDidExceeded": "Null",
+                "MaxTotalKeyAgreementKeysExceeded": "Null",
+                "DidAlreadyDeleted": "Null"
+              }
+            },
+            "SignatureError": {
+              "_enum": [
+                "InvalidSignatureFormat",
+                "InvalidSignature",
+                "InvalidNonce",
+                "TransactionExpired"
+              ]
+            },
+            "KeyError": {
+              "_enum": [
+                "InvalidVerificationKeyFormat",
+                "InvalidEncryptionKeyFormat"
+              ]
+            },
+            "InputError": {
+              "_enum": [
+                "MaxKeyAgreementKeysLimitExceeded",
+                "MaxVerificationKeysToRemoveLimitExceeded"
+              ]
+            },
+            "DidPublicKeyDetails": {
+              "key": "DidPublicKey",
+              "blockNumber": "BlockNumberOf"
+            },
+            "DidDetails": {
+              "authenticationKey": "KeyIdOf",
+              "keyAgreementKeys": "DidKeyAgreementKeys",
+              "capabilityDelegationKey": "Option<KeyIdOf>",
+              "assertionMethodKey": "Option<KeyIdOf>",
+              "publicKeys": "DidPublicKeyMap",
+              "lastTxCounter": "u64",
+              "deposit": "Deposit"
+            },
+            "DidAuthorizedCallOperation": {
+              "did": "DidIdentifierOf",
+              "txCounter": "u64",
+              "call": "DidCallableOf",
+              "blockNumber": "BlockNumber",
+              "submitter": "AccountId"
+            },
+            "LockedBalance": {
+              "block": "BlockNumber",
+              "amount": "Balance"
+            },
+            "BalanceOf": "Balance",
+            "RoundInfo": {
+              "current": "SessionIndex",
+              "first": "BlockNumber",
+              "length": "BlockNumber"
+            },
+            "Stake": {
+              "owner": "AccountId",
+              "amount": "Balance"
+            },
+            "TotalStake": {
+              "collators": "Balance",
+              "delegators": "Balance"
+            },
+            "InflationInfo": {
+              "collator": "StakingInfo",
+              "delegator": "StakingInfo"
+            },
+            "StakingInfo": {
+              "maxRate": "Perquintill",
+              "rewardRate": "RewardRate"
+            },
+            "RewardRate": {
+              "annual": "Perquintill",
+              "perBlock": "Perquintill"
+            },
+            "Delegator": {
+              "delegations": "Vec<Stake>",
+              "total": "Balance"
+            },
+            "DelegationCounter": {
+              "round": "SessionIndex",
+              "counter": "u32"
+            },
+            "DelegationDetails": {
+              "owner": "DelegatorIdOf",
+              "revoked": "bool",
+              "permissions": "Permissions"
+            },
+            "DelegationHierarchyDetails": {
+              "ctypeHash": "CtypeHashOf"
+            },
+            "DelegationStorageVersion": {
+              "_enum": [
+                "V1",
+                "V2"
+              ]
+            },
+            "DidCreationDetails": {
+              "did": "DidIdentifierOf",
+              "submitter": "AccountId",
+              "newKeyAgreementKeys": "DidNewKeyAgreementKeys",
+              "newAssertionMethodKey": "Option<DidVerificationKey>",
+              "newCapabilityDelegationKey": "Option<DidVerificationKey>"
+            },
+            "DidFragmentUpdateAction_ServiceEndpoints": {
+              "_enum": {
+                "Ignore": "Null",
+                "Change": "ServiceEndpoints",
+                "Delete": "Null"
+              }
+            },
+            "DidFragmentUpdateAction_DidVerificationKey": {
+              "_enum": {
+                "Ignore": "Null",
+                "Change": "DidVerificationKey",
+                "Delete": "Null"
+              }
+            },
+            "DidStorageVersion": {
+              "_enum": [
+                "V1",
+                "V2",
+                "V3"
+              ]
+            },
+            "MaxDelegatorsPerCollator": "u32",
+            "MaxCollatorsPerDelegator": "u32",
+            "StakingStorageVersion": {
+              "_enum": [
+                "V1_0_0",
+                "V2_0_0",
+                "V3_0_0",
+                "V4",
+                "V5"
+              ]
+            },
+            "MaxDelegatedAttestations": "u32",
+            "MaxClaims": "u32",
+            "MaxChildren": "u32",
+            "DidNewKeyAgreementKeys": "BoundedBTreeSet<DidEncryptionKey, MaxNewKeyAgreementKeys>",
+            "DidKeyAgreementKeys": "BoundedBTreeSet<KeyIdOf, MaxTotalKeyAgreementKeys>",
+            "DidVerificationKeysToRevoke": "BoundedBTreeSet<KeyIdOf, MaxVerificationKeysToRevoke>",
+            "MaxNewKeyAgreementKeys": "u32",
+            "MaxTotalKeyAgreementKeys": "u32",
+            "MaxVerificationKeysToRevoke": "u32",
+            "MaxPublicKeysPerDid": "u32",
+            "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
+            "Keys": "SessionKeys1",
+            "MinCollators": "u32",
+            "MaxTopCandidates": "u32",
+            "Candidate": {
+              "id": "AccountId",
+              "stake": "Balance",
+              "delegators": "Vec<Stake>",
+              "total": "Balance",
+              "status": "CandidateStatus"
+            },
+            "CandidateStatus": {
+              "_enum": {
+                "Active": "Null",
+                "Leaving": "SessionIndex"
+              }
+            },
+            "Deposit": {
+              "owner": "AccountId",
+              "amount": "Balance"
+            }
+          }
+        },
+        {
+          "minmax": [
+            10410,
+            10719
           ],
           "types": {
             "AccountInfo": "AccountInfoWithTripleRefCount",
@@ -9149,6 +10395,7 @@ export const typesBundle = {
             "MaxVerificationKeysToRevoke": "u32",
             "MaxPublicKeysPerDid": "u32",
             "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
+            "Keys": "SessionKeys1",
             "MinCollators": "u32",
             "MaxTopCandidates": "u32",
             "Candidate": {
@@ -9200,6 +10447,17 @@ export const typesBundle = {
               "serviceEndpoints": "Vec<DidServiceEndpointsDidEndpoint>",
               "details": "DidDidDetails"
             },
+            "PublicCredentialFilter": {
+              "_enum": {
+                "ctypeHash": "Hash",
+                "attester": "AccountId32"
+              }
+            },
+            "PublicCredentialError": {
+              "_enum": [
+                "InvalidSubjectId"
+              ]
+            },
             "StakingRates": {
               "collatorStakingRate": "Perquintill",
               "collatorRewardRate": "Perquintill",
@@ -9221,6 +10479,17 @@ export const typesBundle = {
               "w3n": "Option<Text>",
               "serviceEndpoints": "Vec<DidServiceEndpointsDidEndpoint>",
               "details": "DidDidDetails"
+            },
+            "PublicCredentialFilter": {
+              "_enum": {
+                "ctypeHash": "Hash",
+                "attester": "AccountId32"
+              }
+            },
+            "PublicCredentialError": {
+              "_enum": [
+                "InvalidSubjectId"
+              ]
             },
             "StakingRates": {
               "collatorStakingRate": "Perquintill",
@@ -9399,6 +10668,37 @@ export const typesBundle = {
             },
             "version": 1
           }
+        ],
+        "PublicCredentials": [
+          {
+            "methods": {
+              "get_by_id": {
+                "description": "Return the public credential with the specified ID, if found.",
+                "params": [
+                  {
+                    "name": "credential_id",
+                    "type": "Hash"
+                  }
+                ],
+                "type": "Option<PublicCredentialsCredentialsCredentialEntry>"
+              },
+              "get_by_subject": {
+                "description": "Return all the public credentials linked to the specified subject.\n          An optional filter can be passed to be applied to the result before being returned to the client.\n          It returns an error if the provided specified subject ID is not valid.\n          ",
+                "params": [
+                  {
+                    "name": "subject",
+                    "type": "Text"
+                  },
+                  {
+                    "name": "filter",
+                    "type": "Option<PublicCredentialFilter>"
+                  }
+                ],
+                "type": "Result<Vec<(Hash, PublicCredentialsCredentialsCredentialEntry)>, PublicCredentialError>"
+              }
+            },
+            "version": 1
+          }
         ]
       },
       "types": [
@@ -9408,6 +10708,7 @@ export const typesBundle = {
             8
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithDualRefCount",
             "Address": "AccountId",
             "Attestation": {
@@ -9492,6 +10793,7 @@ export const typesBundle = {
             9
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -9673,6 +10975,7 @@ export const typesBundle = {
             11
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -9911,6 +11214,7 @@ export const typesBundle = {
             16
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -10155,6 +11459,265 @@ export const typesBundle = {
             17
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
+            "AccountInfo": "AccountInfoWithTripleRefCount",
+            "Address": "MultiAddress",
+            "AmountOf": "i128",
+            "Balance": "u128",
+            "BlockNumber": "u64",
+            "Index": "u64",
+            "LookupSource": "MultiAddress",
+            "CtypeCreatorOf": "AccountId",
+            "CtypeHashOf": "Hash",
+            "ClaimHashOf": "Hash",
+            "AttesterOf": "AccountId",
+            "AttestationDetails": {
+              "ctypeHash": "CtypeHashOf",
+              "attester": "AttesterOf",
+              "delegationId": "Option<DelegationNodeIdOf>",
+              "revoked": "bool"
+            },
+            "Permissions": "u32",
+            "DelegationNodeIdOf": "Hash",
+            "DelegatorIdOf": "AccountId",
+            "DelegateSignatureTypeOf": "Vec<u8>",
+            "DelegationRoot": {
+              "ctypeHash": "CtypeHashOf",
+              "owner": "DelegatorIdOf",
+              "revoked": "bool"
+            },
+            "DelegationNode": {
+              "hierarchyRootId": "DelegationNodeIdOf",
+              "parent": "Option<DelegationNodeIdOf>",
+              "children": "BTreeSet<DelegationNodeIdOf>",
+              "details": "DelegationDetails"
+            },
+            "KeyIdOf": "Hash",
+            "DidIdentifierOf": "AccountId",
+            "AccountIdentifierOf": "AccountId",
+            "BlockNumberOf": "BlockNumber",
+            "DidCallableOf": "Call",
+            "DidVerificationKey": {
+              "_enum": {
+                "Ed25519": "[u8; 32]",
+                "Sr25519": "[u8; 32]",
+                "Secp256k1": "[u8; 33]"
+              }
+            },
+            "DidEncryptionKey": {
+              "_enum": {
+                "X25519": "[u8; 32]"
+              }
+            },
+            "DidPublicKey": {
+              "_enum": {
+                "PublicVerificationKey": "DidVerificationKey",
+                "PublicEncryptionKey": "DidEncryptionKey"
+              }
+            },
+            "DidVerificationKeyRelationship": {
+              "_enum": [
+                "Authentication",
+                "CapabilityDelegation",
+                "CapabilityInvocation",
+                "AssertionMethod"
+              ]
+            },
+            "DidSignature": {
+              "_enum": {
+                "Ed25519": "Ed25519Signature",
+                "Sr25519": "Sr25519Signature",
+                "Ecdsa-Secp256k1": "EcdsaSignature"
+              }
+            },
+            "DidError": {
+              "_enum": {
+                "StorageError": "StorageError",
+                "SignatureError": "SignatureError",
+                "UrlError": "UrlError",
+                "InputError": "InputError",
+                "InternalError": "Null"
+              }
+            },
+            "StorageError": {
+              "_enum": {
+                "DidAlreadyPresent": "Null",
+                "DidNotPresent": "Null",
+                "DidKeyNotPresent": "DidVerificationKeyRelationship",
+                "VerificationKeyNotPresent": "Null",
+                "CurrentlyActiveKey": "Null",
+                "MaxTxCounterValue": "Null"
+              }
+            },
+            "SignatureError": {
+              "_enum": [
+                "InvalidSignatureFormat",
+                "InvalidSignature",
+                "InvalidNonce"
+              ]
+            },
+            "KeyError": {
+              "_enum": [
+                "InvalidVerificationKeyFormat",
+                "InvalidEncryptionKeyFormat"
+              ]
+            },
+            "UrlError": {
+              "_enum": [
+                "InvalidUrlEncoding",
+                "InvalidUrlScheme"
+              ]
+            },
+            "InputError": {
+              "_enum": [
+                "MaxKeyAgreementKeysLimitExceeded",
+                "MaxVerificationKeysToRemoveLimitExceeded",
+                "MaxUrlLengthExceeded"
+              ]
+            },
+            "DidPublicKeyDetails": {
+              "key": "DidPublicKey",
+              "blockNumber": "BlockNumberOf"
+            },
+            "DidDetails": {
+              "authenticationKey": "KeyIdOf",
+              "keyAgreementKeys": "BTreeSet<KeyIdOf>",
+              "delegationKey": "Option<KeyIdOf>",
+              "attestationKey": "Option<KeyIdOf>",
+              "publicKeys": "BTreeMap<KeyIdOf, DidPublicKeyDetails>",
+              "endpointUrl": "Option<Url>",
+              "lastTxCounter": "u64"
+            },
+            "DidCreationOperation": {
+              "did": "DidIdentifierOf",
+              "newAuthenticationKey": "DidVerificationKey",
+              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
+              "newAttestationKey": "Option<DidVerificationKey>",
+              "newDelegationKey": "Option<DidVerificationKey>",
+              "newEndpointUrl": "Option<Url>"
+            },
+            "DidUpdateOperation": {
+              "did": "DidIdentifierOf",
+              "newAuthenticationKey": "Option<DidVerificationKey>",
+              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
+              "attestationKeyUpdate": "DidVerificationKeyUpdateAction",
+              "delegationKeyUpdate": "DidVerificationKeyUpdateAction",
+              "publicKeysToRemove": "BTreeSet<KeyIdOf>",
+              "newEndpointUrl": "Option<Url>",
+              "txCounter": "u64"
+            },
+            "DidVerificationKeyUpdateAction": {
+              "_enum": {
+                "Ignore": "Null",
+                "Change": "DidVerificationKey",
+                "Delete": "Null"
+              }
+            },
+            "DidDeletionOperation": {
+              "did": "DidIdentifierOf",
+              "txCounter": "u64"
+            },
+            "DidAuthorizedCallOperation": {
+              "did": "DidIdentifierOf",
+              "txCounter": "u64",
+              "call": "DidCallableOf"
+            },
+            "HttpUrl": {
+              "payload": "Text"
+            },
+            "FtpUrl": {
+              "payload": "Text"
+            },
+            "IpfsUrl": {
+              "payload": "Text"
+            },
+            "Url": {
+              "_enum": {
+                "Http": "HttpUrl",
+                "Ftp": "FtpUrl",
+                "Ipfs": "IpfsUrl"
+              }
+            },
+            "LockedBalance": {
+              "block": "BlockNumber",
+              "amount": "Balance"
+            },
+            "BalanceOf": "Balance",
+            "RoundInfo": {
+              "current": "SessionIndex",
+              "first": "BlockNumber",
+              "length": "BlockNumber"
+            },
+            "OrderedSet": "Vec<Stake>",
+            "Stake": {
+              "owner": "AccountId",
+              "amount": "Balance"
+            },
+            "TotalStake": {
+              "collators": "Balance",
+              "delegators": "Balance"
+            },
+            "InflationInfo": {
+              "collator": "StakingInfo",
+              "delegator": "StakingInfo"
+            },
+            "StakingInfo": {
+              "maxRate": "Perquintill",
+              "rewardRate": "RewardRate"
+            },
+            "RewardRate": {
+              "annual": "Perquintill",
+              "perBlock": "Perquintill"
+            },
+            "Delegator": {
+              "delegations": "Vec<Stake>",
+              "total": "Balance"
+            },
+            "CollatorSnapshot": {
+              "stake": "Balance",
+              "delegators": "Vec<Stake>",
+              "total": "Balance"
+            },
+            "Collator": {
+              "id": "AccountId",
+              "stake": "Balance",
+              "delegators": "Vec<Stake>",
+              "total": "Balance",
+              "state": "CollatorStatus"
+            },
+            "CollatorStatus": {
+              "_enum": {
+                "Active": "Null",
+                "Leaving": "SessionIndex"
+              }
+            },
+            "DelegationCounter": {
+              "round": "SessionIndex",
+              "counter": "u32"
+            },
+            "DelegationDetails": {
+              "owner": "DelegatorIdOf",
+              "revoked": "bool",
+              "permissions": "Permissions"
+            },
+            "DelegationHierarchyDetails": {
+              "ctypeHash": "CtypeHashOf"
+            },
+            "DelegationStorageVersion": {
+              "_enum": [
+                "V1",
+                "V2"
+              ]
+            }
+          }
+        },
+        {
+          "minmax": [
+            18,
+            18
+          ],
+          "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -10381,234 +11944,6 @@ export const typesBundle = {
                 "V1",
                 "V2"
               ]
-            }
-          }
-        },
-        {
-          "minmax": [
-            18,
-            18
-          ],
-          "types": {
-            "AccountInfo": "AccountInfoWithTripleRefCount",
-            "Address": "MultiAddress",
-            "AmountOf": "i128",
-            "Balance": "u128",
-            "BlockNumber": "u64",
-            "Index": "u64",
-            "LookupSource": "MultiAddress",
-            "CtypeCreatorOf": "AccountId",
-            "CtypeHashOf": "Hash",
-            "ClaimHashOf": "Hash",
-            "AttesterOf": "AccountId",
-            "AttestationDetails": {
-              "ctypeHash": "CtypeHashOf",
-              "attester": "AttesterOf",
-              "delegationId": "Option<DelegationNodeIdOf>",
-              "revoked": "bool"
-            },
-            "Permissions": "u32",
-            "DelegationNodeIdOf": "Hash",
-            "DelegatorIdOf": "AccountId",
-            "DelegateSignatureTypeOf": "Vec<u8>",
-            "DelegationRoot": {
-              "ctypeHash": "CtypeHashOf",
-              "owner": "DelegatorIdOf",
-              "revoked": "bool"
-            },
-            "DelegationNode": {
-              "hierarchyRootId": "DelegationNodeIdOf",
-              "parent": "Option<DelegationNodeIdOf>",
-              "children": "BTreeSet<DelegationNodeIdOf>",
-              "details": "DelegationDetails"
-            },
-            "KeyIdOf": "Hash",
-            "DidIdentifierOf": "AccountId",
-            "AccountIdentifierOf": "AccountId",
-            "BlockNumberOf": "BlockNumber",
-            "DidCallableOf": "Call",
-            "DidVerificationKey": {
-              "_enum": {
-                "Ed25519": "[u8; 32]",
-                "Sr25519": "[u8; 32]",
-                "Secp256k1": "[u8; 33]"
-              }
-            },
-            "DidEncryptionKey": {
-              "_enum": {
-                "X25519": "[u8; 32]"
-              }
-            },
-            "DidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "DidVerificationKey",
-                "PublicEncryptionKey": "DidEncryptionKey"
-              }
-            },
-            "DidVerificationKeyRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "DidSignature": {
-              "_enum": {
-                "Ed25519": "Ed25519Signature",
-                "Sr25519": "Sr25519Signature",
-                "Ecdsa-Secp256k1": "EcdsaSignature"
-              }
-            },
-            "DidError": {
-              "_enum": {
-                "StorageError": "StorageError",
-                "SignatureError": "SignatureError",
-                "UrlError": "UrlError",
-                "InputError": "InputError",
-                "InternalError": "Null"
-              }
-            },
-            "StorageError": {
-              "_enum": {
-                "DidAlreadyPresent": "Null",
-                "DidNotPresent": "Null",
-                "DidKeyNotPresent": "DidVerificationKeyRelationship",
-                "VerificationKeyNotPresent": "Null",
-                "CurrentlyActiveKey": "Null",
-                "MaxTxCounterValue": "Null"
-              }
-            },
-            "SignatureError": {
-              "_enum": [
-                "InvalidSignatureFormat",
-                "InvalidSignature",
-                "InvalidNonce"
-              ]
-            },
-            "KeyError": {
-              "_enum": [
-                "InvalidVerificationKeyFormat",
-                "InvalidEncryptionKeyFormat"
-              ]
-            },
-            "UrlError": {
-              "_enum": [
-                "InvalidUrlEncoding",
-                "InvalidUrlScheme"
-              ]
-            },
-            "InputError": {
-              "_enum": [
-                "MaxKeyAgreementKeysLimitExceeded",
-                "MaxVerificationKeysToRemoveLimitExceeded",
-                "MaxUrlLengthExceeded"
-              ]
-            },
-            "DidPublicKeyDetails": {
-              "key": "DidPublicKey",
-              "blockNumber": "BlockNumberOf"
-            },
-            "DidDetails": {
-              "authenticationKey": "KeyIdOf",
-              "keyAgreementKeys": "BTreeSet<KeyIdOf>",
-              "delegationKey": "Option<KeyIdOf>",
-              "attestationKey": "Option<KeyIdOf>",
-              "publicKeys": "BTreeMap<KeyIdOf, DidPublicKeyDetails>",
-              "endpointUrl": "Option<Url>",
-              "lastTxCounter": "u64"
-            },
-            "DidAuthorizedCallOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64",
-              "call": "DidCallableOf"
-            },
-            "HttpUrl": {
-              "payload": "Text"
-            },
-            "FtpUrl": {
-              "payload": "Text"
-            },
-            "IpfsUrl": {
-              "payload": "Text"
-            },
-            "Url": {
-              "_enum": {
-                "Http": "HttpUrl",
-                "Ftp": "FtpUrl",
-                "Ipfs": "IpfsUrl"
-              }
-            },
-            "LockedBalance": {
-              "block": "BlockNumber",
-              "amount": "Balance"
-            },
-            "BalanceOf": "Balance",
-            "RoundInfo": {
-              "current": "SessionIndex",
-              "first": "BlockNumber",
-              "length": "BlockNumber"
-            },
-            "OrderedSet": "Vec<Stake>",
-            "Stake": {
-              "owner": "AccountId",
-              "amount": "Balance"
-            },
-            "TotalStake": {
-              "collators": "Balance",
-              "delegators": "Balance"
-            },
-            "InflationInfo": {
-              "collator": "StakingInfo",
-              "delegator": "StakingInfo"
-            },
-            "StakingInfo": {
-              "maxRate": "Perquintill",
-              "rewardRate": "RewardRate"
-            },
-            "RewardRate": {
-              "annual": "Perquintill",
-              "perBlock": "Perquintill"
-            },
-            "Delegator": {
-              "delegations": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "CollatorSnapshot": {
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "Collator": {
-              "id": "AccountId",
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance",
-              "state": "CollatorStatus"
-            },
-            "CollatorStatus": {
-              "_enum": {
-                "Active": "Null",
-                "Leaving": "SessionIndex"
-              }
-            },
-            "DelegationCounter": {
-              "round": "SessionIndex",
-              "counter": "u32"
-            },
-            "DelegationDetails": {
-              "owner": "DelegatorIdOf",
-              "revoked": "bool",
-              "permissions": "Permissions"
-            },
-            "DelegationHierarchyDetails": {
-              "ctypeHash": "CtypeHashOf"
-            },
-            "DelegationStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
             },
             "DidCreationDetails": {
               "did": "DidIdentifierOf",
@@ -10633,6 +11968,7 @@ export const typesBundle = {
             19
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -10817,6 +12153,11 @@ export const typesBundle = {
               "delegations": "Vec<Stake>",
               "total": "Balance"
             },
+            "CollatorSnapshot": {
+              "stake": "Balance",
+              "delegators": "Vec<Stake>",
+              "total": "Balance"
+            },
             "Collator": {
               "id": "AccountId",
               "stake": "Balance",
@@ -10902,6 +12243,7 @@ export const typesBundle = {
             20
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -11064,6 +12406,7 @@ export const typesBundle = {
               "first": "BlockNumber",
               "length": "BlockNumber"
             },
+            "OrderedSet": "BoundedVec<Stake, MaxCollatorCandidates>",
             "Stake": {
               "owner": "AccountId",
               "amount": "Balance"
@@ -11125,6 +12468,14 @@ export const typesBundle = {
               "newAttestationKey": "Option<DidVerificationKey>",
               "newDelegationKey": "Option<DidVerificationKey>",
               "newServiceEndpoints": "Option<ServiceEndpoints>"
+            },
+            "DidUpdateDetails": {
+              "newAuthenticationKey": "Option<DidVerificationKey>",
+              "newKeyAgreementKeys": "DidNewKeyAgreementKeys",
+              "attestationKeyUpdate": "DidFragmentUpdateAction_DidVerificationKey",
+              "delegationKeyUpdate": "DidFragmentUpdateAction_DidVerificationKey",
+              "publicKeysToRemove": "DidVerificationKeysToRevoke",
+              "serviceEndpointsUpdate": "DidFragmentUpdateAction_ServiceEndpoints"
             },
             "ServiceEndpoints": {
               "contentHash": "Hash",
@@ -11189,6 +12540,7 @@ export const typesBundle = {
             22
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -11375,6 +12727,19 @@ export const typesBundle = {
               "delegations": "Vec<Stake>",
               "total": "Balance"
             },
+            "Collator": {
+              "id": "AccountId",
+              "stake": "Balance",
+              "delegators": "Vec<Stake>",
+              "total": "Balance",
+              "state": "CollatorStatus"
+            },
+            "CollatorStatus": {
+              "_enum": {
+                "Active": "Null",
+                "Leaving": "SessionIndex"
+              }
+            },
             "DelegationCounter": {
               "round": "SessionIndex",
               "counter": "u32"
@@ -11431,6 +12796,7 @@ export const typesBundle = {
                 "V2"
               ]
             },
+            "MaxCollatorCandidates": "u32",
             "MaxDelegatorsPerCollator": "u32",
             "MaxCollatorsPerDelegator": "u32",
             "StakingStorageVersion": {
@@ -11453,7 +12819,8 @@ export const typesBundle = {
             "MaxPublicKeysPerDid": "u32",
             "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
             "MaxUrlLength": "u32",
-            "MaxEndpointUrlsCount": "u32"
+            "MaxEndpointUrlsCount": "u32",
+            "Keys": "SessionKeys1"
           }
         },
         {
@@ -11462,6 +12829,7 @@ export const typesBundle = {
             24
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -11728,6 +13096,7 @@ export const typesBundle = {
             "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
             "MaxUrlLength": "u32",
             "MaxEndpointUrlsCount": "u32",
+            "Keys": "SessionKeys1",
             "MinCollators": "u32",
             "MaxTopCandidates": "u32",
             "Candidate": {
@@ -11751,6 +13120,7 @@ export const typesBundle = {
             2699
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -11772,6 +13142,11 @@ export const typesBundle = {
             "DelegationNodeIdOf": "Hash",
             "DelegatorIdOf": "AccountId",
             "DelegateSignatureTypeOf": "DidSignature",
+            "DelegationRoot": {
+              "ctypeHash": "CtypeHashOf",
+              "owner": "DelegatorIdOf",
+              "revoked": "bool"
+            },
             "DelegationNode": {
               "hierarchyRootId": "DelegationNodeIdOf",
               "parent": "Option<DelegationNodeIdOf>",
@@ -11851,6 +13226,12 @@ export const typesBundle = {
                 "InvalidEncryptionKeyFormat"
               ]
             },
+            "UrlError": {
+              "_enum": [
+                "InvalidUrlEncoding",
+                "InvalidUrlScheme"
+              ]
+            },
             "InputError": {
               "_enum": [
                 "MaxKeyAgreementKeysLimitExceeded",
@@ -11876,6 +13257,22 @@ export const typesBundle = {
               "txCounter": "u64",
               "call": "DidCallableOf",
               "submitter": "AccountId"
+            },
+            "HttpUrl": {
+              "payload": "Text"
+            },
+            "FtpUrl": {
+              "payload": "Text"
+            },
+            "IpfsUrl": {
+              "payload": "Text"
+            },
+            "Url": {
+              "_enum": {
+                "Http": "HttpUrl",
+                "Ftp": "FtpUrl",
+                "Ipfs": "IpfsUrl"
+              }
             },
             "LockedBalance": {
               "block": "BlockNumber",
@@ -11936,6 +13333,11 @@ export const typesBundle = {
               "newCapabilityDelegationKey": "Option<DidVerificationKey>",
               "newServiceEndpoints": "Option<ServiceEndpoints>"
             },
+            "ServiceEndpoints": {
+              "contentHash": "Hash",
+              "urls": "BoundedVec<Url, MaxEndpointUrlsCount>",
+              "contentType": "ContentType"
+            },
             "DidFragmentUpdateAction_ServiceEndpoints": {
               "_enum": {
                 "Ignore": "Null",
@@ -11949,6 +13351,12 @@ export const typesBundle = {
                 "Change": "DidVerificationKey",
                 "Delete": "Null"
               }
+            },
+            "ContentType": {
+              "_enum": [
+                "application/json",
+                "application/ld+json"
+              ]
             },
             "DidStorageVersion": {
               "_enum": [
@@ -11978,6 +13386,9 @@ export const typesBundle = {
             "MaxVerificationKeysToRevoke": "u32",
             "MaxPublicKeysPerDid": "u32",
             "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
+            "MaxUrlLength": "u32",
+            "MaxEndpointUrlsCount": "u32",
+            "Keys": "SessionKeys1",
             "MinCollators": "u32",
             "MaxTopCandidates": "u32",
             "Candidate": {
@@ -11998,7 +13409,265 @@ export const typesBundle = {
         {
           "minmax": [
             2700,
-            10710
+            10409
+          ],
+          "types": {
+            "DispatchError": "DispatchErrorPre6First",
+            "AccountInfo": "AccountInfoWithTripleRefCount",
+            "Address": "MultiAddress",
+            "AmountOf": "i128",
+            "Balance": "u128",
+            "BlockNumber": "u64",
+            "Index": "u64",
+            "LookupSource": "MultiAddress",
+            "CtypeCreatorOf": "AccountId",
+            "CtypeHashOf": "Hash",
+            "ClaimHashOf": "Hash",
+            "AttesterOf": "AccountId",
+            "AttestationDetails": {
+              "ctypeHash": "CtypeHashOf",
+              "attester": "AttesterOf",
+              "delegationId": "Option<DelegationNodeIdOf>",
+              "revoked": "bool",
+              "deposit": "Deposit"
+            },
+            "Permissions": "u32",
+            "DelegationNodeIdOf": "Hash",
+            "DelegatorIdOf": "AccountId",
+            "DelegateSignatureTypeOf": "DidSignature",
+            "DelegationNode": {
+              "hierarchyRootId": "DelegationNodeIdOf",
+              "parent": "Option<DelegationNodeIdOf>",
+              "children": "BoundedBTreeSet<DelegationNodeIdOf, MaxChildren>",
+              "details": "DelegationDetails",
+              "deposit": "Deposit"
+            },
+            "KeyIdOf": "Hash",
+            "DidIdentifierOf": "AccountId",
+            "AccountIdentifierOf": "AccountId",
+            "BlockNumberOf": "BlockNumber",
+            "DidCallableOf": "Call",
+            "DidVerificationKey": {
+              "_enum": {
+                "Ed25519": "[u8; 32]",
+                "Sr25519": "[u8; 32]",
+                "Secp256k1": "[u8; 33]"
+              }
+            },
+            "DidEncryptionKey": {
+              "_enum": {
+                "X25519": "[u8; 32]"
+              }
+            },
+            "DidPublicKey": {
+              "_enum": {
+                "PublicVerificationKey": "DidVerificationKey",
+                "PublicEncryptionKey": "DidEncryptionKey"
+              }
+            },
+            "DidVerificationKeyRelationship": {
+              "_enum": [
+                "Authentication",
+                "CapabilityDelegation",
+                "CapabilityInvocation",
+                "AssertionMethod"
+              ]
+            },
+            "DidSignature": {
+              "_enum": {
+                "Ed25519": "Ed25519Signature",
+                "Sr25519": "Sr25519Signature",
+                "Ecdsa-Secp256k1": "EcdsaSignature"
+              }
+            },
+            "DidError": {
+              "_enum": {
+                "StorageError": "StorageError",
+                "SignatureError": "SignatureError",
+                "InputError": "InputError",
+                "InternalError": "Null"
+              }
+            },
+            "StorageError": {
+              "_enum": {
+                "DidAlreadyPresent": "Null",
+                "DidNotPresent": "Null",
+                "DidKeyNotPresent": "DidVerificationKeyRelationship",
+                "KeyNotPresent": "Null",
+                "CurrentlyActiveKey": "Null",
+                "MaxPublicKeysPerDidExceeded": "Null",
+                "MaxTotalKeyAgreementKeysExceeded": "Null",
+                "DidAlreadyDeleted": "Null"
+              }
+            },
+            "SignatureError": {
+              "_enum": [
+                "InvalidSignatureFormat",
+                "InvalidSignature",
+                "InvalidNonce",
+                "TransactionExpired"
+              ]
+            },
+            "KeyError": {
+              "_enum": [
+                "InvalidVerificationKeyFormat",
+                "InvalidEncryptionKeyFormat"
+              ]
+            },
+            "InputError": {
+              "_enum": [
+                "MaxKeyAgreementKeysLimitExceeded",
+                "MaxVerificationKeysToRemoveLimitExceeded"
+              ]
+            },
+            "DidPublicKeyDetails": {
+              "key": "DidPublicKey",
+              "blockNumber": "BlockNumberOf"
+            },
+            "DidDetails": {
+              "authenticationKey": "KeyIdOf",
+              "keyAgreementKeys": "DidKeyAgreementKeys",
+              "capabilityDelegationKey": "Option<KeyIdOf>",
+              "assertionMethodKey": "Option<KeyIdOf>",
+              "publicKeys": "DidPublicKeyMap",
+              "lastTxCounter": "u64",
+              "deposit": "Deposit"
+            },
+            "DidAuthorizedCallOperation": {
+              "did": "DidIdentifierOf",
+              "txCounter": "u64",
+              "call": "DidCallableOf",
+              "blockNumber": "BlockNumber",
+              "submitter": "AccountId"
+            },
+            "LockedBalance": {
+              "block": "BlockNumber",
+              "amount": "Balance"
+            },
+            "BalanceOf": "Balance",
+            "RoundInfo": {
+              "current": "SessionIndex",
+              "first": "BlockNumber",
+              "length": "BlockNumber"
+            },
+            "Stake": {
+              "owner": "AccountId",
+              "amount": "Balance"
+            },
+            "TotalStake": {
+              "collators": "Balance",
+              "delegators": "Balance"
+            },
+            "InflationInfo": {
+              "collator": "StakingInfo",
+              "delegator": "StakingInfo"
+            },
+            "StakingInfo": {
+              "maxRate": "Perquintill",
+              "rewardRate": "RewardRate"
+            },
+            "RewardRate": {
+              "annual": "Perquintill",
+              "perBlock": "Perquintill"
+            },
+            "Delegator": {
+              "delegations": "Vec<Stake>",
+              "total": "Balance"
+            },
+            "DelegationCounter": {
+              "round": "SessionIndex",
+              "counter": "u32"
+            },
+            "DelegationDetails": {
+              "owner": "DelegatorIdOf",
+              "revoked": "bool",
+              "permissions": "Permissions"
+            },
+            "DelegationHierarchyDetails": {
+              "ctypeHash": "CtypeHashOf"
+            },
+            "DelegationStorageVersion": {
+              "_enum": [
+                "V1",
+                "V2"
+              ]
+            },
+            "DidCreationDetails": {
+              "did": "DidIdentifierOf",
+              "submitter": "AccountId",
+              "newKeyAgreementKeys": "DidNewKeyAgreementKeys",
+              "newAssertionMethodKey": "Option<DidVerificationKey>",
+              "newCapabilityDelegationKey": "Option<DidVerificationKey>"
+            },
+            "DidFragmentUpdateAction_ServiceEndpoints": {
+              "_enum": {
+                "Ignore": "Null",
+                "Change": "ServiceEndpoints",
+                "Delete": "Null"
+              }
+            },
+            "DidFragmentUpdateAction_DidVerificationKey": {
+              "_enum": {
+                "Ignore": "Null",
+                "Change": "DidVerificationKey",
+                "Delete": "Null"
+              }
+            },
+            "DidStorageVersion": {
+              "_enum": [
+                "V1",
+                "V2",
+                "V3"
+              ]
+            },
+            "MaxDelegatorsPerCollator": "u32",
+            "MaxCollatorsPerDelegator": "u32",
+            "StakingStorageVersion": {
+              "_enum": [
+                "V1_0_0",
+                "V2_0_0",
+                "V3_0_0",
+                "V4",
+                "V5"
+              ]
+            },
+            "MaxDelegatedAttestations": "u32",
+            "MaxClaims": "u32",
+            "MaxChildren": "u32",
+            "DidNewKeyAgreementKeys": "BoundedBTreeSet<DidEncryptionKey, MaxNewKeyAgreementKeys>",
+            "DidKeyAgreementKeys": "BoundedBTreeSet<KeyIdOf, MaxTotalKeyAgreementKeys>",
+            "DidVerificationKeysToRevoke": "BoundedBTreeSet<KeyIdOf, MaxVerificationKeysToRevoke>",
+            "MaxNewKeyAgreementKeys": "u32",
+            "MaxTotalKeyAgreementKeys": "u32",
+            "MaxVerificationKeysToRevoke": "u32",
+            "MaxPublicKeysPerDid": "u32",
+            "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
+            "Keys": "SessionKeys1",
+            "MinCollators": "u32",
+            "MaxTopCandidates": "u32",
+            "Candidate": {
+              "id": "AccountId",
+              "stake": "Balance",
+              "delegators": "Vec<Stake>",
+              "total": "Balance",
+              "status": "CandidateStatus"
+            },
+            "CandidateStatus": {
+              "_enum": {
+                "Active": "Null",
+                "Leaving": "SessionIndex"
+              }
+            },
+            "Deposit": {
+              "owner": "AccountId",
+              "amount": "Balance"
+            }
+          }
+        },
+        {
+          "minmax": [
+            10410,
+            10719
           ],
           "types": {
             "AccountInfo": "AccountInfoWithTripleRefCount",
@@ -12230,6 +13899,7 @@ export const typesBundle = {
             "MaxVerificationKeysToRevoke": "u32",
             "MaxPublicKeysPerDid": "u32",
             "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
+            "Keys": "SessionKeys1",
             "MinCollators": "u32",
             "MaxTopCandidates": "u32",
             "Candidate": {
@@ -12281,6 +13951,17 @@ export const typesBundle = {
               "serviceEndpoints": "Vec<DidServiceEndpointsDidEndpoint>",
               "details": "DidDidDetails"
             },
+            "PublicCredentialFilter": {
+              "_enum": {
+                "ctypeHash": "Hash",
+                "attester": "AccountId32"
+              }
+            },
+            "PublicCredentialError": {
+              "_enum": [
+                "InvalidSubjectId"
+              ]
+            },
             "StakingRates": {
               "collatorStakingRate": "Perquintill",
               "collatorRewardRate": "Perquintill",
@@ -12302,6 +13983,17 @@ export const typesBundle = {
               "w3n": "Option<Text>",
               "serviceEndpoints": "Vec<DidServiceEndpointsDidEndpoint>",
               "details": "DidDidDetails"
+            },
+            "PublicCredentialFilter": {
+              "_enum": {
+                "ctypeHash": "Hash",
+                "attester": "AccountId32"
+              }
+            },
+            "PublicCredentialError": {
+              "_enum": [
+                "InvalidSubjectId"
+              ]
             },
             "StakingRates": {
               "collatorStakingRate": "Perquintill",
@@ -12480,6 +14172,37 @@ export const typesBundle = {
             },
             "version": 1
           }
+        ],
+        "PublicCredentials": [
+          {
+            "methods": {
+              "get_by_id": {
+                "description": "Return the public credential with the specified ID, if found.",
+                "params": [
+                  {
+                    "name": "credential_id",
+                    "type": "Hash"
+                  }
+                ],
+                "type": "Option<PublicCredentialsCredentialsCredentialEntry>"
+              },
+              "get_by_subject": {
+                "description": "Return all the public credentials linked to the specified subject.\n          An optional filter can be passed to be applied to the result before being returned to the client.\n          It returns an error if the provided specified subject ID is not valid.\n          ",
+                "params": [
+                  {
+                    "name": "subject",
+                    "type": "Text"
+                  },
+                  {
+                    "name": "filter",
+                    "type": "Option<PublicCredentialFilter>"
+                  }
+                ],
+                "type": "Result<Vec<(Hash, PublicCredentialsCredentialsCredentialEntry)>, PublicCredentialError>"
+              }
+            },
+            "version": 1
+          }
         ]
       },
       "types": [
@@ -12489,6 +14212,7 @@ export const typesBundle = {
             8
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithDualRefCount",
             "Address": "AccountId",
             "Attestation": {
@@ -12573,6 +14297,7 @@ export const typesBundle = {
             9
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -12754,6 +14479,7 @@ export const typesBundle = {
             11
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -12992,6 +14718,7 @@ export const typesBundle = {
             16
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -13236,6 +14963,265 @@ export const typesBundle = {
             17
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
+            "AccountInfo": "AccountInfoWithTripleRefCount",
+            "Address": "MultiAddress",
+            "AmountOf": "i128",
+            "Balance": "u128",
+            "BlockNumber": "u64",
+            "Index": "u64",
+            "LookupSource": "MultiAddress",
+            "CtypeCreatorOf": "AccountId",
+            "CtypeHashOf": "Hash",
+            "ClaimHashOf": "Hash",
+            "AttesterOf": "AccountId",
+            "AttestationDetails": {
+              "ctypeHash": "CtypeHashOf",
+              "attester": "AttesterOf",
+              "delegationId": "Option<DelegationNodeIdOf>",
+              "revoked": "bool"
+            },
+            "Permissions": "u32",
+            "DelegationNodeIdOf": "Hash",
+            "DelegatorIdOf": "AccountId",
+            "DelegateSignatureTypeOf": "Vec<u8>",
+            "DelegationRoot": {
+              "ctypeHash": "CtypeHashOf",
+              "owner": "DelegatorIdOf",
+              "revoked": "bool"
+            },
+            "DelegationNode": {
+              "hierarchyRootId": "DelegationNodeIdOf",
+              "parent": "Option<DelegationNodeIdOf>",
+              "children": "BTreeSet<DelegationNodeIdOf>",
+              "details": "DelegationDetails"
+            },
+            "KeyIdOf": "Hash",
+            "DidIdentifierOf": "AccountId",
+            "AccountIdentifierOf": "AccountId",
+            "BlockNumberOf": "BlockNumber",
+            "DidCallableOf": "Call",
+            "DidVerificationKey": {
+              "_enum": {
+                "Ed25519": "[u8; 32]",
+                "Sr25519": "[u8; 32]",
+                "Secp256k1": "[u8; 33]"
+              }
+            },
+            "DidEncryptionKey": {
+              "_enum": {
+                "X25519": "[u8; 32]"
+              }
+            },
+            "DidPublicKey": {
+              "_enum": {
+                "PublicVerificationKey": "DidVerificationKey",
+                "PublicEncryptionKey": "DidEncryptionKey"
+              }
+            },
+            "DidVerificationKeyRelationship": {
+              "_enum": [
+                "Authentication",
+                "CapabilityDelegation",
+                "CapabilityInvocation",
+                "AssertionMethod"
+              ]
+            },
+            "DidSignature": {
+              "_enum": {
+                "Ed25519": "Ed25519Signature",
+                "Sr25519": "Sr25519Signature",
+                "Ecdsa-Secp256k1": "EcdsaSignature"
+              }
+            },
+            "DidError": {
+              "_enum": {
+                "StorageError": "StorageError",
+                "SignatureError": "SignatureError",
+                "UrlError": "UrlError",
+                "InputError": "InputError",
+                "InternalError": "Null"
+              }
+            },
+            "StorageError": {
+              "_enum": {
+                "DidAlreadyPresent": "Null",
+                "DidNotPresent": "Null",
+                "DidKeyNotPresent": "DidVerificationKeyRelationship",
+                "VerificationKeyNotPresent": "Null",
+                "CurrentlyActiveKey": "Null",
+                "MaxTxCounterValue": "Null"
+              }
+            },
+            "SignatureError": {
+              "_enum": [
+                "InvalidSignatureFormat",
+                "InvalidSignature",
+                "InvalidNonce"
+              ]
+            },
+            "KeyError": {
+              "_enum": [
+                "InvalidVerificationKeyFormat",
+                "InvalidEncryptionKeyFormat"
+              ]
+            },
+            "UrlError": {
+              "_enum": [
+                "InvalidUrlEncoding",
+                "InvalidUrlScheme"
+              ]
+            },
+            "InputError": {
+              "_enum": [
+                "MaxKeyAgreementKeysLimitExceeded",
+                "MaxVerificationKeysToRemoveLimitExceeded",
+                "MaxUrlLengthExceeded"
+              ]
+            },
+            "DidPublicKeyDetails": {
+              "key": "DidPublicKey",
+              "blockNumber": "BlockNumberOf"
+            },
+            "DidDetails": {
+              "authenticationKey": "KeyIdOf",
+              "keyAgreementKeys": "BTreeSet<KeyIdOf>",
+              "delegationKey": "Option<KeyIdOf>",
+              "attestationKey": "Option<KeyIdOf>",
+              "publicKeys": "BTreeMap<KeyIdOf, DidPublicKeyDetails>",
+              "endpointUrl": "Option<Url>",
+              "lastTxCounter": "u64"
+            },
+            "DidCreationOperation": {
+              "did": "DidIdentifierOf",
+              "newAuthenticationKey": "DidVerificationKey",
+              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
+              "newAttestationKey": "Option<DidVerificationKey>",
+              "newDelegationKey": "Option<DidVerificationKey>",
+              "newEndpointUrl": "Option<Url>"
+            },
+            "DidUpdateOperation": {
+              "did": "DidIdentifierOf",
+              "newAuthenticationKey": "Option<DidVerificationKey>",
+              "newKeyAgreementKeys": "BTreeSet<DidEncryptionKey>",
+              "attestationKeyUpdate": "DidVerificationKeyUpdateAction",
+              "delegationKeyUpdate": "DidVerificationKeyUpdateAction",
+              "publicKeysToRemove": "BTreeSet<KeyIdOf>",
+              "newEndpointUrl": "Option<Url>",
+              "txCounter": "u64"
+            },
+            "DidVerificationKeyUpdateAction": {
+              "_enum": {
+                "Ignore": "Null",
+                "Change": "DidVerificationKey",
+                "Delete": "Null"
+              }
+            },
+            "DidDeletionOperation": {
+              "did": "DidIdentifierOf",
+              "txCounter": "u64"
+            },
+            "DidAuthorizedCallOperation": {
+              "did": "DidIdentifierOf",
+              "txCounter": "u64",
+              "call": "DidCallableOf"
+            },
+            "HttpUrl": {
+              "payload": "Text"
+            },
+            "FtpUrl": {
+              "payload": "Text"
+            },
+            "IpfsUrl": {
+              "payload": "Text"
+            },
+            "Url": {
+              "_enum": {
+                "Http": "HttpUrl",
+                "Ftp": "FtpUrl",
+                "Ipfs": "IpfsUrl"
+              }
+            },
+            "LockedBalance": {
+              "block": "BlockNumber",
+              "amount": "Balance"
+            },
+            "BalanceOf": "Balance",
+            "RoundInfo": {
+              "current": "SessionIndex",
+              "first": "BlockNumber",
+              "length": "BlockNumber"
+            },
+            "OrderedSet": "Vec<Stake>",
+            "Stake": {
+              "owner": "AccountId",
+              "amount": "Balance"
+            },
+            "TotalStake": {
+              "collators": "Balance",
+              "delegators": "Balance"
+            },
+            "InflationInfo": {
+              "collator": "StakingInfo",
+              "delegator": "StakingInfo"
+            },
+            "StakingInfo": {
+              "maxRate": "Perquintill",
+              "rewardRate": "RewardRate"
+            },
+            "RewardRate": {
+              "annual": "Perquintill",
+              "perBlock": "Perquintill"
+            },
+            "Delegator": {
+              "delegations": "Vec<Stake>",
+              "total": "Balance"
+            },
+            "CollatorSnapshot": {
+              "stake": "Balance",
+              "delegators": "Vec<Stake>",
+              "total": "Balance"
+            },
+            "Collator": {
+              "id": "AccountId",
+              "stake": "Balance",
+              "delegators": "Vec<Stake>",
+              "total": "Balance",
+              "state": "CollatorStatus"
+            },
+            "CollatorStatus": {
+              "_enum": {
+                "Active": "Null",
+                "Leaving": "SessionIndex"
+              }
+            },
+            "DelegationCounter": {
+              "round": "SessionIndex",
+              "counter": "u32"
+            },
+            "DelegationDetails": {
+              "owner": "DelegatorIdOf",
+              "revoked": "bool",
+              "permissions": "Permissions"
+            },
+            "DelegationHierarchyDetails": {
+              "ctypeHash": "CtypeHashOf"
+            },
+            "DelegationStorageVersion": {
+              "_enum": [
+                "V1",
+                "V2"
+              ]
+            }
+          }
+        },
+        {
+          "minmax": [
+            18,
+            18
+          ],
+          "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -13462,234 +15448,6 @@ export const typesBundle = {
                 "V1",
                 "V2"
               ]
-            }
-          }
-        },
-        {
-          "minmax": [
-            18,
-            18
-          ],
-          "types": {
-            "AccountInfo": "AccountInfoWithTripleRefCount",
-            "Address": "MultiAddress",
-            "AmountOf": "i128",
-            "Balance": "u128",
-            "BlockNumber": "u64",
-            "Index": "u64",
-            "LookupSource": "MultiAddress",
-            "CtypeCreatorOf": "AccountId",
-            "CtypeHashOf": "Hash",
-            "ClaimHashOf": "Hash",
-            "AttesterOf": "AccountId",
-            "AttestationDetails": {
-              "ctypeHash": "CtypeHashOf",
-              "attester": "AttesterOf",
-              "delegationId": "Option<DelegationNodeIdOf>",
-              "revoked": "bool"
-            },
-            "Permissions": "u32",
-            "DelegationNodeIdOf": "Hash",
-            "DelegatorIdOf": "AccountId",
-            "DelegateSignatureTypeOf": "Vec<u8>",
-            "DelegationRoot": {
-              "ctypeHash": "CtypeHashOf",
-              "owner": "DelegatorIdOf",
-              "revoked": "bool"
-            },
-            "DelegationNode": {
-              "hierarchyRootId": "DelegationNodeIdOf",
-              "parent": "Option<DelegationNodeIdOf>",
-              "children": "BTreeSet<DelegationNodeIdOf>",
-              "details": "DelegationDetails"
-            },
-            "KeyIdOf": "Hash",
-            "DidIdentifierOf": "AccountId",
-            "AccountIdentifierOf": "AccountId",
-            "BlockNumberOf": "BlockNumber",
-            "DidCallableOf": "Call",
-            "DidVerificationKey": {
-              "_enum": {
-                "Ed25519": "[u8; 32]",
-                "Sr25519": "[u8; 32]",
-                "Secp256k1": "[u8; 33]"
-              }
-            },
-            "DidEncryptionKey": {
-              "_enum": {
-                "X25519": "[u8; 32]"
-              }
-            },
-            "DidPublicKey": {
-              "_enum": {
-                "PublicVerificationKey": "DidVerificationKey",
-                "PublicEncryptionKey": "DidEncryptionKey"
-              }
-            },
-            "DidVerificationKeyRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "DidSignature": {
-              "_enum": {
-                "Ed25519": "Ed25519Signature",
-                "Sr25519": "Sr25519Signature",
-                "Ecdsa-Secp256k1": "EcdsaSignature"
-              }
-            },
-            "DidError": {
-              "_enum": {
-                "StorageError": "StorageError",
-                "SignatureError": "SignatureError",
-                "UrlError": "UrlError",
-                "InputError": "InputError",
-                "InternalError": "Null"
-              }
-            },
-            "StorageError": {
-              "_enum": {
-                "DidAlreadyPresent": "Null",
-                "DidNotPresent": "Null",
-                "DidKeyNotPresent": "DidVerificationKeyRelationship",
-                "VerificationKeyNotPresent": "Null",
-                "CurrentlyActiveKey": "Null",
-                "MaxTxCounterValue": "Null"
-              }
-            },
-            "SignatureError": {
-              "_enum": [
-                "InvalidSignatureFormat",
-                "InvalidSignature",
-                "InvalidNonce"
-              ]
-            },
-            "KeyError": {
-              "_enum": [
-                "InvalidVerificationKeyFormat",
-                "InvalidEncryptionKeyFormat"
-              ]
-            },
-            "UrlError": {
-              "_enum": [
-                "InvalidUrlEncoding",
-                "InvalidUrlScheme"
-              ]
-            },
-            "InputError": {
-              "_enum": [
-                "MaxKeyAgreementKeysLimitExceeded",
-                "MaxVerificationKeysToRemoveLimitExceeded",
-                "MaxUrlLengthExceeded"
-              ]
-            },
-            "DidPublicKeyDetails": {
-              "key": "DidPublicKey",
-              "blockNumber": "BlockNumberOf"
-            },
-            "DidDetails": {
-              "authenticationKey": "KeyIdOf",
-              "keyAgreementKeys": "BTreeSet<KeyIdOf>",
-              "delegationKey": "Option<KeyIdOf>",
-              "attestationKey": "Option<KeyIdOf>",
-              "publicKeys": "BTreeMap<KeyIdOf, DidPublicKeyDetails>",
-              "endpointUrl": "Option<Url>",
-              "lastTxCounter": "u64"
-            },
-            "DidAuthorizedCallOperation": {
-              "did": "DidIdentifierOf",
-              "txCounter": "u64",
-              "call": "DidCallableOf"
-            },
-            "HttpUrl": {
-              "payload": "Text"
-            },
-            "FtpUrl": {
-              "payload": "Text"
-            },
-            "IpfsUrl": {
-              "payload": "Text"
-            },
-            "Url": {
-              "_enum": {
-                "Http": "HttpUrl",
-                "Ftp": "FtpUrl",
-                "Ipfs": "IpfsUrl"
-              }
-            },
-            "LockedBalance": {
-              "block": "BlockNumber",
-              "amount": "Balance"
-            },
-            "BalanceOf": "Balance",
-            "RoundInfo": {
-              "current": "SessionIndex",
-              "first": "BlockNumber",
-              "length": "BlockNumber"
-            },
-            "OrderedSet": "Vec<Stake>",
-            "Stake": {
-              "owner": "AccountId",
-              "amount": "Balance"
-            },
-            "TotalStake": {
-              "collators": "Balance",
-              "delegators": "Balance"
-            },
-            "InflationInfo": {
-              "collator": "StakingInfo",
-              "delegator": "StakingInfo"
-            },
-            "StakingInfo": {
-              "maxRate": "Perquintill",
-              "rewardRate": "RewardRate"
-            },
-            "RewardRate": {
-              "annual": "Perquintill",
-              "perBlock": "Perquintill"
-            },
-            "Delegator": {
-              "delegations": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "CollatorSnapshot": {
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance"
-            },
-            "Collator": {
-              "id": "AccountId",
-              "stake": "Balance",
-              "delegators": "Vec<Stake>",
-              "total": "Balance",
-              "state": "CollatorStatus"
-            },
-            "CollatorStatus": {
-              "_enum": {
-                "Active": "Null",
-                "Leaving": "SessionIndex"
-              }
-            },
-            "DelegationCounter": {
-              "round": "SessionIndex",
-              "counter": "u32"
-            },
-            "DelegationDetails": {
-              "owner": "DelegatorIdOf",
-              "revoked": "bool",
-              "permissions": "Permissions"
-            },
-            "DelegationHierarchyDetails": {
-              "ctypeHash": "CtypeHashOf"
-            },
-            "DelegationStorageVersion": {
-              "_enum": [
-                "V1",
-                "V2"
-              ]
             },
             "DidCreationDetails": {
               "did": "DidIdentifierOf",
@@ -13714,6 +15472,7 @@ export const typesBundle = {
             19
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -13898,6 +15657,11 @@ export const typesBundle = {
               "delegations": "Vec<Stake>",
               "total": "Balance"
             },
+            "CollatorSnapshot": {
+              "stake": "Balance",
+              "delegators": "Vec<Stake>",
+              "total": "Balance"
+            },
             "Collator": {
               "id": "AccountId",
               "stake": "Balance",
@@ -13983,6 +15747,7 @@ export const typesBundle = {
             20
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -14145,6 +15910,7 @@ export const typesBundle = {
               "first": "BlockNumber",
               "length": "BlockNumber"
             },
+            "OrderedSet": "BoundedVec<Stake, MaxCollatorCandidates>",
             "Stake": {
               "owner": "AccountId",
               "amount": "Balance"
@@ -14206,6 +15972,14 @@ export const typesBundle = {
               "newAttestationKey": "Option<DidVerificationKey>",
               "newDelegationKey": "Option<DidVerificationKey>",
               "newServiceEndpoints": "Option<ServiceEndpoints>"
+            },
+            "DidUpdateDetails": {
+              "newAuthenticationKey": "Option<DidVerificationKey>",
+              "newKeyAgreementKeys": "DidNewKeyAgreementKeys",
+              "attestationKeyUpdate": "DidFragmentUpdateAction_DidVerificationKey",
+              "delegationKeyUpdate": "DidFragmentUpdateAction_DidVerificationKey",
+              "publicKeysToRemove": "DidVerificationKeysToRevoke",
+              "serviceEndpointsUpdate": "DidFragmentUpdateAction_ServiceEndpoints"
             },
             "ServiceEndpoints": {
               "contentHash": "Hash",
@@ -14270,6 +16044,7 @@ export const typesBundle = {
             22
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -14456,6 +16231,19 @@ export const typesBundle = {
               "delegations": "Vec<Stake>",
               "total": "Balance"
             },
+            "Collator": {
+              "id": "AccountId",
+              "stake": "Balance",
+              "delegators": "Vec<Stake>",
+              "total": "Balance",
+              "state": "CollatorStatus"
+            },
+            "CollatorStatus": {
+              "_enum": {
+                "Active": "Null",
+                "Leaving": "SessionIndex"
+              }
+            },
             "DelegationCounter": {
               "round": "SessionIndex",
               "counter": "u32"
@@ -14512,6 +16300,7 @@ export const typesBundle = {
                 "V2"
               ]
             },
+            "MaxCollatorCandidates": "u32",
             "MaxDelegatorsPerCollator": "u32",
             "MaxCollatorsPerDelegator": "u32",
             "StakingStorageVersion": {
@@ -14534,7 +16323,8 @@ export const typesBundle = {
             "MaxPublicKeysPerDid": "u32",
             "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
             "MaxUrlLength": "u32",
-            "MaxEndpointUrlsCount": "u32"
+            "MaxEndpointUrlsCount": "u32",
+            "Keys": "SessionKeys1"
           }
         },
         {
@@ -14543,6 +16333,7 @@ export const typesBundle = {
             24
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -14809,6 +16600,7 @@ export const typesBundle = {
             "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
             "MaxUrlLength": "u32",
             "MaxEndpointUrlsCount": "u32",
+            "Keys": "SessionKeys1",
             "MinCollators": "u32",
             "MaxTopCandidates": "u32",
             "Candidate": {
@@ -14832,6 +16624,7 @@ export const typesBundle = {
             2699
           ],
           "types": {
+            "DispatchError": "DispatchErrorPre6First",
             "AccountInfo": "AccountInfoWithTripleRefCount",
             "Address": "MultiAddress",
             "AmountOf": "i128",
@@ -14853,6 +16646,11 @@ export const typesBundle = {
             "DelegationNodeIdOf": "Hash",
             "DelegatorIdOf": "AccountId",
             "DelegateSignatureTypeOf": "DidSignature",
+            "DelegationRoot": {
+              "ctypeHash": "CtypeHashOf",
+              "owner": "DelegatorIdOf",
+              "revoked": "bool"
+            },
             "DelegationNode": {
               "hierarchyRootId": "DelegationNodeIdOf",
               "parent": "Option<DelegationNodeIdOf>",
@@ -14932,6 +16730,12 @@ export const typesBundle = {
                 "InvalidEncryptionKeyFormat"
               ]
             },
+            "UrlError": {
+              "_enum": [
+                "InvalidUrlEncoding",
+                "InvalidUrlScheme"
+              ]
+            },
             "InputError": {
               "_enum": [
                 "MaxKeyAgreementKeysLimitExceeded",
@@ -14957,6 +16761,22 @@ export const typesBundle = {
               "txCounter": "u64",
               "call": "DidCallableOf",
               "submitter": "AccountId"
+            },
+            "HttpUrl": {
+              "payload": "Text"
+            },
+            "FtpUrl": {
+              "payload": "Text"
+            },
+            "IpfsUrl": {
+              "payload": "Text"
+            },
+            "Url": {
+              "_enum": {
+                "Http": "HttpUrl",
+                "Ftp": "FtpUrl",
+                "Ipfs": "IpfsUrl"
+              }
             },
             "LockedBalance": {
               "block": "BlockNumber",
@@ -15017,6 +16837,11 @@ export const typesBundle = {
               "newCapabilityDelegationKey": "Option<DidVerificationKey>",
               "newServiceEndpoints": "Option<ServiceEndpoints>"
             },
+            "ServiceEndpoints": {
+              "contentHash": "Hash",
+              "urls": "BoundedVec<Url, MaxEndpointUrlsCount>",
+              "contentType": "ContentType"
+            },
             "DidFragmentUpdateAction_ServiceEndpoints": {
               "_enum": {
                 "Ignore": "Null",
@@ -15030,6 +16855,12 @@ export const typesBundle = {
                 "Change": "DidVerificationKey",
                 "Delete": "Null"
               }
+            },
+            "ContentType": {
+              "_enum": [
+                "application/json",
+                "application/ld+json"
+              ]
             },
             "DidStorageVersion": {
               "_enum": [
@@ -15059,6 +16890,9 @@ export const typesBundle = {
             "MaxVerificationKeysToRevoke": "u32",
             "MaxPublicKeysPerDid": "u32",
             "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
+            "MaxUrlLength": "u32",
+            "MaxEndpointUrlsCount": "u32",
+            "Keys": "SessionKeys1",
             "MinCollators": "u32",
             "MaxTopCandidates": "u32",
             "Candidate": {
@@ -15079,7 +16913,265 @@ export const typesBundle = {
         {
           "minmax": [
             2700,
-            10710
+            10409
+          ],
+          "types": {
+            "DispatchError": "DispatchErrorPre6First",
+            "AccountInfo": "AccountInfoWithTripleRefCount",
+            "Address": "MultiAddress",
+            "AmountOf": "i128",
+            "Balance": "u128",
+            "BlockNumber": "u64",
+            "Index": "u64",
+            "LookupSource": "MultiAddress",
+            "CtypeCreatorOf": "AccountId",
+            "CtypeHashOf": "Hash",
+            "ClaimHashOf": "Hash",
+            "AttesterOf": "AccountId",
+            "AttestationDetails": {
+              "ctypeHash": "CtypeHashOf",
+              "attester": "AttesterOf",
+              "delegationId": "Option<DelegationNodeIdOf>",
+              "revoked": "bool",
+              "deposit": "Deposit"
+            },
+            "Permissions": "u32",
+            "DelegationNodeIdOf": "Hash",
+            "DelegatorIdOf": "AccountId",
+            "DelegateSignatureTypeOf": "DidSignature",
+            "DelegationNode": {
+              "hierarchyRootId": "DelegationNodeIdOf",
+              "parent": "Option<DelegationNodeIdOf>",
+              "children": "BoundedBTreeSet<DelegationNodeIdOf, MaxChildren>",
+              "details": "DelegationDetails",
+              "deposit": "Deposit"
+            },
+            "KeyIdOf": "Hash",
+            "DidIdentifierOf": "AccountId",
+            "AccountIdentifierOf": "AccountId",
+            "BlockNumberOf": "BlockNumber",
+            "DidCallableOf": "Call",
+            "DidVerificationKey": {
+              "_enum": {
+                "Ed25519": "[u8; 32]",
+                "Sr25519": "[u8; 32]",
+                "Secp256k1": "[u8; 33]"
+              }
+            },
+            "DidEncryptionKey": {
+              "_enum": {
+                "X25519": "[u8; 32]"
+              }
+            },
+            "DidPublicKey": {
+              "_enum": {
+                "PublicVerificationKey": "DidVerificationKey",
+                "PublicEncryptionKey": "DidEncryptionKey"
+              }
+            },
+            "DidVerificationKeyRelationship": {
+              "_enum": [
+                "Authentication",
+                "CapabilityDelegation",
+                "CapabilityInvocation",
+                "AssertionMethod"
+              ]
+            },
+            "DidSignature": {
+              "_enum": {
+                "Ed25519": "Ed25519Signature",
+                "Sr25519": "Sr25519Signature",
+                "Ecdsa-Secp256k1": "EcdsaSignature"
+              }
+            },
+            "DidError": {
+              "_enum": {
+                "StorageError": "StorageError",
+                "SignatureError": "SignatureError",
+                "InputError": "InputError",
+                "InternalError": "Null"
+              }
+            },
+            "StorageError": {
+              "_enum": {
+                "DidAlreadyPresent": "Null",
+                "DidNotPresent": "Null",
+                "DidKeyNotPresent": "DidVerificationKeyRelationship",
+                "KeyNotPresent": "Null",
+                "CurrentlyActiveKey": "Null",
+                "MaxPublicKeysPerDidExceeded": "Null",
+                "MaxTotalKeyAgreementKeysExceeded": "Null",
+                "DidAlreadyDeleted": "Null"
+              }
+            },
+            "SignatureError": {
+              "_enum": [
+                "InvalidSignatureFormat",
+                "InvalidSignature",
+                "InvalidNonce",
+                "TransactionExpired"
+              ]
+            },
+            "KeyError": {
+              "_enum": [
+                "InvalidVerificationKeyFormat",
+                "InvalidEncryptionKeyFormat"
+              ]
+            },
+            "InputError": {
+              "_enum": [
+                "MaxKeyAgreementKeysLimitExceeded",
+                "MaxVerificationKeysToRemoveLimitExceeded"
+              ]
+            },
+            "DidPublicKeyDetails": {
+              "key": "DidPublicKey",
+              "blockNumber": "BlockNumberOf"
+            },
+            "DidDetails": {
+              "authenticationKey": "KeyIdOf",
+              "keyAgreementKeys": "DidKeyAgreementKeys",
+              "capabilityDelegationKey": "Option<KeyIdOf>",
+              "assertionMethodKey": "Option<KeyIdOf>",
+              "publicKeys": "DidPublicKeyMap",
+              "lastTxCounter": "u64",
+              "deposit": "Deposit"
+            },
+            "DidAuthorizedCallOperation": {
+              "did": "DidIdentifierOf",
+              "txCounter": "u64",
+              "call": "DidCallableOf",
+              "blockNumber": "BlockNumber",
+              "submitter": "AccountId"
+            },
+            "LockedBalance": {
+              "block": "BlockNumber",
+              "amount": "Balance"
+            },
+            "BalanceOf": "Balance",
+            "RoundInfo": {
+              "current": "SessionIndex",
+              "first": "BlockNumber",
+              "length": "BlockNumber"
+            },
+            "Stake": {
+              "owner": "AccountId",
+              "amount": "Balance"
+            },
+            "TotalStake": {
+              "collators": "Balance",
+              "delegators": "Balance"
+            },
+            "InflationInfo": {
+              "collator": "StakingInfo",
+              "delegator": "StakingInfo"
+            },
+            "StakingInfo": {
+              "maxRate": "Perquintill",
+              "rewardRate": "RewardRate"
+            },
+            "RewardRate": {
+              "annual": "Perquintill",
+              "perBlock": "Perquintill"
+            },
+            "Delegator": {
+              "delegations": "Vec<Stake>",
+              "total": "Balance"
+            },
+            "DelegationCounter": {
+              "round": "SessionIndex",
+              "counter": "u32"
+            },
+            "DelegationDetails": {
+              "owner": "DelegatorIdOf",
+              "revoked": "bool",
+              "permissions": "Permissions"
+            },
+            "DelegationHierarchyDetails": {
+              "ctypeHash": "CtypeHashOf"
+            },
+            "DelegationStorageVersion": {
+              "_enum": [
+                "V1",
+                "V2"
+              ]
+            },
+            "DidCreationDetails": {
+              "did": "DidIdentifierOf",
+              "submitter": "AccountId",
+              "newKeyAgreementKeys": "DidNewKeyAgreementKeys",
+              "newAssertionMethodKey": "Option<DidVerificationKey>",
+              "newCapabilityDelegationKey": "Option<DidVerificationKey>"
+            },
+            "DidFragmentUpdateAction_ServiceEndpoints": {
+              "_enum": {
+                "Ignore": "Null",
+                "Change": "ServiceEndpoints",
+                "Delete": "Null"
+              }
+            },
+            "DidFragmentUpdateAction_DidVerificationKey": {
+              "_enum": {
+                "Ignore": "Null",
+                "Change": "DidVerificationKey",
+                "Delete": "Null"
+              }
+            },
+            "DidStorageVersion": {
+              "_enum": [
+                "V1",
+                "V2",
+                "V3"
+              ]
+            },
+            "MaxDelegatorsPerCollator": "u32",
+            "MaxCollatorsPerDelegator": "u32",
+            "StakingStorageVersion": {
+              "_enum": [
+                "V1_0_0",
+                "V2_0_0",
+                "V3_0_0",
+                "V4",
+                "V5"
+              ]
+            },
+            "MaxDelegatedAttestations": "u32",
+            "MaxClaims": "u32",
+            "MaxChildren": "u32",
+            "DidNewKeyAgreementKeys": "BoundedBTreeSet<DidEncryptionKey, MaxNewKeyAgreementKeys>",
+            "DidKeyAgreementKeys": "BoundedBTreeSet<KeyIdOf, MaxTotalKeyAgreementKeys>",
+            "DidVerificationKeysToRevoke": "BoundedBTreeSet<KeyIdOf, MaxVerificationKeysToRevoke>",
+            "MaxNewKeyAgreementKeys": "u32",
+            "MaxTotalKeyAgreementKeys": "u32",
+            "MaxVerificationKeysToRevoke": "u32",
+            "MaxPublicKeysPerDid": "u32",
+            "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
+            "Keys": "SessionKeys1",
+            "MinCollators": "u32",
+            "MaxTopCandidates": "u32",
+            "Candidate": {
+              "id": "AccountId",
+              "stake": "Balance",
+              "delegators": "Vec<Stake>",
+              "total": "Balance",
+              "status": "CandidateStatus"
+            },
+            "CandidateStatus": {
+              "_enum": {
+                "Active": "Null",
+                "Leaving": "SessionIndex"
+              }
+            },
+            "Deposit": {
+              "owner": "AccountId",
+              "amount": "Balance"
+            }
+          }
+        },
+        {
+          "minmax": [
+            10410,
+            10719
           ],
           "types": {
             "AccountInfo": "AccountInfoWithTripleRefCount",
@@ -15311,6 +17403,7 @@ export const typesBundle = {
             "MaxVerificationKeysToRevoke": "u32",
             "MaxPublicKeysPerDid": "u32",
             "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
+            "Keys": "SessionKeys1",
             "MinCollators": "u32",
             "MaxTopCandidates": "u32",
             "Candidate": {
@@ -15362,6 +17455,17 @@ export const typesBundle = {
               "serviceEndpoints": "Vec<DidServiceEndpointsDidEndpoint>",
               "details": "DidDidDetails"
             },
+            "PublicCredentialFilter": {
+              "_enum": {
+                "ctypeHash": "Hash",
+                "attester": "AccountId32"
+              }
+            },
+            "PublicCredentialError": {
+              "_enum": [
+                "InvalidSubjectId"
+              ]
+            },
             "StakingRates": {
               "collatorStakingRate": "Perquintill",
               "collatorRewardRate": "Perquintill",
@@ -15383,6 +17487,17 @@ export const typesBundle = {
               "w3n": "Option<Text>",
               "serviceEndpoints": "Vec<DidServiceEndpointsDidEndpoint>",
               "details": "DidDidDetails"
+            },
+            "PublicCredentialFilter": {
+              "_enum": {
+                "ctypeHash": "Hash",
+                "attester": "AccountId32"
+              }
+            },
+            "PublicCredentialError": {
+              "_enum": [
+                "InvalidSubjectId"
+              ]
             },
             "StakingRates": {
               "collatorStakingRate": "Perquintill",
@@ -25857,6 +27972,72 @@ export const typesBundle = {
               "value": "Option<U128>",
               "data": "Option<Bytes>"
             },
+            "CallInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "Vec<u8>",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "CreateInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "H160",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "EthereumLog": {
+              "address": "H160",
+              "topics": "Vec<H256>",
+              "data": "Bytes"
+            },
+            "EvmCoreErrorExitReason": {
+              "_enum": {
+                "Succeed": "EvmCoreErrorExitSucceed",
+                "Error": "EvmCoreErrorExitError",
+                "Revert": "EvmCoreErrorExitRevert",
+                "Fatal": "EvmCoreErrorExitFatal"
+              }
+            },
+            "EvmCoreErrorExitSucceed": {
+              "_enum": [
+                "Stopped",
+                "Returned",
+                "Suicided"
+              ]
+            },
+            "EvmCoreErrorExitError": {
+              "_enum": {
+                "StackUnderflow": "Null",
+                "StackOverflow": "Null",
+                "InvalidJump": "Null",
+                "InvalidRange": "Null",
+                "DesignatedInvalid": "Null",
+                "CallTooDeep": "Null",
+                "CreateCollision": "Null",
+                "CreateContractLimit": "Null",
+                "OutOfOffset": "Null",
+                "OutOfGas": "Null",
+                "OutOfFund": "Null",
+                "PCUnderflow": "Null",
+                "CreateEmpty": "Null",
+                "Other": "Text",
+                "InvalidCode": "Null"
+              }
+            },
+            "EvmCoreErrorExitRevert": {
+              "_enum": [
+                "Reverted"
+              ]
+            },
+            "EvmCoreErrorExitFatal": {
+              "_enum": {
+                "NotSupported": "Null",
+                "UnhandledInterrupt": "Null",
+                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "Other": "Text"
+              }
+            },
             "AcalaStakingLedge": {
               "bonded": "Compact<Balance>",
               "unlocking": "Vec<UnlockChunk>"
@@ -26271,6 +28452,72 @@ export const typesBundle = {
               "storageLimit": "Option<u32>",
               "value": "Option<U128>",
               "data": "Option<Bytes>"
+            },
+            "CallInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "Vec<u8>",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "CreateInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "H160",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "EthereumLog": {
+              "address": "H160",
+              "topics": "Vec<H256>",
+              "data": "Bytes"
+            },
+            "EvmCoreErrorExitReason": {
+              "_enum": {
+                "Succeed": "EvmCoreErrorExitSucceed",
+                "Error": "EvmCoreErrorExitError",
+                "Revert": "EvmCoreErrorExitRevert",
+                "Fatal": "EvmCoreErrorExitFatal"
+              }
+            },
+            "EvmCoreErrorExitSucceed": {
+              "_enum": [
+                "Stopped",
+                "Returned",
+                "Suicided"
+              ]
+            },
+            "EvmCoreErrorExitError": {
+              "_enum": {
+                "StackUnderflow": "Null",
+                "StackOverflow": "Null",
+                "InvalidJump": "Null",
+                "InvalidRange": "Null",
+                "DesignatedInvalid": "Null",
+                "CallTooDeep": "Null",
+                "CreateCollision": "Null",
+                "CreateContractLimit": "Null",
+                "OutOfOffset": "Null",
+                "OutOfGas": "Null",
+                "OutOfFund": "Null",
+                "PCUnderflow": "Null",
+                "CreateEmpty": "Null",
+                "Other": "Text",
+                "InvalidCode": "Null"
+              }
+            },
+            "EvmCoreErrorExitRevert": {
+              "_enum": [
+                "Reverted"
+              ]
+            },
+            "EvmCoreErrorExitFatal": {
+              "_enum": {
+                "NotSupported": "Null",
+                "UnhandledInterrupt": "Null",
+                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "Other": "Text"
+              }
             },
             "AcalaStakingLedge": {
               "bonded": "Compact<Balance>",
@@ -26694,6 +28941,72 @@ export const typesBundle = {
               "storageLimit": "Option<u32>",
               "value": "Option<U128>",
               "data": "Option<Bytes>"
+            },
+            "CallInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "Vec<u8>",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "CreateInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "H160",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "EthereumLog": {
+              "address": "H160",
+              "topics": "Vec<H256>",
+              "data": "Bytes"
+            },
+            "EvmCoreErrorExitReason": {
+              "_enum": {
+                "Succeed": "EvmCoreErrorExitSucceed",
+                "Error": "EvmCoreErrorExitError",
+                "Revert": "EvmCoreErrorExitRevert",
+                "Fatal": "EvmCoreErrorExitFatal"
+              }
+            },
+            "EvmCoreErrorExitSucceed": {
+              "_enum": [
+                "Stopped",
+                "Returned",
+                "Suicided"
+              ]
+            },
+            "EvmCoreErrorExitError": {
+              "_enum": {
+                "StackUnderflow": "Null",
+                "StackOverflow": "Null",
+                "InvalidJump": "Null",
+                "InvalidRange": "Null",
+                "DesignatedInvalid": "Null",
+                "CallTooDeep": "Null",
+                "CreateCollision": "Null",
+                "CreateContractLimit": "Null",
+                "OutOfOffset": "Null",
+                "OutOfGas": "Null",
+                "OutOfFund": "Null",
+                "PCUnderflow": "Null",
+                "CreateEmpty": "Null",
+                "Other": "Text",
+                "InvalidCode": "Null"
+              }
+            },
+            "EvmCoreErrorExitRevert": {
+              "_enum": [
+                "Reverted"
+              ]
+            },
+            "EvmCoreErrorExitFatal": {
+              "_enum": {
+                "NotSupported": "Null",
+                "UnhandledInterrupt": "Null",
+                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "Other": "Text"
+              }
             },
             "AcalaStakingLedge": {
               "bonded": "Compact<Balance>",
@@ -27119,6 +29432,72 @@ export const typesBundle = {
               "value": "Option<U128>",
               "data": "Option<Bytes>"
             },
+            "CallInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "Vec<u8>",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "CreateInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "H160",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "EthereumLog": {
+              "address": "H160",
+              "topics": "Vec<H256>",
+              "data": "Bytes"
+            },
+            "EvmCoreErrorExitReason": {
+              "_enum": {
+                "Succeed": "EvmCoreErrorExitSucceed",
+                "Error": "EvmCoreErrorExitError",
+                "Revert": "EvmCoreErrorExitRevert",
+                "Fatal": "EvmCoreErrorExitFatal"
+              }
+            },
+            "EvmCoreErrorExitSucceed": {
+              "_enum": [
+                "Stopped",
+                "Returned",
+                "Suicided"
+              ]
+            },
+            "EvmCoreErrorExitError": {
+              "_enum": {
+                "StackUnderflow": "Null",
+                "StackOverflow": "Null",
+                "InvalidJump": "Null",
+                "InvalidRange": "Null",
+                "DesignatedInvalid": "Null",
+                "CallTooDeep": "Null",
+                "CreateCollision": "Null",
+                "CreateContractLimit": "Null",
+                "OutOfOffset": "Null",
+                "OutOfGas": "Null",
+                "OutOfFund": "Null",
+                "PCUnderflow": "Null",
+                "CreateEmpty": "Null",
+                "Other": "Text",
+                "InvalidCode": "Null"
+              }
+            },
+            "EvmCoreErrorExitRevert": {
+              "_enum": [
+                "Reverted"
+              ]
+            },
+            "EvmCoreErrorExitFatal": {
+              "_enum": {
+                "NotSupported": "Null",
+                "UnhandledInterrupt": "Null",
+                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "Other": "Text"
+              }
+            },
             "AcalaStakingLedge": {
               "bonded": "Compact<Balance>",
               "unlocking": "Vec<UnlockChunk>"
@@ -27540,6 +29919,72 @@ export const typesBundle = {
               "value": "Option<U128>",
               "data": "Option<Bytes>"
             },
+            "CallInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "Vec<u8>",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "CreateInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "H160",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "EthereumLog": {
+              "address": "H160",
+              "topics": "Vec<H256>",
+              "data": "Bytes"
+            },
+            "EvmCoreErrorExitReason": {
+              "_enum": {
+                "Succeed": "EvmCoreErrorExitSucceed",
+                "Error": "EvmCoreErrorExitError",
+                "Revert": "EvmCoreErrorExitRevert",
+                "Fatal": "EvmCoreErrorExitFatal"
+              }
+            },
+            "EvmCoreErrorExitSucceed": {
+              "_enum": [
+                "Stopped",
+                "Returned",
+                "Suicided"
+              ]
+            },
+            "EvmCoreErrorExitError": {
+              "_enum": {
+                "StackUnderflow": "Null",
+                "StackOverflow": "Null",
+                "InvalidJump": "Null",
+                "InvalidRange": "Null",
+                "DesignatedInvalid": "Null",
+                "CallTooDeep": "Null",
+                "CreateCollision": "Null",
+                "CreateContractLimit": "Null",
+                "OutOfOffset": "Null",
+                "OutOfGas": "Null",
+                "OutOfFund": "Null",
+                "PCUnderflow": "Null",
+                "CreateEmpty": "Null",
+                "Other": "Text",
+                "InvalidCode": "Null"
+              }
+            },
+            "EvmCoreErrorExitRevert": {
+              "_enum": [
+                "Reverted"
+              ]
+            },
+            "EvmCoreErrorExitFatal": {
+              "_enum": {
+                "NotSupported": "Null",
+                "UnhandledInterrupt": "Null",
+                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "Other": "Text"
+              }
+            },
             "AcalaStakingLedge": {
               "bonded": "Compact<Balance>",
               "unlocking": "Vec<UnlockChunk>"
@@ -27960,6 +30405,72 @@ export const typesBundle = {
               "storageLimit": "Option<u32>",
               "value": "Option<U128>",
               "data": "Option<Bytes>"
+            },
+            "CallInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "Vec<u8>",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "CreateInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "H160",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "EthereumLog": {
+              "address": "H160",
+              "topics": "Vec<H256>",
+              "data": "Bytes"
+            },
+            "EvmCoreErrorExitReason": {
+              "_enum": {
+                "Succeed": "EvmCoreErrorExitSucceed",
+                "Error": "EvmCoreErrorExitError",
+                "Revert": "EvmCoreErrorExitRevert",
+                "Fatal": "EvmCoreErrorExitFatal"
+              }
+            },
+            "EvmCoreErrorExitSucceed": {
+              "_enum": [
+                "Stopped",
+                "Returned",
+                "Suicided"
+              ]
+            },
+            "EvmCoreErrorExitError": {
+              "_enum": {
+                "StackUnderflow": "Null",
+                "StackOverflow": "Null",
+                "InvalidJump": "Null",
+                "InvalidRange": "Null",
+                "DesignatedInvalid": "Null",
+                "CallTooDeep": "Null",
+                "CreateCollision": "Null",
+                "CreateContractLimit": "Null",
+                "OutOfOffset": "Null",
+                "OutOfGas": "Null",
+                "OutOfFund": "Null",
+                "PCUnderflow": "Null",
+                "CreateEmpty": "Null",
+                "Other": "Text",
+                "InvalidCode": "Null"
+              }
+            },
+            "EvmCoreErrorExitRevert": {
+              "_enum": [
+                "Reverted"
+              ]
+            },
+            "EvmCoreErrorExitFatal": {
+              "_enum": {
+                "NotSupported": "Null",
+                "UnhandledInterrupt": "Null",
+                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "Other": "Text"
+              }
             },
             "AcalaStakingLedge": {
               "bonded": "Compact<Balance>",
@@ -28387,6 +30898,72 @@ export const typesBundle = {
               "value": "Option<U128>",
               "data": "Option<Bytes>"
             },
+            "CallInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "Vec<u8>",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "CreateInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "H160",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "EthereumLog": {
+              "address": "H160",
+              "topics": "Vec<H256>",
+              "data": "Bytes"
+            },
+            "EvmCoreErrorExitReason": {
+              "_enum": {
+                "Succeed": "EvmCoreErrorExitSucceed",
+                "Error": "EvmCoreErrorExitError",
+                "Revert": "EvmCoreErrorExitRevert",
+                "Fatal": "EvmCoreErrorExitFatal"
+              }
+            },
+            "EvmCoreErrorExitSucceed": {
+              "_enum": [
+                "Stopped",
+                "Returned",
+                "Suicided"
+              ]
+            },
+            "EvmCoreErrorExitError": {
+              "_enum": {
+                "StackUnderflow": "Null",
+                "StackOverflow": "Null",
+                "InvalidJump": "Null",
+                "InvalidRange": "Null",
+                "DesignatedInvalid": "Null",
+                "CallTooDeep": "Null",
+                "CreateCollision": "Null",
+                "CreateContractLimit": "Null",
+                "OutOfOffset": "Null",
+                "OutOfGas": "Null",
+                "OutOfFund": "Null",
+                "PCUnderflow": "Null",
+                "CreateEmpty": "Null",
+                "Other": "Text",
+                "InvalidCode": "Null"
+              }
+            },
+            "EvmCoreErrorExitRevert": {
+              "_enum": [
+                "Reverted"
+              ]
+            },
+            "EvmCoreErrorExitFatal": {
+              "_enum": {
+                "NotSupported": "Null",
+                "UnhandledInterrupt": "Null",
+                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "Other": "Text"
+              }
+            },
             "AcalaStakingLedge": {
               "bonded": "Compact<Balance>",
               "unlocking": "Vec<UnlockChunk>"
@@ -28812,6 +31389,72 @@ export const typesBundle = {
               "value": "Option<U128>",
               "data": "Option<Bytes>"
             },
+            "CallInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "Vec<u8>",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "CreateInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "H160",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "EthereumLog": {
+              "address": "H160",
+              "topics": "Vec<H256>",
+              "data": "Bytes"
+            },
+            "EvmCoreErrorExitReason": {
+              "_enum": {
+                "Succeed": "EvmCoreErrorExitSucceed",
+                "Error": "EvmCoreErrorExitError",
+                "Revert": "EvmCoreErrorExitRevert",
+                "Fatal": "EvmCoreErrorExitFatal"
+              }
+            },
+            "EvmCoreErrorExitSucceed": {
+              "_enum": [
+                "Stopped",
+                "Returned",
+                "Suicided"
+              ]
+            },
+            "EvmCoreErrorExitError": {
+              "_enum": {
+                "StackUnderflow": "Null",
+                "StackOverflow": "Null",
+                "InvalidJump": "Null",
+                "InvalidRange": "Null",
+                "DesignatedInvalid": "Null",
+                "CallTooDeep": "Null",
+                "CreateCollision": "Null",
+                "CreateContractLimit": "Null",
+                "OutOfOffset": "Null",
+                "OutOfGas": "Null",
+                "OutOfFund": "Null",
+                "PCUnderflow": "Null",
+                "CreateEmpty": "Null",
+                "Other": "Text",
+                "InvalidCode": "Null"
+              }
+            },
+            "EvmCoreErrorExitRevert": {
+              "_enum": [
+                "Reverted"
+              ]
+            },
+            "EvmCoreErrorExitFatal": {
+              "_enum": {
+                "NotSupported": "Null",
+                "UnhandledInterrupt": "Null",
+                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "Other": "Text"
+              }
+            },
             "AcalaStakingLedge": {
               "bonded": "Compact<Balance>",
               "unlocking": "Vec<UnlockChunk>"
@@ -29234,6 +31877,72 @@ export const typesBundle = {
               "value": "Option<U128>",
               "data": "Option<Bytes>"
             },
+            "CallInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "Vec<u8>",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "CreateInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "H160",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "EthereumLog": {
+              "address": "H160",
+              "topics": "Vec<H256>",
+              "data": "Bytes"
+            },
+            "EvmCoreErrorExitReason": {
+              "_enum": {
+                "Succeed": "EvmCoreErrorExitSucceed",
+                "Error": "EvmCoreErrorExitError",
+                "Revert": "EvmCoreErrorExitRevert",
+                "Fatal": "EvmCoreErrorExitFatal"
+              }
+            },
+            "EvmCoreErrorExitSucceed": {
+              "_enum": [
+                "Stopped",
+                "Returned",
+                "Suicided"
+              ]
+            },
+            "EvmCoreErrorExitError": {
+              "_enum": {
+                "StackUnderflow": "Null",
+                "StackOverflow": "Null",
+                "InvalidJump": "Null",
+                "InvalidRange": "Null",
+                "DesignatedInvalid": "Null",
+                "CallTooDeep": "Null",
+                "CreateCollision": "Null",
+                "CreateContractLimit": "Null",
+                "OutOfOffset": "Null",
+                "OutOfGas": "Null",
+                "OutOfFund": "Null",
+                "PCUnderflow": "Null",
+                "CreateEmpty": "Null",
+                "Other": "Text",
+                "InvalidCode": "Null"
+              }
+            },
+            "EvmCoreErrorExitRevert": {
+              "_enum": [
+                "Reverted"
+              ]
+            },
+            "EvmCoreErrorExitFatal": {
+              "_enum": {
+                "NotSupported": "Null",
+                "UnhandledInterrupt": "Null",
+                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "Other": "Text"
+              }
+            },
             "AcalaStakingLedge": {
               "bonded": "Compact<Balance>",
               "unlocking": "Vec<UnlockChunk>"
@@ -29655,6 +32364,72 @@ export const typesBundle = {
               "storageLimit": "Option<u32>",
               "value": "Option<U128>",
               "data": "Option<Bytes>"
+            },
+            "CallInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "Vec<u8>",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "CreateInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "H160",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "EthereumLog": {
+              "address": "H160",
+              "topics": "Vec<H256>",
+              "data": "Bytes"
+            },
+            "EvmCoreErrorExitReason": {
+              "_enum": {
+                "Succeed": "EvmCoreErrorExitSucceed",
+                "Error": "EvmCoreErrorExitError",
+                "Revert": "EvmCoreErrorExitRevert",
+                "Fatal": "EvmCoreErrorExitFatal"
+              }
+            },
+            "EvmCoreErrorExitSucceed": {
+              "_enum": [
+                "Stopped",
+                "Returned",
+                "Suicided"
+              ]
+            },
+            "EvmCoreErrorExitError": {
+              "_enum": {
+                "StackUnderflow": "Null",
+                "StackOverflow": "Null",
+                "InvalidJump": "Null",
+                "InvalidRange": "Null",
+                "DesignatedInvalid": "Null",
+                "CallTooDeep": "Null",
+                "CreateCollision": "Null",
+                "CreateContractLimit": "Null",
+                "OutOfOffset": "Null",
+                "OutOfGas": "Null",
+                "OutOfFund": "Null",
+                "PCUnderflow": "Null",
+                "CreateEmpty": "Null",
+                "Other": "Text",
+                "InvalidCode": "Null"
+              }
+            },
+            "EvmCoreErrorExitRevert": {
+              "_enum": [
+                "Reverted"
+              ]
+            },
+            "EvmCoreErrorExitFatal": {
+              "_enum": {
+                "NotSupported": "Null",
+                "UnhandledInterrupt": "Null",
+                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "Other": "Text"
+              }
             },
             "AcalaStakingLedge": {
               "bonded": "Compact<Balance>",
@@ -30280,6 +33055,72 @@ export const typesBundle = {
               "value": "Option<U128>",
               "data": "Option<Bytes>"
             },
+            "CallInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "Vec<u8>",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "CreateInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "H160",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "EthereumLog": {
+              "address": "H160",
+              "topics": "Vec<H256>",
+              "data": "Bytes"
+            },
+            "EvmCoreErrorExitReason": {
+              "_enum": {
+                "Succeed": "EvmCoreErrorExitSucceed",
+                "Error": "EvmCoreErrorExitError",
+                "Revert": "EvmCoreErrorExitRevert",
+                "Fatal": "EvmCoreErrorExitFatal"
+              }
+            },
+            "EvmCoreErrorExitSucceed": {
+              "_enum": [
+                "Stopped",
+                "Returned",
+                "Suicided"
+              ]
+            },
+            "EvmCoreErrorExitError": {
+              "_enum": {
+                "StackUnderflow": "Null",
+                "StackOverflow": "Null",
+                "InvalidJump": "Null",
+                "InvalidRange": "Null",
+                "DesignatedInvalid": "Null",
+                "CallTooDeep": "Null",
+                "CreateCollision": "Null",
+                "CreateContractLimit": "Null",
+                "OutOfOffset": "Null",
+                "OutOfGas": "Null",
+                "OutOfFund": "Null",
+                "PCUnderflow": "Null",
+                "CreateEmpty": "Null",
+                "Other": "Text",
+                "InvalidCode": "Null"
+              }
+            },
+            "EvmCoreErrorExitRevert": {
+              "_enum": [
+                "Reverted"
+              ]
+            },
+            "EvmCoreErrorExitFatal": {
+              "_enum": {
+                "NotSupported": "Null",
+                "UnhandledInterrupt": "Null",
+                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "Other": "Text"
+              }
+            },
             "AcalaStakingLedge": {
               "bonded": "Compact<Balance>",
               "unlocking": "Vec<UnlockChunk>"
@@ -30694,6 +33535,72 @@ export const typesBundle = {
               "storageLimit": "Option<u32>",
               "value": "Option<U128>",
               "data": "Option<Bytes>"
+            },
+            "CallInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "Vec<u8>",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "CreateInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "H160",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "EthereumLog": {
+              "address": "H160",
+              "topics": "Vec<H256>",
+              "data": "Bytes"
+            },
+            "EvmCoreErrorExitReason": {
+              "_enum": {
+                "Succeed": "EvmCoreErrorExitSucceed",
+                "Error": "EvmCoreErrorExitError",
+                "Revert": "EvmCoreErrorExitRevert",
+                "Fatal": "EvmCoreErrorExitFatal"
+              }
+            },
+            "EvmCoreErrorExitSucceed": {
+              "_enum": [
+                "Stopped",
+                "Returned",
+                "Suicided"
+              ]
+            },
+            "EvmCoreErrorExitError": {
+              "_enum": {
+                "StackUnderflow": "Null",
+                "StackOverflow": "Null",
+                "InvalidJump": "Null",
+                "InvalidRange": "Null",
+                "DesignatedInvalid": "Null",
+                "CallTooDeep": "Null",
+                "CreateCollision": "Null",
+                "CreateContractLimit": "Null",
+                "OutOfOffset": "Null",
+                "OutOfGas": "Null",
+                "OutOfFund": "Null",
+                "PCUnderflow": "Null",
+                "CreateEmpty": "Null",
+                "Other": "Text",
+                "InvalidCode": "Null"
+              }
+            },
+            "EvmCoreErrorExitRevert": {
+              "_enum": [
+                "Reverted"
+              ]
+            },
+            "EvmCoreErrorExitFatal": {
+              "_enum": {
+                "NotSupported": "Null",
+                "UnhandledInterrupt": "Null",
+                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "Other": "Text"
+              }
             },
             "AcalaStakingLedge": {
               "bonded": "Compact<Balance>",
@@ -31117,6 +34024,72 @@ export const typesBundle = {
               "storageLimit": "Option<u32>",
               "value": "Option<U128>",
               "data": "Option<Bytes>"
+            },
+            "CallInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "Vec<u8>",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "CreateInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "H160",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "EthereumLog": {
+              "address": "H160",
+              "topics": "Vec<H256>",
+              "data": "Bytes"
+            },
+            "EvmCoreErrorExitReason": {
+              "_enum": {
+                "Succeed": "EvmCoreErrorExitSucceed",
+                "Error": "EvmCoreErrorExitError",
+                "Revert": "EvmCoreErrorExitRevert",
+                "Fatal": "EvmCoreErrorExitFatal"
+              }
+            },
+            "EvmCoreErrorExitSucceed": {
+              "_enum": [
+                "Stopped",
+                "Returned",
+                "Suicided"
+              ]
+            },
+            "EvmCoreErrorExitError": {
+              "_enum": {
+                "StackUnderflow": "Null",
+                "StackOverflow": "Null",
+                "InvalidJump": "Null",
+                "InvalidRange": "Null",
+                "DesignatedInvalid": "Null",
+                "CallTooDeep": "Null",
+                "CreateCollision": "Null",
+                "CreateContractLimit": "Null",
+                "OutOfOffset": "Null",
+                "OutOfGas": "Null",
+                "OutOfFund": "Null",
+                "PCUnderflow": "Null",
+                "CreateEmpty": "Null",
+                "Other": "Text",
+                "InvalidCode": "Null"
+              }
+            },
+            "EvmCoreErrorExitRevert": {
+              "_enum": [
+                "Reverted"
+              ]
+            },
+            "EvmCoreErrorExitFatal": {
+              "_enum": {
+                "NotSupported": "Null",
+                "UnhandledInterrupt": "Null",
+                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "Other": "Text"
+              }
             },
             "AcalaStakingLedge": {
               "bonded": "Compact<Balance>",
@@ -31542,6 +34515,72 @@ export const typesBundle = {
               "value": "Option<U128>",
               "data": "Option<Bytes>"
             },
+            "CallInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "Vec<u8>",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "CreateInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "H160",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "EthereumLog": {
+              "address": "H160",
+              "topics": "Vec<H256>",
+              "data": "Bytes"
+            },
+            "EvmCoreErrorExitReason": {
+              "_enum": {
+                "Succeed": "EvmCoreErrorExitSucceed",
+                "Error": "EvmCoreErrorExitError",
+                "Revert": "EvmCoreErrorExitRevert",
+                "Fatal": "EvmCoreErrorExitFatal"
+              }
+            },
+            "EvmCoreErrorExitSucceed": {
+              "_enum": [
+                "Stopped",
+                "Returned",
+                "Suicided"
+              ]
+            },
+            "EvmCoreErrorExitError": {
+              "_enum": {
+                "StackUnderflow": "Null",
+                "StackOverflow": "Null",
+                "InvalidJump": "Null",
+                "InvalidRange": "Null",
+                "DesignatedInvalid": "Null",
+                "CallTooDeep": "Null",
+                "CreateCollision": "Null",
+                "CreateContractLimit": "Null",
+                "OutOfOffset": "Null",
+                "OutOfGas": "Null",
+                "OutOfFund": "Null",
+                "PCUnderflow": "Null",
+                "CreateEmpty": "Null",
+                "Other": "Text",
+                "InvalidCode": "Null"
+              }
+            },
+            "EvmCoreErrorExitRevert": {
+              "_enum": [
+                "Reverted"
+              ]
+            },
+            "EvmCoreErrorExitFatal": {
+              "_enum": {
+                "NotSupported": "Null",
+                "UnhandledInterrupt": "Null",
+                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "Other": "Text"
+              }
+            },
             "AcalaStakingLedge": {
               "bonded": "Compact<Balance>",
               "unlocking": "Vec<UnlockChunk>"
@@ -31963,6 +35002,72 @@ export const typesBundle = {
               "value": "Option<U128>",
               "data": "Option<Bytes>"
             },
+            "CallInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "Vec<u8>",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "CreateInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "H160",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "EthereumLog": {
+              "address": "H160",
+              "topics": "Vec<H256>",
+              "data": "Bytes"
+            },
+            "EvmCoreErrorExitReason": {
+              "_enum": {
+                "Succeed": "EvmCoreErrorExitSucceed",
+                "Error": "EvmCoreErrorExitError",
+                "Revert": "EvmCoreErrorExitRevert",
+                "Fatal": "EvmCoreErrorExitFatal"
+              }
+            },
+            "EvmCoreErrorExitSucceed": {
+              "_enum": [
+                "Stopped",
+                "Returned",
+                "Suicided"
+              ]
+            },
+            "EvmCoreErrorExitError": {
+              "_enum": {
+                "StackUnderflow": "Null",
+                "StackOverflow": "Null",
+                "InvalidJump": "Null",
+                "InvalidRange": "Null",
+                "DesignatedInvalid": "Null",
+                "CallTooDeep": "Null",
+                "CreateCollision": "Null",
+                "CreateContractLimit": "Null",
+                "OutOfOffset": "Null",
+                "OutOfGas": "Null",
+                "OutOfFund": "Null",
+                "PCUnderflow": "Null",
+                "CreateEmpty": "Null",
+                "Other": "Text",
+                "InvalidCode": "Null"
+              }
+            },
+            "EvmCoreErrorExitRevert": {
+              "_enum": [
+                "Reverted"
+              ]
+            },
+            "EvmCoreErrorExitFatal": {
+              "_enum": {
+                "NotSupported": "Null",
+                "UnhandledInterrupt": "Null",
+                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "Other": "Text"
+              }
+            },
             "AcalaStakingLedge": {
               "bonded": "Compact<Balance>",
               "unlocking": "Vec<UnlockChunk>"
@@ -32383,6 +35488,72 @@ export const typesBundle = {
               "storageLimit": "Option<u32>",
               "value": "Option<U128>",
               "data": "Option<Bytes>"
+            },
+            "CallInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "Vec<u8>",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "CreateInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "H160",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "EthereumLog": {
+              "address": "H160",
+              "topics": "Vec<H256>",
+              "data": "Bytes"
+            },
+            "EvmCoreErrorExitReason": {
+              "_enum": {
+                "Succeed": "EvmCoreErrorExitSucceed",
+                "Error": "EvmCoreErrorExitError",
+                "Revert": "EvmCoreErrorExitRevert",
+                "Fatal": "EvmCoreErrorExitFatal"
+              }
+            },
+            "EvmCoreErrorExitSucceed": {
+              "_enum": [
+                "Stopped",
+                "Returned",
+                "Suicided"
+              ]
+            },
+            "EvmCoreErrorExitError": {
+              "_enum": {
+                "StackUnderflow": "Null",
+                "StackOverflow": "Null",
+                "InvalidJump": "Null",
+                "InvalidRange": "Null",
+                "DesignatedInvalid": "Null",
+                "CallTooDeep": "Null",
+                "CreateCollision": "Null",
+                "CreateContractLimit": "Null",
+                "OutOfOffset": "Null",
+                "OutOfGas": "Null",
+                "OutOfFund": "Null",
+                "PCUnderflow": "Null",
+                "CreateEmpty": "Null",
+                "Other": "Text",
+                "InvalidCode": "Null"
+              }
+            },
+            "EvmCoreErrorExitRevert": {
+              "_enum": [
+                "Reverted"
+              ]
+            },
+            "EvmCoreErrorExitFatal": {
+              "_enum": {
+                "NotSupported": "Null",
+                "UnhandledInterrupt": "Null",
+                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "Other": "Text"
+              }
             },
             "AcalaStakingLedge": {
               "bonded": "Compact<Balance>",
@@ -32810,6 +35981,72 @@ export const typesBundle = {
               "value": "Option<U128>",
               "data": "Option<Bytes>"
             },
+            "CallInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "Vec<u8>",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "CreateInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "H160",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "EthereumLog": {
+              "address": "H160",
+              "topics": "Vec<H256>",
+              "data": "Bytes"
+            },
+            "EvmCoreErrorExitReason": {
+              "_enum": {
+                "Succeed": "EvmCoreErrorExitSucceed",
+                "Error": "EvmCoreErrorExitError",
+                "Revert": "EvmCoreErrorExitRevert",
+                "Fatal": "EvmCoreErrorExitFatal"
+              }
+            },
+            "EvmCoreErrorExitSucceed": {
+              "_enum": [
+                "Stopped",
+                "Returned",
+                "Suicided"
+              ]
+            },
+            "EvmCoreErrorExitError": {
+              "_enum": {
+                "StackUnderflow": "Null",
+                "StackOverflow": "Null",
+                "InvalidJump": "Null",
+                "InvalidRange": "Null",
+                "DesignatedInvalid": "Null",
+                "CallTooDeep": "Null",
+                "CreateCollision": "Null",
+                "CreateContractLimit": "Null",
+                "OutOfOffset": "Null",
+                "OutOfGas": "Null",
+                "OutOfFund": "Null",
+                "PCUnderflow": "Null",
+                "CreateEmpty": "Null",
+                "Other": "Text",
+                "InvalidCode": "Null"
+              }
+            },
+            "EvmCoreErrorExitRevert": {
+              "_enum": [
+                "Reverted"
+              ]
+            },
+            "EvmCoreErrorExitFatal": {
+              "_enum": {
+                "NotSupported": "Null",
+                "UnhandledInterrupt": "Null",
+                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "Other": "Text"
+              }
+            },
             "AcalaStakingLedge": {
               "bonded": "Compact<Balance>",
               "unlocking": "Vec<UnlockChunk>"
@@ -33235,6 +36472,72 @@ export const typesBundle = {
               "value": "Option<U128>",
               "data": "Option<Bytes>"
             },
+            "CallInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "Vec<u8>",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "CreateInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "H160",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "EthereumLog": {
+              "address": "H160",
+              "topics": "Vec<H256>",
+              "data": "Bytes"
+            },
+            "EvmCoreErrorExitReason": {
+              "_enum": {
+                "Succeed": "EvmCoreErrorExitSucceed",
+                "Error": "EvmCoreErrorExitError",
+                "Revert": "EvmCoreErrorExitRevert",
+                "Fatal": "EvmCoreErrorExitFatal"
+              }
+            },
+            "EvmCoreErrorExitSucceed": {
+              "_enum": [
+                "Stopped",
+                "Returned",
+                "Suicided"
+              ]
+            },
+            "EvmCoreErrorExitError": {
+              "_enum": {
+                "StackUnderflow": "Null",
+                "StackOverflow": "Null",
+                "InvalidJump": "Null",
+                "InvalidRange": "Null",
+                "DesignatedInvalid": "Null",
+                "CallTooDeep": "Null",
+                "CreateCollision": "Null",
+                "CreateContractLimit": "Null",
+                "OutOfOffset": "Null",
+                "OutOfGas": "Null",
+                "OutOfFund": "Null",
+                "PCUnderflow": "Null",
+                "CreateEmpty": "Null",
+                "Other": "Text",
+                "InvalidCode": "Null"
+              }
+            },
+            "EvmCoreErrorExitRevert": {
+              "_enum": [
+                "Reverted"
+              ]
+            },
+            "EvmCoreErrorExitFatal": {
+              "_enum": {
+                "NotSupported": "Null",
+                "UnhandledInterrupt": "Null",
+                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "Other": "Text"
+              }
+            },
             "AcalaStakingLedge": {
               "bonded": "Compact<Balance>",
               "unlocking": "Vec<UnlockChunk>"
@@ -33657,6 +36960,72 @@ export const typesBundle = {
               "value": "Option<U128>",
               "data": "Option<Bytes>"
             },
+            "CallInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "Vec<u8>",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "CreateInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "H160",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "EthereumLog": {
+              "address": "H160",
+              "topics": "Vec<H256>",
+              "data": "Bytes"
+            },
+            "EvmCoreErrorExitReason": {
+              "_enum": {
+                "Succeed": "EvmCoreErrorExitSucceed",
+                "Error": "EvmCoreErrorExitError",
+                "Revert": "EvmCoreErrorExitRevert",
+                "Fatal": "EvmCoreErrorExitFatal"
+              }
+            },
+            "EvmCoreErrorExitSucceed": {
+              "_enum": [
+                "Stopped",
+                "Returned",
+                "Suicided"
+              ]
+            },
+            "EvmCoreErrorExitError": {
+              "_enum": {
+                "StackUnderflow": "Null",
+                "StackOverflow": "Null",
+                "InvalidJump": "Null",
+                "InvalidRange": "Null",
+                "DesignatedInvalid": "Null",
+                "CallTooDeep": "Null",
+                "CreateCollision": "Null",
+                "CreateContractLimit": "Null",
+                "OutOfOffset": "Null",
+                "OutOfGas": "Null",
+                "OutOfFund": "Null",
+                "PCUnderflow": "Null",
+                "CreateEmpty": "Null",
+                "Other": "Text",
+                "InvalidCode": "Null"
+              }
+            },
+            "EvmCoreErrorExitRevert": {
+              "_enum": [
+                "Reverted"
+              ]
+            },
+            "EvmCoreErrorExitFatal": {
+              "_enum": {
+                "NotSupported": "Null",
+                "UnhandledInterrupt": "Null",
+                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "Other": "Text"
+              }
+            },
             "AcalaStakingLedge": {
               "bonded": "Compact<Balance>",
               "unlocking": "Vec<UnlockChunk>"
@@ -34078,6 +37447,72 @@ export const typesBundle = {
               "storageLimit": "Option<u32>",
               "value": "Option<U128>",
               "data": "Option<Bytes>"
+            },
+            "CallInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "Vec<u8>",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "CreateInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "H160",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "EthereumLog": {
+              "address": "H160",
+              "topics": "Vec<H256>",
+              "data": "Bytes"
+            },
+            "EvmCoreErrorExitReason": {
+              "_enum": {
+                "Succeed": "EvmCoreErrorExitSucceed",
+                "Error": "EvmCoreErrorExitError",
+                "Revert": "EvmCoreErrorExitRevert",
+                "Fatal": "EvmCoreErrorExitFatal"
+              }
+            },
+            "EvmCoreErrorExitSucceed": {
+              "_enum": [
+                "Stopped",
+                "Returned",
+                "Suicided"
+              ]
+            },
+            "EvmCoreErrorExitError": {
+              "_enum": {
+                "StackUnderflow": "Null",
+                "StackOverflow": "Null",
+                "InvalidJump": "Null",
+                "InvalidRange": "Null",
+                "DesignatedInvalid": "Null",
+                "CallTooDeep": "Null",
+                "CreateCollision": "Null",
+                "CreateContractLimit": "Null",
+                "OutOfOffset": "Null",
+                "OutOfGas": "Null",
+                "OutOfFund": "Null",
+                "PCUnderflow": "Null",
+                "CreateEmpty": "Null",
+                "Other": "Text",
+                "InvalidCode": "Null"
+              }
+            },
+            "EvmCoreErrorExitRevert": {
+              "_enum": [
+                "Reverted"
+              ]
+            },
+            "EvmCoreErrorExitFatal": {
+              "_enum": {
+                "NotSupported": "Null",
+                "UnhandledInterrupt": "Null",
+                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "Other": "Text"
+              }
             },
             "AcalaStakingLedge": {
               "bonded": "Compact<Balance>",
@@ -34703,6 +38138,72 @@ export const typesBundle = {
               "value": "Option<U128>",
               "data": "Option<Bytes>"
             },
+            "CallInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "Vec<u8>",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "CreateInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "H160",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "EthereumLog": {
+              "address": "H160",
+              "topics": "Vec<H256>",
+              "data": "Bytes"
+            },
+            "EvmCoreErrorExitReason": {
+              "_enum": {
+                "Succeed": "EvmCoreErrorExitSucceed",
+                "Error": "EvmCoreErrorExitError",
+                "Revert": "EvmCoreErrorExitRevert",
+                "Fatal": "EvmCoreErrorExitFatal"
+              }
+            },
+            "EvmCoreErrorExitSucceed": {
+              "_enum": [
+                "Stopped",
+                "Returned",
+                "Suicided"
+              ]
+            },
+            "EvmCoreErrorExitError": {
+              "_enum": {
+                "StackUnderflow": "Null",
+                "StackOverflow": "Null",
+                "InvalidJump": "Null",
+                "InvalidRange": "Null",
+                "DesignatedInvalid": "Null",
+                "CallTooDeep": "Null",
+                "CreateCollision": "Null",
+                "CreateContractLimit": "Null",
+                "OutOfOffset": "Null",
+                "OutOfGas": "Null",
+                "OutOfFund": "Null",
+                "PCUnderflow": "Null",
+                "CreateEmpty": "Null",
+                "Other": "Text",
+                "InvalidCode": "Null"
+              }
+            },
+            "EvmCoreErrorExitRevert": {
+              "_enum": [
+                "Reverted"
+              ]
+            },
+            "EvmCoreErrorExitFatal": {
+              "_enum": {
+                "NotSupported": "Null",
+                "UnhandledInterrupt": "Null",
+                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "Other": "Text"
+              }
+            },
             "AcalaStakingLedge": {
               "bonded": "Compact<Balance>",
               "unlocking": "Vec<UnlockChunk>"
@@ -35117,6 +38618,72 @@ export const typesBundle = {
               "storageLimit": "Option<u32>",
               "value": "Option<U128>",
               "data": "Option<Bytes>"
+            },
+            "CallInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "Vec<u8>",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "CreateInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "H160",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "EthereumLog": {
+              "address": "H160",
+              "topics": "Vec<H256>",
+              "data": "Bytes"
+            },
+            "EvmCoreErrorExitReason": {
+              "_enum": {
+                "Succeed": "EvmCoreErrorExitSucceed",
+                "Error": "EvmCoreErrorExitError",
+                "Revert": "EvmCoreErrorExitRevert",
+                "Fatal": "EvmCoreErrorExitFatal"
+              }
+            },
+            "EvmCoreErrorExitSucceed": {
+              "_enum": [
+                "Stopped",
+                "Returned",
+                "Suicided"
+              ]
+            },
+            "EvmCoreErrorExitError": {
+              "_enum": {
+                "StackUnderflow": "Null",
+                "StackOverflow": "Null",
+                "InvalidJump": "Null",
+                "InvalidRange": "Null",
+                "DesignatedInvalid": "Null",
+                "CallTooDeep": "Null",
+                "CreateCollision": "Null",
+                "CreateContractLimit": "Null",
+                "OutOfOffset": "Null",
+                "OutOfGas": "Null",
+                "OutOfFund": "Null",
+                "PCUnderflow": "Null",
+                "CreateEmpty": "Null",
+                "Other": "Text",
+                "InvalidCode": "Null"
+              }
+            },
+            "EvmCoreErrorExitRevert": {
+              "_enum": [
+                "Reverted"
+              ]
+            },
+            "EvmCoreErrorExitFatal": {
+              "_enum": {
+                "NotSupported": "Null",
+                "UnhandledInterrupt": "Null",
+                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "Other": "Text"
+              }
             },
             "AcalaStakingLedge": {
               "bonded": "Compact<Balance>",
@@ -35540,6 +39107,72 @@ export const typesBundle = {
               "storageLimit": "Option<u32>",
               "value": "Option<U128>",
               "data": "Option<Bytes>"
+            },
+            "CallInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "Vec<u8>",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "CreateInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "H160",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "EthereumLog": {
+              "address": "H160",
+              "topics": "Vec<H256>",
+              "data": "Bytes"
+            },
+            "EvmCoreErrorExitReason": {
+              "_enum": {
+                "Succeed": "EvmCoreErrorExitSucceed",
+                "Error": "EvmCoreErrorExitError",
+                "Revert": "EvmCoreErrorExitRevert",
+                "Fatal": "EvmCoreErrorExitFatal"
+              }
+            },
+            "EvmCoreErrorExitSucceed": {
+              "_enum": [
+                "Stopped",
+                "Returned",
+                "Suicided"
+              ]
+            },
+            "EvmCoreErrorExitError": {
+              "_enum": {
+                "StackUnderflow": "Null",
+                "StackOverflow": "Null",
+                "InvalidJump": "Null",
+                "InvalidRange": "Null",
+                "DesignatedInvalid": "Null",
+                "CallTooDeep": "Null",
+                "CreateCollision": "Null",
+                "CreateContractLimit": "Null",
+                "OutOfOffset": "Null",
+                "OutOfGas": "Null",
+                "OutOfFund": "Null",
+                "PCUnderflow": "Null",
+                "CreateEmpty": "Null",
+                "Other": "Text",
+                "InvalidCode": "Null"
+              }
+            },
+            "EvmCoreErrorExitRevert": {
+              "_enum": [
+                "Reverted"
+              ]
+            },
+            "EvmCoreErrorExitFatal": {
+              "_enum": {
+                "NotSupported": "Null",
+                "UnhandledInterrupt": "Null",
+                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "Other": "Text"
+              }
             },
             "AcalaStakingLedge": {
               "bonded": "Compact<Balance>",
@@ -35965,6 +39598,72 @@ export const typesBundle = {
               "value": "Option<U128>",
               "data": "Option<Bytes>"
             },
+            "CallInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "Vec<u8>",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "CreateInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "H160",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "EthereumLog": {
+              "address": "H160",
+              "topics": "Vec<H256>",
+              "data": "Bytes"
+            },
+            "EvmCoreErrorExitReason": {
+              "_enum": {
+                "Succeed": "EvmCoreErrorExitSucceed",
+                "Error": "EvmCoreErrorExitError",
+                "Revert": "EvmCoreErrorExitRevert",
+                "Fatal": "EvmCoreErrorExitFatal"
+              }
+            },
+            "EvmCoreErrorExitSucceed": {
+              "_enum": [
+                "Stopped",
+                "Returned",
+                "Suicided"
+              ]
+            },
+            "EvmCoreErrorExitError": {
+              "_enum": {
+                "StackUnderflow": "Null",
+                "StackOverflow": "Null",
+                "InvalidJump": "Null",
+                "InvalidRange": "Null",
+                "DesignatedInvalid": "Null",
+                "CallTooDeep": "Null",
+                "CreateCollision": "Null",
+                "CreateContractLimit": "Null",
+                "OutOfOffset": "Null",
+                "OutOfGas": "Null",
+                "OutOfFund": "Null",
+                "PCUnderflow": "Null",
+                "CreateEmpty": "Null",
+                "Other": "Text",
+                "InvalidCode": "Null"
+              }
+            },
+            "EvmCoreErrorExitRevert": {
+              "_enum": [
+                "Reverted"
+              ]
+            },
+            "EvmCoreErrorExitFatal": {
+              "_enum": {
+                "NotSupported": "Null",
+                "UnhandledInterrupt": "Null",
+                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "Other": "Text"
+              }
+            },
             "AcalaStakingLedge": {
               "bonded": "Compact<Balance>",
               "unlocking": "Vec<UnlockChunk>"
@@ -36386,6 +40085,72 @@ export const typesBundle = {
               "value": "Option<U128>",
               "data": "Option<Bytes>"
             },
+            "CallInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "Vec<u8>",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "CreateInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "H160",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "EthereumLog": {
+              "address": "H160",
+              "topics": "Vec<H256>",
+              "data": "Bytes"
+            },
+            "EvmCoreErrorExitReason": {
+              "_enum": {
+                "Succeed": "EvmCoreErrorExitSucceed",
+                "Error": "EvmCoreErrorExitError",
+                "Revert": "EvmCoreErrorExitRevert",
+                "Fatal": "EvmCoreErrorExitFatal"
+              }
+            },
+            "EvmCoreErrorExitSucceed": {
+              "_enum": [
+                "Stopped",
+                "Returned",
+                "Suicided"
+              ]
+            },
+            "EvmCoreErrorExitError": {
+              "_enum": {
+                "StackUnderflow": "Null",
+                "StackOverflow": "Null",
+                "InvalidJump": "Null",
+                "InvalidRange": "Null",
+                "DesignatedInvalid": "Null",
+                "CallTooDeep": "Null",
+                "CreateCollision": "Null",
+                "CreateContractLimit": "Null",
+                "OutOfOffset": "Null",
+                "OutOfGas": "Null",
+                "OutOfFund": "Null",
+                "PCUnderflow": "Null",
+                "CreateEmpty": "Null",
+                "Other": "Text",
+                "InvalidCode": "Null"
+              }
+            },
+            "EvmCoreErrorExitRevert": {
+              "_enum": [
+                "Reverted"
+              ]
+            },
+            "EvmCoreErrorExitFatal": {
+              "_enum": {
+                "NotSupported": "Null",
+                "UnhandledInterrupt": "Null",
+                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "Other": "Text"
+              }
+            },
             "AcalaStakingLedge": {
               "bonded": "Compact<Balance>",
               "unlocking": "Vec<UnlockChunk>"
@@ -36806,6 +40571,72 @@ export const typesBundle = {
               "storageLimit": "Option<u32>",
               "value": "Option<U128>",
               "data": "Option<Bytes>"
+            },
+            "CallInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "Vec<u8>",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "CreateInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "H160",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "EthereumLog": {
+              "address": "H160",
+              "topics": "Vec<H256>",
+              "data": "Bytes"
+            },
+            "EvmCoreErrorExitReason": {
+              "_enum": {
+                "Succeed": "EvmCoreErrorExitSucceed",
+                "Error": "EvmCoreErrorExitError",
+                "Revert": "EvmCoreErrorExitRevert",
+                "Fatal": "EvmCoreErrorExitFatal"
+              }
+            },
+            "EvmCoreErrorExitSucceed": {
+              "_enum": [
+                "Stopped",
+                "Returned",
+                "Suicided"
+              ]
+            },
+            "EvmCoreErrorExitError": {
+              "_enum": {
+                "StackUnderflow": "Null",
+                "StackOverflow": "Null",
+                "InvalidJump": "Null",
+                "InvalidRange": "Null",
+                "DesignatedInvalid": "Null",
+                "CallTooDeep": "Null",
+                "CreateCollision": "Null",
+                "CreateContractLimit": "Null",
+                "OutOfOffset": "Null",
+                "OutOfGas": "Null",
+                "OutOfFund": "Null",
+                "PCUnderflow": "Null",
+                "CreateEmpty": "Null",
+                "Other": "Text",
+                "InvalidCode": "Null"
+              }
+            },
+            "EvmCoreErrorExitRevert": {
+              "_enum": [
+                "Reverted"
+              ]
+            },
+            "EvmCoreErrorExitFatal": {
+              "_enum": {
+                "NotSupported": "Null",
+                "UnhandledInterrupt": "Null",
+                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "Other": "Text"
+              }
             },
             "AcalaStakingLedge": {
               "bonded": "Compact<Balance>",
@@ -37233,6 +41064,72 @@ export const typesBundle = {
               "value": "Option<U128>",
               "data": "Option<Bytes>"
             },
+            "CallInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "Vec<u8>",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "CreateInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "H160",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "EthereumLog": {
+              "address": "H160",
+              "topics": "Vec<H256>",
+              "data": "Bytes"
+            },
+            "EvmCoreErrorExitReason": {
+              "_enum": {
+                "Succeed": "EvmCoreErrorExitSucceed",
+                "Error": "EvmCoreErrorExitError",
+                "Revert": "EvmCoreErrorExitRevert",
+                "Fatal": "EvmCoreErrorExitFatal"
+              }
+            },
+            "EvmCoreErrorExitSucceed": {
+              "_enum": [
+                "Stopped",
+                "Returned",
+                "Suicided"
+              ]
+            },
+            "EvmCoreErrorExitError": {
+              "_enum": {
+                "StackUnderflow": "Null",
+                "StackOverflow": "Null",
+                "InvalidJump": "Null",
+                "InvalidRange": "Null",
+                "DesignatedInvalid": "Null",
+                "CallTooDeep": "Null",
+                "CreateCollision": "Null",
+                "CreateContractLimit": "Null",
+                "OutOfOffset": "Null",
+                "OutOfGas": "Null",
+                "OutOfFund": "Null",
+                "PCUnderflow": "Null",
+                "CreateEmpty": "Null",
+                "Other": "Text",
+                "InvalidCode": "Null"
+              }
+            },
+            "EvmCoreErrorExitRevert": {
+              "_enum": [
+                "Reverted"
+              ]
+            },
+            "EvmCoreErrorExitFatal": {
+              "_enum": {
+                "NotSupported": "Null",
+                "UnhandledInterrupt": "Null",
+                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "Other": "Text"
+              }
+            },
             "AcalaStakingLedge": {
               "bonded": "Compact<Balance>",
               "unlocking": "Vec<UnlockChunk>"
@@ -37658,6 +41555,72 @@ export const typesBundle = {
               "value": "Option<U128>",
               "data": "Option<Bytes>"
             },
+            "CallInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "Vec<u8>",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "CreateInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "H160",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "EthereumLog": {
+              "address": "H160",
+              "topics": "Vec<H256>",
+              "data": "Bytes"
+            },
+            "EvmCoreErrorExitReason": {
+              "_enum": {
+                "Succeed": "EvmCoreErrorExitSucceed",
+                "Error": "EvmCoreErrorExitError",
+                "Revert": "EvmCoreErrorExitRevert",
+                "Fatal": "EvmCoreErrorExitFatal"
+              }
+            },
+            "EvmCoreErrorExitSucceed": {
+              "_enum": [
+                "Stopped",
+                "Returned",
+                "Suicided"
+              ]
+            },
+            "EvmCoreErrorExitError": {
+              "_enum": {
+                "StackUnderflow": "Null",
+                "StackOverflow": "Null",
+                "InvalidJump": "Null",
+                "InvalidRange": "Null",
+                "DesignatedInvalid": "Null",
+                "CallTooDeep": "Null",
+                "CreateCollision": "Null",
+                "CreateContractLimit": "Null",
+                "OutOfOffset": "Null",
+                "OutOfGas": "Null",
+                "OutOfFund": "Null",
+                "PCUnderflow": "Null",
+                "CreateEmpty": "Null",
+                "Other": "Text",
+                "InvalidCode": "Null"
+              }
+            },
+            "EvmCoreErrorExitRevert": {
+              "_enum": [
+                "Reverted"
+              ]
+            },
+            "EvmCoreErrorExitFatal": {
+              "_enum": {
+                "NotSupported": "Null",
+                "UnhandledInterrupt": "Null",
+                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "Other": "Text"
+              }
+            },
             "AcalaStakingLedge": {
               "bonded": "Compact<Balance>",
               "unlocking": "Vec<UnlockChunk>"
@@ -38080,6 +42043,72 @@ export const typesBundle = {
               "value": "Option<U128>",
               "data": "Option<Bytes>"
             },
+            "CallInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "Vec<u8>",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "CreateInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "H160",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "EthereumLog": {
+              "address": "H160",
+              "topics": "Vec<H256>",
+              "data": "Bytes"
+            },
+            "EvmCoreErrorExitReason": {
+              "_enum": {
+                "Succeed": "EvmCoreErrorExitSucceed",
+                "Error": "EvmCoreErrorExitError",
+                "Revert": "EvmCoreErrorExitRevert",
+                "Fatal": "EvmCoreErrorExitFatal"
+              }
+            },
+            "EvmCoreErrorExitSucceed": {
+              "_enum": [
+                "Stopped",
+                "Returned",
+                "Suicided"
+              ]
+            },
+            "EvmCoreErrorExitError": {
+              "_enum": {
+                "StackUnderflow": "Null",
+                "StackOverflow": "Null",
+                "InvalidJump": "Null",
+                "InvalidRange": "Null",
+                "DesignatedInvalid": "Null",
+                "CallTooDeep": "Null",
+                "CreateCollision": "Null",
+                "CreateContractLimit": "Null",
+                "OutOfOffset": "Null",
+                "OutOfGas": "Null",
+                "OutOfFund": "Null",
+                "PCUnderflow": "Null",
+                "CreateEmpty": "Null",
+                "Other": "Text",
+                "InvalidCode": "Null"
+              }
+            },
+            "EvmCoreErrorExitRevert": {
+              "_enum": [
+                "Reverted"
+              ]
+            },
+            "EvmCoreErrorExitFatal": {
+              "_enum": {
+                "NotSupported": "Null",
+                "UnhandledInterrupt": "Null",
+                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "Other": "Text"
+              }
+            },
             "AcalaStakingLedge": {
               "bonded": "Compact<Balance>",
               "unlocking": "Vec<UnlockChunk>"
@@ -38501,6 +42530,72 @@ export const typesBundle = {
               "storageLimit": "Option<u32>",
               "value": "Option<U128>",
               "data": "Option<Bytes>"
+            },
+            "CallInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "Vec<u8>",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "CreateInfo": {
+              "exit_reason": "EvmCoreErrorExitReason",
+              "value": "H160",
+              "used_gas": "U256",
+              "used_storage": "i32",
+              "logs": "Vec<EthereumLog>"
+            },
+            "EthereumLog": {
+              "address": "H160",
+              "topics": "Vec<H256>",
+              "data": "Bytes"
+            },
+            "EvmCoreErrorExitReason": {
+              "_enum": {
+                "Succeed": "EvmCoreErrorExitSucceed",
+                "Error": "EvmCoreErrorExitError",
+                "Revert": "EvmCoreErrorExitRevert",
+                "Fatal": "EvmCoreErrorExitFatal"
+              }
+            },
+            "EvmCoreErrorExitSucceed": {
+              "_enum": [
+                "Stopped",
+                "Returned",
+                "Suicided"
+              ]
+            },
+            "EvmCoreErrorExitError": {
+              "_enum": {
+                "StackUnderflow": "Null",
+                "StackOverflow": "Null",
+                "InvalidJump": "Null",
+                "InvalidRange": "Null",
+                "DesignatedInvalid": "Null",
+                "CallTooDeep": "Null",
+                "CreateCollision": "Null",
+                "CreateContractLimit": "Null",
+                "OutOfOffset": "Null",
+                "OutOfGas": "Null",
+                "OutOfFund": "Null",
+                "PCUnderflow": "Null",
+                "CreateEmpty": "Null",
+                "Other": "Text",
+                "InvalidCode": "Null"
+              }
+            },
+            "EvmCoreErrorExitRevert": {
+              "_enum": [
+                "Reverted"
+              ]
+            },
+            "EvmCoreErrorExitFatal": {
+              "_enum": {
+                "NotSupported": "Null",
+                "UnhandledInterrupt": "Null",
+                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "Other": "Text"
+              }
             },
             "AcalaStakingLedge": {
               "bonded": "Compact<Balance>",
@@ -49824,6 +53919,22 @@ export const typesBundle = {
     },
     "frequency": {
       "rpc": {
+        "messages": {
+          "getBySchemaId": {
+            "description": "Get messages by schemaId paginated",
+            "params": [
+              {
+                "name": "schema_id",
+                "type": "SchemaId"
+              },
+              {
+                "name": "pagination",
+                "type": "BlockPaginationRequest"
+              }
+            ],
+            "type": "BlockPaginationResponseMessage"
+          }
+        },
         "msa": {
           "checkDelegations": {
             "description": "Test a list of MSAs to see if they have delegated to the provider MSA",
@@ -49862,22 +53973,6 @@ export const typesBundle = {
             "type": "Option<Vec<SchemaId>>"
           }
         },
-        "messages": {
-          "getBySchemaId": {
-            "description": "Get messages by schemaId paginated",
-            "params": [
-              {
-                "name": "schema_id",
-                "type": "SchemaId"
-              },
-              {
-                "name": "pagination",
-                "type": "BlockPaginationRequest"
-              }
-            ],
-            "type": "BlockPaginationResponseMessage"
-          }
-        },
         "schemas": {
           "getBySchemaId": {
             "description": "Get a Schema by Id",
@@ -49913,13 +54008,6 @@ export const typesBundle = {
             null
           ],
           "types": {
-            "MessageSourceId": "u64",
-            "DelegatorId": "MessageSourceId",
-            "ProviderId": "MessageSourceId",
-            "KeyInfoResponse": {
-              "key": "AccountId",
-              "msaId": "MessageSourceId"
-            },
             "BlockPaginationRequest": {
               "from_block": "BlockNumber",
               "from_index": "u32",
@@ -49940,6 +54028,13 @@ export const typesBundle = {
               "has_next": "bool",
               "next_block": "Option<BlockNumber>",
               "next_index": "Option<u32>"
+            },
+            "MessageSourceId": "u64",
+            "DelegatorId": "MessageSourceId",
+            "ProviderId": "MessageSourceId",
+            "KeyInfoResponse": {
+              "key": "AccountId",
+              "msaId": "MessageSourceId"
             },
             "SchemaId": "u16",
             "SchemaModel": "Vec<u8>",
@@ -49971,6 +54066,41 @@ export const typesBundle = {
         }
       },
       "runtime": {
+        "MessagesRuntimeApi": [
+          {
+            "methods": {
+              "get_messages_by_schema_and_block": {
+                "description": "Retrieve the messages for a particular schema and block number",
+                "params": [
+                  {
+                    "name": "schema_id",
+                    "type": "SchemaId"
+                  },
+                  {
+                    "name": "schema_payload_location",
+                    "type": "PayloadLocation"
+                  },
+                  {
+                    "name": "block_number",
+                    "type": "BlockNumber"
+                  }
+                ],
+                "type": "Vec<MessageResponse>"
+              },
+              "get_schema_by_id": {
+                "description": "Retrieve a schema by id",
+                "params": [
+                  {
+                    "name": "schema_id",
+                    "type": "SchemaId"
+                  }
+                ],
+                "type": "Option<SchemaResponse>"
+              }
+            },
+            "version": 1
+          }
+        ],
         "MsaRuntimeApi": [
           {
             "methods": {
@@ -50009,41 +54139,6 @@ export const typesBundle = {
                   }
                 ],
                 "type": "Option<Vec<SchemaId>>"
-              }
-            },
-            "version": 1
-          }
-        ],
-        "MessagesRuntimeApi": [
-          {
-            "methods": {
-              "get_messages_by_schema_and_block": {
-                "description": "Retrieve the messages for a particular schema and block number",
-                "params": [
-                  {
-                    "name": "schema_id",
-                    "type": "SchemaId"
-                  },
-                  {
-                    "name": "schema_payload_location",
-                    "type": "PayloadLocation"
-                  },
-                  {
-                    "name": "block_number",
-                    "type": "BlockNumber"
-                  }
-                ],
-                "type": "Vec<MessageResponse>"
-              },
-              "get_schema_by_id": {
-                "description": "Retrieve a schema by id",
-                "params": [
-                  {
-                    "name": "schema_id",
-                    "type": "SchemaId"
-                  }
-                ],
-                "type": "Option<SchemaResponse>"
               }
             },
             "version": 1
@@ -50070,6 +54165,22 @@ export const typesBundle = {
     },
     "frequency-rococo": {
       "rpc": {
+        "messages": {
+          "getBySchemaId": {
+            "description": "Get messages by schemaId paginated",
+            "params": [
+              {
+                "name": "schema_id",
+                "type": "SchemaId"
+              },
+              {
+                "name": "pagination",
+                "type": "BlockPaginationRequest"
+              }
+            ],
+            "type": "BlockPaginationResponseMessage"
+          }
+        },
         "msa": {
           "checkDelegations": {
             "description": "Test a list of MSAs to see if they have delegated to the provider MSA",
@@ -50108,22 +54219,6 @@ export const typesBundle = {
             "type": "Option<Vec<SchemaId>>"
           }
         },
-        "messages": {
-          "getBySchemaId": {
-            "description": "Get messages by schemaId paginated",
-            "params": [
-              {
-                "name": "schema_id",
-                "type": "SchemaId"
-              },
-              {
-                "name": "pagination",
-                "type": "BlockPaginationRequest"
-              }
-            ],
-            "type": "BlockPaginationResponseMessage"
-          }
-        },
         "schemas": {
           "getBySchemaId": {
             "description": "Get a Schema by Id",
@@ -50159,13 +54254,6 @@ export const typesBundle = {
             null
           ],
           "types": {
-            "MessageSourceId": "u64",
-            "DelegatorId": "MessageSourceId",
-            "ProviderId": "MessageSourceId",
-            "KeyInfoResponse": {
-              "key": "AccountId",
-              "msaId": "MessageSourceId"
-            },
             "BlockPaginationRequest": {
               "from_block": "BlockNumber",
               "from_index": "u32",
@@ -50186,6 +54274,13 @@ export const typesBundle = {
               "has_next": "bool",
               "next_block": "Option<BlockNumber>",
               "next_index": "Option<u32>"
+            },
+            "MessageSourceId": "u64",
+            "DelegatorId": "MessageSourceId",
+            "ProviderId": "MessageSourceId",
+            "KeyInfoResponse": {
+              "key": "AccountId",
+              "msaId": "MessageSourceId"
             },
             "SchemaId": "u16",
             "SchemaModel": "Vec<u8>",
@@ -50217,6 +54312,41 @@ export const typesBundle = {
         }
       },
       "runtime": {
+        "MessagesRuntimeApi": [
+          {
+            "methods": {
+              "get_messages_by_schema_and_block": {
+                "description": "Retrieve the messages for a particular schema and block number",
+                "params": [
+                  {
+                    "name": "schema_id",
+                    "type": "SchemaId"
+                  },
+                  {
+                    "name": "schema_payload_location",
+                    "type": "PayloadLocation"
+                  },
+                  {
+                    "name": "block_number",
+                    "type": "BlockNumber"
+                  }
+                ],
+                "type": "Vec<MessageResponse>"
+              },
+              "get_schema_by_id": {
+                "description": "Retrieve a schema by id",
+                "params": [
+                  {
+                    "name": "schema_id",
+                    "type": "SchemaId"
+                  }
+                ],
+                "type": "Option<SchemaResponse>"
+              }
+            },
+            "version": 1
+          }
+        ],
         "MsaRuntimeApi": [
           {
             "methods": {
@@ -50255,41 +54385,6 @@ export const typesBundle = {
                   }
                 ],
                 "type": "Option<Vec<SchemaId>>"
-              }
-            },
-            "version": 1
-          }
-        ],
-        "MessagesRuntimeApi": [
-          {
-            "methods": {
-              "get_messages_by_schema_and_block": {
-                "description": "Retrieve the messages for a particular schema and block number",
-                "params": [
-                  {
-                    "name": "schema_id",
-                    "type": "SchemaId"
-                  },
-                  {
-                    "name": "schema_payload_location",
-                    "type": "PayloadLocation"
-                  },
-                  {
-                    "name": "block_number",
-                    "type": "BlockNumber"
-                  }
-                ],
-                "type": "Vec<MessageResponse>"
-              },
-              "get_schema_by_id": {
-                "description": "Retrieve a schema by id",
-                "params": [
-                  {
-                    "name": "schema_id",
-                    "type": "SchemaId"
-                  }
-                ],
-                "type": "Option<SchemaResponse>"
               }
             },
             "version": 1
@@ -51162,1446 +55257,1536 @@ export const typesBundle = {
       ]
     },
     "interbtc-parachain": {
-      "types": [
-        {
-          "minmax": [
-            0,
-            null
-          ],
-          "types": {
-            "BalanceWrapper": {
-              "amount": "String"
-            },
-            "CurrencyId": {
-              "_enum": {
-                "Token": "TokenSymbol",
-                "ForeignAsset": "ForeignAssetId",
-                "LendToken": "LendTokenId",
-                "LpToken": "(LpToken, LpToken)",
-                "StableLpToken": "StablePoolId"
+      "default": {
+        "types": [
+          {
+            "minmax": [
+              0,
+              null
+            ],
+            "types": {
+              "BalanceWrapper": {
+                "amount": "String"
+              },
+              "CurrencyId": {
+                "_enum": {
+                  "Token": "TokenSymbol",
+                  "ForeignAsset": "ForeignAssetId",
+                  "LendToken": "LendTokenId",
+                  "LpToken": "(LpToken, LpToken)",
+                  "StableLpToken": "StablePoolId"
+                }
+              },
+              "LpToken": {
+                "_enum": {
+                  "Token": "TokenSymbol",
+                  "ForeignAsset": "ForeignAssetId",
+                  "StableLpToken": "StablePoolId"
+                }
+              },
+              "InterbtcPrimitivesCurrencyId": {
+                "_enum": {
+                  "Token": "InterbtcPrimitivesTokenSymbol",
+                  "ForeignAsset": "InterbtcForeignAssetId",
+                  "LendToken": "InterbtcLendTokenId",
+                  "LpToken": "(InterbtcLpToken, InterbtcLpToken)",
+                  "StableLpToken": "InterbtcStablePoolId"
+                }
+              },
+              "InterbtcLpToken": {
+                "_enum": {
+                  "Token": "InterbtcPrimitivesTokenSymbol",
+                  "ForeignAsset": "InterbtcForeignAssetId",
+                  "StableLpToken": "InterbtcStablePoolId"
+                }
+              },
+              "InterbtcForeignAssetId": "u32",
+              "ForeignAssetId": "u32",
+              "InterbtcLendTokenId": "u32",
+              "InterbtcStablePoolId": "u32",
+              "LendTokenId": "u32",
+              "StablePoolId": "u32",
+              "Rate": "FixedU128",
+              "Ratio": "Permill",
+              "Liquidity": "FixedU128",
+              "Shortfall": "FixedU128",
+              "FundAccountJsonRpcRequest": {
+                "account_id": "AccountId",
+                "currency_id": "InterbtcPrimitivesCurrencyId"
+              },
+              "H256Le": "H256",
+              "SignedFixedPoint": "FixedU128",
+              "TokenSymbol": {
+                "_enum": {
+                  "DOT": 0,
+                  "IBTC": 1,
+                  "INTR": 2,
+                  "KSM": 10,
+                  "KBTC": 11,
+                  "KINT": 12
+                }
+              },
+              "InterbtcPrimitivesTokenSymbol": {
+                "_enum": {
+                  "DOT": 0,
+                  "IBTC": 1,
+                  "INTR": 2,
+                  "KSM": 10,
+                  "KBTC": 11,
+                  "KINT": 12
+                }
+              },
+              "UnsignedFixedPoint": "FixedU128",
+              "VaultCurrencyPair": {
+                "collateral": "CurrencyId",
+                "wrapped": "CurrencyId"
+              },
+              "VaultId": {
+                "account_id": "AccountId",
+                "currencies": "VaultCurrencyPair"
               }
-            },
-            "LpToken": {
-              "_enum": {
-                "Token": "TokenSymbol",
-                "ForeignAsset": "ForeignAssetId",
-                "StableLpToken": "StablePoolId"
-              }
-            },
-            "InterbtcPrimitivesCurrencyId": {
-              "_enum": {
-                "Token": "InterbtcPrimitivesTokenSymbol",
-                "ForeignAsset": "InterbtcForeignAssetId",
-                "LendToken": "InterbtcLendTokenId",
-                "LpToken": "(InterbtcLpToken, InterbtcLpToken)",
-                "StableLpToken": "InterbtcStablePoolId"
-              }
-            },
-            "InterbtcLpToken": {
-              "_enum": {
-                "Token": "InterbtcPrimitivesTokenSymbol",
-                "ForeignAsset": "InterbtcForeignAssetId",
-                "StableLpToken": "InterbtcStablePoolId"
-              }
-            },
-            "InterbtcForeignAssetId": "u32",
-            "ForeignAssetId": "u32",
-            "InterbtcLendTokenId": "u32",
-            "InterbtcStablePoolId": "u32",
-            "LendTokenId": "u32",
-            "StablePoolId": "u32",
-            "Rate": "FixedU128",
-            "Ratio": "Permill",
-            "Liquidity": "FixedU128",
-            "Shortfall": "FixedU128",
-            "FundAccountJsonRpcRequest": {
-              "account_id": "AccountId",
-              "currency_id": "InterbtcPrimitivesCurrencyId"
-            },
-            "H256Le": "H256",
-            "SignedFixedPoint": "FixedU128",
-            "TokenSymbol": {
-              "_enum": {
-                "DOT": 0,
-                "IBTC": 1,
-                "INTR": 2,
-                "KSM": 10,
-                "KBTC": 11,
-                "KINT": 12
-              }
-            },
-            "InterbtcPrimitivesTokenSymbol": {
-              "_enum": {
-                "DOT": 0,
-                "IBTC": 1,
-                "INTR": 2,
-                "KSM": 10,
-                "KBTC": 11,
-                "KINT": 12
-              }
-            },
-            "UnsignedFixedPoint": "FixedU128",
-            "VaultCurrencyPair": {
-              "collateral": "CurrencyId",
-              "wrapped": "CurrencyId"
-            },
-            "VaultId": {
-              "account_id": "AccountId",
-              "currencies": "VaultCurrencyPair"
             }
           }
+        ],
+        "rpc": {
+          "btcRelay": {
+            "verifyBlockHeaderInclusion": {
+              "description": "Verify that the block with the given hash is included",
+              "params": [
+                {
+                  "name": "block_hash",
+                  "type": "H256Le"
+                }
+              ],
+              "type": "void"
+            }
+          },
+          "escrow": {
+            "balanceAt": {
+              "description": "Get a given user's escrowed balance",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "height",
+                  "type": "Option<BlockNumber>"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "totalSupply": {
+              "description": "Get the total voting supply in the system",
+              "params": [
+                {
+                  "name": "height",
+                  "type": "Option<BlockNumber>"
+                }
+              ],
+              "type": "BalanceWrapper"
+            }
+          },
+          "loans": {
+            "getCollateralLiquidity": {
+              "description": "Retrieves collateral liquidity for the given user.",
+              "params": [
+                {
+                  "name": "account",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "at",
+                  "type": "BlockHash",
+                  "isHistoric": true,
+                  "isOptional": true
+                }
+              ],
+              "type": "(Liquidity, Shortfall)",
+              "isSubscription": false,
+              "jsonrpc": "loans_getCollateralLiquidity",
+              "method": "getCollateralLiquidity",
+              "section": "loans"
+            },
+            "getLiquidationThresholdLiquidity": {
+              "description": "Retrieves liquidation threshold liquidity for the given user.",
+              "params": [
+                {
+                  "name": "account",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "at",
+                  "type": "BlockHash",
+                  "isHistoric": true,
+                  "isOptional": true
+                }
+              ],
+              "type": "(Liquidity, Shortfall)",
+              "isSubscription": false,
+              "jsonrpc": "loans_getLiquidationThresholdLiquidity",
+              "method": "getLiquidationThresholdLiquidity",
+              "section": "loans"
+            },
+            "getMarketStatus": {
+              "description": "Retrieves market status data for a given asset id.",
+              "params": [
+                {
+                  "name": "asset_id",
+                  "type": "CurrencyId"
+                },
+                {
+                  "name": "at",
+                  "type": "BlockHash",
+                  "isHistoric": true,
+                  "isOptional": true
+                }
+              ],
+              "type": "(Rate, Rate, Rate, Ratio, Balance, Balance, FixedU128)",
+              "isSubscription": false,
+              "jsonrpc": "loans_getMarketStatus",
+              "method": "getMarketStatus",
+              "section": "loans"
+            }
+          },
+          "issue": {
+            "getIssueRequests": {
+              "description": "Get all issue request IDs for a particular account",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            },
+            "getVaultIssueRequests": {
+              "description": "Get all issue request IDs for a particular vault",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            }
+          },
+          "oracle": {
+            "collateralToWrapped": {
+              "description": "Collateral to Wrapped exchange rate",
+              "params": [
+                {
+                  "name": "amount",
+                  "type": "BalanceWrapper"
+                },
+                {
+                  "name": "currency_id",
+                  "type": "CurrencyId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "wrappedToCollateral": {
+              "description": "Wrapped to Collateral exchange rate",
+              "params": [
+                {
+                  "name": "amount",
+                  "type": "BalanceWrapper"
+                },
+                {
+                  "name": "currency_id",
+                  "type": "CurrencyId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            }
+          },
+          "redeem": {
+            "getRedeemRequests": {
+              "description": "Get all redeem request IDs for a particular account",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            },
+            "getVaultRedeemRequests": {
+              "description": "Get all redeem request IDs for a particular vault",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            }
+          },
+          "refund": {
+            "getRefundRequests": {
+              "description": "Get all refund request IDs for a particular account",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            },
+            "getRefundRequestsByIssueId": {
+              "description": "Get all refund request IDs for a particular issue ID",
+              "params": [
+                {
+                  "name": "issue_id",
+                  "type": "H256"
+                }
+              ],
+              "type": "H256"
+            },
+            "getVaultRefundRequests": {
+              "description": "Get all refund request IDs for a particular vault",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            }
+          },
+          "replace": {
+            "getNewVaultReplaceRequests": {
+              "description": "Get all replace request IDs to a particular vault",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            },
+            "getOldVaultReplaceRequests": {
+              "description": "Get all replace request IDs from a particular vault",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            }
+          },
+          "reward": {
+            "estimateEscrowRewardRate": {
+              "description": "Estimate the escrow reward rate for a given account",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "amount",
+                  "type": "Option<Balance>"
+                },
+                {
+                  "name": "lock_time",
+                  "type": "Option<BlockNumber>"
+                }
+              ],
+              "type": "UnsignedFixedPoint"
+            },
+            "estimateVaultRewardRate": {
+              "description": "Estimate the vault reward rate a given vault id",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "VaultId"
+                }
+              ],
+              "type": "UnsignedFixedPoint"
+            },
+            "computeEscrowReward": {
+              "description": "Get a given user's rewards due",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "currency_id",
+                  "type": "CurrencyId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "computeVaultReward": {
+              "description": "Get a given vault's rewards due",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "VaultId"
+                },
+                {
+                  "name": "currency_id",
+                  "type": "CurrencyId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            }
+          },
+          "vaultRegistry": {
+            "getCollateralizationFromVault": {
+              "description": "Returns the collateralization of a specific vault",
+              "params": [
+                {
+                  "name": "vault",
+                  "type": "VaultId"
+                },
+                {
+                  "name": "only_issued",
+                  "type": "bool"
+                }
+              ],
+              "type": "UnsignedFixedPoint"
+            },
+            "getCollateralizationFromVaultAndCollateral": {
+              "description": "Returns the collateralization of a specific vault and collateral",
+              "params": [
+                {
+                  "name": "vault",
+                  "type": "VaultId"
+                },
+                {
+                  "name": "collateral",
+                  "type": "BalanceWrapper"
+                },
+                {
+                  "name": "only_issued",
+                  "type": "bool"
+                }
+              ],
+              "type": "UnsignedFixedPoint"
+            },
+            "getIssueableTokensFromVault": {
+              "description": "Get the amount of tokens a vault can issue",
+              "params": [
+                {
+                  "name": "vault",
+                  "type": "VaultId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "getPremiumRedeemVaults": {
+              "description": "Get all vaults below the premium redeem threshold.",
+              "params": [],
+              "type": "Vec<(VaultId, BalanceWrapper)>"
+            },
+            "getRequiredCollateralForVault": {
+              "description": "Get the amount of collateral required for the given vault to be at the current SecureCollateralThreshold with the current exchange rate",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "VaultId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "getRequiredCollateralForWrapped": {
+              "description": "Get the amount of collateral required to issue an amount of InterBTC",
+              "params": [
+                {
+                  "name": "amount_btc",
+                  "type": "BalanceWrapper"
+                },
+                {
+                  "name": "currency_id",
+                  "type": "CurrencyId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "getVaultCollateral": {
+              "description": "Get the vault's collateral (excluding nomination)",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "VaultId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "getVaultTotalCollateral": {
+              "description": "Get the vault's collateral (including nomination)",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "VaultId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "getVaultsByAccountId": {
+              "description": "Get all vaults that are registered using the given account _id",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<VaultId>"
+            },
+            "getVaultsWithIssuableTokens": {
+              "description": "Get all vaults with non-zero issuable tokens, ordered in descending order of this amount",
+              "params": [],
+              "type": "Vec<(VaultId, BalanceWrapper)>"
+            },
+            "getVaultsWithRedeemableTokens": {
+              "description": "Get all vaults with non-zero redeemable tokens, ordered in descending order of this amount",
+              "params": [],
+              "type": "Vec<(VaultId, BalanceWrapper)>"
+            }
+          }
+        },
+        "alias": {
+          "tokens": {
+            "AccountData": "OrmlAccountData",
+            "BalanceLock": "OrmlBalanceLock"
+          }
+        },
+        "instances": {
+          "balances": [
+            "ksm",
+            "kbtc",
+            "kint",
+            "dot",
+            "ibtc",
+            "intr"
+          ]
         }
-      ],
-      "rpc": {
-        "btcRelay": {
-          "verifyBlockHeaderInclusion": {
-            "description": "Verify that the block with the given hash is included",
-            "params": [
-              {
-                "name": "block_hash",
-                "type": "H256Le"
-              }
-            ],
-            "type": "void"
-          }
-        },
-        "escrow": {
-          "balanceAt": {
-            "description": "Get a given user's escrowed balance",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              },
-              {
-                "name": "height",
-                "type": "Option<BlockNumber>"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "totalSupply": {
-            "description": "Get the total voting supply in the system",
-            "params": [
-              {
-                "name": "height",
-                "type": "Option<BlockNumber>"
-              }
-            ],
-            "type": "BalanceWrapper"
-          }
-        },
-        "loans": {
-          "getCollateralLiquidity": {
-            "description": "Retrieves collateral liquidity for the given user.",
-            "params": [
-              {
-                "name": "account",
-                "type": "AccountId"
-              },
-              {
-                "name": "at",
-                "type": "BlockHash",
-                "isHistoric": true,
-                "isOptional": true
-              }
-            ],
-            "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
-            "isSubscription": false,
-            "jsonrpc": "loans_getCollateralLiquidity",
-            "method": "getCollateralLiquidity",
-            "section": "loans"
-          },
-          "getLiquidationThresholdLiquidity": {
-            "description": "Retrieves liquidation threshold liquidity for the given user.",
-            "params": [
-              {
-                "name": "account",
-                "type": "AccountId"
-              },
-              {
-                "name": "at",
-                "type": "BlockHash",
-                "isHistoric": true,
-                "isOptional": true
-              }
-            ],
-            "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
-            "isSubscription": false,
-            "jsonrpc": "loans_getLiquidationThresholdLiquidity",
-            "method": "getLiquidationThresholdLiquidity",
-            "section": "loans"
-          },
-          "getMarketStatus": {
-            "description": "Retrieves market status data for a given asset id.",
-            "params": [
-              {
-                "name": "asset_id",
-                "type": "CurrencyId"
-              },
-              {
-                "name": "at",
-                "type": "BlockHash",
-                "isHistoric": true,
-                "isOptional": true
-              }
-            ],
-            "type": "(Rate, Rate, Rate, Ratio, Balance, Balance, FixedU128)",
-            "isSubscription": false,
-            "jsonrpc": "loans_getMarketStatus",
-            "method": "getMarketStatus",
-            "section": "loans"
-          }
-        },
-        "issue": {
-          "getIssueRequests": {
-            "description": "Get all issue request IDs for a particular account",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          },
-          "getVaultIssueRequests": {
-            "description": "Get all issue request IDs for a particular vault",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          }
-        },
-        "oracle": {
-          "collateralToWrapped": {
-            "description": "Collateral to Wrapped exchange rate",
-            "params": [
-              {
-                "name": "amount",
-                "type": "BalanceWrapper"
-              },
-              {
-                "name": "currency_id",
-                "type": "CurrencyId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "wrappedToCollateral": {
-            "description": "Wrapped to Collateral exchange rate",
-            "params": [
-              {
-                "name": "amount",
-                "type": "BalanceWrapper"
-              },
-              {
-                "name": "currency_id",
-                "type": "CurrencyId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          }
-        },
-        "redeem": {
-          "getRedeemRequests": {
-            "description": "Get all redeem request IDs for a particular account",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          },
-          "getVaultRedeemRequests": {
-            "description": "Get all redeem request IDs for a particular vault",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          }
-        },
-        "refund": {
-          "getRefundRequests": {
-            "description": "Get all refund request IDs for a particular account",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          },
-          "getRefundRequestsByIssueId": {
-            "description": "Get all refund request IDs for a particular issue ID",
-            "params": [
-              {
-                "name": "issue_id",
-                "type": "H256"
-              }
-            ],
-            "type": "H256"
-          },
-          "getVaultRefundRequests": {
-            "description": "Get all refund request IDs for a particular vault",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          }
-        },
-        "replace": {
-          "getNewVaultReplaceRequests": {
-            "description": "Get all replace request IDs to a particular vault",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          },
-          "getOldVaultReplaceRequests": {
-            "description": "Get all replace request IDs from a particular vault",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          }
-        },
-        "reward": {
-          "computeEscrowReward": {
-            "description": "Get a given user's rewards due",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              },
-              {
-                "name": "currency_id",
-                "type": "CurrencyId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "computeVaultReward": {
-            "description": "Get a given vault's rewards due",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "VaultId"
-              },
-              {
-                "name": "currency_id",
-                "type": "CurrencyId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          }
-        },
-        "vaultRegistry": {
-          "getCollateralizationFromVault": {
-            "description": "Returns the collateralization of a specific vault",
-            "params": [
-              {
-                "name": "vault",
-                "type": "VaultId"
-              },
-              {
-                "name": "only_issued",
-                "type": "bool"
-              }
-            ],
-            "type": "UnsignedFixedPoint"
-          },
-          "getCollateralizationFromVaultAndCollateral": {
-            "description": "Returns the collateralization of a specific vault and collateral",
-            "params": [
-              {
-                "name": "vault",
-                "type": "VaultId"
-              },
-              {
-                "name": "collateral",
-                "type": "BalanceWrapper"
-              },
-              {
-                "name": "only_issued",
-                "type": "bool"
-              }
-            ],
-            "type": "UnsignedFixedPoint"
-          },
-          "getIssueableTokensFromVault": {
-            "description": "Get the amount of tokens a vault can issue",
-            "params": [
-              {
-                "name": "vault",
-                "type": "VaultId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "getPremiumRedeemVaults": {
-            "description": "Get all vaults below the premium redeem threshold.",
-            "params": [],
-            "type": "Vec<(VaultId, BalanceWrapper)>"
-          },
-          "getRequiredCollateralForVault": {
-            "description": "Get the amount of collateral required for the given vault to be at the current SecureCollateralThreshold with the current exchange rate",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "VaultId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "getRequiredCollateralForWrapped": {
-            "description": "Get the amount of collateral required to issue an amount of InterBTC",
-            "params": [
-              {
-                "name": "amount_btc",
-                "type": "BalanceWrapper"
-              },
-              {
-                "name": "currency_id",
-                "type": "CurrencyId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "getVaultCollateral": {
-            "description": "Get the vault's collateral (excluding nomination)",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "VaultId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "getVaultTotalCollateral": {
-            "description": "Get the vault's collateral (including nomination)",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "VaultId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "getVaultsByAccountId": {
-            "description": "Get all vaults that are registered using the given account _id",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<VaultId>"
-          },
-          "getVaultsWithIssuableTokens": {
-            "description": "Get all vaults with non-zero issuable tokens, ordered in descending order of this amount",
-            "params": [],
-            "type": "Vec<(VaultId, BalanceWrapper)>"
-          },
-          "getVaultsWithRedeemableTokens": {
-            "description": "Get all vaults with non-zero redeemable tokens, ordered in descending order of this amount",
-            "params": [],
-            "type": "Vec<(VaultId, BalanceWrapper)>"
-          }
-        }
-      },
-      "alias": {
-        "tokens": {
-          "AccountData": "OrmlAccountData",
-          "BalanceLock": "OrmlBalanceLock"
-        }
-      },
-      "instances": {
-        "balances": [
-          "ksm",
-          "kbtc",
-          "kint",
-          "dot",
-          "ibtc",
-          "intr"
-        ]
       }
     },
     "interbtc-standalone": {
-      "types": [
-        {
-          "minmax": [
-            0,
-            null
-          ],
-          "types": {
-            "BalanceWrapper": {
-              "amount": "String"
-            },
-            "CurrencyId": {
-              "_enum": {
-                "Token": "TokenSymbol",
-                "ForeignAsset": "ForeignAssetId",
-                "LendToken": "LendTokenId",
-                "LpToken": "(LpToken, LpToken)",
-                "StableLpToken": "StablePoolId"
+      "default": {
+        "types": [
+          {
+            "minmax": [
+              0,
+              null
+            ],
+            "types": {
+              "BalanceWrapper": {
+                "amount": "String"
+              },
+              "CurrencyId": {
+                "_enum": {
+                  "Token": "TokenSymbol",
+                  "ForeignAsset": "ForeignAssetId",
+                  "LendToken": "LendTokenId",
+                  "LpToken": "(LpToken, LpToken)",
+                  "StableLpToken": "StablePoolId"
+                }
+              },
+              "LpToken": {
+                "_enum": {
+                  "Token": "TokenSymbol",
+                  "ForeignAsset": "ForeignAssetId",
+                  "StableLpToken": "StablePoolId"
+                }
+              },
+              "InterbtcPrimitivesCurrencyId": {
+                "_enum": {
+                  "Token": "InterbtcPrimitivesTokenSymbol",
+                  "ForeignAsset": "InterbtcForeignAssetId",
+                  "LendToken": "InterbtcLendTokenId",
+                  "LpToken": "(InterbtcLpToken, InterbtcLpToken)",
+                  "StableLpToken": "InterbtcStablePoolId"
+                }
+              },
+              "InterbtcLpToken": {
+                "_enum": {
+                  "Token": "InterbtcPrimitivesTokenSymbol",
+                  "ForeignAsset": "InterbtcForeignAssetId",
+                  "StableLpToken": "InterbtcStablePoolId"
+                }
+              },
+              "InterbtcForeignAssetId": "u32",
+              "ForeignAssetId": "u32",
+              "InterbtcLendTokenId": "u32",
+              "InterbtcStablePoolId": "u32",
+              "LendTokenId": "u32",
+              "StablePoolId": "u32",
+              "Rate": "FixedU128",
+              "Ratio": "Permill",
+              "Liquidity": "FixedU128",
+              "Shortfall": "FixedU128",
+              "FundAccountJsonRpcRequest": {
+                "account_id": "AccountId",
+                "currency_id": "InterbtcPrimitivesCurrencyId"
+              },
+              "H256Le": "H256",
+              "SignedFixedPoint": "FixedU128",
+              "TokenSymbol": {
+                "_enum": {
+                  "DOT": 0,
+                  "IBTC": 1,
+                  "INTR": 2,
+                  "KSM": 10,
+                  "KBTC": 11,
+                  "KINT": 12
+                }
+              },
+              "InterbtcPrimitivesTokenSymbol": {
+                "_enum": {
+                  "DOT": 0,
+                  "IBTC": 1,
+                  "INTR": 2,
+                  "KSM": 10,
+                  "KBTC": 11,
+                  "KINT": 12
+                }
+              },
+              "UnsignedFixedPoint": "FixedU128",
+              "VaultCurrencyPair": {
+                "collateral": "CurrencyId",
+                "wrapped": "CurrencyId"
+              },
+              "VaultId": {
+                "account_id": "AccountId",
+                "currencies": "VaultCurrencyPair"
               }
-            },
-            "LpToken": {
-              "_enum": {
-                "Token": "TokenSymbol",
-                "ForeignAsset": "ForeignAssetId",
-                "StableLpToken": "StablePoolId"
-              }
-            },
-            "InterbtcPrimitivesCurrencyId": {
-              "_enum": {
-                "Token": "InterbtcPrimitivesTokenSymbol",
-                "ForeignAsset": "InterbtcForeignAssetId",
-                "LendToken": "InterbtcLendTokenId",
-                "LpToken": "(InterbtcLpToken, InterbtcLpToken)",
-                "StableLpToken": "InterbtcStablePoolId"
-              }
-            },
-            "InterbtcLpToken": {
-              "_enum": {
-                "Token": "InterbtcPrimitivesTokenSymbol",
-                "ForeignAsset": "InterbtcForeignAssetId",
-                "StableLpToken": "InterbtcStablePoolId"
-              }
-            },
-            "InterbtcForeignAssetId": "u32",
-            "ForeignAssetId": "u32",
-            "InterbtcLendTokenId": "u32",
-            "InterbtcStablePoolId": "u32",
-            "LendTokenId": "u32",
-            "StablePoolId": "u32",
-            "Rate": "FixedU128",
-            "Ratio": "Permill",
-            "Liquidity": "FixedU128",
-            "Shortfall": "FixedU128",
-            "FundAccountJsonRpcRequest": {
-              "account_id": "AccountId",
-              "currency_id": "InterbtcPrimitivesCurrencyId"
-            },
-            "H256Le": "H256",
-            "SignedFixedPoint": "FixedU128",
-            "TokenSymbol": {
-              "_enum": {
-                "DOT": 0,
-                "IBTC": 1,
-                "INTR": 2,
-                "KSM": 10,
-                "KBTC": 11,
-                "KINT": 12
-              }
-            },
-            "InterbtcPrimitivesTokenSymbol": {
-              "_enum": {
-                "DOT": 0,
-                "IBTC": 1,
-                "INTR": 2,
-                "KSM": 10,
-                "KBTC": 11,
-                "KINT": 12
-              }
-            },
-            "UnsignedFixedPoint": "FixedU128",
-            "VaultCurrencyPair": {
-              "collateral": "CurrencyId",
-              "wrapped": "CurrencyId"
-            },
-            "VaultId": {
-              "account_id": "AccountId",
-              "currencies": "VaultCurrencyPair"
             }
           }
+        ],
+        "rpc": {
+          "btcRelay": {
+            "verifyBlockHeaderInclusion": {
+              "description": "Verify that the block with the given hash is included",
+              "params": [
+                {
+                  "name": "block_hash",
+                  "type": "H256Le"
+                }
+              ],
+              "type": "void"
+            }
+          },
+          "escrow": {
+            "balanceAt": {
+              "description": "Get a given user's escrowed balance",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "height",
+                  "type": "Option<BlockNumber>"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "totalSupply": {
+              "description": "Get the total voting supply in the system",
+              "params": [
+                {
+                  "name": "height",
+                  "type": "Option<BlockNumber>"
+                }
+              ],
+              "type": "BalanceWrapper"
+            }
+          },
+          "loans": {
+            "getCollateralLiquidity": {
+              "description": "Retrieves collateral liquidity for the given user.",
+              "params": [
+                {
+                  "name": "account",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "at",
+                  "type": "BlockHash",
+                  "isHistoric": true,
+                  "isOptional": true
+                }
+              ],
+              "type": "(Liquidity, Shortfall)",
+              "isSubscription": false,
+              "jsonrpc": "loans_getCollateralLiquidity",
+              "method": "getCollateralLiquidity",
+              "section": "loans"
+            },
+            "getLiquidationThresholdLiquidity": {
+              "description": "Retrieves liquidation threshold liquidity for the given user.",
+              "params": [
+                {
+                  "name": "account",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "at",
+                  "type": "BlockHash",
+                  "isHistoric": true,
+                  "isOptional": true
+                }
+              ],
+              "type": "(Liquidity, Shortfall)",
+              "isSubscription": false,
+              "jsonrpc": "loans_getLiquidationThresholdLiquidity",
+              "method": "getLiquidationThresholdLiquidity",
+              "section": "loans"
+            },
+            "getMarketStatus": {
+              "description": "Retrieves market status data for a given asset id.",
+              "params": [
+                {
+                  "name": "asset_id",
+                  "type": "CurrencyId"
+                },
+                {
+                  "name": "at",
+                  "type": "BlockHash",
+                  "isHistoric": true,
+                  "isOptional": true
+                }
+              ],
+              "type": "(Rate, Rate, Rate, Ratio, Balance, Balance, FixedU128)",
+              "isSubscription": false,
+              "jsonrpc": "loans_getMarketStatus",
+              "method": "getMarketStatus",
+              "section": "loans"
+            }
+          },
+          "issue": {
+            "getIssueRequests": {
+              "description": "Get all issue request IDs for a particular account",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            },
+            "getVaultIssueRequests": {
+              "description": "Get all issue request IDs for a particular vault",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            }
+          },
+          "oracle": {
+            "collateralToWrapped": {
+              "description": "Collateral to Wrapped exchange rate",
+              "params": [
+                {
+                  "name": "amount",
+                  "type": "BalanceWrapper"
+                },
+                {
+                  "name": "currency_id",
+                  "type": "CurrencyId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "wrappedToCollateral": {
+              "description": "Wrapped to Collateral exchange rate",
+              "params": [
+                {
+                  "name": "amount",
+                  "type": "BalanceWrapper"
+                },
+                {
+                  "name": "currency_id",
+                  "type": "CurrencyId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            }
+          },
+          "redeem": {
+            "getRedeemRequests": {
+              "description": "Get all redeem request IDs for a particular account",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            },
+            "getVaultRedeemRequests": {
+              "description": "Get all redeem request IDs for a particular vault",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            }
+          },
+          "refund": {
+            "getRefundRequests": {
+              "description": "Get all refund request IDs for a particular account",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            },
+            "getRefundRequestsByIssueId": {
+              "description": "Get all refund request IDs for a particular issue ID",
+              "params": [
+                {
+                  "name": "issue_id",
+                  "type": "H256"
+                }
+              ],
+              "type": "H256"
+            },
+            "getVaultRefundRequests": {
+              "description": "Get all refund request IDs for a particular vault",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            }
+          },
+          "replace": {
+            "getNewVaultReplaceRequests": {
+              "description": "Get all replace request IDs to a particular vault",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            },
+            "getOldVaultReplaceRequests": {
+              "description": "Get all replace request IDs from a particular vault",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            }
+          },
+          "reward": {
+            "estimateEscrowRewardRate": {
+              "description": "Estimate the escrow reward rate for a given account",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "amount",
+                  "type": "Option<Balance>"
+                },
+                {
+                  "name": "lock_time",
+                  "type": "Option<BlockNumber>"
+                }
+              ],
+              "type": "UnsignedFixedPoint"
+            },
+            "estimateVaultRewardRate": {
+              "description": "Estimate the vault reward rate a given vault id",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "VaultId"
+                }
+              ],
+              "type": "UnsignedFixedPoint"
+            },
+            "computeEscrowReward": {
+              "description": "Get a given user's rewards due",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "currency_id",
+                  "type": "CurrencyId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "computeVaultReward": {
+              "description": "Get a given vault's rewards due",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "VaultId"
+                },
+                {
+                  "name": "currency_id",
+                  "type": "CurrencyId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            }
+          },
+          "vaultRegistry": {
+            "getCollateralizationFromVault": {
+              "description": "Returns the collateralization of a specific vault",
+              "params": [
+                {
+                  "name": "vault",
+                  "type": "VaultId"
+                },
+                {
+                  "name": "only_issued",
+                  "type": "bool"
+                }
+              ],
+              "type": "UnsignedFixedPoint"
+            },
+            "getCollateralizationFromVaultAndCollateral": {
+              "description": "Returns the collateralization of a specific vault and collateral",
+              "params": [
+                {
+                  "name": "vault",
+                  "type": "VaultId"
+                },
+                {
+                  "name": "collateral",
+                  "type": "BalanceWrapper"
+                },
+                {
+                  "name": "only_issued",
+                  "type": "bool"
+                }
+              ],
+              "type": "UnsignedFixedPoint"
+            },
+            "getIssueableTokensFromVault": {
+              "description": "Get the amount of tokens a vault can issue",
+              "params": [
+                {
+                  "name": "vault",
+                  "type": "VaultId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "getPremiumRedeemVaults": {
+              "description": "Get all vaults below the premium redeem threshold.",
+              "params": [],
+              "type": "Vec<(VaultId, BalanceWrapper)>"
+            },
+            "getRequiredCollateralForVault": {
+              "description": "Get the amount of collateral required for the given vault to be at the current SecureCollateralThreshold with the current exchange rate",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "VaultId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "getRequiredCollateralForWrapped": {
+              "description": "Get the amount of collateral required to issue an amount of InterBTC",
+              "params": [
+                {
+                  "name": "amount_btc",
+                  "type": "BalanceWrapper"
+                },
+                {
+                  "name": "currency_id",
+                  "type": "CurrencyId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "getVaultCollateral": {
+              "description": "Get the vault's collateral (excluding nomination)",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "VaultId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "getVaultTotalCollateral": {
+              "description": "Get the vault's collateral (including nomination)",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "VaultId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "getVaultsByAccountId": {
+              "description": "Get all vaults that are registered using the given account _id",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<VaultId>"
+            },
+            "getVaultsWithIssuableTokens": {
+              "description": "Get all vaults with non-zero issuable tokens, ordered in descending order of this amount",
+              "params": [],
+              "type": "Vec<(VaultId, BalanceWrapper)>"
+            },
+            "getVaultsWithRedeemableTokens": {
+              "description": "Get all vaults with non-zero redeemable tokens, ordered in descending order of this amount",
+              "params": [],
+              "type": "Vec<(VaultId, BalanceWrapper)>"
+            }
+          }
+        },
+        "alias": {
+          "tokens": {
+            "AccountData": "OrmlAccountData",
+            "BalanceLock": "OrmlBalanceLock"
+          }
+        },
+        "instances": {
+          "balances": [
+            "ksm",
+            "kbtc",
+            "kint",
+            "dot",
+            "ibtc",
+            "intr"
+          ]
         }
-      ],
-      "rpc": {
-        "btcRelay": {
-          "verifyBlockHeaderInclusion": {
-            "description": "Verify that the block with the given hash is included",
-            "params": [
-              {
-                "name": "block_hash",
-                "type": "H256Le"
-              }
-            ],
-            "type": "void"
-          }
-        },
-        "escrow": {
-          "balanceAt": {
-            "description": "Get a given user's escrowed balance",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              },
-              {
-                "name": "height",
-                "type": "Option<BlockNumber>"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "totalSupply": {
-            "description": "Get the total voting supply in the system",
-            "params": [
-              {
-                "name": "height",
-                "type": "Option<BlockNumber>"
-              }
-            ],
-            "type": "BalanceWrapper"
-          }
-        },
-        "loans": {
-          "getCollateralLiquidity": {
-            "description": "Retrieves collateral liquidity for the given user.",
-            "params": [
-              {
-                "name": "account",
-                "type": "AccountId"
-              },
-              {
-                "name": "at",
-                "type": "BlockHash",
-                "isHistoric": true,
-                "isOptional": true
-              }
-            ],
-            "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
-            "isSubscription": false,
-            "jsonrpc": "loans_getCollateralLiquidity",
-            "method": "getCollateralLiquidity",
-            "section": "loans"
-          },
-          "getLiquidationThresholdLiquidity": {
-            "description": "Retrieves liquidation threshold liquidity for the given user.",
-            "params": [
-              {
-                "name": "account",
-                "type": "AccountId"
-              },
-              {
-                "name": "at",
-                "type": "BlockHash",
-                "isHistoric": true,
-                "isOptional": true
-              }
-            ],
-            "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
-            "isSubscription": false,
-            "jsonrpc": "loans_getLiquidationThresholdLiquidity",
-            "method": "getLiquidationThresholdLiquidity",
-            "section": "loans"
-          },
-          "getMarketStatus": {
-            "description": "Retrieves market status data for a given asset id.",
-            "params": [
-              {
-                "name": "asset_id",
-                "type": "CurrencyId"
-              },
-              {
-                "name": "at",
-                "type": "BlockHash",
-                "isHistoric": true,
-                "isOptional": true
-              }
-            ],
-            "type": "(Rate, Rate, Rate, Ratio, Balance, Balance, FixedU128)",
-            "isSubscription": false,
-            "jsonrpc": "loans_getMarketStatus",
-            "method": "getMarketStatus",
-            "section": "loans"
-          }
-        },
-        "issue": {
-          "getIssueRequests": {
-            "description": "Get all issue request IDs for a particular account",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          },
-          "getVaultIssueRequests": {
-            "description": "Get all issue request IDs for a particular vault",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          }
-        },
-        "oracle": {
-          "collateralToWrapped": {
-            "description": "Collateral to Wrapped exchange rate",
-            "params": [
-              {
-                "name": "amount",
-                "type": "BalanceWrapper"
-              },
-              {
-                "name": "currency_id",
-                "type": "CurrencyId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "wrappedToCollateral": {
-            "description": "Wrapped to Collateral exchange rate",
-            "params": [
-              {
-                "name": "amount",
-                "type": "BalanceWrapper"
-              },
-              {
-                "name": "currency_id",
-                "type": "CurrencyId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          }
-        },
-        "redeem": {
-          "getRedeemRequests": {
-            "description": "Get all redeem request IDs for a particular account",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          },
-          "getVaultRedeemRequests": {
-            "description": "Get all redeem request IDs for a particular vault",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          }
-        },
-        "refund": {
-          "getRefundRequests": {
-            "description": "Get all refund request IDs for a particular account",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          },
-          "getRefundRequestsByIssueId": {
-            "description": "Get all refund request IDs for a particular issue ID",
-            "params": [
-              {
-                "name": "issue_id",
-                "type": "H256"
-              }
-            ],
-            "type": "H256"
-          },
-          "getVaultRefundRequests": {
-            "description": "Get all refund request IDs for a particular vault",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          }
-        },
-        "replace": {
-          "getNewVaultReplaceRequests": {
-            "description": "Get all replace request IDs to a particular vault",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          },
-          "getOldVaultReplaceRequests": {
-            "description": "Get all replace request IDs from a particular vault",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          }
-        },
-        "reward": {
-          "computeEscrowReward": {
-            "description": "Get a given user's rewards due",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              },
-              {
-                "name": "currency_id",
-                "type": "CurrencyId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "computeVaultReward": {
-            "description": "Get a given vault's rewards due",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "VaultId"
-              },
-              {
-                "name": "currency_id",
-                "type": "CurrencyId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          }
-        },
-        "vaultRegistry": {
-          "getCollateralizationFromVault": {
-            "description": "Returns the collateralization of a specific vault",
-            "params": [
-              {
-                "name": "vault",
-                "type": "VaultId"
-              },
-              {
-                "name": "only_issued",
-                "type": "bool"
-              }
-            ],
-            "type": "UnsignedFixedPoint"
-          },
-          "getCollateralizationFromVaultAndCollateral": {
-            "description": "Returns the collateralization of a specific vault and collateral",
-            "params": [
-              {
-                "name": "vault",
-                "type": "VaultId"
-              },
-              {
-                "name": "collateral",
-                "type": "BalanceWrapper"
-              },
-              {
-                "name": "only_issued",
-                "type": "bool"
-              }
-            ],
-            "type": "UnsignedFixedPoint"
-          },
-          "getIssueableTokensFromVault": {
-            "description": "Get the amount of tokens a vault can issue",
-            "params": [
-              {
-                "name": "vault",
-                "type": "VaultId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "getPremiumRedeemVaults": {
-            "description": "Get all vaults below the premium redeem threshold.",
-            "params": [],
-            "type": "Vec<(VaultId, BalanceWrapper)>"
-          },
-          "getRequiredCollateralForVault": {
-            "description": "Get the amount of collateral required for the given vault to be at the current SecureCollateralThreshold with the current exchange rate",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "VaultId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "getRequiredCollateralForWrapped": {
-            "description": "Get the amount of collateral required to issue an amount of InterBTC",
-            "params": [
-              {
-                "name": "amount_btc",
-                "type": "BalanceWrapper"
-              },
-              {
-                "name": "currency_id",
-                "type": "CurrencyId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "getVaultCollateral": {
-            "description": "Get the vault's collateral (excluding nomination)",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "VaultId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "getVaultTotalCollateral": {
-            "description": "Get the vault's collateral (including nomination)",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "VaultId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "getVaultsByAccountId": {
-            "description": "Get all vaults that are registered using the given account _id",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<VaultId>"
-          },
-          "getVaultsWithIssuableTokens": {
-            "description": "Get all vaults with non-zero issuable tokens, ordered in descending order of this amount",
-            "params": [],
-            "type": "Vec<(VaultId, BalanceWrapper)>"
-          },
-          "getVaultsWithRedeemableTokens": {
-            "description": "Get all vaults with non-zero redeemable tokens, ordered in descending order of this amount",
-            "params": [],
-            "type": "Vec<(VaultId, BalanceWrapper)>"
-          }
-        }
-      },
-      "alias": {
-        "tokens": {
-          "AccountData": "OrmlAccountData",
-          "BalanceLock": "OrmlBalanceLock"
-        }
-      },
-      "instances": {
-        "balances": [
-          "ksm",
-          "kbtc",
-          "kint",
-          "dot",
-          "ibtc",
-          "intr"
-        ]
       }
     },
     "interlay-parachain": {
-      "types": [
-        {
-          "minmax": [
-            0,
-            null
-          ],
-          "types": {
-            "BalanceWrapper": {
-              "amount": "String"
-            },
-            "CurrencyId": {
-              "_enum": {
-                "Token": "TokenSymbol",
-                "ForeignAsset": "ForeignAssetId",
-                "LendToken": "LendTokenId",
-                "LpToken": "(LpToken, LpToken)",
-                "StableLpToken": "StablePoolId"
+      "default": {
+        "types": [
+          {
+            "minmax": [
+              0,
+              null
+            ],
+            "types": {
+              "BalanceWrapper": {
+                "amount": "String"
+              },
+              "CurrencyId": {
+                "_enum": {
+                  "Token": "TokenSymbol",
+                  "ForeignAsset": "ForeignAssetId",
+                  "LendToken": "LendTokenId",
+                  "LpToken": "(LpToken, LpToken)",
+                  "StableLpToken": "StablePoolId"
+                }
+              },
+              "LpToken": {
+                "_enum": {
+                  "Token": "TokenSymbol",
+                  "ForeignAsset": "ForeignAssetId",
+                  "StableLpToken": "StablePoolId"
+                }
+              },
+              "InterbtcPrimitivesCurrencyId": {
+                "_enum": {
+                  "Token": "InterbtcPrimitivesTokenSymbol",
+                  "ForeignAsset": "InterbtcForeignAssetId",
+                  "LendToken": "InterbtcLendTokenId",
+                  "LpToken": "(InterbtcLpToken, InterbtcLpToken)",
+                  "StableLpToken": "InterbtcStablePoolId"
+                }
+              },
+              "InterbtcLpToken": {
+                "_enum": {
+                  "Token": "InterbtcPrimitivesTokenSymbol",
+                  "ForeignAsset": "InterbtcForeignAssetId",
+                  "StableLpToken": "InterbtcStablePoolId"
+                }
+              },
+              "InterbtcForeignAssetId": "u32",
+              "ForeignAssetId": "u32",
+              "InterbtcLendTokenId": "u32",
+              "InterbtcStablePoolId": "u32",
+              "LendTokenId": "u32",
+              "StablePoolId": "u32",
+              "Rate": "FixedU128",
+              "Ratio": "Permill",
+              "Liquidity": "FixedU128",
+              "Shortfall": "FixedU128",
+              "FundAccountJsonRpcRequest": {
+                "account_id": "AccountId",
+                "currency_id": "InterbtcPrimitivesCurrencyId"
+              },
+              "H256Le": "H256",
+              "SignedFixedPoint": "FixedU128",
+              "TokenSymbol": {
+                "_enum": {
+                  "DOT": 0,
+                  "IBTC": 1,
+                  "INTR": 2,
+                  "KSM": 10,
+                  "KBTC": 11,
+                  "KINT": 12
+                }
+              },
+              "InterbtcPrimitivesTokenSymbol": {
+                "_enum": {
+                  "DOT": 0,
+                  "IBTC": 1,
+                  "INTR": 2,
+                  "KSM": 10,
+                  "KBTC": 11,
+                  "KINT": 12
+                }
+              },
+              "UnsignedFixedPoint": "FixedU128",
+              "VaultCurrencyPair": {
+                "collateral": "CurrencyId",
+                "wrapped": "CurrencyId"
+              },
+              "VaultId": {
+                "account_id": "AccountId",
+                "currencies": "VaultCurrencyPair"
               }
-            },
-            "LpToken": {
-              "_enum": {
-                "Token": "TokenSymbol",
-                "ForeignAsset": "ForeignAssetId",
-                "StableLpToken": "StablePoolId"
-              }
-            },
-            "InterbtcPrimitivesCurrencyId": {
-              "_enum": {
-                "Token": "InterbtcPrimitivesTokenSymbol",
-                "ForeignAsset": "InterbtcForeignAssetId",
-                "LendToken": "InterbtcLendTokenId",
-                "LpToken": "(InterbtcLpToken, InterbtcLpToken)",
-                "StableLpToken": "InterbtcStablePoolId"
-              }
-            },
-            "InterbtcLpToken": {
-              "_enum": {
-                "Token": "InterbtcPrimitivesTokenSymbol",
-                "ForeignAsset": "InterbtcForeignAssetId",
-                "StableLpToken": "InterbtcStablePoolId"
-              }
-            },
-            "InterbtcForeignAssetId": "u32",
-            "ForeignAssetId": "u32",
-            "InterbtcLendTokenId": "u32",
-            "InterbtcStablePoolId": "u32",
-            "LendTokenId": "u32",
-            "StablePoolId": "u32",
-            "Rate": "FixedU128",
-            "Ratio": "Permill",
-            "Liquidity": "FixedU128",
-            "Shortfall": "FixedU128",
-            "FundAccountJsonRpcRequest": {
-              "account_id": "AccountId",
-              "currency_id": "InterbtcPrimitivesCurrencyId"
-            },
-            "H256Le": "H256",
-            "SignedFixedPoint": "FixedU128",
-            "TokenSymbol": {
-              "_enum": {
-                "DOT": 0,
-                "IBTC": 1,
-                "INTR": 2,
-                "KSM": 10,
-                "KBTC": 11,
-                "KINT": 12
-              }
-            },
-            "InterbtcPrimitivesTokenSymbol": {
-              "_enum": {
-                "DOT": 0,
-                "IBTC": 1,
-                "INTR": 2,
-                "KSM": 10,
-                "KBTC": 11,
-                "KINT": 12
-              }
-            },
-            "UnsignedFixedPoint": "FixedU128",
-            "VaultCurrencyPair": {
-              "collateral": "CurrencyId",
-              "wrapped": "CurrencyId"
-            },
-            "VaultId": {
-              "account_id": "AccountId",
-              "currencies": "VaultCurrencyPair"
             }
           }
+        ],
+        "rpc": {
+          "btcRelay": {
+            "verifyBlockHeaderInclusion": {
+              "description": "Verify that the block with the given hash is included",
+              "params": [
+                {
+                  "name": "block_hash",
+                  "type": "H256Le"
+                }
+              ],
+              "type": "void"
+            }
+          },
+          "escrow": {
+            "balanceAt": {
+              "description": "Get a given user's escrowed balance",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "height",
+                  "type": "Option<BlockNumber>"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "totalSupply": {
+              "description": "Get the total voting supply in the system",
+              "params": [
+                {
+                  "name": "height",
+                  "type": "Option<BlockNumber>"
+                }
+              ],
+              "type": "BalanceWrapper"
+            }
+          },
+          "loans": {
+            "getCollateralLiquidity": {
+              "description": "Retrieves collateral liquidity for the given user.",
+              "params": [
+                {
+                  "name": "account",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "at",
+                  "type": "BlockHash",
+                  "isHistoric": true,
+                  "isOptional": true
+                }
+              ],
+              "type": "(Liquidity, Shortfall)",
+              "isSubscription": false,
+              "jsonrpc": "loans_getCollateralLiquidity",
+              "method": "getCollateralLiquidity",
+              "section": "loans"
+            },
+            "getLiquidationThresholdLiquidity": {
+              "description": "Retrieves liquidation threshold liquidity for the given user.",
+              "params": [
+                {
+                  "name": "account",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "at",
+                  "type": "BlockHash",
+                  "isHistoric": true,
+                  "isOptional": true
+                }
+              ],
+              "type": "(Liquidity, Shortfall)",
+              "isSubscription": false,
+              "jsonrpc": "loans_getLiquidationThresholdLiquidity",
+              "method": "getLiquidationThresholdLiquidity",
+              "section": "loans"
+            },
+            "getMarketStatus": {
+              "description": "Retrieves market status data for a given asset id.",
+              "params": [
+                {
+                  "name": "asset_id",
+                  "type": "CurrencyId"
+                },
+                {
+                  "name": "at",
+                  "type": "BlockHash",
+                  "isHistoric": true,
+                  "isOptional": true
+                }
+              ],
+              "type": "(Rate, Rate, Rate, Ratio, Balance, Balance, FixedU128)",
+              "isSubscription": false,
+              "jsonrpc": "loans_getMarketStatus",
+              "method": "getMarketStatus",
+              "section": "loans"
+            }
+          },
+          "issue": {
+            "getIssueRequests": {
+              "description": "Get all issue request IDs for a particular account",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            },
+            "getVaultIssueRequests": {
+              "description": "Get all issue request IDs for a particular vault",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            }
+          },
+          "oracle": {
+            "collateralToWrapped": {
+              "description": "Collateral to Wrapped exchange rate",
+              "params": [
+                {
+                  "name": "amount",
+                  "type": "BalanceWrapper"
+                },
+                {
+                  "name": "currency_id",
+                  "type": "CurrencyId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "wrappedToCollateral": {
+              "description": "Wrapped to Collateral exchange rate",
+              "params": [
+                {
+                  "name": "amount",
+                  "type": "BalanceWrapper"
+                },
+                {
+                  "name": "currency_id",
+                  "type": "CurrencyId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            }
+          },
+          "redeem": {
+            "getRedeemRequests": {
+              "description": "Get all redeem request IDs for a particular account",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            },
+            "getVaultRedeemRequests": {
+              "description": "Get all redeem request IDs for a particular vault",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            }
+          },
+          "refund": {
+            "getRefundRequests": {
+              "description": "Get all refund request IDs for a particular account",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            },
+            "getRefundRequestsByIssueId": {
+              "description": "Get all refund request IDs for a particular issue ID",
+              "params": [
+                {
+                  "name": "issue_id",
+                  "type": "H256"
+                }
+              ],
+              "type": "H256"
+            },
+            "getVaultRefundRequests": {
+              "description": "Get all refund request IDs for a particular vault",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            }
+          },
+          "replace": {
+            "getNewVaultReplaceRequests": {
+              "description": "Get all replace request IDs to a particular vault",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            },
+            "getOldVaultReplaceRequests": {
+              "description": "Get all replace request IDs from a particular vault",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            }
+          },
+          "reward": {
+            "estimateEscrowRewardRate": {
+              "description": "Estimate the escrow reward rate for a given account",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "amount",
+                  "type": "Option<Balance>"
+                },
+                {
+                  "name": "lock_time",
+                  "type": "Option<BlockNumber>"
+                }
+              ],
+              "type": "UnsignedFixedPoint"
+            },
+            "estimateVaultRewardRate": {
+              "description": "Estimate the vault reward rate a given vault id",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "VaultId"
+                }
+              ],
+              "type": "UnsignedFixedPoint"
+            },
+            "computeEscrowReward": {
+              "description": "Get a given user's rewards due",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "currency_id",
+                  "type": "CurrencyId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "computeVaultReward": {
+              "description": "Get a given vault's rewards due",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "VaultId"
+                },
+                {
+                  "name": "currency_id",
+                  "type": "CurrencyId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            }
+          },
+          "vaultRegistry": {
+            "getCollateralizationFromVault": {
+              "description": "Returns the collateralization of a specific vault",
+              "params": [
+                {
+                  "name": "vault",
+                  "type": "VaultId"
+                },
+                {
+                  "name": "only_issued",
+                  "type": "bool"
+                }
+              ],
+              "type": "UnsignedFixedPoint"
+            },
+            "getCollateralizationFromVaultAndCollateral": {
+              "description": "Returns the collateralization of a specific vault and collateral",
+              "params": [
+                {
+                  "name": "vault",
+                  "type": "VaultId"
+                },
+                {
+                  "name": "collateral",
+                  "type": "BalanceWrapper"
+                },
+                {
+                  "name": "only_issued",
+                  "type": "bool"
+                }
+              ],
+              "type": "UnsignedFixedPoint"
+            },
+            "getIssueableTokensFromVault": {
+              "description": "Get the amount of tokens a vault can issue",
+              "params": [
+                {
+                  "name": "vault",
+                  "type": "VaultId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "getPremiumRedeemVaults": {
+              "description": "Get all vaults below the premium redeem threshold.",
+              "params": [],
+              "type": "Vec<(VaultId, BalanceWrapper)>"
+            },
+            "getRequiredCollateralForVault": {
+              "description": "Get the amount of collateral required for the given vault to be at the current SecureCollateralThreshold with the current exchange rate",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "VaultId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "getRequiredCollateralForWrapped": {
+              "description": "Get the amount of collateral required to issue an amount of InterBTC",
+              "params": [
+                {
+                  "name": "amount_btc",
+                  "type": "BalanceWrapper"
+                },
+                {
+                  "name": "currency_id",
+                  "type": "CurrencyId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "getVaultCollateral": {
+              "description": "Get the vault's collateral (excluding nomination)",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "VaultId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "getVaultTotalCollateral": {
+              "description": "Get the vault's collateral (including nomination)",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "VaultId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "getVaultsByAccountId": {
+              "description": "Get all vaults that are registered using the given account _id",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<VaultId>"
+            },
+            "getVaultsWithIssuableTokens": {
+              "description": "Get all vaults with non-zero issuable tokens, ordered in descending order of this amount",
+              "params": [],
+              "type": "Vec<(VaultId, BalanceWrapper)>"
+            },
+            "getVaultsWithRedeemableTokens": {
+              "description": "Get all vaults with non-zero redeemable tokens, ordered in descending order of this amount",
+              "params": [],
+              "type": "Vec<(VaultId, BalanceWrapper)>"
+            }
+          }
+        },
+        "alias": {
+          "tokens": {
+            "AccountData": "OrmlAccountData",
+            "BalanceLock": "OrmlBalanceLock"
+          }
+        },
+        "instances": {
+          "balances": [
+            "ksm",
+            "kbtc",
+            "kint",
+            "dot",
+            "ibtc",
+            "intr"
+          ]
         }
-      ],
-      "rpc": {
-        "btcRelay": {
-          "verifyBlockHeaderInclusion": {
-            "description": "Verify that the block with the given hash is included",
-            "params": [
-              {
-                "name": "block_hash",
-                "type": "H256Le"
-              }
-            ],
-            "type": "void"
-          }
-        },
-        "escrow": {
-          "balanceAt": {
-            "description": "Get a given user's escrowed balance",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              },
-              {
-                "name": "height",
-                "type": "Option<BlockNumber>"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "totalSupply": {
-            "description": "Get the total voting supply in the system",
-            "params": [
-              {
-                "name": "height",
-                "type": "Option<BlockNumber>"
-              }
-            ],
-            "type": "BalanceWrapper"
-          }
-        },
-        "loans": {
-          "getCollateralLiquidity": {
-            "description": "Retrieves collateral liquidity for the given user.",
-            "params": [
-              {
-                "name": "account",
-                "type": "AccountId"
-              },
-              {
-                "name": "at",
-                "type": "BlockHash",
-                "isHistoric": true,
-                "isOptional": true
-              }
-            ],
-            "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
-            "isSubscription": false,
-            "jsonrpc": "loans_getCollateralLiquidity",
-            "method": "getCollateralLiquidity",
-            "section": "loans"
-          },
-          "getLiquidationThresholdLiquidity": {
-            "description": "Retrieves liquidation threshold liquidity for the given user.",
-            "params": [
-              {
-                "name": "account",
-                "type": "AccountId"
-              },
-              {
-                "name": "at",
-                "type": "BlockHash",
-                "isHistoric": true,
-                "isOptional": true
-              }
-            ],
-            "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
-            "isSubscription": false,
-            "jsonrpc": "loans_getLiquidationThresholdLiquidity",
-            "method": "getLiquidationThresholdLiquidity",
-            "section": "loans"
-          },
-          "getMarketStatus": {
-            "description": "Retrieves market status data for a given asset id.",
-            "params": [
-              {
-                "name": "asset_id",
-                "type": "CurrencyId"
-              },
-              {
-                "name": "at",
-                "type": "BlockHash",
-                "isHistoric": true,
-                "isOptional": true
-              }
-            ],
-            "type": "(Rate, Rate, Rate, Ratio, Balance, Balance, FixedU128)",
-            "isSubscription": false,
-            "jsonrpc": "loans_getMarketStatus",
-            "method": "getMarketStatus",
-            "section": "loans"
-          }
-        },
-        "issue": {
-          "getIssueRequests": {
-            "description": "Get all issue request IDs for a particular account",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          },
-          "getVaultIssueRequests": {
-            "description": "Get all issue request IDs for a particular vault",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          }
-        },
-        "oracle": {
-          "collateralToWrapped": {
-            "description": "Collateral to Wrapped exchange rate",
-            "params": [
-              {
-                "name": "amount",
-                "type": "BalanceWrapper"
-              },
-              {
-                "name": "currency_id",
-                "type": "CurrencyId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "wrappedToCollateral": {
-            "description": "Wrapped to Collateral exchange rate",
-            "params": [
-              {
-                "name": "amount",
-                "type": "BalanceWrapper"
-              },
-              {
-                "name": "currency_id",
-                "type": "CurrencyId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          }
-        },
-        "redeem": {
-          "getRedeemRequests": {
-            "description": "Get all redeem request IDs for a particular account",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          },
-          "getVaultRedeemRequests": {
-            "description": "Get all redeem request IDs for a particular vault",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          }
-        },
-        "refund": {
-          "getRefundRequests": {
-            "description": "Get all refund request IDs for a particular account",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          },
-          "getRefundRequestsByIssueId": {
-            "description": "Get all refund request IDs for a particular issue ID",
-            "params": [
-              {
-                "name": "issue_id",
-                "type": "H256"
-              }
-            ],
-            "type": "H256"
-          },
-          "getVaultRefundRequests": {
-            "description": "Get all refund request IDs for a particular vault",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          }
-        },
-        "replace": {
-          "getNewVaultReplaceRequests": {
-            "description": "Get all replace request IDs to a particular vault",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          },
-          "getOldVaultReplaceRequests": {
-            "description": "Get all replace request IDs from a particular vault",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          }
-        },
-        "reward": {
-          "computeEscrowReward": {
-            "description": "Get a given user's rewards due",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              },
-              {
-                "name": "currency_id",
-                "type": "CurrencyId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "computeVaultReward": {
-            "description": "Get a given vault's rewards due",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "VaultId"
-              },
-              {
-                "name": "currency_id",
-                "type": "CurrencyId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          }
-        },
-        "vaultRegistry": {
-          "getCollateralizationFromVault": {
-            "description": "Returns the collateralization of a specific vault",
-            "params": [
-              {
-                "name": "vault",
-                "type": "VaultId"
-              },
-              {
-                "name": "only_issued",
-                "type": "bool"
-              }
-            ],
-            "type": "UnsignedFixedPoint"
-          },
-          "getCollateralizationFromVaultAndCollateral": {
-            "description": "Returns the collateralization of a specific vault and collateral",
-            "params": [
-              {
-                "name": "vault",
-                "type": "VaultId"
-              },
-              {
-                "name": "collateral",
-                "type": "BalanceWrapper"
-              },
-              {
-                "name": "only_issued",
-                "type": "bool"
-              }
-            ],
-            "type": "UnsignedFixedPoint"
-          },
-          "getIssueableTokensFromVault": {
-            "description": "Get the amount of tokens a vault can issue",
-            "params": [
-              {
-                "name": "vault",
-                "type": "VaultId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "getPremiumRedeemVaults": {
-            "description": "Get all vaults below the premium redeem threshold.",
-            "params": [],
-            "type": "Vec<(VaultId, BalanceWrapper)>"
-          },
-          "getRequiredCollateralForVault": {
-            "description": "Get the amount of collateral required for the given vault to be at the current SecureCollateralThreshold with the current exchange rate",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "VaultId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "getRequiredCollateralForWrapped": {
-            "description": "Get the amount of collateral required to issue an amount of InterBTC",
-            "params": [
-              {
-                "name": "amount_btc",
-                "type": "BalanceWrapper"
-              },
-              {
-                "name": "currency_id",
-                "type": "CurrencyId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "getVaultCollateral": {
-            "description": "Get the vault's collateral (excluding nomination)",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "VaultId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "getVaultTotalCollateral": {
-            "description": "Get the vault's collateral (including nomination)",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "VaultId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "getVaultsByAccountId": {
-            "description": "Get all vaults that are registered using the given account _id",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<VaultId>"
-          },
-          "getVaultsWithIssuableTokens": {
-            "description": "Get all vaults with non-zero issuable tokens, ordered in descending order of this amount",
-            "params": [],
-            "type": "Vec<(VaultId, BalanceWrapper)>"
-          },
-          "getVaultsWithRedeemableTokens": {
-            "description": "Get all vaults with non-zero redeemable tokens, ordered in descending order of this amount",
-            "params": [],
-            "type": "Vec<(VaultId, BalanceWrapper)>"
-          }
-        }
-      },
-      "alias": {
-        "tokens": {
-          "AccountData": "OrmlAccountData",
-          "BalanceLock": "OrmlBalanceLock"
-        }
-      },
-      "instances": {
-        "balances": [
-          "ksm",
-          "kbtc",
-          "kint",
-          "dot",
-          "ibtc",
-          "intr"
-        ]
       }
     },
     "ipse-node": {
@@ -53743,484 +57928,514 @@ export const typesBundle = {
       ]
     },
     "kintsugi-parachain": {
-      "types": [
-        {
-          "minmax": [
-            0,
-            null
-          ],
-          "types": {
-            "BalanceWrapper": {
-              "amount": "String"
-            },
-            "CurrencyId": {
-              "_enum": {
-                "Token": "TokenSymbol",
-                "ForeignAsset": "ForeignAssetId",
-                "LendToken": "LendTokenId",
-                "LpToken": "(LpToken, LpToken)",
-                "StableLpToken": "StablePoolId"
+      "default": {
+        "types": [
+          {
+            "minmax": [
+              0,
+              null
+            ],
+            "types": {
+              "BalanceWrapper": {
+                "amount": "String"
+              },
+              "CurrencyId": {
+                "_enum": {
+                  "Token": "TokenSymbol",
+                  "ForeignAsset": "ForeignAssetId",
+                  "LendToken": "LendTokenId",
+                  "LpToken": "(LpToken, LpToken)",
+                  "StableLpToken": "StablePoolId"
+                }
+              },
+              "LpToken": {
+                "_enum": {
+                  "Token": "TokenSymbol",
+                  "ForeignAsset": "ForeignAssetId",
+                  "StableLpToken": "StablePoolId"
+                }
+              },
+              "InterbtcPrimitivesCurrencyId": {
+                "_enum": {
+                  "Token": "InterbtcPrimitivesTokenSymbol",
+                  "ForeignAsset": "InterbtcForeignAssetId",
+                  "LendToken": "InterbtcLendTokenId",
+                  "LpToken": "(InterbtcLpToken, InterbtcLpToken)",
+                  "StableLpToken": "InterbtcStablePoolId"
+                }
+              },
+              "InterbtcLpToken": {
+                "_enum": {
+                  "Token": "InterbtcPrimitivesTokenSymbol",
+                  "ForeignAsset": "InterbtcForeignAssetId",
+                  "StableLpToken": "InterbtcStablePoolId"
+                }
+              },
+              "InterbtcForeignAssetId": "u32",
+              "ForeignAssetId": "u32",
+              "InterbtcLendTokenId": "u32",
+              "InterbtcStablePoolId": "u32",
+              "LendTokenId": "u32",
+              "StablePoolId": "u32",
+              "Rate": "FixedU128",
+              "Ratio": "Permill",
+              "Liquidity": "FixedU128",
+              "Shortfall": "FixedU128",
+              "FundAccountJsonRpcRequest": {
+                "account_id": "AccountId",
+                "currency_id": "InterbtcPrimitivesCurrencyId"
+              },
+              "H256Le": "H256",
+              "SignedFixedPoint": "FixedU128",
+              "TokenSymbol": {
+                "_enum": {
+                  "DOT": 0,
+                  "IBTC": 1,
+                  "INTR": 2,
+                  "KSM": 10,
+                  "KBTC": 11,
+                  "KINT": 12
+                }
+              },
+              "InterbtcPrimitivesTokenSymbol": {
+                "_enum": {
+                  "DOT": 0,
+                  "IBTC": 1,
+                  "INTR": 2,
+                  "KSM": 10,
+                  "KBTC": 11,
+                  "KINT": 12
+                }
+              },
+              "UnsignedFixedPoint": "FixedU128",
+              "VaultCurrencyPair": {
+                "collateral": "CurrencyId",
+                "wrapped": "CurrencyId"
+              },
+              "VaultId": {
+                "account_id": "AccountId",
+                "currencies": "VaultCurrencyPair"
               }
-            },
-            "LpToken": {
-              "_enum": {
-                "Token": "TokenSymbol",
-                "ForeignAsset": "ForeignAssetId",
-                "StableLpToken": "StablePoolId"
-              }
-            },
-            "InterbtcPrimitivesCurrencyId": {
-              "_enum": {
-                "Token": "InterbtcPrimitivesTokenSymbol",
-                "ForeignAsset": "InterbtcForeignAssetId",
-                "LendToken": "InterbtcLendTokenId",
-                "LpToken": "(InterbtcLpToken, InterbtcLpToken)",
-                "StableLpToken": "InterbtcStablePoolId"
-              }
-            },
-            "InterbtcLpToken": {
-              "_enum": {
-                "Token": "InterbtcPrimitivesTokenSymbol",
-                "ForeignAsset": "InterbtcForeignAssetId",
-                "StableLpToken": "InterbtcStablePoolId"
-              }
-            },
-            "InterbtcForeignAssetId": "u32",
-            "ForeignAssetId": "u32",
-            "InterbtcLendTokenId": "u32",
-            "InterbtcStablePoolId": "u32",
-            "LendTokenId": "u32",
-            "StablePoolId": "u32",
-            "Rate": "FixedU128",
-            "Ratio": "Permill",
-            "Liquidity": "FixedU128",
-            "Shortfall": "FixedU128",
-            "FundAccountJsonRpcRequest": {
-              "account_id": "AccountId",
-              "currency_id": "InterbtcPrimitivesCurrencyId"
-            },
-            "H256Le": "H256",
-            "SignedFixedPoint": "FixedU128",
-            "TokenSymbol": {
-              "_enum": {
-                "DOT": 0,
-                "IBTC": 1,
-                "INTR": 2,
-                "KSM": 10,
-                "KBTC": 11,
-                "KINT": 12
-              }
-            },
-            "InterbtcPrimitivesTokenSymbol": {
-              "_enum": {
-                "DOT": 0,
-                "IBTC": 1,
-                "INTR": 2,
-                "KSM": 10,
-                "KBTC": 11,
-                "KINT": 12
-              }
-            },
-            "UnsignedFixedPoint": "FixedU128",
-            "VaultCurrencyPair": {
-              "collateral": "CurrencyId",
-              "wrapped": "CurrencyId"
-            },
-            "VaultId": {
-              "account_id": "AccountId",
-              "currencies": "VaultCurrencyPair"
             }
           }
+        ],
+        "rpc": {
+          "btcRelay": {
+            "verifyBlockHeaderInclusion": {
+              "description": "Verify that the block with the given hash is included",
+              "params": [
+                {
+                  "name": "block_hash",
+                  "type": "H256Le"
+                }
+              ],
+              "type": "void"
+            }
+          },
+          "escrow": {
+            "balanceAt": {
+              "description": "Get a given user's escrowed balance",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "height",
+                  "type": "Option<BlockNumber>"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "totalSupply": {
+              "description": "Get the total voting supply in the system",
+              "params": [
+                {
+                  "name": "height",
+                  "type": "Option<BlockNumber>"
+                }
+              ],
+              "type": "BalanceWrapper"
+            }
+          },
+          "loans": {
+            "getCollateralLiquidity": {
+              "description": "Retrieves collateral liquidity for the given user.",
+              "params": [
+                {
+                  "name": "account",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "at",
+                  "type": "BlockHash",
+                  "isHistoric": true,
+                  "isOptional": true
+                }
+              ],
+              "type": "(Liquidity, Shortfall)",
+              "isSubscription": false,
+              "jsonrpc": "loans_getCollateralLiquidity",
+              "method": "getCollateralLiquidity",
+              "section": "loans"
+            },
+            "getLiquidationThresholdLiquidity": {
+              "description": "Retrieves liquidation threshold liquidity for the given user.",
+              "params": [
+                {
+                  "name": "account",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "at",
+                  "type": "BlockHash",
+                  "isHistoric": true,
+                  "isOptional": true
+                }
+              ],
+              "type": "(Liquidity, Shortfall)",
+              "isSubscription": false,
+              "jsonrpc": "loans_getLiquidationThresholdLiquidity",
+              "method": "getLiquidationThresholdLiquidity",
+              "section": "loans"
+            },
+            "getMarketStatus": {
+              "description": "Retrieves market status data for a given asset id.",
+              "params": [
+                {
+                  "name": "asset_id",
+                  "type": "CurrencyId"
+                },
+                {
+                  "name": "at",
+                  "type": "BlockHash",
+                  "isHistoric": true,
+                  "isOptional": true
+                }
+              ],
+              "type": "(Rate, Rate, Rate, Ratio, Balance, Balance, FixedU128)",
+              "isSubscription": false,
+              "jsonrpc": "loans_getMarketStatus",
+              "method": "getMarketStatus",
+              "section": "loans"
+            }
+          },
+          "issue": {
+            "getIssueRequests": {
+              "description": "Get all issue request IDs for a particular account",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            },
+            "getVaultIssueRequests": {
+              "description": "Get all issue request IDs for a particular vault",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            }
+          },
+          "oracle": {
+            "collateralToWrapped": {
+              "description": "Collateral to Wrapped exchange rate",
+              "params": [
+                {
+                  "name": "amount",
+                  "type": "BalanceWrapper"
+                },
+                {
+                  "name": "currency_id",
+                  "type": "CurrencyId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "wrappedToCollateral": {
+              "description": "Wrapped to Collateral exchange rate",
+              "params": [
+                {
+                  "name": "amount",
+                  "type": "BalanceWrapper"
+                },
+                {
+                  "name": "currency_id",
+                  "type": "CurrencyId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            }
+          },
+          "redeem": {
+            "getRedeemRequests": {
+              "description": "Get all redeem request IDs for a particular account",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            },
+            "getVaultRedeemRequests": {
+              "description": "Get all redeem request IDs for a particular vault",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            }
+          },
+          "refund": {
+            "getRefundRequests": {
+              "description": "Get all refund request IDs for a particular account",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            },
+            "getRefundRequestsByIssueId": {
+              "description": "Get all refund request IDs for a particular issue ID",
+              "params": [
+                {
+                  "name": "issue_id",
+                  "type": "H256"
+                }
+              ],
+              "type": "H256"
+            },
+            "getVaultRefundRequests": {
+              "description": "Get all refund request IDs for a particular vault",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            }
+          },
+          "replace": {
+            "getNewVaultReplaceRequests": {
+              "description": "Get all replace request IDs to a particular vault",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            },
+            "getOldVaultReplaceRequests": {
+              "description": "Get all replace request IDs from a particular vault",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            }
+          },
+          "reward": {
+            "estimateEscrowRewardRate": {
+              "description": "Estimate the escrow reward rate for a given account",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "amount",
+                  "type": "Option<Balance>"
+                },
+                {
+                  "name": "lock_time",
+                  "type": "Option<BlockNumber>"
+                }
+              ],
+              "type": "UnsignedFixedPoint"
+            },
+            "estimateVaultRewardRate": {
+              "description": "Estimate the vault reward rate a given vault id",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "VaultId"
+                }
+              ],
+              "type": "UnsignedFixedPoint"
+            },
+            "computeEscrowReward": {
+              "description": "Get a given user's rewards due",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "currency_id",
+                  "type": "CurrencyId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "computeVaultReward": {
+              "description": "Get a given vault's rewards due",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "VaultId"
+                },
+                {
+                  "name": "currency_id",
+                  "type": "CurrencyId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            }
+          },
+          "vaultRegistry": {
+            "getCollateralizationFromVault": {
+              "description": "Returns the collateralization of a specific vault",
+              "params": [
+                {
+                  "name": "vault",
+                  "type": "VaultId"
+                },
+                {
+                  "name": "only_issued",
+                  "type": "bool"
+                }
+              ],
+              "type": "UnsignedFixedPoint"
+            },
+            "getCollateralizationFromVaultAndCollateral": {
+              "description": "Returns the collateralization of a specific vault and collateral",
+              "params": [
+                {
+                  "name": "vault",
+                  "type": "VaultId"
+                },
+                {
+                  "name": "collateral",
+                  "type": "BalanceWrapper"
+                },
+                {
+                  "name": "only_issued",
+                  "type": "bool"
+                }
+              ],
+              "type": "UnsignedFixedPoint"
+            },
+            "getIssueableTokensFromVault": {
+              "description": "Get the amount of tokens a vault can issue",
+              "params": [
+                {
+                  "name": "vault",
+                  "type": "VaultId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "getPremiumRedeemVaults": {
+              "description": "Get all vaults below the premium redeem threshold.",
+              "params": [],
+              "type": "Vec<(VaultId, BalanceWrapper)>"
+            },
+            "getRequiredCollateralForVault": {
+              "description": "Get the amount of collateral required for the given vault to be at the current SecureCollateralThreshold with the current exchange rate",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "VaultId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "getRequiredCollateralForWrapped": {
+              "description": "Get the amount of collateral required to issue an amount of InterBTC",
+              "params": [
+                {
+                  "name": "amount_btc",
+                  "type": "BalanceWrapper"
+                },
+                {
+                  "name": "currency_id",
+                  "type": "CurrencyId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "getVaultCollateral": {
+              "description": "Get the vault's collateral (excluding nomination)",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "VaultId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "getVaultTotalCollateral": {
+              "description": "Get the vault's collateral (including nomination)",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "VaultId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "getVaultsByAccountId": {
+              "description": "Get all vaults that are registered using the given account _id",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<VaultId>"
+            },
+            "getVaultsWithIssuableTokens": {
+              "description": "Get all vaults with non-zero issuable tokens, ordered in descending order of this amount",
+              "params": [],
+              "type": "Vec<(VaultId, BalanceWrapper)>"
+            },
+            "getVaultsWithRedeemableTokens": {
+              "description": "Get all vaults with non-zero redeemable tokens, ordered in descending order of this amount",
+              "params": [],
+              "type": "Vec<(VaultId, BalanceWrapper)>"
+            }
+          }
+        },
+        "alias": {
+          "tokens": {
+            "AccountData": "OrmlAccountData",
+            "BalanceLock": "OrmlBalanceLock"
+          }
+        },
+        "instances": {
+          "balances": [
+            "ksm",
+            "kbtc",
+            "kint",
+            "dot",
+            "ibtc",
+            "intr"
+          ]
         }
-      ],
-      "rpc": {
-        "btcRelay": {
-          "verifyBlockHeaderInclusion": {
-            "description": "Verify that the block with the given hash is included",
-            "params": [
-              {
-                "name": "block_hash",
-                "type": "H256Le"
-              }
-            ],
-            "type": "void"
-          }
-        },
-        "escrow": {
-          "balanceAt": {
-            "description": "Get a given user's escrowed balance",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              },
-              {
-                "name": "height",
-                "type": "Option<BlockNumber>"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "totalSupply": {
-            "description": "Get the total voting supply in the system",
-            "params": [
-              {
-                "name": "height",
-                "type": "Option<BlockNumber>"
-              }
-            ],
-            "type": "BalanceWrapper"
-          }
-        },
-        "loans": {
-          "getCollateralLiquidity": {
-            "description": "Retrieves collateral liquidity for the given user.",
-            "params": [
-              {
-                "name": "account",
-                "type": "AccountId"
-              },
-              {
-                "name": "at",
-                "type": "BlockHash",
-                "isHistoric": true,
-                "isOptional": true
-              }
-            ],
-            "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
-            "isSubscription": false,
-            "jsonrpc": "loans_getCollateralLiquidity",
-            "method": "getCollateralLiquidity",
-            "section": "loans"
-          },
-          "getLiquidationThresholdLiquidity": {
-            "description": "Retrieves liquidation threshold liquidity for the given user.",
-            "params": [
-              {
-                "name": "account",
-                "type": "AccountId"
-              },
-              {
-                "name": "at",
-                "type": "BlockHash",
-                "isHistoric": true,
-                "isOptional": true
-              }
-            ],
-            "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
-            "isSubscription": false,
-            "jsonrpc": "loans_getLiquidationThresholdLiquidity",
-            "method": "getLiquidationThresholdLiquidity",
-            "section": "loans"
-          },
-          "getMarketStatus": {
-            "description": "Retrieves market status data for a given asset id.",
-            "params": [
-              {
-                "name": "asset_id",
-                "type": "CurrencyId"
-              },
-              {
-                "name": "at",
-                "type": "BlockHash",
-                "isHistoric": true,
-                "isOptional": true
-              }
-            ],
-            "type": "(Rate, Rate, Rate, Ratio, Balance, Balance, FixedU128)",
-            "isSubscription": false,
-            "jsonrpc": "loans_getMarketStatus",
-            "method": "getMarketStatus",
-            "section": "loans"
-          }
-        },
-        "issue": {
-          "getIssueRequests": {
-            "description": "Get all issue request IDs for a particular account",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          },
-          "getVaultIssueRequests": {
-            "description": "Get all issue request IDs for a particular vault",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          }
-        },
-        "oracle": {
-          "collateralToWrapped": {
-            "description": "Collateral to Wrapped exchange rate",
-            "params": [
-              {
-                "name": "amount",
-                "type": "BalanceWrapper"
-              },
-              {
-                "name": "currency_id",
-                "type": "CurrencyId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "wrappedToCollateral": {
-            "description": "Wrapped to Collateral exchange rate",
-            "params": [
-              {
-                "name": "amount",
-                "type": "BalanceWrapper"
-              },
-              {
-                "name": "currency_id",
-                "type": "CurrencyId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          }
-        },
-        "redeem": {
-          "getRedeemRequests": {
-            "description": "Get all redeem request IDs for a particular account",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          },
-          "getVaultRedeemRequests": {
-            "description": "Get all redeem request IDs for a particular vault",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          }
-        },
-        "refund": {
-          "getRefundRequests": {
-            "description": "Get all refund request IDs for a particular account",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          },
-          "getRefundRequestsByIssueId": {
-            "description": "Get all refund request IDs for a particular issue ID",
-            "params": [
-              {
-                "name": "issue_id",
-                "type": "H256"
-              }
-            ],
-            "type": "H256"
-          },
-          "getVaultRefundRequests": {
-            "description": "Get all refund request IDs for a particular vault",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          }
-        },
-        "replace": {
-          "getNewVaultReplaceRequests": {
-            "description": "Get all replace request IDs to a particular vault",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          },
-          "getOldVaultReplaceRequests": {
-            "description": "Get all replace request IDs from a particular vault",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          }
-        },
-        "reward": {
-          "computeEscrowReward": {
-            "description": "Get a given user's rewards due",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              },
-              {
-                "name": "currency_id",
-                "type": "CurrencyId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "computeVaultReward": {
-            "description": "Get a given vault's rewards due",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "VaultId"
-              },
-              {
-                "name": "currency_id",
-                "type": "CurrencyId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          }
-        },
-        "vaultRegistry": {
-          "getCollateralizationFromVault": {
-            "description": "Returns the collateralization of a specific vault",
-            "params": [
-              {
-                "name": "vault",
-                "type": "VaultId"
-              },
-              {
-                "name": "only_issued",
-                "type": "bool"
-              }
-            ],
-            "type": "UnsignedFixedPoint"
-          },
-          "getCollateralizationFromVaultAndCollateral": {
-            "description": "Returns the collateralization of a specific vault and collateral",
-            "params": [
-              {
-                "name": "vault",
-                "type": "VaultId"
-              },
-              {
-                "name": "collateral",
-                "type": "BalanceWrapper"
-              },
-              {
-                "name": "only_issued",
-                "type": "bool"
-              }
-            ],
-            "type": "UnsignedFixedPoint"
-          },
-          "getIssueableTokensFromVault": {
-            "description": "Get the amount of tokens a vault can issue",
-            "params": [
-              {
-                "name": "vault",
-                "type": "VaultId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "getPremiumRedeemVaults": {
-            "description": "Get all vaults below the premium redeem threshold.",
-            "params": [],
-            "type": "Vec<(VaultId, BalanceWrapper)>"
-          },
-          "getRequiredCollateralForVault": {
-            "description": "Get the amount of collateral required for the given vault to be at the current SecureCollateralThreshold with the current exchange rate",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "VaultId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "getRequiredCollateralForWrapped": {
-            "description": "Get the amount of collateral required to issue an amount of InterBTC",
-            "params": [
-              {
-                "name": "amount_btc",
-                "type": "BalanceWrapper"
-              },
-              {
-                "name": "currency_id",
-                "type": "CurrencyId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "getVaultCollateral": {
-            "description": "Get the vault's collateral (excluding nomination)",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "VaultId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "getVaultTotalCollateral": {
-            "description": "Get the vault's collateral (including nomination)",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "VaultId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "getVaultsByAccountId": {
-            "description": "Get all vaults that are registered using the given account _id",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<VaultId>"
-          },
-          "getVaultsWithIssuableTokens": {
-            "description": "Get all vaults with non-zero issuable tokens, ordered in descending order of this amount",
-            "params": [],
-            "type": "Vec<(VaultId, BalanceWrapper)>"
-          },
-          "getVaultsWithRedeemableTokens": {
-            "description": "Get all vaults with non-zero redeemable tokens, ordered in descending order of this amount",
-            "params": [],
-            "type": "Vec<(VaultId, BalanceWrapper)>"
-          }
-        }
-      },
-      "alias": {
-        "tokens": {
-          "AccountData": "OrmlAccountData",
-          "BalanceLock": "OrmlBalanceLock"
-        }
-      },
-      "instances": {
-        "balances": [
-          "ksm",
-          "kbtc",
-          "kint",
-          "dot",
-          "ibtc",
-          "intr"
-        ]
       }
     },
     "konomi": {
@@ -56469,7 +60684,8 @@ export const typesBundle = {
           "councilCollective"
         ],
         "technicalCommittee": [
-          "techCommitteeCollective"
+          "techCommitteeCollective",
+          "openTechCommitteeCollective"
         ]
       },
       "types": [
@@ -58184,7 +62400,8 @@ export const typesBundle = {
           "councilCollective"
         ],
         "technicalCommittee": [
-          "techCommitteeCollective"
+          "techCommitteeCollective",
+          "openTechCommitteeCollective"
         ]
       },
       "types": [
@@ -59899,7 +64116,8 @@ export const typesBundle = {
           "councilCollective"
         ],
         "technicalCommittee": [
-          "techCommitteeCollective"
+          "techCommitteeCollective",
+          "openTechCommitteeCollective"
         ]
       },
       "types": [
@@ -61614,7 +65832,8 @@ export const typesBundle = {
           "councilCollective"
         ],
         "technicalCommittee": [
-          "techCommitteeCollective"
+          "techCommitteeCollective",
+          "openTechCommitteeCollective"
         ]
       },
       "types": [
@@ -63552,7 +67771,8 @@ export const typesBundle = {
           "councilCollective"
         ],
         "technicalCommittee": [
-          "techCommitteeCollective"
+          "techCommitteeCollective",
+          "openTechCommitteeCollective"
         ]
       },
       "types": [
@@ -65236,6 +69456,70 @@ export const typesBundle = {
     },
     "opal": {
       "rpc": {
+        "appPromotion": {
+          "totalStaked": {
+            "description": "Returns the total amount of staked tokens",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u128"
+          },
+          "totalStakedPerBlock": {
+            "description": "Returns the total amount of staked tokens per block when staked",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(u32, u128)>"
+          },
+          "pendingUnstake": {
+            "description": "Returns the total amount of unstaked tokens",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u128"
+          },
+          "pendingUnstakePerBlock": {
+            "description": "Returns the total amount of unstaked tokens per block",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(u32, u128)>"
+          }
+        },
         "unique": {
           "accountTokens": {
             "description": "Get tokens owned by an account in a collection",
@@ -65722,6 +70006,29 @@ export const typesBundle = {
               }
             ],
             "type": "Option<u128>"
+          },
+          "allowanceForAll": {
+            "description": "Tells whether the given `owner` approves the `operator`.",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "owner",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "operator",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<bool>"
           }
         }
       }
@@ -66799,1521 +71106,12 @@ export const typesBundle = {
       "DistributorNftId": "(ClassId, TokenId)"
     },
     "polymesh": {
-      "rpc": {
-        "compliance": {
-          "canTransfer": {
-            "description": "Checks whether a transaction with given parameters is compliant to the compliance manager conditions",
-            "params": [
-              {
-                "name": "ticker",
-                "type": "Ticker",
-                "isOptional": false
-              },
-              {
-                "name": "from_did",
-                "type": "Option<IdentityId>",
-                "isOptional": false
-              },
-              {
-                "name": "to_did",
-                "type": "Option<IdentityId>",
-                "isOptional": false
-              },
-              {
-                "name": "blockHash",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "AssetComplianceResult"
-          }
-        },
-        "identity": {
-          "isIdentityHasValidCdd": {
-            "description": "use to tell whether the given did has valid cdd claim or not",
-            "params": [
-              {
-                "name": "did",
-                "type": "IdentityId",
-                "isOptional": false
-              },
-              {
-                "name": "buffer_time",
-                "type": "u64",
-                "isOptional": true
-              },
-              {
-                "name": "blockHash",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "CddStatus"
-          },
-          "getAssetDid": {
-            "description": "function is used to query the given ticker DID",
-            "params": [
-              {
-                "name": "ticker",
-                "type": "Ticker",
-                "isOptional": false
-              },
-              {
-                "name": "blockHash",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "AssetDidResult"
-          },
-          "getDidRecords": {
-            "description": "Used to get the did record values for a given DID",
-            "params": [
-              {
-                "name": "did",
-                "type": "IdentityId",
-                "isOptional": false
-              },
-              {
-                "name": "blockHash",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "DidRecords"
-          },
-          "getDidStatus": {
-            "description": "Retrieve status of the DID",
-            "params": [
-              {
-                "name": "did",
-                "type": "Vec<IdentityId>",
-                "isOptional": false
-              },
-              {
-                "name": "blockHash",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<DidStatus>"
-          },
-          "getFilteredAuthorizations": {
-            "description": "Retrieve authorizations data for a given signatory and filtered using the given authorization type",
-            "params": [
-              {
-                "name": "signatory",
-                "type": "Signatory",
-                "isOptional": false
-              },
-              {
-                "name": "allow_expired",
-                "type": "bool",
-                "isOptional": false
-              },
-              {
-                "name": "auth_type",
-                "type": "AuthorizationType",
-                "isOptional": true
-              },
-              {
-                "name": "blockHash",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<Authorization>"
-          },
-          "getKeyIdentityData": {
-            "description": "Query relation between a signing key and a DID",
-            "params": [
-              {
-                "name": "acc",
-                "type": "AccountId",
-                "isOptional": false
-              },
-              {
-                "name": "blockHash",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Option<KeyIdentityData>"
-          }
-        },
-        "pips": {
-          "getVotes": {
-            "description": "Summary of votes of a proposal given by index",
-            "params": [
-              {
-                "name": "index",
-                "type": "u32",
-                "isOptional": false
-              },
-              {
-                "name": "blockHash",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "VoteCount"
-          },
-          "proposedBy": {
-            "description": "Retrieves proposal indices started by address",
-            "params": [
-              {
-                "name": "address",
-                "type": "AccountId",
-                "isOptional": false
-              },
-              {
-                "name": "blockHash",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<u32>"
-          },
-          "votedOn": {
-            "description": "Retrieves proposal address indices voted on",
-            "params": [
-              {
-                "name": "address",
-                "type": "AccountId",
-                "isOptional": false
-              },
-              {
-                "name": "blockHash",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<u32>"
-          }
-        },
-        "protocolFee": {
-          "computeFee": {
-            "description": "Gets the fee of a chargeable extrinsic operation",
-            "params": [
-              {
-                "name": "op",
-                "type": "ProtocolOp",
-                "isOptional": false
-              },
-              {
-                "name": "blockHash",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "CappedFee"
-          }
-        },
-        "staking": {
-          "getCurve": {
-            "description": "Retrieves curves parameters",
-            "params": [
-              {
-                "name": "blockHash",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<(Perbill, Perbill)>"
-          }
-        },
-        "asset": {
-          "canTransfer": {
-            "description": "Checks whether a transaction with given parameters can take place or not",
-            "params": [
-              {
-                "name": "sender",
-                "type": "AccountId",
-                "isOptional": false
-              },
-              {
-                "name": "from_custodian",
-                "type": "Option<IdentityId>",
-                "isOptional": false
-              },
-              {
-                "name": "from_portfolio",
-                "type": "PortfolioId",
-                "isOptional": false
-              },
-              {
-                "name": "to_custodian",
-                "type": "Option<IdentityId>",
-                "isOptional": false
-              },
-              {
-                "name": "to_portfolio",
-                "type": "PortfolioId",
-                "isOptional": false
-              },
-              {
-                "name": "ticker",
-                "type": "Ticker",
-                "isOptional": false
-              },
-              {
-                "name": "value",
-                "type": "Balance",
-                "isOptional": false
-              },
-              {
-                "name": "blockHash",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "CanTransferResult"
-          },
-          "canTransferGranular": {
-            "description": "Checks whether a transaction with given parameters can take place or not. The result is granular meaning each check is run and returned regardless of outcome.",
-            "params": [
-              {
-                "name": "from_custodian",
-                "type": "Option<IdentityId>",
-                "isOptional": false
-              },
-              {
-                "name": "from_portfolio",
-                "type": "PortfolioId",
-                "isOptional": false
-              },
-              {
-                "name": "to_custodian",
-                "type": "Option<IdentityId>",
-                "isOptional": false
-              },
-              {
-                "name": "to_portfolio",
-                "type": "PortfolioId",
-                "isOptional": false
-              },
-              {
-                "name": "ticker",
-                "type": "Ticker",
-                "isOptional": false
-              },
-              {
-                "name": "value",
-                "type": "Balance",
-                "isOptional": false
-              },
-              {
-                "name": "blockHash",
-                "type": "Hash",
-                "isOptional": true
-              }
-            ],
-            "type": "GranularCanTransferResult"
-          }
-        }
-      },
       "types": [
         {
           "minmax": [
             0,
             null
-          ],
-          "types": {
-            "AccountInfo": "AccountInfoWithRefCount",
-            "Address": "IndicesLookupSource",
-            "LookupSource": "IndicesLookupSource",
-            "ValidatorPrefsWithBlocked": {
-              "commission": "Compact<Perbill>"
-            },
-            "IdentityId": "[u8; 32]",
-            "EventDid": "IdentityId",
-            "InvestorUid": "[u8; 16]",
-            "Ticker": "[u8; 12]",
-            "CddId": "[u8; 32]",
-            "ScopeId": "[u8; 32]",
-            "PosRatio": "(u32, u32)",
-            "DocumentId": "u32",
-            "DocumentName": "Text",
-            "DocumentUri": "Text",
-            "DocumentHash": {
-              "_enum": {
-                "None": "",
-                "H512": "[u8; 64]",
-                "H384": "[u8; 48]",
-                "H320": "[u8; 40]",
-                "H256": "[u8; 32]",
-                "H224": "[u8; 28]",
-                "H192": "[u8; 24]",
-                "H160": "[u8; 20]",
-                "H128": "[u8; 16]"
-              }
-            },
-            "DocumentType": "Text",
-            "Document": {
-              "uri": "DocumentUri",
-              "content_hash": "DocumentHash",
-              "name": "DocumentName",
-              "doc_type": "Option<DocumentType>",
-              "filing_date": "Option<Moment>"
-            },
-            "Version": "u8",
-            "AssetType": {
-              "_enum": {
-                "EquityCommon": "",
-                "EquityPreferred": "",
-                "Commodity": "",
-                "FixedIncome": "",
-                "REIT": "",
-                "Fund": "",
-                "RevenueShareAgreement": "",
-                "StructuredProduct": "",
-                "Derivative": "",
-                "Custom": "Vec<u8>",
-                "StableCoin": ""
-              }
-            },
-            "AssetIdentifier": {
-              "_enum": {
-                "CUSIP": "[u8; 9]",
-                "CINS": "[u8; 9]",
-                "ISIN": "[u8; 12]",
-                "LEI": "[u8; 20]"
-              }
-            },
-            "AssetOwnershipRelation": {
-              "_enum": {
-                "NotOwned": "",
-                "TickerOwned": "",
-                "AssetOwned": ""
-              }
-            },
-            "AssetName": "Text",
-            "FundingRoundName": "Text",
-            "VenueDetails": "Text",
-            "SecurityToken": {
-              "name": "AssetName",
-              "total_supply": "Balance",
-              "owner_did": "IdentityId",
-              "divisible": "bool",
-              "asset_type": "AssetType",
-              "primary_issuance_agent": "Option<IdentityId>"
-            },
-            "PalletName": "Text",
-            "DispatchableName": "Text",
-            "PalletPermissions": {
-              "pallet_name": "PalletName",
-              "dispatchable_names": "Option<Vec<DispatchableName>>"
-            },
-            "Permissions": {
-              "asset": "Option<Vec<Ticker>>",
-              "extrinsic": "Option<Vec<PalletPermissions>>",
-              "portfolio": "Option<Vec<PortfolioId>>"
-            },
-            "LegacyPalletPermissions": {
-              "pallet_name": "PalletName",
-              "total": "bool",
-              "dispatchable_names": "Vec<DispatchableName>"
-            },
-            "LegacyPermissions": {
-              "asset": "Option<Vec<Ticker>>",
-              "extrinsic": "Option<Vec<LegacyPalletPermissions>>",
-              "portfolio": "Option<Vec<PortfolioId>>"
-            },
-            "Signatory": {
-              "_enum": {
-                "Identity": "IdentityId",
-                "Account": "AccountId"
-              }
-            },
-            "SecondaryKey": {
-              "signer": "Signatory",
-              "permissions": "Permissions"
-            },
-            "SecondaryKeyWithAuth": {
-              "secondary_key": "SecondaryKey",
-              "auth_signature": "Signature"
-            },
-            "IdentityRole": {
-              "_enum": [
-                "Issuer",
-                "SimpleTokenIssuer",
-                "Validator",
-                "ClaimIssuer",
-                "Investor",
-                "NodeRunner",
-                "PM",
-                "CDDAMLClaimIssuer",
-                "AccreditedInvestorClaimIssuer",
-                "VerifiedIdentityClaimIssuer"
-              ]
-            },
-            "PreAuthorizedKeyInfo": {
-              "target_id": "IdentityId",
-              "secondary_key": "SecondaryKey"
-            },
-            "DidRecord": {
-              "primary_key": "AccountId",
-              "secondary_keys": "Vec<SecondaryKey>"
-            },
-            "KeyIdentityData": {
-              "identity": "IdentityId",
-              "permissions": "Option<Permissions>"
-            },
-            "CountryCode": {
-              "_enum": [
-                "AF",
-                "AX",
-                "AL",
-                "DZ",
-                "AS",
-                "AD",
-                "AO",
-                "AI",
-                "AQ",
-                "AG",
-                "AR",
-                "AM",
-                "AW",
-                "AU",
-                "AT",
-                "AZ",
-                "BS",
-                "BH",
-                "BD",
-                "BB",
-                "BY",
-                "BE",
-                "BZ",
-                "BJ",
-                "BM",
-                "BT",
-                "BO",
-                "BA",
-                "BW",
-                "BV",
-                "BR",
-                "VG",
-                "IO",
-                "BN",
-                "BG",
-                "BF",
-                "BI",
-                "KH",
-                "CM",
-                "CA",
-                "CV",
-                "KY",
-                "CF",
-                "TD",
-                "CL",
-                "CN",
-                "HK",
-                "MO",
-                "CX",
-                "CC",
-                "CO",
-                "KM",
-                "CG",
-                "CD",
-                "CK",
-                "CR",
-                "CI",
-                "HR",
-                "CU",
-                "CY",
-                "CZ",
-                "DK",
-                "DJ",
-                "DM",
-                "DO",
-                "EC",
-                "EG",
-                "SV",
-                "GQ",
-                "ER",
-                "EE",
-                "ET",
-                "FK",
-                "FO",
-                "FJ",
-                "FI",
-                "FR",
-                "GF",
-                "PF",
-                "TF",
-                "GA",
-                "GM",
-                "GE",
-                "DE",
-                "GH",
-                "GI",
-                "GR",
-                "GL",
-                "GD",
-                "GP",
-                "GU",
-                "GT",
-                "GG",
-                "GN",
-                "GW",
-                "GY",
-                "HT",
-                "HM",
-                "VA",
-                "HN",
-                "HU",
-                "IS",
-                "IN",
-                "ID",
-                "IR",
-                "IQ",
-                "IE",
-                "IM",
-                "IL",
-                "IT",
-                "JM",
-                "JP",
-                "JE",
-                "JO",
-                "KZ",
-                "KE",
-                "KI",
-                "KP",
-                "KR",
-                "KW",
-                "KG",
-                "LA",
-                "LV",
-                "LB",
-                "LS",
-                "LR",
-                "LY",
-                "LI",
-                "LT",
-                "LU",
-                "MK",
-                "MG",
-                "MW",
-                "MY",
-                "MV",
-                "ML",
-                "MT",
-                "MH",
-                "MQ",
-                "MR",
-                "MU",
-                "YT",
-                "MX",
-                "FM",
-                "MD",
-                "MC",
-                "MN",
-                "ME",
-                "MS",
-                "MA",
-                "MZ",
-                "MM",
-                "NA",
-                "NR",
-                "NP",
-                "NL",
-                "AN",
-                "NC",
-                "NZ",
-                "NI",
-                "NE",
-                "NG",
-                "NU",
-                "NF",
-                "MP",
-                "NO",
-                "OM",
-                "PK",
-                "PW",
-                "PS",
-                "PA",
-                "PG",
-                "PY",
-                "PE",
-                "PH",
-                "PN",
-                "PL",
-                "PT",
-                "PR",
-                "QA",
-                "RE",
-                "RO",
-                "RU",
-                "RW",
-                "BL",
-                "SH",
-                "KN",
-                "LC",
-                "MF",
-                "PM",
-                "VC",
-                "WS",
-                "SM",
-                "ST",
-                "SA",
-                "SN",
-                "RS",
-                "SC",
-                "SL",
-                "SG",
-                "SK",
-                "SI",
-                "SB",
-                "SO",
-                "ZA",
-                "GS",
-                "SS",
-                "ES",
-                "LK",
-                "SD",
-                "SR",
-                "SJ",
-                "SZ",
-                "SE",
-                "CH",
-                "SY",
-                "TW",
-                "TJ",
-                "TZ",
-                "TH",
-                "TL",
-                "TG",
-                "TK",
-                "TO",
-                "TT",
-                "TN",
-                "TR",
-                "TM",
-                "TC",
-                "TV",
-                "UG",
-                "UA",
-                "AE",
-                "GB",
-                "US",
-                "UM",
-                "UY",
-                "UZ",
-                "VU",
-                "VE",
-                "VN",
-                "VI",
-                "WF",
-                "EH",
-                "YE",
-                "ZM",
-                "ZW",
-                "BQ",
-                "CW",
-                "SX"
-              ]
-            },
-            "Scope": {
-              "_enum": {
-                "Identity": "IdentityId",
-                "Ticker": "Ticker",
-                "Custom": "Vec<u8>"
-              }
-            },
-            "InvestorZKProofData": "Signature",
-            "Scalar": "[u8; 32]",
-            "RistrettoPoint": "[u8; 32]",
-            "ZkProofData": {
-              "challenge_responses": "[Scalar; 2]",
-              "subtract_expressions_res": "RistrettoPoint",
-              "blinded_scope_did_hash": "RistrettoPoint"
-            },
-            "ScopeClaimProof": {
-              "proof_scope_id_wellformed": "Signature",
-              "proof_scope_id_cdd_id_match": "ZkProofData",
-              "scope_id": "RistrettoPoint"
-            },
-            "Claim": {
-              "_enum": {
-                "Accredited": "Scope",
-                "Affiliate": "Scope",
-                "BuyLockup": "Scope",
-                "SellLockup": "Scope",
-                "CustomerDueDiligence": "CddId",
-                "KnowYourCustomer": "Scope",
-                "Jurisdiction": "(CountryCode, Scope)",
-                "Exempted": "Scope",
-                "Blocked": "Scope",
-                "InvestorUniqueness": "(Scope, ScopeId, CddId)",
-                "NoData": "",
-                "InvestorUniquenessV2": "(CddId)"
-              }
-            },
-            "ClaimType": {
-              "_enum": {
-                "Accredited": "",
-                "Affiliate": "",
-                "BuyLockup": "",
-                "SellLockup": "",
-                "CustomerDueDiligence": "",
-                "KnowYourCustomer": "",
-                "Jurisdiction": "",
-                "Exempted": "",
-                "Blocked": "",
-                "InvestorUniqueness": "",
-                "NoData": "",
-                "InvestorUniquenessV2": ""
-              }
-            },
-            "IdentityClaim": {
-              "claim_issuer": "IdentityId",
-              "issuance_date": "Moment",
-              "last_update_date": "Moment",
-              "expiry": "Option<Moment>",
-              "claim": "Claim"
-            },
-            "IdentityClaimKey": {
-              "id": "IdentityId",
-              "claim_type": "ClaimType"
-            },
-            "ComplianceRequirement": {
-              "sender_conditions": "Vec<Condition>",
-              "receiver_conditions": "Vec<Condition>",
-              "id": "u32"
-            },
-            "ComplianceRequirementResult": {
-              "sender_conditions": "Vec<ConditionResult>",
-              "receiver_conditions": "Vec<ConditionResult>",
-              "id": "u32",
-              "result": "bool"
-            },
-            "ConditionType": {
-              "_enum": {
-                "IsPresent": "Claim",
-                "IsAbsent": "Claim",
-                "IsAnyOf": "Vec<Claim>",
-                "IsNoneOf": "Vec<Claim>",
-                "IsIdentity": "TargetIdentity"
-              }
-            },
-            "TrustedFor": {
-              "_enum": {
-                "Any": "",
-                "Specific": "Vec<ClaimType>"
-              }
-            },
-            "TrustedIssuer": {
-              "issuer": "IdentityId",
-              "trusted_for": "TrustedFor"
-            },
-            "Condition": {
-              "condition_type": "ConditionType",
-              "issuers": "Vec<TrustedIssuer>"
-            },
-            "ConditionResult": {
-              "condition": "Condition",
-              "result": "bool"
-            },
-            "SimpleTokenRecord": {
-              "ticker": "Ticker",
-              "total_supply": "Balance",
-              "owner_did": "IdentityId"
-            },
-            "FeeOf": "Balance",
-            "TargetIdAuthorization": {
-              "target_id": "IdentityId",
-              "nonce": "u64",
-              "expires_at": "Moment"
-            },
-            "TickerRegistration": {
-              "owner": "IdentityId",
-              "expiry": "Option<Moment>"
-            },
-            "TickerRegistrationConfig": {
-              "max_ticker_length": "u8",
-              "registration_length": "Option<Moment>"
-            },
-            "ClassicTickerRegistration": {
-              "eth_owner": "EthereumAddress",
-              "is_created": "bool"
-            },
-            "ClassicTickerImport": {
-              "eth_owner": "EthereumAddress",
-              "ticker": "Ticker",
-              "is_contract": "bool",
-              "is_created": "bool"
-            },
-            "EthereumAddress": "[u8; 20]",
-            "EcdsaSignature": "[u8; 65]",
-            "MotionTitle": "Text",
-            "MotionInfoLink": "Text",
-            "ChoiceTitle": "Text",
-            "Motion": {
-              "title": "MotionTitle",
-              "info_link": "MotionInfoLink",
-              "choices": "Vec<ChoiceTitle>"
-            },
-            "BallotTitle": "Text",
-            "BallotMeta": {
-              "title": "BallotTitle",
-              "motions": "Vec<Motion>"
-            },
-            "BallotTimeRange": {
-              "start": "Moment",
-              "end": "Moment"
-            },
-            "BallotVote": {
-              "power": "Balance",
-              "fallback": "Option<u16>"
-            },
-            "MaybeBlock": {
-              "_enum": {
-                "Some": "BlockNumber",
-                "None": ""
-              }
-            },
-            "Url": "Text",
-            "PipDescription": "Text",
-            "PipsMetadata": {
-              "id": "PipId",
-              "url": "Option<Url>",
-              "description": "Option<PipDescription>",
-              "created_at": "BlockNumber",
-              "transaction_version": "u32",
-              "expiry": "MaybeBlock"
-            },
-            "Proposer": {
-              "_enum": {
-                "Community": "AccountId",
-                "Committee": "Committee"
-              }
-            },
-            "Committee": {
-              "_enum": {
-                "Technical": "",
-                "Upgrade": ""
-              }
-            },
-            "SkippedCount": "u8",
-            "SnapshottedPip": {
-              "id": "PipId",
-              "weight": "(bool, Balance)"
-            },
-            "SnapshotId": "u32",
-            "SnapshotMetadata": {
-              "created_at": "BlockNumber",
-              "made_by": "AccountId",
-              "id": "SnapshotId"
-            },
-            "SnapshotResult": {
-              "_enum": {
-                "Approve": "",
-                "Reject": "",
-                "Skip": ""
-              }
-            },
-            "Beneficiary": {
-              "id": "IdentityId",
-              "amount": "Balance"
-            },
-            "DepositInfo": {
-              "owner": "AccountId",
-              "amount": "Balance"
-            },
-            "PolymeshVotes": {
-              "index": "u32",
-              "ayes": "Vec<(IdentityId, Balance)>",
-              "nays": "Vec<(IdentityId, Balance)>",
-              "end": "BlockNumber",
-              "expiry": "MaybeBlock"
-            },
-            "PipId": "u32",
-            "ProposalState": {
-              "_enum": [
-                "Pending",
-                "Rejected",
-                "Scheduled",
-                "Failed",
-                "Executed",
-                "Expired"
-              ]
-            },
-            "Pip": {
-              "id": "PipId",
-              "proposal": "Call",
-              "state": "ProposalState",
-              "proposer": "Proposer"
-            },
-            "ProposalData": {
-              "_enum": {
-                "Hash": "Hash",
-                "Proposal": "Vec<u8>"
-              }
-            },
-            "TickerTransferApproval": {
-              "authorized_by": "IdentityId",
-              "next_ticker": "Option<Ticker>",
-              "previous_ticker": "Option<Ticker>"
-            },
-            "OffChainSignature": {
-              "_enum": {
-                "Ed25519": "H512",
-                "Sr25519": "H512",
-                "Ecdsa": "H512"
-              }
-            },
-            "Authorization": {
-              "authorization_data": "AuthorizationData",
-              "authorized_by": "IdentityId",
-              "expiry": "Option<Moment>",
-              "auth_id": "u64"
-            },
-            "AuthorizationData": {
-              "_enum": {
-                "AttestPrimaryKeyRotation": "IdentityId",
-                "RotatePrimaryKey": "IdentityId",
-                "TransferTicker": "Ticker",
-                "TransferPrimaryIssuanceAgent": "Ticker",
-                "AddMultiSigSigner": "AccountId",
-                "TransferAssetOwnership": "Ticker",
-                "JoinIdentity": "Permissions",
-                "PortfolioCustody": "PortfolioId",
-                "Custom": "Ticker",
-                "NoData": "",
-                "TransferCorporateActionAgent": "Ticker"
-              }
-            },
-            "AuthIdentifier": {
-              "signatory": "Signatory",
-              "auth_id": "u64"
-            },
-            "SmartExtensionType": {
-              "_enum": {
-                "TransferManager": "",
-                "Offerings": "",
-                "SmartWallet": "",
-                "Custom": "Vec<u8>"
-              }
-            },
-            "SmartExtensionName": "Text",
-            "SmartExtension": {
-              "extension_type": "SmartExtensionType",
-              "extension_name": "SmartExtensionName",
-              "extension_id": "AccountId",
-              "is_archive": "bool"
-            },
-            "MetaUrl": "Text",
-            "MetaDescription": "Text",
-            "MetaVersion": "u32",
-            "ExtVersion": "u32",
-            "TemplateMetadata": {
-              "url": "Option<MetaUrl>",
-              "se_type": "SmartExtensionType",
-              "usage_fee": "Balance",
-              "description": "MetaDescription",
-              "version": "MetaVersion"
-            },
-            "TemplateDetails": {
-              "instantiation_fee": "Balance",
-              "owner": "IdentityId",
-              "frozen": "bool"
-            },
-            "ProportionMatch": {
-              "_enum": [
-                "AtLeast",
-                "MoreThan"
-              ]
-            },
-            "AuthorizationNonce": "u64",
-            "Counter": "u64",
-            "Percentage": "Permill",
-            "TransferManager": {
-              "_enum": {
-                "CountTransferManager": "Counter",
-                "PercentageTransferManager": "Percentage"
-              }
-            },
-            "RestrictionResult": {
-              "_enum": [
-                "Valid",
-                "Invalid",
-                "ForceValid"
-              ]
-            },
-            "Memo": "[u8;32]",
-            "IssueRecipient": {
-              "_enum": {
-                "Account": "AccountId",
-                "Identity": "IdentityId"
-              }
-            },
-            "BridgeTx": {
-              "nonce": "u32",
-              "recipient": "AccountId",
-              "value": "Balance",
-              "tx_hash": "H256"
-            },
-            "PendingTx": {
-              "did": "IdentityId",
-              "bridge_tx": "BridgeTx"
-            },
-            "AssetCompliance": {
-              "is_paused": "bool",
-              "requirements": "Vec<ComplianceRequirement>"
-            },
-            "AssetComplianceResult": {
-              "paused": "bool",
-              "requirements": "Vec<ComplianceRequirementResult>",
-              "result": "bool"
-            },
-            "Claim1stKey": {
-              "target": "IdentityId",
-              "claim_type": "ClaimType"
-            },
-            "Claim2ndKey": {
-              "issuer": "IdentityId",
-              "scope": "Option<Scope>"
-            },
-            "BatchAddClaimItem": {
-              "target": "IdentityId",
-              "claim": "Claim",
-              "expiry": "Option<Moment>"
-            },
-            "BatchRevokeClaimItem": {
-              "target": "IdentityId",
-              "claim": "Claim"
-            },
-            "InactiveMember": {
-              "id": "IdentityId",
-              "deactivated_at": "Moment",
-              "expiry": "Option<Moment>"
-            },
-            "VotingResult": {
-              "ayes_count": "u32",
-              "ayes_stake": "Balance",
-              "nays_count": "u32",
-              "nays_stake": "Balance"
-            },
-            "ProtocolOp": {
-              "_enum": [
-                "AssetRegisterTicker",
-                "AssetIssue",
-                "AssetAddDocument",
-                "AssetCreateAsset",
-                "AssetCreateCheckpointSchedule",
-                "DividendNew",
-                "ComplianceManagerAddComplianceRequirement",
-                "IdentityRegisterDid",
-                "IdentityCddRegisterDid",
-                "IdentityAddClaim",
-                "IdentitySetPrimaryKey",
-                "IdentityAddSecondaryKeysWithAuthorization",
-                "PipsPropose",
-                "VotingAddBallot",
-                "ContractsPutCode",
-                "BallotAttachBallot",
-                "DistributionDistribute"
-              ]
-            },
-            "CddStatus": {
-              "_enum": {
-                "Ok": "IdentityId",
-                "Err": "Vec<u8>"
-              }
-            },
-            "AssetDidResult": {
-              "_enum": {
-                "Ok": "IdentityId",
-                "Err": "Vec<u8>"
-              }
-            },
-            "DidRecordsSuccess": {
-              "primary_key": "AccountId",
-              "secondary_key": "Vec<SecondaryKey>"
-            },
-            "DidRecords": {
-              "_enum": {
-                "Success": "DidRecordsSuccess",
-                "IdNotFound": "Vec<u8>"
-              }
-            },
-            "VoteCountProposalFound": {
-              "ayes": "u64",
-              "nays": "u64"
-            },
-            "VoteCount": {
-              "_enum": {
-                "ProposalFound": "VoteCountProposalFound",
-                "ProposalNotFound": "Vec<u8>"
-              }
-            },
-            "Vote": "(bool, Balance)",
-            "VoteByPip": {
-              "pip": "PipId",
-              "vote": "Vote"
-            },
-            "BridgeTxDetail": {
-              "amount": "Balance",
-              "status": "BridgeTxStatus",
-              "execution_block": "BlockNumber",
-              "tx_hash": "H256"
-            },
-            "BridgeTxStatus": {
-              "_enum": {
-                "Absent": "",
-                "Pending": "u8",
-                "Frozen": "",
-                "Timelocked": "",
-                "Handled": ""
-              }
-            },
-            "HandledTxStatus": {
-              "_enum": {
-                "Success": "",
-                "Error": "Text"
-              }
-            },
-            "CappedFee": "u64",
-            "CanTransferResult": {
-              "_enum": {
-                "Ok": "u8",
-                "Err": "Vec<u8>"
-              }
-            },
-            "AuthorizationType": {
-              "_enum": {
-                "AttestPrimaryKeyRotation": "",
-                "RotatePrimaryKey": "",
-                "TransferTicker": "",
-                "TransferPrimaryIssuanceAgent": "",
-                "AddMultiSigSigner": "",
-                "TransferAssetOwnership": "",
-                "JoinIdentity": "",
-                "PortfolioCustody": "",
-                "Custom": "",
-                "NoData": "",
-                "TransferCorporateActionAgent": ""
-              }
-            },
-            "ProposalDetails": {
-              "approvals": "u64",
-              "rejections": "u64",
-              "status": "ProposalStatus",
-              "expiry": "Option<Moment>",
-              "auto_close": "bool"
-            },
-            "ProposalStatus": {
-              "_enum": {
-                "Invalid": "",
-                "ActiveOrExpired": "",
-                "ExecutionSuccessful": "",
-                "ExecutionFailed": "",
-                "Rejected": ""
-              }
-            },
-            "DidStatus": {
-              "_enum": {
-                "Unknown": "",
-                "Exists": "",
-                "CddVerified": ""
-              }
-            },
-            "PortfolioName": "Text",
-            "PortfolioNumber": "u64",
-            "PortfolioKind": {
-              "_enum": {
-                "Default": "",
-                "User": "PortfolioNumber"
-              }
-            },
-            "PortfolioId": {
-              "did": "IdentityId",
-              "kind": "PortfolioKind"
-            },
-            "ProverTickerKey": {
-              "prover": "IdentityId",
-              "ticker": "Ticker"
-            },
-            "TickerRangeProof": {
-              "initial_message": "[u8; 32]",
-              "final_response": "Vec<u8>",
-              "max_two_exp": "u32"
-            },
-            "Moment": "u64",
-            "CalendarUnit": {
-              "_enum": [
-                "Second",
-                "Minute",
-                "Hour",
-                "Day",
-                "Week",
-                "Month",
-                "Year"
-              ]
-            },
-            "CalendarPeriod": {
-              "unit": "CalendarUnit",
-              "amount": "u64"
-            },
-            "CheckpointSchedule": {
-              "start": "Moment",
-              "period": "CalendarPeriod"
-            },
-            "CheckpointId": "u64",
-            "ScheduleId": "u64",
-            "StoredSchedule": {
-              "schedule": "CheckpointSchedule",
-              "id": "ScheduleId",
-              "at": "Moment",
-              "remaining": "u32"
-            },
-            "ScheduleSpec": {
-              "start": "Option<Moment>",
-              "period": "CalendarPeriod",
-              "remaining": "u32"
-            },
-            "InstructionStatus": {
-              "_enum": {
-                "Unknown": "",
-                "Pending": ""
-              }
-            },
-            "LegStatus": {
-              "_enum": {
-                "PendingTokenLock": "",
-                "ExecutionPending": "",
-                "ExecutionToBeSkipped": "(AccountId, u64)"
-              }
-            },
-            "AffirmationStatus": {
-              "_enum": {
-                "Unknown": "",
-                "Pending": "",
-                "Affirmed": "",
-                "Rejected": ""
-              }
-            },
-            "SettlementType": {
-              "_enum": {
-                "SettleOnAffirmation": "",
-                "SettleOnBlock": "BlockNumber"
-              }
-            },
-            "Instruction": {
-              "instruction_id": "u64",
-              "venue_id": "u64",
-              "status": "InstructionStatus",
-              "settlement_type": "SettlementType",
-              "created_at": "Option<Moment>",
-              "trade_date": "Option<Moment>",
-              "value_date": "Option<Moment>"
-            },
-            "Leg": {
-              "from": "PortfolioId",
-              "to": "PortfolioId",
-              "asset": "Ticker",
-              "amount": "Balance"
-            },
-            "Venue": {
-              "creator": "IdentityId",
-              "instructions": "Vec<u64>",
-              "details": "VenueDetails",
-              "venue_type": "VenueType"
-            },
-            "Receipt": {
-              "receipt_uid": "u64",
-              "from": "PortfolioId",
-              "to": "PortfolioId",
-              "asset": "Ticker",
-              "amount": "Balance"
-            },
-            "ReceiptMetadata": "Text",
-            "ReceiptDetails": {
-              "receipt_uid": "u64",
-              "leg_id": "u64",
-              "signer": "AccountId",
-              "signature": "OffChainSignature",
-              "metadata": "ReceiptMetadata"
-            },
-            "UniqueCall": {
-              "nonce": "u64",
-              "call": "Call"
-            },
-            "MovePortfolioItem": {
-              "ticker": "Ticker",
-              "amount": "Balance"
-            },
-            "WeightToFeeCoefficient": {
-              "coeffInteger": "Balance",
-              "coeffFrac": "Perbill",
-              "negative": "bool",
-              "degree": "u8"
-            },
-            "TargetIdentity": {
-              "_enum": {
-                "PrimaryIssuanceAgent": "",
-                "Specific": "IdentityId"
-              }
-            },
-            "FundraiserName": "Text",
-            "FundraiserStatus": {
-              "_enum": [
-                "Live",
-                "Frozen",
-                "Closed",
-                "ClosedEarly"
-              ]
-            },
-            "FundraiserTier": {
-              "total": "Balance",
-              "price": "Balance",
-              "remaining": "Balance"
-            },
-            "Fundraiser": {
-              "creator": "IdentityId",
-              "offering_portfolio": "PortfolioId",
-              "offering_asset": "Ticker",
-              "raising_portfolio": "PortfolioId",
-              "raising_asset": "Ticker",
-              "tiers": "Vec<FundraiserTier>",
-              "venue_id": "u64",
-              "start": "Moment",
-              "end": "Option<Moment>",
-              "status": "FundraiserStatus",
-              "minimum_investment": "Balance"
-            },
-            "VenueType": {
-              "_enum": [
-                "Other",
-                "Distribution",
-                "Sto",
-                "Exchange"
-              ]
-            },
-            "Payload": {
-              "block_number": "BlockNumber",
-              "nominators": "Vec<AccountId>",
-              "public": "H256"
-            },
-            "ExtensionAttributes": {
-              "usage_fee": "Balance",
-              "version": "MetaVersion"
-            },
-            "Tax": "Permill",
-            "TargetIdentities": {
-              "identities": "Vec<IdentityId>",
-              "treatment": "TargetTreatment"
-            },
-            "TargetTreatment": {
-              "_enum": [
-                "Include",
-                "Exclude"
-              ]
-            },
-            "CAKind": {
-              "_enum": [
-                "PredictableBenefit",
-                "UnpredictableBenefit",
-                "IssuerNotice",
-                "Reorganization",
-                "Other"
-              ]
-            },
-            "CADetails": "Text",
-            "CACheckpoint": {
-              "_enum": {
-                "Scheduled": "(ScheduleId, u64)",
-                "Existing": "CheckpointId"
-              }
-            },
-            "RecordDate": {
-              "date": "Moment",
-              "checkpoint": "CACheckpoint"
-            },
-            "RecordDateSpec": {
-              "_enum": {
-                "Scheduled": "Moment",
-                "ExistingSchedule": "ScheduleId",
-                "Existing": "CheckpointId"
-              }
-            },
-            "CorporateAction": {
-              "kind": "CAKind",
-              "decl_date": "Moment",
-              "record_date": "Option<RecordDate>",
-              "details": "Text",
-              "targets": "TargetIdentities",
-              "default_withholding_tax": "Tax",
-              "withholding_tax": "Vec<(IdentityId, Tax)>"
-            },
-            "LocalCAId": "u32",
-            "CAId": {
-              "ticker": "Ticker",
-              "local_id": "LocalCAId"
-            },
-            "Distribution": {
-              "from": "PortfolioId",
-              "currency": "Ticker",
-              "per_share": "Balance",
-              "amount": "Balance",
-              "remaining": "Balance",
-              "reclaimed": "bool",
-              "payment_at": "Moment",
-              "expires_at": "Option<Moment>"
-            },
-            "SlashingSwitch": {
-              "_enum": [
-                "Validator",
-                "ValidatorAndNominator",
-                "None"
-              ]
-            },
-            "PriceTier": {
-              "total": "Balance",
-              "price": "Balance"
-            },
-            "AssetMigrationError": {
-              "_enum": {
-                "AssetDocumentFail": "(Ticker, DocumentId)"
-              }
-            },
-            "MigrationError": {
-              "_enum": {
-                "DecodeKey": "Vec<u8>",
-                "Map": "AssetMigrationError"
-              }
-            },
-            "PermissionedIdentityPrefs": {
-              "intended_count": "u32",
-              "running_count": "u32"
-            },
-            "GranularCanTransferResult": {
-              "invalid_granularity": "bool",
-              "self_transfer": "bool",
-              "invalid_receiver_cdd": "bool",
-              "invalid_sender_cdd": "bool",
-              "missing_scope_claim": "bool",
-              "receiver_custodian_error": "bool",
-              "sender_custodian_error": "bool",
-              "sender_insufficient_balance": "bool",
-              "portfolio_validity_result": "PortfolioValidityResult",
-              "asset_frozen": "bool",
-              "statistics_result": "Vec<TransferManagerResult>",
-              "compliance_result": "AssetComplianceResult",
-              "result": "bool"
-            },
-            "PortfolioValidityResult": {
-              "receiver_is_same_portfolio": "bool",
-              "sender_portfolio_does_not_exist": "bool",
-              "receiver_portfolio_does_not_exist": "bool",
-              "sender_insufficient_balance": "bool",
-              "result": "bool"
-            },
-            "TransferManagerResult": {
-              "tm": "TransferManager",
-              "result": "bool"
-            }
-          }
+          ]
         }
       ]
     },
@@ -68542,6 +71340,70 @@ export const typesBundle = {
     },
     "quartz": {
       "rpc": {
+        "appPromotion": {
+          "totalStaked": {
+            "description": "Returns the total amount of staked tokens",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u128"
+          },
+          "totalStakedPerBlock": {
+            "description": "Returns the total amount of staked tokens per block when staked",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(u32, u128)>"
+          },
+          "pendingUnstake": {
+            "description": "Returns the total amount of unstaked tokens",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u128"
+          },
+          "pendingUnstakePerBlock": {
+            "description": "Returns the total amount of unstaked tokens per block",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(u32, u128)>"
+          }
+        },
         "unique": {
           "accountTokens": {
             "description": "Get tokens owned by an account in a collection",
@@ -69028,6 +71890,29 @@ export const typesBundle = {
               }
             ],
             "type": "Option<u128>"
+          },
+          "allowanceForAll": {
+            "description": "Tells whether the given `owner` approves the `operator`.",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "owner",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "operator",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<bool>"
           }
         }
       }
@@ -69248,6 +72133,585 @@ export const typesBundle = {
           }
         }
       ]
+    },
+    "sapphire": {
+      "rpc": {
+        "appPromotion": {
+          "totalStaked": {
+            "description": "Returns the total amount of staked tokens",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u128"
+          },
+          "totalStakedPerBlock": {
+            "description": "Returns the total amount of staked tokens per block when staked",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(u32, u128)>"
+          },
+          "pendingUnstake": {
+            "description": "Returns the total amount of unstaked tokens",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u128"
+          },
+          "pendingUnstakePerBlock": {
+            "description": "Returns the total amount of unstaked tokens per block",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(u32, u128)>"
+          }
+        },
+        "unique": {
+          "accountTokens": {
+            "description": "Get tokens owned by an account in a collection",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "account",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<u32>"
+          },
+          "collectionTokens": {
+            "description": "Get tokens contained within a collection",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<u32>"
+          },
+          "tokenExists": {
+            "description": "Check if the token exists",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "bool"
+          },
+          "tokenOwner": {
+            "description": "Get the token owner",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<PalletEvmAccountBasicCrossAccountIdRepr>"
+          },
+          "topmostTokenOwner": {
+            "description": "Get the topmost token owner in the hierarchy of a possibly nested token",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<PalletEvmAccountBasicCrossAccountIdRepr>"
+          },
+          "tokenOwners": {
+            "description": "Returns 10 tokens owners in no particular order",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<PalletEvmAccountBasicCrossAccountIdRepr>"
+          },
+          "tokenChildren": {
+            "description": "Get tokens nested directly into the token",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<UpDataStructsTokenChild>"
+          },
+          "collectionProperties": {
+            "description": "Get collection properties, optionally limited to the provided keys",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "propertyKeys",
+                "type": "Option<Vec<String>>",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<UpDataStructsProperty>"
+          },
+          "tokenProperties": {
+            "description": "Get token properties, optionally limited to the provided keys",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "propertyKeys",
+                "type": "Option<Vec<String>>",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<UpDataStructsProperty>"
+          },
+          "propertyPermissions": {
+            "description": "Get property permissions, optionally limited to the provided keys",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "propertyKeys",
+                "type": "Option<Vec<String>>",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<UpDataStructsPropertyKeyPermission>"
+          },
+          "constMetadata": {
+            "description": "Get token constant metadata",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<u8>"
+          },
+          "variableMetadata": {
+            "description": "Get token variable metadata",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<u8>"
+          },
+          "tokenData": {
+            "description": "Get token data, including properties, optionally limited to the provided keys, and total pieces for an RFT",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "propertyKeys",
+                "type": "Option<Vec<String>>",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "UpDataStructsTokenData"
+          },
+          "totalSupply": {
+            "description": "Get the amount of distinctive tokens present in a collection",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u32"
+          },
+          "accountBalance": {
+            "description": "Get the amount of any user tokens owned by an account",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "account",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u32"
+          },
+          "balance": {
+            "description": "Get the amount of a specific token owned by an account",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "account",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u128"
+          },
+          "allowance": {
+            "description": "Get the amount of currently possible sponsored transactions on a token for the fee to be taken off a sponsor",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "sender",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "spender",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u128"
+          },
+          "adminlist": {
+            "description": "Get the list of admin accounts of a collection",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<PalletEvmAccountBasicCrossAccountIdRepr>"
+          },
+          "allowlist": {
+            "description": "Get the list of accounts allowed to operate within a collection",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<PalletEvmAccountBasicCrossAccountIdRepr>"
+          },
+          "allowed": {
+            "description": "Check if a user is allowed to operate within a collection",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "account",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "bool"
+          },
+          "lastTokenId": {
+            "description": "Get the last token ID created in a collection",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u32"
+          },
+          "collectionById": {
+            "description": "Get a collection by the specified ID",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<UpDataStructsRpcCollection>"
+          },
+          "collectionStats": {
+            "description": "Get chain stats about collections",
+            "params": [
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "UpDataStructsCollectionStats"
+          },
+          "nextSponsored": {
+            "description": "Get the number of blocks until sponsoring a transaction is available",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "account",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<u64>"
+          },
+          "effectiveCollectionLimits": {
+            "description": "Get effective collection limits",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<UpDataStructsCollectionLimits>"
+          },
+          "totalPieces": {
+            "description": "Get the total amount of pieces of an RFT",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "tokenId",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<u128>"
+          },
+          "allowanceForAll": {
+            "description": "Tells whether the given `owner` approves the `operator`.",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "owner",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "operator",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<bool>"
+          }
+        }
+      }
     },
     "shibuya": {
       "types": [
@@ -70413,7 +73877,8 @@ export const typesBundle = {
               "failed": "bool",
               "lpTokens": "Balance",
               "claimedLpTokens": "bool",
-              "finishTimestamp": "Moment"
+              "finishTimestamp": "Moment",
+              "baseAsset": "AssetId"
             },
             "PoolData": {
               "multiplier": "u32",
@@ -70423,7 +73888,8 @@ export const typesBundle = {
               "totalTokensInPool": "Balance",
               "rewards": "Balance",
               "rewardsToBeDistributed": "Balance",
-              "isRemoved": "bool"
+              "isRemoved": "bool",
+              "baseAsset": "AssetId"
             },
             "TokenInfo": {
               "farmsTotalMultiplier": "u32",
@@ -70439,7 +73905,8 @@ export const typesBundle = {
               "rewardAsset": "AssetId",
               "isFarm": "bool",
               "pooledTokens": "Balance",
-              "rewards": "Balance"
+              "rewards": "Balance",
+              "baseAsset": "AssetId"
             },
             "MultiChainHeight": {
               "_enum": {
@@ -70806,6 +74273,26 @@ export const typesBundle = {
               "block": "BlockNumber",
               "weight": "Balance"
             },
+            "VotingOption": {
+              "_enum": [
+                "Yes",
+                "No"
+              ]
+            },
+            "HermesVotingInfo": {
+              "votingOption": "VotingOption",
+              "numberOfHermes": "Balance",
+              "hermesWithdrawn": "bool"
+            },
+            "HermesPollInfo": {
+              "creator": "AccountId",
+              "hermesLocked": "Balance",
+              "pollStartTimestamp": "Moment",
+              "pollEndTimestamp": "Moment",
+              "title": "String",
+              "description": "String",
+              "creatorHermesWithdrawn": "bool"
+            },
             "PendingMultisigAccount": {
               "approvingAccounts": "Vec<AccountId>",
               "migrateAt": "Option<BlockNumber>"
@@ -70985,7 +74472,8 @@ export const typesBundle = {
                 "DAI",
                 "ETH",
                 "XSTUSD",
-                "XST"
+                "XST",
+                "TBCD"
               ]
             },
             "RewardInfo": {
@@ -72057,7 +75545,8 @@ export const typesBundle = {
               "failed": "bool",
               "lpTokens": "Balance",
               "claimedLpTokens": "bool",
-              "finishTimestamp": "Moment"
+              "finishTimestamp": "Moment",
+              "baseAsset": "AssetId"
             },
             "PoolData": {
               "multiplier": "u32",
@@ -72067,7 +75556,8 @@ export const typesBundle = {
               "totalTokensInPool": "Balance",
               "rewards": "Balance",
               "rewardsToBeDistributed": "Balance",
-              "isRemoved": "bool"
+              "isRemoved": "bool",
+              "baseAsset": "AssetId"
             },
             "TokenInfo": {
               "farmsTotalMultiplier": "u32",
@@ -72083,7 +75573,8 @@ export const typesBundle = {
               "rewardAsset": "AssetId",
               "isFarm": "bool",
               "pooledTokens": "Balance",
-              "rewards": "Balance"
+              "rewards": "Balance",
+              "baseAsset": "AssetId"
             },
             "MultiChainHeight": {
               "_enum": {
@@ -72450,6 +75941,26 @@ export const typesBundle = {
               "block": "BlockNumber",
               "weight": "Balance"
             },
+            "VotingOption": {
+              "_enum": [
+                "Yes",
+                "No"
+              ]
+            },
+            "HermesVotingInfo": {
+              "votingOption": "VotingOption",
+              "numberOfHermes": "Balance",
+              "hermesWithdrawn": "bool"
+            },
+            "HermesPollInfo": {
+              "creator": "AccountId",
+              "hermesLocked": "Balance",
+              "pollStartTimestamp": "Moment",
+              "pollEndTimestamp": "Moment",
+              "title": "String",
+              "description": "String",
+              "creatorHermesWithdrawn": "bool"
+            },
             "PendingMultisigAccount": {
               "approvingAccounts": "Vec<AccountId>",
               "migrateAt": "Option<BlockNumber>"
@@ -72629,7 +76140,8 @@ export const typesBundle = {
                 "DAI",
                 "ETH",
                 "XSTUSD",
-                "XST"
+                "XST",
+                "TBCD"
               ]
             },
             "RewardInfo": {
@@ -75082,965 +78594,1025 @@ export const typesBundle = {
       ]
     },
     "testnet-interlay": {
-      "types": [
-        {
-          "minmax": [
-            0,
-            null
-          ],
-          "types": {
-            "BalanceWrapper": {
-              "amount": "String"
-            },
-            "CurrencyId": {
-              "_enum": {
-                "Token": "TokenSymbol",
-                "ForeignAsset": "ForeignAssetId",
-                "LendToken": "LendTokenId",
-                "LpToken": "(LpToken, LpToken)",
-                "StableLpToken": "StablePoolId"
+      "default": {
+        "types": [
+          {
+            "minmax": [
+              0,
+              null
+            ],
+            "types": {
+              "BalanceWrapper": {
+                "amount": "String"
+              },
+              "CurrencyId": {
+                "_enum": {
+                  "Token": "TokenSymbol",
+                  "ForeignAsset": "ForeignAssetId",
+                  "LendToken": "LendTokenId",
+                  "LpToken": "(LpToken, LpToken)",
+                  "StableLpToken": "StablePoolId"
+                }
+              },
+              "LpToken": {
+                "_enum": {
+                  "Token": "TokenSymbol",
+                  "ForeignAsset": "ForeignAssetId",
+                  "StableLpToken": "StablePoolId"
+                }
+              },
+              "InterbtcPrimitivesCurrencyId": {
+                "_enum": {
+                  "Token": "InterbtcPrimitivesTokenSymbol",
+                  "ForeignAsset": "InterbtcForeignAssetId",
+                  "LendToken": "InterbtcLendTokenId",
+                  "LpToken": "(InterbtcLpToken, InterbtcLpToken)",
+                  "StableLpToken": "InterbtcStablePoolId"
+                }
+              },
+              "InterbtcLpToken": {
+                "_enum": {
+                  "Token": "InterbtcPrimitivesTokenSymbol",
+                  "ForeignAsset": "InterbtcForeignAssetId",
+                  "StableLpToken": "InterbtcStablePoolId"
+                }
+              },
+              "InterbtcForeignAssetId": "u32",
+              "ForeignAssetId": "u32",
+              "InterbtcLendTokenId": "u32",
+              "InterbtcStablePoolId": "u32",
+              "LendTokenId": "u32",
+              "StablePoolId": "u32",
+              "Rate": "FixedU128",
+              "Ratio": "Permill",
+              "Liquidity": "FixedU128",
+              "Shortfall": "FixedU128",
+              "FundAccountJsonRpcRequest": {
+                "account_id": "AccountId",
+                "currency_id": "InterbtcPrimitivesCurrencyId"
+              },
+              "H256Le": "H256",
+              "SignedFixedPoint": "FixedU128",
+              "TokenSymbol": {
+                "_enum": {
+                  "DOT": 0,
+                  "IBTC": 1,
+                  "INTR": 2,
+                  "KSM": 10,
+                  "KBTC": 11,
+                  "KINT": 12
+                }
+              },
+              "InterbtcPrimitivesTokenSymbol": {
+                "_enum": {
+                  "DOT": 0,
+                  "IBTC": 1,
+                  "INTR": 2,
+                  "KSM": 10,
+                  "KBTC": 11,
+                  "KINT": 12
+                }
+              },
+              "UnsignedFixedPoint": "FixedU128",
+              "VaultCurrencyPair": {
+                "collateral": "CurrencyId",
+                "wrapped": "CurrencyId"
+              },
+              "VaultId": {
+                "account_id": "AccountId",
+                "currencies": "VaultCurrencyPair"
               }
-            },
-            "LpToken": {
-              "_enum": {
-                "Token": "TokenSymbol",
-                "ForeignAsset": "ForeignAssetId",
-                "StableLpToken": "StablePoolId"
-              }
-            },
-            "InterbtcPrimitivesCurrencyId": {
-              "_enum": {
-                "Token": "InterbtcPrimitivesTokenSymbol",
-                "ForeignAsset": "InterbtcForeignAssetId",
-                "LendToken": "InterbtcLendTokenId",
-                "LpToken": "(InterbtcLpToken, InterbtcLpToken)",
-                "StableLpToken": "InterbtcStablePoolId"
-              }
-            },
-            "InterbtcLpToken": {
-              "_enum": {
-                "Token": "InterbtcPrimitivesTokenSymbol",
-                "ForeignAsset": "InterbtcForeignAssetId",
-                "StableLpToken": "InterbtcStablePoolId"
-              }
-            },
-            "InterbtcForeignAssetId": "u32",
-            "ForeignAssetId": "u32",
-            "InterbtcLendTokenId": "u32",
-            "InterbtcStablePoolId": "u32",
-            "LendTokenId": "u32",
-            "StablePoolId": "u32",
-            "Rate": "FixedU128",
-            "Ratio": "Permill",
-            "Liquidity": "FixedU128",
-            "Shortfall": "FixedU128",
-            "FundAccountJsonRpcRequest": {
-              "account_id": "AccountId",
-              "currency_id": "InterbtcPrimitivesCurrencyId"
-            },
-            "H256Le": "H256",
-            "SignedFixedPoint": "FixedU128",
-            "TokenSymbol": {
-              "_enum": {
-                "DOT": 0,
-                "IBTC": 1,
-                "INTR": 2,
-                "KSM": 10,
-                "KBTC": 11,
-                "KINT": 12
-              }
-            },
-            "InterbtcPrimitivesTokenSymbol": {
-              "_enum": {
-                "DOT": 0,
-                "IBTC": 1,
-                "INTR": 2,
-                "KSM": 10,
-                "KBTC": 11,
-                "KINT": 12
-              }
-            },
-            "UnsignedFixedPoint": "FixedU128",
-            "VaultCurrencyPair": {
-              "collateral": "CurrencyId",
-              "wrapped": "CurrencyId"
-            },
-            "VaultId": {
-              "account_id": "AccountId",
-              "currencies": "VaultCurrencyPair"
             }
           }
+        ],
+        "rpc": {
+          "btcRelay": {
+            "verifyBlockHeaderInclusion": {
+              "description": "Verify that the block with the given hash is included",
+              "params": [
+                {
+                  "name": "block_hash",
+                  "type": "H256Le"
+                }
+              ],
+              "type": "void"
+            }
+          },
+          "escrow": {
+            "balanceAt": {
+              "description": "Get a given user's escrowed balance",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "height",
+                  "type": "Option<BlockNumber>"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "totalSupply": {
+              "description": "Get the total voting supply in the system",
+              "params": [
+                {
+                  "name": "height",
+                  "type": "Option<BlockNumber>"
+                }
+              ],
+              "type": "BalanceWrapper"
+            }
+          },
+          "loans": {
+            "getCollateralLiquidity": {
+              "description": "Retrieves collateral liquidity for the given user.",
+              "params": [
+                {
+                  "name": "account",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "at",
+                  "type": "BlockHash",
+                  "isHistoric": true,
+                  "isOptional": true
+                }
+              ],
+              "type": "(Liquidity, Shortfall)",
+              "isSubscription": false,
+              "jsonrpc": "loans_getCollateralLiquidity",
+              "method": "getCollateralLiquidity",
+              "section": "loans"
+            },
+            "getLiquidationThresholdLiquidity": {
+              "description": "Retrieves liquidation threshold liquidity for the given user.",
+              "params": [
+                {
+                  "name": "account",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "at",
+                  "type": "BlockHash",
+                  "isHistoric": true,
+                  "isOptional": true
+                }
+              ],
+              "type": "(Liquidity, Shortfall)",
+              "isSubscription": false,
+              "jsonrpc": "loans_getLiquidationThresholdLiquidity",
+              "method": "getLiquidationThresholdLiquidity",
+              "section": "loans"
+            },
+            "getMarketStatus": {
+              "description": "Retrieves market status data for a given asset id.",
+              "params": [
+                {
+                  "name": "asset_id",
+                  "type": "CurrencyId"
+                },
+                {
+                  "name": "at",
+                  "type": "BlockHash",
+                  "isHistoric": true,
+                  "isOptional": true
+                }
+              ],
+              "type": "(Rate, Rate, Rate, Ratio, Balance, Balance, FixedU128)",
+              "isSubscription": false,
+              "jsonrpc": "loans_getMarketStatus",
+              "method": "getMarketStatus",
+              "section": "loans"
+            }
+          },
+          "issue": {
+            "getIssueRequests": {
+              "description": "Get all issue request IDs for a particular account",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            },
+            "getVaultIssueRequests": {
+              "description": "Get all issue request IDs for a particular vault",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            }
+          },
+          "oracle": {
+            "collateralToWrapped": {
+              "description": "Collateral to Wrapped exchange rate",
+              "params": [
+                {
+                  "name": "amount",
+                  "type": "BalanceWrapper"
+                },
+                {
+                  "name": "currency_id",
+                  "type": "CurrencyId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "wrappedToCollateral": {
+              "description": "Wrapped to Collateral exchange rate",
+              "params": [
+                {
+                  "name": "amount",
+                  "type": "BalanceWrapper"
+                },
+                {
+                  "name": "currency_id",
+                  "type": "CurrencyId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            }
+          },
+          "redeem": {
+            "getRedeemRequests": {
+              "description": "Get all redeem request IDs for a particular account",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            },
+            "getVaultRedeemRequests": {
+              "description": "Get all redeem request IDs for a particular vault",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            }
+          },
+          "refund": {
+            "getRefundRequests": {
+              "description": "Get all refund request IDs for a particular account",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            },
+            "getRefundRequestsByIssueId": {
+              "description": "Get all refund request IDs for a particular issue ID",
+              "params": [
+                {
+                  "name": "issue_id",
+                  "type": "H256"
+                }
+              ],
+              "type": "H256"
+            },
+            "getVaultRefundRequests": {
+              "description": "Get all refund request IDs for a particular vault",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            }
+          },
+          "replace": {
+            "getNewVaultReplaceRequests": {
+              "description": "Get all replace request IDs to a particular vault",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            },
+            "getOldVaultReplaceRequests": {
+              "description": "Get all replace request IDs from a particular vault",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            }
+          },
+          "reward": {
+            "estimateEscrowRewardRate": {
+              "description": "Estimate the escrow reward rate for a given account",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "amount",
+                  "type": "Option<Balance>"
+                },
+                {
+                  "name": "lock_time",
+                  "type": "Option<BlockNumber>"
+                }
+              ],
+              "type": "UnsignedFixedPoint"
+            },
+            "estimateVaultRewardRate": {
+              "description": "Estimate the vault reward rate a given vault id",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "VaultId"
+                }
+              ],
+              "type": "UnsignedFixedPoint"
+            },
+            "computeEscrowReward": {
+              "description": "Get a given user's rewards due",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "currency_id",
+                  "type": "CurrencyId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "computeVaultReward": {
+              "description": "Get a given vault's rewards due",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "VaultId"
+                },
+                {
+                  "name": "currency_id",
+                  "type": "CurrencyId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            }
+          },
+          "vaultRegistry": {
+            "getCollateralizationFromVault": {
+              "description": "Returns the collateralization of a specific vault",
+              "params": [
+                {
+                  "name": "vault",
+                  "type": "VaultId"
+                },
+                {
+                  "name": "only_issued",
+                  "type": "bool"
+                }
+              ],
+              "type": "UnsignedFixedPoint"
+            },
+            "getCollateralizationFromVaultAndCollateral": {
+              "description": "Returns the collateralization of a specific vault and collateral",
+              "params": [
+                {
+                  "name": "vault",
+                  "type": "VaultId"
+                },
+                {
+                  "name": "collateral",
+                  "type": "BalanceWrapper"
+                },
+                {
+                  "name": "only_issued",
+                  "type": "bool"
+                }
+              ],
+              "type": "UnsignedFixedPoint"
+            },
+            "getIssueableTokensFromVault": {
+              "description": "Get the amount of tokens a vault can issue",
+              "params": [
+                {
+                  "name": "vault",
+                  "type": "VaultId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "getPremiumRedeemVaults": {
+              "description": "Get all vaults below the premium redeem threshold.",
+              "params": [],
+              "type": "Vec<(VaultId, BalanceWrapper)>"
+            },
+            "getRequiredCollateralForVault": {
+              "description": "Get the amount of collateral required for the given vault to be at the current SecureCollateralThreshold with the current exchange rate",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "VaultId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "getRequiredCollateralForWrapped": {
+              "description": "Get the amount of collateral required to issue an amount of InterBTC",
+              "params": [
+                {
+                  "name": "amount_btc",
+                  "type": "BalanceWrapper"
+                },
+                {
+                  "name": "currency_id",
+                  "type": "CurrencyId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "getVaultCollateral": {
+              "description": "Get the vault's collateral (excluding nomination)",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "VaultId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "getVaultTotalCollateral": {
+              "description": "Get the vault's collateral (including nomination)",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "VaultId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "getVaultsByAccountId": {
+              "description": "Get all vaults that are registered using the given account _id",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<VaultId>"
+            },
+            "getVaultsWithIssuableTokens": {
+              "description": "Get all vaults with non-zero issuable tokens, ordered in descending order of this amount",
+              "params": [],
+              "type": "Vec<(VaultId, BalanceWrapper)>"
+            },
+            "getVaultsWithRedeemableTokens": {
+              "description": "Get all vaults with non-zero redeemable tokens, ordered in descending order of this amount",
+              "params": [],
+              "type": "Vec<(VaultId, BalanceWrapper)>"
+            }
+          }
+        },
+        "alias": {
+          "tokens": {
+            "AccountData": "OrmlAccountData",
+            "BalanceLock": "OrmlBalanceLock"
+          }
+        },
+        "instances": {
+          "balances": [
+            "ksm",
+            "kbtc",
+            "kint",
+            "dot",
+            "ibtc",
+            "intr"
+          ]
         }
-      ],
-      "rpc": {
-        "btcRelay": {
-          "verifyBlockHeaderInclusion": {
-            "description": "Verify that the block with the given hash is included",
-            "params": [
-              {
-                "name": "block_hash",
-                "type": "H256Le"
-              }
-            ],
-            "type": "void"
-          }
-        },
-        "escrow": {
-          "balanceAt": {
-            "description": "Get a given user's escrowed balance",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              },
-              {
-                "name": "height",
-                "type": "Option<BlockNumber>"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "totalSupply": {
-            "description": "Get the total voting supply in the system",
-            "params": [
-              {
-                "name": "height",
-                "type": "Option<BlockNumber>"
-              }
-            ],
-            "type": "BalanceWrapper"
-          }
-        },
-        "loans": {
-          "getCollateralLiquidity": {
-            "description": "Retrieves collateral liquidity for the given user.",
-            "params": [
-              {
-                "name": "account",
-                "type": "AccountId"
-              },
-              {
-                "name": "at",
-                "type": "BlockHash",
-                "isHistoric": true,
-                "isOptional": true
-              }
-            ],
-            "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
-            "isSubscription": false,
-            "jsonrpc": "loans_getCollateralLiquidity",
-            "method": "getCollateralLiquidity",
-            "section": "loans"
-          },
-          "getLiquidationThresholdLiquidity": {
-            "description": "Retrieves liquidation threshold liquidity for the given user.",
-            "params": [
-              {
-                "name": "account",
-                "type": "AccountId"
-              },
-              {
-                "name": "at",
-                "type": "BlockHash",
-                "isHistoric": true,
-                "isOptional": true
-              }
-            ],
-            "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
-            "isSubscription": false,
-            "jsonrpc": "loans_getLiquidationThresholdLiquidity",
-            "method": "getLiquidationThresholdLiquidity",
-            "section": "loans"
-          },
-          "getMarketStatus": {
-            "description": "Retrieves market status data for a given asset id.",
-            "params": [
-              {
-                "name": "asset_id",
-                "type": "CurrencyId"
-              },
-              {
-                "name": "at",
-                "type": "BlockHash",
-                "isHistoric": true,
-                "isOptional": true
-              }
-            ],
-            "type": "(Rate, Rate, Rate, Ratio, Balance, Balance, FixedU128)",
-            "isSubscription": false,
-            "jsonrpc": "loans_getMarketStatus",
-            "method": "getMarketStatus",
-            "section": "loans"
-          }
-        },
-        "issue": {
-          "getIssueRequests": {
-            "description": "Get all issue request IDs for a particular account",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          },
-          "getVaultIssueRequests": {
-            "description": "Get all issue request IDs for a particular vault",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          }
-        },
-        "oracle": {
-          "collateralToWrapped": {
-            "description": "Collateral to Wrapped exchange rate",
-            "params": [
-              {
-                "name": "amount",
-                "type": "BalanceWrapper"
-              },
-              {
-                "name": "currency_id",
-                "type": "CurrencyId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "wrappedToCollateral": {
-            "description": "Wrapped to Collateral exchange rate",
-            "params": [
-              {
-                "name": "amount",
-                "type": "BalanceWrapper"
-              },
-              {
-                "name": "currency_id",
-                "type": "CurrencyId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          }
-        },
-        "redeem": {
-          "getRedeemRequests": {
-            "description": "Get all redeem request IDs for a particular account",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          },
-          "getVaultRedeemRequests": {
-            "description": "Get all redeem request IDs for a particular vault",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          }
-        },
-        "refund": {
-          "getRefundRequests": {
-            "description": "Get all refund request IDs for a particular account",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          },
-          "getRefundRequestsByIssueId": {
-            "description": "Get all refund request IDs for a particular issue ID",
-            "params": [
-              {
-                "name": "issue_id",
-                "type": "H256"
-              }
-            ],
-            "type": "H256"
-          },
-          "getVaultRefundRequests": {
-            "description": "Get all refund request IDs for a particular vault",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          }
-        },
-        "replace": {
-          "getNewVaultReplaceRequests": {
-            "description": "Get all replace request IDs to a particular vault",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          },
-          "getOldVaultReplaceRequests": {
-            "description": "Get all replace request IDs from a particular vault",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          }
-        },
-        "reward": {
-          "computeEscrowReward": {
-            "description": "Get a given user's rewards due",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              },
-              {
-                "name": "currency_id",
-                "type": "CurrencyId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "computeVaultReward": {
-            "description": "Get a given vault's rewards due",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "VaultId"
-              },
-              {
-                "name": "currency_id",
-                "type": "CurrencyId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          }
-        },
-        "vaultRegistry": {
-          "getCollateralizationFromVault": {
-            "description": "Returns the collateralization of a specific vault",
-            "params": [
-              {
-                "name": "vault",
-                "type": "VaultId"
-              },
-              {
-                "name": "only_issued",
-                "type": "bool"
-              }
-            ],
-            "type": "UnsignedFixedPoint"
-          },
-          "getCollateralizationFromVaultAndCollateral": {
-            "description": "Returns the collateralization of a specific vault and collateral",
-            "params": [
-              {
-                "name": "vault",
-                "type": "VaultId"
-              },
-              {
-                "name": "collateral",
-                "type": "BalanceWrapper"
-              },
-              {
-                "name": "only_issued",
-                "type": "bool"
-              }
-            ],
-            "type": "UnsignedFixedPoint"
-          },
-          "getIssueableTokensFromVault": {
-            "description": "Get the amount of tokens a vault can issue",
-            "params": [
-              {
-                "name": "vault",
-                "type": "VaultId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "getPremiumRedeemVaults": {
-            "description": "Get all vaults below the premium redeem threshold.",
-            "params": [],
-            "type": "Vec<(VaultId, BalanceWrapper)>"
-          },
-          "getRequiredCollateralForVault": {
-            "description": "Get the amount of collateral required for the given vault to be at the current SecureCollateralThreshold with the current exchange rate",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "VaultId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "getRequiredCollateralForWrapped": {
-            "description": "Get the amount of collateral required to issue an amount of InterBTC",
-            "params": [
-              {
-                "name": "amount_btc",
-                "type": "BalanceWrapper"
-              },
-              {
-                "name": "currency_id",
-                "type": "CurrencyId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "getVaultCollateral": {
-            "description": "Get the vault's collateral (excluding nomination)",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "VaultId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "getVaultTotalCollateral": {
-            "description": "Get the vault's collateral (including nomination)",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "VaultId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "getVaultsByAccountId": {
-            "description": "Get all vaults that are registered using the given account _id",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<VaultId>"
-          },
-          "getVaultsWithIssuableTokens": {
-            "description": "Get all vaults with non-zero issuable tokens, ordered in descending order of this amount",
-            "params": [],
-            "type": "Vec<(VaultId, BalanceWrapper)>"
-          },
-          "getVaultsWithRedeemableTokens": {
-            "description": "Get all vaults with non-zero redeemable tokens, ordered in descending order of this amount",
-            "params": [],
-            "type": "Vec<(VaultId, BalanceWrapper)>"
-          }
-        }
-      },
-      "alias": {
-        "tokens": {
-          "AccountData": "OrmlAccountData",
-          "BalanceLock": "OrmlBalanceLock"
-        }
-      },
-      "instances": {
-        "balances": [
-          "ksm",
-          "kbtc",
-          "kint",
-          "dot",
-          "ibtc",
-          "intr"
-        ]
       }
     },
     "testnet-kintsugi": {
-      "types": [
-        {
-          "minmax": [
-            0,
-            null
-          ],
-          "types": {
-            "BalanceWrapper": {
-              "amount": "String"
-            },
-            "CurrencyId": {
-              "_enum": {
-                "Token": "TokenSymbol",
-                "ForeignAsset": "ForeignAssetId",
-                "LendToken": "LendTokenId",
-                "LpToken": "(LpToken, LpToken)",
-                "StableLpToken": "StablePoolId"
+      "default": {
+        "types": [
+          {
+            "minmax": [
+              0,
+              null
+            ],
+            "types": {
+              "BalanceWrapper": {
+                "amount": "String"
+              },
+              "CurrencyId": {
+                "_enum": {
+                  "Token": "TokenSymbol",
+                  "ForeignAsset": "ForeignAssetId",
+                  "LendToken": "LendTokenId",
+                  "LpToken": "(LpToken, LpToken)",
+                  "StableLpToken": "StablePoolId"
+                }
+              },
+              "LpToken": {
+                "_enum": {
+                  "Token": "TokenSymbol",
+                  "ForeignAsset": "ForeignAssetId",
+                  "StableLpToken": "StablePoolId"
+                }
+              },
+              "InterbtcPrimitivesCurrencyId": {
+                "_enum": {
+                  "Token": "InterbtcPrimitivesTokenSymbol",
+                  "ForeignAsset": "InterbtcForeignAssetId",
+                  "LendToken": "InterbtcLendTokenId",
+                  "LpToken": "(InterbtcLpToken, InterbtcLpToken)",
+                  "StableLpToken": "InterbtcStablePoolId"
+                }
+              },
+              "InterbtcLpToken": {
+                "_enum": {
+                  "Token": "InterbtcPrimitivesTokenSymbol",
+                  "ForeignAsset": "InterbtcForeignAssetId",
+                  "StableLpToken": "InterbtcStablePoolId"
+                }
+              },
+              "InterbtcForeignAssetId": "u32",
+              "ForeignAssetId": "u32",
+              "InterbtcLendTokenId": "u32",
+              "InterbtcStablePoolId": "u32",
+              "LendTokenId": "u32",
+              "StablePoolId": "u32",
+              "Rate": "FixedU128",
+              "Ratio": "Permill",
+              "Liquidity": "FixedU128",
+              "Shortfall": "FixedU128",
+              "FundAccountJsonRpcRequest": {
+                "account_id": "AccountId",
+                "currency_id": "InterbtcPrimitivesCurrencyId"
+              },
+              "H256Le": "H256",
+              "SignedFixedPoint": "FixedU128",
+              "TokenSymbol": {
+                "_enum": {
+                  "DOT": 0,
+                  "IBTC": 1,
+                  "INTR": 2,
+                  "KSM": 10,
+                  "KBTC": 11,
+                  "KINT": 12
+                }
+              },
+              "InterbtcPrimitivesTokenSymbol": {
+                "_enum": {
+                  "DOT": 0,
+                  "IBTC": 1,
+                  "INTR": 2,
+                  "KSM": 10,
+                  "KBTC": 11,
+                  "KINT": 12
+                }
+              },
+              "UnsignedFixedPoint": "FixedU128",
+              "VaultCurrencyPair": {
+                "collateral": "CurrencyId",
+                "wrapped": "CurrencyId"
+              },
+              "VaultId": {
+                "account_id": "AccountId",
+                "currencies": "VaultCurrencyPair"
               }
-            },
-            "LpToken": {
-              "_enum": {
-                "Token": "TokenSymbol",
-                "ForeignAsset": "ForeignAssetId",
-                "StableLpToken": "StablePoolId"
-              }
-            },
-            "InterbtcPrimitivesCurrencyId": {
-              "_enum": {
-                "Token": "InterbtcPrimitivesTokenSymbol",
-                "ForeignAsset": "InterbtcForeignAssetId",
-                "LendToken": "InterbtcLendTokenId",
-                "LpToken": "(InterbtcLpToken, InterbtcLpToken)",
-                "StableLpToken": "InterbtcStablePoolId"
-              }
-            },
-            "InterbtcLpToken": {
-              "_enum": {
-                "Token": "InterbtcPrimitivesTokenSymbol",
-                "ForeignAsset": "InterbtcForeignAssetId",
-                "StableLpToken": "InterbtcStablePoolId"
-              }
-            },
-            "InterbtcForeignAssetId": "u32",
-            "ForeignAssetId": "u32",
-            "InterbtcLendTokenId": "u32",
-            "InterbtcStablePoolId": "u32",
-            "LendTokenId": "u32",
-            "StablePoolId": "u32",
-            "Rate": "FixedU128",
-            "Ratio": "Permill",
-            "Liquidity": "FixedU128",
-            "Shortfall": "FixedU128",
-            "FundAccountJsonRpcRequest": {
-              "account_id": "AccountId",
-              "currency_id": "InterbtcPrimitivesCurrencyId"
-            },
-            "H256Le": "H256",
-            "SignedFixedPoint": "FixedU128",
-            "TokenSymbol": {
-              "_enum": {
-                "DOT": 0,
-                "IBTC": 1,
-                "INTR": 2,
-                "KSM": 10,
-                "KBTC": 11,
-                "KINT": 12
-              }
-            },
-            "InterbtcPrimitivesTokenSymbol": {
-              "_enum": {
-                "DOT": 0,
-                "IBTC": 1,
-                "INTR": 2,
-                "KSM": 10,
-                "KBTC": 11,
-                "KINT": 12
-              }
-            },
-            "UnsignedFixedPoint": "FixedU128",
-            "VaultCurrencyPair": {
-              "collateral": "CurrencyId",
-              "wrapped": "CurrencyId"
-            },
-            "VaultId": {
-              "account_id": "AccountId",
-              "currencies": "VaultCurrencyPair"
             }
           }
+        ],
+        "rpc": {
+          "btcRelay": {
+            "verifyBlockHeaderInclusion": {
+              "description": "Verify that the block with the given hash is included",
+              "params": [
+                {
+                  "name": "block_hash",
+                  "type": "H256Le"
+                }
+              ],
+              "type": "void"
+            }
+          },
+          "escrow": {
+            "balanceAt": {
+              "description": "Get a given user's escrowed balance",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "height",
+                  "type": "Option<BlockNumber>"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "totalSupply": {
+              "description": "Get the total voting supply in the system",
+              "params": [
+                {
+                  "name": "height",
+                  "type": "Option<BlockNumber>"
+                }
+              ],
+              "type": "BalanceWrapper"
+            }
+          },
+          "loans": {
+            "getCollateralLiquidity": {
+              "description": "Retrieves collateral liquidity for the given user.",
+              "params": [
+                {
+                  "name": "account",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "at",
+                  "type": "BlockHash",
+                  "isHistoric": true,
+                  "isOptional": true
+                }
+              ],
+              "type": "(Liquidity, Shortfall)",
+              "isSubscription": false,
+              "jsonrpc": "loans_getCollateralLiquidity",
+              "method": "getCollateralLiquidity",
+              "section": "loans"
+            },
+            "getLiquidationThresholdLiquidity": {
+              "description": "Retrieves liquidation threshold liquidity for the given user.",
+              "params": [
+                {
+                  "name": "account",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "at",
+                  "type": "BlockHash",
+                  "isHistoric": true,
+                  "isOptional": true
+                }
+              ],
+              "type": "(Liquidity, Shortfall)",
+              "isSubscription": false,
+              "jsonrpc": "loans_getLiquidationThresholdLiquidity",
+              "method": "getLiquidationThresholdLiquidity",
+              "section": "loans"
+            },
+            "getMarketStatus": {
+              "description": "Retrieves market status data for a given asset id.",
+              "params": [
+                {
+                  "name": "asset_id",
+                  "type": "CurrencyId"
+                },
+                {
+                  "name": "at",
+                  "type": "BlockHash",
+                  "isHistoric": true,
+                  "isOptional": true
+                }
+              ],
+              "type": "(Rate, Rate, Rate, Ratio, Balance, Balance, FixedU128)",
+              "isSubscription": false,
+              "jsonrpc": "loans_getMarketStatus",
+              "method": "getMarketStatus",
+              "section": "loans"
+            }
+          },
+          "issue": {
+            "getIssueRequests": {
+              "description": "Get all issue request IDs for a particular account",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            },
+            "getVaultIssueRequests": {
+              "description": "Get all issue request IDs for a particular vault",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            }
+          },
+          "oracle": {
+            "collateralToWrapped": {
+              "description": "Collateral to Wrapped exchange rate",
+              "params": [
+                {
+                  "name": "amount",
+                  "type": "BalanceWrapper"
+                },
+                {
+                  "name": "currency_id",
+                  "type": "CurrencyId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "wrappedToCollateral": {
+              "description": "Wrapped to Collateral exchange rate",
+              "params": [
+                {
+                  "name": "amount",
+                  "type": "BalanceWrapper"
+                },
+                {
+                  "name": "currency_id",
+                  "type": "CurrencyId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            }
+          },
+          "redeem": {
+            "getRedeemRequests": {
+              "description": "Get all redeem request IDs for a particular account",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            },
+            "getVaultRedeemRequests": {
+              "description": "Get all redeem request IDs for a particular vault",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            }
+          },
+          "refund": {
+            "getRefundRequests": {
+              "description": "Get all refund request IDs for a particular account",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            },
+            "getRefundRequestsByIssueId": {
+              "description": "Get all refund request IDs for a particular issue ID",
+              "params": [
+                {
+                  "name": "issue_id",
+                  "type": "H256"
+                }
+              ],
+              "type": "H256"
+            },
+            "getVaultRefundRequests": {
+              "description": "Get all refund request IDs for a particular vault",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            }
+          },
+          "replace": {
+            "getNewVaultReplaceRequests": {
+              "description": "Get all replace request IDs to a particular vault",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            },
+            "getOldVaultReplaceRequests": {
+              "description": "Get all replace request IDs from a particular vault",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<H256>"
+            }
+          },
+          "reward": {
+            "estimateEscrowRewardRate": {
+              "description": "Estimate the escrow reward rate for a given account",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "amount",
+                  "type": "Option<Balance>"
+                },
+                {
+                  "name": "lock_time",
+                  "type": "Option<BlockNumber>"
+                }
+              ],
+              "type": "UnsignedFixedPoint"
+            },
+            "estimateVaultRewardRate": {
+              "description": "Estimate the vault reward rate a given vault id",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "VaultId"
+                }
+              ],
+              "type": "UnsignedFixedPoint"
+            },
+            "computeEscrowReward": {
+              "description": "Get a given user's rewards due",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "currency_id",
+                  "type": "CurrencyId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "computeVaultReward": {
+              "description": "Get a given vault's rewards due",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "VaultId"
+                },
+                {
+                  "name": "currency_id",
+                  "type": "CurrencyId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            }
+          },
+          "vaultRegistry": {
+            "getCollateralizationFromVault": {
+              "description": "Returns the collateralization of a specific vault",
+              "params": [
+                {
+                  "name": "vault",
+                  "type": "VaultId"
+                },
+                {
+                  "name": "only_issued",
+                  "type": "bool"
+                }
+              ],
+              "type": "UnsignedFixedPoint"
+            },
+            "getCollateralizationFromVaultAndCollateral": {
+              "description": "Returns the collateralization of a specific vault and collateral",
+              "params": [
+                {
+                  "name": "vault",
+                  "type": "VaultId"
+                },
+                {
+                  "name": "collateral",
+                  "type": "BalanceWrapper"
+                },
+                {
+                  "name": "only_issued",
+                  "type": "bool"
+                }
+              ],
+              "type": "UnsignedFixedPoint"
+            },
+            "getIssueableTokensFromVault": {
+              "description": "Get the amount of tokens a vault can issue",
+              "params": [
+                {
+                  "name": "vault",
+                  "type": "VaultId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "getPremiumRedeemVaults": {
+              "description": "Get all vaults below the premium redeem threshold.",
+              "params": [],
+              "type": "Vec<(VaultId, BalanceWrapper)>"
+            },
+            "getRequiredCollateralForVault": {
+              "description": "Get the amount of collateral required for the given vault to be at the current SecureCollateralThreshold with the current exchange rate",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "VaultId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "getRequiredCollateralForWrapped": {
+              "description": "Get the amount of collateral required to issue an amount of InterBTC",
+              "params": [
+                {
+                  "name": "amount_btc",
+                  "type": "BalanceWrapper"
+                },
+                {
+                  "name": "currency_id",
+                  "type": "CurrencyId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "getVaultCollateral": {
+              "description": "Get the vault's collateral (excluding nomination)",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "VaultId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "getVaultTotalCollateral": {
+              "description": "Get the vault's collateral (including nomination)",
+              "params": [
+                {
+                  "name": "vault_id",
+                  "type": "VaultId"
+                }
+              ],
+              "type": "BalanceWrapper"
+            },
+            "getVaultsByAccountId": {
+              "description": "Get all vaults that are registered using the given account _id",
+              "params": [
+                {
+                  "name": "account_id",
+                  "type": "AccountId"
+                }
+              ],
+              "type": "Vec<VaultId>"
+            },
+            "getVaultsWithIssuableTokens": {
+              "description": "Get all vaults with non-zero issuable tokens, ordered in descending order of this amount",
+              "params": [],
+              "type": "Vec<(VaultId, BalanceWrapper)>"
+            },
+            "getVaultsWithRedeemableTokens": {
+              "description": "Get all vaults with non-zero redeemable tokens, ordered in descending order of this amount",
+              "params": [],
+              "type": "Vec<(VaultId, BalanceWrapper)>"
+            }
+          }
+        },
+        "alias": {
+          "tokens": {
+            "AccountData": "OrmlAccountData",
+            "BalanceLock": "OrmlBalanceLock"
+          }
+        },
+        "instances": {
+          "balances": [
+            "ksm",
+            "kbtc",
+            "kint",
+            "dot",
+            "ibtc",
+            "intr"
+          ]
         }
-      ],
-      "rpc": {
-        "btcRelay": {
-          "verifyBlockHeaderInclusion": {
-            "description": "Verify that the block with the given hash is included",
-            "params": [
-              {
-                "name": "block_hash",
-                "type": "H256Le"
-              }
-            ],
-            "type": "void"
-          }
-        },
-        "escrow": {
-          "balanceAt": {
-            "description": "Get a given user's escrowed balance",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              },
-              {
-                "name": "height",
-                "type": "Option<BlockNumber>"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "totalSupply": {
-            "description": "Get the total voting supply in the system",
-            "params": [
-              {
-                "name": "height",
-                "type": "Option<BlockNumber>"
-              }
-            ],
-            "type": "BalanceWrapper"
-          }
-        },
-        "loans": {
-          "getCollateralLiquidity": {
-            "description": "Retrieves collateral liquidity for the given user.",
-            "params": [
-              {
-                "name": "account",
-                "type": "AccountId"
-              },
-              {
-                "name": "at",
-                "type": "BlockHash",
-                "isHistoric": true,
-                "isOptional": true
-              }
-            ],
-            "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
-            "isSubscription": false,
-            "jsonrpc": "loans_getCollateralLiquidity",
-            "method": "getCollateralLiquidity",
-            "section": "loans"
-          },
-          "getLiquidationThresholdLiquidity": {
-            "description": "Retrieves liquidation threshold liquidity for the given user.",
-            "params": [
-              {
-                "name": "account",
-                "type": "AccountId"
-              },
-              {
-                "name": "at",
-                "type": "BlockHash",
-                "isHistoric": true,
-                "isOptional": true
-              }
-            ],
-            "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
-            "isSubscription": false,
-            "jsonrpc": "loans_getLiquidationThresholdLiquidity",
-            "method": "getLiquidationThresholdLiquidity",
-            "section": "loans"
-          },
-          "getMarketStatus": {
-            "description": "Retrieves market status data for a given asset id.",
-            "params": [
-              {
-                "name": "asset_id",
-                "type": "CurrencyId"
-              },
-              {
-                "name": "at",
-                "type": "BlockHash",
-                "isHistoric": true,
-                "isOptional": true
-              }
-            ],
-            "type": "(Rate, Rate, Rate, Ratio, Balance, Balance, FixedU128)",
-            "isSubscription": false,
-            "jsonrpc": "loans_getMarketStatus",
-            "method": "getMarketStatus",
-            "section": "loans"
-          }
-        },
-        "issue": {
-          "getIssueRequests": {
-            "description": "Get all issue request IDs for a particular account",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          },
-          "getVaultIssueRequests": {
-            "description": "Get all issue request IDs for a particular vault",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          }
-        },
-        "oracle": {
-          "collateralToWrapped": {
-            "description": "Collateral to Wrapped exchange rate",
-            "params": [
-              {
-                "name": "amount",
-                "type": "BalanceWrapper"
-              },
-              {
-                "name": "currency_id",
-                "type": "CurrencyId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "wrappedToCollateral": {
-            "description": "Wrapped to Collateral exchange rate",
-            "params": [
-              {
-                "name": "amount",
-                "type": "BalanceWrapper"
-              },
-              {
-                "name": "currency_id",
-                "type": "CurrencyId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          }
-        },
-        "redeem": {
-          "getRedeemRequests": {
-            "description": "Get all redeem request IDs for a particular account",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          },
-          "getVaultRedeemRequests": {
-            "description": "Get all redeem request IDs for a particular vault",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          }
-        },
-        "refund": {
-          "getRefundRequests": {
-            "description": "Get all refund request IDs for a particular account",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          },
-          "getRefundRequestsByIssueId": {
-            "description": "Get all refund request IDs for a particular issue ID",
-            "params": [
-              {
-                "name": "issue_id",
-                "type": "H256"
-              }
-            ],
-            "type": "H256"
-          },
-          "getVaultRefundRequests": {
-            "description": "Get all refund request IDs for a particular vault",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          }
-        },
-        "replace": {
-          "getNewVaultReplaceRequests": {
-            "description": "Get all replace request IDs to a particular vault",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          },
-          "getOldVaultReplaceRequests": {
-            "description": "Get all replace request IDs from a particular vault",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<H256>"
-          }
-        },
-        "reward": {
-          "computeEscrowReward": {
-            "description": "Get a given user's rewards due",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              },
-              {
-                "name": "currency_id",
-                "type": "CurrencyId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "computeVaultReward": {
-            "description": "Get a given vault's rewards due",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "VaultId"
-              },
-              {
-                "name": "currency_id",
-                "type": "CurrencyId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          }
-        },
-        "vaultRegistry": {
-          "getCollateralizationFromVault": {
-            "description": "Returns the collateralization of a specific vault",
-            "params": [
-              {
-                "name": "vault",
-                "type": "VaultId"
-              },
-              {
-                "name": "only_issued",
-                "type": "bool"
-              }
-            ],
-            "type": "UnsignedFixedPoint"
-          },
-          "getCollateralizationFromVaultAndCollateral": {
-            "description": "Returns the collateralization of a specific vault and collateral",
-            "params": [
-              {
-                "name": "vault",
-                "type": "VaultId"
-              },
-              {
-                "name": "collateral",
-                "type": "BalanceWrapper"
-              },
-              {
-                "name": "only_issued",
-                "type": "bool"
-              }
-            ],
-            "type": "UnsignedFixedPoint"
-          },
-          "getIssueableTokensFromVault": {
-            "description": "Get the amount of tokens a vault can issue",
-            "params": [
-              {
-                "name": "vault",
-                "type": "VaultId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "getPremiumRedeemVaults": {
-            "description": "Get all vaults below the premium redeem threshold.",
-            "params": [],
-            "type": "Vec<(VaultId, BalanceWrapper)>"
-          },
-          "getRequiredCollateralForVault": {
-            "description": "Get the amount of collateral required for the given vault to be at the current SecureCollateralThreshold with the current exchange rate",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "VaultId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "getRequiredCollateralForWrapped": {
-            "description": "Get the amount of collateral required to issue an amount of InterBTC",
-            "params": [
-              {
-                "name": "amount_btc",
-                "type": "BalanceWrapper"
-              },
-              {
-                "name": "currency_id",
-                "type": "CurrencyId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "getVaultCollateral": {
-            "description": "Get the vault's collateral (excluding nomination)",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "VaultId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "getVaultTotalCollateral": {
-            "description": "Get the vault's collateral (including nomination)",
-            "params": [
-              {
-                "name": "vault_id",
-                "type": "VaultId"
-              }
-            ],
-            "type": "BalanceWrapper"
-          },
-          "getVaultsByAccountId": {
-            "description": "Get all vaults that are registered using the given account _id",
-            "params": [
-              {
-                "name": "account_id",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Vec<VaultId>"
-          },
-          "getVaultsWithIssuableTokens": {
-            "description": "Get all vaults with non-zero issuable tokens, ordered in descending order of this amount",
-            "params": [],
-            "type": "Vec<(VaultId, BalanceWrapper)>"
-          },
-          "getVaultsWithRedeemableTokens": {
-            "description": "Get all vaults with non-zero redeemable tokens, ordered in descending order of this amount",
-            "params": [],
-            "type": "Vec<(VaultId, BalanceWrapper)>"
-          }
-        }
-      },
-      "alias": {
-        "tokens": {
-          "AccountData": "OrmlAccountData",
-          "BalanceLock": "OrmlBalanceLock"
-        }
-      },
-      "instances": {
-        "balances": [
-          "ksm",
-          "kbtc",
-          "kint",
-          "dot",
-          "ibtc",
-          "intr"
-        ]
       }
     },
     "trustbase": {
@@ -76858,6 +80430,29 @@ export const typesBundle = {
               }
             ],
             "type": "Option<u128>"
+          },
+          "allowanceForAll": {
+            "description": "Tells whether the given `owner` approves the `operator`.",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "owner",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "operator",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<bool>"
           }
         }
       }
@@ -77613,206 +81208,6 @@ export const typesBundle = {
             null
           ],
           "types": {
-            "Juror": {
-              "status": "JurorStatus"
-            },
-            "JurorStatus": {
-              "_enum": [
-                "OK",
-                "Tardy"
-              ]
-            },
-            "OrderSide": {
-              "_enum": [
-                "Bid",
-                "Ask"
-              ]
-            },
-            "Order": {
-              "side": "OrderSide",
-              "maker": "AccountId",
-              "taker": "Option<AccountId>",
-              "asset": "Asset",
-              "total": "Balance",
-              "price": "Balance",
-              "filled": "Balance"
-            },
-            "MarketCreation": {
-              "_enum": [
-                "Permissionless",
-                "Advised"
-              ]
-            },
-            "MarketPeriod": {
-              "_enum": {
-                "Block": "Range<BlockNumber>",
-                "Timestamp": "Range<Moment>"
-              }
-            },
-            "MarketId": "u128",
-            "MarketType": {
-              "_enum": {
-                "Categorical": "u16",
-                "Scalar": "RangeInclusive<u128>"
-              }
-            },
-            "MarketStatus": {
-              "_enum": [
-                "Proposed",
-                "Active",
-                "Suspended",
-                "Closed",
-                "CollectingSubsidy",
-                "InsufficientSubsidy",
-                "Reported",
-                "Disputed",
-                "Resolved"
-              ]
-            },
-            "Market": {
-              "creator": "AccountId",
-              "creation": "MarketCreation",
-              "creatorFee": "u8",
-              "oracle": "AccountId",
-              "metadata": "Vec<u8>",
-              "marketType": "MarketType",
-              "period": "MarketPeriod",
-              "scoringRule": "ScoringRule",
-              "status": "MarketStatus",
-              "report": "Option<Report>",
-              "resolvedOutcome": "Option<OutcomeReport>",
-              "disputeMechanism": "MarketDisputeMechanism"
-            },
-            "ScoringRule": {
-              "_enum": [
-                "CPMM",
-                "RikiddoSigmoidFeeMarketEma"
-              ]
-            },
-            "OutcomeReport": {
-              "_enum": {
-                "Categorical": "u16",
-                "Scalar": "u128"
-              }
-            },
-            "Report": {
-              "at": "BlockNumber",
-              "by": "AccountId",
-              "outcome": "OutcomeReport"
-            },
-            "MarketDispute": {
-              "at": "BlockNumber",
-              "by": "AccountId",
-              "outcome": "OutcomeReport"
-            },
-            "MarketDisputeMechanism": {
-              "_enum": {
-                "Authorized": "AccountId",
-                "Court": null,
-                "SimpleDisputes": null
-              }
-            },
-            "EmaConfig": {
-              "emaPeriod": "Timespan",
-              "emaPeriodEstimateAfter": "Option<Timespan>",
-              "smoothing": "u128"
-            },
-            "EmaMarketVolume": {
-              "config": "EmaConfig",
-              "ema": "u128",
-              "multiplier": "u128",
-              "lastTime": "UnixTimestamp",
-              "state": "MarketVolumeState",
-              "startTime": "UnixTimestamp",
-              "volumesPerPeriod": "u128"
-            },
-            "FeeSigmoid": {
-              "config": "FeeSigmoidConfig"
-            },
-            "FeeSigmoidConfig": {
-              "m": "i128",
-              "p": "i128",
-              "n": "i128",
-              "initialFee": "i128",
-              "minRevenue": "i128"
-            },
-            "MarketVolumeState": {
-              "_enum": [
-                "Uninitialized",
-                "DataCollectionStarted",
-                "DataCollected"
-              ]
-            },
-            "Rikiddo": {
-              "config": "RikiddoConfig",
-              "fees": "FeeSigmoid",
-              "maShort": "EmaMarketVolume",
-              "maLong": "EmaMarketVolume"
-            },
-            "RikiddoConfig": {
-              "initialFee": "i128",
-              "log2E": "i128"
-            },
-            "Timespan": {
-              "_enum": {
-                "Seconds": "u32",
-                "Minutes": "u32",
-                "Hours": "u32",
-                "Days": "u16",
-                "Weeks": "u16"
-              }
-            },
-            "UnixTimestamp": "u64",
-            "Pool": {
-              "assets": "Vec<Asset>",
-              "baseAsset": "Asset",
-              "marketId": "MarketId",
-              "poolStatus": "PoolStatus",
-              "scoringRule": "ScoringRule",
-              "swapFee": "Option<Balance>",
-              "totalSubsidy": "Option<Balance>",
-              "totalWeight": "Option<u128>",
-              "weights": "Option<BTreeMap<Asset, u128>>"
-            },
-            "CommonPoolEventParams": {
-              "poolId": "u128",
-              "who": "AccountId"
-            },
-            "PoolAssetEvent": {
-              "asset": "Asset",
-              "bound": "Balance",
-              "cpep": "CommonPoolEventParams<AccountId>",
-              "transferred": "Balance"
-            },
-            "PoolAssetsEvent": {
-              "assets": "Vec<Asset>",
-              "bounds": "Vec<Balance>",
-              "cpep": "CommonPoolEventParams<AccountId>",
-              "transferred": "Vec<Balance>"
-            },
-            "PoolId": "u128",
-            "PoolStatus": {
-              "_enum": [
-                "Active",
-                "CollectingSubsidy",
-                "Closed",
-                "Clean",
-                "Initialized"
-              ]
-            },
-            "SubsidyUntil": {
-              "marketId": "MarketId",
-              "period": "MarketPeriod"
-            },
-            "SwapEvent": {
-              "assetAmountIn": "Balance",
-              "assetAmountOut": "Balance",
-              "assetBound": "Balance",
-              "assetIn": "Asset",
-              "assetOut": "Asset",
-              "cpep": "CommonPoolEventParams<AccountId>",
-              "maxPrice": "Balance"
-            },
             "Address": "MultiAddress",
             "Amount": "i128",
             "AmountOf": "i128",

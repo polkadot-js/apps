@@ -52,7 +52,7 @@ function Join ({ className, members, onClose, unscrupulous: { accounts } }: Prop
             type='account'
           />
         </Modal.Columns>
-        <Modal.Columns hint={t('The bond will be reserved for the duration of your alliance membership.')}>
+        <Modal.Columns hint={t<string>('The bond will be reserved for the duration of your alliance membership.')}>
           <InputBalance
             defaultValue={api.consts.alliance.allyDeposit}
             isDisabled

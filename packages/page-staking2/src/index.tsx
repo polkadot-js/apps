@@ -3,24 +3,50 @@
 
 import type { AppProps as Props } from '@polkadot/react-components/types';
 
-import React, { useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { Route, Switch } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 import { useApi, useFavorites } from '@polkadot/react-hooks';
+import { isFunction } from '@polkadot/util';
 
 import { STORE_FAVS_BASE } from './constants';
+import Pools from './Pools';
 import { useTranslation } from './translate';
+import { clearCache } from './useCache';
 import useSessionInfo from './useSessionInfo';
-import useValidatorsActive from './useValidatorsActive';
 import Validators from './Validators';
+
+function createPathRef (basePath: string): Record<string, string | string[]> {
+  return {
+    bags: `${basePath}/bags`,
+    payout: `${basePath}/payout`,
+    pools: `${basePath}/pools`,
+    query: [
+      `${basePath}/query/:value`,
+      `${basePath}/query`
+    ],
+    slashes: `${basePath}/slashes`,
+    targets: `${basePath}/targets`
+  };
+}
 
 function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const pathRef = useRef(createPathRef(basePath));
+
+  // on unmount anything else, ensure that for the next round we
+  // are starting with a fresh cache (there could be large delays)
+  // between opening up staking (excuted inline, not via effect)
+  useEffect((): () => void => {
+    return (): void => {
+      clearCache();
+    };
+  }, []);
+
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const sessionInfo = useSessionInfo();
-  const validatorsActive = useValidatorsActive(favorites, sessionInfo);
 
   const isRelay = useMemo(
     () => !!(api.query.parasShared || api.query.shared)?.activeValidatorIndices,
@@ -32,6 +58,10 @@ function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
       isRoot: true,
       name: 'sign',
       text: t<string>('Validators')
+    },
+    isFunction(api.query.nominationPools?.minCreateBond) && {
+      name: 'pools',
+      text: t<string>('Pools')
     }
   ]);
 
@@ -42,12 +72,15 @@ function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
         items={itemsRef.current}
       />
       <Switch>
-        <Route>
+        <Route path={pathRef.current.pools}>
+          <Pools />
+        </Route>
+        <Route path={basePath}>
           <Validators
+            favorites={favorites}
             isRelay={isRelay}
             sessionInfo={sessionInfo}
             toggleFavorite={toggleFavorite}
-            validatorsSession={validatorsActive}
           />
         </Route>
       </Switch>

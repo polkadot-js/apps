@@ -4,8 +4,8 @@
 import type { BN } from '@polkadot/util';
 
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 
+import { styled } from '@polkadot/react-components/styled';
 import { bnToBn } from '@polkadot/util';
 
 type Ticker = (now: number) => void;

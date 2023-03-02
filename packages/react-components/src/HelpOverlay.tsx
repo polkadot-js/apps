@@ -4,11 +4,11 @@
 import React from 'react';
 import ReactMd from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
-import styled from 'styled-components';
 
 import { useToggle } from '@polkadot/react-hooks';
 
 import Icon from './Icon';
+import { styled } from './styled';
 
 interface Props {
   className?: string;

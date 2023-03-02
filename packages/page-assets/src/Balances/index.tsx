@@ -4,9 +4,8 @@
 import type { AssetInfo, AssetInfoComplete } from '../types';
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { Dropdown, Table } from '@polkadot/react-components';
+import { Dropdown, styled, Table } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -25,9 +24,9 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
   const balances = useBalances(info?.id);
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('accounts'), 'start'],
-    [t('frozen'), 'start'],
-    [t('sufficient'), 'start'],
+    [t<string>('accounts'), 'start'],
+    [t<string>('frozen'), 'start'],
+    [t<string>('sufficient'), 'start'],
     [],
     []
   ]);

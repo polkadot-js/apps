@@ -22,11 +22,11 @@ function Candidates ({ allVotes = {}, electionsInfo, hasElections }: Props): Rea
   const { t } = useTranslation();
 
   const headerCandidatesRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('candidates'), 'start', 2]
+    [t<string>('candidates'), 'start', 2]
   ]);
 
   const headerRunnersRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('runners up'), 'start', 2]
+    [t<string>('runners up'), 'start', 2]
   ]);
 
   return (

@@ -45,11 +45,18 @@ const EMPTY_STATE: Partial<Result> = {
 // return both v1 & v2 weight structures (would depend on actual use)
 export function convertWeight (weight: V1Weight | V2Weight): { v1Weight: BN, v2Weight: V2WeightConstruct } {
   if ((weight as V2Weight).proofSize) {
+    // V2 weight
     const refTime = (weight as V2Weight).refTime.toBn();
 
     return { v1Weight: refTime, v2Weight: weight as V2Weight };
+  } else if ((weight as V2Weight).refTime) {
+    // V1.5 weight (when not converted)
+    const refTime = (weight as V2Weight).refTime.toBn();
+
+    return { v1Weight: refTime, v2Weight: { refTime } };
   }
 
+  // V1 weight
   const refTime = (weight as V1Weight).toBn();
 
   return { v1Weight: refTime, v2Weight: { refTime } };
@@ -60,7 +67,7 @@ function useWeightImpl (call?: Call | null): Result {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState<Result>(() => objectSpread({
-    isWeightV2: !isFunction(api.registry.createType('Weight').toBn)
+    isWeightV2: !isFunction(api.registry.createType<V1Weight>('Weight').toBn)
   }, EMPTY_STATE));
 
   useEffect((): void => {

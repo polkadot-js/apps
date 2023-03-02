@@ -4,15 +4,14 @@
 import type { BareProps as Props } from '@polkadot/react-components/types';
 
 import React from 'react';
-import styled from 'styled-components';
 
+import { styled } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { NodeName, NodeVersion } from '@polkadot/react-query';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const pkgJson = require('../../package.json') as { version: string };
+import { packageInfo } from '../packageInfo';
 
-const uiInfo = `apps v${pkgJson.version.replace('-x', '')}`;
+const uiInfo = `apps v${packageInfo.version.replace('-x', '')}`;
 
 function NodeInfo ({ className = '' }: Props): React.ReactElement<Props> {
   const { api, isApiReady } = useApi();

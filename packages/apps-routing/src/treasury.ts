@@ -17,7 +17,7 @@ export default function create (t: TFunction): Route {
     group: 'governance',
     icon: 'gem',
     name: 'treasury',
-    text: t('nav.treasury', 'Treasury', { ns: 'apps-routing' }),
+    text: t<string>('nav.treasury', 'Treasury', { ns: 'apps-routing' }),
     useCounter
   };
 }

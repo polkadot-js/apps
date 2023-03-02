@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { ExternalDef } from './types';
 
-import { externalLogos } from '../ui/logos';
+import { externalKodadotPNG } from '../ui/logos/external';
 
 const getNetwork = (_chain: string) => {
   const chain = _chain === 'kusama' ? 'rmrk' : _chain;
@@ -19,11 +19,14 @@ export const KodaDot: ExternalDef = {
     Westend: 'westend',
     Westmint: 'westmint'
   },
-  create: (_chain: string, _path: string, data: BN | number | string): string => `${getNetwork(_chain)}${data.toString()}`,
+  create: (_chain: string, _path: string, data: BN | number | string): string =>
+    `${getNetwork(_chain)}${data.toString()}`,
+  homepage: 'https://kodadot.xyz',
   isActive: true,
-  logo: externalLogos.kodadot as string,
   paths: {
     address: 'account'
   },
-  url: 'https://kodadot.xyz'
+  ui: {
+    logo: externalKodadotPNG
+  }
 };

@@ -4,11 +4,11 @@
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
 import { useParaEndpoints } from '@polkadot/react-hooks';
 
 import ChainImg from './ChainImg';
+import { styled } from './styled';
 
 interface Props {
   className?: string;
@@ -26,7 +26,7 @@ function ParaLink ({ className, id }: Props): React.ReactElement<Props> | null {
     return null;
   }
 
-  const { info, text, value } = links.length
+  const { text, ui, value } = links.length
     ? links[links.length - 1]
     : endpoints[0];
 
@@ -34,7 +34,7 @@ function ParaLink ({ className, id }: Props): React.ReactElement<Props> | null {
     <StyledDiv className={className}>
       <ChainImg
         isInline
-        logo={info || 'empty'}
+        logo={ui.logo || 'empty'}
         withoutHl
       />
       {links.length

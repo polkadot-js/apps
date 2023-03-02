@@ -4,9 +4,8 @@
 import type { AbiMessage } from '@polkadot/api-contract/types';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { Icon, Tooltip } from '@polkadot/react-components';
+import { Icon, styled, Tooltip } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { encodeTypeDef } from '@polkadot/types/create';
 

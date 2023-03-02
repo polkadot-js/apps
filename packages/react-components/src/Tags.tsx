@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useMemo } from 'react';
-import styled from 'styled-components';
 
 import EditButton from './EditButton';
 import InputTags from './InputTags';
+import { styled } from './styled';
 import Tag from './Tag';
 import { useTranslation } from './translate';
 

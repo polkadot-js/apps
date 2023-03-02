@@ -11,10 +11,10 @@
 // The avatars used in "set5" were created by Pablo Stanley, for https://avataaars.com/ They are "Free for personal and commercial use. 😇"
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
+import { styled } from '../../styled';
 import backgrounds from './backgrounds';
 import sets from './sets';
 
@@ -51,10 +51,10 @@ function createInfo (value: string): string[] {
     hash: blake2AsU8a(value),
     index: 0
   };
-  const result = [getIndex(backgrounds, hash) as string];
+  const result = [getIndex(backgrounds, hash)];
 
   getIndex(sets, hash).forEach((section): void => {
-    result.push(getIndex(section, hash) as string);
+    result.push(getIndex(section, hash));
   });
 
   return result;

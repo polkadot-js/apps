@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+import CopyToClipboard from 'react-copy-to-clipboard';
 
 import { AccountName, Button, IdentityIcon, Input } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';

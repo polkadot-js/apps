@@ -9,9 +9,9 @@ import type { Group, Groups, ItemRoute } from './types';
 
 import React, { useMemo, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import styled from 'styled-components';
 
 import createRoutes from '@polkadot/apps-routing';
+import { styled } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall, useTeleport } from '@polkadot/react-hooks';
 
 import { findMissingApis } from '../endpoint';
@@ -99,12 +99,12 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   const routeRef = useRef(createRoutes(t));
 
   const groupRef = useRef({
-    accounts: t('Accounts'),
-    developer: t('Developer'),
-    files: t('Files'),
-    governance: t('Governance'),
-    network: t('Network'),
-    settings: t('Settings')
+    accounts: t<string>('Accounts'),
+    developer: t<string>('Developer'),
+    files: t<string>('Files'),
+    governance: t<string>('Governance'),
+    network: t<string>('Network'),
+    settings: t<string>('Settings')
   });
 
   const hasSudo = useMemo(

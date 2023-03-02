@@ -84,6 +84,7 @@ function EventDisplay ({ children, className = '', eventName, value, withExpande
         isDisabled
         overrides={overrides}
         params={params}
+        registry={value.registry}
         values={values}
         withExpander={withExpander}
       >
@@ -97,6 +98,7 @@ function EventDisplay ({ children, className = '', eventName, value, withExpande
             <Params
               isDisabled
               params={abiEvent.event.args}
+              registry={value.registry}
               values={abiEvent.values}
             />
           </>

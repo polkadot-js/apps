@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { CSSProperties } from 'react';
-import styled from 'styled-components';
+
+import { styled } from '@polkadot/react-components';
 
 export interface Props {
   className?: string,

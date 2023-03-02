@@ -5,9 +5,9 @@ import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BountyStatus } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
 import VotingDescriptionInfo from '@polkadot/app-bounties/BountyInfos/VotingDescriptionInfo';
+import { styled } from '@polkadot/react-components';
 import { useCollectiveMembers } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -34,8 +34,8 @@ function VotingSummary ({ className, proposal, status }: Props): JSX.Element {
           className={className}
           data-testid='voting-summary'
         >
-          <div className='voting-summary-text'><span>{t('Aye')}</span> <b>{ayes}/{threshold}</b></div>
-          <div className='voting-summary-text'><span>{t('Nay')}</span> <b>{nays}/{nayThreshold}</b></div>
+          <div className='voting-summary-text'><span>{t<string>('Aye')}</span> <b>{ayes}/{threshold}</b></div>
+          <div className='voting-summary-text'><span>{t<string>('Nay')}</span> <b>{nays}/{nayThreshold}</b></div>
           <div className='link-info'>
             <VotingLink />
             <VotingDescriptionInfo

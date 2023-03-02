@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button } from '@polkadot/react-components';
+import { Button, styled } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 import Codes from '../Codes';
@@ -53,17 +52,17 @@ function Contracts ({ className = '' }: Props): React.ReactElement<Props> {
       <Button.Group>
         <Button
           icon='plus'
-          label={t('Upload & deploy code')}
+          label={t<string>('Upload & deploy code')}
           onClick={toggleUpload}
         />
         <Button
           icon='plus'
-          label={t('Add an existing code hash')}
+          label={t<string>('Add an existing code hash')}
           onClick={toggleHash}
         />
         <Button
           icon='plus'
-          label={t('Add an existing contract')}
+          label={t<string>('Add an existing contract')}
           onClick={toggleAdd}
         />
       </Button.Group>

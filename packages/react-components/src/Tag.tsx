@@ -5,8 +5,9 @@ import type { ThemeDef } from '@polkadot/react-hooks/ctx/types';
 import type { FlagColor as TagColor } from './types';
 
 import React, { useContext, useState } from 'react';
-import styled, { ThemeContext } from 'styled-components';
+import { ThemeContext } from 'styled-components';
 
+import { styled } from './styled';
 import Tooltip from './Tooltip';
 
 interface Props {

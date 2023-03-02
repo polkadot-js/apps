@@ -3,11 +3,11 @@
 
 import React, { createRef, useCallback, useState } from 'react';
 import Dropzone, { DropzoneRef } from 'react-dropzone';
-import styled from 'styled-components';
 
 import { formatNumber, hexToU8a, isHex, u8aToString } from '@polkadot/util';
 
 import Labelled from './Labelled';
+import { styled } from './styled';
 import { useTranslation } from './translate';
 
 export interface InputFilePropsBase {

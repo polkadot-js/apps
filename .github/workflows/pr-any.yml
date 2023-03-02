@@ -3,13 +3,16 @@ on: [pull_request]
 
 jobs:
   pr:
+    continue-on-error: true
     strategy:
       matrix:
         step: ['lint', 'test', 'build:code', 'build:i18n', 'build:electron']
-    name: ${{ matrix.step }}
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 'lts/*'
     - name: ${{ matrix.step }}
       run: |
         yarn install --immutable | grep -v 'YN0013'

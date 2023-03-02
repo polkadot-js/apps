@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSessionProgress, DeriveUnlocking } from '@polkadot/api-derive/types';
+import type { PoolInfo } from '@polkadot/app-staking2/Pools/types';
 import type { PalletNominationPoolsPoolMember, PalletNominationPoolsPoolRoles } from '@polkadot/types/lookup';
-import type { PoolInfo } from '../../Pools/types';
 import type { SortedTargets } from '../../types';
 
 import React, { useCallback, useMemo } from 'react';

@@ -157,7 +157,9 @@ function useExtensionsImpl (): Extensions {
   }, []);
 
   useEffect((): void => {
-    extensions && getKnown(api, extensions, trigger).then(setAll);
+    extensions && getKnown(api, extensions, trigger)
+      .then(setAll)
+      .catch(console.error);
   }, [api, extensions, trigger]);
 
   return useMemo(

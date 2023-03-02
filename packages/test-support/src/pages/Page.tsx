@@ -60,8 +60,8 @@ jest.mock('@polkadot/react-hooks/useAccountInfo', () => {
   });
 });
 
-jest.mock('@polkadot/react-hooks/useLoadingDelay', () => ({
-  useLoadingDelay: () => false
+jest.mock('@polkadot/react-hooks/useNextTick', () => ({
+  useNextTick: () => true
 }));
 
 jest.mock('@polkadot/react-hooks/useBalancesAll', () => ({
@@ -197,6 +197,10 @@ export abstract class Page {
         ...api,
         isReady: Promise.resolve(api)
       },
+      isApiConnected: true,
+      isApiInitialized: true,
+      isApiReady: true,
+      isEthereum: false,
       systemName: 'substrate'
     } as unknown as ApiProps;
 

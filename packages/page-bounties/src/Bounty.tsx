@@ -6,9 +6,8 @@ import type { Bounty as BountyType, BountyIndex } from '@polkadot/types/interfac
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
-import { AddressSmall, Columar, ExpandButton, LinkExternal, Table } from '@polkadot/react-components';
+import { AddressSmall, Columar, ExpandButton, LinkExternal, styled, Table } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
@@ -148,11 +147,11 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
             </Columar.Column>
             <Columar.Column>
               <div className='column'>
-                <h5>{t('Proposer')}</h5>
+                <h5>{t<string>('Proposer')}</h5>
                 <AddressSmall value={proposer} />
               </div>
               <div className='column'>
-                <h5>{t('Bond')}</h5>
+                <h5>{t<string>('Bond')}</h5>
                 <div className='inline-balance'><FormatBalance value={bond} /></div>
               </div>
               {curator && (

@@ -8,9 +8,8 @@ import type { BN } from '@polkadot/util';
 import type { NominatedByMap, SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button, Icon, Table, Toggle } from '@polkadot/react-components';
+import { Button, Icon, styled, Table, Toggle } from '@polkadot/react-components';
 import { useApi, useAvailableSlashes, useBlocksPerDays, useSavedFlags } from '@polkadot/react-hooks';
 import { BN_HUNDRED } from '@polkadot/util';
 
@@ -291,10 +290,10 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
   // False positive, this is part of the type...
   // eslint-disable-next-line func-call-spacing
   const header = useMemo<[React.ReactNode?, string?, number?, (() => void)?][]>(() => [
-    [t('validators'), 'start', 4],
-    [t('payout'), 'media--1400'],
-    [t('nominators'), 'media--1200', 2],
-    [t('comm.'), 'media--1100'],
+    [t<string>('validators'), 'start', 4],
+    [t<string>('payout'), 'media--1400'],
+    [t<string>('nominators'), 'media--1200', 2],
+    [t<string>('comm.'), 'media--1100'],
     ...(SORT_KEYS as (keyof typeof labelsRef.current)[]).map((header): [React.ReactNode?, string?, number?, (() => void)?] => [
       <>{labelsRef.current[header]}<Icon icon={sortBy === header ? (sortFromMax ? 'chevron-down' : 'chevron-up') : 'minus'} /></>,
       `${sorted ? `isClickable ${sortBy === header ? 'highlight--border' : ''} number` : 'number'} ${CLASSES[header] || ''}`,
@@ -395,9 +394,9 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
         empty={sorted && t<string>('No active validators to check')}
         emptySpinner={
           <>
-            {!(validators && allIdentity) && <div>{t('Retrieving validators')}</div>}
-            {!nominatedBy && <div>{t('Retrieving nominators')}</div>}
-            {!displayList && <div>{t('Preparing target display')}</div>}
+            {!(validators && allIdentity) && <div>{t<string>('Retrieving validators')}</div>}
+            {!nominatedBy && <div>{t<string>('Retrieving nominators')}</div>}
+            {!displayList && <div>{t<string>('Preparing target display')}</div>}
           </>
         }
         filter={filter}

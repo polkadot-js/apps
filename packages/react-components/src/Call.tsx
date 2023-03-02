@@ -7,7 +7,6 @@ import type { Codec, IExtrinsic, IMethod, TypeDef } from '@polkadot/types/types'
 import type { BN } from '@polkadot/util';
 
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 
 import Params from '@polkadot/react-params';
 import { FormatBalance } from '@polkadot/react-query';
@@ -15,6 +14,7 @@ import { Enum, getTypeDef } from '@polkadot/types';
 
 import { balanceCalls, balanceCallsOverrides } from './constants';
 import Static from './Static';
+import { styled } from './styled';
 import { useTranslation } from './translate';
 
 export interface Props {

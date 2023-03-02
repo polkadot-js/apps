@@ -19,6 +19,6 @@ export default function create (t: TFunction): Route {
     group: 'developer',
     icon: 'unlock',
     name: 'sudo',
-    text: t('nav.sudo', 'Sudo', { ns: 'apps-routing' })
+    text: t<string>('nav.sudo', 'Sudo', { ns: 'apps-routing' })
   };
 }

@@ -45,13 +45,16 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> | null {
   }, [electionsInfo]);
 
   useEffect((): void => {
-    accountId && api.derive.council.votesOf(accountId).then(({ votes }): void => {
-      setDefaultVotes(
-        votes
-          .map((a) => a.toString())
-          .filter((a) => available.includes(a))
-      );
-    });
+    accountId && api.derive.council
+      .votesOf(accountId)
+      .then(({ votes }): void => {
+        setDefaultVotes(
+          votes
+            .map((a) => a.toString())
+            .filter((a) => available.includes(a))
+        );
+      })
+      .catch(console.error);
   }, [api, accountId, available]);
 
   const bondValue = useMemo(
@@ -115,7 +118,7 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> | null {
               />
             </Modal.Columns>
             {bondValue && (
-              <Modal.Columns hint={t('The amount will be reserved for the duration of your vote')}>
+              <Modal.Columns hint={t<string>('The amount will be reserved for the duration of your vote')}>
                 <InputBalance
                   defaultValue={bondValue}
                   isDisabled

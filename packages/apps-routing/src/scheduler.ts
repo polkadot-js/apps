@@ -17,6 +17,6 @@ export default function create (t: TFunction): Route {
     group: 'network',
     icon: 'clock',
     name: 'scheduler',
-    text: t('nav.scheduler', 'Scheduler', { ns: 'apps-routing' })
+    text: t<string>('nav.scheduler', 'Scheduler', { ns: 'apps-routing' })
   };
 }

@@ -4,7 +4,8 @@
 import type { EntryInfoTyped } from './types';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
+
+import { styled } from '@polkadot/react-components';
 
 import DayItem from './DayItem';
 

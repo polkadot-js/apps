@@ -105,10 +105,10 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
     () => getHeader
       ? [
         [formatNumber(getHeader.number.unwrap()), 'start --digits', 1],
-        [t('hash'), 'start'],
-        [t('parent'), 'start'],
-        [t('extrinsics'), 'start media--1300'],
-        [t('state'), 'start media--1200'],
+        [t<string>('hash'), 'start'],
+        [t<string>('parent'), 'start'],
+        [t<string>('extrinsics'), 'start media--1300'],
+        [t<string>('state'), 'start media--1200'],
         [runtimeVersion ? `${runtimeVersion.specName.toString()}/${runtimeVersion.specVersion.toString()}` : undefined, 'media--1000']
       ]
       : EMPTY_HEADER,

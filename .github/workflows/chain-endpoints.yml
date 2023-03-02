@@ -1,13 +1,17 @@
 name: Chain endpoints
 on:
   schedule:
-    - cron:  '45 0/12 * * *'
+    - cron:  '50 0/12 * * *'
 
 jobs:
   types:
+    if: github.repository == 'polkadot-js/apps'
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 'lts/*'
     - name: check
       env:
         CI_LOG: 123
@@ -17,7 +21,7 @@ jobs:
 
     - name: issue
       if: ${{ failure() }}
-      uses: JasonEtco/create-an-issue@v2
+      uses: JasonEtco/create-an-issue@e27dddc79c92bc6e4562f268fffa5ed752639abd
       env:
         GITHUB_TOKEN: ${{ secrets.GH_PAT_BOT }}
       with:

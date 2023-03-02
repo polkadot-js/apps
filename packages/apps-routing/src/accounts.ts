@@ -15,7 +15,7 @@ export default function create (t: TFunction): Route {
     group: 'accounts',
     icon: 'users',
     name: 'accounts',
-    text: t('nav.accounts', 'Accounts', { ns: 'apps-routing' }),
+    text: t<string>('nav.accounts', 'Accounts', { ns: 'apps-routing' }),
     useCounter
   };
 }

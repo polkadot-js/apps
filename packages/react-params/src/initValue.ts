@@ -108,6 +108,7 @@ export default function getInitValue (registry: Registry, def: TypeDef): unknown
     case 'LookupSource':
     case 'MisbehaviorReport':
     case 'Proposal':
+    case 'RuntimeCall':
     case 'Signature':
     case 'SessionKey':
     case 'StorageKey':

@@ -7,10 +7,10 @@ import type { ContractCallOutcome } from '@polkadot/api-contract/types';
 import type { CallResult } from './types';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button, Dropdown, Expander, InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { Button, Dropdown, Expander, InputAddress, InputBalance, Modal, styled, Toggle, TxButton } from '@polkadot/react-components';
 import { useAccountId, useDebounce, useFormField, useToggle } from '@polkadot/react-hooks';
+import { convertWeight } from '@polkadot/react-hooks/useWeight';
 import { Available } from '@polkadot/react-query';
 import { BN, BN_ONE, BN_ZERO } from '@polkadot/util';
 
@@ -69,7 +69,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
       .query[message.method](accountId, { gasLimit: -1, storageDepositLimit: null, value: message.isPayable ? dbValue : 0 }, ...dbParams)
       .then(({ gasRequired, result }) => setEstimatedWeight(
         result.isOk
-          ? gasRequired
+          ? convertWeight(gasRequired).v1Weight
           : null
       ))
       .catch(() => setEstimatedWeight(null));
@@ -211,7 +211,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
               extrinsic={execTx}
               icon='sign-in-alt'
               isDisabled={!isValid || !execTx}
-              label={t('Execute')}
+              label={t<string>('Execute')}
               onStart={onClose}
             />
           )

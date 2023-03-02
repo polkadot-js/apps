@@ -13,7 +13,7 @@ export default function create (t: TFunction): Route {
     group: 'settings',
     icon: 'cogs',
     name: 'settings',
-    text: t('nav.settings', 'Settings', { ns: 'apps-routing' }),
+    text: t<string>('nav.settings', 'Settings', { ns: 'apps-routing' }),
     useCounter
   };
 }

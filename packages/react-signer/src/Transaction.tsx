@@ -5,9 +5,8 @@ import type { QueueTx } from '@polkadot/react-components/Status/types';
 import type { BN } from '@polkadot/util';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { CallExpander, Modal } from '@polkadot/react-components';
+import { CallExpander, Modal, styled } from '@polkadot/react-components';
 
 import PaymentInfo from './PaymentInfo';
 import { useTranslation } from './translate';

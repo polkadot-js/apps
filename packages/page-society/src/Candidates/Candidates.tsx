@@ -22,9 +22,9 @@ function Candidates ({ allMembers, candidates, className = '', isMember, ownMemb
   const { t } = useTranslation();
 
   const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
-    [t('candidates'), 'start'],
-    [t('bid kind'), 'start'],
-    [t('value')],
+    [t<string>('candidates'), 'start'],
+    [t<string>('bid kind'), 'start'],
+    [t<string>('value')],
     [undefined, 'expand'],
     []
   ]);

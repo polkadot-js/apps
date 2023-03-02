@@ -6,9 +6,8 @@ import type { Hash } from '@polkadot/types/interfaces';
 import type { HexString } from '@polkadot/util/types';
 
 import React, { useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
 
-import { Extrinsic, InputAddress, InputBalance, Modal, Static, TxButton } from '@polkadot/react-components';
+import { Extrinsic, InputAddress, InputBalance, Modal, Static, styled, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { BN, BN_ZERO, isString } from '@polkadot/util';

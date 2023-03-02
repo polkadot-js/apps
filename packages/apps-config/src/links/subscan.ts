@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { ExternalDef } from './types';
 
-import { externalLogos } from '../ui/logos';
+import { externalSubscanPNG } from '../ui/logos/external';
 
 export const Subscan: ExternalDef = {
   chains: {
@@ -85,8 +85,8 @@ export const Subscan: ExternalDef = {
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.subscan.io/${path}/${data.toString()}`,
+  homepage: 'https://subscan.io/',
   isActive: true,
-  logo: externalLogos.subscan as string,
   paths: {
     address: 'account',
     block: 'block',
@@ -95,10 +95,14 @@ export const Subscan: ExternalDef = {
     democracyProposal: 'democracy_proposal',
     democracyReferendum: 'referenda',
     extrinsic: 'extrinsic',
+    fellowshipReferenda: 'fellowship',
+    referenda: 'referenda_v2',
     techcomm: 'tech',
     tip: 'treasury_tip',
     treasury: 'treasury',
     validator: 'validator'
   },
-  url: 'https://subscan.io/'
+  ui: {
+    logo: externalSubscanPNG
+  }
 };

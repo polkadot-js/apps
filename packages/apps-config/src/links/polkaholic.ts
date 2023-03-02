@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { ExternalDef } from './types';
 
-import { externalLogos } from '../ui/logos';
+import { externalPolkaholicPNG } from '../ui/logos/external';
 
 export const Polkaholic: ExternalDef = {
   chains: {
@@ -60,12 +60,14 @@ export const Polkaholic: ExternalDef = {
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.polkaholic.io/${path}/${data.toString()}`,
+  homepage: 'https://polkaholic.io/',
   isActive: true,
-  logo: externalLogos.polkaholic as string,
   paths: {
     address: 'account',
     block: 'blockhash',
     extrinsic: 'tx'
   },
-  url: 'https://polkaholic.io/'
+  ui: {
+    logo: externalPolkaholicPNG
+  }
 };

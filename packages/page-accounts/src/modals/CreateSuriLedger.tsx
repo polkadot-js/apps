@@ -29,12 +29,12 @@ function CreateSuriLedger ({ className, onChange, seedType }: Props): React.Reac
   })));
 
   const accOps = useRef(AVAIL_INDEXES.map((value) => ({
-    text: t('Account type {{index}}', { replace: { index: value } }),
+    text: t<string>('Account type {{index}}', { replace: { index: value } }),
     value
   })));
 
   const addOps = useRef(AVAIL_INDEXES.map((value) => ({
-    text: t('Address index {{index}}', { replace: { index: value } }),
+    text: t<string>('Address index {{index}}', { replace: { index: value } }),
     value
   })));
 
@@ -53,19 +53,19 @@ function CreateSuriLedger ({ className, onChange, seedType }: Props): React.Reac
         ? (
           <>
             <Dropdown
-              label={t('Ledger app type (originated from)')}
+              label={t<string>('Ledger app type (originated from)')}
               onChange={setChainType}
               options={netOpts.current}
               value={chainType}
             />
             <Dropdown
-              label={t('account type')}
+              label={t<string>('account type')}
               onChange={setAccIndex}
               options={accOps.current}
               value={accIndex}
             />
             <Dropdown
-              label={t('address index')}
+              label={t<string>('address index')}
               onChange={setAddIndex}
               options={addOps.current}
               value={addIndex}

@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { ExternalDef } from './types';
 
-import { externalLogos } from '../ui/logos';
+import { externalDotscannerPNG } from '../ui/logos/external';
 
 export const DotScanner: ExternalDef = {
   chains: {
@@ -13,11 +13,13 @@ export const DotScanner: ExternalDef = {
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://dotscanner.com/${chain}/${path}/${data.toString()}?utm_source=polkadotjs`,
+  homepage: 'https://dotscanner.com/',
   isActive: true,
-  logo: externalLogos.dotscanner as string,
   paths: {
     address: 'account',
     block: 'block'
   },
-  url: 'https://dotscanner.com/'
+  ui: {
+    logo: externalDotscannerPNG
+  }
 };

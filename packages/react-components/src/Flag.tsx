@@ -4,8 +4,8 @@
 import type { FlagColor } from './types';
 
 import React from 'react';
-import styled from 'styled-components';
 
+import { styled } from './styled';
 import Tag from './Tag';
 
 interface FlagProps {

@@ -10,6 +10,7 @@ import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useEventChanges, useMapKeys } from '@polkadot/react-hooks';
 
+import { useCacheValue } from './useCache';
 import useTaggedValidators from './useTaggedValidators';
 
 const EMPTY_PARAMS: unknown[] = [];
@@ -62,7 +63,9 @@ function useValidatorsAllImpl (favorites: string[], sessionInfo: SessionInfo): V
     [validators]
   );
 
-  return useTaggedValidators(favorites, sessionInfo, validatorsIndexed);
+  const tagged = useTaggedValidators(favorites, sessionInfo, validatorsIndexed);
+
+  return useCacheValue('useValidatorsAll', tagged);
 }
 
 export default createNamedHook('useValidatorsAll', useValidatorsAllImpl);

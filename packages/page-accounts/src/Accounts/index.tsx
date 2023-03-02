@@ -8,11 +8,10 @@ import type { AccountBalance, Delegation, SortedAccount } from '../types';
 import type { SortCategory } from '../util';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button, FilterInput, SortDropdown, SummaryBox, Table } from '@polkadot/react-components';
+import { Button, FilterInput, SortDropdown, styled, SummaryBox, Table } from '@polkadot/react-components';
 import { getAccountCryptoType } from '@polkadot/react-components/util';
-import { useAccounts, useApi, useDelegations, useFavorites, useIpfs, useLedger, useLoadingDelay, useProxies, useToggle } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useDelegations, useFavorites, useIpfs, useLedger, useNextTick, useProxies, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { BN_ZERO, isFunction } from '@polkadot/util';
@@ -107,7 +106,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const [{ sortBy, sortFromMax }, setSortBy] = useState<SortControls>(DEFAULT_SORT_CONTROLS);
   const delegations = useDelegations();
   const proxies = useProxies();
-  const isLoading = useLoadingDelay();
+  const isNextTick = useNextTick();
 
   const onSortChange = useCallback(
     (sortBy: SortCategory) => setSortBy(({ sortFromMax }) => ({ sortBy, sortFromMax })),
@@ -197,13 +196,13 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const header = useMemo(
     (): Record<GroupName, [React.ReactNode?, string?, number?, (() => void)?][]> => {
       const ret: Record<GroupName, [React.ReactNode?, string?, number?, (() => void)?][]> = {
-        accounts: [[<>{t('accounts')}<div className='sub'>{t<string>('all locally stored accounts')}</div></>]],
-        hardware: [[<>{t('hardware')}<div className='sub'>{t<string>('accounts managed via hardware devices')}</div></>]],
-        injected: [[<>{t('extension')}<div className='sub'>{t<string>('accounts available via browser extensions')}</div></>]],
-        multisig: [[<>{t('multisig')}<div className='sub'>{t<string>('on-chain multisig accounts')}</div></>]],
-        proxied: [[<>{t('proxied')}<div className='sub'>{t<string>('on-chain proxied accounts')}</div></>]],
-        qr: [[<>{t('via qr')}<div className='sub'>{t<string>('accounts available via mobile devices')}</div></>]],
-        testing: [[<>{t('development')}<div className='sub'>{t<string>('accounts derived via development seeds')}</div></>]]
+        accounts: [[<>{t<string>('accounts')}<div className='sub'>{t<string>('all locally stored accounts')}</div></>]],
+        hardware: [[<>{t<string>('hardware')}<div className='sub'>{t<string>('accounts managed via hardware devices')}</div></>]],
+        injected: [[<>{t<string>('extension')}<div className='sub'>{t<string>('accounts available via browser extensions')}</div></>]],
+        multisig: [[<>{t<string>('multisig')}<div className='sub'>{t<string>('on-chain multisig accounts')}</div></>]],
+        proxied: [[<>{t<string>('proxied')}<div className='sub'>{t<string>('on-chain proxied accounts')}</div></>]],
+        qr: [[<>{t<string>('via qr')}<div className='sub'>{t<string>('accounts available via mobile devices')}</div></>]],
+        testing: [[<>{t<string>('development')}<div className='sub'>{t<string>('accounts derived via development seeds')}</div></>]]
       };
 
       Object.values(ret).forEach((a): void => {
@@ -374,10 +373,10 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           />
         </Button.Group>
       </SummaryBox>
-      {isLoading || !sortedAccounts.length
+      {!isNextTick || !sortedAccounts.length
         ? (
           <Table
-            empty={!isLoading && sortedAccounts && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
+            empty={isNextTick && sortedAccounts && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
             header={header.accounts}
           />
         )

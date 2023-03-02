@@ -5,9 +5,8 @@ import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { ModalProps } from '../types';
 
 import React, { useCallback, useState } from 'react';
-import styled from 'styled-components';
 
-import { AddressMini, Button, IconLink, Input, InputAddressMulti, InputFile, InputNumber, Labelled, MarkError, Modal, Toggle } from '@polkadot/react-components';
+import { AddressMini, Button, IconLink, Input, InputAddressMulti, InputFile, InputNumber, Labelled, MarkError, Modal, styled, Toggle } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { assert, BN, u8aToString } from '@polkadot/util';

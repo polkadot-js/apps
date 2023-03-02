@@ -4,13 +4,13 @@
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import styled from 'styled-components';
 
 import { useAccountInfo } from '@polkadot/react-hooks';
 import BaseIdentityIcon from '@polkadot/react-identicon';
 
 import IdentityIcon from './IdentityIcon';
 import Row, { RowProps } from './Row';
+import { styled } from './styled';
 
 export interface Props extends RowProps {
   isContract?: boolean;

@@ -18,7 +18,7 @@ function BlockHeaders ({ headers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('recent blocks'), 'start', 3]
+    [t<string>('recent blocks'), 'start', 3]
   ]);
 
   return (

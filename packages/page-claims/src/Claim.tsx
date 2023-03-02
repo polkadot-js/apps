@@ -9,9 +9,8 @@ import type { BalanceOf, EthereumAddress, EthereumSignature, StatementKind } fro
 import type { BN } from '@polkadot/util';
 
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button, Card, TxButton } from '@polkadot/react-components';
+import { Button, Card, styled, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
@@ -96,7 +95,7 @@ function Claim ({ accountId, className = '', ethereumAddress, ethereumSignature,
                 <TxButton
                   icon='paper-plane'
                   isUnsigned
-                  label={t('Claim')}
+                  label={t<string>('Claim')}
                   onSuccess={onSuccess}
                   {...constructTx(api, systemChain, accountId, ethereumSignature, statementKind, isOldClaimProcess)}
                 />

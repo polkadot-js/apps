@@ -7,9 +7,8 @@ import type { BalanceOf, EthereumAddress, StatementKind } from '@polkadot/types/
 import type { BN } from '@polkadot/util';
 
 import React, { useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button, Card, TxButton } from '@polkadot/react-components';
+import { Button, Card, styled, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';

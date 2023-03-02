@@ -4,9 +4,8 @@
 import type { PeerInfo } from '@polkadot/types/interfaces';
 
 import React, { useMemo, useRef } from 'react';
-import styled from 'styled-components';
 
-import { Table } from '@polkadot/react-components';
+import { styled, Table } from '@polkadot/react-components';
 import { formatNumber, stringPascalCase } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -33,9 +32,9 @@ function Peers ({ className = '', peers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('connected peers'), 'start', 2],
-    [t('best hash'), 'start'],
-    [t('best #'), 'number']
+    [t<string>('connected peers'), 'start', 2],
+    [t<string>('best hash'), 'start'],
+    [t<string>('best #'), 'number']
   ]);
 
   const sorted = useMemo(

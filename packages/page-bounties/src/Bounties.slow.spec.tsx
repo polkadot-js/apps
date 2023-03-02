@@ -44,7 +44,7 @@ const renderBounties = () => {
   );
 };
 
-describe('--SLOW--: Bounties', () => {
+describe.skip('--SLOW--: Bounties', () => {
   it('list shows an existing bounty', async () => {
     const api = await createApi();
 

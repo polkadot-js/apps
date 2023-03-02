@@ -1,83 +1,96 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SessionInfo, Validator } from '../types';
+import type { SessionInfo } from '../types';
 
-import React, { useRef } from 'react';
-import styled from 'styled-components';
+import React, { useRef, useState } from 'react';
 
 import Legend from '@polkadot/app-staking/Legend';
-import { Table } from '@polkadot/react-components';
+import { Button, styled, ToggleGroup } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
+import useValidatorsActive from '../useValidatorsActive';
+import Active from './Active';
 import usePoints from './usePoints';
-import ValidatorRow from './Validator';
+import Waiting from './Waiting';
 
 interface Props {
   className?: string;
+  favorites: string[];
   isRelay: boolean;
   sessionInfo: SessionInfo;
   toggleFavorite: (stashId: string) => void;
-  validatorsSession?: Validator[];
 }
 
-function Validators ({ className = '', isRelay, sessionInfo, toggleFavorite, validatorsSession }: Props): React.ReactElement<Props> {
+function Validators ({ className = '', favorites, isRelay, sessionInfo, toggleFavorite }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const [intentIndex, setIntentIndex] = useState(0);
+  const validatorsActive = useValidatorsActive(favorites, sessionInfo);
   const points = usePoints(sessionInfo);
 
-  const headerActive = useRef<[string?, string?, number?][]>([
-    // favorite, badges, details, expand
-    [t<string>('validators'), 'start', 4]
+  const intentOptions = useRef([
+    { text: t<string>('Active'), value: 'active' },
+    { text: t<string>('Waiting'), value: 'waiting' }
   ]);
 
+  const legend = <Legend isRelay={isRelay} />;
+
   return (
-    <StyledTable
-      className={className}
-      empty={validatorsSession && t<string>('No session validators found')}
-      emptySpinner={t<string>('Retrieving session validators')}
-      header={headerActive.current}
-      isSplit
-      legend={
-        <Legend
-          isRelay={isRelay}
+    <StyledDiv className={className}>
+      <Button.Group>
+        <ToggleGroup
+          onChange={setIntentIndex}
+          options={intentOptions.current}
+          value={intentIndex}
         />
+      </Button.Group>
+      {intentIndex === 0
+        ? (
+          <Active
+            legend={legend}
+            points={points}
+            sessionInfo={sessionInfo}
+            toggleFavorite={toggleFavorite}
+            validatorsActive={validatorsActive}
+          />
+        )
+        : (
+          <Waiting
+            favorites={favorites}
+            legend={legend}
+            sessionInfo={sessionInfo}
+            toggleFavorite={toggleFavorite}
+            validatorsActive={validatorsActive}
+          />
+        )
       }
-    >
-      {validatorsSession?.map((v) => (
-        <ValidatorRow
-          isRelay={isRelay}
-          key={v.key}
-          points={points?.[v.stashId]}
-          sessionInfo={sessionInfo}
-          toggleFavorite={toggleFavorite}
-          validator={v}
-        />
-      ))}
-    </StyledTable>
+    </StyledDiv>
   );
 }
 
-const StyledTable = styled(Table)`
-  td.statusInfo {
-    padding: 0 0 0 0.5rem;
-    vertical-align: middle;
+const StyledDiv = styled.div`
+  .ui--Table table {
+    td.statusInfo {
+      padding: 0 0 0 0.5rem;
+      vertical-align: middle;
 
-    > div {
-      display: inline-block;
-      max-width: 3.6rem;
-      min-width: 3.6rem;
+      > div {
+        display: inline-block;
+        max-width: 3.6rem;
+        min-width: 3.6rem;
 
-      .ui--Badge {
-        margin: 0.125rem;
+        .ui--Badge {
+          margin: 0.125rem;
 
-        &.opaque {
-          opacity: var(--opacity-gray);
+          &.opaque {
+            opacity: var(--opacity-gray);
+          }
         }
       }
-    }
 
-    + td.address {
-      padding-left: 0.5rem;
+      + td.address {
+        padding-left: 0.5rem;
+      }
     }
   }
 `;

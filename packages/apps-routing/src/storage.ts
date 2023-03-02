@@ -15,6 +15,6 @@ export default function create (t: TFunction): Route {
     group: 'developer',
     icon: 'database',
     name: 'chainstate',
-    text: t('nav.storage', 'Chain state', { ns: 'apps-routing' })
+    text: t<string>('nav.storage', 'Chain state', { ns: 'apps-routing' })
   };
 }

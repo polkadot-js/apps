@@ -3,26 +3,27 @@
 
 import type { PalletStakingEraRewardPoints } from '@polkadot/types/lookup';
 import type { SessionInfo } from '../types';
+import type { UsePoints } from './types';
 
 import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-type Result = Record<string, number>;
+import { useCacheValue } from '../useCache';
 
 const OPT_POINTS = {
-  transform: ({ individual }: PalletStakingEraRewardPoints): Result =>
+  transform: ({ individual }: PalletStakingEraRewardPoints): UsePoints =>
     [...individual.entries()]
       .filter(([, points]) => points.gt(BN_ZERO))
-      .reduce((result: Result, [stashId, points]): Result => {
+      .reduce((result: UsePoints, [stashId, points]): UsePoints => {
         result[stashId.toString()] = points.toNumber();
 
         return result;
       }, {})
 };
 
-function usePointsImpl ({ activeEra }: SessionInfo): Result | undefined {
+function usePointsImpl ({ activeEra }: SessionInfo): UsePoints | undefined {
   const { api } = useApi();
 
   const queryParams = useMemo(
@@ -30,7 +31,9 @@ function usePointsImpl ({ activeEra }: SessionInfo): Result | undefined {
     [activeEra]
   );
 
-  return useCall(queryParams && api.query.staking.erasRewardPoints, queryParams, OPT_POINTS);
+  const points = useCall(queryParams && api.query.staking.erasRewardPoints, queryParams, OPT_POINTS);
+
+  return useCacheValue('usePoints', points);
 }
 
 export default createNamedHook('usePoints', usePointsImpl);

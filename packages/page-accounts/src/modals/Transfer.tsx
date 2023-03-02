@@ -6,10 +6,9 @@ import type { AccountInfoWithProviders, AccountInfoWithRefCount } from '@polkado
 import type { BN } from '@polkadot/util';
 
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 
 import { checkAddress } from '@polkadot/phishing';
-import { InputAddress, InputBalance, MarkError, MarkWarning, Toggle, TxButton } from '@polkadot/react-components';
+import { InputAddress, InputBalance, MarkError, MarkWarning, styled, Toggle, TxButton } from '@polkadot/react-components';
 import Modal from '@polkadot/react-components/Modal';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
@@ -166,7 +165,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
               )
             }
           </Modal.Columns>
-          <Modal.Columns hint={t('With the keep-alive option set, the account is protected against removal due to low balances.')}>
+          <Modal.Columns hint={t<string>('With the keep-alive option set, the account is protected against removal due to low balances.')}>
             {isFunction(api.tx.balances?.transferKeepAlive) && (
               <Toggle
                 className='typeToggle'

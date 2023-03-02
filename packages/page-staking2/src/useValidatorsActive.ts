@@ -1,11 +1,16 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { u32 } from '@polkadot/types';
 import type { AccountId32 } from '@polkadot/types/interfaces';
 import type { SessionInfo, Validator } from './types';
 
-import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
+import { useMemo } from 'react';
 
+import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
+import { objectSpread } from '@polkadot/util';
+
+import { useCacheValue } from './useCache';
 import useTaggedValidators from './useTaggedValidators';
 
 const OPT_VALIDATORS = {
@@ -24,11 +29,30 @@ const OPT_VALIDATORS = {
     })
 };
 
+const OPT_INDICES = {
+  transform: (indices: u32[]): number[] =>
+    indices.map((n) => n.toNumber())
+};
+
 function useValidatorsActiveImpl (favorites: string[], sessionInfo: SessionInfo): Validator[] | undefined {
   const { api } = useApi();
-  const validators = useCall(api.query.session.validators, undefined, OPT_VALIDATORS);
+  const sessionValidators = useCall(api.query.session.validators, undefined, OPT_VALIDATORS);
+  const activeIndices = useCall((api.query.parasShared || api.query.shared)?.activeValidatorIndices, undefined, OPT_INDICES);
 
-  return useTaggedValidators(favorites, sessionInfo, validators);
+  const validatorsWithPara = useMemo(
+    () => activeIndices && sessionValidators
+      ? sessionValidators.map((v, index) =>
+        activeIndices.includes(index)
+          ? objectSpread<Validator>({ isPara: true }, v)
+          : v
+      )
+      : sessionValidators,
+    [activeIndices, sessionValidators]
+  );
+
+  const tagged = useTaggedValidators(favorites, sessionInfo, validatorsWithPara);
+
+  return useCacheValue('useValidatorsActive', tagged);
 }
 
 export default createNamedHook('useValidatorsActive', useValidatorsActiveImpl);

@@ -4,21 +4,27 @@
 import type { BN } from '@polkadot/util';
 import type { ExternalDef } from './types';
 
-import { externalLogos } from '../ui/logos';
+import { externalStatescanSVG } from '../ui/logos/external';
 
 export const Statescan: ExternalDef = {
   chains: {
+    Collectives: 'Collectives',
     Litentry: 'litentry',
+    Litmus: 'litmus',
     Statemine: 'statemine',
+    Statemint: 'statemint',
+    'Westend Collectives': 'westend-collectives',
     Westmint: 'westmint'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
-    `https://${chain}.statescan.io/${path}/${data.toString()}`,
+    `https://${chain}.statescan.io/#/${path}/${data.toString()}`,
+  homepage: 'https://statescan.io/',
   isActive: true,
-  logo: externalLogos.statescan as string,
   paths: {
-    address: 'account',
-    block: 'block'
+    address: 'accounts',
+    block: 'blocks'
   },
-  url: 'https://statescan.io/'
+  ui: {
+    logo: externalStatescanSVG
+  }
 };

@@ -3,28 +3,32 @@
 
 import type { Option } from '../settings/types';
 
-export interface EndpointOption {
+interface BaseOption {
   dnslink?: string;
   genesisHash?: string;
   homepage?: string;
+  paraId?: number;
+  summary?: string;
+  teleport?: number[];
+  ui: {
+    color?: string;
+    logo?: string;
+  }
+}
+
+export interface EndpointOption extends BaseOption {
   isChild?: boolean;
   isDevelopment?: boolean;
   isDisabled?: boolean;
   isUnreachable?: boolean;
   linked?: EndpointOption[];
   info?: string;
-  paraId?: number;
   providers: Record<string, string>;
-  summary?: string;
-  teleport?: number[];
   text: string;
 }
 
-export interface LinkOption extends Option {
-  dnslink?: string;
-  genesisHash?: string;
+export interface LinkOption extends BaseOption, Option {
   genesisHashRelay?: string;
-  homepage?: string;
   isChild?: boolean;
   isDevelopment?: boolean;
   isLightClient?: boolean;
@@ -32,9 +36,6 @@ export interface LinkOption extends Option {
   isUnreachable?: boolean;
   isSpaced?: boolean;
   linked?: LinkOption[];
-  paraId?: number;
-  summary?: string;
-  teleport?: number[];
   textBy: string;
   textRelay?: React.ReactNode;
   value: string;
