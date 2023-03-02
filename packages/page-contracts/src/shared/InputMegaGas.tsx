@@ -16,7 +16,6 @@ interface Props {
   className?: string;
   estimatedWeight?: BN | null;
   estimatedWeightV2?: WeightV2 | null;
-  help: React.ReactNode;
   isCall?: boolean;
   weight: UseWeight;
 }
@@ -24,7 +23,6 @@ interface Props {
 function InputMegaGas ({ className,
   estimatedWeight,
   estimatedWeightV2,
-  help,
   isCall,
   weight: { executionTime,
     isValid,

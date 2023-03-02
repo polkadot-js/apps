@@ -82,23 +82,42 @@ function Upload ({ onClose }: Props): React.ReactElement {
   }, [abiName, setName]);
 
   useEffect((): void => {
-    let contract: SubmittableExtrinsic<'promise'> | null = null;
-    let error: string | null = null;
+    async function dryRun () {
+      let contract: SubmittableExtrinsic<'promise'> | null = null;
+      let error: string | null = null;
 
-    try {
-      contract = code && contractAbi?.constructors[constructorIndex]?.method && value
-        ? code.tx[contractAbi.constructors[constructorIndex].method]({
-          gasLimit: weight.isWeightV2 ? weight.weightV2 : weight.weight,
-          storageDepositLimit: null,
-          value: contractAbi?.constructors[constructorIndex].isPayable ? value : undefined
-        }, ...params)
-        : null;
-    } catch (e) {
-      error = (e as Error).message;
+      try {
+        if (code && contractAbi?.constructors[constructorIndex]?.method && value && accountId) {
+          const dryRunParams: Parameters<typeof api.call.contractsApi.instantiate> =
+            [
+              accountId,
+              contractAbi?.constructors[constructorIndex].isPayable
+                ? api.registry.createType('Balance', value)
+                : api.registry.createType('Balance', BN_ZERO),
+              weight.weightV2,
+              null,
+              { Upload: wasm },
+              contractAbi?.constructors[constructorIndex]?.toU8a(params),
+              ''
+            ];
+
+          const dryRunResult = await api.call.contractsApi.instantiate(...dryRunParams);
+
+          contract = code.tx[contractAbi.constructors[constructorIndex].method]({
+            gasLimit: dryRunResult.gasRequired,
+            storageDepositLimit: dryRunResult.storageDeposit.isCharge ? dryRunResult.storageDeposit.asCharge : null,
+            value: contractAbi?.constructors[constructorIndex].isPayable ? value : undefined
+          }, ...params);
+        }
+      } catch (e) {
+        error = (e as Error).message;
+      }
+
+      setUploadTx(() => [contract, error]);
     }
 
-    setUploadTx(() => [contract, error]);
-  }, [code, contractAbi, constructorIndex, value, params, weight]);
+    dryRun().catch((e) => console.error(e));
+  }, [accountId, wasm, api, code, contractAbi, constructorIndex, value, params, weight]);
 
   const _onAddWasm = useCallback(
     (wasm: Uint8Array, name: string): void => {
