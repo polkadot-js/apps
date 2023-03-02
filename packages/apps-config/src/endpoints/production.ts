@@ -190,8 +190,8 @@ export const prodChains: EndpointOption[] = [
     info: 'edgeware',
     providers: {
       'Commonwealth Labs': 'wss://mainnet2.edgewa.re',
-      JelliedOwl: 'wss://edgeware.jelliedowl.net'
-      // OnFinality: 'wss://edgeware.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8768
+      JelliedOwl: 'wss://edgeware.jelliedowl.net',
+      OnFinality: 'wss://edgeware.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8768
     },
     text: 'Edgeware',
     ui: {
@@ -351,6 +351,7 @@ export const prodChains: EndpointOption[] = [
   },
   {
     info: 'nodle',
+    isUnreachable: true,
     providers: {
       // Nodle: 'wss://main3.nodleprotocol.io', // https://github.com/polkadot-js/apps/issues/7652
       // OnFinality: 'wss://nodle.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8013
@@ -387,7 +388,7 @@ export const prodChains: EndpointOption[] = [
   {
     info: 'riochain',
     providers: {
-      RioChain: 'wss://node.v1.riochain.io'
+      // RioChain: 'wss://node.v1.riochain.io' // https://github.com/polkadot-js/apps/issues/9054
     },
     text: 'RioChain',
     ui: {
@@ -513,7 +514,7 @@ export const prodChains: EndpointOption[] = [
   {
     info: 'uniarts',
     providers: {
-      UniArts: 'wss://mainnet.uniarts.vip:9443'
+      // UniArts: 'wss://mainnet.uniarts.vip:9443' // https://github.com/polkadot-js/apps/issues/9059
     },
     text: 'UniArts',
     ui: {

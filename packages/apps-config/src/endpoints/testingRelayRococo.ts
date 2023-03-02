@@ -5,7 +5,7 @@ import type { EndpointOption } from './types';
 
 import { ROCOCO_GENESIS } from '../api/constants';
 import { chainsAcurastPNG, chainsAmplitudeSVG, chainsBitgreenPNG, chainsFrequencySVG, chainsGenshiroSVG, chainsHydratePNG, chainsIdiyanaleLogoWhiteSVG, chainsJurPNG, chainsMangataPNG, chainsMoonsamaPNG, chainsOrigintrailTestnetPNG, chainsRococoSVG, chainsSnowbridgePNG, chainsT0rnPNG, chainsTanglePNG, chainsTinkerPNG, chainsTotemSVG, chainsTuringPNG, chainsVirtoPNG, chainsWatrPNG } from '../ui/logos/chains';
-import { nodesArcticPNG, nodesAventusSVG, nodesBajunPNG, nodesBasiliskPNG, nodesBasiliskRococoBgPNG, nodesBifrostSVG, nodesBridgeHubBlackSVG, nodesCentrifugePNG, nodesConftiSVG, nodesCrustParachainSVG, nodesDaliPNG, nodesDatahighwayPNG, nodesDolphinSVG, nodesEncointerBlueSVG, nodesHelixstreetPNG, nodesImbuePNG, nodesIntegriteeSVG, nodesKabochaSVG, nodesKiltPNG, nodesLitentryPNG, nodesMd5PNG, nodesNodleSVG, nodesOliSVG, nodesPangolinSVG, nodesPolkadexSVG, nodesRobonomicsSVG, nodesRocfinitySVG, nodesSoonsocialXPNG, nodesSoraSubstrateSVG, nodesStatemineSVG, nodesSubstrateContractsNodePNG, nodesUnitnetworkPNG, nodesZeitgeistPNG, nodesZeroSVG } from '../ui/logos/nodes';
+import { nodesArcticPNG, nodesAventusSVG, nodesBajunPNG, nodesBasiliskPNG, nodesBasiliskRococoBgPNG, nodesBifrostSVG, nodesBridgeHubBlackSVG, nodesCentrifugePNG, nodesConftiSVG, nodesCrustParachainSVG, nodesDaliPNG, nodesDatahighwayPNG, nodesDolphinSVG, nodesEncointerBlueSVG, nodesGiantPNG, nodesHelixstreetPNG, nodesImbuePNG, nodesIntegriteeSVG, nodesKabochaSVG, nodesKiltPNG, nodesLitentryPNG, nodesMd5PNG, nodesNodleSVG, nodesOliSVG, nodesPangolinSVG, nodesPolkadexSVG, nodesRobonomicsSVG, nodesRocfinitySVG, nodesSoonsocialXPNG, nodesSoraSubstrateSVG, nodesStatemineSVG, nodesSubstrateContractsNodePNG, nodesUnitnetworkPNG, nodesZeitgeistPNG, nodesZeroSVG } from '../ui/logos/nodes';
 import { getTeleports } from './util';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -158,7 +158,7 @@ export const testParasRococo: EndpointOption[] = [
     info: 'rococoDolphin',
     paraId: 2084,
     providers: {
-      'Manta Network': 'wss://ws.rococo.dolphin.engineering'
+      // 'Manta Network': 'wss://ws.rococo.dolphin.engineering' // https://github.com/polkadot-js/apps/issues/9071
     },
     text: 'Dolphin',
     ui: {
@@ -193,12 +193,25 @@ export const testParasRococo: EndpointOption[] = [
     info: 'rococoGenshiro',
     paraId: 2024,
     providers: {
-      Equilibrium: 'wss://parachain-testnet.equilab.io/rococo/collator/node1/wss'
+      // Equilibrium: 'wss://parachain-testnet.equilab.io/rococo/collator/node1/wss' // https://github.com/polkadot-js/apps/issues/9059
     },
     text: 'Genshiro Testnet',
     ui: {
       color: '#e8662d',
       logo: chainsGenshiroSVG
+    }
+  },
+  {
+    info: 'giantTestnet',
+    paraId: 4227,
+    providers: {
+      GIANT: 'wss://rpc-1-us-east-1-testnetrococo.giantprotocol.org'
+    },
+    teleport: [-1],
+    text: 'GIANT Protocol',
+    ui: {
+      color: '#45B549',
+      logo: nodesGiantPNG
     }
   },
   {
@@ -240,7 +253,7 @@ export const testParasRococo: EndpointOption[] = [
     info: 'rococoImbue',
     paraId: 2121,
     providers: {
-      'Imbue Network': 'wss://rococo.imbue.network'
+      // 'Imbue Network': 'wss://rococo.imbue.network' // https://github.com/polkadot-js/apps/issues/9075
     },
     text: 'Imbue Network',
     ui: {
@@ -264,7 +277,7 @@ export const testParasRococo: EndpointOption[] = [
     info: 'rococoKabocha',
     paraId: 2113,
     providers: {
-      JelliedOwl: 'wss://kabsoup1.jelliedowl.com'
+      // JelliedOwl: 'wss://kabsoup1.jelliedowl.com' // https://github.com/polkadot-js/apps/issues/9059
     },
     text: 'Kabocha (kabsoup)',
     ui: {
@@ -277,7 +290,7 @@ export const testParasRococo: EndpointOption[] = [
     info: 'rococoKaizen',
     paraId: 2040,
     providers: {
-      'Polkadex Team': 'wss://kaizen-parachain.polkadex.trade'
+      // 'Polkadex Team': 'wss://kaizen-parachain.polkadex.trade' // https://github.com/polkadot-js/apps/issues/9059
     },
     text: 'Kaizen',
     ui: {
@@ -313,7 +326,7 @@ export const testParasRococo: EndpointOption[] = [
     info: 'rococoMd5',
     paraId: 2089,
     providers: {
-      'Hashed Systems': 'wss://c1.md5.network'
+      // 'Hashed Systems': 'wss://c1.md5.network' // https://github.com/polkadot-js/apps/issues/9059
     },
     text: 'MD5 Network',
     ui: {
@@ -410,7 +423,7 @@ export const testParasRococo: EndpointOption[] = [
     info: 'rocfinity',
     paraId: 2021,
     providers: {
-      Efinity: 'wss://rpc.rococo.efinity.io'
+      // Efinity: 'wss://rpc.rococo.efinity.io' // https://github.com/polkadot-js/apps/issues/9059
     },
     text: 'Rocfinity',
     ui: {
@@ -505,7 +518,7 @@ export const testParasRococo: EndpointOption[] = [
     info: 'tangle',
     paraId: 4006,
     providers: {
-      Webb: 'wss://tangle-rococo-archive.webb.tools'
+      // Webb: 'wss://tangle-rococo-archive.webb.tools' // https://github.com/polkadot-js/apps/issues/9069
     },
     text: 'Tangle',
     ui: {
@@ -652,7 +665,6 @@ export const testRelayRococo: EndpointOption = {
   ],
   providers: {
     Parity: 'wss://rococo-rpc.polkadot.io',
-    // OnFinality: 'wss://rococo.api.onfinality.io/public-ws', // After reset, node misses host functions
     // 'Ares Protocol': 'wss://rococo.aresprotocol.com' // https://github.com/polkadot-js/apps/issues/5767
     'light client': 'light://substrate-connect/rococo'
   },
