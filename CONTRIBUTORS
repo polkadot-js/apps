@@ -320,6 +320,7 @@
        1	Jun Zhang                     	Update translation.json (#4508)
        1	Kai                           	Fix broken contract deployment function (#1643)
        1	kaichao                       	Refresh zh translations (#3322)
+       1	kamrangul2404                 	Add krest parachain (kusama)  (#9079)
        1	Kerwin Zhu                    	fix Chinese translation of 'comm.' (#4464)
        1	Kevin Gislason                	add manta testnet (#5355)
        1	KkenWv                        	Add KICO logo and endpoint (#6906)
