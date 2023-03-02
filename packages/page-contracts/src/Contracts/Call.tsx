@@ -54,17 +54,41 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
   }, [contract, messageIndex]);
 
   useEffect((): void => {
-    value && message.isMutating && setExecTx((): SubmittableExtrinsic<'promise'> | null => {
-      try {
-        return contract.tx[message.method](
-          { gasLimit: weight.isWeightV2 ? weight.weightV2 : weight.weight, storageDepositLimit: null, value: message.isPayable ? value : 0 },
-          ...params
-        );
-      } catch (error) {
-        return null;
+    async function dryRun () {
+      if (accountId && value && message.isMutating) {
+        const dryRunParams: Parameters<typeof api.call.contractsApi.call> =
+          [
+            accountId,
+            contract.address,
+            message.isPayable
+              ? api.registry.createType('Balance', value)
+              : api.registry.createType('Balance', BN_ZERO),
+            weight.weightV2,
+            null,
+            message.toU8a(params)
+          ];
+
+        const dryRunResult = await api.call.contractsApi.call(...dryRunParams);
+
+        setExecTx((): SubmittableExtrinsic<'promise'> | null => {
+          try {
+            return contract.tx[message.method](
+              {
+                gasLimit: dryRunResult.gasRequired,
+                storageDepositLimit: dryRunResult.storageDeposit.isCharge ? dryRunResult.storageDeposit.asCharge : null,
+                value: message.isPayable ? value : 0
+              },
+              ...params
+            );
+          } catch (error) {
+            return null;
+          }
+        });
       }
-    });
-  }, [accountId, contract, message, value, weight, params]);
+    }
+
+    dryRun().catch((e) => console.error(e));
+  }, [api, accountId, contract, message, value, weight, params]);
 
   useEffect((): void => {
     if (!accountId || !message || !dbParams || !dbValue) {
