@@ -618,8 +618,8 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       Dwellir: 'wss://statemint-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://statemint-rpc-tn.dwellir.com',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
-      Parity: 'wss://statemint-rpc.polkadot.io'
-      // RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws' // https://github.com/polkadot-js/apps/issues/9089
+      Parity: 'wss://statemint-rpc.polkadot.io',
+      RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws'
     },
     teleport: [-1],
     text: 'Statemint',
