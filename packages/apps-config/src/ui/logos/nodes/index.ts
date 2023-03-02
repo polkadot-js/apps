@@ -68,6 +68,7 @@ export { nodesKhalaSVG } from './generated/khalaSVG';
 export { nodesKiltPNG } from './generated/kiltPNG';
 export { nodesKlugPNG } from './generated/klugPNG';
 export { nodesKonomiPNG } from './generated/konomiPNG';
+export { nodesKrestPNG } from './generated/krestPNG';
 export { nodesKulupuSVG } from './generated/kulupuSVG';
 export { nodesKusariSVG } from './generated/kusariSVG';
 export { nodesKylinPNG } from './generated/kylinPNG';

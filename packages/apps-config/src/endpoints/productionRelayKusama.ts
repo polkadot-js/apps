@@ -5,7 +5,7 @@ import type { EndpointOption } from './types';
 
 import { KUSAMA_GENESIS } from '../api/constants';
 import { chainsAbandPNG, chainsAltairSVG, chainsAmplitudeSVG, chainsDorafactoryPNG, chainsGenshiroSVG, chainsGmJPEG, chainsKaruraSVG, chainsKicoPNG, chainsKintsugiPNG, chainsKusamaSVG, chainsListenPNG, chainsMangataPNG, chainsRiodefiPNG, chainsShidenPNG, chainsTinkerPNG, chainsTuringPNG, chainsUnorthodoxPNG } from '../ui/logos/chains';
-import { nodesApronPNG, nodesAresMarsPNG, nodesBajunPNG, nodesBasiliskPNG, nodesBifrostSVG, nodesBitcountryPNG, nodesBridgeHubBlackSVG, nodesCalamariPNG, nodesCrabSVG, nodesDatahighwayPNG, nodesEncointerBlueSVG, nodesImbuePNG, nodesIntegriteeSVG, nodesIpciSVG, nodesKabochaSVG, nodesKhalaSVG, nodesLitmusPNG, nodesLoomNetworkPNG, nodesLuhnPNG, nodesMoonriverSVG, nodesParallelSVG, nodesPicassoPNG, nodesPichiuPNG, nodesPolkasmithSVG, nodesQuartzPNG, nodesRobonomicsSVG, nodesSakuraSVG, nodesShadowSVG, nodesSnowPNG, nodesSoraSubstrateSVG, nodesStatemineSVG, nodesSubgameSVG, nodesSubsocialXSVG, nodesTrustbasePNG, nodesZeitgeistPNG, nodesZeroSVG } from '../ui/logos/nodes';
+import { nodesApronPNG, nodesAresMarsPNG, nodesBajunPNG, nodesBasiliskPNG, nodesBifrostSVG, nodesBitcountryPNG, nodesBridgeHubBlackSVG, nodesCalamariPNG, nodesCrabSVG, nodesDatahighwayPNG, nodesEncointerBlueSVG, nodesImbuePNG, nodesIntegriteeSVG, nodesIpciSVG, nodesKabochaSVG, nodesKhalaSVG, nodesKrestPNG, nodesLitmusPNG, nodesLoomNetworkPNG, nodesLuhnPNG, nodesMoonriverSVG, nodesParallelSVG, nodesPicassoPNG, nodesPichiuPNG, nodesPolkasmithSVG, nodesQuartzPNG, nodesRobonomicsSVG, nodesSakuraSVG, nodesShadowSVG, nodesSnowPNG, nodesSoraSubstrateSVG, nodesStatemineSVG, nodesSubgameSVG, nodesSubsocialXSVG, nodesTrustbasePNG, nodesZeitgeistPNG, nodesZeroSVG } from '../ui/logos/nodes';
 import { getTeleports } from './util';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -379,6 +379,16 @@ export const prodParasKusama: EndpointOption[] = [
     ui: {
       color: 'linear-gradient(45deg, #0099F7 0%, #2E49EB 100%)',
       logo: nodesApronPNG
+    }
+  },
+  {
+    homepage: 'https://krest.peaq.network/',
+    info: 'krest',
+    paraId: 2241,
+    providers: {},
+    text: 'Krest',
+    ui: {
+      logo: nodesKrestPNG
     }
   },
   {
