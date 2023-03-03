@@ -149,7 +149,7 @@ export const testParasRococo: EndpointOption[] = [
     info: 'rococoPicasso',
     paraId: 2087,
     providers: {
-      // Composable: 'wss://rpc.composablefinance.ninja' // https://github.com/polkadot-js/apps/issues/8867
+      Composable: 'wss://picasso-rococo-rpc-lb.composablenodes.tech'
     },
     text: 'Picasso',
     ui: {
