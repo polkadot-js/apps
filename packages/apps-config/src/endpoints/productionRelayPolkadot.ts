@@ -282,7 +282,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     info: 'hashed',
     paraId: 2093,
     providers: {
-      // 'Hashed Systems': 'wss://c1.hashed.network' // https://github.com/polkadot-js/apps/issues/9094
+      'Hashed Systems 1': 'wss://c1.hashed.network',
+      'Hashed Systems 2': 'wss://c2.hashed.network' // https://github.com/polkadot-js/apps/issues/9094
     },
     text: 'Hashed Network',
     ui: {

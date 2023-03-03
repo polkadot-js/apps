@@ -76,7 +76,6 @@ export { nodesLaminarCircleSVG } from './generated/laminar-circleSVG';
 export { nodesLitentryPNG } from './generated/litentryPNG';
 export { nodesLitmusPNG } from './generated/litmusPNG';
 export { nodesLoomNetworkPNG } from './generated/loom_networkPNG';
-export { nodesLuhnPNG } from './generated/luhnPNG';
 export { nodesMantaPNG } from './generated/mantaPNG';
 export { nodesMathSVG } from './generated/mathSVG';
 export { nodesMd5PNG } from './generated/md5PNG';
