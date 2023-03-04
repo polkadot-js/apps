@@ -15301,9 +15301,6 @@ fsevents@~2.3.2:
   version: 0.0.0-use.local
   resolution: "polkadot-apps@workspace:."
   dependencies:
-    "@babel/core": ^7.21.0
-    "@babel/register": ^7.21.0
-    "@babel/runtime": ^7.21.0
     "@crustio/crust-pin": ^1.0.0
     "@pinata/sdk": ^1.2.1
     "@polkadot/dev": ^0.69.27
