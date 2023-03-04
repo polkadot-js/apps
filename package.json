@@ -94,6 +94,7 @@
     "styled-components": "^5.3.6"
   },
   "resolutions": {
+    "@cord.network/type-definitions": "portal:/Users/smohan/dev/smohan-dw/cord.js/packages/type-definitions",
     "@polkadot/api": "^9.11.3",
     "@polkadot/api-augment": "^9.11.3",
     "@polkadot/api-base": "^9.11.3",

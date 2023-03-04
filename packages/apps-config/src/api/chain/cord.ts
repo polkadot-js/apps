@@ -3,6 +3,6 @@
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-import { typesBundle } from '@kiltprotocol/type-definitions';
+import { typesBundle } from '@cord.network/type-definitions';
 
 export default typesBundle.chain as Record<string, OverrideBundleDefinition>;

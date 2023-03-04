@@ -3,6 +3,7 @@
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-import { typesBundleForPolkadot } from '@cord.network/type-definitions';
+import { typesBundle } from '@cord.network/type-definitions';
 
-export default typesBundleForPolkadot.spec.cord as unknown as OverrideBundleDefinition;
+export default typesBundle.chain as Record<string, OverrideBundleDefinition>;
+

@@ -3,15 +3,13 @@
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-import kilt from './kilt';
+import cord from './cord';
 
 // NOTE: The mapping is done from chain name in system.chain
 const chain: Record<string, OverrideBundleDefinition> = {
-  'KILT Mashnet': kilt['KILT Mashnet'],
-  'KILT Peregrine': kilt['KILT Peregrine'],
-  'KILT Peregrine Stagenet': kilt['KILT Peregrine Stagenet'],
-  'KILT Spiritnet': kilt['KILT Spiritnet'],
-  'KILT Spiritnet Develop': kilt['KILT Spiritnet Develop']
+  'Dev. Node': cord['Development'],
+  'CORD Staging Testnet': cord['CORD Staging Testnet'],
+  'Development': cord['Development'],
 };
 
 export default chain;
