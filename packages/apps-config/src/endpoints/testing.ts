@@ -828,7 +828,7 @@ export const testChains: EndpointOption[] = [
   {
     info: 'tangle',
     providers: {
-      Webb: 'wss://tangle-archive.webb.tools'
+      // Webb: 'wss://tangle-archive.webb.tools' // https://github.com/polkadot-js/apps/issues/9104
     },
     text: 'Tangle Alpha',
     ui: {
