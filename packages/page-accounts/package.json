@@ -13,12 +13,11 @@
   "type": "module",
   "version": "0.124.2-112-x",
   "dependencies": {
-    "@babel/runtime": "^7.21.0",
-    "@polkadot/hw-ledger": "^10.4.2",
+    "@polkadot/hw-ledger": "^11.0.1",
     "@polkadot/phishing": "^0.19.3",
     "@polkadot/react-components": "^0.124.2-112-x",
     "@polkadot/react-hooks": "^0.124.2-112-x",
-    "@polkadot/util": "^10.4.2",
+    "@polkadot/util": "^11.0.1",
     "@polkadot/vanitygen": "^0.52.29",
     "detect-browser": "^5.3.0",
     "file-saver": "^2.0.5"
