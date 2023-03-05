@@ -11,7 +11,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.124.2-112-x",
+  "version": "0.124.2-114-x",
   "dependencies": {
     "@polkadot/hw-ledger": "^11.0.1",
     "@polkadot/phishing": "^0.20.1",
@@ -23,6 +23,6 @@
     "file-saver": "^2.0.5"
   },
   "devDependencies": {
-    "@polkadot/test-support": "0.124.2-112-x"
+    "@polkadot/test-support": "0.124.2-114-x"
   }
 }

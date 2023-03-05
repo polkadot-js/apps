@@ -75,7 +75,7 @@ export const testChains: EndpointOption[] = [
   {
     info: 'Ares Gladios',
     providers: {
-      'Ares Protocol': 'wss://gladios.aresprotocol.io'
+      // 'Ares Protocol': 'wss://gladios.aresprotocol.io' // https://github.com/polkadot-js/apps/issues/9106
     },
     text: 'Ares Gladios',
     ui: {
@@ -302,7 +302,7 @@ export const testChains: EndpointOption[] = [
     info: 'galois',
     providers: {
       // MathWallet: 'wss://galois-hk.maiziqianbao.net/ws', // https://github.com/polkadot-js/apps/issues/9059
-      'MathWallet Backup': 'wss://galois.maiziqianbao.net/ws'
+      // 'MathWallet Backup': 'wss://galois.maiziqianbao.net/ws' // https://github.com/polkadot-js/apps/issues/9109
     },
     text: 'Galois',
     ui: {
