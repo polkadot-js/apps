@@ -1,1 +1,0 @@
-"use strict";(("undefined"!=typeof self?self:this).webpackChunk_polkadot_apps=("undefined"!=typeof self?self:this).webpackChunk_polkadot_apps||[]).push([[5283],{95283:(e,p,s)=>{s.r(p)}}]);

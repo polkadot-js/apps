@@ -1,0 +1,1 @@
+"use strict";(("undefined"!=typeof self?self:this).webpackChunk_polkadot_apps=("undefined"!=typeof self?self:this).webpackChunk_polkadot_apps||[]).push([[2021],{96442:(A,e,s)=>{s.d(e,{Z:()=>p});const p="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQAAAAB0CZXLAAAAAnRSTlMAAHaTzTgAAAAfSURBVHgB7cEBDQAAAMIg+6c2xzdgAAAAAAAAAABxByEAAAGd0zUnAAAAAElFTkSuQmCC"}}]);
