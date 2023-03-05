@@ -13,7 +13,6 @@
   "type": "module",
   "version": "0.124.2-114-x",
   "dependencies": {
-    "@babel/runtime": "^7.21.0",
     "@polkadot/react-components": "^0.124.2-114-x"
   },
   "devDependencies": {
