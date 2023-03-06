@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "jsx": "react-jsx",
-    "module": "es2020"
+    "module": "es2020",
+    "skipLibCheck": true
   }
 }
