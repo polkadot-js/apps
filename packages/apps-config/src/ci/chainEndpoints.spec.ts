@@ -19,6 +19,10 @@ interface DnsResponse {
 
 const TIMEOUT = 60_000;
 
+function noopHandler () {
+  // ignore
+}
+
 describe('check endpoints', (): void => {
   const checks = createWsEndpoints()
     .filter(({ isDisabled, isUnreachable, value }) =>
@@ -39,22 +43,22 @@ describe('check endpoints', (): void => {
   let websocket: WebSocket | null = null;
 
   afterEach((): void => {
+    completed++;
+
     if (websocket) {
-      websocket.onclose = null;
-      websocket.onerror = null;
-      websocket.onopen = null;
-      websocket.onmessage = null;
+      websocket.onclose = noopHandler;
+      websocket.onerror = noopHandler;
+      websocket.onopen = noopHandler;
+      websocket.onmessage = noopHandler;
 
       try {
         websocket.close();
-      } catch {
-        // ignore
+      } catch (e) {
+        console.error((e as Error).message);
       }
 
       websocket = null;
     }
-
-    completed++;
 
     if (completed === checks.length) {
       process.exit(errored);
@@ -62,11 +66,11 @@ describe('check endpoints', (): void => {
   });
 
   for (const { name, ws: endpoint } of checks) {
-    it(`${name} @ ${endpoint}`, async (): Promise<unknown> => {
+    it(`${name} @ ${endpoint}`, async (): Promise<void> => {
       const [,, hostWithPort] = endpoint.split('/');
       const [host] = hostWithPort.split(':');
 
-      return fetchJson<DnsResponse>(`https://dns.google/resolve?name=${host}`)
+      await fetchJson<DnsResponse>(`https://dns.google/resolve?name=${host}`)
         .then((json) =>
           assert(json && json.Answer, 'No DNS entry')
         )
