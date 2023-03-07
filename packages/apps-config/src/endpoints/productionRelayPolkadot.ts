@@ -86,9 +86,12 @@ export const prodParasPolkadot: EndpointOption[] = [
     homepage: 'https://www.aventus.io/',
     info: 'aventus',
     paraId: 2056,
-    providers: {},
+    providers: {
+      Aventus: 'wss://public-rpc.mainnet.aventus.io'
+    },
     text: 'Aventus',
     ui: {
+      color: '#1d2733',
       logo: nodesAventusSVG
     }
   },
