@@ -87,7 +87,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     info: 'aventus',
     paraId: 2056,
     providers: {
-        Aventus: 'wss://public-rpc.mainnet.aventus.io'
+      Aventus: 'wss://public-rpc.mainnet.aventus.io'
     },
     text: 'Aventus',
     ui: {

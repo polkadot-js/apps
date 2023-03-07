@@ -56,7 +56,7 @@ export const testParasRococo: EndpointOption[] = [
     info: 'rococoAventus',
     paraId: 2056,
     providers: {
-        Aventus: 'wss://public-rpc.public-testnet.aventus.io'
+      Aventus: 'wss://public-rpc.public-testnet.aventus.io'
     },
     text: 'Aventus',
     ui: {
