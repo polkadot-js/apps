@@ -1,9 +1,9 @@
 // Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SubmittableExtrinsic } from '@polkadot/api/types';
-import type { DeriveDemocracyLock, DeriveStakingAccount } from '@polkadot/api-derive/types';
-import type { Ledger } from '@polkadot/hw-ledger';
+// import type { SubmittableExtrinsic } from '@polkadot/api/types';
+// import type { DeriveDemocracyLock, DeriveStakingAccount } from '@polkadot/api-derive/types';
+// import type { Ledger } from '@polkadot/hw-ledger';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 // import type { ThemeDef } from '@polkadot/react-components/types';
 import type { Option } from '@polkadot/types';
@@ -14,8 +14,8 @@ import type { AccountBalance, Delegation } from '../types';
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import { ApiPromise } from '@polkadot/api';
-import useAccountLocks from '@polkadot/app-referenda/useAccountLocks';
+// import { ApiPromise } from '@polkadot/api';
+// import useAccountLocks from '@polkadot/app-referenda/useAccountLocks';
 import { AddressSmall, Badge, Button, ChainLock, Forget, Icon, Menu, StatusContext, Tags } from '@polkadot/react-components';
 import { useAccountInfo, useApi, useBalancesAll, useBestNumber, useCall, useLedger, useStakingInfo, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
@@ -27,10 +27,10 @@ import DelegateModal from '../modals/Delegate';
 import Derive from '../modals/Derive';
 import IdentityMain from '../modals/IdentityMain';
 import IdentitySub from '../modals/IdentitySub';
-import MultisigApprove from '../modals/MultisigApprove';
+// import MultisigApprove from '../modals/MultisigApprove';
 import ProxyOverview from '../modals/ProxyOverview';
-import RecoverAccount from '../modals/RecoverAccount';
-import RecoverSetup from '../modals/RecoverSetup';
+// import RecoverAccount from '../modals/RecoverAccount';
+// import RecoverSetup from '../modals/RecoverSetup';
 import Transfer from '../modals/Transfer';
 import UndelegateModal from '../modals/Undelegate';
 import { useTranslation } from '../translate';
@@ -150,11 +150,11 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const [isForgetOpen, toggleForget] = useToggle();
   const [isIdentityMainOpen, toggleIdentityMain] = useToggle();
   const [isIdentitySubOpen, toggleIdentitySub] = useToggle();
-  const [isMultisigOpen, toggleMultisig] = useToggle();
+  // const [isMultisigOpen, toggleMultisig] = useToggle();
   const [isProxyOverviewOpen, toggleProxyOverview] = useToggle();
   const [isPasswordOpen, togglePassword] = useToggle();
-  const [isRecoverAccountOpen, toggleRecoverAccount] = useToggle();
-  const [isRecoverSetupOpen, toggleRecoverSetup] = useToggle();
+  // const [isRecoverAccountOpen, toggleRecoverAccount] = useToggle();
+  // const [isRecoverSetupOpen, toggleRecoverSetup] = useToggle();
   const [isTransferOpen, toggleTransfer] = useToggle();
   const [isDelegateOpen, toggleDelegate] = useToggle();
   const [isUndelegateOpen, toggleUndelegate] = useToggle();

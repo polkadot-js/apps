@@ -38,8 +38,8 @@ const STORE_FAVS = 'accounts:favorites';
 
 function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const { allAccounts, hasAccounts } = useAccounts();
+  // const { api } = useApi();
+  const { allAccounts } = useAccounts(); // TODO most likely can remove hasAccounts
 
   const [ddelegation, setdelegation] = useState<Delegation | undefined>(undefined);
 
