@@ -55402,7 +55402,7 @@ export const typesBundle = {
                   "isOptional": true
                 }
               ],
-              "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
+              "type": "(Liquidity, Shortfall)",
               "isSubscription": false,
               "jsonrpc": "loans_getCollateralLiquidity",
               "method": "getCollateralLiquidity",
@@ -55422,7 +55422,7 @@ export const typesBundle = {
                   "isOptional": true
                 }
               ],
-              "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
+              "type": "(Liquidity, Shortfall)",
               "isSubscription": false,
               "jsonrpc": "loans_getLiquidationThresholdLiquidity",
               "method": "getLiquidationThresholdLiquidity",
@@ -55913,7 +55913,7 @@ export const typesBundle = {
                   "isOptional": true
                 }
               ],
-              "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
+              "type": "(Liquidity, Shortfall)",
               "isSubscription": false,
               "jsonrpc": "loans_getCollateralLiquidity",
               "method": "getCollateralLiquidity",
@@ -55933,7 +55933,7 @@ export const typesBundle = {
                   "isOptional": true
                 }
               ],
-              "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
+              "type": "(Liquidity, Shortfall)",
               "isSubscription": false,
               "jsonrpc": "loans_getLiquidationThresholdLiquidity",
               "method": "getLiquidationThresholdLiquidity",
@@ -56424,7 +56424,7 @@ export const typesBundle = {
                   "isOptional": true
                 }
               ],
-              "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
+              "type": "(Liquidity, Shortfall)",
               "isSubscription": false,
               "jsonrpc": "loans_getCollateralLiquidity",
               "method": "getCollateralLiquidity",
@@ -56444,7 +56444,7 @@ export const typesBundle = {
                   "isOptional": true
                 }
               ],
-              "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
+              "type": "(Liquidity, Shortfall)",
               "isSubscription": false,
               "jsonrpc": "loans_getLiquidationThresholdLiquidity",
               "method": "getLiquidationThresholdLiquidity",
@@ -58073,7 +58073,7 @@ export const typesBundle = {
                   "isOptional": true
                 }
               ],
-              "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
+              "type": "(Liquidity, Shortfall)",
               "isSubscription": false,
               "jsonrpc": "loans_getCollateralLiquidity",
               "method": "getCollateralLiquidity",
@@ -58093,7 +58093,7 @@ export const typesBundle = {
                   "isOptional": true
                 }
               ],
-              "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
+              "type": "(Liquidity, Shortfall)",
               "isSubscription": false,
               "jsonrpc": "loans_getLiquidationThresholdLiquidity",
               "method": "getLiquidationThresholdLiquidity",
@@ -78739,7 +78739,7 @@ export const typesBundle = {
                   "isOptional": true
                 }
               ],
-              "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
+              "type": "(Liquidity, Shortfall)",
               "isSubscription": false,
               "jsonrpc": "loans_getCollateralLiquidity",
               "method": "getCollateralLiquidity",
@@ -78759,7 +78759,7 @@ export const typesBundle = {
                   "isOptional": true
                 }
               ],
-              "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
+              "type": "(Liquidity, Shortfall)",
               "isSubscription": false,
               "jsonrpc": "loans_getLiquidationThresholdLiquidity",
               "method": "getLiquidationThresholdLiquidity",
@@ -79250,7 +79250,7 @@ export const typesBundle = {
                   "isOptional": true
                 }
               ],
-              "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
+              "type": "(Liquidity, Shortfall)",
               "isSubscription": false,
               "jsonrpc": "loans_getCollateralLiquidity",
               "method": "getCollateralLiquidity",
@@ -79270,7 +79270,7 @@ export const typesBundle = {
                   "isOptional": true
                 }
               ],
-              "type": "(Liquidity, Shortfall, Liquidity, Shortfall)",
+              "type": "(Liquidity, Shortfall)",
               "isSubscription": false,
               "jsonrpc": "loans_getLiquidationThresholdLiquidity",
               "method": "getLiquidationThresholdLiquidity",
@@ -80430,6 +80430,29 @@ export const typesBundle = {
               }
             ],
             "type": "Option<u128>"
+          },
+          "allowanceForAll": {
+            "description": "Tells whether the given `owner` approves the `operator`.",
+            "params": [
+              {
+                "name": "collection",
+                "type": "u32"
+              },
+              {
+                "name": "owner",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "operator",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Option<bool>"
           }
         }
       }

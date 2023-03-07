@@ -544,7 +544,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               proxiedAccount={address}
             />
           )}
-          {isMultisigOpen && multiInfos && (
+          {isMultisig && isMultisigOpen && multiInfos && multiInfos.length !== 0 && (
             <MultisigApprove
               address={address}
               key='multisig-approve'
@@ -642,7 +642,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                 info='0'
               />
             )}
-            {multiInfos && multiInfos.length !== 0 && (
+            {isMultisig && multiInfos && multiInfos.length !== 0 && (
               <Badge
                 className='important'
                 color='purple'

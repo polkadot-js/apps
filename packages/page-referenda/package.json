@@ -11,10 +11,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.124.2-99-x",
-  "dependencies": {
-    "@babel/runtime": "^7.21.0"
-  },
+  "version": "0.124.2-120-x",
   "devDependencies": {
     "chart.js": "^3.9.1"
   }

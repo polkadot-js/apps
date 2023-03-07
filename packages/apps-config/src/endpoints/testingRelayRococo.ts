@@ -55,9 +55,12 @@ export const testParasRococo: EndpointOption[] = [
     homepage: 'https://www.aventus.io/',
     info: 'rococoAventus',
     paraId: 2056,
-    providers: {},
+    providers: {
+      Aventus: 'wss://public-rpc.public-testnet.aventus.io'
+    },
     text: 'Aventus',
     ui: {
+      color: '#E6E6FA',
       logo: nodesAventusSVG
     }
   },
@@ -665,7 +668,6 @@ export const testRelayRococo: EndpointOption = {
   ],
   providers: {
     Parity: 'wss://rococo-rpc.polkadot.io',
-    // OnFinality: 'wss://rococo.api.onfinality.io/public-ws', // After reset, node misses host functions
     // 'Ares Protocol': 'wss://rococo.aresprotocol.com' // https://github.com/polkadot-js/apps/issues/5767
     'light client': 'light://substrate-connect/rococo'
   },

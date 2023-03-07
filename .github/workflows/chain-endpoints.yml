@@ -4,7 +4,7 @@ on:
     - cron:  '50 0/12 * * *'
 
 jobs:
-  types:
+  endpoints:
     if: github.repository == 'polkadot-js/apps'
     runs-on: ubuntu-latest
     steps:
