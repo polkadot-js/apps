@@ -9,7 +9,7 @@ import React, { useMemo } from 'react';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import BlockToTime from './BlockToTime';
+import BlockToTime from './BlockToTime.js';
 
 interface Props {
   children?: React.ReactNode;

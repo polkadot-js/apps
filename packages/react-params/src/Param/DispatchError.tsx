@@ -9,8 +9,8 @@ import React, { useEffect, useState } from 'react';
 import { Input } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate.js';
-import Static from './Static';
-import Unknown from './Unknown';
+import Static from './Static.js';
+import Unknown from './Unknown.js';
 
 interface Details {
   details?: string | null;

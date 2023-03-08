@@ -10,7 +10,7 @@ import { GenericVote } from '@polkadot/types';
 import { isBn } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import Bare from './Bare';
+import Bare from './Bare.js';
 
 interface VoteParts {
   aye: boolean;

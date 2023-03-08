@@ -9,7 +9,7 @@ import React, { useCallback, useMemo } from 'react';
 import { Dropdown } from '@polkadot/react-components';
 import { bnToBn, isFunction } from '@polkadot/util';
 
-import Bare from './Bare';
+import Bare from './Bare.js';
 
 type TextMap = Record<number, string>;
 

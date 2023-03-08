@@ -7,7 +7,7 @@ import React from 'react';
 
 import { Labelled } from '@polkadot/react-components';
 
-import Bare from './Bare';
+import Bare from './Bare.js';
 
 interface Props {
   children?: React.ReactNode;

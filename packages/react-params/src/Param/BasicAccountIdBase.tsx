@@ -8,7 +8,7 @@ import React, { useCallback, useState } from 'react';
 import { InputAddressSimple } from '@polkadot/react-components';
 import { isEthereumAddress, validateAddress } from '@polkadot/util-crypto';
 
-import Bare from './Bare';
+import Bare from './Bare.js';
 
 interface Props extends BaseProps {
   bytesLength: 20 | 32;

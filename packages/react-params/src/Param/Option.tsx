@@ -10,11 +10,11 @@ import { Toggle } from '@polkadot/react-components';
 import { Option } from '@polkadot/types';
 import { isU8a, u8aConcat } from '@polkadot/util';
 
-import Holder from '../Holder';
+import Holder from '../Holder.js';
 import { useTranslation } from '../translate.js';
-import Base from './Base';
-import Param from './index';
-import Static from './Static';
+import Base from './Base.js';
+import Param from './index.js';
+import Static from './Static.js';
 
 const DEF_VALUE = { isValid: true, value: undefined };
 const OPT_PREFIX = new Uint8Array([1]);

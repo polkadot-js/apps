@@ -9,8 +9,8 @@ import { Toggle } from '@polkadot/react-components';
 import { u8aToHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import BaseBytes from './BaseBytes';
-import File from './File';
+import BaseBytes from './BaseBytes.js';
+import File from './File.js';
 
 function Hash256 ({ className = '', defaultValue, isDisabled, isError, label, name, onChange, onEnter, onEscape, registry, type, withLabel }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();

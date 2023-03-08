@@ -9,7 +9,7 @@ import { Dropdown } from '@polkadot/react-components';
 import { isBoolean } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import Bare from './Bare';
+import Bare from './Bare.js';
 
 function BoolParam ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, withLabel }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();

@@ -8,7 +8,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Input } from '@polkadot/react-components';
 import { compactAddLength, hexToU8a, u8aConcat } from '@polkadot/util';
 
-import Bare from './Bare';
+import Bare from './Bare.js';
 
 interface StateParam {
   isValid: boolean;

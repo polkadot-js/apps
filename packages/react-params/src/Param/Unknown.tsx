@@ -5,8 +5,8 @@ import type { Props as BaseProps } from '../types.js';
 
 import React from 'react';
 
-import BaseBytes from './BaseBytes';
-import Static from './Static';
+import BaseBytes from './BaseBytes.js';
+import Static from './Static.js';
 
 interface Props extends BaseProps {
   children?: React.ReactNode;

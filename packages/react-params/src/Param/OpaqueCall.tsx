@@ -6,8 +6,8 @@ import type { Props } from '../types.js';
 
 import React from 'react';
 
-import CallDisplay from './Call';
-import Unknown from './Unknown';
+import CallDisplay from './Call.js';
+import Unknown from './Unknown.js';
 
 function OpaqueCall (props: Props): React.ReactElement<Props> {
   if (!props.isDisabled) {

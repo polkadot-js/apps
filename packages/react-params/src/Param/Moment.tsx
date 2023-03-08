@@ -7,7 +7,7 @@ import React, { useCallback } from 'react';
 
 import { Static } from '@polkadot/react-components';
 
-import Amount from './Amount';
+import Amount from './Amount.js';
 
 function Moment ({ className = '', defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, registry, type, withLabel }: Props): React.ReactElement<Props> {
   const _onChange = useCallback(

@@ -10,10 +10,10 @@ import React, { useCallback, useState } from 'react';
 import { assert, isHex, u8aToHex, u8aToString } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import Base from './Base';
-import Bytes from './Bytes';
-import File from './File';
-import { createParam } from './KeyValue';
+import Base from './Base.js';
+import Bytes from './Bytes.js';
+import File from './File.js';
+import { createParam } from './KeyValue.js';
 
 interface Parsed {
   isValid: boolean;

@@ -7,8 +7,8 @@ import React, { useCallback, useState } from 'react';
 
 import { isWasm } from '@polkadot/util';
 
-import Bytes from './Bytes';
-import BytesFile from './File';
+import Bytes from './Bytes.js';
+import BytesFile from './File.js';
 
 function Code ({ className = '', defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, registry, type, withLabel }: Props): React.ReactElement<Props> {
   const [isValid, setIsValid] = useState(false);

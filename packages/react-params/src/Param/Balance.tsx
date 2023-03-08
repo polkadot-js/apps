@@ -9,7 +9,7 @@ import React, { useCallback, useState } from 'react';
 import InputBalance from '@polkadot/react-components/InputBalance';
 import { BN } from '@polkadot/util';
 
-import Bare from './Bare';
+import Bare from './Bare.js';
 
 function Balance ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
   const [isValid, setIsValid] = useState(false);

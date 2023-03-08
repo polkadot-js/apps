@@ -7,7 +7,7 @@ import React, { useCallback, useState } from 'react';
 
 import { Input } from '@polkadot/react-components';
 
-import Bare from './Bare';
+import Bare from './Bare.js';
 
 function Text ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
   const [isValid, setIsValid] = useState(false);

@@ -10,7 +10,7 @@ import { compactAddLength, hexToU8a, isAscii, isHex, stringToU8a, u8aToHex, u8aT
 import { decodeAddress } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate.js';
-import Bare from './Bare';
+import Bare from './Bare.js';
 
 interface Props {
   asHex?: boolean;

@@ -5,7 +5,7 @@ import type { Props } from '../types.js';
 
 import React from 'react';
 
-import BaseBytes from './BaseBytes';
+import BaseBytes from './BaseBytes.js';
 
 function Hash160 ({ className = '', defaultValue, isDisabled, isError, label, name, onChange, onEnter, onEscape, type, withLabel }: Props): React.ReactElement<Props> {
   return (

@@ -6,7 +6,7 @@ import type { ComponentMap, RawParam, RawParamOnChangeValue, RawParams } from '.
 
 import React, { useCallback } from 'react';
 
-import Param from './Param';
+import Param from './Param/index.js';
 
 interface Props {
   defaultValue: RawParam;

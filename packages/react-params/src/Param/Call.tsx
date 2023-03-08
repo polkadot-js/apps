@@ -9,8 +9,8 @@ import React from 'react';
 import { Call, Static } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate.js';
-import Bare from './Bare';
-import Unknown from './Unknown';
+import Bare from './Bare.js';
+import Unknown from './Unknown.js';
 
 function CallDisplay (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();

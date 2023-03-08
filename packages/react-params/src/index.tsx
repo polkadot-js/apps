@@ -11,10 +11,10 @@ import { api } from '@polkadot/react-api';
 import { ErrorBoundary } from '@polkadot/react-components';
 import { stringify } from '@polkadot/util';
 
-import Holder from './Holder';
-import ParamComp from './ParamComp';
+import Holder from './Holder.js';
+import ParamComp from './ParamComp.js';
 import translate from './translate.js';
-import { createValue } from './values';
+import { createValue } from './values.js';
 
 interface Props extends I18nProps {
   children?: React.ReactNode;

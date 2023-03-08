@@ -10,8 +10,8 @@ import { Dropdown } from '@polkadot/react-components';
 import { Enum, getTypeDef } from '@polkadot/types';
 import { isObject } from '@polkadot/util';
 
-import Params from '../';
-import Bare from './Bare';
+import Params from '../index.js';
+import Bare from './Bare.js';
 
 interface Option {
   text?: string;

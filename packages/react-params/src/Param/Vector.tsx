@@ -8,11 +8,11 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Button } from '@polkadot/react-components';
 import { isUndefined } from '@polkadot/util';
 
-import getInitValue from '../initValue';
+import Params from '../index.js';
+import getInitValue from '../initValue.js';
 import { useTranslation } from '../translate.js';
-import Params from '../';
-import Base from './Base';
-import useParamDefs from './useParamDefs';
+import Base from './Base.js';
+import useParamDefs from './useParamDefs.js';
 
 function getParam ([{ name, type }]: ParamDef[], index: number): ParamDef {
   return {

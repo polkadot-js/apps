@@ -11,7 +11,7 @@ import React, { useCallback, useMemo } from 'react';
 import { Input, InputNumber } from '@polkadot/react-components';
 import { bnToBn, formatNumber, isUndefined } from '@polkadot/util';
 
-import Bare from './Bare';
+import Bare from './Bare.js';
 
 function getBitLength (registry: Registry, { type }: TypeDef): BitLength {
   try {

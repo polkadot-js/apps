@@ -9,8 +9,8 @@ import React, { useMemo } from 'react';
 import { Static, styled } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate.js';
-import { toHumanJson } from '../valueToText';
-import Bare from './Bare';
+import { toHumanJson } from '../valueToText.js';
+import Bare from './Bare.js';
 
 interface Props {
   asHex?: boolean;

@@ -8,9 +8,9 @@ import React, { useCallback, useState } from 'react';
 import { Struct } from '@polkadot/types';
 import { isCodec } from '@polkadot/util';
 
-import Params from '../';
-import Base from './Base';
-import useParamDefs from './useParamDefs';
+import Params from '../index.js';
+import Base from './Base.js';
+import useParamDefs from './useParamDefs.js';
 
 function extractValues ({ isValid, value }: RawParam): RawParam[] | undefined {
   return (isValid && isCodec(value) && value instanceof Struct)
