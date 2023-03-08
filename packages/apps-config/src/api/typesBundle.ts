@@ -53917,6 +53917,460 @@ export const typesBundle = {
         }
       ]
     },
+    "fragnova": {
+      "rpc": {
+        "fragments": {
+          "getDefinitions": {
+            "description": "Query and Return Fragment Definition(s) based on `params`",
+            "type": "String",
+            "params": [
+              {
+                "name": "param",
+                "type": "GetDefinitionsParams"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ]
+          },
+          "getInstances": {
+            "description": "Query and Return Fragment Instance(s) based on `params`",
+            "type": "String",
+            "params": [
+              {
+                "name": "param",
+                "type": "GetInstancesParams"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ]
+          },
+          "getInstanceOwner": {
+            "description": "Query the owner of a Fragment Instance. The return type is a String",
+            "type": "String",
+            "params": [
+              {
+                "name": "param",
+                "type": "GetInstanceOwnerParams"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ]
+          }
+        },
+        "protos": {
+          "getData": {
+            "description": "Query and Return Proto-Fragment data based on `proto_hash`. The **return type** is base64 encoded bytes.",
+            "type": "String",
+            "params": [
+              {
+                "name": "proto_hash",
+                "type": "Hash"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ]
+          },
+          "getProtos": {
+            "description": "Query and Return Proto-Fragment(s) based on `params`. The return type is a JSON string",
+            "type": "String",
+            "params": [
+              {
+                "name": "param",
+                "type": "GetProtosParams"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ]
+          },
+          "getGenealogy": {
+            "description": "Query the Genealogy of a Proto-Fragment based on `params`. The return type is a JSON string that represents an Adjacency List.",
+            "type": "String",
+            "params": [
+              {
+                "name": "param",
+                "type": "GetGenealogyParams"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ]
+          }
+        }
+      },
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "Hash128": "[u8; 16]",
+            "FragmentMetadata": {
+              "name": "Vec<u8>",
+              "currency": "Option<AssetId>"
+            },
+            "GetDefinitionsParams": {
+              "desc": "bool",
+              "from": "u64",
+              "limit": "u64",
+              "metadata_keys": "Vec<String>",
+              "owner": "Option<AccountId>",
+              "return_owners": "bool"
+            },
+            "GetInstancesParams": {
+              "desc": "bool",
+              "from": "u64",
+              "limit": "u64",
+              "definition_hash": "String",
+              "metadata_keys": "Vec<String>",
+              "owner": "Option<AccountId>",
+              "only_return_first_copies": "bool"
+            },
+            "GetInstanceOwnerParams": {
+              "definition_hash": "String",
+              "edition_id": "InstanceUnit",
+              "copy_id": "InstanceUnit"
+            },
+            "InstanceUnit": "u64",
+            "Categories": {
+              "_enum": {
+                "text": "TextCategories",
+                "trait": "Option<ShardsTrait>",
+                "shards": "ShardsScriptInfo",
+                "audio": "AudioCategories",
+                "texture": "TextureCategories",
+                "vector": "VectorCategories",
+                "video": "VideoCategories",
+                "model": "ModelCategories",
+                "binary": "BinaryCategories"
+              }
+            },
+            "AudioCategories": {
+              "_enum": [
+                "oggFile",
+                "mp3File"
+              ]
+            },
+            "ModelCategories": {
+              "_enum": [
+                "gltfFile",
+                "sdf",
+                "physicsCollider"
+              ]
+            },
+            "TextureCategories": {
+              "_enum": [
+                "pngFile",
+                "jpgFile"
+              ]
+            },
+            "VectorCategories": {
+              "_enum": [
+                "svgFile",
+                "ttfFile",
+                "otfFile"
+              ]
+            },
+            "VideoCategories": {
+              "_enum": [
+                "mkvFile",
+                "mp4File"
+              ]
+            },
+            "TextCategories": {
+              "_enum": [
+                "plain",
+                "json",
+                "wgsl",
+                "markdown"
+              ]
+            },
+            "BinaryCategories": {
+              "_enum": [
+                "wasmProgram",
+                "wasmReactor",
+                "blendFile",
+                "onnxModel",
+                "safeTensors",
+                "rareDomain"
+              ]
+            },
+            "ShardsScriptInfo": {
+              "format": "ShardsFormat",
+              "requiring": "Vec<ShardsTrait>",
+              "implementing": "Vec<ShardsTrait>"
+            },
+            "ShardsTrait": "Vec<u16>",
+            "ShardsFormat": {
+              "_enum": [
+                "edn",
+                "binary"
+              ]
+            },
+            "GetProtosParams": {
+              "desc": "bool",
+              "from": "u32",
+              "limit": "u32",
+              "metadata_keys": "Vec<String>",
+              "owner": "Option<AccountId>",
+              "return_owners": "bool",
+              "categories": "Vec<Categories>",
+              "tags": "Vec<String>",
+              "exclude_tags": "Vec<String>",
+              "available": "Option<bool>"
+            },
+            "GetGenealogyParams": {
+              "proto_hash": "String",
+              "get_ancestors": "bool"
+            }
+          }
+        }
+      ]
+    },
+    "fragnova-testnet": {
+      "rpc": {
+        "fragments": {
+          "getDefinitions": {
+            "description": "Query and Return Fragment Definition(s) based on `params`",
+            "type": "String",
+            "params": [
+              {
+                "name": "param",
+                "type": "GetDefinitionsParams"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ]
+          },
+          "getInstances": {
+            "description": "Query and Return Fragment Instance(s) based on `params`",
+            "type": "String",
+            "params": [
+              {
+                "name": "param",
+                "type": "GetInstancesParams"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ]
+          },
+          "getInstanceOwner": {
+            "description": "Query the owner of a Fragment Instance. The return type is a String",
+            "type": "String",
+            "params": [
+              {
+                "name": "param",
+                "type": "GetInstanceOwnerParams"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ]
+          }
+        },
+        "protos": {
+          "getData": {
+            "description": "Query and Return Proto-Fragment data based on `proto_hash`. The **return type** is base64 encoded bytes.",
+            "type": "String",
+            "params": [
+              {
+                "name": "proto_hash",
+                "type": "Hash"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ]
+          },
+          "getProtos": {
+            "description": "Query and Return Proto-Fragment(s) based on `params`. The return type is a JSON string",
+            "type": "String",
+            "params": [
+              {
+                "name": "param",
+                "type": "GetProtosParams"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ]
+          },
+          "getGenealogy": {
+            "description": "Query the Genealogy of a Proto-Fragment based on `params`. The return type is a JSON string that represents an Adjacency List.",
+            "type": "String",
+            "params": [
+              {
+                "name": "param",
+                "type": "GetGenealogyParams"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ]
+          }
+        }
+      },
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "Hash128": "[u8; 16]",
+            "FragmentMetadata": {
+              "name": "Vec<u8>",
+              "currency": "Option<AssetId>"
+            },
+            "GetDefinitionsParams": {
+              "desc": "bool",
+              "from": "u64",
+              "limit": "u64",
+              "metadata_keys": "Vec<String>",
+              "owner": "Option<AccountId>",
+              "return_owners": "bool"
+            },
+            "GetInstancesParams": {
+              "desc": "bool",
+              "from": "u64",
+              "limit": "u64",
+              "definition_hash": "String",
+              "metadata_keys": "Vec<String>",
+              "owner": "Option<AccountId>",
+              "only_return_first_copies": "bool"
+            },
+            "GetInstanceOwnerParams": {
+              "definition_hash": "String",
+              "edition_id": "InstanceUnit",
+              "copy_id": "InstanceUnit"
+            },
+            "InstanceUnit": "u64",
+            "Categories": {
+              "_enum": {
+                "text": "TextCategories",
+                "trait": "Option<ShardsTrait>",
+                "shards": "ShardsScriptInfo",
+                "audio": "AudioCategories",
+                "texture": "TextureCategories",
+                "vector": "VectorCategories",
+                "video": "VideoCategories",
+                "model": "ModelCategories",
+                "binary": "BinaryCategories"
+              }
+            },
+            "AudioCategories": {
+              "_enum": [
+                "oggFile",
+                "mp3File"
+              ]
+            },
+            "ModelCategories": {
+              "_enum": [
+                "gltfFile",
+                "sdf",
+                "physicsCollider"
+              ]
+            },
+            "TextureCategories": {
+              "_enum": [
+                "pngFile",
+                "jpgFile"
+              ]
+            },
+            "VectorCategories": {
+              "_enum": [
+                "svgFile",
+                "ttfFile",
+                "otfFile"
+              ]
+            },
+            "VideoCategories": {
+              "_enum": [
+                "mkvFile",
+                "mp4File"
+              ]
+            },
+            "TextCategories": {
+              "_enum": [
+                "plain",
+                "json",
+                "wgsl",
+                "markdown"
+              ]
+            },
+            "BinaryCategories": {
+              "_enum": [
+                "wasmProgram",
+                "wasmReactor",
+                "blendFile",
+                "onnxModel",
+                "safeTensors",
+                "rareDomain"
+              ]
+            },
+            "ShardsScriptInfo": {
+              "format": "ShardsFormat",
+              "requiring": "Vec<ShardsTrait>",
+              "implementing": "Vec<ShardsTrait>"
+            },
+            "ShardsTrait": "Vec<u16>",
+            "ShardsFormat": {
+              "_enum": [
+                "edn",
+                "binary"
+              ]
+            },
+            "GetProtosParams": {
+              "desc": "bool",
+              "from": "u32",
+              "limit": "u32",
+              "metadata_keys": "Vec<String>",
+              "owner": "Option<AccountId>",
+              "return_owners": "bool",
+              "categories": "Vec<Categories>",
+              "tags": "Vec<String>",
+              "exclude_tags": "Vec<String>",
+              "available": "Option<bool>"
+            },
+            "GetGenealogyParams": {
+              "proto_hash": "String",
+              "get_ancestors": "bool"
+            }
+          }
+        }
+      ]
+    },
     "frequency": {
       "rpc": {
         "messages": {

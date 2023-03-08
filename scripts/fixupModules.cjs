@@ -7,6 +7,7 @@ const process = require('process');
 
 // incorrect packages without type specifier
 const PKG_FIX = [
+  '@fragnova/api-augment',
   '@frequency-chain/api-augment'
 ];
 

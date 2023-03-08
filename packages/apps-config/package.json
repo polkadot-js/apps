@@ -22,6 +22,7 @@
     "@docknetwork/node-types": "0.15.0",
     "@edgeware/node-types": "3.6.2-wako",
     "@equilab/definitions": "1.4.18",
+    "@fragnova/api-augment": "5.0.0",
     "@frequency-chain/api-augment": "1.2.1",
     "@interlay/interbtc-types": "1.11.2",
     "@kiltprotocol/type-definitions": "0.31.1",

@@ -44,6 +44,7 @@ import encointerNodeTeeproxy from './encointer-node-teeproxy';
 import encointerPara from './encointer-para';
 import equilibrium from './equilibrium';
 import fantour from './fantour';
+import fragnova from './fragnova';
 import frequency from './frequency';
 import galital from './galital';
 import galitalParachain from './galital-parachain';
@@ -186,6 +187,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'encointer-node-teeproxy': encointerNodeTeeproxy,
   'encointer-parachain': encointerPara,
   fantour,
+  fragnova,
+  'fragnova-testnet': fragnova,
   frequency,
   'frequency-rococo': frequency,
   galital,
