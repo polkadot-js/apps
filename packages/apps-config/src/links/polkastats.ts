@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { ExternalDef } from './types.js';
 
-import { externalPolkastatsPNG } from '../ui/logos/external.js';
+import { externalPolkastatsPNG } from '../ui/logos/external/index.js';
 
 // NOTE Not maintained, see breakage reports in
 // https://github.com/polkadot-js/apps/issues/8903

@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { ExternalDef } from './types.js';
 
-import { externalPolkassemblyPNG } from '../ui/logos/external.js';
+import { externalPolkassemblyPNG } from '../ui/logos/external/index.js';
 
 export const PolkassemblyIo: ExternalDef = {
   chains: {

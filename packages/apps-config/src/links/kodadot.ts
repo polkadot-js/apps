@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { ExternalDef } from './types.js';
 
-import { externalKodadotPNG } from '../ui/logos/external.js';
+import { externalKodadotPNG } from '../ui/logos/external/index.js';
 
 const getNetwork = (_chain: string) => {
   const chain = _chain === 'kusama' ? 'rmrk' : _chain;

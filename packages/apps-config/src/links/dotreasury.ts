@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { ExternalDef } from './types.js';
 
-import { externalDotreasurySVG } from '../ui/logos/external.js';
+import { externalDotreasurySVG } from '../ui/logos/external/index.js';
 
 export const Dotreasury: ExternalDef = {
   chains: {
