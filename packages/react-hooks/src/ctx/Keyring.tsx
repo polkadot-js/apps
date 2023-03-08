@@ -11,7 +11,7 @@ import { keyring } from '@polkadot/ui-keyring';
 import { u8aToHex } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
-import { useApi } from '../useApi';
+import { useApi } from '../useApi.js';
 
 interface Props {
   children?: React.ReactNode;

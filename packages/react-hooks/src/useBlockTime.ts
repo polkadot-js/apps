@@ -9,9 +9,9 @@ import { useMemo } from 'react';
 
 import { BN, BN_MAX_INTEGER, BN_ONE, bnMin, bnToBn, extractTime } from '@polkadot/util';
 
-import { createNamedHook } from './createNamedHook';
+import { createNamedHook } from './createNamedHook.js';
 import { useTranslation } from './translate.js';
-import { useBlockInterval } from './useBlockInterval';
+import { useBlockInterval } from './useBlockInterval.js';
 
 type Result = [blockInterval: number, timeStr: string, time: Time];
 

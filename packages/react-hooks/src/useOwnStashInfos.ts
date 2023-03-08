@@ -11,11 +11,11 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { u8aConcat, u8aToHex } from '@polkadot/util';
 
-import { createNamedHook } from './createNamedHook';
-import { useAccounts } from './useAccounts';
-import { useApi } from './useApi';
-import { useIsMountedRef } from './useIsMountedRef';
-import { useOwnStashes } from './useOwnStashes';
+import { createNamedHook } from './createNamedHook.js';
+import { useAccounts } from './useAccounts.js';
+import { useApi } from './useApi.js';
+import { useIsMountedRef } from './useIsMountedRef.js';
+import { useOwnStashes } from './useOwnStashes.js';
 
 type ValidatorInfo = ITuple<[ValidatorPrefs, Codec]> | ValidatorPrefs;
 type Queried = Record<string, [boolean, DeriveStakingAccount, ValidatorInfo]>;

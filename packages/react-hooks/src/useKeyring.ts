@@ -6,7 +6,7 @@ import type { Accounts, Addresses } from './ctx/types';
 import { useContext } from 'react';
 
 import { KeyringCtx } from './ctx/Keyring';
-import { createNamedHook } from './createNamedHook';
+import { createNamedHook } from './createNamedHook.js';
 
 function useKeyringImpl (): { accounts: Accounts, addresses: Addresses } {
   return useContext(KeyringCtx);

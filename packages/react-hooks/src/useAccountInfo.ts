@@ -10,13 +10,13 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { keyring } from '@polkadot/ui-keyring';
 import { isFunction, isHex } from '@polkadot/util';
 
-import { createNamedHook } from './createNamedHook';
-import { useApi } from './useApi';
-import { useCall } from './useCall';
-import { useDeriveAccountFlags } from './useDeriveAccountFlags';
-import { useDeriveAccountInfo } from './useDeriveAccountInfo';
-import { useKeyring } from './useKeyring';
-import { useToggle } from './useToggle';
+import { createNamedHook } from './createNamedHook.js';
+import { useApi } from './useApi.js';
+import { useCall } from './useCall.js';
+import { useDeriveAccountFlags } from './useDeriveAccountFlags.js';
+import { useDeriveAccountInfo } from './useDeriveAccountInfo.js';
+import { useKeyring } from './useKeyring.js';
+import { useToggle } from './useToggle.js';
 
 const IS_NONE = {
   isCouncil: false,

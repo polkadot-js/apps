@@ -6,7 +6,7 @@ import type { WindowSize } from './ctx/types';
 import { useContext } from 'react';
 
 import { WindowSizeCtx } from './ctx/WindowSize';
-import { createNamedHook } from './createNamedHook';
+import { createNamedHook } from './createNamedHook.js';
 
 function useWindowSizeImpl (): WindowSize {
   return useContext(WindowSizeCtx);

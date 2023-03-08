@@ -6,7 +6,7 @@ import type { QueueProps } from '@polkadot/react-components/Status/types';
 import { useContext } from 'react';
 
 import { QueueCtx } from './ctx/Queue';
-import { createNamedHook } from './createNamedHook';
+import { createNamedHook } from './createNamedHook.js';
 
 function useQueueImpl (): QueueProps {
   return useContext(QueueCtx);

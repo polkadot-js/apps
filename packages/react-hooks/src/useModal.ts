@@ -5,8 +5,8 @@ import type { ModalState } from './types.js';
 
 import { useCallback } from 'react';
 
-import { createNamedHook } from './createNamedHook';
-import { useToggle } from './useToggle';
+import { createNamedHook } from './createNamedHook.js';
+import { useToggle } from './useToggle.js';
 
 function useModalImpl (defaultIsOpen?: boolean, onOpen?: () => void, onClose?: () => void): ModalState {
   const [isOpen, , setIsOpen] = useToggle(defaultIsOpen || false);

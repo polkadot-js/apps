@@ -7,9 +7,9 @@ import { useMemo } from 'react';
 
 import { getJudgements } from './utils/getJudgements';
 import { matchRegistrarAccountsWithIndexes } from './utils/matchRegistrarAccountsWithIndexes';
-import { createNamedHook } from './createNamedHook';
-import { useAccountInfo } from './useAccountInfo';
-import { useRegistrars } from './useRegistrars';
+import { createNamedHook } from './createNamedHook.js';
+import { useAccountInfo } from './useAccountInfo.js';
+import { useRegistrars } from './useRegistrars.js';
 
 function useJudgementsImpl (address: string): UseJudgements {
   const { identity } = useAccountInfo(address);

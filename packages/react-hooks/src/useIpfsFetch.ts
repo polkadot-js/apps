@@ -9,7 +9,7 @@ import type { CallOptions } from './types.js';
 import * as isIPFS from 'is-ipfs';
 import { useEffect, useMemo, useState } from 'react';
 
-import { useIsMountedRef } from './useIsMountedRef';
+import { useIsMountedRef } from './useIsMountedRef.js';
 
 interface Options <T> extends CallOptions<T> {
   transform?: (value: any) => T

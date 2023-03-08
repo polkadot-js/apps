@@ -10,11 +10,11 @@ import { useEffect, useState } from 'react';
 
 import { BN_ZERO } from '@polkadot/util';
 
-import { createNamedHook } from './createNamedHook';
-import { useApi } from './useApi';
-import { useCall } from './useCall';
-import { useIsMountedRef } from './useIsMountedRef';
-import { useOwnStashIds } from './useOwnStashes';
+import { createNamedHook } from './createNamedHook.js';
+import { useApi } from './useApi.js';
+import { useCall } from './useCall.js';
+import { useIsMountedRef } from './useIsMountedRef.js';
+import { useOwnStashIds } from './useOwnStashes.js';
 
 interface State {
   allRewards?: Record<string, DeriveStakerReward[]> | null;

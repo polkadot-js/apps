@@ -11,8 +11,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { stringify, stringToU8a } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
 
-import { useApi } from '../useApi';
-import { useCall } from '../useCall';
+import { useApi } from '../useApi.js';
+import { useCall } from '../useCall.js';
 
 interface Props {
   children: React.ReactNode;

@@ -7,8 +7,8 @@ import type { ApiStats } from './types.js';
 
 import React, { useCallback } from 'react';
 
-import { useApi } from '../useApi';
-import { useTimer } from '../useTimer';
+import { useApi } from '../useApi.js';
+import { useTimer } from '../useTimer.js';
 
 interface Props {
   children?: React.ReactNode;

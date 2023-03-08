@@ -6,14 +6,14 @@ import type { PromiseResult, QueryableStorageEntry } from '@polkadot/api/types';
 import type { StorageEntryTypeLatest } from '@polkadot/types/interfaces';
 import type { AnyFunction, Codec } from '@polkadot/types/types';
 import type { CallOptions, CallParam, CallParams } from './types.js';
-import type { MountedRef } from './useIsMountedRef';
+import type { MountedRef } from './useIsMountedRef.js';
 
 import { useEffect, useRef, useState } from 'react';
 
 import { isFunction, isNull, isUndefined, nextTick } from '@polkadot/util';
 
-import { useApi } from './useApi';
-import { useIsMountedRef } from './useIsMountedRef';
+import { useApi } from './useApi.js';
+import { useIsMountedRef } from './useIsMountedRef.js';
 
 type VoidFn = () => void;
 
