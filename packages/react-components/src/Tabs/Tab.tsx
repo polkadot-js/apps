@@ -6,8 +6,8 @@ import type { TabItem } from './types.js';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import Badge from '../Badge';
-import { styled } from '../styled';
+import Badge from '../Badge.js';
+import { styled } from '../styled.js';
 
 interface Props extends TabItem {
   basePath: string;

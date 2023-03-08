@@ -9,7 +9,7 @@ import React from 'react';
 import { ApiPromise } from '@polkadot/api';
 import { useApi } from '@polkadot/react-hooks';
 
-import Dropdown from '../Dropdown';
+import Dropdown from '../Dropdown.js';
 
 interface Props {
   className?: string;

@@ -7,7 +7,7 @@ import type { FlagColor as TagColor } from './types.js';
 import React, { useContext, useState } from 'react';
 import { ThemeContext } from 'styled-components';
 
-import { styled } from './styled';
+import { styled } from './styled.js';
 import Tooltip from './Tooltip';
 
 interface Props {

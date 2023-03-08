@@ -5,7 +5,7 @@ import type { HeaderProps } from './types.js';
 
 import React from 'react';
 
-import { styled } from '../styled';
+import { styled } from '../styled.js';
 
 function Header ({ children, className }: HeaderProps): React.ReactElement {
   return (

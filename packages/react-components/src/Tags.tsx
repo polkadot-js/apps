@@ -5,7 +5,7 @@ import React, { useCallback, useMemo } from 'react';
 
 import EditButton from './EditButton';
 import InputTags from './InputTags';
-import { styled } from './styled';
+import { styled } from './styled.js';
 import Tag from './Tag';
 import { useTranslation } from './translate.js';
 

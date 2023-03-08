@@ -9,7 +9,7 @@ import { useToggle } from '@polkadot/react-hooks';
 
 import EditButton from './EditButton';
 import Input from './Input';
-import { styled } from './styled';
+import { styled } from './styled.js';
 import Tags from './Tags';
 
 export interface RowProps {

@@ -7,7 +7,7 @@ import React from 'react';
 
 import { formatNumber } from '@polkadot/util';
 
-import { styled } from '../../styled';
+import { styled } from '../../styled.js';
 
 export interface Props {
   children?: React.ReactNode;

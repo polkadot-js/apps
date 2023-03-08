@@ -4,7 +4,7 @@
 import React from 'react';
 
 import spinnerSrc from './Spinner.png';
-import { styled } from './styled';
+import { styled } from './styled.js';
 import { useTranslation } from './translate.js';
 
 interface Props {

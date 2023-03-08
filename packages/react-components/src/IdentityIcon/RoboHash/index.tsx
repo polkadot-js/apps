@@ -14,9 +14,9 @@ import React, { useMemo } from 'react';
 
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import { styled } from '../../styled';
-import backgrounds from './backgrounds';
-import sets from './sets';
+import { styled } from '../../styled.js';
+import backgrounds from './backgrounds/index.js';
+import sets from './sets/index.js';
 
 interface Props {
   className?: string;

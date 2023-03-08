@@ -5,7 +5,7 @@ import React, { useCallback, useState } from 'react';
 
 import IdentityIcon from './IdentityIcon';
 import Input from './Input';
-import { styled } from './styled';
+import { styled } from './styled.js';
 import { toAddress } from './util';
 
 interface Props {

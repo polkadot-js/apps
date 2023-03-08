@@ -5,10 +5,10 @@ import type { BaseProps, MenuType } from './types.js';
 
 import React from 'react';
 
-import { styled } from '../styled';
-import Divider from './Divider';
-import Header from './Header';
-import Item from './Item';
+import { styled } from '../styled.js';
+import Divider from './Divider.js';
+import Header from './Header.js';
+import Item from './Item.js';
 
 function Base ({ children, className = '' }: BaseProps): React.ReactElement<BaseProps> {
   return (

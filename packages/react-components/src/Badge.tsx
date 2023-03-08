@@ -8,7 +8,7 @@ import React, { useMemo, useState } from 'react';
 import { useTheme } from '@polkadot/react-hooks';
 
 import Icon from './Icon';
-import { styled } from './styled';
+import { styled } from './styled.js';
 import Tooltip from './Tooltip';
 
 interface Props {

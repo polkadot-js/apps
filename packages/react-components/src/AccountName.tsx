@@ -13,7 +13,7 @@ import { useDeriveAccountInfo, useSystemApi } from '@polkadot/react-hooks';
 import { formatNumber, isCodec, isFunction, stringToU8a, u8aEmpty, u8aEq, u8aToBn } from '@polkadot/util';
 
 import Badge from './Badge';
-import { styled } from './styled';
+import { styled } from './styled.js';
 import { getAddressName } from './util';
 
 interface Props {

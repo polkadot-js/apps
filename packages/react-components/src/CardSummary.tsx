@@ -11,7 +11,7 @@ import { BN_HUNDRED, formatNumber, isUndefined } from '@polkadot/util';
 
 import Labelled from './Labelled';
 import Progress from './Progress';
-import { styled } from './styled';
+import { styled } from './styled.js';
 
 interface ProgressProps {
   hideGraph?: boolean;

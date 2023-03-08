@@ -6,7 +6,7 @@ import React, { useCallback, useMemo } from 'react';
 import { useApi, useDeriveAccountInfo } from '@polkadot/react-hooks';
 
 import AddressMini from './AddressMini';
-import { styled } from './styled';
+import { styled } from './styled.js';
 import Toggle from './Toggle';
 import { checkVisibility } from './util';
 

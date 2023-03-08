@@ -4,7 +4,7 @@
 import React from 'react';
 
 import Button from './Button';
-import { styled } from './styled';
+import { styled } from './styled.js';
 
 interface Props {
   button?: React.ReactNode;

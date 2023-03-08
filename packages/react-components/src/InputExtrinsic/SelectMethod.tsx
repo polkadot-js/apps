@@ -8,7 +8,7 @@ import React, { useCallback } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
 
-import Dropdown from '../Dropdown';
+import Dropdown from '../Dropdown.js';
 
 interface Props {
   api: ApiPromise;

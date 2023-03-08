@@ -5,10 +5,10 @@ import type { ButtonProps as Props } from './types.js';
 
 import React, { useCallback, useEffect } from 'react';
 
-import Icon from '../Icon';
-import Spinner from '../Spinner';
-import { styled } from '../styled';
-import Group from './Group';
+import Icon from '../Icon.js';
+import Spinner from '../Spinner.js';
+import { styled } from '../styled.js';
+import Group from './Group.js';
 
 function ButtonBase ({ activeOnEnter, children, className = '', dataTestId = '', icon, isBasic, isBusy, isCircular, isDisabled, isFull, isIcon, isSelected, isToplevel, label, onClick, isReadOnly = !onClick, onMouseEnter, onMouseLeave, tabIndex, withoutLink }: Props): React.ReactElement<Props> {
   const _onClick = useCallback(

@@ -10,10 +10,10 @@ import React, { useCallback, useState } from 'react';
 
 import { useApi } from '@polkadot/react-hooks';
 
-import LinkedWrapper from '../InputExtrinsic/LinkedWrapper';
-import { keyOptions, sectionOptions } from './options';
-import SelectKey from './SelectKey';
-import SelectSection from './SelectSection';
+import LinkedWrapper from '../InputExtrinsic/LinkedWrapper.js';
+import { keyOptions, sectionOptions } from './options/index.js';
+import SelectKey from './SelectKey.js';
+import SelectSection from './SelectSection.js';
 
 interface Props {
   className?: string;

@@ -5,11 +5,11 @@ import type { ThemeProps } from '../types.js';
 
 import { createGlobalStyle } from 'styled-components';
 
-import cssComponents from './components';
-import cssForm from './form';
-import cssMedia from './media';
-import cssSemantic from './semantic';
-import cssTheme from './theme';
+import cssComponents from './components.js';
+import cssForm from './form.js';
+import cssMedia from './media.js';
+import cssSemantic from './semantic.js';
+import cssTheme from './theme.js';
 
 interface Props {
   uiHighlight?: string;

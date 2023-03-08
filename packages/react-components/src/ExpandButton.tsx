@@ -4,7 +4,7 @@
 import React from 'react';
 
 import Icon from './Icon';
-import { styled } from './styled';
+import { styled } from './styled.js';
 
 interface Props {
   onClick: () => void;

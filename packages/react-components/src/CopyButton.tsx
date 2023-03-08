@@ -10,7 +10,7 @@ import { useQueue } from '@polkadot/react-hooks';
 import { isString } from '@polkadot/util';
 
 import Button from './Button';
-import { styled } from './styled';
+import { styled } from './styled.js';
 import { useTranslation } from './translate.js';
 
 interface Props {

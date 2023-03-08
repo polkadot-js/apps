@@ -4,7 +4,7 @@
 import React, { useCallback, useMemo } from 'react';
 
 import Button from './Button';
-import { styled } from './styled';
+import { styled } from './styled.js';
 
 interface Option {
   isDisabled?: boolean;

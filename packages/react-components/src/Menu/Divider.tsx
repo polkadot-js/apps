@@ -5,7 +5,7 @@ import type { DividerProps } from './types.js';
 
 import React from 'react';
 
-import { styled } from '../styled';
+import { styled } from '../styled.js';
 
 function Divider ({ className = '' }: DividerProps): React.ReactElement {
   return (

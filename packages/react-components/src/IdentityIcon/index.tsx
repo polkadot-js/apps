@@ -12,9 +12,9 @@ import { useApi, useQueue } from '@polkadot/react-hooks';
 import BaseIdentityIcon from '@polkadot/react-identicon';
 import { settings } from '@polkadot/ui-settings';
 
-import { styled } from '../styled';
+import { styled } from '../styled.js';
 import { useTranslation } from '../translate.js';
-import RoboHash from './RoboHash';
+import RoboHash from './RoboHash/index.js';
 
 interface Props {
   className?: string;

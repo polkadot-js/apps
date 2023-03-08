@@ -9,7 +9,7 @@ import React from 'react';
 import { keyring } from '@polkadot/ui-keyring';
 import { decodeAddress } from '@polkadot/util-crypto';
 
-import KeyPair from './KeyPair';
+import KeyPair from './KeyPair.js';
 
 export default function createItem (option: KeyringSectionOption, isUppercase = true): Option | null {
   const allowedLength = keyring.keyring.type === 'ethereum'

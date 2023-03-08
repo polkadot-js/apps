@@ -13,7 +13,7 @@ import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO, bnMax, formatBalance, formatNumber } from '@polkadot/util';
 
 import Icon from './Icon';
-import { styled } from './styled';
+import { styled } from './styled.js';
 import Tooltip from './Tooltip';
 import { useTranslation } from './translate.js';
 

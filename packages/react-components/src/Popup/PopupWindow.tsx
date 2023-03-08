@@ -8,7 +8,7 @@ import { createPortal } from 'react-dom';
 
 import { usePopupWindow } from '@polkadot/react-hooks/usePopupWindow';
 
-import { styled } from '../styled';
+import { styled } from '../styled.js';
 
 function PopupWindow ({ children, className = '', position, triggerRef, windowRef }: Props): React.ReactElement<Props> {
   const { pointerStyle, renderCoords: { x, y } } = usePopupWindow(windowRef, triggerRef, position);

@@ -7,7 +7,7 @@ import React from 'react';
 
 import { colorLink } from './styles/theme';
 import Icon from './Icon';
-import { styled } from './styled';
+import { styled } from './styled.js';
 
 interface Props {
   children?: React.ReactNode;

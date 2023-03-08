@@ -8,7 +8,7 @@ import rehypeRaw from 'rehype-raw';
 import { useToggle } from '@polkadot/react-hooks';
 
 import Icon from './Icon';
-import { styled } from './styled';
+import { styled } from './styled.js';
 
 interface Props {
   className?: string;

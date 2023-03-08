@@ -4,7 +4,7 @@
 import React from 'react';
 
 import Input from './Input';
-import { styled } from './styled';
+import { styled } from './styled.js';
 
 interface Props {
   className?: string;

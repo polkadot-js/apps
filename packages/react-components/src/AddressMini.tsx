@@ -12,7 +12,7 @@ import BalanceDisplay from './Balance';
 import BondedDisplay from './Bonded';
 import IdentityIcon from './IdentityIcon';
 import LockedVote from './LockedVote';
-import { styled } from './styled';
+import { styled } from './styled.js';
 
 interface Props {
   balance?: BN | BN[];

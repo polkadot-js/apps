@@ -11,7 +11,7 @@ import { useApi } from '@polkadot/react-hooks';
 import { BN, BN_ONE, BN_TEN, BN_TWO, BN_ZERO, formatBalance, isBn, isUndefined } from '@polkadot/util';
 
 import Input, { KEYS_PRE } from './Input';
-import { styled } from './styled';
+import { styled } from './styled.js';
 import { useTranslation } from './translate.js';
 
 interface Props {

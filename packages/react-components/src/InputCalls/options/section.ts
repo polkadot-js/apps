@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DefinitionCallNamed } from '@polkadot/types/types';
-import type { DropdownOptions } from '../../util/types';
+import type { DropdownOptions } from '../../util/types.js';
 
 export default function createOptions (runtime: Record<string, Record<string, DefinitionCallNamed>>): DropdownOptions {
   return Object

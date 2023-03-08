@@ -10,7 +10,7 @@ import BaseIdentityIcon from '@polkadot/react-identicon';
 
 import IdentityIcon from './IdentityIcon';
 import Row, { RowProps } from './Row';
-import { styled } from './styled';
+import { styled } from './styled.js';
 
 export interface Props extends RowProps {
   isContract?: boolean;

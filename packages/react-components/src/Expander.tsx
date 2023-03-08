@@ -8,7 +8,7 @@ import React, { useMemo } from 'react';
 import { useToggle } from '@polkadot/react-hooks';
 
 import Icon from './Icon';
-import { styled } from './styled';
+import { styled } from './styled.js';
 
 interface Meta {
   docs: Text[];

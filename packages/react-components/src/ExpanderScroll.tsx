@@ -6,7 +6,7 @@ import type { Props as ExpanderProps } from './Expander';
 import React, { useCallback, useMemo } from 'react';
 
 import Expander from './Expander';
-import { styled } from './styled';
+import { styled } from './styled.js';
 import Table from './Table';
 
 interface Props extends ExpanderProps {

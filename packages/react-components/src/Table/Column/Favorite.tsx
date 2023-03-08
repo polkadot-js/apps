@@ -4,7 +4,7 @@
 import React, { useCallback } from 'react';
 
 import Icon from '../../Icon';
-import { styled } from '../../styled';
+import { styled } from '../../styled.js';
 
 export interface Props {
   address: string;

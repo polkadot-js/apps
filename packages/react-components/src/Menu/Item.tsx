@@ -5,8 +5,8 @@ import type { ItemProps } from './types.js';
 
 import React, { useCallback } from 'react';
 
-import Icon from '../Icon';
-import { styled } from '../styled';
+import Icon from '../Icon.js';
+import { styled } from '../styled.js';
 
 function Item ({ children, className = '', icon, isDisabled, label, onClick }: ItemProps): React.ReactElement<ItemProps> {
   const _onClick = useCallback(

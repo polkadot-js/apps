@@ -5,7 +5,7 @@ import type { FlagColor } from './types.js';
 
 import React from 'react';
 
-import { styled } from './styled';
+import { styled } from './styled.js';
 import Tag from './Tag';
 
 interface FlagProps {

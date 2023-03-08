@@ -8,7 +8,7 @@ import React from 'react';
 import AccountName from './AccountName';
 import IdentityIcon from './IdentityIcon';
 import ParentAccount from './ParentAccount';
-import { styled } from './styled';
+import { styled } from './styled.js';
 
 interface Props {
   children?: React.ReactNode;

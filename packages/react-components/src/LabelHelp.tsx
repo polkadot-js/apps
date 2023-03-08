@@ -6,7 +6,7 @@ import type { IconName } from '@fortawesome/fontawesome-svg-core';
 import React, { useState } from 'react';
 
 import Icon from './Icon';
-import { styled } from './styled';
+import { styled } from './styled.js';
 import Tooltip from './Tooltip';
 
 interface Props {

@@ -4,7 +4,7 @@
 import React from 'react';
 
 import Labelled from './Labelled';
-import { styled } from './styled';
+import { styled } from './styled.js';
 
 interface Props {
   children: React.ReactNode;

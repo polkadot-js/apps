@@ -14,7 +14,7 @@ import { Enum, getTypeDef } from '@polkadot/types';
 
 import { balanceCalls, balanceCallsOverrides } from './constants';
 import Static from './Static';
-import { styled } from './styled';
+import { styled } from './styled.js';
 import { useTranslation } from './translate.js';
 
 export interface Props {

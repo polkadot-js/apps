@@ -22,7 +22,7 @@ import Icon from './Icon';
 import Label from './Label';
 import StakingRedeemable from './StakingRedeemable';
 import StakingUnbonding from './StakingUnbonding';
-import { styled } from './styled';
+import { styled } from './styled.js';
 import Tooltip from './Tooltip';
 import { useTranslation } from './translate.js';
 
