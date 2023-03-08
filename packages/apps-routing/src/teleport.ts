@@ -11,7 +11,9 @@ export default function create (t: TFunction): Route {
     Component: Modal,
     Modal,
     display: {
-      isHidden: false,
+      // TODO We need to move to XCM v3 at some point, until such time we disable
+      // this functionality (we really should have kept it until later versions)
+      isHidden: true,
       needsAccounts: true,
       needsApi: [
         [
