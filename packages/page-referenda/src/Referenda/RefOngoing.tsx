@@ -15,10 +15,10 @@ import { useApi, usePreimage } from '@polkadot/react-hooks';
 import { getPreimageHash } from '@polkadot/react-hooks/usePreimage';
 
 import { useTranslation } from '../translate.js';
-import Deposits from './Deposits.js';
+import Deposits from './Deposits/index.js';
+import Vote from './Vote/index.js';
 import RefEnd from './RefEnd.js';
 import { unwrapDeposit } from './util.js';
-import Vote from './Vote.js';
 import Votes from './Votes.js';
 
 interface Expanded {

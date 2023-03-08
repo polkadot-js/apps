@@ -8,8 +8,8 @@ import { Tabs } from '@polkadot/react-components';
 import { useApi, useCollectiveMembers } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-import Overview from './Overview.js';
-import Tips from './Tips.js';
+import Overview from './Overview/index.js';
+import Tips from './Tips/index.js';
 import { useTranslation } from './translate.js';
 import useTipHashes from './useTipHashes.js';
 

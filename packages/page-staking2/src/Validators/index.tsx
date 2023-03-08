@@ -10,9 +10,9 @@ import { Button, styled, ToggleGroup } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate.js';
 import useValidatorsActive from '../useValidatorsActive.js';
-import Active from './Active.js';
+import Active from './Active/index.js';
+import Waiting from './Waiting/index.js';
 import usePoints from './usePoints.js';
-import Waiting from './Waiting.js';
 
 interface Props {
   className?: string;

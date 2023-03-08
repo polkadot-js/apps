@@ -5,7 +5,7 @@ import React, { useRef } from 'react';
 
 import { Tabs } from '@polkadot/react-components';
 
-import Referenda from './Referenda.js';
+import Referenda from './Referenda/index.js';
 import { useTranslation } from './translate.js';
 
 export { default as useCounter } from './useCounter.js';

@@ -12,11 +12,11 @@ import { useLocation } from 'react-router-dom';
 import { Tabs } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import Auctions from './Auctions.js';
-import Crowdloan from './Crowdloan.js';
-import Overview from './Overview.js';
-import Parathreads from './Parathreads.js';
-import Proposals from './Proposals.js';
+import Auctions from './Auctions/index.js';
+import Crowdloan from './Crowdloan/index.js';
+import Overview from './Overview/index.js';
+import Parathreads from './Parathreads/index.js';
+import Proposals from './Proposals/index.js';
 import { useTranslation } from './translate.js';
 import useActionsQueue from './useActionsQueue.js';
 import useAuctionInfo from './useAuctionInfo.js';

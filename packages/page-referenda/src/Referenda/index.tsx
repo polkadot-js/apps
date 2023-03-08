@@ -14,9 +14,9 @@ import { BN_ZERO } from '@polkadot/util';
 import { useTranslation } from '../translate.js';
 import useReferenda from '../useReferenda.js';
 import useSummary from '../useSummary.js';
-import Delegate from './Delegate.js';
+import Delegate from './Delegate/index.js';
+import Submit from './Submit/index.js';
 import Group from './Group.js';
-import Submit from './Submit.js';
 import Summary from './Summary.js';
 
 export { useCounterNamed as useCounter } from '../useCounter.js';

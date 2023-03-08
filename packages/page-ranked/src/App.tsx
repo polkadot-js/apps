@@ -9,7 +9,7 @@ import { Route, Switch } from 'react-router';
 import Referenda, { useCounter } from '@polkadot/app-referenda/Referenda';
 import { Tabs } from '@polkadot/react-components';
 
-import Members from './Members.js';
+import Members from './Members/index.js';
 import { useTranslation } from './translate.js';
 import useMembers from './useMembers.js';
 

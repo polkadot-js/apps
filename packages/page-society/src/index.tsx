@@ -11,9 +11,9 @@ import { Tabs } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BN, BN_THREE, BN_TWO } from '@polkadot/util';
 
-import Candidates from './Candidates.js';
-import Overview from './Overview.js';
-import Suspended from './Suspended.js';
+import Candidates from './Candidates/index.js';
+import Overview from './Overview/index.js';
+import Suspended from './Suspended/index.js';
 import { useTranslation } from './translate.js';
 import useCounter from './useCounter.js';
 import useMembers from './useMembers.js';

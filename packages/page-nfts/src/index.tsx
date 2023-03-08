@@ -9,8 +9,8 @@ import { Route, Switch } from 'react-router';
 import { Tabs } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 
-import AccountItems from './AccountItems.js';
-import Overview from './Overview.js';
+import AccountItems from './AccountItems/index.js';
+import Overview from './Overview/index.js';
 import { useTranslation } from './translate.js';
 import useCollectionIds from './useCollectionIds.js';
 import useCollectionInfos from './useCollectionInfos.js';

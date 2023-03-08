@@ -10,10 +10,10 @@ import Motions from '@polkadot/app-tech-comm/Proposals';
 import { Tabs } from '@polkadot/react-components';
 import { useApi, useCall, useCollectiveMembers } from '@polkadot/react-hooks';
 
-import Announcements from './Announcements.js';
-import Members from './Members.js';
+import Announcements from './Announcements/index.js';
+import Members from './Members/index.js';
+import Unscrupulous from './Unscrupulous/index.js';
 import { useTranslation } from './translate.js';
-import Unscrupulous from './Unscrupulous.js';
 import useAnnoucements from './useAnnoucements.js';
 import useMembers from './useMembers.js';
 import useRule from './useRule.js';

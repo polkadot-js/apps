@@ -8,7 +8,7 @@ import { Route, Switch } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 
-import Rpc from './Rpc.js';
+import Rpc from './Rpc/index.js';
 import { useTranslation } from './translate.js';
 
 function RpcApp ({ basePath }: Props): React.ReactElement<Props> {
