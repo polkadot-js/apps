@@ -9,8 +9,8 @@ import React, { useMemo } from 'react';
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
-import { permillOf, truncateTitle } from '../helpers';
-import { useBounties, useUserRole } from '../hooks';
+import { permillOf, truncateTitle } from '../helpers.js';
+import { useBounties, useUserRole } from '../hooks.js';
 import { useTranslation } from '../translate.js';
 
 interface Props {

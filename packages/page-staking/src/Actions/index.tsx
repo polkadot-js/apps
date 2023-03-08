@@ -14,7 +14,7 @@ import { useApi, useAvailableSlashes } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN, BN_ZERO } from '@polkadot/util';
 
-import ElectionBanner from '../ElectionBanner';
+import ElectionBanner from '../ElectionBanner.js';
 import { useTranslation } from '../translate.js';
 import Accounts from './Accounts';
 import NewNominator from './NewNominator';

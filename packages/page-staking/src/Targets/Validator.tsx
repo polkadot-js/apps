@@ -13,7 +13,7 @@ import { useApi, useBlockTime, useDeriveAccountInfo } from '@polkadot/react-hook
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import MaxBadge from '../MaxBadge';
+import MaxBadge from '../MaxBadge.js';
 import { useTranslation } from '../translate.js';
 
 interface Props {

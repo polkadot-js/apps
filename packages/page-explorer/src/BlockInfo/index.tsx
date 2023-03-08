@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 import { useBestNumber } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
 
-import Query from '../Query';
+import Query from '../Query.js';
 import BlockByHash from './ByHash';
 import BlockByNumber from './ByNumber';
 

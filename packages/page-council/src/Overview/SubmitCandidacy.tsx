@@ -10,7 +10,7 @@ import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/r
 import { useApi, useModal } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
-import { useModuleElections } from '../useModuleElections';
+import { useModuleElections } from '../useModuleElections.js';
 
 function SubmitCandidacy ({ electionsInfo }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();

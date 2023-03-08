@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
 import { useApi } from '@polkadot/react-hooks';
 
-import Extrinsics from '../BlockInfo/Extrinsics';
+import Extrinsics from '../BlockInfo/Extrinsics.js';
 import { useTranslation } from '../translate.js';
 import Peers from './Peers';
 import Summary from './Summary';

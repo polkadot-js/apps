@@ -19,8 +19,8 @@ import { AccountId, Multisig, ProxyDefinition, Timepoint, Voting, VotingDelegati
 import { keyring } from '@polkadot/ui-keyring';
 import { BN } from '@polkadot/util';
 
-import { AccountRow } from '../../test/pageElements/AccountRow';
-import { AccountsPage } from '../../test/pages/accountsPage';
+import { AccountRow } from '../../test/pageElements/AccountRow.js';
+import { AccountsPage } from '../../test/pages/accountsPage.js';
 
 // FIXME isSplit Table
 describe.skip('Accounts page', () => {

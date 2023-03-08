@@ -10,7 +10,7 @@ import { InputAddressMulti, Modal, Spinner, TxButton } from '@polkadot/react-com
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate.js';
-import SenderInfo from '../partials/SenderInfo';
+import SenderInfo from '../partials/SenderInfo.js';
 
 interface Props {
   className?: string;

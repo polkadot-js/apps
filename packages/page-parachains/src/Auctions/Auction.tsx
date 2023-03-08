@@ -10,7 +10,7 @@ import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
-import { useLeaseRangeMax } from '../useLeaseRanges';
+import { useLeaseRangeMax } from '../useLeaseRanges.js';
 import WinRange from './WinRange';
 
 interface Props {

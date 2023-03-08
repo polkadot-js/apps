@@ -11,7 +11,7 @@ import React, { useMemo } from 'react';
 import { AddressSmall, Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import Votes from '../Overview/Votes';
+import Votes from '../Overview/Votes.js';
 import BidType from './BidType';
 import CandidateVoting from './CandidateVoting';
 

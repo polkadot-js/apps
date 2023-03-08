@@ -9,7 +9,7 @@ import { InputAddress, InputAddressMulti, InputNumber, Modal, TxButton } from '@
 import { useApi } from '@polkadot/react-hooks';
 import { sortAddresses } from '@polkadot/util-crypto';
 
-import useKnownAddresses from '../Accounts/useKnownAddresses';
+import useKnownAddresses from '../Accounts/useKnownAddresses.js';
 import { useTranslation } from '../translate.js';
 
 interface Props {

@@ -8,7 +8,7 @@ import React, { useMemo } from 'react';
 import { useBountyStatus } from '@polkadot/app-bounties/hooks';
 import { BN, BN_HUNDRED, BN_ZERO } from '@polkadot/util';
 
-import { useBounties } from '../hooks';
+import { useBounties } from '../hooks.js';
 import { useTranslation } from '../translate.js';
 import BountyInfo from './BountyInfo';
 

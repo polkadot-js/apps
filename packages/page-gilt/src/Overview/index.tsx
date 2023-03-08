@@ -5,7 +5,7 @@ import React, { useMemo } from 'react';
 
 import { Button } from '@polkadot/react-components';
 
-import { useProxies } from '../useProxies';
+import { useProxies } from '../useProxies.js';
 import BidAdd from './BidAdd';
 import Queues from './Queues';
 import Summary from './Summary';

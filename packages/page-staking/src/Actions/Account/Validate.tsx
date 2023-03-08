@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { ValidateInfo } from '../partials/types';
+import type { ValidateInfo } from '../partials/types.js';
 
 import React, { useState } from 'react';
 
 import { Modal, TxButton } from '@polkadot/react-components';
 
 import { useTranslation } from '../../translate.js';
-import ValidatePartial from '../partials/Validate';
+import ValidatePartial from '../partials/Validate.js';
 
 interface Props {
   controllerId: string;

@@ -11,7 +11,7 @@ import { Button, Dropdown, Spinner, styled, Table } from '@polkadot/react-compon
 import { useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
-import useExtensions from '../useExtensions';
+import useExtensions from '../useExtensions.js';
 import iconOption from './iconOption';
 
 interface Props {

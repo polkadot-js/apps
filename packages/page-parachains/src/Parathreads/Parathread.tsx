@@ -9,9 +9,9 @@ import React, { useMemo } from 'react';
 import { AddressSmall, ParaLink, Table, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi } from '@polkadot/react-hooks';
 
-import Lifecycle from '../Overview/Lifecycle';
-// import ParachainInfo from '../Overview/ParachainInfo';
-import Periods from '../Overview/Periods';
+import Lifecycle from '../Overview/Lifecycle.js';
+// import ParachainInfo from '../Overview/ParachainInfo.js';
+import Periods from '../Overview/Periods.js';
 import { useTranslation } from '../translate.js';
 import useThreadInfo from './useThreadInfo';
 

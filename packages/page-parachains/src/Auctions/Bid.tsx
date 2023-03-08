@@ -11,9 +11,9 @@ import { Button, Dropdown, InputBalance, Modal, TxButton } from '@polkadot/react
 import { useAccounts, useApi, useBestNumber, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO, formatNumber } from '@polkadot/util';
 
-import InputOwner from '../InputOwner';
+import InputOwner from '../InputOwner.js';
 import { useTranslation } from '../translate.js';
-import { useLeaseRanges } from '../useLeaseRanges';
+import { useLeaseRanges } from '../useLeaseRanges.js';
 
 interface Props {
   auctionInfo?: AuctionInfo;

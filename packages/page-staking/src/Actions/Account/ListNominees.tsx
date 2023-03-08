@@ -11,7 +11,7 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { isFunction, isToBn } from '@polkadot/util';
 
 import { useTranslation } from '../../translate.js';
-import useInactives from '../useInactives';
+import useInactives from '../useInactives.js';
 
 interface Props {
   nominating?: string[];

@@ -15,7 +15,7 @@ import generator from '@polkadot/vanitygen/generator';
 import matchRegex from '@polkadot/vanitygen/regex';
 import generatorSort from '@polkadot/vanitygen/sort';
 
-import CreateModal from '../modals/Create';
+import CreateModal from '../modals/Create.js';
 import { useTranslation } from '../translate.js';
 import Match from './Match';
 

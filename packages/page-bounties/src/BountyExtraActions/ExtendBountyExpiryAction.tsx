@@ -8,9 +8,9 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useBlockTime } from '@polkadot/react-hooks';
 
-import { truncateTitle } from '../helpers';
-import { increaseDateByBlocks } from '../helpers/increaseDateByBlocks';
-import { useBounties } from '../hooks';
+import { truncateTitle } from '../helpers.js';
+import { increaseDateByBlocks } from '../helpers/increaseDateByBlocks.js';
+import { useBounties } from '../hooks.js';
 import { useTranslation } from '../translate.js';
 
 interface Props {

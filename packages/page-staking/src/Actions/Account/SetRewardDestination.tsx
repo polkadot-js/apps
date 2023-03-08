@@ -11,7 +11,7 @@ import { Dropdown, InputAddress, MarkError, Modal, TxButton } from '@polkadot/re
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate.js';
-import { createDestCurr } from '../destOptions';
+import { createDestCurr } from '../destOptions.js';
 
 interface Props {
   defaultDestination?: RewardDestination;

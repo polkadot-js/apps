@@ -13,7 +13,7 @@ import { mockApiHooks } from '@polkadot/test-support/utils/mockApiHooks';
 import { RegistrationJudgement } from '@polkadot/types/interfaces';
 import { keyring } from '@polkadot/ui-keyring';
 
-import { AccountsPage } from '../../test/pages/accountsPage';
+import { AccountsPage } from '../../test/pages/accountsPage.js';
 
 // FIXME: these all need to be wrapped in waitFor ....
 describe.skip('Sidebar', () => {

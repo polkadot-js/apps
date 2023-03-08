@@ -12,14 +12,14 @@ import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import useReferenda from '../useReferenda';
-import useSummary from '../useSummary';
+import useReferenda from '../useReferenda.js';
+import useSummary from '../useSummary.js';
 import Delegate from './Delegate';
 import Group from './Group';
 import Submit from './Submit';
 import Summary from './Summary';
 
-export { useCounterNamed as useCounter } from '../useCounter';
+export { useCounterNamed as useCounter } from '../useCounter.js';
 
 interface Props {
   className?: string;

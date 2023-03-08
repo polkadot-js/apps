@@ -14,10 +14,10 @@ import { BalanceFree, BlockToTime } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../../translate.js';
-import InputValidateAmount from '../Account/InputValidateAmount';
-import InputValidationController from '../Account/InputValidationController';
-import { createDestCurr } from '../destOptions';
-import useUnbondDuration from '../useUnbondDuration';
+import InputValidateAmount from '../Account/InputValidateAmount.js';
+import InputValidationController from '../Account/InputValidationController.js';
+import { createDestCurr } from '../destOptions.js';
+import useUnbondDuration from '../useUnbondDuration.js';
 
 interface Props {
   className?: string;

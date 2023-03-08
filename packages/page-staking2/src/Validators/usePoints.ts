@@ -10,7 +10,7 @@ import { useMemo } from 'react';
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useCacheValue } from '../useCache';
+import { useCacheValue } from '../useCache.js';
 
 const OPT_POINTS = {
   transform: ({ individual }: PalletStakingEraRewardPoints): UsePoints =>

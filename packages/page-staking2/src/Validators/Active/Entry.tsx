@@ -10,8 +10,8 @@ import { useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import useExposure from '../useExposure';
-import useHeartbeat from '../useHeartbeat';
+import useExposure from '../useExposure.js';
+import useHeartbeat from '../useHeartbeat.js';
 import Bottom from './Row/Bottom';
 import Middle from './Row/Middle';
 import Top from './Row/Top';

@@ -10,7 +10,7 @@ import { Table } from '@polkadot/test-support/pagesElements';
 import { balance } from '@polkadot/test-support/utils/balance';
 import { keyring } from '@polkadot/ui-keyring';
 
-import { AddressesPage } from '../../test/pages/addressesPage';
+import { AddressesPage } from '../../test/pages/addressesPage.js';
 
 // FIXME isSplit Table
 describe.skip('Addresses page', () => {

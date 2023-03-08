@@ -5,7 +5,7 @@ import React from 'react';
 
 import { useApi } from '@polkadot/react-hooks';
 
-import useChainInfo from '../useChainInfo';
+import useChainInfo from '../useChainInfo.js';
 import Extensions from './Extensions';
 import NetworkSpecs from './NetworkSpecs';
 

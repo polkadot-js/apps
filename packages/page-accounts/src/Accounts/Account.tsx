@@ -19,20 +19,20 @@ import { useAccountInfo, useApi, useBalancesAll, useBestNumber, useCall, useLedg
 import { keyring } from '@polkadot/ui-keyring';
 import { BN, BN_ZERO, formatBalance, formatNumber, isFunction } from '@polkadot/util';
 
-import Backup from '../modals/Backup';
-import ChangePass from '../modals/ChangePass';
-import DelegateModal from '../modals/Delegate';
-import Derive from '../modals/Derive';
-import IdentityMain from '../modals/IdentityMain';
-import IdentitySub from '../modals/IdentitySub';
-import MultisigApprove from '../modals/MultisigApprove';
-import ProxyOverview from '../modals/ProxyOverview';
-import RecoverAccount from '../modals/RecoverAccount';
-import RecoverSetup from '../modals/RecoverSetup';
-import Transfer from '../modals/Transfer';
-import UndelegateModal from '../modals/Undelegate';
+import Backup from '../modals/Backup.js';
+import ChangePass from '../modals/ChangePass.js';
+import DelegateModal from '../modals/Delegate.js';
+import Derive from '../modals/Derive.js';
+import IdentityMain from '../modals/IdentityMain.js';
+import IdentitySub from '../modals/IdentitySub.js';
+import MultisigApprove from '../modals/MultisigApprove.js';
+import ProxyOverview from '../modals/ProxyOverview.js';
+import RecoverAccount from '../modals/RecoverAccount.js';
+import RecoverSetup from '../modals/RecoverSetup.js';
+import Transfer from '../modals/Transfer.js';
+import UndelegateModal from '../modals/Undelegate.js';
 import { useTranslation } from '../translate.js';
-import { createMenuGroup } from '../util';
+import { createMenuGroup } from '../util.js';
 import useMultisigApprovals from './useMultisigApprovals';
 import useProxies from './useProxies';
 

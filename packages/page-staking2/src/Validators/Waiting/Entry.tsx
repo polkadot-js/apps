@@ -7,9 +7,9 @@ import React from 'react';
 
 import { useToggle } from '@polkadot/react-hooks';
 
-import Bottom from '../Active/Row/Bottom';
-import Middle from '../Active/Row/Middle';
-import Top from '../Active/Row/Top';
+import Bottom from '../Active/Row/Bottom.js';
+import Middle from '../Active/Row/Middle.js';
+import Top from '../Active/Row/Top.js';
 
 interface Props {
   className?: string;

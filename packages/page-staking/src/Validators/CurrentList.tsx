@@ -11,8 +11,8 @@ import React, { useMemo, useRef, useState } from 'react';
 import { Table } from '@polkadot/react-components';
 import { useApi, useBlockAuthors, useNextTick } from '@polkadot/react-hooks';
 
-import Filtering from '../Filtering';
-import Legend from '../Legend';
+import Filtering from '../Filtering.js';
+import Legend from '../Legend.js';
 import { useTranslation } from '../translate.js';
 import Address from './Address';
 

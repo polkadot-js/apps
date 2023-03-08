@@ -12,7 +12,7 @@ import { BalanceFree } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../../translate.js';
-import PoolInfo from '../partials/PoolInfo';
+import PoolInfo from '../partials/PoolInfo.js';
 
 interface Props {
   className?: string;

@@ -13,7 +13,7 @@ import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { convertWeight } from '@polkadot/react-hooks/useWeight';
 import { formatNumber } from '@polkadot/util';
 
-import Events from '../Events';
+import Events from '../Events.js';
 import { useTranslation } from '../translate.js';
 import Extrinsics from './Extrinsics';
 import Justifications from './Justifications';

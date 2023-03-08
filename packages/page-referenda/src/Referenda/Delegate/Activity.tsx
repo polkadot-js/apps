@@ -10,7 +10,7 @@ import { MarkWarning, styled, Table } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate.js';
-import { getTrackInfo } from '../../util';
+import { getTrackInfo } from '../../util.js';
 
 interface Props {
   allowEmpty?: boolean;

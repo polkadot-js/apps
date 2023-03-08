@@ -8,7 +8,7 @@ import React, { useRef } from 'react';
 import { Button, styled, Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate.js';
-import usePreimages from '../usePreimages';
+import usePreimages from '../usePreimages.js';
 import Add from './Add';
 import Preimage from './Preimage';
 import Summary from './Summary';

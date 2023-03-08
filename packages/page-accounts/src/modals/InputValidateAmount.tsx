@@ -3,7 +3,7 @@
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { BN } from '@polkadot/util';
-import type { AmountValidateState } from '../Accounts/types';
+import type { AmountValidateState } from '../Accounts/types.js';
 
 import React, { useEffect, useState } from 'react';
 

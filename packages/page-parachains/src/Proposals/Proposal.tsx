@@ -12,7 +12,7 @@ import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import { sliceHex } from '../util';
+import { sliceHex } from '../util.js';
 import useProposal from './useProposal';
 
 interface Props {

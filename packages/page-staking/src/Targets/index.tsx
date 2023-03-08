@@ -13,12 +13,12 @@ import { Button, Icon, styled, Table, Toggle } from '@polkadot/react-components'
 import { useApi, useAvailableSlashes, useBlocksPerDays, useSavedFlags } from '@polkadot/react-hooks';
 import { BN_HUNDRED } from '@polkadot/util';
 
-import { MAX_NOMINATIONS } from '../constants';
-import ElectionBanner from '../ElectionBanner';
-import Filtering from '../Filtering';
-import Legend from '../Legend';
+import { MAX_NOMINATIONS } from '../constants.js';
+import ElectionBanner from '../ElectionBanner.js';
+import Filtering from '../Filtering.js';
+import Legend from '../Legend.js';
 import { useTranslation } from '../translate.js';
-import useIdentities from '../useIdentities';
+import useIdentities from '../useIdentities.js';
 import Nominate from './Nominate';
 import Summary from './Summary';
 import useOwnNominators from './useOwnNominators';

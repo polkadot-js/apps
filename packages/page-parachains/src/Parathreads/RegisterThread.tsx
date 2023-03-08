@@ -10,7 +10,7 @@ import { InputAddress, InputBalance, InputFile, InputNumber, Modal, TxButton } f
 import { useApi } from '@polkadot/react-hooks';
 import { BN, compactAddLength } from '@polkadot/util';
 
-import InputOwner from '../InputOwner';
+import InputOwner from '../InputOwner.js';
 import { useTranslation } from '../translate.js';
 import { LOWEST_INVALID_ID } from './constants';
 

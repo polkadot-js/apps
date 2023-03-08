@@ -9,7 +9,7 @@ import { Table } from '@polkadot/react-components';
 import { useNextTick } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate.js';
-import useValidatorsWaiting from '../../useValidatorsWaiting';
+import useValidatorsWaiting from '../../useValidatorsWaiting.js';
 import Entry from './Entry';
 
 interface Props {

@@ -5,7 +5,7 @@ import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 
-import contracts from '../store';
+import contracts from '../store.js';
 import { useTranslation } from '../translate.js';
 import Code from './Code';
 

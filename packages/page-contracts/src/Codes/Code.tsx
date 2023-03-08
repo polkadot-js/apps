@@ -10,10 +10,10 @@ import React, { useCallback } from 'react';
 import { Button, Card, CopyButton, Forget, styled } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 
-import { CodeRow, Messages } from '../shared';
-import store from '../store';
+import { CodeRow, Messages } from '../shared.js';
+import store from '../store.js';
 import { useTranslation } from '../translate.js';
-import useAbi from '../useAbi';
+import useAbi from '../useAbi.js';
 
 interface Props {
   className?: string;

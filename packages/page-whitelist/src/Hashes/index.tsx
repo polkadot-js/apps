@@ -8,7 +8,7 @@ import React, { useRef } from 'react';
 import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate.js';
-import useHashes from '../useHashes';
+import useHashes from '../useHashes.js';
 import Details from './Details';
 import Summary from './Summary';
 

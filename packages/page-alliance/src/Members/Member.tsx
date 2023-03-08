@@ -10,7 +10,7 @@ import { AddressSmall, Menu, Popup, Tag } from '@polkadot/react-components';
 import { useAccounts, useApi, useQueue } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
-import useMemberInfo from '../useMemberInfo';
+import useMemberInfo from '../useMemberInfo.js';
 
 interface Props {
   bestNumber?: BN;

@@ -10,8 +10,8 @@ import { useApi } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from '../../translate.js';
-import PoolInfo from '../partials/PoolInfo';
-import useUnbondDuration from '../useUnbondDuration';
+import PoolInfo from '../partials/PoolInfo.js';
+import useUnbondDuration from '../useUnbondDuration.js';
 
 interface Props {
   className?: string;

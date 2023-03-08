@@ -9,7 +9,7 @@ import Legend from '@polkadot/app-staking/Legend';
 import { Button, styled, ToggleGroup } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate.js';
-import useValidatorsActive from '../useValidatorsActive';
+import useValidatorsActive from '../useValidatorsActive.js';
 import Active from './Active';
 import usePoints from './usePoints';
 import Waiting from './Waiting';

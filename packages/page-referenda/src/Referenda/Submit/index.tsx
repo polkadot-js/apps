@@ -16,7 +16,7 @@ import { getTypeDef } from '@polkadot/types/create';
 import { BN_HUNDRED, BN_ONE, BN_THOUSAND, BN_ZERO, isHex } from '@polkadot/util';
 
 import { useTranslation } from '../../translate.js';
-import { getTrackInfo } from '../../util';
+import { getTrackInfo } from '../../util.js';
 import TrackDropdown from './TrackDropdown';
 
 interface Props {

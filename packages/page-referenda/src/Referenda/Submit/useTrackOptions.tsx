@@ -11,7 +11,7 @@ import React, { useMemo } from 'react';
 import { createNamedHook, useApi } from '@polkadot/react-hooks';
 import { bnToBn } from '@polkadot/util';
 
-import { getTrackInfo, getTrackName } from '../../util';
+import { getTrackInfo, getTrackName } from '../../util.js';
 
 function getTrackOptions (api: ApiPromise, specName: string, palletReferenda: string, tracks: TrackDescription[], include?: (BN | number)[], exclude?: (BN | number)[]): TrackOption[] {
   const includeBn = include && include.map((v) => bnToBn(v));

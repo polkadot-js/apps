@@ -3,7 +3,7 @@
 
 import type { Conviction } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
-import type { AmountValidateState } from '../Accounts/types';
+import type { AmountValidateState } from '../Accounts/types.js';
 
 import React, { useState } from 'react';
 

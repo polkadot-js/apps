@@ -8,7 +8,7 @@ import React from 'react';
 
 import { AddressSmall, Table } from '@polkadot/react-components';
 
-import Status from '../Status';
+import Status from '../Status.js';
 
 interface Props {
   children?: React.ReactNode;

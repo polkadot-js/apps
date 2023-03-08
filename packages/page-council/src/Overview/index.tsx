@@ -9,7 +9,7 @@ import React from 'react';
 import { Button } from '@polkadot/react-components';
 import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 
-import { useModuleElections } from '../useModuleElections';
+import { useModuleElections } from '../useModuleElections.js';
 import Candidates from './Candidates';
 import Members from './Members';
 import SubmitCandidacy from './SubmitCandidacy';

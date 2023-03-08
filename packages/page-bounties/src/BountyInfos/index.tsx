@@ -8,8 +8,8 @@ import React, { useMemo } from 'react';
 
 import { AddressSmall } from '@polkadot/react-components';
 
-import Description from '../Description';
-import { getProposalToDisplay } from '../helpers/extendedStatuses';
+import Description from '../Description.js';
+import { getProposalToDisplay } from '../helpers/extendedStatuses.js';
 import { useTranslation } from '../translate.js';
 import VotingSummary from './VotingSummary';
 

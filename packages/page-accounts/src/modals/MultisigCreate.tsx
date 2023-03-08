@@ -12,7 +12,7 @@ import { keyring } from '@polkadot/ui-keyring';
 import { assert, BN, u8aToString } from '@polkadot/util';
 import { validateAddress } from '@polkadot/util-crypto';
 
-import useKnownAddresses from '../Accounts/useKnownAddresses';
+import useKnownAddresses from '../Accounts/useKnownAddresses.js';
 import { useTranslation } from '../translate.js';
 
 interface Props extends ModalProps {

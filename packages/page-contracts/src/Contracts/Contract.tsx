@@ -15,7 +15,7 @@ import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { isUndefined } from '@polkadot/util';
 
-import Messages from '../shared/Messages';
+import Messages from '../shared/Messages.js';
 import { useTranslation } from '../translate.js';
 
 interface Props {

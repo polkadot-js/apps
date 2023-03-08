@@ -11,7 +11,7 @@ import { useApi, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import { useModuleElections } from '../useModuleElections';
+import { useModuleElections } from '../useModuleElections.js';
 
 interface Props {
   className?: string;

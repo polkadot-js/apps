@@ -13,7 +13,7 @@ import { Button, MarkWarning, styled, Table, ToggleGroup } from '@polkadot/react
 import { useApi, useBlockInterval, useCall, useOwnEraRewards } from '@polkadot/react-hooks';
 import { BN, BN_THREE } from '@polkadot/util';
 
-import ElectionBanner from '../ElectionBanner';
+import ElectionBanner from '../ElectionBanner.js';
 import { useTranslation } from '../translate.js';
 import PayButton from './PayButton';
 import Stash from './Stash';

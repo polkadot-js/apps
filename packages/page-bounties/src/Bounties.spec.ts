@@ -20,8 +20,8 @@ import { alice, bob } from '@polkadot/test-support/keyring/addresses';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN } from '@polkadot/util';
 
-import { defaultBountyUpdatePeriod, mockBountyHooks } from '../test/hooks/defaults';
-import { BountiesPage } from '../test/pages/bountiesPage';
+import { defaultBountyUpdatePeriod, mockBountyHooks } from '../test/hooks/defaults.js';
+import { BountiesPage } from '../test/pages/bountiesPage.js';
 import { BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING } from './BountyNextActionInfo/BountyActionMessage';
 
 jest.mock('@polkadot/react-hooks/useTreasury', () => ({

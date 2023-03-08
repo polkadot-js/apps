@@ -12,7 +12,7 @@ import { BlockToTime } from '@polkadot/react-query';
 import { BN, BN_ONE, formatNumber, isBoolean } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import useChangeCalc from '../useChangeCalc';
+import useChangeCalc from '../useChangeCalc.js';
 import PreImageButton from './PreImageButton';
 import ProposalCell from './ProposalCell';
 import ReferendumVotes from './ReferendumVotes';

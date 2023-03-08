@@ -8,7 +8,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Icon, styled } from '@polkadot/react-components';
 import Row from '@polkadot/react-components/Row';
 
-import contracts from '../store';
+import contracts from '../store.js';
 
 interface Props {
   buttons?: React.ReactNode;

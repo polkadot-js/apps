@@ -10,7 +10,7 @@ import { CardSummary, NextTick, styled, SummaryBox } from '@polkadot/react-compo
 import { useApiStats } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
-import Chart from '../Latency/Chart';
+import Chart from '../Latency/Chart.js';
 import { useTranslation } from '../translate.js';
 
 interface Props {

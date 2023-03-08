@@ -9,7 +9,7 @@ import { assertButtonDisabled, assertText, clickButton, fillInput } from '@polka
 import { keyring } from '@polkadot/ui-keyring';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
-import { AccountsPage } from '../../test/pages/accountsPage';
+import { AccountsPage } from '../../test/pages/accountsPage.js';
 
 const spy = jest.spyOn(keyring, 'addUri');
 

@@ -11,8 +11,8 @@ import { Button, InputAddress, InputBalance, MarkError, Modal, TxButton } from '
 import { useApi, useCollectiveInstance, useCollectiveMembers, useToggle } from '@polkadot/react-hooks';
 import { BN } from '@polkadot/util';
 
-import { truncateTitle } from '../helpers';
-import { useBounties } from '../hooks';
+import { truncateTitle } from '../helpers.js';
+import { useBounties } from '../hooks.js';
 import { useTranslation } from '../translate.js';
 
 interface Props {

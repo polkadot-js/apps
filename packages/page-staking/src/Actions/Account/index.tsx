@@ -15,7 +15,7 @@ import { useApi, useCall, useQueue, useToggle } from '@polkadot/react-hooks';
 import { BN, formatNumber, isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../../translate.js';
-import useSlashingSpans from '../useSlashingSpans';
+import useSlashingSpans from '../useSlashingSpans.js';
 import BondExtra from './BondExtra';
 import InjectKeys from './InjectKeys';
 import KickNominees from './KickNominees';

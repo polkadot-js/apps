@@ -7,7 +7,7 @@ import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
 
-import { useBountyStatus } from '../hooks';
+import { useBountyStatus } from '../hooks.js';
 import AwardBounty from './AwardBounty';
 import BountyAcceptCurator from './BountyAcceptCurator';
 import BountyClaimAction from './BountyClaimAction';

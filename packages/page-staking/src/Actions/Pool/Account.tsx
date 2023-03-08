@@ -14,9 +14,9 @@ import { FormatBalance } from '@polkadot/react-query';
 import { BN, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../../translate.js';
-import ListNominees from '../Account/ListNominees';
-import Nominate from '../Account/Nominate';
-import useSlashingSpans from '../useSlashingSpans';
+import ListNominees from '../Account/ListNominees.js';
+import Nominate from '../Account/Nominate.js';
+import useSlashingSpans from '../useSlashingSpans.js';
 import BondExtra from './BondExtra';
 import Unbond from './Unbond';
 import useAccountInfo from './useAccountInfo';

@@ -11,7 +11,7 @@ import { AddressMini, CallExpander, LinkExternal, styled } from '@polkadot/react
 import { convertWeight } from '@polkadot/react-hooks/useWeight';
 import { BN, formatNumber } from '@polkadot/util';
 
-import Event from '../Event';
+import Event from '../Event.js';
 import { useTranslation } from '../translate.js';
 
 interface Props {

@@ -11,7 +11,7 @@ import { useAccounts, useApi, useStepper, useToggle } from '@polkadot/react-hook
 import { isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../../translate.js';
-import TrackDropdown from '../Submit/TrackDropdown';
+import TrackDropdown from '../Submit/TrackDropdown.js';
 import Activity from './Activity';
 import useActivityAccount from './useActivityAccount';
 import useActivityFellows from './useActivityFellows';

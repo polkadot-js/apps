@@ -6,10 +6,10 @@ import React, { useCallback, useState } from 'react';
 import { Button, Input, Modal } from '@polkadot/react-components';
 import { isNull } from '@polkadot/util';
 
-import { ABI, InputName } from '../shared';
-import store from '../store';
+import { ABI, InputName } from '../shared.js';
+import store from '../store.js';
 import { useTranslation } from '../translate.js';
-import useAbi from '../useAbi';
+import useAbi from '../useAbi.js';
 import ValidateCode from './ValidateCode';
 
 interface Props {
