@@ -10,7 +10,7 @@ import '@polkadot/api-augment/substrate';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 
-import Root from './Root';
+import Root from './Root.js';
 
 const rootId = 'root';
 const rootElement = document.getElementById(rootId);

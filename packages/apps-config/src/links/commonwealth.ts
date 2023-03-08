@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { ExternalDef } from './types.js';
 
-import { externalCommonwealthPNG } from '../ui/logos/external';
+import { externalCommonwealthPNG } from '../ui/logos/external.js';
 
 const HASH_PATHS = ['proposal/councilmotion'];
 

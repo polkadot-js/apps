@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { ExternalDef } from './types.js';
 
-import { externalPolkascanPNG } from '../ui/logos/external';
+import { externalPolkascanPNG } from '../ui/logos/external.js';
 
 export const Polkascan: ExternalDef = {
   chains: {

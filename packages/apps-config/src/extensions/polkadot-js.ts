@@ -3,8 +3,8 @@
 
 import type { Known } from './types.js';
 
-import { extensionsPolkadotJsSVG } from '../ui/logos/extensions';
-import { externalEmptySVG } from '../ui/logos/external';
+import { extensionsPolkadotJsSVG } from '../ui/logos/extensions.js';
+import { externalEmptySVG } from '../ui/logos/external.js';
 
 export const PolkadotJs: Known = {
   all: {

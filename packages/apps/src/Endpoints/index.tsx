@@ -15,7 +15,7 @@ import { settings } from '@polkadot/ui-settings';
 import { isAscii } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import GroupDisplay from './Group';
+import GroupDisplay from './Group.js';
 
 interface Props {
   className?: string;

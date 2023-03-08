@@ -7,8 +7,8 @@ import * as tmp from 'tmp';
 
 import { FileStore } from '@polkadot/ui-keyring/stores';
 
-import { accountStoreIpcHandler } from './account-store';
-import { IpcMainHandler } from './ipc-main-handler';
+import { accountStoreIpcHandler } from './account-store.js';
+import { IpcMainHandler } from './ipc-main-handler.js';
 
 const exampleAccount = (address: string): KeyringJson => ({
   address,

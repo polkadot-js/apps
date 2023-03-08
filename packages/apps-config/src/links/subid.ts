@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { ExternalDef } from './types.js';
 
-import { externalSubidSVG } from '../ui/logos/external';
+import { externalSubidSVG } from '../ui/logos/external.js';
 
 export const SubId: ExternalDef = {
   chains: {

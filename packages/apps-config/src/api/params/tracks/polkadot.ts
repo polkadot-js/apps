@@ -5,7 +5,7 @@ import type { TrackInfo } from './types.js';
 
 import { BN } from '@polkadot/util';
 
-import { compareFellowshipRank, formatSpendFactory } from './util';
+import { compareFellowshipRank, formatSpendFactory } from './util.js';
 
 // hardcoded here since this is static (hopefully no re-denomination anytime...)
 const formatSpend = formatSpendFactory({

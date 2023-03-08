@@ -7,7 +7,7 @@ import React, { useCallback, useMemo } from 'react';
 
 import { Icon, styled } from '@polkadot/react-components';
 
-import Network from './Network';
+import Network from './Network.js';
 
 interface Props {
   affinities: Record<string, string>;

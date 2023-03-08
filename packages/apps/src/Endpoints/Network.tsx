@@ -8,7 +8,7 @@ import React, { useCallback, useMemo } from 'react';
 import { ChainImg, styled } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate.js';
-import Url from './Url';
+import Url from './Url.js';
 
 interface Props {
   affinity?: string; // unused - previous selection

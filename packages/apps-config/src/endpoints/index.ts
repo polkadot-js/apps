@@ -4,14 +4,14 @@
 import type { TFunction, TOptions } from '../types.js';
 import type { LinkOption } from './types.js';
 
-import { createCustom, createDev, createOwn } from './development';
-import { prodChains, prodRelayKusama, prodRelayPolkadot } from './production';
-import { testChains, testRelayRococo, testRelayWestend } from './testing';
-import { expandEndpoints } from './util';
+import { createCustom, createDev, createOwn } from './development.js';
+import { prodChains, prodRelayKusama, prodRelayPolkadot } from './production.js';
+import { testChains, testRelayRococo, testRelayWestend } from './testing.js';
+import { expandEndpoints } from './util.js';
 
-export { CUSTOM_ENDPOINT_KEY } from './development';
-export * from './production';
-export * from './testing';
+export { CUSTOM_ENDPOINT_KEY } from './development.js';
+export * from './production.js';
+export * from './testing.js';
 
 function defaultT (keyOrText: string, text?: string, options?: TOptions): string {
   return (

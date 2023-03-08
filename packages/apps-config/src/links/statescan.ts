@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { ExternalDef } from './types.js';
 
-import { externalStatescanSVG } from '../ui/logos/external';
+import { externalStatescanSVG } from '../ui/logos/external.js';
 
 export const Statescan: ExternalDef = {
   chains: {

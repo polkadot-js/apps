@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { ExternalDef } from './types.js';
 
-import { externalSingularSVG } from '../ui/logos/external';
+import { externalSingularSVG } from '../ui/logos/external.js';
 
 const getNetwork = (_chain: string) => {
   switch (_chain) {

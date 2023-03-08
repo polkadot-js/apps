@@ -4,8 +4,8 @@
 import { assert, isString } from '@polkadot/util';
 import { WebSocket } from '@polkadot/x-ws';
 
-import { createWsEndpoints } from '../endpoints';
-import { fetchJson } from './fetch';
+import { createWsEndpoints } from '../endpoints.js';
+import { fetchJson } from './fetch.js';
 
 interface Endpoint {
   name: string;

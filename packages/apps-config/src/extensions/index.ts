@@ -3,7 +3,7 @@
 
 import type { Browser, Extension, Known } from './types.js';
 
-import { PolkadotJs } from './polkadot-js';
+import { PolkadotJs } from './polkadot-js.js';
 
 // The list of known extensions including the links to tem on the store. This is
 // used when no extensions are actually available, promoting the user to install

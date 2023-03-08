@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { ExternalDef } from './types.js';
 
-import { externalSubsquareSVG } from '../ui/logos/external';
+import { externalSubsquareSVG } from '../ui/logos/external.js';
 
 export const Subsquare: ExternalDef = {
   chains: {

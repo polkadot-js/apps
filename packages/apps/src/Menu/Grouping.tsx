@@ -7,7 +7,7 @@ import React from 'react';
 
 import { Icon, styled } from '@polkadot/react-components';
 
-import Item from './Item';
+import Item from './Item.js';
 
 interface Props extends Group {
   className?: string;

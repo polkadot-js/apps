@@ -4,9 +4,9 @@
 import type { ApiPromise } from '@polkadot/api';
 import type { TrackInfo } from './types.js';
 
-import { KUSAMA_GENESIS, POLKADOT_GENESIS } from '../../constants';
-import { kusama } from './kusama';
-import { polkadot } from './polkadot';
+import { KUSAMA_GENESIS, POLKADOT_GENESIS } from '../../constants.js';
+import { kusama } from './kusama.js';
+import { polkadot } from './polkadot.js';
 
 const KNOWN_GENE_TRACKS: Record<string, Record<string, TrackInfo[]>> = {
   [KUSAMA_GENESIS]: kusama,

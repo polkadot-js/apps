@@ -4,7 +4,7 @@
 import type { BN } from '@polkadot/util';
 import type { ExternalDef } from './types.js';
 
-import { externalPolkaholicPNG } from '../ui/logos/external';
+import { externalPolkaholicPNG } from '../ui/logos/external.js';
 
 export const Polkaholic: ExternalDef = {
   chains: {

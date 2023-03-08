@@ -7,7 +7,7 @@ import { useApi } from '@polkadot/react-hooks';
 import { settings } from '@polkadot/ui-settings';
 
 import { useTranslation } from '../translate.js';
-import BaseOverlay from './Base';
+import BaseOverlay from './Base.js';
 
 const wsUrl = settings.apiType.param;
 const isWs = settings.apiType.type === 'json-rpc' && typeof wsUrl === 'string' && wsUrl.startsWith('ws://');

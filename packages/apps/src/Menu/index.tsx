@@ -14,12 +14,12 @@ import createRoutes from '@polkadot/apps-routing';
 import { styled } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall, useTeleport } from '@polkadot/react-hooks';
 
-import { findMissingApis } from '../endpoint';
+import { findMissingApis } from '../endpoint.js';
 import { useTranslation } from '../translate.js';
-import ChainInfo from './ChainInfo';
-import Grouping from './Grouping';
-import Item from './Item';
-import NodeInfo from './NodeInfo';
+import ChainInfo from './ChainInfo.js';
+import Grouping from './Grouping.js';
+import Item from './Item.js';
+import NodeInfo from './NodeInfo.js';
 
 interface Props {
   className?: string;
