@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParaId } from '@polkadot/types/interfaces';
-import type { LeasePeriod, Proposals, QueuedAction } from '../types';
+import type { LeasePeriod, Proposals, QueuedAction } from '../types.js';
 
 import React from 'react';
 

@@ -7,7 +7,7 @@ import React, { useMemo } from 'react';
 
 import { Table } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import Proposal from './Proposal';
 
 interface Props {

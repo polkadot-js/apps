@@ -6,6 +6,6 @@
 import { detectPackage } from '@polkadot/util';
 
 import others from './detectOther';
-import { packageInfo } from './packageInfo';
+import { packageInfo } from './packageInfo.js';
 
 detectPackage(packageInfo, null, others);

@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 
 import { Modal, TxButton } from '@polkadot/react-components';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../../translate.js';
 import SessionKeyPartital from '../partials/SessionKey';
 
 interface Props {

@@ -6,7 +6,7 @@ import React from 'react';
 import { styled } from '@polkadot/react-components';
 
 import { insertSpaceBeforeCapitalLetter } from './helpers';
-import { StatusName } from './types';
+import { StatusName } from './types.js';
 
 interface Props {
   bountyStatus: StatusName;

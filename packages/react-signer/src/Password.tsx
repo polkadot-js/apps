@@ -8,7 +8,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Modal, Password, styled, Toggle } from '@polkadot/react-components';
 import { keyring } from '@polkadot/ui-keyring';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 import { UNLOCK_MINS } from './util';
 
 interface Props {

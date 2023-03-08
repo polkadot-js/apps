@@ -17,7 +17,7 @@ import Crowdloan from './Crowdloan';
 import Overview from './Overview';
 import Parathreads from './Parathreads';
 import Proposals from './Proposals';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 import useActionsQueue from './useActionsQueue';
 import useAuctionInfo from './useAuctionInfo';
 import useFunds from './useFunds';

@@ -3,7 +3,7 @@
 
 import type { Option } from '@polkadot/types';
 import type { BN } from '@polkadot/util';
-import type { PalletReferenda, ReferendaGroup, ReferendaGroupKnown, Referendum, TrackDescription } from './types';
+import type { PalletReferenda, ReferendaGroup, ReferendaGroupKnown, Referendum, TrackDescription } from './types.js';
 
 import { useMemo } from 'react';
 

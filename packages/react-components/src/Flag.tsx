@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { FlagColor } from './types';
+import type { FlagColor } from './types.js';
 
 import React from 'react';
 

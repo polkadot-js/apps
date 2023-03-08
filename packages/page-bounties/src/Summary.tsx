@@ -10,7 +10,7 @@ import { useTreasury } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN, formatNumber } from '@polkadot/util';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;

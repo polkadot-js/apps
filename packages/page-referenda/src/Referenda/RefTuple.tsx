@@ -3,7 +3,7 @@
 
 import type { PalletReferendaDeposit } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { Referendum, ReferendumProps as Props } from '../types';
+import type { Referendum, ReferendumProps as Props } from '../types.js';
 
 import React, { useMemo } from 'react';
 

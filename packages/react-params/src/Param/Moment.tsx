@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Props, RawParamOnChangeValue } from '../types';
+import type { Props, RawParamOnChangeValue } from '../types.js';
 
 import React, { useCallback } from 'react';
 

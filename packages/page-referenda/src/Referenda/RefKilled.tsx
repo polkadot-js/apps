@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ReferendumProps as Props } from '../types';
+import type { ReferendumProps as Props } from '../types.js';
 
 import React, { useMemo } from 'react';
 

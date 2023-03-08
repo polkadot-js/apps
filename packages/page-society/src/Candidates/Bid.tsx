@@ -8,7 +8,7 @@ import React, { useMemo } from 'react';
 import { AddressSmall, Table, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import BidType from './BidType';
 
 interface Props {

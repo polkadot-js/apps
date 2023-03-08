@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { AccountIdIsh } from './types';
+import { AccountIdIsh } from './types.js';
 import { getAccountCryptoType } from './util';
 
 interface Props {

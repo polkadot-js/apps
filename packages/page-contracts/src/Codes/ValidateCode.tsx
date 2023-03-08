@@ -12,7 +12,7 @@ import { InfoForInput } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   codeHash?: string | null;

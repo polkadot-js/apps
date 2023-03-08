@@ -8,7 +8,7 @@ import React from 'react';
 import { Button } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import BidNew from './BidNew';
 import Bids from './Bids';
 import AllCandidates from './Candidates';

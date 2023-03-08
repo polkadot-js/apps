@@ -3,7 +3,7 @@
 
 import type { I18nProps } from '@polkadot/react-components/types';
 import type { Registry } from '@polkadot/types/types';
-import type { ComponentMap, ParamDef, RawParam, RawParamOnChangeValue, RawParams } from './types';
+import type { ComponentMap, ParamDef, RawParam, RawParamOnChangeValue, RawParams } from './types.js';
 
 import React from 'react';
 
@@ -13,7 +13,7 @@ import { stringify } from '@polkadot/util';
 
 import Holder from './Holder';
 import ParamComp from './ParamComp';
-import translate from './translate';
+import translate from './translate.js';
 import { createValue } from './values';
 
 interface Props extends I18nProps {

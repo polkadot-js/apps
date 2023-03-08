@@ -5,7 +5,7 @@ import '@polkadot/api-augment';
 
 import type { OwnPool } from '@polkadot/app-staking2/Pools/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
-import type { SortedTargets } from '../types';
+import type { SortedTargets } from '../types.js';
 
 import React, { useMemo, useRef, useState } from 'react';
 
@@ -15,7 +15,7 @@ import { FormatBalance } from '@polkadot/react-query';
 import { BN, BN_ZERO } from '@polkadot/util';
 
 import ElectionBanner from '../ElectionBanner';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import Accounts from './Accounts';
 import NewNominator from './NewNominator';
 import NewStash from './NewStash';

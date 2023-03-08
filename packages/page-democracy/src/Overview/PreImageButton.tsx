@@ -9,7 +9,7 @@ import React from 'react';
 import { Button } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import PreImage from './PreImage';
 
 interface Props {

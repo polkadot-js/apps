@@ -9,7 +9,7 @@ import React from 'react';
 import { CallExpander, Modal, styled } from '@polkadot/react-components';
 
 import PaymentInfo from './PaymentInfo';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   accountId?: string | null;

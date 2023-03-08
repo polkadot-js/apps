@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
-import type { ModalProps } from '../types';
+import type { ModalProps } from '../types.js';
 
 import React, { useCallback, useState } from 'react';
 
@@ -13,7 +13,7 @@ import { assert, BN, u8aToString } from '@polkadot/util';
 import { validateAddress } from '@polkadot/util-crypto';
 
 import useKnownAddresses from '../Accounts/useKnownAddresses';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props extends ModalProps {
   className?: string;

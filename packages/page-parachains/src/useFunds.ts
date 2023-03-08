@@ -5,7 +5,7 @@ import type { Option, StorageKey } from '@polkadot/types';
 import type { AccountId, BalanceOf, BlockNumber, ParaId } from '@polkadot/types/interfaces';
 import type { PolkadotRuntimeCommonCrowdloanFundInfo } from '@polkadot/types/lookup';
 import type { INumber, ITuple } from '@polkadot/types/types';
-import type { Campaign, Campaigns } from './types';
+import type { Campaign, Campaigns } from './types.js';
 
 import { useEffect, useState } from 'react';
 

@@ -8,7 +8,7 @@ import { chains } from '@polkadot/ui-settings/defaults/chains';
 
 import { styled } from './styled';
 import Toggle from './Toggle';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;

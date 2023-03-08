@@ -9,7 +9,7 @@ import { useBounties } from '@polkadot/app-bounties/hooks';
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 
 import { truncateTitle } from '../helpers';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   curatorId: AccountId;

@@ -5,7 +5,7 @@ import type { TFunction } from 'i18next';
 import type { DeriveStakerReward } from '@polkadot/api-derive/types';
 import type { OwnPool } from '@polkadot/app-staking2/Pools/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
-import type { PayoutStash, PayoutValidator } from './types';
+import type { PayoutStash, PayoutValidator } from './types.js';
 
 import React, { useMemo, useRef, useState } from 'react';
 
@@ -14,7 +14,7 @@ import { useApi, useBlockInterval, useCall, useOwnEraRewards } from '@polkadot/r
 import { BN, BN_THREE } from '@polkadot/util';
 
 import ElectionBanner from '../ElectionBanner';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import PayButton from './PayButton';
 import Stash from './Stash';
 import Validator from './Validator';

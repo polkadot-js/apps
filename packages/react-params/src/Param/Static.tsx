@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Codec } from '@polkadot/types/types';
-import type { RawParam } from '../types';
+import type { RawParam } from '../types.js';
 
 import React, { useMemo } from 'react';
 
 import { Static, styled } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import { toHumanJson } from '../valueToText';
 import Bare from './Bare';
 

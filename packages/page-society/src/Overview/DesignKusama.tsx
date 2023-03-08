@@ -10,7 +10,7 @@ import { Button, Modal } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 
 import drawCanary, { PADD, SIZE } from '../draw/canary';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   accountId: AccountId;

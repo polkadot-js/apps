@@ -13,7 +13,7 @@ import InputAddress from './InputAddress';
 import Inset, { InsetProps } from './Inset';
 import Labelled from './Labelled';
 import Static from './Static';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;

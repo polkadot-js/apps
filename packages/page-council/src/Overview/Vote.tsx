@@ -10,7 +10,7 @@ import { Button, InputAddress, InputAddressMulti, InputBalance, Modal, TxButton,
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import { useModuleElections } from '../useModuleElections';
 
 interface Props {

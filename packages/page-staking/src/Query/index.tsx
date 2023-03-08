@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom';
 import { Button, InputAddressSimple, Spinner } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import Validator from './Validator';
 
 interface Props {

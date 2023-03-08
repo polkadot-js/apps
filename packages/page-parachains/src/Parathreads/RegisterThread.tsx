@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BalanceOf } from '@polkadot/types/interfaces';
-import type { OwnedId, OwnerInfo } from '../types';
+import type { OwnedId, OwnerInfo } from '../types.js';
 
 import React, { useCallback, useMemo, useState } from 'react';
 
@@ -11,7 +11,7 @@ import { useApi } from '@polkadot/react-hooks';
 import { BN, compactAddLength } from '@polkadot/util';
 
 import InputOwner from '../InputOwner';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import { LOWEST_INVALID_ID } from './constants';
 
 interface Props {

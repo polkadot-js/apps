@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ExternalDef } from './types';
+import type { ExternalDef } from './types.js';
 
 import { Commonwealth } from './commonwealth';
 import { Dotreasury } from './dotreasury';

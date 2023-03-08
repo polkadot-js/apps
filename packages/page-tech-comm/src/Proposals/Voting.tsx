@@ -10,7 +10,7 @@ import React, { useState } from 'react';
 import { Button, MarkWarning, Modal, TxButton, VoteAccount } from '@polkadot/react-components';
 import { useAccounts, useApi, useCollectiveInstance, useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   hash: Hash | string;

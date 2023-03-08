@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { PayoutStash } from './types';
+import type { PayoutStash } from './types.js';
 
 import React, { useEffect, useState } from 'react';
 

@@ -14,7 +14,7 @@ import { convertWeight } from '@polkadot/react-hooks/useWeight';
 import { formatNumber } from '@polkadot/util';
 
 import Events from '../Events';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import Extrinsics from './Extrinsics';
 import Justifications from './Justifications';
 import Logs from './Logs';

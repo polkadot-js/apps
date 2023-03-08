@@ -3,7 +3,7 @@
 
 import type { ConstantCodec } from '@polkadot/types/metadata/decorate/types';
 import type { DropdownOptions } from '../util/types';
-import type { ConstValue, ConstValueBase } from './types';
+import type { ConstValue, ConstValueBase } from './types.js';
 
 import React, { useCallback, useState } from 'react';
 

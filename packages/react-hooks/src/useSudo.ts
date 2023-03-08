@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId } from '@polkadot/types/interfaces';
-import type { UseSudo } from './types';
+import type { UseSudo } from './types.js';
 
 import { useEffect, useState } from 'react';
 

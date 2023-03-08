@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PopupProps } from './types';
+import type { PopupProps } from './types.js';
 
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 

@@ -9,7 +9,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { Button, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useTxBatch } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import TipCreate from './TipCreate';
 import Tips from './Tips';
 

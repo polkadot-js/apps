@@ -18,7 +18,7 @@ import { decodeAddress } from '@polkadot/util-crypto';
 import AttestDisplay from './Attest';
 import ClaimDisplay from './Claim';
 import Statement from './Statement';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 import { getStatement, recoverFromJSON } from './util';
 import Warning from './Warning';
 

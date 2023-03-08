@@ -10,7 +10,7 @@ import { isFunction } from '@polkadot/util';
 
 import Overview from './Overview';
 import Tips from './Tips';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 import useTipHashes from './useTipHashes';
 
 export { default as useCounter } from './useCounter';

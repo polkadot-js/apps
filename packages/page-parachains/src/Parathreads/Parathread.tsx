@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParaId } from '@polkadot/types/interfaces';
-import type { LeaseInfo, LeasePeriod, QueuedAction } from '../types';
+import type { LeaseInfo, LeasePeriod, QueuedAction } from '../types.js';
 
 import React, { useMemo } from 'react';
 
@@ -12,7 +12,7 @@ import { useAccounts, useApi } from '@polkadot/react-hooks';
 import Lifecycle from '../Overview/Lifecycle';
 // import ParachainInfo from '../Overview/ParachainInfo';
 import Periods from '../Overview/Periods';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import useThreadInfo from './useThreadInfo';
 
 interface Props {

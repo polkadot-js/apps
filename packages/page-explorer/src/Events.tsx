@@ -10,7 +10,7 @@ import { MarkError, Table } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 import Event from './Event';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;

@@ -5,7 +5,7 @@ import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
 import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
-import type { ApiProps, ApiState } from './types';
+import type { ApiProps, ApiState } from './types.js';
 
 import * as Sc from '@substrate/connect';
 import React, { useEffect, useMemo, useState } from 'react';

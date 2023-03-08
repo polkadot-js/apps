@@ -24,7 +24,7 @@ import StakingRedeemable from './StakingRedeemable';
 import StakingUnbonding from './StakingUnbonding';
 import { styled } from './styled';
 import Tooltip from './Tooltip';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 // true to display, or (for bonded) provided values [own, ...all extras]
 export interface BalanceActiveType {

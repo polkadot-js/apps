@@ -9,7 +9,7 @@ import { Button, FilterInput, styled, SummaryBox, Table } from '@polkadot/react-
 import { useAddresses, useFavorites, useNextTick, useToggle } from '@polkadot/react-hooks';
 
 import CreateModal from '../modals/Create';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import Address from './Address';
 
 type SortedAddress = { address: string; isFavorite: boolean };

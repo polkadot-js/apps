@@ -5,7 +5,7 @@ import type { DeriveHasIdentity, DeriveStakingOverview } from '@polkadot/api-der
 import type { StakerState } from '@polkadot/react-hooks/types';
 import type { u32 } from '@polkadot/types-codec';
 import type { BN } from '@polkadot/util';
-import type { NominatedByMap, SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
+import type { NominatedByMap, SortedTargets, TargetSortBy, ValidatorInfo } from '../types.js';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
@@ -17,7 +17,7 @@ import { MAX_NOMINATIONS } from '../constants';
 import ElectionBanner from '../ElectionBanner';
 import Filtering from '../Filtering';
 import Legend from '../Legend';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import useIdentities from '../useIdentities';
 import Nominate from './Nominate';
 import Summary from './Summary';

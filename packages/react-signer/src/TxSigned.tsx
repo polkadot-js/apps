@@ -10,7 +10,7 @@ import type { Option } from '@polkadot/types';
 import type { Multisig, Timepoint } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { AddressFlags, AddressProxy, QrState } from './types';
+import type { AddressFlags, AddressProxy, QrState } from './types.js';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
@@ -28,7 +28,7 @@ import { AccountSigner, LedgerSigner, QrSigner } from './signers';
 import SignFields from './SignFields';
 import Tip from './Tip';
 import Transaction from './Transaction';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 import { cacheUnlock, extractExternal, handleTxResults } from './util';
 
 interface Props {

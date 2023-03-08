@@ -11,7 +11,7 @@ import { TxButton } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 
 import { isClaimable } from '../helpers';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   beneficiaryId: AccountId;

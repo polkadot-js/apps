@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
-import type { QueueStatus, QueueTx, QueueTxStatus } from './types';
+import type { QueueStatus, QueueTx, QueueTxStatus } from './types.js';
 
 import React, { useEffect, useState } from 'react';
 

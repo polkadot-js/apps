@@ -3,7 +3,7 @@
 
 import type { Balance, BlockNumber } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
-import type { MapMember } from '../types';
+import type { MapMember } from '../types.js';
 
 import React, { useCallback, useMemo } from 'react';
 
@@ -12,7 +12,7 @@ import { useAccounts, useApi } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import DesignKusama from './DesignKusama';
 
 interface Props {

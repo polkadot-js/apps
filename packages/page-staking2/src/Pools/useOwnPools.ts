@@ -3,7 +3,7 @@
 
 import type { Option } from '@polkadot/types';
 import type { PalletNominationPoolsPoolMember } from '@polkadot/types/lookup';
-import type { OwnPool, OwnPoolBase } from './types';
+import type { OwnPool, OwnPoolBase } from './types.js';
 
 import { useMemo } from 'react';
 

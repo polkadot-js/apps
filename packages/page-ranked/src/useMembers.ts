@@ -5,7 +5,7 @@ import type { Option } from '@polkadot/types';
 import type { AccountId32 } from '@polkadot/types/interfaces';
 import type { PalletRankedCollectiveMemberRecord } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { Member, PalletColl } from './types';
+import type { Member, PalletColl } from './types.js';
 
 import { useMemo } from 'react';
 

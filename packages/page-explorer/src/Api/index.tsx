@@ -11,7 +11,7 @@ import { useApiStats } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import Chart from '../Latency/Chart';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;

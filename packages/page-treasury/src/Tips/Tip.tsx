@@ -12,7 +12,7 @@ import { useAccounts, useApi } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO, formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import TipEndorse from './TipEndorse';
 import TipReason from './TipReason';
 

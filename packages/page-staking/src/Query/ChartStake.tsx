@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveOwnExposure } from '@polkadot/api-derive/types';
-import type { LineData, Props } from './types';
+import type { LineData, Props } from './types.js';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BN, formatBalance } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import Chart from './Chart';
 import { balanceToNumber } from './util';
 

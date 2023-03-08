@@ -3,7 +3,7 @@
 
 import type { Option } from '@polkadot/types';
 import type { PalletNominationPoolsPoolMember } from '@polkadot/types/lookup';
-import type { AccountInfo } from './types';
+import type { AccountInfo } from './types.js';
 
 import { useEffect, useState } from 'react';
 

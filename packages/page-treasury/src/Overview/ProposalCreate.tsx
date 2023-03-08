@@ -9,7 +9,7 @@ import { Button, InputAddress, InputBalance, MarkWarning, Modal, Static, TxButto
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { BN_HUNDRED, BN_MILLION } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;

@@ -23,7 +23,7 @@ import Payouts from './Payouts';
 import Query from './Query';
 import Slashes from './Slashes';
 import Targets from './Targets';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 import useNominations from './useNominations';
 import useSortedTargets from './useSortedTargets';
 import Validators from './Validators';

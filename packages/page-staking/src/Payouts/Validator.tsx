@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { PayoutValidator } from './types';
+import type { PayoutValidator } from './types.js';
 
 import React, { useMemo } from 'react';
 
 import { AddressMini, AddressSmall, Expander, Table } from '@polkadot/react-components';
 import { BlockToTime } from '@polkadot/react-query';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import PayButton from './PayButton';
 import useEraBlocks from './useEraBlocks';
 import { createErasString } from './util';

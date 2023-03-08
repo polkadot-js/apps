@@ -9,7 +9,7 @@ import React, { useMemo, useState } from 'react';
 import { InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../../translate.js';
 
 interface Props {
   className?: string;

@@ -4,7 +4,7 @@
 import type { DeriveSocietyCandidate } from '@polkadot/api-derive/types';
 import type { Option } from '@polkadot/types';
 import type { AccountId, SocietyVote } from '@polkadot/types/interfaces';
-import type { VoteType } from '../types';
+import type { VoteType } from '../types.js';
 
 import React, { useMemo } from 'react';
 

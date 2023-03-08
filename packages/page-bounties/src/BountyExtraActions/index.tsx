@@ -12,8 +12,8 @@ import { useCollectiveMembers, useToggle } from '@polkadot/react-hooks';
 
 import { determineUnassignCuratorAction } from '../helpers';
 import { useBountyStatus, useUserRole } from '../hooks';
-import { useTranslation } from '../translate';
-import { ValidUnassignCuratorAction } from '../types';
+import { useTranslation } from '../translate.js';
+import { ValidUnassignCuratorAction } from '../types.js';
 import BountyRejectCurator from './BountyRejectCurator';
 import CloseBounty from './CloseBounty';
 import ExtendBountyExpiryAction from './ExtendBountyExpiryAction';

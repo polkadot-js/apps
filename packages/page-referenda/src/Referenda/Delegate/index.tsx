@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { PalletReferenda, PalletVote, TrackDescription } from '../../types';
+import type { PalletReferenda, PalletVote, TrackDescription } from '../../types.js';
 
 import React, { useCallback, useMemo, useState } from 'react';
 
@@ -10,7 +10,7 @@ import { Button, ConvictionDropdown, InputAddress, Modal, Toggle, ToggleGroup, T
 import { useAccounts, useApi, useStepper, useToggle } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../../translate.js';
 import TrackDropdown from '../Submit/TrackDropdown';
 import Activity from './Activity';
 import useActivityAccount from './useActivityAccount';

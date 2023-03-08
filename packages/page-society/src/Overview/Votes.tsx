@@ -1,11 +1,11 @@
 // Copyright 2017-2023 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { VoteSplit, VoteType } from '../types';
+import type { VoteSplit, VoteType } from '../types.js';
 
 import React, { useEffect, useState } from 'react';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import VotesExpander from './VotesExpander';
 
 interface Props {

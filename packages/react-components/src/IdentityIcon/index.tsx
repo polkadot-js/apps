@@ -3,7 +3,7 @@
 
 import type { IdentityProps } from '@polkadot/react-identicon/types';
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
-import type { ThemeProps } from '../types';
+import type { ThemeProps } from '../types.js';
 
 import React, { useCallback } from 'react';
 
@@ -13,7 +13,7 @@ import BaseIdentityIcon from '@polkadot/react-identicon';
 import { settings } from '@polkadot/ui-settings';
 
 import { styled } from '../styled';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import RoboHash from './RoboHash';
 
 interface Props {

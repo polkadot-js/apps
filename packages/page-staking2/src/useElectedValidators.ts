@@ -3,7 +3,7 @@
 
 import type { StorageKey, u32 } from '@polkadot/types';
 import type { AccountId32 } from '@polkadot/types/interfaces';
-import type { SessionInfo } from './types';
+import type { SessionInfo } from './types.js';
 
 import { useMemo } from 'react';
 

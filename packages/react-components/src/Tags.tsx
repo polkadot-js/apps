@@ -7,7 +7,7 @@ import EditButton from './EditButton';
 import InputTags from './InputTags';
 import { styled } from './styled';
 import Tag from './Tag';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   children?: React.ReactNode;

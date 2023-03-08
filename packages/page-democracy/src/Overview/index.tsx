@@ -8,7 +8,7 @@ import React from 'react';
 import { Button } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import Externals from './Externals';
 import PreImage from './PreImage';
 import Proposals from './Proposals';

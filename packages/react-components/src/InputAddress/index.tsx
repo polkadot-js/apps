@@ -3,7 +3,7 @@
 
 import type { DropdownItemProps } from 'semantic-ui-react';
 import type { KeyringOption$Type, KeyringOptions, KeyringSectionOption, KeyringSectionOptions } from '@polkadot/ui-keyring/options/types';
-import type { Option } from './types';
+import type { Option } from './types.js';
 
 import React from 'react';
 import store from 'store';

@@ -16,7 +16,7 @@ import matchRegex from '@polkadot/vanitygen/regex';
 import generatorSort from '@polkadot/vanitygen/sort';
 
 import CreateModal from '../modals/Create';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import Match from './Match';
 
 interface Props {

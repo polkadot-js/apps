@@ -12,7 +12,7 @@ import { onlyOnWeb } from '@polkadot/react-api/hoc';
 import { useApi } from '@polkadot/react-hooks';
 import { stringUpperFirst } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import Banner from './Banner';
 
 // it would have been really good to import this from detect, however... not exported

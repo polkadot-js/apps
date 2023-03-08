@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { AssetInfo } from '../types';
+import type { AssetInfo } from '../types.js';
 
 import React from 'react';
 

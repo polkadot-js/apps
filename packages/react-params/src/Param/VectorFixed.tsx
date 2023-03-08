@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ParamDef, Props, RawParam } from '../types';
+import type { ParamDef, Props, RawParam } from '../types.js';
 
 import React, { useEffect, useState } from 'react';
 

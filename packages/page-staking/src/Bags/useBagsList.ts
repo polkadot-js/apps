@@ -4,7 +4,7 @@
 import type { Option, StorageKey, u64 } from '@polkadot/types';
 import type { PalletBagsListListBag } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { BagInfo } from './types';
+import type { BagInfo } from './types.js';
 
 import { useEffect, useState } from 'react';
 

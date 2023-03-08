@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { AuctionInfo, LeasePeriod, OwnedId, OwnerInfo } from '../types';
+import type { AuctionInfo, LeasePeriod, OwnedId, OwnerInfo } from '../types.js';
 
 import React, { useState } from 'react';
 
@@ -11,7 +11,7 @@ import { useApi, useToggle } from '@polkadot/react-hooks';
 import { BN_ONE, BN_ZERO } from '@polkadot/util';
 
 import InputOwner from '../InputOwner';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import { useLeaseRanges } from '../useLeaseRanges';
 
 interface Props {

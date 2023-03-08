@@ -1,8 +1,8 @@
 // Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction, TOptions } from '../types';
-import type { LinkOption } from './types';
+import type { TFunction, TOptions } from '../types.js';
+import type { LinkOption } from './types.js';
 
 import { createCustom, createDev, createOwn } from './development';
 import { prodChains, prodRelayKusama, prodRelayPolkadot } from './production';

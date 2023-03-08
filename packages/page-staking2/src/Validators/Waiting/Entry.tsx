@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Validator } from '../../types';
+import type { Validator } from '../../types.js';
 
 import React from 'react';
 

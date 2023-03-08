@@ -7,7 +7,7 @@ import React, { useCallback, useMemo } from 'react';
 
 import { AddressMini, ExpanderScroll } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   isAye?: boolean;

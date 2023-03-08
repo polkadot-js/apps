@@ -13,7 +13,7 @@ import { keyring } from '@polkadot/ui-keyring';
 import { nextTick } from '@polkadot/util';
 import { keyExtractPath } from '@polkadot/util-crypto';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import { tryCreateAccount } from '../util';
 import CreateAccountInputs from './CreateAccountInputs';
 import CreateConfirmation from './CreateConfirmation';

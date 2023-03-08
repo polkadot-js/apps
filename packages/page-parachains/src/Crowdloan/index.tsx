@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AuctionInfo, Campaigns, LeasePeriod, OwnedId } from '../types';
+import type { AuctionInfo, Campaigns, LeasePeriod, OwnedId } from '../types.js';
 
 import React from 'react';
 

@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AssetInfo } from '../types';
+import type { AssetInfo } from '../types.js';
 
 import React, { useMemo } from 'react';
 

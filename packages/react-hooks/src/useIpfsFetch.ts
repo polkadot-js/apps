@@ -4,7 +4,7 @@
 import '@polkadot/x-textencoder/shim';
 import '@polkadot/x-textdecoder/shim';
 
-import type { CallOptions } from './types';
+import type { CallOptions } from './types.js';
 
 import * as isIPFS from 'is-ipfs';
 import { useEffect, useMemo, useState } from 'react';

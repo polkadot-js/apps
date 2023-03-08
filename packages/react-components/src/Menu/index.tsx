@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BaseProps, MenuType } from './types';
+import type { BaseProps, MenuType } from './types.js';
 
 import React from 'react';
 

@@ -14,7 +14,7 @@ import { BN_ONE } from '@polkadot/util';
 
 import Balances from './Balances';
 import Overview from './Overview';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 import useAssetIds from './useAssetIds';
 import useAssetInfos from './useAssetInfos';
 

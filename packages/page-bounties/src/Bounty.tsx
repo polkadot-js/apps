@@ -20,7 +20,7 @@ import BountyStatusView from './BountyStatusView';
 import Curator from './Curator';
 import DueBlocks from './DueBlocks';
 import { useBountyStatus } from './hooks';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 import VotersColumn from './VotersColumn';
 
 interface Props {

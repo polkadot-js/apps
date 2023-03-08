@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry, TypeDef } from '@polkadot/types/types';
-import type { ComponentMap, Props } from '../types';
+import type { ComponentMap, Props } from '../types.js';
 
 import { getTypeDef } from '@polkadot/types';
 import { TypeDefInfo } from '@polkadot/types/types';

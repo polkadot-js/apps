@@ -15,7 +15,7 @@ import { BN, BN_ZERO, isNull, isWasm, stringify } from '@polkadot/util';
 
 import { ABI, InputMegaGas, InputName, MessageSignature, Params } from '../shared';
 import store from '../store';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import useAbi from '../useAbi';
 import useWeight from '../useWeight';
 

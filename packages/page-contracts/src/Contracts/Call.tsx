@@ -4,7 +4,7 @@
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { ContractPromise } from '@polkadot/api-contract';
 import type { ContractCallOutcome } from '@polkadot/api-contract/types';
-import type { CallResult } from './types';
+import type { CallResult } from './types.js';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
@@ -15,7 +15,7 @@ import { Available } from '@polkadot/react-query';
 import { BN, BN_ONE, BN_ZERO } from '@polkadot/util';
 
 import { InputMegaGas, Params } from '../shared';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import useWeight from '../useWeight';
 import Outcome from './Outcome';
 import { getCallMessageOptions } from './util';

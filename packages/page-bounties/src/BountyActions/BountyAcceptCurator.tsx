@@ -11,7 +11,7 @@ import { useToggle } from '@polkadot/react-hooks';
 
 import { permillOf, truncateTitle } from '../helpers';
 import { useBounties, useUserRole } from '../hooks';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   curatorId: AccountId;

@@ -9,7 +9,7 @@ import { AddressMini, AvatarItem, Expander, IconLink } from '@polkadot/react-com
 import { useApi, useRegistrars, useSubidentities, useToggle } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import Judgements from './Judgements';
 import RegistrarJudgement from './RegistrarJudgement';
 import UserIcon from './UserIcon';

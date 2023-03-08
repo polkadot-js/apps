@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletStakingEraRewardPoints } from '@polkadot/types/lookup';
-import type { SessionInfo } from '../types';
-import type { UsePoints } from './types';
+import type { SessionInfo } from '../types.js';
+import type { UsePoints } from './types.js';
 
 import { useMemo } from 'react';
 

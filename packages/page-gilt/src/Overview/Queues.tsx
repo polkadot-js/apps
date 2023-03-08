@@ -1,13 +1,13 @@
 // Copyright 2017-2023 @polkadot/app-gilt authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { QueueTotal } from './types';
+import type { QueueTotal } from './types.js';
 
 import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import Queue from './Queue';
 
 interface Props {

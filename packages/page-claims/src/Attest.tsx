@@ -15,7 +15,7 @@ import { BN_ZERO } from '@polkadot/util';
 
 import { ClaimStyles } from './Claim';
 import Statement from './Statement';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 import { getStatement } from './util';
 
 interface Props {

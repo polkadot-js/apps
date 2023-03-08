@@ -1,14 +1,14 @@
 // Copyright 2017-2023 @polkadot/app-nfts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CollectionInfo, CollectionInfoComplete } from '../types';
+import type { CollectionInfo, CollectionInfoComplete } from '../types.js';
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Dropdown, styled, Table } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import Item from './Item';
 import useAccountItems from './useAccountItems';
 import useItemsInfos from './useItemsInfos';

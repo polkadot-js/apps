@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId } from '@polkadot/types/interfaces';
-import type { CollectiveType } from './types';
+import type { CollectiveType } from './types.js';
 
 import { useMemo } from 'react';
 

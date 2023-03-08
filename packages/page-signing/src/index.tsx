@@ -9,7 +9,7 @@ import { Route, Switch } from 'react-router';
 import { Tabs } from '@polkadot/react-components';
 
 import Sign from './Sign';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 import Verify from './Verify';
 
 function SigningApp ({ basePath }: Props): React.ReactElement<Props> {

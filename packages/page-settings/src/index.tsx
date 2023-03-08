@@ -13,7 +13,7 @@ import Developer from './Developer';
 import General from './General';
 import I18n from './I18n';
 import Metadata from './Metadata';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 import useCounter from './useCounter';
 
 export { useCounter };

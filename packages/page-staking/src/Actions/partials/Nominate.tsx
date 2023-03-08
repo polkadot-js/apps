@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { SortedTargets } from '../../types';
-import type { NominateInfo } from './types';
+import type { SortedTargets } from '../../types.js';
+import type { NominateInfo } from './types.js';
 
 import React, { useEffect, useState } from 'react';
 
@@ -11,7 +11,7 @@ import { InputAddressMulti, MarkWarning, Modal, styled } from '@polkadot/react-c
 import { useApi, useFavorites } from '@polkadot/react-hooks';
 
 import { MAX_NOMINATIONS, STORE_FAVS_BASE } from '../../constants';
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../../translate.js';
 import PoolInfo from './PoolInfo';
 import SenderInfo from './SenderInfo';
 

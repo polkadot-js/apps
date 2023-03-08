@@ -3,7 +3,7 @@
 
 import type { PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { PalletReferenda, TrackDescription } from './types';
+import type { PalletReferenda, TrackDescription } from './types.js';
 
 import { useMemo } from 'react';
 

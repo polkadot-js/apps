@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { Member as MemberType } from '../types';
+import type { Member as MemberType } from '../types.js';
 
 import React, { useCallback, useMemo } from 'react';
 
 import { AddressSmall, Menu, Popup, Tag } from '@polkadot/react-components';
 import { useAccounts, useApi, useQueue } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import useMemberInfo from '../useMemberInfo';
 
 interface Props {

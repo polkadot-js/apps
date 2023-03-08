@@ -3,7 +3,7 @@
 
 import type { Option, StorageKey } from '@polkadot/types';
 import type { BlockNumber, WinningData } from '@polkadot/types/interfaces';
-import type { AuctionInfo, WinnerData, Winning } from './types';
+import type { AuctionInfo, WinnerData, Winning } from './types.js';
 
 import { useEffect, useRef, useState } from 'react';
 

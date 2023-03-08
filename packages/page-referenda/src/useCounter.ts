@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PalletReferenda } from './types';
+import type { PalletReferenda } from './types.js';
 
 import { useMemo } from 'react';
 

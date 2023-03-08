@@ -9,7 +9,7 @@ import React from 'react';
 import { formatNumber, isString, isUndefined } from '@polkadot/util';
 
 import CallExpander from './CallExpander';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;

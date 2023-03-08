@@ -11,7 +11,7 @@ import React from 'react';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 import TxButton from './TxButton';
 
 interface DeriveStakingAccountPartial {

@@ -6,7 +6,7 @@ import React, { useRef } from 'react';
 import { Tabs } from '@polkadot/react-components';
 
 import Hashes from './Hashes';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   basePath: string;

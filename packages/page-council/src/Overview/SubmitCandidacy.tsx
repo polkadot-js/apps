@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { u128 } from '@polkadot/types';
-import type { ComponentProps as Props } from './types';
+import type { ComponentProps as Props } from './types.js';
 
 import React, { useState } from 'react';
 
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useModal } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import { useModuleElections } from '../useModuleElections';
 
 function SubmitCandidacy ({ electionsInfo }: Props): React.ReactElement<Props> | null {

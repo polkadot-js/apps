@@ -4,7 +4,7 @@
 import type { AccountId32 } from '@polkadot/types/interfaces';
 import type { PalletBagsListListBag } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { ListNode, StashNode } from './types';
+import type { ListNode, StashNode } from './types.js';
 
 import React, { useEffect, useState } from 'react';
 

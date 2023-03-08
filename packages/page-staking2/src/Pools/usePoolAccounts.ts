@@ -3,7 +3,7 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { BN } from '@polkadot/util';
-import type { PoolAccounts } from './types';
+import type { PoolAccounts } from './types.js';
 
 import { useMemo } from 'react';
 

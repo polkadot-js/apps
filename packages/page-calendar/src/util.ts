@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DateState } from './types';
+import type { DateState } from './types.js';
 
 import { DAYS } from './constants';
 

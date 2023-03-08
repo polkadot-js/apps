@@ -5,7 +5,7 @@ import type { ApiPromise } from '@polkadot/api';
 import type { ContractPromise } from '@polkadot/api-contract';
 import type { ContractCallOutcome } from '@polkadot/api-contract/types';
 import type { SignedBlockExtended } from '@polkadot/api-derive/types';
-import type { ContractLink } from './types';
+import type { ContractLink } from './types.js';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
@@ -13,7 +13,7 @@ import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import Call from './Call';
 import Contract from './Contract';
 import { getContractForAddress } from './util';

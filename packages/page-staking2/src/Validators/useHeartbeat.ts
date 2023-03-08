@@ -3,8 +3,8 @@
 
 import type { Option, u32 } from '@polkadot/types';
 import type { Codec } from '@polkadot/types/types';
-import type { SessionInfo, Validator } from '../types';
-import type { UseHeartbeat } from './types';
+import type { SessionInfo, Validator } from '../types.js';
+import type { UseHeartbeat } from './types.js';
 
 import { useMemo } from 'react';
 

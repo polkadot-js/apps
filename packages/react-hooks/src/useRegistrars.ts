@@ -3,7 +3,7 @@
 
 import type { Option } from '@polkadot/types';
 import type { RegistrarInfo } from '@polkadot/types/interfaces';
-import type { Registrar } from './types';
+import type { Registrar } from './types.js';
 
 import { useMemo } from 'react';
 

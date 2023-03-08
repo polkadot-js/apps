@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { Campaign, LeasePeriod } from '../types';
+import type { Campaign, LeasePeriod } from '../types.js';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
@@ -11,7 +11,7 @@ import { useAccounts, useApi, useParaEndpoints } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import Contribute from './Contribute';
 import Refund from './Refund';
 import useContributions from './useContributions';

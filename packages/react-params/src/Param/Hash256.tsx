@@ -1,14 +1,14 @@
 // Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Props } from '../types';
+import type { Props } from '../types.js';
 
 import React, { useCallback, useState } from 'react';
 
 import { Toggle } from '@polkadot/react-components';
 import { u8aToHex } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import BaseBytes from './BaseBytes';
 import File from './File';
 

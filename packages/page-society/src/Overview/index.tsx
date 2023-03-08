@@ -3,7 +3,7 @@
 
 import type { DeriveSociety } from '@polkadot/api-derive/types';
 import type { BN } from '@polkadot/util';
-import type { MapMember } from '../types';
+import type { MapMember } from '../types.js';
 
 import React from 'react';
 

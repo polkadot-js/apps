@@ -10,8 +10,8 @@ import { Badge, Button, CopyButton, Icon, styled, Table } from '@polkadot/react-
 import { useQueue } from '@polkadot/react-hooks';
 
 import { useFiles } from './hooks';
-import { useTranslation } from './translate';
-import { DirFile, FileInfo, SaveFile } from './types';
+import { useTranslation } from './translate.js';
+import { DirFile, FileInfo, SaveFile } from './types.js';
 import UploadModal from './UploadModal';
 
 const MCopyButton = styled(CopyButton)`

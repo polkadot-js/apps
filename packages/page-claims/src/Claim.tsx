@@ -15,7 +15,7 @@ import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 import { addrToChecksum, getStatement } from './util';
 
 interface Props {

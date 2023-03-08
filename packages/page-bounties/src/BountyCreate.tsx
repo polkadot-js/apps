@@ -11,7 +11,7 @@ import { useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
 import { calculateBountyBond, countUtf8Bytes } from './helpers';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 const MIN_TITLE_LEN = 1;
 const TITLE_DEFAULT_VALUE = '';

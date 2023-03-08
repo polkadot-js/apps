@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { TrackInfo } from './types';
+import type { TrackInfo } from './types.js';
 
 import { KUSAMA_GENESIS, POLKADOT_GENESIS } from '../../constants';
 import { kusama } from './kusama';

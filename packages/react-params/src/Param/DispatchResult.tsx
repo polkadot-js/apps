@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DispatchResult } from '@polkadot/types/interfaces';
-import type { Props } from '../types';
+import type { Props } from '../types.js';
 
 import React, { useMemo } from 'react';
 

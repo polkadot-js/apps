@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry, TypeDef } from '@polkadot/types/types';
-import type { ParamDef, Props, RawParam } from '../types';
+import type { ParamDef, Props, RawParam } from '../types.js';
 
 import React, { useCallback, useState } from 'react';
 

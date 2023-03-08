@@ -16,7 +16,7 @@ import { randomAsHex } from '@polkadot/util-crypto';
 
 import { ABI, InputMegaGas, InputName, MessageSignature, Params } from '../shared';
 import store from '../store';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import useAbi from '../useAbi';
 import useWeight from '../useWeight';
 

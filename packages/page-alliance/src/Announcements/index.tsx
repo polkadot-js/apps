@@ -1,13 +1,13 @@
 // Copyright 2017-2023 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Cid } from '../types';
+import type { Cid } from '../types.js';
 
 import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import Accouncement from './Accouncement';
 
 interface Props {

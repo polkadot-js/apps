@@ -8,7 +8,7 @@ import { useBlockAuthors } from '@polkadot/react-hooks';
 
 import Collator from './Collator';
 import Summary from './Summary';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 import useCollators from './useCollators';
 
 interface Props {

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSociety, DeriveSocietyMember } from '@polkadot/api-derive/types';
-import type { MapMember } from './types';
+import type { MapMember } from './types.js';
 
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
@@ -14,7 +14,7 @@ import { BN, BN_THREE, BN_TWO } from '@polkadot/util';
 import Candidates from './Candidates';
 import Overview from './Overview';
 import Suspended from './Suspended';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 import useCounter from './useCounter';
 import useMembers from './useMembers';
 import useVoters from './useVoters';

@@ -10,7 +10,7 @@ import { Tabs } from '@polkadot/react-components';
 import { useAccounts, useIpfs } from '@polkadot/react-hooks';
 
 import Accounts from './Accounts';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 import useCounter from './useCounter';
 import Vanity from './Vanity';
 

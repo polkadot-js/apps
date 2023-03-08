@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, GroupIndex, ParaId } from '@polkadot/types/interfaces';
-import type { LeasePeriod, QueuedAction } from '../types';
-import type { EventMapInfo, ValidatorInfo } from './types';
+import type { LeasePeriod, QueuedAction } from '../types.js';
+import type { EventMapInfo, ValidatorInfo } from './types.js';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -11,7 +11,7 @@ import { AddressMini, Badge, Expander, ParaLink, styled, Table } from '@polkadot
 import { BlockToTime } from '@polkadot/react-query';
 import { BN, formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import Lifecycle from './Lifecycle';
 import ParachainInfo from './ParachainInfo';
 import Periods from './Periods';

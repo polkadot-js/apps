@@ -4,8 +4,8 @@
 import type { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
 import type { PalletStakingUnappliedSlash } from '@polkadot/types/lookup';
-import type { SortedTargets } from '../../types';
-import type { Slash } from '../types';
+import type { SortedTargets } from '../../types.js';
+import type { Slash } from '../types.js';
 
 import React, { useCallback, useMemo } from 'react';
 
@@ -14,7 +14,7 @@ import { AddressInfo, AddressMini, AddressSmall, Badge, Button, Menu, Popup, Sta
 import { useApi, useCall, useQueue, useToggle } from '@polkadot/react-hooks';
 import { BN, formatNumber, isFunction } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../../translate.js';
 import useSlashingSpans from '../useSlashingSpans';
 import BondExtra from './BondExtra';
 import InjectKeys from './InjectKeys';

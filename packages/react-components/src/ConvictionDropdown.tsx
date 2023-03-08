@@ -10,7 +10,7 @@ import { calcBlockTime } from '@polkadot/react-hooks/useBlockTime';
 import { BN, BN_ZERO } from '@polkadot/util';
 
 import Dropdown from './Dropdown';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 export interface Props {
   className?: string;

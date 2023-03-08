@@ -4,7 +4,7 @@
 import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { Weight } from '@polkadot/types/interfaces';
-import type { BatchOptions, BatchType } from './types';
+import type { BatchOptions, BatchType } from './types.js';
 
 import { useEffect, useMemo, useState } from 'react';
 

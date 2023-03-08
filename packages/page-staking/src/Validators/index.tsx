@@ -4,14 +4,14 @@
 import type { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
 import type { BN } from '@polkadot/util';
-import type { NominatedByMap, SortedTargets } from '../types';
+import type { NominatedByMap, SortedTargets } from '../types.js';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { Button, ToggleGroup } from '@polkadot/react-components';
 import { useApi, useBlockAuthors, useCall } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import ActionsBanner from './ActionsBanner';
 import CurrentList from './CurrentList';
 import Summary from './Summary';

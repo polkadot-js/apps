@@ -5,7 +5,7 @@ import type { CombinatorFunction } from '@polkadot/api/promise/Combinator';
 import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
 import type { AccountId, ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { Codec, ITuple } from '@polkadot/types/types';
-import type { StakerState } from './types';
+import type { StakerState } from './types.js';
 
 import { useEffect, useMemo, useState } from 'react';
 

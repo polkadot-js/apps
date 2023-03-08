@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-nodeinfo authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Info } from './types';
+import type { Info } from './types.js';
 
 import React, { useEffect, useState } from 'react';
 
@@ -9,7 +9,7 @@ import { ApiPromise } from '@polkadot/api';
 import { useApi } from '@polkadot/react-hooks';
 
 import Extrinsics from '../BlockInfo/Extrinsics';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import Peers from './Peers';
 import Summary from './Summary';
 

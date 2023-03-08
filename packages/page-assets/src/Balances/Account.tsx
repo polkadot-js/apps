@@ -10,7 +10,7 @@ import React from 'react';
 import { AddressSmall } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import Transfer from './Transfer';
 
 interface Account extends PalletAssetsAssetAccount {

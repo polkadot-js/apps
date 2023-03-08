@@ -10,7 +10,7 @@ import { useAccounts, useToggle } from '@polkadot/react-hooks';
 
 import { truncateTitle } from '../helpers';
 import { useBounties } from '../hooks';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   curatorId: AccountId;

@@ -11,7 +11,7 @@ import { useAccounts, useApi, useBestNumber, useCall, useToggle } from '@polkado
 import { BlockToTime } from '@polkadot/react-query';
 import { BN, BN_ONE, formatNumber, isBoolean } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import useChangeCalc from '../useChangeCalc';
 import PreImageButton from './PreImageButton';
 import ProposalCell from './ProposalCell';

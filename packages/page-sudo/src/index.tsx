@@ -11,7 +11,7 @@ import { useSudo } from '@polkadot/react-hooks';
 
 import SetKey from './SetKey';
 import Sudo from './Sudo';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 function SudoApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();

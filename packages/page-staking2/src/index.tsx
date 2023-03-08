@@ -12,7 +12,7 @@ import { isFunction } from '@polkadot/util';
 
 import { STORE_FAVS_BASE } from './constants';
 import Pools from './Pools';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 import { clearCache } from './useCache';
 import useSessionInfo from './useSessionInfo';
 import Validators from './Validators';

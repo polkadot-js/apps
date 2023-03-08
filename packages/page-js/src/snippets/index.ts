@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-js authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Snippet } from './../types';
+import type { Snippet } from './../types.js';
 
 import { constsStakingParameters } from './consts-examples';
 import { extrinsicMakeTransfer } from './extrinsics-examples';

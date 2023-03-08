@@ -4,7 +4,7 @@
 import type { Changes } from '@polkadot/react-hooks/useEventChanges';
 import type { StorageKey } from '@polkadot/types';
 import type { AccountId32, EventRecord } from '@polkadot/types/interfaces';
-import type { SessionInfo, Validator } from './types';
+import type { SessionInfo, Validator } from './types.js';
 
 import { useMemo } from 'react';
 

@@ -4,7 +4,7 @@
 import type { BitLength } from '@polkadot/react-components/types';
 import type { Registry, TypeDef } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
-import type { Props } from '../types';
+import type { Props } from '../types.js';
 
 import React, { useCallback, useMemo } from 'react';
 

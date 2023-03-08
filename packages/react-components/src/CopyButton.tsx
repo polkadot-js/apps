@@ -11,7 +11,7 @@ import { isString } from '@polkadot/util';
 
 import Button from './Button';
 import { styled } from './styled';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   children?: React.ReactNode;

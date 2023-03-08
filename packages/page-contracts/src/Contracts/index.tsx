@@ -9,7 +9,7 @@ import { useToggle } from '@polkadot/react-hooks';
 import Codes from '../Codes';
 import CodeAdd from '../Codes/Add';
 import CodeUpload from '../Codes/Upload';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import { useCodes } from '../useCodes';
 import { useContracts } from '../useContracts';
 import ContractAdd from './Add';

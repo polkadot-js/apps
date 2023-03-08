@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Codec, TypeDef } from '@polkadot/types/types';
-import type { Props, RawParamOnChangeValue } from '../types';
+import type { Props, RawParamOnChangeValue } from '../types.js';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
@@ -11,7 +11,7 @@ import { Option } from '@polkadot/types';
 import { isU8a, u8aConcat } from '@polkadot/util';
 
 import Holder from '../Holder';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import Base from './Base';
 import Param from './index';
 import Static from './Static';

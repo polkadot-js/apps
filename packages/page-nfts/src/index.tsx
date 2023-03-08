@@ -11,7 +11,7 @@ import { useAccounts } from '@polkadot/react-hooks';
 
 import AccountItems from './AccountItems';
 import Overview from './Overview';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 import useCollectionIds from './useCollectionIds';
 import useCollectionInfos from './useCollectionInfos';
 

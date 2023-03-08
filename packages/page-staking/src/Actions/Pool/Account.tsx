@@ -4,7 +4,7 @@
 import type { DeriveSessionProgress, DeriveUnlocking } from '@polkadot/api-derive/types';
 import type { PoolInfo } from '@polkadot/app-staking2/Pools/types';
 import type { PalletNominationPoolsPoolMember, PalletNominationPoolsPoolRoles } from '@polkadot/types/lookup';
-import type { SortedTargets } from '../../types';
+import type { SortedTargets } from '../../types.js';
 
 import React, { useCallback, useMemo } from 'react';
 
@@ -13,7 +13,7 @@ import { useApi, useQueue, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN, formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../../translate.js';
 import ListNominees from '../Account/ListNominees';
 import Nominate from '../Account/Nominate';
 import useSlashingSpans from '../useSlashingSpans';

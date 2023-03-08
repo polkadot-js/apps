@@ -12,7 +12,7 @@ import { useApi, useCall, useCollectiveMembers } from '@polkadot/react-hooks';
 
 import Overview from './Overview';
 import Proposals from './Proposals';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   basePath: string;

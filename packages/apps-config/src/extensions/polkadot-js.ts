@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Known } from './types';
+import type { Known } from './types.js';
 
 import { extensionsPolkadotJsSVG } from '../ui/logos/extensions';
 import { externalEmptySVG } from '../ui/logos/external';

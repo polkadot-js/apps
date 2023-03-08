@@ -10,7 +10,7 @@ import { externalLinks } from '@polkadot/apps-config';
 import { useApi } from '@polkadot/react-hooks';
 
 import { styled } from './styled';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;

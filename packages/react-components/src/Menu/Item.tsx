@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ItemProps } from './types';
+import type { ItemProps } from './types.js';
 
 import React, { useCallback } from 'react';
 

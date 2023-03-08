@@ -3,7 +3,7 @@
 
 import type { u32 } from '@polkadot/types';
 import type { AccountId32 } from '@polkadot/types/interfaces';
-import type { SessionInfo, Validator } from './types';
+import type { SessionInfo, Validator } from './types.js';
 
 import { useMemo } from 'react';
 

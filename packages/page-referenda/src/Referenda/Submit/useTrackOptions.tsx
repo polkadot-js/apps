@@ -3,8 +3,8 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { BN } from '@polkadot/util';
-import type { TrackDescription } from '../../types';
-import type { TrackOption } from './types';
+import type { TrackDescription } from '../../types.js';
+import type { TrackOption } from './types.js';
 
 import React, { useMemo } from 'react';
 

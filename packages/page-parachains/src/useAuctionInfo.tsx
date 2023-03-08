@@ -4,7 +4,7 @@
 import type { Option } from '@polkadot/types';
 import type { AuctionIndex, BlockNumber, LeasePeriodOf } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
-import type { AuctionInfo } from './types';
+import type { AuctionInfo } from './types.js';
 
 import { createNamedHook, useApi, useCallMulti } from '@polkadot/react-hooks';
 

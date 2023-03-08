@@ -13,8 +13,8 @@ import { BN } from '@polkadot/util';
 
 import { truncateTitle } from '../helpers';
 import { useBounties } from '../hooks';
-import { useTranslation } from '../translate';
-import { ValidUnassignCuratorAction } from '../types';
+import { useTranslation } from '../translate.js';
+import { ValidUnassignCuratorAction } from '../types.js';
 
 interface Props {
   action: ValidUnassignCuratorAction;

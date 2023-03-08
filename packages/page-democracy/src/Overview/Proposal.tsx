@@ -9,7 +9,7 @@ import { AddressMini, Button, Columar, ExpandButton, ExpanderScroll, LinkExterna
 import { useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import PreImageButton from './PreImageButton';
 import ProposalCell from './ProposalCell';
 import Seconding from './Seconding';

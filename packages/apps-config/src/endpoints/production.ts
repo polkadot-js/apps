@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { EndpointOption } from './types';
+import type { EndpointOption } from './types.js';
 
 import { chains3dpassPNG, chainsAlephSVG, chainsBittensorPNG, chainsCreditcoinPNG, chainsDebioSVG, chainsEquilibriumSVG, chainsGenshiroSVG, chainsLogionPNG, chainsMyriadPNG, chainsSpannerPNG } from '../ui/logos/chains';
 import { nodesAresOdysseySVG, nodesAutomataPNG, nodesCentrifugePNG, nodesChainxSVG, nodesCompetitorsClubPNG, nodesCrabSVG, nodesCrownSterlingPNG, nodesCrustSVG, nodesDarwiniaSVG, nodesDatahighwayPNG, nodesDockPNG, nodesEdgewareWhitePNG, nodesEfinitySVG, nodesHanyonycashPNG, nodesHumanodePNG, nodesJoystreamSVG, nodesKulupuSVG, nodesKusariSVG, nodesMathSVG, nodesMinixPNG, nodesNftmartPNG, nodesNodleSVG, nodesPolkadexSVG, nodesPolymeshSVG, nodesRiochainSVG, nodesRobonomicsSVG, nodesSherpaxPNG, nodesSoraSubstrateSVG, nodesStafiPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesSwapdexSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesUniartsPNG, nodesUnitnetworkPNG } from '../ui/logos/nodes';

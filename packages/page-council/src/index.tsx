@@ -13,7 +13,7 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 
 import Motions from './Motions';
 import Overview from './Overview';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 import useCounter from './useCounter';
 
 export { useCounter };

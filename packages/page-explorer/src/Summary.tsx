@@ -9,7 +9,7 @@ import { BestFinalized, BestNumber, BlockToTime, TimeNow, TotalInactive, TotalIs
 import { BN_ONE, formatNumber } from '@polkadot/util';
 
 import SummarySession from './SummarySession';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   eventCount: number;

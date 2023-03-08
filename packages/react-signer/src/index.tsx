@@ -12,7 +12,7 @@ import { Modal, styled } from '@polkadot/react-components';
 import { useApi, useQueue } from '@polkadot/react-hooks';
 import { assert, isFunction, loggerFormat } from '@polkadot/util';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 import TxSigned from './TxSigned';
 import TxUnsigned from './TxUnsigned';
 

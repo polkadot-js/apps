@@ -3,7 +3,7 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { ProviderStats } from '@polkadot/rpc-provider/types';
-import type { ApiStats } from './types';
+import type { ApiStats } from './types.js';
 
 import React, { useCallback } from 'react';
 

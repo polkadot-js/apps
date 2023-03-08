@@ -10,7 +10,7 @@ import { u8aToHex } from '@polkadot/util';
 
 import Output from './Output';
 import { styled } from './styled';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;

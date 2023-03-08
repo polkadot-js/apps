@@ -15,7 +15,7 @@ import { BN_ZERO, bnMax, formatBalance, formatNumber } from '@polkadot/util';
 import Icon from './Icon';
 import { styled } from './styled';
 import Tooltip from './Tooltip';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;

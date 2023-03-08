@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
-import type { SlashEra } from './types';
+import type { SlashEra } from './types.js';
 
 import React, { useCallback, useRef, useState } from 'react';
 
@@ -10,7 +10,7 @@ import { Button, Table, TxButton } from '@polkadot/react-components';
 import { useApi, useCollectiveInstance } from '@polkadot/react-hooks';
 import { BN_ONE, isFunction } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import Row from './Row';
 import Summary from './Summary';
 

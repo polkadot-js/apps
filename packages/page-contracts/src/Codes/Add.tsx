@@ -8,7 +8,7 @@ import { isNull } from '@polkadot/util';
 
 import { ABI, InputName } from '../shared';
 import store from '../store';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import useAbi from '../useAbi';
 import ValidateCode from './ValidateCode';
 

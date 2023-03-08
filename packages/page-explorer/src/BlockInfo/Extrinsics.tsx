@@ -9,7 +9,7 @@ import React, { useMemo } from 'react';
 
 import { Table } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import ExtrinsicDisplay from './Extrinsic';
 
 interface Props {

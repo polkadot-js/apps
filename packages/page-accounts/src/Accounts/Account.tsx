@@ -8,7 +8,7 @@ import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { Option } from '@polkadot/types';
 import type { ProxyDefinition, RecoveryConfig } from '@polkadot/types/interfaces';
 import type { KeyringAddress, KeyringJson$Meta } from '@polkadot/ui-keyring/types';
-import type { AccountBalance, Delegation } from '../types';
+import type { AccountBalance, Delegation } from '../types.js';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -31,7 +31,7 @@ import RecoverAccount from '../modals/RecoverAccount';
 import RecoverSetup from '../modals/RecoverSetup';
 import Transfer from '../modals/Transfer';
 import UndelegateModal from '../modals/Undelegate';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import { createMenuGroup } from '../util';
 import useMultisigApprovals from './useMultisigApprovals';
 import useProxies from './useProxies';

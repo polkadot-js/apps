@@ -3,7 +3,7 @@
 
 import type { BountyStatus } from '@polkadot/types/interfaces';
 
-import { BountyStatusType, StatusName } from '../types';
+import { BountyStatusType, StatusName } from '../types.js';
 
 export const getBountyStatus = (status: BountyStatus): BountyStatusType => {
   const statusAsString = status.type as StatusName;

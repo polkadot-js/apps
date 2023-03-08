@@ -3,7 +3,7 @@
 
 import type { Option } from '@polkadot/types';
 import type { PalletBagsListListNode } from '@polkadot/types/lookup';
-import type { BagMap } from './types';
+import type { BagMap } from './types.js';
 
 import { useEffect, useState } from 'react';
 

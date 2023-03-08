@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { BagMap } from './types';
+import type { BagMap } from './types.js';
 
 import React, { useMemo, useState } from 'react';
 
 import { Button, InputAddress, InputAddressMulti, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle, useTxBatch } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import useBagsNodes from './useBagsNodes';
 
 interface Props {

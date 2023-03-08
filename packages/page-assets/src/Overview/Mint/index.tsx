@@ -9,7 +9,7 @@ import React from 'react';
 import { Button } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../../translate.js';
 import Modal from './Mint';
 
 interface Props {

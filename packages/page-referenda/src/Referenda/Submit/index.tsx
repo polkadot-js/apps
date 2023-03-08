@@ -4,7 +4,7 @@
 import type { RawParam } from '@polkadot/react-params/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { PalletReferenda, TrackDescription } from '../../types';
+import type { PalletReferenda, TrackDescription } from '../../types.js';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -15,7 +15,7 @@ import { Available } from '@polkadot/react-query';
 import { getTypeDef } from '@polkadot/types/create';
 import { BN_HUNDRED, BN_ONE, BN_THOUSAND, BN_ZERO, isHex } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../../translate.js';
 import { getTrackInfo } from '../../util';
 import TrackDropdown from './TrackDropdown';
 

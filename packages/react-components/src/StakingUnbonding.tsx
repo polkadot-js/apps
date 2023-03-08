@@ -12,7 +12,7 @@ import { BN, BN_ONE, BN_ZERO, formatBalance, formatNumber } from '@polkadot/util
 import Icon from './Icon';
 import { styled } from './styled';
 import Tooltip from './Tooltip';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Unlocking {
   remainingEras: BN;

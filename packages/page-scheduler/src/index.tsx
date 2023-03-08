@@ -8,7 +8,7 @@ import { useApi } from '@polkadot/react-hooks';
 
 import DispatchQueue from './DispatchQueue';
 import Scheduler from './Scheduler';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   basePath: string;

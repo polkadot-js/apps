@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { NetworkSpecsStruct } from '@polkadot/ui-settings/types';
-import type { ChainInfo, ChainType } from '../types';
+import type { ChainInfo, ChainType } from '../types.js';
 
 import React, { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 
 import { ChainImg, Input, QrNetworkSpecs, Spinner, styled, Table } from '@polkadot/react-components';
 import { useApi, useDebounce } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import ChainColorIndicator from './ChainColorIndicator';
 
 interface Props {

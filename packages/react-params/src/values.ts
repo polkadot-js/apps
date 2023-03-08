@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry, TypeDef } from '@polkadot/types/types';
-import type { RawParam } from './types';
+import type { RawParam } from './types.js';
 
 import { isUndefined } from '@polkadot/util';
 

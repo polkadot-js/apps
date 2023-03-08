@@ -3,7 +3,7 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletReferendaCurve, PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
-import type { CurveGraph, TrackDescription, TrackInfoExt } from './types';
+import type { CurveGraph, TrackDescription, TrackInfoExt } from './types.js';
 
 import { getGovernanceTracks } from '@polkadot/apps-config';
 import { BN, BN_BILLION, BN_ONE, BN_ZERO, bnMax, bnMin, formatNumber, objectSpread, stringPascalCase } from '@polkadot/util';

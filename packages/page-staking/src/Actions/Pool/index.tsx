@@ -4,7 +4,7 @@
 import type { DeriveSessionProgress } from '@polkadot/api-derive/types';
 import type { u32 } from '@polkadot/types';
 import type { PalletNominationPoolsPoolMember } from '@polkadot/types/lookup';
-import type { SortedTargets } from '../../types';
+import type { SortedTargets } from '../../types.js';
 
 import React from 'react';
 

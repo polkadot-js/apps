@@ -10,7 +10,7 @@ import { useApi, useNonEmptyString } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 
 import { ABI, InputName } from '../shared';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import useAbi from '../useAbi';
 import ValidateAddr from './ValidateAddr';
 

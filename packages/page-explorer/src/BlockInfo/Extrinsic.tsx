@@ -12,7 +12,7 @@ import { convertWeight } from '@polkadot/react-hooks/useWeight';
 import { BN, formatNumber } from '@polkadot/util';
 
 import Event from '../Event';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   blockNumber?: BlockNumber;

@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletStakingExposure } from '@polkadot/types/lookup';
-import type { SessionInfo, Validator } from '../types';
-import type { UseExposure, UseExposureExposure } from './types';
+import type { SessionInfo, Validator } from '../types.js';
+import type { UseExposure, UseExposureExposure } from './types.js';
 
 import { useMemo } from 'react';
 

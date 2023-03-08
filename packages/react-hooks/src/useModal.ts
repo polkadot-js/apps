@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ModalState } from './types';
+import type { ModalState } from './types.js';
 
 import { useCallback } from 'react';
 

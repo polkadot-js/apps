@@ -3,7 +3,7 @@
 
 import type { RawParam } from '@polkadot/react-params/types';
 import type { DefinitionCallNamed } from '@polkadot/types/types';
-import type { Result } from './types';
+import type { Result } from './types.js';
 
 import React, { useCallback, useState } from 'react';
 

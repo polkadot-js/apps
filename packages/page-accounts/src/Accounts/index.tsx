@@ -4,7 +4,7 @@
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { KeyringAddress } from '@polkadot/ui-keyring/types';
 import type { BN } from '@polkadot/util';
-import type { AccountBalance, Delegation, SortedAccount } from '../types';
+import type { AccountBalance, Delegation, SortedAccount } from '../types.js';
 import type { SortCategory } from '../util';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -22,7 +22,7 @@ import Ledger from '../modals/Ledger';
 import Multisig from '../modals/MultisigCreate';
 import Proxy from '../modals/ProxiedAdd';
 import Qr from '../modals/Qr';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import { SORT_CATEGORY, sortAccounts } from '../util';
 import Account from './Account';
 import BannerClaims from './BannerClaims';

@@ -6,7 +6,7 @@ import React, { useRef } from 'react';
 import { Tabs } from '@polkadot/react-components';
 
 import Bounties from './Bounties';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 export { default as useCounter } from './useCounter';
 

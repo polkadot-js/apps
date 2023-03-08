@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Hash } from '@polkadot/types/interfaces';
-import type { CodeJson, CodeStored } from './types';
+import type { CodeJson, CodeStored } from './types.js';
 
 import EventEmitter from 'eventemitter3';
 import store from 'store';

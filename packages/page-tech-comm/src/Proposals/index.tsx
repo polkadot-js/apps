@@ -3,13 +3,13 @@
 
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import type { Hash } from '@polkadot/types/interfaces';
-import type { ComponentProps } from '../types';
+import type { ComponentProps } from '../types.js';
 
 import React, { useRef } from 'react';
 
 import { Button, Table } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import Proposal from './Proposal';
 import Propose from './Propose';
 

@@ -6,7 +6,7 @@ import React from 'react';
 import { Button } from '@polkadot/react-components';
 import { useAccounts, useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import Propose from './Propose';
 
 interface Props {

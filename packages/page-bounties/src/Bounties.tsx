@@ -11,7 +11,7 @@ import { Button, styled, Table } from '@polkadot/react-components';
 import Bounty from './Bounty';
 import BountyCreate from './BountyCreate';
 import { useBounties } from './hooks';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;

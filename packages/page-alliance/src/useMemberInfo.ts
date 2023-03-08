@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { bool, Option, UInt } from '@polkadot/types';
-import type { MemberInfo } from './types';
+import type { MemberInfo } from './types.js';
 
 import { useMemo } from 'react';
 

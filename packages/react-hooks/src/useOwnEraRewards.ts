@@ -4,7 +4,7 @@
 import type { ApiPromise } from '@polkadot/api';
 import type { DeriveEraPoints, DeriveEraRewards, DeriveStakerReward } from '@polkadot/api-derive/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
-import type { StakerState } from './types';
+import type { StakerState } from './types.js';
 
 import { useEffect, useState } from 'react';
 

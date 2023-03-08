@@ -6,7 +6,7 @@ import React from 'react';
 import AddressRow from './AddressRow';
 import Button from './Button';
 import Modal from './Modal';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 type Mode = 'account' | 'address' | 'contract' | 'code';
 

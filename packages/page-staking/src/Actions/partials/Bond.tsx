@@ -3,8 +3,8 @@
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { BN } from '@polkadot/util';
-import type { AmountValidateState, DestinationType } from '../types';
-import type { BondInfo } from './types';
+import type { AmountValidateState, DestinationType } from '../types.js';
+import type { BondInfo } from './types.js';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -13,7 +13,7 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { BalanceFree, BlockToTime } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../../translate.js';
 import InputValidateAmount from '../Account/InputValidateAmount';
 import InputValidationController from '../Account/InputValidationController';
 import { createDestCurr } from '../destOptions';

@@ -3,14 +3,14 @@
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { RewardDestination } from '@polkadot/types/interfaces';
-import type { DestinationType } from '../types';
+import type { DestinationType } from '../types.js';
 
 import React, { useMemo, useState } from 'react';
 
 import { Dropdown, InputAddress, MarkError, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../../translate.js';
 import { createDestCurr } from '../destOptions';
 
 interface Props {

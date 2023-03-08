@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
-import type { ModalProps } from '../types';
+import type { ModalProps } from '../types.js';
 
 import React, { useCallback, useMemo, useState } from 'react';
 
@@ -10,7 +10,7 @@ import { AddressRow, Button, Input, InputAddress, MarkWarning, Modal, QrScanAddr
 import { useApi, useIpfs } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import PasswordInput from './PasswordInput';
 
 interface Scanned {

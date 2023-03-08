@@ -8,7 +8,7 @@ import { Tabs } from '@polkadot/react-components';
 
 import Convert from './Convert';
 import Hash from './Hash';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   basePath: string;

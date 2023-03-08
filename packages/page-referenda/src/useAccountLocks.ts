@@ -5,7 +5,7 @@ import type { ApiPromise } from '@polkadot/api';
 import type { Option } from '@polkadot/types';
 import type { PalletConvictionVotingVoteCasting, PalletConvictionVotingVoteVoting, PalletReferendaReferendumInfoConvictionVotingTally } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { Lock, PalletReferenda, PalletVote } from './types';
+import type { Lock, PalletReferenda, PalletVote } from './types.js';
 
 import { useMemo } from 'react';
 

@@ -8,7 +8,7 @@ import { useDebounce, useNextTick } from '@polkadot/react-hooks';
 import Input from '../Input';
 import Spinner from '../Spinner';
 import { styled } from '../styled';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import Available from './Available';
 import Selected from './Selected';
 

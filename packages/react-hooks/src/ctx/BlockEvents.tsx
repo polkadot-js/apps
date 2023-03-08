@@ -4,7 +4,7 @@
 import type { ApiPromise } from '@polkadot/api';
 import type { Vec } from '@polkadot/types';
 import type { EventRecord } from '@polkadot/types/interfaces';
-import type { BlockEvents, IndexedEvent, KeyedEvent } from './types';
+import type { BlockEvents, IndexedEvent, KeyedEvent } from './types.js';
 
 import React, { useEffect, useRef, useState } from 'react';
 

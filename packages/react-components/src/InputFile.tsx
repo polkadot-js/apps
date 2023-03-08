@@ -8,7 +8,7 @@ import { formatNumber, hexToU8a, isHex, u8aToString } from '@polkadot/util';
 
 import Labelled from './Labelled';
 import { styled } from './styled';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 export interface InputFilePropsBase {
   className?: string;

@@ -3,7 +3,7 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { BN } from '@polkadot/util';
-import type { Inflation } from './types';
+import type { Inflation } from './types.js';
 
 import { useEffect, useState } from 'react';
 

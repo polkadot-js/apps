@@ -6,7 +6,7 @@ import React from 'react';
 import { useApi } from '@polkadot/react-hooks';
 import { settings } from '@polkadot/ui-settings';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import BaseOverlay from './Base';
 
 const wsUrl = settings.apiType.param;

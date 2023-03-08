@@ -1,14 +1,14 @@
 // Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ChartContents, Detail } from './types';
+import type { ChartContents, Detail } from './types.js';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { CardSummary, NextTick, styled, SummaryBox } from '@polkadot/react-components';
 import { formatNumber, nextTick } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import Chart from './Chart';
 import useLatency from './useLatency';
 

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { BagMap } from './types';
+import type { BagMap } from './types.js';
 
 import React, { useMemo } from 'react';
 
@@ -10,7 +10,7 @@ import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useCall } from '@polkadot/react-hooks';
 import { formatNumber, isNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import useQueryModule from './useQueryModule';
 
 interface Props {

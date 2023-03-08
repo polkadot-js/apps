@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { MembersMapEntry, Params } from './types';
+import type { MembersMapEntry, Params } from './types.js';
 
 import React, { useCallback } from 'react';
 
@@ -10,7 +10,7 @@ import { AddressMini, ExpandButton, ExpanderScroll, Spinner, styled, Table } fro
 import { useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import Join from './Join';
 import usePoolInfo from './usePoolInfo';
 

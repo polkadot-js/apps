@@ -18,7 +18,7 @@ import Forks from './Forks';
 import Latency from './Latency';
 import Main from './Main';
 import NodeInfo from './NodeInfo';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   basePath: string;

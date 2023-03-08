@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
-import type { AmountValidateState } from '../types';
+import type { AmountValidateState } from '../types.js';
 
 import React, { useMemo, useState } from 'react';
 
@@ -12,7 +12,7 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { BalanceFree } from '@polkadot/react-query';
 import { BN, BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../../translate.js';
 import ValidateAmount from './InputValidateAmount';
 
 interface Props {

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AppProps as Props } from '@polkadot/react-components/types';
-import type { QueryTypes } from './types';
+import type { QueryTypes } from './types.js';
 
 import React, { useCallback, useState } from 'react';
 

@@ -7,7 +7,7 @@ import { fireEvent, screen, within } from '@testing-library/react';
 import { Sidebar } from '@polkadot/test-support/pagesElements/Sidebar';
 import { Balance } from '@polkadot/types/interfaces';
 
-import { format } from '../utils/balance';
+import { format } from '../utils/balance.js';
 
 export class Row {
   public primaryRow: HTMLElement;

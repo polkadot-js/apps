@@ -11,7 +11,7 @@ import { useBlockTime } from '@polkadot/react-hooks';
 import { truncateTitle } from '../helpers';
 import { increaseDateByBlocks } from '../helpers/increaseDateByBlocks';
 import { useBounties } from '../hooks';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   curatorId: AccountId;

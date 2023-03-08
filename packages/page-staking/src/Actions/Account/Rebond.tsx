@@ -9,7 +9,7 @@ import { InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BN, BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../../translate.js';
 import SenderInfo from '../partials/SenderInfo';
 
 interface Props {

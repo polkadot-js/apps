@@ -12,7 +12,7 @@ import { useApi, useCall, useCollectiveMembers } from '@polkadot/react-hooks';
 
 import Announcements from './Announcements';
 import Members from './Members';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 import Unscrupulous from './Unscrupulous';
 import useAnnoucements from './useAnnoucements';
 import useMembers from './useMembers';

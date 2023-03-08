@@ -3,7 +3,7 @@
 
 import type { PalletReferendaDeposit, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { PalletReferenda } from '../../types';
+import type { PalletReferenda } from '../../types.js';
 
 import React from 'react';
 

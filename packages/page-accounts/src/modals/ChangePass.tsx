@@ -7,7 +7,7 @@ import { AddressRow, Button, Modal, Password, PasswordStrength } from '@polkadot
 import { keyring } from '@polkadot/ui-keyring';
 import { nextTick } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;

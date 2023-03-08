@@ -5,7 +5,7 @@ import type { ApiPromise } from '@polkadot/api';
 import type { PromiseResult, QueryableStorageEntry } from '@polkadot/api/types';
 import type { StorageEntryTypeLatest } from '@polkadot/types/interfaces';
 import type { AnyFunction, Codec } from '@polkadot/types/types';
-import type { CallOptions, CallParam, CallParams } from './types';
+import type { CallOptions, CallParam, CallParams } from './types.js';
 import type { MountedRef } from './useIsMountedRef';
 
 import { useEffect, useRef, useState } from 'react';

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Location } from 'history';
-import type { SectionType, TabItem } from './types';
+import type { SectionType, TabItem } from './types.js';
 
 import React, { useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';

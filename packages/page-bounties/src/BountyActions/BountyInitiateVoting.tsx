@@ -13,7 +13,7 @@ import { BN } from '@polkadot/util';
 
 import { truncateTitle } from '../helpers';
 import { useBounties } from '../hooks';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   description: string;

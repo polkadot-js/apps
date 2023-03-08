@@ -8,7 +8,7 @@ import React, { useCallback, useState } from 'react';
 import { Button, Modal, TxButton } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import BondPartial from './partials/Bond';
 
 function NewStash (): React.ReactElement {

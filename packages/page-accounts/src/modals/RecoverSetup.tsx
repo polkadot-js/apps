@@ -10,7 +10,7 @@ import { useApi } from '@polkadot/react-hooks';
 import { sortAddresses } from '@polkadot/util-crypto';
 
 import useKnownAddresses from '../Accounts/useKnownAddresses';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   address: string;

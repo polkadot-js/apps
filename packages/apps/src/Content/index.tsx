@@ -11,7 +11,7 @@ import { ErrorBoundary, Spinner, styled, TabsCtx } from '@polkadot/react-compone
 import { useApi, useQueue } from '@polkadot/react-hooks';
 
 import { findMissingApis } from '../endpoint';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import NotFound from './NotFound';
 import Status from './Status';
 

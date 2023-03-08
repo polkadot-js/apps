@@ -8,7 +8,7 @@ import React from 'react';
 import { AddressSmall, Tag } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import Voters from './Voters';
 
 interface Props {

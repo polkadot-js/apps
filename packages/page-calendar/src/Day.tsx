@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { EntryInfoTyped } from './types';
+import type { EntryInfoTyped } from './types.js';
 
 import React, { useCallback, useMemo, useRef } from 'react';
 
@@ -10,7 +10,7 @@ import { Button, styled } from '@polkadot/react-components';
 import { MONTHS } from './constants';
 import DayHour from './DayHour';
 import DayTime from './DayTime';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;

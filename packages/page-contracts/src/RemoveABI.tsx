@@ -1,14 +1,14 @@
 // Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodeStored } from './types';
+import type { CodeStored } from './types.js';
 
 import React, { useCallback } from 'react';
 
 import { Button, Modal } from '@polkadot/react-components';
 
 import CodeRow from './shared/CodeRow';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   code: CodeStored;

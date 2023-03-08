@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
-import type { Accounts, Addresses } from './types';
+import type { Accounts, Addresses } from './types.js';
 
 import React, { useEffect, useState } from 'react';
 import { combineLatest, map } from 'rxjs';

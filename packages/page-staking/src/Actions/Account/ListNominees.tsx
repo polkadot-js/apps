@@ -10,7 +10,7 @@ import { AddressMini, ExpanderScroll, MarkWarning } from '@polkadot/react-compon
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { isFunction, isToBn } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../../translate.js';
 import useInactives from '../useInactives';
 
 interface Props {

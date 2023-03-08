@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { QueryTypes } from './types';
+import type { QueryTypes } from './types.js';
 
 import React from 'react';
 

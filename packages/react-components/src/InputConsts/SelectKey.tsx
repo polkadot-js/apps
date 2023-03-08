@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DropdownOptions } from '../util/types';
-import type { ConstValueBase } from './types';
+import type { ConstValueBase } from './types.js';
 
 import React from 'react';
 

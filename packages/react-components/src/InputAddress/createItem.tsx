@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
-import type { Option } from './types';
+import type { Option } from './types.js';
 
 import React from 'react';
 

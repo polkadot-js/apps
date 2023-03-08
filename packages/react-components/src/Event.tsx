@@ -12,7 +12,7 @@ import Params from '@polkadot/react-params';
 
 import { balanceEvents, balanceEventsOverrides } from './constants';
 import Input from './Input';
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 import { getContractAbi } from './util';
 
 export interface Props {

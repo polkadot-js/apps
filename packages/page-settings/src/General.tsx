@@ -12,7 +12,7 @@ import { Button, Dropdown, MarkWarning } from '@polkadot/react-components';
 import { useApi, useIpfs, useLedger } from '@polkadot/react-hooks';
 import { settings } from '@polkadot/ui-settings';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 import { createIdenticon, createOption, save, saveAndReload } from './util';
 
 interface Props {

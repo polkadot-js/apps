@@ -20,9 +20,9 @@ import { TypeRegistry } from '@polkadot/types/create';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN } from '@polkadot/util';
 
-import { alice, bob, charlie, ferdie } from '../keyring';
-import { Table } from '../pagesElements';
-import { AccountOverrides, mockAccountHooks } from '../utils/accountDefaults';
+import { alice, bob, charlie, ferdie } from '../keyring/index.js';
+import { Table } from '../pagesElements/index.js';
+import { AccountOverrides, mockAccountHooks } from '../utils/accountDefaults.js';
 
 let queueExtrinsic: (value: PartialQueueTxExtrinsic) => void;
 

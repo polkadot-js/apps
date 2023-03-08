@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakerPrefs } from '@polkadot/api-derive/types';
-import type { LineData, Props } from './types';
+import type { LineData, Props } from './types.js';
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BN, BN_BILLION } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import Chart from './Chart';
 
 const MULT = new BN(100 * 100);

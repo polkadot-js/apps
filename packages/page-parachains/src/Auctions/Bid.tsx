@@ -3,7 +3,7 @@
 
 import type { BlockNumber } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
-import type { AuctionInfo, OwnedId, OwnerInfo, Winning } from '../types';
+import type { AuctionInfo, OwnedId, OwnerInfo, Winning } from '../types.js';
 
 import React, { useMemo, useState } from 'react';
 
@@ -12,7 +12,7 @@ import { useAccounts, useApi, useBestNumber, useToggle } from '@polkadot/react-h
 import { BN_ZERO, formatNumber } from '@polkadot/util';
 
 import InputOwner from '../InputOwner';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import { useLeaseRanges } from '../useLeaseRanges';
 
 interface Props {

@@ -12,7 +12,7 @@ import { useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { isFunction, isHex, u8aToHex, u8aWrapBytes } from '@polkadot/util';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 import Unlock from './Unlock';
 
 interface Props {

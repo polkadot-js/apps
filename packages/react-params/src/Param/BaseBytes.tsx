@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { RawParam, RawParamOnChange, RawParamOnEnter, RawParamOnEscape, Size, TypeDefExt } from '../types';
+import type { RawParam, RawParamOnChange, RawParamOnEnter, RawParamOnEscape, Size, TypeDefExt } from '../types.js';
 
 import React, { useCallback, useState } from 'react';
 
@@ -9,7 +9,7 @@ import { CopyButton, IdentityIcon, Input, styled } from '@polkadot/react-compone
 import { compactAddLength, hexToU8a, isAscii, isHex, stringToU8a, u8aToHex, u8aToString, u8aToU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import Bare from './Bare';
 
 interface Props {

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Codec } from '@polkadot/types/types';
-import type { Props } from '../types';
+import type { Props } from '../types.js';
 
 import React, { useCallback, useState } from 'react';
 
