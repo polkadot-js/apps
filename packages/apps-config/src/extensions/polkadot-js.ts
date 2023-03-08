@@ -3,7 +3,7 @@
 
 import type { Known } from './types.js';
 
-import { extensionsPolkadotJsSVG } from '../ui/logos/extensions.js';
+import { extensionsPolkadotJsSVG } from '../ui/logos/extensions/index.js';
 import { externalEmptySVG } from '../ui/logos/external/index.js';
 
 export const PolkadotJs: Known = {

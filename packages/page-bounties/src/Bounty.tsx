@@ -16,10 +16,10 @@ import BountyExtraActions from './BountyExtraActions/index.js';
 import BountyInfos from './BountyInfos/index.js';
 import BountyActionMessage from './BountyNextActionInfo/BountyActionMessage.js';
 import { getProposalToDisplay } from './helpers/extendedStatuses.js';
+import { useBountyStatus } from './hooks/index.js';
 import BountyStatusView from './BountyStatusView.js';
 import Curator from './Curator.js';
 import DueBlocks from './DueBlocks.js';
-import { useBountyStatus } from './hooks.js';
 import { useTranslation } from './translate.js';
 import VotersColumn from './VotersColumn.js';
 
