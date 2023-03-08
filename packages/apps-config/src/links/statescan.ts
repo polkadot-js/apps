@@ -9,6 +9,7 @@ import { externalStatescanSVG } from '../ui/logos/external';
 export const Statescan: ExternalDef = {
   chains: {
     Collectives: 'Collectives',
+    Kusama: 'kusama',
     Litentry: 'litentry',
     Litmus: 'litmus',
     Statemine: 'statemine',
