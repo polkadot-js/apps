@@ -7,10 +7,10 @@ import React from 'react';
 
 import { Columar, styled } from '@polkadot/react-components';
 
-import ChartPoints from './ChartPoints';
-import ChartPrefs from './ChartPrefs';
-import ChartRewards from './ChartRewards';
-import ChartStake from './ChartStake';
+import ChartPoints from './ChartPoints.js';
+import ChartPrefs from './ChartPrefs.js';
+import ChartRewards from './ChartRewards.js';
+import ChartStake from './ChartStake.js';
 
 function Validator ({ className = '', labels, validatorId }: Props): React.ReactElement<Props> | null {
   return (

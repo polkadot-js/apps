@@ -11,7 +11,7 @@ import { useMemo } from 'react';
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-import useVotingLocks from './useVotingLocks';
+import useVotingLocks from './useVotingLocks.js';
 
 type ForParam = [accountId: string, classId: BN];
 

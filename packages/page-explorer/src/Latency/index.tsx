@@ -9,8 +9,8 @@ import { CardSummary, NextTick, styled, SummaryBox } from '@polkadot/react-compo
 import { formatNumber, nextTick } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import Chart from './Chart';
-import useLatency from './useLatency';
+import Chart from './Chart.js';
+import useLatency from './useLatency.js';
 
 interface Props {
   className?: string;

@@ -11,13 +11,13 @@ import { Tabs } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BN, BN_THREE, BN_TWO } from '@polkadot/util';
 
-import Candidates from './Candidates';
-import Overview from './Overview';
-import Suspended from './Suspended';
+import Candidates from './Candidates.js';
+import Overview from './Overview.js';
+import Suspended from './Suspended.js';
 import { useTranslation } from './translate.js';
-import useCounter from './useCounter';
-import useMembers from './useMembers';
-import useVoters from './useVoters';
+import useCounter from './useCounter.js';
+import useMembers from './useMembers.js';
+import useVoters from './useVoters.js';
 
 interface Props {
   basePath: string;

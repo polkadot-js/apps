@@ -13,7 +13,7 @@ import { createNamedHook, useApi, useBestNumber, useCall, useEventTrigger, useIs
 import { BN, BN_ZERO, u8aConcat, u8aEq } from '@polkadot/util';
 import { encodeAddress } from '@polkadot/util-crypto';
 
-import { CROWD_PREFIX } from './constants';
+import { CROWD_PREFIX } from './constants.js';
 
 const EMPTY: Campaigns = {
   activeCap: BN_ZERO,

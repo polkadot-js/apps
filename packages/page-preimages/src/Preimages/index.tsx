@@ -9,9 +9,9 @@ import { Button, styled, Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate.js';
 import usePreimages from '../usePreimages.js';
-import Add from './Add';
-import Preimage from './Preimage';
-import Summary from './Summary';
+import Add from './Add.js';
+import Preimage from './Preimage.js';
+import Summary from './Summary.js';
 
 interface Props {
   className?: string;

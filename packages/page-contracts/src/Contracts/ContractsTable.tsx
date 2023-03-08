@@ -14,9 +14,9 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import Call from './Call';
-import Contract from './Contract';
-import { getContractForAddress } from './util';
+import Call from './Call.js';
+import Contract from './Contract.js';
+import { getContractForAddress } from './util.js';
 
 export interface Props {
   contracts: string[];

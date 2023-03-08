@@ -11,8 +11,8 @@ import { Button, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useStepper, useTxBatch } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate.js';
-import Info from './Info';
-import Team from './Team';
+import Info from './Info.js';
+import Team from './Team.js';
 
 interface Props {
   assetIds: BN[];

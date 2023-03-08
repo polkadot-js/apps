@@ -12,7 +12,7 @@ import { useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
 import useExtensions from '../useExtensions.js';
-import iconOption from './iconOption';
+import iconOption from './iconOption.js';
 
 interface Props {
   chainInfo: ChainInfo | null;

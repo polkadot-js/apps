@@ -5,7 +5,7 @@ import type { ReferendumProps as Props } from '../types.js';
 
 import React, { useMemo } from 'react';
 
-import RefEnd from './RefEnd';
+import RefEnd from './RefEnd.js';
 
 function RefOther ({ value: { info } }: Props): React.ReactElement<Props> {
   const when = useMemo(

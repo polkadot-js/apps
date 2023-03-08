@@ -14,11 +14,11 @@ import { determineUnassignCuratorAction } from '../helpers.js';
 import { useBountyStatus, useUserRole } from '../hooks.js';
 import { useTranslation } from '../translate.js';
 import { ValidUnassignCuratorAction } from '../types.js';
-import BountyRejectCurator from './BountyRejectCurator';
-import CloseBounty from './CloseBounty';
-import ExtendBountyExpiryAction from './ExtendBountyExpiryAction';
-import GiveUp from './GiveUp';
-import SlashCurator from './SlashCurator';
+import BountyRejectCurator from './BountyRejectCurator.js';
+import CloseBounty from './CloseBounty.js';
+import ExtendBountyExpiryAction from './ExtendBountyExpiryAction.js';
+import GiveUp from './GiveUp.js';
+import SlashCurator from './SlashCurator.js';
 
 interface Props {
   bestNumber: BN;

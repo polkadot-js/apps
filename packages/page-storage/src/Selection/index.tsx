@@ -9,9 +9,9 @@ import { Route, Switch } from 'react-router';
 import { Tabs } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate.js';
-import Consts from './Consts';
-import Modules from './Modules';
-import Raw from './Raw';
+import Consts from './Consts.js';
+import Modules from './Modules.js';
+import Raw from './Raw.js';
 
 interface Props {
   basePath: string;

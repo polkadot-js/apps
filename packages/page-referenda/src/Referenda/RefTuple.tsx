@@ -7,9 +7,9 @@ import type { Referendum, ReferendumProps as Props } from '../types.js';
 
 import React, { useMemo } from 'react';
 
-import Deposits from './Deposits';
-import RefEnd from './RefEnd';
-import { unwrapDeposit } from './util';
+import Deposits from './Deposits.js';
+import RefEnd from './RefEnd.js';
+import { unwrapDeposit } from './util.js';
 
 interface Expanded {
   decision: PalletReferendaDeposit | null;

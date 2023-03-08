@@ -7,8 +7,8 @@ import { useMemo } from 'react';
 
 import { createNamedHook } from '@polkadot/react-hooks';
 
-import { useCacheValue } from './useCache';
-import useValidatorsAll from './useValidatorsAll';
+import { useCacheValue } from './useCache.js';
+import useValidatorsAll from './useValidatorsAll.js';
 
 function excludeValidators (from: Validator[], exclude: Validator[]): Validator[] {
   return from.filter(({ stashId }) =>

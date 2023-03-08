@@ -11,8 +11,8 @@ import { CallExpander, styled } from '@polkadot/react-components';
 import { useApi, usePreimage } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
-import ExternalCell from './ExternalCell';
-import TreasuryCell from './TreasuryCell';
+import ExternalCell from './ExternalCell.js';
+import TreasuryCell from './TreasuryCell.js';
 
 interface Props {
   className?: string;

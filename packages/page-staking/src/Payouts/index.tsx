@@ -15,9 +15,9 @@ import { BN, BN_THREE } from '@polkadot/util';
 
 import ElectionBanner from '../ElectionBanner.js';
 import { useTranslation } from '../translate.js';
-import PayButton from './PayButton';
-import Stash from './Stash';
-import Validator from './Validator';
+import PayButton from './PayButton.js';
+import Stash from './Stash.js';
+import Validator from './Validator.js';
 
 interface Props {
   className?: string;

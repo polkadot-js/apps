@@ -13,7 +13,7 @@ import { keyring } from '@polkadot/ui-keyring';
 import { isFunction, isHex, u8aToHex, u8aWrapBytes } from '@polkadot/util';
 
 import { useTranslation } from './translate.js';
-import Unlock from './Unlock';
+import Unlock from './Unlock.js';
 
 interface Props {
   className?: string;

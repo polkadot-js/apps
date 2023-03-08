@@ -5,8 +5,8 @@ import type { ComponentProps as Props } from '../types.js';
 
 import React from 'react';
 
-import Members from './Members';
-import Summary from './Summary';
+import Members from './Members.js';
+import Summary from './Summary.js';
 
 function Overview ({ className = '', isMember, members, prime, proposalHashes, type }: Props): React.ReactElement<Props> {
   return (

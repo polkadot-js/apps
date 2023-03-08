@@ -6,8 +6,8 @@ import type { CollectionInfo } from '../types.js';
 
 import React from 'react';
 
-import Collections from './Collections';
-import Summary from './Summary';
+import Collections from './Collections.js';
+import Summary from './Summary.js';
 
 interface Props {
   className?: string;

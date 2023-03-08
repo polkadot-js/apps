@@ -11,7 +11,7 @@ import { useToggle } from '@polkadot/react-hooks';
 import { settings } from '@polkadot/ui-settings';
 
 import { useTranslation } from '../translate.js';
-import StringInput from './StringInput';
+import StringInput from './StringInput.js';
 
 type Progress = [[number, number, number], Record<string, [number, number, number]>];
 type Strings = Record<string, string>;

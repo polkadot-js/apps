@@ -10,7 +10,7 @@ import { BN, BN_HUNDRED, BN_ZERO } from '@polkadot/util';
 
 import { useBounties } from '../hooks.js';
 import { useTranslation } from '../translate.js';
-import BountyInfo from './BountyInfo';
+import BountyInfo from './BountyInfo.js';
 
 interface Props {
   bestNumber: BN;

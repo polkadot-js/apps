@@ -10,7 +10,7 @@ import { ABI, InputName } from '../shared.js';
 import store from '../store.js';
 import { useTranslation } from '../translate.js';
 import useAbi from '../useAbi.js';
-import ValidateCode from './ValidateCode';
+import ValidateCode from './ValidateCode.js';
 
 interface Props {
   onClose: () => void;

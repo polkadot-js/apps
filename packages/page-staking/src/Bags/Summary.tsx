@@ -11,7 +11,7 @@ import { useCall } from '@polkadot/react-hooks';
 import { formatNumber, isNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import useQueryModule from './useQueryModule';
+import useQueryModule from './useQueryModule.js';
 
 interface Props {
   bags?: unknown[];

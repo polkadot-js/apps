@@ -9,7 +9,7 @@ import { Button } from '@polkadot/react-components';
 import { useAccounts, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate.js';
-import Create from './Create';
+import Create from './Create.js';
 
 interface Props {
   assetIds?: BN[];

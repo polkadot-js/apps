@@ -12,12 +12,12 @@ import { Tabs } from '@polkadot/react-components';
 import { useApi, useBlockAuthors, useBlockEvents } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-import Api from './Api';
-import BlockInfo from './BlockInfo';
-import Forks from './Forks';
-import Latency from './Latency';
-import Main from './Main';
-import NodeInfo from './NodeInfo';
+import Api from './Api.js';
+import BlockInfo from './BlockInfo.js';
+import Forks from './Forks.js';
+import Latency from './Latency.js';
+import Main from './Main.js';
+import NodeInfo from './NodeInfo.js';
 import { useTranslation } from './translate.js';
 
 interface Props {

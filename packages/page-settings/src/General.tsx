@@ -13,7 +13,7 @@ import { useApi, useIpfs, useLedger } from '@polkadot/react-hooks';
 import { settings } from '@polkadot/ui-settings';
 
 import { useTranslation } from './translate.js';
-import { createIdenticon, createOption, save, saveAndReload } from './util';
+import { createIdenticon, createOption, save, saveAndReload } from './util.js';
 
 interface Props {
   className?: string;

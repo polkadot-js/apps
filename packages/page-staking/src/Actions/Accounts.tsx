@@ -11,7 +11,7 @@ import { Table } from '@polkadot/react-components';
 import { BN } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import Account from './Account';
+import Account from './Account.js';
 
 interface Props {
   allSlashes: [BN, PalletStakingUnappliedSlash[]][];

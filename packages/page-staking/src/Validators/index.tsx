@@ -12,9 +12,9 @@ import { Button, ToggleGroup } from '@polkadot/react-components';
 import { useApi, useBlockAuthors, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
-import ActionsBanner from './ActionsBanner';
-import CurrentList from './CurrentList';
-import Summary from './Summary';
+import ActionsBanner from './ActionsBanner.js';
+import CurrentList from './CurrentList.js';
+import Summary from './Summary.js';
 
 interface Props {
   className?: string;

@@ -10,7 +10,7 @@ import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/r
 import { useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
-import useAmountError from './useAmountError';
+import useAmountError from './useAmountError.js';
 
 interface Props {
   className?: string;

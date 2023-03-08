@@ -11,7 +11,7 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
 import { useLeaseRangeMax } from '../useLeaseRanges.js';
-import WinRange from './WinRange';
+import WinRange from './WinRange.js';
 
 interface Props {
   auctionInfo?: AuctionInfo;

@@ -10,9 +10,9 @@ import { useApi, useRegistrars, useSubidentities, useToggle } from '@polkadot/re
 import { isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import Judgements from './Judgements';
-import RegistrarJudgement from './RegistrarJudgement';
-import UserIcon from './UserIcon';
+import Judgements from './Judgements.js';
+import RegistrarJudgement from './RegistrarJudgement.js';
+import UserIcon from './UserIcon.js';
 
 interface Props {
   address: string;

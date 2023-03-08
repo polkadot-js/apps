@@ -7,7 +7,7 @@ import { useMemo } from 'react';
 
 import { createNamedHook } from '@polkadot/react-hooks';
 
-import useReferenda from './useReferenda';
+import useReferenda from './useReferenda.js';
 
 export function useCounterNamed (palletReferenda: PalletReferenda): number {
   const [grouped] = useReferenda(palletReferenda);

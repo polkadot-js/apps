@@ -6,8 +6,8 @@ import React from 'react';
 import { useApi } from '@polkadot/react-hooks';
 
 import useChainInfo from '../useChainInfo.js';
-import Extensions from './Extensions';
-import NetworkSpecs from './NetworkSpecs';
+import Extensions from './Extensions.js';
+import NetworkSpecs from './NetworkSpecs.js';
 
 export default function Metadata (): React.ReactElement {
   const { isDevelopment } = useApi();

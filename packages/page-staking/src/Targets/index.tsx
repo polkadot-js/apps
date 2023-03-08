@@ -19,10 +19,10 @@ import Filtering from '../Filtering.js';
 import Legend from '../Legend.js';
 import { useTranslation } from '../translate.js';
 import useIdentities from '../useIdentities.js';
-import Nominate from './Nominate';
-import Summary from './Summary';
-import useOwnNominators from './useOwnNominators';
-import Validator from './Validator';
+import Nominate from './Nominate.js';
+import Summary from './Summary.js';
+import useOwnNominators from './useOwnNominators.js';
+import Validator from './Validator.js';
 
 interface Props {
   className?: string;

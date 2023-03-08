@@ -11,7 +11,7 @@ import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
-import useMembersIds from './useMemberIds';
+import useMembersIds from './useMemberIds.js';
 
 interface Result {
   memberIds: string[];

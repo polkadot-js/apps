@@ -11,7 +11,7 @@ import { useApi, useToggle } from '@polkadot/react-hooks';
 import { bnMax } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import useAmountError from './useAmountError';
+import useAmountError from './useAmountError.js';
 
 interface Props {
   className?: string;

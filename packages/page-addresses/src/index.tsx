@@ -8,7 +8,7 @@ import { Route, Switch } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 
-import Contacts from './Contacts';
+import Contacts from './Contacts.js';
 import { useTranslation } from './translate.js';
 
 function AddressesApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {

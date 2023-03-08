@@ -10,7 +10,7 @@ import { useAddresses, useFavorites, useNextTick, useToggle } from '@polkadot/re
 
 import CreateModal from '../modals/Create.js';
 import { useTranslation } from '../translate.js';
-import Address from './Address';
+import Address from './Address.js';
 
 type SortedAddress = { address: string; isFavorite: boolean };
 

@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import { createNamedHook, useCall, useMapKeys } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import useQueryModule from './useQueryModule';
+import useQueryModule from './useQueryModule.js';
 
 const KEY_OPTS = {
   transform: (keys: StorageKey<[u64]>[]): BN[] =>

@@ -5,8 +5,8 @@ import type { Proposals } from '../types.js';
 
 import React from 'react';
 
-import Actions from './Actions';
-import ProposalList from './Proposals';
+import Actions from './Actions.js';
+import ProposalList from './Proposals.js';
 
 interface Props {
   className?: string;

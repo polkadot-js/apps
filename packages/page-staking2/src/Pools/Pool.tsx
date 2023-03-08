@@ -11,8 +11,8 @@ import { useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from '../translate.js';
-import Join from './Join';
-import usePoolInfo from './usePoolInfo';
+import Join from './Join.js';
+import usePoolInfo from './usePoolInfo.js';
 
 interface Props {
   className?: string;

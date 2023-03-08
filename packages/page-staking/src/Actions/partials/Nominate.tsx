@@ -12,8 +12,8 @@ import { useApi, useFavorites } from '@polkadot/react-hooks';
 
 import { MAX_NOMINATIONS, STORE_FAVS_BASE } from '../../constants.js';
 import { useTranslation } from '../../translate.js';
-import PoolInfo from './PoolInfo';
-import SenderInfo from './SenderInfo';
+import PoolInfo from './PoolInfo.js';
+import SenderInfo from './SenderInfo.js';
 
 interface Props {
   className?: string;

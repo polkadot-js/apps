@@ -8,7 +8,7 @@ import React, { useMemo, useRef } from 'react';
 import { Table } from '@polkadot/react-components';
 import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 
-import DispatchEntry from './DispatchEntry';
+import DispatchEntry from './DispatchEntry.js';
 import { useTranslation } from './translate.js';
 
 interface Props {

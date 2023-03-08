@@ -10,8 +10,8 @@ import React, { useRef } from 'react';
 import { Button, Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate.js';
-import Proposal from './Proposal';
-import Propose from './Propose';
+import Proposal from './Proposal.js';
+import Propose from './Propose.js';
 
 interface Props extends ComponentProps {
   defaultProposal?: SubmittableExtrinsicFunction<'promise'>;

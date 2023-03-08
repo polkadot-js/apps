@@ -10,8 +10,8 @@ import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useEventChanges, useMapKeys } from '@polkadot/react-hooks';
 
-import { useCacheValue } from './useCache';
-import useTaggedValidators from './useTaggedValidators';
+import { useCacheValue } from './useCache.js';
+import useTaggedValidators from './useTaggedValidators.js';
 
 const EMPTY_PARAMS: unknown[] = [];
 

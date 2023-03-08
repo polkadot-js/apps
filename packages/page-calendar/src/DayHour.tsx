@@ -7,7 +7,7 @@ import React, { useMemo } from 'react';
 
 import { styled } from '@polkadot/react-components';
 
-import DayItem from './DayItem';
+import DayItem from './DayItem.js';
 
 interface Props {
   className?: string;

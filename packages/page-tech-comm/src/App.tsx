@@ -10,8 +10,8 @@ import { Route, Switch } from 'react-router';
 import { Tabs } from '@polkadot/react-components';
 import { useApi, useCall, useCollectiveMembers } from '@polkadot/react-hooks';
 
-import Overview from './Overview';
-import Proposals from './Proposals';
+import Overview from './Overview.js';
+import Proposals from './Proposals.js';
 import { useTranslation } from './translate.js';
 
 interface Props {

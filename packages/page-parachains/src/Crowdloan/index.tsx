@@ -8,9 +8,9 @@ import React from 'react';
 import { Button } from '@polkadot/react-components';
 import { useBestNumber } from '@polkadot/react-hooks';
 
-import FundAdd from './FundAdd';
-import Funds from './Funds';
-import Summary from './Summary';
+import FundAdd from './FundAdd.js';
+import Funds from './Funds.js';
+import Summary from './Summary.js';
 
 interface Props {
   auctionInfo?: AuctionInfo;

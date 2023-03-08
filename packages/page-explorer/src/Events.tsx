@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { MarkError, Table } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
-import Event from './Event';
+import Event from './Event.js';
 import { useTranslation } from './translate.js';
 
 interface Props {

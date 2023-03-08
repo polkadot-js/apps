@@ -8,7 +8,7 @@ import React, { useRef } from 'react';
 import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate.js';
-import Queue from './Queue';
+import Queue from './Queue.js';
 
 interface Props {
   className?: string;

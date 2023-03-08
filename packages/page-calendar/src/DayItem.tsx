@@ -9,7 +9,7 @@ import { Button, styled } from '@polkadot/react-components';
 import { formatNumber, isString } from '@polkadot/util';
 
 import { useTranslation } from './translate.js';
-import { dateCalendarFormat } from './util';
+import { dateCalendarFormat } from './util.js';
 
 interface Props {
   className?: string;

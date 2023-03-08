@@ -8,9 +8,9 @@ import React from 'react';
 
 import { Button } from '@polkadot/react-components';
 
-import Assets from './Assets';
-import Create from './Create';
-import Summary from './Summary';
+import Assets from './Assets.js';
+import Create from './Create.js';
+import Summary from './Summary.js';
 
 interface Props {
   className?: string;

@@ -7,9 +7,9 @@ import React from 'react';
 
 import { Button } from '@polkadot/react-components';
 
-import Auction from './Auction';
-import Bid from './Bid';
-import Summary from './Summary';
+import Auction from './Auction.js';
+import Bid from './Bid.js';
+import Summary from './Summary.js';
 
 interface Props {
   auctionInfo?: AuctionInfo;

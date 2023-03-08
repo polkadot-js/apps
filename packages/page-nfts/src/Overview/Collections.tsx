@@ -8,7 +8,7 @@ import React, { useRef } from 'react';
 import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate.js';
-import Collection from './Collection';
+import Collection from './Collection.js';
 
 interface Props {
   className?: string;

@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BountyApi } from './hooks/useBounties';
+import type { BountyApi } from './hooks/useBounties.js';
 
 import React, { useMemo } from 'react';
 

@@ -9,7 +9,7 @@ import { Table } from '@polkadot/react-components';
 import { useBestNumber } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
-import Member from './Member';
+import Member from './Member.js';
 
 interface Props {
   className?: string;

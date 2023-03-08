@@ -9,7 +9,7 @@ import { useMemo } from 'react';
 
 import { createNamedHook, useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
-import { createAccounts } from './usePoolAccounts';
+import { createAccounts } from './usePoolAccounts.js';
 
 const OPT_MULTI = {
   transform: ([[ids], opts]: [[string[]], Option<PalletNominationPoolsPoolMember>[]]): OwnPoolBase[] => {

@@ -8,8 +8,8 @@ import React, { useCallback, useState } from 'react';
 
 import { styled } from '@polkadot/react-components';
 
-import Queries from './Queries';
-import Selection from './Selection';
+import Queries from './Queries.js';
+import Selection from './Selection.js';
 
 function StorageApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
   const [queue, setQueue] = useState<QueryTypes[]>([]);

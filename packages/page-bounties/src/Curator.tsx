@@ -7,7 +7,7 @@ import React from 'react';
 
 import { AddressSmall } from '@polkadot/react-components';
 
-import Description from './Description';
+import Description from './Description.js';
 import { useTranslation } from './translate.js';
 
 interface Props {

@@ -9,7 +9,7 @@ import React from 'react';
 import { Dropdown, styled } from '@polkadot/react-components';
 
 import { useTranslation } from '../../translate.js';
-import useTrackOptions from './useTrackOptions';
+import useTrackOptions from './useTrackOptions.js';
 
 interface Props {
   className?: string;

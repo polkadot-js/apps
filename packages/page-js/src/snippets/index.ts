@@ -3,10 +3,10 @@
 
 import type { Snippet } from './../types.js';
 
-import { constsStakingParameters } from './consts-examples';
-import { extrinsicMakeTransfer } from './extrinsics-examples';
-import { rpcNetworkAuthoring, rpcNewHead, rpcQueryState, rpcSysthemInfo } from './rpc-examples';
-import { storageGetInfo, storageKeys, storageListenToBalanceChange, storageListenToMultipleBalancesChange, storageRetrieveInfoOnQueryKeys, storageSystemEvents } from './storage-examples';
+import { constsStakingParameters } from './consts-examples.js';
+import { extrinsicMakeTransfer } from './extrinsics-examples.js';
+import { rpcNetworkAuthoring, rpcNewHead, rpcQueryState, rpcSysthemInfo } from './rpc-examples.js';
+import { storageGetInfo, storageKeys, storageListenToBalanceChange, storageListenToMultipleBalancesChange, storageRetrieveInfoOnQueryKeys, storageSystemEvents } from './storage-examples.js';
 
 const snippets: Snippet[] = [
   rpcNetworkAuthoring,

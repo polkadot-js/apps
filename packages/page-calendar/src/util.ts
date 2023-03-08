@@ -3,7 +3,7 @@
 
 import type { DateState } from './types.js';
 
-import { DAYS } from './constants';
+import { DAYS } from './constants.js';
 
 export function newZeroDate (input: Date): Date {
   const date = new Date(input);

@@ -10,9 +10,9 @@ import { Button, Table, ToggleGroup } from '@polkadot/react-components';
 import { arrayFlatten } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import Create from './Create';
-import Pool from './Pool';
-import useMembers from './useMembers';
+import Create from './Create.js';
+import Pool from './Pool.js';
+import useMembers from './useMembers.js';
 
 interface Props {
   className?: string;

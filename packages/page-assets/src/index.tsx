@@ -12,11 +12,11 @@ import { Tabs } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 import { BN_ONE } from '@polkadot/util';
 
-import Balances from './Balances';
-import Overview from './Overview';
+import Balances from './Balances.js';
+import Overview from './Overview.js';
 import { useTranslation } from './translate.js';
-import useAssetIds from './useAssetIds';
-import useAssetInfos from './useAssetInfos';
+import useAssetIds from './useAssetIds.js';
+import useAssetInfos from './useAssetInfos.js';
 
 interface Props {
   basePath: string;

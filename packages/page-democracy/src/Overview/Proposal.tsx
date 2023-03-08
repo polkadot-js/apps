@@ -10,9 +10,9 @@ import { useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from '../translate.js';
-import PreImageButton from './PreImageButton';
-import ProposalCell from './ProposalCell';
-import Seconding from './Seconding';
+import PreImageButton from './PreImageButton.js';
+import ProposalCell from './ProposalCell.js';
+import Seconding from './Seconding.js';
 
 interface Props {
   className?: string;

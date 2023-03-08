@@ -12,8 +12,8 @@ import { AddressSmall, Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import Votes from '../Overview/Votes.js';
-import BidType from './BidType';
-import CandidateVoting from './CandidateVoting';
+import BidType from './BidType.js';
+import CandidateVoting from './CandidateVoting.js';
 
 interface Props {
   allMembers: string[];

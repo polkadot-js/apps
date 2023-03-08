@@ -9,10 +9,10 @@ import { Route, Switch } from 'react-router';
 import { Tabs } from '@polkadot/react-components';
 import { useAccounts, useIpfs } from '@polkadot/react-hooks';
 
-import Accounts from './Accounts';
+import Accounts from './Accounts.js';
 import { useTranslation } from './translate.js';
-import useCounter from './useCounter';
-import Vanity from './Vanity';
+import useCounter from './useCounter.js';
+import Vanity from './Vanity.js';
 
 export { useCounter };
 

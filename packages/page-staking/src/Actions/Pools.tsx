@@ -13,7 +13,7 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { BN } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import Pool from './Pool';
+import Pool from './Pool.js';
 
 interface Props {
   allSlashes: [BN, PalletStakingUnappliedSlash[]][];

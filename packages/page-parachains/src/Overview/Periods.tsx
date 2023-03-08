@@ -8,7 +8,7 @@ import React, { useMemo } from 'react';
 
 import { BN_ONE, formatNumber } from '@polkadot/util';
 
-import LeaseBlocks from './LeaseBlocks';
+import LeaseBlocks from './LeaseBlocks.js';
 
 interface Props {
   className?: string;

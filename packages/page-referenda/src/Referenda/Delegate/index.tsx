@@ -12,10 +12,10 @@ import { isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../../translate.js';
 import TrackDropdown from '../Submit/TrackDropdown.js';
-import Activity from './Activity';
-import useActivityAccount from './useActivityAccount';
-import useActivityFellows from './useActivityFellows';
-import useActivityNominators from './useActivityNominators';
+import Activity from './Activity.js';
+import useActivityAccount from './useActivityAccount.js';
+import useActivityFellows from './useActivityFellows.js';
+import useActivityNominators from './useActivityNominators.js';
 
 interface Props {
   className?: string;

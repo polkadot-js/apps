@@ -11,8 +11,8 @@ import { useApi, useCollectiveInstance } from '@polkadot/react-hooks';
 import { BN_ONE, isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import Row from './Row';
-import Summary from './Summary';
+import Row from './Row.js';
+import Summary from './Summary.js';
 
 interface Props {
   buttons: React.ReactNode;

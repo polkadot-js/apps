@@ -12,10 +12,10 @@ import { BlockToTime } from '@polkadot/react-query';
 import { BN, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import Lifecycle from './Lifecycle';
-import ParachainInfo from './ParachainInfo';
-import Periods from './Periods';
-import useParaInfo from './useParaInfo';
+import Lifecycle from './Lifecycle.js';
+import ParachainInfo from './ParachainInfo.js';
+import Periods from './Periods.js';
+import useParaInfo from './useParaInfo.js';
 
 interface Props {
   bestNumber?: BN;

@@ -11,9 +11,9 @@ import { Button } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
-import { LOWEST_PUBLIC_ID } from './constants';
-import RegisterId from './RegisterId';
-import RegisterThread from './RegisterThread';
+import { LOWEST_PUBLIC_ID } from './constants.js';
+import RegisterId from './RegisterId.js';
+import RegisterThread from './RegisterThread.js';
 
 interface Props {
   className?: string;

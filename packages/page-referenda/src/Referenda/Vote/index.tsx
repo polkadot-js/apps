@@ -13,9 +13,9 @@ import { Button, Modal, ProposedAction, styled, ToggleGroup, TxButton, VoteAccou
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate.js';
-import VoteAbstain from './VoteAbstain';
-import VoteSplit from './VoteSplit';
-import VoteStandard from './VoteStandard';
+import VoteAbstain from './VoteAbstain.js';
+import VoteSplit from './VoteSplit.js';
+import VoteStandard from './VoteStandard.js';
 
 interface Props {
   className?: string;

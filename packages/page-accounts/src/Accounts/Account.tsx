@@ -33,8 +33,8 @@ import Transfer from '../modals/Transfer.js';
 import UndelegateModal from '../modals/Undelegate.js';
 import { useTranslation } from '../translate.js';
 import { createMenuGroup } from '../util.js';
-import useMultisigApprovals from './useMultisigApprovals';
-import useProxies from './useProxies';
+import useMultisigApprovals from './useMultisigApprovals.js';
+import useProxies from './useProxies.js';
 
 interface Props {
   account: KeyringAddress;

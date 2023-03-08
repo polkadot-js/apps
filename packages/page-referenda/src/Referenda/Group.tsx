@@ -11,7 +11,7 @@ import { useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
 import { getTrackInfo } from '../util.js';
-import Referendum from './Referendum';
+import Referendum from './Referendum.js';
 
 interface Props extends ReferendaGroup {
   activeIssuance?: BN;

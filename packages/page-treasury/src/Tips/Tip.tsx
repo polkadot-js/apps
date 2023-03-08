@@ -13,8 +13,8 @@ import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import TipEndorse from './TipEndorse';
-import TipReason from './TipReason';
+import TipEndorse from './TipEndorse.js';
+import TipReason from './TipReason.js';
 
 interface Props {
   bestNumber?: BlockNumber;

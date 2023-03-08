@@ -9,7 +9,7 @@ import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useMapKeys } from '@polkadot/react-hooks';
 
-import { useCacheValue } from './useCache';
+import { useCacheValue } from './useCache.js';
 
 const OPT_ELECTED = {
   transform: (keys: StorageKey<[u32, AccountId32]>[]): string[] =>

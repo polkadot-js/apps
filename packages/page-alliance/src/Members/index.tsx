@@ -9,9 +9,9 @@ import { Button, Table } from '@polkadot/react-components';
 import { useBestNumber, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
-import Join from './Join';
-import Member from './Member';
-import Summary from './Summary';
+import Join from './Join.js';
+import Member from './Member.js';
+import Summary from './Summary.js';
 
 interface Props {
   className?: string;

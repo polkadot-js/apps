@@ -10,7 +10,7 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { BN, BN_BILLION } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import Chart from './Chart';
+import Chart from './Chart.js';
 
 const MULT = new BN(100 * 100);
 const COLORS_POINTS = [undefined, '#acacac'];

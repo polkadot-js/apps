@@ -8,9 +8,9 @@ import React, { useMemo, useRef } from 'react';
 import Summary from '@polkadot/app-bounties/Summary';
 import { Button, styled, Table } from '@polkadot/react-components';
 
-import Bounty from './Bounty';
-import BountyCreate from './BountyCreate';
-import { useBounties } from './hooks';
+import Bounty from './Bounty.js';
+import BountyCreate from './BountyCreate.js';
+import { useBounties } from './hooks.js';
 import { useTranslation } from './translate.js';
 
 interface Props {

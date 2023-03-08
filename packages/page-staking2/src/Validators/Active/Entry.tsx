@@ -12,9 +12,9 @@ import { formatNumber } from '@polkadot/util';
 
 import useExposure from '../useExposure.js';
 import useHeartbeat from '../useHeartbeat.js';
-import Bottom from './Row/Bottom';
-import Middle from './Row/Middle';
-import Top from './Row/Top';
+import Bottom from './Row/Bottom.js';
+import Middle from './Row/Middle.js';
+import Top from './Row/Top.js';
 
 interface Props {
   className?: string;

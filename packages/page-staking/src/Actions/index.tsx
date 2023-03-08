@@ -16,11 +16,11 @@ import { BN, BN_ZERO } from '@polkadot/util';
 
 import ElectionBanner from '../ElectionBanner.js';
 import { useTranslation } from '../translate.js';
-import Accounts from './Accounts';
-import NewNominator from './NewNominator';
-import NewStash from './NewStash';
-import NewValidator from './NewValidator';
-import Pools from './Pools';
+import Accounts from './Accounts.js';
+import NewNominator from './NewNominator.js';
+import NewStash from './NewStash.js';
+import NewValidator from './NewValidator.js';
+import Pools from './Pools.js';
 
 interface Props {
   className?: string;

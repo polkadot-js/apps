@@ -7,7 +7,7 @@ import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate.js';
-import InputValidationController from './InputValidationController';
+import InputValidationController from './InputValidationController.js';
 
 interface Props {
   defaultControllerId: string;

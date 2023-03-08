@@ -7,12 +7,12 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { styled, Tabs } from '@polkadot/react-components';
 
-import Day from './Day';
-import Month from './Month';
+import Day from './Day.js';
+import Month from './Month.js';
 import { useTranslation } from './translate.js';
-import UpcomingEvents from './UpcomingEvents';
-import useScheduled from './useScheduled';
-import { getDateState, nextMonth, prevMonth } from './util';
+import UpcomingEvents from './UpcomingEvents.js';
+import useScheduled from './useScheduled.js';
+import { getDateState, nextMonth, prevMonth } from './util.js';
 
 interface Props {
   basePath: string;

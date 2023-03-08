@@ -10,7 +10,7 @@ import { Button, InputAddress, InputAddressMulti, Modal, TxButton } from '@polka
 import { useApi, useToggle, useTxBatch } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
-import useBagsNodes from './useBagsNodes';
+import useBagsNodes from './useBagsNodes.js';
 
 interface Props {
   bagLower: BN;

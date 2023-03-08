@@ -10,7 +10,7 @@ import { Button } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
-import PreImage from './PreImage';
+import PreImage from './PreImage.js';
 
 interface Props {
   imageHash: Hash | HexString;

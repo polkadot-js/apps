@@ -6,8 +6,8 @@ import type { VoteResult } from './types.js';
 
 import { createNamedHook } from '@polkadot/react-hooks';
 
-import useSuperIds from './useSuperIds';
-import useVotingFor from './useVotingFor';
+import useSuperIds from './useSuperIds.js';
+import useVotingFor from './useVotingFor.js';
 
 function useActivityImpl (palletVote: PalletVote, accountIds?: string[] | null): VoteResult | null | undefined {
   const identities = useSuperIds(accountIds);

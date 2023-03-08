@@ -3,7 +3,7 @@
 
 import { createNamedHook } from '@polkadot/react-hooks';
 
-import usePolkadotPreclaims from './usePolkadotPreclaims';
+import usePolkadotPreclaims from './usePolkadotPreclaims.js';
 
 function useCounterImpl (): number {
   const needAttest = usePolkadotPreclaims();

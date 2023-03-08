@@ -11,8 +11,8 @@ import { AddressSmall, Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
-import DefenderVoting from './DefenderVoting';
-import Votes from './Votes';
+import DefenderVoting from './DefenderVoting.js';
+import Votes from './Votes.js';
 
 interface Props {
   className?: string;

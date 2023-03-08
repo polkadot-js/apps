@@ -5,7 +5,7 @@ import React from 'react';
 
 import { styled } from '@polkadot/react-components';
 
-import { insertSpaceBeforeCapitalLetter } from './helpers';
+import { insertSpaceBeforeCapitalLetter } from './helpers.js';
 import { StatusName } from './types.js';
 
 interface Props {

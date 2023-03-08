@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 
 import { createNamedHook, useIsMountedRef } from '@polkadot/react-hooks';
 
-import store from './store';
+import store from './store.js';
 
 interface UseCodes {
   allCodes: CodeStored[];

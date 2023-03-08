@@ -24,10 +24,10 @@ import Proxy from '../modals/ProxiedAdd.js';
 import Qr from '../modals/Qr.js';
 import { useTranslation } from '../translate.js';
 import { SORT_CATEGORY, sortAccounts } from '../util.js';
-import Account from './Account';
-import BannerClaims from './BannerClaims';
-import BannerExtension from './BannerExtension';
-import Summary from './Summary';
+import Account from './Account.js';
+import BannerClaims from './BannerClaims.js';
+import BannerExtension from './BannerExtension.js';
+import Summary from './Summary.js';
 
 interface Balances {
   accounts: Record<string, AccountBalance>;

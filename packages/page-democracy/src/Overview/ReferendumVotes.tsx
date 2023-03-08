@@ -11,7 +11,7 @@ import { FormatBalance } from '@polkadot/react-query';
 import { BN_TEN, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import ReferendumVote from './ReferendumVote';
+import ReferendumVote from './ReferendumVote.js';
 
 interface Props {
   change: BN;

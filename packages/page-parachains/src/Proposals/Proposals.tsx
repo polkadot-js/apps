@@ -8,7 +8,7 @@ import React, { useMemo, useRef } from 'react';
 import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate.js';
-import Proposal from './Proposal';
+import Proposal from './Proposal.js';
 
 interface Props {
   proposals?: UseProposals;

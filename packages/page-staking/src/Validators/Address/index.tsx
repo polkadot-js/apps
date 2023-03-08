@@ -18,9 +18,9 @@ import { FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../../translate.js';
-import NominatedBy from './NominatedBy';
-import StakeOther from './StakeOther';
-import Status from './Status';
+import NominatedBy from './NominatedBy.js';
+import StakeOther from './StakeOther.js';
+import Status from './Status.js';
 
 interface Props {
   address: string;

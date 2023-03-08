@@ -10,7 +10,7 @@ import { useToggle } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 
 import { useTranslation } from '../../translate.js';
-import Proposal, { EMPTY_PROPOSAL } from './Partial';
+import Proposal, { EMPTY_PROPOSAL } from './Partial.js';
 
 interface Props {
   className?: string;

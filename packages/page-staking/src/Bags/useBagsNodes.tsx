@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 
 import { createNamedHook, useCall } from '@polkadot/react-hooks';
 
-import useQueryModule from './useQueryModule';
+import useQueryModule from './useQueryModule.js';
 
 const MULTI_OPTS = {
   transform: (opts: Option<PalletBagsListListNode>[]): BagMap =>

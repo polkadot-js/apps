@@ -9,9 +9,9 @@ import { Dropdown, styled, Table } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import Item from './Item';
-import useAccountItems from './useAccountItems';
-import useItemsInfos from './useItemsInfos';
+import Item from './Item.js';
+import useAccountItems from './useAccountItems.js';
+import useItemsInfos from './useItemsInfos.js';
 
 interface Props {
   className?: string;

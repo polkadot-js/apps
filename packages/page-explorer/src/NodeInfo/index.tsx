@@ -10,8 +10,8 @@ import { useApi } from '@polkadot/react-hooks';
 
 import Extrinsics from '../BlockInfo/Extrinsics.js';
 import { useTranslation } from '../translate.js';
-import Peers from './Peers';
-import Summary from './Summary';
+import Peers from './Peers.js';
+import Summary from './Summary.js';
 
 const POLL_TIMEOUT = 9900;
 

@@ -12,10 +12,10 @@ import CodeUpload from '../Codes/Upload.js';
 import { useTranslation } from '../translate.js';
 import { useCodes } from '../useCodes.js';
 import { useContracts } from '../useContracts.js';
-import ContractAdd from './Add';
-import ContractsTable from './ContractsTable';
-import Deploy from './Deploy';
-import Summary from './Summary';
+import ContractAdd from './Add.js';
+import ContractsTable from './ContractsTable.js';
+import Deploy from './Deploy.js';
+import Summary from './Summary.js';
 
 interface Props {
   className?: string;

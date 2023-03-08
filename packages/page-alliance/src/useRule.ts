@@ -7,7 +7,7 @@ import type { Rule } from './types.js';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
-import { createCid } from './util';
+import { createCid } from './util.js';
 
 const OPT_RULE = {
   transform: (opt: Option<PalletAllianceCid>): Rule =>

@@ -9,10 +9,10 @@ import { Button } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
-import BidNew from './BidNew';
-import Bids from './Bids';
-import AllCandidates from './Candidates';
-import VouchFor from './VouchFor';
+import BidNew from './BidNew.js';
+import Bids from './Bids.js';
+import AllCandidates from './Candidates.js';
+import VouchFor from './VouchFor.js';
 
 interface Props {
   allMembers: string[];

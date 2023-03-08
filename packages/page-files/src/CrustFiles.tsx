@@ -9,10 +9,10 @@ import React, { useCallback, useRef, useState } from 'react';
 import { Badge, Button, CopyButton, Icon, styled, Table } from '@polkadot/react-components';
 import { useQueue } from '@polkadot/react-hooks';
 
-import { useFiles } from './hooks';
+import { useFiles } from './hooks.js';
 import { useTranslation } from './translate.js';
 import { DirFile, FileInfo, SaveFile } from './types.js';
-import UploadModal from './UploadModal';
+import UploadModal from './UploadModal.js';
 
 const MCopyButton = styled(CopyButton)`
   .copySpan {

@@ -12,7 +12,7 @@ import { keyring } from '@polkadot/ui-keyring';
 import { ABI, InputName } from '../shared.js';
 import { useTranslation } from '../translate.js';
 import useAbi from '../useAbi.js';
-import ValidateAddr from './ValidateAddr';
+import ValidateAddr from './ValidateAddr.js';
 
 interface Props {
   onClose: () => void;

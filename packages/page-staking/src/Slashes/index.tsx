@@ -13,7 +13,7 @@ import { useAccounts, useApi, useCollectiveMembers } from '@polkadot/react-hooks
 import { BN, BN_ONE, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import Era from './Era';
+import Era from './Era.js';
 
 interface Props {
   ownStashes?: StakerState[];

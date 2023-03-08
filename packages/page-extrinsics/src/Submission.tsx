@@ -11,7 +11,7 @@ import { Button, Extrinsic, InputAddress, MarkError, TxButton } from '@polkadot/
 import { useApi } from '@polkadot/react-hooks';
 import { BalanceFree } from '@polkadot/react-query';
 
-import Decoded from './Decoded';
+import Decoded from './Decoded.js';
 import { useTranslation } from './translate.js';
 
 interface Props {

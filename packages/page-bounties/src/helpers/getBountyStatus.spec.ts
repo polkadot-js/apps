@@ -3,7 +3,7 @@
 
 import { TypeRegistry } from '@polkadot/types/create';
 
-import { getBountyStatus } from './getBountyStatus';
+import { getBountyStatus } from './getBountyStatus.js';
 
 describe('get bounty status', () => {
   let registry: TypeRegistry;

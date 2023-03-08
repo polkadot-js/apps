@@ -14,7 +14,7 @@ import { keyring } from '@polkadot/ui-keyring';
 import { assert, nextTick, u8aToString } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import ExternalWarning from './ExternalWarning';
+import ExternalWarning from './ExternalWarning.js';
 
 interface Props extends ModalProps {
   className?: string;

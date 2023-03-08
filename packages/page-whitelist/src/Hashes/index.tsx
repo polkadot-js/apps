@@ -9,8 +9,8 @@ import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate.js';
 import useHashes from '../useHashes.js';
-import Details from './Details';
-import Summary from './Summary';
+import Details from './Details.js';
+import Summary from './Summary.js';
 
 interface Props {
   className?: string;

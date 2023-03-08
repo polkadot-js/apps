@@ -5,7 +5,7 @@ import type { QueryTypes } from './types.js';
 
 import React from 'react';
 
-import Query from './Query';
+import Query from './Query.js';
 
 interface Props {
   onRemove: (id: number) => void;

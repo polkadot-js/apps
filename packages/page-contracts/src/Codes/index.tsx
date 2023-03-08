@@ -7,7 +7,7 @@ import { Table } from '@polkadot/react-components';
 
 import contracts from '../store.js';
 import { useTranslation } from '../translate.js';
-import Code from './Code';
+import Code from './Code.js';
 
 interface Props {
   onShowDeploy: (codeHash: string, constructorIndex: number) => void;

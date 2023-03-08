@@ -9,9 +9,9 @@ import React from 'react';
 
 import { styled } from '@polkadot/react-components';
 
-import Defender from './Defender';
-import Members from './Members';
-import Summary from './Summary';
+import Defender from './Defender.js';
+import Members from './Members.js';
+import Summary from './Summary.js';
 
 interface Props {
   className?: string;

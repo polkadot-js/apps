@@ -9,7 +9,7 @@ import React, { useRef } from 'react';
 import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate.js';
-import Candidate from './Candidate';
+import Candidate from './Candidate.js';
 
 interface Props {
   allVotes?: Record<string, AccountId[]>;

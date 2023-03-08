@@ -13,7 +13,7 @@ import { Call as CallDisplay, Input, InputExtrinsic, MarkError, styled } from '@
 import { useApi } from '@polkadot/react-hooks';
 import { assert, compactToU8a, isHex, u8aConcat, u8aEq } from '@polkadot/util';
 
-import Decoded from './Decoded';
+import Decoded from './Decoded.js';
 import { useTranslation } from './translate.js';
 
 interface Props {

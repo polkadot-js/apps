@@ -17,7 +17,7 @@ import { BN_HUNDRED, BN_ONE, BN_THOUSAND, BN_ZERO, isHex } from '@polkadot/util'
 
 import { useTranslation } from '../../translate.js';
 import { getTrackInfo } from '../../util.js';
-import TrackDropdown from './TrackDropdown';
+import TrackDropdown from './TrackDropdown.js';
 
 interface Props {
   className?: string;

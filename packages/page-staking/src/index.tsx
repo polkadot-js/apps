@@ -16,17 +16,17 @@ import { styled, Tabs } from '@polkadot/react-components';
 import { useAccounts, useApi, useAvailableSlashes, useCall, useCallMulti, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-import Actions from './Actions';
-import Bags from './Bags';
-import { STORE_FAVS_BASE } from './constants';
-import Payouts from './Payouts';
-import Query from './Query';
-import Slashes from './Slashes';
-import Targets from './Targets';
+import Actions from './Actions.js';
+import Bags from './Bags.js';
+import { STORE_FAVS_BASE } from './constants.js';
+import Payouts from './Payouts.js';
+import Query from './Query.js';
+import Slashes from './Slashes.js';
+import Targets from './Targets.js';
 import { useTranslation } from './translate.js';
-import useNominations from './useNominations';
-import useSortedTargets from './useSortedTargets';
-import Validators from './Validators';
+import useNominations from './useNominations.js';
+import useSortedTargets from './useSortedTargets.js';
+import Validators from './Validators.js';
 
 const HIDDEN_ACC = ['actions', 'payout'];
 

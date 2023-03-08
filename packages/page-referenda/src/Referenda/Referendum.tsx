@@ -15,9 +15,9 @@ import { calcBlockTime } from '@polkadot/react-hooks/useBlockTime';
 import { BN_MILLION, BN_THOUSAND, bnMax, bnToBn, formatNumber, objectSpread } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import Killed from './RefKilled';
-import Ongoing from './RefOngoing';
-import Tuple from './RefTuple';
+import Killed from './RefKilled.js';
+import Ongoing from './RefOngoing.js';
+import Tuple from './RefTuple.js';
 
 const COMPONENTS: Record<string, React.ComponentType<Props>> = {
   Killed,

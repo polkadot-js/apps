@@ -13,7 +13,7 @@ import { BalanceFree } from '@polkadot/react-query';
 import { BN, BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../../translate.js';
-import ValidateAmount from './InputValidateAmount';
+import ValidateAmount from './InputValidateAmount.js';
 
 interface Props {
   controllerId: string | null;

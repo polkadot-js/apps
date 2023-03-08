@@ -13,7 +13,7 @@ import { Available, Button, Dropdown, InputAddress, Label, MarkError, Modal, Pas
 import { keyring } from '@polkadot/ui-keyring';
 import { isFunction, nextTick, stringToHex, stringToU8a, u8aToHex } from '@polkadot/util';
 
-import Progress from './Progress';
+import Progress from './Progress.js';
 import { useTranslation } from './translate.js';
 import { DirFile, FileInfo, SaveFile, UploadRes } from './types.js';
 

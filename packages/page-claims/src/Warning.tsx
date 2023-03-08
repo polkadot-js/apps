@@ -6,7 +6,7 @@ import React from 'react';
 import { AddressMini, Card, styled } from '@polkadot/react-components';
 
 import { useTranslation } from './translate.js';
-import usePolkadotPreclaims from './usePolkadotPreclaims';
+import usePolkadotPreclaims from './usePolkadotPreclaims.js';
 
 export interface Props{
   className?: string;

@@ -12,9 +12,9 @@ import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import Contribute from './Contribute';
-import Refund from './Refund';
-import useContributions from './useContributions';
+import Contribute from './Contribute.js';
+import Refund from './Refund.js';
+import useContributions from './useContributions.js';
 
 interface Props {
   bestHash?: string;

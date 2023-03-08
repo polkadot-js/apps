@@ -9,10 +9,10 @@ import React, { useMemo, useRef, useState } from 'react';
 import { Button, MarkWarning, Table, ToggleGroup } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate.js';
-import Bag from './Bag';
-import Summary from './Summary';
-import useBagsList from './useBagsList';
-import useBagsNodes from './useBagsNodes';
+import Bag from './Bag.js';
+import Summary from './Summary.js';
+import useBagsList from './useBagsList.js';
+import useBagsNodes from './useBagsNodes.js';
 
 interface Props {
   className?: string;

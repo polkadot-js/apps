@@ -10,9 +10,9 @@ import { Table } from '@polkadot/react-components';
 import { useBestNumber, useIsParasLinked } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
-import Parachain from './Parachain';
-import useEvents from './useEvents';
-import useValidators from './useValidators';
+import Parachain from './Parachain.js';
+import useEvents from './useEvents.js';
+import useValidators from './useValidators.js';
 
 interface Props {
   actionsQueue: QueuedAction[];

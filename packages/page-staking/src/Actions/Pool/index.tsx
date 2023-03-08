@@ -10,7 +10,7 @@ import React from 'react';
 
 import usePoolInfo from '@polkadot/app-staking2/Pools/usePoolInfo';
 
-import Account from './Account';
+import Account from './Account.js';
 
 interface Props {
   count: number;

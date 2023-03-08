@@ -6,10 +6,10 @@ import React, { useRef } from 'react';
 import { Table } from '@polkadot/react-components';
 import { useBlockAuthors } from '@polkadot/react-hooks';
 
-import Collator from './Collator';
-import Summary from './Summary';
+import Collator from './Collator.js';
+import Summary from './Summary.js';
 import { useTranslation } from './translate.js';
-import useCollators from './useCollators';
+import useCollators from './useCollators.js';
 
 interface Props {
   className?: string;

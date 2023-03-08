@@ -7,7 +7,7 @@ import React, { useCallback, useMemo } from 'react';
 
 import { Button, styled } from '@polkadot/react-components';
 
-import DayItem from './DayItem';
+import DayItem from './DayItem.js';
 import { useTranslation } from './translate.js';
 
 interface Props {

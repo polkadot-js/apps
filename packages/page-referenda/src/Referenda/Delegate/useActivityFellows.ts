@@ -6,8 +6,8 @@ import type { VoteResult } from './types.js';
 
 import { createNamedHook } from '@polkadot/react-hooks';
 
-import useActivity from './useActivity';
-import useFellows from './useFellows';
+import useActivity from './useActivity.js';
+import useFellows from './useFellows.js';
 
 function useActivityFellowsImpl (palletVote: PalletVote): VoteResult | null | undefined {
   const fellows = useFellows();

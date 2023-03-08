@@ -11,7 +11,7 @@ import { useApi, useIpfs } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 
 import { useTranslation } from '../translate.js';
-import PasswordInput from './PasswordInput';
+import PasswordInput from './PasswordInput.js';
 
 interface Scanned {
   content: string;

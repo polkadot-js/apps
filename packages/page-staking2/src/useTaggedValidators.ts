@@ -8,7 +8,7 @@ import { useMemo } from 'react';
 import { createNamedHook, useAccounts } from '@polkadot/react-hooks';
 import { objectSpread } from '@polkadot/util';
 
-import useElectedValidators from './useElectedValidators';
+import useElectedValidators from './useElectedValidators.js';
 
 function sort (a: Validator, b: Validator): number {
   return a.isFavorite === b.isFavorite

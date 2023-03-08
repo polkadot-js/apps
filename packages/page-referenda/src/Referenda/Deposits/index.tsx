@@ -9,8 +9,8 @@ import React from 'react';
 
 import { AddressMini, styled } from '@polkadot/react-components';
 
-import Place from './Place';
-import Refund from './Refund';
+import Place from './Place.js';
+import Refund from './Refund.js';
 
 interface Props {
   canDeposit?: boolean;

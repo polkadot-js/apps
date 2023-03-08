@@ -9,12 +9,12 @@ import { Button } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
-import Externals from './Externals';
-import PreImage from './PreImage';
-import Proposals from './Proposals';
-import Propose from './Propose';
-import Referendums from './Referendums';
-import Summary from './Summary';
+import Externals from './Externals.js';
+import PreImage from './PreImage.js';
+import Proposals from './Proposals.js';
+import Propose from './Propose.js';
+import Referendums from './Referendums.js';
+import Summary from './Summary.js';
 
 interface Props {
   className?: string;

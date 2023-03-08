@@ -13,7 +13,7 @@ import React, { useMemo, useRef } from 'react';
 import { Table } from '@polkadot/react-components';
 import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 
-import ScheduledView from './Scheduled';
+import ScheduledView from './Scheduled.js';
 import { useTranslation } from './translate.js';
 
 interface Props {

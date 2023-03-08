@@ -5,7 +5,7 @@ import React, { useRef } from 'react';
 
 import { Tabs } from '@polkadot/react-components';
 
-import Preimages from './Preimages';
+import Preimages from './Preimages.js';
 import { useTranslation } from './translate.js';
 
 interface Props {

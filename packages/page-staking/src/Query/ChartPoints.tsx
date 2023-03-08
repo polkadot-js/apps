@@ -9,7 +9,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
-import Chart from './Chart';
+import Chart from './Chart.js';
 
 const COLORS_POINTS = [undefined, '#acacac'];
 

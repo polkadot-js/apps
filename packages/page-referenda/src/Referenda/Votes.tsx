@@ -12,7 +12,7 @@ import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import useVotes from './useVotes';
+import useVotes from './useVotes.js';
 
 interface Props {
   className?: string;

@@ -12,20 +12,20 @@ import { useLocation } from 'react-router-dom';
 import { Tabs } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import Auctions from './Auctions';
-import Crowdloan from './Crowdloan';
-import Overview from './Overview';
-import Parathreads from './Parathreads';
-import Proposals from './Proposals';
+import Auctions from './Auctions.js';
+import Crowdloan from './Crowdloan.js';
+import Overview from './Overview.js';
+import Parathreads from './Parathreads.js';
+import Proposals from './Proposals.js';
 import { useTranslation } from './translate.js';
-import useActionsQueue from './useActionsQueue';
-import useAuctionInfo from './useAuctionInfo';
-import useFunds from './useFunds';
-import useLeasePeriod from './useLeasePeriod';
-import useOwnedIds from './useOwnedIds';
-import useProposals from './useProposals';
-import useUpcomingIds from './useUpcomingIds';
-import useWinningData from './useWinningData';
+import useActionsQueue from './useActionsQueue.js';
+import useAuctionInfo from './useAuctionInfo.js';
+import useFunds from './useFunds.js';
+import useLeasePeriod from './useLeasePeriod.js';
+import useOwnedIds from './useOwnedIds.js';
+import useProposals from './useProposals.js';
+import useUpcomingIds from './useUpcomingIds.js';
+import useWinningData from './useWinningData.js';
 
 interface Props {
   basePath: string;

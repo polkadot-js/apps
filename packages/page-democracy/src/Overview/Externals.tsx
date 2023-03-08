@@ -9,7 +9,7 @@ import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
-import External from './External';
+import External from './External.js';
 
 interface Props {
   className?: string;

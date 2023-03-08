@@ -7,7 +7,7 @@ import React, { useCallback } from 'react';
 
 import { Button, Modal } from '@polkadot/react-components';
 
-import CodeRow from './shared/CodeRow';
+import CodeRow from './shared/CodeRow.js';
 import { useTranslation } from './translate.js';
 
 interface Props {

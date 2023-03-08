@@ -14,7 +14,7 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import Message from './Message';
+import Message from './Message.js';
 
 export interface Props {
   className?: string;

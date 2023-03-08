@@ -5,10 +5,10 @@ import React, { useRef } from 'react';
 
 import { Tabs } from '@polkadot/react-components';
 
-import Referenda from './Referenda';
+import Referenda from './Referenda.js';
 import { useTranslation } from './translate.js';
 
-export { default as useCounter } from './useCounter';
+export { default as useCounter } from './useCounter.js';
 
 interface Props {
   basePath: string;

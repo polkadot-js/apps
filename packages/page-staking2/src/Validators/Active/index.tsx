@@ -10,7 +10,7 @@ import { Table } from '@polkadot/react-components';
 import { useNextTick } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate.js';
-import Entry from './Entry';
+import Entry from './Entry.js';
 
 interface Props {
   className?: string;

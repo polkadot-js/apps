@@ -9,9 +9,9 @@ import { Route, Switch } from 'react-router';
 import Referenda, { useCounter } from '@polkadot/app-referenda/Referenda';
 import { Tabs } from '@polkadot/react-components';
 
-import Members from './Members';
+import Members from './Members.js';
 import { useTranslation } from './translate.js';
-import useMembers from './useMembers';
+import useMembers from './useMembers.js';
 
 interface Props {
   basePath: string;

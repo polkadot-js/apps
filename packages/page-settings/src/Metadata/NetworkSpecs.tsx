@@ -10,7 +10,7 @@ import { ChainImg, Input, QrNetworkSpecs, Spinner, styled, Table } from '@polkad
 import { useApi, useDebounce } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
-import ChainColorIndicator from './ChainColorIndicator';
+import ChainColorIndicator from './ChainColorIndicator.js';
 
 interface Props {
   chainInfo: ChainInfo | null;

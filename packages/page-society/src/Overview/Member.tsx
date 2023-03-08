@@ -13,7 +13,7 @@ import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import DesignKusama from './DesignKusama';
+import DesignKusama from './DesignKusama.js';
 
 interface Props {
   bestNumber?: BN;

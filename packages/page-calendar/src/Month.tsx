@@ -7,8 +7,8 @@ import React, { useMemo, useRef } from 'react';
 
 import { Button, styled } from '@polkadot/react-components';
 
-import { DAYS, MONTHS } from './constants';
-import MonthDay from './MonthDay';
+import { DAYS, MONTHS } from './constants.js';
+import MonthDay from './MonthDay.js';
 import { useTranslation } from './translate.js';
 
 interface Props {

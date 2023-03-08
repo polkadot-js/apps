@@ -10,9 +10,9 @@ import { AddressMini, AddressSmall, Expander, Table } from '@polkadot/react-comp
 import { BlockToTime } from '@polkadot/react-query';
 
 import { useTranslation } from '../translate.js';
-import PayButton from './PayButton';
-import useEraBlocks from './useEraBlocks';
-import { createErasString } from './util';
+import PayButton from './PayButton.js';
+import useEraBlocks from './useEraBlocks.js';
+import { createErasString } from './util.js';
 
 interface Props {
   className?: string;

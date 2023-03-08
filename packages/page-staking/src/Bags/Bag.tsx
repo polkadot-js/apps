@@ -11,10 +11,10 @@ import React, { useEffect, useState } from 'react';
 import { AddressMini, Table } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
-import Rebag from './Rebag';
-import Stash from './Stash';
-import useBagEntries from './useBagEntries';
-import useBonded from './useBonded';
+import Rebag from './Rebag.js';
+import Stash from './Stash.js';
+import useBagEntries from './useBagEntries.js';
+import useBonded from './useBonded.js';
 
 interface Props {
   bagLower: BN;

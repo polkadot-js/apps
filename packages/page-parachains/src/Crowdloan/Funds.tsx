@@ -11,7 +11,7 @@ import { MarkWarning, Table } from '@polkadot/react-components';
 import { useBestHash, useIsParasLinked } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
-import Fund from './Fund';
+import Fund from './Fund.js';
 
 interface Props {
   bestNumber?: BN;

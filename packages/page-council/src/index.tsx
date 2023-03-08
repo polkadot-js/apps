@@ -11,10 +11,10 @@ import { useLocation } from 'react-router-dom';
 import { Tabs } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import Motions from './Motions';
-import Overview from './Overview';
+import Motions from './Motions.js';
+import Overview from './Overview.js';
 import { useTranslation } from './translate.js';
-import useCounter from './useCounter';
+import useCounter from './useCounter.js';
 
 export { useCounter };
 

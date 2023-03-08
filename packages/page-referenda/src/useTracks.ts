@@ -9,7 +9,7 @@ import { useMemo } from 'react';
 
 import { createNamedHook, useApi } from '@polkadot/react-hooks';
 
-import { calcCurves } from './util';
+import { calcCurves } from './util.js';
 
 function expandTracks (tracks: [BN, PalletReferendaTrackInfo][]): TrackDescription[] {
   return tracks.map(([id, info]) => ({

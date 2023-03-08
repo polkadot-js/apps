@@ -6,7 +6,7 @@ import type { VoteSplit, VoteType } from '../types.js';
 import React, { useEffect, useState } from 'react';
 
 import { useTranslation } from '../translate.js';
-import VotesExpander from './VotesExpander';
+import VotesExpander from './VotesExpander.js';
 
 interface Props {
   votes?: VoteType[];

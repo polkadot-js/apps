@@ -15,10 +15,10 @@ import { formatNumber } from '@polkadot/util';
 
 import Events from '../Events.js';
 import { useTranslation } from '../translate.js';
-import Extrinsics from './Extrinsics';
-import Justifications from './Justifications';
-import Logs from './Logs';
-import Summary from './Summary';
+import Extrinsics from './Extrinsics.js';
+import Justifications from './Justifications.js';
+import Logs from './Logs.js';
+import Summary from './Summary.js';
 
 interface Props {
   className?: string;

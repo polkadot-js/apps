@@ -13,7 +13,7 @@ import Lifecycle from '../Overview/Lifecycle.js';
 // import ParachainInfo from '../Overview/ParachainInfo.js';
 import Periods from '../Overview/Periods.js';
 import { useTranslation } from '../translate.js';
-import useThreadInfo from './useThreadInfo';
+import useThreadInfo from './useThreadInfo.js';
 
 interface Props {
   id: ParaId;

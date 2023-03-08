@@ -11,8 +11,8 @@ import { Route, Switch } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 
-import Decoder from './Decoder';
-import Submission from './Submission';
+import Decoder from './Decoder.js';
+import Submission from './Submission.js';
 import { useTranslation } from './translate.js';
 
 function createPathRef (basePath: string): Record<string, string | string[]> {

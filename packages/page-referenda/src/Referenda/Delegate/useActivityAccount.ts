@@ -8,7 +8,7 @@ import { useMemo } from 'react';
 
 import { createNamedHook } from '@polkadot/react-hooks';
 
-import useVotingFor from './useVotingFor';
+import useVotingFor from './useVotingFor.js';
 
 function useActivityAccountImpl (palletVote: PalletVote, accountId?: string | null): VoteResultItem[] | null | undefined {
   const params = useMemo(

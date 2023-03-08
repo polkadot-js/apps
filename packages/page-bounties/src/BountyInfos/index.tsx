@@ -11,7 +11,7 @@ import { AddressSmall } from '@polkadot/react-components';
 import Description from '../Description.js';
 import { getProposalToDisplay } from '../helpers/extendedStatuses.js';
 import { useTranslation } from '../translate.js';
-import VotingSummary from './VotingSummary';
+import VotingSummary from './VotingSummary.js';
 
 interface Props {
   beneficiary?: AccountId;

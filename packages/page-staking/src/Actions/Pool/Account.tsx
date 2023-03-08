@@ -17,9 +17,9 @@ import { useTranslation } from '../../translate.js';
 import ListNominees from '../Account/ListNominees.js';
 import Nominate from '../Account/Nominate.js';
 import useSlashingSpans from '../useSlashingSpans.js';
-import BondExtra from './BondExtra';
-import Unbond from './Unbond';
-import useAccountInfo from './useAccountInfo';
+import BondExtra from './BondExtra.js';
+import Unbond from './Unbond.js';
+import useAccountInfo from './useAccountInfo.js';
 
 interface Props {
   accountId: string;

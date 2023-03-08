@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SortedTargets } from '../types.js';
-import type { BondInfo, NominateInfo } from './partials/types';
+import type { BondInfo, NominateInfo } from './partials/types.js';
 
 import React, { useCallback, useState } from 'react';
 
@@ -11,8 +11,8 @@ import { useApi, useToggle } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import BondPartial from './partials/Bond';
-import NominatePartial from './partials/Nominate';
+import BondPartial from './partials/Bond.js';
+import NominatePartial from './partials/Nominate.js';
 
 interface Props {
   isInElection?: boolean;

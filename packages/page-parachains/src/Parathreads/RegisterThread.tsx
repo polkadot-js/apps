@@ -12,7 +12,7 @@ import { BN, compactAddLength } from '@polkadot/util';
 
 import InputOwner from '../InputOwner.js';
 import { useTranslation } from '../translate.js';
-import { LOWEST_INVALID_ID } from './constants';
+import { LOWEST_INVALID_ID } from './constants.js';
 
 interface Props {
   className?: string;

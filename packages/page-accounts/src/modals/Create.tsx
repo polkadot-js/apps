@@ -16,11 +16,11 @@ import { hdLedger, hdValidatePath, keyExtractSuri, mnemonicGenerate, mnemonicVal
 
 import { useTranslation } from '../translate.js';
 import { tryCreateAccount } from '../util.js';
-import CreateAccountInputs from './CreateAccountInputs';
-import CreateConfirmation from './CreateConfirmation';
-import CreateEthDerivationPath, { ETH_DEFAULT_PATH } from './CreateEthDerivationPath';
-import CreateSuriLedger from './CreateSuriLedger';
-import ExternalWarning from './ExternalWarning';
+import CreateAccountInputs from './CreateAccountInputs.js';
+import CreateConfirmation from './CreateConfirmation.js';
+import CreateEthDerivationPath, { ETH_DEFAULT_PATH } from './CreateEthDerivationPath.js';
+import CreateSuriLedger from './CreateSuriLedger.js';
+import ExternalWarning from './ExternalWarning.js';
 
 const DEFAULT_PAIR_TYPE = 'sr25519';
 const STEPS_COUNT = 3;
