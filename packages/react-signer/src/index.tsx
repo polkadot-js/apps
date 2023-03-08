@@ -13,8 +13,8 @@ import { useApi, useQueue } from '@polkadot/react-hooks';
 import { assert, isFunction, loggerFormat } from '@polkadot/util';
 
 import { useTranslation } from './translate.js';
-import TxSigned from './TxSigned';
-import TxUnsigned from './TxUnsigned';
+import TxSigned from './TxSigned.js';
+import TxUnsigned from './TxUnsigned.js';
 
 interface ItemState {
   currentItem: QueueTx | null;

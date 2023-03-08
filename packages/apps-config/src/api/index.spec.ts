@@ -4,7 +4,7 @@
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
 import spec from './spec';
-import { typesBundle } from '.';
+import { typesBundle } from './index.js';
 
 function getDerives (spec: Record<string, OverrideBundleDefinition>): string[] {
   return Object

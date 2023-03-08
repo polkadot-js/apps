@@ -8,7 +8,7 @@ import React from 'react';
 
 import { CallExpander, Modal, styled } from '@polkadot/react-components';
 
-import PaymentInfo from './PaymentInfo';
+import PaymentInfo from './PaymentInfo.js';
 import { useTranslation } from './translate.js';
 
 interface Props {

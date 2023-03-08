@@ -9,7 +9,7 @@ import { Modal, Password, styled, Toggle } from '@polkadot/react-components';
 import { keyring } from '@polkadot/ui-keyring';
 
 import { useTranslation } from './translate.js';
-import { UNLOCK_MINS } from './util';
+import { UNLOCK_MINS } from './util.js';
 
 interface Props {
   address: string;

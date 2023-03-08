@@ -17,9 +17,9 @@ import { InputAddress, MarkError, Modal, Toggle } from '@polkadot/react-componen
 import { useAccounts, useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { BN_ZERO, isFunction } from '@polkadot/util';
 
-import Password from './Password';
+import Password from './Password.js';
 import { useTranslation } from './translate.js';
-import { extractExternal } from './util';
+import { extractExternal } from './util.js';
 
 interface Props {
   className?: string;
