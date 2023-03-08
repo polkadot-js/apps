@@ -10,7 +10,7 @@ import { useBounties } from '@polkadot/app-bounties/hooks';
 import { TxButton } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 
-import { isClaimable } from '../helpers.js';
+import { isClaimable } from '../helpers/index.js';
 import { useTranslation } from '../translate.js';
 
 interface Props {

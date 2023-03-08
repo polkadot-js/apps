@@ -5,8 +5,8 @@ import fs from 'node:fs';
 
 import { objectSpread } from '@polkadot/util';
 
-import chain from './chain.js';
-import spec from './spec.js';
+import chain from './chain/index.js';
+import spec from './spec/index.js';
 
 // Technically this shouldn't be a test - it was that way since historically we
 // didn't use something like ts-node. Now however we can actually replace this

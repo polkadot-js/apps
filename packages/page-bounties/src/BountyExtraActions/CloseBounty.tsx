@@ -10,8 +10,8 @@ import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCollectiveInstance, useCollectiveMembers } from '@polkadot/react-hooks';
 import { BN } from '@polkadot/util';
 
-import { truncateTitle } from '../helpers.js';
-import { useBounties } from '../hooks.js';
+import { truncateTitle } from '../helpers/index.js';
+import { useBounties } from '../hooks/index.js';
 import { useTranslation } from '../translate.js';
 
 interface Props {

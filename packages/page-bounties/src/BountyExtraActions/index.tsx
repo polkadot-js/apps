@@ -10,8 +10,8 @@ import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import { Menu, Popup } from '@polkadot/react-components';
 import { useCollectiveMembers, useToggle } from '@polkadot/react-hooks';
 
-import { determineUnassignCuratorAction } from '../helpers.js';
-import { useBountyStatus, useUserRole } from '../hooks.js';
+import { determineUnassignCuratorAction } from '../helpers/index.js';
+import { useBountyStatus, useUserRole } from '../hooks/index.js';
 import { useTranslation } from '../translate.js';
 import { ValidUnassignCuratorAction } from '../types.js';
 import BountyRejectCurator from './BountyRejectCurator.js';

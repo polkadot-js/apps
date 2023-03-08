@@ -10,7 +10,7 @@ import { Button, Input, InputAddress, InputBalance, MarkError, Modal, TxButton }
 import { useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import { calculateBountyBond, countUtf8Bytes } from './helpers.js';
+import { calculateBountyBond, countUtf8Bytes } from './helpers/index.js';
 import { useTranslation } from './translate.js';
 
 const MIN_TITLE_LEN = 1;

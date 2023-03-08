@@ -3,8 +3,8 @@
 
 import type { EndpointOption } from './types.js';
 
-import { chains3dpassPNG, chainsAlephSVG, chainsBittensorPNG, chainsCreditcoinPNG, chainsDebioSVG, chainsEquilibriumSVG, chainsGenshiroSVG, chainsLogionPNG, chainsMyriadPNG, chainsSpannerPNG } from '../ui/logos/chains.js';
-import { nodesAresOdysseySVG, nodesAutomataPNG, nodesCentrifugePNG, nodesChainxSVG, nodesCompetitorsClubPNG, nodesCrabSVG, nodesCrownSterlingPNG, nodesCrustSVG, nodesDarwiniaSVG, nodesDatahighwayPNG, nodesDockPNG, nodesEdgewareWhitePNG, nodesEfinitySVG, nodesHanyonycashPNG, nodesHumanodePNG, nodesJoystreamSVG, nodesKulupuSVG, nodesKusariSVG, nodesMathSVG, nodesMinixPNG, nodesNftmartPNG, nodesNodleSVG, nodesPolkadexSVG, nodesPolymeshSVG, nodesRiochainSVG, nodesRobonomicsSVG, nodesSherpaxPNG, nodesSoraSubstrateSVG, nodesStafiPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesSwapdexSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesUniartsPNG, nodesUnitnetworkPNG } from '../ui/logos/nodes.js';
+import { chains3dpassPNG, chainsAlephSVG, chainsBittensorPNG, chainsCreditcoinPNG, chainsDebioSVG, chainsEquilibriumSVG, chainsGenshiroSVG, chainsLogionPNG, chainsMyriadPNG, chainsSpannerPNG } from '../ui/logos/chains/index.js';
+import { nodesAresOdysseySVG, nodesAutomataPNG, nodesCentrifugePNG, nodesChainxSVG, nodesCompetitorsClubPNG, nodesCrabSVG, nodesCrownSterlingPNG, nodesCrustSVG, nodesDarwiniaSVG, nodesDatahighwayPNG, nodesDockPNG, nodesEdgewareWhitePNG, nodesEfinitySVG, nodesHanyonycashPNG, nodesHumanodePNG, nodesJoystreamSVG, nodesKulupuSVG, nodesKusariSVG, nodesMathSVG, nodesMinixPNG, nodesNftmartPNG, nodesNodleSVG, nodesPolkadexSVG, nodesPolymeshSVG, nodesRiochainSVG, nodesRobonomicsSVG, nodesSherpaxPNG, nodesSoraSubstrateSVG, nodesStafiPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesSwapdexSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesUniartsPNG, nodesUnitnetworkPNG } from '../ui/logos/nodes/index.js';
 
 export * from './productionRelayKusama.js';
 export * from './productionRelayPolkadot.js';

@@ -13,9 +13,9 @@ import { FormatBalance } from '@polkadot/react-query';
 
 import BountyActionMessage from './BountyNextActionInfo/BountyActionMessage.js';
 import { getProposalToDisplay } from './helpers/extendedStatuses.js';
-import { BountyActions } from './BountyActions.js';
-import BountyExtraActions from './BountyExtraActions.js';
-import BountyInfos from './BountyInfos.js';
+import { BountyActions } from './BountyActions/index.js';
+import BountyExtraActions from './BountyExtraActions/index.js';
+import BountyInfos from './BountyInfos/index.js';
 import BountyStatusView from './BountyStatusView.js';
 import Curator from './Curator.js';
 import DueBlocks from './DueBlocks.js';

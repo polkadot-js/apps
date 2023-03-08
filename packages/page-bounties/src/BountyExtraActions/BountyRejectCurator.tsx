@@ -8,7 +8,7 @@ import React from 'react';
 import { useBounties } from '@polkadot/app-bounties/hooks';
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 
-import { truncateTitle } from '../helpers.js';
+import { truncateTitle } from '../helpers/index.js';
 import { useTranslation } from '../translate.js';
 
 interface Props {
