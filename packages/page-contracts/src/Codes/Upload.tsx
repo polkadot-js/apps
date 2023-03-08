@@ -13,7 +13,7 @@ import { Available } from '@polkadot/react-query';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN, BN_ZERO, isNull, isWasm, stringify } from '@polkadot/util';
 
-import { ABI, InputMegaGas, InputName, MessageSignature, Params } from '../shared.js';
+import { ABI, InputMegaGas, InputName, MessageSignature, Params } from '../shared/index.js';
 import store from '../store.js';
 import { useTranslation } from '../translate.js';
 import useAbi from '../useAbi.js';

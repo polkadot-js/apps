@@ -14,9 +14,9 @@ import { isFunction } from '@polkadot/util';
 
 import Api from './Api/index.js';
 import BlockInfo from './BlockInfo/index.js';
-import Forks from './Forks/index.js';
 import Latency from './Latency/index.js';
 import NodeInfo from './NodeInfo/index.js';
+import Forks from './Forks.js';
 import Main from './Main.js';
 import { useTranslation } from './translate.js';
 

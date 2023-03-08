@@ -8,7 +8,7 @@ import React, { useMemo } from 'react';
 import { AddressSmall, Table } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 
-import Mint from './Mint.js';
+import Mint from './Mint/index.js';
 
 interface Props {
   className?: string;

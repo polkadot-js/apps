@@ -14,7 +14,7 @@ import { convertWeight } from '@polkadot/react-hooks/useWeight';
 import { Available } from '@polkadot/react-query';
 import { BN, BN_ONE, BN_ZERO } from '@polkadot/util';
 
-import { InputMegaGas, Params } from '../shared.js';
+import { InputMegaGas, Params } from '../shared/index.js';
 import { useTranslation } from '../translate.js';
 import useWeight from '../useWeight.js';
 import Outcome from './Outcome.js';

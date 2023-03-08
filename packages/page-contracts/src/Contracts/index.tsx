@@ -6,8 +6,8 @@ import React, { useCallback, useState } from 'react';
 import { Button, styled } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
-import Codes from '../Codes.js';
 import CodeAdd from '../Codes/Add.js';
+import Codes from '../Codes/index.js';
 import CodeUpload from '../Codes/Upload.js';
 import { useTranslation } from '../translate.js';
 import { useCodes } from '../useCodes.js';

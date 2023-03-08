@@ -8,8 +8,8 @@ import React from 'react';
 
 import { Button } from '@polkadot/react-components';
 
+import Create from './Create/index.js';
 import Assets from './Assets.js';
-import Create from './Create.js';
 import Summary from './Summary.js';
 
 interface Props {

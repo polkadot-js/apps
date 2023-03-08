@@ -9,7 +9,7 @@ import { AddressRow, Button, Input, Modal } from '@polkadot/react-components';
 import { useApi, useNonEmptyString } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 
-import { ABI, InputName } from '../shared.js';
+import { ABI, InputName } from '../shared/index.js';
 import { useTranslation } from '../translate.js';
 import useAbi from '../useAbi.js';
 import ValidateAddr from './ValidateAddr.js';
