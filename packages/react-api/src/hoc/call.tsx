@@ -16,9 +16,9 @@ import React from 'react';
 
 import { assert, isNull, isUndefined, nextTick } from '@polkadot/util';
 
-import echoTransform from '../transform/echo';
-import { isEqual, triggerChange } from '../util';
-import withApi from './api';
+import echoTransform from '../transform/echo.js';
+import { isEqual, triggerChange } from '../util/index.js';
+import withApi from './api.js';
 
 // FIXME This is not correct, we need some junction of derive, query & consts
 interface Method {

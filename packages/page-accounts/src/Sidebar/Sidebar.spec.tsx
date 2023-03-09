@@ -6,7 +6,7 @@ import { fireEvent, screen, waitFor, within } from '@testing-library/react';
 import i18next from '@polkadot/react-components/i18n';
 import { AddressFlags } from '@polkadot/react-hooks/types';
 import { anAccount, anAccountWithInfo, anAccountWithMeta } from '@polkadot/test-support/creation/account';
-import { alice, bob, MemoryStore } from '@polkadot/test-support/keyring';
+import { alice, bob, MemoryStore } from '@polkadot/test-support/keyring/index';
 import { charlieShortAddress, ferdieShortAddress, mockRegistration, registrars } from '@polkadot/test-support/mockData/registrations';
 import { Sidebar } from '@polkadot/test-support/pagesElements/Sidebar';
 import { mockApiHooks } from '@polkadot/test-support/utils/mockApiHooks';

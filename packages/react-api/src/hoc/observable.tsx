@@ -10,8 +10,8 @@ import type { DefaultProps, HOC, Options, RenderFn } from './types.js';
 import React from 'react';
 import { catchError, map, of } from 'rxjs';
 
-import echoTransform from '../transform/echo';
-import { intervalObservable, isEqual, triggerChange } from '../util';
+import echoTransform from '../transform/echo.js';
+import { intervalObservable, isEqual, triggerChange } from '../util/index.js';
 
 interface State extends CallState {
   subscriptions: { unsubscribe: () => void }[];

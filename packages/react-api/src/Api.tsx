@@ -23,9 +23,9 @@ import { settings } from '@polkadot/ui-settings';
 import { formatBalance, isNumber, isTestChain, objectSpread, stringify } from '@polkadot/util';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
-import { lightSpecs, relaySpecs } from './light';
-import registry from './typeRegistry';
-import { decodeUrlTypes } from './urlTypes';
+import { lightSpecs, relaySpecs } from './light/index.js';
+import registry from './typeRegistry.js';
+import { decodeUrlTypes } from './urlTypes.js';
 
 interface Props {
   children: React.ReactNode;

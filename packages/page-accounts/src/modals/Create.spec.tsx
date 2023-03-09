@@ -4,7 +4,7 @@
 import { fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/react';
 
 import i18next from '@polkadot/react-components/i18n';
-import { MemoryStore } from '@polkadot/test-support/keyring';
+import { MemoryStore } from '@polkadot/test-support/keyring/index';
 import { assertButtonDisabled, assertText, clickButton, fillInput } from '@polkadot/test-support/utils/renderedScreenUtils';
 import { keyring } from '@polkadot/ui-keyring';
 import { cryptoWaitReady } from '@polkadot/util-crypto';

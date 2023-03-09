@@ -6,7 +6,7 @@ import type { Options } from './types.js';
 
 import React from 'react';
 
-import withCall from './call';
+import withCall from './call.js';
 
 type Call = string | [string, Options];
 

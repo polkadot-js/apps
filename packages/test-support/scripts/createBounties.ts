@@ -1,8 +1,8 @@
 // Copyright 2017-2023 @polkadot/test-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { createApi } from '@polkadot/test-support/api';
-import { aliceSigner } from '@polkadot/test-support/keyring';
+import { createApi } from '@polkadot/test-support/api/index';
+import { aliceSigner } from '@polkadot/test-support/keyring/index';
 
 import { multiAcceptCurator, multiApproveBounty, multiAwardBounty, multiClaimBounty, multiProposeBounty, multiProposeCurator, multiWaitForBountyFunded, multiWaitForClaim } from './lib/multiFunctions.js';
 

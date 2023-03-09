@@ -24,10 +24,10 @@ import { BountyFactory } from '@polkadot/test-support/creation/bounties/bountyFa
 import { TypeRegistry } from '@polkadot/types/create';
 import { BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 
-import { mockBountyHooks } from '../hooks/defaults';
-import { clickButtonWithName } from '../utils/clickButtonWithName';
-import { clickElementWithTestId } from '../utils/clickElementWithTestId';
-import { clickElementWithText } from '../utils/clickElementWithText';
+import { mockBountyHooks } from '../hooks/defaults.js';
+import { clickButtonWithName } from '../utils/clickButtonWithName.js';
+import { clickElementWithTestId } from '../utils/clickElementWithTestId.js';
+import { clickElementWithText } from '../utils/clickElementWithText.js';
 
 function aGenesisHash () {
   return new TypeRegistry().createType('Hash', POLKADOT_GENESIS);

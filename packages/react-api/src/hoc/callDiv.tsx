@@ -6,7 +6,7 @@ import type { DefaultProps, Options } from './types.js';
 
 import React from 'react';
 
-import withCall from './call';
+import withCall from './call.js';
 
 interface Props<T> extends BaseProps<T> {
   callResult?: T;

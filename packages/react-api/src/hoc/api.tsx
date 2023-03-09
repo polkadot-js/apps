@@ -8,7 +8,7 @@ import React from 'react';
 
 import { assert } from '@polkadot/util';
 
-import { ApiCtx } from '../Api';
+import { ApiCtx } from '../Api.js';
 
 export default function withApi <P extends ApiProps> (Inner: React.ComponentType<P>, defaultProps: DefaultProps = {}): React.ComponentType<any> {
   class WithApi extends React.PureComponent<SubtractProps<P, ApiProps>> {
