@@ -377,7 +377,7 @@ export const prodChains: EndpointOption[] = [
   {
     info: 'polymesh',
     providers: {
-      Polymesh1: 'wss://mainnet-rpc.polymesh.network'
+      Polymesh: 'wss://mainnet-rpc.polymesh.network'
     },
     text: 'Polymesh Mainnet',
     ui: {
