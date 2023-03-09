@@ -147,7 +147,7 @@ function createWebpack (context, mode = 'production') {
     resolve: {
       alias,
       extensionAlias: {
-        '.js': ['.ts', '.tsx', '.js']
+        '.js': ['.js', '.ts', '.tsx']
       },
       extensions: ['.js', '.jsx', '.mjs', '.ts', '.tsx'],
       fallback: {
