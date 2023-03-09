@@ -3,7 +3,7 @@
 
 import React, { useCallback } from 'react';
 
-import Labelled from './Labelled';
+import Labelled from './Labelled.js';
 import { styled } from './styled.js';
 
 interface Props {

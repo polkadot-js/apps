@@ -5,8 +5,8 @@ import React from 'react';
 
 import { isString } from '@polkadot/util';
 
-import CopyButton from './CopyButton';
-import Labelled from './Labelled';
+import CopyButton from './CopyButton.js';
+import Labelled from './Labelled.js';
 import { styled } from './styled.js';
 
 interface Props {

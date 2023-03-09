@@ -5,7 +5,7 @@ import type { Registrar } from '@polkadot/react-hooks/types';
 
 import registry from '@polkadot/react-api/typeRegistry';
 
-import { bob, charlie, ferdie } from '../keyring';
+import { bob, charlie, ferdie } from '../keyring/index.js';
 
 export const mockRegistration = {
   judgements: [

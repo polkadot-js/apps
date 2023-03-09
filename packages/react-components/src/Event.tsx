@@ -10,10 +10,10 @@ import React, { useMemo } from 'react';
 
 import Params from '@polkadot/react-params';
 
-import { balanceEvents, balanceEventsOverrides } from './constants';
-import Input from './Input';
+import { getContractAbi } from './util/index.js';
+import { balanceEvents, balanceEventsOverrides } from './constants.js';
+import Input from './Input.js';
 import { useTranslation } from './translate.js';
-import { getContractAbi } from './util';
 
 export interface Props {
   children?: React.ReactNode;

@@ -8,7 +8,7 @@ import React, { useContext, useState } from 'react';
 import { ThemeContext } from 'styled-components';
 
 import { styled } from './styled.js';
-import Tooltip from './Tooltip';
+import Tooltip from './Tooltip.js';
 
 interface Props {
   className?: string;

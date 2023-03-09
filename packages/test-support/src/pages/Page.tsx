@@ -15,7 +15,6 @@ import { POLKADOT_GENESIS } from '@polkadot/apps-config';
 import { ApiCtx } from '@polkadot/react-api';
 import { QueueCtx } from '@polkadot/react-hooks/ctx/Queue';
 import { UseAccountInfo } from '@polkadot/react-hooks/types';
-import { mockApiHooks } from '@polkadot/test-support/utils/mockApiHooks';
 import { TypeRegistry } from '@polkadot/types/create';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN } from '@polkadot/util';
@@ -23,6 +22,7 @@ import { BN } from '@polkadot/util';
 import { alice, bob, charlie, ferdie } from '../keyring/index.js';
 import { Table } from '../pagesElements/index.js';
 import { AccountOverrides, mockAccountHooks } from '../utils/accountDefaults.js';
+import { mockApiHooks } from '../utils/mockApiHooks.js';
 
 let queueExtrinsic: (value: PartialQueueTxExtrinsic) => void;
 

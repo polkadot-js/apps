@@ -5,10 +5,10 @@ import React, { useCallback, useMemo } from 'react';
 
 import { useApi, useDeriveAccountInfo } from '@polkadot/react-hooks';
 
-import AddressMini from './AddressMini';
+import { checkVisibility } from './util/index.js';
+import AddressMini from './AddressMini.js';
 import { styled } from './styled.js';
-import Toggle from './Toggle';
-import { checkVisibility } from './util';
+import Toggle from './Toggle.js';
 
 interface Props {
   address: string;

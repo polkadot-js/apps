@@ -10,7 +10,7 @@ import { execute } from '@polkadot/test-support/transaction';
 import { Hash } from '@polkadot/types/interfaces';
 import { BN } from '@polkadot/util';
 
-import { LENGTH_BOUND, TREASURY_ADDRESS, WEIGHT_BOUND } from './constants';
+import { LENGTH_BOUND, TREASURY_ADDRESS, WEIGHT_BOUND } from './constants.js';
 
 export async function acceptMotion (api: ApiPromise, hash: Hash, index: number): Promise<void> {
   const charlieVote = execute(api.tx.council.vote(hash, index, true), charlieSigner());

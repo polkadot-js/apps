@@ -10,7 +10,7 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { BalanceVoting } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
-import InputBalance from './InputBalance';
+import InputBalance from './InputBalance.js';
 import { useTranslation } from './translate.js';
 
 interface Props {

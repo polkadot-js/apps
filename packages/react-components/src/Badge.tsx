@@ -7,9 +7,9 @@ import React, { useMemo, useState } from 'react';
 
 import { useTheme } from '@polkadot/react-hooks';
 
-import Icon from './Icon';
+import Icon from './Icon.js';
 import { styled } from './styled.js';
-import Tooltip from './Tooltip';
+import Tooltip from './Tooltip.js';
 
 interface Props {
   className?: string;

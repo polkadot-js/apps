@@ -6,7 +6,7 @@ import React from 'react';
 import { useApi } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-import MarkWarning from './MarkWarning';
+import MarkWarning from './MarkWarning.js';
 import { useTranslation } from './translate.js';
 
 function BatchWarning (): React.ReactElement | null {

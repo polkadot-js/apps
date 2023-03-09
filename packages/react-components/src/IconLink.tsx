@@ -5,7 +5,7 @@ import type { IconName } from '@fortawesome/fontawesome-svg-core';
 
 import React from 'react';
 
-import Icon from './Icon';
+import Icon from './Icon.js';
 import { styled } from './styled.js';
 
 interface Props {

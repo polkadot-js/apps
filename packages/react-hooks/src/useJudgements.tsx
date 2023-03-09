@@ -5,8 +5,8 @@ import type { UseJudgements } from './types.js';
 
 import { useMemo } from 'react';
 
-import { getJudgements } from './utils/getJudgements';
-import { matchRegistrarAccountsWithIndexes } from './utils/matchRegistrarAccountsWithIndexes';
+import { getJudgements } from './utils/getJudgements.js';
+import { matchRegistrarAccountsWithIndexes } from './utils/matchRegistrarAccountsWithIndexes.js';
 import { createNamedHook } from './createNamedHook.js';
 import { useAccountInfo } from './useAccountInfo.js';
 import { useRegistrars } from './useRegistrars.js';

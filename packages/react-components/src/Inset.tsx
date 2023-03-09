@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 
 import { useToggle } from '@polkadot/react-hooks';
 
-import Icon from './Icon';
+import Icon from './Icon.js';
 import { styled } from './styled.js';
 
 export interface InsetProps {

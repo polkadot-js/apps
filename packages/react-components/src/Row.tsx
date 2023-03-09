@@ -7,10 +7,10 @@ import React, { useCallback } from 'react';
 
 import { useToggle } from '@polkadot/react-hooks';
 
-import EditButton from './EditButton';
-import Input from './Input';
+import EditButton from './EditButton.js';
+import Input from './Input.js';
 import { styled } from './styled.js';
-import Tags from './Tags';
+import Tags from './Tags.js';
 
 export interface RowProps {
   address?: AccountId | AccountIndex | Address | string | null;

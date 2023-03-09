@@ -3,7 +3,7 @@
 
 import React, { useCallback } from 'react';
 
-import Icon from '../../Icon';
+import Icon from '../../Icon.js';
 import { styled } from '../../styled.js';
 
 export interface Props {

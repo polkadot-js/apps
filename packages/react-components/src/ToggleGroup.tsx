@@ -3,7 +3,7 @@
 
 import React, { useCallback, useMemo } from 'react';
 
-import Button from './Button';
+import Button from './Button/index.js';
 import { styled } from './styled.js';
 
 interface Option {

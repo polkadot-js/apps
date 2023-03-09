@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import Input from './Input';
+import Input from './Input.js';
 import { styled } from './styled.js';
 
 interface Props {

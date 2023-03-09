@@ -9,7 +9,7 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 import { useQueue } from '@polkadot/react-hooks';
 import { isString } from '@polkadot/util';
 
-import Button from './Button';
+import Button from './Button/index.js';
 import { styled } from './styled.js';
 import { useTranslation } from './translate.js';
 

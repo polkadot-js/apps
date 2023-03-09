@@ -103,7 +103,7 @@
       "@polkadot/react-signer": ["react-signer/src"],
       "@polkadot/react-signer/*": ["react-signer/src/*"],
       "@polkadot/test-support/": ["test-support/src/"],
-      "@polkadot/test-support/*": ["test-support/src/*"]
+      "@polkadot/test-support/*": ["test-support/src/*/index.ts"]
     },
     "skipLibCheck": true,
     "target": "es2020"

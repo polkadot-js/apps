@@ -3,10 +3,10 @@
 
 import React, { useCallback, useState } from 'react';
 
-import IdentityIcon from './IdentityIcon';
-import Input from './Input';
+import IdentityIcon from './IdentityIcon/index.js';
+import { toAddress } from './util/index.js';
+import Input from './Input.js';
 import { styled } from './styled.js';
-import { toAddress } from './util';
 
 interface Props {
   autoFocus?: boolean;

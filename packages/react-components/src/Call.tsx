@@ -12,8 +12,8 @@ import Params from '@polkadot/react-params';
 import { FormatBalance } from '@polkadot/react-query';
 import { Enum, getTypeDef } from '@polkadot/types';
 
-import { balanceCalls, balanceCallsOverrides } from './constants';
-import Static from './Static';
+import { balanceCalls, balanceCallsOverrides } from './constants.js';
+import Static from './Static.js';
 import { styled } from './styled.js';
 import { useTranslation } from './translate.js';
 
