@@ -34,6 +34,7 @@ export const PolkassemblyIo: ExternalDef = {
     council: 'motion',
     democracyProposal: 'proposal',
     democracyReferendum: 'referendum',
+    fellowshipReferenda: 'member-referenda',
     referenda: 'referenda',
     tip: 'tip',
     treasury: 'treasury'
