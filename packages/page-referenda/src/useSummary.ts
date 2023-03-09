@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { u32 } from '@polkadot/types';
-import type { PalletReferenda, ReferendaGroup, Summary } from './types';
+import type { PalletReferenda, ReferendaGroup, Summary } from './types.js';
 
 import { useMemo } from 'react';
 

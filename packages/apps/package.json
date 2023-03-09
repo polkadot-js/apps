@@ -15,7 +15,7 @@
   "dependencies": {
     "@polkadot/apps-config": "^0.124.2-124-x",
     "@polkadot/apps-routing": "^0.124.2-124-x",
-    "@polkadot/dev": "^0.70.4",
+    "@polkadot/dev": "^0.71.1",
     "@polkadot/react-api": "^0.124.2-124-x",
     "@polkadot/react-components": "^0.124.2-124-x",
     "@polkadot/react-hooks": "^0.124.2-124-x",

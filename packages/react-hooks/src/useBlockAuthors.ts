@@ -5,8 +5,8 @@ import type { BlockAuthors } from './ctx/types';
 
 import { useContext } from 'react';
 
-import { BlockAuthorsCtx } from './ctx/BlockAuthors';
-import { createNamedHook } from './createNamedHook';
+import { BlockAuthorsCtx } from './ctx/BlockAuthors.js';
+import { createNamedHook } from './createNamedHook.js';
 
 function useBlockAuthorsImpl (): BlockAuthors {
   return useContext(BlockAuthorsCtx);

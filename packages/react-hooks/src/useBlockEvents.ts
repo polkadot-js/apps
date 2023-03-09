@@ -5,8 +5,8 @@ import type { BlockEvents } from './ctx/types';
 
 import { useContext } from 'react';
 
-import { BlockEventsCtx } from './ctx/BlockEvents';
-import { createNamedHook } from './createNamedHook';
+import { BlockEventsCtx } from './ctx/BlockEvents.js';
+import { createNamedHook } from './createNamedHook.js';
 
 function useBlockEventsImpl (): BlockEvents {
   return useContext(BlockEventsCtx);

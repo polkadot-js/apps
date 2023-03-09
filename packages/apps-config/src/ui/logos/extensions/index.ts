@@ -3,4 +3,4 @@
 
 // Do not edit. Auto-generated via node scripts/imgConvert.mjs
 
-export { extensionsPolkadotJsSVG } from './generated/polkadot-jsSVG';
+export { extensionsPolkadotJsSVG } from './generated/polkadot-jsSVG.js';

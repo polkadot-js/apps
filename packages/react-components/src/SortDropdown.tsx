@@ -3,9 +3,9 @@
 
 import React from 'react';
 
-import Dropdown from './Dropdown';
-import Icon from './Icon';
-import { styled } from './styled';
+import Dropdown from './Dropdown.js';
+import Icon from './Icon.js';
+import { styled } from './styled.js';
 
 interface Props {
   className?: string;

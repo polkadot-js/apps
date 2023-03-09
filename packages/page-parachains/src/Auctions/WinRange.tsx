@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { AuctionInfo, WinnerData } from '../types';
+import type { AuctionInfo, WinnerData } from '../types.js';
 
 import React from 'react';
 
 import { AddressMini, ParaLink, Table } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   auctionInfo: AuctionInfo;

@@ -5,7 +5,7 @@ import React from 'react';
 
 import App from '@polkadot/app-tech-comm/App';
 
-export { default as useCounter } from './useCounter';
+export { default as useCounter } from './useCounter.js';
 
 interface Props {
   basePath: string;

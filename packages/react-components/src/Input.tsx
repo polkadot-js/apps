@@ -6,7 +6,7 @@ import { Input as SUIInput } from 'semantic-ui-react';
 
 import { isFunction, isUndefined } from '@polkadot/util';
 
-import Labelled from './Labelled';
+import Labelled from './Labelled.js';
 
 type Input$Type = 'number' | 'password' | 'text';
 

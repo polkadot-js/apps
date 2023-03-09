@@ -103,9 +103,8 @@
       "@polkadot/react-signer": ["react-signer/src"],
       "@polkadot/react-signer/*": ["react-signer/src/*"],
       "@polkadot/test-support/": ["test-support/src/"],
-      "@polkadot/test-support/*": ["test-support/src/*"]
+      "@polkadot/test-support/*": ["test-support/src/*.ts", "test-support/src/*.tsx"]
     },
-    "skipLibCheck": true,
-    "target": "es2020"
+    "skipLibCheck": true
 	}
  }

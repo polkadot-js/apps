@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { determineUnassignCuratorAction } from '@polkadot/app-bounties/helpers/determineUnassignCuratorAction';
-import { createAugmentedApi } from '@polkadot/test-support/api';
+import { createAugmentedApi } from '@polkadot/test-support/api/index';
 import { BountyFactory } from '@polkadot/test-support/creation/bounties/bountyFactory';
 import { BN } from '@polkadot/util';
 

@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { ExternalDef } from './types';
+import type { ExternalDef } from './types.js';
 
-import { externalPolkassemblyPNG } from '../ui/logos/external';
+import { externalPolkassemblyPNG } from '../ui/logos/external/index.js';
 
 export const PolkassemblyIo: ExternalDef = {
   chains: {

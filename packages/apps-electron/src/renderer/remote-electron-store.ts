@@ -3,7 +3,7 @@
 
 import type { KeyringJson, KeyringStore } from '@polkadot/ui-keyring/types';
 
-import { AccountStoreApi } from '../api/account-store-api';
+import { AccountStoreApi } from '../api/account-store-api.js';
 
 export class RemoteElectronStore implements KeyringStore {
   readonly #accountStore: AccountStoreApi;

@@ -3,7 +3,7 @@
 
 // Adapted from https://hackernoon.com/simplifying-responsive-layouts-with-react-hooks-19db73893a7a
 
-import type { WindowSize } from './types';
+import type { WindowSize } from './types.js';
 
 import React, { useEffect, useState } from 'react';
 

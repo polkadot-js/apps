@@ -10,8 +10,8 @@ import VotingDescriptionInfo from '@polkadot/app-bounties/BountyInfos/VotingDesc
 import { styled } from '@polkadot/react-components';
 import { useCollectiveMembers } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import VotingLink from './VotingLink';
+import { useTranslation } from '../translate.js';
+import VotingLink from './VotingLink.js';
 
 interface Props {
   className?: string;

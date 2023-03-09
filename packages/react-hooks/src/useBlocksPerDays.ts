@@ -5,8 +5,8 @@ import { useMemo } from 'react';
 
 import { BN, bnToBn } from '@polkadot/util';
 
-import { createNamedHook } from './createNamedHook';
-import { useBlockInterval } from './useBlockInterval';
+import { createNamedHook } from './createNamedHook.js';
+import { useBlockInterval } from './useBlockInterval.js';
 
 export const A_DAY = new BN(24 * 60 * 60 * 1000);
 

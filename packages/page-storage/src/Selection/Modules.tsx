@@ -5,7 +5,7 @@ import type { QueryableStorageEntry } from '@polkadot/api/types';
 import type { RawParams, TypeDefExt } from '@polkadot/react-params/types';
 import type { StorageEntryTypeLatest } from '@polkadot/types/interfaces';
 import type { Inspect, Registry } from '@polkadot/types/types';
-import type { ComponentProps as Props } from '../types';
+import type { ComponentProps as Props } from '../types.js';
 
 import React, { useCallback, useMemo, useState } from 'react';
 
@@ -18,7 +18,7 @@ import { getSiName } from '@polkadot/types/metadata/util';
 import { TypeDefInfo } from '@polkadot/types/types';
 import { compactStripLength, isHex, isNull, isUndefined, u8aToHex } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 type ParamsType = { name?: string, type: TypeDefExt }[];
 

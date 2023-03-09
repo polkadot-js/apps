@@ -7,8 +7,8 @@ import React, { useRef } from 'react';
 
 import { Tabs } from '@polkadot/react-components';
 
-import CrustFiles from './CrustFiles';
-import { useTranslation } from './translate';
+import CrustFiles from './CrustFiles.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   basePath: string;

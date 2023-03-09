@@ -8,7 +8,7 @@ import React, { useRef } from 'react';
 import { useTranslation } from '@polkadot/app-contracts/translate';
 import { Tabs } from '@polkadot/react-components';
 
-import Contracts from './Contracts';
+import Contracts from './Contracts/index.js';
 
 function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();

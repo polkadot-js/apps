@@ -6,7 +6,7 @@ import type { ThemeDef } from './ctx/types';
 import { useContext, useMemo } from 'react';
 import { ThemeContext } from 'styled-components';
 
-import { createNamedHook } from './createNamedHook';
+import { createNamedHook } from './createNamedHook.js';
 
 interface Theme {
   theme: ThemeDef['theme'];

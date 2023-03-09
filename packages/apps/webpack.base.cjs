@@ -146,6 +146,9 @@ function createWebpack (context, mode = 'production') {
     ].concat(plugins),
     resolve: {
       alias,
+      extensionAlias: {
+        '.js': ['.js', '.ts', '.tsx']
+      },
       extensions: ['.js', '.jsx', '.mjs', '.ts', '.tsx'],
       fallback: {
         assert: require.resolve('assert/'),

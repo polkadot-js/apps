@@ -1,16 +1,16 @@
 // Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PalletReferenda, TrackDescription, TrackInfoExt } from '../../types';
-import type { VoteResultItem } from './types';
+import type { PalletReferenda, TrackDescription, TrackInfoExt } from '../../types.js';
+import type { VoteResultItem } from './types.js';
 
 import React, { useMemo } from 'react';
 
 import { MarkWarning, styled, Table } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../../translate';
-import { getTrackInfo } from '../../util';
+import { useTranslation } from '../../translate.js';
+import { getTrackInfo } from '../../util.js';
 
 interface Props {
   allowEmpty?: boolean;

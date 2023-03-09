@@ -3,7 +3,7 @@
 
 import { RegistrarIndex } from '@polkadot/types/interfaces/identity/types';
 
-import { DisplayedJudgement } from '../types';
+import { DisplayedJudgement } from '../types.js';
 
 export interface DropdownOption {
   className?: string;

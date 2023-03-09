@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { ListNode } from './types';
+import type { ListNode } from './types.js';
 
 import React, { useMemo } from 'react';
 
 import { AddressMini, styled, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   bagLower: BN;

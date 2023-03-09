@@ -6,8 +6,8 @@ import React from 'react';
 import { styled, Tag } from '@polkadot/react-components';
 import { useJudgements } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import JudgementTag from './JudgementTag';
+import { useTranslation } from '../translate.js';
+import JudgementTag from './JudgementTag.js';
 
 interface Props {
   address: string;

@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakerPoints } from '@polkadot/api-derive/types';
-import type { LineData, Props } from './types';
+import type { LineData, Props } from './types.js';
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import Chart from './Chart';
+import { useTranslation } from '../translate.js';
+import Chart from './Chart.js';
 
 const COLORS_POINTS = [undefined, '#acacac'];
 

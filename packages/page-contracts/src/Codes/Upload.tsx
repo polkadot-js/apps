@@ -13,11 +13,11 @@ import { Available } from '@polkadot/react-query';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN, BN_ZERO, isNull, isWasm, stringify } from '@polkadot/util';
 
-import { ABI, InputMegaGas, InputName, MessageSignature, Params } from '../shared';
-import store from '../store';
-import { useTranslation } from '../translate';
-import useAbi from '../useAbi';
-import useWeight from '../useWeight';
+import { ABI, InputMegaGas, InputName, MessageSignature, Params } from '../shared/index.js';
+import store from '../store.js';
+import { useTranslation } from '../translate.js';
+import useAbi from '../useAbi.js';
+import useWeight from '../useWeight.js';
 
 interface Props {
   onClose: () => void;

@@ -6,7 +6,7 @@ import React, { useCallback } from 'react';
 import { Input, Modal } from '@polkadot/react-components';
 import { useTranslation } from '@polkadot/react-components/translate';
 
-import PasswordInput from './PasswordInput';
+import PasswordInput from './PasswordInput.js';
 
 interface AccountName {
   name: string;

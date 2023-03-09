@@ -8,9 +8,9 @@ import React, { useMemo } from 'react';
 import { useBountyStatus } from '@polkadot/app-bounties/hooks';
 import { BN, BN_HUNDRED, BN_ZERO } from '@polkadot/util';
 
-import { useBounties } from '../hooks';
-import { useTranslation } from '../translate';
-import BountyInfo from './BountyInfo';
+import { useBounties } from '../hooks/index.js';
+import { useTranslation } from '../translate.js';
+import BountyInfo from './BountyInfo.js';
 
 interface Props {
   bestNumber: BN;

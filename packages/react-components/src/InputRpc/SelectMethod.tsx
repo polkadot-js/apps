@@ -6,8 +6,8 @@ import type { DropdownOption } from '../util/types';
 
 import React, { useCallback } from 'react';
 
-import Dropdown from '../Dropdown';
-import useRpcs from './useRpcs';
+import Dropdown from '../Dropdown.js';
+import useRpcs from './useRpcs.js';
 
 interface Props {
   className?: string;

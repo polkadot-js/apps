@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Codec, TypeDef } from '@polkadot/types/types';
-import type { Props, RawParamOnChangeValue } from '../types';
+import type { Props, RawParamOnChangeValue } from '../types.js';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
@@ -10,11 +10,11 @@ import { Toggle } from '@polkadot/react-components';
 import { Option } from '@polkadot/types';
 import { isU8a, u8aConcat } from '@polkadot/util';
 
-import Holder from '../Holder';
-import { useTranslation } from '../translate';
-import Base from './Base';
-import Param from './index';
-import Static from './Static';
+import Holder from '../Holder.js';
+import { useTranslation } from '../translate.js';
+import Base from './Base.js';
+import Param from './index.js';
+import Static from './Static.js';
 
 const DEF_VALUE = { isValid: true, value: undefined };
 const OPT_PREFIX = new Uint8Array([1]);

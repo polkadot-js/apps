@@ -8,8 +8,8 @@ import { useApi } from '@polkadot/react-hooks';
 import { BestFinalized, BestNumber, BlockToTime, TimeNow, TotalInactive, TotalIssuance } from '@polkadot/react-query';
 import { BN_ONE, formatNumber } from '@polkadot/util';
 
-import SummarySession from './SummarySession';
-import { useTranslation } from './translate';
+import SummarySession from './SummarySession.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   eventCount: number;

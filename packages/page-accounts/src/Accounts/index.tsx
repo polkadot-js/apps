@@ -4,8 +4,8 @@
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { KeyringAddress } from '@polkadot/ui-keyring/types';
 import type { BN } from '@polkadot/util';
-import type { AccountBalance, Delegation, SortedAccount } from '../types';
-import type { SortCategory } from '../util';
+import type { AccountBalance, Delegation, SortedAccount } from '../types.js';
+import type { SortCategory } from '../util.js';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
@@ -16,18 +16,18 @@ import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { BN_ZERO, isFunction } from '@polkadot/util';
 
-import CreateModal from '../modals/Create';
-import ImportModal from '../modals/Import';
-import Ledger from '../modals/Ledger';
-import Multisig from '../modals/MultisigCreate';
-import Proxy from '../modals/ProxiedAdd';
-import Qr from '../modals/Qr';
-import { useTranslation } from '../translate';
-import { SORT_CATEGORY, sortAccounts } from '../util';
-import Account from './Account';
-import BannerClaims from './BannerClaims';
-import BannerExtension from './BannerExtension';
-import Summary from './Summary';
+import CreateModal from '../modals/Create.js';
+import ImportModal from '../modals/Import.js';
+import Ledger from '../modals/Ledger.js';
+import Multisig from '../modals/MultisigCreate.js';
+import Proxy from '../modals/ProxiedAdd.js';
+import Qr from '../modals/Qr.js';
+import { useTranslation } from '../translate.js';
+import { SORT_CATEGORY, sortAccounts } from '../util.js';
+import Account from './Account.js';
+import BannerClaims from './BannerClaims.js';
+import BannerExtension from './BannerExtension.js';
+import Summary from './Summary.js';
 
 interface Balances {
   accounts: Record<string, AccountBalance>;

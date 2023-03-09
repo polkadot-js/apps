@@ -7,7 +7,7 @@ import { initReactI18next } from 'react-i18next';
 
 import { LANGUAGE_DEFAULT, settings } from '@polkadot/ui-settings';
 
-import Backend from './Backend';
+import Backend from './Backend.js';
 
 interface Services {
   languageDetector: {

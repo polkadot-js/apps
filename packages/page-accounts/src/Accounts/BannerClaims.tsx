@@ -5,8 +5,8 @@ import React from 'react';
 
 import useClaimCounter from '@polkadot/app-claims/useCounter'; // exceptionally CRAP idea
 
-import { useTranslation } from '../translate';
-import Banner from './Banner';
+import { useTranslation } from '../translate.js';
+import Banner from './Banner.js';
 
 function BannerExtension (): React.ReactElement | null {
   const claimCount = useClaimCounter();

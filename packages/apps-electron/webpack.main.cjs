@@ -51,6 +51,9 @@ function createWebpack () {
         alias: {
           '@polkadot/hw-ledger-transports': require.resolve('@polkadot/hw-ledger-transports/node')
         },
+        extensionAlias: {
+          '.js': ['.ts', '.tsx', '.js']
+        },
         extensions: ['.js', '.jsx', '.json', '.mjs', '.ts', '.tsx']
       },
       target: 'electron-main'

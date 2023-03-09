@@ -4,14 +4,14 @@
 import type { Bytes, Option } from '@polkadot/types';
 import type { FrameSystemAccountInfo, PalletNominationPoolsBondedPoolInner, PalletNominationPoolsRewardPool, PalletStakingNominations } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { PoolInfo, PoolInfoBase } from './types';
+import type { PoolInfo, PoolInfoBase } from './types.js';
 
 import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCallMulti } from '@polkadot/react-hooks';
 import { BN_ZERO, bnMax } from '@polkadot/util';
 
-import usePoolAccounts from './usePoolAccounts';
+import usePoolAccounts from './usePoolAccounts.js';
 
 const OPT_MULTI = {
   defaultValue: null,

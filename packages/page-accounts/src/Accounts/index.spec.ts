@@ -9,8 +9,8 @@ import { toShortAddress } from '@polkadot/react-components/util/toShortAddress';
 import { AddressFlags } from '@polkadot/react-hooks/types';
 import { anAccountWithBalance, anAccountWithBalanceAndMeta, anAccountWithInfo, anAccountWithInfoAndMeta, anAccountWithMeta, anAccountWithStaking } from '@polkadot/test-support/creation/account';
 import { makeStakingLedger as ledger } from '@polkadot/test-support/creation/stakingInfo/stakingLedger';
-import { alice, bob, MemoryStore } from '@polkadot/test-support/keyring';
-import { Table } from '@polkadot/test-support/pagesElements';
+import { alice, bob, MemoryStore } from '@polkadot/test-support/keyring/index';
+import { Table } from '@polkadot/test-support/pagesElements/index';
 import { balance, showBalance } from '@polkadot/test-support/utils/balance';
 import { mockApiHooks } from '@polkadot/test-support/utils/mockApiHooks';
 import { u32 } from '@polkadot/types';
@@ -19,8 +19,8 @@ import { AccountId, Multisig, ProxyDefinition, Timepoint, Voting, VotingDelegati
 import { keyring } from '@polkadot/ui-keyring';
 import { BN } from '@polkadot/util';
 
-import { AccountRow } from '../../test/pageElements/AccountRow';
-import { AccountsPage } from '../../test/pages/accountsPage';
+import { AccountRow } from '../../test/pageElements/AccountRow.js';
+import { AccountsPage } from '../../test/pages/accountsPage.js';
 
 // FIXME isSplit Table
 describe.skip('Accounts page', () => {

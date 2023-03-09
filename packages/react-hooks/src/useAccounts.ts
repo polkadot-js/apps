@@ -5,8 +5,8 @@ import type { Accounts } from './ctx/types';
 
 import { useContext } from 'react';
 
-import { KeyringCtx } from './ctx/Keyring';
-import { createNamedHook } from './createNamedHook';
+import { KeyringCtx } from './ctx/Keyring.js';
+import { createNamedHook } from './createNamedHook.js';
 
 function useAccountsImpl (): Accounts {
   return useContext(KeyringCtx).accounts;

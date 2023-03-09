@@ -7,8 +7,8 @@ import React, { useContext } from 'react';
 import store from 'store';
 import { ThemeContext } from 'styled-components';
 
-import Dropdown from './Dropdown';
-import { styled } from './styled';
+import Dropdown from './Dropdown.js';
+import { styled } from './styled.js';
 
 interface Option {
   key: string;
