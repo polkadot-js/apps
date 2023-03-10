@@ -11,7 +11,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.124.2-132-x",
+  "version": "0.124.2-133-x",
   "dependencies": {
     "@polkadot/api-contract": "^10.0.1"
   }
