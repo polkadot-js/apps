@@ -14,6 +14,6 @@
   "version": "0.124.2-130-x",
   "dependencies": {
     "@polkadot/react-components": "^0.124.2-130-x",
-    "multiformats": "^11.0.1"
+    "multiformats": "^11.0.2"
   }
 }

@@ -1335,7 +1335,7 @@ __metadata:
     "@polkadot/react-hooks": ^0.124.2-130-x
     "@polkadot/test-support": 0.124.2-130-x
     "@polkadot/util": ^11.0.1
-    "@polkadot/vanitygen": ^0.53.1
+    "@polkadot/vanitygen": ^0.53.4
     detect-browser: ^5.3.0
     file-saver: ^2.0.5
   languageName: unknown
@@ -1691,7 +1691,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/apps-electron@workspace:packages/apps-electron"
   dependencies:
-    "@polkadot/dev": ^0.71.1
+    "@polkadot/dev": ^0.71.3
     "@polkadot/react-components": ^0.124.2-130-x
     "@types/react-dom": ^18.0.11
     "@types/tmp": ^0.2.3
@@ -1717,7 +1717,7 @@ __metadata:
   dependencies:
     "@polkadot/apps-config": ^0.124.2-130-x
     "@polkadot/apps-routing": ^0.124.2-130-x
-    "@polkadot/dev": ^0.71.1
+    "@polkadot/dev": ^0.71.3
     "@polkadot/react-api": ^0.124.2-130-x
     "@polkadot/react-components": ^0.124.2-130-x
     "@polkadot/react-hooks": ^0.124.2-130-x
@@ -1733,7 +1733,7 @@ __metadata:
     empty: ^0.10.1
     html-webpack-plugin: ^5.5.0
     https-browserify: ^1.0.0
-    mini-css-extract-plugin: ^2.7.2
+    mini-css-extract-plugin: ^2.7.3
     os-browserify: ^0.3.0
     path-browserify: ^1.0.1
     process: ^0.11.10
@@ -1745,9 +1745,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.71.1":
-  version: 0.71.1
-  resolution: "@polkadot/dev@npm:0.71.1"
+"@polkadot/dev@npm:^0.71.3":
+  version: 0.71.3
+  resolution: "@polkadot/dev@npm:0.71.3"
   dependencies:
     "@eslint/js": ^8.35.0
     "@rollup/plugin-alias": ^4.0.3
@@ -1812,7 +1812,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 18505f604cd99a6fa858fe0dd6f9f09f6ae46bc3428616dd8df6f4533b4854de1c517f1c0ede5f7c11a881ffea2175ffd48c8526ea16f7da3320595d0ae67cf8
+  checksum: ff7791efc27b11521753eb1175694b12e54fc7f3b3641ad7fbd1c7d2cc8b11a205b804fc1a313eeb6dedee015e7f6b381b0630d71ce530bd2bf38b30fe647079
   languageName: node
   linkType: hard
 
@@ -1967,7 +1967,7 @@ __metadata:
     chartjs-plugin-annotation: ^2.1.2
     chartjs-plugin-crosshair: ^1.2.0
     codeflask: ^1.4.1
-    i18next: ^22.4.10
+    i18next: ^22.4.11
     i18next-browser-languagedetector: ^7.0.1
     owasp-password-strength-test: ^1.3.0
     react: ^18.2.0
@@ -2031,7 +2031,7 @@ __metadata:
   resolution: "@polkadot/react-params@workspace:packages/react-params"
   dependencies:
     "@polkadot/react-components": ^0.124.2-130-x
-    multiformats: ^11.0.1
+    multiformats: ^11.0.2
   languageName: unknown
   linkType: soft
 
@@ -2293,17 +2293,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/vanitygen@npm:^0.53.1":
-  version: 0.53.1
-  resolution: "@polkadot/vanitygen@npm:0.53.1"
+"@polkadot/vanitygen@npm:^0.53.4":
+  version: 0.53.4
+  resolution: "@polkadot/vanitygen@npm:0.53.4"
   dependencies:
     "@polkadot/util": ^11.0.1
     "@polkadot/util-crypto": ^11.0.1
     tslib: ^2.5.0
     yargs: ^17.7.1
   bin:
-    polkadot-js-vanitygen: runcli.js
-  checksum: 4676b3ef988955567252f5276e3eec010ac98875f8ebeed86376a5ed70767e400f4b290aed7671954de5155c2d749bdbd2199dabe8c9c6bda30c3637faeb6ed3
+    polkadot-js-vanitygen: runcli.mjs
+  checksum: 2e9eb2848c3c634559a0e8fbe6e4b3b1672ea242f24daab5fe56f1de69e6abd55f8288a586074db183cbf9733d7d55a194cf3c9c80ca7102e0f14552c84c3f69
   languageName: node
   linkType: hard
 
@@ -10173,12 +10173,12 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"i18next@npm:*, i18next@npm:^22.4.10":
-  version: 22.4.10
-  resolution: "i18next@npm:22.4.10"
+"i18next@npm:*, i18next@npm:^22.4.11":
+  version: 22.4.11
+  resolution: "i18next@npm:22.4.11"
   dependencies:
     "@babel/runtime": ^7.20.6
-  checksum: 731423e3fafe4ecaf0fc3c5867b69ae5c35c9021f7b5aad8392a9bf5cf56fbf1503376ba5aa935f2b21e12a97862fa31be0e4b35e98eefb747e2008b5808e35c
+  checksum: 7f68c6801eb1eff240953066841d507cb00ce3eb6e2a8a6446f9a16453aab168352a36fdfe62c88e04795b1bc0a47439b2d463ed67e1c6bf19e0fb3a57fa457a
   languageName: node
   linkType: hard
 
@@ -12284,14 +12284,14 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"mini-css-extract-plugin@npm:^2.7.2":
-  version: 2.7.2
-  resolution: "mini-css-extract-plugin@npm:2.7.2"
+"mini-css-extract-plugin@npm:^2.7.3":
+  version: 2.7.3
+  resolution: "mini-css-extract-plugin@npm:2.7.3"
   dependencies:
     schema-utils: ^4.0.0
   peerDependencies:
     webpack: ^5.0.0
-  checksum: cd65611d6dc452f230c6ebba8a47bc5f5146b813b13b0b402c6f4a69f6451242eeea781152bebd31cad8ca7c7e95dac91e7e464087f18fb65b2d1097b58cf4ae
+  checksum: 9f3a25c1298280d40e56552e5cfd7f84fea25ddd8530bd8ecfd6b08caffe59a1c55c020f1f3c8beb7c04f5e92ce71ed43a52a72deed5570c686316348f13b6f4
   languageName: node
   linkType: hard
 
@@ -12610,10 +12610,10 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"multiformats@npm:^11.0.0, multiformats@npm:^11.0.1":
-  version: 11.0.1
-  resolution: "multiformats@npm:11.0.1"
-  checksum: 056dec14b5ee0570eaa43204385bc16783f93dc8668a8ddcee806c4232adfa58cfc272abb587ce94d9314627eb6f2c115e53ff01169c9909768f8c7d0deaa9e6
+"multiformats@npm:^11.0.0, multiformats@npm:^11.0.2":
+  version: 11.0.2
+  resolution: "multiformats@npm:11.0.2"
+  checksum: e587bbe709f29e42ae3c22458c960070269027d962183afc49a83b8ba26c31525e81ce2ac71082a52ba0a75e9aed4d0d044cac68d32656fdcd5cd340fb367fac
   languageName: node
   linkType: hard
 
@@ -13689,7 +13689,7 @@ fsevents@~2.3.2:
   dependencies:
     "@crustio/crust-pin": ^1.0.0
     "@pinata/sdk": ^1.2.1
-    "@polkadot/dev": ^0.71.1
+    "@polkadot/dev": ^0.71.3
     "@types/chart.js": ^2.9.37
     "@types/file-saver": ^2.0.5
     "@types/react-beautiful-dnd": ^13.1.3

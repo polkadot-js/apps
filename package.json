@@ -33,7 +33,7 @@
     "build:electron": "yarn clean:electronBuild && yarn build:electronMain && yarn build:electronRenderer",
     "build:electronMain": "cd packages/apps-electron && NODE_ENV=production yarn polkadot-exec-webpack --config webpack.main.cjs",
     "build:electronRenderer": "cd packages/apps-electron && NODE_ENV=production yarn polkadot-exec-webpack --config webpack.renderer.cjs",
-    "build:extra": "yarn build:images && yarn build:typesBundle",
+    "build:before": "yarn build:images && yarn build:typesBundle",
     "build:i18n": "i18next-scanner --config i18next-scanner.config.cjs && node ./scripts/i18nSort.cjs",
     "build:images": "node scripts/imgConvert.mjs",
     "build:release:electron": "yarn build && yarn build:electron && yarn postinstall:electron",
@@ -68,7 +68,7 @@
   "devDependencies": {
     "@crustio/crust-pin": "^1.0.0",
     "@pinata/sdk": "^1.2.1",
-    "@polkadot/dev": "^0.71.1",
+    "@polkadot/dev": "^0.71.3",
     "@types/chart.js": "^2.9.37",
     "@types/file-saver": "^2.0.5",
     "@types/react-beautiful-dnd": "^13.1.3",
