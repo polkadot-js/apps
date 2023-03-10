@@ -11,7 +11,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.124.2-129-x",
+  "version": "0.124.2-130-x",
   "dependencies": {
     "@polkadot/hw-ledger": "^11.0.1",
     "is-ipfs": "^8.0.1"
