@@ -155,9 +155,9 @@ export const prodChains: EndpointOption[] = [
   {
     info: 'crab',
     providers: {
-      'Darwinia Network': 'wss://crab-rpc.darwinia.network',
-      Dwellir: 'wss://darwiniacrab-rpc.dwellir.com',
-      OnFinality: 'wss://darwinia-crab.api.onfinality.io/public-ws'
+      'Darwinia Network': 'wss://crab-rpc.darwinia.network'
+      // Dwellir: 'wss://darwiniacrab-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/9137
+      // OnFinality: 'wss://darwinia-crab.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9137
     },
     text: 'Darwinia Crab',
     ui: {
