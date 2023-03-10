@@ -1,4 +1,4 @@
-FROM ubuntu:22.10 as builder
+FROM ubuntu:latest as builder
 
 # Install any needed packages
 RUN apt-get update && \
