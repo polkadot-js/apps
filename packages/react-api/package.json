@@ -17,10 +17,10 @@
     "path": false
   },
   "dependencies": {
-    "@polkadot/api": "^10.1.1",
+    "@polkadot/api": "^10.1.2",
     "@polkadot/extension-compat-metamask": "^0.45.2",
     "@polkadot/extension-dapp": "^0.45.2",
-    "@polkadot/rpc-provider": "^10.1.1",
+    "@polkadot/rpc-provider": "^10.1.2",
     "fflate": "^0.7.4",
     "rxjs": "^7.8.0"
   }
