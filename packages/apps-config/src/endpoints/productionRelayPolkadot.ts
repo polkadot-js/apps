@@ -623,7 +623,8 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       'Dwellir Tunisia': 'wss://statemint-rpc-tn.dwellir.com',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
       Parity: 'wss://statemint-rpc.polkadot.io',
-      RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws'
+      RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws',
+      'IBP-GeoDNS2': 'wss://sys.dotters.network/statemint'
     },
     teleport: [-1],
     text: 'Statemint',
@@ -637,7 +638,8 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     paraId: 1001,
     providers: {
       OnFinality: 'wss://collectives.api.onfinality.io/public-ws',
-      Parity: 'wss://polkadot-collectives-rpc.polkadot.io'
+      Parity: 'wss://polkadot-collectives-rpc.polkadot.io',
+      'IBP-GeoDNS2': 'wss://sys.dotters.network/collectives-polkadot'
     },
     teleport: [-1],
     text: 'Collectives',
@@ -670,10 +672,10 @@ export const prodRelayPolkadot: EndpointOption = {
   providers: {
     // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
     'Automata 1RPC': 'wss://1rpc.io/dot',
-    'Dotters Net': 'wss://rpc.dotters.network/polkadot',
+    'IBP-GeoDNS2': 'wss://rpc.dotters.network/polkadot',
     Dwellir: 'wss://polkadot-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://polkadot-rpc-tn.dwellir.com',
-    'IBP Network': 'wss://rpc.ibp.network/polkadot',
+    'IBP-GeoDNS1': 'wss://rpc.ibp.network/polkadot',
     OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
     Parity: 'wss://rpc.polkadot.io',
     RadiumBlock: 'wss://polkadot.public.curie.radiumblock.co/ws',
