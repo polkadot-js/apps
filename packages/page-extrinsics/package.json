@@ -11,10 +11,10 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.124.2-141-x",
+  "version": "0.124.2-142-x",
   "dependencies": {
-    "@polkadot/react-components": "^0.124.2-141-x",
-    "@polkadot/react-params": "^0.124.2-141-x",
-    "@polkadot/react-signer": "^0.124.2-141-x"
+    "@polkadot/react-components": "^0.124.2-142-x",
+    "@polkadot/react-params": "^0.124.2-142-x",
+    "@polkadot/react-signer": "^0.124.2-142-x"
   }
 }
