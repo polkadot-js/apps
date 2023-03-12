@@ -5,9 +5,10 @@ import type { AccountBalance } from '../types.js';
 
 import React from 'react';
 
-import { useTranslation } from '@polkadot/app-treasury/translate';
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
+
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;

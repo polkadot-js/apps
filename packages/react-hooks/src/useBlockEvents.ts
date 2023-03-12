@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BlockEvents } from './ctx/types';
+import type { BlockEvents } from './ctx/types.js';
 
 import { useContext } from 'react';
 

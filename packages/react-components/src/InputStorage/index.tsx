@@ -4,7 +4,7 @@
 // TODO: We have a lot shared between this and InputExtrinsic
 
 import type { QueryableStorageEntry } from '@polkadot/api/types';
-import type { DropdownOptions } from '../util/types';
+import type { DropdownOptions } from '../util/types.js';
 
 import React, { useCallback, useState } from 'react';
 

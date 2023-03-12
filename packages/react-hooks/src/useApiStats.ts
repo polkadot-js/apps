@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiStats } from './ctx/types';
+import type { ApiStats } from './ctx/types.js';
 
 import { useContext } from 'react';
 

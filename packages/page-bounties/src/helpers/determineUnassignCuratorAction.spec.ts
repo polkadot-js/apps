@@ -1,10 +1,11 @@
 // Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { determineUnassignCuratorAction } from '@polkadot/app-bounties/helpers/determineUnassignCuratorAction';
 import { createAugmentedApi } from '@polkadot/test-support/api/index';
 import { BountyFactory } from '@polkadot/test-support/creation/bounties/bountyFactory';
 import { BN } from '@polkadot/util';
+
+import { determineUnassignCuratorAction } from './determineUnassignCuratorAction.js';
 
 describe('adjust slash curator component for', () => {
   const augmentedApi = createAugmentedApi();
