@@ -677,14 +677,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@frequency-chain/api-augment@npm:1.2.1":
-  version: 1.2.1
-  resolution: "@frequency-chain/api-augment@npm:1.2.1"
+"@frequency-chain/api-augment@npm:1.3.0":
+  version: 1.3.0
+  resolution: "@frequency-chain/api-augment@npm:1.3.0"
   dependencies:
-    "@polkadot/api": ^9.13.2
-    "@polkadot/rpc-provider": ^9.13.2
-    "@polkadot/types": ^9.13.2
-  checksum: 77934e80f61576d67de9081a319161e0fa510ab2bdd238f732c41296e967600bf6bdb1ee3d3c8cfb6e9e91152293b0364f149d729faf30cb2d45bc486615e8f7
+    "@polkadot/api": ^9.14.2
+    "@polkadot/rpc-provider": ^9.14.2
+    "@polkadot/types": ^9.14.2
+  checksum: 99d684fda3eedd034da8021f52996860cf71396dd80658568bbcb6730011940353f68dceacacf7cc57ff2e6063b44a37c502de1da294afd763ddc75b84a8db38
   languageName: node
   linkType: hard
 
@@ -713,10 +713,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@interlay/interbtc-types@npm:1.11.2":
-  version: 1.11.2
-  resolution: "@interlay/interbtc-types@npm:1.11.2"
-  checksum: 08ab1fe515d8857dc28c941c2e0f87e90bcbd5476fc1f48ce5cb3f6bc74f30c068a9d14bc31cd1d4149e6170626c643233504be43d4882aedfc3a09cdb47cdc0
+"@interlay/interbtc-types@npm:1.12.0":
+  version: 1.12.0
+  resolution: "@interlay/interbtc-types@npm:1.12.0"
+  checksum: 061a07a859d9f109374b9f2ededd54bce1ac5e735eda81bb1abc2ab2e8e7cb1d009d3bb8b93f674d27caf0b3a4ab5ee4b4cf5fd20c300472c68bc24ebffc58d5
   languageName: node
   linkType: hard
 
@@ -1234,12 +1234,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@parallel-finance/type-definitions@npm:1.7.15":
-  version: 1.7.15
-  resolution: "@parallel-finance/type-definitions@npm:1.7.15"
+"@open-web3/orml-type-definitions@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@open-web3/orml-type-definitions@npm:2.0.1"
   dependencies:
-    "@open-web3/orml-type-definitions": ^1.1.4
-  checksum: 8d59b4018d3bf1ea0606b68a81f48d3947d659b884ef41b392919a8e27fc10d49b2a5dbdeeb00880af12a24e5629e18121f5f46b0db0abb6bf8072480ddebd62
+    lodash.merge: ^4.6.2
+  checksum: a27ba7d37d9c4d497989d4f4cebaf997bc4a06e2f74412a46735b4431d8f21d2ce2ceaafcebbb9911b0e5271a169994bad0b7c359d8eef0839cfdb3575a3c886
+  languageName: node
+  linkType: hard
+
+"@parallel-finance/type-definitions@npm:1.7.16":
+  version: 1.7.16
+  resolution: "@parallel-finance/type-definitions@npm:1.7.16"
+  dependencies:
+    "@open-web3/orml-type-definitions": ^2.0.1
+  checksum: 21c08df0eecb85f58b120f0cce94da6dbf62dfcae5ceffc4344524394acb3c3ad2492f1bbb0ae81434407191bb1dbd8a3f0e58028075df2916e1556968d55d93
   languageName: node
   linkType: hard
 
@@ -1678,14 +1687,14 @@ __metadata:
     "@docknetwork/node-types": 0.15.0
     "@edgeware/node-types": 3.6.2-wako
     "@equilab/definitions": 1.4.18
-    "@frequency-chain/api-augment": 1.2.1
-    "@interlay/interbtc-types": 1.11.2
+    "@frequency-chain/api-augment": 1.3.0
+    "@interlay/interbtc-types": 1.12.0
     "@kiltprotocol/type-definitions": 0.31.1
     "@laminar/type-definitions": 0.3.1
     "@logion/node-api": 0.9.0-3
     "@mangata-finance/types": 0.18.0
     "@metaverse-network-sdk/type-definitions": 0.0.1-13
-    "@parallel-finance/type-definitions": 1.7.15
+    "@parallel-finance/type-definitions": 1.7.16
     "@phala/typedefs": 0.2.33
     "@polkadot/api": ^10.1.2
     "@polkadot/api-derive": ^10.1.2
@@ -1697,9 +1706,9 @@ __metadata:
     "@polkadot/x-ws": ^11.0.2
     "@polymathnetwork/polymesh-types": 0.0.2
     "@snowfork/snowbridge-types": 0.2.7
-    "@sora-substrate/type-definitions": 1.15.4-beta.0
-    "@subsocial/definitions": 0.8.1
-    "@unique-nft/opal-testnet-types": 937.52.0
+    "@sora-substrate/type-definitions": 1.15.6
+    "@subsocial/definitions": 0.8.5
+    "@unique-nft/opal-testnet-types": 937.53.1
     "@unique-nft/quartz-mainnet-types": 937.52.0
     "@unique-nft/sapphire-mainnet-types": 937.52.0
     "@unique-nft/unique-mainnet-types": 937.52.0
@@ -2662,12 +2671,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sora-substrate/type-definitions@npm:1.15.4-beta.0":
-  version: 1.15.4-beta.0
-  resolution: "@sora-substrate/type-definitions@npm:1.15.4-beta.0"
+"@sora-substrate/type-definitions@npm:1.15.6":
+  version: 1.15.6
+  resolution: "@sora-substrate/type-definitions@npm:1.15.6"
   dependencies:
     "@open-web3/orml-type-definitions": 0.9.4-26
-  checksum: 1dada036d93e61380cc9e7404d5fc8638035f01e0ee00f99a34909c708068b451eb8d0bee4a5648f2faf7207abece2c003e6e71a285cb4244d1b4047f671981e
+  checksum: 6851e7245a65cec13af4081f0619cde382fce0af0d35670d8c85fe8b697d22056b3f56bc5ed07b7a8f236987dc9e2ef79ff5627bfab1f1a8c8fdddd97b0612f6
   languageName: node
   linkType: hard
 
@@ -2698,13 +2707,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@subsocial/definitions@npm:0.8.1":
-  version: 0.8.1
-  resolution: "@subsocial/definitions@npm:0.8.1"
+"@subsocial/definitions@npm:0.8.5":
+  version: 0.8.5
+  resolution: "@subsocial/definitions@npm:0.8.5"
   dependencies:
     "@polkadot/api": latest
     lodash.camelcase: ^4.3.0
-  checksum: 2265ae644504992ad0f535068027892ad049de228655ccb7865f1a30f2653eff5d47cc871f394655b93369e99055d3071b1808b53ad4a3f6808b1f6a210aaa7e
+  checksum: e07f4602a7bf697be6e27ab902c2f02ab4f6d51f40ccef7ebba4bb51178c70017df7ea1890d3080856aaa6b610561cebeff59e476106f0ff3a282b90bbae1f24
   languageName: node
   linkType: hard
 
@@ -3789,13 +3798,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@unique-nft/opal-testnet-types@npm:937.52.0":
-  version: 937.52.0
-  resolution: "@unique-nft/opal-testnet-types@npm:937.52.0"
+"@unique-nft/opal-testnet-types@npm:937.53.1":
+  version: 937.53.1
+  resolution: "@unique-nft/opal-testnet-types@npm:937.53.1"
   peerDependencies:
     "@polkadot/api": ^9.10.2
     "@polkadot/types": ^9.10.2
-  checksum: e5ec8ee236336aed43c970ff4a3969bb2bc027bf1bdb6f2d4e46e50f87ed2349843cf1ee8e5317a378c23a3cbdea3ab1eedcac46c665379ac4815b002e74def2
+  checksum: 2125c914c53e6ac477b1d9f9701a94e1cf76b9c3850d70c065103ce7762c0eb4ed846d5b7cbbe8275e4b60d7c44176d4ab7364d47e38a99331cb0e8e04163b20
   languageName: node
   linkType: hard
 
