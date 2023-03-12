@@ -638,7 +638,7 @@ export const testChains: EndpointOption[] = [
   {
     info: 'polkadex',
     providers: {
-      'Polkadex Team': 'wss://blockchain.polkadex.trade'
+      // 'Polkadex Team': 'wss://blockchain.polkadex.trade' // https://github.com/polkadot-js/apps/issues/9150
     },
     text: 'Polkadex',
     ui: {
