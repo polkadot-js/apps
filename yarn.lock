@@ -1709,7 +1709,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/apps-electron@workspace:packages/apps-electron"
   dependencies:
-    "@polkadot/dev": ^0.71.5
+    "@polkadot/dev": ^0.71.6
     "@polkadot/react-components": ^0.124.2-137-x
     "@types/react-dom": ^18.0.11
     "@types/tmp": ^0.2.3
@@ -1735,7 +1735,7 @@ __metadata:
   dependencies:
     "@polkadot/apps-config": ^0.124.2-137-x
     "@polkadot/apps-routing": ^0.124.2-137-x
-    "@polkadot/dev": ^0.71.5
+    "@polkadot/dev": ^0.71.6
     "@polkadot/react-api": ^0.124.2-137-x
     "@polkadot/react-components": ^0.124.2-137-x
     "@polkadot/react-hooks": ^0.124.2-137-x
@@ -1763,9 +1763,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.71.5":
-  version: 0.71.5
-  resolution: "@polkadot/dev@npm:0.71.5"
+"@polkadot/dev@npm:^0.71.6":
+  version: 0.71.6
+  resolution: "@polkadot/dev@npm:0.71.6"
   dependencies:
     "@eslint/js": ^8.36.0
     "@rollup/plugin-alias": ^4.0.3
@@ -1830,7 +1830,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 07f199334c273173c010406fa50b9d584b378a16a4c096c6012e0a303707c786e6e0dca5642d5631a25243b2fbfd1bb2e88d2a84e7b000a3169e348e3b0e11c9
+  checksum: 545b078faf62d5f5b0c8dc3b70c0da7dfe1c0d8f8545b8fa3c6c47cc8439c0e0053241590788a31d03e6379ea3f9d86733db5d31f0e647f1f40d6a731b6d9463
   languageName: node
   linkType: hard
 
@@ -13707,7 +13707,7 @@ fsevents@~2.3.2:
   dependencies:
     "@crustio/crust-pin": ^1.0.0
     "@pinata/sdk": ^1.2.1
-    "@polkadot/dev": ^0.71.5
+    "@polkadot/dev": ^0.71.6
     "@types/chart.js": ^2.9.37
     "@types/file-saver": ^2.0.5
     "@types/react-beautiful-dnd": ^13.1.3
