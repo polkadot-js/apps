@@ -16,6 +16,16 @@ export const typesBundle = {
         "Did": [
           {
             "methods": {
+              "query_by_name": {
+                "description": "Return the information relative to the owner of the provided didName, if any.",
+                "params": [
+                  {
+                    "name": "name",
+                    "type": "Text"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
               "query": {
                 "description": "Return the information relative to the owner of the provided DID, if present.",
                 "params": [
@@ -191,7 +201,7 @@ export const typesBundle = {
           "types": {
             "RawDidLinkedInfo": {
               "identifier": "AccountId32",
-              "w3n": "Option<Text>",
+              "name": "Option<Text>",
               "serviceEndpoints": "Vec<PalletDidServiceEndpointsDidEndpoint>",
               "details": "PalletDidDidDetails"
             }
@@ -199,12 +209,21 @@ export const typesBundle = {
         }
       ]
     },
-    "CORD Staging Testnet": {},
-    "Development": {
+    "CORD Staging Testnet": {
       "runtime": {
         "Did": [
           {
             "methods": {
+              "query_by_name": {
+                "description": "Return the information relative to the owner of the provided didName, if any.",
+                "params": [
+                  {
+                    "name": "name",
+                    "type": "Text"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
               "query": {
                 "description": "Return the information relative to the owner of the provided DID, if present.",
                 "params": [
@@ -380,7 +399,205 @@ export const typesBundle = {
           "types": {
             "RawDidLinkedInfo": {
               "identifier": "AccountId32",
-              "w3n": "Option<Text>",
+              "name": "Option<Text>",
+              "serviceEndpoints": "Vec<PalletDidServiceEndpointsDidEndpoint>",
+              "details": "PalletDidDidDetails"
+            }
+          }
+        }
+      ]
+    },
+    "Development": {
+      "runtime": {
+        "Did": [
+          {
+            "methods": {
+              "query_by_name": {
+                "description": "Return the information relative to the owner of the provided didName, if any.",
+                "params": [
+                  {
+                    "name": "name",
+                    "type": "Text"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "query": {
+                "description": "Return the information relative to the owner of the provided DID, if present.",
+                "params": [
+                  {
+                    "name": "did",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              }
+            },
+            "version": 1
+          }
+        ]
+      },
+      "signedExtensions": {
+        "CheckExtrinsicAuthor": {
+          "extrinsic": {},
+          "payload": {}
+        },
+        "PalletExtrinsicAuthorshipCheckExtrinsicAuthor": {
+          "extrinsic": {},
+          "payload": {}
+        }
+      },
+      "types": [
+        {
+          "minmax": [
+            0,
+            7999
+          ],
+          "types": {
+            "IdentifierOf": "Vec<u8>",
+            "StreamIdOf": "IdentifierOf",
+            "StreamDigestOf": "Hash",
+            "SchemaIdOf": "IdentifierOf",
+            "SchemaDigestOf": "Hash",
+            "SwarmIdOf": "IdentifierOf",
+            "CreatorOf": "AccountId",
+            "StreamEntry": {
+              "digest": "StreamDigestOf",
+              "creator": "CreatorOf",
+              "schema": "Option<SchemaIdOf>",
+              "linked": "Option<StreamIdOf>",
+              "swarm": "Option<SwarmIdOf>",
+              "revoked": "bool",
+              "counter": "u64"
+            },
+            "StreamCommitOf": {
+              "_enum": [
+                "Genesis",
+                "Update",
+                "Status"
+              ]
+            },
+            "StreamCommit": {
+              "commit": "StreamCommitOf",
+              "digest": "StreamDigestOf",
+              "block": "BlockNumber"
+            },
+            "KeyIdOf": "Hash",
+            "DidIdentifierOf": "AccountId",
+            "AccountIdentifierOf": "AccountId",
+            "DidCallableOf": "Call",
+            "DidVerificationKey": {
+              "_enum": {
+                "Ed25519": "[u8; 32]",
+                "Sr25519": "[u8; 32]"
+              }
+            },
+            "DidEncryptionKey": {
+              "_enum": {
+                "X25519": "[u8; 32]"
+              }
+            },
+            "DidPublicKey": {
+              "_enum": {
+                "PublicVerificationKey": "DidVerificationKey",
+                "PublicEncryptionKey": "DidEncryptionKey"
+              }
+            },
+            "DidVerificationKeyRelationship": {
+              "_enum": [
+                "Authentication",
+                "CapabilityDelegation",
+                "CapabilityInvocation",
+                "AssertionMethod"
+              ]
+            },
+            "DidSignature": {
+              "_enum": {
+                "Ed25519": "Ed25519Signature",
+                "Sr25519": "Sr25519Signature"
+              }
+            },
+            "StorageError": {
+              "_enum": {
+                "DidAlreadyPresent": "Null",
+                "DidNotPresent": "Null",
+                "DidKeyNotPresent": "DidVerificationKeyRelationship",
+                "KeyNotPresent": "Null",
+                "CurrentlyActiveKey": "Null",
+                "MaxPublicKeysPerDidExceeded": "Null",
+                "MaxTotalKeyAgreementKeysExceeded": "Null",
+                "DidAlreadyDeleted": "Null"
+              }
+            },
+            "SignatureError": {
+              "_enum": [
+                "InvalidSignatureFormat",
+                "InvalidSignature",
+                "InvalidNonce",
+                "TransactionExpired"
+              ]
+            },
+            "KeyError": {
+              "_enum": [
+                "InvalidVerificationKeyFormat",
+                "InvalidEncryptionKeyFormat"
+              ]
+            },
+            "InputError": {
+              "_enum": [
+                "MaxKeyAgreementKeysLimitExceeded",
+                "MaxVerificationKeysToRemoveLimitExceeded"
+              ]
+            },
+            "DidPublicKeyDetails": {
+              "key": "DidPublicKey",
+              "blockNumber": "BlockNumber"
+            },
+            "DidNewKeyAgreementKeys": "BoundedBTreeSet<DidEncryptionKey, MaxNewKeyAgreementKeys>",
+            "DidKeyAgreementKeys": "BoundedBTreeSet<KeyIdOf, MaxTotalKeyAgreementKeys>",
+            "DidVerificationKeysToRevoke": "BoundedBTreeSet<KeyIdOf, MaxVerificationKeysToRevoke>",
+            "MaxNewKeyAgreementKeys": "u32",
+            "MaxTotalKeyAgreementKeys": "u32",
+            "MaxVerificationKeysToRevoke": "u32",
+            "MaxPublicKeysPerDid": "u32",
+            "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
+            "DidCreationDetails": {
+              "did": "DidIdentifierOf",
+              "submitter": "AccountId",
+              "newKeyAgreementKey": "DidEncryptionKey",
+              "newAssertionKey": "Option<DidVerificationKey>",
+              "newDelegationKey": "Option<DidVerificationKey>"
+            },
+            "DidDetails": {
+              "authenticationKey": "KeyIdOf",
+              "keyAgreementKeys": "DidKeyAgreementKeys",
+              "capabilityDelegationKey": "Option<KeyIdOf>",
+              "assertionMethodKey": "Option<KeyIdOf>",
+              "publicKeys": "DidPublicKeyMap",
+              "lastTxCounter": "u64"
+            },
+            "DidDeletionOperation": {
+              "did": "DidIdentifierOf",
+              "txCounter": "u64"
+            },
+            "DidAuthorizedCallOperation": {
+              "did": "DidIdentifierOf",
+              "txCounter": "u64",
+              "call": "DidCallableOf",
+              "blockNumber": "BlockNumber",
+              "submitter": "AccountId"
+            }
+          }
+        },
+        {
+          "minmax": [
+            8000,
+            null
+          ],
+          "types": {
+            "RawDidLinkedInfo": {
+              "identifier": "AccountId32",
+              "name": "Option<Text>",
               "serviceEndpoints": "Vec<PalletDidServiceEndpointsDidEndpoint>",
               "details": "PalletDidDidDetails"
             }
@@ -391,11 +608,21 @@ export const typesBundle = {
   },
   "spec": {
     "cord-dev": {
-      "Staging": {
+      "CORD Staging Testnet": {
         "runtime": {
           "Did": [
             {
               "methods": {
+                "query_by_name": {
+                  "description": "Return the information relative to the owner of the provided didName, if any.",
+                  "params": [
+                    {
+                      "name": "name",
+                      "type": "Text"
+                    }
+                  ],
+                  "type": "Option<RawDidLinkedInfo>"
+                },
                 "query": {
                   "description": "Return the information relative to the owner of the provided DID, if present.",
                   "params": [
@@ -571,7 +798,205 @@ export const typesBundle = {
             "types": {
               "RawDidLinkedInfo": {
                 "identifier": "AccountId32",
-                "w3n": "Option<Text>",
+                "name": "Option<Text>",
+                "serviceEndpoints": "Vec<PalletDidServiceEndpointsDidEndpoint>",
+                "details": "PalletDidDidDetails"
+              }
+            }
+          }
+        ]
+      },
+      "Dev. Node": {
+        "runtime": {
+          "Did": [
+            {
+              "methods": {
+                "query_by_name": {
+                  "description": "Return the information relative to the owner of the provided didName, if any.",
+                  "params": [
+                    {
+                      "name": "name",
+                      "type": "Text"
+                    }
+                  ],
+                  "type": "Option<RawDidLinkedInfo>"
+                },
+                "query": {
+                  "description": "Return the information relative to the owner of the provided DID, if present.",
+                  "params": [
+                    {
+                      "name": "did",
+                      "type": "AccountId32"
+                    }
+                  ],
+                  "type": "Option<RawDidLinkedInfo>"
+                }
+              },
+              "version": 1
+            }
+          ]
+        },
+        "signedExtensions": {
+          "CheckExtrinsicAuthor": {
+            "extrinsic": {},
+            "payload": {}
+          },
+          "PalletExtrinsicAuthorshipCheckExtrinsicAuthor": {
+            "extrinsic": {},
+            "payload": {}
+          }
+        },
+        "types": [
+          {
+            "minmax": [
+              0,
+              7999
+            ],
+            "types": {
+              "IdentifierOf": "Vec<u8>",
+              "StreamIdOf": "IdentifierOf",
+              "StreamDigestOf": "Hash",
+              "SchemaIdOf": "IdentifierOf",
+              "SchemaDigestOf": "Hash",
+              "SwarmIdOf": "IdentifierOf",
+              "CreatorOf": "AccountId",
+              "StreamEntry": {
+                "digest": "StreamDigestOf",
+                "creator": "CreatorOf",
+                "schema": "Option<SchemaIdOf>",
+                "linked": "Option<StreamIdOf>",
+                "swarm": "Option<SwarmIdOf>",
+                "revoked": "bool",
+                "counter": "u64"
+              },
+              "StreamCommitOf": {
+                "_enum": [
+                  "Genesis",
+                  "Update",
+                  "Status"
+                ]
+              },
+              "StreamCommit": {
+                "commit": "StreamCommitOf",
+                "digest": "StreamDigestOf",
+                "block": "BlockNumber"
+              },
+              "KeyIdOf": "Hash",
+              "DidIdentifierOf": "AccountId",
+              "AccountIdentifierOf": "AccountId",
+              "DidCallableOf": "Call",
+              "DidVerificationKey": {
+                "_enum": {
+                  "Ed25519": "[u8; 32]",
+                  "Sr25519": "[u8; 32]"
+                }
+              },
+              "DidEncryptionKey": {
+                "_enum": {
+                  "X25519": "[u8; 32]"
+                }
+              },
+              "DidPublicKey": {
+                "_enum": {
+                  "PublicVerificationKey": "DidVerificationKey",
+                  "PublicEncryptionKey": "DidEncryptionKey"
+                }
+              },
+              "DidVerificationKeyRelationship": {
+                "_enum": [
+                  "Authentication",
+                  "CapabilityDelegation",
+                  "CapabilityInvocation",
+                  "AssertionMethod"
+                ]
+              },
+              "DidSignature": {
+                "_enum": {
+                  "Ed25519": "Ed25519Signature",
+                  "Sr25519": "Sr25519Signature"
+                }
+              },
+              "StorageError": {
+                "_enum": {
+                  "DidAlreadyPresent": "Null",
+                  "DidNotPresent": "Null",
+                  "DidKeyNotPresent": "DidVerificationKeyRelationship",
+                  "KeyNotPresent": "Null",
+                  "CurrentlyActiveKey": "Null",
+                  "MaxPublicKeysPerDidExceeded": "Null",
+                  "MaxTotalKeyAgreementKeysExceeded": "Null",
+                  "DidAlreadyDeleted": "Null"
+                }
+              },
+              "SignatureError": {
+                "_enum": [
+                  "InvalidSignatureFormat",
+                  "InvalidSignature",
+                  "InvalidNonce",
+                  "TransactionExpired"
+                ]
+              },
+              "KeyError": {
+                "_enum": [
+                  "InvalidVerificationKeyFormat",
+                  "InvalidEncryptionKeyFormat"
+                ]
+              },
+              "InputError": {
+                "_enum": [
+                  "MaxKeyAgreementKeysLimitExceeded",
+                  "MaxVerificationKeysToRemoveLimitExceeded"
+                ]
+              },
+              "DidPublicKeyDetails": {
+                "key": "DidPublicKey",
+                "blockNumber": "BlockNumber"
+              },
+              "DidNewKeyAgreementKeys": "BoundedBTreeSet<DidEncryptionKey, MaxNewKeyAgreementKeys>",
+              "DidKeyAgreementKeys": "BoundedBTreeSet<KeyIdOf, MaxTotalKeyAgreementKeys>",
+              "DidVerificationKeysToRevoke": "BoundedBTreeSet<KeyIdOf, MaxVerificationKeysToRevoke>",
+              "MaxNewKeyAgreementKeys": "u32",
+              "MaxTotalKeyAgreementKeys": "u32",
+              "MaxVerificationKeysToRevoke": "u32",
+              "MaxPublicKeysPerDid": "u32",
+              "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
+              "DidCreationDetails": {
+                "did": "DidIdentifierOf",
+                "submitter": "AccountId",
+                "newKeyAgreementKey": "DidEncryptionKey",
+                "newAssertionKey": "Option<DidVerificationKey>",
+                "newDelegationKey": "Option<DidVerificationKey>"
+              },
+              "DidDetails": {
+                "authenticationKey": "KeyIdOf",
+                "keyAgreementKeys": "DidKeyAgreementKeys",
+                "capabilityDelegationKey": "Option<KeyIdOf>",
+                "assertionMethodKey": "Option<KeyIdOf>",
+                "publicKeys": "DidPublicKeyMap",
+                "lastTxCounter": "u64"
+              },
+              "DidDeletionOperation": {
+                "did": "DidIdentifierOf",
+                "txCounter": "u64"
+              },
+              "DidAuthorizedCallOperation": {
+                "did": "DidIdentifierOf",
+                "txCounter": "u64",
+                "call": "DidCallableOf",
+                "blockNumber": "BlockNumber",
+                "submitter": "AccountId"
+              }
+            }
+          },
+          {
+            "minmax": [
+              8000,
+              null
+            ],
+            "types": {
+              "RawDidLinkedInfo": {
+                "identifier": "AccountId32",
+                "name": "Option<Text>",
                 "serviceEndpoints": "Vec<PalletDidServiceEndpointsDidEndpoint>",
                 "details": "PalletDidDidDetails"
               }
@@ -584,6 +1009,16 @@ export const typesBundle = {
           "Did": [
             {
               "methods": {
+                "query_by_name": {
+                  "description": "Return the information relative to the owner of the provided didName, if any.",
+                  "params": [
+                    {
+                      "name": "name",
+                      "type": "Text"
+                    }
+                  ],
+                  "type": "Option<RawDidLinkedInfo>"
+                },
                 "query": {
                   "description": "Return the information relative to the owner of the provided DID, if present.",
                   "params": [
@@ -759,7 +1194,7 @@ export const typesBundle = {
             "types": {
               "RawDidLinkedInfo": {
                 "identifier": "AccountId32",
-                "w3n": "Option<Text>",
+                "name": "Option<Text>",
                 "serviceEndpoints": "Vec<PalletDidServiceEndpointsDidEndpoint>",
                 "details": "PalletDidDidDetails"
               }
@@ -769,11 +1204,21 @@ export const typesBundle = {
       }
     },
     "cord-local": {
-      "Staging": {
+      "CORD Staging Testnet": {
         "runtime": {
           "Did": [
             {
               "methods": {
+                "query_by_name": {
+                  "description": "Return the information relative to the owner of the provided didName, if any.",
+                  "params": [
+                    {
+                      "name": "name",
+                      "type": "Text"
+                    }
+                  ],
+                  "type": "Option<RawDidLinkedInfo>"
+                },
                 "query": {
                   "description": "Return the information relative to the owner of the provided DID, if present.",
                   "params": [
@@ -949,7 +1394,205 @@ export const typesBundle = {
             "types": {
               "RawDidLinkedInfo": {
                 "identifier": "AccountId32",
-                "w3n": "Option<Text>",
+                "name": "Option<Text>",
+                "serviceEndpoints": "Vec<PalletDidServiceEndpointsDidEndpoint>",
+                "details": "PalletDidDidDetails"
+              }
+            }
+          }
+        ]
+      },
+      "Dev. Node": {
+        "runtime": {
+          "Did": [
+            {
+              "methods": {
+                "query_by_name": {
+                  "description": "Return the information relative to the owner of the provided didName, if any.",
+                  "params": [
+                    {
+                      "name": "name",
+                      "type": "Text"
+                    }
+                  ],
+                  "type": "Option<RawDidLinkedInfo>"
+                },
+                "query": {
+                  "description": "Return the information relative to the owner of the provided DID, if present.",
+                  "params": [
+                    {
+                      "name": "did",
+                      "type": "AccountId32"
+                    }
+                  ],
+                  "type": "Option<RawDidLinkedInfo>"
+                }
+              },
+              "version": 1
+            }
+          ]
+        },
+        "signedExtensions": {
+          "CheckExtrinsicAuthor": {
+            "extrinsic": {},
+            "payload": {}
+          },
+          "PalletExtrinsicAuthorshipCheckExtrinsicAuthor": {
+            "extrinsic": {},
+            "payload": {}
+          }
+        },
+        "types": [
+          {
+            "minmax": [
+              0,
+              7999
+            ],
+            "types": {
+              "IdentifierOf": "Vec<u8>",
+              "StreamIdOf": "IdentifierOf",
+              "StreamDigestOf": "Hash",
+              "SchemaIdOf": "IdentifierOf",
+              "SchemaDigestOf": "Hash",
+              "SwarmIdOf": "IdentifierOf",
+              "CreatorOf": "AccountId",
+              "StreamEntry": {
+                "digest": "StreamDigestOf",
+                "creator": "CreatorOf",
+                "schema": "Option<SchemaIdOf>",
+                "linked": "Option<StreamIdOf>",
+                "swarm": "Option<SwarmIdOf>",
+                "revoked": "bool",
+                "counter": "u64"
+              },
+              "StreamCommitOf": {
+                "_enum": [
+                  "Genesis",
+                  "Update",
+                  "Status"
+                ]
+              },
+              "StreamCommit": {
+                "commit": "StreamCommitOf",
+                "digest": "StreamDigestOf",
+                "block": "BlockNumber"
+              },
+              "KeyIdOf": "Hash",
+              "DidIdentifierOf": "AccountId",
+              "AccountIdentifierOf": "AccountId",
+              "DidCallableOf": "Call",
+              "DidVerificationKey": {
+                "_enum": {
+                  "Ed25519": "[u8; 32]",
+                  "Sr25519": "[u8; 32]"
+                }
+              },
+              "DidEncryptionKey": {
+                "_enum": {
+                  "X25519": "[u8; 32]"
+                }
+              },
+              "DidPublicKey": {
+                "_enum": {
+                  "PublicVerificationKey": "DidVerificationKey",
+                  "PublicEncryptionKey": "DidEncryptionKey"
+                }
+              },
+              "DidVerificationKeyRelationship": {
+                "_enum": [
+                  "Authentication",
+                  "CapabilityDelegation",
+                  "CapabilityInvocation",
+                  "AssertionMethod"
+                ]
+              },
+              "DidSignature": {
+                "_enum": {
+                  "Ed25519": "Ed25519Signature",
+                  "Sr25519": "Sr25519Signature"
+                }
+              },
+              "StorageError": {
+                "_enum": {
+                  "DidAlreadyPresent": "Null",
+                  "DidNotPresent": "Null",
+                  "DidKeyNotPresent": "DidVerificationKeyRelationship",
+                  "KeyNotPresent": "Null",
+                  "CurrentlyActiveKey": "Null",
+                  "MaxPublicKeysPerDidExceeded": "Null",
+                  "MaxTotalKeyAgreementKeysExceeded": "Null",
+                  "DidAlreadyDeleted": "Null"
+                }
+              },
+              "SignatureError": {
+                "_enum": [
+                  "InvalidSignatureFormat",
+                  "InvalidSignature",
+                  "InvalidNonce",
+                  "TransactionExpired"
+                ]
+              },
+              "KeyError": {
+                "_enum": [
+                  "InvalidVerificationKeyFormat",
+                  "InvalidEncryptionKeyFormat"
+                ]
+              },
+              "InputError": {
+                "_enum": [
+                  "MaxKeyAgreementKeysLimitExceeded",
+                  "MaxVerificationKeysToRemoveLimitExceeded"
+                ]
+              },
+              "DidPublicKeyDetails": {
+                "key": "DidPublicKey",
+                "blockNumber": "BlockNumber"
+              },
+              "DidNewKeyAgreementKeys": "BoundedBTreeSet<DidEncryptionKey, MaxNewKeyAgreementKeys>",
+              "DidKeyAgreementKeys": "BoundedBTreeSet<KeyIdOf, MaxTotalKeyAgreementKeys>",
+              "DidVerificationKeysToRevoke": "BoundedBTreeSet<KeyIdOf, MaxVerificationKeysToRevoke>",
+              "MaxNewKeyAgreementKeys": "u32",
+              "MaxTotalKeyAgreementKeys": "u32",
+              "MaxVerificationKeysToRevoke": "u32",
+              "MaxPublicKeysPerDid": "u32",
+              "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
+              "DidCreationDetails": {
+                "did": "DidIdentifierOf",
+                "submitter": "AccountId",
+                "newKeyAgreementKey": "DidEncryptionKey",
+                "newAssertionKey": "Option<DidVerificationKey>",
+                "newDelegationKey": "Option<DidVerificationKey>"
+              },
+              "DidDetails": {
+                "authenticationKey": "KeyIdOf",
+                "keyAgreementKeys": "DidKeyAgreementKeys",
+                "capabilityDelegationKey": "Option<KeyIdOf>",
+                "assertionMethodKey": "Option<KeyIdOf>",
+                "publicKeys": "DidPublicKeyMap",
+                "lastTxCounter": "u64"
+              },
+              "DidDeletionOperation": {
+                "did": "DidIdentifierOf",
+                "txCounter": "u64"
+              },
+              "DidAuthorizedCallOperation": {
+                "did": "DidIdentifierOf",
+                "txCounter": "u64",
+                "call": "DidCallableOf",
+                "blockNumber": "BlockNumber",
+                "submitter": "AccountId"
+              }
+            }
+          },
+          {
+            "minmax": [
+              8000,
+              null
+            ],
+            "types": {
+              "RawDidLinkedInfo": {
+                "identifier": "AccountId32",
+                "name": "Option<Text>",
                 "serviceEndpoints": "Vec<PalletDidServiceEndpointsDidEndpoint>",
                 "details": "PalletDidDidDetails"
               }
@@ -962,6 +1605,16 @@ export const typesBundle = {
           "Did": [
             {
               "methods": {
+                "query_by_name": {
+                  "description": "Return the information relative to the owner of the provided didName, if any.",
+                  "params": [
+                    {
+                      "name": "name",
+                      "type": "Text"
+                    }
+                  ],
+                  "type": "Option<RawDidLinkedInfo>"
+                },
                 "query": {
                   "description": "Return the information relative to the owner of the provided DID, if present.",
                   "params": [
@@ -1137,7 +1790,7 @@ export const typesBundle = {
             "types": {
               "RawDidLinkedInfo": {
                 "identifier": "AccountId32",
-                "w3n": "Option<Text>",
+                "name": "Option<Text>",
                 "serviceEndpoints": "Vec<PalletDidServiceEndpointsDidEndpoint>",
                 "details": "PalletDidDidDetails"
               }
@@ -1147,11 +1800,21 @@ export const typesBundle = {
       }
     },
     "cord-staging": {
-      "Staging": {
+      "CORD Staging Testnet": {
         "runtime": {
           "Did": [
             {
               "methods": {
+                "query_by_name": {
+                  "description": "Return the information relative to the owner of the provided didName, if any.",
+                  "params": [
+                    {
+                      "name": "name",
+                      "type": "Text"
+                    }
+                  ],
+                  "type": "Option<RawDidLinkedInfo>"
+                },
                 "query": {
                   "description": "Return the information relative to the owner of the provided DID, if present.",
                   "params": [
@@ -1327,7 +1990,205 @@ export const typesBundle = {
             "types": {
               "RawDidLinkedInfo": {
                 "identifier": "AccountId32",
-                "w3n": "Option<Text>",
+                "name": "Option<Text>",
+                "serviceEndpoints": "Vec<PalletDidServiceEndpointsDidEndpoint>",
+                "details": "PalletDidDidDetails"
+              }
+            }
+          }
+        ]
+      },
+      "Dev. Node": {
+        "runtime": {
+          "Did": [
+            {
+              "methods": {
+                "query_by_name": {
+                  "description": "Return the information relative to the owner of the provided didName, if any.",
+                  "params": [
+                    {
+                      "name": "name",
+                      "type": "Text"
+                    }
+                  ],
+                  "type": "Option<RawDidLinkedInfo>"
+                },
+                "query": {
+                  "description": "Return the information relative to the owner of the provided DID, if present.",
+                  "params": [
+                    {
+                      "name": "did",
+                      "type": "AccountId32"
+                    }
+                  ],
+                  "type": "Option<RawDidLinkedInfo>"
+                }
+              },
+              "version": 1
+            }
+          ]
+        },
+        "signedExtensions": {
+          "CheckExtrinsicAuthor": {
+            "extrinsic": {},
+            "payload": {}
+          },
+          "PalletExtrinsicAuthorshipCheckExtrinsicAuthor": {
+            "extrinsic": {},
+            "payload": {}
+          }
+        },
+        "types": [
+          {
+            "minmax": [
+              0,
+              7999
+            ],
+            "types": {
+              "IdentifierOf": "Vec<u8>",
+              "StreamIdOf": "IdentifierOf",
+              "StreamDigestOf": "Hash",
+              "SchemaIdOf": "IdentifierOf",
+              "SchemaDigestOf": "Hash",
+              "SwarmIdOf": "IdentifierOf",
+              "CreatorOf": "AccountId",
+              "StreamEntry": {
+                "digest": "StreamDigestOf",
+                "creator": "CreatorOf",
+                "schema": "Option<SchemaIdOf>",
+                "linked": "Option<StreamIdOf>",
+                "swarm": "Option<SwarmIdOf>",
+                "revoked": "bool",
+                "counter": "u64"
+              },
+              "StreamCommitOf": {
+                "_enum": [
+                  "Genesis",
+                  "Update",
+                  "Status"
+                ]
+              },
+              "StreamCommit": {
+                "commit": "StreamCommitOf",
+                "digest": "StreamDigestOf",
+                "block": "BlockNumber"
+              },
+              "KeyIdOf": "Hash",
+              "DidIdentifierOf": "AccountId",
+              "AccountIdentifierOf": "AccountId",
+              "DidCallableOf": "Call",
+              "DidVerificationKey": {
+                "_enum": {
+                  "Ed25519": "[u8; 32]",
+                  "Sr25519": "[u8; 32]"
+                }
+              },
+              "DidEncryptionKey": {
+                "_enum": {
+                  "X25519": "[u8; 32]"
+                }
+              },
+              "DidPublicKey": {
+                "_enum": {
+                  "PublicVerificationKey": "DidVerificationKey",
+                  "PublicEncryptionKey": "DidEncryptionKey"
+                }
+              },
+              "DidVerificationKeyRelationship": {
+                "_enum": [
+                  "Authentication",
+                  "CapabilityDelegation",
+                  "CapabilityInvocation",
+                  "AssertionMethod"
+                ]
+              },
+              "DidSignature": {
+                "_enum": {
+                  "Ed25519": "Ed25519Signature",
+                  "Sr25519": "Sr25519Signature"
+                }
+              },
+              "StorageError": {
+                "_enum": {
+                  "DidAlreadyPresent": "Null",
+                  "DidNotPresent": "Null",
+                  "DidKeyNotPresent": "DidVerificationKeyRelationship",
+                  "KeyNotPresent": "Null",
+                  "CurrentlyActiveKey": "Null",
+                  "MaxPublicKeysPerDidExceeded": "Null",
+                  "MaxTotalKeyAgreementKeysExceeded": "Null",
+                  "DidAlreadyDeleted": "Null"
+                }
+              },
+              "SignatureError": {
+                "_enum": [
+                  "InvalidSignatureFormat",
+                  "InvalidSignature",
+                  "InvalidNonce",
+                  "TransactionExpired"
+                ]
+              },
+              "KeyError": {
+                "_enum": [
+                  "InvalidVerificationKeyFormat",
+                  "InvalidEncryptionKeyFormat"
+                ]
+              },
+              "InputError": {
+                "_enum": [
+                  "MaxKeyAgreementKeysLimitExceeded",
+                  "MaxVerificationKeysToRemoveLimitExceeded"
+                ]
+              },
+              "DidPublicKeyDetails": {
+                "key": "DidPublicKey",
+                "blockNumber": "BlockNumber"
+              },
+              "DidNewKeyAgreementKeys": "BoundedBTreeSet<DidEncryptionKey, MaxNewKeyAgreementKeys>",
+              "DidKeyAgreementKeys": "BoundedBTreeSet<KeyIdOf, MaxTotalKeyAgreementKeys>",
+              "DidVerificationKeysToRevoke": "BoundedBTreeSet<KeyIdOf, MaxVerificationKeysToRevoke>",
+              "MaxNewKeyAgreementKeys": "u32",
+              "MaxTotalKeyAgreementKeys": "u32",
+              "MaxVerificationKeysToRevoke": "u32",
+              "MaxPublicKeysPerDid": "u32",
+              "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
+              "DidCreationDetails": {
+                "did": "DidIdentifierOf",
+                "submitter": "AccountId",
+                "newKeyAgreementKey": "DidEncryptionKey",
+                "newAssertionKey": "Option<DidVerificationKey>",
+                "newDelegationKey": "Option<DidVerificationKey>"
+              },
+              "DidDetails": {
+                "authenticationKey": "KeyIdOf",
+                "keyAgreementKeys": "DidKeyAgreementKeys",
+                "capabilityDelegationKey": "Option<KeyIdOf>",
+                "assertionMethodKey": "Option<KeyIdOf>",
+                "publicKeys": "DidPublicKeyMap",
+                "lastTxCounter": "u64"
+              },
+              "DidDeletionOperation": {
+                "did": "DidIdentifierOf",
+                "txCounter": "u64"
+              },
+              "DidAuthorizedCallOperation": {
+                "did": "DidIdentifierOf",
+                "txCounter": "u64",
+                "call": "DidCallableOf",
+                "blockNumber": "BlockNumber",
+                "submitter": "AccountId"
+              }
+            }
+          },
+          {
+            "minmax": [
+              8000,
+              null
+            ],
+            "types": {
+              "RawDidLinkedInfo": {
+                "identifier": "AccountId32",
+                "name": "Option<Text>",
                 "serviceEndpoints": "Vec<PalletDidServiceEndpointsDidEndpoint>",
                 "details": "PalletDidDidDetails"
               }
@@ -1340,6 +2201,16 @@ export const typesBundle = {
           "Did": [
             {
               "methods": {
+                "query_by_name": {
+                  "description": "Return the information relative to the owner of the provided didName, if any.",
+                  "params": [
+                    {
+                      "name": "name",
+                      "type": "Text"
+                    }
+                  ],
+                  "type": "Option<RawDidLinkedInfo>"
+                },
                 "query": {
                   "description": "Return the information relative to the owner of the provided DID, if present.",
                   "params": [
@@ -1515,7 +2386,7 @@ export const typesBundle = {
             "types": {
               "RawDidLinkedInfo": {
                 "identifier": "AccountId32",
-                "w3n": "Option<Text>",
+                "name": "Option<Text>",
                 "serviceEndpoints": "Vec<PalletDidServiceEndpointsDidEndpoint>",
                 "details": "PalletDidDidDetails"
               }
@@ -1525,11 +2396,21 @@ export const typesBundle = {
       }
     },
     "cord": {
-      "Staging": {
+      "CORD Staging Testnet": {
         "runtime": {
           "Did": [
             {
               "methods": {
+                "query_by_name": {
+                  "description": "Return the information relative to the owner of the provided didName, if any.",
+                  "params": [
+                    {
+                      "name": "name",
+                      "type": "Text"
+                    }
+                  ],
+                  "type": "Option<RawDidLinkedInfo>"
+                },
                 "query": {
                   "description": "Return the information relative to the owner of the provided DID, if present.",
                   "params": [
@@ -1705,7 +2586,205 @@ export const typesBundle = {
             "types": {
               "RawDidLinkedInfo": {
                 "identifier": "AccountId32",
-                "w3n": "Option<Text>",
+                "name": "Option<Text>",
+                "serviceEndpoints": "Vec<PalletDidServiceEndpointsDidEndpoint>",
+                "details": "PalletDidDidDetails"
+              }
+            }
+          }
+        ]
+      },
+      "Dev. Node": {
+        "runtime": {
+          "Did": [
+            {
+              "methods": {
+                "query_by_name": {
+                  "description": "Return the information relative to the owner of the provided didName, if any.",
+                  "params": [
+                    {
+                      "name": "name",
+                      "type": "Text"
+                    }
+                  ],
+                  "type": "Option<RawDidLinkedInfo>"
+                },
+                "query": {
+                  "description": "Return the information relative to the owner of the provided DID, if present.",
+                  "params": [
+                    {
+                      "name": "did",
+                      "type": "AccountId32"
+                    }
+                  ],
+                  "type": "Option<RawDidLinkedInfo>"
+                }
+              },
+              "version": 1
+            }
+          ]
+        },
+        "signedExtensions": {
+          "CheckExtrinsicAuthor": {
+            "extrinsic": {},
+            "payload": {}
+          },
+          "PalletExtrinsicAuthorshipCheckExtrinsicAuthor": {
+            "extrinsic": {},
+            "payload": {}
+          }
+        },
+        "types": [
+          {
+            "minmax": [
+              0,
+              7999
+            ],
+            "types": {
+              "IdentifierOf": "Vec<u8>",
+              "StreamIdOf": "IdentifierOf",
+              "StreamDigestOf": "Hash",
+              "SchemaIdOf": "IdentifierOf",
+              "SchemaDigestOf": "Hash",
+              "SwarmIdOf": "IdentifierOf",
+              "CreatorOf": "AccountId",
+              "StreamEntry": {
+                "digest": "StreamDigestOf",
+                "creator": "CreatorOf",
+                "schema": "Option<SchemaIdOf>",
+                "linked": "Option<StreamIdOf>",
+                "swarm": "Option<SwarmIdOf>",
+                "revoked": "bool",
+                "counter": "u64"
+              },
+              "StreamCommitOf": {
+                "_enum": [
+                  "Genesis",
+                  "Update",
+                  "Status"
+                ]
+              },
+              "StreamCommit": {
+                "commit": "StreamCommitOf",
+                "digest": "StreamDigestOf",
+                "block": "BlockNumber"
+              },
+              "KeyIdOf": "Hash",
+              "DidIdentifierOf": "AccountId",
+              "AccountIdentifierOf": "AccountId",
+              "DidCallableOf": "Call",
+              "DidVerificationKey": {
+                "_enum": {
+                  "Ed25519": "[u8; 32]",
+                  "Sr25519": "[u8; 32]"
+                }
+              },
+              "DidEncryptionKey": {
+                "_enum": {
+                  "X25519": "[u8; 32]"
+                }
+              },
+              "DidPublicKey": {
+                "_enum": {
+                  "PublicVerificationKey": "DidVerificationKey",
+                  "PublicEncryptionKey": "DidEncryptionKey"
+                }
+              },
+              "DidVerificationKeyRelationship": {
+                "_enum": [
+                  "Authentication",
+                  "CapabilityDelegation",
+                  "CapabilityInvocation",
+                  "AssertionMethod"
+                ]
+              },
+              "DidSignature": {
+                "_enum": {
+                  "Ed25519": "Ed25519Signature",
+                  "Sr25519": "Sr25519Signature"
+                }
+              },
+              "StorageError": {
+                "_enum": {
+                  "DidAlreadyPresent": "Null",
+                  "DidNotPresent": "Null",
+                  "DidKeyNotPresent": "DidVerificationKeyRelationship",
+                  "KeyNotPresent": "Null",
+                  "CurrentlyActiveKey": "Null",
+                  "MaxPublicKeysPerDidExceeded": "Null",
+                  "MaxTotalKeyAgreementKeysExceeded": "Null",
+                  "DidAlreadyDeleted": "Null"
+                }
+              },
+              "SignatureError": {
+                "_enum": [
+                  "InvalidSignatureFormat",
+                  "InvalidSignature",
+                  "InvalidNonce",
+                  "TransactionExpired"
+                ]
+              },
+              "KeyError": {
+                "_enum": [
+                  "InvalidVerificationKeyFormat",
+                  "InvalidEncryptionKeyFormat"
+                ]
+              },
+              "InputError": {
+                "_enum": [
+                  "MaxKeyAgreementKeysLimitExceeded",
+                  "MaxVerificationKeysToRemoveLimitExceeded"
+                ]
+              },
+              "DidPublicKeyDetails": {
+                "key": "DidPublicKey",
+                "blockNumber": "BlockNumber"
+              },
+              "DidNewKeyAgreementKeys": "BoundedBTreeSet<DidEncryptionKey, MaxNewKeyAgreementKeys>",
+              "DidKeyAgreementKeys": "BoundedBTreeSet<KeyIdOf, MaxTotalKeyAgreementKeys>",
+              "DidVerificationKeysToRevoke": "BoundedBTreeSet<KeyIdOf, MaxVerificationKeysToRevoke>",
+              "MaxNewKeyAgreementKeys": "u32",
+              "MaxTotalKeyAgreementKeys": "u32",
+              "MaxVerificationKeysToRevoke": "u32",
+              "MaxPublicKeysPerDid": "u32",
+              "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
+              "DidCreationDetails": {
+                "did": "DidIdentifierOf",
+                "submitter": "AccountId",
+                "newKeyAgreementKey": "DidEncryptionKey",
+                "newAssertionKey": "Option<DidVerificationKey>",
+                "newDelegationKey": "Option<DidVerificationKey>"
+              },
+              "DidDetails": {
+                "authenticationKey": "KeyIdOf",
+                "keyAgreementKeys": "DidKeyAgreementKeys",
+                "capabilityDelegationKey": "Option<KeyIdOf>",
+                "assertionMethodKey": "Option<KeyIdOf>",
+                "publicKeys": "DidPublicKeyMap",
+                "lastTxCounter": "u64"
+              },
+              "DidDeletionOperation": {
+                "did": "DidIdentifierOf",
+                "txCounter": "u64"
+              },
+              "DidAuthorizedCallOperation": {
+                "did": "DidIdentifierOf",
+                "txCounter": "u64",
+                "call": "DidCallableOf",
+                "blockNumber": "BlockNumber",
+                "submitter": "AccountId"
+              }
+            }
+          },
+          {
+            "minmax": [
+              8000,
+              null
+            ],
+            "types": {
+              "RawDidLinkedInfo": {
+                "identifier": "AccountId32",
+                "name": "Option<Text>",
                 "serviceEndpoints": "Vec<PalletDidServiceEndpointsDidEndpoint>",
                 "details": "PalletDidDidDetails"
               }
@@ -1718,6 +2797,16 @@ export const typesBundle = {
           "Did": [
             {
               "methods": {
+                "query_by_name": {
+                  "description": "Return the information relative to the owner of the provided didName, if any.",
+                  "params": [
+                    {
+                      "name": "name",
+                      "type": "Text"
+                    }
+                  ],
+                  "type": "Option<RawDidLinkedInfo>"
+                },
                 "query": {
                   "description": "Return the information relative to the owner of the provided DID, if present.",
                   "params": [
@@ -1893,7 +2982,7 @@ export const typesBundle = {
             "types": {
               "RawDidLinkedInfo": {
                 "identifier": "AccountId32",
-                "w3n": "Option<Text>",
+                "name": "Option<Text>",
                 "serviceEndpoints": "Vec<PalletDidServiceEndpointsDidEndpoint>",
                 "details": "PalletDidDidDetails"
               }
@@ -1903,11 +2992,21 @@ export const typesBundle = {
       }
     },
     "cord-node": {
-      "Staging": {
+      "CORD Staging Testnet": {
         "runtime": {
           "Did": [
             {
               "methods": {
+                "query_by_name": {
+                  "description": "Return the information relative to the owner of the provided didName, if any.",
+                  "params": [
+                    {
+                      "name": "name",
+                      "type": "Text"
+                    }
+                  ],
+                  "type": "Option<RawDidLinkedInfo>"
+                },
                 "query": {
                   "description": "Return the information relative to the owner of the provided DID, if present.",
                   "params": [
@@ -2083,7 +3182,205 @@ export const typesBundle = {
             "types": {
               "RawDidLinkedInfo": {
                 "identifier": "AccountId32",
-                "w3n": "Option<Text>",
+                "name": "Option<Text>",
+                "serviceEndpoints": "Vec<PalletDidServiceEndpointsDidEndpoint>",
+                "details": "PalletDidDidDetails"
+              }
+            }
+          }
+        ]
+      },
+      "Dev. Node": {
+        "runtime": {
+          "Did": [
+            {
+              "methods": {
+                "query_by_name": {
+                  "description": "Return the information relative to the owner of the provided didName, if any.",
+                  "params": [
+                    {
+                      "name": "name",
+                      "type": "Text"
+                    }
+                  ],
+                  "type": "Option<RawDidLinkedInfo>"
+                },
+                "query": {
+                  "description": "Return the information relative to the owner of the provided DID, if present.",
+                  "params": [
+                    {
+                      "name": "did",
+                      "type": "AccountId32"
+                    }
+                  ],
+                  "type": "Option<RawDidLinkedInfo>"
+                }
+              },
+              "version": 1
+            }
+          ]
+        },
+        "signedExtensions": {
+          "CheckExtrinsicAuthor": {
+            "extrinsic": {},
+            "payload": {}
+          },
+          "PalletExtrinsicAuthorshipCheckExtrinsicAuthor": {
+            "extrinsic": {},
+            "payload": {}
+          }
+        },
+        "types": [
+          {
+            "minmax": [
+              0,
+              7999
+            ],
+            "types": {
+              "IdentifierOf": "Vec<u8>",
+              "StreamIdOf": "IdentifierOf",
+              "StreamDigestOf": "Hash",
+              "SchemaIdOf": "IdentifierOf",
+              "SchemaDigestOf": "Hash",
+              "SwarmIdOf": "IdentifierOf",
+              "CreatorOf": "AccountId",
+              "StreamEntry": {
+                "digest": "StreamDigestOf",
+                "creator": "CreatorOf",
+                "schema": "Option<SchemaIdOf>",
+                "linked": "Option<StreamIdOf>",
+                "swarm": "Option<SwarmIdOf>",
+                "revoked": "bool",
+                "counter": "u64"
+              },
+              "StreamCommitOf": {
+                "_enum": [
+                  "Genesis",
+                  "Update",
+                  "Status"
+                ]
+              },
+              "StreamCommit": {
+                "commit": "StreamCommitOf",
+                "digest": "StreamDigestOf",
+                "block": "BlockNumber"
+              },
+              "KeyIdOf": "Hash",
+              "DidIdentifierOf": "AccountId",
+              "AccountIdentifierOf": "AccountId",
+              "DidCallableOf": "Call",
+              "DidVerificationKey": {
+                "_enum": {
+                  "Ed25519": "[u8; 32]",
+                  "Sr25519": "[u8; 32]"
+                }
+              },
+              "DidEncryptionKey": {
+                "_enum": {
+                  "X25519": "[u8; 32]"
+                }
+              },
+              "DidPublicKey": {
+                "_enum": {
+                  "PublicVerificationKey": "DidVerificationKey",
+                  "PublicEncryptionKey": "DidEncryptionKey"
+                }
+              },
+              "DidVerificationKeyRelationship": {
+                "_enum": [
+                  "Authentication",
+                  "CapabilityDelegation",
+                  "CapabilityInvocation",
+                  "AssertionMethod"
+                ]
+              },
+              "DidSignature": {
+                "_enum": {
+                  "Ed25519": "Ed25519Signature",
+                  "Sr25519": "Sr25519Signature"
+                }
+              },
+              "StorageError": {
+                "_enum": {
+                  "DidAlreadyPresent": "Null",
+                  "DidNotPresent": "Null",
+                  "DidKeyNotPresent": "DidVerificationKeyRelationship",
+                  "KeyNotPresent": "Null",
+                  "CurrentlyActiveKey": "Null",
+                  "MaxPublicKeysPerDidExceeded": "Null",
+                  "MaxTotalKeyAgreementKeysExceeded": "Null",
+                  "DidAlreadyDeleted": "Null"
+                }
+              },
+              "SignatureError": {
+                "_enum": [
+                  "InvalidSignatureFormat",
+                  "InvalidSignature",
+                  "InvalidNonce",
+                  "TransactionExpired"
+                ]
+              },
+              "KeyError": {
+                "_enum": [
+                  "InvalidVerificationKeyFormat",
+                  "InvalidEncryptionKeyFormat"
+                ]
+              },
+              "InputError": {
+                "_enum": [
+                  "MaxKeyAgreementKeysLimitExceeded",
+                  "MaxVerificationKeysToRemoveLimitExceeded"
+                ]
+              },
+              "DidPublicKeyDetails": {
+                "key": "DidPublicKey",
+                "blockNumber": "BlockNumber"
+              },
+              "DidNewKeyAgreementKeys": "BoundedBTreeSet<DidEncryptionKey, MaxNewKeyAgreementKeys>",
+              "DidKeyAgreementKeys": "BoundedBTreeSet<KeyIdOf, MaxTotalKeyAgreementKeys>",
+              "DidVerificationKeysToRevoke": "BoundedBTreeSet<KeyIdOf, MaxVerificationKeysToRevoke>",
+              "MaxNewKeyAgreementKeys": "u32",
+              "MaxTotalKeyAgreementKeys": "u32",
+              "MaxVerificationKeysToRevoke": "u32",
+              "MaxPublicKeysPerDid": "u32",
+              "DidPublicKeyMap": "BoundedBTreeMap<KeyIdOf, DidPublicKeyDetails, MaxPublicKeysPerDid>",
+              "DidCreationDetails": {
+                "did": "DidIdentifierOf",
+                "submitter": "AccountId",
+                "newKeyAgreementKey": "DidEncryptionKey",
+                "newAssertionKey": "Option<DidVerificationKey>",
+                "newDelegationKey": "Option<DidVerificationKey>"
+              },
+              "DidDetails": {
+                "authenticationKey": "KeyIdOf",
+                "keyAgreementKeys": "DidKeyAgreementKeys",
+                "capabilityDelegationKey": "Option<KeyIdOf>",
+                "assertionMethodKey": "Option<KeyIdOf>",
+                "publicKeys": "DidPublicKeyMap",
+                "lastTxCounter": "u64"
+              },
+              "DidDeletionOperation": {
+                "did": "DidIdentifierOf",
+                "txCounter": "u64"
+              },
+              "DidAuthorizedCallOperation": {
+                "did": "DidIdentifierOf",
+                "txCounter": "u64",
+                "call": "DidCallableOf",
+                "blockNumber": "BlockNumber",
+                "submitter": "AccountId"
+              }
+            }
+          },
+          {
+            "minmax": [
+              8000,
+              null
+            ],
+            "types": {
+              "RawDidLinkedInfo": {
+                "identifier": "AccountId32",
+                "name": "Option<Text>",
                 "serviceEndpoints": "Vec<PalletDidServiceEndpointsDidEndpoint>",
                 "details": "PalletDidDidDetails"
               }
@@ -2096,6 +3393,16 @@ export const typesBundle = {
           "Did": [
             {
               "methods": {
+                "query_by_name": {
+                  "description": "Return the information relative to the owner of the provided didName, if any.",
+                  "params": [
+                    {
+                      "name": "name",
+                      "type": "Text"
+                    }
+                  ],
+                  "type": "Option<RawDidLinkedInfo>"
+                },
                 "query": {
                   "description": "Return the information relative to the owner of the provided DID, if present.",
                   "params": [
@@ -2271,7 +3578,7 @@ export const typesBundle = {
             "types": {
               "RawDidLinkedInfo": {
                 "identifier": "AccountId32",
-                "w3n": "Option<Text>",
+                "name": "Option<Text>",
                 "serviceEndpoints": "Vec<PalletDidServiceEndpointsDidEndpoint>",
                 "details": "PalletDidDidDetails"
               }

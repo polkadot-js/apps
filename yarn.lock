@@ -1493,9 +1493,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cord.network/type-definitions@portal:/Users/smohan/dev/smohan-dw/cord.js/packages/type-definitions::locator=polkadot-apps%40workspace%3A.":
+"@cord.network/type-definitions@portal:/Users/smohan/dev/smohan-dw/compare/cord.js/packages/type-definitions::locator=polkadot-apps%40workspace%3A.":
   version: 0.0.0-use.local
-  resolution: "@cord.network/type-definitions@portal:/Users/smohan/dev/smohan-dw/cord.js/packages/type-definitions::locator=polkadot-apps%40workspace%3A."
+  resolution: "@cord.network/type-definitions@portal:/Users/smohan/dev/smohan-dw/compare/cord.js/packages/type-definitions::locator=polkadot-apps%40workspace%3A."
   languageName: node
   linkType: soft
 
