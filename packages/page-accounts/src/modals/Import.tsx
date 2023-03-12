@@ -95,7 +95,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
         }
 
         setIsBusy(false);
-        onStatusChange(status);
+        onStatusChange(status as ActionStatus);
 
         if (status.status !== 'error') {
           onClose();

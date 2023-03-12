@@ -134,7 +134,7 @@ class MockAccountHooks {
         .entries(props.info || info)
         .forEach(([key, value]) => {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          (info)[key] = value;
+          (info as any)[key] = value;
         });
 
       this.accountsMap[address] = {
