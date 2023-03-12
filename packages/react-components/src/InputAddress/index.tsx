@@ -3,11 +3,10 @@
 
 import type { DropdownItemProps } from 'semantic-ui-react';
 import type { KeyringOption$Type, KeyringOptions, KeyringSectionOption, KeyringSectionOptions } from '@polkadot/ui-keyring/options/types';
-import type { Option } from './types';
+import type { Option } from './types.js';
 
 import React from 'react';
 import store from 'store';
-import styled from 'styled-components';
 
 import { withMulti, withObservable } from '@polkadot/react-api/hoc';
 import { keyring } from '@polkadot/ui-keyring';
@@ -15,11 +14,12 @@ import { createOptionItem } from '@polkadot/ui-keyring/options/item';
 import { isNull, isUndefined } from '@polkadot/util';
 import { isAddress } from '@polkadot/util-crypto';
 
-import Dropdown from '../Dropdown';
-import Static from '../Static';
-import { getAddressName, toAddress } from '../util';
-import createHeader from './createHeader';
-import createItem from './createItem';
+import Dropdown from '../Dropdown.js';
+import Static from '../Static.js';
+import { styled } from '../styled.js';
+import { getAddressName, toAddress } from '../util/index.js';
+import createHeader from './createHeader.js';
+import createItem from './createItem.js';
 
 interface Props {
   className?: string;

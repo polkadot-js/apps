@@ -4,11 +4,11 @@
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
 import { useParaEndpoints } from '@polkadot/react-hooks';
 
-import ChainImg from './ChainImg';
+import ChainImg from './ChainImg.js';
+import { styled } from './styled.js';
 
 interface Props {
   className?: string;

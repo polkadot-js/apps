@@ -8,12 +8,12 @@ import { Tabs } from '@polkadot/react-components';
 import { useApi, useCollectiveMembers } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-import Overview from './Overview';
-import Tips from './Tips';
-import { useTranslation } from './translate';
-import useTipHashes from './useTipHashes';
+import Overview from './Overview/index.js';
+import Tips from './Tips/index.js';
+import { useTranslation } from './translate.js';
+import useTipHashes from './useTipHashes.js';
 
-export { default as useCounter } from './useCounter';
+export { default as useCounter } from './useCounter.js';
 
 interface Props {
   basePath: string;

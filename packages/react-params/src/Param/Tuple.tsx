@@ -1,15 +1,15 @@
 // Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Props, RawParam } from '../types';
+import type { Props, RawParam } from '../types.js';
 
 import React, { useCallback, useState } from 'react';
 
 import { Tuple } from '@polkadot/types';
 
-import Params from '../';
-import Base from './Base';
-import useParamDefs from './useParamDefs';
+import Params from '../index.js';
+import Base from './Base.js';
+import useParamDefs from './useParamDefs.js';
 
 function getInitialValues ({ value }: RawParam): RawParam[] {
   return value instanceof Tuple

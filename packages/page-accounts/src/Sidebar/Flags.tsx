@@ -4,11 +4,10 @@
 import type { AddressFlags } from '@polkadot/react-hooks/types';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { Flag } from '@polkadot/react-components';
+import { Flag, styled } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   flags: AddressFlags;

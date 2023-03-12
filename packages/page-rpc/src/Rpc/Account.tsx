@@ -4,13 +4,12 @@
 import type { BN } from '@polkadot/util';
 
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 
-import { InputAddress, Labelled } from '@polkadot/react-components';
+import { InputAddress, Labelled, styled } from '@polkadot/react-components';
 import { Nonce } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;

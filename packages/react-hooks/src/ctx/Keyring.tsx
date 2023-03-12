@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
-import type { Accounts, Addresses } from './types';
+import type { Accounts, Addresses } from './types.js';
 
 import React, { useEffect, useState } from 'react';
 import { combineLatest, map } from 'rxjs';
@@ -11,7 +11,7 @@ import { keyring } from '@polkadot/ui-keyring';
 import { u8aToHex } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
-import { useApi } from '../useApi';
+import { useApi } from '../useApi.js';
 
 interface Props {
   children?: React.ReactNode;
@@ -48,12 +48,10 @@ function filter (isEthereum: boolean, items: string[], others: string[] = []): s
   return items.reduce<string[]>((result, a) => {
     if (!result.includes(a) && !others.includes(a)) {
       try {
-        const u8a = decodeAddress(a);
-
-        if (u8a.length === allowedLength) {
+        if (decodeAddress(a).length >= allowedLength) {
           result.push(a);
         } else {
-          console.warn(`Not adding address ${a}, not in correct format for chain (requires ${allowedLength}-byte publickey)`);
+          console.warn(`Not adding address ${a}, not in correct format for chain (requires publickey from address)`);
         }
       } catch {
         console.error(a, allowedLength);

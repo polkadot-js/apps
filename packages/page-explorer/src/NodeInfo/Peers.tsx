@@ -4,12 +4,11 @@
 import type { PeerInfo } from '@polkadot/types/interfaces';
 
 import React, { useMemo, useRef } from 'react';
-import styled from 'styled-components';
 
-import { Table } from '@polkadot/react-components';
+import { styled, Table } from '@polkadot/react-components';
 import { formatNumber, stringPascalCase } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;

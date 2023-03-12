@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 import { keyring } from '@polkadot/ui-keyring';
 
-import { createNamedHook } from './createNamedHook';
+import { createNamedHook } from './createNamedHook.js';
 
 interface PasswordProps {
   password: string;

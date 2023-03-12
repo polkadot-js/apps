@@ -4,13 +4,13 @@
 import type { Inspect } from '@polkadot/types/types';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
 import { useApi } from '@polkadot/react-hooks';
 import { u8aToHex } from '@polkadot/util';
 
-import Output from './Output';
-import { useTranslation } from './translate';
+import Output from './Output.js';
+import { styled } from './styled.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;

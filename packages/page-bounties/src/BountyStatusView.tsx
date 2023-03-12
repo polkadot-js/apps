@@ -1,11 +1,13 @@
 // Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React from 'react';
-import styled from 'styled-components';
+import type { StatusName } from './types.js';
 
-import { insertSpaceBeforeCapitalLetter } from './helpers';
-import { StatusName } from './types';
+import React from 'react';
+
+import { styled } from '@polkadot/react-components';
+
+import { insertSpaceBeforeCapitalLetter } from './helpers/index.js';
 
 interface Props {
   bountyStatus: StatusName;

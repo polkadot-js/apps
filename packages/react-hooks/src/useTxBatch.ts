@@ -5,16 +5,16 @@ import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { Weight } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
-import type { BatchOptions, BatchType, WeightResult } from './types';
+import type { BatchOptions, BatchType, WeightResult } from './types.js';
 
 import { useEffect, useMemo, useState } from 'react';
 
 import { BN_HUNDRED, BN_ZERO, bnMax, bnMin, bnToBn, isCompact, isFunction, nextTick } from '@polkadot/util';
 
-import { createNamedHook } from './createNamedHook';
-import { useAccounts } from './useAccounts';
-import { useApi } from './useApi';
-import { convertWeight } from './useWeight';
+import { createNamedHook } from './createNamedHook.js';
+import { useAccounts } from './useAccounts.js';
+import { useApi } from './useApi.js';
+import { convertWeight } from './useWeight.js';
 
 interface BNWeight {
   proofSize: BN;

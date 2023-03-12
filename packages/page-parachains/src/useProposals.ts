@@ -3,7 +3,7 @@
 
 import type { StorageKey } from '@polkadot/types';
 import type { ParaId, SessionIndex } from '@polkadot/types/interfaces';
-import type { Proposals } from './types';
+import type { Proposals } from './types.js';
 
 import { useMemo } from 'react';
 

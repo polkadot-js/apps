@@ -9,15 +9,14 @@ import type { BalanceOf, EthereumAddress, EthereumSignature, StatementKind } fro
 import type { BN } from '@polkadot/util';
 
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button, Card, TxButton } from '@polkadot/react-components';
+import { Button, Card, styled, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from './translate';
-import { addrToChecksum, getStatement } from './util';
+import { useTranslation } from './translate.js';
+import { addrToChecksum, getStatement } from './util.js';
 
 interface Props {
   accountId: string;

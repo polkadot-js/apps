@@ -4,7 +4,7 @@
 import { Balance } from '@polkadot/types/interfaces';
 import { BN, formatBalance } from '@polkadot/util';
 
-import { balanceOf } from '../creation/balance';
+import { balanceOf } from '../creation/balance.js';
 
 /**
  * Creates a balance instance for testing purposes which most often do not need to specifiy/use decimal part.

@@ -4,15 +4,14 @@
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo, useRef } from 'react';
-import styled from 'styled-components';
 
-import Summary from '@polkadot/app-bounties/Summary';
-import { Button, Table } from '@polkadot/react-components';
+import { Button, styled, Table } from '@polkadot/react-components';
 
-import Bounty from './Bounty';
-import BountyCreate from './BountyCreate';
-import { useBounties } from './hooks';
-import { useTranslation } from './translate';
+import { useBounties } from './hooks/index.js';
+import Bounty from './Bounty.js';
+import BountyCreate from './BountyCreate.js';
+import Summary from './Summary.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;

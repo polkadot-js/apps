@@ -6,9 +6,8 @@ import type { KeypairType } from '@polkadot/util-crypto/types';
 import type { GeneratorMatch, GeneratorMatches, GeneratorResult } from '@polkadot/vanitygen/types';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button, Dropdown, Input, Table } from '@polkadot/react-components';
+import { Button, Dropdown, Input, styled, Table } from '@polkadot/react-components';
 import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { settings } from '@polkadot/ui-settings';
 import { nextTick } from '@polkadot/util';
@@ -16,9 +15,9 @@ import generator from '@polkadot/vanitygen/generator';
 import matchRegex from '@polkadot/vanitygen/regex';
 import generatorSort from '@polkadot/vanitygen/sort';
 
-import CreateModal from '../modals/Create';
-import { useTranslation } from '../translate';
-import Match from './Match';
+import CreateModal from '../modals/Create.js';
+import { useTranslation } from '../translate.js';
+import Match from './Match.js';
 
 interface Props {
   className?: string;

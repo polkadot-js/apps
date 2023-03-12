@@ -4,8 +4,8 @@
 // Unused atm, experiment as a replacement for NodeInfo on the SideBar
 
 import React from 'react';
-import styled from 'styled-components';
 
+import { styled } from '@polkadot/react-components';
 import { BestNumber, Chain, NodeName, NodeVersion } from '@polkadot/react-query';
 
 interface Props {

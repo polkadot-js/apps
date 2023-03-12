@@ -3,7 +3,7 @@
 
 import { createNamedHook } from '@polkadot/react-hooks';
 
-import useExtensions from './useExtensions';
+import useExtensions from './useExtensions.js';
 
 function useCounterImpl (): number {
   const { count } = useExtensions();

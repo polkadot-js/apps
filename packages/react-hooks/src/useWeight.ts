@@ -10,9 +10,9 @@ import { useEffect, useState } from 'react';
 
 import { BN_ZERO, isFunction, nextTick, objectSpread } from '@polkadot/util';
 
-import { createNamedHook } from './createNamedHook';
-import { useApi } from './useApi';
-import { useIsMountedRef } from './useIsMountedRef';
+import { createNamedHook } from './createNamedHook.js';
+import { useApi } from './useApi.js';
+import { useIsMountedRef } from './useIsMountedRef.js';
 
 type V1Weight = INumber;
 

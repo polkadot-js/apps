@@ -2,18 +2,17 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { MembersMapEntry, Params } from './types';
+import type { MembersMapEntry, Params } from './types.js';
 
 import React, { useCallback } from 'react';
-import styled from 'styled-components';
 
-import { AddressMini, ExpandButton, ExpanderScroll, Spinner, Table } from '@polkadot/react-components';
+import { AddressMini, ExpandButton, ExpanderScroll, Spinner, styled, Table } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
-import { useTranslation } from '../translate';
-import Join from './Join';
-import usePoolInfo from './usePoolInfo';
+import { useTranslation } from '../translate.js';
+import Join from './Join.js';
+import usePoolInfo from './usePoolInfo.js';
 
 interface Props {
   className?: string;
@@ -132,10 +131,10 @@ function Pool ({ className = '', members, ownAccounts, params, poolId }: Props):
                 <div className='inline-balance'><AddressMini value={info.bonded.roles.nominator.unwrap()} /></div>
               </div>
             )}
-            {info.bonded.roles.stateToggler.isSome && (
+            {(info.bonded.roles as { stateToggler?: { isSome: boolean } }).stateToggler?.isSome && (
               <div className='label-column-right'>
                 <div className='label'>{t<string>('toggler')}</div>
-                <div className='inline-balance'><AddressMini value={info.bonded.roles.stateToggler.unwrap()} /></div>
+                <div className='inline-balance'><AddressMini value={(info.bonded.roles as unknown as { stateToggler: { unwrap: () => string } }).stateToggler.unwrap()} /></div>
               </div>
             )}
           </td>

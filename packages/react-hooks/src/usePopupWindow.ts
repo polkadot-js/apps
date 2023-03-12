@@ -6,10 +6,10 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { HorizontalPosition, VerticalPosition } from '@polkadot/react-components/Popup/types';
 import { getPosition } from '@polkadot/react-components/Popup/utils';
 
-import { createNamedHook } from './createNamedHook';
-import { useElementPosition } from './useElementPosition';
-import { useScroll } from './useScroll';
-import { useWindowSize } from './useWindowSize';
+import { createNamedHook } from './createNamedHook.js';
+import { useElementPosition } from './useElementPosition.js';
+import { useScroll } from './useScroll.js';
+import { useWindowSize } from './useWindowSize.js';
 
 interface Coord {
   x: number;

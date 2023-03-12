@@ -3,15 +3,15 @@
 
 import type { u32 } from '@polkadot/types';
 import type { AccountId32 } from '@polkadot/types/interfaces';
-import type { SessionInfo, Validator } from './types';
+import type { SessionInfo, Validator } from './types.js';
 
 import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { objectSpread } from '@polkadot/util';
 
-import { useCacheValue } from './useCache';
-import useTaggedValidators from './useTaggedValidators';
+import { useCacheValue } from './useCache.js';
+import useTaggedValidators from './useTaggedValidators.js';
 
 const OPT_VALIDATORS = {
   transform: (validators: AccountId32[]): Validator[] =>

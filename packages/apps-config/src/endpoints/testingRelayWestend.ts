@@ -1,12 +1,12 @@
 // Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { EndpointOption } from './types';
+import type { EndpointOption } from './types.js';
 
-import { WESTEND_GENESIS } from '../api/constants';
-import { chainsKaruraSVG, chainsStandardPNG } from '../ui/logos/chains';
-import { nodesBridgeHubBlackSVG, nodesCentrifugePNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKhalaSVG, nodesKiltPNG, nodesKylinPNG, nodesMoonshadowPNG, nodesPangoroSVG, nodesStatemineSVG, nodesWestendColourSVG } from '../ui/logos/nodes';
-import { getTeleports } from './util';
+import { WESTEND_GENESIS } from '../api/constants.js';
+import { chainsKaruraSVG, chainsStandardPNG } from '../ui/logos/chains/index.js';
+import { nodesBridgeHubSVG, nodesCentrifugePNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKhalaSVG, nodesKiltPNG, nodesKylinPNG, nodesMoonshadowPNG, nodesPangoroSVG, nodesStatemineSVG, nodesWestendColourSVG } from '../ui/logos/nodes/index.js';
+import { getTeleports } from './util.js';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
 // Polkadot) we try to keep this to live chains only, with RPCs hosted by the community/chain vendor
@@ -126,7 +126,7 @@ export const testParasWestend: EndpointOption[] = [
     info: 'kilt',
     paraId: 2085,
     providers: {
-      'KILT Protocol': 'wss://westend.kilt.io:9977'
+      // 'KILT Protocol': 'wss://westend.kilt.io:9977' // https://github.com/polkadot-js/apps/issues/9059
     },
     text: 'WILT',
     ui: {
@@ -173,7 +173,7 @@ export const testParasWestendCommon: EndpointOption[] = [
     },
     text: 'BridgeHub',
     ui: {
-      logo: nodesBridgeHubBlackSVG
+      logo: nodesBridgeHubSVG
     }
   }
 ];
@@ -193,7 +193,6 @@ export const testRelayWestend: EndpointOption = {
     'IBP Network': 'wss://rpc.ibp.network/westend',
     OnFinality: 'wss://westend.api.onfinality.io/public-ws',
     Parity: 'wss://westend-rpc.polkadot.io',
-    Pinknode: 'wss://rpc.pinknode.io/westend/explorer',
     'light client': 'light://substrate-connect/westend'
   },
   teleport: getTeleports(testParasWestendCommon),

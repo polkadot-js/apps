@@ -5,9 +5,10 @@ import type { ThemeDef } from '@polkadot/react-hooks/ctx/types';
 
 import React, { useContext } from 'react';
 import store from 'store';
-import styled, { ThemeContext } from 'styled-components';
+import { ThemeContext } from 'styled-components';
 
-import Dropdown from './Dropdown';
+import Dropdown from './Dropdown.js';
+import { styled } from './styled.js';
 
 interface Option {
   key: string;

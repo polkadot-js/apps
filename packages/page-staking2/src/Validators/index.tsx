@@ -1,19 +1,18 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SessionInfo } from '../types';
+import type { SessionInfo } from '../types.js';
 
 import React, { useRef, useState } from 'react';
-import styled from 'styled-components';
 
 import Legend from '@polkadot/app-staking/Legend';
-import { Button, ToggleGroup } from '@polkadot/react-components';
+import { Button, styled, ToggleGroup } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
-import useValidatorsActive from '../useValidatorsActive';
-import Active from './Active';
-import usePoints from './usePoints';
-import Waiting from './Waiting';
+import { useTranslation } from '../translate.js';
+import useValidatorsActive from '../useValidatorsActive.js';
+import Active from './Active/index.js';
+import Waiting from './Waiting/index.js';
+import usePoints from './usePoints.js';
 
 interface Props {
   className?: string;

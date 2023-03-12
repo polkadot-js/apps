@@ -6,8 +6,9 @@ import React, { Suspense } from 'react';
 import { ThemeProvider } from 'styled-components';
 
 import { lightTheme } from '@polkadot/apps/themes';
-import { Popup } from '@polkadot/react-components';
 import i18next from '@polkadot/react-components/i18n';
+
+import Popup from './index.js';
 
 function TestPopup () {
   return (

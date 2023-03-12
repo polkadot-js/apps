@@ -6,7 +6,7 @@ import type { ApiInterfaceRx, AugmentedQuery, RxResult } from '@polkadot/api/typ
 import type { AccountData, AccountId, AccountIndex, Address, Balance } from '@polkadot/types/interfaces';
 import type { Codec, OverrideBundleDefinition } from '@polkadot/types/types';
 
-import { equilibrium, equilibriumNext } from '@equilab/definitions';
+import eqDefs from '@equilab/definitions';
 import { map } from 'rxjs';
 
 import { Enum } from '@polkadot/types';
@@ -36,6 +36,8 @@ type EqBalanceDoubleMap<T> = AugmentedQuery<
 (key1: AccountIndex | AccountId | Address | string, key2: T | string) => Observable<SignedBalance>,
 [AccountId, Currency]
 >
+
+const { equilibrium, equilibriumNext } = eqDefs;
 
 export const u64FromCurrency = (currency: string): number => {
   const buf = Buffer.from(currency.toLowerCase());

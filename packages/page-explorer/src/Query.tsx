@@ -2,12 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button, FilterOverlay, Input } from '@polkadot/react-components';
+import { Button, FilterOverlay, Input, styled } from '@polkadot/react-components';
 import { isHex } from '@polkadot/util';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;

@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
 
-import AccountName from './AccountName';
-import Icon from './Icon';
+import AccountName from './AccountName.js';
+import Icon from './Icon.js';
+import { styled } from './styled.js';
 
 interface ParentAccountProps {
   address: string,

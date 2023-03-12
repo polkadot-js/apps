@@ -1,13 +1,12 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Validator } from '../../types';
-import type { UseHeartbeat } from '../types';
+import type { Validator } from '../../types.js';
+import type { UseHeartbeat } from '../types.js';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
-import { Badge } from '@polkadot/react-components';
+import { Badge, styled } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 
 interface Props {

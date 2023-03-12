@@ -5,16 +5,15 @@ import type { Signer } from '@polkadot/api/types';
 import type { KeyringPair } from '@polkadot/keyring/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
 
 import { web3FromSource } from '@polkadot/extension-dapp';
-import { Button, Input, InputAddress, Output, Static } from '@polkadot/react-components';
+import { Button, Input, InputAddress, Output, Static, styled } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { isFunction, isHex, u8aToHex, u8aWrapBytes } from '@polkadot/util';
 
-import { useTranslation } from './translate';
-import Unlock from './Unlock';
+import { useTranslation } from './translate.js';
+import Unlock from './Unlock.js';
 
 interface Props {
   className?: string;

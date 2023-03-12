@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry, TypeDef } from '@polkadot/types/types';
-import type { ParamDef } from '../types';
+import type { ParamDef } from '../types.js';
 
 import { useMemo } from 'react';
 

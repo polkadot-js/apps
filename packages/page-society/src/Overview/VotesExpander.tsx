@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { VoteType } from '../types';
+import type { VoteType } from '../types.js';
 
 import React from 'react';
 

@@ -3,15 +3,15 @@
 
 import type { Option } from '@polkadot/types';
 import type { BN } from '@polkadot/util';
-import type { PalletReferenda, ReferendaGroup, ReferendaGroupKnown, Referendum, TrackDescription } from './types';
+import type { PalletReferenda, ReferendaGroup, ReferendaGroupKnown, Referendum, TrackDescription } from './types.js';
 
 import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
-import useReferendaIds from './useReferendaIds';
-import useTracks from './useTracks';
-import { calcDecidingEnd, getTrackName, isConvictionVote } from './util';
+import useReferendaIds from './useReferendaIds.js';
+import useTracks from './useTracks.js';
+import { calcDecidingEnd, getTrackName, isConvictionVote } from './util.js';
 
 function sortOngoing (a: Referendum, b: Referendum): number {
   const ao = a.info.asOngoing;

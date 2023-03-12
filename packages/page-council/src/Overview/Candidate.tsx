@@ -8,8 +8,8 @@ import React from 'react';
 import { AddressSmall, Tag } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import Voters from './Voters';
+import { useTranslation } from '../translate.js';
+import Voters from './Voters.js';
 
 interface Props {
   className?: string;

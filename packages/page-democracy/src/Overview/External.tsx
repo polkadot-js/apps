@@ -8,9 +8,9 @@ import React from 'react';
 import { AddressMini, Button, Columar, ExpandButton, LinkExternal, Table } from '@polkadot/react-components';
 import { useCollectiveMembers, useToggle } from '@polkadot/react-hooks';
 
-import Fasttrack from './Fasttrack';
-import PreImageButton from './PreImageButton';
-import ProposalCell from './ProposalCell';
+import Fasttrack from './Fasttrack.js';
+import PreImageButton from './PreImageButton.js';
+import ProposalCell from './ProposalCell.js';
 
 interface Props {
   className?: string;

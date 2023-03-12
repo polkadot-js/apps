@@ -11,21 +11,6 @@ const webpack = require('webpack');
 
 const findPackages = require('../../scripts/findPackages.cjs');
 
-function mapChunks (pre, regs) {
-  return regs.reduce((result, test, index) => {
-    const name = `${pre}.${`00${index}`.slice(-2)}`;
-
-    result[name] = {
-      chunks: 'initial',
-      enforce: true,
-      name,
-      test
-    };
-
-    return result;
-  }, {});
-}
-
 function createWebpack (context, mode = 'production') {
   const pkgJson = require(path.join(context, 'package.json'));
   const alias = findPackages().reduce((alias, { dir, name }) => {
@@ -47,7 +32,7 @@ function createWebpack (context, mode = 'production') {
 
   return {
     context,
-    entry: ['@babel/polyfill', './src/index.tsx'],
+    entry: './src/index.tsx',
     mode,
     module: {
       rules: [
@@ -60,49 +45,24 @@ function createWebpack (context, mode = 'production') {
           test: /\.css$/,
           use: [
             MiniCssExtractPlugin.loader,
-            require.resolve('css-loader')
-          ]
-        },
-        {
-          exclude: /(node_modules)/,
-          test: /\.(js|mjs|ts|tsx)$/,
-          use: [
-            require.resolve('thread-loader'),
             {
-              loader: require.resolve('babel-loader'),
-              options: require('@polkadot/dev/config/babel-config-webpack.cjs')
+              loader: require.resolve('css-loader'),
+              options: {
+                url: false
+              }
             }
           ]
         },
         {
-          test: /\.md$/,
-          use: [
-            require.resolve('html-loader'),
-            require.resolve('markdown-loader')
-          ]
-        },
-        {
-          exclude: [/semantic-ui-css/],
-          test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
-          type: 'asset/resource',
-          generator: {
-            filename: 'static/[name].[contenthash:8].[ext]'
-          }
-        },
-        {
-          exclude: [/semantic-ui-css/],
-          test: [/\.eot$/, /\.ttf$/, /\.svg$/, /\.woff$/, /\.woff2$/],
-          type: 'asset/resource',
-          generator: {
-            filename: 'static/[name].[contenthash:8].[ext]'
-          }
-        },
-        {
-          include: [/semantic-ui-css/],
-          test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.eot$/, /\.ttf$/, /\.svg$/, /\.woff$/, /\.woff2$/],
+          exclude: /(node_modules)/,
+          test: /\.(ts|tsx)$/,
           use: [
             {
-              loader: require.resolve('null-loader')
+              loader: require.resolve('ts-loader'),
+              options: {
+                configFile: 'tsconfig.webpack.json',
+                transpileOnly: true
+              }
             }
           ]
         }
@@ -113,47 +73,49 @@ function createWebpack (context, mode = 'production') {
       __filename: false
     },
     optimization: {
+      chunkIds: 'deterministic',
+      concatenateModules: true,
       minimize: mode === 'production',
+      moduleIds: 'deterministic',
       runtimeChunk: 'single',
       splitChunks: {
-        cacheGroups: {
-          // As far as possible, we try and keep this below 1M in size.
-          // This is trial-and-error and some will blow past, e.g. light client
-          ...mapChunks('mod.app', [
-            /* 00 */ /apps-config\/src\/api/,
-            /* 01 */ /apps-config\/src\/ui\/logos\/chains/,
-            /* 03 */ /apps-config\/src\/ui\/logos\/(extensions|external|nodes\/generated\/[0-9a-kA-K])/,
-            /* 04 */ /apps-config\/src\/ui\/logos\/nodes\/generated\/[l-zL-Z]/,
-            /* 05 */ /RoboHash\/(backgrounds|sets\/set2)/,
-            /* 06 */ /RoboHash\/sets\/set1-(blue|brown|green|grey|orange)/,
-            /* 07 */ /RoboHash\/sets\/set1-(pink|purple|red|white|yellow)/,
-            /* 08 */ /RoboHash\/sets\/set3/,
-            /* 09 */ /RoboHash\/sets\/set4/,
-            /* 10 */ /RoboHash\/sets\/set5\/(000|001|002|003|004|005|007)/,
-            /* 11 */ /RoboHash\/sets\/set5\/006/
-          ]),
-          ...mapChunks('mod.dot', [
-            // If we ever want to go deeper, this seemed like a good 50/50
-            // initial split ... could change over time
-            // /* 00 */ /node_modules\/@polkadot\/(api|metadata|types)/,
-            // /* 01 */ /node_modules\/@polkadot\/(?!api|metadata|types)/
-            /* 00 */ /node_modules\/@polkadot\//,
-          ]),
-          // We didn't pull these based on name, but rather based on the sizes
-          // (large => small) as available in yarn analyze. The names here are
-          // intentionally greedy (without having conflicts with previous)
-          ...mapChunks('mod.ext', [
-            /* 00 */ /node_modules\/@substrate\/smoldot/,
-            /* 01 */ /node_modules\/@fortawesome/,
-            /* 02 */ /node_modules\/(react|qrcode|lodash|inherits|attr|is|util|simple|unist|decode|hoist|html|owasp|@stardust|base|@multiformats|multiformats|sha|elliptic|hast|bn|webrtc|@ledgerhq|semver|zwitch|hash|color|sdp|@interlay|fflate|event|vfile|ethereum|detect|lru|ed2curve|iso|uint8arrays|hmac|process|cipher|borand|safe|minimalistic|value|comma|file)/,
-            /* 03 */ /node_modules\/(style|chart|pako|@noble|rxjs|tweetnacl|codeflask|@zondax|axios|resolve|classnames|exe|history|query|string|tslib|md5|punycode|buffer|semantic|@semantic|core|i18next|readable|rtc|@substrate\/(connect|ss58)|secp256k1|@emotion|store|web|@babel|jdenticon|yalist|scheduler|keyboard|ripemd160|@chainsafe|bip|copy|inline|stream|ieee|prop|toggle|err|create|regenerator|@scure)/
-          ])
-        }
+        cacheGroups: [
+          // this one is massive (less-frequently updated, alongside deps)
+          ['type', /[\\/]packages[\\/]apps-config[\\/]src[\\/]api[\\/]typesBundle/],
+          // should just change when totally new teams are onboarded
+          ['logo', /[\\/]packages[\\/]apps-config[\\/]src[\\/]ui[\\/]logos/],
+          // config cannot go in main - it has multiple users
+          ['conf', /[\\/]packages[\\/]apps-config[\\/]src[\\/]/],
+          // exceptionally large - should not change at all
+          ['robo', /[\\/]packages[\\/]react-components[\\/]src[\\/]IdentityIcon[\\/]RoboHash/],
+          // library split (although it probably changes alongside pages)
+          ['comm', /[\\/]packages[\\/]react-.*[\\/]src[\\/]/],
+          // pages are seperated out (non-perfect, but indv. too small)
+          ['page', /[\\/]packages[\\/]page-.*[\\/]src[\\/]/],
+          // all other modules
+          ['modu', /[\\/]node_modules[\\/]/]
+        ].reduce((result, [name, test], index) => ({
+          ...result,
+          [`cacheGroup${index}`]: {
+            chunks: 'initial',
+            enforce: true,
+            maxSize: 1_500_000,
+            minSize: 0,
+            name,
+            priority: -1 * index,
+            test
+          }
+        }), {})
       }
     },
     output: {
-      chunkFilename: '[name].[chunkhash:8].js',
-      filename: '[name].[contenthash:8].js',
+      // this is for dynamic imports
+      chunkFilename: 'dyna.[contenthash].js',
+      // this is via splitChunks
+      filename: ({ chunk: { name } }) =>
+        ['main', 'runtime'].includes(name)
+          ? `${name === 'main' ? 'main' : 'load'}.[contenthash].js`
+          : `${name.split('-')[0]}.[contenthash].js`,
       globalObject: '(typeof self !== \'undefined\' ? self : this)',
       hashFunction: 'xxhash64',
       path: path.join(context, 'build'),
@@ -169,22 +131,24 @@ function createWebpack (context, mode = 'production') {
       }),
       new webpack.IgnorePlugin({
         contextRegExp: /moment$/,
-        resourceRegExp: /^\.\/locale$/
+        resourceRegExp: /^\.[\\/]locale$/
       }),
       new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: JSON.stringify(mode),
-          VERSION: JSON.stringify(pkgJson.version),
           WS_URL: JSON.stringify(process.env.WS_URL)
         }
       }),
       new webpack.optimize.SplitChunksPlugin(),
       new MiniCssExtractPlugin({
-        filename: '[name].[contenthash:8].css'
+        filename: 'extr.[contenthash].css'
       })
     ].concat(plugins),
     resolve: {
       alias,
+      extensionAlias: {
+        '.js': ['.js', '.ts', '.tsx']
+      },
       extensions: ['.js', '.jsx', '.mjs', '.ts', '.tsx'],
       fallback: {
         assert: require.resolve('assert/'),

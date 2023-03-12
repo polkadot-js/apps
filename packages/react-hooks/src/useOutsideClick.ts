@@ -3,7 +3,7 @@
 
 import { RefObject, useCallback, useEffect } from 'react';
 
-import { createNamedHook } from './createNamedHook';
+import { createNamedHook } from './createNamedHook.js';
 
 function isRefClicked (refs: React.RefObject<HTMLDivElement>[], e: MouseEvent): boolean {
   return refs.some((r) =>

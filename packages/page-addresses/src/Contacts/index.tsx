@@ -4,14 +4,13 @@
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 
 import React, { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button, FilterInput, SummaryBox, Table } from '@polkadot/react-components';
+import { Button, FilterInput, styled, SummaryBox, Table } from '@polkadot/react-components';
 import { useAddresses, useFavorites, useNextTick, useToggle } from '@polkadot/react-hooks';
 
-import CreateModal from '../modals/Create';
-import { useTranslation } from '../translate';
-import Address from './Address';
+import CreateModal from '../modals/Create.js';
+import { useTranslation } from '../translate.js';
+import Address from './Address.js';
 
 type SortedAddress = { address: string; isFavorite: boolean };
 
