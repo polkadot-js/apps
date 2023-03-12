@@ -5,6 +5,8 @@
     "lib": ["es2021", "dom"],
     "jsx": "react",
     "resolveJsonModule": true,
+    /* FIXME Dropzone is problematic with nodenext resolution */
+    "moduleResolution": "node",
 		"paths": {
       "@polkadot/apps": ["apps/src/index.tsx"],
       "@polkadot/apps/Root": ["apps/src/Root.tsx"],
