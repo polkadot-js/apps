@@ -35,7 +35,7 @@ async function manageEvents (api: ApiPromise, prev: PrevHashes, records: Vec<Eve
       section !== 'system' &&
       (
         !['balances', 'treasury'].includes(section) ||
-        !['Deposit', 'Withdraw'].includes(method)
+        !['Deposit', 'UpdatedInactive', 'Withdraw'].includes(method)
       ) &&
       (
         !['transactionPayment'].includes(section) ||
