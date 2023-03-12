@@ -5,12 +5,12 @@ import type { BN } from '@polkadot/util';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { useBalance, useBounties } from '@polkadot/app-bounties/hooks';
 import { Button, Input, InputAddress, InputBalance, MarkError, Modal, TxButton } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
 import { calculateBountyBond, countUtf8Bytes } from './helpers/index.js';
+import { useBalance, useBounties } from './hooks/index.js';
 import { useTranslation } from './translate.js';
 
 const MIN_TITLE_LEN = 1;

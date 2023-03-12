@@ -5,7 +5,7 @@ import { fireEvent, screen, within } from '@testing-library/react';
 
 import { POLKADOT_GENESIS } from '@polkadot/apps-config';
 import i18next from '@polkadot/react-components/i18n';
-import { toShortAddress } from '@polkadot/react-components/util/toShortAddress';
+import { toShortAddress } from '@polkadot/react-components/util';
 import { AddressFlags } from '@polkadot/react-hooks/types';
 import { anAccountWithBalance, anAccountWithBalanceAndMeta, anAccountWithInfo, anAccountWithInfoAndMeta, anAccountWithMeta, anAccountWithStaking } from '@polkadot/test-support/creation/account';
 import { makeStakingLedger as ledger } from '@polkadot/test-support/creation/stakingInfo/stakingLedger';

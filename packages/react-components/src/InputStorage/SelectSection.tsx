@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { QueryableStorageEntry } from '@polkadot/api/types';
-import type { DropdownOptions } from '../util/types';
+import type { DropdownOptions } from '../util/types.js';
 
 import React from 'react';
 
