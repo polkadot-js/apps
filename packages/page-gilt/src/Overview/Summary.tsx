@@ -10,7 +10,7 @@ import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi, useBestNumber } from '@polkadot/react-hooks';
 import { BN, BN_HUNDRED, BN_QUINTILL, formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   activeTotal?: ActiveGiltsTotal;

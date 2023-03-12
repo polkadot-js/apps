@@ -8,15 +8,16 @@ import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
-import BountiesApp from '@polkadot/app-bounties/index';
 import { lightTheme } from '@polkadot/apps/themes';
 import { ApiCtxRoot } from '@polkadot/react-api';
-import { createApi } from '@polkadot/test-support/api';
-import { MemoryStore } from '@polkadot/test-support/keyring';
+import { createApi } from '@polkadot/test-support/api/index';
+import { MemoryStore } from '@polkadot/test-support/keyring/index';
 import { aliceSigner } from '@polkadot/test-support/keyring/signers';
-import { WaitForApi } from '@polkadot/test-support/react';
+import { WaitForApi } from '@polkadot/test-support/react/index';
 import { execute } from '@polkadot/test-support/transaction/execute';
 import { BN } from '@polkadot/util';
+
+import BountiesApp from './index.js';
 
 const SUBSTRATE_PORT = Number.parseInt(process.env.TEST_SUBSTRATE_PORT || '30333');
 

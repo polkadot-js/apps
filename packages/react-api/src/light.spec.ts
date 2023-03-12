@@ -7,7 +7,7 @@ import process from 'process';
 
 import { assert } from '@polkadot/util';
 
-import { lightSpecs } from './light';
+import { lightSpecs } from './light/index.js';
 
 const srcRel = 'packages/react-api/src';
 const specDir = path.join(process.cwd(), srcRel);

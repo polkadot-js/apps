@@ -10,15 +10,15 @@ import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import { Menu, Popup } from '@polkadot/react-components';
 import { useCollectiveMembers, useToggle } from '@polkadot/react-hooks';
 
-import { determineUnassignCuratorAction } from '../helpers';
-import { useBountyStatus, useUserRole } from '../hooks';
-import { useTranslation } from '../translate';
-import { ValidUnassignCuratorAction } from '../types';
-import BountyRejectCurator from './BountyRejectCurator';
-import CloseBounty from './CloseBounty';
-import ExtendBountyExpiryAction from './ExtendBountyExpiryAction';
-import GiveUp from './GiveUp';
-import SlashCurator from './SlashCurator';
+import { determineUnassignCuratorAction } from '../helpers/index.js';
+import { useBountyStatus, useUserRole } from '../hooks/index.js';
+import { useTranslation } from '../translate.js';
+import { ValidUnassignCuratorAction } from '../types.js';
+import BountyRejectCurator from './BountyRejectCurator.js';
+import CloseBounty from './CloseBounty.js';
+import ExtendBountyExpiryAction from './ExtendBountyExpiryAction.js';
+import GiveUp from './GiveUp.js';
+import SlashCurator from './SlashCurator.js';
 
 interface Props {
   bestNumber: BN;

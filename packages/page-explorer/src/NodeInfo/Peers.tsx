@@ -8,7 +8,7 @@ import React, { useMemo, useRef } from 'react';
 import { styled, Table } from '@polkadot/react-components';
 import { formatNumber, stringPascalCase } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;

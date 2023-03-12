@@ -1,14 +1,14 @@
 // Copyright 2017-2023 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AssetInfo } from '../types';
+import type { AssetInfo } from '../types.js';
 
 import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
-import Asset from './Asset';
+import { useTranslation } from '../translate.js';
+import Asset from './Asset.js';
 
 interface Props {
   className?: string;

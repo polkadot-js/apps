@@ -8,7 +8,7 @@ import { AccountName, Button, IdentityIcon, Input } from '@polkadot/react-compon
 import { useToggle } from '@polkadot/react-hooks';
 import { AddressFlags } from '@polkadot/react-hooks/types';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   value: string,

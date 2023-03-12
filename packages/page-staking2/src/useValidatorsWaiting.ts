@@ -1,14 +1,14 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SessionInfo, Validator } from './types';
+import type { SessionInfo, Validator } from './types.js';
 
 import { useMemo } from 'react';
 
 import { createNamedHook } from '@polkadot/react-hooks';
 
-import { useCacheValue } from './useCache';
-import useValidatorsAll from './useValidatorsAll';
+import { useCacheValue } from './useCache.js';
+import useValidatorsAll from './useValidatorsAll.js';
 
 function excludeValidators (from: Validator[], exclude: Validator[]): Validator[] {
   return from.filter(({ stashId }) =>

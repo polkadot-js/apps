@@ -8,9 +8,9 @@ import { ThemeProvider } from 'styled-components';
 import { lightTheme } from '@polkadot/apps/themes';
 import { useToggle } from '@polkadot/react-hooks';
 
-import Button from '../Button';
-import i18next from '../i18n';
-import Modal from './index';
+import Button from '../Button/index.js';
+import i18next from '../i18n/index.js';
+import Modal from './index.js';
 
 function TestModal () {
   const [isOpen, toggleIsOpen] = useToggle();

@@ -1,11 +1,11 @@
 // Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import assert from 'node:assert/strict';
+import { strict as assert } from 'node:assert';
 
 import { isNumber, isString } from '@polkadot/util';
 
-import { createWsEndpoints } from '.';
+import { createWsEndpoints } from './index.js';
 
 interface Endpoint {
   name: string;

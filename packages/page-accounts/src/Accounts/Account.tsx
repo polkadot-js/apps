@@ -8,7 +8,7 @@ import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { Option } from '@polkadot/types';
 import type { ProxyDefinition, RecoveryConfig } from '@polkadot/types/interfaces';
 import type { KeyringAddress, KeyringJson$Meta } from '@polkadot/ui-keyring/types';
-import type { AccountBalance, Delegation } from '../types';
+import type { AccountBalance, Delegation } from '../types.js';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -19,22 +19,22 @@ import { useAccountInfo, useApi, useBalancesAll, useBestNumber, useCall, useLedg
 import { keyring } from '@polkadot/ui-keyring';
 import { BN, BN_ZERO, formatBalance, formatNumber, isFunction } from '@polkadot/util';
 
-import Backup from '../modals/Backup';
-import ChangePass from '../modals/ChangePass';
-import DelegateModal from '../modals/Delegate';
-import Derive from '../modals/Derive';
-import IdentityMain from '../modals/IdentityMain';
-import IdentitySub from '../modals/IdentitySub';
-import MultisigApprove from '../modals/MultisigApprove';
-import ProxyOverview from '../modals/ProxyOverview';
-import RecoverAccount from '../modals/RecoverAccount';
-import RecoverSetup from '../modals/RecoverSetup';
-import Transfer from '../modals/Transfer';
-import UndelegateModal from '../modals/Undelegate';
-import { useTranslation } from '../translate';
-import { createMenuGroup } from '../util';
-import useMultisigApprovals from './useMultisigApprovals';
-import useProxies from './useProxies';
+import Backup from '../modals/Backup.js';
+import ChangePass from '../modals/ChangePass.js';
+import DelegateModal from '../modals/Delegate.js';
+import Derive from '../modals/Derive.js';
+import IdentityMain from '../modals/IdentityMain.js';
+import IdentitySub from '../modals/IdentitySub.js';
+import MultisigApprove from '../modals/MultisigApprove.js';
+import ProxyOverview from '../modals/ProxyOverview.js';
+import RecoverAccount from '../modals/RecoverAccount.js';
+import RecoverSetup from '../modals/RecoverSetup.js';
+import Transfer from '../modals/Transfer.js';
+import UndelegateModal from '../modals/Undelegate.js';
+import { useTranslation } from '../translate.js';
+import { createMenuGroup } from '../util.js';
+import useMultisigApprovals from './useMultisigApprovals.js';
+import useProxies from './useProxies.js';
 
 interface Props {
   account: KeyringAddress;
@@ -544,7 +544,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               proxiedAccount={address}
             />
           )}
-          {isMultisigOpen && multiInfos && (
+          {isMultisig && isMultisigOpen && multiInfos && multiInfos.length !== 0 && (
             <MultisigApprove
               address={address}
               key='multisig-approve'
@@ -642,7 +642,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                 info='0'
               />
             )}
-            {multiInfos && multiInfos.length !== 0 && (
+            {isMultisig && multiInfos && multiInfos.length !== 0 && (
               <Badge
                 className='important'
                 color='purple'

@@ -7,8 +7,8 @@ import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 
-import BlockHeader from './BlockHeader';
-import { useTranslation } from './translate';
+import BlockHeader from './BlockHeader.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   headers: HeaderExtended[];

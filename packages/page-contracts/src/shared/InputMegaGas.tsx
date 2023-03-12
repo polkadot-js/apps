@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { UseWeight } from '../types';
+import type { UseWeight } from '../types.js';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { InputNumber, styled, Toggle } from '@polkadot/react-components';
 import { BN_MILLION, BN_ONE, BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;

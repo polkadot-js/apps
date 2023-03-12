@@ -7,7 +7,7 @@ import type { Option, StorageKey, u32 } from '@polkadot/types';
 import type { AccountId, EventRecord } from '@polkadot/types/interfaces';
 import type { PalletRankedCollectiveVoteRecord } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { PalletVote } from '../types';
+import type { PalletVote } from '../types.js';
 
 import { useMemo } from 'react';
 

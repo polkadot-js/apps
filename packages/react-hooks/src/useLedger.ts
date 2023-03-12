@@ -11,8 +11,8 @@ import { knownGenesis, knownLedger } from '@polkadot/networks/defaults';
 import uiSettings from '@polkadot/ui-settings';
 import { assert } from '@polkadot/util';
 
-import { createNamedHook } from './createNamedHook';
-import { useApi } from './useApi';
+import { createNamedHook } from './createNamedHook.js';
+import { useApi } from './useApi.js';
 
 interface StateBase {
   hasLedgerChain: boolean;

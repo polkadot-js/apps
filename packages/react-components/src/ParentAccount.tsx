@@ -3,9 +3,9 @@
 
 import React from 'react';
 
-import AccountName from './AccountName';
-import Icon from './Icon';
-import { styled } from './styled';
+import AccountName from './AccountName.js';
+import Icon from './Icon.js';
+import { styled } from './styled.js';
 
 interface ParentAccountProps {
   address: string,

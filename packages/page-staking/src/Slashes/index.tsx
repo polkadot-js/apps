@@ -3,7 +3,7 @@
 
 import type { StakerState } from '@polkadot/react-hooks/types';
 import type { UnappliedSlash } from '@polkadot/types/interfaces';
-import type { Slash, SlashEra } from './types';
+import type { Slash, SlashEra } from './types.js';
 
 import React, { useMemo, useRef, useState } from 'react';
 
@@ -12,8 +12,8 @@ import { Table, ToggleGroup } from '@polkadot/react-components';
 import { useAccounts, useApi, useCollectiveMembers } from '@polkadot/react-hooks';
 import { BN, BN_ONE, formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import Era from './Era';
+import { useTranslation } from '../translate.js';
+import Era from './Era.js';
 
 interface Props {
   ownStashes?: StakerState[];

@@ -9,11 +9,11 @@ import React, { useEffect, useState } from 'react';
 import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
-import InputAddress from './InputAddress';
-import Inset, { InsetProps } from './Inset';
-import Labelled from './Labelled';
-import Static from './Static';
-import { useTranslation } from './translate';
+import InputAddress from './InputAddress/index.js';
+import Inset, { InsetProps } from './Inset.js';
+import Labelled from './Labelled.js';
+import Static from './Static.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;

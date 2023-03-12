@@ -4,7 +4,7 @@
 import type { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import type { Call, ExtrinsicPayload } from '@polkadot/types/interfaces';
 import type { HexString } from '@polkadot/util/types';
-import type { DecodedExtrinsic } from './types';
+import type { DecodedExtrinsic } from './types.js';
 
 import React, { useCallback, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -13,8 +13,8 @@ import { Call as CallDisplay, Input, InputExtrinsic, MarkError, styled } from '@
 import { useApi } from '@polkadot/react-hooks';
 import { assert, compactToU8a, isHex, u8aConcat, u8aEq } from '@polkadot/util';
 
-import Decoded from './Decoded';
-import { useTranslation } from './translate';
+import Decoded from './Decoded.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;

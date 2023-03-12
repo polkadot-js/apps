@@ -11,7 +11,7 @@ import { Button, Input, InputAddress, InputBalance, MarkWarning, Modal, TxButton
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 import { formatBalance, isHex } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   cap: Balance;

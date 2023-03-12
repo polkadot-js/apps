@@ -8,8 +8,8 @@ import React, { useMemo } from 'react';
 import { externalEmptySVG } from '@polkadot/apps-config/ui/logos/external';
 import { useApi } from '@polkadot/react-hooks';
 
-import Icon from './Icon';
-import { styled } from './styled';
+import Icon from './Icon.js';
+import { styled } from './styled.js';
 
 interface Props {
   className?: string;

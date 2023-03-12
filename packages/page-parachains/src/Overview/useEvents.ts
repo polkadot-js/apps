@@ -7,7 +7,7 @@ import type { Event } from '@polkadot/types/interfaces';
 import type { PolkadotPrimitivesV2CandidateReceipt } from '@polkadot/types/lookup';
 import type { IEvent } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
-import type { EventMapInfo } from './types';
+import type { EventMapInfo } from './types.js';
 
 import { useEffect, useState } from 'react';
 

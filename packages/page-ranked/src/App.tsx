@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-ranked authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PalletColl, PalletPoll } from './types';
+import type { PalletColl, PalletPoll } from './types.js';
 
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
@@ -9,9 +9,9 @@ import { Route, Switch } from 'react-router';
 import Referenda, { useCounter } from '@polkadot/app-referenda/Referenda';
 import { Tabs } from '@polkadot/react-components';
 
-import Members from './Members';
-import { useTranslation } from './translate';
-import useMembers from './useMembers';
+import Members from './Members/index.js';
+import { useTranslation } from './translate.js';
+import useMembers from './useMembers.js';
 
 interface Props {
   basePath: string;

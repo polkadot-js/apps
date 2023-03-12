@@ -10,7 +10,7 @@ import { Button, Extrinsic, InputAddress, InputNumber, Modal, TxButton } from '@
 import { useApi, useCollectiveInstance, useModal } from '@polkadot/react-hooks';
 import { BN } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   defaultThreshold?: number;

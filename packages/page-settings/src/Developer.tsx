@@ -12,7 +12,7 @@ import { Button, CopyButton, Editor, InputFile, styled } from '@polkadot/react-c
 import { useApi } from '@polkadot/react-hooks';
 import { isJsonObject, stringToU8a, u8aToString } from '@polkadot/util';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 const EMPTY_CODE = '{\n\n}';
 const EMPTY_TYPES = {};

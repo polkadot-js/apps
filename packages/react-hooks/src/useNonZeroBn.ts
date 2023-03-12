@@ -7,8 +7,8 @@ import { useMemo } from 'react';
 
 import { BN_ZERO, bnToBn } from '@polkadot/util';
 
-import { createNamedHook } from './createNamedHook';
-import { FormField, useFormField } from './useFormField';
+import { createNamedHook } from './createNamedHook.js';
+import { FormField, useFormField } from './useFormField.js';
 
 function isValid (value: BN): boolean {
   return !value.isZero();

@@ -3,15 +3,15 @@
 
 import type { StakerState } from '@polkadot/react-hooks/types';
 import type { PalletStakingUnappliedSlash } from '@polkadot/types/lookup';
-import type { SortedTargets } from '../types';
+import type { SortedTargets } from '../types.js';
 
 import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 import { BN } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import Account from './Account';
+import { useTranslation } from '../translate.js';
+import Account from './Account/index.js';
 
 interface Props {
   allSlashes: [BN, PalletStakingUnappliedSlash[]][];

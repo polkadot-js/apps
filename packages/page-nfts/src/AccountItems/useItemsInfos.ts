@@ -4,8 +4,8 @@
 import type { Option } from '@polkadot/types';
 import type { PalletUniquesItemMetadata } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { AccountItem } from '../types';
-import type { ItemInfo, ItemSupportedIpfsData } from './types';
+import type { AccountItem } from '../types.js';
+import type { ItemInfo, ItemSupportedIpfsData } from './types.js';
 
 import { useEffect, useMemo, useState } from 'react';
 

@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { OwnPool, Params } from './types';
+import type { OwnPool, Params } from './types.js';
 
 import React, { useMemo, useRef, useState } from 'react';
 
 import { Button, Table, ToggleGroup } from '@polkadot/react-components';
 import { arrayFlatten } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import Create from './Create';
-import Pool from './Pool';
-import useMembers from './useMembers';
+import { useTranslation } from '../translate.js';
+import Create from './Create.js';
+import Pool from './Pool.js';
+import useMembers from './useMembers.js';
 
 interface Props {
   className?: string;

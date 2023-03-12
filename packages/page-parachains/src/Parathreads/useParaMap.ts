@@ -4,7 +4,7 @@
 import type { Option } from '@polkadot/types';
 import type { AccountId, BalanceOf, ParaId } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
-import type { LeaseInfo } from '../types';
+import type { LeaseInfo } from '../types.js';
 
 import { useCallback } from 'react';
 

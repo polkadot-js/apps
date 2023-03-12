@@ -5,8 +5,9 @@ import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 
 import { ApiPromise } from '@polkadot/api';
 import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { aHash } from '@polkadot/test-support/creation/hashes';
-import { alice, bob } from '@polkadot/test-support/keyring/addresses';
+
+import { alice, bob } from '../../keyring/addresses.js';
+import { aHash } from '../hashes.js';
 
 export interface ProposalFactory {
   aProposal: (extrinsic: SubmittableExtrinsic<'promise'>, ayes?: string[], nays?: string[]) => DeriveCollectiveProposal

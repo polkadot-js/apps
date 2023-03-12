@@ -8,7 +8,7 @@ import React from 'react';
 import { styled } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
-import useChainDetails from './useChainDetails';
+import useChainDetails from './useChainDetails.js';
 
 interface Props {
   className?: string;

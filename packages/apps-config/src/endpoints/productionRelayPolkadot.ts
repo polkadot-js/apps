@@ -1,12 +1,12 @@
 // Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { EndpointOption } from './types';
+import type { EndpointOption } from './types.js';
 
-import { POLKADOT_GENESIS } from '../api/constants';
-import { chainsAcalaSVG, chainsBitgreenPNG, chainsComposableFinancePNG, chainsEquilibriumSVG, chainsFrequencySVG, chainsGeminisPNG, chainsOakPNG, chainsOrigintrailPNG, chainsPeaqPNG, chainsPendulumSVG, chainsPolkadotCircleSVG, chainsSnakenetSVG, chainsTotemSVG, chainsWatrPNG } from '../ui/logos/chains';
-import { nodesAjunaPNG, nodesAresOdysseySVG, nodesAstarPNG, nodesAventusSVG, nodesBifrostSVG, nodesBridgeHubSVG, nodesCentrifugePNG, nodesCloverSVG, nodesCoinversationPNG, nodesCrustParachainSVG, nodesDarwiniaSVG, nodesEfinitySVG, nodesHashedPNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKiltPNG, nodesKylinPNG, nodesLitentryPNG, nodesMantaPNG, nodesMoonbeamSVG, nodesNodleSVG, nodesOmnibtcSVG, nodesParallelSVG, nodesPhalaSVG, nodesPolkadexSVG, nodesStatemineSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesUniqueSVG } from '../ui/logos/nodes';
-import { getTeleports } from './util';
+import { POLKADOT_GENESIS } from '../api/constants.js';
+import { chainsAcalaSVG, chainsBitgreenPNG, chainsComposableFinancePNG, chainsEquilibriumSVG, chainsFrequencySVG, chainsGeminisPNG, chainsInvarchJPEG, chainsOakPNG, chainsOrigintrailPNG, chainsPeaqPNG, chainsPendulumSVG, chainsPolkadotCircleSVG, chainsSnakenetSVG, chainsTotemSVG, chainsWatrPNG } from '../ui/logos/chains/index.js';
+import { nodesAjunaPNG, nodesAresOdysseySVG, nodesAstarPNG, nodesAventusSVG, nodesBifrostSVG, nodesBridgeHubSVG, nodesCentrifugePNG, nodesCloverSVG, nodesCoinversationPNG, nodesCrustParachainSVG, nodesDarwiniaSVG, nodesEfinitySVG, nodesHashedPNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKiltPNG, nodesKylinPNG, nodesLitentryPNG, nodesMantaPNG, nodesMoonbeamSVG, nodesNodleSVG, nodesOmnibtcSVG, nodesParallelSVG, nodesPhalaSVG, nodesPolkadexSVG, nodesStatemineSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesUniqueSVG } from '../ui/logos/nodes/index.js';
+import { getTeleports } from './util.js';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
 // Polkadot) we try to keep this to live chains only, with RPCs hosted by the community/chain vendor
@@ -86,9 +86,12 @@ export const prodParasPolkadot: EndpointOption[] = [
     homepage: 'https://www.aventus.io/',
     info: 'aventus',
     paraId: 2056,
-    providers: {},
+    providers: {
+      Aventus: 'wss://public-rpc.mainnet.aventus.io'
+    },
     text: 'Aventus',
     ui: {
+      color: '#1d2733',
       logo: nodesAventusSVG
     }
   },
@@ -282,7 +285,8 @@ export const prodParasPolkadot: EndpointOption[] = [
     info: 'hashed',
     paraId: 2093,
     providers: {
-      'Hashed Systems': 'wss://c1.hashed.network'
+      'Hashed Systems 1': 'wss://c1.hashed.network',
+      'Hashed Systems 2': 'wss://c2.hashed.network' // https://github.com/polkadot-js/apps/issues/9094
     },
     text: 'Hashed Network',
     ui: {
@@ -334,6 +338,17 @@ export const prodParasPolkadot: EndpointOption[] = [
     ui: {
       color: '#3E96FF',
       logo: nodesInterlaySVG
+    }
+  },
+  {
+    homepage: 'https://invarch.network/',
+    info: 'invarch',
+    paraId: 3340,
+    providers: {},
+    text: 'InvArch',
+    ui: {
+      color: 'linear-gradient(156deg, rgba(245,129,246,1) 0%, rgba(91,221,238,1) 100%)',
+      logo: chainsInvarchJPEG
     }
   },
   {
@@ -501,7 +516,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     info: 'peaq',
     paraId: 3338,
     providers: {},
-    text: 'Peaq',
+    text: 'peaq',
     ui: {
       logo: chainsPeaqPNG
     }

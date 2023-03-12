@@ -6,7 +6,7 @@ import type { ComponentRenderer, DefaultProps, RenderFn } from '@polkadot/react-
 import type { ConstValue } from '@polkadot/react-components/InputConsts/types';
 import type { Option, Raw } from '@polkadot/types';
 import type { Registry } from '@polkadot/types/types';
-import type { QueryTypes, StorageModuleQuery } from './types';
+import type { QueryTypes, StorageModuleQuery } from './types.js';
 
 import React, { useCallback, useMemo } from 'react';
 

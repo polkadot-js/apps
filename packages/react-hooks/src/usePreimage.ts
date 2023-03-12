@@ -7,7 +7,7 @@ import type { AccountId, Balance, Call, Hash } from '@polkadot/types/interfaces'
 import type { FrameSupportPreimagesBounded, PalletPreimageRequestStatus } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
-import type { Preimage, PreimageDeposit, PreimageStatus } from './types';
+import type { Preimage, PreimageDeposit, PreimageStatus } from './types.js';
 
 import { useMemo } from 'react';
 

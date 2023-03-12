@@ -4,16 +4,16 @@
 import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { Weight } from '@polkadot/types/interfaces';
-import type { BatchOptions, BatchType } from './types';
+import type { BatchOptions, BatchType } from './types.js';
 
 import { useEffect, useMemo, useState } from 'react';
 
 import { isFunction, nextTick } from '@polkadot/util';
 
-import { createNamedHook } from './createNamedHook';
-import { useAccounts } from './useAccounts';
-import { useApi } from './useApi';
-import { convertWeight } from './useWeight';
+import { createNamedHook } from './createNamedHook.js';
+import { useAccounts } from './useAccounts.js';
+import { useApi } from './useApi.js';
+import { convertWeight } from './useWeight.js';
 
 function createBatches (api: ApiPromise, txs: SubmittableExtrinsic<'promise'>[], batchSize: number, type: BatchType = 'default'): SubmittableExtrinsic<'promise'>[] {
   if (batchSize === 1 || !isFunction(api.tx.utility?.batch)) {

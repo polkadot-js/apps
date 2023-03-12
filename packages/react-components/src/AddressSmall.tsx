@@ -5,10 +5,10 @@ import type { AccountId, Address } from '@polkadot/types/interfaces';
 
 import React from 'react';
 
-import AccountName from './AccountName';
-import IdentityIcon from './IdentityIcon';
-import ParentAccount from './ParentAccount';
-import { styled } from './styled';
+import IdentityIcon from './IdentityIcon/index.js';
+import AccountName from './AccountName.js';
+import ParentAccount from './ParentAccount.js';
+import { styled } from './styled.js';
 
 interface Props {
   children?: React.ReactNode;

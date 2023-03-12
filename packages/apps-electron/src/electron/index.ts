@@ -3,10 +3,10 @@
 
 import { app, shell } from 'electron';
 
-import { registerAccountStoreHandlers } from '../main/account-store';
-import { setupAutoUpdater } from './autoUpdater';
-import { setupContentSecurityPolicy } from './contentSecurityPolicy';
-import { createWindow } from './window';
+import { registerAccountStoreHandlers } from '../main/account-store.js';
+import { setupAutoUpdater } from './autoUpdater.js';
+import { setupContentSecurityPolicy } from './contentSecurityPolicy.js';
+import { createWindow } from './window.js';
 
 const ENV = process.env.NODE_ENV || 'production';
 

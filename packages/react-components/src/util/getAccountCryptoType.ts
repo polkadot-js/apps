@@ -3,7 +3,7 @@
 
 import { keyring } from '@polkadot/ui-keyring';
 
-import { AccountIdIsh } from '../types';
+import { AccountIdIsh } from '../types.js';
 
 export function getAccountCryptoType (accountId: AccountIdIsh): string {
   try {

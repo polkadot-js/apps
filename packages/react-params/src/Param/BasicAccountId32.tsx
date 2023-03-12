@@ -1,11 +1,11 @@
 // Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Props } from '../types';
+import type { Props } from '../types.js';
 
 import React from 'react';
 
-import BasicAccountIdBase from './BasicAccountIdBase';
+import BasicAccountIdBase from './BasicAccountIdBase.js';
 
 function BasicAccountId32 (props: Props): React.ReactElement<Props> {
   return (

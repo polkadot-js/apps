@@ -2,43 +2,43 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry, TypeDef } from '@polkadot/types/types';
-import type { ComponentMap, Props } from '../types';
+import type { ComponentMap, Props } from '../types.js';
 
 import { getTypeDef } from '@polkadot/types';
 import { TypeDefInfo } from '@polkadot/types/types';
 import { isBn } from '@polkadot/util';
 
-import Account from './Account';
-import Amount from './Amount';
-import Balance from './Balance';
-import AccountId20 from './BasicAccountId20';
-import AccountId32 from './BasicAccountId32';
-import Bool from './Bool';
-import Bytes from './Bytes';
-import Call from './Call';
-import Cid from './Cid';
-import Code from './Code';
-import DispatchError from './DispatchError';
-import DispatchResult from './DispatchResult';
-import Enum from './Enum';
-import Hash160 from './Hash160';
-import Hash256 from './Hash256';
-import Hash512 from './Hash512';
-import KeyValue from './KeyValue';
-import KeyValueArray from './KeyValueArray';
-import Moment from './Moment';
-import Null from './Null';
-import OpaqueCall from './OpaqueCall';
-import Option from './Option';
-import Raw from './Raw';
-import Struct from './Struct';
-import Text from './Text';
-import Tuple from './Tuple';
-import Unknown from './Unknown';
-import Vector from './Vector';
-import VectorFixed from './VectorFixed';
-import Vote from './Vote';
-import VoteThreshold from './VoteThreshold';
+import Account from './Account.js';
+import Amount from './Amount.js';
+import Balance from './Balance.js';
+import AccountId20 from './BasicAccountId20.js';
+import AccountId32 from './BasicAccountId32.js';
+import Bool from './Bool.js';
+import Bytes from './Bytes.js';
+import Call from './Call.js';
+import Cid from './Cid.js';
+import Code from './Code.js';
+import DispatchError from './DispatchError.js';
+import DispatchResult from './DispatchResult.js';
+import Enum from './Enum.js';
+import Hash160 from './Hash160.js';
+import Hash256 from './Hash256.js';
+import Hash512 from './Hash512.js';
+import KeyValue from './KeyValue.js';
+import KeyValueArray from './KeyValueArray.js';
+import Moment from './Moment.js';
+import Null from './Null.js';
+import OpaqueCall from './OpaqueCall.js';
+import Option from './Option.js';
+import Raw from './Raw.js';
+import Struct from './Struct.js';
+import Text from './Text.js';
+import Tuple from './Tuple.js';
+import Unknown from './Unknown.js';
+import Vector from './Vector.js';
+import VectorFixed from './VectorFixed.js';
+import Vote from './Vote.js';
+import VoteThreshold from './VoteThreshold.js';
 
 interface TypeToComponent {
   c: React.ComponentType<any>;

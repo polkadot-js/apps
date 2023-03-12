@@ -5,7 +5,7 @@ import { calcPassing } from '@polkadot/api-derive/democracy/util';
 import { TypeRegistry } from '@polkadot/types/create';
 import { BN } from '@polkadot/util';
 
-import { approxChanges } from './util';
+import { approxChanges } from './util.js';
 
 const ACTUAL = {
   sqrtElectorate: new BN('2949443240'),
