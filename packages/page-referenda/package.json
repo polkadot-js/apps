@@ -13,6 +13,6 @@
   "type": "module",
   "version": "0.124.2-138-x",
   "devDependencies": {
-    "chart.js": "^3.9.1"
+    "chart.js": "^4.2.1"
   }
 }
