@@ -58,7 +58,7 @@ const StyledDiv = styled.div`
     }
 
     .ui.selection.dropdown {
-      margin:0;
+      /* margin:0; */
       min-width: 7.857rem;
       z-index: 110;
 
@@ -86,25 +86,34 @@ const StyledDiv = styled.div`
   }
 
   button {
+    margin: 0.25rem 0;
     position: relative;
     width: 2.857rem;
     height: 3.893rem;
 
     background-color: var(--bg-input);
-
     border-width: 1px 1px 1px 0;
     border-style: solid;
     border-color: var(--border-input);
     border-radius: 0 4px 4px 0;
 
+    align-items: center;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+
     &:hover {
       cursor: pointer;
     }
 
-    .arrow.down {
-      position: absolute;
-      top: calc(50% - 0.5rem);
-      left: calc(50% - 0.313rem);
+    .arrow {
+      &:first-child {
+        margin-bottom: -20%;
+      }
+
+      &:last-child {
+        margin-top: -20%;
+      }
     }
   }
 
@@ -123,14 +132,14 @@ const StyledDiv = styled.div`
 
   button:hover,
   .ui--Labelled.ui--Dropdown:hover {
-      &::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        height: 100%;
-        width: 1px;
-        z-index: 100;
-      }
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 1px;
+      z-index: 100;
+    }
   }
 
   button:hover::after {
