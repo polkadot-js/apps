@@ -26,7 +26,6 @@ export const Subscan: ExternalDef = {
     Crust: 'crust',
     'Crust Maxwell': 'maxwell',
     'Crust Shadow': 'shadow',
-    'Picasso Testnet (Rococo Relay)': 'picasso',
     Darwinia: 'darwinia',
     'Darwinia Crab': 'crab',
     'Darwinia Parachain': 'darwinia-parachain',
