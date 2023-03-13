@@ -235,7 +235,7 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
             />
           }
           onChange={setValDiscord}
-          placeholder={t('YourDiscordHandle')}
+          placeholder={t<string>('YourDiscordHandle')}
           value={hasDiscord ? valDiscord : '<none>'}
         />
         <Input
