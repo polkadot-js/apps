@@ -353,6 +353,7 @@
        1	NightingaleAsh                	Add loom network kusama (#5591)
        1	Nikhil Saboo                  	Add Zeitgeist battery station endpoint (#6265)
        1	Nikolay Pasynkov              	Enable Opal by Unique (#7833)
+       1	Nisheeth Barthwal             	support adding discord handle in identity additional field (#8381)
        1	octavei                       	add aband info (#8929)
        1	ok.man                        	update-mandala (#6785)
        1	Owen                          	add kico2 (#8374)
