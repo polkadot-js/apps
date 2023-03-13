@@ -1,4 +1,4 @@
-    4189	Jaco                          	Filter treasury.UpdatedInactive events (#9159)
+    4190	Jaco                          	Fix accounts sortby label alignment issues (#9163)
       79	Thibaut Sardan                	Nit, use as LedgerTypes casting (#4425)
       62	kwingram25                    	iadd fix (#2911)
       48	pan                           	update bifrost providers (#8065)
