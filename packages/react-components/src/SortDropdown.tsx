@@ -58,7 +58,6 @@ const StyledDiv = styled.div`
     }
 
     .ui.selection.dropdown {
-      /* margin:0; */
       min-width: 7.857rem;
       z-index: 110;
 
