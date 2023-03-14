@@ -57,7 +57,7 @@ function getDisplayValue (now = 0, value: BN | Date | number = 0): React.ReactNo
     ? formatValue(elapsed, 's', elapsed < 15)
     : (elapsed < 3600)
       ? formatValue(elapsed / 60, 'min')
-      : formatValue(elapsed / 3600, 'hr');
+      : formatValue(elapsed / 3600, 'h');
 }
 
 tick();

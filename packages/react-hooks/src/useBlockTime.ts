@@ -27,24 +27,16 @@ export function calcBlockTime (blockTime: BN, blocks: BN, t: TFunction): Result 
     blockTime.toNumber(),
     `${value < 0 ? '+' : ''}${[
       days
-        ? (days > 1)
-          ? t<string>('{{days}} days', { replace: { days } })
-          : t<string>('1 day')
+        ? t<string>('{{days}} d', { replace: { days } })
         : null,
       hours
-        ? (hours > 1)
-          ? t<string>('{{hours}} hrs', { replace: { hours } })
-          : t<string>('1 hr')
+        ? t<string>('{{hours}} h', { replace: { hours } })
         : null,
       minutes
-        ? (minutes > 1)
-          ? t<string>('{{minutes}} mins', { replace: { minutes } })
-          : t<string>('1 min')
+        ? t<string>('{{minutes}} min', { replace: { minutes } })
         : null,
       seconds
-        ? (seconds > 1)
-          ? t<string>('{{seconds}} s', { replace: { seconds } })
-          : t<string>('1 s')
+        ? t<string>('{{seconds}} s', { replace: { seconds } })
         : null
     ]
       .filter((s): s is string => !!s)
