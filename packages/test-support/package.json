@@ -1,5 +1,8 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
+  "engines": {
+    "node": ">=14"
+  },
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/test-support#readme",
   "license": "Apache-2.0",
   "name": "@polkadot/test-support",
@@ -11,7 +14,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.124.2-148-x",
+  "version": "0.124.2-149-x",
   "dependencies": {
     "@testing-library/react": "^14.0.0",
     "testcontainers": "^9.1.3"

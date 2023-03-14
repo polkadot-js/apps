@@ -1,5 +1,8 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
+  "engines": {
+    "node": ">=14"
+  },
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/apps#readme",
   "license": "Apache-2.0",
   "name": "@polkadot/apps",
@@ -11,17 +14,17 @@
   },
   "sideEffects": true,
   "type": "module",
-  "version": "0.124.2-148-x",
+  "version": "0.124.2-149-x",
   "dependencies": {
-    "@polkadot/apps-config": "^0.124.2-148-x",
-    "@polkadot/apps-routing": "^0.124.2-148-x",
+    "@polkadot/apps-config": "^0.124.2-149-x",
+    "@polkadot/apps-routing": "^0.124.2-149-x",
     "@polkadot/dev": "^0.71.9",
-    "@polkadot/react-api": "^0.124.2-148-x",
-    "@polkadot/react-components": "^0.124.2-148-x",
-    "@polkadot/react-hooks": "^0.124.2-148-x",
-    "@polkadot/react-params": "^0.124.2-148-x",
-    "@polkadot/react-query": "^0.124.2-148-x",
-    "@polkadot/react-signer": "^0.124.2-148-x",
+    "@polkadot/react-api": "^0.124.2-149-x",
+    "@polkadot/react-components": "^0.124.2-149-x",
+    "@polkadot/react-hooks": "^0.124.2-149-x",
+    "@polkadot/react-params": "^0.124.2-149-x",
+    "@polkadot/react-query": "^0.124.2-149-x",
+    "@polkadot/react-signer": "^0.124.2-149-x",
     "punycode": "^2.3.0",
     "query-string": "^8.1.0"
   },

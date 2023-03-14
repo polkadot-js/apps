@@ -3,7 +3,7 @@
   "bugs": "https://github.com/polkadot-js/apps/issues",
   "description": "An Apps portal into the Polkadot network",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=14"
   },
   "homepage": "https://github.com/polkadot-js/apps#readme",
   "license": "Apache-2.0",
@@ -15,9 +15,9 @@
     "url": "https://github.com/polkadot-js/apps.git"
   },
   "sideEffects": false,
-  "version": "0.124.2-148-x",
+  "version": "0.124.2-149-x",
   "versions": {
-    "git": "0.124.2-148-x",
+    "git": "0.124.2-149-x",
     "npm": "0.124.1"
   },
   "workspaces": [

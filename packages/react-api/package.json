@@ -1,5 +1,8 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
+  "engines": {
+    "node": ">=14"
+  },
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/react-api#readme",
   "license": "Apache-2.0",
   "name": "@polkadot/react-api",
@@ -11,7 +14,7 @@
   },
   "sideEffects": true,
   "type": "module",
-  "version": "0.124.2-148-x",
+  "version": "0.124.2-149-x",
   "browser": {
     "fs": false,
     "path": false

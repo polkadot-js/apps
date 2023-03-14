@@ -1,5 +1,8 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
+  "engines": {
+    "node": ">=14"
+  },
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-staking2#readme",
   "license": "Apache-2.0",
   "name": "@polkadot/app-staking2",
@@ -11,5 +14,5 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.124.2-148-x"
+  "version": "0.124.2-149-x"
 }
