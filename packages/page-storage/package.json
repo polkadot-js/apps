@@ -11,9 +11,9 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.124.2-144-x",
+  "version": "0.124.2-145-x",
   "dependencies": {
-    "@polkadot/react-components": "^0.124.2-144-x",
-    "@polkadot/react-params": "^0.124.2-144-x"
+    "@polkadot/react-components": "^0.124.2-145-x",
+    "@polkadot/react-params": "^0.124.2-145-x"
   }
 }

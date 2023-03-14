@@ -34,6 +34,7 @@ export { nodesCrownSterlingPNG } from './generated/crown-sterlingPNG.js';
 export { nodesCrustMaxwellSVG } from './generated/crust-maxwellSVG.js';
 export { nodesCrustParachainSVG } from './generated/crustParachainSVG.js';
 export { nodesCrustSVG } from './generated/crustSVG.js';
+export { nodesDaliPNG } from './generated/daliPNG.js';
 export { nodesDarwiniaSVG } from './generated/darwiniaSVG.js';
 export { nodesDatahighwayPNG } from './generated/datahighwayPNG.js';
 export { nodesDockPNG } from './generated/dockPNG.js';
