@@ -139,7 +139,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
             ? callData
               ? multiMod.asMulti.meta.args.length === 5
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-                ? multiMod.asMulti(threshold, others, multisig.when, callData.toHex(), weight as any)
+                ? multiMod.asMulti(threshold, others, multisig.when, callData.toHex(), weight)
                 : multiMod.asMulti.meta.args.length === 6
                   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                   // @ts-ignore (We are doing toHex here since we have a Vec<u8> input)
@@ -150,7 +150,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
               : null
             : multiMod.approveAsMulti.meta.args.length === 5
               // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-              ? multiMod.approveAsMulti(threshold, others, multisig.when, hash, weight as any)
+              ? multiMod.approveAsMulti(threshold, others, multisig.when, hash, weight)
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               : multiMod.approveAsMulti(threshold, others, multisig.when, hash)

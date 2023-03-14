@@ -4,7 +4,7 @@
 import type { Call } from '@polkadot/types/interfaces';
 import type { ICompact, INumber } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
-import type { V2WeightConstruct, WeightResult } from './types';
+import type { V2WeightConstruct, WeightResult } from './types.js';
 
 import { useEffect, useState } from 'react';
 

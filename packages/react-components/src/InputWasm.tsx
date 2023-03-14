@@ -9,6 +9,8 @@ import { compactAddLength, isWasm } from '@polkadot/util';
 
 import InputFile from './InputFile.js';
 
+const acceptedFiles = ['application/wasm'];
+
 interface Props extends InputFilePropsBase {
   onChange: (contents: Uint8Array, isValid: boolean, name?: string) => void;
 }
@@ -26,7 +28,7 @@ function InputWasm ({ onChange, ...props }: Props): React.ReactElement<Props> {
   return (
     <InputFile
       {...props}
-      accept='application/wasm'
+      accept={acceptedFiles}
       onChange={_onChange}
     />
   );

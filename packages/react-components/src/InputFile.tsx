@@ -1,8 +1,10 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DropzoneRef } from 'react-dropzone';
+
 import React, { createRef, useCallback, useState } from 'react';
-import Dropzone, { DropzoneRef } from 'react-dropzone';
+import { useDropzone } from 'react-dropzone';
 
 import { formatNumber, hexToU8a, isHex, u8aToString } from '@polkadot/util';
 
@@ -26,7 +28,7 @@ export interface InputFilePropsBase {
 export interface InputFileProps extends InputFilePropsBase {
   // Reference Example Usage: https://github.com/react-dropzone/react-dropzone/tree/master/examples/Accept
   // i.e. MIME types: 'application/json, text/plain', or '.json, .txt'
-  accept?: string;
+  accept?: string[];
   onChange?: (contents: Uint8Array, name: string) => void;
 }
 
@@ -64,7 +66,7 @@ function InputFile ({ accept, className = '', clearContent, isDisabled, isError 
   const dropRef = createRef<DropzoneRef>();
   const [file, setFile] = useState<FileState | undefined>();
 
-  const _onDrop = useCallback(
+  const onDrop = useCallback(
     (files: File[]): void => {
       files.forEach((file): void => {
         const reader = new FileReader();
@@ -91,32 +93,28 @@ function InputFile ({ accept, className = '', clearContent, isDisabled, isError 
     [dropRef, onChange]
   );
 
+  const { getInputProps, getRootProps } = useDropzone({
+    accept: accept && accept.reduce((all, mime) => ({ ...all, [mime]: [] }), {}),
+    disabled: isDisabled,
+    onDrop
+  });
+
   const dropZone = (
-    <Dropzone
-      accept={accept}
-      disabled={isDisabled}
-      multiple={false}
-      onDrop={_onDrop}
-      ref={dropRef}
-    >
-      {({ getInputProps, getRootProps }): JSX.Element => (
-        <StyledDiv {...getRootProps({ className: `${className} ui--InputFile ${isError ? 'error' : ''}` })}>
-          <input {...getInputProps()} />
-          <em className='label'>
-            {
-              !file || clearContent
-                ? placeholder || t<string>('click to select or drag and drop the file here')
-                : placeholder || t<string>('{{name}} ({{size}} bytes)', {
-                  replace: {
-                    name: file.name,
-                    size: formatNumber(file.size)
-                  }
-                })
-            }
-          </em>
-        </StyledDiv>
-      )}
-    </Dropzone>
+    <StyledDiv {...getRootProps({ className: `${className} ui--InputFile ${isError ? 'error' : ''}` })}>
+      <input {...getInputProps()} />
+      <em className='label'>
+        {
+          !file || clearContent
+            ? placeholder || t<string>('click to select or drag and drop the file here')
+            : placeholder || t<string>('{{name}} ({{size}} bytes)', {
+              replace: {
+                name: file.name,
+                size: formatNumber(file.size)
+              }
+            })
+        }
+      </em>
+    </StyledDiv>
   );
 
   return label
