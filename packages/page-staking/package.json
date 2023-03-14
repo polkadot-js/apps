@@ -11,10 +11,10 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.124.2-147-x",
+  "version": "0.124.2-148-x",
   "dependencies": {
-    "@polkadot/app-explorer": "^0.124.2-147-x",
-    "@polkadot/react-components": "^0.124.2-147-x",
-    "@polkadot/react-query": "^0.124.2-147-x"
+    "@polkadot/app-explorer": "^0.124.2-148-x",
+    "@polkadot/react-components": "^0.124.2-148-x",
+    "@polkadot/react-query": "^0.124.2-148-x"
   }
 }
