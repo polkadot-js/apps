@@ -2,12 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import CrustPinner from '@crustio/crust-pin';
-import pinataSDK from '@pinata/sdk';
+import PinataSDK from '@pinata/sdk';
 import cloudflare from 'dnslink-cloudflare';
 import fs from 'fs';
 
 import { execSync } from '@polkadot/dev/scripts/util.mjs';
 
+// @ts-ignore
 import { createWsEndpoints } from '../packages/apps-config/build/endpoints/index.js';
 
 console.log('$ scripts/ipfsUpload.mjs', process.argv.slice(2).join(' '));
@@ -24,13 +25,16 @@ const repo = `https://${process.env.GH_PAT}@github.com/${process.env.GITHUB_REPO
 
 async function wait (delay = 2500) {
   return new Promise((resolve) => {
-    setTimeout(() => resolve(), delay);
+    setTimeout(() => resolve(undefined), delay);
   });
 }
 
 function createPinata () {
   try {
-    return pinataSDK(process.env.PINATA_API_KEY, process.env.PINATA_SECRET_KEY);
+    return new PinataSDK({
+      pinataApiKey: process.env.PINATA_API_KEY,
+      pinataSecretApiKey: process.env.PINATA_SECRET_KEY
+    });
   } catch {
     console.error('Unable to create Pinata');
   }

@@ -1259,16 +1259,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pinata/sdk@npm:^1.2.1":
-  version: 1.2.1
-  resolution: "@pinata/sdk@npm:1.2.1"
+"@pinata/sdk@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "@pinata/sdk@npm:2.1.0"
   dependencies:
     axios: ^0.21.1
-    base-path-converter: ^1.0.2
     form-data: ^2.3.3
     is-ipfs: ^0.6.0
-    recursive-fs: ^1.1.2
-  checksum: df39457c62e9032e5e414f5ab786d5deb84196c529024d52cdb12d589258ee94990aa064528f7d8d57a72be1a44d86fb1a31548df56f79e454884f261a167238
+    path: ^0.12.7
+  checksum: 70f7ac667f663010f419a299593eb893cbbbb9de006a8f192cdc9d5fac8a45fbf1c123e46a36c17b7063f296528f602e55ee2edc65e20ee06219b4cf0f807ce8
   languageName: node
   linkType: hard
 
@@ -4835,13 +4834,6 @@ __metadata:
   version: 1.0.0
   resolution: "balanced-match@npm:1.0.0"
   checksum: 9b67bfe558772f40cf743a3469b48b286aecec2ea9fe80c48d74845e53aab1cef524fafedf123a63019b49ac397760573ef5f173f539423061f7217cbb5fbd40
-  languageName: node
-  linkType: hard
-
-"base-path-converter@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "base-path-converter@npm:1.0.2"
-  checksum: 9fca25198e4588ab46389426ee51b81d296000dbb132fe9228b90f93d0f89dead66468f63da37519e972c634c1ccfe136442c300b9762fb83265532cf2ac32e0
   languageName: node
   linkType: hard
 
@@ -13594,6 +13586,16 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
+"path@npm:^0.12.7":
+  version: 0.12.7
+  resolution: "path@npm:0.12.7"
+  dependencies:
+    process: ^0.11.1
+    util: ^0.10.3
+  checksum: 5dedb71e78fc008fcba797defc0b4e1cf06c1f18e0a631e03ba5bb505136f587ff017afc14f9a3d481cbe77aeedff7dc0c1d2ce4d820c1ebf3c4281ca49423a1
+  languageName: node
+  linkType: hard
+
 "pbkdf2@npm:^3.0.17, pbkdf2@npm:^3.0.3, pbkdf2@npm:^3.0.9":
   version: 3.1.2
   resolution: "pbkdf2@npm:3.1.2"
@@ -13710,7 +13712,7 @@ fsevents@~2.3.2:
   resolution: "polkadot-apps@workspace:."
   dependencies:
     "@crustio/crust-pin": ^1.0.0
-    "@pinata/sdk": ^1.2.1
+    "@pinata/sdk": ^2.1.0
     "@polkadot/dev": ^0.71.9
     "@types/chart.js": ^2.9.37
     "@types/file-saver": ^2.0.5
@@ -14021,7 +14023,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"process@npm:^0.11.10":
+"process@npm:^0.11.1, process@npm:^0.11.10":
   version: 0.11.10
   resolution: "process@npm:0.11.10"
   checksum: bfcce49814f7d172a6e6a14d5fa3ac92cc3d0c3b9feb1279774708a719e19acd673995226351a082a9ae99978254e320ccda4240ddc474ba31a76c79491ca7c3
@@ -14685,16 +14687,6 @@ fsevents@~2.3.2:
   dependencies:
     resolve: ^1.20.0
   checksum: ad3caed8afdefbc33fbc30e6d22b86c35b3d51c2005546f4e79bcc03c074df804b3640ad18945e6bef9ed12caedc035655ec1082f64a5e94c849ff939dc0a788
-  languageName: node
-  linkType: hard
-
-"recursive-fs@npm:^1.1.2":
-  version: 1.1.2
-  resolution: "recursive-fs@npm:1.1.2"
-  bin:
-    recursive-copy: ./bin/recursive-copy
-    recursive-delete: ./bin/recursive-delete
-  checksum: 6b330d2e6b1359b179736c77ecdf64cc98e778fde676ca7b39b3ea6045dbab4d659d625ffb45e1c31871e8ee2c9bc73f9cf72f661baecf1053677614ceef0989
   languageName: node
   linkType: hard
 
@@ -17446,6 +17438,15 @@ fsevents@~2.3.2:
   version: 1.0.3
   resolution: "util-extend@npm:1.0.3"
   checksum: da57f399b331f40fe2cea5409b1f4939231433db9b52dac5593e4390a98b7b0d1318a0daefbcc48123fffe5026ef49f418b3e4df7a4cd7649a2583e559c608a5
+  languageName: node
+  linkType: hard
+
+"util@npm:^0.10.3":
+  version: 0.10.4
+  resolution: "util@npm:0.10.4"
+  dependencies:
+    inherits: 2.0.3
+  checksum: 913f9a90d05a60e91f91af01b8bd37e06bca4cc02d7b49e01089f9d5b78be2fffd61fb1a41b517de7238c5fc7337fa939c62d1fb4eb82e014894c7bee6637aaf
   languageName: node
   linkType: hard
 
