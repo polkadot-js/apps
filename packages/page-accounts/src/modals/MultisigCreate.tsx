@@ -36,7 +36,7 @@ interface UploadedFileData {
 const MAX_SIGNATORIES = 16;
 const BN_TWO = new BN(2);
 
-const acceptedFormats = ['application/json'].join(', ');
+const acceptedFormats = ['application/json'];
 
 function parseFile (file: Uint8Array): UploadedFileData {
   let uploadError = '';

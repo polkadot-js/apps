@@ -5,7 +5,7 @@
     "lib": ["es2021", "dom"],
     "jsx": "react",
     "resolveJsonModule": true,
-    /* FIXME Dropzone is problematic with nodenext resolution */
+    /* FIXME i18next-browser-languagedetector & axios is problematic with nodenext resolution */
     "moduleResolution": "node",
 		"paths": {
       "@polkadot/apps": ["apps/src/index.tsx"],

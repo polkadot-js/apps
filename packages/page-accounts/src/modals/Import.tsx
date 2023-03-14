@@ -27,7 +27,7 @@ interface PassState {
   password: string;
 }
 
-const acceptedFormats = ['application/json', 'text/plain'].join(', ');
+const acceptedFormats = ['application/json', 'text/plain'];
 
 function parseFile (file: Uint8Array, setError: Dispatch<SetStateAction<string | null>>, isEthereum: boolean, genesisHash?: string | null): KeyringPair | null {
   try {
