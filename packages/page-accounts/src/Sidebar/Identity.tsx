@@ -138,6 +138,14 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
                 </div>
               </div>
             )}
+            {identity.other && "Discord" in identity.other && (
+              <div className='tr'>
+                <div className='th'>{t<string>('discord')}</div>
+                <div className='td'>
+                  {identity.other["Discord"]}
+                </div>
+              </div>
+            )}
             {identity.riot && (
               <div className='tr'>
                 <div className='th'>{t<string>('riot')}</div>
