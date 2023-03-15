@@ -2,17 +2,16 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { LinkExternal } from '@polkadot/react-components';
+import { LinkExternal, styled } from '@polkadot/react-components';
 import Sidebar from '@polkadot/react-components/Sidebar';
 import { colorLink } from '@polkadot/react-components/styles/theme';
 import { useAccountInfo } from '@polkadot/react-hooks';
 
-import Balances from './Balances';
-import Identity from './Identity';
-import Multisig from './Multisig';
-import SidebarEditableSection from './SidebarEditableSection';
+import Balances from './Balances.js';
+import Identity from './Identity.js';
+import Multisig from './Multisig.js';
+import SidebarEditableSection from './SidebarEditableSection.js';
 
 interface Props {
   address: string;

@@ -2,12 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 
-import { AddressMini, InputAddress, Labelled, TxButton } from '@polkadot/react-components';
+import { AddressMini, InputAddress, Labelled, styled, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   allAccounts: string[];

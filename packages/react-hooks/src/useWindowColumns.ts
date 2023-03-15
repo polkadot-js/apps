@@ -1,9 +1,9 @@
 // Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { createNamedHook } from './createNamedHook';
-import { useDebounce } from './useDebounce';
-import { useWindowSize } from './useWindowSize';
+import { createNamedHook } from './createNamedHook.js';
+import { useDebounce } from './useDebounce.js';
+import { useWindowSize } from './useWindowSize.js';
 
 type NumColumns = 1 | 2 | 3;
 

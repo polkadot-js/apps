@@ -3,7 +3,7 @@
 
 import type { HeaderExtended } from '@polkadot/api-derive/types';
 import type { EraRewardPoints } from '@polkadot/types/interfaces';
-import type { BlockAuthors } from './types';
+import type { BlockAuthors } from './types.js';
 
 import React, { useEffect, useState } from 'react';
 

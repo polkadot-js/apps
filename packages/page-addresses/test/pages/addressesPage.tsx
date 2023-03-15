@@ -5,11 +5,11 @@ import React from 'react';
 
 import { aContact } from '@polkadot/test-support/creation/contact';
 import { Page } from '@polkadot/test-support/pages/Page';
-import { Row } from '@polkadot/test-support/pagesElements';
+import { Row } from '@polkadot/test-support/pagesElements/index';
 import { AccountOverrides as ContactOverrides } from '@polkadot/test-support/types';
 import { mockAccountHooks } from '@polkadot/test-support/utils/accountDefaults';
 
-import AddressOverview from '../../src/Contacts/index';
+import AddressOverview from '../../src/Contacts/index.js';
 
 const NOOP_CHANGE = () => undefined;
 

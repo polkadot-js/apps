@@ -11,7 +11,7 @@ import { useApi, useLedger } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { arrayRange } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Option {
   text: string;

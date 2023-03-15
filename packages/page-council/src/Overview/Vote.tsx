@@ -10,8 +10,8 @@ import { Button, InputAddress, InputAddressMulti, InputBalance, Modal, TxButton,
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import { useModuleElections } from '../useModuleElections';
+import { useTranslation } from '../translate.js';
+import { useModuleElections } from '../useModuleElections.js';
 
 interface Props {
   className?: string;
@@ -45,13 +45,16 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> | null {
   }, [electionsInfo]);
 
   useEffect((): void => {
-    accountId && api.derive.council.votesOf(accountId).then(({ votes }): void => {
-      setDefaultVotes(
-        votes
-          .map((a) => a.toString())
-          .filter((a) => available.includes(a))
-      );
-    });
+    accountId && api.derive.council
+      .votesOf(accountId)
+      .then(({ votes }): void => {
+        setDefaultVotes(
+          votes
+            .map((a) => a.toString())
+            .filter((a) => available.includes(a))
+        );
+      })
+      .catch(console.error);
   }, [api, accountId, available]);
 
   const bondValue = useMemo(

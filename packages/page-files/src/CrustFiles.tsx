@@ -5,15 +5,14 @@ import type { ActionStatusBase } from '@polkadot/react-components/Status/types';
 
 import FileSaver from 'file-saver';
 import React, { useCallback, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { Badge, Button, CopyButton, Icon, Table } from '@polkadot/react-components';
+import { Badge, Button, CopyButton, Icon, styled, Table } from '@polkadot/react-components';
 import { useQueue } from '@polkadot/react-hooks';
 
-import { useFiles } from './hooks';
-import { useTranslation } from './translate';
-import { DirFile, FileInfo, SaveFile } from './types';
-import UploadModal from './UploadModal';
+import { useFiles } from './hooks.js';
+import { useTranslation } from './translate.js';
+import { DirFile, FileInfo, SaveFile } from './types.js';
+import UploadModal from './UploadModal.js';
 
 const MCopyButton = styled(CopyButton)`
   .copySpan {

@@ -6,14 +6,13 @@ import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
 import store from 'store';
-import styled from 'styled-components';
 
 import { decodeUrlTypes, encodeUrlTypes } from '@polkadot/react-api/urlTypes';
-import { Button, CopyButton, Editor, InputFile } from '@polkadot/react-components';
+import { Button, CopyButton, Editor, InputFile, styled } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { isJsonObject, stringToU8a, u8aToString } from '@polkadot/util';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 const EMPTY_CODE = '{\n\n}';
 const EMPTY_TYPES = {};

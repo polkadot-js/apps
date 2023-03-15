@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
 
 import { useWindowColumns } from '@polkadot/react-hooks';
 
-import Body from './Body';
-import Column from './Column';
-import Foot from './Foot';
-import Head from './Head';
-import Row from './Row';
+import { styled } from '../styled.js';
+import Column from './Column/index.js';
+import Row from './Row/index.js';
+import Body from './Body.js';
+import Foot from './Foot.js';
+import Head from './Head.js';
 
 interface Props {
   children?: React.ReactNode;
@@ -96,8 +96,10 @@ function TableBase ({ children, className = '', empty, emptySpinner, filter, foo
   );
 }
 
-const BORDER_RADIUS = '0.5rem';
-const BORDER_SOLID = '1px solid var(--bg-page)';
+const BASE_BORDER = 0.125;
+const BORDER_SIDE = `${BASE_BORDER * 1}rem solid var(--bg-page)`;
+const BORDER_TOP = `${BASE_BORDER * 2}rem solid var(--bg-page)`;
+const BORDER_RADIUS = `${BASE_BORDER * 4}rem`;
 
 const StyledDiv = styled.div`
   max-width: 100%;
@@ -120,6 +122,7 @@ const StyledDiv = styled.div`
   }
 
   table {
+    border-collapse: collapse;
     border-spacing: 0;
     max-width: 100%;
     overflow: hidden;
@@ -194,11 +197,11 @@ const StyledDiv = styled.div`
       }
 
       &:first-child {
-        border-left: ${BORDER_SOLID};
+        border-left: ${BORDER_SIDE};
       }
 
       &:last-child {
-        border-right: ${BORDER_SOLID};
+        border-right: ${BORDER_SIDE};
       }
 
       label {
@@ -410,8 +413,7 @@ const StyledDiv = styled.div`
     tr {
       &:not(.isExpanded) {
         td {
-          border-top: ${BORDER_SOLID};
-          border-bottom: ${BORDER_SOLID};
+          border-top: ${BORDER_TOP};
 
           &:first-child {
             border-top-left-radius: ${BORDER_RADIUS};
@@ -428,7 +430,7 @@ const StyledDiv = styled.div`
       &.isExpanded {
         &.isFirst {
           td {
-            border-top: ${BORDER_SOLID};
+            border-top: ${BORDER_TOP};
 
             &:first-child {
               border-top-left-radius: ${BORDER_RADIUS};
@@ -442,8 +444,6 @@ const StyledDiv = styled.div`
 
         &.isLast {
           td {
-            border-bottom: ${BORDER_SOLID};
-
             &:first-child {
               border-bottom-left-radius: ${BORDER_RADIUS};
             }
@@ -502,7 +502,7 @@ const StyledDiv = styled.div`
     tr {
       &:first-child {
         th {
-          border-top: ${BORDER_SOLID};
+          border-top: ${BORDER_TOP};
 
           &:first-child {
             border-top-left-radius: ${BORDER_RADIUS};
@@ -516,7 +516,6 @@ const StyledDiv = styled.div`
 
       &:last-child {
         th {
-          border-bottom: ${BORDER_SOLID};
           padding-top: 1rem;
 
           &:first-child {
@@ -531,11 +530,11 @@ const StyledDiv = styled.div`
 
       th {
         &:first-child {
-          border-left: ${BORDER_SOLID};
+          border-left: ${BORDER_SIDE};
         }
 
         &:last-child {
-          border-right: ${BORDER_SOLID};
+          border-right: ${BORDER_SIDE};
         }
       }
     }

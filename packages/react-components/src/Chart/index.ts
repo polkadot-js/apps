@@ -5,9 +5,9 @@ import { CategoryScale, Chart, LinearScale, LineElement, PointElement, Title, To
 import annotationPlugin from 'chartjs-plugin-annotation';
 import crosshairPlugin from 'chartjs-plugin-crosshair';
 
-import Doughnut from './Doughnut';
-import HorizBar from './HorizBar';
-import Line from './Line';
+import Doughnut from './Doughnut.js';
+import HorizBar from './HorizBar.js';
+import Line from './Line.js';
 
 Chart.register(CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, annotationPlugin, crosshairPlugin);
 

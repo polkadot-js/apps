@@ -8,7 +8,7 @@ import React, { useMemo } from 'react';
 import { Badge } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 
-import MaxBadge from '../../MaxBadge';
+import MaxBadge from '../../MaxBadge.js';
 
 interface Props {
   isChilled?: boolean;

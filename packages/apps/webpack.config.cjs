@@ -23,7 +23,7 @@ module.exports = merge(
       new SubresourceIntegrityPlugin(),
       new HtmlWebpackPlugin({
         PAGE_TITLE: 'Polkadot/Substrate Portal',
-        inject: true,
+        minify: false,
         template: path.join(context, `${hasPublic ? 'public/' : ''}index.html`)
       })
     ]

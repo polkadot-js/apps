@@ -3,7 +3,7 @@
 
 import type { Option, StorageKey } from '@polkadot/types';
 import type { Nominations } from '@polkadot/types/interfaces';
-import type { NominatedByMap } from './types';
+import type { NominatedByMap } from './types.js';
 
 import { useMemo } from 'react';
 

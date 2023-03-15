@@ -6,16 +6,15 @@ import type { PalletTipsOpenTip } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
 
-import { AddressMini, AddressSmall, Checkbox, ExpanderScroll, Icon, LinkExternal, TxButton } from '@polkadot/react-components';
+import { AddressMini, AddressSmall, Checkbox, ExpanderScroll, Icon, LinkExternal, styled, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO, formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import TipEndorse from './TipEndorse';
-import TipReason from './TipReason';
+import { useTranslation } from '../translate.js';
+import TipEndorse from './TipEndorse.js';
+import TipReason from './TipReason.js';
 
 interface Props {
   bestNumber?: BlockNumber;

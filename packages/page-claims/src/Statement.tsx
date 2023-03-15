@@ -4,10 +4,11 @@
 import type { StatementKind } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { useTranslation } from './translate';
-import { getStatement } from './util';
+import { styled } from '@polkadot/react-components';
+
+import { useTranslation } from './translate.js';
+import { getStatement } from './util.js';
 
 export interface Props {
   className?: string;

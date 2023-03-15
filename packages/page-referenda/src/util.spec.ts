@@ -6,7 +6,7 @@ import type { BN } from '@polkadot/util';
 
 import { BN_BILLION, BN_ZERO, bnToBn } from '@polkadot/util';
 
-import { curveDelay, curveThreshold } from './util';
+import { curveDelay, curveThreshold } from './util.js';
 
 function curveLinear (ceil: BN | string | number, floor: BN | string | number, length: BN | string | number): PalletReferendaCurve {
   return {

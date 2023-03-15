@@ -11,12 +11,12 @@
 // The avatars used in "set5" were created by Pablo Stanley, for https://avataaars.com/ They are "Free for personal and commercial use. 😇"
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import backgrounds from './backgrounds';
-import sets from './sets';
+import { styled } from '../../styled.js';
+import backgrounds from './backgrounds/index.js';
+import sets from './sets/index.js';
 
 interface Props {
   className?: string;

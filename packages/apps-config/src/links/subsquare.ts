@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { ExternalDef } from './types';
+import type { ExternalDef } from './types.js';
 
-import { externalSubsquareSVG } from '../ui/logos/external';
+import { externalSubsquareSVG } from '../ui/logos/external/index.js';
 
 export const Subsquare: ExternalDef = {
   chains: {
@@ -20,6 +20,7 @@ export const Subsquare: ExternalDef = {
     Karura: 'karura',
     Khala: 'khala',
     Kusama: 'kusama',
+    Litentry: 'litentry',
     Litmus: 'litmus',
     Phala: 'phala',
     Polkadot: 'polkadot',

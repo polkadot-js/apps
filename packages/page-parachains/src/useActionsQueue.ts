@@ -3,7 +3,7 @@
 
 import type { ParaId, SessionIndex } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
-import type { QueuedAction } from './types';
+import type { QueuedAction } from './types.js';
 
 import { useMemo } from 'react';
 

@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
+
+import { styled } from '../styled.js';
 
 type HeaderDef = [React.ReactNode?, string?, number?, (() => void)?];
 

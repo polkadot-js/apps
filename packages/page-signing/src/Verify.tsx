@@ -4,16 +4,15 @@
 import type { KeypairType } from '@polkadot/util-crypto/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
 
-import { Badge, Dropdown, Input, InputAddress, Static } from '@polkadot/react-components';
+import { Badge, Dropdown, Input, InputAddress, Static, styled } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { isHex } from '@polkadot/util';
 import { signatureVerify } from '@polkadot/util-crypto';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 type CryptoTypes = KeypairType | 'unknown';
 

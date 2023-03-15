@@ -9,9 +9,9 @@ import { InputBalance, Modal, Static, TxButton } from '@polkadot/react-component
 import { useApi } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 
-import { useTranslation } from '../../translate';
-import PoolInfo from '../partials/PoolInfo';
-import useUnbondDuration from '../useUnbondDuration';
+import { useTranslation } from '../../translate.js';
+import PoolInfo from '../partials/PoolInfo.js';
+import useUnbondDuration from '../useUnbondDuration.js';
 
 interface Props {
   className?: string;

@@ -3,10 +3,10 @@
 
 import type { OverrideBundleDefinition, OverrideBundleType } from '@polkadot/types/types';
 
-import equilibrium from './spec/equilibrium';
-import genshiro from './spec/genshiro';
-import interbtc from './spec/interbtc';
-import subspace from './spec/subspace';
+import equilibrium from './spec/equilibrium.js';
+import genshiro from './spec/genshiro.js';
+import interbtc from './spec/interbtc.js';
+import subspace from './spec/subspace.js';
 
 const mapping: [OverrideBundleDefinition, string[]][] = [
   [equilibrium, ['Equilibrium']],

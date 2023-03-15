@@ -3,9 +3,9 @@
 
 import strengthTester from 'owasp-password-strength-test';
 import React from 'react';
-import styled from 'styled-components';
 
-import { useTranslation } from './translate';
+import { styled } from './styled.js';
+import { useTranslation } from './translate.js';
 
 const MAX_STRENGTH = 7; // equal to number of password tests in owasp strength tester
 

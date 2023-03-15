@@ -9,12 +9,12 @@ import { Route, Switch } from 'react-router';
 import { Tabs } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import Developer from './Developer';
-import General from './General';
-import I18n from './I18n';
-import Metadata from './Metadata';
-import { useTranslation } from './translate';
-import useCounter from './useCounter';
+import I18n from './I18n/index.js';
+import Metadata from './Metadata/index.js';
+import Developer from './Developer.js';
+import General from './General.js';
+import { useTranslation } from './translate.js';
+import useCounter from './useCounter.js';
 
 export { useCounter };
 

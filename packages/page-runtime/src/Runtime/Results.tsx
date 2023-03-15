@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-runtime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Result } from './types';
+import type { Result } from './types.js';
 
 import React from 'react';
 

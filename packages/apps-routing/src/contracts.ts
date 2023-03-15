@@ -3,7 +3,7 @@
 
 import type { TFunction } from 'i18next';
 import type { ApiPromise } from '@polkadot/api';
-import type { Route } from './types';
+import type { Route } from './types.js';
 
 import Component from '@polkadot/app-contracts';
 import { assertReturn } from '@polkadot/util';

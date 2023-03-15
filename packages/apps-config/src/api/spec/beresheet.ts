@@ -3,9 +3,9 @@
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-import { spec } from '@edgeware/node-types';
+import pkg from '@edgeware/node-types';
 
 // There is no separate types bundle for testnet at this time
-const beresheet = spec.typesBundle.spec?.edgeware as OverrideBundleDefinition;
+const beresheet = pkg.spec.typesBundle.spec?.edgeware as OverrideBundleDefinition;
 
 export default beresheet;

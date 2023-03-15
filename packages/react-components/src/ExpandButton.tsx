@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
 
-import Icon from './Icon';
+import Icon from './Icon.js';
+import { styled } from './styled.js';
 
 interface Props {
   onClick: () => void;

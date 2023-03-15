@@ -3,7 +3,7 @@
 
 import { BN_ONE, BN_ZERO } from '@polkadot/util';
 
-import { balanceOf } from '../balance';
+import { balanceOf } from '../balance.js';
 
 export const defaultTreasury = {
   burn: BN_ONE,

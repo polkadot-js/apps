@@ -3,7 +3,7 @@
 
 import { stringify } from '@polkadot/util';
 
-import { getMemoValue, isDifferent } from './useMemoValue';
+import { getMemoValue, isDifferent } from './useMemoValue.js';
 
 describe('useMemoValue', (): void => {
   describe('isDifferent', (): void => {

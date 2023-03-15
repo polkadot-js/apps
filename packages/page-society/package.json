@@ -1,5 +1,8 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
+  "engines": {
+    "node": ">=14"
+  },
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-society#readme",
   "license": "Apache-2.0",
   "name": "@polkadot/app-society",
@@ -11,9 +14,8 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.124.2-56-x",
+  "version": "0.124.2-160-x",
   "dependencies": {
-    "@babel/runtime": "^7.20.13",
-    "@polkadot/react-components": "^0.124.2-56-x"
+    "@polkadot/react-components": "^0.124.2-160-x"
   }
 }

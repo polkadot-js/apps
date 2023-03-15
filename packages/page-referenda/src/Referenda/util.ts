@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletReferendaDeposit } from '@polkadot/types/lookup';
-import type { Referendum } from '../types';
+import type { Referendum } from '../types.js';
 
 import { Option } from '@polkadot/types';
 

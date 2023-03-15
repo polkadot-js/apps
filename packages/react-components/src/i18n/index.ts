@@ -7,13 +7,7 @@ import { initReactI18next } from 'react-i18next';
 
 import { LANGUAGE_DEFAULT, settings } from '@polkadot/ui-settings';
 
-import Backend from './Backend';
-
-interface Services {
-  languageDetector: {
-    detect: () => string;
-  };
-}
+import Backend from './Backend.js';
 
 const languageDetector = new LanguageDetector();
 
@@ -91,10 +85,13 @@ i18next
   );
 
 settings.on('change', (settings): void => {
-  i18next.changeLanguage(
+  (
     settings.i18nLang === LANGUAGE_DEFAULT
-      ? (i18next.services as Services).languageDetector.detect()
-      : settings.i18nLang
+      // If we want to use the default language, we need to pass no
+      // actual param through here
+      // https://github.com/i18next/i18next/blob/21eac5a605601ec1067aac3583c6ec6bc2ecd3b7/src/i18next.js#L366
+      ? i18next.changeLanguage()
+      : i18next.changeLanguage(settings.i18nLang)
   ).catch(console.error);
 });
 

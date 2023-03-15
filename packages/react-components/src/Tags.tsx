@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useMemo } from 'react';
-import styled from 'styled-components';
 
-import EditButton from './EditButton';
-import InputTags from './InputTags';
-import Tag from './Tag';
-import { useTranslation } from './translate';
+import EditButton from './EditButton.js';
+import InputTags from './InputTags.js';
+import { styled } from './styled.js';
+import Tag from './Tag.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   children?: React.ReactNode;

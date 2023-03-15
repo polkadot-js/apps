@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-gilt authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { QueueTotal } from './types';
+import type { QueueTotal } from './types.js';
 
 import React from 'react';
 

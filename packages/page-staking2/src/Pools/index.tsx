@@ -1,15 +1,15 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { OwnPool } from './types';
+import type { OwnPool } from './types.js';
 
 import React from 'react';
 
-import Pools from './Pools';
-import Summary from './Summary';
-import useOwnPools from './useOwnPools';
-import useParams from './useParams';
-import usePoolIds from './usePoolIds';
+import Pools from './Pools.js';
+import Summary from './Summary.js';
+import useOwnPools from './useOwnPools.js';
+import useParams from './useParams.js';
+import usePoolIds from './usePoolIds.js';
 
 interface Props {
   className?: string;

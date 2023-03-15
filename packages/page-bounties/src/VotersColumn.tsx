@@ -6,12 +6,11 @@ import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BountyStatus } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
-import { AddressSmall, Icon } from '@polkadot/react-components';
+import { AddressSmall, Icon, styled } from '@polkadot/react-components';
 
-import { getProposalToDisplay } from './helpers/extendedStatuses';
-import { useTranslation } from './translate';
+import { getProposalToDisplay } from './helpers/extendedStatuses.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;

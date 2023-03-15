@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback } from 'react';
-import styled from 'styled-components';
 
-import { Toggle } from '@polkadot/react-components';
+import { styled, Toggle } from '@polkadot/react-components';
 
 interface Props {
   apiUrl: string;

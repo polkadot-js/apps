@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useState } from 'react';
-import styled from 'styled-components';
 
-import IdentityIcon from './IdentityIcon';
-import Input from './Input';
-import { toAddress } from './util';
+import IdentityIcon from './IdentityIcon/index.js';
+import { toAddress } from './util/index.js';
+import Input from './Input.js';
+import { styled } from './styled.js';
 
 interface Props {
   autoFocus?: boolean;

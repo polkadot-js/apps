@@ -11,7 +11,7 @@ import React, { useState } from 'react';
 import { useApi } from '@polkadot/react-hooks';
 import { isObject, isString } from '@polkadot/util';
 
-import Extrinsic from './Extrinsic';
+import Extrinsic from './Extrinsic.js';
 
 function isCall (f: unknown): f is Call {
   return isString((f as Call).section) && isString((f as Call).method);

@@ -4,10 +4,10 @@
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
 
 import React, { useState } from 'react';
-import styled from 'styled-components';
 
-import Icon from './Icon';
-import Tooltip from './Tooltip';
+import Icon from './Icon.js';
+import { styled } from './styled.js';
+import Tooltip from './Tooltip.js';
 
 interface Props {
   help: React.ReactNode;

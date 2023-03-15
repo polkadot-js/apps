@@ -2,12 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { AddressMini, Card } from '@polkadot/react-components';
+import { AddressMini, Card, styled } from '@polkadot/react-components';
 
-import { useTranslation } from './translate';
-import usePolkadotPreclaims from './usePolkadotPreclaims';
+import { useTranslation } from './translate.js';
+import usePolkadotPreclaims from './usePolkadotPreclaims.js';
 
 export interface Props{
   className?: string;

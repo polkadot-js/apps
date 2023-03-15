@@ -5,20 +5,19 @@ import type { ChartOptions, ChartTypeRegistry, TooltipItem } from 'chart.js';
 import type { TFunction } from 'i18next';
 import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { CurveGraph, ReferendumProps as Props } from '../types';
+import type { CurveGraph, ReferendumProps as Props } from '../types.js';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
-import { Chart, Columar, LinkExternal, Table } from '@polkadot/react-components';
+import { Chart, Columar, LinkExternal, styled, Table } from '@polkadot/react-components';
 import { useBestNumber, useBlockInterval, useToggle } from '@polkadot/react-hooks';
 import { calcBlockTime } from '@polkadot/react-hooks/useBlockTime';
 import { BN_MILLION, BN_THOUSAND, bnMax, bnToBn, formatNumber, objectSpread } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import Killed from './RefKilled';
-import Ongoing from './RefOngoing';
-import Tuple from './RefTuple';
+import { useTranslation } from '../translate.js';
+import Killed from './RefKilled.js';
+import Ongoing from './RefOngoing.js';
+import Tuple from './RefTuple.js';
 
 const COMPONENTS: Record<string, React.ComponentType<Props>> = {
   Killed,
