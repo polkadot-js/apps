@@ -996,12 +996,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metaverse-network-sdk/type-definitions@npm:0.0.1-13":
-  version: 0.0.1-13
-  resolution: "@metaverse-network-sdk/type-definitions@npm:0.0.1-13"
+"@metaverse-network-sdk/type-definitions@npm:0.0.1-16":
+  version: 0.0.1-16
+  resolution: "@metaverse-network-sdk/type-definitions@npm:0.0.1-16"
   dependencies:
     lodash.merge: ^4.6.2
-  checksum: 8c4527c2e95eb11aa03207c694fd89d35361c110906c057b75976a308a65d72d0b145fdc0871a868a10db4bf3a7f6abbdf94100b7378addd88c0b3fc8a05dbee
+  checksum: 5699fb6c40a991401e206fb3b96671787af7997732dd1c778317130a2f1bece81f88068128f7e1f52e2e9bff47f3ad7b9bf3a30dd5e3e2a990434d234f8a77cf
   languageName: node
   linkType: hard
 
@@ -1693,7 +1693,7 @@ __metadata:
     "@laminar/type-definitions": 0.3.1
     "@logion/node-api": 0.9.0-3
     "@mangata-finance/types": 0.18.0
-    "@metaverse-network-sdk/type-definitions": 0.0.1-13
+    "@metaverse-network-sdk/type-definitions": 0.0.1-16
     "@parallel-finance/type-definitions": 1.7.16
     "@phala/typedefs": 0.2.33
     "@polkadot/api": ^10.1.2
