@@ -1998,7 +1998,7 @@ __metadata:
     "@types/codeflask": ^1.4.3
     "@types/owasp-password-strength-test": ^1.3.0
     chart.js: ^4.2.1
-    chartjs-plugin-annotation: ^2.1.2
+    chartjs-plugin-annotation: ^2.2.0
     chartjs-plugin-crosshair: ^1.2.0
     codeflask: ^1.4.1
     i18next: ^22.4.11
@@ -5606,12 +5606,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chartjs-plugin-annotation@npm:^2.1.2":
-  version: 2.1.2
-  resolution: "chartjs-plugin-annotation@npm:2.1.2"
+"chartjs-plugin-annotation@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "chartjs-plugin-annotation@npm:2.2.0"
   peerDependencies:
     chart.js: ">=3.7.0"
-  checksum: 821cfae3d2e7f7c70e8d42ba6fa22f0b40afa9d0cc52938afc9ddc547fe97c7fa3a0b849026bdc9afba823736b21733cdb2c911f0500008f2deb8f83743bf672
+  checksum: 355456597b8dc7ceb7198658f6f3045116b828e5e66c557823961863cb20cd7c7af67f3645832f3e27e008b728fe158761bc8116f2ee86c2043bf31be6774cbb
   languageName: node
   linkType: hard
 
