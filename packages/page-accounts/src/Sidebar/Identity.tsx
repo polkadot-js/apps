@@ -7,6 +7,7 @@ import React, { useMemo } from 'react';
 
 import { AddressMini, AvatarItem, Expander, IconLink } from '@polkadot/react-components';
 import { useApi, useRegistrars, useSubidentities, useToggle } from '@polkadot/react-hooks';
+import { AddressIdentityOtherDiscordKey } from '@polkadot/react-hooks/types';
 import { isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
@@ -138,11 +139,11 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
                 </div>
               </div>
             )}
-            {identity.other && "Discord" in identity.other && (
+            {identity.other && AddressIdentityOtherDiscordKey in identity.other && (
               <div className='tr'>
                 <div className='th'>{t<string>('discord')}</div>
                 <div className='td'>
-                  {identity.other["Discord"]}
+                  {identity.other[AddressIdentityOtherDiscordKey]}
                 </div>
               </div>
             )}
