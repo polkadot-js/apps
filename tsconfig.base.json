@@ -5,7 +5,7 @@
     "lib": ["es2021", "dom"],
     "jsx": "react",
     "resolveJsonModule": true,
-    /* FIXME i18next-browser-languagedetector & axios is problematic with nodenext resolution */
+    /* FIXME we still have some issues with some deps that make the default nodenext impossible */
     "moduleResolution": "node",
 		"paths": {
       "@polkadot/apps": ["apps/src/index.tsx"],
