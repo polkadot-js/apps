@@ -171,7 +171,8 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2105,
     providers: {
       'Darwinia Network': 'wss://crab-rpc.darwinia.network/',
-      Dwellir: 'wss://darwiniacrab-rpc.dwellir.com'
+      Dwellir: 'wss://darwiniacrab-rpc.dwellir.com',
+      OnFinality: 'wss://darwinia-crab.api.onfinality.io/public-ws'
     },
     text: 'Darwinia Crab',
     ui: {
