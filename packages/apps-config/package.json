@@ -16,7 +16,7 @@
   "version": "0.124.2-152-x",
   "main": "index.js",
   "dependencies": {
-    "@acala-network/type-definitions": "4.1.8-13",
+    "@acala-network/type-definitions": "4.1.5",
     "@bifrost-finance/type-definitions": "1.7.2",
     "@crustio/type-definitions": "1.3.0",
     "@darwinia/types": "2.8.10",
