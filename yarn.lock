@@ -1704,10 +1704,10 @@ __metadata:
     "@polkadot/wasm-util": ^7.0.3
     "@polkadot/x-fetch": ^11.0.2
     "@polkadot/x-ws": ^11.0.2
-    "@polymathnetwork/polymesh-types": 0.0.2
+    "@polymeshassociation/polymesh-types": 5.3.0
     "@snowfork/snowbridge-types": 0.2.7
-    "@sora-substrate/type-definitions": 1.15.6
-    "@subsocial/definitions": 0.8.5
+    "@sora-substrate/type-definitions": 1.15.8
+    "@subsocial/definitions": 0.8.6
     "@unique-nft/opal-testnet-types": 937.53.1
     "@unique-nft/quartz-mainnet-types": 937.52.0
     "@unique-nft/sapphire-mainnet-types": 937.52.0
@@ -2490,10 +2490,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polymathnetwork/polymesh-types@npm:0.0.2":
-  version: 0.0.2
-  resolution: "@polymathnetwork/polymesh-types@npm:0.0.2"
-  checksum: 4a1168de7547ad25d770eaca806f683f1789a649b3045dbd84e0e8da0e03bfc1f556628b70947ec80894f9aa4307648f6c344323840e43f2e306f0edd3ae21b6
+"@polymeshassociation/polymesh-types@npm:5.3.0":
+  version: 5.3.0
+  resolution: "@polymeshassociation/polymesh-types@npm:5.3.0"
+  checksum: f8eee7efb58bbf54f8961f6fd0a52e836428f5772ffe767e29576343a5a6b169a8b2b5863ad1a5d29d81d5b52eaa43a35c7be94c4008b0b295c154d4c6d3ff27
   languageName: node
   linkType: hard
 
@@ -2671,12 +2671,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sora-substrate/type-definitions@npm:1.15.6":
-  version: 1.15.6
-  resolution: "@sora-substrate/type-definitions@npm:1.15.6"
+"@sora-substrate/type-definitions@npm:1.15.8":
+  version: 1.15.8
+  resolution: "@sora-substrate/type-definitions@npm:1.15.8"
   dependencies:
     "@open-web3/orml-type-definitions": 0.9.4-26
-  checksum: 6851e7245a65cec13af4081f0619cde382fce0af0d35670d8c85fe8b697d22056b3f56bc5ed07b7a8f236987dc9e2ef79ff5627bfab1f1a8c8fdddd97b0612f6
+  checksum: 65c7647104ccd7ceb9e4eeef0d70b0d8eb5b5e9381ff78bd78953c1b9faafbf0f98fe617ca419dfe11babb7e12c95a386741598c149f3a80c37db96fd44f5f93
   languageName: node
   linkType: hard
 
@@ -2707,13 +2707,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@subsocial/definitions@npm:0.8.5":
-  version: 0.8.5
-  resolution: "@subsocial/definitions@npm:0.8.5"
+"@subsocial/definitions@npm:0.8.6":
+  version: 0.8.6
+  resolution: "@subsocial/definitions@npm:0.8.6"
   dependencies:
     "@polkadot/api": latest
     lodash.camelcase: ^4.3.0
-  checksum: e07f4602a7bf697be6e27ab902c2f02ab4f6d51f40ccef7ebba4bb51178c70017df7ea1890d3080856aaa6b610561cebeff59e476106f0ff3a282b90bbae1f24
+  checksum: 7607d38be24725a8bb0dc04f23154ad2e16b6b110a938c34a1f381afb65161986002dd921bcb76df82f366fa2a8f18f964b49c4f05b118db32a5d2ee8932cb85
   languageName: node
   linkType: hard
 

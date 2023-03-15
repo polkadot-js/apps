@@ -3,17 +3,8 @@
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-import schema from '@polymathnetwork/polymesh-types';
+import { typesBundle } from '@polymeshassociation/polymesh-types';
 
-const definitions: OverrideBundleDefinition = {
-  rpc: schema.rpc,
-  types: [
-    {
-      // on all versions
-      minmax: [0, undefined],
-      types: schema.types
-    }
-  ]
-};
+const definitions: OverrideBundleDefinition = typesBundle.spec;
 
 export default definitions;
