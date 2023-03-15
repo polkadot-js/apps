@@ -651,11 +651,11 @@ export const testChains: EndpointOption[] = [
   {
     info: 'polymesh',
     providers: {
-      Polymath: 'wss://testnet-rpc.polymesh.live'
+      Polymesh: 'wss://testnet-rpc.polymesh.live'
     },
     text: 'Polymesh Testnet',
     ui: {
-      color: '#1348e4',
+      color: '#43195B',
       logo: nodesPolymeshSVG
     }
   },
