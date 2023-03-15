@@ -596,13 +596,10 @@ export const prodParasPolkadot: EndpointOption[] = [
     info: 'unique',
     paraId: 2037,
     providers: {
-      // This is a possible false positive since OnFinality does not allow connections
-      // from non polkadot.js.org urls - however until resolved, this needs to be disabled
-      // since we cannot manually check the urls twice daily when they are reported
-      OnFinality: 'wss://unique.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8973
-      'Unique America': 'wss://us-ws.unique.network/',
-      'Unique Asia': 'wss://asia-ws.unique.network/',
-      'Unique Europe': 'wss://eu-ws.unique.network/'
+      'Geo Load Balancer': 'wss://ws.unique.network',
+      'Unique America': 'wss://us-ws.unique.network',
+      'Unique Asia': 'wss://asia-ws.unique.network',
+      'Unique Europe': 'wss://eu-ws.unique.network'
     },
     text: 'Unique Network',
     ui: {
