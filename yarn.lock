@@ -282,25 +282,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@electron/get@npm:^1.14.1":
-  version: 1.14.1
-  resolution: "@electron/get@npm:1.14.1"
+"@electron/get@npm:^2.0.0":
+  version: 2.0.2
+  resolution: "@electron/get@npm:2.0.2"
   dependencies:
     debug: ^4.1.1
     env-paths: ^2.2.0
     fs-extra: ^8.1.0
     global-agent: ^3.0.0
-    global-tunnel-ng: ^2.7.1
-    got: ^9.6.0
+    got: ^11.8.5
     progress: ^2.0.3
     semver: ^6.2.0
     sumchecker: ^3.0.1
   dependenciesMeta:
     global-agent:
       optional: true
-    global-tunnel-ng:
-      optional: true
-  checksum: 21fec5e82bbee8f9fa183b46e05675b137c3130c7999d3b2b34a0047d1a06ec3c76347b9bbdb9911ba9b2123697804e360a15dda9db614c0226d5d4dcc4d6d15
+  checksum: 900845cc0b31b54761fc9b0ada2dea1e999e59aacc48999d53903bcb7c9a0a7356b5fe736cf610b2a56c5a21f5a3c0e083b2ed2b7e52c36a4d0f420d4b5ec268
   languageName: node
   linkType: hard
 
@@ -996,12 +993,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metaverse-network-sdk/type-definitions@npm:0.0.1-13":
-  version: 0.0.1-13
-  resolution: "@metaverse-network-sdk/type-definitions@npm:0.0.1-13"
+"@metaverse-network-sdk/type-definitions@npm:0.0.1-16":
+  version: 0.0.1-16
+  resolution: "@metaverse-network-sdk/type-definitions@npm:0.0.1-16"
   dependencies:
     lodash.merge: ^4.6.2
-  checksum: 8c4527c2e95eb11aa03207c694fd89d35361c110906c057b75976a308a65d72d0b145fdc0871a868a10db4bf3a7f6abbdf94100b7378addd88c0b3fc8a05dbee
+  checksum: 5699fb6c40a991401e206fb3b96671787af7997732dd1c778317130a2f1bece81f88068128f7e1f52e2e9bff47f3ad7b9bf3a30dd5e3e2a990434d234f8a77cf
   languageName: node
   linkType: hard
 
@@ -1693,7 +1690,7 @@ __metadata:
     "@laminar/type-definitions": 0.3.1
     "@logion/node-api": 0.9.0-3
     "@mangata-finance/types": 0.18.0
-    "@metaverse-network-sdk/type-definitions": 0.0.1-13
+    "@metaverse-network-sdk/type-definitions": 0.0.1-16
     "@parallel-finance/type-definitions": 1.7.16
     "@phala/typedefs": 0.2.33
     "@polkadot/api": ^10.1.2
@@ -1704,10 +1701,10 @@ __metadata:
     "@polkadot/wasm-util": ^7.0.3
     "@polkadot/x-fetch": ^11.0.2
     "@polkadot/x-ws": ^11.0.2
-    "@polymathnetwork/polymesh-types": 0.0.2
+    "@polymeshassociation/polymesh-types": 5.3.0
     "@snowfork/snowbridge-types": 0.2.7
-    "@sora-substrate/type-definitions": 1.15.6
-    "@subsocial/definitions": 0.8.5
+    "@sora-substrate/type-definitions": 1.15.8
+    "@subsocial/definitions": 0.8.6
     "@unique-nft/opal-testnet-types": 937.53.1
     "@unique-nft/quartz-mainnet-types": 937.52.0
     "@unique-nft/sapphire-mainnet-types": 937.52.0
@@ -1725,7 +1722,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/apps-electron@workspace:packages/apps-electron"
   dependencies:
-    "@polkadot/dev": ^0.71.9
+    "@polkadot/dev": ^0.71.10
     "@polkadot/react-components": ^0.124.2-153-x
     "@types/react-dom": ^18.0.11
     "@types/tmp": ^0.2.3
@@ -1751,7 +1748,7 @@ __metadata:
   dependencies:
     "@polkadot/apps-config": ^0.124.2-153-x
     "@polkadot/apps-routing": ^0.124.2-153-x
-    "@polkadot/dev": ^0.71.9
+    "@polkadot/dev": ^0.71.10
     "@polkadot/react-api": ^0.124.2-153-x
     "@polkadot/react-components": ^0.124.2-153-x
     "@polkadot/react-hooks": ^0.124.2-153-x
@@ -1779,9 +1776,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.71.9":
-  version: 0.71.9
-  resolution: "@polkadot/dev@npm:0.71.9"
+"@polkadot/dev@npm:^0.71.10":
+  version: 0.71.10
+  resolution: "@polkadot/dev@npm:0.71.10"
   dependencies:
     "@eslint/js": ^8.36.0
     "@rollup/plugin-alias": ^4.0.3
@@ -1818,7 +1815,7 @@ __metadata:
     typescript: ^4.9.5
     webpack: ^5.76.1
     webpack-cli: ^5.0.1
-    webpack-dev-server: ^4.11.1
+    webpack-dev-server: ^4.12.0
     webpack-merge: ^5.8.0
     webpack-subresource-integrity: ^5.2.0-rc.1
     yargs: ^17.7.1
@@ -1846,7 +1843,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 59321ee3051dc070b03da2bc22c737e818eccd5551c7ca34cd3368a1ceff22c2f75651b3297c51622b3a2423f31e8bf7d9a987d89b1df9f35c86ada7c26a7699
+  checksum: cab2dc350daf467093b662a9d66d89a36732a33508e763b515d76b1db7b918401c9edb0f2bce52f07b84b8863ff5d5421cb98a7f76271c5f3082b495e4f7b62b
   languageName: node
   linkType: hard
 
@@ -1998,7 +1995,7 @@ __metadata:
     "@types/codeflask": ^1.4.3
     "@types/owasp-password-strength-test": ^1.3.0
     chart.js: ^4.2.1
-    chartjs-plugin-annotation: ^2.1.2
+    chartjs-plugin-annotation: ^2.2.0
     chartjs-plugin-crosshair: ^1.2.0
     codeflask: ^1.4.1
     i18next: ^22.4.11
@@ -2490,10 +2487,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polymathnetwork/polymesh-types@npm:0.0.2":
-  version: 0.0.2
-  resolution: "@polymathnetwork/polymesh-types@npm:0.0.2"
-  checksum: 4a1168de7547ad25d770eaca806f683f1789a649b3045dbd84e0e8da0e03bfc1f556628b70947ec80894f9aa4307648f6c344323840e43f2e306f0edd3ae21b6
+"@polymeshassociation/polymesh-types@npm:5.3.0":
+  version: 5.3.0
+  resolution: "@polymeshassociation/polymesh-types@npm:5.3.0"
+  checksum: f8eee7efb58bbf54f8961f6fd0a52e836428f5772ffe767e29576343a5a6b169a8b2b5863ad1a5d29d81d5b52eaa43a35c7be94c4008b0b295c154d4c6d3ff27
   languageName: node
   linkType: hard
 
@@ -2671,12 +2668,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sora-substrate/type-definitions@npm:1.15.6":
-  version: 1.15.6
-  resolution: "@sora-substrate/type-definitions@npm:1.15.6"
+"@sora-substrate/type-definitions@npm:1.15.8":
+  version: 1.15.8
+  resolution: "@sora-substrate/type-definitions@npm:1.15.8"
   dependencies:
     "@open-web3/orml-type-definitions": 0.9.4-26
-  checksum: 6851e7245a65cec13af4081f0619cde382fce0af0d35670d8c85fe8b697d22056b3f56bc5ed07b7a8f236987dc9e2ef79ff5627bfab1f1a8c8fdddd97b0612f6
+  checksum: 65c7647104ccd7ceb9e4eeef0d70b0d8eb5b5e9381ff78bd78953c1b9faafbf0f98fe617ca419dfe11babb7e12c95a386741598c149f3a80c37db96fd44f5f93
   languageName: node
   linkType: hard
 
@@ -2707,13 +2704,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@subsocial/definitions@npm:0.8.5":
-  version: 0.8.5
-  resolution: "@subsocial/definitions@npm:0.8.5"
+"@subsocial/definitions@npm:0.8.6":
+  version: 0.8.6
+  resolution: "@subsocial/definitions@npm:0.8.6"
   dependencies:
     "@polkadot/api": latest
     lodash.camelcase: ^4.3.0
-  checksum: e07f4602a7bf697be6e27ab902c2f02ab4f6d51f40ccef7ebba4bb51178c70017df7ea1890d3080856aaa6b610561cebeff59e476106f0ff3a282b90bbae1f24
+  checksum: 7607d38be24725a8bb0dc04f23154ad2e16b6b110a938c34a1f381afb65161986002dd921bcb76df82f366fa2a8f18f964b49c4f05b118db32a5d2ee8932cb85
   languageName: node
   linkType: hard
 
@@ -5606,12 +5603,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chartjs-plugin-annotation@npm:^2.1.2":
-  version: 2.1.2
-  resolution: "chartjs-plugin-annotation@npm:2.1.2"
+"chartjs-plugin-annotation@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "chartjs-plugin-annotation@npm:2.2.0"
   peerDependencies:
     chart.js: ">=3.7.0"
-  checksum: 821cfae3d2e7f7c70e8d42ba6fa22f0b40afa9d0cc52938afc9ddc547fe97c7fa3a0b849026bdc9afba823736b21733cdb2c911f0500008f2deb8f83743bf672
+  checksum: 355456597b8dc7ceb7198658f6f3045116b828e5e66c557823961863cb20cd7c7af67f3645832f3e27e008b728fe158761bc8116f2ee86c2043bf31be6774cbb
   languageName: node
   linkType: hard
 
@@ -6123,16 +6120,6 @@ __metadata:
     conc: dist/bin/concurrently.js
     concurrently: dist/bin/concurrently.js
   checksum: f705c9a7960f1b16559ca64958043faeeef6385c0bf30a03d1375e15ab2d96dba4f8166f1bbbb1c85e8da35ca0ce3c353875d71dff2aa132b2357bb533b3332e
-  languageName: node
-  linkType: hard
-
-"config-chain@npm:^1.1.11":
-  version: 1.1.13
-  resolution: "config-chain@npm:1.1.13"
-  dependencies:
-    ini: ^1.3.4
-    proto-list: ~1.2.1
-  checksum: 828137a28e7c2fc4b7fb229bd0cd6c1397bcf83434de54347e608154008f411749041ee392cbe42fab6307e02de4c12480260bf769b7d44b778fdea3839eafab
   languageName: node
   linkType: hard
 
@@ -7503,16 +7490,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron@npm:^21.4.2":
-  version: 21.4.2
-  resolution: "electron@npm:21.4.2"
+"electron@npm:^23.1.3":
+  version: 23.1.3
+  resolution: "electron@npm:23.1.3"
   dependencies:
-    "@electron/get": ^1.14.1
+    "@electron/get": ^2.0.0
     "@types/node": ^16.11.26
     extract-zip: ^2.0.1
   bin:
     electron: cli.js
-  checksum: d073781ecfbb07f0850e7d3c9e7640a369e87e9cfbb01ec2e1b87bbc37e0210a2114491c081963533395cd8a9a5737cad124c2e1759122a363a4c494fc472433
+  checksum: 091a7acd2379c8b8e9df76244ca2e0f5f2aa9e4a94da9c08f56fdc4762f27f5fd7f3505a027c00601f64c5beeb27e5c707a2061ff37654ded55e21cedeb0b926
   languageName: node
   linkType: hard
 
@@ -7561,7 +7548,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"encodeurl@npm:^1.0.2, encodeurl@npm:~1.0.2":
+"encodeurl@npm:~1.0.2":
   version: 1.0.2
   resolution: "encodeurl@npm:1.0.2"
   checksum: e50e3d508cdd9c4565ba72d2012e65038e5d71bdc9198cb125beb6237b5b1ade6c0d343998da9e170fb2eae52c1bed37d4d6d98a46ea423a0cddbed5ac3f780c
@@ -8829,17 +8816,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.0.0, follow-redirects@npm:^1.10.0":
-  version: 1.13.3
-  resolution: "follow-redirects@npm:1.13.3"
-  peerDependenciesMeta:
-    debug:
-      optional: true
-  checksum: 4b5aaa91a0f938547a083d001a572da4d6b7586b699f330da8794ae2cf8b0d8628bcde794f9b205fbe6c6dcab30272454e723aed8f5540bf47a41fa8c7e36441
-  languageName: node
-  linkType: hard
-
-"follow-redirects@npm:^1.15.0":
+"follow-redirects@npm:^1.0.0, follow-redirects@npm:^1.10.0, follow-redirects@npm:^1.15.0":
   version: 1.15.2
   resolution: "follow-redirects@npm:1.15.2"
   peerDependenciesMeta:
@@ -9397,18 +9374,6 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"global-tunnel-ng@npm:^2.7.1":
-  version: 2.7.1
-  resolution: "global-tunnel-ng@npm:2.7.1"
-  dependencies:
-    encodeurl: ^1.0.2
-    lodash: ^4.17.10
-    npm-conf: ^1.1.3
-    tunnel: ^0.0.6
-  checksum: b7e016093eab6058b5fdd8caea31c22dc1a607f0f0b41c001ade5e0227c5d74efe9ce9bae56316d794bc1cedd461a187b8b7e8f0a3eb4d194972cdfb9d860af2
-  languageName: node
-  linkType: hard
-
 "global@npm:~4.4.0":
   version: 4.4.0
   resolution: "global@npm:4.4.0"
@@ -9525,7 +9490,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"got@npm:^11.5.1":
+"got@npm:^11.5.1, got@npm:^11.8.5":
   version: 11.8.6
   resolution: "got@npm:11.8.6"
   dependencies:
@@ -10359,7 +10324,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"ini@npm:^1.3.4, ini@npm:~1.3.0":
+"ini@npm:~1.3.0":
   version: 1.3.8
   resolution: "ini@npm:1.3.8"
   checksum: dfd98b0ca3a4fc1e323e38a6c8eb8936e31a97a918d3b377649ea15bdb15d481207a0dda1021efbd86b464cae29a0d33c1d7dcaf6c5672bee17fa849bc50a1b3
@@ -11510,6 +11475,16 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
+"launch-editor@npm:^2.6.0":
+  version: 2.6.0
+  resolution: "launch-editor@npm:2.6.0"
+  dependencies:
+    picocolors: ^1.0.0
+    shell-quote: ^1.7.3
+  checksum: 48e4230643e8fdb5c14c11314706d58d9f3fbafe2606be3d6e37da1918ad8bfe39dd87875c726a1b59b9f4da99d87ec3e36d4c528464f0b820f9e91e5cb1c02d
+  languageName: node
+  linkType: hard
+
 "lazy-val@npm:^1.0.4, lazy-val@npm:^1.0.5":
   version: 1.0.5
   resolution: "lazy-val@npm:1.0.5"
@@ -11669,7 +11644,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.0.0, lodash@npm:^4.17.10, lodash@npm:^4.17.11, lodash@npm:^4.17.15, lodash@npm:^4.17.20, lodash@npm:^4.17.21":
+"lodash@npm:^4.0.0, lodash@npm:^4.17.11, lodash@npm:^4.17.15, lodash@npm:^4.17.20, lodash@npm:^4.17.21":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: eb835a2e51d381e561e508ce932ea50a8e5a68f4ebdd771ea240d3048244a8d13658acbd502cd4829768c56f2e16bdd4340b9ea141297d472517b83868e677f7
@@ -13010,16 +12985,6 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"npm-conf@npm:^1.1.3":
-  version: 1.1.3
-  resolution: "npm-conf@npm:1.1.3"
-  dependencies:
-    config-chain: ^1.1.11
-    pify: ^3.0.0
-  checksum: 2d4e933b657623d98183ec408d17318547296b1cd17c4d3587e2920c554675f24f829d8f5f7f84db3a020516678fdcd01952ebaaf0e7fa8a17f6c39be4154bef
-  languageName: node
-  linkType: hard
-
 "npm-run-path@npm:^4.0.1":
   version: 4.0.1
   resolution: "npm-run-path@npm:4.0.1"
@@ -13673,13 +13638,6 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"pify@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "pify@npm:3.0.0"
-  checksum: 6cdcbc3567d5c412450c53261a3f10991665d660961e06605decf4544a61a97a54fefe70a68d5c37080ff9d6f4cf51444c90198d1ba9f9309a6c0d6e9f5c4fde
-  languageName: node
-  linkType: hard
-
 "pinkie-promise@npm:^2.0.0":
   version: 2.0.1
   resolution: "pinkie-promise@npm:2.0.1"
@@ -13735,7 +13693,7 @@ fsevents@~2.3.2:
   dependencies:
     "@crustio/crust-pin": ^1.0.0
     "@pinata/sdk": ^2.1.0
-    "@polkadot/dev": ^0.71.9
+    "@polkadot/dev": ^0.71.10
     "@types/chart.js": ^2.9.37
     "@types/file-saver": ^2.0.5
     "@types/react-beautiful-dnd": ^13.1.3
@@ -13748,7 +13706,7 @@ fsevents@~2.3.2:
     concurrently: ^7.6.0
     devtron: ^1.4.0
     dnslink-cloudflare: ^3.0.0
-    electron: ^21.4.2
+    electron: ^23.1.3
     electron-builder: 23.6.0
     electron-builder-notarize: ^1.5.1
     i18next-scanner: ^4.1.1
@@ -14100,13 +14058,6 @@ fsevents@~2.3.2:
   version: 6.1.1
   resolution: "property-information@npm:6.1.1"
   checksum: 654b1e5c3578e1d522bd22b7cf48881f5054789969ddbefea22e5359805fda5dbf0c5ef76bb26516da26fedac8752587ddc4c8f3b9e16bc0c6e7feb8b6086864
-  languageName: node
-  linkType: hard
-
-"proto-list@npm:~1.2.1":
-  version: 1.2.4
-  resolution: "proto-list@npm:1.2.4"
-  checksum: 4d4826e1713cbfa0f15124ab0ae494c91b597a3c458670c9714c36e8baddf5a6aad22842776f2f5b137f259c8533e741771445eb8df82e861eea37a6eaba03f7
   languageName: node
   linkType: hard
 
@@ -16968,13 +16919,6 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"tunnel@npm:^0.0.6":
-  version: 0.0.6
-  resolution: "tunnel@npm:0.0.6"
-  checksum: c362948df9ad34b649b5585e54ce2838fa583aa3037091aaed66793c65b423a264e5229f0d7e9a95513a795ac2bd4cb72cda7e89a74313f182c1e9ae0b0994fa
-  languageName: node
-  linkType: hard
-
 "tweetnacl@npm:1.x.x, tweetnacl@npm:^1.0.3":
   version: 1.0.3
   resolution: "tweetnacl@npm:1.0.3"
@@ -18104,9 +18048,9 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"webpack-dev-server@npm:^4.11.1":
-  version: 4.11.1
-  resolution: "webpack-dev-server@npm:4.11.1"
+"webpack-dev-server@npm:^4.12.0":
+  version: 4.12.0
+  resolution: "webpack-dev-server@npm:4.12.0"
   dependencies:
     "@types/bonjour": ^3.5.9
     "@types/connect-history-api-fallback": ^1.3.5
@@ -18127,6 +18071,7 @@ fsevents@~2.3.2:
     html-entities: ^2.3.2
     http-proxy-middleware: ^2.0.3
     ipaddr.js: ^2.0.1
+    launch-editor: ^2.6.0
     open: ^8.0.9
     p-retry: ^4.5.0
     rimraf: ^3.0.2
@@ -18136,7 +18081,7 @@ fsevents@~2.3.2:
     sockjs: ^0.3.24
     spdy: ^4.0.2
     webpack-dev-middleware: ^5.3.1
-    ws: ^8.4.2
+    ws: ^8.13.0
   peerDependencies:
     webpack: ^4.37.0 || ^5.0.0
   peerDependenciesMeta:
@@ -18144,7 +18089,7 @@ fsevents@~2.3.2:
       optional: true
   bin:
     webpack-dev-server: bin/webpack-dev-server.js
-  checksum: b7601a39ee0f413988259e29a36835b0a68522cfaa161de5b7ec99b3399acdd99d44189add4aaf4a5191258bb130f9cf3e68919324a1955c7557f5fe6ab0d96c
+  checksum: 3e33acb774457ee787038d66c12e04c3e4a9f91bbff7ca143083e4ac1937b1615a1b9e7387ec623df8ebc36f56b3c34742578c09f665fe811b6e38d2e8222a94
   languageName: node
   linkType: hard
 
@@ -18427,7 +18372,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"ws@npm:^8.13.0, ws@npm:^8.4.2, ws@npm:^8.8.1":
+"ws@npm:^8.13.0, ws@npm:^8.8.1":
   version: 8.13.0
   resolution: "ws@npm:8.13.0"
   peerDependencies:
