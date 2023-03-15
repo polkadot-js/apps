@@ -21,6 +21,7 @@ export { chainsDorafactoryPNG } from './generated/dorafactoryPNG.js';
 export { chainsDustyPNG } from './generated/dustyPNG.js';
 export { chainsEquilibriumSVG } from './generated/equilibriumSVG.js';
 export { chainsFerrumPNG } from './generated/ferrumPNG.js';
+export { chainsFragnovaPNG } from './generated/fragnovaPNG.js';
 export { chainsFrequencySVG } from './generated/frequencySVG.js';
 export { chainsGeminisPNG } from './generated/geminisPNG.js';
 export { chainsGenshiroSVG } from './generated/genshiroSVG.js';

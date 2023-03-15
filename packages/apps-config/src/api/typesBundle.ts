@@ -53930,7 +53930,7 @@ export const typesBundle = {
               },
               {
                 "name": "at",
-                "type": "Hash",
+                "type": "BlockHash",
                 "isOptional": true
               }
             ]
@@ -53945,7 +53945,7 @@ export const typesBundle = {
               },
               {
                 "name": "at",
-                "type": "Hash",
+                "type": "BlockHash",
                 "isOptional": true
               }
             ]
@@ -53960,7 +53960,7 @@ export const typesBundle = {
               },
               {
                 "name": "at",
-                "type": "Hash",
+                "type": "BlockHash",
                 "isOptional": true
               }
             ]
@@ -53973,11 +53973,11 @@ export const typesBundle = {
             "params": [
               {
                 "name": "proto_hash",
-                "type": "Hash"
+                "type": "BlockHash"
               },
               {
                 "name": "at",
-                "type": "Hash",
+                "type": "BlockHash",
                 "isOptional": true
               }
             ]
@@ -53992,7 +53992,7 @@ export const typesBundle = {
               },
               {
                 "name": "at",
-                "type": "Hash",
+                "type": "BlockHash",
                 "isOptional": true
               }
             ]
@@ -54007,7 +54007,7 @@ export const typesBundle = {
               },
               {
                 "name": "at",
-                "type": "Hash",
+                "type": "BlockHash",
                 "isOptional": true
               }
             ]
@@ -54021,10 +54021,12 @@ export const typesBundle = {
             null
           ],
           "types": {
-            "Hash128": "[u8; 16]",
-            "FragmentMetadata": {
+            "DefinitionMetadata": {
               "name": "Vec<u8>",
-              "currency": "Option<AssetId>"
+              "currency": "Option<AssetId>",
+              "_reserved1": "Option<()>",
+              "_reserved2": "Option<()>",
+              "_reserved3": "Option<()>"
             },
             "GetDefinitionsParams": {
               "desc": "bool",
@@ -54114,6 +54116,7 @@ export const typesBundle = {
             },
             "ShardsScriptInfo": {
               "format": "ShardsFormat",
+              "shardsVersion": "Compact<u32>",
               "requiring": "Vec<ShardsTrait>",
               "implementing": "Vec<ShardsTrait>"
             },
@@ -54157,7 +54160,7 @@ export const typesBundle = {
               },
               {
                 "name": "at",
-                "type": "Hash",
+                "type": "BlockHash",
                 "isOptional": true
               }
             ]
@@ -54172,7 +54175,7 @@ export const typesBundle = {
               },
               {
                 "name": "at",
-                "type": "Hash",
+                "type": "BlockHash",
                 "isOptional": true
               }
             ]
@@ -54187,7 +54190,7 @@ export const typesBundle = {
               },
               {
                 "name": "at",
-                "type": "Hash",
+                "type": "BlockHash",
                 "isOptional": true
               }
             ]
@@ -54200,11 +54203,11 @@ export const typesBundle = {
             "params": [
               {
                 "name": "proto_hash",
-                "type": "Hash"
+                "type": "BlockHash"
               },
               {
                 "name": "at",
-                "type": "Hash",
+                "type": "BlockHash",
                 "isOptional": true
               }
             ]
@@ -54219,7 +54222,7 @@ export const typesBundle = {
               },
               {
                 "name": "at",
-                "type": "Hash",
+                "type": "BlockHash",
                 "isOptional": true
               }
             ]
@@ -54234,7 +54237,7 @@ export const typesBundle = {
               },
               {
                 "name": "at",
-                "type": "Hash",
+                "type": "BlockHash",
                 "isOptional": true
               }
             ]
@@ -54248,10 +54251,12 @@ export const typesBundle = {
             null
           ],
           "types": {
-            "Hash128": "[u8; 16]",
-            "FragmentMetadata": {
+            "DefinitionMetadata": {
               "name": "Vec<u8>",
-              "currency": "Option<AssetId>"
+              "currency": "Option<AssetId>",
+              "_reserved1": "Option<()>",
+              "_reserved2": "Option<()>",
+              "_reserved3": "Option<()>"
             },
             "GetDefinitionsParams": {
               "desc": "bool",
@@ -54341,6 +54346,7 @@ export const typesBundle = {
             },
             "ShardsScriptInfo": {
               "format": "ShardsFormat",
+              "shardsVersion": "Compact<u32>",
               "requiring": "Vec<ShardsTrait>",
               "implementing": "Vec<ShardsTrait>"
             },
