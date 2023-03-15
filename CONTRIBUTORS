@@ -290,6 +290,7 @@
        1	EugenWay                      	add Vara Network (#8285)
        1	fadomire                      	Fix translations loading for ever (#5282)
        1	fixxxedpoint                  	Changed THRESHOLD in useBlockTime so chains that uses values smaller than 1s for the MinimumPeriod (pallet_timestamp) parameter are displayed correctly (#6045)
+       1	FOB                           	Fix Polymesh types bundle to use correct specNames and update branding (#9182)
        1	Fr4ctalbit                    	Turn Submit proposal tab into a modal (#1698)
        1	Francesco Occhipinti          	[CI Skip] update the remote server location, closes #487 (#492)
        1	Francisco Gamundi             	Updated Moonbeam Foundation's Moonriver endpoint (#7028)
