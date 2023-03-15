@@ -550,10 +550,7 @@ export const prodParasKusama: EndpointOption[] = [
     info: 'quartz',
     paraId: 2095,
     providers: {
-      // This is a possible false positive since OnFinality does not allow connections
-      // from non polkadot.js.org urls - however until resolved, this needs to be disabled
-      // since we cannot manually check the urls twice daily when they are reported
-      OnFinality: 'wss://quartz.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8973
+      'Geo Load Balancer': 'wss://ws-quartz.unique.network',
       'Unique America': 'wss://us-ws-quartz.unique.network',
       'Unique Asia': 'wss://asia-ws-quartz.unique.network',
       'Unique Europe': 'wss://eu-ws-quartz.unique.network'
