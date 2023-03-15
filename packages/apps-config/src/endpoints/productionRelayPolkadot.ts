@@ -168,7 +168,7 @@ export const prodParasPolkadot: EndpointOption[] = [
   },
   {
     homepage: 'https://composable.finance/',
-    info: 'composableFinance',
+    info: 'composable',
     paraId: 2019,
     providers: {
       Composable: 'wss://rpc.composable.finance',
@@ -296,7 +296,7 @@ export const prodParasPolkadot: EndpointOption[] = [
   },
   {
     homepage: 'https://hydradx.io/',
-    info: 'hydra',
+    info: 'hydradx',
     paraId: 2034,
     providers: {
       Dwellir: 'wss://hydradx-rpc.dwellir.com',
