@@ -8,8 +8,8 @@ const process = require('process');
 // incorrect packages without type specifier
 const PKG_FIX = [
   '@frequency-chain/api-augment',
-  // we use the ESM path here
-  'chartjs-plugin-annotation'
+  // the default export here is ESM
+  'i18next-browser-languagedetector'
 ];
 
 PKG_FIX.forEach((f) => {

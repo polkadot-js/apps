@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import spinnerSrc from './Spinner.png';
+import spinnerSrc from './Spinner.png.js';
 import { styled } from './styled.js';
 import { useTranslation } from './translate.js';
 

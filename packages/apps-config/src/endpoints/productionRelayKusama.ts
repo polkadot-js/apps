@@ -670,7 +670,7 @@ export const prodParasKusama: EndpointOption[] = [
   },
   {
     homepage: 'https://sora.org/',
-    info: 'sora_ksm',
+    info: 'sora',
     paraId: 2011,
     providers: {
       Soramitsu: 'wss://ws.parachain-collator-1.c1.sora2.soramitsu.co.jp'

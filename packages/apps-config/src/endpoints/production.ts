@@ -432,9 +432,8 @@ export const prodChains: EndpointOption[] = [
   },
   {
     info: 'stafi',
-    isDisabled: true, // Cannot find type ChainId
     providers: {
-      'Stafi Foundation': 'wss://mainnet-rpc.stafi.io'
+      // 'Stafi Foundation': 'wss://mainnet-rpc.stafi.io' // isDisabled: true, // Cannot find type ChainId
     },
     text: 'Stafi',
     ui: {
