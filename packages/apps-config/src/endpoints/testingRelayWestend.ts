@@ -143,6 +143,8 @@ export const testParasWestendCommon: EndpointOption[] = [
     providers: {
       Dwellir: 'wss://westmint-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://westmint-rpc-tn.dwellir.com',
+      'IBP-GeoDNS1': 'wss://sys.ibp.network/westmint',
+      'IBP-GeoDNS2': 'wss://sys.dotters.network/westmint',
       Parity: 'wss://westmint-rpc.polkadot.io'
     },
     teleport: [-1],
@@ -156,6 +158,8 @@ export const testParasWestendCommon: EndpointOption[] = [
     info: 'westendCollectives',
     paraId: 1001,
     providers: {
+      'IBP-GeoDNS1': 'wss://sys.ibp.network/collectives-westend',
+      'IBP-GeoDNS2': 'wss://sys.dotters.network/collectives-westend',
       Parity: 'wss://westend-collectives-rpc.polkadot.io'
     },
     teleport: [-1],
@@ -187,10 +191,10 @@ export const testRelayWestend: EndpointOption = {
     ...testParasWestend
   ],
   providers: {
-    'Dotters Net': 'wss://rpc.dotters.network/westend',
     Dwellir: 'wss://westend-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://westend-rpc-tn.dwellir.com',
-    'IBP Network': 'wss://rpc.ibp.network/westend',
+    'IBP-GeoDNS1': 'wss://rpc.ibp.network/westend',
+    'IBP-GeoDNS2': 'wss://rpc.dotters.network/westend',
     OnFinality: 'wss://westend.api.onfinality.io/public-ws',
     Parity: 'wss://westend-rpc.polkadot.io',
     'light client': 'light://substrate-connect/westend'
