@@ -8,7 +8,7 @@ import type { AccountId, BalanceOf, Call, Multisig } from '@polkadot/types/inter
 import type { KitchensinkRuntimeProxyType, PalletProxyProxyDefinition } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
-import type { AddressFlags, AddressProxy } from './types';
+import type { AddressFlags, AddressProxy } from './types.js';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -17,9 +17,9 @@ import { InputAddress, MarkError, Modal, Toggle } from '@polkadot/react-componen
 import { useAccounts, useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { BN_ZERO, isFunction } from '@polkadot/util';
 
-import Password from './Password';
-import { useTranslation } from './translate';
-import { extractExternal } from './util';
+import Password from './Password.js';
+import { useTranslation } from './translate.js';
+import { extractExternal } from './util.js';
 
 interface Props {
   className?: string;

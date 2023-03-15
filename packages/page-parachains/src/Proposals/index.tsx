@@ -1,12 +1,12 @@
 // Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Proposals } from '../types';
+import type { Proposals } from '../types.js';
 
 import React from 'react';
 
-import Actions from './Actions';
-import ProposalList from './Proposals';
+import Actions from './Actions.js';
+import ProposalList from './Proposals.js';
 
 interface Props {
   className?: string;

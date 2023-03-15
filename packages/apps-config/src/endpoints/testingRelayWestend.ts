@@ -1,12 +1,12 @@
 // Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { EndpointOption } from './types';
+import type { EndpointOption } from './types.js';
 
-import { WESTEND_GENESIS } from '../api/constants';
-import { chainsKaruraSVG, chainsStandardPNG } from '../ui/logos/chains';
-import { nodesBridgeHubSVG, nodesCentrifugePNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKhalaSVG, nodesKiltPNG, nodesKylinPNG, nodesMoonshadowPNG, nodesPangoroSVG, nodesStatemineSVG, nodesWestendColourSVG } from '../ui/logos/nodes';
-import { getTeleports } from './util';
+import { WESTEND_GENESIS } from '../api/constants.js';
+import { chainsKaruraSVG, chainsStandardPNG } from '../ui/logos/chains/index.js';
+import { nodesBridgeHubSVG, nodesCentrifugePNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKhalaSVG, nodesKiltPNG, nodesKylinPNG, nodesMoonshadowPNG, nodesPangoroSVG, nodesStatemineSVG, nodesWestendColourSVG } from '../ui/logos/nodes/index.js';
+import { getTeleports } from './util.js';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
 // Polkadot) we try to keep this to live chains only, with RPCs hosted by the community/chain vendor

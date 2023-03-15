@@ -9,11 +9,11 @@ import React, { useRef } from 'react';
 import { Button, Table } from '@polkadot/react-components';
 import { useCollectiveMembers } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import Motion from './Motion';
-import ProposeExternal from './ProposeExternal';
-import ProposeMotion from './ProposeMotion';
-import Slashing from './Slashing';
+import { useTranslation } from '../translate.js';
+import Motion from './Motion.js';
+import ProposeExternal from './ProposeExternal.js';
+import ProposeMotion from './ProposeMotion.js';
+import Slashing from './Slashing.js';
 
 interface Props {
   className?: string;

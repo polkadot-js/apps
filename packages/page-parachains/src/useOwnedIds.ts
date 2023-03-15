@@ -4,7 +4,7 @@
 import type { Option, StorageKey } from '@polkadot/types';
 import type { Hash, ParaId } from '@polkadot/types/interfaces';
 import type { PolkadotRuntimeCommonParasRegistrarParaInfo } from '@polkadot/types/lookup';
-import type { OwnedId, OwnedIdPartial } from './types';
+import type { OwnedId, OwnedIdPartial } from './types.js';
 
 import { useMemo } from 'react';
 

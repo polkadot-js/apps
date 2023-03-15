@@ -13,10 +13,10 @@ import { useAccounts, useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
-import { ClaimStyles } from './Claim';
-import Statement from './Statement';
-import { useTranslation } from './translate';
-import { getStatement } from './util';
+import { ClaimStyles } from './Claim.js';
+import Statement from './Statement.js';
+import { useTranslation } from './translate.js';
+import { getStatement } from './util.js';
 
 interface Props {
   accountId: string;

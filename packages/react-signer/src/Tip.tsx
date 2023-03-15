@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { InputBalance, Modal, Toggle } from '@polkadot/react-components';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;

@@ -3,15 +3,15 @@
 
 import type { PalletConvictionVotingVoteVoting } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { PalletVote } from '../../types';
-import type { LockResult, VoteResult, VoteResultItem } from './types';
+import type { PalletVote } from '../../types.js';
+import type { LockResult, VoteResult, VoteResultItem } from './types.js';
 
 import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-import useVotingLocks from './useVotingLocks';
+import useVotingLocks from './useVotingLocks.js';
 
 type ForParam = [accountId: string, classId: BN];
 

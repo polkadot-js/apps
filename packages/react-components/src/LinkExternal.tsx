@@ -9,8 +9,8 @@ import React, { useMemo } from 'react';
 import { externalLinks } from '@polkadot/apps-config';
 import { useApi } from '@polkadot/react-hooks';
 
-import { styled } from './styled';
-import { useTranslation } from './translate';
+import { styled } from './styled.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;

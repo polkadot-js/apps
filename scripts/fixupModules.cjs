@@ -7,7 +7,9 @@ const process = require('process');
 
 // incorrect packages without type specifier
 const PKG_FIX = [
-  '@frequency-chain/api-augment'
+  '@frequency-chain/api-augment',
+  // the default export here is ESM
+  'i18next-browser-languagedetector'
 ];
 
 PKG_FIX.forEach((f) => {

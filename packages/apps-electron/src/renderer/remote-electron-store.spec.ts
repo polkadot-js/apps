@@ -3,7 +3,7 @@
 
 import type { KeyringJson } from '@polkadot/ui-keyring/types';
 
-import { RemoteElectronStore } from './remote-electron-store';
+import { RemoteElectronStore } from './remote-electron-store.js';
 
 describe('Remote Electron Store', () => {
   const accountStore = {

@@ -6,7 +6,7 @@ import React, { useCallback, useState } from 'react';
 import { Columar, MarkError, QrDisplayPayload, QrScanSignature, Spinner, styled } from '@polkadot/react-components';
 import { isHex } from '@polkadot/util';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface SigData {
   signature: string

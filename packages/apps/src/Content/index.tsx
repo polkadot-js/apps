@@ -10,10 +10,10 @@ import createRoutes from '@polkadot/apps-routing';
 import { ErrorBoundary, Spinner, styled, TabsCtx } from '@polkadot/react-components';
 import { useApi, useQueue } from '@polkadot/react-hooks';
 
-import { findMissingApis } from '../endpoint';
-import { useTranslation } from '../translate';
-import NotFound from './NotFound';
-import Status from './Status';
+import { findMissingApis } from '../endpoint.js';
+import { useTranslation } from '../translate.js';
+import NotFound from './NotFound.js';
+import Status from './Status.js';
 
 interface Props {
   className?: string;

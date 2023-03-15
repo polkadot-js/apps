@@ -9,9 +9,9 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 import { useQueue } from '@polkadot/react-hooks';
 import { isString } from '@polkadot/util';
 
-import Button from './Button';
-import { styled } from './styled';
-import { useTranslation } from './translate';
+import Button from './Button/index.js';
+import { styled } from './styled.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   children?: React.ReactNode;

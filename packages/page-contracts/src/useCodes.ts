@@ -1,13 +1,13 @@
 // Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodeStored } from './types';
+import type { CodeStored } from './types.js';
 
 import { useEffect, useState } from 'react';
 
 import { createNamedHook, useIsMountedRef } from '@polkadot/react-hooks';
 
-import store from './store';
+import store from './store.js';
 
 interface UseCodes {
   allCodes: CodeStored[];

@@ -5,12 +5,12 @@ import React from 'react';
 
 import { useWindowColumns } from '@polkadot/react-hooks';
 
-import { styled } from '../styled';
-import Body from './Body';
-import Column from './Column';
-import Foot from './Foot';
-import Head from './Head';
-import Row from './Row';
+import { styled } from '../styled.js';
+import Column from './Column/index.js';
+import Row from './Row/index.js';
+import Body from './Body.js';
+import Foot from './Foot.js';
+import Head from './Head.js';
 
 interface Props {
   children?: React.ReactNode;

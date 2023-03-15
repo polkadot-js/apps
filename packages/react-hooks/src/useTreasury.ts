@@ -9,9 +9,9 @@ import { useEffect, useState } from 'react';
 import { DeriveBalancesAccount } from '@polkadot/api-derive/types';
 import { BN, BN_MILLION, BN_ZERO, u8aConcat } from '@polkadot/util';
 
-import { createNamedHook } from './createNamedHook';
-import { useApi } from './useApi';
-import { useCall } from './useCall';
+import { createNamedHook } from './createNamedHook.js';
+import { useApi } from './useApi.js';
+import { useCall } from './useCall.js';
 
 const EMPTY_U8A_32 = new Uint8Array(32);
 

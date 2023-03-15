@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, CoreAssignment, GroupIndex, ParaId, ParaValidatorIndex } from '@polkadot/types/interfaces';
-import type { ValidatorInfo } from './types';
+import type { ValidatorInfo } from './types.js';
 
 import { useEffect, useMemo, useState } from 'react';
 

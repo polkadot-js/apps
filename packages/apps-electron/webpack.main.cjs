@@ -23,12 +23,14 @@ function createWebpack () {
           },
           {
             exclude: /(node_modules)/,
-            test: /\.(js|mjs|ts|tsx)$/,
+            test: /\.(ts|tsx)$/,
             use: [
-              require.resolve('thread-loader'),
               {
-                loader: require.resolve('babel-loader'),
-                options: require('@polkadot/dev/config/babel-config-webpack.cjs')
+                loader: require.resolve('ts-loader'),
+                options: {
+                  configFile: 'tsconfig.webpack.json',
+                  transpileOnly: true
+                }
               }
             ]
           }
@@ -48,6 +50,9 @@ function createWebpack () {
       resolve: {
         alias: {
           '@polkadot/hw-ledger-transports': require.resolve('@polkadot/hw-ledger-transports/node')
+        },
+        extensionAlias: {
+          '.js': ['.ts', '.tsx', '.js']
         },
         extensions: ['.js', '.jsx', '.json', '.mjs', '.ts', '.tsx']
       },

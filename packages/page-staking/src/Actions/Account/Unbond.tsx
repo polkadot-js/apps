@@ -11,8 +11,8 @@ import { useApi } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
-import useUnbondDuration from '../useUnbondDuration';
+import { useTranslation } from '../../translate.js';
+import useUnbondDuration from '../useUnbondDuration.js';
 
 interface Props {
   controllerId?: AccountId | string | null;

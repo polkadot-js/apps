@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import { styled } from '../styled';
+import { styled } from '../styled.js';
 
 interface Props {
   children: React.ReactNode;

@@ -8,7 +8,7 @@ import { ThemeProvider } from 'styled-components';
 import { lightTheme } from '@polkadot/apps/themes';
 import i18next from '@polkadot/react-components/i18n';
 
-import Popup from '.';
+import Popup from './index.js';
 
 function TestPopup () {
   return (

@@ -9,9 +9,9 @@ import React from 'react';
 import { BlockToTime } from '@polkadot/react-query';
 import { BN_HUNDRED, formatNumber, isUndefined } from '@polkadot/util';
 
-import Labelled from './Labelled';
-import Progress from './Progress';
-import { styled } from './styled';
+import Labelled from './Labelled.js';
+import Progress from './Progress.js';
+import { styled } from './styled.js';
 
 interface ProgressProps {
   hideGraph?: boolean;

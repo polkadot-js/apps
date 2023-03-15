@@ -5,12 +5,12 @@ import { ApiPromise } from '@polkadot/api';
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import { KeyringPair } from '@polkadot/keyring/types';
-import { charlieSigner, daveSigner, eveSigner, ferdieSigner } from '@polkadot/test-support/keyring';
-import { execute } from '@polkadot/test-support/transaction';
+import { charlieSigner, daveSigner, eveSigner, ferdieSigner } from '@polkadot/test-support/keyring/index';
+import { execute } from '@polkadot/test-support/transaction/index';
 import { Hash } from '@polkadot/types/interfaces';
 import { BN } from '@polkadot/util';
 
-import { LENGTH_BOUND, TREASURY_ADDRESS, WEIGHT_BOUND } from './constants';
+import { LENGTH_BOUND, TREASURY_ADDRESS, WEIGHT_BOUND } from './constants.js';
 
 export async function acceptMotion (api: ApiPromise, hash: Hash, index: number): Promise<void> {
   const charlieVote = execute(api.tx.council.vote(hash, index, true), charlieSigner());

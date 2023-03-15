@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { SortedTargets } from '../types';
-import type { BondInfo, SessionInfo, ValidateInfo } from './partials/types';
+import type { SortedTargets } from '../types.js';
+import type { BondInfo, SessionInfo, ValidateInfo } from './partials/types.js';
 
 import React, { useCallback, useState } from 'react';
 
@@ -11,10 +11,10 @@ import { BatchWarning, Button, Modal, TxButton } from '@polkadot/react-component
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import BondPartial from './partials/Bond';
-import SessionKeyPartial from './partials/SessionKey';
-import ValidatePartial from './partials/Validate';
+import { useTranslation } from '../translate.js';
+import BondPartial from './partials/Bond.js';
+import SessionKeyPartial from './partials/SessionKey.js';
+import ValidatePartial from './partials/Validate.js';
 
 interface Props {
   isInElection?: boolean;

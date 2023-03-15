@@ -7,12 +7,12 @@ import { createGlobalStyle } from 'styled-components';
 
 import { useTheme } from '@polkadot/react-hooks';
 
-import ErrorBoundary from '../ErrorBoundary';
-import { styled } from '../styled';
-import Actions from './Actions';
-import Columns from './Columns';
-import Content from './Content';
-import Header from './Header';
+import ErrorBoundary from '../ErrorBoundary.js';
+import { styled } from '../styled.js';
+import Actions from './Actions.js';
+import Columns from './Columns.js';
+import Content from './Content.js';
+import Header from './Header.js';
 
 interface Props {
   size?: 'large' | 'medium' | 'small';

@@ -3,14 +3,14 @@
 
 import type { DeriveElectionsInfo } from '@polkadot/api-derive/types';
 import type { BlockNumber } from '@polkadot/types/interfaces';
-import type { ComponentProps } from './types';
+import type { ComponentProps } from './types.js';
 
 import React from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { BN_THREE, BN_TWO, BN_ZERO, formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props extends ComponentProps {
   bestNumber?: BlockNumber;

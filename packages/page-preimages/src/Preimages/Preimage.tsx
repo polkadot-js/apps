@@ -8,9 +8,9 @@ import React from 'react';
 import { usePreimage } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
-import Call from './Call';
-import Free from './Free';
-import Hash from './Hash';
+import Call from './Call.js';
+import Free from './Free.js';
+import Hash from './Hash.js';
 
 interface Props {
   className?: string;

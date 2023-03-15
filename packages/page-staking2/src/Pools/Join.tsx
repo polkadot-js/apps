@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { Params } from './types';
+import type { Params } from './types.js';
 
 import React, { useState } from 'react';
 
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import useAmountError from './useAmountError';
+import { useTranslation } from '../translate.js';
+import useAmountError from './useAmountError.js';
 
 interface Props {
   className?: string;

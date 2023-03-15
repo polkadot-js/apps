@@ -9,8 +9,8 @@ import React, { useMemo } from 'react';
 
 import { AddressSmall, Icon, styled } from '@polkadot/react-components';
 
-import { getProposalToDisplay } from './helpers/extendedStatuses';
-import { useTranslation } from './translate';
+import { getProposalToDisplay } from './helpers/extendedStatuses.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;

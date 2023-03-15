@@ -11,7 +11,6 @@ jobs:
     strategy:
       matrix:
         step: ['build:release:www']
-    name: ${{ matrix.step }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -39,7 +38,6 @@ jobs:
   # only run on "CI skip", i.e. when the actual version has been bumped to release/stable
   docker:
     if: "startsWith(github.event.head_commit.message, '[CI Skip] release/stable')"
-    name: docker
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -59,7 +57,6 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
-    name: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
       with:

@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { MarkWarning } from '@polkadot/react-components';
 import { BN_TEN } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../../translate.js';
 
 interface Props {
   unstakeThreshold: BN | undefined;

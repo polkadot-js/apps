@@ -8,9 +8,9 @@ import React from 'react';
 import { Button } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import ProposalCreate from './ProposalCreate';
-import Proposals from './Proposals';
-import Summary from './Summary';
+import ProposalCreate from './ProposalCreate.js';
+import Proposals from './Proposals.js';
+import Summary from './Summary.js';
 
 interface Props {
   className?: string;

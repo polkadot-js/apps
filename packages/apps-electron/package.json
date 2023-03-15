@@ -1,5 +1,8 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
+  "engines": {
+    "node": ">=14"
+  },
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/apps-electron#readme",
   "license": "Apache-2.0",
   "name": "@polkadot/apps-electron",
@@ -10,24 +13,20 @@
     "url": "https://github.com/polkadot-js/apps.git"
   },
   "sideEffects": false,
-  "version": "0.124.2-100-x",
+  "version": "0.124.2-157-x",
   "dependencies": {
-    "@babel/core": "^7.21.0",
-    "@babel/polyfill": "^7.12.1",
-    "@polkadot/dev": "^0.69.6",
-    "@polkadot/react-components": "^0.124.2-100-x",
+    "@polkadot/dev": "^0.71.10",
+    "@polkadot/react-components": "^0.124.2-157-x",
     "electron-log": "^5.0.0-beta.16",
     "electron-updater": "^5.3.0"
   },
   "devDependencies": {
     "@types/react-dom": "^18.0.11",
     "@types/tmp": "^0.2.3",
-    "babel-loader": "^9.1.2",
     "copy-webpack-plugin": "^11.0.0",
     "html-webpack-plugin": "^5.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "thread-loader": "^3.0.4",
     "tmp": "^0.2.1"
   }
 }

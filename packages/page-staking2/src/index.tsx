@@ -10,12 +10,12 @@ import { Tabs } from '@polkadot/react-components';
 import { useApi, useFavorites } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-import { STORE_FAVS_BASE } from './constants';
-import Pools from './Pools';
-import { useTranslation } from './translate';
-import { clearCache } from './useCache';
-import useSessionInfo from './useSessionInfo';
-import Validators from './Validators';
+import Pools from './Pools/index.js';
+import Validators from './Validators/index.js';
+import { STORE_FAVS_BASE } from './constants.js';
+import { useTranslation } from './translate.js';
+import { clearCache } from './useCache.js';
+import useSessionInfo from './useSessionInfo.js';
 
 function createPathRef (basePath: string): Record<string, string | string[]> {
   return {

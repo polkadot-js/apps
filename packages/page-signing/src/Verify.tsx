@@ -12,7 +12,7 @@ import { settings } from '@polkadot/ui-settings';
 import { isHex } from '@polkadot/util';
 import { signatureVerify } from '@polkadot/util-crypto';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 type CryptoTypes = KeypairType | 'unknown';
 

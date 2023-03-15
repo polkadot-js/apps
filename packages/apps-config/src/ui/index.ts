@@ -1,8 +1,8 @@
 // Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { identityNodes, identitySpec } from './identityIcons';
-import { sanitize } from './util';
+import { identityNodes, identitySpec } from './identityIcons/index.js';
+import { sanitize } from './util.js';
 
 export function getSystemIcon (systemName: string, specName: string): 'beachball' | 'polkadot' | 'substrate' {
   return (

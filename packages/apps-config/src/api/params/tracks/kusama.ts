@@ -1,11 +1,11 @@
 // Copyright 2017-2023 @polkadot/app-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TrackInfo } from './types';
+import type { TrackInfo } from './types.js';
 
 import { BN } from '@polkadot/util';
 
-import { compareFellowshipRank, formatSpendFactory } from './util';
+import { compareFellowshipRank, formatSpendFactory } from './util.js';
 
 // hardcoded here since this is static (hopefully no re-denomination anytime...)
 const formatSpend = formatSpendFactory({

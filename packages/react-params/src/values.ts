@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry, TypeDef } from '@polkadot/types/types';
-import type { RawParam } from './types';
+import type { RawParam } from './types.js';
 
 import { isUndefined } from '@polkadot/util';
 
-import getInitValue from './initValue';
+import getInitValue from './initValue.js';
 
 export function createValue (registry: Registry, param: { type: TypeDef }): RawParam {
   const value = getInitValue(registry, param.type);

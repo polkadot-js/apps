@@ -9,8 +9,8 @@ import { Checkbox, Dropdown, Input, InputNumber, MarkError, MarkWarning, Modal }
 import { useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import { DeriveValidationOutput } from '../types';
+import { useTranslation } from '../translate.js';
+import { DeriveValidationOutput } from '../types.js';
 
 interface Props {
   className?: string;
