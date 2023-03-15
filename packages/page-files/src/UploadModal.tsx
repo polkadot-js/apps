@@ -227,8 +227,8 @@ function UploadModal ({ className, file, onClose = NOOP, onSuccess = NOOP }: Pro
         headers: { Authorization: AuthBasic },
         maxContentLength: 100 * 1024 * 1024,
         method: 'POST',
-        onUploadProgress: (p: { loaded: number, total: number }) => {
-          const percent = p.loaded / p.total;
+        onUploadProgress: ({ loaded, total }) => {
+          const percent = loaded / (total || loaded || 1);
 
           setUpState({ progress: Math.round(percent * 99), up: true });
         },
