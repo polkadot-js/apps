@@ -4,7 +4,7 @@
 import { Metadata, TypeRegistry } from '@polkadot/types';
 import substrate from '@polkadot/types-support/metadata/static-substrate';
 
-import { createCid, createPalletCid } from './util';
+import { createCid, createPalletCid } from './util.js';
 
 const registry = new TypeRegistry();
 const metadata = new Metadata(registry, substrate);

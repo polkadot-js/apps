@@ -1,16 +1,16 @@
 // Copyright 2017-2023 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AssetInfo, AssetInfoComplete } from '../types';
+import type { AssetInfo, AssetInfoComplete } from '../types.js';
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Dropdown, styled, Table } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import Account from './Account';
-import useBalances from './useBalances';
+import { useTranslation } from '../translate.js';
+import Account from './Account.js';
+import useBalances from './useBalances.js';
 
 interface Props {
   className?: string;

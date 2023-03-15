@@ -7,7 +7,7 @@ import React from 'react';
 
 import { Icon, styled } from '@polkadot/react-components';
 
-import { bountySvgColor } from '../theme';
+import { bountySvgColor } from '../theme.js';
 
 interface Props {
   className?: string;

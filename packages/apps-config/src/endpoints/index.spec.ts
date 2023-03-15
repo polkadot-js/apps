@@ -5,7 +5,7 @@ import { strict as assert } from 'node:assert';
 
 import { isNumber, isString } from '@polkadot/util';
 
-import { createWsEndpoints } from '.';
+import { createWsEndpoints } from './index.js';
 
 interface Endpoint {
   name: string;

@@ -7,11 +7,11 @@ import React, { useRef } from 'react';
 
 import { Button, styled, Table } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
-import usePreimages from '../usePreimages';
-import Add from './Add';
-import Preimage from './Preimage';
-import Summary from './Summary';
+import { useTranslation } from '../translate.js';
+import usePreimages from '../usePreimages.js';
+import Add from './Add/index.js';
+import Preimage from './Preimage.js';
+import Summary from './Summary.js';
 
 interface Props {
   className?: string;

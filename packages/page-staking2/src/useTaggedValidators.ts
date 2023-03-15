@@ -1,14 +1,14 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SessionInfo, Validator } from './types';
+import type { SessionInfo, Validator } from './types.js';
 
 import { useMemo } from 'react';
 
 import { createNamedHook, useAccounts } from '@polkadot/react-hooks';
 import { objectSpread } from '@polkadot/util';
 
-import useElectedValidators from './useElectedValidators';
+import useElectedValidators from './useElectedValidators.js';
 
 function sort (a: Validator, b: Validator): number {
   return a.isFavorite === b.isFavorite

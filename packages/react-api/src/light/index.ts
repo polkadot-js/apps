@@ -3,8 +3,8 @@
 
 import { WellKnownChain } from '@substrate/connect';
 
-import { specs as kusama } from './kusama';
-import { specs as polkadot } from './polkadot';
+import { specs as kusama } from './kusama/index.js';
+import { specs as polkadot } from './polkadot/index.js';
 
 export const lightSpecs: Record<string, Record<string, string>> =
   Object

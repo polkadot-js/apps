@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Member as MemberType, Rule } from '../types';
+import type { Member as MemberType, Rule } from '../types.js';
 
 import React from 'react';
 
@@ -9,7 +9,7 @@ import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useIpfsLink } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;

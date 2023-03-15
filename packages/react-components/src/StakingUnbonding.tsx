@@ -9,10 +9,10 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN, BN_ONE, BN_ZERO, formatBalance, formatNumber } from '@polkadot/util';
 
-import Icon from './Icon';
-import { styled } from './styled';
-import Tooltip from './Tooltip';
-import { useTranslation } from './translate';
+import Icon from './Icon.js';
+import { styled } from './styled.js';
+import Tooltip from './Tooltip.js';
+import { useTranslation } from './translate.js';
 
 interface Unlocking {
   remainingEras: BN;

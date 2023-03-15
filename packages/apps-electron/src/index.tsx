@@ -11,8 +11,8 @@ import { createRoot } from 'react-dom/client';
 
 import Root from '@polkadot/apps/Root';
 
-import { electronMainApi } from './api/global-exported-api';
-import { RemoteElectronStore } from './renderer/remote-electron-store';
+import { electronMainApi } from './api/global-exported-api.js';
+import { RemoteElectronStore } from './renderer/remote-electron-store.js';
 
 const rootId = 'root';
 const rootElement = document.getElementById(rootId);

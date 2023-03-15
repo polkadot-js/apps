@@ -10,7 +10,7 @@ import type { Option } from '@polkadot/types';
 import type { Multisig, Timepoint } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { AddressFlags, AddressProxy, QrState } from './types';
+import type { AddressFlags, AddressProxy, QrState } from './types.js';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
@@ -22,14 +22,14 @@ import { keyring } from '@polkadot/ui-keyring';
 import { assert, nextTick } from '@polkadot/util';
 import { addressEq } from '@polkadot/util-crypto';
 
-import Address from './Address';
-import Qr from './Qr';
-import { AccountSigner, LedgerSigner, QrSigner } from './signers';
-import SignFields from './SignFields';
-import Tip from './Tip';
-import Transaction from './Transaction';
-import { useTranslation } from './translate';
-import { cacheUnlock, extractExternal, handleTxResults } from './util';
+import { AccountSigner, LedgerSigner, QrSigner } from './signers/index.js';
+import Address from './Address.js';
+import Qr from './Qr.js';
+import SignFields from './SignFields.js';
+import Tip from './Tip.js';
+import Transaction from './Transaction.js';
+import { useTranslation } from './translate.js';
+import { cacheUnlock, extractExternal, handleTxResults } from './util.js';
 
 interface Props {
   className?: string;

@@ -5,11 +5,11 @@ import React, { useMemo } from 'react';
 
 import { Button } from '@polkadot/react-components';
 
-import { useProxies } from '../useProxies';
-import BidAdd from './BidAdd';
-import Queues from './Queues';
-import Summary from './Summary';
-import useInfo from './useInfo';
+import { useProxies } from '../useProxies.js';
+import BidAdd from './BidAdd.js';
+import Queues from './Queues.js';
+import Summary from './Summary.js';
+import useInfo from './useInfo.js';
 
 interface Props {
   className?: string;

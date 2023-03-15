@@ -12,7 +12,7 @@ import { useApi, useBalancesAll, useDeriveAccountInfo, useToggle } from '@polkad
 import { keyring } from '@polkadot/ui-keyring';
 import { isFunction } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   address: string;

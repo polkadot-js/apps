@@ -2,19 +2,19 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ConstantCodec } from '@polkadot/types/metadata/decorate/types';
-import type { DropdownOptions } from '../util/types';
-import type { ConstValue, ConstValueBase } from './types';
+import type { DropdownOptions } from '../util/types.js';
+import type { ConstValue, ConstValueBase } from './types.js';
 
 import React, { useCallback, useState } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
 import { useApi } from '@polkadot/react-hooks';
 
-import LinkedWrapper from '../InputExtrinsic/LinkedWrapper';
-import keyOptions from './options/key';
-import sectionOptions from './options/section';
-import SelectKey from './SelectKey';
-import SelectSection from './SelectSection';
+import LinkedWrapper from '../InputExtrinsic/LinkedWrapper.js';
+import keyOptions from './options/key.js';
+import sectionOptions from './options/section.js';
+import SelectKey from './SelectKey.js';
+import SelectSection from './SelectSection.js';
 
 interface Props {
   className?: string;

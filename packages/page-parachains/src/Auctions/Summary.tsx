@@ -3,7 +3,7 @@
 
 import type { u32 } from '@polkadot/types';
 import type { Balance, BlockNumber } from '@polkadot/types/interfaces';
-import type { AuctionInfo, Winning } from '../types';
+import type { AuctionInfo, Winning } from '../types.js';
 
 import React from 'react';
 
@@ -12,7 +12,7 @@ import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN_ONE, formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   auctionInfo?: AuctionInfo;

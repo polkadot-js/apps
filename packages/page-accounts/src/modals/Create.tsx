@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
-import type { AddressState, CreateOptions, CreateProps, DeriveValidationOutput, PairType, SeedType } from '../types';
+import type { AddressState, CreateOptions, CreateProps, DeriveValidationOutput, PairType, SeedType } from '../types.js';
 
 import React, { useCallback, useRef, useState } from 'react';
 
@@ -14,13 +14,13 @@ import { settings } from '@polkadot/ui-settings';
 import { isHex, nextTick, u8aToHex } from '@polkadot/util';
 import { hdLedger, hdValidatePath, keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
 
-import { useTranslation } from '../translate';
-import { tryCreateAccount } from '../util';
-import CreateAccountInputs from './CreateAccountInputs';
-import CreateConfirmation from './CreateConfirmation';
-import CreateEthDerivationPath, { ETH_DEFAULT_PATH } from './CreateEthDerivationPath';
-import CreateSuriLedger from './CreateSuriLedger';
-import ExternalWarning from './ExternalWarning';
+import { useTranslation } from '../translate.js';
+import { tryCreateAccount } from '../util.js';
+import CreateAccountInputs from './CreateAccountInputs.js';
+import CreateConfirmation from './CreateConfirmation.js';
+import CreateEthDerivationPath, { ETH_DEFAULT_PATH } from './CreateEthDerivationPath.js';
+import CreateSuriLedger from './CreateSuriLedger.js';
+import ExternalWarning from './ExternalWarning.js';
 
 const DEFAULT_PAIR_TYPE = 'sr25519';
 const STEPS_COUNT = 3;

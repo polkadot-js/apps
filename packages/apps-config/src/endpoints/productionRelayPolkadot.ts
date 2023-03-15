@@ -1,12 +1,12 @@
 // Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { EndpointOption } from './types';
+import type { EndpointOption } from './types.js';
 
-import { POLKADOT_GENESIS } from '../api/constants';
-import { chainsAcalaSVG, chainsBitgreenPNG, chainsComposableFinancePNG, chainsEquilibriumSVG, chainsFrequencySVG, chainsGeminisPNG, chainsOakPNG, chainsOrigintrailPNG, chainsPeaqPNG, chainsPendulumSVG, chainsPolkadotCircleSVG, chainsSnakenetSVG, chainsTotemSVG, chainsWatrPNG } from '../ui/logos/chains';
-import { nodesAjunaPNG, nodesAresOdysseySVG, nodesAstarPNG, nodesAventusSVG, nodesBifrostSVG, nodesBridgeHubSVG, nodesCentrifugePNG, nodesCloverSVG, nodesCoinversationPNG, nodesCrustParachainSVG, nodesDarwiniaSVG, nodesEfinitySVG, nodesHashedPNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKiltPNG, nodesKylinPNG, nodesLitentryPNG, nodesMantaPNG, nodesMoonbeamSVG, nodesNodleSVG, nodesOmnibtcSVG, nodesParallelSVG, nodesPhalaSVG, nodesPolkadexSVG, nodesStatemineSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesUniqueSVG } from '../ui/logos/nodes';
-import { getTeleports } from './util';
+import { POLKADOT_GENESIS } from '../api/constants.js';
+import { chainsAcalaSVG, chainsBitgreenPNG, chainsComposableFinancePNG, chainsEquilibriumSVG, chainsFrequencySVG, chainsGeminisPNG, chainsInvarchJPEG, chainsOakPNG, chainsOrigintrailPNG, chainsPeaqPNG, chainsPendulumSVG, chainsPolkadotCircleSVG, chainsSnakenetSVG, chainsTotemSVG, chainsWatrPNG } from '../ui/logos/chains/index.js';
+import { nodesAjunaPNG, nodesAresOdysseySVG, nodesAstarPNG, nodesAventusSVG, nodesBifrostSVG, nodesBridgeHubSVG, nodesCentrifugePNG, nodesCloverSVG, nodesCoinversationPNG, nodesCrustParachainSVG, nodesDarwiniaSVG, nodesEfinitySVG, nodesHashedPNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKiltPNG, nodesKylinPNG, nodesLitentryPNG, nodesMantaPNG, nodesMoonbeamSVG, nodesNodleSVG, nodesOmnibtcSVG, nodesParallelSVG, nodesPhalaSVG, nodesPolkadexSVG, nodesStatemineSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesUniqueSVG, nodesZeitgeistPNG } from '../ui/logos/nodes/index.js';
+import { getTeleports } from './util.js';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
 // Polkadot) we try to keep this to live chains only, with RPCs hosted by the community/chain vendor
@@ -86,9 +86,12 @@ export const prodParasPolkadot: EndpointOption[] = [
     homepage: 'https://www.aventus.io/',
     info: 'aventus',
     paraId: 2056,
-    providers: {},
+    providers: {
+      Aventus: 'wss://public-rpc.mainnet.aventus.io'
+    },
     text: 'Aventus',
     ui: {
+      color: '#1d2733',
       logo: nodesAventusSVG
     }
   },
@@ -165,7 +168,7 @@ export const prodParasPolkadot: EndpointOption[] = [
   },
   {
     homepage: 'https://composable.finance/',
-    info: 'composableFinance',
+    info: 'composable',
     paraId: 2019,
     providers: {
       Composable: 'wss://rpc.composable.finance',
@@ -293,7 +296,7 @@ export const prodParasPolkadot: EndpointOption[] = [
   },
   {
     homepage: 'https://hydradx.io/',
-    info: 'hydra',
+    info: 'hydradx',
     paraId: 2034,
     providers: {
       Dwellir: 'wss://hydradx-rpc.dwellir.com',
@@ -335,6 +338,17 @@ export const prodParasPolkadot: EndpointOption[] = [
     ui: {
       color: '#3E96FF',
       logo: nodesInterlaySVG
+    }
+  },
+  {
+    homepage: 'https://invarch.network/',
+    info: 'invarch',
+    paraId: 3340,
+    providers: {},
+    text: 'InvArch',
+    ui: {
+      color: 'linear-gradient(156deg, rgba(245,129,246,1) 0%, rgba(91,221,238,1) 100%)',
+      logo: chainsInvarchJPEG
     }
   },
   {
@@ -502,7 +516,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     info: 'peaq',
     paraId: 3338,
     providers: {},
-    text: 'Peaq',
+    text: 'peaq',
     ui: {
       logo: chainsPeaqPNG
     }
@@ -582,13 +596,10 @@ export const prodParasPolkadot: EndpointOption[] = [
     info: 'unique',
     paraId: 2037,
     providers: {
-      // This is a possible false positive since OnFinality does not allow connections
-      // from non polkadot.js.org urls - however until resolved, this needs to be disabled
-      // since we cannot manually check the urls twice daily when they are reported
-      OnFinality: 'wss://unique.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/8973
-      'Unique America': 'wss://us-ws.unique.network/',
-      'Unique Asia': 'wss://asia-ws.unique.network/',
-      'Unique Europe': 'wss://eu-ws.unique.network/'
+      'Geo Load Balancer': 'wss://ws.unique.network',
+      'Unique America': 'wss://us-ws.unique.network',
+      'Unique Asia': 'wss://asia-ws.unique.network',
+      'Unique Europe': 'wss://eu-ws.unique.network'
     },
     text: 'Unique Network',
     ui: {
@@ -607,6 +618,21 @@ export const prodParasPolkadot: EndpointOption[] = [
     ui: {
       color: '#373b39',
       logo: chainsWatrPNG
+    }
+  },
+  {
+    homepage: 'https://zeitgeist.pm',
+    info: 'zeitgeist',
+    paraId: 2092,
+    providers: {
+      // ZeitgeistPM: 'wss://rpc-0.zeitgeist.pm', // https://github.com/polkadot-js/apps/issues/7982
+      Dwellir: 'wss://zeitgeist-rpc.dwellir.com',
+      OnFinality: 'wss://zeitgeist.api.onfinality.io/public-ws'
+    },
+    text: 'Zeitgeist',
+    ui: {
+      color: 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)',
+      logo: nodesZeitgeistPNG
     }
   }
 ];

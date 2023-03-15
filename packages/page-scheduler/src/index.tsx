@@ -6,9 +6,9 @@ import React, { useMemo } from 'react';
 import { Tabs } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import DispatchQueue from './DispatchQueue';
-import Scheduler from './Scheduler';
-import { useTranslation } from './translate';
+import DispatchQueue from './DispatchQueue.js';
+import Scheduler from './Scheduler.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   basePath: string;

@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 
-import { createNamedHook } from './createNamedHook';
+import { createNamedHook } from './createNamedHook.js';
 
 const KNOWN = ['ipfs', 'ipns'];
 const SECTIONS = KNOWN.map((part) => `/${part}/`);

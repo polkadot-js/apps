@@ -11,7 +11,7 @@ import { Expander, Table } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
 import { getTypeDef } from '@polkadot/types/create';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   value: Option<Justifications>;

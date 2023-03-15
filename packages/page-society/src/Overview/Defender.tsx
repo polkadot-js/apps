@@ -3,16 +3,16 @@
 
 import type { DeriveSociety, DeriveSocietyMember } from '@polkadot/api-derive/types';
 import type { SocietyVote } from '@polkadot/types/interfaces';
-import type { VoteType } from '../types';
+import type { VoteType } from '../types.js';
 
 import React, { useRef } from 'react';
 
 import { AddressSmall, Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import DefenderVoting from './DefenderVoting';
-import Votes from './Votes';
+import { useTranslation } from '../translate.js';
+import DefenderVoting from './DefenderVoting.js';
+import Votes from './Votes.js';
 
 interface Props {
   className?: string;

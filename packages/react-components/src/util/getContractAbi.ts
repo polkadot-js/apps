@@ -4,7 +4,7 @@
 import { Abi } from '@polkadot/api-contract';
 import { api } from '@polkadot/react-api';
 
-import { getAddressMeta } from './getAddressMeta';
+import { getAddressMeta } from './getAddressMeta.js';
 
 export function getContractAbi (address: string | null): Abi | null {
   if (!address) {

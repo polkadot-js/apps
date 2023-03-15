@@ -11,12 +11,12 @@ import { useAccounts, useApi, useBestNumber, useCall, useToggle } from '@polkado
 import { BlockToTime } from '@polkadot/react-query';
 import { BN, BN_ONE, formatNumber, isBoolean } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import useChangeCalc from '../useChangeCalc';
-import PreImageButton from './PreImageButton';
-import ProposalCell from './ProposalCell';
-import ReferendumVotes from './ReferendumVotes';
-import Voting from './Voting';
+import { useTranslation } from '../translate.js';
+import useChangeCalc from '../useChangeCalc.js';
+import PreImageButton from './PreImageButton.js';
+import ProposalCell from './ProposalCell.js';
+import ReferendumVotes from './ReferendumVotes.js';
+import Voting from './Voting.js';
 
 interface Props {
   className?: string;

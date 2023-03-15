@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-js authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Log } from './types';
+import type { Log } from './types.js';
 
 import React from 'react';
 

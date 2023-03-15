@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 
 import { MarkWarning } from '@polkadot/react-components';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../../translate.js';
 
 interface Props extends I18nProps {
   controllerId: string;

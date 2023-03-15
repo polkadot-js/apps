@@ -6,7 +6,7 @@ import type { ContractCallOutcome } from '@polkadot/api-contract/types';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { Option } from '@polkadot/types';
 import type { ContractInfo } from '@polkadot/types/interfaces';
-import type { ContractLink } from './types';
+import type { ContractLink } from './types.js';
 
 import React, { useCallback } from 'react';
 
@@ -15,8 +15,8 @@ import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { isUndefined } from '@polkadot/util';
 
-import Messages from '../shared/Messages';
-import { useTranslation } from '../translate';
+import Messages from '../shared/Messages.js';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;

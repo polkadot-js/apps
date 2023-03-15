@@ -5,8 +5,8 @@ import React from 'react';
 
 import { useQueue } from '@polkadot/react-hooks';
 
-import Results from './Results';
-import Selection from './Selection';
+import Results from './Results.js';
+import Selection from './Selection.js';
 
 function RpcApp (): React.ReactElement {
   const { queueRpc, txqueue } = useQueue();

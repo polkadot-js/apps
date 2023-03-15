@@ -1,14 +1,14 @@
 // Copyright 2017-2023 @polkadot/app-nfts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CollectionInfo } from '../types';
+import type { CollectionInfo } from '../types.js';
 
 import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
-import Collection from './Collection';
+import { useTranslation } from '../translate.js';
+import Collection from './Collection.js';
 
 interface Props {
   className?: string;
