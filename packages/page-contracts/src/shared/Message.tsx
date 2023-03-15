@@ -8,8 +8,8 @@ import React, { useCallback } from 'react';
 import { Button, Output, styled } from '@polkadot/react-components';
 import valueToText from '@polkadot/react-params/valueToText';
 
-import { useTranslation } from '../translate';
-import MessageSignature from './MessageSignature';
+import { useTranslation } from '../translate.js';
+import MessageSignature from './MessageSignature.js';
 
 export interface Props {
   className?: string;

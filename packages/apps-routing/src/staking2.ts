@@ -4,7 +4,7 @@
 import type { TFunction } from 'i18next';
 import type { ApiPromise } from '@polkadot/api';
 import type { PalletStakingExposure } from '@polkadot/types/lookup';
-import type { Route } from './types';
+import type { Route } from './types.js';
 
 import Component from '@polkadot/app-staking2';
 import { ZERO_ACCOUNT } from '@polkadot/react-hooks/useWeight';

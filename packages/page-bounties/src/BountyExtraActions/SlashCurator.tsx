@@ -11,10 +11,10 @@ import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useCollectiveInstance, useCollectiveMembers } from '@polkadot/react-hooks';
 import { BN } from '@polkadot/util';
 
-import { truncateTitle } from '../helpers';
-import { useBounties } from '../hooks';
-import { useTranslation } from '../translate';
-import { ValidUnassignCuratorAction } from '../types';
+import { truncateTitle } from '../helpers/index.js';
+import { useBounties } from '../hooks/index.js';
+import { useTranslation } from '../translate.js';
+import { ValidUnassignCuratorAction } from '../types.js';
 
 interface Props {
   action: ValidUnassignCuratorAction;

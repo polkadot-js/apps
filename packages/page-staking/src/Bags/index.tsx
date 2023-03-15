@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { StakerState } from '@polkadot/react-hooks/types';
-import type { BagInfo, BagMap, StashNode } from './types';
+import type { BagInfo, BagMap, StashNode } from './types.js';
 
 import React, { useMemo, useRef, useState } from 'react';
 
 import { Button, MarkWarning, Table, ToggleGroup } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
-import Bag from './Bag';
-import Summary from './Summary';
-import useBagsList from './useBagsList';
-import useBagsNodes from './useBagsNodes';
+import { useTranslation } from '../translate.js';
+import Bag from './Bag.js';
+import Summary from './Summary.js';
+import useBagsList from './useBagsList.js';
+import useBagsNodes from './useBagsNodes.js';
 
 interface Props {
   className?: string;

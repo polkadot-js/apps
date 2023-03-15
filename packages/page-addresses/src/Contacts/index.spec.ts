@@ -5,12 +5,12 @@ import { screen } from '@testing-library/react';
 
 import i18next from '@polkadot/react-components/i18n';
 import { aContactWithBalance } from '@polkadot/test-support/creation/contact';
-import { MemoryStore } from '@polkadot/test-support/keyring';
-import { Table } from '@polkadot/test-support/pagesElements';
+import { MemoryStore } from '@polkadot/test-support/keyring/index';
+import { Table } from '@polkadot/test-support/pagesElements/index';
 import { balance } from '@polkadot/test-support/utils/balance';
 import { keyring } from '@polkadot/ui-keyring';
 
-import { AddressesPage } from '../../test/pages/addressesPage';
+import { AddressesPage } from '../../test/pages/addressesPage.js';
 
 // FIXME isSplit Table
 describe.skip('Addresses page', () => {

@@ -14,7 +14,7 @@ import { BatchWarning, Button, Dropdown, InputAddress, InputBalance, MarkError, 
 import { useApi, useTxBatch } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 type PrevProxy = [AccountId | null, KitchensinkRuntimeProxyType];
 

@@ -11,7 +11,7 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { Elapsed } from '@polkadot/react-query';
 import { BN_THREE, BN_TWO, formatNumber } from '@polkadot/util';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;

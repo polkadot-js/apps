@@ -8,8 +8,8 @@ import path from 'path';
 
 import { FileStore } from '@polkadot/ui-keyring/stores';
 
-import { IpcMainHandler } from './ipc-main-handler';
-import { registerIpcHandler } from './register-ipc-handler';
+import { IpcMainHandler } from './ipc-main-handler.js';
+import { registerIpcHandler } from './register-ipc-handler.js';
 
 const ACCOUNTS_SUBFOLDER = 'polkadot-accounts';
 

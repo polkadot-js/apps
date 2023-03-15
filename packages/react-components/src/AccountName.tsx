@@ -12,9 +12,9 @@ import registry from '@polkadot/react-api/typeRegistry';
 import { useDeriveAccountInfo, useSystemApi } from '@polkadot/react-hooks';
 import { formatNumber, isCodec, isFunction, stringToU8a, u8aEmpty, u8aEq, u8aToBn } from '@polkadot/util';
 
-import Badge from './Badge';
-import { styled } from './styled';
-import { getAddressName } from './util';
+import { getAddressName } from './util/index.js';
+import Badge from './Badge.js';
+import { styled } from './styled.js';
 
 interface Props {
   children?: React.ReactNode;

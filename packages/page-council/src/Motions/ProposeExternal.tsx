@@ -12,7 +12,7 @@ import { Button, Input, InputAddress, InputNumber, Modal, TxButton } from '@polk
 import { useApi, useCollectiveInstance, usePreimage, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO, isFunction, isHex } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;

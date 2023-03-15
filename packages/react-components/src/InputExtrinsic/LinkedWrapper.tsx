@@ -3,8 +3,8 @@
 
 import React from 'react';
 
-import Labelled from '../Labelled';
-import { styled } from '../styled';
+import Labelled from '../Labelled.js';
+import { styled } from '../styled.js';
 
 interface Props {
   children: React.ReactNode;

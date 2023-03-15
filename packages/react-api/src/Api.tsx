@@ -5,7 +5,7 @@ import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
 import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
-import type { ApiProps, ApiState } from './types';
+import type { ApiProps, ApiState } from './types.js';
 
 import * as Sc from '@substrate/connect';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -23,9 +23,9 @@ import { settings } from '@polkadot/ui-settings';
 import { formatBalance, isNumber, isTestChain, objectSpread, stringify } from '@polkadot/util';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
-import { lightSpecs, relaySpecs } from './light';
-import registry from './typeRegistry';
-import { decodeUrlTypes } from './urlTypes';
+import { lightSpecs, relaySpecs } from './light/index.js';
+import registry from './typeRegistry.js';
+import { decodeUrlTypes } from './urlTypes.js';
 
 interface Props {
   children: React.ReactNode;

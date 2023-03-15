@@ -4,17 +4,17 @@
 import type { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
-import type { NominatedByMap, SortedTargets, ValidatorInfo } from '../types';
+import type { NominatedByMap, SortedTargets, ValidatorInfo } from '../types.js';
 
 import React, { useMemo, useRef, useState } from 'react';
 
 import { Table } from '@polkadot/react-components';
 import { useApi, useBlockAuthors, useNextTick } from '@polkadot/react-hooks';
 
-import Filtering from '../Filtering';
-import Legend from '../Legend';
-import { useTranslation } from '../translate';
-import Address from './Address';
+import Filtering from '../Filtering.js';
+import Legend from '../Legend.js';
+import { useTranslation } from '../translate.js';
+import Address from './Address/index.js';
 
 interface Props {
   className?: string;

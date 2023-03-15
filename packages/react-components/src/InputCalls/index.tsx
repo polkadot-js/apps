@@ -4,16 +4,16 @@
 // TODO: We have a lot shared between this and InputExtrinsic & InputStorage
 
 import type { DefinitionCallNamed } from '@polkadot/types/types';
-import type { DropdownOptions } from '../util/types';
+import type { DropdownOptions } from '../util/types.js';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
-import LinkedWrapper from '../InputExtrinsic/LinkedWrapper';
-import methodOptions from './options/method';
-import sectionOptions from './options/section';
-import SelectMethod from './SelectMethod';
-import SelectSection from './SelectSection';
-import useRuntime from './useRuntime';
+import LinkedWrapper from '../InputExtrinsic/LinkedWrapper.js';
+import methodOptions from './options/method.js';
+import sectionOptions from './options/section.js';
+import SelectMethod from './SelectMethod.js';
+import SelectSection from './SelectSection.js';
+import useRuntime from './useRuntime.js';
 
 interface Props {
   className?: string;

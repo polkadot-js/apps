@@ -11,8 +11,8 @@ import React, { useMemo, useRef, useState } from 'react';
 import { styled, Table, Toggle } from '@polkadot/react-components';
 import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import Tip from './Tip';
+import { useTranslation } from '../translate.js';
+import Tip from './Tip.js';
 
 interface Props {
   className?: string;

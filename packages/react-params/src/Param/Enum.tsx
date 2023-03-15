@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry, TypeDef } from '@polkadot/types/types';
-import type { ParamDef, Props, RawParam } from '../types';
+import type { ParamDef, Props, RawParam } from '../types.js';
 
 import React, { useCallback, useState } from 'react';
 
@@ -10,8 +10,8 @@ import { Dropdown } from '@polkadot/react-components';
 import { Enum, getTypeDef } from '@polkadot/types';
 import { isObject } from '@polkadot/util';
 
-import Params from '../';
-import Bare from './Bare';
+import Params from '../index.js';
+import Bare from './Bare.js';
 
 interface Option {
   text?: string;

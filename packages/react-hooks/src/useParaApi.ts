@@ -9,10 +9,10 @@ import { useEffect, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
 import { arrayShuffle } from '@polkadot/util';
 
-import { createNamedHook } from './createNamedHook';
-import { useApiUrl } from './useApiUrl';
-import { useIsMountedRef } from './useIsMountedRef';
-import { useParaEndpoints } from './useParaEndpoints';
+import { createNamedHook } from './createNamedHook.js';
+import { useApiUrl } from './useApiUrl.js';
+import { useIsMountedRef } from './useIsMountedRef.js';
+import { useParaEndpoints } from './useParaEndpoints.js';
 
 interface Result {
   api?: ApiPromise | null;

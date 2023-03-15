@@ -3,12 +3,12 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
+import type { DeriveBounties } from '@polkadot/api-derive/types';
 import type { Codec } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 
 import { useMemo } from 'react';
 
-import { DeriveBounties } from '@polkadot/api-derive/types';
 import { createNamedHook, useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 

@@ -3,9 +3,9 @@
 
 import React from 'react';
 
-import AccountName from '../AccountName';
-import IdentityIcon from '../IdentityIcon';
-import { styled } from '../styled';
+import AccountName from '../AccountName.js';
+import IdentityIcon from '../IdentityIcon/index.js';
+import { styled } from '../styled.js';
 
 interface Props {
   address: string;

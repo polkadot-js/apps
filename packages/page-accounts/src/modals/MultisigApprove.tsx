@@ -11,7 +11,7 @@ import { AddressMini, Call as CallDisplay, Dropdown, Expander, Input, InputAddre
 import { useAccounts, useApi, useWeight } from '@polkadot/react-hooks';
 import { assert, isHex } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   address: string;

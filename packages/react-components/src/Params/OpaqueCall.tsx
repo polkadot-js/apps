@@ -8,8 +8,8 @@ import React, { useCallback, useState } from 'react';
 
 import { useApi } from '@polkadot/react-hooks';
 
-import { extractInitial } from './Call';
-import ExtrinsicDisplay from './Extrinsic';
+import { extractInitial } from './Call.js';
+import ExtrinsicDisplay from './Extrinsic.js';
 
 function OpaqueCall ({ className = '', defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
   const { api, apiDefaultTxSudo } = useApi();

@@ -8,7 +8,7 @@ import { Doughnut } from 'react-chartjs-2';
 
 import { bnToBn } from '@polkadot/util';
 
-import Base from './Base';
+import Base from './Base.js';
 
 interface DoughnutValue {
   colors: string[];

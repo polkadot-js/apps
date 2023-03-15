@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 import { Button, InputAddress, Modal, ProposedAction, TxButton } from '@polkadot/react-components';
 import { useApi, useCollectiveInstance, useToggle, useWeight } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   hasFailed: boolean;

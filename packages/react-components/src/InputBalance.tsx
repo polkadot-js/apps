@@ -7,7 +7,7 @@ import React, { useMemo } from 'react';
 
 import { BN, formatBalance, isUndefined } from '@polkadot/util';
 
-import InputNumber from './InputNumber';
+import InputNumber from './InputNumber.js';
 
 interface Props {
   autoFocus?: boolean;

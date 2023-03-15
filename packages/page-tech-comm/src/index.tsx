@@ -3,9 +3,9 @@
 
 import React from 'react';
 
-import App from './App';
+import App from './App.js';
 
-export { default as useCounter } from './useCounter';
+export { default as useCounter } from './useCounter.js';
 
 interface Props {
   basePath: string;

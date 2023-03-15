@@ -3,13 +3,13 @@
 
 import type { StorageKey, u32 } from '@polkadot/types';
 import type { AccountId32 } from '@polkadot/types/interfaces';
-import type { SessionInfo } from './types';
+import type { SessionInfo } from './types.js';
 
 import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useMapKeys } from '@polkadot/react-hooks';
 
-import { useCacheValue } from './useCache';
+import { useCacheValue } from './useCache.js';
 
 const OPT_ELECTED = {
   transform: (keys: StorageKey<[u32, AccountId32]>[]): string[] =>

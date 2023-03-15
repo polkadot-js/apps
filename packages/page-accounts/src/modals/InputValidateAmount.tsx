@@ -3,7 +3,7 @@
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { BN } from '@polkadot/util';
-import type { AmountValidateState } from '../Accounts/types';
+import type { AmountValidateState } from '../Accounts/types.js';
 
 import React, { useEffect, useState } from 'react';
 
@@ -11,7 +11,7 @@ import { MarkError, MarkWarning } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   amount?: BN | null;

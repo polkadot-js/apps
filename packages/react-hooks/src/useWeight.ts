@@ -4,14 +4,15 @@
 import type { Call } from '@polkadot/types/interfaces';
 import type { ICompact, INumber } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
+import type { V2WeightConstruct, WeightResult } from './types.js';
 
 import { useEffect, useState } from 'react';
 
 import { BN_ZERO, isFunction, nextTick, objectSpread } from '@polkadot/util';
 
-import { createNamedHook } from './createNamedHook';
-import { useApi } from './useApi';
-import { useIsMountedRef } from './useIsMountedRef';
+import { createNamedHook } from './createNamedHook.js';
+import { useApi } from './useApi.js';
+import { useIsMountedRef } from './useIsMountedRef.js';
 
 type V1Weight = INumber;
 
@@ -20,15 +21,9 @@ interface V2Weight {
   proofSize: ICompact<INumber>;
 }
 
-interface V2WeightConstruct {
-  refTime: BN | ICompact<INumber>;
-}
-
-interface Result {
+interface Result extends WeightResult {
   encodedCallLength: number;
   isWeightV2: boolean;
-  v1Weight: BN;
-  v2Weight: V2WeightConstruct;
   weight: BN | V2WeightConstruct;
 }
 
@@ -43,7 +38,7 @@ const EMPTY_STATE: Partial<Result> = {
 };
 
 // return both v1 & v2 weight structures (would depend on actual use)
-export function convertWeight (weight: V1Weight | V2Weight): { v1Weight: BN, v2Weight: V2WeightConstruct } {
+export function convertWeight (weight: V1Weight | V2Weight): WeightResult {
   if ((weight as V2Weight).proofSize) {
     // V2 weight
     const refTime = (weight as V2Weight).refTime.toBn();

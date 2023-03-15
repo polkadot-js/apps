@@ -3,7 +3,7 @@
 
 import { hexToU8a } from '@polkadot/util';
 
-import { publicToAddr, recoverFromJSON } from './util';
+import { publicToAddr, recoverFromJSON } from './util.js';
 
 describe('util', (): void => {
   it('converts a publicKey to address via publicToAddr', (): void => {

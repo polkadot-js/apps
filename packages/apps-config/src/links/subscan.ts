@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { ExternalDef } from './types';
+import type { ExternalDef } from './types.js';
 
-import { externalSubscanPNG } from '../ui/logos/external';
+import { externalSubscanPNG } from '../ui/logos/external/index.js';
 
 export const Subscan: ExternalDef = {
   chains: {
@@ -26,7 +26,6 @@ export const Subscan: ExternalDef = {
     Crust: 'crust',
     'Crust Maxwell': 'maxwell',
     'Crust Shadow': 'shadow',
-    'Dali Testnet (Rococo Relay)': 'dali',
     Darwinia: 'darwinia',
     'Darwinia Crab': 'crab',
     'Darwinia Parachain': 'darwinia-parachain',

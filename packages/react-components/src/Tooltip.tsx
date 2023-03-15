@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import ReactTooltip from 'react-tooltip';
 
-import { styled } from './styled';
+import { styled } from './styled.js';
 
 function rootElement () {
   return typeof document === 'undefined'

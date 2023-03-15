@@ -9,7 +9,7 @@ import { ChainImg, Icon, styled } from '@polkadot/react-components';
 import { useApi, useCall, useIpfs, useToggle } from '@polkadot/react-hooks';
 import { BestNumber, Chain } from '@polkadot/react-query';
 
-import Endpoints from '../Endpoints';
+import Endpoints from '../Endpoints/index.js';
 
 interface Props {
   className?: string;

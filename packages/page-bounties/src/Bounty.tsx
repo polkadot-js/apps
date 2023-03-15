@@ -11,17 +11,17 @@ import { AddressSmall, Columar, ExpandButton, LinkExternal, styled, Table } from
 import { useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
-import BountyActionMessage from './BountyNextActionInfo/BountyActionMessage';
-import { getProposalToDisplay } from './helpers/extendedStatuses';
-import { BountyActions } from './BountyActions';
-import BountyExtraActions from './BountyExtraActions';
-import BountyInfos from './BountyInfos';
-import BountyStatusView from './BountyStatusView';
-import Curator from './Curator';
-import DueBlocks from './DueBlocks';
-import { useBountyStatus } from './hooks';
-import { useTranslation } from './translate';
-import VotersColumn from './VotersColumn';
+import { BountyActions } from './BountyActions/index.js';
+import BountyExtraActions from './BountyExtraActions/index.js';
+import BountyInfos from './BountyInfos/index.js';
+import BountyActionMessage from './BountyNextActionInfo/BountyActionMessage.js';
+import { getProposalToDisplay } from './helpers/extendedStatuses.js';
+import { useBountyStatus } from './hooks/index.js';
+import BountyStatusView from './BountyStatusView.js';
+import Curator from './Curator.js';
+import DueBlocks from './DueBlocks.js';
+import { useTranslation } from './translate.js';
+import VotersColumn from './VotersColumn.js';
 
 interface Props {
   bestNumber: BN;

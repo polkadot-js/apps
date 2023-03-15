@@ -3,10 +3,10 @@
 
 import React from 'react';
 
-import Balance from './Balance';
-import Expand from './Expand';
-import Favorite from './Favorite';
-import Id from './Id';
+import Balance from './Balance.js';
+import Expand from './Expand.js';
+import Favorite from './Favorite.js';
+import Id from './Id.js';
 
 interface Props {
   children?: React.ReactNode;

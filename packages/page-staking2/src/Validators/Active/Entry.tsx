@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SessionInfo, Validator } from '../../types';
+import type { SessionInfo, Validator } from '../../types.js';
 
 import React, { useMemo, useRef } from 'react';
 
@@ -10,11 +10,11 @@ import { useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import useExposure from '../useExposure';
-import useHeartbeat from '../useHeartbeat';
-import Bottom from './Row/Bottom';
-import Middle from './Row/Middle';
-import Top from './Row/Top';
+import useExposure from '../useExposure.js';
+import useHeartbeat from '../useHeartbeat.js';
+import Bottom from './Row/Bottom.js';
+import Middle from './Row/Middle.js';
+import Top from './Row/Top.js';
 
 interface Props {
   className?: string;

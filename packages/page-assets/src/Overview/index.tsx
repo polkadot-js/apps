@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { AssetInfo } from '../types';
+import type { AssetInfo } from '../types.js';
 
 import React from 'react';
 
 import { Button } from '@polkadot/react-components';
 
-import Assets from './Assets';
-import Create from './Create';
-import Summary from './Summary';
+import Create from './Create/index.js';
+import Assets from './Assets.js';
+import Summary from './Summary.js';
 
 interface Props {
   className?: string;

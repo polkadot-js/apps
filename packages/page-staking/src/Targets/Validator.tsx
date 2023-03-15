@@ -3,7 +3,7 @@
 
 import type { UnappliedSlash } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
-import type { NominatedBy, ValidatorInfo } from '../types';
+import type { NominatedBy, ValidatorInfo } from '../types.js';
 
 import React, { useCallback, useMemo } from 'react';
 
@@ -13,8 +13,8 @@ import { useApi, useBlockTime, useDeriveAccountInfo } from '@polkadot/react-hook
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import MaxBadge from '../MaxBadge';
-import { useTranslation } from '../translate';
+import MaxBadge from '../MaxBadge.js';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   allSlashes?: [BN, UnappliedSlash[]][];

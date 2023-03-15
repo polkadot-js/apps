@@ -90,7 +90,7 @@ for (let dir of ['extensions', 'external', 'chains', 'nodes']) {
         console.log('\n', notfound.length.toString().padStart(3), 'not referenced in', dir, '::\n\n\t', notfound.join(', '), '\n');
       }
 
-      fs.writeFileSync(path.join(sub, 'index.ts'), `${HEADER}${Object.keys(result).sort().map((k) => `export { ${k} } from './${result[k]}';`).join('\n')}\n`);
+      fs.writeFileSync(path.join(sub, 'index.ts'), `${HEADER}${Object.keys(result).sort().map((k) => `export { ${k} } from './${result[k]}.js';`).join('\n')}\n`);
     }
 }
 

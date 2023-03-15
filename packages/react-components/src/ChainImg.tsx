@@ -5,11 +5,12 @@ import type { IconName } from '@fortawesome/fontawesome-svg-core';
 
 import React, { useMemo } from 'react';
 
+import { createWsEndpoints } from '@polkadot/apps-config';
 import { externalEmptySVG } from '@polkadot/apps-config/ui/logos/external';
 import { useApi } from '@polkadot/react-hooks';
 
-import Icon from './Icon';
-import { styled } from './styled';
+import Icon from './Icon.js';
+import { styled } from './styled.js';
 
 interface Props {
   className?: string;
@@ -19,10 +20,13 @@ interface Props {
   withoutHl?: boolean;
 }
 
+const endpoints = createWsEndpoints(() => '');
+
 function ChainImg ({ className = '', isInline, logo, onClick, withoutHl }: Props): React.ReactElement<Props> {
   const { apiEndpoint } = useApi();
   const [isEmpty, img, isFa] = useMemo((): [boolean, unknown, boolean] => {
-    const found = logo || apiEndpoint?.ui.logo;
+    const endpoint = endpoints.find((o) => o.info === logo);
+    const found = endpoint?.ui.logo || logo || apiEndpoint?.ui.logo;
     const imgBase = found || externalEmptySVG;
     const [isFa, img] = !imgBase || imgBase === 'empty' || !(imgBase.startsWith('data:') || imgBase.startsWith('fa;'))
       ? [false, externalEmptySVG]

@@ -3,7 +3,7 @@
 
 import type { Weight } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
-import type { UseWeight } from './types';
+import type { UseWeight } from './types.js';
 
 import { useCallback, useMemo, useState } from 'react';
 

@@ -3,7 +3,7 @@
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-import kilt from './kilt';
+import kilt from './kilt.js';
 
 // NOTE: The mapping is done from chain name in system.chain
 const chain: Record<string, OverrideBundleDefinition> = {

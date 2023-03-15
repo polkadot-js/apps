@@ -12,7 +12,7 @@ import { Button, Columar, Input, InputAddress, Modal, Spinner, TxButton } from '
 import { useAccounts, useApi, useCall, useSubidentities } from '@polkadot/react-hooks';
 import { u8aToString } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   address: string;

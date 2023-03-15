@@ -1,15 +1,15 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PopupProps } from './types';
+import type { PopupProps } from './types.js';
 
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import { useOutsideClick, useTheme, useToggle } from '@polkadot/react-hooks';
 
-import Button from '../Button';
-import { styled } from '../styled';
-import PopupWindow from './PopupWindow';
+import Button from '../Button/index.js';
+import { styled } from '../styled.js';
+import PopupWindow from './PopupWindow.js';
 
 function Popup ({ children, className = '', closeOnScroll, isDisabled, onCloseAction, position = 'left', value }: PopupProps) {
   const { themeClassName } = useTheme();
