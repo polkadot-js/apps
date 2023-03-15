@@ -104,6 +104,8 @@ export interface AddressFlags extends DeriveAccountFlags {
   isNominator: boolean;
 }
 
+export const AddressIdentityOtherDiscordKey = 'Discord';
+
 export interface AddressIdentity extends DeriveAccountRegistration {
   isExistent: boolean;
   isKnownGood: boolean;

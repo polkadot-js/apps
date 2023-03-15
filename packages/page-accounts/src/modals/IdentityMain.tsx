@@ -10,6 +10,7 @@ import { ApiPromise } from '@polkadot/api';
 import { Input, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { getAddressMeta } from '@polkadot/react-components/util';
 import { useApi, useCall } from '@polkadot/react-hooks';
+import { AddressIdentityOtherDiscordKey } from '@polkadot/react-hooks/types';
 import { u8aToString } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
@@ -33,7 +34,6 @@ interface ValueState {
 }
 
 const WHITESPACE = [' ', '\t'];
-const ADDITIONAL_FIELD_DISCORD = 'Discord';
 
 function setData (data: Data, setActive: null | ((isActive: boolean) => void), setVal: (val: string) => void): void {
   if (data.isRaw) {
@@ -96,7 +96,7 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
       setData(info.legal, setHasLegal, setValLegal);
       setData(info.riot, setHasRiot, setValRiot);
       setData(info.twitter, setHasTwitter, setValTwitter);
-      const infoDiscord = setAdditionalFieldData(api, info, ADDITIONAL_FIELD_DISCORD, setHasDiscord, setValDiscord);
+      const infoDiscord = setAdditionalFieldData(api, info, AddressIdentityOtherDiscordKey, setHasDiscord, setValDiscord);
 
       setData(info.web, setHasWeb, setValWeb);
 
@@ -124,7 +124,7 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
     setInfo({
       info: {
         additional: [
-          (okDiscord && hasDiscord ? [{ raw: ADDITIONAL_FIELD_DISCORD }, { raw: valDiscord }] : null)
+          (okDiscord && hasDiscord ? [{ raw: AddressIdentityOtherDiscordKey }, { raw: valDiscord }] : null)
         ].filter((item) => !!item),
         display: { [okDisplay ? 'raw' : 'none']: valDisplay || null },
         email: { [okEmail && hasEmail ? 'raw' : 'none']: okEmail && hasEmail ? valEmail : null },
