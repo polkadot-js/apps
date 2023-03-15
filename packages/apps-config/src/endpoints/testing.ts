@@ -280,14 +280,6 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
-    info: 'substrate',
-    providers: {
-      // Parity: 'wss://substrate-rpc.parity.io' // https://github.com/polkadot-js/apps/issues/5571
-    },
-    text: 'Flaming Fir',
-    ui: {}
-  },
-  {
     info: 'Galital',
     providers: {
       // StarkleyTech: 'wss://galital-rpc-testnet.starkleytech.com' // https://github.com/polkadot-js/apps/issues/6721
