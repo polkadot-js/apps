@@ -674,14 +674,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fragnova/api-augment@npm:0.1.0-spec-1.0":
-  version: 0.1.0-spec-1.0
-  resolution: "@fragnova/api-augment@npm:0.1.0-spec-1.0"
+"@fragnova/api-augment@npm:0.1.0-spec-1.0.4-mainnet":
+  version: 0.1.0-spec-1.0.4-mainnet
+  resolution: "@fragnova/api-augment@npm:0.1.0-spec-1.0.4-mainnet"
   dependencies:
     "@polkadot/api": ^9.13.2
     "@polkadot/rpc-provider": ^9.13.2
     "@polkadot/types": ^9.13.2
-  checksum: 08c7b39cb7066bb81bca3fbc36425fea9e431d53a9f85175dca16d551a581806b7fa567fbd4d0b31ace49acd1b15f92477b3e61ef0946a6ff8db94069aa7e411
+  checksum: 88b5b878693b55b1ff32f6be1308e68ed0a5871a4e2e0aa42aacc1fa2514135a6083dbdbf5d03aa6dd7c615bf9a0d4b9a4ed4231871b54ce5cb154375c32cdcc
   languageName: node
   linkType: hard
 
@@ -1695,7 +1695,7 @@ __metadata:
     "@docknetwork/node-types": 0.15.0
     "@edgeware/node-types": 3.6.2-wako
     "@equilab/definitions": 1.4.18
-    "@fragnova/api-augment": 0.1.0-spec-1.0
+    "@fragnova/api-augment": 0.1.0-spec-1.0.4-mainnet
     "@frequency-chain/api-augment": 1.3.0
     "@interlay/interbtc-types": 1.12.0
     "@kiltprotocol/type-definitions": 0.31.1
