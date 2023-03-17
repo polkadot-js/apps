@@ -6,7 +6,7 @@ import { BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 import { PalletBountiesBounty } from '@polkadot/types/lookup';
 import { Registry } from '@polkadot/types/types';
 
-import { balanceOf } from '../balance.js';
+import { balanceOf } from './balance.js';
 
 export class BountyFactory {
   readonly #api: ApiPromise;

@@ -5,7 +5,7 @@ import type { ApiPromise } from '@polkadot/api';
 import type { KeyringPair } from '@polkadot/keyring/types';
 import type { BN } from '@polkadot/util';
 
-import { execute } from '@polkadot/test-support/transaction/index';
+import { execute } from '@polkadot/test-support/transaction';
 
 import { acceptMotion, fillTreasury, getMotion, proposeMotion } from './helpers.js';
 
