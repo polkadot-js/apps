@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-/// <reference types="@polkadot/dev-test/globals" />
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
 import fs from 'fs';
 import path from 'path';

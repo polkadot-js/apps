@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-/// <reference types="@polkadot/dev-test/globals" />
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
 import { createAugmentedApi } from '@polkadot/test-support/api';
 import { BountyFactory } from '@polkadot/test-support/creation/bounties';
