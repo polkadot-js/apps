@@ -13,10 +13,9 @@ import { ThemeProvider } from 'styled-components';
 import { lightTheme } from '@polkadot/apps/themes';
 import { ApiCtxRoot } from '@polkadot/react-api';
 import { createApi } from '@polkadot/test-support/api';
-import { MemoryStore } from '@polkadot/test-support/keyring';
-import { aliceSigner } from '@polkadot/test-support/keyring/signers';
+import { aliceSigner, MemoryStore } from '@polkadot/test-support/keyring';
 import { WaitForApi } from '@polkadot/test-support/react';
-import { execute } from '@polkadot/test-support/transaction/execute';
+import { execute } from '@polkadot/test-support/transaction';
 import { BN } from '@polkadot/util';
 
 import BountiesApp from './index.js';

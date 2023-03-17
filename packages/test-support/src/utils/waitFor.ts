@@ -1,9 +1,9 @@
 // Copyright 2017-2023 @polkadot/test-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-export type WaitOptions = { interval?: number, timeout?: number };
+import type { WaitOptions } from '../types.js';
 
-export async function waitFor (predicate: () => Promise<boolean> | boolean, { interval = 500, timeout = 10000 } = {}): Promise<boolean> {
+export async function waitFor (predicate: () => Promise<boolean> | boolean, { interval = 500, timeout = 10000 }: WaitOptions = {}): Promise<boolean> {
   const asyncPredicate = () => Promise.resolve(predicate());
 
   let elapsed = 0;

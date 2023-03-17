@@ -4,7 +4,7 @@
 /// <reference types="@polkadot/dev-test/globals" />
 
 import { createAugmentedApi } from '@polkadot/test-support/api';
-import { BountyFactory } from '@polkadot/test-support/creation/bounties/bountyFactory';
+import { BountyFactory } from '@polkadot/test-support/creation/bounties';
 import { BN } from '@polkadot/util';
 
 import { determineUnassignCuratorAction } from './determineUnassignCuratorAction.js';
