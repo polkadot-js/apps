@@ -2,9 +2,6 @@
   "extends": "@polkadot/dev/config/tsconfig.json",
 	"compilerOptions": {
     "composite": false,
-    "lib": ["es2021", "dom"],
-    "jsx": "react",
-    "resolveJsonModule": true,
     /* FIXME we still have some issues with some deps that make the default nodenext impossible */
     "moduleResolution": "node",
 		"paths": {
