@@ -591,7 +591,7 @@ export const prodParasPolkadot: EndpointOption[] = [
       logo: nodesSubgameSVG
     }
   },
-    {
+  {
     homepage: 'https://www.t3rn.io/',
     info: 't3rn',
     paraId: 3333,
