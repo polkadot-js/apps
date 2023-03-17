@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-components  authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-/// <reference types="@polkadot/dev-test/globals" />
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React, { Suspense } from 'react';

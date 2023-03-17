@@ -2,8 +2,6 @@
   "extends": "@polkadot/dev/config/tsconfig.json",
 	"compilerOptions": {
     "composite": false,
-    /* FIXME we still have some issues with some deps that make the default nodenext impossible */
-    "moduleResolution": "node",
 		"paths": {
       "@polkadot/apps": ["apps/src/index.tsx"],
       "@polkadot/apps/Root": ["apps/src/Root.tsx"],
