@@ -1,6 +1,8 @@
 // Copyright 2017-2023 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals" />
+
 import { fireEvent, screen, within } from '@testing-library/react';
 
 import { POLKADOT_GENESIS } from '@polkadot/apps-config';

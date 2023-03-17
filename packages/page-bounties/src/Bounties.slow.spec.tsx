@@ -1,6 +1,8 @@
 // Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals" />
+
 import '@polkadot/react-components/i18n';
 
 import { render } from '@testing-library/react';

@@ -1,6 +1,8 @@
 // Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals" />
+
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BountyIndex, BountyStatus } from '@polkadot/types/interfaces';

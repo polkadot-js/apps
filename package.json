@@ -68,7 +68,7 @@
   "devDependencies": {
     "@crustio/crust-pin": "^1.0.0",
     "@pinata/sdk": "^2.1.0",
-    "@polkadot/dev": "^0.72.1",
+    "@polkadot/dev": "^0.72.9",
     "@types/chart.js": "^2.9.37",
     "@types/file-saver": "^2.0.5",
     "@types/react-beautiful-dnd": "^13.1.3",
