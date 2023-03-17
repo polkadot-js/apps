@@ -106,7 +106,25 @@
       "@polkadot/react-query": ["react-query/src/index.ts"],
       "@polkadot/react-signer": ["react-signer/src/index.tsx"],
       "@polkadot/react-signer/signers/*": ["react-signer/src/signers/*.ts"],
-      "@polkadot/test-support/*": ["test-support/src/*.ts", "test-support/src/*.tsx"]
+      /** FIXME These are all "quite" horrible ... need to adjust how it is exported/imported */
+      "@polkadot/test-support/api": ["test-support/src/api/index.ts"],
+      "@polkadot/test-support/creation/bounties/*": ["test-support/src/creation/bounties/*.ts"],
+      "@polkadot/test-support/creation/stakingInfo/*": ["test-support/src/creation/stakingInfo/*.ts"],
+      "@polkadot/test-support/creation/treasury/*": ["test-support/src/creation/treasury/*.ts"],
+      "@polkadot/test-support/creation/*": ["test-support/src/creation/*.ts"],
+      "@polkadot/test-support/hooks/*": ["test-support/src/hooks/*.ts"],
+      "@polkadot/test-support/keyring": ["test-support/src/keyring/index.ts"],
+      "@polkadot/test-support/keyring/*": ["test-support/src/keyring/*.ts"],
+      "@polkadot/test-support/mockData/*": ["test-support/src/mockData/*.ts"],
+      "@polkadot/test-support/pages/*": ["test-support/src/pages/*.tsx"],
+      "@polkadot/test-support/pagesElements": ["test-support/src/pagesElements/index.ts"],
+      "@polkadot/test-support/pagesElements/*": ["test-support/src/pagesElements/*.ts"],
+      "@polkadot/test-support/react": ["test-support/src/react/index.ts"],
+      "@polkadot/test-support/substrate": ["test-support/src/substrate/index.ts"],
+      "@polkadot/test-support/types": ["test-support/src/types.ts"],
+      "@polkadot/test-support/transaction": ["test-support/src/transaction/index.ts"],
+      "@polkadot/test-support/transaction/*": ["test-support/src/transaction/*.ts"],
+      "@polkadot/test-support/utils/*": ["test-support/src/utils/*.ts"]
     },
     "skipLibCheck": true
 	}

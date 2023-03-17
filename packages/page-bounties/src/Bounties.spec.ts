@@ -12,13 +12,13 @@ import { fireEvent } from '@testing-library/react';
 
 import { ApiPromise } from '@polkadot/api';
 import i18next from '@polkadot/react-components/i18n';
-import { createAugmentedApi } from '@polkadot/test-support/api/index';
+import { createAugmentedApi } from '@polkadot/test-support/api';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
 import { BountyFactory } from '@polkadot/test-support/creation/bounties/bountyFactory';
 import { proposalFactory } from '@polkadot/test-support/creation/treasury/proposalFactory';
 import { mockHooks } from '@polkadot/test-support/hooks/mockHooks';
+import { MemoryStore } from '@polkadot/test-support/keyring';
 import { alice, bob } from '@polkadot/test-support/keyring/addresses';
-import { MemoryStore } from '@polkadot/test-support/keyring/index';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN } from '@polkadot/util';
 

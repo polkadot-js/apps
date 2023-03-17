@@ -3,7 +3,7 @@
 
 /// <reference types="@polkadot/dev-test/globals" />
 
-import { createAugmentedApi } from '@polkadot/test-support/api/index';
+import { createAugmentedApi } from '@polkadot/test-support/api';
 import { BountyFactory } from '@polkadot/test-support/creation/bounties/bountyFactory';
 import { BN } from '@polkadot/util';
 

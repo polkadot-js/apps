@@ -5,7 +5,7 @@ import React from 'react';
 
 import { aContact } from '@polkadot/test-support/creation/contact';
 import { Page } from '@polkadot/test-support/pages/Page';
-import { Row } from '@polkadot/test-support/pagesElements/index';
+import { Row } from '@polkadot/test-support/pagesElements';
 import { AccountOverrides as ContactOverrides } from '@polkadot/test-support/types';
 import { mockAccountHooks } from '@polkadot/test-support/utils/accountDefaults';
 
