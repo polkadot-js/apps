@@ -1,5 +1,7 @@
-// Copyright 2017-2023 @polkadot/page-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/page-addresses authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+/// <reference types="@polkadot/dev-test/globals" />
 
 import { screen } from '@testing-library/react';
 

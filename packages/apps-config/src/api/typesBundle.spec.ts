@@ -1,6 +1,8 @@
 // Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals" />
+
 import fs from 'node:fs';
 
 import { objectSpread } from '@polkadot/util';

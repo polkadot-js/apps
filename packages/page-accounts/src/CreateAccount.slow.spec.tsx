@@ -1,6 +1,8 @@
 // Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals" />
+
 import '@polkadot/react-components/i18n';
 
 import { fireEvent, render, waitForElementToBeRemoved } from '@testing-library/react';
