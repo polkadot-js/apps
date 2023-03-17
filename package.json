@@ -27,7 +27,6 @@
   "scripts": {
     "analyze": "yarn clean && BUILD_ANALYZE=1 yarn run build:code && yarn source-map-explorer packages/apps/build/app.*.js",
     "build": "yarn run build:i18n && yarn run build:code",
-    "build:fixup": "./scripts/fixupModules.cjs",
     "build:before": "yarn build:fixup && yarn build:images && yarn build:typesBundle",
     "build:code": "NODE_ENV=production yarn polkadot-dev-build-ts",
     "build:devElectronMain": "cd packages/apps-electron && yarn polkadot-exec-webpack --config webpack.main.cjs",
@@ -35,6 +34,7 @@
     "build:electron": "yarn clean:electronBuild && yarn build:electronMain && yarn build:electronRenderer",
     "build:electronMain": "cd packages/apps-electron && NODE_ENV=production yarn polkadot-exec-webpack --config webpack.main.cjs",
     "build:electronRenderer": "cd packages/apps-electron && NODE_ENV=production yarn polkadot-exec-webpack --config webpack.renderer.cjs",
+    "build:fixup": "node ./scripts/fixupModules.cjs",
     "build:i18n": "i18next-scanner --config i18next-scanner.config.cjs && node ./scripts/i18nSort.cjs",
     "build:images": "node scripts/imgConvert.mjs",
     "build:release:electron": "yarn build && yarn build:electron && yarn postinstall:electron",
