@@ -1,6 +1,8 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { LanguageDetectorModule, Newable } from 'i18next';
+
 import i18next from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
@@ -9,13 +11,12 @@ import { LANGUAGE_DEFAULT, settings } from '@polkadot/ui-settings';
 
 import Backend from './Backend.js';
 
-interface Services {
-  languageDetector: {
-    detect: () => string;
-  };
-}
-
-const languageDetector = new LanguageDetector();
+// This is a workaround for the above package -
+//
+// 1. It does have an ESM export which would be used
+// 2. The package type is set to commonjs
+// 3. Unless we run fixup on it, it seems problematic... (here we opt for no fixup)
+const languageDetector = new (LanguageDetector as unknown as Newable<LanguageDetectorModule & { addDetector: (...args: unknown[]) => unknown }>)();
 
 languageDetector.addDetector({
   lookup: () => {
@@ -91,10 +92,13 @@ i18next
   );
 
 settings.on('change', (settings): void => {
-  i18next.changeLanguage(
+  (
     settings.i18nLang === LANGUAGE_DEFAULT
-      ? (i18next.services as Services).languageDetector.detect()
-      : settings.i18nLang
+      // If we want to use the default language, we need to pass no
+      // actual param through here
+      // https://github.com/i18next/i18next/blob/21eac5a605601ec1067aac3583c6ec6bc2ecd3b7/src/i18next.js#L366
+      ? i18next.changeLanguage()
+      : i18next.changeLanguage(settings.i18nLang)
   ).catch(console.error);
 });
 

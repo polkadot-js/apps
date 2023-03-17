@@ -134,6 +134,7 @@ export { nodesSubstrateContractsNodePNG } from './generated/substrate-contracts-
 export { nodesSubstrateHexagonSVG } from './generated/substrate-hexagonSVG.js';
 export { nodesSubstrateWhiteSVG } from './generated/substrate-whiteSVG.js';
 export { nodesSwapdexSVG } from './generated/swapdexSVG.js';
+export { nodesT3rnPNG } from './generated/t3rnPNG.js';
 export { nodesTernoaSVG } from './generated/ternoaSVG.js';
 export { nodesThebifrostPNG } from './generated/thebifrostPNG.js';
 export { nodesTrustbasePNG } from './generated/trustbasePNG.js';

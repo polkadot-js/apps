@@ -1,6 +1,8 @@
 // Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import '@polkadot/react-components/i18n';
 
 import { render } from '@testing-library/react';
@@ -10,11 +12,10 @@ import { ThemeProvider } from 'styled-components';
 
 import { lightTheme } from '@polkadot/apps/themes';
 import { ApiCtxRoot } from '@polkadot/react-api';
-import { createApi } from '@polkadot/test-support/api/index';
-import { MemoryStore } from '@polkadot/test-support/keyring/index';
-import { aliceSigner } from '@polkadot/test-support/keyring/signers';
-import { WaitForApi } from '@polkadot/test-support/react/index';
-import { execute } from '@polkadot/test-support/transaction/execute';
+import { createApi } from '@polkadot/test-support/api';
+import { aliceSigner, MemoryStore } from '@polkadot/test-support/keyring';
+import { WaitForApi } from '@polkadot/test-support/react';
+import { execute } from '@polkadot/test-support/transaction';
 import { BN } from '@polkadot/util';
 
 import BountiesApp from './index.js';

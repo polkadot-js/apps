@@ -91,7 +91,8 @@ import phoenix from './phoenix.js';
 import pichiu from './pichiu.js';
 import polkadex from './polkadex.js';
 import polkafoundry from './polkafoundry.js';
-import polymesh from './polymesh.js';
+import polymeshMainnet from './polymesh-mainnet.js';
+import polymeshTestnet from './polymesh-testnet.js';
 import pontem from './pontem.js';
 import prism from './prism.js';
 import quartz from './quartz.js';
@@ -246,7 +247,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'phoenix-parachain': phoenix,
   pichiu,
   'pioneer-runtime': bitcountryPioneer,
-  polymesh,
+  polymesh_mainnet: polymeshMainnet,
+  polymesh_testnet: polymeshTestnet,
   'pontem-node': pontem,
   prism,
   quartz,

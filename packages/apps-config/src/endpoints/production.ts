@@ -364,11 +364,11 @@ export const prodChains: EndpointOption[] = [
   {
     info: 'polymesh',
     providers: {
-      Polymath: 'wss://mainnet-rpc.polymesh.network'
+      Polymesh: 'wss://mainnet-rpc.polymesh.network'
     },
     text: 'Polymesh Mainnet',
     ui: {
-      color: '#1348e4',
+      color: 'linear-gradient(197deg, #FF2E72, #4A125E)',
       logo: nodesPolymeshSVG
     }
   },
@@ -432,9 +432,8 @@ export const prodChains: EndpointOption[] = [
   },
   {
     info: 'stafi',
-    isDisabled: true, // Cannot find type ChainId
     providers: {
-      'Stafi Foundation': 'wss://mainnet-rpc.stafi.io'
+      // 'Stafi Foundation': 'wss://mainnet-rpc.stafi.io' // isDisabled: true, // Cannot find type ChainId
     },
     text: 'Stafi',
     ui: {

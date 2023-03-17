@@ -1,11 +1,13 @@
 // Copyright 2017-2023 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import { fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/react';
 
 import i18next from '@polkadot/react-components/i18n';
-import { MemoryStore } from '@polkadot/test-support/keyring/index';
-import { assertButtonDisabled, assertText, clickButton, fillInput } from '@polkadot/test-support/utils/renderedScreenUtils';
+import { MemoryStore } from '@polkadot/test-support/keyring';
+import { assertButtonDisabled, assertText, clickButton, fillInput } from '@polkadot/test-support/utils';
 import { keyring } from '@polkadot/ui-keyring';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
