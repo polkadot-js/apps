@@ -41,7 +41,7 @@ function SidebarEditableSection ({ accountIndex, address, isBeingEdited, onUpdat
           setTags(accountOrAddress?.meta.tags ? (accountOrAddress.meta.tags as string[]).sort() : []);
           setIsEditingName(false);
           setIsEditingTags(false);
-        } catch (error) {
+        } catch {
           // ignore
         }
       }

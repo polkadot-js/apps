@@ -116,7 +116,6 @@
       "@polkadot/test-support/types": ["test-support/src/types.ts"],
       "@polkadot/test-support/transaction": ["test-support/src/transaction/index.ts"],
       "@polkadot/test-support/utils": ["test-support/src/utils/index.ts"]
-    },
-    "skipLibCheck": true
+    }
 	}
  }
