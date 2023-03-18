@@ -86,7 +86,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
             storageDepositLimit: null,
             value: contractAbi?.constructors[constructorIndex].isPayable ? value : undefined
           }, ...params);
-        } catch (error) {
+        } catch {
           return null;
         }
       }

@@ -58,7 +58,7 @@ function findCall (tx: Call | SubmittableExtrinsic<'promise'>): { method: string
     const { method, section } = tx.registry.findMetaCall(tx.callIndex);
 
     return { method, section };
-  } catch (error) {
+  } catch {
     return { method: 'unknown', section: 'unknown' };
   }
 }

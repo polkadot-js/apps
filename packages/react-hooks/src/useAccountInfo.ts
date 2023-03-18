@@ -138,7 +138,7 @@ function useAccountInfoImpl (value: string | null, isContract = false): UseAccou
         setMeta(accountOrAddress?.meta);
         setName(accountOrAddress?.meta.name || '');
         setSortedTags(accountOrAddress?.meta.tags ? (accountOrAddress.meta.tags as string[]).sort() : []);
-      } catch (error) {
+      } catch {
         // ignore
       }
     }
@@ -167,7 +167,7 @@ function useAccountInfoImpl (value: string | null, isContract = false): UseAccou
           const pair = keyring.getPair(value);
 
           pair && keyring.saveAccountMeta(pair, meta);
-        } catch (error) {
+        } catch {
           const pair = keyring.getAddress(value);
 
           if (pair) {
@@ -200,7 +200,7 @@ function useAccountInfoImpl (value: string | null, isContract = false): UseAccou
           const currentKeyring = keyring.getPair(value);
 
           currentKeyring && keyring.saveAccountMeta(currentKeyring, meta);
-        } catch (error) {
+        } catch {
           keyring.saveAddress(value, meta);
         }
       }

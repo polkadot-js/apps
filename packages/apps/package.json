@@ -18,7 +18,7 @@
   "dependencies": {
     "@polkadot/apps-config": "^0.124.2-169-x",
     "@polkadot/apps-routing": "^0.124.2-169-x",
-    "@polkadot/dev": "^0.72.9",
+    "@polkadot/dev": "^0.72.15",
     "@polkadot/react-api": "^0.124.2-169-x",
     "@polkadot/react-components": "^0.124.2-169-x",
     "@polkadot/react-hooks": "^0.124.2-169-x",
@@ -38,7 +38,7 @@
     "empty": "^0.10.1",
     "html-webpack-plugin": "^5.5.0",
     "https-browserify": "^1.0.0",
-    "mini-css-extract-plugin": "^2.7.3",
+    "mini-css-extract-plugin": "^2.7.5",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
     "process": "^0.11.10",

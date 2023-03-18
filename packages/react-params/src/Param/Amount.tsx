@@ -16,7 +16,7 @@ import Bare from './Bare.js';
 function getBitLength (registry: Registry, { type }: TypeDef): BitLength {
   try {
     return registry.createType(type as 'u32').bitLength() as BitLength;
-  } catch (error) {
+  } catch {
     return 32;
   }
 }
