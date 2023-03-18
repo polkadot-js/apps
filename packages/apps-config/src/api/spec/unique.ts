@@ -7,10 +7,12 @@ import pkg from '@unique-nft/unique-mainnet-types/definitions.js';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-const { unique } = pkg;
+const { appPromotion, unique } = pkg;
 
 export default {
   rpc: {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+    appPromotion: appPromotion.rpc,
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
     unique: unique.rpc
   }
