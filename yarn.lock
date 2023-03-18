@@ -1706,9 +1706,9 @@ __metadata:
     "@sora-substrate/type-definitions": 1.15.8
     "@subsocial/definitions": 0.8.6
     "@unique-nft/opal-testnet-types": 937.53.1
-    "@unique-nft/quartz-mainnet-types": 937.52.0
-    "@unique-nft/sapphire-mainnet-types": 937.52.0
-    "@unique-nft/unique-mainnet-types": 937.52.0
+    "@unique-nft/quartz-mainnet-types": 937.53.1
+    "@unique-nft/sapphire-mainnet-types": 937.53.1
+    "@unique-nft/unique-mainnet-types": 937.53.1
     "@zeitgeistpm/type-defs": 1.0.0
     "@zeroio/type-definitions": 0.0.14
     moonbeam-types-bundle: 2.0.10
@@ -3826,33 +3826,33 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@unique-nft/quartz-mainnet-types@npm:937.52.0":
-  version: 937.52.0
-  resolution: "@unique-nft/quartz-mainnet-types@npm:937.52.0"
+"@unique-nft/quartz-mainnet-types@npm:937.53.1":
+  version: 937.53.1
+  resolution: "@unique-nft/quartz-mainnet-types@npm:937.53.1"
   peerDependencies:
     "@polkadot/api": ^9.10.2
     "@polkadot/types": ^9.10.2
-  checksum: 8eaeb70af37dc40d95be02865a04c28e98e49a049d2c55b14aec1f43757c8778b9d52a0262aee3c66aef1175c612974d0fec9244e60c459fab1f4beeae39b624
+  checksum: 74548fb91a6b5c964f557edeb77f62b66505fd41e421998f571e1a064387a52219a19de4bed61e0021a1fff12a6179009a91f46b1872f4cfcbc3fb74b8370e6c
   languageName: node
   linkType: hard
 
-"@unique-nft/sapphire-mainnet-types@npm:937.52.0":
-  version: 937.52.0
-  resolution: "@unique-nft/sapphire-mainnet-types@npm:937.52.0"
+"@unique-nft/sapphire-mainnet-types@npm:937.53.1":
+  version: 937.53.1
+  resolution: "@unique-nft/sapphire-mainnet-types@npm:937.53.1"
   peerDependencies:
     "@polkadot/api": ^9.10.2
     "@polkadot/types": ^9.10.2
-  checksum: 36265430ff39d4ee9aa041b8abef167da1f9f601db8b56c9b087f0ac137e25db8608c4a4c276ee601c30b9d88e0ced106b9da69374b6c3a183fd7b8dcb081378
+  checksum: 01a601f6e0af9b352540938d5c79e5b5951ccf9aec70755ba5ed548310e9f58e781167518f0f50d9db99da5828151ca4d01f89cddcad815598f52250bf5cc50b
   languageName: node
   linkType: hard
 
-"@unique-nft/unique-mainnet-types@npm:937.52.0":
-  version: 937.52.0
-  resolution: "@unique-nft/unique-mainnet-types@npm:937.52.0"
+"@unique-nft/unique-mainnet-types@npm:937.53.1":
+  version: 937.53.1
+  resolution: "@unique-nft/unique-mainnet-types@npm:937.53.1"
   peerDependencies:
     "@polkadot/api": ^9.10.2
     "@polkadot/types": ^9.10.2
-  checksum: 2c7be3958d3d2806b629e2dd4150a7f5fb741c6edf8f1e8ecdcaea0ba52b2e034829528af294328d97701b8b147ee6605ac39a0ab8d64db2bc83bcc0fea6bce3
+  checksum: e29eb28371596aa4d92170bc53fde98eec439bdba768d0198c4519d359497f95b4f24344454f19e3bb7d1561665e67d4a0fa9245c10d5ba648cc54272450cef5
   languageName: node
   linkType: hard
 
