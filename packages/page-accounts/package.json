@@ -14,18 +14,18 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.124.2-169-x",
+  "version": "0.124.2-170-x",
   "dependencies": {
     "@polkadot/hw-ledger": "^11.0.2",
     "@polkadot/phishing": "^0.20.2",
-    "@polkadot/react-components": "^0.124.2-169-x",
-    "@polkadot/react-hooks": "^0.124.2-169-x",
+    "@polkadot/react-components": "^0.124.2-170-x",
+    "@polkadot/react-hooks": "^0.124.2-170-x",
     "@polkadot/util": "^11.0.2",
     "@polkadot/vanitygen": "^0.53.5",
     "detect-browser": "^5.3.0",
     "file-saver": "^2.0.5"
   },
   "devDependencies": {
-    "@polkadot/test-support": "0.124.2-169-x"
+    "@polkadot/test-support": "0.124.2-170-x"
   }
 }
