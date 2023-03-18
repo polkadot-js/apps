@@ -3,7 +3,7 @@
 
 import { extractTime } from '@polkadot/util';
 
-import { defaultTreasury } from '../creation/treasury/defaults.js';
+import { defaultTreasury } from '../creation/treasury.js';
 import { defaultMembers } from '../keyring/addresses.js';
 
 export const mockHooks = {

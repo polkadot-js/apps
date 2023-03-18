@@ -59,6 +59,6 @@ export function dateCalendarFormat (date: Date): string {
   return new Date(date)
     .toISOString()
     .split('.')[0]
-    .replaceAll('-', '')
-    .replaceAll(':', '') + 'Z';
+    .replace(/-/g, '')
+    .replace(/:/g, '') + 'Z';
 }

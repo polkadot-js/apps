@@ -54473,76 +54473,6 @@ export const typesBundle = {
           }
         }
       },
-      "types": [
-        {
-          "minmax": [
-            0,
-            null
-          ],
-          "types": {
-            "RpcEvent": {
-              "phase": "Option<u32>",
-              "pallet": "u8",
-              "event": "u8",
-              "data": "Vec<u8>"
-            },
-            "BlockPaginationRequest": {
-              "from_block": "BlockNumber",
-              "from_index": "u32",
-              "to_block": "BlockNumber",
-              "page_size": "u32"
-            },
-            "MessageResponse": {
-              "payload": "Option<Vec<u8>>",
-              "cid": "Option<Vec<u8>>",
-              "provider_msa_id": "MessageSourceId",
-              "msa_id": "Option<MessageSourceId>",
-              "index": "u16",
-              "block_number": "BlockNumber",
-              "payload_length": "Option<u32>"
-            },
-            "BlockPaginationResponseMessage": {
-              "content": "Vec<MessageResponse>",
-              "has_next": "bool",
-              "next_block": "Option<BlockNumber>",
-              "next_index": "Option<u32>"
-            },
-            "MessageSourceId": "u64",
-            "DelegatorId": "MessageSourceId",
-            "ProviderId": "MessageSourceId",
-            "KeyInfoResponse": {
-              "key": "AccountId",
-              "msaId": "MessageSourceId"
-            },
-            "SchemaId": "u16",
-            "SchemaModel": "Vec<u8>",
-            "SchemaResponse": {
-              "schema_id": "SchemaId",
-              "model": "SchemaModel",
-              "model_type": "ModelType",
-              "payload_location": "PayloadLocation"
-            },
-            "ModelType": {
-              "_enum": [
-                "AvroBinary",
-                "Parquet"
-              ]
-            },
-            "PayloadLocation": {
-              "_enum": [
-                "OnChain",
-                "IPFS"
-              ]
-            }
-          }
-        }
-      ],
-      "signedExtensions": {
-        "CheckFreeExtrinsicUse": {
-          "extrinsic": {},
-          "payload": {}
-        }
-      },
       "runtime": {
         "AdditionalRuntimeApi": [
           {
@@ -54651,7 +54581,77 @@ export const typesBundle = {
             "version": 1
           }
         ]
-      }
+      },
+      "signedExtensions": {
+        "CheckFreeExtrinsicUse": {
+          "extrinsic": {},
+          "payload": {}
+        }
+      },
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "RpcEvent": {
+              "phase": "Option<u32>",
+              "pallet": "u8",
+              "event": "u8",
+              "data": "Vec<u8>"
+            },
+            "BlockPaginationRequest": {
+              "from_block": "BlockNumber",
+              "from_index": "u32",
+              "to_block": "BlockNumber",
+              "page_size": "u32"
+            },
+            "MessageResponse": {
+              "payload": "Option<Vec<u8>>",
+              "cid": "Option<Vec<u8>>",
+              "provider_msa_id": "MessageSourceId",
+              "msa_id": "Option<MessageSourceId>",
+              "index": "u16",
+              "block_number": "BlockNumber",
+              "payload_length": "Option<u32>"
+            },
+            "BlockPaginationResponseMessage": {
+              "content": "Vec<MessageResponse>",
+              "has_next": "bool",
+              "next_block": "Option<BlockNumber>",
+              "next_index": "Option<u32>"
+            },
+            "MessageSourceId": "u64",
+            "DelegatorId": "MessageSourceId",
+            "ProviderId": "MessageSourceId",
+            "KeyInfoResponse": {
+              "key": "AccountId",
+              "msaId": "MessageSourceId"
+            },
+            "SchemaId": "u16",
+            "SchemaModel": "Vec<u8>",
+            "SchemaResponse": {
+              "schema_id": "SchemaId",
+              "model": "SchemaModel",
+              "model_type": "ModelType",
+              "payload_location": "PayloadLocation"
+            },
+            "ModelType": {
+              "_enum": [
+                "AvroBinary",
+                "Parquet"
+              ]
+            },
+            "PayloadLocation": {
+              "_enum": [
+                "OnChain",
+                "IPFS"
+              ]
+            }
+          }
+        }
+      ]
     },
     "frequency-rococo": {
       "rpc": {
@@ -54749,76 +54749,6 @@ export const typesBundle = {
           }
         }
       },
-      "types": [
-        {
-          "minmax": [
-            0,
-            null
-          ],
-          "types": {
-            "RpcEvent": {
-              "phase": "Option<u32>",
-              "pallet": "u8",
-              "event": "u8",
-              "data": "Vec<u8>"
-            },
-            "BlockPaginationRequest": {
-              "from_block": "BlockNumber",
-              "from_index": "u32",
-              "to_block": "BlockNumber",
-              "page_size": "u32"
-            },
-            "MessageResponse": {
-              "payload": "Option<Vec<u8>>",
-              "cid": "Option<Vec<u8>>",
-              "provider_msa_id": "MessageSourceId",
-              "msa_id": "Option<MessageSourceId>",
-              "index": "u16",
-              "block_number": "BlockNumber",
-              "payload_length": "Option<u32>"
-            },
-            "BlockPaginationResponseMessage": {
-              "content": "Vec<MessageResponse>",
-              "has_next": "bool",
-              "next_block": "Option<BlockNumber>",
-              "next_index": "Option<u32>"
-            },
-            "MessageSourceId": "u64",
-            "DelegatorId": "MessageSourceId",
-            "ProviderId": "MessageSourceId",
-            "KeyInfoResponse": {
-              "key": "AccountId",
-              "msaId": "MessageSourceId"
-            },
-            "SchemaId": "u16",
-            "SchemaModel": "Vec<u8>",
-            "SchemaResponse": {
-              "schema_id": "SchemaId",
-              "model": "SchemaModel",
-              "model_type": "ModelType",
-              "payload_location": "PayloadLocation"
-            },
-            "ModelType": {
-              "_enum": [
-                "AvroBinary",
-                "Parquet"
-              ]
-            },
-            "PayloadLocation": {
-              "_enum": [
-                "OnChain",
-                "IPFS"
-              ]
-            }
-          }
-        }
-      ],
-      "signedExtensions": {
-        "CheckFreeExtrinsicUse": {
-          "extrinsic": {},
-          "payload": {}
-        }
-      },
       "runtime": {
         "AdditionalRuntimeApi": [
           {
@@ -54927,7 +54857,77 @@ export const typesBundle = {
             "version": 1
           }
         ]
-      }
+      },
+      "signedExtensions": {
+        "CheckFreeExtrinsicUse": {
+          "extrinsic": {},
+          "payload": {}
+        }
+      },
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "RpcEvent": {
+              "phase": "Option<u32>",
+              "pallet": "u8",
+              "event": "u8",
+              "data": "Vec<u8>"
+            },
+            "BlockPaginationRequest": {
+              "from_block": "BlockNumber",
+              "from_index": "u32",
+              "to_block": "BlockNumber",
+              "page_size": "u32"
+            },
+            "MessageResponse": {
+              "payload": "Option<Vec<u8>>",
+              "cid": "Option<Vec<u8>>",
+              "provider_msa_id": "MessageSourceId",
+              "msa_id": "Option<MessageSourceId>",
+              "index": "u16",
+              "block_number": "BlockNumber",
+              "payload_length": "Option<u32>"
+            },
+            "BlockPaginationResponseMessage": {
+              "content": "Vec<MessageResponse>",
+              "has_next": "bool",
+              "next_block": "Option<BlockNumber>",
+              "next_index": "Option<u32>"
+            },
+            "MessageSourceId": "u64",
+            "DelegatorId": "MessageSourceId",
+            "ProviderId": "MessageSourceId",
+            "KeyInfoResponse": {
+              "key": "AccountId",
+              "msaId": "MessageSourceId"
+            },
+            "SchemaId": "u16",
+            "SchemaModel": "Vec<u8>",
+            "SchemaResponse": {
+              "schema_id": "SchemaId",
+              "model": "SchemaModel",
+              "model_type": "ModelType",
+              "payload_location": "PayloadLocation"
+            },
+            "ModelType": {
+              "_enum": [
+                "AvroBinary",
+                "Parquet"
+              ]
+            },
+            "PayloadLocation": {
+              "_enum": [
+                "OnChain",
+                "IPFS"
+              ]
+            }
+          }
+        }
+      ]
     },
     "galital": {
       "types": [
