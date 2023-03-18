@@ -100276,6 +100276,70 @@ export const typesBundle = {
     },
     "unique": {
       "rpc": {
+        "appPromotion": {
+          "totalStaked": {
+            "description": "Returns the total amount of staked tokens",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u128"
+          },
+          "totalStakedPerBlock": {
+            "description": "Returns the total amount of staked tokens per block when staked",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(u32, u128)>"
+          },
+          "pendingUnstake": {
+            "description": "Returns the total amount of unstaked tokens",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u128"
+          },
+          "pendingUnstakePerBlock": {
+            "description": "Returns the total amount of unstaked tokens per block",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(u32, u128)>"
+          }
+        },
         "unique": {
           "accountTokens": {
             "description": "Get tokens owned by an account in a collection",
