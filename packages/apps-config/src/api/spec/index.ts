@@ -31,8 +31,8 @@ import contracts from './contracts.js';
 import crab from './crab.js';
 import crownSterlingChain from './crown-sterling.js';
 import crust from './crust.js';
-import curio from './curio.js';
 import testPara from './cumulus-test-parachain.js';
+import curio from './curio.js';
 import darwinia from './darwinia.js';
 import datahighwayParachain from './datahighway.js';
 import dockMainnet from './dock-mainnet.js';
@@ -175,9 +175,9 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'crown-sterling': crownSterlingChain,
   crust,
   'crust-parachain': crust,
+  'cumulus-test-parachain': testPara,
   'curio-devnet': curio,
   'curio-testnet': curio,
-  'cumulus-test-parachain': testPara,
   datahighway: westlake,
   'datahighway-parachain': datahighwayParachain,
   dawn: eave,
