@@ -7,6 +7,8 @@ const process = require('node:process');
 
 // incorrect packages without type specifier
 [
+  // See https://github.com/fragcolor-xyz/fragnova/issues/286
+  '@fragnova/api-augment',
   // See https://github.com/LibertyDSNP/frequency/issues/1116
   '@frequency-chain/api-augment'
 ].forEach((f) => {
