@@ -302,6 +302,7 @@
        1	George Angelopoulos           	typo fix (#5704)
        1	Georgi Zlatarev               	Dolphin parachain on Rococo (#7401)
        1	Gerawork Aynekulu             	Update RILT paraId (#7736)
+       1	Giovanni Petrantoni           	Add Fragnova mainnet and testnet (#9198)
        1	gojazdev                      	feat(apps-config): introduce Jaz node (#7805)
        1	goldsteinsveta                	Style bug fix: Balances asset selector (#6668)
        1	green-jay                     	add hydradx rococo (#8154)
