@@ -61,7 +61,7 @@ const MULTI_DEFAULT: string[] = [];
 function transformToAddress (value?: string | Uint8Array | null): string | null {
   try {
     return toAddress(value, false, keyring.keyring.type === 'ethereum' ? 20 : 32) || null;
-  } catch (error) {
+  } catch {
     // noop, handled by return
   }
 
@@ -144,7 +144,7 @@ class InputAddress extends React.PureComponent<Props, State> {
           ? value.map((v) => toAddress(v))
           : (toAddress(value) || undefined)
       };
-    } catch (error) {
+    } catch {
       return null;
     }
   }

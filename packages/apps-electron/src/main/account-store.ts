@@ -40,7 +40,7 @@ export const accountStoreIpcHandler = (fileStore: FileStore): IpcMainHandler => 
   'account-store-get': async (key: string) => new Promise((resolve) => {
     try {
       fileStore.get(safeWriteKey(key), resolve);
-    } catch (err) {
+    } catch {
       resolve(null);
     }
   }),

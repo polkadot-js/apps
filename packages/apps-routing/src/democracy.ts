@@ -13,7 +13,7 @@ function needsApiCheck (api: ApiPromise): boolean {
     api.tx.democracy.vote(1, { Standard: { balance: 1, vote: { aye: true, conviction: 1 } } });
 
     return true;
-  } catch (error) {
+  } catch {
     console.warn('Unable to create referendum vote transaction, disabling democracy route');
 
     return false;

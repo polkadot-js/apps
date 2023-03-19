@@ -49,7 +49,7 @@ function convertInput (value: string): [boolean, boolean, Uint8Array] {
   } else if (value.startsWith('0x')) {
     try {
       return [true, false, hexToU8a(value)];
-    } catch (error) {
+    } catch {
       return [false, false, new Uint8Array([])];
     }
   }
@@ -57,7 +57,7 @@ function convertInput (value: string): [boolean, boolean, Uint8Array] {
   // maybe it is an ss58?
   try {
     return [true, true, decodeAddress(value)];
-  } catch (error) {
+  } catch {
     // we continue
   }
 

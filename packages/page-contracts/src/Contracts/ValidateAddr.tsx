@@ -28,7 +28,7 @@ function ValidateAddr ({ address, onChange }: Props): React.ReactElement<Props> 
     try {
       keyring.decodeAddress(address || '');
       setIsAddress(true);
-    } catch (error) {
+    } catch {
       setIsAddress(false);
     }
   }, [address]);

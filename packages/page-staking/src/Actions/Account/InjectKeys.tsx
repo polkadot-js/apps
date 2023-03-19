@@ -55,7 +55,7 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
       assert(mnemonicValidate(phrase), 'Invalid mnemonic phrase');
 
       setPublicKey(u8aToHex(keyring.createFromUri(suri, {}, crypto).publicKey));
-    } catch (error) {
+    } catch {
       setPublicKey(EMPTY_KEY);
     }
   }, [crypto, suri]);

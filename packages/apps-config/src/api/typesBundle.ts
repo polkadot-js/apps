@@ -50847,6 +50847,90 @@ export const typesBundle = {
         }
       ]
     },
+    "curio-devnet": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "StakingRates": {
+              "collatorStakingRate": "Perquintill",
+              "collatorRewardRate": "Perquintill",
+              "delegatorStakingRate": "Perquintill",
+              "delegatorRewardRate": "Perquintill"
+            }
+          }
+        }
+      ],
+      "runtime": {
+        "Staking": [
+          {
+            "methods": {
+              "get_staking_rates": {
+                "description": "Calculate the current staking and reward rates for collators and delegators",
+                "params": [],
+                "type": "StakingRates"
+              },
+              "get_unclaimed_staking_rewards": {
+                "description": "Calculate the claimable staking rewards for a given account address",
+                "params": [
+                  {
+                    "name": "account",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Balance"
+              }
+            },
+            "version": 1
+          }
+        ]
+      }
+    },
+    "curio-testnet": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "StakingRates": {
+              "collatorStakingRate": "Perquintill",
+              "collatorRewardRate": "Perquintill",
+              "delegatorStakingRate": "Perquintill",
+              "delegatorRewardRate": "Perquintill"
+            }
+          }
+        }
+      ],
+      "runtime": {
+        "Staking": [
+          {
+            "methods": {
+              "get_staking_rates": {
+                "description": "Calculate the current staking and reward rates for collators and delegators",
+                "params": [],
+                "type": "StakingRates"
+              },
+              "get_unclaimed_staking_rewards": {
+                "description": "Calculate the claimable staking rewards for a given account address",
+                "params": [
+                  {
+                    "name": "account",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Balance"
+              }
+            },
+            "version": 1
+          }
+        ]
+      }
+    },
     "datahighway": {
       "types": [
         {
@@ -100736,6 +100820,70 @@ export const typesBundle = {
     },
     "unique": {
       "rpc": {
+        "appPromotion": {
+          "totalStaked": {
+            "description": "Returns the total amount of staked tokens",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u128"
+          },
+          "totalStakedPerBlock": {
+            "description": "Returns the total amount of staked tokens per block when staked",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(u32, u128)>"
+          },
+          "pendingUnstake": {
+            "description": "Returns the total amount of unstaked tokens",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u128"
+          },
+          "pendingUnstakePerBlock": {
+            "description": "Returns the total amount of unstaked tokens per block",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(u32, u128)>"
+          }
+        },
         "unique": {
           "accountTokens": {
             "description": "Get tokens owned by an account in a collection",

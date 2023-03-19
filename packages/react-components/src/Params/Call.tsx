@@ -43,7 +43,7 @@ export function extractInitial (api: ApiPromise, initialValue: SubmittableExtrin
           }
           : { initialValue: (input.value as SubmittableExtrinsicFunction<'promise'>) }
       : { initialValue };
-  } catch (error) {
+  } catch {
     return { initialValue };
   }
 }

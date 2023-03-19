@@ -14,7 +14,7 @@ function expandDef (registry: Registry, td: TypeDef): TypeDef {
     return getTypeDef(
       registry.createType(td.type as 'u32').toRawType()
     );
-  } catch (e) {
+  } catch {
     return td;
   }
 }

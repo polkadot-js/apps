@@ -24,7 +24,7 @@ export function createParam (hex: string | String, ignoreLength = false): StateP
     u8a = hexToU8a(hex.toString());
 
     isValid = ignoreLength || u8a.length !== 0;
-  } catch (error) {
+  } catch {
     u8a = new Uint8Array([]);
   }
 
