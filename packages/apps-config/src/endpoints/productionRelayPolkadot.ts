@@ -393,7 +393,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     }
   },
   {
-    homepage: 'https://crowdloan.litentry.com',
+    homepage: 'https://www.litentry.com/',
     info: 'litentry',
     paraId: 2013,
     providers: {
@@ -402,7 +402,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     },
     text: 'Litentry',
     ui: {
-      color: 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)',
+      color: '#15B786',
       logo: nodesLitentryPNG
     }
   },
