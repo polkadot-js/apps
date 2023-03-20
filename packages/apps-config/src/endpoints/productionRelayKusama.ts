@@ -408,7 +408,7 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
-    homepage: 'https://kusama-crowdloan.litentry.com',
+    homepage: 'https://www.litentry.com/',
     info: 'litmus',
     isUnreachable: false,
     paraId: 2106,
@@ -417,7 +417,7 @@ export const prodParasKusama: EndpointOption[] = [
     },
     text: 'Litmus',
     ui: {
-      color: '#6822fb',
+      color: '#3913D3',
       logo: nodesLitmusPNG
     }
   },

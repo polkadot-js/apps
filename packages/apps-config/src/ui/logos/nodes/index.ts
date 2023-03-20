@@ -75,6 +75,7 @@ export { nodesKusariSVG } from './generated/kusariSVG.js';
 export { nodesKylinPNG } from './generated/kylinPNG.js';
 export { nodesLaminarCircleSVG } from './generated/laminar-circleSVG.js';
 export { nodesLitentryPNG } from './generated/litentryPNG.js';
+export { nodesLitentryRococoPNG } from './generated/litentry-rococoPNG.js';
 export { nodesLitmusPNG } from './generated/litmusPNG.js';
 export { nodesLoomNetworkPNG } from './generated/loom_networkPNG.js';
 export { nodesMantaPNG } from './generated/mantaPNG.js';
