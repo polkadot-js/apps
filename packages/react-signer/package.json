@@ -14,9 +14,9 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.124.2-173-x",
+  "version": "0.124.2-174-x",
   "dependencies": {
     "@polkadot/hw-ledger": "^11.0.2",
-    "@polkadot/react-components": "^0.124.2-173-x"
+    "@polkadot/react-components": "^0.124.2-174-x"
   }
 }
