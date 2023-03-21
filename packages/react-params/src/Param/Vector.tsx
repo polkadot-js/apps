@@ -40,6 +40,7 @@ export function getValues ({ value }: RawParam): RawParam[] {
   if (value instanceof Set) {
     value = [...value.values()];
   }
+
   return Array.isArray(value)
     ? value.map((value: RawParam) =>
       isUndefined(value) || isUndefined(value.isValid)
