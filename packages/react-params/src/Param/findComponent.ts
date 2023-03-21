@@ -74,7 +74,7 @@ const componentDef: TypeToComponent[] = [
   { c: Text, t: ['String', 'Text'] },
   { c: Struct, t: ['Struct'] },
   { c: Tuple, t: ['Tuple'] },
-  { c: Vector, t: ['Vec'] },
+  { c: Vector, t: ['Vec', 'BTreeSet'] },
   { c: VectorFixed, t: ['VecFixed'] },
   { c: Vote, t: ['Vote'] },
   { c: VoteThreshold, t: ['VoteThreshold'] },
@@ -120,6 +120,9 @@ function fromDef ({ displayName, info, lookupName, sub, type }: TypeDef): string
 
     case TypeDefInfo.Struct:
       return 'Struct';
+
+    case TypeDefInfo.BTreeSet:
+      return 'BTreeSet';
 
     case TypeDefInfo.Tuple:
       return components[type] === Account
