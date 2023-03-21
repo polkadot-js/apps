@@ -9,12 +9,12 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components';
 
 import { Table } from '@polkadot/react-components';
-import { useAccounts, useApi, useDelegations, useFavorites, useIpfs, useLedger, useLoadingDelay, useProxies, useToggle } from '@polkadot/react-hooks';
+import { useAccounts, useDelegations, useFavorites, useLoadingDelay, useProxies } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
-import { BN_ZERO, isFunction } from '@polkadot/util';
+import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import { sortAccounts, SortCategory, sortCategory } from '../util';
+import { sortAccounts, SortCategory } from '../util';
 import Account from './Account';
 
 interface Balances {
@@ -36,15 +36,10 @@ const DEFAULT_SORT_CONTROLS: SortControls = { sortBy: 'date', sortFromMax: true 
 
 const STORE_FAVS = 'accounts:favorites';
 
-function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
+function Overview ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  // const { api } = useApi();
   const { allAccounts } = useAccounts(); // TODO most likely can remove hasAccounts
-
   const [ddelegation, setdelegation] = useState<Delegation | undefined>(undefined);
-
-  // const [isCreateOpen, toggleCreate, setIsCreateOpen] = useToggle();
-
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
   const [balances, setBalances] = useState<Balances>({ accounts: {} });
   const [filterOn, setFilter] = useState<string>('');
@@ -58,18 +53,6 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     () => Object.fromEntries(favorites.map((x) => [x, true])),
     [favorites]
   );
-
-  // // detect multisigs
-  // const hasPalletMultisig = useMemo(
-  //   () => isFunction((api.tx.multisig || api.tx.utility)?.approveAsMulti),
-  //   [api]
-  // );
-
-  // // proxy support
-  // const hasPalletProxy = useMemo(
-  //   () => isFunction(api.tx.proxy?.addProxy),
-  //   [api]
-  // );
 
   const accountsWithInfo = useMemo(
     () => allAccounts
@@ -145,7 +128,6 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     []
   );
 
-  // const _openCreateModal = useCallback(() => setIsCreateOpen(true), [setIsCreateOpen]);
 
   const accountComponents = useMemo(() => {
     const ret: Record<string, React.ReactNode> = {};
@@ -156,7 +138,6 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         setdelegation(delegation);
       }
 
-      console.log(delegation, 'delegation!');
       ret[address] =
         <Account
           account={account}
@@ -172,18 +153,6 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
     return ret;
   }, [accountsWithInfo, filterOn, proxies, _setBalance, toggleFavorite]);
-
-  // const onDropdownChange = () => (item: SortCategory) => setSortBy({ sortBy: item, sortFromMax });
-
-  // const dropdownOptions = () => sortCategory.map((x) => ({ text: x, value: x }));
-
-  console.log(ddelegation, 'PLEASE!!!');
-
-  // const onSortDirectionChange = () => () => setSortBy({ sortBy, sortFromMax: !sortFromMax });
-
-  // console.log(sortedAccounts.length,"sortedAccounts")
-  // console.log(delegations !== undefined ? delegations : 0,"delegations")
-  console.log(ddelegation, 'delegations');
 
   return (
     <div className={className}>
