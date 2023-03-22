@@ -409,12 +409,9 @@ export const prodParasPolkadot: EndpointOption[] = [
   {
     homepage: 'https://manta.network',
     info: 'manta',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7018
-    paraId: 2015,
+    paraId: 2104,
     providers: {
-      // 'Manta Kuhlii': 'wss://kuhlii.manta.systems', // https://github.com/polkadot-js/apps/issues/6930
-      // 'Manta Munkiana': 'wss://munkiana.manta.systems', // https://github.com/polkadot-js/apps/issues/6871
-      // 'Manta Pectinata': 'wss://pectinata.manta.systems' // https://github.com/polkadot-js/apps/issues/7018
+      'Manta Network': 'wss://ws.manta.systems'
     },
     text: 'Manta',
     ui: {
