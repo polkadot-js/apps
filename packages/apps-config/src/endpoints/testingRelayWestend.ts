@@ -145,7 +145,8 @@ export const testParasWestendCommon: EndpointOption[] = [
       'Dwellir Tunisia': 'wss://westmint-rpc-tn.dwellir.com',
       'IBP-GeoDNS1': 'wss://sys.ibp.network/westmint',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/westmint',
-      Parity: 'wss://westmint-rpc.polkadot.io'
+      Parity: 'wss://westmint-rpc.polkadot.io',
+      OnFinality: 'wss://westmint.api.onfinality.io/public-ws'
     },
     teleport: [-1],
     text: 'Westmint',
