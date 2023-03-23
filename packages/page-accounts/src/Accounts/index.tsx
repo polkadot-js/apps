@@ -89,9 +89,6 @@ function groupAccounts (accounts: SortedAccount[]): Record<GroupName, string[]> 
 
 function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  // FIXME Currently Ethereum shorter-addresses and the multisig hashing is not quite supported,
-  // somewhere in the chain we need to adjust quite a bit (it would seem). Tracking issue -
-  // https://github.com/polkadot-js/apps/issues/9209
   const { api, isElectron, isEthereum } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
   const { isIpfs } = useIpfs();
@@ -159,6 +156,9 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   );
 
   // detect multisigs
+  // FIXME Currently Ethereum shorter-addresses and the multisig hashing is not quite supported,
+  // somewhere in the chain we need to adjust quite a bit (it would seem). Tracking issue -
+  // https://github.com/polkadot-js/apps/issues/9209
   const hasPalletMultisig = useMemo(
     () => !isEthereum && isFunction((api.tx.multisig || api.tx.utility)?.approveAsMulti),
     [api, isEthereum]
