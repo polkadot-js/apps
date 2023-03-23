@@ -9,7 +9,7 @@ import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import { BN } from '@polkadot/util';
 
 import { balanceOf } from '../creation/balance.js';
-import { makeStakingLedger } from '../creation/stakingInfo/stakingLedger.js';
+import { makeStakingLedger } from '../creation/staking.js';
 
 export interface Account {
   balance: DeriveBalancesAll,

@@ -32,6 +32,7 @@ import crab from './crab.js';
 import crownSterlingChain from './crown-sterling.js';
 import crust from './crust.js';
 import testPara from './cumulus-test-parachain.js';
+import curio from './curio.js';
 import darwinia from './darwinia.js';
 import datahighwayParachain from './datahighway.js';
 import dockMainnet from './dock-mainnet.js';
@@ -44,6 +45,7 @@ import encointerNodeTeeproxy from './encointer-node-teeproxy.js';
 import encointerPara from './encointer-para.js';
 import equilibrium from './equilibrium.js';
 import fantour from './fantour.js';
+import fragnova from './fragnova.js';
 import frequency from './frequency.js';
 import galital from './galital.js';
 import galitalParachain from './galital-parachain.js';
@@ -175,6 +177,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   crust,
   'crust-parachain': crust,
   'cumulus-test-parachain': testPara,
+  'curio-devnet': curio,
+  'curio-testnet': curio,
   datahighway: westlake,
   'datahighway-parachain': datahighwayParachain,
   dawn: eave,
@@ -187,6 +191,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'encointer-node-teeproxy': encointerNodeTeeproxy,
   'encointer-parachain': encointerPara,
   fantour,
+  fragnova,
+  'fragnova-testnet': fragnova,
   frequency,
   'frequency-rococo': frequency,
   galital,

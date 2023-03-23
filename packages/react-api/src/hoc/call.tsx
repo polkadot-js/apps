@@ -246,8 +246,8 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
                 : await apiMethod(...params)
             );
           }
-        } catch (error) {
-          // console.warn(endpoint, '::', error);
+        } catch {
+          // ignore
         }
       }
 
@@ -274,8 +274,8 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
             callUpdated: true,
             callUpdatedAt: Date.now()
           });
-        } catch (error) {
-          // console.warn(endpoint, '::', (error as Error).message);
+        } catch {
+          // ignore
         }
       }
 

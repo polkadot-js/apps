@@ -2,11 +2,6 @@
   "extends": "@polkadot/dev/config/tsconfig.json",
 	"compilerOptions": {
     "composite": false,
-    "lib": ["es2021", "dom"],
-    "jsx": "react",
-    "resolveJsonModule": true,
-    /* FIXME we still have some issues with some deps that make the default nodenext impossible */
-    "moduleResolution": "node",
 		"paths": {
       "@polkadot/apps": ["apps/src/index.tsx"],
       "@polkadot/apps/Root": ["apps/src/Root.tsx"],
@@ -109,8 +104,18 @@
       "@polkadot/react-query": ["react-query/src/index.ts"],
       "@polkadot/react-signer": ["react-signer/src/index.tsx"],
       "@polkadot/react-signer/signers/*": ["react-signer/src/signers/*.ts"],
-      "@polkadot/test-support/*": ["test-support/src/*.ts", "test-support/src/*.tsx"]
-    },
-    "skipLibCheck": true
+      "@polkadot/test-support/api": ["test-support/src/api/index.ts"],
+      "@polkadot/test-support/creation/*": ["test-support/src/creation/*.ts"],
+      "@polkadot/test-support/hooks": ["test-support/src/hooks/index.ts"],
+      "@polkadot/test-support/keyring": ["test-support/src/keyring/index.ts"],
+      "@polkadot/test-support/mockData": ["test-support/src/mockData/index.ts"],
+      "@polkadot/test-support/pages/*": ["test-support/src/pages/*.tsx"],
+      "@polkadot/test-support/pagesElements": ["test-support/src/pagesElements/index.ts"],
+      "@polkadot/test-support/react": ["test-support/src/react/index.ts"],
+      "@polkadot/test-support/substrate": ["test-support/src/substrate/index.ts"],
+      "@polkadot/test-support/types": ["test-support/src/types.ts"],
+      "@polkadot/test-support/transaction": ["test-support/src/transaction/index.ts"],
+      "@polkadot/test-support/utils": ["test-support/src/utils/index.ts"]
+    }
 	}
  }

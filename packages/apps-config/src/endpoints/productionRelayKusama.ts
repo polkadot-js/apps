@@ -408,7 +408,7 @@ export const prodParasKusama: EndpointOption[] = [
     }
   },
   {
-    homepage: 'https://kusama-crowdloan.litentry.com',
+    homepage: 'https://www.litentry.com/',
     info: 'litmus',
     isUnreachable: false,
     paraId: 2106,
@@ -417,7 +417,7 @@ export const prodParasKusama: EndpointOption[] = [
     },
     text: 'Litmus',
     ui: {
-      color: '#6822fb',
+      color: '#3913D3',
       logo: nodesLitmusPNG
     }
   },
@@ -780,6 +780,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     providers: {
       Dwellir: 'wss://statemine-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://statemine-rpc-tn.dwellir.com',
+      'IBP-GeoDNS1': 'wss://sys.ibp.network/statemine',
+      'IBP-GeoDNS2': 'wss://sys.dotters.network/statemine',
       OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
       Parity: 'wss://statemine-rpc.polkadot.io',
       RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws'
@@ -797,6 +799,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     paraId: 1001,
     providers: {
       'Encointer Association': 'wss://kusama.api.encointer.org',
+      'IBP-GeoDNS1': 'wss://sys.ibp.network/encointer-kusama',
+      'IBP-GeoDNS2': 'wss://sys.dotters.network/encointer-kusama',
       OnFinality: 'wss://encointer.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8553, reenabled for Polkadot JS
     },
     teleport: [-1],
@@ -810,6 +814,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     info: 'kusamaBridgeHub',
     paraId: 1002,
     providers: {
+      'IBP-GeoDNS1': 'wss://sys.ibp.network/bridgehub-kusama',
+      'IBP-GeoDNS2': 'wss://sys.dotters.network/bridgehub-kusama',
       Parity: 'wss://kusama-bridge-hub-rpc.polkadot.io'
     },
     text: 'BridgeHub',
@@ -830,10 +836,10 @@ export const prodRelayKusama: EndpointOption = {
   providers: {
     // 'Geometry Labs': 'wss://kusama.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
     'Automata 1RPC': 'wss://1rpc.io/ksm',
-    'Dotters Net': 'wss://rpc.dotters.network/kusama',
     Dwellir: 'wss://kusama-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://kusama-rpc-tn.dwellir.com',
-    'IBP Network': 'wss://rpc.ibp.network/kusama',
+    'IBP-GeoDNS1': 'wss://rpc.ibp.network/kusama',
+    'IBP-GeoDNS2': 'wss://rpc.dotters.network/kusama',
     OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
     Parity: 'wss://kusama-rpc.polkadot.io',
     RadiumBlock: 'wss://kusama.public.curie.radiumblock.co/ws',

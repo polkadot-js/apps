@@ -23,7 +23,7 @@ interface Props {
 function getPair (address: string): KeyringPair | null {
   try {
     return keyring.getPair(address);
-  } catch (error) {
+  } catch {
     return null;
   }
 }

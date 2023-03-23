@@ -26,7 +26,7 @@ interface Entry {
   stashInfo: ListNode | null;
 }
 
-function findEntry (upper: BN, bagLower: BN, stashId: string, list: ListNode[] = []): Entry {
+function findEntry (_upper: BN, _bagLower: BN, stashId: string, list: ListNode[] = []): Entry {
   const stashInfo = list.find((o) => o.stashId === stashId) || null;
   const other = (stashInfo && stashInfo.jump && list.find((o) => o.stashId === stashInfo.jump)) || null;
 

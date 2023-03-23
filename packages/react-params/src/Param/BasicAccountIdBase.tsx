@@ -17,13 +17,9 @@ interface Props extends BaseProps {
 function isValidAddress (value: string | null | undefined, isEthereum: boolean): boolean {
   if (value) {
     try {
-      if (isEthereum) {
-        return isEthereumAddress(value);
-      } else {
-        return validateAddress(value);
-      }
-
-      return true;
+      return isEthereum
+        ? isEthereumAddress(value)
+        : validateAddress(value);
     } catch (err) {
       console.error(err);
     }

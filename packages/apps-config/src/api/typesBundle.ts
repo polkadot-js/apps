@@ -50847,6 +50847,90 @@ export const typesBundle = {
         }
       ]
     },
+    "curio-devnet": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "StakingRates": {
+              "collatorStakingRate": "Perquintill",
+              "collatorRewardRate": "Perquintill",
+              "delegatorStakingRate": "Perquintill",
+              "delegatorRewardRate": "Perquintill"
+            }
+          }
+        }
+      ],
+      "runtime": {
+        "Staking": [
+          {
+            "methods": {
+              "get_staking_rates": {
+                "description": "Calculate the current staking and reward rates for collators and delegators",
+                "params": [],
+                "type": "StakingRates"
+              },
+              "get_unclaimed_staking_rewards": {
+                "description": "Calculate the claimable staking rewards for a given account address",
+                "params": [
+                  {
+                    "name": "account",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Balance"
+              }
+            },
+            "version": 1
+          }
+        ]
+      }
+    },
+    "curio-testnet": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "StakingRates": {
+              "collatorStakingRate": "Perquintill",
+              "collatorRewardRate": "Perquintill",
+              "delegatorStakingRate": "Perquintill",
+              "delegatorRewardRate": "Perquintill"
+            }
+          }
+        }
+      ],
+      "runtime": {
+        "Staking": [
+          {
+            "methods": {
+              "get_staking_rates": {
+                "description": "Calculate the current staking and reward rates for collators and delegators",
+                "params": [],
+                "type": "StakingRates"
+              },
+              "get_unclaimed_staking_rewards": {
+                "description": "Calculate the claimable staking rewards for a given account address",
+                "params": [
+                  {
+                    "name": "account",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Balance"
+              }
+            },
+            "version": 1
+          }
+        ]
+      }
+    },
     "datahighway": {
       "types": [
         {
@@ -53917,6 +54001,466 @@ export const typesBundle = {
         }
       ]
     },
+    "fragnova": {
+      "rpc": {
+        "fragments": {
+          "getDefinitions": {
+            "description": "Query and Return Fragment Definition(s) based on `params`",
+            "type": "String",
+            "params": [
+              {
+                "name": "param",
+                "type": "GetDefinitionsParams"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isOptional": true
+              }
+            ]
+          },
+          "getInstances": {
+            "description": "Query and Return Fragment Instance(s) based on `params`",
+            "type": "String",
+            "params": [
+              {
+                "name": "param",
+                "type": "GetInstancesParams"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isOptional": true
+              }
+            ]
+          },
+          "getInstanceOwner": {
+            "description": "Query the owner of a Fragment Instance. The return type is a String",
+            "type": "String",
+            "params": [
+              {
+                "name": "param",
+                "type": "GetInstanceOwnerParams"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isOptional": true
+              }
+            ]
+          }
+        },
+        "protos": {
+          "getData": {
+            "description": "Query and Return Proto-Fragment data based on `proto_hash`. The **return type** is base64 encoded bytes.",
+            "type": "String",
+            "params": [
+              {
+                "name": "proto_hash",
+                "type": "BlockHash"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isOptional": true
+              }
+            ]
+          },
+          "getProtos": {
+            "description": "Query and Return Proto-Fragment(s) based on `params`. The return type is a JSON string",
+            "type": "String",
+            "params": [
+              {
+                "name": "param",
+                "type": "GetProtosParams"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isOptional": true
+              }
+            ]
+          },
+          "getGenealogy": {
+            "description": "Query the Genealogy of a Proto-Fragment based on `params`. The return type is a JSON string that represents an Adjacency List.",
+            "type": "String",
+            "params": [
+              {
+                "name": "param",
+                "type": "GetGenealogyParams"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isOptional": true
+              }
+            ]
+          }
+        }
+      },
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "DefinitionMetadata": {
+              "name": "Vec<u8>",
+              "currency": "Option<AssetId>",
+              "_reserved1": "Option<()>",
+              "_reserved2": "Option<()>",
+              "_reserved3": "Option<()>"
+            },
+            "GetDefinitionsParams": {
+              "desc": "bool",
+              "from": "u64",
+              "limit": "u64",
+              "metadata_keys": "Vec<String>",
+              "owner": "Option<AccountId>",
+              "return_owners": "bool"
+            },
+            "GetInstancesParams": {
+              "desc": "bool",
+              "from": "u64",
+              "limit": "u64",
+              "definition_hash": "String",
+              "metadata_keys": "Vec<String>",
+              "owner": "Option<AccountId>",
+              "only_return_first_copies": "bool"
+            },
+            "GetInstanceOwnerParams": {
+              "definition_hash": "String",
+              "edition_id": "InstanceUnit",
+              "copy_id": "InstanceUnit"
+            },
+            "InstanceUnit": "u64",
+            "Categories": {
+              "_enum": {
+                "text": "TextCategories",
+                "trait": "Option<ShardsTrait>",
+                "shards": "ShardsScriptInfo",
+                "audio": "AudioCategories",
+                "texture": "TextureCategories",
+                "vector": "VectorCategories",
+                "video": "VideoCategories",
+                "model": "ModelCategories",
+                "binary": "BinaryCategories"
+              }
+            },
+            "AudioCategories": {
+              "_enum": [
+                "oggFile",
+                "mp3File"
+              ]
+            },
+            "ModelCategories": {
+              "_enum": [
+                "gltfFile",
+                "sdf",
+                "physicsCollider"
+              ]
+            },
+            "TextureCategories": {
+              "_enum": [
+                "pngFile",
+                "jpgFile"
+              ]
+            },
+            "VectorCategories": {
+              "_enum": [
+                "svgFile",
+                "ttfFile",
+                "otfFile"
+              ]
+            },
+            "VideoCategories": {
+              "_enum": [
+                "mkvFile",
+                "mp4File"
+              ]
+            },
+            "TextCategories": {
+              "_enum": [
+                "plain",
+                "json",
+                "wgsl",
+                "markdown"
+              ]
+            },
+            "BinaryCategories": {
+              "_enum": [
+                "wasmProgram",
+                "wasmReactor",
+                "blendFile",
+                "onnxModel",
+                "safeTensors",
+                "rareDomain"
+              ]
+            },
+            "ShardsScriptInfo": {
+              "format": "ShardsFormat",
+              "shardsVersion": "Compact<u32>",
+              "requiring": "Vec<ShardsTrait>",
+              "implementing": "Vec<ShardsTrait>"
+            },
+            "ShardsTrait": "Vec<u16>",
+            "ShardsFormat": {
+              "_enum": [
+                "edn",
+                "binary"
+              ]
+            },
+            "GetProtosParams": {
+              "desc": "bool",
+              "from": "u32",
+              "limit": "u32",
+              "metadata_keys": "Vec<String>",
+              "owner": "Option<AccountId>",
+              "return_owners": "bool",
+              "categories": "Vec<Categories>",
+              "tags": "Vec<String>",
+              "exclude_tags": "Vec<String>",
+              "available": "Option<bool>"
+            },
+            "GetGenealogyParams": {
+              "proto_hash": "String",
+              "get_ancestors": "bool"
+            }
+          }
+        }
+      ]
+    },
+    "fragnova-testnet": {
+      "rpc": {
+        "fragments": {
+          "getDefinitions": {
+            "description": "Query and Return Fragment Definition(s) based on `params`",
+            "type": "String",
+            "params": [
+              {
+                "name": "param",
+                "type": "GetDefinitionsParams"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isOptional": true
+              }
+            ]
+          },
+          "getInstances": {
+            "description": "Query and Return Fragment Instance(s) based on `params`",
+            "type": "String",
+            "params": [
+              {
+                "name": "param",
+                "type": "GetInstancesParams"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isOptional": true
+              }
+            ]
+          },
+          "getInstanceOwner": {
+            "description": "Query the owner of a Fragment Instance. The return type is a String",
+            "type": "String",
+            "params": [
+              {
+                "name": "param",
+                "type": "GetInstanceOwnerParams"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isOptional": true
+              }
+            ]
+          }
+        },
+        "protos": {
+          "getData": {
+            "description": "Query and Return Proto-Fragment data based on `proto_hash`. The **return type** is base64 encoded bytes.",
+            "type": "String",
+            "params": [
+              {
+                "name": "proto_hash",
+                "type": "BlockHash"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isOptional": true
+              }
+            ]
+          },
+          "getProtos": {
+            "description": "Query and Return Proto-Fragment(s) based on `params`. The return type is a JSON string",
+            "type": "String",
+            "params": [
+              {
+                "name": "param",
+                "type": "GetProtosParams"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isOptional": true
+              }
+            ]
+          },
+          "getGenealogy": {
+            "description": "Query the Genealogy of a Proto-Fragment based on `params`. The return type is a JSON string that represents an Adjacency List.",
+            "type": "String",
+            "params": [
+              {
+                "name": "param",
+                "type": "GetGenealogyParams"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isOptional": true
+              }
+            ]
+          }
+        }
+      },
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "DefinitionMetadata": {
+              "name": "Vec<u8>",
+              "currency": "Option<AssetId>",
+              "_reserved1": "Option<()>",
+              "_reserved2": "Option<()>",
+              "_reserved3": "Option<()>"
+            },
+            "GetDefinitionsParams": {
+              "desc": "bool",
+              "from": "u64",
+              "limit": "u64",
+              "metadata_keys": "Vec<String>",
+              "owner": "Option<AccountId>",
+              "return_owners": "bool"
+            },
+            "GetInstancesParams": {
+              "desc": "bool",
+              "from": "u64",
+              "limit": "u64",
+              "definition_hash": "String",
+              "metadata_keys": "Vec<String>",
+              "owner": "Option<AccountId>",
+              "only_return_first_copies": "bool"
+            },
+            "GetInstanceOwnerParams": {
+              "definition_hash": "String",
+              "edition_id": "InstanceUnit",
+              "copy_id": "InstanceUnit"
+            },
+            "InstanceUnit": "u64",
+            "Categories": {
+              "_enum": {
+                "text": "TextCategories",
+                "trait": "Option<ShardsTrait>",
+                "shards": "ShardsScriptInfo",
+                "audio": "AudioCategories",
+                "texture": "TextureCategories",
+                "vector": "VectorCategories",
+                "video": "VideoCategories",
+                "model": "ModelCategories",
+                "binary": "BinaryCategories"
+              }
+            },
+            "AudioCategories": {
+              "_enum": [
+                "oggFile",
+                "mp3File"
+              ]
+            },
+            "ModelCategories": {
+              "_enum": [
+                "gltfFile",
+                "sdf",
+                "physicsCollider"
+              ]
+            },
+            "TextureCategories": {
+              "_enum": [
+                "pngFile",
+                "jpgFile"
+              ]
+            },
+            "VectorCategories": {
+              "_enum": [
+                "svgFile",
+                "ttfFile",
+                "otfFile"
+              ]
+            },
+            "VideoCategories": {
+              "_enum": [
+                "mkvFile",
+                "mp4File"
+              ]
+            },
+            "TextCategories": {
+              "_enum": [
+                "plain",
+                "json",
+                "wgsl",
+                "markdown"
+              ]
+            },
+            "BinaryCategories": {
+              "_enum": [
+                "wasmProgram",
+                "wasmReactor",
+                "blendFile",
+                "onnxModel",
+                "safeTensors",
+                "rareDomain"
+              ]
+            },
+            "ShardsScriptInfo": {
+              "format": "ShardsFormat",
+              "shardsVersion": "Compact<u32>",
+              "requiring": "Vec<ShardsTrait>",
+              "implementing": "Vec<ShardsTrait>"
+            },
+            "ShardsTrait": "Vec<u16>",
+            "ShardsFormat": {
+              "_enum": [
+                "edn",
+                "binary"
+              ]
+            },
+            "GetProtosParams": {
+              "desc": "bool",
+              "from": "u32",
+              "limit": "u32",
+              "metadata_keys": "Vec<String>",
+              "owner": "Option<AccountId>",
+              "return_owners": "bool",
+              "categories": "Vec<Categories>",
+              "tags": "Vec<String>",
+              "exclude_tags": "Vec<String>",
+              "available": "Option<bool>"
+            },
+            "GetGenealogyParams": {
+              "proto_hash": "String",
+              "get_ancestors": "bool"
+            }
+          }
+        }
+      ]
+    },
     "frequency": {
       "rpc": {
         "frequency": {
@@ -54011,76 +54555,6 @@ export const typesBundle = {
             ],
             "type": "bool"
           }
-        }
-      },
-      "types": [
-        {
-          "minmax": [
-            0,
-            null
-          ],
-          "types": {
-            "RpcEvent": {
-              "phase": "Option<u32>",
-              "pallet": "u8",
-              "event": "u8",
-              "data": "Vec<u8>"
-            },
-            "BlockPaginationRequest": {
-              "from_block": "BlockNumber",
-              "from_index": "u32",
-              "to_block": "BlockNumber",
-              "page_size": "u32"
-            },
-            "MessageResponse": {
-              "payload": "Option<Vec<u8>>",
-              "cid": "Option<Vec<u8>>",
-              "provider_msa_id": "MessageSourceId",
-              "msa_id": "Option<MessageSourceId>",
-              "index": "u16",
-              "block_number": "BlockNumber",
-              "payload_length": "Option<u32>"
-            },
-            "BlockPaginationResponseMessage": {
-              "content": "Vec<MessageResponse>",
-              "has_next": "bool",
-              "next_block": "Option<BlockNumber>",
-              "next_index": "Option<u32>"
-            },
-            "MessageSourceId": "u64",
-            "DelegatorId": "MessageSourceId",
-            "ProviderId": "MessageSourceId",
-            "KeyInfoResponse": {
-              "key": "AccountId",
-              "msaId": "MessageSourceId"
-            },
-            "SchemaId": "u16",
-            "SchemaModel": "Vec<u8>",
-            "SchemaResponse": {
-              "schema_id": "SchemaId",
-              "model": "SchemaModel",
-              "model_type": "ModelType",
-              "payload_location": "PayloadLocation"
-            },
-            "ModelType": {
-              "_enum": [
-                "AvroBinary",
-                "Parquet"
-              ]
-            },
-            "PayloadLocation": {
-              "_enum": [
-                "OnChain",
-                "IPFS"
-              ]
-            }
-          }
-        }
-      ],
-      "signedExtensions": {
-        "CheckFreeExtrinsicUse": {
-          "extrinsic": {},
-          "payload": {}
         }
       },
       "runtime": {
@@ -54191,7 +54665,77 @@ export const typesBundle = {
             "version": 1
           }
         ]
-      }
+      },
+      "signedExtensions": {
+        "CheckFreeExtrinsicUse": {
+          "extrinsic": {},
+          "payload": {}
+        }
+      },
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "RpcEvent": {
+              "phase": "Option<u32>",
+              "pallet": "u8",
+              "event": "u8",
+              "data": "Vec<u8>"
+            },
+            "BlockPaginationRequest": {
+              "from_block": "BlockNumber",
+              "from_index": "u32",
+              "to_block": "BlockNumber",
+              "page_size": "u32"
+            },
+            "MessageResponse": {
+              "payload": "Option<Vec<u8>>",
+              "cid": "Option<Vec<u8>>",
+              "provider_msa_id": "MessageSourceId",
+              "msa_id": "Option<MessageSourceId>",
+              "index": "u16",
+              "block_number": "BlockNumber",
+              "payload_length": "Option<u32>"
+            },
+            "BlockPaginationResponseMessage": {
+              "content": "Vec<MessageResponse>",
+              "has_next": "bool",
+              "next_block": "Option<BlockNumber>",
+              "next_index": "Option<u32>"
+            },
+            "MessageSourceId": "u64",
+            "DelegatorId": "MessageSourceId",
+            "ProviderId": "MessageSourceId",
+            "KeyInfoResponse": {
+              "key": "AccountId",
+              "msaId": "MessageSourceId"
+            },
+            "SchemaId": "u16",
+            "SchemaModel": "Vec<u8>",
+            "SchemaResponse": {
+              "schema_id": "SchemaId",
+              "model": "SchemaModel",
+              "model_type": "ModelType",
+              "payload_location": "PayloadLocation"
+            },
+            "ModelType": {
+              "_enum": [
+                "AvroBinary",
+                "Parquet"
+              ]
+            },
+            "PayloadLocation": {
+              "_enum": [
+                "OnChain",
+                "IPFS"
+              ]
+            }
+          }
+        }
+      ]
     },
     "frequency-rococo": {
       "rpc": {
@@ -54289,76 +54833,6 @@ export const typesBundle = {
           }
         }
       },
-      "types": [
-        {
-          "minmax": [
-            0,
-            null
-          ],
-          "types": {
-            "RpcEvent": {
-              "phase": "Option<u32>",
-              "pallet": "u8",
-              "event": "u8",
-              "data": "Vec<u8>"
-            },
-            "BlockPaginationRequest": {
-              "from_block": "BlockNumber",
-              "from_index": "u32",
-              "to_block": "BlockNumber",
-              "page_size": "u32"
-            },
-            "MessageResponse": {
-              "payload": "Option<Vec<u8>>",
-              "cid": "Option<Vec<u8>>",
-              "provider_msa_id": "MessageSourceId",
-              "msa_id": "Option<MessageSourceId>",
-              "index": "u16",
-              "block_number": "BlockNumber",
-              "payload_length": "Option<u32>"
-            },
-            "BlockPaginationResponseMessage": {
-              "content": "Vec<MessageResponse>",
-              "has_next": "bool",
-              "next_block": "Option<BlockNumber>",
-              "next_index": "Option<u32>"
-            },
-            "MessageSourceId": "u64",
-            "DelegatorId": "MessageSourceId",
-            "ProviderId": "MessageSourceId",
-            "KeyInfoResponse": {
-              "key": "AccountId",
-              "msaId": "MessageSourceId"
-            },
-            "SchemaId": "u16",
-            "SchemaModel": "Vec<u8>",
-            "SchemaResponse": {
-              "schema_id": "SchemaId",
-              "model": "SchemaModel",
-              "model_type": "ModelType",
-              "payload_location": "PayloadLocation"
-            },
-            "ModelType": {
-              "_enum": [
-                "AvroBinary",
-                "Parquet"
-              ]
-            },
-            "PayloadLocation": {
-              "_enum": [
-                "OnChain",
-                "IPFS"
-              ]
-            }
-          }
-        }
-      ],
-      "signedExtensions": {
-        "CheckFreeExtrinsicUse": {
-          "extrinsic": {},
-          "payload": {}
-        }
-      },
       "runtime": {
         "AdditionalRuntimeApi": [
           {
@@ -54467,7 +54941,77 @@ export const typesBundle = {
             "version": 1
           }
         ]
-      }
+      },
+      "signedExtensions": {
+        "CheckFreeExtrinsicUse": {
+          "extrinsic": {},
+          "payload": {}
+        }
+      },
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "RpcEvent": {
+              "phase": "Option<u32>",
+              "pallet": "u8",
+              "event": "u8",
+              "data": "Vec<u8>"
+            },
+            "BlockPaginationRequest": {
+              "from_block": "BlockNumber",
+              "from_index": "u32",
+              "to_block": "BlockNumber",
+              "page_size": "u32"
+            },
+            "MessageResponse": {
+              "payload": "Option<Vec<u8>>",
+              "cid": "Option<Vec<u8>>",
+              "provider_msa_id": "MessageSourceId",
+              "msa_id": "Option<MessageSourceId>",
+              "index": "u16",
+              "block_number": "BlockNumber",
+              "payload_length": "Option<u32>"
+            },
+            "BlockPaginationResponseMessage": {
+              "content": "Vec<MessageResponse>",
+              "has_next": "bool",
+              "next_block": "Option<BlockNumber>",
+              "next_index": "Option<u32>"
+            },
+            "MessageSourceId": "u64",
+            "DelegatorId": "MessageSourceId",
+            "ProviderId": "MessageSourceId",
+            "KeyInfoResponse": {
+              "key": "AccountId",
+              "msaId": "MessageSourceId"
+            },
+            "SchemaId": "u16",
+            "SchemaModel": "Vec<u8>",
+            "SchemaResponse": {
+              "schema_id": "SchemaId",
+              "model": "SchemaModel",
+              "model_type": "ModelType",
+              "payload_location": "PayloadLocation"
+            },
+            "ModelType": {
+              "_enum": [
+                "AvroBinary",
+                "Parquet"
+              ]
+            },
+            "PayloadLocation": {
+              "_enum": [
+                "OnChain",
+                "IPFS"
+              ]
+            }
+          }
+        }
+      ]
     },
     "galital": {
       "types": [
@@ -100276,6 +100820,70 @@ export const typesBundle = {
     },
     "unique": {
       "rpc": {
+        "appPromotion": {
+          "totalStaked": {
+            "description": "Returns the total amount of staked tokens",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u128"
+          },
+          "totalStakedPerBlock": {
+            "description": "Returns the total amount of staked tokens per block when staked",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(u32, u128)>"
+          },
+          "pendingUnstake": {
+            "description": "Returns the total amount of unstaked tokens",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr",
+                "isOptional": true
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "u128"
+          },
+          "pendingUnstakePerBlock": {
+            "description": "Returns the total amount of unstaked tokens per block",
+            "params": [
+              {
+                "name": "staker",
+                "type": "PalletEvmAccountBasicCrossAccountIdRepr"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(u32, u128)>"
+          }
+        },
         "unique": {
           "accountTokens": {
             "description": "Get tokens owned by an account in a collection",

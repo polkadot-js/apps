@@ -25,7 +25,7 @@ async function retrieveInfo (api: ApiPromise): Promise<Partial<Info>> {
     ]);
 
     return { blockNumber, extrinsics, health, peers };
-  } catch (error) {
+  } catch {
     return {};
   }
 }

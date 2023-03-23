@@ -194,7 +194,7 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
         wFiles.setFiles([...fitter, ...filterOld]);
         _onImportResult(t<string>('Import Success'), 'success');
       };
-    } catch (e) {
+    } catch {
       _onImportResult(t<string>('file content error'), 'error');
     }
   }, [wFiles, _onImportResult, t]);

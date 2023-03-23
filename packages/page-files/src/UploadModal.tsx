@@ -239,7 +239,7 @@ function UploadModal ({ className, file, onClose = NOOP, onSuccess = NOOP }: Pro
       let upRes: UploadRes;
 
       if (typeof upResult.data === 'string') {
-        const jsonStr = upResult.data.replaceAll('}\n{', '},{');
+        const jsonStr = upResult.data.replace(/}\n{/g, '},{');
         const items = JSON.parse(`[${jsonStr}]`) as UploadRes[];
         const folder = items.length - 1;
 

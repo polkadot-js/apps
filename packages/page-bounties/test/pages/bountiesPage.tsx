@@ -18,7 +18,7 @@ import { ApiProps } from '@polkadot/react-api/types';
 import { KeyringCtxRoot } from '@polkadot/react-hooks';
 import { QueueCtx } from '@polkadot/react-hooks/ctx/Queue';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
-import { BountyFactory } from '@polkadot/test-support/creation/bounties/bountyFactory';
+import { BountyFactory } from '@polkadot/test-support/creation/bounties';
 import { TypeRegistry } from '@polkadot/types/create';
 import { BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 

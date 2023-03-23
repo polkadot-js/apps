@@ -23,8 +23,8 @@ export function toAddress (value?: string | Uint8Array | null, allowIndices = fa
       } else {
         return keyring.encodeAddress(u8a);
       }
-    } catch (error) {
-      // noop, undefined return indicates invalid/transient
+    } catch {
+      // undefined return below indicates invalid/transient
     }
   }
 
