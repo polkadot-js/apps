@@ -86,7 +86,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
     setOthers(
       who
         .map((w) => api.createType('AccountId', w))
-        .filter((w) => !w.eq(signatory))
+        .filter((w) => !signatory || !w.eq(signatory))
     );
   }, [api, signatory, who]);
 
