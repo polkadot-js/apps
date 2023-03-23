@@ -5,10 +5,13 @@ import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx, AugmentedQuery, RxResult } from '@polkadot/api/types';
 import type { AccountData, AccountId, AccountIndex, Address, Balance } from '@polkadot/types/interfaces';
 import type { Codec, OverrideBundleDefinition } from '@polkadot/types/types';
+import type { Struct, u64, u128, Vec } from '@polkadot/types-codec';
+import type { ITuple } from '@polkadot/types-codec/types';
 
 import eqDefs from '@equilab/definitions';
 import { map } from 'rxjs';
 
+import { memo } from '@polkadot/api-derive/util';
 import { Enum } from '@polkadot/types';
 import { BN } from '@polkadot/util';
 
@@ -124,41 +127,61 @@ export const createCustomAccount = <A = string>(currency: string, currencyToAsse
   );
 };
 
+const TOKENS = ['eq', 'eqd', 'eqdot', 'dot', 'intr', 'ibtc', 'usdt'];
+
+interface EqPrimitivesBalanceAccountData extends Enum {
+  readonly isV0: boolean;
+  readonly asV0: {
+    readonly lock: u128;
+    readonly balance: Vec<ITuple<[u64, EqPrimitivesSignedBalance]>>;
+  } & Struct;
+  readonly type: 'V0';
+}
+
+interface EqPrimitivesSignedBalance extends Enum {
+  readonly isPositive: boolean;
+  readonly asPositive: u128;
+  readonly isNegative: boolean;
+  readonly asNegative: u128;
+  readonly type: 'Positive' | 'Negative';
+}
+
 const definitions: OverrideBundleDefinition = {
-  derives: {
-    ...equilibrium.instances.balances.reduce(
-      (all, cur) => ({
-        ...all,
-        [cur]: {
-          customAccount: createCustomAccount(cur, (currency: string, api?: ApiInterfaceRx) => {
-            let assetsEnabled = true;
+  derives: TOKENS.reduce((prev, token, i) => ({
+    ...prev,
 
-            try {
-              api?.registry.createType('AssetIdInnerType' as any);
-            } catch (_) {
-              assetsEnabled = false;
-            }
+    [token]: { customAccount: (instanceId: string, api: ApiInterfaceRx) => {
+      const { registry } = api;
+      const asset = u64FromCurrency(token);
 
-            return assetsEnabled ? { 0: u64FromCurrency(currency) } : currency;
-          })
-        }
-      }),
-      {}
-    )
-  },
+      return memo(instanceId, (address: AccountIndex | AccountId | Address | string) => api.query.system.account(address).pipe(map((v) => {
+        const isNative = i === 0;
+        const data = (v as unknown as { data: EqPrimitivesBalanceAccountData }).data;
 
-  instances: equilibrium.instances,
+        const miscFrozen = isNative
+          ? data.asV0.lock
+          : registry.createType('u128', 0);
 
-  types: [
-    {
-      minmax: [0, 264],
-      types: equilibrium.types
-    },
-    {
-      minmax: [265, undefined],
-      types: equilibriumNext.types
-    }
-  ]
+        const feeFrozen = miscFrozen;
+        const reserved = registry.createType('u128', 0);
+
+        const entry = data.asV0.balance.find(([assetId]) => {
+          return assetId.toNumber() === asset;
+        });
+
+        const balance = entry?.[1];
+
+        const free = balance?.isPositive
+          ? balance.asPositive
+          : registry.createType('u128', 0);
+
+        return {
+          feeFrozen, free, miscFrozen, reserved
+        };
+      })));
+    } }
+  }), {}),
+  instances: { balances: TOKENS }
 };
 
 export default definitions;
