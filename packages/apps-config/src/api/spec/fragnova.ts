@@ -3,17 +3,15 @@
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-import schema from '@polymathnetwork/polymesh-types';
+import { options } from '@fragnova/api-augment';
 
-const definitions: OverrideBundleDefinition = {
-  rpc: schema.rpc,
+export default {
+  ...options,
   types: [
     {
       // on all versions
       minmax: [0, undefined],
-      types: schema.types
+      types: options.types
     }
   ]
-};
-
-export default definitions;
+} as OverrideBundleDefinition;

@@ -104,7 +104,7 @@ function lookupLock (lookup: Record<string, string>, lockId: Raw): string {
 
   try {
     return lookup[lockHex] || lockHex;
-  } catch (error) {
+  } catch {
     return lockHex;
   }
 }

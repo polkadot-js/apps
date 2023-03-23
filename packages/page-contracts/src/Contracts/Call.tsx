@@ -54,7 +54,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
     value && message.isMutating && setExecTx((): SubmittableExtrinsic<'promise'> | null => {
       try {
         return contract.tx[message.method]({ gasLimit: weight.weight, storageDepositLimit: null, value: message.isPayable ? value : 0 }, ...params);
-      } catch (error) {
+      } catch {
         return null;
       }
     });

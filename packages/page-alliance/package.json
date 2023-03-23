@@ -1,5 +1,8 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
+  "engines": {
+    "node": ">=14"
+  },
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-alliance#readme",
   "license": "Apache-2.0",
   "name": "@polkadot/app-alliance",
@@ -11,5 +14,5 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.124.2-142-x"
+  "version": "0.124.2-179-x"
 }

@@ -1,10 +1,16 @@
 // Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore Warned on by nodenext resolution (while package does build in bundler mode)
 import type { KeyringJson } from '@polkadot/ui-keyring/types';
 
 import * as tmp from 'tmp';
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore Warned on by nodenext resolution (while package does build in bundler mode)
 import { FileStore } from '@polkadot/ui-keyring/stores';
 
 import { accountStoreIpcHandler } from './account-store.js';

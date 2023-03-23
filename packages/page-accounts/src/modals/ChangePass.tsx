@@ -65,7 +65,7 @@ function ChangePass ({ address, className = '', onClose }: Props): React.ReactEl
           }
 
           account.decodePkcs8(oldPass);
-        } catch (error) {
+        } catch {
           setOldPass((state: OldPass) => ({ ...state, isOldValid: false }));
           setIsBusy(false);
 
@@ -74,7 +74,7 @@ function ChangePass ({ address, className = '', onClose }: Props): React.ReactEl
 
         try {
           keyring.encryptAccount(account, newPass1.password);
-        } catch (error) {
+        } catch {
           setNewPass2((state: NewPass) => ({ ...state, isValid: false }));
           setIsBusy(false);
 

@@ -98,7 +98,7 @@ const signedBalancePredicate = (raw: Codec): raw is SignedBalance =>
   );
 
 export const createCustomAccount = <A = string>(currency: string, currencyToAsset: (curr: string, api?: ApiInterfaceRx) => A, accountDataType = 'AccountData'):
-(instanceId: string, api: ApiInterfaceRx) => RxResult<(arg: string | Uint8Array | AccountId) => Observable<AccountData>> => (instanceId: string, api: ApiInterfaceRx) => {
+(instanceId: string, api: ApiInterfaceRx) => RxResult<(arg: string | Uint8Array | AccountId) => Observable<AccountData>> => (_instanceId: string, api: ApiInterfaceRx) => {
   const registry = api.registry;
 
   const transform = <SB extends Enum>(balance: SB): AccountData => {

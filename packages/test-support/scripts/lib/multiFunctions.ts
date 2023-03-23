@@ -3,7 +3,7 @@
 
 import { ApiPromise } from '@polkadot/api';
 import { KeyringPair } from '@polkadot/keyring/types';
-import { execute } from '@polkadot/test-support/transaction/index';
+import { execute } from '@polkadot/test-support/transaction';
 import { BN } from '@polkadot/util';
 
 import { waitForBountyState, waitForClaim } from './bountyWaitFunctions.js';

@@ -68,7 +68,7 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
             setName({ isNameValid: !!(newName || '').trim(), name: newName });
           }
         }
-      } catch (error) {
+      } catch {
         isAddressValid = false;
       }
 

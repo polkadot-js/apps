@@ -1,6 +1,8 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import { hexToU8a } from '@polkadot/util';
 
 import { publicToAddr, recoverFromJSON } from './util.js';

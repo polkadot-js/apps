@@ -2,13 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Data, Option } from '@polkadot/types';
-import type { Registration } from '@polkadot/types/interfaces';
+import type { IdentityInfo, Registration } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
 
+import { ApiPromise } from '@polkadot/api';
 import { Input, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { getAddressMeta } from '@polkadot/react-components/util';
 import { useApi, useCall } from '@polkadot/react-hooks';
+import { AddressIdentityOtherDiscordKey } from '@polkadot/react-hooks/types';
 import { u8aToString } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
@@ -22,6 +24,7 @@ interface Props {
 interface ValueState {
   info: Record<string, unknown>;
   okAll: boolean;
+  okDiscord?: boolean;
   okDisplay?: boolean;
   okEmail?: boolean;
   okLegal?: boolean;
@@ -37,6 +40,19 @@ function setData (data: Data, setActive: null | ((isActive: boolean) => void), s
     setActive && setActive(true);
     setVal(u8aToString(data.asRaw.toU8a(true)));
   }
+}
+
+function setAdditionalFieldData (api: ApiPromise, info: IdentityInfo, key: string, setActive: null | ((isActive: boolean) => void), setVal: (val: string) => void): Data {
+  const dataKey = api.registry.createType('Data', api.registry.createType('Data', { Raw: key }));
+  const dataNone = api.registry.createType('Data', '');
+
+  const value = info.additional.find((v) => v[0].eq(dataKey))?.[1] || dataNone;
+
+  if (value.isRaw) {
+    setData(value, setActive, setVal);
+  }
+
+  return value;
 }
 
 function checkValue (hasValue: boolean, value: string | null | undefined, minLength: number, includes: string[], excludes: string[], starting: string[], notStarting: string[] = WHITESPACE, notEnding: string[] = WHITESPACE): boolean {
@@ -55,17 +71,19 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
   const { t } = useTranslation();
   const { api } = useApi();
   const identityOpt = useCall<Option<Registration>>(api.query.identity.identityOf, [address]);
-  const [{ info, okAll, okDisplay, okEmail, okLegal, okRiot, okTwitter, okWeb }, setInfo] = useState<ValueState>({ info: {}, okAll: false });
+  const [{ info, okAll, okDiscord, okDisplay, okEmail, okLegal, okRiot, okTwitter, okWeb }, setInfo] = useState<ValueState>({ info: {}, okAll: false });
   const [hasEmail, setHasEmail] = useState(false);
   const [hasLegal, setHasLegal] = useState(false);
   const [hasRiot, setHasRiot] = useState(false);
   const [hasTwitter, setHasTwitter] = useState(false);
+  const [hasDiscord, setHasDiscord] = useState(false);
   const [hasWeb, setHasWeb] = useState(false);
   const [valDisplay, setValDisplay] = useState(() => (getAddressMeta(address).name || '').replace(/\(.*\)/, '').trim());
   const [valEmail, setValEmail] = useState('');
   const [valLegal, setValLegal] = useState('');
   const [valRiot, setValRiot] = useState('');
   const [valTwitter, setValTwitter] = useState('');
+  const [valDiscord, setValDiscord] = useState('');
   const [valWeb, setValWeb] = useState('');
   const [gotPreviousIdentity, setGotPreviousIdentity] = useState(false);
 
@@ -78,9 +96,11 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
       setData(info.legal, setHasLegal, setValLegal);
       setData(info.riot, setHasRiot, setValRiot);
       setData(info.twitter, setHasTwitter, setValTwitter);
+      const infoDiscord = setAdditionalFieldData(api, info, AddressIdentityOtherDiscordKey, setHasDiscord, setValDiscord);
+
       setData(info.web, setHasWeb, setValWeb);
 
-      [info.display, info.email, info.legal, info.riot, info.twitter, info.web].some((info: Data) => {
+      [info.display, info.email, info.legal, info.riot, info.twitter, infoDiscord, info.web].some((info: Data) => {
         if (info.isRaw) {
           setGotPreviousIdentity(true);
 
@@ -90,7 +110,7 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
         }
       });
     }
-  }, [identityOpt]);
+  }, [identityOpt, api]);
 
   useEffect((): void => {
     const okDisplay = checkValue(true, valDisplay, 1, [], [], []);
@@ -98,10 +118,14 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
     const okLegal = checkValue(hasLegal, valLegal, 1, [], [], []);
     const okRiot = checkValue(hasRiot, valRiot, 6, [':'], WHITESPACE, ['@', '~']);
     const okTwitter = checkValue(hasTwitter, valTwitter, 3, [], WHITESPACE, ['@']);
+    const okDiscord = checkValue(hasDiscord, valDiscord, 3, [], WHITESPACE, []);
     const okWeb = checkValue(hasWeb, valWeb, 8, ['.'], WHITESPACE, ['https://', 'http://']);
 
     setInfo({
       info: {
+        additional: [
+          (okDiscord && hasDiscord ? [{ raw: AddressIdentityOtherDiscordKey }, { raw: valDiscord }] : null)
+        ].filter((item) => !!item),
         display: { [okDisplay ? 'raw' : 'none']: valDisplay || null },
         email: { [okEmail && hasEmail ? 'raw' : 'none']: okEmail && hasEmail ? valEmail : null },
         legal: { [okLegal && hasLegal ? 'raw' : 'none']: okLegal && hasLegal ? valLegal : null },
@@ -109,7 +133,8 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
         twitter: { [okTwitter && hasTwitter ? 'raw' : 'none']: okTwitter && hasTwitter ? valTwitter : null },
         web: { [okWeb && hasWeb ? 'raw' : 'none']: okWeb && hasWeb ? valWeb : null }
       },
-      okAll: okDisplay && okEmail && okLegal && okRiot && okTwitter && okWeb,
+      okAll: okDisplay && okEmail && okLegal && okRiot && okTwitter && okDiscord && okWeb,
+      okDiscord,
       okDisplay,
       okEmail,
       okLegal,
@@ -117,7 +142,7 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
       okTwitter,
       okWeb
     });
-  }, [hasEmail, hasLegal, hasRiot, hasTwitter, hasWeb, valDisplay, valEmail, valLegal, valRiot, valTwitter, valWeb]);
+  }, [hasEmail, hasLegal, hasRiot, hasTwitter, hasDiscord, hasWeb, valDisplay, valEmail, valLegal, valRiot, valTwitter, valDiscord, valWeb]);
 
   return (
     <Modal
@@ -197,6 +222,21 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
           onChange={setValTwitter}
           placeholder={t<string>('@YourTwitterName')}
           value={hasTwitter ? valTwitter : '<none>'}
+        />
+        <Input
+          isDisabled={!hasDiscord}
+          isError={!okDiscord}
+          label={t<string>('discord')}
+          labelExtra={
+            <Toggle
+              label={t<string>('include field')}
+              onChange={setHasDiscord}
+              value={hasDiscord}
+            />
+          }
+          onChange={setValDiscord}
+          placeholder={t<string>('YourDiscordHandle')}
+          value={hasDiscord ? valDiscord : '<none>'}
         />
         <Input
           isDisabled={!hasRiot}

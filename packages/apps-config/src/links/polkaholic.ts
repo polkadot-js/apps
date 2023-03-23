@@ -52,6 +52,7 @@ export const Polkaholic: ExternalDef = {
     Shiden: 'shiden',
     Statemine: 'statemine',
     Statemint: 'statemint',
+    Subsocial: 'subsocial',
     SubsocialX: 'subsocialx',
     'Turing Network': 'turing',
     UNIQUE: 'unique',

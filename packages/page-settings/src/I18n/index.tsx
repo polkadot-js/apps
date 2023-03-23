@@ -137,7 +137,6 @@ function doDownload (strings: Strings, withEmpty: boolean): void {
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function progressDisplay ([done, total, _]: [number, number, number] = [0, 0, 0]): { done: number; progress: string; total: number } {
   return {
     done,

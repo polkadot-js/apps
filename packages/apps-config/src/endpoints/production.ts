@@ -3,7 +3,7 @@
 
 import type { EndpointOption } from './types.js';
 
-import { chains3dpassPNG, chainsAlephSVG, chainsBittensorPNG, chainsCreditcoinPNG, chainsDebioSVG, chainsEquilibriumSVG, chainsGenshiroSVG, chainsLogionPNG, chainsMyriadPNG, chainsSpannerPNG } from '../ui/logos/chains/index.js';
+import { chains3dpassPNG, chainsAlephSVG, chainsBittensorPNG, chainsCreditcoinPNG, chainsDebioSVG, chainsEquilibriumSVG, chainsFragnovaPNG, chainsGenshiroSVG, chainsLogionPNG, chainsMyriadPNG, chainsSpannerPNG } from '../ui/logos/chains/index.js';
 import { nodesAresOdysseySVG, nodesAutomataPNG, nodesCentrifugePNG, nodesChainxSVG, nodesCompetitorsClubPNG, nodesCrownSterlingPNG, nodesCrustSVG, nodesDarwiniaSVG, nodesDatahighwayPNG, nodesDockPNG, nodesEdgewareWhitePNG, nodesEfinitySVG, nodesHanyonycashPNG, nodesHumanodePNG, nodesJoystreamSVG, nodesKulupuSVG, nodesKusariSVG, nodesMathSVG, nodesMinixPNG, nodesNftmartPNG, nodesNodleSVG, nodesPolkadexSVG, nodesPolymeshSVG, nodesRiochainSVG, nodesRobonomicsSVG, nodesSherpaxPNG, nodesSoraSubstrateSVG, nodesStafiPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesSwapdexSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesUniartsPNG, nodesUnitnetworkPNG } from '../ui/logos/nodes/index.js';
 
 export * from './productionRelayKusama.js';
@@ -65,7 +65,7 @@ export const prodChains: EndpointOption[] = [
   {
     info: 'bittensor',
     providers: {
-      'Opentensor Fdn (Archive)': 'wss://archivelb.nakamoto.opentensor.ai:9943'
+      'Opentensor Fdn (Archive)': 'wss://entrypoint-finney.opentensor.ai:443'
     },
     text: 'Bittensor',
     ui: {
@@ -206,6 +206,17 @@ export const prodChains: EndpointOption[] = [
     ui: {
       color: '#1792ff',
       logo: chainsEquilibriumSVG
+    }
+  },
+  {
+    info: 'fragnova',
+    providers: { // The actual hosted secure websocket endpoint
+      'Fragnova Network': 'wss://ws.fragnova.network'
+    },
+    text: 'Fragnova', // The text to display on the dropdown
+    ui: {
+      color: '#6b35a8',
+      logo: chainsFragnovaPNG
     }
   },
   {
@@ -364,11 +375,11 @@ export const prodChains: EndpointOption[] = [
   {
     info: 'polymesh',
     providers: {
-      Polymath: 'wss://mainnet-rpc.polymesh.network'
+      Polymesh: 'wss://mainnet-rpc.polymesh.network'
     },
     text: 'Polymesh Mainnet',
     ui: {
-      color: '#1348e4',
+      color: 'linear-gradient(197deg, #FF2E72, #4A125E)',
       logo: nodesPolymeshSVG
     }
   },
@@ -432,9 +443,8 @@ export const prodChains: EndpointOption[] = [
   },
   {
     info: 'stafi',
-    isDisabled: true, // Cannot find type ChainId
     providers: {
-      'Stafi Foundation': 'wss://mainnet-rpc.stafi.io'
+      // 'Stafi Foundation': 'wss://mainnet-rpc.stafi.io' // isDisabled: true, // Cannot find type ChainId
     },
     text: 'Stafi',
     ui: {
