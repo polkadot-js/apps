@@ -89,7 +89,10 @@ function groupAccounts (accounts: SortedAccount[]): Record<GroupName, string[]> 
 
 function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api, isElectron } = useApi();
+  // FIXME Currently Ethereum shorter-addresses and the multisig hashing is not quite supported,
+  // somewhere in the chain we need to adjust quite a bit (it would seem). Tracking issue -
+  // https://github.com/polkadot-js/apps/issues/9209
+  const { api, isElectron, isEthereum } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
   const { isIpfs } = useIpfs();
   const { isLedgerEnabled } = useLedger();
@@ -157,8 +160,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
   // detect multisigs
   const hasPalletMultisig = useMemo(
-    () => isFunction((api.tx.multisig || api.tx.utility)?.approveAsMulti),
-    [api]
+    () => !isEthereum && isFunction((api.tx.multisig || api.tx.utility)?.approveAsMulti),
+    [api, isEthereum]
   );
 
   // proxy support
@@ -359,18 +362,24 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
               onClick={toggleLedger}
             />
           )}
-          <Button
-            icon='plus'
-            isDisabled={!hasPalletMultisig || !hasAccounts}
-            label={t<string>('Multisig')}
-            onClick={toggleMultisig}
-          />
-          <Button
-            icon='plus'
-            isDisabled={!hasPalletProxy || !hasAccounts}
-            label={t<string>('Proxied')}
-            onClick={toggleProxy}
-          />
+          {hasAccounts && (
+            <>
+              {hasPalletMultisig && (
+                <Button
+                  icon='plus'
+                  label={t<string>('Multisig')}
+                  onClick={toggleMultisig}
+                />
+              )}
+              {hasPalletProxy && (
+                <Button
+                  icon='plus'
+                  label={t<string>('Proxied')}
+                  onClick={toggleProxy}
+                />
+              )}
+            </>
+          )}
         </Button.Group>
       </SummaryBox>
       {!isNextTick || !sortedAccounts.length
