@@ -698,7 +698,7 @@ export const prodParasKusama: EndpointOption[] = [
     info: 'subsocialX',
     paraId: 2100,
     providers: {
-      'Dappforce 1': 'wss://para.subsocial.network'
+      // 'Dappforce 1': 'wss://para.subsocial.network'
     },
     text: 'SubsocialX',
     ui: {
