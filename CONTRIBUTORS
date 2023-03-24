@@ -13,7 +13,7 @@
       24	brenzi                        	Encointer rococo para setup as teleporter (#7160)
       24	sxlwar                        	crab config (#6995)
       24	WoeOm                         	feat: subscan support fellowship, referenda v2 (#8987)
-      23	Yiwei Li                      	Add OnFinality endpoint for Darwinia Crab (#9187)
+      24	Yiwei Li                      	Add OnFinality rpc endpoint for Westmint (#9210)
       23	Yongfeng LI                   	Add statescan kusama external link (#9128)
       20	Nikita                        	Update icon and colors for Realis.Network (#6336)
       18	fomod-in                      	Update translation.json (#5942)
