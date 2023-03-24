@@ -1,36 +1,46 @@
 // Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-import eqDefs from '@equilab/definitions';
+import { map } from 'rxjs';
 
-import { createCustomAccount, u64FromCurrency } from './equilibrium.js';
+import { memo } from '@polkadot/api-derive/util';
 
-const { genshiro } = eqDefs;
+import { SignedBalance, u64FromCurrency } from './equilibrium.js';
+
+const TOKENS = ['gens'];
 
 const definitions: OverrideBundleDefinition = {
-  derives: {
-    ...genshiro.instances.balances.reduce(
-      (all, cur) => ({
-        ...all,
-        [cur]: {
-          customAccount: createCustomAccount(cur, (currency: string) => ({ 0: u64FromCurrency(currency) }), 'CompatAccountData')
-        }
-      }),
-      {}
-    )
-  },
+  derives: TOKENS.reduce((prev, token) => {
+    return {
+      ...prev,
 
-  instances: genshiro.instances,
+      [token]: { customAccount: (instanceId: string, api: ApiInterfaceRx) => {
+        const { registry } = api;
+        const asset = u64FromCurrency(token);
 
-  types: [
-    {
-      // on all versions
-      minmax: [0, undefined],
-      types: genshiro.types
-    }
-  ]
+        return memo(instanceId, (address: AccountIndex | AccountId | Address | string) => api.query.eqBalances.account(address, { 0: asset }).pipe(map((v) => {
+          const balance = v as unknown as SignedBalance;
+
+          const miscFrozen = registry.createType('u128', 0);
+          const feeFrozen = miscFrozen;
+          const reserved = registry.createType('u128', 0);
+
+          const free = balance?.isPositive
+            ? balance.asPositive
+            : registry.createType('u128', 0);
+
+          return {
+            feeFrozen, free, miscFrozen, reserved
+          };
+        })));
+      } }
+    };
+  }, {})
+
 };
 
 export default definitions;
