@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { LedgerTypes } from '@polkadot/hw-ledger/types';
+import type { TransportType } from '@polkadot/hw-ledger-transports/types';
 
 import { useCallback, useMemo } from 'react';
 
@@ -38,10 +38,10 @@ const ledgerChains = Object
   .filter((n) => knownLedger[n]);
 const ledgerHashes = ledgerChains.reduce<string[]>((all, n) => [...all, ...knownGenesis[n]], []);
 let ledger: Ledger | null = null;
-let ledgerType: LedgerTypes | null = null;
+let ledgerType: TransportType | null = null;
 
 function retrieveLedger (api: ApiPromise): Ledger {
-  const currType = uiSettings.ledgerConn as LedgerTypes;
+  const currType = uiSettings.ledgerConn as TransportType;
 
   if (!ledger || ledgerType !== currType) {
     const genesisHex = api.genesisHash.toHex();

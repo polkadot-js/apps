@@ -17,7 +17,7 @@
   "version": "0.124.2-182-x",
   "dependencies": {
     "@testing-library/react": "^14.0.0",
-    "testcontainers": "^9.2.1"
+    "testcontainers": "^9.3.0"
   },
   "devDependencies": {
     "@polkadot/types-support": "^10.2.1",

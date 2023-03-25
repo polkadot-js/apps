@@ -1389,7 +1389,7 @@ __metadata:
     "@polkadot/react-components": ^0.124.2-182-x
     "@testing-library/react": ^14.0.0
     file-saver: ^2.0.5
-    testcontainers: ^9.2.1
+    testcontainers: ^9.3.0
   languageName: unknown
   linkType: soft
 
@@ -1444,6 +1444,7 @@ __metadata:
   resolution: "@polkadot/app-contracts@workspace:packages/page-contracts"
   dependencies:
     "@polkadot/api-contract": ^10.2.1
+    eventemitter3: ^5.0.0
   languageName: unknown
   linkType: soft
 
@@ -1928,7 +1929,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/hw-ledger-transports@npm:11.1.2":
+"@polkadot/hw-ledger-transports@npm:11.1.2, @polkadot/hw-ledger-transports@npm:^11.1.2":
   version: 11.1.2
   resolution: "@polkadot/hw-ledger-transports@npm:11.1.2"
   dependencies:
@@ -2030,7 +2031,7 @@ __metadata:
     chartjs-plugin-annotation: ^2.2.1
     chartjs-plugin-crosshair: ^1.2.0
     codeflask: ^1.4.1
-    i18next: ^22.4.12
+    i18next: ^22.4.13
     i18next-browser-languagedetector: ^7.0.1
     owasp-password-strength-test: ^1.3.0
     react: ^18.2.0
@@ -2041,7 +2042,7 @@ __metadata:
     react-dropzone: ^14.2.3
     react-i18next: ^12.2.0
     react-is: ^18.2.0
-    react-markdown: ^8.0.5
+    react-markdown: ^8.0.6
     react-router: ^5.3.4
     react-router-dom: ^5.3.4
     react-tooltip: ^4.5.1
@@ -2058,6 +2059,7 @@ __metadata:
   resolution: "@polkadot/react-hooks@workspace:packages/react-hooks"
   dependencies:
     "@polkadot/hw-ledger": ^11.1.2
+    "@polkadot/hw-ledger-transports": ^11.1.2
     is-ipfs: ^8.0.1
   languageName: unknown
   linkType: soft
@@ -2191,7 +2193,7 @@ __metadata:
     "@polkadot/types-support": ^10.2.1
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^14.0.0
-    testcontainers: ^9.2.1
+    testcontainers: ^9.3.0
     tsconfig-paths: ^4.1.2
   languageName: unknown
   linkType: soft
@@ -3318,12 +3320,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-beautiful-dnd@npm:^13.1.3":
-  version: 13.1.3
-  resolution: "@types/react-beautiful-dnd@npm:13.1.3"
+"@types/react-beautiful-dnd@npm:^13.1.4":
+  version: 13.1.4
+  resolution: "@types/react-beautiful-dnd@npm:13.1.4"
   dependencies:
     "@types/react": "*"
-  checksum: e09860672c15666ee3d3acfad3dfc2ebd8fceb29b5468e12b7543af74d0e19f2eb9c4be187adb33c5d6816f47b0db958a8c0160b15826b92f6df1e8e3e34657a
+  checksum: 76220f1031721e73f712cf0021de6a3cf4049260ec29996cd587876ebd6ed01b9c31d8efb5cf230eb4d2b6259525ffe0f3054667732d30c79df37e49f9398c5e
   languageName: node
   linkType: hard
 
@@ -7507,16 +7509,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron@npm:^23.1.4":
-  version: 23.1.4
-  resolution: "electron@npm:23.1.4"
+"electron@npm:^23.2.0":
+  version: 23.2.0
+  resolution: "electron@npm:23.2.0"
   dependencies:
     "@electron/get": ^2.0.0
     "@types/node": ^16.11.26
     extract-zip: ^2.0.1
   bin:
     electron: cli.js
-  checksum: 42e167d5ae4e60b9a2bab191321645cb76b901d3c88dc7ae1551ecad2946aa4ebef9e49c347ca3db76032d84802d878a64a1123111579a270e3b8406c5a18b16
+  checksum: 175326a42946dd5fa55d4a4e550328109abcf868bda6d34e9f49caaa4a672ddf65624e76260cf767ba37e0278f96cf1b21b7204c8528476f3f516fcc4b4e097f
   languageName: node
   linkType: hard
 
@@ -10154,9 +10156,9 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"i18next-scanner@npm:^4.1.1":
-  version: 4.1.1
-  resolution: "i18next-scanner@npm:4.1.1"
+"i18next-scanner@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "i18next-scanner@npm:4.2.0"
   dependencies:
     acorn: ^8.0.4
     acorn-dynamic-import: ^4.0.0
@@ -10180,16 +10182,25 @@ fsevents@~2.3.2:
     vinyl-fs: ^3.0.1
   bin:
     i18next-scanner: bin/cli.js
-  checksum: d5cbe840a6e2bb629c84a0ae4d1a76ae32f4870a6e1f55acb0b658907b341b8ed634fca269a234b7a9446106182247e96b6409cb98251ba4f33864ed4d795854
+  checksum: 8c199fe7529171a03f1b71d0e964c65f9d6baf0c971a4f11f4545fa13fd09f5ef4788131afe1ed166a90c8771e75ea6a9b1966b3bdaa87f7d5800dbfe5c9e34c
   languageName: node
   linkType: hard
 
-"i18next@npm:*, i18next@npm:^22.4.12":
+"i18next@npm:*":
   version: 22.4.12
   resolution: "i18next@npm:22.4.12"
   dependencies:
     "@babel/runtime": ^7.20.6
   checksum: 78e8c74f8686cd7c44cac206bf9006314db742a1717cff962db7fea24c87766a3edaa3cb7584b59d7eb275e2f7cae15068e76495ca5c803f152b2434a2af3832
+  languageName: node
+  linkType: hard
+
+"i18next@npm:^22.4.13":
+  version: 22.4.13
+  resolution: "i18next@npm:22.4.13"
+  dependencies:
+    "@babel/runtime": ^7.20.6
+  checksum: a40ca4ce749854a806a01e3e60ee492f2911b1f7acb6ed338bb023211259ef8c39e914734d10197d3279941459767897ceb1989c8e24cd73730fdf211e079037
   languageName: node
   linkType: hard
 
@@ -13699,7 +13710,7 @@ fsevents@~2.3.2:
     "@polkadot/dev": ^0.72.24
     "@types/chart.js": ^2.9.37
     "@types/file-saver": ^2.0.5
-    "@types/react-beautiful-dnd": ^13.1.3
+    "@types/react-beautiful-dnd": ^13.1.4
     "@types/react-copy-to-clipboard": ^5.0.4
     "@types/react-dom": ^18.0.11
     "@types/react-router-dom": ^5.3.3
@@ -13709,10 +13720,10 @@ fsevents@~2.3.2:
     concurrently: ^7.6.0
     devtron: ^1.4.0
     dnslink-cloudflare: ^3.0.0
-    electron: ^23.1.4
+    electron: ^23.2.0
     electron-builder: 23.6.0
     electron-builder-notarize: ^1.5.1
-    i18next-scanner: ^4.1.1
+    i18next-scanner: ^4.2.0
     react: ^18.2.0
     react-dom: ^18.2.0
     react-is: ^18.2.0
@@ -14408,9 +14419,9 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"react-markdown@npm:^8.0.5":
-  version: 8.0.5
-  resolution: "react-markdown@npm:8.0.5"
+"react-markdown@npm:^8.0.6":
+  version: 8.0.6
+  resolution: "react-markdown@npm:8.0.6"
   dependencies:
     "@types/hast": ^2.0.0
     "@types/prop-types": ^15.0.0
@@ -14430,7 +14441,7 @@ fsevents@~2.3.2:
   peerDependencies:
     "@types/react": ">=16"
     react: ">=16"
-  checksum: 9d11b7aba16216d590e56b4744e05d2925141bfb0f5885b3d9400ccf006cd24b79ce3b3d20af8a083a01324215b58fa4c5979e44f69d54123ff1dd5dacb0dc89
+  checksum: 59fd5dcd089df0cd9098755e3063d8fcf4b4635b1ac2d5e05fcda9923769724476396abdf2afb80fb8e7589a951deac50d6f89c4740d5ec6decd34076122c80c
   languageName: node
   linkType: hard
 
@@ -16551,9 +16562,9 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"testcontainers@npm:^9.2.1":
-  version: 9.2.1
-  resolution: "testcontainers@npm:9.2.1"
+"testcontainers@npm:^9.3.0":
+  version: 9.3.0
+  resolution: "testcontainers@npm:9.3.0"
   dependencies:
     "@balena/dockerignore": ^1.0.2
     "@types/archiver": ^5.3.2
@@ -16569,7 +16580,7 @@ fsevents@~2.3.2:
     properties-reader: ^2.2.0
     ssh-remote-port-forward: ^1.0.4
     tar-fs: ^2.1.1
-  checksum: a94d985463cbf3e415503c2eaa7547bb353fb602398dfa5042f32711e828e9f6bf26a2396e31709513a28d2981374368a59a9eb0063b3e89106c83553385e594
+  checksum: cf38bd36221a27ea9b61003e02e190d9b165d7aebf91a0e21ba34a97379020d9a7cca494a7b907fd96a647068634540449a5f539693448ac9c897319f4a903d1
   languageName: node
   linkType: hard
 
