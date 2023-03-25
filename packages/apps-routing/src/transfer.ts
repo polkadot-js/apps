@@ -14,7 +14,7 @@ export default function create (t: TFunction): Route {
       isHidden: false,
       needsAccounts: true,
       needsApi: [
-        'tx.balances.transfer'
+        'tx.balances.transferKeepAlive'
       ]
     },
     group: 'accounts',

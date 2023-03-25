@@ -217,7 +217,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
               ? api.tx.balances?.transferAll
               : isProtected
                 ? api.tx.balances?.transferKeepAlive
-                : api.tx.balances?.transfer
+                : api.tx.balances?.transferAllowDeath || api.tx.balances?.transfer
           }
         />
       </Modal.Actions>
