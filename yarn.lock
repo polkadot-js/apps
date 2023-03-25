@@ -1735,7 +1735,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/apps-electron@workspace:packages/apps-electron"
   dependencies:
-    "@polkadot/dev": ^0.72.24
+    "@polkadot/dev": ^0.72.25
     "@polkadot/react-components": ^0.124.2-184-x
     "@types/react-dom": ^18.0.11
     "@types/tmp": ^0.2.3
@@ -1761,7 +1761,7 @@ __metadata:
   dependencies:
     "@polkadot/apps-config": ^0.124.2-184-x
     "@polkadot/apps-routing": ^0.124.2-184-x
-    "@polkadot/dev": ^0.72.24
+    "@polkadot/dev": ^0.72.25
     "@polkadot/react-api": ^0.124.2-184-x
     "@polkadot/react-components": ^0.124.2-184-x
     "@polkadot/react-hooks": ^0.124.2-184-x
@@ -1789,34 +1789,34 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev-test@npm:^0.72.24":
-  version: 0.72.24
-  resolution: "@polkadot/dev-test@npm:0.72.24"
+"@polkadot/dev-test@npm:^0.72.25":
+  version: 0.72.25
+  resolution: "@polkadot/dev-test@npm:0.72.25"
   dependencies:
     jsdom: ^21.1.1
     tslib: ^2.5.0
-  checksum: cf45cd2e9d6352d2c6f82fe3b52cb6b24435f9e693b570d71333cfe942584c41b634ac0fafd72a24c131269a253b6c2b8d075e28fc0f544cc5dc8131e2f7ab2a
+  checksum: 784743afc26e3bd5d3b875cd1c27701e8e6a7a4cd55da014cffbae4b97de761f1f6e6b03c3956ee26d4140da83f78e2fa19c62505f4d6b942c7b98f88897ad85
   languageName: node
   linkType: hard
 
-"@polkadot/dev-ts@npm:^0.72.24":
-  version: 0.72.24
-  resolution: "@polkadot/dev-ts@npm:0.72.24"
+"@polkadot/dev-ts@npm:^0.72.25":
+  version: 0.72.25
+  resolution: "@polkadot/dev-ts@npm:0.72.25"
   dependencies:
     json5: ^2.2.3
     tslib: ^2.5.0
     typescript: ^5.0.2
-  checksum: acc084e8e38881b3f49fe05b1a8dff59575cbda5ddc19e7cc6791e03e822815d17ee0bb7753dc78570cb2c365aaf216d2b520d228923d7c9af09a467af557629
+  checksum: 2fcf05cd726b7e886db44b9d8e4cbf8e1a97c7af52915d190807b2cb2753687ab36edbd91af5715e91e33a8ad4a5f16ecdf204edb5726a48ec860559c6816106
   languageName: node
   linkType: hard
 
-"@polkadot/dev@npm:^0.72.24":
-  version: 0.72.24
-  resolution: "@polkadot/dev@npm:0.72.24"
+"@polkadot/dev@npm:^0.72.25":
+  version: 0.72.25
+  resolution: "@polkadot/dev@npm:0.72.25"
   dependencies:
     "@eslint/js": ^8.36.0
-    "@polkadot/dev-test": ^0.72.24
-    "@polkadot/dev-ts": ^0.72.24
+    "@polkadot/dev-test": ^0.72.25
+    "@polkadot/dev-ts": ^0.72.25
     "@rollup/plugin-alias": ^4.0.3
     "@rollup/plugin-commonjs": ^24.0.1
     "@rollup/plugin-dynamic-import-vars": ^2.0.3
@@ -1877,7 +1877,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: fad1958dc40ae0cdc1dbaa29f97c4b9ef90aade92bb27e05725803c72855f0aa9669d4e5cebde627aebf9f08c2d03e45b2d235168cf3535afa8261b38c7aab8e
+  checksum: 2225835661e62e8b88af8accd64d55644d03b0d172bf8c6c85baa45e03203bd74026979491ce91ffc22f61554b1555e19a8fe2c6a26c1c70030bbc1d3dc53770
   languageName: node
   linkType: hard
 
@@ -13698,7 +13698,7 @@ fsevents@~2.3.2:
   dependencies:
     "@crustio/crust-pin": ^1.0.0
     "@pinata/sdk": ^2.1.0
-    "@polkadot/dev": ^0.72.24
+    "@polkadot/dev": ^0.72.25
     "@types/chart.js": ^2.9.37
     "@types/file-saver": ^2.0.5
     "@types/react-beautiful-dnd": ^13.1.4

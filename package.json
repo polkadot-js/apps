@@ -2,8 +2,9 @@
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "bugs": "https://github.com/polkadot-js/apps/issues",
   "description": "An Apps portal into the Polkadot network",
+  "engine-strict": true,
   "engines": {
-    "node": ">=14"
+    "node": ">=18.14"
   },
   "homepage": "https://github.com/polkadot-js/apps#readme",
   "license": "Apache-2.0",
@@ -69,7 +70,7 @@
   "devDependencies": {
     "@crustio/crust-pin": "^1.0.0",
     "@pinata/sdk": "^2.1.0",
-    "@polkadot/dev": "^0.72.24",
+    "@polkadot/dev": "^0.72.25",
     "@types/chart.js": "^2.9.37",
     "@types/file-saver": "^2.0.5",
     "@types/react-beautiful-dnd": "^13.1.4",
