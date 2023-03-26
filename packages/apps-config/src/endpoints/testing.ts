@@ -281,7 +281,7 @@ export const testChains: EndpointOption[] = [
   {
     info: 'ferrum',
     providers: {
-      Ferrum: 'wss://testnet.dev.svcs.ferrumnetwork.io'
+      // Ferrum: 'wss://testnet.dev.svcs.ferrumnetwork.io' // https://github.com/polkadot-js/apps/issues/9224
     },
     text: 'Ferrum Testnet',
     ui: {

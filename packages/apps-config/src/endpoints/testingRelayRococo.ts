@@ -44,7 +44,7 @@ export const testParasRococo: EndpointOption[] = [
     info: 'arctic',
     paraId: 3015,
     providers: {
-      Arctic: 'wss://arctic-rococo-rpc.icenetwork.io'
+      // Arctic: 'wss://arctic-rococo-rpc.icenetwork.io' // https://github.com/polkadot-js/apps/issues/9224
     },
     text: 'Arctic',
     ui: {
