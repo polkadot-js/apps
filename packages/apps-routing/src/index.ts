@@ -4,7 +4,6 @@
 import type { TFunction } from 'i18next';
 import type { Routes } from './types.js';
 
-<<<<<<< HEAD
 import accounts from './accounts.js';
 import addresses from './addresses.js';
 import alliance from './alliance.js';
@@ -15,6 +14,7 @@ import claims from './claims.js';
 import collator from './collator.js';
 import contracts from './contracts.js';
 import council from './council.js';
+import ddelegation from './ddelegation';
 import democracy from './democracy.js';
 import explorer from './explorer.js';
 import extrinsics from './extrinsics.js';
@@ -45,48 +45,6 @@ import transfer from './transfer.js';
 import treasury from './treasury.js';
 import utilities from './utilities.js';
 import whitelist from './whitelist.js';
-=======
-import accounts from './accounts';
-import addresses from './addresses';
-import alliance from './alliance';
-import assets from './assets';
-import bounties from './bounties';
-import calendar from './calendar';
-import claims from './claims';
-import collator from './collator';
-import contracts from './contracts';
-import council from './council';
-import ddelegation from './ddelegation';
-import democracy from './democracy';
-import explorer from './explorer';
-import extrinsics from './extrinsics';
-import fellowship from './fellowship';
-import files from './files';
-import gilt from './gilt';
-import js from './js';
-import membership from './membership';
-import nfts from './nfts';
-import parachains from './parachains';
-import poll from './poll';
-import preimages from './preimages';
-import ranked from './ranked';
-import referenda from './referenda';
-import rpc from './rpc';
-import runtime from './runtime';
-import scheduler from './scheduler';
-import settings from './settings';
-import signing from './signing';
-import society from './society';
-import staking from './staking';
-import storage from './storage';
-import sudo from './sudo';
-import techcomm from './techcomm';
-import teleport from './teleport';
-import transfer from './transfer';
-import treasury from './treasury';
-import utilities from './utilities';
-import whitelist from './whitelist';
->>>>>>> bd1fc43151 (lint & types fixed)
 
 export default function create (t: TFunction): Routes {
   return [
@@ -115,6 +73,7 @@ export default function create (t: TFunction): Routes {
     // other governance-related
     treasury(t),
     bounties(t),
+    ddelegation(t),
     // others
     parachains(t),
     gilt(t),

@@ -9,7 +9,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components';
 
 import { Table } from '@polkadot/react-components';
-import { useAccounts, useDelegations, useFavorites, useLoadingDelay, useProxies } from '@polkadot/react-hooks';
+import { useAccounts, useDelegations, useFavorites, useProxies } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN_ZERO } from '@polkadot/util';
 
@@ -47,7 +47,6 @@ function Overview ({ className = '' }: Props): React.ReactElement<Props> {
   const [{ sortBy, sortFromMax }, setSortBy] = useState<SortControls>(DEFAULT_SORT_CONTROLS);
   const delegations = useDelegations();
   const proxies = useProxies();
-  const isLoading = useLoadingDelay();
 
   const favoritesMap = useMemo(
     () => Object.fromEntries(favorites.map((x) => [x, true])),
@@ -164,8 +163,7 @@ function Overview ({ className = '' }: Props): React.ReactElement<Props> {
           header={header.current}
           withCollapsibleRows
         >
-          {!isLoading &&
-      sortedAccounts.map(({ address }) => accountComponents[address])
+          {sortedAccounts.map(({ address }) => accountComponents[address])
           }
         </Table>}
     </div>
