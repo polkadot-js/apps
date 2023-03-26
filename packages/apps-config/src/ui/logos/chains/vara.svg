@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 26.4.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 200 200" style="enable-background:new 0 0 200 200;" xml:space="preserve">
+	 viewBox="0 0 800 800" style="enable-background:new 0 0 800 800;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:#00FFBF;}
+	.st0{clip-path:url(#SVGID_00000137131023175851909640000015843473539364794283_);fill:#03FFC4;}
+	.st1{clip-path:url(#SVGID_00000137131023175851909640000015843473539364794283_);}
 </style>
-<rect width="200" height="200"/>
 <g>
-	<path class="st0" d="M133.27,111.7l-16.21-61.32h-3.42h-3.42h-3.42v99.24h6.84v-18.4l6.28-6.28l6.53,24.68l6.82-0.05l-7.94-30.04
-		l2.51-2.51L133.27,111.7z M113.64,121.55V63.31l12.18,46.06L113.64,121.55z"/>
-	<path class="st0" d="M78.66,50.38h-3.42h-3.42H68.4v99.24h6.84l18.04-18.05l4.77,18.05h6.84L78.66,50.38z M75.24,139.94v-9.68
-		v-9.67v-14.01V63.31l11.98,45.3l0,0l2.02,7.65l0,0l2.02,7.66L75.24,139.94z"/>
-	<path class="st0" d="M149.42,50.38h-3.42h-3.42h-3.42v99.24h6.84l18.04-18.05l4.77,18.05h6.84L149.42,50.38z M146.01,139.94v-9.68
-		v-9.67v-10.96V63.31l10.62,40.18l0,0l1.23,4.66l0.12,0.46l0,0l2.02,7.65l0,0l2.02,7.66L146.01,139.94z"/>
-	<polygon class="st0" points="53.99,50.38 53.99,86.99 53.99,112.85 53.99,118.58 53.99,136.69 31.18,50.38 24.34,50.38 
-		50.58,149.62 53.99,149.62 57.41,149.62 60.83,149.62 60.83,50.38 	"/>
+	<defs>
+		<rect id="SVGID_1_" x="0" width="800" height="800"/>
+	</defs>
+	<clipPath id="SVGID_00000008861330619550893860000012323724374023425694_">
+		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+	</clipPath>
+	
+		<rect style="clip-path:url(#SVGID_00000008861330619550893860000012323724374023425694_);fill:#03FFC4;" width="800" height="800"/>
+	<g style="clip-path:url(#SVGID_00000008861330619550893860000012323724374023425694_);">
+		<rect x="539.92" y="-106.12" width="116.42" height="1004.97"/>
+	</g>
+	<g style="clip-path:url(#SVGID_00000008861330619550893860000012323724374023425694_);">
+		
+			<rect x="373.99" y="-112.75" transform="matrix(0.9362 -0.3514 0.3514 0.9362 -98.7323 174.8208)" width="116.42" height="944.27"/>
+	</g>
+	<g style="clip-path:url(#SVGID_00000008861330619550893860000012323724374023425694_);">
+		
+			<rect x="148.86" y="-116.34" transform="matrix(0.9362 -0.3514 0.3514 0.9362 -131.578 99.0545)" width="116.42" height="1056.63"/>
+	</g>
 </g>
 </svg>

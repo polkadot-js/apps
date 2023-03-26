@@ -1,8 +1,8 @@
 // Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
 const i18nRoot = path.join(__dirname, '../packages/apps/public/locales');
 

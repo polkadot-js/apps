@@ -76,6 +76,8 @@ function createMultisig (signatories: string[], threshold: BN | number, { genesi
   } catch (error) {
     status.status = 'error';
     status.message = (error as Error).message;
+
+    console.error(error);
   }
 
   return status;

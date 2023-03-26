@@ -4,7 +4,7 @@
 import CrustPinner from '@crustio/crust-pin';
 import PinataSDK from '@pinata/sdk';
 import cloudflare from 'dnslink-cloudflare';
-import fs from 'fs';
+import fs from 'node:fs';
 
 import { execSync } from '@polkadot/dev/scripts/util.mjs';
 

@@ -48,7 +48,7 @@ function PaymentInfo ({ accountId, className = '', extrinsic, isHeader }: Props)
     return null;
   }
 
-  const isFeeError = api.consts.balances && !api.tx.balances?.transfer.is(extrinsic) && balances?.accountId.eq(accountId) && (
+  const isFeeError = api.consts.balances && !(api.tx.balances?.transferAllowDeath?.is(extrinsic) || api.tx.balances?.transfer?.is(extrinsic)) && balances?.accountId.eq(accountId) && (
     balances.availableBalance.lte(dispatchInfo.partialFee) ||
     balances.freeBalance.sub(dispatchInfo.partialFee).lte(api.consts.balances.existentialDeposit)
   );
