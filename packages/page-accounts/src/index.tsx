@@ -4,7 +4,7 @@
 import type { AppProps as Props } from '@polkadot/react-components/types';
 
 import React, { useRef } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 import { useAccounts, useIpfs } from '@polkadot/react-hooks';
@@ -42,14 +42,14 @@ function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
         hidden={(hasAccounts && !isIpfs) ? undefined : HIDDEN_ACC}
         items={tabsRef.current}
       />
-      <Switch>
+      <Routes>
         <Route path={`${basePath}/vanity`}>
           <Vanity onStatusChange={onStatusChange} />
         </Route>
         <Route>
           <Accounts onStatusChange={onStatusChange} />
         </Route>
-      </Switch>
+      </Routes>
     </main>
   );
 }

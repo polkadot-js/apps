@@ -4,7 +4,7 @@
 import type { AppProps as Props } from '@polkadot/react-components/types';
 
 import React, { useMemo } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
@@ -60,7 +60,7 @@ function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
         hidden={hidden}
         items={items}
       />
-      <Switch>
+      <Routes>
         <Route path={`${basePath}/developer`}>
           <Developer onStatusChange={onStatusChange} />
         </Route>
@@ -73,7 +73,7 @@ function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
         <Route>
           <General />
         </Route>
-      </Switch>
+      </Routes>
     </main>
   );
 }

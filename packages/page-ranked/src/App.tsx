@@ -4,7 +4,7 @@
 import type { PalletColl, PalletPoll } from './types.js';
 
 import React, { useMemo } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import Referenda, { useCounter } from '@polkadot/app-referenda/Referenda';
 import { Tabs } from '@polkadot/react-components';
@@ -46,7 +46,7 @@ function App ({ basePath, className, palletColl, palletPoll }: Props): React.Rea
         basePath={basePath}
         items={tabs}
       />
-      <Switch>
+      <Routes>
         <Route path={`${basePath}/referenda`}>
           <Referenda
             members={members && members.memberIds}
@@ -58,7 +58,7 @@ function App ({ basePath, className, palletColl, palletPoll }: Props): React.Rea
         <Route>
           <Members members={members && members.members} />
         </Route>
-      </Switch>
+      </Routes>
     </main>
   );
 }

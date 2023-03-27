@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useMemo } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 import { useApi, useCollectiveMembers } from '@polkadot/react-hooks';
@@ -51,7 +51,7 @@ function TreasuryApp ({ basePath }: Props): React.ReactElement<Props> {
         basePath={basePath}
         items={items}
       />
-      <Switch>
+      <Routes>
         <Route path={`${basePath}/tips`}>
           <Tips
             hashes={tipHashes}
@@ -65,7 +65,7 @@ function TreasuryApp ({ basePath }: Props): React.ReactElement<Props> {
             members={members}
           />
         </Route>
-      </Switch>
+      </Routes>
     </main>
   );
 }

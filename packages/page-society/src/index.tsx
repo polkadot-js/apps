@@ -5,7 +5,7 @@ import type { DeriveSociety, DeriveSocietyMember } from '@polkadot/api-derive/ty
 import type { MapMember } from './types.js';
 
 import React, { useMemo } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -118,7 +118,7 @@ function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> 
         basePath={basePath}
         items={items}
       />
-      <Switch>
+      <Routes>
         <Route path={`${basePath}/candidates`}>
           <Candidates
             allMembers={allMembers}
@@ -139,7 +139,7 @@ function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> 
             payoutTotal={payoutTotal}
           />
         </Route>
-      </Switch>
+      </Routes>
     </main>
   );
 }

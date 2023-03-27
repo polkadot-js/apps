@@ -7,7 +7,7 @@ import type { ElectionStatus, ParaValidatorIndex, ValidatorId } from '@polkadot/
 import type { BN } from '@polkadot/util';
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 import { useLocation } from 'react-router-dom';
 
 import Pools from '@polkadot/app-staking2/Pools';
@@ -43,15 +43,13 @@ const OPT_MULTI = {
   ]
 };
 
-function createPathRef (basePath: string): Record<string, string | string[]> {
+function createPathRef (basePath: string): Record<string, string> {
   return {
     bags: `${basePath}/bags`,
     payout: `${basePath}/payout`,
     pools: `${basePath}/pools`,
-    query: [
-      `${basePath}/query/:value`,
-      `${basePath}/query`
-    ],
+    query: `${basePath}/query`,
+    queryValue: `${basePath}/query/:value`,
     slashes: `${basePath}/slashes`,
     targets: `${basePath}/targets`
   };
@@ -154,7 +152,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         }
         items={items}
       />
-      <Switch>
+      <Routes>
         <Route path={pathRef.current.bags}>
           <Bags ownStashes={ownStashes} />
         </Route>
@@ -170,6 +168,9 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
           <Pools ownPools={ownPools} />
         </Route>
         <Route path={pathRef.current.query}>
+          <Query />
+        </Route>
+        <Route path={pathRef.current.queryValue}>
           <Query />
         </Route>
         <Route path={pathRef.current.slashes}>
@@ -190,7 +191,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
             toggleNominatedBy={toggleNominatedBy}
           />
         </Route>
-      </Switch>
+      </Routes>
       <Actions
         className={pathname === `${basePath}/actions` ? '' : '--hidden'}
         isInElection={isInElection}

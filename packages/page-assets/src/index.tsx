@@ -6,7 +6,7 @@ import '@polkadot/api-augment/substrate';
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo, useRef } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
@@ -76,7 +76,7 @@ function AssetApp ({ basePath, className }: Props): React.ReactElement<Props> {
         hidden={hidden}
         items={tabsRef.current}
       />
-      <Switch>
+      <Routes>
         <Route path={`${basePath}/balances`}>
           <Balances infos={infos} />
         </Route>
@@ -87,7 +87,7 @@ function AssetApp ({ basePath, className }: Props): React.ReactElement<Props> {
             openId={openId}
           />
         </Route>
-      </Switch>
+      </Routes>
     </main>
   );
 }

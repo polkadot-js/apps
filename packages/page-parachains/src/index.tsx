@@ -6,7 +6,7 @@ import '@polkadot/api-augment/substrate';
 import type { ParaId } from '@polkadot/types/interfaces';
 
 import React, { useRef } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 import { useLocation } from 'react-router-dom';
 
 import { Tabs } from '@polkadot/react-components';
@@ -76,7 +76,7 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
         basePath={basePath}
         items={items.current}
       />
-      <Switch>
+      <Routes>
         <Route path={`${basePath}/auctions`}>
           <Auctions
             auctionInfo={auctionInfo}
@@ -96,7 +96,7 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
         <Route path={`${basePath}/proposals`}>
           <Proposals proposals={proposals} />
         </Route>
-      </Switch>
+      </Routes>
       <Overview
         actionsQueue={actionsQueue}
         className={pathname === basePath ? '' : '--hidden'}

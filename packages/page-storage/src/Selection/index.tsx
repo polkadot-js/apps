@@ -4,7 +4,7 @@
 import type { ParitalQueryTypes, QueryTypes } from '../types.js';
 
 import React, { useCallback, useRef } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 
@@ -50,11 +50,17 @@ function Selection ({ basePath, onAdd }: Props): React.ReactElement<Props> {
         basePath={basePath}
         items={itemsRef.current}
       />
-      <Switch>
-        <Route path={`${basePath}/constants`}><Consts onAdd={_onAdd} /></Route>
-        <Route path={`${basePath}/raw`}><Raw onAdd={_onAdd} /></Route>
-        <Route><Modules onAdd={_onAdd} /></Route>
-      </Switch>
+      <Routes>
+        <Route path={`${basePath}/constants`}>
+          <Consts onAdd={_onAdd} />
+        </Route>
+        <Route path={`${basePath}/raw`}>
+          <Raw onAdd={_onAdd} />
+        </Route>
+        <Route>
+          <Modules onAdd={_onAdd} />
+        </Route>
+      </Routes>
     </>
   );
 }

@@ -4,7 +4,7 @@
 import type { AppProps as Props } from '@polkadot/react-components/types';
 
 import React, { useEffect, useMemo, useRef } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 import { useApi, useFavorites } from '@polkadot/react-hooks';
@@ -17,15 +17,13 @@ import { useTranslation } from './translate.js';
 import { clearCache } from './useCache.js';
 import useSessionInfo from './useSessionInfo.js';
 
-function createPathRef (basePath: string): Record<string, string | string[]> {
+function createPathRef (basePath: string): Record<string, string> {
   return {
     bags: `${basePath}/bags`,
     payout: `${basePath}/payout`,
     pools: `${basePath}/pools`,
-    query: [
-      `${basePath}/query/:value`,
-      `${basePath}/query`
-    ],
+    query: `${basePath}/query`,
+    queryValue: `${basePath}/query/:value`,
     slashes: `${basePath}/slashes`,
     targets: `${basePath}/targets`
   };
@@ -71,7 +69,7 @@ function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
         basePath={basePath}
         items={itemsRef.current}
       />
-      <Switch>
+      <Routes>
         <Route path={pathRef.current.pools}>
           <Pools />
         </Route>
@@ -83,7 +81,7 @@ function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
             toggleFavorite={toggleFavorite}
           />
         </Route>
-      </Switch>
+      </Routes>
     </main>
   );
 }

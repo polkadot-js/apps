@@ -6,7 +6,7 @@ import type { TabItem } from '@polkadot/react-components/Tabs/types';
 import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
 
 import React, { useMemo, useRef } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 import { useApi, useBlockAuthors, useBlockEvents } from '@polkadot/react-hooks';
@@ -26,16 +26,14 @@ interface Props {
   newEvents?: KeyedEvent[];
 }
 
-function createPathRef (basePath: string): Record<string, string | string[]> {
+function createPathRef (basePath: string): Record<string, string> {
   return {
     api: `${basePath}/api`,
     forks: `${basePath}/forks`,
     latency: `${basePath}/latency`,
     node: `${basePath}/node`,
-    query: [
-      `${basePath}/query/:value`,
-      `${basePath}/query/`
-    ]
+    query: `${basePath}/query`,
+    queryValue: `${basePath}/query/:value`
   };
 }
 
@@ -91,12 +89,25 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
         hidden={hidden}
         items={itemsRef.current}
       />
-      <Switch>
-        <Route path={pathRef.current.api}><Api /></Route>
-        <Route path={pathRef.current.forks}><Forks /></Route>
-        <Route path={pathRef.current.latency}><Latency /></Route>
-        <Route path={pathRef.current.query}><BlockInfo /></Route>
-        <Route path={pathRef.current.node}><NodeInfo /></Route>
+      <Routes>
+        <Route path={pathRef.current.api}>
+          <Api />
+        </Route>
+        <Route path={pathRef.current.forks}>
+          <Forks />
+        </Route>
+        <Route path={pathRef.current.latency}>
+          <Latency />
+        </Route>
+        <Route path={pathRef.current.query}>
+          <BlockInfo />
+        </Route>
+        <Route path={pathRef.current.queryValue}>
+          <BlockInfo />
+        </Route>
+        <Route path={pathRef.current.node}>
+          <NodeInfo />
+        </Route>
         <Route>
           <Main
             eventCount={eventCount}
@@ -104,7 +115,7 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
             headers={lastHeaders}
           />
         </Route>
-      </Switch>
+      </Routes>
     </main>
   );
 }

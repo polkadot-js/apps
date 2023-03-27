@@ -4,7 +4,7 @@
 import type { Hash } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useMemo } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import Motions from '@polkadot/app-tech-comm/Proposals';
 import { Tabs } from '@polkadot/react-components';
@@ -70,7 +70,7 @@ function AllianceApp ({ basePath, className }: Props): React.ReactElement<Props>
         basePath={basePath}
         items={items}
       />
-      <Switch>
+      <Routes>
         <Route path={`${basePath}/announcements`}>
           <Announcements accouncements={accouncements} />
         </Route>
@@ -99,7 +99,7 @@ function AllianceApp ({ basePath, className }: Props): React.ReactElement<Props>
             voters={voters}
           />
         </Route>
-      </Switch>
+      </Routes>
     </main>
   );
 }

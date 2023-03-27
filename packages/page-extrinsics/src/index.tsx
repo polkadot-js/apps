@@ -7,7 +7,7 @@ import type { AppProps as Props } from '@polkadot/react-components/types';
 import type { DecodedExtrinsic } from './types.js';
 
 import React, { useRef, useState } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 
@@ -15,12 +15,10 @@ import Decoder from './Decoder.js';
 import Submission from './Submission.js';
 import { useTranslation } from './translate.js';
 
-function createPathRef (basePath: string): Record<string, string | string[]> {
+function createPathRef (basePath: string): Record<string, string> {
   return {
-    decode: [
-      `${basePath}/decode/:encoded`,
-      `${basePath}/decode`
-    ]
+    decode: `${basePath}/decode`,
+    decodeEncoded: `${basePath}/decode/:encoded`
   };
 }
 
@@ -51,8 +49,14 @@ function ExtrinsicsApp ({ basePath }: Props): React.ReactElement<Props> {
         basePath={basePath}
         items={itemsRef.current}
       />
-      <Switch>
+      <Routes>
         <Route path={pathRef.current.decode}>
+          <Decoder
+            defaultValue={decoded && decoded.hex}
+            setLast={setDecoded}
+          />
+        </Route>
+        <Route path={pathRef.current.decodeEncoded}>
           <Decoder
             defaultValue={decoded && decoded.hex}
             setLast={setDecoded}
@@ -61,7 +65,7 @@ function ExtrinsicsApp ({ basePath }: Props): React.ReactElement<Props> {
         <Route>
           <Submission defaultValue={decoded} />
         </Route>
-      </Switch>
+      </Routes>
     </main>
   );
 }

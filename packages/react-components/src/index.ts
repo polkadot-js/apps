@@ -61,7 +61,6 @@ export { default as InputRpc } from './InputRpc/index.js';
 export { default as InputStorage } from './InputStorage/index.js';
 export { default as InputTags } from './InputTags.js';
 export { default as InputWasm } from './InputWasm.js';
-export { default as Inset } from './Inset.js';
 export { default as Label } from './Label.js';
 export { default as LabelHelp } from './LabelHelp.js';
 export { default as Labelled } from './Labelled.js';

@@ -4,7 +4,7 @@
 import type { AppProps as Props } from '@polkadot/react-components/types';
 
 import React, { useRef } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 
@@ -28,9 +28,11 @@ function RpcApp ({ basePath }: Props): React.ReactElement<Props> {
         basePath={basePath}
         items={itemsRef.current}
       />
-      <Switch>
-        <Route><Rpc /></Route>
-      </Switch>
+      <Routes>
+        <Route>
+          <Rpc />
+        </Route>
+      </Routes>
     </main>
   );
 }

@@ -5,7 +5,7 @@ import type { CollectiveType } from '@polkadot/react-hooks/types';
 import type { Hash } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 import { useApi, useCall, useCollectiveMembers } from '@polkadot/react-hooks';
@@ -53,7 +53,7 @@ function TechCommApp ({ basePath, className, type }: Props): React.ReactElement<
         }
         items={items}
       />
-      <Switch>
+      <Routes>
         <Route path={`${basePath}/proposals`}>
           <Proposals
             isMember={isMember}
@@ -72,7 +72,7 @@ function TechCommApp ({ basePath, className, type }: Props): React.ReactElement<
             type={type}
           />
         </Route>
-      </Switch>
+      </Routes>
     </main>
   );
 }
