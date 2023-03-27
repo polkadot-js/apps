@@ -15,13 +15,6 @@ import Decoder from './Decoder.js';
 import Submission from './Submission.js';
 import { useTranslation } from './translate.js';
 
-function createPathRef (basePath: string): Record<string, string> {
-  return {
-    decode: `${basePath}/decode`,
-    decodeEncoded: `${basePath}/decode/:encoded`
-  };
-}
-
 function createItemsRef (t: TFunction): TabItem[] {
   return [
     {
@@ -41,7 +34,6 @@ function ExtrinsicsApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [decoded, setDecoded] = useState<DecodedExtrinsic | null>(null);
   const itemsRef = useRef(createItemsRef(t));
-  const pathRef = useRef(createPathRef(basePath));
 
   return (
     <main className='extrinsics--App'>
@@ -50,20 +42,31 @@ function ExtrinsicsApp ({ basePath }: Props): React.ReactElement<Props> {
         items={itemsRef.current}
       />
       <Routes>
-        <Route path={pathRef.current.decode}>
-          <Decoder
-            defaultValue={decoded && decoded.hex}
-            setLast={setDecoded}
+        <Route path={basePath}>
+          <Route
+            element={
+              <Decoder
+                defaultValue={decoded && decoded.hex}
+                setLast={setDecoded}
+              />
+            }
+            path='decode'
           />
-        </Route>
-        <Route path={pathRef.current.decodeEncoded}>
-          <Decoder
-            defaultValue={decoded && decoded.hex}
-            setLast={setDecoded}
+          <Route
+            element={
+              <Decoder
+                defaultValue={decoded && decoded.hex}
+                setLast={setDecoded}
+              />
+            }
+            path='decode/:encoded'
           />
-        </Route>
-        <Route>
-          <Submission defaultValue={decoded} />
+          <Route
+            element={
+              <Submission defaultValue={decoded} />
+            }
+            path=''
+          />
         </Route>
       </Routes>
     </main>

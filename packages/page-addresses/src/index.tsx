@@ -29,8 +29,13 @@ function AddressesApp ({ basePath, onStatusChange }: Props): React.ReactElement<
         items={itemsRef.current}
       />
       <Routes>
-        <Route>
-          <Contacts onStatusChange={onStatusChange} />
+        <Route path={basePath}>
+          <Route
+            element={
+              <Contacts onStatusChange={onStatusChange} />
+            }
+            path=''
+          />
         </Route>
       </Routes>
     </main>

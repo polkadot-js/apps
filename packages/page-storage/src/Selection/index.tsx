@@ -51,14 +51,25 @@ function Selection ({ basePath, onAdd }: Props): React.ReactElement<Props> {
         items={itemsRef.current}
       />
       <Routes>
-        <Route path={`${basePath}/constants`}>
-          <Consts onAdd={_onAdd} />
-        </Route>
-        <Route path={`${basePath}/raw`}>
-          <Raw onAdd={_onAdd} />
-        </Route>
-        <Route>
-          <Modules onAdd={_onAdd} />
+        <Route path={basePath}>
+          <Route
+            element={
+              <Consts onAdd={_onAdd} />
+            }
+            path='constants'
+          />
+          <Route
+            element={
+              <Raw onAdd={_onAdd} />
+            }
+            path='raw'
+          />
+          <Route
+            element={
+              <Modules onAdd={_onAdd} />
+            }
+            path=''
+          />
         </Route>
       </Routes>
     </>

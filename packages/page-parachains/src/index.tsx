@@ -77,24 +77,35 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
         items={items.current}
       />
       <Routes>
-        <Route path={`${basePath}/auctions`}>
-          <Auctions
-            auctionInfo={auctionInfo}
-            campaigns={campaigns}
-            ownedIds={ownedIds}
-            winningData={winningData}
+        <Route path={basePath}>
+          <Route
+            element={
+              <Auctions
+                auctionInfo={auctionInfo}
+                campaigns={campaigns}
+                ownedIds={ownedIds}
+                winningData={winningData}
+              />
+            }
+            path='auctions'
           />
-        </Route>
-        <Route path={`${basePath}/crowdloan`}>
-          <Crowdloan
-            auctionInfo={auctionInfo}
-            campaigns={campaigns}
-            leasePeriod={leasePeriod}
-            ownedIds={ownedIds}
+          <Route
+            element={
+              <Crowdloan
+                auctionInfo={auctionInfo}
+                campaigns={campaigns}
+                leasePeriod={leasePeriod}
+                ownedIds={ownedIds}
+              />
+            }
+            path='crowdloan'
           />
-        </Route>
-        <Route path={`${basePath}/proposals`}>
-          <Proposals proposals={proposals} />
+          <Route
+            element={
+              <Proposals proposals={proposals} />
+            }
+            path='proposals'
+          />
         </Route>
       </Routes>
       <Overview

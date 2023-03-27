@@ -77,14 +77,22 @@ function AssetApp ({ basePath, className }: Props): React.ReactElement<Props> {
         items={tabsRef.current}
       />
       <Routes>
-        <Route path={`${basePath}/balances`}>
-          <Balances infos={infos} />
-        </Route>
-        <Route>
-          <Overview
-            ids={ids}
-            infos={infos}
-            openId={openId}
+        <Route path={basePath}>
+          <Route
+            element={
+              <Balances infos={infos} />
+            }
+            path='balances'
+          />
+          <Route
+            element={
+              <Overview
+                ids={ids}
+                infos={infos}
+                openId={openId}
+              />
+            }
+            path=''
           />
         </Route>
       </Routes>

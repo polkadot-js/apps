@@ -43,11 +43,19 @@ function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
         items={tabsRef.current}
       />
       <Routes>
-        <Route path={`${basePath}/vanity`}>
-          <Vanity onStatusChange={onStatusChange} />
-        </Route>
-        <Route>
-          <Accounts onStatusChange={onStatusChange} />
+        <Route path={basePath}>
+          <Route
+            element={
+              <Vanity onStatusChange={onStatusChange} />
+            }
+            path='vanity'
+          />
+          <Route
+            element={
+              <Accounts onStatusChange={onStatusChange} />
+            }
+            path=''
+          />
         </Route>
       </Routes>
     </main>

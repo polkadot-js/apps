@@ -29,8 +29,13 @@ function RpcApp ({ basePath }: Props): React.ReactElement<Props> {
         items={itemsRef.current}
       />
       <Routes>
-        <Route>
-          <Rpc />
+        <Route path={basePath}>
+          <Route
+            element={
+              <Rpc />
+            }
+            path=''
+          />
         </Route>
       </Routes>
     </main>

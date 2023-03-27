@@ -32,9 +32,12 @@ function GiltApp ({ basePath, className }: Props): React.ReactElement<Props> {
         items={tabsRef.current}
       />
       <Routes>
-        <Route>
-          <Overview />
-        </Route>
+        <Route
+          element={
+            <Overview />
+          }
+          path={basePath}
+        />
       </Routes>
     </main>
   );

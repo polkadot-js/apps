@@ -17,22 +17,9 @@ import { useTranslation } from './translate.js';
 import { clearCache } from './useCache.js';
 import useSessionInfo from './useSessionInfo.js';
 
-function createPathRef (basePath: string): Record<string, string> {
-  return {
-    bags: `${basePath}/bags`,
-    payout: `${basePath}/payout`,
-    pools: `${basePath}/pools`,
-    query: `${basePath}/query`,
-    queryValue: `${basePath}/query/:value`,
-    slashes: `${basePath}/slashes`,
-    targets: `${basePath}/targets`
-  };
-}
-
 function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const pathRef = useRef(createPathRef(basePath));
 
   // on unmount anything else, ensure that for the next round we
   // are starting with a fresh cache (there could be large delays)
@@ -70,15 +57,23 @@ function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
         items={itemsRef.current}
       />
       <Routes>
-        <Route path={pathRef.current.pools}>
-          <Pools />
-        </Route>
         <Route path={basePath}>
-          <Validators
-            favorites={favorites}
-            isRelay={isRelay}
-            sessionInfo={sessionInfo}
-            toggleFavorite={toggleFavorite}
+          <Route
+            element={
+              <Pools />
+            }
+            path='pools'
+          />
+          <Route
+            element={
+              <Validators
+                favorites={favorites}
+                isRelay={isRelay}
+                sessionInfo={sessionInfo}
+                toggleFavorite={toggleFavorite}
+              />
+            }
+            path=''
           />
         </Route>
       </Routes>

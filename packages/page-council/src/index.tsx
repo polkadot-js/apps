@@ -51,10 +51,15 @@ function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> 
         items={items}
       />
       <Routes>
-        <Route path={`${basePath}/motions`}>
-          <Motions
-            motions={motions}
-            prime={prime}
+        <Route path={basePath}>
+          <Route
+            element={
+              <Motions
+                motions={motions}
+                prime={prime}
+              />
+            }
+            path='motions'
           />
         </Route>
       </Routes>

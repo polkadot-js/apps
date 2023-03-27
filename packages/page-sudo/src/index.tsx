@@ -38,17 +38,25 @@ function SudoApp ({ basePath }: Props): React.ReactElement<Props> {
       {hasSudoKey
         ? (
           <Routes>
-            <Route path={`${basePath}/key`}>
-              <SetKey
-                allAccounts={allAccounts}
-                isMine={hasSudoKey}
-                sudoKey={sudoKey}
+            <Route path={basePath}>
+              <Route
+                element={
+                  <SetKey
+                    allAccounts={allAccounts}
+                    isMine={hasSudoKey}
+                    sudoKey={sudoKey}
+                  />
+                }
+                path='key'
               />
-            </Route>
-            <Route>
-              <Sudo
-                isMine={hasSudoKey}
-                sudoKey={sudoKey}
+              <Route
+                element={
+                  <Sudo
+                    isMine={hasSudoKey}
+                    sudoKey={sudoKey}
+                  />
+                }
+                path=''
               />
             </Route>
           </Routes>

@@ -71,32 +71,46 @@ function AllianceApp ({ basePath, className }: Props): React.ReactElement<Props>
         items={items}
       />
       <Routes>
-        <Route path={`${basePath}/announcements`}>
-          <Announcements accouncements={accouncements} />
-        </Route>
-        <Route path={`${basePath}/motions`}>
-          <Motions
-            defaultProposal={api.tx.alliance.addUnscrupulousItems}
-            defaultThreshold={DEFAULT_THRESHOLD}
-            filter={motionFilter}
-            isMember={isVoter}
-            members={voters}
-            prime={prime}
-            proposalHashes={proposalHashes}
-            type='alliance'
+        <Route path={basePath}>
+          <Route
+            element={
+              <Announcements accouncements={accouncements} />
+            }
+            path='announcements'
           />
-        </Route>
-        <Route path={`${basePath}/unscrupulous`}>
-          <Unscrupulous unscrupulous={unscrupulous} />
-        </Route>
-        <Route>
-          <Members
-            isVoter={isVoter}
-            members={members}
-            prime={prime}
-            rule={rule}
-            unscrupulous={unscrupulous}
-            voters={voters}
+          <Route
+            element={
+              <Motions
+                defaultProposal={api.tx.alliance.addUnscrupulousItems}
+                defaultThreshold={DEFAULT_THRESHOLD}
+                filter={motionFilter}
+                isMember={isVoter}
+                members={voters}
+                prime={prime}
+                proposalHashes={proposalHashes}
+                type='alliance'
+              />
+            }
+            path='motions'
+          />
+          <Route
+            element={
+              <Unscrupulous unscrupulous={unscrupulous} />
+            }
+            path='unscrupulous'
+          />
+          <Route
+            element={
+              <Members
+                isVoter={isVoter}
+                members={members}
+                prime={prime}
+                rule={rule}
+                unscrupulous={unscrupulous}
+                voters={voters}
+              />
+            }
+            path=''
           />
         </Route>
       </Routes>

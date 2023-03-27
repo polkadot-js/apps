@@ -47,16 +47,24 @@ function App ({ basePath, className, palletColl, palletPoll }: Props): React.Rea
         items={tabs}
       />
       <Routes>
-        <Route path={`${basePath}/referenda`}>
-          <Referenda
-            members={members && members.memberIds}
-            palletReferenda={palletPoll}
-            palletVote={palletColl}
-            ranks={members && members.memberRanks}
+        <Route path={basePath}>
+          <Route
+            element={
+              <Referenda
+                members={members && members.memberIds}
+                palletReferenda={palletPoll}
+                palletVote={palletColl}
+                ranks={members && members.memberRanks}
+              />
+            }
+            path='referenda'
           />
-        </Route>
-        <Route>
-          <Members members={members && members.members} />
+          <Route
+            element={
+              <Members members={members && members.members} />
+            }
+            path=''
+          />
         </Route>
       </Routes>
     </main>

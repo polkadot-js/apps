@@ -29,8 +29,13 @@ function RuntimeApp ({ basePath }: Props): React.ReactElement<Props> {
         items={itemsRef.current}
       />
       <Routes>
-        <Route>
-          <Runtime />
+        <Route path={basePath}>
+          <Route
+            element={
+              <Runtime />
+            }
+            path=''
+          />
         </Route>
       </Routes>
     </main>

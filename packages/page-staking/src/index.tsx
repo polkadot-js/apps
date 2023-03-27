@@ -6,7 +6,7 @@ import type { AppProps as Props } from '@polkadot/react-components/types';
 import type { ElectionStatus, ParaValidatorIndex, ValidatorId } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Route, Routes } from 'react-router';
 import { useLocation } from 'react-router-dom';
 
@@ -43,18 +43,6 @@ const OPT_MULTI = {
   ]
 };
 
-function createPathRef (basePath: string): Record<string, string> {
-  return {
-    bags: `${basePath}/bags`,
-    payout: `${basePath}/payout`,
-    pools: `${basePath}/pools`,
-    query: `${basePath}/query`,
-    queryValue: `${basePath}/query/:value`,
-    slashes: `${basePath}/slashes`,
-    targets: `${basePath}/targets`
-  };
-}
-
 function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -75,7 +63,6 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const ownStashes = useOwnStashInfos();
   const slashes = useAvailableSlashes();
   const targets = useSortedTargets(favorites, withLedger);
-  const pathRef = useRef(createPathRef(basePath));
 
   const hasQueries = useMemo(
     () => hasAccounts && !!(api.query.imOnline?.authoredBlocks) && !!(api.query.staking.activeEra),
@@ -153,42 +140,65 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         items={items}
       />
       <Routes>
-        <Route path={pathRef.current.bags}>
-          <Bags ownStashes={ownStashes} />
-        </Route>
-        <Route path={pathRef.current.payout}>
-          <Payouts
-            historyDepth={targets.historyDepth}
-            isInElection={isInElection}
-            ownPools={ownPools}
-            ownValidators={ownValidators}
+        <Route path={basePath}>
+          <Route
+            element={
+              <Bags ownStashes={ownStashes} />
+            }
+            path='bags'
           />
-        </Route>
-        <Route path={pathRef.current.pools}>
-          <Pools ownPools={ownPools} />
-        </Route>
-        <Route path={pathRef.current.query}>
-          <Query />
-        </Route>
-        <Route path={pathRef.current.queryValue}>
-          <Query />
-        </Route>
-        <Route path={pathRef.current.slashes}>
-          <Slashes
-            ownStashes={ownStashes}
-            slashes={slashes}
+          <Route
+            element={
+              <Payouts
+                historyDepth={targets.historyDepth}
+                isInElection={isInElection}
+                ownPools={ownPools}
+                ownValidators={ownValidators}
+              />
+            }
+            path='payout'
           />
-        </Route>
-        <Route path={pathRef.current.targets}>
-          <Targets
-            isInElection={isInElection}
-            nominatedBy={nominatedBy}
-            ownStashes={ownStashes}
-            stakingOverview={stakingOverview}
-            targets={targets}
-            toggleFavorite={toggleFavorite}
-            toggleLedger={toggleLedger}
-            toggleNominatedBy={toggleNominatedBy}
+          <Route
+            element={
+              <Pools ownPools={ownPools} />
+            }
+            path='pools'
+          />
+          <Route
+            element={
+              <Query />
+            }
+            path='query'
+          />
+          <Route
+            element={
+              <Query />
+            }
+            path='query/:value'
+          />
+          <Route
+            element={
+              <Slashes
+                ownStashes={ownStashes}
+                slashes={slashes}
+              />
+            }
+            path='slashes'
+          />
+          <Route
+            element={
+              <Targets
+                isInElection={isInElection}
+                nominatedBy={nominatedBy}
+                ownStashes={ownStashes}
+                stakingOverview={stakingOverview}
+                targets={targets}
+                toggleFavorite={toggleFavorite}
+                toggleLedger={toggleLedger}
+                toggleNominatedBy={toggleNominatedBy}
+              />
+            }
+            path='targets'
           />
         </Route>
       </Routes>

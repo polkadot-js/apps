@@ -53,13 +53,21 @@ function NftApp ({ basePath, className }: Props): React.ReactElement<Props> {
         items={tabsRef.current}
       />
       <Routes>
-        <Route path={`${basePath}/my-nfts`}>
-          <AccountItems infos={infos} />
-        </Route>
-        <Route>
-          <Overview
-            ids={ids}
-            infos={infos}
+        <Route path={basePath}>
+          <Route
+            element={
+              <AccountItems infos={infos} />
+            }
+            path='my-nfts'
+          />
+          <Route
+            element={
+              <Overview
+                ids={ids}
+                infos={infos}
+              />
+            }
+            path=''
           />
         </Route>
       </Routes>

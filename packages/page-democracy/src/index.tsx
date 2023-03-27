@@ -33,8 +33,13 @@ function DemocracyApp ({ basePath }: Props): React.ReactElement<Props> {
         items={items}
       />
       <Routes>
-        <Route>
-          <Overview />
+        <Route path={basePath}>
+          <Route
+            element={
+              <Overview />
+            }
+            path=''
+          />
         </Route>
       </Routes>
     </main>

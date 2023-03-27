@@ -34,11 +34,19 @@ function SigningApp ({ basePath }: Props): React.ReactElement<Props> {
         items={itemsRef.current}
       />
       <Routes>
-        <Route path={`${basePath}/verify`}>
-          <Verify />
-        </Route>
-        <Route>
-          <Sign />
+        <Route path={basePath}>
+          <Route
+            element={
+              <Verify />
+            }
+            path='verify'
+          />
+          <Route
+            element={
+              <Sign />
+            }
+            path=''
+          />
         </Route>
       </Routes>
     </main>

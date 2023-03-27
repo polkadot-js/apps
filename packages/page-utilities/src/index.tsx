@@ -37,11 +37,19 @@ function UtilitiesApp ({ basePath, className }: Props): React.ReactElement<Props
         items={tabsRef.current}
       />
       <Routes>
-        <Route path={`${basePath}/hash`}>
-          <Hash />
-        </Route>
-        <Route>
-          <Convert />
+        <Route path={basePath}>
+          <Route
+            element={
+              <Hash />
+            }
+            path='hash'
+          />
+          <Route
+            element={
+              <Convert />
+            }
+            path=''
+          />
         </Route>
       </Routes>
     </main>

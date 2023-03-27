@@ -54,22 +54,30 @@ function TechCommApp ({ basePath, className, type }: Props): React.ReactElement<
         items={items}
       />
       <Routes>
-        <Route path={`${basePath}/proposals`}>
-          <Proposals
-            isMember={isMember}
-            members={members}
-            prime={prime}
-            proposalHashes={proposalHashes}
-            type={type}
-          />
-        </Route>
         <Route path={basePath}>
-          <Overview
-            isMember={isMember}
-            members={members}
-            prime={prime}
-            proposalHashes={proposalHashes}
-            type={type}
+          <Route
+            element={
+              <Proposals
+                isMember={isMember}
+                members={members}
+                prime={prime}
+                proposalHashes={proposalHashes}
+                type={type}
+              />
+            }
+            path='proposals'
+          />
+          <Route
+            element={
+              <Overview
+                isMember={isMember}
+                members={members}
+                prime={prime}
+                proposalHashes={proposalHashes}
+                type={type}
+              />
+            }
+            path=''
           />
         </Route>
       </Routes>

@@ -119,24 +119,35 @@ function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> 
         items={items}
       />
       <Routes>
-        <Route path={`${basePath}/candidates`}>
-          <Candidates
-            allMembers={allMembers}
-            candidates={candidates}
-            isMember={isMember}
-            ownMembers={ownMembers}
+        <Route path={basePath}>
+          <Route
+            element={
+              <Candidates
+                allMembers={allMembers}
+                candidates={candidates}
+                isMember={isMember}
+                ownMembers={ownMembers}
+              />
+            }
+            path='candidates'
           />
-        </Route>
-        <Route path={`${basePath}/suspended`}>
-          <Suspended />
-        </Route>
-        <Route>
-          <Overview
-            info={info}
-            isMember={isMember}
-            mapMembers={mapMembers}
-            ownMembers={ownMembers}
-            payoutTotal={payoutTotal}
+          <Route
+            element={
+              <Suspended />
+            }
+            path='suspended'
+          />
+          <Route
+            element={
+              <Overview
+                info={info}
+                isMember={isMember}
+                mapMembers={mapMembers}
+                ownMembers={ownMembers}
+                payoutTotal={payoutTotal}
+              />
+            }
+            path=''
           />
         </Route>
       </Routes>

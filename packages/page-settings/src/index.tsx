@@ -61,17 +61,31 @@ function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
         items={items}
       />
       <Routes>
-        <Route path={`${basePath}/developer`}>
-          <Developer onStatusChange={onStatusChange} />
-        </Route>
-        <Route path={`${basePath}/i18n`}>
-          <I18n />
-        </Route>
-        <Route path={`${basePath}/metadata`}>
-          <Metadata />
-        </Route>
-        <Route>
-          <General />
+        <Route path={basePath}>
+          <Route
+            element={
+              <Developer onStatusChange={onStatusChange} />
+            }
+            path='developer'
+          />
+          <Route
+            element={
+              <I18n />
+            }
+            path='i18n'
+          />
+          <Route
+            element={
+              <Metadata />
+            }
+            path='metadata'
+          />
+          <Route
+            element={
+              <General />
+            }
+            path=''
+          />
         </Route>
       </Routes>
     </main>
