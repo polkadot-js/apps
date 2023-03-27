@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ValidateInfo } from './types';
+import type { ValidateInfo } from './types.js';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
@@ -9,7 +9,7 @@ import { Dropdown, InputAddress, InputNumber, MarkError, Modal } from '@polkadot
 import { useApi } from '@polkadot/react-hooks';
 import { BN, BN_HUNDRED as MAX_COMM, BN_ONE, bnMax, isFunction } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../../translate.js';
 
 interface Props {
   className?: string;
@@ -36,8 +36,8 @@ function Validate ({ className = '', controllerId, minCommission, onChange, stas
   );
 
   const blockedOptions = useRef([
-    { text: t('Yes, allow nominations'), value: true },
-    { text: t('No, block all nominations'), value: false }
+    { text: t<string>('Yes, allow nominations'), value: true },
+    { text: t<string>('No, block all nominations'), value: false }
   ]);
 
   useEffect((): void => {
@@ -84,7 +84,6 @@ function Validate ({ className = '', controllerId, minCommission, onChange, stas
         <InputNumber
           autoFocus={withFocus}
           defaultValue={defaultComm}
-          help={t<string>('The percentage reward (0-100) that should be applied for the validator')}
           isError={commErr}
           isZeroable
           label={t<string>('reward commission percentage')}
@@ -99,7 +98,6 @@ function Validate ({ className = '', controllerId, minCommission, onChange, stas
         <Modal.Columns hint={t<string>('The validator can block any new nominations. By default it is set to allow all nominations.')}>
           <Dropdown
             defaultValue={true}
-            help={t<string>('Does this validator allow nominations or is it blocked for all')}
             label={t<string>('allows new nominations')}
             onChange={setAllowNoms}
             options={blockedOptions.current}

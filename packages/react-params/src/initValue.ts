@@ -96,6 +96,8 @@ export default function getInitValue (registry: Registry, def: TypeDef): unknown
       return '';
 
     case 'AccountId':
+    case 'AccountId20':
+    case 'AccountId32':
     case 'AccountIdOf':
     case 'Address':
     case 'Call':
@@ -106,6 +108,7 @@ export default function getInitValue (registry: Registry, def: TypeDef): unknown
     case 'LookupSource':
     case 'MisbehaviorReport':
     case 'Proposal':
+    case 'RuntimeCall':
     case 'Signature':
     case 'SessionKey':
     case 'StorageKey':

@@ -10,16 +10,16 @@ import Motions from '@polkadot/app-tech-comm/Proposals';
 import { Tabs } from '@polkadot/react-components';
 import { useApi, useCall, useCollectiveMembers } from '@polkadot/react-hooks';
 
-import Announcements from './Announcements';
-import Members from './Members';
-import { useTranslation } from './translate';
-import Unscrupulous from './Unscrupulous';
-import useAnnoucements from './useAnnoucements';
-import useMembers from './useMembers';
-import useRule from './useRule';
-import useUnscrupulous from './useUnscrupulous';
+import Announcements from './Announcements/index.js';
+import Members from './Members/index.js';
+import Unscrupulous from './Unscrupulous/index.js';
+import { useTranslation } from './translate.js';
+import useAnnoucements from './useAnnoucements.js';
+import useMembers from './useMembers.js';
+import useRule from './useRule.js';
+import useUnscrupulous from './useUnscrupulous.js';
 
-export { default as useCounter } from './useCounter';
+export { default as useCounter } from './useCounter.js';
 
 interface Props {
   basePath: string;

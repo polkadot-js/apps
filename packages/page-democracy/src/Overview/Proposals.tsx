@@ -8,8 +8,8 @@ import React, { useRef } from 'react';
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import ProposalDisplay from './Proposal';
+import { useTranslation } from '../translate.js';
+import ProposalDisplay from './Proposal.js';
 
 interface Props {
   className?: string;
@@ -20,10 +20,10 @@ function Proposals ({ className }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const proposals = useCall<DeriveProposal[]>(api.derive.democracy.proposals);
 
-  const headerRef = useRef([
-    [t('proposals'), 'start', 2],
-    [t('proposer'), 'address'],
-    [t('locked'), 'media--1200'],
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
+    [t<string>('proposals'), 'start', 2],
+    [t<string>('proposer'), 'address'],
+    [t<string>('locked'), 'media--1200'],
     [undefined, undefined, 2]
   ]);
 

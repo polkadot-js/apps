@@ -2,30 +2,29 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import type { BlockNumber, Bounty as BountyType, BountyIndex } from '@polkadot/types/interfaces';
+import type { Bounty as BountyType, BountyIndex } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
-import { AddressSmall, Columar, ExpandButton, LinkExternal } from '@polkadot/react-components';
+import { AddressSmall, Columar, ExpandButton, LinkExternal, styled, Table } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
 
-import BountyActionMessage from './BountyNextActionInfo/BountyActionMessage';
-import { getProposalToDisplay } from './helpers/extendedStatuses';
-import { BountyActions } from './BountyActions';
-import BountyExtraActions from './BountyExtraActions';
-import BountyInfos from './BountyInfos';
-import BountyStatusView from './BountyStatusView';
-import Curator from './Curator';
-import DueBlocks from './DueBlocks';
-import { useBountyStatus } from './hooks';
-import { useTranslation } from './translate';
-import VotersColumn from './VotersColumn';
+import { BountyActions } from './BountyActions/index.js';
+import BountyExtraActions from './BountyExtraActions/index.js';
+import BountyInfos from './BountyInfos/index.js';
+import BountyActionMessage from './BountyNextActionInfo/BountyActionMessage.js';
+import { getProposalToDisplay } from './helpers/extendedStatuses.js';
+import { useBountyStatus } from './hooks/index.js';
+import BountyStatusView from './BountyStatusView.js';
+import Curator from './Curator.js';
+import DueBlocks from './DueBlocks.js';
+import { useTranslation } from './translate.js';
+import VotersColumn from './VotersColumn.js';
 
 interface Props {
-  bestNumber: BlockNumber;
+  bestNumber: BN;
   bounty: BountyType;
   className?: string;
   description: string;
@@ -57,8 +56,8 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
 
   return (
     <>
-      <tr className={className}>
-        <td className='number'><h1>{formatNumber(index)}</h1></td>
+      <StyledTr className={`${className} isExpanded isFirst ${isExpanded ? '' : 'isLast'}`}>
+        <Table.Column.Id value={index} />
         <td
           className='description-column'
           data-testid='description'
@@ -70,7 +69,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
         <td>
           <BountyStatusView bountyStatus={bountyStatus} />
         </td>
-        <td><FormatBalance value={value} /></td>
+        <Table.Column.Balance value={value} />
         <td>
           {curatorToRender && (
             <Curator
@@ -131,8 +130,8 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
             />
           </div>
         </td>
-      </tr>
-      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
+      </StyledTr>
+      <StyledTr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'}`}>
         <td />
         <td
           className='columar'
@@ -148,11 +147,11 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
             </Columar.Column>
             <Columar.Column>
               <div className='column'>
-                <h5>{t('Proposer')}</h5>
+                <h5>{t<string>('Proposer')}</h5>
                 <AddressSmall value={proposer} />
               </div>
               <div className='column'>
-                <h5>{t('Bond')}</h5>
+                <h5>{t<string>('Bond')}</h5>
                 <div className='inline-balance'><FormatBalance value={bond} /></div>
               </div>
               {curator && (
@@ -193,12 +192,12 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
           )}
         </td>
         <td />
-      </tr>
+      </StyledTr>
     </>
   );
 }
 
-export default React.memo(styled(Bounty)`
+const StyledTr = styled.tr`
   .description-column {
     max-width: 200px;
 
@@ -215,7 +214,7 @@ export default React.memo(styled(Bounty)`
 
   & .inline-balance {
     width: 50%;
-    font-size: 1rem;
+    font-size: var(--font-size-base);
     line-height: normal;
   }
 
@@ -256,7 +255,7 @@ export default React.memo(styled(Bounty)`
   }
 
   .block-to-time {
-    font-size: 0.7rem;
+    font-size: var(--font-size-tiny);
     line-height: 1.5rem;
     color: var(--color-label);
   }
@@ -265,4 +264,6 @@ export default React.memo(styled(Bounty)`
     display: flex;
     justify-content: space-between;
   }
-`);
+`;
+
+export default React.memo(Bounty);

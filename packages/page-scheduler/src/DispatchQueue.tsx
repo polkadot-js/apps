@@ -8,8 +8,8 @@ import React, { useMemo, useRef } from 'react';
 import { Table } from '@polkadot/react-components';
 import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 
-import DispatchEntry from './DispatchEntry';
-import { useTranslation } from './translate';
+import DispatchEntry from './DispatchEntry.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;
@@ -29,9 +29,9 @@ function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null 
     [bestNumber, queued]
   );
 
-  const headerRef = useRef([
-    [t('dispatch queue'), 'start', 2],
-    [t('enact')],
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
+    [t<string>('dispatch queue'), 'start', 2],
+    [t<string>('enact')],
     [],
     [undefined, 'media--1000']
   ]);

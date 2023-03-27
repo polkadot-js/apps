@@ -10,7 +10,7 @@ import { execute } from '@polkadot/test-support/transaction';
 import { Hash } from '@polkadot/types/interfaces';
 import { BN } from '@polkadot/util';
 
-import { LENGTH_BOUND, TREASURY_ADDRESS, WEIGHT_BOUND } from './constants';
+import { LENGTH_BOUND, TREASURY_ADDRESS, WEIGHT_BOUND } from './constants.js';
 
 export async function acceptMotion (api: ApiPromise, hash: Hash, index: number): Promise<void> {
   const charlieVote = execute(api.tx.council.vote(hash, index, true), charlieSigner());
@@ -23,7 +23,7 @@ export async function acceptMotion (api: ApiPromise, hash: Hash, index: number):
 }
 
 export async function fillTreasury (api: ApiPromise, signer: KeyringPair): Promise<void> {
-  await execute(api.tx.balances.transfer(TREASURY_ADDRESS, new BN('50000000000000000')), signer);
+  await execute((api.tx.balances.transferAllowDeath || api.tx.balances.transfer)(TREASURY_ADDRESS, new BN('50000000000000000')), signer);
 }
 
 export async function proposeMotion (api: ApiPromise, submittableExtrinsic: SubmittableExtrinsic<'promise'>, signer: KeyringPair): Promise<void> {

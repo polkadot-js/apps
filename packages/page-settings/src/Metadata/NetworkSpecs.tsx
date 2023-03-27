@@ -2,16 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { NetworkSpecsStruct } from '@polkadot/ui-settings/types';
-import type { ChainInfo, ChainType } from '../types';
+import type { ChainInfo, ChainType } from '../types.js';
 
 import React, { useCallback, useEffect, useReducer, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { ChainImg, Input, QrNetworkSpecs, Spinner, Table } from '@polkadot/react-components';
+import { ChainImg, Input, QrNetworkSpecs, Spinner, styled, Table } from '@polkadot/react-components';
 import { useApi, useDebounce } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import ChainColorIndicator from './ChainColorIndicator';
+import { useTranslation } from '../translate.js';
+import ChainColorIndicator from './ChainColorIndicator.js';
 
 interface Props {
   chainInfo: ChainInfo | null;
@@ -94,8 +93,8 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
     [networkSpecs]
   );
 
-  const headerRef = useRef([
-    [t('chain specifications'), 'start', '2']
+  const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
+    [t<string>('chain specifications'), 'start', 2]
   ]);
 
   if (!isApiReady) {
@@ -103,7 +102,7 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
   }
 
   return (
-    <Table
+    <StyledTable
       className={className}
       empty={t<string>('No open tips')}
       header={headerRef.current}
@@ -114,7 +113,6 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
           <div className='settings--networkSpecs-name'>
             <Input
               className='full'
-              help={t<string>('Name of the network. It is only for display purposes.')}
               isDisabled
               label={t<string>('Network Name')}
               value={networkSpecs.title}
@@ -137,7 +135,6 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
             <div>
               <Input
                 className='full settings--networkSpecs-colorInput'
-                help={t<string>('The color used to distinguish this network with others, use color code with 3 or 6 digits, like "#FFF" or "#111111"')}
                 isError={!_checkColorValid()}
                 label={t<string>('Color')}
                 onChange={_onChangeColor}
@@ -161,7 +158,6 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
         <td>
           <Input
             className='full'
-            help={t<string>('Genesis Hash refers to initial state of the chain, it cannot be changed once the chain is launched')}
             isDisabled
             label={t<string>('Genesis Hash')}
             value={networkSpecs.genesisHash}
@@ -173,7 +169,6 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
 
           <Input
             className='full'
-            help={t<string>('Unit decides the name of 1 unit token, e.g. "DOT" for Polkadot')}
             isDisabled
             label={t<string>('Unit')}
             value={networkSpecs.unit}
@@ -184,7 +179,6 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
         <td>
           <Input
             className='full'
-            help={t<string>('Prefix indicates the ss58 address format in this network, it is a 16 bit unsigned integer that describes the precise format of the bytes of the address')}
             isDisabled
             label={t<string>('Address Prefix')}
             value={networkSpecs.prefix.toString()}
@@ -195,7 +189,6 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
         <td>
           <Input
             className='full'
-            help={t<string>('Decimals decides the smallest unit of the token, which is 1/10^decimals')}
             isDisabled
             label={t<string>('Decimals')}
             value={networkSpecs.decimals.toString()}
@@ -206,18 +199,17 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
         <td>
           <Input
             className='full'
-            help={t<string>('Chain type (ethereum compatible or regular substrate)')}
             isDisabled
             label={t<string>('Chain Type')}
             value={networkSpecs.chainType}
           />
         </td>
       </tr>
-    </Table>
+    </StyledTable>
   );
 }
 
-export default React.memo(styled(NetworkSpecs)`
+const StyledTable = styled(Table)`
   td {
     padding: 0;
 
@@ -279,4 +271,6 @@ export default React.memo(styled(NetworkSpecs)`
       border: 1px solid white;
     }
   }
-`);
+`;
+
+export default React.memo(NetworkSpecs);

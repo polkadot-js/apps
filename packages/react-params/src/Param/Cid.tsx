@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletAllianceCid } from '@polkadot/types/lookup';
-import type { Props } from '../types';
+import type { Props } from '../types.js';
 
 import React, { useCallback, useState } from 'react';
 
 import { Input } from '@polkadot/react-components';
 import { isCodec } from '@polkadot/util';
 
-import { fromIpfsCid, toIpfsCid } from '../util';
-import Bare from './Bare';
-import Static from './Static';
-import Struct from './Struct';
+import { fromIpfsCid, toIpfsCid } from '../util.js';
+import Bare from './Bare.js';
+import Static from './Static.js';
+import Struct from './Struct.js';
 
 function Cid (props: Props): React.ReactElement<Props> {
   const { className = '', defaultValue, isDisabled, isError, label, onChange, withLabel } = props;

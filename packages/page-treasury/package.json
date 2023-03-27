@@ -1,5 +1,8 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
+  "engines": {
+    "node": ">=14"
+  },
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-treasury#readme",
   "license": "Apache-2.0",
   "name": "@polkadot/app-treasury",
@@ -11,10 +14,9 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.122.3-215-x",
+  "version": "0.124.2-188-x",
   "dependencies": {
-    "@babel/runtime": "^7.20.6",
-    "@polkadot/react-components": "^0.122.3-215-x",
-    "@polkadot/react-query": "^0.122.3-215-x"
+    "@polkadot/react-components": "^0.124.2-188-x",
+    "@polkadot/react-query": "^0.124.2-188-x"
   }
 }

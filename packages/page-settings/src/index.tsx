@@ -6,16 +6,15 @@ import type { AppProps as Props } from '@polkadot/react-components/types';
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 
-import { HelpOverlay, Tabs } from '@polkadot/react-components';
+import { Tabs } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import md from './md/basics.md';
-import Developer from './Developer';
-import General from './General';
-import I18n from './I18n';
-import Metadata from './Metadata';
-import { useTranslation } from './translate';
-import useCounter from './useCounter';
+import I18n from './I18n/index.js';
+import Metadata from './Metadata/index.js';
+import Developer from './Developer.js';
+import General from './General.js';
+import { useTranslation } from './translate.js';
+import useCounter from './useCounter.js';
 
 export { useCounter };
 
@@ -56,7 +55,6 @@ function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
 
   return (
     <main className='settings--App'>
-      <HelpOverlay md={md as string} />
       <Tabs
         basePath={basePath}
         hidden={hidden}
@@ -64,10 +62,7 @@ function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
       />
       <Switch>
         <Route path={`${basePath}/developer`}>
-          <Developer
-            basePath={basePath}
-            onStatusChange={onStatusChange}
-          />
+          <Developer onStatusChange={onStatusChange} />
         </Route>
         <Route path={`${basePath}/i18n`}>
           <I18n />

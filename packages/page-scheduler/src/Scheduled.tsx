@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BlockNumber } from '@polkadot/types/interfaces';
-import type { ScheduledExt } from './types';
+import type { ScheduledExt } from './types.js';
 
 import React from 'react';
 
 import Hash from '@polkadot/app-preimages/Preimages/Hash';
-import usePreimage from '@polkadot/app-preimages/usePreimage';
 import { CallExpander } from '@polkadot/react-components';
+import { usePreimage } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -20,7 +20,6 @@ interface Props {
 
 function Scheduled ({ bestNumber, className = '', value: { blockNumber, call, maybeId, maybePeriodic, preimageHash } }: Props): React.ReactElement<Props> {
   const preimage = usePreimage(preimageHash);
-
   const period = maybePeriodic.unwrapOr(null);
   const name = maybeId.unwrapOr(null);
 

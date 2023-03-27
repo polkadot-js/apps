@@ -8,10 +8,10 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useBlockTime } from '@polkadot/react-hooks';
 
-import { truncateTitle } from '../helpers';
-import { increaseDateByBlocks } from '../helpers/increaseDateByBlocks';
-import { useBounties } from '../hooks';
-import { useTranslation } from '../translate';
+import { increaseDateByBlocks } from '../helpers/increaseDateByBlocks.js';
+import { truncateTitle } from '../helpers/index.js';
+import { useBounties } from '../hooks/index.js';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   curatorId: AccountId;
@@ -42,7 +42,6 @@ function ExtendBountyExpiryAction ({ curatorId, description, index, toggleOpen }
         <Modal.Content>
           <Modal.Columns hint={t<string>('Only curator can extend the bounty time.')}>
             <InputAddress
-              help={t<string>('This account will be used to create an extend bounty expire transaction.')}
               isDisabled
               label={t<string>('curator account')}
               type='account'
@@ -53,7 +52,6 @@ function ExtendBountyExpiryAction ({ curatorId, description, index, toggleOpen }
           {expiryDate &&
             <Modal.Columns hint={t<string>(`Bounty expiry time will be set to ${timeAsText} from now.`)}>
               <Input
-                help={t<string>('The extended expiry date does not depend on the current expiry date.')}
                 isDisabled
                 label={t<string>('new expiry date and time')}
                 value={`${expiryDate.toLocaleDateString()} ${expiryDate.toLocaleTimeString()}`}
@@ -64,7 +62,6 @@ function ExtendBountyExpiryAction ({ curatorId, description, index, toggleOpen }
             <Input
               autoFocus
               defaultValue={''}
-              help={t<string>('The note linked to the extension call, explaining the reason behind it.')}
               label={t<string>('bounty remark')}
               onChange={onRemarkChange}
               value={remark}

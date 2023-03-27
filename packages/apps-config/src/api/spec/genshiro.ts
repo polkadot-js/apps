@@ -3,9 +3,11 @@
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-import { genshiro } from '@equilab/definitions';
+import eqDefs from '@equilab/definitions';
 
-import { createCustomAccount, u64FromCurrency } from './equilibrium';
+import { createCustomAccount, u64FromCurrency } from './equilibrium.js';
+
+const { genshiro } = eqDefs;
 
 const definitions: OverrideBundleDefinition = {
   derives: {

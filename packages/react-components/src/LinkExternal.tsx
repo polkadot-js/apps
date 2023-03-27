@@ -5,12 +5,12 @@ import type { LinkTypes } from '@polkadot/apps-config/links/types';
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
 import { externalLinks } from '@polkadot/apps-config';
 import { useApi } from '@polkadot/react-hooks';
 
-import { useTranslation } from './translate';
+import { styled } from './styled.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;
@@ -26,7 +26,7 @@ interface Props {
 function genLinks (systemChain: string, { data, hash, isText, type }: Props): React.ReactNode[] {
   return Object
     .entries(externalLinks)
-    .map(([name, { chains, create, isActive, logo, paths, url }]): React.ReactNode | null => {
+    .map(([name, { chains, create, homepage, isActive, paths, ui }]): React.ReactNode | null => {
       const extChain = chains[systemChain];
       const extPath = paths[type];
 
@@ -40,11 +40,11 @@ function genLinks (systemChain: string, { data, hash, isText, type }: Props): Re
           key={name}
           rel='noopener noreferrer'
           target='_blank'
-          title={`${name}, ${url}`}
+          title={`${name}, ${homepage}`}
         >
           {isText
             ? name
-            : <img src={logo} />
+            : <img src={ui.logo} />
           }
         </a>
       );
@@ -55,6 +55,7 @@ function genLinks (systemChain: string, { data, hash, isText, type }: Props): Re
 function LinkExternal ({ className = '', data, hash, isSidebar, isSmall, isText, type, withTitle }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { systemChain } = useApi();
+
   const links = useMemo(
     () => genLinks(systemChain, { data, hash, isSidebar, isText, type }),
     [systemChain, data, hash, isSidebar, isText, type]
@@ -65,7 +66,7 @@ function LinkExternal ({ className = '', data, hash, isSidebar, isSmall, isText,
   }
 
   return (
-    <div className={`${className} ui--LinkExternal ${isText ? 'isText' : 'isLogo'} ${withTitle ? 'isMain' : ''} ${isSmall ? 'isSmall' : ''} ${isSidebar ? 'isSidebar' : ''}`}>
+    <StyledDiv className={`${className} ui--LinkExternal ${isText ? 'isText' : 'isLogo'} ${withTitle ? 'isMain' : ''} ${isSmall ? 'isSmall' : ''} ${isSidebar ? 'isSidebar' : ''}`}>
       {(isText && !isSmall) && <div>{t<string>('View this externally')}</div>}
       {withTitle && (
         <h5>{t('external links')}</h5>
@@ -73,14 +74,14 @@ function LinkExternal ({ className = '', data, hash, isSidebar, isSmall, isText,
       <div className='links'>
         {links.length
           ? links.map((link, index) => <span key={index}>{link}</span>)
-          : <label>{t('none')}</label>
+          : <div>{t<string>('none')}</div>
         }
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(LinkExternal)`
+const StyledDiv = styled.div`
   text-align: right;
 
   &.isMain {
@@ -88,7 +89,7 @@ export default React.memo(styled(LinkExternal)`
   }
 
   &.isSmall {
-    font-size: 0.85rem;
+    font-size: var(--font-size-small);
     line-height: 1.35;
     text-align: center;
   }
@@ -141,4 +142,6 @@ export default React.memo(styled(LinkExternal)`
       white-space: nowrap;
     }
   }
-`);
+`;
+
+export default React.memo(LinkExternal);

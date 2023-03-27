@@ -10,7 +10,7 @@ import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi, useBestNumber } from '@polkadot/react-hooks';
 import { BN, BN_HUNDRED, BN_QUINTILL, formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   activeTotal?: ActiveGiltsTotal;
@@ -30,7 +30,7 @@ function Summary ({ activeTotal, className, isDisabled }: Props): React.ReactEle
     <SummaryBox className={className}>
       <section>
         <CardSummary label={t<string>('active')}>
-          {isDisabled ? t('no') : t('yes')}
+          {isDisabled ? t<string>('no') : t<string>('yes')}
         </CardSummary>
         {activeTotal && (
           <CardSummary label={t<string>('index')}>
@@ -53,7 +53,7 @@ function Summary ({ activeTotal, className, isDisabled }: Props): React.ReactEle
           <CardSummary
             label={t<string>('intake')}
             progress={{
-              total: api.consts.gilt.intakePeriod,
+              total: api.consts.gilt.intakePeriod as u128,
               value: bestNumber.mod(api.consts.gilt.intakePeriod as u128),
               withTime: true
             }}

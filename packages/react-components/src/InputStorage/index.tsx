@@ -4,28 +4,27 @@
 // TODO: We have a lot shared between this and InputExtrinsic
 
 import type { QueryableStorageEntry } from '@polkadot/api/types';
-import type { DropdownOptions } from '../util/types';
+import type { DropdownOptions } from '../util/types.js';
 
 import React, { useCallback, useState } from 'react';
 
 import { useApi } from '@polkadot/react-hooks';
 
-import LinkedWrapper from '../InputExtrinsic/LinkedWrapper';
-import { keyOptions, sectionOptions } from './options';
-import SelectKey from './SelectKey';
-import SelectSection from './SelectSection';
+import LinkedWrapper from '../InputExtrinsic/LinkedWrapper.js';
+import { keyOptions, sectionOptions } from './options/index.js';
+import SelectKey from './SelectKey.js';
+import SelectSection from './SelectSection.js';
 
 interface Props {
   className?: string;
   defaultValue: QueryableStorageEntry<'promise'>;
-  help?: React.ReactNode;
   isError?: boolean;
   label: React.ReactNode;
   onChange?: (value: QueryableStorageEntry<'promise'>) => void;
   withLabel?: boolean;
 }
 
-function InputStorage ({ className = '', defaultValue, help, label, onChange, withLabel }: Props): React.ReactElement<Props> {
+function InputStorage ({ className = '', defaultValue, label, onChange, withLabel }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(() => keyOptions(api, defaultValue.creator.section));
   const [optionsSection] = useState<DropdownOptions>(() => sectionOptions(api));
@@ -57,7 +56,6 @@ function InputStorage ({ className = '', defaultValue, help, label, onChange, wi
   return (
     <LinkedWrapper
       className={className}
-      help={help}
       label={label}
       withLabel={withLabel}
     >

@@ -2,11 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { AddressInfo } from '@polkadot/react-components';
+import { AddressInfo, styled } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   address: string;
@@ -19,22 +18,22 @@ function Balances ({ address, className }: Props): React.ReactElement<Props> | n
   const { t } = useTranslation();
 
   return (
-    <section className={className}>
+    <StyledSection className={className}>
       <div className='ui--AddressMenu-sectionHeader'>
         {t<string>('balance')}
       </div>
       <AddressInfo
         address={address}
         className='balanceExpander'
+        key={address}
         withBalance={WITH_BALANCE}
-        withExtended={false}
         withLabel
       />
-    </section>
+    </StyledSection>
   );
 }
 
-export default React.memo(styled(Balances)`
+const StyledSection = styled.section`
   .balanceExpander {
     justify-content: flex-start;
 
@@ -45,13 +44,13 @@ export default React.memo(styled(Balances)`
       label {
         text-align: left;
         color: inherit;
-        font-size: 0.93rem;
-        font-weight: var(--font-weight-normal);
       }
 
       .ui--Expander-content .ui--FormatBalance-value {
-        font-size: 0.93rem;
+        font-size: var(--font-size-small);
       }
     }
   }
-`);
+`;
+
+export default React.memo(Balances);

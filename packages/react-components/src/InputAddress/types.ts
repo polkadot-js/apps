@@ -13,7 +13,6 @@ export interface Option extends KeyringSectionOption {
 export interface InputAddressProps {
   className?: string;
   defaultValue?: Uint8Array | string | null;
-  help?: React.ReactNode;
   hideAddress?: boolean;
   isDisabled?: boolean;
   isError?: boolean;

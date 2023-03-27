@@ -9,8 +9,8 @@ import { InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BN, BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
-import SenderInfo from '../partials/SenderInfo';
+import { useTranslation } from '../../translate.js';
+import SenderInfo from '../partials/SenderInfo.js';
 
 interface Props {
   controllerId: string | null;
@@ -48,7 +48,6 @@ function Rebond ({ controllerId, onClose, stakingInfo, stashId }: Props): React.
             <InputBalance
               autoFocus
               defaultValue={startBalance}
-              help={t<string>('Amount to add to the currently bonded funds. This is adjusted using the funds currently unlocking.')}
               isError={!maxAdditional || maxAdditional.eqn(0) || maxAdditional.gt(startBalance)}
               label={t<string>('rebonded amount')}
               onChange={setMaxAdditional}

@@ -5,29 +5,28 @@ import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { TxCallback } from '@polkadot/react-components/Status/types';
 import type { Option } from '@polkadot/types';
-import type { BalanceOf, EthereumAddress, StatementKind } from '@polkadot/types/interfaces';
+import type { BalanceOf, EthereumAddress, EthereumSignature, StatementKind } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button, Card, TxButton } from '@polkadot/react-components';
+import { Button, Card, styled, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from './translate';
-import { addrToChecksum, getStatement } from './util';
+import { useTranslation } from './translate.js';
+import { addrToChecksum, getStatement } from './util.js';
 
 interface Props {
   accountId: string;
   className?: string;
-  ethereumAddress: EthereumAddress | null;
-  ethereumSignature: string | null;
+  ethereumAddress?: EthereumAddress | string | null;
+  ethereumSignature?: EthereumSignature | string | null;
   // Do we sign with `claims.claimAttest` (new) instead of `claims.claim` (old)?
   isOldClaimProcess: boolean;
   onSuccess?: TxCallback;
-  statementKind?: StatementKind;
+  statementKind?: StatementKind | null;
 }
 
 interface ConstructTx {
@@ -37,7 +36,7 @@ interface ConstructTx {
 
 // Depending on isOldClaimProcess, construct the correct tx.
 // FIXME We actually want to return the constructed extrinsic here (probably in useMemo)
-function constructTx (api: ApiPromise, systemChain: string, accountId: string, ethereumSignature: string | null, kind: StatementKind | undefined, isOldClaimProcess: boolean): ConstructTx {
+function constructTx (api: ApiPromise, systemChain: string, accountId: string, ethereumSignature: EthereumSignature | string | undefined | null, kind: StatementKind | undefined | null, isOldClaimProcess: boolean): ConstructTx {
   if (!ethereumSignature) {
     return {};
   }
@@ -84,9 +83,9 @@ function Claim ({ accountId, className = '', ethereumAddress, ethereumSignature,
       isError={!hasClaim}
       isSuccess={hasClaim}
     >
-      <div className={className}>
+      <StyledDiv className={className}>
         {t<string>('Your Ethereum account')}
-        <h3>{addrToChecksum(ethereumAddress.toString())}</h3>
+        <h2>{addrToChecksum(ethereumAddress.toString())}</h2>
         {hasClaim
           ? (
             <>
@@ -96,7 +95,7 @@ function Claim ({ accountId, className = '', ethereumAddress, ethereumSignature,
                 <TxButton
                   icon='paper-plane'
                   isUnsigned
-                  label={t('Claim')}
+                  label={t<string>('Claim')}
                   onSuccess={onSuccess}
                   {...constructTx(api, systemChain, accountId, ethereumSignature, statementKind, isOldClaimProcess)}
                 />
@@ -108,13 +107,13 @@ function Claim ({ accountId, className = '', ethereumAddress, ethereumSignature,
               {t<string>('does not appear to have a valid claim. Please double check that you have signed the transaction correctly on the correct ETH account.')}
             </>
           )}
-      </div>
+      </StyledDiv>
     </Card>
   );
 }
 
 export const ClaimStyles = `
-font-size: 1.15rem;
+font-size: var(--font-size-h3);
 display: flex;
 flex-direction: column;
 justify-content: center;
@@ -136,8 +135,10 @@ h2 {
   margin: 0.5rem 0 2rem;
   font-family: monospace;
   font-size: 2.5rem;
-  font-weight: 400;
+  font-weight: var(--font-weight-normal);
 }
 `;
 
-export default React.memo(styled(Claim)`${ClaimStyles}`);
+const StyledDiv = styled.div`${ClaimStyles}`;
+
+export default React.memo(Claim);

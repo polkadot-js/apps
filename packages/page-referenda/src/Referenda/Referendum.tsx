@@ -2,23 +2,22 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ChartOptions, ChartTypeRegistry, TooltipItem } from 'chart.js';
-import type { TFunction } from 'react-i18next';
+import type { TFunction } from 'i18next';
 import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { CurveGraph, ReferendumProps as Props } from '../types';
+import type { CurveGraph, ReferendumProps as Props } from '../types.js';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
-import { Chart, Columar, ExpandButton, LinkExternal } from '@polkadot/react-components';
+import { Chart, Columar, LinkExternal, styled, Table } from '@polkadot/react-components';
 import { useBestNumber, useBlockInterval, useToggle } from '@polkadot/react-hooks';
 import { calcBlockTime } from '@polkadot/react-hooks/useBlockTime';
 import { BN_MILLION, BN_THOUSAND, bnMax, bnToBn, formatNumber, objectSpread } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import Killed from './RefKilled';
-import Ongoing from './RefOngoing';
-import Tuple from './RefTuple';
+import { useTranslation } from '../translate.js';
+import Killed from './RefKilled.js';
+import Ongoing from './RefOngoing.js';
+import Tuple from './RefTuple.js';
 
 const COMPONENTS: Record<string, React.ComponentType<Props>> = {
   Killed,
@@ -80,7 +79,7 @@ function createTitleCallback (t: TFunction, bestNumber: BN, blockInterval: BN, e
         const blocks = blockNumber.sub(bestNumber);
         const when = new Date(Date.now() + blocks.mul(blockInterval).toNumber()).toLocaleString();
         const calc = calcBlockTime(blockInterval, blocks, t);
-        const result = [`#${label}`, t('{{when}} (est.)', { replace: { when } }), calc[1]];
+        const result = [`#${label}`, t<string>('{{when}} (est.)', { replace: { when } }), calc[1]];
 
         if (extraTitle) {
           result.push(extraTitle);
@@ -209,9 +208,9 @@ function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResu
     const title = createTitleCallback(t, bestNumber, blockInterval, (blockNumber) =>
       confirmX && blockNumber.gte(confirmX[0])
         ? blockNumber.lte(confirmX[1])
-          ? t('Confirmation period')
+          ? t<string>('Confirmation period')
           : blockNumber.lte(confirmX[2])
-            ? t('Enactment period')
+            ? t<string>('Enactment period')
             : ''
         : ''
     );
@@ -302,25 +301,45 @@ function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResu
   });
 }
 
-function extractInfo (info: PalletReferendaReferendumInfoConvictionVotingTally | PalletReferendaReferendumInfoRankedCollectiveTally): { enactAt: { at: boolean, blocks: BN } | null, nextAlarm: null | BN, submittedIn: null | BN } {
-  let enactAt: { at: boolean, blocks: BN } | null = null;
+function extractInfo (info: PalletReferendaReferendumInfoConvictionVotingTally | PalletReferendaReferendumInfoRankedCollectiveTally, track?: PalletReferendaTrackInfo): { confirmEnd: BN | null, enactAt: { at: boolean, blocks: BN, end: BN | null } | null, nextAlarm: null | BN, submittedIn: null | BN } {
+  let confirmEnd: BN | null = null;
+  let enactAt: { at: boolean, blocks: BN, end: BN | null } | null = null;
   let nextAlarm: BN | null = null;
   let submittedIn: BN | null = null;
 
   if (info.isOngoing) {
-    const { alarm, enactment, submitted } = info.asOngoing;
+    const { alarm, deciding, enactment, submitted } = info.asOngoing;
 
     enactAt = {
       at: enactment.isAt,
       blocks: enactment.isAt
         ? enactment.asAt
-        : enactment.asAfter
+        : enactment.asAfter,
+      end: null
     };
     nextAlarm = alarm.unwrapOr([null])[0];
     submittedIn = submitted;
+
+    if (deciding.isSome) {
+      const { confirming } = deciding.unwrap();
+
+      if (confirming.isSome) {
+        // we are confirming with the specific end block
+        confirmEnd = confirming.unwrap();
+
+        if (track) {
+          // add our track data
+          const fastEnd = confirmEnd.add(track.minEnactmentPeriod);
+
+          enactAt.end = enactment.isAt
+            ? bnMax(fastEnd, enactment.asAt)
+            : fastEnd.add(enactment.asAfter);
+        }
+      }
+    }
   }
 
-  return { enactAt, nextAlarm, submittedIn };
+  return { confirmEnd, enactAt, nextAlarm, submittedIn };
 }
 
 function Referendum (props: Props): React.ReactElement<Props> {
@@ -347,9 +366,9 @@ function Referendum (props: Props): React.ReactElement<Props> {
     [bestNumber, blockInterval, chartResult, id, isExpanded, t, track]
   );
 
-  const { enactAt, nextAlarm, submittedIn } = useMemo(
-    () => extractInfo(info),
-    [info]
+  const { confirmEnd, enactAt, nextAlarm, submittedIn } = useMemo(
+    () => extractInfo(info, track),
+    [info, track]
   );
 
   const chartLegend = useMemo(
@@ -370,21 +389,15 @@ function Referendum (props: Props): React.ReactElement<Props> {
 
   return (
     <>
-      <tr className={className}>
-        <td className='number'>
-          <h1>{formatNumber(id)}</h1>
-        </td>
+      <StyledTr className={`${className} isExpanded isFirst ${isExpanded ? '' : 'isLast'}`}>
+        <Table.Column.Id value={id} />
         <Component {...props} />
-        <td className='actions'>
-          <div>
-            <ExpandButton
-              expanded={isExpanded}
-              onClick={toggleExpanded}
-            />
-          </div>
-        </td>
-      </tr>
-      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
+        <Table.Column.Expand
+          isExpanded={isExpanded}
+          toggle={toggleExpanded}
+        />
+      </StyledTr>
+      <StyledTr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'}`}>
         <td />
         <td
           className='columar'
@@ -392,17 +405,17 @@ function Referendum (props: Props): React.ReactElement<Props> {
         >
           {chartProps && (
             <Columar>
-              <Columar.Column className='chartColumn'>
-                <h1>{t<string>('approval / {{percent}}%', { replace: { percent: chartProps[0].progress.percent.toFixed(1) } })}</h1>
+              <Columar.Column>
                 <Chart.Line
                   legends={chartLegend[0]}
+                  title={t<string>('approval / {{percent}}%', { replace: { percent: chartProps[0].progress.percent.toFixed(1) } })}
                   {...chartProps[0]}
                 />
               </Columar.Column>
-              <Columar.Column className='chartColumn'>
-                <h1>{t<string>('support / {{percent}}%', { replace: { percent: chartProps[1].progress.percent.toFixed(1) } })}</h1>
+              <Columar.Column>
                 <Chart.Line
                   legends={chartLegend[1]}
+                  title={t<string>('support / {{percent}}%', { replace: { percent: chartProps[1].progress.percent.toFixed(1) } })}
                   {...chartProps[1]}
                 />
               </Columar.Column>
@@ -413,13 +426,13 @@ function Referendum (props: Props): React.ReactElement<Props> {
               {submittedIn && (
                 <>
                   <h5>{t<string>('Submitted at')}</h5>
-                  <label>#{formatNumber(submittedIn)}</label>
+                  #{formatNumber(submittedIn)}
                 </>
               )}
               {nextAlarm && (
                 <>
                   <h5>{t<string>('Next alarm')}</h5>
-                  <label>#{formatNumber(nextAlarm)}</label>
+                  #{formatNumber(nextAlarm)}
                 </>
               )}
             </Columar.Column>
@@ -427,7 +440,19 @@ function Referendum (props: Props): React.ReactElement<Props> {
               {enactAt && (
                 <>
                   <h5>{enactAt.at ? t<string>('Enact at') : t<string>('Enact after')}</h5>
-                  <label>{enactAt.at && '#'}{t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(enactAt.blocks) } })}</label>
+                  {enactAt.at && '#'}{t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(enactAt.blocks) } })}
+                </>
+              )}
+              {confirmEnd && (
+                <>
+                  <h5>{t<string>('Confirm end')}</h5>
+                  #{formatNumber(confirmEnd)}
+                </>
+              )}
+              {enactAt?.end && (
+                <>
+                  <h5>{t<string>('Enact end')}</h5>
+                  #{formatNumber(enactAt.end)}
                 </>
               )}
             </Columar.Column>
@@ -446,22 +471,20 @@ function Referendum (props: Props): React.ReactElement<Props> {
           </Columar>
         </td>
         <td />
-      </tr>
+      </StyledTr>
     </>
   );
 }
 
-export default React.memo(styled(Referendum)`
-  .chartColumn {
-    h1 {
-      font-size: 1.25rem;
-      margin-bottom: 0;
-      margin-top: 1rem;
-      text-align: center;
-    }
-  }
-
+const StyledTr = styled.tr`
   .shortHash {
-    font: var(--font-mono);
+    max-width: var(--width-shorthash);
+    min-width: 3em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: var(--width-shorthash);
   }
-`);
+`;
+
+export default React.memo(Referendum);

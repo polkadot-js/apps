@@ -3,23 +3,20 @@
 
 import React from 'react';
 
-import LabelHelp from './LabelHelp';
-
 interface Props {
   className?: string;
-  help?: React.ReactNode;
   label?: React.ReactNode;
   withEllipsis?: boolean;
 }
 
-function Label ({ className = '', help, label, withEllipsis }: Props): React.ReactElement<Props> {
+function Label ({ className = '', label, withEllipsis }: Props): React.ReactElement<Props> {
   return (
     <label className={className}>
       {
         withEllipsis
           ? <div className='withEllipsis'>{label}</div>
           : label
-      }{help && <LabelHelp help={help} />}
+      }
     </label>
   );
 }

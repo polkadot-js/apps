@@ -13,7 +13,7 @@ import { getTypeDef } from '@polkadot/types/create';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import { isNull } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   queueRpc: QueueTxRpcAdd;
@@ -82,7 +82,6 @@ function Selection ({ queueRpc }: Props): React.ReactElement<Props> {
     <section className='rpc--Selection'>
       <InputRpc
         defaultValue={defaultMethod}
-        help={t<string>('The actual JSONRPC module and function to make a call to.')}
         label={t<string>('call the selected endpoint')}
         onChange={_onChangeMethod}
       />

@@ -6,12 +6,14 @@ import type { TreasuryProposal as TreasuryProposalType } from '@polkadot/types/i
 
 import React, { useEffect, useState } from 'react';
 
-import { InputAddress, Labelled, Static } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
-import Inset, { InsetProps } from './Inset';
-import { useTranslation } from './translate';
+import InputAddress from './InputAddress/index.js';
+import Inset, { InsetProps } from './Inset.js';
+import Labelled from './Labelled.js';
+import Static from './Static.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;

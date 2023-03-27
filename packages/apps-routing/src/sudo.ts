@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import type { Route } from './types';
+import type { Route } from './types.js';
 
 import Component from '@polkadot/app-sudo';
 
@@ -19,6 +19,6 @@ export default function create (t: TFunction): Route {
     group: 'developer',
     icon: 'unlock',
     name: 'sudo',
-    text: t('nav.sudo', 'Sudo', { ns: 'apps-routing' })
+    text: t<string>('nav.sudo', 'Sudo', { ns: 'apps-routing' })
   };
 }

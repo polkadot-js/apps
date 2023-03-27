@@ -8,7 +8,7 @@ import { AddressRow, Button, Modal, Password } from '@polkadot/react-components'
 import { keyring } from '@polkadot/ui-keyring';
 import { nextTick } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   onClose: () => void;
@@ -72,7 +72,6 @@ function Backup ({ address, onClose }: Props): React.ReactElement<Props> {
           <div>
             <Password
               autoFocus
-              help={t<string>('The account password as specified when creating the account. This is used to encrypt the backup file and subsequently decrypt it when restoring the account.')}
               isError={isPassTouched && !isPassValid}
               label={t<string>('password')}
               onChange={_onChangePass}

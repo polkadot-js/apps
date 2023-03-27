@@ -3,15 +3,14 @@
 
 import React from 'react';
 
-import CopyButton from './CopyButton';
-import Labelled from './Labelled';
+import CopyButton from './CopyButton.js';
+import Labelled from './Labelled.js';
 
 interface Props {
   children?: React.ReactNode;
   className?: string;
   copyValue?: string;
   defaultValue?: unknown;
-  help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
   isFull?: boolean;
@@ -23,11 +22,10 @@ interface Props {
   withLabel?: boolean;
 }
 
-function Static ({ children, className = '', copyValue, defaultValue, help, isFull, isHidden, isSmall, label, value, withCopy, withLabel }: Props): React.ReactElement<Props> {
+function Static ({ children, className = '', copyValue, defaultValue, isFull, isHidden, isSmall, label, value, withCopy, withLabel }: Props): React.ReactElement<Props> {
   return (
     <Labelled
       className={className}
-      help={help}
       isFull={isFull}
       isHidden={isHidden}
       isSmall={isSmall}

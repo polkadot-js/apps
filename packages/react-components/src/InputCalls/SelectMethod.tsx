@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DefinitionCallNamed } from '@polkadot/types/types';
-import type { DropdownOption } from '../util/types';
+import type { DropdownOption } from '../util/types.js';
 
 import React, { useCallback } from 'react';
 
-import Dropdown from '../Dropdown';
+import Dropdown from '../Dropdown.js';
 
 interface Props {
   className?: string;
@@ -29,7 +29,7 @@ function SelectMethod ({ className = '', defs, isError, onChange, options, value
 
   return (
     <Dropdown
-      className={`ui--DropdownLinked-Items ${className}`}
+      className={`${className} ui--DropdownLinked-Items`}
       isError={isError}
       onChange={onChange}
       options={options}

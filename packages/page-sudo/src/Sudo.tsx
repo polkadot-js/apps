@@ -5,13 +5,12 @@ import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { BN } from '@polkadot/util';
 
 import React, { useCallback, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button, Extrinsic, Icon, InputNumber, Toggle, TxButton } from '@polkadot/react-components';
+import { Button, Extrinsic, Icon, InputNumber, styled, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO, isFunction } from '@polkadot/util';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;
@@ -38,7 +37,7 @@ function Sudo ({ className, isMine, sudoKey }: Props): React.ReactElement<Props>
 
   return isMine
     ? (
-      <section className={className}>
+      <StyledSection className={className}>
         <Extrinsic
           defaultValue={apiDefaultTxSudo}
           label={t<string>('submit the following change')}
@@ -46,22 +45,21 @@ function Sudo ({ className, isMine, sudoKey }: Props): React.ReactElement<Props>
         />
         {isFunction(api.tx.sudo.sudoUncheckedWeight) && (
           <InputNumber
-            help={t<string>('The unchecked weight as specified for the sudoUncheckedWeight call.')}
             isDisabled={!withWeight}
             isError={weight.eq(BN_ZERO)}
             isZeroable={false}
             label={t<string>('unchecked weight for this call')}
+            labelExtra={
+              <Toggle
+                className='sudoToggle'
+                label={t<string>('with weight override')}
+                onChange={toggleWithWeight}
+                value={withWeight}
+              />
+            }
             onChange={_onChangeWeight}
             value={weight}
-          >
-            <Toggle
-              className='sudoToggle'
-              isOverlay
-              label={t<string>('with weight override')}
-              onChange={toggleWithWeight}
-              value={withWeight}
-            />
-          </InputNumber>
+          />
         )}
         <Button.Group>
           <TxButton
@@ -85,7 +83,7 @@ function Sudo ({ className, isMine, sudoKey }: Props): React.ReactElement<Props>
             }
           />
         </Button.Group>
-      </section>
+      </StyledSection>
     )
     : (
       <article className='error padded'>
@@ -97,9 +95,11 @@ function Sudo ({ className, isMine, sudoKey }: Props): React.ReactElement<Props>
     );
 }
 
-export default React.memo(styled(Sudo)`
+const StyledSection = styled.section`
   .sudoToggle {
     width: 100%;
     text-align: right;
   }
-`);
+`;
+
+export default React.memo(Sudo);

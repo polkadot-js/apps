@@ -11,7 +11,7 @@ import { Expander, Table } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
 import { getTypeDef } from '@polkadot/types/create';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   value: Option<Justifications>;
@@ -31,6 +31,7 @@ function formatTuple (tuple: Tuple): React.ReactNode {
       isDisabled
       params={params}
       values={values}
+      withExpander
     />
   );
 }
@@ -38,8 +39,8 @@ function formatTuple (tuple: Tuple): React.ReactNode {
 function JustificationList ({ value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
-  const headerRef = useRef([
-    [t('justifications'), 'start']
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
+    [t<string>('justifications'), 'start']
   ]);
 
   const justifications = value.unwrapOr(null);

@@ -9,8 +9,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { InputAddressMulti, Modal, Spinner, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../../translate';
-import SenderInfo from '../partials/SenderInfo';
+import { useTranslation } from '../../translate.js';
+import SenderInfo from '../partials/SenderInfo.js';
 
 interface Props {
   className?: string;
@@ -68,7 +68,6 @@ function KickNominees ({ className = '', controllerId, nominating, onClose, stas
               available={nominators}
               availableLabel={t<string>('existing/active nominators')}
               defaultValue={nominating}
-              help={t<string>('Filter available nominators based on name, address or short account index.')}
               maxCount={MAX_KICK}
               onChange={setSelected}
               valueLabel={t<string>('nominators to be removed')}

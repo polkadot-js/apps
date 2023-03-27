@@ -4,6 +4,7 @@
 // The list of Ethereum networks, for these the UI will default to Ethereum-only accounts
 
 export const ethereumChains = [
+  'frontier-template',
   'jaz',
   'moonbase',
   'moonbeam',
@@ -17,5 +18,9 @@ export const ethereumChains = [
   'root',
   'Darwinia2',
   'Crab2',
-  'Pangolin2'
+  'Pangolin2',
+  'Pangoro2',
+  'thebifrost-dev',
+  'thebifrost-testnet',
+  'thebifrost-mainnet'
 ];

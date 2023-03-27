@@ -8,8 +8,8 @@ import React, { useRef } from 'react';
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import BidRow from './Bid';
+import { useTranslation } from '../translate.js';
+import BidRow from './Bid.js';
 
 interface Props {
   className?: string;
@@ -20,11 +20,11 @@ function Bids ({ className }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const bids = useCall<PalletSocietyBid[]>(api.query.society.bids);
 
-  const headerRef = useRef([
-    [t('bids'), 'start'],
-    [t('bid kind'), 'start'],
-    [t('value')],
-    [t('tip')]
+  const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
+    [t<string>('bids'), 'start'],
+    [t<string>('bid kind'), 'start'],
+    [t<string>('value')],
+    [t<string>('tip')]
   ]);
 
   return (

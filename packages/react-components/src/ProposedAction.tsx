@@ -8,8 +8,8 @@ import React from 'react';
 
 import { formatNumber, isString, isUndefined } from '@polkadot/util';
 
-import CallExpander from './CallExpander';
-import { useTranslation } from './translate';
+import CallExpander from './CallExpander.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;
@@ -27,14 +27,14 @@ function ProposedAction ({ className = '', idNumber, proposal }: Props): React.R
 
   if (!proposal) {
     return (
-      <div className={`ui--ProposedAction ${className}`}>
+      <div className={`${className} ui--ProposedAction`}>
         <div>{stringId ? `#${stringId}: ` : ''}{t<string>('No execution details available for this proposal')}</div>
       </div>
     );
   }
 
   return (
-    <div className={`ui--ProposedAction ${className}`}>
+    <div className={`${className} ui--ProposedAction`}>
       <CallExpander
         isHeader
         labelHash={t<string>('preimage')}

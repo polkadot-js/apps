@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry, TypeDef } from '@polkadot/types/types';
-import type { ParamDef } from '../types';
+import type { ParamDef } from '../types.js';
 
 import { useMemo } from 'react';
 
@@ -14,7 +14,7 @@ function expandDef (registry: Registry, td: TypeDef): TypeDef {
     return getTypeDef(
       registry.createType(td.type as 'u32').toRawType()
     );
-  } catch (e) {
+  } catch {
     return td;
   }
 }

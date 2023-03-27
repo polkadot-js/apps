@@ -5,7 +5,7 @@ import React from 'react';
 
 import { Input } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
@@ -24,11 +24,6 @@ function InputName ({ className, isBusy, isContract, isError, onChange, onEnter,
   return (
     <Input
       className={className}
-      help={t<string>(
-        isContract
-          ? 'A name for the deployed contract to help users distinguish. Only used for display purposes.'
-          : 'A name for this WASM code to help users distinguish. Only used for display purposes.'
-      )}
       isDisabled={isBusy}
       isError={isError}
       label={t<string>(

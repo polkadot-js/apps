@@ -6,7 +6,7 @@ import React, { useRef, useState } from 'react';
 import { Button, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   isMember: boolean;
@@ -35,12 +35,10 @@ function DefenderVoting ({ isMember, ownMembers }: Props): React.ReactElement<Pr
           <Modal.Content>
             <InputAddress
               filter={ownMembers}
-              help={t<string>('The address to vote from (must be a member)')}
               label={t<string>('vote from account')}
               onChange={setAccountId}
             />
             <Dropdown
-              help={t<string>('Approve or reject this defender.')}
               label={t<string>('vote for defender')}
               onChange={setVote}
               options={voteOptsRef.current}

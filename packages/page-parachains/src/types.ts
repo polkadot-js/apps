@@ -45,6 +45,7 @@ export interface Campaigns {
   activeCap: BN;
   activeRaised: BN;
   funds: Campaign[] | null;
+  isLoading?: boolean;
   totalCap: BN;
   totalRaised: BN;
 }

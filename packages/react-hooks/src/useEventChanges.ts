@@ -5,14 +5,15 @@ import type { ApiPromise } from '@polkadot/api';
 import type { EventRecord } from '@polkadot/types/interfaces';
 import type { Codec } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
-import type { EventCheck } from './useEventTrigger';
+import type { EventCheck } from './useEventTrigger.js';
 
 import { useEffect, useState } from 'react';
 
 import { isFunction } from '@polkadot/util';
 
-import { useApi } from './useApi';
-import { useEventTrigger } from './useEventTrigger';
+import { useApi } from './useApi.js';
+import { useEventTrigger } from './useEventTrigger.js';
+import { useMemoValue } from './useMemoValue.js';
 
 export interface Changes<T extends Codec> {
   added?: T[];
@@ -54,7 +55,8 @@ function interleave <T extends Codec> (existing: T[] = [], { added = [], removed
 export function useEventChanges <T extends Codec, A> (checks: EventCheck[], filter: (records: EventRecord[], api: ApiPromise, additional?: A) => Changes<T>, startValue?: T[], additional?: A): T[] | undefined {
   const { api } = useApi();
   const [state, setState] = useState<T[] | undefined>();
-  const { blockHash, events } = useEventTrigger(checks);
+  const memoChecks = useMemoValue(checks);
+  const { blockHash, events } = useEventTrigger(memoChecks);
 
   // when startValue changes, we do a full refresh
   useEffect((): void => {

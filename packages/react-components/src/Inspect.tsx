@@ -4,13 +4,13 @@
 import type { Inspect } from '@polkadot/types/types';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
-import { Output } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { u8aToHex } from '@polkadot/util';
 
-import { useTranslation } from './translate';
+import Output from './Output.js';
+import { styled } from './styled.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;
@@ -67,7 +67,7 @@ function DecodedInspect ({ className, hex, inspect, label }: Props): React.React
   }
 
   return (
-    <Output
+    <StyledOutput
       className={className}
       isDisabled
       label={label}
@@ -76,7 +76,7 @@ function DecodedInspect ({ className, hex, inspect, label }: Props): React.React
         <tbody>
           {formatted.map(({ name, value }, i) => (
             <tr key={i}>
-              <td>{name}</td>
+              <td><label>{name}</label></td>
               <td>{value}</td>
             </tr>
           ))}
@@ -85,7 +85,7 @@ function DecodedInspect ({ className, hex, inspect, label }: Props): React.React
               className='isLink'
               key='hex'
             >
-              <td>{t<string>('link')}</td>
+              <td><label>{t<string>('link')}</label></td>
               <td>
                 <a
                   href={link}
@@ -97,11 +97,11 @@ function DecodedInspect ({ className, hex, inspect, label }: Props): React.React
           )}
         </tbody>
       </table>
-    </Output>
+    </StyledOutput>
   );
 }
 
-export default React.memo(styled(DecodedInspect)`
+const StyledOutput = styled(Output)`
   table {
     width: 100%;
 
@@ -116,10 +116,13 @@ export default React.memo(styled(DecodedInspect)`
         }
 
         td:first-child {
-          color: var(--color-label);
-          padding: 0 0.5em 0 1rem;
           text-align: right;
+          vertical-align: middle;
           white-space: nowrap;
+
+          label {
+            padding: 0 0.5rem 0 1.25rem;
+          }
         }
 
         &:not(.isLink) td:last-child {
@@ -142,4 +145,6 @@ export default React.memo(styled(DecodedInspect)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(DecodedInspect);

@@ -5,15 +5,14 @@ import type { DeriveProposal } from '@polkadot/api-derive/types';
 
 import React, { useCallback, useMemo } from 'react';
 
-import { AddressMini, Button, Columar, ExpandButton, ExpanderScroll, LinkExternal } from '@polkadot/react-components';
+import { AddressMini, Button, Columar, ExpandButton, ExpanderScroll, LinkExternal, Table } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import PreImageButton from './PreImageButton';
-import ProposalCell from './ProposalCell';
-import Seconding from './Seconding';
+import { useTranslation } from '../translate.js';
+import PreImageButton from './PreImageButton.js';
+import ProposalCell from './ProposalCell.js';
+import Seconding from './Seconding.js';
 
 interface Props {
   className?: string;
@@ -43,8 +42,8 @@ function Proposal ({ className = '', value: { balance, image, imageHash, index, 
 
   return (
     <>
-      <tr className={className}>
-        <td className='number'><h1>{formatNumber(index)}</h1></td>
+      <tr className={`${className} isExpanded isFirst ${isExpanded ? '' : 'isLast'}`}>
+        <Table.Column.Id value={index} />
         <ProposalCell
           imageHash={imageHash}
           proposal={image?.proposal}
@@ -82,7 +81,7 @@ function Proposal ({ className = '', value: { balance, image, imageHash, index, 
           </Button.Group>
         </td>
       </tr>
-      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
+      <tr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'}`}>
         <td />
         <td
           className='columar'
@@ -92,7 +91,7 @@ function Proposal ({ className = '', value: { balance, image, imageHash, index, 
             <Columar.Column>
               <LinkExternal
                 data={index}
-                type='proposal'
+                type='democracyProposal'
                 withTitle
               />
             </Columar.Column>

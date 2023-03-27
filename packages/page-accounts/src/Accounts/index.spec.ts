@@ -1,26 +1,27 @@
 // Copyright 2017-2023 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import { fireEvent, screen, within } from '@testing-library/react';
 
 import { POLKADOT_GENESIS } from '@polkadot/apps-config';
 import i18next from '@polkadot/react-components/i18n';
-import { toShortAddress } from '@polkadot/react-components/util/toShortAddress';
+import { toShortAddress } from '@polkadot/react-components/util';
 import { AddressFlags } from '@polkadot/react-hooks/types';
 import { anAccountWithBalance, anAccountWithBalanceAndMeta, anAccountWithInfo, anAccountWithInfoAndMeta, anAccountWithMeta, anAccountWithStaking } from '@polkadot/test-support/creation/account';
-import { makeStakingLedger as ledger } from '@polkadot/test-support/creation/stakingInfo/stakingLedger';
+import { makeStakingLedger as ledger } from '@polkadot/test-support/creation/staking';
 import { alice, bob, MemoryStore } from '@polkadot/test-support/keyring';
 import { Table } from '@polkadot/test-support/pagesElements';
-import { balance, showBalance } from '@polkadot/test-support/utils/balance';
-import { mockApiHooks } from '@polkadot/test-support/utils/mockApiHooks';
+import { balance, mockApiHooks, showBalance } from '@polkadot/test-support/utils';
 import { u32 } from '@polkadot/types';
 import { TypeRegistry } from '@polkadot/types/create';
 import { AccountId, Multisig, ProxyDefinition, Timepoint, Voting, VotingDelegating } from '@polkadot/types/interfaces';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN } from '@polkadot/util';
 
-import { AccountRow } from '../../test/pageElements/AccountRow';
-import { AccountsPage } from '../../test/pages/accountsPage';
+import { AccountRow } from '../../test/pageElements/AccountRow.js';
+import { AccountsPage } from '../../test/pages/accountsPage.js';
 
 // FIXME isSplit Table
 describe.skip('Accounts page', () => {

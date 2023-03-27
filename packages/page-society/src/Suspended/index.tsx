@@ -11,8 +11,8 @@ import React, { useRef } from 'react';
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import Suspension from './Suspension';
+import { useTranslation } from '../translate.js';
+import Suspension from './Suspension.js';
 
 interface Props {
   className?: string;
@@ -51,13 +51,13 @@ function Suspended ({ className }: Props): React.ReactElement<Props> {
 
   const headerRef = useRef({
     candidates: [
-      [t('candidates'), 'start'],
-      [t('bid kind'), 'start'],
-      [t('value')]
-    ],
+      [t<string>('candidates'), 'start'],
+      [t<string>('bid kind'), 'start'],
+      [t<string>('value')]
+    ] as [React.ReactNode?, string?, number?][],
     members: [
-      [t('members'), 'start', 3]
-    ]
+      [t<string>('members'), 'start', 3]
+    ] as [React.ReactNode?, string?, number?][]
   });
 
   return (

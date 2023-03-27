@@ -2,19 +2,19 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { Campaign, LeasePeriod } from '../types';
+import type { Campaign, LeasePeriod } from '../types.js';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { AddressMini, Expander, Icon, ParaLink, Spinner, TxButton } from '@polkadot/react-components';
+import { AddressMini, Expander, Icon, ParaLink, Table, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useParaEndpoints } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import Contribute from './Contribute';
-import Refund from './Refund';
-import useContributions from './useContributions';
+import { useTranslation } from '../translate.js';
+import Contribute from './Contribute.js';
+import Refund from './Refund.js';
+import useContributions from './useContributions.js';
 
 interface Props {
   bestHash?: string;
@@ -79,7 +79,7 @@ function Fund ({ bestHash, bestNumber, className = '', isOngoing, leasePeriod, v
 
   return (
     <tr className={className}>
-      <td className='number'><h1>{formatNumber(paraId)}</h1></td>
+      <Table.Column.Id value={paraId} />
       <td className='badge'><ParaLink id={paraId} /></td>
       <td className='media--800'>
         {isWinner
@@ -129,9 +129,8 @@ function Fund ({ bestHash, bestNumber, className = '', isOngoing, leasePeriod, v
         )}
       </td>
       <td className='number together media--1100'>
-        {!hasLoaded
-          ? <Spinner noLabel />
-          : (
+        {hasLoaded
+          ? (
             <>
               {bestHash && (
                 <Icon
@@ -148,7 +147,9 @@ function Fund ({ bestHash, bestNumber, className = '', isOngoing, leasePeriod, v
                 formatNumber(contributorsHex.length)
               )}
             </>
-          )}
+          )
+          : <span className='--tmp'>999</span>
+        }
       </td>
       <td className='button media--1000'>
         {canWithdraw && contributorsHex.length !== 0 && (

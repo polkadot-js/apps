@@ -11,12 +11,12 @@
 // The avatars used in "set5" were created by Pablo Stanley, for https://avataaars.com/ They are "Free for personal and commercial use. 😇"
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import backgrounds from './backgrounds';
-import sets from './sets';
+import { styled } from '../../styled.js';
+import backgrounds from './backgrounds/index.js';
+import sets from './sets/index.js';
 
 interface Props {
   className?: string;
@@ -51,10 +51,10 @@ function createInfo (value: string): string[] {
     hash: blake2AsU8a(value),
     index: 0
   };
-  const result = [getIndex(backgrounds, hash) as string];
+  const result = [getIndex(backgrounds, hash)];
 
   getIndex(sets, hash).forEach((section): void => {
-    result.push(getIndex(section, hash) as string);
+    result.push(getIndex(section, hash));
   });
 
   return result;
@@ -71,7 +71,7 @@ function RoboHash ({ className, publicKey, size }: Props): React.ReactElement<Pr
   );
 
   return (
-    <div
+    <StyledDiv
       className={className}
       style={style}
     >
@@ -81,11 +81,11 @@ function RoboHash ({ className, publicKey, size }: Props): React.ReactElement<Pr
           src={src}
         />
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(RoboHash)`
+const StyledDiv = styled.div`
   background: var(--bg-page);
   border-radius: 50%;
   position: relative;
@@ -102,4 +102,6 @@ export default React.memo(styled(RoboHash)`
       opacity: 0.35;
     }
   }
-`);
+`;
+
+export default React.memo(RoboHash);

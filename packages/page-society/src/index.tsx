@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSociety, DeriveSocietyMember } from '@polkadot/api-derive/types';
-import type { MapMember } from './types';
+import type { MapMember } from './types.js';
 
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
@@ -11,13 +11,13 @@ import { Tabs } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BN, BN_THREE, BN_TWO } from '@polkadot/util';
 
-import Candidates from './Candidates';
-import Overview from './Overview';
-import Suspended from './Suspended';
-import { useTranslation } from './translate';
-import useCounter from './useCounter';
-import useMembers from './useMembers';
-import useVoters from './useVoters';
+import Candidates from './Candidates/index.js';
+import Overview from './Overview/index.js';
+import Suspended from './Suspended/index.js';
+import { useTranslation } from './translate.js';
+import useCounter from './useCounter.js';
+import useMembers from './useMembers.js';
+import useVoters from './useVoters.js';
 
 interface Props {
   basePath: string;

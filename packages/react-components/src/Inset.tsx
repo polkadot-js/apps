@@ -3,11 +3,11 @@
 
 import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
-import styled from 'styled-components';
 
 import { useToggle } from '@polkadot/react-hooks';
 
-import Icon from './Icon';
+import Icon from './Icon.js';
+import { styled } from './styled.js';
 
 export interface InsetProps {
   className?: string;
@@ -37,15 +37,15 @@ function Inset ({ children, className = '', header, href, isCollapsible, isError
   }
 
   return (
-    <div
-      className={`ui--Inset ${href ? ' as-link' : ''}${isCollapsible ? ' collapsible' : ''}${(isError && !isSuccess) ? ' error' : ''}${(!isError && isSuccess) ? ' success' : ''}${withBottomMargin ? ' bottom-margin' : ''}${withTopMargin ? ' top-margin' : ''} ${className}`}
+    <StyledDiv
+      className={`${className} ui--Inset ${href ? 'as-link' : ''} ${isCollapsible ? 'collapsible' : ''} ${(isError && !isSuccess) ? 'error' : ''} ${(!isError && isSuccess) ? 'success' : ''} ${withBottomMargin ? 'bottom-margin' : ''} ${withTopMargin ? 'top-margin' : ''}`}
     >
       {isCollapsible && (
         <div
           className='header'
           onClick={toggleCollapsed}
         >
-          <h3>{header}</h3>
+          <h2>{header}</h2>
           <Icon
             className={isCollapsed ? 'collapsed' : ''}
             icon='angle-up'
@@ -58,11 +58,11 @@ function Inset ({ children, className = '', header, href, isCollapsible, isError
       >
         {children}
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Inset)`
+const StyledDiv = styled.div`
   & {
     box-shadow: 0 3px 3px rgba(0,0,0,.2);
     position: relative;
@@ -140,4 +140,6 @@ export default React.memo(styled(Inset)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(Inset);

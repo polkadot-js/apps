@@ -1,19 +1,18 @@
 // Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { KeyedEvent } from '@polkadot/react-query/types';
+import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
 import type { BlockNumber, DispatchInfo, Extrinsic } from '@polkadot/types/interfaces';
 import type { ICompact, INumber } from '@polkadot/types/types';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
-import { AddressMini, CallExpander, LinkExternal } from '@polkadot/react-components';
+import { AddressMini, CallExpander, LinkExternal, styled } from '@polkadot/react-components';
 import { convertWeight } from '@polkadot/react-hooks/useWeight';
 import { BN, formatNumber } from '@polkadot/util';
 
-import Event from '../Event';
-import { useTranslation } from '../translate';
+import Event from '../Event.js';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   blockNumber?: BlockNumber;
@@ -113,7 +112,7 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, maxBloc
   );
 
   return (
-    <tr
+    <StyledTr
       className={className}
       key={`extrinsic:${index}`}
     >
@@ -176,25 +175,25 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, maxBloc
             : null
         }
       </td>
-    </tr>
+    </StyledTr>
   );
 }
 
-export default React.memo(styled(ExtrinsicDisplay)`
+const StyledTr = styled.tr`
   .explorer--BlockByHash-event+.explorer--BlockByHash-event {
     margin-top: 0.75rem;
   }
 
   .explorer--BlockByHash-nonce {
-    font-size: 0.75rem;
+    font-size: var(--font-size-small);
     margin-left: 2.25rem;
     margin-top: -0.5rem;
-    opacity: 0.6;
+    opacity: var(--opacity-light);
     text-align: left;
   }
 
   .explorer--BlockByHash-unsigned {
-    opacity: 0.6;
+    opacity: var(--opacity-light);
     font-weight: var(--font-weight-normal);
   }
 
@@ -205,4 +204,6 @@ export default React.memo(styled(ExtrinsicDisplay)`
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-`);
+`;
+
+export default React.memo(ExtrinsicDisplay);

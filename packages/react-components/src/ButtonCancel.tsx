@@ -3,8 +3,8 @@
 
 import React from 'react';
 
-import Button from './Button';
-import { useTranslation } from './translate';
+import Button from './Button/index.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;

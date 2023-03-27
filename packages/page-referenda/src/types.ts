@@ -71,6 +71,7 @@ export interface TrackInfo {
 
 export interface TrackInfoExt extends TrackInfo {
   track: TrackDescription;
+  trackName: string;
 }
 
 export interface Lock {

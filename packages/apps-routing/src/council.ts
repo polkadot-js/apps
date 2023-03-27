@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import type { Route } from './types';
+import type { Route } from './types.js';
 
 import Component, { useCounter } from '@polkadot/app-council';
 
@@ -18,7 +18,7 @@ export default function create (t: TFunction): Route {
     group: 'governance',
     icon: 'building',
     name: 'council',
-    text: t('nav.council', 'Council', { ns: 'apps-routing' }),
+    text: t<string>('nav.council', 'Council', { ns: 'apps-routing' }),
     useCounter
   };
 }

@@ -12,7 +12,7 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';
 import { getTypeDef } from '@polkadot/types/create';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;

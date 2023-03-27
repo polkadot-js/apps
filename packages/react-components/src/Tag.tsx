@@ -1,12 +1,14 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ThemeDef } from '@polkadot/react-hooks/ctx/types';
+import type { FlagColor as TagColor } from './types.js';
+
 import React, { useContext, useState } from 'react';
-import styled, { ThemeContext } from 'styled-components';
+import { ThemeContext } from 'styled-components';
 
-import { FlagColor as TagColor, ThemeDef } from '@polkadot/react-components/types';
-
-import Tooltip from './Tooltip';
+import { styled } from './styled.js';
+import Tooltip from './Tooltip.js';
 
 interface Props {
   className?: string;
@@ -23,8 +25,8 @@ function Tag ({ className = '', color = 'theme', hover, label, size = 'small' }:
   const [trigger] = useState(() => `tag-hover-${Date.now()}-${tagId++}`);
 
   return (
-    <div
-      className={`ui--Tag ${color}Color ${size}Size ${theme}Theme ${className}`}
+    <StyledDiv
+      className={`${className} ui--Tag ${color}Color ${size}Size ${theme}Theme`}
       color={color || 'grey'}
       data-for={hover && trigger}
       data-tip={!!hover}
@@ -36,17 +38,17 @@ function Tag ({ className = '', color = 'theme', hover, label, size = 'small' }:
           trigger={trigger}
         />
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Tag)`
+const StyledDiv = styled.div`
   border-radius: 0.25rem;
   color: #fff;
   display: inline-block;
-  font-size: 0.857rem;
+  font-size: var(--font-size-tiny);
   font-weight: var(--font-weight-normal);
-  line-height: 1.143rem;
+  line-height: 1rem;
   margin: 0 0.125rem;
   opacity: 0.85;
   padding: 0.25em 0.75em;
@@ -55,7 +57,7 @@ export default React.memo(styled(Tag)`
   z-index: 1;
 
   &.tinySize {
-    font-size: .71428571rem;
+    font-size: var(--font-size-tiny);
   }
 
   &.blackColor {
@@ -72,6 +74,11 @@ export default React.memo(styled(Tag)`
 
   &.greyColor {
     background: #767676;
+  }
+
+  &.lightgreyColor {
+    background: #b6b6b6;
+    opacity: 0.7;
   }
 
   &.orangeColor {
@@ -97,4 +104,6 @@ export default React.memo(styled(Tag)`
   &.themeColor.darkTheme {
     background-color: rgba(255,255,255,0.08);
   }
-`);
+`;
+
+export default React.memo(Tag);

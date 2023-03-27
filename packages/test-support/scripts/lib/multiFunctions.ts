@@ -6,9 +6,9 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import { execute } from '@polkadot/test-support/transaction';
 import { BN } from '@polkadot/util';
 
-import { waitForBountyState, waitForClaim } from './bountyWaitFunctions';
-import { FUNDING_TIME, PAYOUT_TIME } from './constants';
-import { extractHashesFromProposals, extractIndexesFromProposals, fillTreasury, multiAcceptMotion, multiGetMotion, multiProposeMotion } from './helpers';
+import { waitForBountyState, waitForClaim } from './bountyWaitFunctions.js';
+import { FUNDING_TIME, PAYOUT_TIME } from './constants.js';
+import { extractHashesFromProposals, extractIndexesFromProposals, fillTreasury, multiAcceptMotion, multiGetMotion, multiProposeMotion } from './helpers.js';
 
 export async function multiProposeBounty (api: ApiPromise, numberOfBounties: number, signer: KeyringPair): Promise<number[]> {
   const initialIndex = await api.query.bounties.bountyCount();

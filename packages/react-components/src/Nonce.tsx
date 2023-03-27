@@ -20,7 +20,7 @@ function NonceDisplay ({ className = '', label, params }: Props): React.ReactEle
 
   return (
     <Nonce
-      className={`ui--Nonce ${className}`}
+      className={`${className} ui--Nonce`}
       label={label}
       params={params.toString()}
     />

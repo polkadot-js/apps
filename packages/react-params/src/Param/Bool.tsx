@@ -1,15 +1,15 @@
 // Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Props } from '../types';
+import type { Props } from '../types.js';
 
 import React, { useCallback, useRef, useState } from 'react';
 
 import { Dropdown } from '@polkadot/react-components';
 import { isBoolean } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import Bare from './Bare';
+import { useTranslation } from '../translate.js';
+import Bare from './Bare.js';
 
 function BoolParam ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, withLabel }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();

@@ -1,18 +1,18 @@
 // Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Props } from '../types';
+import type { Props } from '../types.js';
 
 import React, { useCallback, useState } from 'react';
 
 import { Toggle } from '@polkadot/react-components';
 import { u8aToHex } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import BaseBytes from './BaseBytes';
-import File from './File';
+import { useTranslation } from '../translate.js';
+import BaseBytes from './BaseBytes.js';
+import File from './File.js';
 
-function Hash256 ({ className = '', defaultValue, isDisabled, isError, isInOption, label, name, onChange, onEnter, onEscape, registry, type, withLabel }: Props): React.ReactElement<Props> {
+function Hash256 ({ className = '', defaultValue, isDisabled, isError, label, name, onChange, onEnter, onEscape, registry, type, withLabel }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isFileDrop, setFileInput] = useState(false);
   const [placeholder, setPlaceholder] = useState<string | null>(null);
@@ -38,6 +38,14 @@ function Hash256 ({ className = '', defaultValue, isDisabled, isError, isInOptio
     [setFileInput, setPlaceholder]
   );
 
+  const toggleLabel = !isDisabled && (
+    <Toggle
+      label={t<string>('hash a file')}
+      onChange={_setFileInput}
+      value={isFileDrop}
+    />
+  );
+
   return (
     <div className={className}>
       {!isDisabled && isFileDrop
@@ -46,6 +54,7 @@ function Hash256 ({ className = '', defaultValue, isDisabled, isError, isInOptio
             isDisabled={isDisabled}
             isError={isError}
             label={label}
+            labelExtra={toggleLabel}
             onChange={_onChangeFile}
             placeholder={placeholder || undefined}
             withLabel={withLabel}
@@ -58,6 +67,7 @@ function Hash256 ({ className = '', defaultValue, isDisabled, isError, isInOptio
             isDisabled={isDisabled}
             isError={isError}
             label={label}
+            labelExtra={toggleLabel}
             length={32}
             name={name}
             onChange={onChange}
@@ -67,15 +77,8 @@ function Hash256 ({ className = '', defaultValue, isDisabled, isError, isInOptio
             withCopy={isDisabled}
             withLabel={withLabel}
           />
-        )}
-      {!isDisabled && !isInOption && (
-        <Toggle
-          isOverlay
-          label={t<string>('hash a file')}
-          onChange={_setFileInput}
-          value={isFileDrop}
-        />
-      )}
+        )
+      }
     </div>
   );
 }

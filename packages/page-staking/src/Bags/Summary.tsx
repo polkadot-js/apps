@@ -2,16 +2,16 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { BagMap } from './types';
+import type { BagMap } from './types.js';
 
 import React, { useMemo } from 'react';
 
-import { CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
+import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useCall } from '@polkadot/react-hooks';
 import { formatNumber, isNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import useQueryModule from './useQueryModule';
+import { useTranslation } from '../translate.js';
+import useQueryModule from './useQueryModule.js';
 
 interface Props {
   bags?: unknown[];
@@ -34,20 +34,20 @@ function Summary ({ bags, className = '', mapOwn }: Props): React.ReactElement<P
       <CardSummary label={t<string>('total bags')}>
         {bags
           ? formatNumber(bags.length)
-          : <Spinner noLabel />
+          : <span className='--tmp'>99</span>
         }
       </CardSummary>
       <section>
         <CardSummary label={t<string>('total nodes')}>
           {mapOwn
             ? formatNumber(total)
-            : <Spinner noLabel />
+            : <span className='--tmp'>99</span>
           }
         </CardSummary>
         <CardSummary label={t<string>('my nodes')}>
           {isNumber(myCount)
             ? formatNumber(myCount)
-            : '-'
+            : <span className='--tmp'>99</span>
           }
         </CardSummary>
       </section>

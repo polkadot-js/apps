@@ -6,8 +6,8 @@ import React, { useCallback, useState } from 'react';
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../../translate';
-import InputValidationController from './InputValidationController';
+import { useTranslation } from '../../translate.js';
+import InputValidationController from './InputValidationController.js';
 
 interface Props {
   defaultControllerId: string;
@@ -43,7 +43,6 @@ function SetControllerAccount ({ defaultControllerId, onClose, stashId }: Props)
         <Modal.Columns hint={t<string>('The selected controller tied to this stash. Once set, this account will be able to control the actions performed by the stash account.')}>
           <InputAddress
             defaultValue={defaultControllerId}
-            help={t<string>('The controller is the account that will be used to control any nominating or validating actions. Should not match another stash or controller.')}
             label={t<string>('controller account')}
             onChange={setControllerId}
             type='account'

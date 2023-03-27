@@ -3,13 +3,13 @@
 
 import type { PalletReferendaDeposit } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { Referendum, ReferendumProps as Props } from '../types';
+import type { Referendum, ReferendumProps as Props } from '../types.js';
 
 import React, { useMemo } from 'react';
 
-import Deposits from './Deposits';
-import RefEnd from './RefEnd';
-import { unwrapDeposit } from './util';
+import Deposits from './Deposits/index.js';
+import RefEnd from './RefEnd.js';
+import { unwrapDeposit } from './util.js';
 
 interface Expanded {
   decision: PalletReferendaDeposit | null;
@@ -50,11 +50,12 @@ function Tuple ({ palletReferenda, value: { id, info, track } }: Props): React.R
   return (
     <>
       <td
-        className='all'
+        className='no-pad'
         colSpan={4}
       />
       <Deposits
         canRefund
+        className='all'
         decision={decision}
         id={id}
         noMedia

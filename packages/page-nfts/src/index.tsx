@@ -9,11 +9,11 @@ import { Route, Switch } from 'react-router';
 import { Tabs } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 
-import AccountItems from './AccountItems';
-import Overview from './Overview';
-import { useTranslation } from './translate';
-import useCollectionIds from './useCollectionIds';
-import useCollectionInfos from './useCollectionInfos';
+import AccountItems from './AccountItems/index.js';
+import Overview from './Overview/index.js';
+import { useTranslation } from './translate.js';
+import useCollectionIds from './useCollectionIds.js';
+import useCollectionInfos from './useCollectionInfos.js';
 
 interface Props {
   basePath: string;

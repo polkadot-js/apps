@@ -7,10 +7,10 @@ import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
-import useHashes from '../useHashes';
-import Details from './Details';
-import Summary from './Summary';
+import { useTranslation } from '../translate.js';
+import useHashes from '../useHashes.js';
+import Details from './Details.js';
+import Summary from './Summary.js';
 
 interface Props {
   className?: string;
@@ -22,8 +22,8 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const hashes = useHashes();
 
-  const headerRef = useRef([
-    [t('calls'), 'start'],
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
+    [t<string>('calls'), 'start'],
     [undefined, 'all'],
     [undefined, 'media--1300']
   ]);

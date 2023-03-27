@@ -3,15 +3,15 @@
 
 import type { ParaId } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
-import type { Campaign, LeasePeriod } from '../types';
+import type { Campaign, LeasePeriod } from '../types.js';
 
 import React, { useMemo, useRef } from 'react';
 
 import { MarkWarning, Table } from '@polkadot/react-components';
 import { useBestHash, useIsParasLinked } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import Fund from './Fund';
+import { useTranslation } from '../translate.js';
+import Fund from './Fund.js';
 
 interface Props {
   bestNumber?: BN;
@@ -67,25 +67,25 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
     [active, ended, hasLinksMap]
   );
 
-  const headerActiveRef = useRef([
-    [t('ongoing'), 'start', 2],
+  const headerActiveRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
+    [t<string>('ongoing'), 'start', 2],
     [undefined, 'media--800'],
     [undefined, 'media--2000'],
-    [t('ending'), 'media--1200'],
-    [t('leases')],
-    [t('raised')],
-    [t('count'), 'media--1100'],
+    [t<string>('ending'), 'media--1200'],
+    [t<string>('leases')],
+    [t<string>('raised')],
+    [t<string>('count'), 'media--1100'],
     [undefined, 'media--1000']
   ]);
 
-  const headedEndedRef = useRef([
-    [t('completed'), 'start', 2],
+  const headedEndedRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
+    [t<string>('completed'), 'start', 2],
     [undefined, 'media--800'],
     [undefined, 'media--2000'],
-    [t('ending'), 'media--1200'],
-    [t('leases')],
-    [t('raised')],
-    [t('count'), 'media--1100'],
+    [t<string>('ending'), 'media--1200'],
+    [t<string>('leases')],
+    [t<string>('raised')],
+    [t<string>('count'), 'media--1100'],
     [undefined, 'media--1000']
   ]);
 

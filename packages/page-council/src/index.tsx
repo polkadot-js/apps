@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
@@ -11,10 +11,10 @@ import { useLocation } from 'react-router-dom';
 import { Tabs } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import Motions from './Motions';
-import Overview from './Overview';
-import { useTranslation } from './translate';
-import useCounter from './useCounter';
+import Motions from './Motions/index.js';
+import Overview from './Overview/index.js';
+import { useTranslation } from './translate.js';
+import useCounter from './useCounter.js';
 
 export { useCounter };
 

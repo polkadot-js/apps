@@ -1,15 +1,15 @@
-// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId } from '@polkadot/types/interfaces';
-import type { CollectiveType } from './types';
+import type { CollectiveType } from './types.js';
 
 import { useMemo } from 'react';
 
-import { createNamedHook } from './createNamedHook';
-import { useAccounts } from './useAccounts';
-import { useApi } from './useApi';
-import { useCall } from './useCall';
+import { createNamedHook } from './createNamedHook.js';
+import { useAccounts } from './useAccounts.js';
+import { useApi } from './useApi.js';
+import { useCall } from './useCall.js';
 
 interface Result {
   isMember: boolean;

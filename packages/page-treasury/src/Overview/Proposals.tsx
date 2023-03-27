@@ -7,8 +7,8 @@ import React, { useMemo } from 'react';
 
 import { Table } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
-import Proposal from './Proposal';
+import { useTranslation } from '../translate.js';
+import Proposal from './Proposal.js';
 
 interface Props {
   className?: string;
@@ -21,11 +21,10 @@ interface Props {
 function ProposalsBase ({ className = '', isApprovals, isMember, members, proposals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const header = useMemo(() => [
+  const header = useMemo<([React.ReactNode?, string?, number?] | false)[]>(() => [
     [isApprovals ? t<string>('Approved') : t<string>('Proposals'), 'start', 2],
-    [t('beneficiary'), 'address'],
-    [t('payment')],
-    [t('bond')],
+    [],
+    [t<string>('proposer'), 'address'],
     [],
     []
   ], [isApprovals, t]);

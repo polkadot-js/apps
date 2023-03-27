@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
+import type { ExternalDef } from './types.js';
 
-import { externalLogos } from '../ui/logos';
+import { externalPolkassemblyPNG } from '../ui/logos/external/index.js';
 
-export const PolkassemblyIo = {
+export const PolkassemblyIo: ExternalDef = {
   chains: {
     Altair: 'Altair',
     Astar: 'astar',
@@ -26,32 +27,35 @@ export const PolkassemblyIo = {
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.polkassembly.io/${path}/${data.toString()}`,
+  homepage: 'https://polkassembly.io/',
   isActive: true,
-  logo: externalLogos.polkassembly as string,
   paths: {
     bounty: 'bounty',
     council: 'motion',
-    proposal: 'proposal',
+    democracyProposal: 'proposal',
+    democracyReferendum: 'referendum',
+    fellowshipReferenda: 'member-referenda',
     referenda: 'referenda',
-    referendum: 'referendum',
     tip: 'tip',
     treasury: 'treasury'
   },
-  url: 'https://polkassembly.io/'
+  ui: {
+    logo: externalPolkassemblyPNG
+  }
 };
 
-export const PolkassemblyNetwork = {
+export const PolkassemblyNetwork: ExternalDef = {
   ...PolkassemblyIo,
   chains: {
     Bifrost: 'bifrost',
     'KILT Spiritnet': 'kilt',
     Karura: 'karura',
     'Khala Network': 'khala',
-    Moonbase: 'moonbase',
+    'Moonbase Alpha': 'moonbase',
     Moonbeam: 'moonbeam',
     Moonriver: 'moonriver'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.polkassembly.network/${path}/${data.toString()}`,
-  url: 'https://polkassembly.network/'
+  homepage: 'https://polkassembly.network/'
 };

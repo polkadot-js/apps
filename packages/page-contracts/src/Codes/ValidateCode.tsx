@@ -12,7 +12,7 @@ import { InfoForInput } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   codeHash?: string | null;
@@ -47,8 +47,8 @@ function ValidateCode ({ codeHash, onChange }: Props): React.ReactElement<Props>
     <InfoForInput type='error'>
       {
         isValidHex
-          ? t('Unable to find on-chain WASM code for the supplied codeHash')
-          : t('The codeHash is not a valid hex hash')
+          ? t<string>('Unable to find on-chain WASM code for the supplied codeHash')
+          : t<string>('The codeHash is not a valid hex hash')
       }
     </InfoForInput>
   );

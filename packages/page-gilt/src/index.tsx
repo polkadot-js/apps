@@ -6,8 +6,8 @@ import { Route, Switch } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 
-import Overview from './Overview';
-import { useTranslation } from './translate';
+import Overview from './Overview/index.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   basePath: string;

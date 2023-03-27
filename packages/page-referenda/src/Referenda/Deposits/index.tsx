@@ -3,15 +3,14 @@
 
 import type { PalletReferendaDeposit, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { PalletReferenda } from '../../types';
+import type { PalletReferenda } from '../../types.js';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { AddressMini } from '@polkadot/react-components';
+import { AddressMini, styled } from '@polkadot/react-components';
 
-import Place from './Place';
-import Refund from './Refund';
+import Place from './Place.js';
+import Refund from './Refund.js';
 
 interface Props {
   canDeposit?: boolean;
@@ -27,7 +26,7 @@ interface Props {
 
 function Deposits ({ canDeposit, canRefund, className = '', decision, id, noMedia, palletReferenda, submit, track }: Props): React.ReactElement<Props> {
   return (
-    <td className={`${className} address ${noMedia ? '' : 'media--1000-noPad'}`}>
+    <StyledTd className={`${className} address ${noMedia ? '' : 'media--1000-noPad'}`}>
       {submit && (
         <AddressMini
           balance={submit.amount}
@@ -65,12 +64,14 @@ function Deposits ({ canDeposit, canRefund, className = '', decision, id, noMedi
           </div>
         )
       }
-    </td>
+    </StyledTd>
   );
 }
 
-export default React.memo(styled(Deposits)`
+const StyledTd = styled.td`
   .ui--AddressMini+.ui--Button {
     margin-top: 0.25rem;
   }
-`);
+`;
+
+export default React.memo(Deposits);

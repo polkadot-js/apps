@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
+
+import { styled } from './styled.js';
 
 interface Props {
   children: React.ReactNode;
@@ -13,15 +14,6 @@ interface Props {
   isReverse?: boolean;
   size?: 'default' | 'small' | 'tiny';
 }
-
-interface ColumnProps {
-  children: React.ReactNode;
-  className?: string;
-}
-
-type ColumarType = React.ComponentType<Props> & {
-  Column: React.ComponentType<ColumnProps>;
-};
 
 const MIN_WIDTH_DEFAULT = '1025px';
 const MIN_WIDTH_SMALL = '750px';
@@ -60,27 +52,27 @@ const FLEX_OPTIONS = `
 
 function Column ({ children, className = '' }: Props): React.ReactElement<Props> {
   return (
-    <div className={`ui--Column ${className}`}>
+    <div className={`${className} ui--Column`}>
       {children}
     </div>
   );
 }
 
-function Columar ({ children, className = '', is60, is100, isPadded = true, isReverse, size = 'default' }: Props): React.ReactElement<Props> {
+function ColumarBase ({ children, className = '', is60, is100, isPadded = true, isReverse, size = 'default' }: Props): React.ReactElement<Props> {
   return (
-    <div className={`ui--Columar ${is100 ? 'is100' : (is60 ? 'is60' : 'is50')} ${isPadded ? 'isPadded' : ''} ${isReverse ? 'isReverse' : ''} ${size}Size ${className}`}>
+    <StyledDiv className={`${className} ui--Columar ${is100 ? 'is100' : (is60 ? 'is60' : 'is50')} ${isPadded ? 'isPadded' : ''} ${isReverse ? 'isReverse' : ''} ${size}Size`}>
       {children}
-    </div>
+    </StyledDiv>
   );
 }
 
-const ColumarStyled = React.memo(styled(Columar)`
+const StyledDiv = styled.div`
   &.isReverse {
     flex-direction: row-reverse;
   }
 
   &.defaultSize {
-    @media (min-width: ${MIN_WIDTH_DEFAULT}) {
+    @media only screen and (min-width: ${MIN_WIDTH_DEFAULT}) {
       ${FLEX_OPTIONS}
     }
 
@@ -90,7 +82,7 @@ const ColumarStyled = React.memo(styled(Columar)`
   }
 
   &.smallSize {
-    @media (min-width: ${MIN_WIDTH_SMALL}) {
+    @media only screen and (min-width: ${MIN_WIDTH_SMALL}) {
       ${FLEX_OPTIONS}
     }
 
@@ -100,12 +92,28 @@ const ColumarStyled = React.memo(styled(Columar)`
   }
 
   &.tinySize {
-    @media (min-width: ${MIN_WIDTH_TINY}) {
+    @media only screen and (min-width: ${MIN_WIDTH_TINY}) {
       ${FLEX_OPTIONS}
     }
 
     &.isPadded > .ui--Column {
       padding: 0 0.25rem;
+    }
+  }
+
+  &.defaultSize, &.smallSize {
+    @media only screen and (max-width: ${MIN_WIDTH_SMALL}) {
+      &.isPadded > .ui--Column {
+        padding: 0 0.5rem;
+      }
+    }
+  }
+
+  &.defaultSize, &.smallSize, &.tinySize {
+    @media only screen and (max-width: ${MIN_WIDTH_TINY}) {
+      &.isPadded > .ui--Column {
+        padding: 0 0.25rem;
+      }
     }
   }
 
@@ -124,8 +132,12 @@ const ColumarStyled = React.memo(styled(Columar)`
       padding-right: 0;
     }
   }
-`) as unknown as ColumarType;
+`;
 
-ColumarStyled.Column = Column;
+const Columar = React.memo(ColumarBase) as unknown as typeof ColumarBase & {
+  Column: typeof Column
+};
 
-export default ColumarStyled;
+Columar.Column = Column;
+
+export default Columar;

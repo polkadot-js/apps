@@ -8,12 +8,12 @@ import type { BN } from '@polkadot/util';
 
 import React, { useMemo, useState } from 'react';
 
-import { ChainImg, Dropdown, InputAddress, InputBalance, MarkWarning, Modal, Spinner, TxButton } from '@polkadot/react-components';
+import { ChainImg, Dropdown, InputAddress, InputBalance, MarkWarning, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useApiUrl, useTeleport } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { BN_ZERO, isFunction } from '@polkadot/util';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   onClose: () => void;
@@ -22,7 +22,7 @@ interface Props {
 const INVALID_PARAID = Number.MAX_SAFE_INTEGER;
 const XCM_LOC = ['xcm', 'xcmPallet', 'polkadotXcm'];
 
-function createOption ({ info, paraId, text }: LinkOption): Option {
+function createOption ({ paraId, text, ui }: LinkOption): Option {
   return {
     text: (
       <div
@@ -31,7 +31,7 @@ function createOption ({ info, paraId, text }: LinkOption): Option {
       >
         <ChainImg
           className='ui--Dropdown-icon'
-          logo={info}
+          logo={ui.logo}
         />
         <div className='ui--Dropdown-name'>{text}</div>
       </div>
@@ -182,25 +182,12 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
             label={t<string>('amount')}
             onChange={setAmount}
           />
-          {destApi
-            ? destApi.consts.balances
-              ? (
-                <>
-                  <InputBalance
-                    defaultValue={destApi.consts.balances.existentialDeposit}
-                    isDisabled
-                    label={t<string>('destination existential deposit')}
-                  />
-                </>
-              )
-              : null
-            : (
-              <Spinner
-                label={t<string>('Retrieving destination chain fees')}
-                variant='appPadded'
-              />
-            )
-          }
+          <InputBalance
+            defaultValue={destApi?.consts.balances?.existentialDeposit}
+            isDisabled
+            isLoading={!destApi}
+            label={t<string>('destination existential deposit')}
+          />
         </Modal.Columns>
       </Modal.Content>
       <Modal.Actions>

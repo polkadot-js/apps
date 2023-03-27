@@ -3,8 +3,9 @@
 
 import '@polkadot/api-augment';
 
+import type { OwnPool } from '@polkadot/app-staking2/Pools/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
-import type { OwnPool, SortedTargets } from '../types';
+import type { SortedTargets } from '../types.js';
 
 import React, { useMemo, useRef, useState } from 'react';
 
@@ -13,13 +14,13 @@ import { useApi, useAvailableSlashes } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN, BN_ZERO } from '@polkadot/util';
 
-import ElectionBanner from '../ElectionBanner';
-import { useTranslation } from '../translate';
-import Accounts from './Accounts';
-import NewNominator from './NewNominator';
-import NewStash from './NewStash';
-import NewValidator from './NewValidator';
-import Pools from './Pools';
+import ElectionBanner from '../ElectionBanner.js';
+import { useTranslation } from '../translate.js';
+import Accounts from './Accounts.js';
+import NewNominator from './NewNominator.js';
+import NewStash from './NewStash.js';
+import NewValidator from './NewValidator.js';
+import Pools from './Pools.js';
 
 interface Props {
   className?: string;
@@ -127,10 +128,10 @@ function Actions ({ className = '', isInElection, minCommission, ownPools, ownSt
   ]);
 
   const stashTypes = useRef([
-    { text: t('All stashes'), value: 'all' },
-    { text: t('Nominators'), value: 'noms' },
-    { text: t('Validators'), value: 'vals' },
-    { text: t('Inactive'), value: 'chill' }
+    { text: t<string>('All stashes'), value: 'all' },
+    { text: t<string>('Nominators'), value: 'noms' },
+    { text: t<string>('Validators'), value: 'vals' },
+    { text: t<string>('Inactive'), value: 'chill' }
   ]);
 
   const state = useMemo(

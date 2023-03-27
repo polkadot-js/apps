@@ -12,8 +12,8 @@ import { onlyOnWeb } from '@polkadot/react-api/hoc';
 import { useApi } from '@polkadot/react-hooks';
 import { stringUpperFirst } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import Banner from './Banner';
+import { useTranslation } from '../translate.js';
+import Banner from './Banner.js';
 
 // it would have been really good to import this from detect, however... not exported
 type Browser = 'chrome' | 'firefox';

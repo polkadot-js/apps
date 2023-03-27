@@ -2,21 +2,20 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, GroupIndex, ParaId } from '@polkadot/types/interfaces';
-import type { LeasePeriod, QueuedAction } from '../types';
-import type { EventMapInfo, ValidatorInfo } from './types';
+import type { LeasePeriod, QueuedAction } from '../types.js';
+import type { EventMapInfo, ValidatorInfo } from './types.js';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
 
-import { AddressMini, Badge, Expander, ParaLink } from '@polkadot/react-components';
+import { AddressMini, Badge, Expander, ParaLink, styled, Table } from '@polkadot/react-components';
 import { BlockToTime } from '@polkadot/react-query';
 import { BN, formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import Lifecycle from './Lifecycle';
-import ParachainInfo from './ParachainInfo';
-import Periods from './Periods';
-import useParaInfo from './useParaInfo';
+import { useTranslation } from '../translate.js';
+import Lifecycle from './Lifecycle.js';
+import ParachainInfo from './ParachainInfo.js';
+import Periods from './Periods.js';
+import useParaInfo from './useParaInfo.js';
 
 interface Props {
   bestNumber?: BN;
@@ -89,10 +88,8 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
   }, [paraInfo, sessionValidators]);
 
   return (
-    <tr className={`${className} ${(lastBacked || lastInclusion || paraInfo.watermark) ? '' : 'isDisabled'}`}>
-      <td className='number'>
-        <h1>{formatNumber(id)}</h1>
-      </td>
+    <StyledTr className={`${className} ${(lastBacked || lastInclusion || paraInfo.watermark) ? '' : 'isDisabled'}`}>
+      <Table.Column.Id value={id} />
       <td className='badge together'>
         {paraInfo.paraInfo?.locked?.isFalse
           ? (
@@ -106,25 +103,24 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
         <ParaLink id={id} />
       </td>
       <td className='number media--1400'>
-        {validators && validators[1].length !== 0 && (
-          <Expander
-            renderChildren={valRender}
-            summary={t<string>('Val. Group {{group}} ({{count}})', {
-              replace: {
-                count: formatNumber(validators[1].length),
-                group: validators[0]
-              }
-            })}
-          />
-        )}
-        {nonBacked && (
-          <Expander
-            renderChildren={bckRender}
-            summary={t<string>('Non-voters ({{count}})', { replace: { count: formatNumber(nonBacked.length) } })}
-          />
-        )}
+        <Expander
+          className={validators ? '' : '--tmp'}
+          renderChildren={valRender}
+          summary={t<string>('Val. Group {{group}} ({{count}})', {
+            replace: {
+              count: formatNumber(validators?.[1]?.length || 0),
+              group: validators ? validators[0] : 0
+            }
+          })}
+        />
+        <Expander
+          renderChildren={bckRender}
+          summary={t<string>('Non-voters ({{count}})', { replace: { count: formatNumber(nonBacked.length) } })}
+        />
       </td>
-      <td className='start together hash media--1500'>{paraInfo.headHex}</td>
+      <td className='start together hash media--1500'>
+        <div className='shortHash'>{paraInfo.headHex}</div>
+      </td>
       <td className='start'>
         {paraInfo.updateAt && bestNumber && paraInfo.lifecycle?.isParachain
           ? (
@@ -175,11 +171,11 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
           periods={paraInfo.leases}
         />
       </td>
-    </tr>
+    </StyledTr>
   );
 }
 
-export default React.memo(styled(Parachain)`
+const StyledTr = styled.tr`
   &.isDisabled {
     td {
       opacity: 0.5
@@ -191,4 +187,6 @@ export default React.memo(styled(Parachain)`
     margin: 0 0.25rem 0 0;
     vertical-align: middle;
   }
-`);
+`;
+
+export default React.memo(Parachain);

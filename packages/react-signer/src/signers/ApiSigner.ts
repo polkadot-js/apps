@@ -20,7 +20,7 @@ export default class ApiSigner implements Signer {
 
   public async signPayload (payload: SignerPayloadJSON): Promise<SignerResult> {
     return new Promise((resolve, reject): void => {
-      this.#queuePayload(this.#registry, payload, (id: number, result: SignerResult | null): void => {
+      this.#queuePayload(this.#registry, payload, (_id: number, result: SignerResult | null): void => {
         if (result) {
           resolve(result);
         } else {

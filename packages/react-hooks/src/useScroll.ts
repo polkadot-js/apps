@@ -3,7 +3,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 
-import { createNamedHook } from './createNamedHook';
+import { createNamedHook } from './createNamedHook.js';
 
 function useScrollImpl (): number {
   const [scrollY, setScrollY] = useState(window.scrollY);

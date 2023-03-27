@@ -1,36 +1,15 @@
 // Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { useEffect, useState } from 'react';
+import type { WindowSize } from './ctx/types.js';
 
-import { createNamedHook } from './createNamedHook';
+import { useContext } from 'react';
 
-export interface WindowSize {
-  width: number;
-  height: number;
-}
+import { WindowSizeCtx } from './ctx/WindowSize.js';
+import { createNamedHook } from './createNamedHook.js';
 
 function useWindowSizeImpl (): WindowSize {
-  const [windowSize, setWindowSize] = useState<WindowSize>({
-    height: 0,
-    width: 0
-  });
-
-  useEffect(() => {
-    function handleResize () {
-      setWindowSize({
-        height: window.innerHeight,
-        width: window.innerWidth
-      });
-    }
-
-    window.addEventListener('resize', handleResize);
-    handleResize();
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  return windowSize;
+  return useContext(WindowSizeCtx);
 }
 
 export const useWindowSize = createNamedHook('useWindowSize', useWindowSizeImpl);

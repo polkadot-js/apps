@@ -4,15 +4,15 @@
 import type { DeriveSessionProgress, DeriveStakingAccount } from '@polkadot/api-derive/types';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN, BN_ONE, BN_ZERO, formatBalance, formatNumber } from '@polkadot/util';
 
-import Icon from './Icon';
-import Tooltip from './Tooltip';
-import { useTranslation } from './translate';
+import Icon from './Icon.js';
+import { styled } from './styled.js';
+import Tooltip from './Tooltip.js';
+import { useTranslation } from './translate.js';
 
 interface Unlocking {
   remainingEras: BN;
@@ -25,7 +25,7 @@ interface DeriveStakingAccountPartial {
 }
 
 interface Props {
-  iconPosition: 'left' | 'right';
+  iconPosition?: 'left' | 'right';
   className?: string;
   stakingInfo?: DeriveStakingAccountPartial;
 }
@@ -68,7 +68,7 @@ function StakingUnbonding ({ className = '', iconPosition = 'left', stakingInfo 
   const trigger = `${stakingInfo.accountId.toString()}-unlocking-trigger`;
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       {iconPosition === 'left' && (
         <Icon
           className='left'
@@ -77,8 +77,8 @@ function StakingUnbonding ({ className = '', iconPosition = 'left', stakingInfo 
         />
       )}
       <FormatBalance value={total} />
-      <Tooltip
-        text={mapped.map(([{ value }, eras, blocks], index): React.ReactNode => (
+      <Tooltip trigger={trigger}>
+        {mapped.map(([{ value }, eras, blocks], index): React.ReactNode => (
           <div
             className='row'
             key={index}
@@ -97,8 +97,7 @@ function StakingUnbonding ({ className = '', iconPosition = 'left', stakingInfo 
             </div>
           </div>
         ))}
-        trigger={trigger}
-      />
+      </Tooltip>
       {iconPosition === 'right' && (
         <Icon
           className='right'
@@ -106,11 +105,11 @@ function StakingUnbonding ({ className = '', iconPosition = 'left', stakingInfo 
           tooltip={trigger}
         />
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(StakingUnbonding)`
+const StyledDiv = styled.div`
   white-space: nowrap;
 
   .ui--Icon.left {
@@ -126,4 +125,6 @@ export default React.memo(styled(StakingUnbonding)`
   .ui--FormatBalance {
     display: inline-block;
   }
-`);
+`;
+
+export default React.memo(StakingUnbonding);

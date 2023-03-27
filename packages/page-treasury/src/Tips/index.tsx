@@ -9,9 +9,9 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { Button, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useTxBatch } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import TipCreate from './TipCreate';
-import Tips from './Tips';
+import { useTranslation } from '../translate.js';
+import TipCreate from './TipCreate.js';
+import Tips from './Tips.js';
 
 interface Props {
   className?: string;

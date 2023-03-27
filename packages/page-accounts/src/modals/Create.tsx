@@ -2,26 +2,25 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
-import type { AddressState, CreateOptions, CreateProps, DeriveValidationOutput, PairType, SeedType } from '../types';
+import type { AddressState, CreateOptions, CreateProps, DeriveValidationOutput, PairType, SeedType } from '../types.js';
 
 import React, { useCallback, useRef, useState } from 'react';
-import styled from 'styled-components';
 
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
-import { AddressRow, Button, Checkbox, CopyButton, Dropdown, Expander, Input, MarkError, MarkWarning, Modal, TextArea } from '@polkadot/react-components';
+import { AddressRow, Button, Checkbox, CopyButton, Dropdown, Expander, Input, MarkError, MarkWarning, Modal, styled, TextArea } from '@polkadot/react-components';
 import { useApi, useLedger, useStepper } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { isHex, nextTick, u8aToHex } from '@polkadot/util';
 import { hdLedger, hdValidatePath, keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
 
-import { useTranslation } from '../translate';
-import { tryCreateAccount } from '../util';
-import CreateAccountInputs from './CreateAccountInputs';
-import CreateConfirmation from './CreateConfirmation';
-import CreateEthDerivationPath, { ETH_DEFAULT_PATH } from './CreateEthDerivationPath';
-import CreateSuriLedger from './CreateSuriLedger';
-import ExternalWarning from './ExternalWarning';
+import { useTranslation } from '../translate.js';
+import { tryCreateAccount } from '../util.js';
+import CreateAccountInputs from './CreateAccountInputs.js';
+import CreateConfirmation from './CreateConfirmation.js';
+import CreateEthDerivationPath, { ETH_DEFAULT_PATH } from './CreateEthDerivationPath.js';
+import CreateSuriLedger from './CreateSuriLedger.js';
+import ExternalWarning from './ExternalWarning.js';
 
 const DEFAULT_PAIR_TYPE = 'sr25519';
 const STEPS_COUNT = 3;
@@ -242,7 +241,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   );
 
   return (
-    <Modal
+    <StyledModal
       className={className}
       header={t<string>('Add an account via seed {{step}}/{{STEPS_COUNT}}', { replace: { STEPS_COUNT, step } })}
       onClose={onClose}
@@ -255,16 +254,12 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             fullLength
             isEditableName={false}
             noDefaultNameOpacity
-            value={isSeedValid ? address : ''}
+            value={(isSeedValid && address) || null}
           />
         </Modal.Columns>
         {step === 1 && <>
           <Modal.Columns hint={t<string>('The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.')}>
             <TextArea
-              help={isEthereum
-                ? t<string>("Your ethereum key pair is derived from your private key. Don't divulge this key.")
-                : t<string>('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
-              isAction
               isError={!isSeedValid}
               isReadOnly={seedType === 'dev'}
               label={
@@ -302,7 +297,6 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
               <Modal.Columns hint={t<string>('If you are moving accounts between applications, ensure that you use the correct type.')}>
                 <Dropdown
                   defaultValue={pairType}
-                  help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
                   label={t<string>('keypair crypto type')}
                   onChange={_onChangePairType}
                   options={
@@ -336,7 +330,6 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                 : (
                   <Modal.Columns hint={t<string>('The derivation path allows you to create different accounts from the same base mnemonic.')}>
                     <Input
-                      help={(t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. An optional "///<password>" can be used with a mnemonic seed, and may only be specified once.'))}
                       isDisabled={seedType === 'raw'}
                       isError={!!deriveValidation?.error}
                       label={t<string>('secret derivation path')}
@@ -440,11 +433,11 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
           </>
         )}
       </Modal.Actions>
-    </Modal>
+    </StyledModal>
   );
 }
 
-export default React.memo(styled(Create)`
+const StyledModal = styled(Modal)`
   .accounts--Creator-advanced {
     margin-top: 1rem;
     overflow: visible;
@@ -476,4 +469,6 @@ export default React.memo(styled(Create)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(Create);

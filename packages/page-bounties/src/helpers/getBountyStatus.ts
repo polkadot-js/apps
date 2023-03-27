@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BountyStatus } from '@polkadot/types/interfaces';
-
-import { BountyStatusType, StatusName } from '../types';
+import type { BountyStatusType, StatusName } from '../types.js';
 
 export const getBountyStatus = (status: BountyStatus): BountyStatusType => {
   const statusAsString = status.type as StatusName;

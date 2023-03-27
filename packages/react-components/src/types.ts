@@ -5,9 +5,9 @@ import type { IconName } from '@fortawesome/fontawesome-svg-core';
 import type { WithTranslation } from 'react-i18next';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { Abi } from '@polkadot/api-contract';
-import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { ThemeDef } from '@polkadot/react-hooks/ctx/types';
 import type { AccountId, Index } from '@polkadot/types/interfaces';
-import type { TxCallback, TxFailedCallback } from './Status/types';
+import type { ActionStatus, TxCallback, TxFailedCallback } from './Status/types.js';
 
 import { AccountIndex, Address } from '@polkadot/types/interfaces';
 
@@ -72,15 +72,11 @@ export interface NullContract {
   address: null;
 }
 
-export interface ThemeDef {
-  theme: 'dark' | 'light';
-}
-
 export interface ThemeProps {
   theme: ThemeDef;
 }
 
-export type FlagColor = 'blue' | 'black' | 'green' | 'grey' | 'orange' | 'pink' | 'purple' | 'red' | 'yellow' | 'theme';
+export type FlagColor = 'blue' | 'black' | 'green' | 'grey' | 'lightgrey' | 'orange' | 'pink' | 'purple' | 'red' | 'yellow' | 'theme';
 
 export type AccountIdIsh = AccountId | AccountIndex | Address | string | Uint8Array | null;
 

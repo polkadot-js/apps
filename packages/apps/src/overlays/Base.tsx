@@ -4,9 +4,8 @@
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { Button, Icon } from '@polkadot/react-components';
+import { Button, Icon, styled } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 interface Props {
@@ -24,7 +23,7 @@ function BaseOverlay ({ children, className = '', icon, type }: Props): React.Re
   }
 
   return (
-    <div className={`${className} ${type === 'error' ? 'isError' : 'isInfo'}`}>
+    <StyledDiv className={`${className} ${type === 'error' ? 'isError' : 'isInfo'}`}>
       <div className='content'>
         <Icon
           className='contentIcon'
@@ -42,11 +41,11 @@ function BaseOverlay ({ children, className = '', icon, type }: Props): React.Re
           onClick={toggleHidden}
         />
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(BaseOverlay)`
+const StyledDiv = styled.div`
   background: var(--bg-menu);
   border: 1px solid transparent;
   border-radius: 0.25rem;
@@ -115,4 +114,6 @@ export default React.memo(styled(BaseOverlay)`
     right: 0em;
     top: 0.75rem;
   }
-`);
+`;
+
+export default React.memo(BaseOverlay);

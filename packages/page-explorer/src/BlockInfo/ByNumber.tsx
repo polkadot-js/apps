@@ -5,10 +5,9 @@ import type { Hash } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
 
-import { Spinner } from '@polkadot/react-components';
 import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
 
-import BlockByHash from './ByHash';
+import BlockByHash from './ByHash.js';
 
 interface Props {
   value: string;
@@ -27,18 +26,20 @@ function BlockByNumber ({ value }: Props): React.ReactElement<Props> | null {
         mountedRef.current && setState(result);
       })
       .catch((error: Error): void => {
+        console.error(1);
+
         mountedRef.current && setError(error);
       });
   }, [api, mountedRef, value]);
 
-  if (!getBlockHash && !error) {
-    return <Spinner />;
-  }
-
   return (
     <BlockByHash
       error={error}
-      value={getBlockHash ? getBlockHash.toHex() : null}
+      value={
+        getBlockHash
+          ? getBlockHash.toHex()
+          : null
+      }
     />
   );
 }

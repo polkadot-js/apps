@@ -6,7 +6,7 @@ import { Input as SUIInput } from 'semantic-ui-react';
 
 import { isFunction, isUndefined } from '@polkadot/util';
 
-import Labelled from './Labelled';
+import Labelled from './Labelled.js';
 
 type Input$Type = 'number' | 'password' | 'text';
 
@@ -15,7 +15,6 @@ interface Props {
   children?: React.ReactNode;
   className?: string;
   defaultValue?: string | null;
-  help?: React.ReactNode;
   icon?: React.ReactNode;
   inputClassName?: string;
   isAction?: boolean;
@@ -24,6 +23,7 @@ interface Props {
   isEditable?: boolean;
   isError?: boolean;
   isFull?: boolean;
+  isLoading?: boolean;
   isHidden?: boolean;
   isInPlaceEditor?: boolean;
   isReadOnly?: boolean;
@@ -92,7 +92,7 @@ const isSelectAll = (key: string, isPreKeyDown: boolean): boolean =>
 
 let counter = 0;
 
-function Input ({ autoFocus = false, children, className, defaultValue, help, icon, inputClassName, isAction = false, isDisabled = false, isDisabledError = false, isEditable = false, isError = false, isFull = false, isHidden = false, isInPlaceEditor = false, isReadOnly = false, isWarning = false, label, labelExtra, max, maxLength, min, name, onBlur, onChange, onEnter, onEscape, onKeyDown, onKeyUp, onPaste, placeholder, tabIndex, type = 'text', value, withEllipsis, withLabel }: Props): React.ReactElement<Props> {
+function Input ({ autoFocus = false, children, className, defaultValue, icon, inputClassName, isAction = false, isDisabled = false, isDisabledError = false, isEditable = false, isError = false, isFull = false, isHidden = false, isInPlaceEditor = false, isLoading = false, isReadOnly = false, isWarning = false, label, labelExtra, max, maxLength, min, name, onBlur, onChange, onEnter, onEscape, onKeyDown, onKeyUp, onPaste, placeholder, tabIndex, type = 'text', value, withEllipsis, withLabel }: Props): React.ReactElement<Props> {
   const [stateName] = useState(() => `in_${counter++}_at_${Date.now()}`);
   const [initialValue] = useState(() => defaultValue);
 
@@ -145,7 +145,6 @@ function Input ({ autoFocus = false, children, className, defaultValue, help, ic
   return (
     <Labelled
       className={className}
-      help={help}
       isFull={isFull}
       label={label}
       labelExtra={labelExtra}
@@ -162,6 +161,9 @@ function Input ({ autoFocus = false, children, className, defaultValue, help, ic
           isInPlaceEditor
             ? 'inPlaceEditor'
             : '',
+          isLoading
+            ? '--tmp'
+            : '',
           inputClassName || '',
           isWarning && !isError
             ? 'isWarning'
@@ -172,7 +174,7 @@ function Input ({ autoFocus = false, children, className, defaultValue, help, ic
             ? (defaultValue || '')
             : undefined
         }
-        disabled={isDisabled}
+        disabled={isDisabled || isLoading}
         error={(!isDisabled && isError) || isDisabledError}
         hidden={isHidden}
         iconPosition={

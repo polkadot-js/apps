@@ -4,14 +4,14 @@
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
 
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 
-import { Button, ErrorBoundary, Modal, StatusContext } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
+import { Button, ErrorBoundary, Modal } from '@polkadot/react-components';
+import { useQueue, useToggle } from '@polkadot/react-hooks';
 
-import Transaction from './Transaction';
-import { useTranslation } from './translate';
-import { handleTxResults } from './util';
+import Transaction from './Transaction.js';
+import { useTranslation } from './translate.js';
+import { handleTxResults } from './util.js';
 
 interface Props {
   className?: string;
@@ -35,7 +35,7 @@ async function send (queueSetTxStatus: QueueTxMessageSetStatus, currentItem: Que
 
 function TxUnsigned ({ className, currentItem }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { queueSetTxStatus } = useContext(StatusContext);
+  const { queueSetTxStatus } = useQueue();
   const [isRenderError, toggleRenderError] = useToggle();
 
   const _onSend = useCallback(

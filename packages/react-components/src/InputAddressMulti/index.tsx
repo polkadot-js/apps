@@ -2,22 +2,21 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
 
-import { useDebounce, useLoadingDelay } from '@polkadot/react-hooks';
+import { useDebounce, useNextTick } from '@polkadot/react-hooks';
 
-import Input from '../Input';
-import Spinner from '../Spinner';
-import { useTranslation } from '../translate';
-import Available from './Available';
-import Selected from './Selected';
+import Input from '../Input.js';
+import Spinner from '../Spinner.js';
+import { styled } from '../styled.js';
+import { useTranslation } from '../translate.js';
+import Available from './Available.js';
+import Selected from './Selected.js';
 
 interface Props {
   available: string[];
   availableLabel: React.ReactNode;
   className?: string;
   defaultValue?: string[];
-  help: React.ReactNode;
   maxCount: number;
   onChange: (values: string[]) => void;
   valueLabel: React.ReactNode;
@@ -40,7 +39,7 @@ function InputAddressMulti ({ available, availableLabel, className = '', default
   const [_filter, setFilter] = useState<string>('');
   const [selected, setSelected] = useState<string[]>([]);
   const filter = useDebounce(_filter);
-  const isLoading = useLoadingDelay();
+  const isNextTick = useNextTick();
 
   useEffect((): void => {
     defaultValue && setSelected(defaultValue);
@@ -50,18 +49,18 @@ function InputAddressMulti ({ available, availableLabel, className = '', default
     selected && onChange(selected);
   }, [onChange, selected]);
 
-  const _onSelect = useCallback(
+  const onSelect = useCallback(
     (address: string) => setSelected((prev) => include(prev, address, maxCount)),
     [maxCount]
   );
 
-  const _onDeselect = useCallback(
+  const onDeselect = useCallback(
     (address: string) => setSelected((prev) => exclude(prev, address)),
     []
   );
 
   return (
-    <div className={`ui--InputAddressMulti ${className}`}>
+    <StyledDiv className={`${className} ui--InputAddressMulti`}>
       <Input
         autoFocus
         className='ui--InputAddressMulti-Input'
@@ -79,7 +78,7 @@ function InputAddressMulti ({ available, availableLabel, className = '', default
               <Selected
                 address={address}
                 key={address}
-                onDeselect={_onDeselect}
+                onDeselect={onDeselect}
               />
             ))}
           </div>
@@ -87,26 +86,26 @@ function InputAddressMulti ({ available, availableLabel, className = '', default
         <div className='ui--InputAddressMulti-column'>
           <label>{availableLabel}</label>
           <div className='ui--InputAddressMulti-items'>
-            {isLoading
-              ? <Spinner />
-              : available.map((address) => (
+            {isNextTick
+              ? available.map((address) => (
                 <Available
                   address={address}
                   filter={filter}
                   isHidden={selected?.includes(address)}
                   key={address}
-                  onSelect={_onSelect}
+                  onSelect={onSelect}
                 />
               ))
+              : <Spinner />
             }
           </div>
         </div>
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(InputAddressMulti)`
+const StyledDiv = styled.div`
   border-top-width: 0px;
   margin-left: 2rem;
   width: calc(100% - 2rem);
@@ -160,4 +159,6 @@ export default React.memo(styled(InputAddressMulti)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(InputAddressMulti);

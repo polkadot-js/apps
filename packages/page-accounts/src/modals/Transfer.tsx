@@ -6,15 +6,14 @@ import type { AccountInfoWithProviders, AccountInfoWithRefCount } from '@polkado
 import type { BN } from '@polkadot/util';
 
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 
 import { checkAddress } from '@polkadot/phishing';
-import { InputAddress, InputBalance, MarkError, MarkWarning, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { InputAddress, InputBalance, MarkError, MarkWarning, Modal, styled, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { BN_HUNDRED, BN_ZERO, isFunction, nextTick } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
@@ -94,7 +93,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
   const canToggleAll = !isProtected && balances && balances.accountId?.eq(propSenderId || senderId) && maxTransfer && noReference;
 
   return (
-    <Modal
+    <StyledModal
       className='app--accounts-Modal'
       header={t<string>('Send funds')}
       onClose={onClose}
@@ -105,7 +104,6 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
           <Modal.Columns hint={t<string>('The transferred balance will be subtracted (along with fees) from the sender account.')}>
             <InputAddress
               defaultValue={propSenderId}
-              help={t<string>('The account you will send funds from.')}
               isDisabled={!!propSenderId}
               label={t<string>('send from account')}
               labelExtra={
@@ -121,7 +119,6 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
           <Modal.Columns hint={t<string>('The beneficiary will have access to the transferred fees when the transaction is included in a block.')}>
             <InputAddress
               defaultValue={propRecipientId}
-              help={t<string>('Select a contact or paste the address you want to send funds to.')}
               isDisabled={!!propRecipientId}
               label={t<string>('send to address')}
               labelExtra={
@@ -143,7 +140,6 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                 <InputBalance
                   autoFocus
                   defaultValue={maxTransfer}
-                  help={t<string>('The full account balance to be transferred, minus the transaction fees')}
                   isDisabled
                   key={maxTransfer?.toString()}
                   label={t<string>('transferrable minus fees')}
@@ -153,7 +149,6 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                 <>
                   <InputBalance
                     autoFocus
-                    help={t<string>('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 milli is equivalent to sending 0.001.')}
                     isError={!hasAvailable}
                     isZeroable
                     label={t<string>('amount')}
@@ -162,7 +157,6 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                   />
                   <InputBalance
                     defaultValue={api.consts.balances?.existentialDeposit}
-                    help={t<string>('The minimum amount that an account should have to be deemed active')}
                     isDisabled
                     label={t<string>('existential deposit')}
                   />
@@ -170,7 +164,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
               )
             }
           </Modal.Columns>
-          <Modal.Columns hint={t('With the keep-alive option set, the account is protected against removal due to low balances.')}>
+          <Modal.Columns hint={t<string>('With the keep-alive option set, the account is protected against removal due to low balances.')}>
             {isFunction(api.tx.balances?.transferKeepAlive) && (
               <Toggle
                 className='typeToggle'
@@ -204,7 +198,11 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
         <TxButton
           accountId={propSenderId || senderId}
           icon='paper-plane'
-          isDisabled={!hasAvailable || !(propRecipientId || recipientId) || !amount || !!recipientPhish}
+          isDisabled={
+            (!isAll && (!hasAvailable || !amount)) ||
+            !(propRecipientId || recipientId) ||
+            !!recipientPhish
+          }
           label={t<string>('Make Transfer')}
           onStart={onClose}
           params={
@@ -219,15 +217,15 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
               ? api.tx.balances?.transferAll
               : isProtected
                 ? api.tx.balances?.transferKeepAlive
-                : api.tx.balances?.transfer
+                : api.tx.balances?.transferAllowDeath || api.tx.balances?.transfer
           }
         />
       </Modal.Actions>
-    </Modal>
+    </StyledModal>
   );
 }
 
-export default React.memo(styled(Transfer)`
+const StyledModal = styled(Modal)`
   .balance {
     margin-bottom: 0.5rem;
     text-align: right;
@@ -249,4 +247,6 @@ export default React.memo(styled(Transfer)`
   .typeToggle+.typeToggle {
     margin-top: 0.375rem;
   }
-`);
+`;
+
+export default React.memo(Transfer);

@@ -7,15 +7,15 @@ import type { Balance } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 
 import { useBestNumber } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO, bnMax, formatBalance, formatNumber } from '@polkadot/util';
 
-import Icon from './Icon';
-import Tooltip from './Tooltip';
-import { useTranslation } from './translate';
+import Icon from './Icon.js';
+import { styled } from './styled.js';
+import Tooltip from './Tooltip.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;
@@ -109,7 +109,7 @@ function DemocracyLocks ({ className = '', value }: Props): React.ReactElement<P
   }
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <FormatBalance
         labelPost={
           <Icon
@@ -119,8 +119,8 @@ function DemocracyLocks ({ className = '', value }: Props): React.ReactElement<P
         }
         value={maxBalance}
       />
-      <Tooltip
-        text={sorted.map(({ details, headers }, index): React.ReactNode => (
+      <Tooltip trigger={trigger}>
+        {sorted.map(({ details, headers }, index): React.ReactNode => (
           <div
             className='row'
             key={index}
@@ -131,16 +131,17 @@ function DemocracyLocks ({ className = '', value }: Props): React.ReactElement<P
             <div className='faded'>{details}</div>
           </div>
         ))}
-        trigger={trigger}
-      />
-    </div>
+      </Tooltip>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(DemocracyLocks)`
+const StyledDiv = styled.div`
   white-space: nowrap;
 
   .ui--FormatBalance {
     display: inline-block;
   }
-`);
+`;
+
+export default React.memo(DemocracyLocks);

@@ -1,19 +1,28 @@
 // Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeDef } from '@polkadot/react-components/types';
+import type { ThemeDef } from './ctx/types.js';
 
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import { ThemeContext } from 'styled-components';
 
-import { createNamedHook } from './createNamedHook';
+import { createNamedHook } from './createNamedHook.js';
 
-type ThemeClassName = `theme--${ThemeDef['theme']}`;
+interface Theme {
+  theme: ThemeDef['theme'];
+  themeClassName: `theme--${ThemeDef['theme']}`;
+}
 
-function useThemeImpl (): ThemeClassName {
+function useThemeImpl (): Theme {
   const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
 
-  return `theme--${theme}`;
+  return useMemo(
+    (): Theme => ({
+      theme,
+      themeClassName: `theme--${theme}`
+    }),
+    [theme]
+  );
 }
 
 export const useTheme = createNamedHook('useTheme', useThemeImpl);

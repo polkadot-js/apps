@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
-import type { ModalProps } from '../types';
+import type { ModalProps } from '../types.js';
 
 import React, { useCallback, useState } from 'react';
 
@@ -10,8 +10,8 @@ import { Button, Input, InputAddressSimple, Modal } from '@polkadot/react-compon
 import { useApi } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 
-import useProxies from '../Accounts/useProxies';
-import { useTranslation } from '../translate';
+import useProxies from '../Accounts/useProxies.js';
+import { useTranslation } from '../translate.js';
 
 interface Props extends ModalProps {
   className?: string;
@@ -81,7 +81,6 @@ function ProxyAdd ({ className = '', onClose, onStatusChange }: Props): React.Re
         <Modal.Columns hint={t<string>('The address that has previously setup a proxy to one of the accounts that you control.')}>
           <InputAddressSimple
             autoFocus
-            help={t<string>('The address that you have a valid proxy setup for.')}
             isError={!proxyInfo || proxyInfo.isEmpty}
             label={t<string>('proxied account')}
             onChange={setStashAddress}
@@ -91,7 +90,6 @@ function ProxyAdd ({ className = '', onClose, onStatusChange }: Props): React.Re
         <Modal.Columns hint={t<string>('The name is for unique identification of the account in your owner lists.')}>
           <Input
             className='full'
-            help={t<string>('Name given to this proxied account. You can edit it at any later point in time.')}
             isError={!isNameValid}
             label={t<string>('name')}
             onChange={_onChangeName}

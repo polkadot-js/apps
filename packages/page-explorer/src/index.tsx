@@ -3,23 +3,22 @@
 
 import type { TFunction } from 'i18next';
 import type { TabItem } from '@polkadot/react-components/Tabs/types';
-import type { KeyedEvent } from '@polkadot/react-query/types';
+import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
 
-import React, { useContext, useRef, useState } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { Route, Switch } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
-import { BlockAuthorsContext, EventsContext } from '@polkadot/react-query';
+import { useApi, useBlockAuthors, useBlockEvents } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-import Api from './Api';
-import BlockInfo from './BlockInfo';
-import Forks from './Forks';
-import Latency from './Latency';
-import Main from './Main';
-import NodeInfo from './NodeInfo';
-import { useTranslation } from './translate';
+import Api from './Api/index.js';
+import BlockInfo from './BlockInfo/index.js';
+import Latency from './Latency/index.js';
+import NodeInfo from './NodeInfo/index.js';
+import Forks from './Forks.js';
+import Main from './Main.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   basePath: string;
@@ -75,11 +74,15 @@ function createItemsRef (t: TFunction): TabItem[] {
 function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { lastHeaders } = useContext(BlockAuthorsContext);
-  const { eventCount, events } = useContext(EventsContext);
+  const { lastHeaders } = useBlockAuthors();
+  const { eventCount, events } = useBlockEvents();
   const itemsRef = useRef(createItemsRef(t));
   const pathRef = useRef(createPathRef(basePath));
-  const hidden = useState(() => isFunction(api.query.babe?.authorities) ? [] : ['forks']);
+
+  const hidden = useMemo<string[]>(
+    () => isFunction(api.query.babe?.authorities) ? [] : ['forks'],
+    [api]
+  );
 
   return (
     <main className={className}>

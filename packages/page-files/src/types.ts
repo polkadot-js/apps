@@ -22,3 +22,9 @@ export interface FileInfo {
   files?: DirFile[],
   dir?: string,
 }
+
+export interface AuthIpfsEndpoint {
+  text?: string;
+  value: string;
+  location?: string;
+}

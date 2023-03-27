@@ -6,14 +6,13 @@ import type { AppProps as Props } from '@polkadot/react-components/types';
 import React, { useRef } from 'react';
 import { Route, Switch } from 'react-router';
 
-import { HelpOverlay, Tabs } from '@polkadot/react-components';
+import { Tabs } from '@polkadot/react-components';
 import { useAccounts, useIpfs } from '@polkadot/react-hooks';
 
-import basicMd from './md/basic.md';
-import Accounts from './Accounts';
-import { useTranslation } from './translate';
-import useCounter from './useCounter';
-import Vanity from './Vanity';
+import Accounts from './Accounts/index.js';
+import Vanity from './Vanity/index.js';
+import { useTranslation } from './translate.js';
+import useCounter from './useCounter.js';
 
 export { useCounter };
 
@@ -38,7 +37,6 @@ function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
 
   return (
     <main className='accounts--App'>
-      <HelpOverlay md={basicMd as string} />
       <Tabs
         basePath={basePath}
         hidden={(hasAccounts && !isIpfs) ? undefined : HIDDEN_ACC}
@@ -46,16 +44,10 @@ function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
       />
       <Switch>
         <Route path={`${basePath}/vanity`}>
-          <Vanity
-            basePath={basePath}
-            onStatusChange={onStatusChange}
-          />
+          <Vanity onStatusChange={onStatusChange} />
         </Route>
         <Route>
-          <Accounts
-            basePath={basePath}
-            onStatusChange={onStatusChange}
-          />
+          <Accounts onStatusChange={onStatusChange} />
         </Route>
       </Switch>
     </main>

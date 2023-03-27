@@ -9,10 +9,10 @@ import { AddressRow, Button, Input, Modal } from '@polkadot/react-components';
 import { useApi, useNonEmptyString } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 
-import { ABI, InputName } from '../shared';
-import { useTranslation } from '../translate';
-import useAbi from '../useAbi';
-import ValidateAddr from './ValidateAddr';
+import { ABI, InputName } from '../shared/index.js';
+import { useTranslation } from '../translate.js';
+import useAbi from '../useAbi.js';
+import ValidateAddr from './ValidateAddr.js';
 
 interface Props {
   onClose: () => void;
@@ -65,7 +65,7 @@ function Add ({ onClose }: Props): React.ReactElement {
 
   return (
     <Modal
-      header={t('Add an existing contract')}
+      header={t<string>('Add an existing contract')}
       onClose={onClose}
     >
       <Modal.Content>
@@ -76,7 +76,6 @@ function Add ({ onClose }: Props): React.ReactElement {
         >
           <Input
             autoFocus
-            help={t<string>('The address for the deployed contract instance.')}
             isError={!isAddressValid}
             label={t<string>('contract address')}
             onChange={setAddress}

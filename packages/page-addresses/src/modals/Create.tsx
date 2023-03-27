@@ -3,7 +3,7 @@
 
 import type { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
-import type { ModalProps as Props } from '../types';
+import type { ModalProps as Props } from '../types.js';
 
 import React, { useCallback, useState } from 'react';
 
@@ -13,7 +13,7 @@ import { keyring } from '@polkadot/ui-keyring';
 import { hexToU8a } from '@polkadot/util';
 import { ethereumEncode } from '@polkadot/util-crypto';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface AddrState {
   address: string;
@@ -68,7 +68,7 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
             setName({ isNameValid: !!(newName || '').trim(), name: newName });
           }
         }
-      } catch (error) {
+      } catch {
         isAddressValid = false;
       }
 
@@ -131,7 +131,6 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
           <Input
             autoFocus
             className='full'
-            help={t<string>('Paste here the address of the contact you want to add to your address book.')}
             isError={!isAddressValid}
             label={t<string>('address')}
             onChange={_onChangeAddress}
@@ -141,7 +140,6 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
           />
           <Input
             className='full'
-            help={t<string>('Type the name of your contact. This name will be used across all the apps. It can be edited later on.')}
             isError={!isNameValid}
             label={t<string>('name')}
             onChange={_onChangeName}

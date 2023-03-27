@@ -6,7 +6,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Modal, Password, PasswordStrength } from '@polkadot/react-components';
 import { keyring } from '@polkadot/ui-keyring';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 type Props = {
   onChange: (password: string, isPasswordValid: boolean) => void;
@@ -56,7 +56,6 @@ export default function PasswordInput ({ onChange, onEnter }: Props): React.Reac
     >
       <Password
         className='full'
-        help={t<string>('This password is used to encrypt your private key. It must be strong and unique! You will need it to sign transactions with this account. You can recover this account using this password together with the backup file (generated in the next step).')}
         isError={!isPass1Valid}
         label={t<string>('password')}
         onChange={_onPassword1Change}
@@ -65,7 +64,6 @@ export default function PasswordInput ({ onChange, onEnter }: Props): React.Reac
       />
       <Password
         className='full'
-        help={t<string>('Verify the password entered above.')}
         isError={!isPass2Valid}
         label={t<string>('password (repeat)')}
         onChange={onPassword2Change}

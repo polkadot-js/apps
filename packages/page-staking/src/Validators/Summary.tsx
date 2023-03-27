@@ -2,16 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
-import type { SortedTargets } from '../types';
+import type { SortedTargets } from '../types.js';
 
 import React from 'react';
-import styled from 'styled-components';
 
 import SummarySession from '@polkadot/app-explorer/SummarySession';
-import { CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
+import { CardSummary, styled, SummaryBox } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
@@ -23,13 +22,15 @@ interface Props {
 function Summary ({ className = '', stakingOverview, targets: { counterForNominators, inflation: { idealStake, inflation, stakedFraction }, nominators, waitingIds } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
+  const percent = <span className='percent'>%</span>;
+
   return (
-    <SummaryBox className={className}>
+    <StyledSummaryBox className={className}>
       <section>
         <CardSummary label={t<string>('validators')}>
           {stakingOverview
             ? <>{formatNumber(stakingOverview.validators.length)}&nbsp;/&nbsp;{formatNumber(stakingOverview.validatorCount)}</>
-            : <Spinner noLabel />
+            : <span className='--tmp'>999 / 999</span>
           }
         </CardSummary>
         <CardSummary
@@ -38,7 +39,7 @@ function Summary ({ className = '', stakingOverview, targets: { counterForNomina
         >
           {waitingIds
             ? formatNumber(waitingIds.length)
-            : <Spinner noLabel />
+            : <span className='--tmp'>99</span>
           }
         </CardSummary>
         <CardSummary
@@ -58,7 +59,7 @@ function Summary ({ className = '', stakingOverview, targets: { counterForNomina
                 )}
               </>
             )
-            : <Spinner noLabel />
+            : <span className='--tmp'>999 / 999</span>
           }
         </CardSummary>
       </section>
@@ -68,7 +69,7 @@ function Summary ({ className = '', stakingOverview, targets: { counterForNomina
             className='media--1400'
             label={t<string>('ideal staked')}
           >
-            <>{(idealStake * 100).toFixed(1)}%</>
+            <>{(idealStake * 100).toFixed(1)}{percent}</>
           </CardSummary>
         )}
         {(stakedFraction > 0) && (
@@ -76,7 +77,7 @@ function Summary ({ className = '', stakingOverview, targets: { counterForNomina
             className='media--1300'
             label={t<string>('staked')}
           >
-            <>{(stakedFraction * 100).toFixed(1)}%</>
+            <>{(stakedFraction * 100).toFixed(1)}{percent}</>
           </CardSummary>
         )}
         {(inflation > 0) && Number.isFinite(inflation) && (
@@ -84,18 +85,18 @@ function Summary ({ className = '', stakingOverview, targets: { counterForNomina
             className='media--1200'
             label={t<string>('inflation')}
           >
-            <>{inflation.toFixed(1)}%</>
+            <>{inflation.toFixed(1)}{percent}</>
           </CardSummary>
         )}
       </section>
       <section>
         <SummarySession />
       </section>
-    </SummaryBox>
+    </StyledSummaryBox>
   );
 }
 
-export default React.memo(styled(Summary)`
+const StyledSummaryBox = styled(SummaryBox)`
   .validator--Account-block-icon {
     display: inline-block;
     margin-right: 0.75rem;
@@ -108,4 +109,10 @@ export default React.memo(styled(Summary)`
       margin-left: -1.5rem;
     }
   }
-`);
+
+  .percent {
+    font-size: var(--font-percent-tiny);
+  }
+`;
+
+export default React.memo(Summary);

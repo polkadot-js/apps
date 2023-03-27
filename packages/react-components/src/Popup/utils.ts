@@ -1,11 +1,14 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { WindowSize } from '@polkadot/react-hooks/ctx/types';
 import type { ElementPosition } from '@polkadot/react-hooks/useElementPosition';
+import type { HorizontalPosition, VerticalPosition } from './types.js';
 
-import { WindowSize } from '@polkadot/react-hooks/useWindowSize';
-
-import { HorizontalPosition, VerticalPosition } from './types';
+interface Coords {
+  x: number;
+  y: number;
+}
 
 // 0.8rem
 const POINTER_OFFSET = 14 * 0.8;
@@ -14,14 +17,7 @@ const MENU_BAR_HEIGHT = 56;
 // adds 1rem margin between browsers window and popup
 const FIXED_VERTICAL_OFFSET_MARGIN = 14;
 
-export function getPosition (
-  triggerPosition: ElementPosition,
-  positionX: HorizontalPosition,
-  positionY: VerticalPosition,
-  windowPosition: ElementPosition,
-  scrollY: number,
-  windowSize: WindowSize
-): {x: number, y: number} {
+export function getPosition (triggerPosition: ElementPosition, positionX: HorizontalPosition, positionY: VerticalPosition, windowPosition: ElementPosition, scrollY: number, windowSize: WindowSize): Coords {
   const globalX = triggerPosition.x + (triggerPosition.width / 2);
   const globalY = triggerPosition.y + scrollY + (triggerPosition.height / 2);
 

@@ -5,14 +5,13 @@ import type { BN } from '@polkadot/util';
 
 import React, { useState } from 'react';
 
-import { InputBalance, Modal, Static, Toggle, TxButton } from '@polkadot/react-components';
+import { InputBalance, Modal, Static, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
-import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
-import PoolInfo from '../partials/PoolInfo';
-import useUnbondDuration from '../useUnbondDuration';
+import { useTranslation } from '../../translate.js';
+import PoolInfo from '../partials/PoolInfo.js';
+import useUnbondDuration from '../useUnbondDuration.js';
 
 interface Props {
   className?: string;
@@ -25,8 +24,7 @@ interface Props {
 function Unbond ({ className, controllerId, maxUnbond, onClose, poolId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [amount, setAmount] = useState(BN_ZERO);
-  const [withMax, setWithMax] = useState(false);
+  const [amount, setAmount] = useState<BN | undefined>();
   const bondedBlocks = useUnbondDuration();
 
   const isAmountError = !amount || !maxUnbond || amount.gt(maxUnbond);
@@ -47,10 +45,7 @@ function Unbond ({ className, controllerId, maxUnbond, onClose, poolId }: Props)
           <InputBalance
             autoFocus
             defaultValue={maxUnbond}
-            help={t<string>('Amount to unbond from the current bonded amount.')}
-            isDisabled={withMax}
             isError={isAmountError}
-            key={`unbondAmount-${withMax.toString()}`}
             label={t<string>('amount to unbond')}
             labelExtra={
               <FormatBalance
@@ -61,17 +56,9 @@ function Unbond ({ className, controllerId, maxUnbond, onClose, poolId }: Props)
             maxValue={maxUnbond}
             onChange={setAmount}
             withMax
-          >
-            <Toggle
-              isOverlay
-              label={t<string>('all bonded')}
-              onChange={setWithMax}
-              value={withMax}
-            />
-          </InputBalance>
+          />
           {bondedBlocks?.gtn(0) && (
             <Static
-              help={t<string>('The bonding duration for any staked funds. After this period needs to be withdrawn.')}
               label={t<string>('on-chain bonding duration')}
             >
               <BlockToTime value={bondedBlocks} />
@@ -83,10 +70,10 @@ function Unbond ({ className, controllerId, maxUnbond, onClose, poolId }: Props)
         <TxButton
           accountId={controllerId}
           icon='unlock'
-          isDisabled={!withMax && isAmountError}
+          isDisabled={isAmountError}
           label={t<string>('Unbond')}
           onStart={onClose}
-          params={[controllerId, withMax ? maxUnbond : amount]}
+          params={[controllerId, amount]}
           tx={api.tx.nominationPools.unbond}
         />
       </Modal.Actions>

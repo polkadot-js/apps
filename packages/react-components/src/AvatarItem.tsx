@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
+
+import { styled } from './styled.js';
 
 interface Props {
   children?: React.ReactNode;
@@ -16,7 +17,7 @@ interface Props {
 
 function AvatarItem ({ children, className = '', icon, isBig, subtitle, title }: Props): React.ReactElement<Props> {
   return (
-    <div className={['ui--AvatarItem', className, isBig && 'big'].join(' ')}>
+    <StyledDiv className={['ui--AvatarItem', className, isBig && 'big'].join(' ')}>
       <div className='ui--AvatarItem-icon'>
         {icon}
       </div>
@@ -29,11 +30,11 @@ function AvatarItem ({ children, className = '', icon, isBig, subtitle, title }:
         </div>
       </div>
       {children}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(AvatarItem)`
+const StyledDiv = styled.div`
   & {
     display: flex;
     align-items: center;
@@ -49,12 +50,12 @@ export default React.memo(styled(AvatarItem)`
   .ui--AvatarItem-details {
     .ui--AvatarItem-title {
       font-weight: 600;
-      font-size: 1rem;
+      font-size: var(--font-size-base);
     }
 
     .ui--AvatarItem-subtitle {
       font-weight: var(--font-weight-normal);
-      font-size: 1rem;
+      font-size: var(--font-size-base);
     }
   }
 
@@ -77,4 +78,6 @@ export default React.memo(styled(AvatarItem)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(AvatarItem);

@@ -3,16 +3,15 @@
 
 import FileSaver from 'file-saver';
 import React, { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button, Columar, Dropdown, Progress, Spinner, Toggle } from '@polkadot/react-components';
+import { Button, Columar, Dropdown, Progress, Spinner, styled, Toggle } from '@polkadot/react-components';
 import i18n from '@polkadot/react-components/i18n';
 import languageCache from '@polkadot/react-components/i18n/cache';
 import { useToggle } from '@polkadot/react-hooks';
 import { settings } from '@polkadot/ui-settings';
 
-import { useTranslation } from '../translate';
-import StringInput from './StringInput';
+import { useTranslation } from '../translate.js';
+import StringInput from './StringInput.js';
 
 type Progress = [[number, number, number], Record<string, [number, number, number]>];
 type Strings = Record<string, string>;
@@ -138,7 +137,6 @@ function doDownload (strings: Strings, withEmpty: boolean): void {
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function progressDisplay ([done, total, _]: [number, number, number] = [0, 0, 0]): { done: number; progress: string; total: number } {
   return {
     done,
@@ -216,7 +214,7 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
   }
 
   return (
-    <main className={className}>
+    <StyledMain className={className}>
       <header>
         <Columar>
           <Columar.Column>
@@ -231,7 +229,6 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
               {t<string>('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(modProgress) })}
             </div>
             <Progress
-              color='auto'
               total={modProgress[1]}
               value={modProgress[0]}
             />
@@ -248,7 +245,6 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
               {t<string>('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(allProgress[record]) })}
             </div>
             <Progress
-              color='auto'
               total={allProgress[record]?.[1]}
               value={allProgress[record]?.[0]}
             />
@@ -287,11 +283,11 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
           tval={strings[key]}
         />
       )}
-    </main>
+    </StyledMain>
   );
 }
 
-export default React.memo(styled(Translate)`
+const StyledMain = styled.main`
   .ui--Column {
     display: flex;
 
@@ -310,4 +306,6 @@ export default React.memo(styled(Translate)`
     justify-content: flex-end;
     margin-top: 0.75rem;
   }
-`);
+`;
+
+export default React.memo(Translate);

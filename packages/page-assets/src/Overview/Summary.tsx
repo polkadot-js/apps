@@ -6,7 +6,7 @@ import React from 'react';
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;

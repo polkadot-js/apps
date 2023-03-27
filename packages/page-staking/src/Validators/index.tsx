@@ -4,17 +4,17 @@
 import type { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
 import type { BN } from '@polkadot/util';
-import type { NominatedByMap, SortedTargets } from '../types';
+import type { NominatedByMap, SortedTargets } from '../types.js';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { Button, ToggleGroup } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useBlockAuthors, useCall } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import ActionsBanner from './ActionsBanner';
-import CurrentList from './CurrentList';
-import Summary from './Summary';
+import { useTranslation } from '../translate.js';
+import ActionsBanner from './ActionsBanner.js';
+import CurrentList from './CurrentList.js';
+import Summary from './Summary.js';
 
 interface Props {
   className?: string;
@@ -32,9 +32,14 @@ interface Props {
   toggleNominatedBy: () => void;
 }
 
+const EMPTY_PARA_VALS: Record<string, boolean> = {};
+const EMPTY_BY_AUTHOR: Record<string, string> = {};
+const EMPTY_ERA_POINTS: Record<string, string> = {};
+
 function Overview ({ className = '', favorites, hasAccounts, hasQueries, minCommission, nominatedBy, ownStashes, paraValidators, stakingOverview, targets, toggleFavorite, toggleLedger, toggleNominatedBy }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const { byAuthor, eraPoints } = useBlockAuthors();
   const [intentIndex, _setIntentIndex] = useState(0);
   const [typeIndex, setTypeIndex] = useState(1);
   const recentlyOnline = useCall<DeriveHeartbeats>(api.derive.imOnline?.receivedHeartbeats);
@@ -48,13 +53,13 @@ function Overview ({ className = '', favorites, hasAccounts, hasQueries, minComm
   );
 
   const filterOptions = useRef([
-    { text: t('Own validators'), value: 'mine' },
-    { text: t('All validators'), value: 'all' }
+    { text: t<string>('Own validators'), value: 'mine' },
+    { text: t<string>('All validators'), value: 'all' }
   ]);
 
   const intentOptions = useRef([
-    { text: t('Active'), value: 'active' },
-    { text: t('Waiting'), value: 'waiting' }
+    { text: t<string>('Active'), value: 'active' },
+    { text: t<string>('Waiting'), value: 'waiting' }
   ]);
 
   const ownStashIds = useMemo(
@@ -69,7 +74,7 @@ function Overview ({ className = '', favorites, hasAccounts, hasQueries, minComm
   const isOwn = typeIndex === 0;
 
   return (
-    <div className={`staking--Overview ${className}`}>
+    <div className={`${className} staking--Overview`}>
       <Summary
         stakingOverview={stakingOverview}
         targets={targets}
@@ -90,6 +95,8 @@ function Overview ({ className = '', favorites, hasAccounts, hasQueries, minComm
         />
       </Button.Group>
       <CurrentList
+        byAuthor={intentIndex === 0 ? byAuthor : EMPTY_BY_AUTHOR}
+        eraPoints={intentIndex === 0 ? eraPoints : EMPTY_ERA_POINTS}
         favorites={favorites}
         hasQueries={hasQueries}
         isIntentions={intentIndex === 1}
@@ -98,7 +105,7 @@ function Overview ({ className = '', favorites, hasAccounts, hasQueries, minComm
         minCommission={intentIndex === 0 ? minCommission : undefined}
         nominatedBy={intentIndex === 1 ? nominatedBy : undefined}
         ownStashIds={ownStashIds}
-        paraValidators={paraValidators}
+        paraValidators={(intentIndex === 0 && paraValidators) || EMPTY_PARA_VALS}
         recentlyOnline={intentIndex === 0 ? recentlyOnline : undefined}
         stakingOverview={stakingOverview}
         targets={targets}

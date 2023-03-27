@@ -4,11 +4,10 @@
 import type { AddressFlags } from '@polkadot/react-hooks/types';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { Flag } from '@polkadot/react-components';
+import { Flag, styled } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   flags: AddressFlags;
@@ -24,7 +23,7 @@ function Flags ({ className = '', flags: { isCouncil, isDevelopment, isExternal,
   }
 
   return (
-    <div className={`${className} ui--AddressMenu-flags`}>
+    <StyledDiv className={`${className} ui--AddressMenu-flags`}>
       {
         hasFlags && (
           <h5>{t<string>('Flags')}</h5>
@@ -102,12 +101,14 @@ function Flags ({ className = '', flags: { isCouncil, isDevelopment, isExternal,
           />
         )}
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Flags)`
+const StyledDiv = styled.div`
   .ui--Tag {
     margin: 0.2rem 1rem 0.2rem 0.571rem;
   }
-`);
+`;
+
+export default React.memo(Flags);

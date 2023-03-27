@@ -2,33 +2,31 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
-import type { AppProps as Props, ThemeProps } from '@polkadot/react-components/types';
+import type { AppProps as Props } from '@polkadot/react-components/types';
 import type { ElectionStatus, ParaValidatorIndex, ValidatorId } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
-import styled from 'styled-components';
 
-import { HelpOverlay, Tabs } from '@polkadot/react-components';
+import Pools from '@polkadot/app-staking2/Pools';
+import useOwnPools from '@polkadot/app-staking2/Pools/useOwnPools';
+import { styled, Tabs } from '@polkadot/react-components';
 import { useAccounts, useApi, useAvailableSlashes, useCall, useCallMulti, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-import basicMd from './md/basic.md';
-import Actions from './Actions';
-import Bags from './Bags';
-import { STORE_FAVS_BASE } from './constants';
-import Payouts from './Payouts';
-import Pools from './Pools';
-import Query from './Query';
-import Slashes from './Slashes';
-import Targets from './Targets';
-import { useTranslation } from './translate';
-import useNominations from './useNominations';
-import useOwnPools from './useOwnPools';
-import useSortedTargets from './useSortedTargets';
-import Validators from './Validators';
+import Actions from './Actions/index.js';
+import Bags from './Bags/index.js';
+import Payouts from './Payouts/index.js';
+import Query from './Query/index.js';
+import Slashes from './Slashes/index.js';
+import Targets from './Targets/index.js';
+import Validators from './Validators/index.js';
+import { STORE_FAVS_BASE } from './constants.js';
+import { useTranslation } from './translate.js';
+import useNominations from './useNominations.js';
+import useSortedTargets from './useSortedTargets.js';
 
 const HIDDEN_ACC = ['actions', 'payout'];
 
@@ -146,8 +144,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   ].filter((q): q is { name: string; text: string } => !!q), [api, hasStashes, slashes, t]);
 
   return (
-    <main className={`staking--App ${className}`}>
-      <HelpOverlay md={basicMd as string} />
+    <StyledMain className={`${className} staking--App`}>
       <Tabs
         basePath={basePath}
         hidden={
@@ -216,11 +213,11 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         toggleFavorite={toggleFavorite}
         toggleNominatedBy={toggleNominatedBy}
       />
-    </main>
+    </StyledMain>
   );
 }
 
-export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
+const StyledMain = styled.main`
   .staking--Chart {
     margin-top: 1.5rem;
 
@@ -248,16 +245,8 @@ export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
   .ui--Expander.stakeOver {
     .ui--Expander-summary {
       color: var(--color-error);
-
-    ${theme.theme === 'dark'
-    ? `font-weight: bold;
-      .ui--FormatBalance-value {
-
-        > .ui--FormatBalance-postfix {
-          opacity: 1;
-        }
-      }`
-    : ''};
     }
   }
-`));
+`;
+
+export default React.memo(StakingApp);

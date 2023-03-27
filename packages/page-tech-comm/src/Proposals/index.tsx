@@ -3,15 +3,15 @@
 
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import type { Hash } from '@polkadot/types/interfaces';
-import type { ComponentProps } from '../types';
+import type { ComponentProps } from '../types.js';
 
 import React, { useRef } from 'react';
 
 import { Button, Table } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
-import Proposal from './Proposal';
-import Propose from './Propose';
+import { useTranslation } from '../translate.js';
+import Proposal from './Proposal.js';
+import Propose from './Propose.js';
 
 interface Props extends ComponentProps {
   defaultProposal?: SubmittableExtrinsicFunction<'promise'>;
@@ -22,12 +22,12 @@ interface Props extends ComponentProps {
 function Proposals ({ className = '', defaultProposal, defaultThreshold, filter, isMember, members, prime, proposalHashes, type }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const headerRef = useRef([
-    [t('proposals'), 'start', 2],
-    [t('threshold')],
-    [t('voting end')],
-    [t('aye'), 'address'],
-    [t('nay'), 'address'],
+  const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
+    [t<string>('proposals'), 'start', 2],
+    [t<string>('threshold')],
+    [t<string>('voting end')],
+    [t<string>('aye'), 'address'],
+    [t<string>('nay'), 'address'],
     []
   ]);
 

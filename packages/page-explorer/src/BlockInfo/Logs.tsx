@@ -11,7 +11,7 @@ import Params from '@polkadot/react-params';
 import { Raw, Struct, Tuple, Vec } from '@polkadot/types';
 import { getTypeDef } from '@polkadot/types/create';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   value?: DigestItem[];
@@ -23,6 +23,7 @@ function formatU8a (value: Raw): React.ReactNode {
       isDisabled
       params={[{ type: getTypeDef('Bytes') }]}
       values={[{ isValid: true, value }]}
+      withExpander
     />
   );
 }
@@ -42,6 +43,7 @@ function formatStruct (struct: Struct): React.ReactNode {
       isDisabled
       params={params}
       values={values}
+      withExpander
     />
   );
 }
@@ -60,6 +62,7 @@ function formatTuple (tuple: Tuple): React.ReactNode {
       isDisabled
       params={params}
       values={values}
+      withExpander
     />
   );
 }
@@ -80,6 +83,7 @@ function formatVector (vector: Vec<Codec>): React.ReactNode {
       isDisabled
       params={params}
       values={values}
+      withExpander
     />
   );
 }
@@ -101,8 +105,8 @@ function formatItem (item: DigestItem): React.ReactNode {
 function Logs ({ value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
-  const headerRef = useRef([
-    [t('logs'), 'start']
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
+    [t<string>('logs'), 'start']
   ]);
 
   return (

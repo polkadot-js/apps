@@ -1,19 +1,23 @@
 // Copyright 2017-2023 @polkadot/app-addresses authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ComponentProps as Props } from '../types';
+import type { ActionStatus } from '@polkadot/react-components/Status/types';
 
 import React, { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button, FilterInput, SummaryBox, Table } from '@polkadot/react-components';
-import { useAddresses, useFavorites, useLoadingDelay, useToggle } from '@polkadot/react-hooks';
+import { Button, FilterInput, styled, SummaryBox, Table } from '@polkadot/react-components';
+import { useAddresses, useFavorites, useNextTick, useToggle } from '@polkadot/react-hooks';
 
-import CreateModal from '../modals/Create';
-import { useTranslation } from '../translate';
-import Address from './Address';
+import CreateModal from '../modals/Create.js';
+import { useTranslation } from '../translate.js';
+import Address from './Address.js';
 
 type SortedAddress = { address: string; isFavorite: boolean };
+
+interface Props {
+  className?: string;
+  onStatusChange: (status: ActionStatus) => void;
+}
 
 const STORE_FAVS = 'accounts:favorites';
 
@@ -24,10 +28,10 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
   const [sortedAddresses, setSortedAddresses] = useState<SortedAddress[] | undefined>();
   const [filterOn, setFilter] = useState<string>('');
-  const isLoading = useLoadingDelay();
+  const isNextTick = useNextTick();
 
-  const headerRef = useRef([
-    [t('contacts'), 'start', 4]
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
+    [t<string>('contacts'), 'start', 4]
   ]);
 
   useEffect((): void => {
@@ -45,7 +49,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   }, [allAddresses, favorites]);
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       {isCreateOpen && (
         <CreateModal
           onClose={toggleCreate}
@@ -70,11 +74,11 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         </Button.Group>
       </SummaryBox>
       <Table
-        empty={!isLoading && sortedAddresses && t<string>('no addresses saved yet, add any existing address')}
+        empty={isNextTick && sortedAddresses && t<string>('no addresses saved yet, add any existing address')}
         header={headerRef.current}
         isSplit
       >
-        {!isLoading && sortedAddresses?.map(({ address, isFavorite }): React.ReactNode => (
+        {isNextTick && sortedAddresses?.map(({ address, isFavorite }): React.ReactNode => (
           <Address
             address={address}
             filter={filterOn}
@@ -84,12 +88,14 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           />
         ))}
       </Table>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Overview)`
+const StyledDiv = styled.div`
   .summary-box-contacts {
     align-items: center;
   }
-`);
+`;
+
+export default React.memo(Overview);

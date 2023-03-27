@@ -3,17 +3,16 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { SiDef } from '@polkadot/util/types';
-import type { BitLength } from './types';
+import type { BitLength } from './types.js';
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { useApi } from '@polkadot/react-hooks';
 import { BN, BN_ONE, BN_TEN, BN_TWO, BN_ZERO, formatBalance, isBn, isUndefined } from '@polkadot/util';
 
-import Dropdown from './Dropdown';
-import Input, { KEYS_PRE } from './Input';
-import { useTranslation } from './translate';
+import Input, { KEYS_PRE } from './Input.js';
+import { styled } from './styled.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   autoFocus?: boolean;
@@ -21,10 +20,10 @@ interface Props {
   children?: React.ReactNode;
   className?: string;
   defaultValue?: string | BN;
-  help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
   isFull?: boolean;
+  isLoading?: boolean;
   isSi?: boolean;
   isDecimal?: boolean;
   isWarning?: boolean;
@@ -33,7 +32,7 @@ interface Props {
   label?: React.ReactNode;
   labelExtra?: React.ReactNode;
   maxLength?: number;
-  maxValue?: BN;
+  maxValue?: BN | null;
   onChange?: (value?: BN) => void;
   onEnter?: () => void;
   onEscape?: () => void;
@@ -71,15 +70,6 @@ function getRegex (isDecimal: boolean, isSigned: boolean): RegExp {
   );
 }
 
-function getSiOptions (symbol: string, decimals?: number): { text: string; value: string }[] {
-  return formatBalance.getOptions(decimals).map(({ power, text, value }): { text: string; value: string } => ({
-    text: power === 0
-      ? symbol
-      : text,
-    value
-  }));
-}
-
 function getSiPowers (si: SiDef | null, decimals?: number): [BN, number, number] {
   if (!si) {
     return [BN_ZERO, 0, 0];
@@ -92,7 +82,7 @@ function getSiPowers (si: SiDef | null, decimals?: number): [BN, number, number]
   return [new BN(basePower + si.power), basePower, si.power];
 }
 
-function isValidNumber (bn: BN, bitLength: BitLength, isSigned: boolean, isZeroable: boolean, maxValue?: BN): boolean {
+function isValidNumber (bn: BN, bitLength: BitLength, isSigned: boolean, isZeroable: boolean, maxValue?: BN | null): boolean {
   if (
     // cannot be negative
     (!isSigned && bn.lt(BN_ZERO)) ||
@@ -111,7 +101,7 @@ function isValidNumber (bn: BN, bitLength: BitLength, isSigned: boolean, isZeroa
   return true;
 }
 
-function inputToBn (api: ApiPromise, input: string, si: SiDef | null, bitLength: BitLength, isSigned: boolean, isZeroable: boolean, maxValue?: BN, decimals?: number): [BN, boolean] {
+function inputToBn (api: ApiPromise, input: string, si: SiDef | null, bitLength: BitLength, isSigned: boolean, isZeroable: boolean, maxValue?: BN | null, decimals?: number): [BN, boolean] {
   const [siPower, basePower, siUnitPower] = getSiPowers(si, decimals);
 
   // eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
@@ -142,7 +132,7 @@ function inputToBn (api: ApiPromise, input: string, si: SiDef | null, bitLength:
   ];
 }
 
-function getValuesFromString (api: ApiPromise, value: string, si: SiDef | null, bitLength: BitLength, isSigned: boolean, isZeroable: boolean, maxValue?: BN, decimals?: number): [string, BN, boolean] {
+function getValuesFromString (api: ApiPromise, value: string, si: SiDef | null, bitLength: BitLength, isSigned: boolean, isZeroable: boolean, maxValue?: BN | null, decimals?: number): [string, BN, boolean] {
   return [
     value,
     ...inputToBn(api, value, si, bitLength, isSigned, isZeroable, maxValue, decimals)
@@ -165,16 +155,16 @@ function getValuesFromBn (valueBn: BN, si: SiDef | null, isSigned: boolean, isZe
   ];
 }
 
-function getValues (api: ApiPromise, value: BN | string = BN_ZERO, si: SiDef | null, bitLength: BitLength, isSigned: boolean, isZeroable: boolean, maxValue?: BN, decimals?: number): [string, BN, boolean] {
+function getValues (api: ApiPromise, value: BN | string = BN_ZERO, si: SiDef | null, bitLength: BitLength, isSigned: boolean, isZeroable: boolean, maxValue?: BN | null, decimals?: number): [string, BN, boolean] {
   return isBn(value)
     ? getValuesFromBn(value, si, isSigned, isZeroable, decimals)
     : getValuesFromString(api, value, si, bitLength, isSigned, isZeroable, maxValue, decimals);
 }
 
-function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, className = '', defaultValue, help, isDecimal, isFull, isSi, isDisabled, isError = false, isWarning, isSigned = false, isZeroable = true, label, labelExtra, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, siDecimals, siDefault, siSymbol, value: propsValue }: Props): React.ReactElement<Props> {
+function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, className = '', defaultValue, isDecimal, isDisabled, isError = false, isFull, isLoading, isSi, isSigned = false, isWarning, isZeroable = true, label, labelExtra, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, siDecimals, siDefault, siSymbol, value: propsValue }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [si, setSi] = useState<SiDef | null>(() =>
+  const [si] = useState<SiDef | null>(() =>
     isSi
       ? siDefault || formatBalance.findSi('-')
       : null
@@ -183,11 +173,6 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
     getValues(api, propsValue || defaultValue, si, bitLength, isSigned, isZeroable, maxValue, siDecimals)
   );
   const [isPreKeyDown, setIsPreKeyDown] = useState(false);
-
-  const siOptions = useMemo(
-    () => getSiOptions(siSymbol || TokenUnit.abbr, siDecimals),
-    [siDecimals, siSymbol]
-  );
 
   useEffect((): void => {
     onChange && onChange(isValid ? valueBn : undefined);
@@ -249,30 +234,19 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
     [isDecimal, isSigned, si]
   );
 
-  const _onSelectSiUnit = useCallback(
-    (siUnit: string): void => {
-      const si = formatBalance.findSi(siUnit);
-
-      setSi(si);
-      _onChangeWithSi(value, si);
-    },
-    [_onChangeWithSi, value]
-  );
-
   // Same as the number of digits, which means it can still overflow, i.e.
   // for u8 we allow 3, which could be 999 (however 2 digits will limit to only 99,
   // so this is more-or-less the lesser of evils without a max-value check)
   const maxValueLength = getGlobalMaxValue(bitLength).toString().length;
 
   return (
-    <Input
+    <StyledInput
       autoFocus={autoFocus}
-      className={`ui--InputNumber${isDisabled ? ' isDisabled' : ''} ${className}`}
-      help={help}
-      isAction={isSi}
+      className={`${className} ui--InputNumber ${isDisabled ? 'isDisabled' : ''}`}
       isDisabled={isDisabled}
       isError={!isValid || isError}
       isFull={isFull}
+      isLoading={isLoading}
       isWarning={isWarning}
       label={label}
       labelExtra={labelExtra}
@@ -291,45 +265,26 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
       type='text'
       value={value}
     >
-      {!!si && (
-        <Dropdown
-          defaultValue={
-            isDisabled && siDefault
-              ? siDefault.value
-              : si.value
-          }
-          dropdownClassName='ui--SiDropdown'
-          isButton
-          onChange={
-            isDisabled
-              ? undefined
-              : _onSelectSiUnit
-          }
-          options={siOptions}
-        />
+      {si && (
+        <div className='siUnit'>
+          {siSymbol || TokenUnit.abbr}
+        </div>
       )}
       {children}
-    </Input>
+    </StyledInput>
   );
 }
 
-export default React.memo(styled(InputNumber)`
-  &.isDisabled {
-    .ui--SiDropdown {
-      background: transparent;
-      border-color: var(--border-input) !important;
-      border-style: dashed;
-      color: #666 !important;
-      cursor: default !important;
-
-      .dropdown.icon {
-        display: none;
-      }
-    }
+const StyledInput = styled(Input)`
+  .siUnit {
+    bottom: 0.85rem;
+    color: var(--color-label);
+    font-size: var(--font-size-tiny);
+    font-weight: var(--font-weight-label);
+    position: absolute;
+    font-weight: var(--font-weight-bold);
+    right: 1.25rem;
   }
+`;
 
-  .ui.buttons+.ui--Toggle.isOverlay {
-    bottom: 1.1rem;
-    right: 6.5rem;
-  }
-`);
+export default React.memo(InputNumber);

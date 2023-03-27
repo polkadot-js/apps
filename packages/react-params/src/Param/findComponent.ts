@@ -2,58 +2,60 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry, TypeDef } from '@polkadot/types/types';
-import type { ComponentMap, Props } from '../types';
+import type { ComponentMap, Props } from '../types.js';
 
 import { getTypeDef } from '@polkadot/types';
 import { TypeDefInfo } from '@polkadot/types/types';
 import { isBn } from '@polkadot/util';
 
-import Account from './Account';
-import Amount from './Amount';
-import Balance from './Balance';
-import Bool from './Bool';
-import Bytes from './Bytes';
-import Call from './Call';
-import Cid from './Cid';
-import Code from './Code';
-import DispatchError from './DispatchError';
-import DispatchResult from './DispatchResult';
-import Enum from './Enum';
-import Hash160 from './Hash160';
-import Hash256 from './Hash256';
-import Hash512 from './Hash512';
-import KeyValue from './KeyValue';
-import KeyValueArray from './KeyValueArray';
-import Moment from './Moment';
-import Null from './Null';
-import OpaqueCall from './OpaqueCall';
-import Option from './Option';
-import Raw from './Raw';
-import Struct from './Struct';
-import Text from './Text';
-import Tuple from './Tuple';
-import Unknown from './Unknown';
-import Vector from './Vector';
-import VectorFixed from './VectorFixed';
-import Vote from './Vote';
-import VoteThreshold from './VoteThreshold';
+import Account from './Account.js';
+import Amount from './Amount.js';
+import Balance from './Balance.js';
+import AccountId20 from './BasicAccountId20.js';
+import AccountId32 from './BasicAccountId32.js';
+import Bool from './Bool.js';
+import Bytes from './Bytes.js';
+import Call from './Call.js';
+import Cid from './Cid.js';
+import Code from './Code.js';
+import DispatchError from './DispatchError.js';
+import DispatchResult from './DispatchResult.js';
+import Enum from './Enum.js';
+import Hash160 from './Hash160.js';
+import Hash256 from './Hash256.js';
+import Hash512 from './Hash512.js';
+import KeyValue from './KeyValue.js';
+import KeyValueArray from './KeyValueArray.js';
+import Moment from './Moment.js';
+import Null from './Null.js';
+import OpaqueCall from './OpaqueCall.js';
+import Option from './Option.js';
+import Raw from './Raw.js';
+import Struct from './Struct.js';
+import Text from './Text.js';
+import Tuple from './Tuple.js';
+import Unknown from './Unknown.js';
+import Vector from './Vector.js';
+import VectorFixed from './VectorFixed.js';
+import Vote from './Vote.js';
+import VoteThreshold from './VoteThreshold.js';
 
 interface TypeToComponent {
   c: React.ComponentType<any>;
   t: string[];
 }
 
-const SPECIAL_TYPES = ['AccountId', 'AccountId32', 'AccountIndex', 'Address', 'Balance', 'BalanceOf', 'Vec<KeyValue>'];
+const SPECIAL_TYPES = ['AccountId', 'AccountId20', 'AccountId32', 'AccountIndex', 'Address', 'Balance', 'BalanceOf', 'Vec<KeyValue>'];
 
 const DISPATCH_ERROR = ['DispatchError', 'SpRuntimeDispatchError'];
 
 const componentDef: TypeToComponent[] = [
-  { c: Account, t: ['AccountId', 'AccountId32', 'Address', 'LookupSource', 'MultiAddress'] },
+  { c: Account, t: ['AccountId', 'Address', 'LookupSource', 'MultiAddress'] },
   { c: Amount, t: ['AccountIndex', 'i8', 'i16', 'i32', 'i64', 'i128', 'u8', 'u16', 'u32', 'u64', 'u128', 'u256'] },
   { c: Balance, t: ['Amount', 'Balance', 'BalanceOf'] },
   { c: Bool, t: ['bool'] },
   { c: Bytes, t: ['Bytes', 'Vec<u8>'] },
-  { c: Call, t: ['Call', 'Proposal'] },
+  { c: Call, t: ['Call', 'Proposal', 'RuntimeCall'] },
   { c: Cid, t: ['PalletAllianceCid'] },
   { c: Code, t: ['Code'] },
   { c: DispatchError, t: DISPATCH_ERROR },
@@ -72,7 +74,7 @@ const componentDef: TypeToComponent[] = [
   { c: Text, t: ['String', 'Text'] },
   { c: Struct, t: ['Struct'] },
   { c: Tuple, t: ['Tuple'] },
-  { c: Vector, t: ['Vec'] },
+  { c: Vector, t: ['Vec', 'BTreeSet'] },
   { c: VectorFixed, t: ['VecFixed'] },
   { c: Vote, t: ['Vote'] },
   { c: VoteThreshold, t: ['VoteThreshold'] },
@@ -119,6 +121,9 @@ function fromDef ({ displayName, info, lookupName, sub, type }: TypeDef): string
     case TypeDefInfo.Struct:
       return 'Struct';
 
+    case TypeDefInfo.BTreeSet:
+      return 'BTreeSet';
+
     case TypeDefInfo.Tuple:
       return components[type] === Account
         ? type
@@ -142,6 +147,20 @@ function fromDef ({ displayName, info, lookupName, sub, type }: TypeDef): string
 }
 
 export default function findComponent (registry: Registry, def: TypeDef, overrides: ComponentMap = {}): React.ComponentType<Props> {
+  // Explicit/special handling for Account20/32 types where they don't match
+  // the actual chain we are connected to
+  if (['AccountId20', 'AccountId32'].includes(def.type)) {
+    const defType = `AccountId${registry.createType('AccountId').length}`;
+
+    if (def.type !== defType) {
+      if (def.type === 'AccountId20') {
+        return AccountId20;
+      } else {
+        return AccountId32;
+      }
+    }
+  }
+
   const findOne = (type?: string): React.ComponentType<Props> | null =>
     type
       ? overrides[type] || components[type]

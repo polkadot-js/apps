@@ -5,14 +5,14 @@ import type { BN } from '@polkadot/util';
 
 import React, { useRef, useState } from 'react';
 
+import useAmountError from '@polkadot/app-staking2/Pools/useAmountError';
 import { Dropdown, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BalanceFree } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
-import useAmountError from '../../Pools/useAmountError';
-import { useTranslation } from '../../translate';
-import PoolInfo from '../partials/PoolInfo';
+import { useTranslation } from '../../translate.js';
+import PoolInfo from '../partials/PoolInfo.js';
 
 interface Props {
   className?: string;
@@ -27,7 +27,7 @@ function BondExtra ({ className, controllerId, onClose, poolId }: Props): React.
   const { t } = useTranslation();
   const { api } = useApi();
   const [type, setType] = useState(DEFAULT_TYPE);
-  const [amount, setAmount] = useState(BN_ZERO);
+  const [amount, setAmount] = useState<BN | undefined>();
   const isAmountError = useAmountError(controllerId, amount, BN_ZERO);
 
   const typeRef = useRef([
@@ -57,7 +57,6 @@ function BondExtra ({ className, controllerId, onClose, poolId }: Props): React.
           {type === 'free' && (
             <InputBalance
               autoFocus
-              help={t<string>('Amount to add to the currently bonded funds. This is adjusted using the available funds on the account.')}
               isError={isAmountError}
               label={t<string>('additional free funds to bond')}
               labelExtra={

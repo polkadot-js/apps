@@ -2,12 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useMemo } from 'react';
-import styled from 'styled-components';
 
-import { Button, IdentityIcon } from '@polkadot/react-components';
+import { Button, IdentityIcon, styled } from '@polkadot/react-components';
 import { u8aToHex } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   address: string;
@@ -36,7 +35,7 @@ function Match ({ address, className = '', count, offset, onCreateToggle, onRemo
   );
 
   return (
-    <tr className={className}>
+    <StyledTr className={className}>
       <td
         className='number'
         colSpan={2}
@@ -65,11 +64,11 @@ function Match ({ address, className = '', count, offset, onCreateToggle, onRemo
           onClick={_onRemove}
         />
       </td>
-    </tr>
+    </StyledTr>
   );
 }
 
-export default React.memo(styled(Match)`
+const StyledTr = styled.tr`
   text-align: center;
 
   &:hover {
@@ -107,4 +106,6 @@ export default React.memo(styled(Match)`
     opacity: 0.45;
     padding: 0 1rem;
   }
-`);
+`;
+
+export default React.memo(Match);
