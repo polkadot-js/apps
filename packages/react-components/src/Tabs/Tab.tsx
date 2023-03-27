@@ -3,7 +3,7 @@
 
 import type { TabItem } from './types.js';
 
-import React, { useCallback } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 import Badge from '../Badge.js';
@@ -17,11 +17,6 @@ interface Props extends TabItem {
 }
 
 function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRoot, name, text }: Props): React.ReactElement<Props> {
-  const classNameCb = useCallback(
-    ({ isActive }) => `${className} ui--Tab ${isActive ? 'tabLinkActive' : ''}`,
-    [className]
-  );
-
   const to = isRoot
     ? basePath
     : `${basePath}/${name}`;
@@ -32,7 +27,7 @@ function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRo
 
   return (
     <StyledNavLink
-      className={classNameCb}
+      className={`${className} ui--Tab`}
       end={tabIsExact}
       to={to}
     >
@@ -66,18 +61,19 @@ const StyledNavLink = styled(NavLink)`
     }
   }
 
-  &:hover .tabLinkText::after,
-  &.tabLinkActive .tabLinkText::after {
-    content: '';
-    position: absolute;
-    width: 3.14rem;
-    height: 2px;
-    bottom: -2px;
-    left: 50%;
-    transform: translateX(-50%);
+  &.active, &:hover {
+    .tabLinkText::after {
+      content: '';
+      position: absolute;
+      width: 3.14rem;
+      height: 2px;
+      bottom: -2px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
   }
 
-  &.tabLinkActive {
+  &.active {
     color: var(--color-text) !important;
     font-weight: var(--font-weight-normal);
 

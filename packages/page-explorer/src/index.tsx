@@ -26,17 +26,6 @@ interface Props {
   newEvents?: KeyedEvent[];
 }
 
-function createPathRef (basePath: string): Record<string, string> {
-  return {
-    api: `${basePath}/api`,
-    forks: `${basePath}/forks`,
-    latency: `${basePath}/latency`,
-    node: `${basePath}/node`,
-    query: `${basePath}/query`,
-    queryValue: `${basePath}/query/:value`
-  };
-}
-
 function createItemsRef (t: TFunction): TabItem[] {
   return [
     {
@@ -75,7 +64,6 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
   const { lastHeaders } = useBlockAuthors();
   const { eventCount, events } = useBlockEvents();
   const itemsRef = useRef(createItemsRef(t));
-  const pathRef = useRef(createPathRef(basePath));
 
   const hidden = useMemo<string[]>(
     () => isFunction(api.query.babe?.authorities) ? [] : ['forks'],
@@ -90,29 +78,40 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
         items={itemsRef.current}
       />
       <Routes>
-        <Route path={pathRef.current.api}>
-          <Api />
-        </Route>
-        <Route path={pathRef.current.forks}>
-          <Forks />
-        </Route>
-        <Route path={pathRef.current.latency}>
-          <Latency />
-        </Route>
-        <Route path={pathRef.current.query}>
-          <BlockInfo />
-        </Route>
-        <Route path={pathRef.current.queryValue}>
-          <BlockInfo />
-        </Route>
-        <Route path={pathRef.current.node}>
-          <NodeInfo />
-        </Route>
-        <Route>
-          <Main
-            eventCount={eventCount}
-            events={events}
-            headers={lastHeaders}
+        <Route path={basePath}>
+          <Route
+            element={<Api />}
+            path='api'
+          />
+          <Route
+            element={<Forks />}
+            path='forks'
+          />
+          <Route
+            element={<Latency />}
+            path='latency'
+          />
+          <Route
+            element={<NodeInfo />}
+            path='node'
+          />
+          <Route
+            element={<BlockInfo />}
+            path='query'
+          />
+          <Route
+            element={<BlockInfo />}
+            path='query/:value'
+          />
+          <Route
+            element={
+              <Main
+                eventCount={eventCount}
+                events={events}
+                headers={lastHeaders}
+              />
+            }
+            path=''
           />
         </Route>
       </Routes>
