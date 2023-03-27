@@ -411,6 +411,7 @@
        1	Vasylenko Yevhen              	Add Subzero Rococo parachain (#7919)
        1	Vedhavyas Singareddi          	enable subscan external link for centrifuge (#4307)
        1	Vlad Proshchavaiev            	Add Subsocial into apps-config (#3523)
+       1	Vladimir Pouzanov             	Allow to run with isDevelopment on ethereum-like chains (#9227)
        1	Vladyslav Samchuk             	Enable sub.id link (#7806)
        1	Wenfeng Wang                  	Added Phala PC1 Rococo V1 endpoint (#4468)
        1	willeslau                     	Add Konomi Network chain info to Rococo (#5171)
