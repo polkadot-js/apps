@@ -187,7 +187,7 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, inject
     chainSS58,
     hasInjectedAccounts: injectedAccounts.length !== 0,
     isApiReady: true,
-    isDevelopment: isEthereum ? false : isDevelopment,
+    isDevelopment,
     isEthereum,
     specName: api.runtimeVersion.specName.toString(),
     specVersion: api.runtimeVersion.specVersion.toString(),
