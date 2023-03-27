@@ -3,7 +3,7 @@
 
 import type { TabItem } from './types.js';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import Badge from '../Badge.js';
@@ -17,6 +17,11 @@ interface Props extends TabItem {
 }
 
 function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRoot, name, text }: Props): React.ReactElement<Props> {
+  const classNameCb = useCallback(
+    ({ isActive }) => `${className} ui--Tab ${isActive ? 'tabLinkActive' : ''}`,
+    [className]
+  );
+
   const to = isRoot
     ? basePath
     : `${basePath}/${name}`;
@@ -27,10 +32,8 @@ function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRo
 
   return (
     <StyledNavLink
-      activeClassName='tabLinkActive'
-      className={`${className} ui--Tab`}
-      exact={tabIsExact}
-      strict={tabIsExact}
+      className={classNameCb}
+      end={tabIsExact}
       to={to}
     >
       <div className='tabLinkText'>
