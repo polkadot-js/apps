@@ -96,7 +96,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
                 : api.registry.createType('Balance', BN_ZERO),
               weight.weightV2,
               null,
-              { Upload: wasm },
+              { Upload: api.registry.createType('Raw', wasm) },
               contractAbi?.constructors[constructorIndex]?.toU8a(params),
               ''
             ];
