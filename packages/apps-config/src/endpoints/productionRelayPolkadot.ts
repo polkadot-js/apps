@@ -258,7 +258,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     info: 'frequency',
     paraId: 2091,
     providers: {
-      'Frequency 0': 'wss://0.rpc.frequency.xyz',
+      // 'Frequency 0': 'wss://0.rpc.frequency.xyz', // https://github.com/polkadot-js/apps/issues/9231
       'Frequency 1': 'wss://1.rpc.frequency.xyz'
     },
     text: 'Frequency',
@@ -620,6 +620,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     paraId: 2037,
     providers: {
       'Geo Load Balancer': 'wss://ws.unique.network',
+      OnFinality: 'wss://unique.api.onfinality.io/public-ws',
       'Unique America': 'wss://us-ws.unique.network',
       'Unique Asia': 'wss://asia-ws.unique.network',
       'Unique Europe': 'wss://eu-ws.unique.network'
