@@ -346,6 +346,7 @@
        1	Matej Nemček                  	Removed broken link to app-nodeinfo from README (#1392)
        1	Maxim Surkov                  	Update sora library version (#4918)
        1	Meghashyam Kodmad             	updated react-dropzone to 10.1.9 (#1682)
+       1	Michal Danco                  	remove onfinality url from mangata (#9237)
        1	Mickaël Canu                  	fix error on validator word (#7110)
        1	Mickael Faust                 	Added TerraBioDAO to the GM nodes list (#8010)
        1	Mike Godenzi                  	Acurast added to Rococo (#8546)
