@@ -5,7 +5,7 @@ import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { ContractPromise } from '@polkadot/api-contract';
 import type { ContractCallOutcome } from '@polkadot/api-contract/types';
 import type { WeightV2 } from '@polkadot/types/interfaces';
-import type { CallResult } from './types';
+import type { CallResult } from './types.js';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
@@ -80,7 +80,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
               },
               ...params
             );
-          } catch (error) {
+          } catch {
             return null;
           }
         });
