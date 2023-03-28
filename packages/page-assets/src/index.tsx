@@ -92,7 +92,7 @@ function AssetApp ({ basePath, className }: Props): React.ReactElement<Props> {
                 openId={openId}
               />
             }
-            path=''
+            index
           />
         </Route>
       </Routes>

@@ -68,7 +68,7 @@ function Selection ({ basePath, onAdd }: Props): React.ReactElement<Props> {
             element={
               <Modules onAdd={_onAdd} />
             }
-            path=''
+            index
           />
         </Route>
       </Routes>

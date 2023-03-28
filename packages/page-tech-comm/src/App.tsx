@@ -77,7 +77,7 @@ function TechCommApp ({ basePath, className, type }: Props): React.ReactElement<
                 type={type}
               />
             }
-            path=''
+            index
           />
         </Route>
       </Routes>

@@ -70,7 +70,7 @@ function TreasuryApp ({ basePath }: Props): React.ReactElement<Props> {
                 members={members}
               />
             }
-            path=''
+            index
           />
         </Route>
       </Routes>

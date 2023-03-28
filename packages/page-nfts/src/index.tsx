@@ -67,7 +67,7 @@ function NftApp ({ basePath, className }: Props): React.ReactElement<Props> {
                 infos={infos}
               />
             }
-            path=''
+            index
           />
         </Route>
       </Routes>

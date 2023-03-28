@@ -34,7 +34,7 @@ function RuntimeApp ({ basePath }: Props): React.ReactElement<Props> {
             element={
               <Runtime />
             }
-            path=''
+            index
           />
         </Route>
       </Routes>

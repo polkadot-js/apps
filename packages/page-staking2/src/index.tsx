@@ -73,7 +73,7 @@ function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
                 toggleFavorite={toggleFavorite}
               />
             }
-            path=''
+            index
           />
         </Route>
       </Routes>

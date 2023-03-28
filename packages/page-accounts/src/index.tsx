@@ -54,7 +54,7 @@ function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
             element={
               <Accounts onStatusChange={onStatusChange} />
             }
-            path=''
+            index
           />
         </Route>
       </Routes>

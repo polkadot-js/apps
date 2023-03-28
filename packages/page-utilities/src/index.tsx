@@ -48,7 +48,7 @@ function UtilitiesApp ({ basePath, className }: Props): React.ReactElement<Props
             element={
               <Convert />
             }
-            path=''
+            index
           />
         </Route>
       </Routes>

@@ -34,7 +34,7 @@ function AddressesApp ({ basePath, onStatusChange }: Props): React.ReactElement<
             element={
               <Contacts onStatusChange={onStatusChange} />
             }
-            path=''
+            index
           />
         </Route>
       </Routes>

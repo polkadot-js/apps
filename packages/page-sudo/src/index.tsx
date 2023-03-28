@@ -56,7 +56,7 @@ function SudoApp ({ basePath }: Props): React.ReactElement<Props> {
                     sudoKey={sudoKey}
                   />
                 }
-                path=''
+                index
               />
             </Route>
           </Routes>

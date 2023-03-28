@@ -97,11 +97,7 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
           />
           <Route
             element={<BlockInfo />}
-            path='query'
-          />
-          <Route
-            element={<BlockInfo />}
-            path='query/:value'
+            path='query/:value?'
           />
           <Route
             element={
@@ -111,7 +107,7 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
                 headers={lastHeaders}
               />
             }
-            path=''
+            index
           />
         </Route>
       </Routes>

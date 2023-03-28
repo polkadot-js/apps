@@ -34,7 +34,7 @@ function RpcApp ({ basePath }: Props): React.ReactElement<Props> {
             element={
               <Rpc />
             }
-            path=''
+            index
           />
         </Route>
       </Routes>

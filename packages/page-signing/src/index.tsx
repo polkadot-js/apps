@@ -45,7 +45,7 @@ function SigningApp ({ basePath }: Props): React.ReactElement<Props> {
             element={
               <Sign />
             }
-            path=''
+            index
           />
         </Route>
       </Routes>

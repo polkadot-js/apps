@@ -84,7 +84,7 @@ function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
             element={
               <General />
             }
-            path=''
+            index
           />
         </Route>
       </Routes>

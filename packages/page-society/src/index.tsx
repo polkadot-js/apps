@@ -147,7 +147,7 @@ function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> 
                 payoutTotal={payoutTotal}
               />
             }
-            path=''
+            index
           />
         </Route>
       </Routes>

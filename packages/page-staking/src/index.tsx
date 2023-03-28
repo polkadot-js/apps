@@ -168,13 +168,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
             element={
               <Query />
             }
-            path='query'
-          />
-          <Route
-            element={
-              <Query />
-            }
-            path='query/:value'
+            path='query/:value?'
           />
           <Route
             element={

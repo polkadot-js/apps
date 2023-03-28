@@ -50,22 +50,13 @@ function ExtrinsicsApp ({ basePath }: Props): React.ReactElement<Props> {
                 setLast={setDecoded}
               />
             }
-            path='decode'
-          />
-          <Route
-            element={
-              <Decoder
-                defaultValue={decoded && decoded.hex}
-                setLast={setDecoded}
-              />
-            }
-            path='decode/:encoded'
+            path='decode/:encoded?'
           />
           <Route
             element={
               <Submission defaultValue={decoded} />
             }
-            path=''
+            index
           />
         </Route>
       </Routes>

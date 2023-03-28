@@ -110,7 +110,7 @@ function AllianceApp ({ basePath, className }: Props): React.ReactElement<Props>
                 voters={voters}
               />
             }
-            path=''
+            index
           />
         </Route>
       </Routes>

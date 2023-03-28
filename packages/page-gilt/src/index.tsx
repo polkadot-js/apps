@@ -37,7 +37,7 @@ function GiltApp ({ basePath, className }: Props): React.ReactElement<Props> {
             element={
               <Overview />
             }
-            path=''
+            index
           />
         </Route>
       </Routes>

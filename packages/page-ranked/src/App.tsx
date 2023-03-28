@@ -63,7 +63,7 @@ function App ({ basePath, className, palletColl, palletPoll }: Props): React.Rea
             element={
               <Members members={members && members.members} />
             }
-            path=''
+            index
           />
         </Route>
       </Routes>
