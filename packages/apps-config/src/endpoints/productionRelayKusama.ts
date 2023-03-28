@@ -440,8 +440,7 @@ export const prodParasKusama: EndpointOption[] = [
     info: 'mangata',
     paraId: 2110,
     providers: {
-      Mangata: 'wss://prod-kusama-collator-01.mangatafinance.cloud',
-      OnFinality: 'wss://mangata-x.api.onfinality.io/public-ws'
+      Mangata: 'wss://prod-kusama-collator-01.mangatafinance.cloud'
     },
     text: 'Mangata',
     ui: {
