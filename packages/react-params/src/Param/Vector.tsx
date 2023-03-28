@@ -22,7 +22,8 @@ function getParam ([{ name, type }]: ParamDef[], index: number): ParamDef {
 }
 
 export function getParams (inputParams: ParamDef[], prev: ParamDef[], max: number): ParamDef[] {
-  if (prev.length === max) {
+  // HACK: I don't know why `max` changes to `undefined`.
+  if (prev.length === max || isUndefined(max)) {
     return prev;
   }
 
@@ -36,6 +37,10 @@ export function getParams (inputParams: ParamDef[], prev: ParamDef[], max: numbe
 }
 
 export function getValues ({ value }: RawParam): RawParam[] {
+  if (value instanceof Set) {
+    value = [...value.values()];
+  }
+
   return Array.isArray(value)
     ? value.map((value: RawParam) =>
       isUndefined(value) || isUndefined(value.isValid)

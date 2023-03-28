@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useMemo } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 
@@ -32,9 +32,16 @@ function DemocracyApp ({ basePath }: Props): React.ReactElement<Props> {
         basePath={basePath}
         items={items}
       />
-      <Switch>
-        <Route><Overview /></Route>
-      </Switch>
+      <Routes>
+        <Route path={basePath}>
+          <Route
+            element={
+              <Overview />
+            }
+            index
+          />
+        </Route>
+      </Routes>
     </main>
   );
 }

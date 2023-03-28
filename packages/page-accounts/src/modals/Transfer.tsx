@@ -198,7 +198,11 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
         <TxButton
           accountId={propSenderId || senderId}
           icon='paper-plane'
-          isDisabled={!hasAvailable || !(propRecipientId || recipientId) || !amount || !!recipientPhish}
+          isDisabled={
+            (!isAll && (!hasAvailable || !amount)) ||
+            !(propRecipientId || recipientId) ||
+            !!recipientPhish
+          }
           label={t<string>('Make Transfer')}
           onStart={onClose}
           params={
@@ -213,7 +217,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
               ? api.tx.balances?.transferAll
               : isProtected
                 ? api.tx.balances?.transferKeepAlive
-                : api.tx.balances?.transfer
+                : api.tx.balances?.transferAllowDeath || api.tx.balances?.transfer
           }
         />
       </Modal.Actions>

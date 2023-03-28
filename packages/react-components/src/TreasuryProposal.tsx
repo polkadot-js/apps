@@ -10,22 +10,19 @@ import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
 import InputAddress from './InputAddress/index.js';
-import Inset, { InsetProps } from './Inset.js';
 import Labelled from './Labelled.js';
 import Static from './Static.js';
 import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;
-  asInset?: boolean;
-  insetProps?: Partial<InsetProps>;
   onClick?: () => void;
   proposalId?: string;
   proposal?: TreasuryProposalType | null;
   withLink?: boolean;
 }
 
-function TreasuryProposal ({ asInset, className = '', insetProps, onClick, proposal, proposalId }: Props): React.ReactElement<Props> | null {
+function TreasuryProposal ({ className = '', onClick, proposal, proposalId }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [stateProposal, setProposal] = useState<TreasuryProposalType | null>(null);
   const { api } = useApi();
@@ -75,17 +72,6 @@ function TreasuryProposal ({ asInset, className = '', insetProps, onClick, propo
       </Static>
     </>
   );
-
-  if (asInset) {
-    return (
-      <Inset
-        className={className}
-        {...insetProps}
-      >
-        {inner}
-      </Inset>
-    );
-  }
 
   return (
     <div
