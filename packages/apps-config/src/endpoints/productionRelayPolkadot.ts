@@ -593,11 +593,11 @@ export const prodParasPolkadot: EndpointOption[] = [
     info: 'subsocial',
     paraId: 2101,
     providers: {
-      // 'Dappforce': 'wss://para.subsocial.network'
+      Dappforce: 'wss://para.subsocial.network'
     },
     text: 'Subsocial',
     ui: {
-      color: '#69058C',
+      color: '#b9018c',
       logo: nodesSubsocialSVG
     }
   },
