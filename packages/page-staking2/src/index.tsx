@@ -4,7 +4,7 @@
 import type { AppProps as Props } from '@polkadot/react-components/types';
 
 import React, { useEffect, useMemo, useRef } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 import { useApi, useFavorites } from '@polkadot/react-hooks';
@@ -17,24 +17,9 @@ import { useTranslation } from './translate.js';
 import { clearCache } from './useCache.js';
 import useSessionInfo from './useSessionInfo.js';
 
-function createPathRef (basePath: string): Record<string, string | string[]> {
-  return {
-    bags: `${basePath}/bags`,
-    payout: `${basePath}/payout`,
-    pools: `${basePath}/pools`,
-    query: [
-      `${basePath}/query/:value`,
-      `${basePath}/query`
-    ],
-    slashes: `${basePath}/slashes`,
-    targets: `${basePath}/targets`
-  };
-}
-
 function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const pathRef = useRef(createPathRef(basePath));
 
   // on unmount anything else, ensure that for the next round we
   // are starting with a fresh cache (there could be large delays)
@@ -71,19 +56,27 @@ function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
         basePath={basePath}
         items={itemsRef.current}
       />
-      <Switch>
-        <Route path={pathRef.current.pools}>
-          <Pools />
-        </Route>
+      <Routes>
         <Route path={basePath}>
-          <Validators
-            favorites={favorites}
-            isRelay={isRelay}
-            sessionInfo={sessionInfo}
-            toggleFavorite={toggleFavorite}
+          <Route
+            element={
+              <Pools />
+            }
+            path='pools'
+          />
+          <Route
+            element={
+              <Validators
+                favorites={favorites}
+                isRelay={isRelay}
+                sessionInfo={sessionInfo}
+                toggleFavorite={toggleFavorite}
+              />
+            }
+            index
           />
         </Route>
-      </Switch>
+      </Routes>
     </main>
   );
 }

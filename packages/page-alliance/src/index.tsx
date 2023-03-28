@@ -4,7 +4,7 @@
 import type { Hash } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useMemo } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import Motions from '@polkadot/app-tech-comm/Proposals';
 import { Tabs } from '@polkadot/react-components';
@@ -70,36 +70,50 @@ function AllianceApp ({ basePath, className }: Props): React.ReactElement<Props>
         basePath={basePath}
         items={items}
       />
-      <Switch>
-        <Route path={`${basePath}/announcements`}>
-          <Announcements accouncements={accouncements} />
-        </Route>
-        <Route path={`${basePath}/motions`}>
-          <Motions
-            defaultProposal={api.tx.alliance.addUnscrupulousItems}
-            defaultThreshold={DEFAULT_THRESHOLD}
-            filter={motionFilter}
-            isMember={isVoter}
-            members={voters}
-            prime={prime}
-            proposalHashes={proposalHashes}
-            type='alliance'
+      <Routes>
+        <Route path={basePath}>
+          <Route
+            element={
+              <Announcements accouncements={accouncements} />
+            }
+            path='announcements'
+          />
+          <Route
+            element={
+              <Motions
+                defaultProposal={api.tx.alliance.addUnscrupulousItems}
+                defaultThreshold={DEFAULT_THRESHOLD}
+                filter={motionFilter}
+                isMember={isVoter}
+                members={voters}
+                prime={prime}
+                proposalHashes={proposalHashes}
+                type='alliance'
+              />
+            }
+            path='motions'
+          />
+          <Route
+            element={
+              <Unscrupulous unscrupulous={unscrupulous} />
+            }
+            path='unscrupulous'
+          />
+          <Route
+            element={
+              <Members
+                isVoter={isVoter}
+                members={members}
+                prime={prime}
+                rule={rule}
+                unscrupulous={unscrupulous}
+                voters={voters}
+              />
+            }
+            index
           />
         </Route>
-        <Route path={`${basePath}/unscrupulous`}>
-          <Unscrupulous unscrupulous={unscrupulous} />
-        </Route>
-        <Route>
-          <Members
-            isVoter={isVoter}
-            members={members}
-            prime={prime}
-            rule={rule}
-            unscrupulous={unscrupulous}
-            voters={voters}
-          />
-        </Route>
-      </Switch>
+      </Routes>
     </main>
   );
 }

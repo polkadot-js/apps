@@ -309,8 +309,8 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
 
   .theme--dark,
   .theme--light {
-    .ui--Tabs .tabLinkActive .tabLinkText::after{
-        background: ${getHighlight(uiHighlight)};
+    .ui--Tabs .active .tabLinkText::after {
+      background: ${getHighlight(uiHighlight)};
     }
 
     .ui.primary.button,

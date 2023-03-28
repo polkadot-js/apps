@@ -27,10 +27,8 @@ function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRo
 
   return (
     <StyledNavLink
-      activeClassName='tabLinkActive'
       className={`${className} ui--Tab`}
-      exact={tabIsExact}
-      strict={tabIsExact}
+      end={tabIsExact}
       to={to}
     >
       <div className='tabLinkText'>
@@ -63,18 +61,19 @@ const StyledNavLink = styled(NavLink)`
     }
   }
 
-  &:hover .tabLinkText::after,
-  &.tabLinkActive .tabLinkText::after {
-    content: '';
-    position: absolute;
-    width: 3.14rem;
-    height: 2px;
-    bottom: -2px;
-    left: 50%;
-    transform: translateX(-50%);
+  &.active, &:hover {
+    .tabLinkText::after {
+      content: '';
+      position: absolute;
+      width: 3.14rem;
+      height: 2px;
+      bottom: -2px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
   }
 
-  &.tabLinkActive {
+  &.active {
     color: var(--color-text) !important;
     font-weight: var(--font-weight-normal);
 
