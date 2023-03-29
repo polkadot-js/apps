@@ -657,7 +657,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       'IBP-GeoDNS2': 'wss://sys.dotters.network/statemint',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
       Parity: 'wss://statemint-rpc.polkadot.io',
-      RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws' 
+      RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws'
     },
     teleport: [-1],
     text: 'Statemint',
