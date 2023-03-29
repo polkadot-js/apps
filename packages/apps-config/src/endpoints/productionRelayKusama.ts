@@ -550,7 +550,8 @@ export const prodParasKusama: EndpointOption[] = [
       'Geo Load Balancer': 'wss://ws-quartz.unique.network',
       'Unique America': 'wss://us-ws-quartz.unique.network',
       'Unique Asia': 'wss://asia-ws-quartz.unique.network',
-      'Unique Europe': 'wss://eu-ws-quartz.unique.network'
+      'Unique Europe': 'wss://eu-ws-quartz.unique.network',
+       OnFinality: 'wss://quartz.api.onfinality.io/public-ws'
     },
     text: 'QUARTZ by UNIQUE',
     ui: {
@@ -610,7 +611,8 @@ export const prodParasKusama: EndpointOption[] = [
     isUnreachable: true,
     paraId: 2016,
     providers: {
-      Clover: 'wss://api-sakura.clover.finance'
+      Clover: 'wss://api-sakura.clover.finance',
+      OnFinality: 'wss://robonomics.api.onfinality.io/public-ws',
     },
     text: 'Sakura',
     ui: {
@@ -667,7 +669,8 @@ export const prodParasKusama: EndpointOption[] = [
     info: 'sora',
     paraId: 2011,
     providers: {
-      Soramitsu: 'wss://ws.parachain-collator-1.c1.sora2.soramitsu.co.jp'
+      Soramitsu: 'wss://ws.parachain-collator-1.c1.sora2.soramitsu.co.jp',
+      OnFinality: 'wss://sora.api.onfinality.io/public-ws'
     },
     text: 'SORA',
     ui: {
