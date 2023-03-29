@@ -61,7 +61,7 @@
     "postinstall:electron": "electron-builder install-app-deps",
     "start": "yarn clean && cd packages/apps && yarn polkadot-exec-webpack serve --config webpack.serve.cjs --port 3000",
     "start:electron": "yarn clean:electronBuild && concurrently 'yarn build:devElectronMain && cd packages/apps-electron && electron ./build/electron.js' 'yarn build:devElectronRenderer'",
-    "test": "polkadot-dev-run-test --env browser --require ./scripts/fixupModules.cjs --experimental-specifier-resolution=node ^typesBundle ^chainEndpoints ^chainTypes ^page- ^react- ^apps-electron",
+    "test": "polkadot-dev-run-test --env browser --experimental-specifier-resolution=node ^typesBundle ^chainEndpoints ^chainTypes ^page- ^react- ^apps-electron",
     "test:all": "polkadot-dev-run-test --env browser ^chainEndpoints ^chainTypes",
     "test:one": "polkadot-dev-run-test --env browser",
     "test:skipped": "echo 'tests skipped'"
