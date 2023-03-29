@@ -197,6 +197,7 @@ export const testRelayWestend: EndpointOption = {
     'IBP-GeoDNS2': 'wss://rpc.dotters.network/westend',
     OnFinality: 'wss://westend.api.onfinality.io/public-ws',
     Parity: 'wss://westend-rpc.polkadot.io',
+    Stakeworld: 'wss://wnd-rpc.stakeworld.io',
     'light client': 'light://substrate-connect/westend'
   },
   teleport: getTeleports(testParasWestendCommon),
