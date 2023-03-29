@@ -612,7 +612,7 @@ export const prodParasKusama: EndpointOption[] = [
     paraId: 2016,
     providers: {
       Clover: 'wss://api-sakura.clover.finance',
-      OnFinality: 'wss://robonomics.api.onfinality.io/public-ws'
+      OnFinality: 'wss://clover.api.onfinality.io/public-ws'
     },
     text: 'Sakura',
     ui: {
