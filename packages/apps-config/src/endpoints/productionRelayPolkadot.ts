@@ -416,7 +416,7 @@ export const prodParasPolkadot: EndpointOption[] = [
       Blast: 'wss://moonbeam.public.blastapi.io',
       'Moonbeam Foundation': 'wss://wss.api.moonbeam.network',
       OnFinality: 'wss://moonbeam.api.onfinality.io/public-ws',
-      UnitedBloc: 'wss://moonbeam.unitedbloc.com:3001'
+      UnitedBloc: 'wss://moonbeam.unitedbloc.com'
     },
     text: 'Moonbeam',
     ui: {

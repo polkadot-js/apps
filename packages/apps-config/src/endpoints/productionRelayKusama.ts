@@ -469,7 +469,7 @@ export const prodParasKusama: EndpointOption[] = [
       Blast: 'wss://moonriver.public.blastapi.io',
       'Moonbeam Foundation': 'wss://wss.api.moonriver.moonbeam.network',
       OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
-      UnitedBloc: 'wss://moonriver.unitedbloc.com:2001'
+      UnitedBloc: 'wss://moonriver.unitedbloc.com'
     },
     text: 'Moonriver',
     ui: {
