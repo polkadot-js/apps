@@ -399,6 +399,7 @@
        1	Sota Watanabe                 	update (#2949)
        1	Sourabh Niyogi                	Add polkaholic.io to external links (#7783)
        1	Spencer Judge                 	Don't crash if there is no tip field in extrinsics (#2466)
+       1	Stakeworld                    	Add stakeworld westend rpc node (#9249)
        1	Stéphane P                    	Fix Fr translations typos (#5104)
        1	Subsocial                     	Specify the custom types for Subsocial parachain (#5009)
        1	tarrball                      	Grammar fix in staking tooltip (#6727)
