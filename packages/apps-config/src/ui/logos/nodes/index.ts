@@ -23,6 +23,7 @@ export { nodesBridgeHubBlackSVG } from './generated/bridgeHubBlackSVG.js';
 export { nodesBridgeHubSVG } from './generated/bridgeHubSVG.js';
 export { nodesCalamariPNG } from './generated/calamariPNG.js';
 export { nodesCentrifugePNG } from './generated/centrifugePNG.js';
+export { nodesCereSVG } from './generated/cereSVG.js';
 export { nodesCessPNG } from './generated/cessPNG.js';
 export { nodesChainxSVG } from './generated/chainxSVG.js';
 export { nodesCloverSVG } from './generated/cloverSVG.js';
