@@ -90,7 +90,7 @@ export const prodChains: EndpointOption[] = [
       'Cere Network': 'wss://archive.mainnet.cere.network/ws',
       'Republic Crypto | Runtime': 'wss://mainnet.cere-archive.republiccrypto-runtime.com:444'
     },
-    text: 'Cere Mainnet',
+    text: 'Cere Network',
     ui: {
       color: '#B7AEFF',
       logo: nodesCereSVG
