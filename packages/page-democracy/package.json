@@ -14,9 +14,9 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.124.2-207-x",
+  "version": "0.124.2-208-x",
   "dependencies": {
-    "@polkadot/react-components": "^0.124.2-207-x",
-    "@polkadot/react-query": "^0.124.2-207-x"
+    "@polkadot/react-components": "^0.124.2-208-x",
+    "@polkadot/react-query": "^0.124.2-208-x"
   }
 }
