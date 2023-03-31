@@ -142,7 +142,7 @@ export const testChains: EndpointOption[] = [
       'Cere Network': 'wss://archive.testnet.cere.network/ws',
       'Republic Crypto | Runtime': 'wss://testnet.cere-archive.republiccrypto-runtime.com:444'
     },
-    text: 'Cere Testnet',
+    text: 'Cere Network Testnet',
     ui: {
       color: '#B7AEFF',
       logo: nodesCereSVG
