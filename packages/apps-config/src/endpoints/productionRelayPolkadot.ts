@@ -634,7 +634,7 @@ export const prodParasPolkadot: EndpointOption[] = [
     info: 'zeitgeist',
     paraId: 2092,
     providers: {
-      // ZeitgeistPM: 'wss://rpc-0.zeitgeist.pm', // https://github.com/polkadot-js/apps/issues/7982
+      ZeitgeistPM: 'wss://main.rpc.zeitgeist.pm/ws',
       Dwellir: 'wss://zeitgeist-rpc.dwellir.com',
       OnFinality: 'wss://zeitgeist.api.onfinality.io/public-ws'
     },
