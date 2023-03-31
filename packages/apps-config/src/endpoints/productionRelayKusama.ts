@@ -564,7 +564,7 @@ export const prodParasKusama: EndpointOption[] = [
     info: 'riodefi',
     paraId: 2227,
     providers: {
-      RioProtocol: 'wss://rio-kusama.riocorenetwork.com'
+      // RioProtocol: 'wss://rio-kusama.riocorenetwork.com' // https://github.com/polkadot-js/apps/issues/9261
     },
     text: 'RioDeFi',
     ui: {
