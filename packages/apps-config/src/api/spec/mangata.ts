@@ -1,11 +1,9 @@
 // Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { typesBundleForPolkadotApps } from '@mangata-finance/types';
-
+import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
-import type { Observable } from 'rxjs';
 
 import { combineLatest, map } from 'rxjs';
 
@@ -16,11 +14,11 @@ import { Balance } from '@polkadot/types/interfaces';
 import { FrameSystemAccountInfo } from '@polkadot/types/lookup';
 import { BN } from '@polkadot/util';
 
-function balanceOf(number: number | string): U128 {
+function balanceOf (number: number | string): U128 {
   return new U128(new TypeRegistry(), number);
 }
 
-function defaultAccountBalance(): DeriveBalancesAll {
+function defaultAccountBalance (): DeriveBalancesAll {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return {
     accountNonce: new BN(1),
@@ -31,7 +29,7 @@ function defaultAccountBalance(): DeriveBalancesAll {
     lockedBreakdown: [],
     namedReserves: [],
     reservedBalance: balanceOf(0),
-    vestingLocked: balanceOf(0),
+    vestingLocked: balanceOf(0)
   } as any;
 }
 
@@ -41,11 +39,10 @@ interface OrmlAccountData {
   frozen: Balance,
 }
 
-export function getBalance(
+export function getBalance (
   instanceId: string,
   api: ApiInterfaceRx
 ): () => Observable<DeriveBalancesAll> {
-
   return memo(
     instanceId,
     (account: string): Observable<DeriveBalancesAll> =>
@@ -72,8 +69,27 @@ const definitions: OverrideBundleDefinition = {
       all: getBalance
     }
   },
-
-  ...typesBundleForPolkadotApps,
+  types: [
+    {
+      // on all versions
+      minmax: [0, undefined],
+      types: {
+        Header: {
+          count: 'BlockNumber',
+          digest: 'Digest',
+          extrinsicsRoot: 'Hash',
+          number: 'Compact<BlockNumber>',
+          parentHash: 'Hash',
+          seed: 'ShufflingSeed',
+          stateRoot: 'Hash'
+        },
+        ShufflingSeed: {
+          proof: 'H512',
+          seed: 'H256'
+        }
+      }
+    }
+  ]
 };
 
 export default definitions;
