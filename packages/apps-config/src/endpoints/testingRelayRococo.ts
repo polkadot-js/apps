@@ -196,7 +196,7 @@ export const testParasRococo: EndpointOption[] = [
     info: 'giantTestnet',
     paraId: 4227,
     providers: {
-      GIANT: 'wss://rpc-1-us-east-1-testnetrococo.giantprotocol.org'
+      // GIANT: 'wss://rpc-1-us-east-1-testnetrococo.giantprotocol.org' // https://github.com/polkadot-js/apps/issues/9261
     },
     teleport: [-1],
     text: 'GIANT Protocol',
