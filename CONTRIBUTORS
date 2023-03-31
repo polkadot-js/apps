@@ -345,6 +345,7 @@
        1	Marin Petrunić                	add Vedran westend provider (#4674)
        1	mark hayward                  	Accounts typo (#4673)
        1	Matej Nemček                  	Removed broken link to app-nodeinfo from README (#1392)
+       1	Matthew Orris                 	Update Frequency Mainnet RPC Node 0 (#9254)
        1	Maxim Surkov                  	Update sora library version (#4918)
        1	Meghashyam Kodmad             	updated react-dropzone to 10.1.9 (#1682)
        1	Michal Danco                  	remove onfinality url from mangata (#9237)
