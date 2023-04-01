@@ -15,7 +15,7 @@ import { getTeleports } from './util.js';
 //   providers: The actual hosted secure websocket endpoint
 //
 // IMPORTANT: Alphabetical based on text
-export const prodParasPolkadot: EndpointOption[] = [
+export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
   {
     homepage: 'https://acala.network/',
     info: 'acala',
