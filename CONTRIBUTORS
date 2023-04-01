@@ -344,6 +344,7 @@
        1	LusWar                        	Update Phala testnet (PoC2 => PoC3) (#4148)
        1	marcin                        	Update t0rn websocket endpoint (#8823)
        1	Marcin Żółkiewski             	Expose signed transactions (#2203)
+       1	Marian Vanderka               	override balance derive api for mangata nodes with tokens pallet call (#9263)
        1	Marin Petrunić                	add Vedran westend provider (#4674)
        1	mark hayward                  	Accounts typo (#4673)
        1	Matej Nemček                  	Removed broken link to app-nodeinfo from README (#1392)

@@ -14,7 +14,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.124.2-209-x",
+  "version": "0.124.2-210-x",
   "dependencies": {
     "@polkadot/hw-ledger": "^11.1.2",
     "@polkadot/hw-ledger-transports": "^11.1.2",
