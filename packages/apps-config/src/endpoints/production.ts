@@ -234,7 +234,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'genshiro',
     providers: {
-      Equilibrium: 'wss://node.genshiro.io'
+      // Equilibrium: 'wss://node.genshiro.io' // https://github.com/polkadot-js/apps/issues/9266
     },
     text: 'Genshiro',
     ui: {
