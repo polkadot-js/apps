@@ -484,7 +484,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'parallel',
     paraId: 2012,
     providers: {
-      OnFinality: 'wss://parallel.api.onfinality.io/public-ws',
+      // OnFinality: 'wss://parallel.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9266
       Parallel: 'wss://rpc.parallel.fi'
     },
     text: 'Parallel',

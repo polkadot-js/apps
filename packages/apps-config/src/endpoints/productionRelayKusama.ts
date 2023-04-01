@@ -333,7 +333,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'kico',
     paraId: 2107,
     providers: {
-      'DICO Foundation': 'wss://rpc.kico.dico.io'
+      // 'DICO Foundation': 'wss://rpc.kico.dico.io' // https://github.com/polkadot-js/apps/issues/9266
       // 'DICO Foundation 2': 'wss://rpc.api.kico.dico.io' // https://github.com/polkadot-js/apps/issues/8203
     },
     text: 'KICO',
