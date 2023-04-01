@@ -15,7 +15,7 @@ import { getTeleports } from './util.js';
 //   providers: The actual hosted secure websocket endpoint
 //
 // IMPORTANT: Alphabetical based on text
-export const prodParasKusama: EndpointOption[] = [
+export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
   {
     homepage: 'https://a.band',
     info: 'aband',

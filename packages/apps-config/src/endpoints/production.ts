@@ -16,7 +16,7 @@ export * from './productionRelayPolkadot.js';
 //   providers: The actual hosted secure websocket endpoint
 //
 // IMPORTANT: Alphabetical based on text
-export const prodChains: EndpointOption[] = [
+export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: '3dpass',
     providers: {

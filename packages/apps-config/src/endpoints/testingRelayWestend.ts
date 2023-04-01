@@ -15,7 +15,7 @@ import { getTeleports } from './util.js';
 //   providers: The actual hosted secure websocket endpoint
 //
 // IMPORTANT: Alphabetical based on text
-export const testParasWestend: EndpointOption[] = [
+export const testParasWestend: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'charcoal',
     paraId: 2086,

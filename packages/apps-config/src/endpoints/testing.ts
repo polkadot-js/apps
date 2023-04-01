@@ -16,7 +16,7 @@ export * from './testingRelayWestend.js';
 //   providers: The actual hosted secure websocket endpoint
 //
 // IMPORTANT: Alphabetical based on text
-export const testChains: EndpointOption[] = [
+export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: '3dpass-testnet',
     providers: {

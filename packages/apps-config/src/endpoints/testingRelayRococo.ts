@@ -15,7 +15,7 @@ import { getTeleports } from './util.js';
 //   providers: The actual hosted secure websocket endpoint
 //
 // IMPORTANT: Alphabetical based on text
-export const testParasRococo: EndpointOption[] = [
+export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'rococoAcurast',
     paraId: 4191,
@@ -198,7 +198,6 @@ export const testParasRococo: EndpointOption[] = [
     providers: {
       // GIANT: 'wss://rpc-1-us-east-1-testnetrococo.giantprotocol.org' // https://github.com/polkadot-js/apps/issues/9261
     },
-    teleport: [-1],
     text: 'GIANT Protocol',
     ui: {
       color: '#45B549',
