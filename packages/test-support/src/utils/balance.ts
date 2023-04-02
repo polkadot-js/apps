@@ -1,7 +1,8 @@
 // Copyright 2017-2023 @polkadot/test-supports authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Balance } from '@polkadot/types/interfaces';
+import type { Balance } from '@polkadot/types/interfaces';
+
 import { BN, formatBalance } from '@polkadot/util';
 
 import { balanceOf } from '../creation/balance.js';

@@ -1,8 +1,10 @@
 // Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { FormField } from './useFormField.js';
+
 import { createNamedHook } from './createNamedHook.js';
-import { FormField, useFormField } from './useFormField.js';
+import { useFormField } from './useFormField.js';
 
 function isValid (value?: string | null): boolean {
   return (value && value.length > 0) || false;

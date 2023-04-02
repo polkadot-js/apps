@@ -1,7 +1,9 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { RefObject, useCallback, useEffect } from 'react';
+import type { RefObject } from 'react';
+
+import { useCallback, useEffect } from 'react';
 
 import { createNamedHook } from './createNamedHook.js';
 

@@ -1,10 +1,13 @@
 // Copyright 2017-2023 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { RenderResult } from '@testing-library/react';
 import type { ApiProps } from '@polkadot/react-api/types';
 import type { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
+import type { UseAccountInfo } from '@polkadot/react-hooks/types';
+import type { AccountOverrides } from '../utils/accountDefaults.js';
 
-import { queryByAttribute, render, RenderResult, screen } from '@testing-library/react';
+import { queryByAttribute, render, screen } from '@testing-library/react';
 import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
@@ -14,14 +17,13 @@ import { lightTheme } from '@polkadot/apps/themes';
 import { POLKADOT_GENESIS } from '@polkadot/apps-config';
 import { ApiCtx } from '@polkadot/react-api';
 import { QueueCtx } from '@polkadot/react-hooks/ctx/Queue';
-import { UseAccountInfo } from '@polkadot/react-hooks/types';
 import { TypeRegistry } from '@polkadot/types/create';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN } from '@polkadot/util';
 
 import { alice, bob, charlie, ferdie } from '../keyring/index.js';
 import { Table } from '../pagesElements/index.js';
-import { AccountOverrides, mockAccountHooks } from '../utils/accountDefaults.js';
+import { mockAccountHooks } from '../utils/accountDefaults.js';
 import { mockApiHooks } from '../utils/mockApiHooks.js';
 
 let queueExtrinsic: (value: PartialQueueTxExtrinsic) => void;

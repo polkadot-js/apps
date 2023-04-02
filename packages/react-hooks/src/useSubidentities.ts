@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AccountId, BalanceOf } from '@polkadot/types/interfaces';
+import type { AccountId, BalanceOf } from '@polkadot/types/interfaces';
 
 import { createNamedHook } from './createNamedHook.js';
 import { useApi } from './useApi.js';
