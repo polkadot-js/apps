@@ -1,6 +1,9 @@
 // Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// structs need to be in order
+/* eslint-disable sort-keys */
+
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
@@ -74,22 +77,202 @@ const definitions: OverrideBundleDefinition = {
       // on all versions
       minmax: [0, undefined],
       types: {
-        Header: {
-          count: 'BlockNumber',
-          digest: 'Digest',
-          extrinsicsRoot: 'Hash',
-          number: 'Compact<BlockNumber>',
-          parentHash: 'Hash',
-          seed: 'ShufflingSeed',
-          stateRoot: 'Hash'
-        },
         ShufflingSeed: {
-          proof: 'H512',
-          seed: 'H256'
+          seed: 'H256',
+          proof: 'H512'
+        },
+        Header: {
+          parentHash: 'Hash',
+          number: 'Compact<BlockNumber>',
+          stateRoot: 'Hash',
+          extrinsicsRoot: 'Hash',
+          digest: 'Digest',
+          seed: 'ShufflingSeed',
+          count: 'BlockNumber'
+        },
+        XYKRpcResult: {
+          price: 'Balance'
+        },
+        RPCAmountsResult: {
+          firstAssetAmount: 'Balance',
+          secondAssetAmount: 'Balance'
+        },
+        VestingInfo: {
+          locked: 'Balance',
+          perBlock: 'Balance',
+          startingBlock: 'BlockNumber'
+        },
+        TokenId: 'u32',
+        VestingInfosWithLockedAt: {
+          vestingInfosWithLockedAt: 'Vec<(VestingInfo<Balance, BlockNumber>, Balance)>'
         }
       }
     }
-  ]
+  ],
+  rpc: {
+    xyk: {
+      calculate_buy_price: {
+        description: '',
+        params: [
+          {
+            name: 'input_reserve',
+            type: 'Balance'
+          },
+          {
+            name: 'output_reserve',
+            type: 'Balance'
+          },
+          {
+            name: 'sell_amount',
+            type: 'Balance'
+          }
+        ],
+        type: 'XYKRpcResult<Balance>'
+      },
+      calculate_sell_price: {
+        description: '',
+        params: [
+          {
+            name: 'input_reserve',
+            type: 'Balance'
+          },
+          {
+            name: 'output_reserve',
+            type: 'Balance'
+          },
+          {
+            name: 'sell_amount',
+            type: 'Balance'
+          }
+        ],
+        type: 'XYKRpcResult<Balance>'
+      },
+      get_burn_amount: {
+        description: '',
+        params: [
+          {
+            name: 'first_asset_id',
+            type: 'TokenId'
+          },
+          {
+            name: 'second_asset_id',
+            type: 'TokenId'
+          },
+          {
+            name: 'liquidity_asset_amount',
+            type: 'Balance'
+          }
+        ],
+        type: 'RPCAmountsResult<Balance>'
+      },
+      calculate_sell_price_id: {
+        description: '',
+        params: [
+          {
+            name: 'sold_token_id',
+            type: 'TokenId'
+          },
+          {
+            name: 'bought_token_id',
+            type: 'TokenId'
+          },
+          {
+            name: 'sell_amount',
+            type: 'Balance'
+          }
+        ],
+        type: 'XYKRpcResult<Balance>'
+      },
+      calculate_buy_price_id: {
+        description: '',
+        params: [
+          {
+            name: 'sold_token_id',
+            type: 'TokenId'
+          },
+          {
+            name: 'bought_token_id',
+            type: 'TokenId'
+          },
+          {
+            name: 'buy_amount',
+            type: 'Balance'
+          }
+        ],
+        type: 'XYKRpcResult<Balance>'
+      },
+      calculate_rewards_amount: {
+        description: '',
+        params: [
+          {
+            name: 'user',
+            type: 'AccountId'
+          },
+          {
+            name: 'liquidity_asset_id',
+            type: 'TokenId'
+          }
+        ],
+        type: 'XYKRpcResult<Balance>'
+      },
+      calculate_balanced_sell_amount: {
+        description: '',
+        params: [
+          {
+            name: 'total_amount',
+            type: 'Balance'
+          },
+          {
+            name: 'reserve_amount',
+            type: 'Balance'
+          }
+        ],
+        type: 'XYKRpcResult<Balance>'
+      },
+      get_max_instant_unreserve_amount: {
+        description: '',
+        params: [
+          {
+            name: 'user',
+            type: 'AccountId'
+          },
+          {
+            name: 'liquidity_asset_id',
+            type: 'TokenId'
+          }
+        ],
+        type: 'Balance'
+      },
+      get_max_instant_burn_amount: {
+        description: '',
+        params: [
+          {
+            name: 'user',
+            type: 'AccountId'
+          },
+          {
+            name: 'liquidity_asset_id',
+            type: 'TokenId'
+          }
+        ],
+        type: 'Balance'
+      },
+      get_vesting_locked_at: {
+        description: '',
+        params: [
+          {
+            name: 'who',
+            type: 'AccountId'
+          },
+          {
+            name: 'token_id',
+            type: 'TokenId'
+          }
+        ],
+        type: 'VestingInfosWithLockedAt<Balance, BlockNumber>'
+      }
+    }
+  }
 };
 
 export default definitions;
