@@ -1,10 +1,10 @@
 // Copyright 2017-2023 @polkadot/app-files authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { SaveFile } from './types.js';
+
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import store from 'store';
-
-import { SaveFile } from './types.js';
 
 export interface Files {
   files: SaveFile[],

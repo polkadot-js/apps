@@ -2,7 +2,15 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "baseUrl": "./packages",
-    "outDir": "./build"
+    "outDir": "./build",
+    /*
+     * We have a couple of issues that forces us to disable this -
+     *  1. apps-electron is still CJS
+     *  2. some of our packaged dependencies are problematic
+     *
+     * (also disabled in tsconfig.json)
+     */
+    "verbatimModuleSyntax": false
   },
   "exclude": [
     "build/**/*",

@@ -1,13 +1,14 @@
 // Copyright 2017-2023 @polkadot/test-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiPromise } from '@polkadot/api';
-import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import { KeyringPair } from '@polkadot/keyring/types';
+import type { ApiPromise } from '@polkadot/api';
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
+import type { KeyringPair } from '@polkadot/keyring/types';
+import type { Hash } from '@polkadot/types/interfaces';
+
 import { charlieSigner, daveSigner, eveSigner, ferdieSigner } from '@polkadot/test-support/keyring';
 import { execute } from '@polkadot/test-support/transaction';
-import { Hash } from '@polkadot/types/interfaces';
 import { BN } from '@polkadot/util';
 
 import { LENGTH_BOUND, TREASURY_ADDRESS, WEIGHT_BOUND } from './constants.js';

@@ -1,19 +1,19 @@
 // Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
+import type { ValidUnassignCuratorAction } from '../types.js';
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 
-import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import { Menu, Popup } from '@polkadot/react-components';
 import { useCollectiveMembers, useToggle } from '@polkadot/react-hooks';
 
 import { determineUnassignCuratorAction } from '../helpers/index.js';
 import { useBountyStatus, useUserRole } from '../hooks/index.js';
 import { useTranslation } from '../translate.js';
-import { ValidUnassignCuratorAction } from '../types.js';
 import BountyRejectCurator from './BountyRejectCurator.js';
 import CloseBounty from './CloseBounty.js';
 import ExtendBountyExpiryAction from './ExtendBountyExpiryAction.js';

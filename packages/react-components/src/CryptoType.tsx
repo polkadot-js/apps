@@ -1,10 +1,11 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { AccountIdIsh } from './types.js';
+
 import React, { useEffect, useState } from 'react';
 
 import { getAccountCryptoType } from './util/index.js';
-import { AccountIdIsh } from './types.js';
 
 interface Props {
   accountId: AccountIdIsh;

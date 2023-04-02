@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatusBase } from '@polkadot/react-components/Status/types';
+import type { DirFile, FileInfo, SaveFile } from './types.js';
 
 import FileSaver from 'file-saver';
 import React, { useCallback, useRef, useState } from 'react';
@@ -11,7 +12,6 @@ import { useQueue } from '@polkadot/react-hooks';
 
 import { useFiles } from './hooks.js';
 import { useTranslation } from './translate.js';
-import { DirFile, FileInfo, SaveFile } from './types.js';
 import UploadModal from './UploadModal.js';
 
 const MCopyButton = styled(CopyButton)`

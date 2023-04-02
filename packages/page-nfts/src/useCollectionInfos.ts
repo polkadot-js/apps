@@ -5,13 +5,11 @@ import type { Option } from '@polkadot/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { PalletUniquesCollectionDetails, PalletUniquesCollectionMetadata } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { CollectionInfo } from './types.js';
+import type { CollectionInfo, CollectionSupportedIpfsData } from './types.js';
 
 import { useEffect, useMemo, useState } from 'react';
 
 import { createNamedHook, useAccounts, useApi, useCall, useIpfsFetch } from '@polkadot/react-hooks';
-
-import { CollectionSupportedIpfsData } from './types.js';
 
 type IpfsData = Map<string, CollectionSupportedIpfsData | null>;
 
