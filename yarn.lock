@@ -1272,90 +1272,90 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/api-augment@npm:^10.2.1":
-  version: 10.2.1
-  resolution: "@polkadot/api-augment@npm:10.2.1"
+"@polkadot/api-augment@npm:^10.2.2":
+  version: 10.2.2
+  resolution: "@polkadot/api-augment@npm:10.2.2"
   dependencies:
-    "@polkadot/api-base": 10.2.1
-    "@polkadot/rpc-augment": 10.2.1
-    "@polkadot/types": 10.2.1
-    "@polkadot/types-augment": 10.2.1
-    "@polkadot/types-codec": 10.2.1
-    "@polkadot/util": ^11.1.2
+    "@polkadot/api-base": 10.2.2
+    "@polkadot/rpc-augment": 10.2.2
+    "@polkadot/types": 10.2.2
+    "@polkadot/types-augment": 10.2.2
+    "@polkadot/types-codec": 10.2.2
+    "@polkadot/util": ^11.1.3
     tslib: ^2.5.0
-  checksum: 0ccb12839e6efc61a734cf8deb74cd70790ff5cb28db55a151f9dc9900719634aac0aabe1a6ba4579bb2fdcaa04b2234612b6172e2e92c804138e65828cd2dba
+  checksum: 878d222ac1353a99cf7209ec5df5fd638fbd7a8301b20afadeff1638a459a88749eea985e0e3bf367c20bbc0e170ba3a57f35dcfdb165c0268e870aeac63490d
   languageName: node
   linkType: hard
 
-"@polkadot/api-base@npm:^10.2.1":
-  version: 10.2.1
-  resolution: "@polkadot/api-base@npm:10.2.1"
+"@polkadot/api-base@npm:^10.2.2":
+  version: 10.2.2
+  resolution: "@polkadot/api-base@npm:10.2.2"
   dependencies:
-    "@polkadot/rpc-core": 10.2.1
-    "@polkadot/types": 10.2.1
-    "@polkadot/util": ^11.1.2
+    "@polkadot/rpc-core": 10.2.2
+    "@polkadot/types": 10.2.2
+    "@polkadot/util": ^11.1.3
     rxjs: ^7.8.0
     tslib: ^2.5.0
-  checksum: fbe0f04fd4decd34f6242e4dd9e80e0e7fded689e9cc6756d4dd1ddfc6dea1dd8f71c55c8a17745fa87c396f131a8713abb944527ecb255bb2849213a4056cd2
+  checksum: 1f0091702a0e44d6580f00820367f1da25a61fe7ed33ef632450373ed6c2d1bb3b1a539f409bbf0b5af45e6e4ac3f718580c7ef9cb2e2f2b9a409725315cc264
   languageName: node
   linkType: hard
 
-"@polkadot/api-contract@npm:^10.2.1":
-  version: 10.2.1
-  resolution: "@polkadot/api-contract@npm:10.2.1"
+"@polkadot/api-contract@npm:^10.2.2":
+  version: 10.2.2
+  resolution: "@polkadot/api-contract@npm:10.2.2"
   dependencies:
-    "@polkadot/api": 10.2.1
-    "@polkadot/types": 10.2.1
-    "@polkadot/types-codec": 10.2.1
-    "@polkadot/types-create": 10.2.1
-    "@polkadot/util": ^11.1.2
-    "@polkadot/util-crypto": ^11.1.2
+    "@polkadot/api": 10.2.2
+    "@polkadot/types": 10.2.2
+    "@polkadot/types-codec": 10.2.2
+    "@polkadot/types-create": 10.2.2
+    "@polkadot/util": ^11.1.3
+    "@polkadot/util-crypto": ^11.1.3
     rxjs: ^7.8.0
     tslib: ^2.5.0
-  checksum: 4fa31f5db997275e46b295b55a99ec9e4887627f8c3dbc81b78c59b6f0a412ba29f165aa8d26bbb60ec57aa938f67328f78facac0afc22be184794e69eaf3df3
+  checksum: 4dd36e4c53dfa99a5a4c67dd9a2d9729be7e9b8ee62ff2232b73b56d00048910de2dd4ee44e9cf332a021e51fe8013c1a55ef01207c12c4db3046c111ea29525
   languageName: node
   linkType: hard
 
-"@polkadot/api-derive@npm:^10.2.1":
-  version: 10.2.1
-  resolution: "@polkadot/api-derive@npm:10.2.1"
+"@polkadot/api-derive@npm:^10.2.2":
+  version: 10.2.2
+  resolution: "@polkadot/api-derive@npm:10.2.2"
   dependencies:
-    "@polkadot/api": 10.2.1
-    "@polkadot/api-augment": 10.2.1
-    "@polkadot/api-base": 10.2.1
-    "@polkadot/rpc-core": 10.2.1
-    "@polkadot/types": 10.2.1
-    "@polkadot/types-codec": 10.2.1
-    "@polkadot/util": ^11.1.2
-    "@polkadot/util-crypto": ^11.1.2
+    "@polkadot/api": 10.2.2
+    "@polkadot/api-augment": 10.2.2
+    "@polkadot/api-base": 10.2.2
+    "@polkadot/rpc-core": 10.2.2
+    "@polkadot/types": 10.2.2
+    "@polkadot/types-codec": 10.2.2
+    "@polkadot/util": ^11.1.3
+    "@polkadot/util-crypto": ^11.1.3
     rxjs: ^7.8.0
     tslib: ^2.5.0
-  checksum: 13a1c3d2df0ec420349e8f401b966969fd809d389a6950e3c449cdce2c21e6c93fd4204728e11e0f68a70db984a11fb2524f287b1f39c58eaffad4edf5cb3e92
+  checksum: 6c531cfa68cc9b8f00dd386101224cc7f9bb96cf3358ed2a723af98b6d05cfb6b69caef680f608c9f82c521f16e4a4a3c94c046d6750469565eb57a3461e7100
   languageName: node
   linkType: hard
 
-"@polkadot/api@npm:^10.2.1":
-  version: 10.2.1
-  resolution: "@polkadot/api@npm:10.2.1"
+"@polkadot/api@npm:^10.2.2":
+  version: 10.2.2
+  resolution: "@polkadot/api@npm:10.2.2"
   dependencies:
-    "@polkadot/api-augment": 10.2.1
-    "@polkadot/api-base": 10.2.1
-    "@polkadot/api-derive": 10.2.1
-    "@polkadot/keyring": ^11.1.2
-    "@polkadot/rpc-augment": 10.2.1
-    "@polkadot/rpc-core": 10.2.1
-    "@polkadot/rpc-provider": 10.2.1
-    "@polkadot/types": 10.2.1
-    "@polkadot/types-augment": 10.2.1
-    "@polkadot/types-codec": 10.2.1
-    "@polkadot/types-create": 10.2.1
-    "@polkadot/types-known": 10.2.1
-    "@polkadot/util": ^11.1.2
-    "@polkadot/util-crypto": ^11.1.2
+    "@polkadot/api-augment": 10.2.2
+    "@polkadot/api-base": 10.2.2
+    "@polkadot/api-derive": 10.2.2
+    "@polkadot/keyring": ^11.1.3
+    "@polkadot/rpc-augment": 10.2.2
+    "@polkadot/rpc-core": 10.2.2
+    "@polkadot/rpc-provider": 10.2.2
+    "@polkadot/types": 10.2.2
+    "@polkadot/types-augment": 10.2.2
+    "@polkadot/types-codec": 10.2.2
+    "@polkadot/types-create": 10.2.2
+    "@polkadot/types-known": 10.2.2
+    "@polkadot/util": ^11.1.3
+    "@polkadot/util-crypto": ^11.1.3
     eventemitter3: ^5.0.0
     rxjs: ^7.8.0
     tslib: ^2.5.0
-  checksum: 4aa97bb43cd1cf93a91defa986d0e614f3a072fcf807d055eb4eaafb55d0bd1c13d54c6ce0bb6088b848b86147b31b20529fd911d1d9394791af7a7cf8163311
+  checksum: bbf5973b7ef613e59677f044938e7d6ca45d0e9481696ec43bac2c1a8d138ffbfca7ba73b6422a708240af7a47100a78acb00139c1bfa5a6278a7eda0eb7140e
   languageName: node
   linkType: hard
 
@@ -1363,13 +1363,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/app-accounts@workspace:packages/page-accounts"
   dependencies:
-    "@polkadot/hw-ledger": ^11.1.2
-    "@polkadot/phishing": ^0.20.4
+    "@polkadot/hw-ledger": ^11.1.3
+    "@polkadot/phishing": ^0.20.5
     "@polkadot/react-components": ^0.124.2-214-x
     "@polkadot/react-hooks": ^0.124.2-214-x
     "@polkadot/test-support": 0.124.2-214-x
-    "@polkadot/util": ^11.1.2
-    "@polkadot/vanitygen": ^0.53.7
+    "@polkadot/util": ^11.1.3
+    "@polkadot/vanitygen": ^0.53.8
     detect-browser: ^5.3.0
     file-saver: ^2.0.5
   languageName: unknown
@@ -1436,7 +1436,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/app-contracts@workspace:packages/page-contracts"
   dependencies:
-    "@polkadot/api-contract": ^10.2.1
+    "@polkadot/api-contract": ^10.2.2
     eventemitter3: ^5.0.0
   languageName: unknown
   linkType: soft
@@ -1698,14 +1698,14 @@ __metadata:
     "@metaverse-network-sdk/type-definitions": 0.0.1-16
     "@parallel-finance/type-definitions": 1.7.16
     "@phala/typedefs": 0.2.33
-    "@polkadot/api": ^10.2.1
-    "@polkadot/api-derive": ^10.2.1
-    "@polkadot/networks": ^11.1.2
-    "@polkadot/types": ^10.2.1
-    "@polkadot/util": ^11.1.2
+    "@polkadot/api": ^10.2.2
+    "@polkadot/api-derive": ^10.2.2
+    "@polkadot/networks": ^11.1.3
+    "@polkadot/types": ^10.2.2
+    "@polkadot/util": ^11.1.3
     "@polkadot/wasm-util": ^7.0.3
-    "@polkadot/x-fetch": ^11.1.2
-    "@polkadot/x-ws": ^11.1.2
+    "@polkadot/x-fetch": ^11.1.3
+    "@polkadot/x-ws": ^11.1.3
     "@polymeshassociation/polymesh-types": 5.3.0
     "@snowfork/snowbridge-types": 0.2.7
     "@sora-substrate/type-definitions": 1.15.12
@@ -1873,117 +1873,117 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/extension-compat-metamask@npm:^0.45.4":
-  version: 0.45.4
-  resolution: "@polkadot/extension-compat-metamask@npm:0.45.4"
+"@polkadot/extension-compat-metamask@npm:^0.45.5":
+  version: 0.45.5
+  resolution: "@polkadot/extension-compat-metamask@npm:0.45.5"
   dependencies:
     "@metamask/detect-provider": ^1.2.0
-    "@polkadot/extension-inject": ^0.45.4
-    "@polkadot/types": ^10.2.1
-    "@polkadot/util": ^11.1.2
+    "@polkadot/extension-inject": ^0.45.5
+    "@polkadot/types": ^10.2.2
+    "@polkadot/util": ^11.1.3
     tslib: ^2.5.0
     web3: ^1.9.0
   peerDependencies:
     "@polkadot/util": "*"
-  checksum: 627dce2b2ec7ef6ead8e2732ac113da67108babb10a9e0bb468607d4de26af785ab65606a0fe21180aaac1c020d65cf4639e52818fb4a5bf877313207ce4c412
+  checksum: 8a81c757e98830d8d9506e37890fd46287b71d48f47ec1f88c1fbaf6279d891d300c565fca3d64dfd92372af9348ee506c2f1614f958c83438e531f528e45f3e
   languageName: node
   linkType: hard
 
-"@polkadot/extension-dapp@npm:^0.45.4":
-  version: 0.45.4
-  resolution: "@polkadot/extension-dapp@npm:0.45.4"
+"@polkadot/extension-dapp@npm:^0.45.5":
+  version: 0.45.5
+  resolution: "@polkadot/extension-dapp@npm:0.45.5"
   dependencies:
-    "@polkadot/extension-inject": ^0.45.4
-    "@polkadot/util": ^11.1.2
-    "@polkadot/util-crypto": ^11.1.2
+    "@polkadot/extension-inject": ^0.45.5
+    "@polkadot/util": ^11.1.3
+    "@polkadot/util-crypto": ^11.1.3
     tslib: ^2.5.0
   peerDependencies:
     "@polkadot/api": "*"
     "@polkadot/util": "*"
     "@polkadot/util-crypto": "*"
-  checksum: 7fa15a90087fcd04ca3ea376cefcfd538672270c0cc4832d3fc3802710db1d90a0586bc5e10090425d86e80f2e10e09c85edcd848334a2e78c3497e9bdfd5f0e
+  checksum: 1f6a763a98a7d20d2daf4ac0193c985237bb9b0c5d08a79a1da4eee00982af1917adcf1fa51a38f71a3b2a7a0d4a142d7e413b466740895035a1213a896326ae
   languageName: node
   linkType: hard
 
-"@polkadot/extension-inject@npm:^0.45.4":
-  version: 0.45.4
-  resolution: "@polkadot/extension-inject@npm:0.45.4"
+"@polkadot/extension-inject@npm:^0.45.5":
+  version: 0.45.5
+  resolution: "@polkadot/extension-inject@npm:0.45.5"
   dependencies:
-    "@polkadot/rpc-provider": ^10.2.1
-    "@polkadot/types": ^10.2.1
-    "@polkadot/util": ^11.1.2
-    "@polkadot/util-crypto": ^11.1.2
-    "@polkadot/x-global": ^11.1.2
+    "@polkadot/rpc-provider": ^10.2.2
+    "@polkadot/types": ^10.2.2
+    "@polkadot/util": ^11.1.3
+    "@polkadot/util-crypto": ^11.1.3
+    "@polkadot/x-global": ^11.1.3
     tslib: ^2.5.0
   peerDependencies:
     "@polkadot/api": "*"
-  checksum: c56fe436ec23c7de2d3a63802677863181ee998fcb0f4edf3020daba03202cc040d69a683d9d48f98877944e50375eddf11fe2bbd1a6bf0af3e2b706446f9231
+  checksum: 9e42beea7485c46064fd7f2ecc625bfbd6dd5ac5a495c9d64270c791eed7a9282d9bec90da85226c9e546689fb3edf0b8ff1eee581b04a455a31a29ae37a5f28
   languageName: node
   linkType: hard
 
-"@polkadot/hw-ledger-transports@npm:11.1.2, @polkadot/hw-ledger-transports@npm:^11.1.2":
-  version: 11.1.2
-  resolution: "@polkadot/hw-ledger-transports@npm:11.1.2"
+"@polkadot/hw-ledger-transports@npm:11.1.3, @polkadot/hw-ledger-transports@npm:^11.1.3":
+  version: 11.1.3
+  resolution: "@polkadot/hw-ledger-transports@npm:11.1.3"
   dependencies:
     "@ledgerhq/hw-transport": ^6.28.1
     "@ledgerhq/hw-transport-node-hid-singleton": ^6.28.9
     "@ledgerhq/hw-transport-webhid": ^6.27.12
     "@ledgerhq/hw-transport-webusb": ^6.27.12
-    "@polkadot/util": 11.1.2
+    "@polkadot/util": 11.1.3
     tslib: ^2.5.0
   dependenciesMeta:
     "@ledgerhq/hw-transport-node-hid-singleton":
       optional: true
-  checksum: 27999747f067562af29a581308a5681eafcf5743a5ba9a5d9c289006ff3132954306617b1fc1b87883366ac8a462bc30d273f77dc6ed2db736e9a69ab1151e21
+  checksum: 0a26e864b570cf35d55a20c4d02a0803cbc7e492f604b1f4628a2f8e1eaa26e3b994f223381c1c83e95ff2b635ceee205e0c1f9205d7a87ab424e1341c870c1a
   languageName: node
   linkType: hard
 
-"@polkadot/hw-ledger@npm:^11.1.2":
-  version: 11.1.2
-  resolution: "@polkadot/hw-ledger@npm:11.1.2"
+"@polkadot/hw-ledger@npm:^11.1.3":
+  version: 11.1.3
+  resolution: "@polkadot/hw-ledger@npm:11.1.3"
   dependencies:
-    "@polkadot/hw-ledger-transports": 11.1.2
-    "@polkadot/util": 11.1.2
+    "@polkadot/hw-ledger-transports": 11.1.3
+    "@polkadot/util": 11.1.3
     "@zondax/ledger-substrate": ^0.40.6
     tslib: ^2.5.0
-  checksum: 58b83efbe45dcf2616e72dedd7dc5b9a3490f52a35530fb4dffa4a5bc38e46f3b0300e1835ac277931c3515e7b78983aacf655febd3d5f172788ab7e8cf161cf
+  checksum: a7a7df335c5b872be81e78461dd519cd2629c6f11c81191ae46d64cc928560a7c9253a5334ea5badce561f7f2d2b65abe4afa506748d5d865bbd87a2dd4973a1
   languageName: node
   linkType: hard
 
-"@polkadot/keyring@npm:^11.1.2":
-  version: 11.1.2
-  resolution: "@polkadot/keyring@npm:11.1.2"
+"@polkadot/keyring@npm:^11.1.3":
+  version: 11.1.3
+  resolution: "@polkadot/keyring@npm:11.1.3"
   dependencies:
-    "@polkadot/util": 11.1.2
-    "@polkadot/util-crypto": 11.1.2
+    "@polkadot/util": 11.1.3
+    "@polkadot/util-crypto": 11.1.3
     tslib: ^2.5.0
   peerDependencies:
-    "@polkadot/util": 11.1.2
-    "@polkadot/util-crypto": 11.1.2
-  checksum: 6308d3a20732d06de83f3c9ea28355757b1019185c8b170f6d93b415b2876ae0e0f3c4b44ce03d3d0693d177f354c914728653b7c7a388abc93d738d73699f43
+    "@polkadot/util": 11.1.3
+    "@polkadot/util-crypto": 11.1.3
+  checksum: 8bc7af976cf7b4bcbac16032f82d0f827679092037ccee17b1e403f06e423ba0fe999903095868af974f370f1f147442d14ed2696c45570b204deb065c64b52a
   languageName: node
   linkType: hard
 
-"@polkadot/networks@npm:^11.1.2":
-  version: 11.1.2
-  resolution: "@polkadot/networks@npm:11.1.2"
+"@polkadot/networks@npm:^11.1.3":
+  version: 11.1.3
+  resolution: "@polkadot/networks@npm:11.1.3"
   dependencies:
-    "@polkadot/util": 11.1.2
+    "@polkadot/util": 11.1.3
     "@substrate/ss58-registry": ^1.39.0
     tslib: ^2.5.0
-  checksum: e9087f962966a65010b922ea05b4d376e9c2ca1069cc8c26d02e59cdc4a31821032c9a969991c70aad6eacf0f2e7f3305769f9390ccf465e5a55829d11b1649b
+  checksum: cbd408d700c5033081bac0ef2d6b3ca222b92d4d7812d920ed12871602d2deba5ff4aa80a25764fb702c968eb217d251d5bdcd59cf31c8a2bf2787a908e572a4
   languageName: node
   linkType: hard
 
-"@polkadot/phishing@npm:^0.20.4":
-  version: 0.20.4
-  resolution: "@polkadot/phishing@npm:0.20.4"
+"@polkadot/phishing@npm:^0.20.5":
+  version: 0.20.5
+  resolution: "@polkadot/phishing@npm:0.20.5"
   dependencies:
-    "@polkadot/util": ^11.1.2
-    "@polkadot/util-crypto": ^11.1.2
-    "@polkadot/x-fetch": ^11.1.2
+    "@polkadot/util": ^11.1.3
+    "@polkadot/util-crypto": ^11.1.3
+    "@polkadot/x-fetch": ^11.1.3
     tslib: ^2.5.0
-  checksum: 54a08e19e1a62e5c6867fc55b171a6ff6dad55ebd4b1e9c29d08b610931c12b65e1b878b303e89beac43f195e414671bc45ce463e0450ed8f7ff55b51eb4766e
+  checksum: 6617245697145afb78d280de15556a379d3a7f3a21f0f95b9d6524eb3cd0c770587edcd9b6410354a9b5df214b77d01a4c2543eb00e5d5048138715b26eff850
   languageName: node
   linkType: hard
 
@@ -1991,10 +1991,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/react-api@workspace:packages/react-api"
   dependencies:
-    "@polkadot/api": ^10.2.1
-    "@polkadot/extension-compat-metamask": ^0.45.4
-    "@polkadot/extension-dapp": ^0.45.4
-    "@polkadot/rpc-provider": ^10.2.1
+    "@polkadot/api": ^10.2.2
+    "@polkadot/extension-compat-metamask": ^0.45.5
+    "@polkadot/extension-dapp": ^0.45.5
+    "@polkadot/rpc-provider": ^10.2.2
     fflate: ^0.7.4
     rxjs: ^7.8.0
   languageName: unknown
@@ -2007,15 +2007,15 @@ __metadata:
     "@fortawesome/fontawesome-svg-core": ^6.3.0
     "@fortawesome/free-solid-svg-icons": ^6.3.0
     "@fortawesome/react-fontawesome": ^0.2.0
-    "@polkadot/keyring": ^11.1.2
+    "@polkadot/keyring": ^11.1.3
     "@polkadot/react-api": ^0.124.2-214-x
-    "@polkadot/react-identicon": ^3.1.3
-    "@polkadot/react-qr": ^3.1.3
+    "@polkadot/react-identicon": ^3.1.4
+    "@polkadot/react-qr": ^3.1.4
     "@polkadot/react-query": ^0.124.2-214-x
-    "@polkadot/ui-keyring": ^3.1.3
-    "@polkadot/ui-settings": ^3.1.3
-    "@polkadot/util": ^11.1.2
-    "@polkadot/util-crypto": ^11.1.2
+    "@polkadot/ui-keyring": ^3.1.4
+    "@polkadot/ui-settings": ^3.1.4
+    "@polkadot/util": ^11.1.3
+    "@polkadot/util-crypto": ^11.1.3
     "@types/chartjs-plugin-crosshair": ^1.1.1
     "@types/codeflask": ^1.4.3
     "@types/owasp-password-strength-test": ^1.3.0
@@ -2050,21 +2050,21 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/react-hooks@workspace:packages/react-hooks"
   dependencies:
-    "@polkadot/hw-ledger": ^11.1.2
-    "@polkadot/hw-ledger-transports": ^11.1.2
+    "@polkadot/hw-ledger": ^11.1.3
+    "@polkadot/hw-ledger-transports": ^11.1.3
     is-ipfs: ^8.0.1
   languageName: unknown
   linkType: soft
 
-"@polkadot/react-identicon@npm:^3.1.3":
-  version: 3.1.3
-  resolution: "@polkadot/react-identicon@npm:3.1.3"
+"@polkadot/react-identicon@npm:^3.1.4":
+  version: 3.1.4
+  resolution: "@polkadot/react-identicon@npm:3.1.4"
   dependencies:
-    "@polkadot/keyring": ^11.1.2
-    "@polkadot/ui-settings": 3.1.3
-    "@polkadot/ui-shared": 3.1.3
-    "@polkadot/util": ^11.1.2
-    "@polkadot/util-crypto": ^11.1.2
+    "@polkadot/keyring": ^11.1.3
+    "@polkadot/ui-settings": 3.1.4
+    "@polkadot/ui-shared": 3.1.4
+    "@polkadot/util": ^11.1.3
+    "@polkadot/util-crypto": ^11.1.3
     ethereum-blockies-base64: ^1.0.2
     jdenticon: 3.2.0
     react-copy-to-clipboard: ^5.1.0
@@ -2078,7 +2078,7 @@ __metadata:
     react-dom: "*"
     react-is: "*"
     styled-components: "*"
-  checksum: b84b019ca49279ef6366653545d64cd268d168760607daa3369bd750d35b7902ea4afbec2d92cf20c22299417599b21f7b83ea490790930317a48099d59188c6
+  checksum: 0edfc5e4f4549da39ebe2fa03e9e9d6f0284ea2b615b0b13e2446d0d30b25bf7f87d7daea904ae79a1ea6a5f49cb264eb94fdae06557d1e0bba85a60ecdc8ea4
   languageName: node
   linkType: hard
 
@@ -2091,13 +2091,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/react-qr@npm:^3.1.3":
-  version: 3.1.3
-  resolution: "@polkadot/react-qr@npm:3.1.3"
+"@polkadot/react-qr@npm:^3.1.4":
+  version: 3.1.4
+  resolution: "@polkadot/react-qr@npm:3.1.4"
   dependencies:
-    "@polkadot/ui-settings": 3.1.3
-    "@polkadot/util": ^11.1.2
-    "@polkadot/util-crypto": ^11.1.2
+    "@polkadot/ui-settings": 3.1.4
+    "@polkadot/util": ^11.1.3
+    "@polkadot/util-crypto": ^11.1.3
     qrcode-generator: ^1.4.4
     react-qr-reader: ^2.2.1
     styled-components: ^5.3.9
@@ -2108,7 +2108,7 @@ __metadata:
     react: "*"
     react-dom: "*"
     styled-components: "*"
-  checksum: 3f8e0947983be7fef43d5660e1d4e12d38a3556eae22f1f3fcb84dad663cf096a670011f68cc5fab2f3aa8a9e31dbf08005b05da6e637ae543b5cc91903df6f2
+  checksum: 6c34eacff811d0b341af0bc75da482b44ef1e808a92c54e08e0a333d2a601428c948f71f8c70d042deb2603002b7e02d3f8c28d602e0c7050472004706a6682d
   languageName: node
   linkType: hard
 
@@ -2122,50 +2122,50 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/react-signer@workspace:packages/react-signer"
   dependencies:
-    "@polkadot/hw-ledger": ^11.1.2
+    "@polkadot/hw-ledger": ^11.1.3
     "@polkadot/react-components": ^0.124.2-214-x
   languageName: unknown
   linkType: soft
 
-"@polkadot/rpc-augment@npm:^10.2.1":
-  version: 10.2.1
-  resolution: "@polkadot/rpc-augment@npm:10.2.1"
+"@polkadot/rpc-augment@npm:^10.2.2":
+  version: 10.2.2
+  resolution: "@polkadot/rpc-augment@npm:10.2.2"
   dependencies:
-    "@polkadot/rpc-core": 10.2.1
-    "@polkadot/types": 10.2.1
-    "@polkadot/types-codec": 10.2.1
-    "@polkadot/util": ^11.1.2
+    "@polkadot/rpc-core": 10.2.2
+    "@polkadot/types": 10.2.2
+    "@polkadot/types-codec": 10.2.2
+    "@polkadot/util": ^11.1.3
     tslib: ^2.5.0
-  checksum: 3e3f37413f9610a6e8746f6c3dc9c0652a4d6a06f6d3651f6af23682f67fa334c0925d5466e94a632acb17dcff5fb9101a511d41cab8ef371a8559ca9929df72
+  checksum: 4b137b0935eabcb8f1fee4961ddd670bd0158979e1aef160f327b8f0ef3940fb834a03b41ba058487bfab55b1b9ca591143a57c2d2a36e8de43d014f6874d932
   languageName: node
   linkType: hard
 
-"@polkadot/rpc-core@npm:^10.2.1":
-  version: 10.2.1
-  resolution: "@polkadot/rpc-core@npm:10.2.1"
+"@polkadot/rpc-core@npm:^10.2.2":
+  version: 10.2.2
+  resolution: "@polkadot/rpc-core@npm:10.2.2"
   dependencies:
-    "@polkadot/rpc-augment": 10.2.1
-    "@polkadot/rpc-provider": 10.2.1
-    "@polkadot/types": 10.2.1
-    "@polkadot/util": ^11.1.2
+    "@polkadot/rpc-augment": 10.2.2
+    "@polkadot/rpc-provider": 10.2.2
+    "@polkadot/types": 10.2.2
+    "@polkadot/util": ^11.1.3
     rxjs: ^7.8.0
     tslib: ^2.5.0
-  checksum: 8fd11f769772ed73939fbb02ef376149eaf12e93e1ac67995f27e3c7736525c9b569f46a15a5dcbff30761644366b08bd0513111540263777c72e024d4d58751
+  checksum: 2156feeb22107b7265c5cb2d5f1d3ca5e30d1ac22073f4aecd2dc5a762486530c6e4ad249e99bbd07c09a80e81de2300c830418e561ddc846197d4e4bae4bb91
   languageName: node
   linkType: hard
 
-"@polkadot/rpc-provider@npm:^10.2.1":
-  version: 10.2.1
-  resolution: "@polkadot/rpc-provider@npm:10.2.1"
+"@polkadot/rpc-provider@npm:^10.2.2":
+  version: 10.2.2
+  resolution: "@polkadot/rpc-provider@npm:10.2.2"
   dependencies:
-    "@polkadot/keyring": ^11.1.2
-    "@polkadot/types": 10.2.1
-    "@polkadot/types-support": 10.2.1
-    "@polkadot/util": ^11.1.2
-    "@polkadot/util-crypto": ^11.1.2
-    "@polkadot/x-fetch": ^11.1.2
-    "@polkadot/x-global": ^11.1.2
-    "@polkadot/x-ws": ^11.1.2
+    "@polkadot/keyring": ^11.1.3
+    "@polkadot/types": 10.2.2
+    "@polkadot/types-support": 10.2.2
+    "@polkadot/util": ^11.1.3
+    "@polkadot/util-crypto": ^11.1.3
+    "@polkadot/x-fetch": ^11.1.3
+    "@polkadot/x-global": ^11.1.3
+    "@polkadot/x-ws": ^11.1.3
     "@substrate/connect": 0.7.22
     eventemitter3: ^5.0.0
     mock-socket: ^9.2.1
@@ -2174,7 +2174,7 @@ __metadata:
   dependenciesMeta:
     "@substrate/connect":
       optional: true
-  checksum: 73b7f56646e03c27c777e7fb787a2354c3b86f8a63c2f6dbaf0a7d11e1cee7a0450bb66f3a904324cad6b3f30ba42b27cfab26f9e50df4238fe12705702e2892
+  checksum: 7b34b837c5d6d0808041a61e77cf9dcbd1dfa06d032a0d05378cffbcb8d29fbfd9817e72ff483e77d374148e040aa69267cb73cacca317d7e95366c74e13d2df
   languageName: node
   linkType: hard
 
@@ -2182,7 +2182,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/test-support@workspace:packages/test-support"
   dependencies:
-    "@polkadot/types-support": ^10.2.1
+    "@polkadot/types-support": ^10.2.2
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^14.0.0
     testcontainers: ^9.3.0
@@ -2190,88 +2190,88 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/types-augment@npm:^10.2.1":
-  version: 10.2.1
-  resolution: "@polkadot/types-augment@npm:10.2.1"
+"@polkadot/types-augment@npm:^10.2.2":
+  version: 10.2.2
+  resolution: "@polkadot/types-augment@npm:10.2.2"
   dependencies:
-    "@polkadot/types": 10.2.1
-    "@polkadot/types-codec": 10.2.1
-    "@polkadot/util": ^11.1.2
+    "@polkadot/types": 10.2.2
+    "@polkadot/types-codec": 10.2.2
+    "@polkadot/util": ^11.1.3
     tslib: ^2.5.0
-  checksum: 7aa0d08d4937c01c78f2eb070bd2a65427e510b8c67fe7db839dd767c8469a6055a003fcb1e682b09fd12d09f83d6295ebdfb7d70497f5ba415c9d963fd0f0ac
+  checksum: 69836f1ebb3bcb651859af86b22e2d26ae83e5ae0010fe09b6b0aae8d1b662da718feee35f7e85cb4915a4539064cc812c3f3c17d2cd09fe35c18f8fed7bb4ab
   languageName: node
   linkType: hard
 
-"@polkadot/types-codec@npm:^10.2.1":
-  version: 10.2.1
-  resolution: "@polkadot/types-codec@npm:10.2.1"
+"@polkadot/types-codec@npm:^10.2.2":
+  version: 10.2.2
+  resolution: "@polkadot/types-codec@npm:10.2.2"
   dependencies:
-    "@polkadot/util": ^11.1.2
-    "@polkadot/x-bigint": ^11.1.2
+    "@polkadot/util": ^11.1.3
+    "@polkadot/x-bigint": ^11.1.3
     tslib: ^2.5.0
-  checksum: 8f1003a230f110371cd6c63f0f8cf06504c9f1e61845da0ff054df87bd280fdf6920b60a60030424c275c8b4b6986546727db044667e3e62cfa35870fcb3757a
+  checksum: f3f9b1d5222bd9afce09b2937e8baf6ee47f5eebd77576f90c6797bda9be4e06b14c7ec56b292a67058d331421ac3d0350bd1e5cc6f681823eda0c32d0755284
   languageName: node
   linkType: hard
 
-"@polkadot/types-create@npm:^10.2.1":
-  version: 10.2.1
-  resolution: "@polkadot/types-create@npm:10.2.1"
+"@polkadot/types-create@npm:^10.2.2":
+  version: 10.2.2
+  resolution: "@polkadot/types-create@npm:10.2.2"
   dependencies:
-    "@polkadot/types-codec": 10.2.1
-    "@polkadot/util": ^11.1.2
+    "@polkadot/types-codec": 10.2.2
+    "@polkadot/util": ^11.1.3
     tslib: ^2.5.0
-  checksum: 5541b5c8b2ef647ee236d65effaf72d516876ae6bf377a9a081d4a5650cbc1906766501d7ee46144d3a070e3890602537ffb9cd65bccd0f9105cc9271598784e
+  checksum: f5698e6d7dabc7546c5a0e995b80dfc93fc413ce4be465b5e7264ec28e248066019b3d8e6ab3ea2774cc4998d22c3dd14318b2d55194a0db63200e7e235f3249
   languageName: node
   linkType: hard
 
-"@polkadot/types-known@npm:^10.2.1":
-  version: 10.2.1
-  resolution: "@polkadot/types-known@npm:10.2.1"
+"@polkadot/types-known@npm:^10.2.2":
+  version: 10.2.2
+  resolution: "@polkadot/types-known@npm:10.2.2"
   dependencies:
-    "@polkadot/networks": ^11.1.2
-    "@polkadot/types": 10.2.1
-    "@polkadot/types-codec": 10.2.1
-    "@polkadot/types-create": 10.2.1
-    "@polkadot/util": ^11.1.2
+    "@polkadot/networks": ^11.1.3
+    "@polkadot/types": 10.2.2
+    "@polkadot/types-codec": 10.2.2
+    "@polkadot/types-create": 10.2.2
+    "@polkadot/util": ^11.1.3
     tslib: ^2.5.0
-  checksum: 16ee6942c6e4c82522d3e2718984c67549cb46b5390d10c342d23e17ea2351f8fe764e3342770c599b132a262c74bcedc187c2e4bd3fa983dac5a6a072c7f97a
+  checksum: b7c0b37c335ac7bcb9d81c0d7ee84e391e92d08c63c6cbde89eaa01414410a1062022bf8afcf8877a8092f808aea04b4482d8b522614bed2c94d34a764b35d4a
   languageName: node
   linkType: hard
 
-"@polkadot/types-support@npm:^10.2.1":
-  version: 10.2.1
-  resolution: "@polkadot/types-support@npm:10.2.1"
+"@polkadot/types-support@npm:^10.2.2":
+  version: 10.2.2
+  resolution: "@polkadot/types-support@npm:10.2.2"
   dependencies:
-    "@polkadot/util": ^11.1.2
+    "@polkadot/util": ^11.1.3
     tslib: ^2.5.0
-  checksum: e0cff3c6c42e16d5df1410030f4645e687f56fede92da638bf174a4af539a995751d81971932d2e9813734414a7452478849ae36473bd14e1b71836b22a9396b
+  checksum: 53580f1ebe9e922bd833693aa2897c087cd287ebbee3a632d03b050552ac68acda047cfdb5b9ca681466da88c83a28efd9d4480eae8d66023139353ffe10bfda
   languageName: node
   linkType: hard
 
-"@polkadot/types@npm:^10.2.1":
-  version: 10.2.1
-  resolution: "@polkadot/types@npm:10.2.1"
+"@polkadot/types@npm:^10.2.2":
+  version: 10.2.2
+  resolution: "@polkadot/types@npm:10.2.2"
   dependencies:
-    "@polkadot/keyring": ^11.1.2
-    "@polkadot/types-augment": 10.2.1
-    "@polkadot/types-codec": 10.2.1
-    "@polkadot/types-create": 10.2.1
-    "@polkadot/util": ^11.1.2
-    "@polkadot/util-crypto": ^11.1.2
+    "@polkadot/keyring": ^11.1.3
+    "@polkadot/types-augment": 10.2.2
+    "@polkadot/types-codec": 10.2.2
+    "@polkadot/types-create": 10.2.2
+    "@polkadot/util": ^11.1.3
+    "@polkadot/util-crypto": ^11.1.3
     rxjs: ^7.8.0
     tslib: ^2.5.0
-  checksum: e0553e19cf49eb52c2d9e76e6835b954f63bf4cbc3364f2cd276fe08e940f681267719d4b6e8c07af1b560ca5cec6dc770dfc73f6e7465b7097829aef53bba88
+  checksum: 8eaf6b5c15884dd8823b21dd2da405496c5f7ab5efbc55b3f4ef5e9361e9c8ed1ddb800173b092858c0aae219bafd469881e1d2f04da06e58a3312477f186db5
   languageName: node
   linkType: hard
 
-"@polkadot/ui-keyring@npm:^3.1.3":
-  version: 3.1.3
-  resolution: "@polkadot/ui-keyring@npm:3.1.3"
+"@polkadot/ui-keyring@npm:^3.1.4":
+  version: 3.1.4
+  resolution: "@polkadot/ui-keyring@npm:3.1.4"
   dependencies:
-    "@polkadot/keyring": ^11.1.2
-    "@polkadot/ui-settings": 3.1.3
-    "@polkadot/util": ^11.1.2
-    "@polkadot/util-crypto": ^11.1.2
+    "@polkadot/keyring": ^11.1.3
+    "@polkadot/ui-settings": 3.1.4
+    "@polkadot/util": ^11.1.3
+    "@polkadot/util-crypto": ^11.1.3
     mkdirp: ^2.1.6
     rxjs: ^7.8.0
     store: ^2.0.12
@@ -2280,85 +2280,85 @@ __metadata:
     "@polkadot/keyring": "*"
     "@polkadot/ui-settings": "*"
     "@polkadot/util": "*"
-  checksum: cfdac39427ac21eded84c8c0b7b920e3e76725afb8a8658897ee11d98a70b80bfa24ed113fc10427930dfe304acb09f89f9eed9afa0d14e5f4550be202334034
+  checksum: 55e8865e9085371bab75fb1b4baa0939cb7daab698dc7c98a8c49938134806cef15aa6acaea70a8a0d71406c3eedfab03c3a0505cf6c046363d2203d5efcec68
   languageName: node
   linkType: hard
 
-"@polkadot/ui-settings@npm:3.1.3, @polkadot/ui-settings@npm:^3.1.3":
-  version: 3.1.3
-  resolution: "@polkadot/ui-settings@npm:3.1.3"
+"@polkadot/ui-settings@npm:3.1.4, @polkadot/ui-settings@npm:^3.1.4":
+  version: 3.1.4
+  resolution: "@polkadot/ui-settings@npm:3.1.4"
   dependencies:
-    "@polkadot/networks": ^11.1.2
-    "@polkadot/util": ^11.1.2
+    "@polkadot/networks": ^11.1.3
+    "@polkadot/util": ^11.1.3
     eventemitter3: ^5.0.0
     store: ^2.0.12
     tslib: ^2.5.0
   peerDependencies:
     "@polkadot/networks": "*"
     "@polkadot/util": "*"
-  checksum: c2f5339038ce0c1f1022af5cf1645db3af8fee7583b1f6a986cee641d8aa47c25f0875901746f646df540c9639fa0a2b646d4a0b820f08fda7ef4da5a2f73596
+  checksum: 04ca0bccbf87d8d8704a932786bd82dfe255b74cd32a943ae7414a5054918b558aacdf9102b9a09b82bdc9a6c52d1b6cfe6ba6e3a2cb8df1c95b1dbf634d39d0
   languageName: node
   linkType: hard
 
-"@polkadot/ui-shared@npm:3.1.3":
-  version: 3.1.3
-  resolution: "@polkadot/ui-shared@npm:3.1.3"
+"@polkadot/ui-shared@npm:3.1.4":
+  version: 3.1.4
+  resolution: "@polkadot/ui-shared@npm:3.1.4"
   dependencies:
     colord: ^2.9.3
     tslib: ^2.5.0
   peerDependencies:
     "@polkadot/util": "*"
     "@polkadot/util-crypto": "*"
-  checksum: 78e94d684bf4098ecb318514c88bbfd8e6da1022c5e6423955670fa01215d03e4c0c336050761372e593c801b889c80a8dfd7ed3dc777abba09f9983b36c6251
+  checksum: 5f658bcf0618f73801249300589f014f0ca4379aa66afb5a980884be0a1f91d67be0c191461e92782fc4504dc16d16ea0bc5a555e8515a634f16f8af4961376d
   languageName: node
   linkType: hard
 
-"@polkadot/util-crypto@npm:^11.1.2":
-  version: 11.1.2
-  resolution: "@polkadot/util-crypto@npm:11.1.2"
+"@polkadot/util-crypto@npm:^11.1.3":
+  version: 11.1.3
+  resolution: "@polkadot/util-crypto@npm:11.1.3"
   dependencies:
     "@noble/hashes": 1.3.0
     "@noble/secp256k1": 1.7.1
-    "@polkadot/networks": 11.1.2
-    "@polkadot/util": 11.1.2
+    "@polkadot/networks": 11.1.3
+    "@polkadot/util": 11.1.3
     "@polkadot/wasm-crypto": ^7.0.3
-    "@polkadot/x-bigint": 11.1.2
-    "@polkadot/x-randomvalues": 11.1.2
+    "@polkadot/x-bigint": 11.1.3
+    "@polkadot/x-randomvalues": 11.1.3
     "@scure/base": 1.1.1
     tslib: ^2.5.0
     tweetnacl: ^1.0.3
   peerDependencies:
-    "@polkadot/util": 11.1.2
-  checksum: cd84ad7e961611c6973e142bfeefd85037be568206e27a8b94bb5a69c4b572cf7d7b68fa09bc2f9376ec403f8f56d382ee47225d12e55ee4ca30384c433c6eb9
+    "@polkadot/util": 11.1.3
+  checksum: 77ca5c50d1e4835d20f77a2e98c261114628762952c0ef887312f64480b86a714da8598cc5a419bb983b027276db4df8d1fe6a3c106a23bce9263520ac4aa7ae
   languageName: node
   linkType: hard
 
-"@polkadot/util@npm:^11.1.2":
-  version: 11.1.2
-  resolution: "@polkadot/util@npm:11.1.2"
+"@polkadot/util@npm:^11.1.3":
+  version: 11.1.3
+  resolution: "@polkadot/util@npm:11.1.3"
   dependencies:
-    "@polkadot/x-bigint": 11.1.2
-    "@polkadot/x-global": 11.1.2
-    "@polkadot/x-textdecoder": 11.1.2
-    "@polkadot/x-textencoder": 11.1.2
+    "@polkadot/x-bigint": 11.1.3
+    "@polkadot/x-global": 11.1.3
+    "@polkadot/x-textdecoder": 11.1.3
+    "@polkadot/x-textencoder": 11.1.3
     "@types/bn.js": ^5.1.1
     bn.js: ^5.2.1
     tslib: ^2.5.0
-  checksum: a44c24a65f5645e76dc0088ed03ff9206ea78c6b333f558f31dee9f5d60b61f67fd37a71c0aae512c2d4757536dbca4ea604014cd5c6aac374ab0cc6fb86c37f
+  checksum: 69c5083c65ea4c4f186e08a3ddbae50111309bdec7908487516eceb93e218d470156d26d2dfbb17713423ff32c4995f994cc10317c22d6fa7202d5d722549908
   languageName: node
   linkType: hard
 
-"@polkadot/vanitygen@npm:^0.53.7":
-  version: 0.53.7
-  resolution: "@polkadot/vanitygen@npm:0.53.7"
+"@polkadot/vanitygen@npm:^0.53.8":
+  version: 0.53.8
+  resolution: "@polkadot/vanitygen@npm:0.53.8"
   dependencies:
-    "@polkadot/util": ^11.1.2
-    "@polkadot/util-crypto": ^11.1.2
+    "@polkadot/util": ^11.1.3
+    "@polkadot/util-crypto": ^11.1.3
     tslib: ^2.5.0
     yargs: ^17.7.1
   bin:
     polkadot-js-vanitygen: runcli.mjs
-  checksum: d8e51c4d1813e190502d6693e5bd3f6ec0953f183f9b5117f4464f5f68cfda21827d37b29954a6e18032007fa07a564b18aefe04c49ed272c9db78b5cfa9e773
+  checksum: a1cc45ae5d1e31e32c894dac60d365ca98111c037e905bac174cb18cc089c0f240fe8c024d57c074aef50c86dfd072bc84312aef9296264c5a9e622131f565f2
   languageName: node
   linkType: hard
 
@@ -2440,74 +2440,74 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/x-bigint@npm:^11.1.2":
-  version: 11.1.2
-  resolution: "@polkadot/x-bigint@npm:11.1.2"
+"@polkadot/x-bigint@npm:^11.1.3":
+  version: 11.1.3
+  resolution: "@polkadot/x-bigint@npm:11.1.3"
   dependencies:
-    "@polkadot/x-global": 11.1.2
+    "@polkadot/x-global": 11.1.3
     tslib: ^2.5.0
-  checksum: 83d834c53ad9c3fd63365d2c33d800cd16897df6a0d363f0224129ea506c7f8bb2aab683284377208fb3b6915c35cc92bac3b989dcfbd4c2a42cda899f84844e
+  checksum: e7d72b8bb1fafb0db8cfc66e5a8fff4559d0c6f6d60f29ed554ea6c278c0438cf0f1d1a87556e364d86675c821658b791df75b3072dcdea40c6cb0049d462833
   languageName: node
   linkType: hard
 
-"@polkadot/x-fetch@npm:^11.1.2":
-  version: 11.1.2
-  resolution: "@polkadot/x-fetch@npm:11.1.2"
+"@polkadot/x-fetch@npm:^11.1.3":
+  version: 11.1.3
+  resolution: "@polkadot/x-fetch@npm:11.1.3"
   dependencies:
-    "@polkadot/x-global": 11.1.2
+    "@polkadot/x-global": 11.1.3
     node-fetch: ^3.3.1
     tslib: ^2.5.0
-  checksum: cc22d68ad06ded5296daf7e91b4253b652820b61b5c4264694af62d028e67f10b9f6b5c63272196bfa6c738481e3d9284d1b5dbbc6c3692ed2a4f31209c59a2e
+  checksum: b0a5d28c6197b063fbb956d0a4aa7eabe89fc3be2ceeeaff8b85a657d957245180847127de2c332d1db3be7a3f0d59b0f0efdc71cb7bf50e526561e7b261f7c9
   languageName: node
   linkType: hard
 
-"@polkadot/x-global@npm:^11.1.2":
-  version: 11.1.2
-  resolution: "@polkadot/x-global@npm:11.1.2"
+"@polkadot/x-global@npm:^11.1.3":
+  version: 11.1.3
+  resolution: "@polkadot/x-global@npm:11.1.3"
   dependencies:
     tslib: ^2.5.0
-  checksum: dc6e4af5a4753e5043a38156fcc756f0c3d22b8b1d5a1ec98c555da2e2894486f6256b50d280e426524b89dd817a09d197322e49e40eb0190f41fdc252e2ea2c
+  checksum: 997b843e519168e9b845f5e67129aef2673761f9398fe51015f717eb65cb9aa393836cc9d8ed70668b84a0e1a0a73f8cd6810beb638fed9c8a8b5c7ebeee8ab3
   languageName: node
   linkType: hard
 
-"@polkadot/x-randomvalues@npm:^11.1.2":
-  version: 11.1.2
-  resolution: "@polkadot/x-randomvalues@npm:11.1.2"
+"@polkadot/x-randomvalues@npm:^11.1.3":
+  version: 11.1.3
+  resolution: "@polkadot/x-randomvalues@npm:11.1.3"
   dependencies:
-    "@polkadot/x-global": 11.1.2
+    "@polkadot/x-global": 11.1.3
     tslib: ^2.5.0
-  checksum: 0c72571133ddd5daf14ac2777ba50e577da5ea7063d823fa3f678e47b63ee96f876117f9209b5c8780d5607060166cca13408c0461550388b5e846a57e23d005
+  checksum: 2f0921ba0188827b42659083375d4bcf5b481433102238b436e43e006b07ae7fc2d96e41205b21ba5dca3f48c7ec5d1b8aa1da674cf0b7de2d459a125b48252c
   languageName: node
   linkType: hard
 
-"@polkadot/x-textdecoder@npm:^11.1.2":
-  version: 11.1.2
-  resolution: "@polkadot/x-textdecoder@npm:11.1.2"
+"@polkadot/x-textdecoder@npm:^11.1.3":
+  version: 11.1.3
+  resolution: "@polkadot/x-textdecoder@npm:11.1.3"
   dependencies:
-    "@polkadot/x-global": 11.1.2
+    "@polkadot/x-global": 11.1.3
     tslib: ^2.5.0
-  checksum: 85e78762dfe3583f8776fc531d4fba3a547530da65790d993447893924fc8d9d9cde44f438d8bbafe5e34edaeea505a6866bd106b3bcc145f0bc8514d626d822
+  checksum: 6c049b2d8728771199072123392452441a7107a658261c42e2ee7389d76fed5467195e072069265153a12b039deaaf17fd72189688244e0c8c288b114b50e07f
   languageName: node
   linkType: hard
 
-"@polkadot/x-textencoder@npm:^11.1.2":
-  version: 11.1.2
-  resolution: "@polkadot/x-textencoder@npm:11.1.2"
+"@polkadot/x-textencoder@npm:^11.1.3":
+  version: 11.1.3
+  resolution: "@polkadot/x-textencoder@npm:11.1.3"
   dependencies:
-    "@polkadot/x-global": 11.1.2
+    "@polkadot/x-global": 11.1.3
     tslib: ^2.5.0
-  checksum: 9a9425a8e55a5c3a50eb2bbe0e6840bd055cf5c1ccdb410cb117d33bf3ae792055c6a498f150a8de227725f73ef4bc008bfa9f061408bb42b01242e9820261ef
+  checksum: 5263e8e48876da03afcaf0ed0859a64e201914fda4ae0f10c282b43283e0614c58381e5f20f86d09755a96b3960482ee39ce7a452ce32f2a2dcd2d04a6937402
   languageName: node
   linkType: hard
 
-"@polkadot/x-ws@npm:^11.1.2":
-  version: 11.1.2
-  resolution: "@polkadot/x-ws@npm:11.1.2"
+"@polkadot/x-ws@npm:^11.1.3":
+  version: 11.1.3
+  resolution: "@polkadot/x-ws@npm:11.1.3"
   dependencies:
-    "@polkadot/x-global": 11.1.2
+    "@polkadot/x-global": 11.1.3
     tslib: ^2.5.0
     ws: ^8.13.0
-  checksum: 59c3e1914159334b611066ef4f3b6c55008737f309870b25180e5071a42e86ec0bab04979848eac8a44264d312f2eeb147bc04d2a25343486300e92bcc44f512
+  checksum: 17a5f7b732ad1da519e998a5ef4f183530dd66bcc41090e2666ddd9ca3f2c3f4ed3169da50e03fe4b3700b58019a4bbf5bcc0ba61fa6c041f8425d42d284060f
   languageName: node
   linkType: hard
 
