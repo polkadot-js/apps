@@ -2,6 +2,7 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "baseUrl": "./packages",
+    "composite": true,
     "outDir": "./build",
     /*
      * We have a couple of issues that forces us to disable this -
