@@ -196,19 +196,6 @@ export const prodParasPolkadot: EndpointOption[] = [
     }
   },
   {
-    homepage: 'https://sora.org/',
-    info: 'sora',
-    paraId: 2025,
-    providers: {
-      // Soramitsu: 'wss://ws.framenode-1.r0.sora2.soramitsu.co.jp'
-    },
-    text: 'SORA',
-    ui: {
-      color: '#2D2926',
-      logo: nodesSoraSubstrateSVG
-    }
-  },
-  {
     homepage: 'https://darwinia.network/',
     info: 'darwinia',
     paraId: 2046,
@@ -572,6 +559,19 @@ export const prodParasPolkadot: EndpointOption[] = [
     ui: {
       color: '#7C30DD',
       logo: nodesPolkadexSVG
+    }
+  },
+  {
+    homepage: 'https://sora.org/',
+    info: 'sora',
+    paraId: 2025,
+    providers: {
+      // Soramitsu: 'wss://ws.framenode-1.r0.sora2.soramitsu.co.jp'
+    },
+    text: 'SORA',
+    ui: {
+      color: '#2D2926',
+      logo: nodesSoraSubstrateSVG
     }
   },
   {
