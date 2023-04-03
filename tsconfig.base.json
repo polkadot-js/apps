@@ -1,7 +1,7 @@
 {
   "extends": "@polkadot/dev/config/tsconfig.json",
 	"compilerOptions": {
-    "composite": false,
+    "composite": true,
 		"paths": {
       "@polkadot/apps": ["apps/src/index.tsx"],
       "@polkadot/apps/Root": ["apps/src/Root.tsx"],
