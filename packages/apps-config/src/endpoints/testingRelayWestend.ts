@@ -195,6 +195,7 @@ export const testRelayWestend: EndpointOption = {
     'Dwellir Tunisia': 'wss://westend-rpc-tn.dwellir.com',
     'IBP-GeoDNS1': 'wss://rpc.ibp.network/westend',
     'IBP-GeoDNS2': 'wss://rpc.dotters.network/westend',
+    'LuckyFriday': 'wss://rpc-westend.luckyfriday.io',
     OnFinality: 'wss://westend.api.onfinality.io/public-ws',
     Parity: 'wss://westend-rpc.polkadot.io',
     Stakeworld: 'wss://wnd-rpc.stakeworld.io',
