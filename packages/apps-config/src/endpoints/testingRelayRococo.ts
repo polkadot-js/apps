@@ -486,7 +486,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'stagex',
     paraId: 2007,
     providers: {
-      Totem: 'wss://s-ui.kapex.network'
+      // Totem: 'wss://s-ui.kapex.network' // https://github.com/polkadot-js/apps/issues/9286
     },
     text: 'Stagex',
     ui: {
