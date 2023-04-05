@@ -286,7 +286,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'kabocha',
     paraId: 2113,
     providers: {
-      JelliedOwl: 'wss://kabocha.jelliedowl.net'
+      // JelliedOwl: 'wss://kabocha.jelliedowl.net' // https://github.com/polkadot-js/apps/issues/9288
     },
     text: 'Kabocha',
     ui: {
