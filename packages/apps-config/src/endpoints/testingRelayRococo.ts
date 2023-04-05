@@ -231,7 +231,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoIdiyanale',
     paraId: 4222,
     providers: {
-      'Anagolay Network': 'wss://rococo.rpc.idiyanale.anagolay.io'
+      // 'Anagolay Network': 'wss://rococo.rpc.idiyanale.anagolay.io' // https://github.com/polkadot-js/apps/issues/9292
     },
     text: 'Idiyanale Network',
     ui: {
