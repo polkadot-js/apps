@@ -3,7 +3,7 @@
 
 // Do not edit. Auto-generated via node scripts/imgConvert.mjs
 
-export { chains3dpassPNG } from './generated/3dpassPNG.js';
+export { chains3dpassSVG } from './generated/3dpassSVG.js';
 export { chainsAbandPNG } from './generated/abandPNG.js';
 export { chainsAcalaSVG } from './generated/acalaSVG.js';
 export { chainsAcurastPNG } from './generated/acurastPNG.js';
