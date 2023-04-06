@@ -208,7 +208,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'helixstreet',
     paraId: 3025,
     providers: {
-      Helixstreet: 'wss://rpc-rococo.helixstreet.io'
+      // Helixstreet: 'wss://rpc-rococo.helixstreet.io' // https://github.com/polkadot-js/apps/issues/9296
     },
     text: 'Helixstreet',
     ui: {
