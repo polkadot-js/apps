@@ -5,7 +5,7 @@ import type { AppProps as Props } from '@polkadot/react-components/types';
 
 import React from 'react';
 
-import Playground from './Playground';
+import Playground from './Playground.js';
 
 function JsApp (props: Props): React.ReactElement<Props> {
   return <Playground {...props} />;

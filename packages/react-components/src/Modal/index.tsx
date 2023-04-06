@@ -3,14 +3,16 @@
 
 import React, { useCallback, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import styled, { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 
 import { useTheme } from '@polkadot/react-hooks';
 
-import Actions from './Actions';
-import Columns from './Columns';
-import Content from './Content';
-import Header from './Header';
+import ErrorBoundary from '../ErrorBoundary.js';
+import { styled } from '../styled.js';
+import Actions from './Actions.js';
+import Columns from './Columns.js';
+import Content from './Content.js';
+import Header from './Header.js';
 
 interface Props {
   size?: 'large' | 'medium' | 'small';
@@ -55,7 +57,9 @@ function ModalBase ({ children, className = '', header, onClose, size = 'medium'
           header={header}
           onClose={onClose}
         />
-        {children}
+        <ErrorBoundary>
+          {children}
+        </ErrorBoundary>
       </div>
     </StyledDiv>,
     document.body

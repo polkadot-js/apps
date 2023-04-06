@@ -3,6 +3,7 @@
 
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import type { AccountId, BountyIndex } from '@polkadot/types/interfaces';
+import type { ValidUnassignCuratorAction } from '../types.js';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
@@ -11,10 +12,9 @@ import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useCollectiveInstance, useCollectiveMembers } from '@polkadot/react-hooks';
 import { BN } from '@polkadot/util';
 
-import { truncateTitle } from '../helpers';
-import { useBounties } from '../hooks';
-import { useTranslation } from '../translate';
-import { ValidUnassignCuratorAction } from '../types';
+import { truncateTitle } from '../helpers/index.js';
+import { useBounties } from '../hooks/index.js';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   action: ValidUnassignCuratorAction;
@@ -55,29 +55,29 @@ function SlashCurator ({ action, curatorId, description, index, toggleOpen }: Pr
   const actionProperties = useMemo<Record<ValidUnassignCuratorAction, ActionProperties>>(() => ({
     SlashCuratorAction: {
       filter: allAccounts,
-      header: t('This action will Slash the Curator.'),
+      header: t<string>('This action will Slash the Curator.'),
       params: [index],
-      proposingAccountTip: t('The account that will create the transaction.'),
+      proposingAccountTip: t<string>('The account that will create the transaction.'),
       tip: t("Curator's deposit will be slashed and curator will be unassigned. Bounty will return to the Funded state."),
-      title: t('Slash curator'),
+      title: t<string>('Slash curator'),
       tx: unassignCurator
     },
     SlashCuratorMotion: {
       filter: members,
-      header: t('This action will create a Council motion to slash the Curator.'),
+      header: t<string>('This action will create a Council motion to slash the Curator.'),
       params: [threshold, unassignCuratorProposal, unassignCuratorProposal?.length],
-      proposingAccountTip: t('The council member that will create the motion, submission equates to an "aye" vote.'),
+      proposingAccountTip: t<string>('The council member that will create the motion, submission equates to an "aye" vote.'),
       tip: t("If the motion is approved, Curator's deposit will be slashed and Curator will be unassigned. Bounty will return to the Funded state."),
-      title: t('Slash curator'),
+      title: t<string>('Slash curator'),
       tx: councilMod && api.tx[councilMod].propose
     },
     UnassignCurator: {
       filter: members,
-      header: t('This action will create a Council motion to unassign the Curator.'),
+      header: t<string>('This action will create a Council motion to unassign the Curator.'),
       params: [threshold, unassignCuratorProposal, unassignCuratorProposal?.length],
-      proposingAccountTip: t('The council member that will create the motion, submission equates to an "aye" vote.'),
-      tip: t('If the motion is approved, the current Curator will be unassigned and the Bounty will return to the Funded state.'),
-      title: t('Unassign curator'),
+      proposingAccountTip: t<string>('The council member that will create the motion, submission equates to an "aye" vote.'),
+      tip: t<string>('If the motion is approved, the current Curator will be unassigned and the Bounty will return to the Funded state.'),
+      title: t<string>('Unassign curator'),
       tx: councilMod && api.tx[councilMod].propose
     }
   }), [t, index, unassignCurator, api, allAccounts, councilMod, members, threshold, unassignCuratorProposal]);

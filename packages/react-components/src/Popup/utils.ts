@@ -3,7 +3,7 @@
 
 import type { WindowSize } from '@polkadot/react-hooks/ctx/types';
 import type { ElementPosition } from '@polkadot/react-hooks/useElementPosition';
-import type { HorizontalPosition, VerticalPosition } from './types';
+import type { HorizontalPosition, VerticalPosition } from './types.js';
 
 interface Coords {
   x: number;

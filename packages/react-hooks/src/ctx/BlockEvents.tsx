@@ -4,15 +4,15 @@
 import type { ApiPromise } from '@polkadot/api';
 import type { Vec } from '@polkadot/types';
 import type { EventRecord } from '@polkadot/types/interfaces';
-import type { BlockEvents, IndexedEvent, KeyedEvent } from './types';
+import type { BlockEvents, IndexedEvent, KeyedEvent } from './types.js';
 
 import React, { useEffect, useRef, useState } from 'react';
 
 import { stringify, stringToU8a } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
 
-import { useApi } from '../useApi';
-import { useCall } from '../useCall';
+import { useApi } from '../useApi.js';
+import { useCall } from '../useCall.js';
 
 interface Props {
   children: React.ReactNode;
@@ -35,7 +35,7 @@ async function manageEvents (api: ApiPromise, prev: PrevHashes, records: Vec<Eve
       section !== 'system' &&
       (
         !['balances', 'treasury'].includes(section) ||
-        !['Deposit', 'Withdraw'].includes(method)
+        !['Deposit', 'UpdatedInactive', 'Withdraw'].includes(method)
       ) &&
       (
         !['transactionPayment'].includes(section) ||

@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { ExternalDef } from './types';
+import type { ExternalDef } from './types.js';
 
-import { externalLogos } from '../ui/logos';
+import { externalSubscanPNG } from '../ui/logos/external/index.js';
 
 export const Subscan: ExternalDef = {
   chains: {
@@ -14,6 +14,7 @@ export const Subscan: ExternalDef = {
     Altair: 'altair',
     Arctic: 'arctic',
     Astar: 'astar',
+    'Bajun Kusama': 'bajun',
     Basilisk: 'basilisk',
     Bifrost: 'bifrost-kusama',
     'Bifrost Polkadot': 'bifrost',
@@ -22,13 +23,11 @@ export const Subscan: ExternalDef = {
     ChainX: 'chainx',
     Clover: 'clv',
     'Composable Finance': 'composable',
-    'Crab Parachain': 'crab-parachain',
+    Crab2: 'crab',
     Crust: 'crust',
     'Crust Maxwell': 'maxwell',
     'Crust Shadow': 'shadow',
-    'Dali Testnet (Rococo Relay)': 'dali',
     Darwinia: 'darwinia',
-    'Darwinia Crab': 'crab',
     'Darwinia Parachain': 'darwinia-parachain',
     'DataHighway Tanganika Kusama Parachain': 'datahighway',
     Dock: 'dock',
@@ -45,15 +44,15 @@ export const Subscan: ExternalDef = {
     'KILT Spiritnet': 'spiritnet',
     Karura: 'karura',
     Khala: 'khala',
-    Kulupu: 'kulupu',
     Kusama: 'kusama',
     Litmus: 'litmus',
     'Mangata Kusama Mainnet': 'mangatax',
-    'Mangata Public Testnet': 'mangata-testnet',
     'Moonbase Alpha': 'moonbase',
     Moonbeam: 'moonbeam',
     Moonriver: 'moonriver',
     'Nodle Parachain': 'nodle',
+    'OriginTrail Parachain': 'origintrail',
+    'OriginTrail Parachain Testnet': 'origintrail-testnet',
     Pangolin: 'pangolin',
     'Pangolin Parachain': 'pangolin-parachain',
     Pangoro: 'pangoro',
@@ -85,8 +84,8 @@ export const Subscan: ExternalDef = {
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.subscan.io/${path}/${data.toString()}`,
+  homepage: 'https://subscan.io/',
   isActive: true,
-  logo: externalLogos.subscan as string,
   paths: {
     address: 'account',
     block: 'block',
@@ -95,10 +94,14 @@ export const Subscan: ExternalDef = {
     democracyProposal: 'democracy_proposal',
     democracyReferendum: 'referenda',
     extrinsic: 'extrinsic',
+    fellowshipReferenda: 'fellowship',
+    referenda: 'referenda_v2',
     techcomm: 'tech',
     tip: 'treasury_tip',
     treasury: 'treasury',
     validator: 'validator'
   },
-  url: 'https://subscan.io/'
+  ui: {
+    logo: externalSubscanPNG
+  }
 };

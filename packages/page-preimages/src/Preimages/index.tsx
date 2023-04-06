@@ -4,15 +4,14 @@
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 
 import React, { useRef } from 'react';
-import styled from 'styled-components';
 
-import { Button, Table } from '@polkadot/react-components';
+import { Button, styled, Table } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
-import usePreimages from '../usePreimages';
-import Add from './Add';
-import Preimage from './Preimage';
-import Summary from './Summary';
+import { useTranslation } from '../translate.js';
+import usePreimages from '../usePreimages.js';
+import Add from './Add/index.js';
+import Preimage from './Preimage.js';
+import Summary from './Summary.js';
 
 interface Props {
   className?: string;
@@ -25,10 +24,10 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
   const hashes = usePreimages();
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('preimages'), 'start', 2],
+    [t<string>('preimages'), 'start', 2],
     [undefined, 'media--1300'],
-    [t('length'), 'media--1000'],
-    [t('status'), 'start media--1200']
+    [t<string>('length'), 'media--1000'],
+    [t<string>('status'), 'start media--1200']
   ]);
 
   return (

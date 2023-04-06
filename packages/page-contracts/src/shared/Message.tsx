@@ -4,13 +4,12 @@
 import type { AbiConstructor, AbiMessage, ContractCallOutcome } from '@polkadot/api-contract/types';
 
 import React, { useCallback } from 'react';
-import styled from 'styled-components';
 
-import { Button, Output } from '@polkadot/react-components';
+import { Button, Output, styled } from '@polkadot/react-components';
 import valueToText from '@polkadot/react-params/valueToText';
 
-import { useTranslation } from '../translate';
-import MessageSignature from './MessageSignature';
+import { useTranslation } from '../translate.js';
+import MessageSignature from './MessageSignature.js';
 
 export interface Props {
   className?: string;

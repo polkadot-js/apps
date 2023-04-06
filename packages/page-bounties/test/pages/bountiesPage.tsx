@@ -1,33 +1,34 @@
 // Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { RenderResult } from '@testing-library/react';
+import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
+import type { ApiProps } from '@polkadot/react-api/types';
 import type { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
+import type { BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 import type { PalletBountiesBounty } from '@polkadot/types/lookup';
+import type { BountyApi } from '../../src/hooks/index.js';
 
-import { fireEvent, render, RenderResult, within } from '@testing-library/react';
+import { fireEvent, render, within } from '@testing-library/react';
 import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
-import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import Bounties from '@polkadot/app-bounties/Bounties';
-import { BountyApi } from '@polkadot/app-bounties/hooks';
 import { lightTheme } from '@polkadot/apps/themes';
 import { POLKADOT_GENESIS } from '@polkadot/apps-config';
 import { ApiCtx } from '@polkadot/react-api';
-import { ApiProps } from '@polkadot/react-api/types';
 import { KeyringCtxRoot } from '@polkadot/react-hooks';
 import { QueueCtx } from '@polkadot/react-hooks/ctx/Queue';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
-import { BountyFactory } from '@polkadot/test-support/creation/bounties/bountyFactory';
+import { BountyFactory } from '@polkadot/test-support/creation/bounties';
 import { TypeRegistry } from '@polkadot/types/create';
-import { BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 
-import { mockBountyHooks } from '../hooks/defaults';
-import { clickButtonWithName } from '../utils/clickButtonWithName';
-import { clickElementWithTestId } from '../utils/clickElementWithTestId';
-import { clickElementWithText } from '../utils/clickElementWithText';
+import Bounties from '../../src/Bounties.js';
+import { mockBountyHooks } from '../hooks/defaults.js';
+import { clickButtonWithName } from '../utils/clickButtonWithName.js';
+import { clickElementWithTestId } from '../utils/clickElementWithTestId.js';
+import { clickElementWithText } from '../utils/clickElementWithText.js';
 
 function aGenesisHash () {
   return new TypeRegistry().createType('Hash', POLKADOT_GENESIS);
@@ -42,7 +43,7 @@ class NotYetRendered extends Error {
 }
 
 let queueExtrinsic: (value: PartialQueueTxExtrinsic) => void;
-const propose = jest.fn().mockReturnValue('mockProposeExtrinsic');
+const propose = jest.fn(() => 'mockProposeExtrinsic');
 
 interface RenderedBountiesPage {
   findAllByTestId: FindManyWithMatcher;
@@ -111,6 +112,10 @@ export class BountiesPage {
           }
         }
       },
+      isApiConnected: true,
+      isApiInitialized: true,
+      isApiReady: true,
+      isEthereum: false,
       systemName: 'substrate'
     } as unknown as ApiProps;
 
@@ -124,15 +129,15 @@ export class BountiesPage {
         <div id='tooltips' />
         <Suspense fallback='...'>
           <QueueCtx.Provider value={queue}>
-            <KeyringCtxRoot>
-              <MemoryRouter>
-                <ThemeProvider theme={lightTheme}>
-                  <ApiCtx.Provider value={mockApi}>
+            <MemoryRouter>
+              <ThemeProvider theme={lightTheme}>
+                <ApiCtx.Provider value={mockApi}>
+                  <KeyringCtxRoot>
                     <Bounties />
-                  </ApiCtx.Provider>
-                </ThemeProvider>
-              </MemoryRouter>
-            </KeyringCtxRoot>
+                  </KeyringCtxRoot>
+                </ApiCtx.Provider>
+              </ThemeProvider>
+            </MemoryRouter>
           </QueueCtx.Provider>
         </Suspense>
       </>

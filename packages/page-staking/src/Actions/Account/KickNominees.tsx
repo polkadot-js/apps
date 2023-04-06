@@ -9,8 +9,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { InputAddressMulti, Modal, Spinner, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../../translate';
-import SenderInfo from '../partials/SenderInfo';
+import { useTranslation } from '../../translate.js';
+import SenderInfo from '../partials/SenderInfo.js';
 
 interface Props {
   className?: string;

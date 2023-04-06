@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletAllianceCid } from '@polkadot/types/lookup';
-import type { ExpandedCid } from './types';
+import type { ExpandedCid } from './types.js';
 
 import { CID, digest, varint } from 'multiformats';
 

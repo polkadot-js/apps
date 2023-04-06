@@ -2,9 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { useTranslation } from '../translate';
+import { styled } from '@polkadot/react-components';
+
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;

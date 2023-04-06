@@ -3,8 +3,8 @@
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-import { spec } from '@edgeware/node-types';
+import pkg from '@edgeware/node-types';
 
-const edgeware = spec.typesBundle.spec?.edgeware as OverrideBundleDefinition;
+const edgeware = pkg.spec.typesBundle.spec?.edgeware as OverrideBundleDefinition;
 
 export default edgeware;

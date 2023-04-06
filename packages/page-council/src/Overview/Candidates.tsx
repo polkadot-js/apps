@@ -8,8 +8,8 @@ import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
-import Candidate from './Candidate';
+import { useTranslation } from '../translate.js';
+import Candidate from './Candidate.js';
 
 interface Props {
   allVotes?: Record<string, AccountId[]>;
@@ -22,11 +22,11 @@ function Candidates ({ allVotes = {}, electionsInfo, hasElections }: Props): Rea
   const { t } = useTranslation();
 
   const headerCandidatesRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('candidates'), 'start', 2]
+    [t<string>('candidates'), 'start', 2]
   ]);
 
   const headerRunnersRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('runners up'), 'start', 2]
+    [t<string>('runners up'), 'start', 2]
   ]);
 
   return (

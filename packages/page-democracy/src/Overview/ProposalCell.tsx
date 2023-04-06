@@ -6,14 +6,13 @@ import type { Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 import type { HexString } from '@polkadot/util/types';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { CallExpander } from '@polkadot/react-components';
+import { CallExpander, styled } from '@polkadot/react-components';
 import { useApi, usePreimage } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import ExternalCell from './ExternalCell';
-import TreasuryCell from './TreasuryCell';
+import { useTranslation } from '../translate.js';
+import ExternalCell from './ExternalCell.js';
+import TreasuryCell from './TreasuryCell.js';
 
 interface Props {
   className?: string;

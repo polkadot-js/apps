@@ -1,10 +1,11 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { HeaderProps } from './types';
+import type { HeaderProps } from './types.js';
 
 import React from 'react';
-import styled from 'styled-components';
+
+import { styled } from '../styled.js';
 
 function Header ({ children, className }: HeaderProps): React.ReactElement {
   return (

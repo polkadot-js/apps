@@ -7,9 +7,9 @@ import { Tags } from '@polkadot/react-components';
 import { useAccountInfo, useOutsideClick } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 
-import AccountMenuButtons from './AccountMenuButtons';
-import AddressSection from './AddressSection';
-import Flags from './Flags';
+import AccountMenuButtons from './AccountMenuButtons.js';
+import AddressSection from './AddressSection.js';
+import Flags from './Flags.js';
 
 interface Props {
   accountIndex: string | undefined;
@@ -41,7 +41,7 @@ function SidebarEditableSection ({ accountIndex, address, isBeingEdited, onUpdat
           setTags(accountOrAddress?.meta.tags ? (accountOrAddress.meta.tags as string[]).sort() : []);
           setIsEditingName(false);
           setIsEditingTags(false);
-        } catch (error) {
+        } catch {
           // ignore
         }
       }

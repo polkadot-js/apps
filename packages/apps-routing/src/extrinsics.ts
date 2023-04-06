@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import type { Route } from './types';
+import type { Route } from './types.js';
 
 import Component from '@polkadot/app-extrinsics';
 
@@ -16,6 +16,6 @@ export default function create (t: TFunction): Route {
     group: 'developer',
     icon: 'envelope-open-text',
     name: 'extrinsics',
-    text: t('nav.extrinsics', 'Extrinsics', { ns: 'apps-routing' })
+    text: t<string>('nav.extrinsics', 'Extrinsics', { ns: 'apps-routing' })
   };
 }

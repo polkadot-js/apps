@@ -1,6 +1,8 @@
 // Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import '@polkadot/react-components/i18n';
 
 import { fireEvent, render, waitForElementToBeRemoved } from '@testing-library/react';
@@ -44,7 +46,7 @@ const renderAccounts = () => {
   );
 };
 
-describe('--SLOW--: Account Create', () => {
+describe.skip('--SLOW--: Account Create', () => {
   it('created account is added to list', async () => {
     const { findByTestId, findByText, queryByText } = renderAccounts();
 

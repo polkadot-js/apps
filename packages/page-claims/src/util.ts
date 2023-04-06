@@ -3,7 +3,7 @@
 
 import type { EcdsaSignature, EthereumAddress, StatementKind } from '@polkadot/types/interfaces';
 
-import secp256k1 from 'secp256k1/elliptic';
+import secp256k1 from 'secp256k1/elliptic.js';
 
 import registry from '@polkadot/react-api/typeRegistry';
 import { assert, hexToU8a, stringToU8a, u8aConcat, u8aToBuffer } from '@polkadot/util';

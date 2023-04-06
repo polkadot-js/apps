@@ -5,13 +5,13 @@ import type { IconName } from '@fortawesome/fontawesome-svg-core';
 
 import React, { useCallback } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
-import styled from 'styled-components';
 
 import { useQueue } from '@polkadot/react-hooks';
 import { isString } from '@polkadot/util';
 
-import Button from './Button';
-import { useTranslation } from './translate';
+import Button from './Button/index.js';
+import { styled } from './styled.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   children?: React.ReactNode;

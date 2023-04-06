@@ -1,9 +1,9 @@
 // Copyright 2017-2023 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DateState } from './types';
+import type { DateState } from './types.js';
 
-import { DAYS } from './constants';
+import { DAYS } from './constants.js';
 
 export function newZeroDate (input: Date): Date {
   const date = new Date(input);
@@ -59,6 +59,6 @@ export function dateCalendarFormat (date: Date): string {
   return new Date(date)
     .toISOString()
     .split('.')[0]
-    .replaceAll('-', '')
-    .replaceAll(':', '') + 'Z';
+    .replace(/-/g, '')
+    .replace(/:/g, '') + 'Z';
 }

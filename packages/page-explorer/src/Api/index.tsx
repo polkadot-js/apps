@@ -5,14 +5,13 @@ import type { ChartOptions } from 'chart.js';
 import type { ApiStats } from '@polkadot/react-hooks/ctx/types';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
-import { CardSummary, NextTick, SummaryBox } from '@polkadot/react-components';
+import { CardSummary, NextTick, styled, SummaryBox } from '@polkadot/react-components';
 import { useApiStats } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
-import Chart from '../Latency/Chart';
-import { useTranslation } from '../translate';
+import Chart from '../Latency/Chart.js';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;

@@ -2,12 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ChartOptions } from 'chart.js';
-import type { ChartContents } from './types';
+import type { ChartContents } from './types.js';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { Chart } from '@polkadot/react-components';
+import { Chart, styled } from '@polkadot/react-components';
 
 interface Props {
   className?: string;

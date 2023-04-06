@@ -1,13 +1,13 @@
 // Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Size } from '../types';
+import type { Size } from '../types.js';
 
 import React from 'react';
 
 import { Labelled } from '@polkadot/react-components';
 
-import Bare from './Bare';
+import Bare from './Bare.js';
 
 interface Props {
   children?: React.ReactNode;

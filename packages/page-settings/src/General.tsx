@@ -12,8 +12,8 @@ import { Button, Dropdown, MarkWarning } from '@polkadot/react-components';
 import { useApi, useIpfs, useLedger } from '@polkadot/react-hooks';
 import { settings } from '@polkadot/ui-settings';
 
-import { useTranslation } from './translate';
-import { createIdenticon, createOption, save, saveAndReload } from './util';
+import { useTranslation } from './translate.js';
+import { createIdenticon, createOption, save, saveAndReload } from './util.js';
 
 interface Props {
   className?: string;
@@ -67,16 +67,16 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
 
   const storageOptions = useMemo(
     () => [
-      { text: t('Allow local in-browser account storage'), value: 'on' },
-      { text: t('Do not allow local in-browser account storage'), value: 'off' }
+      { text: t<string>('Allow local in-browser account storage'), value: 'on' },
+      { text: t<string>('Do not allow local in-browser account storage'), value: 'off' }
     ],
     [t]
   );
 
   const themeOptions = useMemo(
     () => [
-      { text: t('Light theme'), value: 'light' },
-      { text: t('Dark theme'), value: 'dark' }
+      { text: t<string>('Light theme'), value: 'light' },
+      { text: t<string>('Dark theme'), value: 'dark' }
     ],
     [t]
   );

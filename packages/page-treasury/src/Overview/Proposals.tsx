@@ -7,8 +7,8 @@ import React, { useMemo } from 'react';
 
 import { Table } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
-import Proposal from './Proposal';
+import { useTranslation } from '../translate.js';
+import Proposal from './Proposal.js';
 
 interface Props {
   className?: string;
@@ -24,7 +24,7 @@ function ProposalsBase ({ className = '', isApprovals, isMember, members, propos
   const header = useMemo<([React.ReactNode?, string?, number?] | false)[]>(() => [
     [isApprovals ? t<string>('Approved') : t<string>('Proposals'), 'start', 2],
     [],
-    [t('proposer'), 'address'],
+    [t<string>('proposer'), 'address'],
     [],
     []
   ], [isApprovals, t]);

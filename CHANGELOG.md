@@ -1,5 +1,117 @@
 # CHANGELOG
 
+## 0.125.1 Apr 3, 2023
+
+Contributed:
+
+- Remove Pinknode endpoints (Thanks to https://github.com/albertov19)
+- Add missing OnFinality networks (Thanks to https://github.com/jamesbayly)
+- Remove Dwellir endpoint for Edgeware (Thanks to https://github.com/Maharacha)
+- Add Tangle parachain (Thanks to https://github.com/1xstj)
+- Add Aband parachain (Thanks to https://github.com/octavei)
+- Fix Bajun logo (Thanks to https://github.com/darkfriend77)
+- Fix Thebifrost logo (Thanks to https://github.com/alstjd0921)
+- Add IBP provider for Kusama & Polkadot (Thanks to https://github.com/miloskriz)
+- Correct Statescan external links (Thanks to https://github.com/wliyongfeng)
+- Remove OnFinality endpoint for Pichiu (Thanks to https://github.com/banananeko)
+- Subscan external support for Gov2 (Thanks to https://github.com/WoeOm)
+- Add Polkadot BridgeHub parachain (Thsnka to https://github.com/lazam)
+- Adjust BidgeHub logo (Thanks to https://github.com/serban300)
+- Add Rococo Idiyanale parachain (Thanks to https://github.com/woss)
+- Remove Pangolin from test networks (Thanks to https://github.com/isunaslabs)
+- Adjust CI endpoint check (Thanks to https://github.com/jamesbayly)
+- Reenable rate-limited OnFinality endpoints (Thanks to https://github.com/jamesbayly)
+- Update Moonbeam-* network logos (Thanks to https://github.com/albertov19)
+- Update Tangle network url (Thanks to https://github.com/1xstj)
+- Expand Statescan chain support (Thanks to https://github.com/wliyongfeng)
+- Add endpoints for Kaizen (Thanks to https://github.com/nuel77)
+- Remove Pinknode endpoints (Thanks to https://github.com/rishikarthikeyan27)
+- Remove Dwellir endpoint for Bajun (Thanks to https://github.com/Maharacha)
+- Add Unique support for appPromition RPCs (Thanks to https://github.com/u-andy-smith)
+- RadiumBlock Bajun RPC endpoint (Thanks to https://github.com/radiumb)
+- Add Rococo GIANT parahcin (Thanks to https://github.com/ToufeeqP)
+- Add ZeePrime endpoint to HydraDX (Thanks to https://github.com/mrq1911)
+- Add Ethereum support for Pangolin2 (Thanks to https://github.com/isunaslabs)
+- Add Subsquare link for Litentry (Thanks to https://github.com/wliyongfeng)
+- Add Watr Polkadot (Thanks to https://github.com/NachoPal)
+- Restore OnFinality endpoint (Thanks to https://github.com/TomatoAres)
+- Add Peaq parachain logo (Thanks to https://github.com/lavish0000)
+- Fix Statemint endpoint (Thanks to https://github.com/radiumb)
+- Add Krest parachain (Thanks to https://github.com/kamrangul2404)
+- Adjust Hashed & Luhn endpoints (Thanks to https://github.com/mgravitt)
+- Update Aventus endpoints & colors (Thanks to https://github.com/nahuseyoum)
+- Add Subsquare link for Kusama (Thanks to https://github.com/wliyongfeng)
+- Add Gov2 support for Polkaseembly (Thanks to https://github.com/niklabh)
+- Remove Darwinia Crab network (Thanks to https://github.com/isunaslabs)
+- Update Dwellir endpoint for Darwinia (Thanks to https://github.com/Maharacha)
+- Add InArch network (Thanks to https://github.com/arrudagates)
+- Add support for Discord identities (Thanks to https://github.com/nbaztec)
+- Rename Dali network to Picasso on Rococo (Thanks to https://github.com/andyjsbell)
+- Update Darwinia Crab RPC (Thanks to https://github.com/isunaslabs)
+- Remove OnFinality for Unique (Thanks to https://github.com/ashkuc)
+- Update Polmesh type bundles (Thanks to https://github.com/F-OBrien)
+- Show Discord identity in Sidebar (Thanks to https://github.com/nbaztec)
+- Move Battery Station to Rococo (Thanks to https://github.com/sea212)
+- Move Zeitgeist to Polkadot (Thanks to https://github.com/sea212)
+- Add OnFinality endpoint for Darwinia Crab (Thanks to https://github.com/banananeko)
+- Update network list for Subscan support (Thanks to https://github.com/carlhong)
+- Update IBP endpoints (Thanks to https://github.com/miloskriz)
+- Add t3rn parachain (Thanks to https://github.com/alexand3rwilke)
+- Enable appPromotion for Unique (Thanks to https://github.com/u-andy-smith)
+- Add Curio parachain (Thanks to https://github.com/alexxxkny)
+- Add Fragnova networks (Thanks to https://github.com/sinkingsugar)
+- Add Ethereum-compat for Frontier template (Thanks to https://github.com/koushiro)
+- Switch Finney endpoint (Thanks to https://github.com/camfairchild)
+- Support BTreeSet inputs (Thanks to https://github.com/Neopallium)
+- Add Subsocial Polkadot parachain (Thanks to https://github.com/olehmell)
+- Update Manta paraId & providers (Thanks to https://github.com/grenade)
+- Add OnFinality Westmint endpoint (Thanks to https://github.com/banananeko)
+- Update Vara endpoints (Thanks to https://github.com/EugenWay)
+- i18n accounts page in ru (Thanks to https://github.com/kikirilll)
+- Adjust development check for Ethereum chains (Thanks to https://github.com/farcaller)
+- Readd OnFinality for Unique (Thanks to https://github.com/banananeko)
+- Remove OnFinality endpoint for Westmint (Thanks to https://github.com/banananeko)
+- Remove OnFinality endpoint for Mangata (Thanks to https://github.com/devdanco)
+- Move Subsocial RPCs (Thanks to https://github.com/olehmell)
+- Modify UnitedBloc endpoints (Thanks to https://github.com/albertov19)
+- Add support for WeightV2 in contracts (Thanks to https://github.com/niklabh)
+- Add Ethereum support for Dracones (Thanks to https://github.com/farcaller)
+- Add Stakeworld endpoint for Westend (Thanks to https://github.com/stakeworld)
+- Add Cere networks (Thanks to https://github.com/shamilkhan)
+- Update Frequency RPC (Thanks to https://github.com/mattheworris)
+- Statescan support for Polkadot (Thanks to https://github.com/wliyongfeng)
+- Change Zeitgest Polkadot endpoint (Thanks to https://github.com/sea212)
+- Add Mangata archive endpoint (Thanks to https://github.com/devdanco)
+- Cera config improvements (Thanks to https://github.com/shamilkhan)
+- Add derive override for Mangata (Thanks to https://github.com/vanderian)
+- Expand type definitions for Mangata (Thanks to https://github.com/vanderian)
+
+Changes:
+
+- Ensure teleport flag only applies to common parachains
+- Add support for Ethereum multisig creation
+- Fix minor transfer toggle inconvenience
+- Adjust batch size calculations (w/ proofSize from WeightV2)
+- Adjust detection of preimage pallet usage
+- Add Governance trackinfo descriptions for Polkadot
+- Remove proxy pre-filtering (differs between chains)
+- Defer keyring init until chain type is determined
+- Ensure consistent labels where linked dropdowns are used
+- Convert all used images to inline data: format
+- Add support for Reciprocal Gov2 tracks
+- Reformat endpoint config & setup
+- Add explicit ErrorBoundary accross all modals
+- Ensure AccountId size limits are adheared to in inputs
+- Adjust address-only AccountName display
+- Enusre event decoding uses registry from correct blockHash
+- Adjust council to submit images via new preimage pallet
+- Remove unmaintained external links
+- Disable unreachable endpoints
+- Adjust built bundle splitting
+- Use Ubuntu & Node LTS versions for docker images
+- Remove 3rd-party packages that have resolution problems
+
+
 ## 0.124.1 Jan 30, 2023
 
 Contributed:

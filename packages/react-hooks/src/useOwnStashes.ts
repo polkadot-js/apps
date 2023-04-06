@@ -6,10 +6,10 @@ import type { AccountId, StakingLedger } from '@polkadot/types/interfaces';
 
 import { useMemo } from 'react';
 
-import { createNamedHook } from './createNamedHook';
-import { useAccounts } from './useAccounts';
-import { useApi } from './useApi';
-import { useCall } from './useCall';
+import { createNamedHook } from './createNamedHook.js';
+import { useAccounts } from './useAccounts.js';
+import { useApi } from './useApi.js';
+import { useCall } from './useCall.js';
 
 type IsInKeyring = boolean;
 

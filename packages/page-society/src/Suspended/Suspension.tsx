@@ -8,7 +8,7 @@ import React from 'react';
 
 import { AddressSmall, Table } from '@polkadot/react-components';
 
-import BidType from '../Candidates/BidType';
+import BidType from '../Candidates/BidType.js';
 
 interface Props {
   balance?: BalanceOf;

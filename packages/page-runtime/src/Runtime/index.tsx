@@ -3,14 +3,14 @@
 
 import type { RawParam } from '@polkadot/react-params/types';
 import type { DefinitionCallNamed } from '@polkadot/types/types';
-import type { Result } from './types';
+import type { Result } from './types.js';
 
 import React, { useCallback, useState } from 'react';
 
 import { useApi } from '@polkadot/react-hooks';
 
-import Results from './Results';
-import Selection from './Selection';
+import Results from './Results.js';
+import Selection from './Selection.js';
 
 let id = 0;
 

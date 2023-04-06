@@ -2,18 +2,17 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatusBase } from '@polkadot/react-components/Status/types';
+import type { DirFile, FileInfo, SaveFile } from './types.js';
 
 import FileSaver from 'file-saver';
 import React, { useCallback, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { Badge, Button, CopyButton, Icon, Table } from '@polkadot/react-components';
+import { Badge, Button, CopyButton, Icon, styled, Table } from '@polkadot/react-components';
 import { useQueue } from '@polkadot/react-hooks';
 
-import { useFiles } from './hooks';
-import { useTranslation } from './translate';
-import { DirFile, FileInfo, SaveFile } from './types';
-import UploadModal from './UploadModal';
+import { useFiles } from './hooks.js';
+import { useTranslation } from './translate.js';
+import UploadModal from './UploadModal.js';
 
 const MCopyButton = styled(CopyButton)`
   .copySpan {
@@ -93,7 +92,7 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
     if (files.length > 2000) {
       queueAction({
         action: 'Upload Folder',
-        message: t('Please do not upload more than 2000 files'),
+        message: t<string>('Please do not upload more than 2000 files'),
         status: 'error'
       });
 
@@ -103,7 +102,7 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
     if (files.length === 0) {
       queueAction({
         action: 'Upload Folder',
-        message: t('Please select non-empty folder'),
+        message: t<string>('Please select non-empty folder'),
         status: 'error'
       });
 
@@ -142,7 +141,7 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
   const _onImportResult = useCallback<(m: string, s?: ActionStatusBase['status']) => void>(
     (message, status = 'queued') => {
       queueAction && queueAction({
-        action: t('Import files'),
+        action: t<string>('Import files'),
         message,
         status
       });
@@ -159,7 +158,7 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
   }, [importInputRef]);
   const _onInputImportFile = useCallback<FunInputFile>((e) => {
     try {
-      _onImportResult(t('Importing'));
+      _onImportResult(t<string>('Importing'));
       const fileReader = new FileReader();
       const files = e.target.files;
 
@@ -170,14 +169,14 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
       fileReader.readAsText(files[0], 'UTF-8');
 
       if (!(/(.json)$/i.test(e.target.value))) {
-        return _onImportResult(t('file error'), 'error');
+        return _onImportResult(t<string>('file error'), 'error');
       }
 
       fileReader.onload = (e) => {
         const _list = JSON.parse(e.target?.result as string) as SaveFile[];
 
         if (!Array.isArray(_list)) {
-          return _onImportResult(t('file content error'), 'error');
+          return _onImportResult(t<string>('file content error'), 'error');
         }
 
         const fitter: SaveFile[] = [];
@@ -193,10 +192,10 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
         const filterOld = wFiles.files.filter((item) => !mapImport[item.Hash]);
 
         wFiles.setFiles([...fitter, ...filterOld]);
-        _onImportResult(t('Import Success'), 'success');
+        _onImportResult(t<string>('Import Success'), 'success');
       };
-    } catch (e) {
-      _onImportResult(t('file content error'), 'error');
+    } catch {
+      _onImportResult(t<string>('file content error'), 'error');
     }
   }, [wFiles, _onImportResult, t]);
 
@@ -243,29 +242,29 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
       <div className='uploadBtn'>
         <Button
           icon={'upload'}
-          label={t('Upload')}
+          label={t<string>('Upload')}
           onClick={Noop}
         />
         <div className='uploadMenu'>
           <div
             className='menuItem'
             onClick={onClickUpFile}
-          >{t('File')}</div>
+          >{t<string>('File')}</div>
           <div
             className='menuItem'
             onClick={onClickUpFolder}
-          >{t('Folder')}</div>
+          >{t<string>('Folder')}</div>
         </div>
       </div>
       <div style={{ flex: 1 }} />
       <Button
         icon={'file-import'}
-        label={t('Import')}
+        label={t<string>('Import')}
         onClick={_clickImport}
       />
       <Button
         icon={'file-export'}
-        label={t('Export')}
+        label={t<string>('Export')}
         onClick={_export}
       />
     </div>
@@ -273,12 +272,12 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
       empty={t<string>('No files')}
       emptySpinner={t<string>('Loading')}
       header={[
-        [t('files'), 'start', 2],
-        [t('file cid'), 'expand', 2],
+        [t<string>('files'), 'start', 2],
+        [t<string>('file cid'), 'expand', 2],
         [undefined, 'start'],
-        [t('file size'), 'expand', 2],
-        [t('status'), 'expand'],
-        [t('action'), 'expand'],
+        [t<string>('file size'), 'expand', 2],
+        [t<string>('status'), 'expand'],
+        [t<string>('action'), 'expand'],
         []
       ]}
     >
@@ -323,7 +322,7 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
               href={'https://apps.crust.network/?rpc=wss%3A%2F%2Frpc.crust.network#/storage_files'}
               rel='noreferrer'
               target='_blank'
-            >{t('View status in Crust')}</a>
+            >{t<string>('View status in Crust')}</a>
           </td>
           <td
             className='end'
@@ -353,7 +352,7 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
       )}
     </Table>
     <div>
-      {t('Note: The file list is cached locally, switching browsers or devices will not keep displaying the original browser information.')}
+      {t<string>('Note: The file list is cached locally, switching browsers or devices will not keep displaying the original browser information.')}
     </div>
   </StyledMain>;
 }

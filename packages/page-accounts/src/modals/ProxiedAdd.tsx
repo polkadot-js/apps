@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
-import type { ModalProps } from '../types';
+import type { ModalProps } from '../types.js';
 
 import React, { useCallback, useState } from 'react';
 
@@ -10,8 +10,8 @@ import { Button, Input, InputAddressSimple, Modal } from '@polkadot/react-compon
 import { useApi } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 
-import useProxies from '../Accounts/useProxies';
-import { useTranslation } from '../translate';
+import useProxies from '../Accounts/useProxies.js';
+import { useTranslation } from '../translate.js';
 
 interface Props extends ModalProps {
   className?: string;

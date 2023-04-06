@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { StakerState } from '@polkadot/react-hooks/types';
-import type { BagInfo, BagMap, StashNode } from './types';
+import type { BagInfo, BagMap, StashNode } from './types.js';
 
 import React, { useMemo, useRef, useState } from 'react';
 
 import { Button, MarkWarning, Table, ToggleGroup } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
-import Bag from './Bag';
-import Summary from './Summary';
-import useBagsList from './useBagsList';
-import useBagsNodes from './useBagsNodes';
+import { useTranslation } from '../translate.js';
+import Bag from './Bag.js';
+import Summary from './Summary.js';
+import useBagsList from './useBagsList.js';
+import useBagsNodes from './useBagsNodes.js';
 
 interface Props {
   className?: string;
@@ -38,20 +38,20 @@ function Bags ({ className, ownStashes }: Props): React.ReactElement<Props> {
   const mapOwn = useBagsNodes(stashIds);
 
   const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
-    [t('bags')],
-    [t('max'), 'number'],
-    [t('min'), 'number'],
-    [t('first'), 'address'],
-    [t('last'), 'address'],
-    [t('stashes'), 'address'],
-    [t('nodes'), 'number'],
+    [t<string>('bags')],
+    [t<string>('max'), 'number'],
+    [t<string>('min'), 'number'],
+    [t<string>('first'), 'address'],
+    [t<string>('last'), 'address'],
+    [t<string>('stashes'), 'address'],
+    [t<string>('nodes'), 'number'],
     [undefined, 'mini']
   ]);
 
   const filterOptions = useMemo(
     () => [
-      { isDisabled: !stashIds.length, text: t('My bags'), value: 'mine' },
-      { text: t('All bags'), value: 'all' }
+      { isDisabled: !stashIds.length, text: t<string>('My bags'), value: 'mine' },
+      { text: t<string>('All bags'), value: 'all' }
     ],
     [stashIds, t]
   );
@@ -77,8 +77,8 @@ function Bags ({ className, ownStashes }: Props): React.ReactElement<Props> {
         className='warning centered'
         withIcon={false}
       >
-        <p>{t('The All bags list is composed of bags that each describe a range of active bonded funds of the nominators. In each bag is a list of nodes that correspond to a nominator and their staked funds.')}</p>
-        <p>{t('Within the context of a single bag, nodes are not sorted by their stake, but instead placed in insertion order. In other words, the most recently inserted node will be the last node in the bag, regardless of stake. Events like staking rewards or slashes do not automatically put you in a different bag. The bags-list pallet comes with an important permissionless extrinsic: rebag. This allows anyone to specify another account that is in the wrong bag, and place it in the correct one.')}</p>
+        <p>{t<string>('The All bags list is composed of bags that each describe a range of active bonded funds of the nominators. In each bag is a list of nodes that correspond to a nominator and their staked funds.')}</p>
+        <p>{t<string>('Within the context of a single bag, nodes are not sorted by their stake, but instead placed in insertion order. In other words, the most recently inserted node will be the last node in the bag, regardless of stake. Events like staking rewards or slashes do not automatically put you in a different bag. The bags-list pallet comes with an important permissionless extrinsic: rebag. This allows anyone to specify another account that is in the wrong bag, and place it in the correct one.')}</p>
       </MarkWarning>
       <Table
         empty={filtered && t<string>('No available bags')}

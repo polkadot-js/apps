@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AccountStoreApi } from './account-store-api';
+import type { AccountStoreApi } from './account-store-api.js';
 
 export interface ElectronMainApi {
   accountStore: AccountStoreApi

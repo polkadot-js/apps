@@ -9,8 +9,8 @@ import { useMemo } from 'react';
 import { createWsEndpoints } from '@polkadot/apps-config';
 import { bnToBn } from '@polkadot/util';
 
-import { createNamedHook } from './createNamedHook';
-import { useApi } from './useApi';
+import { createNamedHook } from './createNamedHook.js';
+import { useApi } from './useApi.js';
 
 const endpoints = createWsEndpoints((key: string, value: string | undefined) => value || key);
 

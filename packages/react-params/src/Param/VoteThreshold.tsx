@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { Props } from '../types';
+import type { Props } from '../types.js';
 
 import React, { useCallback, useMemo } from 'react';
 
 import { Dropdown } from '@polkadot/react-components';
 import { bnToBn, isFunction } from '@polkadot/util';
 
-import Bare from './Bare';
+import Bare from './Bare.js';
 
 type TextMap = Record<number, string>;
 

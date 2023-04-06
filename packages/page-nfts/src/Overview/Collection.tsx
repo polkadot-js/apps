@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { CollectionInfo } from '../types';
+import type { CollectionInfo } from '../types.js';
 
 import React from 'react';
 
 import { AddressSmall, IconLink, Table } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
@@ -38,7 +38,7 @@ function Collection ({ className, value: { details, id, ipfsData } }: Props): Re
         }
       </td>
       <td className='address media--1000'>{details && <AddressSmall value={details.owner} />}</td>
-      <td className='string'>{details && details.isFrozen.isTrue && t('Frozen')}</td>
+      <td className='string'>{details && details.isFrozen.isTrue && t<string>('Frozen')}</td>
       <td className='number'>{details && formatNumber(details.items || (details as unknown as { instances: BN }).instances)}</td>
     </tr>
   );

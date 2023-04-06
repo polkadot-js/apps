@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SessionInfo } from './types';
+import type { SessionInfo } from './types.js';
 
 import React, { useEffect, useState } from 'react';
 
@@ -9,7 +9,7 @@ import { Input, InputAddress, Modal } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../../translate.js';
 
 interface Props {
   className?: string;

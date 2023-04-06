@@ -7,17 +7,16 @@ import type { BalanceOf, EthereumAddress, StatementKind } from '@polkadot/types/
 import type { BN } from '@polkadot/util';
 
 import React, { useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button, Card, TxButton } from '@polkadot/react-components';
+import { Button, Card, styled, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
-import { ClaimStyles } from './Claim';
-import Statement from './Statement';
-import { useTranslation } from './translate';
-import { getStatement } from './util';
+import { ClaimStyles } from './Claim.js';
+import Statement from './Statement.js';
+import { useTranslation } from './translate.js';
+import { getStatement } from './util.js';
 
 interface Props {
   accountId: string;

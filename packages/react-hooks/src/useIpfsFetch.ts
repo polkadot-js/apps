@@ -4,12 +4,12 @@
 import '@polkadot/x-textencoder/shim';
 import '@polkadot/x-textdecoder/shim';
 
-import type { CallOptions } from './types';
+import type { CallOptions } from './types.js';
 
-import isIPFS from 'is-ipfs';
+import * as isIPFS from 'is-ipfs';
 import { useEffect, useMemo, useState } from 'react';
 
-import { useIsMountedRef } from './useIsMountedRef';
+import { useIsMountedRef } from './useIsMountedRef.js';
 
 interface Options <T> extends CallOptions<T> {
   transform?: (value: any) => T
