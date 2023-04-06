@@ -208,6 +208,7 @@ function Input ({ autoFocus = false, children, className, defaultValue, icon, in
           data-testid={label}
           onPaste={_onPaste}
           spellCheck={false}
+          style={{ pointerEvents: 'auto' }}
         />
         {isEditable && (
           <i className='edit icon' />
