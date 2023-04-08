@@ -15,7 +15,7 @@
   "sideEffects": false,
   "version": "0.125.2-12-x",
   "dependencies": {
-    "@polkadot/dev": "^0.72.32",
+    "@polkadot/dev": "^0.72.36",
     "@polkadot/react-components": "^0.125.2-12-x",
     "electron-log": "^5.0.0-beta.16",
     "electron-updater": "^5.3.0"
