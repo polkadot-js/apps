@@ -798,7 +798,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       'Encointer Association': 'wss://kusama.api.encointer.org',
       'IBP-GeoDNS1': 'wss://sys.ibp.network/encointer-kusama',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/encointer-kusama',
-      OnFinality: 'wss://encointer.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8553, reenabled for Polkadot JS
+      OnFinality: 'wss://encointer.api.onfinality.io/public-ws'
     },
     teleport: [-1],
     text: 'Encointer Network',
