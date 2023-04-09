@@ -57,12 +57,11 @@ function Addresses ({ className }: Props): React.ReactElement<Props> {
       const network = allNetworks.find(({ prefix }) => prefix === chainSS58);
 
       return createSs58(t).map((o) =>
-        createOption(o, ['default'], 'empty', (
-          o.value === -1
-            ? network
-              ? ` (${network.displayName}, ${chainSS58 || 0})`
-              : ` (${chainSS58 || 0})`
-            : ` (${o.value})`
+        createOption(o, ['default'], 'empty', (o.value === -1
+          ? network
+            ? ` (${network.displayName}, ${chainSS58 || 0})`
+            : ` (${chainSS58 || 0})`
+          : ` (${o.value})`
         ))
       );
     },

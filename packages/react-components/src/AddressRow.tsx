@@ -65,10 +65,7 @@ function AddressRow ({ buttons, children, className, defaultName, fullLength = f
   );
 }
 
-export {
-  DEFAULT_ADDR,
-  AddressRow
-};
+export { DEFAULT_ADDR, AddressRow };
 
 const StyledRow = styled(Row)`
   button.u.ui--Icon.editButton {

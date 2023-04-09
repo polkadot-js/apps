@@ -157,7 +157,8 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   const [{ address, derivePath, deriveValidation, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(() => generateSeed(
     propsSeed,
     isEthereum ? ETH_DEFAULT_PATH : '',
-    propsSeed ? 'raw' : 'bip', isEthereum ? 'ethereum' : propsType
+    propsSeed ? 'raw' : 'bip',
+    isEthereum ? 'ethereum' : propsType
   ));
   const [isMnemonicSaved, setIsMnemonicSaved] = useState<boolean>(false);
   const [step, nextStep, prevStep] = useStepper();
