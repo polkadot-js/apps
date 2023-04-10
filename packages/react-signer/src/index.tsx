@@ -16,6 +16,8 @@ import { useTranslation } from './translate.js';
 import TxSigned from './TxSigned.js';
 import TxUnsigned from './TxUnsigned.js';
 
+export * from './signers/index.js';
+
 interface ItemState {
   currentItem: QueueTx | null;
   isRpc: boolean;

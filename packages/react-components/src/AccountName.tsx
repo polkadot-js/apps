@@ -8,7 +8,7 @@ import type { AccountId, AccountIndex, Address } from '@polkadot/types/interface
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import { AccountSidebarCtx } from '@polkadot/app-accounts/Sidebar';
-import registry from '@polkadot/react-api/typeRegistry';
+import { registry } from '@polkadot/react-api';
 import { useDeriveAccountInfo, useSystemApi } from '@polkadot/react-hooks';
 import { formatNumber, isCodec, isFunction, stringToU8a, u8aEmpty, u8aEq, u8aToBn } from '@polkadot/util';
 
