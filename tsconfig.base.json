@@ -103,7 +103,6 @@
       "@polkadot/react-params/valueToText": ["react-params/src/valueToText.tsx"],
       "@polkadot/react-query": ["react-query/src/index.ts"],
       "@polkadot/react-signer": ["react-signer/src/index.tsx"],
-      "@polkadot/react-signer/signers/*": ["react-signer/src/signers/*.ts"],
       "@polkadot/test-support/api": ["test-support/src/api/index.ts"],
       "@polkadot/test-support/creation/*": ["test-support/src/creation/*.ts"],
       "@polkadot/test-support/hooks": ["test-support/src/hooks/index.ts"],

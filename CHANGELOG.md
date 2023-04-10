@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## master
+
+Contributed:
+
+- Allow disabled input selection on FF (Thanks to https://github.com/TorstenStueber)
+- Add SORA parachains (Thanks to https://github.com/stefashkaa)
+- Add LuckyFriday to Westend (Thanks to https://github.com/paradox-tt)
+- Update 3dpass logo (Thanks to https://github.com/fedosov)
+- Update JelliedOwl endpoints (Thanks to https://github.com/JelliedOwl)
+
+Changes:
+
+- Disable unreachable endpoints
+
+
 ## 0.125.1 Apr 3, 2023
 
 Contributed:

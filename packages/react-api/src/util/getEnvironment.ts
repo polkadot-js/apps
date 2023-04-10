@@ -16,7 +16,7 @@ function isElectron () {
   return navigator?.userAgent?.indexOf('Electron') >= 0;
 }
 
-export default function getEnvironment (): Environment {
+export function getEnvironment (): Environment {
   if (isElectron()) {
     return 'app';
   }

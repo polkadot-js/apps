@@ -17,14 +17,14 @@ import { ethereumChains, typesBundle } from '@polkadot/apps-config';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { useApiUrl, useEndpoint, useQueue } from '@polkadot/react-hooks';
-import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';
+import { ApiSigner } from '@polkadot/react-signer';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { formatBalance, isNumber, isTestChain, objectSpread, stringify } from '@polkadot/util';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
 import { lightSpecs, relaySpecs } from './light/index.js';
-import registry from './typeRegistry.js';
+import { registry } from './typeRegistry.js';
 import { decodeUrlTypes } from './urlTypes.js';
 
 interface Props {
@@ -63,7 +63,7 @@ const EMPTY_STATE = { hasInjectedAccounts: false, isApiReady: false } as unknown
 
 let api: ApiPromise;
 
-export { api };
+export { api, registry };
 
 function isKeyringLoaded () {
   try {
