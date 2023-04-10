@@ -31,10 +31,13 @@ async function wait (delay = 2500) {
 
 function createPinata () {
   try {
-    return new PinataSDK({
-      pinataApiKey: process.env.PINATA_API_KEY,
-      pinataSecretApiKey: process.env.PINATA_SECRET_KEY
-    });
+    // For 1.2.1
+    return PinataSDK(process.env.PINATA_API_KEY, process.env.PINATA_SECRET_KEY);
+    // For 2.1.0+
+    // return new PinataSDK({
+    //   pinataApiKey: process.env.PINATA_API_KEY,
+    //   pinataSecretApiKey: process.env.PINATA_SECRET_KEY
+    // });
   } catch {
     console.error('Unable to create Pinata');
   }

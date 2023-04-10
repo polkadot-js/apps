@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## master
+## 0.126.1 Apr 10, 2023
 
 Contributed:
 
@@ -13,6 +13,7 @@ Contributed:
 Changes:
 
 - Disable unreachable endpoints
+- De-bump PinataSDK for IPFS uploads
 
 
 ## 0.125.1 Apr 3, 2023
