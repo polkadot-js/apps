@@ -197,8 +197,8 @@ export const testRelayWestend: EndpointOption = {
     'IBP-GeoDNS2': 'wss://rpc.dotters.network/westend',
     LuckyFriday: 'wss://rpc-westend.luckyfriday.io',
     OnFinality: 'wss://westend.api.onfinality.io/public-ws',
-    RadiumBlock: 'wss://westend.public.curie.radiumblock.co/ws',
     Parity: 'wss://westend-rpc.polkadot.io',
+    RadiumBlock: 'wss://westend.public.curie.radiumblock.co/ws',
     Stakeworld: 'wss://wnd-rpc.stakeworld.io',
     'light client': 'light://substrate-connect/westend'
   },
