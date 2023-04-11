@@ -668,7 +668,7 @@ export const prodParasKusama: EndpointOption[] = [
     info: 'sora',
     paraId: 2011,
     providers: {
-      SoramitsuΩ: 'wss://ws.parachain-collator-1.c1.sora2.soramitsu.co.jp'
+      Soramitsu: 'wss://ws.parachain-collator-1.c1.sora2.soramitsu.co.jp'
     },
     text: 'SORA',
     ui: {
