@@ -611,8 +611,7 @@ export const prodParasKusama: EndpointOption[] = [
     isUnreachable: true,
     paraId: 2016,
     providers: {
-      Clover: 'wss://api-sakura.clover.finance',
-      OnFinality: 'wss://clover.api.onfinality.io/public-ws'
+      Clover: 'wss://api-sakura.clover.finance'
     },
     text: 'Sakura',
     ui: {
@@ -669,8 +668,7 @@ export const prodParasKusama: EndpointOption[] = [
     info: 'sora',
     paraId: 2011,
     providers: {
-      OnFinality: 'wss://sora.api.onfinality.io/public-ws',
-      Soramitsu: 'wss://ws.parachain-collator-1.c1.sora2.soramitsu.co.jp'
+      SoramitsuΩ: 'wss://ws.parachain-collator-1.c1.sora2.soramitsu.co.jp'
     },
     text: 'SORA',
     ui: {
