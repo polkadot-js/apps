@@ -47,8 +47,7 @@ import equilibrium from './equilibrium.js';
 import fantour from './fantour.js';
 // See https://github.com/polkadot-js/apps/pull/9243
 // import fragnova from './fragnova.js';
-// See https://github.com/polkadot-js/apps/pull/9243
-// import frequency from './frequency.js';
+import frequency from './frequency.js';
 import galital from './galital.js';
 import galitalParachain from './galital-parachain.js';
 import galois from './galois.js';
@@ -196,9 +195,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   // See https://github.com/polkadot-js/apps/pull/9243
   // fragnova,
   // 'fragnova-testnet': fragnova,
-  // See https://github.com/polkadot-js/apps/pull/9243
-  // frequency,
-  // 'frequency-rococo': frequency,
+  frequency,
+  'frequency-rococo': frequency,
   galital,
   'galital-collator': galitalParachain,
   gamepower,

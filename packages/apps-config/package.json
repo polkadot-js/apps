@@ -26,7 +26,7 @@
     "@edgeware/node-types": "3.6.2-wako",
     "@equilab/definitions": "1.4.18",
     "@fragnova/api-augment": "0.1.0-spec-1.0.4-mainnet",
-    "@frequency-chain/api-augment": "1.3.0",
+    "@frequency-chain/api-augment": "1.5.2",
     "@interlay/interbtc-types": "1.12.0",
     "@kiltprotocol/type-definitions": "0.32.0",
     "@laminar/type-definitions": "0.3.1",
