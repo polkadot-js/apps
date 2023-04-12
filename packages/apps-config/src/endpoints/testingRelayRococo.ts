@@ -414,7 +414,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'robonomics',
     paraId: 2048,
     providers: {
-      Airalab: 'wss://rococo.rpc.robonomics.network'
+      // Airalab: 'wss://rococo.rpc.robonomics.network' // https://github.com/polkadot-js/apps/issues/9319
     },
     text: 'Robonomics',
     ui: {
