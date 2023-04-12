@@ -348,6 +348,7 @@
        1	Marcin Żółkiewski             	Expose signed transactions (#2203)
        1	Marin Petrunić                	add Vedran westend provider (#4674)
        1	mark hayward                  	Accounts typo (#4673)
+       1	Marta Adamczyk                	Add OnFinality RPC for Quartz (#9245)
        1	Matej Nemček                  	Removed broken link to app-nodeinfo from README (#1392)
        1	Matthew Orris                 	Update Frequency Mainnet RPC Node 0 (#9254)
        1	Maxim Surkov                  	Update sora library version (#4918)
