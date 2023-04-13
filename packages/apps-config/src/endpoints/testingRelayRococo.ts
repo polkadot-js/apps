@@ -20,7 +20,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoAcurast',
     paraId: 4191,
     providers: {
-      Acurast: 'wss://ws.acurast-rococo.diamond.papers.tech'
+      // Acurast: 'wss://ws.acurast-rococo.diamond.papers.tech' // https://github.com/polkadot-js/apps/issues/9321
     },
     text: 'Acurast Testnet',
     ui: {
