@@ -685,14 +685,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@frequency-chain/api-augment@npm:1.3.0":
-  version: 1.3.0
-  resolution: "@frequency-chain/api-augment@npm:1.3.0"
+"@frequency-chain/api-augment@npm:1.5.2":
+  version: 1.5.2
+  resolution: "@frequency-chain/api-augment@npm:1.5.2"
   dependencies:
-    "@polkadot/api": ^9.14.2
-    "@polkadot/rpc-provider": ^9.14.2
-    "@polkadot/types": ^9.14.2
-  checksum: 99d684fda3eedd034da8021f52996860cf71396dd80658568bbcb6730011940353f68dceacacf7cc57ff2e6063b44a37c502de1da294afd763ddc75b84a8db38
+    "@polkadot/api": ^10.3.2
+    "@polkadot/rpc-provider": ^10.3.2
+    "@polkadot/types": ^10.3.2
+  checksum: 5e5c103236d90f5525ee187597ff3d1ff9fdc34548efe41292f7868ea0c06664a0a43bfd03c2b3f945b447c05545f9eb47c9cc76ee8587ceade9451f1adf8c85
   languageName: node
   linkType: hard
 
@@ -1691,7 +1691,7 @@ __metadata:
     "@edgeware/node-types": 3.6.2-wako
     "@equilab/definitions": 1.4.18
     "@fragnova/api-augment": 0.1.0-spec-1.0.4-mainnet
-    "@frequency-chain/api-augment": 1.3.0
+    "@frequency-chain/api-augment": 1.5.2
     "@interlay/interbtc-types": 1.12.0
     "@kiltprotocol/type-definitions": 0.32.0
     "@laminar/type-definitions": 0.3.1
