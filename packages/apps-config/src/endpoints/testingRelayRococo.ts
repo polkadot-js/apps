@@ -80,7 +80,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoBasilisk',
     paraId: 2090,
     providers: {
-      'Galactic Council': 'wss://rococo-basilisk-rpc.hydration.dev'
+      // 'Galactic Council': 'wss://rococo-basilisk-rpc.hydration.dev' // https://github.com/polkadot-js/apps/issues/9328
     },
     text: 'Basilisk',
     ui: {
