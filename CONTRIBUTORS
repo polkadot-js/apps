@@ -285,6 +285,7 @@
        1	cr4pt0                        	Update Pendulum chain logo (#8530)
        1	crownsterlingllc              	Add Production Crown Sterling blockchain (#6097)
        1	cuardaigh                     	add virto-network parachain to rococo (#7582)
+       1	Damian Straszak               	change aleph testnet name to make it unique (#9329)
        1	Dan Forbes                    	Add block number to events on explorer page (#2759)
        1	Daniel Maricic                	add idiyanale to testing relay rococo (#9000)
        1	ddorgan                       	Fix container build (#1456)
