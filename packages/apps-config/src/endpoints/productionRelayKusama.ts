@@ -21,7 +21,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'aband',
     paraId: 2257,
     providers: {
-      'Aband DAO': 'wss://rpc-parachain.a.band'
+      // 'Aband DAO': 'wss://rpc-parachain.a.band' // https://github.com/polkadot-js/apps/issues/9334
     },
     text: 'Aband',
     ui: {
