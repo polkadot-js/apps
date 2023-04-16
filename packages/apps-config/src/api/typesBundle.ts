@@ -54015,6 +54015,42 @@ export const typesBundle = {
             "type": "Vec<RpcEvent>"
           }
         },
+        "handles": {
+          "getHandleForMsa": {
+            "description": "Get handle for a given msa_id",
+            "params": [
+              {
+                "name": "msa_id",
+                "type": "MessageSourceId"
+              }
+            ],
+            "type": "Option<HandleResponse>"
+          },
+          "getMsaForHandle": {
+            "description": "Get msa_id for a given handle",
+            "params": [
+              {
+                "name": "display_handle",
+                "type": "String"
+              }
+            ],
+            "type": "Option<MessageSourceId>"
+          },
+          "getNextSuffixes": {
+            "description": "Get next suffixes for a given handle and count",
+            "params": [
+              {
+                "name": "base_handle",
+                "type": "String"
+              },
+              {
+                "name": "count",
+                "type": "u16"
+              }
+            ],
+            "type": "PresumptiveSuffixesResponse"
+          }
+        },
         "messages": {
           "getBySchemaId": {
             "description": "Get messages by schemaId paginated",
@@ -54135,6 +54171,47 @@ export const typesBundle = {
                 "description": "Get the events with simple SCALE decoding",
                 "params": [],
                 "type": "Vec<RpcEvent>"
+              }
+            },
+            "version": 1
+          }
+        ],
+        "HandlesRuntimeApi": [
+          {
+            "methods": {
+              "get_handle_for_msa": {
+                "description": "Get handle for a given msa_id",
+                "params": [
+                  {
+                    "name": "msa_id",
+                    "type": "MessageSourceId"
+                  }
+                ],
+                "type": "Option<HandleResponse>"
+              },
+              "get_msa_for_handle": {
+                "description": "Get msa_id for a given handle",
+                "params": [
+                  {
+                    "name": "display_handle",
+                    "type": "Vec<u8>"
+                  }
+                ],
+                "type": "Option<MessageSourceId>"
+              },
+              "get_next_suffixes": {
+                "description": "Get next suffixes for a given handle and count",
+                "params": [
+                  {
+                    "name": "base_handle",
+                    "type": "Vec<u8>"
+                  },
+                  {
+                    "name": "count",
+                    "type": "u16"
+                  }
+                ],
+                "type": "PresumptiveSuffixesResponse"
               }
             },
             "version": 1
@@ -54289,6 +54366,16 @@ export const typesBundle = {
               "pallet": "u8",
               "event": "u8",
               "data": "Vec<u8>"
+            },
+            "HandleSuffix": "u16",
+            "HandleResponse": {
+              "base_handle": "String",
+              "canonical_handle": "String",
+              "suffix": "u16"
+            },
+            "PresumptiveSuffixesResponse": {
+              "suffixes": "Vec<HandleSuffix>",
+              "base_handle": "String"
             },
             "BlockPaginationRequest": {
               "from_block": "BlockNumber",
@@ -54387,6 +54474,42 @@ export const typesBundle = {
             "type": "Vec<RpcEvent>"
           }
         },
+        "handles": {
+          "getHandleForMsa": {
+            "description": "Get handle for a given msa_id",
+            "params": [
+              {
+                "name": "msa_id",
+                "type": "MessageSourceId"
+              }
+            ],
+            "type": "Option<HandleResponse>"
+          },
+          "getMsaForHandle": {
+            "description": "Get msa_id for a given handle",
+            "params": [
+              {
+                "name": "display_handle",
+                "type": "String"
+              }
+            ],
+            "type": "Option<MessageSourceId>"
+          },
+          "getNextSuffixes": {
+            "description": "Get next suffixes for a given handle and count",
+            "params": [
+              {
+                "name": "base_handle",
+                "type": "String"
+              },
+              {
+                "name": "count",
+                "type": "u16"
+              }
+            ],
+            "type": "PresumptiveSuffixesResponse"
+          }
+        },
         "messages": {
           "getBySchemaId": {
             "description": "Get messages by schemaId paginated",
@@ -54507,6 +54630,47 @@ export const typesBundle = {
                 "description": "Get the events with simple SCALE decoding",
                 "params": [],
                 "type": "Vec<RpcEvent>"
+              }
+            },
+            "version": 1
+          }
+        ],
+        "HandlesRuntimeApi": [
+          {
+            "methods": {
+              "get_handle_for_msa": {
+                "description": "Get handle for a given msa_id",
+                "params": [
+                  {
+                    "name": "msa_id",
+                    "type": "MessageSourceId"
+                  }
+                ],
+                "type": "Option<HandleResponse>"
+              },
+              "get_msa_for_handle": {
+                "description": "Get msa_id for a given handle",
+                "params": [
+                  {
+                    "name": "display_handle",
+                    "type": "Vec<u8>"
+                  }
+                ],
+                "type": "Option<MessageSourceId>"
+              },
+              "get_next_suffixes": {
+                "description": "Get next suffixes for a given handle and count",
+                "params": [
+                  {
+                    "name": "base_handle",
+                    "type": "Vec<u8>"
+                  },
+                  {
+                    "name": "count",
+                    "type": "u16"
+                  }
+                ],
+                "type": "PresumptiveSuffixesResponse"
               }
             },
             "version": 1
@@ -54661,6 +54825,16 @@ export const typesBundle = {
               "pallet": "u8",
               "event": "u8",
               "data": "Vec<u8>"
+            },
+            "HandleSuffix": "u16",
+            "HandleResponse": {
+              "base_handle": "String",
+              "canonical_handle": "String",
+              "suffix": "u16"
+            },
+            "PresumptiveSuffixesResponse": {
+              "suffixes": "Vec<HandleSuffix>",
+              "base_handle": "String"
             },
             "BlockPaginationRequest": {
               "from_block": "BlockNumber",
@@ -93477,6 +93651,28 @@ export const typesBundle = {
             "section": "oracle"
           }
         },
+        "tokens": {
+          "queryExistentialDeposit": {
+            "description": "Query Existential Deposit for a given currency.",
+            "params": [
+              {
+                "name": "currencyId",
+                "type": "CurrencyId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "NumberOrHex",
+            "isSubscription": false,
+            "jsonrpc": "tokens_queryExistentialDeposit",
+            "method": "queryExistentialDeposit",
+            "section": "tokens"
+          }
+        },
         "assets": {
           "freeBalance": {
             "description": "Get free balance of particular asset for account.",
@@ -94286,8 +94482,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "frozen": "Balance",
-              "reserved": "Balance"
+              "reserved": "Balance",
+              "frozen": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -94313,10 +94509,16 @@ export const typesBundle = {
               "perPeriod": "Compact<Balance>"
             },
             "VestingScheduleOf": "OrmlVestingSchedule",
+            "OrmlCurrencyId": "u8",
             "PoolInfo": {
+              "totalShares": "Share",
+              "rewards": "BTreeMap<OrmlCurrencyId, (Balance, Balance)>"
+            },
+            "CompactBalance": "Compact<Balance>",
+            "PoolInfoV0": {
               "totalShares": "Compact<Share>",
-              "totalRewards": "Compact<Balance>",
-              "totalWithdrawnRewards": "Compact<Balance>"
+              "totalRewards": "CompactBalance",
+              "totalWithdrawnRewards": "CompactBalance"
             },
             "Share": "u128",
             "OracleValue": "FixedU128",
@@ -95146,6 +95348,28 @@ export const typesBundle = {
             "section": "oracle"
           }
         },
+        "tokens": {
+          "queryExistentialDeposit": {
+            "description": "Query Existential Deposit for a given currency.",
+            "params": [
+              {
+                "name": "currencyId",
+                "type": "CurrencyId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "NumberOrHex",
+            "isSubscription": false,
+            "jsonrpc": "tokens_queryExistentialDeposit",
+            "method": "queryExistentialDeposit",
+            "section": "tokens"
+          }
+        },
         "assets": {
           "freeBalance": {
             "description": "Get free balance of particular asset for account.",
@@ -95955,8 +96179,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "frozen": "Balance",
-              "reserved": "Balance"
+              "reserved": "Balance",
+              "frozen": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -95982,10 +96206,16 @@ export const typesBundle = {
               "perPeriod": "Compact<Balance>"
             },
             "VestingScheduleOf": "OrmlVestingSchedule",
+            "OrmlCurrencyId": "u8",
             "PoolInfo": {
+              "totalShares": "Share",
+              "rewards": "BTreeMap<OrmlCurrencyId, (Balance, Balance)>"
+            },
+            "CompactBalance": "Compact<Balance>",
+            "PoolInfoV0": {
               "totalShares": "Compact<Share>",
-              "totalRewards": "Compact<Balance>",
-              "totalWithdrawnRewards": "Compact<Balance>"
+              "totalRewards": "CompactBalance",
+              "totalWithdrawnRewards": "CompactBalance"
             },
             "Share": "u128",
             "OracleValue": "FixedU128",
