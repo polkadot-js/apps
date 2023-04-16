@@ -14,11 +14,11 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.127.0",
+  "version": "0.127.1",
   "dependencies": {
-    "@polkadot/react-components": "^0.127.0"
+    "@polkadot/react-components": "^0.127.1"
   },
   "devDependencies": {
-    "@polkadot/test-support": "0.127.0"
+    "@polkadot/test-support": "0.127.1"
   }
 }
