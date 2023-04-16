@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Link to IPFS version from development URL
+
+
 ## 0.127.1 Apr 16, 2023
 
 Contributed:
