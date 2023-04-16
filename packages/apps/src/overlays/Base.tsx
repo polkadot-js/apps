@@ -12,10 +12,12 @@ interface Props {
   children: React.ReactNode;
   className?: string;
   icon: IconName;
+  isBottom?: boolean;
+  isFull?: boolean;
   type: 'error' | 'info';
 }
 
-function BaseOverlay ({ children, className = '', icon, type }: Props): React.ReactElement<Props> | null {
+function BaseOverlay ({ children, className = '', icon, isBottom = false, isFull = false, type }: Props): React.ReactElement<Props> | null {
   const [isHidden, toggleHidden] = useToggle();
 
   if (isHidden) {
@@ -23,7 +25,7 @@ function BaseOverlay ({ children, className = '', icon, type }: Props): React.Re
   }
 
   return (
-    <StyledDiv className={`${className} ${type === 'error' ? 'isError' : 'isInfo'}`}>
+    <StyledDiv className={`${className} ${type === 'error' ? 'isError' : 'isInfo'} ${isBottom ? 'isBottom' : 'isTop'} ${isFull ? 'isFull' : 'isPartial'}`}>
       <div className='content'>
         <Icon
           className='contentIcon'
@@ -55,9 +57,25 @@ const StyledDiv = styled.div`
   position: fixed;
   right: 0.75rem;
   top: 0.75rem;
-  max-width: 42rem;
-  width: 42rem;
   z-index: 500;
+
+  &.isBottom {
+    bottom: 0.75rem;
+    top: auto;
+  }
+
+  &.isFull {
+    left: 0.75rem;
+  }
+
+  &.isPartial {
+    max-width: 42rem;
+    width: 42rem;
+
+    .content {
+      max-width: 50rem;
+    }
+  }
 
   &:before {
     border-radius: 0.25rem;
@@ -90,7 +108,6 @@ const StyledDiv = styled.div`
     align-items: center;
     display: flex;
     margin: 0 auto;
-    max-width: 50rem;
     padding: 1em 3rem 1rem 0.5rem;
     position: relative;
 
