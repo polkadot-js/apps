@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## 0.127.1 Apr 16, 2023
+
+Contributed:
+
+- Change Aleph testnet name (Thanks to https://github.com/DamianStraszak)
+- Add Westend BlockOps RPC (Thanks to https://github.com/calvin-puram)
+- Add Westend RadiumBlock RPC (Thanks to https://github.com/radiumb)
+- Update Frequency packages to latest (Thanks to https://github.com/wilwade)
+- Add OnFinality Quartz RPC (Thanks to https://github.com/deverka)
+
+Changes:
+
+- Disable unreachable endpoints
+
+
 ## 0.126.1 Apr 10, 2023
 
 Contributed:

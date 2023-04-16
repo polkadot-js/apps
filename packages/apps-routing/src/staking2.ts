@@ -8,7 +8,7 @@ import type { Route } from './types.js';
 
 import Component from '@polkadot/app-staking2';
 import { ZERO_ACCOUNT } from '@polkadot/react-hooks/useWeight';
-import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
+import { unwrapStorageType } from '@polkadot/types/util';
 import { assert, BN_ONE } from '@polkadot/util';
 
 function needsApiCheck (api: ApiPromise): boolean {
