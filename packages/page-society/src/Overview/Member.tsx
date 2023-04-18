@@ -3,18 +3,17 @@
 
 import type { Balance, BlockNumber } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
-import type { MapMember } from '../types';
+import type { MapMember } from '../types.js';
 
 import React, { useCallback, useMemo } from 'react';
-import styled from 'styled-components';
 
-import { AddressSmall, Columar, Expander, Tag, TxButton } from '@polkadot/react-components';
+import { AddressSmall, Columar, Expander, styled, Tag, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import DesignKusama from './DesignKusama';
+import { useTranslation } from '../translate.js';
+import DesignKusama from './DesignKusama.js';
 
 interface Props {
   bestNumber?: BN;
@@ -67,7 +66,7 @@ function Member ({ bestNumber, className = '', value: { accountId, isCandidateVo
   );
 
   const votedOn = useMemo(
-    () => [isCandidateVoter && t('Candidate'), isDefenderVoter && t('Defender')]
+    () => [isCandidateVoter && t<string>('Candidate'), isDefenderVoter && t<string>('Defender')]
       .filter((s): s is string => !!s)
       .join(', '),
     [isCandidateVoter, isDefenderVoter, t]

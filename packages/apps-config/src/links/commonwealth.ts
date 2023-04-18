@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { ExternalDef } from './types';
+import type { ExternalDef } from './types.js';
 
-import { externalLogos } from '../ui/logos';
+import { externalCommonwealthPNG } from '../ui/logos/external/index.js';
 
 const HASH_PATHS = ['proposal/councilmotion'];
 
@@ -17,13 +17,15 @@ export const Commonwealth: ExternalDef = {
   },
   create: (chain: string, path: string, data: BN | number | string, hash?: string): string =>
     `https://commonwealth.im/${chain}/${path}/${HASH_PATHS.includes(path) ? (hash || '') : data.toString()}`,
+  homepage: 'https://commonwealth.im/',
   isActive: true,
-  logo: externalLogos.commonwealth as string,
   paths: {
     council: 'proposal/councilmotion',
     democracyProposal: 'proposal/democracyproposal',
     democracyReferendum: 'proposal/referendum',
     treasury: 'proposal/treasuryproposal'
   },
-  url: 'https://commonwealth.im/'
+  ui: {
+    logo: externalCommonwealthPNG
+  }
 };

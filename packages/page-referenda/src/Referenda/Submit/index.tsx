@@ -4,21 +4,20 @@
 import type { RawParam } from '@polkadot/react-params/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { PalletReferenda, TrackDescription } from '../../types';
+import type { PalletReferenda, TrackDescription } from '../../types.js';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button, Dropdown, Input, InputAddress, InputBalance, InputNumber, Modal, ToggleGroup, TxButton } from '@polkadot/react-components';
+import { Button, Dropdown, Input, InputAddress, InputBalance, InputNumber, Modal, styled, ToggleGroup, TxButton } from '@polkadot/react-components';
 import { useApi, useBestNumber, usePreimage, useToggle } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';
 import { Available } from '@polkadot/react-query';
 import { getTypeDef } from '@polkadot/types/create';
 import { BN_HUNDRED, BN_ONE, BN_THOUSAND, BN_ZERO, isHex } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
-import { getTrackInfo } from '../../util';
-import TrackDropdown from './TrackDropdown';
+import { useTranslation } from '../../translate.js';
+import { getTrackInfo } from '../../util.js';
+import TrackDropdown from './TrackDropdown.js';
 
 interface Props {
   className?: string;

@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { ExternalDef } from './types';
+import type { ExternalDef } from './types.js';
 
-import { externalLogos } from '../ui/logos';
+import { externalPolkassemblyPNG } from '../ui/logos/external/index.js';
 
 export const PolkassemblyIo: ExternalDef = {
   chains: {
@@ -27,18 +27,21 @@ export const PolkassemblyIo: ExternalDef = {
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.polkassembly.io/${path}/${data.toString()}`,
+  homepage: 'https://polkassembly.io/',
   isActive: true,
-  logo: externalLogos.polkassembly as string,
   paths: {
     bounty: 'bounty',
     council: 'motion',
     democracyProposal: 'proposal',
     democracyReferendum: 'referendum',
+    fellowshipReferenda: 'member-referenda',
     referenda: 'referenda',
     tip: 'tip',
     treasury: 'treasury'
   },
-  url: 'https://polkassembly.io/'
+  ui: {
+    logo: externalPolkassemblyPNG
+  }
 };
 
 export const PolkassemblyNetwork: ExternalDef = {
@@ -54,5 +57,5 @@ export const PolkassemblyNetwork: ExternalDef = {
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.polkassembly.network/${path}/${data.toString()}`,
-  url: 'https://polkassembly.network/'
+  homepage: 'https://polkassembly.network/'
 };

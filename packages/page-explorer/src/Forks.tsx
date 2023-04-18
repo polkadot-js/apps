@@ -4,13 +4,12 @@
 import type { Header } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { CardSummary, IdentityIcon, SummaryBox } from '@polkadot/react-components';
+import { CardSummary, IdentityIcon, styled, SummaryBox } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface LinkHeader {
   author: string | null;

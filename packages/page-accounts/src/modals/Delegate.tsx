@@ -3,7 +3,7 @@
 
 import type { Conviction } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
-import type { AmountValidateState } from '../Accounts/types';
+import type { AmountValidateState } from '../Accounts/types.js';
 
 import React, { useState } from 'react';
 
@@ -12,8 +12,8 @@ import { useApi } from '@polkadot/react-hooks';
 import { BalanceFree } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import ValidateAmount from './InputValidateAmount';
+import { useTranslation } from '../translate.js';
+import ValidateAmount from './InputValidateAmount.js';
 
 interface Props {
   onClose: () => void;
@@ -73,7 +73,7 @@ function Delegate ({ onClose, previousAmount, previousConviction, previousDelega
             value={delegatedAccount}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t('The amount to allocate and the conviction that will be applied to all votes made on a referendum.')}>
+        <Modal.Columns hint={t<string>('The amount to allocate and the conviction that will be applied to all votes made on a referendum.')}>
           <InputBalance
             autoFocus
             isError={!!amountError?.error}

@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 import { Button, InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   accountId: string;
@@ -73,7 +73,7 @@ function Transfer ({ accountId, assetId, className, minBalance, siFormat: [siDec
                 siSymbol={siSymbol}
               />
             </Modal.Columns>
-            <Modal.Columns hint={t('With the keep-alive option set, the account is protected against removal due to low balances.')}>
+            <Modal.Columns hint={t<string>('With the keep-alive option set, the account is protected against removal due to low balances.')}>
               <Toggle
                 className='typeToggle'
                 label={

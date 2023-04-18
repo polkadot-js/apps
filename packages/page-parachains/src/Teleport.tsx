@@ -13,7 +13,7 @@ import { useApi, useApiUrl, useTeleport } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { BN_ZERO, isFunction } from '@polkadot/util';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   onClose: () => void;
@@ -22,7 +22,7 @@ interface Props {
 const INVALID_PARAID = Number.MAX_SAFE_INTEGER;
 const XCM_LOC = ['xcm', 'xcmPallet', 'polkadotXcm'];
 
-function createOption ({ info, paraId, text }: LinkOption): Option {
+function createOption ({ paraId, text, ui }: LinkOption): Option {
   return {
     text: (
       <div
@@ -31,7 +31,7 @@ function createOption ({ info, paraId, text }: LinkOption): Option {
       >
         <ChainImg
           className='ui--Dropdown-icon'
-          logo={info}
+          logo={ui.logo}
         />
         <div className='ui--Dropdown-name'>{text}</div>
       </div>

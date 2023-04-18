@@ -43,7 +43,7 @@ function usePolkadotPreclaimsImpl (): string[] {
             .map(([address]) => address)
         );
       }
-    );
+    ).catch(console.error);
   }, [api, allAccounts, mountedRef, preclaims]);
 
   return needsAttest;

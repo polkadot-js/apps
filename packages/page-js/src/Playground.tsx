@@ -5,24 +5,22 @@ import type { ApiPromise } from '@polkadot/api';
 import type { KeyringInstance } from '@polkadot/keyring/types';
 import type { ApiProps } from '@polkadot/react-api/types';
 import type { AppProps as Props } from '@polkadot/react-components/types';
-import type { Log, LogType, Snippet } from './types';
+import type { Log, LogType, Snippet } from './types.js';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button, Dropdown, Editor, Tabs } from '@polkadot/react-components';
+import { Button, Dropdown, Editor, styled, Tabs } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import * as types from '@polkadot/types';
 import uiKeyring from '@polkadot/ui-keyring';
 import * as util from '@polkadot/util';
 import * as hashing from '@polkadot/util-crypto';
 
-import makeWrapper from './snippets/wrapping';
-import ActionButtons from './ActionButtons';
-import { CUSTOM_LABEL, STORE_EXAMPLES, STORE_SELECTED } from './constants';
-import Output from './Output';
-import allSnippets from './snippets';
-import { useTranslation } from './translate';
+import { allSnippets, makeWrapper } from './snippets/index.js';
+import ActionButtons from './ActionButtons.js';
+import { CUSTOM_LABEL, STORE_EXAMPLES, STORE_SELECTED } from './constants.js';
+import Output from './Output.js';
+import { useTranslation } from './translate.js';
 
 interface Injected {
   api: ApiPromise;
@@ -282,13 +280,13 @@ function Playground ({ basePath, className = '' }: Props): React.ReactElement<Pr
       {isWarnOpen && (
         <div className='warnOverlay'>
           <article className='warning centered'>
-            <p>{t('This is a developer tool that allows you to execute selected snippets in a limited context.')}</p>
-            <p>{t('Never execute JS snippets from untrusted sources.')}</p>
-            <p>{t('Unless you are a developer with insight into what the specific script does to your environment (based on reading the code being executed) generally the advice would be to not use this environment.')}</p>
+            <p>{t<string>('This is a developer tool that allows you to execute selected snippets in a limited context.')}</p>
+            <p>{t<string>('Never execute JS snippets from untrusted sources.')}</p>
+            <p>{t<string>('Unless you are a developer with insight into what the specific script does to your environment (based on reading the code being executed) generally the advice would be to not use this environment.')}</p>
             <Button.Group>
               <Button
                 icon='times'
-                label={t('Close')}
+                label={t<string>('Close')}
                 onClick={toggleWarnOpen}
               />
             </Button.Group>

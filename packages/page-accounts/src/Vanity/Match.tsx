@@ -2,12 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useMemo } from 'react';
-import styled from 'styled-components';
 
-import { Button, IdentityIcon } from '@polkadot/react-components';
+import { Button, IdentityIcon, styled } from '@polkadot/react-components';
 import { u8aToHex } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   address: string;

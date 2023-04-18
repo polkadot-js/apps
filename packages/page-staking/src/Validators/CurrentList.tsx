@@ -4,17 +4,17 @@
 import type { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
-import type { NominatedByMap, SortedTargets, ValidatorInfo } from '../types';
+import type { NominatedByMap, SortedTargets, ValidatorInfo } from '../types.js';
 
 import React, { useMemo, useRef, useState } from 'react';
 
 import { Table } from '@polkadot/react-components';
-import { useApi, useBlockAuthors, useLoadingDelay } from '@polkadot/react-hooks';
+import { useApi, useBlockAuthors, useNextTick } from '@polkadot/react-hooks';
 
-import Filtering from '../Filtering';
-import Legend from '../Legend';
-import { useTranslation } from '../translate';
-import Address from './Address';
+import Filtering from '../Filtering.js';
+import Legend from '../Legend.js';
+import { useTranslation } from '../translate.js';
+import Address from './Address/index.js';
 
 interface Props {
   className?: string;
@@ -113,9 +113,7 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
   const { api } = useApi();
   const { byAuthor, eraPoints } = useBlockAuthors();
   const [nameFilter, setNameFilter] = useState<string>('');
-
-  // we have a very large list, so we use a loading delay
-  const isLoading = useLoadingDelay();
+  const isNextTick = useNextTick();
 
   const { validators, waiting } = useMemo(
     () => getFiltered(isOwn, stakingOverview, favorites, targets.waitingIds, ownStashIds),
@@ -123,12 +121,12 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
   );
 
   const list = useMemo(
-    () => isLoading
-      ? undefined
-      : isIntentions
+    () => isNextTick
+      ? isIntentions
         ? nominatedBy && waiting
-        : validators,
-    [isIntentions, isLoading, nominatedBy, validators, waiting]
+        : validators
+      : undefined,
+    [isIntentions, isNextTick, nominatedBy, validators, waiting]
   );
 
   const infoMap = useMemo(
@@ -139,16 +137,16 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>(
     isIntentions
       ? [
-        [t('intentions'), 'start', 3],
-        [t('nominators'), 'expand'],
-        [t('commission'), 'number'],
+        [t<string>('intentions'), 'start', 3],
+        [t<string>('nominators'), 'expand'],
+        [t<string>('commission'), 'number'],
         []
       ]
       : [
-        [t('validators'), 'start', 3],
-        [t('other stake'), 'expand'],
-        [t('commission')],
-        [t('last #')],
+        [t<string>('validators'), 'start', 3],
+        [t<string>('other stake'), 'expand'],
+        [t<string>('commission')],
+        [t<string>('last #')],
         []
       ]
   );

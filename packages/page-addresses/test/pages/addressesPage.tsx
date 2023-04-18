@@ -1,15 +1,16 @@
 // Copyright 2017-2023 @polkadot/page-addresses authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { AccountOverrides as ContactOverrides } from '@polkadot/test-support/types';
+
 import React from 'react';
 
 import { aContact } from '@polkadot/test-support/creation/contact';
 import { Page } from '@polkadot/test-support/pages/Page';
 import { Row } from '@polkadot/test-support/pagesElements';
-import { AccountOverrides as ContactOverrides } from '@polkadot/test-support/types';
-import { mockAccountHooks } from '@polkadot/test-support/utils/accountDefaults';
+import { mockAccountHooks } from '@polkadot/test-support/utils';
 
-import AddressOverview from '../../src/Contacts/index';
+import AddressOverview from '../../src/Contacts/index.js';
 
 const NOOP_CHANGE = () => undefined;
 

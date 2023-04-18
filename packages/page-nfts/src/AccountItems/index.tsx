@@ -1,18 +1,17 @@
 // Copyright 2017-2023 @polkadot/app-nfts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CollectionInfo, CollectionInfoComplete } from '../types';
+import type { CollectionInfo, CollectionInfoComplete } from '../types.js';
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { Dropdown, Table } from '@polkadot/react-components';
+import { Dropdown, styled, Table } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import Item from './Item';
-import useAccountItems from './useAccountItems';
-import useItemsInfos from './useItemsInfos';
+import { useTranslation } from '../translate.js';
+import Item from './Item.js';
+import useAccountItems from './useAccountItems.js';
+import useItemsInfos from './useItemsInfos.js';
 
 interface Props {
   className?: string;
@@ -21,7 +20,7 @@ interface Props {
 
 function AccountItems ({ className, infos = [] }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const NO_NAME = ` - ${t('no name')} -`;
+  const NO_NAME = ` - ${t<string>('no name')} -`;
 
   const [infoIndex, setInfoIndex] = useState(0);
   const [info, setInfo] = useState<CollectionInfoComplete | null>(null);
@@ -55,8 +54,8 @@ function AccountItems ({ className, infos = [] }: Props): React.ReactElement<Pro
   );
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('items'), 'start', 2],
-    [t('owner'), 'address media--1000']
+    [t<string>('items'), 'start', 2],
+    [t<string>('owner'), 'address media--1000']
   ]);
 
   useEffect((): void => {

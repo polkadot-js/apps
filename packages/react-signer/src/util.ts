@@ -3,7 +3,7 @@
 
 import type { KeyringPair } from '@polkadot/keyring/types';
 import type { QueueTx, QueueTxMessageSetStatus, QueueTxStatus } from '@polkadot/react-components/Status/types';
-import type { AddressFlags } from './types';
+import type { AddressFlags } from './types.js';
 
 import { SubmittableResult } from '@polkadot/api';
 import { keyring } from '@polkadot/ui-keyring';

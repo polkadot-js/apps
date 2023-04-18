@@ -3,20 +3,20 @@
 
 import type { Nominations, ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
-import type { AddressFlags, AddressIdentity, UseAccountInfo } from './types';
+import type { AddressFlags, AddressIdentity, UseAccountInfo } from './types.js';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { keyring } from '@polkadot/ui-keyring';
 import { isFunction, isHex } from '@polkadot/util';
 
-import { createNamedHook } from './createNamedHook';
-import { useApi } from './useApi';
-import { useCall } from './useCall';
-import { useDeriveAccountFlags } from './useDeriveAccountFlags';
-import { useDeriveAccountInfo } from './useDeriveAccountInfo';
-import { useKeyring } from './useKeyring';
-import { useToggle } from './useToggle';
+import { createNamedHook } from './createNamedHook.js';
+import { useApi } from './useApi.js';
+import { useCall } from './useCall.js';
+import { useDeriveAccountFlags } from './useDeriveAccountFlags.js';
+import { useDeriveAccountInfo } from './useDeriveAccountInfo.js';
+import { useKeyring } from './useKeyring.js';
+import { useToggle } from './useToggle.js';
 
 const IS_NONE = {
   isCouncil: false,
@@ -138,7 +138,7 @@ function useAccountInfoImpl (value: string | null, isContract = false): UseAccou
         setMeta(accountOrAddress?.meta);
         setName(accountOrAddress?.meta.name || '');
         setSortedTags(accountOrAddress?.meta.tags ? (accountOrAddress.meta.tags as string[]).sort() : []);
-      } catch (error) {
+      } catch {
         // ignore
       }
     }
@@ -167,7 +167,7 @@ function useAccountInfoImpl (value: string | null, isContract = false): UseAccou
           const pair = keyring.getPair(value);
 
           pair && keyring.saveAccountMeta(pair, meta);
-        } catch (error) {
+        } catch {
           const pair = keyring.getAddress(value);
 
           if (pair) {
@@ -200,7 +200,7 @@ function useAccountInfoImpl (value: string | null, isContract = false): UseAccou
           const currentKeyring = keyring.getPair(value);
 
           currentKeyring && keyring.saveAccountMeta(currentKeyring, meta);
-        } catch (error) {
+        } catch {
           keyring.saveAddress(value, meta);
         }
       }

@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { ExternalDef } from './types';
+import type { ExternalDef } from './types.js';
 
-import { externalLogos } from '../ui/logos';
+import { externalSubidSVG } from '../ui/logos/external/index.js';
 
 export const SubId: ExternalDef = {
   chains: {
@@ -26,10 +26,12 @@ export const SubId: ExternalDef = {
   },
   create: (_chain: string, _path: string, data: BN | number | string): string =>
     `https://sub.id/${data.toString()}`,
+  homepage: 'https://sub.id',
   isActive: true,
-  logo: externalLogos.subid as string,
   paths: {
     address: 'account'
   },
-  url: 'https://sub.id'
+  ui: {
+    logo: externalSubidSVG
+  }
 };

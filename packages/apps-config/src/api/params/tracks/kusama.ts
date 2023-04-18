@@ -1,17 +1,19 @@
 // Copyright 2017-2023 @polkadot/app-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TrackInfo } from './types';
+import type { TrackInfo } from './types.js';
 
-import { BN, formatBalance } from '@polkadot/util';
+import { BN } from '@polkadot/util';
+
+import { compareFellowshipRank, formatSpendFactory } from './util.js';
 
 // hardcoded here since this is static (hopefully no re-denomination anytime...)
-const FMT_OPTS = {
+const formatSpend = formatSpendFactory({
   decimals: 12,
   forceUnit: '-',
   withSi: true,
   withUnit: 'KSM'
-};
+});
 
 // https://github.com/paritytech/polkadot/blob/6e3f2c5b4b6e6927915de2f784e1d831717760fa/runtime/kusama/constants/src/lib.rs#L28-L32
 const UNITS = new BN(1_000_000_000_000);
@@ -27,17 +29,6 @@ const SPEND_LIMITS = {
   SmallTipper: formatSpend(250, QUID),
   Treasurer: formatSpend(10_000, GRAND)
 };
-
-function formatSpend (mul: number, value: BN): string {
-  // We lose the decimals here... depending on chain config, this could be non-optimal
-  // (A simple formatBalance(value.muln(mul), FMT_OPTS) formats to 4 decimals)
-  return `${formatBalance(value.muln(mul), FMT_OPTS).split('.')[0]} ${FMT_OPTS.withUnit}`;
-}
-
-function compareFellowshipRank (trackId: number): (rank: BN) => boolean {
-  return (rank: BN): boolean =>
-    rank.gten(trackId);
-}
 
 export const kusama: Record<string, TrackInfo[]> = {
   fellowshipReferenda: [

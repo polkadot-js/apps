@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParaId } from '@polkadot/types/interfaces';
-import type { ScheduledProposals } from '../types';
+import type { ScheduledProposals } from '../types.js';
 
 import React, { useCallback, useMemo } from 'react';
 
@@ -11,9 +11,9 @@ import { useAccounts, useApi, useSudo } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import { sliceHex } from '../util';
-import useProposal from './useProposal';
+import { useTranslation } from '../translate.js';
+import { sliceHex } from '../util.js';
+import useProposal from './useProposal.js';
 
 interface Props {
   approvedIds: ParaId[];

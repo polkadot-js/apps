@@ -6,13 +6,12 @@ import type { AccountId, Call, H256, Multisig } from '@polkadot/types/interfaces
 import type { CallFunction } from '@polkadot/types/types';
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { AddressMini, Call as CallDisplay, Dropdown, Expander, Input, InputAddress, MarkError, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { AddressMini, Call as CallDisplay, Dropdown, Expander, Input, InputAddress, MarkError, Modal, styled, Toggle, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useWeight } from '@polkadot/react-hooks';
 import { assert, isHex } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   address: string;
@@ -87,7 +86,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
     setOthers(
       who
         .map((w) => api.createType('AccountId', w))
-        .filter((w) => !w.eq(signatory))
+        .filter((w) => !signatory || !w.eq(signatory))
     );
   }, [api, signatory, who]);
 
@@ -170,7 +169,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={t('The call hash from the list of available and unapproved calls.')}>
+        <Modal.Columns hint={t<string>('The call hash from the list of available and unapproved calls.')}>
           <Dropdown
             label={t<string>('pending hashes {{count}}', {
               replace: { count: hashes.length }
@@ -210,7 +209,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
             </Modal.Columns>
           </>
         )}
-        <Modal.Columns hint={t('The operation type to apply. For approvals both non-final and final approvals are supported.')}>
+        <Modal.Columns hint={t<string>('The operation type to apply. For approvals both non-final and final approvals are supported.')}>
           <Dropdown
             label={t<string>('approval type')}
             onChange={setType}
@@ -220,7 +219,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
         </Modal.Columns>
         {whoFilter.length !== 0 && (
           <>
-            <Modal.Columns hint={t('For approvals outstanding approvers will be shown, for hashes that should be cancelled the first approver is required.')}>
+            <Modal.Columns hint={t<string>('For approvals outstanding approvers will be shown, for hashes that should be cancelled the first approver is required.')}>
               <InputAddress
                 filter={whoFilter}
                 label={t<string>('signatory')}
@@ -230,7 +229,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
             {type === 'aye' && isMultiCall && (
               <>
                 {isCallOverride && (
-                  <Modal.Columns hint={t('The call data for this transaction matching the hash. Once sent, the multisig will be executed against this.')}>
+                  <Modal.Columns hint={t<string>('The call data for this transaction matching the hash. Once sent, the multisig will be executed against this.')}>
                     {callData && callInfo
                       ? (
                         <Expander
@@ -248,7 +247,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
                         <Input
                           autoFocus
                           isError={!callHex || !!callError}
-                          label={t('call data for final approval')}
+                          label={t<string>('call data for final approval')}
                           onChange={setCallHex}
                         />
                       )}
@@ -257,7 +256,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
                     )}
                   </Modal.Columns>
                 )}
-                <Modal.Columns hint={t('Swap to a non-executing approval type, with subsequent calls providing the actual call data.')}>
+                <Modal.Columns hint={t<string>('Swap to a non-executing approval type, with subsequent calls providing the actual call data.')}>
                   <Toggle
                     className='tipToggle'
                     label={

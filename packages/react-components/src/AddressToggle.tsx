@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useMemo } from 'react';
-import styled from 'styled-components';
 
 import { useApi, useDeriveAccountInfo } from '@polkadot/react-hooks';
 
-import AddressMini from './AddressMini';
-import Toggle from './Toggle';
-import { checkVisibility } from './util';
+import { checkVisibility } from './util/index.js';
+import AddressMini from './AddressMini.js';
+import { styled } from './styled.js';
+import Toggle from './Toggle.js';
 
 interface Props {
   address: string;

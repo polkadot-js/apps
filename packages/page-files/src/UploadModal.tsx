@@ -1,38 +1,27 @@
 // Copyright 2017-2023 @polkadot/app-files authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CancelTokenSource } from 'axios';
+import type { TFunction } from 'i18next';
 import type { Signer } from '@polkadot/api/types';
+import type { AuthIpfsEndpoint, DirFile, FileInfo, SaveFile, UploadRes } from './types.js';
 
-import axios, { CancelTokenSource } from 'axios';
+import axios from 'axios';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
 
-import { createAuthIpfsEndpoints } from '@polkadot/apps-config';
 import { web3FromSource } from '@polkadot/extension-dapp';
-import { Available, Button, Dropdown, InputAddress, Label, MarkError, Modal, Password } from '@polkadot/react-components';
+import { Available, Button, Dropdown, InputAddress, Label, MarkError, Modal, Password, styled } from '@polkadot/react-components';
 import { keyring } from '@polkadot/ui-keyring';
 import { isFunction, nextTick, stringToHex, stringToU8a, u8aToHex } from '@polkadot/util';
 
-import Progress from './Progress';
-import { useTranslation } from './translate';
-import { DirFile, FileInfo, SaveFile, UploadRes } from './types';
+import Progress from './Progress.js';
+import { useTranslation } from './translate.js';
 
 export interface Props {
   className?: string;
   file: FileInfo,
   onClose?: () => void,
   onSuccess?: (res: SaveFile) => void,
-}
-
-function ShowFile (p: { file: DirFile | File }) {
-  const f = p.file as DirFile;
-
-  return (
-    <div className='file'>
-      <Label label={f.webkitRelativePath || p.file.name} />
-      <span>{`${f.size} bytes`}</span>
-    </div>
-  );
 }
 
 interface AccountState {
@@ -47,6 +36,37 @@ interface SignerState {
 }
 
 const NOOP = (): void => undefined;
+
+function ShowFile (p: { file: DirFile | File }) {
+  const f = p.file as DirFile;
+
+  return (
+    <div className='file'>
+      <Label label={f.webkitRelativePath || p.file.name} />
+      <span>{`${f.size} bytes`}</span>
+    </div>
+  );
+}
+
+function createAuthIpfsEndpoints (t: TFunction): AuthIpfsEndpoint[] {
+  return [
+    {
+      location: t<string>('Singapore'),
+      text: t<string>('DCF'),
+      value: 'https://crustipfs.xyz'
+    },
+    {
+      location: t<string>('Seattle'),
+      text: t<string>('Crust Network'),
+      value: 'https://gw.crustfiles.app'
+    },
+    {
+      location: t<string>('Berlin'),
+      text: t<string>('⚡️ Thunder Gateway'),
+      value: 'https://gw.crustfiles.net'
+    }
+  ];
+}
 
 function UploadModal ({ className, file, onClose = NOOP, onSuccess = NOOP }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -207,8 +227,8 @@ function UploadModal ({ className, file, onClose = NOOP, onSuccess = NOOP }: Pro
         headers: { Authorization: AuthBasic },
         maxContentLength: 100 * 1024 * 1024,
         method: 'POST',
-        onUploadProgress: (p: { loaded: number, total: number }) => {
-          const percent = p.loaded / p.total;
+        onUploadProgress: ({ loaded, total }) => {
+          const percent = loaded / (total || loaded || 1);
 
           setUpState({ progress: Math.round(percent * 99), up: true });
         },
@@ -219,7 +239,7 @@ function UploadModal ({ className, file, onClose = NOOP, onSuccess = NOOP }: Pro
       let upRes: UploadRes;
 
       if (typeof upResult.data === 'string') {
-        const jsonStr = upResult.data.replaceAll('}\n{', '},{');
+        const jsonStr = upResult.data.replace(/}\n{/g, '},{');
         const items = JSON.parse(`[${jsonStr}]`) as UploadRes[];
         const folder = items.length - 1;
 

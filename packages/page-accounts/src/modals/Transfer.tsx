@@ -6,16 +6,14 @@ import type { AccountInfoWithProviders, AccountInfoWithRefCount } from '@polkado
 import type { BN } from '@polkadot/util';
 
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 
 import { checkAddress } from '@polkadot/phishing';
-import { InputAddress, InputBalance, MarkError, MarkWarning, Toggle, TxButton } from '@polkadot/react-components';
-import Modal from '@polkadot/react-components/Modal';
+import { InputAddress, InputBalance, MarkError, MarkWarning, Modal, styled, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { BN_HUNDRED, BN_ZERO, isFunction, nextTick } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
@@ -166,7 +164,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
               )
             }
           </Modal.Columns>
-          <Modal.Columns hint={t('With the keep-alive option set, the account is protected against removal due to low balances.')}>
+          <Modal.Columns hint={t<string>('With the keep-alive option set, the account is protected against removal due to low balances.')}>
             {isFunction(api.tx.balances?.transferKeepAlive) && (
               <Toggle
                 className='typeToggle'
@@ -200,7 +198,11 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
         <TxButton
           accountId={propSenderId || senderId}
           icon='paper-plane'
-          isDisabled={!hasAvailable || !(propRecipientId || recipientId) || !amount || !!recipientPhish}
+          isDisabled={
+            (!isAll && (!hasAvailable || !amount)) ||
+            !(propRecipientId || recipientId) ||
+            !!recipientPhish
+          }
           label={t<string>('Make Transfer')}
           onStart={onClose}
           params={
@@ -215,7 +217,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
               ? api.tx.balances?.transferAll
               : isProtected
                 ? api.tx.balances?.transferKeepAlive
-                : api.tx.balances?.transfer
+                : api.tx.balances?.transferAllowDeath || api.tx.balances?.transfer
           }
         />
       </Modal.Actions>

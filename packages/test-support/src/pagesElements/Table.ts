@@ -3,8 +3,8 @@
 
 import { within } from '@testing-library/react';
 
-import { showBalance } from '../utils/balance';
-import { Row } from './Row';
+import { showBalance } from '../utils/balance.js';
+import { Row } from './Row.js';
 
 export class Table {
   constructor (private readonly table: HTMLElement, private readonly rowClassName: string) {

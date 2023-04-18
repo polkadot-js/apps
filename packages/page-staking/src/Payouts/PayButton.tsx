@@ -3,16 +3,15 @@
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
-import type { PayoutValidator } from './types';
+import type { PayoutValidator } from './types.js';
 
 import React, { useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
 
 import { ApiPromise } from '@polkadot/api';
-import { AddressMini, Button, InputAddress, Modal, Static, TxButton } from '@polkadot/react-components';
+import { AddressMini, Button, InputAddress, Modal, Static, styled, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle, useTxBatch } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;

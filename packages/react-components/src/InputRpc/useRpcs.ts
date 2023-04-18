@@ -7,7 +7,7 @@ import { useMemo } from 'react';
 
 import { createNamedHook, useApi } from '@polkadot/react-hooks';
 
-import { getAllRpc } from './rpcs';
+import { getAllRpc } from './rpcs.js';
 
 function useRpcsImpl (): Record<string, Record<string, DefinitionRpcExt>> {
   const { api } = useApi();

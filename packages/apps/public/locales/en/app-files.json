@@ -1,7 +1,10 @@
 {
+  "Berlin": "Berlin",
   "Copy file cid": "Copy file cid",
   "Copy link": "Copy link",
+  "Crust Network": "Crust Network",
   "Crust Pinner": "Crust Pinner",
+  "DCF": "DCF",
   "Do not upload files larger than 100MB!": "Do not upload files larger than 100MB!",
   "Download": "Download",
   "Export": "Export",
@@ -17,9 +20,11 @@
   "Please choose account": "Please choose account",
   "Please do not upload more than 2000 files": "Please do not upload more than 2000 files",
   "Please select non-empty folder": "Please select non-empty folder",
+  "Seattle": "Seattle",
   "Select a Web3 IPFS Gateway": "Select a Web3 IPFS Gateway",
   "Select a Web3 IPFS Pinner": "Select a Web3 IPFS Pinner",
   "Sign and Upload": "Sign and Upload",
+  "Singapore": "Singapore",
   "Upload": "Upload",
   "Upload File": "Upload File",
   "View status in Crust": "View status in Crust",
@@ -32,5 +37,6 @@
   "files": "files",
   "password": "password",
   "status": "status",
-  "transferrable": "transferrable"
+  "transferrable": "transferrable",
+  "⚡️ Thunder Gateway": "⚡️ Thunder Gateway"
 }

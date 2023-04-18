@@ -9,7 +9,7 @@ import { Button, Input, InputAddress, InputBalance, InputFile, InputNumber, Inpu
 import { useApi } from '@polkadot/react-hooks';
 import { BN, BN_TEN, BN_THOUSAND, BN_ZERO, compactAddLength } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
@@ -37,7 +37,7 @@ function Validator ({ address, index, setAddress, t }: ValidatorProps): React.Re
   return (
     <InputAddress
       defaultValue={address}
-      label={t('validator {{index}}', { replace: { index: index + 1 } })}
+      label={t<string>('validator {{index}}', { replace: { index: index + 1 } })}
       onChange={_setAddress}
     />
   );

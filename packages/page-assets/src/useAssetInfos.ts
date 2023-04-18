@@ -5,7 +5,7 @@ import type { Option } from '@polkadot/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { PalletAssetsAssetDetails, PalletAssetsAssetMetadata } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { AssetInfo } from './types';
+import type { AssetInfo } from './types.js';
 
 import { useEffect, useState } from 'react';
 

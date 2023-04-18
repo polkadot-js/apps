@@ -7,13 +7,12 @@ import type { PalletTipsOpenTip } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { Table, Toggle } from '@polkadot/react-components';
+import { styled, Table, Toggle } from '@polkadot/react-components';
 import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import Tip from './Tip';
+import { useTranslation } from '../translate.js';
+import Tip from './Tip.js';
 
 interface Props {
   className?: string;
@@ -62,9 +61,9 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectT
   );
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('tips'), 'start'],
-    [t('finder'), 'address media--1400'],
-    [t('reason'), 'start'],
+    [t<string>('tips'), 'start'],
+    [t<string>('finder'), 'address media--1400'],
+    [t<string>('reason'), 'start'],
     [undefined, 'media--1100'],
     [],
     [undefined, 'badge media--1700'],

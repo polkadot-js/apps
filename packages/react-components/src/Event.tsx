@@ -10,10 +10,10 @@ import React, { useMemo } from 'react';
 
 import Params from '@polkadot/react-params';
 
-import { balanceEvents, balanceEventsOverrides } from './constants';
-import Input from './Input';
-import { useTranslation } from './translate';
-import { getContractAbi } from './util';
+import { getContractAbi } from './util/index.js';
+import { balanceEvents, balanceEventsOverrides } from './constants.js';
+import Input from './Input.js';
+import { useTranslation } from './translate.js';
 
 export interface Props {
   children?: React.ReactNode;
@@ -84,6 +84,7 @@ function EventDisplay ({ children, className = '', eventName, value, withExpande
         isDisabled
         overrides={overrides}
         params={params}
+        registry={value.registry}
         values={values}
         withExpander={withExpander}
       >
@@ -97,6 +98,7 @@ function EventDisplay ({ children, className = '', eventName, value, withExpande
             <Params
               isDisabled
               params={abiEvent.event.args}
+              registry={value.registry}
               values={abiEvent.values}
             />
           </>

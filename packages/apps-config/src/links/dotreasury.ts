@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { ExternalDef } from './types';
+import type { ExternalDef } from './types.js';
 
-import { externalLogos } from '../ui/logos';
+import { externalDotreasurySVG } from '../ui/logos/external/index.js';
 
 export const Dotreasury: ExternalDef = {
   chains: {
@@ -13,12 +13,14 @@ export const Dotreasury: ExternalDef = {
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://www.dotreasury.com/${chain}/${path}/${data.toString()}`,
+  homepage: 'https://dotreasury.com/',
   isActive: true,
-  logo: externalLogos.dotreasury as string,
   paths: {
     bounty: 'bounties',
     tip: 'tips',
     treasury: 'proposals'
   },
-  url: 'https://dotreasury.com/'
+  ui: {
+    logo: externalDotreasurySVG
+  }
 };

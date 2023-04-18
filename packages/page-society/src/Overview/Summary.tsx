@@ -5,13 +5,12 @@ import type { DeriveSociety } from '@polkadot/api-derive/types';
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
-import { CardSummary, SummaryBox } from '@polkadot/react-components';
+import { CardSummary, styled, SummaryBox } from '@polkadot/react-components';
 import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;

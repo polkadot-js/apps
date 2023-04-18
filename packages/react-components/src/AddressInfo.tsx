@@ -9,22 +9,22 @@ import type { PalletBalancesReserveData } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
 import React, { useRef } from 'react';
-import styled from 'styled-components';
 
 import { withCalls, withMulti } from '@polkadot/react-api/hoc';
 import { useBestNumber } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN_MAX_INTEGER, BN_ZERO, bnMax, formatBalance, formatNumber, isObject } from '@polkadot/util';
 
-import CryptoType from './CryptoType';
-import DemocracyLocks from './DemocracyLocks';
-import Expander from './Expander';
-import Icon from './Icon';
-import Label from './Label';
-import StakingRedeemable from './StakingRedeemable';
-import StakingUnbonding from './StakingUnbonding';
-import Tooltip from './Tooltip';
-import { useTranslation } from './translate';
+import CryptoType from './CryptoType.js';
+import DemocracyLocks from './DemocracyLocks.js';
+import Expander from './Expander.js';
+import Icon from './Icon.js';
+import Label from './Label.js';
+import StakingRedeemable from './StakingRedeemable.js';
+import StakingUnbonding from './StakingUnbonding.js';
+import { styled } from './styled.js';
+import Tooltip from './Tooltip.js';
+import { useTranslation } from './translate.js';
 
 // true to display, or (for bonded) provided values [own, ...all extras]
 export interface BalanceActiveType {
@@ -104,7 +104,7 @@ function lookupLock (lookup: Record<string, string>, lockId: Raw): string {
 
   try {
     return lookup[lockHex] || lockHex;
-  } catch (error) {
+  } catch {
     return lockHex;
   }
 }
@@ -464,9 +464,9 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
                       <div className='nowrap'>#{refId.toString()} {formatBalance(total, { forceUnit: '-' })} {locked}</div>
                       <div className='faded nowrap'>{
                         endBlock.eq(BN_MAX_INTEGER)
-                          ? t('ongoing referendum')
+                          ? t<string>('ongoing referendum')
                           : bestNumber.gte(endBlock)
-                            ? t('lock expired')
+                            ? t<string>('lock expired')
                             : <>{formatNumber(endBlock.sub(bestNumber))} {t('blocks')},&nbsp;
                               <BlockToTime
                                 isInline

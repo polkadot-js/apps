@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import type { Route } from './types';
+import type { Route } from './types.js';
 
 import Component from '@polkadot/app-parachains';
 
@@ -18,6 +18,6 @@ export default function create (t: TFunction): Route {
     group: 'network',
     icon: 'link',
     name: 'parachains',
-    text: t('nav.parachains', 'Parachains', { ns: 'apps-routing' })
+    text: t<string>('nav.parachains', 'Parachains', { ns: 'apps-routing' })
   };
 }

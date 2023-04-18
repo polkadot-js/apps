@@ -4,9 +4,8 @@
 import type { QueueTx } from '@polkadot/react-components/Status/types';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { Output } from '@polkadot/react-components';
+import { Output, styled } from '@polkadot/react-components';
 import valueToText from '@polkadot/react-params/valueToText';
 import { isUndefined } from '@polkadot/util';
 

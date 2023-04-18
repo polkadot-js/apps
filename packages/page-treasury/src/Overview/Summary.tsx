@@ -10,7 +10,7 @@ import { useApi, useBestNumber, useCall, useTreasury } from '@polkadot/react-hoo
 import { FormatBalance } from '@polkadot/react-query';
 import { BN_THREE, BN_TWO, BN_ZERO, formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   approvalCount?: number;

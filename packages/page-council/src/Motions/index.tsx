@@ -9,11 +9,11 @@ import React, { useRef } from 'react';
 import { Button, Table } from '@polkadot/react-components';
 import { useCollectiveMembers } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import Motion from './Motion';
-import ProposeExternal from './ProposeExternal';
-import ProposeMotion from './ProposeMotion';
-import Slashing from './Slashing';
+import { useTranslation } from '../translate.js';
+import Motion from './Motion.js';
+import ProposeExternal from './ProposeExternal.js';
+import ProposeMotion from './ProposeMotion.js';
+import Slashing from './Slashing.js';
 
 interface Props {
   className?: string;
@@ -26,10 +26,10 @@ function Proposals ({ className = '', motions, prime }: Props): React.ReactEleme
   const { isMember, members } = useCollectiveMembers('council');
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('motions'), 'start', 2],
-    [t('threshold')],
-    [t('voting end')],
-    [t('votes'), 'expand'],
+    [t<string>('motions'), 'start', 2],
+    [t<string>('threshold')],
+    [t<string>('voting end')],
+    [t<string>('votes'), 'expand'],
     [],
     [undefined, 'badge'],
     []

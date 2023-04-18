@@ -6,37 +6,24 @@ import type { TabItem } from '@polkadot/react-components/Tabs/types';
 import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
 
 import React, { useMemo, useRef } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 import { useApi, useBlockAuthors, useBlockEvents } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-import Api from './Api';
-import BlockInfo from './BlockInfo';
-import Forks from './Forks';
-import Latency from './Latency';
-import Main from './Main';
-import NodeInfo from './NodeInfo';
-import { useTranslation } from './translate';
+import Api from './Api/index.js';
+import BlockInfo from './BlockInfo/index.js';
+import Latency from './Latency/index.js';
+import NodeInfo from './NodeInfo/index.js';
+import Forks from './Forks.js';
+import Main from './Main.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   basePath: string;
   className?: string;
   newEvents?: KeyedEvent[];
-}
-
-function createPathRef (basePath: string): Record<string, string | string[]> {
-  return {
-    api: `${basePath}/api`,
-    forks: `${basePath}/forks`,
-    latency: `${basePath}/latency`,
-    node: `${basePath}/node`,
-    query: [
-      `${basePath}/query/:value`,
-      `${basePath}/query/`
-    ]
-  };
 }
 
 function createItemsRef (t: TFunction): TabItem[] {
@@ -77,7 +64,6 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
   const { lastHeaders } = useBlockAuthors();
   const { eventCount, events } = useBlockEvents();
   const itemsRef = useRef(createItemsRef(t));
-  const pathRef = useRef(createPathRef(basePath));
 
   const hidden = useMemo<string[]>(
     () => isFunction(api.query.babe?.authorities) ? [] : ['forks'],
@@ -91,20 +77,40 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
         hidden={hidden}
         items={itemsRef.current}
       />
-      <Switch>
-        <Route path={pathRef.current.api}><Api /></Route>
-        <Route path={pathRef.current.forks}><Forks /></Route>
-        <Route path={pathRef.current.latency}><Latency /></Route>
-        <Route path={pathRef.current.query}><BlockInfo /></Route>
-        <Route path={pathRef.current.node}><NodeInfo /></Route>
-        <Route>
-          <Main
-            eventCount={eventCount}
-            events={events}
-            headers={lastHeaders}
+      <Routes>
+        <Route path={basePath}>
+          <Route
+            element={<Api />}
+            path='api'
+          />
+          <Route
+            element={<Forks />}
+            path='forks'
+          />
+          <Route
+            element={<Latency />}
+            path='latency'
+          />
+          <Route
+            element={<NodeInfo />}
+            path='node'
+          />
+          <Route
+            element={<BlockInfo />}
+            path='query/:value?'
+          />
+          <Route
+            element={
+              <Main
+                eventCount={eventCount}
+                events={events}
+                headers={lastHeaders}
+              />
+            }
+            index
           />
         </Route>
-      </Switch>
+      </Routes>
     </main>
   );
 }

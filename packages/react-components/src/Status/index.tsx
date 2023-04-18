@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
-import type { QueueStatus, QueueTx, QueueTxStatus } from './types';
+import type { QueueStatus, QueueTx, QueueTxStatus } from './types.js';
 
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 
 import { useQueue } from '@polkadot/react-hooks';
 
-import AddressMini from '../AddressMini';
-import Icon from '../Icon';
-import Spinner from '../Spinner';
-import { STATUS_COMPLETE } from './constants';
+import AddressMini from '../AddressMini.js';
+import Icon from '../Icon.js';
+import Spinner from '../Spinner.js';
+import { styled } from '../styled.js';
+import { STATUS_COMPLETE } from './constants.js';
 
 interface Props {
   className?: string;

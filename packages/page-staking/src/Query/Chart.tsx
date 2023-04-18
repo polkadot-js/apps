@@ -1,12 +1,11 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { LineData } from './types';
+import type { LineData } from './types.js';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
-import { Chart, Spinner } from '@polkadot/react-components';
+import { Chart, Spinner, styled } from '@polkadot/react-components';
 
 interface Props {
   className?: string;

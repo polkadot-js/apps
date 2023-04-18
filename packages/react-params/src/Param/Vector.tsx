@@ -1,18 +1,18 @@
 // Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ParamDef, Props, RawParam } from '../types';
+import type { ParamDef, Props, RawParam } from '../types.js';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { Button } from '@polkadot/react-components';
 import { isUndefined } from '@polkadot/util';
 
-import getInitValue from '../initValue';
-import { useTranslation } from '../translate';
-import Params from '../';
-import Base from './Base';
-import useParamDefs from './useParamDefs';
+import Params from '../index.js';
+import getInitValue from '../initValue.js';
+import { useTranslation } from '../translate.js';
+import Base from './Base.js';
+import useParamDefs from './useParamDefs.js';
 
 function getParam ([{ name, type }]: ParamDef[], index: number): ParamDef {
   return {
@@ -22,7 +22,8 @@ function getParam ([{ name, type }]: ParamDef[], index: number): ParamDef {
 }
 
 export function getParams (inputParams: ParamDef[], prev: ParamDef[], max: number): ParamDef[] {
-  if (prev.length === max) {
+  // HACK: I don't know why `max` changes to `undefined`.
+  if (prev.length === max || isUndefined(max)) {
     return prev;
   }
 
@@ -36,6 +37,10 @@ export function getParams (inputParams: ParamDef[], prev: ParamDef[], max: numbe
 }
 
 export function getValues ({ value }: RawParam): RawParam[] {
+  if (value instanceof Set) {
+    value = [...value.values()];
+  }
+
   return Array.isArray(value)
     ? value.map((value: RawParam) =>
       isUndefined(value) || isUndefined(value.isValid)

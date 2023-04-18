@@ -3,7 +3,7 @@
 
 import type { DeriveSessionIndexes } from '@polkadot/api-derive/types';
 import type { u32 } from '@polkadot/types';
-import type { SessionRewards } from '../types';
+import type { SessionRewards } from '../types.js';
 
 import { useEffect, useState } from 'react';
 

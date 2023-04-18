@@ -1,11 +1,10 @@
 // Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Environment } from '../types';
+import type { ComponentType } from 'react';
+import type { Environment } from '../types.js';
 
-import { ComponentType } from 'react';
-
-import { getEnvironment } from '../util';
+import { getEnvironment } from '../util/index.js';
 
 const onlyOn = (environment: Environment) => <T extends ComponentType<any>>(component: T): T | (() => null) => {
   if (getEnvironment() === environment) {
