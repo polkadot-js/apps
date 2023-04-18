@@ -119,7 +119,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'calamari',
     paraId: 2084,
     providers: {
-      // 'Manta Network': 'wss://ws.calamari.systems/' // https://github.com/polkadot-js/apps/issues/9331
+      'Manta Network': 'wss://calamari.systems'
     },
     text: 'Calamari',
     ui: {
