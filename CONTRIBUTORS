@@ -360,6 +360,7 @@
        1	Mike Godenzi                  	Acurast added to Rococo (#8546)
        1	mikolajsobolewski             	Added Equilibrium Test Network logos & endpoints (#3792)
        1	MinjieTian                    	deleted onfinality ajuna endpoint (#8848)
+       1	Misha Kolesnik                	feat: Update Mangata Kusama and Rococo endpoints MGX-477 (#9345)
        1	Mokhtar Naamani               	Fix app-accounts Restore feature (#761)
        1	motinados                     	fill in all empty values in all languageCaches. (#3606)
        1	MOZGIII                       	Add Humanode network endpoint and logo (#8919)
