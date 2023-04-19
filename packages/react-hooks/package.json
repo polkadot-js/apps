@@ -1,5 +1,8 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
+  "engines": {
+    "node": ">=14"
+  },
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/react-hooks#readme",
   "license": "Apache-2.0",
   "name": "@polkadot/react-hooks",
@@ -11,10 +14,10 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.124.2-110-x",
+  "version": "0.127.2-3-x",
   "dependencies": {
-    "@babel/runtime": "^7.21.0",
-    "@polkadot/hw-ledger": "^10.4.2",
+    "@polkadot/hw-ledger": "^11.1.3",
+    "@polkadot/hw-ledger-transports": "^11.1.3",
     "is-ipfs": "^8.0.1"
   }
 }

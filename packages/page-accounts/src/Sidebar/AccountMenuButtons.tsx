@@ -1,15 +1,16 @@
 // Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { AddressFlags } from '@polkadot/react-hooks/types';
+
 import React, { useCallback } from 'react';
 
 import { Button, styled } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
-import { AddressFlags } from '@polkadot/react-hooks/types';
 import { isFunction } from '@polkadot/util';
 
-import Transfer from '../modals/Transfer';
-import { useTranslation } from '../translate';
+import Transfer from '../modals/Transfer.js';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;

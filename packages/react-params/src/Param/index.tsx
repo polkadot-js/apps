@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Props } from '../types';
+import type { Props } from '../types.js';
 
 import React, { useMemo } from 'react';
 
@@ -9,8 +9,8 @@ import { getTypeDef } from '@polkadot/types';
 import { encodeTypeDef } from '@polkadot/types/create';
 import { isUndefined } from '@polkadot/util';
 
-import findComponent from './findComponent';
-import Static from './Static';
+import findComponent from './findComponent.js';
+import Static from './Static.js';
 
 function formatJSON (input: string): string {
   return input

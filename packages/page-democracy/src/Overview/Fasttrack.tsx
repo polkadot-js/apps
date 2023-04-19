@@ -12,7 +12,7 @@ import { Button, Input, InputAddress, InputNumber, Modal, Toggle, TxButton } fro
 import { useApi, useCall, useCollectiveInstance, useToggle } from '@polkadot/react-hooks';
 import { BN, isString } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   imageHash: Hash | HexString;

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
-import type { ModalProps } from '../types';
+import type { ModalProps } from '../types.js';
 
 import React, { useCallback, useState } from 'react';
 
@@ -12,8 +12,8 @@ import { keyring } from '@polkadot/ui-keyring';
 import { assert, BN, u8aToString } from '@polkadot/util';
 import { validateAddress } from '@polkadot/util-crypto';
 
-import useKnownAddresses from '../Accounts/useKnownAddresses';
-import { useTranslation } from '../translate';
+import useKnownAddresses from '../Accounts/useKnownAddresses.js';
+import { useTranslation } from '../translate.js';
 
 interface Props extends ModalProps {
   className?: string;
@@ -36,7 +36,7 @@ interface UploadedFileData {
 const MAX_SIGNATORIES = 16;
 const BN_TWO = new BN(2);
 
-const acceptedFormats = ['application/json'].join(', ');
+const acceptedFormats = ['application/json'];
 
 function parseFile (file: Uint8Array): UploadedFileData {
   let uploadError = '';
@@ -76,6 +76,8 @@ function createMultisig (signatories: string[], threshold: BN | number, { genesi
   } catch (error) {
     status.status = 'error';
     status.message = (error as Error).message;
+
+    console.error(error);
   }
 
   return status;

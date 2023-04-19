@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { AddressMini, InputAddress, Labelled, styled, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   allAccounts: string[];

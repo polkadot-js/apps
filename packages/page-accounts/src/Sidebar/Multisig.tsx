@@ -7,7 +7,7 @@ import React from 'react';
 
 import { AddressMini } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   isMultisig: boolean;

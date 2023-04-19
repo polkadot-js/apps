@@ -2,15 +2,16 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
+import type { RowProps } from './Row.js';
 
 import React from 'react';
 
 import { useAccountInfo } from '@polkadot/react-hooks';
 import BaseIdentityIcon from '@polkadot/react-identicon';
 
-import IdentityIcon from './IdentityIcon';
-import Row, { RowProps } from './Row';
-import { styled } from './styled';
+import IdentityIcon from './IdentityIcon/index.js';
+import Row from './Row.js';
+import { styled } from './styled.js';
 
 export interface Props extends RowProps {
   isContract?: boolean;
@@ -64,10 +65,7 @@ function AddressRow ({ buttons, children, className, defaultName, fullLength = f
   );
 }
 
-export {
-  DEFAULT_ADDR,
-  AddressRow
-};
+export { DEFAULT_ADDR, AddressRow };
 
 const StyledRow = styled(Row)`
   button.u.ui--Icon.editButton {

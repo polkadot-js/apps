@@ -5,7 +5,7 @@ import type { Changes } from '@polkadot/react-hooks/useEventChanges';
 import type { StorageKey, u32 } from '@polkadot/types';
 import type { EventRecord } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
-import type { PalletReferenda } from './types';
+import type { PalletReferenda } from './types.js';
 
 import { createNamedHook, useApi, useEventChanges, useMapKeys } from '@polkadot/react-hooks';
 

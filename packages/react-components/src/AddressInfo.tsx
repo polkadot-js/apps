@@ -15,16 +15,16 @@ import { useBestNumber } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN_MAX_INTEGER, BN_ZERO, bnMax, formatBalance, formatNumber, isObject } from '@polkadot/util';
 
-import CryptoType from './CryptoType';
-import DemocracyLocks from './DemocracyLocks';
-import Expander from './Expander';
-import Icon from './Icon';
-import Label from './Label';
-import StakingRedeemable from './StakingRedeemable';
-import StakingUnbonding from './StakingUnbonding';
-import { styled } from './styled';
-import Tooltip from './Tooltip';
-import { useTranslation } from './translate';
+import CryptoType from './CryptoType.js';
+import DemocracyLocks from './DemocracyLocks.js';
+import Expander from './Expander.js';
+import Icon from './Icon.js';
+import Label from './Label.js';
+import StakingRedeemable from './StakingRedeemable.js';
+import StakingUnbonding from './StakingUnbonding.js';
+import { styled } from './styled.js';
+import Tooltip from './Tooltip.js';
+import { useTranslation } from './translate.js';
 
 // true to display, or (for bonded) provided values [own, ...all extras]
 export interface BalanceActiveType {
@@ -104,7 +104,7 @@ function lookupLock (lookup: Record<string, string>, lockId: Raw): string {
 
   try {
     return lookup[lockHex] || lockHex;
-  } catch (error) {
+  } catch {
     return lockHex;
   }
 }

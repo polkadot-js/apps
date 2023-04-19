@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import languageCache from './cache';
+import languageCache from './cache.js';
 
 type Callback = (error: string | null, data: any) => void;
 

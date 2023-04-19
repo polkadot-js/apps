@@ -1,19 +1,19 @@
 // Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// Not used/included in index.ts as of https://github.com/polkadot-js/apps/pull/9243
+
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-import schema from '@polymathnetwork/polymesh-types';
+import { options } from '@fragnova/api-augment';
 
-const definitions: OverrideBundleDefinition = {
-  rpc: schema.rpc,
+export default {
+  ...options,
   types: [
     {
       // on all versions
       minmax: [0, undefined],
-      types: schema.types
+      types: options.types
     }
   ]
-};
-
-export default definitions;
+} as OverrideBundleDefinition;

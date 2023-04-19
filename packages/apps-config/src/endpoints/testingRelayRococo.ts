@@ -1,12 +1,12 @@
 // Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { EndpointOption } from './types';
+import type { EndpointOption } from './types.js';
 
-import { ROCOCO_GENESIS } from '../api/constants';
-import { chainsAcurastPNG, chainsAmplitudeSVG, chainsBitgreenPNG, chainsFrequencySVG, chainsGenshiroSVG, chainsHydratePNG, chainsIdiyanaleLogoWhiteSVG, chainsJurPNG, chainsMangataPNG, chainsMoonsamaPNG, chainsOrigintrailTestnetPNG, chainsRococoSVG, chainsSnowbridgePNG, chainsT0rnPNG, chainsTanglePNG, chainsTinkerPNG, chainsTotemSVG, chainsTuringPNG, chainsVirtoPNG, chainsWatrPNG } from '../ui/logos/chains';
-import { nodesArcticPNG, nodesAventusSVG, nodesBajunPNG, nodesBasiliskPNG, nodesBasiliskRococoBgPNG, nodesBifrostSVG, nodesBridgeHubBlackSVG, nodesCentrifugePNG, nodesConftiSVG, nodesCrustParachainSVG, nodesDaliPNG, nodesDatahighwayPNG, nodesDolphinSVG, nodesEncointerBlueSVG, nodesGiantPNG, nodesHelixstreetPNG, nodesImbuePNG, nodesIntegriteeSVG, nodesKabochaSVG, nodesKiltPNG, nodesLitentryPNG, nodesMd5PNG, nodesNodleSVG, nodesOliSVG, nodesPangolinSVG, nodesPolkadexSVG, nodesRobonomicsSVG, nodesRocfinitySVG, nodesSoonsocialXPNG, nodesSoraSubstrateSVG, nodesStatemineSVG, nodesSubstrateContractsNodePNG, nodesUnitnetworkPNG, nodesZeitgeistPNG, nodesZeroSVG } from '../ui/logos/nodes';
-import { getTeleports } from './util';
+import { ROCOCO_GENESIS } from '../api/constants.js';
+import { chainsAcurastPNG, chainsAmplitudeSVG, chainsBitgreenPNG, chainsFrequencySVG, chainsGenshiroSVG, chainsHydratePNG, chainsIdiyanaleLogoWhiteSVG, chainsJurPNG, chainsMangataPNG, chainsMoonsamaPNG, chainsOrigintrailTestnetPNG, chainsRococoSVG, chainsSnowbridgePNG, chainsT0rnPNG, chainsTanglePNG, chainsTinkerPNG, chainsTotemSVG, chainsTuringPNG, chainsVirtoPNG, chainsWatrPNG } from '../ui/logos/chains/index.js';
+import { nodesArcticPNG, nodesAventusSVG, nodesBajunPNG, nodesBasiliskPNG, nodesBasiliskRococoBgPNG, nodesBifrostSVG, nodesBridgeHubBlackSVG, nodesCentrifugePNG, nodesConftiSVG, nodesCrustParachainSVG, nodesDatahighwayPNG, nodesDolphinSVG, nodesEncointerBlueSVG, nodesGiantPNG, nodesHelixstreetPNG, nodesImbuePNG, nodesIntegriteeSVG, nodesKabochaSVG, nodesKiltPNG, nodesLitentryRococoPNG, nodesMd5PNG, nodesNodleSVG, nodesOliSVG, nodesPangolinSVG, nodesPicassoPNG, nodesPolkadexSVG, nodesRobonomicsSVG, nodesRocfinitySVG, nodesSoonsocialXPNG, nodesSoraSubstrateSVG, nodesStatemineSVG, nodesSubstrateContractsNodePNG, nodesUnitnetworkPNG, nodesZeitgeistPNG, nodesZeroSVG } from '../ui/logos/nodes/index.js';
+import { getTeleports } from './util.js';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
 // Polkadot) we try to keep this to live chains only, with RPCs hosted by the community/chain vendor
@@ -15,12 +15,12 @@ import { getTeleports } from './util';
 //   providers: The actual hosted secure websocket endpoint
 //
 // IMPORTANT: Alphabetical based on text
-export const testParasRococo: EndpointOption[] = [
+export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'rococoAcurast',
     paraId: 4191,
     providers: {
-      Acurast: 'wss://ws.acurast-rococo.diamond.papers.tech'
+      // Acurast: 'wss://ws.acurast-rococo.diamond.papers.tech' // https://github.com/polkadot-js/apps/issues/9321
     },
     text: 'Acurast Testnet',
     ui: {
@@ -44,7 +44,7 @@ export const testParasRococo: EndpointOption[] = [
     info: 'arctic',
     paraId: 3015,
     providers: {
-      Arctic: 'wss://arctic-rococo-rpc.icenetwork.io'
+      // Arctic: 'wss://arctic-rococo-rpc.icenetwork.io' // https://github.com/polkadot-js/apps/issues/9224
     },
     text: 'Arctic',
     ui: {
@@ -55,9 +55,12 @@ export const testParasRococo: EndpointOption[] = [
     homepage: 'https://www.aventus.io/',
     info: 'rococoAventus',
     paraId: 2056,
-    providers: {},
+    providers: {
+      Aventus: 'wss://public-rpc.public-testnet.aventus.io'
+    },
     text: 'Aventus',
     ui: {
+      color: '#E6E6FA',
       logo: nodesAventusSVG
     }
   },
@@ -77,7 +80,7 @@ export const testParasRococo: EndpointOption[] = [
     info: 'rococoBasilisk',
     paraId: 2090,
     providers: {
-      'Galactic Council': 'wss://rococo-basilisk-rpc.hydration.dev'
+      // 'Galactic Council': 'wss://rococo-basilisk-rpc.hydration.dev' // https://github.com/polkadot-js/apps/issues/9328
     },
     text: 'Basilisk',
     ui: {
@@ -143,18 +146,6 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
-    info: 'rococoDali',
-    paraId: 2087,
-    providers: {
-      // Composable: 'wss://rpc.composablefinance.ninja' // https://github.com/polkadot-js/apps/issues/8867
-    },
-    text: 'Dali',
-    ui: {
-      color: '#000000',
-      logo: nodesDaliPNG
-    }
-  },
-  {
     info: 'rococoDolphin',
     paraId: 2084,
     providers: {
@@ -205,9 +196,8 @@ export const testParasRococo: EndpointOption[] = [
     info: 'giantTestnet',
     paraId: 4227,
     providers: {
-      GIANT: 'wss://rpc-1-us-east-1-testnetrococo.giantprotocol.org'
+      // GIANT: 'wss://rpc-1-us-east-1-testnetrococo.giantprotocol.org' // https://github.com/polkadot-js/apps/issues/9261
     },
-    teleport: [-1],
     text: 'GIANT Protocol',
     ui: {
       color: '#45B549',
@@ -218,7 +208,7 @@ export const testParasRococo: EndpointOption[] = [
     info: 'helixstreet',
     paraId: 3025,
     providers: {
-      Helixstreet: 'wss://rpc-rococo.helixstreet.io'
+      // Helixstreet: 'wss://rpc-rococo.helixstreet.io' // https://github.com/polkadot-js/apps/issues/9296
     },
     text: 'Helixstreet',
     ui: {
@@ -241,7 +231,7 @@ export const testParasRococo: EndpointOption[] = [
     info: 'rococoIdiyanale',
     paraId: 4222,
     providers: {
-      'Anagolay Network': 'wss://rococo.rpc.idiyanale.anagolay.io'
+      // 'Anagolay Network': 'wss://rococo.rpc.idiyanale.anagolay.io' // https://github.com/polkadot-js/apps/issues/9292
     },
     text: 'Idiyanale Network',
     ui: {
@@ -299,6 +289,7 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    homepage: 'https://www.litentry.com/',
     info: 'rococoLitentry',
     paraId: 2106,
     providers: {
@@ -306,15 +297,15 @@ export const testParasRococo: EndpointOption[] = [
     },
     text: 'Litentry',
     ui: {
-      color: '#0a6a08',
-      logo: nodesLitentryPNG
+      color: '#ECDA38',
+      logo: nodesLitentryRococoPNG
     }
   },
   {
     info: 'rococoMangata',
     paraId: 2110,
     providers: {
-      Mangata: 'wss://roccoco-testnet-collator-01.mangatafinance.cloud'
+      Mangata: 'wss://collator-01-ws-rococo.mangata.online'
     },
     text: 'Mangata',
     ui: {
@@ -395,10 +386,22 @@ export const testParasRococo: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoPicasso',
+    paraId: 2087,
+    providers: {
+      Composable: 'wss://picasso-rococo-rpc-lb.composablenodes.tech'
+    },
+    text: 'Picasso Testnet',
+    ui: {
+      color: '#000000',
+      logo: nodesPicassoPNG
+    }
+  },
+  {
     info: 'rococoKilt',
     paraId: 2086,
     providers: {
-      'KILT Protocol': 'wss://rococo.kilt.io'
+      // 'KILT Protocol': 'wss://rococo.kilt.io' // https://github.com/polkadot-js/apps/issues/9338
     },
     text: 'RILT',
     ui: {
@@ -411,7 +414,7 @@ export const testParasRococo: EndpointOption[] = [
     info: 'robonomics',
     paraId: 2048,
     providers: {
-      Airalab: 'wss://rococo.rpc.robonomics.network'
+      // Airalab: 'wss://rococo.rpc.robonomics.network' // https://github.com/polkadot-js/apps/issues/9319
     },
     text: 'Robonomics',
     ui: {
@@ -483,7 +486,7 @@ export const testParasRococo: EndpointOption[] = [
     info: 'stagex',
     paraId: 2007,
     providers: {
-      Totem: 'wss://s-ui.kapex.network'
+      // Totem: 'wss://s-ui.kapex.network' // https://github.com/polkadot-js/apps/issues/9286
     },
     text: 'Stagex',
     ui: {
@@ -590,7 +593,7 @@ export const testParasRococo: EndpointOption[] = [
     info: 'rococoZeitgeist',
     paraId: 2101,
     providers: {
-      Zeitgeist: 'wss://roc.zeitgeist.pm'
+      Zeitgeist: 'wss://bsr.zeitgeist.pm'
     },
     text: 'Zeitgeist Battery Station',
     ui: {

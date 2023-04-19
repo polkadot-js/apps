@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-collator authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Collator as CollatorType } from './types';
+import type { Collator as CollatorType } from './types.js';
 
 import React, { useMemo } from 'react';
 

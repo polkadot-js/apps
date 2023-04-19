@@ -11,7 +11,7 @@ import { AddressMini, Call as CallDisplay, Dropdown, Expander, Input, InputAddre
 import { useAccounts, useApi, useWeight } from '@polkadot/react-hooks';
 import { assert, isHex } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   address: string;
@@ -86,7 +86,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
     setOthers(
       who
         .map((w) => api.createType('AccountId', w))
-        .filter((w) => !w.eq(signatory))
+        .filter((w) => !signatory || !w.eq(signatory))
     );
   }, [api, signatory, who]);
 

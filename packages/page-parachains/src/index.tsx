@@ -6,26 +6,26 @@ import '@polkadot/api-augment/substrate';
 import type { ParaId } from '@polkadot/types/interfaces';
 
 import React, { useRef } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 import { useLocation } from 'react-router-dom';
 
 import { Tabs } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import Auctions from './Auctions';
-import Crowdloan from './Crowdloan';
-import Overview from './Overview';
-import Parathreads from './Parathreads';
-import Proposals from './Proposals';
-import { useTranslation } from './translate';
-import useActionsQueue from './useActionsQueue';
-import useAuctionInfo from './useAuctionInfo';
-import useFunds from './useFunds';
-import useLeasePeriod from './useLeasePeriod';
-import useOwnedIds from './useOwnedIds';
-import useProposals from './useProposals';
-import useUpcomingIds from './useUpcomingIds';
-import useWinningData from './useWinningData';
+import Auctions from './Auctions/index.js';
+import Crowdloan from './Crowdloan/index.js';
+import Overview from './Overview/index.js';
+import Parathreads from './Parathreads/index.js';
+import Proposals from './Proposals/index.js';
+import { useTranslation } from './translate.js';
+import useActionsQueue from './useActionsQueue.js';
+import useAuctionInfo from './useAuctionInfo.js';
+import useFunds from './useFunds.js';
+import useLeasePeriod from './useLeasePeriod.js';
+import useOwnedIds from './useOwnedIds.js';
+import useProposals from './useProposals.js';
+import useUpcomingIds from './useUpcomingIds.js';
+import useWinningData from './useWinningData.js';
 
 interface Props {
   basePath: string;
@@ -76,27 +76,38 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
         basePath={basePath}
         items={items.current}
       />
-      <Switch>
-        <Route path={`${basePath}/auctions`}>
-          <Auctions
-            auctionInfo={auctionInfo}
-            campaigns={campaigns}
-            ownedIds={ownedIds}
-            winningData={winningData}
+      <Routes>
+        <Route path={basePath}>
+          <Route
+            element={
+              <Auctions
+                auctionInfo={auctionInfo}
+                campaigns={campaigns}
+                ownedIds={ownedIds}
+                winningData={winningData}
+              />
+            }
+            path='auctions'
+          />
+          <Route
+            element={
+              <Crowdloan
+                auctionInfo={auctionInfo}
+                campaigns={campaigns}
+                leasePeriod={leasePeriod}
+                ownedIds={ownedIds}
+              />
+            }
+            path='crowdloan'
+          />
+          <Route
+            element={
+              <Proposals proposals={proposals} />
+            }
+            path='proposals'
           />
         </Route>
-        <Route path={`${basePath}/crowdloan`}>
-          <Crowdloan
-            auctionInfo={auctionInfo}
-            campaigns={campaigns}
-            leasePeriod={leasePeriod}
-            ownedIds={ownedIds}
-          />
-        </Route>
-        <Route path={`${basePath}/proposals`}>
-          <Proposals proposals={proposals} />
-        </Route>
-      </Switch>
+      </Routes>
       <Overview
         actionsQueue={actionsQueue}
         className={pathname === basePath ? '' : '--hidden'}

@@ -4,7 +4,7 @@
 import type { Option, u32 } from '@polkadot/types';
 import type { PalletStakingActiveEraInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { SessionInfo } from './types';
+import type { SessionInfo } from './types.js';
 
 import { useMemo } from 'react';
 

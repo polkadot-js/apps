@@ -118,19 +118,18 @@ async function getExtensionInfo (api: ApiPromise, extension: InjectedExtension):
             saveProperties(api, extension);
             triggerAll();
           }
-        } catch (error) {
+        } catch {
           // ignore
         }
 
         return isOk;
       }
     };
-  } catch (error) {
+  } catch {
     return null;
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function getKnown (api: ApiPromise, extensions: InjectedExtension[], _: number): Promise<ExtensionKnown[]> {
   const all = await Promise.all(
     extensions.map((extension) => getExtensionInfo(api, extension))

@@ -1,11 +1,12 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { IconName } from '@fortawesome/fontawesome-svg-core';
+import type { IconName } from '@fortawesome/fontawesome-svg-core';
+
 import React from 'react';
 
-import Icon from '../Icon';
-import { styled } from '../styled';
+import Icon from '../Icon.js';
+import { styled } from '../styled.js';
 
 interface Props {
   className?: string;

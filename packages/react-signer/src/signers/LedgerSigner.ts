@@ -7,7 +7,7 @@ import type { Registry, SignerPayloadJSON } from '@polkadot/types/types';
 
 let id = 0;
 
-export default class LedgerSigner implements Signer {
+export class LedgerSigner implements Signer {
   readonly #accountOffset: number;
   readonly #addressOffset: number;
   readonly #getLedger: () => Ledger;

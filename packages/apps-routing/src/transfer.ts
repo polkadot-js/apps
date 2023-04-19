@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import type { Route } from './types';
+import type { Route } from './types.js';
 
 import Modal from '@polkadot/app-accounts/modals/Transfer';
 
@@ -14,7 +14,7 @@ export default function create (t: TFunction): Route {
       isHidden: false,
       needsAccounts: true,
       needsApi: [
-        'tx.balances.transfer'
+        'tx.balances.transferKeepAlive'
       ]
     },
     group: 'accounts',

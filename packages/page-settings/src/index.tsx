@@ -4,17 +4,17 @@
 import type { AppProps as Props } from '@polkadot/react-components/types';
 
 import React, { useMemo } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import Developer from './Developer';
-import General from './General';
-import I18n from './I18n';
-import Metadata from './Metadata';
-import { useTranslation } from './translate';
-import useCounter from './useCounter';
+import I18n from './I18n/index.js';
+import Metadata from './Metadata/index.js';
+import Developer from './Developer.js';
+import General from './General.js';
+import { useTranslation } from './translate.js';
+import useCounter from './useCounter.js';
 
 export { useCounter };
 
@@ -60,20 +60,34 @@ function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
         hidden={hidden}
         items={items}
       />
-      <Switch>
-        <Route path={`${basePath}/developer`}>
-          <Developer onStatusChange={onStatusChange} />
+      <Routes>
+        <Route path={basePath}>
+          <Route
+            element={
+              <Developer onStatusChange={onStatusChange} />
+            }
+            path='developer'
+          />
+          <Route
+            element={
+              <I18n />
+            }
+            path='i18n'
+          />
+          <Route
+            element={
+              <Metadata />
+            }
+            path='metadata'
+          />
+          <Route
+            element={
+              <General />
+            }
+            index
+          />
         </Route>
-        <Route path={`${basePath}/i18n`}>
-          <I18n />
-        </Route>
-        <Route path={`${basePath}/metadata`}>
-          <Metadata />
-        </Route>
-        <Route>
-          <General />
-        </Route>
-      </Switch>
+      </Routes>
     </main>
   );
 }

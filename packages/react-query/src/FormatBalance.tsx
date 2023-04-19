@@ -11,7 +11,7 @@ import { styled } from '@polkadot/react-components/styled';
 import { useApi } from '@polkadot/react-hooks';
 import { formatBalance, isString } from '@polkadot/util';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   children?: React.ReactNode;

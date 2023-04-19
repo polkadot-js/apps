@@ -3,9 +3,9 @@
 
 import React from 'react';
 
-import spinnerSrc from './Spinner.png';
-import { styled } from './styled';
-import { useTranslation } from './translate';
+import spinnerSrc from './Spinner.png.js';
+import { styled } from './styled.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;

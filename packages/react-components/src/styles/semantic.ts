@@ -3,7 +3,6 @@
 
 import type { ThemeDef } from '@polkadot/react-hooks/ctx/types';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default (_theme: ThemeDef): string => `
   .ui.hidden.divider {
     margin: 0.5rem 0;

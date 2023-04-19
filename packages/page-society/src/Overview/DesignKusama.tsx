@@ -9,8 +9,8 @@ import { KUSAMA_GENESIS } from '@polkadot/apps-config';
 import { Button, Modal } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 
-import drawCanary, { PADD, SIZE } from '../draw/canary';
-import { useTranslation } from '../translate';
+import drawCanary, { PADD, SIZE } from '../draw/canary.js';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   accountId: AccountId;

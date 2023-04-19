@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import ReactTooltip from 'react-tooltip';
 
-import { styled } from './styled';
+import { styled } from './styled.js';
 
 function rootElement () {
   return typeof document === 'undefined'
@@ -55,7 +55,10 @@ function Tooltip ({ children, className = '', isClickable = false, place, text, 
   );
 }
 
-const StyledReactTooltip = styled(ReactTooltip)`
+// FIXME This cast should really not be needed since the export is React.Component<TooltipProps>,
+// however while it works as specified, it fails here on the definition. Until we have the component
+// upgraded to latest, we probably don't want to start digging...
+const StyledReactTooltip = styled(ReactTooltip as unknown as React.ComponentType<any>)`
   .tooltipSpacer {
     padding: 0.375rem;
   }

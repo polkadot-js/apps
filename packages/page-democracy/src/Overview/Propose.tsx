@@ -11,7 +11,7 @@ import { useApi, useCall, usePreimage } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { isFunction, isHex } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;

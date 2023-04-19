@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { NominatorValue } from './types';
+import type { NominatorValue } from './types.js';
 
 import React, { useMemo } from 'react';
 

@@ -5,7 +5,7 @@ import React from 'react';
 
 import { useApi } from '@polkadot/react-hooks';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   children?: React.ReactNode;

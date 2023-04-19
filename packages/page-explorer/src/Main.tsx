@@ -8,10 +8,10 @@ import React from 'react';
 
 import { Columar } from '@polkadot/react-components';
 
-import BlockHeaders from './BlockHeaders';
-import Events from './Events';
-import Query from './Query';
-import Summary from './Summary';
+import BlockHeaders from './BlockHeaders.js';
+import Events from './Events.js';
+import Query from './Query.js';
+import Summary from './Summary.js';
 
 interface Props {
   eventCount: number;

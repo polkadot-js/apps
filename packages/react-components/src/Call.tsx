@@ -12,10 +12,10 @@ import Params from '@polkadot/react-params';
 import { FormatBalance } from '@polkadot/react-query';
 import { Enum, getTypeDef } from '@polkadot/types';
 
-import { balanceCalls, balanceCallsOverrides } from './constants';
-import Static from './Static';
-import { styled } from './styled';
-import { useTranslation } from './translate';
+import { balanceCalls, balanceCallsOverrides } from './constants.js';
+import Static from './Static.js';
+import { styled } from './styled.js';
+import { useTranslation } from './translate.js';
 
 export interface Props {
   callName?: string;

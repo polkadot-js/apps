@@ -1,14 +1,14 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PopupWindowProps as Props } from './types';
+import type { PopupWindowProps as Props } from './types.js';
 
 import React from 'react';
 import { createPortal } from 'react-dom';
 
 import { usePopupWindow } from '@polkadot/react-hooks/usePopupWindow';
 
-import { styled } from '../styled';
+import { styled } from '../styled.js';
 
 function PopupWindow ({ children, className = '', position, triggerRef, windowRef }: Props): React.ReactElement<Props> {
   const { pointerStyle, renderCoords: { x, y } } = usePopupWindow(windowRef, triggerRef, position);

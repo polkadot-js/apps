@@ -1,12 +1,12 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DropdownOptions } from '../util/types';
-import type { ConstValueBase, StorageEntryPromise } from './types';
+import type { DropdownOptions } from '../util/types.js';
+import type { ConstValueBase, StorageEntryPromise } from './types.js';
 
 import React from 'react';
 
-import Dropdown from '../Dropdown';
+import Dropdown from '../Dropdown.js';
 
 interface Props {
   className?: string;

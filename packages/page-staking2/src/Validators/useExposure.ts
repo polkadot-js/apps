@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletStakingExposure } from '@polkadot/types/lookup';
-import type { SessionInfo, Validator } from '../types';
-import type { UseExposure, UseExposureExposure } from './types';
+import type { SessionInfo, Validator } from '../types.js';
+import type { UseExposure, UseExposureExposure } from './types.js';
 
 import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { BN } from '@polkadot/util';
 
-import { useCacheMap } from '../useCache';
+import { useCacheMap } from '../useCache.js';
 
 const OPT_EXPOSURE = {
   transform: ({ others, own, total }: PalletStakingExposure): UseExposureExposure => ({

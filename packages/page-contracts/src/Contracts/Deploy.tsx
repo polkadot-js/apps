@@ -14,11 +14,11 @@ import { keyring } from '@polkadot/ui-keyring';
 import { BN, BN_ZERO, isHex, stringify } from '@polkadot/util';
 import { randomAsHex } from '@polkadot/util-crypto';
 
-import { ABI, InputMegaGas, InputName, MessageSignature, Params } from '../shared';
-import store from '../store';
-import { useTranslation } from '../translate';
-import useAbi from '../useAbi';
-import useWeight from '../useWeight';
+import { ABI, InputMegaGas, InputName, MessageSignature, Params } from '../shared/index.js';
+import store from '../store.js';
+import { useTranslation } from '../translate.js';
+import useAbi from '../useAbi.js';
+import useWeight from '../useWeight.js';
 
 interface Props {
   codeHash: string;
@@ -79,14 +79,14 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
       if (blueprint && contractAbi?.constructors[constructorIndex]?.method) {
         try {
           return blueprint.tx[contractAbi.constructors[constructorIndex].method]({
-            gasLimit: weight.weight,
+            gasLimit: weight.isWeightV2 ? weight.weightV2 : weight.weight,
             salt: withSalt
               ? salt
               : null,
             storageDepositLimit: null,
             value: contractAbi?.constructors[constructorIndex].isPayable ? value : undefined
           }, ...params);
-        } catch (error) {
+        } catch {
           return null;
         }
       }

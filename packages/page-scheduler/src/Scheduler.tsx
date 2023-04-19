@@ -6,15 +6,15 @@ import type { Bytes, Option, u8, u32 } from '@polkadot/types';
 import type { BlockNumber, Call, Hash, Scheduled } from '@polkadot/types/interfaces';
 import type { FrameSupportPreimagesBounded, PalletSchedulerScheduled } from '@polkadot/types/lookup';
 import type { Codec, ITuple } from '@polkadot/types/types';
-import type { ScheduledExt } from './types';
+import type { ScheduledExt } from './types.js';
 
 import React, { useMemo, useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 
-import ScheduledView from './Scheduled';
-import { useTranslation } from './translate';
+import ScheduledView from './Scheduled.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;

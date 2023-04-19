@@ -9,16 +9,16 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-import type { ApiProps, CallState as State, OnChangeCb, SubtractProps } from '../types';
-import type { Options } from './types';
+import type { ApiProps, CallState as State, OnChangeCb, SubtractProps } from '../types.js';
+import type { Options } from './types.js';
 
 import React from 'react';
 
 import { assert, isNull, isUndefined, nextTick } from '@polkadot/util';
 
-import echoTransform from '../transform/echo';
-import { isEqual, triggerChange } from '../util';
-import withApi from './api';
+import echoTransform from '../transform/echo.js';
+import { isEqual, triggerChange } from '../util/index.js';
+import withApi from './api.js';
 
 // FIXME This is not correct, we need some junction of derive, query & consts
 interface Method {
@@ -246,8 +246,8 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
                 : await apiMethod(...params)
             );
           }
-        } catch (error) {
-          // console.warn(endpoint, '::', error);
+        } catch {
+          // ignore
         }
       }
 
@@ -274,8 +274,8 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
             callUpdated: true,
             callUpdatedAt: Date.now()
           });
-        } catch (error) {
-          // console.warn(endpoint, '::', (error as Error).message);
+        } catch {
+          // ignore
         }
       }
 

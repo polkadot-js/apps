@@ -2,12 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
+import type { DeriveBounties } from '@polkadot/api-derive/types';
+import type { BountyApi } from '../../src/hooks/index.js';
 
-import { DeriveBounties } from '@polkadot/api-derive/types';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
 import { BN, BN_ONE } from '@polkadot/util';
-
-import { BountyApi } from '../../src/hooks';
 
 export const defaultBountyUpdatePeriod = new BN(100000);
 

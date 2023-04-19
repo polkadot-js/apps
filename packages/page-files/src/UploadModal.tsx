@@ -1,11 +1,12 @@
 // Copyright 2017-2023 @polkadot/app-files authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CancelTokenSource } from 'axios';
 import type { TFunction } from 'i18next';
 import type { Signer } from '@polkadot/api/types';
-import type { AuthIpfsEndpoint } from './types';
+import type { AuthIpfsEndpoint, DirFile, FileInfo, SaveFile, UploadRes } from './types.js';
 
-import axios, { CancelTokenSource } from 'axios';
+import axios from 'axios';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { web3FromSource } from '@polkadot/extension-dapp';
@@ -13,9 +14,8 @@ import { Available, Button, Dropdown, InputAddress, Label, MarkError, Modal, Pas
 import { keyring } from '@polkadot/ui-keyring';
 import { isFunction, nextTick, stringToHex, stringToU8a, u8aToHex } from '@polkadot/util';
 
-import Progress from './Progress';
-import { useTranslation } from './translate';
-import { DirFile, FileInfo, SaveFile, UploadRes } from './types';
+import Progress from './Progress.js';
+import { useTranslation } from './translate.js';
 
 export interface Props {
   className?: string;
@@ -227,8 +227,8 @@ function UploadModal ({ className, file, onClose = NOOP, onSuccess = NOOP }: Pro
         headers: { Authorization: AuthBasic },
         maxContentLength: 100 * 1024 * 1024,
         method: 'POST',
-        onUploadProgress: (p: { loaded: number, total: number }) => {
-          const percent = p.loaded / p.total;
+        onUploadProgress: ({ loaded, total }) => {
+          const percent = loaded / (total || loaded || 1);
 
           setUpState({ progress: Math.round(percent * 99), up: true });
         },
@@ -239,7 +239,7 @@ function UploadModal ({ className, file, onClose = NOOP, onSuccess = NOOP }: Pro
       let upRes: UploadRes;
 
       if (typeof upResult.data === 'string') {
-        const jsonStr = upResult.data.replaceAll('}\n{', '},{');
+        const jsonStr = upResult.data.replace(/}\n{/g, '},{');
         const items = JSON.parse(`[${jsonStr}]`) as UploadRes[];
         const folder = items.length - 1;
 

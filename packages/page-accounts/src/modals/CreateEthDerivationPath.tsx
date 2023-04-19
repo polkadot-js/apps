@@ -1,16 +1,17 @@
 // Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ReactNode } from 'react';
 import type { BN } from '@polkadot/util';
+import type { DeriveValidationOutput } from '../types.js';
 
-import React, { ReactNode, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { Checkbox, Dropdown, Input, InputNumber, MarkError, MarkWarning, Modal } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import { DeriveValidationOutput } from '../types';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;

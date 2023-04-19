@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { PayoutStash } from './types';
+import type { PayoutStash } from './types.js';
 
 import React, { useEffect, useState } from 'react';
 
@@ -10,8 +10,8 @@ import { AddressSmall, Table } from '@polkadot/react-components';
 import { BlockToTime } from '@polkadot/react-query';
 import { BN_MILLION } from '@polkadot/util';
 
-import useEraBlocks from './useEraBlocks';
-import { createErasString } from './util';
+import useEraBlocks from './useEraBlocks.js';
+import { createErasString } from './util.js';
 
 interface Props {
   className?: string;

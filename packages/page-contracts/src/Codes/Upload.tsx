@@ -13,11 +13,11 @@ import { Available } from '@polkadot/react-query';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN, BN_ZERO, isNull, isWasm, stringify } from '@polkadot/util';
 
-import { ABI, InputMegaGas, InputName, MessageSignature, Params } from '../shared';
-import store from '../store';
-import { useTranslation } from '../translate';
-import useAbi from '../useAbi';
-import useWeight from '../useWeight';
+import { ABI, InputMegaGas, InputName, MessageSignature, Params } from '../shared/index.js';
+import store from '../store.js';
+import { useTranslation } from '../translate.js';
+import useAbi from '../useAbi.js';
+import useWeight from '../useWeight.js';
 
 interface Props {
   onClose: () => void;
@@ -82,23 +82,42 @@ function Upload ({ onClose }: Props): React.ReactElement {
   }, [abiName, setName]);
 
   useEffect((): void => {
-    let contract: SubmittableExtrinsic<'promise'> | null = null;
-    let error: string | null = null;
+    async function dryRun () {
+      let contract: SubmittableExtrinsic<'promise'> | null = null;
+      let error: string | null = null;
 
-    try {
-      contract = code && contractAbi?.constructors[constructorIndex]?.method && value
-        ? code.tx[contractAbi.constructors[constructorIndex].method]({
-          gasLimit: weight.weight,
-          storageDepositLimit: null,
-          value: contractAbi?.constructors[constructorIndex].isPayable ? value : undefined
-        }, ...params)
-        : null;
-    } catch (e) {
-      error = (e as Error).message;
+      try {
+        if (code && contractAbi?.constructors[constructorIndex]?.method && value && accountId) {
+          const dryRunParams: Parameters<typeof api.call.contractsApi.instantiate> =
+            [
+              accountId,
+              contractAbi?.constructors[constructorIndex].isPayable
+                ? api.registry.createType('Balance', value)
+                : api.registry.createType('Balance', BN_ZERO),
+              weight.weightV2,
+              null,
+              { Upload: api.registry.createType('Raw', wasm) },
+              contractAbi?.constructors[constructorIndex]?.toU8a(params),
+              ''
+            ];
+
+          const dryRunResult = await api.call.contractsApi.instantiate(...dryRunParams);
+
+          contract = code.tx[contractAbi.constructors[constructorIndex].method]({
+            gasLimit: dryRunResult.gasRequired,
+            storageDepositLimit: dryRunResult.storageDeposit.isCharge ? dryRunResult.storageDeposit.asCharge : null,
+            value: contractAbi?.constructors[constructorIndex].isPayable ? value : undefined
+          }, ...params);
+        }
+      } catch (e) {
+        error = (e as Error).message;
+      }
+
+      setUploadTx(() => [contract, error]);
     }
 
-    setUploadTx(() => [contract, error]);
-  }, [code, contractAbi, constructorIndex, value, params, weight]);
+    dryRun().catch((e) => console.error(e));
+  }, [accountId, wasm, api, code, contractAbi, constructorIndex, value, params, weight]);
 
   const _onAddWasm = useCallback(
     (wasm: Uint8Array, name: string): void => {

@@ -8,8 +8,8 @@ import React, { useRef } from 'react';
 
 import { LabelHelp, styled } from '@polkadot/react-components';
 
-import { proposalNameToDisplay } from '../helpers/extendedStatuses';
-import { useTranslation } from '../translate';
+import { proposalNameToDisplay } from '../helpers/extendedStatuses.js';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;

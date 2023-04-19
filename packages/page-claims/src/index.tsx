@@ -15,14 +15,14 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { u8aToHex, u8aToString } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
-import AttestDisplay from './Attest';
-import ClaimDisplay from './Claim';
-import Statement from './Statement';
-import { useTranslation } from './translate';
-import { getStatement, recoverFromJSON } from './util';
-import Warning from './Warning';
+import AttestDisplay from './Attest.js';
+import ClaimDisplay from './Claim.js';
+import Statement from './Statement.js';
+import { useTranslation } from './translate.js';
+import { getStatement, recoverFromJSON } from './util.js';
+import Warning from './Warning.js';
 
-export { default as useCounter } from './useCounter';
+export { default as useCounter } from './useCounter.js';
 
 enum Step {
   Account = 0,

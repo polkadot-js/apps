@@ -12,9 +12,11 @@ import { Modal, styled } from '@polkadot/react-components';
 import { useApi, useQueue } from '@polkadot/react-hooks';
 import { assert, isFunction, loggerFormat } from '@polkadot/util';
 
-import { useTranslation } from './translate';
-import TxSigned from './TxSigned';
-import TxUnsigned from './TxUnsigned';
+import { useTranslation } from './translate.js';
+import TxSigned from './TxSigned.js';
+import TxUnsigned from './TxUnsigned.js';
+
+export * from './signers/index.js';
 
 interface ItemState {
   currentItem: QueueTx | null;

@@ -3,7 +3,7 @@
 
 import type { TFunction } from 'i18next';
 import type { ApiPromise } from '@polkadot/api';
-import type { Route } from './types';
+import type { Route } from './types.js';
 
 import Component, { useCounter } from '@polkadot/app-democracy';
 
@@ -13,7 +13,7 @@ function needsApiCheck (api: ApiPromise): boolean {
     api.tx.democracy.vote(1, { Standard: { balance: 1, vote: { aye: true, conviction: 1 } } });
 
     return true;
-  } catch (error) {
+  } catch {
     console.warn('Unable to create referendum vote transaction, disabling democracy route');
 
     return false;

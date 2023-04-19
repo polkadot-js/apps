@@ -8,8 +8,8 @@ import React from 'react';
 import { Button } from '@polkadot/react-components';
 import { useAccounts, useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../../translate';
-import Create from './Create';
+import { useTranslation } from '../../translate.js';
+import Create from './Create.js';
 
 interface Props {
   assetIds?: BN[];
