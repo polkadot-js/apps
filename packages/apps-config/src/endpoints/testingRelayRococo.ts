@@ -315,9 +315,9 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
   },
   {
     info: 'rococoMd5',
-    paraId: 2089,
+    paraId: 2093,
     providers: {
-      // 'Hashed Systems': 'wss://c1.md5.network' // https://github.com/polkadot-js/apps/issues/9059
+      'Hashed Systems': 'wss://c1.md5.hashed.live'
     },
     text: 'MD5 Network',
     ui: {
