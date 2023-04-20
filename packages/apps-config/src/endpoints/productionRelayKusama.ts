@@ -779,6 +779,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       'Dwellir Tunisia': 'wss://statemine-rpc-tn.dwellir.com',
       'IBP-GeoDNS1': 'wss://sys.ibp.network/statemine',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/statemine',
+      LuckyFriday: 'wss://rpc-statemine.luckyfriday.io',
       OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
       Parity: 'wss://statemine-rpc.polkadot.io',
       RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws'
@@ -837,6 +838,7 @@ export const prodRelayKusama: EndpointOption = {
     'Dwellir Tunisia': 'wss://kusama-rpc-tn.dwellir.com',
     'IBP-GeoDNS1': 'wss://rpc.ibp.network/kusama',
     'IBP-GeoDNS2': 'wss://rpc.dotters.network/kusama',
+    LuckyFriday: 'wss://rpc-kusama.luckyfriday.io',
     OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
     Parity: 'wss://kusama-rpc.polkadot.io',
     RadiumBlock: 'wss://kusama.public.curie.radiumblock.co/ws',
