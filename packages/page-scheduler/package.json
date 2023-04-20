@@ -1,0 +1,18 @@
+{
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "engines": {
+    "node": ">=14"
+  },
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-scheduler#readme",
+  "license": "Apache-2.0",
+  "name": "@polkadot/app-scheduler",
+  "private": true,
+  "repository": {
+    "directory": "packages/page-scheduler",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "0.127.2-2-x"
+}

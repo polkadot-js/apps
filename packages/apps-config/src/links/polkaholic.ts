@@ -1,11 +1,12 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
+import type { ExternalDef } from './types.js';
 
-import { externalLogos } from '../ui/logos';
+import { externalPolkaholicPNG } from '../ui/logos/external/index.js';
 
-export default {
+export const Polkaholic: ExternalDef = {
   chains: {
     Acala: 'acala',
     Altair: 'altair',
@@ -51,6 +52,7 @@ export default {
     Shiden: 'shiden',
     Statemine: 'statemine',
     Statemint: 'statemint',
+    Subsocial: 'subsocial',
     SubsocialX: 'subsocialx',
     'Turing Network': 'turing',
     UNIQUE: 'unique',
@@ -59,12 +61,14 @@ export default {
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.polkaholic.io/${path}/${data.toString()}`,
+  homepage: 'https://polkaholic.io/',
   isActive: true,
-  logo: externalLogos.polkaholic as string,
   paths: {
     address: 'account',
     block: 'blockhash',
     extrinsic: 'tx'
   },
-  url: 'https://polkaholic.io/'
+  ui: {
+    logo: externalPolkaholicPNG
+  }
 };

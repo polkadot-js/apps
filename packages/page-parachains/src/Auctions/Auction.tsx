@@ -1,17 +1,17 @@
-// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParaId } from '@polkadot/types/interfaces';
-import type { AuctionInfo, Campaign, Campaigns, WinnerData, Winning } from '../types';
+import type { AuctionInfo, Campaign, Campaigns, WinnerData, Winning } from '../types.js';
 
 import React, { useCallback, useMemo, useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import { useLeaseRangeMax } from '../useLeaseRanges';
-import WinRange from './WinRange';
+import { useTranslation } from '../translate.js';
+import { useLeaseRangeMax } from '../useLeaseRanges.js';
+import WinRange from './WinRange.js';
 
 interface Props {
   auctionInfo?: AuctionInfo;
@@ -26,12 +26,12 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
   const rangeMax = useLeaseRangeMax();
   const newRaise = useCall<ParaId[]>(api.query.crowdloan.newRaise);
 
-  const headerRef = useRef([
-    [t('bids'), 'start', 3],
-    [t('bidder'), 'address'],
-    [t('crowdloan')],
-    [t('leases')],
-    [t('value')]
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
+    [t<string>('bids'), 'start', 3],
+    [t<string>('bidder'), 'address'],
+    [t<string>('crowdloan')],
+    [t<string>('leases')],
+    [t<string>('value')]
   ]);
 
   const loans = useMemo(

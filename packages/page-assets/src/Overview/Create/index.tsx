@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-assets authors & contributors
+// Copyright 2017-2023 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -8,8 +8,8 @@ import React from 'react';
 import { Button } from '@polkadot/react-components';
 import { useAccounts, useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../../translate';
-import Create from './Create';
+import { useTranslation } from '../../translate.js';
+import Create from './Create.js';
 
 interface Props {
   assetIds?: BN[];

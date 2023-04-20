@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useEffect, useState } from 'react';
@@ -7,9 +7,9 @@ import { useParams } from 'react-router-dom';
 import { useBestNumber } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
 
-import Query from '../Query';
-import BlockByHash from './ByHash';
-import BlockByNumber from './ByNumber';
+import Query from '../Query.js';
+import BlockByHash from './ByHash.js';
+import BlockByNumber from './ByNumber.js';
 
 function Entry (): React.ReactElement | null {
   const bestNumber = useBestNumber();

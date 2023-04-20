@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
@@ -9,9 +9,9 @@ import { useEffect, useState } from 'react';
 import { createWsEndpoints } from '@polkadot/apps-config';
 import { isNumber } from '@polkadot/util';
 
-import { createNamedHook } from './createNamedHook';
-import { useApi } from './useApi';
-import { useCall } from './useCall';
+import { createNamedHook } from './createNamedHook.js';
+import { useApi } from './useApi.js';
+import { useCall } from './useCall.js';
 
 interface Teleport {
   allowTeleport: boolean;

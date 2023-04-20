@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-tech-comm authors & contributors
+// Copyright 2017-2023 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CollectiveType } from '@polkadot/react-hooks/types';
@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 import { Button, InputAddress, Modal, ProposedAction, TxButton } from '@polkadot/react-components';
 import { useApi, useCollectiveInstance, useToggle, useWeight } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   hasFailed: boolean;
@@ -48,7 +48,6 @@ function Close ({ hasFailed, hash, idNumber, proposal, type }: Props): React.Rea
             </Modal.Columns>
             <Modal.Columns hint={t<string>('The committee account that will apply the close for the current round.')}>
               <InputAddress
-                help={t<string>('Select the account you wish close the proposal with.')}
                 label={t<string>('close from account')}
                 onChange={setAccountId}
                 type='account'

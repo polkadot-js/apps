@@ -1,13 +1,13 @@
-// Copyright 2017-2022 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PalletReferenda } from './types';
+import type { PalletReferenda } from './types.js';
 
 import { useMemo } from 'react';
 
 import { createNamedHook } from '@polkadot/react-hooks';
 
-import useReferenda from './useReferenda';
+import useReferenda from './useReferenda.js';
 
 export function useCounterNamed (palletReferenda: PalletReferenda): number {
   const [grouped] = useReferenda(palletReferenda);

@@ -1,10 +1,10 @@
-// Copyright 2017-2022 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Changes } from '@polkadot/react-hooks/useEventChanges';
 import type { StorageKey } from '@polkadot/types';
 import type { AccountId32, EventRecord } from '@polkadot/types/interfaces';
-import type { PalletColl } from './types';
+import type { PalletColl } from './types.js';
 
 import { createNamedHook, useApi, useEventChanges, useMapKeys } from '@polkadot/react-hooks';
 
@@ -30,7 +30,7 @@ function filter (records: EventRecord[]): Changes<AccountId32> {
 
 function useMemberIdsImpl (collective: PalletColl): AccountId32[] | undefined {
   const { api } = useApi();
-  const startValue = useMapKeys(api.query[collective].members, OPT_ID);
+  const startValue = useMapKeys(api.query[collective].members, [], OPT_ID);
 
   return useEventChanges([
     api.events[collective].MemberAdded,

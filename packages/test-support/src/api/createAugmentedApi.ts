@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/test-support authors & contributors
+// Copyright 2017-2023 @polkadot/test-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
@@ -13,6 +13,7 @@ export function createAugmentedApi (): ApiPromise {
 
   const api = new ApiPromise({ provider: new WsProvider('ws://', false), registry });
 
+  // eslint-disable-next-line deprecation/deprecation
   api.injectMetadata(metadata, true);
 
   return api;

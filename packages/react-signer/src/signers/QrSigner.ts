@@ -1,13 +1,13 @@
-// Copyright 2017-2022 @polkadot/react-signer authors & contributors
+// Copyright 2017-2023 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Signer, SignerResult } from '@polkadot/api/types';
 import type { Registry, SignerPayloadJSON } from '@polkadot/types/types';
-import type { QrState } from '../types';
+import type { QrState } from '../types.js';
 
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-export default class QrSigner implements Signer {
+export class QrSigner implements Signer {
   readonly #registry: Registry;
   readonly #setState: (state: QrState) => void;
 

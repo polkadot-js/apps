@@ -1,5 +1,8 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
+  "engines": {
+    "node": ">=14"
+  },
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/react-query#readme",
   "license": "Apache-2.0",
   "name": "@polkadot/react-query",
@@ -11,8 +14,5 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.122.3-70-x",
-  "dependencies": {
-    "@babel/runtime": "^7.20.1"
-  }
+  "version": "0.127.2-2-x"
 }

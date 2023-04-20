@@ -1,19 +1,18 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
-import type { QueueStatus, QueueTx, QueueTxStatus } from './types';
+import type { QueueStatus, QueueTx, QueueTxStatus } from './types.js';
 
-import React, { useContext, useEffect, useState } from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useState } from 'react';
 
-import AddressMini from '../AddressMini';
-import Icon from '../Icon';
-import Spinner from '../Spinner';
-import { STATUS_COMPLETE } from './constants';
-import StatusContext from './Context';
+import { useQueue } from '@polkadot/react-hooks';
 
-export { StatusContext };
+import AddressMini from '../AddressMini.js';
+import Icon from '../Icon.js';
+import Spinner from '../Spinner.js';
+import { styled } from '../styled.js';
+import { STATUS_COMPLETE } from './constants.js';
 
 interface Props {
   className?: string;
@@ -157,7 +156,7 @@ function filterTx (txqueue?: QueueTx[]): QueueTx[] {
 }
 
 function Status ({ className = '' }: Props): React.ReactElement<Props> | null {
-  const { stqueue, txqueue } = useContext(StatusContext);
+  const { stqueue, txqueue } = useQueue();
   const [allSt, setAllSt] = useState<QueueStatus[]>([]);
   const [allTx, setAllTx] = useState<QueueTx[]>([]);
 
@@ -174,15 +173,14 @@ function Status ({ className = '' }: Props): React.ReactElement<Props> | null {
   }
 
   return (
-    <div className={`ui--Status ${className}`}>
+    <StyledDiv className={`${className} ui--Status`}>
       {allTx.map(renderItem)}
       {allSt.map(renderStatus)}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Status)`
-  /* bottom: 0; */
+const StyledDiv = styled.div`
   display: inline-block;
   overflow: hidden;
   position: fixed;
@@ -311,4 +309,6 @@ export default React.memo(styled(Status)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(Status);

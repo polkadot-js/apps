@@ -1,75 +1,77 @@
-// Copyright 2017-2022 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option } from '@polkadot/types';
 import type { PalletReferendaDeposit, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { PalletReferenda } from '../../types';
+import type { PalletReferenda } from '../../types.js';
 
-import React, { useMemo } from 'react';
-import styled from 'styled-components';
+import React from 'react';
 
-import { AddressMini } from '@polkadot/react-components';
+import { AddressMini, styled } from '@polkadot/react-components';
 
-import Place from './Place';
-import Refund from './Refund';
+import Place from './Place.js';
+import Refund from './Refund.js';
 
 interface Props {
   canDeposit?: boolean;
   canRefund?: boolean;
   className?: string;
-  decision: Option<PalletReferendaDeposit> | null;
+  decision: PalletReferendaDeposit | null;
   id: BN;
+  noMedia?: boolean;
   palletReferenda: PalletReferenda;
   submit: PalletReferendaDeposit | null;
   track?: PalletReferendaTrackInfo;
 }
 
-function Deposits ({ canDeposit, canRefund, className = '', decision, id, palletReferenda, submit, track }: Props): React.ReactElement<Props> {
-  const [valSubmit, valDeposit] = useMemo(
-    () => [submit, decision && decision.unwrapOr(null)],
-    [decision, submit]
-  );
-
+function Deposits ({ canDeposit, canRefund, className = '', decision, id, noMedia, palletReferenda, submit, track }: Props): React.ReactElement<Props> {
   return (
-    <td className={`${className} address`}>
-      {valSubmit && (
+    <StyledTd className={`${className} address ${noMedia ? '' : 'media--1000-noPad'}`}>
+      {submit && (
         <AddressMini
-          balance={valSubmit.amount}
-          value={valSubmit.who}
+          balance={submit.amount}
+          className={noMedia ? '' : 'media--1000'}
+          value={submit.who}
           withBalance
         />
       )}
-      {valDeposit
+      {decision
         ? (
           <>
             <AddressMini
-              balance={valDeposit.amount}
-              value={valDeposit.who}
+              balance={decision.amount}
+              className={noMedia ? '' : 'media--1000'}
+              value={decision.who}
               withBalance
             />
             {canRefund && (
-              <Refund
-                id={id}
-                palletReferenda={palletReferenda}
-              />
+              <div className={noMedia ? '' : 'media--1000'}>
+                <Refund
+                  id={id}
+                  palletReferenda={palletReferenda}
+                />
+              </div>
             )}
           </>
         )
         : canDeposit && track && (
-          <Place
-            id={id}
-            palletReferenda={palletReferenda}
-            track={track}
-          />
+          <div className={noMedia ? '' : 'media--1000'}>
+            <Place
+              id={id}
+              palletReferenda={palletReferenda}
+              track={track}
+            />
+          </div>
         )
       }
-    </td>
+    </StyledTd>
   );
 }
 
-export default React.memo(styled(Deposits)`
+const StyledTd = styled.td`
   .ui--AddressMini+.ui--Button {
     margin-top: 0.25rem;
   }
-`);
+`;
+
+export default React.memo(Deposits);

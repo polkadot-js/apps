@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -12,7 +12,7 @@ import { Button, Input, InputAddress, InputNumber, Modal, Toggle, TxButton } fro
 import { useApi, useCall, useCollectiveInstance, useToggle } from '@polkadot/react-hooks';
 import { BN, isString } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   imageHash: Hash | HexString;
@@ -115,14 +115,12 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
             <Modal.Columns hint={t<string>('The voting period and delay to apply to this proposal. The threshold is calculated from these values.')}>
               <InputNumber
                 autoFocus
-                help={t<string>('The voting period to apply in blocks')}
                 isZeroable={false}
                 label={t<string>('voting period')}
                 onChange={setVotingBlocks}
                 value={votingBlocks}
               />
               <InputNumber
-                help={t<string>('The delay period to apply in blocks')}
                 isZeroable={false}
                 label={t<string>('delay')}
                 onChange={setDelayBlocks}

@@ -1,7 +1,7 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { typesBundleForPolkadotApps } from '@darwinia/types/mix';
+import { typesBundleForPolkadotApps } from '@darwinia/types/mix/index.js';
 
 // use pangolin types;
 export default typesBundleForPolkadotApps.spec.Pangolin;

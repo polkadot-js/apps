@@ -1,15 +1,17 @@
-// Copyright 2017-2022 @polkadot/page-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
 import { fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/react';
 
 import i18next from '@polkadot/react-components/i18n';
 import { MemoryStore } from '@polkadot/test-support/keyring';
-import { assertButtonDisabled, assertText, clickButton, fillInput } from '@polkadot/test-support/utils/renderedScreenUtils';
+import { assertButtonDisabled, assertText, clickButton, fillInput } from '@polkadot/test-support/utils';
 import { keyring } from '@polkadot/ui-keyring';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
-import { AccountsPage } from '../../test/pages/accountsPage';
+import { AccountsPage } from '../../test/pages/accountsPage.js';
 
 const spy = jest.spyOn(keyring, 'addUri');
 

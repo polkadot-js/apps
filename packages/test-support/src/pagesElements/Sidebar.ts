@@ -1,9 +1,9 @@
-// Copyright 2017-2022 @polkadot/test-supports authors & contributors
+// Copyright 2017-2023 @polkadot/test-supports authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { fireEvent, screen, within } from '@testing-library/react';
 
-import { JudgementTag } from './JudgementTag';
+import { JudgementTag } from './JudgementTag.js';
 
 export class Sidebar {
   public sidebar: HTMLElement;

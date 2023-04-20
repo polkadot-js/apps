@@ -1,12 +1,11 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { WithTranslation } from 'react-i18next';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { Balance, Conviction } from '@polkadot/types/interfaces';
 import type { KeyringAddress } from '@polkadot/ui-keyring/types';
 import type { BN } from '@polkadot/util';
-
-import { WithTranslation } from 'react-i18next';
 
 export type { AppProps as ComponentProps } from '@polkadot/react-components/types';
 
@@ -28,7 +27,7 @@ export interface Delegation {
 }
 
 export interface SortedAccount {
-  account?: KeyringAddress;
+  account: KeyringAddress;
   address: string;
   delegation?: Delegation;
   isFavorite: boolean;

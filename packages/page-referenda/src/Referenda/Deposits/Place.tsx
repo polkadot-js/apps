@@ -1,9 +1,9 @@
-// Copyright 2017-2022 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { PalletReferenda } from '../../types';
+import type { PalletReferenda } from '../../types.js';
 
 import React, { useState } from 'react';
 
@@ -11,7 +11,7 @@ import { Button, InputAddress, InputBalance, InputNumber, Modal, TxButton } from
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../../translate.js';
 
 interface Props {
   className?: string;
@@ -38,7 +38,6 @@ function Deposit ({ className = '', id, palletReferenda, track }: Props): React.
           <Modal.Content>
             <Modal.Columns hint={t<string>('The deposit will be registered from this account and the balance lock will be applied here.')}>
               <InputAddress
-                help={t<string>('The account you want to deposit from')}
                 label={t<string>('deposit from account')}
                 labelExtra={
                   <Available

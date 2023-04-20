@@ -1,7 +1,7 @@
-// Copyright 2017-2022 @polkadot/apps authors & contributors
+// Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ElectronMainApi } from './electron-main-api';
+import type { ElectronMainApi } from './electron-main-api.js';
 
 declare global {
   interface Window {

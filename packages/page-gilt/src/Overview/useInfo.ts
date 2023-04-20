@@ -1,9 +1,9 @@
-// Copyright 2017-2022 @polkadot/app-gilt authors & contributors
+// Copyright 2017-2023 @polkadot/app-gilt authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { u32 } from '@polkadot/types';
 import type { ActiveGiltsTotal, BalanceOf } from '@polkadot/types/interfaces';
-import type { GiltInfo, QueueTotal } from './types';
+import type { GiltInfo, QueueTotal } from './types.js';
 
 import { useMemo } from 'react';
 

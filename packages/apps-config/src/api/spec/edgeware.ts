@@ -1,10 +1,10 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-import { spec } from '@edgeware/node-types';
+import pkg from '@edgeware/node-types';
 
-const edgeware = spec.typesBundle.spec?.edgeware as OverrideBundleDefinition;
+const edgeware = pkg.spec.typesBundle.spec?.edgeware as OverrideBundleDefinition;
 
 export default edgeware;

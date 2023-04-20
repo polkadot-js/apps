@@ -1,16 +1,15 @@
-// Copyright 2017-2022 @polkadot/app-calendar authors & contributors
+// Copyright 2017-2023 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { EntryInfoTyped } from './types';
+import type { EntryInfoTyped } from './types.js';
 
 import React, { useCallback, useMemo, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button } from '@polkadot/react-components';
+import { Button, styled } from '@polkadot/react-components';
 import { formatNumber, isString } from '@polkadot/util';
 
-import { useTranslation } from './translate';
-import { dateCalendarFormat } from './util';
+import { useTranslation } from './translate.js';
+import { dateCalendarFormat } from './util.js';
 
 interface Props {
   className?: string;
@@ -178,7 +177,7 @@ function DayItem ({ className, item: { blockNumber, date, info, type }, showAllE
   );
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       {showAllEvents &&
         <div className='itemDate'>{date.toLocaleString(undefined, FORMAT_OPTIONS)}</div>
       }
@@ -192,11 +191,11 @@ function DayItem ({ className, item: { blockNumber, date, info, type }, showAllE
           onClick={_exportCal}
         />
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(DayItem)`
+const StyledDiv = styled.div`
   align-items: flex-start;
   display: flex;
   justify-content: flex-start;
@@ -228,7 +227,7 @@ export default React.memo(styled(DayItem)`
   .itemBlock {
     background: #aaa;
     color: #eee;
-    font-size: 0.85rem;
+    font-size: var(--font-size-small);
     align-self: center;
     padding: 0.075rem 0.375rem;
     border-radius: 0.25rem;
@@ -246,4 +245,6 @@ export default React.memo(styled(DayItem)`
     padding: 0 0.375rem;
     border-radius: 0.25rem;
   }
-`);
+`;
+
+export default React.memo(DayItem);

@@ -1,7 +1,7 @@
-// Copyright 2017-2022 @polkadot/app-js authors & contributors
+// Copyright 2017-2023 @polkadot/app-js authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Snippet } from '@polkadot/app-js/types';
+import type { Snippet } from '../types.js';
 
 // We must fix this :(
 /* eslint-disable sort-keys */

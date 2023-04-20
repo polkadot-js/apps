@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveReferendumVote } from '@polkadot/api-derive/types';
@@ -10,8 +10,8 @@ import { ExpanderScroll } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN_TEN, formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import ReferendumVote from './ReferendumVote';
+import { useTranslation } from '../translate.js';
+import ReferendumVote from './ReferendumVote.js';
 
 interface Props {
   change: BN;
@@ -25,7 +25,7 @@ interface Props {
 
 const LOCKS = [1, 10, 20, 30, 40, 50, 60];
 
-function ReferendumVotes ({ change, className, count, isAye, isWinning, total, votes }: Props): React.ReactElement<Props> | null {
+function ReferendumVotes ({ className, count, isAye, total, votes }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   const sorted = useMemo(
@@ -52,16 +52,16 @@ function ReferendumVotes ({ change, className, count, isAye, isWinning, total, v
     <ExpanderScroll
       className={className}
       empty={votes && t<string>('No voters')}
-      help={change.gtn(0) && (
-        <>
-          <FormatBalance value={change} />
-          <p>{isWinning
-            ? t<string>('The amount this total can be reduced by to change the referendum outcome. This assumes changes to the convictions of the existing votes, with no additional turnout.')
-            : t<string>('The amount this total should be increased by to change the referendum outcome. This assumes additional turnout with new votes at 1x conviction.')
-          }</p>
-        </>
-      )}
-      helpIcon={isWinning ? 'arrow-circle-down' : 'arrow-circle-up'}
+      // help={change.gtn(0) && (
+      //   <>
+      //     <FormatBalance value={change} />
+      //     <p>{isWinning
+      //       ? t<string>('The amount this total can be reduced by to change the referendum outcome. This assumes changes to the convictions of the existing votes, with no additional turnout.')
+      //       : t<string>('The amount this total should be increased by to change the referendum outcome. This assumes additional turnout with new votes at 1x conviction.')
+      //     }</p>
+      //   </>
+      // )}
+      // helpIcon={isWinning ? 'arrow-circle-down' : 'arrow-circle-up'}
       renderChildren={votes.length ? renderVotes : undefined}
       summary={
         <>

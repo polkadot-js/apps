@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // IMPORTANT
@@ -7,6 +7,6 @@
 //   import { types } from '@subsocial/types';
 // we end up with multiple version of types/API since it uses CJS,
 // therefore here we explicitly import from the definitions (as re-exported)
-import { types } from '@subsocial/definitions/interfaces/subsocial/definitions'; // KEEP, see above
+import { types } from '@subsocial/definitions/interfaces/subsocial/definitions.js'; // KEEP, see above
 
 export default { types };

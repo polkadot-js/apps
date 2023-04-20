@@ -1,10 +1,9 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { WithTranslation } from 'react-i18next';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { KeyringAddress } from '@polkadot/ui-keyring/types';
-
-import { WithTranslation } from 'react-i18next';
 
 export type { AppProps as ComponentProps } from '@polkadot/react-components/types';
 

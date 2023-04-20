@@ -1,17 +1,17 @@
-// Copyright 2017-2022 @polkadot/react-api authors & contributors
+// Copyright 2017-2023 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // TODO: Lots of duplicated code between this and withObservable, surely there is a better way of doing this?
 
 import type { Observable, OperatorFunction } from 'rxjs';
-import type { CallState } from '../types';
-import type { DefaultProps, HOC, Options, RenderFn } from './types';
+import type { CallState } from '../types.js';
+import type { DefaultProps, HOC, Options, RenderFn } from './types.js';
 
 import React from 'react';
 import { catchError, map, of } from 'rxjs';
 
-import echoTransform from '../transform/echo';
-import { intervalObservable, isEqual, triggerChange } from '../util';
+import echoTransform from '../transform/echo.js';
+import { intervalObservable, isEqual, triggerChange } from '../util/index.js';
 
 interface State extends CallState {
   subscriptions: { unsubscribe: () => void }[];

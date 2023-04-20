@@ -1,17 +1,15 @@
-// Copyright 2017-2022 @polkadot/app-nfts authors & contributors
+// Copyright 2017-2023 @polkadot/app-nfts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { PalletUniquesCollectionDetails, PalletUniquesCollectionMetadata } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { CollectionInfo } from './types';
+import type { CollectionInfo, CollectionSupportedIpfsData } from './types.js';
 
 import { useEffect, useMemo, useState } from 'react';
 
 import { createNamedHook, useAccounts, useApi, useCall, useIpfsFetch } from '@polkadot/react-hooks';
-
-import { CollectionSupportedIpfsData } from './types';
 
 type IpfsData = Map<string, CollectionSupportedIpfsData | null>;
 

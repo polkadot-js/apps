@@ -1,9 +1,9 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
 import type { AccountId32 } from '@polkadot/types/interfaces';
-import type { ListNode } from './types';
+import type { ListNode } from './types.js';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 

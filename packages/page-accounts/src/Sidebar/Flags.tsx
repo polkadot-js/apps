@@ -1,14 +1,13 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AddressFlags } from '@polkadot/react-hooks/types';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { Flag } from '@polkadot/react-components';
+import { Flag, styled } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   flags: AddressFlags;
@@ -24,7 +23,7 @@ function Flags ({ className = '', flags: { isCouncil, isDevelopment, isExternal,
   }
 
   return (
-    <div className={`${className} ui--AddressMenu-flags`}>
+    <StyledDiv className={`${className} ui--AddressMenu-flags`}>
       {
         hasFlags && (
           <h5>{t<string>('Flags')}</h5>
@@ -102,22 +101,14 @@ function Flags ({ className = '', flags: { isCouncil, isDevelopment, isExternal,
           />
         )}
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Flags)`
-  h5 {
-    text-align: left;
-    font-style: normal;
-    font-weight: var(--font-weight-bold);
-    font-size: 0.714rem;
-    line-height: 1rem;
-    text-transform: uppercase;
-    margin-bottom: 0.5rem;
-  }
-
+const StyledDiv = styled.div`
   .ui--Tag {
     margin: 0.2rem 1rem 0.2rem 0.571rem;
   }
-`);
+`;
+
+export default React.memo(Flags);

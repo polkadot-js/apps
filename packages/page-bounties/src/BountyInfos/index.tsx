@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
@@ -8,10 +8,10 @@ import React, { useMemo } from 'react';
 
 import { AddressSmall } from '@polkadot/react-components';
 
-import Description from '../Description';
-import { getProposalToDisplay } from '../helpers/extendedStatuses';
-import { useTranslation } from '../translate';
-import VotingSummary from './VotingSummary';
+import Description from '../Description.js';
+import { getProposalToDisplay } from '../helpers/extendedStatuses.js';
+import { useTranslation } from '../translate.js';
+import VotingSummary from './VotingSummary.js';
 
 interface Props {
   beneficiary?: AccountId;

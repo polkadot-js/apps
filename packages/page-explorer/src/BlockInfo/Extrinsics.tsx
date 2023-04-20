@@ -1,7 +1,7 @@
-// Copyright 2017-2022 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { KeyedEvent } from '@polkadot/react-query/types';
+import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
 import type { BlockNumber, Extrinsic } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
@@ -9,8 +9,8 @@ import React, { useMemo } from 'react';
 
 import { Table } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
-import ExtrinsicDisplay from './Extrinsic';
+import { useTranslation } from '../translate.js';
+import ExtrinsicDisplay from './Extrinsic.js';
 
 interface Props {
   blockNumber?: BlockNumber;
@@ -25,12 +25,15 @@ interface Props {
 function Extrinsics ({ blockNumber, className = '', events, label, maxBlockWeight, value, withLink }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const header = useMemo(() => [
-    [label || t<string>('extrinsics'), 'start', 2],
-    [t('events'), 'start media--1000', 2],
-    [t('weight'), 'media--1400'],
-    [undefined, 'address media--1200']
-  ], [label, t]);
+  const header = useMemo<[React.ReactNode?, string?, number?][]>(
+    () => [
+      [label || t<string>('extrinsics'), 'start', 2],
+      [t<string>('events'), 'start media--1000', 2],
+      [t<string>('weight'), 'media--1400'],
+      [undefined, 'address media--1200']
+    ],
+    [label, t]
+  );
 
   return (
     <Table

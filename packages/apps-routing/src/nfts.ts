@@ -1,8 +1,8 @@
-// Copyright 2017-2022 @polkadot/apps-routing authors & contributors
+// Copyright 2017-2023 @polkadot/apps-routing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import type { Route } from './types';
+import type { Route } from './types.js';
 
 import Component from '@polkadot/app-nfts';
 
@@ -17,6 +17,6 @@ export default function create (t: TFunction): Route {
     group: 'network',
     icon: 'shopping-cart',
     name: 'nfts',
-    text: t('nav.nfts', 'NFTs', { ns: 'apps-routing' })
+    text: t<string>('nav.nfts', 'NFTs', { ns: 'apps-routing' })
   };
 }

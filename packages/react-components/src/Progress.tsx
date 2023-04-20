@@ -1,16 +1,18 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { UInt } from '@polkadot/types';
 import type { BN } from '@polkadot/util';
 
 import React from 'react';
-import styled from 'styled-components';
 
 import { bnToBn } from '@polkadot/util';
 
+import { styled } from './styled.js';
+
 interface Props {
   className?: string;
+  isBlurred?: boolean;
   isDisabled?: boolean;
   total?: UInt | BN | number | null;
   value?: UInt | BN | number | null;
@@ -34,7 +36,7 @@ function DivClip ({ angle, type }: RotateProps): React.ReactElement<RotateProps>
 
 const Clip = React.memo(DivClip);
 
-function Progress ({ className = '', isDisabled, total, value }: Props): React.ReactElement<Props> | null {
+function Progress ({ className = '', isBlurred, isDisabled, total, value }: Props): React.ReactElement<Props> | null {
   const _total = bnToBn(total || 0);
   const angle = _total.gtn(0)
     ? (bnToBn(value || 0).muln(36000).div(_total).toNumber() / 100)
@@ -47,7 +49,7 @@ function Progress ({ className = '', isDisabled, total, value }: Props): React.R
   const drawAngle = (angle === 360) ? 360 : angle % 360;
 
   return (
-    <div className={`ui--Progress${isDisabled ? ' isDisabled' : ''} ${className}`}>
+    <StyledDiv className={`${className} ui--Progress ${isDisabled ? 'isDisabled' : ''} ${isBlurred ? '--tmp' : ''}`}>
       <div className='background highlight--bg' />
       <Clip
         angle={
@@ -68,16 +70,18 @@ function Progress ({ className = '', isDisabled, total, value }: Props): React.R
       <div className='inner'>
         <div>{Math.floor(angle * 100 / 360)}%</div>
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Progress)`
+const SIZE = '3.5rem';
+
+const StyledDiv = styled.div`
   border-radius: 100%;
   clip-path: circle(50%);
-  height: 4rem;
+  height: ${SIZE};
   position: relative;
-  width: 4rem;
+  width: ${SIZE};
 
   &.isDisabled {
     filter: grayscale(100%);
@@ -111,9 +115,8 @@ export default React.memo(styled(Progress)`
     top: 0.375rem;
 
     div {
+      font-size: var(--font-size-small);
       line-height: 1;
-      font-size: 1.1rem;
-      text-shadow: 0 0 2px #f5f3f1;
     }
   }
 
@@ -145,4 +148,6 @@ export default React.memo(styled(Progress)`
       clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
     }
   }
-`);
+`;
+
+export default React.memo(Progress);

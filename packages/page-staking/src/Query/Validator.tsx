@@ -1,38 +1,51 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Props } from './types';
+import type { Props } from './types.js';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { Columar } from '@polkadot/react-components';
+import { Columar, styled } from '@polkadot/react-components';
 
-import ChartPoints from './ChartPoints';
-import ChartPrefs from './ChartPrefs';
-import ChartRewards from './ChartRewards';
-import ChartStake from './ChartStake';
+import ChartPoints from './ChartPoints.js';
+import ChartPrefs from './ChartPrefs.js';
+import ChartRewards from './ChartRewards.js';
+import ChartStake from './ChartStake.js';
 
-function Validator ({ className = '', validatorId }: Props): React.ReactElement<Props> {
+function Validator ({ className = '', labels, validatorId }: Props): React.ReactElement<Props> | null {
   return (
-    <Columar className={className}>
+    <StyledColumar className={className}>
       <Columar.Column>
-        <ChartPoints validatorId={validatorId} />
-        <ChartRewards validatorId={validatorId} />
+        <ChartPoints
+          labels={labels}
+          validatorId={validatorId}
+        />
+        <ChartRewards
+          labels={labels}
+          validatorId={validatorId}
+        />
       </Columar.Column>
       <Columar.Column>
-        <ChartStake validatorId={validatorId} />
-        <ChartPrefs validatorId={validatorId} />
+        <ChartStake
+          labels={labels}
+          validatorId={validatorId}
+        />
+        <ChartPrefs
+          labels={labels}
+          validatorId={validatorId}
+        />
       </Columar.Column>
-    </Columar>
+    </StyledColumar>
   );
 }
 
-export default React.memo(styled(Validator)`
+const StyledColumar = styled(Columar)`
   .staking--Chart {
     background: var(--bg-table);
     border: 1px solid var(--border-table);
     border-radius: 0.25rem;
     padding: 1rem 1.5rem;
   }
-`);
+`;
+
+export default React.memo(Validator);

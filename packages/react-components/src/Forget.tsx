@@ -1,11 +1,12 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
 
-import { AddressRow, Button, Modal } from '@polkadot/react-components';
-
-import { useTranslation } from './translate';
+import Button from './Button/index.js';
+import Modal from './Modal/index.js';
+import AddressRow from './AddressRow.js';
+import { useTranslation } from './translate.js';
 
 type Mode = 'account' | 'address' | 'contract' | 'code';
 

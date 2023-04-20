@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -6,13 +6,12 @@ import type { HexString } from '@polkadot/util/types';
 
 import React, { useCallback, useState } from 'react';
 
-import usePreimage from '@polkadot/app-preimages/usePreimage';
 import { Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useCall, usePreimage } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { isFunction, isHex } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
@@ -51,7 +50,6 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
       <Modal.Content>
         <Modal.Columns hint={t<string>('The proposal will be registered from this account and the balance lock will be applied here.')}>
           <InputAddress
-            help={t<string>('The account you want to register the proposal from')}
             label={t<string>('send from account')}
             labelExtra={
               <Available
@@ -66,7 +64,6 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
         <Modal.Columns hint={t<string>('The hash of the preimage for the proposal as previously submitted or intended.')}>
           <Input
             autoFocus
-            help={t<string>('The preimage hash of the proposal')}
             isError={!isHashValid}
             label={t<string>('preimage hash')}
             onChange={_onChangeHash}
@@ -76,14 +73,12 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
         <Modal.Columns hint={t<string>('The associated deposit for this proposal should be more then the minimum on-chain deposit required. It will be locked until the proposal passes.')}>
           <InputBalance
             defaultValue={api.consts.democracy.minimumDeposit}
-            help={t<string>('The locked value for this proposal')}
             isError={!hasMinLocked}
             label={t<string>('locked balance')}
             onChange={setBalance}
           />
           <InputBalance
             defaultValue={api.consts.democracy.minimumDeposit}
-            help={t<string>('The minimum deposit required')}
             isDisabled
             label={t<string>('minimum deposit')}
           />

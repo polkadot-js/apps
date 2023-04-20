@@ -1,9 +1,9 @@
-// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { StorageKey } from '@polkadot/types';
 import type { ParaId, SessionIndex } from '@polkadot/types/interfaces';
-import type { Proposals } from './types';
+import type { Proposals } from './types.js';
 
 import { useMemo } from 'react';
 
@@ -37,8 +37,8 @@ function useProposalsImpl (): Proposals | undefined {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const trigger = useEventTrigger([api.events.proposeParachain?.ProposeParachain]);
-  const proposalIds = useMapKeys(api.query.proposeParachain?.proposals, OPT_IDS, trigger.blockHash);
-  const scheduled = useMapEntries(api.query.proposeParachain?.scheduledProposals, OPT_SCHED, trigger.blockHash);
+  const proposalIds = useMapKeys(api.query.proposeParachain?.proposals, [], OPT_IDS, trigger.blockHash);
+  const scheduled = useMapEntries(api.query.proposeParachain?.scheduledProposals, [], OPT_SCHED, trigger.blockHash);
   const [sessionIndex, approvedIds] = useCallMulti<MultiQuery>([
     api.query.session.currentIndex,
     api.query.proposeParachain?.approvedProposals

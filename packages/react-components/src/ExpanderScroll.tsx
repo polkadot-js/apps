@@ -1,17 +1,17 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Props as ExpanderProps } from './Expander';
+import type { Props as ExpanderProps } from './Expander.js';
 
 import React, { useCallback, useMemo } from 'react';
-import styled from 'styled-components';
 
-import Expander from './Expander';
-import Table from './Table';
+import Table from './Table/index.js';
+import Expander from './Expander.js';
+import { styled } from './styled.js';
 
 interface Props extends ExpanderProps {
   empty?: string;
-  renderChildren?: () => React.ReactNode[];
+  renderChildren?: (() => React.ReactNode[] | undefined | null) | null;
 }
 
 function mapRow (row: React.ReactNode, key: number): React.ReactNode {
@@ -22,7 +22,7 @@ function mapRow (row: React.ReactNode, key: number): React.ReactNode {
   );
 }
 
-function ExpanderScroll ({ children, className, empty, help, helpIcon, renderChildren, summary }: Props): React.ReactElement<Props> {
+function ExpanderScroll ({ children, className, empty, renderChildren, summary }: Props): React.ReactElement<Props> {
   const hasContent = useMemo(
     () => !!(renderChildren || children),
     [children, renderChildren]
@@ -36,7 +36,7 @@ function ExpanderScroll ({ children, className, empty, help, helpIcon, renderChi
           isInline
         >
           {renderChildren
-            ? renderChildren().map(mapRow)
+            ? renderChildren()?.map(mapRow)
             : Array.isArray(children)
               ? children.map(mapRow)
               : <tr><td>{children}</td></tr>
@@ -48,17 +48,15 @@ function ExpanderScroll ({ children, className, empty, help, helpIcon, renderChi
   );
 
   return (
-    <Expander
+    <StyledExpander
       className={className}
-      help={help}
-      helpIcon={helpIcon}
       renderChildren={hasContent ? innerRender : undefined}
       summary={summary}
     />
   );
 }
 
-export default React.memo(styled(ExpanderScroll)`
+const StyledExpander = styled(Expander)`
   .tableContainer {
     overflow-y: scroll;
     display: block;
@@ -67,4 +65,6 @@ export default React.memo(styled(ExpanderScroll)`
     max-width: 25rem;
     overflow-x: hidden;
   }
-`);
+`;
+
+export default React.memo(ExpanderScroll);

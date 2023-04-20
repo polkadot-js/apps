@@ -1,14 +1,13 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { Badge, Icon } from '@polkadot/react-components';
+import { Badge, styled, Tag } from '@polkadot/react-components';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;
@@ -20,13 +19,13 @@ function Legend ({ className, isRelay, minCommission }: Props): React.ReactEleme
   const { t } = useTranslation();
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <span>
         <Badge
           color='blue'
           icon='chevron-right'
         />
-        {t('Next session')}
+        <span>{t<string>('Next session')}</span>
       </span>
       {minCommission && (
         <span>
@@ -34,7 +33,7 @@ function Legend ({ className, isRelay, minCommission }: Props): React.ReactEleme
             color='red'
             icon='cancel'
           />
-          {t('Chilled')}
+          <span>{t<string>('Chilled')}</span>
         </span>
       )}
       {isRelay && (
@@ -43,7 +42,7 @@ function Legend ({ className, isRelay, minCommission }: Props): React.ReactEleme
             color='purple'
             icon='vector-square'
           />
-          {t('Para validator')}
+          <span>{t<string>('Para validator')}</span>
         </span>
       )}
       <span>
@@ -51,57 +50,74 @@ function Legend ({ className, isRelay, minCommission }: Props): React.ReactEleme
           color='green'
           info='5'
         />
-        {t('Produced blocks')}
+        <span>{t<string>('Produced blocks')}</span>
       </span>
       <span>
         <Badge
           color='green'
-          info={<Icon icon='envelope' />}
+          icon='envelope'
         />
-        {t('Online message')}
+        <span>{t<string>('Online message')}</span>
       </span>
       <span>
         <Badge
           color='green'
           icon='hand-paper'
         />
-        {t('Nominating')}
+        <span>{t<string>('Nominating')}</span>
       </span>
       <span>
         <Badge
           color='red'
           icon='balance-scale-right'
         />
-        {t('Oversubscribed')}
+        <span>{t<string>('Oversubscribed')}</span>
       </span>
       <span>
         <Badge
           color='red'
           icon='skull-crossbones'
         />
-        {t('Slashed')}
+        <span>{t<string>('Slashed')}</span>
       </span>
       <span>
         <Badge
           color='red'
           icon='user-slash'
         />
-        {t('Blocks nominations')}
+        <span>{t<string>('Blocks nominations')}</span>
       </span>
-    </div>
+      <span>
+        <Tag
+          color='lightgrey'
+          label='1,220'
+        />
+        <span>{t<string>('Era points')}</span>
+      </span>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Legend)`
-  font-size: 0.85rem;
+const StyledDiv = styled.div`
+  font-size: var(--font-size-small);
   padding: 1rem 0.5rem;
   text-align: center;
 
-  .ui--Badge {
+  .ui--Badge, .ui--Tag {
     margin-right: 0.5rem;
   }
 
-  span+span {
-    margin-left: 1rem;
+  span {
+    vertical-align: middle;
+
+    * {
+      vertical-align: middle;
+    }
+
+    + span {
+      margin-left: 1rem;
+    }
   }
-`);
+`;
+
+export default React.memo(Legend);

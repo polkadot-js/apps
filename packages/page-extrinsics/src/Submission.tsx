@@ -1,9 +1,9 @@
-// Copyright 2017-2022 @polkadot/app-extrinsics authors & contributors
+// Copyright 2017-2023 @polkadot/app-extrinsics authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import type { RawParam } from '@polkadot/react-params/types';
-import type { DecodedExtrinsic } from './types';
+import type { DecodedExtrinsic } from './types.js';
 
 import React, { useCallback, useState } from 'react';
 
@@ -11,8 +11,8 @@ import { Button, Extrinsic, InputAddress, MarkError, TxButton } from '@polkadot/
 import { useApi } from '@polkadot/react-hooks';
 import { BalanceFree } from '@polkadot/react-query';
 
-import Decoded from './Decoded';
-import { useTranslation } from './translate';
+import Decoded from './Decoded.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;

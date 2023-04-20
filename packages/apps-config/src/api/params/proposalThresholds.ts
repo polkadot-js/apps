@@ -1,9 +1,9 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
 
-import { KULUPU_GENESIS, KUSAMA_GENESIS, POLKADOT_GENESIS } from '../constants';
+import { KULUPU_GENESIS, KUSAMA_GENESIS, POLKADOT_GENESIS } from '../constants.js';
 
 // normal fast-track proposals
 const FAST_TRACK: Record<string, number> = {

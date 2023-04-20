@@ -1,16 +1,20 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { HeaderProps } from './types';
-
 import React from 'react';
-import styled from 'styled-components';
 
-import Button from '../Button';
+import Button from '../Button/index.js';
+import { styled } from '../styled.js';
 
-function Header ({ className = '', header, onClose }: HeaderProps) {
+interface Props {
+  className?: string;
+  header?: React.ReactNode;
+  onClose: () => void;
+}
+
+function Header ({ className = '', header, onClose }: Props): React.ReactElement<Props> {
   return (
-    <div className={`${className} ui--Modal__Header`}>
+    <StyledDiv className={`${className} ui--Modal-Header`}>
       {header && (
         <h1>{header}</h1>
       )}
@@ -19,12 +23,14 @@ function Header ({ className = '', header, onClose }: HeaderProps) {
         icon='times'
         onClick={onClose}
       />
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Header)`
+const StyledDiv = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 0.75rem 1.5rem 0;
-`);
+`;
+
+export default React.memo(Header);

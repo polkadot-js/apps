@@ -1,14 +1,15 @@
-// Copyright 2017-2022 @polkadot/app-storage authors & contributors
+// Copyright 2017-2023 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AppProps as Props } from '@polkadot/react-components/types';
-import type { QueryTypes } from './types';
+import type { QueryTypes } from './types.js';
 
 import React, { useCallback, useState } from 'react';
-import styled from 'styled-components';
 
-import Queries from './Queries';
-import Selection from './Selection';
+import { styled } from '@polkadot/react-components';
+
+import Selection from './Selection/index.js';
+import Queries from './Queries.js';
 
 function StorageApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
   const [queue, setQueue] = useState<QueryTypes[]>([]);
@@ -24,7 +25,7 @@ function StorageApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   );
 
   return (
-    <main className={`storage--App ${className}`}>
+    <StyledMain className={`${className} storage--App`}>
       <Selection
         basePath={basePath}
         onAdd={_onAdd}
@@ -33,11 +34,11 @@ function StorageApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         onRemove={_onRemove}
         value={queue}
       />
-    </main>
+    </StyledMain>
   );
 }
 
-export default React.memo(styled(StorageApp)`
+const StyledMain = styled.main`
   .storage--actionrow {
     align-items: flex-start;
     display: flex;
@@ -66,4 +67,6 @@ export default React.memo(styled(StorageApp)`
     flex: 0;
     padding: 0.5rem 0.25rem;
   }
-`);
+`;
+
+export default React.memo(StorageApp);

@@ -1,11 +1,11 @@
-// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, StorageKey } from '@polkadot/types';
 import type { AccountId, BalanceOf, BlockNumber, ParaId } from '@polkadot/types/interfaces';
 import type { PolkadotRuntimeCommonCrowdloanFundInfo } from '@polkadot/types/lookup';
 import type { INumber, ITuple } from '@polkadot/types/types';
-import type { Campaign, Campaigns } from './types';
+import type { Campaign, Campaigns } from './types.js';
 
 import { useEffect, useState } from 'react';
 
@@ -13,12 +13,13 @@ import { createNamedHook, useApi, useBestNumber, useCall, useEventTrigger, useIs
 import { BN, BN_ZERO, u8aConcat, u8aEq } from '@polkadot/util';
 import { encodeAddress } from '@polkadot/util-crypto';
 
-import { CROWD_PREFIX } from './constants';
+import { CROWD_PREFIX } from './constants.js';
 
 const EMPTY: Campaigns = {
   activeCap: BN_ZERO,
   activeRaised: BN_ZERO,
   funds: null,
+  isLoading: true,
   totalCap: BN_ZERO,
   totalRaised: BN_ZERO
 };
@@ -157,7 +158,7 @@ function useFundsImpl (): Campaigns {
   const bestNumber = useBestNumber();
   const mountedRef = useIsMountedRef();
   const trigger = useEventTrigger([api.events.crowdloan?.Created]);
-  const paraIds = useMapKeys(api.query.crowdloan?.funds, OPT_FUNDS, trigger.blockHash);
+  const paraIds = useMapKeys(api.query.crowdloan?.funds, [], OPT_FUNDS, trigger.blockHash);
   const campaigns = useCall<Campaign[]>(api.query.crowdloan?.funds.multi, [paraIds], OPT_FUNDS_MULTI);
   const leases = useCall<ParaId[]>(api.query.slots.leases.multi, [paraIds], OPT_LEASE);
   const [result, setResult] = useState<Campaigns>(EMPTY);

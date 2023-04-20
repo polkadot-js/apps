@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParaId } from '@polkadot/types/interfaces';
@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;

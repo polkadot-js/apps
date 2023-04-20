@@ -1,10 +1,9 @@
-// Copyright 2017-2022 @polkadot/apps authors & contributors
+// Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
 
 export interface Network {
-  icon?: string;
   isChild?: boolean;
   isLightClient?: boolean;
   isRelay?: boolean;
@@ -15,7 +14,11 @@ export interface Network {
   providers: {
     name: string;
     url: string;
-  }[]
+  }[];
+  ui: {
+    color?: string;
+    logo?: string;
+  }
 }
 
 export interface Group {

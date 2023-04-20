@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-signer authors & contributors
+// Copyright 2017-2023 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Signer, SignerResult } from '@polkadot/api/types';
@@ -7,7 +7,7 @@ import type { Registry, SignerPayloadJSON } from '@polkadot/types/types';
 
 let id = 0;
 
-export default class LedgerSigner implements Signer {
+export class LedgerSigner implements Signer {
   readonly #accountOffset: number;
   readonly #addressOffset: number;
   readonly #getLedger: () => Ledger;

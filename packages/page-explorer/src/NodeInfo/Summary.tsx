@@ -1,7 +1,7 @@
-// Copyright 2017-2022 @polkadot/app-nodeinfo authors & contributors
+// Copyright 2017-2023 @polkadot/app-nodeinfo authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Info } from './types';
+import type { Info } from './types.js';
 
 import React, { useEffect, useState } from 'react';
 
@@ -9,7 +9,7 @@ import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { BestNumber, Elapsed } from '@polkadot/react-query';
 import { BN_ZERO, formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   nextRefresh: number;

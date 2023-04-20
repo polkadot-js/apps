@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-query authors & contributors
+// Copyright 2017-2023 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react';
 import { Dropdown, Input, InputAddress, MarkError, Modal, Spinner, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   address: string;

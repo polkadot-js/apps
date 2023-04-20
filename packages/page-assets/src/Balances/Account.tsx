@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-assets authors & contributors
+// Copyright 2017-2023 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletAssetsAssetAccount } from '@polkadot/types/lookup';
@@ -10,8 +10,8 @@ import React from 'react';
 import { AddressSmall } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 
-import { useTranslation } from '../translate';
-import Transfer from './Transfer';
+import { useTranslation } from '../translate.js';
+import Transfer from './Transfer.js';
 
 interface Account extends PalletAssetsAssetAccount {
   sufficient?: bool

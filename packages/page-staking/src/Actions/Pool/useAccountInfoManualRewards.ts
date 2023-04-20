@@ -3,11 +3,11 @@
 
 import type { Option } from '@polkadot/types';
 import type { PalletNominationPoolsPoolMember } from '@polkadot/types/lookup';
-import type { AccountInfo } from './types';
+import type { AccountInfo } from './types.js';
 
 import { useEffect, useState } from 'react';
 
-import usePoolInfo from '@polkadot/app-staking/Pools/usePoolInfo';
+import usePoolInfo from '@polkadot/app-staking2/Pools/usePoolInfo';
 import { createNamedHook, useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
 import { PalletNominationPoolsBondedPoolInner, PalletNominationPoolsRewardPool } from '@polkadot/types/lookup';
 import { BN } from '@polkadot/util';

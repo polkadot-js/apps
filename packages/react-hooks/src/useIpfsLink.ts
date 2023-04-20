@@ -1,9 +1,9 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { useMemo } from 'react';
 
-import { createNamedHook } from './createNamedHook';
+import { createNamedHook } from './createNamedHook.js';
 
 interface Result {
   ipfsHash: string;

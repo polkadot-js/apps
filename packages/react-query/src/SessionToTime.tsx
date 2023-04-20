@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-query authors & contributors
+// Copyright 2017-2023 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSessionProgress } from '@polkadot/api-derive/types';
@@ -9,7 +9,7 @@ import React, { useMemo } from 'react';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import BlockToTime from './BlockToTime';
+import BlockToTime from './BlockToTime.js';
 
 interface Props {
   children?: React.ReactNode;

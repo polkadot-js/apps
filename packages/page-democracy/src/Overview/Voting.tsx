@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PropIndex, Proposal } from '@polkadot/types/interfaces';
@@ -9,7 +9,7 @@ import React, { useMemo, useState } from 'react';
 import { Button, ConvictionDropdown, Modal, ProposedAction, TxButton, VoteAccount, VoteValue } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   proposal?: Proposal;
@@ -22,7 +22,7 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
   const { hasAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [balance, setBalance] = useState<BN | undefined>();
-  const [conviction, setConviction] = useState(0);
+  const [conviction, setConviction] = useState(1);
   const [isVotingOpen, toggleVoting] = useToggle();
 
   const isCurrentVote = useMemo(
@@ -70,10 +70,13 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
                 />
               )}
               <ConvictionDropdown
-                help={t<string>('The conviction to use for this vote, with an appropriate lock period.')}
                 label={t<string>('conviction')}
                 onChange={setConviction}
                 value={conviction}
+                voteLockingPeriod={
+                  api.consts.democracy.voteLockingPeriod ||
+                  api.consts.democracy.enactmentPeriod
+                }
               />
             </Modal.Columns>
           </Modal.Content>

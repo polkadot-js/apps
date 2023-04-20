@@ -1,7 +1,7 @@
-// Copyright 2017-2022 @polkadot/app-storage authors & contributors
+// Copyright 2017-2023 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ComponentProps as Props } from '../types';
+import type { ComponentProps as Props } from '../types.js';
 
 import React, { useCallback, useMemo, useState } from 'react';
 
@@ -10,7 +10,7 @@ import { useApi } from '@polkadot/react-hooks';
 import { StorageEntry } from '@polkadot/types/primitive/types';
 import { compactAddLength, u8aToU8a } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 const MaxNumberOfAllowedSearchHits = 5;
 

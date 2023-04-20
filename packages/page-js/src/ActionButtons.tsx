@@ -1,11 +1,11 @@
-// Copyright 2017-2022 @polkadot/app-js authors & contributors
+// Copyright 2017-2023 @polkadot/app-js authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useState } from 'react';
 
 import { Button, Input, Popup } from '@polkadot/react-components';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;
