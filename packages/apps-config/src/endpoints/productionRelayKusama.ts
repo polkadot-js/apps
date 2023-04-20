@@ -841,7 +841,7 @@ export const prodRelayKusama: EndpointOption = {
     'Dwellir Tunisia': 'wss://kusama-rpc-tn.dwellir.com',
     'IBP-GeoDNS1': 'wss://rpc.ibp.network/kusama',
     'IBP-GeoDNS2': 'wss://rpc.dotters.network/kusama',
-    'LuckyFriday': 'wss://rpc-kusama.luckyfriday.io',
+    LuckyFriday : 'wss://rpc-kusama.luckyfriday.io',
     OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
     Parity: 'wss://kusama-rpc.polkadot.io',
     RadiumBlock: 'wss://kusama.public.curie.radiumblock.co/ws',
