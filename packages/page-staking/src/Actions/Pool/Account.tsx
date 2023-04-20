@@ -1,25 +1,25 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSessionProgress, DeriveUnlocking } from '@polkadot/api-derive/types';
+import type { PoolInfo } from '@polkadot/app-staking2/Pools/types';
 import type { PalletNominationPoolsPoolMember, PalletNominationPoolsPoolRoles } from '@polkadot/types/lookup';
-import type { PoolInfo } from '../../Pools/types';
-import type { SortedTargets } from '../../types';
+import type { SortedTargets } from '../../types.js';
 
-import React, { useCallback, useContext, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
-import useAccountInfoManualRewards from '@polkadot/app-staking/Actions/Pool/useAccountInfoManualRewards';
-import { AddressSmall, Badge, Menu, Popup, StakingRedeemable, StakingUnbonding, StatusContext } from '@polkadot/react-components';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { AddressSmall, Badge, Menu, Popup, StakingRedeemable, StakingUnbonding } from '@polkadot/react-components';
+import { useApi, useQueue, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN, formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
-import ListNominees from '../Account/ListNominees';
-import Nominate from '../Account/Nominate';
-import useSlashingSpans from '../useSlashingSpans';
-import BondExtra from './BondExtra';
-import Unbond from './Unbond';
+import { useTranslation } from '../../translate.js';
+import ListNominees from '../Account/ListNominees.js';
+import Nominate from '../Account/Nominate.js';
+import useSlashingSpans from '../useSlashingSpans.js';
+import BondExtra from './BondExtra.js';
+import Unbond from './Unbond.js';
+import useAccountInfoManualRewards from './useAccountInfoManualRewards.js';
 
 // TODO use pendingRewards API with Substrate >= 9.29
 // import useAccountInfo from './useAccountInfo';
@@ -69,7 +69,7 @@ function Pool ({ accountId, className, info: { bonded: { roles }, metadata, nomi
   const { t } = useTranslation();
   const { api } = useApi();
   const spanCount = useSlashingSpans(stashId);
-  const { queueExtrinsic } = useContext(StatusContext);
+  const { queueExtrinsic } = useQueue();
   const [isBondOpen, toggleBond] = useToggle();
   const [isNominateOpen, toggleNominate] = useToggle();
   const [isUnbondOpen, toggleUnbond] = useToggle();

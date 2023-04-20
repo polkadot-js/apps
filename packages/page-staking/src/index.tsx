@@ -1,36 +1,34 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
-import type { AppProps as Props, ThemeProps } from '@polkadot/react-components/types';
+import type { AppProps as Props } from '@polkadot/react-components/types';
 import type { ElectionStatus, ParaValidatorIndex, ValidatorId } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
-import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { Route, Switch } from 'react-router';
+import React, { useCallback, useMemo, useState } from 'react';
+import { Route, Routes } from 'react-router';
 import { useLocation } from 'react-router-dom';
-import styled from 'styled-components';
 
-import PerformancePage from '@polkadot/app-staking/Performance';
-import SuspensionsPage from '@polkadot/app-staking/Suspensions';
-import { HelpOverlay, Tabs } from '@polkadot/react-components';
+import Pools from '@polkadot/app-staking2/Pools';
+import useOwnPools from '@polkadot/app-staking2/Pools/useOwnPools';
+import { styled, Tabs } from '@polkadot/react-components';
 import { useAccounts, useApi, useAvailableSlashes, useCall, useCallMulti, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-import basicMd from './md/basic.md';
-import Actions from './Actions';
-import Bags from './Bags';
-import { STORE_FAVS_BASE } from './constants';
-import Payouts from './Payouts';
-import Pools from './Pools';
-import Query from './Query';
-import Slashes from './Slashes';
-import Targets from './Targets';
-import { useTranslation } from './translate';
-import useNominations from './useNominations';
-import useOwnPools from './useOwnPools';
-import useSortedTargets from './useSortedTargets';
-import Validators from './Validators';
+import Actions from './Actions/index.js';
+import Bags from './Bags/index.js';
+import Payouts from './Payouts/index.js';
+import PerformancePage from './Performance/index.js';
+import Query from './Query/index.js';
+import Slashes from './Slashes/index.js';
+import SuspensionsPage from './Suspensions/index.js';
+import Targets from './Targets/index.js';
+import Validators from './Validators/index.js';
+import { STORE_FAVS_BASE } from './constants.js';
+import { useTranslation } from './translate.js';
+import useNominations from './useNominations.js';
+import useSortedTargets from './useSortedTargets.js';
 
 const HIDDEN_ACC = ['actions', 'payout'];
 
@@ -46,22 +44,6 @@ const OPT_MULTI = {
       : {}
   ]
 };
-
-function createPathRef (basePath: string): Record<string, string | string[]> {
-  return {
-    bags: `${basePath}/bags`,
-    payout: `${basePath}/payout`,
-    performance: `${basePath}/performance`,
-    pools: `${basePath}/pools`,
-    query: [
-      `${basePath}/query/:value`,
-      `${basePath}/query`
-    ],
-    slashes: `${basePath}/slashes`,
-    suspensions: `${basePath}/suspensions`,
-    targets: `${basePath}/targets`
-  };
-}
 
 function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -83,7 +65,6 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const ownStashes = useOwnStashInfos();
   const slashes = useAvailableSlashes();
   const targets = useSortedTargets(favorites, withLedger);
-  const pathRef = useRef(createPathRef(basePath));
 
   const hasQueries = useMemo(
     () => hasAccounts && !!(api.query.imOnline?.authoredBlocks) && !!(api.query.staking.activeEra),
@@ -158,8 +139,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   ].filter((q): q is { name: string; text: string } => !!q), [api, hasStashes, slashes, t]);
 
   return (
-    <main className={`staking--App ${className}`}>
-      <HelpOverlay md={basicMd as string} />
+    <StyledMain className={`${className} staking--App`}>
       <Tabs
         basePath={basePath}
         hidden={
@@ -169,49 +149,71 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         }
         items={items}
       />
-      <Switch>
-        <Route path={pathRef.current.bags}>
-          <Bags ownStashes={ownStashes} />
-        </Route>
-        <Route path={pathRef.current.payout}>
-          <Payouts
-            historyDepth={targets.historyDepth}
-            isInElection={isInElection}
-            ownPools={ownPools}
-            ownValidators={ownValidators}
+      <Routes>
+        <Route path={basePath}>
+          <Route
+            element={
+              <Bags ownStashes={ownStashes} />
+            }
+            path='bags'
+          />
+          <Route
+            element={
+              <Payouts
+                historyDepth={targets.historyDepth}
+                isInElection={isInElection}
+                ownPools={ownPools}
+                ownValidators={ownValidators}
+              />
+            }
+            path='payout'
+          />
+          <Route
+            element={
+              <Pools ownPools={ownPools} />
+            }
+            path='pools'
+          />
+          <Route
+            element={
+              <Query />
+            }
+            path='query/:value?'
+          />
+          <Route
+            element={
+              <Slashes
+                ownStashes={ownStashes}
+                slashes={slashes}
+              />
+            }
+            path='slashes'
+          />
+          <Route
+            element={
+              <Targets
+                isInElection={isInElection}
+                nominatedBy={nominatedBy}
+                ownStashes={ownStashes}
+                stakingOverview={stakingOverview}
+                targets={targets}
+                toggleFavorite={toggleFavorite}
+                toggleLedger={toggleLedger}
+                toggleNominatedBy={toggleNominatedBy}
+              />
+            }
+            path='targets'
           />
         </Route>
-        <Route path={pathRef.current.pools}>
-          <Pools ownPools={ownPools} />
-        </Route>
-        <Route path={pathRef.current.query}>
-          <Query />
-        </Route>
-        <Route path={pathRef.current.slashes}>
-          <Slashes
-            ownStashes={ownStashes}
-            slashes={slashes}
-          />
-        </Route>
-        <Route path={pathRef.current.targets}>
-          <Targets
-            isInElection={isInElection}
-            nominatedBy={nominatedBy}
-            ownStashes={ownStashes}
-            stakingOverview={stakingOverview}
-            targets={targets}
-            toggleFavorite={toggleFavorite}
-            toggleLedger={toggleLedger}
-            toggleNominatedBy={toggleNominatedBy}
-          />
-        </Route>
-        <Route path={pathRef.current.performance}>
-          <PerformancePage />
-        </Route>
-        <Route path={pathRef.current.suspensions}>
-          <SuspensionsPage />
-        </Route>
-      </Switch>
+        <Route
+          element={<PerformancePage />}
+          path='performance'
+        />
+        <Route
+          element={<SuspensionsPage />}
+          path='suspensions'
+        />
+      </Routes>
       <Actions
         className={pathname === `${basePath}/actions` ? '' : '--hidden'}
         isInElection={isInElection}
@@ -227,16 +229,15 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         hasQueries={hasQueries}
         nominatedBy={nominatedBy}
         ownStashes={ownStashes}
-        stakingOverview={stakingOverview}
         targets={targets}
         toggleFavorite={toggleFavorite}
         toggleNominatedBy={toggleNominatedBy}
       />
-    </main>
+    </StyledMain>
   );
 }
 
-export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
+const StyledMain = styled.main`
   .staking--Chart {
     margin-top: 1.5rem;
 
@@ -293,16 +294,8 @@ export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
   .ui--Expander.stakeOver {
     .ui--Expander-summary {
       color: var(--color-error);
-
-    ${theme.theme === 'dark'
-    ? `font-weight: bold;
-      .ui--FormatBalance-value {
-
-        > .ui--FormatBalance-postfix {
-          opacity: 1;
-        }
-      }`
-    : ''};
     }
   }
-`));
+`;
+
+export default React.memo(StakingApp);

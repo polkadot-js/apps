@@ -1,33 +1,41 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import type { INumber } from '@polkadot/types/types';
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import Address from '@polkadot/app-staking/Performance/Address';
-import { calculatePercentReward } from '@polkadot/app-staking/Performance/CurrentList';
-import useSessionCommitteePerformance, { ValidatorPerformance } from '@polkadot/app-staking/Performance/useCommitteePerformance';
-import useCurrentSessionInfo from '@polkadot/app-staking/Performance/useCurrentSessionInfo';
-import { Button, CardSummary, InputAddressSimple, SummaryBox, Table } from '@polkadot/react-components';
-import { useApi, useCall, useLoadingDelay } from '@polkadot/react-hooks';
+import { Button, CardSummary, InputAddressSimple, Spinner, SummaryBox, Table } from '@polkadot/react-components';
+import { useApi, useCall, useNextTick } from '@polkadot/react-hooks';
 import { u32 } from '@polkadot/types-codec';
 
-import { useTranslation } from '../translate';
-import Validator from './Validator';
+import Address from '../Performance/Address/index.js';
+import { calculatePercentReward } from '../Performance/CurrentList.js';
+import useSessionCommitteePerformance, { ValidatorPerformance } from '../Performance/useCommitteePerformance.js';
+import useCurrentSessionInfo from '../Performance/useCurrentSessionInfo.js';
+import { useTranslation } from '../translate.js';
+import Validator from './Validator.js';
 
 interface Props {
   className?: string;
 }
 
+function doQuery (validatorId?: string | null): void {
+  if (validatorId) {
+    window.location.hash = `/staking/query/${validatorId}`;
+  }
+}
+
 function Query ({ className }: Props): React.ReactElement<Props> {
-  const { api } = useApi();
   const { t } = useTranslation();
+  const { api } = useApi();
   const { value } = useParams<{ value: string }>();
   const [validatorId, setValidatorId] = useState<string | null>(value || null);
   const underperformedValidatorSessionCount = useCall<u32>(api.query.elections.underperformedValidatorSessionCount, [value]);
 
   const [currentSession, currentEra, historyDepth, minimumSessionNumber] = useCurrentSessionInfo();
-  const isLoading = useLoadingDelay();
+  const isNextTick = useNextTick();
 
   function range (size: number, startAt = 0) {
     return [...Array(size).keys()].map((i) => i + startAt);
@@ -71,37 +79,43 @@ function Query ({ className }: Props): React.ReactElement<Props> {
   [sessionCommitteePerformance]);
 
   const list = useMemo(
-    () => isLoading
+    () => isNextTick
       ? []
       : filteredSessionPerformances,
-    [isLoading, filteredSessionPerformances]
+    [isNextTick, filteredSessionPerformances]
+  );
+
+  const eras = useCall<INumber[]>(api.derive.staking.erasHistoric);
+
+  const labels = useMemo(
+    () => eras && eras.map((e) => e.toHuman() as string),
+    [eras]
   );
 
   const _onQuery = useCallback(
-    (): void => {
-      if (validatorId) {
-        window.location.hash = `/staking/query/${validatorId}`;
-      }
-    },
+    () => doQuery(validatorId),
     [validatorId]
   );
 
-  const headerRef = useRef(
+  const headerRef = useRef<[string, string, number?][]>(
     [
-      [t('session performance in last 4 eras'), 'start', 1],
-      [t('session'), 'expand'],
-      [t('blocks created'), 'expand'],
-      [t('blocks expected'), 'expand'],
-      [t('max % reward'), 'expand']
+      [t<string>('session performance in last 4 eras'), 'start', 1],
+      [t<string>('session'), 'expand'],
+      [t<string>('blocks created'), 'expand'],
+      [t<string>('blocks expected'), 'expand'],
+      [t<string>('max % reward'), 'expand']
     ]
   );
+
+  if (!labels) {
+    return <Spinner />;
+  }
 
   return (
     <div className={className}>
       <InputAddressSimple
         className='staking--queryInput'
         defaultValue={value}
-        help={t<string>('Display overview information for the selected validator, including blocks produced.')}
         label={t<string>('validator to query')}
         onChange={setValidatorId}
         onEnter={_onQuery}
@@ -144,7 +158,10 @@ function Query ({ className }: Props): React.ReactElement<Props> {
         ))}
       </Table>}
       {value && (
-        <Validator validatorId={value} />
+        <Validator
+          labels={labels}
+          validatorId={value}
+        />
       )}
     </div>
   );
