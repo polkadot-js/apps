@@ -159,8 +159,8 @@ export const testParasWestendCommon: EndpointOption[] = [
     paraId: 1001,
     providers: {
       'IBP-GeoDNS1': 'wss://sys.ibp.network/collectives-westend',
-      'IBP-GeoDNS2': 'wss://sys.dotters.network/collectives-westend',
-      Parity: 'wss://westend-collectives-rpc.polkadot.io'
+      'IBP-GeoDNS2': 'wss://sys.dotters.network/collectives-westend'
+      // Parity: 'wss://westend-collectives-rpc.polkadot.io' // https://github.com/polkadot-js/apps/issues/9357
     },
     teleport: [-1],
     text: 'Collectives',
