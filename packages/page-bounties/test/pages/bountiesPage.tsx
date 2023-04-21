@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { RenderResult } from '@testing-library/react';
+import type { ApiPromise } from '@polkadot/api';
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { ApiProps } from '@polkadot/react-api/types';
 import type { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
@@ -14,7 +15,6 @@ import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
-import { ApiPromise } from '@polkadot/api';
 import { lightTheme } from '@polkadot/apps/themes';
 import { POLKADOT_GENESIS } from '@polkadot/apps-config';
 import { ApiCtx } from '@polkadot/react-api';

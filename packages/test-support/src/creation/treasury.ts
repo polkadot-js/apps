@@ -1,10 +1,10 @@
 // Copyright 2017-2023 @polkadot/test-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 
-import { ApiPromise } from '@polkadot/api';
 import { BN_ONE, BN_ZERO } from '@polkadot/util';
 
 import { alice, bob } from '../keyring/addresses.js';

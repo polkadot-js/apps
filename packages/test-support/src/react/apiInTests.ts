@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PropsWithChildren } from 'react';
-
-import React from 'react';
+import type React from 'react';
 
 import { useApi } from '@polkadot/react-hooks';
 

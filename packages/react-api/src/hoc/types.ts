@@ -1,9 +1,8 @@
 // Copyright 2017-2023 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type React from 'react';
 import type { OnChangeCb } from '../types.js';
-
-import React from 'react';
 
 export type Transform = (value: any, index: number) => any;
 
