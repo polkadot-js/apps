@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React from 'react';
+import type React from 'react';
 
 type HOC = (Component: React.ComponentType<any>) => React.ComponentType<any>;
 

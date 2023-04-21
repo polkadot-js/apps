@@ -1,12 +1,12 @@
 // Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { BN } from '@polkadot/util';
 
 import { useEffect, useState } from 'react';
 
-import { ApiPromise } from '@polkadot/api';
 import { arrayShuffle } from '@polkadot/util';
 
 import { createNamedHook } from './createNamedHook.js';

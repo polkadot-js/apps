@@ -1,7 +1,9 @@
 // Copyright 2017-2023 @polkadot/app-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BN, formatBalance } from '@polkadot/util';
+import type { BN } from '@polkadot/util';
+
+import { formatBalance } from '@polkadot/util';
 
 interface FormatOptions {
   decimals: number;

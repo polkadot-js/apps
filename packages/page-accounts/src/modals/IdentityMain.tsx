@@ -1,12 +1,12 @@
 // Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { Data, Option } from '@polkadot/types';
 import type { IdentityInfo, Registration } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
 
-import { ApiPromise } from '@polkadot/api';
 import { Input, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { getAddressMeta } from '@polkadot/react-components/util';
 import { useApi, useCall } from '@polkadot/react-hooks';
