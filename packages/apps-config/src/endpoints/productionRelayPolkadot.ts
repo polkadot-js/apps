@@ -634,7 +634,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'watr',
     paraId: 2058,
     providers: {
-      Watr: 'wss://rpc.watr.org'
+      // Watr: 'wss://rpc.watr.org' // https://github.com/polkadot-js/apps/issues/9361
     },
     text: 'Watr Network',
     ui: {
