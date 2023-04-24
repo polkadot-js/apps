@@ -104,7 +104,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoBitgreen',
     paraId: 20048,
     providers: {
-      Bitgreen: 'wss://staging.bitgreen.org'
+      // Bitgreen: 'wss://staging.bitgreen.org' // https://github.com/polkadot-js/apps/issues/9369
     },
     text: 'Bitgreen',
     ui: {
