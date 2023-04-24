@@ -1,10 +1,20 @@
 # CHANGELOG
 
-## master
+## 0.128.1 Apr 24, 2023
+
+Contributed:
+
+- Update Manta endpoint (Thanks to https://github.com/grenade)
+- Update Mangata endpoints (Thanks to https://github.com/tenequm)
+- Update Rococo Basilisk endpoint (Thanks to https://github.com/mrq1911)
+- Add Rococo MD5 endpoint (Thanks to https://github.com/sebastianmontero)
+- Add Stakeworld Kusama endpoint (Thanks to https://github.com/stakeworld)
+- Add LuckyFriday Kusama & Statemine endpoints (Thanks to https://github.com/paradox-tt)
 
 Changes:
 
 - Link to IPFS version from development URL
+- Disable unreachable endpoints
 
 
 ## 0.127.1 Apr 16, 2023
