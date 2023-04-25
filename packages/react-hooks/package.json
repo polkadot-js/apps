@@ -19,5 +19,10 @@
     "@polkadot/hw-ledger": "^12.0.1",
     "@polkadot/hw-ledger-transports": "^12.0.1",
     "is-ipfs": "^8.0.1"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*",
+    "react-is": "*"
   }
 }

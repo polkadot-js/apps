@@ -26,5 +26,10 @@
     "@polkadot/rpc-provider": "^10.4.1",
     "fflate": "^0.7.4",
     "rxjs": "^7.8.0"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*",
+    "react-is": "*"
   }
 }

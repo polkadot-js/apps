@@ -27,7 +27,7 @@ export interface Options {
   withIndicator?: boolean;
 }
 
-export type RenderFn = (value?: any) => React.ReactNode;
+export type RenderFn = (value?: any) => any;
 
 export type StorageTransform = (input: any, index: number) => unknown | null;
 
