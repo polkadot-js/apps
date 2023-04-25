@@ -18,5 +18,10 @@
   "dependencies": {
     "@polkadot/hw-ledger": "^12.0.1",
     "@polkadot/react-components": "^0.128.2-0-x"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*",
+    "react-is": "*"
   }
 }

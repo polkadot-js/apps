@@ -19,5 +19,10 @@
     "@polkadot/react-components": "^0.128.2-0-x",
     "@polkadot/react-params": "^0.128.2-0-x",
     "@polkadot/react-signer": "^0.128.2-0-x"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*",
+    "react-is": "*"
   }
 }

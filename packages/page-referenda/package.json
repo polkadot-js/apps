@@ -17,5 +17,10 @@
   "version": "0.128.2-0-x",
   "devDependencies": {
     "chart.js": "^4.2.1"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*",
+    "react-is": "*"
   }
 }

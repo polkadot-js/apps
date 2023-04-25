@@ -18,5 +18,10 @@
   "dependencies": {
     "@polkadot/api-contract": "^10.4.1",
     "eventemitter3": "^5.0.0"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*",
+    "react-is": "*"
   }
 }
