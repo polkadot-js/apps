@@ -206,7 +206,12 @@ class InputAddress extends React.PureComponent<Props, State> {
             : this.onChange
         }
         onSearch={this.onSearch}
-        options={actualOptions}
+        options={
+          // FIXME: this is a "bit" of a HACK - the issue is that the "null"
+          // value from Option is not correct for the supplied type. (This
+          // originates in the ui repo for the KeyringOption)
+          actualOptions as unknown as React.ReactNode[]
+        }
         placeholder={placeholder}
         renderLabel={
           isMultiple

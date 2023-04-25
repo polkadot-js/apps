@@ -1,6 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DropdownItemProps } from 'semantic-ui-react';
 import type { ApiPromise } from '@polkadot/api';
 import type { AbiMessage } from '@polkadot/api-contract/types';
 
@@ -35,7 +36,7 @@ export function getContractForAddress (api: ApiPromise, address: string | null):
   }
 }
 
-export function getCallMessageOptions (callContract: ContractPromise | null): unknown[] {
+export function getCallMessageOptions (callContract: ContractPromise | null): DropdownItemProps[] {
   return callContract
     ? callContract.abi.messages.map((m, index) => ({
       key: m.identifier,

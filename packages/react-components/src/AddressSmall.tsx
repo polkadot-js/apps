@@ -20,7 +20,7 @@ interface Props {
   withSidebar?: boolean;
   withShortAddress?: boolean;
   toggle?: unknown;
-  value?: string | Address | AccountId | null | Uint8Array;
+  value?: string | Address | AccountId | null;
 }
 
 function AddressSmall ({ children, className = '', defaultName, onClickName, overrideName, parentAddress, toggle, value, withShortAddress = false, withSidebar = true }: Props): React.ReactElement<Props> {
@@ -46,12 +46,12 @@ function AddressSmall ({ children, className = '', defaultName, onClickName, ove
         >
           {children}
         </AccountName>
-        {withShortAddress && (
+        {value && withShortAddress && (
           <div
             className='shortAddress'
             data-testid='short-address'
           >
-            {value}
+            {value.toString()}
           </div>
         )}
       </span>
