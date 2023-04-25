@@ -1852,7 +1852,6 @@ __metadata:
   dependencies:
     "@polkadot/dev": ^0.73.2
     "@polkadot/react-components": ^0.128.2-0-x
-    "@types/react-dom": ^18.0.11
     "@types/tmp": ^0.2.3
     copy-webpack-plugin: ^11.0.0
     electron-log: ^5.0.0-beta.23
@@ -2161,6 +2160,7 @@ __metadata:
     "@types/codeflask": ^1.4.3
     "@types/owasp-password-strength-test": ^1.3.0
     "@types/react": ^18.0.38
+    "@types/react-dom": ^18.0.11
     chart.js: ^4.2.1
     chartjs-plugin-annotation: ^2.2.1
     chartjs-plugin-crosshair: ^1.2.0
@@ -2168,14 +2168,11 @@ __metadata:
     i18next: ^22.4.15
     i18next-browser-languagedetector: ^7.0.1
     owasp-password-strength-test: ^1.3.0
-    react: ^18.2.0
     react-beautiful-dnd: ^13.1.1
     react-chartjs-2: ^5.2.0
     react-copy-to-clipboard: ^5.1.0
-    react-dom: ^18.2.0
     react-dropzone: ^14.2.3
     react-i18next: ^12.2.2
-    react-is: ^18.2.0
     react-markdown: ^8.0.7
     react-router: ^6.10.0
     react-router-dom: ^6.10.0
@@ -2185,6 +2182,10 @@ __metadata:
     semantic-ui-react: ^0.88.2
     store: ^2.0.12
     styled-theming: ^2.2.0
+  peerDependencies:
+    react: "*"
+    react-dom: "*"
+    react-is: "*"
   languageName: unknown
   linkType: soft
 
@@ -3532,18 +3533,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*":
-  version: 17.0.44
-  resolution: "@types/react@npm:17.0.44"
-  dependencies:
-    "@types/prop-types": "*"
-    "@types/scheduler": "*"
-    csstype: ^3.0.2
-  checksum: ebee02778ca08f954c316dc907802264e0121c87b8fa2e7e0156ab0ef2a1b0a09d968c016a3600ec4c9a17dc09b4274f292d9b15a1a5369bb7e4072def82808f
-  languageName: node
-  linkType: hard
-
-"@types/react@npm:^18.0.38":
+"@types/react@npm:*, @types/react@npm:^18.0.38":
   version: 18.0.38
   resolution: "@types/react@npm:18.0.38"
   dependencies:

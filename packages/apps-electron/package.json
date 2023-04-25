@@ -24,7 +24,6 @@
     "react-is": "^18.2.0"
   },
   "devDependencies": {
-    "@types/react-dom": "^18.0.11",
     "@types/tmp": "^0.2.3",
     "copy-webpack-plugin": "^11.0.0",
     "html-webpack-plugin": "^5.5.1",

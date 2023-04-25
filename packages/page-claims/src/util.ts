@@ -78,7 +78,7 @@ export function recoverAddress (message: string, { recovery, signature }: Signat
   const senderPubKey = secp256k1.recover(msgHash, signature, recovery);
 
   return publicToAddr(
-    secp256k1.publicKeyConvert(senderPubKey, false).slice(1)
+    secp256k1.publicKeyConvert(senderPubKey, false).subarray(1)
   );
 }
 
