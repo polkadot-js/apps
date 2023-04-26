@@ -127,7 +127,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'centrifuge',
     paraId: 2031,
     providers: {
-      // Centrifuge: 'wss://fullnode.parachain.centrifuge.io', // https://github.com/polkadot-js/apps/issues/9366
+      Centrifuge: 'wss://fullnode.centrifuge.io',
       OnFinality: 'wss://centrifuge-parachain.api.onfinality.io/public-ws'
     },
     text: 'Centrifuge',
