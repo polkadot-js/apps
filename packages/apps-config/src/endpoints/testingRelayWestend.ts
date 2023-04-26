@@ -63,19 +63,6 @@ export const testParasWestend: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://darwinia.network/',
-    info: 'pangoro',
-    paraId: 2102,
-    providers: {
-      // Darwinia: 'wss://pangoro-parachain-rpc.darwinia.network' // https://github.com/polkadot-js/apps/issues/6530
-    },
-    text: 'Pangoro',
-    ui: {
-      color: '#4B30DD',
-      logo: nodesPangoroSVG
-    }
-  },
-  {
     homepage: 'https://kylin.network/',
     info: 'westendPichiu',
     paraId: 2112,

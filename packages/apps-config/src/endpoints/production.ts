@@ -153,18 +153,6 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'darwinia',
-    providers: {
-      'Darwinia Network': 'wss://rpc.darwinia.network',
-      Dwellir: 'wss://darwinia-rpc.dwellir.com'
-    },
-    text: 'Darwinia',
-    ui: {
-      color: '#FF0083',
-      logo: nodesDarwiniaSVG
-    }
-  },
-  {
     info: 'debio',
     providers: {
       DeBio: 'wss://ws-rpc.debio.network'
