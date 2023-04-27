@@ -1,17 +1,17 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { RewardDestination } from '@polkadot/types/interfaces';
-import type { DestinationType } from '../types';
+import type { DestinationType } from '../types.js';
 
 import React, { useMemo, useState } from 'react';
 
 import { Dropdown, InputAddress, MarkError, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../../translate';
-import { createDestCurr } from '../destOptions';
+import { useTranslation } from '../../translate.js';
+import { createDestCurr } from '../destOptions.js';
 
 interface Props {
   defaultDestination?: RewardDestination;
@@ -50,7 +50,6 @@ function SetRewardDestination ({ controllerId, defaultDestination, onClose, stas
           />
           <InputAddress
             defaultValue={controllerId}
-            help={t<string>('The controller is the account that is be used to control any nominating or validating actions. I will sign this transaction.')}
             isDisabled
             label={t<string>('controller account')}
           />
@@ -58,7 +57,6 @@ function SetRewardDestination ({ controllerId, defaultDestination, onClose, stas
         <Modal.Columns hint={t<string>('All rewards will go towards the selected output destination when a payout is made.')}>
           <Dropdown
             defaultValue={defaultDestination?.toString()}
-            help={t<string>('The destination account for any payments as either a nominator or validator')}
             label={t<string>('payment destination')}
             onChange={setDestination}
             options={options}
@@ -66,8 +64,7 @@ function SetRewardDestination ({ controllerId, defaultDestination, onClose, stas
           />
           {isAccount && (
             <InputAddress
-              help={t('An account that is to receive the rewards')}
-              label={t('the payment account')}
+              label={t<string>('the payment account')}
               onChange={setDestAccount}
               type='account'
               value={destAccount}

@@ -3,9 +3,10 @@
 
 import React from 'react';
 
-import { useTranslation } from '@polkadot/app-explorer/translate';
 import { CardSummary } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
+
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;

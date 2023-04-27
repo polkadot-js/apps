@@ -1,13 +1,13 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DefinitionRpcExt } from '@polkadot/types/types';
-import type { DropdownOption } from '../util/types';
+import type { DropdownOption } from '../util/types.js';
 
 import React, { useCallback } from 'react';
 
-import Dropdown from '../Dropdown';
-import useRpcs from './useRpcs';
+import Dropdown from '../Dropdown.js';
+import useRpcs from './useRpcs.js';
 
 interface Props {
   className?: string;
@@ -31,7 +31,7 @@ function SelectMethod ({ className = '', isError, onChange, options, value }: Pr
 
   return (
     <Dropdown
-      className={`ui--DropdownLinked-Items ${className}`}
+      className={`${className} ui--DropdownLinked-Items`}
       isError={isError}
       onChange={onChange}
       options={options}

@@ -15,6 +15,8 @@
   "Remove item": "Remove item",
   "Yes": "Yes",
   "aye: bool": "aye: bool",
+  "call hash / {{section}}.{{method}}": "call hash / {{section}}.{{method}}",
+  "click to select or drag and drop JSON key/value (hex-encoded) file": "click to select or drag and drop JSON key/value (hex-encoded) file",
   "conviction: Conviction": "conviction: Conviction",
   "details": "details",
   "file upload": "file upload",

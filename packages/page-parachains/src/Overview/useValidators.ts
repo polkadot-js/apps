@@ -1,8 +1,8 @@
-// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, CoreAssignment, GroupIndex, ParaId, ParaValidatorIndex } from '@polkadot/types/interfaces';
-import type { ValidatorInfo } from './types';
+import type { ValidatorInfo } from './types.js';
 
 import { useEffect, useMemo, useState } from 'react';
 

@@ -1,5 +1,8 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
+  "engines": {
+    "node": ">=14"
+  },
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-settings#readme",
   "license": "Apache-2.0",
   "name": "@polkadot/app-settings",
@@ -11,12 +14,11 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.122.3-70-x",
+  "version": "0.127.2-2-x",
   "dependencies": {
-    "@babel/runtime": "^7.20.1",
-    "@polkadot/apps-config": "^0.122.3-70-x",
-    "@polkadot/react-components": "^0.122.3-70-x",
-    "@polkadot/react-query": "^0.122.3-70-x",
-    "query-string": "^7.1.1"
+    "@polkadot/apps-config": "^0.127.2-2-x",
+    "@polkadot/react-components": "^0.127.2-2-x",
+    "@polkadot/react-query": "^0.127.2-2-x",
+    "query-string": "^8.1.0"
   }
 }

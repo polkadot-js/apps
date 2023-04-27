@@ -1,8 +1,8 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from '../types';
-import type { LinkOption } from './types';
+import type { TFunction } from '../types.js';
+import type { LinkOption } from './types.js';
 
 export const CUSTOM_ENDPOINT_KEY = 'polkadot-app-custom-endpoints';
 
@@ -25,12 +25,14 @@ export function createCustom (t: TFunction): LinkOption[] {
         isHeader: true,
         text: t('rpc.dev.custom', 'Custom environment', { ns: 'apps-config' }),
         textBy: '',
+        ui: {},
         value: ''
       },
       {
         info: 'WS_URL',
         text: t('rpc.dev.custom.entry', 'Custom {{WS_URL}}', { ns: 'apps-config', replace: { WS_URL } }),
         textBy: WS_URL,
+        ui: {},
         value: WS_URL
       }
     ]
@@ -51,6 +53,7 @@ export function createOwn (t: TFunction): LinkOption[] {
         info: 'local',
         text: t('rpc.dev.custom.own', 'Custom', { ns: 'apps-config' }),
         textBy,
+        ui: {},
         value: textBy
       }));
     }
@@ -68,6 +71,7 @@ export function createDev (t: TFunction): LinkOption[] {
       info: 'local',
       text: t('rpc.dev.local', 'Local Node', { ns: 'apps-config' }),
       textBy: '127.0.0.1:9944',
+      ui: {},
       value: 'ws://127.0.0.1:9944'
     }
   ];

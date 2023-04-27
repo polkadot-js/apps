@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-extrinsics authors & contributors
+// Copyright 2017-2023 @polkadot/app-extrinsics authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Props, RawParam } from '@polkadot/react-params/types';
@@ -7,8 +7,8 @@ import React, { useCallback, useState } from 'react';
 
 import { useApi } from '@polkadot/react-hooks';
 
-import { extractInitial } from './Call';
-import ExtrinsicDisplay from './Extrinsic';
+import { extractInitial } from './Call.js';
+import ExtrinsicDisplay from './Extrinsic.js';
 
 function ProposalDisplay ({ className = '', defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
   const { api, apiDefaultTxSudo } = useApi();

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, BountyIndex } from '@polkadot/types/interfaces';
@@ -7,9 +7,9 @@ import React from 'react';
 
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 
-import { truncateTitle } from '../helpers';
-import { useBounties } from '../hooks';
-import { useTranslation } from '../translate';
+import { truncateTitle } from '../helpers/index.js';
+import { useBounties } from '../hooks/index.js';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   curatorId: AccountId;
@@ -31,7 +31,6 @@ function BountyGiveUpCurator ({ curatorId, description, index, toggleOpen }: Pro
       <Modal.Content>
         <Modal.Columns hint={t<string>('You are giving up your curator role, the bounty will return to the Funded state. You will get your deposit back.')}>
           <InputAddress
-            help={t<string>('The Curator account that will give up on it\'s role.')}
             isDisabled
             label={t<string>('curator account')}
             type='account'

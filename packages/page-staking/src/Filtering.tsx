@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import queryString from 'query-string';
@@ -8,7 +8,7 @@ import { Input, Toggle } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { isString } from '@polkadot/util';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   children?: React.ReactNode;

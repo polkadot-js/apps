@@ -1,18 +1,17 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
-import type { ModalProps } from '../types';
+import type { ModalProps } from '../types.js';
 
-import React, { useCallback, useState } from 'react';
-import styled from 'styled-components';
+import React, { useCallback, useMemo, useState } from 'react';
 
-import { AddressRow, Button, Input, InputAddress, MarkWarning, Modal, QrScanAddress } from '@polkadot/react-components';
+import { AddressRow, Button, Input, InputAddress, MarkWarning, Modal, QrScanAddress, styled } from '@polkadot/react-components';
 import { useApi, useIpfs } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 
-import { useTranslation } from '../translate';
-import PasswordInput from './PasswordInput';
+import { useTranslation } from '../translate.js';
+import PasswordInput from './PasswordInput.js';
 
 interface Scanned {
   content: string;
@@ -31,7 +30,7 @@ interface Address {
   address: string;
   isAddress: boolean;
   scanned: Scanned | null;
-  warning?: string;
+  warning?: string | null;
 }
 
 function QrModal ({ className = '', onClose, onStatusChange }: Props): React.ReactElement<Props> {
@@ -43,6 +42,11 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
   const [{ isPasswordValid, password }, setPassword] = useState({ isPasswordValid: false, password: '' });
 
   const isValid = !!address && isNameValid && (isAddress || isPasswordValid);
+
+  const scannedGenesisWarn = useMemo(
+    () => !!scanned && !!scanned.genesisHash && !api.genesisHash.eq(scanned.genesisHash),
+    [scanned, api]
+  );
 
   const _onNameChange = useCallback(
     (name: string) => setName({ isNameValid: !!name.trim(), name }),
@@ -112,7 +116,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
   );
 
   return (
-    <Modal
+    <StyledModal
       className={className}
       header={t<string>('Add account via Qr')}
       onClose={onClose}
@@ -133,13 +137,15 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
                 <Input
                   autoFocus
                   className='full'
-                  help={t<string>('Name given to this account. You can change it at any point in the future.')}
                   isError={!isNameValid}
                   label={t<string>('name')}
                   onChange={_onNameChange}
                   onEnter={_onSave}
                   value={name}
                 />
+                {scannedGenesisWarn && (
+                  <MarkWarning content={t<string>('The genesisHash for the scanned account does not match the genesisHash of the connected chain. The account will not be usable on this chain.')} />
+                )}
               </Modal.Columns>
               {!isAddress && (
                 <PasswordInput
@@ -171,13 +177,15 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
           onClick={_onSave}
         />
       </Modal.Actions>
-    </Modal>
+    </StyledModal>
   );
 }
 
-export default React.memo(styled(QrModal)`
+const StyledModal = styled(Modal)`
   .qr-wrapper {
     margin: 0 auto;
     max-width: 30rem;
   }
-`);
+`;
+
+export default React.memo(QrModal);

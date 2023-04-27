@@ -1,10 +1,10 @@
-// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
 import type { AccountId, BalanceOf, ParaId } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
-import type { LeaseInfo } from '../types';
+import type { LeaseInfo } from '../types.js';
 
 import { useCallback } from 'react';
 

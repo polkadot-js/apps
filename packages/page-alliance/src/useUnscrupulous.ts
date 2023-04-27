@@ -1,9 +1,9 @@
-// Copyright 2017-2022 @polkadot/app-alliance authors & contributors
+// Copyright 2017-2023 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Bytes } from '@polkadot/types';
 import type { AccountId32 } from '@polkadot/types/interfaces';
-import type { Unscrupulous } from './types';
+import type { Unscrupulous } from './types.js';
 
 import { useMemo } from 'react';
 

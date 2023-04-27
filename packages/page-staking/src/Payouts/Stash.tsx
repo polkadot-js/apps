@@ -1,20 +1,17 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { PayoutStash } from './types';
+import type { PayoutStash } from './types.js';
 
 import React, { useEffect, useState } from 'react';
 
-import { AddressSmall } from '@polkadot/react-components';
-import { BlockToTime, FormatBalance } from '@polkadot/react-query';
+import { AddressSmall, Table } from '@polkadot/react-components';
 
-import useEraBlocks from './useEraBlocks';
-import { createErasString } from './util';
+import { createErasString } from './util.js';
 
 interface Props {
   className?: string;
-  historyDepth?: BN;
   payout: PayoutStash;
 }
 
@@ -23,9 +20,8 @@ interface EraInfo {
   oldestEra?: BN;
 }
 
-function Stash ({ className = '', historyDepth, payout: { available, rewards, stashId } }: Props): React.ReactElement<Props> {
-  const [{ eraStr, oldestEra }, setEraInfo] = useState<EraInfo>({ eraStr: '' });
-  const eraBlocks = useEraBlocks(historyDepth, oldestEra);
+function Stash ({ className = '', payout: { available, rewards, stashId } }: Props): React.ReactElement<Props> {
+  const [{ eraStr }, setEraInfo] = useState<EraInfo>({ eraStr: '' });
 
   useEffect((): void => {
     rewards && setEraInfo({
@@ -45,8 +41,8 @@ function Stash ({ className = '', historyDepth, payout: { available, rewards, st
       <td className='start'>
         <span className='payout-eras'>{eraStr}</span>
       </td>
-      <td className='number'><FormatBalance value={available} /></td>
-      <td className='number'>{eraBlocks && <BlockToTime value={eraBlocks} />}</td>
+      <Table.Column.Balance value={available} />
+      <td className='number' />
       <td
         className='button'
         colSpan={3}

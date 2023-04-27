@@ -1,19 +1,19 @@
-// Copyright 2017-2022 @polkadot/app-nfts authors & contributors
+// Copyright 2017-2023 @polkadot/app-nfts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import '@polkadot/api-augment/substrate';
 
 import React, { useMemo, useRef } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 
-import AccountItems from './AccountItems';
-import Overview from './Overview';
-import { useTranslation } from './translate';
-import useCollectionIds from './useCollectionIds';
-import useCollectionInfos from './useCollectionInfos';
+import AccountItems from './AccountItems/index.js';
+import Overview from './Overview/index.js';
+import { useTranslation } from './translate.js';
+import useCollectionIds from './useCollectionIds.js';
+import useCollectionInfos from './useCollectionInfos.js';
 
 interface Props {
   basePath: string;
@@ -52,17 +52,25 @@ function NftApp ({ basePath, className }: Props): React.ReactElement<Props> {
         hidden={hidden}
         items={tabsRef.current}
       />
-      <Switch>
-        <Route path={`${basePath}/my-nfts`}>
-          <AccountItems infos={infos} />
-        </Route>
-        <Route>
-          <Overview
-            ids={ids}
-            infos={infos}
+      <Routes>
+        <Route path={basePath}>
+          <Route
+            element={
+              <AccountItems infos={infos} />
+            }
+            path='my-nfts'
+          />
+          <Route
+            element={
+              <Overview
+                ids={ids}
+                infos={infos}
+              />
+            }
+            index
           />
         </Route>
-      </Switch>
+      </Routes>
     </main>
   );
 }

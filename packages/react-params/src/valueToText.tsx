@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Keys, ValidatorId } from '@polkadot/types/interfaces';
@@ -17,7 +17,7 @@ interface DivProps {
 function div ({ className = '', key }: DivProps, ...values: React.ReactNode[]): React.ReactNode {
   return (
     <div
-      className={`ui--Param-text ${className}`}
+      className={`${className} ui--Param-text`}
       key={key}
     >
       {values}

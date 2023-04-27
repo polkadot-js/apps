@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -6,8 +6,8 @@ import React from 'react';
 import { Button } from '@polkadot/react-components';
 import { useAccounts, useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import Propose from './Propose';
+import { useTranslation } from '../translate.js';
+import Propose from './Propose.js';
 
 interface Props {
   className?: string;

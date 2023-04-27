@@ -1,9 +1,10 @@
-// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import type { DeriveBounties } from '@polkadot/api-derive/types';
 
 import { useMemo } from 'react';
 
-import { DeriveBounties } from '@polkadot/api-derive/types';
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
 function useCounterImpl (): number {

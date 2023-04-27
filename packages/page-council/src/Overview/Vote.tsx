@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-council authors & contributors
+// Copyright 2017-2023 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveElectionsInfo } from '@polkadot/api-derive/types';
@@ -10,8 +10,8 @@ import { Button, InputAddress, InputAddressMulti, InputBalance, Modal, TxButton,
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import { useModuleElections } from '../useModuleElections';
+import { useTranslation } from '../translate.js';
+import { useModuleElections } from '../useModuleElections.js';
 
 interface Props {
   className?: string;
@@ -45,13 +45,16 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> | null {
   }, [electionsInfo]);
 
   useEffect((): void => {
-    accountId && api.derive.council.votesOf(accountId).then(({ votes }): void => {
-      setDefaultVotes(
-        votes
-          .map((a) => a.toString())
-          .filter((a) => available.includes(a))
-      );
-    });
+    accountId && api.derive.council
+      .votesOf(accountId)
+      .then(({ votes }): void => {
+        setDefaultVotes(
+          votes
+            .map((a) => a.toString())
+            .filter((a) => available.includes(a))
+        );
+      })
+      .catch(console.error);
   }, [api, accountId, available]);
 
   const bondValue = useMemo(
@@ -86,7 +89,6 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> | null {
           <Modal.Content>
             <Modal.Columns hint={t<string>('The vote will be recorded for the selected account.')}>
               <InputAddress
-                help={t<string>('This account will be use to approve each candidate.')}
                 label={t<string>('voting account')}
                 onChange={setAccountId}
                 type='account'
@@ -95,7 +97,6 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> | null {
             <Modal.Columns hint={t<string>('The value associated with this vote. The amount will be locked (not available for transfer) and used in all subsequent elections.')}>
               <VoteValue
                 accountId={accountId}
-                isCouncil
                 onChange={setVoteValue}
               />
             </Modal.Columns>
@@ -111,17 +112,15 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> | null {
                 available={available}
                 availableLabel={t<string>('council candidates')}
                 defaultValue={defaultVotes}
-                help={t<string>('Select and order council candidates you wish to vote for.')}
                 maxCount={MAX_VOTES}
                 onChange={setVotes}
                 valueLabel={t<string>('my ordered votes')}
               />
             </Modal.Columns>
             {bondValue && (
-              <Modal.Columns hint={t('The amount will be reserved for the duration of your vote')}>
+              <Modal.Columns hint={t<string>('The amount will be reserved for the duration of your vote')}>
                 <InputBalance
                   defaultValue={bondValue}
-                  help={t<string>('The amount that is reserved')}
                   isDisabled
                   label={t<string>('voting bond')}
                 />

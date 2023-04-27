@@ -3,8 +3,9 @@
 
 import { useMemo } from 'react';
 
-import useErasStartSessionIndexLookup from '@polkadot/app-staking/Performance/useErasStartSessionIndexLookup';
 import { createNamedHook } from '@polkadot/react-hooks';
+
+import useErasStartSessionIndexLookup from './useErasStartSessionIndexLookup.js';
 
 function useEraImpl (inputSession?: number) {
   const erasStartSessionIndexLookup = useErasStartSessionIndexLookup();

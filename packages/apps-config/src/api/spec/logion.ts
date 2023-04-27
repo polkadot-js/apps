@@ -1,12 +1,12 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
-
-import type { OverrideBundleDefinition } from '@polkadot/types/types';
-
-import logionDefault, { session as logionSession } from '@logion/node-api/dist/interfaces/definitions';
 
 // structs need to be in order
 /* eslint-disable sort-keys */
+
+import type { OverrideBundleDefinition } from '@polkadot/types/types';
+
+import logionDefault, { session as logionSession } from '@logion/node-api/dist/interfaces/definitions.js';
 
 const defaultTypesUpTo109 = {
   Address: 'MultiAddress',

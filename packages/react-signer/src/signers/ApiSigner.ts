@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-signer authors & contributors
+// Copyright 2017-2023 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableResult } from '@polkadot/api';
@@ -7,7 +7,7 @@ import type { QueueTxMessageSetStatus, QueueTxPayloadAdd, QueueTxStatus } from '
 import type { Hash } from '@polkadot/types/interfaces';
 import type { Registry, SignerPayloadJSON } from '@polkadot/types/types';
 
-export default class ApiSigner implements Signer {
+export class ApiSigner implements Signer {
   readonly #queuePayload: QueueTxPayloadAdd;
   readonly #queueSetTxStatus: QueueTxMessageSetStatus;
   readonly #registry: Registry;
@@ -20,7 +20,7 @@ export default class ApiSigner implements Signer {
 
   public async signPayload (payload: SignerPayloadJSON): Promise<SignerResult> {
     return new Promise((resolve, reject): void => {
-      this.#queuePayload(this.#registry, payload, (id: number, result: SignerResult | null): void => {
+      this.#queuePayload(this.#registry, payload, (_id: number, result: SignerResult | null): void => {
         if (result) {
           resolve(result);
         } else {
@@ -34,7 +34,7 @@ export default class ApiSigner implements Signer {
     if (result instanceof this.#registry.createClass('Hash')) {
       this.#queueSetTxStatus(id, 'sent', result.toHex());
     } else {
-      this.#queueSetTxStatus(id, result.status.type.toLowerCase() as QueueTxStatus, status);
+      this.#queueSetTxStatus(id, result.status.type.toLowerCase() as QueueTxStatus, result);
     }
   }
 }

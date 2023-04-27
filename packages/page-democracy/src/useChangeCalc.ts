@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { VoteThreshold } from '@polkadot/types/interfaces';
@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import { approxChanges } from './util';
+import { approxChanges } from './util.js';
 
 interface Result {
   changeAye: BN;

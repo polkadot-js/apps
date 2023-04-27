@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-society authors & contributors
+// Copyright 2017-2023 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSocietyCandidate } from '@polkadot/api-derive/types';
@@ -7,8 +7,8 @@ import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
-import Candidate from './Candidate';
+import { useTranslation } from '../translate.js';
+import Candidate from './Candidate.js';
 
 interface Props {
   allMembers: string[];
@@ -21,10 +21,10 @@ interface Props {
 function Candidates ({ allMembers, candidates, className = '', isMember, ownMembers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const headerRef = useRef([
-    [t('candidates'), 'start'],
-    [t('bid kind'), 'start', 2],
-    [t('value')],
+  const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
+    [t<string>('candidates'), 'start'],
+    [t<string>('bid kind'), 'start'],
+    [t<string>('value')],
     [undefined, 'expand'],
     []
   ]);

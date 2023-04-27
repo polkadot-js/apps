@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, MemberCount } from '@polkadot/types/interfaces';
@@ -7,7 +7,7 @@ import React, { useCallback, useMemo } from 'react';
 
 import { AddressMini, ExpanderScroll } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   isAye?: boolean;

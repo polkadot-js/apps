@@ -5,10 +5,10 @@ import React, { useRef, useState } from 'react';
 
 import { Table } from '@polkadot/react-components';
 
-import Filtering from '../Filtering';
-import { useTranslation } from '../translate';
-import Address from './Address';
-import { SuspensionEvent } from './index';
+import Filtering from '../Filtering.js';
+import { useTranslation } from '../translate.js';
+import Address from './Address/index.js';
+import { SuspensionEvent } from './index.js';
 
 interface Props {
   suspensions: SuspensionEvent[] | undefined,
@@ -18,13 +18,13 @@ function CurrentList ({ suspensions }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [nameFilter, setNameFilter] = useState<string>('');
 
-  const headerRef = useRef(
+  const headerRef = useRef<[string, string, number?][]>(
     [
-      [t('suspensions'), 'start', 1],
-      [t('start era'), 'expand'],
-      [t('end era'), 'expand'],
-      [t('reason'), 'expand'],
-      [t('stats'), 'expand']
+      [t<string>('suspensions'), 'start', 1],
+      [t<string>('start era'), 'expand'],
+      [t<string>('end era'), 'expand'],
+      [t<string>('reason'), 'expand'],
+      [t<string>('stats'), 'expand']
     ]
   );
 

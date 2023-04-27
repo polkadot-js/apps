@@ -1,15 +1,16 @@
-// Copyright 2017-2022 @polkadot/app-preimages authors & contributors
+// Copyright 2017-2023 @polkadot/app-preimages authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
 
 import React from 'react';
 
-import { CallExpander } from '@polkadot/react-components';
+import { usePreimage } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import usePreimage from '../usePreimage';
+import Call from './Call.js';
+import Free from './Free.js';
+import Hash from './Hash.js';
 
 interface Props {
   className?: string;
@@ -17,28 +18,26 @@ interface Props {
 }
 
 function Preimage ({ className, value }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
   const info = usePreimage(value);
 
   return (
-    <tr className={ className }>
-      <td>{value}</td>
-      <td className='all'>
-        {info && info.proposal && (
-          <CallExpander
-            labelHash={t<string>('proposal')}
-            value={info.proposal}
-          />
-        )}
+    <tr className={className}>
+      <Hash value={value} />
+      <Call value={info} />
+      <td className='number media--1000'>
+        {info && info.proposalLength
+          ? formatNumber(info.proposalLength)
+          : <span className='--tmp'>999,999</span>}
       </td>
-      <td className='number'>
-        {info && info.bytes && formatNumber(info.bytes.length)}
-      </td>
-      <td className='number'>
-        {info && info.status && info.status.type}
-      </td>
-      <td className='number'>
-        {info && info.count !== 0 && formatNumber(info.count)}
+      <td className='preimageStatus together media--1200'>
+        {info
+          ? (
+            <>
+              {info.status && (<div>{info.status?.type}{info.count !== 0 && <>&nbsp;/&nbsp;{formatNumber(info.count)}</>}</div>)}
+              <Free value={info} />
+            </>
+          )
+          : <span className='--tmp'>Unrequested</span>}
       </td>
     </tr>
   );

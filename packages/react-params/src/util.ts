@@ -1,8 +1,8 @@
-// Copyright 2017-2022 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletAllianceCid } from '@polkadot/types/lookup';
-import type { ExpandedCid } from './types';
+import type { ExpandedCid } from './types.js';
 
 import { CID, digest, varint } from 'multiformats';
 

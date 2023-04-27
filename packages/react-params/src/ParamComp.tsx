@@ -1,12 +1,12 @@
-// Copyright 2017-2022 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry, TypeDef } from '@polkadot/types/types';
-import type { ComponentMap, RawParam, RawParamOnChangeValue, RawParams } from './types';
+import type { ComponentMap, RawParam, RawParamOnChangeValue, RawParams } from './types.js';
 
 import React, { useCallback } from 'react';
 
-import Param from './Param';
+import Param from './Param/index.js';
 
 interface Props {
   defaultValue: RawParam;

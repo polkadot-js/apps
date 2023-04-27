@@ -1,19 +1,19 @@
-// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParaId } from '@polkadot/types/interfaces';
-import type { ScheduledProposals } from '../types';
+import type { ScheduledProposals } from '../types.js';
 
 import React, { useCallback, useMemo } from 'react';
 
-import { AddressMini, AddressSmall, Badge, Expander, ParaLink, TxButton } from '@polkadot/react-components';
+import { AddressMini, AddressSmall, Badge, Expander, ParaLink, Table, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useSudo } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import { sliceHex } from '../util';
-import useProposal from './useProposal';
+import { useTranslation } from '../translate.js';
+import { sliceHex } from '../util.js';
+import useProposal from './useProposal.js';
 
 interface Props {
   approvedIds: ParaId[];
@@ -59,7 +59,7 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
 
   return (
     <tr>
-      <td className='number together'><h1>{formatNumber(id)}</h1></td>
+      <Table.Column.Id value={id} />
       <td className='badge together'>
         {(proposal.isApproved || proposal.isScheduled) && (
           <Badge

@@ -3,11 +3,11 @@
 
 import React from 'react';
 
-import CurrentList from '@polkadot/app-staking/Suspensions/CurrentList';
 import { MarkWarning } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import useSuspensions from './Suspensions';
+import CurrentList from './CurrentList.js';
+import useSuspensions from './Suspensions.js';
 
 export interface SuspensionEvent {
   address: string;

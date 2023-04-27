@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-signer authors & contributors
+// Copyright 2017-2023 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -8,16 +8,16 @@ import React, { useEffect, useState } from 'react';
 import { InputBalance, Modal, Toggle } from '@polkadot/react-components';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;
-  onChange: (tip: BN) => void;
+  onChange: (tip?: BN) => void;
 }
 
 function Tip ({ className, onChange }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const [tip, setTip] = useState(BN_ZERO);
+  const [tip, setTip] = useState<BN | undefined>();
   const [showTip, setShowTip] = useState(false);
 
   useEffect((): void => {
@@ -41,7 +41,6 @@ function Tip ({ className, onChange }: Props): React.ReactElement<Props> | null 
       />
       {showTip && (
         <InputBalance
-          help={t<string>('Add a tip to this extrinsic, paying the block author for greater priority')}
           isZeroable
           label={t<string>('Tip (optional)')}
           onChange={setTip}

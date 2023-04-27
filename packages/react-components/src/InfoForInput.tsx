@@ -1,10 +1,10 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
 
-import Labelled from './Labelled';
+import Labelled from './Labelled.js';
+import { styled } from './styled.js';
 
 interface Props {
   children: React.ReactNode;
@@ -14,13 +14,13 @@ interface Props {
 
 function InfoForInput ({ children, className = '', type = 'info' }: Props): React.ReactElement<Props> {
   return (
-    <Labelled>
+    <StyledLabelled>
       <div className={`${className} ${type}`}>{children}</div>
-    </Labelled>
+    </StyledLabelled>
   );
 }
 
-export default React.memo(styled(InfoForInput)`
+const StyledLabelled = styled(Labelled)`
   background: white;
   border-radius: 0 0 0.25rem 0.25rem;
   margin: -0.5rem 0 0.25rem;
@@ -39,4 +39,6 @@ export default React.memo(styled(InfoForInput)`
     margin: 0;
     padding: 0;
   }
-`);
+`;
+
+export default React.memo(InfoForInput);

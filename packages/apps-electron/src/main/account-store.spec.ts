@@ -1,14 +1,20 @@
-// Copyright 2017-2022 @polkadot/apps authors & contributors
+// Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore Warned on by nodenext resolution (while package does build in bundler mode)
 import type { KeyringJson } from '@polkadot/ui-keyring/types';
 
 import * as tmp from 'tmp';
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore Warned on by nodenext resolution (while package does build in bundler mode)
 import { FileStore } from '@polkadot/ui-keyring/stores';
 
-import { accountStoreIpcHandler } from './account-store';
-import { IpcMainHandler } from './ipc-main-handler';
+import { accountStoreIpcHandler } from './account-store.js';
+import { IpcMainHandler } from './ipc-main-handler.js';
 
 const exampleAccount = (address: string): KeyringJson => ({
   address,
@@ -49,13 +55,13 @@ describe('Account store', () => {
   });
 
   it('get returns null if account does not exist', async () => {
-    jest.spyOn(console, 'error').mockImplementationOnce(() => { /**/ });
+    // jest.spyOn(console, 'error').mockImplementationOnce(() => { /**/ });
 
     expect(await accountStore['account-store-get']('1')).toEqual(null);
   });
 
   it('account disappears from list after it is removed', async () => {
-    jest.spyOn(console, 'error').mockImplementationOnce(() => { /**/ });
+    // jest.spyOn(console, 'error').mockImplementationOnce(() => { /**/ });
 
     await accountStore['account-store-set']('1', exampleAccount('a'));
     await accountStore['account-store-remove']('1');

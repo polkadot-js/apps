@@ -3,13 +3,14 @@
 
 import React, { useCallback, useMemo, useState } from 'react';
 
-import Performance from '@polkadot/app-staking/Performance/Performance';
-import useCurrentSessionInfo from '@polkadot/app-staking/Performance/useCurrentSessionInfo';
-import { useTranslation } from '@polkadot/app-staking/translate';
 import { Button, Input, MarkWarning, Spinner } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import useEra from './useEra';
+import { useTranslation } from '../translate.js';
+import HistoricPerformance from './HistoricPerformance.js';
+import Performance from './Performance.js';
+import useCurrentSessionInfo from './useCurrentSessionInfo.js';
+import useEra from './useEra.js';
 
 export interface SessionEra {
   session: number,
@@ -70,17 +71,14 @@ function PerformancePage (): React.ReactElement {
   );
 
   const help = useMemo(() => {
-    let msg = t<string>('Enter past session number.');
+    const constraints = [
+      typeof minimumSessionNumber === 'number' && `${t<string>('not smaller than')} ${minimumSessionNumber}`,
+      typeof currentSession === 'number' && `${t<string>('not greater than')} ${currentSession}`
+    ];
 
-    if (currentSession) {
-      msg += ' Current one is ' + currentSession.toString() + '.';
+    const msg = constraints.filter(Boolean).join(', ');
 
-      if (minimumSessionNumber) {
-        msg += ' Minimum session number is ' + minimumSessionNumber.toString() + '.';
-      }
-    }
-
-    return msg;
+    return msg && ` - ${msg}`;
   },
   [t, currentSession, minimumSessionNumber]
   );
@@ -103,9 +101,8 @@ function PerformancePage (): React.ReactElement {
         <div className='performance--actionrow-value'>
           <Input
             autoFocus
-            help={help}
             isError={!parsedSessionNumber}
-            label={t<string>('Session number')}
+            label={`${t<string>('Session number')} ${help}`}
             onChange={_onChangeKey}
             onEnter={_onAdd}
           />
@@ -119,9 +116,16 @@ function PerformancePage (): React.ReactElement {
         </div>
       </section>
       <section>
+        {sessionEra.currentSessionMode &&
         <Performance
-          sessionEra={sessionEra}
-        />
+          era={sessionEra.era}
+          session={sessionEra.session}
+        />}
+        {!sessionEra.currentSessionMode &&
+        <HistoricPerformance
+          era={sessionEra.era}
+          session={sessionEra.session}
+        />}
       </section>
     </>
   );

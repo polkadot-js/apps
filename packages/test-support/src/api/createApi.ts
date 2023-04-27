@@ -1,9 +1,10 @@
-// Copyright 2017-2022 @polkadot/test-support authors & contributors
+// Copyright 2017-2023 @polkadot/test-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { ApiPromise } from '@polkadot/api';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { SUBSTRATE_PORT } from '@polkadot/test-support/substrate';
+
+import { SUBSTRATE_PORT } from '../substrate/index.js';
 
 export async function createApi (port: number = SUBSTRATE_PORT): Promise<ApiPromise> {
   process.env.NODE_ENV = 'test';

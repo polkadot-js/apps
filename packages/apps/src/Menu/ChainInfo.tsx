@@ -1,16 +1,15 @@
-// Copyright 2017-2022 @polkadot/apps authors & contributors
+// Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { RuntimeVersion } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { ChainImg, Icon } from '@polkadot/react-components';
+import { ChainImg, Icon, styled } from '@polkadot/react-components';
 import { useApi, useCall, useIpfs, useToggle } from '@polkadot/react-hooks';
 import { BestNumber, Chain } from '@polkadot/react-query';
 
-import Endpoints from '../Endpoints';
+import Endpoints from '../Endpoints/index.js';
 
 interface Props {
   className?: string;
@@ -24,7 +23,7 @@ function ChainInfo ({ className }: Props): React.ReactElement<Props> {
   const canToggle = !ipnsChain;
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <div
         className={`apps--SideBar-logo-inner${canToggle ? ' isClickable' : ''} highlight--color-contrast`}
         onClick={toggleEndpoints}
@@ -50,11 +49,11 @@ function ChainInfo ({ className }: Props): React.ReactElement<Props> {
       {isEndpointsVisible && (
         <Endpoints onClose={toggleEndpoints} />
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(ChainInfo)`
+const StyledDiv = styled.div`
   box-sizing: border-box;
   padding: 0.5rem 1rem 0.5rem 0;
   margin: 0;
@@ -68,7 +67,7 @@ export default React.memo(styled(ChainInfo)`
       cursor: pointer;
     }
 
-    img {
+    .ui--ChainImg {
       height: 3rem;
       margin-right: 0.5rem;
       width: 3rem;
@@ -88,26 +87,24 @@ export default React.memo(styled(ChainInfo)`
 
     .info {
       flex: 1;
+      font-size: var(--font-size-tiny);
+      line-height: 1.2;
       padding-right: 0.5rem;
       text-align: right;
 
       .chain {
+        font-size: var(--font-size-small);
         max-width: 16rem;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
       }
 
-      .chain, .bestNumber {
-        font-size: 0.9rem;
-        line-height: 1.2;
-      }
-
       .runtimeVersion {
-          font-size: 0.75rem;
-          line-height: 1.2;
-          letter-spacing: -0.01em;
+        letter-spacing: -0.01em;
       }
     }
   }
-`);
+`;
+
+export default React.memo(ChainInfo);

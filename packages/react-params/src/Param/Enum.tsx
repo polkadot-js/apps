@@ -1,8 +1,8 @@
-// Copyright 2017-2022 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry, TypeDef } from '@polkadot/types/types';
-import type { ParamDef, Props, RawParam } from '../types';
+import type { ParamDef, Props, RawParam } from '../types.js';
 
 import React, { useCallback, useState } from 'react';
 
@@ -10,9 +10,8 @@ import { Dropdown } from '@polkadot/react-components';
 import { Enum, getTypeDef } from '@polkadot/types';
 import { isObject } from '@polkadot/util';
 
-import Params from '../';
-import Bare from './Bare';
-import Static from './Static';
+import Params from '../index.js';
+import Bare from './Bare.js';
 
 interface Option {
   text?: string;
@@ -82,6 +81,10 @@ function EnumParam (props: Props): React.ReactElement<Props> {
 
   const _onChange = useCallback(
     (value: string): void => {
+      if (isDisabled) {
+        return;
+      }
+
       const newType = subTypes.find(({ name }) => name === value) || null;
 
       setCurrent(
@@ -100,22 +103,22 @@ function EnumParam (props: Props): React.ReactElement<Props> {
         );
       }
     },
-    [subTypes]
+    [isDisabled, subTypes]
   );
 
   const _onChangeParam = useCallback(
     ([{ isValid, value }]: RawParam[]): void => {
+      if (isDisabled) {
+        return;
+      }
+
       current && onChange && onChange({
         isValid,
         value: { [current[0].name as string]: value }
       });
     },
-    [current, onChange]
+    [current, isDisabled, onChange]
   );
-
-  if (isDisabled) {
-    return <Static {...props} />;
-  }
 
   return (
     <Bare className={className}>
@@ -132,6 +135,7 @@ function EnumParam (props: Props): React.ReactElement<Props> {
       />
       {current && (
         <Params
+          isDisabled={isDisabled}
           isError={isError}
           onChange={_onChangeParam}
           overrides={overrides}

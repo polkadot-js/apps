@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-query authors & contributors
+// Copyright 2017-2023 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
@@ -8,7 +8,7 @@ import React from 'react';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import FormatBalance from './FormatBalance';
+import FormatBalance from './FormatBalance.js';
 
 interface Props {
   children?: React.ReactNode;

@@ -1,19 +1,19 @@
-// Copyright 2017-2022 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Vec } from '@polkadot/types';
 import type { KeyValue as Pair } from '@polkadot/types/interfaces';
-import type { Props, RawParam } from '../types';
+import type { Props, RawParam } from '../types.js';
 
 import React, { useCallback, useState } from 'react';
 
 import { assert, isHex, u8aToHex, u8aToString } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import Base from './Base';
-import Bytes from './Bytes';
-import File from './File';
-import { createParam } from './KeyValue';
+import { useTranslation } from '../translate.js';
+import Base from './Base.js';
+import Bytes from './Bytes.js';
+import File from './File.js';
+import { createParam } from './KeyValue.js';
 
 interface Parsed {
   isValid: boolean;
@@ -24,8 +24,6 @@ const BYTES_TYPE = {
   info: 0,
   type: 'Bytes'
 };
-
-const EMPTY_PLACEHOLDER = 'click to select or drag and drop JSON key/value (hex-encoded) file';
 
 function parseFile (raw: Uint8Array): Parsed {
   const json = JSON.parse(u8aToString(raw)) as Record<string, string>;
@@ -50,9 +48,9 @@ function parseFile (raw: Uint8Array): Parsed {
   };
 }
 
-function KeyValueArray ({ className = '', defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
+function KeyValueArray ({ className = '', defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, registry, withLabel }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [placeholder, setPlaceholder] = useState<string>(t(EMPTY_PLACEHOLDER));
+  const [placeholder, setPlaceholder] = useState<string>(t<string>('click to select or drag and drop JSON key/value (hex-encoded) file'));
 
   const _onChange = useCallback(
     (raw: Uint8Array): void => {
@@ -61,7 +59,7 @@ function KeyValueArray ({ className = '', defaultValue, isDisabled, isError, lab
       try {
         encoded = parseFile(raw);
 
-        setPlaceholder(t('{{count}} key/value pairs encoded for submission', {
+        setPlaceholder(t<string>('{{count}} key/value pairs encoded for submission', {
           replace: {
             count: encoded.value.length
           }
@@ -69,7 +67,7 @@ function KeyValueArray ({ className = '', defaultValue, isDisabled, isError, lab
       } catch (error) {
         console.error('Error converting json k/v', error);
 
-        setPlaceholder(t(EMPTY_PLACEHOLDER));
+        setPlaceholder(t<string>('click to select or drag and drop JSON key/value (hex-encoded) file'));
       }
 
       onChange && onChange(encoded);
@@ -101,6 +99,7 @@ function KeyValueArray ({ className = '', defaultValue, isDisabled, isError, lab
                 name={keyHex}
                 onEnter={onEnter}
                 onEscape={onEscape}
+                registry={registry}
                 type={BYTES_TYPE}
               />
             );

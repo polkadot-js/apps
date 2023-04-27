@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
@@ -9,7 +9,7 @@ import { Button, Input, InputAddress, InputBalance, InputFile, InputNumber, Inpu
 import { useApi } from '@polkadot/react-hooks';
 import { BN, BN_TEN, BN_THOUSAND, BN_ZERO, compactAddLength } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
@@ -37,7 +37,7 @@ function Validator ({ address, index, setAddress, t }: ValidatorProps): React.Re
   return (
     <InputAddress
       defaultValue={address}
-      label={t('validator {{index}}', { replace: { index: index + 1 } })}
+      label={t<string>('validator {{index}}', { replace: { index: index + 1 } })}
       onChange={_setAddress}
     />
   );
@@ -49,7 +49,7 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
   const [accountId, setAccountId] = useState<string | null>(null);
   const [name, setName] = useState('');
   const [paraId, setParaId] = useState<BN | undefined>();
-  const [balance, setBalance] = useState(() => BN_THOUSAND.mul(BN_TEN.pow(new BN(api.registry.chainDecimals[0]))));
+  const [balance, setBalance] = useState<BN | undefined>(() => BN_THOUSAND.mul(BN_TEN.pow(new BN(api.registry.chainDecimals[0]))));
   const [validators, setValidators] = useState<string[]>(['']);
   const [{ isWasmValid, wasm }, setWasm] = useState<CodeState>({ isWasmValid: false, wasm: null });
   const [genesisState, setGenesisState] = useState<Uint8Array | null>(null);
@@ -119,14 +119,12 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
         </Modal.Columns>
         <Modal.Columns hint={t<string>('The WASM validation function as well as the genesis state for this parachain.')}>
           <InputWasm
-            help={t<string>('The compiled runtime WASM for the parachain you wish to register.')}
             isError={!isWasmValid}
             label={t<string>('validation code')}
             onChange={_setWasm}
             placeholder={wasm && !isWasmValid && t<string>('The code is not recognized as being in valid WASM format')}
           />
           <InputFile
-            help={t<string>('The genesis state for the parachain.')}
             isError={!genesisState}
             label={t<string>('genesis state')}
             onChange={_setGenesisState}

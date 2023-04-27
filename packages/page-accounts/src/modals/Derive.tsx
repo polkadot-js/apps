@@ -1,22 +1,22 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyringPair } from '@polkadot/keyring/types';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { KeypairType } from '@polkadot/util-crypto/types';
 
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
-import { AddressRow, Button, Input, InputAddress, MarkError, Modal, Password, StatusContext } from '@polkadot/react-components';
-import { useApi, useDebounce, useToggle } from '@polkadot/react-hooks';
+import { AddressRow, Button, Input, InputAddress, MarkError, Modal, Password } from '@polkadot/react-components';
+import { useApi, useDebounce, useQueue, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { nextTick } from '@polkadot/util';
 import { keyExtractPath } from '@polkadot/util-crypto';
 
-import { useTranslation } from '../translate';
-import { tryCreateAccount } from '../util';
-import CreateAccountInputs from './CreateAccountInputs';
-import CreateConfirmation from './CreateConfirmation';
+import { useTranslation } from '../translate.js';
+import { tryCreateAccount } from '../util.js';
+import CreateAccountInputs from './CreateAccountInputs.js';
+import CreateConfirmation from './CreateConfirmation.js';
 
 interface Props {
   className?: string;
@@ -70,7 +70,7 @@ function createAccount (source: KeyringPair, suri: string, name: string, passwor
 function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
   const { t } = useTranslation();
   const { api, isDevelopment } = useApi();
-  const { queueAction } = useContext(StatusContext);
+  const { queueAction } = useQueue();
   const [source] = useState(() => keyring.getPair(from));
   const [isBusy, setIsBusy] = useState(false);
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
@@ -148,7 +148,6 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
 
   const sourceStatic = (
     <InputAddress
-      help={t<string>('The selected account to perform the derivation on.')}
       isDisabled
       label={t<string>('derive root account')}
       value={from}
@@ -178,7 +177,6 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
                 {sourceStatic}
                 <Password
                   autoFocus
-                  help={t<string>('The password to unlock the selected account.')}
                   isError={!!lockedError}
                   label={t<string>('password')}
                   onChange={_onChangeRootPass}
@@ -195,7 +193,6 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
                 {sourceStatic}
                 <Input
                   autoFocus
-                  help={t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>///<password>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`.')}
                   label={t<string>('derivation path')}
                   onChange={setSuri}
                   placeholder={t<string>('//hard/soft')}

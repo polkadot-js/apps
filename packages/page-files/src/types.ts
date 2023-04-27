@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-files authors & contributors
+// Copyright 2017-2023 @polkadot/app-files authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 export interface UploadRes {
@@ -21,4 +21,10 @@ export interface FileInfo {
   file?: File,
   files?: DirFile[],
   dir?: string,
+}
+
+export interface AuthIpfsEndpoint {
+  text?: string;
+  value: string;
+  location?: string;
 }

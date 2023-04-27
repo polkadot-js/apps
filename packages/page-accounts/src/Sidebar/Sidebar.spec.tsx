@@ -1,19 +1,22 @@
-// Copyright 2017-2022 @polkadot/page-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
+import type { AddressFlags } from '@polkadot/react-hooks/types';
+import type { RegistrationJudgement } from '@polkadot/types/interfaces';
 
 import { fireEvent, screen, waitFor, within } from '@testing-library/react';
 
 import i18next from '@polkadot/react-components/i18n';
-import { AddressFlags } from '@polkadot/react-hooks/types';
 import { anAccount, anAccountWithInfo, anAccountWithMeta } from '@polkadot/test-support/creation/account';
 import { alice, bob, MemoryStore } from '@polkadot/test-support/keyring';
-import { charlieShortAddress, ferdieShortAddress, mockRegistration, registrars } from '@polkadot/test-support/mockData/registrations';
-import { Sidebar } from '@polkadot/test-support/pagesElements/Sidebar';
-import { mockApiHooks } from '@polkadot/test-support/utils/mockApiHooks';
-import { RegistrationJudgement } from '@polkadot/types/interfaces';
+import { charlieShortAddress, ferdieShortAddress, mockRegistration, registrars } from '@polkadot/test-support/mockData';
+import { Sidebar } from '@polkadot/test-support/pagesElements';
+import { mockApiHooks } from '@polkadot/test-support/utils';
 import { keyring } from '@polkadot/ui-keyring';
 
-import { AccountsPage } from '../../test/pages/accountsPage';
+import { AccountsPage } from '../../test/pages/accountsPage.js';
 
 // FIXME: these all need to be wrapped in waitFor ....
 describe.skip('Sidebar', () => {
@@ -72,7 +75,7 @@ describe.skip('Sidebar', () => {
     it('cannot be edited if edit button has not been pressed', async () => {
       accountsPage.renderDefaultAccounts(1);
       sideBar = await accountsPage.openSidebarForRow(0);
-      await sideBar.clickByText('no tags');
+      await sideBar.clickByText('none');
       expect(sideBar.queryByRole('combobox')).toBeFalsy();
 
       await expect(sideBar.typeAccountName(newName)).rejects.toThrowError(nameInputNotFoundError);
@@ -95,7 +98,7 @@ describe.skip('Sidebar', () => {
         );
         sideBar = await accountsPage.openSidebarForRow(0);
 
-        await sideBar.assertTags('no tags');
+        await sideBar.assertTags('none');
         sideBar.edit();
       });
 
@@ -104,7 +107,7 @@ describe.skip('Sidebar', () => {
         await sideBar.selectTag(defaultTag);
 
         sideBar.cancel();
-        await sideBar.assertTags('no tags');
+        await sideBar.assertTags('none');
         await sideBar.assertAccountName(initialName);
       });
 
@@ -130,7 +133,7 @@ describe.skip('Sidebar', () => {
 
         fireEvent.click(await screen.findByText('accounts'));
 
-        await sideBar.assertTags('no tags');
+        await sideBar.assertTags('none');
         await sideBar.assertAccountName('ALICE');
 
         expect(sideBar.queryByRole('button', { name: 'Cancel' })).toBeFalsy();

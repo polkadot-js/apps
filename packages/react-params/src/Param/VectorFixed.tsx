@@ -1,18 +1,18 @@
-// Copyright 2017-2022 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ParamDef, Props, RawParam } from '../types';
+import type { ParamDef, Props, RawParam } from '../types.js';
 
 import React, { useEffect, useState } from 'react';
 
 import { VecFixed } from '@polkadot/types';
 import { isUndefined } from '@polkadot/util';
 
-import getInitValue from '../initValue';
-import Params from '../';
-import Base from './Base';
-import useParamDefs from './useParamDefs';
-import { getParams, getValues } from './Vector';
+import Params from '../index.js';
+import getInitValue from '../initValue.js';
+import Base from './Base.js';
+import useParamDefs from './useParamDefs.js';
+import { getParams, getValues } from './Vector.js';
 
 function getInitialValues (defaultValue: RawParam): RawParam[] {
   return defaultValue.value instanceof VecFixed

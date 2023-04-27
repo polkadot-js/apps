@@ -1,11 +1,11 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // structs need to be in order
 /* eslint-disable sort-keys */
 /* eslint-disable camelcase */
 
-import { OverrideBundleDefinition } from '@polkadot/types/types';
+import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
 const definitions: OverrideBundleDefinition = {
   types: [

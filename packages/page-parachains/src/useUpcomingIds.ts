@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, StorageKey } from '@polkadot/types';
@@ -33,7 +33,7 @@ function useUpomingIdsImpl (): ParaId[] | undefined {
     api.events.registrar.Registered
   ]);
 
-  return useMapEntries(api.query.paras.paraLifecycles, OPT_ENTRIES, trigger.blockHash);
+  return useMapEntries(api.query.paras.paraLifecycles, [], OPT_ENTRIES, trigger.blockHash);
 }
 
 export default createNamedHook('useUpomingIds', useUpomingIdsImpl);

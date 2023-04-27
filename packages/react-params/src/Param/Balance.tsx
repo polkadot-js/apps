@@ -1,14 +1,15 @@
-// Copyright 2017-2022 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Props } from '../types';
+import type { Props } from '../types.js';
 
 import React, { useCallback, useState } from 'react';
 
-import { InputBalance } from '@polkadot/react-components';
+// circular dep :(
+import InputBalance from '@polkadot/react-components/InputBalance';
 import { BN } from '@polkadot/util';
 
-import Bare from './Bare';
+import Bare from './Bare.js';
 
 function Balance ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
   const [isValid, setIsValid] = useState(false);
@@ -47,6 +48,4 @@ function Balance ({ className = '', defaultValue: { value }, isDisabled, isError
 
 export default React.memo(Balance);
 
-export {
-  Balance
-};
+export { Balance };

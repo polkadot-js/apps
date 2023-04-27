@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HeaderExtended } from '@polkadot/api-derive/types';
@@ -6,8 +6,8 @@ import type { HeaderExtended } from '@polkadot/api-derive/types';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { AddressMini, Digits, Icon } from '@polkadot/react-components';
-import useIsFinalized from '@polkadot/react-query/useIsFinalized';
+import { AddressSmall, Icon } from '@polkadot/react-components';
+import { useIsFinalized } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 interface Props {
@@ -21,20 +21,24 @@ function BlockHeader ({ value }: Props): React.ReactElement<Props> | null {
   return (
     <tr>
       <td className='number'>
-        <h2><Link to={`/explorer/query/${hashHex}`}><Digits value={formatNumber(value.number)} /></Link></h2>
+        <h4 className='--digits'>
+          <Link to={`/explorer/query/${hashHex}`}>{formatNumber(value.number)}</Link>
+        </h4>
       </td>
       <td className='all hash overflow'>{hashHex}</td>
       <td className='address'>
         {value.author && (
-          <AddressMini value={value.author} />
+          <AddressSmall value={value.author} />
         )}
       </td>
       <td className='finalizedIcon'>
         {isFinalized
-          ? <Icon
-            className='highlight--color'
-            icon='fa-solid fa-circle-check'
-          />
+          ? (
+            <Icon
+              className='highlight--color'
+              icon='circle-check'
+            />
+          )
           : null}
       </td>
     </tr>

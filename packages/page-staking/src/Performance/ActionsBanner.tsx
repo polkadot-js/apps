@@ -13,11 +13,13 @@ function ActionsBanner (): React.ReactElement {
       className='warning centered'
       content={<>
         {'Performance of a validator is calculated based on ratio of blocks created in given session to expected number of blocks produced in a said session. See more info '}
-        {<a
-          href={alephZeroRotatingCommitteeInfo}
-          rel='noopener noreferrer'
-          target='_blank'
-        >{'here.'}</a>}
+        {
+          <a
+            href={alephZeroRotatingCommitteeInfo}
+            rel='noopener noreferrer'
+            target='_blank'
+          >{'here.'}</a>
+        }
       </>}
     />
   );

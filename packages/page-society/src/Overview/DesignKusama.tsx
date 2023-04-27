@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-society authors & contributors
+// Copyright 2017-2023 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId } from '@polkadot/types/interfaces';
@@ -9,8 +9,8 @@ import { KUSAMA_GENESIS } from '@polkadot/apps-config';
 import { Button, Modal } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 
-import drawCanary, { PADD, SIZE } from '../draw/canary';
-import { useTranslation } from '../translate';
+import drawCanary, { PADD, SIZE } from '../draw/canary.js';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   accountId: AccountId;
@@ -53,7 +53,7 @@ function DesignKusama ({ accountId }: Props): React.ReactElement<Props> | null {
       />
       {isShowing && (
         <Modal
-          header={t('design samples')}
+          header={t<string>('design samples')}
           onClose={toggleDesign}
           size='large'
         >

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 export function insertSpaceBeforeCapitalLetter (str: string): string {
@@ -6,7 +6,8 @@ export function insertSpaceBeforeCapitalLetter (str: string): string {
 }
 
 export function truncateTitle (str: string, maxLength: number): string {
-  const ellipsis = String.fromCharCode(8230);
-
-  return (str.length > maxLength) ? str.substr(0, maxLength - 1) + ellipsis : str;
+  return (str.length > maxLength)
+    // ellipsis
+    ? (str.substring(0, maxLength - 1) + String.fromCharCode(8230))
+    : str;
 }

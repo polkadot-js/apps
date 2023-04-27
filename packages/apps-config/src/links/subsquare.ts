@@ -1,11 +1,12 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
+import type { ExternalDef } from './types.js';
 
-import { externalLogos } from '../ui/logos';
+import { externalSubsquareSVG } from '../ui/logos/external/index.js';
 
-export default {
+export const Subsquare: ExternalDef = {
   chains: {
     Acala: 'acala',
     Altair: 'altair',
@@ -19,26 +20,31 @@ export default {
     Karura: 'karura',
     Khala: 'khala',
     Kusama: 'kusama',
+    Litentry: 'litentry',
     Litmus: 'litmus',
     Phala: 'phala',
     Polkadot: 'polkadot',
+    Rococo: 'rococo',
     'Turing Network': 'turing',
     Zeitgeist: 'zeitgeist',
     kintsugi: 'kintsugi'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.subsquare.io/${path}/${data.toString()}`,
+  homepage: 'https://subsquare.io/',
   isActive: true,
-  logo: externalLogos.subsquare as string,
   paths: {
     bounty: 'treasury/bounty',
     council: 'council/motion',
-    external: 'democracy/external',
-    proposal: 'democracy/proposal',
+    democracyExternal: 'democracy/external',
+    democracyProposal: 'democracy/proposal',
+    democracyReferendum: 'democracy/referendum',
+    fellowshipReferenda: 'fellowship/referendum',
     referenda: 'referenda/referendum',
-    referendum: 'democracy/referendum',
     tip: 'treasury/tip',
     treasury: 'treasury/proposal'
   },
-  url: 'https://subsquare.io/'
+  ui: {
+    logo: externalSubsquareSVG
+  }
 };

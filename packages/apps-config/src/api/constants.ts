@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { knownGenesis } from '@polkadot/networks/defaults';
@@ -31,5 +31,10 @@ export const DOCK_POS_TESTNET_GENESIS = '0x59d93e2ce42abb8aa52ca9a9e820233667104
 
 export const NFTMART_GENESIS = '0xfcf9074303d8f319ad1bf0195b145871977e7c375883b834247cb01ff22f51f9';
 
+export const CERE_NETWORK_GENESIS = '0x81443836a9a24caaa23f1241897d1235717535711d1d3fe24eae4fdc942c092c';
+
+export const CERE_NETWORK_TESTNET_GENESIS = '0x42b9b44b4950b6c1edae543a7696caf8d0a160e9bc0424ab4ab217f7a8ba30dc';
+
 export const ALEPHZERO_TESTNET_GENESIS = '0x49574664f45654c043c2690b76b5bf4a05c49160e112d32b8b71b0dfb023169c';
+
 export const ALEPHZERO_MAINNET_GENESIS = '0x70255b4d28de0fc4e1a193d7e175ad1ccef431598211c55538f1018651a0344e';

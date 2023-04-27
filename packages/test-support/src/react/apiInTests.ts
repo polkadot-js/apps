@@ -1,7 +1,9 @@
-// Copyright 2017-2022 @polkadot/test-support authors & contributors
+// Copyright 2017-2023 @polkadot/test-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
+
+import React from 'react';
 
 import { useApi } from '@polkadot/react-hooks';
 

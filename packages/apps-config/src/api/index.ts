@@ -1,10 +1,10 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { applyDerives } from './derives';
-import { typesBundle as typesOnlyBundle } from './typesBundle';
+import { applyDerives } from './derives.js';
+import { typesBundle as typesOnlyBundle } from './typesBundle.js';
 
-export * from './constants';
-export * from './params';
+export * from './params/index.js';
+export * from './constants.js';
 
 export const typesBundle = applyDerives(typesOnlyBundle);

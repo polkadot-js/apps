@@ -1,10 +1,10 @@
-// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { createNamedHook } from './createNamedHook';
-import { useIsMountedRef } from './useIsMountedRef';
+import { createNamedHook } from './createNamedHook.js';
+import { useIsMountedRef } from './useIsMountedRef.js';
 
 // Simple wrapper for a true/false toggle
 function useToggleImpl (defaultValue = false, onToggle?: (isActive: boolean) => void): [boolean, () => void, (value: boolean) => void] {

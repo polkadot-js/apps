@@ -1,9 +1,9 @@
-// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type BN from 'bn.js';
 import type { ApiPromise } from '@polkadot/api';
-import type { Inflation } from './types';
+import type { BN } from '@polkadot/util';
+import type { Inflation } from './types.js';
 
 import { useEffect, useState } from 'react';
 
@@ -11,9 +11,9 @@ import { getInflationParams } from '@polkadot/apps-config';
 import { BN_BILLION, BN_MILLION, BN_ZERO } from '@polkadot/util';
 import { BN_THOUSAND } from '@polkadot/util/bn/consts';
 
-import { createNamedHook } from './createNamedHook';
-import { useApi } from './useApi';
-import { useCall } from './useCall';
+import { createNamedHook } from './createNamedHook.js';
+import { useApi } from './useApi.js';
+import { useCall } from './useCall.js';
 
 const EMPTY: Inflation = { idealInterest: 0, idealStake: 0, inflation: 0, stakedFraction: 0, stakedReturn: 0 };
 

@@ -1,11 +1,11 @@
-// Copyright 2017-2022 @polkadot/app-fellowship authors & contributors
+// Copyright 2017-2023 @polkadot/app-fellowship authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
 
 import Main from '@polkadot/app-ranked/App';
 
-export { default as useCounter } from './useCounter';
+export { default as useCounter } from './useCounter.js';
 
 interface Props {
   basePath: string;

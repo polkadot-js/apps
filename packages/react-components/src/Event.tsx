@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DecodedEvent } from '@polkadot/api-contract/types';
@@ -8,16 +8,19 @@ import type { Codec } from '@polkadot/types/types';
 
 import React, { useMemo } from 'react';
 
-import { Input } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
 
-import { useTranslation } from './translate';
-import { getContractAbi } from './util';
+import { getContractAbi } from './util/index.js';
+import { balanceEvents, balanceEventsOverrides } from './constants.js';
+import Input from './Input.js';
+import { useTranslation } from './translate.js';
 
 export interface Props {
   children?: React.ReactNode;
   className?: string;
+  eventName?: string;
   value: Event;
+  withExpander?: boolean;
 }
 
 interface Value {
@@ -29,7 +32,7 @@ interface AbiEvent extends DecodedEvent {
   values: Value[];
 }
 
-function EventDisplay ({ children, className = '', value }: Props): React.ReactElement<Props> {
+function EventDisplay ({ children, className = '', eventName, value, withExpander }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const names = value.data.names;
   const params = value.typeDef.map((type, i) => ({
@@ -37,6 +40,13 @@ function EventDisplay ({ children, className = '', value }: Props): React.ReactE
     type
   }));
   const values = value.data.map((value) => ({ isValid: true, value }));
+
+  const overrides = useMemo(
+    () => eventName && balanceEvents.includes(eventName)
+      ? balanceEventsOverrides
+      : undefined,
+    [eventName]
+  );
 
   const abiEvent = useMemo(
     (): AbiEvent | null => {
@@ -68,12 +78,15 @@ function EventDisplay ({ children, className = '', value }: Props): React.ReactE
   );
 
   return (
-    <div className={`ui--Event ${className}`}>
+    <div className={`${className} ui--Event`}>
       {children}
       <Params
         isDisabled
+        overrides={overrides}
         params={params}
+        registry={value.registry}
         values={values}
+        withExpander={withExpander}
       >
         {abiEvent && (
           <>
@@ -85,6 +98,7 @@ function EventDisplay ({ children, className = '', value }: Props): React.ReactE
             <Params
               isDisabled
               params={abiEvent.event.args}
+              registry={value.registry}
               values={abiEvent.values}
             />
           </>

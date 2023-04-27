@@ -1,8 +1,8 @@
-// Copyright 2017-2022 @polkadot/apps-routing authors & contributors
+// Copyright 2017-2023 @polkadot/apps-routing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import type { Route } from './types';
+import type { Route } from './types.js';
 
 import Component, { useCounter } from '@polkadot/app-membership';
 
@@ -18,7 +18,7 @@ export default function create (t: TFunction): Route {
     group: 'governance',
     icon: 'people-carry',
     name: 'membership',
-    text: t('nav.membership', 'Membership', { ns: 'apps-routing' }),
+    text: t<string>('nav.membership', 'Membership', { ns: 'apps-routing' }),
     useCounter
   };
 }

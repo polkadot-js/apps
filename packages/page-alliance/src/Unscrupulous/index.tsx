@@ -1,15 +1,15 @@
-// Copyright 2017-2022 @polkadot/app-alliance authors & contributors
+// Copyright 2017-2023 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Unscrupulous as UnscrupulousType } from '../types';
+import type { Unscrupulous as UnscrupulousType } from '../types.js';
 
 import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
-import Account from './Account';
-import Website from './Website';
+import { useTranslation } from '../translate.js';
+import Account from './Account.js';
+import Website from './Website.js';
 
 interface Props {
   className?: string;
@@ -19,11 +19,11 @@ interface Props {
 function Unscrupulous ({ className, unscrupulous }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const accRef = useRef([
+  const accRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t<string>('accounts'), 'start']
   ]);
 
-  const webRef = useRef([
+  const webRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t<string>('websites'), 'start']
   ]);
 

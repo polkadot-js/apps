@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, BountyIndex } from '@polkadot/types/interfaces';
@@ -9,9 +9,9 @@ import React, { useMemo } from 'react';
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
-import { permillOf, truncateTitle } from '../helpers';
-import { useBounties, useUserRole } from '../hooks';
-import { useTranslation } from '../translate';
+import { permillOf, truncateTitle } from '../helpers/index.js';
+import { useBounties, useUserRole } from '../hooks/index.js';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   curatorId: AccountId;
@@ -47,7 +47,6 @@ function BountyAcceptCurator ({ curatorId, description, fee, index }: Props) {
             <Modal.Content>
               <Modal.Columns hint={t<string>('Only the account proposed as curator by the council can create the assign curator transaction')}>
                 <InputAddress
-                  help={t<string>('This account will accept the curator role.')}
                   isDisabled
                   label={t<string>('curator account')}
                   type='account'
@@ -65,7 +64,6 @@ function BountyAcceptCurator ({ curatorId, description, fee, index }: Props) {
               <Modal.Columns hint={t<string>('This amount will be reserved from your account and returned after bounty claim is confirmed or if you give up, unless you are slashed earlier.')}>
                 <InputBalance
                   defaultValue={deposit.toString()}
-                  help={t<string>("Curator's deposit is calculated based on the accepted curator's fee for this bounty.")}
                   isDisabled
                   label={t<string>("curator's deposit")}
                 />

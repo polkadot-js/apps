@@ -3,13 +3,14 @@
 
 import { useEffect, useMemo, useState } from 'react';
 
-import useErasStartSessionIndexLookup from '@polkadot/app-staking/Performance/useErasStartSessionIndexLookup';
-import { SuspensionEvent } from '@polkadot/app-staking/Suspensions/index';
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { u64, Vec } from '@polkadot/types';
 import { EventRecord, Hash } from '@polkadot/types/interfaces';
 import { Codec } from '@polkadot/types/types';
 import { u32 } from '@polkadot/types-codec';
+
+import useErasStartSessionIndexLookup from '../Performance/useErasStartSessionIndexLookup.js';
+import { SuspensionEvent } from './index.js';
 
 type SuspensionReasons = [string, string, number][];
 

@@ -1,10 +1,10 @@
-// Copyright 2017-2022 @polkadot/app-collator authors & contributors
+// Copyright 2017-2023 @polkadot/app-collator authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BTreeSet } from '@polkadot/types';
 import type { AccountId32, Balance } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
-import type { Collator } from './types';
+import type { Collator } from './types.js';
 
 import { useEffect, useMemo, useState } from 'react';
 

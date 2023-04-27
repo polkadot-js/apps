@@ -1,9 +1,10 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
+import type { ExternalDef } from './types.js';
 
-import { externalLogos } from '../ui/logos';
+import { externalKodadotPNG } from '../ui/logos/external/index.js';
 
 const getNetwork = (_chain: string) => {
   const chain = _chain === 'kusama' ? 'rmrk' : _chain;
@@ -11,18 +12,21 @@ const getNetwork = (_chain: string) => {
   return `https://kodadot.xyz/${chain}/u/`;
 };
 
-export default {
+export const KodaDot: ExternalDef = {
   chains: {
     Kusama: 'kusama',
     Statemine: 'statemine',
     Westend: 'westend',
     Westmint: 'westmint'
   },
-  create: (_chain: string, _path: string, data: BN | number | string): string => `${getNetwork(_chain)}${data.toString()}`,
+  create: (_chain: string, _path: string, data: BN | number | string): string =>
+    `${getNetwork(_chain)}${data.toString()}`,
+  homepage: 'https://kodadot.xyz',
   isActive: true,
-  logo: externalLogos.kodadot as string,
   paths: {
     address: 'account'
   },
-  url: 'https://kodadot.xyz'
+  ui: {
+    logo: externalKodadotPNG
+  }
 };

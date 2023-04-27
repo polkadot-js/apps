@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-council authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSessionIndexes } from '@polkadot/api-derive/types';
@@ -8,12 +8,12 @@ import type { PalletStakingUnappliedSlash } from '@polkadot/types/lookup';
 
 import { useEffect, useState } from 'react';
 
-import { BN, BN_ONE, BN_ZERO } from '@polkadot/util';
+import { BN, BN_HUNDRED, BN_ONE, BN_ZERO } from '@polkadot/util';
 
-import { createNamedHook } from './createNamedHook';
-import { useApi } from './useApi';
-import { useCall } from './useCall';
-import { useIsMountedRef } from './useIsMountedRef';
+import { createNamedHook } from './createNamedHook.js';
+import { useApi } from './useApi.js';
+import { useCall } from './useCall.js';
+import { useIsMountedRef } from './useIsMountedRef.js';
 
 type Unsub = () => void;
 
@@ -28,9 +28,10 @@ function useAvailableSlashesImpl (): [BN, PalletStakingUnappliedSlash[]][] {
     let unsub: Unsub | undefined;
     const [from, offset] = api.query.staking?.earliestUnappliedSlash
       ? [earliestSlash && earliestSlash.unwrapOr(null), BN_ZERO]
-      : [indexes?.activeEra, api.consts.staking?.slashDeferDuration];
+      // future depth (one more than activeEra for delay)
+      : [indexes?.activeEra, BN_ONE.add(api.consts.staking?.slashDeferDuration || BN_HUNDRED)];
 
-    if (mountedRef.current && indexes && from && offset) {
+    if (mountedRef.current && indexes && from) {
       const range: BN[] = [];
       const end = indexes.activeEra.add(offset);
       let start = new BN(from);

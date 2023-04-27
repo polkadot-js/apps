@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback } from 'react';
-import styled from 'styled-components';
 
-import { Icon } from '@polkadot/react-components';
+import { Icon, styled } from '@polkadot/react-components';
 
 interface Props {
   address: string;

@@ -1,13 +1,13 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
 
-import { MarkWarning } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-import { useTranslation } from './translate';
+import MarkWarning from './MarkWarning.js';
+import { useTranslation } from './translate.js';
 
 function BatchWarning (): React.ReactElement | null {
   const { t } = useTranslation();

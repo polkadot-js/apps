@@ -1,18 +1,18 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveHeartbeats } from '@polkadot/api-derive/types';
 import type { AccountId } from '@polkadot/types/interfaces';
-import type { NominatedByMap, SortedTargets, ValidatorInfo } from '../types';
+import type { NominatedByMap, SortedTargets, ValidatorInfo } from '../types.js';
 
 import React, { useMemo, useRef, useState } from 'react';
 
 import { Table } from '@polkadot/react-components';
-import { useLoadingDelay } from '@polkadot/react-hooks';
+import { useNextTick } from '@polkadot/react-hooks';
 
-import Filtering from '../Filtering';
-import { useTranslation } from '../translate';
-import Address from './Address';
+import Filtering from '../Filtering.js';
+import { useTranslation } from '../translate.js';
+import Address from './Address/index.js';
 
 interface Props {
   className?: string;
@@ -95,9 +95,7 @@ function mapValidators (infos: ValidatorInfo[]): Record<string, ValidatorInfo> {
 function CurrentList ({ className, favorites, hasQueries, isOwn, nominatedBy, ownStashIds, recentlyOnline, targets, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [nameFilter, setNameFilter] = useState<string>('');
-
-  // we have a very large list, so we use a loading delay
-  const isLoading = useLoadingDelay();
+  const isNextTick = useNextTick();
 
   const { validators } = useMemo(
     () => getFiltered(isOwn, favorites, targets, ownStashIds),
@@ -105,10 +103,10 @@ function CurrentList ({ className, favorites, hasQueries, isOwn, nominatedBy, ow
   );
 
   const list = useMemo(
-    () => isLoading
-      ? undefined
-      : nominatedBy && validators,
-    [isLoading, nominatedBy, validators]
+    () => isNextTick
+      ? nominatedBy && validators
+      : undefined,
+    [isNextTick, nominatedBy, validators]
   );
 
   const infoMap = useMemo(
@@ -116,13 +114,13 @@ function CurrentList ({ className, favorites, hasQueries, isOwn, nominatedBy, ow
     [targets]
   );
 
-  const headerRef = useRef(
+  const headerRef = useRef<[React.ReactNode?, string?, number?][]>(
     [
-      [t('validators'), 'start', 2],
-      [t('other stake'), 'expand'],
-      [t('own stake'), 'media--1100'],
-      [t('nominators'), 'expand'],
-      [t('commission')],
+      [t<string>('validators'), 'start', 2],
+      [t<string>('other stake'), 'expand'],
+      [t<string>('own stake'), 'media--1100'],
+      [t<string>('nominators'), 'expand'],
+      [t<string>('commission')],
       [],
       [undefined, 'media--1200']
     ]
