@@ -5,7 +5,7 @@ import type { EndpointOption } from './types.js';
 
 import { WESTEND_GENESIS } from '../api/constants.js';
 import { chainsKaruraSVG, chainsStandardPNG } from '../ui/logos/chains/index.js';
-import { nodesBridgeHubSVG, nodesCentrifugePNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKhalaSVG, nodesKiltPNG, nodesKylinPNG, nodesMoonshadowPNG, nodesPangoroSVG, nodesStatemineSVG, nodesWestendColourSVG } from '../ui/logos/nodes/index.js';
+import { nodesBridgeHubSVG, nodesCentrifugePNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKhalaSVG, nodesKiltPNG, nodesKylinPNG, nodesMoonshadowPNG, nodesStatemineSVG, nodesWestendColourSVG } from '../ui/logos/nodes/index.js';
 import { getTeleports } from './util.js';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -60,19 +60,6 @@ export const testParasWestend: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#53cbc9',
       logo: nodesMoonshadowPNG
-    }
-  },
-  {
-    homepage: 'https://darwinia.network/',
-    info: 'pangoro',
-    paraId: 2102,
-    providers: {
-      // Darwinia: 'wss://pangoro-parachain-rpc.darwinia.network' // https://github.com/polkadot-js/apps/issues/6530
-    },
-    text: 'Pangoro',
-    ui: {
-      color: '#4B30DD',
-      logo: nodesPangoroSVG
     }
   },
   {

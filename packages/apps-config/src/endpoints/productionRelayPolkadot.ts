@@ -194,22 +194,10 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'darwinia',
     paraId: 2046,
     providers: {
-      'Darwinia Network': 'wss://parachain-rpc.darwinia.network'
+      'Darwinia Network': 'wss://rpc.darwinia.network',
+      Dwellir: 'wss://darwinia-rpc.dwellir.com'
     },
-    text: 'Darwinia',
-    ui: {
-      color: '#FF0083',
-      logo: nodesDarwiniaSVG
-    }
-  },
-  {
-    homepage: 'https://darwinia.network/',
-    info: 'darwinia',
-    paraId: 2003,
-    providers: {
-      // 'Darwinia Network': 'wss://parachain-rpc.darwinia.network' // https://github.com/polkadot-js/apps/issues/6530
-    },
-    text: 'Darwinia Backup',
+    text: 'Darwinia2',
     ui: {
       color: '#FF0083',
       logo: nodesDarwiniaSVG

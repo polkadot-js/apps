@@ -633,7 +633,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       'Darwinia Network': 'wss://pangoro-rpc.darwinia.network'
     },
-    text: 'Pangoro',
+    text: 'Pangoro2',
     ui: {
       color: '#4B30DD',
       logo: nodesPangoroSVG

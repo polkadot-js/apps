@@ -379,7 +379,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       'Darwinia Network': 'wss://pangolin-rpc.darwinia.network'
     },
-    text: 'Pangolin 2',
+    text: 'Pangolin2',
     ui: {
       color: '#4B30DD',
       logo: nodesPangolinSVG
