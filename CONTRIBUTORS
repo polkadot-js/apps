@@ -301,6 +301,7 @@
        1	Emmanuel Thomas               	add kaizen endpoint to apps-ui (#9022)
        1	equilibrium-de                	updates genshiro info (#6412)
        1	fadomire                      	Fix translations loading for ever (#5282)
+       1	fewensa                       	Update darwinia endpoint (#9374)
        1	fixxxedpoint                  	Changed THRESHOLD in useBlockTime so chains that uses values smaller than 1s for the MinimumPeriod (pallet_timestamp) parameter are displayed correctly (#6045)
        1	FOB                           	Fix Polymesh types bundle to use correct specNames and update branding (#9182)
        1	Fr4ctalbit                    	Turn Submit proposal tab into a modal (#1698)
