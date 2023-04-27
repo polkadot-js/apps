@@ -128,6 +128,21 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://crab.network',
+    info: 'crab',
+    paraId: 2105,
+    providers: {
+      'Darwinia Network': 'wss://crab-rpc.darwinia.network/',
+      Dwellir: 'wss://darwiniacrab-rpc.dwellir.com',
+      OnFinality: 'wss://crab.api.onfinality.io/public-ws'
+    },
+    text: 'Crab2',
+    ui: {
+      color: '#512DBC',
+      logo: nodesCrabSVG
+    }
+  },
+  {
     homepage: 'https://crust.network/',
     info: 'shadow',
     paraId: 2012,
@@ -163,21 +178,6 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     text: 'DAO IPCI',
     ui: {
       logo: nodesIpciSVG
-    }
-  },
-  {
-    homepage: 'https://crab.network',
-    info: 'crab',
-    paraId: 2105,
-    providers: {
-      'Darwinia Network': 'wss://crab-rpc.darwinia.network/',
-      Dwellir: 'wss://darwiniacrab-rpc.dwellir.com',
-      OnFinality: 'wss://crab.api.onfinality.io/public-ws'
-    },
-    text: 'Crab2',
-    ui: {
-      color: '#512DBC',
-      logo: nodesCrabSVG
     }
   },
   {

@@ -5,7 +5,7 @@ import type { EndpointOption } from './types.js';
 
 import { WESTEND_GENESIS } from '../api/constants.js';
 import { chainsKaruraSVG, chainsStandardPNG } from '../ui/logos/chains/index.js';
-import { nodesBridgeHubSVG, nodesCentrifugePNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKhalaSVG, nodesKiltPNG, nodesKylinPNG, nodesMoonshadowPNG, nodesPangoroSVG, nodesStatemineSVG, nodesWestendColourSVG } from '../ui/logos/nodes/index.js';
+import { nodesBridgeHubSVG, nodesCentrifugePNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKhalaSVG, nodesKiltPNG, nodesKylinPNG, nodesMoonshadowPNG, nodesStatemineSVG, nodesWestendColourSVG } from '../ui/logos/nodes/index.js';
 import { getTeleports } from './util.js';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
