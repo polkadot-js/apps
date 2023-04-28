@@ -304,8 +304,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
       'Acala Foundation 2': 'wss://karura-rpc-2.aca-api.network/ws',
       'Acala Foundation 3': 'wss://karura-rpc-3.aca-api.network/ws',
       Dwellir: 'wss://karura-rpc.dwellir.com',
-      OnFinality: 'wss://karura.api.onfinality.io/public-ws',
-      'Polkawallet 0': 'wss://karura.polkawallet.io'
+      OnFinality: 'wss://karura.api.onfinality.io/public-ws'
+      // 'Polkawallet 0': 'wss://karura.polkawallet.io' // https://github.com/polkadot-js/apps/issues/9383
     },
     text: 'Karura',
     ui: {
@@ -721,7 +721,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'tanganika',
     paraId: 2116,
     providers: {
-      DataHighway: 'wss://tanganika.datahighway.com'
+      // DataHighway: 'wss://tanganika.datahighway.com' // https://github.com/polkadot-js/apps/issues/9383
     },
     text: 'Tanganika',
     ui: {
