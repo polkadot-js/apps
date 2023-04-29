@@ -254,6 +254,7 @@
        1	3ierratango                   	add ferrum network (#8877)
        1	abhi                          	fix text and isUnreachable properties for SNOW Network (#8252)
        1	Adam                          	new edeware logo and color (#6249)
+       1	Adedayo Akinpelu              	Add blockops endpoint (#9375)
        1	Aidan Starke                  	Add `Root Network` types (#8034)
        1	Albert                        	Apply Nunito fonts globally (#3882)
        1	Alex                          	Add Curio parachain (#9183)
