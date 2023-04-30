@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Display hex public key in address conversion utility
+- Disable unreachable endpoints
+
+
 ## 0.129.1 Apr 30, 2023
 
 Contributed:

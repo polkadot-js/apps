@@ -7,6 +7,8 @@ import path from 'node:path';
 import { formatNumber, stringCamelCase } from '@polkadot/util';
 
 const MAX_SIZE = 48 * 1024;
+
+// FIXME The sorting here and the sorting from linting seems like a mismatch...
 const HEADER = '// Copyright 2017-2023 @polkadot/apps authors & contributors\n// SPDX-License-Identifier: Apache-2.0\n\n// Do not edit. Auto-generated via node scripts/imgConvert.mjs\n\n';
 
 const MIME = {
@@ -90,7 +92,13 @@ for (let dir of ['extensions', 'external', 'chains', 'nodes']) {
         console.log('\n', notfound.length.toString().padStart(3), 'not referenced in', dir, '::\n\n\t', notfound.join(', '), '\n');
       }
 
-      fs.writeFileSync(path.join(sub, 'index.ts'), `${HEADER}${Object.keys(result).sort().map((k) => `export { ${k} } from './${result[k]}.js';`).join('\n')}\n`);
+      fs.writeFileSync(path.join(sub, 'index.ts'), `${HEADER}${
+        Object
+          .keys(result)
+          .sort((a, b) => result[a].localeCompare(result[b]))
+          .map((k) => `export { ${k} } from './${result[k]}.js';`)
+          .join('\n')
+      }\n`);
     }
 }
 

@@ -1,6 +1,8 @@
 // Copyright 2017-2023 @polkadot/app-utilities authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
+
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { createOption } from '@polkadot/app-settings/util';
@@ -8,8 +10,8 @@ import { createSs58 } from '@polkadot/apps-config';
 import { allNetworks } from '@polkadot/networks';
 import { Dropdown, InputAddressSimple, Static } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import { formatNumber } from '@polkadot/util';
-import { base58Decode, checkAddressChecksum, encodeAddress, isAddress } from '@polkadot/util-crypto';
+import { formatNumber, u8aToHex } from '@polkadot/util';
+import { base58Decode, checkAddressChecksum, decodeAddress, encodeAddress, isAddress } from '@polkadot/util-crypto';
 
 import { useTranslation } from './translate.js';
 
@@ -18,32 +20,36 @@ interface Props {
 }
 
 interface State {
-  address: string | null;
   inputSS58: number;
+  publicKey: HexString | null;
 }
 
 function getState (input: string | null): State {
-  let address: string | null = null;
-  let inputSS58 = 42;
+  try {
+    if (input && isAddress(input)) {
+      const decoded = base58Decode(input);
+      const [,,, inputSS58] = checkAddressChecksum(decoded);
+      const publicU8a = decodeAddress(input);
 
-  if (input && isAddress(input)) {
-    const decoded = base58Decode(input);
-    const [,,, ss58Decoded] = checkAddressChecksum(decoded);
-
-    address = input;
-    inputSS58 = ss58Decoded;
+      return {
+        inputSS58,
+        publicKey: u8aToHex(publicU8a)
+      };
+    }
+  } catch {
+    // ignore
   }
 
   return {
-    address,
-    inputSS58
+    inputSS58: 42,
+    publicKey: null
   };
 }
 
 function Addresses ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { chainSS58 } = useApi();
-  const [{ address, inputSS58 }, setState] = useState<State>({ address: null, inputSS58: 42 });
+  const [{ inputSS58, publicKey }, setState] = useState<State>({ inputSS58: 42, publicKey: null });
   const [prefix, setPrefix] = useState(-1);
 
   const setAddress = useCallback(
@@ -69,8 +75,8 @@ function Addresses ({ className }: Props): React.ReactElement<Props> {
   );
 
   const converted = useMemo(
-    () => address && encodeAddress(address, prefix === -1 ? chainSS58 : prefix),
-    [address, chainSS58, prefix]
+    () => publicKey && encodeAddress(publicKey, prefix === -1 ? chainSS58 : prefix),
+    [chainSS58, prefix, publicKey]
   );
 
   return (
@@ -78,7 +84,7 @@ function Addresses ({ className }: Props): React.ReactElement<Props> {
       <div className='ui--row'>
         <InputAddressSimple
           autoFocus
-          isError={!address}
+          isError={!publicKey}
           label={t<string>('address to convert')}
           noConvert
           onChange={setAddress}
@@ -92,7 +98,7 @@ function Addresses ({ className }: Props): React.ReactElement<Props> {
           options={prefixOptions}
         />
       </div>
-      {address && (
+      {publicKey && (
         <>
           <div className='ui--row'>
             <Static
@@ -111,6 +117,13 @@ function Addresses ({ className }: Props): React.ReactElement<Props> {
               />
             </div>
           )}
+          <div className='ui--row'>
+            <Static
+              className='full'
+              label={t<string>('hex public key')}
+              value={publicKey}
+            />
+          </div>
         </>
       )}
     </div>
