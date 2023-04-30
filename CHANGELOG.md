@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## 0.129.1 Apr 30, 2023
+
+Contributed:
+
+- Add BlockOps Kusama/Polkadot endpoints (Thanks to https://github.com/haroldsphinx)
+- Update Darwinia endpoints (Thanks to https://github.com/fewensa)
+
+Changes:
+
+- Disable unreachable endpoints
+
+
 ## 0.128.1 Apr 24, 2023
 
 Contributed:
