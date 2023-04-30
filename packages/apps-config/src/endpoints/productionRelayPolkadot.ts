@@ -715,6 +715,7 @@ export const prodRelayPolkadot: EndpointOption = {
     OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
     Parity: 'wss://rpc.polkadot.io',
     RadiumBlock: 'wss://polkadot.public.curie.radiumblock.co/ws',
+    Stakeworld: 'wss://dot-rpc.stakeworld.io',
     'light client': 'light://substrate-connect/polkadot'
   },
   teleport: getTeleports(prodParasPolkadotCommon),
