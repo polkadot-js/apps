@@ -22,7 +22,5 @@ describe('typesBundle checks', (): void => {
     ).toEqual(
       getDerives(typesBundle.spec || {})
     );
-
-    throw new Error('failed');
   });
 });
