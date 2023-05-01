@@ -16,7 +16,7 @@
   "version": "0.129.2-1-x",
   "main": "index.js",
   "dependencies": {
-    "@acala-network/type-definitions": "4.1.8-13",
+    "@acala-network/type-definitions": "5.0.2",
     "@bifrost-finance/type-definitions": "1.7.2",
     "@crustio/type-definitions": "1.3.0",
     "@darwinia/types": "2.8.10",
@@ -44,7 +44,7 @@
     "@polkadot/x-ws": "^12.1.1",
     "@polymeshassociation/polymesh-types": "5.4.0",
     "@snowfork/snowbridge-types": "0.2.7",
-    "@sora-substrate/type-definitions": "1.17.1",
+    "@sora-substrate/type-definitions": "1.17.5",
     "@subsocial/definitions": "0.8.10",
     "@unique-nft/opal-testnet-types": "939.54.0",
     "@unique-nft/quartz-mainnet-types": "939.54.0",

@@ -16,7 +16,7 @@
   "type": "module",
   "version": "0.129.2-1-x",
   "devDependencies": {
-    "chart.js": "^4.2.1"
+    "chart.js": "^4.3.0"
   },
   "peerDependencies": {
     "react": "*",

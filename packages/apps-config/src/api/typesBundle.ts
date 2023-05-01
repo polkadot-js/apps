@@ -96642,6 +96642,65 @@ export const typesBundle = {
             "section": "ethBridge"
           }
         },
+        "evmBridgeProxy": {
+          "listApps": {
+            "description": "",
+            "params": [
+              {
+                "name": "networkId",
+                "type": "EVMChainId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<BridgeAppInfo>",
+            "isSubscription": false,
+            "jsonrpc": "evmBridgeProxy_listApps",
+            "method": "listApps",
+            "section": "evmBridgeProxy"
+          },
+          "listSupportedAssets": {
+            "description": "",
+            "params": [
+              {
+                "name": "networkId",
+                "type": "EVMChainId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<BridgeAssetInfo<AssetId>>",
+            "isSubscription": false,
+            "jsonrpc": "evmBridgeProxy_listSupportedAssets",
+            "method": "listSupportedAssets",
+            "section": "evmBridgeProxy"
+          },
+          "listAppsWithSupportedAssets": {
+            "description": "",
+            "params": [
+              {
+                "name": "networkId",
+                "type": "EVMChainId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isOptional": true
+              }
+            ],
+            "type": "AppsWithSupportedAssets<AssetId>",
+            "isSubscription": false,
+            "jsonrpc": "evmBridgeProxy_listAppsWithSupportedAssets",
+            "method": "listAppsWithSupportedAssets",
+            "section": "evmBridgeProxy"
+          }
+        },
         "farming": {
           "rewardDoublingAssets": {
             "description": "Get list of double rewarding assets",
@@ -97580,6 +97639,28 @@ export const typesBundle = {
                 "V2"
               ]
             },
+            "AppKind": {
+              "_enum": [
+                "EthApp",
+                "ERC20App",
+                "SidechainApp",
+                "SubstrateApp"
+              ]
+            },
+            "AppsWithSupportedAssets": {
+              "apps": "Vec<BridgeAppInfo>",
+              "assets": "Vec<BridgeAssetInfo<AssetId>>"
+            },
+            "BridgeAssetInfo": {
+              "assetId": "AssetId",
+              "evmAddress": "Option<H160>",
+              "appKind": "AppKind"
+            },
+            "BridgeAppInfo": {
+              "evmAddress": "H160",
+              "appKind": "AppKind"
+            },
+            "EVMChainId": "U256",
             "PoolFarmer": {
               "account": "AccountId",
               "block": "BlockNumber",
@@ -98339,6 +98420,65 @@ export const typesBundle = {
             "section": "ethBridge"
           }
         },
+        "evmBridgeProxy": {
+          "listApps": {
+            "description": "",
+            "params": [
+              {
+                "name": "networkId",
+                "type": "EVMChainId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<BridgeAppInfo>",
+            "isSubscription": false,
+            "jsonrpc": "evmBridgeProxy_listApps",
+            "method": "listApps",
+            "section": "evmBridgeProxy"
+          },
+          "listSupportedAssets": {
+            "description": "",
+            "params": [
+              {
+                "name": "networkId",
+                "type": "EVMChainId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<BridgeAssetInfo<AssetId>>",
+            "isSubscription": false,
+            "jsonrpc": "evmBridgeProxy_listSupportedAssets",
+            "method": "listSupportedAssets",
+            "section": "evmBridgeProxy"
+          },
+          "listAppsWithSupportedAssets": {
+            "description": "",
+            "params": [
+              {
+                "name": "networkId",
+                "type": "EVMChainId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isOptional": true
+              }
+            ],
+            "type": "AppsWithSupportedAssets<AssetId>",
+            "isSubscription": false,
+            "jsonrpc": "evmBridgeProxy_listAppsWithSupportedAssets",
+            "method": "listAppsWithSupportedAssets",
+            "section": "evmBridgeProxy"
+          }
+        },
         "farming": {
           "rewardDoublingAssets": {
             "description": "Get list of double rewarding assets",
@@ -99277,6 +99417,28 @@ export const typesBundle = {
                 "V2"
               ]
             },
+            "AppKind": {
+              "_enum": [
+                "EthApp",
+                "ERC20App",
+                "SidechainApp",
+                "SubstrateApp"
+              ]
+            },
+            "AppsWithSupportedAssets": {
+              "apps": "Vec<BridgeAppInfo>",
+              "assets": "Vec<BridgeAssetInfo<AssetId>>"
+            },
+            "BridgeAssetInfo": {
+              "assetId": "AssetId",
+              "evmAddress": "Option<H160>",
+              "appKind": "AppKind"
+            },
+            "BridgeAppInfo": {
+              "evmAddress": "H160",
+              "appKind": "AppKind"
+            },
+            "EVMChainId": "U256",
             "PoolFarmer": {
               "account": "AccountId",
               "block": "BlockNumber",

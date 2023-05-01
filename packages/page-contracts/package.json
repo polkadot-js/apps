@@ -17,7 +17,7 @@
   "version": "0.129.2-1-x",
   "dependencies": {
     "@polkadot/api-contract": "^10.5.1",
-    "eventemitter3": "^5.0.0"
+    "eventemitter3": "^5.0.1"
   },
   "peerDependencies": {
     "react": "*",

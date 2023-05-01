@@ -7,4 +7,4 @@ import { typesBundle as typesOnlyBundle } from './typesBundle.js';
 export * from './constants.js';
 export * from './params/index.js';
 
-export const typesBundle = applyDerives(typesOnlyBundle);
+export const typesBundle = /*#__PURE__*/ applyDerives(typesOnlyBundle);
