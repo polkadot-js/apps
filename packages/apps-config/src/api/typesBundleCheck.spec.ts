@@ -15,12 +15,14 @@ function getDerives (spec: Record<string, OverrideBundleDefinition>): string[] {
     .map(([k]) => k);
 }
 
-describe('typesBundle', (): void => {
+describe('typesBundle checks', (): void => {
   it('all derives are re-exported', (): void => {
     expect(
       getDerives(spec)
     ).toEqual(
       getDerives(typesBundle.spec || {})
     );
+
+    throw new Error('failed');
   });
 });
