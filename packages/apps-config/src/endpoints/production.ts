@@ -76,7 +76,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'centrifuge',
     providers: {
-      // Centrifuge: 'wss://fullnode.centrifuge.io'
+      // Centrifuge: 'wss://fullnode.centrifuge.io' // https://github.com/polkadot-js/apps/issues/8012
     },
     text: 'Centrifuge Standalone [Archived]',
     ui: {
