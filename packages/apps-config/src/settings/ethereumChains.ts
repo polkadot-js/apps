@@ -24,5 +24,6 @@ export const ethereumChains = [
   'thebifrost-testnet',
   'thebifrost-mainnet',
   'dracones',
-  'dracones-dwarf'
+  'dracones-dwarf',
+  'subspace-evm-domain'
 ];
