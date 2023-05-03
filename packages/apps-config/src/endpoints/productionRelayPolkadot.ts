@@ -509,6 +509,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'phala',
     paraId: 2035,
     providers: {
+      Dwellir: 'wss://phala-rpc.dwellir.com',
       OnFinality: 'wss://phala.api.onfinality.io/public-ws',
       Phala: 'wss://api.phala.network/ws'
     },
