@@ -410,7 +410,6 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
   {
     homepage: 'https://www.litentry.com/',
     info: 'litmus',
-    isUnreachable: false,
     paraId: 2106,
     providers: {
       Litentry: 'wss://rpc.litmus-parachain.litentry.io'
@@ -422,13 +421,11 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    // https://github.com/polkadot-js/apps/issues/5888
     homepage: 'https://loomx.io/',
     info: 'loomNetwork',
-    isUnreachable: true,
     paraId: 2080,
     providers: {
-      LoomNetwork: 'wss://kusama.dappchains.com'
+      // LoomNetwork: 'wss://kusama.dappchains.com' // https://github.com/polkadot-js/apps/issues/5888
     },
     text: 'Loom Network',
     ui: {
@@ -653,10 +650,9 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
   {
     homepage: 'https://icenetwork.io/snow',
     info: 'snow',
-    isUnreachable: false,
     paraId: 2129,
     providers: {
-      IceNetwork: 'wss://snow-rpc.icenetwork.io'
+      // IceNetwork: 'wss://snow-rpc.icenetwork.io' // https://github.com/polkadot-js/apps/issues/9405
     },
     text: 'SNOW Network',
     ui: {
