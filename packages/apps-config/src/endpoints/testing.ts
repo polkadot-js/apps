@@ -65,7 +65,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'arctic',
     providers: {
-      Arctic: 'wss://arctic-rpc.icenetwork.io:9944'
+      // Arctic: 'wss://arctic-rpc.icenetwork.io:9944' // https://github.com/polkadot-js/apps/issues/9405
     },
     text: 'Arctic',
     ui: {
