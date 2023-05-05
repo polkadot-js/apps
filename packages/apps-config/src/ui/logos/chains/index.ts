@@ -20,6 +20,7 @@ export { chainsDebioSVG } from './generated/debioSVG.js';
 export { chainsDorafactoryPNG } from './generated/dorafactoryPNG.js';
 export { chainsDustyPNG } from './generated/dustyPNG.js';
 export { chainsEquilibriumSVG } from './generated/equilibriumSVG.js';
+export { chainsEwxSVG } from './generated/ewxSVG.js';
 export { chainsFerrumPNG } from './generated/ferrumPNG.js';
 export { chainsFragnovaPNG } from './generated/fragnovaPNG.js';
 export { chainsFrequencySVG } from './generated/frequencySVG.js';
