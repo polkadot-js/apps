@@ -4,6 +4,8 @@
 
 Changes:
 
+- Extend unbonding info message in case of stalled eras
+- Ensure only positive values on stalled era unbonding block calculations
 - Display hex public key in address conversion utility
 - Disable unreachable endpoints
 

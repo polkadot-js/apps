@@ -341,7 +341,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoNodle',
     paraId: 2026,
     providers: {
-      OnFinality: 'wss://nodle-paradis.api.onfinality.io/public-ws'
+      // OnFinality: 'wss://nodle-paradis.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9415
     },
     text: 'Nodle',
     ui: {
