@@ -78,8 +78,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2090,
     providers: {
       Basilisk: 'wss://rpc.basilisk.cloud',
-      Dwellir: 'wss://basilisk-rpc.dwellir.com',
-      OnFinality: 'wss://basilisk.api.onfinality.io/public-ws'
+      Dwellir: 'wss://basilisk-rpc.dwellir.com'
+      // OnFinality: 'wss://basilisk.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9414
     },
     text: 'Basilisk',
     ui: {
