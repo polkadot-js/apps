@@ -18,13 +18,13 @@ import { getTeleports } from './util.js';
 export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'ewx',
-    paraId: 2000,
+    paraId: 4237,
     providers: {
-      'EWX Network': 'wss://rococo.ewc.network'
+      'EWX Network': 'wss://public-rpc.testnet.energywebx.org'
     },
     text: 'EWX Testnet',
     ui: {
-      color: '#E6007A',
+      color: '#7907FE',
       logo: chainsEwxSVG
     }
   },
