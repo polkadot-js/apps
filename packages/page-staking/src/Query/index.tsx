@@ -49,6 +49,7 @@ function Query ({ className }: Props): React.ReactElement<Props> {
   const pastSessions = useMemo(() => {
     if (currentSession && currentEra && historyDepth && minimumSessionNumber) {
       const maxSessionQueryDepth = 4 * historyDepth;
+
       const minSessionNumber = Math.max(minimumSessionNumber, currentSession - maxSessionQueryDepth);
       const queryDepth = currentSession - minSessionNumber;
 

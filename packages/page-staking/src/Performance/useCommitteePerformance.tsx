@@ -33,8 +33,11 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
 
   const [firstBlockInSessionHashes, setFirstBlockInSessionHashes] = useState<Hash[]>([]);
   const [lastBlockInSessionsHashes, setLastBlockInSessionsHashes] = useState<Hash[]>([]);
+  const [lastBlockInSessionPerAuraHashes, setLastBlockInSessionPerAuraHashes] = useState<Hash[]>([]);
+
   const [committees, setCommittees] = useState<string[][]>([]);
   const [sessionValidatorBlockCountLookups, setSessionValidatorBlockCountLookups] = useState<[string, number][][]>([]);
+  const [lastBlockPerAuraAuthors, setLastBlockPerAuraAuthors] = useState<(string | undefined)[]>([]);
   const [committeeMemberPerformances, setCommitteeMemberPerformances] = useState<SessionCommitteePerformance[]>([]);
 
   function getSessionFirstAndLastBlock (session: number, sessionPeriod: number) {
@@ -42,10 +45,11 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
     // is treated in a special way. N % sessions_period block is the last session block.
     // however, due to how pallet elections writes down session validator block count we need to
     // read that storage map from one block before last block, as in the last block counter is
-    // cleared; this means we miss statistics by one block here
+    // cleared; so we adjust +1 per block author info from what AURA thinks last block is
     return {
       first: session * sessionPeriod + 1,
-      last: (session + 1) * sessionPeriod - 1
+      last: (session + 1) * sessionPeriod - 1,
+      lastPerAura: (session + 1) * sessionPeriod
     };
   }
 
@@ -57,6 +61,21 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
 
       Promise.all(promises)
         .then((blockHashes) => setFirstBlockInSessionHashes(blockHashes.filter((hash) => !hash.isEmpty)))
+        .catch(console.error);
+    }
+  },
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  [api, JSON.stringify(sessions)]
+  );
+
+  useEffect(() => {
+    if (api && api.consts.elections) {
+      const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
+
+      const promises = sessions.map((session) => api.rpc.chain.getBlockHash(getSessionFirstAndLastBlock(session, sessionPeriod).lastPerAura));
+
+      Promise.all(promises)
+        .then((blockHashes) => setLastBlockInSessionPerAuraHashes(blockHashes.filter((hash) => !hash.isEmpty)))
         .catch(console.error);
     }
   },
@@ -95,6 +114,20 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
   );
 
   useEffect(() => {
+    const promisesLastBlockPerAuraHeaders = lastBlockInSessionPerAuraHashes.map((hash) =>
+      api.derive.chain.getHeader(hash)
+    );
+
+    Promise.all(promisesLastBlockPerAuraHeaders).then((headersExtended) => {
+      setLastBlockPerAuraAuthors(headersExtended.map((headerExtended) => headerExtended.author)
+        .map((author) => author?.toString()));
+    }).catch(console.error);
+  },
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  [api, JSON.stringify(lastBlockInSessionPerAuraHashes)]
+  );
+
+  useEffect(() => {
     const apisAtFirstBlockPromises = firstBlockInSessionHashes.map((hash) => api.at(hash.toString()));
 
     Promise.all(apisAtFirstBlockPromises).then((apis) => {
@@ -112,11 +145,17 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
   );
 
   function getValidatorPerformance (validator: string,
-    sessionValidatorBlockCountLookup: [string, number][] | undefined): ValidatorPerformance {
+    sessionValidatorBlockCountLookup: [string, number][] | undefined,
+    lastBlockPerAuraAuthors: (string | undefined)[],
+    index: number): ValidatorPerformance {
     const maybeCount = sessionValidatorBlockCountLookup?.find(([id]) => id === validator);
-    const count = maybeCount
+    let count = maybeCount
       ? maybeCount[1]
       : (sessionValidatorBlockCountLookup ? 0 : undefined);
+
+    if (count && lastBlockPerAuraAuthors[index] === validator) {
+      count += 1;
+    }
 
     return {
       accountId: validator,
@@ -132,7 +171,9 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
 
       if (committee) {
         const validatorPerformances = committee.map((validator) => getValidatorPerformance(validator,
-          sessionValidatorBlockCountLookup));
+          sessionValidatorBlockCountLookup,
+          lastBlockPerAuraAuthors,
+          index));
         const committeePerformance: SessionCommitteePerformance = {
           expectedBlockCount: sessionPeriod / committee.length,
           performance: validatorPerformances,
@@ -150,7 +191,7 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
     }));
   },
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  [JSON.stringify(committees), JSON.stringify(sessionValidatorBlockCountLookups), JSON.stringify(sessions)]
+  [JSON.stringify(committees), JSON.stringify(sessionValidatorBlockCountLookups), JSON.stringify(sessions), JSON.stringify(lastBlockPerAuraAuthors)]
   );
 
   return committeeMemberPerformances;
