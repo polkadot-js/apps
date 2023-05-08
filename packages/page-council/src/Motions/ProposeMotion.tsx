@@ -2,13 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { BN } from '@polkadot/util';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { calcThreshold, getProposalThreshold } from '@polkadot/apps-config';
 import { Button, Extrinsic, InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCollectiveInstance, useToggle } from '@polkadot/react-hooks';
-import { BN, BN_ZERO } from '@polkadot/util';
+import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
 

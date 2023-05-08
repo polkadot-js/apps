@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BountyIndex } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
 import React, { useEffect, useRef, useState } from 'react';
 
 import { calcThreshold, getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCollectiveInstance, useCollectiveMembers } from '@polkadot/react-hooks';
-import { BN } from '@polkadot/util';
 
 import { truncateTitle } from '../helpers/index.js';
 import { useBounties } from '../hooks/index.js';

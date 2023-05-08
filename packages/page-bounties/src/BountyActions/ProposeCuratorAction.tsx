@@ -3,13 +3,13 @@
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { Balance, BountyIndex } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { calcThreshold, getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { Button, InputAddress, InputBalance, MarkError, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCollectiveInstance, useCollectiveMembers, useToggle } from '@polkadot/react-hooks';
-import { BN } from '@polkadot/util';
 
 import { truncateTitle } from '../helpers/index.js';
 import { useBounties } from '../hooks/index.js';
