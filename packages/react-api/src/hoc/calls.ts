@@ -1,12 +1,11 @@
 // Copyright 2017-2023 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiProps, SubtractProps } from '../types';
-import type { Options } from './types';
+import type React from 'react';
+import type { ApiProps, SubtractProps } from '../types.js';
+import type { Options } from './types.js';
 
-import React from 'react';
-
-import withCall from './call';
+import withCall from './call.js';
 
 type Call = string | [string, Options];
 

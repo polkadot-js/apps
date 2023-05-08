@@ -9,12 +9,12 @@ import React from 'react';
 import { Button } from '@polkadot/react-components';
 import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 
-import { useModuleElections } from '../useModuleElections';
-import Candidates from './Candidates';
-import Members from './Members';
-import SubmitCandidacy from './SubmitCandidacy';
-import Summary from './Summary';
-import Vote from './Vote';
+import { useModuleElections } from '../useModuleElections.js';
+import Candidates from './Candidates.js';
+import Members from './Members.js';
+import SubmitCandidacy from './SubmitCandidacy.js';
+import Summary from './Summary.js';
+import Vote from './Vote.js';
 
 interface Props {
   className?: string;
@@ -69,6 +69,7 @@ function Overview ({ className = '', prime }: Props): React.ReactElement<Props> 
         <Candidates
           allVotes={allVotes}
           electionsInfo={electionsInfo}
+          hasElections={hasElections}
         />
       )}
     </div>

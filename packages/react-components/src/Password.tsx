@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import Input from './Input';
+import Input from './Input.js';
 
 interface Props {
   autoFocus?: boolean;
@@ -28,7 +28,7 @@ function Password ({ autoFocus, children, className = '', defaultValue, isDisabl
   return (
     <Input
       autoFocus={autoFocus}
-      className={`ui--Password ${className}`}
+      className={`${className} ui--Password`}
       defaultValue={defaultValue}
       isDisabled={isDisabled}
       isError={isError}

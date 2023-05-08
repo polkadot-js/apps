@@ -4,12 +4,12 @@
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
 
 import React, { useMemo, useState } from 'react';
-import styled from 'styled-components';
 
 import { useTheme } from '@polkadot/react-hooks';
 
-import Icon from './Icon';
-import Tooltip from './Tooltip';
+import Icon from './Icon.js';
+import { styled } from './styled.js';
+import Tooltip from './Tooltip.js';
 
 interface Props {
   className?: string;
@@ -50,7 +50,7 @@ function Badge ({ className = '', color = 'normal', hover, hoverAction, icon, in
   return (
     <StyledDiv
       {...extraProps}
-      className={`ui--Badge${hover ? ' isTooltip' : ''}${isBlock ? ' isBlock' : ''}${isSmall ? ' isSmall' : ''}${onClick ? ' isClickable' : ''}${isHighlight ? ' highlight--bg' : ''} ${color}Color ${className}${icon ? ' withIcon' : ''}${info ? ' withInfo' : ''}${hoverAction ? ' withAction' : ''} ${theme}Theme `}
+      className={`${className} ui--Badge ${hover ? 'isTooltip' : ''} ${isBlock ? 'isBlock' : ''} ${isSmall ? 'isSmall' : ''} ${onClick ? 'isClickable' : ''} ${isHighlight ? 'highlight--bg' : ''} ${color}Color ${icon ? 'withIcon' : ''} ${info ? 'withInfo' : ''} ${hoverAction ? 'withAction' : ''} ${theme}Theme`}
       data-testid={badgeTestId}
       onClick={hoverAction ? undefined : onClick}
     >

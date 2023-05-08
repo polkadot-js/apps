@@ -4,8 +4,8 @@
 import type { BN } from '@polkadot/util';
 
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 
+import { styled } from '@polkadot/react-components/styled';
 import { bnToBn } from '@polkadot/util';
 
 type Ticker = (now: number) => void;
@@ -76,7 +76,7 @@ function Elapsed ({ children, className = '', value }: Props): React.ReactElemen
   }, []);
 
   return (
-    <StyledDiv className={`ui--Elapsed ${className} --digits`}>
+    <StyledDiv className={`${className} ui--Elapsed --digits`}>
       {getDisplayValue(now, value)}{children}
     </StyledDiv>
   );

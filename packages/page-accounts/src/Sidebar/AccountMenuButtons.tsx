@@ -1,15 +1,16 @@
 // Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useCallback } from 'react';
-import styled from 'styled-components';
+import type { AddressFlags } from '@polkadot/react-hooks/types';
 
-import Transfer from '@polkadot/app-accounts/modals/Transfer';
-import { useTranslation } from '@polkadot/app-accounts/translate';
-import { Button } from '@polkadot/react-components';
+import React, { useCallback } from 'react';
+
+import { Button, styled } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
-import { AddressFlags } from '@polkadot/react-hooks/types';
 import { isFunction } from '@polkadot/util';
+
+import Transfer from '../modals/Transfer.js';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
@@ -22,7 +23,7 @@ interface Props {
   onSaveName: () => void;
   onSaveTags: () => void;
   onForgetAddress: () => void;
-  onUpdateName: () => void;
+  onUpdateName?: (() => void) | null;
   recipientId: string;
 }
 
@@ -69,7 +70,7 @@ function AccountMenuButtons ({ className = '', flags, isEditing, isEditingName, 
   }, [isEditing, toggleIsEditing, updateName, onSaveTags]);
 
   return (
-    <div className={`${className} ui--AddressMenu-buttons`}>
+    <StyledDiv className={`${className} ui--AddressMenu-buttons`}>
       {isEditing
         ? (
           <Button.Group>
@@ -127,11 +128,11 @@ function AccountMenuButtons ({ className = '', flags, isEditing, isEditingName, 
           recipientId={recipientId}
         />
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(AccountMenuButtons)`
+const StyledDiv = styled.div`
   width: 100%;
 
   .ui--Button-Group {
@@ -140,4 +141,6 @@ export default React.memo(styled(AccountMenuButtons)`
     justify-content: space-around;
     margin-bottom: 0;
   }
-`);
+`;
+
+export default React.memo(AccountMenuButtons);

@@ -5,9 +5,10 @@ import type { ThemeDef } from '@polkadot/react-hooks/ctx/types';
 
 import React, { useContext } from 'react';
 import store from 'store';
-import styled, { ThemeContext } from 'styled-components';
+import { ThemeContext } from 'styled-components';
 
-import Dropdown from './Dropdown';
+import Dropdown from './Dropdown.js';
+import { styled } from './styled.js';
 
 interface Option {
   key: string;
@@ -59,9 +60,9 @@ function InputTags ({ allowAdd = true, className = '', defaultValue, isDisabled,
   const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
 
   return (
-    <Dropdown
+    <StyledDropdown
       allowAdd={allowAdd && !isDisabled}
-      className={`ui--InputTags ${theme}Theme ${className}`}
+      className={`${className} ui--InputTags ${theme}Theme`}
       defaultValue={defaultValue}
       isDisabled={isDisabled}
       isError={isError}
@@ -80,7 +81,7 @@ function InputTags ({ allowAdd = true, className = '', defaultValue, isDisabled,
   );
 }
 
-export default React.memo(styled(InputTags)`
+const StyledDropdown = styled(Dropdown)`
   && .ui.label {
     border: none;
     border-radius: 0.25rem;
@@ -104,4 +105,6 @@ export default React.memo(styled(InputTags)`
   &&.darkTheme .ui.label {
     background-color: rgba(255, 255, 255, 0.08);
   }
-`);
+`;
+
+export default React.memo(InputTags);

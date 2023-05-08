@@ -6,33 +6,35 @@ import type { Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 import type { HexString } from '@polkadot/util/types';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { CallExpander } from '@polkadot/react-components';
+import { CallExpander, styled } from '@polkadot/react-components';
 import { useApi, usePreimage } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import ExternalCell from './ExternalCell';
-import TreasuryCell from './TreasuryCell';
+import { useTranslation } from '../translate.js';
+import ExternalCell from './ExternalCell.js';
+import TreasuryCell from './TreasuryCell.js';
 
 interface Props {
   className?: string;
   imageHash: Hash | HexString;
+  isCollective?: boolean;
   proposal?: Proposal | null;
 }
 
 const METHOD_EXTE = ['externalPropose', 'externalProposeDefault', 'externalProposeMajority', 'fastTrack'];
 const METHOD_TREA = ['approveProposal', 'rejectProposal'];
 
-function ProposalCell ({ className = '', imageHash, proposal }: Props): React.ReactElement<Props> {
+function ProposalCell ({ className = '', imageHash, isCollective, proposal }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const preimage = usePreimage(imageHash);
 
   // while we still have this endpoint, democracy will use it
-  const displayProposal = api.query.democracy?.preimages
+  const displayProposal = isCollective
     ? proposal
-    : preimage?.proposal;
+    : api.query.democracy?.preimages
+      ? proposal
+      : preimage?.proposal;
 
   if (!displayProposal) {
     const textHash = imageHash.toString();

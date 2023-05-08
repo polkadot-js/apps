@@ -5,12 +5,11 @@ import type { QueueTx } from '@polkadot/react-components/Status/types';
 import type { BN } from '@polkadot/util';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { CallExpander, Modal } from '@polkadot/react-components';
+import { CallExpander, Modal, styled } from '@polkadot/react-components';
 
-import PaymentInfo from './PaymentInfo';
-import { useTranslation } from './translate';
+import PaymentInfo from './PaymentInfo.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   accountId?: string | null;
@@ -28,7 +27,7 @@ function Transaction ({ accountId, className, currentItem: { extrinsic, isUnsign
   }
 
   return (
-    <Modal.Columns
+    <StyledModalColumns
       className={className}
       hint={t<string>('The details of the transaction including the type, the description (as available from the chain metadata) as well as any parameters and fee estimations (as available) for the specific type of call.')}
     >
@@ -46,12 +45,14 @@ function Transaction ({ accountId, className, currentItem: { extrinsic, isUnsign
           tip={tip}
         />
       )}
-    </Modal.Columns>
+    </StyledModalColumns>
   );
 }
 
-export default React.memo(styled(Transaction)`
+const StyledModalColumns = styled(Modal.Columns)`
   .paymentInfo {
     margin-top: 0.5rem;
   }
-`);
+`;
+
+export default React.memo(Transaction);

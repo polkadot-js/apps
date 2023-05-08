@@ -3,7 +3,7 @@
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { BN } from '@polkadot/util';
-import type { SlashEra } from './types';
+import type { SlashEra } from './types.js';
 
 import React, { useCallback, useRef, useState } from 'react';
 
@@ -11,9 +11,9 @@ import { Button, Table, TxButton } from '@polkadot/react-components';
 import { useApi, useCollectiveInstance } from '@polkadot/react-hooks';
 import { BN_ONE, isFunction } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import Row from './Row';
-import Summary from './Summary';
+import { useTranslation } from '../translate.js';
+import Row from './Row.js';
+import Summary from './Summary.js';
 
 interface Props {
   buttons: React.ReactNode;
@@ -50,20 +50,20 @@ function Slashes ({ buttons, councilId, councilThreshold, slash }: Props): React
   });
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('era {{era}}/unapplied', {
+    [t<string>('era {{era}}/unapplied', {
       replace: {
         era: api.query.staking.earliestUnappliedSlash || !api.consts.staking.slashDeferDuration
           ? slash.era.toString()
           : slash.era.sub(api.consts.staking.slashDeferDuration).sub(BN_ONE).toString()
       }
     }), 'start', 3],
-    [t('reporters'), 'address'],
-    [t('own')],
-    [t('other')],
-    [t('total')],
-    [t('payout')],
+    [t<string>('reporters'), 'address'],
+    [t<string>('own')],
+    [t<string>('other')],
+    [t<string>('total')],
+    [t<string>('payout')],
     !api.query.staking.earliestUnappliedSlash && !!api.consts.staking.slashDeferDuration &&
-      [t('apply')],
+      [t<string>('apply')],
     []
   ]);
 
@@ -98,7 +98,7 @@ function Slashes ({ buttons, councilId, councilThreshold, slash }: Props): React
               accountId={councilId}
               isDisabled={!txSome}
               isToplevel
-              label={t('Cancel selected')}
+              label={t<string>('Cancel selected')}
               params={txSome && (
                 api.tx[councilMod].propose.meta.args.length === 3
                   ? [councilThreshold, txSome.proposal, txSome.length]
@@ -110,7 +110,7 @@ function Slashes ({ buttons, councilId, councilThreshold, slash }: Props): React
               accountId={councilId}
               isDisabled={!txAll}
               isToplevel
-              label={t('Cancel all')}
+              label={t<string>('Cancel all')}
               params={txAll && (
                 api.tx[councilMod].propose.meta.args.length === 3
                   ? [councilThreshold, txAll.proposal, txAll.length]

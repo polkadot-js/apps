@@ -5,25 +5,23 @@ import React from 'react';
 
 import { isString } from '@polkadot/util';
 
-import Spinner from '../Spinner';
+import Spinner from '../Spinner.js';
 
 interface Props {
   children?: React.ReactNode;
   className?: string;
   empty?: React.ReactNode | false;
   emptySpinner?: React.ReactNode;
+  isEmpty: boolean;
   noBodyTag?: boolean;
 }
 
-function Body ({ children, className = '', empty, emptySpinner, noBodyTag }: Props): React.ReactElement<Props> {
-  return children
+function Body ({ children, className = '', empty, emptySpinner, isEmpty, noBodyTag }: Props): React.ReactElement<Props> {
+  const bodyClassName = `${className} ui--Table-Body`;
+
+  return isEmpty
     ? (
-      noBodyTag
-        ? <>{children}</>
-        : <tbody className={className}>{children}</tbody>
-    )
-    : (
-      <tbody className={className}>
+      <tbody className={bodyClassName}>
         <tr>
           <td colSpan={100}>{
             isString(empty)
@@ -32,7 +30,10 @@ function Body ({ children, className = '', empty, emptySpinner, noBodyTag }: Pro
           }</td>
         </tr>
       </tbody>
-    );
+    )
+    : noBodyTag
+      ? <>{children}</>
+      : <tbody className={bodyClassName}>{children}</tbody>;
 }
 
 export default React.memo(Body);

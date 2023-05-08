@@ -3,8 +3,8 @@
 
 import { useCallback, useState } from 'react';
 
-import { createNamedHook } from './createNamedHook';
-import { useIsMountedRef } from './useIsMountedRef';
+import { createNamedHook } from './createNamedHook.js';
+import { useIsMountedRef } from './useIsMountedRef.js';
 
 function useIncrementImpl (defaultValue = 1): [number, () => void, (value: number) => void] {
   const mountedRef = useIsMountedRef();

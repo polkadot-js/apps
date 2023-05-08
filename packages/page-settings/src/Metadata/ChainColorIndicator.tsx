@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
+
+import { styled } from '@polkadot/react-components';
 
 interface Props {
   color: string;
@@ -11,16 +12,18 @@ interface Props {
 
 function ChainColorIndicator ({ className, color }: Props): React.ReactElement<Props> {
   return (
-    <div
+    <StyledDiv
       className={className}
       color={color}
     />
   );
 }
 
-export default React.memo(styled(ChainColorIndicator)`
-    background-color: ${(props: Props): string => props.color} !important;
-    width: 100px;
-    flex: 1;
-    border-radius: 4px;
+const StyledDiv = styled.div(({ color }: Props): string => `
+  background-color: ${color} !important;
+  width: 100px;
+  flex: 1;
+  border-radius: 4px;
 `);
+
+export default React.memo(ChainColorIndicator);

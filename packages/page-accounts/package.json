@@ -1,5 +1,8 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
+  "engines": {
+    "node": ">=16"
+  },
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-accounts#readme",
   "license": "Apache-2.0",
   "name": "@polkadot/app-accounts",
@@ -11,19 +14,23 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.122.3-286-x",
+  "version": "0.129.2-11-x",
   "dependencies": {
-    "@babel/runtime": "^7.20.7",
-    "@polkadot/hw-ledger": "^10.2.6",
-    "@polkadot/phishing": "^0.18.13",
-    "@polkadot/react-components": "^0.122.3-286-x",
-    "@polkadot/react-hooks": "^0.122.3-286-x",
-    "@polkadot/util": "^10.2.6",
-    "@polkadot/vanitygen": "^0.52.22",
+    "@polkadot/hw-ledger": "^12.1.1",
+    "@polkadot/phishing": "^0.21.2",
+    "@polkadot/react-components": "^0.129.2-11-x",
+    "@polkadot/react-hooks": "^0.129.2-11-x",
+    "@polkadot/util": "^12.1.1",
+    "@polkadot/vanitygen": "^0.54.2",
     "detect-browser": "^5.3.0",
     "file-saver": "^2.0.5"
   },
   "devDependencies": {
-    "@polkadot/test-support": "0.122.3-286-x"
+    "@polkadot/test-support": "0.129.2-11-x"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*",
+    "react-is": "*"
   }
 }

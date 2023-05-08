@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { LeasePeriod } from '../types';
+import type { LeasePeriod } from '../types.js';
 
 import React from 'react';
 
@@ -10,7 +10,7 @@ import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { BestFinalized } from '@polkadot/react-query';
 import { BN_THREE, BN_TWO, formatNumber, isNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   leasePeriod?: LeasePeriod;

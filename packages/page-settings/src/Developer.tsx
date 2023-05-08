@@ -6,14 +6,13 @@ import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
 import store from 'store';
-import styled from 'styled-components';
 
 import { decodeUrlTypes, encodeUrlTypes } from '@polkadot/react-api/urlTypes';
-import { Button, CopyButton, Editor, InputFile } from '@polkadot/react-components';
+import { Button, CopyButton, Editor, InputFile, styled } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { isJsonObject, stringToU8a, u8aToString } from '@polkadot/util';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 const EMPTY_CODE = '{\n\n}';
 const EMPTY_TYPES = {};
@@ -114,7 +113,7 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
     (code: string): void => {
       try {
         if (!isJsonObject(code)) {
-          throw Error(t('This is not a valid JSON object.'));
+          throw Error('This is not a valid JSON object.');
         }
 
         _onChangeTypes(stringToU8a(code));
@@ -124,7 +123,7 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
         setTypesPlaceholder((error as Error).message);
       }
     },
-    [_onChangeTypes, t]
+    [_onChangeTypes]
   );
 
   const _saveDeveloper = useCallback(
@@ -149,7 +148,7 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
         console.error(error);
         setIsTypesValid(false);
         onStatusChange({
-          action: t(`Error saving your custom types. ${(error as Error).message}`),
+          action: t<string>(`Error saving your custom types. ${(error as Error).message}`),
           status: 'error'
         });
       }
@@ -165,7 +164,7 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
   /* eslint-disable react/jsx-max-props-per-line */
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <div className='ui--row'>
         <div className='full'>
           <InputFile
@@ -210,11 +209,11 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
           onClick={_saveDeveloper}
         />
       </Button.Group>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Developer)`
+const StyledDiv = styled.div`
   .editor {
     height: 21rem;
     margin-left: 2rem;
@@ -224,4 +223,6 @@ export default React.memo(styled(Developer)`
   .help {
     padding: 0.5rem 2rem;
   }
-`);
+`;
+
+export default React.memo(Developer);

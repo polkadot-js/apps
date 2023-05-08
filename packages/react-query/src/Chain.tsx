@@ -5,7 +5,7 @@ import React from 'react';
 
 import { useApi } from '@polkadot/react-hooks';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   children?: React.ReactNode;
@@ -19,7 +19,7 @@ function Chain ({ children, className = '', label }: Props): React.ReactElement<
 
   return (
     <div className={className}>
-      {label || ''}{systemChain || t('Unknown')}{children}
+      {label || ''}{systemChain || t<string>('Unknown')}{children}
     </div>
   );
 }

@@ -3,7 +3,7 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletReferendaCurve, PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
-import type { CurveGraph, TrackDescription, TrackInfoExt } from './types';
+import type { CurveGraph, TrackDescription, TrackInfoExt } from './types.js';
 
 import { getGovernanceTracks } from '@polkadot/apps-config';
 import { BN, BN_BILLION, BN_ONE, BN_ZERO, bnMax, bnMin, formatNumber, objectSpread, stringPascalCase } from '@polkadot/util';
@@ -22,10 +22,10 @@ export function getTrackName (trackId: BN, { name }: PalletReferendaTrackInfo): 
   }`;
 }
 
-export function getTrackInfo (api: ApiPromise, specName: string, palletReferenda: string, tracks?: TrackDescription[], trackId?: number): TrackInfoExt | undefined {
+export function getTrackInfo (api: ApiPromise, specName: string, palletReferenda: string, tracks: TrackDescription[], trackId?: number): TrackInfoExt | undefined {
   let info: TrackInfoExt | undefined;
 
-  if (tracks && trackId !== undefined) {
+  if (tracks && trackId !== undefined && trackId !== -1) {
     const originMap = getGovernanceTracks(api, specName, palletReferenda);
     const track = tracks.find(({ id }) => id.eqn(trackId));
 
@@ -37,7 +37,10 @@ export function getTrackInfo (api: ApiPromise, specName: string, palletReferenda
       );
 
       if (base) {
-        info = objectSpread<TrackInfoExt>({ track }, base);
+        info = objectSpread<TrackInfoExt>({
+          track,
+          trackName: getTrackName(track.id, track.info)
+        }, base);
       }
     }
   }
@@ -88,6 +91,11 @@ export function curveThreshold (curve: PalletReferendaCurve, input: BN, div: BN)
     );
   } else if (curve.asReciprocal) {
     const { factor, xOffset, yOffset } = curve.asReciprocal;
+    const div = x.add(xOffset);
+
+    if (div.isZero()) {
+      return BN_BILLION;
+    }
 
     // factor
     //   .checked_rounding_div(FixedI64::from(x) + *x_offset, Low)
@@ -97,7 +105,7 @@ export function curveThreshold (curve: PalletReferendaCurve, input: BN, div: BN)
       BN_BILLION,
       factor
         .mul(BN_BILLION)
-        .div(x.add(xOffset))
+        .div(div)
         .add(yOffset)
     );
   }
@@ -106,82 +114,93 @@ export function curveThreshold (curve: PalletReferendaCurve, input: BN, div: BN)
 }
 
 export function curveDelay (curve: PalletReferendaCurve, input: BN, div: BN): BN {
-  // if divisor is zero, we return the max
-  if (div.isZero()) {
-    return BN_BILLION;
-  }
+  try {
+    // if divisor is zero, we return the max
+    if (div.isZero()) {
+      return BN_BILLION;
+    }
 
-  const y = input.mul(BN_BILLION).div(div);
+    const y = input.mul(BN_BILLION).div(div);
 
-  if (curve.isLinearDecreasing) {
-    const { ceil, floor, length } = curve.asLinearDecreasing;
+    if (curve.isLinearDecreasing) {
+      const { ceil, floor, length } = curve.asLinearDecreasing;
 
-    // if y < *floor {
-    //   Perbill::one()
-    // } else if y > *ceil {
-    //   Perbill::zero()
-    // } else {
-    //   (*ceil - y).saturating_div(*ceil - *floor, Up).saturating_mul(*length)
-    // }
-    return y.lt(floor)
-      ? BN_BILLION
-      : y.gt(ceil)
-        ? BN_ZERO
+      // if y < *floor {
+      //   Perbill::one()
+      // } else if y > *ceil {
+      //   Perbill::zero()
+      // } else {
+      //   (*ceil - y).saturating_div(*ceil - *floor, Up).saturating_mul(*length)
+      // }
+      return y.lt(floor)
+        ? BN_BILLION
+        : y.gt(ceil)
+          ? BN_ZERO
+          : bnMin(
+            BN_BILLION,
+            bnMax(
+              BN_ZERO,
+              ceil
+                .sub(y)
+                .mul(length)
+                .div(ceil.sub(floor))
+            )
+          );
+    } else if (curve.isSteppedDecreasing) {
+      const { begin, end, period, step } = curve.asSteppedDecreasing;
+
+      // if y < *end {
+      //   Perbill::one()
+      // } else {
+      //   period.int_mul((*begin - y.min(*begin) + step.less_epsilon()).int_div(*step))
+      // }
+      return y.lt(end)
+        ? BN_BILLION
         : bnMin(
           BN_BILLION,
           bnMax(
             BN_ZERO,
-            ceil
-              .sub(y)
-              .mul(length)
-              .div(ceil.sub(floor))
+            period
+              .mul(
+                begin
+                  .sub(bnMin(y, begin))
+                  .add(
+                    step.isZero()
+                      ? step
+                      : step.sub(BN_ONE)
+                  )
+              )
+              .div(step)
           )
         );
-  } else if (curve.isSteppedDecreasing) {
-    const { begin, end, period, step } = curve.asSteppedDecreasing;
+    } else if (curve.asReciprocal) {
+      const { factor, xOffset, yOffset } = curve.asReciprocal;
+      const div = y.sub(yOffset);
 
-    // if y < *end {
-    //   Perbill::one()
-    // } else {
-    //   period.int_mul((*begin - y.min(*begin) + step.less_epsilon()).int_div(*step))
-    // }
-    return y.lt(end)
-      ? BN_BILLION
-      : bnMin(
+      if (div.isZero()) {
+        return BN_BILLION;
+      }
+
+      // let y = FixedI64::from(y);
+      // let maybe_term = factor.checked_rounding_div(y - *y_offset, High);
+      // maybe_term
+      //   .and_then(|term| (term - *x_offset).try_into_perthing().ok())
+      //   .unwrap_or_else(Perbill::one)
+      return bnMin(
         BN_BILLION,
         bnMax(
           BN_ZERO,
-          period
-            .mul(
-              begin
-                .sub(bnMin(y, begin))
-                .add(
-                  step.isZero()
-                    ? step
-                    : step.sub(BN_ONE)
-                )
-            )
-            .div(step)
+          factor
+            .mul(BN_BILLION)
+            .div(div)
+            .sub(xOffset)
         )
       );
-  } else if (curve.asReciprocal) {
-    const { factor, xOffset, yOffset } = curve.asReciprocal;
+    }
+  } catch (error) {
+    console.error(`Failed on curve ${curve.type}:`, curve.inner.toHuman());
 
-    // let y = FixedI64::from(y);
-    // let maybe_term = factor.checked_rounding_div(y - *y_offset, High);
-    // maybe_term
-    //   .and_then(|term| (term - *x_offset).try_into_perthing().ok())
-    //   .unwrap_or_else(Perbill::one)
-    return bnMin(
-      BN_BILLION,
-      bnMax(
-        BN_ZERO,
-        factor
-          .mul(BN_BILLION)
-          .div(y.sub(yOffset))
-          .sub(xOffset)
-      )
-    );
+    throw error;
   }
 
   throw new Error(`Unknown curve found ${curve.type}`);

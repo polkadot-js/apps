@@ -6,7 +6,7 @@ import type { Option } from '@polkadot/types';
 import type { BlockNumber, EraIndex, LeasePeriodOf, Scheduled, UnappliedSlash } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
-import type { EntryInfo, EntryInfoTyped, EntryType } from './types';
+import type { EntryInfo, EntryInfoTyped, EntryType } from './types.js';
 
 import { useEffect, useState } from 'react';
 
@@ -197,7 +197,7 @@ function addFiltered (state: EntryInfoTyped[], types: [EntryType, EntryInfo[]][]
 }
 
 // TODO council votes, tips closing
-function useScheduledImpl (): EntryInfo[] {
+function useScheduledImpl (): EntryInfoTyped[] {
   const { api } = useApi();
   const blockTime = useBlockInterval();
   const bestNumber = useBestNumber();

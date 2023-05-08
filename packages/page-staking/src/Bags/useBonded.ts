@@ -3,7 +3,7 @@
 
 import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
 import type { AccountId32 } from '@polkadot/types/interfaces';
-import type { ListNode } from './types';
+import type { ListNode } from './types.js';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 

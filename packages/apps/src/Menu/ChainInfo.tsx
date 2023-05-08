@@ -4,13 +4,12 @@
 import type { RuntimeVersion } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { ChainImg, Icon } from '@polkadot/react-components';
+import { ChainImg, Icon, styled } from '@polkadot/react-components';
 import { useApi, useCall, useIpfs, useToggle } from '@polkadot/react-hooks';
 import { BestNumber, Chain } from '@polkadot/react-query';
 
-import Endpoints from '../Endpoints';
+import Endpoints from '../Endpoints/index.js';
 
 interface Props {
   className?: string;
@@ -68,7 +67,7 @@ const StyledDiv = styled.div`
       cursor: pointer;
     }
 
-    img {
+    .ui--ChainImg {
       height: 3rem;
       margin-right: 0.5rem;
       width: 3rem;

@@ -6,12 +6,12 @@ import type { Registry } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
+import { styled } from '@polkadot/react-components/styled';
 import { useApi } from '@polkadot/react-hooks';
 import { formatBalance, isString } from '@polkadot/util';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   children?: React.ReactNode;
@@ -85,7 +85,7 @@ function FormatBalance ({ children, className = '', format, formatIndex, isShort
 
   // labelPost here looks messy, however we ensure we have one less text node
   return (
-    <StyledSpan className={`ui--FormatBalance ${className}`}>
+    <StyledSpan className={`${className} ui--FormatBalance`}>
       {label ? <>{label}&nbsp;</> : ''}
       <span
         className='ui--FormatBalance-value --digits'

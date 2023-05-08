@@ -5,8 +5,8 @@ import type { ApiPromise } from '@polkadot/api';
 import type { BN } from '@polkadot/util';
 
 import React from 'react';
-import styled from 'styled-components';
 
+import { styled } from '@polkadot/react-components/styled';
 import { useBlockTime } from '@polkadot/react-hooks';
 
 interface Props {
@@ -26,7 +26,7 @@ function BlockToTime ({ api, children, className = '', isInline, label, value }:
   }
 
   return (
-    <StyledDiv className={`ui--BlockToTime ${className} ${isInline ? 'isInline' : ''}`}>
+    <StyledDiv className={`${className} ui--BlockToTime ${isInline ? 'isInline' : ''}`}>
       {label || ''}{text.split(' ').map((v, index) =>
         <span
           className={index % 2 ? 'timeUnits' : undefined}

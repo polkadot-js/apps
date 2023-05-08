@@ -1,17 +1,17 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { SubmittableResult } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
-import type { TxButtonProps as Props } from './types';
+import type { TxButtonProps as Props } from './types.js';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { SubmittableResult } from '@polkadot/api';
 import { useIsMountedRef, useQueue } from '@polkadot/react-hooks';
 import { assert, isFunction } from '@polkadot/util';
 
-import Button from './Button';
-import { useTranslation } from './translate';
+import Button from './Button/index.js';
+import { useTranslation } from './translate.js';
 
 function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon, isBasic, isBusy, isDisabled, isIcon, isToplevel, isUnsigned, label, onClick, onFailed, onSendRef, onStart, onSuccess, onUpdate, params, tooltip, tx, withSpinner, withoutLink }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();

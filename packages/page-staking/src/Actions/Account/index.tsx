@@ -1,34 +1,34 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
 import type { PalletStakingUnappliedSlash } from '@polkadot/types/lookup';
-import type { SortedTargets } from '../../types';
-import type { Slash } from '../types';
+import type { BN } from '@polkadot/util';
+import type { SortedTargets } from '../../types.js';
+import type { Slash } from '../types.js';
 
 import React, { useCallback, useMemo } from 'react';
-import styled from 'styled-components';
 
-import { ApiPromise } from '@polkadot/api';
-import { AddressInfo, AddressMini, AddressSmall, Badge, Button, Menu, Popup, StakingBonded, StakingRedeemable, StakingUnbonding, TxButton } from '@polkadot/react-components';
+import { AddressInfo, AddressMini, AddressSmall, Badge, Button, Menu, Popup, StakingBonded, StakingRedeemable, StakingUnbonding, styled, TxButton } from '@polkadot/react-components';
 import { useApi, useCall, useQueue, useToggle } from '@polkadot/react-hooks';
-import { BN, formatNumber, isFunction } from '@polkadot/util';
+import { formatNumber, isFunction } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
-import useSlashingSpans from '../useSlashingSpans';
-import BondExtra from './BondExtra';
-import InjectKeys from './InjectKeys';
-import KickNominees from './KickNominees';
-import ListNominees from './ListNominees';
-import Nominate from './Nominate';
-import Rebond from './Rebond';
-import SetControllerAccount from './SetControllerAccount';
-import SetRewardDestination from './SetRewardDestination';
-import SetSessionKey from './SetSessionKey';
-import Unbond from './Unbond';
-import Validate from './Validate';
-import WarnBond from './WarnBond';
+import { useTranslation } from '../../translate.js';
+import useSlashingSpans from '../useSlashingSpans.js';
+import BondExtra from './BondExtra.js';
+import InjectKeys from './InjectKeys.js';
+import KickNominees from './KickNominees.js';
+import ListNominees from './ListNominees.js';
+import Nominate from './Nominate.js';
+import Rebond from './Rebond.js';
+import SetControllerAccount from './SetControllerAccount.js';
+import SetRewardDestination from './SetRewardDestination.js';
+import SetSessionKey from './SetSessionKey.js';
+import Unbond from './Unbond.js';
+import Validate from './Validate.js';
+import WarnBond from './WarnBond.js';
 
 interface Props {
   allSlashes?: [BN, PalletStakingUnappliedSlash[]][];

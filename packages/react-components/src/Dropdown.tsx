@@ -5,11 +5,11 @@ import type { DropdownItemProps, DropdownProps } from 'semantic-ui-react';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Button as SUIButton, Dropdown as SUIDropdown } from 'semantic-ui-react';
-import styled from 'styled-components';
 
 import { isUndefined } from '@polkadot/util';
 
-import Labelled from './Labelled';
+import Labelled from './Labelled.js';
+import { styled } from './styled.js';
 
 interface Props<Option extends DropdownItemProps> {
   allowAdd?: boolean;
@@ -29,7 +29,7 @@ interface Props<Option extends DropdownItemProps> {
   onChange?: (value: any) => void;
   onClose?: () => void;
   onSearch?: (filteredOptions: any[], query: string) => Option[];
-  options: Option[];
+  options: (React.ReactNode | Option)[];
   placeholder?: string;
   renderLabel?: (item: any) => any;
   searchInput?: { autoFocus: boolean };
@@ -44,7 +44,7 @@ export type IDropdown<Option extends DropdownItemProps> = React.ComponentType<Pr
   Header: React.ComponentType<{ content: React.ReactNode }>;
 }
 
-function BaseDropdown<Option extends DropdownItemProps> ({ allowAdd = false, children, className = '', defaultValue, dropdownClassName, isButton, isDisabled, isError, isFull, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, tabIndex, transform, value, withEllipsis, withLabel }: Props<Option>): React.ReactElement<Props<Option>> {
+function DropdownBase<Option extends DropdownItemProps> ({ allowAdd = false, children, className = '', defaultValue, dropdownClassName, isButton, isDisabled, isError, isFull, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, tabIndex, transform, value, withEllipsis, withLabel }: Props<Option>): React.ReactElement<Props<Option>> {
   const lastUpdate = useRef<string>('');
   const [stored, setStored] = useState<string | undefined>();
 
@@ -97,7 +97,9 @@ function BaseDropdown<Option extends DropdownItemProps> ({ allowAdd = false, chi
       onBlur={onBlur}
       onChange={_onChange}
       onClose={onClose}
-      options={options}
+      // NOTE This is not quite correct since we also pass React.ReactNode items
+      // through (e.g. these are used as headers, see InputAddress). But... it works...
+      options={options as Option[]}
       placeholder={placeholder}
       renderLabel={renderLabel}
       search={onSearch || allowAdd}
@@ -111,8 +113,8 @@ function BaseDropdown<Option extends DropdownItemProps> ({ allowAdd = false, chi
   return isButton
     ? <SUIButton.Group>{dropdown}{children}</SUIButton.Group>
     : (
-      <Labelled
-        className={`ui--Dropdown ${className}`}
+      <StyledLabelled
+        className={`${className} ui--Dropdown`}
         isFull={isFull}
         label={label}
         labelExtra={labelExtra}
@@ -121,11 +123,11 @@ function BaseDropdown<Option extends DropdownItemProps> ({ allowAdd = false, chi
       >
         {dropdown}
         {children}
-      </Labelled>
+      </StyledLabelled>
     );
 }
 
-const Dropdown = React.memo(styled(BaseDropdown)`
+const StyledLabelled = styled(Labelled)`
   .ui--Dropdown-item {
     position: relative;
     white-space: nowrap;
@@ -165,9 +167,12 @@ const Dropdown = React.memo(styled(BaseDropdown)`
       }
     }
   }
-`) as unknown as IDropdown<any>;
+`;
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-(Dropdown as any).Header = SUIDropdown.Header;
+const Dropdown = React.memo(DropdownBase) as unknown as typeof DropdownBase & {
+  Header: typeof SUIDropdown.Header
+};
+
+Dropdown.Header = SUIDropdown.Header;
 
 export default Dropdown;

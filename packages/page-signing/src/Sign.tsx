@@ -5,16 +5,15 @@ import type { Signer } from '@polkadot/api/types';
 import type { KeyringPair } from '@polkadot/keyring/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
 
 import { web3FromSource } from '@polkadot/extension-dapp';
-import { Button, Input, InputAddress, Output, Static } from '@polkadot/react-components';
+import { Button, Input, InputAddress, Output, Static, styled } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { isFunction, isHex, u8aToHex, u8aWrapBytes } from '@polkadot/util';
 
-import { useTranslation } from './translate';
-import Unlock from './Unlock';
+import { useTranslation } from './translate.js';
+import Unlock from './Unlock.js';
 
 interface Props {
   className?: string;
@@ -119,7 +118,7 @@ function Sign ({ className = '' }: Props): React.ReactElement<Props> {
   );
 
   return (
-    <div className={`toolbox--Sign ${className}`}>
+    <StyledDiv className={`${className} toolbox--Sign`}>
       <div className='ui--row'>
         <InputAddress
           className='full'
@@ -207,11 +206,11 @@ function Sign ({ className = '' }: Props): React.ReactElement<Props> {
           onClick={_onSign}
         />
       </Button.Group>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Sign)`
+const StyledDiv = styled.div`
   .toolbox--Sign-input {
     position: relative;
     width: 100%;
@@ -243,4 +242,6 @@ export default React.memo(styled(Sign)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(Sign);

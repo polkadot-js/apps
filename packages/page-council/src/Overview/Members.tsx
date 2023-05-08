@@ -8,8 +8,8 @@ import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
-import Candidate from './Candidate';
+import { useTranslation } from '../translate.js';
+import Candidate from './Candidate.js';
 
 interface Props {
   allVotes?: Record<string, AccountId[]>;
@@ -23,9 +23,7 @@ function Members ({ allVotes = {}, className = '', electionsInfo, hasElections, 
   const { t } = useTranslation();
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('members'), 'start'],
-    [hasElections ? t('backing') : undefined, 'expand'],
-    [hasElections ? t('votes') : undefined]
+    [t<string>('members'), 'start', 2]
   ]);
 
   return (
@@ -33,11 +31,13 @@ function Members ({ allVotes = {}, className = '', electionsInfo, hasElections, 
       className={className}
       empty={electionsInfo && t<string>('No members found')}
       header={headerRef.current}
+      isSplit
     >
       {electionsInfo?.members.map(([accountId, balance]): React.ReactNode => (
         <Candidate
           address={accountId}
           balance={balance}
+          hasElections={hasElections}
           isPrime={prime?.eq(accountId)}
           key={accountId.toString()}
           voters={allVotes[accountId.toString()]}

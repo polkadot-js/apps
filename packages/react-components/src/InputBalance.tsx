@@ -1,13 +1,14 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { BN } from '@polkadot/util';
 import type { SiDef } from '@polkadot/util/types';
 
 import React, { useMemo } from 'react';
 
-import { BN, formatBalance, isUndefined } from '@polkadot/util';
+import { formatBalance, isUndefined } from '@polkadot/util';
 
-import InputNumber from './InputNumber';
+import InputNumber from './InputNumber.js';
 
 interface Props {
   autoFocus?: boolean;
@@ -72,7 +73,7 @@ function InputBalance ({ autoFocus, children, className = '', defaultValue: inDe
     <InputNumber
       autoFocus={autoFocus}
       bitLength={DEFAULT_BITLENGTH}
-      className={`ui--InputBalance ${className}`}
+      className={`${className} ui--InputBalance`}
       defaultValue={defaultValue}
       isDisabled={isDisabled}
       isError={isError}

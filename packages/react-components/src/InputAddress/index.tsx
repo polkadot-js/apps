@@ -1,12 +1,12 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DropdownItemProps } from 'semantic-ui-react';
 import type { KeyringOption$Type, KeyringOptions, KeyringSectionOption, KeyringSectionOptions } from '@polkadot/ui-keyring/options/types';
-import type { Option } from './types';
+import type { Option } from './types.js';
 
 import React from 'react';
 import store from 'store';
-import styled from 'styled-components';
 
 import { withMulti, withObservable } from '@polkadot/react-api/hoc';
 import { keyring } from '@polkadot/ui-keyring';
@@ -14,11 +14,12 @@ import { createOptionItem } from '@polkadot/ui-keyring/options/item';
 import { isNull, isUndefined } from '@polkadot/util';
 import { isAddress } from '@polkadot/util-crypto';
 
-import Dropdown from '../Dropdown';
-import Static from '../Static';
-import { getAddressName, toAddress } from '../util';
-import createHeader from './createHeader';
-import createItem from './createItem';
+import Dropdown from '../Dropdown.js';
+import Static from '../Static.js';
+import { styled } from '../styled.js';
+import { getAddressName, toAddress } from '../util/index.js';
+import createHeader from './createHeader.js';
+import createItem from './createItem.js';
 
 interface Props {
   className?: string;
@@ -33,7 +34,7 @@ interface Props {
   labelExtra?: React.ReactNode;
   onChange?: (value: string | null) => void;
   onChangeMulti?: (value: string[]) => void;
-  options?: KeyringSectionOption[];
+  options?: KeyringSectionOption[] | null;
   optionsAll?: Record<string, Option[]>;
   placeholder?: string;
   type?: KeyringOption$Type;
@@ -44,7 +45,7 @@ interface Props {
 }
 
 type ExportedType = React.ComponentType<Props> & {
-  createOption: (option: KeyringSectionOption, isUppercase?: boolean) => Option;
+  createOption: (option: KeyringSectionOption, isUppercase?: boolean) => Option | null;
   setLastValue: (type: KeyringOption$Type, value: string) => void;
 };
 
@@ -59,8 +60,8 @@ const MULTI_DEFAULT: string[] = [];
 
 function transformToAddress (value?: string | Uint8Array | null): string | null {
   try {
-    return toAddress(value) || null;
-  } catch (error) {
+    return toAddress(value, false, keyring.keyring.type === 'ethereum' ? 20 : 32) || null;
+  } catch {
     // noop, handled by return
   }
 
@@ -79,7 +80,7 @@ function transformToAccountId (value: string): string | null {
     : accountId;
 }
 
-function createOption (address: string): Option {
+function createOption (address: string): Option | null {
   let isRecent: boolean | undefined;
   const pair = keyring.getAccount(address);
   let name: string | undefined;
@@ -143,7 +144,7 @@ class InputAddress extends React.PureComponent<Props, State> {
           ? value.map((v) => toAddress(v))
           : (toAddress(value) || undefined)
       };
-    } catch (error) {
+    } catch {
       return null;
     }
   }
@@ -176,9 +177,13 @@ class InputAddress extends React.PureComponent<Props, State> {
           : (lastOption && lastOption.value)
     );
     const actualOptions: Option[] = options
-      ? dedupe(options.map((o) => createItem(o)))
+      ? dedupe(
+        options
+          .map((o) => createItem(o))
+          .filter((o): o is Option => !!o)
+      )
       : isDisabled && actualValue
-        ? [createOption(actualValue)]
+        ? [createOption(actualValue)].filter((o): o is Option => !!o)
         : actualValue
           ? this.addActual(actualValue)
           : this.getFiltered();
@@ -188,7 +193,7 @@ class InputAddress extends React.PureComponent<Props, State> {
 
     return (
       <StyledDropdown
-        className={`ui--InputAddress${hideAddress ? ' hideAddress' : ''} ${className}`}
+        className={`${className} ui--InputAddress ${hideAddress ? 'hideAddress' : ''}`}
         defaultValue={_defaultValue}
         isDisabled={isDisabled}
         isError={isError}
@@ -201,7 +206,12 @@ class InputAddress extends React.PureComponent<Props, State> {
             : this.onChange
         }
         onSearch={this.onSearch}
-        options={actualOptions}
+        options={
+          // FIXME: this is a "bit" of a HACK - the issue is that the "null"
+          // value from Option is not correct for the supplied type. (This
+          // originates in the ui repo for the KeyringOption)
+          actualOptions as unknown as React.ReactNode[]
+        }
         placeholder={placeholder}
         renderLabel={
           isMultiple
@@ -224,7 +234,7 @@ class InputAddress extends React.PureComponent<Props, State> {
 
     return this.hasValue(actualValue)
       ? base
-      : base.concat(createOption(actualValue));
+      : base.concat(...[createOption(actualValue)].filter((o): o is Option => !!o));
   }
 
   private renderLabel = ({ value }: KeyringSectionOption): React.ReactNode => {
@@ -289,7 +299,7 @@ class InputAddress extends React.PureComponent<Props, State> {
     }
   };
 
-  private onSearch = (filteredOptions: KeyringSectionOptions, _query: string): KeyringSectionOptions => {
+  private onSearch = (filteredOptions: KeyringSectionOptions, _query: string): DropdownItemProps[] => {
     const { isInput = true } = this.props;
     const query = _query.trim();
     const queryLower = query.toLowerCase();
@@ -312,57 +322,62 @@ class InputAddress extends React.PureComponent<Props, State> {
       }
     }
 
+    // FIXME The return here is _very_ suspect, but it actually does exactly
+    // what it is meant to do... filter and return the options for clicking
+    //
+    // (effectively it seems to be the value type that should allow undefined
+    // instead of null in there...)
     return matches.filter((item, index): boolean => {
       const isLast = index === matches.length - 1;
       const nextItem = matches[index + 1];
       const hasNext = nextItem && nextItem.value;
 
       return !(isNull(item.value) || isUndefined(item.value)) || (!isLast && !!hasNext);
-    });
+    }) as DropdownItemProps[];
   };
 }
 
 const StyledDropdown = styled(Dropdown)`
-    .ui.dropdown .text {
-      width: 100%;
-    }
+  .ui.dropdown .text {
+    width: 100%;
+  }
 
-    .ui.disabled.search {
-      pointer-events: all;
-    }
+  .ui.disabled.search {
+    pointer-events: all;
+  }
 
-    .ui.search.selection.dropdown {
-      > .text > .ui--KeyPair {
-        .ui--IdentityIcon {
-          left: -2.75rem;
-          top: -1.05rem;
+  .ui.search.selection.dropdown {
+    > .text > .ui--KeyPair {
+      .ui--IdentityIcon {
+        left: -2.75rem;
+        top: -1.05rem;
 
-          > div,
-          img,
-          svg {
-            height: 32px !important;
-            width: 32px !important;
-          }
-        }
-
-        .name {
-          margin-left: 0;
-
-          > .ui--AccountName {
-            height: auto;
-          }
+        > div,
+        img,
+        svg {
+          height: 32px !important;
+          width: 32px !important;
         }
       }
 
-      > .menu > div.item > .ui--KeyPair > .name  > .ui--AccountName {
-        height: auto;
+      .name {
+        margin-left: 0;
+
+        > .ui--AccountName {
+          height: auto;
+        }
       }
     }
 
-    &.hideAddress .ui.search.selection.dropdown > .text > .ui--KeyPair .address {
-      flex: 0;
-      max-width: 0;
+    > .menu > div.item > .ui--KeyPair > .name  > .ui--AccountName {
+      height: auto;
     }
+  }
+
+  &.hideAddress .ui.search.selection.dropdown > .text > .ui--KeyPair .address {
+    flex: 0;
+    max-width: 0;
+  }
 `;
 
 const ExportedComponent = withMulti(
@@ -371,11 +386,13 @@ const ExportedComponent = withMulti(
     propName: 'optionsAll',
     transform: (optionsAll: KeyringOptions): Record<string, (Option | React.ReactNode)[]> =>
       Object.entries(optionsAll).reduce((result: Record<string, (Option | React.ReactNode)[]>, [type, options]): Record<string, (Option | React.ReactNode)[]> => {
-        result[type] = options.map((option): Option | React.ReactNode =>
-          option.value === null
-            ? createHeader(option)
-            : createItem(option)
-        );
+        result[type] = options
+          .map((option): Option | React.ReactNode | null =>
+            option.value === null
+              ? createHeader(option)
+              : createItem(option)
+          )
+          .filter((o): o is Option | React.ReactNode => !!o);
 
         return result;
       }, {})

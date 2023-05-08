@@ -1,14 +1,18 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BaseProps } from './types';
-
 import React from 'react';
-import styled from 'styled-components';
 
-function BaseChart ({ children, className = '' }: BaseProps): React.ReactElement<BaseProps> {
+import { styled } from '../styled.js';
+
+interface Props {
+  children: React.ReactNode;
+  className?: string;
+}
+
+function BaseChart ({ children, className = '' }: Props): React.ReactElement<Props> {
   return (
-    <StyledDiv className={`ui--Chart ${className}`}>
+    <StyledDiv className={`${className} ui--Chart`}>
       {children}
     </StyledDiv>
   );

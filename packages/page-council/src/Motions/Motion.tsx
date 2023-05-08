@@ -12,9 +12,9 @@ import { useAccounts, useCollectiveInstance, useVotingStatus } from '@polkadot/r
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import Close from './Close';
-import Voters from './Voters';
-import Voting from './Voting';
+import Close from './Close.js';
+import Voters from './Voters.js';
+import Voting from './Voting.js';
 
 interface Props {
   className?: string;
@@ -27,6 +27,7 @@ interface Props {
 interface VoterState {
   hasVoted: boolean;
   hasVotedAye: boolean;
+  hasVotedNay: boolean;
 }
 
 function Motion ({ className = '', isMember, members, motion: { hash, proposal, votes }, prime }: Props): React.ReactElement<Props> | null {
@@ -37,15 +38,17 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
   const { hasVoted, hasVotedAye } = useMemo(
     (): VoterState => {
       if (votes) {
-        const hasVotedAye = allAccounts.some((address) => votes.ayes.some((accountId) => accountId.eq(address)));
+        const hasVotedAye = allAccounts.some((a) => votes.ayes.some((accountId) => accountId.eq(a)));
+        const hasVotedNay = allAccounts.some((a) => votes.nays.some((accountId) => accountId.eq(a)));
 
         return {
-          hasVoted: hasVotedAye || allAccounts.some((address) => votes.nays.some((accountId) => accountId.eq(address))),
-          hasVotedAye
+          hasVoted: hasVotedAye || hasVotedNay,
+          hasVotedAye,
+          hasVotedNay
         };
       }
 
-      return { hasVoted: false, hasVotedAye: false };
+      return { hasVoted: false, hasVotedAye: false, hasVotedNay: false };
     },
     [allAccounts, votes]
   );
@@ -61,6 +64,7 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
       <Table.Column.Id value={index} />
       <ProposalCell
         imageHash={hash}
+        isCollective
         proposal={proposal}
       />
       <td className='number together'>

@@ -2,10 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registrar } from '@polkadot/react-hooks/types';
-import type { ProxyDefinition, RegistrationJudgement, Voting } from '@polkadot/types/interfaces';
-
-import { H256, Multisig } from '@polkadot/types/interfaces';
-import { BN } from '@polkadot/util';
+import type { H256, Multisig, ProxyDefinition, RegistrationJudgement, Voting } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
 class MockApiHooks {
   public multisigApprovals: [H256, Multisig][] | undefined = [];

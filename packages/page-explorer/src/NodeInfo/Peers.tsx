@@ -4,12 +4,11 @@
 import type { PeerInfo } from '@polkadot/types/interfaces';
 
 import React, { useMemo, useRef } from 'react';
-import styled from 'styled-components';
 
-import { Table } from '@polkadot/react-components';
+import { styled, Table } from '@polkadot/react-components';
 import { formatNumber, stringPascalCase } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
@@ -33,9 +32,9 @@ function Peers ({ className = '', peers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('connected peers'), 'start', 2],
-    [t('best hash'), 'start'],
-    [t('best #'), 'number']
+    [t<string>('connected peers'), 'start', 2],
+    [t<string>('best hash'), 'start'],
+    [t<string>('best #'), 'number']
   ]);
 
   const sorted = useMemo(
@@ -44,7 +43,7 @@ function Peers ({ className = '', peers }: Props): React.ReactElement<Props> {
   );
 
   return (
-    <Table
+    <StyledTable
       className={className}
       empty={t<string>('no peers connected')}
       header={headerRef.current}
@@ -57,11 +56,11 @@ function Peers ({ className = '', peers }: Props): React.ReactElement<Props> {
           <td className='number bestNumber'>{formatNumber(bestNumber)}</td>
         </tr>
       ))}
-    </Table>
+    </StyledTable>
   );
 }
 
-export default React.memo(styled(Peers)`
+const StyledTable = styled(Table)`
   overflow-x: auto;
 
   td.roles {
@@ -73,4 +72,6 @@ export default React.memo(styled(Peers)`
     max-width: 11ch;
     width: 11ch;
   }
-`);
+`;
+
+export default React.memo(Peers);

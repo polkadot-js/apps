@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
+
+import { styled } from './styled.js';
 
 interface Props {
   children: React.ReactNode;
@@ -11,13 +12,13 @@ interface Props {
 
 function FilterOverlay ({ children, className }: Props): React.ReactElement<Props> {
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       {children}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(FilterOverlay)`
+const StyledDiv = styled.div`
   display: none;
   right: calc(50% - var(--width-half) + 1.5rem);
 
@@ -52,4 +53,6 @@ export default React.memo(styled(FilterOverlay)`
   @media only screen and (max-width: 1750px) {
     right: 1.5rem;
   }
-`);
+`;
+
+export default React.memo(FilterOverlay);

@@ -1,11 +1,10 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DropdownOption, DropdownOptions } from '../../util/types';
+import type { ApiPromise } from '@polkadot/api';
+import type { DropdownOption, DropdownOptions } from '../../util/types.js';
 
 import React from 'react';
-
-import { ApiPromise } from '@polkadot/api';
 
 export default function createOptions (api: ApiPromise, sectionName: string, filter?: (section: string, method?: string) => boolean): DropdownOptions {
   const section = api.tx[sectionName];

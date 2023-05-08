@@ -1,13 +1,14 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { FlagColor as TagColor } from '@polkadot/react-components/types';
 import type { ThemeDef } from '@polkadot/react-hooks/ctx/types';
+import type { FlagColor as TagColor } from './types.js';
 
 import React, { useContext, useState } from 'react';
-import styled, { ThemeContext } from 'styled-components';
+import { ThemeContext } from 'styled-components';
 
-import Tooltip from './Tooltip';
+import { styled } from './styled.js';
+import Tooltip from './Tooltip.js';
 
 interface Props {
   className?: string;
@@ -24,8 +25,8 @@ function Tag ({ className = '', color = 'theme', hover, label, size = 'small' }:
   const [trigger] = useState(() => `tag-hover-${Date.now()}-${tagId++}`);
 
   return (
-    <div
-      className={`ui--Tag ${color}Color ${size}Size ${theme}Theme ${className}`}
+    <StyledDiv
+      className={`${className} ui--Tag ${color}Color ${size}Size ${theme}Theme`}
       color={color || 'grey'}
       data-for={hover && trigger}
       data-tip={!!hover}
@@ -37,11 +38,11 @@ function Tag ({ className = '', color = 'theme', hover, label, size = 'small' }:
           trigger={trigger}
         />
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Tag)`
+const StyledDiv = styled.div`
   border-radius: 0.25rem;
   color: #fff;
   display: inline-block;
@@ -103,4 +104,6 @@ export default React.memo(styled(Tag)`
   &.themeColor.darkTheme {
     background-color: rgba(255,255,255,0.08);
   }
-`);
+`;
+
+export default React.memo(Tag);

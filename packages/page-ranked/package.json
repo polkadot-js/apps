@@ -1,5 +1,8 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
+  "engines": {
+    "node": ">=16"
+  },
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-ranked#readme",
   "license": "Apache-2.0",
   "name": "@polkadot/app-ranked",
@@ -11,8 +14,10 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.122.3-286-x",
-  "dependencies": {
-    "@babel/runtime": "^7.20.7"
+  "version": "0.129.2-11-x",
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*",
+    "react-is": "*"
   }
 }

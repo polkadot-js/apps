@@ -7,12 +7,13 @@ import React, { useMemo } from 'react';
 
 import { AddressMini, AvatarItem, Expander, IconLink } from '@polkadot/react-components';
 import { useApi, useRegistrars, useSubidentities, useToggle } from '@polkadot/react-hooks';
+import { AddressIdentityOtherDiscordKey } from '@polkadot/react-hooks/types';
 import { isHex } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import Judgements from './Judgements';
-import RegistrarJudgement from './RegistrarJudgement';
-import UserIcon from './UserIcon';
+import { useTranslation } from '../translate.js';
+import Judgements from './Judgements.js';
+import RegistrarJudgement from './RegistrarJudgement.js';
+import UserIcon from './UserIcon.js';
 
 interface Props {
   address: string;
@@ -135,6 +136,14 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
                         {identity.twitter}
                       </a>
                     )}
+                </div>
+              </div>
+            )}
+            {identity.other && AddressIdentityOtherDiscordKey in identity.other && (
+              <div className='tr'>
+                <div className='th'>{t<string>('discord')}</div>
+                <div className='td'>
+                  {identity.other[AddressIdentityOtherDiscordKey]}
                 </div>
               </div>
             )}

@@ -6,8 +6,8 @@ import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
 
-import CallDisplay from './Call';
-import Expander from './Expander';
+import CallDisplay from './Call.js';
+import Expander from './Expander.js';
 
 interface Props {
   children?: React.ReactNode;
@@ -42,7 +42,7 @@ function CallExpander ({ children, className = '', isHeader, labelHash, labelSig
   const callName = `${section}.${method}`;
 
   return (
-    <div className={`ui--CallExpander ${className}`}>
+    <div className={`${className} ui--CallExpander`}>
       <Expander
         isHeader={isHeader}
         isLeft

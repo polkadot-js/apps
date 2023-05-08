@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSessionProgress, DeriveUnlocking } from '@polkadot/api-derive/types';
+import type { PoolInfo } from '@polkadot/app-staking2/Pools/types';
 import type { PalletNominationPoolsPoolMember, PalletNominationPoolsPoolRoles } from '@polkadot/types/lookup';
-import type { PoolInfo } from '../../Pools/types';
-import type { SortedTargets } from '../../types';
+import type { SortedTargets } from '../../types.js';
 
 import React, { useCallback, useMemo } from 'react';
 
@@ -13,13 +13,13 @@ import { useApi, useQueue, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN, formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
-import ListNominees from '../Account/ListNominees';
-import Nominate from '../Account/Nominate';
-import useSlashingSpans from '../useSlashingSpans';
-import BondExtra from './BondExtra';
-import Unbond from './Unbond';
-import useAccountInfo from './useAccountInfo';
+import { useTranslation } from '../../translate.js';
+import ListNominees from '../Account/ListNominees.js';
+import Nominate from '../Account/Nominate.js';
+import useSlashingSpans from '../useSlashingSpans.js';
+import BondExtra from './BondExtra.js';
+import Unbond from './Unbond.js';
+import useAccountInfo from './useAccountInfo.js';
 
 interface Props {
   accountId: string;

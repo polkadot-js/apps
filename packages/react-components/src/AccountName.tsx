@@ -6,15 +6,15 @@ import type { DeriveAccountRegistration } from '@polkadot/api-derive/types';
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import styled from 'styled-components';
 
 import { AccountSidebarCtx } from '@polkadot/app-accounts/Sidebar';
-import registry from '@polkadot/react-api/typeRegistry';
+import { registry } from '@polkadot/react-api';
 import { useDeriveAccountInfo, useSystemApi } from '@polkadot/react-hooks';
 import { formatNumber, isCodec, isFunction, stringToU8a, u8aEmpty, u8aEq, u8aToBn } from '@polkadot/util';
 
-import Badge from './Badge';
-import { getAddressName } from './util';
+import { getAddressName } from './util/index.js';
+import Badge from './Badge.js';
+import { styled } from './styled.js';
 
 interface Props {
   children?: React.ReactNode;
@@ -80,7 +80,7 @@ export function getParentAccount (value: string): string | undefined {
   return parentCache.get(value);
 }
 
-function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [React.ReactNode, boolean, boolean, boolean] {
+function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [displayName: React.ReactNode, isLocal: boolean, isAddress: boolean, isSpecial: boolean] {
   let known: string | null = null;
 
   for (let i = 0; known === null && i < MATCHERS.length; i++) {
@@ -107,6 +107,14 @@ function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | A
   }
 
   return [extracted, !isAddressExtracted, isAddressExtracted, false];
+}
+
+function defaultOrAddrNode (defaultName = '', address: AccountId | AccountIndex | Address | string | Uint8Array, accountIndex?: AccountIndex | null): React.ReactNode {
+  const [node,, isAddress] = defaultOrAddr(defaultName, address, accountIndex);
+
+  return isAddress
+    ? <span className='isAddress'>{node}</span>
+    : node;
 }
 
 function extractName (address: string, accountIndex?: AccountIndex, defaultName?: string): React.ReactNode {
@@ -195,12 +203,12 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
     } else if (nickname) {
       setName(nickname);
     } else {
-      setName(defaultOrAddr(defaultName, cacheAddr, accountIndex));
+      setName(defaultOrAddrNode(defaultName, cacheAddr, accountIndex));
     }
   }, [api, defaultName, info, toggle, value]);
 
   const _onNameEdit = useCallback(
-    () => setName(defaultOrAddr(defaultName, (value || '').toString())),
+    () => setName(defaultOrAddrNode(defaultName, (value || '').toString())),
     [defaultName, value]
   );
 
@@ -211,7 +219,7 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
 
   return (
     <StyledSpan
-      className={`ui--AccountName${withSidebar ? ' withSidebar' : ''} ${className}`}
+      className={`${className}  ui--AccountName ${withSidebar ? 'withSidebar' : ''}`}
       data-testid='account-name'
       onClick={
         withSidebar
@@ -235,6 +243,16 @@ const StyledSpan = styled.span`
     cursor: help !important;
   }
 
+  .isAddress {
+    display: inline-block;
+    min-width: var(--width-shortaddr);
+    max-width: var(--width-shortaddr);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: none;
+    white-space: nowrap;
+  }
+
   .via-identity {
     word-break: break-all;
 
@@ -250,11 +268,7 @@ const StyledSpan = styled.span`
       }
 
       &.isAddress {
-        display: inline-block;
-        min-width: var(--width-shortaddr);
-        max-width: var(--width-shortaddr);
         opacity: var(--opacity-light);
-        text-transform: none;
       }
 
       .sub,

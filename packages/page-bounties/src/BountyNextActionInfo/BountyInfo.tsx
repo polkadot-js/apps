@@ -4,21 +4,20 @@
 import type { ThemeProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { Icon } from '@polkadot/react-components';
+import { Icon, styled } from '@polkadot/react-components';
 
-import { bountySvgColor } from '../theme';
+import { bountySvgColor } from '../theme.js';
 
 interface Props {
-  className: '';
+  className?: string;
   description: string;
   type?: 'info' | 'warning';
 }
 
 function BountyInfo ({ className = '', description, type = 'info' }: Props): React.ReactElement<Props> {
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       {type === 'warning' && (
         <div className='info-icon'>
           <Icon icon={'exclamation-triangle'} />
@@ -27,18 +26,19 @@ function BountyInfo ({ className = '', description, type = 'info' }: Props): Rea
       <div className='description'>
         {description}
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(BountyInfo)(({ theme }: ThemeProps) => `
+const StyledDiv = styled.div(({ theme }: ThemeProps) => `
   display: flex;
   align-items: center;
   font-size: var(--font-size-small);
   line-height: 1.5rem;
 
-  .info-icon{
+  .info-icon {
     margin-right: 0.2rem;
+
     svg {
       color: ${bountySvgColor[theme.theme]};
     }
@@ -51,4 +51,6 @@ export default React.memo(styled(BountyInfo)(({ theme }: ThemeProps) => `
     color: var(--color-label);
     word-wrap: break-word;
   }
-`));
+`);
+
+export default React.memo(BountyInfo);

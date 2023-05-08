@@ -4,15 +4,15 @@
 import type { DeriveSessionProgress, DeriveStakingAccount } from '@polkadot/api-derive/types';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN, BN_ONE, BN_ZERO, formatBalance, formatNumber } from '@polkadot/util';
 
-import Icon from './Icon';
-import Tooltip from './Tooltip';
-import { useTranslation } from './translate';
+import Icon from './Icon.js';
+import { styled } from './styled.js';
+import Tooltip from './Tooltip.js';
+import { useTranslation } from './translate.js';
 
 interface Unlocking {
   remainingEras: BN;
@@ -25,16 +25,17 @@ interface DeriveStakingAccountPartial {
 }
 
 interface Props {
-  iconPosition: 'left' | 'right';
+  iconPosition?: 'left' | 'right';
   className?: string;
   stakingInfo?: DeriveStakingAccountPartial;
 }
 
-function extractTotals (stakingInfo?: DeriveStakingAccountPartial, progress?: DeriveSessionProgress): [[Unlocking, BN, BN][], BN] {
+function extractTotals (stakingInfo?: DeriveStakingAccountPartial, progress?: DeriveSessionProgress): [[Unlocking, BN, BN][], BN, boolean] {
   if (!stakingInfo?.unlocking || !progress) {
-    return [[], BN_ZERO];
+    return [[], BN_ZERO, false];
   }
 
+  const isStalled = progress.eraProgress.gt(BN_ZERO) && progress.eraProgress.gt(progress.eraLength);
   const mapped = stakingInfo.unlocking
     .filter(({ remainingEras, value }) => value.gt(BN_ZERO) && remainingEras.gt(BN_ZERO))
     .map((unlock): [Unlocking, BN, BN] => [
@@ -44,11 +45,24 @@ function extractTotals (stakingInfo?: DeriveStakingAccountPartial, progress?: De
         .sub(BN_ONE)
         .imul(progress.eraLength)
         .iadd(progress.eraLength)
-        .isub(progress.eraProgress)
+        .isub(
+          // in the case of a stalled era, this would not be accurate. We apply the mod here
+          // otherwise we would enter into negative values (which is "accurate" since we are
+          // overdue, but confusing since it implied it needed to be done already).
+          //
+          // This does mean that in cases of era stalls we would have an jiggling time, i.e.
+          // would be down and then when a session completes, would be higher again, just to
+          // repeat the cycle again
+          //
+          // See https://github.com/polkadot-js/apps/issues/9397#issuecomment-1532465939
+          isStalled
+            ? progress.eraProgress.mod(progress.eraLength)
+            : progress.eraProgress
+        )
     ]);
   const total = mapped.reduce((total, [{ value }]) => total.iadd(value), new BN(0));
 
-  return [mapped, total];
+  return [mapped, total, isStalled];
 }
 
 function StakingUnbonding ({ className = '', iconPosition = 'left', stakingInfo }: Props): React.ReactElement<Props> | null {
@@ -56,7 +70,7 @@ function StakingUnbonding ({ className = '', iconPosition = 'left', stakingInfo 
   const progress = useCall<DeriveSessionProgress>(api.derive.session.progress);
   const { t } = useTranslation();
 
-  const [mapped, total] = useMemo(
+  const [mapped, total, isStalled] = useMemo(
     () => extractTotals(stakingInfo, progress),
     [progress, stakingInfo]
   );
@@ -68,7 +82,7 @@ function StakingUnbonding ({ className = '', iconPosition = 'left', stakingInfo 
   const trigger = `${stakingInfo.accountId.toString()}-unlocking-trigger`;
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       {iconPosition === 'left' && (
         <Icon
           className='left'
@@ -95,6 +109,9 @@ function StakingUnbonding ({ className = '', iconPosition = 'left', stakingInfo 
                 : t<string>('{{eras}} eras remaining', { replace: { eras: formatNumber(eras) } })
               }
             </div>
+            {isStalled && (
+              <div className='faded'>{t<string>('Era is overdue for completion due to current network operating conditions')}</div>
+            )}
           </div>
         ))}
       </Tooltip>
@@ -105,11 +122,11 @@ function StakingUnbonding ({ className = '', iconPosition = 'left', stakingInfo 
           tooltip={trigger}
         />
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(StakingUnbonding)`
+const StyledDiv = styled.div`
   white-space: nowrap;
 
   .ui--Icon.left {
@@ -125,4 +142,6 @@ export default React.memo(styled(StakingUnbonding)`
   .ui--FormatBalance {
     display: inline-block;
   }
-`);
+`;
+
+export default React.memo(StakingUnbonding);

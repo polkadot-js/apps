@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
+
+import { styled } from '@polkadot/react-components';
 
 interface Props {
   children?: React.ReactNode;
@@ -14,7 +15,7 @@ interface Props {
 
 function Holder ({ children, className = '', withBorder, withExpander, withPadding }: Props): React.ReactElement<Props> {
   return (
-    <StyledDiv className={`ui--Params ${className}${withBorder ? ' withBorder' : ''}${withPadding ? ' withPadding' : ''}${withExpander ? ' withExpander' : ''}`}>
+    <StyledDiv className={`${className} ui--Params ${withBorder ? 'withBorder' : ''} ${withPadding ? 'withPadding' : ''} ${withExpander ? 'withExpander' : ''}`}>
       {children}
     </StyledDiv>
   );

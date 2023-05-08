@@ -10,7 +10,7 @@ import { calcThreshold, getTreasuryProposalThreshold } from '@polkadot/apps-conf
 import { Button, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCollectiveInstance, useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   id: ProposalIndex;

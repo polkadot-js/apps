@@ -5,9 +5,10 @@ import type { UInt } from '@polkadot/types';
 import type { BN } from '@polkadot/util';
 
 import React from 'react';
-import styled from 'styled-components';
 
 import { bnToBn } from '@polkadot/util';
+
+import { styled } from './styled.js';
 
 interface Props {
   className?: string;
@@ -48,7 +49,7 @@ function Progress ({ className = '', isBlurred, isDisabled, total, value }: Prop
   const drawAngle = (angle === 360) ? 360 : angle % 360;
 
   return (
-    <div className={`ui--Progress ${isDisabled ? 'isDisabled' : ''} ${isBlurred ? '--tmp' : ''} ${className}`}>
+    <StyledDiv className={`${className} ui--Progress ${isDisabled ? 'isDisabled' : ''} ${isBlurred ? '--tmp' : ''}`}>
       <div className='background highlight--bg' />
       <Clip
         angle={
@@ -69,13 +70,13 @@ function Progress ({ className = '', isBlurred, isDisabled, total, value }: Prop
       <div className='inner'>
         <div>{Math.floor(angle * 100 / 360)}%</div>
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
 const SIZE = '3.5rem';
 
-export default React.memo(styled(Progress)`
+const StyledDiv = styled.div`
   border-radius: 100%;
   clip-path: circle(50%);
   height: ${SIZE};
@@ -147,4 +148,6 @@ export default React.memo(styled(Progress)`
       clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
     }
   }
-`);
+`;
+
+export default React.memo(Progress);

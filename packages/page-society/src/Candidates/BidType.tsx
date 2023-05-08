@@ -4,9 +4,8 @@
 import type { PalletSocietyBidKind } from '@polkadot/types/lookup';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
-import { AddressSmall } from '@polkadot/react-components';
+import { AddressSmall, styled } from '@polkadot/react-components';
 
 interface Props {
   className?: string;
@@ -22,14 +21,14 @@ function BidType ({ className, value }: Props): React.ReactElement<Props> {
   );
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <div>{value && value.type}</div>
       {vouchId && <AddressSmall value={vouchId} />}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(BidType)`
+const StyledDiv = styled.div`
   align-items: center;
   display: flex;
   flex-wrap: no-wrap;
@@ -41,4 +40,6 @@ export default React.memo(styled(BidType)`
       padding-right: 1.5rem;
     }
   }
-`);
+`;
+
+export default React.memo(BidType);

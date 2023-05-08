@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ValidateInfo } from './types';
+import type { ValidateInfo } from './types.js';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
@@ -9,7 +9,7 @@ import { Dropdown, InputAddress, InputNumber, MarkError, Modal } from '@polkadot
 import { useApi } from '@polkadot/react-hooks';
 import { BN, BN_HUNDRED as MAX_COMM, BN_ONE, bnMax, isFunction } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../../translate.js';
 
 interface Props {
   className?: string;
@@ -36,8 +36,8 @@ function Validate ({ className = '', controllerId, minCommission, onChange, stas
   );
 
   const blockedOptions = useRef([
-    { text: t('Yes, allow nominations'), value: true },
-    { text: t('No, block all nominations'), value: false }
+    { text: t<string>('Yes, allow nominations'), value: true },
+    { text: t<string>('No, block all nominations'), value: false }
   ]);
 
   useEffect((): void => {

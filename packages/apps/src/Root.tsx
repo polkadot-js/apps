@@ -12,8 +12,8 @@ import { ApiCtxRoot } from '@polkadot/react-api';
 import { ApiStatsCtxRoot, BlockAuthorsCtxRoot, BlockEventsCtxRoot, KeyringCtxRoot, QueueCtxRoot, WindowSizeCtxRoot } from '@polkadot/react-hooks';
 import { settings } from '@polkadot/ui-settings';
 
-import Apps from './Apps';
-import { darkTheme, lightTheme } from './themes';
+import Apps from './Apps.js';
+import { darkTheme, lightTheme } from './themes.js';
 
 interface Props {
   isElectron: boolean;
@@ -43,13 +43,13 @@ function Root ({ isElectron, store }: Props): React.ReactElement<Props> {
   return (
     <Suspense fallback='...'>
       <ThemeProvider theme={theme}>
-        <KeyringCtxRoot>
-          <QueueCtxRoot>
-            <ApiCtxRoot
-              apiUrl={settings.apiUrl}
-              isElectron={isElectron}
-              store={store}
-            >
+        <QueueCtxRoot>
+          <ApiCtxRoot
+            apiUrl={settings.apiUrl}
+            isElectron={isElectron}
+            store={store}
+          >
+            <KeyringCtxRoot>
               <ApiStatsCtxRoot>
                 <BlockAuthorsCtxRoot>
                   <BlockEventsCtxRoot>
@@ -61,9 +61,9 @@ function Root ({ isElectron, store }: Props): React.ReactElement<Props> {
                   </BlockEventsCtxRoot>
                 </BlockAuthorsCtxRoot>
               </ApiStatsCtxRoot>
-            </ApiCtxRoot>
-          </QueueCtxRoot>
-        </KeyringCtxRoot>
+            </KeyringCtxRoot>
+          </ApiCtxRoot>
+        </QueueCtxRoot>
       </ThemeProvider>
     </Suspense>
   );

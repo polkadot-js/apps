@@ -3,9 +3,9 @@
 
 import strengthTester from 'owasp-password-strength-test';
 import React from 'react';
-import styled from 'styled-components';
 
-import { useTranslation } from './translate';
+import { styled } from './styled.js';
+import { useTranslation } from './translate.js';
 
 const MAX_STRENGTH = 7; // equal to number of password tests in owasp strength tester
 
@@ -35,7 +35,7 @@ function PasswordStrength ({ className = '', value }: Props): React.ReactElement
   const style = { width: `${passwordStrength * 100 / MAX_STRENGTH}%` };
 
   return (
-    <div
+    <StyledDiv
       className={className}
       style={{ display: (value ? 'flex' : 'none') }}
     >
@@ -47,11 +47,11 @@ function PasswordStrength ({ className = '', value }: Props): React.ReactElement
         />
       </div>
       {t<string>('strong')}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(PasswordStrength)`
+const StyledDiv = styled.div`
   align-items: center;
   margin-top: 0.5rem;
   margin-left: 2rem;
@@ -77,4 +77,6 @@ export default React.memo(styled(PasswordStrength)`
     border-radius: 0.15rem;
     background: linear-gradient(90.43deg, #FF8B00 0%, #FFBB50 112.75%);
   }
-`);
+`;
+
+export default React.memo(PasswordStrength);

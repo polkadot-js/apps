@@ -1,25 +1,27 @@
 // Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
+import type { BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
+import type { ValidUnassignCuratorAction } from '../types.js';
+
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 
-import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import { Menu, Popup } from '@polkadot/react-components';
 import { useCollectiveMembers, useToggle } from '@polkadot/react-hooks';
-import { BlockNumber, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 
-import { determineUnassignCuratorAction } from '../helpers';
-import { useBountyStatus, useUserRole } from '../hooks';
-import { useTranslation } from '../translate';
-import { ValidUnassignCuratorAction } from '../types';
-import BountyRejectCurator from './BountyRejectCurator';
-import CloseBounty from './CloseBounty';
-import ExtendBountyExpiryAction from './ExtendBountyExpiryAction';
-import GiveUp from './GiveUp';
-import SlashCurator from './SlashCurator';
+import { determineUnassignCuratorAction } from '../helpers/index.js';
+import { useBountyStatus, useUserRole } from '../hooks/index.js';
+import { useTranslation } from '../translate.js';
+import BountyRejectCurator from './BountyRejectCurator.js';
+import CloseBounty from './CloseBounty.js';
+import ExtendBountyExpiryAction from './ExtendBountyExpiryAction.js';
+import GiveUp from './GiveUp.js';
+import SlashCurator from './SlashCurator.js';
 
 interface Props {
-  bestNumber: BlockNumber;
+  bestNumber: BN;
   className?: string;
   description: string;
   index: BountyIndex;
@@ -43,9 +45,9 @@ function Index ({ bestNumber, className, description, index, proposals, status }
   const availableSlashActions = determineUnassignCuratorAction(roles, status, blocksUntilUpdate);
 
   const slashCuratorActionNames = useRef<Record<ValidUnassignCuratorAction, string>>({
-    SlashCuratorAction: t('Slash curator'),
-    SlashCuratorMotion: t('Slash curator (Council)'),
-    UnassignCurator: t('Unassign curator')
+    SlashCuratorAction: t<string>('Slash curator'),
+    SlashCuratorMotion: t<string>('Slash curator (Council)'),
+    UnassignCurator: t<string>('Unassign curator')
   });
 
   const existingCloseBountyProposal = useMemo(

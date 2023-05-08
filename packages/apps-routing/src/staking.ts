@@ -4,11 +4,11 @@
 import type { TFunction } from 'i18next';
 import type { ApiPromise } from '@polkadot/api';
 import type { PalletStakingExposure } from '@polkadot/types/lookup';
-import type { Route } from './types';
+import type { Route } from './types.js';
 
 import Component from '@polkadot/app-staking';
 import { ZERO_ACCOUNT } from '@polkadot/react-hooks/useWeight';
-import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
+import { unwrapStorageType } from '@polkadot/types/util';
 import { assert, BN_ONE } from '@polkadot/util';
 
 function needsApiCheck (api: ApiPromise): boolean {
@@ -51,6 +51,6 @@ export default function create (t: TFunction): Route {
     group: 'network',
     icon: 'certificate',
     name: 'staking',
-    text: t('nav.staking', 'Staking', { ns: 'apps-routing' })
+    text: t<string>('nav.staking', 'Staking', { ns: 'apps-routing' })
   };
 }

@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
 
-import AccountName from '@polkadot/react-components/AccountName';
-import { Icon } from '@polkadot/react-components/index';
+import AccountName from './AccountName.js';
+import Icon from './Icon.js';
+import { styled } from './styled.js';
 
 interface ParentAccountProps {
   address: string,
@@ -14,7 +14,7 @@ interface ParentAccountProps {
 
 function ParentAccount ({ address, className }: ParentAccountProps): React.ReactElement<ParentAccountProps> {
   return (
-    <div
+    <StyledDiv
       className={className}
       data-testid='parent'
     >
@@ -27,11 +27,11 @@ function ParentAccount ({ address, className }: ParentAccountProps): React.React
         withSidebar
       >
       </AccountName>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(ParentAccount)`
+const StyledDiv = styled.div`
   align-items: center;
   color: #8B8B8B;
   var(--font-size-small);
@@ -42,4 +42,6 @@ export default React.memo(styled(ParentAccount)`
     margin-right: 0.3rem;
     margin-left: 0.15rem;
   }
-`);
+`;
+
+export default React.memo(ParentAccount);

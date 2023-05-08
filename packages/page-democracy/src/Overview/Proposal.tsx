@@ -9,10 +9,10 @@ import { AddressMini, Button, Columar, ExpandButton, ExpanderScroll, LinkExterna
 import { useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
-import { useTranslation } from '../translate';
-import PreImageButton from './PreImageButton';
-import ProposalCell from './ProposalCell';
-import Seconding from './Seconding';
+import { useTranslation } from '../translate.js';
+import PreImageButton from './PreImageButton.js';
+import ProposalCell from './ProposalCell.js';
+import Seconding from './Seconding.js';
 
 interface Props {
   className?: string;
@@ -91,7 +91,7 @@ function Proposal ({ className = '', value: { balance, image, imageHash, index, 
             <Columar.Column>
               <LinkExternal
                 data={index}
-                type='proposal'
+                type='democracyProposal'
                 withTitle
               />
             </Columar.Column>

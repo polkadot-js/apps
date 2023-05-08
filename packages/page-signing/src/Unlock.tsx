@@ -8,7 +8,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Button, InputAddress, Modal, Password } from '@polkadot/react-components';
 import { nextTick } from '@polkadot/util';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   onClose: () => void;

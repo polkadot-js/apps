@@ -1,13 +1,13 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TabItem } from './types';
+import type { TabItem } from './types.js';
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import styled from 'styled-components';
 
-import Badge from '../Badge';
+import Badge from '../Badge.js';
+import { styled } from '../styled.js';
 
 interface Props extends TabItem {
   basePath: string;
@@ -27,10 +27,8 @@ function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRo
 
   return (
     <StyledNavLink
-      activeClassName='tabLinkActive'
-      className={`ui--Tab ${className}`}
-      exact={tabIsExact}
-      strict={tabIsExact}
+      className={`${className} ui--Tab`}
+      end={tabIsExact}
       to={to}
     >
       <div className='tabLinkText'>
@@ -63,18 +61,19 @@ const StyledNavLink = styled(NavLink)`
     }
   }
 
-  &:hover .tabLinkText::after,
-  &.tabLinkActive .tabLinkText::after {
-    content: '';
-    position: absolute;
-    width: 3.14rem;
-    height: 2px;
-    bottom: -2px;
-    left: 50%;
-    transform: translateX(-50%);
+  &.active, &:hover {
+    .tabLinkText::after {
+      content: '';
+      position: absolute;
+      width: 3.14rem;
+      height: 2px;
+      bottom: -2px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
   }
 
-  &.tabLinkActive {
+  &.active {
     color: var(--color-text) !important;
     font-weight: var(--font-weight-normal);
 

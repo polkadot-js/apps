@@ -5,7 +5,6 @@ import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { KeyringAddress } from '@polkadot/ui-keyring/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
 
 import Transfer from '@polkadot/app-accounts/modals/Transfer';
 import { AddressInfo, AddressSmall, Button, ChainLock, Columar, Forget, LinkExternal, Menu, Popup, Table, Tags } from '@polkadot/react-components';
@@ -13,7 +12,7 @@ import { useApi, useBalancesAll, useDeriveAccountInfo, useToggle } from '@polkad
 import { keyring } from '@polkadot/ui-keyring';
 import { isFunction } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   address: string;
@@ -280,5 +279,4 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   );
 }
 
-// FIXME: This is weird, if we remove the styled wrapper we have test failures...
-export default React.memo(styled(Address)``);
+export default React.memo(Address);

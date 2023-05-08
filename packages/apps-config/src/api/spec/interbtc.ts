@@ -5,16 +5,16 @@
 
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
+import type { Balance } from '@polkadot/types/interfaces';
+import type { FrameSystemAccountInfo } from '@polkadot/types/lookup';
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
 import interbtc from '@interlay/interbtc-types';
 import { combineLatest, map } from 'rxjs';
 
-import { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import { memo } from '@polkadot/api-derive/util';
 import { TypeRegistry, U128 } from '@polkadot/types';
-import { Balance } from '@polkadot/types/interfaces';
-import { FrameSystemAccountInfo } from '@polkadot/types/lookup';
 import { BN, formatBalance } from '@polkadot/util';
 
 function balanceOf (number: number | string): U128 {

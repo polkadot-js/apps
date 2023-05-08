@@ -11,7 +11,7 @@ import Params from '@polkadot/react-params';
 import { Raw, Struct, Tuple, Vec } from '@polkadot/types';
 import { getTypeDef } from '@polkadot/types/create';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   value?: DigestItem[];
@@ -106,7 +106,7 @@ function Logs ({ value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('logs'), 'start']
+    [t<string>('logs'), 'start']
   ]);
 
   return (

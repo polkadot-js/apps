@@ -2,26 +2,25 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
-import type { AddressState, CreateOptions, CreateProps, DeriveValidationOutput, PairType, SeedType } from '../types';
+import type { AddressState, CreateOptions, CreateProps, DeriveValidationOutput, PairType, SeedType } from '../types.js';
 
 import React, { useCallback, useRef, useState } from 'react';
-import styled from 'styled-components';
 
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
-import { AddressRow, Button, Checkbox, CopyButton, Dropdown, Expander, Input, MarkError, MarkWarning, Modal, TextArea } from '@polkadot/react-components';
+import { AddressRow, Button, Checkbox, CopyButton, Dropdown, Expander, Input, MarkError, MarkWarning, Modal, styled, TextArea } from '@polkadot/react-components';
 import { useApi, useLedger, useStepper } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { isHex, nextTick, u8aToHex } from '@polkadot/util';
 import { hdLedger, hdValidatePath, keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
 
-import { useTranslation } from '../translate';
-import { tryCreateAccount } from '../util';
-import CreateAccountInputs from './CreateAccountInputs';
-import CreateConfirmation from './CreateConfirmation';
-import CreateEthDerivationPath, { ETH_DEFAULT_PATH } from './CreateEthDerivationPath';
-import CreateSuriLedger from './CreateSuriLedger';
-import ExternalWarning from './ExternalWarning';
+import { useTranslation } from '../translate.js';
+import { tryCreateAccount } from '../util.js';
+import CreateAccountInputs from './CreateAccountInputs.js';
+import CreateConfirmation from './CreateConfirmation.js';
+import CreateEthDerivationPath, { ETH_DEFAULT_PATH } from './CreateEthDerivationPath.js';
+import CreateSuriLedger from './CreateSuriLedger.js';
+import ExternalWarning from './ExternalWarning.js';
 
 const DEFAULT_PAIR_TYPE = 'sr25519';
 const STEPS_COUNT = 3;
@@ -158,7 +157,8 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   const [{ address, derivePath, deriveValidation, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(() => generateSeed(
     propsSeed,
     isEthereum ? ETH_DEFAULT_PATH : '',
-    propsSeed ? 'raw' : 'bip', isEthereum ? 'ethereum' : propsType
+    propsSeed ? 'raw' : 'bip',
+    isEthereum ? 'ethereum' : propsType
   ));
   const [isMnemonicSaved, setIsMnemonicSaved] = useState<boolean>(false);
   const [step, nextStep, prevStep] = useStepper();
@@ -242,7 +242,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   );
 
   return (
-    <Modal
+    <StyledModal
       className={className}
       header={t<string>('Add an account via seed {{step}}/{{STEPS_COUNT}}', { replace: { STEPS_COUNT, step } })}
       onClose={onClose}
@@ -261,7 +261,6 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
         {step === 1 && <>
           <Modal.Columns hint={t<string>('The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.')}>
             <TextArea
-              isAction
               isError={!isSeedValid}
               isReadOnly={seedType === 'dev'}
               label={
@@ -435,11 +434,11 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
           </>
         )}
       </Modal.Actions>
-    </Modal>
+    </StyledModal>
   );
 }
 
-export default React.memo(styled(Create)`
+const StyledModal = styled(Modal)`
   .accounts--Creator-advanced {
     margin-top: 1rem;
     overflow: visible;
@@ -471,4 +470,6 @@ export default React.memo(styled(Create)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(Create);

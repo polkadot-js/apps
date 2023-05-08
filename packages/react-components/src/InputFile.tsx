@@ -1,14 +1,16 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DropzoneRef } from 'react-dropzone';
+
 import React, { createRef, useCallback, useState } from 'react';
-import Dropzone, { DropzoneRef } from 'react-dropzone';
-import styled from 'styled-components';
+import { useDropzone } from 'react-dropzone';
 
 import { formatNumber, hexToU8a, isHex, u8aToString } from '@polkadot/util';
 
-import Labelled from './Labelled';
-import { useTranslation } from './translate';
+import Labelled from './Labelled.js';
+import { styled } from './styled.js';
+import { useTranslation } from './translate.js';
 
 export interface InputFilePropsBase {
   className?: string;
@@ -17,6 +19,7 @@ export interface InputFilePropsBase {
   isError?: boolean;
   isFull?: boolean;
   label: React.ReactNode;
+  labelExtra?: React.ReactNode;
   placeholder?: React.ReactNode | null | false;
   withEllipsis?: boolean;
   withLabel?: boolean;
@@ -25,7 +28,7 @@ export interface InputFilePropsBase {
 export interface InputFileProps extends InputFilePropsBase {
   // Reference Example Usage: https://github.com/react-dropzone/react-dropzone/tree/master/examples/Accept
   // i.e. MIME types: 'application/json, text/plain', or '.json, .txt'
-  accept?: string;
+  accept?: string[];
   onChange?: (contents: Uint8Array, name: string) => void;
 }
 
@@ -58,12 +61,12 @@ function convertResult (result: ArrayBuffer): Uint8Array {
   return data;
 }
 
-function InputFile ({ accept, className = '', clearContent, isDisabled, isError = false, isFull, label, onChange, placeholder, withEllipsis, withLabel }: InputFileProps): React.ReactElement<InputFileProps> {
+function InputFile ({ accept, className = '', clearContent, isDisabled, isError = false, isFull, label, labelExtra, onChange, placeholder, withEllipsis, withLabel }: InputFileProps): React.ReactElement<InputFileProps> {
   const { t } = useTranslation();
   const dropRef = createRef<DropzoneRef>();
   const [file, setFile] = useState<FileState | undefined>();
 
-  const _onDrop = useCallback(
+  const onDrop = useCallback(
     (files: File[]): void => {
       files.forEach((file): void => {
         const reader = new FileReader();
@@ -90,32 +93,28 @@ function InputFile ({ accept, className = '', clearContent, isDisabled, isError 
     [dropRef, onChange]
   );
 
+  const { getInputProps, getRootProps } = useDropzone({
+    accept: accept && accept.reduce((all, mime) => ({ ...all, [mime]: [] }), {}),
+    disabled: isDisabled,
+    onDrop
+  });
+
   const dropZone = (
-    <Dropzone
-      accept={accept}
-      disabled={isDisabled}
-      multiple={false}
-      onDrop={_onDrop}
-      ref={dropRef}
-    >
-      {({ getInputProps, getRootProps }): JSX.Element => (
-        <div {...getRootProps({ className: `ui--InputFile${isError ? ' error' : ''} ${className}` })}>
-          <input {...getInputProps()} />
-          <em className='label'>
-            {
-              !file || clearContent
-                ? placeholder || t<string>('click to select or drag and drop the file here')
-                : placeholder || t<string>('{{name}} ({{size}} bytes)', {
-                  replace: {
-                    name: file.name,
-                    size: formatNumber(file.size)
-                  }
-                })
-            }
-          </em>
-        </div>
-      )}
-    </Dropzone>
+    <StyledDiv {...getRootProps({ className: `${className} ui--InputFile ${isError ? 'error' : ''}` })}>
+      <input {...getInputProps()} />
+      <em className='label'>
+        {
+          !file || clearContent
+            ? placeholder || t<string>('click to select or drag and drop the file here')
+            : placeholder || t<string>('{{name}} ({{size}} bytes)', {
+              replace: {
+                name: file.name,
+                size: formatNumber(file.size)
+              }
+            })
+        }
+      </em>
+    </StyledDiv>
   );
 
   return label
@@ -123,6 +122,7 @@ function InputFile ({ accept, className = '', clearContent, isDisabled, isError 
       <Labelled
         isFull={isFull}
         label={label}
+        labelExtra={labelExtra}
         withEllipsis={withEllipsis}
         withLabel={withLabel}
       >
@@ -132,7 +132,7 @@ function InputFile ({ accept, className = '', clearContent, isDisabled, isError 
     : dropZone;
 }
 
-export default React.memo(styled(InputFile)`
+const StyledDiv = styled.div`
   background: var(--bg-input);
   border: 1px solid var(--border-input);
   border-radius: 0.28571429rem;
@@ -149,4 +149,6 @@ export default React.memo(styled(InputFile)`
   &:hover {
     cursor: pointer;
   }
-`);
+`;
+
+export default React.memo(InputFile);

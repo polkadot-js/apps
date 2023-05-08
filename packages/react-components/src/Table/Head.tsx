@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
+
+import { styled } from '../styled.js';
 
 type HeaderDef = [React.ReactNode?, string?, number?, (() => void)?];
 
@@ -20,7 +21,7 @@ function Head ({ children, className = '', filter, header, isEmpty }: Props): Re
   }
 
   return (
-    <StyledThead className={className}>
+    <StyledThead className={`${className} ui--Table-Head`}>
       {filter && (
         <tr className='filter'>
           <th colSpan={100}>{filter}</th>

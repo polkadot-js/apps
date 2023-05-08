@@ -6,13 +6,13 @@ import type { KeyringItemType } from '@polkadot/ui-keyring/types';
 import type { BN } from '@polkadot/util';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import AccountName from './AccountName';
-import BalanceDisplay from './Balance';
-import BondedDisplay from './Bonded';
-import IdentityIcon from './IdentityIcon';
-import LockedVote from './LockedVote';
+import IdentityIcon from './IdentityIcon/index.js';
+import AccountName from './AccountName.js';
+import BalanceDisplay from './Balance.js';
+import BondedDisplay from './Bonded.js';
+import LockedVote from './LockedVote.js';
+import { styled } from './styled.js';
 
 interface Props {
   balance?: BN | BN[];
@@ -29,7 +29,7 @@ interface Props {
   onNameClick?: () => void;
   summary?: React.ReactNode;
   type?: KeyringItemType;
-  value?: AccountId | AccountIndex | Address | string | null | Uint8Array;
+  value?: AccountId | AccountIndex | Address | string | null;
   withAddress?: boolean;
   withBalance?: boolean;
   withBonded?: boolean;
@@ -45,7 +45,7 @@ function AddressMini ({ balance, bonded, children, className = '', iconInfo, isH
   }
 
   return (
-    <StyledDiv className={`ui--AddressMini${isHighlight ? ' isHighlight' : ''}${isPadded ? ' padded' : ''}${withShrink ? ' withShrink' : ''} ${className}`}>
+    <StyledDiv className={`${className} ui--AddressMini ${isHighlight ? 'isHighlight' : ''} ${isPadded ? 'padded' : ''} ${withShrink ? 'withShrink' : ''}`}>
       {label && (
         <label className='ui--AddressMini-label'>{label}</label>
       )}
@@ -72,7 +72,7 @@ function AddressMini ({ balance, bonded, children, className = '', iconInfo, isH
                   {nameExtra}
                 </AccountName>
               )
-              : <span className='shortAddress'>{value}</span>
+              : <span className='shortAddress'>{value.toString()}</span>
             }
           </span>
         )}

@@ -11,7 +11,7 @@ import { Expander, Table } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
 import { getTypeDef } from '@polkadot/types/create';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   value: Option<Justifications>;
@@ -40,7 +40,7 @@ function JustificationList ({ value }: Props): React.ReactElement<Props> | null 
   const { t } = useTranslation();
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('justifications'), 'start']
+    [t<string>('justifications'), 'start']
   ]);
 
   const justifications = value.unwrapOr(null);

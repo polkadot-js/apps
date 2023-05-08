@@ -1,14 +1,19 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { GroupProps } from './types';
-
 import React from 'react';
-import styled from 'styled-components';
 
-function ButtonGroup ({ children, className = '', isCentered }: GroupProps): React.ReactElement<GroupProps> {
+import { styled } from '../styled.js';
+
+interface Props {
+  children?: React.ReactNode;
+  className?: string;
+  isCentered?: boolean;
+}
+
+function ButtonGroup ({ children, className = '', isCentered }: Props): React.ReactElement<Props> {
   return (
-    <StyledDiv className={`ui--Button-Group${isCentered ? ' isCentered' : ''} ${className}`}>
+    <StyledDiv className={`${className} ui--Button-Group ${isCentered ? 'isCentered' : ''}`}>
       {children}
       <div className='clear' />
     </StyledDiv>

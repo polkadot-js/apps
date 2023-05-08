@@ -1,13 +1,13 @@
 // Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { StatusName } from './types.js';
+
 import React from 'react';
-import styled from 'styled-components';
 
-import { LabelHelp } from '@polkadot/react-components';
+import { styled } from '@polkadot/react-components';
 
-import { insertSpaceBeforeCapitalLetter } from './helpers';
-import { StatusName } from './types';
+import { insertSpaceBeforeCapitalLetter } from './helpers/index.js';
 
 interface Props {
   bountyStatus: StatusName;
@@ -16,17 +16,18 @@ interface Props {
 
 function BountyStatusView ({ bountyStatus, className = '' }: Props): React.ReactElement<Props> {
   return (
-    <div
+    <StyledDiv
       className={className}
       data-testid={'bountyStatus'}
     >
       {insertSpaceBeforeCapitalLetter(bountyStatus)}
-      <LabelHelp />
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(BountyStatusView)`
+const StyledDiv = styled.div`
   display: flex;
   align-items: center;
-`);
+`;
+
+export default React.memo(BountyStatusView);

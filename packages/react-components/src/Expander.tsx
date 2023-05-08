@@ -4,11 +4,11 @@
 import type { Text } from '@polkadot/types';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
 import { useToggle } from '@polkadot/react-hooks';
 
-import Icon from './Icon';
+import Icon from './Icon.js';
+import { styled } from './styled.js';
 
 interface Meta {
   docs: Text[];
@@ -22,7 +22,7 @@ export interface Props {
   isLeft?: boolean;
   isPadded?: boolean;
   onClick?: (isOpen: boolean) => void;
-  renderChildren?: () => React.ReactNode;
+  renderChildren?: (() => React.ReactNode | undefined | null) | null;
   summary?: React.ReactNode;
   summaryHead?: React.ReactNode;
   summaryMeta?: Meta;
@@ -98,7 +98,7 @@ function Expander ({ children, className = '', isHeader, isLeft, isOpen, isPadde
   );
 
   return (
-    <div className={`ui--Expander${isExpanded ? ' isExpanded' : ''}${isHeader ? ' isHeader' : ''}${isPadded ? ' isPadded' : ''}${hasContent ? ' hasContent' : ''}${withBreaks ? ' withBreaks' : ''} ${className}`}>
+    <StyledDiv className={`${className} ui--Expander ${isExpanded ? 'isExpanded' : ''} ${isHeader ? 'isHeader' : ''} ${isPadded ? 'isPadded' : ''} ${hasContent ? 'hasContent' : ''} ${withBreaks ? 'withBreaks' : ''}`}>
       <div
         className={`ui--Expander-summary${isLeft ? ' isLeft' : ''}`}
         onClick={toggleExpanded}
@@ -118,11 +118,11 @@ function Expander ({ children, className = '', isHeader, isLeft, isOpen, isPadde
       {hasContent && (isExpanded || withHidden) && (
         <div className='ui--Expander-content'>{children || demandChildren}</div>
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Expander)`
+const StyledDiv = styled.div`
   max-width: 60rem;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -214,4 +214,6 @@ export default React.memo(styled(Expander)`
   &.isPadded .ui--Expander-summary {
     margin-left: 2.25rem;
   }
-`);
+`;
+
+export default React.memo(Expander);

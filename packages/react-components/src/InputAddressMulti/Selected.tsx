@@ -3,7 +3,7 @@
 
 import React, { useCallback } from 'react';
 
-import AddressToggle from '../AddressToggle';
+import AddressToggle from '../AddressToggle.js';
 
 interface Props {
   address: string;

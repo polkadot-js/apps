@@ -13,12 +13,12 @@ import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { convertWeight } from '@polkadot/react-hooks/useWeight';
 import { formatNumber } from '@polkadot/util';
 
-import Events from '../Events';
-import { useTranslation } from '../translate';
-import Extrinsics from './Extrinsics';
-import Justifications from './Justifications';
-import Logs from './Logs';
-import Summary from './Summary';
+import Events from '../Events.js';
+import { useTranslation } from '../translate.js';
+import Extrinsics from './Extrinsics.js';
+import Justifications from './Justifications.js';
+import Logs from './Logs.js';
+import Summary from './Summary.js';
 
 interface Props {
   className?: string;
@@ -105,10 +105,10 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
     () => getHeader
       ? [
         [formatNumber(getHeader.number.unwrap()), 'start --digits', 1],
-        [t('hash'), 'start'],
-        [t('parent'), 'start'],
-        [t('extrinsics'), 'start media--1300'],
-        [t('state'), 'start media--1200'],
+        [t<string>('hash'), 'start'],
+        [t<string>('parent'), 'start'],
+        [t<string>('extrinsics'), 'start media--1300'],
+        [t<string>('state'), 'start media--1200'],
         [runtimeVersion ? `${runtimeVersion.specName.toString()}/${runtimeVersion.specVersion.toString()}` : undefined, 'media--1000']
       ]
       : EMPTY_HEADER,
@@ -151,10 +151,12 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
               <td className='hash overflow media--1300'>{getHeader.extrinsicsRoot.toHex()}</td>
               <td className='hash overflow media--1200'>{getHeader.stateRoot.toHex()}</td>
               <td className='media--1000'>
-                <LinkExternal
-                  data={value}
-                  type='block'
-                />
+                {value && (
+                  <LinkExternal
+                    data={value}
+                    type='block'
+                  />
+                )}
               </td>
             </tr>
           )

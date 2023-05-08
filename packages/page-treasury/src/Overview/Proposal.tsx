@@ -7,11 +7,10 @@ import React, { useMemo } from 'react';
 
 import { AddressMini, AddressSmall, Columar, LinkExternal, Table } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
-import { FormatBalance } from '@polkadot/react-query';
 import { isFunction } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import Council from './Council';
+import { useTranslation } from '../translate.js';
+import Council from './Council.js';
 
 interface Props {
   className?: string;
@@ -42,9 +41,7 @@ function ProposalDisplay ({ className = '', isMember, members, proposal: { counc
         <td className='address all'>
           <AddressSmall value={proposal.beneficiary} />
         </td>
-        <td className='number'>
-          <FormatBalance value={proposal.value} />
-        </td>
+        <Table.Column.Balance value={proposal.value} />
         <td className='address'>
           <AddressMini
             balance={proposal.bond}
@@ -55,7 +52,7 @@ function ProposalDisplay ({ className = '', isMember, members, proposal: { counc
         <td className={hasProposals ? 'middle' : 'button'}>
           {hasCouncil
             ? hasProposals
-              ? <a href='#/council/motions'>{t('Voting')}</a>
+              ? <a href='#/council/motions'>{t<string>('Voting')}</a>
               : withSend && (
                 <Council
                   id={id}

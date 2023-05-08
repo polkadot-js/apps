@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 
 import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
 
-import BlockByHash from './ByHash';
+import BlockByHash from './ByHash.js';
 
 interface Props {
   value: string;

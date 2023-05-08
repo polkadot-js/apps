@@ -3,7 +3,7 @@
 
 import type { I18nProps } from '@polkadot/react-components/types';
 import type { Registry } from '@polkadot/types/types';
-import type { ComponentMap, ParamDef, RawParam, RawParamOnChangeValue, RawParams } from './types';
+import type { ComponentMap, ParamDef, RawParam, RawParamOnChangeValue, RawParams } from './types.js';
 
 import React from 'react';
 
@@ -11,10 +11,10 @@ import { api } from '@polkadot/react-api';
 import { ErrorBoundary } from '@polkadot/react-components';
 import { stringify } from '@polkadot/util';
 
-import Holder from './Holder';
-import ParamComp from './ParamComp';
-import translate from './translate';
-import { createValue } from './values';
+import Holder from './Holder.js';
+import ParamComp from './ParamComp.js';
+import translate from './translate.js';
+import { createValue } from './values.js';
 
 interface Props extends I18nProps {
   children?: React.ReactNode;
@@ -82,7 +82,7 @@ class Params extends React.PureComponent<Props, State> {
   }
 
   public override render (): React.ReactNode {
-    const { children, className = '', isDisabled, isError, onEnter, onEscape, overrides, params, registry = api.registry, withExpander, withBorder = true } = this.props;
+    const { children, className = '', isDisabled, isError, onEnter, onEscape, overrides, params, registry = api.registry, withBorder = true, withExpander } = this.props;
     const { values = this.props.values } = this.state;
 
     if (!values || !values.length) {

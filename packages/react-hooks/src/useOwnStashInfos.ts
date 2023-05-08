@@ -5,17 +5,17 @@ import type { CombinatorFunction } from '@polkadot/api/promise/Combinator';
 import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
 import type { AccountId, ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { Codec, ITuple } from '@polkadot/types/types';
-import type { StakerState } from './types';
+import type { StakerState } from './types.js';
 
 import { useEffect, useMemo, useState } from 'react';
 
 import { u8aConcat, u8aToHex } from '@polkadot/util';
 
-import { createNamedHook } from './createNamedHook';
-import { useAccounts } from './useAccounts';
-import { useApi } from './useApi';
-import { useIsMountedRef } from './useIsMountedRef';
-import { useOwnStashes } from './useOwnStashes';
+import { createNamedHook } from './createNamedHook.js';
+import { useAccounts } from './useAccounts.js';
+import { useApi } from './useApi.js';
+import { useIsMountedRef } from './useIsMountedRef.js';
+import { useOwnStashes } from './useOwnStashes.js';
 
 type ValidatorInfo = ITuple<[ValidatorPrefs, Codec]> | ValidatorPrefs;
 type Queried = Record<string, [boolean, DeriveStakingAccount, ValidatorInfo]>;

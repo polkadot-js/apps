@@ -4,16 +4,15 @@
 import type { KeypairType } from '@polkadot/util-crypto/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
 
-import { Badge, Dropdown, Input, InputAddress, Static } from '@polkadot/react-components';
+import { Badge, Dropdown, Input, InputAddress, Static, styled } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { isHex } from '@polkadot/util';
 import { signatureVerify } from '@polkadot/util-crypto';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 type CryptoTypes = KeypairType | 'unknown';
 
@@ -75,7 +74,7 @@ function Verify ({ className = '' }: Props): React.ReactElement {
   );
 
   return (
-    <div className={`toolbox--Verify ${className}`}>
+    <StyledDiv className={`${className} toolbox--Verify`}>
       <div className='ui--row'>
         <InputAddress
           className='full'
@@ -127,11 +126,11 @@ function Verify ({ className = '' }: Props): React.ReactElement {
           }
         />
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Verify)`
+const StyledDiv = styled.div`
   .ui--AlignedIconContainer {
     position: absolute;
     z-index: 1;
@@ -142,4 +141,6 @@ export default React.memo(styled(Verify)`
     position: relative;
     top: 1.25rem;
   }
-`);
+`;
+
+export default React.memo(Verify);

@@ -1,15 +1,15 @@
 // Copyright 2017-2023 @polkadot/app-ranked authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Member as MemberType } from '../types';
+import type { Member as MemberType } from '../types.js';
 
 import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
-import Member from './Member';
-import Summary from './Summary';
+import { useTranslation } from '../translate.js';
+import Member from './Member.js';
+import Summary from './Summary.js';
 
 interface Props {
   className?: string;
@@ -20,7 +20,7 @@ function Members ({ className, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('members'), 'start']
+    [t<string>('members'), 'start']
   ]);
 
   return (

@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
 
-import { useDebounce, useLoadingDelay } from '@polkadot/react-hooks';
+import { useDebounce, useNextTick } from '@polkadot/react-hooks';
 
-import Input from '../Input';
-import Spinner from '../Spinner';
-import { useTranslation } from '../translate';
-import Available from './Available';
-import Selected from './Selected';
+import Input from '../Input.js';
+import Spinner from '../Spinner.js';
+import { styled } from '../styled.js';
+import { useTranslation } from '../translate.js';
+import Available from './Available.js';
+import Selected from './Selected.js';
 
 interface Props {
   available: string[];
@@ -39,7 +39,7 @@ function InputAddressMulti ({ available, availableLabel, className = '', default
   const [_filter, setFilter] = useState<string>('');
   const [selected, setSelected] = useState<string[]>([]);
   const filter = useDebounce(_filter);
-  const isLoading = useLoadingDelay();
+  const isNextTick = useNextTick();
 
   useEffect((): void => {
     defaultValue && setSelected(defaultValue);
@@ -60,7 +60,7 @@ function InputAddressMulti ({ available, availableLabel, className = '', default
   );
 
   return (
-    <StyledDiv className={`ui--InputAddressMulti ${className}`}>
+    <StyledDiv className={`${className} ui--InputAddressMulti`}>
       <Input
         autoFocus
         className='ui--InputAddressMulti-Input'
@@ -86,9 +86,8 @@ function InputAddressMulti ({ available, availableLabel, className = '', default
         <div className='ui--InputAddressMulti-column'>
           <label>{availableLabel}</label>
           <div className='ui--InputAddressMulti-items'>
-            {isLoading
-              ? <Spinner />
-              : available.map((address) => (
+            {isNextTick
+              ? available.map((address) => (
                 <Available
                   address={address}
                   filter={filter}
@@ -97,6 +96,7 @@ function InputAddressMulti ({ available, availableLabel, className = '', default
                   onSelect={onSelect}
                 />
               ))
+              : <Spinner />
             }
           </div>
         </div>

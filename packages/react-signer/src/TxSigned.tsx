@@ -1,6 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { SignerOptions } from '@polkadot/api/submittable/types';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { Ledger } from '@polkadot/hw-ledger';
@@ -10,32 +11,33 @@ import type { Option } from '@polkadot/types';
 import type { Multisig, Timepoint } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { AddressFlags, AddressProxy, QrState } from './types';
+import type { AddressFlags, AddressProxy, QrState } from './types.js';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
 
-import { ApiPromise } from '@polkadot/api';
 import { web3FromSource } from '@polkadot/extension-dapp';
-import { Button, ErrorBoundary, Modal, Output, Toggle } from '@polkadot/react-components';
+import { Button, ErrorBoundary, Modal, Output, styled, Toggle } from '@polkadot/react-components';
 import { useApi, useLedger, useQueue, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { assert, nextTick } from '@polkadot/util';
 import { addressEq } from '@polkadot/util-crypto';
 
-import Address from './Address';
-import Qr from './Qr';
-import { AccountSigner, LedgerSigner, QrSigner } from './signers';
-import SignFields from './SignFields';
-import Tip from './Tip';
-import Transaction from './Transaction';
-import { useTranslation } from './translate';
-import { cacheUnlock, extractExternal, handleTxResults } from './util';
+import { AccountSigner, LedgerSigner, QrSigner } from './signers/index.js';
+import Address from './Address.js';
+import Qr from './Qr.js';
+import SignFields from './SignFields.js';
+import Tip from './Tip.js';
+import Transaction from './Transaction.js';
+import { useTranslation } from './translate.js';
+import { cacheUnlock, extractExternal, handleTxResults } from './util.js';
 
 interface Props {
   className?: string;
   currentItem: QueueTx;
-  requestAddress: string;
+  isQueueSubmit: boolean;
+  queueSize: number;
+  requestAddress: string | null;
+  setIsQueueSubmit: (isQueueSubmit: boolean) => void;
 }
 
 interface InnerTx {
@@ -189,7 +191,7 @@ function tryExtract (address: string | null): AddressFlags {
   }
 }
 
-function TxSigned ({ className, currentItem, requestAddress }: Props): React.ReactElement<Props> | null {
+function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAddress, setIsQueueSubmit }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { getLedger } = useLedger();
@@ -206,6 +208,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   const [signedTx, setSignedTx] = useState<string | null>(null);
   const [{ innerHash, innerTx }, setCallInfo] = useState<InnerTx>(EMPTY_INNER);
   const [tip, setTip] = useState<BN | undefined>();
+  const [initialIsQueueSubmit] = useState(isQueueSubmit);
 
   useEffect((): void => {
     setFlags(tryExtract(senderInfo.signAddress));
@@ -344,9 +347,18 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
     [_onSend, _onSendPayload, _onSign, _unlock, currentItem, isSubmit, queueSetTxStatus, senderInfo]
   );
 
+  const isAutoCapable = senderInfo.signAddress && (queueSize > 1) && isSubmit && !(flags.isHardware || flags.isMultisig || flags.isProxied || flags.isQr || flags.isUnlockable) && !isRenderError;
+
+  if (!isBusy && isAutoCapable && initialIsQueueSubmit) {
+    setBusy(true);
+    setTimeout(_doStart, 1000);
+
+    return null;
+  }
+
   return (
     <>
-      <Modal.Content className={className}>
+      <StyledModalContent className={className}>
         <ErrorBoundary
           error={error}
           onError={toggleRenderError}
@@ -411,7 +423,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
             )
           }
         </ErrorBoundary>
-      </Modal.Content>
+      </StyledModalContent>
       <Modal.Actions>
         <Button
           icon={
@@ -431,25 +443,37 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
           onClick={_doStart}
           tabIndex={2}
         />
-        {!isBusy && (
-          <Toggle
-            className='signToggle'
-            isDisabled={!!currentItem.payload}
-            label={
-              isSubmit
-                ? t<string>('Sign and Submit')
-                : t<string>('Sign (no submission)')
-            }
-            onChange={setIsSubmit}
-            value={isSubmit}
-          />
-        )}
+        <div className='signToggle'>
+          {!isBusy && (
+            <Toggle
+              isDisabled={!!currentItem.payload}
+              label={
+                isSubmit
+                  ? t<string>('Sign and Submit')
+                  : t<string>('Sign (no submission)')
+              }
+              onChange={setIsSubmit}
+              value={isSubmit}
+            />
+          )}
+          {isAutoCapable && (
+            <Toggle
+              label={
+                isQueueSubmit
+                  ? t<string>('Submit {{queueSize}} items', { replace: { queueSize } })
+                  : t<string>('Submit individual')
+              }
+              onChange={setIsQueueSubmit}
+              value={isQueueSubmit}
+            />
+          )}
+        </div>
       </Modal.Actions>
     </>
   );
 }
 
-export default React.memo(styled(TxSigned)`
+const StyledModalContent = styled(Modal.Content)`
   .tipToggle {
     width: 100%;
     text-align: right;
@@ -458,4 +482,6 @@ export default React.memo(styled(TxSigned)`
   .ui--Checks {
     margin-top: 0.75rem;
   }
-`);
+`;
+
+export default React.memo(TxSigned);

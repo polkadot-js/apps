@@ -5,11 +5,11 @@ import type { AccountId, BountyIndex } from '@polkadot/types/interfaces';
 
 import React from 'react';
 
-import { useBounties } from '@polkadot/app-bounties/hooks';
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 
-import { truncateTitle } from '../helpers';
-import { useTranslation } from '../translate';
+import { truncateTitle } from '../helpers/index.js';
+import { useBounties } from '../hooks/index.js';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   curatorId: AccountId;

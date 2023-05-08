@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useMemo } from 'react';
-import styled from 'styled-components';
 
-import EditButton from './EditButton';
-import InputTags from './InputTags';
-import Tag from './Tag';
-import { useTranslation } from './translate';
+import EditButton from './EditButton.js';
+import InputTags from './InputTags.js';
+import { styled } from './styled.js';
+import Tag from './Tag.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   children?: React.ReactNode;
@@ -46,7 +46,7 @@ function Tags ({ children, className = '', isEditable, isEditing, onChange, onSa
   );
 
   return (
-    <div className={`ui--Tags ${className}`}>
+    <StyledDiv className={`${className} ui--Tags`}>
       {withTitle && (
         <h5>{t<string>('Tags')}</h5>
       )}
@@ -75,11 +75,11 @@ function Tags ({ children, className = '', isEditable, isEditing, onChange, onSa
           : contents
       }
       {children}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Tags)`
+const StyledDiv = styled.div`
   label {
     display: inline-block;
   }
@@ -101,4 +101,6 @@ export default React.memo(styled(Tags)`
   .ui--Tag {
     margin: 0.1rem 0 0.1rem 0.571rem;
   }
-`);
+`;
+
+export default React.memo(Tags);

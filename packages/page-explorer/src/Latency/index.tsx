@@ -1,17 +1,16 @@
 // Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ChartContents, Detail } from './types';
+import type { ChartContents, Detail } from './types.js';
 
 import React, { useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
 
-import { CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
+import { CardSummary, NextTick, styled, SummaryBox } from '@polkadot/react-components';
 import { formatNumber, nextTick } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import Chart from './Chart';
-import useLatency from './useLatency';
+import { useTranslation } from '../translate.js';
+import Chart from './Chart.js';
+import useLatency from './useLatency.js';
 
 interface Props {
   className?: string;
@@ -142,7 +141,7 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
   const EMPTY_TIME = <span className='--tmp --digits'>0.000 <span className='postfix'>s</span></span>;
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <SummaryBox>
         <section>
           <CardSummary label={t<string>('avg')}>
@@ -178,25 +177,22 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
             : EMPTY_TIME}
         </CardSummary>
       </SummaryBox>
-      {isLoaded
-        ? ORDER.map((key, i) =>
-          shouldRender[i] && (
-            <Chart
-              colors={COLORS[key]}
-              key={key}
-              legends={legend[key]}
-              title={title[key]}
-              value={points[key]}
-            />
-          )
-        )
-        : <Spinner />
-      }
-    </div>
+      <NextTick isActive={isLoaded}>
+        {ORDER.map((key) => (
+          <Chart
+            colors={COLORS[key]}
+            key={key}
+            legends={legend[key]}
+            title={title[key]}
+            value={points[key]}
+          />
+        ))}
+      </NextTick>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Latency)`
+const StyledDiv = styled.div`
   .container {
     background: var(--bg-table);
     border: 1px solid var(--border-table);
@@ -213,4 +209,6 @@ export default React.memo(styled(Latency)`
       font-size: var(--font-percent-tiny);
     }
   }
-`);
+`;
+
+export default React.memo(Latency);

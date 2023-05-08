@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react';
 import { Dropdown, Input, InputAddress, MarkError, Modal, Spinner, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   address: string;

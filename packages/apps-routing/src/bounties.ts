@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import type { Route } from './types';
+import type { Route } from './types.js';
 
 import Component, { useCounter } from '@polkadot/app-bounties';
 
@@ -17,7 +17,7 @@ export default function create (t: TFunction): Route {
     group: 'governance',
     icon: 'coins',
     name: 'bounties',
-    text: t('nav.bounties', 'Bounties', { ns: 'apps-routing' }),
+    text: t<string>('nav.bounties', 'Bounties', { ns: 'apps-routing' }),
     useCounter
   };
 }

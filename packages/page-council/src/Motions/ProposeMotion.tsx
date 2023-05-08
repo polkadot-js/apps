@@ -10,7 +10,7 @@ import { Button, Extrinsic, InputAddress, InputNumber, Modal, TxButton } from '@
 import { useApi, useCollectiveInstance, useToggle } from '@polkadot/react-hooks';
 import { BN, BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   isMember: boolean;

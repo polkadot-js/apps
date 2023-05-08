@@ -4,7 +4,8 @@
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import ReactTooltip from 'react-tooltip';
-import styled from 'styled-components';
+
+import { styled } from './styled.js';
 
 function rootElement () {
   return typeof document === 'undefined'
@@ -39,8 +40,8 @@ function Tooltip ({ children, className = '', isClickable = false, place, text, 
   }, [tooltipContainer]);
 
   return createPortal(
-    <ReactTooltip
-      className={`ui--Tooltip ${className}`}
+    <StyledReactTooltip
+      className={`${className} ui--Tooltip`}
       clickable={isClickable}
       effect='solid'
       id={trigger}
@@ -49,12 +50,15 @@ function Tooltip ({ children, className = '', isClickable = false, place, text, 
       <div className='tooltipSpacer'>
         {text}{children}
       </div>
-    </ReactTooltip>,
+    </StyledReactTooltip>,
     tooltipContainer
   );
 }
 
-export default React.memo(styled(Tooltip)`
+// FIXME This cast should really not be needed since the export is React.Component<TooltipProps>,
+// however while it works as specified, it fails here on the definition. Until we have the component
+// upgraded to latest, we probably don't want to start digging...
+const StyledReactTooltip = styled(ReactTooltip as unknown as React.ComponentType<any>)`
   .tooltipSpacer {
     padding: 0.375rem;
   }
@@ -115,4 +119,6 @@ export default React.memo(styled(Tooltip)`
   .row+.row {
     margin-top: 0.5rem;
   }
-`);
+`;
+
+export default React.memo(Tooltip);

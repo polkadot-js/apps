@@ -5,12 +5,11 @@ import type { PalletSocietyBid } from '@polkadot/types/lookup';
 
 import React, { useMemo } from 'react';
 
-import { AddressSmall, TxButton } from '@polkadot/react-components';
+import { AddressSmall, Table, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi } from '@polkadot/react-hooks';
-import { FormatBalance } from '@polkadot/react-query';
 
-import { useTranslation } from '../translate';
-import BidType from './BidType';
+import { useTranslation } from '../translate.js';
+import BidType from './BidType.js';
 
 interface Props {
   index: number;
@@ -72,14 +71,8 @@ function BidRow ({ index, value: { kind, value, who } }: Props): React.ReactElem
           )
         }
       </td>
-      <td className='number'>
-        <FormatBalance value={value} />
-      </td>
-      <td className='number'>
-        {tip && (
-          <FormatBalance value={tip} />
-        )}
-      </td>
+      <Table.Column.Balance value={value} />
+      <Table.Column.Balance value={tip} />
     </tr>
   );
 }

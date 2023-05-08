@@ -7,7 +7,8 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
-import styled from 'styled-components';
+
+import { styled } from './styled.js';
 
 interface Props {
   className?: string;
@@ -36,9 +37,9 @@ function Icon ({ className = '', color = 'normal', icon, isPadded, isSpinning, o
   };
 
   return (
-    <FontAwesomeIcon
+    <StyledFAI
       {...extraProps}
-      className={`ui--Icon ${color}Color${onClick ? ' isClickable' : ''}${isPadded ? ' isPadded' : ''} ${className}`}
+      className={`${className} ui--Icon ${color}Color${onClick ? ' isClickable' : ''}${isPadded ? ' isPadded' : ''}`}
       icon={icon}
       onClick={onClick}
       size={size}
@@ -48,7 +49,7 @@ function Icon ({ className = '', color = 'normal', icon, isPadded, isSpinning, o
   );
 }
 
-export default React.memo(styled(Icon)`
+const StyledFAI = styled(FontAwesomeIcon)`
   outline: none;
 
   &.isClickable {
@@ -86,4 +87,6 @@ export default React.memo(styled(Icon)`
   &.darkGrayColor {
     color: #8B8B8B;
   }
-`);
+`;
+
+export default React.memo(Icon);

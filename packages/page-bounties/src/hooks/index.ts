@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-export * from './useBounties';
-export * from './useBalance';
-export * from './useUserRole';
-export * from './useBountyStatus';
+export * from './useBalance.js';
+export * from './useBounties.js';
+export * from './useBountyStatus.js';
+export * from './useUserRole.js';

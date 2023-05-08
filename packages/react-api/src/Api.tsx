@@ -5,7 +5,7 @@ import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
 import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
-import type { ApiProps, ApiState } from './types';
+import type { ApiProps, ApiState } from './types.js';
 
 import * as Sc from '@substrate/connect';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -17,15 +17,15 @@ import { ethereumChains, typesBundle } from '@polkadot/apps-config';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { useApiUrl, useEndpoint, useQueue } from '@polkadot/react-hooks';
-import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';
+import { ApiSigner } from '@polkadot/react-signer';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { formatBalance, isNumber, isTestChain, objectSpread, stringify } from '@polkadot/util';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
-import { lightSpecs, relaySpecs } from './light';
-import registry from './typeRegistry';
-import { decodeUrlTypes } from './urlTypes';
+import { lightSpecs, relaySpecs } from './light/index.js';
+import { registry } from './typeRegistry.js';
+import { decodeUrlTypes } from './urlTypes.js';
 
 interface Props {
   children: React.ReactNode;
@@ -63,7 +63,7 @@ const EMPTY_STATE = { hasInjectedAccounts: false, isApiReady: false } as unknown
 
 let api: ApiPromise;
 
-export { api };
+export { api, registry };
 
 function isKeyringLoaded () {
   try {
@@ -187,7 +187,7 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, inject
     chainSS58,
     hasInjectedAccounts: injectedAccounts.length !== 0,
     isApiReady: true,
-    isDevelopment: isEthereum ? false : isDevelopment,
+    isDevelopment,
     isEthereum,
     specName: api.runtimeVersion.specName.toString(),
     specVersion: api.runtimeVersion.specVersion.toString(),

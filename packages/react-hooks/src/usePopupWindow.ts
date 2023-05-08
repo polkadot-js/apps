@@ -1,15 +1,17 @@
 // Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useEffect, useMemo, useState } from 'react';
+import type React from 'react';
+import type { HorizontalPosition, VerticalPosition } from '@polkadot/react-components/Popup/types';
 
-import { HorizontalPosition, VerticalPosition } from '@polkadot/react-components/Popup/types';
+import { useEffect, useMemo, useState } from 'react';
+
 import { getPosition } from '@polkadot/react-components/Popup/utils';
 
-import { createNamedHook } from './createNamedHook';
-import { useElementPosition } from './useElementPosition';
-import { useScroll } from './useScroll';
-import { useWindowSize } from './useWindowSize';
+import { createNamedHook } from './createNamedHook.js';
+import { useElementPosition } from './useElementPosition.js';
+import { useScroll } from './useScroll.js';
+import { useWindowSize } from './useWindowSize.js';
 
 interface Coord {
   x: number;

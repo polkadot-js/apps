@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
 
-import AccountName from '../AccountName';
-import IdentityIcon from '../IdentityIcon';
+import AccountName from '../AccountName.js';
+import IdentityIcon from '../IdentityIcon/index.js';
+import { styled } from '../styled.js';
 
 interface Props {
   address: string;
@@ -17,7 +17,7 @@ interface Props {
 
 function KeyPair ({ address, className = '' }: Props): React.ReactElement<Props> {
   return (
-    <StyledDiv className={`ui--KeyPair ${className}`}>
+    <StyledDiv className={`${className} ui--KeyPair`}>
       <IdentityIcon
         className='icon'
         value={address}

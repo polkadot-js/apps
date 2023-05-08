@@ -7,11 +7,11 @@ import type { Registry, SignerPayloadJSON } from '@polkadot/types/types';
 
 import { objectSpread } from '@polkadot/util';
 
-import { lockAccount } from '../util';
+import { lockAccount } from '../util.js';
 
 let id = 0;
 
-export default class AccountSigner implements Signer {
+export class AccountSigner implements Signer {
   readonly #keyringPair: KeyringPair;
   readonly #registry: Registry;
 

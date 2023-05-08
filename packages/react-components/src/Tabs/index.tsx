@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Location } from 'history';
-import type { SectionType, TabItem } from './types';
+import type { SectionType, TabItem } from './types.js';
 
 import React, { useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
-import styled from 'styled-components';
 
-import CurrentSection from './CurrentSection';
-import Tab from './Tab';
-import Delimiter from './TabsSectionDelimiter';
+import { styled } from '../styled.js';
+import CurrentSection from './CurrentSection.js';
+import Tab from './Tab.js';
+import Delimiter from './TabsSectionDelimiter.js';
 
 export const TabsCtx = React.createContext<SectionType>({});
 
@@ -53,7 +53,7 @@ function Tabs ({ basePath, className = '', hidden, items }: Props): React.ReactE
   );
 
   return (
-    <StyledHeader className={`ui--Tabs ${className}`}>
+    <StyledHeader className={`${className} ui--Tabs`}>
       <div className='tabs-container'>
         {text && icon && (
           <CurrentSection

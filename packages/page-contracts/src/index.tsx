@@ -5,10 +5,10 @@ import type { AppProps as Props } from '@polkadot/react-components/types';
 
 import React, { useRef } from 'react';
 
-import { useTranslation } from '@polkadot/app-contracts/translate';
 import { Tabs } from '@polkadot/react-components';
 
-import Contracts from './Contracts';
+import Contracts from './Contracts/index.js';
+import { useTranslation } from './translate.js';
 
 function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -17,12 +17,12 @@ function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<
     {
       isRoot: true,
       name: 'contracts',
-      text: t('Contracts')
+      text: t<string>('Contracts')
     }
   ]);
 
   return (
-    <main className={`contracts--App ${className}`}>
+    <main className={`${className} contracts--App`}>
       <Tabs
         basePath={basePath}
         items={itemsRef.current}

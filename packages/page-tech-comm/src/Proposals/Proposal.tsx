@@ -13,8 +13,8 @@ import { useApi, useCall, useCollectiveInstance, useVotingStatus } from '@polkad
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import Close from './Close';
-import Voting from './Voting';
+import Close from './Close.js';
+import Voting from './Voting.js';
 
 interface Props {
   className?: string;
@@ -42,6 +42,7 @@ function Proposal ({ className = '', imageHash, isMember, members, prime, type }
       <Table.Column.Id value={index} />
       <ProposalCell
         imageHash={imageHash}
+        isCollective
         proposal={derive.proposal}
       />
       <td className='number'>

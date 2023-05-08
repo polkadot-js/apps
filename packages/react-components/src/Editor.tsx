@@ -9,7 +9,8 @@
 
 import CodeFlask from 'codeflask';
 import React, { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+
+import { styled } from './styled.js';
 
 interface Props {
   className?: string;
@@ -61,14 +62,14 @@ function Editor ({ className = '', code, isValid, onEdit }: Props): React.ReactE
   }, [code]);
 
   return (
-    <div
-      className={`ui-Editor ${className}${isValid === false ? ' invalid' : ''}`}
+    <StyledDiv
+      className={`${className} ui-Editor ${isValid === false ? 'invalid' : ''}`}
       id={editorId}
     />
   );
 }
 
-export default React.memo(styled(Editor)`
+const StyledDiv = styled.div`
   .codeflask {
     border: 1px solid var(--border-input);
     background: transparent;
@@ -80,4 +81,6 @@ export default React.memo(styled(Editor)`
       border-color: #e0b4b4;
     }
   }
-`);
+`;
+
+export default React.memo(Editor);

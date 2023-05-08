@@ -3,6 +3,7 @@
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { BlueprintSubmittableResult } from '@polkadot/api-contract/promise/types';
+import type { BN } from '@polkadot/util';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -11,14 +12,14 @@ import { Dropdown, Input, InputAddress, InputBalance, Modal, Toggle, TxButton } 
 import { useApi, useFormField, useNonEmptyString } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { keyring } from '@polkadot/ui-keyring';
-import { BN, BN_ZERO, isHex, stringify } from '@polkadot/util';
+import { BN_ZERO, isHex, stringify } from '@polkadot/util';
 import { randomAsHex } from '@polkadot/util-crypto';
 
-import { ABI, InputMegaGas, InputName, MessageSignature, Params } from '../shared';
-import store from '../store';
-import { useTranslation } from '../translate';
-import useAbi from '../useAbi';
-import useWeight from '../useWeight';
+import { ABI, InputMegaGas, InputName, MessageSignature, Params } from '../shared/index.js';
+import store from '../store.js';
+import { useTranslation } from '../translate.js';
+import useAbi from '../useAbi.js';
+import useWeight from '../useWeight.js';
 
 interface Props {
   codeHash: string;
@@ -79,14 +80,14 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
       if (blueprint && contractAbi?.constructors[constructorIndex]?.method) {
         try {
           return blueprint.tx[contractAbi.constructors[constructorIndex].method]({
-            gasLimit: weight.weight,
+            gasLimit: weight.isWeightV2 ? weight.weightV2 : weight.weight,
             salt: withSalt
               ? salt
               : null,
             storageDepositLimit: null,
             value: contractAbi?.constructors[constructorIndex].isPayable ? value : undefined
           }, ...params);
-        } catch (error) {
+        } catch {
           return null;
         }
       }
@@ -118,13 +119,13 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
 
   return (
     <Modal
-      header={t('Deploy a contract')}
+      header={t<string>('Deploy a contract')}
       onClose={onClose}
     >
       <Modal.Content>
         <InputAddress
           isInput={false}
-          label={t('deployment account')}
+          label={t<string>('deployment account')}
           labelExtra={
             <Available
               label={t<string>('transferrable')}
@@ -156,7 +157,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
           <>
             <Dropdown
               isDisabled={contractAbi.constructors.length <= 1}
-              label={t('deployment constructor')}
+              label={t<string>('deployment constructor')}
               onChange={setConstructorIndex}
               options={constructOptions}
               value={constructorIndex}
@@ -180,17 +181,17 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
         <Input
           isDisabled={!withSalt}
           label={t<string>('unique deployment salt')}
+          labelExtra={
+            <Toggle
+              label={t<string>('use deployment salt')}
+              onChange={setWithSalt}
+              value={withSalt}
+            />
+          }
           onChange={setSalt}
           placeholder={t<string>('0x prefixed hex, e.g. 0x1234 or ascii data')}
           value={withSalt ? salt : t<string>('<none>')}
-        >
-          <Toggle
-            isOverlay
-            label={t<string>('use deployment salt')}
-            onChange={setWithSalt}
-            value={withSalt}
-          />
-        </Input>
+        />
         <InputMegaGas
           weight={weight}
         />
@@ -201,7 +202,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
           extrinsic={initTx}
           icon='upload'
           isDisabled={!isValid || !initTx}
-          label={t('Deploy')}
+          label={t<string>('Deploy')}
           onClick={onClose}
           onSuccess={_onSuccess}
           withSpinner

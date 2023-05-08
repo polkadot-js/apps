@@ -12,7 +12,7 @@ import { convertWeight } from '@polkadot/react-hooks/useWeight';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN, BN_ONE, BN_THREE, BN_TWO, formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   events?: KeyedEvent[] | null;

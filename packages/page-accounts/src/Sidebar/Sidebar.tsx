@@ -2,38 +2,37 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { LinkExternal, Sidebar } from '@polkadot/react-components';
+import { LinkExternal, styled } from '@polkadot/react-components';
+import Sidebar from '@polkadot/react-components/Sidebar';
 import { colorLink } from '@polkadot/react-components/styles/theme';
 import { useAccountInfo } from '@polkadot/react-hooks';
 
-import Balances from './Balances';
-import Identity from './Identity';
-import Multisig from './Multisig';
-import SidebarEditableSection from './SidebarEditableSection';
+import Balances from './Balances.js';
+import Identity from './Identity.js';
+import Multisig from './Multisig.js';
+import SidebarEditableSection from './SidebarEditableSection.js';
 
 interface Props {
   address: string;
   className?: string;
   dataTestId?: string;
-  onClose: () => void;
-  onUpdateName: () => void;
+  onClose?: () => void;
+  onUpdateName?: (() => void) | null;
 }
 
 function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateName }: Props): React.ReactElement<Props> {
   const [inEditMode, setInEditMode] = useState<boolean>(false);
   const { accountIndex, flags, identity, meta } = useAccountInfo(address);
-
-  const ref = useRef<HTMLDivElement>(null);
+  const sidebarRef = useRef<HTMLDivElement>(null);
 
   return (
-    <Sidebar
+    <StyledSidebar
       className={`${className}${inEditMode ? ' inEditMode' : ''}`}
       dataTestId={dataTestId}
       onClose={onClose}
       position='right'
-      sidebarRef={ref}
+      sidebarRef={sidebarRef}
     >
       <div
         className='ui--AddressMenu-header'
@@ -44,7 +43,7 @@ function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateNa
           address={address}
           isBeingEdited={setInEditMode}
           onUpdateName={onUpdateName}
-          sidebarRef={ref}
+          sidebarRef={sidebarRef}
         />
       </div>
       <div className='ui--ScrollSection'>
@@ -65,11 +64,11 @@ function FullSidebar ({ address, className = '', dataTestId, onClose, onUpdateNa
           type='address'
         />
       </section>
-    </Sidebar>
+    </StyledSidebar>
   );
 }
 
-export default React.memo(styled(FullSidebar)`
+const StyledSidebar = styled(Sidebar)`
   display: flex;
   flex-direction: column;
   background-color: var(--bg-sidebar);
@@ -326,4 +325,6 @@ export default React.memo(styled(FullSidebar)`
       margin: 0 0.5rem;
     }
   }
-`);
+`;
+
+export default React.memo(FullSidebar);

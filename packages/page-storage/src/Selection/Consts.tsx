@@ -3,14 +3,14 @@
 
 import type { ConstValue } from '@polkadot/react-components/InputConsts/types';
 import type { ConstantCodec } from '@polkadot/types/metadata/decorate/types';
-import type { ComponentProps as Props } from '../types';
+import type { ComponentProps as Props } from '../types.js';
 
 import React, { useCallback, useState } from 'react';
 
 import { Button, InputConsts } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 function Consts ({ onAdd }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();

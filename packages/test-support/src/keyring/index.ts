@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/test-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-export * from './addresses';
-export * from './MemoryStore';
-export * from './signers';
-export * from './addresses';
+export * from './addresses.js';
+export * from './addresses.js';
+export * from './MemoryStore.js';
+export * from './signers.js';

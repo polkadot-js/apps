@@ -5,7 +5,7 @@ import type { ApiPromise } from '@polkadot/api';
 
 import { BN } from '@polkadot/util';
 
-import { KULUPU_GENESIS, KUSAMA_GENESIS, POLKADOT_GENESIS } from '../constants';
+import { KULUPU_GENESIS, KUSAMA_GENESIS, POLKADOT_GENESIS } from '../constants.js';
 
 // normal fast-track proposals
 const FAST_TRACK: Record<string, number> = {

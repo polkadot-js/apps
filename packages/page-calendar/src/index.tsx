@@ -1,19 +1,18 @@
 // Copyright 2017-2023 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DateState } from './types';
+import type { DateState } from './types.js';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { Tabs } from '@polkadot/react-components';
+import { styled, Tabs } from '@polkadot/react-components';
 
-import Day from './Day';
-import Month from './Month';
-import { useTranslation } from './translate';
-import UpcomingEvents from './UpcomingEvents';
-import useScheduled from './useScheduled';
-import { getDateState, nextMonth, prevMonth } from './util';
+import Day from './Day.js';
+import Month from './Month.js';
+import { useTranslation } from './translate.js';
+import UpcomingEvents from './UpcomingEvents.js';
+import useScheduled from './useScheduled.js';
+import { getDateState, nextMonth, prevMonth } from './util.js';
 
 interface Props {
   basePath: string;
@@ -115,7 +114,7 @@ function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props>
   );
 
   return (
-    <main className={className}>
+    <StyledMain className={className}>
       <Tabs
         basePath={basePath}
         items={itemsRef.current}
@@ -154,11 +153,11 @@ function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props>
           }
         </div>
       </div>
-    </main>
+    </StyledMain>
   );
 }
 
-export default React.memo(styled(CalendarApp)`
+const StyledMain = styled.main`
   .calendarFlex {
     align-items: flex-start;
     display: flex;
@@ -208,4 +207,6 @@ export default React.memo(styled(CalendarApp)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(CalendarApp);
