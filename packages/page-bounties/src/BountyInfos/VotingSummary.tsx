@@ -19,7 +19,7 @@ interface Props {
   status: BountyStatus;
 }
 
-function VotingSummary ({ className, proposal, status }: Props): JSX.Element {
+function VotingSummary ({ className, proposal, status }: Props): React.ReactElement<Props> {
   const { members } = useCollectiveMembers('council');
   const { t } = useTranslation();
   const ayes = useMemo(() => proposal?.votes?.ayes?.length, [proposal]);
