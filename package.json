@@ -15,10 +15,10 @@
     "url": "https://github.com/polkadot-js/apps.git"
   },
   "sideEffects": false,
-  "version": "0.130.0",
+  "version": "0.130.1",
   "versions": {
-    "git": "0.129.2-11-x",
-    "npm": "0.129.1"
+    "git": "0.130.1",
+    "npm": "0.130.1"
   },
   "workspaces": [
     "packages/*"
