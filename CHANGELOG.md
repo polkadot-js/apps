@@ -1,6 +1,16 @@
 # CHANGELOG
 
-## master
+## 0.130.1 May 9, 2023
+
+Contributed:
+
+- OnFinality Ajuna endpoint (Thanks to https://github.com/jamesbayly)
+- OnFinality Basilisk endpoint (Thanks to https://github.com/jamesbayly)
+- Dwellir Phala endpoint (Thanks to https://github.com/Maharacha)
+- LuckyFriday Polkadot endpoint (Thanks to https://github.com/paradox-tt)
+- StakeWorld Polkadot endpoint (Thanks to https://github.com/stakeworld)
+- Subspace EVM to ethereum-compatible list (Thanks to https://github.com/vedhavyas)
+- Re-activate Centrifuge endpoints (Thanks to https://github.com/wischli)
 
 Changes:
 
