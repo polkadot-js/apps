@@ -449,7 +449,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoSubsocial',
     paraId: 2100,
     providers: {
-      DappForce: 'wss://rco-para.subsocial.network'
+      // DappForce: 'wss://rco-para.subsocial.network' // https://github.com/polkadot-js/apps/issues/9425
     },
     text: 'SoonsocialX',
     ui: {
