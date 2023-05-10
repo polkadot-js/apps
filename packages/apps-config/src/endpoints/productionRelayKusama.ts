@@ -676,10 +676,9 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
   {
     homepage: 'http://subgame.org/',
     info: 'subgame',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7982
     paraId: 2018,
     providers: {
-      SubGame: 'wss://gamma.subgame.org/'
+      // SubGame: 'wss://gamma.subgame.org/' // https://github.com/polkadot-js/apps/issues/7982
     },
     text: 'SubGame Gamma',
     ui: {

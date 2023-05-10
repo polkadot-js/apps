@@ -528,7 +528,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2040,
     providers: {
       // 'Polkadex Team': 'wss://mainnet.polkadex.trade/', // https://github.com/polkadot-js/apps/issues/7620
-      OnFinality: 'wss://polkadex.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/7620
+      OnFinality: 'wss://polkadex.api.onfinality.io/public-ws'
     },
     text: 'Polkadex',
     ui: {
@@ -581,7 +581,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'subsocial',
     paraId: 2101,
     providers: {
-      Dappforce: 'wss://para.subsocial.network'
+      // Dappforce: 'wss://para.subsocial.network' // https://github.com/polkadot-js/apps/issues/9425
     },
     text: 'Subsocial',
     ui: {
