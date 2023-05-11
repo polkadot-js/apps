@@ -17,6 +17,13 @@ function networkOrUrl (apiUrl: string): void {
   }
 }
 
+interface EnvWindow {
+  // eslint-disable-next-line camelcase
+  process_env?: {
+    WS_URL: string;
+  }
+}
+
 function getApiUrl (): string {
   // we split here so that both these forms are allowed
   //  - http://localhost:3000/?rpc=wss://substrate-rpc.parity.io/#/explorer
@@ -47,16 +54,16 @@ function getApiUrl (): string {
     }
   }
 
+  const wsUrl = (
+    (typeof process !== 'undefined' ? process.env?.WS_URL : undefined) ||
+    (typeof window !== 'undefined' ? (window as EnvWindow).process_env?.WS_URL : undefined)
+  );
   const stored = store.get('settings') as Record<string, unknown> || {};
-  const fallbackUrl = endpoints.find(({ value }) => value === process.env.WS_URL) ||
+  const fallbackUrl = endpoints.find(({ value }) => value === wsUrl) ||
     endpoints.find(({ value }) => !!value);
 
-  console.log("fallbackUrl", fallbackUrl);
-  console.log("process.env.WS_URL", process.env.WS_URL);
-
-
   // via settings, or the default chain
-  return [stored.apiUrl, process.env.WS_URL].includes(settings.apiUrl)
+  return [stored.apiUrl, wsUrl].includes(settings.apiUrl)
     ? settings.apiUrl // keep as-is
     : fallbackUrl
       ? fallbackUrl.value // grab the fallback
