@@ -521,14 +521,12 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    // https://github.com/polkadot-js/apps/issues/7620
     homepage: 'https://polkadex.trade/',
     info: 'polkadex',
     isUnreachable: true,
     paraId: 2040,
     providers: {
-      // 'Polkadex Team': 'wss://mainnet.polkadex.trade/', // https://github.com/polkadot-js/apps/issues/7620
-      OnFinality: 'wss://polkadex.api.onfinality.io/public-ws'
+      Polkadex: 'wss://parachain.polkadex.trade/',
     },
     text: 'Polkadex',
     ui: {
