@@ -48,7 +48,8 @@ function getApiUrl (): string {
   }
 
   const stored = store.get('settings') as Record<string, unknown> || {};
-  const fallbackUrl = endpoints.find(({ value }) => !!value);
+  const fallbackUrl = endpoints.find(({ value }) => value === process.env.WS_URL) ||
+    endpoints.find(({ value }) => !!value);
 
   // via settings, or the default chain
   return [stored.apiUrl, process.env.WS_URL].includes(settings.apiUrl)

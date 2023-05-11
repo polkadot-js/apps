@@ -4,7 +4,7 @@
 import type { TFunction, TOptions } from '../types.js';
 import type { LinkOption } from './types.js';
 
-import { createCustom, createDev, createOwn } from './development.js';
+import { createDev, createOwn } from './development.js';
 import { prodChains, prodRelayKusama, prodRelayPolkadot } from './production.js';
 import { testChains, testRelayRococo, testRelayWestend } from './testing.js';
 import { expandEndpoints } from './util.js';
@@ -27,7 +27,6 @@ function defaultT (keyOrText: string, text?: string, options?: TOptions): string
 
 export function createWsEndpoints (t: TFunction = defaultT, firstOnly = false, withSort = true): LinkOption[] {
   return [
-    ...createCustom(t),
     {
       isDisabled: false,
       isHeader: true,
