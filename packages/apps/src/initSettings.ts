@@ -51,6 +51,10 @@ function getApiUrl (): string {
   const fallbackUrl = endpoints.find(({ value }) => value === process.env.WS_URL) ||
     endpoints.find(({ value }) => !!value);
 
+  console.log("fallbackUrl", fallbackUrl);
+  console.log("process.env.WS_URL", process.env.WS_URL);
+
+
   // via settings, or the default chain
   return [stored.apiUrl, process.env.WS_URL].includes(settings.apiUrl)
     ? settings.apiUrl // keep as-is
