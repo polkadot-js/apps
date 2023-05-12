@@ -11,7 +11,7 @@ import type { OverrideBundleType } from '@polkadot/types/types';
 
 export const typesBundle = {
   "chain": {
-    "DIP receiver dev": {
+    "DIP consumer dev": {
       "types": [
         {
           "minmax": [
@@ -3386,9 +3386,9 @@ export const typesBundle = {
         }
       ]
     },
-    "DIP sender dev": {
+    "DIP provider dev": {
       "runtime": {
-        "DipSender": [
+        "DipProvider": [
           {
             "methods": {
               "generate_proof": {
