@@ -6,6 +6,7 @@ import type { INumber } from '@polkadot/types/types';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+import getCommitteeManagement from '@polkadot/react-api/getCommitteeManagement';
 import { Button, CardSummary, InputAddressSimple, Spinner, SummaryBox, Table } from '@polkadot/react-components';
 import { useApi, useCall, useNextTick } from '@polkadot/react-hooks';
 import { u32 } from '@polkadot/types-codec';
@@ -32,7 +33,10 @@ function Query ({ className }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { value } = useParams<{ value: string }>();
   const [validatorId, setValidatorId] = useState<string | null>(value || null);
-  const underperformedValidatorSessionCount = useCall<u32>(api.query.elections.underperformedValidatorSessionCount, [value]);
+  const underperformedValidatorSessionCount = useCall<u32>(
+    getCommitteeManagement(api).query.underperformedValidatorSessionCount,
+    [value]
+  );
 
   const [currentSession, currentEra, historyDepth, minimumSessionNumber] = useCurrentSessionInfo();
   const isNextTick = useNextTick();

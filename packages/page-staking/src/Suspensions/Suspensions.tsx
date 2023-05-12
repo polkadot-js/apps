@@ -3,6 +3,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 
+import getCommitteeManagement from '@polkadot/react-api/getCommitteeManagement';
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { u64, Vec } from '@polkadot/types';
 import { EventRecord, Hash } from '@polkadot/types/interfaces';
@@ -56,7 +57,7 @@ function useSuspensions (): SuspensionEvent[] | undefined {
   const [electionBlockHashes, setElectionBlockHashes] = useState<Hash[] | undefined>(undefined);
   const [eventsInBlocks, setEventsInBlocks] = useState<SuspensionReasons | undefined>(undefined);
   const [suspensionEvents, setSuspensionEvents] = useState<SuspensionEvent[] | undefined>(undefined);
-  const banConfig = useCall<BanConfig>(api.query.elections.banConfig);
+  const banConfig = useCall<BanConfig>(getCommitteeManagement(api).query.banConfig);
   const currentBanPeriod = useMemo(() => {
     return banConfig?.banPeriod;
   },
@@ -76,7 +77,7 @@ function useSuspensions (): SuspensionEvent[] | undefined {
       return;
     }
 
-    const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
+    const sessionPeriod = Number(getCommitteeManagement(api).consts.sessionPeriod.toString());
     const promises = erasElectionsSessionIndexLookup.map(([, electionSessionIndex]) => {
       return api.rpc.chain.getBlockHash(electionSessionIndex * sessionPeriod);
     });

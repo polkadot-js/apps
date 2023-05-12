@@ -4,6 +4,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { DeriveEraExposure } from '@polkadot/api-derive/types';
+import getCommitteeManagement from '@polkadot/react-api/getCommitteeManagement';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { StorageKey } from '@polkadot/types';
 import { AnyTuple, Codec } from '@polkadot/types/types';
@@ -72,20 +73,19 @@ function Performance ({ era, session }: Props): React.ReactElement<Props> {
       };
     });
 
-    const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
+    const sessionPeriod = Number(getCommitteeManagement(api).consts.sessionPeriod.toString());
 
     setExpectedBlockCountInSessions(sessionPeriod / sessionValidatorsStrings.length);
 
     return validatorPerformancesCommittee.concat(validatorPerformancesNonCommittee);
   },
-  [eraValidators, sessionValidatorBlockCountLookup, api, sessionValidatorsStrings]
+  [api, eraValidators, sessionValidatorBlockCountLookup, sessionValidatorsStrings]
 
   );
 
   useEffect(() => {
     const interval = setInterval(() => {
-      api && api.query.elections && api.query.elections.sessionValidatorBlockCount &&
-      api.query.elections.sessionValidatorBlockCount.entries().then((value: [StorageKey<AnyTuple>, Codec][]) => {
+      getCommitteeManagement(api).query.sessionValidatorBlockCount.entries().then((value: [StorageKey<AnyTuple>, Codec][]) => {
         setSessionValidatorBlockCountLookup(parseSessionBlockCount(value));
       }
       ).catch(console.error);

@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from 'react';
 
+import getCommitteeManagement from '@polkadot/react-api/getCommitteeManagement';
 import { createNamedHook, useApi } from '@polkadot/react-hooks';
 import { StorageKey } from '@polkadot/types';
 import { Hash } from '@polkadot/types/interfaces';
@@ -53,10 +54,10 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
     };
   }
 
+  const sessionPeriod = Number(getCommitteeManagement(api).consts.sessionPeriod.toString());
+
   useEffect(() => {
     if (api && api.consts.elections) {
-      const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
-
       const promises = sessions.map((session) => api.rpc.chain.getBlockHash(getSessionFirstAndLastBlock(session, sessionPeriod).first));
 
       Promise.all(promises)
@@ -65,13 +66,11 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
     }
   },
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  [api, JSON.stringify(sessions)]
+  [api, sessionPeriod, JSON.stringify(sessions)]
   );
 
   useEffect(() => {
     if (api && api.consts.elections) {
-      const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
-
       const promises = sessions.map((session) => api.rpc.chain.getBlockHash(getSessionFirstAndLastBlock(session, sessionPeriod).lastPerAura));
 
       Promise.all(promises)
@@ -80,12 +79,11 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
     }
   },
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  [api, JSON.stringify(sessions)]
+  [api, sessionPeriod, JSON.stringify(sessions)]
   );
 
   useEffect(() => {
     if (api && api.consts.elections) {
-      const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
       const promises = sessions.map((session) => api.rpc.chain.getBlockHash(getSessionFirstAndLastBlock(session, sessionPeriod).last));
 
       Promise.all(promises)
@@ -94,14 +92,14 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
     }
   },
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  [api, JSON.stringify(sessions)]
+  [api, sessionPeriod, JSON.stringify(sessions)]
   );
 
   useEffect(() => {
     const promisesApisAtLastBlock = lastBlockInSessionsHashes.map((hash) => api.at(hash.toString()));
 
     Promise.all(promisesApisAtLastBlock).then((lastBlockApis) => {
-      const promisesSessionValidatorBlockCountEntries = lastBlockApis.map((promise) => promise.query.elections.sessionValidatorBlockCount.entries());
+      const promisesSessionValidatorBlockCountEntries = lastBlockApis.map((promise) => getCommitteeManagement(promise).query.sessionValidatorBlockCount.entries());
 
       Promise.all(promisesSessionValidatorBlockCountEntries).then((entriesArray) =>
         setSessionValidatorBlockCountLookups(entriesArray.map((entries) => {
@@ -167,7 +165,6 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
     setCommitteeMemberPerformances(sessions.map((session, index) => {
       const sessionValidatorBlockCountLookup = sessionValidatorBlockCountLookups[index];
       const committee = committees[index];
-      const sessionPeriod = Number(api.consts.elections.sessionPeriod.toString());
 
       if (committee) {
         const validatorPerformances = committee.map((validator) => getValidatorPerformance(validator,
@@ -191,7 +188,7 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
     }));
   },
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  [JSON.stringify(committees), JSON.stringify(sessionValidatorBlockCountLookups), JSON.stringify(sessions), JSON.stringify(lastBlockPerAuraAuthors)]
+  [sessionPeriod, JSON.stringify(committees), JSON.stringify(sessionValidatorBlockCountLookups), JSON.stringify(sessions), JSON.stringify(lastBlockPerAuraAuthors)]
   );
 
   return committeeMemberPerformances;
