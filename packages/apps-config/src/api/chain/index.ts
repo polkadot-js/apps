@@ -7,6 +7,8 @@ import kilt from './kilt.js';
 
 // NOTE: The mapping is done from chain name in system.chain
 const chain: Record<string, OverrideBundleDefinition> = {
+  'DIP receiver dev': kilt['DIP receiver dev'],
+  'DIP sender dev': kilt['DIP sender dev'],
   'KILT Mashnet': kilt['KILT Mashnet'],
   'KILT Peregrine': kilt['KILT Peregrine'],
   'KILT Peregrine Stagenet': kilt['KILT Peregrine Stagenet'],
