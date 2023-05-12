@@ -39,6 +39,7 @@
       "@polkadot/app-js": ["page-js/src/index.tsx"],
       "@polkadot/app-membership": ["page-membership/src/index.tsx"],
       "@polkadot/app-nfts": ["page-nfts/src/index.tsx"],
+      "@polkadot/app-nis": ["page-nis/src/index.tsx"],
       "@polkadot/app-parachains": ["page-parachains/src/index.tsx"],
       "@polkadot/app-parachains/Teleport": ["page-parachains/src/Teleport.tsx"],
       "@polkadot/app-parachains/useLeaseRanges": ["page-parachains/src/useLeaseRanges.ts"],
