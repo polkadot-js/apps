@@ -28,8 +28,7 @@ interface Props {
   onChange: (info: BondInfo) => void;
 }
 
-const EMPTY_INFO = {
-  bondOwnTx: null,
+const EMPTY_INFO: BondInfo = {
   bondTx: null,
   controllerId: null,
   controllerTx: null,
@@ -50,6 +49,11 @@ function Bond ({ className = '', isNominating, minNominated, minNominatorBond, m
   const stashBalance = useCall<DeriveBalancesAll>(api.derive.balances?.all, [stashId]);
   const destBalance = useCall<DeriveBalancesAll>(api.derive.balances?.all, [destAccount]);
   const bondedBlocks = useUnbondDuration();
+
+  const needsController = useMemo(
+    () => api.tx.staking.bond.meta.args.length === 3,
+    [api]
+  );
 
   const options = useMemo(
     () => createDestCurr(t),
@@ -77,19 +81,27 @@ function Bond ({ className = '', isNominating, minNominated, minNominatorBond, m
     const bondDest = destination === 'Account'
       ? { Account: destAccount }
       : destination;
+    const [mapControllerId, mapControllerError] = needsController
+      ? [controllerId, controllerError]
+      : [stashId, null];
 
     onChange(
-      (amount && amount.gtn(0) && !amountError?.error && !controllerError && controllerId && stashId)
+      (amount && amount.gtn(0) && !amountError?.error && !mapControllerError && mapControllerId && stashId)
         ? {
-          bondOwnTx: api.tx.staking.bond(stashId, amount, bondDest),
-          bondTx: api.tx.staking.bond(controllerId, amount, bondDest),
-          controllerId,
-          controllerTx: api.tx.staking.setController(controllerId),
+          bondTx: needsController
+            // @ts-expect-error Previous generation
+            ? api.tx.staking.bond(mapControllerId, amount, bondDest)
+            : api.tx.staking.bond(amount, bondDest),
+          controllerId: mapControllerId,
+          controllerTx: needsController
+            // @ts-expect-error Previous generation
+            ? api.tx.staking.setController(mapControllerId)
+            : null,
           stashId
         }
         : EMPTY_INFO
     );
-  }, [api, amount, amountError, controllerError, controllerId, destination, destAccount, stashId, onChange]);
+  }, [api, amount, amountError, controllerError, controllerId, destination, destAccount, needsController, onChange, stashId]);
 
   const hasValue = !!amount?.gtn(0);
   const isAccount = destination === 'Account';
@@ -99,10 +111,19 @@ function Bond ({ className = '', isNominating, minNominated, minNominatorBond, m
     <div className={className}>
       <Modal.Columns
         hint={
-          <>
-            <p>{t<string>('Think of the stash as your cold wallet and the controller as your hot wallet. Funding operations are controlled by the stash, any other non-funding actions by the controller itself.')}</p>
-            <p>{t<string>('To ensure optimal fund security using the same stash/controller is strongly discouraged, but not forbidden.')}</p>
-          </>
+          needsController
+            ? (
+              <>
+                <p>{t<string>('Think of the stash as your cold wallet and the controller as your hot wallet. Funding operations are controlled by the stash, any other non-funding actions by the controller itself.')}</p>
+                <p>{t<string>('To ensure optimal fund security using the same stash/controller is strongly discouraged, but not forbidden.')}</p>
+              </>
+            )
+            : (
+              <>
+                <p>{t<string>('The stash should be treated as a cold wallet.')}</p>
+                <p>{t<string>('As such it is recommended that you setup a proxy to control operations via the stash.')}</p>
+              </>
+            )
         }
       >
         <InputAddress
@@ -111,17 +132,21 @@ function Bond ({ className = '', isNominating, minNominated, minNominatorBond, m
           type='account'
           value={stashId}
         />
-        <InputAddress
-          label={t<string>('controller account')}
-          onChange={setControllerId}
-          type='account'
-          value={controllerId}
-        />
-        <InputValidationController
-          accountId={stashId}
-          controllerId={controllerId}
-          onError={_setError}
-        />
+        {needsController && (
+          <>
+            <InputAddress
+              label={t<string>('controller account')}
+              onChange={setControllerId}
+              type='account'
+              value={controllerId}
+            />
+            <InputValidationController
+              accountId={stashId}
+              controllerId={controllerId}
+              onError={_setError}
+            />
+          </>
+        )}
       </Modal.Columns>
       {startBalance && (
         <Modal.Columns
