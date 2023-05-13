@@ -28,7 +28,7 @@ function NewValidator ({ isInElection, minCommission, targets }: Props): React.R
   const { t } = useTranslation();
   const { api } = useApi();
   const [isVisible, toggleVisible] = useToggle();
-  const [{ bondOwnTx, bondTx, controllerId, controllerTx, stashId }, setBondInfo] = useState<BondInfo>({});
+  const [{ bondTx, controllerId, controllerTx, stashId }, setBondInfo] = useState<BondInfo>({});
   const [{ sessionTx }, setSessionInfo] = useState<SessionInfo>({});
   const [{ validateTx }, setValidateInfo] = useState<ValidateInfo>({});
   const [step, setStep] = useState(1);
@@ -120,7 +120,7 @@ function NewValidator ({ isInElection, minCommission, targets }: Props): React.R
                   params={[
                     controllerId === stashId
                       ? [bondTx, sessionTx, validateTx]
-                      : [bondOwnTx, sessionTx, validateTx, controllerTx]
+                      : [bondTx, sessionTx, validateTx, controllerTx]
                   ]}
                   tx={api.tx.utility.batchAll || api.tx.utility.batch}
                 />
