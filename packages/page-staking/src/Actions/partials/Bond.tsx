@@ -89,8 +89,10 @@ function Bond ({ className = '', isNominating, minNominated, minNominatorBond, m
       (amount && amount.gtn(0) && !amountError?.error && !mapControllerError && mapControllerId && stashId)
         ? {
           bondTx: needsController
+            // The bond always goes through first, if a controller is used
+            // we have a batch with setController at the end
             // @ts-expect-error Previous generation
-            ? api.tx.staking.bond(mapControllerId, amount, bondDest)
+            ? api.tx.staking.bond(stashId, amount, bondDest)
             : api.tx.staking.bond(amount, bondDest),
           controllerId: mapControllerId,
           controllerTx: needsController
