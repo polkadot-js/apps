@@ -20,21 +20,29 @@ function SenderInfo ({ className = '', controllerId, stashId }: Props): React.Re
     return null;
   }
 
+  const showController = stashId !== controllerId;
+
   return (
     <Modal.Columns
       className={className}
-      hint={t<string>('The stash that is to be affected. The transaction will be sent from the associated controller account.')}
+      hint={
+        showController
+          ? t<string>('The stash that is to be affected. The transaction will be sent from the associated controller account.')
+          : t<string>('The stash that is to be affected.')
+      }
     >
       <InputAddress
         defaultValue={stashId}
         isDisabled
         label={t<string>('stash account')}
       />
-      <InputAddress
-        defaultValue={controllerId}
-        isDisabled
-        label={t<string>('controller account')}
-      />
+      {showController && (
+        <InputAddress
+          defaultValue={controllerId}
+          isDisabled
+          label={t<string>('controller account')}
+        />
+      )}
     </Modal.Columns>
   );
 }
