@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## master
+
+Contributed:
+
+- Extend links for Polkassembly (Thanks to https://github.com/niklabh)
+- Update Mangata Kusama endpoints (Thanks to https://github.com/tenequm)
+
+Changes:
+
+- Cater for current Substrate bonding extrinsic arguments
+- Disable unreachable endpoints
+
+
 ## 0.130.1 May 9, 2023
 
 Contributed:
