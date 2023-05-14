@@ -20,7 +20,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: '3dpass-testnet',
     providers: {
-      '3dpass': 'wss://test-rpc.3dpass.org'
+      // '3dpass': 'wss://test-rpc.3dpass.org' // https://github.com/polkadot-js/apps/issues/9443
     },
     text: '3DPass Testnet',
     ui: {
