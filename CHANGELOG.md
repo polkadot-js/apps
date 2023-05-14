@@ -10,6 +10,7 @@ Contributed:
 Changes:
 
 - Cater for current Substrate bonding extrinsic arguments
+- Add basic NIS dashboard
 - Disable unreachable endpoints
 
 

@@ -1574,6 +1574,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-nis@workspace:packages/page-nis":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-nis@workspace:packages/page-nis"
+  dependencies:
+    "@polkadot/react-components": ^0.130.2-1-x
+  peerDependencies:
+    react: "*"
+    react-dom: "*"
+    react-is: "*"
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/app-parachains@workspace:packages/page-parachains":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-parachains@workspace:packages/page-parachains"
@@ -2142,7 +2154,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/react-components@^0.130.2-4-x, @polkadot/react-components@workspace:packages/react-components":
+"@polkadot/react-components@^0.130.2-1-x, @polkadot/react-components@^0.130.2-4-x, @polkadot/react-components@workspace:packages/react-components":
   version: 0.0.0-use.local
   resolution: "@polkadot/react-components@workspace:packages/react-components"
   dependencies:
