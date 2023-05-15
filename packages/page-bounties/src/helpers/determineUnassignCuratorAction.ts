@@ -3,10 +3,9 @@
 
 import type { BountyStatus } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
+import type { UserRole, ValidUnassignCuratorAction } from '../types.js';
 
 import { BN_ZERO } from '@polkadot/util';
-
-import { UserRole, ValidUnassignCuratorAction } from '../types';
 
 export function determineUnassignCuratorAction (roles: UserRole[], status: BountyStatus, blocksUntilUpdate?: BN): ValidUnassignCuratorAction[] {
   const actions: ValidUnassignCuratorAction[] = [];

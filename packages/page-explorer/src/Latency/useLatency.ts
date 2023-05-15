@@ -5,7 +5,7 @@ import type { ApiPromise } from '@polkadot/api';
 import type { SignedBlockExtended } from '@polkadot/api-derive/types';
 import type { GenericExtrinsic, u32 } from '@polkadot/types';
 import type { Block } from '@polkadot/types/interfaces';
-import type { Detail, Result } from './types';
+import type { Detail, Result } from './types.js';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 

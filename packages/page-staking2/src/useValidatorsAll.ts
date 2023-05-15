@@ -4,13 +4,14 @@
 import type { Changes } from '@polkadot/react-hooks/useEventChanges';
 import type { StorageKey } from '@polkadot/types';
 import type { AccountId32, EventRecord } from '@polkadot/types/interfaces';
-import type { SessionInfo, Validator } from './types';
+import type { SessionInfo, Validator } from './types.js';
 
 import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useEventChanges, useMapKeys } from '@polkadot/react-hooks';
 
-import useTaggedValidators from './useTaggedValidators';
+import { useCacheValue } from './useCache.js';
+import useTaggedValidators from './useTaggedValidators.js';
 
 const EMPTY_PARAMS: unknown[] = [];
 
@@ -62,7 +63,9 @@ function useValidatorsAllImpl (favorites: string[], sessionInfo: SessionInfo): V
     [validators]
   );
 
-  return useTaggedValidators(favorites, sessionInfo, validatorsIndexed);
+  const tagged = useTaggedValidators(favorites, sessionInfo, validatorsIndexed);
+
+  return useCacheValue('useValidatorsAll', tagged);
 }
 
 export default createNamedHook('useValidatorsAll', useValidatorsAllImpl);

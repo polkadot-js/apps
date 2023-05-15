@@ -4,13 +4,13 @@
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
 import React, { useCallback } from 'react';
-import styled from 'styled-components';
 
 import { useToggle } from '@polkadot/react-hooks';
 
-import EditButton from './EditButton';
-import Input from './Input';
-import Tags from './Tags';
+import EditButton from './EditButton.js';
+import Input from './Input.js';
+import { styled } from './styled.js';
+import Tags from './Tags.js';
 
 export interface RowProps {
   address?: AccountId | AccountIndex | Address | string | null;
@@ -86,7 +86,7 @@ function Row ({ address, buttons, children, className = '', defaultName, details
           )}
           {address && (
             <div className={`ui--Row-address ${isShortAddr ? 'shortAddr' : ''}`}>
-              {address}
+              {address.toString()}
             </div>
           )}
           {details}

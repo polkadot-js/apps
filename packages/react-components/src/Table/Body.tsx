@@ -5,7 +5,7 @@ import React from 'react';
 
 import { isString } from '@polkadot/util';
 
-import Spinner from '../Spinner';
+import Spinner from '../Spinner.js';
 
 interface Props {
   children?: React.ReactNode;

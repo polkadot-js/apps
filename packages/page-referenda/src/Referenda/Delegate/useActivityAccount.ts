@@ -1,14 +1,14 @@
 // Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PalletVote } from '../../types';
-import type { VoteResultItem } from './types';
+import type { PalletVote } from '../../types.js';
+import type { VoteResultItem } from './types.js';
 
 import { useMemo } from 'react';
 
 import { createNamedHook } from '@polkadot/react-hooks';
 
-import useVotingFor from './useVotingFor';
+import useVotingFor from './useVotingFor.js';
 
 function useActivityAccountImpl (palletVote: PalletVote, accountId?: string | null): VoteResultItem[] | null | undefined {
   const params = useMemo(

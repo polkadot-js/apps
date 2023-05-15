@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
 
-import Labelled from './Labelled';
+import Labelled from './Labelled.js';
+import { styled } from './styled.js';
 
 interface Props {
   children: React.ReactNode;

@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
 
-import Input from './Input';
+import Input from './Input.js';
+import { styled } from './styled.js';
 
 interface Props {
   className?: string;

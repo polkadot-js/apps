@@ -2,16 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { NetworkSpecsStruct } from '@polkadot/ui-settings/types';
-import type { ChainInfo, ChainType } from '../types';
+import type { ChainInfo, ChainType } from '../types.js';
 
 import React, { useCallback, useEffect, useReducer, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { ChainImg, Input, QrNetworkSpecs, Spinner, Table } from '@polkadot/react-components';
+import { ChainImg, Input, QrNetworkSpecs, Spinner, styled, Table } from '@polkadot/react-components';
 import { useApi, useDebounce } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import ChainColorIndicator from './ChainColorIndicator';
+import { useTranslation } from '../translate.js';
+import ChainColorIndicator from './ChainColorIndicator.js';
 
 interface Props {
   chainInfo: ChainInfo | null;
@@ -95,7 +94,7 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
   );
 
   const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
-    [t('chain specifications'), 'start', 2]
+    [t<string>('chain specifications'), 'start', 2]
   ]);
 
   if (!isApiReady) {

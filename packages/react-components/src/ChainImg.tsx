@@ -4,39 +4,38 @@
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
-import { chainLogos, emptyLogos, namedLogos, nodeLogos, specLogos } from '@polkadot/apps-config';
+import { createWsEndpoints } from '@polkadot/apps-config';
+import { externalEmptySVG } from '@polkadot/apps-config/ui/logos/external';
 import { useApi } from '@polkadot/react-hooks';
 
-import Icon from './Icon';
+import Icon from './Icon.js';
+import { styled } from './styled.js';
 
 interface Props {
   className?: string;
   isInline?: boolean;
-  logo?: keyof typeof namedLogos;
+  logo?: string;
   onClick?: () => any;
   withoutHl?: boolean;
 }
 
-function sanitize (value?: string): string {
-  return value?.toLowerCase().replace('-', ' ') || '';
-}
+const endpoints = createWsEndpoints(() => '');
 
 function ChainImg ({ className = '', isInline, logo, onClick, withoutHl }: Props): React.ReactElement<Props> {
-  const { specName, systemChain, systemName } = useApi();
+  const { apiEndpoint } = useApi();
   const [isEmpty, img, isFa] = useMemo((): [boolean, unknown, boolean] => {
-    const found = logo && logo !== 'empty'
-      ? namedLogos[logo]
-      : chainLogos[sanitize(systemChain)] || nodeLogos[sanitize(systemName)] || specLogos[sanitize(specName)];
-    const imgBase = found || emptyLogos.empty;
-    const isFa = !!((imgBase as Record<string, string>).fa);
-    const img = isFa
-      ? (imgBase as Record<string, string>).fa
-      : imgBase;
+    const endpoint = endpoints.find((o) => o.info === logo);
+    const found = endpoint?.ui.logo || logo || apiEndpoint?.ui.logo;
+    const imgBase = found || externalEmptySVG;
+    const [isFa, img] = !imgBase || imgBase === 'empty' || !(imgBase.startsWith('data:') || imgBase.startsWith('fa;'))
+      ? [false, externalEmptySVG]
+      : imgBase.startsWith('fa;')
+        ? [true, imgBase.substring(3)]
+        : [false, imgBase];
 
     return [!found || logo === 'empty', img, isFa];
-  }, [logo, specName, systemChain, systemName]);
+  }, [apiEndpoint, logo]);
 
   const iconClassName = `${className} ui--ChainImg ${(isEmpty && !withoutHl) ? 'highlight--bg' : ''} ${isInline ? 'isInline' : ''}`;
 

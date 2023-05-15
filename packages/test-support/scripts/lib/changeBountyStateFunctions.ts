@@ -7,7 +7,7 @@ import type { BN } from '@polkadot/util';
 
 import { execute } from '@polkadot/test-support/transaction';
 
-import { acceptMotion, fillTreasury, getMotion, proposeMotion } from './helpers';
+import { acceptMotion, fillTreasury, getMotion, proposeMotion } from './helpers.js';
 
 export async function acceptCurator (api: ApiPromise, id: number, signer: KeyringPair): Promise<void> {
   await execute(api.tx.bounties.acceptCurator(id), signer);

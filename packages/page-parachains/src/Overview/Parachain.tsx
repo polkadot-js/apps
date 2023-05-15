@@ -2,21 +2,21 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, GroupIndex, ParaId } from '@polkadot/types/interfaces';
-import type { LeasePeriod, QueuedAction } from '../types';
-import type { EventMapInfo, ValidatorInfo } from './types';
+import type { BN } from '@polkadot/util';
+import type { LeasePeriod, QueuedAction } from '../types.js';
+import type { EventMapInfo, ValidatorInfo } from './types.js';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
 
-import { AddressMini, Badge, Expander, ParaLink, Table } from '@polkadot/react-components';
+import { AddressMini, Badge, Expander, ParaLink, styled, Table } from '@polkadot/react-components';
 import { BlockToTime } from '@polkadot/react-query';
-import { BN, formatNumber } from '@polkadot/util';
+import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import Lifecycle from './Lifecycle';
-import ParachainInfo from './ParachainInfo';
-import Periods from './Periods';
-import useParaInfo from './useParaInfo';
+import { useTranslation } from '../translate.js';
+import Lifecycle from './Lifecycle.js';
+import ParachainInfo from './ParachainInfo.js';
+import Periods from './Periods.js';
+import useParaInfo from './useParaInfo.js';
 
 interface Props {
   bestNumber?: BN;
@@ -32,7 +32,7 @@ interface Props {
   validators?: [GroupIndex, ValidatorInfo[]];
 }
 
-function renderAddresses (list?: AccountId[], indices?: BN[]): JSX.Element[] | undefined {
+function renderAddresses (list?: AccountId[], indices?: BN[]): React.ReactElement<unknown>[] | undefined {
   return list?.map((id, index) => (
     <AddressMini
       key={id.toString()}

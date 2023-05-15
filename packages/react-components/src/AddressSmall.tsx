@@ -4,11 +4,11 @@
 import type { AccountId, Address } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import AccountName from './AccountName';
-import IdentityIcon from './IdentityIcon';
-import ParentAccount from './ParentAccount';
+import IdentityIcon from './IdentityIcon/index.js';
+import AccountName from './AccountName.js';
+import ParentAccount from './ParentAccount.js';
+import { styled } from './styled.js';
 
 interface Props {
   children?: React.ReactNode;
@@ -20,7 +20,7 @@ interface Props {
   withSidebar?: boolean;
   withShortAddress?: boolean;
   toggle?: unknown;
-  value?: string | Address | AccountId | null | Uint8Array;
+  value?: string | Address | AccountId | null;
 }
 
 function AddressSmall ({ children, className = '', defaultName, onClickName, overrideName, parentAddress, toggle, value, withShortAddress = false, withSidebar = true }: Props): React.ReactElement<Props> {
@@ -46,12 +46,12 @@ function AddressSmall ({ children, className = '', defaultName, onClickName, ove
         >
           {children}
         </AccountName>
-        {withShortAddress && (
+        {value && withShortAddress && (
           <div
             className='shortAddress'
             data-testid='short-address'
           >
-            {value}
+            {value.toString()}
           </div>
         )}
       </span>

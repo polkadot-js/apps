@@ -5,7 +5,7 @@ import React from 'react';
 
 import { MarkWarning } from '@polkadot/react-components';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   isInElection?: boolean;

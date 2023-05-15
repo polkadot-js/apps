@@ -9,8 +9,8 @@ import { ApiPromise, WsProvider } from '@polkadot/api';
 import { typesBundle } from '@polkadot/apps-config';
 import { arrayShuffle, isString } from '@polkadot/util';
 
-import { createNamedHook } from './createNamedHook';
-import { useIsMountedRef } from './useIsMountedRef';
+import { createNamedHook } from './createNamedHook.js';
+import { useIsMountedRef } from './useIsMountedRef.js';
 
 function disconnect (provider: ProviderInterface | null): null {
   provider && provider.disconnect().catch(console.error);

@@ -2,21 +2,20 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button } from '@polkadot/react-components';
+import { Button, styled } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
-import Codes from '../Codes';
-import CodeAdd from '../Codes/Add';
-import CodeUpload from '../Codes/Upload';
-import { useTranslation } from '../translate';
-import { useCodes } from '../useCodes';
-import { useContracts } from '../useContracts';
-import ContractAdd from './Add';
-import ContractsTable from './ContractsTable';
-import Deploy from './Deploy';
-import Summary from './Summary';
+import CodeAdd from '../Codes/Add.js';
+import Codes from '../Codes/index.js';
+import CodeUpload from '../Codes/Upload.js';
+import { useTranslation } from '../translate.js';
+import { useCodes } from '../useCodes.js';
+import { useContracts } from '../useContracts.js';
+import ContractAdd from './Add.js';
+import ContractsTable from './ContractsTable.js';
+import Deploy from './Deploy.js';
+import Summary from './Summary.js';
 
 interface Props {
   className?: string;
@@ -53,17 +52,17 @@ function Contracts ({ className = '' }: Props): React.ReactElement<Props> {
       <Button.Group>
         <Button
           icon='plus'
-          label={t('Upload & deploy code')}
+          label={t<string>('Upload & deploy code')}
           onClick={toggleUpload}
         />
         <Button
           icon='plus'
-          label={t('Add an existing code hash')}
+          label={t<string>('Add an existing code hash')}
           onClick={toggleHash}
         />
         <Button
           icon='plus'
-          label={t('Add an existing contract')}
+          label={t<string>('Add an existing contract')}
           onClick={toggleAdd}
         />
       </Button.Group>

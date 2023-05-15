@@ -1,17 +1,16 @@
 // Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { RawParam, RawParamOnChange, RawParamOnEnter, RawParamOnEscape, Size, TypeDefExt } from '../types';
+import type { RawParam, RawParamOnChange, RawParamOnEnter, RawParamOnEscape, Size, TypeDefExt } from '../types.js';
 
 import React, { useCallback, useState } from 'react';
-import styled from 'styled-components';
 
-import { CopyButton, IdentityIcon, Input } from '@polkadot/react-components';
+import { CopyButton, IdentityIcon, Input, styled } from '@polkadot/react-components';
 import { compactAddLength, hexToU8a, isAscii, isHex, stringToU8a, u8aToHex, u8aToString, u8aToU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
-import { useTranslation } from '../translate';
-import Bare from './Bare';
+import { useTranslation } from '../translate.js';
+import Bare from './Bare.js';
 
 interface Props {
   asHex?: boolean;
@@ -50,7 +49,7 @@ function convertInput (value: string): [boolean, boolean, Uint8Array] {
   } else if (value.startsWith('0x')) {
     try {
       return [true, false, hexToU8a(value)];
-    } catch (error) {
+    } catch {
       return [false, false, new Uint8Array([])];
     }
   }
@@ -58,7 +57,7 @@ function convertInput (value: string): [boolean, boolean, Uint8Array] {
   // maybe it is an ss58?
   try {
     return [true, true, decodeAddress(value)];
-  } catch (error) {
+  } catch {
     // we continue
   }
 

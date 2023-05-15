@@ -1,14 +1,14 @@
 // Copyright 2017-2023 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AssetInfo } from '../types';
+import type { AssetInfo } from '../types.js';
 
 import React, { useMemo } from 'react';
 
 import { AddressSmall, Table } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 
-import Mint from './Mint';
+import Mint from './Mint/index.js';
 
 interface Props {
   className?: string;

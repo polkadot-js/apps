@@ -3,7 +3,7 @@
 
 import { useCallback, useState } from 'react';
 
-import { createNamedHook } from './createNamedHook';
+import { createNamedHook } from './createNamedHook.js';
 
 function useAccountIdImpl (initialValue: string | null = null, onChangeAccountId?: (_: string | null) => void): [string | null, (_: string | null) => void] {
   const [accountId, setAccountId] = useState<string | null>(initialValue);

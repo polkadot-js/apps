@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AppUpdater } from 'electron-updater';
+import type { AppUpdater } from 'electron-updater';
 
 export async function setupAutoUpdater (): Promise<void> {
   const { autoUpdater } = await import('electron-updater');

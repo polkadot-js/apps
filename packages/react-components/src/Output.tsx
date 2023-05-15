@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
 
 import { isString } from '@polkadot/util';
 
-import CopyButton from './CopyButton';
-import Labelled from './Labelled';
+import CopyButton from './CopyButton.js';
+import Labelled from './Labelled.js';
+import { styled } from './styled.js';
 
 interface Props {
   children?: React.ReactNode;
@@ -29,7 +29,7 @@ interface Props {
 function Output ({ children, className = '', isDisabled, isError, isFull, isHidden, isMonospace, isSmall, isTrimmed, label, labelExtra, value, withCopy = false, withLabel }: Props): React.ReactElement<Props> {
   return (
     <StyledLabelled
-      className={className}
+      className={`${className} ui--Output`}
       isFull={isFull}
       isHidden={isHidden}
       isSmall={isSmall}

@@ -2,16 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Codec } from '@polkadot/types/types';
-import type { RawParam } from '../types';
+import type { RawParam } from '../types.js';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
-import { Static } from '@polkadot/react-components';
+import { Static, styled } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
-import { toHumanJson } from '../valueToText';
-import Bare from './Bare';
+import { useTranslation } from '../translate.js';
+import { toHumanJson } from '../valueToText.js';
+import Bare from './Bare.js';
 
 interface Props {
   asHex?: boolean;
@@ -28,7 +27,7 @@ function StaticParam ({ asHex, children, childrenPre, className = '', defaultVal
   const { t } = useTranslation();
 
   const value = useMemo(
-    () => defaultValue && defaultValue.value && (
+    () => !!defaultValue?.value && (
       asHex
         ? (defaultValue.value as Codec).toHex()
         : toHumanJson(

@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DispatchResult } from '@polkadot/types/interfaces';
-import type { Props } from '../types';
+import type { Props } from '../types.js';
 
 import React, { useMemo } from 'react';
 
 import { Input } from '@polkadot/react-components';
 
-import DispatchError from './DispatchError';
-import Static from './Static';
-import Unknown from './Unknown';
+import DispatchError from './DispatchError.js';
+import Static from './Static.js';
+import Unknown from './Unknown.js';
 
 function isDispatchResultErr (value?: unknown): value is DispatchResult {
   return !!(value && (value as DispatchResult).isErr);

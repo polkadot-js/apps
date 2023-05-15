@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Cid } from '../types';
+import type { Cid } from '../types.js';
 
 import React from 'react';
 

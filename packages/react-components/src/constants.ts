@@ -13,7 +13,7 @@ export const rewardDestinationOptions = [
 
 export const balanceCalls = [
   'auctions.bid',
-  'balances.forceTransfer', 'balances.forceUnreserve', 'balances.setBalance', 'balances.transfer', 'balances.transferKeepAlive',
+  'balances.forceTransfer', 'balances.forceUnreserve', 'balances.setBalance', 'balances.transfer', 'balances.transferAllowDeath', 'balances.transferKeepAlive',
   'bounties.proposeBounty', 'bounties.proposeCurator',
   'childBounties.proposeCurator',
   'claims.mintClaim',

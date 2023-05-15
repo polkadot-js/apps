@@ -6,7 +6,7 @@ import type { ApiInterfaceRx, AugmentedQuery, RxResult } from '@polkadot/api/typ
 import type { AccountData, AccountId, AccountIndex, Address, Balance } from '@polkadot/types/interfaces';
 import type { Codec, OverrideBundleDefinition } from '@polkadot/types/types';
 
-import { equilibrium, equilibriumNext } from '@equilab/definitions';
+import eqDefs from '@equilab/definitions';
 import { map } from 'rxjs';
 
 import { Enum } from '@polkadot/types';
@@ -36,6 +36,8 @@ type EqBalanceDoubleMap<T> = AugmentedQuery<
 (key1: AccountIndex | AccountId | Address | string, key2: T | string) => Observable<SignedBalance>,
 [AccountId, Currency]
 >
+
+const { equilibrium, equilibriumNext } = eqDefs;
 
 export const u64FromCurrency = (currency: string): number => {
   const buf = Buffer.from(currency.toLowerCase());
@@ -93,7 +95,7 @@ const signedBalancePredicate = (raw: Codec): raw is SignedBalance =>
   );
 
 export const createCustomAccount = <A = string>(currency: string, currencyToAsset: (curr: string, api?: ApiInterfaceRx) => A, accountDataType = 'AccountData'):
-(instanceId: string, api: ApiInterfaceRx) => RxResult<(arg: string | Uint8Array | AccountId) => Observable<AccountData>> => (instanceId: string, api: ApiInterfaceRx) => {
+(instanceId: string, api: ApiInterfaceRx) => RxResult<(arg: string | Uint8Array | AccountId) => Observable<AccountData>> => (_instanceId: string, api: ApiInterfaceRx) => {
   const registry = api.registry;
 
   const transform = <SB extends Enum>(balance: SB): AccountData => {

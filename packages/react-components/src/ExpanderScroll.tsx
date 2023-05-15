@@ -1,13 +1,13 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Props as ExpanderProps } from './Expander';
+import type { Props as ExpanderProps } from './Expander.js';
 
 import React, { useCallback, useMemo } from 'react';
-import styled from 'styled-components';
 
-import Expander from './Expander';
-import Table from './Table';
+import Table from './Table/index.js';
+import Expander from './Expander.js';
+import { styled } from './styled.js';
 
 interface Props extends ExpanderProps {
   empty?: string;

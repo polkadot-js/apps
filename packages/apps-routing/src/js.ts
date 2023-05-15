@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import type { Route } from './types';
+import type { Route } from './types.js';
 
 import Component from '@polkadot/app-js';
 
@@ -15,6 +15,6 @@ export default function create (t: TFunction): Route {
     group: 'developer',
     icon: 'code',
     name: 'js',
-    text: t('nav.js', 'JavaScript', { ns: 'apps-routing' })
+    text: t<string>('nav.js', 'JavaScript', { ns: 'apps-routing' })
   };
 }

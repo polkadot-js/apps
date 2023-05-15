@@ -3,14 +3,14 @@
 
 import React from 'react';
 
-import CopyButton from './CopyButton';
-import Labelled from './Labelled';
+import CopyButton from './CopyButton.js';
+import Labelled from './Labelled.js';
 
 interface Props {
   children?: React.ReactNode;
   className?: string;
   copyValue?: string;
-  defaultValue?: unknown;
+  defaultValue?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
   isFull?: boolean;

@@ -2,21 +2,20 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
-import type { Group } from './types';
+import type { Group } from './types.js';
 
 // ok, this seems to be an eslint bug, this _is_ a package import
 import punycode from 'punycode/';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import store from 'store';
-import styled from 'styled-components';
 
 import { createWsEndpoints, CUSTOM_ENDPOINT_KEY } from '@polkadot/apps-config';
-import { Button, Input, Sidebar } from '@polkadot/react-components';
+import { Button, Input, Sidebar, styled } from '@polkadot/react-components';
 import { settings } from '@polkadot/ui-settings';
 import { isAscii } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import GroupDisplay from './Group';
+import { useTranslation } from '../translate.js';
+import GroupDisplay from './Group.js';
 
 interface Props {
   className?: string;
@@ -54,13 +53,13 @@ function combineEndpoints (endpoints: LinkOption[]): Group[] {
         prev.networks[prev.networks.length - 1].providers.push(prov);
       } else if (!e.isUnreachable) {
         prev.networks.push({
-          icon: e.info,
           isChild: e.isChild,
           isRelay: !!e.genesisHash,
           name: e.text as string,
           nameRelay: e.textRelay as string,
           paraId: e.paraId,
-          providers: [prov]
+          providers: [prov],
+          ui: e.ui
         });
       }
     }

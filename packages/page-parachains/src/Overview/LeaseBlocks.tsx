@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { LeasePeriod } from '../types';
+import type { LeasePeriod } from '../types.js';
 
 import React, { useMemo } from 'react';
 

@@ -30,9 +30,10 @@ export type LinkTypes = keyof LinkPath;
 
 export interface ExternalDef {
   chains: Record<string, string>;
+  homepage: string;
   isActive: boolean;
-  logo: string;
   paths: LinkPath;
-  url: string;
+  ui: { logo: string; }
+
   create: (chain: string, path: string, data: BN | number | string, hash?: string) => string;
 }

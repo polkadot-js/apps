@@ -3,16 +3,16 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { SiDef } from '@polkadot/util/types';
-import type { BitLength } from './types';
+import type { BitLength } from './types.js';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
 
 import { useApi } from '@polkadot/react-hooks';
 import { BN, BN_ONE, BN_TEN, BN_TWO, BN_ZERO, formatBalance, isBn, isUndefined } from '@polkadot/util';
 
-import Input, { KEYS_PRE } from './Input';
-import { useTranslation } from './translate';
+import Input, { KEYS_PRE } from './Input.js';
+import { styled } from './styled.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   autoFocus?: boolean;
@@ -161,7 +161,7 @@ function getValues (api: ApiPromise, value: BN | string = BN_ZERO, si: SiDef | n
     : getValuesFromString(api, value, si, bitLength, isSigned, isZeroable, maxValue, decimals);
 }
 
-function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, className = '', defaultValue, isDecimal, isFull, isSi, isDisabled, isError = false, isLoading, isWarning, isSigned = false, isZeroable = true, label, labelExtra, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, siDecimals, siDefault, siSymbol, value: propsValue }: Props): React.ReactElement<Props> {
+function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, className = '', defaultValue, isDecimal, isDisabled, isError = false, isFull, isLoading, isSi, isSigned = false, isWarning, isZeroable = true, label, labelExtra, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, siDecimals, siDefault, siSymbol, value: propsValue }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [si] = useState<SiDef | null>(() =>

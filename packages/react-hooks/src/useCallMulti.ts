@@ -3,16 +3,16 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { QueryableStorageMultiArg } from '@polkadot/api/types';
-import type { Tracker } from './useCall';
-import type { MountedRef } from './useIsMountedRef';
+import type { Tracker } from './useCall.js';
+import type { MountedRef } from './useIsMountedRef.js';
 
 import { useEffect, useRef, useState } from 'react';
 
 import { isUndefined, nextTick } from '@polkadot/util';
 
-import { useApi } from './useApi';
-import { handleError, transformIdentity, unsubscribe } from './useCall';
-import { useIsMountedRef } from './useIsMountedRef';
+import { useApi } from './useApi.js';
+import { handleError, transformIdentity, unsubscribe } from './useCall.js';
+import { useIsMountedRef } from './useIsMountedRef.js';
 
 interface TrackerRef {
   current: Tracker;

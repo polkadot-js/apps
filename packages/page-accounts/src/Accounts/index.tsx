@@ -4,31 +4,30 @@
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { KeyringAddress } from '@polkadot/ui-keyring/types';
 import type { BN } from '@polkadot/util';
-import type { AccountBalance, Delegation, SortedAccount } from '../types';
-import type { SortCategory } from '../util';
+import type { AccountBalance, Delegation, SortedAccount } from '../types.js';
+import type { SortCategory } from '../util.js';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button, FilterInput, SortDropdown, SummaryBox, Table } from '@polkadot/react-components';
+import { Button, FilterInput, SortDropdown, styled, SummaryBox, Table } from '@polkadot/react-components';
 import { getAccountCryptoType } from '@polkadot/react-components/util';
-import { useAccounts, useApi, useDelegations, useFavorites, useIpfs, useLedger, useLoadingDelay, useProxies, useToggle } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useDelegations, useFavorites, useIpfs, useLedger, useNextTick, useProxies, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { BN_ZERO, isFunction } from '@polkadot/util';
 
-import CreateModal from '../modals/Create';
-import ImportModal from '../modals/Import';
-import Ledger from '../modals/Ledger';
-import Multisig from '../modals/MultisigCreate';
-import Proxy from '../modals/ProxiedAdd';
-import Qr from '../modals/Qr';
-import { useTranslation } from '../translate';
-import { SORT_CATEGORY, sortAccounts } from '../util';
-import Account from './Account';
-import BannerClaims from './BannerClaims';
-import BannerExtension from './BannerExtension';
-import Summary from './Summary';
+import CreateModal from '../modals/Create.js';
+import ImportModal from '../modals/Import.js';
+import Ledger from '../modals/Ledger.js';
+import Multisig from '../modals/MultisigCreate.js';
+import Proxy from '../modals/ProxiedAdd.js';
+import Qr from '../modals/Qr.js';
+import { useTranslation } from '../translate.js';
+import { SORT_CATEGORY, sortAccounts } from '../util.js';
+import Account from './Account.js';
+import BannerClaims from './BannerClaims.js';
+import BannerExtension from './BannerExtension.js';
+import Summary from './Summary.js';
 
 interface Balances {
   accounts: Record<string, AccountBalance>;
@@ -107,7 +106,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const [{ sortBy, sortFromMax }, setSortBy] = useState<SortControls>(DEFAULT_SORT_CONTROLS);
   const delegations = useDelegations();
   const proxies = useProxies();
-  const isLoading = useLoadingDelay();
+  const isNextTick = useNextTick();
 
   const onSortChange = useCallback(
     (sortBy: SortCategory) => setSortBy(({ sortFromMax }) => ({ sortBy, sortFromMax })),
@@ -197,13 +196,13 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const header = useMemo(
     (): Record<GroupName, [React.ReactNode?, string?, number?, (() => void)?][]> => {
       const ret: Record<GroupName, [React.ReactNode?, string?, number?, (() => void)?][]> = {
-        accounts: [[<>{t('accounts')}<div className='sub'>{t<string>('all locally stored accounts')}</div></>]],
-        hardware: [[<>{t('hardware')}<div className='sub'>{t<string>('accounts managed via hardware devices')}</div></>]],
-        injected: [[<>{t('extension')}<div className='sub'>{t<string>('accounts available via browser extensions')}</div></>]],
-        multisig: [[<>{t('multisig')}<div className='sub'>{t<string>('on-chain multisig accounts')}</div></>]],
-        proxied: [[<>{t('proxied')}<div className='sub'>{t<string>('on-chain proxied accounts')}</div></>]],
-        qr: [[<>{t('via qr')}<div className='sub'>{t<string>('accounts available via mobile devices')}</div></>]],
-        testing: [[<>{t('development')}<div className='sub'>{t<string>('accounts derived via development seeds')}</div></>]]
+        accounts: [[<>{t<string>('accounts')}<div className='sub'>{t<string>('all locally stored accounts')}</div></>]],
+        hardware: [[<>{t<string>('hardware')}<div className='sub'>{t<string>('accounts managed via hardware devices')}</div></>]],
+        injected: [[<>{t<string>('extension')}<div className='sub'>{t<string>('accounts available via browser extensions')}</div></>]],
+        multisig: [[<>{t<string>('multisig')}<div className='sub'>{t<string>('on-chain multisig accounts')}</div></>]],
+        proxied: [[<>{t<string>('proxied')}<div className='sub'>{t<string>('on-chain proxied accounts')}</div></>]],
+        qr: [[<>{t<string>('via qr')}<div className='sub'>{t<string>('accounts available via mobile devices')}</div></>]],
+        testing: [[<>{t<string>('development')}<div className='sub'>{t<string>('accounts derived via development seeds')}</div></>]]
       };
 
       Object.values(ret).forEach((a): void => {
@@ -360,24 +359,30 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
               onClick={toggleLedger}
             />
           )}
-          <Button
-            icon='plus'
-            isDisabled={!hasPalletMultisig || !hasAccounts}
-            label={t<string>('Multisig')}
-            onClick={toggleMultisig}
-          />
-          <Button
-            icon='plus'
-            isDisabled={!hasPalletProxy || !hasAccounts}
-            label={t<string>('Proxied')}
-            onClick={toggleProxy}
-          />
+          {hasAccounts && (
+            <>
+              {hasPalletMultisig && (
+                <Button
+                  icon='plus'
+                  label={t<string>('Multisig')}
+                  onClick={toggleMultisig}
+                />
+              )}
+              {hasPalletProxy && (
+                <Button
+                  icon='plus'
+                  label={t<string>('Proxied')}
+                  onClick={toggleProxy}
+                />
+              )}
+            </>
+          )}
         </Button.Group>
       </SummaryBox>
-      {isLoading || !sortedAccounts.length
+      {!isNextTick || !sortedAccounts.length
         ? (
           <Table
-            empty={!isLoading && sortedAccounts && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
+            empty={isNextTick && sortedAccounts && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
             header={header.accounts}
           />
         )

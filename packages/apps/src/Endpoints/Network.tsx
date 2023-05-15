@@ -1,15 +1,14 @@
 // Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Network } from './types';
+import type { Network } from './types.js';
 
 import React, { useCallback, useMemo } from 'react';
-import styled from 'styled-components';
 
-import { ChainImg } from '@polkadot/react-components';
+import { ChainImg, styled } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
-import Url from './Url';
+import { useTranslation } from '../translate.js';
+import Url from './Url.js';
 
 interface Props {
   affinity?: string; // unused - previous selection
@@ -19,7 +18,7 @@ interface Props {
   value: Network;
 }
 
-function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { icon, isChild, isRelay, isUnreachable, name, nameRelay: relay, paraId, providers } }: Props): React.ReactElement<Props> {
+function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { isChild, isRelay, isUnreachable, name, nameRelay: relay, paraId, providers, ui } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const isSelected = useMemo(
     () => providers.some(({ url }) => url === apiUrl),
@@ -49,7 +48,7 @@ function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { icon, isC
         <ChainImg
           className='endpointIcon'
           isInline
-          logo={icon === 'local' ? 'empty' : (icon || 'empty')}
+          logo={ui.logo || 'empty'}
           withoutHl
         />
         <div className='endpointValue'>

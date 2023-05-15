@@ -4,17 +4,17 @@
 import type { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
 import type { BN } from '@polkadot/util';
-import type { NominatedByMap, SortedTargets } from '../types';
+import type { NominatedByMap, SortedTargets } from '../types.js';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { Button, ToggleGroup } from '@polkadot/react-components';
 import { useApi, useBlockAuthors, useCall } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import ActionsBanner from './ActionsBanner';
-import CurrentList from './CurrentList';
-import Summary from './Summary';
+import { useTranslation } from '../translate.js';
+import ActionsBanner from './ActionsBanner.js';
+import CurrentList from './CurrentList.js';
+import Summary from './Summary.js';
 
 interface Props {
   className?: string;
@@ -53,13 +53,13 @@ function Overview ({ className = '', favorites, hasAccounts, hasQueries, minComm
   );
 
   const filterOptions = useRef([
-    { text: t('Own validators'), value: 'mine' },
-    { text: t('All validators'), value: 'all' }
+    { text: t<string>('Own validators'), value: 'mine' },
+    { text: t<string>('All validators'), value: 'all' }
   ]);
 
   const intentOptions = useRef([
-    { text: t('Active'), value: 'active' },
-    { text: t('Waiting'), value: 'waiting' }
+    { text: t<string>('Active'), value: 'active' },
+    { text: t<string>('Waiting'), value: 'waiting' }
   ]);
 
   const ownStashIds = useMemo(

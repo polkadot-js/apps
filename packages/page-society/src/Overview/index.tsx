@@ -3,14 +3,15 @@
 
 import type { DeriveSociety } from '@polkadot/api-derive/types';
 import type { BN } from '@polkadot/util';
-import type { MapMember } from '../types';
+import type { MapMember } from '../types.js';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import Defender from './Defender';
-import Members from './Members';
-import Summary from './Summary';
+import { styled } from '@polkadot/react-components';
+
+import Defender from './Defender.js';
+import Members from './Members.js';
+import Summary from './Summary.js';
 
 interface Props {
   className?: string;

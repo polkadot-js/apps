@@ -2,15 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { PalletReferenda, TrackDescription } from '../../types';
+import type { PalletReferenda, TrackDescription } from '../../types.js';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { Dropdown } from '@polkadot/react-components';
+import { Dropdown, styled } from '@polkadot/react-components';
 
-import { useTranslation } from '../../translate';
-import useTrackOptions from './useTrackOptions';
+import { useTranslation } from '../../translate.js';
+import useTrackOptions from './useTrackOptions.js';
 
 interface Props {
   className?: string;

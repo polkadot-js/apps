@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
+
+import { styled } from '@polkadot/react-components';
 
 interface Props {
   className?: string;
@@ -10,7 +11,7 @@ interface Props {
   description: string;
 }
 
-function Description ({ className = '', dataTestId = '', description }: Props): JSX.Element {
+function Description ({ className = '', dataTestId = '', description }: Props): React.ReactElement<Props> {
   return (
     <StyledDiv
       className={className}

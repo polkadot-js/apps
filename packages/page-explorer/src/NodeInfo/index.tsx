@@ -1,17 +1,17 @@
 // Copyright 2017-2023 @polkadot/app-nodeinfo authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Info } from './types';
+import type { ApiPromise } from '@polkadot/api';
+import type { Info } from './types.js';
 
 import React, { useEffect, useState } from 'react';
 
-import { ApiPromise } from '@polkadot/api';
 import { useApi } from '@polkadot/react-hooks';
 
-import Extrinsics from '../BlockInfo/Extrinsics';
-import { useTranslation } from '../translate';
-import Peers from './Peers';
-import Summary from './Summary';
+import Extrinsics from '../BlockInfo/Extrinsics.js';
+import { useTranslation } from '../translate.js';
+import Peers from './Peers.js';
+import Summary from './Summary.js';
 
 const POLL_TIMEOUT = 9900;
 
@@ -25,7 +25,7 @@ async function retrieveInfo (api: ApiPromise): Promise<Partial<Info>> {
     ]);
 
     return { blockNumber, extrinsics, health, peers };
-  } catch (error) {
+  } catch {
     return {};
   }
 }

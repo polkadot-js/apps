@@ -1,21 +1,22 @@
 // Copyright 2017-2023 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { QueueTx, QueueTxMessageSetStatus, QueueTxResult } from '@polkadot/react-components/Status/types';
 import type { BareProps as Props } from '@polkadot/react-components/types';
 import type { DefinitionRpcExt } from '@polkadot/types/types';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
 
-import { ApiPromise } from '@polkadot/api';
-import { Modal } from '@polkadot/react-components';
+import { Modal, styled } from '@polkadot/react-components';
 import { useApi, useQueue } from '@polkadot/react-hooks';
 import { assert, isFunction, loggerFormat } from '@polkadot/util';
 
-import { useTranslation } from './translate';
-import TxSigned from './TxSigned';
-import TxUnsigned from './TxUnsigned';
+import { useTranslation } from './translate.js';
+import TxSigned from './TxSigned.js';
+import TxUnsigned from './TxUnsigned.js';
+
+export * from './signers/index.js';
 
 interface ItemState {
   currentItem: QueueTx | null;

@@ -1,14 +1,14 @@
 // Copyright 2017-2023 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Member, Unscrupulous } from '../types';
+import type { Member, Unscrupulous } from '../types.js';
 
 import React, { useMemo, useState } from 'react';
 
 import { InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
@@ -52,7 +52,7 @@ function Join ({ className, members, onClose, unscrupulous: { accounts } }: Prop
             type='account'
           />
         </Modal.Columns>
-        <Modal.Columns hint={t('The bond will be reserved for the duration of your alliance membership.')}>
+        <Modal.Columns hint={t<string>('The bond will be reserved for the duration of your alliance membership.')}>
           <InputBalance
             defaultValue={api.consts.alliance.allyDeposit}
             isDisabled

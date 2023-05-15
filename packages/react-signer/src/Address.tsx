@@ -1,6 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { QueueTx } from '@polkadot/react-components/Status/types';
 import type { Option, Vec } from '@polkadot/types';
@@ -8,18 +9,17 @@ import type { AccountId, BalanceOf, Call, Multisig } from '@polkadot/types/inter
 import type { KitchensinkRuntimeProxyType, PalletProxyProxyDefinition } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
-import type { AddressFlags, AddressProxy } from './types';
+import type { AddressFlags, AddressProxy } from './types.js';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { ApiPromise } from '@polkadot/api';
 import { InputAddress, MarkError, Modal, Toggle } from '@polkadot/react-components';
 import { useAccounts, useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { BN_ZERO, isFunction } from '@polkadot/util';
 
-import Password from './Password';
-import { useTranslation } from './translate';
-import { extractExternal } from './util';
+import Password from './Password.js';
+import { useTranslation } from './translate.js';
+import { extractExternal } from './util.js';
 
 interface Props {
   className?: string;
@@ -49,12 +49,16 @@ interface ProxyState {
   proxiesFilter: string[];
 }
 
+// true if we don't try to filter the list of proxies by type and
+// instead leave it up to the user
+const BYPASS_PROXY_CHECK = true;
+
 function findCall (tx: Call | SubmittableExtrinsic<'promise'>): { method: string; section: string } {
   try {
     const { method, section } = tx.registry.findMetaCall(tx.callIndex);
 
     return { method, section };
-  } catch (error) {
+  } catch {
     return { method: 'unknown', section: 'unknown' };
   }
 }
@@ -86,6 +90,8 @@ function filterProxies (allAccounts: string[], tx: Call | SubmittableExtrinsic<'
       // FIXME Change when we add support for delayed proxies
       if (!allAccounts.includes(address) || !delay.isZero()) {
         return false;
+      } else if (BYPASS_PROXY_CHECK) {
+        return true;
       }
 
       switch (proxy.toString()) {

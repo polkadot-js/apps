@@ -1,12 +1,14 @@
 // Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useEffect, useState } from 'react';
+import type React from 'react';
 
-import { createNamedHook } from './createNamedHook';
-import { useIsMountedRef } from './useIsMountedRef';
-import { useScroll } from './useScroll';
-import { useWindowSize } from './useWindowSize';
+import { useEffect, useState } from 'react';
+
+import { createNamedHook } from './createNamedHook.js';
+import { useIsMountedRef } from './useIsMountedRef.js';
+import { useScroll } from './useScroll.js';
+import { useWindowSize } from './useWindowSize.js';
 
 export interface ElementPosition {
   x: number,

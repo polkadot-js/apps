@@ -3,8 +3,8 @@
 
 import { useCallback, useMemo, useState } from 'react';
 
-import { createNamedHook } from './createNamedHook';
-import { useCacheKey } from './useCacheKey';
+import { createNamedHook } from './createNamedHook.js';
+import { useCacheKey } from './useCacheKey.js';
 
 // hook for favorites with local storage
 function useFavoritesImpl (storageKeyBase: string): [string[], (address: string) => void] {

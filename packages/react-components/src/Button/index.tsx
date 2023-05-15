@@ -1,34 +1,42 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ButtonProps as Props } from './types';
+import type { ButtonProps as Props } from './types.js';
 
 import React, { useCallback, useEffect } from 'react';
-import styled from 'styled-components';
 
-import Icon from '../Icon';
-import Spinner from '../Spinner';
-import Group from './Group';
+import Icon from '../Icon.js';
+import Spinner from '../Spinner.js';
+import { styled } from '../styled.js';
+import Group from './Group.js';
 
 function ButtonBase ({ activeOnEnter, children, className = '', dataTestId = '', icon, isBasic, isBusy, isCircular, isDisabled, isFull, isIcon, isSelected, isToplevel, label, onClick, isReadOnly = !onClick, onMouseEnter, onMouseLeave, tabIndex, withoutLink }: Props): React.ReactElement<Props> {
   const _onClick = useCallback(
     (): void => {
-      !(isBusy || isDisabled) && onClick && onClick();
+      !(isBusy || isDisabled) && onClick && Promise
+        .resolve(onClick())
+        .catch(console.error);
     },
     [isBusy, isDisabled, onClick]
   );
 
   const _onMouseEnter = useCallback((): void => {
-    onMouseEnter && onMouseEnter();
+    onMouseEnter && Promise
+      .resolve(onMouseEnter())
+      .catch(console.error);
   }, [onMouseEnter]);
 
   const _onMouseLeave = useCallback((): void => {
-    onMouseLeave && onMouseLeave();
+    onMouseLeave && Promise
+      .resolve(onMouseLeave())
+      .catch(console.error);
   }, [onMouseLeave]);
 
   const listenKeyboard = useCallback((event: KeyboardEvent): void => {
     if (!isBusy && !isDisabled && event.key === 'Enter') {
-      onClick && onClick();
+      onClick && Promise
+        .resolve(onClick())
+        .catch(console.error);
     }
   }, [isBusy, isDisabled, onClick]);
 

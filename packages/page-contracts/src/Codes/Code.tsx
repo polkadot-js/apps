@@ -3,18 +3,17 @@
 
 import type { Option } from '@polkadot/types';
 import type { Codec } from '@polkadot/types/types';
-import type { CodeStored } from '../types';
+import type { CodeStored } from '../types.js';
 
 import React, { useCallback } from 'react';
-import styled from 'styled-components';
 
-import { Button, Card, CopyButton, Forget } from '@polkadot/react-components';
+import { Button, Card, CopyButton, Forget, styled } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 
-import { CodeRow, Messages } from '../shared';
-import store from '../store';
-import { useTranslation } from '../translate';
-import useAbi from '../useAbi';
+import { CodeRow, Messages } from '../shared/index.js';
+import store from '../store.js';
+import { useTranslation } from '../translate.js';
+import useAbi from '../useAbi.js';
 
 interface Props {
   className?: string;
@@ -106,7 +105,7 @@ function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Pro
         {!contractAbi && (
           <Button
             icon='upload'
-            label={t('deploy')}
+            label={t<string>('deploy')}
             onClick={_onShowDeploy}
           />
         )}

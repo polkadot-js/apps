@@ -3,7 +3,7 @@
 
 import type { PalletAllianceCid } from '@polkadot/types/lookup';
 import type { Registry } from '@polkadot/types/types';
-import type { Cid } from './types';
+import type { Cid } from './types.js';
 
 import { fromIpfsCid, toIpfsCid } from '@polkadot/react-params/util';
 

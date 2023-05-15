@@ -3,10 +3,10 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { Hash } from '@polkadot/types/interfaces';
-import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletReferendaDeposit, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
+import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletReferendaDeposit, PalletReferendaReferendumStatusConvictionVotingTally, PalletReferendaReferendumStatusRankedCollectiveTally, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { Referendum, ReferendumProps as Props } from '../types';
+import type { Referendum, ReferendumProps as Props } from '../types.js';
 
 import React, { useMemo } from 'react';
 
@@ -14,12 +14,12 @@ import { CallExpander, Progress } from '@polkadot/react-components';
 import { useApi, usePreimage } from '@polkadot/react-hooks';
 import { getPreimageHash } from '@polkadot/react-hooks/usePreimage';
 
-import { useTranslation } from '../translate';
-import Deposits from './Deposits';
-import RefEnd from './RefEnd';
-import { unwrapDeposit } from './util';
-import Vote from './Vote';
-import Votes from './Votes';
+import { useTranslation } from '../translate.js';
+import Deposits from './Deposits/index.js';
+import Vote from './Vote/index.js';
+import RefEnd from './RefEnd.js';
+import { unwrapDeposit } from './util.js';
+import Votes from './Votes.js';
 
 interface Expanded {
   decisionDeposit: PalletReferendaDeposit | null;
@@ -29,6 +29,7 @@ interface Expanded {
     decideEnd: BN | null;
     confirmEnd: BN | null;
   };
+  ongoing: PalletReferendaReferendumStatusConvictionVotingTally | PalletReferendaReferendumStatusRankedCollectiveTally;
   proposalHash?: HexString;
   submissionDeposit: PalletReferendaDeposit | null;
   tally: PalletConvictionVotingTally | PalletRankedCollectiveTally;
@@ -63,6 +64,7 @@ function expandOngoing (api: ApiPromise, info: Referendum['info'], track?: Palle
 
   return {
     decisionDeposit: unwrapDeposit(ongoing.decisionDeposit),
+    ongoing,
     periods: {
       confirmEnd,
       decideEnd,
@@ -80,12 +82,12 @@ function Ongoing ({ isMember, members, palletReferenda, palletVote, ranks, track
   const { t } = useTranslation();
   const { api } = useApi();
 
-  const { decisionDeposit, periods: { confirmEnd, decideEnd, periodEnd }, proposalHash, submissionDeposit, tally, tallyTotal } = useMemo(
+  const { decisionDeposit, ongoing, periods: { confirmEnd, decideEnd, periodEnd }, submissionDeposit, tally, tallyTotal } = useMemo(
     () => expandOngoing(api, info, track),
     [api, info, track]
   );
 
-  const preimage = usePreimage(proposalHash);
+  const preimage = usePreimage(ongoing.proposal || (ongoing as unknown as { proposalHash: Hash }).proposalHash);
 
   return (
     <>
@@ -98,7 +100,7 @@ function Ongoing ({ isMember, members, palletReferenda, palletVote, ranks, track
               withHash
             />
           )
-          : <div className='shortHash'>{proposalHash}</div>
+          : <div className='shortHash'>{preimage?.proposalHash}</div>
         }
       </td>
       <Deposits

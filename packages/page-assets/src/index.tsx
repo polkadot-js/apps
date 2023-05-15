@@ -6,17 +6,17 @@ import '@polkadot/api-augment/substrate';
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo, useRef } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 import { BN_ONE } from '@polkadot/util';
 
-import Balances from './Balances';
-import Overview from './Overview';
-import { useTranslation } from './translate';
-import useAssetIds from './useAssetIds';
-import useAssetInfos from './useAssetInfos';
+import Balances from './Balances/index.js';
+import Overview from './Overview/index.js';
+import { useTranslation } from './translate.js';
+import useAssetIds from './useAssetIds.js';
+import useAssetInfos from './useAssetInfos.js';
 
 interface Props {
   basePath: string;
@@ -76,18 +76,26 @@ function AssetApp ({ basePath, className }: Props): React.ReactElement<Props> {
         hidden={hidden}
         items={tabsRef.current}
       />
-      <Switch>
-        <Route path={`${basePath}/balances`}>
-          <Balances infos={infos} />
-        </Route>
-        <Route>
-          <Overview
-            ids={ids}
-            infos={infos}
-            openId={openId}
+      <Routes>
+        <Route path={basePath}>
+          <Route
+            element={
+              <Balances infos={infos} />
+            }
+            path='balances'
+          />
+          <Route
+            element={
+              <Overview
+                ids={ids}
+                infos={infos}
+                openId={openId}
+              />
+            }
+            index
           />
         </Route>
-      </Switch>
+      </Routes>
     </main>
   );
 }

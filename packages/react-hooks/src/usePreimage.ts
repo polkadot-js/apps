@@ -7,7 +7,7 @@ import type { AccountId, Balance, Call, Hash } from '@polkadot/types/interfaces'
 import type { FrameSupportPreimagesBounded, PalletPreimageRequestStatus } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
-import type { Preimage, PreimageDeposit, PreimageStatus } from './types';
+import type { Preimage, PreimageDeposit, PreimageStatus } from './types.js';
 
 import { useMemo } from 'react';
 
@@ -207,7 +207,7 @@ function usePreimageImpl (hashOrBounded?: Hash | HexString | FrameSupportPreimag
     [api, hashOrBounded]
   );
 
-  const optStatus = useCall<Option<PalletPreimageRequestStatus>>(paramsStatus && api.query.preimage?.statusFor, paramsStatus);
+  const optStatus = useCall<Option<PalletPreimageRequestStatus>>(!inlineData && paramsStatus && api.query.preimage?.statusFor, paramsStatus);
 
   // from the retrieved status (if any), get the on-chain stored bytes
   const { paramsBytes, resultPreimageFor } = useMemo(

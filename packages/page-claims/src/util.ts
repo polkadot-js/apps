@@ -3,9 +3,9 @@
 
 import type { EcdsaSignature, EthereumAddress, StatementKind } from '@polkadot/types/interfaces';
 
-import secp256k1 from 'secp256k1/elliptic';
+import secp256k1 from 'secp256k1/elliptic.js';
 
-import registry from '@polkadot/react-api/typeRegistry';
+import { registry } from '@polkadot/react-api';
 import { assert, hexToU8a, stringToU8a, u8aConcat, u8aToBuffer } from '@polkadot/util';
 import { keccakAsHex, keccakAsU8a } from '@polkadot/util-crypto';
 
@@ -78,7 +78,7 @@ export function recoverAddress (message: string, { recovery, signature }: Signat
   const senderPubKey = secp256k1.recover(msgHash, signature, recovery);
 
   return publicToAddr(
-    secp256k1.publicKeyConvert(senderPubKey, false).slice(1)
+    secp256k1.publicKeyConvert(senderPubKey, false).subarray(1)
   );
 }
 

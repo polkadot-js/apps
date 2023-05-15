@@ -1,9 +1,10 @@
 // Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { HeadersReceivedResponse, session } from 'electron';
+import type { HeadersReceivedResponse } from 'electron';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { session } from 'electron';
+
 export function setupContentSecurityPolicy (_: string): void {
   session.defaultSession.webRequest.onHeadersReceived((details, respond: (response: HeadersReceivedResponse) => void) => {
     respond({

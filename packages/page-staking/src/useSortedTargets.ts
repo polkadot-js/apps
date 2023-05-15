@@ -5,7 +5,7 @@ import type { ApiPromise } from '@polkadot/api';
 import type { DeriveSessionInfo, DeriveStakingElected, DeriveStakingWaiting } from '@polkadot/api-derive/types';
 import type { Inflation } from '@polkadot/react-hooks/types';
 import type { Option, u32 } from '@polkadot/types';
-import type { SortedTargets, TargetSortBy, ValidatorInfo } from './types';
+import type { SortedTargets, TargetSortBy, ValidatorInfo } from './types.js';
 
 import { useMemo } from 'react';
 

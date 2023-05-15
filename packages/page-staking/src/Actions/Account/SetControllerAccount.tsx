@@ -1,13 +1,13 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../../translate';
-import InputValidationController from './InputValidationController';
+import { useTranslation } from '../../translate.js';
+import InputValidationController from './InputValidationController.js';
 
 interface Props {
   defaultControllerId: string;
@@ -26,6 +26,11 @@ function SetControllerAccount ({ defaultControllerId, onClose, stashId }: Props)
     []
   );
 
+  const needsController = useMemo(
+    () => api.tx.staking.setController.meta.args.length === 1,
+    [api]
+  );
+
   return (
     <Modal
       header={t<string>('Change controller account')}
@@ -40,30 +45,43 @@ function SetControllerAccount ({ defaultControllerId, onClose, stashId }: Props)
             value={stashId}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The selected controller tied to this stash. Once set, this account will be able to control the actions performed by the stash account.')}>
-          <InputAddress
-            defaultValue={defaultControllerId}
-            label={t<string>('controller account')}
-            onChange={setControllerId}
-            type='account'
-            value={controllerId}
-          />
-          <InputValidationController
-            accountId={stashId}
-            controllerId={controllerId}
-            defaultController={defaultControllerId}
-            onError={_setError}
-          />
-        </Modal.Columns>
+        {needsController && (
+          <Modal.Columns hint={t<string>('The selected controller tied to this stash. Once set, this account will be able to control the actions performed by the stash account.')}>
+            <InputAddress
+              defaultValue={defaultControllerId}
+              label={t<string>('controller account')}
+              onChange={setControllerId}
+              type='account'
+              value={controllerId}
+            />
+            <InputValidationController
+              accountId={stashId}
+              controllerId={controllerId}
+              defaultController={defaultControllerId}
+              onError={_setError}
+            />
+          </Modal.Columns>
+        )}
       </Modal.Content>
       <Modal.Actions>
         <TxButton
           accountId={stashId}
           icon='sign-in-alt'
-          isDisabled={!controllerId || isFatal}
+          isDisabled={
+            isFatal ||
+            (
+              needsController
+                ? !controllerId
+                : false
+            )
+          }
           label={t<string>('Set controller')}
           onStart={onClose}
-          params={[controllerId]}
+          params={
+            needsController
+              ? [controllerId]
+              : []
+          }
           tx={api.tx.staking.setController}
         />
       </Modal.Actions>

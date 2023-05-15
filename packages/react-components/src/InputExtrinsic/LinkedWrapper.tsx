@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
 
-import Labelled from '../Labelled';
+import Labelled from '../Labelled.js';
+import { styled } from '../styled.js';
 
 interface Props {
   children: React.ReactNode;
@@ -65,6 +65,10 @@ const StyledDiv = styled.div`
     overflow: hidden;
     text-align: right;
     text-overflow: ellipsis;
+  }
+
+  > .ui--Labelled > label {
+    text-transform: none;
   }
 `;
 

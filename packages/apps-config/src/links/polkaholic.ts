@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { ExternalDef } from './types';
+import type { ExternalDef } from './types.js';
 
-import { externalLogos } from '../ui/logos';
+import { externalPolkaholicPNG } from '../ui/logos/external/index.js';
 
 export const Polkaholic: ExternalDef = {
   chains: {
@@ -52,6 +52,7 @@ export const Polkaholic: ExternalDef = {
     Shiden: 'shiden',
     Statemine: 'statemine',
     Statemint: 'statemint',
+    Subsocial: 'subsocial',
     SubsocialX: 'subsocialx',
     'Turing Network': 'turing',
     UNIQUE: 'unique',
@@ -60,12 +61,14 @@ export const Polkaholic: ExternalDef = {
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.polkaholic.io/${path}/${data.toString()}`,
+  homepage: 'https://polkaholic.io/',
   isActive: true,
-  logo: externalLogos.polkaholic as string,
   paths: {
     address: 'account',
     block: 'blockhash',
     extrinsic: 'tx'
   },
-  url: 'https://polkaholic.io/'
+  ui: {
+    logo: externalPolkaholicPNG
+  }
 };
