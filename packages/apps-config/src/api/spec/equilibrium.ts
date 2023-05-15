@@ -27,8 +27,8 @@ export const u64FromCurrency = (currency: string): bigint => {
   return buf.reduce((val, digit, i) => {
     const exp = BigInt(size - 1 - i);
 
-    return BigInt(val) + (256n ** exp) * BigInt(digit);
-  }, 0n);
+    return BigInt(val) + BigInt(256) ** exp * BigInt(digit);
+  }, BigInt(0));
 };
 
 const TOKENS = ['eq'];
