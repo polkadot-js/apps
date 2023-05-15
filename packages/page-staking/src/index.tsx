@@ -262,7 +262,7 @@ const StyledMain = styled.main`
     }
   }
 
- .performance--actionrow {
+ .performance--actionsrow {
     align-items: flex-start;
     display: flex;
 
@@ -277,7 +277,7 @@ const StyledMain = styled.main`
     }
   }
 
-  .performance--actionrow-value {
+  .performance--actionsrow-value {
     flex: 1;
     min-width: 0;
 
@@ -286,8 +286,7 @@ const StyledMain = styled.main`
     }
   }
 
-  .performance--actionrow-buttons {
-    flex: 0;
+  .performance--actionsrow-buttons {
     padding: 0.5rem 0.25rem;
   }
 
