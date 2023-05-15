@@ -24743,16 +24743,17 @@ export const typesBundle = {
         }
       ]
     },
+    "Equilibrium-parachain": {
+      "instances": {
+        "balances": [
+          "eq"
+        ]
+      }
+    },
     "Genshiro": {
       "instances": {
         "balances": [
-          "Eq",
-          "Eth",
-          "Btc",
-          "Eos",
-          "Dot",
-          "Crv",
-          "Usd"
+          "gens"
         ]
       },
       "types": [
