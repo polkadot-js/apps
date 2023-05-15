@@ -20,5 +20,6 @@ export const ethereumChains = [
   'Pangolin2',
   'thebifrost-dev',
   'thebifrost-testnet',
-  'thebifrost-mainnet'
+  'thebifrost-mainnet',
+  'ferrum-parachain'
 ];

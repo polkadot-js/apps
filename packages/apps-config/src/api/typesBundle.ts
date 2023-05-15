@@ -49822,6 +49822,30 @@ export const typesBundle = {
         }
       ]
     },
+    "ferrum-parachain": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "AccountId": "EthereumAccountId",
+            "AccountId20": "EthereumAccountId",
+            "AccountId32": "EthereumAccountId",
+            "Address": "AccountId",
+            "LookupSource": "AccountId",
+            "Lookup0": "AccountId",
+            "EthereumSignature": {
+              "r": "H256",
+              "s": "H256",
+              "v": "U8"
+            },
+            "ExtrinsicSignature": "EthereumSignature"
+          }
+        }
+      ]
+    },
     "frequency": {
       "rpc": {
         "msa": {
