@@ -57633,6 +57633,17 @@ export const typesBundle = {
         }
       ]
     },
+    "jur-node": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {}
+        }
+      ]
+    },
     "kerria": {
       "rpc": {
         "oracle": {
