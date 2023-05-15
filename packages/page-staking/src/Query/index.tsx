@@ -57,7 +57,7 @@ function Query ({ className }: Props): React.ReactElement<Props> {
       const minSessionNumber = Math.max(minimumSessionNumber, currentSession - maxSessionQueryDepth);
       const queryDepth = currentSession - minSessionNumber;
 
-      return range(queryDepth, currentSession - queryDepth);
+      return range(queryDepth, currentSession - queryDepth).reverse();
     }
 
     return [];
