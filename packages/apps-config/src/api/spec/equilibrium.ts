@@ -2,15 +2,16 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { Enum } from '@polkadot/types';
 import type { AccountId, AccountIndex, Address, Balance } from '@polkadot/types/interfaces';
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
+import type { Struct, u64, u128, Vec } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 
 import { map, of } from 'rxjs';
 
 import { memo } from '@polkadot/api-derive/util';
-import { Enum } from '@polkadot/types';
-import { Struct, U8aFixed, u64, u128, Vec } from '@polkadot/types-codec';
+import { U8aFixed } from '@polkadot/types-codec';
 
 export interface SignedBalance extends Enum {
   readonly isPositive: boolean;
@@ -19,14 +20,15 @@ export interface SignedBalance extends Enum {
   readonly asNegative: Balance;
 }
 
-export const u64FromCurrency = (currency: string): number => {
+export const u64FromCurrency = (currency: string): bigint => {
   const buf = Buffer.from(currency.toLowerCase());
   const size = buf.length;
 
-  return buf.reduce(
-    (val, digit, i) => val + Math.pow(256, size - 1 - i) * digit,
-    0
-  );
+  return buf.reduce((val, digit, i) => {
+    const exp = BigInt(size - 1 - i);
+
+    return BigInt(val) + (256n ** exp) * BigInt(digit);
+  }, 0n);
 };
 
 const TOKENS = ['eq'];
@@ -48,57 +50,58 @@ interface EqPrimitivesSignedBalance extends Enum {
   readonly type: 'Positive' | 'Negative';
 }
 
-const definitions: OverrideBundleDefinition = {
-  derives: TOKENS.reduce((prev, token, i) => {
-    const isNative = !i;
+export const createDerives = (tokens: string[]) => tokens.reduce((prev, token, i) => {
+  const isNative = !i;
 
-    return {
-      ...prev,
+  return {
+    ...prev,
 
-      [token]: { customAccount: (instanceId: string, api: ApiInterfaceRx) => {
-        const { registry } = api;
-        const asset = u64FromCurrency(token);
+    [token]: { customAccount: (instanceId: string, api: ApiInterfaceRx) => {
+      const { registry } = api;
+      const asset = u64FromCurrency(token);
 
-        return memo(instanceId, (address: AccountIndex | AccountId | Address | string) => api.query.system.account(address).pipe(map((v) => {
+      return memo(instanceId, (address: AccountIndex | AccountId | Address | string) => api.query.system.account(address).pipe(map((v) => {
+        const data = (v as unknown as { data: EqPrimitivesBalanceAccountData }).data;
+
+        const miscFrozen = isNative ? data.asV0.lock : registry.createType('u128', 0);
+        const feeFrozen = miscFrozen;
+        const reserved = registry.createType('u128', 0);
+
+        const entry = data.asV0.balance.find(([assetId]) => {
+          return assetId.toBigInt() === asset;
+        });
+
+        const balance = entry?.[1];
+
+        const free = balance?.isPositive
+          ? balance.asPositive
+          : registry.createType('u128', 0);
+
+        return {
+          feeFrozen, free, miscFrozen, reserved
+        };
+      })));
+    },
+    customLocks: (instanceId: string, api: ApiInterfaceRx) => {
+      const { registry } = api;
+
+      return memo(instanceId, (address: AccountIndex | AccountId | Address | string) => isNative
+        ? api.query.system.account(address).pipe(map((v) => {
           const data = (v as unknown as { data: EqPrimitivesBalanceAccountData }).data;
 
-          const miscFrozen = isNative ? data.asV0.lock : registry.createType('u128', 0);
-          const feeFrozen = miscFrozen;
-          const reserved = registry.createType('u128', 0);
+          return [{
+            amount: data.asV0.lock,
+            id: new U8aFixed(registry),
+            reasons: ''
+          }];
+        }))
+        : of([]));
+    } }
+  };
+}, {});
 
-          const entry = data.asV0.balance.find(([assetId]) => {
-            return assetId.toNumber() === asset;
-          });
-
-          const balance = entry?.[1];
-
-          const free = balance?.isPositive
-            ? balance.asPositive
-            : registry.createType('u128', 0);
-
-          return {
-            feeFrozen, free, miscFrozen, reserved
-          };
-        })));
-      },
-      customLocks: (instanceId: string, api: ApiInterfaceRx) => {
-        const { registry } = api;
-
-        return memo(instanceId, (address: AccountIndex | AccountId | Address | string) => isNative
-          ? api.query.system.account(address).pipe(map((v) => {
-            const data = (v as unknown as { data: EqPrimitivesBalanceAccountData }).data;
-
-            return [{
-              amount: data.asV0.lock,
-              id: new U8aFixed(registry),
-              reasons: ''
-            }];
-          }))
-          : of([]));
-      } }
-    };
-  }, {}),
-
+const definitions: OverrideBundleDefinition = {
+  derives: createDerives(TOKENS),
   instances: { balances: TOKENS }
 };
 
