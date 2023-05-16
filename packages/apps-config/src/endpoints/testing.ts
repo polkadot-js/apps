@@ -293,7 +293,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'ferrum',
     providers: {
-      FerrumNetwork : 'wss://testnet.dev.svcs.ferrumnetwork.io'
+      FerrumNetwork: 'wss://testnet.dev.svcs.ferrumnetwork.io'
     },
     text: 'Ferrum Testnet',
     ui: {
