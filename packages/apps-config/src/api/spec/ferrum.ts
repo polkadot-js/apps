@@ -14,7 +14,6 @@ const definitions: OverrideBundleDefinition = {
       types: {
         AccountId: 'EthereumAccountId',
         AccountId20: 'EthereumAccountId',
-        AccountId32: 'EthereumAccountId',
         Address: 'AccountId',
         LookupSource: 'AccountId',
         Lookup0: 'AccountId',
