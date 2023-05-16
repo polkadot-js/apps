@@ -47,6 +47,7 @@ import equilibrium from './equilibrium.js';
 import fantour from './fantour.js';
 // See https://github.com/polkadot-js/apps/pull/9243
 // import fragnova from './fragnova.js';
+import ferrum from './ferrum.js';
 import frequency from './frequency.js';
 import galital from './galital.js';
 import galitalParachain from './galital-parachain.js';
@@ -195,6 +196,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   // See https://github.com/polkadot-js/apps/pull/9243
   // fragnova,
   // 'fragnova-testnet': fragnova,
+  'ferrum-parachain': ferrum,
   frequency,
   'frequency-rococo': frequency,
   galital,
