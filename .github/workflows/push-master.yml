@@ -32,7 +32,7 @@ jobs:
         PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
         PINATA_SECRET_KEY: ${{ secrets.PINATA_SECRET_KEY }}
       run: |
-        yarn install --immutable | grep -v 'YN0013'
+        yarn install --immutable
         yarn ${{ matrix.step }}
 
   # only run on "CI skip", i.e. when the actual version has been bumped to release/stable
