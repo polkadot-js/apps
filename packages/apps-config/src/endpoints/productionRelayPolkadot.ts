@@ -333,6 +333,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'kapex',
     paraId: 2007,
     providers: {
+      Dwellir: 'wss://kapex-rpc.dwellir.com',
       Totem: 'wss://k-ui.kapex.network'
     },
     text: 'Kapex',
