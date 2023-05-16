@@ -195,12 +195,11 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://genshiro.equilibrium.io',
-    info: 'genshiro',
-    isUnreachable: true,
+    homepage: 'https://genshiro..io',
+    info: 'Genshiro',
     paraId: 2024,
     providers: {
-      Equilibrium: 'wss://node.genshiro.io'
+      Genshiro: 'wss://node.ksm.genshiro.io'
     },
     text: 'Genshiro',
     ui: {
