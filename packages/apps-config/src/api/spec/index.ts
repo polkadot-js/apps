@@ -214,6 +214,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'jupiter-prep': jupiter,
   'jupiter-rococo': jupiterRococo,
   'jur-chain': jur,
+  'jur-node': jur,
   kerria: parallel,
   khala,
   'kintsugi-parachain': interbtc,
