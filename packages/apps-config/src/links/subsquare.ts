@@ -14,7 +14,7 @@ export const Subsquare: ExternalDef = {
     Bifrost: 'bifrost',
     Centrifuge: 'centrifuge',
     Crust: 'crust',
-    Darwinia2: "darwinia2",
+    Darwinia2: 'darwinia2',
     HydraDX: 'hydradx',
     Interlay: 'interlay',
     Karura: 'karura',
