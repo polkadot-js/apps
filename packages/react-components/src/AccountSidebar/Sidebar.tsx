@@ -1,13 +1,14 @@
-// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useRef, useState } from 'react';
 
-import { LinkExternal, styled } from '@polkadot/react-components';
-import Sidebar from '@polkadot/react-components/Sidebar';
-import { colorLink } from '@polkadot/react-components/styles/theme';
 import { useAccountInfo } from '@polkadot/react-hooks';
 
+import LinkExternal from '../LinkExternal.js';
+import Sidebar from '../Sidebar.js';
+import { styled } from '../styled.js';
+import { colorLink } from '../styles/theme.js';
 import Balances from './Balances.js';
 import Identity from './Identity.js';
 import Multisig from './Multisig.js';

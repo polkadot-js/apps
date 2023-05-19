@@ -6,8 +6,7 @@ import type { KeyringAddress } from '@polkadot/ui-keyring/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
-import Transfer from '@polkadot/app-accounts/modals/Transfer';
-import { AddressInfo, AddressSmall, Button, ChainLock, Columar, Forget, LinkExternal, Menu, Popup, Table, Tags } from '@polkadot/react-components';
+import { AddressInfo, AddressSmall, Button, ChainLock, Columar, Forget, LinkExternal, Menu, Popup, Table, Tags, TransferModal } from '@polkadot/react-components';
 import { useApi, useBalancesAll, useDeriveAccountInfo, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { isFunction } from '@polkadot/util';
@@ -200,7 +199,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
                 />
               )}
               {isTransferOpen && (
-                <Transfer
+                <TransferModal
                   key='modal-transfer'
                   onClose={_toggleTransfer}
                   recipientId={address}

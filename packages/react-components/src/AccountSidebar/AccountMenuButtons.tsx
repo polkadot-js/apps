@@ -1,15 +1,16 @@
-// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AddressFlags } from '@polkadot/react-hooks/types';
 
 import React, { useCallback } from 'react';
 
-import { Button, styled } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-import Transfer from '../modals/Transfer.js';
+import Button from '../Button/index.js';
+import { TransferModal } from '../modals/index.js';
+import { styled } from '../styled.js';
 import { useTranslation } from '../translate.js';
 
 interface Props {
@@ -122,7 +123,7 @@ function AccountMenuButtons ({ className = '', flags, isEditing, isEditingName, 
         )
       }
       {isTransferOpen && (
-        <Transfer
+        <TransferModal
           key='modal-transfer'
           onClose={toggleIsTransferOpen}
           recipientId={recipientId}

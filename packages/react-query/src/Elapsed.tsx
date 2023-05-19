@@ -5,7 +5,7 @@ import type { BN } from '@polkadot/util';
 
 import React, { useEffect, useState } from 'react';
 
-import { styled } from '@polkadot/react-components/styled';
+import { styled } from '@polkadot/react-components';
 import { bnToBn } from '@polkadot/util';
 
 type Ticker = (now: number) => void;

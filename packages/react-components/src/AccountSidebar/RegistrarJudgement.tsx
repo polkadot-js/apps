@@ -7,10 +7,16 @@ import type { HexString } from '@polkadot/util/types';
 
 import React, { useEffect, useState } from 'react';
 
-import { Dropdown, Input, InputAddress, MarkError, Modal, Spinner, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
+import Dropdown from '../Dropdown.js';
+import Input from '../Input.js';
+import InputAddress from '../InputAddress/index.js';
+import MarkError from '../MarkError.js';
+import Modal from '../Modal/index.js';
+import Spinner from '../Spinner.js';
 import { useTranslation } from '../translate.js';
+import TxButton from '../TxButton.js';
 
 interface Props {
   address: string;

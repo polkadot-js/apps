@@ -55,10 +55,6 @@ export type SidebarState = [string | null, (() => void) | null];
 
 export type Sidebar = undefined | (([address, onUpdateName]: SidebarState) => void);
 
-export interface ThemeDef {
-  theme: 'dark' | 'light';
-}
-
 export interface WindowSize {
   height: number;
   width: number;

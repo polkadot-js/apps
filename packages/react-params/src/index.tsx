@@ -7,7 +7,7 @@ import type { ComponentMap, ParamDef, RawParam, RawParamOnChangeValue, RawParams
 
 import React from 'react';
 
-import { api } from '@polkadot/react-api';
+import { statics } from '@polkadot/react-api';
 import { ErrorBoundary } from '@polkadot/react-components';
 import { stringify } from '@polkadot/util';
 
@@ -44,7 +44,7 @@ class Params extends React.PureComponent<Props, State> {
     params: null
   };
 
-  public static getDerivedStateFromProps ({ isDisabled, params, registry = api.registry, values }: Props, prevState: State): Pick<State, never> | null {
+  public static getDerivedStateFromProps ({ isDisabled, params, registry = statics.api.registry, values }: Props, prevState: State): Pick<State, never> | null {
     if (isDisabled || stringify(prevState.params) === stringify(params)) {
       return null;
     }
@@ -82,7 +82,7 @@ class Params extends React.PureComponent<Props, State> {
   }
 
   public override render (): React.ReactNode {
-    const { children, className = '', isDisabled, isError, onEnter, onEscape, overrides, params, registry = api.registry, withBorder = true, withExpander } = this.props;
+    const { children, className = '', isDisabled, isError, onEnter, onEscape, overrides, params, registry = statics.api.registry, withBorder = true, withExpander } = this.props;
     const { values = this.props.values } = this.state;
 
     if (!values || !values.length) {

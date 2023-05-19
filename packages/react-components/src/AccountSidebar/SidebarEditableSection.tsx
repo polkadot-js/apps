@@ -3,10 +3,10 @@
 
 import React, { useCallback, useEffect, useMemo } from 'react';
 
-import { Tags } from '@polkadot/react-components';
 import { useAccountInfo, useOutsideClick } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 
+import Tags from '../Tags.js';
 import AccountMenuButtons from './AccountMenuButtons.js';
 import AddressSection from './AddressSection.js';
 import Flags from './Flags.js';

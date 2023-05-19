@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeDef } from '@polkadot/react-hooks/ctx/types';
+import type { ThemeDef } from './types.js';
 
 import React, { useContext } from 'react';
 import store from 'store';

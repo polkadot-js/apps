@@ -8,7 +8,7 @@ import { EventEmitter } from 'eventemitter3';
 import store from 'store';
 
 import { Abi } from '@polkadot/api-contract';
-import { api } from '@polkadot/react-api';
+import { statics } from '@polkadot/react-api';
 import { isString } from '@polkadot/util';
 
 const KEY_CODE = 'code:';
@@ -29,13 +29,13 @@ class Store extends EventEmitter {
   }
 
   public saveCode (_codeHash: string | Hash, partial: Partial<CodeJson>): void {
-    const codeHash = (isString(_codeHash) ? api.registry.createType('Hash', _codeHash) : _codeHash).toHex();
+    const codeHash = (isString(_codeHash) ? statics.api.registry.createType('Hash', _codeHash) : _codeHash).toHex();
     const existing = this.getCode(codeHash);
     const json = {
       ...(existing ? existing.json : {}),
       ...partial,
       codeHash,
-      genesisHash: api.genesisHash.toHex(),
+      genesisHash: statics.api.genesisHash.toHex(),
       whenCreated: existing?.json.whenCreated || Date.now()
     };
     const key = `${KEY_CODE}${json.codeHash}`;
@@ -50,7 +50,7 @@ class Store extends EventEmitter {
 
   public loadAll (onLoaded?: () => void): void {
     try {
-      const genesisHash = api.genesisHash.toHex();
+      const genesisHash = statics.api.genesisHash.toHex();
 
       store.each((json: CodeJson, key: string): void => {
         if (json && json.genesisHash === genesisHash && key.startsWith(KEY_CODE)) {
@@ -68,7 +68,7 @@ class Store extends EventEmitter {
     try {
       this.#allCode[json.codeHash] = {
         contractAbi: json.abi
-          ? new Abi(json.abi, api.registry.getChainProperties())
+          ? new Abi(json.abi, statics.api.registry.getChainProperties())
           : undefined,
         json
       };

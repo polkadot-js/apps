@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
@@ -8,12 +8,19 @@ import type { BN } from '@polkadot/util';
 import React, { useEffect, useState } from 'react';
 
 import { checkAddress } from '@polkadot/phishing';
-import { InputAddress, InputBalance, MarkError, MarkWarning, Modal, styled, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { BN_HUNDRED, BN_ZERO, isFunction, nextTick } from '@polkadot/util';
 
+import InputAddress from '../InputAddress/index.js';
+import InputBalance from '../InputBalance.js';
+import MarkError from '../MarkError.js';
+import MarkWarning from '../MarkWarning.js';
+import Modal from '../Modal/index.js';
+import { styled } from '../styled.js';
+import Toggle from '../Toggle.js';
 import { useTranslation } from '../translate.js';
+import TxButton from '../TxButton.js';
 
 interface Props {
   className?: string;

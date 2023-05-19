@@ -15,10 +15,10 @@ import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
-import { lightTheme } from '@polkadot/apps/themes';
 import { POLKADOT_GENESIS } from '@polkadot/apps-config';
-import { ApiCtx } from '@polkadot/react-api';
+import { lightTheme } from '@polkadot/react-components';
 import { KeyringCtxRoot } from '@polkadot/react-hooks';
+import { ApiCtx } from '@polkadot/react-hooks/ctx/Api';
 import { QueueCtx } from '@polkadot/react-hooks/ctx/Queue';
 import { balanceOf } from '@polkadot/test-support/creation/balance';
 import { BountyFactory } from '@polkadot/test-support/creation/bounties';

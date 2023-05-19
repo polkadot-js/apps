@@ -14,7 +14,7 @@ import type { AccountBalance, Delegation } from '../types.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import useAccountLocks from '@polkadot/app-referenda/useAccountLocks';
-import { AddressInfo, AddressSmall, Badge, Button, ChainLock, Columar, CryptoType, Forget, LinkExternal, Menu, Popup, styled, Table, Tags } from '@polkadot/react-components';
+import { AddressInfo, AddressSmall, Badge, Button, ChainLock, Columar, CryptoType, Forget, LinkExternal, Menu, Popup, styled, Table, Tags, TransferModal } from '@polkadot/react-components';
 import { useAccountInfo, useApi, useBalancesAll, useBestNumber, useCall, useLedger, useQueue, useStakingInfo, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN, BN_ZERO, formatBalance, formatNumber, isFunction } from '@polkadot/util';
@@ -29,7 +29,6 @@ import MultisigApprove from '../modals/MultisigApprove.js';
 import ProxyOverview from '../modals/ProxyOverview.js';
 import RecoverAccount from '../modals/RecoverAccount.js';
 import RecoverSetup from '../modals/RecoverSetup.js';
-import Transfer from '../modals/Transfer.js';
 import UndelegateModal from '../modals/Undelegate.js';
 import { useTranslation } from '../translate.js';
 import { createMenuGroup } from '../util.js';
@@ -530,7 +529,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             />
           )}
           {isTransferOpen && (
-            <Transfer
+            <TransferModal
               key='modal-transfer'
               onClose={toggleTransfer}
               senderId={address}
