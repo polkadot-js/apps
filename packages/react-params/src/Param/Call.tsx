@@ -6,8 +6,9 @@ import type { Props } from '../types.js';
 
 import React from 'react';
 
-import { Call, Static } from '@polkadot/react-components';
+import { Static } from '@polkadot/react-components';
 
+import { Call } from '../Named/index.js';
 import { useTranslation } from '../translate.js';
 import Bare from './Bare.js';
 import Unknown from './Unknown.js';

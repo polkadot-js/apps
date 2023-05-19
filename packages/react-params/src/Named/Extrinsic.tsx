@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-extrinsics authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
@@ -7,13 +7,13 @@ import type { TypeDef } from '@polkadot/types/types';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
+import { InputExtrinsic } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
 import { getTypeDef } from '@polkadot/types/create';
 import { isUndefined, objectSpread } from '@polkadot/util';
 
-import InputExtrinsic from './InputExtrinsic/index.js';
-import paramComponents from './Params/index.js';
-import { balanceCalls, balanceCallsOverrides } from './constants.js';
+import paramComponents from '../Extra/index.js';
+import { balanceCalls, balanceCallsOverrides } from '../overrides.js';
 
 interface Props {
   className?: string;

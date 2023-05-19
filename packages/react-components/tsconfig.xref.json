@@ -1,0 +1,23 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "outDir": "./build",
+    "rootDir": "./src"
+  },
+  "include": [
+    "src/Popup/types.ts",
+    "src/Popup/utils.ts",
+    "src/Status/checks.ts",
+    "src/Status/constants.ts",
+    "src/Status/types.ts",
+    "src/styled.ts",
+    "src/types.ts",
+    "src/util/*"
+  ],
+  "references": [
+    { "path": "../react-api/tsconfig.xref.json" },
+    { "path": "../react-hooks/tsconfig.xref.json" },
+    { "path": "../react-params/tsconfig.xref.json" }
+  ]
+}

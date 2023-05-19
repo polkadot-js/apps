@@ -8,11 +8,11 @@ import type { NominatedByMap, SortedTargets, ValidatorInfo } from '../types.js';
 
 import React, { useMemo, useRef, useState } from 'react';
 
+import Legend from '@polkadot/app-staking2/Legend';
 import { Table } from '@polkadot/react-components';
 import { useApi, useBlockAuthors, useNextTick } from '@polkadot/react-hooks';
 
 import Filtering from '../Filtering.js';
-import Legend from '../Legend.js';
 import { useTranslation } from '../translate.js';
 import Address from './Address/index.js';
 

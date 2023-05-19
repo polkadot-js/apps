@@ -3,8 +3,8 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
-import type { Props, RawParam } from '@polkadot/react-params/types';
 import type { Call } from '@polkadot/types/interfaces';
+import type { Props, RawParam } from '../types.js';
 
 import React, { useState } from 'react';
 

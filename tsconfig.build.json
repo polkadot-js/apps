@@ -1,21 +1,71 @@
 {
-  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "baseUrl": "./packages",
-    "composite": true,
-    "outDir": "./build",
-    /*
-     * We have a couple of issues that forces us to disable this -
-     *  1. apps-electron is still CJS
-     *  2. some of our packaged dependencies are problematic
-     *
-     * (also disabled in tsconfig.json)
-     */
-    "verbatimModuleSyntax": false
+    "composite": true
   },
-  "exclude": [
-    "build/**/*",
-    "**/build/**/*"
-  ],
-  "references": []
+  "files": [],
+  "references": [
+    { "path": "./packages/apps/tsconfig.build.json" },
+    { "path": "./packages/apps-config/tsconfig.build.json" },
+    { "path": "./packages/apps-config/tsconfig.spec.json" },
+    { "path": "./packages/apps-electron/tsconfig.build.json" },
+    { "path": "./packages/apps-routing/tsconfig.build.json" },
+    { "path": "./packages/page-accounts/tsconfig.build.json" },
+    { "path": "./packages/page-accounts/tsconfig.spec.json" },
+    { "path": "./packages/page-accounts/tsconfig.test.json" },
+    { "path": "./packages/page-addresses/tsconfig.build.json" },
+    { "path": "./packages/page-addresses/tsconfig.spec.json" },
+    { "path": "./packages/page-addresses/tsconfig.test.json" },
+    { "path": "./packages/page-alliance/tsconfig.build.json" },
+    { "path": "./packages/page-assets/tsconfig.build.json" },
+    { "path": "./packages/page-bounties/tsconfig.build.json" },
+    { "path": "./packages/page-bounties/tsconfig.spec.json" },
+    { "path": "./packages/page-bounties/tsconfig.test.json" },
+    { "path": "./packages/page-calendar/tsconfig.build.json" },
+    { "path": "./packages/page-claims/tsconfig.build.json" },
+    { "path": "./packages/page-collator/tsconfig.build.json" },
+    { "path": "./packages/page-contracts/tsconfig.build.json" },
+    { "path": "./packages/page-council/tsconfig.build.json" },
+    { "path": "./packages/page-democracy/tsconfig.build.json" },
+    { "path": "./packages/page-explorer/tsconfig.build.json" },
+    { "path": "./packages/page-extrinsics/tsconfig.build.json" },
+    { "path": "./packages/page-fellowship/tsconfig.build.json" },
+    { "path": "./packages/page-files/tsconfig.build.json" },
+    { "path": "./packages/page-gilt/tsconfig.build.json" },
+    { "path": "./packages/page-js/tsconfig.build.json" },
+    { "path": "./packages/page-membership/tsconfig.build.json" },
+    { "path": "./packages/page-nfts/tsconfig.build.json" },
+    { "path": "./packages/page-nis/tsconfig.build.json" },
+    { "path": "./packages/page-parachains/tsconfig.build.json" },
+    { "path": "./packages/page-poll/tsconfig.build.json" },
+    { "path": "./packages/page-preimages/tsconfig.build.json" },
+    { "path": "./packages/page-ranked/tsconfig.build.json" },
+    { "path": "./packages/page-referenda/tsconfig.build.json" },
+    { "path": "./packages/page-rpc/tsconfig.build.json" },
+    { "path": "./packages/page-runtime/tsconfig.build.json" },
+    { "path": "./packages/page-scheduler/tsconfig.build.json" },
+    { "path": "./packages/page-settings/tsconfig.build.json" },
+    { "path": "./packages/page-signing/tsconfig.build.json" },
+    { "path": "./packages/page-society/tsconfig.build.json" },
+    { "path": "./packages/page-staking/tsconfig.build.json" },
+    { "path": "./packages/page-staking2/tsconfig.build.json" },
+    { "path": "./packages/page-storage/tsconfig.build.json" },
+    { "path": "./packages/page-sudo/tsconfig.build.json" },
+    { "path": "./packages/page-tech-comm/tsconfig.build.json" },
+    { "path": "./packages/page-treasury/tsconfig.build.json" },
+    { "path": "./packages/page-utilities/tsconfig.build.json" },
+    { "path": "./packages/page-whitelist/tsconfig.build.json" },
+    { "path": "./packages/react-api/tsconfig.build.json" },
+    { "path": "./packages/react-api/tsconfig.xref.json" },
+    { "path": "./packages/react-components/tsconfig.build.json" },
+    { "path": "./packages/react-components/tsconfig.spec.json" },
+    { "path": "./packages/react-components/tsconfig.xref.json" },
+    { "path": "./packages/react-hooks/tsconfig.build.json" },
+    { "path": "./packages/react-hooks/tsconfig.xref.json" },
+    { "path": "./packages/react-params/tsconfig.build.json" },
+    { "path": "./packages/react-params/tsconfig.xref.json" },
+    { "path": "./packages/react-query/tsconfig.build.json" },
+    { "path": "./packages/react-signer/tsconfig.build.json" },
+    { "path": "./packages/react-signer/tsconfig.xref.json" },
+    { "path": "./packages/test-support/tsconfig.build.json" }
+  ]
 }

@@ -7,7 +7,7 @@ import type { ComponentMap, ParamDef, RawParam, RawParamOnChangeValue, RawParams
 
 import React from 'react';
 
-import { statics } from '@polkadot/react-api';
+import { statics } from '@polkadot/react-api/statics';
 import { ErrorBoundary } from '@polkadot/react-components';
 import { stringify } from '@polkadot/util';
 
@@ -15,6 +15,8 @@ import Holder from './Holder.js';
 import ParamComp from './ParamComp.js';
 import translate from './translate.js';
 import { createValue } from './values.js';
+
+export * from './Named/index.js';
 
 interface Props extends I18nProps {
   children?: React.ReactNode;
@@ -25,7 +27,7 @@ interface Props extends I18nProps {
   onError?: () => void;
   onEscape?: () => void;
   overrides?: ComponentMap;
-  params: ParamDef[];
+  params?: ParamDef[];
   registry?: Registry;
   values?: RawParams | null;
   withBorder?: boolean;
@@ -44,7 +46,7 @@ class Params extends React.PureComponent<Props, State> {
     params: null
   };
 
-  public static getDerivedStateFromProps ({ isDisabled, params, registry = statics.api.registry, values }: Props, prevState: State): Pick<State, never> | null {
+  public static getDerivedStateFromProps ({ isDisabled, params = [], registry = statics.api.registry, values }: Props, prevState: State): Pick<State, never> | null {
     if (isDisabled || stringify(prevState.params) === stringify(params)) {
       return null;
     }
@@ -97,7 +99,7 @@ class Params extends React.PureComponent<Props, State> {
       >
         <ErrorBoundary onError={this.onRenderError}>
           <div className='ui--Params-Content'>
-            {values && params.map(({ name, type }: ParamDef, index: number): React.ReactNode => (
+            {values && params?.map(({ name, type }: ParamDef, index: number): React.ReactNode => (
               <ParamComp
                 defaultValue={values[index]}
                 index={index}

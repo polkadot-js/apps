@@ -8,7 +8,7 @@ import { EventEmitter } from 'eventemitter3';
 import store from 'store';
 
 import { Abi } from '@polkadot/api-contract';
-import { statics } from '@polkadot/react-api';
+import { statics } from '@polkadot/react-api/statics';
 import { isString } from '@polkadot/util';
 
 const KEY_CODE = 'code:';

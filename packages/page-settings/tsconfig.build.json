@@ -5,5 +5,10 @@
     "outDir": "./build",
     "rootDir": "./src"
   },
-  "references": []
+  "references": [
+    { "path": "../apps-config/tsconfig.build.json" },
+    { "path": "../react-api/tsconfig.build.json" },
+    { "path": "../react-components/tsconfig.build.json" },
+    { "path": "../react-components/tsconfig.xref.json" }
+  ]
 }

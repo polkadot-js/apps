@@ -6,8 +6,9 @@ import type { BN } from '@polkadot/util';
 
 import React, { useCallback, useState } from 'react';
 
-import { Button, Extrinsic, Icon, InputNumber, styled, Toggle, TxButton } from '@polkadot/react-components';
+import { Button, Icon, InputNumber, styled, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
+import { Extrinsic } from '@polkadot/react-params';
 import { BN_ZERO, isFunction } from '@polkadot/util';
 
 import { useTranslation } from './translate.js';

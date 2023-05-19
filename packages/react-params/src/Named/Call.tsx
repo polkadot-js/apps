@@ -8,14 +8,13 @@ import type { BN } from '@polkadot/util';
 
 import React, { useEffect, useState } from 'react';
 
+import { Static, styled } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
 import { FormatBalance } from '@polkadot/react-query';
 import { Enum, getTypeDef } from '@polkadot/types';
 
-import { balanceCalls, balanceCallsOverrides } from './constants.js';
-import Static from './Static.js';
-import { styled } from './styled.js';
-import { useTranslation } from './translate.js';
+import { balanceCalls, balanceCallsOverrides } from '../overrides.js';
+import { useTranslation } from '../translate.js';
 
 export interface Props {
   callName?: string;
@@ -25,7 +24,7 @@ export interface Props {
   labelSignature?: React.ReactNode;
   mortality?: string;
   onError?: () => void;
-  value: IExtrinsic | IMethod;
+  value?: IExtrinsic | IMethod | null;
   withBorder?: boolean;
   withExpander?: boolean;
   withHash?: boolean;
@@ -44,15 +43,15 @@ interface Value {
 }
 
 interface Extracted {
-  hash: string | null;
+  hash?: string | null;
   overrides?: ComponentMap;
-  params: Param[];
+  params?: Param[];
   signature: string | null;
   signatureType: string | null;
-  values: Value[];
+  values?: Value[];
 }
 
-function isExtrinsic (value: IExtrinsic | IMethod): value is IExtrinsic {
+function isExtrinsic (value: unknown): value is IExtrinsic {
   return !!(value as IExtrinsic).signature;
 }
 
@@ -62,20 +61,20 @@ function getRawSignature (value: IExtrinsic): ExtrinsicSignature | undefined {
   return (value as any)._raw?.signature?.multiSignature as ExtrinsicSignature;
 }
 
-function extractState (value: IExtrinsic | IMethod, withHash?: boolean, withSignature?: boolean, callName?: string): Extracted {
+function extractState (value?: IExtrinsic | IMethod | null, withHash?: boolean, withSignature?: boolean, callName?: string): Extracted {
   const overrides = callName && balanceCalls.includes(callName)
     ? balanceCallsOverrides
     : undefined;
-  const params = value.meta.args.map(({ name, type }): Param => ({
+  const params = value?.meta.args.map(({ name, type }): Param => ({
     name: name.toString(),
     type: getTypeDef(type.toString())
   }));
-  const values = value.args.map((value): Value => ({
+  const values = value?.args.map((value): Value => ({
     isValid: true,
     value
   }));
   const hash = withHash
-    ? value.hash.toHex()
+    ? value?.hash.toHex()
     : null;
   let signature: string | null = null;
   let signatureType: string | null = null;
@@ -107,7 +106,7 @@ function Call ({ callName, children, className = '', labelHash, labelSignature, 
         onError={onError}
         overrides={overrides}
         params={params}
-        registry={value.registry}
+        registry={value?.registry}
         values={values}
         withBorder={withBorder}
         withExpander={withExpander}
