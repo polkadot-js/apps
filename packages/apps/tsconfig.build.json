@@ -5,5 +5,15 @@
     "outDir": "./build",
     "rootDir": "./src"
   },
-  "references": []
+  "exclude": [
+    "public/*",
+    "webpack.*.cjs"
+  ],
+  "references": [
+    { "path": "../apps-config/tsconfig.build.json" },
+    { "path": "../apps-routing/tsconfig.build.json" },
+    { "path": "../react-components/tsconfig.build.json" },
+    { "path": "../react-components/tsconfig.xref.json" },
+    { "path": "../react-signer/tsconfig.build.json" }
+  ]
 }

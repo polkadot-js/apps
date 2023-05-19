@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { Abi } from '@polkadot/api-contract';
-import { statics } from '@polkadot/react-api';
+import { statics } from '@polkadot/react-api/statics';
 
 import { getAddressMeta } from './getAddressMeta.js';
 

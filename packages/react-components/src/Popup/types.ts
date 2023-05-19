@@ -3,7 +3,15 @@
 
 import type React from 'react';
 
+export interface ElementPosition {
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+}
+
 export type HorizontalPosition = 'left' | 'middle' | 'right'
+
 export type VerticalPosition = 'top' | 'bottom'
 
 export interface PopupWindowProps {

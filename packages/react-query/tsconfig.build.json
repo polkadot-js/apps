@@ -5,5 +5,7 @@
     "outDir": "./build",
     "rootDir": "./src"
   },
-  "references": []
+  "references": [
+    { "path": "../react-hooks/tsconfig.build.json" }
+  ]
 }

@@ -1,6 +1,9 @@
 // Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// we use augmented types in this tsconfig
+import '@polkadot/api-augment/substrate';
+
 export { createNamedHook } from './createNamedHook.js';
 export * from './ctx/index.js';
 export { useAccountId } from './useAccountId.js';

@@ -4,7 +4,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { Abi } from '@polkadot/api-contract';
-import { statics } from '@polkadot/react-api';
+import { statics } from '@polkadot/react-api/statics';
 import { createNamedHook } from '@polkadot/react-hooks';
 import { u8aToString } from '@polkadot/util';
 

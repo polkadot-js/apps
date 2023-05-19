@@ -10,9 +10,10 @@ import type { Referendum, ReferendumProps as Props } from '../types.js';
 
 import React, { useMemo } from 'react';
 
-import { CallExpander, Progress } from '@polkadot/react-components';
+import { Progress } from '@polkadot/react-components';
 import { useApi, usePreimage } from '@polkadot/react-hooks';
 import { getPreimageHash } from '@polkadot/react-hooks/usePreimage';
+import { CallExpander } from '@polkadot/react-params';
 
 import { useTranslation } from '../translate.js';
 import Deposits from './Deposits/index.js';

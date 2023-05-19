@@ -7,7 +7,7 @@ import type { AccountId, AccountIndex, Address } from '@polkadot/types/interface
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 
-import { statics } from '@polkadot/react-api';
+import { statics } from '@polkadot/react-api/statics';
 import { useDeriveAccountInfo, useSystemApi } from '@polkadot/react-hooks';
 import { AccountSidebarCtx } from '@polkadot/react-hooks/ctx/AccountSidebar';
 import { formatNumber, isCodec, isFunction, stringToU8a, u8aEmpty, u8aEq, u8aToBn } from '@polkadot/util';

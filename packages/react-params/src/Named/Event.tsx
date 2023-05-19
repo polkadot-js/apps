@@ -8,12 +8,12 @@ import type { Codec } from '@polkadot/types/types';
 
 import React, { useMemo } from 'react';
 
+import { Input } from '@polkadot/react-components';
+import { getContractAbi } from '@polkadot/react-components/util';
 import Params from '@polkadot/react-params';
 
-import { getContractAbi } from './util/index.js';
-import { balanceEvents, balanceEventsOverrides } from './constants.js';
-import Input from './Input.js';
-import { useTranslation } from './translate.js';
+import { balanceEvents, balanceEventsOverrides } from '../overrides.js';
+import { useTranslation } from '../translate.js';
 
 export interface Props {
   children?: React.ReactNode;

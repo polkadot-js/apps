@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Call, Extrinsic } from '@polkadot/types/interfaces';
@@ -6,8 +6,9 @@ import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
 
+import { Expander } from '@polkadot/react-components';
+
 import CallDisplay from './Call.js';
-import Expander from './Expander.js';
 
 interface Props {
   children?: React.ReactNode;

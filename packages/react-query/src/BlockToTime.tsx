@@ -6,7 +6,7 @@ import type { BN } from '@polkadot/util';
 
 import React from 'react';
 
-import { styled } from '@polkadot/react-components';
+import { styled } from '@polkadot/react-components/styled';
 import { useBlockTime } from '@polkadot/react-hooks';
 
 interface Props {

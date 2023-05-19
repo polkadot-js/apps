@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Call } from '@polkadot/types/interfaces';
@@ -8,8 +8,8 @@ import React from 'react';
 
 import { formatNumber, isString, isUndefined } from '@polkadot/util';
 
+import { useTranslation } from '../translate.js';
 import CallExpander from './CallExpander.js';
-import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;
