@@ -16,7 +16,6 @@
     { "path": "../apps-config/tsconfig.build.json" },
     { "path": "../react-api/tsconfig.xref.json" },
     { "path": "../react-components/tsconfig.build.json" },
-    { "path": "../react-components/tsconfig.xref.json" },
     { "path": "../react-hooks/tsconfig.build.json" },
     { "path": "../react-hooks/tsconfig.xref.json" },
     { "path": "../react-signer/tsconfig.xref.json" }

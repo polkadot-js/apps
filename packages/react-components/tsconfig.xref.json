@@ -17,7 +17,6 @@
   ],
   "references": [
     { "path": "../react-api/tsconfig.xref.json" },
-    { "path": "../react-hooks/tsconfig.xref.json" },
-    { "path": "../react-params/tsconfig.xref.json" }
+    { "path": "../react-hooks/tsconfig.xref.json" }
   ]
 }
