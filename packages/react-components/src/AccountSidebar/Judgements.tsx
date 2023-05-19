@@ -1,11 +1,12 @@
-// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
 
-import { styled, Tag } from '@polkadot/react-components';
 import { useJudgements } from '@polkadot/react-hooks';
 
+import { styled } from '../styled.js';
+import Tag from '../Tag.js';
 import { useTranslation } from '../translate.js';
 import JudgementTag from './JudgementTag.js';
 

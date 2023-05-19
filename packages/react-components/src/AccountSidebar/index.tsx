@@ -1,7 +1,9 @@
-// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useState } from 'react';
+
+import { AccountSidebarCtx } from '@polkadot/react-hooks/ctx/AccountSidebar';
 
 import Sidebar from './Sidebar.js';
 
@@ -11,11 +13,7 @@ interface Props {
 
 type State = [string | null, (() => void) | null];
 
-type SetStateContext = undefined | (([address, onUpdateName]: State) => void);
-
 const EMPTY_STATE: State = [null, null];
-
-export const AccountSidebarCtx = React.createContext<SetStateContext>(undefined);
 
 function AccountSidebar ({ children }: Props): React.ReactElement<Props> {
   const [[address, onUpdateName], setAddress] = useState<State>(EMPTY_STATE);

@@ -4,7 +4,7 @@
 import type { TFunction } from 'i18next';
 import type { Route } from './types.js';
 
-import Modal from '@polkadot/app-accounts/modals/Transfer';
+import { TransferModal as Modal } from '@polkadot/react-components';
 
 export default function create (t: TFunction): Route {
   return {

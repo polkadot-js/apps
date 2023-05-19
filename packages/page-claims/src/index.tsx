@@ -10,7 +10,7 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 import { Trans } from 'react-i18next';
 
 import { Button, Card, Columar, Input, InputAddress, styled, Tabs, Tooltip } from '@polkadot/react-components';
-import { TokenUnit } from '@polkadot/react-components/InputNumber';
+import { TokenUnit } from '@polkadot/react-components/InputConsts/units';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { u8aToHex, u8aToString } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';

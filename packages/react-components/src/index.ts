@@ -1,8 +1,10 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// named exports
 export { default as AccountIndex } from './AccountIndex.js';
 export { default as AccountName } from './AccountName.js';
+export { default as AccountSidebar } from './AccountSidebar/index.js';
 export { default as AddressInfo } from './AddressInfo.js';
 export { default as AddressMini } from './AddressMini.js';
 export { default as AddressRow } from './AddressRow.js';
@@ -91,7 +93,7 @@ export { default as Status } from './Status/index.js';
 export { styled } from './styled.js';
 export { default as SummaryBox } from './SummaryBox.js';
 export { default as Table } from './Table/index.js';
-export { default as Tabs, TabsCtx } from './Tabs/index.js';
+export { default as Tabs } from './Tabs/index.js';
 export { default as Tag } from './Tag.js';
 export { default as Tags } from './Tags.js';
 export { default as TextArea } from './TextArea.js';
@@ -101,4 +103,10 @@ export { default as Tooltip } from './Tooltip.js';
 export { default as TxButton } from './TxButton.js';
 export { default as VoteAccount } from './VoteAccount.js';
 export { default as VoteValue } from './VoteValue.js';
+
+// star exports
+export * from './modals/index.js';
+export * from './themes.js';
+
+// external exports
 export * from '@polkadot/react-qr';

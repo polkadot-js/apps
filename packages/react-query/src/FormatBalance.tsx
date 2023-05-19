@@ -7,7 +7,7 @@ import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
 
-import { styled } from '@polkadot/react-components/styled';
+import { styled } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { formatBalance, isString } from '@polkadot/util';
 

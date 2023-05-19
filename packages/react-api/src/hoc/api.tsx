@@ -6,9 +6,8 @@ import type { DefaultProps } from './types.js';
 
 import React from 'react';
 
+import { ApiCtx } from '@polkadot/react-hooks/ctx/Api';
 import { assert } from '@polkadot/util';
-
-import { ApiCtx } from '../Api.js';
 
 export default function withApi <P extends ApiProps> (Inner: React.ComponentType<P>, defaultProps: DefaultProps = {}): React.ComponentType<any> {
   class WithApi extends React.PureComponent<SubtractProps<P, ApiProps>> {

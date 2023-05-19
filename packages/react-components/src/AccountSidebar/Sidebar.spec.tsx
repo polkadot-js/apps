@@ -16,7 +16,7 @@ import { charlieShortAddress, ferdieShortAddress, mockRegistration, registrars }
 import { mockApiHooks } from '@polkadot/test-support/utils';
 import { keyring } from '@polkadot/ui-keyring';
 
-import { AccountsPage } from '../../test/pages/accountsPage.js';
+import { AccountsPage } from '../../../page-accounts/test/pages/accountsPage.js';
 
 // FIXME: these all need to be wrapped in waitFor ....
 describe.skip('Sidebar', () => {
