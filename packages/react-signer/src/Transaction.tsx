@@ -33,7 +33,6 @@ function Transaction ({ accountId, className, currentItem: { extrinsic, isUnsign
       hint={t<string>('The details of the transaction including the type, the description (as available from the chain metadata) as well as any parameters and fee estimations (as available) for the specific type of call.')}
     >
       <CallExpander
-        // @ts-expect-error This is a extracted types mismatch
         isHeader
         onError={onError}
         value={extrinsic}
