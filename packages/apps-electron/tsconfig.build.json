@@ -12,7 +12,6 @@
   ],
   "references": [
     { "path": "../apps/tsconfig.build.json" },
-    { "path": "../react-components/tsconfig.build.json" },
-    { "path": "../react-components/tsconfig.xref.json" }
+    { "path": "../react-components/tsconfig.build.json" }
   ]
 }

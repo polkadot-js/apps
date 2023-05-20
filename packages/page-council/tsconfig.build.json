@@ -8,7 +8,6 @@
   "references": [
     { "path": "../page-democracy/tsconfig.build.json" },
     { "path": "../react-components/tsconfig.build.json" },
-    { "path": "../react-components/tsconfig.xref.json" },
     { "path": "../react-params/tsconfig.build.json" }
   ]
 }

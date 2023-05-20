@@ -1,10 +1,10 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ComponentMap } from '@polkadot/react-params/types';
 import type { ExtrinsicSignature } from '@polkadot/types/interfaces';
 import type { Codec, IExtrinsic, IMethod, TypeDef } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
+import type { ComponentMap } from '../types.js';
 
 import React, { useEffect, useState } from 'react';
 

@@ -3,14 +3,15 @@
   "compilerOptions": {
     "baseUrl": "..",
     "outDir": "./build",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "emitDeclarationOnly": false,
+    "noEmit": true
   },
-  "exclude": [
+  "include": [
     "**/*.spec.ts",
-    "**/*.spec.tsx",
-    "**/test/**/*"
+    "**/*.spec.tsx"
   ],
   "references": [
-    { "path": "../react-components/tsconfig.build.json" }
+    { "path": "../page-claims/tsconfig.build.json" }
   ]
 }

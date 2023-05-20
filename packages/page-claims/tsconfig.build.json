@@ -5,9 +5,12 @@
     "outDir": "./build",
     "rootDir": "./src"
   },
+  "exclude": [
+    "**/*.spec.ts",
+    "**/*.spec.tsx"
+  ],
   "references": [
     { "path": "../react-api/tsconfig.xref.json" },
-    { "path": "../react-components/tsconfig.build.json" },
-    { "path": "../react-components/tsconfig.xref.json" }
+    { "path": "../react-components/tsconfig.build.json" }
   ]
 }
