@@ -16,7 +16,7 @@ import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
 
-type PrevProxy = [AccountId | null, KitchensinkRuntimeProxyType];
+type PrevProxyProp = [AccountId | null, KitchensinkRuntimeProxyType];
 
 interface Props {
   className?: string;
@@ -28,7 +28,7 @@ interface Props {
 interface ValueProps {
   index: number;
   typeOpts: { text: string; value: number }[];
-  value: PrevProxy;
+  value: PrevProxyProp;
 }
 
 interface NewProxyProps extends ValueProps {
@@ -168,8 +168,8 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
   const [batchPrevious, setBatchPrevious] = useState<SubmittableExtrinsic<'promise'>[]>([]);
   const [batchAdded, setBatchAdded] = useState<SubmittableExtrinsic<'promise'>[]>([]);
   const [txs, setTxs] = useState<SubmittableExtrinsic<'promise'>[] | null>(null);
-  const [previous, setPrevious] = useState<PrevProxy[]>(() => existing.map(({ delegate, proxyType }) => [delegate, proxyType]));
-  const [added, setAdded] = useState<PrevProxy[]>([]);
+  const [previous, setPrevious] = useState<PrevProxyProp[]>(() => existing.map(({ delegate, proxyType }) => [delegate, proxyType]));
+  const [added, setAdded] = useState<PrevProxyProp[]>([]);
   const extrinsics = useTxBatch(txs, BATCH_OPTS);
 
   const reservedAmount = useMemo(

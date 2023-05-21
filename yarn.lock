@@ -390,10 +390,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/js@npm:8.40.0, @eslint/js@npm:^8.40.0":
-  version: 8.40.0
-  resolution: "@eslint/js@npm:8.40.0"
-  checksum: e84936b8ebd1c8fd90e860182e95d1404006da4cbca722b14950b298aeeca102b080aa9b62c8e69f90824ec54e19f1ba79b239046223624d1414ee82e8e628ac
+"@eslint/js@npm:8.41.0, @eslint/js@npm:^8.41.0":
+  version: 8.41.0
+  resolution: "@eslint/js@npm:8.41.0"
+  checksum: af013d70fe8d0429cdf5cd8b5dcc6fc384ed026c1eccb0cfe30f5849b968ab91645111373fd1b83282b38955b1bdfbe667c1a7dbda3b06cae753521223cad775
   languageName: node
   linkType: hard
 
@@ -1865,7 +1865,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/apps-electron@workspace:packages/apps-electron"
   dependencies:
-    "@polkadot/dev": ^0.74.1
+    "@polkadot/dev": ^0.75.2
     "@polkadot/react-components": ^0.130.2-15-x
     "@types/tmp": ^0.2.3
     copy-webpack-plugin: ^11.0.0
@@ -1897,7 +1897,7 @@ __metadata:
   dependencies:
     "@polkadot/apps-config": ^0.130.2-15-x
     "@polkadot/apps-routing": ^0.130.2-15-x
-    "@polkadot/dev": ^0.74.1
+    "@polkadot/dev": ^0.75.2
     "@polkadot/react-api": ^0.130.2-15-x
     "@polkadot/react-components": ^0.130.2-15-x
     "@polkadot/react-hooks": ^0.130.2-15-x
@@ -1931,34 +1931,34 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev-test@npm:^0.74.1":
-  version: 0.74.1
-  resolution: "@polkadot/dev-test@npm:0.74.1"
+"@polkadot/dev-test@npm:^0.75.2":
+  version: 0.75.2
+  resolution: "@polkadot/dev-test@npm:0.75.2"
   dependencies:
     jsdom: ^22.0.0
-    tslib: ^2.5.1
-  checksum: b7b532bb068ae4616ac1359c5ba63c3d9ff28936d23281eb9d316ca9efa81e4b10672336b66ad2314de2dccea04877632aa56f6e725d8c8e41522f0eb09dcd40
+    tslib: ^2.5.2
+  checksum: e20e2488f138c9691daf3e8f6787c922e94374a3242a854ce48fe29b49c6b4bd7fbc1b244f205060652927670caf2577fad56883bb6dbbc143e1499bfddd2641
   languageName: node
   linkType: hard
 
-"@polkadot/dev-ts@npm:^0.74.1":
-  version: 0.74.1
-  resolution: "@polkadot/dev-ts@npm:0.74.1"
+"@polkadot/dev-ts@npm:^0.75.2":
+  version: 0.75.2
+  resolution: "@polkadot/dev-ts@npm:0.75.2"
   dependencies:
     json5: ^2.2.3
-    tslib: ^2.5.1
+    tslib: ^2.5.2
     typescript: ^5.0.4
-  checksum: 6e1c21dc15cf958033ce59c577474c24f0bad61210cd9fa0eed821ba222e736a4c7688e367b9cba1f42c848884182682732fbc333330cbd6a2b5bc5acf09e915
+  checksum: cd01aaca014ccb0ea064511ae52c7dd6ebd7115e64cb9f15bebfc8d6295cf9fd5ffdb2fc78e7cb5e46a346e6a2f513c6fec4cf5dc9a9626577547ef68f33cac7
   languageName: node
   linkType: hard
 
-"@polkadot/dev@npm:^0.74.1":
-  version: 0.74.1
-  resolution: "@polkadot/dev@npm:0.74.1"
+"@polkadot/dev@npm:^0.75.2":
+  version: 0.75.2
+  resolution: "@polkadot/dev@npm:0.75.2"
   dependencies:
-    "@eslint/js": ^8.40.0
-    "@polkadot/dev-test": ^0.74.1
-    "@polkadot/dev-ts": ^0.74.1
+    "@eslint/js": ^8.41.0
+    "@polkadot/dev-test": ^0.75.2
+    "@polkadot/dev-ts": ^0.75.2
     "@rollup/plugin-alias": ^5.0.0
     "@rollup/plugin-commonjs": ^25.0.0
     "@rollup/plugin-dynamic-import-vars": ^2.0.3
@@ -1969,7 +1969,7 @@ __metadata:
     "@tsconfig/strictest": ^2.0.1
     "@typescript-eslint/eslint-plugin": ^5.59.6
     "@typescript-eslint/parser": ^5.59.6
-    eslint: ^8.40.0
+    eslint: ^8.41.0
     eslint-config-standard: ^17.0.0
     eslint-import-resolver-node: ^0.3.7
     eslint-plugin-deprecation: ^1.4.1
@@ -1985,6 +1985,7 @@ __metadata:
     eslint-plugin-sort-destructure-keys: ^1.5.0
     gh-pages: ^5.0.0
     gh-release: ^7.0.2
+    globals: ^13.20.0
     json5: ^2.2.3
     madge: ^6.0.0
     react: ^18.2.0
@@ -1993,7 +1994,7 @@ __metadata:
     rollup: ^3.22.0
     rollup-plugin-cleanup: ^3.2.1
     styled-components: ^5.3.10
-    tslib: ^2.5.1
+    tslib: ^2.5.2
     typescript: ^5.0.4
     webpack: ^5.83.1
     webpack-cli: ^5.1.1
@@ -2025,7 +2026,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 89c8cd6ae49c509a24b4daf280f03da555d06c21758d40dcaac22fe95bdf221fd12370e7bd60c7872659e01ec549e0c017902362a1813bf116821e1abf155f6f
+  checksum: 389694c7080aae84f36362991c77059422f80ab647dec11ce28a3bb7cc2d9809c789336780a63b28296795359585d36c1172ed6f37fbe294f7bd973ba755557c
   languageName: node
   linkType: hard
 
@@ -8172,14 +8173,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.40.0":
-  version: 8.40.0
-  resolution: "eslint@npm:8.40.0"
+"eslint@npm:^8.41.0":
+  version: 8.41.0
+  resolution: "eslint@npm:8.41.0"
   dependencies:
     "@eslint-community/eslint-utils": ^4.2.0
     "@eslint-community/regexpp": ^4.4.0
     "@eslint/eslintrc": ^2.0.3
-    "@eslint/js": 8.40.0
+    "@eslint/js": 8.41.0
     "@humanwhocodes/config-array": ^0.11.8
     "@humanwhocodes/module-importer": ^1.0.1
     "@nodelib/fs.walk": ^1.2.8
@@ -8199,13 +8200,12 @@ __metadata:
     find-up: ^5.0.0
     glob-parent: ^6.0.2
     globals: ^13.19.0
-    grapheme-splitter: ^1.0.4
+    graphemer: ^1.4.0
     ignore: ^5.2.0
     import-fresh: ^3.0.0
     imurmurhash: ^0.1.4
     is-glob: ^4.0.0
     is-path-inside: ^3.0.3
-    js-sdsl: ^4.1.4
     js-yaml: ^4.1.0
     json-stable-stringify-without-jsonify: ^1.0.1
     levn: ^0.4.1
@@ -8218,7 +8218,7 @@ __metadata:
     text-table: ^0.2.0
   bin:
     eslint: bin/eslint.js
-  checksum: b79eba37f52f517a420eec99a80ae9f284d2cbe73afc0d4d3d4d5ed1cce0b06f21badc0374bfb7ac239efd2d49a1fd7c6111d6c3d52888521f377ba33de77e61
+  checksum: 09979a6f8451dcc508a7005b6670845c8a518376280b3fd96657a406b8b6ef29d0e480d1ba11b4eb48da93d607e0c55c9b877676fe089d09973ec152354e23b2
   languageName: node
   linkType: hard
 
@@ -9479,12 +9479,12 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"globals@npm:^13.19.0":
-  version: 13.19.0
-  resolution: "globals@npm:13.19.0"
+"globals@npm:^13.19.0, globals@npm:^13.20.0":
+  version: 13.20.0
+  resolution: "globals@npm:13.20.0"
   dependencies:
     type-fest: ^0.20.2
-  checksum: a000dbd00bcf28f0941d8a29c3522b1c3b8e4bfe4e60e262c477a550c3cbbe8dbe2925a6905f037acd40f9a93c039242e1f7079c76b0fd184bc41dcc3b5c8e2e
+  checksum: ad1ecf914bd051325faad281d02ea2c0b1df5d01bd94d368dcc5513340eac41d14b3c61af325768e3c7f8d44576e72780ec0b6f2d366121f8eec6e03c3a3b97a
   languageName: node
   linkType: hard
 
@@ -9656,6 +9656,13 @@ fsevents@~2.3.2:
   version: 1.0.4
   resolution: "grapheme-splitter@npm:1.0.4"
   checksum: 0c22ec54dee1b05cd480f78cf14f732cb5b108edc073572c4ec205df4cd63f30f8db8025afc5debc8835a8ddeacf648a1c7992fe3dcd6ad38f9a476d84906620
+  languageName: node
+  linkType: hard
+
+"graphemer@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "graphemer@npm:1.4.0"
+  checksum: bab8f0be9b568857c7bec9fda95a89f87b783546d02951c40c33f84d05bb7da3fd10f863a9beb901463669b6583173a8c8cc6d6b306ea2b9b9d5d3d943c3a673
   languageName: node
   linkType: hard
 
@@ -11222,13 +11229,6 @@ fsevents@~2.3.2:
     perf-regexes: ^1.0.1
     skip-regex: ^1.0.2
   checksum: eea17bce5157f66c1415a5e537f89dfbc15c4e4a36e638bc09db48e70ca0efd6f85331d8f6154817a17057304d56db82478c8dfdac8ee39dc481302f93abd59d
-  languageName: node
-  linkType: hard
-
-"js-sdsl@npm:^4.1.4":
-  version: 4.1.4
-  resolution: "js-sdsl@npm:4.1.4"
-  checksum: 1977cea4ab18e0e03e28bdf0371d8b443fad65ca0988e0faa216406faf6bb943714fe8f7cc7a5bfe5f35ba3d94ddae399f4d10200f547f2c3320688b0670d726
   languageName: node
   linkType: hard
 
@@ -13731,7 +13731,7 @@ fsevents@~2.3.2:
   dependencies:
     "@crustio/crust-pin": ^1.0.0
     "@pinata/sdk": ^1.2.1
-    "@polkadot/dev": ^0.74.1
+    "@polkadot/dev": ^0.75.2
     "@types/chart.js": ^2.9.37
     "@types/file-saver": ^2.0.5
     "@types/react-beautiful-dnd": ^13.1.4
@@ -16875,7 +16875,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.3.1, tslib@npm:^2.4.0, tslib@npm:^2.5.0, tslib@npm:^2.5.1":
+"tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.3.1, tslib@npm:^2.4.0, tslib@npm:^2.5.0, tslib@npm:^2.5.2":
   version: 2.5.2
   resolution: "tslib@npm:2.5.2"
   checksum: 4d3c1e238b94127ed0e88aa0380db3c2ddae581dc0f4bae5a982345e9f50ee5eda90835b8bfba99b02df10a5734470be197158c36f9129ac49fdc14a6a9da222

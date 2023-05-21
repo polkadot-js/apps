@@ -61,6 +61,7 @@ describe('Modal Component', () => {
     await i18next.changeLanguage('en');
   });
 
+  // eslint-disable-next-line jest/expect-expect
   it('opens and closes modal', async () => {
     renderModal();
 
@@ -73,6 +74,7 @@ describe('Modal Component', () => {
     });
   });
 
+  // eslint-disable-next-line jest/expect-expect
   it('renders all modal sections', async () => {
     renderModal();
 
@@ -87,6 +89,7 @@ describe('Modal Component', () => {
     });
   });
 
+  // eslint-disable-next-line jest/expect-expect
   it('closes modal with ESC button', async () => {
     renderModal();
 

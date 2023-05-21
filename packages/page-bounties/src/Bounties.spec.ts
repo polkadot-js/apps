@@ -3,6 +3,8 @@
 
 /// <reference types="@polkadot/dev-test/globals.d.ts" />
 
+/* eslint-disable jest/expect-expect */
+
 import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
@@ -431,7 +433,7 @@ describe('Bounties', () => {
   });
 
   describe('award beneficiary action modal', () => {
-    it('awards the beneficiary ', async () => {
+    it('awards the beneficiary', async () => {
       const bounty = aBounty({ status: bountyStatusWith({ curator: alice }) });
 
       bountiesPage.renderOne(bounty);

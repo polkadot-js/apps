@@ -104,4 +104,6 @@ export * from './modals/index.js';
 export * from './themes.js';
 
 // external exports
+// See https://github.com/import-js/eslint-plugin-import/issues/2556
+// eslint-disable-next-line import/export
 export * from '@polkadot/react-qr';

@@ -57,7 +57,7 @@ function isExtrinsic (value: unknown): value is IExtrinsic {
 
 // This is no doubt NOT the way to do things - however there is no other option
 function getRawSignature (value: IExtrinsic): ExtrinsicSignature | undefined {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
   return (value as any)._raw?.signature?.multiSignature as ExtrinsicSignature;
 }
 

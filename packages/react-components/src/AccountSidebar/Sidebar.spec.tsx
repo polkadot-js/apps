@@ -19,6 +19,7 @@ import { keyring } from '@polkadot/ui-keyring';
 import { AccountsPage } from '../../../page-accounts/test/pages/accountsPage.js';
 
 // FIXME: these all need to be wrapped in waitFor ....
+// eslint-disable-next-line jest/no-disabled-tests
 describe.skip('Sidebar', () => {
   let accountsPage: AccountsPage;
   let sideBar: Sidebar;
@@ -61,10 +62,12 @@ describe.skip('Sidebar', () => {
         expect(changedAccount?.meta?.name).toEqual(newName);
       });
 
+      // eslint-disable-next-line jest/expect-expect
       it('within sidebar', async () => {
         await sideBar.assertAccountName(newName);
       });
 
+      // eslint-disable-next-line jest/expect-expect
       it('within account row', async () => {
         const accountRows = await accountsPage.getAccountRows();
 
@@ -78,7 +81,7 @@ describe.skip('Sidebar', () => {
       await sideBar.clickByText('none');
       expect(sideBar.queryByRole('combobox')).toBeFalsy();
 
-      await expect(sideBar.typeAccountName(newName)).rejects.toThrowError(nameInputNotFoundError);
+      await expect(sideBar.typeAccountName(newName)).rejects.toThrow(nameInputNotFoundError);
     });
 
     it('when isEditable is false account name is not editable', async () => {
@@ -88,7 +91,7 @@ describe.skip('Sidebar', () => {
       sideBar = await accountsPage.openSidebarForRow(0);
       sideBar.edit();
 
-      await expect(sideBar.typeAccountName(newName)).rejects.toThrowError(nameInputNotFoundError);
+      await expect(sideBar.typeAccountName(newName)).rejects.toThrow(nameInputNotFoundError);
     });
 
     describe('on edit cancel', () => {
@@ -102,6 +105,7 @@ describe.skip('Sidebar', () => {
         sideBar.edit();
       });
 
+      // eslint-disable-next-line jest/expect-expect
       it('restores tags and name to state from keyring', async () => {
         await sideBar.typeAccountName(newName);
         await sideBar.selectTag(defaultTag);
@@ -145,6 +149,7 @@ describe.skip('Sidebar', () => {
         expect(sideBar.queryByRole('button', { name: 'Cancel' })).toBeTruthy();
       });
 
+      // eslint-disable-next-line jest/expect-expect
       it('cancels editing and changes name when opening sidebar for another account', async () => {
         await waitFor(() => sideBar.assertAccountInput('alice'));
 
@@ -188,6 +193,7 @@ describe.skip('Sidebar', () => {
           expect(subAccount).toHaveTextContent('BOB');
         });
 
+        // eslint-disable-next-line jest/expect-expect
         it('displays picked sub in sidebar', async () => {
           const subAccount = subs[0].childNodes[1];
 
@@ -199,6 +205,7 @@ describe.skip('Sidebar', () => {
     });
 
     describe('judgements', () => {
+      // eslint-disable-next-line jest/expect-expect
       it('displays several judgements', async () => {
         mockApiHooks.setJudgements(mockRegistration.judgements as RegistrationJudgement[]);
         accountsPage.renderDefaultAccounts(1);
@@ -209,6 +216,7 @@ describe.skip('Sidebar', () => {
         await sideBar.assertJudgement('1 Erroneous');
       });
 
+      // eslint-disable-next-line jest/expect-expect
       it('displays no judgements', async () => {
         accountsPage.renderDefaultAccounts(1);
         sideBar = await accountsPage.openSidebarForRow(0);
@@ -227,12 +235,14 @@ describe.skip('Sidebar', () => {
           sideBar = await accountsPage.openSidebarForRow(0);
         });
 
+        // eslint-disable-next-line jest/expect-expect
         it('singular registrar', async () => {
           const judgementTag = await sideBar.getJudgement('1 Known good');
 
           await judgementTag.assertRegistrars([charlieShortAddress]);
         });
 
+        // eslint-disable-next-line jest/expect-expect
         it('multiple registrars', async () => {
           const judgementTag = await sideBar.getJudgement('2 Reasonable');
 

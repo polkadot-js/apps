@@ -1,6 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type React from 'react';
 import type { Registry, TypeDef } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
 
