@@ -84,6 +84,7 @@ jobs:
         # GitHub token, automatically provided to the action
         # (No need to define this secret in the repo settings)
         github_token: ${{ secrets.GITHUB_TOKEN }}
+        args: '--project packages/apps-electron'
         build_script_name: build:release:electron
         # If the commit is tagged with a version (e.g. "v1.0.0"),
         # release the app after building

@@ -1,5 +1,7 @@
 {
+  "author": "Jaco Greeff <jacogr@gmail.com>",
   "bugs": "https://github.com/polkadot-js/apps/issues",
+  "description": "An Apps portal into the Polkadot network",
   "engines": {
     "node": ">=16"
   },
@@ -14,6 +16,7 @@
   },
   "sideEffects": false,
   "version": "0.130.2-16-x",
+  "main": "build/electron.js",
   "dependencies": {
     "@polkadot/dev": "^0.75.2",
     "@polkadot/react-components": "^0.130.2-16-x",
@@ -26,6 +29,9 @@
   "devDependencies": {
     "@types/tmp": "^0.2.3",
     "copy-webpack-plugin": "^11.0.0",
+    "electron": "24.2.0",
+    "electron-builder": "23.6.0",
+    "electron-builder-notarize": "^1.5.1",
     "html-webpack-plugin": "^5.5.1",
     "tmp": "^0.2.1"
   },
