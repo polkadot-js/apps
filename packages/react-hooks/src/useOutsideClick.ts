@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { RefObject } from 'react';
+import type React from 'react';
 
 import { useCallback, useEffect } from 'react';
 
@@ -14,7 +14,7 @@ function isRefClicked (refs: React.RefObject<HTMLDivElement>[], e: MouseEvent): 
   );
 }
 
-function useOutsideClickImpl (refs: RefObject<HTMLDivElement>[], callback: () => void): void {
+function useOutsideClickImpl (refs: React.RefObject<HTMLDivElement>[], callback: () => void): void {
   const handleClick = useCallback(
     (e: MouseEvent): void => {
       if (refs.length && !isRefClicked(refs, e)) {

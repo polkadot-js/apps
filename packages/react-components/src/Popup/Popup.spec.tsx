@@ -42,6 +42,7 @@ describe('Popup Component', () => {
     await i18next.changeLanguage('en');
   });
 
+  // eslint-disable-next-line jest/expect-expect
   it('opens and closes', async () => {
     renderPopup();
 
@@ -54,6 +55,7 @@ describe('Popup Component', () => {
     });
   });
 
+  // eslint-disable-next-line jest/expect-expect
   it('closes popup with outside click', async () => {
     renderPopup();
 

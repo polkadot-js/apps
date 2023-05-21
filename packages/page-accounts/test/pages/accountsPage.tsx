@@ -1,6 +1,8 @@
 // Copyright 2017-2023 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/* global expect */
+
 import type { Sidebar } from '@polkadot/test-support/pagesElements';
 import type { AccountOverrides } from '@polkadot/test-support/types';
 

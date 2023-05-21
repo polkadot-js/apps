@@ -1,6 +1,8 @@
 // Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/* global jest, expect */
+
 import type { RenderResult } from '@testing-library/react';
 import type { ApiPromise } from '@polkadot/api';
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';

@@ -18,13 +18,13 @@ import Transfer from './Transfer.js';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore This looks correct in the editor, but incorrect in composite mode
-interface Account extends PalletAssetsAssetAccount {
+interface AccountExt extends PalletAssetsAssetAccount {
   isFrozen?: bool;
   sufficient?: bool
 }
 
 interface Props {
-  account: Account;
+  account: AccountExt;
   accountId: string;
   assetId: BN;
   className?: string;

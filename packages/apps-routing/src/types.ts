@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
+import type React from 'react';
 import type { ApiPromise } from '@polkadot/api';
 import type { AppProps, BareProps } from '@polkadot/react-components/types';
 

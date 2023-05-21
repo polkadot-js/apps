@@ -93,7 +93,7 @@ describe('urls are not duplicated', (): void => {
     }, {} as Record<string, string[]>);
 
   for (const [url, paths] of Object.entries<string[]>(map)) {
-    it(url, (): void => {
+    it(`${url}`, (): void => {
       assert(paths.length === 1, `${url} appears multiple times - ${paths.map((p) => `\n\t"${p}"`).join('')}`);
     });
   }
@@ -118,7 +118,7 @@ describe('endpopints naming', (): void => {
     }), {});
 
   for (const [key, { name, provider }] of Object.entries<Endpoint>(endpoints)) {
-    describe(key, (): void => {
+    describe(`${key}`, (): void => {
       it(`[${key}] has no emojis`, (): void => {
         assert(!emoji.test(name), `${name} should not contain any emojis`);
         assert(!emoji.test(provider), `${name}:: ${provider} should not contain any emojis`);

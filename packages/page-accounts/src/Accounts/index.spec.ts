@@ -25,6 +25,7 @@ import { BN } from '@polkadot/util';
 import { AccountsPage } from '../../test/pages/accountsPage.js';
 
 // FIXME isSplit Table
+// eslint-disable-next-line jest/no-disabled-tests
 describe.skip('Accounts page', () => {
   let accountsPage: AccountsPage;
 
@@ -46,6 +47,7 @@ describe.skip('Accounts page', () => {
       accountsPage.render([]);
     });
 
+    // eslint-disable-next-line jest/expect-expect
     it('shows sort-by controls', async () => {
       await accountsPage.reverseSortingOrder();
     });
@@ -62,6 +64,7 @@ describe.skip('Accounts page', () => {
       expect(accountRows).toHaveLength(0);
     });
 
+    // eslint-disable-next-line jest/expect-expect
     it('the accounts table contains a message about no accounts available', async () => {
       const noAccountsMessage = 'You don\'t have any accounts. Some features are currently hidden and will only become available once you have accounts.';
       const accountsTable = await accountsPage.getTable();
@@ -84,6 +87,7 @@ describe.skip('Accounts page', () => {
       expect(accountRows).toHaveLength(2);
     });
 
+    // eslint-disable-next-line jest/expect-expect
     it('account rows display the total balance info', async () => {
       accountsPage.renderAccountsWithDefaultAddresses(
         anAccountWithBalance({ freeBalance: balance(500) }),
@@ -96,6 +100,7 @@ describe.skip('Accounts page', () => {
       await rows[1].assertBalancesTotal(balance(350));
     });
 
+    // eslint-disable-next-line jest/expect-expect
     it('account rows display the details balance info', async () => {
       accountsPage.renderAccountsWithDefaultAddresses(
         anAccountWithBalance({ freeBalance: balance(500), lockedBalance: balance(30) }),
@@ -113,6 +118,7 @@ describe.skip('Accounts page', () => {
     });
 
     // FIXME multiple tables
+    // eslint-disable-next-line jest/no-disabled-tests
     it.skip('derived account displays parent account info', async () => {
       accountsPage.renderAccountsWithDefaultAddresses(
         anAccountWithMeta({ isInjected: true, name: 'ALICE', whenCreated: 200 }),
@@ -126,6 +132,7 @@ describe.skip('Accounts page', () => {
     });
 
     // FIXME broken after column rework
+    // eslint-disable-next-line jest/no-disabled-tests, jest/expect-expect
     it.skip('a separate column for parent account is not displayed', async () => {
       accountsPage.renderDefaultAccounts(1);
       const accountsTable = await accountsPage.getTable();
@@ -146,6 +153,7 @@ describe.skip('Accounts page', () => {
       await accountRows[0].assertShortAddress(aliceShortAddress);
     });
 
+    // eslint-disable-next-line jest/expect-expect
     it('when account is not tagged, account row details displays none info', async () => {
       accountsPage.renderDefaultAccounts(1);
       const rows = await accountsPage.getAccountRows();
@@ -153,6 +161,7 @@ describe.skip('Accounts page', () => {
       await rows[0].assertTags('none');
     });
 
+    // eslint-disable-next-line jest/expect-expect
     it('when account is tagged, account row details displays tags', async () => {
       accountsPage.renderAccountsWithDefaultAddresses(
         anAccountWithInfo({ tags: ['my tag', 'Super Tag'] })
@@ -295,6 +304,7 @@ describe.skip('Accounts page', () => {
     });
 
     // FIXME multiple tables now
+    // eslint-disable-next-line jest/no-disabled-tests
     describe.skip('when sorting is used', () => {
       let accountsTable: Table;
 
@@ -320,26 +330,31 @@ describe.skip('Accounts page', () => {
           .toHaveTextContent('balances');
       });
 
+      // eslint-disable-next-line jest/expect-expect
       it('sorts by parent if asked', async () => {
         await accountsPage.sortBy('parent');
         await accountsTable.assertRowsOrder([3, 1, 2]);
       });
 
+      // eslint-disable-next-line jest/expect-expect
       it('sorts by name if asked', async () => {
         await accountsPage.sortBy('name');
         await accountsTable.assertRowsOrder([3, 2, 1]);
       });
 
+      // eslint-disable-next-line jest/expect-expect
       it('sorts by date if asked', async () => {
         await accountsPage.sortBy('date');
         await accountsTable.assertRowsOrder([3, 1, 2]);
       });
 
+      // eslint-disable-next-line jest/expect-expect
       it('sorts by balances if asked', async () => {
         await accountsPage.sortBy('balances');
         await accountsTable.assertRowsOrder([1, 2, 3]);
       });
 
+      // eslint-disable-next-line jest/expect-expect
       it('implements stable sort', async () => {
         await accountsPage.sortBy('name');
         await accountsTable.assertRowsOrder([3, 2, 1]);
@@ -347,6 +362,7 @@ describe.skip('Accounts page', () => {
         await accountsTable.assertRowsOrder([1, 2, 3]);
       });
 
+      // eslint-disable-next-line jest/expect-expect
       it('respects reverse button', async () => {
         await accountsPage.sortBy('name');
         await accountsTable.assertRowsOrder([3, 2, 1]);
@@ -394,14 +410,17 @@ describe.skip('Accounts page', () => {
           await aliceRow.assertAccountName('ALICE');
         });
 
+        // eslint-disable-next-line jest/expect-expect
         it('the development badge is displayed', async () => {
           await aliceRow.assertBadge('wrench-badge');
         });
 
+        // eslint-disable-next-line jest/expect-expect
         it('the all networks badge is not displayed', () => {
           aliceRow.assertNoBadge('exclamation-triangle-badge');
         });
 
+        // eslint-disable-next-line jest/expect-expect
         it('the regular badge is not displayed', () => {
           aliceRow.assertNoBadge('transparent-badge');
         });
@@ -415,14 +434,17 @@ describe.skip('Accounts page', () => {
           await bobRow.assertAccountName('BOB');
         });
 
+        // eslint-disable-next-line jest/expect-expect
         it('the development badge is not displayed', () => {
           bobRow.assertNoBadge('wrench-badge');
         });
 
+        // eslint-disable-next-line jest/expect-expect
         it('the all networks badge is displayed', async () => {
           await bobRow.assertBadge('exclamation-triangle-badge');
         });
 
+        // eslint-disable-next-line jest/expect-expect
         it('the regular badge is not displayed', () => {
           bobRow.assertNoBadge('transparent-badge');
         });
@@ -437,14 +459,17 @@ describe.skip('Accounts page', () => {
         accountRows = await accountsPage.getAccountRows();
       });
 
+      // eslint-disable-next-line jest/expect-expect
       it('the development badge is not displayed', () => {
         accountRows[0].assertNoBadge('wrench-badge');
       });
 
+      // eslint-disable-next-line jest/expect-expect
       it('the all networks badge is not displayed', () => {
         accountRows[0].assertNoBadge('exclamation-triangle-badge');
       });
 
+      // eslint-disable-next-line jest/expect-expect
       it('the regular badge is displayed', async () => {
         await accountRows[0].assertBadge('badge');
       });
@@ -458,6 +483,7 @@ describe.skip('Accounts page', () => {
         accountRows = await accountsPage.getAccountRows();
       });
 
+      // eslint-disable-next-line jest/expect-expect
       it('development', async () => {
         await accountRows[0].assertBadge('wrench-badge');
         const badgePopup = getPopupById(/wrench-badge-hover.*/);
@@ -510,7 +536,7 @@ describe.skip('Accounts page', () => {
       const badgePopup = accountsPage.getById(popupId);
 
       if (!badgePopup) {
-        fail('badge popup should be found');
+        throw new Error('badge popup should be found');
       }
 
       return badgePopup;

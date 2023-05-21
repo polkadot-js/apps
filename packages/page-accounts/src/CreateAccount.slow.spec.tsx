@@ -46,6 +46,7 @@ const renderAccounts = () => {
   );
 };
 
+// eslint-disable-next-line jest/no-disabled-tests
 describe.skip('--SLOW--: Account Create', () => {
   it('created account is added to list', async () => {
     const { findByTestId, findByText, queryByText } = renderAccounts();

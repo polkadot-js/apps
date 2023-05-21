@@ -33,6 +33,7 @@ describe('Create an account modal', () => {
     accountsPage = new AccountsPage();
   });
 
+  // eslint-disable-next-line jest/expect-expect
   it('creates an account', async () => {
     await accountsPage.enterCreateAccountModal();
 
@@ -52,6 +53,7 @@ describe('Create an account modal', () => {
     expectCreateAnAccountCall();
   });
 
+  // eslint-disable-next-line jest/expect-expect
   it('navigates through the modal flow with enter key', async () => {
     await accountsPage.enterCreateAccountModal();
 
@@ -72,6 +74,7 @@ describe('Create an account modal', () => {
     expectCreateAnAccountCall();
   });
 
+  // eslint-disable-next-line jest/expect-expect
   it('gives an error message when entering invalid derivation path', async () => {
     await accountsPage.enterCreateAccountModal();
 
@@ -105,7 +108,7 @@ function pressEnterKey () {
 }
 
 function expectCreateAnAccountCall () {
-  expect(spy).toBeCalledWith(
+  expect(spy).toHaveBeenCalledWith(
     expect.anything(),
     newAccountPassword,
     expect.objectContaining({
