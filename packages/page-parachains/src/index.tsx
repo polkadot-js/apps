@@ -14,6 +14,7 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 
 import Auctions from './Auctions/index.js';
 import Crowdloan from './Crowdloan/index.js';
+import Disputes from './Disputes/index.js';
 import Overview from './Overview/index.js';
 import Parathreads from './Parathreads/index.js';
 import Proposals from './Proposals/index.js';
@@ -99,6 +100,12 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
               />
             }
             path='crowdloan'
+          />
+          <Route
+            element={
+              <Disputes />
+            }
+            path='disputes'
           />
           <Route
             element={
