@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 0.131.2 May 23, 2023
+
+Changes:
+
+- Attempt fix for electron build
+
+
 ## 0.131.1 May 23, 2023
 
 Contributed:

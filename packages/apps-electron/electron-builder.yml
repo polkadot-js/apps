@@ -9,7 +9,7 @@ appId: com.polkadotjs.polkadotjs-apps
 mac:
   artifactName: Polkadot-JS-Apps-mac-${version}.${ext}
   category: public.app-category.finance
-  entitlements: "./appleEntitlements/entitlements.mac.plist"
+  entitlements: "./packages/apps-electron/appleEntitlements/entitlements.mac.plist"
   extendInfo:
     NSCameraUsageDescription: "This app requires camera access to capture account data on imports"
   hardenedRuntime: true
