@@ -34,6 +34,7 @@ function formatKeys (keys: [ValidatorId, Keys][]): string {
 }
 
 function toHuman (value: Codec | Codec[]): unknown {
+  // eslint-disable-next-line @typescript-eslint/unbound-method
   return isFunction((value as Codec).toHuman)
     ? (value as Codec).toHuman()
     : Array.isArray(value)
@@ -41,7 +42,7 @@ function toHuman (value: Codec | Codec[]): unknown {
       : value.toString();
 }
 
-export function toHumanJson (value: any): string {
+export function toHumanJson (value: unknown): string {
   return stringify(value, 2)
     .replace(/,\n/g, '\n')
     .replace(/"/g, '')
@@ -56,6 +57,7 @@ export default function valueToText (type: string, value: Codec | undefined | nu
 
   return div(
     {},
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     ['Bytes', 'Raw', 'Option<Keys>', 'Keys'].includes(type) && isFunction(value.toU8a)
       ? u8aToHex(value.toU8a(true))
       // HACK Handle Keys as hex-only (this should go away once the node value is

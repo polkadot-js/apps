@@ -24,7 +24,7 @@ interface Props {
   onStatusChange: (status: ActionStatus) => void;
 }
 
-interface Match {
+interface MatchState {
   isMatchValid: boolean;
   match: string;
 }
@@ -59,7 +59,7 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
     matches: [],
     startAt: 0
   });
-  const [{ isMatchValid, match }, setMatch] = useState<Match>({ isMatchValid: true, match: DEFAULT_MATCH });
+  const [{ isMatchValid, match }, setMatch] = useState<MatchState>({ isMatchValid: true, match: DEFAULT_MATCH });
   const [type, setType] = useState<KeypairType>('ed25519');
   const [withCase, setWithCase] = useState(true);
 

@@ -9,8 +9,9 @@ import type { PalletVote, TrackInfo } from '../../types.js';
 
 import React, { useMemo, useState } from 'react';
 
-import { Button, Modal, ProposedAction, styled, ToggleGroup, TxButton, VoteAccount } from '@polkadot/react-components';
+import { Button, Modal, styled, ToggleGroup, TxButton, VoteAccount } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
+import { ProposedAction } from '@polkadot/react-params';
 
 import { useTranslation } from '../../translate.js';
 import VoteAbstain from './VoteAbstain.js';

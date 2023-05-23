@@ -77,6 +77,11 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
   const [isValidateOpen, toggleValidate] = useToggle();
   const { balancesAll, spanCount, stakingAccount } = useStashCalls(api, stashId);
 
+  const needsSetController = useMemo(
+    () => (api.tx.staking.setController.meta.args.length === 1) || (stashId !== controllerId),
+    [api, controllerId, stashId]
+  );
+
   const slashes = useMemo(
     () => extractSlashes(stashId, allSlashes),
     [allSlashes, stashId]
@@ -87,8 +92,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
       accountId: controllerId,
       extrinsic: api.tx.staking.withdrawUnbonded.meta.args.length === 1
         ? api.tx.staking.withdrawUnbonded(spanCount)
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore (We are doing toHex here since we have a Vec<u8> input)
+        // @ts-expect-error Previous generation
         : api.tx.staking.withdrawUnbonded()
     }),
     [api, controllerId, queueExtrinsic, spanCount]
@@ -306,7 +310,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                   />
                   <Menu.Divider />
                   <Menu.Item
-                    isDisabled={!isOwnStash}
+                    isDisabled={!isOwnStash || !needsSetController}
                     label={t<string>('Change controller account')}
                     onClick={toggleSetController}
                   />

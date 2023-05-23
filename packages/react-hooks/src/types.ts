@@ -1,6 +1,7 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type React from 'react';
 import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/api-derive/types';
@@ -12,13 +13,16 @@ import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type CallParam = any;
 
 export type CallParams = [] | CallParam[];
 
 export interface CallOptions <T> {
   defaultValue?: T;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   paramMap?: (params: any) => CallParams;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   transform?: (value: any, api: ApiPromise) => T;
   withParams?: boolean;
   withParamsTransform?: boolean;

@@ -24,7 +24,7 @@ ENV WS_URL=
 
 WORKDIR /usr/share/nginx/html
 
-COPY env.sh .
+COPY docker/env.sh .
 
 RUN apk add --no-cache bash; chmod +x env.sh
 

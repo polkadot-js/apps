@@ -9,6 +9,7 @@ import type { NominatedByMap, SortedTargets, TargetSortBy, ValidatorInfo } from 
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import Legend from '@polkadot/app-staking2/Legend';
 import { Button, Icon, styled, Table, Toggle } from '@polkadot/react-components';
 import { useApi, useAvailableSlashes, useBlocksPerDays, useSavedFlags } from '@polkadot/react-hooks';
 import { BN_HUNDRED } from '@polkadot/util';
@@ -16,7 +17,6 @@ import { BN_HUNDRED } from '@polkadot/util';
 import { MAX_NOMINATIONS } from '../constants.js';
 import ElectionBanner from '../ElectionBanner.js';
 import Filtering from '../Filtering.js';
-import Legend from '../Legend.js';
 import { useTranslation } from '../translate.js';
 import useIdentities from '../useIdentities.js';
 import Nominate from './Nominate.js';

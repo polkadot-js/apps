@@ -32,7 +32,7 @@ interface Props {
   validators?: [GroupIndex, ValidatorInfo[]];
 }
 
-function renderAddresses (list?: AccountId[], indices?: BN[]): JSX.Element[] | undefined {
+function renderAddresses (list?: AccountId[], indices?: BN[]): React.ReactElement<unknown>[] | undefined {
   return list?.map((id, index) => (
     <AddressMini
       key={id.toString()}

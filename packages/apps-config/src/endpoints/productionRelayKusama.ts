@@ -195,12 +195,11 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://genshiro.equilibrium.io',
-    info: 'genshiro',
-    isUnreachable: true,
+    homepage: 'https://genshiro..io',
+    info: 'Genshiro',
     paraId: 2024,
     providers: {
-      Equilibrium: 'wss://node.genshiro.io'
+      Genshiro: 'wss://node.ksm.genshiro.io'
     },
     text: 'Genshiro',
     ui: {
@@ -438,7 +437,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'mangata',
     paraId: 2110,
     providers: {
-      Mangata: 'wss://kusama-archive.mangata.online'
+      'Mangata Archive': 'wss://kusama-archive.mangata.online',
+      'Mangata RPC': 'wss://kusama-rpc.mangata.online'
     },
     text: 'Mangata',
     ui: {
@@ -676,10 +676,9 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
   {
     homepage: 'http://subgame.org/',
     info: 'subgame',
-    isUnreachable: true, // https://github.com/polkadot-js/apps/issues/7982
     paraId: 2018,
     providers: {
-      SubGame: 'wss://gamma.subgame.org/'
+      // SubGame: 'wss://gamma.subgame.org/' // https://github.com/polkadot-js/apps/issues/7982
     },
     text: 'SubGame Gamma',
     ui: {

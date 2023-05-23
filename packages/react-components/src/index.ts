@@ -1,8 +1,10 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// named exports
 export { default as AccountIndex } from './AccountIndex.js';
 export { default as AccountName } from './AccountName.js';
+export { default as AccountSidebar } from './AccountSidebar/index.js';
 export { default as AddressInfo } from './AddressInfo.js';
 export { default as AddressMini } from './AddressMini.js';
 export { default as AddressRow } from './AddressRow.js';
@@ -16,8 +18,6 @@ export { default as BatchWarning } from './BatchWarning.js';
 export { default as Bonded } from './Bonded.js';
 export { default as Button } from './Button/index.js';
 export { default as ButtonCancel } from './ButtonCancel.js';
-export { default as Call } from './Call.js';
-export { default as CallExpander } from './CallExpander.js';
 export { default as Card } from './Card.js';
 export { default as CardSummary } from './CardSummary.js';
 export { default as ChainImg } from './ChainImg.js';
@@ -32,11 +32,9 @@ export { default as Dropdown } from './Dropdown.js';
 export { default as EditButton } from './EditButton.js';
 export { default as Editor } from './Editor.js';
 export { default as ErrorBoundary } from './ErrorBoundary.js';
-export { default as Event } from './Event.js';
 export { default as ExpandButton } from './ExpandButton.js';
 export { default as Expander } from './Expander.js';
 export { default as ExpanderScroll } from './ExpanderScroll.js';
-export { default as Extrinsic } from './Extrinsic.js';
 export { default as FilterInput } from './FilterInput.js';
 export { default as FilterOverlay } from './FilterOverlay.js';
 export { default as Flag } from './Flag.js';
@@ -78,7 +76,6 @@ export { default as Password } from './Password.js';
 export { default as PasswordStrength } from './PasswordStrength.js';
 export { default as Popup } from './Popup/index.js';
 export { default as Progress } from './Progress.js';
-export { default as ProposedAction } from './ProposedAction.js';
 export { default as Row } from './Row.js';
 export { default as Sidebar } from './Sidebar.js';
 export { default as SortDropdown } from './SortDropdown.js';
@@ -91,7 +88,7 @@ export { default as Status } from './Status/index.js';
 export { styled } from './styled.js';
 export { default as SummaryBox } from './SummaryBox.js';
 export { default as Table } from './Table/index.js';
-export { default as Tabs, TabsCtx } from './Tabs/index.js';
+export { default as Tabs } from './Tabs/index.js';
 export { default as Tag } from './Tag.js';
 export { default as Tags } from './Tags.js';
 export { default as TextArea } from './TextArea.js';
@@ -101,4 +98,12 @@ export { default as Tooltip } from './Tooltip.js';
 export { default as TxButton } from './TxButton.js';
 export { default as VoteAccount } from './VoteAccount.js';
 export { default as VoteValue } from './VoteValue.js';
+
+// star exports
+export * from './modals/index.js';
+export * from './themes.js';
+
+// external exports
+// See https://github.com/import-js/eslint-plugin-import/issues/2556
+// eslint-disable-next-line import/export
 export * from '@polkadot/react-qr';

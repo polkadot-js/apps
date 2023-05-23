@@ -1,0 +1,19 @@
+---
+productName: Polkadot-JS Apps
+artifactName: Polkadot-JS-Apps-${version}.${ext}
+files:
+  - "./build"
+  - "./assets"
+  - "./appleEntitlements"
+appId: com.polkadotjs.polkadotjs-apps
+mac:
+  artifactName: Polkadot-JS-Apps-mac-${version}.${ext}
+  category: public.app-category.finance
+  entitlements: "./appleEntitlements/entitlements.mac.plist"
+  extendInfo:
+    NSCameraUsageDescription: "This app requires camera access to capture account data on imports"
+  hardenedRuntime: true
+directories:
+  buildResources: "./assets"
+  output: "./release"
+afterSign: electron-builder-notarize

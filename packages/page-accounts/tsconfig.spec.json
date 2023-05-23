@@ -1,0 +1,20 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "outDir": "./build",
+    "rootDir": "./src",
+    "emitDeclarationOnly": false,
+    "noEmit": true
+  },
+  "include": [
+    "**/*.spec.ts",
+    "**/*.spec.tsx"
+  ],
+  "references": [
+    { "path": "../apps-config/tsconfig.build.json" },
+    { "path": "../page-accounts/tsconfig.build.json" },
+    { "path": "../page-accounts/tsconfig.test.json" },
+    { "path": "../test-support/tsconfig.build.json" }
+  ]
+}

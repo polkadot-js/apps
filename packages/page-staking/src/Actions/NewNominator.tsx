@@ -26,7 +26,7 @@ function NewNominator ({ isInElection, targets }: Props): React.ReactElement<Pro
   const { t } = useTranslation();
   const { api } = useApi();
   const [isVisible, toggleVisible] = useToggle();
-  const [{ bondOwnTx, bondTx, controllerId, controllerTx, stashId }, setBondInfo] = useState<BondInfo>({});
+  const [{ bondTx, controllerId, controllerTx, stashId }, setBondInfo] = useState<BondInfo>({});
   const [{ nominateTx }, setNominateInfo] = useState<NominateInfo>({});
   const [step, setStep] = useState(1);
   const isDisabled = isInElection || !isFunction(api.tx.utility?.batch);
@@ -111,7 +111,7 @@ function NewNominator ({ isInElection, targets }: Props): React.ReactElement<Pro
                   params={[
                     stashId === controllerId
                       ? [bondTx, nominateTx]
-                      : [bondOwnTx, nominateTx, controllerTx]
+                      : [bondTx, nominateTx, controllerTx]
                   ]}
                   tx={api.tx.utility.batchAll || api.tx.utility.batch}
                 />

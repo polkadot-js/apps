@@ -333,6 +333,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'kapex',
     paraId: 2007,
     providers: {
+      Dwellir: 'wss://kapex-rpc.dwellir.com',
       Totem: 'wss://k-ui.kapex.network'
     },
     text: 'Kapex',
@@ -528,7 +529,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2040,
     providers: {
       // 'Polkadex Team': 'wss://mainnet.polkadex.trade/', // https://github.com/polkadot-js/apps/issues/7620
-      OnFinality: 'wss://polkadex.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/7620
+      OnFinality: 'wss://polkadex.api.onfinality.io/public-ws'
     },
     text: 'Polkadex',
     ui: {
@@ -581,7 +582,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'subsocial',
     paraId: 2101,
     providers: {
-      Dappforce: 'wss://para.subsocial.network'
+      // Dappforce: 'wss://para.subsocial.network' // https://github.com/polkadot-js/apps/issues/9425
     },
     text: 'Subsocial',
     ui: {
@@ -608,7 +609,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2037,
     providers: {
       'Geo Load Balancer': 'wss://ws.unique.network',
-      OnFinality: 'wss://unique.api.onfinality.io/public-ws',
+      // OnFinality: 'wss://unique.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9451
       'Unique America': 'wss://us-ws.unique.network',
       'Unique Asia': 'wss://asia-ws.unique.network',
       'Unique Europe': 'wss://eu-ws.unique.network'
@@ -659,8 +660,8 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       'IBP-GeoDNS1': 'wss://sys.ibp.network/statemint',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/statemint',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
-      Parity: 'wss://statemint-rpc.polkadot.io',
-      RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws'
+      Parity: 'wss://statemint-rpc.polkadot.io'
+      // RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws' // https://github.com/polkadot-js/apps/issues/9480
     },
     teleport: [-1],
     text: 'Statemint',

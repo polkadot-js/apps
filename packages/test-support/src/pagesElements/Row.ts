@@ -1,6 +1,8 @@
 // Copyright 2017-2023 @polkadot/test-supports authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/* global expect */
+
 import type { Balance } from '@polkadot/types/interfaces';
 
 import { fireEvent, screen, within } from '@testing-library/react';

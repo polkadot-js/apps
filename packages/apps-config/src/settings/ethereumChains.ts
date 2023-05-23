@@ -25,5 +25,6 @@ export const ethereumChains = [
   'thebifrost-mainnet',
   'dracones',
   'dracones-dwarf',
-  'subspace-evm-domain'
+  'subspace-evm-domain',
+  'ferrum-parachain'
 ];

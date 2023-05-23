@@ -1,6 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type React from 'react';
 import type { RegistrarIndex } from '@polkadot/types/interfaces/identity/types';
 import type { DisplayedJudgement } from '../types.js';
 

@@ -1,6 +1,9 @@
 // Copyright 2017-2023 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// augment package
+import '@polkadot/api-augment/substrate';
+
 import type { PalletAssetsAssetAccount } from '@polkadot/types/lookup';
 import type { bool } from '@polkadot/types-codec';
 import type { BN } from '@polkadot/util';
@@ -13,12 +16,15 @@ import { FormatBalance } from '@polkadot/react-query';
 import { useTranslation } from '../translate.js';
 import Transfer from './Transfer.js';
 
-interface Account extends PalletAssetsAssetAccount {
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore This looks correct in the editor, but incorrect in composite mode
+interface AccountExt extends PalletAssetsAssetAccount {
+  isFrozen?: bool;
   sufficient?: bool
 }
 
 interface Props {
-  account: Account;
+  account: AccountExt;
   accountId: string;
   assetId: BN;
   className?: string;
@@ -35,7 +41,7 @@ function Account ({ account: { balance, isFrozen, reason, sufficient }, accountI
         <AddressSmall value={accountId} />
       </td>
       <td className='start'>
-        {isFrozen.isTrue ? t<string>('Yes') : t<string>('No')}
+        {isFrozen?.isTrue ? t<string>('Yes') : t<string>('No')}
       </td>
       <td className='start'>
         {sufficient
