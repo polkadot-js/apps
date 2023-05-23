@@ -16,7 +16,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.130.2-21-x",
+  "version": "0.131.0",
   "versions": {
     "git": "0.130.2-21-x",
     "npm": "0.130.1"
@@ -69,7 +69,7 @@
   "devDependencies": {
     "@crustio/crust-pin": "^1.0.0",
     "@pinata/sdk": "^1.2.1",
-    "@polkadot/dev": "^0.75.4",
+    "@polkadot/dev": "^0.75.7",
     "@types/chart.js": "^2.9.37",
     "@types/file-saver": "^2.0.5",
     "@types/react-beautiful-dnd": "^13.1.4",

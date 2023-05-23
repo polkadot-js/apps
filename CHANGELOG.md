@@ -1,16 +1,26 @@
 # CHANGELOG
 
-## master
+## 0.131.1 May 23, 2023
 
 Contributed:
 
 - Extend links for Polkassembly (Thanks to https://github.com/niklabh)
+- Add Subsquare links for Darwinia2 (Thanks to https://github.com/wliyongfeng)
 - Update Mangata Kusama endpoints (Thanks to https://github.com/tenequm)
+- Add JurNode testnet (Thanks to https://github.com/ashi20192020)
+- Add Ethereum support for Ferrum (Thanks to https://github.com/3ierratango)
+- Add Gens parachain (Thanks to https://github.com/alex-nax)
+- Add Dwellir endpoint for Kapex (Thanks to https://github.com/jonathanudd)
+- Add Phala Rococo parachain (Thanks to https://github.com/tolak)
+- Add Societal Rococo parachain (Thanks to https://github.com/okalenyk)
+- Restore Nodle testnet endpoint (Thanks to https://github.com/simonsso)
 
 Changes:
 
 - Cater for current Substrate bonding extrinsic arguments
 - Add basic NIS dashboard
+- Break circular dependencies, use composite tsconfig
+- Adjust electron build to use `--project` specifiers
 - Disable unreachable endpoints
 
 
