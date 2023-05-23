@@ -438,7 +438,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'karmachain',
     providers: {
-      Karmachain: 'wss://testnet.karmaco.in'
+      Karmachain: 'wss://testnet.karmaco.in/testnet/ws'
     },
     text: 'Karmachain Testnet',
     ui: {
