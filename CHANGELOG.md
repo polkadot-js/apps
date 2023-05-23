@@ -1,10 +1,17 @@
 # CHANGELOG
 
+## 0.131.3 May 23, 2023
+
+Changes:
+
+- Attempt fix for electron build (Linux executable name)
+
+
 ## 0.131.2 May 23, 2023
 
 Changes:
 
-- Attempt fix for electron build
+- Attempt fix for electron build (Mac entitlements)
 
 
 ## 0.131.1 May 23, 2023

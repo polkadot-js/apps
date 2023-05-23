@@ -14,11 +14,11 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.131.2",
+  "version": "0.131.3",
   "dependencies": {
-    "@polkadot/app-explorer": "^0.131.2",
-    "@polkadot/react-components": "^0.131.2",
-    "@polkadot/react-query": "^0.131.2"
+    "@polkadot/app-explorer": "^0.131.3",
+    "@polkadot/react-components": "^0.131.3",
+    "@polkadot/react-query": "^0.131.3"
   },
   "peerDependencies": {
     "react": "*",
