@@ -1879,6 +1879,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/apps-electron@workspace:packages/apps-electron"
   dependencies:
+    "@polkadot/dev": ^0.75.7
     "@types/tmp": ^0.2.3
     copy-webpack-plugin: ^11.0.0
     electron: 24.2.0
