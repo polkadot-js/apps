@@ -1,6 +1,7 @@
 ---
 productName: Polkadot-JS Apps
 artifactName: Polkadot-JS-Apps-${version}.${ext}
+executableName: polkadot-apps
 files:
   - "./build"
   - "./assets"

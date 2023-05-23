@@ -14,10 +14,10 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.131.2",
+  "version": "0.131.3",
   "dependencies": {
-    "@polkadot/react-components": "^0.131.2",
-    "@polkadot/react-params": "^0.131.2"
+    "@polkadot/react-components": "^0.131.3",
+    "@polkadot/react-params": "^0.131.3"
   },
   "peerDependencies": {
     "react": "*",
