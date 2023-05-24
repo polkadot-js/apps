@@ -66,6 +66,7 @@ export { nodesJazPNG } from './generated/jazPNG.js';
 export { nodesJoystreamSVG } from './generated/joystreamSVG.js';
 export { nodesJupiterSVG } from './generated/jupiterSVG.js';
 export { nodesKabochaSVG } from './generated/kabochaSVG.js';
+export { nodesKarmachainSVG } from './generated/karmachainSVG.js';
 export { nodesKhalaSVG } from './generated/khalaSVG.js';
 export { nodesKiltPNG } from './generated/kiltPNG.js';
 export { nodesKlugPNG } from './generated/klugPNG.js';
