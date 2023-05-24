@@ -1,15 +1,19 @@
 // Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { u32 } from '@polkadot/types';
+import type { BN } from '@polkadot/util';
+import type { HexString } from '@polkadot/util/types';
 
 export interface SessionInfo {
   paraValidators: string[];
-  sessionIndex: u32;
+  sessionCurrentIndex: BN;
+  sessionIndexes: BN[];
   sessionValidators: string[];
 }
 
+export type DisputeRecord = Record<string, Record<HexString, string[]>>;
+
 export interface DisputeInfo {
-  disputes?: Record<string, string[]>;
+  disputes?: DisputeRecord;
   sessionInfo: SessionInfo;
 }
