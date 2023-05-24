@@ -123,7 +123,7 @@ export { nodesSherpaxPNG } from './generated/sherpaxPNG.js';
 export { nodesSinglavenderSVG } from './generated/singlavenderSVG.js';
 export { nodesSnowPNG } from './generated/snowPNG.js';
 export { nodesSocietalSVG } from './generated/societalSVG.js';
-export { nodesSoonsocialPNG } from './generated/soonsocialPNG.js';
+export { nodesXSocialPNG } from './generated/soonsocialPNG.js';
 export { nodesSoonsocialXPNG } from './generated/soonsocialXPNG.js';
 export { nodesSoraSubstrateSVG } from './generated/sora-substrateSVG.js';
 export { nodesStafiPNG } from './generated/stafiPNG.js';
