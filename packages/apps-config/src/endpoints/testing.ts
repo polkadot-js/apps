@@ -792,11 +792,11 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'soonsocial',
+    info: 'xsocial',
     providers: {
-      // DappForce: 'wss://testnet.subsocial.network' // https://github.com/polkadot-js/apps/issues/8315
+      DappForce: 'wss://xsocial.subsocial.network'
     },
-    text: 'Soonsocial',
+    text: 'xSocial',
     ui: {
       logo: nodesSoonsocialPNG
     }
