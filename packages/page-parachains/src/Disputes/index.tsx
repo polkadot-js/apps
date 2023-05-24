@@ -16,6 +16,7 @@ interface Props {
 
 function transposeDisputes (disputes: DisputeRecord): React.ReactNode[] {
   let lastSession = '';
+  let inclSession = true;
 
   return Object
     .entries(disputes)
@@ -29,15 +30,20 @@ function transposeDisputes (disputes: DisputeRecord): React.ReactNode[] {
         }, flattened), []
     )
     .map(([s, k, vals], index) => {
-      let session = '';
-
       if (lastSession !== s) {
-        session = lastSession = s;
+        lastSession = s;
+        inclSession = true;
+      } else {
+        inclSession = false;
       }
 
       return (
-        <tr key={`${lastSession}-${index}`}>
-          <Table.Column.Id value={session} />
+        <tr key={`${s}-${index}`}>
+          {
+            inclSession
+              ? <Table.Column.Id value={s} />
+              : <td />
+          }
           <td>{k}</td>
           <td className='all'>
             {vals.map((v) => (
