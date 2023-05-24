@@ -37,7 +37,7 @@ function transposeDisputes (disputes: DisputeRecord): React.ReactNode[] {
 
       return (
         <tr key={`${lastSession}-${index}`}>
-          <td>{session}</td>
+          <Table.Column.Id value={session} />
           <td>{k}</td>
           <td className='all'>
             {vals.map((v) => (
@@ -57,7 +57,7 @@ function Disputes ({ className }: Props): React.ReactElement<Props> {
   const disputeInfo = useSessionDisputes();
 
   const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
-    [t<string>('disputes'), 'start', 2]
+    [t<string>('disputes'), 'start', 3]
   ]);
 
   const rows = useMemo(
@@ -68,7 +68,7 @@ function Disputes ({ className }: Props): React.ReactElement<Props> {
   return (
     <Table
       className={className}
-      empty={disputeInfo?.disputes && t<string>('No ongoing disputes found')}
+      empty={rows && t<string>('No ongoing disputes found')}
       header={headerRef.current}
     >
       {rows}
