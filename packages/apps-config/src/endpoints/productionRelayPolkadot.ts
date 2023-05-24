@@ -582,7 +582,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'subsocial',
     paraId: 2101,
     providers: {
-      // Dappforce: 'wss://para.subsocial.network' // https://github.com/polkadot-js/apps/issues/9425
+      Dappforce: 'wss://para.subsocial.network'
     },
     text: 'Subsocial',
     ui: {
