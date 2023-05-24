@@ -792,16 +792,6 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'xsocial',
-    providers: {
-      DappForce: 'wss://xsocial.subsocial.network'
-    },
-    text: 'xSocial',
-    ui: {
-      logo: nodesSoonsocialPNG
-    }
-  },
-  {
     info: 'sora-substrate',
     providers: {
       'Soramitsu #1': 'wss://ws.framenode-1.s1.stg1.sora2.soramitsu.co.jp',
@@ -985,6 +975,16 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#000000',
       logo: nodesWeb3gamesSVG
+    }
+  },
+  {
+    info: 'xsocial',
+    providers: {
+      DappForce: 'wss://xsocial.subsocial.network'
+    },
+    text: 'xSocial',
+    ui: {
+      logo: nodesSoonsocialPNG
     }
   },
   {
