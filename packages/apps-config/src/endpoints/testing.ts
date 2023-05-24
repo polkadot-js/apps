@@ -313,10 +313,10 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   },
   {
     info: 'fragnova',
-    providers: { // The actual hosted secure websocket endpoint
-      'Fragnova Network': 'wss://ws-test.fragnova.network'
+    providers: {
+      // 'Fragnova Network': 'wss://ws-test.fragnova.network' // https://github.com/polkadot-js/apps/issues/9490
     },
-    text: 'Fragnova Testnet', // The text to display on the dropdown
+    text: 'Fragnova Testnet',
     ui: {
       color: '#6b35a8',
       logo: chainsFragnovaPNG
