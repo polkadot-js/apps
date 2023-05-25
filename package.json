@@ -69,7 +69,7 @@
   "devDependencies": {
     "@crustio/crust-pin": "^1.0.0",
     "@pinata/sdk": "^1.2.1",
-    "@polkadot/dev": "^0.75.7",
+    "@polkadot/dev": "^0.75.8",
     "@types/chart.js": "^2.9.37",
     "@types/file-saver": "^2.0.5",
     "@types/react-beautiful-dnd": "^13.1.4",
@@ -82,7 +82,7 @@
     "concurrently": "^8.0.1",
     "devtron": "^1.4.0",
     "dnslink-cloudflare": "^3.0.0",
-    "electron": "24.2.0",
+    "electron": "24.4.0",
     "electron-builder": "23.6.0",
     "electron-builder-notarize": "^1.5.1",
     "extensionless": "^1.4.5",

@@ -50901,15 +50901,75 @@ export const typesBundle = {
           }
         },
         "core_mods": {
+          "psPublicKeyWithParams": {
+            "description": "Return PS public key with params",
+            "params": [
+              {
+                "name": "id",
+                "type": "(Did, IncId)"
+              }
+            ],
+            "type": "Option<(PsPublicKey, Option<PsParameters>)>"
+          },
+          "psParamsByDid": {
+            "description": "Return all PS params by a DID",
+            "params": [
+              {
+                "name": "did",
+                "type": "Did"
+              }
+            ],
+            "type": "BTreeMap<IncId, PsParameters>"
+          },
+          "psPublicKeysByDid": {
+            "description": "Return all PS key with params by a DID",
+            "params": [
+              {
+                "name": "did",
+                "type": "Did"
+              }
+            ],
+            "type": "BTreeMap<IncId, (PsPublicKey, Option<PsParameters>)>"
+          },
+          "bbsPublicKeyWithParams": {
+            "description": "Return BBS public key with params",
+            "params": [
+              {
+                "name": "id",
+                "type": "(Did, IncId)"
+              }
+            ],
+            "type": "Option<(BbsPublicKey, Option<BbsParameters>)>"
+          },
+          "bbsParamsByDid": {
+            "description": "Return all BBS params by a DID",
+            "params": [
+              {
+                "name": "did",
+                "type": "Did"
+              }
+            ],
+            "type": "BTreeMap<IncId, BbsParameters>"
+          },
+          "bbsPublicKeysByDid": {
+            "description": "Return all BBS key with params by a DID",
+            "params": [
+              {
+                "name": "did",
+                "type": "Did"
+              }
+            ],
+            "type": "BTreeMap<IncId, (BbsPublicKey, Option<BbsParameters>)>"
+          },
           "bbsPlusPublicKeyWithParams": {
             "description": "Return BBS+ public key with params",
             "params": [
               {
                 "name": "id",
-                "type": "BBSPlusPublicKeyStorageKey"
+                "type": "(Did, IncId)"
               }
             ],
-            "type": "Option<BBSPlusPublicKeyWithParams>"
+            "type": "Option<(BbsPlusPublicKey, Option<BbsPlusParameters>)>"
           },
           "bbsPlusParamsByDid": {
             "description": "Return all BBS+ params by a DID",
@@ -50919,7 +50979,7 @@ export const typesBundle = {
                 "type": "Did"
               }
             ],
-            "type": "BTreeMap<IncId, BBSPlusParameters>"
+            "type": "BTreeMap<IncId, BbsPlusParameters>"
           },
           "bbsPlusPublicKeysByDid": {
             "description": "Return all BBS+ key with params by a DID",
@@ -50929,7 +50989,7 @@ export const typesBundle = {
                 "type": "Did"
               }
             ],
-            "type": "BTreeMap<IncId, BBSPlusPublicKeyWithParams>"
+            "type": "BTreeMap<IncId, (BbsPlusPublicKey, Option<BbsPlusParameters>)>"
           },
           "accumulatorPublicKeyWithParams": {
             "description": "Return Accumulator public key with params",
@@ -51348,15 +51408,75 @@ export const typesBundle = {
           }
         },
         "core_mods": {
+          "psPublicKeyWithParams": {
+            "description": "Return PS public key with params",
+            "params": [
+              {
+                "name": "id",
+                "type": "(Did, IncId)"
+              }
+            ],
+            "type": "Option<(PsPublicKey, Option<PsParameters>)>"
+          },
+          "psParamsByDid": {
+            "description": "Return all PS params by a DID",
+            "params": [
+              {
+                "name": "did",
+                "type": "Did"
+              }
+            ],
+            "type": "BTreeMap<IncId, PsParameters>"
+          },
+          "psPublicKeysByDid": {
+            "description": "Return all PS key with params by a DID",
+            "params": [
+              {
+                "name": "did",
+                "type": "Did"
+              }
+            ],
+            "type": "BTreeMap<IncId, (PsPublicKey, Option<PsParameters>)>"
+          },
+          "bbsPublicKeyWithParams": {
+            "description": "Return BBS public key with params",
+            "params": [
+              {
+                "name": "id",
+                "type": "(Did, IncId)"
+              }
+            ],
+            "type": "Option<(BbsPublicKey, Option<BbsParameters>)>"
+          },
+          "bbsParamsByDid": {
+            "description": "Return all BBS params by a DID",
+            "params": [
+              {
+                "name": "did",
+                "type": "Did"
+              }
+            ],
+            "type": "BTreeMap<IncId, BbsParameters>"
+          },
+          "bbsPublicKeysByDid": {
+            "description": "Return all BBS key with params by a DID",
+            "params": [
+              {
+                "name": "did",
+                "type": "Did"
+              }
+            ],
+            "type": "BTreeMap<IncId, (BbsPublicKey, Option<BbsParameters>)>"
+          },
           "bbsPlusPublicKeyWithParams": {
             "description": "Return BBS+ public key with params",
             "params": [
               {
                 "name": "id",
-                "type": "BBSPlusPublicKeyStorageKey"
+                "type": "(Did, IncId)"
               }
             ],
-            "type": "Option<BBSPlusPublicKeyWithParams>"
+            "type": "Option<(BbsPlusPublicKey, Option<BbsPlusParameters>)>"
           },
           "bbsPlusParamsByDid": {
             "description": "Return all BBS+ params by a DID",
@@ -51366,7 +51486,7 @@ export const typesBundle = {
                 "type": "Did"
               }
             ],
-            "type": "BTreeMap<IncId, BBSPlusParameters>"
+            "type": "BTreeMap<IncId, BbsPlusParameters>"
           },
           "bbsPlusPublicKeysByDid": {
             "description": "Return all BBS+ key with params by a DID",
@@ -51376,7 +51496,7 @@ export const typesBundle = {
                 "type": "Did"
               }
             ],
-            "type": "BTreeMap<IncId, BBSPlusPublicKeyWithParams>"
+            "type": "BTreeMap<IncId, (BbsPlusPublicKey, Option<BbsPlusParameters>)>"
           },
           "accumulatorPublicKeyWithParams": {
             "description": "Return Accumulator public key with params",
@@ -78226,7 +78346,8 @@ export const typesBundle = {
                 "Unclaimed": "Balance",
                 "Claimed": ""
               }
-            }
+            },
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -79400,7 +79521,8 @@ export const typesBundle = {
                 "Unclaimed": "Balance",
                 "Claimed": ""
               }
-            }
+            },
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -80568,7 +80690,8 @@ export const typesBundle = {
                 "Unclaimed": "Balance",
                 "Claimed": ""
               }
-            }
+            },
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -81736,7 +81859,8 @@ export const typesBundle = {
                 "Unclaimed": "Balance",
                 "Claimed": ""
               }
-            }
+            },
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -89534,7 +89658,8 @@ export const typesBundle = {
                 "Unclaimed": "Balance",
                 "Claimed": ""
               }
-            }
+            },
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -90708,7 +90833,8 @@ export const typesBundle = {
                 "Unclaimed": "Balance",
                 "Claimed": ""
               }
-            }
+            },
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -91876,7 +92002,8 @@ export const typesBundle = {
                 "Unclaimed": "Balance",
                 "Claimed": ""
               }
-            }
+            },
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -93044,7 +93171,8 @@ export const typesBundle = {
                 "Unclaimed": "Balance",
                 "Claimed": ""
               }
-            }
+            },
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
