@@ -677,7 +677,8 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       'IBP-GeoDNS1': 'wss://sys.ibp.network/collectives-polkadot',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/collectives-polkadot',
       OnFinality: 'wss://collectives.api.onfinality.io/public-ws',
-      Parity: 'wss://polkadot-collectives-rpc.polkadot.io'
+      Parity: 'wss://polkadot-collectives-rpc.polkadot.io',
+      RadiumBlock: 'wss://collectives.public.curie.radiumblock.co/ws'
     },
     teleport: [-1],
     text: 'Collectives',
