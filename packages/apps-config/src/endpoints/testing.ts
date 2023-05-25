@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types.js';
 
 import { chains3dpassSVG, chainsAcalaSVG, chainsAlephSVG, chainsBrainstormPNG, chainsCreditcoinTestPNG, chainsDebioSVG, chainsEquilibriumSVG, chainsFerrumPNG, chainsFragnovaPNG, chainsJurPNG, chainsKintsugiPNG, chainsLogionPNG, chainsMyriadPNG, chainsShidenPNG, chainsSkyekiwiPNG, chainsTanglePNG } from '../ui/logos/chains/index.js';
-import { nodesAjunaPNG, nodesArcticPNG, nodesAresGladiosSVG, nodesAutomataPNG, nodesBifrostSVG, nodesBitcountryPNG, nodesCereSVG, nodesCessPNG, nodesCloverSVG, nodesCrustMaxwellSVG, nodesCurioSVG, nodesDatahighwayPNG, nodesDockPNG, nodesDolphinSVG, nodesDotmogSVG, nodesEdgewareWhitePNG, nodesEncointerBlueSVG, nodesFantourPNG, nodesGalitalLogoPNG, nodesGamepowerSVG, nodesGeekSVG, nodesInterlaySVG, nodesIpsePNG, nodesJazPNG, nodesJupiterSVG, nodesKhalaSVG, nodesKiltPNG, nodesKlugPNG, nodesKylinPNG, nodesLaminarCircleSVG, nodesLitentryPNG, nodesMantaPNG, nodesMathSVG, nodesMinixPNG, nodesMoonbaseAlphaSVG, nodesMybankPNG, nodesNftmartPNG, nodesNodleSVG, nodesOpalLogoPNG, nodesOpportunityPNG, nodesPangoroSVG, nodesPhalaSVG, nodesPhoenixPNG, nodesPichiuPNG, nodesPolkadexSVG, nodesPolkafoundrySVG, nodesPolymeshSVG, nodesPontemSVG, nodesPrismPNG, nodesRealisPNG, nodesRiochainSVG, nodesSherpaxPNG, nodesSoonsocialPNG, nodesSoraSubstrateSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesSubspacePNG, nodesSubstrateHexagonSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesUniartsPNG, nodesUniqueSVG, nodesUnitnetworkPNG, nodesWeb3gamesSVG, nodesZCloakSVG } from '../ui/logos/nodes/index.js';
+import { nodesAjunaPNG, nodesArcticPNG, nodesAresGladiosSVG, nodesAutomataPNG, nodesBifrostSVG, nodesBitcountryPNG, nodesCereSVG, nodesCessPNG, nodesCloverSVG, nodesCrustMaxwellSVG, nodesCurioSVG, nodesDatahighwayPNG, nodesDockPNG, nodesDolphinSVG, nodesDotmogSVG, nodesEdgewareWhitePNG, nodesEncointerBlueSVG, nodesFantourPNG, nodesGalitalLogoPNG, nodesGamepowerSVG, nodesGeekSVG, nodesInterlaySVG, nodesIpsePNG, nodesJazPNG, nodesJupiterSVG, nodesKarmachainSVG, nodesKhalaSVG, nodesKiltPNG, nodesKlugPNG, nodesKylinPNG, nodesLaminarCircleSVG, nodesLitentryPNG, nodesMantaPNG, nodesMathSVG, nodesMinixPNG, nodesMoonbaseAlphaSVG, nodesMybankPNG, nodesNftmartPNG, nodesNodleSVG, nodesOpalLogoPNG, nodesOpportunityPNG, nodesPangoroSVG, nodesPhalaSVG, nodesPhoenixPNG, nodesPichiuPNG, nodesPolkadexSVG, nodesPolkafoundrySVG, nodesPolymeshSVG, nodesPontemSVG, nodesPrismPNG, nodesRealisPNG, nodesRiochainSVG, nodesSherpaxPNG, nodesSoonsocialPNG, nodesSoraSubstrateSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesSubspacePNG, nodesSubstrateHexagonSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesUniartsPNG, nodesUniqueSVG, nodesUnitnetworkPNG, nodesWeb3gamesSVG, nodesZCloakSVG } from '../ui/logos/nodes/index.js';
 
 export * from './testingRelayRococo.js';
 export * from './testingRelayWestend.js';
@@ -313,10 +313,10 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   },
   {
     info: 'fragnova',
-    providers: { // The actual hosted secure websocket endpoint
-      'Fragnova Network': 'wss://ws-test.fragnova.network'
+    providers: {
+      // 'Fragnova Network': 'wss://ws-test.fragnova.network' // https://github.com/polkadot-js/apps/issues/9490
     },
-    text: 'Fragnova Testnet', // The text to display on the dropdown
+    text: 'Fragnova Testnet',
     ui: {
       color: '#6b35a8',
       logo: chainsFragnovaPNG
@@ -433,6 +433,17 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#203050',
       logo: chainsJurPNG
+    }
+  },
+  {
+    info: 'karmachain',
+    providers: {
+      Karmachain: 'wss://testnet.karmaco.in/testnet/ws'
+    },
+    text: 'Karmachain Testnet',
+    ui: {
+      color: '#44259D',
+      logo: nodesKarmachainSVG
     }
   },
   {
@@ -781,16 +792,6 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'soonsocial',
-    providers: {
-      // DappForce: 'wss://testnet.subsocial.network' // https://github.com/polkadot-js/apps/issues/8315
-    },
-    text: 'Soonsocial',
-    ui: {
-      logo: nodesSoonsocialPNG
-    }
-  },
-  {
     info: 'sora-substrate',
     providers: {
       'Soramitsu #1': 'wss://ws.framenode-1.s1.stg1.sora2.soramitsu.co.jp',
@@ -974,6 +975,16 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#000000',
       logo: nodesWeb3gamesSVG
+    }
+  },
+  {
+    info: 'xsocial',
+    providers: {
+      DappForce: 'wss://xsocial.subsocial.network'
+    },
+    text: 'xSocial',
+    ui: {
+      logo: nodesSoonsocialPNG
     }
   },
   {
