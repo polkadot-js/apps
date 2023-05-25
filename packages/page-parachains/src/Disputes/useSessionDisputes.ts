@@ -3,8 +3,9 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { Option, StorageKey, u32 } from '@polkadot/types';
+import type { Hash } from '@polkadot/types/interfaces';
 import type { PolkadotPrimitivesV4DisputeState } from '@polkadot/types/lookup';
-import type { Codec } from '@polkadot/types/types';
+import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
 import type { DisputeInfo, SessionInfo } from './types.js';
 
@@ -18,32 +19,37 @@ import useSessionInfo from './useSessionInfo.js';
 function queryDisputes (api: ApiPromise, sessionInfo: SessionInfo): Promise<DisputeInfo> {
   return Promise
     .all(
-      sessionInfo.sessionIndexes.map((index) =>
-        api.query.parasDisputes.disputes.entries(index) as unknown as Promise<[StorageKey<[u32, Codec]>, Option<PolkadotPrimitivesV4DisputeState>][]>
+      // FIXME We would need to pull the list of validators alongside
+      // sessionInfo.sessionIndexes.map((index) =>
+      [sessionInfo.sessionCurrentIndex].map((index) =>
+        api.query.parasDisputes.disputes.entries(index) as unknown as Promise<[StorageKey<[u32, Hash]>, Option<PolkadotPrimitivesV4DisputeState>][]>
+      )
+    )
+    .then((entries) =>
+      // TODO Here we wish to extract the actual sessionValidators as well
+      entries.map((list) =>
+        list.map(([{ args: [session, id] }, optInfo]): [BN, Hash, boolean[]] => [session, id, optInfo.isSome ? optInfo.unwrap().validatorsAgainst.toBoolArray() : []])
       )
     )
     .then((entries) => ({
-      disputes: entries.reduce<Record<string, Record<HexString, string[]>>>((all, list) => {
-        list
-          .map(([{ args: [session, id] }, optInfo]): [string, HexString, PolkadotPrimitivesV4DisputeState | null] => [formatNumber(session), id.toHex(), optInfo.unwrapOr(null)])
-          .filter((d): d is [string, HexString, PolkadotPrimitivesV4DisputeState] => !!d[2])
-          .map(([s, k, d]): [string, HexString, boolean[]] => [s, k, d.validatorsAgainst.toBoolArray()])
-          .forEach(([s, k, v]) => {
-            if (!all[s]) {
-              all[s] = {};
+      disputes: entries.reduce<Record<string, Record<HexString, string[]>>>((all, list) =>
+        list.reduce((all, [sessionIndex, hash, flags]) => {
+          const s = formatNumber(sessionIndex);
+
+          if (!all[s]) {
+            all[s] = {};
+          }
+
+          all[s][hash.toHex()] = flags.reduce<string[]>((vals, flag, index) => {
+            if (flag) {
+              vals.push(sessionInfo.paraValidators[index]);
             }
 
-            all[s][k] = v
-              .map((f, index) =>
-                f
-                  ? sessionInfo.paraValidators[index]
-                  : null
-              )
-              .filter((v): v is string => !!v);
-          });
+            return vals;
+          }, []);
 
-        return all;
-      }, {}),
+          return all;
+        }, all), {}),
       sessionInfo
     }));
 }

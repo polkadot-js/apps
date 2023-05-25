@@ -44,7 +44,7 @@ function transposeDisputes (disputes: DisputeRecord): React.ReactNode[] {
               ? <Table.Column.Id value={s} />
               : <td />
           }
-          <td className='hash overflow'>{k}</td>
+          <td className='hash'>{k}</td>
           <td className='all'>
             {vals.map((v) => (
               <AddressMini
