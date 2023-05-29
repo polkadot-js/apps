@@ -26215,28 +26215,6 @@ export const typesBundle = {
             "section": "oracle"
           }
         },
-        "tokens": {
-          "queryExistentialDeposit": {
-            "description": "Query Existential Deposit for a given currency.",
-            "params": [
-              {
-                "name": "currencyId",
-                "type": "CurrencyId"
-              },
-              {
-                "name": "at",
-                "type": "BlockHash",
-                "isHistoric": true,
-                "isOptional": true
-              }
-            ],
-            "type": "NumberOrHex",
-            "isSubscription": false,
-            "jsonrpc": "tokens_queryExistentialDeposit",
-            "method": "queryExistentialDeposit",
-            "section": "tokens"
-          }
-        },
         "dex": {
           "getSupplyAmount": {
             "description": "Get supply amount",
@@ -26398,8 +26376,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -26572,6 +26550,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -26606,14 +26588,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -26624,22 +26606,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -26655,19 +26637,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -26879,8 +26861,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -27053,6 +27035,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -27087,14 +27073,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -27105,22 +27091,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -27136,19 +27122,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -27360,8 +27346,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -27542,6 +27528,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -27576,14 +27566,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -27594,22 +27584,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -27625,19 +27615,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -27849,8 +27839,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -28032,6 +28022,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -28066,14 +28060,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -28084,22 +28078,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -28115,19 +28109,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -28340,8 +28334,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -28519,6 +28513,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -28553,14 +28551,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -28571,22 +28569,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -28602,19 +28600,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -28827,8 +28825,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -29006,6 +29004,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -29040,14 +29042,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -29058,22 +29060,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -29089,19 +29091,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -29314,8 +29316,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -29498,6 +29500,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -29532,14 +29538,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -29550,22 +29556,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -29581,19 +29587,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -29806,8 +29812,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -29989,6 +29995,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -30023,14 +30033,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -30041,22 +30051,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -30072,19 +30082,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -30294,8 +30304,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -30477,6 +30487,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -30511,14 +30525,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -30529,22 +30543,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -30560,19 +30574,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -30782,8 +30796,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -30965,6 +30979,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -30999,14 +31017,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -31017,22 +31035,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -31048,19 +31066,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -31298,28 +31316,6 @@ export const typesBundle = {
             "section": "oracle"
           }
         },
-        "tokens": {
-          "queryExistentialDeposit": {
-            "description": "Query Existential Deposit for a given currency.",
-            "params": [
-              {
-                "name": "currencyId",
-                "type": "CurrencyId"
-              },
-              {
-                "name": "at",
-                "type": "BlockHash",
-                "isHistoric": true,
-                "isOptional": true
-              }
-            ],
-            "type": "NumberOrHex",
-            "isSubscription": false,
-            "jsonrpc": "tokens_queryExistentialDeposit",
-            "method": "queryExistentialDeposit",
-            "section": "tokens"
-          }
-        },
         "dex": {
           "getSupplyAmount": {
             "description": "Get supply amount",
@@ -31481,8 +31477,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -31655,6 +31651,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -31689,14 +31689,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -31707,22 +31707,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -31738,19 +31738,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -31962,8 +31962,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -32136,6 +32136,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -32170,14 +32174,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -32188,22 +32192,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -32219,19 +32223,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -32443,8 +32447,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -32625,6 +32629,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -32659,14 +32667,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -32677,22 +32685,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -32708,19 +32716,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -32932,8 +32940,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -33115,6 +33123,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -33149,14 +33161,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -33167,22 +33179,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -33198,19 +33210,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -33423,8 +33435,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -33602,6 +33614,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -33636,14 +33652,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -33654,22 +33670,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -33685,19 +33701,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -33910,8 +33926,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -34089,6 +34105,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -34123,14 +34143,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -34141,22 +34161,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -34172,19 +34192,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -34397,8 +34417,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -34581,6 +34601,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -34615,14 +34639,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -34633,22 +34657,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -34664,19 +34688,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -34889,8 +34913,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -35072,6 +35096,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -35106,14 +35134,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -35124,22 +35152,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -35155,19 +35183,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -35377,8 +35405,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -35560,6 +35588,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -35594,14 +35626,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -35612,22 +35644,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -35643,19 +35675,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -35865,8 +35897,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -36048,6 +36080,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -36082,14 +36118,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -36100,22 +36136,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -36131,19 +36167,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -36381,28 +36417,6 @@ export const typesBundle = {
             "section": "oracle"
           }
         },
-        "tokens": {
-          "queryExistentialDeposit": {
-            "description": "Query Existential Deposit for a given currency.",
-            "params": [
-              {
-                "name": "currencyId",
-                "type": "CurrencyId"
-              },
-              {
-                "name": "at",
-                "type": "BlockHash",
-                "isHistoric": true,
-                "isOptional": true
-              }
-            ],
-            "type": "NumberOrHex",
-            "isSubscription": false,
-            "jsonrpc": "tokens_queryExistentialDeposit",
-            "method": "queryExistentialDeposit",
-            "section": "tokens"
-          }
-        },
         "dex": {
           "getSupplyAmount": {
             "description": "Get supply amount",
@@ -36564,8 +36578,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -36738,6 +36752,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -36772,14 +36790,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -36790,22 +36808,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -36821,19 +36839,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -37045,8 +37063,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -37219,6 +37237,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -37253,14 +37275,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -37271,22 +37293,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -37302,19 +37324,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -37526,8 +37548,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -37708,6 +37730,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -37742,14 +37768,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -37760,22 +37786,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -37791,19 +37817,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -38015,8 +38041,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -38198,6 +38224,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -38232,14 +38262,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -38250,22 +38280,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -38281,19 +38311,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -38506,8 +38536,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -38685,6 +38715,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -38719,14 +38753,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -38737,22 +38771,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -38768,19 +38802,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -38993,8 +39027,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -39172,6 +39206,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -39206,14 +39244,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -39224,22 +39262,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -39255,19 +39293,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -39480,8 +39518,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -39664,6 +39702,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -39698,14 +39740,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -39716,22 +39758,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -39747,19 +39789,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -39972,8 +40014,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -40155,6 +40197,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -40189,14 +40235,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -40207,22 +40253,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -40238,19 +40284,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -40460,8 +40506,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -40643,6 +40689,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -40677,14 +40727,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -40695,22 +40745,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -40726,19 +40776,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -40948,8 +40998,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -41131,6 +41181,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -41165,14 +41219,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -41183,22 +41237,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -41214,19 +41268,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -53128,6 +53182,10 @@ export const typesBundle = {
         "CheckFreeExtrinsicUse": {
           "extrinsic": {},
           "payload": {}
+        },
+        "HandlesSignedExtension": {
+          "extrinsic": {},
+          "payload": {}
         }
       },
       "types": [
@@ -53188,7 +53246,7 @@ export const typesBundle = {
               "model": "SchemaModel",
               "model_type": "ModelType",
               "payload_location": "PayloadLocation",
-              "setting": "Vec<SchemaSetting>"
+              "settings": "Vec<SchemaSetting>"
             },
             "ModelType": {
               "_enum": [
@@ -53587,6 +53645,10 @@ export const typesBundle = {
         "CheckFreeExtrinsicUse": {
           "extrinsic": {},
           "payload": {}
+        },
+        "HandlesSignedExtension": {
+          "extrinsic": {},
+          "payload": {}
         }
       },
       "types": [
@@ -53647,7 +53709,7 @@ export const typesBundle = {
               "model": "SchemaModel",
               "model_type": "ModelType",
               "payload_location": "PayloadLocation",
-              "setting": "Vec<SchemaSetting>"
+              "settings": "Vec<SchemaSetting>"
             },
             "ModelType": {
               "_enum": [
