@@ -92,7 +92,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoBifrost',
     paraId: 2030,
     providers: {
-      // Liebi: 'wss://bifrost-rpc.rococo.liebi.com/ws' // https://github.com/polkadot-js/apps/issues/9381
+      Liebi: 'wss://bifrost-rpc.rococo.liebi.com/ws'
     },
     text: 'Bifrost',
     ui: {
