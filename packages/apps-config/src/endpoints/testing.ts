@@ -895,7 +895,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'ternoa-testnet',
     providers: {
-      CapsuleCorp: 'wss://testnet.ternoa.com/'
+      // CapsuleCorp: 'wss://testnet.ternoa.com/' // https://github.com/polkadot-js/apps/issues/9515
     },
     text: 'Ternoa Testnet',
     ui: {
