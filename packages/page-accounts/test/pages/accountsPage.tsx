@@ -12,13 +12,13 @@ import { Sidebar } from '@polkadot/test-support/pagesElements';
 import { assertText, clickButton } from '@polkadot/test-support/utils';
 import { settings } from '@polkadot/ui-settings';
 
-import AccountOverview from '../../src/Accounts/index.js';
+import AccountOverview, { StorageMode } from '../../src/Accounts/index.js';
 import { AccountRow } from '../pageElements/AccountRow.js';
 
 const NOOP_CHANGE = () => undefined;
 
 // set the account creation for localStorage to on
-settings.set({ ...settings.get(), storage: 'on' });
+settings.set({ ...settings.get(), storage: StorageMode.enabled });
 
 export class AccountsPage extends Page {
   constructor () {

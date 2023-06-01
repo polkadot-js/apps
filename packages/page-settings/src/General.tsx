@@ -12,6 +12,7 @@ import { Button, Dropdown, MarkWarning } from '@polkadot/react-components';
 import { useApi, useIpfs, useLedger } from '@polkadot/react-hooks';
 import { settings } from '@polkadot/ui-settings';
 
+import { StorageMode } from '../../page-accounts/src/Accounts/index.js';
 import { useTranslation } from './translate.js';
 import { createIdenticon, createOption, save, saveAndReload } from './util.js';
 
@@ -66,8 +67,8 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
 
   const storageOptions = useMemo(
     () => [
-      { text: t<string>('Allow local in-browser account storage'), value: 'on' },
-      { text: t<string>('Do not allow local in-browser account storage'), value: 'off' }
+      { text: t<string>('Allow local in-browser account storage'), value: StorageMode.enabled },
+      { text: t<string>('Do not allow local in-browser account storage'), value: StorageMode.disabled }
     ],
     [t]
   );
@@ -162,7 +163,7 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
               options={storageOptions}
             />
           </div>
-          {state.storage === 'on' && (
+          {state.storage === StorageMode.enabled && (
             <div className='ui--row'>
               <MarkWarning content={t<string>('It is recommended that you store all keys externally to the in-page browser local storage, either on browser extensions, signers operating via QR codes or hardware devices. This option is provided for advanced users with strong backup policies.')} />
             </div>
