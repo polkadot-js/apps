@@ -17,7 +17,7 @@ function usePolkadotPreclaimsImpl (): string[] {
   const [needsAttest, setNeedsAttest] = useState<string[]>([]);
 
   // find all own preclaims
-  const preclaims = useCall<[string, EthereumAddress][]>(api.query.claims?.preclaims?.multi, [allAccounts], {
+  const preclaims: [string, EthereumAddress][] = useCall(api.query.claims?.preclaims?.multi, [allAccounts], {
     transform: (preclaims: Option<EthereumAddress>[]) =>
       preclaims
         .map((opt, index): [string, Option<EthereumAddress>] => [allAccounts[index], opt])

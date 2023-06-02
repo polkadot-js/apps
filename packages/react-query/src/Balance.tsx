@@ -19,7 +19,7 @@ interface Props {
 
 function BalanceDisplay ({ children, className = '', label, params }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const allBalances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [params]);
+  const allBalances: DeriveBalancesAll = useCall(api.derive.balances?.all, [params]);
 
   return (
     <FormatBalance

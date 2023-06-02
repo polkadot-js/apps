@@ -202,13 +202,13 @@ function useScheduledImpl (): EntryInfoTyped[] {
   const blockTime = useBlockInterval();
   const bestNumber = useBestNumber();
   const leaseRangeMax = useLeaseRangeMax();
-  const auctionInfo = useCall<Option<ITuple<[LeasePeriodOf, BlockNumber]>>>(api.query.auctions?.auctionInfo);
-  const councilMotions = useCall<DeriveCollectiveProposal[]>(api.derive.council?.proposals);
-  const dispatches = useCall<DeriveDispatch[]>(api.derive.democracy?.dispatchQueue);
-  const referendums = useCall<DeriveReferendumExt[]>(api.derive.democracy?.referendums);
-  const scheduled = useCall<ScheduleEntry[]>(api.query.scheduler?.agenda?.entries);
-  const sessionInfo = useCall<DeriveSessionProgress>(api.derive.session?.progress);
-  const slashes = useCall<SlashEntry[]>(api.query.staking?.unappliedSlashes.entries);
+  const auctionInfo: Option<ITuple<[LeasePeriodOf, BlockNumber]>> = useCall(api.query.auctions?.auctionInfo);
+  const councilMotions: DeriveCollectiveProposal[] = useCall(api.derive.council?.proposals);
+  const dispatches: DeriveDispatch[] = useCall(api.derive.democracy?.dispatchQueue);
+  const referendums: DeriveReferendumExt[] = useCall(api.derive.democracy?.referendums);
+  const scheduled: ScheduleEntry[] = useCall(api.query.scheduler?.agenda?.entries);
+  const sessionInfo: DeriveSessionProgress = useCall(api.derive.session?.progress);
+  const slashes: SlashEntry[] = useCall(api.query.staking?.unappliedSlashes.entries);
   const [state, setState] = useState<EntryInfoTyped[]>([]);
 
   useEffect((): void => {

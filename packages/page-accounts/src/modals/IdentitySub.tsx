@@ -87,7 +87,7 @@ function IdentitySubModal ({ address, className, onClose }: Props): React.ReactE
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const queryIds = useSubidentities(address);
-  const queryInfos = useCall<[[string[]], Option<ITuple<[AccountId, Data]>>[]]>(queryIds && queryIds.length !== 0 && api.query.identity.superOf.multi, [queryIds], transformInfo);
+  const queryInfos: [[string[]], Option<ITuple<[AccountId, Data]>>[]] = useCall(queryIds && queryIds.length !== 0 && api.query.identity.superOf.multi, [queryIds], transformInfo);
   const [infos, setInfos] = useState<[string, string][] | undefined>();
 
   useEffect((): void => {

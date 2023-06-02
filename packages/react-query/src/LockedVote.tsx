@@ -19,7 +19,7 @@ interface Props {
 
 function LockedVote ({ children, className = '', label, params }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const info = useCall<DeriveCouncilVote>(api.derive.council.votesOf, [params]);
+  const info: DeriveCouncilVote = useCall(api.derive.council.votesOf, [params]);
 
   if (!info?.stake.gtn(0)) {
     return null;

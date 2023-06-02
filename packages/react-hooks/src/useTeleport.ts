@@ -64,7 +64,7 @@ function extractRelayDestinations (relayGenesis: string, filter: (l: ExtLinkOpti
 
 function useTeleportImpl (): Teleport {
   const { api, apiUrl, isApiReady } = useApi();
-  const paraId = useCall<ParaId>(isApiReady && api.query.parachainInfo?.parachainId);
+  const paraId: ParaId = useCall(isApiReady && api.query.parachainInfo?.parachainId);
   const [state, setState] = useState<Teleport>(() => ({ ...DEFAULT_STATE }));
 
   useEffect((): void => {

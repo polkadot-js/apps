@@ -40,9 +40,9 @@ function useTreasuryImpl (): Result {
       EMPTY_U8A_32
     ).subarray(0, 32)
   }));
-  const bounties = useCall<DeriveBounties>(api.derive.bounties?.bounties);
-  const treasuryProposals = useCall<DeriveTreasuryProposals>(api.derive.treasury.proposals);
-  const treasuryBalance = useCall<DeriveBalancesAccount>(api.derive.balances?.account, [result.treasuryAccount]);
+  const bounties: DeriveBounties = useCall(api.derive.bounties?.bounties);
+  const treasuryProposals: DeriveTreasuryProposals = useCall(api.derive.treasury.proposals);
+  const treasuryBalance: DeriveBalancesAccount = useCall(api.derive.balances?.account, [result.treasuryAccount]);
 
   useEffect((): void => {
     treasuryBalance && api.consts.treasury &&

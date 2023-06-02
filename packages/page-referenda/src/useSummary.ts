@@ -18,7 +18,7 @@ function calcActive (grouped: ReferendaGroup[] = []): number {
 
 function useSummaryImpl (palletReferenda: PalletReferenda, grouped?: ReferendaGroup[] | undefined): Summary {
   const { api } = useApi();
-  const refCount = useCall<u32>(api.query[palletReferenda].referendumCount);
+  const refCount: u32 = useCall(api.query[palletReferenda].referendumCount);
   const refActive = useMemo(
     () => calcActive(grouped),
     [grouped]

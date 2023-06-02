@@ -82,8 +82,8 @@ const addIpfsData = (ipfsData: IpfsData) => (collectionInfo: CollectionInfo): Co
 function useCollectionInfosImpl (ids?: BN[]): CollectionInfo[] | undefined {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const metadata = useCall<[[BN[]], Option<PalletUniquesCollectionMetadata>[]]>(api.query.uniques.classMetadataOf.multi, [ids], QUERY_OPTS);
-  const details = useCall<[[BN[]], Option<PalletUniquesCollectionDetails>[]]>(api.query.uniques.class.multi, [ids], QUERY_OPTS);
+  const metadata: [[BN[]], Option<PalletUniquesCollectionMetadata>[]] = useCall(api.query.uniques.classMetadataOf.multi, [ids], QUERY_OPTS);
+  const details: [[BN[]], Option<PalletUniquesCollectionDetails>[]] = useCall(api.query.uniques.class.multi, [ids], QUERY_OPTS);
   const [state, setState] = useState<CollectionInfo[] | undefined>();
 
   const ipfsHashes = useMemo(

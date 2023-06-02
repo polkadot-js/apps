@@ -18,7 +18,7 @@ interface Props {
 function Summary ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const desiredCandidates = useCall<BN>(api.query.collatorSelection.desiredCandidates);
+  const desiredCandidates: BN = useCall(api.query.collatorSelection.desiredCandidates);
 
   return (
     <SummaryBox className={className}>

@@ -36,7 +36,7 @@ function extractNominators (nominations: [StorageKey, Option<Nominations>][]): N
 
 function useNominationsImpl (isActive = true): NominatedByMap | undefined {
   const { api } = useApi();
-  const nominators = useCall<[StorageKey, Option<Nominations>][]>(isActive && api.query.staking.nominators.entries);
+  const nominators: [StorageKey, Option<Nominations>][] = useCall(isActive && api.query.staking.nominators.entries);
 
   return useMemo(
     () => nominators && extractNominators(nominators),

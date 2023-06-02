@@ -28,7 +28,7 @@ function Candidate ({ allMembers, isMember, ownMembers, value: { accountId, kind
     () => [allMembers.map((memberId): [AccountId, string] => [accountId, memberId])],
     [accountId, allMembers]
   );
-  const votes = useCall<VoteType[]>(api.query.society.votes.multi, keys, {
+  const votes: VoteType[] = useCall(api.query.society.votes.multi, keys, {
     transform: (voteOpts: Option<SocietyVote>[]): VoteType[] =>
       voteOpts
         .map((voteOpt, index): [string, Option<SocietyVote>] => [allMembers[index], voteOpt])
