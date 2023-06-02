@@ -521,7 +521,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoSubzero',
     paraId: 4040,
     providers: {
-      ZERO: 'wss://staging.para.sub.zero.io'
+      // ZERO: 'wss://staging.para.sub.zero.io' // https://github.com/polkadot-js/apps/issues/9522
     },
     text: 'Subzero',
     ui: {
