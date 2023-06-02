@@ -1,7 +1,6 @@
 // Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Nominations, ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { AddressFlags, AddressIdentity, UseAccountInfo } from './types.js';
 
@@ -43,8 +42,8 @@ function useAccountInfoImpl (value: string | null, isContract = false): UseAccou
   const { accounts: { isAccount }, addresses: { isAddress } } = useKeyring();
   const accountInfo = useDeriveAccountInfo(value);
   const accountFlags = useDeriveAccountFlags(value);
-  const nominator = useCall<Nominations>(api.query.staking?.nominators, [value]);
-  const validator = useCall<ValidatorPrefs>(api.query.staking?.validators, [value]);
+  const nominator = useCall(api.query.staking?.nominators, [value]);
+  const validator = useCall(api.query.staking?.validators, [value]);
   const [accountIndex, setAccountIndex] = useState<string | undefined>(undefined);
   const [tags, setSortedTags] = useState<string[]>([]);
   const [name, setName] = useState('');

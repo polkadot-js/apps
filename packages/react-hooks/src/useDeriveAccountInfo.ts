@@ -11,7 +11,7 @@ import { useSystemApi } from './useSystemApi.js';
 function useDeriveAccountInfoImpl (value?: AccountId | AccountIndex | Address | Uint8Array | string | null): DeriveAccountInfo | undefined {
   const api = useSystemApi();
 
-  return useCall<DeriveAccountInfo>(api && api.derive.accounts.info, [value]);
+  return useCall(api && api.derive.accounts.info, [value]);
 }
 
 export const useDeriveAccountInfo = createNamedHook('useDeriveAccountInfo', useDeriveAccountInfoImpl);

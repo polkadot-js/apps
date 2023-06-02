@@ -33,8 +33,8 @@ interface Props {
 function Referenda ({ className, isConvictionVote, members, palletReferenda, palletVote, ranks }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const totalIssuance = useCall<BN | undefined>(api.query.balances.totalIssuance);
-  const inactiveIssuance = useCall<BN | undefined>(api.query.balances.inactiveIssuance);
+  const totalIssuance = useCall(api.query.balances.totalIssuance);
+  const inactiveIssuance = useCall(api.query.balances.inactiveIssuance);
   const { allAccounts } = useAccounts();
   const [grouped, tracks] = useReferenda(palletReferenda);
   const summary = useSummary(palletReferenda, grouped);

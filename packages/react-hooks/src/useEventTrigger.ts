@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AugmentedEvent } from '@polkadot/api/types';
-import type { Vec } from '@polkadot/types';
 import type { EventRecord } from '@polkadot/types/interfaces';
 
 import { useEffect, useState } from 'react';
@@ -32,7 +31,7 @@ function useEventTriggerImpl (checks: EventCheck[], filter: (record: EventRecord
   const [state, setState] = useState(() => EMPTY_RESULT);
   const memoChecks = useMemoValue(checks);
   const mountedRef = useIsMountedRef();
-  const eventRecords = useCall<Vec<EventRecord>>(api.query.system.events);
+  const eventRecords = useCall(api.query.system.events);
 
   useEffect((): void => {
     if (mountedRef.current && eventRecords) {

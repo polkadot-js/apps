@@ -1,8 +1,6 @@
 // Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option } from '@polkadot/types';
-import type { RegistrarInfo } from '@polkadot/types/interfaces';
 import type { Registrar } from './types.js';
 
 import { useMemo } from 'react';
@@ -26,7 +24,7 @@ interface State {
 function useRegistrarsImpl (skipQuery?: boolean): State {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
-  const query = useCall<Option<RegistrarInfo>[]>(!skipQuery && api.query.identity?.registrars);
+  const query = useCall(!skipQuery && api.query.identity?.registrars);
 
   // determine if we have a registrar or not - registrars are allowed to approve
   return useMemo(

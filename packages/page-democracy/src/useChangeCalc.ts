@@ -18,7 +18,7 @@ interface Result {
 
 function useChangeCalcImpl (threshold: VoteThreshold, votedAye: BN, votedNay: BN, votedTotal: BN): Result {
   const { api } = useApi();
-  const sqrtElectorate = useCall<BN>(api.derive.democracy.sqrtElectorate);
+  const sqrtElectorate = useCall(api.derive.democracy.sqrtElectorate);
   const [result, setResult] = useState<Result>({ changeAye: BN_ZERO, changeNay: BN_ZERO });
 
   useEffect((): void => {

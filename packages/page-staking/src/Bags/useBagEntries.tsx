@@ -1,9 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option } from '@polkadot/types';
 import type { AccountId32 } from '@polkadot/types/interfaces';
-import type { PalletBagsListListNode } from '@polkadot/types/lookup';
 
 import { useEffect, useState } from 'react';
 
@@ -22,7 +20,7 @@ const EMPTY_LIST: AccountId32[] = [];
 function useBagEntriesImpl (headId: AccountId32 | null, trigger: number): [boolean, AccountId32[]] {
   const mod = useQueryModule();
   const [[currId, { isCompleted, list }], setCurrent] = useState<[AccountId32 | null, Result]>(EMPTY);
-  const node = useCall<Option<PalletBagsListListNode>>(!!currId && mod.listNodes, [currId]);
+  const node = useCall(!!currId && mod.listNodes, [currId]);
 
   useEffect(
     () => setCurrent(

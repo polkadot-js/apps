@@ -67,7 +67,7 @@ function extractTotals (stakingInfo?: DeriveStakingAccountPartial, progress?: De
 
 function StakingUnbonding ({ className = '', iconPosition = 'left', stakingInfo }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const progress = useCall<DeriveSessionProgress>(api.derive.session.progress);
+  const progress = useCall(api.derive.session.progress);
   const { t } = useTranslation();
 
   const [mapped, total, isStalled] = useMemo(

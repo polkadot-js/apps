@@ -1,7 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import type { AppProps as Props } from '@polkadot/react-components/types';
 import type { ElectionStatus, ParaValidatorIndex, ValidatorId } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
@@ -52,7 +51,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const [loadNominations, setLoadNominations] = useState(false);
   const nominatedBy = useNominations(loadNominations);
-  const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview);
+  const stakingOverview = useCall(api.derive.staking.overview);
   const [isInElection, minCommission, paraValidators] = useCallMulti<[boolean, BN | undefined, Record<string, boolean>]>([
     api.query.staking.eraElectionStatus,
     api.query.staking.minCommission,

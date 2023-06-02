@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { Data, Option } from '@polkadot/types';
-import type { IdentityInfo, Registration } from '@polkadot/types/interfaces';
+import type { Data } from '@polkadot/types';
+import type { IdentityInfo } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
 
@@ -70,7 +70,7 @@ function checkValue (hasValue: boolean, value: string | null | undefined, minLen
 function IdentityMain ({ address, className = '', onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const identityOpt = useCall<Option<Registration>>(api.query.identity.identityOf, [address]);
+  const identityOpt = useCall(api.query.identity.identityOf, [address]);
   const [{ info, okAll, okDiscord, okDisplay, okEmail, okLegal, okRiot, okTwitter, okWeb }, setInfo] = useState<ValueState>({ info: {}, okAll: false });
   const [hasEmail, setHasEmail] = useState(false);
   const [hasLegal, setHasLegal] = useState(false);

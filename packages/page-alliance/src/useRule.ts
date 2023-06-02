@@ -19,7 +19,7 @@ const OPT_RULE = {
 function useRuleImpl (): Rule | undefined {
   const { api } = useApi();
 
-  return useCall<Rule>(api.query.alliance.rule, [], OPT_RULE);
+  return useCall(api.query.alliance.rule, [], OPT_RULE);
 }
 
 export default createNamedHook('useRule', useRuleImpl);

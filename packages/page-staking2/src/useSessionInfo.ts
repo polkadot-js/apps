@@ -26,7 +26,7 @@ function useSessionInfoImpl (): SessionInfo {
   const { api } = useApi();
   const activeEra = useCall(api.query.staking.activeEra, undefined, OPT_ACTIVEERA);
   const currentEra = useCall(api.query.staking.currentEra, undefined, OPT_CURRENTERA);
-  const currentSession = useCall<u32>(api.query.session.currentIndex);
+  const currentSession = useCall(api.query.session.currentIndex);
 
   return useMemo(
     () => ({ activeEra, currentEra, currentSession }),

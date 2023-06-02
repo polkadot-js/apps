@@ -7,11 +7,11 @@ import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
 import { createNamedHook } from './createNamedHook.js';
 
-function useDelegationsImpl (): PalletDemocracyVoteVoting[] | undefined {
+function useDelegationsImpl () {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
 
-  return useCall<PalletDemocracyVoteVoting[]>(api.query.democracy?.votingOf?.multi, [allAccounts]);
+  return useCall(api.query.democracy?.votingOf?.multi, [allAccounts]);
 }
 
 export const useDelegations = createNamedHook('useDelegations', useDelegationsImpl);

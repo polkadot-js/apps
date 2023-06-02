@@ -1,8 +1,6 @@
 // Copyright 2017-2023 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BlockNumber } from '@polkadot/types/interfaces';
-
 import React from 'react';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -16,7 +14,7 @@ interface Props {
 
 function BestFinalized ({ children, className = '', label }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const bestNumberFinalized = useCall<BlockNumber>(api.derive.chain.bestNumberFinalized);
+  const bestNumberFinalized = useCall(api.derive.chain.bestNumberFinalized);
 
   return (
     <div className={`${className} ${bestNumberFinalized ? '' : '--tmp'}`}>

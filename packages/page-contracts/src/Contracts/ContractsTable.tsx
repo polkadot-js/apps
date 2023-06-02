@@ -4,7 +4,6 @@
 import type { ApiPromise } from '@polkadot/api';
 import type { ContractPromise } from '@polkadot/api-contract';
 import type { ContractCallOutcome } from '@polkadot/api-contract/types';
-import type { SignedBlockExtended } from '@polkadot/api-derive/types';
 import type { ContractLink } from './types.js';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -38,7 +37,7 @@ function filterContracts (api: ApiPromise, keyringContracts: string[] = []): Con
 function ContractsTable ({ contracts: keyringContracts }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const newBlock = useCall<SignedBlockExtended>(api.derive.chain.subscribeNewBlocks);
+  const newBlock = useCall(api.derive.chain.subscribeNewBlocks);
   const [{ contractIndex, messageIndex, onCallResult }, setIndexes] = useState<Indexes>({ contractIndex: 0, messageIndex: 0 });
   const [isCallOpen, setIsCallOpen] = useState(false);
   const [contractLinks, setContractLinks] = useState<Record<string, ContractLink[]>>({});

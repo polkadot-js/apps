@@ -37,9 +37,9 @@ function addMembers (prev: Member[], ...query: AccountId32[][]): Member[] {
 function useMembersImpl (): Member[] | undefined {
   const { api } = useApi();
   const [state, setState] = useState<Member[] | undefined>();
-  const role0 = useCall<AccountId32[]>(api.query.alliance.members, [ROLES[0]]);
-  const role1 = useCall<AccountId32[]>(api.query.alliance.members, [ROLES[1]]);
-  const role2 = useCall<AccountId32[]>(api.query.alliance.members, [ROLES[2]]);
+  const role0 = useCall(api.query.alliance.members, [ROLES[0]]);
+  const role1 = useCall(api.query.alliance.members, [ROLES[1]]);
+  const role2 = useCall(api.query.alliance.members, [ROLES[2]]);
 
   useEffect((): void => {
     role0 && role1 && role2 &&

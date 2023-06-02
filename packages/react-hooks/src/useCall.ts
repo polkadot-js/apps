@@ -164,7 +164,7 @@ export function useCall<
   TFunc extends TrackFn | undefined | null | boolean,
   TDivergedFunc extends Diverge<Exclude<TFunc, undefined | null | boolean>, StorageEntryPromiseOverloads & QueryableStorageEntry<any, any> & PromiseResult<GenericStorageEntryFunction>>,
   TParams extends TDivergedFunc extends AnyFunction
-    ? NullablePartial<Leading<Parameters<TDivergedFunc>>>
+    ? Readonly<NullablePartial<Leading<Parameters<TDivergedFunc>>>>
     : any[],
   TFuncResult extends TDivergedFunc extends AnyFunction
     ? TDivergedFunc extends PromiseResult< (...args: any) => Observable<infer TResult>>

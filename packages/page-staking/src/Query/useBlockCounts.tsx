@@ -1,7 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveSessionIndexes } from '@polkadot/api-derive/types';
 import type { u32 } from '@polkadot/types';
 import type { SessionRewards } from '../types.js';
 
@@ -13,8 +12,8 @@ import { BN_ONE, BN_ZERO, isFunction } from '@polkadot/util';
 function useBlockCountsImpl (accountId: string, sessionRewards: SessionRewards[]): u32[] {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
-  const indexes = useCall<DeriveSessionIndexes>(api.derive.session?.indexes);
-  const current = useCall<u32>(api.query.imOnline?.authoredBlocks, [indexes?.currentIndex, accountId]);
+  const indexes = useCall(api.derive.session?.indexes);
+  const current = useCall(api.query.imOnline?.authoredBlocks, [indexes?.currentIndex, accountId]);
   const [counts, setCounts] = useState<u32[]>([]);
   const [historic, setHistoric] = useState<u32[]>([]);
 

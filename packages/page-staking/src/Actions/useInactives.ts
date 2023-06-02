@@ -92,7 +92,7 @@ function useInactivesImpl (stashId: string, nominees?: string[]): Inactives {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState<Inactives>({});
-  const indexes = useCall<DeriveSessionIndexes>(api.derive.session.indexes);
+  const indexes = useCall(api.derive.session.indexes);
 
   useEffect((): () => void => {
     let unsub: (() => void) | undefined;

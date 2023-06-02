@@ -3,9 +3,6 @@
 
 /* eslint-disable camelcase */
 
-import type { Option } from '@polkadot/types';
-import type { PrefabWasmModule } from '@polkadot/types/interfaces';
-
 import React, { useMemo } from 'react';
 
 import { InfoForInput } from '@polkadot/react-components';
@@ -22,7 +19,7 @@ interface Props {
 function ValidateCode ({ codeHash, onChange }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const { t } = useTranslation();
-  const codeStorage = useCall<Option<PrefabWasmModule>>((api.query.contracts || api.query.contract).codeStorage, [codeHash]);
+  const codeStorage = useCall((api.query.contracts || api.query.contract).codeStorage, [codeHash]);
   const [isValidHex, isValid] = useMemo(
     (): [boolean, boolean] => {
       const isValidHex = !!codeHash && isHex(codeHash) && codeHash.length === 66;

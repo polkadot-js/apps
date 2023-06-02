@@ -22,7 +22,7 @@ const OPT_CALL = {
 
 function useIdentitiesImpl (validatorIds: string[] = []): Result | undefined {
   const { api } = useApi();
-  const allIdentity = useCall<Result>(api.derive.accounts.hasIdentityMulti, [validatorIds], OPT_CALL);
+  const allIdentity = useCall(api.derive.accounts.hasIdentityMulti, [validatorIds], OPT_CALL);
 
   return allIdentity;
 }

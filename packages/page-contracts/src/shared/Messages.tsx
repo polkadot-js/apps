@@ -3,8 +3,6 @@
 
 import type { Abi, ContractPromise } from '@polkadot/api-contract';
 import type { AbiMessage, ContractCallOutcome } from '@polkadot/api-contract/types';
-import type { Option } from '@polkadot/types';
-import type { ContractInfo } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
@@ -46,7 +44,7 @@ function sortMessages (messages: AbiMessage[]): [AbiMessage, number][] {
 function Messages ({ className = '', contract, contractAbi: { constructors, info: { source }, messages }, isLabelled, isWatching, onSelect, onSelectConstructor, trigger, withConstructors, withMessages, withWasm }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const optInfo = useCall<Option<ContractInfo>>(contract && api.query.contracts.contractInfoOf, [contract?.address]);
+  const optInfo = useCall(contract && api.query.contracts.contractInfoOf, [contract?.address]);
   const [isUpdating, setIsUpdating] = useState(false);
   const [lastResults, setLastResults] = useState<(ContractCallOutcome | undefined)[]>([]);
 

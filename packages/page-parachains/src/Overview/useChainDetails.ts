@@ -19,8 +19,8 @@ function useChainDetailsImpl (id: ParaId): Result {
 
   // We are not using the derive here, we keep this queries to the point to not overload
   return {
-    bestNumber: useCall<BlockNumber>(api?.rpc.chain.subscribeNewHeads, undefined, HDR_OPTS),
-    runtimeVersion: useCall<RuntimeVersion>(api?.rpc.state.subscribeRuntimeVersion)
+    bestNumber: useCall(api?.rpc.chain.subscribeNewHeads, undefined, HDR_OPTS),
+    runtimeVersion: useCall(api?.rpc.state.subscribeRuntimeVersion)
   };
 }
 

@@ -42,7 +42,7 @@ async function getVoters (api: ApiPromise, candidates: DeriveSocietyCandidate[])
 function useVotersImpl (): Voters {
   const { api } = useApi();
   const voteTrigger = useEventTrigger([api.events.society.Vote]);
-  const candidates = useCall<DeriveSocietyCandidate[]>(api.derive.society.candidates);
+  const candidates = useCall(api.derive.society.candidates);
   const [state, setState] = useState<Voters>(EMPTY_VOTERS);
 
   useEffect((): void => {

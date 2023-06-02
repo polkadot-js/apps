@@ -12,7 +12,7 @@ const transformCounter = {
 function useCounterImpl (): number {
   const { hasAccounts } = useAccounts();
   const { api, isApiReady } = useApi();
-  const counter = useCall<number>(isApiReady && hasAccounts && api.derive.council?.proposals, undefined, transformCounter) || 0;
+  const counter = useCall(isApiReady && hasAccounts && api.derive.council?.proposals, undefined, transformCounter) || 0;
 
   return counter;
 }

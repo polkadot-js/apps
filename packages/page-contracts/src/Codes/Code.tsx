@@ -1,8 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option } from '@polkadot/types';
-import type { Codec } from '@polkadot/types/types';
 import type { CodeStored } from '../types.js';
 
 import React, { useCallback } from 'react';
@@ -24,7 +22,7 @@ interface Props {
 function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const optCode = useCall<Option<Codec>>(api.query.contracts.codeStorage, [code.json.codeHash]);
+  const optCode = useCall(api.query.contracts.codeStorage, [code.json.codeHash]);
   const [isForgetOpen, toggleIsForgetOpen] = useToggle();
   const { contractAbi } = useAbi([code.json.abi, code.contractAbi], code.json.codeHash, true);
 

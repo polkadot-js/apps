@@ -52,7 +52,7 @@ function getProgressInfo (value?: BN, total?: BN): ProgressInfo {
 function Summary ({ avgStaked, className, lastEra, lowStaked, minNominated, minNominatorBond, stakedReturn, totalIssuance, totalStaked }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const lastReward = useCall<BN>(lastEra && api.query.staking.erasValidatorReward, [lastEra], OPT_REWARD);
+  const lastReward = useCall(lastEra && api.query.staking.erasValidatorReward, [lastEra], OPT_REWARD);
 
   const progressStake = useMemo(
     () => getProgressInfo(totalStaked, totalIssuance),

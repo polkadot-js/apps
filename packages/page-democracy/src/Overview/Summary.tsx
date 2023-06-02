@@ -22,7 +22,7 @@ const optMulti = {
 function Summary ({ referendumCount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const activeProposals = useCall<unknown[]>(api.derive.democracy.proposals);
+  const activeProposals = useCall(api.derive.democracy.proposals);
   const bestNumber = useBestNumber();
   const [publicPropCount, referendumTotal] = useCallMulti<[BN | undefined, BN | undefined]>([
     api.query.democracy.publicPropCount,

@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CollectiveType } from '@polkadot/react-hooks/types';
-import type { Hash } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
 import { Route, Routes } from 'react-router';
@@ -27,8 +26,8 @@ function TechCommApp ({ basePath, className, type }: Props): React.ReactElement<
   const { t } = useTranslation();
   const { api } = useApi();
   const { isMember, members, prime } = useCollectiveMembers(type);
-  const hasProposals = useCall<boolean>(api.derive[type].hasProposals);
-  const proposalHashes = useCall<Hash[]>(api.derive[type].proposalHashes);
+  const hasProposals = useCall(api.derive[type].hasProposals);
+  const proposalHashes = useCall(api.derive[type].proposalHashes);
 
   const items = useMemo(() => [
     {

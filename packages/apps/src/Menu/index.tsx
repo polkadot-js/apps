@@ -4,7 +4,6 @@
 import type { TFunction } from 'i18next';
 import type { Route, Routes } from '@polkadot/apps-routing/types';
 import type { ApiProps } from '@polkadot/react-api/types';
-import type { AccountId } from '@polkadot/types/interfaces';
 import type { Group, Groups, ItemRoute } from './types.js';
 
 import React, { useMemo, useRef } from 'react';
@@ -92,7 +91,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   const { allAccounts, hasAccounts } = useAccounts();
   const apiProps = useApi();
   const { allowTeleport } = useTeleport();
-  const sudoKey = useCall<AccountId>(apiProps.isApiReady && apiProps.api.query.sudo?.key);
+  const sudoKey = useCall(apiProps.isApiReady && apiProps.api.query.sudo?.key);
   const location = useLocation();
 
   const externalRef = useRef(createExternals(t));

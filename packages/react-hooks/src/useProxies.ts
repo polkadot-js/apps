@@ -24,11 +24,11 @@ const OPTS = {
       )
 };
 
-function useProxiesImpl (): [PalletProxyProxyDefinition[], BN][] | undefined {
+function useProxiesImpl () {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
 
-  return useCall<[PalletProxyProxyDefinition[], BN][]>(api.query.proxy?.proxies.multi, [allAccounts], OPTS);
+  return useCall(api.query.proxy?.proxies.multi, [allAccounts], OPTS);
 }
 
 export const useProxies = createNamedHook('useProxies', useProxiesImpl);

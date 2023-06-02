@@ -44,7 +44,7 @@ function TreasuryCell ({ className = '', value }: Props): React.ReactElement<Pro
   const { t } = useTranslation();
   const { api } = useApi();
   const [proposalId] = useState(() => value.unwrap());
-  const proposal = useCall<TreasuryProposal | null>(api.query.treasury.proposals, [proposalId], OPT_PROP);
+  const proposal = useCall(api.query.treasury.proposals, [proposalId], OPT_PROP);
   const [{ params, values }, setExtracted] = useState<ParamState>(DEFAULT_PARAMS);
 
   useEffect((): void => {

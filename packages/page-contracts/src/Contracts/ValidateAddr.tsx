@@ -1,9 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option } from '@polkadot/types';
-import type { ContractInfo } from '@polkadot/types/interfaces';
-
 import React, { useEffect, useState } from 'react';
 
 import { InfoForInput } from '@polkadot/react-components';
@@ -20,7 +17,7 @@ interface Props {
 function ValidateAddr ({ address, onChange }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const contractInfo = useCall<Option<ContractInfo>>(api.query.contracts.contractInfoOf, [address]);
+  const contractInfo = useCall(api.query.contracts.contractInfoOf, [address]);
   const [isAddress, setIsAddress] = useState(false);
   const [isStored, setIsStored] = useState(false);
 

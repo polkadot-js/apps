@@ -1,9 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveSessionProgress } from '@polkadot/api-derive/types';
-import type { Forcing } from '@polkadot/types/interfaces';
-
 import React from 'react';
 
 import { CardSummary } from '@polkadot/react-components';
@@ -22,8 +19,8 @@ interface Props {
 function SummarySession ({ className, withEra = true, withSession = true }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const sessionInfo = useCall<DeriveSessionProgress>(api.derive.session?.progress);
-  const forcing = useCall<Forcing>(api.query.staking?.forceEra);
+  const sessionInfo = useCall(api.derive.session?.progress);
+  const forcing = useCall(api.query.staking?.forceEra);
 
   const eraLabel = t<string>('era');
   const sessionLabel = api.query.babe

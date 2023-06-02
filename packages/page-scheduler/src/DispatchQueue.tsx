@@ -1,8 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-scheduler authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveDispatch } from '@polkadot/api-derive/types';
-
 import React, { useMemo, useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
@@ -19,7 +17,7 @@ function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null 
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useBestNumber();
-  const queued = useCall<DeriveDispatch[]>(api.derive.democracy.dispatchQueue);
+  const queued = useCall(api.derive.democracy.dispatchQueue);
 
   const filtered = useMemo(
     () => bestNumber && queued &&

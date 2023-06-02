@@ -25,8 +25,8 @@ const OPT_WEB = {
 
 function useUnscrupulousImpl (): Unscrupulous | undefined {
   const { api } = useApi();
-  const accounts = useCall<string[]>(api.query.alliance.unscrupulousAccounts, [], OPT_ACC);
-  const websites = useCall<string[]>(api.query.alliance.unscrupulousWebsites, [], OPT_WEB);
+  const accounts = useCall(api.query.alliance.unscrupulousAccounts, [], OPT_ACC);
+  const websites = useCall(api.query.alliance.unscrupulousWebsites, [], OPT_WEB);
 
   return useMemo(
     () => accounts && websites && { accounts, websites },

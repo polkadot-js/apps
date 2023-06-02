@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
-import type { DeriveStakingQuery } from '@polkadot/api-derive/types';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
@@ -31,7 +30,7 @@ function KickNominees ({ className = '', controllerId, nominating, onClose, stas
   const { api } = useApi();
   const [selected, setSelected] = useState<string[]>([]);
   const [{ kickTx }, setTx] = useState<{ kickTx?: null | SubmittableExtrinsic<'promise'> }>({});
-  const queryInfo = useCall<DeriveStakingQuery>(api.derive.staking.query, [stashId, accountOpts]);
+  const queryInfo = useCall(api.derive.staking.query, [stashId, accountOpts]);
 
   const nominators = useMemo(
     () => queryInfo?.exposure?.others.map(({ who }) => who.toString()),

@@ -22,7 +22,7 @@ const OPT = {
 
 function TipReason ({ hash }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const reasonText = useCall<string | null>((api.query.tips || api.query.treasury).reasons, [hash], OPT);
+  const reasonText = useCall((api.query.tips || api.query.treasury).reasons, [hash], OPT);
 
   return (
     <td className='start all'>{reasonText || hash.toHex()}</td>

@@ -14,7 +14,7 @@ const OPT = {
 function useBestHashImpl (): string | undefined {
   const { api } = useApi();
 
-  return useCall<string>(api.rpc.chain.subscribeNewHeads, undefined, OPT);
+  return useCall(api.rpc.chain.subscribeNewHeads, undefined, OPT);
 }
 
 export const useBestHash = createNamedHook('useBestHash', useBestHashImpl);

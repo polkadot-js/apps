@@ -16,7 +16,7 @@ const OPT_SPAN = {
 function useSlashingSpansImpl (stashId: string): number {
   const { api } = useApi();
 
-  return useCall<number>(api.query.staking.slashingSpans, [stashId], OPT_SPAN) || 0;
+  return useCall(api.query.staking.slashingSpans, [stashId], OPT_SPAN) || 0;
 }
 
 export default createNamedHook('useSlashingSpans', useSlashingSpansImpl);

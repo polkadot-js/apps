@@ -85,7 +85,7 @@ function getValues (selectedId: string | null | undefined, noDefault: boolean | 
 function VoteValue ({ accountId, autoFocus, label, noDefault, onChange }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const allBalances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [accountId]);
+  const allBalances = useCall(api.derive.balances?.all, [accountId]);
   const [{ defaultValue, maxValue, selectedId, value }, setValue] = useState<ValueState>({ defaultValue: BN_ZERO, maxValue: BN_ZERO, value: BN_ZERO });
 
   useEffect((): void => {

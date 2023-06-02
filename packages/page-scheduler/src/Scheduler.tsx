@@ -82,7 +82,7 @@ function Schedule ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useBestNumber();
-  const items = useCall<ScheduledExt[]>(api.query.scheduler.agenda.entries, undefined, OPT_SCHED);
+  const items = useCall(api.query.scheduler.agenda.entries, undefined, OPT_SCHED);
 
   const filtered = useMemo(
     () => bestNumber && items &&

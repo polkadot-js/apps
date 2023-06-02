@@ -31,7 +31,7 @@ const OPT_VOTES = {
 function Defender ({ className = '', info, isMember, ownMembers }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const votes = useCall<VoteType[]>(api.derive.society.members, undefined, OPT_VOTES);
+  const votes = useCall(api.derive.society.members, undefined, OPT_VOTES);
 
   const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
     [t<string>('defender'), 'start'],

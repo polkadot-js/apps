@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { RuntimeDispatchInfo } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
@@ -28,7 +27,7 @@ function PaymentInfo ({ accountId, className = '', extrinsic, isHeader }: Props)
   const { t } = useTranslation();
   const { api } = useApi();
   const [dispatchInfo, setDispatchInfo] = useState<RuntimeDispatchInfo | null>(null);
-  const balances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [accountId]);
+  const balances = useCall(api.derive.balances?.all, [accountId]);
   const mountedRef = useIsMountedRef();
 
   useEffect((): void => {

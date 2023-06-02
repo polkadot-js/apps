@@ -16,7 +16,7 @@ const OPT_ANN = {
 function useAnnouncementsImpl (): Cid[] | undefined {
   const { api } = useApi();
 
-  return useCall<Cid[]>(api.query.alliance.announcements, [], OPT_ANN);
+  return useCall(api.query.alliance.announcements, [], OPT_ANN);
 }
 
 export default createNamedHook('useAnnouncements', useAnnouncementsImpl);

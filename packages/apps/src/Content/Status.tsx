@@ -66,7 +66,7 @@ function Status ({ optionsAll }: Props): React.ReactElement<Props> {
   const { api, isApiReady } = useApi();
   const { allAccounts } = useAccounts();
   const { t } = useTranslation();
-  const events = useCall<EventRecord[]>(isApiReady && api.query.system?.events);
+  const events = useCall(isApiReady && api.query.system?.events);
 
   useEffect((): void => {
     const filtered = filterEvents(allAccounts, t, optionsAll, events);

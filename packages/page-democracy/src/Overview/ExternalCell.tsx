@@ -1,7 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveProposalImage } from '@polkadot/api-derive/types';
 import type { Hash } from '@polkadot/types/interfaces';
 
 import React from 'react';
@@ -19,7 +18,7 @@ interface Props {
 function ExternalCell ({ className = '', value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const preimage = useCall<DeriveProposalImage>(api.derive.democracy.preimage, [value]);
+  const preimage = useCall(api.derive.democracy.preimage, [value]);
 
   if (!preimage?.proposal) {
     return null;

@@ -1,8 +1,6 @@
 // Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { RuntimeVersion } from '@polkadot/types/interfaces';
-
 import React from 'react';
 
 import { ChainImg, Icon, styled } from '@polkadot/react-components';
@@ -17,7 +15,7 @@ interface Props {
 
 function ChainInfo ({ className }: Props): React.ReactElement<Props> {
   const { api, isApiReady } = useApi();
-  const runtimeVersion = useCall<RuntimeVersion>(isApiReady && api.rpc.state.subscribeRuntimeVersion);
+  const runtimeVersion = useCall(isApiReady && api.rpc.state.subscribeRuntimeVersion);
   const { ipnsChain } = useIpfs();
   const [isEndpointsVisible, toggleEndpoints] = useToggle();
   const canToggle = !ipnsChain;

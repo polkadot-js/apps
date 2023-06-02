@@ -1,8 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveTreasuryProposals } from '@polkadot/api-derive/types';
-
 import React from 'react';
 
 import { Button } from '@polkadot/react-components';
@@ -20,7 +18,7 @@ interface Props {
 
 function Overview ({ className, isMember, members }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const info = useCall<DeriveTreasuryProposals>(api.derive.treasury.proposals);
+  const info = useCall(api.derive.treasury.proposals);
 
   return (
     <div className={className}>

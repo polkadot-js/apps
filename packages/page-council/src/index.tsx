@@ -1,9 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import type { AccountId } from '@polkadot/types/interfaces';
-
 import React, { useMemo } from 'react';
 import { Route, Routes } from 'react-router';
 import { useLocation } from 'react-router-dom';
@@ -28,8 +25,8 @@ function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> 
   const { api } = useApi();
   const { pathname } = useLocation();
   const numMotions = useCounter();
-  const prime = useCall<AccountId | null>(api.derive.council.prime);
-  const motions = useCall<DeriveCollectiveProposal[]>(api.derive.council.proposals);
+  const prime = useCall(api.derive.council.prime);
+  const motions = useCall(api.derive.council.proposals);
 
   const items = useMemo(() => [
     {

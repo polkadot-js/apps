@@ -63,7 +63,7 @@ function useParaMapImpl (ids?: ParaId[]): Result | undefined {
     [hasLinksMap]
   );
 
-  return useCall<Result>(ids && api.query.slots.leases.multi, [ids], {
+  return useCall(ids && api.query.slots.leases.multi, [ids], {
     transform,
     withParamsTransform: true
   });

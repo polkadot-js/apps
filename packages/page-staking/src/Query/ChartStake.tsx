@@ -52,8 +52,8 @@ function extractStake (labels: string[], exposures: DeriveOwnExposure[], divisor
 function ChartStake ({ labels, validatorId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const params = useMemo(() => [validatorId, false], [validatorId]);
-  const ownExposures = useCall<DeriveOwnExposure[]>(api.derive.staking.ownExposures, params);
+  const params = useMemo(() => [validatorId, false] as const, [validatorId]);
+  const ownExposures = useCall(api.derive.staking.ownExposures, params);
   const [values, setValues] = useState<LineData>([]);
 
   const { currency, divisor } = useMemo(

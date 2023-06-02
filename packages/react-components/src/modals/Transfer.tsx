@@ -1,7 +1,6 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { AccountInfoWithProviders, AccountInfoWithRefCount } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
@@ -57,8 +56,8 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
   const [recipientId, setRecipientId] = useState<string | null>(null);
   const [senderId, setSenderId] = useState<string | null>(null);
   const [[, recipientPhish], setPhishing] = useState<[string | null, string | null]>([null, null]);
-  const balances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [propSenderId || senderId]);
-  const accountInfo = useCall<AccountInfoWithProviders | AccountInfoWithRefCount>(api.query.system.account, [propSenderId || senderId]);
+  const balances = useCall(api.derive.balances?.all, [propSenderId || senderId]);
+  const accountInfo = useCall(api.query.system.account, [propSenderId || senderId]);
 
   useEffect((): void => {
     const fromId = propSenderId || senderId as string;

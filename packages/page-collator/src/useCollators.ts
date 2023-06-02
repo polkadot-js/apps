@@ -74,9 +74,9 @@ function useCollatorImpl (): Collator[] | undefined {
     [state]
   );
 
-  const invulnerables = useCall<Collator[]>(api.query.collatorSelection.invulnerables, [], OPT_INV);
-  const candidates = useCall<Collator[]>(api.query.collatorSelection.candidates, [], OPT_CAN);
-  const lastBlocks = useCall<Authored>(accountIds && api.query.collatorSelection.lastAuthoredBlock?.multi, [accountIds], OPT_AUT);
+  const invulnerables = useCall(api.query.collatorSelection.invulnerables, [], OPT_INV);
+  const candidates = useCall(api.query.collatorSelection.candidates, [], OPT_CAN);
+  const lastBlocks = useCall(accountIds && api.query.collatorSelection.lastAuthoredBlock?.multi, [accountIds], OPT_AUT);
 
   useEffect(
     () => invulnerables && candidates && setState(() =>
