@@ -36,6 +36,16 @@ export type TxSource<T extends TxDefs> = [T, boolean];
 
 export type CollectiveType = 'alliance' | 'council' | 'membership' | 'technicalCommittee';
 
+export type Diverge<TType, TIntersect> = TType extends infer TDiverge & TIntersect ? TDiverge : TType
+
+export type Leading<T extends any[]> = T extends [...infer Leading, any] ? Leading : []
+
+export type NullablePartial<T> = { [P in keyof T]?: T[P] | null; }
+
+export type PickKnownKeys<T> = {
+  [P in keyof T as string extends P ? never : number extends P ? never : P]: T[P]
+}
+
 export interface ModalState {
   isOpen: boolean;
   onOpen: () => void;

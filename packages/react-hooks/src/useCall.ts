@@ -1,11 +1,12 @@
 // Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observable } from 'rxjs';
 import type { ApiPromise } from '@polkadot/api';
-import type { PromiseResult, QueryableStorageEntry } from '@polkadot/api/types';
+import type { GenericStorageEntryFunction, PromiseResult, QueryableStorageEntry, StorageEntryPromiseOverloads } from '@polkadot/api/types';
 import type { StorageEntryTypeLatest } from '@polkadot/types/interfaces';
 import type { AnyFunction, Codec } from '@polkadot/types/types';
-import type { CallOptions, CallParam, CallParams } from './types.js';
+import type { CallOptions, CallParam, CallParams, Diverge, Leading, NullablePartial } from './types.js';
 import type { MountedRef } from './useIsMountedRef.js';
 
 import { useEffect, useRef, useState } from 'react';
@@ -157,13 +158,26 @@ export function throwOnError (tracker: Tracker): void {
 // tracks a stream, typically an api.* call (derive, rpc, query) that
 //  - returns a promise with an unsubscribe function
 //  - has a callback to set the value
-// FIXME The typings here need some serious TLC
 // FIXME This is generic, we cannot really use createNamedHook
-export function useCall <T> (fn: TrackFn | undefined | null | false, params?: CallParams | null, options?: CallOptions<T>): T | undefined {
+export function useCall<
+  TTransformedResult,
+  TFunc extends TrackFn | undefined | null | boolean,
+  TDivergedFunc extends Diverge<Exclude<TFunc, undefined | null | boolean>, StorageEntryPromiseOverloads & QueryableStorageEntry<any, any> & PromiseResult<GenericStorageEntryFunction>>,
+  TParams extends TDivergedFunc extends AnyFunction
+    ? NullablePartial<Leading<Parameters<TDivergedFunc>>>
+    : any[],
+  TFuncResult extends TDivergedFunc extends AnyFunction
+    ? TDivergedFunc extends PromiseResult< (...args: any) => Observable<infer TResult>>
+      ? TResult
+      : any
+    : any,
+  TResult extends TCallOptions extends CallOptions<infer R> ? R : TFuncResult,
+  TCallOptions extends CallOptions<TTransformedResult> | void = void,
+>(fn: TFunc, params?: TParams, options?: TCallOptions): TResult {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const tracker = useRef<Tracker>({ error: null, fn: null, isActive: false, serialized: null, subscriber: null, type: 'useCall' });
-  const [value, setValue] = useState<T | undefined>((options || {}).defaultValue);
+  const [value, setValue] = useState<TResult | undefined>((options || {}).defaultValue);
 
   // initial effect, we need an un-subscription
   useEffect((): () => void => {
