@@ -16,6 +16,7 @@ import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { BN_ZERO, isFunction } from '@polkadot/util';
 
+import { StorageMode } from '../../../apps/src/initSettings.js';
 import CreateModal from '../modals/Create.js';
 import ImportModal from '../modals/Import.js';
 import Ledger from '../modals/Ledger.js';
@@ -86,13 +87,6 @@ function groupAccounts (accounts: SortedAccount[]): Record<GroupName, string[]> 
 
   return ret;
 }
-
-// this is a workaround to not fork https://github.com/polkadot-js/ui/tree/master/packages/ui-settings
-// below value is the default one https://github.com/polkadot-js/ui/blob/master/packages/ui-settings/src/defaults/index.ts#L59
-export const StorageMode = {
-  disabled: 'on',
-  enabled: 'off'
-};
 
 function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
