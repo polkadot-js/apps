@@ -74,7 +74,7 @@ function isQuery (fn: unknown): fn is QueryableStorageEntry<'promise', []> {
 }
 
 // extract the serialized and mapped params, all ready for use in our call
-function extractParams <T> (fn: unknown, params: unknown[], { paramMap = transformIdentity }: CallOptions<T> = {}): [string, CallParams | null] {
+function extractParams <T> (fn: unknown, params: readonly unknown[], { paramMap = transformIdentity }: CallOptions<T> = {}): [string, CallParams | null] {
   return [
     JSON.stringify({ f: (fn as { name: string })?.name, p: params }),
     params.length === 0 || !params.some((param) => isNull(param) || isUndefined(param))
@@ -161,22 +161,23 @@ export function throwOnError (tracker: Tracker): void {
 // FIXME This is generic, we cannot really use createNamedHook
 export function useCall<
   TTransformedResult,
-  TFunc extends TrackFn | undefined | null | boolean,
-  TDivergedFunc extends Diverge<Exclude<TFunc, undefined | null | boolean>, StorageEntryPromiseOverloads & QueryableStorageEntry<any, any> & PromiseResult<GenericStorageEntryFunction>>,
+  TFunc extends TrackFn | undefined | null | false,
+  TDivergedFunc extends Diverge<Exclude<TFunc, undefined | null | false>, StorageEntryPromiseOverloads & QueryableStorageEntry<any, any> & PromiseResult<GenericStorageEntryFunction>>,
   TParams extends TDivergedFunc extends AnyFunction
     ? Readonly<NullablePartial<Leading<Parameters<TDivergedFunc>>>>
-    : any[],
+    : unknown[],
   TFuncResult extends TDivergedFunc extends AnyFunction
     ? TDivergedFunc extends PromiseResult< (...args: any) => Observable<infer TResult>>
       ? TResult
-      : any
-    : any,
+      : unknown
+    : unknown,
   TResult extends TCallOptions extends CallOptions<infer R> ? R : TFuncResult,
-  TCallOptions extends CallOptions<TTransformedResult> | void = void,
->(fn: TFunc, params?: TParams, options?: TCallOptions): TResult {
+  TCallOptions extends CallOptions<TTransformedResult> | undefined = undefined,
+>(fn: TFunc, params?: TParams, options?: TCallOptions): TResult | undefined {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const tracker = useRef<Tracker>({ error: null, fn: null, isActive: false, serialized: null, subscriber: null, type: 'useCall' });
+  // @ts-expect-error needs better typing for options transform
   const [value, setValue] = useState<TResult | undefined>((options || {}).defaultValue);
 
   // initial effect, we need an un-subscription
