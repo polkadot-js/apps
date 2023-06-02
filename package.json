@@ -69,7 +69,7 @@
   "devDependencies": {
     "@crustio/crust-pin": "^1.0.0",
     "@pinata/sdk": "^1.2.1",
-    "@polkadot/dev": "^0.75.10",
+    "@polkadot/dev": "^0.75.14",
     "@types/chart.js": "^2.9.37",
     "@types/file-saver": "^2.0.5",
     "@types/react-beautiful-dnd": "^13.1.4",
@@ -79,10 +79,10 @@
     "@types/store": "^2.0.2",
     "@types/styled-components": "^5.1.26",
     "@types/styled-theming": "^2.2.5",
-    "concurrently": "^8.0.1",
+    "concurrently": "^8.1.0",
     "devtron": "^1.4.0",
     "dnslink-cloudflare": "^3.0.0",
-    "electron": "24.4.0",
+    "electron": "25.0.1",
     "electron-builder": "23.6.0",
     "electron-builder-notarize": "^1.5.1",
     "extensionless": "^1.4.5",
@@ -123,6 +123,6 @@
     "@polkadot/x-textencoder": "^12.2.1",
     "@polkadot/x-ws": "^12.2.1",
     "styled-components": "^5.3.1",
-    "typescript": "^5.0.4"
+    "typescript": "^5.1.3"
   }
 }
