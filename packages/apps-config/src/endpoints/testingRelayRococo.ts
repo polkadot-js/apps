@@ -631,7 +631,7 @@ export const testParasRococoCommon: EndpointOption[] = [
     info: 'rococoStatemint',
     paraId: 1000,
     providers: {
-      Parity: 'wss://rococo-rockmine-rpc.polkadot.io'
+      Parity: 'wss://rococo-asset-hub-rpc.polkadot.io'
     },
     teleport: [-1],
     text: 'Rockmine',

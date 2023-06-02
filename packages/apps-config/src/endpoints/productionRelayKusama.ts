@@ -777,7 +777,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       'IBP-GeoDNS2': 'wss://sys.dotters.network/statemine',
       LuckyFriday: 'wss://rpc-statemine.luckyfriday.io',
       OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
-      Parity: 'wss://statemine-rpc.polkadot.io',
+      Parity: 'wss://kusama-asset-hub-rpc.polkadot.io',
       RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws'
     },
     teleport: [-1],
