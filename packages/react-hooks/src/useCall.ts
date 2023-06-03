@@ -161,19 +161,19 @@ export function throwOnError (tracker: Tracker): void {
 // FIXME This is generic, we cannot really use createNamedHook
 export function useCall<
   TTransformedResult,
-  TFunc extends TrackFn | undefined | null | false,
-  TDivergedFunc extends Diverge<Exclude<TFunc, undefined | null | false>, StorageEntryPromiseOverloads & QueryableStorageEntry<any, any> & PromiseResult<GenericStorageEntryFunction>>,
-  TParams extends TDivergedFunc extends AnyFunction
-    ? Readonly<NullablePartial<Leading<Parameters<TDivergedFunc>>>>
+  TFn extends TrackFn | undefined | null | false,
+  TDivergedFn extends Diverge<Exclude<TFn, undefined | null | false>, StorageEntryPromiseOverloads & QueryableStorageEntry<any, any> & PromiseResult<GenericStorageEntryFunction>>,
+  TParams extends TDivergedFn extends AnyFunction
+    ? Readonly<NullablePartial<Leading<Parameters<TDivergedFn>>>>
     : unknown[],
-  TFuncResult extends TDivergedFunc extends AnyFunction
-    ? TDivergedFunc extends PromiseResult< (...args: any) => Observable<infer TResult>>
-      ? TResult
+  TFnResult extends TDivergedFn extends AnyFunction
+    ? TDivergedFn extends PromiseResult< (...args: any) => Observable<infer R>>
+      ? R
       : unknown
     : unknown,
-  TResult extends TCallOptions extends CallOptions<infer R> ? R : TFuncResult,
+  TResult extends TCallOptions extends CallOptions<infer R> ? R : TFnResult,
   TCallOptions extends CallOptions<TTransformedResult> | undefined = undefined,
->(fn: TFunc, params?: TParams, options?: TCallOptions): TResult | undefined {
+>(fn: TFn, params?: TParams, options?: TCallOptions): TResult | undefined {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const tracker = useRef<Tracker>({ error: null, fn: null, isActive: false, serialized: null, subscriber: null, type: 'useCall' });
