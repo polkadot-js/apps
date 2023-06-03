@@ -28,7 +28,7 @@ function filter (records: EventRecord[]): Changes<AccountId32> {
   return { added, removed };
 }
 
-function useMemberIdsImpl (collective: PalletColl): AccountId32[] | undefined {
+function useMemberIdsImpl (collective: PalletColl) {
   const { api } = useApi();
   const startValue = useMapKeys(api.query[collective].members, [], OPT_ID);
 

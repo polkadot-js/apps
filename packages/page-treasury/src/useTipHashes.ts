@@ -11,7 +11,7 @@ const OPT = {
     keys.map(({ args: [hash] }) => hash.toHex())
 };
 
-function useTipHashesImpl (): string[] | undefined {
+function useTipHashesImpl () {
   const { api } = useApi();
   const trigger = useEventTrigger([
     api.events.tips?.NewTip,

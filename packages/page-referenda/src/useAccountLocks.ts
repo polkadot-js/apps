@@ -138,7 +138,7 @@ function getLocks (api: ApiPromise, palletVote: PalletVote, votes: [classId: BN,
   return locks;
 }
 
-function useAccountLocksImpl (palletReferenda: PalletReferenda, palletVote: PalletVote, accountId: string): Lock[] | undefined {
+function useAccountLocksImpl (palletReferenda: PalletReferenda, palletVote: PalletVote, accountId: string) {
   const { api } = useApi();
 
   // retrieve the locks for the account (all classes) via the accountId

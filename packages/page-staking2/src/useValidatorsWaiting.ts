@@ -16,7 +16,7 @@ function excludeValidators (from: Validator[], exclude: Validator[]): Validator[
   );
 }
 
-function useValidatorsWaitingImpl (favorites: string[], sessionInfo: SessionInfo, activeValidators?: Validator[]): Validator[] | undefined {
+function useValidatorsWaitingImpl (favorites: string[], sessionInfo: SessionInfo, activeValidators?: Validator[]) {
   const allValidators = useValidatorsAll(favorites, sessionInfo);
 
   // both active and all is already sorted and tagged, so we don't

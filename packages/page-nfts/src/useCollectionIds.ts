@@ -29,7 +29,7 @@ function filter (records: EventRecord[]): Changes<u32> {
   return { added, removed };
 }
 
-function useCollectionIdsImpl (): u32[] | undefined {
+function useCollectionIdsImpl () {
   const { api } = useApi();
   const startValue = useMapKeys(api.query.uniques.class, [], OPT_KEYS);
 

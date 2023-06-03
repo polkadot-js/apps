@@ -9,7 +9,7 @@ import { useMemo } from 'react';
 import { createNamedHook, useApi, useBestNumber } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-function useLeasePeriodImpl (): LeasePeriod | undefined {
+function useLeasePeriodImpl () {
   const { api } = useApi();
   const bestNumber = useBestNumber();
 

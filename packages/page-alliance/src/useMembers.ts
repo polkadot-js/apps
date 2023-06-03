@@ -34,7 +34,7 @@ function addMembers (prev: Member[], ...query: AccountId32[][]): Member[] {
   return all.reverse();
 }
 
-function useMembersImpl (): Member[] | undefined {
+function useMembersImpl () {
   const { api } = useApi();
   const [state, setState] = useState<Member[] | undefined>();
   const role0 = useCall(api.query.alliance.members, [ROLES[0]]);

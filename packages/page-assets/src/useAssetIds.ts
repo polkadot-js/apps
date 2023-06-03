@@ -29,7 +29,7 @@ function filter (records: EventRecord[]): Changes<u32> {
   return { added, removed };
 }
 
-function useAssetIdsImpl (): u32[] | undefined {
+function useAssetIdsImpl () {
   const { api } = useApi();
   const startValue = useMapKeys(api.query.assets.asset, EMPTY_PARAMS, OPT_KEY);
 

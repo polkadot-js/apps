@@ -1,14 +1,12 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BN } from '@polkadot/util';
-
 import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { BN_ONE } from '@polkadot/util';
 
-function useUnbondDurationImpl (): BN | undefined {
+function useUnbondDurationImpl () {
   const { api } = useApi();
   const sessionInfo = useCall(api.derive.session.info);
 

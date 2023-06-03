@@ -4,7 +4,6 @@
 import type { Changes } from '@polkadot/react-hooks/useEventChanges';
 import type { StorageKey, u32 } from '@polkadot/types';
 import type { EventRecord } from '@polkadot/types/interfaces';
-import type { BN } from '@polkadot/util';
 import type { PalletReferenda } from './types.js';
 
 import { createNamedHook, useApi, useEventChanges, useMapKeys } from '@polkadot/react-hooks';
@@ -29,7 +28,7 @@ function filter (records: EventRecord[]): Changes<u32> {
   return { added, removed };
 }
 
-function useReferendaIdsImpl (palletReferenda: PalletReferenda): BN[] | undefined {
+function useReferendaIdsImpl (palletReferenda: PalletReferenda) {
   const { api } = useApi();
   const startValue = useMapKeys(api.query[palletReferenda].referendumInfoFor, [], OPT_ID);
 

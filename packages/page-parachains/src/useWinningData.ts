@@ -120,7 +120,7 @@ function mergeFirst (ranges: [number, number][], auctionInfo: AuctionInfo, prev:
   return prev;
 }
 
-function useWinningDataImpl (auctionInfo?: AuctionInfo): Winning[] | undefined {
+function useWinningDataImpl (auctionInfo?: AuctionInfo) {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const ranges = useLeaseRanges();

@@ -3,7 +3,6 @@
 
 import type { StorageKey } from '@polkadot/types';
 import type { ParaId, SessionIndex } from '@polkadot/types/interfaces';
-import type { Proposals } from './types.js';
 
 import { useMemo } from 'react';
 
@@ -33,7 +32,7 @@ const OPT_SCHED = {
     }))
 };
 
-function useProposalsImpl (): Proposals | undefined {
+function useProposalsImpl () {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const trigger = useEventTrigger([api.events.proposeParachain?.ProposeParachain]);

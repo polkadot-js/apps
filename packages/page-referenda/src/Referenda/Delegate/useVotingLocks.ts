@@ -22,7 +22,7 @@ const LOCKS_OPT = {
   withParamsTransform: true
 };
 
-function useVotingLocksImpl (palletVote: PalletVote, accountIds?: string[] | null): LockResult | null | undefined {
+function useVotingLocksImpl (palletVote: PalletVote, accountIds?: string[] | null) {
   const { api } = useApi();
 
   const locksParam = useMemo(

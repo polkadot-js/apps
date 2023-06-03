@@ -49,7 +49,7 @@ function withSort (allAccounts: string[], favorites: string[], validators: Valid
     .sort(sort);
 }
 
-function useTaggedValidatorsImpl (favorites: string[], sessionInfo: SessionInfo, validators?: Validator[]): Validator[] | undefined {
+function useTaggedValidatorsImpl (favorites: string[], sessionInfo: SessionInfo, validators?: Validator[]) {
   const { allAccounts } = useAccounts();
   const elected = useElectedValidators(sessionInfo);
 

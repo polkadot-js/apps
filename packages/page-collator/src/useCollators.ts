@@ -65,7 +65,7 @@ function includeAuthors (prev: Collator[], authored: Authored): Collator[] {
     : prev;
 }
 
-function useCollatorImpl (): Collator[] | undefined {
+function useCollatorImpl () {
   const { api } = useApi();
   const [state, setState] = useState<Collator[] | undefined>();
 

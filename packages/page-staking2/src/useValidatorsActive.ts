@@ -34,7 +34,7 @@ const OPT_INDICES = {
     indices.map((n) => n.toNumber())
 };
 
-function useValidatorsActiveImpl (favorites: string[], sessionInfo: SessionInfo): Validator[] | undefined {
+function useValidatorsActiveImpl (favorites: string[], sessionInfo: SessionInfo) {
   const { api } = useApi();
   const sessionValidators = useCall(api.query.session.validators, undefined, OPT_VALIDATORS);
   const activeIndices = useCall((api.query.parasShared || api.query.shared)?.activeValidatorIndices, undefined, OPT_INDICES);

@@ -13,7 +13,7 @@ const OPT_ANN = {
     cids.map(createCid)
 };
 
-function useAnnouncementsImpl (): Cid[] | undefined {
+function useAnnouncementsImpl () {
   const { api } = useApi();
 
   return useCall(api.query.alliance.announcements, [], OPT_ANN);

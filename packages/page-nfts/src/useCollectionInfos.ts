@@ -79,7 +79,7 @@ const addIpfsData = (ipfsData: IpfsData) => (collectionInfo: CollectionInfo): Co
   };
 };
 
-function useCollectionInfosImpl (ids?: BN[]): CollectionInfo[] | undefined {
+function useCollectionInfosImpl (ids?: BN[]) {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const metadata: [[BN[]], Option<PalletUniquesCollectionMetadata>[]] | undefined = useCall(api.query.uniques.classMetadataOf.multi, [ids], QUERY_OPTS);

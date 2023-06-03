@@ -11,7 +11,7 @@ const OPT = {
   transform: (header: Header) => header.hash.toHex()
 };
 
-function useBestHashImpl (): string | undefined {
+function useBestHashImpl () {
   const { api } = useApi();
 
   return useCall(api.rpc.chain.subscribeNewHeads, undefined, OPT);

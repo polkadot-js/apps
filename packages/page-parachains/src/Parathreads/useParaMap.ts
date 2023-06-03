@@ -54,7 +54,7 @@ function extractParaMap (hasLinksMap: Record<string, boolean>, paraIds: ParaId[]
     });
 }
 
-function useParaMapImpl (ids?: ParaId[]): Result | undefined {
+function useParaMapImpl (ids?: ParaId[]) {
   const { api } = useApi();
   const hasLinksMap = useIsParasLinked(ids);
   const transform = useCallback(

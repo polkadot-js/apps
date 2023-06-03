@@ -31,7 +31,7 @@ const SUPEROF_OPT = {
   withParamsTransform: true
 };
 
-function useSuperIdsImpl (accountIds?: string[] | null): string[] | null | undefined {
+function useSuperIdsImpl (accountIds?: string[] | null) {
   const { api } = useApi();
 
   // for the supplied accounts, retrieve the de-dupes parent identity

@@ -31,7 +31,7 @@ function getStashes (allAccounts: string[], ownBonded: Option<AccountId>[], ownL
   return result;
 }
 
-function useOwnStashesImpl (additional?: string[]): [string, IsInKeyring][] | undefined {
+function useOwnStashesImpl (additional?: string[]) {
   const { allAccounts } = useAccounts();
   const { api } = useApi();
 
@@ -55,7 +55,7 @@ function useOwnStashesImpl (additional?: string[]): [string, IsInKeyring][] | un
 
 export const useOwnStashes = createNamedHook('useOwnStashes', useOwnStashesImpl);
 
-function useOwnStashIdsImpl (additional?: string[]): string[] | undefined {
+function useOwnStashIdsImpl (additional?: string[]) {
   const ownStashes = useOwnStashes(additional);
 
   return useMemo(

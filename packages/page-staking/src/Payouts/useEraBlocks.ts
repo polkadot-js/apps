@@ -8,7 +8,7 @@ import { useMemo } from 'react';
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { BN_ONE } from '@polkadot/util';
 
-function useEraBlocksImpl (historyDepth?: BN, era?: BN): BN | undefined {
+function useEraBlocksImpl (historyDepth?: BN, era?: BN) {
   const { api } = useApi();
   const progress = useCall(api.derive.session.progress);
   const forcing = useCall(api.query.staking.forceEra);

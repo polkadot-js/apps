@@ -4,7 +4,6 @@
 import type { Changes } from '@polkadot/react-hooks/useEventChanges';
 import type { StorageKey } from '@polkadot/types';
 import type { EventRecord, Hash } from '@polkadot/types/interfaces';
-import type { HexString } from '@polkadot/util/types';
 
 import { useMemo } from 'react';
 
@@ -32,7 +31,7 @@ function filter (records: EventRecord[]): Changes<Hash> {
   return { added, removed };
 }
 
-function usePreimagesImpl (): HexString[] | undefined {
+function usePreimagesImpl () {
   const { api } = useApi();
   const startValue = useMapKeys(api.query.preimage.statusFor, EMPTY_PARAMS, OPT_HASH);
   const hashes = useEventChanges([

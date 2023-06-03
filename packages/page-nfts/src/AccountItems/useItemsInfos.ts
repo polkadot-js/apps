@@ -57,7 +57,7 @@ const addIpfsData = (ipfsData: IpfsData) => (itemInfo: ItemInfo): ItemInfo => {
   };
 };
 
-function useItemsInfosImpl (accountItems: AccountItem[]): ItemInfo[] | undefined {
+function useItemsInfosImpl (accountItems: AccountItem[]) {
   const { api } = useApi();
   const [state, setState] = useState<ItemInfo[] | undefined>();
 

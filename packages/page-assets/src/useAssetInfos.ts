@@ -48,7 +48,7 @@ function extractInfo (allAccounts: string[], id: BN, optDetails: Option<PalletAs
   };
 }
 
-function useAssetInfosImpl (ids?: BN[]): AssetInfo[] | undefined {
+function useAssetInfosImpl (ids?: BN[]) {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const metadata: [[BN[]], PalletAssetsAssetMetadata[]] | undefined = useCall(api.query.assets.metadata.multi, [ids], QUERY_OPTS);

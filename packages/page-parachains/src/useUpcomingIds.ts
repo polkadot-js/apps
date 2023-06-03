@@ -26,7 +26,7 @@ const OPT_ENTRIES = {
       .sort((a, b) => a.cmp(b))
 };
 
-function useUpomingIdsImpl (): ParaId[] | undefined {
+function useUpomingIdsImpl () {
   const { api } = useApi();
   const trigger = useEventTrigger([
     api.events.session.NewSession,

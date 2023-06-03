@@ -2,13 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { bool, Option, UInt } from '@polkadot/types';
-import type { MemberInfo } from './types.js';
 
 import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
-function useMemberInfoImpl (accountId: string): MemberInfo | undefined {
+function useMemberInfoImpl (accountId: string) {
   const { api } = useApi();
   const upForKicking: bool | undefined = useCall(api.query.alliance.upForKicking, [accountId]);
   const retiringAt: Option<UInt> | undefined = useCall(api.query.alliance.retiringMembers, [accountId]);
