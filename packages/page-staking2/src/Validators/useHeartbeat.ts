@@ -33,8 +33,8 @@ function useHeartbeatImpl ({ stashId, stashIndex }: Validator, { currentSession 
     () => stashIndex === -1
       ? undefined
       : currentSession && ({
-        authoredBlocks: [currentSession, stashId],
-        receivedHeartbeats: [currentSession, stashIndex]
+        authoredBlocks: [currentSession, stashId] as const,
+        receivedHeartbeats: [currentSession, stashIndex] as const
       }),
     [currentSession, stashId, stashIndex]
   );

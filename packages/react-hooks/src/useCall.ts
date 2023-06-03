@@ -6,7 +6,7 @@ import type { ApiPromise } from '@polkadot/api';
 import type { GenericStorageEntryFunction, PromiseResult, QueryableStorageEntry, StorageEntryPromiseOverloads } from '@polkadot/api/types';
 import type { StorageEntryTypeLatest } from '@polkadot/types/interfaces';
 import type { AnyFunction, Codec } from '@polkadot/types/types';
-import type { CallOptions, CallParam, CallParams, Diverge, Leading, NullablePartial } from './types.js';
+import type { CallOptions, CallParam, CallParams, Diverge, FalsifiablePartial, Leading } from './types.js';
 import type { MountedRef } from './useIsMountedRef.js';
 
 import { useEffect, useRef, useState } from 'react';
@@ -164,7 +164,7 @@ export function useCall<
   TFn extends TrackFn | undefined | null | false,
   TDivergedFn extends Diverge<Exclude<TFn, undefined | null | false>, StorageEntryPromiseOverloads & QueryableStorageEntry<any, any> & PromiseResult<GenericStorageEntryFunction>>,
   TParams extends TDivergedFn extends AnyFunction
-    ? Readonly<NullablePartial<Leading<Parameters<TDivergedFn>>>>
+    ? Readonly<FalsifiablePartial<Leading<Parameters<TDivergedFn>>>>
     : unknown[],
   TFnResult extends TDivergedFn extends PromiseResult< (...args: any) => Observable<infer R>>
     ? R

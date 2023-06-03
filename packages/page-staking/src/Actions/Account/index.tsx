@@ -52,7 +52,7 @@ function extractSlashes (stashId: string, allSlashes: [BN, PalletStakingUnapplie
 }
 
 function useStashCalls (api: ApiPromise, stashId: string) {
-  const params = useMemo(() => [stashId], [stashId]);
+  const params = useMemo(() => [stashId] as const, [stashId]);
   const balancesAll = useCall(api.derive.balances?.all, params);
   const stakingAccount = useCall(api.derive.staking.account, params);
   const spanCount = useSlashingSpans(stashId);

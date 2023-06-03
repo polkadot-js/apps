@@ -28,8 +28,8 @@ function useVotingLocksImpl (palletVote: PalletVote, accountIds?: string[] | nul
   const locksParam = useMemo(
     () => accountIds
       ? accountIds.length
-        ? [accountIds]
-        : []
+        ? [accountIds] as const
+        : [] as const
       : undefined,
     [accountIds]
   );

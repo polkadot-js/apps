@@ -66,7 +66,7 @@ function useItemsInfosImpl (accountItems: AccountItem[]): ItemInfo[] | undefined
     [accountItems]
   );
 
-  const metadata: [[[BN, BN][]], Option<PalletUniquesItemMetadata>[]] = useCall(api.query.uniques.instanceMetadataOf.multi, [ids], QUERY_OPTS);
+  const metadata: [[[BN, BN][]], Option<PalletUniquesItemMetadata>[]] | undefined = useCall(api.query.uniques.instanceMetadataOf.multi, [ids], QUERY_OPTS);
 
   const ipfsHashes = useMemo((): string[] | undefined => {
     if (metadata && metadata[1].length) {

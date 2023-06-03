@@ -27,7 +27,7 @@ function usePointsImpl ({ activeEra }: SessionInfo): UsePoints | undefined {
   const { api } = useApi();
 
   const queryParams = useMemo(
-    () => activeEra && [activeEra],
+    () => activeEra && [activeEra] as const,
     [activeEra]
   );
 

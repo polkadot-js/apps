@@ -25,10 +25,10 @@ interface Props {
 function Candidate ({ allMembers, isMember, ownMembers, value: { accountId, kind, value } }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const keys = useMemo(
-    () => [allMembers.map((memberId): [AccountId, string] => [accountId, memberId])],
+    () => [allMembers.map((memberId): [AccountId, string] => [accountId, memberId])] as const,
     [accountId, allMembers]
   );
-  const votes: VoteType[] = useCall(api.query.society.votes.multi, keys, {
+  const votes: VoteType[] | undefined = useCall(api.query.society.votes.multi, keys, {
     transform: (voteOpts: Option<SocietyVote>[]): VoteType[] =>
       voteOpts
         .map((voteOpt, index): [string, Option<SocietyVote>] => [allMembers[index], voteOpt])

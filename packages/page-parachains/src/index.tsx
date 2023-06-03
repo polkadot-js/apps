@@ -44,7 +44,7 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
   const proposals = useProposals();
   const actionsQueue = useActionsQueue();
   const upcomingIds = useUpcomingIds();
-  const paraIds: ParaId[] = useCall(api.query.paras.parachains);
+  const paraIds: ParaId[] | undefined = useCall(api.query.paras.parachains);
 
   const items = useRef([
     {

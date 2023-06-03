@@ -19,7 +19,8 @@ interface Props {
 
 function LockedVote ({ children, className = '', label, params }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const info: DeriveCouncilVote = useCall(api.derive.council.votesOf, [params]);
+  // @ts-expect-error `api.derive.council.votesOf` doesn't accepts `Address`
+  const info: DeriveCouncilVote | undefined = useCall(api.derive.council.votesOf, [params]);
 
   if (!info?.stake.gtn(0)) {
     return null;

@@ -178,7 +178,7 @@ function ClaimsApp ({ basePath }: Props): React.ReactElement<Props> {
 
   // If it's 1/ not preclaimed and 2/ not the old claiming process, fetch the
   // statement kind to sign.
-  const statementKind: StatementKind | null = useCall(!isPreclaimed && !isOldClaimProcess && !!ethereumAddress && api.query.claims.signing, [ethereumAddress], transformStatement);
+  const statementKind: StatementKind | null | undefined = useCall(!isPreclaimed && !isOldClaimProcess && !!ethereumAddress && api.query.claims.signing, [ethereumAddress], transformStatement);
 
   const statementSentence = getStatement(systemChain, statementKind)?.sentence || '';
   const prefix = u8aToString(api.consts.claims.prefix.toU8a(true));

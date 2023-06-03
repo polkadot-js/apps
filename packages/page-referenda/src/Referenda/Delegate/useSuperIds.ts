@@ -36,7 +36,7 @@ function useSuperIdsImpl (accountIds?: string[] | null): string[] | null | undef
 
   // for the supplied accounts, retrieve the de-dupes parent identity
   const identityParam = useMemo(
-    () => accountIds && [accountIds],
+    () => accountIds && [accountIds] as const,
     [accountIds]
   );
 

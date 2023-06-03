@@ -40,8 +40,8 @@ function useOwnStashesImpl (additional?: string[]): [string, IsInKeyring][] | un
     [allAccounts, additional]
   );
 
-  const ownBonded: Option<AccountId>[] = useCall(ids.length !== 0 && api.query.staking?.bonded.multi, [ids]);
-  const ownLedger: Option<StakingLedger>[] = useCall(ids.length !== 0 && api.query.staking?.ledger.multi, [ids]);
+  const ownBonded: Option<AccountId>[] | undefined = useCall(ids.length !== 0 && api.query.staking?.bonded.multi, [ids]);
+  const ownLedger: Option<StakingLedger>[] | undefined = useCall(ids.length !== 0 && api.query.staking?.ledger.multi, [ids]);
 
   return useMemo(
     () => ids.length

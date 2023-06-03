@@ -18,7 +18,7 @@ interface Props {
 function Summary ({ trigger }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const accountCounter: BN = useCall(api.query.contracts.accountCounter);
+  const accountCounter: BN | undefined = useCall(api.query.contracts.accountCounter);
   const [numContracts, setNumContracts] = useState(0);
   const [numHashes, setNumHashes] = useState(0);
 

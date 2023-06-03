@@ -18,9 +18,9 @@ const OPT_NEXT = {
 
 function useActionsQueueImpl (): QueuedAction[] {
   const { api } = useApi();
-  const currentIndex: SessionIndex = useCall(api.query.session.currentIndex);
+  const currentIndex: SessionIndex | undefined = useCall(api.query.session.currentIndex);
   const queryIndexes = useMemo(() => currentIndex && INC.map((i) => currentIndex.add(i)), [currentIndex]);
-  const nextActions: [[BN[]], ParaId[][]] = useCall(queryIndexes && api.query.paras.actionsQueue.multi, [queryIndexes], OPT_NEXT);
+  const nextActions: [[BN[]], ParaId[][]] | undefined = useCall(queryIndexes && api.query.paras.actionsQueue.multi, [queryIndexes], OPT_NEXT);
 
   return useMemo(
     (): QueuedAction[] =>

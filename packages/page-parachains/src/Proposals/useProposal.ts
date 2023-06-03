@@ -11,7 +11,7 @@ import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
 function useProposalImpl (id: ParaId, approvedIds: ParaId[], scheduled: ScheduledProposals[]): ProposalExt {
   const { api } = useApi();
-  const opt: Option<ParachainProposal> = useCall(api.query.proposeParachain.proposals, [id]);
+  const opt: Option<ParachainProposal> | undefined = useCall(api.query.proposeParachain.proposals, [id]);
 
   return useMemo(
     (): ProposalExt => ({

@@ -11,7 +11,9 @@ import { useSystemApi } from './useSystemApi.js';
 function useDeriveAccountFlagsImpl (value?: AccountId | Address | Uint8Array | string | null): DeriveAccountFlags | undefined {
   const api = useSystemApi();
 
-  return useCall<DeriveAccountFlags>(api && api.derive.accounts.flags, [value]);
+  return useCall(api && api.derive.accounts.flags,
+    // @ts-expect-error `api.derive.accounts.flags` doesn't accepts `Uint8Array`
+    [value]);
 }
 
 export const useDeriveAccountFlags = createNamedHook('useDeriveAccountFlags', useDeriveAccountFlagsImpl);

@@ -48,7 +48,7 @@ function useExposureImpl ({ stashId }: Validator, { activeEra }: SessionInfo): U
   const { api } = useApi();
 
   const params = useMemo(
-    () => activeEra && [activeEra, stashId],
+    () => activeEra && [activeEra, stashId] as const,
     [activeEra, stashId]
   );
 

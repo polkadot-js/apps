@@ -70,7 +70,7 @@ function useVotingForImpl (palletVote: PalletVote, accountIds?: string[] | null)
   const locks = useVotingLocks(palletVote, accountIds);
 
   const forParam = useMemo(
-    () => [getParams(locks)],
+    () => [getParams(locks)] as const,
     [locks]
   );
 

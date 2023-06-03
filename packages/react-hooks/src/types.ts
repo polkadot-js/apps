@@ -40,7 +40,7 @@ export type Diverge<TType, TIntersect> = TType extends infer TDiverge & TInterse
 
 export type Leading<T extends any[]> = T extends [...infer Leading, any] ? Leading : []
 
-export type NullablePartial<T> = { [P in keyof T]?: T[P] | null; }
+export type FalsifiablePartial<T> = { [P in keyof T]?: T[P] | null | false; } | null | false
 
 export type PickKnownKeys<T> = {
   [P in keyof T as string extends P ? never : number extends P ? never : P]: T[P]

@@ -24,7 +24,7 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
   const { t } = useTranslation();
   const { api } = useApi();
   const rangeMax = useLeaseRangeMax();
-  const newRaise: ParaId[] = useCall(api.query.crowdloan.newRaise);
+  const newRaise: ParaId[] | undefined = useCall(api.query.crowdloan.newRaise);
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t<string>('bids'), 'start', 3],

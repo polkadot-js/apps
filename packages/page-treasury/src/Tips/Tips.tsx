@@ -53,7 +53,7 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectT
   const { api } = useApi();
   const [onlyUntipped, setOnlyUntipped] = useState(false);
   const bestNumber = useBestNumber();
-  const tipsWithHashes: [[string[]], Option<PalletTipsOpenTip>[]] = useCall(hashes && (api.query.tips || api.query.treasury).tips.multi, [hashes], TIP_OPTS);
+  const tipsWithHashes: [[string[]], Option<PalletTipsOpenTip>[]] | undefined = useCall(hashes && (api.query.tips || api.query.treasury).tips.multi, [hashes], TIP_OPTS);
 
   const tips = useMemo(
     () => extractTips(tipsWithHashes, hashes),

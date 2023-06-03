@@ -10,9 +10,9 @@ import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
 function useMemberInfoImpl (accountId: string): MemberInfo | undefined {
   const { api } = useApi();
-  const upForKicking: bool = useCall(api.query.alliance.upForKicking, [accountId]);
-  const retiringAt: Option<UInt> = useCall(api.query.alliance.retiringMembers, [accountId]);
-  const depositOf: Option<UInt> = useCall(api.query.alliance.depositOf, [accountId]);
+  const upForKicking: bool | undefined = useCall(api.query.alliance.upForKicking, [accountId]);
+  const retiringAt: Option<UInt> | undefined = useCall(api.query.alliance.retiringMembers, [accountId]);
+  const depositOf: Option<UInt> | undefined = useCall(api.query.alliance.depositOf, [accountId]);
 
   return useMemo(
     () => depositOf && {

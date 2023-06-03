@@ -128,8 +128,8 @@ function useWinningDataImpl (auctionInfo?: AuctionInfo): Winning[] | undefined {
   const bestNumber = useBestNumber();
   const trigger = useEventTrigger([api.events.auctions?.BidAccepted]);
   const triggerRef = useRef(trigger);
-  const initialEntries: [StorageKey<[BlockNumber]>, Option<WinningData>][] = useCall(api.query.auctions?.winning.entries);
-  const optFirstData: Option<WinningData> = useCall(api.query.auctions?.winning, FIRST_PARAM);
+  const initialEntries: [StorageKey<[BlockNumber]>, Option<WinningData>][] | undefined = useCall(api.query.auctions?.winning.entries);
+  const optFirstData: Option<WinningData> | undefined = useCall(api.query.auctions?.winning, FIRST_PARAM);
 
   // should be fired once, all entries as an initial round
   useEffect((): void => {

@@ -29,7 +29,7 @@ function useNominatorsImpl (): string[] | null | undefined {
   const { allAccounts } = useAccounts();
 
   const nomineesParam = useMemo(
-    () => [allAccounts],
+    () => [allAccounts] as const,
     [allAccounts]
   );
 

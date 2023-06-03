@@ -19,8 +19,8 @@ type Unsub = () => void;
 
 function useAvailableSlashesImpl (): [BN, PalletStakingUnappliedSlash[]][] {
   const { api } = useApi();
-  const indexes: DeriveSessionIndexes = useCall(api.derive.session?.indexes);
-  const earliestSlash: Option<EraIndex> = useCall(api.query.staking?.earliestUnappliedSlash);
+  const indexes: DeriveSessionIndexes | undefined = useCall(api.derive.session?.indexes);
+  const earliestSlash: Option<EraIndex> | undefined = useCall(api.query.staking?.earliestUnappliedSlash);
   const mountedRef = useIsMountedRef();
   const [slashes, setSlashes] = useState<[BN, PalletStakingUnappliedSlash[]][]>([]);
 

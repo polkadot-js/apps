@@ -40,7 +40,7 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
   const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>(() => ({ proposalLength: 0 }));
   const [withVote, toggleVote] = useToggle(true);
   const modLocation = useCollectiveInstance('technicalCommittee');
-  const proposalCount: BN = useCall(modLocation && api.query[modLocation].proposalCount);
+  const proposalCount: BN | undefined = useCall(modLocation && api.query[modLocation].proposalCount);
 
   const memberThreshold = useMemo(
     () => new BN(

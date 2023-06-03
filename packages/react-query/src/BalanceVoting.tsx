@@ -19,7 +19,8 @@ interface Props {
 
 function BalanceVoting ({ children, className = '', label, params }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const allBalances: DeriveBalancesAll = useCall(api.derive.balances?.all, [params]);
+  // @ts-expect-error `api.derive.balances?.all` doesn't accepts `Uint8Array`
+  const allBalances: DeriveBalancesAll | undefined = useCall(api.derive.balances?.all, [params]);
 
   return (
     <FormatBalance
