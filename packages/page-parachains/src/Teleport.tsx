@@ -47,7 +47,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
   const [recipientId, setRecipientId] = useState<string | null>(null);
   const [senderId, setSenderId] = useState<string | null>(null);
   const [recipientParaId, setParaId] = useState(INVALID_PARAID);
-  const { allowTeleport, destinations, isParaTeleport, oneWay } = useTeleport();
+  const { allowTeleport, destinations, isParaTeleport, oneWay, xcmVersion } = useTeleport();
 
   const call = useMemo(
     (): SubmittableExtrinsicFunction<'promise'> => {
@@ -77,7 +77,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
   const params = useMemo(
     () => [
       {
-        V1: isParaTeleport
+        [xcmVersion]: isParaTeleport
           ? {
             interior: 'Here',
             parents: 1
@@ -92,7 +92,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
           }
       },
       {
-        V1: {
+        [xcmVersion]: {
           interior: {
             X1: {
               AccountId32: {
@@ -105,7 +105,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
         }
       },
       {
-        V1: [{
+        [xcmVersion]: [{
           fun: {
             Fungible: amount
           },
@@ -122,7 +122,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
       0,
       { Unlimited: null }
     ],
-    [api, amount, isParaTeleport, recipientId, recipientParaId]
+    [api, amount, isParaTeleport, recipientId, recipientParaId, xcmVersion]
   );
 
   const hasAvailable = !!amount;

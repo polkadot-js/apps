@@ -18,17 +18,20 @@ interface Teleport {
   destinations: LinkOption[];
   isParaTeleport?: boolean;
   isRelayTeleport?: boolean;
-  oneWay: number[]
+  oneWay: number[];
+  xcmVersion: string
 }
 
 interface ExtLinkOption extends LinkOption {
   teleport: number[];
+  teleportXcmVersion?: string
 }
 
 const DEFAULT_STATE: Teleport = {
   allowTeleport: false,
   destinations: [],
-  oneWay: []
+  oneWay: [],
+  xcmVersion: 'V2'
 };
 
 const endpoints = createWsEndpoints((k: string, v?: string) => v || k).filter((v): v is ExtLinkOption => !!v.teleport);
@@ -86,7 +89,8 @@ function useTeleportImpl (): Teleport {
           allowTeleport: destinations.length !== 0,
           destinations,
           isRelayTeleport: true,
-          oneWay
+          oneWay,
+          xcmVersion: endpoint.teleportXcmVersion || DEFAULT_STATE.xcmVersion
         });
       }
     }
@@ -108,7 +112,8 @@ function useTeleportImpl (): Teleport {
           allowTeleport: destinations.length !== 0,
           destinations,
           isParaTeleport: true,
-          oneWay
+          oneWay,
+          xcmVersion: endpoint.teleportXcmVersion || DEFAULT_STATE.xcmVersion
         });
       }
     }

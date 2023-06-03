@@ -11,6 +11,7 @@ interface BaseOption {
   paraId?: number;
   summary?: string;
   teleport?: number[];
+  teleportXcmVersion?: string;
   ui: {
     color?: string;
     logo?: string;
