@@ -166,10 +166,8 @@ export function useCall<
   TParams extends TDivergedFn extends AnyFunction
     ? Readonly<NullablePartial<Leading<Parameters<TDivergedFn>>>>
     : unknown[],
-  TFnResult extends TDivergedFn extends AnyFunction
-    ? TDivergedFn extends PromiseResult< (...args: any) => Observable<infer R>>
-      ? R
-      : unknown
+  TFnResult extends TDivergedFn extends PromiseResult< (...args: any) => Observable<infer R>>
+    ? R
     : unknown,
   TResult extends TCallOptions extends CallOptions<infer R> ? R : TFnResult,
   TCallOptions extends CallOptions<TTransformedResult> | undefined = undefined,
