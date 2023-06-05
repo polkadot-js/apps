@@ -3,9 +3,10 @@
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-import types from '@docknetwork/node-types';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import pkg from '@docknetwork/node-types';
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-const definitions = types.spec['dock-main-runtime'] as OverrideBundleDefinition;
+const definitions = (pkg as { spec: { 'dock-main-runtime': OverrideBundleDefinition } }).spec['dock-main-runtime'];
 
 export default definitions;
