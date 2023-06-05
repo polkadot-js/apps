@@ -43033,10 +43033,6 @@ export const typesBundle = {
             "ShareWeight": "Balance",
             "Currency": "CurrencyIdOf",
             "Amount": "AmountOf",
-            "NodePrimitivesCurrencyCurrencyId": "CurrencyId",
-            "OrmlTokensBalanceLock": "BalanceLock",
-            "OrmlTokensAccountData": "OrmlAccountData",
-            "OrmlTokensReserveData": "(Currency, u8, Amount, u128)",
             "TransferOriginType": {
               "_enum": {
                 "FromSelf": 0,
@@ -43612,10 +43608,6 @@ export const typesBundle = {
             "ShareWeight": "Balance",
             "Currency": "CurrencyIdOf",
             "Amount": "AmountOf",
-            "NodePrimitivesCurrencyCurrencyId": "CurrencyId",
-            "OrmlTokensBalanceLock": "BalanceLock",
-            "OrmlTokensAccountData": "OrmlAccountData",
-            "OrmlTokensReserveData": "(Currency, u8, Amount, u128)",
             "TransferOriginType": {
               "_enum": {
                 "FromSelf": 0,
@@ -45392,10 +45384,6 @@ export const typesBundle = {
             "ShareWeight": "Balance",
             "Currency": "CurrencyIdOf",
             "Amount": "AmountOf",
-            "NodePrimitivesCurrencyCurrencyId": "CurrencyId",
-            "OrmlTokensBalanceLock": "BalanceLock",
-            "OrmlTokensAccountData": "OrmlAccountData",
-            "OrmlTokensReserveData": "(Currency, u8, Amount, u128)",
             "TransferOriginType": {
               "_enum": {
                 "FromSelf": 0,
@@ -45970,10 +45958,6 @@ export const typesBundle = {
             "ShareWeight": "Balance",
             "Currency": "CurrencyIdOf",
             "Amount": "AmountOf",
-            "NodePrimitivesCurrencyCurrencyId": "CurrencyId",
-            "OrmlTokensBalanceLock": "BalanceLock",
-            "OrmlTokensAccountData": "OrmlAccountData",
-            "OrmlTokensReserveData": "(Currency, u8, Amount, u128)",
             "TransferOriginType": {
               "_enum": {
                 "FromSelf": 0,
@@ -46941,10 +46925,6 @@ export const typesBundle = {
             "ShareWeight": "Balance",
             "Currency": "CurrencyIdOf",
             "Amount": "AmountOf",
-            "NodePrimitivesCurrencyCurrencyId": "CurrencyId",
-            "OrmlTokensBalanceLock": "BalanceLock",
-            "OrmlTokensAccountData": "OrmlAccountData",
-            "OrmlTokensReserveData": "(Currency, u8, Amount, u128)",
             "TransferOriginType": {
               "_enum": {
                 "FromSelf": 0,
@@ -47519,10 +47499,6 @@ export const typesBundle = {
             "ShareWeight": "Balance",
             "Currency": "CurrencyIdOf",
             "Amount": "AmountOf",
-            "NodePrimitivesCurrencyCurrencyId": "CurrencyId",
-            "OrmlTokensBalanceLock": "BalanceLock",
-            "OrmlTokensAccountData": "OrmlAccountData",
-            "OrmlTokensReserveData": "(Currency, u8, Amount, u128)",
             "TransferOriginType": {
               "_enum": {
                 "FromSelf": 0,
@@ -95041,6 +95017,9 @@ export const typesBundle = {
     },
     "sora-substrate": {
       "alias": {
+        "bridgeProxy": {
+          "AssetKind": "SubAssetKind"
+        },
         "ethBridge": {
           "StorageVersion": "EthBridgeStorageVersion"
         },
@@ -95499,14 +95478,10 @@ export const typesBundle = {
             "section": "ethBridge"
           }
         },
-        "evmBridgeProxy": {
+        "bridgeProxy": {
           "listApps": {
             "description": "",
             "params": [
-              {
-                "name": "networkId",
-                "type": "EVMChainId"
-              },
               {
                 "name": "at",
                 "type": "BlockHash",
@@ -95515,16 +95490,16 @@ export const typesBundle = {
             ],
             "type": "Vec<BridgeAppInfo>",
             "isSubscription": false,
-            "jsonrpc": "evmBridgeProxy_listApps",
+            "jsonrpc": "bridgeProxy_listApps",
             "method": "listApps",
-            "section": "evmBridgeProxy"
+            "section": "bridgeProxy"
           },
-          "listSupportedAssets": {
+          "listAssets": {
             "description": "",
             "params": [
               {
                 "name": "networkId",
-                "type": "EVMChainId"
+                "type": "GenericNetworkId"
               },
               {
                 "name": "at",
@@ -95532,30 +95507,11 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Vec<BridgeAssetInfo<AssetId>>",
+            "type": "Vec<BridgeAssetInfo>",
             "isSubscription": false,
-            "jsonrpc": "evmBridgeProxy_listSupportedAssets",
-            "method": "listSupportedAssets",
-            "section": "evmBridgeProxy"
-          },
-          "listAppsWithSupportedAssets": {
-            "description": "",
-            "params": [
-              {
-                "name": "networkId",
-                "type": "EVMChainId"
-              },
-              {
-                "name": "at",
-                "type": "BlockHash",
-                "isOptional": true
-              }
-            ],
-            "type": "AppsWithSupportedAssets<AssetId>",
-            "isSubscription": false,
-            "jsonrpc": "evmBridgeProxy_listAppsWithSupportedAssets",
-            "method": "listAppsWithSupportedAssets",
-            "section": "evmBridgeProxy"
+            "jsonrpc": "bridgeProxy_listAssets",
+            "method": "listAssets",
+            "section": "bridgeProxy"
           }
         },
         "farming": {
@@ -96496,28 +96452,74 @@ export const typesBundle = {
                 "V2"
               ]
             },
-            "AppKind": {
+            "BridgeAppInfo": {
+              "_enum": {
+                "EVM": "(GenericNetworkId, EVMAppInfo)",
+                "Sub": "(GenericNetworkId)"
+              }
+            },
+            "BridgeAssetInfo": {
+              "_enum": {
+                "EVMLegacy": "EVMLegacyAssetInfo",
+                "EVM": "EVMAssetInfo",
+                "Sub": "SubAssetInfo"
+              }
+            },
+            "EVMAppInfo": {
+              "evmAddress": "H160",
+              "appKind": "EVMAppKind"
+            },
+            "EVMAssetInfo": {
+              "assetId": "MainnetAssetId",
+              "evmAddress": "H160",
+              "appKind": "EVMAppKind",
+              "precision": "u8"
+            },
+            "EVMLegacyAssetInfo": {
+              "assetId": "MainnetAssetId",
+              "evmAddress": "H160",
+              "appKind": "EVMAppKind",
+              "precision": "u8"
+            },
+            "EVMAppKind": {
               "_enum": [
                 "EthApp",
                 "ERC20App",
                 "SidechainApp",
-                "SubstrateApp"
+                "HashiBridge",
+                "XorMaster",
+                "ValMaster"
               ]
             },
-            "AppsWithSupportedAssets": {
-              "apps": "Vec<BridgeAppInfo>",
-              "assets": "Vec<BridgeAssetInfo<AssetId>>"
+            "SubAssetInfo": {
+              "assetId": "MainnetAssetId",
+              "assetKind": "SubAssetKind",
+              "precision": "u8"
             },
-            "BridgeAssetInfo": {
-              "assetId": "AssetId",
-              "evmAddress": "Option<H160>",
-              "appKind": "AppKind"
+            "SubAssetKind": {
+              "_enum": [
+                "Thischain",
+                "Sidechain"
+              ]
             },
-            "BridgeAppInfo": {
-              "evmAddress": "H160",
-              "appKind": "AppKind"
+            "GenericNetworkId": {
+              "_enum": {
+                "EVMLegacy": "u32",
+                "EVM": "EVMChainId",
+                "Sub": "SubNetworkId"
+              }
             },
+            "MainnetAssetId": "H256",
             "EVMChainId": "U256",
+            "SubNetworkId": {
+              "_enum": {
+                "Mainnet": null,
+                "Kusama": null,
+                "Polkadot": null,
+                "Rococo": null,
+                "Custom": "u32"
+              }
+            },
             "PoolFarmer": {
               "account": "AccountId",
               "block": "BlockNumber",
@@ -96628,7 +96630,8 @@ export const typesBundle = {
                 "MockPool2",
                 "MockPool3",
                 "MockPool4",
-                "XSTPool"
+                "XSTPool",
+                "OrderBook"
               ]
             },
             "FilterMode": {
@@ -96819,6 +96822,9 @@ export const typesBundle = {
     },
     "sora_ksm": {
       "alias": {
+        "bridgeProxy": {
+          "AssetKind": "SubAssetKind"
+        },
         "ethBridge": {
           "StorageVersion": "EthBridgeStorageVersion"
         },
@@ -97277,14 +97283,10 @@ export const typesBundle = {
             "section": "ethBridge"
           }
         },
-        "evmBridgeProxy": {
+        "bridgeProxy": {
           "listApps": {
             "description": "",
             "params": [
-              {
-                "name": "networkId",
-                "type": "EVMChainId"
-              },
               {
                 "name": "at",
                 "type": "BlockHash",
@@ -97293,16 +97295,16 @@ export const typesBundle = {
             ],
             "type": "Vec<BridgeAppInfo>",
             "isSubscription": false,
-            "jsonrpc": "evmBridgeProxy_listApps",
+            "jsonrpc": "bridgeProxy_listApps",
             "method": "listApps",
-            "section": "evmBridgeProxy"
+            "section": "bridgeProxy"
           },
-          "listSupportedAssets": {
+          "listAssets": {
             "description": "",
             "params": [
               {
                 "name": "networkId",
-                "type": "EVMChainId"
+                "type": "GenericNetworkId"
               },
               {
                 "name": "at",
@@ -97310,30 +97312,11 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Vec<BridgeAssetInfo<AssetId>>",
+            "type": "Vec<BridgeAssetInfo>",
             "isSubscription": false,
-            "jsonrpc": "evmBridgeProxy_listSupportedAssets",
-            "method": "listSupportedAssets",
-            "section": "evmBridgeProxy"
-          },
-          "listAppsWithSupportedAssets": {
-            "description": "",
-            "params": [
-              {
-                "name": "networkId",
-                "type": "EVMChainId"
-              },
-              {
-                "name": "at",
-                "type": "BlockHash",
-                "isOptional": true
-              }
-            ],
-            "type": "AppsWithSupportedAssets<AssetId>",
-            "isSubscription": false,
-            "jsonrpc": "evmBridgeProxy_listAppsWithSupportedAssets",
-            "method": "listAppsWithSupportedAssets",
-            "section": "evmBridgeProxy"
+            "jsonrpc": "bridgeProxy_listAssets",
+            "method": "listAssets",
+            "section": "bridgeProxy"
           }
         },
         "farming": {
@@ -98274,28 +98257,74 @@ export const typesBundle = {
                 "V2"
               ]
             },
-            "AppKind": {
+            "BridgeAppInfo": {
+              "_enum": {
+                "EVM": "(GenericNetworkId, EVMAppInfo)",
+                "Sub": "(GenericNetworkId)"
+              }
+            },
+            "BridgeAssetInfo": {
+              "_enum": {
+                "EVMLegacy": "EVMLegacyAssetInfo",
+                "EVM": "EVMAssetInfo",
+                "Sub": "SubAssetInfo"
+              }
+            },
+            "EVMAppInfo": {
+              "evmAddress": "H160",
+              "appKind": "EVMAppKind"
+            },
+            "EVMAssetInfo": {
+              "assetId": "MainnetAssetId",
+              "evmAddress": "H160",
+              "appKind": "EVMAppKind",
+              "precision": "u8"
+            },
+            "EVMLegacyAssetInfo": {
+              "assetId": "MainnetAssetId",
+              "evmAddress": "H160",
+              "appKind": "EVMAppKind",
+              "precision": "u8"
+            },
+            "EVMAppKind": {
               "_enum": [
                 "EthApp",
                 "ERC20App",
                 "SidechainApp",
-                "SubstrateApp"
+                "HashiBridge",
+                "XorMaster",
+                "ValMaster"
               ]
             },
-            "AppsWithSupportedAssets": {
-              "apps": "Vec<BridgeAppInfo>",
-              "assets": "Vec<BridgeAssetInfo<AssetId>>"
+            "SubAssetInfo": {
+              "assetId": "MainnetAssetId",
+              "assetKind": "SubAssetKind",
+              "precision": "u8"
             },
-            "BridgeAssetInfo": {
-              "assetId": "AssetId",
-              "evmAddress": "Option<H160>",
-              "appKind": "AppKind"
+            "SubAssetKind": {
+              "_enum": [
+                "Thischain",
+                "Sidechain"
+              ]
             },
-            "BridgeAppInfo": {
-              "evmAddress": "H160",
-              "appKind": "AppKind"
+            "GenericNetworkId": {
+              "_enum": {
+                "EVMLegacy": "u32",
+                "EVM": "EVMChainId",
+                "Sub": "SubNetworkId"
+              }
             },
+            "MainnetAssetId": "H256",
             "EVMChainId": "U256",
+            "SubNetworkId": {
+              "_enum": {
+                "Mainnet": null,
+                "Kusama": null,
+                "Polkadot": null,
+                "Rococo": null,
+                "Custom": "u32"
+              }
+            },
             "PoolFarmer": {
               "account": "AccountId",
               "block": "BlockNumber",
@@ -98406,7 +98435,8 @@ export const typesBundle = {
                 "MockPool2",
                 "MockPool3",
                 "MockPool4",
-                "XSTPool"
+                "XSTPool",
+                "OrderBook"
               ]
             },
             "FilterMode": {
