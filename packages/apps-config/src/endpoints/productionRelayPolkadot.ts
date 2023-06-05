@@ -308,6 +308,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'interlay',
     paraId: 2032,
     providers: {
+      Dwellir: 'wss://interlay-rpc.dwellir.com',
       'Kintsugi Labs': 'wss://api.interlay.io/parachain',
       OnFinality: 'wss://interlay.api.onfinality.io/public-ws'
     },
