@@ -932,17 +932,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@logion/node-api@npm:0.9.0-3":
-  version: 0.9.0-3
-  resolution: "@logion/node-api@npm:0.9.0-3"
+"@logion/node-api@npm:0.16.0-1":
+  version: 0.16.0-1
+  resolution: "@logion/node-api@npm:0.16.0-1"
   dependencies:
-    "@polkadot/api": ^9.10.1
-    "@polkadot/util": ^10.2.1
-    "@polkadot/util-crypto": ^10.2.1
+    "@polkadot/api": ^10.4.1
+    "@polkadot/util": ^12.0.1
+    "@polkadot/util-crypto": ^12.0.1
     "@types/uuid": ^8.3.4
     fast-sha256: ^1.3.0
     uuid: ^8.3.2
-  checksum: 393e3c6f82b3457cb100b5818d9c0462dcb85ce4739dfa11df347413b4540ebf87a6c0c4e16c781b91d525f8a0cfaddfb104253ab31c645d1c3fb53a067f9f44
+  checksum: c9e5ac2cc09c4909be1d32f026a9ac4842a9d312ad4a03f38ca2b228255ef6778a4e5389ddf5cf6f0316040c4bbdcacfa6f9287de6a40ca4605e43203d5c2777
   languageName: node
   linkType: hard
 
@@ -1843,7 +1843,7 @@ __metadata:
     "@interlay/interbtc-types": 1.12.0
     "@kiltprotocol/type-definitions": 0.32.1
     "@laminar/type-definitions": 0.3.1
-    "@logion/node-api": 0.9.0-3
+    "@logion/node-api": 0.16.0-1
     "@metaverse-network-sdk/type-definitions": 0.0.1-16
     "@parallel-finance/type-definitions": 1.7.17
     "@phala/typedefs": 0.2.33
