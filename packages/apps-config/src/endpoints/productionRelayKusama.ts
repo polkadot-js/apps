@@ -847,6 +847,7 @@ export const prodRelayKusama: EndpointOption = {
   text: 'Kusama',
   ui: {
     color: '#000000',
+    identityIcon: 'polkadot',
     logo: chainsKusamaSVG
   }
 };

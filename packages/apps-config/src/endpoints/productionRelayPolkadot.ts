@@ -729,6 +729,7 @@ export const prodRelayPolkadot: EndpointOption = {
   text: 'Polkadot',
   ui: {
     color: '#e6007a',
+    identityIcon: 'polkadot',
     logo: chainsPolkadotCircleSVG
   }
 };
