@@ -125,7 +125,7 @@ export const testParasWestend: Omit<EndpointOption, 'teleport'>[] = [
 
 export const testParasWestendCommon: EndpointOption[] = [
   {
-    info: 'westmint',
+    info: 'WestendAssetHub',
     paraId: 1000,
     providers: {
       Dwellir: 'wss://westmint-rpc.dwellir.com',
@@ -135,7 +135,7 @@ export const testParasWestendCommon: EndpointOption[] = [
       Parity: 'wss://westend-asset-hub-rpc.polkadot.io'
     },
     teleport: [-1],
-    text: 'Westmint',
+    text: 'AssetHub',
     ui: {
       color: '#77bb77',
       logo: nodesStatemineSVG

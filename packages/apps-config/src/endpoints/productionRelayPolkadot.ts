@@ -652,7 +652,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
 
 export const prodParasPolkadotCommon: EndpointOption[] = [
   {
-    info: 'statemint',
+    info: 'PolkadotAssetHub',
     paraId: 1000,
     providers: {
       Dwellir: 'wss://statemint-rpc.dwellir.com',
@@ -664,7 +664,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws'
     },
     teleport: [-1],
-    text: 'Statemint',
+    text: 'AssetHub',
     ui: {
       color: '#86e62a',
       logo: nodesStatemineSVG

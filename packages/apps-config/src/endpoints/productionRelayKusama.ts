@@ -768,7 +768,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
 
 export const prodParasKusamaCommon: EndpointOption[] = [
   {
-    info: 'statemine',
+    info: 'KusamaAssetHub',
     paraId: 1000,
     providers: {
       Dwellir: 'wss://statemine-rpc.dwellir.com',
@@ -781,7 +781,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws'
     },
     teleport: [-1],
-    text: 'Statemine',
+    text: 'AssetHub',
     ui: {
       color: '#113911',
       logo: nodesStatemineSVG
