@@ -387,7 +387,9 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     homepage: 'https://krest.peaq.network/',
     info: 'krest',
     paraId: 2241,
-    providers: {},
+    providers: {
+      Krest: 'wss://wss-krest.peaq.network/'
+    },
     text: 'Krest',
     ui: {
       logo: nodesKrestPNG
