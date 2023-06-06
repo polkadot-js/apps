@@ -10,7 +10,6 @@ import { availableExtensions } from '@polkadot/apps-config';
 import { isWeb3Injected } from '@polkadot/extension-dapp';
 import { onlyOnWeb } from '@polkadot/react-api/hoc';
 import { useApi } from '@polkadot/react-hooks';
-import { stringUpperFirst } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
 import Banner from './Banner.js';
@@ -63,31 +62,23 @@ function BannerExtension (): React.ReactElement | null {
 
   return (
     <Banner type='warning'>
-      <p>{t<string>('It is recommended that you create/store your accounts securely and externally from the app. On {{yourBrowser}} the following browser extensions are available for use -', {
-        replace: {
-          yourBrowser: stringUpperFirst(browserName)
-        }
-      })}</p>
-      <ul>{availableExtensions[browserName].map(({ desc, link, name }): React.ReactNode => (
-        <li key={name}>
-          <a
-            href={link}
-            rel='noopener noreferrer'
-            target='_blank'
-          >
-            {name}
-          </a> ({t(desc)})
-        </li>
-      ))
-      }</ul>
-      <p>{t<string>('Accounts injected from any of these extensions will appear in this application and be available for use. The above list is updated as more extensions with external signing capability become available.')}&nbsp;
+      <p><b>Action needed: Move you accounts to a browser extension</b></p>
+      <p>
+        {t<string>('Managing accounts directly via {{host}} is being phased out, to encourage more', { replace: { host: window.location.host } })}&nbsp;
+        {t<string>('secure ways to manage your keys. We recommend, that you use one of the supported')}&nbsp;
+        {t<string>('browser extensions. You can learn')}&nbsp;
         <a
-          href='https://github.com/polkadot-js/extension'
-          rel='noopener noreferrer'
+          href='https://support.alephzero.org/en/collections/3749726-setting-up-or-restoring-a-wallet'
+          rel='noreferrer'
           target='_blank'
-        >{t<string>('Learn more...')}</a>
+        >{t<string>('how to migrate you accounts here')}</a>.
+        &nbsp;{t<string>('If you want to learn more about upcoming changes, you can')}&nbsp;
+        <a
+          href='https://alephzero.org/blog/testnet-11-release/'
+          rel='noreferrer'
+          target='_blank'
+        >{t<string>('read our announcement here')}</a>.
       </p>
-      <p>{phishing.current}</p>
     </Banner>
   );
 }
