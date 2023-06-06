@@ -308,6 +308,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'interlay',
     paraId: 2032,
     providers: {
+      Dwellir: 'wss://interlay-rpc.dwellir.com',
       'Kintsugi Labs': 'wss://api.interlay.io/parachain',
       OnFinality: 'wss://interlay.api.onfinality.io/public-ws'
     },
@@ -661,7 +662,8 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       'IBP-GeoDNS2': 'wss://sys.dotters.network/statemint',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-asset-hub-rpc.polkadot.io',
-      RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws'
+      RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws',
+      Stakeworld: 'wss://dot-rpc.stakeworld.io/statemint'
     },
     teleport: [-1],
     text: 'AssetHub',
