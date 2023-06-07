@@ -680,7 +680,8 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       'IBP-GeoDNS2': 'wss://sys.dotters.network/collectives-polkadot',
       OnFinality: 'wss://collectives.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-collectives-rpc.polkadot.io',
-      RadiumBlock: 'wss://collectives.public.curie.radiumblock.co/ws'
+      RadiumBlock: 'wss://collectives.public.curie.radiumblock.co/ws',
+      Stakeworld: 'wss://dot-rpc.stakeworld.io/collectives'
     },
     teleport: [-1],
     text: 'Collectives',
@@ -693,7 +694,8 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     info: 'polkadotBridgeHub',
     paraId: 1002,
     providers: {
-      Parity: 'wss://polkadot-bridge-hub-rpc.polkadot.io'
+      Parity: 'wss://polkadot-bridge-hub-rpc.polkadot.io',
+      Stakeworld: 'wss://dot-rpc.stakeworld.io/bridgehub'
     },
     text: 'BridgeHub',
     ui: {
