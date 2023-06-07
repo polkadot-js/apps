@@ -1850,6 +1850,7 @@ __metadata:
     "@polkadot/api": ^10.8.1
     "@polkadot/api-derive": ^10.8.1
     "@polkadot/networks": ^12.2.2
+    "@polkadot/react-identicon": ^3.4.2
     "@polkadot/types": ^10.8.1
     "@polkadot/types-codec": ^10.8.1
     "@polkadot/util": ^12.2.2
