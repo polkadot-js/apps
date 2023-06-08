@@ -3,8 +3,7 @@
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+// @ts-expect-error No definitions provided in package
 import types from '@docknetwork/node-types';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
