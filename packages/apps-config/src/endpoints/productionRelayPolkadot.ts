@@ -196,6 +196,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2046,
     providers: {
       'Darwinia Network': 'wss://rpc.darwinia.network',
+      'Darwinia Community': 'wss://darwinia-rpc.darwiniacommunitydao.xyz',
       Dwellir: 'wss://darwinia-rpc.dwellir.com'
     },
     text: 'Darwinia2',
