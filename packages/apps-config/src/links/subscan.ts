@@ -33,7 +33,6 @@ export const Subscan: ExternalDef = {
     Dock: 'dock',
     'Dolphin Parachain Testnet': 'dolphin',
     Edgeware: 'edgeware',
-    Efinity: 'efinity',
     'Encointer on Kusama': 'encointer',
     'Equilibrium parachain': 'equilibrium',
     Genshiro: 'genshiro',
