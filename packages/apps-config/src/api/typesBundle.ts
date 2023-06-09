@@ -70346,6 +70346,216 @@ export const typesBundle = {
         }
       }
     },
+    "parami": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {}
+        }
+      ]
+    },
+    "peaq-node": {
+      "rpc": {
+        "oracle": {
+          "getValue": {
+            "description": "Retrieves the oracle value for a given key.",
+            "params": [
+              {
+                "name": "providerId",
+                "type": "RpcDataProviderId"
+              },
+              {
+                "name": "key",
+                "type": "OracleKey"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Option<TimestampedValue>",
+            "isSubscription": false,
+            "jsonrpc": "oracle_getValue",
+            "method": "getValue",
+            "section": "oracle"
+          },
+          "getAllValues": {
+            "description": "Retrieves all oracle values.",
+            "params": [
+              {
+                "name": "providerId",
+                "type": "RpcDataProviderId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(OracleKey, Option<TimestampedValue>)>",
+            "isSubscription": false,
+            "jsonrpc": "oracle_getAllValues",
+            "method": "getAllValues",
+            "section": "oracle"
+          }
+        },
+        "peaqdid": {
+          "readAttribute": {
+            "description": "Read attribute",
+            "params": [
+              {
+                "name": "didAccount",
+                "type": "AccountId"
+              },
+              {
+                "name": "name",
+                "type": "Bytes"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Option<RPCAttribute>",
+            "isSubscription": false,
+            "jsonrpc": "peaqdid_readAttribute",
+            "method": "readAttribute",
+            "section": "peaqdid"
+          }
+        },
+        "peaqstorage": {
+          "readAttribute": {
+            "description": "Read attribute",
+            "params": [
+              {
+                "name": "didAccount",
+                "type": "AccountId"
+              },
+              {
+                "name": "itemType",
+                "type": "Bytes"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Option<StorageRpcResult>",
+            "isSubscription": false,
+            "jsonrpc": "peaqstorage_readAttribute",
+            "method": "readAttribute",
+            "section": "peaqstorage"
+          }
+        }
+      },
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "CallOf": "Call",
+            "DispatchTime": {
+              "_enum": {
+                "At": "BlockNumber",
+                "After": "BlockNumber"
+              }
+            },
+            "ScheduleTaskIndex": "u32",
+            "DelayedOrigin": {
+              "delay": "BlockNumber",
+              "origin": "PalletsOrigin"
+            },
+            "AuthorityOrigin": "DelayedOrigin",
+            "StorageValue": "Vec<u8>",
+            "GraduallyUpdate": {
+              "key": "StorageKey",
+              "targetValue": "StorageValue",
+              "perBlock": "StorageValue"
+            },
+            "StorageKeyBytes": "Vec<u8>",
+            "StorageValueBytes": "Vec<u8>",
+            "RpcDataProviderId": "Text",
+            "DataProviderId": "u8",
+            "TimestampedValue": {
+              "value": "OracleValue",
+              "timestamp": "Moment"
+            },
+            "TimestampedValueOf": "TimestampedValue",
+            "OrderedSet": "Vec<AccountId>",
+            "OrmlAccountData": {
+              "free": "Balance",
+              "frozen": "Balance",
+              "reserved": "Balance"
+            },
+            "OrmlBalanceLock": {
+              "amount": "Balance",
+              "id": "LockIdentifier"
+            },
+            "AuctionInfo": {
+              "bid": "Option<(AccountId, Balance)>",
+              "start": "BlockNumber",
+              "end": "Option<BlockNumber>"
+            },
+            "DelayedDispatchTime": {
+              "_enum": {
+                "At": "BlockNumber",
+                "After": "BlockNumber"
+              }
+            },
+            "DispatchId": "u32",
+            "Price": "FixedU128",
+            "OrmlVestingSchedule": {
+              "start": "BlockNumber",
+              "period": "BlockNumber",
+              "periodCount": "u32",
+              "perPeriod": "Compact<Balance>"
+            },
+            "VestingScheduleOf": "OrmlVestingSchedule",
+            "OrmlCurrencyId": "u8",
+            "PoolInfo": {
+              "totalShares": "Share",
+              "rewards": "BTreeMap<OrmlCurrencyId, (Balance, Balance)>"
+            },
+            "CompactBalance": "Compact<Balance>",
+            "PoolInfoV0": {
+              "totalShares": "Compact<Share>",
+              "totalRewards": "CompactBalance",
+              "totalWithdrawnRewards": "CompactBalance"
+            },
+            "Share": "u128",
+            "OracleValue": "FixedU128",
+            "RPCAttribute": {
+              "name": "Bytes",
+              "value": "Bytes",
+              "validity": "Bytes",
+              "created": "Moment"
+            },
+            "StorageRpcResult": {
+              "item": "Bytes"
+            },
+            "Keys": "SessionKeys1"
+          }
+        }
+      ],
+      "alias": {
+        "tokens": {
+          "AccountData": "OrmlAccountData",
+          "BalanceLock": "OrmlBalanceLock"
+        }
+      }
+    },
     "peaq-node-dev": {
       "rpc": {
         "oracle": {
@@ -70743,216 +70953,6 @@ export const typesBundle = {
           "BalanceLock": "OrmlBalanceLock"
         }
       }
-    },
-    "peaq-node": {
-      "rpc": {
-        "oracle": {
-          "getValue": {
-            "description": "Retrieves the oracle value for a given key.",
-            "params": [
-              {
-                "name": "providerId",
-                "type": "RpcDataProviderId"
-              },
-              {
-                "name": "key",
-                "type": "OracleKey"
-              },
-              {
-                "name": "at",
-                "type": "BlockHash",
-                "isHistoric": true,
-                "isOptional": true
-              }
-            ],
-            "type": "Option<TimestampedValue>",
-            "isSubscription": false,
-            "jsonrpc": "oracle_getValue",
-            "method": "getValue",
-            "section": "oracle"
-          },
-          "getAllValues": {
-            "description": "Retrieves all oracle values.",
-            "params": [
-              {
-                "name": "providerId",
-                "type": "RpcDataProviderId"
-              },
-              {
-                "name": "at",
-                "type": "BlockHash",
-                "isHistoric": true,
-                "isOptional": true
-              }
-            ],
-            "type": "Vec<(OracleKey, Option<TimestampedValue>)>",
-            "isSubscription": false,
-            "jsonrpc": "oracle_getAllValues",
-            "method": "getAllValues",
-            "section": "oracle"
-          }
-        },
-        "peaqdid": {
-          "readAttribute": {
-            "description": "Read attribute",
-            "params": [
-              {
-                "name": "didAccount",
-                "type": "AccountId"
-              },
-              {
-                "name": "name",
-                "type": "Bytes"
-              },
-              {
-                "name": "at",
-                "type": "BlockHash",
-                "isHistoric": true,
-                "isOptional": true
-              }
-            ],
-            "type": "Option<RPCAttribute>",
-            "isSubscription": false,
-            "jsonrpc": "peaqdid_readAttribute",
-            "method": "readAttribute",
-            "section": "peaqdid"
-          }
-        },
-        "peaqstorage": {
-          "readAttribute": {
-            "description": "Read attribute",
-            "params": [
-              {
-                "name": "didAccount",
-                "type": "AccountId"
-              },
-              {
-                "name": "itemType",
-                "type": "Bytes"
-              },
-              {
-                "name": "at",
-                "type": "BlockHash",
-                "isHistoric": true,
-                "isOptional": true
-              }
-            ],
-            "type": "Option<StorageRpcResult>",
-            "isSubscription": false,
-            "jsonrpc": "peaqstorage_readAttribute",
-            "method": "readAttribute",
-            "section": "peaqstorage"
-          }
-        }
-      },
-      "types": [
-        {
-          "minmax": [
-            0,
-            null
-          ],
-          "types": {
-            "CallOf": "Call",
-            "DispatchTime": {
-              "_enum": {
-                "At": "BlockNumber",
-                "After": "BlockNumber"
-              }
-            },
-            "ScheduleTaskIndex": "u32",
-            "DelayedOrigin": {
-              "delay": "BlockNumber",
-              "origin": "PalletsOrigin"
-            },
-            "AuthorityOrigin": "DelayedOrigin",
-            "StorageValue": "Vec<u8>",
-            "GraduallyUpdate": {
-              "key": "StorageKey",
-              "targetValue": "StorageValue",
-              "perBlock": "StorageValue"
-            },
-            "StorageKeyBytes": "Vec<u8>",
-            "StorageValueBytes": "Vec<u8>",
-            "RpcDataProviderId": "Text",
-            "DataProviderId": "u8",
-            "TimestampedValue": {
-              "value": "OracleValue",
-              "timestamp": "Moment"
-            },
-            "TimestampedValueOf": "TimestampedValue",
-            "OrderedSet": "Vec<AccountId>",
-            "OrmlAccountData": {
-              "free": "Balance",
-              "frozen": "Balance",
-              "reserved": "Balance"
-            },
-            "OrmlBalanceLock": {
-              "amount": "Balance",
-              "id": "LockIdentifier"
-            },
-            "AuctionInfo": {
-              "bid": "Option<(AccountId, Balance)>",
-              "start": "BlockNumber",
-              "end": "Option<BlockNumber>"
-            },
-            "DelayedDispatchTime": {
-              "_enum": {
-                "At": "BlockNumber",
-                "After": "BlockNumber"
-              }
-            },
-            "DispatchId": "u32",
-            "Price": "FixedU128",
-            "OrmlVestingSchedule": {
-              "start": "BlockNumber",
-              "period": "BlockNumber",
-              "periodCount": "u32",
-              "perPeriod": "Compact<Balance>"
-            },
-            "VestingScheduleOf": "OrmlVestingSchedule",
-            "OrmlCurrencyId": "u8",
-            "PoolInfo": {
-              "totalShares": "Share",
-              "rewards": "BTreeMap<OrmlCurrencyId, (Balance, Balance)>"
-            },
-            "CompactBalance": "Compact<Balance>",
-            "PoolInfoV0": {
-              "totalShares": "Compact<Share>",
-              "totalRewards": "CompactBalance",
-              "totalWithdrawnRewards": "CompactBalance"
-            },
-            "Share": "u128",
-            "OracleValue": "FixedU128",
-            "RPCAttribute": {
-              "name": "Bytes",
-              "value": "Bytes",
-              "validity": "Bytes",
-              "created": "Moment"
-            },
-            "StorageRpcResult": {
-              "item": "Bytes"
-            },
-            "Keys": "SessionKeys1"
-          }
-        }
-      ],
-      "alias": {
-        "tokens": {
-          "AccountData": "OrmlAccountData",
-          "BalanceLock": "OrmlBalanceLock"
-        }
-      }
-    },
-    "parami": {
-      "types": [
-        {
-          "minmax": [
-            0,
-            null
-          ],
-          "types": {}
-        }
-      ]
     },
     "phoenix-node": {
       "types": [
