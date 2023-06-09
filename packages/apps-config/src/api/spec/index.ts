@@ -90,7 +90,7 @@ import pangolin from './pangolin.js';
 import pangoro from './pangoro.js';
 import parallel from './parallel.js';
 import parami from './parami.js';
-import peaq from './peaq';
+import peaq from './peaq.js';
 import phoenix from './phoenix.js';
 import pichiu from './pichiu.js';
 import polkadex from './polkadex.js';
