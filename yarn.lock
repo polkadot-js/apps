@@ -1196,7 +1196,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@open-web3/orml-type-definitions@npm:^0.9.4-7":
+"@open-web3/orml-type-definitions@npm:^0.9.4-38, @open-web3/orml-type-definitions@npm:^0.9.4-7":
   version: 0.9.4-38
   resolution: "@open-web3/orml-type-definitions@npm:0.9.4-38"
   dependencies:
@@ -1220,6 +1220,15 @@ __metadata:
   dependencies:
     "@open-web3/orml-type-definitions": ^2.0.1
   checksum: 54f26b57bddb2036dd154134c6c622504054d2d6726b486af15eaf66abb5665267cf84c721a7668b18b33fb7acf431e0ecfa118bdcfa32a53b889116081dbd25
+  languageName: node
+  linkType: hard
+
+"@peaqnetwork/type-definitions@npm:0.0.4":
+  version: 0.0.4
+  resolution: "@peaqnetwork/type-definitions@npm:0.0.4"
+  dependencies:
+    "@open-web3/orml-type-definitions": ^0.9.4-38
+  checksum: 6c38272a2170c8bfb91bb05bd8b46195c1dc9cd5ea85fc17531dd0d567eb889e2605080286a6c0bcd449217c999bc6d393bbc42db6347609aab23ec80cabcc1f
   languageName: node
   linkType: hard
 
@@ -1846,6 +1855,7 @@ __metadata:
     "@logion/node-api": 0.16.0-1
     "@metaverse-network-sdk/type-definitions": 0.0.1-16
     "@parallel-finance/type-definitions": 1.7.17
+    "@peaqnetwork/type-definitions": 0.0.4
     "@phala/typedefs": 0.2.33
     "@polkadot/api": ^10.8.1
     "@polkadot/api-derive": ^10.8.1
