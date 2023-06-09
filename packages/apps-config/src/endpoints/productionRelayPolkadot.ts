@@ -523,7 +523,6 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
   {
     homepage: 'https://polkadex.trade/',
     info: 'polkadex',
-    isUnreachable: true,
     paraId: 2040,
     providers: {
       Polkadex: 'wss://parachain.polkadex.trade/'
