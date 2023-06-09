@@ -170,6 +170,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2019,
     providers: {
       Composable: 'wss://rpc.composable.finance',
+      Dwellir: 'wss://composable-rpc.dwellir.com',
       OnFinality: 'wss://composable.api.onfinality.io/public-ws'
     },
     text: 'Composable Finance',
@@ -238,6 +239,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'frequency',
     paraId: 2091,
     providers: {
+      Dwellir: 'wss://frequency-rpc.dwellir.com',
       'Frequency 0': 'wss://0.rpc.frequency.xyz',
       'Frequency 1': 'wss://1.rpc.frequency.xyz'
     },
@@ -295,6 +297,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'integritee',
     paraId: 2039,
     providers: {
+      Dwellir: 'wss://integritee-rpc.dwellir.com',
       Integritee: 'wss://polkadot.api.integritee.network'
     },
     text: 'Integritee Shell',
@@ -405,6 +408,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       'Automata 1RPC': 'wss://1rpc.io/glmr',
       Blast: 'wss://moonbeam.public.blastapi.io',
+      Dwellir: 'wss://moonbeam-rpc.dwellir.com',
       'Moonbeam Foundation': 'wss://wss.api.moonbeam.network',
       OnFinality: 'wss://moonbeam.api.onfinality.io/public-ws',
       UnitedBloc: 'wss://moonbeam.unitedbloc.com'
