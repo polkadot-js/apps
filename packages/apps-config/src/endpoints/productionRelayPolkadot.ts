@@ -211,9 +211,13 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'efinity',
     paraId: 2021,
     providers: {
-      Dwellir: 'wss://efinity-rpc.dwellir.com',
-      Efinity: 'wss://rpc.efinity.io',
-      OnFinality: 'wss://efinity.api.onfinality.io/public-ws'
+      // NOTE We don't support connections to this parachain at all.
+      //
+      // 1. The chain is migrated away from the parachain with all balances
+      // 2. There is a forked relay-involved which we don't support
+      //
+      // Additional details in orginal removal at
+      // https://github.com/polkadot-js/apps/pull/9555/files#r1225095086
     },
     text: 'Efinity',
     ui: {
