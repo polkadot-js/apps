@@ -104,7 +104,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
             abi: stringify(result.contract.abi.json),
             genesisHash: api.genesisHash.toHex()
           },
-          name,
+          name: name || undefined,
           tags: []
         });
 

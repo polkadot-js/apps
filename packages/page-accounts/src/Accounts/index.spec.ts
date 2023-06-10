@@ -454,7 +454,7 @@ describe.skip('Accounts page', () => {
     describe('when genesis hash set', () => {
       beforeEach(async () => {
         accountsPage.renderAccountsWithDefaultAddresses(
-          anAccountWithInfoAndMeta({ flags: { isDevelopment: true } as AddressFlags }, { genesisHash: 'someHash', name: 'charlie' })
+          anAccountWithInfoAndMeta({ flags: { isDevelopment: true } as AddressFlags }, { genesisHash: '0x1234', name: 'charlie' })
         );
         accountRows = await accountsPage.getAccountRows();
       });

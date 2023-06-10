@@ -230,7 +230,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
 
       setIsBusy(true);
       nextTick((): void => {
-        const options = { genesisHash: isDevelopment ? undefined : api.genesisHash.toString(), isHardware: false, name: name.trim() };
+        const options = { genesisHash: isDevelopment ? undefined : api.genesisHash.toHex(), isHardware: false, name: name.trim() };
         const status = createAccount(seed, derivePath, pairType, options, password, t<string>('created account'));
 
         onStatusChange(status);
