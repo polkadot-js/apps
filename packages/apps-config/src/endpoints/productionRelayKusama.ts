@@ -523,7 +523,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'pichiu',
     paraId: 2102,
     providers: {
-      'Kylin Network': 'wss://kusama.kylin-node.co.uk'
+      // 'Kylin Network': 'wss://kusama.kylin-node.co.uk' // https://github.com/polkadot-js/apps/issues/9560
     },
     text: 'Pichiu',
     ui: {
