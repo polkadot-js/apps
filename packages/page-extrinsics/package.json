@@ -14,11 +14,11 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.131.5-24-x",
+  "version": "0.131.5-25-x",
   "dependencies": {
-    "@polkadot/react-components": "^0.131.5-24-x",
-    "@polkadot/react-params": "^0.131.5-24-x",
-    "@polkadot/react-signer": "^0.131.5-24-x"
+    "@polkadot/react-components": "^0.131.5-25-x",
+    "@polkadot/react-params": "^0.131.5-25-x",
+    "@polkadot/react-signer": "^0.131.5-25-x"
   },
   "peerDependencies": {
     "react": "*",
