@@ -2,6 +2,13 @@
   "extends": "@polkadot/dev/config/tsconfig.json",
 	"compilerOptions": {
     "composite": true,
+    /**
+     * NOTE We have a lot of these, for ergonomic purposes it is
+     * better just letting the status-quo be (for the time being)
+     *
+     * Reverts https://github.com/polkadot-js/dev/pull/1074
+     **/
+    "noPropertyAccessFromIndexSignature": false,
 		"paths": {
       "@polkadot/apps": ["apps/src/index.tsx"],
       "@polkadot/apps/Root": ["apps/src/Root.tsx"],
