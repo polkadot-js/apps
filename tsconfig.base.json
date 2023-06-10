@@ -2,6 +2,9 @@
   "extends": "@polkadot/dev/config/tsconfig.json",
 	"compilerOptions": {
     "composite": true,
+    // NOTE We have a lot of these, for ergonimic purposes it is
+    // better just letting the status-quo be (for the time being)
+    "noPropertyAccessFromIndexSignature": false,
 		"paths": {
       "@polkadot/apps": ["apps/src/index.tsx"],
       "@polkadot/apps/Root": ["apps/src/Root.tsx"],
