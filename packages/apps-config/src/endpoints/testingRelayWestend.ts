@@ -187,7 +187,7 @@ export const testRelayWestend: EndpointOption = {
     LuckyFriday: 'wss://rpc-westend.luckyfriday.io',
     OnFinality: 'wss://westend.api.onfinality.io/public-ws',
     Parity: 'wss://westend-rpc.polkadot.io',
-    // RadiumBlock: 'wss://westend.public.curie.radiumblock.co/ws', #Disabling until we can fully rebuild the deployment to address stability issues.
+    RadiumBlock: 'wss://westend.public.curie.radiumblock.co/ws', 
     Stakeworld: 'wss://wnd-rpc.stakeworld.io',
     'light client': 'light://substrate-connect/westend'
   },
