@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
+import type {LinkOption, TeleportXcmVersion} from '@polkadot/apps-config/endpoints/types';
 import type { ParaId } from '@polkadot/types/interfaces';
 
 import { useEffect, useState } from 'react';
@@ -19,12 +19,12 @@ interface Teleport {
   isParaTeleport?: boolean;
   isRelayTeleport?: boolean;
   oneWay: number[];
-  xcmVersion: string
+  xcmVersion: TeleportXcmVersion
 }
 
 interface ExtLinkOption extends LinkOption {
   teleport: number[];
-  teleportXcmVersion?: string
+  teleportXcmVersion?: TeleportXcmVersion
 }
 
 const DEFAULT_STATE: Teleport = {

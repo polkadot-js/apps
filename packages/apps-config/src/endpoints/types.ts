@@ -4,6 +4,12 @@
 import type React from 'react';
 import type { Option } from '../settings/types.js';
 
+/**
+ *  The only supported Xcm versions for teleport are V2 and V1 right now.
+ *  Be sure to update teleport when introducing a new Xcm version.
+ */
+export type TeleportXcmVersion = 'V1' | 'V2';
+
 interface BaseOption {
   dnslink?: string;
   genesisHash?: string;
@@ -11,7 +17,7 @@ interface BaseOption {
   paraId?: number;
   summary?: string;
   teleport?: number[];
-  teleportXcmVersion?: string;
+  teleportXcmVersion?: TeleportXcmVersion;
   ui: {
     color?: string;
     logo?: string;
