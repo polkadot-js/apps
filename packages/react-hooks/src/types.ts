@@ -134,7 +134,7 @@ export interface UseAccountInfo {
   toggleIsEditingTags: () => void;
   onSaveName: () => void;
   onSaveTags: () => void;
-  onSetGenesisHash: (genesisHash: string | null) => void;
+  onSetGenesisHash: (genesisHash: HexString | null) => void;
   onForgetAddress: () => void;
   setIsEditingName: (isEditing: boolean) => void;
   setIsEditingTags: (isEditing: boolean) => void;

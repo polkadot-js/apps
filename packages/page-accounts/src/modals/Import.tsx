@@ -4,6 +4,7 @@
 import type { Dispatch, SetStateAction } from 'react';
 import type { KeyringPair, KeyringPair$Json } from '@polkadot/keyring/types';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { HexString } from '@polkadot/util/types';
 import type { ModalProps } from '../types.js';
 
 import React, { useCallback, useMemo, useState } from 'react';
@@ -29,7 +30,7 @@ interface PassState {
 
 const acceptedFormats = ['application/json', 'text/plain'];
 
-function parseFile (file: Uint8Array, setError: Dispatch<SetStateAction<string | null>>, isEthereum: boolean, genesisHash?: string | null): KeyringPair | null {
+function parseFile (file: Uint8Array, setError: Dispatch<SetStateAction<string | null>>, isEthereum: boolean, genesisHash?: HexString | null): KeyringPair | null {
   try {
     const pair = keyring.createFromJson(JSON.parse(u8aToString(file)) as KeyringPair$Json, { genesisHash });
 

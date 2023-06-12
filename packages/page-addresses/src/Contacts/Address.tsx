@@ -3,6 +3,7 @@
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { KeyringAddress } from '@polkadot/ui-keyring/types';
+import type { HexString } from '@polkadot/util/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
@@ -107,7 +108,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   }, [accName, filter, tags]);
 
   const _onGenesisChange = useCallback(
-    (genesisHash: string | null): void => {
+    (genesisHash: HexString | null): void => {
       setGenesisHash(genesisHash);
 
       const account = keyring.getAddress(address);

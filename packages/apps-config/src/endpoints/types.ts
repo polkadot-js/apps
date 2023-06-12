@@ -2,11 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type React from 'react';
+import type { HexString } from '@polkadot/util/types';
 import type { Option } from '../settings/types.js';
 
 interface BaseOption {
   dnslink?: string;
-  genesisHash?: string;
+  genesisHash?: HexString;
   homepage?: string;
   paraId?: number;
   summary?: string;
@@ -29,7 +30,7 @@ export interface EndpointOption extends BaseOption {
 }
 
 export interface LinkOption extends BaseOption, Option {
-  genesisHashRelay?: string;
+  genesisHashRelay?: HexString;
   isChild?: boolean;
   isDevelopment?: boolean;
   isLightClient?: boolean;
