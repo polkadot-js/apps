@@ -1,15 +1,39 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
 
-export type LinkTypes = 'address' | 'block' | 'bounty' | 'council' | 'extrinsic' | 'proposal' | 'referendum' | 'techcomm' | 'tip' | 'treasury';
+export interface LinkPath {
+  // general
+  address?: string;
+  block?: string;
+  extrinsic?: string;
+  validator?: string;
+
+  // governance 1
+  bounty?: string;
+  council?: string;
+  democracyExternal?: string;
+  democracyProposal?: string;
+  democracyReferendum?: string;
+  techcomm?: string;
+  tip?: string;
+  treasury?: string;
+
+  // governance 2
+  fellowshipReferenda?: string;
+  rankedPolls?: string;
+  referenda?: string;
+}
+
+export type LinkTypes = keyof LinkPath;
 
 export interface ExternalDef {
   chains: Record<string, string>;
+  homepage: string;
   isActive: boolean;
-  logo: string;
-  paths: Partial<Record<LinkTypes, string>>;
-  url: string;
+  paths: LinkPath;
+  ui: { logo: string; }
+
   create: (chain: string, path: string, data: BN | number | string, hash?: string) => string;
 }

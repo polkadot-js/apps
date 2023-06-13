@@ -1,17 +1,17 @@
-// Copyright 2017-2022 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HeaderExtended } from '@polkadot/api-derive/types';
-import type { KeyedEvent } from '@polkadot/react-query/types';
+import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
 
 import React from 'react';
 
 import { Columar } from '@polkadot/react-components';
 
-import BlockHeaders from './BlockHeaders';
-import Events from './Events';
-import Query from './Query';
-import Summary from './Summary';
+import BlockHeaders from './BlockHeaders.js';
+import Events from './Events.js';
+import Query from './Query.js';
+import Summary from './Summary.js';
 
 interface Props {
   eventCount: number;

@@ -1,21 +1,28 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type React from 'react';
 import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/api-derive/types';
 import type { DisplayedJudgement } from '@polkadot/react-components/types';
 import type { AccountId, Balance, BlockNumber, Call, Exposure, Hash, RewardDestination, SessionIndex, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
-import type { IExtrinsic } from '@polkadot/types/types';
+import type { PalletPreimageRequestStatus } from '@polkadot/types/lookup';
+import type { ICompact, IExtrinsic, INumber, Registry } from '@polkadot/types/types';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
+import type { BN } from '@polkadot/util';
+import type { HexString } from '@polkadot/util/types';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type CallParam = any;
 
 export type CallParams = [] | CallParam[];
 
 export interface CallOptions <T> {
   defaultValue?: T;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   paramMap?: (params: any) => CallParams;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   transform?: (value: any, api: ApiPromise) => T;
   withParams?: boolean;
   withParamsTransform?: boolean;
@@ -101,6 +108,8 @@ export interface AddressFlags extends DeriveAccountFlags {
   isNominator: boolean;
 }
 
+export const AddressIdentityOtherDiscordKey = 'Discord';
+
 export interface AddressIdentity extends DeriveAccountRegistration {
   isExistent: boolean;
   isKnownGood: boolean;
@@ -125,7 +134,7 @@ export interface UseAccountInfo {
   toggleIsEditingTags: () => void;
   onSaveName: () => void;
   onSaveTags: () => void;
-  onSetGenesisHash: (genesisHash: string | null) => void;
+  onSetGenesisHash: (genesisHash: HexString | null) => void;
   onForgetAddress: () => void;
   setIsEditingName: (isEditing: boolean) => void;
   setIsEditingTags: (isEditing: boolean) => void;
@@ -166,4 +175,40 @@ export type BatchType = 'all' | 'default';
 export interface BatchOptions {
   max?: number;
   type?: BatchType;
+}
+
+export interface PreimageDeposit {
+  amount: BN;
+  who: string;
+}
+
+export interface PreimageStatus {
+  count: number;
+  deposit?: PreimageDeposit;
+  isCompleted: boolean;
+  isHashParam: boolean;
+  proposalHash: HexString;
+  proposalLength?: BN;
+  registry: Registry;
+  status: PalletPreimageRequestStatus | null;
+}
+
+export interface PreimageBytes {
+  proposal?: Call | null;
+  proposalError?: string | null;
+  proposalWarning?: string | null;
+}
+
+export interface Preimage extends PreimageBytes, PreimageStatus {
+  // just the interfaces above
+}
+
+export interface V2WeightConstruct {
+  refTime: BN | ICompact<INumber>;
+  proofSize?: BN | ICompact<INumber>;
+}
+
+export interface WeightResult {
+  v1Weight: BN;
+  v2Weight: V2WeightConstruct;
 }

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps authors & contributors
+// Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable camelcase */
@@ -11,20 +11,7 @@ const webpack = require('webpack');
 
 const findPackages = require('../../scripts/findPackages.cjs');
 
-function mapChunks (name, regs, inc) {
-  return regs.reduce((result, test, index) => ({
-    ...result,
-    [`${name}${index}`]: {
-      chunks: 'initial',
-      enforce: true,
-      name: `${name}.${`0${index + (inc || 0)}`.slice(-2)}`,
-      test
-    }
-  }), {});
-}
-
 function createWebpack (context, mode = 'production') {
-  const pkgJson = require(path.join(context, 'package.json'));
   const alias = findPackages().reduce((alias, { dir, name }) => {
     alias[name] = path.resolve(context, `../${dir}/src`);
 
@@ -44,62 +31,37 @@ function createWebpack (context, mode = 'production') {
 
   return {
     context,
-    entry: ['@babel/polyfill', './src/index.tsx'],
+    entry: './src/index.tsx',
     mode,
     module: {
       rules: [
         {
           scheme: 'data',
-          type: 'asset/resource',
+          type: 'asset/resource'
         },
         {
           include: /node_modules/,
           test: /\.css$/,
           use: [
             MiniCssExtractPlugin.loader,
-            require.resolve('css-loader')
-          ]
-        },
-        {
-          exclude: /(node_modules)/,
-          test: /\.(js|mjs|ts|tsx)$/,
-          use: [
-            require.resolve('thread-loader'),
             {
-              loader: require.resolve('babel-loader'),
-              options: require('@polkadot/dev/config/babel-config-webpack.cjs')
+              loader: require.resolve('css-loader'),
+              options: {
+                url: false
+              }
             }
           ]
         },
         {
-          test: /\.md$/,
-          use: [
-            require.resolve('html-loader'),
-            require.resolve('markdown-loader')
-          ]
-        },
-        {
-          exclude: [/semantic-ui-css/],
-          test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
-          type: 'asset/resource',
-          generator: {
-            filename: 'static/[name].[contenthash:8].[ext]'
-          }
-        },
-        {
-          exclude: [/semantic-ui-css/],
-          test: [/\.eot$/, /\.ttf$/, /\.svg$/, /\.woff$/, /\.woff2$/],
-          type: 'asset/resource',
-          generator: {
-            filename: 'static/[name].[contenthash:8].[ext]'
-          }
-        },
-        {
-          include: [/semantic-ui-css/],
-          test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.eot$/, /\.ttf$/, /\.svg$/, /\.woff$/, /\.woff2$/],
+          exclude: /(node_modules)/,
+          test: /\.(ts|tsx)$/,
           use: [
             {
-              loader: require.resolve('null-loader')
+              loader: require.resolve('ts-loader'),
+              options: {
+                configFile: 'tsconfig.webpack.json',
+                transpileOnly: true
+              }
             }
           ]
         }
@@ -110,34 +72,49 @@ function createWebpack (context, mode = 'production') {
       __filename: false
     },
     optimization: {
+      chunkIds: 'deterministic',
+      concatenateModules: true,
       minimize: mode === 'production',
+      moduleIds: 'deterministic',
+      runtimeChunk: 'single',
       splitChunks: {
-        cacheGroups: {
-          ...mapChunks('robohash', [
-            /* 00 */ /RoboHash\/(backgrounds|sets\/set1)/,
-            /* 01 */ /RoboHash\/sets\/set(2|3)/,
-            /* 02 */ /RoboHash\/sets\/set(4|5)/
-          ]),
-          ...mapChunks('polkadot', [
-            /* 00 */ /node_modules\/@polkadot\/(wasm)/,
-            /* 01 */ /node_modules\/(@polkadot\/(api|metadata|rpc|types))/,
-            /* 02 */ /node_modules\/(@polkadot\/(extension|keyring|networks|react|ui|util|vanitygen|x-)|@acala-network|@edgeware|@laminar|@ledgerhq|@open-web3|@sora-substrate|@subsocial|@zondax|edgeware)/
-          ]),
-          ...mapChunks('react', [
-            /* 00 */ /node_modules\/(@fortawesome)/,
-            /* 01 */ /node_modules\/(@emotion|@semantic-ui-react|@stardust|classnames|chart\.js|codeflask|copy-to-clipboard|file-selector|file-saver|hoist-non-react|i18next|jdenticon|keyboard-key|mini-create-react|popper\.js|prop-types|qrcode-generator|react|remark-parse|semantic-ui|styled-components)/
-          ]),
-          ...mapChunks('other', [
-            /* 00 */ /node_modules\/(@babel|ansi-styles|asn1|browserify|buffer|history|html-parse|inherit|lodash|object|path-|parse-asn1|pbkdf2|process|public-encrypt|query-string|readable-stream|regenerator-runtime|repeat|rtcpeerconnection-shim|safe-buffer|stream-browserify|store|tslib|unified|unist-util|util|vfile|vm-browserify|webrtc-adapter|whatwg-fetch)/,
-            /* 01 */ /node_modules\/(attr|brorand|camelcase|core|chalk|color|create|cuint|decode-uri|deep-equal|define-properties|detect-browser|es|event|evp|ext|function-bind|has-symbols|ieee754|ip|is|lru|markdown|minimalistic-|moment|next-tick|node-libs-browser|random|regexp|resolve|rxjs|scheduler|sdp|setimmediate|timers-browserify|trough)/,
-            /* 03 */ /node_modules\/(base-x|base64-js|blakejs|bip|bn\.js|cipher-base|crypto|des\.js|diffie-hellman|elliptic|hash|hmac|js-sha3|md5|miller-rabin|ripemd160|secp256k1|scryptsy|sha\.js|xxhashjs)/
-          ])
-        }
+        cacheGroups: [
+          // this one is massive (less-frequently updated, alongside deps)
+          ['type', /[\\/]packages[\\/]apps-config[\\/]src[\\/]api[\\/]typesBundle/],
+          // should just change when totally new teams are onboarded
+          ['logo', /[\\/]packages[\\/]apps-config[\\/]src[\\/]ui[\\/]logos/],
+          // config cannot go in main - it has multiple users
+          ['conf', /[\\/]packages[\\/]apps-config[\\/]src[\\/]/],
+          // exceptionally large - should not change at all
+          ['robo', /[\\/]packages[\\/]react-components[\\/]src[\\/]IdentityIcon[\\/]RoboHash/],
+          // library split (although it probably changes alongside pages)
+          ['comm', /[\\/]packages[\\/]react-.*[\\/]src[\\/]/],
+          // pages are seperated out (non-perfect, but indv. too small)
+          ['page', /[\\/]packages[\\/]page-.*[\\/]src[\\/]/],
+          // all other modules
+          ['modu', /[\\/]node_modules[\\/]/]
+        ].reduce((result, [name, test], index) => ({
+          ...result,
+          [`cacheGroup${index}`]: {
+            chunks: 'initial',
+            enforce: true,
+            maxSize: 1_500_000,
+            minSize: 0,
+            name,
+            priority: -1 * index,
+            test
+          }
+        }), {})
       }
     },
     output: {
-      chunkFilename: '[name].[chunkhash:8].js',
-      filename: '[name].[contenthash:8].js',
+      // this is for dynamic imports
+      chunkFilename: 'dyna.[contenthash].js',
+      // this is via splitChunks
+      filename: ({ chunk: { name } }) =>
+        ['main', 'runtime'].includes(name)
+          ? `${name === 'main' ? 'main' : 'load'}.[contenthash].js`
+          : `${name.split('-')[0]}.[contenthash].js`,
       globalObject: '(typeof self !== \'undefined\' ? self : this)',
       hashFunction: 'xxhash64',
       path: path.join(context, 'build'),
@@ -153,22 +130,24 @@ function createWebpack (context, mode = 'production') {
       }),
       new webpack.IgnorePlugin({
         contextRegExp: /moment$/,
-        resourceRegExp: /^\.\/locale$/
+        resourceRegExp: /^\.[\\/]locale$/
       }),
       new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: JSON.stringify(mode),
-          VERSION: JSON.stringify(pkgJson.version),
           WS_URL: JSON.stringify(process.env.WS_URL)
         }
       }),
       new webpack.optimize.SplitChunksPlugin(),
       new MiniCssExtractPlugin({
-        filename: '[name].[contenthash:8].css'
+        filename: 'extr.[contenthash].css'
       })
     ].concat(plugins),
     resolve: {
       alias,
+      extensionAlias: {
+        '.js': ['.js', '.ts', '.tsx']
+      },
       extensions: ['.js', '.jsx', '.mjs', '.ts', '.tsx'],
       fallback: {
         assert: require.resolve('assert/'),

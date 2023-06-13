@@ -1,20 +1,18 @@
-// Copyright 2017-2022 @polkadot/app-addresses authors & contributors
+// Copyright 2017-2023 @polkadot/app-addresses authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
-import type { ThemeDef } from '@polkadot/react-components/types';
 import type { KeyringAddress } from '@polkadot/ui-keyring/types';
+import type { HexString } from '@polkadot/util/types';
 
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-import styled, { ThemeContext } from 'styled-components';
+import React, { useCallback, useEffect, useState } from 'react';
 
-import Transfer from '@polkadot/app-accounts/modals/Transfer';
-import { AddressInfo, AddressSmall, Button, ChainLock, ExpandButton, Forget, Icon, LinkExternal, Menu, Popup, Tags } from '@polkadot/react-components';
+import { AddressInfo, AddressSmall, Button, ChainLock, Columar, Forget, LinkExternal, Menu, Popup, Table, Tags, TransferModal } from '@polkadot/react-components';
 import { useApi, useBalancesAll, useDeriveAccountInfo, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
-import { BN_ZERO, formatNumber, isFunction } from '@polkadot/util';
+import { isFunction } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   address: string;
@@ -26,9 +24,31 @@ interface Props {
 
 const isEditable = true;
 
+const BAL_OPTS_DEFAULT = {
+  available: false,
+  bonded: false,
+  locked: false,
+  redeemable: false,
+  reserved: false,
+  total: true,
+  unlocking: false,
+  vested: false
+};
+
+const BAL_OPTS_EXPANDED = {
+  available: true,
+  bonded: true,
+  locked: true,
+  nonce: true,
+  redeemable: true,
+  reserved: true,
+  total: false,
+  unlocking: true,
+  vested: true
+};
+
 function Address ({ address, className = '', filter, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
   const api = useApi();
   const info = useDeriveAccountInfo(address);
   const balancesAll = useBalancesAll(address);
@@ -88,7 +108,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   }, [accName, filter, tags]);
 
   const _onGenesisChange = useCallback(
-    (genesisHash: string | null): void => {
+    (genesisHash: HexString | null): void => {
       setGenesisHash(genesisHash);
 
       const account = keyring.getAddress(address);
@@ -98,11 +118,6 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
       setGenesisHash(genesisHash);
     },
     [address]
-  );
-
-  const _onFavorite = useCallback(
-    (): void => toggleFavorite(address),
-    [address, toggleFavorite]
   );
 
   const _toggleForget = useCallback(
@@ -162,16 +177,17 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
 
   return (
     <>
-      <tr className={`${className}${isExpanded ? ' noBorder' : ''}`}>
-        <td className='favorite'>
-          <Icon
-            color={isFavorite ? 'orange' : 'gray'}
-            icon='star'
-            onClick={_onFavorite}
+      <tr className={`${className} isExpanded isFirst packedBottom`}>
+        <Table.Column.Favorite
+          address={address}
+          isFavorite={isFavorite}
+          toggle={toggleFavorite}
+        />
+        <td className='address all'>
+          <AddressSmall
+            value={address}
+            withShortAddress
           />
-        </td>
-        <td className='address'>
-          <AddressSmall value={address} />
           {address && current && (
             <>
               {isForgetOpen && (
@@ -184,7 +200,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
                 />
               )}
               {isTransferOpen && (
-                <Transfer
+                <TransferModal
                   key='modal-transfer'
                   onClose={_toggleTransfer}
                   recipientId={address}
@@ -193,35 +209,8 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
             </>
           )}
         </td>
-        <td className='number media--1500'>
-          {balancesAll?.accountNonce.gt(BN_ZERO) && formatNumber(balancesAll.accountNonce)}
-        </td>
-        <td className='number'>
-          <AddressInfo
-            address={address}
-            balancesAll={balancesAll}
-            withBalance={{
-              available: false,
-              bonded: false,
-              locked: false,
-              redeemable: false,
-              reserved: false,
-              total: true,
-              unlocking: false,
-              vested: false
-            }}
-            withExtended={false}
-          />
-        </td>
-        <td className='links media--1400'>
-          <LinkExternal
-            className='ui--AddressCard-exporer-link'
-            data={address}
-            type='address'
-          />
-        </td>
-        <td className='fast-actions-addresses'>
-          <div className='fast-actions-row'>
+        <td className='actions button'>
+          <Button.Group>
             {isFunction(api.api.tx.balances?.transfer) && (
               <Button
                 className='send-button'
@@ -231,96 +220,63 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
                 onClick={_toggleTransfer}
               />
             )}
-            <Popup
-              className={`theme--${theme}`}
-              value={PopupDropdown}
-            />
-            <ExpandButton
-              expanded={isExpanded}
-              onClick={toggleIsExpanded}
-            />
-          </div>
+            <Popup value={PopupDropdown} />
+          </Button.Group>
         </td>
+        <Table.Column.Expand
+          isExpanded={isExpanded}
+          toggle={toggleIsExpanded}
+        />
       </tr>
-      <tr className={`${className} ${isExpanded ? 'isExpanded' : 'isCollapsed'}`}>
+      <tr className={`${className} isExpanded ${isExpanded ? '' : 'isLast'} packedTop`}>
         <td />
-        <td>
-          <div
-            className='tags'
-            data-testid='tags'
-          >
-            <Tags
-              value={tags}
-              withTitle
-            />
-          </div>
-        </td>
-        <td className='number media--1500' />
-        <td>
+        <td
+          className='balance all'
+          colSpan={2}
+        >
           <AddressInfo
             address={address}
             balancesAll={balancesAll}
-            withBalance={{
-              available: true,
-              bonded: true,
-              locked: true,
-              redeemable: true,
-              reserved: true,
-              total: false,
-              unlocking: true,
-              vested: true
-            }}
-            withExtended={false}
+            withBalance={BAL_OPTS_DEFAULT}
           />
         </td>
-        <td colSpan={2} />
+        <td />
+      </tr>
+      <tr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'} packedTop`}>
+        <td />
+        <td
+          className='balance columar'
+          colSpan={2}
+        >
+          <AddressInfo
+            address={address}
+            balancesAll={balancesAll}
+            withBalance={BAL_OPTS_EXPANDED}
+          />
+          <Columar size='tiny'>
+            <Columar.Column>
+              <div data-testid='tags'>
+                <Tags
+                  value={tags}
+                  withTitle
+                />
+              </div>
+            </Columar.Column>
+          </Columar>
+          <Columar is100>
+            <Columar.Column>
+              <LinkExternal
+                data={address}
+                type='address'
+                withTitle
+              />
+            </Columar.Column>
+          </Columar>
+        </td>
+        <td />
       </tr>
     </>
   );
 }
 
-export default React.memo(styled(Address)`
-  &.isCollapsed {
-    visibility: collapse;
-  }
-
-  &.isExpanded {
-    visibility: visible;
-  }
-
-  .tags {
-    width: 100%;
-    min-height: 1.5rem;
-  }
-
-  && td.button {
-    padding-bottom: 0.5rem;
-  }
-
-  .fast-actions-addresses {
-    padding-left: 0.2rem;
-    padding-right: 1rem;
-    width: 1%;
-
-    .fast-actions-row {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-
-      & > * + * {
-        margin-left: 0.35rem;
-      }
-
-      .send-button {
-        min-width: 6.5rem;
-      }
-    }
-  }
-
-  && .ui--AddressInfo .ui--FormatBalance {
-    .ui--Icon, .icon-void {
-      margin-left: 0.7rem;
-      margin-right: 0.3rem
-    }
-  }
-`);
+export default React.memo(Address);

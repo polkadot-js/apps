@@ -1,8 +1,11 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// we use augmented types in this tsconfig
+import '@polkadot/api-augment/substrate';
+
 import type { DispatchError, DispatchResult, Event, EventRecord } from '@polkadot/types/interfaces';
-import type { XcmV2TraitsOutcome } from '@polkadot/types/lookup';
+import type { XcmV3TraitsOutcome } from '@polkadot/types/lookup';
 
 type EventCheck = (event: Event) => string | null;
 
@@ -38,10 +41,10 @@ function dispatchResultMulti ({ data: [,,,, result] }: Event): string | null {
 function xcmAttempted ({ data: [outcome] }: Event): string | null {
   if (!outcome) {
     return INCOMPLETE;
-  } else if ((outcome as XcmV2TraitsOutcome).isIncomplete) {
-    const [index, error] = (outcome as XcmV2TraitsOutcome).asIncomplete;
+  } else if ((outcome as XcmV3TraitsOutcome).isIncomplete) {
+    const [, error] = (outcome as XcmV3TraitsOutcome).asIncomplete;
 
-    return `error: ${index.toString()}: ${error.type}`;
+    return `error: ${error.type}`;
   }
 
   return null;
@@ -87,7 +90,7 @@ export function getDispatchError (dispatchError: DispatchError): string {
       const error = dispatchError.registry.findMetaError(mod);
 
       message = `${error.section}.${error.name}`;
-    } catch (error) {
+    } catch {
       // swallow
     }
   } else if (dispatchError.isToken) {

@@ -1,19 +1,19 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { StakerState } from '@polkadot/react-hooks/types';
 import type { UnappliedSlash } from '@polkadot/types/interfaces';
-import type { Slash, SlashEra } from './types';
+import type { Slash, SlashEra } from './types.js';
 
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 
 import { getSlashProposalThreshold } from '@polkadot/apps-config';
 import { Table, ToggleGroup } from '@polkadot/react-components';
 import { useAccounts, useApi, useCollectiveMembers } from '@polkadot/react-hooks';
 import { BN, BN_ONE, formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import Era from './Era';
+import { useTranslation } from '../translate.js';
+import Era from './Era.js';
 
 interface Props {
   ownStashes?: StakerState[];
@@ -116,11 +116,15 @@ function Slashes ({ ownStashes = [], slashes }: Props): React.ReactElement<Props
     [allAccounts, members]
   );
 
+  const emptyHeader = useRef<[React.ReactNode?, string?, number?][]>([
+    [t<string>('unapplied'), 'start']
+  ]);
+
   if (!rows.length) {
     return (
       <Table
         empty={t<string>('There are no unapplied/pending slashes')}
-        header={[[t('unapplied'), 'start']]}
+        header={emptyHeader.current}
       />
     );
   }

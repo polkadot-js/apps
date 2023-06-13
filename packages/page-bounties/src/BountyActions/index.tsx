@@ -1,21 +1,21 @@
-// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import type { Balance, BlockNumber, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
+import type { Balance, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
 
-import { useBountyStatus } from '../hooks';
-import AwardBounty from './AwardBounty';
-import BountyAcceptCurator from './BountyAcceptCurator';
-import BountyClaimAction from './BountyClaimAction';
-import BountyInitiateVoting from './BountyInitiateVoting';
-import ProposeCuratorAction from './ProposeCuratorAction';
+import { useBountyStatus } from '../hooks/index.js';
+import AwardBounty from './AwardBounty.js';
+import BountyAcceptCurator from './BountyAcceptCurator.js';
+import BountyClaimAction from './BountyClaimAction.js';
+import BountyInitiateVoting from './BountyInitiateVoting.js';
+import ProposeCuratorAction from './ProposeCuratorAction.js';
 
 interface Props {
-  bestNumber: BlockNumber;
+  bestNumber: BN;
   description: string;
   fee?: BN;
   index: BountyIndex;
@@ -24,7 +24,7 @@ interface Props {
   value: Balance;
 }
 
-export function BountyActions ({ bestNumber, description, fee, index, proposals, status, value }: Props): JSX.Element {
+export function BountyActions ({ bestNumber, description, fee, index, proposals, status, value }: Props): React.ReactElement<Props> {
   const { beneficiary, curator, unlockAt } = useBountyStatus(status);
   const blocksUntilPayout = useMemo(() => unlockAt?.sub(bestNumber), [bestNumber, unlockAt]);
 

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -9,15 +9,14 @@ import type { KitchensinkRuntimeProxyType, PalletProxyProxyDefinition } from '@p
 import type { BN } from '@polkadot/util';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { BatchWarning, Button, Dropdown, InputAddress, InputBalance, MarkError, Modal, TxButton } from '@polkadot/react-components';
+import { BatchWarning, Button, Dropdown, InputAddress, InputBalance, MarkError, Modal, styled, TxButton } from '@polkadot/react-components';
 import { useApi, useTxBatch } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
-type PrevProxy = [AccountId | null, KitchensinkRuntimeProxyType];
+type PrevProxyProp = [AccountId | null, KitchensinkRuntimeProxyType];
 
 interface Props {
   className?: string;
@@ -29,7 +28,7 @@ interface Props {
 interface ValueProps {
   index: number;
   typeOpts: { text: string; value: number }[];
-  value: PrevProxy;
+  value: PrevProxyProp;
 }
 
 interface NewProxyProps extends ValueProps {
@@ -81,7 +80,6 @@ function PrevProxy ({ index, onRemove, typeOpts, value: [accountId, type] }: Pre
           label={t<string>('proxy account')}
         />
         <Dropdown
-          help={'Type of proxy'}
           isDisabled
           label={'type'}
           options={typeOpts}
@@ -133,7 +131,6 @@ function NewProxy ({ index, onChangeAccount, onChangeType, onRemove, proxiedAcco
           <MarkError content={t<string>('You should not setup proxies to act as a self-proxy.')} />
         )}
         <Dropdown
-          help={'Type of proxy'}
           label={'type'}
           onChange={_onChangeType}
           options={typeOpts}
@@ -171,8 +168,8 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
   const [batchPrevious, setBatchPrevious] = useState<SubmittableExtrinsic<'promise'>[]>([]);
   const [batchAdded, setBatchAdded] = useState<SubmittableExtrinsic<'promise'>[]>([]);
   const [txs, setTxs] = useState<SubmittableExtrinsic<'promise'>[] | null>(null);
-  const [previous, setPrevious] = useState<PrevProxy[]>(() => existing.map(({ delegate, proxyType }) => [delegate, proxyType]));
-  const [added, setAdded] = useState<PrevProxy[]>([]);
+  const [previous, setPrevious] = useState<PrevProxyProp[]>(() => existing.map(({ delegate, proxyType }) => [delegate, proxyType]));
+  const [added, setAdded] = useState<PrevProxyProp[]>([]);
   const extrinsics = useTxBatch(txs, BATCH_OPTS);
 
   const reservedAmount = useMemo(
@@ -251,7 +248,7 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
   const isSameAdd = added.some(([accountId]) => accountId && accountId.eq(proxiedAccount));
 
   return (
-    <Modal
+    <StyledModal
       className={className}
       header={t<string>('Proxy overview')}
       onClose={onClose}
@@ -325,11 +322,11 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
           onStart={onClose}
         />
       </Modal.Actions>
-    </Modal>
+    </StyledModal>
   );
 }
 
-export default React.memo(styled(ProxyOverview)`
+const StyledModal = styled(Modal)`
   .proxy-container {
     display: grid;
     grid-column-gap: 0.5rem;
@@ -345,4 +342,6 @@ export default React.memo(styled(ProxyOverview)`
       padding-top: 0.3rem;
     }
   }
-`);
+`;
+
+export default React.memo(ProxyOverview);

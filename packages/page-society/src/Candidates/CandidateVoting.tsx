@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-society authors & contributors
+// Copyright 2017-2023 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useRef, useState } from 'react';
@@ -6,7 +6,7 @@ import React, { useRef, useState } from 'react';
 import { Button, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   candidateId: string;
@@ -36,12 +36,10 @@ function CandidateVoting ({ candidateId, isMember, ownMembers }: Props): React.R
           <Modal.Content>
             <InputAddress
               filter={ownMembers}
-              help={t<string>('The address to vote from (must be a member)')}
               label={t<string>('vote from account')}
               onChange={setAccountId}
             />
             <Dropdown
-              help={t<string>('Approve this candidacy.')}
               label={t<string>('vote for candidate')}
               onChange={setVote}
               options={voteOptsRef.current}

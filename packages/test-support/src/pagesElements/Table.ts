@@ -1,10 +1,12 @@
-// Copyright 2017-2022 @polkadot/test-supports authors & contributors
+// Copyright 2017-2023 @polkadot/test-supports authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+/* global expect */
 
 import { within } from '@testing-library/react';
 
-import { showBalance } from '../utils/balance';
-import { Row } from './Row';
+import { showBalance } from '../utils/balance.js';
+import { Row } from './Row.js';
 
 export class Table {
   constructor (private readonly table: HTMLElement, private readonly rowClassName: string) {

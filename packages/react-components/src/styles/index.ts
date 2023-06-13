@@ -1,16 +1,15 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '../types';
+import type { ThemeProps } from '../types.js';
 
 import { createGlobalStyle } from 'styled-components';
 
-import cssComponents from './components';
-import cssForm from './form';
-import cssMedia from './media';
-import cssRx from './rx';
-import cssSemantic from './semantic';
-import cssTheme from './theme';
+import cssComponents from './components.js';
+import cssForm from './form.js';
+import cssMedia from './media.js';
+import cssSemantic from './semantic.js';
+import cssTheme from './theme.js';
 
 interface Props {
   uiHighlight?: string;
@@ -21,7 +20,7 @@ const FACTORS = [0.2126, 0.7152, 0.0722];
 const PARTS = [0, 2, 4];
 const VERY_DARK = 16;
 
-const defaultHighlight = '#f19135'; // '#f19135'; // #999
+const defaultHighlight = '#f19135';
 
 function getHighlight (uiHighlight: string | undefined): string {
   return (uiHighlight || defaultHighlight);
@@ -30,7 +29,7 @@ function getHighlight (uiHighlight: string | undefined): string {
 function countBrightness (uiHighlight: string | undefined): number {
   const hc = getHighlight(uiHighlight).replace('#', '').toLowerCase();
 
-  return PARTS.reduce((b, p, index) => b + (parseInt(hc.substr(p, 2), 16) * FACTORS[index]), 0);
+  return PARTS.reduce((b, p, index) => b + (parseInt(hc.substring(p, p + 2), 16) * FACTORS[index]), 0);
 }
 
 function getContrast (uiHighlight: string | undefined): string {
@@ -310,8 +309,8 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
 
   .theme--dark,
   .theme--light {
-    .ui--Tabs .tabLinkActive .tabLinkText::after{
-        background: ${getHighlight(uiHighlight)};
+    .ui--Tabs .active .tabLinkText::after {
+      background: ${getHighlight(uiHighlight)};
     }
 
     .ui.primary.button,
@@ -362,6 +361,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     background: var(--bg-page);
     color: var(--color-text);
     font: var(--font-sans);
+    font-weight: var(--font-weight-normal);
     height: 100%;
   }
 
@@ -387,6 +387,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     &.error,
     &.warning {
       border-left-width: 0.25rem;
+      font-size: var(--font-size-small);
       line-height: 1.5;
       margin-left: 2.25rem;
       padding: 0.75rem 1rem;
@@ -486,14 +487,15 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   }
 
   h1, h2, h3, h4, h5 {
-    color: var(--color-summary);
+    color: var(--color-header);
     font: var(--font-sans);
-    font-weight: var(--font-weight-light);
+    font-weight: var(--font-weight-header);
     margin-bottom: 0.25rem;
   }
 
+
   h1 {
-    font-size: 1.75rem;
+    font-size: var(--font-size-h1);
     text-transform: lowercase;
 
     em {
@@ -503,7 +505,15 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   }
 
   h2 {
-    font-size: 1.71428571rem;
+    font-size: var(--font-size-h2);
+  }
+
+  h3 {
+    font-size: var(--font-size-h3);
+  }
+
+  h4 {
+    font-size: var(--font-size-h4);
   }
 
   header {
@@ -521,10 +531,24 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
 
   label {
     box-sizing: border-box;
-    color: var(--color-label);
     display: block;
     font: var(--font-sans);
-    font-size: 1rem;
+  }
+
+  // we treat h5 and label as equivalents
+  label, h5 {
+    color: var(--color-label);
+    font-size: var(--font-size-label);
+    font-style: normal;
+    font-weight: var(--font-weight-label);
+    line-height: 1rem;
+    margin-bottom: 0.25rem !important;
+    text-transform: var(--text-transform-label);
+    vertical-align: middle;
+  }
+
+  button {
+    font-size: var(--font-size-small);
     font-weight: var(--font-weight-normal);
   }
 
@@ -539,6 +563,5 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   ${cssTheme}
   ${cssForm}
   ${cssMedia}
-  ${cssRx}
   ${cssComponents(theme)}
 `);

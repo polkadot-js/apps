@@ -1,7 +1,10 @@
-// Copyright 2017-2022 @polkadot/react-signer authors & contributors
+// Copyright 2017-2023 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-export { default as AccountSigner } from './AccountSigner';
-export { default as ApiSigner } from './ApiSigner';
-export { default as LedgerSigner } from './LedgerSigner';
-export { default as QrSigner } from './QrSigner';
+// we use augmented types in this tsconfig
+import '@polkadot/api-augment/substrate';
+
+export { AccountSigner } from './AccountSigner.js';
+export { ApiSigner } from './ApiSigner.js';
+export { LedgerSigner } from './LedgerSigner.js';
+export { QrSigner } from './QrSigner.js';

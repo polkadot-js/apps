@@ -1,17 +1,17 @@
-// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { useBalance, useBounties } from '@polkadot/app-bounties/hooks';
 import { Button, Input, InputAddress, InputBalance, MarkError, Modal, TxButton } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import { calculateBountyBond, countUtf8Bytes } from './helpers';
-import { useTranslation } from './translate';
+import { calculateBountyBond, countUtf8Bytes } from './helpers/index.js';
+import { useBalance, useBounties } from './hooks/index.js';
+import { useTranslation } from './translate.js';
 
 const MIN_TITLE_LEN = 1;
 const TITLE_DEFAULT_VALUE = '';
@@ -69,7 +69,6 @@ function BountyCreate () {
               <Input
                 autoFocus
                 defaultValue={TITLE_DEFAULT_VALUE}
-                help={t<string>('The description of this bounty')}
                 isError={!isTitleValid}
                 label={t<string>('bounty title')}
                 onChange={onTitleChange}
@@ -81,7 +80,6 @@ function BountyCreate () {
             </Modal.Columns>
             <Modal.Columns hint={t<string>('How much should be paid out for completed Bounty. Upon funding, the amount will be reserved in treasury.')}>
               <InputBalance
-                help={t<string>("The total payment amount of this bounty, curator's fee included.")}
                 isError={!isValueValid}
                 isZeroable
                 label={t<string>('bounty requested allocation')}
@@ -95,14 +93,12 @@ function BountyCreate () {
             <Modal.Columns hint={t<string>('Proposer bond depends on bounty title length.')}>
               <InputBalance
                 defaultValue={bond.toString()}
-                help={t<string>('This amount will be reserved from origin account and returned on approval or slashed upon rejection.')}
                 isDisabled
                 label={t<string>('bounty bond')}
               />
             </Modal.Columns>
             <Modal.Columns hint={t<string>('This account will propose the bounty. Bond amount will be reserved on its balance.')}>
               <InputAddress
-                help={t<string>('Select the account you wish to propose the bounty from.')}
                 isError={!hasFunds}
                 label={t<string>('submit with account')}
                 onChange={setAccountId}

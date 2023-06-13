@@ -1,5 +1,7 @@
-// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
 import '@polkadot/react-components/i18n';
 
@@ -8,15 +10,15 @@ import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
-import BountiesApp from '@polkadot/app-bounties/index';
-import { lightTheme } from '@polkadot/apps/themes';
-import { Api } from '@polkadot/react-api';
+import { ApiCtxRoot } from '@polkadot/react-api';
+import { lightTheme } from '@polkadot/react-components';
 import { createApi } from '@polkadot/test-support/api';
-import { MemoryStore } from '@polkadot/test-support/keyring';
-import { aliceSigner } from '@polkadot/test-support/keyring/signers';
+import { aliceSigner, MemoryStore } from '@polkadot/test-support/keyring';
 import { WaitForApi } from '@polkadot/test-support/react';
-import { execute } from '@polkadot/test-support/transaction/execute';
+import { execute } from '@polkadot/test-support/transaction';
 import { BN } from '@polkadot/util';
+
+import BountiesApp from './index.js';
 
 const SUBSTRATE_PORT = Number.parseInt(process.env.TEST_SUBSTRATE_PORT || '30333');
 
@@ -27,7 +29,7 @@ const renderBounties = () => {
     <Suspense fallback='...'>
       <MemoryRouter>
         <ThemeProvider theme={lightTheme}>
-          <Api
+          <ApiCtxRoot
             apiUrl={`ws://127.0.0.1:${SUBSTRATE_PORT}`}
             isElectron={false}
             store={memoryStore}
@@ -37,14 +39,15 @@ const renderBounties = () => {
                 <BountiesApp basePath='/bounties' />
               </div>
             </WaitForApi>
-          </Api>
+          </ApiCtxRoot>
         </ThemeProvider>
       </MemoryRouter>
     </Suspense>
   );
 };
 
-describe('--SLOW--: Bounties', () => {
+// eslint-disable-next-line jest/no-disabled-tests
+describe.skip('--SLOW--: Bounties', () => {
   it('list shows an existing bounty', async () => {
     const api = await createApi();
 

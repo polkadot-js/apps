@@ -1,19 +1,19 @@
-// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParaId } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
-import type { OwnedId } from '../types';
+import type { OwnedId } from '../types.js';
 
 import React from 'react';
 
 import { Button } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import { LOWEST_PUBLIC_ID } from './constants';
-import RegisterId from './RegisterId';
-import RegisterThread from './RegisterThread';
+import { useTranslation } from '../translate.js';
+import { LOWEST_PUBLIC_ID } from './constants.js';
+import RegisterId from './RegisterId.js';
+import RegisterThread from './RegisterThread.js';
 
 interface Props {
   className?: string;

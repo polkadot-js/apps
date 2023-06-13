@@ -1,17 +1,17 @@
-// Copyright 2017-2022 @polkadot/app-preimages authors & contributors
+// Copyright 2017-2023 @polkadot/app-preimages authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 
 import React, { useRef } from 'react';
 
-import { Button, Table } from '@polkadot/react-components';
+import { Button, styled, Table } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
-import usePreimages from '../usePreimages';
-import Add from './Add';
-import Preimage from './Preimage';
-import Summary from './Summary';
+import { useTranslation } from '../translate.js';
+import usePreimages from '../usePreimages.js';
+import Add from './Add/index.js';
+import Preimage from './Preimage.js';
+import Summary from './Summary.js';
 
 interface Props {
   className?: string;
@@ -23,15 +23,15 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const hashes = usePreimages();
 
-  const headerRef = useRef([
-    [t('preimages'), 'start', 2],
-    [t('size')],
-    [t('status')],
-    [t('count')]
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
+    [t<string>('preimages'), 'start', 2],
+    [undefined, 'media--1300'],
+    [t<string>('length'), 'media--1000'],
+    [t<string>('status'), 'start media--1200']
   ]);
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <Summary hashes={hashes} />
       <Button.Group>
         <Add />
@@ -48,8 +48,16 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
           />
         ))}
       </Table>
-    </div>
+    </StyledDiv>
   );
 }
+
+const StyledDiv = styled.div`
+  td.preimageStatus {
+    div+.ui--Button {
+      margin-top: 0.25rem;
+    }
+  }
+`;
 
 export default React.memo(Hashes);

@@ -1,14 +1,14 @@
-// Copyright 2017-2022 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useRef } from 'react';
 
 import { Tabs } from '@polkadot/react-components';
 
-import Referenda from './Referenda';
-import { useTranslation } from './translate';
+import Referenda from './Referenda/index.js';
+import { useTranslation } from './translate.js';
 
-export { default as useCounter } from './useCounter';
+export { default as useCounter } from './useCounter.js';
 
 interface Props {
   basePath: string;
@@ -33,6 +33,7 @@ function App ({ basePath, className }: Props): React.ReactElement<Props> {
         items={tabsRef.current}
       />
       <Referenda
+        isConvictionVote
         palletReferenda='referenda'
         palletVote='convictionVoting'
       />

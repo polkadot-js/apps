@@ -1,5 +1,8 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
+  "engines": {
+    "node": ">=16"
+  },
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/react-api#readme",
   "license": "Apache-2.0",
   "name": "@polkadot/react-api",
@@ -11,18 +14,22 @@
   },
   "sideEffects": true,
   "type": "module",
-  "version": "0.122.3-107-x",
+  "version": "0.131.5-28-x",
   "browser": {
     "fs": false,
     "path": false
   },
   "dependencies": {
-    "@babel/runtime": "^7.20.6",
-    "@polkadot/api": "^9.10.2",
-    "@polkadot/extension-compat-metamask": "^0.44.6",
-    "@polkadot/extension-dapp": "^0.44.6",
-    "@polkadot/rpc-provider": "^9.10.2",
-    "fflate": "^0.7.4",
-    "rxjs": "^7.6.0"
+    "@polkadot/api": "^10.9.1",
+    "@polkadot/extension-compat-metamask": "^0.46.5",
+    "@polkadot/extension-dapp": "^0.46.5",
+    "@polkadot/rpc-provider": "^10.9.1",
+    "fflate": "^0.8.0",
+    "rxjs": "^7.8.1"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*",
+    "react-is": "*"
   }
 }

@@ -1,17 +1,16 @@
-// Copyright 2017-2022 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DispatchError } from '@polkadot/types/interfaces';
-import type { Props as BaseProps } from '../types';
+import type { Props as BaseProps } from '../types.js';
 
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 
 import { Input } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
-import Static from './Static';
-import Unknown from './Unknown';
+import { useTranslation } from '../translate.js';
+import Static from './Static.js';
+import Unknown from './Unknown.js';
 
 interface Details {
   details?: string | null;
@@ -85,8 +84,4 @@ function ErrorDisplay (props: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(styled(ErrorDisplay)`
-  // .ui--Labelled-content {
-  //   background: rgba(196, 0, 0, 0.1);
-  // }
-`);
+export default React.memo(ErrorDisplay);

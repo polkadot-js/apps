@@ -1,32 +1,31 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // TODO: We have a lot shared between this and InputExtrinsic & InputStorage
 
 import type { DefinitionRpcExt } from '@polkadot/types/types';
-import type { DropdownOptions } from '../util/types';
+import type { DropdownOptions } from '../util/types.js';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { useApi } from '@polkadot/react-hooks';
 
-import LinkedWrapper from '../InputExtrinsic/LinkedWrapper';
-import methodOptions from './options/method';
-import sectionOptions from './options/section';
-import SelectMethod from './SelectMethod';
-import SelectSection from './SelectSection';
-import useRpcs from './useRpcs';
+import LinkedWrapper from '../InputExtrinsic/LinkedWrapper.js';
+import methodOptions from './options/method.js';
+import sectionOptions from './options/section.js';
+import SelectMethod from './SelectMethod.js';
+import SelectSection from './SelectSection.js';
+import useRpcs from './useRpcs.js';
 
 interface Props {
   className?: string;
   defaultValue: DefinitionRpcExt;
-  help?: React.ReactNode;
   label: React.ReactNode;
   onChange?: (value: DefinitionRpcExt) => void;
   withLabel?: boolean;
 }
 
-function InputRpc ({ className = '', defaultValue, help, label, onChange, withLabel }: Props): React.ReactElement<Props> {
+function InputRpc ({ className = '', defaultValue, label, onChange, withLabel }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const rpcs = useRpcs();
   const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(() => methodOptions(api, rpcs, defaultValue.section));
@@ -62,7 +61,6 @@ function InputRpc ({ className = '', defaultValue, help, label, onChange, withLa
   return (
     <LinkedWrapper
       className={className}
-      help={help}
       label={label}
       withLabel={withLabel}
     >

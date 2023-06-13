@@ -1,12 +1,14 @@
-// Copyright 2017-2022 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
 import type { PalletReferendaCurve } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
 import { BN_BILLION, BN_ZERO, bnToBn } from '@polkadot/util';
 
-import { curveDelay, curveThreshold } from './util';
+import { curveDelay, curveThreshold } from './util.js';
 
 function curveLinear (ceil: BN | string | number, floor: BN | string | number, length: BN | string | number): PalletReferendaCurve {
   return {
@@ -102,10 +104,6 @@ describe('curveThreshold', (): void => {
       ).toEqual('499999999');
     });
   });
-
-  // describe('Stepped', (): void => {
-
-  // });
 });
 
 describe('curveDelay', (): void => {

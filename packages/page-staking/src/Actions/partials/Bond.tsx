@@ -1,10 +1,10 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { BN } from '@polkadot/util';
-import type { AmountValidateState, DestinationType } from '../types';
-import type { BondInfo } from './types';
+import type { AmountValidateState, DestinationType } from '../types.js';
+import type { BondInfo } from './types.js';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -13,11 +13,11 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { BalanceFree, BlockToTime } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
-import InputValidateAmount from '../Account/InputValidateAmount';
-import InputValidationController from '../Account/InputValidationController';
-import { createDestCurr } from '../destOptions';
-import useUnbondDuration from '../useUnbondDuration';
+import { useTranslation } from '../../translate.js';
+import InputValidateAmount from '../Account/InputValidateAmount.js';
+import InputValidationController from '../Account/InputValidationController.js';
+import { createDestCurr } from '../destOptions.js';
+import useUnbondDuration from '../useUnbondDuration.js';
 
 interface Props {
   className?: string;
@@ -28,8 +28,7 @@ interface Props {
   onChange: (info: BondInfo) => void;
 }
 
-const EMPTY_INFO = {
-  bondOwnTx: null,
+const EMPTY_INFO: BondInfo = {
   bondTx: null,
   controllerId: null,
   controllerTx: null,
@@ -50,6 +49,11 @@ function Bond ({ className = '', isNominating, minNominated, minNominatorBond, m
   const stashBalance = useCall<DeriveBalancesAll>(api.derive.balances?.all, [stashId]);
   const destBalance = useCall<DeriveBalancesAll>(api.derive.balances?.all, [destAccount]);
   const bondedBlocks = useUnbondDuration();
+
+  const needsController = useMemo(
+    () => api.tx.staking.bond.meta.args.length === 3,
+    [api]
+  );
 
   const options = useMemo(
     () => createDestCurr(t),
@@ -77,19 +81,29 @@ function Bond ({ className = '', isNominating, minNominated, minNominatorBond, m
     const bondDest = destination === 'Account'
       ? { Account: destAccount }
       : destination;
+    const [mapControllerId, mapControllerError] = needsController
+      ? [controllerId, controllerError]
+      : [stashId, null];
 
     onChange(
-      (amount && amount.gtn(0) && !amountError?.error && !controllerError && controllerId && stashId)
+      (amount && amount.gtn(0) && !amountError?.error && !mapControllerError && mapControllerId && stashId)
         ? {
-          bondOwnTx: api.tx.staking.bond(stashId, amount, bondDest),
-          bondTx: api.tx.staking.bond(controllerId, amount, bondDest),
-          controllerId,
-          controllerTx: api.tx.staking.setController(controllerId),
+          bondTx: needsController
+            // The bond always goes through first, if a controller is used
+            // we have a batch with setController at the end
+            // @ts-expect-error Previous generation
+            ? api.tx.staking.bond(stashId, amount, bondDest)
+            : api.tx.staking.bond(amount, bondDest),
+          controllerId: mapControllerId,
+          controllerTx: needsController
+            // @ts-expect-error Previous generation
+            ? api.tx.staking.setController(mapControllerId)
+            : null,
           stashId
         }
         : EMPTY_INFO
     );
-  }, [api, amount, amountError, controllerError, controllerId, destination, destAccount, stashId, onChange]);
+  }, [api, amount, amountError, controllerError, controllerId, destination, destAccount, needsController, onChange, stashId]);
 
   const hasValue = !!amount?.gtn(0);
   const isAccount = destination === 'Account';
@@ -99,10 +113,19 @@ function Bond ({ className = '', isNominating, minNominated, minNominatorBond, m
     <div className={className}>
       <Modal.Columns
         hint={
-          <>
-            <p>{t<string>('Think of the stash as your cold wallet and the controller as your hot wallet. Funding operations are controlled by the stash, any other non-funding actions by the controller itself.')}</p>
-            <p>{t<string>('To ensure optimal fund security using the same stash/controller is strongly discouraged, but not forbidden.')}</p>
-          </>
+          needsController
+            ? (
+              <>
+                <p>{t<string>('Think of the stash as your cold wallet and the controller as your hot wallet. Funding operations are controlled by the stash, any other non-funding actions by the controller itself.')}</p>
+                <p>{t<string>('To ensure optimal fund security using the same stash/controller is strongly discouraged, but not forbidden.')}</p>
+              </>
+            )
+            : (
+              <>
+                <p>{t<string>('The stash should be treated as a cold wallet.')}</p>
+                <p>{t<string>('As such it is recommended that you setup a proxy to control operations via the stash.')}</p>
+              </>
+            )
         }
       >
         <InputAddress
@@ -111,18 +134,21 @@ function Bond ({ className = '', isNominating, minNominated, minNominatorBond, m
           type='account'
           value={stashId}
         />
-        <InputAddress
-          help={t<string>('The controller is the account that will be used to control any nominating or validating actions. Should not match another stash or controller.')}
-          label={t<string>('controller account')}
-          onChange={setControllerId}
-          type='account'
-          value={controllerId}
-        />
-        <InputValidationController
-          accountId={stashId}
-          controllerId={controllerId}
-          onError={_setError}
-        />
+        {needsController && (
+          <>
+            <InputAddress
+              label={t<string>('controller account')}
+              onChange={setControllerId}
+              type='account'
+              value={controllerId}
+            />
+            <InputValidationController
+              accountId={stashId}
+              controllerId={controllerId}
+              onError={_setError}
+            />
+          </>
+        )}
       </Modal.Columns>
       {startBalance && (
         <Modal.Columns
@@ -136,7 +162,6 @@ function Bond ({ className = '', isNominating, minNominated, minNominatorBond, m
           <InputBalance
             autoFocus
             defaultValue={startBalance}
-            help={t<string>('The total amount of the stash balance that will be at stake in any forthcoming rounds (should be less than the free amount available)')}
             isError={!hasValue || !!amountError?.error}
             label={t<string>('value bonded')}
             labelExtra={
@@ -159,7 +184,6 @@ function Bond ({ className = '', isNominating, minNominated, minNominatorBond, m
           />
           {bondedBlocks?.gtn(0) && (
             <Static
-              help={t<string>('The bonding duration for any staked funds. Needs to be unlocked and withdrawn to become available.')}
               label={t<string>('on-chain bonding duration')}
             >
               <BlockToTime value={bondedBlocks} />
@@ -170,7 +194,6 @@ function Bond ({ className = '', isNominating, minNominated, minNominatorBond, m
       <Modal.Columns hint={t<string>('Rewards (once paid) can be deposited to either the stash or controller, with different effects.')}>
         <Dropdown
           defaultValue={0}
-          help={t<string>('The destination account for any payments as either a nominator or validator')}
           label={t<string>('payment destination')}
           onChange={setDestination}
           options={options}
@@ -178,8 +201,7 @@ function Bond ({ className = '', isNominating, minNominated, minNominatorBond, m
         />
         {isAccount && (
           <InputAddress
-            help={t('An account that is to receive the rewards')}
-            label={t('the payment account')}
+            label={t<string>('the payment account')}
             onChange={setDestAccount}
             type='account'
             value={destAccount}

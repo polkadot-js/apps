@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // structs need to be in order
@@ -7,13 +7,13 @@
 import type { Observable } from 'rxjs';
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Struct, u64 } from '@polkadot/types';
+import type { AccountId32, Digest, Header } from '@polkadot/types/interfaces';
 import type { OverrideBundleDefinition, Registry } from '@polkadot/types/types';
 
 import { combineLatest, map } from 'rxjs';
 
 import { bestNumber, bestNumberFinalized, bestNumberLag, getBlock, subscribeNewBlocks } from '@polkadot/api-derive/chain';
 import { memo } from '@polkadot/api-derive/util';
-import { AccountId32, Digest, Header } from '@polkadot/types/interfaces';
 
 interface HeaderExtended extends Header {
   readonly author: AccountId32 | undefined;

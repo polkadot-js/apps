@@ -1,8 +1,9 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
-import type { ModalProps } from '../types';
+import type { HexString } from '@polkadot/util/types';
+import type { ModalProps } from '../types.js';
 
 import React, { useCallback, useState } from 'react';
 
@@ -10,8 +11,8 @@ import { Button, Input, InputAddressSimple, Modal } from '@polkadot/react-compon
 import { useApi } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 
-import useProxies from '../Accounts/useProxies';
-import { useTranslation } from '../translate';
+import useProxies from '../Accounts/useProxies.js';
+import { useTranslation } from '../translate.js';
 
 interface Props extends ModalProps {
   className?: string;
@@ -20,7 +21,7 @@ interface Props extends ModalProps {
 }
 
 interface CreateOptions {
-  genesisHash?: string;
+  genesisHash?: HexString;
   name: string;
   tags?: string[];
 }
@@ -48,12 +49,12 @@ function ProxyAdd ({ className = '', onClose, onStatusChange }: Props): React.Re
   const { t } = useTranslation();
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [stashAddress, setStashAddress] = useState<string | null>(null);
-  const { hasOwned } = useProxies(stashAddress);
+  const proxyInfo = useProxies(stashAddress);
 
   const _createProxied = useCallback(
     (): void => {
       if (stashAddress) {
-        const options = { genesisHash: isDevelopment ? undefined : api.genesisHash.toString(), name: name.trim() };
+        const options = { genesisHash: isDevelopment ? undefined : api.genesisHash.toHex(), name: name.trim() };
         const status = createProxy(stashAddress, options, t<string>('added proxy'));
 
         onStatusChange(status);
@@ -68,7 +69,7 @@ function ProxyAdd ({ className = '', onClose, onStatusChange }: Props): React.Re
     []
   );
 
-  const isValid = isNameValid && !!stashAddress && hasOwned;
+  const isValid = isNameValid && !!stashAddress && proxyInfo && !proxyInfo.isEmpty;
 
   return (
     <Modal
@@ -81,17 +82,15 @@ function ProxyAdd ({ className = '', onClose, onStatusChange }: Props): React.Re
         <Modal.Columns hint={t<string>('The address that has previously setup a proxy to one of the accounts that you control.')}>
           <InputAddressSimple
             autoFocus
-            help={t<string>('The address that you have a valid proxy setup for.')}
-            isError={!hasOwned}
+            isError={!proxyInfo || proxyInfo.isEmpty}
             label={t<string>('proxied account')}
             onChange={setStashAddress}
-            placeholder={t<string>('stash address')}
+            placeholder={t<string>('address being proxied')}
           />
         </Modal.Columns>
         <Modal.Columns hint={t<string>('The name is for unique identification of the account in your owner lists.')}>
           <Input
             className='full'
-            help={t<string>('Name given to this proxied account. You can edit it at any later point in time.')}
             isError={!isNameValid}
             label={t<string>('name')}
             onChange={_onChangeName}

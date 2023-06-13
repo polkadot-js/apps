@@ -1,34 +1,49 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
+import type { ExternalDef } from './types.js';
 
-import { externalLogos } from '../ui/logos';
+import { externalSubidSVG } from '../ui/logos/external/index.js';
 
-export default {
+export const SubId: ExternalDef = {
   chains: {
+    Acala: 'acala',
     Altair: 'altair',
+    Astar: 'astar',
+    Basilisk: 'basilisk',
     Bifrost: 'bifrost',
     Centrifuge: 'centrifuge',
     'Centrifuge Mainnet': 'centrifuge',
     ChainX: 'chainx',
+    'Composable Finance': 'composable',
     Edgeware: 'edgeware',
+    HydraDX: 'hydradx',
+    Interlay: 'interlay',
+    InvArch: 'invarch',
+    'KILT Spiritnet': 'kilt',
     Karura: 'karura',
     Khala: 'khala',
     Kusama: 'kusama',
+    Nodle: 'nodle',
+    Picasso: 'picasso',
     'Pioneer Network': 'pioneer',
     Polkadot: 'polkadot',
     SORA: 'sora-substrate',
     Shiden: 'shiden',
     Statemine: 'statemine',
-    Subsocial: 'subsocial'
+    Statemint: 'statemint',
+    Subsocial: 'subsocial',
+    Zeitgeist: 'zeitgeist'
   },
   create: (_chain: string, _path: string, data: BN | number | string): string =>
     `https://sub.id/${data.toString()}`,
+  homepage: 'https://sub.id',
   isActive: true,
-  logo: externalLogos.subid as string,
   paths: {
     address: 'account'
   },
-  url: 'https://sub.id'
+  ui: {
+    logo: externalSubidSVG
+  }
 };

@@ -1,14 +1,14 @@
-// Copyright 2017-2022 @polkadot/app-alliance authors & contributors
+// Copyright 2017-2023 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Cid } from '../types';
+import type { Cid } from '../types.js';
 
 import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
-import Accouncement from './Accouncement';
+import { useTranslation } from '../translate.js';
+import Accouncement from './Accouncement.js';
 
 interface Props {
   accouncements?: Cid[];
@@ -18,7 +18,7 @@ interface Props {
 function Announcements ({ accouncements, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const annRef = useRef([
+  const annRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t<string>('annoucements'), 'start'],
     [t<string>('version'), 'number'],
     [t<string>('codec'), 'number'],

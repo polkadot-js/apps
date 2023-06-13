@@ -1,12 +1,9 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
-const types: any = require('@docknetwork/node-types');
+// @ts-expect-error No definitions provided in package
+import { spec } from '@docknetwork/node-types';
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-const definitions = types.spec['dock-test-runtime'] as OverrideBundleDefinition;
-
-export default definitions;
+export default (spec as { 'dock-test-runtime': OverrideBundleDefinition })['dock-test-runtime'];

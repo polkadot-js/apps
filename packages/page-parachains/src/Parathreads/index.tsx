@@ -1,17 +1,17 @@
-// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParaId } from '@polkadot/types/interfaces';
-import type { LeasePeriod, OwnedId, QueuedAction } from '../types';
+import type { LeasePeriod, OwnedId, QueuedAction } from '../types.js';
 
 import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
-import Actions from './Actions';
-import Parathread from './Parathread';
-import useParaMap from './useParaMap';
+import { useTranslation } from '../translate.js';
+import Actions from './Actions.js';
+import Parathread from './Parathread.js';
+import useParaMap from './useParaMap.js';
 
 interface Props {
   actionsQueue: QueuedAction[];
@@ -25,14 +25,14 @@ function Parathreads ({ actionsQueue, className, ids, leasePeriod, ownedIds }: P
   const { t } = useTranslation();
   const leaseMap = useParaMap(ids);
 
-  const headerRef = useRef([
-    [t('parathreads'), 'start', 2],
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
+    [t<string>('parathreads'), 'start', 2],
     ['', 'media--2000'],
-    [t('head'), 'start media--1500'],
-    [t('lifecycle'), 'start'],
+    [t<string>('head'), 'start media--1500'],
+    [t<string>('lifecycle'), 'start'],
     [],
-    [], // [t('chain'), 'no-pad-left'],
-    [t('leases')],
+    [], // [t<string>('chain'), 'no-pad-left'],
+    [t<string>('leases')],
     ['', 'media--900']
   ]);
 

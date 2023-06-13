@@ -1,15 +1,15 @@
-// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { UseJudgements } from './types';
+import type { UseJudgements } from './types.js';
 
 import { useMemo } from 'react';
 
-import { getJudgements } from './utils/getJudgements';
-import { matchRegistrarAccountsWithIndexes } from './utils/matchRegistrarAccountsWithIndexes';
-import { createNamedHook } from './createNamedHook';
-import { useAccountInfo } from './useAccountInfo';
-import { useRegistrars } from './useRegistrars';
+import { getJudgements } from './utils/getJudgements.js';
+import { matchRegistrarAccountsWithIndexes } from './utils/matchRegistrarAccountsWithIndexes.js';
+import { createNamedHook } from './createNamedHook.js';
+import { useAccountInfo } from './useAccountInfo.js';
+import { useRegistrars } from './useRegistrars.js';
 
 function useJudgementsImpl (address: string): UseJudgements {
   const { identity } = useAccountInfo(address);

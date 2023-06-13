@@ -1,9 +1,9 @@
-// Copyright 2017-2022 @polkadot/app-nfts authors & contributors
+// Copyright 2017-2023 @polkadot/app-nfts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { StorageKey, u32 } from '@polkadot/types';
 import type { AccountId32 } from '@polkadot/types/interfaces';
-import type { AccountItem } from '../types';
+import type { AccountItem } from '../types.js';
 
 import { useEffect, useState } from 'react';
 

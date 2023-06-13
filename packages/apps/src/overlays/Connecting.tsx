@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/apps authors & contributors
+// Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -6,8 +6,8 @@ import React from 'react';
 import { useApi } from '@polkadot/react-hooks';
 import { settings } from '@polkadot/ui-settings';
 
-import { useTranslation } from '../translate';
-import BaseOverlay from './Base';
+import { useTranslation } from '../translate.js';
+import BaseOverlay from './Base.js';
 
 const wsUrl = settings.apiType.param;
 const isWs = settings.apiType.type === 'json-rpc' && typeof wsUrl === 'string' && wsUrl.startsWith('ws://');
@@ -39,7 +39,13 @@ function Connecting ({ className }: Props): React.ReactElement<Props> | null {
         icon='globe'
         type='info'
       >
-        <div>{t<string>('Waiting to make a connection to the remote endpoint and finishing API initialization.')}</div>
+        <div>
+          {
+            isApiConnected
+              ? t<string>('Waiting to complete metadata retrieval from remote endpoint.')
+              : t<string>('Waiting to establish a connection with the remote endpoint.')
+          }
+        </div>
       </BaseOverlay>
     );
   } else if (isWaitingInjected) {

@@ -7,17 +7,20 @@ jobs:
   types:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@7884fcad6b5d53d10323aee724dc68d8b9096a2e
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 'lts/*'
     - name: check
       env:
         CI_LOG: 123
       run: |
-        yarn install --immutable | grep -v 'YN0013'
+        yarn install --immutable
         yarn ci:chainTypes
 
     - name: issue
       if: ${{ failure() }}
-      uses: JasonEtco/create-an-issue@v2
+      uses: JasonEtco/create-an-issue@e27dddc79c92bc6e4562f268fffa5ed752639abd
       env:
         GITHUB_TOKEN: ${{ secrets.GH_PAT_BOT }}
       with:

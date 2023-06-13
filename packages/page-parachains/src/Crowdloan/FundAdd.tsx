@@ -1,8 +1,8 @@
-// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { AuctionInfo, LeasePeriod, OwnedId, OwnerInfo } from '../types';
+import type { AuctionInfo, LeasePeriod, OwnedId, OwnerInfo } from '../types.js';
 
 import React, { useState } from 'react';
 
@@ -10,9 +10,9 @@ import { Button, InputBalance, InputNumber, Modal, TxButton } from '@polkadot/re
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { BN_ONE, BN_ZERO } from '@polkadot/util';
 
-import InputOwner from '../InputOwner';
-import { useTranslation } from '../translate';
-import { useLeaseRanges } from '../useLeaseRanges';
+import InputOwner from '../InputOwner.js';
+import { useTranslation } from '../translate.js';
+import { useLeaseRanges } from '../useLeaseRanges.js';
 
 interface Props {
   auctionInfo?: AuctionInfo;

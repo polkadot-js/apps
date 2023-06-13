@@ -1,9 +1,9 @@
-// Copyright 2017-2022 @polkadot/app-alliance authors & contributors
+// Copyright 2017-2023 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletAllianceCid } from '@polkadot/types/lookup';
 import type { Registry } from '@polkadot/types/types';
-import type { Cid } from './types';
+import type { Cid } from './types.js';
 
 import { fromIpfsCid, toIpfsCid } from '@polkadot/react-params/util';
 

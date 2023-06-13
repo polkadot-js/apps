@@ -1,11 +1,11 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
 import type { ContractPromise } from '@polkadot/api-contract';
 import type { ContractCallOutcome } from '@polkadot/api-contract/types';
 import type { SignedBlockExtended } from '@polkadot/api-derive/types';
-import type { ContractLink } from './types';
+import type { ContractLink } from './types.js';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
@@ -13,10 +13,10 @@ import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import Call from './Call';
-import Contract from './Contract';
-import { getContractForAddress } from './util';
+import { useTranslation } from '../translate.js';
+import Call from './Call.js';
+import Contract from './Contract.js';
+import { getContractForAddress } from './util.js';
 
 export interface Props {
   contracts: string[];
@@ -44,9 +44,9 @@ function ContractsTable ({ contracts: keyringContracts }: Props): React.ReactEle
   const [contractLinks, setContractLinks] = useState<Record<string, ContractLink[]>>({});
 
   const headerRef = useRef<[string?, string?, number?][]>([
-    [t('contracts'), 'start'],
+    [t<string>('contracts'), 'start'],
     [undefined, undefined, 3],
-    [t('status'), 'start'],
+    [t<string>('status'), 'start'],
     []
   ]);
 
@@ -123,7 +123,6 @@ function ContractsTable ({ contracts: keyringContracts }: Props): React.ReactEle
       {isCallOpen && contract && (
         <Call
           contract={contract}
-          isOpen={isCallOpen}
           messageIndex={messageIndex}
           onCallResult={onCallResult}
           onChangeMessage={_setMessageIndex}

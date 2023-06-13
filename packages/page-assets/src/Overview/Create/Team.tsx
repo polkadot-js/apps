@@ -1,14 +1,14 @@
-// Copyright 2017-2022 @polkadot/app-assets authors & contributors
+// Copyright 2017-2023 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TeamState } from './types';
+import type { TeamState } from './types.js';
 
 import React, { useEffect, useState } from 'react';
 
 import { InputAddress, Modal } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../../translate.js';
 
 interface Props {
   accountId: string;

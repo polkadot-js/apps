@@ -1,10 +1,10 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
 
-import InputAddress from './InputAddress';
-import { useTranslation } from './translate';
+import InputAddress from './InputAddress/index.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;
@@ -19,7 +19,6 @@ function VoteAccount ({ className = '', filter, onChange }: Props): React.ReactE
     <InputAddress
       className={className}
       filter={filter}
-      help={t<string>('Select the account you wish to vote with. You can approve "aye" or deny "nay" the proposal.')}
       label={t<string>('vote with account')}
       onChange={onChange}
       type='account'

@@ -1,5 +1,8 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
+  "engines": {
+    "node": ">=16"
+  },
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/apps-routing#readme",
   "license": "Apache-2.0",
   "name": "@polkadot/apps-routing",
@@ -11,8 +14,10 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.122.3-107-x",
-  "dependencies": {
-    "@babel/runtime": "^7.20.6"
+  "version": "0.131.5-28-x",
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*",
+    "react-is": "*"
   }
 }

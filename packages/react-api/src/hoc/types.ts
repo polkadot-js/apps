@@ -1,9 +1,8 @@
-// Copyright 2017-2022 @polkadot/react-api authors & contributors
+// Copyright 2017-2023 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { OnChangeCb } from '../types';
-
-import React from 'react';
+import type React from 'react';
+import type { OnChangeCb } from '../types.js';
 
 export type Transform = (value: any, index: number) => any;
 
@@ -28,7 +27,7 @@ export interface Options {
   withIndicator?: boolean;
 }
 
-export type RenderFn = (value?: any) => React.ReactNode;
+export type RenderFn = (value?: any) => any;
 
 export type StorageTransform = (input: any, index: number) => unknown | null;
 

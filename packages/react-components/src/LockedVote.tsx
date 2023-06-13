@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
@@ -21,7 +21,7 @@ function LockedVoteDisplay ({ className = '', label, params }: Props): React.Rea
 
   return (
     <LockedVote
-      className={`ui--LockedVote ${className}`}
+      className={`${className} ui--LockedVote`}
       label={label}
       params={params}
     />

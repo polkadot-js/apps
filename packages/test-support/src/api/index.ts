@@ -1,5 +1,7 @@
-// Copyright 2017-2022 @polkadot/test-support authors & contributors
+// Copyright 2017-2023 @polkadot/test-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-export * from './createApi';
-export * from './createAugmentedApi';
+import '@polkadot/api-augment/substrate';
+
+export * from './createApi.js';
+export * from './createAugmentedApi.js';

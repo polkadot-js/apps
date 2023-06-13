@@ -1,35 +1,36 @@
-// Copyright 2017-2022 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { PalletReferenda, PalletVote, ReferendaGroup } from '../types';
+import type { PalletReferenda, PalletVote, ReferendaGroup } from '../types.js';
 
 import React, { useMemo, useState } from 'react';
-import styled from 'styled-components';
 
 import AddPreimage from '@polkadot/app-preimages/Preimages/Add';
-import { Button, Dropdown } from '@polkadot/react-components';
+import { Button, Dropdown, styled } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import useReferenda from '../useReferenda';
-import useSummary from '../useSummary';
-import Group from './Group';
-import Submit from './Submit';
-import Summary from './Summary';
+import { useTranslation } from '../translate.js';
+import useReferenda from '../useReferenda.js';
+import useSummary from '../useSummary.js';
+import Delegate from './Delegate/index.js';
+import Submit from './Submit/index.js';
+import Group from './Group.js';
+import Summary from './Summary.js';
 
-export { useCounterNamed as useCounter } from '../useCounter';
+export { useCounterNamed as useCounter } from '../useCounter.js';
 
 interface Props {
   className?: string;
+  isConvictionVote?: boolean;
   members?: string[];
   palletReferenda: PalletReferenda;
   palletVote: PalletVote;
   ranks?: BN[];
 }
 
-function Referenda ({ className, members, palletReferenda, palletVote, ranks }: Props): React.ReactElement<Props> {
+function Referenda ({ className, isConvictionVote, members, palletReferenda, palletVote, ranks }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const totalIssuance = useCall<BN | undefined>(api.query.balances.totalIssuance);
@@ -71,16 +72,29 @@ function Referenda ({ className, members, palletReferenda, palletVote, ranks }: 
   );
 
   return (
-    <div className={className}>
-      <Summary summary={summary} />
+    <StyledDiv className={className}>
+      <Summary
+        issuanceActive={activeIssuance}
+        issuanceInactive={inactiveIssuance}
+        issuanceTotal={totalIssuance}
+        summary={summary}
+        withIssuance={isConvictionVote}
+      />
       <Button.Group>
         <Dropdown
-          className='topDropdown'
+          className='topDropdown media--800'
           label={t<string>('selected track')}
           onChange={setTrackSelected}
           options={trackOpts}
           value={trackSelected}
         />
+        {isConvictionVote && (
+          <Delegate
+            palletReferenda={palletReferenda}
+            palletVote={palletVote}
+            tracks={tracks}
+          />
+        )}
         <AddPreimage />
         <Submit
           isMember={isMember}
@@ -104,11 +118,11 @@ function Referenda ({ className, members, palletReferenda, palletVote, ranks }: 
           tracks={tracks}
         />
       ))}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Referenda)`
+const StyledDiv = styled.div`
   .ui--Dropdown.topDropdown {
     min-width: 25rem;
     padding-left: 0;
@@ -117,4 +131,6 @@ export default React.memo(styled(Referenda)`
       left: 1.55rem !important;
     }
   }
-`);
+`;
+
+export default React.memo(Referenda);

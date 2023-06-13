@@ -1,12 +1,12 @@
-// Copyright 2017-2022 @polkadot/app-collator authors & contributors
+// Copyright 2017-2023 @polkadot/app-collator authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Collator as CollatorType } from './types';
+import type { Collator as CollatorType } from './types.js';
 
 import React, { useMemo } from 'react';
 
-import { AddressSmall, Badge } from '@polkadot/react-components';
-import { BalanceFree, FormatBalance } from '@polkadot/react-query';
+import { AddressSmall, Badge, Table } from '@polkadot/react-components';
+import { BalanceFree } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 interface Props {
@@ -36,11 +36,7 @@ function Collator ({ className, info: { accountId, deposit, isInvulnerable, last
       <td className='address all'>
         <AddressSmall value={accountId} />
       </td>
-      <td className='number'>
-        {deposit && (
-          <FormatBalance value={deposit} />
-        )}
-      </td>
+      <Table.Column.Balance value={deposit} />
       <td className='number'>
         <BalanceFree params={accountId} />
       </td>

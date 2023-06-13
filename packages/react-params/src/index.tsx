@@ -1,20 +1,22 @@
-// Copyright 2017-2022 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { I18nProps } from '@polkadot/react-components/types';
 import type { Registry } from '@polkadot/types/types';
-import type { ComponentMap, ParamDef, RawParam, RawParamOnChangeValue, RawParams } from './types';
+import type { ComponentMap, ParamDef, RawParam, RawParamOnChangeValue, RawParams } from './types.js';
 
 import React from 'react';
 
-import { api } from '@polkadot/react-api';
+import { statics } from '@polkadot/react-api/statics';
 import { ErrorBoundary } from '@polkadot/react-components';
 import { stringify } from '@polkadot/util';
 
-import Holder from './Holder';
-import ParamComp from './ParamComp';
-import translate from './translate';
-import { createValue } from './values';
+import Holder from './Holder.js';
+import ParamComp from './ParamComp.js';
+import translate from './translate.js';
+import { createValue } from './values.js';
+
+export * from './Named/index.js';
 
 interface Props extends I18nProps {
   children?: React.ReactNode;
@@ -25,10 +27,11 @@ interface Props extends I18nProps {
   onError?: () => void;
   onEscape?: () => void;
   overrides?: ComponentMap;
-  params: ParamDef[];
+  params?: ParamDef[];
   registry?: Registry;
   values?: RawParams | null;
   withBorder?: boolean;
+  withExpander?: boolean;
 }
 
 interface State {
@@ -43,7 +46,7 @@ class Params extends React.PureComponent<Props, State> {
     params: null
   };
 
-  public static getDerivedStateFromProps ({ isDisabled, params, registry = api.registry, values }: Props, prevState: State): Pick<State, never> | null {
+  public static getDerivedStateFromProps ({ isDisabled, params = [], registry = statics.api.registry, values }: Props, prevState: State): Pick<State, never> | null {
     if (isDisabled || stringify(prevState.params) === stringify(params)) {
       return null;
     }
@@ -81,7 +84,7 @@ class Params extends React.PureComponent<Props, State> {
   }
 
   public override render (): React.ReactNode {
-    const { children, className = '', isDisabled, isError, onEnter, onEscape, overrides, params, registry = api.registry, withBorder = true } = this.props;
+    const { children, className = '', isDisabled, isError, onEnter, onEscape, overrides, params, registry = statics.api.registry, withBorder = true, withExpander } = this.props;
     const { values = this.props.values } = this.state;
 
     if (!values || !values.length) {
@@ -92,10 +95,11 @@ class Params extends React.PureComponent<Props, State> {
       <Holder
         className={className}
         withBorder={withBorder}
+        withExpander={withExpander}
       >
         <ErrorBoundary onError={this.onRenderError}>
           <div className='ui--Params-Content'>
-            {values && params.map(({ name, type }: ParamDef, index: number): React.ReactNode => (
+            {values && params?.map(({ name, type }: ParamDef, index: number): React.ReactNode => (
               <ParamComp
                 defaultValue={values[index]}
                 index={index}

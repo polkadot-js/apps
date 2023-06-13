@@ -1,22 +1,23 @@
-// Copyright 2017-2022 @polkadot/apps authors & contributors
+// Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { Button, Icon } from '@polkadot/react-components';
+import { Button, Icon, styled } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 interface Props {
   children: React.ReactNode;
   className?: string;
   icon: IconName;
+  isBottom?: boolean;
+  isFull?: boolean;
   type: 'error' | 'info';
 }
 
-function BaseOverlay ({ children, className = '', icon, type }: Props): React.ReactElement<Props> | null {
+function BaseOverlay ({ children, className = '', icon, isBottom = false, isFull = false, type }: Props): React.ReactElement<Props> | null {
   const [isHidden, toggleHidden] = useToggle();
 
   if (isHidden) {
@@ -24,7 +25,7 @@ function BaseOverlay ({ children, className = '', icon, type }: Props): React.Re
   }
 
   return (
-    <div className={`${className} ${type === 'error' ? 'isError' : 'isInfo'}`}>
+    <StyledDiv className={`${className} ${type === 'error' ? 'isError' : 'isInfo'} ${isBottom ? 'isBottom' : 'isTop'} ${isFull ? 'isFull' : 'isPartial'}`}>
       <div className='content'>
         <Icon
           className='contentIcon'
@@ -42,11 +43,11 @@ function BaseOverlay ({ children, className = '', icon, type }: Props): React.Re
           onClick={toggleHidden}
         />
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(BaseOverlay)`
+const StyledDiv = styled.div`
   background: var(--bg-menu);
   border: 1px solid transparent;
   border-radius: 0.25rem;
@@ -56,8 +57,25 @@ export default React.memo(styled(BaseOverlay)`
   position: fixed;
   right: 0.75rem;
   top: 0.75rem;
-  max-width: 55rem;
   z-index: 500;
+
+  &.isBottom {
+    bottom: 0.75rem;
+    top: auto;
+  }
+
+  &.isFull {
+    left: 0.75rem;
+  }
+
+  &.isPartial {
+    max-width: 42rem;
+    width: 42rem;
+
+    .content {
+      max-width: 50rem;
+    }
+  }
 
   &:before {
     border-radius: 0.25rem;
@@ -87,9 +105,9 @@ export default React.memo(styled(BaseOverlay)`
   }
 
   .content {
+    align-items: center;
     display: flex;
     margin: 0 auto;
-    max-width: 50rem;
     padding: 1em 3rem 1rem 0.5rem;
     position: relative;
 
@@ -113,4 +131,6 @@ export default React.memo(styled(BaseOverlay)`
     right: 0em;
     top: 0.75rem;
   }
-`);
+`;
+
+export default React.memo(BaseOverlay);

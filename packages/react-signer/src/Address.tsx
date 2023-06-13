@@ -1,6 +1,7 @@
-// Copyright 2017-2022 @polkadot/react-signer authors & contributors
+// Copyright 2017-2023 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { QueueTx } from '@polkadot/react-components/Status/types';
 import type { Option, Vec } from '@polkadot/types';
@@ -8,18 +9,17 @@ import type { AccountId, BalanceOf, Call, Multisig } from '@polkadot/types/inter
 import type { KitchensinkRuntimeProxyType, PalletProxyProxyDefinition } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
-import type { AddressFlags, AddressProxy } from './types';
+import type { AddressFlags, AddressProxy } from './types.js';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { ApiPromise } from '@polkadot/api';
 import { InputAddress, MarkError, Modal, Toggle } from '@polkadot/react-components';
 import { useAccounts, useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { BN_ZERO, isFunction } from '@polkadot/util';
 
-import Password from './Password';
-import { useTranslation } from './translate';
-import { extractExternal } from './util';
+import Password from './Password.js';
+import { useTranslation } from './translate.js';
+import { extractExternal } from './util.js';
 
 interface Props {
   className?: string;
@@ -27,11 +27,11 @@ interface Props {
   onChange: (address: AddressProxy) => void;
   onEnter?: () => void;
   passwordError: string | null;
-  requestAddress: string;
+  requestAddress: string | null;
 }
 
 interface MultiState {
-  address: string;
+  address: string | null;
   isMultiCall: boolean;
   who: string[];
   whoFilter: string[];
@@ -43,18 +43,22 @@ interface PasswordState {
 }
 
 interface ProxyState {
-  address: string;
+  address: string | null;
   isProxied: boolean;
   proxies: [string, BN, KitchensinkRuntimeProxyType][];
   proxiesFilter: string[];
 }
+
+// true if we don't try to filter the list of proxies by type and
+// instead leave it up to the user
+const BYPASS_PROXY_CHECK = true;
 
 function findCall (tx: Call | SubmittableExtrinsic<'promise'>): { method: string; section: string } {
   try {
     const { method, section } = tx.registry.findMetaCall(tx.callIndex);
 
     return { method, section };
-  } catch (error) {
+  } catch {
     return { method: 'unknown', section: 'unknown' };
   }
 }
@@ -86,6 +90,8 @@ function filterProxies (allAccounts: string[], tx: Call | SubmittableExtrinsic<'
       // FIXME Change when we add support for delayed proxies
       if (!allAccounts.includes(address) || !delay.isZero()) {
         return false;
+      } else if (BYPASS_PROXY_CHECK) {
+        return true;
       }
 
       switch (proxy.toString()) {
@@ -136,13 +142,13 @@ function filterProxies (allAccounts: string[], tx: Call | SubmittableExtrinsic<'
     .map(([address]) => address);
 }
 
-async function queryForMultisig (api: ApiPromise, requestAddress: string, proxyAddress: string | null, tx: SubmittableExtrinsic<'promise'>): Promise<MultiState | null> {
+async function queryForMultisig (api: ApiPromise, requestAddress: string | null, proxyAddress: string | null, tx: SubmittableExtrinsic<'promise'>): Promise<MultiState | null> {
   const multiModule = api.tx.multisig ? 'multisig' : 'utility';
 
   if (isFunction(api.query[multiModule]?.multisigs)) {
     const address = proxyAddress || requestAddress;
     const { threshold, who } = extractExternal(address);
-    const hash = (proxyAddress ? api.tx.proxy.proxy(requestAddress, null, tx) : tx).method.hash;
+    const hash = (proxyAddress ? api.tx.proxy.proxy(requestAddress || '', null, tx) : tx).method.hash;
     const optMulti = await api.query[multiModule].multisigs<Option<Multisig>>(address, hash);
     const multi = optMulti.unwrapOr(null);
 
@@ -164,7 +170,7 @@ async function queryForMultisig (api: ApiPromise, requestAddress: string, proxyA
   return null;
 }
 
-async function queryForProxy (api: ApiPromise, allAccounts: string[], address: string, tx: SubmittableExtrinsic<'promise'>): Promise<ProxyState | null> {
+async function queryForProxy (api: ApiPromise, allAccounts: string[], address: string | null, tx: SubmittableExtrinsic<'promise'>): Promise<ProxyState | null> {
   if (isFunction(api.query.proxy?.proxies)) {
     const { isProxied } = extractExternal(address);
     const [_proxies] = await api.query.proxy.proxies<ITuple<[Vec<ITuple<[AccountId, KitchensinkRuntimeProxyType]> | PalletProxyProxyDefinition>, BalanceOf]>>(address);
@@ -195,7 +201,7 @@ function Address ({ currentItem, onChange, onEnter, passwordError, requestAddres
   const [{ isUnlockCached, signPassword }, setSignPassword] = useState<PasswordState>(() => ({ isUnlockCached: false, signPassword: '' }));
 
   const [signAddress, flags] = useMemo(
-    (): [string, AddressFlags] => {
+    (): [string | null, AddressFlags] => {
       const signAddress = (multiInfo && multiAddress) ||
         (isProxyActive && proxyInfo && proxyAddress) ||
         requestAddress;
@@ -270,7 +276,6 @@ function Address ({ currentItem, onChange, onEnter, passwordError, requestAddres
         <Modal.Columns hint={t('The proxy is one of the allowed proxies on the account, as set and filtered by the transaction type.')}>
           <InputAddress
             filter={proxyInfo.proxiesFilter}
-            help={t('The proxy to be used for this transaction.')}
             label={t('proxy account')}
             onChange={setProxyAddress}
             type='account'
@@ -281,7 +286,6 @@ function Address ({ currentItem, onChange, onEnter, passwordError, requestAddres
         <Modal.Columns hint={t('The signatory is one of the allowed accounts on the multisig, making a recorded approval for the transaction.')}>
           <InputAddress
             filter={multiInfo.whoFilter}
-            help={t('The multisig signatory for this transaction.')}
             label={t('multisig signatory')}
             onChange={setMultiAddress}
             type='account'

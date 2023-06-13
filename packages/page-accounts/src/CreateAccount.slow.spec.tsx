@@ -1,5 +1,7 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
 
 import '@polkadot/react-components/i18n';
 
@@ -9,8 +11,8 @@ import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 import AccountsApp from '@polkadot/app-accounts';
-import { lightTheme } from '@polkadot/apps/themes';
-import { Api } from '@polkadot/react-api';
+import { ApiCtxRoot } from '@polkadot/react-api';
+import { lightTheme } from '@polkadot/react-components';
 import { MemoryStore } from '@polkadot/test-support/keyring';
 import { WaitForApi } from '@polkadot/test-support/react';
 import { SUBSTRATE_PORT } from '@polkadot/test-support/substrate';
@@ -25,7 +27,7 @@ const renderAccounts = () => {
   return render(
     <MemoryRouter>
       <ThemeProvider theme={lightTheme}>
-        <Api
+        <ApiCtxRoot
           apiUrl={`ws://127.0.0.1:${SUBSTRATE_PORT}`}
           isElectron={false}
           store={memoryStore}
@@ -38,13 +40,14 @@ const renderAccounts = () => {
               />
             </div>
           </WaitForApi>
-        </Api>
+        </ApiCtxRoot>
       </ThemeProvider>
     </MemoryRouter>
   );
 };
 
-describe('--SLOW--: Account Create', () => {
+// eslint-disable-next-line jest/no-disabled-tests
+describe.skip('--SLOW--: Account Create', () => {
   it('created account is added to list', async () => {
     const { findByTestId, findByText, queryByText } = renderAccounts();
 

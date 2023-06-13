@@ -1,25 +1,25 @@
-// Copyright 2017-2022 @polkadot/app-alliance authors & contributors
+// Copyright 2017-2023 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Hash } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useMemo } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import Motions from '@polkadot/app-tech-comm/Proposals';
 import { Tabs } from '@polkadot/react-components';
 import { useApi, useCall, useCollectiveMembers } from '@polkadot/react-hooks';
 
-import Announcements from './Announcements';
-import Members from './Members';
-import { useTranslation } from './translate';
-import Unscrupulous from './Unscrupulous';
-import useAnnoucements from './useAnnoucements';
-import useMembers from './useMembers';
-import useRule from './useRule';
-import useUnscrupulous from './useUnscrupulous';
+import Announcements from './Announcements/index.js';
+import Members from './Members/index.js';
+import Unscrupulous from './Unscrupulous/index.js';
+import { useTranslation } from './translate.js';
+import useAnnoucements from './useAnnoucements.js';
+import useMembers from './useMembers.js';
+import useRule from './useRule.js';
+import useUnscrupulous from './useUnscrupulous.js';
 
-export { default as useCounter } from './useCounter';
+export { default as useCounter } from './useCounter.js';
 
 interface Props {
   basePath: string;
@@ -70,36 +70,50 @@ function AllianceApp ({ basePath, className }: Props): React.ReactElement<Props>
         basePath={basePath}
         items={items}
       />
-      <Switch>
-        <Route path={`${basePath}/announcements`}>
-          <Announcements accouncements={accouncements} />
-        </Route>
-        <Route path={`${basePath}/motions`}>
-          <Motions
-            defaultProposal={api.tx.alliance.addUnscrupulousItems}
-            defaultThreshold={DEFAULT_THRESHOLD}
-            filter={motionFilter}
-            isMember={isVoter}
-            members={voters}
-            prime={prime}
-            proposalHashes={proposalHashes}
-            type='alliance'
+      <Routes>
+        <Route path={basePath}>
+          <Route
+            element={
+              <Announcements accouncements={accouncements} />
+            }
+            path='announcements'
+          />
+          <Route
+            element={
+              <Motions
+                defaultProposal={api.tx.alliance.addUnscrupulousItems}
+                defaultThreshold={DEFAULT_THRESHOLD}
+                filter={motionFilter}
+                isMember={isVoter}
+                members={voters}
+                prime={prime}
+                proposalHashes={proposalHashes}
+                type='alliance'
+              />
+            }
+            path='motions'
+          />
+          <Route
+            element={
+              <Unscrupulous unscrupulous={unscrupulous} />
+            }
+            path='unscrupulous'
+          />
+          <Route
+            element={
+              <Members
+                isVoter={isVoter}
+                members={members}
+                prime={prime}
+                rule={rule}
+                unscrupulous={unscrupulous}
+                voters={voters}
+              />
+            }
+            index
           />
         </Route>
-        <Route path={`${basePath}/unscrupulous`}>
-          <Unscrupulous unscrupulous={unscrupulous} />
-        </Route>
-        <Route>
-          <Members
-            isVoter={isVoter}
-            members={members}
-            prime={prime}
-            rule={rule}
-            unscrupulous={unscrupulous}
-            voters={voters}
-          />
-        </Route>
-      </Switch>
+      </Routes>
     </main>
   );
 }

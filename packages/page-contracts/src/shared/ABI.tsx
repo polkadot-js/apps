@@ -1,13 +1,14 @@
-// Copyright 2017-2022 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2023 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import type { Abi } from '@polkadot/api-contract';
 
 import React from 'react';
 
-import { Abi } from '@polkadot/api-contract';
 import { IconLink, InputFile, Labelled } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
-import Messages from './Messages';
+import { useTranslation } from '../translate.js';
+import Messages from './Messages.js';
 
 interface Props {
   className?: string;
@@ -40,7 +41,6 @@ function ABI ({ className, contractAbi, errorText, isDisabled, isError, isFull, 
     ? (
       <Labelled
         className={className}
-        help={t<string>('This is the ABI as supplied. Any calls to the contract will use this information for encoding.')}
         label={label || t<string>('contract ABI')}
         labelExtra={onRemove && (
           <IconLink
@@ -64,7 +64,6 @@ function ABI ({ className, contractAbi, errorText, isDisabled, isError, isFull, 
     : (
       <div className={className}>
         <InputFile
-          help={t<string>('The ABI for the WASM code. The ABI is required and stored for future operations such as sending messages.')}
           isDisabled={isDisabled}
           isError={isError}
           isFull={isFull}

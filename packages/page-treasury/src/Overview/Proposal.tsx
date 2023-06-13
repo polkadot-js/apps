@@ -1,17 +1,16 @@
-// Copyright 2017-2022 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2023 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveTreasuryProposal } from '@polkadot/api-derive/types';
 
 import React, { useMemo } from 'react';
 
-import { AddressMini, AddressSmall, LinkExternal } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
-import { FormatBalance } from '@polkadot/react-query';
-import { formatNumber, isFunction } from '@polkadot/util';
+import { AddressMini, AddressSmall, Columar, LinkExternal, Table } from '@polkadot/react-components';
+import { useApi, useToggle } from '@polkadot/react-hooks';
+import { isFunction } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import Council from './Council';
+import { useTranslation } from '../translate.js';
+import Council from './Council.js';
 
 interface Props {
   className?: string;
@@ -24,6 +23,7 @@ interface Props {
 function ProposalDisplay ({ className = '', isMember, members, proposal: { council, id, proposal }, withSend }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const [isExpanded, toggleIsExpanded] = useToggle(false);
 
   const hasCouncil = isFunction(api.tx.council?.propose);
   const hasProposals = useMemo(
@@ -35,43 +35,58 @@ function ProposalDisplay ({ className = '', isMember, members, proposal: { counc
   );
 
   return (
-    <tr className={className}>
-      <td className='number'>
-        <h1>{formatNumber(id)}</h1>
-      </td>
-      <td className='address all'>
-        <AddressSmall value={proposal.proposer} />
-      </td>
-      <td className='address'>
-        <AddressMini value={proposal.beneficiary} />
-      </td>
-      <td className='number'>
-        <FormatBalance value={proposal.value} />
-      </td>
-      <td className='number'>
-        <FormatBalance value={proposal.bond} />
-      </td>
-      <td className={hasProposals ? 'middle' : 'button'}>
-        {hasCouncil
-          ? hasProposals
-            ? <a href='#/council/motions'>{t('Voting')}</a>
-            : withSend && (
-              <Council
-                id={id}
-                isDisabled={!isMember}
-                members={members}
-              />
-            )
-          : null
-        }
-      </td>
-      <td className='links'>
-        <LinkExternal
-          data={id}
-          type='treasury'
+    <>
+      <tr className={`${className} isExpanded isFirst ${isExpanded ? '' : 'isLast'}`}>
+        <Table.Column.Id value={id} />
+        <td className='address all'>
+          <AddressSmall value={proposal.beneficiary} />
+        </td>
+        <Table.Column.Balance value={proposal.value} />
+        <td className='address'>
+          <AddressMini
+            balance={proposal.bond}
+            value={proposal.proposer}
+            withBalance
+          />
+        </td>
+        <td className={hasProposals ? 'middle' : 'button'}>
+          {hasCouncil
+            ? hasProposals
+              ? <a href='#/council/motions'>{t<string>('Voting')}</a>
+              : withSend && (
+                <Council
+                  id={id}
+                  isDisabled={!isMember}
+                  members={members}
+                />
+              )
+            : null
+          }
+        </td>
+        <Table.Column.Expand
+          isExpanded={isExpanded}
+          toggle={toggleIsExpanded}
         />
-      </td>
-    </tr>
+      </tr>
+      <tr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'} packedTop`}>
+        <td />
+        <td
+          className='columar'
+          colSpan={4}
+        >
+          <Columar is100>
+            <Columar.Column>
+              <LinkExternal
+                data={id}
+                type='treasury'
+                withTitle
+              />
+            </Columar.Column>
+          </Columar>
+        </td>
+        <td />
+      </tr>
+    </>
   );
 }
 

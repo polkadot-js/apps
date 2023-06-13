@@ -1,8 +1,8 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SortedTargets } from '../types';
-import type { BondInfo, NominateInfo } from './partials/types';
+import type { SortedTargets } from '../types.js';
+import type { BondInfo, NominateInfo } from './partials/types.js';
 
 import React, { useCallback, useState } from 'react';
 
@@ -10,9 +10,9 @@ import { BatchWarning, Button, Modal, TxButton } from '@polkadot/react-component
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import BondPartial from './partials/Bond';
-import NominatePartial from './partials/Nominate';
+import { useTranslation } from '../translate.js';
+import BondPartial from './partials/Bond.js';
+import NominatePartial from './partials/Nominate.js';
 
 interface Props {
   isInElection?: boolean;
@@ -26,7 +26,7 @@ function NewNominator ({ isInElection, targets }: Props): React.ReactElement<Pro
   const { t } = useTranslation();
   const { api } = useApi();
   const [isVisible, toggleVisible] = useToggle();
-  const [{ bondOwnTx, bondTx, controllerId, controllerTx, stashId }, setBondInfo] = useState<BondInfo>({});
+  const [{ bondTx, controllerId, controllerTx, stashId }, setBondInfo] = useState<BondInfo>({});
   const [{ nominateTx }, setNominateInfo] = useState<NominateInfo>({});
   const [step, setStep] = useState(1);
   const isDisabled = isInElection || !isFunction(api.tx.utility?.batch);
@@ -111,7 +111,7 @@ function NewNominator ({ isInElection, targets }: Props): React.ReactElement<Pro
                   params={[
                     stashId === controllerId
                       ? [bondTx, nominateTx]
-                      : [bondOwnTx, nominateTx, controllerTx]
+                      : [bondTx, nominateTx, controllerTx]
                   ]}
                   tx={api.tx.utility.batchAll || api.tx.utility.batch}
                 />

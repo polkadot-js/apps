@@ -1,15 +1,13 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
+import type React from 'react';
 import type { WithTranslation } from 'react-i18next';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { Abi } from '@polkadot/api-contract';
-import type { ActionStatus } from '@polkadot/react-components/Status/types';
-import type { AccountId, Index } from '@polkadot/types/interfaces';
-import type { TxCallback, TxFailedCallback } from './Status/types';
-
-import { AccountIndex, Address } from '@polkadot/types/interfaces';
+import type { AccountId, AccountIndex, Address, Index } from '@polkadot/types/interfaces';
+import type { ActionStatus, TxCallback, TxFailedCallback } from './Status/types.js';
 
 export interface BareProps {
   children?: React.ReactNode;
@@ -21,6 +19,10 @@ export interface AppProps {
   basePath: string;
   className?: string;
   onStatusChange: (status: ActionStatus) => void;
+}
+
+export interface ThemeDef {
+  theme: 'dark' | 'light';
 }
 
 export type I18nProps = BareProps & WithTranslation;
@@ -72,16 +74,23 @@ export interface NullContract {
   address: null;
 }
 
-export interface ThemeDef {
-  theme: 'dark' | 'light';
-}
-
 export interface ThemeProps {
   theme: ThemeDef;
 }
 
-export type FlagColor = 'blue' | 'green' | 'grey' | 'orange' | 'pink' | 'red' | 'yellow' | 'theme';
+export type FlagColor = 'blue' | 'black' | 'green' | 'grey' | 'lightgrey' | 'orange' | 'pink' | 'purple' | 'red' | 'yellow' | 'theme';
 
 export type AccountIdIsh = AccountId | AccountIndex | Address | string | Uint8Array | null;
 
 export type DisplayedJudgement = 'Erroneous' | 'Low quality' | 'Known good' | 'Reasonable';
+
+export interface TabItem {
+  alias?: string;
+  count?: number;
+  hasParams?: boolean;
+  isExact?: boolean;
+  isHidden?: boolean;
+  isRoot?: boolean;
+  name: string;
+  text: React.ReactNode;
+}

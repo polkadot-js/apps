@@ -1,30 +1,30 @@
-// Copyright 2017-2022 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2023 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { ContractPromise } from '@polkadot/api-contract';
 import type { ContractCallOutcome } from '@polkadot/api-contract/types';
-import type { CallResult } from './types';
+import type { WeightV2 } from '@polkadot/types/interfaces';
+import type { CallResult } from './types.js';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button, Dropdown, Expander, InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
-import { useAccountId, useDebounce, useFormField, useToggle } from '@polkadot/react-hooks';
+import { Button, Dropdown, Expander, InputAddress, InputBalance, Modal, styled, Toggle, TxButton } from '@polkadot/react-components';
+import { useAccountId, useApi, useDebounce, useFormField, useToggle } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { BN, BN_ONE, BN_ZERO } from '@polkadot/util';
 
-import { InputMegaGas, Params } from '../shared';
-import { useTranslation } from '../translate';
-import useWeight from '../useWeight';
-import Outcome from './Outcome';
-import { getCallMessageOptions } from './util';
+import { InputMegaGas, Params } from '../shared/index.js';
+import { useTranslation } from '../translate.js';
+import useWeight from '../useWeight.js';
+import Outcome from './Outcome.js';
+import { getCallMessageOptions } from './util.js';
 
 interface Props {
   className?: string;
   contract: ContractPromise;
   messageIndex: number;
-  onCallResult?: (messageIndex: number, result?: ContractCallOutcome | void) => void;
+  onCallResult?: (messageIndex: number, result?: ContractCallOutcome) => void;
   onChangeMessage: (messageIndex: number) => void;
   onClose: () => void;
 }
@@ -33,9 +33,11 @@ const MAX_CALL_WEIGHT = new BN(5_000_000_000_000).isub(BN_ONE);
 
 function Call ({ className = '', contract, messageIndex, onCallResult, onChangeMessage, onClose }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const { api } = useApi();
   const message = contract.abi.messages[messageIndex];
   const [accountId, setAccountId] = useAccountId();
   const [estimatedWeight, setEstimatedWeight] = useState<BN | null>(null);
+  const [estimatedWeightV2, setEstimatedWeightV2] = useState<WeightV2 | null>(null);
   const [value, isValueValid, setValue] = useFormField<BN>(BN_ZERO);
   const [outcomes, setOutcomes] = useState<CallResult[]>([]);
   const [execTx, setExecTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
@@ -47,18 +49,46 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
 
   useEffect((): void => {
     setEstimatedWeight(null);
+    setEstimatedWeightV2(null);
     setParams([]);
   }, [contract, messageIndex]);
 
   useEffect((): void => {
-    value && message.isMutating && setExecTx((): SubmittableExtrinsic<'promise'> | null => {
-      try {
-        return contract.tx[message.method]({ gasLimit: weight.weight, storageDepositLimit: null, value: message.isPayable ? value : 0 }, ...params);
-      } catch (error) {
-        return null;
+    async function dryRun () {
+      if (accountId && value && message.isMutating) {
+        const dryRunParams: Parameters<typeof api.call.contractsApi.call> =
+          [
+            accountId,
+            contract.address,
+            message.isPayable
+              ? api.registry.createType('Balance', value)
+              : api.registry.createType('Balance', BN_ZERO),
+            weight.weightV2,
+            null,
+            message.toU8a(params)
+          ];
+
+        const dryRunResult = await api.call.contractsApi.call(...dryRunParams);
+
+        setExecTx((): SubmittableExtrinsic<'promise'> | null => {
+          try {
+            return contract.tx[message.method](
+              {
+                gasLimit: dryRunResult.gasRequired,
+                storageDepositLimit: dryRunResult.storageDeposit.isCharge ? dryRunResult.storageDeposit.asCharge : null,
+                value: message.isPayable ? value : 0
+              },
+              ...params
+            );
+          } catch {
+            return null;
+          }
+        });
       }
-    });
-  }, [accountId, contract, message, value, weight, params]);
+    }
+
+    dryRun().catch((e) => console.error(e));
+  }, [api, accountId, contract, message, value, weight, params]);
 
   useEffect((): void => {
     if (!accountId || !message || !dbParams || !dbValue) {
@@ -67,13 +97,26 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
 
     contract
       .query[message.method](accountId, { gasLimit: -1, storageDepositLimit: null, value: message.isPayable ? dbValue : 0 }, ...dbParams)
-      .then(({ gasRequired, result }) => setEstimatedWeight(
-        result.isOk
-          ? gasRequired
-          : null
-      ))
-      .catch(() => setEstimatedWeight(null));
-  }, [accountId, contract, message, dbParams, dbValue]);
+      .then(({ gasRequired, result }) => {
+        if (weight.isWeightV2) {
+          setEstimatedWeightV2(
+            result.isOk
+              ? api.registry.createType('WeightV2', gasRequired)
+              : null
+          );
+        } else {
+          setEstimatedWeight(
+            result.isOk
+              ? gasRequired.refTime.toBn()
+              : null
+          );
+        }
+      })
+      .catch(() => {
+        setEstimatedWeight(null);
+        setEstimatedWeightV2(null);
+      });
+  }, [api, accountId, contract, message, dbParams, dbValue, weight.isWeightV2]);
 
   const _onSubmitRpc = useCallback(
     (): void => {
@@ -82,7 +125,11 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
       }
 
       contract
-        .query[message.method](accountId, { gasLimit: weight.isEmpty ? -1 : weight.weight, storageDepositLimit: null, value: message.isPayable ? value : 0 }, ...params)
+        .query[message.method](
+          accountId,
+          { gasLimit: weight.isWeightV2 ? weight.weightV2 : weight.isEmpty ? -1 : weight.weight, storageDepositLimit: null, value: message.isPayable ? value : 0 },
+          ...params
+        )
         .then((result): void => {
           setOutcomes([{
             ...result,
@@ -111,14 +158,13 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
   const isViaRpc = (isViaCall || (!message.isMutating && !message.isPayable));
 
   return (
-    <Modal
-      className={[className || '', 'app--contracts-Modal'].join(' ')}
+    <StyledModal
+      className={`${className} app--contracts-Modal`}
       header={t<string>('Call a contract')}
       onClose={onClose}
     >
       <Modal.Content>
         <InputAddress
-          help={t<string>('A deployed contract that has either been deployed or attached. The address and ABI are used to construct the parameters.')}
           isDisabled
           label={t<string>('contract to use')}
           type='contract'
@@ -126,7 +172,6 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
         />
         <InputAddress
           defaultValue={accountId}
-          help={t<string>('Specify the user account to use for this contract call. And fees will be deducted from this account.')}
           label={t<string>('call from account')}
           labelExtra={
             <Available
@@ -142,7 +187,6 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
           <>
             <Dropdown
               defaultValue={messageIndex}
-              help={t<string>('The message to send to this contract. Parameters are adjusted based on the ABI provided.')}
               isError={message === null}
               label={t<string>('message to send')}
               onChange={onChangeMessage}
@@ -162,7 +206,6 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
         )}
         {message.isPayable && (
           <InputBalance
-            help={t<string>('The allotted value for this contract, i.e. the amount transferred to the contract as part of this call.')}
             isError={!isValueValid}
             isZeroable
             label={t<string>('value')}
@@ -172,7 +215,13 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
         )}
         <InputMegaGas
           estimatedWeight={message.isMutating ? estimatedWeight : MAX_CALL_WEIGHT}
-          help={t<string>('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
+          estimatedWeightV2={message.isMutating
+            ? estimatedWeightV2
+            : api.registry.createType('WeightV2', {
+              proofSize: new BN(1_000_000),
+              refTIme: MAX_CALL_WEIGHT
+            })
+          }
           isCall={!message.isMutating}
           weight={weight}
         />
@@ -216,17 +265,17 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
               extrinsic={execTx}
               icon='sign-in-alt'
               isDisabled={!isValid || !execTx}
-              label={t('Execute')}
+              label={t<string>('Execute')}
               onStart={onClose}
             />
           )
         }
       </Modal.Actions>
-    </Modal>
+    </StyledModal>
   );
 }
 
-export default React.memo(styled(Call)`
+const StyledModal = styled(Modal)`
   .rpc-toggle {
     margin-top: 1rem;
     display: flex;
@@ -240,4 +289,6 @@ export default React.memo(styled(Call)`
   .outcomes {
     margin-top: 1rem;
   }
-`);
+`;
+
+export default React.memo(Call);

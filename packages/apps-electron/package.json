@@ -1,5 +1,10 @@
 {
+  "author": "Jaco Greeff <jacogr@gmail.com>",
   "bugs": "https://github.com/polkadot-js/apps/issues",
+  "description": "An Apps portal into the Polkadot network",
+  "engines": {
+    "node": ">=16"
+  },
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/apps-electron#readme",
   "license": "Apache-2.0",
   "name": "@polkadot/apps-electron",
@@ -10,24 +15,23 @@
     "url": "https://github.com/polkadot-js/apps.git"
   },
   "sideEffects": false,
-  "version": "0.122.3-107-x",
+  "version": "0.131.5-28-x",
+  "main": "build/electron.js",
   "dependencies": {
-    "@babel/core": "^7.20.5",
-    "@babel/polyfill": "^7.12.1",
-    "@polkadot/dev": "^0.67.170",
-    "@polkadot/react-components": "^0.122.3-107-x",
-    "electron-log": "^4.4.8",
+    "electron-log": "^5.0.0-beta.23",
     "electron-updater": "^5.3.0"
   },
   "devDependencies": {
-    "@types/react-dom": "^18.0.9",
+    "@polkadot/dev": "^0.75.19",
     "@types/tmp": "^0.2.3",
-    "babel-loader": "^8.2.5",
     "copy-webpack-plugin": "^11.0.0",
-    "html-webpack-plugin": "^5.5.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "thread-loader": "^3.0.4",
+    "electron": "25.0.1",
+    "electron-builder": "23.6.0",
+    "electron-builder-notarize": "^1.5.1",
+    "html-webpack-plugin": "^5.5.1",
     "tmp": "^0.2.1"
+  },
+  "peerDependencies": {
+    "webpack": "*"
   }
 }

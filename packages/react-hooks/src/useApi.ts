@@ -1,16 +1,15 @@
-// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiProps } from '@polkadot/react-api/types';
 
 import { useContext } from 'react';
 
-import { ApiContext } from '@polkadot/react-api';
-
-import { createNamedHook } from './createNamedHook';
+import { ApiCtx } from './ctx/Api.js';
+import { createNamedHook } from './createNamedHook.js';
 
 function useApiImpl (): ApiProps {
-  return useContext(ApiContext);
+  return useContext(ApiCtx);
 }
 
 export const useApi = createNamedHook('useApi', useApiImpl);

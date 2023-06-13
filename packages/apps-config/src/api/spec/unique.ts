@@ -1,10 +1,13 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-import { unique } from '@unique-nft/unique-mainnet-types/definitions';
+import pkg from '@unique-nft/unique-mainnet-types/definitions.js';
 
 export default {
-  rpc: { unique: unique.rpc }
+  rpc: {
+    appPromotion: pkg.appPromotion.rpc,
+    unique: pkg.unique.rpc
+  }
 } as OverrideBundleDefinition;

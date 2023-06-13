@@ -1,6 +1,7 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { QueryableStorageMultiArg } from '@polkadot/api/types';
 import type { DeriveSessionIndexes } from '@polkadot/api-derive/types';
 import type { Option } from '@polkadot/types';
@@ -8,7 +9,6 @@ import type { EraIndex, Exposure, Nominations, SlashingSpans } from '@polkadot/t
 
 import { useEffect, useState } from 'react';
 
-import { ApiPromise } from '@polkadot/api';
 import { createNamedHook, useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
@@ -24,21 +24,25 @@ function extractState (api: ApiPromise, stashId: string, slashes: Option<Slashin
   const max = api.consts.staking?.maxNominatorRewardedPerValidator;
 
   // chilled
-  const nomsChilled = nominees.filter((_, index): boolean => {
-    if (slashes[index].isNone) {
-      return false;
-    }
-
-    const { lastNonzeroSlash } = slashes[index].unwrap();
-
-    // to be chilled, we have a slash era and it is later than the submission era
-    // (if submitted in the same, the nomination will only take effect after the era)
-    return !lastNonzeroSlash.isZero() && lastNonzeroSlash.gt(submittedIn);
-  });
+  // NOTE With the introduction of the SlashReported event,
+  // nominators are not auto-chilled on validator slash
+  const nomsChilled = !api.events.staking.SlashReported
+    ? nominees.filter((_, index) =>
+      slashes[index].isNone
+        ? false
+        // to be chilled, we have a slash era and it is later than the submission era
+        // (if submitted in the same, the nomination will only take effect after the era)
+        : slashes[index].unwrap().lastNonzeroSlash.gt(submittedIn)
+    )
+    : [];
 
   // all nominations that are oversubscribed
   const nomsOver = exposures
-    .map(({ others }) => others.sort((a, b) => (b.value?.unwrap() || BN_ZERO).cmp(a.value?.unwrap() || BN_ZERO)))
+    .map(({ others }) =>
+      others.sort((a, b) =>
+        (b.value?.unwrap() || BN_ZERO).cmp(a.value?.unwrap() || BN_ZERO)
+      )
+    )
     .map((others, index) =>
       !max || max.gtn(others.map(({ who }) => who.toString()).indexOf(stashId))
         ? null

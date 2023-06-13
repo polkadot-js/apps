@@ -1,16 +1,15 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useMemo } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 
-import { HelpOverlay, Tabs } from '@polkadot/react-components';
+import { Tabs } from '@polkadot/react-components';
 
-import basicMd from './md/basic.md';
-import Overview from './Overview';
-import { useTranslation } from './translate';
+import Overview from './Overview/index.js';
+import { useTranslation } from './translate.js';
 
-export { default as useCounter } from './useCounter';
+export { default as useCounter } from './useCounter.js';
 
 interface Props {
   basePath: string;
@@ -29,14 +28,20 @@ function DemocracyApp ({ basePath }: Props): React.ReactElement<Props> {
 
   return (
     <main className='democracy--App'>
-      <HelpOverlay md={basicMd as string} />
       <Tabs
         basePath={basePath}
         items={items}
       />
-      <Switch>
-        <Route><Overview /></Route>
-      </Switch>
+      <Routes>
+        <Route path={basePath}>
+          <Route
+            element={
+              <Overview />
+            }
+            index
+          />
+        </Route>
+      </Routes>
     </main>
   );
 }

@@ -1,9 +1,9 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback } from 'react';
 
-import AddressToggle from '../AddressToggle';
+import AddressToggle from '../AddressToggle.js';
 
 interface Props {
   address: string;

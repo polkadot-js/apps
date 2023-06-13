@@ -1,26 +1,26 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { DeriveHeartbeatAuthor } from '@polkadot/api-derive/types';
 import type { Option } from '@polkadot/types';
 import type { SlashingSpans, ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
-import type { NominatedBy as NominatedByType, ValidatorInfo } from '../../types';
-import type { NominatorValue } from './types';
+import type { NominatedBy as NominatedByType, ValidatorInfo } from '../../types.js';
+import type { NominatorValue } from './types.js';
 
 import React, { useMemo } from 'react';
 
-import { ApiPromise } from '@polkadot/api';
-import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
+import { AddressSmall, Columar, Icon, LinkExternal, Table, Tag } from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
-import { useApi, useCall, useDeriveAccountInfo } from '@polkadot/react-hooks';
+import { useApi, useCall, useDeriveAccountInfo, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
-import Favorite from './Favorite';
-import NominatedBy from './NominatedBy';
-import StakeOther from './StakeOther';
-import Status from './Status';
+import { useTranslation } from '../../translate.js';
+import NominatedBy from './NominatedBy.js';
+import StakeOther from './StakeOther.js';
+import Status from './Status.js';
 
 interface Props {
   address: string;
@@ -44,14 +44,14 @@ interface Props {
 interface StakingState {
   isChilled?: boolean;
   commission?: string;
-  nominators: NominatorValue[];
+  nominators?: NominatorValue[];
   stakeTotal?: BN;
   stakeOther?: BN;
   stakeOwn?: BN;
 }
 
 function expandInfo ({ exposure, validatorPrefs }: ValidatorInfo, minCommission?: BN): StakingState {
-  let nominators: NominatorValue[] = [];
+  let nominators: NominatorValue[] | undefined;
   let stakeTotal: BN | undefined;
   let stakeOther: BN | undefined;
   let stakeOwn: BN | undefined;
@@ -91,13 +91,15 @@ function useAddressCalls (api: ApiPromise, address: string, isMain?: boolean) {
 }
 
 function Address ({ address, className = '', filterName, hasQueries, isElected, isFavorite, isMain, isPara, lastBlock, minCommission, nominatedBy, points, recentlyOnline, toggleFavorite, validatorInfo, withIdentity }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const { api } = useApi();
+  const [isExpanded, toggleIsExpanded] = useToggle(false);
   const { accountInfo, slashingSpans } = useAddressCalls(api, address, isMain);
 
   const { commission, isChilled, nominators, stakeOther, stakeOwn } = useMemo(
     () => validatorInfo
       ? expandInfo(validatorInfo, minCommission)
-      : { nominators: [] },
+      : {},
     [minCommission, validatorInfo]
   );
 
@@ -111,83 +113,123 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
     [address]
   );
 
+  const pointsAnimClass = useMemo(
+    () => points && `greyAnim-${Date.now() % 25}`,
+    [points]
+  );
+
   if (!isVisible) {
     return null;
   }
 
   return (
-    <tr className={className}>
-      <td className='badge together'>
-        <Favorite
+    <>
+      <tr className={`${className} isExpanded isFirst ${isExpanded ? 'packedBottom' : 'isLast'}`}>
+        <Table.Column.Favorite
           address={address}
           isFavorite={isFavorite}
-          toggleFavorite={toggleFavorite}
+          toggle={toggleFavorite}
         />
-        <Status
-          isChilled={isChilled}
-          isElected={isElected}
-          isMain={isMain}
-          isPara={isPara}
-          isRelay={!!(api.query.parasShared || api.query.shared)?.activeValidatorIndices}
-          nominators={isMain ? nominators : nominatedBy}
-          onlineCount={recentlyOnline?.blockCount}
-          onlineMessage={recentlyOnline?.hasMessage}
-        />
-      </td>
-      <td className='address'>
-        <AddressSmall value={address} />
-      </td>
-      {isMain
-        ? (
-          <StakeOther
-            nominators={nominators}
-            stakeOther={stakeOther}
+        <td className='badge together'>
+          <Status
+            isChilled={isChilled}
+            isElected={isElected}
+            isMain={isMain}
+            isPara={isPara}
+            isRelay={!!(api.query.parasShared || api.query.shared)?.activeValidatorIndices}
+            nominators={isMain ? nominators : nominatedBy}
+            onlineCount={recentlyOnline?.blockCount}
+            onlineMessage={recentlyOnline?.hasMessage}
           />
-        )
-        : (
-          <NominatedBy
-            nominators={nominatedBy}
-            slashingSpans={slashingSpans}
-          />
-        )
-      }
-      {isMain && (
-        <td className='number media--1100'>
-          {stakeOwn?.gtn(0) && (
-            <FormatBalance value={stakeOwn} />
+        </td>
+        <td className='address all relative'>
+          <AddressSmall value={address} />
+          {isMain && pointsAnimClass && (
+            <Tag
+              className={`${pointsAnimClass} absolute`}
+              color='lightgrey'
+              label={points}
+            />
           )}
         </td>
-      )}
-      <td className='number'>
-        {commission}
-      </td>
-      {isMain && (
-        <>
-          <td className='number'>
-            {points}
-          </td>
+        {isMain
+          ? (
+            <StakeOther
+              nominators={nominators}
+              stakeOther={stakeOther}
+            />
+          )
+          : (
+            <NominatedBy
+              nominators={nominatedBy}
+              slashingSpans={slashingSpans}
+            />
+          )
+        }
+        <td className='number'>
+          {commission || <span className='--tmp'>50.00%</span>}
+        </td>
+        {isMain && (
           <td className='number'>
             {lastBlock}
           </td>
-        </>
-      )}
-      <td>
-        {hasQueries && (
-          <a href={statsLink}>
-            <Icon
-              className='highlight--color'
-              icon='chart-line'
-            />
-          </a>
         )}
-      </td>
-      <td className='links media--1200'>
-        <LinkExternal
-          data={address}
-          type={isMain ? 'validator' : 'intention'}
+        <Table.Column.Expand
+          isExpanded={isExpanded}
+          toggle={toggleIsExpanded}
         />
-      </td>
-    </tr>
+      </tr>
+      {isExpanded && (
+        <tr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'} packedTop`}>
+          <td colSpan={2} />
+          <td
+            className='columar'
+            colSpan={
+              isMain
+                ? 4
+                : 3
+            }
+          >
+            <Columar size='small'>
+              <Columar.Column>
+                {isMain && stakeOwn?.gtn(0) && (
+                  <>
+                    <h5>{t<string>('own stake')}</h5>
+                    <FormatBalance
+                      value={stakeOwn}
+                    />
+                  </>
+                )}
+              </Columar.Column>
+              <Columar.Column>
+                {hasQueries && (
+                  <>
+                    <h5>{t<string>('graphs')}</h5>
+                    <a href={statsLink}>
+                      <Icon
+                        className='highlight--color'
+                        icon='chart-line'
+                      />
+                      &nbsp;{t<string>('historic results')}
+                    </a>
+                  </>
+                )}
+              </Columar.Column>
+            </Columar>
+            <Columar is100>
+              <Columar.Column>
+                <LinkExternal
+                  data={address}
+                  type='validator' // {isMain ? 'validator' : 'intention'}
+                  withTitle
+                />
+              </Columar.Column>
+            </Columar>
+          </td>
+          <td />
+        </tr>
+      )}
+    </>
   );
 }
 

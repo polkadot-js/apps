@@ -1,12 +1,12 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
 
 import useClaimCounter from '@polkadot/app-claims/useCounter'; // exceptionally CRAP idea
 
-import { useTranslation } from '../translate';
-import Banner from './Banner';
+import { useTranslation } from '../translate.js';
+import Banner from './Banner.js';
 
 function BannerExtension (): React.ReactElement | null {
   const claimCount = useClaimCounter();

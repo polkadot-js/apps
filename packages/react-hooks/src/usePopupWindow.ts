@@ -1,15 +1,17 @@
-// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useEffect, useMemo, useState } from 'react';
+import type React from 'react';
+import type { HorizontalPosition, VerticalPosition } from '@polkadot/react-components/Popup/types';
 
-import { HorizontalPosition, VerticalPosition } from '@polkadot/react-components/Popup/types';
+import { useEffect, useMemo, useState } from 'react';
+
 import { getPosition } from '@polkadot/react-components/Popup/utils';
 
-import { createNamedHook } from './createNamedHook';
-import { useElementPosition } from './useElementPosition';
-import { useScroll } from './useScroll';
-import { useWindowSize } from './useWindowSize';
+import { createNamedHook } from './createNamedHook.js';
+import { useElementPosition } from './useElementPosition.js';
+import { useScroll } from './useScroll.js';
+import { useWindowSize } from './useWindowSize.js';
 
 interface Coord {
   x: number;
@@ -17,34 +19,35 @@ interface Coord {
 }
 
 interface Result {
-  renderWindowPosition?: Coord;
-  verticalPosition: VerticalPosition | undefined
+  pointerStyle: VerticalPosition;
+  renderCoords: Coord;
 }
 
-function usePopupWindowImpl (windowRef: React.RefObject<HTMLDivElement>, triggerRef: React.RefObject<HTMLDivElement>, position: HorizontalPosition): Result {
-  const [renderWindowPosition, setRenderWindowPosition] = useState<Coord>();
-  const [verticalPosition, setVerticalPosition] = useState<VerticalPosition>();
-  const windowPosition = useElementPosition(windowRef);
-  const triggerPosition = useElementPosition(triggerRef);
+const COORD_0: Coord = { x: 0, y: 0 };
 
+function usePopupWindowImpl (windowRef: React.RefObject<HTMLDivElement>, triggerRef: React.RefObject<HTMLDivElement>, position: HorizontalPosition): Result {
+  const [renderCoords, setRenderCoords] = useState<Coord>(COORD_0);
+  const [pointerStyle, setPointerStyle] = useState<VerticalPosition>('top');
+  const windowCoords = useElementPosition(windowRef);
+  const triggerCoords = useElementPosition(triggerRef);
   const scrollY = useScroll();
   const windowSize = useWindowSize();
 
   useEffect(() => {
-    if (windowSize && triggerPosition) {
-      setVerticalPosition((triggerPosition.y > windowSize.height / 2) ? 'top' : 'bottom');
+    if (windowSize && triggerCoords) {
+      setPointerStyle((triggerCoords.y > windowSize.height / 2) ? 'top' : 'bottom');
     }
-  }, [triggerPosition, windowSize]);
+  }, [triggerCoords, windowSize]);
 
   useEffect(() => {
-    if (windowPosition && triggerPosition && verticalPosition) {
-      setRenderWindowPosition(getPosition(triggerPosition, position, verticalPosition, windowPosition, scrollY, windowSize));
+    if (windowCoords && triggerCoords) {
+      setRenderCoords(getPosition(triggerCoords, position, pointerStyle, windowCoords, scrollY, windowSize));
     }
-  }, [position, scrollY, triggerPosition, verticalPosition, windowPosition, windowSize]);
+  }, [position, scrollY, triggerCoords, pointerStyle, windowCoords, windowSize]);
 
   return useMemo(
-    () => ({ renderWindowPosition, verticalPosition }),
-    [renderWindowPosition, verticalPosition]
+    () => ({ pointerStyle, renderCoords }),
+    [renderCoords, pointerStyle]
   );
 }
 

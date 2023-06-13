@@ -1,9 +1,9 @@
-// Copyright 2017-2022 @polkadot/app-config authors & contributors
+// Copyright 2017-2023 @polkadot/app-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
 
-import { KUSAMA_GENESIS } from '../constants';
+import { KUSAMA_GENESIS } from '../constants.js';
 
 // 4 * BaseXcmWeight on Kusama
 const KUSAMA_WEIGHT = 4 * 1_000_000_000;

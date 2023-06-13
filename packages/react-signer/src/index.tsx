@@ -1,27 +1,28 @@
-// Copyright 2017-2022 @polkadot/react-signer authors & contributors
+// Copyright 2017-2023 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { QueueTx, QueueTxMessageSetStatus, QueueTxResult } from '@polkadot/react-components/Status/types';
 import type { BareProps as Props } from '@polkadot/react-components/types';
 import type { DefinitionRpcExt } from '@polkadot/types/types';
 
-import React, { useCallback, useContext, useEffect, useMemo } from 'react';
-import styled from 'styled-components';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { ApiPromise } from '@polkadot/api';
-import { Modal, StatusContext } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { Modal, styled } from '@polkadot/react-components';
+import { useApi, useQueue } from '@polkadot/react-hooks';
 import { assert, isFunction, loggerFormat } from '@polkadot/util';
 
-import { useTranslation } from './translate';
-import TxSigned from './TxSigned';
-import TxUnsigned from './TxUnsigned';
+import { useTranslation } from './translate.js';
+import TxSigned from './TxSigned.js';
+import TxUnsigned from './TxUnsigned.js';
+
+export * from './signers/index.js';
 
 interface ItemState {
-  count: number;
   currentItem: QueueTx | null;
   isRpc: boolean;
   isVisible: boolean;
+  queueSize: number;
   requestAddress: string | null;
 }
 
@@ -79,10 +80,10 @@ function extractCurrent (txqueue: QueueTx[]): ItemState {
   }
 
   return {
-    count: available.length,
     currentItem,
     isRpc,
     isVisible,
+    queueSize: available.length,
     requestAddress: (currentItem && currentItem.accountId) || null
   };
 }
@@ -90,12 +91,17 @@ function extractCurrent (txqueue: QueueTx[]): ItemState {
 function Signer ({ children, className = '' }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { t } = useTranslation();
-  const { queueSetTxStatus, txqueue } = useContext(StatusContext);
+  const { queueSetTxStatus, txqueue } = useQueue();
+  const [isQueueSubmit, setIsQueueSubmit] = useState(false);
 
-  const { count, currentItem, isRpc, isVisible, requestAddress } = useMemo(
+  const { currentItem, isRpc, isVisible, queueSize, requestAddress } = useMemo(
     () => extractCurrent(txqueue),
     [txqueue]
   );
+
+  useEffect((): void => {
+    (queueSize === 1) && setIsQueueSubmit(false);
+  }, [queueSize]);
 
   useEffect((): void => {
     isRpc && currentItem &&
@@ -119,9 +125,9 @@ function Signer ({ children, className = '' }: Props): React.ReactElement<Props>
     <>
       {children}
       {currentItem && isVisible && (
-        <Modal
+        <StyledModal
           className={className}
-          header={<>{t('Authorize transaction')}{(count === 1) ? undefined : <>&nbsp;1/{count}</>}</>}
+          header={<>{t('Authorize transaction')}{(queueSize === 1) ? undefined : <>&nbsp;1/{queueSize}</>}</>}
           key={currentItem.id}
           onClose={_onCancel}
           size='large'
@@ -131,20 +137,33 @@ function Signer ({ children, className = '' }: Props): React.ReactElement<Props>
             : (
               <TxSigned
                 currentItem={currentItem}
+                isQueueSubmit={isQueueSubmit}
+                queueSize={queueSize}
                 requestAddress={requestAddress}
+                setIsQueueSubmit={setIsQueueSubmit}
               />
             )
           }
-        </Modal>
+        </StyledModal>
       )}
     </>
   );
 }
 
-export default React.memo(styled(Signer)`
+const StyledModal = styled(Modal)`
   .signToggle {
     bottom: 1.5rem;
     left: 1.5rem;
     position: absolute;
+
+    .ui--Toggle {
+      display: inline-block;
+
+      &+.ui--Toggle {
+        margin-left: 1rem;
+      }
+    }
   }
-`);
+`;
+
+export default React.memo(Signer);

@@ -1,18 +1,19 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { Data, Option } from '@polkadot/types';
-import type { Registration } from '@polkadot/types/interfaces';
+import type { IdentityInfo, Registration } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 
 import { Input, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { getAddressMeta } from '@polkadot/react-components/util';
 import { useApi, useCall } from '@polkadot/react-hooks';
+import { AddressIdentityOtherDiscordKey } from '@polkadot/react-hooks/types';
 import { u8aToString } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   address: string;
@@ -20,15 +21,10 @@ interface Props {
   onClose: () => void;
 }
 
-interface WrapProps {
-  children: React.ReactNode;
-  onChange: (isChecked: boolean) => void;
-  value: boolean;
-}
-
 interface ValueState {
   info: Record<string, unknown>;
   okAll: boolean;
+  okDiscord?: boolean;
   okDisplay?: boolean;
   okEmail?: boolean;
   okLegal?: boolean;
@@ -46,20 +42,17 @@ function setData (data: Data, setActive: null | ((isActive: boolean) => void), s
   }
 }
 
-function WrapToggle ({ children, onChange, value }: WrapProps): React.ReactElement<WrapProps> {
-  const { t } = useTranslation();
+function setAdditionalFieldData (api: ApiPromise, info: IdentityInfo, key: string, setActive: null | ((isActive: boolean) => void), setVal: (val: string) => void): Data {
+  const dataKey = api.registry.createType('Data', api.registry.createType('Data', { Raw: key }));
+  const dataNone = api.registry.createType('Data', '');
 
-  return (
-    <div className='toggle-Wrap'>
-      {children}
-      <Toggle
-        isOverlay
-        label={t<string>('include field')}
-        onChange={onChange}
-        value={value}
-      />
-    </div>
-  );
+  const value = info.additional.find((v) => v[0].eq(dataKey))?.[1] || dataNone;
+
+  if (value.isRaw) {
+    setData(value, setActive, setVal);
+  }
+
+  return value;
 }
 
 function checkValue (hasValue: boolean, value: string | null | undefined, minLength: number, includes: string[], excludes: string[], starting: string[], notStarting: string[] = WHITESPACE, notEnding: string[] = WHITESPACE): boolean {
@@ -78,17 +71,19 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
   const { t } = useTranslation();
   const { api } = useApi();
   const identityOpt = useCall<Option<Registration>>(api.query.identity.identityOf, [address]);
-  const [{ info, okAll, okDisplay, okEmail, okLegal, okRiot, okTwitter, okWeb }, setInfo] = useState<ValueState>({ info: {}, okAll: false });
+  const [{ info, okAll, okDiscord, okDisplay, okEmail, okLegal, okRiot, okTwitter, okWeb }, setInfo] = useState<ValueState>({ info: {}, okAll: false });
   const [hasEmail, setHasEmail] = useState(false);
   const [hasLegal, setHasLegal] = useState(false);
   const [hasRiot, setHasRiot] = useState(false);
   const [hasTwitter, setHasTwitter] = useState(false);
+  const [hasDiscord, setHasDiscord] = useState(false);
   const [hasWeb, setHasWeb] = useState(false);
   const [valDisplay, setValDisplay] = useState(() => (getAddressMeta(address).name || '').replace(/\(.*\)/, '').trim());
   const [valEmail, setValEmail] = useState('');
   const [valLegal, setValLegal] = useState('');
   const [valRiot, setValRiot] = useState('');
   const [valTwitter, setValTwitter] = useState('');
+  const [valDiscord, setValDiscord] = useState('');
   const [valWeb, setValWeb] = useState('');
   const [gotPreviousIdentity, setGotPreviousIdentity] = useState(false);
 
@@ -101,9 +96,11 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
       setData(info.legal, setHasLegal, setValLegal);
       setData(info.riot, setHasRiot, setValRiot);
       setData(info.twitter, setHasTwitter, setValTwitter);
+      const infoDiscord = setAdditionalFieldData(api, info, AddressIdentityOtherDiscordKey, setHasDiscord, setValDiscord);
+
       setData(info.web, setHasWeb, setValWeb);
 
-      [info.display, info.email, info.legal, info.riot, info.twitter, info.web].some((info: Data) => {
+      [info.display, info.email, info.legal, info.riot, info.twitter, infoDiscord, info.web].some((info: Data) => {
         if (info.isRaw) {
           setGotPreviousIdentity(true);
 
@@ -113,7 +110,7 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
         }
       });
     }
-  }, [identityOpt]);
+  }, [identityOpt, api]);
 
   useEffect((): void => {
     const okDisplay = checkValue(true, valDisplay, 1, [], [], []);
@@ -121,10 +118,14 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
     const okLegal = checkValue(hasLegal, valLegal, 1, [], [], []);
     const okRiot = checkValue(hasRiot, valRiot, 6, [':'], WHITESPACE, ['@', '~']);
     const okTwitter = checkValue(hasTwitter, valTwitter, 3, [], WHITESPACE, ['@']);
+    const okDiscord = checkValue(hasDiscord, valDiscord, 3, [], WHITESPACE, []);
     const okWeb = checkValue(hasWeb, valWeb, 8, ['.'], WHITESPACE, ['https://', 'http://']);
 
     setInfo({
       info: {
+        additional: [
+          (okDiscord && hasDiscord ? [{ raw: AddressIdentityOtherDiscordKey }, { raw: valDiscord }] : null)
+        ].filter((item) => !!item),
         display: { [okDisplay ? 'raw' : 'none']: valDisplay || null },
         email: { [okEmail && hasEmail ? 'raw' : 'none']: okEmail && hasEmail ? valEmail : null },
         legal: { [okLegal && hasLegal ? 'raw' : 'none']: okLegal && hasLegal ? valLegal : null },
@@ -132,7 +133,8 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
         twitter: { [okTwitter && hasTwitter ? 'raw' : 'none']: okTwitter && hasTwitter ? valTwitter : null },
         web: { [okWeb && hasWeb ? 'raw' : 'none']: okWeb && hasWeb ? valWeb : null }
       },
-      okAll: okDisplay && okEmail && okLegal && okRiot && okTwitter && okWeb,
+      okAll: okDisplay && okEmail && okLegal && okRiot && okTwitter && okDiscord && okWeb,
+      okDiscord,
       okDisplay,
       okEmail,
       okLegal,
@@ -140,7 +142,7 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
       okTwitter,
       okWeb
     });
-  }, [hasEmail, hasLegal, hasRiot, hasTwitter, hasWeb, valDisplay, valEmail, valLegal, valRiot, valTwitter, valWeb]);
+  }, [hasEmail, hasLegal, hasRiot, hasTwitter, hasDiscord, hasWeb, valDisplay, valEmail, valLegal, valRiot, valTwitter, valDiscord, valWeb]);
 
   return (
     <Modal
@@ -151,91 +153,109 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
       <Modal.Content>
         <Input
           autoFocus
-          help={t<string>('The name that will be displayed in your accounts list.')}
           isError={!okDisplay}
           label={t<string>('display name')}
           maxLength={32}
           onChange={setValDisplay}
-          placeholder={t('My On-Chain Name')}
+          placeholder={t<string>('My On-Chain Name')}
           value={valDisplay}
         />
-        <WrapToggle
-          onChange={setHasLegal}
-          value={hasLegal}
-        >
-          <Input
-            help={t<string>('The legal name for this identity.')}
-            isDisabled={!hasLegal}
-            isError={!okLegal}
-            label={t<string>('legal name')}
-            maxLength={32}
-            onChange={setValLegal}
-            placeholder={t('Full Legal Name')}
-            value={hasLegal ? valLegal : '<none>'}
-          />
-        </WrapToggle>
-        <WrapToggle
-          onChange={setHasEmail}
-          value={hasEmail}
-        >
-          <Input
-            help={t<string>('The email address associated with this identity.')}
-            isDisabled={!hasEmail}
-            isError={!okEmail}
-            label={t<string>('email')}
-            maxLength={32}
-            onChange={setValEmail}
-            placeholder={t('somebody@example.com')}
-            value={hasEmail ? valEmail : '<none>'}
-          />
-        </WrapToggle>
-        <WrapToggle
-          onChange={setHasWeb}
-          value={hasWeb}
-        >
-          <Input
-            help={t<string>('An URL that is linked to this identity.')}
-            isDisabled={!hasWeb}
-            isError={!okWeb}
-            label={t<string>('web')}
-            maxLength={32}
-            onChange={setValWeb}
-            placeholder={t('https://example.com')}
-            value={hasWeb ? valWeb : '<none>'}
-          />
-        </WrapToggle>
-        <WrapToggle
-          onChange={setHasTwitter}
-          value={hasTwitter}
-        >
-          <Input
-            help={t<string>('The twitter name for this identity.')}
-            isDisabled={!hasTwitter}
-            isError={!okTwitter}
-            label={t<string>('twitter')}
-            onChange={setValTwitter}
-            placeholder={t('@YourTwitterName')}
-            value={hasTwitter ? valTwitter : '<none>'}
-          />
-        </WrapToggle>
-        <WrapToggle
-          onChange={setHasRiot}
-          value={hasRiot}
-        >
-          <Input
-            help={t<string>('a riot name linked to this identity')}
-            isDisabled={!hasRiot}
-            isError={!okRiot}
-            label={t<string>('riot name')}
-            maxLength={32}
-            onChange={setValRiot}
-            placeholder={t('@yourname:matrix.org')}
-            value={hasRiot ? valRiot : '<none>'}
-          />
-        </WrapToggle>
+        <Input
+          isDisabled={!hasLegal}
+          isError={!okLegal}
+          label={t<string>('legal name')}
+          labelExtra={
+            <Toggle
+              label={t<string>('include field')}
+              onChange={setHasLegal}
+              value={hasLegal}
+            />
+          }
+          maxLength={32}
+          onChange={setValLegal}
+          placeholder={t<string>('Full Legal Name')}
+          value={hasLegal ? valLegal : '<none>'}
+        />
+        <Input
+          isDisabled={!hasEmail}
+          isError={!okEmail}
+          label={t<string>('email')}
+          labelExtra={
+            <Toggle
+              label={t<string>('include field')}
+              onChange={setHasEmail}
+              value={hasEmail}
+            />
+          }
+          maxLength={32}
+          onChange={setValEmail}
+          placeholder={t<string>('somebody@example.com')}
+          value={hasEmail ? valEmail : '<none>'}
+        />
+        <Input
+          isDisabled={!hasWeb}
+          isError={!okWeb}
+          label={t<string>('web')}
+          labelExtra={
+            <Toggle
+              label={t<string>('include field')}
+              onChange={setHasWeb}
+              value={hasWeb}
+            />
+          }
+          maxLength={32}
+          onChange={setValWeb}
+          placeholder={t<string>('https://example.com')}
+          value={hasWeb ? valWeb : '<none>'}
+        />
+        <Input
+          isDisabled={!hasTwitter}
+          isError={!okTwitter}
+          label={t<string>('twitter')}
+          labelExtra={
+            <Toggle
+              label={t<string>('include field')}
+              onChange={setHasTwitter}
+              value={hasTwitter}
+            />
+          }
+          onChange={setValTwitter}
+          placeholder={t<string>('@YourTwitterName')}
+          value={hasTwitter ? valTwitter : '<none>'}
+        />
+        <Input
+          isDisabled={!hasDiscord}
+          isError={!okDiscord}
+          label={t<string>('discord')}
+          labelExtra={
+            <Toggle
+              label={t<string>('include field')}
+              onChange={setHasDiscord}
+              value={hasDiscord}
+            />
+          }
+          onChange={setValDiscord}
+          placeholder={t<string>('YourDiscordHandle')}
+          value={hasDiscord ? valDiscord : '<none>'}
+        />
+        <Input
+          isDisabled={!hasRiot}
+          isError={!okRiot}
+          label={t<string>('riot name')}
+          labelExtra={
+            <Toggle
+              label={t<string>('include field')}
+              onChange={setHasRiot}
+              value={hasRiot}
+            />
+          }
+          maxLength={32}
+          onChange={setValRiot}
+          placeholder={t<string>('@yourname:matrix.org')}
+          value={hasRiot ? valRiot : '<none>'}
+        />
         <InputBalance
           defaultValue={api.consts.identity?.basicDeposit}
-          help={t<string>('Total amount of fund that will be reserved. These funds are returned when the identity is cleared')}
           isDisabled
           label={t<string>('total deposit')}
         />
@@ -262,8 +282,4 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
   );
 }
 
-export default React.memo(styled(IdentityMain)`
-  .toggle-Wrap {
-    position: relative;
-  }
-`);
+export default React.memo(IdentityMain);

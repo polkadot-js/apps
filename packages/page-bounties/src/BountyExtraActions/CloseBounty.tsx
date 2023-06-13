@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2023 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BountyIndex } from '@polkadot/types/interfaces';
@@ -10,9 +10,9 @@ import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCollectiveInstance, useCollectiveMembers } from '@polkadot/react-hooks';
 import { BN } from '@polkadot/util';
 
-import { truncateTitle } from '../helpers';
-import { useBounties } from '../hooks';
-import { useTranslation } from '../translate';
+import { truncateTitle } from '../helpers/index.js';
+import { useBounties } from '../hooks/index.js';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   description: string;
@@ -51,7 +51,6 @@ function CloseBounty ({ description, index, toggleOpen }: Props): React.ReactEle
         <Modal.Columns hint={t<string>('The council member that will create the close bounty proposal, submission equates to an "aye" vote.')}>
           <InputAddress
             filter={members}
-            help={t<string>('Select the council member account you wish to use to create a proposal for closing bounty.')}
             label={t<string>('propose with account')}
             onChange={setAccountId}
             type='account'

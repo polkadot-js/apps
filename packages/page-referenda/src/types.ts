@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
@@ -32,7 +32,7 @@ export interface Referendum {
   trackGraph?: CurveGraph;
 }
 
-export interface BaseReferendumProps {
+export interface ReferendumProps {
   className?: string;
   activeIssuance?: BN;
   isMember: boolean;
@@ -43,11 +43,6 @@ export interface BaseReferendumProps {
   ranks?: BN[];
   trackInfo?: TrackInfo;
   value: Referendum;
-}
-
-export interface ReferendumProps extends BaseReferendumProps {
-  isExpanded: boolean;
-  toggleExpanded: () => void;
 }
 
 export interface Summary {
@@ -72,4 +67,17 @@ export interface TrackInfo {
   compare?: (input: BN) => boolean;
   origin: Record<string, string> | Record<string, string>[];
   text?: string;
+}
+
+export interface TrackInfoExt extends TrackInfo {
+  track: TrackDescription;
+  trackName: string;
+}
+
+export interface Lock {
+  classId: BN;
+  endBlock: BN;
+  locked: string;
+  refId: BN;
+  total: BN;
 }

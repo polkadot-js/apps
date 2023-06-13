@@ -1,15 +1,14 @@
-// Copyright 2017-2022 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2023 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CallResult } from './types';
+import type { CallResult } from './types.js';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { Button, IdentityIcon, Output } from '@polkadot/react-components';
+import { Button, IdentityIcon, Output, styled } from '@polkadot/react-components';
 import valueToText from '@polkadot/react-params/valueToText';
 
-import MessageSignature from '../shared/MessageSignature';
+import MessageSignature from '../shared/MessageSignature.js';
 
 interface Props {
   className?: string;
@@ -19,7 +18,7 @@ interface Props {
 
 function Outcome ({ className = '', onClear, outcome: { from, message, output, params, result, when } }: Props): React.ReactElement<Props> | null {
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <IdentityIcon value={from} />
       <Output
         className='output'
@@ -44,11 +43,11 @@ function Outcome ({ className = '', onClear, outcome: { from, message, output, p
         icon='times'
         onClick={onClear}
       />
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Outcome)`
+const StyledDiv = styled.div`
   align-items: center;
   display: flex;
 
@@ -56,4 +55,6 @@ export default React.memo(styled(Outcome)`
     flex: 1 1;
     margin: 0.25rem 0.5rem;
   }
-`);
+`;
+
+export default React.memo(Outcome);

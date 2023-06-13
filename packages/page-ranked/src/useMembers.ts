@@ -1,17 +1,17 @@
-// Copyright 2017-2022 @polkadot/app-preimages authors & contributors
+// Copyright 2017-2023 @polkadot/app-preimages authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
 import type { AccountId32 } from '@polkadot/types/interfaces';
 import type { PalletRankedCollectiveMemberRecord } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { Member, PalletColl } from './types';
+import type { Member, PalletColl } from './types.js';
 
 import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
-import useMembersIds from './useMemberIds';
+import useMembersIds from './useMemberIds.js';
 
 interface Result {
   memberIds: string[];

@@ -1,14 +1,15 @@
-// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
+import type { FormField } from './useFormField.js';
 
 import { useMemo } from 'react';
 
 import { BN_ZERO, bnToBn } from '@polkadot/util';
 
-import { createNamedHook } from './createNamedHook';
-import { FormField, useFormField } from './useFormField';
+import { createNamedHook } from './createNamedHook.js';
+import { useFormField } from './useFormField.js';
 
 function isValid (value: BN): boolean {
   return !value.isZero();

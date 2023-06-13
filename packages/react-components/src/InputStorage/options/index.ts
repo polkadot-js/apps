@@ -1,5 +1,5 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-export { keyOptions } from './key';
-export { sectionOptions } from './section';
+export { keyOptions } from './key.js';
+export { sectionOptions } from './section.js';

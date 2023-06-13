@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/test-supports authors & contributors
+// Copyright 2017-2023 @polkadot/test-supports authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { TypeRegistry, u128 as U128 } from '@polkadot/types';

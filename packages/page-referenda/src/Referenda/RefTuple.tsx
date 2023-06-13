@@ -1,18 +1,18 @@
-// Copyright 2017-2022 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option } from '@polkadot/types';
 import type { PalletReferendaDeposit } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { Referendum, ReferendumProps as Props } from '../types';
+import type { Referendum, ReferendumProps as Props } from '../types.js';
 
 import React, { useMemo } from 'react';
 
-import Deposits from './Deposits';
-import RefEnd from './RefEnd';
+import Deposits from './Deposits/index.js';
+import RefEnd from './RefEnd.js';
+import { unwrapDeposit } from './util.js';
 
 interface Expanded {
-  decision: Option<PalletReferendaDeposit> | null;
+  decision: PalletReferendaDeposit | null;
   submit: PalletReferendaDeposit | null;
   when: BN | null;
 }
@@ -30,8 +30,8 @@ function expandTuple (info: Referendum['info']): Expanded {
 
   return data
     ? {
-      decision: data[2],
-      submit: data[1],
+      decision: unwrapDeposit(data[2]),
+      submit: unwrapDeposit(data[1]),
       when: data[0]
     }
     : {
@@ -49,24 +49,24 @@ function Tuple ({ palletReferenda, value: { id, info, track } }: Props): React.R
 
   return (
     <>
-      <td className='all' />
-      <RefEnd
-        label={info.type}
-        when={when}
+      <td
+        className='no-pad'
+        colSpan={4}
       />
       <Deposits
         canRefund
+        className='all'
         decision={decision}
         id={id}
+        noMedia
         palletReferenda={palletReferenda}
         submit={submit}
         track={track}
       />
-      <td
-        className='number'
-        colSpan={3}
+      <RefEnd
+        label={info.type}
+        when={when}
       />
-      <td className='number' />
     </>
   );
 }

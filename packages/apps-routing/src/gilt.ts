@@ -1,8 +1,8 @@
-// Copyright 2017-2022 @polkadot/apps-routing authors & contributors
+// Copyright 2017-2023 @polkadot/apps-routing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import type { Route } from './types';
+import type { Route } from './types.js';
 
 import Component from '@polkadot/app-gilt';
 
@@ -18,6 +18,6 @@ export default function create (t: TFunction): Route {
     group: 'network',
     icon: 'leaf',
     name: 'gilt',
-    text: t('nav.gilt', 'Gilt', { ns: 'apps-routing' })
+    text: t<string>('nav.gilt', 'Gilt', { ns: 'apps-routing' })
   };
 }

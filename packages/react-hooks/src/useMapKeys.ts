@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { QueryableStorageEntry } from '@polkadot/api/types';
@@ -12,12 +12,12 @@ interface Options <T> {
 }
 
 // FIXME This is generic, we cannot really use createNamedHook
-export function useMapKeys <T = any> (entry: QueryableStorageEntry<'promise'> | null | false | undefined, params: unknown[], { transform }: Options<T> = {}, at?: string | null | false): T[] | undefined {
+export function useMapKeys <T = any> (entry: QueryableStorageEntry<'promise'> | null | false | undefined, params?: unknown[] | null, { transform }: Options<T> = {}, at?: string | null | false): T[] | undefined {
   const [state, setState] = useState<T[] | undefined>();
   const checkRef = useRef<string | null>(null);
 
   useEffect((): void => {
-    if (entry) {
+    if (entry && params) {
       const check = stringify({ at, params });
 
       if (check !== checkRef.current) {
@@ -25,6 +25,7 @@ export function useMapKeys <T = any> (entry: QueryableStorageEntry<'promise'> | 
 
         (
           at && at !== '0'
+            // eslint-disable-next-line deprecation/deprecation
             ? entry.keysAt(at, ...params)
             : entry.keys(...params)
         ).then((keys) => setState(

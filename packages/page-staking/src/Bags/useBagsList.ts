@@ -1,17 +1,17 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, StorageKey, u64 } from '@polkadot/types';
 import type { PalletBagsListListBag } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { BagInfo } from './types';
+import type { BagInfo } from './types.js';
 
 import { useEffect, useState } from 'react';
 
 import { createNamedHook, useCall, useMapKeys } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import useQueryModule from './useQueryModule';
+import useQueryModule from './useQueryModule.js';
 
 const KEY_OPTS = {
   transform: (keys: StorageKey<[u64]>[]): BN[] =>

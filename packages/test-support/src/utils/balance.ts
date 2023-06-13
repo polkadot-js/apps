@@ -1,10 +1,12 @@
-// Copyright 2017-2022 @polkadot/test-supports authors & contributors
+// Copyright 2017-2023 @polkadot/test-supports authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Balance } from '@polkadot/types/interfaces';
-import { BN, formatBalance } from '@polkadot/util';
+import type { Balance } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
-import { balanceOf } from '../creation/balance';
+import { formatBalance } from '@polkadot/util';
+
+import { balanceOf } from '../creation/balance.js';
 
 /**
  * Creates a balance instance for testing purposes which most often do not need to specifiy/use decimal part.

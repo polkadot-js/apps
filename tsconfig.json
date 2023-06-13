@@ -2,10 +2,19 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "baseUrl": "./packages",
-    "composite": false
+    "composite": false,
+    /*
+     * We have a couple of issues that forces us to disable this -
+     *  1. apps-electron is still CJS
+     *  2. some of our packaged dependencies are problematic
+     *
+     * (also disabled in tsconfig.build.json)
+     */
+    "verbatimModuleSyntax": false
   },
   "include": [
-    "packages/**/src/**/*"
+    "packages/**/src/**/*",
+    "scripts/*"
   ],
   "exclude": [
     "**/node_modules/**/*"

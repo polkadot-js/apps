@@ -1,14 +1,14 @@
-// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { useCallback, useEffect, useState } from 'react';
 
 import { Abi } from '@polkadot/api-contract';
-import { api } from '@polkadot/react-api';
+import { statics } from '@polkadot/react-api/statics';
 import { createNamedHook } from '@polkadot/react-hooks';
 import { u8aToString } from '@polkadot/util';
 
-import store from './store';
+import store from './store.js';
 
 interface AbiState {
   abi: string | null;
@@ -67,7 +67,7 @@ function useAbiImpl (initialValue: [string | null | undefined, Abi | null | unde
         setAbi({
           abi: json,
           abiName: name.replace('.contract', '').replace('.json', '').replace('_', ' '),
-          contractAbi: new Abi(json, api.registry.getChainProperties()),
+          contractAbi: new Abi(json, statics.api.registry.getChainProperties()),
           errorText: null,
           isAbiError: false,
           isAbiSupplied: true,

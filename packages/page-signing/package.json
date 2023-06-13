@@ -1,5 +1,8 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
+  "engines": {
+    "node": ">=16"
+  },
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-signing#readme",
   "license": "Apache-2.0",
   "name": "@polkadot/app-signing",
@@ -11,9 +14,13 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.122.3-107-x",
+  "version": "0.131.5-28-x",
   "dependencies": {
-    "@babel/runtime": "^7.20.6",
-    "@polkadot/react-components": "^0.122.3-107-x"
+    "@polkadot/react-components": "^0.131.5-28-x"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*",
+    "react-is": "*"
   }
 }

@@ -1,14 +1,15 @@
-// Copyright 2017-2022 @polkadot/app-council authors & contributors
+// Copyright 2017-2023 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 
 import React, { useState } from 'react';
 
-import { Button, InputAddress, Modal, ProposedAction, TxButton } from '@polkadot/react-components';
+import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCollectiveInstance, useToggle, useWeight } from '@polkadot/react-hooks';
+import { ProposedAction } from '@polkadot/react-params';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   hasFailed: boolean;
@@ -47,7 +48,6 @@ function Close ({ hasFailed, hash, idNumber, proposal }: Props): React.ReactElem
             </Modal.Columns>
             <Modal.Columns hint={t<string>('The council account that will apply the close for the current round.')}>
               <InputAddress
-                help={t<string>('Select the account you wish close the proposal with.')}
                 label={t<string>('close from account')}
                 onChange={setAccountId}
                 type='account'

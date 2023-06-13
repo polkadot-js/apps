@@ -1,8 +1,9 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import definitions from '@digitalnative/type-definitions/opportunity';
+import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-import { OverrideBundleDefinition } from '@polkadot/types/types';
+// @ts-expect-error No definitions provided in package
+import { opportunityTypes } from '@digitalnative/type-definitions';
 
-export default definitions as OverrideBundleDefinition;
+export default opportunityTypes as OverrideBundleDefinition;

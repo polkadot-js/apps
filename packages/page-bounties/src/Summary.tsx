@@ -1,7 +1,7 @@
-// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BountyApi } from './hooks/useBounties';
+import type { BountyApi } from './hooks/useBounties.js';
 
 import React, { useMemo } from 'react';
 
@@ -10,7 +10,7 @@ import { useTreasury } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN, formatNumber } from '@polkadot/util';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;
@@ -27,7 +27,7 @@ function Summary ({ className = '', info: { bestNumber, bounties, bountyCount, c
   );
 
   return (
-    <SummaryBox className={`ui--BountySummary ${className}`}>
+    <SummaryBox className={`${className} ui--BountySummary`}>
       <section>
         {bounties && (
           <CardSummary label={t<string>('active')}>

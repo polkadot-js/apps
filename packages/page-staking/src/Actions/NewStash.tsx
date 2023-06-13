@@ -1,15 +1,15 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BondInfo } from './partials/types';
+import type { BondInfo } from './partials/types.js';
 
 import React, { useCallback, useState } from 'react';
 
 import { Button, Modal, TxButton } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import BondPartial from './partials/Bond';
+import { useTranslation } from '../translate.js';
+import BondPartial from './partials/Bond.js';
 
 function NewStash (): React.ReactElement {
   const { t } = useTranslation();

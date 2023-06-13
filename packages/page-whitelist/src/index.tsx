@@ -1,12 +1,12 @@
-// Copyright 2017-2022 @polkadot/app-whitelist authors & contributors
+// Copyright 2017-2023 @polkadot/app-whitelist authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useRef } from 'react';
 
 import { Tabs } from '@polkadot/react-components';
 
-import Hashes from './Hashes';
-import { useTranslation } from './translate';
+import Hashes from './Hashes/index.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   basePath: string;

@@ -1,11 +1,11 @@
-// Copyright 2017-2022 @polkadot/test-support authors & contributors
+// Copyright 2017-2023 @polkadot/test-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { KeyringPair } from '@polkadot/keyring/types';
-import { EventRecord, ExtrinsicStatus } from '@polkadot/types/interfaces';
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { KeyringPair } from '@polkadot/keyring/types';
+import type { EventRecord, ExtrinsicStatus } from '@polkadot/types/interfaces';
 
-import { waitFor } from '../utils/waitFor';
+import { waitFor } from '../utils/waitFor.js';
 
 export async function execute (extrinsic: SubmittableExtrinsic<'promise'>, singer: KeyringPair, logger = { info: console.log }): Promise<void> {
   let currentTxDone = false;

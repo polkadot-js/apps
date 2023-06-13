@@ -1,11 +1,11 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 
 import React from 'react';
 
-import Dropdown from '../Dropdown';
+import Dropdown from '../Dropdown.js';
 
 export default function createHeader (option: KeyringSectionOption): React.ReactNode {
   return (

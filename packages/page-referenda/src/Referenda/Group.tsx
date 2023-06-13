@@ -1,18 +1,17 @@
-// Copyright 2017-2022 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { PalletReferenda, PalletVote, ReferendaGroup, TrackDescription } from '../types';
+import type { PalletReferenda, PalletVote, ReferendaGroup, TrackDescription } from '../types.js';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
-import { Table } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { ExpandButton, Table } from '@polkadot/react-components';
+import { useApi, useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import { getTrackInfo } from '../util';
-import Referendum from './Referendum';
+import { useTranslation } from '../translate.js';
+import { getTrackInfo } from '../util.js';
+import Referendum from './Referendum.js';
 
 interface Props extends ReferendaGroup {
   activeIssuance?: BN;
@@ -22,32 +21,57 @@ interface Props extends ReferendaGroup {
   palletReferenda: PalletReferenda;
   palletVote: PalletVote;
   ranks?: BN[];
-  tracks?: TrackDescription[] | undefined;
+  tracks: TrackDescription[];
 }
 
 function Group ({ activeIssuance, className, isMember, members, palletReferenda, palletVote, ranks, referenda, trackId, trackName, tracks }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, specName } = useApi();
+  const [isExpanded, toggleExpanded] = useToggle();
 
   const trackInfo = useMemo(
     () => getTrackInfo(api, specName, palletReferenda, tracks, trackId?.toNumber()),
     [api, specName, palletReferenda, tracks, trackId]
   );
 
+  const [headerButton, headerChildren] = useMemo(
+    () => [
+      false && trackInfo && (
+        <ExpandButton
+          expanded={isExpanded}
+          onClick={toggleExpanded}
+        />
+      ),
+      isExpanded && trackInfo && (
+        <tr>
+          <th colSpan={8} />
+        </tr>
+      )
+    ],
+    [isExpanded, toggleExpanded, trackInfo]
+  );
+
+  const [header, key] = useMemo(
+    (): [([React.ReactNode?, string?, number?] | null)[], string] => [
+      [
+        [trackName ? <>{trackName}<div className='sub'>{trackInfo?.text}</div></> : t<string>('referenda'), 'start', 8],
+        null && [headerButton]
+      ],
+      trackName
+        ? `track:${trackName}`
+        : 'untracked'
+    ],
+    [headerButton, t, trackInfo, trackName]
+  );
+
   return (
     <Table
       className={className}
       empty={referenda && t<string>('No active referenda')}
-      header={[
-        [trackName ? <>{trackName}<div>{trackInfo?.text}</div></> : t('referenda'), 'start', 7],
-        [undefined, undefined, 3]
-      ]}
-      key={
-        trackName
-          ? `track:${trackName}`
-          : 'untracked'
-      }
-      withCollapsibleRows
+      header={header}
+      headerChildren={headerChildren}
+      isSplit={!trackId}
+      key={key}
     >
       {referenda && referenda.map((r) => (
         <Referendum
@@ -66,11 +90,4 @@ function Group ({ activeIssuance, className, isMember, members, palletReferenda,
   );
 }
 
-export default React.memo(styled(Group)`
-  th > h1 > div {
-    display: inline-block;
-    font-size: 1rem;
-    padding-left: 1.5rem;
-    text-overflow: ellipsis;
-  }
-`);
+export default React.memo(Group);
