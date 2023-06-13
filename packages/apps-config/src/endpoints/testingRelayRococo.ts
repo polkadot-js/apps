@@ -172,6 +172,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoFrequency',
     paraId: 4044,
     providers: {
+      Dwellir: 'wss://frequency-rococo-rpc.dwellir.com',
       Frequency: 'wss://rpc.rococo.frequency.xyz'
     },
     text: 'Frequency',
