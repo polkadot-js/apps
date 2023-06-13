@@ -32617,30 +32617,6 @@ export const typesBundle = {
         }
       }
     },
-    "aleph-node": {
-      "rpc": {
-        "alephNode": {
-          "emergencyFinalize": {
-            "description": "Finalize the block with given hash and number using attached signature. Returns the empty string or an error.",
-            "params": [
-              {
-                "name": "justification",
-                "type": "Bytes"
-              },
-              {
-                "name": "hash",
-                "type": "BlockHash"
-              },
-              {
-                "name": "number",
-                "type": "BlockNumber"
-              }
-            ],
-            "type": "Null"
-          }
-        }
-      }
-    },
     "mandala": {
       "rpc": {
         "oracle": {
@@ -42820,6 +42796,40 @@ export const typesBundle = {
           }
         }
       ]
+    },
+    "aleph-node": {
+      "rpc": {
+        "alephNode": {
+          "emergencyFinalize": {
+            "description": "Finalize the block with given hash and number using attached signature. Returns the empty string or an error.",
+            "params": [
+              {
+                "name": "justification",
+                "type": "Bytes"
+              },
+              {
+                "name": "hash",
+                "type": "BlockHash"
+              },
+              {
+                "name": "number",
+                "type": "BlockNumber"
+              }
+            ],
+            "type": "Null"
+          },
+          "getBlockAuthor": {
+            "description": "Get the author of the block with given hash.",
+            "params": [
+              {
+                "name": "hash",
+                "type": "BlockHash"
+              }
+            ],
+            "type": "Option<AccountId>"
+          }
+        }
+      }
     },
     "altair": {
       "types": [

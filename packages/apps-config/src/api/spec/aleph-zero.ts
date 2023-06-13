@@ -21,6 +21,16 @@ export default {
           }
         ],
         type: 'Null'
+      },
+      getBlockAuthor: {
+        description: 'Get the author of the block with given hash.',
+        params: [
+          {
+            name: 'hash',
+            type: 'BlockHash'
+          }
+        ],
+        type: 'Option<AccountId>'
       }
     }
   }
