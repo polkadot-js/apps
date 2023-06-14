@@ -364,7 +364,7 @@
   "Once bonded, it will need to be unlocked/withdrawn and will be locked for at least the bonding duration.": "Депонируемые средства будут недоступны как минимум на срок депозита, и требуют операции освобождения.",
   "Once transmitted the new selection will only take effect in 2 eras since the selection criteria for the next era was done at the end of the previous era. Until then, the nominations will show as inactive.": "Новый подбор будет действительным через 2 эры. До этого номинации будут показаны как неактивные.",
   "One of your available nomination accounts, keyed by the stash. The transaction will be sent from the controller.": "Один из Ваших доступных аккаунтов номинации занят аккаунтом-копилкой. Транзакция будет отправлена с аккаунта-контроллера.",
-  "One or more extensions are detected in your browser, however no accounts has been injected.": "Обнаружено одно или несколько браузерных расширений, тем не менее аккаунты не были добавлены.",
+  "One or more extensions are detected in your browser, however no accounts have been injected.": "Обнаружено одно или несколько браузерных расширений, тем не менее аккаунты не были добавлены.",
   "Only applicable if the proposal has already passed and is ready for dispatch.": "Валидно только для одобренных предложений, готовых для отправки.",
   "Only curator can extend the bounty time.": "Только куратор может увеличивать сроки для получения награды",
   "Only the account proposed as curator by the council can create the assign curator transaction": "Только аккаунт утвержденный в роли куратора советом может управлять кураторскими переводами",

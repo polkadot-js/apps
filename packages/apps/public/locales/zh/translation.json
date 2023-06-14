@@ -367,7 +367,7 @@
   "Once transmitted the new selection will only take effect in 2 eras since the selection criteria for the next era was done at the end of the previous era. Until then, the nominations will show as inactive.": "一旦提交，新的选择将在两个 era 生效，因为下一个 era 的选择标准是在上一个 era 结束时完成的。在此之前，提名将显示为不活跃。",
   "Once transmitted the new selection will only take effect in 2 eras taking the new validator election cycle into account. Until then, the nominations will show as inactive.": "一旦提交，新的选择将在2个era生效，考虑到新的验证人选择周期。在此之前，提名将显示为不活跃。",
   "One of your available nomination accounts, keyed by the stash. The transaction will be sent from the controller.": "你的一个可用的提名帐户，由 stash 账户来管理。交易将从控制账户发送。",
-  "One or more extensions are detected in your browser, however no accounts has been injected.": "在您的浏览器中检测到多个扩展程序，但是没有帐号被注入",
+  "One or more extensions are detected in your browser, however no accounts have been injected.": "在您的浏览器中检测到多个扩展程序，但是没有帐号被注入",
   "Online message": "在线消息",
   "Only applicable if the proposal has already passed and is ready for dispatch.": "只适用于提案已经通过并准备调度的情况。",
   "Override any applicable values for the specific signed output. These will be used to construct and display the signed transaction.": "重写特定有符号输出的任何适用值。这些将用于构造和显示签名的交易。",

@@ -337,7 +337,7 @@
   "Once bonded, it will need to be unlocked/withdrawn and will be locked for at least the bonding duration.": ". بمجرد الرهن، يجب إلغاء قفله/سحبه وقفله لمدة لا تقل عن مدة الرهن",
   "Once transmitted the new selection will only take effect in 2 eras since the selection criteria for the next era was done at the end of the previous era. Until then, the nominations will show as inactive.": ".بمجرد انتقال الاختيار الجديد فسوف يصبح نافذا في عصرين فقط منذ تم تنفيذ معايير الاختيار في العصر التالي في نهاية العصر السابق. وحتى ذلك الحين، ستظهر الترشيحات على أنها غير نشطة",
   "One of your available nomination accounts, keyed by the stash. The transaction will be sent from the controller.": ".أحد حسابات الترشيح المتاحة الخاصة بك، والذي يقوم بفتح التخزين. سيتم إرسال المعاملة من وحدة التحكم",
-  "One or more extensions are detected in your browser, however no accounts has been injected.": "تم اكتشاف واحدة من الإضافات في متصفحك ، ولكن لم يتم إدخال أي حسابات",
+  "One or more extensions are detected in your browser, however no accounts have been injected.": "تم اكتشاف واحدة من الإضافات في متصفحك ، ولكن لم يتم إدخال أي حسابات",
   "Only applicable if the proposal has already passed and is ready for dispatch.": ".ينطبق فقط إذا كان المقترح قد تم تمريره بالفعل وجاهز للإرسال",
   "Override any applicable values for the specific signed output. These will be used to construct and display the signed transaction.": ".تجاوز أي قيم قابلة للتطبيق للإخراج الموقّع المحدد. سيتم استخدام هذه الإجراءات لإنشاء المعاملة الموقعة وعرضها\"",
   "Override the default identity icon display with a specific theme": "تجاوز عرض رمز الهوية التلقائي بسيمة معينة",

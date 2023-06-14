@@ -100,7 +100,7 @@
   "No sub identities set.": "Brak ustawionyhc sub tożsamości.",
   "Nominator": "Nominator",
   "Normal transfer without keep-alive checks": "Zwykły transfer bez funkcji \"keep-alive\".",
-  "One or more extensions are detected in your browser, however no accounts has been injected.": "W Twojej przeglądarce wykryto jedno lub więcej rozszerzeń, jednak żadne konto nie zostało zaimportowane.",
+  "One or more extensions are detected in your browser, however no accounts have been injected.": "W Twojej przeglądarce wykryto jedno lub więcej rozszerzeń, jednak żadne konto nie zostało zaimportowane.",
   "Owned": "We własności",
   "Password are ignored for hex seed": "Haslo jest ignorowane dla seedów hex",
   "Pending call hashes": "Hasze połączeń oczekujących",
