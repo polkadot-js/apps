@@ -35,13 +35,13 @@ To get started -
 You can run a docker container via -
 
 ```
-docker run --rm -it --name polkadot-ui -e WS_URL=ws://someip:9944 -p 80:80 jacogr/polkadot-js-apps:latest
+docker run --rm -it --name polkadot-ui -d -p 80:80 teamkarmacoin/polkadot-js-apps:latest
 ```
 
 To build a docker container containing local changes -
 
 ```
-docker build -t jacogr/polkadot-js-apps -f docker/Dockerfile .
+docker build -t teamkarmacoin/polkadot-js-apps -f docker/Dockerfile .
 ```
 
 When using these Docker commands, you can access the UI via http://localhost:80 (or just http://localhost)
