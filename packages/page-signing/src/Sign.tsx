@@ -63,7 +63,7 @@ function Sign ({ className = '' }: Props): React.ReactElement<Props> {
 
     // for injected, retrieve the signer
     if (meta.source && isInjected) {
-      web3FromSource(meta.source as string)
+      web3FromSource(meta.source)
         .catch((): null => null)
         .then((injected) => setSigner({
           isUsable: isFunction(injected?.signer?.signRaw),

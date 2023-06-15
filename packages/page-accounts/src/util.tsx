@@ -74,7 +74,7 @@ export type SortCategory = typeof SORT_CATEGORY[number];
 function comparator (accountsMap: Record<string, SortedAccount>, balances: Record<string, AccountBalance | undefined>, category: SortCategory, fromMax: boolean): (a: SortedAccount, b: SortedAccount) => number {
   function accountQualifiedName (account: SortedAccount | undefined): string {
     if (account) {
-      const parent = (account.account?.meta.parentAddress || '') as string;
+      const parent = (account.account?.meta.parentAddress || '');
 
       return accountQualifiedName(accountsMap[parent]) + account.address;
     } else {

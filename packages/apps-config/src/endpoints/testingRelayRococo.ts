@@ -92,7 +92,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoBifrost',
     paraId: 2030,
     providers: {
-      // Liebi: 'wss://bifrost-rpc.rococo.liebi.com/ws' // https://github.com/polkadot-js/apps/issues/9381
+      Liebi: 'wss://bifrost-rpc.rococo.liebi.com/ws'
     },
     text: 'Bifrost',
     ui: {
@@ -172,6 +172,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoFrequency',
     paraId: 4044,
     providers: {
+      Dwellir: 'wss://frequency-rococo-rpc.dwellir.com',
       Frequency: 'wss://rpc.rococo.frequency.xyz'
     },
     text: 'Frequency',
@@ -472,7 +473,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoSubsocial',
     paraId: 2100,
     providers: {
-      // DappForce: 'wss://rco-para.subsocial.network' // https://github.com/polkadot-js/apps/issues/9425
+      DappForce: 'wss://rco-para.subsocial.network'
     },
     text: 'SoonsocialX',
     ui: {
@@ -521,7 +522,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoSubzero',
     paraId: 4040,
     providers: {
-      ZERO: 'wss://staging.para.sub.zero.io'
+      // ZERO: 'wss://staging.para.sub.zero.io' // https://github.com/polkadot-js/apps/issues/9522
     },
     text: 'Subzero',
     ui: {

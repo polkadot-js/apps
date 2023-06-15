@@ -90,6 +90,7 @@ import pangolin from './pangolin.js';
 import pangoro from './pangoro.js';
 import parallel from './parallel.js';
 import parami from './parami.js';
+import peaq from './peaq.js';
 import phoenix from './phoenix.js';
 import pichiu from './pichiu.js';
 import polkadex from './polkadex.js';
@@ -250,6 +251,9 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'origintrail-parachain': origintrail,
   parallel,
   parami,
+  'peaq-node': peaq,
+  'peaq-node-dev': peaq,
+  'peaq-node-krest': peaq,
   'phoenix-node': phoenix,
   'phoenix-parachain': phoenix,
   pichiu,
