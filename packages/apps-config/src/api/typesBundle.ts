@@ -95767,6 +95767,7 @@ export const typesBundle = {
                 "Wasm": "AccountId"
               }
             },
+            "EthTransaction": "LegacyTransaction",
             "EraStakingPoints": {
               "total": "Balance",
               "stakers": "BTreeMap<AccountId, Balance>",
