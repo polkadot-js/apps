@@ -265,7 +265,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'jur',
     providers: {
-      Jur: 'wss://jur-mainnet-archive-rpc-1.icebergnodes.io'
+      'Iceberg Nodes': 'wss://jur-mainnet-archive-rpc-1.icebergnodes.io',
+      'Simply Staking': 'wss://jur-archive-mainnet-1.simplystaking.xyz/VX68C07AR4K2/ws'
     },
     text: 'Jur',
     ui: {
