@@ -642,6 +642,18 @@ export const testParasRococoCommon: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoBridgehub',
+    paraId: 1013,
+    providers: {
+      Parity: 'wss://rococo-bridge-hub-rpc.polkadot.io'
+    },
+    teleport: [-1],
+    text: 'Bridgehub',
+    ui: {
+      logo: nodesBridgeHubBlackSVG
+    }
+  },
+  {
     info: 'rococoContracts',
     paraId: 1002,
     providers: {
@@ -666,18 +678,6 @@ export const testParasRococoCommon: EndpointOption[] = [
     ui: {
       color: '#0000cc',
       logo: nodesEncointerBlueSVG
-    }
-  },
-  {
-    info: 'rococoBridgehub',
-    paraId: 1013,
-    providers: {
-      Parity: 'wss://rococo-bridge-hub-rpc.polkadot.io'
-    },
-    teleport: [-1],
-    text: 'Bridgehub',
-    ui: {
-      logo: nodesBridgeHubBlackSVG
     }
   }
 ];

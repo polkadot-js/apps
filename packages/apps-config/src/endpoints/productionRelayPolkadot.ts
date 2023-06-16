@@ -682,6 +682,18 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     }
   },
   {
+    info: 'polkadotBridgeHub',
+    paraId: 1002,
+    providers: {
+      Parity: 'wss://polkadot-bridge-hub-rpc.polkadot.io',
+      Stakeworld: 'wss://dot-rpc.stakeworld.io/bridgehub'
+    },
+    text: 'BridgeHub',
+    ui: {
+      logo: nodesBridgeHubSVG
+    }
+  },
+  {
     info: 'polkadotCollectives',
     paraId: 1001,
     providers: {
@@ -697,18 +709,6 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     ui: {
       color: '#e6777a',
       logo: 'fa;people-group'
-    }
-  },
-  {
-    info: 'polkadotBridgeHub',
-    paraId: 1002,
-    providers: {
-      Parity: 'wss://polkadot-bridge-hub-rpc.polkadot.io',
-      Stakeworld: 'wss://dot-rpc.stakeworld.io/bridgehub'
-    },
-    text: 'BridgeHub',
-    ui: {
-      logo: nodesBridgeHubSVG
     }
   }
 ];

@@ -143,6 +143,17 @@ export const testParasWestendCommon: EndpointOption[] = [
     }
   },
   {
+    info: 'westendBridgeHub',
+    paraId: 1002,
+    providers: {
+      // Parity: 'wss://westend-bridge-hub-rpc.polkadot.io' // https://github.com/polkadot-js/apps/issues/9348
+    },
+    text: 'BridgeHub',
+    ui: {
+      logo: nodesBridgeHubSVG
+    }
+  },
+  {
     info: 'westendCollectives',
     paraId: 1001,
     providers: {
@@ -155,17 +166,6 @@ export const testParasWestendCommon: EndpointOption[] = [
     ui: {
       color: '#e6777a',
       logo: 'fa;people-group'
-    }
-  },
-  {
-    info: 'westendBridgeHub',
-    paraId: 1002,
-    providers: {
-      // Parity: 'wss://westend-bridge-hub-rpc.polkadot.io' // https://github.com/polkadot-js/apps/issues/9348
-    },
-    text: 'BridgeHub',
-    ui: {
-      logo: nodesBridgeHubSVG
     }
   }
 ];
