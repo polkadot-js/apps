@@ -14,7 +14,7 @@
   },
   "sideEffects": true,
   "type": "module",
-  "version": "0.131.5-35-x",
+  "version": "0.131.5-36-x",
   "browser": {
     "fs": false,
     "path": false
