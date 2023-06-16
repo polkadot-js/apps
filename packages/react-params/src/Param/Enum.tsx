@@ -28,8 +28,6 @@ interface Initial {
   initialParams: RawParam[] | undefined | null;
 }
 
-const UNUSED_ENUM = '__Unused';
-
 function getSubTypes (registry: Registry, type: TypeDef): TypeDef[] {
   const rawType = registry.createType(type.type as 'u32').toRawType();
 
@@ -39,7 +37,7 @@ function getSubTypes (registry: Registry, type: TypeDef): TypeDef[] {
 function getOptions (registry: Registry, type: TypeDef): Options {
   const subTypes = getSubTypes(registry, type).filter(({ name }) =>
     !!name &&
-    !name.startsWith(UNUSED_ENUM)
+    !name.startsWith('__Unused')
   );
 
   return {
