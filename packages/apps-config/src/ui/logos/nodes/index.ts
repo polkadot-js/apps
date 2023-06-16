@@ -10,6 +10,7 @@ export { nodesAresGladiosSVG } from './generated/ares-gladiosSVG.js';
 export { nodesAresMarsPNG } from './generated/ares-marsPNG.js';
 export { nodesAresOdysseySVG } from './generated/ares-odysseySVG.js';
 export { nodesAresPNG } from './generated/aresPNG.js';
+export { nodesAssetHubSVG } from './generated/assetHubSVG.js';
 export { nodesAstarPNG } from './generated/astarPNG.js';
 export { nodesAutomataPNG } from './generated/automataPNG.js';
 export { nodesAventusSVG } from './generated/aventusSVG.js';

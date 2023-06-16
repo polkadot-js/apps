@@ -5,7 +5,7 @@ import type { EndpointOption } from './types.js';
 
 import { WESTEND_GENESIS } from '../api/constants.js';
 import { chainsKaruraSVG, chainsStandardPNG } from '../ui/logos/chains/index.js';
-import { nodesBridgeHubSVG, nodesCentrifugePNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKhalaSVG, nodesKiltPNG, nodesKylinPNG, nodesMoonshadowPNG, nodesStatemineSVG, nodesWestendColourSVG } from '../ui/logos/nodes/index.js';
+import { nodesAssetHubSVG, nodesBridgeHubSVG, nodesCentrifugePNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKhalaSVG, nodesKiltPNG, nodesKylinPNG, nodesMoonshadowPNG, nodesWestendColourSVG } from '../ui/logos/nodes/index.js';
 import { getTeleports } from './util.js';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -139,7 +139,18 @@ export const testParasWestendCommon: EndpointOption[] = [
     text: 'AssetHub',
     ui: {
       color: '#77bb77',
-      logo: nodesStatemineSVG
+      logo: nodesAssetHubSVG
+    }
+  },
+  {
+    info: 'westendBridgeHub',
+    paraId: 1002,
+    providers: {
+      // Parity: 'wss://westend-bridge-hub-rpc.polkadot.io' // https://github.com/polkadot-js/apps/issues/9348
+    },
+    text: 'BridgeHub',
+    ui: {
+      logo: nodesBridgeHubSVG
     }
   },
   {
@@ -155,17 +166,6 @@ export const testParasWestendCommon: EndpointOption[] = [
     ui: {
       color: '#e6777a',
       logo: 'fa;people-group'
-    }
-  },
-  {
-    info: 'westendBridgeHub',
-    paraId: 1002,
-    providers: {
-      // Parity: 'wss://westend-bridge-hub-rpc.polkadot.io' // https://github.com/polkadot-js/apps/issues/9348
-    },
-    text: 'BridgeHub',
-    ui: {
-      logo: nodesBridgeHubSVG
     }
   }
 ];
