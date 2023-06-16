@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type React from 'react';
+import type { IconTheme } from '@polkadot/react-identicon/types';
 import type { HexString } from '@polkadot/util/types';
 import type { Option } from '../settings/types.js';
 
@@ -14,6 +15,7 @@ interface BaseOption {
   teleport?: number[];
   ui: {
     color?: string;
+    identityIcon?: IconTheme;
     logo?: string;
   }
 }

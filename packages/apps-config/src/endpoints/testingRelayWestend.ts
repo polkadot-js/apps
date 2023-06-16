@@ -195,6 +195,7 @@ export const testRelayWestend: EndpointOption = {
   text: 'Westend',
   ui: {
     color: '#da68a7',
+    identityIcon: 'polkadot',
     logo: nodesWestendColourSVG
   }
 };

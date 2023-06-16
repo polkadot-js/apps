@@ -699,6 +699,7 @@ export const testRelayRococo: EndpointOption = {
   text: 'Rococo',
   ui: {
     color: '#6f36dc',
+    identityIcon: 'polkadot',
     logo: chainsRococoSVG
   }
 };
