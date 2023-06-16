@@ -794,6 +794,20 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     }
   },
   {
+    info: 'kusamaBridgeHub',
+    paraId: 1002,
+    providers: {
+      'IBP-GeoDNS1': 'wss://sys.ibp.network/bridgehub-kusama',
+      'IBP-GeoDNS2': 'wss://sys.dotters.network/bridgehub-kusama',
+      Parity: 'wss://kusama-bridge-hub-rpc.polkadot.io',
+      Stakeworld: 'wss://ksm-rpc.stakeworld.io/bridgehub'
+    },
+    text: 'BridgeHub',
+    ui: {
+      logo: nodesBridgeHubBlackSVG
+    }
+  },
+  {
     homepage: 'https://encointer.org/',
     info: 'encointer',
     paraId: 1001,
@@ -808,20 +822,6 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     ui: {
       color: '#0000cc',
       logo: nodesEncointerBlueSVG
-    }
-  },
-  {
-    info: 'kusamaBridgeHub',
-    paraId: 1002,
-    providers: {
-      'IBP-GeoDNS1': 'wss://sys.ibp.network/bridgehub-kusama',
-      'IBP-GeoDNS2': 'wss://sys.dotters.network/bridgehub-kusama',
-      Parity: 'wss://kusama-bridge-hub-rpc.polkadot.io',
-      Stakeworld: 'wss://ksm-rpc.stakeworld.io/bridgehub'
-    },
-    text: 'BridgeHub',
-    ui: {
-      logo: nodesBridgeHubBlackSVG
     }
   }
 ];
