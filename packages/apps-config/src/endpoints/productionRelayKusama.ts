@@ -781,7 +781,6 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws'
     },
     teleport: [-1],
-    teleportXcmVersion: 'V2',
     text: 'Statemine',
     ui: {
       color: '#113911',
@@ -798,8 +797,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       'IBP-GeoDNS2': 'wss://sys.dotters.network/encointer-kusama',
       OnFinality: 'wss://encointer.api.onfinality.io/public-ws'
     },
-    teleport: [-1],
-    teleportXcmVersion: 'V2',
+    teleport: [], // teleport is temporarily disabled until xcm V3 is supported
     text: 'Encointer Network',
     ui: {
       color: '#0000cc',
@@ -845,7 +843,6 @@ export const prodRelayKusama: EndpointOption = {
     'light client': 'light://substrate-connect/kusama'
   },
   teleport: getTeleports(prodParasKusamaCommon),
-  teleportXcmVersion: 'V2',
   text: 'Kusama',
   ui: {
     color: '#000000',

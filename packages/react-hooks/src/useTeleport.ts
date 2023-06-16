@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type {LinkOption, TeleportXcmVersion} from '@polkadot/apps-config/endpoints/types';
+import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { ParaId } from '@polkadot/types/interfaces';
 
 import { useEffect, useState } from 'react';
@@ -18,20 +18,17 @@ interface Teleport {
   destinations: LinkOption[];
   isParaTeleport?: boolean;
   isRelayTeleport?: boolean;
-  oneWay: number[];
-  xcmVersion: TeleportXcmVersion
+  oneWay: number[]
 }
 
 interface ExtLinkOption extends LinkOption {
   teleport: number[];
-  teleportXcmVersion?: TeleportXcmVersion
 }
 
 const DEFAULT_STATE: Teleport = {
   allowTeleport: false,
   destinations: [],
-  oneWay: [],
-  xcmVersion: 'V2'
+  oneWay: []
 };
 
 const endpoints = createWsEndpoints((k: string, v?: string) => v || k).filter((v): v is ExtLinkOption => !!v.teleport);
@@ -89,8 +86,7 @@ function useTeleportImpl (): Teleport {
           allowTeleport: destinations.length !== 0,
           destinations,
           isRelayTeleport: true,
-          oneWay,
-          xcmVersion: endpoint.teleportXcmVersion || DEFAULT_STATE.xcmVersion
+          oneWay
         });
       }
     }
@@ -112,8 +108,7 @@ function useTeleportImpl (): Teleport {
           allowTeleport: destinations.length !== 0,
           destinations,
           isParaTeleport: true,
-          oneWay,
-          xcmVersion: endpoint.teleportXcmVersion || DEFAULT_STATE.xcmVersion
+          oneWay
         });
       }
     }

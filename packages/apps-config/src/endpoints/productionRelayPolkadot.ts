@@ -664,7 +664,6 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws'
     },
     teleport: [-1],
-    teleportXcmVersion: 'V1',
     text: 'Statemint',
     ui: {
       color: '#86e62a',
@@ -682,7 +681,6 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       RadiumBlock: 'wss://collectives.public.curie.radiumblock.co/ws'
     },
     teleport: [-1],
-    teleportXcmVersion: 'V1',
     text: 'Collectives',
     ui: {
       color: '#e6777a',
@@ -726,7 +724,6 @@ export const prodRelayPolkadot: EndpointOption = {
     'light client': 'light://substrate-connect/polkadot'
   },
   teleport: getTeleports(prodParasPolkadotCommon),
-  teleportXcmVersion: 'V1',
   text: 'Polkadot',
   ui: {
     color: '#e6007a',

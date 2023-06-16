@@ -45,7 +45,7 @@ function expandLinked (input: LinkOption[]): LinkOption[] {
   }, []);
 }
 
-function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, info, isChild, isDisabled, isUnreachable, linked, paraId, providers, teleport, teleportXcmVersion, text, ui }: EndpointOption, firstOnly: boolean, withSort: boolean): LinkOption[] {
+function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, info, isChild, isDisabled, isUnreachable, linked, paraId, providers, teleport, text, ui }: EndpointOption, firstOnly: boolean, withSort: boolean): LinkOption[] {
   const hasProviders = Object.keys(providers).length !== 0;
   const base = {
     genesisHash,
@@ -56,7 +56,6 @@ function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, info, i
     isUnreachable: isUnreachable || !hasProviders,
     paraId,
     teleport,
-    teleportXcmVersion,
     text,
     ui
   };
