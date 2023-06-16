@@ -28,6 +28,8 @@ interface Initial {
   initialParams: RawParam[] | undefined | null;
 }
 
+const UNUSED_ENUM = '__Unused';
+
 function getSubTypes (registry: Registry, type: TypeDef): TypeDef[] {
   const rawType = registry.createType(type.type as 'u32').toRawType();
 
@@ -35,7 +37,10 @@ function getSubTypes (registry: Registry, type: TypeDef): TypeDef[] {
 }
 
 function getOptions (registry: Registry, type: TypeDef): Options {
-  const subTypes = getSubTypes(registry, type).filter(({ name }) => !!name && !name.startsWith('__Unused'));
+  const subTypes = getSubTypes(registry, type).filter(({ name }) =>
+    !!name &&
+    !name.startsWith(UNUSED_ENUM)
+  );
 
   return {
     options: subTypes.map(({ name }): Option => ({
@@ -47,21 +52,33 @@ function getOptions (registry: Registry, type: TypeDef): Options {
 }
 
 function getInitial (defaultValue: RawParam, options: Option[]): Initial {
+  if (defaultValue?.value) {
+    if (defaultValue.value instanceof Enum) {
+      return {
+        initialEnum: defaultValue.value.type,
+        initialParams: [{
+          isValid: true,
+          value: defaultValue.value.inner
+        }]
+      };
+    } else if (isObject<Record<string, unknown>>(defaultValue.value)) {
+      const initialEnum = Object.keys(defaultValue.value)[0];
+
+      if (!initialEnum.startsWith(UNUSED_ENUM)) {
+        return {
+          initialEnum,
+          initialParams: [{
+            isValid: true,
+            value: defaultValue.value[initialEnum]
+          }]
+        };
+      }
+    }
+  }
+
   return {
-    initialEnum: defaultValue && defaultValue.value
-      ? defaultValue.value instanceof Enum
-        ? defaultValue.value.type
-        : isObject(defaultValue.value)
-          ? Object.keys(defaultValue.value as Record<string, unknown>)[0]
-          : options[0] && options[0].value
-      : options[0] && options[0].value,
-    initialParams: defaultValue && defaultValue.value
-      ? defaultValue.value instanceof Enum
-        ? [{ isValid: true, value: defaultValue.value.inner }]
-        : isObject(defaultValue.value)
-          ? [{ isValid: true, value: (defaultValue.value as Record<string, unknown>)[Object.keys(defaultValue.value as Record<string, unknown>)[0]] }]
-          : undefined
-      : undefined
+    initialEnum: options[0]?.value,
+    initialParams: undefined
   };
 }
 
