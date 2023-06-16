@@ -62,14 +62,17 @@ function getInitial (defaultValue: RawParam, options: Option[]): Initial {
         }]
       };
     } else if (isObject<Record<string, unknown>>(defaultValue.value)) {
-      const initialEnum = Object.keys(defaultValue.value)[0];
+      const [initialEnum, value] = Object.entries(defaultValue.value)[0];
 
-      if (!initialEnum.startsWith(UNUSED_ENUM)) {
+      // Ensure that the defaultValue is actually in our enum, e.g. it
+      // may start with __Unused<x> values, in which case it would be
+      // invalid
+      if (options.some(({ value }) => value === initialEnum)) {
         return {
           initialEnum,
           initialParams: [{
             isValid: true,
-            value: defaultValue.value[initialEnum]
+            value
           }]
         };
       }
