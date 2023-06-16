@@ -23,6 +23,7 @@ const definitions: OverrideBundleDefinition = {
             Wasm: 'AccountId'
           }
         },
+        EthTransaction: 'LegacyTransaction',
         EraStakingPoints: {
           total: 'Balance',
           stakers: 'BTreeMap<AccountId, Balance>',

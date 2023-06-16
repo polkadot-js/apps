@@ -12,6 +12,7 @@ export const Subsquare: ExternalDef = {
     Altair: 'altair',
     Basilisk: 'basilisk',
     Bifrost: 'bifrost',
+    'Bifrost Polkadot': 'bifrost-polkadot',
     Centrifuge: 'centrifuge',
     Collectives: 'collectives',
     Crust: 'crust',

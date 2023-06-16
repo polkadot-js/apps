@@ -141,7 +141,7 @@ function UploadModal ({ className, file, onClose = NOOP, onSuccess = NOOP }: Pro
 
     // for injected, retrieve the signer
     if (meta.source && isInjected) {
-      web3FromSource(meta.source as string)
+      web3FromSource(meta.source)
         .catch(() => null)
         .then((injected) => setSigner({
           isUsable: isFunction(injected?.signer?.signRaw),

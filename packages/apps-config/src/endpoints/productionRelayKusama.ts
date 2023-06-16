@@ -133,7 +133,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'crab',
     paraId: 2105,
     providers: {
-      'Darwinia Network': 'wss://crab-rpc.darwinia.network/',
+      Darwinia: 'wss://crab-rpc.darwinia.network/',
+      'Darwinia Community': 'wss://crab-rpc.darwiniacommunitydao.xyz',
       Dwellir: 'wss://darwiniacrab-rpc.dwellir.com',
       OnFinality: 'wss://crab.api.onfinality.io/public-ws'
     },
@@ -387,7 +388,9 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     homepage: 'https://krest.peaq.network/',
     info: 'krest',
     paraId: 2241,
-    providers: {},
+    providers: {
+      Krest: 'wss://wss-krest.peaq.network/'
+    },
     text: 'Krest',
     ui: {
       logo: nodesKrestPNG
@@ -465,6 +468,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2023,
     providers: {
       Blast: 'wss://moonriver.public.blastapi.io',
+      Dwellir: 'wss://moonriver-rpc.dwellir.com',
       'Moonbeam Foundation': 'wss://wss.api.moonriver.moonbeam.network',
       OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
       UnitedBloc: 'wss://moonriver.unitedbloc.com'
@@ -506,7 +510,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'picasso',
     paraId: 2087,
     providers: {
-      Composable: 'wss://rpc.composablenodes.tech'
+      Composable: 'wss://rpc.composablenodes.tech',
+      Dwellir: 'wss://picasso-rpc.dwellir.com'
     },
     text: 'Picasso',
     ui: {
@@ -519,7 +524,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'pichiu',
     paraId: 2102,
     providers: {
-      'Kylin Network': 'wss://kusama.kylin-node.co.uk'
+      // 'Kylin Network': 'wss://kusama.kylin-node.co.uk' // https://github.com/polkadot-js/apps/issues/9560
     },
     text: 'Pichiu',
     ui: {
@@ -811,7 +816,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     providers: {
       'IBP-GeoDNS1': 'wss://sys.ibp.network/bridgehub-kusama',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/bridgehub-kusama',
-      Parity: 'wss://kusama-bridge-hub-rpc.polkadot.io'
+      Parity: 'wss://kusama-bridge-hub-rpc.polkadot.io',
+      Stakeworld: 'wss://ksm-rpc.stakeworld.io/bridgehub'
     },
     text: 'BridgeHub',
     ui: {

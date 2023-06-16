@@ -3,8 +3,7 @@
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import definitions from '@digitalnative/type-definitions/standard/index.js';
+// @ts-expect-error No definitions provided in package
+import { standardTypes } from '@digitalnative/type-definitions';
 
-export default definitions as OverrideBundleDefinition;
+export default standardTypes as OverrideBundleDefinition;

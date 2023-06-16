@@ -38,7 +38,7 @@ function SidebarEditableSection ({ accountIndex, address, isBeingEdited, onUpdat
           const accountOrAddress = keyring.getAccount(address) || keyring.getAddress(address);
 
           setName(accountOrAddress?.meta.name || '');
-          setTags(accountOrAddress?.meta.tags ? (accountOrAddress.meta.tags as string[]).sort() : []);
+          setTags(accountOrAddress?.meta.tags ? (accountOrAddress.meta.tags).sort() : []);
           setIsEditingName(false);
           setIsEditingTags(false);
         } catch {

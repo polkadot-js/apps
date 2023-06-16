@@ -3,6 +3,6 @@
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-import pkg from '@edgeware/node-types';
+import { typesBundleForPolkadot } from '@peaqnetwork/type-definitions';
 
-export default (pkg.spec.typesBundle as { spec: { edgeware: OverrideBundleDefinition } }).spec.edgeware;
+export default (typesBundleForPolkadot as { spec: { peaq: OverrideBundleDefinition } }).spec.peaq;

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { HexString } from '@polkadot/util/types';
 import type { ModalProps } from '../types.js';
 
 import React, { useCallback, useState } from 'react';
@@ -22,7 +23,7 @@ interface Props extends ModalProps {
 }
 
 interface CreateOptions {
-  genesisHash?: string;
+  genesisHash?: HexString;
   name: string;
   tags?: string[];
 }
@@ -99,7 +100,7 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
 
   const _createMultisig = useCallback(
     (): void => {
-      const options = { genesisHash: isDevelopment ? undefined : api.genesisHash.toString(), name: name.trim() };
+      const options = { genesisHash: isDevelopment ? undefined : api.genesisHash.toHex(), name: name.trim() };
       const status = createMultisig(signatories, threshold, options, t<string>('created multisig'));
 
       onStatusChange(status);
