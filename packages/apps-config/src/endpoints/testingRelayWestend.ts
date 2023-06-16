@@ -125,18 +125,18 @@ export const testParasWestend: Omit<EndpointOption, 'teleport'>[] = [
 
 export const testParasWestendCommon: EndpointOption[] = [
   {
-    info: 'westmint',
+    info: 'WestendAssetHub',
     paraId: 1000,
     providers: {
       Dwellir: 'wss://westmint-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://westmint-rpc-tn.dwellir.com',
       'IBP-GeoDNS1': 'wss://sys.ibp.network/westmint',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/westmint',
-      Parity: 'wss://westmint-rpc.polkadot.io',
+      Parity: 'wss://westend-asset-hub-rpc.polkadot.io',
       Stakeworld: 'wss://wnd-rpc.stakeworld.io/westmint'
     },
     teleport: [-1],
-    text: 'Westmint',
+    text: 'AssetHub',
     ui: {
       color: '#77bb77',
       logo: nodesStatemineSVG

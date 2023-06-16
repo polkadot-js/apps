@@ -662,7 +662,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
 
 export const prodParasPolkadotCommon: EndpointOption[] = [
   {
-    info: 'statemint',
+    info: 'PolkadotAssetHub',
     paraId: 1000,
     providers: {
       Dwellir: 'wss://statemint-rpc.dwellir.com',
@@ -670,12 +670,12 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       'IBP-GeoDNS1': 'wss://sys.ibp.network/statemint',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/statemint',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
-      Parity: 'wss://statemint-rpc.polkadot.io',
+      Parity: 'wss://polkadot-asset-hub-rpc.polkadot.io',
       RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws',
       Stakeworld: 'wss://dot-rpc.stakeworld.io/statemint'
     },
     teleport: [-1],
-    text: 'Statemint',
+    text: 'AssetHub',
     ui: {
       color: '#86e62a',
       logo: nodesStatemineSVG

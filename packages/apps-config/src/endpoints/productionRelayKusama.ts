@@ -773,7 +773,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
 
 export const prodParasKusamaCommon: EndpointOption[] = [
   {
-    info: 'statemine',
+    info: 'KusamaAssetHub',
     paraId: 1000,
     providers: {
       Dwellir: 'wss://statemine-rpc.dwellir.com',
@@ -782,12 +782,12 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       'IBP-GeoDNS2': 'wss://sys.dotters.network/statemine',
       LuckyFriday: 'wss://rpc-statemine.luckyfriday.io',
       OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
-      Parity: 'wss://statemine-rpc.polkadot.io',
+      Parity: 'wss://kusama-asset-hub-rpc.polkadot.io',
       RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws',
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/statemine'
     },
     teleport: [-1],
-    text: 'Statemine',
+    text: 'AssetHub',
     ui: {
       color: '#113911',
       logo: nodesStatemineSVG

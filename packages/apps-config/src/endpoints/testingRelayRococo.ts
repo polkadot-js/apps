@@ -629,13 +629,13 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
 
 export const testParasRococoCommon: EndpointOption[] = [
   {
-    info: 'rococoStatemint',
+    info: 'RococoAssetHub',
     paraId: 1000,
     providers: {
-      Parity: 'wss://rococo-rockmine-rpc.polkadot.io'
+      Parity: 'wss://rococo-asset-hub-rpc.polkadot.io'
     },
     teleport: [-1],
-    text: 'Rockmine',
+    text: 'AssetHub',
     ui: {
       color: '#77bb77',
       logo: nodesStatemineSVG
