@@ -817,7 +817,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       'IBP-GeoDNS2': 'wss://sys.dotters.network/encointer-kusama',
       OnFinality: 'wss://encointer.api.onfinality.io/public-ws'
     },
-    teleport: [-1],
+    teleport: [], // teleport is temporarily disabled until xcm V3 is supported
     text: 'Encointer Network',
     ui: {
       color: '#0000cc',

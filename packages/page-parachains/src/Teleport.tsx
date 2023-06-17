@@ -77,7 +77,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
   const params = useMemo(
     () => [
       {
-        V1: isParaTeleport
+        V3: isParaTeleport
           ? {
             interior: 'Here',
             parents: 1
@@ -92,12 +92,12 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
           }
       },
       {
-        V1: {
+        V3: {
           interior: {
             X1: {
               AccountId32: {
                 id: api.createType('AccountId32', recipientId).toHex(),
-                network: 'Any'
+                network: null
               }
             }
           },
@@ -105,7 +105,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
         }
       },
       {
-        V1: [{
+        V3: [{
           fun: {
             Fungible: amount
           },
