@@ -104,7 +104,7 @@ function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): R
   );
 
   const isStep1Valid = !!(accountId && activityFrom && includeTracks && (includeTracks.length > 0));
-  const isStep2Valid = !!(toAccount && activityTo && (activityTo.length > 0));
+  const isStep2Valid = !!(toAccount && activityTo);
 
   return (
     <>
