@@ -497,7 +497,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoSpreehafen',
     paraId: 2116,
     providers: {
-      DataHighway: 'wss://spreehafen.datahighway.com'
+      // DataHighway: 'wss://spreehafen.datahighway.com' // https://github.com/polkadot-js/apps/issues/9601
     },
     text: 'Spreehafen',
     ui: {
