@@ -1,4 +1,4 @@
-    4291	Jaco                          	Add asset hub logos (#9593)
+    4292	Jaco                          	Disable unreachable endpoints (#9602)
       80	Thibaut Sardan                	Fix delegation with x0.1 conviction and typo (#9599)
       62	kwingram25                    	iadd fix (#2911)
       48	pan                           	update bifrost providers (#8065)
