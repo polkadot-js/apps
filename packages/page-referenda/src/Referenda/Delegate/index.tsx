@@ -93,7 +93,7 @@ function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): R
   );
 
   const extrinsic = useMemo(
-    () => balance && conviction && toAccount && includeTracks
+    () => balance && conviction >= 0 && toAccount && includeTracks
       ? isAllTracks
         ? api.tx.utility.forceBatch(includeTracks.map((trackId) =>
           api.tx[palletVote as 'convictionVoting'].delegate(trackId, toAccount, conviction, balance)
@@ -103,7 +103,7 @@ function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): R
     [api, balance, conviction, includeTracks, isAllTracks, palletVote, toAccount, trackId]
   );
 
-  const isStep1Valid = !!(accountId && activityFrom && includeTracks && (includeTracks.length > 0));
+  const isStep1Valid = !!(accountId && includeTracks && (includeTracks.length > 0));
   const isStep2Valid = !!(toAccount && activityTo);
 
   return (
