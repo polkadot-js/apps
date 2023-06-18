@@ -103,7 +103,7 @@ function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): R
     [api, balance, conviction, includeTracks, isAllTracks, palletVote, toAccount, trackId]
   );
 
-  const isStep1Valid = !!(accountId && includeTracks && (includeTracks.length > 0));
+  const isStep1Valid = !!(accountId && activityFrom && includeTracks && (includeTracks.length > 0));
   const isStep2Valid = !!(toAccount && activityTo && (activityTo.length > 0));
 
   return (
