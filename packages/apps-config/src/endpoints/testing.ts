@@ -207,7 +207,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'datahighway',
     isDisabled: true,
     providers: {
-      MXC: 'wss://spreehafen.datahighway.com'
+      // MXC: 'wss://spreehafen.datahighway.com' // https://github.com/polkadot-js/apps/issues/9601
     },
     text: 'Spreehafen',
     ui: {
