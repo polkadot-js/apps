@@ -4,7 +4,7 @@
 import React, { useMemo, useRef, useState } from 'react';
 
 import { Table, Toggle } from '@polkadot/react-components';
-import { useNextTick } from '@polkadot/react-hooks';
+import { useLenientThresholdPercentage, useNextTick } from '@polkadot/react-hooks';
 
 import Filtering from '../Filtering.js';
 import { useTranslation } from '../translate.js';
@@ -24,8 +24,8 @@ function getFiltered (displayOnlyCommittee: boolean, eraValidatorPerformances: E
   return validators;
 }
 
-export function calculatePercentReward (blocksCreated: number | undefined, blocksTargetValue: number | undefined, isCommittee: boolean) {
-  if (blocksCreated === undefined || blocksTargetValue === undefined) {
+export function calculatePercentReward (blocksCreated: number | undefined, blocksTargetValue: number | undefined, lenientThresholdPercentage: number | undefined, isCommittee: boolean) {
+  if (blocksCreated === undefined || blocksTargetValue === undefined || lenientThresholdPercentage === undefined) {
     return '';
   }
 
@@ -36,7 +36,7 @@ export function calculatePercentReward (blocksCreated: number | undefined, block
   } else if (blocksTargetValue > 0) {
     rewardPercentage = 100 * blocksCreated / blocksTargetValue;
 
-    if (rewardPercentage >= 90) {
+    if (rewardPercentage >= lenientThresholdPercentage) {
       rewardPercentage = 100;
     }
   }
@@ -46,8 +46,11 @@ export function calculatePercentReward (blocksCreated: number | undefined, block
 
 function CurrentList ({ className, eraValidatorPerformances, expectedBlockCount, onlyCommittee }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+
   const [nameFilter, setNameFilter] = useState<string>('');
   const [displayOnlyCommittee, setDisplayOnlyCommittee] = useState(true);
+
+  const lenientThresholdPercentage = useLenientThresholdPercentage();
 
   const isNextTick = useNextTick();
 
@@ -90,14 +93,16 @@ function CurrentList ({ className, eraValidatorPerformances, expectedBlockCount,
             nameFilter={nameFilter}
             setNameFilter={setNameFilter}
           />
-          {!onlyCommittee && <Toggle
-            className='staking--buttonToggle'
-            label={
-              t<string>('Current committee')
-            }
-            onChange={setDisplayOnlyCommittee}
-            value={displayOnlyCommittee}
-          />}
+          {!onlyCommittee && (
+            <Toggle
+              className='staking--buttonToggle'
+              label={
+                t<string>('Current committee')
+              }
+              onChange={setDisplayOnlyCommittee}
+              value={displayOnlyCommittee}
+            />
+          )}
         </div>
       }
       header={headerRef.current}
@@ -108,7 +113,7 @@ function CurrentList ({ className, eraValidatorPerformances, expectedBlockCount,
           blocksCreated={validatorPerformance.blockCount}
           filterName={nameFilter}
           key={validatorPerformance.accountId}
-          rewardPercentage={calculatePercentReward(validatorPerformance.blockCount, expectedBlockCount, isCommittee)}
+          rewardPercentage={calculatePercentReward(validatorPerformance.blockCount, expectedBlockCount, lenientThresholdPercentage, isCommittee)}
         />
       ))}
     </Table>

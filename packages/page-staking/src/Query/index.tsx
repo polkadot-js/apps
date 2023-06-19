@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom';
 
 import getCommitteeManagement from '@polkadot/react-api/getCommitteeManagement';
 import { Button, CardSummary, InputAddressSimple, Spinner, SummaryBox, Table } from '@polkadot/react-components';
-import { useApi, useCall, useNextTick } from '@polkadot/react-hooks';
+import { useApi, useCall, useLenientThresholdPercentage, useNextTick } from '@polkadot/react-hooks';
 import { u32 } from '@polkadot/types-codec';
 
 import Address from '../Performance/Address/index.js';
@@ -37,6 +37,7 @@ function Query ({ className }: Props): React.ReactElement<Props> {
     getCommitteeManagement(api).query.underperformedValidatorSessionCount,
     [value]
   );
+  const lenientThresholdPercentage = useLenientThresholdPercentage();
 
   const [currentSession, currentEra, historyDepth, minimumSessionNumber] = useCurrentSessionInfo();
   const isNextTick = useNextTick();
@@ -153,7 +154,7 @@ function Query ({ className }: Props): React.ReactElement<Props> {
             blocksCreated={performance[0]}
             filterName={''}
             key={performance[1]}
-            rewardPercentage={calculatePercentReward(performance[0], performance[2], true)}
+            rewardPercentage={calculatePercentReward(performance[0], performance[2], lenientThresholdPercentage, true)}
             session={performance[1]}
           />
         ))}
