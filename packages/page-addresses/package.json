@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@testing-library/react": "^14.0.0",
-    "testcontainers": "^9.8.0"
+    "testcontainers": "^9.9.1"
   },
   "peerDependencies": {
     "react": "*",

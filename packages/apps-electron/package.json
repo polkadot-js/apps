@@ -22,13 +22,13 @@
     "electron-updater": "^5.3.0"
   },
   "devDependencies": {
-    "@polkadot/dev": "^0.75.19",
+    "@polkadot/dev": "^0.75.21",
     "@types/tmp": "^0.2.3",
     "copy-webpack-plugin": "^11.0.0",
     "electron": "25.0.1",
     "electron-builder": "23.6.0",
     "electron-builder-notarize": "^1.5.1",
-    "html-webpack-plugin": "^5.5.1",
+    "html-webpack-plugin": "^5.5.3",
     "tmp": "^0.2.1"
   },
   "peerDependencies": {

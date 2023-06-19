@@ -59432,7 +59432,13 @@ export const typesBundle = {
             },
             "HostData": {
               "node_id": "Option<OpaquePeerId>",
-              "base_url": "Option<Vec<u8>>"
+              "base_url": "Option<Vec<u8>>",
+              "region": "Region"
+            },
+            "Region": {
+              "_enum": [
+                "Europe"
+              ]
             },
             "LoAuthorityListStorageVersion": {
               "_enum": [
