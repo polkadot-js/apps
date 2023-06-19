@@ -1,5 +1,39 @@
 # CHANGELOG
 
+## 0.132.1 Jun 19, 2023
+
+Contributed:
+
+- Add Karmachain testnet endpoints (Thanks to https://github.com/HolyGrease)
+- Adjust Subscocial endpoints (Thanks to https://github.com/olehmell)
+- Update RadiumBlock Polkadot endpoints (Thanks to https://github.com/radiumb)
+- Add RadiumBlock Collectives endpoints (Thanks to https://github.com/radiumb)
+- Update RadiumBlock Westend endpoints (Thanks to https://github.com/radiumb)
+- Update Liebi Rococo endpoints (Thanks to https://github.com/TomatoAres)
+- Add Dwellir endpoint for Interlay (Thanks to https://github.com/jonathanudd)
+- Add Stakeworld endpoints for AssetHub (Thanks to https://github.com/stakeworld)
+- Add Stakeworld endpoints for BridgeHub (Thanks to https://github.com/stakeworld)
+- Additional chains for external Sub.ID links (Thanks to https://github.com/olehmell)
+- Add Subsquare links for Collectives (Thanks to https://github.com/wliyongfeng)
+- Add Subsquare links for Bifrost (Thanks to https://github.com/wliyongfeng)
+- Add endpoint for Krest network (Thanks to https://github.com/sfffaaa)
+- Add endpoint for Peaq network (Thanks to https://github.com/sfffaaa)
+- Expand supported Dwellir networks (Thanks to https://github.com/jonathanudd)
+- Add Darwinia community provider (Thanks to https://github.com/fewensa)
+- Fix JSONRPC payload creation (Thanks to https://github.com/pmikolajczyk41)
+- Expand Legacy ETH support (Thanks to https://github.com/sirius651)
+- Add Jur chain (Thanks to https://github.com/ashi20192020)
+- Rename State* to AssetHub (Thanks to https://github.com/BulatSaif)
+- Add Polkaseembly links for Collectives (Thanks to https://github.com/rajdeep7Singh)
+- Re-active teleport with Xcm V3 support (Thanks to https://github.com/loanMaster)
+
+Changes:
+
+- Disable unreachable endpoints
+- Extend chain config with ui logo overrides
+- Adjust Enum inputs with unsued filtering
+
+
 ## 0.131.4 May 23, 2023
 
 Changes:
