@@ -3,7 +3,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 
-import getCommitteeManagement from '@polkadot/react-api/getCommitteeManagement';
+import getCommitteeManagement, { COMMITTEE_MANAGEMENT_NAMES } from '@polkadot/react-api/getCommitteeManagement';
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { u64, Vec } from '@polkadot/types';
 import { EventRecord, Hash } from '@polkadot/types/interfaces';
@@ -16,7 +16,7 @@ import { SuspensionEvent } from './index.js';
 type SuspensionReasons = [string, string, number][];
 
 function parseEvents (events: EventRecord[]): SuspensionReasons {
-  return events.filter(({ event }) => event.section === 'elections' && event.method === 'BanValidators')
+  return events.filter(({ event }) => COMMITTEE_MANAGEMENT_NAMES.includes(event.section) && event.method === 'BanValidators')
     .map(({ event }) => {
       const raw = event.data[0] as unknown as Codec[][];
 
@@ -73,7 +73,7 @@ function useSuspensions (): SuspensionEvent[] | undefined {
   );
 
   useEffect(() => {
-    if (!(api && api.consts.elections) || erasStartSessionIndexLookup.length === 0) {
+    if (!(api && getCommitteeManagement(api).consts) || erasStartSessionIndexLookup.length === 0) {
       return;
     }
 

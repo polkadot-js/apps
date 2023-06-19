@@ -13,6 +13,7 @@ import type { AddressFlags, AddressProxy } from './types.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { ApiPromise } from '@polkadot/api';
+import { COMMITTEE_MANAGEMENT_NAMES } from '@polkadot/react-api/getCommitteeManagement';
 import { InputAddress, MarkError, Modal, Toggle } from '@polkadot/react-components';
 import { useAccounts, useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { BN_ZERO, isFunction } from '@polkadot/util';
@@ -100,7 +101,7 @@ function filterProxies (allAccounts: string[], tx: Call | SubmittableExtrinsic<'
 
         case 'Governance':
           return checkNested(address) || (
-            ['convictionVoting', 'council', 'councilCollective', 'democracy', 'elections', 'electionsPhragmen', 'fellowshipCollective', 'fellowshipReferenda', 'phragmenElection', 'poll', 'referenda', 'society', 'technicalCommittee', 'tips', 'treasury', 'whitelist'].includes(section)
+            ['convictionVoting', 'council', 'councilCollective', 'democracy', 'elections', 'electionsPhragmen', 'fellowshipCollective', 'fellowshipReferenda', 'phragmenElection', 'poll', 'referenda', 'society', 'technicalCommittee', 'tips', 'treasury', 'whitelist', ...COMMITTEE_MANAGEMENT_NAMES].includes(section)
           );
 
         case 'IdentityJudgement':

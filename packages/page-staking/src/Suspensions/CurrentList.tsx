@@ -70,7 +70,7 @@ function CurrentList ({ suspensions }: Props): React.ReactElement<Props> {
             address={address}
             era={era}
             filterName={nameFilter}
-            key={address}
+            key={`address-${address}-era-${era}`}
             suspensionLiftsInEra={suspensionLiftsInEra}
             suspensionReason={suspensionReason}
           />
