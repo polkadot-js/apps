@@ -533,7 +533,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'unitnetwork',
     providers: {
-      // UnitNetwork: 'wss://www.unitnode3.info:443'
+      // UnitNetwork: 'wss://www.unitnode3.info:443' // Duplicated in Rococo
     },
     text: 'UnitNetwork',
     ui: {
