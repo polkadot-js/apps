@@ -580,6 +580,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'moonbaseAlpha',
     providers: {
       Blast: 'wss://moonbase-alpha.public.blastapi.io',
+      Dwellir: 'wss://moonbase-rpc.dwellir.com',
       'Moonbeam Foundation': 'wss://wss.api.moonbase.moonbeam.network',
       OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
       UnitedBloc: 'wss://moonbase.unitedbloc.com'
