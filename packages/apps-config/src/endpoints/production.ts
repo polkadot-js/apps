@@ -455,7 +455,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'stafi',
     providers: {
-      // 'Stafi Foundation': 'wss://mainnet-rpc.stafi.io' // isDisabled: true, // Cannot find type ChainId
+      // 'Stafi Foundation': 'wss://mainnet-rpc.stafi.io' // Cannot find type ChainId
     },
     text: 'Stafi',
     ui: {
@@ -533,7 +533,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'unitnetwork',
     providers: {
-      // UnitNetwork: 'wss://www.unitnode3.info:443'
+      // UnitNetwork: 'wss://www.unitnode3.info:443' // Duplicated in Rococo
     },
     text: 'UnitNetwork',
     ui: {

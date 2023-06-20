@@ -581,7 +581,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoUnitNetwork',
     paraId: 4168,
     providers: {
-      UnitNetwork: 'wss://www.unitnode3.info:443'
+      // UnitNetwork: 'wss://www.unitnode3.info:443' // https://github.com/polkadot-js/apps/issues/9609
     },
     text: 'Unit Network',
     ui: {
