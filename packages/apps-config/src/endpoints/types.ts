@@ -27,7 +27,7 @@ export interface EndpointOption extends BaseOption {
   isUnreachable?: boolean;
   linked?: EndpointOption[];
   info?: string;
-  providers: Record<string, string>;
+  providers: Record<string, `${'wss://' | 'light://substrate-connect/'}${string}`>;
   text: string;
 }
 
