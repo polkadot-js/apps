@@ -18,9 +18,9 @@ import { getTeleports } from './util.js';
 export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'rococoAcurast',
-    paraId: 4191,
+    paraId: 2239,
     providers: {
-      // Acurast: 'wss://ws.acurast-rococo.diamond.papers.tech' // https://github.com/polkadot-js/apps/issues/9321
+      Acurast: 'wss://ws.acurast-rococo.diamond.papers.tech'
     },
     text: 'Acurast Testnet',
     ui: {
