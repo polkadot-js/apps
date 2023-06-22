@@ -1,6 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { QueryableStorageEntry } from '@polkadot/api/types';
 import type { RawParams, TypeDefExt } from '@polkadot/react-params/types';
 import type { StorageEntryTypeLatest } from '@polkadot/types/interfaces';
@@ -9,7 +10,6 @@ import type { ComponentProps as Props } from '../types.js';
 
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { ApiPromise } from '@polkadot/api';
 import { Button, Columar, Input, InputStorage, Inspect as DecodeInspect, Output, styled } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';

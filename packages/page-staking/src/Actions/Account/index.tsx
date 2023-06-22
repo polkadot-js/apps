@@ -1,18 +1,19 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
 import type { PalletStakingUnappliedSlash } from '@polkadot/types/lookup';
+import type { BN } from '@polkadot/util';
 import type { SortedTargets } from '../../types.js';
 import type { Slash } from '../types.js';
 
 import React, { useCallback, useMemo } from 'react';
 
-import { ApiPromise } from '@polkadot/api';
 import { AddressInfo, AddressMini, AddressSmall, Badge, Button, Menu, Popup, StakingBonded, StakingRedeemable, StakingUnbonding, styled, TxButton } from '@polkadot/react-components';
 import { useApi, useCall, useQueue, useToggle } from '@polkadot/react-hooks';
-import { BN, formatNumber, isFunction } from '@polkadot/util';
+import { formatNumber, isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../../translate.js';
 import useSlashingSpans from '../useSlashingSpans.js';
@@ -76,6 +77,11 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
   const [isValidateOpen, toggleValidate] = useToggle();
   const { balancesAll, spanCount, stakingAccount } = useStashCalls(api, stashId);
 
+  const needsSetController = useMemo(
+    () => (api.tx.staking.setController.meta.args.length === 1) || (stashId !== controllerId),
+    [api, controllerId, stashId]
+  );
+
   const slashes = useMemo(
     () => extractSlashes(stashId, allSlashes),
     [allSlashes, stashId]
@@ -86,8 +92,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
       accountId: controllerId,
       extrinsic: api.tx.staking.withdrawUnbonded.meta.args.length === 1
         ? api.tx.staking.withdrawUnbonded(spanCount)
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore (We are doing toHex here since we have a Vec<u8> input)
+        // @ts-expect-error Previous generation
         : api.tx.staking.withdrawUnbonded()
     }),
     [api, controllerId, queueExtrinsic, spanCount]
@@ -305,7 +310,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                   />
                   <Menu.Divider />
                   <Menu.Item
-                    isDisabled={!isOwnStash}
+                    isDisabled={!isOwnStash || !needsSetController}
                     label={t<string>('Change controller account')}
                     onClick={toggleSetController}
                   />

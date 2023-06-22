@@ -1,14 +1,20 @@
 // Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck Currently we have a bit too many of these
+
 import CrustPinner from '@crustio/crust-pin';
 import PinataSDK from '@pinata/sdk';
+// @ts-expect-error No definition file
 import cloudflare from 'dnslink-cloudflare';
 import fs from 'node:fs';
 
+// @ts-expect-error No definition file
 import { execSync } from '@polkadot/dev/scripts/util.mjs';
 
-// @ts-ignore
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore Using ignore since the file won't be there in dev
 import { createWsEndpoints } from '../packages/apps-config/build/endpoints/index.js';
 
 console.log('$ scripts/ipfsUpload.mjs', process.argv.slice(2).join(' '));

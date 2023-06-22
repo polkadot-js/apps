@@ -3,6 +3,7 @@
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-import definitions from '@digitalnative/type-definitions/opportunity/index.js';
+// @ts-expect-error No definitions provided in package
+import { opportunityTypes } from '@digitalnative/type-definitions';
 
-export default definitions as OverrideBundleDefinition;
+export default opportunityTypes as OverrideBundleDefinition;

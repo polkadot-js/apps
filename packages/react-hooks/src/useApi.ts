@@ -5,8 +5,7 @@ import type { ApiProps } from '@polkadot/react-api/types';
 
 import { useContext } from 'react';
 
-import { ApiCtx } from '@polkadot/react-api';
-
+import { ApiCtx } from './ctx/Api.js';
 import { createNamedHook } from './createNamedHook.js';
 
 function useApiImpl (): ApiProps {

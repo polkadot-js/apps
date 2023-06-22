@@ -1,6 +1,8 @@
 // Copyright 2017-2023 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/* global jest, fail */
+
 import type { RenderResult } from '@testing-library/react';
 import type { ApiProps } from '@polkadot/react-api/types';
 import type { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
@@ -12,10 +14,9 @@ import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
-import AccountSidebar from '@polkadot/app-accounts/Sidebar';
-import { lightTheme } from '@polkadot/apps/themes';
 import { POLKADOT_GENESIS } from '@polkadot/apps-config';
-import { ApiCtx } from '@polkadot/react-api';
+import { AccountSidebar, lightTheme } from '@polkadot/react-components';
+import { ApiCtx } from '@polkadot/react-hooks/ctx/Api';
 import { QueueCtx } from '@polkadot/react-hooks/ctx/Queue';
 import { TypeRegistry } from '@polkadot/types/create';
 import { keyring } from '@polkadot/ui-keyring';

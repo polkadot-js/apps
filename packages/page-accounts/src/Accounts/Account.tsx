@@ -1,6 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveDemocracyLock, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import type { Ledger } from '@polkadot/hw-ledger';
@@ -12,9 +13,8 @@ import type { AccountBalance, Delegation } from '../types.js';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { ApiPromise } from '@polkadot/api';
 import useAccountLocks from '@polkadot/app-referenda/useAccountLocks';
-import { AddressInfo, AddressSmall, Badge, Button, ChainLock, Columar, CryptoType, Forget, LinkExternal, Menu, Popup, styled, Table, Tags } from '@polkadot/react-components';
+import { AddressInfo, AddressSmall, Badge, Button, ChainLock, Columar, CryptoType, Forget, LinkExternal, Menu, Popup, styled, Table, Tags, TransferModal } from '@polkadot/react-components';
 import { useAccountInfo, useApi, useBalancesAll, useBestNumber, useCall, useLedger, useQueue, useStakingInfo, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN, BN_ZERO, formatBalance, formatNumber, isFunction } from '@polkadot/util';
@@ -29,7 +29,6 @@ import MultisigApprove from '../modals/MultisigApprove.js';
 import ProxyOverview from '../modals/ProxyOverview.js';
 import RecoverAccount from '../modals/RecoverAccount.js';
 import RecoverSetup from '../modals/RecoverSetup.js';
-import Transfer from '../modals/Transfer.js';
 import UndelegateModal from '../modals/Undelegate.js';
 import { useTranslation } from '../translate.js';
 import { createMenuGroup } from '../util.js';
@@ -530,7 +529,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             />
           )}
           {isTransferOpen && (
-            <Transfer
+            <TransferModal
               key='modal-transfer'
               onClose={toggleTransfer}
               senderId={address}

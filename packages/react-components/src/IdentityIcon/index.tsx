@@ -1,6 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { IdentityProps } from '@polkadot/react-identicon/types';
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 import type { ThemeProps } from '../types.js';
@@ -25,8 +26,14 @@ interface Props {
   value?: AccountId | AccountIndex | Address | string | Uint8Array | null;
 }
 
-export function getIdentityTheme (systemName: string, specName: string): 'substrate' {
-  return ((settings.icon === 'default' && getSystemIcon(systemName, specName)) || settings.icon) as 'substrate';
+export function getIdentityTheme (apiEndpoint: LinkOption | null, systemName: string, specName: string): 'substrate' {
+  return (
+    (settings.icon === 'default' && (
+      apiEndpoint?.ui?.identityIcon ||
+      getSystemIcon(systemName, specName)
+    )) ||
+    settings.icon
+  ) as 'substrate';
 }
 
 function isCodec (value?: AccountId | AccountIndex | Address | string | Uint8Array | null): value is AccountId | AccountIndex | Address {
@@ -34,10 +41,10 @@ function isCodec (value?: AccountId | AccountIndex | Address | string | Uint8Arr
 }
 
 function IdentityIcon ({ className = '', forceIconType, prefix, size = 24, theme, value }: Props): React.ReactElement<Props> {
-  const { isEthereum, specName, systemName } = useApi();
+  const { apiEndpoint, isEthereum, specName, systemName } = useApi();
   const { t } = useTranslation();
   const { queueAction } = useQueue();
-  const thisTheme = theme || getIdentityTheme(systemName, specName);
+  const thisTheme = theme || getIdentityTheme(apiEndpoint, systemName, specName);
 
   const Custom = thisTheme === 'robohash'
     ? RoboHash

@@ -1,10 +1,131 @@
 # CHANGELOG
 
-## master
+## 0.132.1 Jun 19, 2023
+
+Contributed:
+
+- Add Karmachain testnet endpoints (Thanks to https://github.com/HolyGrease)
+- Adjust Subscocial endpoints (Thanks to https://github.com/olehmell)
+- Update RadiumBlock Polkadot endpoints (Thanks to https://github.com/radiumb)
+- Add RadiumBlock Collectives endpoints (Thanks to https://github.com/radiumb)
+- Update RadiumBlock Westend endpoints (Thanks to https://github.com/radiumb)
+- Update Liebi Rococo endpoints (Thanks to https://github.com/TomatoAres)
+- Add Dwellir endpoint for Interlay (Thanks to https://github.com/jonathanudd)
+- Add Stakeworld endpoints for AssetHub (Thanks to https://github.com/stakeworld)
+- Add Stakeworld endpoints for BridgeHub (Thanks to https://github.com/stakeworld)
+- Additional chains for external Sub.ID links (Thanks to https://github.com/olehmell)
+- Add Subsquare links for Collectives (Thanks to https://github.com/wliyongfeng)
+- Add Subsquare links for Bifrost (Thanks to https://github.com/wliyongfeng)
+- Add endpoint for Krest network (Thanks to https://github.com/sfffaaa)
+- Add endpoint for Peaq network (Thanks to https://github.com/sfffaaa)
+- Expand supported Dwellir networks (Thanks to https://github.com/jonathanudd)
+- Add Darwinia community provider (Thanks to https://github.com/fewensa)
+- Fix JSONRPC payload creation (Thanks to https://github.com/pmikolajczyk41)
+- Expand Legacy ETH support (Thanks to https://github.com/sirius651)
+- Add Jur chain (Thanks to https://github.com/ashi20192020)
+- Rename State* to AssetHub (Thanks to https://github.com/BulatSaif)
+- Add Polkaseembly links for Collectives (Thanks to https://github.com/rajdeep7Singh)
+- Re-active teleport with Xcm V3 support (Thanks to https://github.com/loanMaster)
+
+Changes:
+
+- Disable unreachable endpoints
+- Extend chain config with ui logo overrides
+- Adjust Enum inputs with unsued filtering
+
+
+## 0.131.4 May 23, 2023
+
+Changes:
+
+- Attempt fix for electron build (Linux executable name)
+
+
+## 0.131.3 May 23, 2023
+
+Changes:
+
+- Attempt fix for electron build (Linux executable name)
+
+
+## 0.131.2 May 23, 2023
+
+Changes:
+
+- Attempt fix for electron build (Mac entitlements)
+
+
+## 0.131.1 May 23, 2023
+
+Contributed:
+
+- Extend links for Polkassembly (Thanks to https://github.com/niklabh)
+- Add Subsquare links for Darwinia2 (Thanks to https://github.com/wliyongfeng)
+- Update Mangata Kusama endpoints (Thanks to https://github.com/tenequm)
+- Add JurNode testnet (Thanks to https://github.com/ashi20192020)
+- Add Ethereum support for Ferrum (Thanks to https://github.com/3ierratango)
+- Add Gens parachain (Thanks to https://github.com/alex-nax)
+- Add Dwellir endpoint for Kapex (Thanks to https://github.com/jonathanudd)
+- Add Phala Rococo parachain (Thanks to https://github.com/tolak)
+- Add Societal Rococo parachain (Thanks to https://github.com/okalenyk)
+- Restore Nodle testnet endpoint (Thanks to https://github.com/simonsso)
+
+Changes:
+
+- Cater for current Substrate bonding extrinsic arguments
+- Add basic NIS dashboard
+- Break circular dependencies, use composite tsconfig
+- Adjust electron build to use `--project` specifiers
+- Disable unreachable endpoints
+
+
+## 0.130.1 May 9, 2023
+
+Contributed:
+
+- OnFinality Ajuna endpoint (Thanks to https://github.com/jamesbayly)
+- OnFinality Basilisk endpoint (Thanks to https://github.com/jamesbayly)
+- Dwellir Phala endpoint (Thanks to https://github.com/Maharacha)
+- LuckyFriday Polkadot endpoint (Thanks to https://github.com/paradox-tt)
+- StakeWorld Polkadot endpoint (Thanks to https://github.com/stakeworld)
+- Subspace EVM to ethereum-compatible list (Thanks to https://github.com/vedhavyas)
+- Re-activate Centrifuge endpoints (Thanks to https://github.com/wischli)
+
+Changes:
+
+- Extend unbonding info message in case of stalled eras
+- Ensure only positive values on stalled era unbonding block calculations
+- Display hex public key in address conversion utility
+- Disable unreachable endpoints
+
+
+## 0.129.1 Apr 30, 2023
+
+Contributed:
+
+- Add BlockOps Kusama/Polkadot endpoints (Thanks to https://github.com/haroldsphinx)
+- Update Darwinia endpoints (Thanks to https://github.com/fewensa)
+
+Changes:
+
+- Disable unreachable endpoints
+
+
+## 0.128.1 Apr 24, 2023
+
+Contributed:
+
+- Update Manta endpoint (Thanks to https://github.com/grenade)
+- Update Mangata endpoints (Thanks to https://github.com/tenequm)
+- Update Rococo Basilisk endpoint (Thanks to https://github.com/mrq1911)
+- Add Rococo MD5 endpoint (Thanks to https://github.com/sebastianmontero)
+- Add Stakeworld Kusama endpoint (Thanks to https://github.com/stakeworld)
+- Add LuckyFriday Kusama & Statemine endpoints (Thanks to https://github.com/paradox-tt)
 
 Changes:
 
 - Link to IPFS version from development URL
+- Disable unreachable endpoints
 
 
 ## 0.127.1 Apr 16, 2023

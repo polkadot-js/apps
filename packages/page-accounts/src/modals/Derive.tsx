@@ -3,6 +3,7 @@
 
 import type { KeyringPair } from '@polkadot/keyring/types';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { HexString } from '@polkadot/util/types';
 import type { KeypairType } from '@polkadot/util-crypto/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
@@ -55,7 +56,7 @@ function deriveValidate (suri: string, pairType: KeypairType): string | null {
   return null;
 }
 
-function createAccount (source: KeyringPair, suri: string, name: string, password: string, success: string, genesisHash?: string): ActionStatus {
+function createAccount (source: KeyringPair, suri: string, name: string, password: string, success: string, genesisHash?: HexString): ActionStatus {
   const commitAccount = () => {
     const derived = source.derive(suri);
 
@@ -136,7 +137,7 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
 
       setIsBusy(true);
       nextTick((): void => {
-        const status = createAccount(source, suri, name, password, t<string>('created account'), isDevelopment ? undefined : api.genesisHash.toString());
+        const status = createAccount(source, suri, name, password, t<string>('created account'), isDevelopment ? undefined : api.genesisHash.toHex());
 
         queueAction(status);
         setIsBusy(false);

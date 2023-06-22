@@ -10,6 +10,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useApi } from '@polkadot/react-hooks';
 import { BN, BN_ONE, BN_TEN, BN_TWO, BN_ZERO, formatBalance, isBn, isUndefined } from '@polkadot/util';
 
+import { TokenUnit } from './InputConsts/units.js';
 import Input, { KEYS_PRE } from './Input.js';
 import { styled } from './styled.js';
 import { useTranslation } from './translate.js';
@@ -47,14 +48,6 @@ interface Props {
 }
 
 const DEFAULT_BITLENGTH = 32;
-
-export class TokenUnit {
-  public static abbr = 'Unit';
-
-  public static setAbbr (abbr: string = TokenUnit.abbr): void {
-    TokenUnit.abbr = abbr;
-  }
-}
 
 function getGlobalMaxValue (bitLength?: number): BN {
   return BN_TWO.pow(new BN(bitLength || DEFAULT_BITLENGTH)).isub(BN_ONE);

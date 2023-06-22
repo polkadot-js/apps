@@ -43,8 +43,7 @@ export const emptyAccounts: Accounts = {
 
 // here it's extremely hard to reconstruct the entire DeriveBalancesAll upfront, so we incrementally add properties
 // instead along the way; thus the need to tell the tsc we know what we are doing here
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-export const defaultBalanceAccount: DeriveBalancesAll = {
+export const defaultBalanceAccount = {
   accountNonce: new BN(1),
   additional: [],
   availableBalance: balanceOf(0),
@@ -53,12 +52,11 @@ export const defaultBalanceAccount: DeriveBalancesAll = {
   lockedBreakdown: [],
   namedReserves: [],
   reservedBalance: balanceOf(0)
-} as any;
+} as unknown as DeriveBalancesAll;
 
 // here it's extremely hard to reconstruct the entire DeriveStakingAccount upfront,
 // so we set just the properties that we use in page-accounts
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-export const defaultStakingAccount: DeriveStakingAccount = {
+export const defaultStakingAccount = {
   nextSessionIds: [],
   nominators: [],
   redeemable: balanceOf(0),
@@ -78,15 +76,14 @@ export const defaultStakingAccount: DeriveStakingAccount = {
       value: balanceOf(0)
     }
   ]
-} as any;
+} as unknown as DeriveStakingAccount;
 
 export const defaultMeta: KeyringJson$Meta = {};
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-export const defaultAccountInfo: UseAccountInfo = {
+export const defaultAccountInfo = {
   flags: {},
   identity: { email: 'user@email.com', isExistent: true, judgements: [] },
   tags: []
-} as any;
+} as unknown as UseAccountInfo;
 
 class MockAccountHooks {
   public useAccounts: Accounts = emptyAccounts;
@@ -109,32 +106,25 @@ class MockAccountHooks {
       const balance = { ...defaultBalanceAccount };
       const info = { ...defaultAccountInfo };
 
-      // Typescript does not recognize that keys and values from Object.entries are safe,
-      // so we have to use "any" here.
-
       Object
         .entries(props.meta || meta)
         .forEach(([key, value]) => {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          (meta as any)[key] = value;
+          (meta as Record<string, unknown>)[key] = value;
         });
       Object
         .entries(props.balance || balance)
         .forEach(([key, value]) => {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          (balance as any)[key] = value;
+          (balance as Record<string, unknown>)[key] = value;
         });
       Object
         .entries(props.staking || staking)
         .forEach(([key, value]) => {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          (staking as any)[key] = value;
+          (staking as Record<string, unknown>)[key] = value;
         });
       Object
         .entries(props.info || info)
         .forEach(([key, value]) => {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          (info as any)[key] = value;
+          (info as Record<string, unknown>)[key] = value;
         });
 
       this.accountsMap[address] = {

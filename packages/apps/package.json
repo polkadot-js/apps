@@ -1,7 +1,7 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
   "engines": {
-    "node": ">=14"
+    "node": ">=16"
   },
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/apps#readme",
   "license": "Apache-2.0",
@@ -14,19 +14,22 @@
   },
   "sideEffects": true,
   "type": "module",
-  "version": "0.127.2-3-x",
+  "version": "0.132.2-8-x",
   "dependencies": {
-    "@polkadot/apps-config": "^0.127.2-3-x",
-    "@polkadot/apps-routing": "^0.127.2-3-x",
-    "@polkadot/dev": "^0.72.43",
-    "@polkadot/react-api": "^0.127.2-3-x",
-    "@polkadot/react-components": "^0.127.2-3-x",
-    "@polkadot/react-hooks": "^0.127.2-3-x",
-    "@polkadot/react-params": "^0.127.2-3-x",
-    "@polkadot/react-query": "^0.127.2-3-x",
-    "@polkadot/react-signer": "^0.127.2-3-x",
+    "@polkadot/apps-config": "^0.132.2-8-x",
+    "@polkadot/apps-routing": "^0.132.2-8-x",
+    "@polkadot/dev": "^0.75.21",
+    "@polkadot/react-api": "^0.132.2-8-x",
+    "@polkadot/react-components": "^0.132.2-8-x",
+    "@polkadot/react-hooks": "^0.132.2-8-x",
+    "@polkadot/react-params": "^0.132.2-8-x",
+    "@polkadot/react-query": "^0.132.2-8-x",
+    "@polkadot/react-signer": "^0.132.2-8-x",
     "punycode": "^2.3.0",
-    "query-string": "^8.1.0"
+    "query-string": "^8.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-is": "^18.2.0"
   },
   "devDependencies": {
     "@types/punycode": "^2.1.0",
@@ -34,16 +37,20 @@
     "buffer": "^6.0.3",
     "copy-webpack-plugin": "^11.0.0",
     "crypto-browserify": "^3.12.0",
-    "css-loader": "^6.7.3",
+    "css-loader": "^6.8.1",
     "empty": "^0.10.1",
-    "html-webpack-plugin": "^5.5.1",
+    "html-webpack-plugin": "^5.5.3",
     "https-browserify": "^1.0.0",
-    "mini-css-extract-plugin": "^2.7.5",
+    "mini-css-extract-plugin": "^2.7.6",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
     "process": "^0.11.10",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
-    "ts-loader": "^9.4.2"
+    "ts-loader": "^9.4.3"
+  },
+  "peerDependencies": {
+    "typescript": "*",
+    "webpack": "*"
   }
 }

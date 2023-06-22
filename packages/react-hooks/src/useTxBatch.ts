@@ -155,7 +155,9 @@ function createBatches (api: ApiPromise, txs: SubmittableExtrinsic<'promise'>[],
         ? batch[0]
         : type === 'all' && isFunction(api.tx.utility.batchAll)
           ? api.tx.utility.batchAll(batch)
-          : api.tx.utility.batch(batch)
+          : type === 'force' && isFunction(api.tx.utility.forceBatch)
+            ? api.tx.utility.forceBatch(batch)
+            : api.tx.utility.batch(batch)
     );
 }
 

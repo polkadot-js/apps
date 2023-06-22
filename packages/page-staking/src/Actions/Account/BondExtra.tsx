@@ -1,12 +1,12 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import type { AmountValidateState } from '../types.js';
 
 import React, { useMemo, useState } from 'react';
 
-import { ApiPromise } from '@polkadot/api';
 import { InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BalanceFree } from '@polkadot/react-query';

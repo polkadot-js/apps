@@ -58,7 +58,7 @@ function Activity ({ allowEmpty, className, palletReferenda, tracks, value }: Pr
             ))}
           </Table>
         )
-        : <MarkWarning content={t<string>('This account has no voting/delating activity in the chain state')} />
+        : <MarkWarning content={t<string>('This account has no voting/delegating activity in the chain state')} />
       }
       {!allowEmpty && infos.some(([{ delegating }]) => delegating) && (
         <MarkWarning content={t<string>('This account has some delegations in itself')} />

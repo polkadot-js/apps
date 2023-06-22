@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { HexString } from '@polkadot/util/types';
 import type { ModalProps } from '../types.js';
 
 import React, { useCallback, useMemo, useState } from 'react';
@@ -16,7 +17,7 @@ import PasswordInput from './PasswordInput.js';
 interface Scanned {
   content: string;
   isAddress: boolean;
-  genesisHash: string;
+  genesisHash: HexString | null;
   name?: string;
 }
 

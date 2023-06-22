@@ -7,29 +7,40 @@ import path from 'node:path';
 import { formatNumber, stringCamelCase } from '@polkadot/util';
 
 const MAX_SIZE = 48 * 1024;
+
+// FIXME The sorting here and the sorting from linting seems like a mismatch...
 const HEADER = '// Copyright 2017-2023 @polkadot/apps authors & contributors\n// SPDX-License-Identifier: Apache-2.0\n\n// Do not edit. Auto-generated via node scripts/imgConvert.mjs\n\n';
 
+/** @type {Record<string, string>} */
 const MIME = {
   gif: 'image/gif',
   jpeg: 'image/jpeg',
   png: 'image/png',
   svg: 'image/svg+xml'
-}
+};
 
+/**
+ * @param {string} k
+ * @param {string} contents
+ * @returns {string}
+ */
 function makeContents (k, contents) {
   return `${HEADER}export const ${k} = '${contents}';\n`;
 }
 
+/** @type {Record<string, string>} */
 const all = {};
+/** @type {Record<string, number>} */
 const oversized = {};
 
-for (let dir of ['extensions', 'external', 'chains', 'nodes']) {
+for (const dir of ['extensions', 'external', 'chains', 'nodes']) {
   const sub = path.join('packages/apps-config/src/ui/logos', dir);
   const generated = path.join(sub, 'generated');
+  /** @type {Record<string, string>} */
   const result = {};
 
   if (fs.existsSync(generated)) {
-    fs.rmSync(generated, { recursive: true, force: true });
+    fs.rmSync(generated, { force: true, recursive: true });
   }
 
   fs.mkdirSync(generated);
@@ -65,39 +76,46 @@ for (let dir of ['extensions', 'external', 'chains', 'nodes']) {
       }
     });
 
-    if (Object.keys(result).length) {
-      let srcs = '';
+  if (Object.keys(result).length) {
+    let srcs = '';
 
-      for (let dir of ['endpoints', 'extensions', 'links']) {
-        const srcroot = path.join('packages/apps-config/src', dir);
+    for (const dir of ['endpoints', 'extensions', 'links']) {
+      const srcroot = path.join('packages/apps-config/src', dir);
 
-        fs
-          .readdirSync(srcroot)
-          .forEach((file) => {
-            const full = path.join(srcroot, file);
+      fs
+        .readdirSync(srcroot)
+        .forEach((file) => {
+          const full = path.join(srcroot, file);
 
-            if (fs.lstatSync(full).isFile() && file.endsWith('.ts')) {
-              srcs += fs.readFileSync(full).toString();
-            }
-          });
-      }
-
-      const notfound = Object
-        .keys(result)
-        .filter((k) => !srcs.includes(k));
-
-      if (notfound.length) {
-        console.log('\n', notfound.length.toString().padStart(3), 'not referenced in', dir, '::\n\n\t', notfound.join(', '), '\n');
-      }
-
-      fs.writeFileSync(path.join(sub, 'index.ts'), `${HEADER}${Object.keys(result).sort().map((k) => `export { ${k} } from './${result[k]}.js';`).join('\n')}\n`);
+          if (fs.lstatSync(full).isFile() && file.endsWith('.ts')) {
+            srcs += fs.readFileSync(full).toString();
+          }
+        });
     }
+
+    const notfound = Object
+      .keys(result)
+      .filter((k) => !srcs.includes(k));
+
+    if (notfound.length) {
+      console.log('\n', notfound.length.toString().padStart(3), 'not referenced in', dir, '::\n\n\t', notfound.join(', '), '\n');
+    }
+
+    fs.writeFileSync(path.join(sub, 'index.ts'), `${HEADER}${
+      Object
+        .keys(result)
+        .sort((a, b) => result[a].localeCompare(result[b]))
+        .map((k) => `export { ${k} } from './${result[k]}.js';`)
+        .join('\n')
+    }\n`);
+  }
 }
 
 const allKeys = Object.keys(all);
+/** @type {Record<string, string[]>} */
 const dupes = {};
 
- allKeys.forEach((a) => {
+allKeys.forEach((a) => {
   const d = allKeys.filter((b) =>
     a !== b &&
     all[a] === all[b]
@@ -106,14 +124,14 @@ const dupes = {};
   if (d.length) {
     dupes[a] = d;
   }
- });
+});
 
 if (Object.keys(dupes).length) {
   const errMsg = `${Object.keys(dupes).length.toString().padStart(3)} dupes found`;
 
   console.log('\n', errMsg, '::\n');
 
-  for (let [k, d] of Object.entries(dupes)) {
+  for (const [k, d] of Object.entries(dupes)) {
     console.log('\t', k.padStart(30), ' >> ', d.join(', '));
   }
 
@@ -129,8 +147,8 @@ if (numOversized) {
 
   console.log('\n', errMsg, '::\n');
 
-  for (let [k, v] of Object.entries(oversized)) {
-    console.log('\t', k.padStart(30), formatNumber(v).padStart(15), `(+${formatNumber(v - MAX_SIZE)} bytes)`)
+  for (const [k, v] of Object.entries(oversized)) {
+    console.log('\t', k.padStart(30), formatNumber(v).padStart(15), `(+${formatNumber(v - MAX_SIZE)} bytes)`);
   }
 
   console.log();
