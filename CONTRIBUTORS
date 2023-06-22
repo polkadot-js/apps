@@ -406,6 +406,7 @@
        1	Robert Gabriel Jakabosky      	Support BTreeSet. (#9206)
        1	Robin Syihab                  	Fix typo in ID translation (#5865)
        1	Rocco Musolino                	italian translation typo fix (#3813)
+       1	Rodrigo Quelhas               	Update Acurast parachain id and providers (#9618)
        1	Saad                          	Reskinning Composable Finance/Picasso Portal Colors (#7696)
        1	Sam Hellawell                 	Fix dock logos being blurry/low res (#4427)
        1	Satyam Agrawal                	Add Polymesh ITN Provider (#5242)
