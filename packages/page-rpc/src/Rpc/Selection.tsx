@@ -72,7 +72,7 @@ function Selection ({ queueRpc }: Props): React.ReactElement<Props> {
     (): void => queueRpc({
       rpc,
       values: values
-        .filter(({ value }) => !isNull(value))
+        .filter(({ value }, idx) => !rpc.params[idx].isOptional || !isNull(value))
         .map(({ value }): any => value)
     }),
     [queueRpc, rpc, values]
