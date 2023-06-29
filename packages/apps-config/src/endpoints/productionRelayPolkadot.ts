@@ -485,7 +485,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'parallel',
     paraId: 2012,
     providers: {
-      // OnFinality: 'wss://parallel.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9266
+      OnFinality: 'wss://parallel.api.onfinality.io/public-ws',
       Parallel: 'wss://rpc.parallel.fi'
     },
     text: 'Parallel',
@@ -617,7 +617,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2037,
     providers: {
       'Geo Load Balancer': 'wss://ws.unique.network',
-      // OnFinality: 'wss://unique.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9451
+      OnFinality: 'wss://unique.api.onfinality.io/public-ws',
       'Unique America': 'wss://us-ws.unique.network',
       'Unique Asia': 'wss://asia-ws.unique.network',
       'Unique Europe': 'wss://eu-ws.unique.network'
