@@ -1,10 +1,10 @@
 // Copyright 2017-2023 @polkadot/test-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { DeriveBounty } from '@polkadot/api-derive/types';
 import type { WaitOptions } from '@polkadot/test-support/types';
 
-import { ApiPromise } from '@polkadot/api';
 import { waitFor } from '@polkadot/test-support/utils';
 
 type bStatus = 'isFunded' | 'isActive';

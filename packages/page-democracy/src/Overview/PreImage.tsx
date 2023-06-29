@@ -7,8 +7,9 @@ import type { HexString } from '@polkadot/util/types';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { Extrinsic, InputAddress, InputBalance, Modal, Static, styled, TxButton } from '@polkadot/react-components';
+import { InputAddress, InputBalance, Modal, Static, styled, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
+import { Extrinsic } from '@polkadot/react-params';
 import { Available } from '@polkadot/react-query';
 import { BN, BN_ZERO, isString } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';

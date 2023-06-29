@@ -8,6 +8,10 @@ const i18nRoot = path.join(__dirname, '../packages/apps/public/locales');
 
 const SKIP_NS = ['translation'].map((f) => `${f}.json`);
 
+/**
+ * @param {string} langRoot
+ * @returns {string[]}
+ */
 function getEntries (langRoot) {
   return fs
     .readdirSync(langRoot)
@@ -20,19 +24,26 @@ function getEntries (langRoot) {
     .sort();
 }
 
+/**
+ * @param {string} lang
+ */
 function sortLanguage (lang) {
   const langRoot = path.join(i18nRoot, lang);
   const entries = getEntries(langRoot);
+  /** @type {Record<String, boolean>} */
   const hasKeys = {};
 
   entries.forEach((entry) => {
     const filename = path.join(langRoot, entry);
     const json = require(filename);
-    const sorted = Object.keys(json).sort().reduce((result, key) => {
-      result[key] = json[key];
+    const sorted = Object
+      .keys(json)
+      .sort()
+      .reduce((/** @type {Record<String, string>} */ result, key) => {
+        result[key] = json[key];
 
-      return result;
-    }, {});
+        return result;
+      }, {});
 
     hasKeys[entry] = Object.keys(sorted).length !== 0;
 

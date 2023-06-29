@@ -15,7 +15,7 @@ jobs:
       env:
         CI_LOG: 123
       run: |
-        yarn install --immutable | grep -v 'YN0013'
+        yarn install --immutable
         yarn ci:chainTypes
 
     - name: issue

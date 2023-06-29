@@ -1,8 +1,9 @@
 // Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import definitions from '@digitalnative/type-definitions/standard/index.js';
+import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-import { OverrideBundleDefinition } from '@polkadot/types/types';
+// @ts-expect-error No definitions provided in package
+import { standardTypes } from '@digitalnative/type-definitions';
 
-export default definitions as OverrideBundleDefinition;
+export default standardTypes as OverrideBundleDefinition;

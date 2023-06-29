@@ -7,8 +7,9 @@ import type { HexString } from '@polkadot/util/types';
 
 import React from 'react';
 
-import { CallExpander, styled } from '@polkadot/react-components';
+import { styled } from '@polkadot/react-components';
 import { useApi, usePreimage } from '@polkadot/react-hooks';
+import { CallExpander } from '@polkadot/react-params';
 
 import { useTranslation } from '../translate.js';
 import ExternalCell from './ExternalCell.js';

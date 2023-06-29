@@ -1,14 +1,16 @@
 // Copyright 2017-2023 @polkadot/test-supports authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// utility wrapper over an account item in accounts table, serves basic assertions about an account row
-import { fireEvent, screen, within } from '@testing-library/react';
+/* global expect */
 
-import { Balance } from '@polkadot/types/interfaces';
+import type { Balance } from '@polkadot/types/interfaces';
+
+import { fireEvent, screen, within } from '@testing-library/react';
 
 import { format } from '../utils/balance.js';
 import { Sidebar } from './Sidebar.js';
 
+// utility wrapper over an account item in accounts table, serves basic assertions about an account row
 export class Row {
   public primaryRow: HTMLElement;
   public detailsRow: HTMLElement;

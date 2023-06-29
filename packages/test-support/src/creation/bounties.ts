@@ -1,10 +1,10 @@
 // Copyright 2017-2023 @polkadot/test-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiPromise } from '@polkadot/api';
-import { BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
-import { PalletBountiesBounty } from '@polkadot/types/lookup';
-import { Registry } from '@polkadot/types/types';
+import type { ApiPromise } from '@polkadot/api';
+import type { BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
+import type { PalletBountiesBounty } from '@polkadot/types/lookup';
+import type { Registry } from '@polkadot/types/types';
 
 import { balanceOf } from './balance.js';
 

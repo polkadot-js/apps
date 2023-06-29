@@ -1,5 +1,5 @@
 ---
-title: Unavailable chain endpoints
+title: Unavailable chain endpoints {{ date | date('ddd, MMM D YYYY, h:mm:ss a') }}
 labels: ['ci']
 ---
 

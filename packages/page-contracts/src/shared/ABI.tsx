@@ -1,9 +1,10 @@
 // Copyright 2017-2023 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Abi } from '@polkadot/api-contract';
+
 import React from 'react';
 
-import { Abi } from '@polkadot/api-contract';
 import { IconLink, InputFile, Labelled } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate.js';

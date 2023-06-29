@@ -1,0 +1,4 @@
+{
+  "eslint.enable": true,
+  "eslint.experimental.useFlatConfig": true
+}

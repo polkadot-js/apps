@@ -1,11 +1,12 @@
 // Copyright 2017-2023 @polkadot/app-files authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CancelTokenSource } from 'axios';
 import type { TFunction } from 'i18next';
 import type { Signer } from '@polkadot/api/types';
-import type { AuthIpfsEndpoint } from './types.js';
+import type { AuthIpfsEndpoint, DirFile, FileInfo, SaveFile, UploadRes } from './types.js';
 
-import axios, { CancelTokenSource } from 'axios';
+import axios from 'axios';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { web3FromSource } from '@polkadot/extension-dapp';
@@ -15,7 +16,6 @@ import { isFunction, nextTick, stringToHex, stringToU8a, u8aToHex } from '@polka
 
 import Progress from './Progress.js';
 import { useTranslation } from './translate.js';
-import { DirFile, FileInfo, SaveFile, UploadRes } from './types.js';
 
 export interface Props {
   className?: string;
@@ -141,7 +141,7 @@ function UploadModal ({ className, file, onClose = NOOP, onSuccess = NOOP }: Pro
 
     // for injected, retrieve the signer
     if (meta.source && isInjected) {
-      web3FromSource(meta.source as string)
+      web3FromSource(meta.source)
         .catch(() => null)
         .then((injected) => setSigner({
           isUsable: isFunction(injected?.signer?.signRaw),

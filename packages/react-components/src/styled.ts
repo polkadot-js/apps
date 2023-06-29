@@ -1,7 +1,9 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import styledComponents, { StyledInterface } from 'styled-components';
+import type { StyledInterface } from 'styled-components';
+
+import styledComponents from 'styled-components';
 
 // In styled-components v6, there is a named export which can be used
 // directly, i.e. "import { styled } from ..." with no more magic. Until

@@ -23,6 +23,7 @@ import gilt from './gilt.js';
 import js from './js.js';
 import membership from './membership.js';
 import nfts from './nfts.js';
+import nis from './nis.js';
 import parachains from './parachains.js';
 import poll from './poll.js';
 import preimages from './preimages.js';
@@ -74,10 +75,11 @@ export default function create (t: TFunction): Routes {
     bounties(t),
     // others
     parachains(t),
-    gilt(t),
     assets(t),
     nfts(t),
     society(t),
+    nis(t),
+    gilt(t),
     scheduler(t),
     calendar(t),
     contracts(t),

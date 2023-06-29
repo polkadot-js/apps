@@ -4,4 +4,3 @@
 export * from './addresses.js';
 export * from './MemoryStore.js';
 export * from './signers.js';
-export * from './addresses.js';

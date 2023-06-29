@@ -208,6 +208,7 @@ function Input ({ autoFocus = false, children, className, defaultValue, icon, in
           data-testid={label}
           onPaste={_onPaste}
           spellCheck={false}
+          style={{ pointerEvents: 'auto' }}
         />
         {isEditable && (
           <i className='edit icon' />
@@ -221,11 +222,4 @@ function Input ({ autoFocus = false, children, className, defaultValue, icon, in
 
 export default React.memo(Input);
 
-export {
-  isCopy,
-  isCut,
-  isPaste,
-  isSelectAll,
-  KEYS,
-  KEYS_PRE
-};
+export { isCopy, isCut, isPaste, isSelectAll, KEYS, KEYS_PRE };

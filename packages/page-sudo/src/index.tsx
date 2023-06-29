@@ -4,7 +4,7 @@
 import type { AppProps as Props } from '@polkadot/react-components/types';
 
 import React, { useRef } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import { Icon, Tabs } from '@polkadot/react-components';
 import { useSudo } from '@polkadot/react-hooks';
@@ -37,21 +37,29 @@ function SudoApp ({ basePath }: Props): React.ReactElement<Props> {
       />
       {hasSudoKey
         ? (
-          <Switch>
-            <Route path={`${basePath}/key`}>
-              <SetKey
-                allAccounts={allAccounts}
-                isMine={hasSudoKey}
-                sudoKey={sudoKey}
+          <Routes>
+            <Route path={basePath}>
+              <Route
+                element={
+                  <SetKey
+                    allAccounts={allAccounts}
+                    isMine={hasSudoKey}
+                    sudoKey={sudoKey}
+                  />
+                }
+                path='key'
+              />
+              <Route
+                element={
+                  <Sudo
+                    isMine={hasSudoKey}
+                    sudoKey={sudoKey}
+                  />
+                }
+                index
               />
             </Route>
-            <Route>
-              <Sudo
-                isMine={hasSudoKey}
-                sudoKey={sudoKey}
-              />
-            </Route>
-          </Switch>
+          </Routes>
         )
         : (
           <article className='error padded'>

@@ -10,7 +10,7 @@ interface Props {
   children?: React.ReactNode;
   className?: string;
   copyValue?: string;
-  defaultValue?: unknown;
+  defaultValue?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
   isFull?: boolean;

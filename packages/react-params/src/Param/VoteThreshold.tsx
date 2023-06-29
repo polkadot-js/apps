@@ -36,6 +36,7 @@ function VoteThresholdParam ({ className = '', defaultValue: { value }, isDisabl
   );
 
   const defaultValue = useMemo(
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     () => isFunction((value as BN).toNumber)
       ? (value as BN).toNumber()
       : bnToBn(value as number).toNumber(),

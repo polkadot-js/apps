@@ -1,12 +1,13 @@
 // Copyright 2017-2023 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// augment package
 import '@polkadot/api-augment/substrate';
 
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo, useRef } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
@@ -76,18 +77,26 @@ function AssetApp ({ basePath, className }: Props): React.ReactElement<Props> {
         hidden={hidden}
         items={tabsRef.current}
       />
-      <Switch>
-        <Route path={`${basePath}/balances`}>
-          <Balances infos={infos} />
-        </Route>
-        <Route>
-          <Overview
-            ids={ids}
-            infos={infos}
-            openId={openId}
+      <Routes>
+        <Route path={basePath}>
+          <Route
+            element={
+              <Balances infos={infos} />
+            }
+            path='balances'
+          />
+          <Route
+            element={
+              <Overview
+                ids={ids}
+                infos={infos}
+                openId={openId}
+              />
+            }
+            index
           />
         </Route>
-      </Switch>
+      </Routes>
     </main>
   );
 }

@@ -2,27 +2,17 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import type { TabItem } from '@polkadot/react-components/Tabs/types';
-import type { AppProps as Props } from '@polkadot/react-components/types';
+import type { AppProps as Props, TabItem } from '@polkadot/react-components/types';
 import type { DecodedExtrinsic } from './types.js';
 
 import React, { useRef, useState } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 
 import Decoder from './Decoder.js';
 import Submission from './Submission.js';
 import { useTranslation } from './translate.js';
-
-function createPathRef (basePath: string): Record<string, string | string[]> {
-  return {
-    decode: [
-      `${basePath}/decode/:encoded`,
-      `${basePath}/decode`
-    ]
-  };
-}
 
 function createItemsRef (t: TFunction): TabItem[] {
   return [
@@ -43,7 +33,6 @@ function ExtrinsicsApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [decoded, setDecoded] = useState<DecodedExtrinsic | null>(null);
   const itemsRef = useRef(createItemsRef(t));
-  const pathRef = useRef(createPathRef(basePath));
 
   return (
     <main className='extrinsics--App'>
@@ -51,17 +40,25 @@ function ExtrinsicsApp ({ basePath }: Props): React.ReactElement<Props> {
         basePath={basePath}
         items={itemsRef.current}
       />
-      <Switch>
-        <Route path={pathRef.current.decode}>
-          <Decoder
-            defaultValue={decoded && decoded.hex}
-            setLast={setDecoded}
+      <Routes>
+        <Route path={basePath}>
+          <Route
+            element={
+              <Decoder
+                defaultValue={decoded && decoded.hex}
+                setLast={setDecoded}
+              />
+            }
+            path='decode/:encoded?'
+          />
+          <Route
+            element={
+              <Submission defaultValue={decoded} />
+            }
+            index
           />
         </Route>
-        <Route>
-          <Submission defaultValue={decoded} />
-        </Route>
-      </Switch>
+      </Routes>
     </main>
   );
 }

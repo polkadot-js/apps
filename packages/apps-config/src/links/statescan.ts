@@ -12,6 +12,7 @@ export const Statescan: ExternalDef = {
     Kusama: 'kusama',
     Litentry: 'litentry',
     Litmus: 'litmus',
+    Polkadot: 'polkadot',
     Statemine: 'statemine',
     Statemint: 'statemint',
     'Westend Collectives': 'westend-collectives',

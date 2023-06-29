@@ -1,6 +1,8 @@
 // Copyright 2017-2023 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/* global expect */
+
 import { within } from '@testing-library/react';
 
 import { Row } from '@polkadot/test-support/pagesElements';

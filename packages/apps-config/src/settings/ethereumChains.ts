@@ -22,5 +22,9 @@ export const ethereumChains = [
   'Pangoro2',
   'thebifrost-dev',
   'thebifrost-testnet',
-  'thebifrost-mainnet'
+  'thebifrost-mainnet',
+  'dracones',
+  'dracones-dwarf',
+  'subspace-evm-domain',
+  'ferrum-parachain'
 ];

@@ -49,7 +49,7 @@ describe('urls are sorted', (): void => {
     return !hasDevelopment;
   });
 
-  filtered.forEach(({ isHeader, text, textBy }, index): void => {
+  filtered.forEach(({ isHeader, paraId, text, textBy }, index): void => {
     if (isHeader) {
       lastHeader = text as string;
     } else {
@@ -57,7 +57,14 @@ describe('urls are sorted', (): void => {
         assert((
           filtered[index - 1].isHeader ||
           filtered[index - 1].linked ||
-          (isNumber(filtered[index - 1].paraId) && (filtered[index - 1].paraId as number) < 2000) ||
+          (
+            isNumber(filtered[index - 1].paraId) &&
+            (
+              (filtered[index - 1].paraId as number) < 2000
+                ? isNumber(paraId) && paraId >= 2000
+                : false
+            )
+          ) ||
           filtered[index - 1].text === '' ||
           text === filtered[index - 1].text ||
           (text as string).localeCompare(filtered[index - 1].text as string) === 1
@@ -93,7 +100,7 @@ describe('urls are not duplicated', (): void => {
     }, {} as Record<string, string[]>);
 
   for (const [url, paths] of Object.entries<string[]>(map)) {
-    it(url, (): void => {
+    it(`${url}`, (): void => {
       assert(paths.length === 1, `${url} appears multiple times - ${paths.map((p) => `\n\t"${p}"`).join('')}`);
     });
   }
@@ -118,7 +125,7 @@ describe('endpopints naming', (): void => {
     }), {});
 
   for (const [key, { name, provider }] of Object.entries<Endpoint>(endpoints)) {
-    describe(key, (): void => {
+    describe(`${key}`, (): void => {
       it(`[${key}] has no emojis`, (): void => {
         assert(!emoji.test(name), `${name} should not contain any emojis`);
         assert(!emoji.test(provider), `${name}:: ${provider} should not contain any emojis`);

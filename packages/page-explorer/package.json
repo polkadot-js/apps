@@ -1,7 +1,7 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
   "engines": {
-    "node": ">=14"
+    "node": ">=16"
   },
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-explorer#readme",
   "license": "Apache-2.0",
@@ -14,8 +14,13 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.124.2-189-x",
+  "version": "0.132.2-10-x",
   "dependencies": {
-    "@polkadot/react-components": "^0.124.2-189-x"
+    "@polkadot/react-components": "^0.132.2-10-x"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*",
+    "react-is": "*"
   }
 }

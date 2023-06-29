@@ -6,7 +6,8 @@ import type { BN } from '@polkadot/util';
 
 import React from 'react';
 
-import { CallExpander, Modal, styled } from '@polkadot/react-components';
+import { Modal, styled } from '@polkadot/react-components';
+import { CallExpander } from '@polkadot/react-params';
 
 import PaymentInfo from './PaymentInfo.js';
 import { useTranslation } from './translate.js';

@@ -3,8 +3,8 @@
 
 import type { EndpointOption } from './types.js';
 
-import { chains3dpassPNG, chainsAlephSVG, chainsBittensorPNG, chainsCreditcoinPNG, chainsDebioSVG, chainsEquilibriumSVG, chainsFragnovaPNG, chainsGenshiroSVG, chainsLogionPNG, chainsMyriadPNG, chainsSpannerPNG, chainsVaraSVG } from '../ui/logos/chains/index.js';
-import { nodesAresOdysseySVG, nodesAutomataPNG, nodesCentrifugePNG, nodesChainxSVG, nodesCompetitorsClubPNG, nodesCrownSterlingPNG, nodesCrustSVG, nodesDarwiniaSVG, nodesDatahighwayPNG, nodesDockPNG, nodesEdgewareWhitePNG, nodesEfinitySVG, nodesHanyonycashPNG, nodesHumanodePNG, nodesJoystreamSVG, nodesKulupuSVG, nodesKusariSVG, nodesMathSVG, nodesMinixPNG, nodesNftmartPNG, nodesNodleSVG, nodesPolkadexSVG, nodesPolymeshSVG, nodesRiochainSVG, nodesRobonomicsSVG, nodesSherpaxPNG, nodesSoraSubstrateSVG, nodesStafiPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesSwapdexSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesUniartsPNG, nodesUnitnetworkPNG } from '../ui/logos/nodes/index.js';
+import { chains3dpassSVG, chainsAlephSVG, chainsBittensorPNG, chainsCreditcoinPNG, chainsDebioSVG, chainsEquilibriumSVG, chainsFragnovaPNG, chainsGenshiroSVG, chainsJurPNG, chainsLogionPNG, chainsMyriadPNG, chainsSpannerPNG, chainsVaraSVG } from '../ui/logos/chains/index.js';
+import { nodesAresOdysseySVG, nodesAutomataPNG, nodesCentrifugePNG, nodesCereSVG, nodesChainxSVG, nodesCompetitorsClubPNG, nodesCrownSterlingPNG, nodesCrustSVG, nodesDatahighwayPNG, nodesDockPNG, nodesEdgewareWhitePNG, nodesEfinitySVG, nodesHanyonycashPNG, nodesHumanodePNG, nodesJoystreamSVG, nodesKulupuSVG, nodesKusariSVG, nodesMathSVG, nodesMinixPNG, nodesNftmartPNG, nodesNodleSVG, nodesPolkadexSVG, nodesPolymeshSVG, nodesRiochainSVG, nodesRobonomicsSVG, nodesSherpaxPNG, nodesSoraSubstrateSVG, nodesStafiPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesSwapdexSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesUniartsPNG, nodesUnitnetworkPNG } from '../ui/logos/nodes/index.js';
 
 export * from './productionRelayKusama.js';
 export * from './productionRelayPolkadot.js';
@@ -16,7 +16,7 @@ export * from './productionRelayPolkadot.js';
 //   providers: The actual hosted secure websocket endpoint
 //
 // IMPORTANT: Alphabetical based on text
-export const prodChains: EndpointOption[] = [
+export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: '3dpass',
     providers: {
@@ -25,13 +25,15 @@ export const prodChains: EndpointOption[] = [
     text: '3DPass',
     ui: {
       color: '#323232',
-      logo: chains3dpassPNG
+      logo: chains3dpassSVG
     }
   },
   {
     info: 'aleph',
     providers: {
-      'Aleph Zero Foundation': 'wss://ws.azero.dev'
+      'Aleph Zero Foundation': 'wss://ws.azero.dev',
+      Dwellir: 'wss://aleph-zero-rpc.dwellir.com'
+
     },
     text: 'Aleph Zero',
     ui: {
@@ -82,6 +84,18 @@ export const prodChains: EndpointOption[] = [
     ui: {
       color: '#fcc367',
       logo: nodesCentrifugePNG
+    }
+  },
+  {
+    info: 'cere',
+    providers: {
+      'Cere Network': 'wss://archive.mainnet.cere.network/ws',
+      'Republic Crypto | Runtime': 'wss://mainnet.cere-archive.republiccrypto-runtime.com:444'
+    },
+    text: 'Cere Network',
+    ui: {
+      color: '#B7AEFF',
+      logo: nodesCereSVG
     }
   },
   {
@@ -138,18 +152,6 @@ export const prodChains: EndpointOption[] = [
     ui: {
       color: '#ff8812',
       logo: nodesCrustSVG
-    }
-  },
-  {
-    info: 'darwinia',
-    providers: {
-      'Darwinia Network': 'wss://rpc.darwinia.network',
-      Dwellir: 'wss://darwinia-rpc.dwellir.com'
-    },
-    text: 'Darwinia',
-    ui: {
-      color: '#FF0083',
-      logo: nodesDarwiniaSVG
     }
   },
   {
@@ -222,7 +224,7 @@ export const prodChains: EndpointOption[] = [
   {
     info: 'genshiro',
     providers: {
-      Equilibrium: 'wss://node.genshiro.io'
+      // Equilibrium: 'wss://node.genshiro.io' // https://github.com/polkadot-js/apps/issues/9266
     },
     text: 'Genshiro',
     ui: {
@@ -260,6 +262,18 @@ export const prodChains: EndpointOption[] = [
     ui: {
       color: '#4038FF',
       logo: nodesJoystreamSVG
+    }
+  },
+  {
+    info: 'jur',
+    providers: {
+      'Iceberg Nodes': 'wss://jur-mainnet-archive-rpc-1.icebergnodes.io',
+      'Simply Staking': 'wss://jur-archive-mainnet-1.simplystaking.xyz/VX68C07AR4K2/ws'
+    },
+    text: 'Jur',
+    ui: {
+      color: '#203050',
+      logo: chainsJurPNG
     }
   },
   {
@@ -349,7 +363,6 @@ export const prodChains: EndpointOption[] = [
   },
   {
     info: 'nodle',
-    isUnreachable: true,
     providers: {
       // Nodle: 'wss://main3.nodleprotocol.io', // https://github.com/polkadot-js/apps/issues/7652
       // OnFinality: 'wss://nodle.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8013
@@ -444,7 +457,7 @@ export const prodChains: EndpointOption[] = [
   {
     info: 'stafi',
     providers: {
-      // 'Stafi Foundation': 'wss://mainnet-rpc.stafi.io' // isDisabled: true, // Cannot find type ChainId
+      // 'Stafi Foundation': 'wss://mainnet-rpc.stafi.io' // Cannot find type ChainId
     },
     text: 'Stafi',
     ui: {
@@ -522,7 +535,7 @@ export const prodChains: EndpointOption[] = [
   {
     info: 'unitnetwork',
     providers: {
-      // UnitNetwork: 'wss://www.unitnode3.info:443'
+      // UnitNetwork: 'wss://www.unitnode3.info:443' // Duplicated in Rococo
     },
     text: 'UnitNetwork',
     ui: {

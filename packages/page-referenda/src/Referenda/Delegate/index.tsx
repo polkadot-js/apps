@@ -1,13 +1,14 @@
 // Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { BatchOptions } from '@polkadot/react-hooks/types';
 import type { BN } from '@polkadot/util';
 import type { PalletReferenda, PalletVote, TrackDescription } from '../../types.js';
 
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { Button, ConvictionDropdown, InputAddress, Modal, Toggle, ToggleGroup, TxButton, VoteValue } from '@polkadot/react-components';
-import { useAccounts, useApi, useStepper, useToggle } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useStepper, useToggle, useTxBatch } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../../translate.js';
@@ -29,6 +30,8 @@ interface Option {
   name: string;
   value: string;
 }
+
+const BATCH_OPTS: BatchOptions = { type: 'force' };
 
 function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -92,17 +95,21 @@ function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): R
     []
   );
 
-  const extrinsic = useMemo(
-    () => balance && conviction && toAccount && includeTracks
-      ? isAllTracks
-        ? api.tx.utility.forceBatch(includeTracks.map((trackId) =>
-          api.tx[palletVote as 'convictionVoting'].delegate(trackId, toAccount, conviction, balance)
-        ))
-        : api.tx[palletVote as 'convictionVoting'].delegate(trackId, toAccount, conviction, balance)
+  const batchInner = useMemo(
+    () => balance && conviction >= 0 && toAccount && includeTracks
+      ? (isAllTracks ? includeTracks : [trackId]).map((trackId) =>
+        api.tx[palletVote as 'convictionVoting'].delegate(trackId, toAccount, conviction, balance)
+      )
       : null,
     [api, balance, conviction, includeTracks, isAllTracks, palletVote, toAccount, trackId]
   );
 
+  const extrinsics = useTxBatch(batchInner, BATCH_OPTS);
+
+  // NOTE The activityFrom & activityTo checks only checks that the hook has received
+  // values, not that any values are contained. If we do a length check, that would mean
+  // we could only delegate to accounts with activity. Instead, we just check that we
+  // have the results from the on-chain data received via useActivity*
   const isStep1Valid = !!(accountId && activityFrom && includeTracks && (includeTracks.length > 0));
   const isStep2Valid = !!(toAccount && activityTo);
 
@@ -259,7 +266,7 @@ function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): R
             )}
             <TxButton
               accountId={accountId}
-              extrinsic={extrinsic}
+              extrinsic={extrinsics}
               icon='code-merge'
               isDisabled={
                 !isStep1Valid ||

@@ -15,16 +15,17 @@ import { ApiPromise, ScProvider, WsProvider } from '@polkadot/api';
 import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
 import { ethereumChains, typesBundle } from '@polkadot/apps-config';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
-import { TokenUnit } from '@polkadot/react-components/InputNumber';
+import { TokenUnit } from '@polkadot/react-components/InputConsts/units';
 import { useApiUrl, useEndpoint, useQueue } from '@polkadot/react-hooks';
-import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';
+import { ApiCtx } from '@polkadot/react-hooks/ctx/Api';
+import { ApiSigner } from '@polkadot/react-signer/signers';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { formatBalance, isNumber, isTestChain, objectSpread, stringify } from '@polkadot/util';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
 import { lightSpecs, relaySpecs } from './light/index.js';
-import registry from './typeRegistry.js';
+import { statics } from './statics.js';
 import { decodeUrlTypes } from './urlTypes.js';
 
 interface Props {
@@ -52,18 +53,12 @@ interface ChainData {
   systemVersion: string;
 }
 
-export const DEFAULT_DECIMALS = registry.createType('u32', 12);
-export const DEFAULT_SS58 = registry.createType('u32', addressDefaults.prefix);
+export const DEFAULT_DECIMALS = statics.registry.createType('u32', 12);
+export const DEFAULT_SS58 = statics.registry.createType('u32', addressDefaults.prefix);
 export const DEFAULT_AUX = ['Aux1', 'Aux2', 'Aux3', 'Aux4', 'Aux5', 'Aux6', 'Aux7', 'Aux8', 'Aux9'];
-
-export const ApiCtx = React.createContext<ApiProps>({} as unknown as ApiProps);
 
 const DISALLOW_EXTENSIONS: string[] = [];
 const EMPTY_STATE = { hasInjectedAccounts: false, isApiReady: false } as unknown as ApiState;
-
-let api: ApiPromise;
-
-export { api };
 
 function isKeyringLoaded () {
   try {
@@ -115,7 +110,7 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
     api.rpc.system.chain(),
     api.rpc.system.chainType
       ? api.rpc.system.chainType()
-      : Promise.resolve(registry.createType('ChainType', 'Live')),
+      : Promise.resolve(statics.registry.createType('ChainType', 'Live')),
     api.rpc.system.name(),
     api.rpc.system.version(),
     getInjectedAccounts(injectedPromise)
@@ -125,7 +120,7 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
     injectedAccounts: injectedAccounts.filter(({ meta: { source } }) =>
       !DISALLOW_EXTENSIONS.includes(source)
     ),
-    properties: registry.createType('ChainProperties', {
+    properties: statics.registry.createType('ChainProperties', {
       ss58Format: api.registry.chainSS58,
       tokenDecimals: api.registry.chainDecimals,
       tokenSymbol: api.registry.chainTokens
@@ -138,7 +133,7 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
 }
 
 async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, types: Record<string, Record<string, string>>): Promise<ApiState> {
-  registry.register(types);
+  statics.registry.register(types);
 
   const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api, injectedPromise);
   const chainSS58 = properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber();
@@ -153,7 +148,13 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, inject
   console.log(`chain: ${systemChain} (${systemChainType.toString()}), ${stringify(properties)}`);
 
   // explicitly override the ss58Format as specified
-  registry.setChainProperties(registry.createType('ChainProperties', { ss58Format, tokenDecimals, tokenSymbol }));
+  statics.registry.setChainProperties(
+    statics.registry.createType('ChainProperties', {
+      ss58Format,
+      tokenDecimals,
+      tokenSymbol
+    })
+  );
 
   // first setup the UI helpers
   formatBalance.setDefaults({
@@ -235,9 +236,9 @@ async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: un
       ? await getLightProvider(apiUrl.replace('light://', ''))
       : new WsProvider(apiUrl);
 
-    api = new ApiPromise({
+    statics.api = new ApiPromise({
       provider,
-      registry,
+      registry: statics.registry,
       signer,
       types,
       typesBundle
@@ -274,7 +275,7 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store }: Props): Rea
     [apiUrl, isElectron]
   );
   const value = useMemo<ApiProps>(
-    () => objectSpread({}, state, { api, apiEndpoint, apiError, apiRelay, apiUrl, createLink, extensions, isApiConnected, isApiInitialized, isElectron, isWaitingInjected: !extensions }),
+    () => objectSpread({}, state, { api: statics.api, apiEndpoint, apiError, apiRelay, apiUrl, createLink, extensions, isApiConnected, isApiInitialized, isElectron, isWaitingInjected: !extensions }),
     [apiError, createLink, extensions, isApiConnected, isApiInitialized, isElectron, state, apiEndpoint, apiRelay, apiUrl]
   );
 
@@ -286,19 +287,19 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store }: Props): Rea
       setApiError((error as Error).message);
     };
 
-    createApi(apiUrl, new ApiSigner(registry, queuePayload, queueSetTxStatus), onError)
+    createApi(apiUrl, new ApiSigner(statics.registry, queuePayload, queueSetTxStatus), onError)
       .then((types): void => {
-        api.on('connected', () => setIsApiConnected(true));
-        api.on('disconnected', () => setIsApiConnected(false));
-        api.on('error', onError);
-        api.on('ready', (): void => {
+        statics.api.on('connected', () => setIsApiConnected(true));
+        statics.api.on('disconnected', () => setIsApiConnected(false));
+        statics.api.on('error', onError);
+        statics.api.on('ready', (): void => {
           const injectedPromise = web3Enable('polkadot-js/apps');
 
           injectedPromise
             .then(setExtensions)
             .catch(console.error);
 
-          loadOnReady(api, apiEndpoint, injectedPromise, store, types)
+          loadOnReady(statics.api, apiEndpoint, injectedPromise, store, types)
             .then(setState)
             .catch(onError);
         });

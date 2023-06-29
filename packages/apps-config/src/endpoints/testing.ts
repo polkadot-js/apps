@@ -3,8 +3,8 @@
 
 import type { EndpointOption } from './types.js';
 
-import { chains3dpassPNG, chainsAcalaSVG, chainsAlephSVG, chainsBrainstormPNG, chainsCreditcoinTestPNG, chainsDebioSVG, chainsEquilibriumSVG, chainsFerrumPNG, chainsFragnovaPNG, chainsKintsugiPNG, chainsLogionPNG, chainsMyriadPNG, chainsShidenPNG, chainsSkyekiwiPNG, chainsTanglePNG } from '../ui/logos/chains/index.js';
-import { nodesAjunaPNG, nodesArcticPNG, nodesAresGladiosSVG, nodesAutomataPNG, nodesBifrostSVG, nodesBitcountryPNG, nodesCessPNG, nodesCloverSVG, nodesCrustMaxwellSVG, nodesCurioSVG, nodesDatahighwayPNG, nodesDockPNG, nodesDolphinSVG, nodesDotmogSVG, nodesEdgewareWhitePNG, nodesEncointerBlueSVG, nodesFantourPNG, nodesGalitalLogoPNG, nodesGamepowerSVG, nodesGeekSVG, nodesInterlaySVG, nodesIpsePNG, nodesJazPNG, nodesJupiterSVG, nodesKhalaSVG, nodesKiltPNG, nodesKlugPNG, nodesKylinPNG, nodesLaminarCircleSVG, nodesLitentryPNG, nodesMantaPNG, nodesMathSVG, nodesMinixPNG, nodesMoonbaseAlphaSVG, nodesMybankPNG, nodesNftmartPNG, nodesNodleSVG, nodesOpalLogoPNG, nodesOpportunityPNG, nodesPangoroSVG, nodesPhalaSVG, nodesPhoenixPNG, nodesPichiuPNG, nodesPolkadexSVG, nodesPolkafoundrySVG, nodesPolymeshSVG, nodesPontemSVG, nodesPrismPNG, nodesRealisPNG, nodesRiochainSVG, nodesSherpaxPNG, nodesSoonsocialPNG, nodesSoraSubstrateSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesSubspacePNG, nodesSubstrateHexagonSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesUniartsPNG, nodesUniqueSVG, nodesUnitnetworkPNG, nodesWeb3gamesSVG, nodesZCloakSVG } from '../ui/logos/nodes/index.js';
+import { chains3dpassSVG, chainsAcalaSVG, chainsAlephSVG, chainsBrainstormPNG, chainsCreditcoinTestPNG, chainsDebioSVG, chainsEquilibriumSVG, chainsFerrumPNG, chainsFragnovaPNG, chainsJurPNG, chainsKintsugiPNG, chainsLogionPNG, chainsMyriadPNG, chainsShidenPNG, chainsSkyekiwiPNG, chainsTanglePNG } from '../ui/logos/chains/index.js';
+import { nodesAjunaPNG, nodesArcticPNG, nodesAresGladiosSVG, nodesAutomataPNG, nodesBifrostSVG, nodesBitcountryPNG, nodesCereSVG, nodesCessPNG, nodesCloverSVG, nodesCrustMaxwellSVG, nodesCurioSVG, nodesDatahighwayPNG, nodesDockPNG, nodesDolphinSVG, nodesDotmogSVG, nodesEdgewareWhitePNG, nodesEncointerBlueSVG, nodesFantourPNG, nodesGalitalLogoPNG, nodesGamepowerSVG, nodesGeekSVG, nodesInterlaySVG, nodesIpsePNG, nodesJazPNG, nodesJupiterSVG, nodesKarmachainSVG, nodesKhalaSVG, nodesKiltPNG, nodesKlugPNG, nodesKylinPNG, nodesLaminarCircleSVG, nodesLitentryPNG, nodesMantaPNG, nodesMathSVG, nodesMinixPNG, nodesMoonbaseAlphaSVG, nodesMybankPNG, nodesNftmartPNG, nodesNodleSVG, nodesOpalLogoPNG, nodesOpportunityPNG, nodesPangoroSVG, nodesPhalaSVG, nodesPhoenixPNG, nodesPichiuPNG, nodesPolkadexSVG, nodesPolkafoundrySVG, nodesPolymeshSVG, nodesPontemSVG, nodesPrismPNG, nodesRealisPNG, nodesRiochainSVG, nodesSherpaxPNG, nodesSoonsocialPNG, nodesSoraSubstrateSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesSubspacePNG, nodesSubstrateHexagonSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesUniartsPNG, nodesUniqueSVG, nodesUnitnetworkPNG, nodesWeb3gamesSVG, nodesZCloakSVG } from '../ui/logos/nodes/index.js';
 
 export * from './testingRelayRococo.js';
 export * from './testingRelayWestend.js';
@@ -16,16 +16,16 @@ export * from './testingRelayWestend.js';
 //   providers: The actual hosted secure websocket endpoint
 //
 // IMPORTANT: Alphabetical based on text
-export const testChains: EndpointOption[] = [
+export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: '3dpass-testnet',
     providers: {
-      '3dpass': 'wss://test-rpc.3dpass.org'
+      // '3dpass': 'wss://test-rpc.3dpass.org' // https://github.com/polkadot-js/apps/issues/9443
     },
     text: '3DPass Testnet',
     ui: {
       color: '#323232',
-      logo: chains3dpassPNG
+      logo: chains3dpassSVG
     }
   },
   {
@@ -40,7 +40,7 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
-    info: 'aleph',
+    info: 'aleph-testnet',
     providers: {
       'Aleph Zero Foundation': 'wss://ws.test.azero.dev',
       Dwellir: 'wss://aleph-zero-testnet-rpc.dwellir.com'
@@ -65,7 +65,7 @@ export const testChains: EndpointOption[] = [
   {
     info: 'arctic',
     providers: {
-      Arctic: 'wss://arctic-rpc.icenetwork.io:9944'
+      // Arctic: 'wss://arctic-rpc.icenetwork.io:9944' // https://github.com/polkadot-js/apps/issues/9405
     },
     text: 'Arctic',
     ui: {
@@ -137,6 +137,18 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'cere',
+    providers: {
+      'Cere Network': 'wss://archive.testnet.cere.network/ws',
+      'Republic Crypto | Runtime': 'wss://testnet.cere-archive.republiccrypto-runtime.com:444'
+    },
+    text: 'Cere Network Testnet',
+    ui: {
+      color: '#B7AEFF',
+      logo: nodesCereSVG
+    }
+  },
+  {
     info: 'cess-testnet',
     providers: {
       CESS: 'wss://testnet-rpc0.cess.cloud/ws/'
@@ -195,7 +207,7 @@ export const testChains: EndpointOption[] = [
     info: 'datahighway',
     isDisabled: true,
     providers: {
-      MXC: 'wss://spreehafen.datahighway.com'
+      // MXC: 'wss://spreehafen.datahighway.com' // https://github.com/polkadot-js/apps/issues/9601
     },
     text: 'Spreehafen',
     ui: {
@@ -281,7 +293,7 @@ export const testChains: EndpointOption[] = [
   {
     info: 'ferrum',
     providers: {
-      // Ferrum: 'wss://testnet.dev.svcs.ferrumnetwork.io' // https://github.com/polkadot-js/apps/issues/9224
+      FerrumNetwork: 'wss://testnet.dev.svcs.ferrumnetwork.io'
     },
     text: 'Ferrum Testnet',
     ui: {
@@ -301,10 +313,10 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'fragnova',
-    providers: { // The actual hosted secure websocket endpoint
-      'Fragnova Network': 'wss://ws-test.fragnova.network'
+    providers: {
+      // 'Fragnova Network': 'wss://ws-test.fragnova.network' // https://github.com/polkadot-js/apps/issues/9490
     },
-    text: 'Fragnova Testnet', // The text to display on the dropdown
+    text: 'Fragnova Testnet',
     ui: {
       color: '#6b35a8',
       logo: chainsFragnovaPNG
@@ -413,6 +425,28 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
+    info: 'jur',
+    providers: {
+      Jur: 'wss://testnet.jur.io'
+    },
+    text: 'Jur Testnet',
+    ui: {
+      color: '#203050',
+      logo: chainsJurPNG
+    }
+  },
+  {
+    info: 'karmachain',
+    providers: {
+      Karmachain: 'wss://testnet.karmaco.in/testnet/ws'
+    },
+    text: 'Karmachain Testnet',
+    ui: {
+      color: '#44259D',
+      logo: nodesKarmachainSVG
+    }
+  },
+  {
     info: 'khala',
     providers: {
       // 'Phala Network': 'wss://pc-test-3.phala.network/khala/ws' // https://github.com/polkadot-js/apps/issues/6930
@@ -511,7 +545,6 @@ export const testChains: EndpointOption[] = [
   },
   {
     info: 'acala',
-    isUnreachable: true,
     providers: {
       // Acala: 'wss://mandala.polkawallet.io' // https://github.com/polkadot-js/apps/issues/9005
       // OnFinality: 'wss://acala-mandala.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8105
@@ -547,9 +580,10 @@ export const testChains: EndpointOption[] = [
     info: 'moonbaseAlpha',
     providers: {
       Blast: 'wss://moonbase-alpha.public.blastapi.io',
+      Dwellir: 'wss://moonbase-rpc.dwellir.com',
       'Moonbeam Foundation': 'wss://wss.api.moonbase.moonbeam.network',
-      OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws'
-      // UnitedBloc: 'wss://moonbase.unitedbloc.com:1001' // https://github.com/polkadot-js/apps/issues/9049
+      OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
+      UnitedBloc: 'wss://moonbase.unitedbloc.com'
     },
     text: 'Moonbase Alpha',
     ui: {
@@ -621,7 +655,7 @@ export const testChains: EndpointOption[] = [
     providers: {
       'Darwinia Network': 'wss://pangoro-rpc.darwinia.network'
     },
-    text: 'Pangoro',
+    text: 'Pangoro2',
     ui: {
       color: '#4B30DD',
       logo: nodesPangoroSVG
@@ -759,16 +793,6 @@ export const testChains: EndpointOption[] = [
     }
   },
   {
-    info: 'soonsocial',
-    providers: {
-      // DappForce: 'wss://testnet.subsocial.network' // https://github.com/polkadot-js/apps/issues/8315
-    },
-    text: 'Soonsocial',
-    ui: {
-      logo: nodesSoonsocialPNG
-    }
-  },
-  {
     info: 'sora-substrate',
     providers: {
       'Soramitsu #1': 'wss://ws.framenode-1.s1.stg1.sora2.soramitsu.co.jp',
@@ -872,7 +896,7 @@ export const testChains: EndpointOption[] = [
   {
     info: 'ternoa-testnet',
     providers: {
-      CapsuleCorp: 'wss://testnet.ternoa.com/'
+      // CapsuleCorp: 'wss://testnet.ternoa.com/' // https://github.com/polkadot-js/apps/issues/9515
     },
     text: 'Ternoa Testnet',
     ui: {
@@ -952,6 +976,16 @@ export const testChains: EndpointOption[] = [
     ui: {
       color: '#000000',
       logo: nodesWeb3gamesSVG
+    }
+  },
+  {
+    info: 'xsocial',
+    providers: {
+      DappForce: 'wss://xsocial.subsocial.network'
+    },
+    text: 'xSocial',
+    ui: {
+      logo: nodesSoonsocialPNG
     }
   },
   {

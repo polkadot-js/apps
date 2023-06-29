@@ -7,7 +7,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React, { Suspense } from 'react';
 import { ThemeProvider } from 'styled-components';
 
-import { lightTheme } from '@polkadot/apps/themes';
+import { lightTheme } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 import Button from '../Button/index.js';
@@ -61,6 +61,7 @@ describe('Modal Component', () => {
     await i18next.changeLanguage('en');
   });
 
+  // eslint-disable-next-line jest/expect-expect
   it('opens and closes modal', async () => {
     renderModal();
 
@@ -73,6 +74,7 @@ describe('Modal Component', () => {
     });
   });
 
+  // eslint-disable-next-line jest/expect-expect
   it('renders all modal sections', async () => {
     renderModal();
 
@@ -87,6 +89,7 @@ describe('Modal Component', () => {
     });
   });
 
+  // eslint-disable-next-line jest/expect-expect
   it('closes modal with ESC button', async () => {
     renderModal();
 

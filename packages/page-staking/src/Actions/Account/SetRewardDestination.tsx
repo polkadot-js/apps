@@ -12,6 +12,7 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate.js';
 import { createDestCurr } from '../destOptions.js';
+import SenderInfo from '../partials/SenderInfo.js';
 
 interface Props {
   defaultDestination?: RewardDestination;
@@ -42,18 +43,10 @@ function SetRewardDestination ({ controllerId, defaultDestination, onClose, stas
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={t<string>('The stash and controller pair as linked. This operation will be performed via the controller.')}>
-          <InputAddress
-            defaultValue={stashId}
-            isDisabled
-            label={t<string>('stash account')}
-          />
-          <InputAddress
-            defaultValue={controllerId}
-            isDisabled
-            label={t<string>('controller account')}
-          />
-        </Modal.Columns>
+        <SenderInfo
+          controllerId={controllerId}
+          stashId={stashId}
+        />
         <Modal.Columns hint={t<string>('All rewards will go towards the selected output destination when a payout is made.')}>
           <Dropdown
             defaultValue={defaultDestination?.toString()}

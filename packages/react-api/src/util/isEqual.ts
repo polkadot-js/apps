@@ -11,6 +11,6 @@ function flatten (_key: string | null, value?: unknown): unknown {
         : value;
 }
 
-export default function isEqual <T> (a?: T, b?: T): boolean {
+export function isEqual <T> (a?: T, b?: T): boolean {
   return JSON.stringify({ test: a }, flatten) === JSON.stringify({ test: b }, flatten);
 }

@@ -1,9 +1,17 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React from 'react';
+import type React from 'react';
+
+export interface ElementPosition {
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+}
 
 export type HorizontalPosition = 'left' | 'middle' | 'right'
+
 export type VerticalPosition = 'top' | 'bottom'
 
 export interface PopupWindowProps {

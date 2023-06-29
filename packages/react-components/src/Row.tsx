@@ -86,7 +86,7 @@ function Row ({ address, buttons, children, className = '', defaultName, details
           )}
           {address && (
             <div className={`ui--Row-address ${isShortAddr ? 'shortAddr' : ''}`}>
-              {address}
+              {address.toString()}
             </div>
           )}
           {details}

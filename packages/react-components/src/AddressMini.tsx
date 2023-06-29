@@ -29,7 +29,7 @@ interface Props {
   onNameClick?: () => void;
   summary?: React.ReactNode;
   type?: KeyringItemType;
-  value?: AccountId | AccountIndex | Address | string | null | Uint8Array;
+  value?: AccountId | AccountIndex | Address | string | null;
   withAddress?: boolean;
   withBalance?: boolean;
   withBonded?: boolean;
@@ -72,7 +72,7 @@ function AddressMini ({ balance, bonded, children, className = '', iconInfo, isH
                   {nameExtra}
                 </AccountName>
               )
-              : <span className='shortAddress'>{value}</span>
+              : <span className='shortAddress'>{value.toString()}</span>
             }
           </span>
         )}

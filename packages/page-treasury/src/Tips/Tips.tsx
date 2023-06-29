@@ -23,11 +23,11 @@ interface Props {
   onSelectTip: (hash: string, isSelected: boolean, value: BN) => void,
 }
 
-type Tip = [string, PalletTipsOpenTip | OpenTipTo225];
+type TipType = [string, PalletTipsOpenTip | OpenTipTo225];
 
 const TIP_OPTS = { withParams: true };
 
-function extractTips (tipsWithHashes?: [[string[]], Option<PalletTipsOpenTip>[]], inHashes?: string[] | null): Tip[] | undefined {
+function extractTips (tipsWithHashes?: [[string[]], Option<PalletTipsOpenTip>[]], inHashes?: string[] | null): TipType[] | undefined {
   if (!tipsWithHashes || !inHashes) {
     return undefined;
   }
