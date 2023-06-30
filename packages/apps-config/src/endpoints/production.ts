@@ -512,12 +512,12 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'thebifrost-mainnet',
     providers: {
-      'Pilab #1': 'wss://public-01.mainnet.thebifrost.io/wss',
-      'Pilab #2': 'wss://public-02.mainnet.thebifrost.io/wss'
+      'Pilab #1': 'wss://public-01.mainnet.bifrostnetwork.com/wss',
+      'Pilab #2': 'wss://public-02.mainnet.bifrostnetwork.com/wss'
     },
     text: 'The Bifrost Mainnet',
     ui: {
-      color: '#5a25f0',
+      color: '#FF474C',
       logo: nodesThebifrostPNG
     }
   },

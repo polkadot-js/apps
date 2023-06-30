@@ -57,6 +57,7 @@ export { chainsSpannerPNG } from './generated/spannerPNG.js';
 export { chainsStandardPNG } from './generated/standardPNG.js';
 export { chainsT0rnPNG } from './generated/t0rnPNG.js';
 export { chainsTanglePNG } from './generated/tanglePNG.js';
+export { chainsThebifrostPNG } from './generated/thebifrostPNG.js';
 export { chainsTinkerPNG } from './generated/tinkerPNG.js';
 export { chainsTotemSVG } from './generated/totemSVG.js';
 export { chainsTuringPNG } from './generated/turingPNG.js';
