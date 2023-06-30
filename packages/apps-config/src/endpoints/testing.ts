@@ -912,7 +912,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     },
     text: 'The Bifrost Testnet',
     ui: {
-      color: '#5a25f0',
+      color: '#FF474C',
       logo: nodesThebifrostPNG
     }
   },

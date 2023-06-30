@@ -517,7 +517,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     },
     text: 'The Bifrost Mainnet',
     ui: {
-      color: '#5a25f0',
+      color: '#FF474C',
       logo: nodesThebifrostPNG
     }
   },
