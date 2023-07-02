@@ -670,7 +670,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-asset-hub-rpc.polkadot.io',
       RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws',
-      Stakeworld: 'wss://dot-rpc.stakeworld.io/statemint'
+      Stakeworld: 'wss://dot-rpc.stakeworld.io/assethub'
     },
     teleport: [-1],
     text: 'AssetHub',
