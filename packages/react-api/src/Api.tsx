@@ -106,13 +106,14 @@ function makeCreateLink (baseApiUrl: string, isElectron: boolean): (path: string
 }
 
 async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>): Promise<ChainData> {
-  const [systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
+  const [systemChain, systemChainType, systemName, systemVersion, properties, injectedAccounts] = await Promise.all([
     api.rpc.system.chain(),
     api.rpc.system.chainType
       ? api.rpc.system.chainType()
       : Promise.resolve(statics.registry.createType('ChainType', 'Live')),
     api.rpc.system.name(),
     api.rpc.system.version(),
+    api.rpc.system.properties(),
     getInjectedAccounts(injectedPromise)
   ]);
 
@@ -121,9 +122,10 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
       !DISALLOW_EXTENSIONS.includes(source)
     ),
     properties: statics.registry.createType('ChainProperties', {
+      isEthereum: properties.isEthereum,
       ss58Format: api.registry.chainSS58,
       tokenDecimals: api.registry.chainDecimals,
-      tokenSymbol: api.registry.chainTokens
+      tokenSymbol: api.registry.chainTokens,
     }),
     systemChain: (systemChain || '<unknown>').toString(),
     systemChainType,
@@ -142,7 +144,7 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, inject
     : settings.prefix;
   const tokenSymbol = properties.tokenSymbol.unwrapOr([formatBalance.getDefaults().unit, ...DEFAULT_AUX]);
   const tokenDecimals = properties.tokenDecimals.unwrapOr([DEFAULT_DECIMALS]);
-  const isEthereum = ethereumChains.includes(api.runtimeVersion.specName.toString());
+  const isEthereum = properties.isEthereum.unwrapOr(ethereumChains.includes(api.runtimeVersion.specName.toString()));
   const isDevelopment = (systemChainType.isDevelopment || systemChainType.isLocal || isTestChain(systemChain));
 
   console.log(`chain: ${systemChain} (${systemChainType.toString()}), ${stringify(properties)}`);
