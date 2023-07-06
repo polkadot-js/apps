@@ -10,6 +10,7 @@ export const ethereumChains = [
   'moonbase',
   'moonbeam',
   'moonriver',
+  'moonsama',
   'moonshadow',
   'altbeacon',
   'alt-producer',

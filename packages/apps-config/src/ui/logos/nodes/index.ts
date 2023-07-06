@@ -89,6 +89,7 @@ export { nodesMoonbaseAlphaSVG } from './generated/moonbase_alphaSVG.js';
 export { nodesMoonbeamSVG } from './generated/moonbeamSVG.js';
 export { nodesMoonriverSVG } from './generated/moonriverSVG.js';
 export { nodesMoonrockPNG } from './generated/moonrockPNG.js';
+export { nodesMoonsamaSVG } from './generated/moonsamaSVG.js';
 export { nodesMoonshadowPNG } from './generated/moonshadowPNG.js';
 export { nodesMybankPNG } from './generated/mybankPNG.js';
 export { nodesNftmartPNG } from './generated/nftmartPNG.js';
