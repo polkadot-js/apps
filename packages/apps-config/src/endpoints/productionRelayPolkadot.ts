@@ -428,7 +428,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
   {
     homepage: 'https://moonsama.com',
     info: 'moonsama',
-    paraId: 2199,
+    paraId: 3334,
     providers: {
       'Moonsama': 'wss://rpc.moonsama.com/ws'
     },
