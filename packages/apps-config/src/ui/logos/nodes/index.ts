@@ -142,6 +142,7 @@ export { nodesSwapdexSVG } from './generated/swapdexSVG.js';
 export { nodesT3rnPNG } from './generated/t3rnPNG.js';
 export { nodesTernoaSVG } from './generated/ternoaSVG.js';
 export { nodesThebifrostPNG } from './generated/thebifrostPNG.js';
+export { nodesTrappistRococoPNG } from './generated/trappist-rococoPNG.js';
 export { nodesTrustbasePNG } from './generated/trustbasePNG.js';
 export { nodesUniartsPNG } from './generated/uniartsPNG.js';
 export { nodesUniqueSVG } from './generated/uniqueSVG.js';
