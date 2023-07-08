@@ -40,17 +40,17 @@ describe('check endpoints', (): void => {
       ws: value
     }))
     .filter((v): v is Endpoint => !!v.ws);
-  let websocket: WebSocket | null = null;
-  let closeTimerId: ReturnType<typeof setTimeout> | null = null;
 
   for (const { name, ws: endpoint } of checks) {
     it(`${name} @ ${endpoint}`, async (): Promise<void> => {
       const [,, hostWithPort] = endpoint.split('/');
       const [host] = hostWithPort.split(':');
+      let websocket: WebSocket | null = null;
+      let closeTimerId: ReturnType<typeof setTimeout> | null = null;
 
       await fetchJson<DnsResponse>(`https://dns.google/resolve?name=${host}`)
         .then((json) =>
-          assert(json && json.Answer, 'No DNS entry')
+          assert(json?.Answer, 'No DNS entry')
         )
         .then(() =>
           new Promise((resolve, reject): void => {
@@ -72,7 +72,7 @@ describe('check endpoints', (): void => {
 
             websocket.onmessage = (message: { data: string }): void => {
               try {
-                const result = (JSON.parse(message.data) as { result: unknown }).result as string;
+                const result = (JSON.parse(message.data) as { result: string }).result;
 
                 assert(result.startsWith('0x'), 'Invalid response');
                 resolve(result);
