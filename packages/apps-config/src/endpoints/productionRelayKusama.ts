@@ -513,8 +513,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2087,
     providers: {
       Composable: 'wss://rpc.composablenodes.tech',
-      LuckyFriday: 'wss://rpc-picasso.luckyfriday.io',
-      Dwellir: 'wss://picasso-rpc.dwellir.com'
+      Dwellir: 'wss://picasso-rpc.dwellir.com',
+      LuckyFriday: 'wss://rpc-picasso.luckyfriday.io'
     },
     text: 'Picasso',
     ui: {
