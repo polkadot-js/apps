@@ -129,6 +129,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2031,
     providers: {
       Centrifuge: 'wss://fullnode.centrifuge.io',
+      LuckyFriday: 'wss://rpc-centrifuge.luckyfriday.io',
       OnFinality: 'wss://centrifuge-parachain.api.onfinality.io/public-ws'
     },
     text: 'Centrifuge',
@@ -319,6 +320,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Dwellir: 'wss://interlay-rpc.dwellir.com',
       'Kintsugi Labs': 'wss://api.interlay.io/parachain',
+      LuckyFriday: 'wss://rpc-interlay.luckyfriday.io/',
       OnFinality: 'wss://interlay.api.onfinality.io/public-ws'
     },
     text: 'Interlay',
@@ -667,6 +669,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       'Dwellir Tunisia': 'wss://statemint-rpc-tn.dwellir.com',
       'IBP-GeoDNS1': 'wss://sys.ibp.network/statemint',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/statemint',
+      LuckyFriday: 'wss://rpc-asset-hub-polkadot.luckyfriday.io',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-asset-hub-rpc.polkadot.io',
       RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws',
@@ -683,6 +686,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     info: 'polkadotBridgeHub',
     paraId: 1002,
     providers: {
+      LuckyFriday: 'wss://rpc-bridge-hub-polkadot.luckyfriday.io',
       Parity: 'wss://polkadot-bridge-hub-rpc.polkadot.io',
       Stakeworld: 'wss://dot-rpc.stakeworld.io/bridgehub'
     },
@@ -697,6 +701,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     providers: {
       'IBP-GeoDNS1': 'wss://sys.ibp.network/collectives-polkadot',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/collectives-polkadot',
+      LuckyFriday: 'wss://rpc-collectives-polkadot.luckyfriday.io',
       OnFinality: 'wss://collectives.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-collectives-rpc.polkadot.io',
       RadiumBlock: 'wss://collectives.public.curie.radiumblock.co/ws',

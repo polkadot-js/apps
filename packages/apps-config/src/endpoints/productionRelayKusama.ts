@@ -363,6 +363,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Dwellir: 'wss://kintsugi-rpc.dwellir.com',
       'Kintsugi Labs': 'wss://api-kusama.interlay.io/parachain',
+      LuckyFriday: 'wss://rpc-kintsugi.luckyfriday.io/',
       OnFinality: 'wss://kintsugi.api.onfinality.io/public-ws'
     },
     text: 'Kintsugi BTC',
@@ -512,7 +513,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2087,
     providers: {
       Composable: 'wss://rpc.composablenodes.tech',
-      Dwellir: 'wss://picasso-rpc.dwellir.com'
+      Dwellir: 'wss://picasso-rpc.dwellir.com',
+      LuckyFriday: 'wss://rpc-picasso.luckyfriday.io'
     },
     text: 'Picasso',
     ui: {
@@ -781,7 +783,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       'Dwellir Tunisia': 'wss://statemine-rpc-tn.dwellir.com',
       'IBP-GeoDNS1': 'wss://sys.ibp.network/statemine',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/statemine',
-      LuckyFriday: 'wss://rpc-statemine.luckyfriday.io',
+      LuckyFriday: 'wss://rpc-asset-hub-kusama.luckyfriday.io',
       OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
       Parity: 'wss://kusama-asset-hub-rpc.polkadot.io',
       RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws',
@@ -800,6 +802,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     providers: {
       'IBP-GeoDNS1': 'wss://sys.ibp.network/bridgehub-kusama',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/bridgehub-kusama',
+      LuckyFriday: 'wss://rpc-bridge-hub-kusama.luckyfriday.io',
       Parity: 'wss://kusama-bridge-hub-rpc.polkadot.io',
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/bridgehub'
     },
