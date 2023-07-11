@@ -44,7 +44,7 @@ export function calculatePercentReward (blocksCreated: number | undefined, block
   return rewardPercentage.toFixed(1);
 }
 
-function CurrentList ({ className, eraValidatorPerformances, expectedBlockCount, onlyCommittee }: Props): React.ReactElement<Props> {
+function BlockProductionCommitteeList ({ className, eraValidatorPerformances, expectedBlockCount, onlyCommittee }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const [nameFilter, setNameFilter] = useState<string>('');
@@ -120,4 +120,4 @@ function CurrentList ({ className, eraValidatorPerformances, expectedBlockCount,
   );
 }
 
-export default React.memo(CurrentList);
+export default React.memo(BlockProductionCommitteeList);

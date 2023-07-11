@@ -12,7 +12,7 @@ import { useApi, useCall, useLenientThresholdPercentage, useNextTick } from '@po
 import { u32 } from '@polkadot/types-codec';
 
 import Address from '../Performance/Address/index.js';
-import { calculatePercentReward } from '../Performance/CurrentList.js';
+import { calculatePercentReward } from '../Performance/BlockProductionCommitteeList.js';
 import useSessionCommitteePerformance from '../Performance/useCommitteePerformance.js';
 import useCurrentSessionInfo from '../Performance/useCurrentSessionInfo.js';
 import { useTranslation } from '../translate.js';

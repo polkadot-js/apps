@@ -1,6 +1,7 @@
 {
   "0x...": "0x...",
   "Constants": "Constants",
+  "Decoded pallet name and call": "Decoded pallet name and call",
   "Raw storage": "Raw storage",
   "Storage": "Storage",
   "blockhash to query at": "blockhash to query at",

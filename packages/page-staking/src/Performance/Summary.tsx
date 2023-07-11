@@ -16,9 +16,17 @@ interface Props {
   era: number;
   session: number;
   expectedBlockCount?: number;
+  finalizingCommitteeSize: number | undefined;
 }
 
-function Summary ({ className = '', era, eraValidatorPerformances, expectedBlockCount, session }: Props): React.ReactElement<Props> {
+function Summary (
+  { className = '',
+    era,
+    eraValidatorPerformances,
+    expectedBlockCount,
+    finalizingCommitteeSize,
+    session }: Props
+): React.ReactElement<Props> {
   const { t } = useTranslation();
   const committeeLength = useMemo(() => {
     return eraValidatorPerformances.filter((perf) => perf.isCommittee).length;
@@ -34,7 +42,7 @@ function Summary ({ className = '', era, eraValidatorPerformances, expectedBlock
             : <Spinner noLabel />
           }
         </CardSummary>
-        <CardSummary label={t<string>('committee size')}>
+        <CardSummary label={t<string>('block production committee size')}>
           {committeeLength
             ? <>{formatNumber(committeeLength)}</>
             : <Spinner noLabel />
@@ -43,6 +51,12 @@ function Summary ({ className = '', era, eraValidatorPerformances, expectedBlock
         <CardSummary label={t<string>('expected block count')}>
           {expectedBlockCount
             ? <>{formatNumber(expectedBlockCount)}</>
+            : <Spinner noLabel />
+          }
+        </CardSummary>
+        <CardSummary label={t<string>('finalizing committee size')}>
+          {finalizingCommitteeSize !== undefined
+            ? finalizingCommitteeSize
             : <Spinner noLabel />
           }
         </CardSummary>
