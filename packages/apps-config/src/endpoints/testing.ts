@@ -761,7 +761,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'sherpax',
     providers: {
-      Chainx: 'wss://sherpax-testnet.chainx.org'
+      // Chainx: 'wss://sherpax-testnet.chainx.org' // https://github.com/polkadot-js/apps/issues/9672
     },
     text: 'Sherpax Testnet',
     ui: {
