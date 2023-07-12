@@ -1,6 +1,6 @@
 {
-  "short_name": "Polkadot Apps",
-  "name": "Apps for interacting with a Polkadot node",
+  "short_name": "Avail Apps",
+  "name": "Apps for interacting with the Avail Network",
   "icons": [
     {
       "src": "favicon.ico",

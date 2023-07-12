@@ -19,7 +19,7 @@ import { web3FromSource } from '@polkadot/extension-dapp';
 import { Button, ErrorBoundary, Modal, Output, styled, Toggle } from '@polkadot/react-components';
 import { useApi, useLedger, useQueue, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
-import { assert, nextTick } from '@polkadot/util';
+import { assert, BN_ZERO, nextTick } from '@polkadot/util';
 import { addressEq } from '@polkadot/util-crypto';
 
 import { AccountSigner, LedgerSigner, QrSigner } from './signers/index.js';
@@ -30,6 +30,8 @@ import Tip from './Tip.js';
 import Transaction from './Transaction.js';
 import { useTranslation } from './translate.js';
 import { cacheUnlock, extractExternal, handleTxResults } from './util.js';
+
+import AppId from './AppId.js';
 
 interface Props {
   className?: string;
@@ -209,6 +211,7 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
   const [{ innerHash, innerTx }, setCallInfo] = useState<InnerTx>(EMPTY_INNER);
   const [tip, setTip] = useState<BN | undefined>();
   const [initialIsQueueSubmit] = useState(isQueueSubmit);
+  const [appId, setAppId] = useState(BN_ZERO);
 
   useEffect((): void => {
     setFlags(tryExtract(senderInfo.signAddress));
@@ -290,15 +293,16 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
       if (senderInfo.signAddress) {
         const [tx, [status, pairOrAddress, options]] = await Promise.all([
           wrapTx(api, currentItem, senderInfo),
-          extractParams(api, senderInfo.signAddress, { nonce: -1, tip }, getLedger, setQrState)
+          extractParams(api, senderInfo.signAddress, { appId, nonce: -1, tip } as Partial<SignerOptions>, getLedger, setQrState)
         ]);
 
         queueSetTxStatus(currentItem.id, status);
+        console.log(`Options: ${JSON.stringify(options)}`);
 
         await signAndSend(queueSetTxStatus, currentItem, tx, pairOrAddress, options);
       }
     },
-    [api, getLedger, tip]
+    [api, appId, getLedger, tip]
   );
 
   const _onSign = useCallback(
@@ -390,6 +394,7 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
                 {!currentItem.payload && (
                   <Tip onChange={setTip} />
                 )}
+                <AppId onChange={setAppId} />
                 {!isSubmit && (
                   <SignFields
                     address={senderInfo.signAddress}
