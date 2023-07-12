@@ -27,8 +27,9 @@ const OPT_L = {
 
 function BondedDisplay ({ children, className = '', label, params }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const controllerId = useCall<AccountId | null>(api.query.staking?.bonded, [params], OPT_C);
-  const stakingLedger = useCall<StakingLedger | null>(controllerId && api.query.staking?.ledger, [controllerId], OPT_L);
+  // @ts-expect-error `api.query.staking.bonded` doesn't accepts `Address`
+  const controllerId: AccountId | null | undefined = useCall(api.query.staking?.bonded, [params], OPT_C);
+  const stakingLedger: StakingLedger | null | undefined = useCall(controllerId && api.query.staking?.ledger, [controllerId], OPT_L);
 
   return (
     <FormatBalance

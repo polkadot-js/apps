@@ -1,8 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveProposalExternal } from '@polkadot/api-derive/types';
-
 import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
@@ -18,7 +16,7 @@ interface Props {
 function Externals ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const external = useCall<DeriveProposalExternal | null>(api.derive.democracy.nextExternal);
+  const external = useCall(api.derive.democracy.nextExternal);
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t<string>('external'), 'start'],

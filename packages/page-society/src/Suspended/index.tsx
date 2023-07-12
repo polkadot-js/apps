@@ -46,8 +46,8 @@ const OPT_ACC = {
 function Suspended ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const candidates = useCall<CandidateSuspend[]>(api.query.society.suspendedCandidates.entries, undefined, OPT_CAN);
-  const members = useCall<AccountId[]>(api.query.society.suspendedMembers.keys, undefined, OPT_ACC);
+  const candidates = useCall(api.query.society.suspendedCandidates.entries, undefined, OPT_CAN);
+  const members = useCall(api.query.society.suspendedMembers.keys, undefined, OPT_ACC);
 
   const headerRef = useRef({
     candidates: [

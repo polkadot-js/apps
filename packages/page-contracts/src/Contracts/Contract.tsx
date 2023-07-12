@@ -33,7 +33,7 @@ function transformInfo (optInfo: Option<ContractInfo>): ContractInfo | null {
 function Contract ({ className, contract, index, links, onCall }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const info = useCall<ContractInfo | null>(api.query.contracts.contractInfoOf, [contract.address], { transform: transformInfo });
+  const info = useCall(api.query.contracts.contractInfoOf, [contract.address], { transform: transformInfo });
   const [isForgetOpen, toggleIsForgetOpen] = useToggle();
 
   const _onCall = useCallback(

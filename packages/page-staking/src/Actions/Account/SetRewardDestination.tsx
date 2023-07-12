@@ -1,7 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { RewardDestination } from '@polkadot/types/interfaces';
 import type { DestinationType } from '../types.js';
 
@@ -26,7 +25,7 @@ function SetRewardDestination ({ controllerId, defaultDestination, onClose, stas
   const { api } = useApi();
   const [destination, setDestination] = useState<DestinationType>(() => ((defaultDestination?.isAccount ? 'Account' : defaultDestination?.toString()) || 'Staked') as 'Staked');
   const [destAccount, setDestAccount] = useState<string | null>(() => defaultDestination?.isAccount ? defaultDestination.asAccount.toString() : null);
-  const destBalance = useCall<DeriveBalancesAll>(api.derive.balances?.all, [destAccount]);
+  const destBalance = useCall(api.derive.balances?.all, [destAccount]);
 
   const options = useMemo(
     () => createDestCurr(t),

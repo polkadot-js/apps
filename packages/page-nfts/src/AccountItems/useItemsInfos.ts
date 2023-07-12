@@ -57,7 +57,7 @@ const addIpfsData = (ipfsData: IpfsData) => (itemInfo: ItemInfo): ItemInfo => {
   };
 };
 
-function useItemsInfosImpl (accountItems: AccountItem[]): ItemInfo[] | undefined {
+function useItemsInfosImpl (accountItems: AccountItem[]) {
   const { api } = useApi();
   const [state, setState] = useState<ItemInfo[] | undefined>();
 
@@ -66,7 +66,7 @@ function useItemsInfosImpl (accountItems: AccountItem[]): ItemInfo[] | undefined
     [accountItems]
   );
 
-  const metadata = useCall<[[[BN, BN][]], Option<PalletUniquesItemMetadata>[]]>(api.query.uniques.instanceMetadataOf.multi, [ids], QUERY_OPTS);
+  const metadata: [[[BN, BN][]], Option<PalletUniquesItemMetadata>[]] | undefined = useCall(api.query.uniques.instanceMetadataOf.multi, [ids], QUERY_OPTS);
 
   const ipfsHashes = useMemo((): string[] | undefined => {
     if (metadata && metadata[1].length) {

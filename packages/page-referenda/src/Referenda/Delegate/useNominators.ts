@@ -24,12 +24,12 @@ const NOMINATORS_OPT = {
 
 // A list of all validators that any of our accounts nominate
 // (deduped accross accounts)
-function useNominatorsImpl (): string[] | null | undefined {
+function useNominatorsImpl () {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
 
   const nomineesParam = useMemo(
-    () => [allAccounts],
+    () => [allAccounts] as const,
     [allAccounts]
   );
 

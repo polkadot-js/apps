@@ -18,7 +18,7 @@ const OPT = {
 function useSudoImpl (): UseSudo {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
-  const sudoKey = useCall<string>(hasAccounts && api.query.sudo?.key, undefined, OPT);
+  const sudoKey = useCall(hasAccounts && api.query.sudo?.key, undefined, OPT);
   const [hasSudoKey, setHasSudoKey] = useState(false);
 
   useEffect((): void => {

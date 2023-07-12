@@ -14,7 +14,7 @@ const MEMBERS_OPT = {
     keys.map(({ args: [id] }) => id.toString())
 };
 
-function useFellowsImpl (): string[] | null | undefined {
+function useFellowsImpl () {
   const { api } = useApi();
   const members = useMapKeys(api.query.fellowshipCollective?.members, [], MEMBERS_OPT);
 

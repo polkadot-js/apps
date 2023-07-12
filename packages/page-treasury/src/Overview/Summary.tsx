@@ -1,8 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BN } from '@polkadot/util';
-
 import React, { useMemo } from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
@@ -21,7 +19,7 @@ function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<P
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useBestNumber();
-  const totalProposals = useCall<BN>(api.query.treasury.proposalCount);
+  const totalProposals = useCall(api.query.treasury.proposalCount);
   const { burn, pendingBounties, pendingProposals, spendPeriod, value } = useTreasury();
 
   const spendable = useMemo(

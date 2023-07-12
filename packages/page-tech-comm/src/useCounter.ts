@@ -11,7 +11,7 @@ const OPT = {
 
 function useCounterImpl (): number {
   const { api, isApiReady } = useApi();
-  const counter = useCall<number>(isApiReady && api.derive.technicalCommittee?.proposals, undefined, OPT) || 0;
+  const counter = useCall(isApiReady && api.derive.technicalCommittee?.proposals, undefined, OPT) || 0;
 
   return counter;
 }

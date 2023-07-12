@@ -39,7 +39,7 @@ const OPT_MEM = {
   withParamsTransform: true
 };
 
-function useMembersImpl (collective: PalletColl): Result | undefined {
+function useMembersImpl (collective: PalletColl) {
   const { api } = useApi();
   const ids = useMembersIds(collective);
   const result = useCall(ids && ids.length !== 0 && api.query[collective].members.multi, [ids], OPT_MEM);

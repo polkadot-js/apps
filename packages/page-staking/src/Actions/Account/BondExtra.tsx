@@ -41,7 +41,7 @@ function BondExtra ({ controllerId, onClose, stakingInfo, stashId }: Props): Rea
   const { api } = useApi();
   const [amountError, setAmountError] = useState<AmountValidateState | null>(null);
   const [maxAdditional, setMaxAdditional] = useState<BN | undefined>();
-  const stashBalance = useCall<DeriveBalancesAll>(api.derive.balances?.all, [stashId]);
+  const stashBalance = useCall(api.derive.balances?.all, [stashId]);
   const currentAmount = useMemo(
     () => stakingInfo && stakingInfo.stakingLedger?.active?.unwrap(),
     [stakingInfo]

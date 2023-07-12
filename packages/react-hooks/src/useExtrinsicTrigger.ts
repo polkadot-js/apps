@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
-import type { SignedBlockExtended } from '@polkadot/api-derive/types';
 
 import { useEffect, useState } from 'react';
 
@@ -19,7 +18,7 @@ function useExtrinsicTriggerImpl (checks: ExtrinsicCheck[]): string {
   const [trigger, setTrigger] = useState('0');
   const mountedRef = useIsMountedRef();
   const memoChecks = useMemoValue(checks);
-  const block = useCall<SignedBlockExtended>(api.derive.chain.subscribeNewBlocks);
+  const block = useCall(api.derive.chain.subscribeNewBlocks);
 
   useEffect((): void => {
     mountedRef.current && block && block.extrinsics && block.extrinsics.filter(({ extrinsic }) =>

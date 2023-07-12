@@ -21,7 +21,7 @@ interface Props {
 function Summary ({ className = '', info, payoutTotal }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const members = useCall<unknown[]>(api.derive.society.members);
+  const members = useCall(api.derive.society.members);
   const bestNumber = useBestNumber();
 
   const pot = useMemo(

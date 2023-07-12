@@ -54,7 +54,7 @@ function extractParaMap (hasLinksMap: Record<string, boolean>, paraIds: ParaId[]
     });
 }
 
-function useParaMapImpl (ids?: ParaId[]): Result | undefined {
+function useParaMapImpl (ids?: ParaId[]) {
   const { api } = useApi();
   const hasLinksMap = useIsParasLinked(ids);
   const transform = useCallback(
@@ -63,7 +63,7 @@ function useParaMapImpl (ids?: ParaId[]): Result | undefined {
     [hasLinksMap]
   );
 
-  return useCall<Result>(ids && api.query.slots.leases.multi, [ids], {
+  return useCall(ids && api.query.slots.leases.multi, [ids], {
     transform,
     withParamsTransform: true
   });

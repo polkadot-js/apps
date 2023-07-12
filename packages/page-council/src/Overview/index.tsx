@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveCouncilVotes, DeriveElectionsInfo } from '@polkadot/api-derive/types';
+import type { DeriveCouncilVotes } from '@polkadot/api-derive/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 
 import React from 'react';
@@ -41,8 +41,8 @@ const transformVotes = {
 function Overview ({ className = '', prime }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const bestNumber = useBestNumber();
-  const electionsInfo = useCall<DeriveElectionsInfo>(api.derive.elections.info);
-  const allVotes = useCall<Record<string, AccountId[]>>(api.derive.council.votes, undefined, transformVotes);
+  const electionsInfo = useCall(api.derive.elections.info);
+  const allVotes = useCall(api.derive.council.votes, undefined, transformVotes);
   const modElections = useModuleElections();
   const hasElections = !!modElections;
 

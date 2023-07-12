@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { u32 } from '@polkadot/types';
-import type { Balance, BlockNumber } from '@polkadot/types/interfaces';
+import type { BlockNumber } from '@polkadot/types/interfaces';
 import type { AuctionInfo, Winning } from '../types.js';
 
 import React from 'react';
@@ -24,7 +24,7 @@ function Summary ({ auctionInfo, className, lastWinners }: Props): React.ReactEl
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useBestNumber();
-  const totalIssuance = useCall<Balance>(api.query.balances?.totalIssuance);
+  const totalIssuance = useCall(api.query.balances?.totalIssuance);
 
   return (
     <SummaryBox className={className}>

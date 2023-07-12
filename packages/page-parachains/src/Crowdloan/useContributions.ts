@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveContributions, DeriveOwnContributions } from '@polkadot/api-derive/types';
+import type { DeriveContributions } from '@polkadot/api-derive/types';
 import type { Balance, ParaId } from '@polkadot/types/interfaces';
 
 import { useEffect, useState } from 'react';
@@ -29,8 +29,8 @@ function useContributionsImpl (paraId: ParaId): Result {
   const { api } = useApi();
   const { allAccountsHex } = useAccounts();
   const [state, setState] = useState<Result>(() => NO_CONTRIB);
-  const derive = useCall<DeriveContributions>(api.derive.crowdloan.contributions, [paraId]);
-  const myContributions = useCall<DeriveOwnContributions>(api.derive.crowdloan.ownContributions, [paraId, state.myAccountsHex]);
+  const derive = useCall(api.derive.crowdloan.contributions, [paraId]);
+  const myContributions = useCall(api.derive.crowdloan.ownContributions, [paraId, state.myAccountsHex]);
 
   useEffect((): void => {
     derive && setState((prev): Result => {

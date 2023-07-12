@@ -1,8 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Hash } from '@polkadot/types/interfaces';
-
 import React, { useCallback, useMemo } from 'react';
 import { Route, Routes } from 'react-router';
 
@@ -32,7 +30,7 @@ const DEFAULT_THRESHOLD = 2 / 3;
 function AllianceApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const proposalHashes = useCall<Hash[]>(api.derive.alliance.proposalHashes);
+  const proposalHashes = useCall(api.derive.alliance.proposalHashes);
   const { isMember: isVoter, members: voters, prime } = useCollectiveMembers('alliance');
   const accouncements = useAnnoucements();
   const members = useMembers();

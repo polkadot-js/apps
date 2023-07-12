@@ -37,7 +37,7 @@ function StakingRedeemable ({ className = '', isPool, stakingInfo }: Props): Rea
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const { t } = useTranslation();
-  const spanCount = useCall<number>(api.query.staking.slashingSpans, [stakingInfo?.stashId], OPT_SPAN);
+  const spanCount = useCall(api.query.staking.slashingSpans, [stakingInfo?.stashId], OPT_SPAN);
 
   if (!stakingInfo?.redeemable?.gtn(0)) {
     return null;

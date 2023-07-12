@@ -49,7 +49,7 @@ function useBalancesImpl (id?: BN | null): AccountResult[] | null {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const keys = useMemo(
-    () => [allAccounts.map((a) => [id, a])],
+    () => [allAccounts.map((a) => [id, a])] as const,
     [allAccounts, id]
   );
   const query = useCall(keys && api.query.assets.account.multi, keys, OPTS);

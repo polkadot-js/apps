@@ -1,7 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { AmountValidateState } from '../types.js';
 
 import React, { useEffect, useState } from 'react';
@@ -48,7 +47,7 @@ function formatExistential (value: BN): string {
 function ValidateAmount ({ currentAmount, isNominating, minNominated, minNominatorBond, minValidatorBond, onError, stashId, value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const stashBalance = useCall<DeriveBalancesAll>(api.derive.balances?.all, [stashId]);
+  const stashBalance = useCall(api.derive.balances?.all, [stashId]);
   const [{ error, warning }, setResult] = useState<AmountValidateState>({ error: null, warning: null });
 
   useEffect((): void => {

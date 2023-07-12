@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveReferendumExt } from '@polkadot/api-derive/types';
-import type { Balance } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
 
@@ -44,7 +43,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
   const { allAccounts } = useAccounts();
   const bestNumber = useBestNumber();
   const [isExpanded, toggleIsExpanded] = useToggle(false);
-  const totalIssuance = useCall<Balance>(api.query.balances?.totalIssuance);
+  const totalIssuance = useCall(api.query.balances?.totalIssuance);
   const { changeAye, changeNay } = useChangeCalc(status.threshold, votedAye, votedNay, votedTotal);
   const threshold = useMemo(
     () => status.threshold.type.toString().replace('majority', ' majority '),

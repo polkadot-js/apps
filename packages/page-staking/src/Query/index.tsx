@@ -1,8 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { INumber } from '@polkadot/types/types';
-
 import React, { useCallback, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -27,10 +25,10 @@ function Query ({ className }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { value } = useParams<{ value: string }>();
   const [validatorId, setValidatorId] = useState<string | null>(value || null);
-  const eras = useCall<INumber[]>(api.derive.staking.erasHistoric);
+  const eras = useCall(api.derive.staking.erasHistoric);
 
   const labels = useMemo(
-    () => eras && eras.map((e) => e.toHuman() as string),
+    () => eras && eras.map((e) => e.toHuman()),
     [eras]
   );
 

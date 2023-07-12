@@ -24,7 +24,7 @@ function transformResults (results: StorageKey<[AccountId32, u32, u32]>[][]): Ac
     .flat();
 }
 
-function useAccountItemsImpl (): AccountItem[] | undefined {
+function useAccountItemsImpl () {
   const mountedRef = useIsMountedRef();
   const { api } = useApi();
   const { allAccounts } = useAccounts();

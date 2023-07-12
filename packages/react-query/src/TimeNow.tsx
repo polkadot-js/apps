@@ -18,7 +18,7 @@ interface Props {
 
 function TimeNow ({ children, className = '', label, value }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const timestamp = useCall<Moment>(!value && api.query.timestamp?.now);
+  const timestamp = useCall(!value && api.query.timestamp?.now);
 
   const [now, hasValue] = useMemo(
     () => [value || timestamp, !!(value || timestamp)],

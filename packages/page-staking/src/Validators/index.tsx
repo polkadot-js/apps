@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/types';
+import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
 import type { BN } from '@polkadot/util';
 import type { NominatedByMap, SortedTargets } from '../types.js';
@@ -42,7 +42,7 @@ function Overview ({ className = '', favorites, hasAccounts, hasQueries, minComm
   const { byAuthor, eraPoints } = useBlockAuthors();
   const [intentIndex, _setIntentIndex] = useState(0);
   const [typeIndex, setTypeIndex] = useState(1);
-  const recentlyOnline = useCall<DeriveHeartbeats>(api.derive.imOnline?.receivedHeartbeats);
+  const recentlyOnline = useCall(api.derive.imOnline?.receivedHeartbeats);
 
   const setIntentIndex = useCallback(
     (index: number): void => {

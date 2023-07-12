@@ -29,7 +29,7 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
   const [accountId, setAccountId] = useState<string | null>(null);
   const [balance, setBalance] = useState<BN | undefined>();
   const [{ hash, isHashValid }, setHash] = useState<HashState>({ isHashValid: false });
-  const publicProps = useCall<unknown[]>(api.query.democracy.publicProps);
+  const publicProps = useCall(api.query.democracy.publicProps);
   const preimage = usePreimage(hash);
 
   const _onChangeHash = useCallback(

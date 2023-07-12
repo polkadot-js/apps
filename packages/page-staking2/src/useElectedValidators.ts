@@ -18,7 +18,7 @@ const OPT_ELECTED = {
     )
 };
 
-function useElectedValidatorsImpl ({ currentEra }: SessionInfo): string[] | undefined {
+function useElectedValidatorsImpl ({ currentEra }: SessionInfo) {
   const { api } = useApi();
 
   const electedParams = useMemo(

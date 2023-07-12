@@ -1,7 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BN } from '@polkadot/util';
 import type { BagMap } from './types.js';
 
 import React, { useMemo } from 'react';
@@ -22,7 +21,7 @@ interface Props {
 function Summary ({ bags, className = '', mapOwn }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const mod = useQueryModule();
-  const total = useCall<BN>(mod.counterForListNodes);
+  const total = useCall(mod.counterForListNodes);
 
   const myCount = useMemo(
     () => mapOwn && Object.values(mapOwn).reduce((count, n) => count + n.length, 0),

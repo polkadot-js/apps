@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 
 import { createNamedHook, useApi, useBlockEvents, useIncrement, useIsMountedRef } from '@polkadot/react-hooks';
 
-function useMultisigApprovalsImpl (address: string): [H256, Multisig][] | undefined {
+function useMultisigApprovalsImpl (address: string) {
   const { events } = useBlockEvents();
   const { api } = useApi();
   const [multiInfos, setMultiInfos] = useState<[H256, Multisig][] | undefined>();

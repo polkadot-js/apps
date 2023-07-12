@@ -43,8 +43,8 @@ function extractPoints (labels: string[], points: DeriveStakerPoints[]): LineDat
 function ChartPoints ({ labels, validatorId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const params = useMemo(() => [validatorId, false], [validatorId]);
-  const stakerPoints = useCall<DeriveStakerPoints[]>(api.derive.staking.stakerPoints, params);
+  const params = useMemo(() => [validatorId, false] as const, [validatorId]);
+  const stakerPoints = useCall(api.derive.staking.stakerPoints, params);
   const [values, setValues] = useState<LineData>([]);
 
   useEffect(

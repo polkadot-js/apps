@@ -23,7 +23,7 @@ function useMembersImpl (): OwnMembers {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const [state, setState] = useState<OwnMembers>(EMPTY_MEMBERS);
-  const members = useCall<DeriveSocietyMember[]>(api.derive.society.members);
+  const members = useCall(api.derive.society.members);
 
   useEffect((): void => {
     allAccounts && members && setState(

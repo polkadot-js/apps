@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletVote } from '../../types.js';
-import type { VoteResultItem } from './types.js';
 
 import { useMemo } from 'react';
 
@@ -10,7 +9,7 @@ import { createNamedHook } from '@polkadot/react-hooks';
 
 import useVotingFor from './useVotingFor.js';
 
-function useActivityAccountImpl (palletVote: PalletVote, accountId?: string | null): VoteResultItem[] | null | undefined {
+function useActivityAccountImpl (palletVote: PalletVote, accountId?: string | null) {
   const params = useMemo(
     () => (accountId && [accountId]) || null,
     [accountId]

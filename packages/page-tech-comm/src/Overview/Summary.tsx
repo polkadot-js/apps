@@ -1,7 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { u32 } from '@polkadot/types';
 import type { ComponentProps as Props } from '../types.js';
 
 import React from 'react';
@@ -15,7 +14,7 @@ import { useTranslation } from '../translate.js';
 function Summary ({ className = '', members, proposalHashes, type }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const proposalCount = useCall<u32>(api.derive[type].proposalCount);
+  const proposalCount = useCall(api.derive[type].proposalCount);
 
   return (
     <SummaryBox className={className}>

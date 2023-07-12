@@ -52,7 +52,7 @@ function merge (prev: BagInfo[] | undefined, curr: BagInfo[]): BagInfo[] {
     );
 }
 
-function useBagsListImpl (): BagInfo[] | undefined {
+function useBagsListImpl () {
   const mod = useQueryModule();
   const [result, setResult] = useState<BagInfo[] | undefined>();
   const ids = useMapKeys(mod.listBags, [], KEY_OPTS);

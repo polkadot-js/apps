@@ -20,7 +20,7 @@ const OPT_MULTI = {
   }
 };
 
-function useAuctionInfoImpl (): AuctionInfo | undefined {
+function useAuctionInfoImpl () {
   const { api } = useApi();
 
   return useCallMulti<AuctionInfo>([

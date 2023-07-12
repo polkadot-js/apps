@@ -163,7 +163,7 @@ function Payouts ({ className = '', historyDepth, isInElection, ownPools, ownVal
   const [hasOwnValidators] = useState(() => ownValidators.length !== 0);
   const [myStashesIndex, setMyStashesIndex] = useState(() => hasOwnValidators ? 0 : 1);
   const [eraSelectionIndex, setEraSelectionIndex] = useState(0);
-  const eraLength = useCall<BN>(api.derive.session.eraLength);
+  const eraLength = useCall(api.derive.session.eraLength);
   const blockTime = useBlockInterval();
 
   const poolStashes = useMemo(

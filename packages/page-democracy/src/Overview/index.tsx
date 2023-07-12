@@ -1,8 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveReferendumExt } from '@polkadot/api-derive/types';
-
 import React from 'react';
 
 import { Button } from '@polkadot/react-components';
@@ -25,7 +23,7 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [isPreimageOpen, togglePreimage] = useToggle();
   const [isProposeOpen, togglePropose] = useToggle();
-  const referendums = useCall<DeriveReferendumExt[]>(api.derive.democracy.referendums);
+  const referendums = useCall(api.derive.democracy.referendums);
 
   return (
     <div className={className}>

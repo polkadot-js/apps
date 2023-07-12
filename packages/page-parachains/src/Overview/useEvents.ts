@@ -83,7 +83,7 @@ function extractEvents (api: ApiPromise, lastBlock: SignedBlockExtended, prev: R
 
 function useEventsImpl (): Result {
   const { api } = useApi();
-  const lastBlock = useCall<SignedBlockExtended>(api.derive.chain.subscribeNewBlocks);
+  const lastBlock = useCall(api.derive.chain.subscribeNewBlocks);
   const [state, setState] = useState<Result>(EMPTY_EVENTS);
 
   useEffect((): void => {

@@ -284,9 +284,9 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
     api.query.staking.minValidatorBond,
     api.query.balances?.totalIssuance
   ], OPT_MULTI);
-  const electedInfo = useCall<DeriveStakingElected>(api.derive.staking.electedInfo, [{ ...DEFAULT_FLAGS_ELECTED, withLedger }]);
-  const waitingInfo = useCall<DeriveStakingWaiting>(api.derive.staking.waitingInfo, [{ ...DEFAULT_FLAGS_WAITING, withLedger }]);
-  const lastEraInfo = useCall<LastEra>(api.derive.session.info, undefined, OPT_ERA);
+  const electedInfo = useCall(api.derive.staking.electedInfo, [{ ...DEFAULT_FLAGS_ELECTED, withLedger }]);
+  const waitingInfo = useCall(api.derive.staking.waitingInfo, [{ ...DEFAULT_FLAGS_WAITING, withLedger }]);
+  const lastEraInfo = useCall(api.derive.session.info, undefined, OPT_ERA);
 
   const baseInfo = useMemo(
     () => electedInfo && lastEraInfo && totalIssuance && waitingInfo

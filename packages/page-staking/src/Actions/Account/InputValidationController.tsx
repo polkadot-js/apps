@@ -1,7 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { Option } from '@polkadot/types';
 import type { AccountId, StakingLedger } from '@polkadot/types/interfaces';
 
@@ -41,9 +40,9 @@ const OPT_STASH = {
 function ValidateController ({ accountId, controllerId, defaultController, onError }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const bondedId = useCall<string | null>(controllerId ? api.query.staking.bonded : null, [controllerId], OPT_BOND);
-  const stashId = useCall<string | null>(controllerId ? api.query.staking.ledger : null, [controllerId], OPT_STASH);
-  const allBalances = useCall<DeriveBalancesAll>(controllerId ? api.derive.balances?.all : null, [controllerId]);
+  const bondedId = useCall(controllerId ? api.query.staking.bonded : null, [controllerId], OPT_BOND);
+  const stashId = useCall(controllerId ? api.query.staking.ledger : null, [controllerId], OPT_STASH);
+  const allBalances = useCall(controllerId ? api.derive.balances?.all : null, [controllerId]);
   const [{ error, isFatal }, setError] = useState<ErrorState>({ error: null, isFatal: false });
 
   useEffect((): void => {

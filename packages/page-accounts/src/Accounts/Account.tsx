@@ -3,7 +3,7 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
-import type { DeriveDemocracyLock, DeriveStakingAccount } from '@polkadot/api-derive/types';
+import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
 import type { Ledger } from '@polkadot/hw-ledger';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { Option } from '@polkadot/types';
@@ -155,8 +155,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const bestNumber = useBestNumber();
   const balancesAll = useBalancesAll(address);
   const stakingInfo = useStakingInfo(address);
-  const democracyLocks = useCall<DeriveDemocracyLock[]>(api.api.derive.democracy?.locks, [address]);
-  const recoveryInfo = useCall<RecoveryConfig | null>(api.api.query.recovery?.recoverable, [address], transformRecovery);
+  const democracyLocks = useCall(api.api.derive.democracy?.locks, [address]);
+  const recoveryInfo = useCall(api.api.query.recovery?.recoverable, [address], transformRecovery);
   const multiInfos = useMultisigApprovals(address);
   const proxyInfo = useProxies(address);
   const { flags: { isDevelopment, isEditable, isEthereum, isExternal, isHardware, isInjected, isMultisig, isProxied }, genesisHash, identity, name: accName, onSetGenesisHash, tags } = useAccountInfo(address);

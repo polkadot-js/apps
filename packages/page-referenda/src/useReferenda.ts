@@ -142,7 +142,7 @@ function group (tracks: TrackDescription[], totalIssuance?: BN, referenda?: Refe
 
 function useReferendaImpl (palletReferenda: PalletReferenda): [ReferendaGroup[], TrackDescription[]] {
   const { api, isApiReady } = useApi();
-  const totalIssuance = useCall<BN>(isApiReady && api.query.balances.totalIssuance);
+  const totalIssuance = useCall(isApiReady && api.query.balances.totalIssuance);
   const ids = useReferendaIds(palletReferenda);
   const tracks = useTracks(palletReferenda);
   const referenda = useCall(isApiReady && ids && ids.length !== 0 && api.query[palletReferenda as 'referenda'].referendumInfoFor.multi, [ids], OPT_MULTI);

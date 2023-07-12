@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParaId } from '@polkadot/types/interfaces';
-import type { BN } from '@polkadot/util';
 import type { OwnedId } from '../types.js';
 
 import React from 'react';
@@ -32,7 +31,7 @@ function Actions ({ className, ownedIds }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [isRegisterOpen, toggleRegisterOpen] = useToggle();
   const [isReserveOpen, toggleReserveOpen] = useToggle();
-  const nextParaId = useCall<ParaId | BN>(api.query.registrar.nextFreeParaId, [], OPT_NEXT);
+  const nextParaId = useCall(api.query.registrar.nextFreeParaId, [], OPT_NEXT);
 
   return (
     <Button.Group className={className}>

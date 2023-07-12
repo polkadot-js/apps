@@ -13,10 +13,10 @@ const OPT_ANN = {
     cids.map(createCid)
 };
 
-function useAnnouncementsImpl (): Cid[] | undefined {
+function useAnnouncementsImpl () {
   const { api } = useApi();
 
-  return useCall<Cid[]>(api.query.alliance.announcements, [], OPT_ANN);
+  return useCall(api.query.alliance.announcements, [], OPT_ANN);
 }
 
 export default createNamedHook('useAnnouncements', useAnnouncementsImpl);

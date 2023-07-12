@@ -84,8 +84,8 @@ function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> 
   const { api } = useApi();
   const candidateCount = useCounter();
   const { allMembers, isMember, ownMembers } = useMembers();
-  const info = useCall<DeriveSociety>(api.derive.society.info);
-  const members = useCall<DeriveSocietyMember[]>(api.derive.society.members);
+  const info = useCall(api.derive.society.info);
+  const members = useCall(api.derive.society.members);
   const { candidates, skeptics, voters } = useVoters();
 
   const [mapMembers, payoutTotal] = useMemo(

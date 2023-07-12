@@ -42,7 +42,7 @@ function filterEvents (records: EventRecord[], _: ApiPromise, id?: BN): Changes<
   return { added };
 }
 
-function useVotesImpl (palletVote: PalletVote, id: BN, isConvictionVote: boolean): Record<string, PalletRankedCollectiveVoteRecord> | undefined {
+function useVotesImpl (palletVote: PalletVote, id: BN, isConvictionVote: boolean) {
   const { api } = useApi();
   const startAccounts = useMapKeys(isConvictionVote === false && api.query[palletVote].voting, [id], OPT_ACCOUNTID);
   const allAccounts = useEventChanges([

@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
 import type { PalletStakingUnappliedSlash } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
@@ -53,9 +52,9 @@ function extractSlashes (stashId: string, allSlashes: [BN, PalletStakingUnapplie
 }
 
 function useStashCalls (api: ApiPromise, stashId: string) {
-  const params = useMemo(() => [stashId], [stashId]);
-  const balancesAll = useCall<DeriveBalancesAll>(api.derive.balances?.all, params);
-  const stakingAccount = useCall<DeriveStakingAccount>(api.derive.staking.account, params);
+  const params = useMemo(() => [stashId] as const, [stashId]);
+  const balancesAll = useCall(api.derive.balances?.all, params);
+  const stakingAccount = useCall(api.derive.staking.account, params);
   const spanCount = useSlashingSpans(stashId);
 
   return { balancesAll, spanCount, stakingAccount };

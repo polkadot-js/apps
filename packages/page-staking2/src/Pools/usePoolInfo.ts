@@ -4,7 +4,7 @@
 import type { Bytes, Option } from '@polkadot/types';
 import type { FrameSystemAccountInfo, PalletNominationPoolsBondedPoolInner, PalletNominationPoolsRewardPool, PalletStakingNominations } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { PoolInfo, PoolInfoBase } from './types.js';
+import type { PoolInfoBase } from './types.js';
 
 import { useMemo } from 'react';
 
@@ -39,7 +39,7 @@ function transformName (input: string): string {
   return input.replace(/[^\x20-\x7E]/g, '');
 }
 
-function usePoolInfoImpl (poolId: BN): PoolInfo | null | undefined {
+function usePoolInfoImpl (poolId: BN) {
   const { api } = useApi();
   const accounts = usePoolAccounts(poolId);
   const baseInfo = useCallMulti([

@@ -15,7 +15,7 @@ interface Props {
 
 function TotalInactive ({ children, className = '', label }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const inactiveIssuance = useCall<string>(api.query.balances?.inactiveIssuance);
+  const inactiveIssuance = useCall(api.query.balances?.inactiveIssuance);
 
   return (
     <div className={className}>

@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HeaderExtended } from '@polkadot/api-derive/types';
-import type { EraRewardPoints } from '@polkadot/types/interfaces';
 import type { BlockAuthors } from './types.js';
 
 import React, { useEffect, useState } from 'react';
@@ -25,7 +24,7 @@ export const BlockAuthorsCtx = React.createContext<BlockAuthors>(EMPTY_STATE);
 
 export function BlockAuthorsCtxRoot ({ children }: Props): React.ReactElement<Props> {
   const { api, isApiReady } = useApi();
-  const queryPoints = useCall<EraRewardPoints>(isApiReady && api.derive.staking?.currentPoints);
+  const queryPoints = useCall(isApiReady && api.derive.staking?.currentPoints);
   const [state, setState] = useState<BlockAuthors>(EMPTY_STATE);
 
   // No unsub, global context - destroyed on app close

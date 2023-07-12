@@ -1,7 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { BN } from '@polkadot/util';
 import type { AmountValidateState, DestinationType } from '../types.js';
 import type { BondInfo } from './types.js';
@@ -46,8 +45,8 @@ function Bond ({ className = '', isNominating, minNominated, minNominatorBond, m
   const [destAccount, setDestAccount] = useState<string | null>(null);
   const [stashId, setStashId] = useState<string | null>(null);
   const [startBalance, setStartBalance] = useState<BN | null>(null);
-  const stashBalance = useCall<DeriveBalancesAll>(api.derive.balances?.all, [stashId]);
-  const destBalance = useCall<DeriveBalancesAll>(api.derive.balances?.all, [destAccount]);
+  const stashBalance = useCall(api.derive.balances?.all, [stashId]);
+  const destBalance = useCall(api.derive.balances?.all, [destAccount]);
   const bondedBlocks = useUnbondDuration();
 
   const needsController = useMemo(

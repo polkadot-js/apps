@@ -11,7 +11,7 @@ import { useIsMountedRef } from './useIsMountedRef.js';
 import { useScroll } from './useScroll.js';
 import { useWindowSize } from './useWindowSize.js';
 
-function useElementPositionImpl (ref: React.MutableRefObject<HTMLElement | undefined | null>): ElementPosition | undefined {
+function useElementPositionImpl (ref: React.MutableRefObject<HTMLElement | undefined | null>) {
   const [elementPosition, setElementPosition] = useState<ElementPosition>();
   const mountedRef = useIsMountedRef();
   const windowSize = useWindowSize();

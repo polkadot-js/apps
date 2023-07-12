@@ -1,8 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveProposal } from '@polkadot/api-derive/types';
-
 import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
@@ -18,7 +16,7 @@ interface Props {
 function Proposals ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const proposals = useCall<DeriveProposal[]>(api.derive.democracy.proposals);
+  const proposals = useCall(api.derive.democracy.proposals);
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t<string>('proposals'), 'start', 2],

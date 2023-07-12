@@ -1,7 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-addresses authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { ModalProps as Props } from '../types.js';
 
@@ -33,7 +32,7 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
   const { api, isEthereum } = useApi();
   const [{ isNameValid, name }, setName] = useState<NameState>({ isNameValid: false, name: '' });
   const [{ address, addressInput, isAddressExisting, isAddressValid }, setAddress] = useState<AddrState>({ address: '', addressInput: '', isAddressExisting: false, isAddressValid: false, isPublicKey: false });
-  const info = useCall<DeriveAccountInfo>(!!address && isAddressValid && api.derive.accounts.info, [address]);
+  const info = useCall(!!address && isAddressValid && api.derive.accounts.info, [address]);
   const isValid = (isAddressValid && isNameValid) && !!info?.accountId;
 
   const _onChangeAddress = useCallback(

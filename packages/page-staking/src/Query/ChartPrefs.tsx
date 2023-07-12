@@ -48,8 +48,8 @@ function extractPrefs (labels: string[], prefs: DeriveStakerPrefs[]): LineData {
 function ChartPrefs ({ labels, validatorId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const params = useMemo(() => [validatorId, false], [validatorId]);
-  const stakerPrefs = useCall<DeriveStakerPrefs[]>(api.derive.staking.stakerPrefs, params);
+  const params = useMemo(() => [validatorId, false] as const, [validatorId]);
+  const stakerPrefs = useCall(api.derive.staking.stakerPrefs, params);
   const [values, setValues] = useState<LineData>([]);
 
   useEffect(

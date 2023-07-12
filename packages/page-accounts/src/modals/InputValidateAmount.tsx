@@ -1,7 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { BN } from '@polkadot/util';
 import type { AmountValidateState } from '../Accounts/types.js';
 
@@ -22,7 +21,7 @@ interface Props {
 function ValidateAmount ({ amount, delegatingAccount, onError }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const delegatingAccountBalance = useCall<DeriveBalancesAll>(api.derive.balances?.all, [delegatingAccount]);
+  const delegatingAccountBalance = useCall(api.derive.balances?.all, [delegatingAccount]);
   const [{ error, warning }, setResult] = useState<AmountValidateState>({ error: null, warning: null });
 
   useEffect((): void => {

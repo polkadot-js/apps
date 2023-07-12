@@ -44,11 +44,11 @@ function getResult (exposure: UseExposureExposure, clipped: UseExposureExposure)
   return { clipped, exposure, waiting };
 }
 
-function useExposureImpl ({ stashId }: Validator, { activeEra }: SessionInfo): UseExposure | undefined {
+function useExposureImpl ({ stashId }: Validator, { activeEra }: SessionInfo) {
   const { api } = useApi();
 
   const params = useMemo(
-    () => activeEra && [activeEra, stashId],
+    () => activeEra && [activeEra, stashId] as const,
     [activeEra, stashId]
   );
 

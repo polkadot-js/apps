@@ -65,12 +65,12 @@ function combineResult (locks: LockResult, votes: VoteResult): VoteResult {
   }, votes);
 }
 
-function useVotingForImpl (palletVote: PalletVote, accountIds?: string[] | null): VoteResult | null | undefined {
+function useVotingForImpl (palletVote: PalletVote, accountIds?: string[] | null) {
   const { api } = useApi();
   const locks = useVotingLocks(palletVote, accountIds);
 
   const forParam = useMemo(
-    () => [getParams(locks)],
+    () => [getParams(locks)] as const,
     [locks]
   );
 

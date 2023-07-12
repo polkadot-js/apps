@@ -63,7 +63,7 @@ function getStakerState (stashId: string, allAccounts: string[], [isOwnStash, { 
   };
 }
 
-function useOwnStashInfosImpl (): StakerState[] | undefined {
+function useOwnStashInfosImpl () {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const mountedRef = useIsMountedRef();

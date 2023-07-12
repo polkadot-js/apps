@@ -73,9 +73,9 @@ function getStatics (api: ApiPromise): BountyApiStatics {
 
 function useBountiesImpl (): BountyApi {
   const { api } = useApi();
-  const bounties = useCall<DeriveBounties>(api.derive.bounties.bounties);
-  const bountyCount = useCall<BN>((api.query.bounties || api.query.treasury).bountyCount);
-  const childCount = useCall<BN>(api.query.childBounties?.childBountyCount);
+  const bounties = useCall(api.derive.bounties.bounties);
+  const bountyCount = useCall((api.query.bounties || api.query.treasury).bountyCount);
+  const childCount = useCall(api.query.childBounties?.childBountyCount);
   const bestNumber = useBestNumber();
 
   const statics = useMemo(

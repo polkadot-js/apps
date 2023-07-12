@@ -50,7 +50,7 @@ function mapValidators (validators?: AccountId32[]): Validator[] | undefined {
   });
 }
 
-function useValidatorsAllImpl (favorites: string[], sessionInfo: SessionInfo): Validator[] | undefined {
+function useValidatorsAllImpl (favorites: string[], sessionInfo: SessionInfo) {
   const { api } = useApi();
   const startValue = useMapKeys(api.query.staking.validators, EMPTY_PARAMS, OPT_VALIDATORS);
 

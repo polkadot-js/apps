@@ -41,7 +41,7 @@ function merge (prev: BagMap | undefined, curr: BagMap): BagMap {
     }, {});
 }
 
-function useBagsNodesImpl (stashIds: string[]): BagMap | undefined {
+function useBagsNodesImpl (stashIds: string[]) {
   const mod = useQueryModule();
   const [result, setResult] = useState<BagMap | undefined>();
   const query = useCall(mod.listNodes.multi, [stashIds], MULTI_OPTS);

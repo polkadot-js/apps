@@ -1,7 +1,6 @@
 // Copyright 2017-2023 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveSessionProgress } from '@polkadot/api-derive/types';
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
@@ -21,7 +20,7 @@ interface Props {
 
 function SessionToTime ({ children, className, isInline, label, value }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const sessionInfo = useCall<DeriveSessionProgress>(api.derive.session.progress);
+  const sessionInfo = useCall(api.derive.session.progress);
 
   const blocks = useMemo(
     () => sessionInfo && value && sessionInfo.currentIndex.lt(value)

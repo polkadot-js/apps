@@ -31,7 +31,7 @@ const DERIVE_OPTS = {
   }
 };
 
-function useBondedImpl (ids?: false | AccountId32[]): ListNode[] | undefined {
+function useBondedImpl (ids?: false | AccountId32[]) {
   const { api } = useApi();
 
   return useCall(ids && ids.length !== 0 && api.derive.staking.accounts, [ids], DERIVE_OPTS);

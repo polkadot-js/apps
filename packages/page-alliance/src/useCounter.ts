@@ -7,7 +7,7 @@ import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
 function useCounterImpl (): number {
   const { api, isApiReady } = useApi();
-  const proposalHashes = useCall<unknown[]>(isApiReady && api.derive.alliance.proposalHashes);
+  const proposalHashes = useCall(isApiReady && api.derive.alliance.proposalHashes);
 
   return useMemo(
     () => (proposalHashes && proposalHashes.length) || 0,

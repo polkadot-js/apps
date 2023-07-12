@@ -23,11 +23,11 @@ const OPT_POINTS = {
       }, {})
 };
 
-function usePointsImpl ({ activeEra }: SessionInfo): UsePoints | undefined {
+function usePointsImpl ({ activeEra }: SessionInfo) {
   const { api } = useApi();
 
   const queryParams = useMemo(
-    () => activeEra && [activeEra],
+    () => activeEra && [activeEra] as const,
     [activeEra]
   );
 

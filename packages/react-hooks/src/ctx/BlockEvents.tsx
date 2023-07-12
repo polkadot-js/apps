@@ -104,7 +104,7 @@ async function manageEvents (api: ApiPromise, prev: PrevHashes, records: Vec<Eve
 export function BlockEventsCtxRoot ({ children }: Props): React.ReactElement<Props> {
   const { api, isApiReady } = useApi();
   const [state, setState] = useState<BlockEvents>(DEFAULT_EVENTS);
-  const records = useCall<Vec<EventRecord>>(isApiReady && api.query.system.events);
+  const records = useCall(isApiReady && api.query.system.events);
   const prevHashes = useRef({ block: null, event: null });
 
   useEffect((): void => {

@@ -48,11 +48,11 @@ function extractInfo (allAccounts: string[], id: BN, optDetails: Option<PalletAs
   };
 }
 
-function useAssetInfosImpl (ids?: BN[]): AssetInfo[] | undefined {
+function useAssetInfosImpl (ids?: BN[]) {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const metadata = useCall<[[BN[]], PalletAssetsAssetMetadata[]]>(api.query.assets.metadata.multi, [ids], QUERY_OPTS);
-  const details = useCall<[[BN[]], Option<PalletAssetsAssetDetails>[]]>(api.query.assets.asset.multi, [ids], QUERY_OPTS);
+  const metadata: [[BN[]], PalletAssetsAssetMetadata[]] | undefined = useCall(api.query.assets.metadata.multi, [ids], QUERY_OPTS);
+  const details: [[BN[]], Option<PalletAssetsAssetDetails>[]] | undefined = useCall(api.query.assets.asset.multi, [ids], QUERY_OPTS);
   const [state, setState] = useState<AssetInfo[] | undefined>();
 
   useEffect((): void => {

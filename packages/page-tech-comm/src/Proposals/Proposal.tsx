@@ -1,7 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { CollectiveType } from '@polkadot/react-hooks/types';
 import type { Hash } from '@polkadot/types/interfaces';
 
@@ -27,7 +26,7 @@ interface Props {
 
 function Proposal ({ className = '', imageHash, isMember, members, prime, type }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const derive = useCall<DeriveCollectiveProposal>(api.derive[type as 'technicalCommittee'].proposal, [imageHash]);
+  const derive = useCall(api.derive[type as 'technicalCommittee'].proposal, [imageHash]);
   const { hasFailed, isCloseable, isVoteable, remainingBlocks } = useVotingStatus(derive?.votes, members.length, type);
   const modLocation = useCollectiveInstance(type);
 

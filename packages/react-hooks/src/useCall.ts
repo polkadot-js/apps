@@ -1,11 +1,12 @@
 // Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Observable } from 'rxjs';
 import type { ApiPromise } from '@polkadot/api';
-import type { PromiseResult, QueryableStorageEntry } from '@polkadot/api/types';
+import type { GenericStorageEntryFunction, PromiseResult, QueryableStorageEntry, StorageEntryPromiseOverloads } from '@polkadot/api/types';
 import type { StorageEntryTypeLatest } from '@polkadot/types/interfaces';
 import type { AnyFunction, Codec } from '@polkadot/types/types';
-import type { CallOptions, CallParam, CallParams } from './types.js';
+import type { CallOptions, CallParam, CallParams, Diverge, FalsifiablePartial, Leading } from './types.js';
 import type { MountedRef } from './useIsMountedRef.js';
 
 import { useEffect, useRef, useState } from 'react';
@@ -73,7 +74,7 @@ function isQuery (fn: unknown): fn is QueryableStorageEntry<'promise', []> {
 }
 
 // extract the serialized and mapped params, all ready for use in our call
-function extractParams <T> (fn: unknown, params: unknown[], { paramMap = transformIdentity }: CallOptions<T> = {}): [string, CallParams | null] {
+function extractParams <T> (fn: unknown, params: readonly unknown[], { paramMap = transformIdentity }: CallOptions<T> = {}): [string, CallParams | null] {
   return [
     JSON.stringify({ f: (fn as { name: string })?.name, p: params }),
     params.length === 0 || !params.some((param) => isNull(param) || isUndefined(param))
@@ -157,13 +158,25 @@ export function throwOnError (tracker: Tracker): void {
 // tracks a stream, typically an api.* call (derive, rpc, query) that
 //  - returns a promise with an unsubscribe function
 //  - has a callback to set the value
-// FIXME The typings here need some serious TLC
 // FIXME This is generic, we cannot really use createNamedHook
-export function useCall <T> (fn: TrackFn | undefined | null | false, params?: CallParams | null, options?: CallOptions<T>): T | undefined {
+export function useCall<
+  TTransformedResult,
+  TFn extends TrackFn | undefined | null | false,
+  TDivergedFn extends Diverge<Exclude<TFn, undefined | null | false>, StorageEntryPromiseOverloads & QueryableStorageEntry<any, any> & PromiseResult<GenericStorageEntryFunction>>,
+  TParams extends TDivergedFn extends AnyFunction
+    ? Readonly<FalsifiablePartial<Leading<Parameters<TDivergedFn>>>>
+    : unknown[],
+  TFnResult extends TDivergedFn extends PromiseResult< (...args: any) => Observable<infer R>>
+    ? R
+    : unknown,
+  TResult extends TCallOptions extends CallOptions<infer R> ? R : TFnResult,
+  TCallOptions extends CallOptions<TTransformedResult> | undefined = undefined,
+>(fn: TFn, params?: TParams, options?: TCallOptions): TResult | undefined {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const tracker = useRef<Tracker>({ error: null, fn: null, isActive: false, serialized: null, subscriber: null, type: 'useCall' });
-  const [value, setValue] = useState<T | undefined>((options || {}).defaultValue);
+  // @ts-expect-error needs better typing for options transform
+  const [value, setValue] = useState<TResult | undefined>((options || {}).defaultValue);
 
   // initial effect, we need an un-subscription
   useEffect((): () => void => {

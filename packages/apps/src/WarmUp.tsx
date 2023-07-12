@@ -7,9 +7,9 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 
 function WarmUp (): React.ReactElement {
   const { api, isApiReady } = useApi();
-  const indexes = useCall<unknown>(isApiReady && api.derive.accounts?.indexes);
-  const registrars = useCall<unknown>(isApiReady && api.query.identity?.registrars);
-  const issuance = useCall<unknown>(isApiReady && api.query.balances?.totalIssuance);
+  const indexes = useCall(isApiReady && api.derive.accounts?.indexes);
+  const registrars = useCall(isApiReady && api.query.identity?.registrars);
+  const issuance = useCall(isApiReady && api.query.balances?.totalIssuance);
   const [hasValues, setHasValues] = useState(false);
 
   useEffect((): void => {

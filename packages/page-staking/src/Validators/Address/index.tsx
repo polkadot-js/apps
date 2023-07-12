@@ -83,9 +83,9 @@ const transformSlashes = {
 };
 
 function useAddressCalls (api: ApiPromise, address: string, isMain?: boolean) {
-  const params = useMemo(() => [address], [address]);
+  const params = useMemo(() => [address] as const, [address]);
   const accountInfo = useDeriveAccountInfo(address);
-  const slashingSpans = useCall<SlashingSpans | null>(!isMain && api.query.staking.slashingSpans, params, transformSlashes);
+  const slashingSpans = useCall(!isMain && api.query.staking.slashingSpans, params, transformSlashes);
 
   return { accountInfo, slashingSpans };
 }
