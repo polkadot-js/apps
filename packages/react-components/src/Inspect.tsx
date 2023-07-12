@@ -24,12 +24,18 @@ interface Inspected {
   value: string;
 }
 
-function formatInspect ({ inner = [], name = '', outer = [] }: Inspect, result: Inspected[] = []): Inspected[] {
+function formatInspect({ inner = [], name = '', outer = [] }: Inspect, result: Inspected[] = []): Inspected[] {
   if (outer.length) {
     const value = new Array<string>(outer.length);
 
     for (let i = 0; i < outer.length; i++) {
-      value[i] = u8aToHex(outer[i], undefined, false);
+      if (name !== "appId") {
+        value[i] = u8aToHex(outer[i], undefined, false);
+      } else {
+        const hexAppId = u8aToHex(outer[i], undefined, false);
+        const appId = parseInt(hexAppId, 16) >> 2;
+        value[i] = appId.toString();
+      }
     }
 
     result.push({ name, value: value.join(' ') });
@@ -42,7 +48,7 @@ function formatInspect ({ inner = [], name = '', outer = [] }: Inspect, result: 
   return result;
 }
 
-function DecodedInspect ({ className, hex, inspect, label }: Props): React.ReactElement<Props> | null {
+function DecodedInspect({ className, hex, inspect, label }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { createLink } = useApi();
   const formatted = useMemo(

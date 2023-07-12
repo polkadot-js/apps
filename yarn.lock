@@ -7494,6 +7494,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dotenv@npm:^16.0.3":
+  version: 16.3.1
+  resolution: "dotenv@npm:16.3.1"
+  checksum: 15d75e7279018f4bafd0ee9706593dd14455ddb71b3bcba9c52574460b7ccaf67d5cf8b2c08a5af1a9da6db36c956a04a1192b101ee102a3e0cf8817bbcf3dfd
+  languageName: node
+  linkType: hard
+
 "dotenv@npm:^8.2.0":
   version: 8.6.0
   resolution: "dotenv@npm:8.6.0"
@@ -13949,9 +13956,11 @@ fsevents@~2.3.2:
     "@types/store": ^2.0.2
     "@types/styled-components": ^5.1.26
     "@types/styled-theming": ^2.2.5
+    axios: ^1.4.0
     concurrently: ^8.2.0
     devtron: ^1.4.0
     dnslink-cloudflare: ^3.0.0
+    dotenv: ^16.0.3
     electron: 25.0.1
     electron-builder: 23.6.0
     electron-builder-notarize: ^1.5.1

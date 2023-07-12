@@ -1,18 +1,18 @@
 {
   "author": "Jaco Greeff <jacogr@gmail.com>",
-  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "bugs": "https://github.com/availproject/avail-apps/issues",
   "description": "An Apps portal into the Polkadot network",
   "engines": {
     "node": ">=18.14"
   },
-  "homepage": "https://github.com/polkadot-js/apps#readme",
+  "homepage": "https://github.com/availproject/avail-apps#readme",
   "license": "Apache-2.0",
   "name": "polkadot-apps",
   "packageManager": "yarn@3.2.0",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/polkadot-js/apps.git"
+    "url": "https://github.com/availproject/avail-apps.git"
   },
   "sideEffects": false,
   "type": "module",
@@ -65,6 +65,10 @@
     "test:all": "polkadot-dev-run-test --env browser ^chainEndpoints ^chainTypes",
     "test:one": "polkadot-dev-run-test --env browser",
     "test:skipped": "echo 'tests skipped'"
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "dotenv": "^16.0.3"
   },
   "devDependencies": {
     "@crustio/crust-pin": "^1.0.0",

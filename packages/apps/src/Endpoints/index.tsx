@@ -17,6 +17,8 @@ import { isAscii } from '@polkadot/util';
 import { useTranslation } from '../translate.js';
 import GroupDisplay from './Group.js';
 
+import config from '../../../apps-config/src/variables/config.js';
+
 interface Props {
   className?: string;
   offset?: number | string;
@@ -30,9 +32,15 @@ interface UrlState {
   isUrlValid: boolean;
 }
 
+interface LcUrlState {
+  lcUrl: string;
+  hasLcUrlChanged: boolean;
+  isLcUrlValid: boolean;
+}
+
 const STORAGE_AFFINITIES = 'network:affinities';
 
-function isValidUrl (url: string): boolean {
+function isValidUrl(url: string): boolean {
   return (
     // some random length... we probably want to parse via some lib
     (url.length >= 7) &&
@@ -41,7 +49,16 @@ function isValidUrl (url: string): boolean {
   );
 }
 
-function combineEndpoints (endpoints: LinkOption[]): Group[] {
+function isValidHttpUrl(url: string): boolean {
+  return (
+    // some random length... we probably want to parse via some lib
+    (url.length >= 7) &&
+    // check that it starts with a valid ws identifier
+    (url.startsWith('http://') || url.startsWith('https://'))
+  );
+}
+
+function combineEndpoints(endpoints: LinkOption[]): Group[] {
   return endpoints.reduce((result: Group[], e): Group[] => {
     if (e.isHeader) {
       result.push({ header: e.text, isDevelopment: e.isDevelopment, isSpaced: e.isSpaced, networks: [] });
@@ -68,7 +85,7 @@ function combineEndpoints (endpoints: LinkOption[]): Group[] {
   }, []);
 }
 
-function getCustomEndpoints (): string[] {
+function getCustomEndpoints(): string[] {
   try {
     const storedAsset = localStorage.getItem(CUSTOM_ENDPOINT_KEY);
 
@@ -83,7 +100,7 @@ function getCustomEndpoints (): string[] {
   return [];
 }
 
-function extractUrlState (apiUrl: string, groups: Group[]): UrlState {
+function extractUrlState(apiUrl: string, groups: Group[]): UrlState {
   let groupIndex = groups.findIndex(({ networks }) =>
     networks.some(({ providers }) =>
       providers.some(({ url }) => url === apiUrl)
@@ -102,7 +119,30 @@ function extractUrlState (apiUrl: string, groups: Group[]): UrlState {
   };
 }
 
-function loadAffinities (groups: Group[]): Record<string, string> {
+function extractLcUrlState(lcUrl: string | null, groups: Group[]): LcUrlState {
+  let lcGroupIndex = groups.findIndex(({ networks }) =>
+    networks.some(({ providers }) =>
+      providers.some(({ url }) => url === lcUrl)
+    )
+  );
+
+  if (lcGroupIndex === -1) {
+    lcGroupIndex = groups.findIndex(({ isDevelopment }) => isDevelopment);
+  }
+
+  if (lcUrl === null) {
+    const lcU = `${config.LCURL}/json-rpc`;
+    lcUrl = lcU;
+  }
+
+  return {
+    hasLcUrlChanged: window.localStorage.getItem('lcUrl') !== lcUrl,
+    isLcUrlValid: isValidHttpUrl(lcUrl),
+    lcUrl
+  };
+}
+
+function loadAffinities(groups: Group[]): Record<string, string> {
   return Object
     .entries<string>(store.get(STORAGE_AFFINITIES) as Record<string, string> || {})
     .filter(([network, apiUrl]) =>
@@ -118,7 +158,7 @@ function loadAffinities (groups: Group[]): Record<string, string> {
     }), {});
 }
 
-function isSwitchDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid: boolean): boolean {
+function isSwitchDisabled(hasUrlChanged: boolean, apiUrl: string, isUrlValid: boolean): boolean {
   if (!hasUrlChanged) {
     return true;
   } else if (apiUrl.startsWith('light://')) {
@@ -130,11 +170,12 @@ function isSwitchDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid: b
   return true;
 }
 
-function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElement<Props> {
+function Endpoints({ className = '', offset, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const linkOptions = createWsEndpoints(t);
   const [groups, setGroups] = useState(() => combineEndpoints(linkOptions));
   const [{ apiUrl, groupIndex, hasUrlChanged, isUrlValid }, setApiUrl] = useState<UrlState>(() => extractUrlState(settings.get().apiUrl, groups));
+  const [{ hasLcUrlChanged, isLcUrlValid, lcUrl }, setLcUrl] = useState<LcUrlState>(() => extractLcUrlState(window.localStorage.getItem('lcUrl'), groups));
   const [storedCustomEndpoints, setStoredCustomEndpoints] = useState<string[]>(() => getCustomEndpoints());
   const [affinities, setAffinities] = useState(() => loadAffinities(groups));
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -249,15 +290,51 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
     [hasUrlChanged, apiUrl, isUrlValid]
   );
 
+  const canLCSwitch = useMemo(
+    () => isSwitchDisabled(hasLcUrlChanged, lcUrl, isLcUrlValid),
+    [hasLcUrlChanged, lcUrl, isLcUrlValid]
+  );
+
+  const _onChangeCustomLC = useCallback(
+    (lcUrl: string): void => {
+      if (!isAscii(lcUrl)) {
+        lcUrl = punycode.toASCII(lcUrl);
+      }
+
+      setLcUrl(extractLcUrlState(lcUrl, groups));
+    },
+    [groups]
+  );
+
+  const _onLcApply = useCallback(
+    (): void => {
+      window.localStorage.setItem('lcUrl', lcUrl);
+
+      window.location.assign(`${window.location.origin}${window.location.pathname}?light=${encodeURIComponent(lcUrl)}${window.location.hash}`);
+      // window.location.reload();
+
+      onClose();
+    },
+    [lcUrl, onClose]
+  );
+
   return (
     <StyledSidebar
       button={
-        <Button
-          icon='sync'
-          isDisabled={canSwitch}
-          label={t<string>('Switch')}
-          onClick={_onApply}
-        />
+        <>
+          <Button
+            icon='sync'
+            isDisabled={canSwitch}
+            label={t<string>('Switch')}
+            onClick={_onApply}
+          />
+          <Button
+            icon='sync'
+            isDisabled={canLCSwitch}
+            label={t<string>('Switch LC')}
+            onClick={_onLcApply}
+          />
+        </>
       }
       className={className}
       offset={offset}
@@ -307,6 +384,16 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
           )}
         </GroupDisplay>
       ))}
+      <div className='endpointCustomWrapper'>
+        <Input
+          className='endpointCustom'
+          isError={!isLcUrlValid}
+          isFull
+          label={t<string>('light client endpoint')}
+          onChange={_onChangeCustomLC}
+          value={lcUrl}
+        />
+      </div>
     </StyledSidebar>
   );
 }

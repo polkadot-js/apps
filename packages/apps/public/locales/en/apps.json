@@ -15,6 +15,7 @@
   "You are connecting from a secure location to an insecure WebSocket ({{wsUrl}}). Due to browser mixed-content security policies this connection type is not allowed. Change the RPC service to a secure 'wss' endpoint.": "You are connecting from a secure location to an insecure WebSocket ({{wsUrl}}). Due to browser mixed-content security policies this connection type is not allowed. Change the RPC service to a secure 'wss' endpoint.",
   "You are not connected to a node. Ensure that your node is running and that the Websocket endpoint is reachable.": "You are not connected to a node. Ensure that your node is running and that the Websocket endpoint is reachable.",
   "custom endpoint": "custom endpoint",
+  "light client endpoint": "light client endpoint",
   "nav.github": "nav.github",
   "nav.wiki": "nav.wiki",
   "transfer received": "transfer received",

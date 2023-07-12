@@ -20,6 +20,9 @@ import Justifications from './Justifications.js';
 import Logs from './Logs.js';
 import Summary from './Summary.js';
 
+import axios from 'axios';
+import config from '../../../apps-config/src/variables/config.js';
+
 interface Props {
   className?: string;
   error?: Error | null;
@@ -55,6 +58,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
   const [{ events, getBlock, getHeader, runtimeVersion }, setState] = useState<State>({});
   const [blkError, setBlkError] = useState<Error | null | undefined>(error);
   const [evtError, setEvtError] = useState<Error | null | undefined>();
+  const [confidence, setConfidence] = useState<string>('0 %');
 
   const [isVersionCurrent, maxBlockWeight] = useMemo(
     () => [
@@ -95,6 +99,44 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
       ])
       .then((result): void => {
         mountedRef.current && setState(transformResult(result));
+
+        const number = result[2];
+        let LightClientURI = `${config.LCURL}/v1`;
+        const url = new URL(window.location.href);
+        const searchParams = new URLSearchParams(url.search);
+        const getParam = searchParams.get('light');
+        const savedLcUri = window.localStorage.getItem('lcUrl');
+
+        if (getParam) {
+          LightClientURI = getParam;
+        } else if (savedLcUri !== null) {
+          LightClientURI = savedLcUri;
+        }
+
+        console.log('Using Light Client at ', LightClientURI);
+
+        axios.get(
+          `confidence/${number}`,
+          {
+            baseURL: LightClientURI,
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }
+        ).then((v) => {
+          console.log(v);
+
+          if (v.status !== 200) {
+            setConfidence('ℹ️ Make sure Light Client runs on ' + LightClientURI);
+
+            return;
+          }
+
+          setConfidence(v.data.confidence);
+        }).catch((_) => {
+          setConfidence('ℹ️ Make sure Light Client runs on ' + LightClientURI);
+          console.log('Light client: Called, but failed');
+        });
       })
       .catch((error: Error): void => {
         mountedRef.current && setBlkError(error);
@@ -109,6 +151,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
         [t<string>('parent'), 'start'],
         [t<string>('extrinsics'), 'start media--1300'],
         [t<string>('state'), 'start media--1200'],
+        [t<string>('confidence'), 'start'],
         [runtimeVersion ? `${runtimeVersion.specName.toString()}/${runtimeVersion.specVersion.toString()}` : undefined, 'media--1000']
       ]
       : EMPTY_HEADER,
@@ -150,6 +193,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
               }</td>
               <td className='hash overflow media--1300'>{getHeader.extrinsicsRoot.toHex()}</td>
               <td className='hash overflow media--1200'>{getHeader.stateRoot.toHex()}</td>
+              <td className='hash overflow'>{confidence}</td>
               <td className='media--1000'>
                 {value && (
                   <LinkExternal

@@ -35,61 +35,61 @@ jobs:
         yarn install --immutable
         yarn ${{ matrix.step }}
 
-  # only run on "CI skip", i.e. when the actual version has been bumped to release/stable
-  docker:
-    if: "startsWith(github.event.head_commit.message, '[CI Skip] release/stable')"
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 'lts/*'
-    - name: docker
-      env:
-        DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
-      run: |
-        ./docker/build.sh
+  # # only run on "CI skip", i.e. when the actual version has been bumped to release/stable
+  # docker:
+  #   if: "startsWith(github.event.head_commit.message, '[CI Skip] release/stable')"
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #   - uses: actions/setup-node@v3
+  #     with:
+  #       node-version: 'lts/*'
+  #   - name: docker
+  #     env:
+  #       DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
+  #     run: |
+  #       ./docker/build.sh
 
-  # only run on "CI skip", i.e. when the actual version has been bumped to release/stable
-  electron:
-    if: "startsWith(github.event.head_commit.message, '[CI Skip] release/stable')"
-    strategy:
-      matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        token: ${{ secrets.GH_PAT_BOT }}
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 'lts/*'
-    - name: Prepare for app notarization (macOS)
-      if: startsWith(matrix.os, 'macos')
-      # Import Apple API key for app notarization on macOS
-      run: |
-        mkdir -p ~/private_keys/
-        echo '${{ secrets.API_KEY }}' > ~/private_keys/AuthKey_${{ secrets.API_KEY_ID }}.p8
-    - name: Build/release Electron app
-      uses: samuelmeuli/action-electron-builder@v1
-      with:
-        # Base64-encoded code signing certificate for macOS
-        mac_certs: ${{ secrets.MAC_CERTS }}
-        # Password for decrypting `mac_certs`
-        mac_certs_password: ${{ secrets.MAC_CERTS_PASSWORD }}
-        # Base64-encoded code signing certificate for Windows
-        windows_certs: ${{ secrets.WINDOWS_CERTS }}
-        # Password for decrypting `windows_certs`
-        windows_certs_password: ${{ secrets.WINDOWS_CERTS_PASSWORD }}
-        # GitHub token, automatically provided to the action
-        # (No need to define this secret in the repo settings)
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        args: '--project packages/apps-electron'
-        build_script_name: build:release:electron
-        # If the commit is tagged with a version (e.g. "v1.0.0"),
-        # release the app after building
-        release: ${{ startsWith(github.ref, 'refs/tags/v') }}
-      env:
-        # macOS notarization API key
-        API_KEY_ID: ${{ secrets.API_KEY_ID }}
-        API_KEY_ISSUER_ID: ${{ secrets.API_KEY_ISSUER_ID }}
+  # # only run on "CI skip", i.e. when the actual version has been bumped to release/stable
+  # electron:
+  #   if: "startsWith(github.event.head_commit.message, '[CI Skip] release/stable')"
+  #   strategy:
+  #     matrix:
+  #       os: [macos-latest, ubuntu-latest, windows-latest]
+  #   runs-on: ${{ matrix.os }}
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #     with:
+  #       token: ${{ secrets.GH_PAT_BOT }}
+  #   - uses: actions/setup-node@v3
+  #     with:
+  #       node-version: 'lts/*'
+  #   - name: Prepare for app notarization (macOS)
+  #     if: startsWith(matrix.os, 'macos')
+  #     # Import Apple API key for app notarization on macOS
+  #     run: |
+  #       mkdir -p ~/private_keys/
+  #       echo '${{ secrets.API_KEY }}' > ~/private_keys/AuthKey_${{ secrets.API_KEY_ID }}.p8
+  #   - name: Build/release Electron app
+  #     uses: samuelmeuli/action-electron-builder@v1
+  #     with:
+  #       # Base64-encoded code signing certificate for macOS
+  #       mac_certs: ${{ secrets.MAC_CERTS }}
+  #       # Password for decrypting `mac_certs`
+  #       mac_certs_password: ${{ secrets.MAC_CERTS_PASSWORD }}
+  #       # Base64-encoded code signing certificate for Windows
+  #       windows_certs: ${{ secrets.WINDOWS_CERTS }}
+  #       # Password for decrypting `windows_certs`
+  #       windows_certs_password: ${{ secrets.WINDOWS_CERTS_PASSWORD }}
+  #       # GitHub token, automatically provided to the action
+  #       # (No need to define this secret in the repo settings)
+  #       github_token: ${{ secrets.GITHUB_TOKEN }}
+  #       args: '--project packages/apps-electron'
+  #       build_script_name: build:release:electron
+  #       # If the commit is tagged with a version (e.g. "v1.0.0"),
+  #       # release the app after building
+  #       release: ${{ startsWith(github.ref, 'refs/tags/v') }}
+  #     env:
+  #       # macOS notarization API key
+  #       API_KEY_ID: ${{ secrets.API_KEY_ID }}
+  #       API_KEY_ISSUER_ID: ${{ secrets.API_KEY_ISSUER_ID }}

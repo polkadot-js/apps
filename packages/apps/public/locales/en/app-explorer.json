@@ -25,6 +25,7 @@
   "blocktimes (last {{n}} blocks)": "blocktimes (last {{n}} blocks)",
   "bytes": "bytes",
   "bytes transferred": "bytes transferred",
+  "confidence": "confidence",
   "connected peers": "connected peers",
   "deposits": "deposits",
   "elapsed": "elapsed",

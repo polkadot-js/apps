@@ -11,7 +11,7 @@ import { NodeName, NodeVersion } from '@polkadot/react-query';
 
 import { packageInfo } from '../packageInfo.js';
 
-const uiInfo = `apps v${packageInfo.version.replace('-x', '')}`;
+const uiInfo = `avail-apps v${packageInfo.version.replace('-x', '')}`;
 
 function NodeInfo ({ className = '' }: Props): React.ReactElement<Props> {
   const { api, isApiReady } = useApi();
