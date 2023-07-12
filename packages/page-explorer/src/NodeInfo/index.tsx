@@ -61,7 +61,7 @@ function NodeInfo (): React.ReactElement {
       <Peers peers={info.peers} />
       <Extrinsics
         blockNumber={info.blockNumber}
-        label={t<string>('pending extrinsics')}
+        label={t('pending extrinsics')}
         value={info.extrinsics}
         withLink
       />

@@ -54,28 +54,28 @@ function BondExtra ({ controllerId, onClose, stakingInfo, stashId }: Props): Rea
 
   return (
     <Modal
-      header= {t<string>('Bond more funds')}
+      header= {t('Bond more funds')}
       onClose={onClose}
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={t<string>('Since this transaction deals with funding, the stash account will be used.')}>
+        <Modal.Columns hint={t('Since this transaction deals with funding, the stash account will be used.')}>
           <InputAddress
             defaultValue={stashId}
             isDisabled
-            label={t<string>('stash account')}
+            label={t('stash account')}
           />
         </Modal.Columns>
         {startBalance && (
-          <Modal.Columns hint={t<string>('The amount placed at-stake should allow some free funds for future transactions.')}>
+          <Modal.Columns hint={t('The amount placed at-stake should allow some free funds for future transactions.')}>
             <InputBalance
               autoFocus
               defaultValue={startBalance}
               isError={!!amountError?.error || !maxAdditional || maxAdditional.isZero()}
-              label={t<string>('additional funds to bond')}
+              label={t('additional funds to bond')}
               labelExtra={
                 <BalanceFree
-                  label={<span className='label'>{t<string>('balance')}</span>}
+                  label={<span className='label'>{t('balance')}</span>}
                   params={stashId}
                 />
               }
@@ -96,7 +96,7 @@ function BondExtra ({ controllerId, onClose, stakingInfo, stashId }: Props): Rea
           accountId={stashId}
           icon='sign-in-alt'
           isDisabled={!maxAdditional?.gt(BN_ZERO) || !!amountError?.error}
-          label={t<string>('Bond more')}
+          label={t('Bond more')}
           onStart={onClose}
           params={[maxAdditional]}
           tx={api.tx.staking.bondExtra}

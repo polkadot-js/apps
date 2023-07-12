@@ -91,7 +91,7 @@ function ChangePass ({ address, className = '', onClose }: Props): React.ReactEl
   return (
     <Modal
       className={`${className} app--accounts-Modal`}
-      header={t<string>('Change account password')}
+      header={t('Change account password')}
       onClose={onClose}
       size='large'
     >
@@ -100,20 +100,20 @@ function ChangePass ({ address, className = '', onClose }: Props): React.ReactEl
           isInline
           value={address}
         />
-        <Modal.Columns hint={t<string>('The existing account password as specified when this account was created or when it was last changed.')}>
+        <Modal.Columns hint={t('The existing account password as specified when this account was created or when it was last changed.')}>
           <Password
             autoFocus
             isError={!isOldValid}
-            label={t<string>('your current password')}
+            label={t('your current password')}
             onChange={_onChangeOld}
             tabIndex={1}
             value={oldPass}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('This will apply to any future use of this account as stored on this browser. Ensure that you securely store this new password and that it is strong and unique to the account.')}>
+        <Modal.Columns hint={t('This will apply to any future use of this account as stored on this browser. Ensure that you securely store this new password and that it is strong and unique to the account.')}>
           <Password
             isError={!newPass1.isValid}
-            label={t<string>('your new password')}
+            label={t('your new password')}
             onChange={_onChangeNew1}
             onEnter={_doChange}
             tabIndex={2}
@@ -121,7 +121,7 @@ function ChangePass ({ address, className = '', onClose }: Props): React.ReactEl
           />
           <Password
             isError={!newPass2.isValid}
-            label={t<string>('password (repeat)')}
+            label={t('password (repeat)')}
             onChange={_onChangeNew2}
             onEnter={_doChange}
             tabIndex={2}
@@ -135,7 +135,7 @@ function ChangePass ({ address, className = '', onClose }: Props): React.ReactEl
           icon='sign-in-alt'
           isBusy={isBusy}
           isDisabled={!newPass1.isValid || !newPass2.isValid || !isOldValid}
-          label={t<string>('Change')}
+          label={t('Change')}
           onClick={_doChange}
         />
       </Modal.Actions>

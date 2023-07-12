@@ -32,13 +32,13 @@ function Candidates ({ allMembers, candidates, className, isMember, ownMembers }
       <Button.Group>
         <Button
           icon='plus'
-          label={t<string>('Submit bid')}
+          label={t('Submit bid')}
           onClick={toggleBidOpen}
         />
         <Button
           icon='plus'
           isDisabled={!isMember}
-          label={t<string>('Vouch for')}
+          label={t('Vouch for')}
           onClick={toggleVouchOpen}
         />
         {isBidOpen && (

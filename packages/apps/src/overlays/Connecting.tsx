@@ -42,8 +42,8 @@ function Connecting ({ className }: Props): React.ReactElement<Props> | null {
         <div>
           {
             isApiConnected
-              ? t<string>('Waiting to complete metadata retrieval from remote endpoint.')
-              : t<string>('Waiting to establish a connection with the remote endpoint.')
+              ? t('Waiting to complete metadata retrieval from remote endpoint.')
+              : t('Waiting to establish a connection with the remote endpoint.')
           }
         </div>
       </BaseOverlay>
@@ -55,7 +55,7 @@ function Connecting ({ className }: Props): React.ReactElement<Props> | null {
         icon='puzzle-piece'
         type='info'
       >
-        <div>{t<string>('Waiting for authorization from the extension. Please open the installed extension and approve or reject access.')}</div>
+        <div>{t('Waiting for authorization from the extension. Please open the installed extension and approve or reject access.')}</div>
       </BaseOverlay>
     );
   } else if (!isApiConnected) {
@@ -65,10 +65,10 @@ function Connecting ({ className }: Props): React.ReactElement<Props> | null {
         icon='globe'
         type='error'
       >
-        <div>{t<string>('You are not connected to a node. Ensure that your node is running and that the Websocket endpoint is reachable.')}</div>
+        <div>{t('You are not connected to a node. Ensure that your node is running and that the Websocket endpoint is reachable.')}</div>
         {
           isWs && !isWsLocal && isHttps
-            ? <div>{t<string>('You are connecting from a secure location to an insecure WebSocket ({{wsUrl}}). Due to browser mixed-content security policies this connection type is not allowed. Change the RPC service to a secure \'wss\' endpoint.', { replace: { wsUrl } })}</div>
+            ? <div>{t('You are connecting from a secure location to an insecure WebSocket ({{wsUrl}}). Due to browser mixed-content security policies this connection type is not allowed. Change the RPC service to a secure \'wss\' endpoint.', { replace: { wsUrl } })}</div>
             : undefined
         }
       </BaseOverlay>

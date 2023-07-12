@@ -255,7 +255,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       try {
         keyring.forgetAccount(address);
         status.status = 'success';
-        status.message = t<string>('account forgotten');
+        status.message = t('account forgotten');
       } catch (error) {
         status.status = 'error';
         status.message = (error as Error).message;
@@ -305,7 +305,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         <Menu.Item
           icon='link'
           key='identityMain'
-          label={t<string>('Set on-chain identity')}
+          label={t('Set on-chain identity')}
           onClick={toggleIdentityMain}
         />
       ),
@@ -313,7 +313,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         <Menu.Item
           icon='vector-square'
           key='identitySub'
-          label={t<string>('Set on-chain sub-identities')}
+          label={t('Set on-chain sub-identities')}
           onClick={toggleIdentitySub}
         />
       ),
@@ -321,7 +321,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         <Menu.Item
           icon='broom'
           key='clearDemocracy'
-          label={t<string>('Clear expired democracy locks')}
+          label={t('Clear expired democracy locks')}
           onClick={_clearDemocracyLocks}
         />
       ),
@@ -329,7 +329,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         <Menu.Item
           icon='broom'
           key='clearReferenda'
-          label={t<string>('Clear expired referenda locks')}
+          label={t('Clear expired referenda locks')}
           onClick={_clearReferendaLocks}
         />
       ),
@@ -337,17 +337,17 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         <Menu.Item
           icon='unlock'
           key='vestingVest'
-          label={t<string>('Unlock vested amount')}
+          label={t('Unlock vested amount')}
           onClick={_vestingVest}
         />
       )
-    ], t<string>('Identity')),
+    ], t('Identity')),
     createMenuGroup('deriveGroup', [
       !(isEthereum || isExternal || isHardware || isInjected || isMultisig || api.isEthereum) && (
         <Menu.Item
           icon='download'
           key='deriveAccount'
-          label={t<string>('Derive account via derivation path')}
+          label={t('Derive account via derivation path')}
           onClick={toggleDerive}
         />
       ),
@@ -355,17 +355,17 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         <Menu.Item
           icon='eye'
           key='showHwAddress'
-          label={t<string>('Show address on hardware device')}
+          label={t('Show address on hardware device')}
           onClick={_showOnHardware}
         />
       )
-    ], t<string>('Derive')),
+    ], t('Derive')),
     createMenuGroup('backupGroup', [
       !(isExternal || isHardware || isInjected || isMultisig || isDevelopment) && (
         <Menu.Item
           icon='database'
           key='backupJson'
-          label={t<string>('Create a backup file for this account')}
+          label={t('Create a backup file for this account')}
           onClick={toggleBackup}
         />
       ),
@@ -381,56 +381,56 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         <Menu.Item
           icon='trash-alt'
           key='forgetAccount'
-          label={t<string>('Forget this account')}
+          label={t('Forget this account')}
           onClick={toggleForget}
         />
       )
-    ], t<string>('Backup')),
+    ], t('Backup')),
     isFunction(api.api.tx.recovery?.createRecovery) && createMenuGroup('reoveryGroup', [
       !recoveryInfo && (
         <Menu.Item
           icon='redo'
           key='makeRecoverable'
-          label={t<string>('Make recoverable')}
+          label={t('Make recoverable')}
           onClick={toggleRecoverSetup}
         />
       ),
       <Menu.Item
         icon='screwdriver'
         key='initRecovery'
-        label={t<string>('Initiate recovery for another')}
+        label={t('Initiate recovery for another')}
         onClick={toggleRecoverAccount}
       />
-    ], t<string>('Recovery')),
+    ], t('Recovery')),
     isFunction(api.api.tx.multisig?.asMulti) && isMultisig && createMenuGroup('multisigGroup', [
       <Menu.Item
         icon='file-signature'
         isDisabled={!multiInfos || !multiInfos.length}
         key='multisigApprovals'
-        label={t<string>('Multisig approvals')}
+        label={t('Multisig approvals')}
         onClick={toggleMultisig}
       />
-    ], t<string>('Multisig')),
+    ], t('Multisig')),
     isFunction(api.api.query.democracy?.votingOf) && delegation?.accountDelegated && createMenuGroup('undelegateGroup', [
       <Menu.Item
         icon='user-edit'
         key='changeDelegate'
-        label={t<string>('Change democracy delegation')}
+        label={t('Change democracy delegation')}
         onClick={toggleDelegate}
       />,
       <Menu.Item
         icon='user-minus'
         key='undelegate'
-        label= {t<string>('Undelegate')}
+        label= {t('Undelegate')}
         onClick={toggleUndelegate}
       />
-    ], t<string>('Undelegate')),
+    ], t('Undelegate')),
     createMenuGroup('delegateGroup', [
       isFunction(api.api.query.democracy?.votingOf) && !delegation?.accountDelegated && (
         <Menu.Item
           icon='user-plus'
           key='delegate'
-          label={t<string>('Delegate democracy votes')}
+          label={t('Delegate democracy votes')}
           onClick={toggleDelegate}
         />
       ),
@@ -439,13 +439,13 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           icon='sitemap'
           key='proxy-overview'
           label={proxy?.[0].length
-            ? t<string>('Manage proxies')
-            : t<string>('Add proxy')
+            ? t('Manage proxies')
+            : t('Add proxy')
           }
           onClick={toggleProxyOverview}
         />
       )
-    ], t<string>('Delegate')),
+    ], t('Delegate')),
     isEditable && !api.isDevelopment && createMenuGroup('genesisGroup', [
       <ChainLock
         className='accounts--network-toggle'
@@ -581,7 +581,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                 ? (
                   <Badge
                     className='warning'
-                    hover={t<string>('This is a development account derived from the known development seed. Do not use for any funds on a non-development network.')}
+                    hover={t('This is a development account derived from the known development seed. Do not use for any funds on a non-development network.')}
                     icon='wrench'
                   />
                 )
@@ -590,8 +590,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                     className='warning'
                     hover={
                       <div>
-                        <p>{t<string>('This account is available on all networks. It is recommended to link to a specific network via the account options ("only this network" option) to limit availability. For accounts from an extension, set the network on the extension.')}</p>
-                        <p>{t<string>('This does not send any transaction, rather it only sets the genesis in the account JSON.')}</p>
+                        <p>{t('This account is available on all networks. It is recommended to link to a specific network via the account options ("only this network" option) to limit availability. For accounts from an extension, set the network on the extension.')}</p>
+                        <p>{t('This does not send any transaction, rather it only sets the genesis in the account JSON.')}</p>
                       </div>
                     }
                     icon='exclamation-triangle'
@@ -603,7 +603,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                 className='recovery'
                 hover={
                   <div>
-                    <p>{t<string>('This account is recoverable, with the following friends:')}</p>
+                    <p>{t('This account is recoverable, with the following friends:')}</p>
                     <div>
                       {recoveryInfo.friends.map((friend, index): React.ReactNode => (
                         <AddressSmall
@@ -615,15 +615,15 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                     <table>
                       <tbody>
                         <tr>
-                          <td>{t<string>('threshold')}</td>
+                          <td>{t('threshold')}</td>
                           <td>{formatNumber(recoveryInfo.threshold)}</td>
                         </tr>
                         <tr>
-                          <td>{t<string>('delay')}</td>
+                          <td>{t('delay')}</td>
                           <td>{formatNumber(recoveryInfo.delayPeriod)}</td>
                         </tr>
                         <tr>
-                          <td>{t<string>('deposit')}</td>
+                          <td>{t('deposit')}</td>
                           <td>{formatBalance(recoveryInfo.deposit)}</td>
                         </tr>
                       </tbody>
@@ -636,7 +636,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             {isProxied && proxyInfo?.isEmpty && (
               <Badge
                 className='important'
-                hover={t<string>('Proxied account has no owned proxies')}
+                hover={t('Proxied account has no owned proxies')}
                 icon='sitemap'
                 info='0'
               />
@@ -645,8 +645,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               <Badge
                 className='important'
                 color='purple'
-                hover={t<string>('Multisig approvals pending')}
-                hoverAction={t<string>('View pending approvals')}
+                hover={t('Multisig approvals pending')}
+                hoverAction={t('View pending approvals')}
                 icon='file-signature'
                 onClick={toggleMultisig}
               />
@@ -654,8 +654,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             {delegation?.accountDelegated && (
               <Badge
                 className='information'
-                hover={t<string>('This account has a governance delegation')}
-                hoverAction={t<string>('Manage delegation')}
+                hover={t('This account has a governance delegation')}
+                hoverAction={t('Manage delegation')}
                 icon='calendar-check'
                 onClick={toggleDelegate}
               />
@@ -665,10 +665,10 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                 className='information'
                 hover={
                   proxy[0].length === 1
-                    ? t<string>('This account has a proxy set')
-                    : t<string>('This account has {{proxyNumber}} proxies set', { replace: { proxyNumber: proxy[0].length } })
+                    ? t('This account has a proxy set')
+                    : t('This account has {{proxyNumber}} proxies set', { replace: { proxyNumber: proxy[0].length } })
                 }
-                hoverAction={t<string>('Manage proxies')}
+                hoverAction={t('Manage proxies')}
                 icon='sitemap'
                 onClick={toggleProxyOverview}
               />
@@ -681,7 +681,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               <Button
                 className='send-button'
                 icon='paper-plane'
-                label={t<string>('send')}
+                label={t('send')}
                 onClick={toggleTransfer}
               />
             )}
@@ -736,7 +736,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               </div>
             </Columar.Column>
             <Columar.Column>
-              <h5>{t<string>('account type')}</h5>
+              <h5>{t('account type')}</h5>
               <CryptoType accountId={address} />
             </Columar.Column>
           </Columar>

@@ -84,7 +84,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
 
           status.status = 'success';
           status.account = pair.address;
-          status.message = t<string>('account restored');
+          status.message = t('account restored');
 
           InputAddress.setLastValue('account', pair.address);
         } catch (error) {
@@ -109,7 +109,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
   return (
     <Modal
       className={className}
-      header={t<string>('Add via backup file')}
+      header={t('Add via backup file')}
       onClose={onClose}
       size='large'
     >
@@ -121,22 +121,22 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
             value={pair?.address || null}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('Supply a backed-up JSON file, encrypted with your account-specific password.')}>
+        <Modal.Columns hint={t('Supply a backed-up JSON file, encrypted with your account-specific password.')}>
           <InputFile
             accept={acceptedFormats}
             className='full'
             isError={!pair}
-            label={t<string>('backup file')}
+            label={t('backup file')}
             onChange={_onChangeFile}
             withLabel
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The password previously used to encrypt this account.')}>
+        <Modal.Columns hint={t('The password previously used to encrypt this account.')}>
           <Password
             autoFocus
             className='full'
             isError={!isPassValid}
-            label={t<string>('password')}
+            label={t('password')}
             onChange={_onChangePass}
             onEnter={_onSave}
             value={password}
@@ -147,7 +147,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
             <MarkError content={error} />
           )}
           {differentGenesis && (
-            <MarkWarning content={t<string>('The network from which this account was originally generated is different than the network you are currently connected to. Once imported ensure you toggle the "allow on any network" option for the account to keep it visible on the current network.')} />
+            <MarkWarning content={t('The network from which this account was originally generated is different than the network you are currently connected to. Once imported ensure you toggle the "allow on any network" option for the account to keep it visible on the current network.')} />
           )}
           <ExternalWarning />
         </Modal.Columns>
@@ -157,7 +157,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
           icon='sync'
           isBusy={isBusy}
           isDisabled={!pair || !isPassValid}
-          label={t<string>('Restore')}
+          label={t('Restore')}
           onClick={_onSave}
         />
       </Modal.Actions>

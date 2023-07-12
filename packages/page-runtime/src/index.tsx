@@ -18,7 +18,7 @@ function RuntimeApp ({ basePath }: Props): React.ReactElement<Props> {
     {
       isRoot: true,
       name: 'runtime',
-      text: t<string>('Calls')
+      text: t('Calls')
     }
   ]);
 

@@ -24,7 +24,7 @@ function Summary ({ className }: Props): React.ReactElement<Props> {
     <SummaryBox className={className}>
       <section>
         {desiredCandidates && (
-          <CardSummary label={t<string>('desired')}>
+          <CardSummary label={t('desired')}>
             {formatNumber(desiredCandidates)}
           </CardSummary>
         )}

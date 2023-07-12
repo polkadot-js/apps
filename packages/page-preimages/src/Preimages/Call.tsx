@@ -28,7 +28,7 @@ function PreimageCall ({ className = '', value }: Props): React.ReactElement<Pro
             <>
               {value.proposal && (
                 <CallExpander
-                  labelHash={t<string>('call')}
+                  labelHash={t('call')}
                   value={value.proposal}
                 />
               )}

@@ -62,24 +62,24 @@ function RegistrarJudgement ({ address, registrars, toggleJudgement }: Props): R
 
   return (
     <Modal
-      header={t<string>('Provide judgement')}
+      header={t('Provide judgement')}
       onClose={toggleJudgement}
       size='small'
     >
       <Modal.Content>
         <InputAddress
           filter={addresses}
-          label={t<string>('registrar account')}
+          label={t('registrar account')}
           onChange={setJudgementAccountId}
           type='account'
         />
         <Input
           isDisabled
-          label={t<string>('registrar index')}
-          value={registrarIndex === -1 ? t<string>('invalid/unknown registrar account') : registrarIndex.toString()}
+          label={t('registrar index')}
+          value={registrarIndex === -1 ? t('invalid/unknown registrar account') : registrarIndex.toString()}
         />
         <Dropdown
-          label={t<string>('judgement')}
+          label={t('judgement')}
           onChange={setJudgementEnum}
           options={JUDGEMENT_ENUM}
           value={judgementEnum}
@@ -89,11 +89,11 @@ function RegistrarJudgement ({ address, registrars, toggleJudgement }: Props): R
             <Input
               defaultValue={identityHash}
               isDisabled
-              label={t<string>('identity hash')}
+              label={t('identity hash')}
             />
           )
           : identityHash === null
-            ? <MarkError content={t<string>('No identity associated with account')} />
+            ? <MarkError content={t('No identity associated with account')} />
             : <Spinner noLabel />
         }
       </Modal.Content>
@@ -102,7 +102,7 @@ function RegistrarJudgement ({ address, registrars, toggleJudgement }: Props): R
           accountId={judgementAccountId}
           icon='check'
           isDisabled={!identityHash || registrarIndex === -1}
-          label={t<string>('Judge')}
+          label={t('Judge')}
           onStart={toggleJudgement}
           params={
             api.tx.identity.provideJudgement.meta.args.length === 4

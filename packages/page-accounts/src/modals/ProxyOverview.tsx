@@ -77,7 +77,7 @@ function PrevProxy ({ index, onRemove, typeOpts, value: [accountId, type] }: Pre
         <InputAddress
           defaultValue={accountId}
           isDisabled
-          label={t<string>('proxy account')}
+          label={t('proxy account')}
         />
         <Dropdown
           isDisabled
@@ -122,13 +122,13 @@ function NewProxy ({ index, onChangeAccount, onChangeType, onRemove, proxiedAcco
       <div className='input-column'>
         <InputAddress
           isError={!accountId}
-          label={t<string>('proxy account')}
+          label={t('proxy account')}
           onChange={_onChangeAccount}
           type='account'
           value={accountId}
         />
         {accountId && accountId.eq(proxiedAccount) && (
-          <MarkError content={t<string>('You should not setup proxies to act as a self-proxy.')} />
+          <MarkError content={t('You should not setup proxies to act as a self-proxy.')} />
         )}
         <Dropdown
           label={'type'}
@@ -250,20 +250,20 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
   return (
     <StyledModal
       className={className}
-      header={t<string>('Proxy overview')}
+      header={t('Proxy overview')}
       onClose={onClose}
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={t<string>('Any account set as proxy will be able to perform actions in place of the proxied account')}>
+        <Modal.Columns hint={t('Any account set as proxy will be able to perform actions in place of the proxied account')}>
           <InputAddress
             isDisabled={true}
-            label={t<string>('proxied account')}
+            label={t('proxied account')}
             type='account'
             value={proxiedAccount}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('If you add several proxy accounts for the same proxy type (e.g 2 accounts set as proxy for Governance), then any of those 2 accounts will be able to perform governance actions on behalf of the proxied account')}>
+        <Modal.Columns hint={t('If you add several proxy accounts for the same proxy type (e.g 2 accounts set as proxy for Governance), then any of those 2 accounts will be able to perform governance actions on behalf of the proxied account')}>
           {previous.map((value, index) => (
             <PrevProxy
               index={index}
@@ -288,16 +288,16 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
           <Button.Group>
             <Button
               icon='plus'
-              label={t<string>('Add proxy')}
+              label={t('Add proxy')}
               onClick={_addProxy}
             />
           </Button.Group>
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('A deposit paid by the proxied account that can not be used while the proxy is in existence. The deposit is returned when the proxy is destroyed. The amount reserved is based on the base deposit and number of proxies')}>
+        <Modal.Columns hint={t('A deposit paid by the proxied account that can not be used while the proxy is in existence. The deposit is returned when the proxy is destroyed. The amount reserved is based on the base deposit and number of proxies')}>
           <InputBalance
             defaultValue={reservedAmount}
             isDisabled
-            label={t<string>('reserved balance')}
+            label={t('reserved balance')}
           />
         </Modal.Columns>
         <Modal.Columns>
@@ -309,7 +309,7 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
           <TxButton
             accountId={proxiedAccount}
             icon='trash-alt'
-            label={t<string>('Clear all')}
+            label={t('Clear all')}
             onStart={onClose}
             tx={api.tx.proxy.removeProxies}
           />

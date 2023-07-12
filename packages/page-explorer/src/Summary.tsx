@@ -24,12 +24,12 @@ function Summary ({ eventCount }: Props): React.ReactElement {
       <section>
         {api.query.timestamp && (
           <>
-            <CardSummary label={t<string>('last block')}>
+            <CardSummary label={t('last block')}>
               <TimeNow />
             </CardSummary>
             <CardSummary
               className='media--800'
-              label={t<string>('target')}
+              label={t('target')}
             >
               <BlockToTime value={BN_ONE} />
             </CardSummary>
@@ -39,14 +39,14 @@ function Summary ({ eventCount }: Props): React.ReactElement {
           <>
             <CardSummary
               className='media--800'
-              label={t<string>('total issuance')}
+              label={t('total issuance')}
             >
               <TotalIssuance />
             </CardSummary>
             {!!api.query.balances.inactiveIssuance && (
               <CardSummary
                 className='media--1300'
-                label={t<string>('inactive issuance')}
+                label={t('inactive issuance')}
               >
                 <TotalInactive />
               </CardSummary>
@@ -60,16 +60,16 @@ function Summary ({ eventCount }: Props): React.ReactElement {
       <section>
         <CardSummary
           className='media--1400'
-          label={t<string>('last events')}
+          label={t('last events')}
         >
           {formatNumber(eventCount)}
         </CardSummary>
         {api.query.grandpa && (
-          <CardSummary label={t<string>('finalized')}>
+          <CardSummary label={t('finalized')}>
             <BestFinalized />
           </CardSummary>
         )}
-        <CardSummary label={t<string>('best')}>
+        <CardSummary label={t('best')}>
           <BestNumber />
         </CardSummary>
       </section>

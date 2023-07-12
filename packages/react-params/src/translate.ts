@@ -1,11 +1,9 @@
 // Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { UseTranslationResponse } from 'react-i18next';
-
 import { useTranslation as useTranslationBase, withTranslation } from 'react-i18next';
 
-export function useTranslation (): UseTranslationResponse<'react-params', undefined> {
+export function useTranslation (): { t: (key: string, options?: { replace: Record<string, unknown> }) => string } {
   return useTranslationBase('react-params');
 }
 

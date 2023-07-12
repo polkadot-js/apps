@@ -125,7 +125,7 @@ function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, 
         onChange={_onChange}
         onEnter={onEnter}
         onEscape={onEscape}
-        placeholder={t<string>('0x prefixed hex, e.g. 0x1234 or ascii data')}
+        placeholder={t('0x prefixed hex, e.g. 0x1234 or ascii data')}
         type='text'
         withEllipsis
         withLabel={withLabel}

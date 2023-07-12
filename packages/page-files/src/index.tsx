@@ -22,7 +22,7 @@ function FilesApp ({ basePath, className }: Props): React.ReactElement<Props> {
     {
       isRoot: true,
       name: 'crust',
-      text: t<string>('Your Files')
+      text: t('Your Files')
     }
   ]);
 

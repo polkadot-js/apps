@@ -30,56 +30,56 @@ function Transfer ({ accountId, assetId, className, minBalance, siFormat: [siDec
     <>
       <Button
         icon='paper-plane'
-        label={t<string>('send')}
+        label={t('send')}
         onClick={toggleOpen}
       />
       {isOpen && (
         <Modal
           className={className}
-          header={t<string>('transfer asset')}
+          header={t('transfer asset')}
           onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns hint={t<string>('The account to transfer from. This account should have sufficient assets for this transfer.')}>
+            <Modal.Columns hint={t('The account to transfer from. This account should have sufficient assets for this transfer.')}>
               <InputAddress
                 defaultValue={accountId}
                 isDisabled
-                label={t<string>('send from')}
+                label={t('send from')}
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The beneficiary will have access to the transferred asset when the transaction is included in a block.')}>
+            <Modal.Columns hint={t('The beneficiary will have access to the transferred asset when the transaction is included in a block.')}>
               <InputAddress
-                label={t<string>('send to address')}
+                label={t('send to address')}
                 onChange={setRecipientId}
                 type='allPlus'
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The amount of tokens to transfer to the account.')}>
+            <Modal.Columns hint={t('The amount of tokens to transfer to the account.')}>
               <InputBalance
                 autoFocus
-                label={t<string>('amount to transfer')}
+                label={t('amount to transfer')}
                 onChange={setAmount}
                 siDecimals={siDecimals}
                 siSymbol={siSymbol}
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The minimum balance allowed for the asset.')}>
+            <Modal.Columns hint={t('The minimum balance allowed for the asset.')}>
               <InputBalance
                 defaultValue={minBalance}
                 isDisabled
-                label={t<string>('minimum balance')}
+                label={t('minimum balance')}
                 siDecimals={siDecimals}
                 siSymbol={siSymbol}
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('With the keep-alive option set, the account is protected against removal due to low balances.')}>
+            <Modal.Columns hint={t('With the keep-alive option set, the account is protected against removal due to low balances.')}>
               <Toggle
                 className='typeToggle'
                 label={
                   isProtected
-                    ? t<string>('Transfer with account keep-alive checks')
-                    : t<string>('Normal transfer without keep-alive checks')
+                    ? t('Transfer with account keep-alive checks')
+                    : t('Normal transfer without keep-alive checks')
                 }
                 onChange={setIsProtected}
                 value={isProtected}
@@ -91,7 +91,7 @@ function Transfer ({ accountId, assetId, className, minBalance, siFormat: [siDec
               accountId={accountId}
               icon='paper-plane'
               isDisabled={!recipientId || !amount}
-              label={t<string>('Send')}
+              label={t('Send')}
               onStart={toggleOpen}
               params={[assetId, recipientId, amount]}
               tx={

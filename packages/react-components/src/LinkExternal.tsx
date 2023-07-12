@@ -67,14 +67,14 @@ function LinkExternal ({ className = '', data, hash, isSidebar, isSmall, isText,
 
   return (
     <StyledDiv className={`${className} ui--LinkExternal ${isText ? 'isText' : 'isLogo'} ${withTitle ? 'isMain' : ''} ${isSmall ? 'isSmall' : ''} ${isSidebar ? 'isSidebar' : ''}`}>
-      {(isText && !isSmall) && <div>{t<string>('View this externally')}</div>}
+      {(isText && !isSmall) && <div>{t('View this externally')}</div>}
       {withTitle && (
         <h5>{t('external links')}</h5>
       )}
       <div className='links'>
         {links.length
           ? links.map((link, index) => <span key={index}>{link}</span>)
-          : <div>{t<string>('none')}</div>
+          : <div>{t('none')}</div>
         }
       </div>
     </StyledDiv>

@@ -96,7 +96,7 @@ function Messages ({ className = '', contract, contractAbi: { constructors, info
   return (
     <StyledDiv className={`${className} ui--Messages ${isLabelled ? 'isLabelled' : ''}`}>
       {withConstructors && (
-        <Expander summary={t<string>('Constructors ({{count}})', { replace: { count: constructors.length } })}>
+        <Expander summary={t('Constructors ({{count}})', { replace: { count: constructors.length } })}>
           {sortMessages(constructors).map(([message, index]) => (
             <Message
               index={index}
@@ -110,7 +110,7 @@ function Messages ({ className = '', contract, contractAbi: { constructors, info
       {withMessages && (
         <Expander
           onClick={_onExpander}
-          summary={t<string>('Messages ({{count}})', { replace: { count: messages.length } })}
+          summary={t('Messages ({{count}})', { replace: { count: messages.length } })}
         >
           {sortMessages(messages).map(([message, index]) => (
             <Message
@@ -124,7 +124,7 @@ function Messages ({ className = '', contract, contractAbi: { constructors, info
         </Expander>
       )}
       {withWasm && source.wasm.length !== 0 && (
-        <div>{t<string>('{{size}} WASM bytes', { replace: { size: formatNumber(source.wasm.length) } })}</div>
+        <div>{t('{{size}} WASM bytes', { replace: { size: formatNumber(source.wasm.length) } })}</div>
       )}
     </StyledDiv>
   );

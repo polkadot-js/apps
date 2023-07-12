@@ -29,8 +29,8 @@ function Validators ({ className = '', favorites, isRelay, sessionInfo, toggleFa
   const points = usePoints(sessionInfo);
 
   const intentOptions = useRef([
-    { text: t<string>('Active'), value: 'active' },
-    { text: t<string>('Waiting'), value: 'waiting' }
+    { text: t('Active'), value: 'active' },
+    { text: t('Waiting'), value: 'waiting' }
   ]);
 
   const legend = <Legend isRelay={isRelay} />;
