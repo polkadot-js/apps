@@ -30,7 +30,7 @@ function Transaction ({ accountId, className, currentItem: { extrinsic, isUnsign
   return (
     <StyledModalColumns
       className={className}
-      hint={t<string>('The details of the transaction including the type, the description (as available from the chain metadata) as well as any parameters and fee estimations (as available) for the specific type of call.')}
+      hint={t('The details of the transaction including the type, the description (as available from the chain metadata) as well as any parameters and fee estimations (as available) for the specific type of call.')}
     >
       <CallExpander
         isHeader

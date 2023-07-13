@@ -27,11 +27,11 @@ function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
     {
       isRoot: true,
       name: 'overview',
-      text: t<string>('My accounts')
+      text: t('My accounts')
     },
     {
       name: 'vanity',
-      text: t<string>('Vanity generator')
+      text: t('Vanity generator')
     }
   ]);
 

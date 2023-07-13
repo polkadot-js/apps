@@ -23,13 +23,13 @@ function Members ({ allVotes = {}, className = '', electionsInfo, hasElections, 
   const { t } = useTranslation();
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t<string>('members'), 'start', 2]
+    [t('members'), 'start', 2]
   ]);
 
   return (
     <Table
       className={className}
-      empty={electionsInfo && t<string>('No members found')}
+      empty={electionsInfo && t('No members found')}
       header={headerRef.current}
       isSplit
     >

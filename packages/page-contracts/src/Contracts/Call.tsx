@@ -160,22 +160,22 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
   return (
     <StyledModal
       className={`${className} app--contracts-Modal`}
-      header={t<string>('Call a contract')}
+      header={t('Call a contract')}
       onClose={onClose}
     >
       <Modal.Content>
         <InputAddress
           isDisabled
-          label={t<string>('contract to use')}
+          label={t('contract to use')}
           type='contract'
           value={contract.address}
         />
         <InputAddress
           defaultValue={accountId}
-          label={t<string>('call from account')}
+          label={t('call from account')}
           labelExtra={
             <Available
-              label={t<string>('transferrable')}
+              label={t('transferrable')}
               params={accountId}
             />
           }
@@ -188,7 +188,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
             <Dropdown
               defaultValue={messageIndex}
               isError={message === null}
-              label={t<string>('message to send')}
+              label={t('message to send')}
               onChange={onChangeMessage}
               options={getCallMessageOptions(contract)}
               value={messageIndex}
@@ -208,7 +208,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
           <InputBalance
             isError={!isValueValid}
             isZeroable
-            label={t<string>('value')}
+            label={t('value')}
             onChange={setValue}
             value={value}
           />
@@ -228,7 +228,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
         {message.isMutating && (
           <Toggle
             className='rpc-toggle'
-            label={t<string>('read contract only, no execution')}
+            label={t('read contract only, no execution')}
             onChange={toggleViaCall}
             value={isViaCall}
           />
@@ -237,7 +237,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
           <Expander
             className='outcomes'
             isOpen
-            summary={t<string>('Call results')}
+            summary={t('Call results')}
           >
             {outcomes.map((outcome, index): React.ReactNode => (
               <Outcome
@@ -255,7 +255,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
             <Button
               icon='sign-in-alt'
               isDisabled={!isValid}
-              label={t<string>('Read')}
+              label={t('Read')}
               onClick={_onSubmitRpc}
             />
           )
@@ -265,7 +265,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
               extrinsic={execTx}
               icon='sign-in-alt'
               isDisabled={!isValid || !execTx}
-              label={t<string>('Execute')}
+              label={t('Execute')}
               onStart={onClose}
             />
           )

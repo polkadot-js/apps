@@ -35,44 +35,44 @@ function RecoverSetup ({ address, className = '', onClose }: Props): React.React
   return (
     <Modal
       className={className}
-      header={t<string>('Setup account as recoverable')}
+      header={t('Setup account as recoverable')}
       onClose={onClose}
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={t<string>('The recoverable account is protected against the loss of seed/access by a social process.')}>
+        <Modal.Columns hint={t('The recoverable account is protected against the loss of seed/access by a social process.')}>
           <InputAddress
             isDisabled
-            label={t<string>('the account to make recoverable')}
+            label={t('the account to make recoverable')}
             value={address}
           />
         </Modal.Columns>
         <Modal.Columns
           hint={
             <>
-              <p>{t<string>('These are trusted individuals that can verify and approve any recovery actions. With recovery, once the threshold is reached, the funds associated with the account can be moved to a new destination.')}</p>
-              <p>{t<string>('The helpers should be able to verify, via an off-chain mechanism, that the account owner indeed wishes to recover access and as such provide any approvals. In the cases of malicious recovery procedures, they will have the power to stop it.')}</p>
+              <p>{t('These are trusted individuals that can verify and approve any recovery actions. With recovery, once the threshold is reached, the funds associated with the account can be moved to a new destination.')}</p>
+              <p>{t('The helpers should be able to verify, via an off-chain mechanism, that the account owner indeed wishes to recover access and as such provide any approvals. In the cases of malicious recovery procedures, they will have the power to stop it.')}</p>
             </>
           }
         >
           <InputAddressMulti
             available={availableHelpers}
-            availableLabel={t<string>('available social recovery helpers')}
+            availableLabel={t('available social recovery helpers')}
             maxCount={MAX_HELPERS}
             onChange={setHelpers}
-            valueLabel={t<string>('trusted social recovery helpers')}
+            valueLabel={t('trusted social recovery helpers')}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The threshold for approvals and the delay is the protection associated with the account. The delay should be such that any colluding recovery attempts does have a window to stop.')}>
+        <Modal.Columns hint={t('The threshold for approvals and the delay is the protection associated with the account. The delay should be such that any colluding recovery attempts does have a window to stop.')}>
           <InputNumber
             isError={isErrorThreshold}
-            label={t<string>('recovery threshold')}
+            label={t('recovery threshold')}
             onChange={setThreshold}
           />
           <InputNumber
             isError={isErrorDelay}
             isZeroable
-            label={t<string>('recovery block delay')}
+            label={t('recovery block delay')}
             onChange={setDelay}
           />
         </Modal.Columns>
@@ -82,7 +82,7 @@ function RecoverSetup ({ address, className = '', onClose }: Props): React.React
           accountId={address}
           icon='share-alt'
           isDisabled={isErrorHelpers || isErrorThreshold || isErrorDelay}
-          label={t<string>('Make recoverable')}
+          label={t('Make recoverable')}
           onStart={onClose}
           params={[sortAddresses(helpers), threshold, delay]}
           tx={api.tx.recovery.createRecovery}

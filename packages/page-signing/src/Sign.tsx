@@ -123,7 +123,7 @@ function Sign ({ className = '' }: Props): React.ReactElement<Props> {
         <InputAddress
           className='full'
           isInput={false}
-          label={t<string>('account')}
+          label={t('account')}
           onChange={_onChangeAccount}
           type='account'
         />
@@ -133,7 +133,7 @@ function Sign ({ className = '' }: Props): React.ReactElement<Props> {
           <Input
             autoFocus
             className='full'
-            label={t<string>('sign the following data')}
+            label={t('sign the following data')}
             onChange={_onChangeData}
             value={data}
           />
@@ -141,11 +141,11 @@ function Sign ({ className = '' }: Props): React.ReactElement<Props> {
         <div className='ui--row'>
           <Static
             className='medium'
-            label={t<string>('hex input data')}
+            label={t('hex input data')}
             value={
               isHexData
-                ? t<string>('Yes')
-                : t<string>('No')
+                ? t('Yes')
+                : t('No')
             }
           />
         </div>
@@ -154,7 +154,7 @@ function Sign ({ className = '' }: Props): React.ReactElement<Props> {
             className='full'
             isHidden={signature.length === 0}
             isMonospace
-            label={t<string>('signature of supplied data')}
+            label={t('signature of supplied data')}
             value={signature}
             withCopy
           />
@@ -166,11 +166,11 @@ function Sign ({ className = '' }: Props): React.ReactElement<Props> {
           {isLocked && (
             <div className='unlock-overlay-warning'>
               <div className='unlock-overlay-content'>
-                {t<string>('You need to unlock this account to be able to sign data.')}<br />
+                {t('You need to unlock this account to be able to sign data.')}<br />
                 <Button.Group>
                   <Button
                     icon='unlock'
-                    label={t<string>('Unlock account')}
+                    label={t('Unlock account')}
                     onClick={toggleUnlock}
                   />
                 </Button.Group>
@@ -185,8 +185,8 @@ function Sign ({ className = '' }: Props): React.ReactElement<Props> {
           <div className='unlock-overlay-warning'>
             <div className='unlock-overlay-content'>
               {isInjected
-                ? t<string>('This injected account cannot be used to sign data since the extension does not support raw signing.')
-                : t<string>('This external account cannot be used to sign data. Only Limited support is currently available for signing from any non-internal accounts.')}
+                ? t('This injected account cannot be used to sign data since the extension does not support raw signing.')
+                : t('This external account cannot be used to sign data. Only Limited support is currently available for signing from any non-internal accounts.')}
             </div>
           </div>
         </div>
@@ -202,7 +202,7 @@ function Sign ({ className = '' }: Props): React.ReactElement<Props> {
         <Button
           icon='key'
           isDisabled={!(isUsable && !isLocked)}
-          label={t<string>('Sign message')}
+          label={t('Sign message')}
           onClick={_onSign}
         />
       </Button.Group>

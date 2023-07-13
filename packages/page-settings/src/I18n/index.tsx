@@ -221,12 +221,12 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
             <div>
               <Dropdown
                 isFull
-                label={t<string>('the language to display translations for')}
+                label={t('the language to display translations for')}
                 onChange={setLng}
                 options={keys}
                 value={lng}
               />
-              {t<string>('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(modProgress) })}
+              {t('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(modProgress) })}
             </div>
             <Progress
               total={modProgress[1]}
@@ -237,12 +237,12 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
             <div>
               <Dropdown
                 isFull
-                label={t<string>('the module to display strings for')}
+                label={t('the module to display strings for')}
                 onChange={setRecord}
                 options={modules}
                 value={record}
               />
-              {t<string>('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(allProgress[record]) })}
+              {t('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(allProgress[record]) })}
             </div>
             <Progress
               total={allProgress[record]?.[1]}
@@ -255,8 +255,8 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
         <Toggle
           label={
             withEmpty
-              ? t<string>('include all empty strings in the generated file')
-              : t<string>('do not include empty strings in the generated file')
+              ? t('include all empty strings in the generated file')
+              : t('do not include empty strings in the generated file')
           }
           onChange={toggleWithEmpty}
           value={withEmpty}
@@ -265,12 +265,12 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
       <Button.Group>
         <Button
           icon='sync'
-          label={t<string>('Apply to UI')}
+          label={t('Apply to UI')}
           onClick={_doApply}
         />
         <Button
           icon='download'
-          label={t<string>('Generate {{lng}}/translation.json', { replace: { lng } })}
+          label={t('Generate {{lng}}/translation.json', { replace: { lng } })}
           onClick={_onDownload}
         />
       </Button.Group>

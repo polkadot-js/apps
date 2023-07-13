@@ -17,7 +17,7 @@ function ExternalWarning (): React.ReactElement | null {
   }
 
   return (
-    <MarkWarning content={<>{t<string>('Consider storing your account in a signer such as a browser extension, hardware device, QR-capable phone wallet (non-connected) or desktop application for optimal account security.')}&nbsp;{t<string>('Future versions of the web-only interface will drop support for non-external accounts, much like the IPFS version.')}</>} />
+    <MarkWarning content={<>{t('Consider storing your account in a signer such as a browser extension, hardware device, QR-capable phone wallet (non-connected) or desktop application for optimal account security.')}&nbsp;{t('Future versions of the web-only interface will drop support for non-external accounts, much like the IPFS version.')}</>} />
   );
 }
 

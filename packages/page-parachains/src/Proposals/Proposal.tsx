@@ -74,7 +74,7 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
         {proposal.proposal?.validators && (
           <Expander
             renderChildren={renderVals}
-            summary={t<string>('Validators ({{count}})', { replace: { count: formatNumber(proposal.proposal?.validators.length) } })}
+            summary={t('Validators ({{count}})', { replace: { count: formatNumber(proposal.proposal?.validators.length) } })}
           />
         )}
       </td>
@@ -90,7 +90,7 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
               extrinsic={approveTx}
               icon='check'
               isDisabled={!hasSudoKey}
-              label={t<string>('Approve')}
+              label={t('Approve')}
             />
             <TxButton
               accountId={hasSudoKey ? sudoKey : proposal.proposal?.proposer}
@@ -98,7 +98,7 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
               extrinsic={cancelTx}
               icon='ban'
               isDisabled={!hasSudoKey || !proposal.proposal}
-              label={t<string>('Cancel')}
+              label={t('Cancel')}
             />
           </>
         )}

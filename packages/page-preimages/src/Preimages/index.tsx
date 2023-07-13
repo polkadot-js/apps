@@ -24,10 +24,10 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
   const hashes = usePreimages();
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t<string>('preimages'), 'start', 2],
+    [t('preimages'), 'start', 2],
     [undefined, 'media--1300'],
-    [t<string>('length'), 'media--1000'],
-    [t<string>('status'), 'start media--1200']
+    [t('length'), 'media--1000'],
+    [t('status'), 'start media--1200']
   ]);
 
   return (
@@ -38,7 +38,7 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
       </Button.Group>
       <Table
         className={className}
-        empty={hashes && t<string>('No hashes found')}
+        empty={hashes && t('No hashes found')}
         header={headerRef.current}
       >
         {hashes && hashes.map((h) => (

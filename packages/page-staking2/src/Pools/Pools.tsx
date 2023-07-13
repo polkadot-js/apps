@@ -47,18 +47,18 @@ function Pools ({ className, ids, ownPools, params }: Props): React.ReactElement
 
   const header = useMemo<[React.ReactNode?, string?, number?][]>(
     () => [
-      [t<string>('pools'), 'start', 2],
-      [t<string>('state'), 'media--1100'],
-      [t<string>('points')],
-      [t<string>('claimable'), 'media--1400'],
+      [t('pools'), 'start', 2],
+      [t('state'), 'media--1100'],
+      [t('points')],
+      [t('claimable'), 'media--1400'],
       [undefined, undefined, 3]
     ],
     [t]
   );
 
   const poolTypes = useRef([
-    { text: t<string>('Own pools'), value: 'mine' },
-    { text: t<string>('All pools'), value: 'all' }
+    { text: t('Own pools'), value: 'mine' },
+    { text: t('All pools'), value: 'all' }
   ]);
 
   return (
@@ -77,8 +77,8 @@ function Pools ({ className, ids, ownPools, params }: Props): React.ReactElement
       </Button.Group>
       <Table
         className={className}
-        empty={membersMap && filtered && t<string>('No available nomination pools')}
-        emptySpinner={t<string>('Retrieving nomination pools')}
+        empty={membersMap && filtered && t('No available nomination pools')}
+        emptySpinner={t('Retrieving nomination pools')}
         header={header}
       >
         {membersMap && filtered && filtered.map((poolId) => (

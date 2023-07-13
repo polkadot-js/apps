@@ -20,7 +20,7 @@ function CollatorApp ({ basePath, className }: Props): React.ReactElement<Props>
     {
       isRoot: true,
       name: 'index',
-      text: t<string>('Overview')
+      text: t('Overview')
     }
   ]);
 

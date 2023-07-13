@@ -63,7 +63,7 @@ function TipsEntry ({ className, hashes, isMember, members }: Props): React.Reac
           extrinsic={batchTxs}
           icon='fighter-jet'
           isDisabled={!isMember || !batchTxs}
-          label={t<string>('Median tip selected')}
+          label={t('Median tip selected')}
         />
       </Button.Group>
       <Tips

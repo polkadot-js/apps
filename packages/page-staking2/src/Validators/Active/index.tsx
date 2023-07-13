@@ -27,14 +27,14 @@ function Active ({ className = '', legend, points, sessionInfo, toggleFavorite, 
 
   const header = useRef<[string?, string?, number?][]>([
     // favorite, badges, details, expand
-    [t<string>('validators'), 'start', 4]
+    [t('validators'), 'start', 4]
   ]);
 
   return (
     <Table
       className={className}
-      empty={isNextTick && validatorsActive && t<string>('No session validators found')}
-      emptySpinner={t<string>('Retrieving session validators')}
+      empty={isNextTick && validatorsActive && t('No session validators found')}
+      emptySpinner={t('Retrieving session validators')}
       header={header.current}
       isSplit
       legend={legend}

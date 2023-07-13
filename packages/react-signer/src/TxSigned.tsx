@@ -259,7 +259,9 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
           } catch (error) {
             console.error(error);
 
-            passwordError = t<string>('Unable to connect to the Ledger, ensure support is enabled in settings and no other app is using it. {{error}}', { replace: { error: (error as Error).message } });
+            const errorMessage = (error as Error).message;
+
+            passwordError = t('Unable to connect to the Ledger, ensure support is enabled in settings and no other app is using it. {{errorMessage}}', { replace: { errorMessage } });
           }
         }
       }
@@ -402,7 +404,7 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
                     <Output
                       isDisabled
                       isTrimmed
-                      label={t<string>('multisig call data')}
+                      label={t('multisig call data')}
                       value={innerTx}
                       withCopy
                     />
@@ -413,7 +415,7 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
                     <Output
                       isDisabled
                       isTrimmed
-                      label={t<string>('call hash')}
+                      label={t('call hash')}
                       value={innerHash}
                       withCopy
                     />
@@ -435,10 +437,10 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
           isDisabled={!senderInfo.signAddress || isRenderError}
           label={
             flags.isQr
-              ? t<string>('Sign via Qr')
+              ? t('Sign via Qr')
               : isSubmit
-                ? t<string>('Sign and Submit')
-                : t<string>('Sign (no submission)')
+                ? t('Sign and Submit')
+                : t('Sign (no submission)')
           }
           onClick={_doStart}
           tabIndex={2}
@@ -449,8 +451,8 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
               isDisabled={!!currentItem.payload}
               label={
                 isSubmit
-                  ? t<string>('Sign and Submit')
-                  : t<string>('Sign (no submission)')
+                  ? t('Sign and Submit')
+                  : t('Sign (no submission)')
               }
               onChange={setIsSubmit}
               value={isSubmit}
@@ -460,8 +462,8 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
             <Toggle
               label={
                 isQueueSubmit
-                  ? t<string>('Submit {{queueSize}} items', { replace: { queueSize } })
-                  : t<string>('Submit individual')
+                  ? t('Submit {{queueSize}} items', { replace: { queueSize } })
+                  : t('Submit individual')
               }
               onChange={setIsQueueSubmit}
               value={isQueueSubmit}

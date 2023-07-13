@@ -91,51 +91,51 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
     <>
       {isFasttrackOpen && (
         <Modal
-          header={t<string>('Fast track proposal')}
+          header={t('Fast track proposal')}
           onClose={toggleFasttrack}
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns hint={t<string>('Select the committee account you wish to make the proposal with.')}>
+            <Modal.Columns hint={t('Select the committee account you wish to make the proposal with.')}>
               <InputAddress
                 filter={members}
-                label={t<string>('propose from account')}
+                label={t('propose from account')}
                 onChange={setAcountId}
                 type='account'
                 withLabel
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The external proposal to send to the technical committee')}>
+            <Modal.Columns hint={t('The external proposal to send to the technical committee')}>
               <Input
                 isDisabled
-                label={t<string>('preimage hash')}
+                label={t('preimage hash')}
                 value={isString(imageHash) ? imageHash : imageHash.toHex()}
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The voting period and delay to apply to this proposal. The threshold is calculated from these values.')}>
+            <Modal.Columns hint={t('The voting period and delay to apply to this proposal. The threshold is calculated from these values.')}>
               <InputNumber
                 autoFocus
                 isZeroable={false}
-                label={t<string>('voting period')}
+                label={t('voting period')}
                 onChange={setVotingBlocks}
                 value={votingBlocks}
               />
               <InputNumber
                 isZeroable={false}
-                label={t<string>('delay')}
+                label={t('delay')}
                 onChange={setDelayBlocks}
                 value={delayBlocks}
               />
               <InputNumber
                 defaultValue={memberThreshold}
                 isDisabled
-                label={t<string>('threshold')}
+                label={t('threshold')}
               />
             </Modal.Columns>
             {(members.length > 1) && (
-              <Modal.Columns hint={t<string>('Submit an Aye vote alongside the proposal as part of a batch')}>
+              <Modal.Columns hint={t('Submit an Aye vote alongside the proposal as part of a batch')}>
                 <Toggle
-                  label={t<string>('Submit Aye vote with proposal')}
+                  label={t('Submit Aye vote with proposal')}
                   onChange={toggleVote}
                   value={withVote}
                 />
@@ -148,7 +148,7 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
               extrinsic={extrinsic}
               icon='forward'
               isDisabled={!accountId}
-              label={t<string>('Fast track')}
+              label={t('Fast track')}
               onStart={toggleFasttrack}
             />
           </Modal.Actions>
@@ -157,7 +157,7 @@ function Fasttrack ({ imageHash, members, threshold }: Props): React.ReactElemen
       <Button
         icon='forward'
         isDisabled={threshold.isSuperMajorityApprove}
-        label={t<string>('Fast track')}
+        label={t('Fast track')}
         onClick={toggleFasttrack}
       />
     </>

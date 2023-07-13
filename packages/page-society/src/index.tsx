@@ -99,16 +99,16 @@ function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> 
     {
       isRoot: true,
       name: 'overview',
-      text: t<string>('Overview')
+      text: t('Overview')
     },
     {
       count: candidateCount,
       name: 'candidates',
-      text: t<string>('Candidates')
+      text: t('Candidates')
     },
     {
       name: 'suspended',
-      text: t<string>('Suspended')
+      text: t('Suspended')
     }
   ], [candidateCount, t]);
 

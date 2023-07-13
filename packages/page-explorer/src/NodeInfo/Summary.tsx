@@ -37,24 +37,24 @@ function Summary ({ info: { extrinsics, health, peers } = EMPTY_INFO, nextRefres
   return (
     <SummaryBox>
       <section>
-        <CardSummary label={t<string>('refresh in')}>
+        <CardSummary label={t('refresh in')}>
           <Elapsed value={nextRefresh} />
         </CardSummary>
         {health && (
           <>
             <CardSummary
               className='media--800'
-              label={t<string>('total peers')}
+              label={t('total peers')}
             >
               {formatNumber(health.peers)}
             </CardSummary>
             <CardSummary
               className='media--800'
-              label={t<string>('syncing')}
+              label={t('syncing')}
             >
               {health.isSyncing.valueOf()
-                ? t<string>('yes')
-                : t<string>('no')
+                ? t('yes')
+                : t('no')
               }
             </CardSummary>
           </>
@@ -62,18 +62,18 @@ function Summary ({ info: { extrinsics, health, peers } = EMPTY_INFO, nextRefres
       </section>
       {extrinsics && (extrinsics.length > 0) && (
         <section className='media--1200'>
-          <CardSummary label={t<string>('queued tx')}>
+          <CardSummary label={t('queued tx')}>
             {extrinsics.length}
           </CardSummary>
         </section>
       )}
       <section>
         {peerBest?.gtn(0) && (
-          <CardSummary label={t<string>('peer best')}>
+          <CardSummary label={t('peer best')}>
             {formatNumber(peerBest)}
           </CardSummary>
         )}
-        <CardSummary label={t<string>('our best')}>
+        <CardSummary label={t('our best')}>
           <BestNumber />
         </CardSummary>
       </section>

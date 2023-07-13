@@ -34,7 +34,7 @@ function BountyClaimAction ({ beneficiaryId, index, payoutDue }: Props) {
       <TxButton
         accountId={beneficiaryId}
         icon='plus'
-        label={t<string>('Claim')}
+        label={t('Claim')}
         params={[index]}
         tx={claimBounty}
       />

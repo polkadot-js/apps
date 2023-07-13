@@ -92,7 +92,7 @@ function EventDisplay ({ children, className = '', eventName, value, withExpande
           <>
             <Input
               isDisabled
-              label={t<string>('contract event')}
+              label={t('contract event')}
               value={abiEvent.event.identifier}
             />
             <Params

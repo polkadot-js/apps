@@ -29,12 +29,12 @@ function NewStash (): React.ReactElement {
       <Button
         icon='plus'
         key='new-stash'
-        label={t<string>('Stash')}
+        label={t('Stash')}
         onClick={_toggle}
       />
       {isVisible && (
         <Modal
-          header={t<string>('Bonding Preferences')}
+          header={t('Bonding Preferences')}
           onClose={_toggle}
           size='large'
         >
@@ -47,7 +47,7 @@ function NewStash (): React.ReactElement {
               extrinsic={bondTx}
               icon='sign-in-alt'
               isDisabled={!bondTx || !stashId}
-              label={t<string>('Bond')}
+              label={t('Bond')}
               onStart={_toggle}
             />
           </Modal.Actions>

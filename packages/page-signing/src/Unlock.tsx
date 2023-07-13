@@ -61,23 +61,23 @@ function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> 
   return (
     <Modal
       className='toolbox--Unlock'
-      header={t<string>('Unlock account')}
+      header={t('Unlock account')}
       onClose={onClose}
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={t<string>('This account that will perform the message signing.')}>
+        <Modal.Columns hint={t('This account that will perform the message signing.')}>
           <InputAddress
             isDisabled
-            label={t<string>('account')}
+            label={t('account')}
             value={address}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('Unlock the account for signing. Once active the signature will be generated based on the content provided.')}>
+        <Modal.Columns hint={t('Unlock the account for signing. Once active the signature will be generated based on the content provided.')}>
           <Password
             autoFocus
             isError={!!unlockError}
-            label={t<string>('password')}
+            label={t('password')}
             onChange={setPassword}
             onEnter={_onUnlock}
             value={password}
@@ -88,7 +88,7 @@ function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> 
         <Button
           icon='unlock'
           isBusy={isBusy}
-          label={t<string>('Unlock')}
+          label={t('Unlock')}
           onClick={_onUnlock}
         />
       </Modal.Actions>

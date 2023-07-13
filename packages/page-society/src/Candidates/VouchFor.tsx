@@ -25,35 +25,35 @@ function VouchNew ({ allMembers, onClose }: Props): React.ReactElement<Props> {
 
   return (
     <Modal
-      header= {t<string>('Vouch for a new candidate')}
+      header= {t('Vouch for a new candidate')}
       onClose={onClose}
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={t<string>('Your member account that the vouch is made from.')}>
+        <Modal.Columns hint={t('Your member account that the vouch is made from.')}>
           <InputAddress
             filter={allMembers}
-            label={t<string>('member account')}
+            label={t('member account')}
             onChange={setAccount}
             type='account'
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The candidate/bid account. Once accepted this account will become a member.')}>
+        <Modal.Columns hint={t('The candidate/bid account. Once accepted this account will become a member.')}>
           <InputAddress
-            label={t<string>('bid account')}
+            label={t('bid account')}
             onChange={setCandidate}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The amount to tie to your bid. The lowest bidder moves forward.')}>
+        <Modal.Columns hint={t('The amount to tie to your bid. The lowest bidder moves forward.')}>
           <InputBalance
             autoFocus
-            label={t<string>('bid amount')}
+            label={t('bid amount')}
             onChange={setAmount}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The amount you wish to be tipped for your bid.')}>
+        <Modal.Columns hint={t('The amount you wish to be tipped for your bid.')}>
           <InputBalance
-            label={t<string>('tip amount')}
+            label={t('tip amount')}
             onChange={setTip}
           />
         </Modal.Columns>
@@ -63,7 +63,7 @@ function VouchNew ({ allMembers, onClose }: Props): React.ReactElement<Props> {
           accountId={accountId}
           icon='sign-in-alt'
           isDisabled={!amount || !candidateId || !tip}
-          label={t<string>('Vouch')}
+          label={t('Vouch')}
           onStart={onClose}
           params={[candidateId, amount, tip]}
           tx={api.tx.society.vouch}

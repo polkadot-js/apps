@@ -31,7 +31,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const isNextTick = useNextTick();
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t<string>('contacts'), 'start', 4]
+    [t('contacts'), 'start', 4]
   ]);
 
   useEffect((): void => {
@@ -61,20 +61,20 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           <FilterInput
             className='media--1000'
             filterOn={filterOn}
-            label={t<string>('filter by name or tags')}
+            label={t('filter by name or tags')}
             setFilter={setFilter}
           />
         </section>
         <Button.Group>
           <Button
             icon='plus'
-            label={t<string>('Add contact')}
+            label={t('Add contact')}
             onClick={toggleCreate}
           />
         </Button.Group>
       </SummaryBox>
       <Table
-        empty={isNextTick && sortedAddresses && t<string>('no addresses saved yet, add any existing address')}
+        empty={isNextTick && sortedAddresses && t('no addresses saved yet, add any existing address')}
         header={headerRef.current}
         isSplit
       >

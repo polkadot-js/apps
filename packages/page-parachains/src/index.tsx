@@ -50,23 +50,23 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
     {
       isRoot: true,
       name: 'overview',
-      text: t<string>('Overview')
+      text: t('Overview')
     },
     {
       name: 'parathreads',
-      text: t<string>('Parathreads')
+      text: t('Parathreads')
     },
     api.query.proposeParachain && {
       name: 'proposals',
-      text: t<string>('Proposals')
+      text: t('Proposals')
     },
     api.query.auctions && {
       name: 'auctions',
-      text: t<string>('Auctions')
+      text: t('Auctions')
     },
     api.query.crowdloan && {
       name: 'crowdloan',
-      text: t<string>('Crowdloan')
+      text: t('Crowdloan')
     }
   ].filter((q) => !!q));
 

@@ -101,7 +101,7 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
   const _createMultisig = useCallback(
     (): void => {
       const options = { genesisHash: isDevelopment ? undefined : api.genesisHash.toHex(), name: name.trim() };
-      const status = createMultisig(signatories, threshold, options, t<string>('created multisig'));
+      const status = createMultisig(signatories, threshold, options, t('created multisig'));
 
       onStatusChange(status);
       onClose();
@@ -157,7 +157,7 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
   return (
     <StyledModal
       className={className}
-      header={t<string>('Add multisig')}
+      header={t('Add multisig')}
       onClose={onClose}
       size='large'
     >
@@ -165,7 +165,7 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
         <Modal.Columns>
           <Toggle
             className='signaturesFileToggle'
-            label={t<string>('Upload JSON file with signatories')}
+            label={t('Upload JSON file with signatories')}
             onChange={setShowSignaturesUpload}
             value={showSignaturesUpload}
           />
@@ -174,38 +174,38 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
           <Modal.Columns
             hint={
               <>
-                <p>{t<string>('The signatories has the ability to create transactions using the multisig and approve transactions sent by others.Once the threshold is reached with approvals, the multisig transaction is enacted on-chain.')}</p>
-                <p>{t<string>('Since the multisig function like any other account, once created it is available for selection anywhere accounts are used and needs to be funded before use.')}</p>
+                <p>{t('The signatories has the ability to create transactions using the multisig and approve transactions sent by others.Once the threshold is reached with approvals, the multisig transaction is enacted on-chain.')}</p>
+                <p>{t('Since the multisig function like any other account, once created it is available for selection anywhere accounts are used and needs to be funded before use.')}</p>
               </>
             }
           >
             <InputAddressMulti
               available={availableSignatories}
-              availableLabel={t<string>('available signatories')}
+              availableLabel={t('available signatories')}
               maxCount={MAX_SIGNATORIES}
               onChange={_onChangeAddressMulti}
-              valueLabel={t<string>('selected signatories')}
+              valueLabel={t('selected signatories')}
             />
           </Modal.Columns>
         )}
         {showSignaturesUpload && (
-          <Modal.Columns hint={t<string>('Supply a JSON file with the list of signatories.')}>
+          <Modal.Columns hint={t('Supply a JSON file with the list of signatories.')}>
             <InputFile
               accept={acceptedFormats}
               className='full'
               clearContent={!uploadedSignatories.length && isUploadedFileValid}
               isError={!isUploadedFileValid}
-              label={t<string>('upload signatories list')}
+              label={t('upload signatories list')}
               onChange={_onChangeFile}
               withLabel
             />
             {!!uploadedSignatories.length && (
               <Labelled
-                label={t<string>('found signatories')}
+                label={t('found signatories')}
                 labelExtra={(
                   <IconLink
                     icon='sync'
-                    label={t<string>('Reset')}
+                    label={t('Reset')}
                     onClick={resetFileUpload}
                   />
                 )}
@@ -227,22 +227,22 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
             )}
           </Modal.Columns>
         )}
-        <Modal.Columns hint={t<string>('The threshold for approval should be less or equal to the number of signatories for this multisig.')}>
+        <Modal.Columns hint={t('The threshold for approval should be less or equal to the number of signatories for this multisig.')}>
           <InputNumber
             isError={!isThresholdValid}
-            label={t<string>('threshold')}
+            label={t('threshold')}
             onChange={_onChangeThreshold}
             value={threshold}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The name is for unique identification of the account in your owner lists.')}>
+        <Modal.Columns hint={t('The name is for unique identification of the account in your owner lists.')}>
           <Input
             autoFocus
             className='full'
             isError={!isNameValid}
-            label={t<string>('name')}
+            label={t('name')}
             onChange={_onChangeName}
-            placeholder={t<string>('multisig name')}
+            placeholder={t('multisig name')}
           />
         </Modal.Columns>
       </Modal.Content>
@@ -250,7 +250,7 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
         <Button
           icon='plus'
           isDisabled={!isValid}
-          label={t<string>('Create')}
+          label={t('Create')}
           onClick={_createMultisig}
         />
       </Modal.Actions>

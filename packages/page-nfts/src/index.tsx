@@ -30,11 +30,11 @@ function NftApp ({ basePath, className }: Props): React.ReactElement<Props> {
     {
       isRoot: true,
       name: 'overview',
-      text: t<string>('Overview')
+      text: t('Overview')
     },
     {
       name: 'my-nfts',
-      text: t<string>('My NFTs')
+      text: t('My NFTs')
     }
   ]);
 

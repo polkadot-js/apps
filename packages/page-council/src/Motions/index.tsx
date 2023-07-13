@@ -26,10 +26,10 @@ function Proposals ({ className = '', motions, prime }: Props): React.ReactEleme
   const { isMember, members } = useCollectiveMembers('council');
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t<string>('motions'), 'start', 2],
-    [t<string>('threshold')],
-    [t<string>('voting end')],
-    [t<string>('votes'), 'expand'],
+    [t('motions'), 'start', 2],
+    [t('threshold')],
+    [t('voting end')],
+    [t('votes'), 'expand'],
     [],
     [undefined, 'badge'],
     []
@@ -52,7 +52,7 @@ function Proposals ({ className = '', motions, prime }: Props): React.ReactEleme
         />
       </Button.Group>
       <Table
-        empty={motions && t<string>('No council motions')}
+        empty={motions && t('No council motions')}
         header={headerRef.current}
       >
         {motions?.map((motion: DeriveCollectiveProposal): React.ReactNode => (

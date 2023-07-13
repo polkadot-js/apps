@@ -108,7 +108,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
       onStatusChange({
         account,
         action: 'create',
-        message: t<string>('created account'),
+        message: t('created account'),
         status: 'success'
       });
       onClose();
@@ -119,7 +119,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
   return (
     <StyledModal
       className={className}
-      header={t<string>('Add account via Qr')}
+      header={t('Add account via Qr')}
       onClose={onClose}
       size='large'
     >
@@ -134,18 +134,18 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
                   value={scanned.content}
                 />
               </Modal.Columns>
-              <Modal.Columns hint={t<string>('The local name for this account. Changing this does not affect your on-line identity, so this is only used to indicate the name of the account locally.')}>
+              <Modal.Columns hint={t('The local name for this account. Changing this does not affect your on-line identity, so this is only used to indicate the name of the account locally.')}>
                 <Input
                   autoFocus
                   className='full'
                   isError={!isNameValid}
-                  label={t<string>('name')}
+                  label={t('name')}
                   onChange={_onNameChange}
                   onEnter={_onSave}
                   value={name}
                 />
                 {scannedGenesisWarn && (
-                  <MarkWarning content={t<string>('The genesisHash for the scanned account does not match the genesisHash of the connected chain. The account will not be usable on this chain.')} />
+                  <MarkWarning content={t('The genesisHash for the scanned account does not match the genesisHash of the connected chain. The account will not be usable on this chain.')} />
                 )}
               </Modal.Columns>
               {!isAddress && (
@@ -157,7 +157,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
             </>
           )
           : (
-            <Modal.Columns hint={t<string>('Provide the account QR from the module/external application for scanning. Once detected as valid, you will be taken to the next step to add the account to your list.')}>
+            <Modal.Columns hint={t('Provide the account QR from the module/external application for scanning. Once detected as valid, you will be taken to the next step to add the account to your list.')}>
               <div className='qr-wrapper'>
                 <QrScanAddress
                   isEthereum={isEthereum}
@@ -174,7 +174,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
         <Button
           icon='plus'
           isDisabled={!scanned || !isValid || (!isAddress && isIpfs)}
-          label={t<string>('Save')}
+          label={t('Save')}
           onClick={_onSave}
         />
       </Modal.Actions>

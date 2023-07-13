@@ -27,11 +27,11 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
   const newRaise = useCall<ParaId[]>(api.query.crowdloan.newRaise);
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t<string>('bids'), 'start', 3],
-    [t<string>('bidder'), 'address'],
-    [t<string>('crowdloan')],
-    [t<string>('leases')],
-    [t<string>('value')]
+    [t('bids'), 'start', 3],
+    [t('bidder'), 'address'],
+    [t('crowdloan')],
+    [t('leases')],
+    [t('value')]
   ]);
 
   const loans = useMemo(
@@ -96,8 +96,8 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
       empty={
         newRaise && auctionInfo && auctionInfo.numAuctions && winningData && (
           auctionInfo.endBlock && !winningData.length
-            ? t<string>('No winners in this auction')
-            : t<string>('No ongoing auction')
+            ? t('No winners in this auction')
+            : t('No ongoing auction')
         )
       }
       header={headerRef.current}
