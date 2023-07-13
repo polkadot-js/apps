@@ -27,7 +27,7 @@ function CreateButton ({ assetIds, className, openId }: Props): React.ReactEleme
       <Button
         icon='plus'
         isDisabled={!assetIds || !hasAccounts}
-        label={t<string>('Create')}
+        label={t('Create')}
         onClick={toggleOpen}
       />
       {isOpen && assetIds && (

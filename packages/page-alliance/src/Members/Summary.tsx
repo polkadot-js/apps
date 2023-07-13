@@ -23,7 +23,7 @@ function Summary ({ className, members, rule }: Props): React.ReactElement<Props
 
   return (
     <SummaryBox className={className}>
-      <CardSummary label={t<string>('rule')}>
+      <CardSummary label={t('rule')}>
         {rule
           ? rule.hasRule
             ? ipfsLink
@@ -34,12 +34,12 @@ function Summary ({ className, members, rule }: Props): React.ReactElement<Props
                   target='_blank'
                 >{ipfsLink.ipfsShort}</a>
               )
-              : t<string>('yes')
-            : t<string>('no')
-          : <span className='--tmp'>{t<string>('no')}</span>
+              : t('yes')
+            : t('no')
+          : <span className='--tmp'>{t('no')}</span>
         }
       </CardSummary>
-      <CardSummary label={t<string>('members')}>
+      <CardSummary label={t('members')}>
         {members
           ? formatNumber(members.length)
           : <span className='--tmp'>99</span>

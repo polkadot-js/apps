@@ -107,7 +107,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
       )}
       isIcon={isIcon}
       isToplevel={isToplevel}
-      label={label || (isIcon ? '' : t<string>('Submit'))}
+      label={label || (isIcon ? '' : t('Submit'))}
       onClick={_onSend}
       tooltip={tooltip}
       withoutLink={withoutLink}

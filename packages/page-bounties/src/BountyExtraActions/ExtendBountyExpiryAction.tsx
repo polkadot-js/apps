@@ -35,34 +35,34 @@ function ExtendBountyExpiryAction ({ curatorId, description, index, toggleOpen }
   return (
     <>
       <Modal
-        header={`${t<string>('extend expiry')} - "${truncateTitle(description, 30)}"`}
+        header={`${t('extend expiry')} - "${truncateTitle(description, 30)}"`}
         onClose={toggleOpen}
         size='large'
       >
         <Modal.Content>
-          <Modal.Columns hint={t<string>('Only curator can extend the bounty time.')}>
+          <Modal.Columns hint={t('Only curator can extend the bounty time.')}>
             <InputAddress
               isDisabled
-              label={t<string>('curator account')}
+              label={t('curator account')}
               type='account'
               value={curatorId.toString()}
               withLabel
             />
           </Modal.Columns>
           {expiryDate &&
-            <Modal.Columns hint={t<string>(`Bounty expiry time will be set to ${timeAsText} from now.`)}>
+            <Modal.Columns hint={t(`Bounty expiry time will be set to ${timeAsText} from now.`)}>
               <Input
                 isDisabled
-                label={t<string>('new expiry date and time')}
+                label={t('new expiry date and time')}
                 value={`${expiryDate.toLocaleDateString()} ${expiryDate.toLocaleTimeString()}`}
               />
             </Modal.Columns>
           }
-          <Modal.Columns hint={t<string>("The note that will be added to the transaction. It won't be stored on chain")}>
+          <Modal.Columns hint={t("The note that will be added to the transaction. It won't be stored on chain")}>
             <Input
               autoFocus
               defaultValue={''}
-              label={t<string>('bounty remark')}
+              label={t('bounty remark')}
               onChange={onRemarkChange}
               value={remark}
             />
@@ -72,7 +72,7 @@ function ExtendBountyExpiryAction ({ curatorId, description, index, toggleOpen }
           <TxButton
             accountId={curatorId}
             icon='check'
-            label={t<string>('Accept')}
+            label={t('Accept')}
             onStart={toggleOpen}
             params={[index, remark]}
             tx={extendBountyExpiry}

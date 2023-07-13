@@ -20,7 +20,7 @@ function Members ({ className, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t<string>('members'), 'start']
+    [t('members'), 'start']
   ]);
 
   return (
@@ -28,7 +28,7 @@ function Members ({ className, members }: Props): React.ReactElement<Props> {
       <Summary members={members} />
       <Table
         className={className}
-        empty={members && t<string>('No members found')}
+        empty={members && t('No members found')}
         header={headerRef.current}
         isSplit
       >

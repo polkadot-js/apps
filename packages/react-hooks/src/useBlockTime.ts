@@ -1,7 +1,6 @@
 // Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
 import type { ApiPromise } from '@polkadot/api';
 import type { BN } from '@polkadot/util';
 import type { Time } from '@polkadot/util/types';
@@ -16,7 +15,7 @@ import { useBlockInterval } from './useBlockInterval.js';
 
 type Result = [blockInterval: number, timeStr: string, time: Time];
 
-export function calcBlockTime (blockTime: BN, blocks: BN, t: TFunction): Result {
+export function calcBlockTime (blockTime: BN, blocks: BN, t: (key: string, options?: { replace: Record<string, unknown> }) => string): Result {
   // in the case of excessively large locks, limit to the max JS integer value
   const value = bnMin(BN_MAX_INTEGER, blockTime.mul(blocks)).toNumber();
 
@@ -29,23 +28,23 @@ export function calcBlockTime (blockTime: BN, blocks: BN, t: TFunction): Result 
     `${value < 0 ? '+' : ''}${[
       days
         ? (days > 1)
-          ? t<string>('{{days}} days', { replace: { days } })
-          : t<string>('1 day')
+          ? t('{{days}} days', { replace: { days } })
+          : t('1 day')
         : null,
       hours
         ? (hours > 1)
-          ? t<string>('{{hours}} hrs', { replace: { hours } })
-          : t<string>('1 hr')
+          ? t('{{hours}} hrs', { replace: { hours } })
+          : t('1 hr')
         : null,
       minutes
         ? (minutes > 1)
-          ? t<string>('{{minutes}} mins', { replace: { minutes } })
-          : t<string>('1 min')
+          ? t('{{minutes}} mins', { replace: { minutes } })
+          : t('1 min')
         : null,
       seconds
         ? (seconds > 1)
-          ? t<string>('{{seconds}} s', { replace: { seconds } })
-          : t<string>('1 s')
+          ? t('{{seconds}} s', { replace: { seconds } })
+          : t('1 s')
         : null
     ]
       .filter((s): s is string => !!s)

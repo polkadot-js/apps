@@ -37,6 +37,7 @@
   "app-utilities.json",
   "app-whitelist.json",
   "apps-config.json",
+  "apps-routing.json",
   "apps.json",
   "react-components.json",
   "react-params.json",

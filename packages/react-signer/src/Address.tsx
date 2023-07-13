@@ -312,8 +312,8 @@ function Address ({ currentItem, onChange, onEnter, passwordError, requestAddres
             isDisabled={proxyInfo.isProxied}
             label={
               isProxyActive
-                ? t<string>('Use a proxy for this call')
-                : t<string>("Don't use a proxy for this call")
+                ? t('Use a proxy for this call')
+                : t("Don't use a proxy for this call")
             }
             onChange={setIsProxyActive}
             value={isProxyActive}
@@ -326,8 +326,8 @@ function Address ({ currentItem, onChange, onEnter, passwordError, requestAddres
             className='tipToggle'
             label={
               isMultiCall
-                ? t<string>('Multisig message with call (for final approval)')
-                : t<string>('Multisig approval with hash (non-final approval)')
+                ? t('Multisig message with call (for final approval)')
+                : t('Multisig approval with hash (non-final approval)')
             }
             onChange={setIsMultiCall}
             value={isMultiCall}

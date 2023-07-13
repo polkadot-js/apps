@@ -24,7 +24,7 @@ function Actions (): React.ReactElement<Props> {
         <Button
           icon='plus'
           isDisabled={!hasAccounts}
-          label={t<string>('Propose')}
+          label={t('Propose')}
           onClick={togglePropose}
         />
       </Button.Group>

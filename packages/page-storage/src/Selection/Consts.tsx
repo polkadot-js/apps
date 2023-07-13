@@ -37,7 +37,7 @@ function Consts ({ onAdd }: Props): React.ReactElement<Props> {
       <div className='storage--actionrow-value'>
         <InputConsts
           defaultValue={defaultValue}
-          label={t<string>('selected constant query')}
+          label={t('selected constant query')}
           onChange={setValue}
         />
       </div>

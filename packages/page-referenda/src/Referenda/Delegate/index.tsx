@@ -80,11 +80,11 @@ function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): R
 
   const typeOpts = useMemo(
     () => [
-      { text: t<string>('Addresses'), value: 'address' },
+      { text: t('Addresses'), value: 'address' },
       isFunction(api.query.staking?.nominators) &&
-        { isDisabled: !allVals || !allVals.length, text: t<string>('Validators'), value: 'validators' },
+        { isDisabled: !allVals || !allVals.length, text: t('Validators'), value: 'validators' },
       isFunction(api.query.fellowshipCollective?.members) &&
-        { isDisabled: !allFell || !allFell.length, text: t<string>('Fellows'), value: 'fellows' }
+        { isDisabled: !allFell || !allFell.length, text: t('Fellows'), value: 'fellows' }
     ],
     [allFell, allVals, api, t]
   );
@@ -118,15 +118,15 @@ function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): R
       {isOpen && (
         <Modal
           className={className}
-          header={t<string>('Delegate votes {{step}}/{{numSteps}}', { replace: { numSteps: 2, step } })}
+          header={t('Delegate votes {{step}}/{{numSteps}}', { replace: { numSteps: 2, step } })}
           onClose={toggleOpen}
           size='large'
         >
           {(step === 1) && (
             <Modal.Content>
-              <Modal.Columns hint={t<string>('Delegate from this account to another. All votes made on the target would count as a delegated vote for this account.')}>
+              <Modal.Columns hint={t('Delegate from this account to another. All votes made on the target would count as a delegated vote for this account.')}>
                 <InputAddress
-                  label={t<string>('delegate from account')}
+                  label={t('delegate from account')}
                   onChange={setAccountId}
                   type='account'
                   withLabel
@@ -141,10 +141,10 @@ function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): R
               </Modal.Columns>
               <Modal.Columns
                 align='right'
-                hint={t<string>('Either delegate your votes for a single track as selected or delegate for all available tracks.')}
+                hint={t('Either delegate your votes for a single track as selected or delegate for all available tracks.')}
               >
                 <Toggle
-                  label={t<string>('apply delegation to all tracks')}
+                  label={t('apply delegation to all tracks')}
                   onChange={toggleAllTracks}
                   value={isAllTracks}
                 />
@@ -160,19 +160,19 @@ function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): R
               <Modal.Columns
                 hint={
                   <>
-                    <p>{t<string>('The balance associated with the vote will be locked as per the conviction specified and will not be available for transfer during this period.')}</p>
-                    <p>{t<string>('Conviction locks do overlap and are not additive, meaning that funds locked during a previous vote can be locked again.')}</p>
+                    <p>{t('The balance associated with the vote will be locked as per the conviction specified and will not be available for transfer during this period.')}</p>
+                    <p>{t('Conviction locks do overlap and are not additive, meaning that funds locked during a previous vote can be locked again.')}</p>
                   </>
                 }
               >
                 <VoteValue
                   accountId={accountId}
                   autoFocus
-                  label={t<string>('delegated vote value')}
+                  label={t('delegated vote value')}
                   onChange={setBalance}
                 />
                 <ConvictionDropdown
-                  label={t<string>('conviction')}
+                  label={t('conviction')}
                   onChange={setConviction}
                   value={conviction}
                   voteLockingPeriod={api.consts[palletVote as 'convictionVoting'].voteLockingPeriod}
@@ -185,7 +185,7 @@ function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): R
               {(typeOpts.length > 1) && (
                 <Modal.Columns
                   align='center'
-                  hint={t<string>('Select from a list of pre-propulated accounts (based on your account activity) or supply your own')}
+                  hint={t('Select from a list of pre-propulated accounts (based on your account activity) or supply your own')}
                 >
                   <ToggleGroup
                     onChange={onChangeType}
@@ -194,12 +194,12 @@ function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): R
                   />
                 </Modal.Columns>
               )}
-              <Modal.Columns hint={t<string>('The account that you wish to delegate to')}>
+              <Modal.Columns hint={t('The account that you wish to delegate to')}>
                 {accType.type === 'address'
                   ? (
                     <InputAddress
                       key='address'
-                      label={t<string>('delegate to address')}
+                      label={t('delegate to address')}
                       onChange={setToAccount}
                       type='allPlus'
                     />
@@ -209,7 +209,7 @@ function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): R
                       <InputAddress
                         defaultValue={allVals?.[0].value}
                         key='validators'
-                        label={t<string>('delegate to validator')}
+                        label={t('delegate to validator')}
                         onChange={setToAccount}
                         options={allVals}
                         type='allPlus'
@@ -220,7 +220,7 @@ function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): R
                         <InputAddress
                           defaultValue={allFell?.[0].value}
                           key='fellows'
-                          label={t<string>('delegate to fellow')}
+                          label={t('delegate to fellow')}
                           onChange={setToAccount}
                           options={allFell}
                           type='allPlus'
@@ -247,7 +247,7 @@ function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): R
             {(step !== 1) && (
               <Button
                 icon='step-backward'
-                label={t<string>('Prev')}
+                label={t('Prev')}
                 onClick={prevStep}
               />
             )}
@@ -260,7 +260,7 @@ function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): R
                     ? !isStep1Valid
                     : !isStep2Valid
                 }
-                label={t<string>('Next')}
+                label={t('Next')}
                 onClick={nextStep}
               />
             )}
@@ -273,7 +273,7 @@ function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): R
                 !isStep2Valid ||
                 step !== 2
               }
-              label={t<string>('Delegate')}
+              label={t('Delegate')}
               onStart={toggleOpen}
             />
           </Modal.Actions>
@@ -282,7 +282,7 @@ function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): R
       <Button
         icon='code-merge'
         isDisabled={!hasAccounts}
-        label={t<string>('Delegate')}
+        label={t('Delegate')}
         onClick={toggleOpen}
       />
     </>

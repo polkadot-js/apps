@@ -22,22 +22,22 @@ function BidNew ({ onClose }: Props): React.ReactElement<Props> {
 
   return (
     <Modal
-      header= {t<string>('Bid to join')}
+      header= {t('Bid to join')}
       onClose={onClose}
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={t<string>('Your candidate/bid account. Once accepted this account will become a member.')}>
+        <Modal.Columns hint={t('Your candidate/bid account. Once accepted this account will become a member.')}>
           <InputAddress
-            label={t<string>('bid account')}
+            label={t('bid account')}
             onChange={setAccount}
             type='account'
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The amount to tie to your bid. The lowest bidder moves forward.')}>
+        <Modal.Columns hint={t('The amount to tie to your bid. The lowest bidder moves forward.')}>
           <InputBalance
             autoFocus
-            label={t<string>('bid amount')}
+            label={t('bid amount')}
             onChange={setAmount}
           />
         </Modal.Columns>
@@ -47,7 +47,7 @@ function BidNew ({ onClose }: Props): React.ReactElement<Props> {
           accountId={accountId}
           icon='sign-in-alt'
           isDisabled={!amount}
-          label={t<string>('Bid')}
+          label={t('Bid')}
           onStart={onClose}
           params={[amount]}
           tx={api.tx.society.bid}

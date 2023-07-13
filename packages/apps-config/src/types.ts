@@ -3,7 +3,7 @@
 
 export interface TOptions {
   ns?: string;
-  replace?: Record<string, string>
+  replace?: Record<string, unknown>
 }
 
-export type TFunction = (keyOrText: string, text?: string, options?: TOptions) => string;
+export type TFunction = (keyOrText: string, textOrOptions?: string | TOptions, options?: TOptions) => string;

@@ -35,8 +35,8 @@ function VoteStandard ({ accountId, id, isAye, onChange, voteLockingPeriod }: Pr
     <Modal.Columns
       hint={
         <>
-          <p>{t<string>('The balance associated with the vote will be locked as per the conviction specified and will not be available for transfer during this period.')}</p>
-          <p>{t<string>('Conviction locks do overlap and are not additive, meaning that funds locked during a previous vote can be locked again.')}</p>
+          <p>{t('The balance associated with the vote will be locked as per the conviction specified and will not be available for transfer during this period.')}</p>
+          <p>{t('Conviction locks do overlap and are not additive, meaning that funds locked during a previous vote can be locked again.')}</p>
         </>
       }
     >
@@ -45,13 +45,13 @@ function VoteStandard ({ accountId, id, isAye, onChange, voteLockingPeriod }: Pr
         autoFocus
         label={
           isAye
-            ? t<string>('aye vote value')
-            : t<string>('nay vote value')
+            ? t('aye vote value')
+            : t('nay vote value')
         }
         onChange={setBalance}
       />
       <ConvictionDropdown
-        label={t<string>('conviction')}
+        label={t('conviction')}
         onChange={setConviction}
         value={conviction}
         voteLockingPeriod={voteLockingPeriod}

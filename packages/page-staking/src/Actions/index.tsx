@@ -123,15 +123,15 @@ function Actions ({ className = '', isInElection, minCommission, ownPools, ownSt
   const [stashTypeIndex, setStashTypeIndex] = useState(0);
 
   const accTypes = useRef([
-    { text: t<string>('Stashed'), value: 'stash' },
-    { text: t<string>('Pooled'), value: 'pool' }
+    { text: t('Stashed'), value: 'stash' },
+    { text: t('Pooled'), value: 'pool' }
   ]);
 
   const stashTypes = useRef([
-    { text: t<string>('All stashes'), value: 'all' },
-    { text: t<string>('Nominators'), value: 'noms' },
-    { text: t<string>('Validators'), value: 'vals' },
-    { text: t<string>('Inactive'), value: 'chill' }
+    { text: t('All stashes'), value: 'all' },
+    { text: t('Nominators'), value: 'noms' },
+    { text: t('Validators'), value: 'vals' },
+    { text: t('Inactive'), value: 'chill' }
   ]);
 
   const state = useMemo(

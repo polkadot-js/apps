@@ -29,13 +29,13 @@ function Summary ({ className, issuanceActive, issuanceInactive, issuanceTotal, 
   return (
     <SummaryBox className={className}>
       <section>
-        <CardSummary label={t<string>('active')}>
+        <CardSummary label={t('active')}>
           {refActive === undefined
             ? <span className='--tmp'>99</span>
             : formatNumber(refActive)
           }
         </CardSummary>
-        <CardSummary label={t<string>('total')}>
+        <CardSummary label={t('total')}>
           {refCount === undefined
             ? <span className='--tmp'>99</span>
             : formatNumber(refCount)
@@ -44,7 +44,7 @@ function Summary ({ className, issuanceActive, issuanceInactive, issuanceTotal, 
       </section>
       {withIssuance && (
         <section>
-          <CardSummary label={t<string>('total issuance')}>
+          <CardSummary label={t('total issuance')}>
             <FormatBalance
               className={issuanceTotal ? '' : '--tmp'}
               value={issuanceTotal || 1}
@@ -55,7 +55,7 @@ function Summary ({ className, issuanceActive, issuanceInactive, issuanceTotal, 
             <>
               <CardSummary
                 className='media--1000'
-                label={t<string>('inactive issuance')}
+                label={t('inactive issuance')}
               >
                 <FormatBalance
                   className={issuanceInactive ? '' : '--tmp'}
@@ -65,7 +65,7 @@ function Summary ({ className, issuanceActive, issuanceInactive, issuanceTotal, 
               </CardSummary>
               <CardSummary
                 className='media--800'
-                label={t<string>('active issuance')}
+                label={t('active issuance')}
               >
                 <FormatBalance
                   className={issuanceActive ? '' : '--tmp'}

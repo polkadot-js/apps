@@ -59,49 +59,49 @@ function Create ({ className, isDisabled, ownAccounts, params: { minCreateBond, 
       <Button
         icon='plus'
         isDisabled={isDisabled || !minValue}
-        label={t<string>('Add pool')}
+        label={t('Add pool')}
         onClick={toggleOpen}
       />
       {isOpen && (
         <Modal
           className={className}
-          header={t<string>('Create nomination pool')}
+          header={t('Create nomination pool')}
           onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns hint={t<string>('The origin account will also be set as the pool admin, nominator and state toggler.')}>
+            <Modal.Columns hint={t('The origin account will also be set as the pool admin, nominator and state toggler.')}>
               <InputAddress
                 filter={ownAccounts}
-                label={t<string>('create pool from')}
+                label={t('create pool from')}
                 onChange={setAccount}
                 type='account'
                 value={accountId}
                 withExclude
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The initial value to assign to the pool. It is set to the maximum of the minimum bond and the minium nomination value.')}>
+            <Modal.Columns hint={t('The initial value to assign to the pool. It is set to the maximum of the minimum bond and the minium nomination value.')}>
               <InputBalance
                 autoFocus
                 defaultValue={minValue}
                 isError={isAmountError}
-                label={t<string>('initial value')}
+                label={t('initial value')}
                 onChange={setAmount}
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The metadata description to set for this pool')}>
+            <Modal.Columns hint={t('The metadata description to set for this pool')}>
               <Input
                 isError={isMetaError}
-                label={t<string>('description')}
+                label={t('description')}
                 maxLength={MAX_META_LEN}
                 onChange={setMetadata}
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The id that will be assigned to this nomination pool.')}>
+            <Modal.Columns hint={t('The id that will be assigned to this nomination pool.')}>
               <InputNumber
                 defaultValue={nextPoolId}
                 isDisabled
-                label={t<string>('pool id')}
+                label={t('pool id')}
               />
             </Modal.Columns>
           </Modal.Content>
@@ -111,7 +111,7 @@ function Create ({ className, isDisabled, ownAccounts, params: { minCreateBond, 
               extrinsic={extrinsic}
               icon='plus'
               isDisabled={!accountId || isAmountError || isMetaError}
-              label={t<string>('Create')}
+              label={t('Create')}
               onStart={toggleOpen}
             />
           </Modal.Actions>

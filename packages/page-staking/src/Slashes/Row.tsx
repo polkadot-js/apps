@@ -57,7 +57,7 @@ function Row ({ index, isSelected, onSelect, slash: { era, isMine, slash: { othe
         {!!others.length && (
           <ExpanderScroll
             renderChildren={renderOthers}
-            summary={t<string>('Nominators ({{count}})', { replace: { count: formatNumber(others.length) } })}
+            summary={t('Nominators ({{count}})', { replace: { count: formatNumber(others.length) } })}
           />
         )}
       </td>

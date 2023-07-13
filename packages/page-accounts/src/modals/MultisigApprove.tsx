@@ -62,8 +62,8 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
   const [tx, setTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
 
   const callOptRef = useRef<Option[]>([
-    { text: t<string>('Approve this call hash'), value: 'aye' },
-    { text: t<string>('Cancel this call hash'), value: 'nay' }
+    { text: t('Approve this call hash'), value: 'aye' },
+    { text: t('Cancel this call hash'), value: 'nay' }
   ]);
 
   const hashes = useMemo<Option[]>(
@@ -165,14 +165,14 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
   return (
     <StyledModal
       className={className}
-      header={t<string>('Pending call hashes')}
+      header={t('Pending call hashes')}
       onClose={onClose}
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={t<string>('The call hash from the list of available and unapproved calls.')}>
+        <Modal.Columns hint={t('The call hash from the list of available and unapproved calls.')}>
           <Dropdown
-            label={t<string>('pending hashes {{count}}', {
+            label={t('pending hashes {{count}}', {
               replace: { count: hashes.length }
             })}
             onChange={setHash}
@@ -182,17 +182,17 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
         </Modal.Columns>
         {multisig && (
           <>
-            <Modal.Columns hint={t<string>('The creator for this multisig call')}>
+            <Modal.Columns hint={t('The creator for this multisig call')}>
               <InputAddress
                 defaultValue={multisig.depositor}
                 isDisabled
-                label={t<string>('depositor')}
+                label={t('depositor')}
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The current approvals applied to this multisig')}>
+            <Modal.Columns hint={t('The current approvals applied to this multisig')}>
               <Expander
                 isPadded
-                summary={t<string>('Existing approvals ({{approvals}}/{{threshold}})', {
+                summary={t('Existing approvals ({{approvals}}/{{threshold}})', {
                   replace: {
                     approvals: multisig.approvals.length,
                     threshold
@@ -210,9 +210,9 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
             </Modal.Columns>
           </>
         )}
-        <Modal.Columns hint={t<string>('The operation type to apply. For approvals both non-final and final approvals are supported.')}>
+        <Modal.Columns hint={t('The operation type to apply. For approvals both non-final and final approvals are supported.')}>
           <Dropdown
-            label={t<string>('approval type')}
+            label={t('approval type')}
             onChange={setType}
             options={callOptRef.current}
             value={type}
@@ -220,17 +220,17 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
         </Modal.Columns>
         {whoFilter.length !== 0 && (
           <>
-            <Modal.Columns hint={t<string>('For approvals outstanding approvers will be shown, for hashes that should be cancelled the first approver is required.')}>
+            <Modal.Columns hint={t('For approvals outstanding approvers will be shown, for hashes that should be cancelled the first approver is required.')}>
               <InputAddress
                 filter={whoFilter}
-                label={t<string>('signatory')}
+                label={t('signatory')}
                 onChange={setSignatory}
               />
             </Modal.Columns>
             {type === 'aye' && isMultiCall && (
               <>
                 {isCallOverride && (
-                  <Modal.Columns hint={t<string>('The call data for this transaction matching the hash. Once sent, the multisig will be executed against this.')}>
+                  <Modal.Columns hint={t('The call data for this transaction matching the hash. Once sent, the multisig will be executed against this.')}>
                     {callData && callInfo
                       ? (
                         <Expander
@@ -248,7 +248,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
                         <Input
                           autoFocus
                           isError={!callHex || !!callError}
-                          label={t<string>('call data for final approval')}
+                          label={t('call data for final approval')}
                           onChange={setCallHex}
                         />
                       )}
@@ -257,13 +257,13 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
                     )}
                   </Modal.Columns>
                 )}
-                <Modal.Columns hint={t<string>('Swap to a non-executing approval type, with subsequent calls providing the actual call data.')}>
+                <Modal.Columns hint={t('Swap to a non-executing approval type, with subsequent calls providing the actual call data.')}>
                   <Toggle
                     className='tipToggle'
                     label={
                       isMultiCall
-                        ? t<string>('Multisig message with call (for final approval)')
-                        : t<string>('Multisig approval with hash (non-final approval)')
+                        ? t('Multisig message with call (for final approval)')
+                        : t('Multisig approval with hash (non-final approval)')
                     }
                     onChange={setCallOverride}
                     value={isCallOverride}

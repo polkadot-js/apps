@@ -43,15 +43,15 @@ function CloseBounty ({ description, index, toggleOpen }: Props): React.ReactEle
 
   return (
     <Modal
-      header={`${t<string>('close bounty')} - "${truncateTitle(description, 30)}"`}
+      header={`${t('close bounty')} - "${truncateTitle(description, 30)}"`}
       onClose={toggleOpen}
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={t<string>('The council member that will create the close bounty proposal, submission equates to an "aye" vote.')}>
+        <Modal.Columns hint={t('The council member that will create the close bounty proposal, submission equates to an "aye" vote.')}>
           <InputAddress
             filter={members}
-            label={t<string>('propose with account')}
+            label={t('propose with account')}
             onChange={setAccountId}
             type='account'
             withLabel
@@ -63,7 +63,7 @@ function CloseBounty ({ description, index, toggleOpen }: Props): React.ReactEle
           accountId={accountId}
           icon='ban'
           isDisabled={false}
-          label={t<string>('Close Bounty')}
+          label={t('Close Bounty')}
           onStart={toggleOpen}
           params={[threshold, closeBountyProposal.current, closeBountyProposal.current.length]}
           tx={api.tx[councilMod].propose}

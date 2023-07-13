@@ -51,13 +51,13 @@ function ReferendumVotes ({ className, count, isAye, total, votes }: Props): Rea
   return (
     <ExpanderScroll
       className={className}
-      empty={votes && t<string>('No voters')}
+      empty={votes && t('No voters')}
       // help={change.gtn(0) && (
       //   <>
       //     <FormatBalance value={change} />
       //     <p>{isWinning
-      //       ? t<string>('The amount this total can be reduced by to change the referendum outcome. This assumes changes to the convictions of the existing votes, with no additional turnout.')
-      //       : t<string>('The amount this total should be increased by to change the referendum outcome. This assumes additional turnout with new votes at 1x conviction.')
+      //       ? t('The amount this total can be reduced by to change the referendum outcome. This assumes changes to the convictions of the existing votes, with no additional turnout.')
+      //       : t('The amount this total should be increased by to change the referendum outcome. This assumes additional turnout with new votes at 1x conviction.')
       //     }</p>
       //   </>
       // )}
@@ -66,8 +66,8 @@ function ReferendumVotes ({ className, count, isAye, total, votes }: Props): Rea
       summary={
         <>
           {isAye
-            ? t<string>('Aye {{count}}', { replace: { count: count ? ` (${formatNumber(count)})` : '' } })
-            : t<string>('Nay {{count}}', { replace: { count: count ? ` (${formatNumber(count)})` : '' } })
+            ? t('Aye {{count}}', { replace: { count: count ? ` (${formatNumber(count)})` : '' } })
+            : t('Nay {{count}}', { replace: { count: count ? ` (${formatNumber(count)})` : '' } })
           }
           <div><FormatBalance value={total} /></div>
         </>

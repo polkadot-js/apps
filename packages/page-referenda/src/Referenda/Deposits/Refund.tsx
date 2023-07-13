@@ -28,23 +28,23 @@ function Refund ({ className = '', id, palletReferenda }: Props): React.ReactEle
       {isOpen && (
         <Modal
           className={className}
-          header={t<string>('Refund decision deposit')}
+          header={t('Refund decision deposit')}
           onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns hint={t<string>('The transaction will be submitted from this account.')}>
+            <Modal.Columns hint={t('The transaction will be submitted from this account.')}>
               <InputAddress
-                label={t<string>('refund from account')}
+                label={t('refund from account')}
                 onChange={setAccountId}
                 type='account'
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The referendum this deposit would apply to.')}>
+            <Modal.Columns hint={t('The referendum this deposit would apply to.')}>
               <InputNumber
                 defaultValue={id}
                 isDisabled
-                label={t<string>('referendum id')}
+                label={t('referendum id')}
               />
             </Modal.Columns>
           </Modal.Content>
@@ -52,7 +52,7 @@ function Refund ({ className = '', id, palletReferenda }: Props): React.ReactEle
             <TxButton
               accountId={accountId}
               icon='minus'
-              label={t<string>('Refund deposit')}
+              label={t('Refund deposit')}
               onStart={toggleOpen}
               params={[id]}
               tx={api.tx[palletReferenda as 'referenda'].refundDecisionDeposit}
@@ -62,7 +62,7 @@ function Refund ({ className = '', id, palletReferenda }: Props): React.ReactEle
       )}
       <Button
         icon='minus'
-        label={t<string>('Refund deposit')}
+        label={t('Refund deposit')}
         onClick={toggleOpen}
       />
     </>

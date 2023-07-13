@@ -27,23 +27,23 @@ function VoteAbstain ({ accountId, id, onChange }: Props): React.ReactElement<Pr
   }, [balanceAbstain, balanceAye, balanceNay, id, onChange]);
 
   return (
-    <Modal.Columns hint={t<string>('The value of the balance that is to be split to the abstain, aye and nay parts of the vote')}>
+    <Modal.Columns hint={t('The value of the balance that is to be split to the abstain, aye and nay parts of the vote')}>
       <VoteValue
         accountId={accountId}
         autoFocus
-        label={t<string>('abstain vote value')}
+        label={t('abstain vote value')}
         onChange={setBalanceAbstain}
       />
       <VoteValue
         accountId={accountId}
         autoFocus
-        label={t<string>('aye vote value')}
+        label={t('aye vote value')}
         noDefault
         onChange={setBalanceAye}
       />
       <VoteValue
         accountId={accountId}
-        label={t<string>('nay vote value')}
+        label={t('nay vote value')}
         noDefault
         onChange={setBalanceNay}
       />

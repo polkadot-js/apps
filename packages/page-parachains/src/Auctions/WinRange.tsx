@@ -28,7 +28,7 @@ function WinRanges ({ auctionInfo, blockNumber, className = '', isFirst, isLates
       <td>
         {isFirst && (
           <h1>{isLatest
-            ? t<string>('latest')
+            ? t('latest')
             : <>#{formatNumber((!blockNumber || blockNumber.isZero()) ? auctionInfo.endBlock : blockNumber)}</>
           }</h1>
         )}
@@ -36,7 +36,7 @@ function WinRanges ({ auctionInfo, blockNumber, className = '', isFirst, isLates
       <Table.Column.Id value={paraId} />
       <td className='badge'><ParaLink id={paraId} /></td>
       <td className='address'><AddressMini value={accountId} /></td>
-      <td className='all number'>{isCrowdloan ? t<string>('Yes') : t<string>('No')}</td>
+      <td className='all number'>{isCrowdloan ? t('Yes') : t('No')}</td>
       <td className='all number together'>
         {firstSlot.eq(lastSlot)
           ? formatNumber(firstSlot)

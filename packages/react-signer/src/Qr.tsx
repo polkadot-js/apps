@@ -35,7 +35,7 @@ function Qr ({ address, className, genesisHash, isHashed, onSignature, payload }
       } else {
         const signature = data.signature;
 
-        setSigError(t<string>('Non-signature, non-hex data received from QR. Data contains "{{sample}}" instead of a hex-only signature. Please present the correct signature generated from the QR presented for submission.', {
+        setSigError(t('Non-signature, non-hex data received from QR. Data contains "{{sample}}" instead of a hex-only signature. Please present the correct signature generated from the QR presented for submission.', {
           replace: {
             sample: signature.length > 47
               ? `${signature.slice(0, 24)}…${signature.slice(-22)}`
@@ -49,7 +49,7 @@ function Qr ({ address, className, genesisHash, isHashed, onSignature, payload }
 
   if (!address) {
     return (
-      <Spinner label={t<string>('Preparing QR for signing')} />
+      <Spinner label={t('Preparing QR for signing')} />
     );
   }
 

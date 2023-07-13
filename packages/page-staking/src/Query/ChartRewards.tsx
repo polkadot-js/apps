@@ -85,9 +85,9 @@ function ChartRewards ({ labels, validatorId }: Props): React.ReactElement<Props
   );
 
   const legends = useMemo(() => [
-    t<string>('{{currency}} slashed', { replace: { currency } }),
-    t<string>('{{currency}} rewards', { replace: { currency } }),
-    t<string>('{{currency}} average', { replace: { currency } })
+    t('{{currency}} slashed', { replace: { currency } }),
+    t('{{currency}} rewards', { replace: { currency } }),
+    t('{{currency}} average', { replace: { currency } })
   ], [currency, t]);
 
   return (
@@ -95,7 +95,7 @@ function ChartRewards ({ labels, validatorId }: Props): React.ReactElement<Props
       colors={COLORS_REWARD}
       labels={labels}
       legends={legends}
-      title={t<string>('rewards & slashes')}
+      title={t('rewards & slashes')}
       values={values}
     />
   );
