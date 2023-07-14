@@ -17,6 +17,7 @@ export const PolkassemblyIo: ExternalDef = {
     Centrifuge: 'centrifuge',
     'Centrifuge Mainnet': 'centrifuge',
     Collectives: 'collectives',
+    'Cere Mainnet Beta': 'cere',
     'Equilibrium parachain': 'equilibrium',
     'Hashed Network': 'hashed',
     HydraDX: 'hydradx',
