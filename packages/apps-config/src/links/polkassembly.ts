@@ -16,6 +16,7 @@ export const PolkassemblyIo: ExternalDef = {
     Calamari: 'calamari',
     Centrifuge: 'centrifuge',
     'Centrifuge Mainnet': 'centrifuge',
+    'Cere Mainnet Beta': 'cere',
     Collectives: 'collectives',
     'Equilibrium parachain': 'equilibrium',
     'Hashed Network': 'hashed',
