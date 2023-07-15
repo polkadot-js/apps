@@ -17,6 +17,10 @@ export function createLanguages (t: TFunction): Option[] {
     },
     // translations (sorted by language code)
     {
+      text: 'Türkçe',
+      value: 'tr'
+    },
+    {
       text: 'عربى',
       value: 'ar'
     },
