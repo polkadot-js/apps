@@ -5,6 +5,7 @@ import type { HeaderExtended } from '@polkadot/api-derive/types';
 import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
 import type { EventRecord, RuntimeVersionPartial, SignedBlock } from '@polkadot/types/interfaces';
 
+import axios from 'axios';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -13,15 +14,13 @@ import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { convertWeight } from '@polkadot/react-hooks/useWeight';
 import { formatNumber } from '@polkadot/util';
 
+import config from '../../../apps-config/src/variables/config.js';
 import Events from '../Events.js';
 import { useTranslation } from '../translate.js';
 import Extrinsics from './Extrinsics.js';
 import Justifications from './Justifications.js';
 import Logs from './Logs.js';
 import Summary from './Summary.js';
-
-import axios from 'axios';
-import config from '../../../apps-config/src/variables/config.js';
 
 interface Props {
   className?: string;
@@ -132,6 +131,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
             return;
           }
 
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
           setConfidence(v.data.confidence);
         }).catch((_) => {
           setConfidence('ℹ️ Make sure Light Client runs on ' + LightClientURI);
