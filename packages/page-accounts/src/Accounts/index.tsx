@@ -333,20 +333,16 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           />
         </section>
         <Button.Group>
-          {canStoreAccounts && (
-            <>
-              <Button
-                icon='plus'
-                label={t<string>('Account')}
-                onClick={toggleCreate}
-              />
-              <Button
-                icon='sync'
-                label={t<string>('From JSON')}
-                onClick={toggleImport}
-              />
-            </>
-          )}
+          <Button
+            icon='plus'
+            label={t<string>('Account')}
+            onClick={toggleCreate}
+          />
+          <Button
+            icon='sync'
+            label={t<string>('From JSON')}
+            onClick={toggleImport}
+          />
           <Button
             icon='qrcode'
             label={t<string>('From Qr')}
