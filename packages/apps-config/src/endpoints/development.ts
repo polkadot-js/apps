@@ -4,6 +4,8 @@
 import type { TFunction } from '../types.js';
 import type { LinkOption } from './types.js';
 
+import { nodesAvailPNG } from '../ui/logos/nodes/index.js';
+
 export const CUSTOM_ENDPOINT_KEY = 'polkadot-app-custom-endpoints';
 
 interface EnvWindow {
@@ -71,7 +73,10 @@ export function createDev (t: TFunction): LinkOption[] {
       info: 'local',
       text: t('rpc.dev.local', 'Local Node', { ns: 'apps-config' }),
       textBy: '127.0.0.1:9944',
-      ui: {},
+      ui: {
+        color: '#1B1E26',
+        logo: nodesAvailPNG
+      },
       value: 'ws://127.0.0.1:9944'
     }
   ];

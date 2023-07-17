@@ -24,14 +24,13 @@ import { addressEq } from '@polkadot/util-crypto';
 
 import { AccountSigner, LedgerSigner, QrSigner } from './signers/index.js';
 import Address from './Address.js';
+import AppId from './AppId.js';
 import Qr from './Qr.js';
 import SignFields from './SignFields.js';
 import Tip from './Tip.js';
 import Transaction from './Transaction.js';
 import { useTranslation } from './translate.js';
 import { cacheUnlock, extractExternal, handleTxResults } from './util.js';
-
-import AppId from './AppId.js';
 
 interface Props {
   className?: string;

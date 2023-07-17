@@ -11,9 +11,9 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { Button, FilterInput, SortDropdown, styled, SummaryBox, Table } from '@polkadot/react-components';
 import { getAccountCryptoType } from '@polkadot/react-components/util';
-import { useAccounts, useApi, useDelegations, useFavorites, useIpfs, useLedger, useNextTick, useProxies, useToggle } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useDelegations, useFavorites, useLedger, useNextTick, useProxies, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
-import { settings } from '@polkadot/ui-settings';
+// import { settings } from '@polkadot/ui-settings';
 import { BN_ZERO, isFunction } from '@polkadot/util';
 
 import CreateModal from '../modals/Create.js';
@@ -89,9 +89,9 @@ function groupAccounts (accounts: SortedAccount[]): Record<GroupName, string[]> 
 
 function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api, isElectron } = useApi();
+  const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
-  const { isIpfs } = useIpfs();
+  // const { isIpfs } = useIpfs();
   const { isLedgerEnabled } = useLedger();
   const [isCreateOpen, toggleCreate] = useToggle();
   const [isImportOpen, toggleImport] = useToggle();
@@ -143,10 +143,10 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     []
   );
 
-  const canStoreAccounts = useMemo(
-    () => isElectron || (!isIpfs && settings.get().storage === 'on'),
-    [isElectron, isIpfs]
-  );
+  // const canStoreAccounts = useMemo(
+  //   () => isElectron || (!isIpfs && settings.get().storage === 'on'),
+  //   [isElectron, isIpfs]
+  // );
 
   // We use favorites only to check if it includes some element,
   // so Object is better than array for that because hashmap access is O(1).
@@ -333,20 +333,16 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           />
         </section>
         <Button.Group>
-          {canStoreAccounts && (
-            <>
-              <Button
-                icon='plus'
-                label={t<string>('Account')}
-                onClick={toggleCreate}
-              />
-              <Button
-                icon='sync'
-                label={t<string>('From JSON')}
-                onClick={toggleImport}
-              />
-            </>
-          )}
+          <Button
+            icon='plus'
+            label={t<string>('Account')}
+            onClick={toggleCreate}
+          />
+          <Button
+            icon='sync'
+            label={t<string>('From JSON')}
+            onClick={toggleImport}
+          />
           <Button
             icon='qrcode'
             label={t<string>('From Qr')}

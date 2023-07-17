@@ -11,7 +11,7 @@ import { assert } from '@polkadot/util';
 
 import config from '../../apps-config/src/variables/config.js';
 
-function networkOrUrl(apiUrl: string, lcUrl: string): void {
+function networkOrUrl (apiUrl: string, lcUrl: string): void {
   if (apiUrl.startsWith('light://')) {
     console.log('Light endpoint=', apiUrl.replace('light://', ''));
   } else {
@@ -21,7 +21,7 @@ function networkOrUrl(apiUrl: string, lcUrl: string): void {
   console.log('LC endpoint=', lcUrl);
 }
 
-function getApiUrl(): string {
+function getApiUrl (): string {
   // we split here so that both these forms are allowed
   //  - http://localhost:3000/?rpc=wss://substrate-rpc.parity.io/#/explorer
   //  - http://localhost:3000/#/explorer?rpc=wss://substrate-rpc.parity.io
