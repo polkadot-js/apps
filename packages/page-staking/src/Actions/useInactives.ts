@@ -1,6 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { QueryableStorageMultiArg } from '@polkadot/api/types';
 import type { DeriveSessionIndexes } from '@polkadot/api-derive/types';
 import type { Option } from '@polkadot/types';
@@ -8,7 +9,6 @@ import type { EraIndex, Exposure, Nominations, SlashingSpans } from '@polkadot/t
 
 import { useEffect, useState } from 'react';
 
-import { ApiPromise } from '@polkadot/api';
 import { createNamedHook, useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 

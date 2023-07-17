@@ -1,6 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { DeriveHeartbeatAuthor } from '@polkadot/api-derive/types';
 import type { Option } from '@polkadot/types';
 import type { SlashingSpans, ValidatorPrefs } from '@polkadot/types/interfaces';
@@ -10,7 +11,6 @@ import type { NominatorValue } from './types.js';
 
 import React, { useMemo } from 'react';
 
-import { ApiPromise } from '@polkadot/api';
 import { AddressSmall, Columar, Icon, LinkExternal, Table, Tag } from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
 import { useApi, useCall, useDeriveAccountInfo, useToggle } from '@polkadot/react-hooks';

@@ -7,8 +7,9 @@ import type { BN } from '@polkadot/util';
 
 import React, { useState } from 'react';
 
-import { Button, InputAddress, InputBalance, Modal, ProposedAction, TxButton } from '@polkadot/react-components';
+import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
+import { ProposedAction } from '@polkadot/react-params';
 
 import { useTranslation } from '../translate.js';
 

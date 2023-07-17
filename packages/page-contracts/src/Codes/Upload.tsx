@@ -3,6 +3,7 @@
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { CodeSubmittableResult } from '@polkadot/api-contract/promise/types';
+import type { BN } from '@polkadot/util';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -11,7 +12,7 @@ import { Button, Dropdown, InputAddress, InputBalance, InputFile, MarkError, Mod
 import { useAccountId, useApi, useFormField, useNonEmptyString, useStepper } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { keyring } from '@polkadot/ui-keyring';
-import { BN, BN_ZERO, isNull, isWasm, stringify } from '@polkadot/util';
+import { BN_ZERO, isNull, isWasm, stringify } from '@polkadot/util';
 
 import { ABI, InputMegaGas, InputName, MessageSignature, Params } from '../shared/index.js';
 import store from '../store.js';

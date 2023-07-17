@@ -1,6 +1,8 @@
 // Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/* global jest */
+
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import type { DeriveBounties } from '@polkadot/api-derive/types';
 import type { BountyApi } from '../../src/hooks/index.js';

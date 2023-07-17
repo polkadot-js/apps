@@ -1,6 +1,9 @@
 // Copyright 2017-2023 @polkadot/page-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/* global expect */
+
+import type { Sidebar } from '@polkadot/test-support/pagesElements';
 import type { AccountOverrides } from '@polkadot/test-support/types';
 
 import { fireEvent, screen, within } from '@testing-library/react';
@@ -8,7 +11,6 @@ import React from 'react';
 
 import { anAccount } from '@polkadot/test-support/creation/account';
 import { Page } from '@polkadot/test-support/pages/Page';
-import { Sidebar } from '@polkadot/test-support/pagesElements';
 import { assertText, clickButton } from '@polkadot/test-support/utils';
 import { settings } from '@polkadot/ui-settings';
 

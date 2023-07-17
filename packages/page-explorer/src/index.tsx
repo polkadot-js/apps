@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import type { TabItem } from '@polkadot/react-components/Tabs/types';
+import type { TabItem } from '@polkadot/react-components/types';
 import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
 
 import React, { useMemo, useRef } from 'react';

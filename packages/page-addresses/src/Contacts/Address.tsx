@@ -3,11 +3,11 @@
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { KeyringAddress } from '@polkadot/ui-keyring/types';
+import type { HexString } from '@polkadot/util/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
-import Transfer from '@polkadot/app-accounts/modals/Transfer';
-import { AddressInfo, AddressSmall, Button, ChainLock, Columar, Forget, LinkExternal, Menu, Popup, Table, Tags } from '@polkadot/react-components';
+import { AddressInfo, AddressSmall, Button, ChainLock, Columar, Forget, LinkExternal, Menu, Popup, Table, Tags, TransferModal } from '@polkadot/react-components';
 import { useApi, useBalancesAll, useDeriveAccountInfo, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { isFunction } from '@polkadot/util';
@@ -108,7 +108,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   }, [accName, filter, tags]);
 
   const _onGenesisChange = useCallback(
-    (genesisHash: string | null): void => {
+    (genesisHash: HexString | null): void => {
       setGenesisHash(genesisHash);
 
       const account = keyring.getAddress(address);
@@ -200,7 +200,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
                 />
               )}
               {isTransferOpen && (
-                <Transfer
+                <TransferModal
                   key='modal-transfer'
                   onClose={_toggleTransfer}
                   recipientId={address}

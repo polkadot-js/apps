@@ -3,7 +3,7 @@
 
 // Do not edit. Auto-generated via node scripts/imgConvert.mjs
 
-export { chains3dpassPNG } from './generated/3dpassPNG.js';
+export { chains3dpassSVG } from './generated/3dpassSVG.js';
 export { chainsAbandPNG } from './generated/abandPNG.js';
 export { chainsAcalaSVG } from './generated/acalaSVG.js';
 export { chainsAcurastPNG } from './generated/acurastPNG.js';
@@ -14,8 +14,8 @@ export { chainsBitgreenPNG } from './generated/bitgreenPNG.js';
 export { chainsBittensorPNG } from './generated/bittensorPNG.js';
 export { chainsBrainstormPNG } from './generated/brainstormPNG.js';
 export { chainsComposableFinancePNG } from './generated/composableFinancePNG.js';
-export { chainsCreditcoinPNG } from './generated/creditcoinPNG.js';
 export { chainsCreditcoinTestPNG } from './generated/creditcoin-testPNG.js';
+export { chainsCreditcoinPNG } from './generated/creditcoinPNG.js';
 export { chainsDebioSVG } from './generated/debioSVG.js';
 export { chainsDorafactoryPNG } from './generated/dorafactoryPNG.js';
 export { chainsDustyPNG } from './generated/dustyPNG.js';
@@ -41,8 +41,8 @@ export { chainsMangataxPNG } from './generated/mangataxPNG.js';
 export { chainsMoonsamaPNG } from './generated/moonsamaPNG.js';
 export { chainsMyriadPNG } from './generated/myriadPNG.js';
 export { chainsOakPNG } from './generated/oakPNG.js';
-export { chainsOrigintrailPNG } from './generated/origintrailPNG.js';
 export { chainsOrigintrailTestnetPNG } from './generated/origintrail-testnetPNG.js';
+export { chainsOrigintrailPNG } from './generated/origintrailPNG.js';
 export { chainsPeaqPNG } from './generated/peaqPNG.js';
 export { chainsPendulumSVG } from './generated/pendulumSVG.js';
 export { chainsPicassoSVG } from './generated/picassoSVG.js';

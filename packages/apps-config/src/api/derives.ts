@@ -10,8 +10,8 @@ import mangata from './spec/mangata.js';
 import subspace from './spec/subspace.js';
 
 const mapping: [OverrideBundleDefinition, string[]][] = [
-  [equilibrium, ['Equilibrium']],
-  [genshiro, ['Genshiro', 'Genshiro Rococo Testnet']],
+  [equilibrium, ['Equilibrium', 'Equilibrium-parachain']],
+  [genshiro, ['Genshiro', 'Gens-parachain']],
   [interbtc, ['interbtc-parachain', 'interbtc-standalone', 'interlay-parachain', 'kintsugi-parachain', 'testnet-kintsugi', 'testnet-interlay']],
   [subspace, ['subspace']],
   [mangata, ['mangata', 'mangata-parachain']]

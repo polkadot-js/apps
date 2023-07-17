@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import type { TabItem } from '@polkadot/react-components/Tabs/types';
-import type { AppProps as Props } from '@polkadot/react-components/types';
+import type { AppProps as Props, TabItem } from '@polkadot/react-components/types';
 import type { DecodedExtrinsic } from './types.js';
 
 import React, { useRef, useState } from 'react';

@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
-
-import React from 'react';
+import type React from 'react';
 
 export interface HeaderProps {
   children?: React.ReactNode;

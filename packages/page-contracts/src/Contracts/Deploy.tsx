@@ -3,6 +3,7 @@
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { BlueprintSubmittableResult } from '@polkadot/api-contract/promise/types';
+import type { BN } from '@polkadot/util';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -11,7 +12,7 @@ import { Dropdown, Input, InputAddress, InputBalance, Modal, Toggle, TxButton } 
 import { useApi, useFormField, useNonEmptyString } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { keyring } from '@polkadot/ui-keyring';
-import { BN, BN_ZERO, isHex, stringify } from '@polkadot/util';
+import { BN_ZERO, isHex, stringify } from '@polkadot/util';
 import { randomAsHex } from '@polkadot/util-crypto';
 
 import { ABI, InputMegaGas, InputName, MessageSignature, Params } from '../shared/index.js';
@@ -103,7 +104,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
             abi: stringify(result.contract.abi.json),
             genesisHash: api.genesisHash.toHex()
           },
-          name,
+          name: name || undefined,
           tags: []
         });
 

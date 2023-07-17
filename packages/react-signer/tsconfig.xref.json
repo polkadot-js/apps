@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "outDir": "./build",
+    "rootDir": "./src"
+  },
+  "include": [
+    "src/signers/*",
+    "src/types.ts",
+    "src/util.ts"
+  ],
+  "references": [
+    { "path": "../react-components/tsconfig.xref.json" }
+  ]
+}

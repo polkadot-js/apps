@@ -13,7 +13,7 @@ import { settings } from '@polkadot/ui-settings';
 import { useTranslation } from '../translate.js';
 import StringInput from './StringInput.js';
 
-type Progress = [[number, number, number], Record<string, [number, number, number]>];
+type ProgressType = [[number, number, number], Record<string, [number, number, number]>];
 type Strings = Record<string, string>;
 type StringsMod = Record<string, Strings>;
 
@@ -94,7 +94,7 @@ async function retrieveAll (): Promise<Defaults> {
   };
 }
 
-function calcProgress (english: StringsMod, language: Strings): Progress {
+function calcProgress (english: StringsMod, language: Strings): ProgressType {
   const breakdown: Record<string, [number, number, number]> = {};
   let done = 0;
   let total = 0;
@@ -150,7 +150,7 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
   const [withEmpty, toggleWithEmpty] = useToggle();
   const [{ english, keys, modules }, setDefaults] = useState<Defaults>({ english: {}, keys: [], modules: [] });
   const [lng, setLng] = useState<string>('zh');
-  const [[modProgress, allProgress], setProgress] = useState<Progress>([[0, 0, 0], {}]);
+  const [[modProgress, allProgress], setProgress] = useState<ProgressType>([[0, 0, 0], {}]);
   const [record, setRecord] = useState<string>('app-accounts.json');
   const [strings, setStrings] = useState<Strings | null>(null);
 
@@ -187,7 +187,7 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
       if (hasPrevVal !== !!sanitized) {
         const [progress, breakdown] = calcProgress(english, languageCache[lng]);
 
-        setProgress(([counters]): Progress => {
+        setProgress(([counters]): ProgressType => {
           progress[2] = Math.max(0, progress[0] - counters[0]);
 
           return [progress, breakdown];

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { HexString } from '@polkadot/util/types';
 import type { ModalProps } from '../types.js';
 
 import React, { useCallback, useState } from 'react';
@@ -20,7 +21,7 @@ interface Props extends ModalProps {
 }
 
 interface CreateOptions {
-  genesisHash?: string;
+  genesisHash?: HexString;
   name: string;
   tags?: string[];
 }
@@ -53,7 +54,7 @@ function ProxyAdd ({ className = '', onClose, onStatusChange }: Props): React.Re
   const _createProxied = useCallback(
     (): void => {
       if (stashAddress) {
-        const options = { genesisHash: isDevelopment ? undefined : api.genesisHash.toString(), name: name.trim() };
+        const options = { genesisHash: isDevelopment ? undefined : api.genesisHash.toHex(), name: name.trim() };
         const status = createProxy(stashAddress, options, t<string>('added proxy'));
 
         onStatusChange(status);

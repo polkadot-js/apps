@@ -4,13 +4,13 @@
 import type { DeriveSessionProgress } from '@polkadot/api-derive/types';
 import type { OwnPool } from '@polkadot/app-staking2/Pools/types';
 import type { PalletStakingUnappliedSlash } from '@polkadot/types/lookup';
+import type { BN } from '@polkadot/util';
 import type { SortedTargets } from '../types.js';
 
 import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { BN } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
 import Pool from './Pool/index.js';

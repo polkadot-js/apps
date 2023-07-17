@@ -1,6 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type React from 'react';
 import type { Abi } from '@polkadot/api-contract';
 import type { WeightV2 } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';

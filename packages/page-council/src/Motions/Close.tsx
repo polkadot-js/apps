@@ -5,8 +5,9 @@ import type { Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 
 import React, { useState } from 'react';
 
-import { Button, InputAddress, Modal, ProposedAction, TxButton } from '@polkadot/react-components';
+import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCollectiveInstance, useToggle, useWeight } from '@polkadot/react-hooks';
+import { ProposedAction } from '@polkadot/react-params';
 
 import { useTranslation } from '../translate.js';
 

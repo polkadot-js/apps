@@ -3,32 +3,32 @@
 
 import type { Registrar } from '@polkadot/react-hooks/types';
 
-import registry from '@polkadot/react-api/typeRegistry';
+import { statics } from '@polkadot/react-api';
 
 import { bob, charlie, ferdie } from '../keyring/index.js';
 
 export const mockRegistration = {
   judgements: [
     [
-      registry.createType('RegistrarIndex', '0'),
+      statics.registry.createType('RegistrarIndex', '0'),
       {
         isReasonable: true
       }
     ],
     [
-      registry.createType('RegistrarIndex', '1'),
+      statics.registry.createType('RegistrarIndex', '1'),
       {
         isKnownGood: true
       }
     ],
     [
-      registry.createType('RegistrarIndex', '2'),
+      statics.registry.createType('RegistrarIndex', '2'),
       {
         isErroneous: true
       }
     ],
     [
-      registry.createType('RegistrarIndex', '3'),
+      statics.registry.createType('RegistrarIndex', '3'),
       {
         isReasonable: true
       }

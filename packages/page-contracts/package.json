@@ -1,7 +1,7 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
   "engines": {
-    "node": ">=14"
+    "node": ">=16"
   },
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-contracts#readme",
   "license": "Apache-2.0",
@@ -14,9 +14,14 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.125.1",
+  "version": "0.132.1",
   "dependencies": {
-    "@polkadot/api-contract": "^10.2.2",
-    "eventemitter3": "^5.0.0"
+    "@polkadot/api-contract": "^10.9.1",
+    "eventemitter3": "^5.0.1"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*",
+    "react-is": "*"
   }
 }

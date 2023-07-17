@@ -24147,1383 +24147,16 @@ export const typesBundle = {
     "Equilibrium": {
       "instances": {
         "balances": [
-          "Eq",
-          "Eth",
-          "Btc",
-          "Eos",
-          "Dot",
-          "Crv",
-          "Usd"
+          "eq"
         ]
-      },
-      "types": [
-        {
-          "minmax": [
-            0,
-            264
-          ],
-          "types": {
-            "AccountData": {
-              "free": "Balance"
-            },
-            "AccountIndex": "u32",
-            "AccountInfo": {
-              "nonce": "Index",
-              "consumers": "RefCount",
-              "providers": "RefCount",
-              "sufficients": "RefCount",
-              "data": "AccountData"
-            },
-            "AccountType": {
-              "_enum": {
-                "Id32": "[u8; 32]",
-                "Key20": "[u8; 20]"
-              }
-            },
-            "Address": "MultiAddress",
-            "Asset": {
-              "0": "AssetIdInnerType"
-            },
-            "AssetData": {
-              "id": "Asset",
-              "lot": "FixedU128",
-              "price_step": "FixedU128",
-              "maker_fee": "FixedU128",
-              "taker_fee": "FixedU128",
-              "asset_xcm_data": "Option<AssetXcmData>",
-              "debt_weight": "DebtWeightType",
-              "buyout_priority": "u64",
-              "asset_type": "AssetType",
-              "is_dex_enabled": "bool"
-            },
-            "AssetId": "Asset",
-            "AssetIdInnerType": "u64",
-            "AssetMetrics": {
-              "period_start": "Duration",
-              "period_end": "Duration",
-              "returns": "Vec<FixedNumber>",
-              "volatility": "FixedNumber",
-              "correlations": "Vec<(Asset, FixedNumber)>"
-            },
-            "AssetName": "Vec<u8>",
-            "AssetType": {
-              "_enum": {
-                "Native": null,
-                "Physical": null,
-                "Synthetic": null,
-                "Lp": "PoolId"
-              }
-            },
-            "AssetXcmData": {
-              "multi_location": "MultiLocation",
-              "decimals": "u8"
-            },
-            "Balance": "u64",
-            "BalanceOf": "Balance",
-            "BalancesAggregate": {
-              "total_issuance": "Balance",
-              "total_debt": "Balance"
-            },
-            "BestPrice": {
-              "ask": "Option<FixedI64>",
-              "bid": "Option<FixedI64>"
-            },
-            "BlockNumber": "u32",
-            "CapVec": {
-              "head_index": "u32",
-              "len_cap": "u32",
-              "items": "Vec<FixedNumber>"
-            },
-            "ChainId": "u8",
-            "Currency": {
-              "_enum": [
-                "UNKNOWN",
-                "Eqd",
-                "Eq",
-                "Eth",
-                "Btc",
-                "Eos",
-                "Dot",
-                "Crv"
-              ]
-            },
-            "ChunkKey": "u64",
-            "DataPoint": {
-              "price": "u64",
-              "account_id": "AccountId",
-              "block_number": "BlockNumber",
-              "timestamp": "u64"
-            },
-            "DebtWeightType": "i128",
-            "DebtWeightTypeInner": "i128",
-            "DepositNonce": "u64",
-            "Duration": {
-              "secs": "u64",
-              "nanos": "u32"
-            },
-            "FinancialMetrics": {
-              "period_start": "Duration",
-              "period_end": "Duration",
-              "assets": "Vec<Asset>",
-              "mean_returns": "Vec<FixedNumber>",
-              "volatilities": "Vec<FixedNumber>",
-              "correlations": "Vec<FixedNumber>",
-              "covariances": "Vec<FixedNumber>"
-            },
-            "FinancialRecalcPeriodMs": "u64",
-            "FixedI64": "i64",
-            "FixedNumber": "u128",
-            "FixedU128": "u128",
-            "Keys": "SessionKeys3",
-            "LookupSource": "AccountIdLookup",
-            "MarginState": {
-              "_enum": {
-                "Good": null,
-                "SubGood": null,
-                "MaintenanceStart": "u64",
-                "MaintenanceIsGoing": "u64",
-                "MaintenanceTimeOver": "u64",
-                "MaintenanceEnd": null,
-                "SubCritical": null
-              }
-            },
-            "MaxCountOfAssetsRecalcPerBlock": "i32",
-            "Number": "FixedU128",
-            "OperationRequestLiqFm": {
-              "authority_index": "AuthIndex",
-              "validators_len": "u32",
-              "block_num": "BlockNumber"
-            },
-            "OperationRequest": {
-              "account": "AccountId",
-              "authority_index": "AuthIndex",
-              "validators_len": "u32",
-              "block_num": "BlockNumber"
-            },
-            "OperationRequestDexDeleteOrder": {
-              "asset": "Asset",
-              "order_id": "OrderId",
-              "price": "FixedI64",
-              "who": "AccountId",
-              "buyout": "Option<Balance>",
-              "authority_index": "AuthIndex",
-              "validators_len": "u32",
-              "block_num": "BlockNumber"
-            },
-            "Order": {
-              "order_id": "OrderId",
-              "account_id": "AccountId",
-              "side": "OrderSide",
-              "price": "FixedI64",
-              "amount": "FixedU128",
-              "created_at": "u64",
-              "expiration_time": "u64"
-            },
-            "OrderType": {
-              "_enum": {
-                "Limit": "FixedI64",
-                "Market": null
-              }
-            },
-            "OrderId": "u64",
-            "OrderSide": {
-              "_enum": [
-                "Buy",
-                "Sell"
-              ]
-            },
-            "PoolId": "u32",
-            "PoolInfo": {
-              "owner": "AccountId",
-              "pool_asset": "AssetId",
-              "assets": "Vec<AssetId>",
-              "amplification": "Number",
-              "fee": "Permill",
-              "admin_fee": "Permill",
-              "balances": "Vec<Balance>",
-              "total_balances": "Vec<Balance>"
-            },
-            "PoolTokenIndex": "u32",
-            "PortfolioMetrics": {
-              "period_start": "Duration",
-              "period_end": "Duration",
-              "z_score": "u32",
-              "volatility": "FixedNumber",
-              "value_at_risk": "FixedNumber"
-            },
-            "Price": "u128",
-            "PriceLog": {
-              "latest_timestamp": "Duration",
-              "prices": "CapVec<Price>"
-            },
-            "PricePayload": {
-              "public": "[u8; 33]",
-              "asset": "Asset",
-              "price": "FixedI64",
-              "block_number": "BlockNumber"
-            },
-            "PricePeriod": {
-              "_enum": [
-                "Min",
-                "TenMin",
-                "Hour",
-                "FourHour",
-                "Day"
-              ]
-            },
-            "PricePoint": {
-              "block_number": "BlockNumber",
-              "timestamp": "u64",
-              "last_fin_recalc_timestamp": "Timestamp",
-              "price": "u64",
-              "data_points": "Vec<DataPoint>"
-            },
-            "PriceUpdate": {
-              "period_start": "Duration",
-              "time": "Duration",
-              "price": "FixedNumber"
-            },
-            "ProposalStatus": {
-              "_enum": [
-                "Initiated",
-                "Approved",
-                "Rejected"
-              ]
-            },
-            "ProposalVotes": {
-              "votes_for": "Vec<AccountId>",
-              "votes_against": "Vec<AccountId>",
-              "status": "ProposalStatus",
-              "expiry": "BlockNumber"
-            },
-            "ResourceId": "[u8; 32]",
-            "Signature": "u32",
-            "SignedBalance": {
-              "_enum": {
-                "Positive": "Balance",
-                "Negative": "Balance"
-              }
-            },
-            "SubAccType": {
-              "_enum": [
-                "Bailsman",
-                "Borrower",
-                "Lender"
-              ]
-            },
-            "Timestamp": "u64",
-            "TotalAggregates": {
-              "collateral": "Balance",
-              "debt": "Balance"
-            },
-            "TransferReason": {
-              "_enum": [
-                "Common",
-                "InterestFee",
-                "MarginCall",
-                "LiquidityFarming",
-                "BailsmenRedistribution",
-                "TreasuryEqBuyout",
-                "TreasuryBuyEq",
-                "Subaccount",
-                "Lock",
-                "Unlock",
-                "Claim",
-                "CurveFeeWithdraw"
-              ]
-            },
-            "UserGroup": {
-              "_enum": [
-                "UNKNOWN",
-                "Balances",
-                "Bailsmen",
-                "Borrowers",
-                "Lenders"
-              ]
-            },
-            "UnsignedPriorityPair": "(u64, u64)",
-            "VestingInfo": {
-              "locked": "Balance",
-              "perBlock": "Balance",
-              "startingBlock": "BlockNumber"
-            }
-          }
-        },
-        {
-          "minmax": [
-            265,
-            null
-          ],
-          "types": {
-            "AccountData": {
-              "free": "Balance"
-            },
-            "AccountIndex": "u32",
-            "AccountInfo": {
-              "nonce": "Index",
-              "consumers": "RefCount",
-              "providers": "RefCount",
-              "sufficients": "RefCount",
-              "data": "AccountData"
-            },
-            "AccountType": {
-              "_enum": {
-                "Id32": "[u8; 32]",
-                "Key20": "[u8; 20]"
-              }
-            },
-            "Address": "MultiAddress",
-            "Asset": {
-              "0": "AssetIdInnerType"
-            },
-            "AssetData": {
-              "id": "Asset",
-              "lot": "FixedU128",
-              "price_step": "FixedU128",
-              "maker_fee": "FixedU128",
-              "taker_fee": "FixedU128",
-              "asset_xcm_data": "Option<AssetXcmData>",
-              "debt_weight": "DebtWeightType",
-              "buyout_priority": "u64",
-              "asset_type": "AssetType",
-              "is_dex_enabled": "bool"
-            },
-            "AssetId": "Asset",
-            "AssetIdInnerType": "u64",
-            "AssetMetrics": {
-              "period_start": "Duration",
-              "period_end": "Duration",
-              "returns": "Vec<FixedNumber>",
-              "volatility": "FixedNumber",
-              "correlations": "Vec<(Asset, FixedNumber)>"
-            },
-            "AssetName": "Vec<u8>",
-            "AssetType": {
-              "_enum": {
-                "Native": null,
-                "Physical": null,
-                "Synthetic": null,
-                "Lp": "PoolId"
-              }
-            },
-            "AssetXcmData": {
-              "multi_location": "MultiLocation",
-              "decimals": "u8"
-            },
-            "Balance": "u64",
-            "BalanceOf": "Balance",
-            "BalancesAggregate": {
-              "total_issuance": "Balance",
-              "total_debt": "Balance"
-            },
-            "BestPrice": {
-              "ask": "Option<FixedI64>",
-              "bid": "Option<FixedI64>"
-            },
-            "BlockNumber": "u32",
-            "CapVec": {
-              "head_index": "u32",
-              "len_cap": "u32",
-              "items": "Vec<FixedNumber>"
-            },
-            "ChainId": "u8",
-            "Currency": {
-              "_enum": [
-                "UNKNOWN",
-                "Eqd",
-                "Eq",
-                "Eth",
-                "Btc",
-                "Eos",
-                "Dot",
-                "Crv"
-              ]
-            },
-            "ChunkKey": "u64",
-            "DataPoint": {
-              "price": "u64",
-              "account_id": "AccountId",
-              "block_number": "BlockNumber",
-              "timestamp": "u64"
-            },
-            "DebtWeightType": "i128",
-            "DebtWeightTypeInner": "i128",
-            "DepositNonce": "u64",
-            "Duration": {
-              "secs": "u64",
-              "nanos": "u32"
-            },
-            "FinancialMetrics": {
-              "period_start": "Duration",
-              "period_end": "Duration",
-              "assets": "Vec<Asset>",
-              "mean_returns": "Vec<FixedNumber>",
-              "volatilities": "Vec<FixedNumber>",
-              "correlations": "Vec<FixedNumber>",
-              "covariances": "Vec<FixedNumber>"
-            },
-            "FinancialRecalcPeriodMs": "u64",
-            "FixedI64": "i64",
-            "FixedNumber": "u128",
-            "FixedU128": "u128",
-            "Keys": "SessionKeys3",
-            "LookupSource": "AccountIdLookup",
-            "MarginState": {
-              "_enum": {
-                "Good": null,
-                "SubGood": null,
-                "MaintenanceStart": "u64",
-                "MaintenanceIsGoing": "u64",
-                "MaintenanceTimeOver": "u64",
-                "MaintenanceEnd": null,
-                "SubCritical": null
-              }
-            },
-            "MaxCountOfAssetsRecalcPerBlock": "i32",
-            "Number": "FixedU128",
-            "OperationRequestLiqFm": {
-              "authority_index": "AuthIndex",
-              "validators_len": "u32",
-              "block_num": "BlockNumber"
-            },
-            "OperationRequest": {
-              "account": "AccountId",
-              "authority_index": "AuthIndex",
-              "validators_len": "u32",
-              "block_num": "BlockNumber"
-            },
-            "OperationRequestDexDeleteOrder": {
-              "asset": "Asset",
-              "order_id": "OrderId",
-              "price": "FixedI64",
-              "who": "AccountId",
-              "buyout": "Option<Balance>",
-              "authority_index": "AuthIndex",
-              "validators_len": "u32",
-              "block_num": "BlockNumber"
-            },
-            "Order": {
-              "order_id": "OrderId",
-              "account_id": "AccountId",
-              "side": "OrderSide",
-              "price": "FixedI64",
-              "amount": "FixedU128",
-              "created_at": "u64",
-              "expiration_time": "u64"
-            },
-            "OrderType": {
-              "_enum": {
-                "Limit": "FixedI64",
-                "Market": null
-              }
-            },
-            "OrderId": "u64",
-            "OrderSide": {
-              "_enum": [
-                "Buy",
-                "Sell"
-              ]
-            },
-            "PoolId": "u32",
-            "PoolInfo": {
-              "owner": "AccountId",
-              "pool_asset": "AssetId",
-              "assets": "Vec<AssetId>",
-              "amplification": "Number",
-              "fee": "Permill",
-              "admin_fee": "Permill",
-              "balances": "Vec<Balance>",
-              "total_balances": "Vec<Balance>"
-            },
-            "PoolTokenIndex": "u32",
-            "PortfolioMetrics": {
-              "period_start": "Duration",
-              "period_end": "Duration",
-              "z_score": "u32",
-              "volatility": "FixedNumber",
-              "value_at_risk": "FixedNumber"
-            },
-            "Price": "u128",
-            "PriceLog": {
-              "latest_timestamp": "Duration",
-              "prices": "CapVec<Price>"
-            },
-            "PricePayload": {
-              "public": "[u8; 33]",
-              "asset": "Asset",
-              "price": "FixedI64",
-              "block_number": "BlockNumber"
-            },
-            "PricePeriod": {
-              "_enum": [
-                "Min",
-                "TenMin",
-                "Hour",
-                "FourHour",
-                "Day"
-              ]
-            },
-            "PricePoint": {
-              "block_number": "BlockNumber",
-              "timestamp": "u64",
-              "last_fin_recalc_timestamp": "Timestamp",
-              "price": "u64",
-              "data_points": "Vec<DataPoint>"
-            },
-            "PriceUpdate": {
-              "period_start": "Duration",
-              "time": "Duration",
-              "price": "FixedNumber"
-            },
-            "ProposalStatus": {
-              "_enum": [
-                "Initiated",
-                "Approved",
-                "Rejected"
-              ]
-            },
-            "ProposalVotes": {
-              "votes_for": "Vec<AccountId>",
-              "votes_against": "Vec<AccountId>",
-              "status": "ProposalStatus",
-              "expiry": "BlockNumber"
-            },
-            "ResourceId": "[u8; 32]",
-            "Signature": "u32",
-            "SignedBalance": {
-              "_enum": {
-                "Positive": "Balance",
-                "Negative": "Balance"
-              }
-            },
-            "SubAccType": {
-              "_enum": [
-                "Bailsman",
-                "Borrower",
-                "Lender"
-              ]
-            },
-            "Timestamp": "u64",
-            "TotalAggregates": {
-              "collateral": "Balance",
-              "debt": "Balance"
-            },
-            "TransferReason": {
-              "_enum": [
-                "Common",
-                "InterestFee",
-                "MarginCall",
-                "LiquidityFarming",
-                "BailsmenRedistribution",
-                "TreasuryEqBuyout",
-                "TreasuryBuyEq",
-                "Subaccount",
-                "Lock",
-                "Unlock",
-                "Claim",
-                "CurveFeeWithdraw"
-              ]
-            },
-            "UserGroup": {
-              "_enum": [
-                "UNKNOWN",
-                "Balances",
-                "Bailsmen",
-                "Borrowers",
-                "Lenders"
-              ]
-            },
-            "UnsignedPriorityPair": "(u64, u64)",
-            "VestingInfo": {
-              "locked": "Balance",
-              "perBlock": "Balance",
-              "startingBlock": "BlockNumber"
-            }
-          }
-        }
-      ]
+      }
     },
     "Genshiro": {
       "instances": {
         "balances": [
-          "Eq",
-          "Eth",
-          "Btc",
-          "Eos",
-          "Dot",
-          "Crv",
-          "Usd"
+          "gens"
         ]
-      },
-      "types": [
-        {
-          "minmax": [
-            0,
-            null
-          ],
-          "types": {
-            "AccountInfo": {
-              "nonce": "Index",
-              "consumers": "RefCount",
-              "providers": "RefCount"
-            },
-            "Address": "AccountId",
-            "AmmPool": {
-              "_enum": {
-                "Curve": "PoolId",
-                "Yield": "PoolId"
-              }
-            },
-            "Asset": {
-              "0": "AssetIdInnerType"
-            },
-            "AssetData": {
-              "id": "Asset",
-              "lot": "FixedU128",
-              "price_step": "FixedU128",
-              "maker_fee": "FixedU128",
-              "taker_fee": "FixedU128",
-              "multi_asset": "Option<MultiAsset>",
-              "multi_location": "Option<MultiLocation>",
-              "debt_weight": "DebtWeightType",
-              "buyout_priority": "u64",
-              "asset_type": "AssetType",
-              "is_dex_enabled": "bool",
-              "collateral_enabled": "bool"
-            },
-            "AssetId": "Asset",
-            "AssetIdInnerType": "u64",
-            "AssetMetrics": {
-              "period_start": "Duration",
-              "period_end": "Duration",
-              "returns": "Vec<FixedNumber>",
-              "volatility": "FixedNumber",
-              "correlations": "Vec<(Asset, FixedNumber)>"
-            },
-            "AssetName": "Vec<u8>",
-            "AssetType": {
-              "_enum": {
-                "Native": null,
-                "Physical": null,
-                "Synthetic": null,
-                "Lp": "AmmPool"
-              }
-            },
-            "Balance": "u64",
-            "BalanceOf": "Balance",
-            "BalancesAggregate": {
-              "total_issuance": "Balance",
-              "total_debt": "Balance"
-            },
-            "BestPrice": {
-              "ask": "Option<FixedI64>",
-              "bid": "Option<FixedI64>"
-            },
-            "BinaryId": "u64",
-            "BinaryInfo": {
-              "start_time": "u64",
-              "end_time": "u64",
-              "proper": "Asset",
-              "minimal_amount": "Balance",
-              "target": "(Asset, BinaryMode)",
-              "total": "(Balance, Balance)",
-              "claimed": "Balance"
-            },
-            "BinaryMode": {
-              "_enum": {
-                "CallPut": "FixedI64",
-                "InOut": "(FixedI64, FixedI64)"
-              }
-            },
-            "BlockNumber": "u64",
-            "CapVec": {
-              "head_index": "u32",
-              "len_cap": "u32",
-              "items": "Vec<FixedNumber>"
-            },
-            "ChainAddressType": {
-              "_enum": [
-                "Ethereum",
-                "Substrate",
-                "SubstrateWithPrefix"
-              ]
-            },
-            "ChainId": "u8",
-            "Currency": {
-              "_enum": [
-                "UNKNOWN",
-                "Eqd",
-                "Eq",
-                "Eth",
-                "Btc",
-                "Eos",
-                "Dot",
-                "Crv"
-              ]
-            },
-            "ChunkKey": "u64",
-            "DataPoint": {
-              "price": "u64",
-              "account_id": "AccountId",
-              "block_number": "BlockNumber",
-              "timestamp": "u64"
-            },
-            "DebtWeightType": "i128",
-            "DebtWeightTypeInner": "i128",
-            "DepositNonce": "u64",
-            "DispatchErrorModule": "DispatchErrorModuleU8",
-            "Duration": {
-              "secs": "u64",
-              "nanos": "u32"
-            },
-            "EpochCounter": "u64",
-            "EpochInfo": {
-              "counter": "EpochCounter",
-              "started_at": "Timestamp",
-              "duration": "Timestamp",
-              "new_duration": "Option<Timestamp>"
-            },
-            "FinancialMetrics": {
-              "period_start": "Duration",
-              "period_end": "Duration",
-              "assets": "Vec<Asset>",
-              "mean_returns": "Vec<FixedNumber>",
-              "volatilities": "Vec<FixedNumber>",
-              "correlations": "Vec<FixedNumber>",
-              "covariances": "Vec<FixedNumber>"
-            },
-            "FinancialRecalcPeriodMs": "u64",
-            "FixedI64": "i64",
-            "FixedNumber": "u128",
-            "FixedU128": "u128",
-            "Keys": "SessionKeys3",
-            "LenderInfo": {
-              "deposit": "Balance",
-              "pending_withdrawals": "PendingWithdrawal"
-            },
-            "LookupSource": "AccountId",
-            "MarginState": {
-              "_enum": {
-                "Good": null,
-                "SubGood": null,
-                "MaintenanceStart": "u64",
-                "MaintenanceIsGoing": "u64",
-                "MaintenanceTimeOver": "u64",
-                "MaintenanceEnd": null,
-                "SubCritical": null
-              }
-            },
-            "MaxCountOfAssetsRecalcPerBlock": "i32",
-            "MmId": "u16",
-            "MmInfo": {
-              "weight": "Perbill",
-              "borrowed": "Balance"
-            },
-            "MmPoolInfo": {
-              "account_id": "AccountId",
-              "min_amount": "Balance",
-              "total_staked": "Balance",
-              "total_deposit": "Balance",
-              "total_borrowed": "Balance",
-              "total_pending_withdrawals": "PendingWithdrawal"
-            },
-            "Number": "FixedU128",
-            "OperationRequestLiqFm": {
-              "authority_index": "AuthIndex",
-              "validators_len": "u32",
-              "block_num": "BlockNumber"
-            },
-            "OperationRequest": {
-              "account": "AccountId",
-              "authority_index": "AuthIndex",
-              "validators_len": "u32",
-              "block_num": "BlockNumber",
-              "higher_priority": "bool"
-            },
-            "OperationRequestDexDeleteOrder": {
-              "asset": "Asset",
-              "order_id": "OrderId",
-              "price": "FixedI64",
-              "who": "AccountId",
-              "buyout": "Option<Balance>",
-              "authority_index": "AuthIndex",
-              "validators_len": "u32",
-              "block_num": "BlockNumber"
-            },
-            "Order": {
-              "order_id": "OrderId",
-              "account_id": "AccountId",
-              "side": "OrderSide",
-              "price": "FixedI64",
-              "amount": "FixedU128",
-              "created_at": "u64",
-              "expiration_time": "u64"
-            },
-            "OrderType": {
-              "_enum": {
-                "Limit": {
-                  "price": "FixedI64",
-                  "expiration_time": "u64"
-                },
-                "Market": null
-              }
-            },
-            "OrderId": "u64",
-            "OrderSide": {
-              "_enum": [
-                "Buy",
-                "Sell"
-              ]
-            },
-            "PendingWithdrawal": {
-              "last_epoch": "EpochCounter",
-              "available": "Balance",
-              "available_next_epoch": "Balance",
-              "requested": "Balance"
-            },
-            "PoolId": "u32",
-            "PoolInfo": {
-              "owner": "AccountId",
-              "pool_asset": "AssetId",
-              "assets": "Vec<AssetId>",
-              "amplification": "Number",
-              "fee": "Permill",
-              "admin_fee": "Permill",
-              "balances": "Vec<Balance>",
-              "total_balances": "Vec<Balance>"
-            },
-            "PoolTokenIndex": "u32",
-            "PortfolioMetrics": {
-              "period_start": "Duration",
-              "period_end": "Duration",
-              "z_score": "u32",
-              "volatility": "FixedNumber",
-              "value_at_risk": "FixedNumber"
-            },
-            "Price": "u128",
-            "PriceLog": {
-              "latest_timestamp": "Duration",
-              "prices": "CapVec<Price>"
-            },
-            "PricePayload": {
-              "public": "[u8; 33]",
-              "asset": "Asset",
-              "price": "FixedI64",
-              "block_number": "BlockNumber"
-            },
-            "PricePeriod": {
-              "_enum": [
-                "Min",
-                "TenMin",
-                "Hour",
-                "FourHour",
-                "Day"
-              ]
-            },
-            "PricePoint": {
-              "block_number": "BlockNumber",
-              "timestamp": "u64",
-              "last_fin_recalc_timestamp": "Timestamp",
-              "price": "u64",
-              "data_points": "Vec<DataPoint>"
-            },
-            "PriceUpdate": {
-              "period_start": "Duration",
-              "time": "Duration",
-              "price": "FixedNumber"
-            },
-            "ProposalStatus": {
-              "_enum": [
-                "Initiated",
-                "Approved",
-                "Rejected"
-              ]
-            },
-            "ProposalVotes": {
-              "votes_for": "Vec<AccountId>",
-              "votes_against": "Vec<AccountId>",
-              "status": "ProposalStatus",
-              "expiry": "BlockNumber"
-            },
-            "ResourceId": "[u8; 32]",
-            "Round": {
-              "total_cap": "Balance",
-              "individual_cap": "Balance",
-              "end": "u64",
-              "token": "Asset",
-              "minimal_buy_amount": "Balance",
-              "vesting_params": "VestingParams"
-            },
-            "Signature": "u32",
-            "SignedBalance": {
-              "_enum": {
-                "Positive": "Balance",
-                "Negative": "Balance"
-              }
-            },
-            "SubAccType": {
-              "_enum": [
-                "Bailsman",
-                "Borrower",
-                "Lender"
-              ]
-            },
-            "Timestamp": "u64",
-            "TotalAggregates": {
-              "collateral": "Balance",
-              "debt": "Balance"
-            },
-            "TransferReason": {
-              "_enum": [
-                "Common",
-                "InterestFee",
-                "MarginCall",
-                "LiquidityFarming",
-                "BailsmenRedistribution",
-                "TreasuryEqBuyout",
-                "TreasuryBuyEq",
-                "Subaccount",
-                "Lock",
-                "Unlock",
-                "Claim",
-                "CurveFeeWithdraw",
-                "Reserve",
-                "Unreserve"
-              ]
-            },
-            "UserGroup": {
-              "_enum": [
-                "UNKNOWN",
-                "Balances",
-                "Bailsmen",
-                "Borrowers",
-                "Lenders"
-              ]
-            },
-            "UnsignedPriorityPair": "(u64, u64)",
-            "VestingInfo": {
-              "locked": "Balance",
-              "perBlock": "Balance",
-              "startingBlock": "BlockNumber"
-            },
-            "VestingParams": {
-              "blocks_until_beginning": "u64",
-              "amount_of_blocks": "u64"
-            },
-            "XdotNumber": "u128",
-            "XdotPoolInfo": {
-              "pool_asset": "AssetId",
-              "lp_total_supply": "Balance",
-              "account": "AccountId",
-              "base_asset": "AssetId",
-              "xbase_asset": "AssetId",
-              "g1": "XdotNumber",
-              "g2": "XdotNumber",
-              "maturity": "u64",
-              "ts": "XdotNumber"
-            },
-            "LockPeriod": {
-              "_enum": [
-                "None",
-                "ThreeMonth",
-                "SixMonth",
-                "Year"
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "Genshiro Rococo Testnet": {
-      "instances": {
-        "balances": [
-          "Eq",
-          "Eth",
-          "Btc",
-          "Eos",
-          "Dot",
-          "Crv",
-          "Usd"
-        ]
-      },
-      "types": [
-        {
-          "minmax": [
-            0,
-            null
-          ],
-          "types": {
-            "AccountInfo": {
-              "nonce": "Index",
-              "consumers": "RefCount",
-              "providers": "RefCount"
-            },
-            "Address": "AccountId",
-            "AmmPool": {
-              "_enum": {
-                "Curve": "PoolId",
-                "Yield": "PoolId"
-              }
-            },
-            "Asset": {
-              "0": "AssetIdInnerType"
-            },
-            "AssetData": {
-              "id": "Asset",
-              "lot": "FixedU128",
-              "price_step": "FixedU128",
-              "maker_fee": "FixedU128",
-              "taker_fee": "FixedU128",
-              "multi_asset": "Option<MultiAsset>",
-              "multi_location": "Option<MultiLocation>",
-              "debt_weight": "DebtWeightType",
-              "buyout_priority": "u64",
-              "asset_type": "AssetType",
-              "is_dex_enabled": "bool",
-              "collateral_enabled": "bool"
-            },
-            "AssetId": "Asset",
-            "AssetIdInnerType": "u64",
-            "AssetMetrics": {
-              "period_start": "Duration",
-              "period_end": "Duration",
-              "returns": "Vec<FixedNumber>",
-              "volatility": "FixedNumber",
-              "correlations": "Vec<(Asset, FixedNumber)>"
-            },
-            "AssetName": "Vec<u8>",
-            "AssetType": {
-              "_enum": {
-                "Native": null,
-                "Physical": null,
-                "Synthetic": null,
-                "Lp": "AmmPool"
-              }
-            },
-            "Balance": "u64",
-            "BalanceOf": "Balance",
-            "BalancesAggregate": {
-              "total_issuance": "Balance",
-              "total_debt": "Balance"
-            },
-            "BestPrice": {
-              "ask": "Option<FixedI64>",
-              "bid": "Option<FixedI64>"
-            },
-            "BinaryId": "u64",
-            "BinaryInfo": {
-              "start_time": "u64",
-              "end_time": "u64",
-              "proper": "Asset",
-              "minimal_amount": "Balance",
-              "target": "(Asset, BinaryMode)",
-              "total": "(Balance, Balance)",
-              "claimed": "Balance"
-            },
-            "BinaryMode": {
-              "_enum": {
-                "CallPut": "FixedI64",
-                "InOut": "(FixedI64, FixedI64)"
-              }
-            },
-            "BlockNumber": "u64",
-            "CapVec": {
-              "head_index": "u32",
-              "len_cap": "u32",
-              "items": "Vec<FixedNumber>"
-            },
-            "ChainAddressType": {
-              "_enum": [
-                "Ethereum",
-                "Substrate",
-                "SubstrateWithPrefix"
-              ]
-            },
-            "ChainId": "u8",
-            "Currency": {
-              "_enum": [
-                "UNKNOWN",
-                "Eqd",
-                "Eq",
-                "Eth",
-                "Btc",
-                "Eos",
-                "Dot",
-                "Crv"
-              ]
-            },
-            "ChunkKey": "u64",
-            "DataPoint": {
-              "price": "u64",
-              "account_id": "AccountId",
-              "block_number": "BlockNumber",
-              "timestamp": "u64"
-            },
-            "DebtWeightType": "i128",
-            "DebtWeightTypeInner": "i128",
-            "DepositNonce": "u64",
-            "DispatchErrorModule": "DispatchErrorModuleU8",
-            "Duration": {
-              "secs": "u64",
-              "nanos": "u32"
-            },
-            "EpochCounter": "u64",
-            "EpochInfo": {
-              "counter": "EpochCounter",
-              "started_at": "Timestamp",
-              "duration": "Timestamp",
-              "new_duration": "Option<Timestamp>"
-            },
-            "FinancialMetrics": {
-              "period_start": "Duration",
-              "period_end": "Duration",
-              "assets": "Vec<Asset>",
-              "mean_returns": "Vec<FixedNumber>",
-              "volatilities": "Vec<FixedNumber>",
-              "correlations": "Vec<FixedNumber>",
-              "covariances": "Vec<FixedNumber>"
-            },
-            "FinancialRecalcPeriodMs": "u64",
-            "FixedI64": "i64",
-            "FixedNumber": "u128",
-            "FixedU128": "u128",
-            "Keys": "SessionKeys3",
-            "LenderInfo": {
-              "deposit": "Balance",
-              "pending_withdrawals": "PendingWithdrawal"
-            },
-            "LookupSource": "AccountId",
-            "MarginState": {
-              "_enum": {
-                "Good": null,
-                "SubGood": null,
-                "MaintenanceStart": "u64",
-                "MaintenanceIsGoing": "u64",
-                "MaintenanceTimeOver": "u64",
-                "MaintenanceEnd": null,
-                "SubCritical": null
-              }
-            },
-            "MaxCountOfAssetsRecalcPerBlock": "i32",
-            "MmId": "u16",
-            "MmInfo": {
-              "weight": "Perbill",
-              "borrowed": "Balance"
-            },
-            "MmPoolInfo": {
-              "account_id": "AccountId",
-              "min_amount": "Balance",
-              "total_staked": "Balance",
-              "total_deposit": "Balance",
-              "total_borrowed": "Balance",
-              "total_pending_withdrawals": "PendingWithdrawal"
-            },
-            "Number": "FixedU128",
-            "OperationRequestLiqFm": {
-              "authority_index": "AuthIndex",
-              "validators_len": "u32",
-              "block_num": "BlockNumber"
-            },
-            "OperationRequest": {
-              "account": "AccountId",
-              "authority_index": "AuthIndex",
-              "validators_len": "u32",
-              "block_num": "BlockNumber",
-              "higher_priority": "bool"
-            },
-            "OperationRequestDexDeleteOrder": {
-              "asset": "Asset",
-              "order_id": "OrderId",
-              "price": "FixedI64",
-              "who": "AccountId",
-              "buyout": "Option<Balance>",
-              "authority_index": "AuthIndex",
-              "validators_len": "u32",
-              "block_num": "BlockNumber"
-            },
-            "Order": {
-              "order_id": "OrderId",
-              "account_id": "AccountId",
-              "side": "OrderSide",
-              "price": "FixedI64",
-              "amount": "FixedU128",
-              "created_at": "u64",
-              "expiration_time": "u64"
-            },
-            "OrderType": {
-              "_enum": {
-                "Limit": {
-                  "price": "FixedI64",
-                  "expiration_time": "u64"
-                },
-                "Market": null
-              }
-            },
-            "OrderId": "u64",
-            "OrderSide": {
-              "_enum": [
-                "Buy",
-                "Sell"
-              ]
-            },
-            "PendingWithdrawal": {
-              "last_epoch": "EpochCounter",
-              "available": "Balance",
-              "available_next_epoch": "Balance",
-              "requested": "Balance"
-            },
-            "PoolId": "u32",
-            "PoolInfo": {
-              "owner": "AccountId",
-              "pool_asset": "AssetId",
-              "assets": "Vec<AssetId>",
-              "amplification": "Number",
-              "fee": "Permill",
-              "admin_fee": "Permill",
-              "balances": "Vec<Balance>",
-              "total_balances": "Vec<Balance>"
-            },
-            "PoolTokenIndex": "u32",
-            "PortfolioMetrics": {
-              "period_start": "Duration",
-              "period_end": "Duration",
-              "z_score": "u32",
-              "volatility": "FixedNumber",
-              "value_at_risk": "FixedNumber"
-            },
-            "Price": "u128",
-            "PriceLog": {
-              "latest_timestamp": "Duration",
-              "prices": "CapVec<Price>"
-            },
-            "PricePayload": {
-              "public": "[u8; 33]",
-              "asset": "Asset",
-              "price": "FixedI64",
-              "block_number": "BlockNumber"
-            },
-            "PricePeriod": {
-              "_enum": [
-                "Min",
-                "TenMin",
-                "Hour",
-                "FourHour",
-                "Day"
-              ]
-            },
-            "PricePoint": {
-              "block_number": "BlockNumber",
-              "timestamp": "u64",
-              "last_fin_recalc_timestamp": "Timestamp",
-              "price": "u64",
-              "data_points": "Vec<DataPoint>"
-            },
-            "PriceUpdate": {
-              "period_start": "Duration",
-              "time": "Duration",
-              "price": "FixedNumber"
-            },
-            "ProposalStatus": {
-              "_enum": [
-                "Initiated",
-                "Approved",
-                "Rejected"
-              ]
-            },
-            "ProposalVotes": {
-              "votes_for": "Vec<AccountId>",
-              "votes_against": "Vec<AccountId>",
-              "status": "ProposalStatus",
-              "expiry": "BlockNumber"
-            },
-            "ResourceId": "[u8; 32]",
-            "Round": {
-              "total_cap": "Balance",
-              "individual_cap": "Balance",
-              "end": "u64",
-              "token": "Asset",
-              "minimal_buy_amount": "Balance",
-              "vesting_params": "VestingParams"
-            },
-            "Signature": "u32",
-            "SignedBalance": {
-              "_enum": {
-                "Positive": "Balance",
-                "Negative": "Balance"
-              }
-            },
-            "SubAccType": {
-              "_enum": [
-                "Bailsman",
-                "Borrower",
-                "Lender"
-              ]
-            },
-            "Timestamp": "u64",
-            "TotalAggregates": {
-              "collateral": "Balance",
-              "debt": "Balance"
-            },
-            "TransferReason": {
-              "_enum": [
-                "Common",
-                "InterestFee",
-                "MarginCall",
-                "LiquidityFarming",
-                "BailsmenRedistribution",
-                "TreasuryEqBuyout",
-                "TreasuryBuyEq",
-                "Subaccount",
-                "Lock",
-                "Unlock",
-                "Claim",
-                "CurveFeeWithdraw",
-                "Reserve",
-                "Unreserve"
-              ]
-            },
-            "UserGroup": {
-              "_enum": [
-                "UNKNOWN",
-                "Balances",
-                "Bailsmen",
-                "Borrowers",
-                "Lenders"
-              ]
-            },
-            "UnsignedPriorityPair": "(u64, u64)",
-            "VestingInfo": {
-              "locked": "Balance",
-              "perBlock": "Balance",
-              "startingBlock": "BlockNumber"
-            },
-            "VestingParams": {
-              "blocks_until_beginning": "u64",
-              "amount_of_blocks": "u64"
-            },
-            "XdotNumber": "u128",
-            "XdotPoolInfo": {
-              "pool_asset": "AssetId",
-              "lp_total_supply": "Balance",
-              "account": "AccountId",
-              "base_asset": "AssetId",
-              "xbase_asset": "AssetId",
-              "g1": "XdotNumber",
-              "g2": "XdotNumber",
-              "maturity": "u64",
-              "ts": "XdotNumber"
-            },
-            "LockPeriod": {
-              "_enum": [
-                "None",
-                "ThreeMonth",
-                "SixMonth",
-                "Year"
-              ]
-            }
-          }
-        }
-      ]
+      }
     },
     "Pangolin": {
       "alias": {},
@@ -27582,28 +26215,6 @@ export const typesBundle = {
             "section": "oracle"
           }
         },
-        "tokens": {
-          "queryExistentialDeposit": {
-            "description": "Query Existential Deposit for a given currency.",
-            "params": [
-              {
-                "name": "currencyId",
-                "type": "CurrencyId"
-              },
-              {
-                "name": "at",
-                "type": "BlockHash",
-                "isHistoric": true,
-                "isOptional": true
-              }
-            ],
-            "type": "NumberOrHex",
-            "isSubscription": false,
-            "jsonrpc": "tokens_queryExistentialDeposit",
-            "method": "queryExistentialDeposit",
-            "section": "tokens"
-          }
-        },
         "dex": {
           "getSupplyAmount": {
             "description": "Get supply amount",
@@ -27765,8 +26376,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -27939,6 +26550,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -27973,14 +26588,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -27991,22 +26606,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -28022,19 +26637,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -28246,8 +26861,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -28420,6 +27035,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -28454,14 +27073,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -28472,22 +27091,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -28503,19 +27122,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -28727,8 +27346,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -28909,6 +27528,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -28943,14 +27566,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -28961,22 +27584,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -28992,19 +27615,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -29216,8 +27839,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -29399,6 +28022,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -29433,14 +28060,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -29451,22 +28078,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -29482,19 +28109,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -29707,8 +28334,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -29886,6 +28513,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -29920,14 +28551,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -29938,22 +28569,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -29969,19 +28600,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -30194,8 +28825,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -30373,6 +29004,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -30407,14 +29042,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -30425,22 +29060,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -30456,19 +29091,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -30681,8 +29316,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -30865,6 +29500,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -30899,14 +29538,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -30917,22 +29556,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -30948,19 +29587,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -31173,8 +29812,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -31356,6 +29995,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -31390,14 +30033,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -31408,22 +30051,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -31439,19 +30082,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -31661,8 +30304,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -31844,6 +30487,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -31878,14 +30525,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -31896,22 +30543,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -31927,19 +30574,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -32149,8 +30796,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -32332,6 +30979,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -32366,14 +31017,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -32384,22 +31035,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -32415,19 +31066,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -32665,28 +31316,6 @@ export const typesBundle = {
             "section": "oracle"
           }
         },
-        "tokens": {
-          "queryExistentialDeposit": {
-            "description": "Query Existential Deposit for a given currency.",
-            "params": [
-              {
-                "name": "currencyId",
-                "type": "CurrencyId"
-              },
-              {
-                "name": "at",
-                "type": "BlockHash",
-                "isHistoric": true,
-                "isOptional": true
-              }
-            ],
-            "type": "NumberOrHex",
-            "isSubscription": false,
-            "jsonrpc": "tokens_queryExistentialDeposit",
-            "method": "queryExistentialDeposit",
-            "section": "tokens"
-          }
-        },
         "dex": {
           "getSupplyAmount": {
             "description": "Get supply amount",
@@ -32848,8 +31477,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -33022,6 +31651,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -33056,14 +31689,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -33074,22 +31707,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -33105,19 +31738,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -33329,8 +31962,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -33503,6 +32136,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -33537,14 +32174,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -33555,22 +32192,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -33586,19 +32223,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -33810,8 +32447,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -33992,6 +32629,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -34026,14 +32667,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -34044,22 +32685,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -34075,19 +32716,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -34299,8 +32940,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -34482,6 +33123,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -34516,14 +33161,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -34534,22 +33179,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -34565,19 +33210,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -34790,8 +33435,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -34969,6 +33614,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -35003,14 +33652,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -35021,22 +33670,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -35052,19 +33701,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -35277,8 +33926,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -35456,6 +34105,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -35490,14 +34143,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -35508,22 +34161,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -35539,19 +34192,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -35764,8 +34417,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -35948,6 +34601,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -35982,14 +34639,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -36000,22 +34657,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -36031,19 +34688,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -36256,8 +34913,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -36439,6 +35096,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -36473,14 +35134,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -36491,22 +35152,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -36522,19 +35183,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -36744,8 +35405,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -36927,6 +35588,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -36961,14 +35626,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -36979,22 +35644,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -37010,19 +35675,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -37232,8 +35897,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -37415,6 +36080,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -37449,14 +36118,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -37467,22 +36136,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -37498,19 +36167,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -37748,28 +36417,6 @@ export const typesBundle = {
             "section": "oracle"
           }
         },
-        "tokens": {
-          "queryExistentialDeposit": {
-            "description": "Query Existential Deposit for a given currency.",
-            "params": [
-              {
-                "name": "currencyId",
-                "type": "CurrencyId"
-              },
-              {
-                "name": "at",
-                "type": "BlockHash",
-                "isHistoric": true,
-                "isOptional": true
-              }
-            ],
-            "type": "NumberOrHex",
-            "isSubscription": false,
-            "jsonrpc": "tokens_queryExistentialDeposit",
-            "method": "queryExistentialDeposit",
-            "section": "tokens"
-          }
-        },
         "dex": {
           "getSupplyAmount": {
             "description": "Get supply amount",
@@ -37931,8 +36578,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -38105,6 +36752,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -38139,14 +36790,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -38157,22 +36808,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -38188,19 +36839,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -38412,8 +37063,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -38586,6 +37237,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -38620,14 +37275,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -38638,22 +37293,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -38669,19 +37324,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -38893,8 +37548,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -39075,6 +37730,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -39109,14 +37768,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -39127,22 +37786,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -39158,19 +37817,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -39382,8 +38041,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -39565,6 +38224,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -39599,14 +38262,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -39617,22 +38280,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -39648,19 +38311,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -39873,8 +38536,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -40052,6 +38715,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -40086,14 +38753,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -40104,22 +38771,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -40135,19 +38802,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -40360,8 +39027,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -40539,6 +39206,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -40573,14 +39244,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -40591,22 +39262,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -40622,19 +39293,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -40847,8 +39518,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -41031,6 +39702,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -41065,14 +39740,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -41083,22 +39758,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -41114,19 +39789,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -41339,8 +40014,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -41522,6 +40197,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -41556,14 +40235,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -41574,22 +40253,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -41605,19 +40284,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -41827,8 +40506,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -42010,6 +40689,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -42044,14 +40727,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -42062,22 +40745,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -42093,19 +40776,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -42315,8 +40998,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "reserved": "Balance",
-              "frozen": "Balance"
+              "frozen": "Balance",
+              "reserved": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -42498,6 +41181,10 @@ export const typesBundle = {
                 "Enabled": "Null"
               }
             },
+            "BlockLimits": {
+              "maxGasLimit": "u64",
+              "maxStorageLimit": "u32"
+            },
             "Erc20Info": {
               "address": "EvmAddress",
               "name": "Vec<u8>",
@@ -42532,14 +41219,14 @@ export const typesBundle = {
               "data": "Option<Bytes>"
             },
             "CallInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "Vec<u8>",
               "used_gas": "U256",
               "used_storage": "i32",
               "logs": "Vec<EthereumLog>"
             },
             "CreateInfo": {
-              "exit_reason": "EvmCoreErrorExitReason",
+              "exit_reason": "ExitReason",
               "value": "H160",
               "used_gas": "U256",
               "used_storage": "i32",
@@ -42550,22 +41237,22 @@ export const typesBundle = {
               "topics": "Vec<H256>",
               "data": "Bytes"
             },
-            "EvmCoreErrorExitReason": {
+            "ExitReason": {
               "_enum": {
-                "Succeed": "EvmCoreErrorExitSucceed",
-                "Error": "EvmCoreErrorExitError",
-                "Revert": "EvmCoreErrorExitRevert",
-                "Fatal": "EvmCoreErrorExitFatal"
+                "Succeed": "ExitSucceed",
+                "Error": "ExitError",
+                "Revert": "ExitRevert",
+                "Fatal": "ExitFatal"
               }
             },
-            "EvmCoreErrorExitSucceed": {
+            "ExitSucceed": {
               "_enum": [
                 "Stopped",
                 "Returned",
                 "Suicided"
               ]
             },
-            "EvmCoreErrorExitError": {
+            "ExitError": {
               "_enum": {
                 "StackUnderflow": "Null",
                 "StackOverflow": "Null",
@@ -42581,19 +41268,19 @@ export const typesBundle = {
                 "PCUnderflow": "Null",
                 "CreateEmpty": "Null",
                 "Other": "Text",
-                "InvalidCode": "Null"
+                "InvalidCode": "u8"
               }
             },
-            "EvmCoreErrorExitRevert": {
+            "ExitRevert": {
               "_enum": [
                 "Reverted"
               ]
             },
-            "EvmCoreErrorExitFatal": {
+            "ExitFatal": {
               "_enum": {
                 "NotSupported": "Null",
                 "UnhandledInterrupt": "Null",
-                "CallErrorAsFatal": "EvmCoreErrorExitError",
+                "CallErrorAsFatal": "ExitError",
                 "Other": "Text"
               }
             },
@@ -44346,10 +43033,6 @@ export const typesBundle = {
             "ShareWeight": "Balance",
             "Currency": "CurrencyIdOf",
             "Amount": "AmountOf",
-            "NodePrimitivesCurrencyCurrencyId": "CurrencyId",
-            "OrmlTokensBalanceLock": "BalanceLock",
-            "OrmlTokensAccountData": "OrmlAccountData",
-            "OrmlTokensReserveData": "(Currency, u8, Amount, u128)",
             "TransferOriginType": {
               "_enum": {
                 "FromSelf": 0,
@@ -44925,10 +43608,6 @@ export const typesBundle = {
             "ShareWeight": "Balance",
             "Currency": "CurrencyIdOf",
             "Amount": "AmountOf",
-            "NodePrimitivesCurrencyCurrencyId": "CurrencyId",
-            "OrmlTokensBalanceLock": "BalanceLock",
-            "OrmlTokensAccountData": "OrmlAccountData",
-            "OrmlTokensReserveData": "(Currency, u8, Amount, u128)",
             "TransferOriginType": {
               "_enum": {
                 "FromSelf": 0,
@@ -46705,10 +45384,6 @@ export const typesBundle = {
             "ShareWeight": "Balance",
             "Currency": "CurrencyIdOf",
             "Amount": "AmountOf",
-            "NodePrimitivesCurrencyCurrencyId": "CurrencyId",
-            "OrmlTokensBalanceLock": "BalanceLock",
-            "OrmlTokensAccountData": "OrmlAccountData",
-            "OrmlTokensReserveData": "(Currency, u8, Amount, u128)",
             "TransferOriginType": {
               "_enum": {
                 "FromSelf": 0,
@@ -47283,10 +45958,6 @@ export const typesBundle = {
             "ShareWeight": "Balance",
             "Currency": "CurrencyIdOf",
             "Amount": "AmountOf",
-            "NodePrimitivesCurrencyCurrencyId": "CurrencyId",
-            "OrmlTokensBalanceLock": "BalanceLock",
-            "OrmlTokensAccountData": "OrmlAccountData",
-            "OrmlTokensReserveData": "(Currency, u8, Amount, u128)",
             "TransferOriginType": {
               "_enum": {
                 "FromSelf": 0,
@@ -48254,10 +46925,6 @@ export const typesBundle = {
             "ShareWeight": "Balance",
             "Currency": "CurrencyIdOf",
             "Amount": "AmountOf",
-            "NodePrimitivesCurrencyCurrencyId": "CurrencyId",
-            "OrmlTokensBalanceLock": "BalanceLock",
-            "OrmlTokensAccountData": "OrmlAccountData",
-            "OrmlTokensReserveData": "(Currency, u8, Amount, u128)",
             "TransferOriginType": {
               "_enum": {
                 "FromSelf": 0,
@@ -48832,10 +47499,6 @@ export const typesBundle = {
             "ShareWeight": "Balance",
             "Currency": "CurrencyIdOf",
             "Amount": "AmountOf",
-            "NodePrimitivesCurrencyCurrencyId": "CurrencyId",
-            "OrmlTokensBalanceLock": "BalanceLock",
-            "OrmlTokensAccountData": "OrmlAccountData",
-            "OrmlTokensReserveData": "(Currency, u8, Amount, u128)",
             "TransferOriginType": {
               "_enum": {
                 "FromSelf": 0,
@@ -52268,15 +50931,75 @@ export const typesBundle = {
           }
         },
         "core_mods": {
+          "psPublicKeyWithParams": {
+            "description": "Return PS public key with params",
+            "params": [
+              {
+                "name": "id",
+                "type": "(Did, IncId)"
+              }
+            ],
+            "type": "Option<(PsPublicKey, Option<PsParameters>)>"
+          },
+          "psParamsByDid": {
+            "description": "Return all PS params by a DID",
+            "params": [
+              {
+                "name": "did",
+                "type": "Did"
+              }
+            ],
+            "type": "BTreeMap<IncId, PsParameters>"
+          },
+          "psPublicKeysByDid": {
+            "description": "Return all PS key with params by a DID",
+            "params": [
+              {
+                "name": "did",
+                "type": "Did"
+              }
+            ],
+            "type": "BTreeMap<IncId, (PsPublicKey, Option<PsParameters>)>"
+          },
+          "bbsPublicKeyWithParams": {
+            "description": "Return BBS public key with params",
+            "params": [
+              {
+                "name": "id",
+                "type": "(Did, IncId)"
+              }
+            ],
+            "type": "Option<(BbsPublicKey, Option<BbsParameters>)>"
+          },
+          "bbsParamsByDid": {
+            "description": "Return all BBS params by a DID",
+            "params": [
+              {
+                "name": "did",
+                "type": "Did"
+              }
+            ],
+            "type": "BTreeMap<IncId, BbsParameters>"
+          },
+          "bbsPublicKeysByDid": {
+            "description": "Return all BBS key with params by a DID",
+            "params": [
+              {
+                "name": "did",
+                "type": "Did"
+              }
+            ],
+            "type": "BTreeMap<IncId, (BbsPublicKey, Option<BbsParameters>)>"
+          },
           "bbsPlusPublicKeyWithParams": {
             "description": "Return BBS+ public key with params",
             "params": [
               {
                 "name": "id",
-                "type": "BBSPlusPublicKeyStorageKey"
+                "type": "(Did, IncId)"
               }
             ],
-            "type": "Option<BBSPlusPublicKeyWithParams>"
+            "type": "Option<(BbsPlusPublicKey, Option<BbsPlusParameters>)>"
           },
           "bbsPlusParamsByDid": {
             "description": "Return all BBS+ params by a DID",
@@ -52286,7 +51009,7 @@ export const typesBundle = {
                 "type": "Did"
               }
             ],
-            "type": "BTreeMap<IncId, BBSPlusParameters>"
+            "type": "BTreeMap<IncId, BbsPlusParameters>"
           },
           "bbsPlusPublicKeysByDid": {
             "description": "Return all BBS+ key with params by a DID",
@@ -52296,7 +51019,7 @@ export const typesBundle = {
                 "type": "Did"
               }
             ],
-            "type": "BTreeMap<IncId, BBSPlusPublicKeyWithParams>"
+            "type": "BTreeMap<IncId, (BbsPlusPublicKey, Option<BbsPlusParameters>)>"
           },
           "accumulatorPublicKeyWithParams": {
             "description": "Return Accumulator public key with params",
@@ -52715,15 +51438,75 @@ export const typesBundle = {
           }
         },
         "core_mods": {
+          "psPublicKeyWithParams": {
+            "description": "Return PS public key with params",
+            "params": [
+              {
+                "name": "id",
+                "type": "(Did, IncId)"
+              }
+            ],
+            "type": "Option<(PsPublicKey, Option<PsParameters>)>"
+          },
+          "psParamsByDid": {
+            "description": "Return all PS params by a DID",
+            "params": [
+              {
+                "name": "did",
+                "type": "Did"
+              }
+            ],
+            "type": "BTreeMap<IncId, PsParameters>"
+          },
+          "psPublicKeysByDid": {
+            "description": "Return all PS key with params by a DID",
+            "params": [
+              {
+                "name": "did",
+                "type": "Did"
+              }
+            ],
+            "type": "BTreeMap<IncId, (PsPublicKey, Option<PsParameters>)>"
+          },
+          "bbsPublicKeyWithParams": {
+            "description": "Return BBS public key with params",
+            "params": [
+              {
+                "name": "id",
+                "type": "(Did, IncId)"
+              }
+            ],
+            "type": "Option<(BbsPublicKey, Option<BbsParameters>)>"
+          },
+          "bbsParamsByDid": {
+            "description": "Return all BBS params by a DID",
+            "params": [
+              {
+                "name": "did",
+                "type": "Did"
+              }
+            ],
+            "type": "BTreeMap<IncId, BbsParameters>"
+          },
+          "bbsPublicKeysByDid": {
+            "description": "Return all BBS key with params by a DID",
+            "params": [
+              {
+                "name": "did",
+                "type": "Did"
+              }
+            ],
+            "type": "BTreeMap<IncId, (BbsPublicKey, Option<BbsParameters>)>"
+          },
           "bbsPlusPublicKeyWithParams": {
             "description": "Return BBS+ public key with params",
             "params": [
               {
                 "name": "id",
-                "type": "BBSPlusPublicKeyStorageKey"
+                "type": "(Did, IncId)"
               }
             ],
-            "type": "Option<BBSPlusPublicKeyWithParams>"
+            "type": "Option<(BbsPlusPublicKey, Option<BbsPlusParameters>)>"
           },
           "bbsPlusParamsByDid": {
             "description": "Return all BBS+ params by a DID",
@@ -52733,7 +51516,7 @@ export const typesBundle = {
                 "type": "Did"
               }
             ],
-            "type": "BTreeMap<IncId, BBSPlusParameters>"
+            "type": "BTreeMap<IncId, BbsPlusParameters>"
           },
           "bbsPlusPublicKeysByDid": {
             "description": "Return all BBS+ key with params by a DID",
@@ -52743,7 +51526,7 @@ export const typesBundle = {
                 "type": "Did"
               }
             ],
-            "type": "BTreeMap<IncId, BBSPlusPublicKeyWithParams>"
+            "type": "BTreeMap<IncId, (BbsPlusPublicKey, Option<BbsPlusParameters>)>"
           },
           "accumulatorPublicKeyWithParams": {
             "description": "Return Accumulator public key with params",
@@ -53996,6 +52779,955 @@ export const typesBundle = {
             "TokenData": {
               "deposit": "Compact<Balance>",
               "createBlock": "Compact<BlockNumberOf>"
+            }
+          }
+        }
+      ]
+    },
+    "ferrum-parachain": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "AccountId": "EthereumAccountId",
+            "AccountId20": "EthereumAccountId",
+            "Address": "AccountId",
+            "LookupSource": "AccountId",
+            "Lookup0": "AccountId",
+            "EthereumSignature": {
+              "r": "H256",
+              "s": "H256",
+              "v": "U8"
+            },
+            "ExtrinsicSignature": "EthereumSignature"
+          }
+        }
+      ]
+    },
+    "frequency": {
+      "rpc": {
+        "frequency": {
+          "getEvents": {
+            "description": "Get block Events",
+            "params": [
+              {
+                "name": "at",
+                "type": "H256"
+              }
+            ],
+            "type": "Vec<RpcEvent>"
+          }
+        },
+        "handles": {
+          "getHandleForMsa": {
+            "description": "Get handle for a given msa_id",
+            "params": [
+              {
+                "name": "msa_id",
+                "type": "MessageSourceId"
+              }
+            ],
+            "type": "Option<HandleResponse>"
+          },
+          "getMsaForHandle": {
+            "description": "Get msa_id for a given handle",
+            "params": [
+              {
+                "name": "display_handle",
+                "type": "String"
+              }
+            ],
+            "type": "Option<MessageSourceId>"
+          },
+          "getNextSuffixes": {
+            "description": "Get next suffixes for a given handle and count",
+            "params": [
+              {
+                "name": "base_handle",
+                "type": "String"
+              },
+              {
+                "name": "count",
+                "type": "u16"
+              }
+            ],
+            "type": "PresumptiveSuffixesResponse"
+          }
+        },
+        "messages": {
+          "getBySchemaId": {
+            "description": "Get messages by schemaId paginated",
+            "params": [
+              {
+                "name": "schema_id",
+                "type": "SchemaId"
+              },
+              {
+                "name": "pagination",
+                "type": "BlockPaginationRequest"
+              }
+            ],
+            "type": "BlockPaginationResponseMessage"
+          }
+        },
+        "msa": {
+          "checkDelegations": {
+            "description": "Test a list of MSAs to see if they have delegated to the provider MSA",
+            "params": [
+              {
+                "name": "delegator_msa_ids",
+                "type": "Vec<DelegatorId>"
+              },
+              {
+                "name": "provider_msa_id",
+                "type": "ProviderId"
+              },
+              {
+                "name": "block_number",
+                "type": "BlockNumber"
+              },
+              {
+                "name": "schema_id",
+                "type": "Option<SchemaId>"
+              }
+            ],
+            "type": "Vec<(DelegatorId, bool)>"
+          },
+          "grantedSchemaIdsByMsaId": {
+            "description": "Fetch the list of schema ids that a delegator has granted to provider",
+            "params": [
+              {
+                "name": "delegator_msa_id",
+                "type": "DelegatorId"
+              },
+              {
+                "name": "provider_msa_id",
+                "type": "ProviderId"
+              }
+            ],
+            "type": "Option<Vec<SchemaId>>"
+          }
+        },
+        "schemas": {
+          "getBySchemaId": {
+            "description": "Get a Schema by Id",
+            "params": [
+              {
+                "name": "schema_id",
+                "type": "SchemaId"
+              }
+            ],
+            "type": "Option<SchemaResponse>"
+          },
+          "checkSchemaValidity": {
+            "description": "",
+            "params": [
+              {
+                "name": "model",
+                "type": "SchemaModel"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isOptional": true
+              }
+            ],
+            "type": "bool"
+          }
+        },
+        "statefulStorage": {
+          "getPaginatedStorage": {
+            "description": "Gets pages of stateful storage",
+            "params": [
+              {
+                "name": "msa_id",
+                "type": "MessageSourceId"
+              },
+              {
+                "name": "schema_id",
+                "type": "SchemaId"
+              }
+            ],
+            "type": "Vec<PaginatedStorageResponse>"
+          },
+          "getItemizedStorage": {
+            "description": "Gets itemized of stateful storage",
+            "params": [
+              {
+                "name": "msa_id",
+                "type": "MessageSourceId"
+              },
+              {
+                "name": "schema_id",
+                "type": "SchemaId"
+              }
+            ],
+            "type": "ItemizedStoragePageResponse"
+          }
+        }
+      },
+      "runtime": {
+        "AdditionalRuntimeApi": [
+          {
+            "methods": {
+              "get_events": {
+                "description": "Get the events with simple SCALE decoding",
+                "params": [],
+                "type": "Vec<RpcEvent>"
+              }
+            },
+            "version": 1
+          }
+        ],
+        "HandlesRuntimeApi": [
+          {
+            "methods": {
+              "get_handle_for_msa": {
+                "description": "Get handle for a given msa_id",
+                "params": [
+                  {
+                    "name": "msa_id",
+                    "type": "MessageSourceId"
+                  }
+                ],
+                "type": "Option<HandleResponse>"
+              },
+              "get_msa_for_handle": {
+                "description": "Get msa_id for a given handle",
+                "params": [
+                  {
+                    "name": "display_handle",
+                    "type": "Vec<u8>"
+                  }
+                ],
+                "type": "Option<MessageSourceId>"
+              },
+              "get_next_suffixes": {
+                "description": "Get next suffixes for a given handle and count",
+                "params": [
+                  {
+                    "name": "base_handle",
+                    "type": "Vec<u8>"
+                  },
+                  {
+                    "name": "count",
+                    "type": "u16"
+                  }
+                ],
+                "type": "PresumptiveSuffixesResponse"
+              }
+            },
+            "version": 1
+          }
+        ],
+        "MessagesRuntimeApi": [
+          {
+            "methods": {
+              "get_messages_by_schema_and_block": {
+                "description": "Retrieve the messages for a particular schema and block number",
+                "params": [
+                  {
+                    "name": "schema_id",
+                    "type": "SchemaId"
+                  },
+                  {
+                    "name": "schema_payload_location",
+                    "type": "PayloadLocation"
+                  },
+                  {
+                    "name": "block_number",
+                    "type": "BlockNumber"
+                  }
+                ],
+                "type": "Vec<MessageResponse>"
+              },
+              "get_schema_by_id": {
+                "description": "Retrieve a schema by id",
+                "params": [
+                  {
+                    "name": "schema_id",
+                    "type": "SchemaId"
+                  }
+                ],
+                "type": "Option<SchemaResponse>"
+              }
+            },
+            "version": 1
+          }
+        ],
+        "MsaRuntimeApi": [
+          {
+            "methods": {
+              "has_delegation": {
+                "description": "Check to see if a delegation existed between the given delegator and provider at a given block",
+                "params": [
+                  {
+                    "name": "delegator_id",
+                    "type": "DelegatorId"
+                  },
+                  {
+                    "name": "provider_id",
+                    "type": "ProviderId"
+                  },
+                  {
+                    "name": "block_number",
+                    "type": "BlockNumber"
+                  },
+                  {
+                    "name": "schema_id",
+                    "type": "Option<SchemaId>"
+                  }
+                ],
+                "type": "bool"
+              },
+              "get_granted_schemas_by_msa_id": {
+                "description": "Get the list of schema ids (if any) that exist in any delegation between the delegator and provider",
+                "params": [
+                  {
+                    "name": "delegator_id",
+                    "type": "DelegatorId"
+                  },
+                  {
+                    "name": "provider_id",
+                    "type": "ProviderId"
+                  }
+                ],
+                "type": "Option<Vec<SchemaId>>"
+              }
+            },
+            "version": 1
+          }
+        ],
+        "SchemasRuntimeApi": [
+          {
+            "methods": {
+              "get_schema_by_id": {
+                "description": "Fetch the schema by id",
+                "params": [
+                  {
+                    "name": "schema_id",
+                    "type": "SchemaId"
+                  }
+                ],
+                "type": "Option<SchemaResponse>"
+              }
+            },
+            "version": 1
+          }
+        ],
+        "StatefulStorageRuntimeApi": [
+          {
+            "methods": {
+              "get_paginated_storage": {
+                "description": "Fetch the stateful paginated storage by msa_id and schema_id",
+                "params": [
+                  {
+                    "name": "msa_id",
+                    "type": "MessageSourceId"
+                  },
+                  {
+                    "name": "schema_id",
+                    "type": "SchemaId"
+                  }
+                ],
+                "type": "Result<Vec<PaginatedStorageResponse>, SpRuntimeDispatchError>"
+              },
+              "get_itemized_storage": {
+                "description": "Fetch the stateful itemized storage by msa_id and schema_id",
+                "params": [
+                  {
+                    "name": "msa_id",
+                    "type": "MessageSourceId"
+                  },
+                  {
+                    "name": "schema_id",
+                    "type": "SchemaId"
+                  }
+                ],
+                "type": "Result<ItemizedStoragePageResponse, SpRuntimeDispatchError>"
+              }
+            },
+            "version": 1
+          }
+        ]
+      },
+      "signedExtensions": {
+        "CheckFreeExtrinsicUse": {
+          "extrinsic": {},
+          "payload": {}
+        },
+        "HandlesSignedExtension": {
+          "extrinsic": {},
+          "payload": {}
+        }
+      },
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "RpcEvent": {
+              "phase": "Option<u32>",
+              "pallet": "u8",
+              "event": "u8",
+              "data": "Vec<u8>"
+            },
+            "HandleSuffix": "u16",
+            "HandleResponse": {
+              "base_handle": "String",
+              "canonical_base": "String",
+              "suffix": "u16"
+            },
+            "PresumptiveSuffixesResponse": {
+              "suffixes": "Vec<HandleSuffix>",
+              "base_handle": "String"
+            },
+            "BlockPaginationRequest": {
+              "from_block": "BlockNumber",
+              "from_index": "u32",
+              "to_block": "BlockNumber",
+              "page_size": "u32"
+            },
+            "MessageResponse": {
+              "payload": "Option<Vec<u8>>",
+              "cid": "Option<Vec<u8>>",
+              "provider_msa_id": "MessageSourceId",
+              "msa_id": "Option<MessageSourceId>",
+              "index": "u16",
+              "block_number": "BlockNumber",
+              "payload_length": "Option<u32>"
+            },
+            "BlockPaginationResponseMessage": {
+              "content": "Vec<MessageResponse>",
+              "has_next": "bool",
+              "next_block": "Option<BlockNumber>",
+              "next_index": "Option<u32>"
+            },
+            "MessageSourceId": "u64",
+            "DelegatorId": "MessageSourceId",
+            "ProviderId": "MessageSourceId",
+            "KeyInfoResponse": {
+              "key": "AccountId",
+              "msaId": "MessageSourceId"
+            },
+            "SchemaId": "u16",
+            "SchemaModel": "Vec<u8>",
+            "SchemaResponse": {
+              "schema_id": "SchemaId",
+              "model": "SchemaModel",
+              "model_type": "ModelType",
+              "payload_location": "PayloadLocation",
+              "settings": "Vec<SchemaSetting>"
+            },
+            "ModelType": {
+              "_enum": [
+                "AvroBinary",
+                "Parquet"
+              ]
+            },
+            "PayloadLocation": {
+              "_enum": [
+                "OnChain",
+                "IPFS",
+                "Itemized",
+                "Paginated"
+              ]
+            },
+            "SchemaSetting": {
+              "_enum": [
+                "AppendOnly",
+                "SignatureRequired"
+              ]
+            },
+            "PageId": "u16",
+            "PageHash": "u32",
+            "PageNonce": "u16",
+            "ItemizedStorageResponse": {
+              "index": "u16",
+              "payload": "Vec<u8>"
+            },
+            "PaginatedStorageResponse": {
+              "page_id": "PageId",
+              "msa_id": "MessageSourceId",
+              "schema_id": "SchemaId",
+              "content_hash": "PageHash",
+              "nonce": "PageNonce",
+              "payload": "Vec<u8>"
+            },
+            "ItemizedStoragePageResponse": {
+              "msa_id": "MessageSourceId",
+              "schema_id": "SchemaId",
+              "content_hash": "PageHash",
+              "nonce": "PageNonce",
+              "items": "Vec<ItemizedStorageResponse>"
+            }
+          }
+        }
+      ]
+    },
+    "frequency-rococo": {
+      "rpc": {
+        "frequency": {
+          "getEvents": {
+            "description": "Get block Events",
+            "params": [
+              {
+                "name": "at",
+                "type": "H256"
+              }
+            ],
+            "type": "Vec<RpcEvent>"
+          }
+        },
+        "handles": {
+          "getHandleForMsa": {
+            "description": "Get handle for a given msa_id",
+            "params": [
+              {
+                "name": "msa_id",
+                "type": "MessageSourceId"
+              }
+            ],
+            "type": "Option<HandleResponse>"
+          },
+          "getMsaForHandle": {
+            "description": "Get msa_id for a given handle",
+            "params": [
+              {
+                "name": "display_handle",
+                "type": "String"
+              }
+            ],
+            "type": "Option<MessageSourceId>"
+          },
+          "getNextSuffixes": {
+            "description": "Get next suffixes for a given handle and count",
+            "params": [
+              {
+                "name": "base_handle",
+                "type": "String"
+              },
+              {
+                "name": "count",
+                "type": "u16"
+              }
+            ],
+            "type": "PresumptiveSuffixesResponse"
+          }
+        },
+        "messages": {
+          "getBySchemaId": {
+            "description": "Get messages by schemaId paginated",
+            "params": [
+              {
+                "name": "schema_id",
+                "type": "SchemaId"
+              },
+              {
+                "name": "pagination",
+                "type": "BlockPaginationRequest"
+              }
+            ],
+            "type": "BlockPaginationResponseMessage"
+          }
+        },
+        "msa": {
+          "checkDelegations": {
+            "description": "Test a list of MSAs to see if they have delegated to the provider MSA",
+            "params": [
+              {
+                "name": "delegator_msa_ids",
+                "type": "Vec<DelegatorId>"
+              },
+              {
+                "name": "provider_msa_id",
+                "type": "ProviderId"
+              },
+              {
+                "name": "block_number",
+                "type": "BlockNumber"
+              },
+              {
+                "name": "schema_id",
+                "type": "Option<SchemaId>"
+              }
+            ],
+            "type": "Vec<(DelegatorId, bool)>"
+          },
+          "grantedSchemaIdsByMsaId": {
+            "description": "Fetch the list of schema ids that a delegator has granted to provider",
+            "params": [
+              {
+                "name": "delegator_msa_id",
+                "type": "DelegatorId"
+              },
+              {
+                "name": "provider_msa_id",
+                "type": "ProviderId"
+              }
+            ],
+            "type": "Option<Vec<SchemaId>>"
+          }
+        },
+        "schemas": {
+          "getBySchemaId": {
+            "description": "Get a Schema by Id",
+            "params": [
+              {
+                "name": "schema_id",
+                "type": "SchemaId"
+              }
+            ],
+            "type": "Option<SchemaResponse>"
+          },
+          "checkSchemaValidity": {
+            "description": "",
+            "params": [
+              {
+                "name": "model",
+                "type": "SchemaModel"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isOptional": true
+              }
+            ],
+            "type": "bool"
+          }
+        },
+        "statefulStorage": {
+          "getPaginatedStorage": {
+            "description": "Gets pages of stateful storage",
+            "params": [
+              {
+                "name": "msa_id",
+                "type": "MessageSourceId"
+              },
+              {
+                "name": "schema_id",
+                "type": "SchemaId"
+              }
+            ],
+            "type": "Vec<PaginatedStorageResponse>"
+          },
+          "getItemizedStorage": {
+            "description": "Gets itemized of stateful storage",
+            "params": [
+              {
+                "name": "msa_id",
+                "type": "MessageSourceId"
+              },
+              {
+                "name": "schema_id",
+                "type": "SchemaId"
+              }
+            ],
+            "type": "ItemizedStoragePageResponse"
+          }
+        }
+      },
+      "runtime": {
+        "AdditionalRuntimeApi": [
+          {
+            "methods": {
+              "get_events": {
+                "description": "Get the events with simple SCALE decoding",
+                "params": [],
+                "type": "Vec<RpcEvent>"
+              }
+            },
+            "version": 1
+          }
+        ],
+        "HandlesRuntimeApi": [
+          {
+            "methods": {
+              "get_handle_for_msa": {
+                "description": "Get handle for a given msa_id",
+                "params": [
+                  {
+                    "name": "msa_id",
+                    "type": "MessageSourceId"
+                  }
+                ],
+                "type": "Option<HandleResponse>"
+              },
+              "get_msa_for_handle": {
+                "description": "Get msa_id for a given handle",
+                "params": [
+                  {
+                    "name": "display_handle",
+                    "type": "Vec<u8>"
+                  }
+                ],
+                "type": "Option<MessageSourceId>"
+              },
+              "get_next_suffixes": {
+                "description": "Get next suffixes for a given handle and count",
+                "params": [
+                  {
+                    "name": "base_handle",
+                    "type": "Vec<u8>"
+                  },
+                  {
+                    "name": "count",
+                    "type": "u16"
+                  }
+                ],
+                "type": "PresumptiveSuffixesResponse"
+              }
+            },
+            "version": 1
+          }
+        ],
+        "MessagesRuntimeApi": [
+          {
+            "methods": {
+              "get_messages_by_schema_and_block": {
+                "description": "Retrieve the messages for a particular schema and block number",
+                "params": [
+                  {
+                    "name": "schema_id",
+                    "type": "SchemaId"
+                  },
+                  {
+                    "name": "schema_payload_location",
+                    "type": "PayloadLocation"
+                  },
+                  {
+                    "name": "block_number",
+                    "type": "BlockNumber"
+                  }
+                ],
+                "type": "Vec<MessageResponse>"
+              },
+              "get_schema_by_id": {
+                "description": "Retrieve a schema by id",
+                "params": [
+                  {
+                    "name": "schema_id",
+                    "type": "SchemaId"
+                  }
+                ],
+                "type": "Option<SchemaResponse>"
+              }
+            },
+            "version": 1
+          }
+        ],
+        "MsaRuntimeApi": [
+          {
+            "methods": {
+              "has_delegation": {
+                "description": "Check to see if a delegation existed between the given delegator and provider at a given block",
+                "params": [
+                  {
+                    "name": "delegator_id",
+                    "type": "DelegatorId"
+                  },
+                  {
+                    "name": "provider_id",
+                    "type": "ProviderId"
+                  },
+                  {
+                    "name": "block_number",
+                    "type": "BlockNumber"
+                  },
+                  {
+                    "name": "schema_id",
+                    "type": "Option<SchemaId>"
+                  }
+                ],
+                "type": "bool"
+              },
+              "get_granted_schemas_by_msa_id": {
+                "description": "Get the list of schema ids (if any) that exist in any delegation between the delegator and provider",
+                "params": [
+                  {
+                    "name": "delegator_id",
+                    "type": "DelegatorId"
+                  },
+                  {
+                    "name": "provider_id",
+                    "type": "ProviderId"
+                  }
+                ],
+                "type": "Option<Vec<SchemaId>>"
+              }
+            },
+            "version": 1
+          }
+        ],
+        "SchemasRuntimeApi": [
+          {
+            "methods": {
+              "get_schema_by_id": {
+                "description": "Fetch the schema by id",
+                "params": [
+                  {
+                    "name": "schema_id",
+                    "type": "SchemaId"
+                  }
+                ],
+                "type": "Option<SchemaResponse>"
+              }
+            },
+            "version": 1
+          }
+        ],
+        "StatefulStorageRuntimeApi": [
+          {
+            "methods": {
+              "get_paginated_storage": {
+                "description": "Fetch the stateful paginated storage by msa_id and schema_id",
+                "params": [
+                  {
+                    "name": "msa_id",
+                    "type": "MessageSourceId"
+                  },
+                  {
+                    "name": "schema_id",
+                    "type": "SchemaId"
+                  }
+                ],
+                "type": "Result<Vec<PaginatedStorageResponse>, SpRuntimeDispatchError>"
+              },
+              "get_itemized_storage": {
+                "description": "Fetch the stateful itemized storage by msa_id and schema_id",
+                "params": [
+                  {
+                    "name": "msa_id",
+                    "type": "MessageSourceId"
+                  },
+                  {
+                    "name": "schema_id",
+                    "type": "SchemaId"
+                  }
+                ],
+                "type": "Result<ItemizedStoragePageResponse, SpRuntimeDispatchError>"
+              }
+            },
+            "version": 1
+          }
+        ]
+      },
+      "signedExtensions": {
+        "CheckFreeExtrinsicUse": {
+          "extrinsic": {},
+          "payload": {}
+        },
+        "HandlesSignedExtension": {
+          "extrinsic": {},
+          "payload": {}
+        }
+      },
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "RpcEvent": {
+              "phase": "Option<u32>",
+              "pallet": "u8",
+              "event": "u8",
+              "data": "Vec<u8>"
+            },
+            "HandleSuffix": "u16",
+            "HandleResponse": {
+              "base_handle": "String",
+              "canonical_base": "String",
+              "suffix": "u16"
+            },
+            "PresumptiveSuffixesResponse": {
+              "suffixes": "Vec<HandleSuffix>",
+              "base_handle": "String"
+            },
+            "BlockPaginationRequest": {
+              "from_block": "BlockNumber",
+              "from_index": "u32",
+              "to_block": "BlockNumber",
+              "page_size": "u32"
+            },
+            "MessageResponse": {
+              "payload": "Option<Vec<u8>>",
+              "cid": "Option<Vec<u8>>",
+              "provider_msa_id": "MessageSourceId",
+              "msa_id": "Option<MessageSourceId>",
+              "index": "u16",
+              "block_number": "BlockNumber",
+              "payload_length": "Option<u32>"
+            },
+            "BlockPaginationResponseMessage": {
+              "content": "Vec<MessageResponse>",
+              "has_next": "bool",
+              "next_block": "Option<BlockNumber>",
+              "next_index": "Option<u32>"
+            },
+            "MessageSourceId": "u64",
+            "DelegatorId": "MessageSourceId",
+            "ProviderId": "MessageSourceId",
+            "KeyInfoResponse": {
+              "key": "AccountId",
+              "msaId": "MessageSourceId"
+            },
+            "SchemaId": "u16",
+            "SchemaModel": "Vec<u8>",
+            "SchemaResponse": {
+              "schema_id": "SchemaId",
+              "model": "SchemaModel",
+              "model_type": "ModelType",
+              "payload_location": "PayloadLocation",
+              "settings": "Vec<SchemaSetting>"
+            },
+            "ModelType": {
+              "_enum": [
+                "AvroBinary",
+                "Parquet"
+              ]
+            },
+            "PayloadLocation": {
+              "_enum": [
+                "OnChain",
+                "IPFS",
+                "Itemized",
+                "Paginated"
+              ]
+            },
+            "SchemaSetting": {
+              "_enum": [
+                "AppendOnly",
+                "SignatureRequired"
+              ]
+            },
+            "PageId": "u16",
+            "PageHash": "u32",
+            "PageNonce": "u16",
+            "ItemizedStorageResponse": {
+              "index": "u16",
+              "payload": "Vec<u8>"
+            },
+            "PaginatedStorageResponse": {
+              "page_id": "PageId",
+              "msa_id": "MessageSourceId",
+              "schema_id": "SchemaId",
+              "content_hash": "PageHash",
+              "nonce": "PageNonce",
+              "payload": "Vec<u8>"
+            },
+            "ItemizedStoragePageResponse": {
+              "msa_id": "MessageSourceId",
+              "schema_id": "SchemaId",
+              "content_hash": "PageHash",
+              "nonce": "PageNonce",
+              "items": "Vec<ItemizedStorageResponse>"
             }
           }
         }
@@ -56705,6 +56437,17 @@ export const typesBundle = {
       ]
     },
     "jur-chain": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {}
+        }
+      ]
+    },
+    "jur-node": {
       "types": [
         {
           "minmax": [
@@ -59602,12 +59345,19 @@ export const typesBundle = {
               "collection_last_block_submission": "Option<BlockNumber>",
               "collection_max_size": "Option<CollectionSize>",
               "collection_can_upload": "bool",
-              "seal": "Option<Hash>"
+              "seal": "Option<Hash>",
+              "sponsorship_id": "Option<SponsorshipId>"
+            },
+            "MetadataItemParams": {
+              "name": "Vec<u8>",
+              "value": "Vec<u8>",
+              "submitter": "SupportedAccountId"
             },
             "MetadataItem": {
               "name": "Vec<u8>",
               "value": "Vec<u8>",
-              "submitter": "AccountId"
+              "submitter": "SupportedAccountId",
+              "acknowledged": "bool"
             },
             "LocType": {
               "_enum": [
@@ -59620,10 +59370,16 @@ export const typesBundle = {
               "id": "LocId",
               "nature": "Vec<u8>"
             },
+            "FileParams": {
+              "hash": "Hash",
+              "nature": "Vec<u8>",
+              "submitter": "SupportedAccountId"
+            },
             "File": {
               "hash": "Hash",
               "nature": "Vec<u8>",
-              "submitter": "AccountId"
+              "submitter": "SupportedAccountId",
+              "acknowledged": "bool"
             },
             "LocVoidInfo": {
               "replacer": "Option<LocId>"
@@ -59645,7 +59401,8 @@ export const typesBundle = {
               "_enum": {
                 "None": null,
                 "Account": "AccountId",
-                "Loc": "LocId"
+                "Loc": "LocId",
+                "OtherAccount": "OtherAccountId"
               }
             },
             "CollectionSize": "u32",
@@ -59675,7 +59432,13 @@ export const typesBundle = {
             },
             "HostData": {
               "node_id": "Option<OpaquePeerId>",
-              "base_url": "Option<Vec<u8>>"
+              "base_url": "Option<Vec<u8>>",
+              "region": "Region"
+            },
+            "Region": {
+              "_enum": [
+                "Europe"
+              ]
             },
             "LoAuthorityListStorageVersion": {
               "_enum": [
@@ -59689,6 +59452,269 @@ export const typesBundle = {
               "tcLoc": "LocId",
               "details": "Vec<u8>"
             },
+            "LogionVote": {
+              "locId": "LocId",
+              "ballots": "Vec<Ballot>"
+            },
+            "Ballot": {
+              "voter": "LocId",
+              "status": "AccountId"
+            },
+            "BallotStatus": {
+              "_enum": [
+                "NotVoted",
+                "VotedYes",
+                "VotedNo"
+              ]
+            },
+            "VoteId": "u64",
+            "VoteClosed": "bool",
+            "VoteApproved": "bool",
+            "LegalOfficerCaseSummary": {
+              "owner": "AccountId",
+              "requester": "Option<AccountId>"
+            },
+            "TokensRecord": {
+              "description": "Vec<u8>",
+              "files": "Vec<TokensRecordFile>",
+              "submitter": "AccountId"
+            },
+            "TokensRecordFile": {
+              "name": "Vec<u8>",
+              "contentType": "Vec<u8>",
+              "file_size": "u32",
+              "hash": "Hash"
+            },
+            "UnboundedTokensRecordFile": "TokensRecordFile",
+            "UnboundedTokensRecordFileOf": "TokensRecordFile",
+            "VerifiedIssuer": {
+              "identityLoc": "LocId"
+            },
+            "OtherAccountId": {
+              "_enum": {
+                "Ethereum": "H160"
+              }
+            },
+            "SupportedAccountId": {
+              "_enum": {
+                "None": null,
+                "Polkadot": "AccountId",
+                "Other": "OtherAccountId"
+              }
+            },
+            "SponsorshipId": "u128",
+            "Sponsorship": {
+              "sponsor": "AccountId",
+              "sponsored_account": "SupportedAccountId",
+              "legal_officer": "AccountId",
+              "loc_id": "Option<LocId>"
+            },
+            "Beneficiary": {
+              "_enum": {
+                "Treasury": null,
+                "LegalOfficer": "AccountId"
+              }
+            },
+            "Fixed64": "Int<64, Fixed64>",
+            "FixedI64": "Int<64, FixedI64>",
+            "FixedU64": "UInt<64, FixedU64>",
+            "Fixed128": "Int<128, Fixed128>",
+            "FixedI128": "Int<128, FixedI128>",
+            "FixedU128": "UInt<128, FixedU128>",
+            "I32F32": "Int<64, I32F32>",
+            "U32F32": "UInt<64, U32F32>",
+            "PerU16": "UInt<16, PerU16>",
+            "Perbill": "UInt<32, Perbill>",
+            "Percent": "UInt<8, Percent>",
+            "Permill": "UInt<32, Permill>",
+            "Perquintill": "UInt<64, Perquintill>",
+            "AccountId": "AccountId32",
+            "AccountId20": "GenericEthereumAccountId",
+            "AccountId32": "GenericAccountId32",
+            "AccountId33": "GenericAccountId33",
+            "AccountIdOf": "AccountId",
+            "AccountIndex": "GenericAccountIndex",
+            "Address": "MultiAddress",
+            "AssetId": "u64",
+            "Balance": "UInt<128, Balance>",
+            "BalanceOf": "Balance",
+            "Block": "GenericBlock",
+            "BlockNumber": "u32",
+            "BlockNumberFor": "BlockNumber",
+            "BlockNumberOf": "BlockNumber",
+            "Call": "GenericCall",
+            "CallHash": "Hash",
+            "CallHashOf": "CallHash",
+            "ChangesTrieConfiguration": {
+              "digestInterval": "u32",
+              "digestLevels": "u32"
+            },
+            "ChangesTrieSignal": {
+              "_enum": {
+                "NewConfiguration": "Option<ChangesTrieConfiguration>"
+              }
+            },
+            "ConsensusEngineId": "GenericConsensusEngineId",
+            "CodecHash": "Hash",
+            "CrateVersion": {
+              "major": "u16",
+              "minor": "u8",
+              "patch": "u8"
+            },
+            "Digest": {
+              "logs": "Vec<DigestItem>"
+            },
+            "DigestItem": {
+              "_enum": {
+                "Other": "Bytes",
+                "AuthoritiesChange": "Vec<AuthorityId>",
+                "ChangesTrieRoot": "Hash",
+                "SealV0": "SealV0",
+                "Consensus": "Consensus",
+                "Seal": "Seal",
+                "PreRuntime": "PreRuntime",
+                "ChangesTrieSignal": "ChangesTrieSignal",
+                "RuntimeEnvironmentUpdated": "Null"
+              }
+            },
+            "ExtrinsicsWeight": {
+              "normal": "Weight",
+              "operational": "Weight"
+            },
+            "H32": "[u8; 4; H32]",
+            "H64": "[u8; 8; H64]",
+            "H128": "[u8; 16; H128]",
+            "H160": "[u8; 20; H160]",
+            "H256": "[u8; 32; H256]",
+            "H512": "[u8; 64; H512]",
+            "H1024": "[u8; 128; H1024]",
+            "H2048": "[u8; 256; H2048]",
+            "Hash": "H256",
+            "Header": {
+              "parentHash": "Hash",
+              "number": "Compact<BlockNumber>",
+              "stateRoot": "Hash",
+              "extrinsicsRoot": "Hash",
+              "digest": "Digest"
+            },
+            "HeaderPartial": {
+              "parentHash": "Hash",
+              "number": "BlockNumber"
+            },
+            "IndicesLookupSource": "GenericLookupSource",
+            "Index": "u32",
+            "Justification": "(ConsensusEngineId, EncodedJustification)",
+            "EncodedJustification": "Bytes",
+            "Justifications": "Vec<Justification>",
+            "KeyValue": "(StorageKey, StorageData)",
+            "KeyTypeId": "u32",
+            "LockIdentifier": "[u8; 8]",
+            "LookupSource": "MultiAddress",
+            "LookupTarget": "AccountId",
+            "ModuleId": "LockIdentifier",
+            "MultiAddress": "GenericMultiAddress",
+            "MultiSigner": {
+              "_enum": {
+                "Ed25519": "[u8; 32]",
+                "Sr25519": "[u8; 32]",
+                "Ecdsa": "[u8; 33]"
+              }
+            },
+            "Moment": "UInt<64, Moment>",
+            "OpaqueCall": "Bytes",
+            "Origin": "DoNotConstruct<Origin>",
+            "OriginCaller": {
+              "_enum": {
+                "System": "SystemOrigin"
+              }
+            },
+            "PalletId": "LockIdentifier",
+            "PalletsOrigin": "OriginCaller",
+            "PalletVersion": {
+              "major": "u16",
+              "minor": "u8",
+              "patch": "u8"
+            },
+            "Pays": {
+              "_enum": [
+                "Yes",
+                "No"
+              ]
+            },
+            "Phantom": "Null",
+            "PhantomData": "Null",
+            "Releases": {
+              "_enum": [
+                "V1",
+                "V2",
+                "V3",
+                "V4",
+                "V5",
+                "V6",
+                "V7",
+                "V8",
+                "V9",
+                "V10"
+              ]
+            },
+            "RuntimeCall": "Call",
+            "RuntimeEvent": "Event",
+            "RuntimeDbWeight": {
+              "read": "Weight",
+              "write": "Weight"
+            },
+            "SignedBlock": "SignedBlockWithJustifications",
+            "SignedBlockWithJustification": {
+              "block": "Block",
+              "justification": "Option<EncodedJustification>"
+            },
+            "SignedBlockWithJustifications": {
+              "block": "Block",
+              "justifications": "Option<Justifications>"
+            },
+            "Slot": "u64",
+            "SlotDuration": "u64",
+            "StorageData": "Bytes",
+            "StorageInfo": {
+              "palletName": "Bytes",
+              "storage_name": "Bytes",
+              "prefix": "Bytes",
+              "maxValues": "Option<u32>",
+              "maxSize": "Option<u32>"
+            },
+            "StorageProof": {
+              "trieNodes": "Vec<Bytes>"
+            },
+            "TransactionPriority": "u64",
+            "TransactionLongevity": "u64",
+            "TransactionTag": "Bytes",
+            "TransactionInfo": {
+              "_alias": {
+                "dataSize": "size"
+              },
+              "chunkRoot": "H256",
+              "contentHash": "H256",
+              "dataSize": "u32",
+              "blockChunks": "u32"
+            },
+            "TransactionStorageProof": {
+              "chunk": "Vec<u8>",
+              "proof": "Vec<Vec<u8>>"
+            },
+            "ValidatorId": "AccountId",
+            "ValidatorIdOf": "ValidatorId",
+            "WeightV0": "u32",
+            "WeightV1": "u64",
+            "WeightV2": {
+              "refTime": "Compact<u64>",
+              "proofSize": "Compact<u64>"
+            },
+            "Weight": "WeightV2",
+            "WeightMultiplier": "Fixed64",
+            "PreRuntime": "(ConsensusEngineId, Bytes)",
+            "SealV0": "(u64, Signature)",
+            "Seal": "(ConsensusEngineId, Bytes)",
+            "Consensus": "(ConsensusEngineId, Bytes)",
             "BeefyKey": "[u8; 33]",
             "Keys": "SessionKeys2",
             "SessionKeys1": "(AccountId)",
@@ -70337,6 +70363,603 @@ export const typesBundle = {
         }
       ]
     },
+    "peaq-node": {
+      "rpc": {
+        "oracle": {
+          "getValue": {
+            "description": "Retrieves the oracle value for a given key.",
+            "params": [
+              {
+                "name": "providerId",
+                "type": "RpcDataProviderId"
+              },
+              {
+                "name": "key",
+                "type": "OracleKey"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Option<TimestampedValue>",
+            "isSubscription": false,
+            "jsonrpc": "oracle_getValue",
+            "method": "getValue",
+            "section": "oracle"
+          },
+          "getAllValues": {
+            "description": "Retrieves all oracle values.",
+            "params": [
+              {
+                "name": "providerId",
+                "type": "RpcDataProviderId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(OracleKey, Option<TimestampedValue>)>",
+            "isSubscription": false,
+            "jsonrpc": "oracle_getAllValues",
+            "method": "getAllValues",
+            "section": "oracle"
+          }
+        },
+        "peaqdid": {
+          "readAttribute": {
+            "description": "Read attribute",
+            "params": [
+              {
+                "name": "didAccount",
+                "type": "AccountId"
+              },
+              {
+                "name": "name",
+                "type": "Bytes"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Option<RPCAttribute>",
+            "isSubscription": false,
+            "jsonrpc": "peaqdid_readAttribute",
+            "method": "readAttribute",
+            "section": "peaqdid"
+          }
+        },
+        "peaqstorage": {
+          "readAttribute": {
+            "description": "Read attribute",
+            "params": [
+              {
+                "name": "didAccount",
+                "type": "AccountId"
+              },
+              {
+                "name": "itemType",
+                "type": "Bytes"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Option<StorageRpcResult>",
+            "isSubscription": false,
+            "jsonrpc": "peaqstorage_readAttribute",
+            "method": "readAttribute",
+            "section": "peaqstorage"
+          }
+        }
+      },
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "CallOf": "Call",
+            "DispatchTime": {
+              "_enum": {
+                "At": "BlockNumber",
+                "After": "BlockNumber"
+              }
+            },
+            "ScheduleTaskIndex": "u32",
+            "DelayedOrigin": {
+              "delay": "BlockNumber",
+              "origin": "PalletsOrigin"
+            },
+            "AuthorityOrigin": "DelayedOrigin",
+            "StorageValue": "Vec<u8>",
+            "GraduallyUpdate": {
+              "key": "StorageKey",
+              "targetValue": "StorageValue",
+              "perBlock": "StorageValue"
+            },
+            "StorageKeyBytes": "Vec<u8>",
+            "StorageValueBytes": "Vec<u8>",
+            "RpcDataProviderId": "Text",
+            "DataProviderId": "u8",
+            "TimestampedValue": {
+              "value": "OracleValue",
+              "timestamp": "Moment"
+            },
+            "TimestampedValueOf": "TimestampedValue",
+            "OrderedSet": "Vec<AccountId>",
+            "OrmlAccountData": {
+              "free": "Balance",
+              "frozen": "Balance",
+              "reserved": "Balance"
+            },
+            "OrmlBalanceLock": {
+              "amount": "Balance",
+              "id": "LockIdentifier"
+            },
+            "AuctionInfo": {
+              "bid": "Option<(AccountId, Balance)>",
+              "start": "BlockNumber",
+              "end": "Option<BlockNumber>"
+            },
+            "DelayedDispatchTime": {
+              "_enum": {
+                "At": "BlockNumber",
+                "After": "BlockNumber"
+              }
+            },
+            "DispatchId": "u32",
+            "Price": "FixedU128",
+            "OrmlVestingSchedule": {
+              "start": "BlockNumber",
+              "period": "BlockNumber",
+              "periodCount": "u32",
+              "perPeriod": "Compact<Balance>"
+            },
+            "VestingScheduleOf": "OrmlVestingSchedule",
+            "OrmlCurrencyId": "u8",
+            "PoolInfo": {
+              "totalShares": "Share",
+              "rewards": "BTreeMap<OrmlCurrencyId, (Balance, Balance)>"
+            },
+            "CompactBalance": "Compact<Balance>",
+            "PoolInfoV0": {
+              "totalShares": "Compact<Share>",
+              "totalRewards": "CompactBalance",
+              "totalWithdrawnRewards": "CompactBalance"
+            },
+            "Share": "u128",
+            "OracleValue": "FixedU128",
+            "RPCAttribute": {
+              "name": "Bytes",
+              "value": "Bytes",
+              "validity": "Bytes",
+              "created": "Moment"
+            },
+            "StorageRpcResult": {
+              "item": "Bytes"
+            },
+            "Keys": "SessionKeys1"
+          }
+        }
+      ],
+      "alias": {
+        "tokens": {
+          "AccountData": "OrmlAccountData",
+          "BalanceLock": "OrmlBalanceLock"
+        }
+      }
+    },
+    "peaq-node-dev": {
+      "rpc": {
+        "oracle": {
+          "getValue": {
+            "description": "Retrieves the oracle value for a given key.",
+            "params": [
+              {
+                "name": "providerId",
+                "type": "RpcDataProviderId"
+              },
+              {
+                "name": "key",
+                "type": "OracleKey"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Option<TimestampedValue>",
+            "isSubscription": false,
+            "jsonrpc": "oracle_getValue",
+            "method": "getValue",
+            "section": "oracle"
+          },
+          "getAllValues": {
+            "description": "Retrieves all oracle values.",
+            "params": [
+              {
+                "name": "providerId",
+                "type": "RpcDataProviderId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(OracleKey, Option<TimestampedValue>)>",
+            "isSubscription": false,
+            "jsonrpc": "oracle_getAllValues",
+            "method": "getAllValues",
+            "section": "oracle"
+          }
+        },
+        "peaqdid": {
+          "readAttribute": {
+            "description": "Read attribute",
+            "params": [
+              {
+                "name": "didAccount",
+                "type": "AccountId"
+              },
+              {
+                "name": "name",
+                "type": "Bytes"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Option<RPCAttribute>",
+            "isSubscription": false,
+            "jsonrpc": "peaqdid_readAttribute",
+            "method": "readAttribute",
+            "section": "peaqdid"
+          }
+        },
+        "peaqstorage": {
+          "readAttribute": {
+            "description": "Read attribute",
+            "params": [
+              {
+                "name": "didAccount",
+                "type": "AccountId"
+              },
+              {
+                "name": "itemType",
+                "type": "Bytes"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Option<StorageRpcResult>",
+            "isSubscription": false,
+            "jsonrpc": "peaqstorage_readAttribute",
+            "method": "readAttribute",
+            "section": "peaqstorage"
+          }
+        }
+      },
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "CallOf": "Call",
+            "DispatchTime": {
+              "_enum": {
+                "At": "BlockNumber",
+                "After": "BlockNumber"
+              }
+            },
+            "ScheduleTaskIndex": "u32",
+            "DelayedOrigin": {
+              "delay": "BlockNumber",
+              "origin": "PalletsOrigin"
+            },
+            "AuthorityOrigin": "DelayedOrigin",
+            "StorageValue": "Vec<u8>",
+            "GraduallyUpdate": {
+              "key": "StorageKey",
+              "targetValue": "StorageValue",
+              "perBlock": "StorageValue"
+            },
+            "StorageKeyBytes": "Vec<u8>",
+            "StorageValueBytes": "Vec<u8>",
+            "RpcDataProviderId": "Text",
+            "DataProviderId": "u8",
+            "TimestampedValue": {
+              "value": "OracleValue",
+              "timestamp": "Moment"
+            },
+            "TimestampedValueOf": "TimestampedValue",
+            "OrderedSet": "Vec<AccountId>",
+            "OrmlAccountData": {
+              "free": "Balance",
+              "frozen": "Balance",
+              "reserved": "Balance"
+            },
+            "OrmlBalanceLock": {
+              "amount": "Balance",
+              "id": "LockIdentifier"
+            },
+            "AuctionInfo": {
+              "bid": "Option<(AccountId, Balance)>",
+              "start": "BlockNumber",
+              "end": "Option<BlockNumber>"
+            },
+            "DelayedDispatchTime": {
+              "_enum": {
+                "At": "BlockNumber",
+                "After": "BlockNumber"
+              }
+            },
+            "DispatchId": "u32",
+            "Price": "FixedU128",
+            "OrmlVestingSchedule": {
+              "start": "BlockNumber",
+              "period": "BlockNumber",
+              "periodCount": "u32",
+              "perPeriod": "Compact<Balance>"
+            },
+            "VestingScheduleOf": "OrmlVestingSchedule",
+            "OrmlCurrencyId": "u8",
+            "PoolInfo": {
+              "totalShares": "Share",
+              "rewards": "BTreeMap<OrmlCurrencyId, (Balance, Balance)>"
+            },
+            "CompactBalance": "Compact<Balance>",
+            "PoolInfoV0": {
+              "totalShares": "Compact<Share>",
+              "totalRewards": "CompactBalance",
+              "totalWithdrawnRewards": "CompactBalance"
+            },
+            "Share": "u128",
+            "OracleValue": "FixedU128",
+            "RPCAttribute": {
+              "name": "Bytes",
+              "value": "Bytes",
+              "validity": "Bytes",
+              "created": "Moment"
+            },
+            "StorageRpcResult": {
+              "item": "Bytes"
+            },
+            "Keys": "SessionKeys1"
+          }
+        }
+      ],
+      "alias": {
+        "tokens": {
+          "AccountData": "OrmlAccountData",
+          "BalanceLock": "OrmlBalanceLock"
+        }
+      }
+    },
+    "peaq-node-krest": {
+      "rpc": {
+        "oracle": {
+          "getValue": {
+            "description": "Retrieves the oracle value for a given key.",
+            "params": [
+              {
+                "name": "providerId",
+                "type": "RpcDataProviderId"
+              },
+              {
+                "name": "key",
+                "type": "OracleKey"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Option<TimestampedValue>",
+            "isSubscription": false,
+            "jsonrpc": "oracle_getValue",
+            "method": "getValue",
+            "section": "oracle"
+          },
+          "getAllValues": {
+            "description": "Retrieves all oracle values.",
+            "params": [
+              {
+                "name": "providerId",
+                "type": "RpcDataProviderId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(OracleKey, Option<TimestampedValue>)>",
+            "isSubscription": false,
+            "jsonrpc": "oracle_getAllValues",
+            "method": "getAllValues",
+            "section": "oracle"
+          }
+        },
+        "peaqdid": {
+          "readAttribute": {
+            "description": "Read attribute",
+            "params": [
+              {
+                "name": "didAccount",
+                "type": "AccountId"
+              },
+              {
+                "name": "name",
+                "type": "Bytes"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Option<RPCAttribute>",
+            "isSubscription": false,
+            "jsonrpc": "peaqdid_readAttribute",
+            "method": "readAttribute",
+            "section": "peaqdid"
+          }
+        },
+        "peaqstorage": {
+          "readAttribute": {
+            "description": "Read attribute",
+            "params": [
+              {
+                "name": "didAccount",
+                "type": "AccountId"
+              },
+              {
+                "name": "itemType",
+                "type": "Bytes"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Option<StorageRpcResult>",
+            "isSubscription": false,
+            "jsonrpc": "peaqstorage_readAttribute",
+            "method": "readAttribute",
+            "section": "peaqstorage"
+          }
+        }
+      },
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "CallOf": "Call",
+            "DispatchTime": {
+              "_enum": {
+                "At": "BlockNumber",
+                "After": "BlockNumber"
+              }
+            },
+            "ScheduleTaskIndex": "u32",
+            "DelayedOrigin": {
+              "delay": "BlockNumber",
+              "origin": "PalletsOrigin"
+            },
+            "AuthorityOrigin": "DelayedOrigin",
+            "StorageValue": "Vec<u8>",
+            "GraduallyUpdate": {
+              "key": "StorageKey",
+              "targetValue": "StorageValue",
+              "perBlock": "StorageValue"
+            },
+            "StorageKeyBytes": "Vec<u8>",
+            "StorageValueBytes": "Vec<u8>",
+            "RpcDataProviderId": "Text",
+            "DataProviderId": "u8",
+            "TimestampedValue": {
+              "value": "OracleValue",
+              "timestamp": "Moment"
+            },
+            "TimestampedValueOf": "TimestampedValue",
+            "OrderedSet": "Vec<AccountId>",
+            "OrmlAccountData": {
+              "free": "Balance",
+              "frozen": "Balance",
+              "reserved": "Balance"
+            },
+            "OrmlBalanceLock": {
+              "amount": "Balance",
+              "id": "LockIdentifier"
+            },
+            "AuctionInfo": {
+              "bid": "Option<(AccountId, Balance)>",
+              "start": "BlockNumber",
+              "end": "Option<BlockNumber>"
+            },
+            "DelayedDispatchTime": {
+              "_enum": {
+                "At": "BlockNumber",
+                "After": "BlockNumber"
+              }
+            },
+            "DispatchId": "u32",
+            "Price": "FixedU128",
+            "OrmlVestingSchedule": {
+              "start": "BlockNumber",
+              "period": "BlockNumber",
+              "periodCount": "u32",
+              "perPeriod": "Compact<Balance>"
+            },
+            "VestingScheduleOf": "OrmlVestingSchedule",
+            "OrmlCurrencyId": "u8",
+            "PoolInfo": {
+              "totalShares": "Share",
+              "rewards": "BTreeMap<OrmlCurrencyId, (Balance, Balance)>"
+            },
+            "CompactBalance": "Compact<Balance>",
+            "PoolInfoV0": {
+              "totalShares": "Compact<Share>",
+              "totalRewards": "CompactBalance",
+              "totalWithdrawnRewards": "CompactBalance"
+            },
+            "Share": "u128",
+            "OracleValue": "FixedU128",
+            "RPCAttribute": {
+              "name": "Bytes",
+              "value": "Bytes",
+              "validity": "Bytes",
+              "created": "Moment"
+            },
+            "StorageRpcResult": {
+              "item": "Bytes"
+            },
+            "Keys": "SessionKeys1"
+          }
+        }
+      ],
+      "alias": {
+        "tokens": {
+          "AccountData": "OrmlAccountData",
+          "BalanceLock": "OrmlBalanceLock"
+        }
+      }
+    },
     "phoenix-node": {
       "types": [
         {
@@ -71201,9 +71824,1303 @@ export const typesBundle = {
             ],
             "type": "Vec<Member>"
           }
+        },
+        "nft": {
+          "validateNFTTransfer": {
+            "description": "Verifies if and the sender and receiver are not the same, if both have valid balances, if the sender owns the nft, and if all compliance rules are being respected.",
+            "params": [
+              {
+                "name": "sender_portfolio",
+                "type": "PortfolioId",
+                "isOptional": false
+              },
+              {
+                "name": "receiver_portfolio",
+                "type": "PortfolioId",
+                "isOptional": false
+              },
+              {
+                "name": "nfts",
+                "type": "NFTs",
+                "isOptional": false
+              },
+              {
+                "name": "blockHash",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "DispatchResult"
+          }
         }
       },
       "types": [
+        {
+          "minmax": [
+            5004000,
+            5004009
+          ],
+          "types": {
+            "Address": "MultiAddress",
+            "LookupSource": "MultiAddress",
+            "AccountInfo": "AccountInfoWithDualRefCount",
+            "IdentityId": "[u8; 32]",
+            "EventDid": "IdentityId",
+            "EventCounts": "Vec<u32>",
+            "ErrorAt": "(u32, DispatchError)",
+            "InvestorUid": "[u8; 16]",
+            "Ticker": "[u8; 12]",
+            "CddId": "[u8; 32]",
+            "ScopeId": "[u8; 32]",
+            "PosRatio": "(u32, u32)",
+            "DocumentId": "u32",
+            "DocumentName": "Text",
+            "DocumentUri": "Text",
+            "DocumentHash": {
+              "_enum": {
+                "None": "",
+                "H512": "[u8; 64]",
+                "H384": "[u8; 48]",
+                "H320": "[u8; 40]",
+                "H256": "[u8; 32]",
+                "H224": "[u8; 28]",
+                "H192": "[u8; 24]",
+                "H160": "[u8; 20]",
+                "H128": "[u8; 16]"
+              }
+            },
+            "DocumentType": "Text",
+            "Document": {
+              "uri": "DocumentUri",
+              "content_hash": "DocumentHash",
+              "name": "DocumentName",
+              "doc_type": "Option<DocumentType>",
+              "filing_date": "Option<Moment>"
+            },
+            "Version": "u8",
+            "CustomAssetTypeId": "u32",
+            "AssetType": {
+              "_enum": {
+                "EquityCommon": "",
+                "EquityPreferred": "",
+                "Commodity": "",
+                "FixedIncome": "",
+                "REIT": "",
+                "Fund": "",
+                "RevenueShareAgreement": "",
+                "StructuredProduct": "",
+                "Derivative": "",
+                "Custom": "CustomAssetTypeId",
+                "StableCoin": "",
+                "NonFungible": "NonFungibleType"
+              }
+            },
+            "AssetIdentifier": {
+              "_enum": {
+                "CUSIP": "[u8; 9]",
+                "CINS": "[u8; 9]",
+                "ISIN": "[u8; 12]",
+                "LEI": "[u8; 20]",
+                "FIGI": "[u8; 12]"
+              }
+            },
+            "AssetOwnershipRelation": {
+              "_enum": {
+                "NotOwned": "",
+                "TickerOwned": "",
+                "AssetOwned": ""
+              }
+            },
+            "AssetName": "Text",
+            "FundingRoundName": "Text",
+            "VenueDetails": "Text",
+            "SecurityToken": {
+              "total_supply": "Balance",
+              "owner_did": "IdentityId",
+              "divisible": "bool",
+              "asset_type": "AssetType"
+            },
+            "AssetMetadataName": "Text",
+            "AssetMetadataValue": "Vec<u8>",
+            "AssetMetadataLocalKey": "u64",
+            "AssetMetadataGlobalKey": "u64",
+            "AssetMetadataKey": {
+              "_enum": {
+                "Global": "u64",
+                "Local": "u64"
+              }
+            },
+            "AssetMetadataLockStatus": {
+              "_enum": {
+                "Unlocked": "",
+                "Locked": "",
+                "LockedUntil": "Moment"
+              }
+            },
+            "AssetMetadataValueDetail": {
+              "expire": "Option<Moment>",
+              "lock_status": "AssetMetadataLockStatus"
+            },
+            "AssetMetadataDescription": "Text",
+            "AssetMetadataSpec": {
+              "url": "Option<Url>",
+              "description": "Option<AssetMetadataDescription>",
+              "type_def": "Option<Vec<u8>>"
+            },
+            "PalletName": "Text",
+            "DispatchableName": "Text",
+            "AssetPermissions": {
+              "_enum": {
+                "Whole": "",
+                "These": "Vec<Ticker>",
+                "Except": "Vec<Ticker>"
+              }
+            },
+            "PortfolioPermissions": {
+              "_enum": {
+                "Whole": "",
+                "These": "Vec<PortfolioId>",
+                "Except": "Vec<PortfolioId>"
+              }
+            },
+            "DispatchableNames": {
+              "_enum": {
+                "Whole": "",
+                "These": "Vec<DispatchableName>",
+                "Except": "Vec<DispatchableName>"
+              }
+            },
+            "PalletPermissions": {
+              "pallet_name": "PalletName",
+              "dispatchable_names": "DispatchableNames"
+            },
+            "ExtrinsicPermissions": {
+              "_enum": {
+                "Whole": "",
+                "These": "Vec<PalletPermissions>",
+                "Except": "Vec<PalletPermissions>"
+              }
+            },
+            "Permissions": {
+              "asset": "AssetPermissions",
+              "extrinsic": "ExtrinsicPermissions",
+              "portfolio": "PortfolioPermissions"
+            },
+            "Signatory": {
+              "_enum": {
+                "Identity": "IdentityId",
+                "Account": "AccountId"
+              }
+            },
+            "SecondaryKey": {
+              "key": "AccountId",
+              "permissions": "Permissions"
+            },
+            "SecondaryKeyWithAuth": {
+              "secondary_key": "SecondaryKey",
+              "auth_signature": "H512"
+            },
+            "Subsidy": {
+              "paying_key": "AccountId",
+              "remaining": "Balance"
+            },
+            "IdentityRole": {
+              "_enum": [
+                "Issuer",
+                "SimpleTokenIssuer",
+                "Validator",
+                "ClaimIssuer",
+                "Investor",
+                "NodeRunner",
+                "PM",
+                "CDDAMLClaimIssuer",
+                "AccreditedInvestorClaimIssuer",
+                "VerifiedIdentityClaimIssuer"
+              ]
+            },
+            "PreAuthorizedKeyInfo": {
+              "target_id": "IdentityId",
+              "secondary_key": "SecondaryKey"
+            },
+            "DidRecord": {
+              "primary_key": "Option<AccountId>"
+            },
+            "KeyRecord": {
+              "_enum": {
+                "PrimaryKey": "IdentityId",
+                "SecondaryKey": "(IdentityId, Permissions)",
+                "MultiSigSignerKey": "AccountId"
+              }
+            },
+            "KeyIdentityData": {
+              "identity": "IdentityId",
+              "permissions": "Option<Permissions>"
+            },
+            "CountryCode": {
+              "_enum": [
+                "AF",
+                "AX",
+                "AL",
+                "DZ",
+                "AS",
+                "AD",
+                "AO",
+                "AI",
+                "AQ",
+                "AG",
+                "AR",
+                "AM",
+                "AW",
+                "AU",
+                "AT",
+                "AZ",
+                "BS",
+                "BH",
+                "BD",
+                "BB",
+                "BY",
+                "BE",
+                "BZ",
+                "BJ",
+                "BM",
+                "BT",
+                "BO",
+                "BA",
+                "BW",
+                "BV",
+                "BR",
+                "VG",
+                "IO",
+                "BN",
+                "BG",
+                "BF",
+                "BI",
+                "KH",
+                "CM",
+                "CA",
+                "CV",
+                "KY",
+                "CF",
+                "TD",
+                "CL",
+                "CN",
+                "HK",
+                "MO",
+                "CX",
+                "CC",
+                "CO",
+                "KM",
+                "CG",
+                "CD",
+                "CK",
+                "CR",
+                "CI",
+                "HR",
+                "CU",
+                "CY",
+                "CZ",
+                "DK",
+                "DJ",
+                "DM",
+                "DO",
+                "EC",
+                "EG",
+                "SV",
+                "GQ",
+                "ER",
+                "EE",
+                "ET",
+                "FK",
+                "FO",
+                "FJ",
+                "FI",
+                "FR",
+                "GF",
+                "PF",
+                "TF",
+                "GA",
+                "GM",
+                "GE",
+                "DE",
+                "GH",
+                "GI",
+                "GR",
+                "GL",
+                "GD",
+                "GP",
+                "GU",
+                "GT",
+                "GG",
+                "GN",
+                "GW",
+                "GY",
+                "HT",
+                "HM",
+                "VA",
+                "HN",
+                "HU",
+                "IS",
+                "IN",
+                "ID",
+                "IR",
+                "IQ",
+                "IE",
+                "IM",
+                "IL",
+                "IT",
+                "JM",
+                "JP",
+                "JE",
+                "JO",
+                "KZ",
+                "KE",
+                "KI",
+                "KP",
+                "KR",
+                "KW",
+                "KG",
+                "LA",
+                "LV",
+                "LB",
+                "LS",
+                "LR",
+                "LY",
+                "LI",
+                "LT",
+                "LU",
+                "MK",
+                "MG",
+                "MW",
+                "MY",
+                "MV",
+                "ML",
+                "MT",
+                "MH",
+                "MQ",
+                "MR",
+                "MU",
+                "YT",
+                "MX",
+                "FM",
+                "MD",
+                "MC",
+                "MN",
+                "ME",
+                "MS",
+                "MA",
+                "MZ",
+                "MM",
+                "NA",
+                "NR",
+                "NP",
+                "NL",
+                "AN",
+                "NC",
+                "NZ",
+                "NI",
+                "NE",
+                "NG",
+                "NU",
+                "NF",
+                "MP",
+                "NO",
+                "OM",
+                "PK",
+                "PW",
+                "PS",
+                "PA",
+                "PG",
+                "PY",
+                "PE",
+                "PH",
+                "PN",
+                "PL",
+                "PT",
+                "PR",
+                "QA",
+                "RE",
+                "RO",
+                "RU",
+                "RW",
+                "BL",
+                "SH",
+                "KN",
+                "LC",
+                "MF",
+                "PM",
+                "VC",
+                "WS",
+                "SM",
+                "ST",
+                "SA",
+                "SN",
+                "RS",
+                "SC",
+                "SL",
+                "SG",
+                "SK",
+                "SI",
+                "SB",
+                "SO",
+                "ZA",
+                "GS",
+                "SS",
+                "ES",
+                "LK",
+                "SD",
+                "SR",
+                "SJ",
+                "SZ",
+                "SE",
+                "CH",
+                "SY",
+                "TW",
+                "TJ",
+                "TZ",
+                "TH",
+                "TL",
+                "TG",
+                "TK",
+                "TO",
+                "TT",
+                "TN",
+                "TR",
+                "TM",
+                "TC",
+                "TV",
+                "UG",
+                "UA",
+                "AE",
+                "GB",
+                "US",
+                "UM",
+                "UY",
+                "UZ",
+                "VU",
+                "VE",
+                "VN",
+                "VI",
+                "WF",
+                "EH",
+                "YE",
+                "ZM",
+                "ZW",
+                "BQ",
+                "CW",
+                "SX"
+              ]
+            },
+            "Scope": {
+              "_enum": {
+                "Identity": "IdentityId",
+                "Ticker": "Ticker",
+                "Custom": "Vec<u8>"
+              }
+            },
+            "InvestorZKProofData": "[u8; 64]",
+            "Scalar": "[u8; 32]",
+            "RistrettoPoint": "[u8; 32]",
+            "ZkProofData": {
+              "challenge_responses": "[Scalar; 2]",
+              "subtract_expressions_res": "RistrettoPoint",
+              "blinded_scope_did_hash": "RistrettoPoint"
+            },
+            "ScopeClaimProof": {
+              "proof_scope_id_wellformed": "Signature",
+              "proof_scope_id_cdd_id_match": "ZkProofData",
+              "scope_id": "RistrettoPoint"
+            },
+            "CustomClaimTypeId": "u32",
+            "Claim": {
+              "_enum": {
+                "Accredited": "Scope",
+                "Affiliate": "Scope",
+                "BuyLockup": "Scope",
+                "SellLockup": "Scope",
+                "CustomerDueDiligence": "CddId",
+                "KnowYourCustomer": "Scope",
+                "Jurisdiction": "(CountryCode, Scope)",
+                "Exempted": "Scope",
+                "Blocked": "Scope",
+                "InvestorUniqueness": "(Scope, ScopeId, CddId)",
+                "NoData": "",
+                "InvestorUniquenessV2": "CddId",
+                "Custom": "(CustomClaimTypeId, Option<Scope>)"
+              }
+            },
+            "ClaimType": {
+              "_enum": {
+                "Accredited": "",
+                "Affiliate": "",
+                "BuyLockup": "",
+                "SellLockup": "",
+                "CustomerDueDiligence": "",
+                "KnowYourCustomer": "",
+                "Jurisdiction": "",
+                "Exempted": "",
+                "Blocked": "",
+                "InvestorUniqueness": "",
+                "NoData": "",
+                "InvestorUniquenessV2": "",
+                "Custom": "CustomClaimTypeId"
+              }
+            },
+            "IdentityClaim": {
+              "claim_issuer": "IdentityId",
+              "issuance_date": "Moment",
+              "last_update_date": "Moment",
+              "expiry": "Option<Moment>",
+              "claim": "Claim"
+            },
+            "ComplianceRequirement": {
+              "sender_conditions": "Vec<Condition>",
+              "receiver_conditions": "Vec<Condition>",
+              "id": "u32"
+            },
+            "ComplianceRequirementResult": {
+              "sender_conditions": "Vec<ConditionResult>",
+              "receiver_conditions": "Vec<ConditionResult>",
+              "id": "u32",
+              "result": "bool"
+            },
+            "ConditionType": {
+              "_enum": {
+                "IsPresent": "Claim",
+                "IsAbsent": "Claim",
+                "IsAnyOf": "Vec<Claim>",
+                "IsNoneOf": "Vec<Claim>",
+                "IsIdentity": "TargetIdentity"
+              }
+            },
+            "TrustedFor": {
+              "_enum": {
+                "Any": "",
+                "Specific": "Vec<ClaimType>"
+              }
+            },
+            "TrustedIssuer": {
+              "issuer": "IdentityId",
+              "trusted_for": "TrustedFor"
+            },
+            "Condition": {
+              "condition_type": "ConditionType",
+              "issuers": "Vec<TrustedIssuer>"
+            },
+            "ConditionResult": {
+              "condition": "Condition",
+              "result": "bool"
+            },
+            "TargetIdAuthorization": {
+              "target_id": "IdentityId",
+              "nonce": "u64",
+              "expires_at": "Moment"
+            },
+            "TickerRegistration": {
+              "owner": "IdentityId",
+              "expiry": "Option<Moment>"
+            },
+            "TickerRegistrationConfig": {
+              "max_ticker_length": "u8",
+              "registration_length": "Option<Moment>"
+            },
+            "ClassicTickerRegistration": {
+              "eth_owner": "EthereumAddress",
+              "is_created": "bool"
+            },
+            "ClassicTickerImport": {
+              "eth_owner": "EthereumAddress",
+              "ticker": "Ticker",
+              "is_contract": "bool",
+              "is_created": "bool"
+            },
+            "EthereumAddress": "[u8; 20]",
+            "EcdsaSignature": "[u8; 65]",
+            "MotionTitle": "Text",
+            "MotionInfoLink": "Text",
+            "ChoiceTitle": "Text",
+            "Motion": {
+              "title": "MotionTitle",
+              "info_link": "MotionInfoLink",
+              "choices": "Vec<ChoiceTitle>"
+            },
+            "BallotTitle": "Text",
+            "BallotMeta": {
+              "title": "BallotTitle",
+              "motions": "Vec<Motion>"
+            },
+            "BallotTimeRange": {
+              "start": "Moment",
+              "end": "Moment"
+            },
+            "BallotVote": {
+              "power": "Balance",
+              "fallback": "Option<u16>"
+            },
+            "MaybeBlock": {
+              "_enum": {
+                "Some": "BlockNumber",
+                "None": ""
+              }
+            },
+            "Url": "Text",
+            "PipDescription": "Text",
+            "PipsMetadata": {
+              "id": "PipId",
+              "url": "Option<Url>",
+              "description": "Option<PipDescription>",
+              "created_at": "BlockNumber",
+              "transaction_version": "u32",
+              "expiry": "MaybeBlock"
+            },
+            "Proposer": {
+              "_enum": {
+                "Community": "AccountId",
+                "Committee": "Committee"
+              }
+            },
+            "Committee": {
+              "_enum": {
+                "Technical": "",
+                "Upgrade": ""
+              }
+            },
+            "SkippedCount": "u8",
+            "SnapshottedPip": {
+              "id": "PipId",
+              "weight": "(bool, Balance)"
+            },
+            "SnapshotId": "u32",
+            "SnapshotMetadata": {
+              "created_at": "BlockNumber",
+              "made_by": "AccountId",
+              "id": "SnapshotId"
+            },
+            "SnapshotResult": {
+              "_enum": {
+                "Approve": "",
+                "Reject": "",
+                "Skip": ""
+              }
+            },
+            "Beneficiary": {
+              "id": "IdentityId",
+              "amount": "Balance"
+            },
+            "DepositInfo": {
+              "owner": "AccountId",
+              "amount": "Balance"
+            },
+            "PolymeshVotes": {
+              "index": "u32",
+              "ayes": "Vec<IdentityId>",
+              "nays": "Vec<IdentityId>",
+              "expiry": "MaybeBlock"
+            },
+            "PipId": "u32",
+            "ProposalState": {
+              "_enum": [
+                "Pending",
+                "Rejected",
+                "Scheduled",
+                "Failed",
+                "Executed",
+                "Expired"
+              ]
+            },
+            "Pip": {
+              "id": "PipId",
+              "proposal": "Call",
+              "proposer": "Proposer"
+            },
+            "ProposalData": {
+              "_enum": {
+                "Hash": "Hash",
+                "Proposal": "Vec<u8>"
+              }
+            },
+            "OffChainSignature": "MultiSignature",
+            "Authorization": {
+              "authorization_data": "AuthorizationData",
+              "authorized_by": "IdentityId",
+              "expiry": "Option<Moment>",
+              "auth_id": "u64"
+            },
+            "AuthorizationData": {
+              "_enum": {
+                "AttestPrimaryKeyRotation": "IdentityId",
+                "RotatePrimaryKey": "",
+                "TransferTicker": "Ticker",
+                "AddMultiSigSigner": "AccountId",
+                "TransferAssetOwnership": "Ticker",
+                "JoinIdentity": "Permissions",
+                "PortfolioCustody": "PortfolioId",
+                "BecomeAgent": "(Ticker, AgentGroup)",
+                "AddRelayerPayingKey": "(AccountId, AccountId, Balance)",
+                "RotatePrimaryKeyToSecondary": "Permissions"
+              }
+            },
+            "AuthorizationNonce": "u64",
+            "Percentage": "Permill",
+            "RestrictionResult": {
+              "_enum": [
+                "Valid",
+                "Invalid",
+                "ForceValid"
+              ]
+            },
+            "Memo": "[u8; 32]",
+            "BridgeTx": {
+              "nonce": "u32",
+              "recipient": "AccountId",
+              "amount": "Balance",
+              "tx_hash": "H256"
+            },
+            "AssetScope": {
+              "_enum": {
+                "Ticker": "Ticker"
+              }
+            },
+            "StatOpType": {
+              "_enum": [
+                "Count",
+                "Balance"
+              ]
+            },
+            "StatType": {
+              "op": "StatOpType",
+              "claim_issuer": "Option<(ClaimType, IdentityId)>"
+            },
+            "StatClaim": {
+              "_enum": {
+                "Accredited": "bool",
+                "Affiliate": "bool",
+                "Jurisdiction": "Option<CountryCode>"
+              }
+            },
+            "Stat1stKey": {
+              "asset": "AssetScope",
+              "stat_type": "StatType"
+            },
+            "Stat2ndKey": {
+              "_enum": {
+                "NoClaimStat": "",
+                "Claim": "StatClaim"
+              }
+            },
+            "StatUpdate": {
+              "key2": "Stat2ndKey",
+              "value": "Option<u128>"
+            },
+            "TransferCondition": {
+              "_enum": {
+                "MaxInvestorCount": "u64",
+                "MaxInvestorOwnership": "Percentage",
+                "ClaimCount": "(StatClaim, IdentityId, u64, Option<u64>)",
+                "ClaimOwnership": "(StatClaim, IdentityId, Percentage, Percentage)"
+              }
+            },
+            "AssetTransferCompliance": {
+              "paused": "bool",
+              "requirements": "Vec<TransferCondition>"
+            },
+            "TransferConditionExemptKey": {
+              "asset": "AssetScope",
+              "op": "StatOpType",
+              "claim_type": "Option<ClaimType>"
+            },
+            "AssetCompliance": {
+              "paused": "bool",
+              "requirements": "Vec<ComplianceRequirement>"
+            },
+            "AssetComplianceResult": {
+              "paused": "bool",
+              "requirements": "Vec<ComplianceRequirementResult>",
+              "result": "bool"
+            },
+            "Claim1stKey": {
+              "target": "IdentityId",
+              "claim_type": "ClaimType"
+            },
+            "Claim2ndKey": {
+              "issuer": "IdentityId",
+              "scope": "Option<Scope>"
+            },
+            "InactiveMember": {
+              "id": "IdentityId",
+              "deactivated_at": "Moment",
+              "expiry": "Option<Moment>"
+            },
+            "VotingResult": {
+              "ayes_count": "u32",
+              "ayes_stake": "Balance",
+              "nays_count": "u32",
+              "nays_stake": "Balance"
+            },
+            "ProtocolOp": {
+              "_enum": [
+                "AssetRegisterTicker",
+                "AssetIssue",
+                "AssetAddDocuments",
+                "AssetCreateAsset",
+                "CheckpointCreateSchedule",
+                "ComplianceManagerAddComplianceRequirement",
+                "IdentityCddRegisterDid",
+                "IdentityAddClaim",
+                "IdentityAddSecondaryKeysWithAuthorization",
+                "PipsPropose",
+                "ContractsPutCode",
+                "CorporateBallotAttachBallot",
+                "CapitalDistributionDistribute"
+              ]
+            },
+            "CddStatus": {
+              "_enum": {
+                "Ok": "IdentityId",
+                "Err": "Vec<u8>"
+              }
+            },
+            "AssetDidResult": {
+              "_enum": {
+                "Ok": "IdentityId",
+                "Err": "Vec<u8>"
+              }
+            },
+            "RpcDidRecordsSuccess": {
+              "primary_key": "AccountId",
+              "secondary_keys": "Vec<SecondaryKey>"
+            },
+            "RpcDidRecords": {
+              "_enum": {
+                "Success": "RpcDidRecordsSuccess",
+                "IdNotFound": "Vec<u8>"
+              }
+            },
+            "VoteCountProposalFound": {
+              "ayes": "u64",
+              "nays": "u64"
+            },
+            "VoteCount": {
+              "_enum": {
+                "ProposalFound": "VoteCountProposalFound",
+                "ProposalNotFound": ""
+              }
+            },
+            "Vote": "(bool, Balance)",
+            "VoteByPip": {
+              "pip": "PipId",
+              "vote": "Vote"
+            },
+            "BridgeTxDetail": {
+              "amount": "Balance",
+              "status": "BridgeTxStatus",
+              "execution_block": "BlockNumber",
+              "tx_hash": "H256"
+            },
+            "BridgeTxStatus": {
+              "_enum": {
+                "Absent": "",
+                "Pending": "u8",
+                "Frozen": "",
+                "Timelocked": "",
+                "Handled": ""
+              }
+            },
+            "HandledTxStatus": {
+              "_enum": {
+                "Success": "",
+                "Error": "Text"
+              }
+            },
+            "CappedFee": "u64",
+            "CanTransferResult": {
+              "_enum": {
+                "Ok": "u8",
+                "Err": "Vec<u8>"
+              }
+            },
+            "AuthorizationType": {
+              "_enum": {
+                "AttestPrimaryKeyRotation": "",
+                "RotatePrimaryKey": "",
+                "TransferTicker": "",
+                "AddMultiSigSigner": "",
+                "TransferAssetOwnership": "",
+                "JoinIdentity": "",
+                "PortfolioCustody": "",
+                "BecomeAgent": "",
+                "AddRelayerPayingKey": "",
+                "RotatePrimaryKeyToSecondary": ""
+              }
+            },
+            "ProposalDetails": {
+              "approvals": "u64",
+              "rejections": "u64",
+              "status": "ProposalStatus",
+              "expiry": "Option<Moment>",
+              "auto_close": "bool"
+            },
+            "ProposalStatus": {
+              "_enum": {
+                "Invalid": "",
+                "ActiveOrExpired": "",
+                "ExecutionSuccessful": "",
+                "ExecutionFailed": "",
+                "Rejected": ""
+              }
+            },
+            "DidStatus": {
+              "_enum": {
+                "Unknown": "",
+                "Exists": "",
+                "CddVerified": ""
+              }
+            },
+            "PortfolioName": "Text",
+            "PortfolioNumber": "u64",
+            "PortfolioKind": {
+              "_enum": {
+                "Default": "",
+                "User": "PortfolioNumber"
+              }
+            },
+            "PortfolioId": {
+              "did": "IdentityId",
+              "kind": "PortfolioKind"
+            },
+            "Moment": "u64",
+            "CalendarUnit": {
+              "_enum": [
+                "Second",
+                "Minute",
+                "Hour",
+                "Day",
+                "Week",
+                "Month",
+                "Year"
+              ]
+            },
+            "CalendarPeriod": {
+              "unit": "CalendarUnit",
+              "amount": "u64"
+            },
+            "CheckpointSchedule": {
+              "start": "Moment",
+              "period": "CalendarPeriod"
+            },
+            "CheckpointId": "u64",
+            "ScheduleId": "u64",
+            "StoredSchedule": {
+              "schedule": "CheckpointSchedule",
+              "id": "ScheduleId",
+              "at": "Moment",
+              "remaining": "u32"
+            },
+            "ScheduleSpec": {
+              "start": "Option<Moment>",
+              "period": "CalendarPeriod",
+              "remaining": "u32"
+            },
+            "InstructionStatus": {
+              "_enum": {
+                "Unknown": "",
+                "Pending": "",
+                "Failed": ""
+              }
+            },
+            "LegStatus": {
+              "_enum": {
+                "PendingTokenLock": "",
+                "ExecutionPending": "",
+                "ExecutionToBeSkipped": "(AccountId, u64)"
+              }
+            },
+            "AffirmationStatus": {
+              "_enum": {
+                "Unknown": "",
+                "Pending": "",
+                "Affirmed": ""
+              }
+            },
+            "SettlementType": {
+              "_enum": {
+                "SettleOnAffirmation": "",
+                "SettleOnBlock": "BlockNumber",
+                "SettleManual": "BlockNumber"
+              }
+            },
+            "LegId": "u64",
+            "InstructionId": "u64",
+            "Instruction": {
+              "instruction_id": "InstructionId",
+              "venue_id": "VenueId",
+              "status": "InstructionStatus",
+              "settlement_type": "SettlementType",
+              "created_at": "Option<Moment>",
+              "trade_date": "Option<Moment>",
+              "value_date": "Option<Moment>"
+            },
+            "Leg": {
+              "from": "PortfolioId",
+              "to": "PortfolioId",
+              "asset": "Ticker",
+              "amount": "Balance"
+            },
+            "Venue": {
+              "creator": "IdentityId",
+              "venue_type": "VenueType"
+            },
+            "Receipt": {
+              "receipt_uid": "u64",
+              "from": "PortfolioId",
+              "to": "PortfolioId",
+              "asset": "Ticker",
+              "amount": "Balance"
+            },
+            "ReceiptMetadata": "Text",
+            "ReceiptDetails": {
+              "receipt_uid": "u64",
+              "leg_id": "LegId",
+              "signer": "AccountId",
+              "signature": "OffChainSignature",
+              "metadata": "ReceiptMetadata"
+            },
+            "UniqueCall": {
+              "nonce": "u64",
+              "call": "Call"
+            },
+            "MovePortfolioItem": {
+              "ticker": "Ticker",
+              "amount": "Balance",
+              "memo": "Option<Memo>"
+            },
+            "WeightToFeeCoefficient": {
+              "coeffInteger": "Balance",
+              "coeffFrac": "Perbill",
+              "negative": "bool",
+              "degree": "u8"
+            },
+            "WeightPerClass": {
+              "baseExtrinsic": "Weight",
+              "maxExtrinsic": "Option<Weight>",
+              "maxTotal": "Option<Weight>",
+              "reserved": "Option<Weight>"
+            },
+            "TargetIdentity": {
+              "_enum": {
+                "ExternalAgent": "",
+                "Specific": "IdentityId"
+              }
+            },
+            "FundraiserId": "u64",
+            "FundraiserName": "Text",
+            "FundraiserStatus": {
+              "_enum": [
+                "Live",
+                "Frozen",
+                "Closed",
+                "ClosedEarly"
+              ]
+            },
+            "FundraiserTier": {
+              "total": "Balance",
+              "price": "Balance",
+              "remaining": "Balance"
+            },
+            "Fundraiser": {
+              "creator": "IdentityId",
+              "offering_portfolio": "PortfolioId",
+              "offering_asset": "Ticker",
+              "raising_portfolio": "PortfolioId",
+              "raising_asset": "Ticker",
+              "tiers": "Vec<FundraiserTier>",
+              "venue_id": "VenueId",
+              "start": "Moment",
+              "end": "Option<Moment>",
+              "status": "FundraiserStatus",
+              "minimum_investment": "Balance"
+            },
+            "VenueId": "u64",
+            "VenueType": {
+              "_enum": [
+                "Other",
+                "Distribution",
+                "Sto",
+                "Exchange"
+              ]
+            },
+            "Tax": "Permill",
+            "TargetIdentities": {
+              "identities": "Vec<IdentityId>",
+              "treatment": "TargetTreatment"
+            },
+            "TargetTreatment": {
+              "_enum": [
+                "Include",
+                "Exclude"
+              ]
+            },
+            "CAKind": {
+              "_enum": [
+                "PredictableBenefit",
+                "UnpredictableBenefit",
+                "IssuerNotice",
+                "Reorganization",
+                "Other"
+              ]
+            },
+            "CADetails": "Text",
+            "CACheckpoint": {
+              "_enum": {
+                "Scheduled": "(ScheduleId, u64)",
+                "Existing": "CheckpointId"
+              }
+            },
+            "RecordDate": {
+              "date": "Moment",
+              "checkpoint": "CACheckpoint"
+            },
+            "RecordDateSpec": {
+              "_enum": {
+                "Scheduled": "Moment",
+                "ExistingSchedule": "ScheduleId",
+                "Existing": "CheckpointId"
+              }
+            },
+            "CorporateAction": {
+              "kind": "CAKind",
+              "decl_date": "Moment",
+              "record_date": "Option<RecordDate>",
+              "targets": "TargetIdentities",
+              "default_withholding_tax": "Tax",
+              "withholding_tax": "Vec<(IdentityId, Tax)>"
+            },
+            "InitiateCorporateActionArgs": {
+              "ticker": "Ticker",
+              "kind": "CAKind",
+              "decl_date": "Moment",
+              "record_date": "Option<RecordDateSpec>",
+              "details": "CADetails",
+              "targets": "Option<TargetIdentities>",
+              "default_withholding_tax": "Option<Tax>",
+              "withholding_tax": "Option<Vec<(IdentityId, Tax)>>"
+            },
+            "LocalCAId": "u32",
+            "CAId": {
+              "ticker": "Ticker",
+              "local_id": "LocalCAId"
+            },
+            "Distribution": {
+              "from": "PortfolioId",
+              "currency": "Ticker",
+              "per_share": "Balance",
+              "amount": "Balance",
+              "remaining": "Balance",
+              "reclaimed": "bool",
+              "payment_at": "Moment",
+              "expires_at": "Option<Moment>"
+            },
+            "SlashingSwitch": {
+              "_enum": [
+                "Validator",
+                "ValidatorAndNominator",
+                "None"
+              ]
+            },
+            "PriceTier": {
+              "total": "Balance",
+              "price": "Balance"
+            },
+            "PermissionedIdentityPrefs": {
+              "intended_count": "u32",
+              "running_count": "u32"
+            },
+            "GranularCanTransferResult": {
+              "invalid_granularity": "bool",
+              "self_transfer": "bool",
+              "invalid_receiver_cdd": "bool",
+              "invalid_sender_cdd": "bool",
+              "missing_scope_claim": "bool",
+              "receiver_custodian_error": "bool",
+              "sender_custodian_error": "bool",
+              "sender_insufficient_balance": "bool",
+              "portfolio_validity_result": "PortfolioValidityResult",
+              "asset_frozen": "bool",
+              "transfer_condition_result": "Vec<TransferConditionResult>",
+              "compliance_result": "AssetComplianceResult",
+              "result": "bool"
+            },
+            "PortfolioValidityResult": {
+              "receiver_is_same_portfolio": "bool",
+              "sender_portfolio_does_not_exist": "bool",
+              "receiver_portfolio_does_not_exist": "bool",
+              "sender_insufficient_balance": "bool",
+              "result": "bool"
+            },
+            "TransferConditionResult": {
+              "condition": "TransferCondition",
+              "result": "bool"
+            },
+            "AGId": "u32",
+            "AgentGroup": {
+              "_enum": {
+                "Full": "",
+                "Custom": "AGId",
+                "ExceptMeta": "",
+                "PolymeshV1CAA": "",
+                "PolymeshV1PIA": ""
+              }
+            },
+            "Member": {
+              "id": "IdentityId",
+              "expiry_at": "Option<Moment>",
+              "inactive_from": "Option<Moment>"
+            },
+            "ItnRewardStatus": {
+              "_enum": {
+                "Unclaimed": "Balance",
+                "Claimed": ""
+              }
+            },
+            "NFTId": "u64",
+            "NFTs": {
+              "ticker": "Ticker",
+              "ids": "Vec<NFTId>"
+            },
+            "FungibleToken": {
+              "ticker": "Ticker",
+              "amount": "Balance"
+            },
+            "LegAsset": {
+              "_enum": {
+                "Fungible": "FungibleToken",
+                "NonFungible": "NFTs"
+              }
+            },
+            "LegV2": {
+              "from": "PortfolioId",
+              "to": "PortfolioId",
+              "asset": "LegAsset"
+            },
+            "FundDescription": {
+              "_enum": {
+                "Fungible": "FungibleToken",
+                "NonFungible": "NFTs"
+              }
+            },
+            "Fund": {
+              "description": "FundDescription",
+              "memo": "Option<Memo>"
+            },
+            "NonFungibleType": {
+              "_enum": {
+                "Derivative": "",
+                "FixedIncome": "",
+                "Invoice": "",
+                "Custom": "CustomAssetTypeId"
+              }
+            }
+          }
+        },
         {
           "minmax": [
             5003000,
@@ -77347,7 +79264,8 @@ export const typesBundle = {
                 "Unclaimed": "Balance",
                 "Claimed": ""
               }
-            }
+            },
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -78521,7 +80439,8 @@ export const typesBundle = {
                 "Unclaimed": "Balance",
                 "Claimed": ""
               }
-            }
+            },
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -79689,7 +81608,8 @@ export const typesBundle = {
                 "Unclaimed": "Balance",
                 "Claimed": ""
               }
-            }
+            },
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -80857,7 +82777,8 @@ export const typesBundle = {
                 "Unclaimed": "Balance",
                 "Claimed": ""
               }
-            }
+            },
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -81215,9 +83136,1303 @@ export const typesBundle = {
             ],
             "type": "Vec<Member>"
           }
+        },
+        "nft": {
+          "validateNFTTransfer": {
+            "description": "Verifies if and the sender and receiver are not the same, if both have valid balances, if the sender owns the nft, and if all compliance rules are being respected.",
+            "params": [
+              {
+                "name": "sender_portfolio",
+                "type": "PortfolioId",
+                "isOptional": false
+              },
+              {
+                "name": "receiver_portfolio",
+                "type": "PortfolioId",
+                "isOptional": false
+              },
+              {
+                "name": "nfts",
+                "type": "NFTs",
+                "isOptional": false
+              },
+              {
+                "name": "blockHash",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "DispatchResult"
+          }
         }
       },
       "types": [
+        {
+          "minmax": [
+            5004000,
+            5004009
+          ],
+          "types": {
+            "Address": "MultiAddress",
+            "LookupSource": "MultiAddress",
+            "AccountInfo": "AccountInfoWithDualRefCount",
+            "IdentityId": "[u8; 32]",
+            "EventDid": "IdentityId",
+            "EventCounts": "Vec<u32>",
+            "ErrorAt": "(u32, DispatchError)",
+            "InvestorUid": "[u8; 16]",
+            "Ticker": "[u8; 12]",
+            "CddId": "[u8; 32]",
+            "ScopeId": "[u8; 32]",
+            "PosRatio": "(u32, u32)",
+            "DocumentId": "u32",
+            "DocumentName": "Text",
+            "DocumentUri": "Text",
+            "DocumentHash": {
+              "_enum": {
+                "None": "",
+                "H512": "[u8; 64]",
+                "H384": "[u8; 48]",
+                "H320": "[u8; 40]",
+                "H256": "[u8; 32]",
+                "H224": "[u8; 28]",
+                "H192": "[u8; 24]",
+                "H160": "[u8; 20]",
+                "H128": "[u8; 16]"
+              }
+            },
+            "DocumentType": "Text",
+            "Document": {
+              "uri": "DocumentUri",
+              "content_hash": "DocumentHash",
+              "name": "DocumentName",
+              "doc_type": "Option<DocumentType>",
+              "filing_date": "Option<Moment>"
+            },
+            "Version": "u8",
+            "CustomAssetTypeId": "u32",
+            "AssetType": {
+              "_enum": {
+                "EquityCommon": "",
+                "EquityPreferred": "",
+                "Commodity": "",
+                "FixedIncome": "",
+                "REIT": "",
+                "Fund": "",
+                "RevenueShareAgreement": "",
+                "StructuredProduct": "",
+                "Derivative": "",
+                "Custom": "CustomAssetTypeId",
+                "StableCoin": "",
+                "NonFungible": "NonFungibleType"
+              }
+            },
+            "AssetIdentifier": {
+              "_enum": {
+                "CUSIP": "[u8; 9]",
+                "CINS": "[u8; 9]",
+                "ISIN": "[u8; 12]",
+                "LEI": "[u8; 20]",
+                "FIGI": "[u8; 12]"
+              }
+            },
+            "AssetOwnershipRelation": {
+              "_enum": {
+                "NotOwned": "",
+                "TickerOwned": "",
+                "AssetOwned": ""
+              }
+            },
+            "AssetName": "Text",
+            "FundingRoundName": "Text",
+            "VenueDetails": "Text",
+            "SecurityToken": {
+              "total_supply": "Balance",
+              "owner_did": "IdentityId",
+              "divisible": "bool",
+              "asset_type": "AssetType"
+            },
+            "AssetMetadataName": "Text",
+            "AssetMetadataValue": "Vec<u8>",
+            "AssetMetadataLocalKey": "u64",
+            "AssetMetadataGlobalKey": "u64",
+            "AssetMetadataKey": {
+              "_enum": {
+                "Global": "u64",
+                "Local": "u64"
+              }
+            },
+            "AssetMetadataLockStatus": {
+              "_enum": {
+                "Unlocked": "",
+                "Locked": "",
+                "LockedUntil": "Moment"
+              }
+            },
+            "AssetMetadataValueDetail": {
+              "expire": "Option<Moment>",
+              "lock_status": "AssetMetadataLockStatus"
+            },
+            "AssetMetadataDescription": "Text",
+            "AssetMetadataSpec": {
+              "url": "Option<Url>",
+              "description": "Option<AssetMetadataDescription>",
+              "type_def": "Option<Vec<u8>>"
+            },
+            "PalletName": "Text",
+            "DispatchableName": "Text",
+            "AssetPermissions": {
+              "_enum": {
+                "Whole": "",
+                "These": "Vec<Ticker>",
+                "Except": "Vec<Ticker>"
+              }
+            },
+            "PortfolioPermissions": {
+              "_enum": {
+                "Whole": "",
+                "These": "Vec<PortfolioId>",
+                "Except": "Vec<PortfolioId>"
+              }
+            },
+            "DispatchableNames": {
+              "_enum": {
+                "Whole": "",
+                "These": "Vec<DispatchableName>",
+                "Except": "Vec<DispatchableName>"
+              }
+            },
+            "PalletPermissions": {
+              "pallet_name": "PalletName",
+              "dispatchable_names": "DispatchableNames"
+            },
+            "ExtrinsicPermissions": {
+              "_enum": {
+                "Whole": "",
+                "These": "Vec<PalletPermissions>",
+                "Except": "Vec<PalletPermissions>"
+              }
+            },
+            "Permissions": {
+              "asset": "AssetPermissions",
+              "extrinsic": "ExtrinsicPermissions",
+              "portfolio": "PortfolioPermissions"
+            },
+            "Signatory": {
+              "_enum": {
+                "Identity": "IdentityId",
+                "Account": "AccountId"
+              }
+            },
+            "SecondaryKey": {
+              "key": "AccountId",
+              "permissions": "Permissions"
+            },
+            "SecondaryKeyWithAuth": {
+              "secondary_key": "SecondaryKey",
+              "auth_signature": "H512"
+            },
+            "Subsidy": {
+              "paying_key": "AccountId",
+              "remaining": "Balance"
+            },
+            "IdentityRole": {
+              "_enum": [
+                "Issuer",
+                "SimpleTokenIssuer",
+                "Validator",
+                "ClaimIssuer",
+                "Investor",
+                "NodeRunner",
+                "PM",
+                "CDDAMLClaimIssuer",
+                "AccreditedInvestorClaimIssuer",
+                "VerifiedIdentityClaimIssuer"
+              ]
+            },
+            "PreAuthorizedKeyInfo": {
+              "target_id": "IdentityId",
+              "secondary_key": "SecondaryKey"
+            },
+            "DidRecord": {
+              "primary_key": "Option<AccountId>"
+            },
+            "KeyRecord": {
+              "_enum": {
+                "PrimaryKey": "IdentityId",
+                "SecondaryKey": "(IdentityId, Permissions)",
+                "MultiSigSignerKey": "AccountId"
+              }
+            },
+            "KeyIdentityData": {
+              "identity": "IdentityId",
+              "permissions": "Option<Permissions>"
+            },
+            "CountryCode": {
+              "_enum": [
+                "AF",
+                "AX",
+                "AL",
+                "DZ",
+                "AS",
+                "AD",
+                "AO",
+                "AI",
+                "AQ",
+                "AG",
+                "AR",
+                "AM",
+                "AW",
+                "AU",
+                "AT",
+                "AZ",
+                "BS",
+                "BH",
+                "BD",
+                "BB",
+                "BY",
+                "BE",
+                "BZ",
+                "BJ",
+                "BM",
+                "BT",
+                "BO",
+                "BA",
+                "BW",
+                "BV",
+                "BR",
+                "VG",
+                "IO",
+                "BN",
+                "BG",
+                "BF",
+                "BI",
+                "KH",
+                "CM",
+                "CA",
+                "CV",
+                "KY",
+                "CF",
+                "TD",
+                "CL",
+                "CN",
+                "HK",
+                "MO",
+                "CX",
+                "CC",
+                "CO",
+                "KM",
+                "CG",
+                "CD",
+                "CK",
+                "CR",
+                "CI",
+                "HR",
+                "CU",
+                "CY",
+                "CZ",
+                "DK",
+                "DJ",
+                "DM",
+                "DO",
+                "EC",
+                "EG",
+                "SV",
+                "GQ",
+                "ER",
+                "EE",
+                "ET",
+                "FK",
+                "FO",
+                "FJ",
+                "FI",
+                "FR",
+                "GF",
+                "PF",
+                "TF",
+                "GA",
+                "GM",
+                "GE",
+                "DE",
+                "GH",
+                "GI",
+                "GR",
+                "GL",
+                "GD",
+                "GP",
+                "GU",
+                "GT",
+                "GG",
+                "GN",
+                "GW",
+                "GY",
+                "HT",
+                "HM",
+                "VA",
+                "HN",
+                "HU",
+                "IS",
+                "IN",
+                "ID",
+                "IR",
+                "IQ",
+                "IE",
+                "IM",
+                "IL",
+                "IT",
+                "JM",
+                "JP",
+                "JE",
+                "JO",
+                "KZ",
+                "KE",
+                "KI",
+                "KP",
+                "KR",
+                "KW",
+                "KG",
+                "LA",
+                "LV",
+                "LB",
+                "LS",
+                "LR",
+                "LY",
+                "LI",
+                "LT",
+                "LU",
+                "MK",
+                "MG",
+                "MW",
+                "MY",
+                "MV",
+                "ML",
+                "MT",
+                "MH",
+                "MQ",
+                "MR",
+                "MU",
+                "YT",
+                "MX",
+                "FM",
+                "MD",
+                "MC",
+                "MN",
+                "ME",
+                "MS",
+                "MA",
+                "MZ",
+                "MM",
+                "NA",
+                "NR",
+                "NP",
+                "NL",
+                "AN",
+                "NC",
+                "NZ",
+                "NI",
+                "NE",
+                "NG",
+                "NU",
+                "NF",
+                "MP",
+                "NO",
+                "OM",
+                "PK",
+                "PW",
+                "PS",
+                "PA",
+                "PG",
+                "PY",
+                "PE",
+                "PH",
+                "PN",
+                "PL",
+                "PT",
+                "PR",
+                "QA",
+                "RE",
+                "RO",
+                "RU",
+                "RW",
+                "BL",
+                "SH",
+                "KN",
+                "LC",
+                "MF",
+                "PM",
+                "VC",
+                "WS",
+                "SM",
+                "ST",
+                "SA",
+                "SN",
+                "RS",
+                "SC",
+                "SL",
+                "SG",
+                "SK",
+                "SI",
+                "SB",
+                "SO",
+                "ZA",
+                "GS",
+                "SS",
+                "ES",
+                "LK",
+                "SD",
+                "SR",
+                "SJ",
+                "SZ",
+                "SE",
+                "CH",
+                "SY",
+                "TW",
+                "TJ",
+                "TZ",
+                "TH",
+                "TL",
+                "TG",
+                "TK",
+                "TO",
+                "TT",
+                "TN",
+                "TR",
+                "TM",
+                "TC",
+                "TV",
+                "UG",
+                "UA",
+                "AE",
+                "GB",
+                "US",
+                "UM",
+                "UY",
+                "UZ",
+                "VU",
+                "VE",
+                "VN",
+                "VI",
+                "WF",
+                "EH",
+                "YE",
+                "ZM",
+                "ZW",
+                "BQ",
+                "CW",
+                "SX"
+              ]
+            },
+            "Scope": {
+              "_enum": {
+                "Identity": "IdentityId",
+                "Ticker": "Ticker",
+                "Custom": "Vec<u8>"
+              }
+            },
+            "InvestorZKProofData": "[u8; 64]",
+            "Scalar": "[u8; 32]",
+            "RistrettoPoint": "[u8; 32]",
+            "ZkProofData": {
+              "challenge_responses": "[Scalar; 2]",
+              "subtract_expressions_res": "RistrettoPoint",
+              "blinded_scope_did_hash": "RistrettoPoint"
+            },
+            "ScopeClaimProof": {
+              "proof_scope_id_wellformed": "Signature",
+              "proof_scope_id_cdd_id_match": "ZkProofData",
+              "scope_id": "RistrettoPoint"
+            },
+            "CustomClaimTypeId": "u32",
+            "Claim": {
+              "_enum": {
+                "Accredited": "Scope",
+                "Affiliate": "Scope",
+                "BuyLockup": "Scope",
+                "SellLockup": "Scope",
+                "CustomerDueDiligence": "CddId",
+                "KnowYourCustomer": "Scope",
+                "Jurisdiction": "(CountryCode, Scope)",
+                "Exempted": "Scope",
+                "Blocked": "Scope",
+                "InvestorUniqueness": "(Scope, ScopeId, CddId)",
+                "NoData": "",
+                "InvestorUniquenessV2": "CddId",
+                "Custom": "(CustomClaimTypeId, Option<Scope>)"
+              }
+            },
+            "ClaimType": {
+              "_enum": {
+                "Accredited": "",
+                "Affiliate": "",
+                "BuyLockup": "",
+                "SellLockup": "",
+                "CustomerDueDiligence": "",
+                "KnowYourCustomer": "",
+                "Jurisdiction": "",
+                "Exempted": "",
+                "Blocked": "",
+                "InvestorUniqueness": "",
+                "NoData": "",
+                "InvestorUniquenessV2": "",
+                "Custom": "CustomClaimTypeId"
+              }
+            },
+            "IdentityClaim": {
+              "claim_issuer": "IdentityId",
+              "issuance_date": "Moment",
+              "last_update_date": "Moment",
+              "expiry": "Option<Moment>",
+              "claim": "Claim"
+            },
+            "ComplianceRequirement": {
+              "sender_conditions": "Vec<Condition>",
+              "receiver_conditions": "Vec<Condition>",
+              "id": "u32"
+            },
+            "ComplianceRequirementResult": {
+              "sender_conditions": "Vec<ConditionResult>",
+              "receiver_conditions": "Vec<ConditionResult>",
+              "id": "u32",
+              "result": "bool"
+            },
+            "ConditionType": {
+              "_enum": {
+                "IsPresent": "Claim",
+                "IsAbsent": "Claim",
+                "IsAnyOf": "Vec<Claim>",
+                "IsNoneOf": "Vec<Claim>",
+                "IsIdentity": "TargetIdentity"
+              }
+            },
+            "TrustedFor": {
+              "_enum": {
+                "Any": "",
+                "Specific": "Vec<ClaimType>"
+              }
+            },
+            "TrustedIssuer": {
+              "issuer": "IdentityId",
+              "trusted_for": "TrustedFor"
+            },
+            "Condition": {
+              "condition_type": "ConditionType",
+              "issuers": "Vec<TrustedIssuer>"
+            },
+            "ConditionResult": {
+              "condition": "Condition",
+              "result": "bool"
+            },
+            "TargetIdAuthorization": {
+              "target_id": "IdentityId",
+              "nonce": "u64",
+              "expires_at": "Moment"
+            },
+            "TickerRegistration": {
+              "owner": "IdentityId",
+              "expiry": "Option<Moment>"
+            },
+            "TickerRegistrationConfig": {
+              "max_ticker_length": "u8",
+              "registration_length": "Option<Moment>"
+            },
+            "ClassicTickerRegistration": {
+              "eth_owner": "EthereumAddress",
+              "is_created": "bool"
+            },
+            "ClassicTickerImport": {
+              "eth_owner": "EthereumAddress",
+              "ticker": "Ticker",
+              "is_contract": "bool",
+              "is_created": "bool"
+            },
+            "EthereumAddress": "[u8; 20]",
+            "EcdsaSignature": "[u8; 65]",
+            "MotionTitle": "Text",
+            "MotionInfoLink": "Text",
+            "ChoiceTitle": "Text",
+            "Motion": {
+              "title": "MotionTitle",
+              "info_link": "MotionInfoLink",
+              "choices": "Vec<ChoiceTitle>"
+            },
+            "BallotTitle": "Text",
+            "BallotMeta": {
+              "title": "BallotTitle",
+              "motions": "Vec<Motion>"
+            },
+            "BallotTimeRange": {
+              "start": "Moment",
+              "end": "Moment"
+            },
+            "BallotVote": {
+              "power": "Balance",
+              "fallback": "Option<u16>"
+            },
+            "MaybeBlock": {
+              "_enum": {
+                "Some": "BlockNumber",
+                "None": ""
+              }
+            },
+            "Url": "Text",
+            "PipDescription": "Text",
+            "PipsMetadata": {
+              "id": "PipId",
+              "url": "Option<Url>",
+              "description": "Option<PipDescription>",
+              "created_at": "BlockNumber",
+              "transaction_version": "u32",
+              "expiry": "MaybeBlock"
+            },
+            "Proposer": {
+              "_enum": {
+                "Community": "AccountId",
+                "Committee": "Committee"
+              }
+            },
+            "Committee": {
+              "_enum": {
+                "Technical": "",
+                "Upgrade": ""
+              }
+            },
+            "SkippedCount": "u8",
+            "SnapshottedPip": {
+              "id": "PipId",
+              "weight": "(bool, Balance)"
+            },
+            "SnapshotId": "u32",
+            "SnapshotMetadata": {
+              "created_at": "BlockNumber",
+              "made_by": "AccountId",
+              "id": "SnapshotId"
+            },
+            "SnapshotResult": {
+              "_enum": {
+                "Approve": "",
+                "Reject": "",
+                "Skip": ""
+              }
+            },
+            "Beneficiary": {
+              "id": "IdentityId",
+              "amount": "Balance"
+            },
+            "DepositInfo": {
+              "owner": "AccountId",
+              "amount": "Balance"
+            },
+            "PolymeshVotes": {
+              "index": "u32",
+              "ayes": "Vec<IdentityId>",
+              "nays": "Vec<IdentityId>",
+              "expiry": "MaybeBlock"
+            },
+            "PipId": "u32",
+            "ProposalState": {
+              "_enum": [
+                "Pending",
+                "Rejected",
+                "Scheduled",
+                "Failed",
+                "Executed",
+                "Expired"
+              ]
+            },
+            "Pip": {
+              "id": "PipId",
+              "proposal": "Call",
+              "proposer": "Proposer"
+            },
+            "ProposalData": {
+              "_enum": {
+                "Hash": "Hash",
+                "Proposal": "Vec<u8>"
+              }
+            },
+            "OffChainSignature": "MultiSignature",
+            "Authorization": {
+              "authorization_data": "AuthorizationData",
+              "authorized_by": "IdentityId",
+              "expiry": "Option<Moment>",
+              "auth_id": "u64"
+            },
+            "AuthorizationData": {
+              "_enum": {
+                "AttestPrimaryKeyRotation": "IdentityId",
+                "RotatePrimaryKey": "",
+                "TransferTicker": "Ticker",
+                "AddMultiSigSigner": "AccountId",
+                "TransferAssetOwnership": "Ticker",
+                "JoinIdentity": "Permissions",
+                "PortfolioCustody": "PortfolioId",
+                "BecomeAgent": "(Ticker, AgentGroup)",
+                "AddRelayerPayingKey": "(AccountId, AccountId, Balance)",
+                "RotatePrimaryKeyToSecondary": "Permissions"
+              }
+            },
+            "AuthorizationNonce": "u64",
+            "Percentage": "Permill",
+            "RestrictionResult": {
+              "_enum": [
+                "Valid",
+                "Invalid",
+                "ForceValid"
+              ]
+            },
+            "Memo": "[u8; 32]",
+            "BridgeTx": {
+              "nonce": "u32",
+              "recipient": "AccountId",
+              "amount": "Balance",
+              "tx_hash": "H256"
+            },
+            "AssetScope": {
+              "_enum": {
+                "Ticker": "Ticker"
+              }
+            },
+            "StatOpType": {
+              "_enum": [
+                "Count",
+                "Balance"
+              ]
+            },
+            "StatType": {
+              "op": "StatOpType",
+              "claim_issuer": "Option<(ClaimType, IdentityId)>"
+            },
+            "StatClaim": {
+              "_enum": {
+                "Accredited": "bool",
+                "Affiliate": "bool",
+                "Jurisdiction": "Option<CountryCode>"
+              }
+            },
+            "Stat1stKey": {
+              "asset": "AssetScope",
+              "stat_type": "StatType"
+            },
+            "Stat2ndKey": {
+              "_enum": {
+                "NoClaimStat": "",
+                "Claim": "StatClaim"
+              }
+            },
+            "StatUpdate": {
+              "key2": "Stat2ndKey",
+              "value": "Option<u128>"
+            },
+            "TransferCondition": {
+              "_enum": {
+                "MaxInvestorCount": "u64",
+                "MaxInvestorOwnership": "Percentage",
+                "ClaimCount": "(StatClaim, IdentityId, u64, Option<u64>)",
+                "ClaimOwnership": "(StatClaim, IdentityId, Percentage, Percentage)"
+              }
+            },
+            "AssetTransferCompliance": {
+              "paused": "bool",
+              "requirements": "Vec<TransferCondition>"
+            },
+            "TransferConditionExemptKey": {
+              "asset": "AssetScope",
+              "op": "StatOpType",
+              "claim_type": "Option<ClaimType>"
+            },
+            "AssetCompliance": {
+              "paused": "bool",
+              "requirements": "Vec<ComplianceRequirement>"
+            },
+            "AssetComplianceResult": {
+              "paused": "bool",
+              "requirements": "Vec<ComplianceRequirementResult>",
+              "result": "bool"
+            },
+            "Claim1stKey": {
+              "target": "IdentityId",
+              "claim_type": "ClaimType"
+            },
+            "Claim2ndKey": {
+              "issuer": "IdentityId",
+              "scope": "Option<Scope>"
+            },
+            "InactiveMember": {
+              "id": "IdentityId",
+              "deactivated_at": "Moment",
+              "expiry": "Option<Moment>"
+            },
+            "VotingResult": {
+              "ayes_count": "u32",
+              "ayes_stake": "Balance",
+              "nays_count": "u32",
+              "nays_stake": "Balance"
+            },
+            "ProtocolOp": {
+              "_enum": [
+                "AssetRegisterTicker",
+                "AssetIssue",
+                "AssetAddDocuments",
+                "AssetCreateAsset",
+                "CheckpointCreateSchedule",
+                "ComplianceManagerAddComplianceRequirement",
+                "IdentityCddRegisterDid",
+                "IdentityAddClaim",
+                "IdentityAddSecondaryKeysWithAuthorization",
+                "PipsPropose",
+                "ContractsPutCode",
+                "CorporateBallotAttachBallot",
+                "CapitalDistributionDistribute"
+              ]
+            },
+            "CddStatus": {
+              "_enum": {
+                "Ok": "IdentityId",
+                "Err": "Vec<u8>"
+              }
+            },
+            "AssetDidResult": {
+              "_enum": {
+                "Ok": "IdentityId",
+                "Err": "Vec<u8>"
+              }
+            },
+            "RpcDidRecordsSuccess": {
+              "primary_key": "AccountId",
+              "secondary_keys": "Vec<SecondaryKey>"
+            },
+            "RpcDidRecords": {
+              "_enum": {
+                "Success": "RpcDidRecordsSuccess",
+                "IdNotFound": "Vec<u8>"
+              }
+            },
+            "VoteCountProposalFound": {
+              "ayes": "u64",
+              "nays": "u64"
+            },
+            "VoteCount": {
+              "_enum": {
+                "ProposalFound": "VoteCountProposalFound",
+                "ProposalNotFound": ""
+              }
+            },
+            "Vote": "(bool, Balance)",
+            "VoteByPip": {
+              "pip": "PipId",
+              "vote": "Vote"
+            },
+            "BridgeTxDetail": {
+              "amount": "Balance",
+              "status": "BridgeTxStatus",
+              "execution_block": "BlockNumber",
+              "tx_hash": "H256"
+            },
+            "BridgeTxStatus": {
+              "_enum": {
+                "Absent": "",
+                "Pending": "u8",
+                "Frozen": "",
+                "Timelocked": "",
+                "Handled": ""
+              }
+            },
+            "HandledTxStatus": {
+              "_enum": {
+                "Success": "",
+                "Error": "Text"
+              }
+            },
+            "CappedFee": "u64",
+            "CanTransferResult": {
+              "_enum": {
+                "Ok": "u8",
+                "Err": "Vec<u8>"
+              }
+            },
+            "AuthorizationType": {
+              "_enum": {
+                "AttestPrimaryKeyRotation": "",
+                "RotatePrimaryKey": "",
+                "TransferTicker": "",
+                "AddMultiSigSigner": "",
+                "TransferAssetOwnership": "",
+                "JoinIdentity": "",
+                "PortfolioCustody": "",
+                "BecomeAgent": "",
+                "AddRelayerPayingKey": "",
+                "RotatePrimaryKeyToSecondary": ""
+              }
+            },
+            "ProposalDetails": {
+              "approvals": "u64",
+              "rejections": "u64",
+              "status": "ProposalStatus",
+              "expiry": "Option<Moment>",
+              "auto_close": "bool"
+            },
+            "ProposalStatus": {
+              "_enum": {
+                "Invalid": "",
+                "ActiveOrExpired": "",
+                "ExecutionSuccessful": "",
+                "ExecutionFailed": "",
+                "Rejected": ""
+              }
+            },
+            "DidStatus": {
+              "_enum": {
+                "Unknown": "",
+                "Exists": "",
+                "CddVerified": ""
+              }
+            },
+            "PortfolioName": "Text",
+            "PortfolioNumber": "u64",
+            "PortfolioKind": {
+              "_enum": {
+                "Default": "",
+                "User": "PortfolioNumber"
+              }
+            },
+            "PortfolioId": {
+              "did": "IdentityId",
+              "kind": "PortfolioKind"
+            },
+            "Moment": "u64",
+            "CalendarUnit": {
+              "_enum": [
+                "Second",
+                "Minute",
+                "Hour",
+                "Day",
+                "Week",
+                "Month",
+                "Year"
+              ]
+            },
+            "CalendarPeriod": {
+              "unit": "CalendarUnit",
+              "amount": "u64"
+            },
+            "CheckpointSchedule": {
+              "start": "Moment",
+              "period": "CalendarPeriod"
+            },
+            "CheckpointId": "u64",
+            "ScheduleId": "u64",
+            "StoredSchedule": {
+              "schedule": "CheckpointSchedule",
+              "id": "ScheduleId",
+              "at": "Moment",
+              "remaining": "u32"
+            },
+            "ScheduleSpec": {
+              "start": "Option<Moment>",
+              "period": "CalendarPeriod",
+              "remaining": "u32"
+            },
+            "InstructionStatus": {
+              "_enum": {
+                "Unknown": "",
+                "Pending": "",
+                "Failed": ""
+              }
+            },
+            "LegStatus": {
+              "_enum": {
+                "PendingTokenLock": "",
+                "ExecutionPending": "",
+                "ExecutionToBeSkipped": "(AccountId, u64)"
+              }
+            },
+            "AffirmationStatus": {
+              "_enum": {
+                "Unknown": "",
+                "Pending": "",
+                "Affirmed": ""
+              }
+            },
+            "SettlementType": {
+              "_enum": {
+                "SettleOnAffirmation": "",
+                "SettleOnBlock": "BlockNumber",
+                "SettleManual": "BlockNumber"
+              }
+            },
+            "LegId": "u64",
+            "InstructionId": "u64",
+            "Instruction": {
+              "instruction_id": "InstructionId",
+              "venue_id": "VenueId",
+              "status": "InstructionStatus",
+              "settlement_type": "SettlementType",
+              "created_at": "Option<Moment>",
+              "trade_date": "Option<Moment>",
+              "value_date": "Option<Moment>"
+            },
+            "Leg": {
+              "from": "PortfolioId",
+              "to": "PortfolioId",
+              "asset": "Ticker",
+              "amount": "Balance"
+            },
+            "Venue": {
+              "creator": "IdentityId",
+              "venue_type": "VenueType"
+            },
+            "Receipt": {
+              "receipt_uid": "u64",
+              "from": "PortfolioId",
+              "to": "PortfolioId",
+              "asset": "Ticker",
+              "amount": "Balance"
+            },
+            "ReceiptMetadata": "Text",
+            "ReceiptDetails": {
+              "receipt_uid": "u64",
+              "leg_id": "LegId",
+              "signer": "AccountId",
+              "signature": "OffChainSignature",
+              "metadata": "ReceiptMetadata"
+            },
+            "UniqueCall": {
+              "nonce": "u64",
+              "call": "Call"
+            },
+            "MovePortfolioItem": {
+              "ticker": "Ticker",
+              "amount": "Balance",
+              "memo": "Option<Memo>"
+            },
+            "WeightToFeeCoefficient": {
+              "coeffInteger": "Balance",
+              "coeffFrac": "Perbill",
+              "negative": "bool",
+              "degree": "u8"
+            },
+            "WeightPerClass": {
+              "baseExtrinsic": "Weight",
+              "maxExtrinsic": "Option<Weight>",
+              "maxTotal": "Option<Weight>",
+              "reserved": "Option<Weight>"
+            },
+            "TargetIdentity": {
+              "_enum": {
+                "ExternalAgent": "",
+                "Specific": "IdentityId"
+              }
+            },
+            "FundraiserId": "u64",
+            "FundraiserName": "Text",
+            "FundraiserStatus": {
+              "_enum": [
+                "Live",
+                "Frozen",
+                "Closed",
+                "ClosedEarly"
+              ]
+            },
+            "FundraiserTier": {
+              "total": "Balance",
+              "price": "Balance",
+              "remaining": "Balance"
+            },
+            "Fundraiser": {
+              "creator": "IdentityId",
+              "offering_portfolio": "PortfolioId",
+              "offering_asset": "Ticker",
+              "raising_portfolio": "PortfolioId",
+              "raising_asset": "Ticker",
+              "tiers": "Vec<FundraiserTier>",
+              "venue_id": "VenueId",
+              "start": "Moment",
+              "end": "Option<Moment>",
+              "status": "FundraiserStatus",
+              "minimum_investment": "Balance"
+            },
+            "VenueId": "u64",
+            "VenueType": {
+              "_enum": [
+                "Other",
+                "Distribution",
+                "Sto",
+                "Exchange"
+              ]
+            },
+            "Tax": "Permill",
+            "TargetIdentities": {
+              "identities": "Vec<IdentityId>",
+              "treatment": "TargetTreatment"
+            },
+            "TargetTreatment": {
+              "_enum": [
+                "Include",
+                "Exclude"
+              ]
+            },
+            "CAKind": {
+              "_enum": [
+                "PredictableBenefit",
+                "UnpredictableBenefit",
+                "IssuerNotice",
+                "Reorganization",
+                "Other"
+              ]
+            },
+            "CADetails": "Text",
+            "CACheckpoint": {
+              "_enum": {
+                "Scheduled": "(ScheduleId, u64)",
+                "Existing": "CheckpointId"
+              }
+            },
+            "RecordDate": {
+              "date": "Moment",
+              "checkpoint": "CACheckpoint"
+            },
+            "RecordDateSpec": {
+              "_enum": {
+                "Scheduled": "Moment",
+                "ExistingSchedule": "ScheduleId",
+                "Existing": "CheckpointId"
+              }
+            },
+            "CorporateAction": {
+              "kind": "CAKind",
+              "decl_date": "Moment",
+              "record_date": "Option<RecordDate>",
+              "targets": "TargetIdentities",
+              "default_withholding_tax": "Tax",
+              "withholding_tax": "Vec<(IdentityId, Tax)>"
+            },
+            "InitiateCorporateActionArgs": {
+              "ticker": "Ticker",
+              "kind": "CAKind",
+              "decl_date": "Moment",
+              "record_date": "Option<RecordDateSpec>",
+              "details": "CADetails",
+              "targets": "Option<TargetIdentities>",
+              "default_withholding_tax": "Option<Tax>",
+              "withholding_tax": "Option<Vec<(IdentityId, Tax)>>"
+            },
+            "LocalCAId": "u32",
+            "CAId": {
+              "ticker": "Ticker",
+              "local_id": "LocalCAId"
+            },
+            "Distribution": {
+              "from": "PortfolioId",
+              "currency": "Ticker",
+              "per_share": "Balance",
+              "amount": "Balance",
+              "remaining": "Balance",
+              "reclaimed": "bool",
+              "payment_at": "Moment",
+              "expires_at": "Option<Moment>"
+            },
+            "SlashingSwitch": {
+              "_enum": [
+                "Validator",
+                "ValidatorAndNominator",
+                "None"
+              ]
+            },
+            "PriceTier": {
+              "total": "Balance",
+              "price": "Balance"
+            },
+            "PermissionedIdentityPrefs": {
+              "intended_count": "u32",
+              "running_count": "u32"
+            },
+            "GranularCanTransferResult": {
+              "invalid_granularity": "bool",
+              "self_transfer": "bool",
+              "invalid_receiver_cdd": "bool",
+              "invalid_sender_cdd": "bool",
+              "missing_scope_claim": "bool",
+              "receiver_custodian_error": "bool",
+              "sender_custodian_error": "bool",
+              "sender_insufficient_balance": "bool",
+              "portfolio_validity_result": "PortfolioValidityResult",
+              "asset_frozen": "bool",
+              "transfer_condition_result": "Vec<TransferConditionResult>",
+              "compliance_result": "AssetComplianceResult",
+              "result": "bool"
+            },
+            "PortfolioValidityResult": {
+              "receiver_is_same_portfolio": "bool",
+              "sender_portfolio_does_not_exist": "bool",
+              "receiver_portfolio_does_not_exist": "bool",
+              "sender_insufficient_balance": "bool",
+              "result": "bool"
+            },
+            "TransferConditionResult": {
+              "condition": "TransferCondition",
+              "result": "bool"
+            },
+            "AGId": "u32",
+            "AgentGroup": {
+              "_enum": {
+                "Full": "",
+                "Custom": "AGId",
+                "ExceptMeta": "",
+                "PolymeshV1CAA": "",
+                "PolymeshV1PIA": ""
+              }
+            },
+            "Member": {
+              "id": "IdentityId",
+              "expiry_at": "Option<Moment>",
+              "inactive_from": "Option<Moment>"
+            },
+            "ItnRewardStatus": {
+              "_enum": {
+                "Unclaimed": "Balance",
+                "Claimed": ""
+              }
+            },
+            "NFTId": "u64",
+            "NFTs": {
+              "ticker": "Ticker",
+              "ids": "Vec<NFTId>"
+            },
+            "FungibleToken": {
+              "ticker": "Ticker",
+              "amount": "Balance"
+            },
+            "LegAsset": {
+              "_enum": {
+                "Fungible": "FungibleToken",
+                "NonFungible": "NFTs"
+              }
+            },
+            "LegV2": {
+              "from": "PortfolioId",
+              "to": "PortfolioId",
+              "asset": "LegAsset"
+            },
+            "FundDescription": {
+              "_enum": {
+                "Fungible": "FungibleToken",
+                "NonFungible": "NFTs"
+              }
+            },
+            "Fund": {
+              "description": "FundDescription",
+              "memo": "Option<Memo>"
+            },
+            "NonFungibleType": {
+              "_enum": {
+                "Derivative": "",
+                "FixedIncome": "",
+                "Invoice": "",
+                "Custom": "CustomAssetTypeId"
+              }
+            }
+          }
+        },
         {
           "minmax": [
             5003000,
@@ -87361,7 +90576,8 @@ export const typesBundle = {
                 "Unclaimed": "Balance",
                 "Claimed": ""
               }
-            }
+            },
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -88535,7 +91751,8 @@ export const typesBundle = {
                 "Unclaimed": "Balance",
                 "Claimed": ""
               }
-            }
+            },
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -89703,7 +92920,8 @@ export const typesBundle = {
                 "Unclaimed": "Balance",
                 "Claimed": ""
               }
-            }
+            },
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -90871,7 +94089,8 @@ export const typesBundle = {
                 "Unclaimed": "Balance",
                 "Claimed": ""
               }
-            }
+            },
+            "DispatchErrorModule": "DispatchErrorModuleU8"
           }
         },
         {
@@ -92554,6 +95773,7 @@ export const typesBundle = {
                 "Wasm": "AccountId"
               }
             },
+            "EthTransaction": "LegacyTransaction",
             "EraStakingPoints": {
               "total": "Balance",
               "stakers": "BTreeMap<AccountId, Balance>",
@@ -92678,6 +95898,9 @@ export const typesBundle = {
     },
     "sora-substrate": {
       "alias": {
+        "bridgeProxy": {
+          "AssetKind": "SubAssetKind"
+        },
         "ethBridge": {
           "StorageVersion": "EthBridgeStorageVersion"
         },
@@ -92731,6 +95954,28 @@ export const typesBundle = {
             "jsonrpc": "oracle_getAllValues",
             "method": "getAllValues",
             "section": "oracle"
+          }
+        },
+        "tokens": {
+          "queryExistentialDeposit": {
+            "description": "Query Existential Deposit for a given currency.",
+            "params": [
+              {
+                "name": "currencyId",
+                "type": "CurrencyId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "NumberOrHex",
+            "isSubscription": false,
+            "jsonrpc": "tokens_queryExistentialDeposit",
+            "method": "queryExistentialDeposit",
+            "section": "tokens"
           }
         },
         "assets": {
@@ -93112,6 +96357,42 @@ export const typesBundle = {
             "jsonrpc": "ethBridge_getRegisteredAssets",
             "method": "getRegisteredAssets",
             "section": "ethBridge"
+          }
+        },
+        "bridgeProxy": {
+          "listApps": {
+            "description": "",
+            "params": [
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<BridgeAppInfo>",
+            "isSubscription": false,
+            "jsonrpc": "bridgeProxy_listApps",
+            "method": "listApps",
+            "section": "bridgeProxy"
+          },
+          "listAssets": {
+            "description": "",
+            "params": [
+              {
+                "name": "networkId",
+                "type": "GenericNetworkId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<BridgeAssetInfo>",
+            "isSubscription": false,
+            "jsonrpc": "bridgeProxy_listAssets",
+            "method": "listAssets",
+            "section": "bridgeProxy"
           }
         },
         "farming": {
@@ -93542,8 +96823,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "frozen": "Balance",
-              "reserved": "Balance"
+              "reserved": "Balance",
+              "frozen": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -93569,10 +96850,16 @@ export const typesBundle = {
               "perPeriod": "Compact<Balance>"
             },
             "VestingScheduleOf": "OrmlVestingSchedule",
+            "OrmlCurrencyId": "u8",
             "PoolInfo": {
+              "totalShares": "Share",
+              "rewards": "BTreeMap<OrmlCurrencyId, (Balance, Balance)>"
+            },
+            "CompactBalance": "Compact<Balance>",
+            "PoolInfoV0": {
               "totalShares": "Compact<Share>",
-              "totalRewards": "Compact<Balance>",
-              "totalWithdrawnRewards": "Compact<Balance>"
+              "totalRewards": "CompactBalance",
+              "totalWithdrawnRewards": "CompactBalance"
             },
             "Share": "u128",
             "OracleValue": "FixedU128",
@@ -94046,6 +97333,74 @@ export const typesBundle = {
                 "V2"
               ]
             },
+            "BridgeAppInfo": {
+              "_enum": {
+                "EVM": "(GenericNetworkId, EVMAppInfo)",
+                "Sub": "(GenericNetworkId)"
+              }
+            },
+            "BridgeAssetInfo": {
+              "_enum": {
+                "EVMLegacy": "EVMLegacyAssetInfo",
+                "EVM": "EVMAssetInfo",
+                "Sub": "SubAssetInfo"
+              }
+            },
+            "EVMAppInfo": {
+              "evmAddress": "H160",
+              "appKind": "EVMAppKind"
+            },
+            "EVMAssetInfo": {
+              "assetId": "MainnetAssetId",
+              "evmAddress": "H160",
+              "appKind": "EVMAppKind",
+              "precision": "u8"
+            },
+            "EVMLegacyAssetInfo": {
+              "assetId": "MainnetAssetId",
+              "evmAddress": "H160",
+              "appKind": "EVMAppKind",
+              "precision": "u8"
+            },
+            "EVMAppKind": {
+              "_enum": [
+                "EthApp",
+                "ERC20App",
+                "SidechainApp",
+                "HashiBridge",
+                "XorMaster",
+                "ValMaster"
+              ]
+            },
+            "SubAssetInfo": {
+              "assetId": "MainnetAssetId",
+              "assetKind": "SubAssetKind",
+              "precision": "u8"
+            },
+            "SubAssetKind": {
+              "_enum": [
+                "Thischain",
+                "Sidechain"
+              ]
+            },
+            "GenericNetworkId": {
+              "_enum": {
+                "EVMLegacy": "u32",
+                "EVM": "EVMChainId",
+                "Sub": "SubNetworkId"
+              }
+            },
+            "MainnetAssetId": "H256",
+            "EVMChainId": "U256",
+            "SubNetworkId": {
+              "_enum": {
+                "Mainnet": null,
+                "Kusama": null,
+                "Polkadot": null,
+                "Rococo": null,
+                "Custom": "u32"
+              }
+            },
             "PoolFarmer": {
               "account": "AccountId",
               "block": "BlockNumber",
@@ -94156,7 +97511,8 @@ export const typesBundle = {
                 "MockPool2",
                 "MockPool3",
                 "MockPool4",
-                "XSTPool"
+                "XSTPool",
+                "OrderBook"
               ]
             },
             "FilterMode": {
@@ -94347,6 +97703,9 @@ export const typesBundle = {
     },
     "sora_ksm": {
       "alias": {
+        "bridgeProxy": {
+          "AssetKind": "SubAssetKind"
+        },
         "ethBridge": {
           "StorageVersion": "EthBridgeStorageVersion"
         },
@@ -94400,6 +97759,28 @@ export const typesBundle = {
             "jsonrpc": "oracle_getAllValues",
             "method": "getAllValues",
             "section": "oracle"
+          }
+        },
+        "tokens": {
+          "queryExistentialDeposit": {
+            "description": "Query Existential Deposit for a given currency.",
+            "params": [
+              {
+                "name": "currencyId",
+                "type": "CurrencyId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "NumberOrHex",
+            "isSubscription": false,
+            "jsonrpc": "tokens_queryExistentialDeposit",
+            "method": "queryExistentialDeposit",
+            "section": "tokens"
           }
         },
         "assets": {
@@ -94781,6 +98162,42 @@ export const typesBundle = {
             "jsonrpc": "ethBridge_getRegisteredAssets",
             "method": "getRegisteredAssets",
             "section": "ethBridge"
+          }
+        },
+        "bridgeProxy": {
+          "listApps": {
+            "description": "",
+            "params": [
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<BridgeAppInfo>",
+            "isSubscription": false,
+            "jsonrpc": "bridgeProxy_listApps",
+            "method": "listApps",
+            "section": "bridgeProxy"
+          },
+          "listAssets": {
+            "description": "",
+            "params": [
+              {
+                "name": "networkId",
+                "type": "GenericNetworkId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<BridgeAssetInfo>",
+            "isSubscription": false,
+            "jsonrpc": "bridgeProxy_listAssets",
+            "method": "listAssets",
+            "section": "bridgeProxy"
           }
         },
         "farming": {
@@ -95211,8 +98628,8 @@ export const typesBundle = {
             "OrderedSet": "Vec<AccountId>",
             "OrmlAccountData": {
               "free": "Balance",
-              "frozen": "Balance",
-              "reserved": "Balance"
+              "reserved": "Balance",
+              "frozen": "Balance"
             },
             "OrmlBalanceLock": {
               "amount": "Balance",
@@ -95238,10 +98655,16 @@ export const typesBundle = {
               "perPeriod": "Compact<Balance>"
             },
             "VestingScheduleOf": "OrmlVestingSchedule",
+            "OrmlCurrencyId": "u8",
             "PoolInfo": {
+              "totalShares": "Share",
+              "rewards": "BTreeMap<OrmlCurrencyId, (Balance, Balance)>"
+            },
+            "CompactBalance": "Compact<Balance>",
+            "PoolInfoV0": {
               "totalShares": "Compact<Share>",
-              "totalRewards": "Compact<Balance>",
-              "totalWithdrawnRewards": "Compact<Balance>"
+              "totalRewards": "CompactBalance",
+              "totalWithdrawnRewards": "CompactBalance"
             },
             "Share": "u128",
             "OracleValue": "FixedU128",
@@ -95715,6 +99138,74 @@ export const typesBundle = {
                 "V2"
               ]
             },
+            "BridgeAppInfo": {
+              "_enum": {
+                "EVM": "(GenericNetworkId, EVMAppInfo)",
+                "Sub": "(GenericNetworkId)"
+              }
+            },
+            "BridgeAssetInfo": {
+              "_enum": {
+                "EVMLegacy": "EVMLegacyAssetInfo",
+                "EVM": "EVMAssetInfo",
+                "Sub": "SubAssetInfo"
+              }
+            },
+            "EVMAppInfo": {
+              "evmAddress": "H160",
+              "appKind": "EVMAppKind"
+            },
+            "EVMAssetInfo": {
+              "assetId": "MainnetAssetId",
+              "evmAddress": "H160",
+              "appKind": "EVMAppKind",
+              "precision": "u8"
+            },
+            "EVMLegacyAssetInfo": {
+              "assetId": "MainnetAssetId",
+              "evmAddress": "H160",
+              "appKind": "EVMAppKind",
+              "precision": "u8"
+            },
+            "EVMAppKind": {
+              "_enum": [
+                "EthApp",
+                "ERC20App",
+                "SidechainApp",
+                "HashiBridge",
+                "XorMaster",
+                "ValMaster"
+              ]
+            },
+            "SubAssetInfo": {
+              "assetId": "MainnetAssetId",
+              "assetKind": "SubAssetKind",
+              "precision": "u8"
+            },
+            "SubAssetKind": {
+              "_enum": [
+                "Thischain",
+                "Sidechain"
+              ]
+            },
+            "GenericNetworkId": {
+              "_enum": {
+                "EVMLegacy": "u32",
+                "EVM": "EVMChainId",
+                "Sub": "SubNetworkId"
+              }
+            },
+            "MainnetAssetId": "H256",
+            "EVMChainId": "U256",
+            "SubNetworkId": {
+              "_enum": {
+                "Mainnet": null,
+                "Kusama": null,
+                "Polkadot": null,
+                "Rococo": null,
+                "Custom": "u32"
+              }
+            },
             "PoolFarmer": {
               "account": "AccountId",
               "block": "BlockNumber",
@@ -95825,7 +99316,8 @@ export const typesBundle = {
                 "MockPool2",
                 "MockPool3",
                 "MockPool4",
-                "XSTPool"
+                "XSTPool",
+                "OrderBook"
               ]
             },
             "FilterMode": {

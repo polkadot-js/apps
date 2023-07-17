@@ -1,7 +1,8 @@
 // Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeDef } from './ctx/types.js';
+import type React from 'react';
+import type { ThemeDef } from '@polkadot/react-components/types';
 
 import { useContext, useMemo } from 'react';
 import { ThemeContext } from 'styled-components';

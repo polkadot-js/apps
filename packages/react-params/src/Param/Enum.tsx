@@ -29,13 +29,16 @@ interface Initial {
 }
 
 function getSubTypes (registry: Registry, type: TypeDef): TypeDef[] {
-  const rawType = registry.createType(type.type as 'u32').toRawType();
-
-  return getTypeDef(rawType).sub as TypeDef[];
+  return getTypeDef(
+    registry.createType(type.type as '(u32, u32)').toRawType()
+  ).sub as TypeDef[];
 }
 
 function getOptions (registry: Registry, type: TypeDef): Options {
-  const subTypes = getSubTypes(registry, type).filter(({ name }) => !!name && !name.startsWith('__Unused'));
+  const subTypes = getSubTypes(registry, type).filter(({ name }) =>
+    !!name &&
+    !name.startsWith('__Unused')
+  );
 
   return {
     options: subTypes.map(({ name }): Option => ({
@@ -47,21 +50,36 @@ function getOptions (registry: Registry, type: TypeDef): Options {
 }
 
 function getInitial (defaultValue: RawParam, options: Option[]): Initial {
+  if (defaultValue?.value) {
+    if (defaultValue.value instanceof Enum) {
+      return {
+        initialEnum: defaultValue.value.type,
+        initialParams: [{
+          isValid: true,
+          value: defaultValue.value.inner
+        }]
+      };
+    } else if (isObject<Record<string, unknown>>(defaultValue.value)) {
+      const [initialEnum, value] = Object.entries(defaultValue.value)[0];
+
+      // Ensure that the defaultValue is actually in our enum, e.g. it
+      // may start with __Unused<x> values, in which case it would be
+      // invalid
+      if (options.some(({ value }) => value === initialEnum)) {
+        return {
+          initialEnum,
+          initialParams: [{
+            isValid: true,
+            value
+          }]
+        };
+      }
+    }
+  }
+
   return {
-    initialEnum: defaultValue && defaultValue.value
-      ? defaultValue.value instanceof Enum
-        ? defaultValue.value.type
-        : isObject(defaultValue.value)
-          ? Object.keys(defaultValue.value as Record<string, unknown>)[0]
-          : options[0] && options[0].value
-      : options[0] && options[0].value,
-    initialParams: defaultValue && defaultValue.value
-      ? defaultValue.value instanceof Enum
-        ? [{ isValid: true, value: defaultValue.value.inner }]
-        : isObject(defaultValue.value)
-          ? [{ isValid: true, value: (defaultValue.value as Record<string, unknown>)[Object.keys(defaultValue.value as Record<string, unknown>)[0]] }]
-          : undefined
-      : undefined
+    initialEnum: options[0]?.value,
+    initialParams: undefined
   };
 }
 

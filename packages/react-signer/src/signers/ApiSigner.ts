@@ -7,7 +7,7 @@ import type { QueueTxMessageSetStatus, QueueTxPayloadAdd, QueueTxStatus } from '
 import type { Hash } from '@polkadot/types/interfaces';
 import type { Registry, SignerPayloadJSON } from '@polkadot/types/types';
 
-export default class ApiSigner implements Signer {
+export class ApiSigner implements Signer {
   readonly #queuePayload: QueueTxPayloadAdd;
   readonly #queueSetTxStatus: QueueTxMessageSetStatus;
   readonly #registry: Registry;

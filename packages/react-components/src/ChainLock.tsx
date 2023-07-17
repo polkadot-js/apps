@@ -1,5 +1,7 @@
-// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import type { HexString } from '@polkadot/util/types';
 
 import React, { useCallback, useMemo } from 'react';
 
@@ -14,7 +16,7 @@ interface Props {
   className?: string;
   genesisHash: string | null;
   isDisabled?: boolean;
-  onChange: (genesisHash: string | null) => void;
+  onChange: (genesisHash: HexString | null) => void;
 }
 
 function calcLock (apiGenesis: string, genesisHash: string | null): boolean {
