@@ -26,7 +26,7 @@ function BannerExtension (): React.ReactElement | null {
   const { t } = useTranslation();
   const { hasInjectedAccounts } = useApi();
   const upgradableCount = useExtensionCounter();
-  const phishing = useRef<string>(t<string>(''));
+  const phishing = useRef<string>(t<string>('Since some extensions, such as the polkadot-js extension, protects you against all community reported phishing sites, there are valid reasons to use them for additional protection, even if you are not storing accounts in it.'));
 
   if (!isSupported || !browserName) {
     return null;
@@ -63,12 +63,12 @@ function BannerExtension (): React.ReactElement | null {
 
   return (
     <Banner type='warning'>
-      <p>{t<string>('We have disabled the use of polkadot-js extension for now!', {
+      <p>{t<string>('It is recommended that you create/store your accounts securely and externally from the app. On {{yourBrowser}} the following browser extensions are available for use -', {
         replace: {
           yourBrowser: stringUpperFirst(browserName)
         }
       })}</p>
-      {/* <ul>{availableExtensions[browserName].map(({ desc, link, name }): React.ReactNode => (
+      <ul>{availableExtensions[browserName].map(({ desc, link, name }): React.ReactNode => (
         <li key={name}>
           <a
             href={link}
@@ -79,14 +79,14 @@ function BannerExtension (): React.ReactElement | null {
           </a> ({t(desc)})
         </li>
       ))
-      }</ul> */}
-      {/* <p>{t<string>('')}&nbsp;
+      }</ul>
+      <p>{t<string>('Accounts injected from any of these extensions will appear in this application and be available for use. The above list is updated as more extensions with external signing capability become available.')}&nbsp;
         <a
           href='https://github.com/polkadot-js/extension'
           rel='noopener noreferrer'
           target='_blank'
         >{t<string>('Learn more...')}</a>
-      </p> */}
+      </p>
       <p>{phishing.current}</p>
     </Banner>
   );
