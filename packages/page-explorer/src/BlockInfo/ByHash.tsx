@@ -100,7 +100,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
       .then((result): void => {
         mountedRef.current && setState(transformResult(result));
 
-        const number = result[2];
+        const number = result[2]?.number.unwrap().toNumber();
         let LightClientURI = `${config.LCURL}/v1`;
         const url = new URL(window.location.href);
         const searchParams = new URLSearchParams(url.search);
