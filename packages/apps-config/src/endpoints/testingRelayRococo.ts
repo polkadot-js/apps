@@ -244,7 +244,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoImbue',
     paraId: 2121,
     providers: {
-      // 'Imbue Network': 'wss://rococo.imbue.network' // https://github.com/polkadot-js/apps/issues/9075
+      'Imbue Network': 'wss://rococo.imbue.network'
     },
     text: 'Imbue Network',
     ui: {
