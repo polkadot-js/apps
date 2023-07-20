@@ -290,7 +290,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'kusari',
     providers: {
-      Swapdex: 'wss://ws.kusari.network'
+      // Swapdex: 'wss://ws.kusari.network' // https://github.com/polkadot-js/apps/issues/9712
     },
     text: 'Kusari',
     ui: {
@@ -421,7 +421,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'sherpax',
     providers: {
-      ChainX: 'wss://mainnet.sherpax.io'
+      // ChainX: 'wss://mainnet.sherpax.io' // https://github.com/polkadot-js/apps/issues/9712
     },
     text: 'SherpaX',
     ui: {

@@ -230,7 +230,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
       // GMorDieDAO: 'wss://kusama.gmordie.com', // https://github.com/polkadot-js/apps/issues/8457
       // 'GM Intern': 'wss://intern.gmordie.com', // https://github.com/polkadot-js/apps/issues/9381
       // TerraBioDAO: 'wss://ws-node-gm.terrabiodao.org', // https://github.com/polkadot-js/apps/issues/8867
-      Leemo: 'wss://leemo.gmordie.com',
+      // Leemo: 'wss://leemo.gmordie.com', // https://github.com/polkadot-js/apps/issues/9712
       'bLd Nodes': 'wss://ws.gm.bldnodes.org',
       'light client': 'light://substrate-connect/kusama/gm'
     },
