@@ -54542,6 +54542,20 @@ export const typesBundle = {
       ]
     },
     "imbue": {
+      "rpc": {
+        "proposals": {
+          "getProjectKitty": {
+            "description": "Get the escrow address associated with a project",
+            "params": [
+              {
+                "name": "project_id",
+                "type": "u32"
+              }
+            ],
+            "type": "AccountId"
+          }
+        }
+      },
       "types": [
         {
           "minmax": [
@@ -54553,23 +54567,7 @@ export const typesBundle = {
             "LookupSource": "MultiAddress"
           }
         }
-      ],
-      "rpc": {
-        "proposals": {
-          "getProjectKitty": {
-            "description": "Get the escrow address associated with a project",
-            "params": [{
-              "name": "project_id",
-              "type": "u32"
-            }],
-            "type": "AccountId",
-            "isSubscription": false,
-            "jsonrpc": "proposals_getProjectKitty",
-            "method": "getProjectKitty",
-            "section": "proposals"
-          }
-        }
-      }
+      ]
     },
     "integritee-parachain": {
       "types": [
