@@ -220,7 +220,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoHydraDX',
     paraId: 2034,
     providers: {
-      'Galactic Council': 'wss://rococo-hydradx-rpc.hydration.dev'
+      // 'Galactic Council': 'wss://rococo-hydradx-rpc.hydration.dev' // https://github.com/polkadot-js/apps/issues/9712
     },
     text: 'HydraDX',
     ui: {

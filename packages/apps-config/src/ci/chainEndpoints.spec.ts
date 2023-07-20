@@ -72,9 +72,9 @@ describe('check endpoints', (): void => {
 
             websocket.onmessage = (message: { data: string }): void => {
               try {
-                const result = (JSON.parse(message.data) as { result: string }).result;
+                const result = (JSON.parse(message.data) as { result?: string }).result;
 
-                assert(result.startsWith('0x'), 'Invalid response');
+                assert(result?.startsWith('0x'), 'Invalid/non-hex response');
                 resolve(result);
               } catch (e) {
                 reject(e);
