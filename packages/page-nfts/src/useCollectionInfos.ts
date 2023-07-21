@@ -1,6 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-nfts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { AugmentedQueries } from '@polkadot/api-base/types';
 import type { Option } from '@polkadot/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { PalletUniquesCollectionDetails, PalletUniquesCollectionMetadata } from '@polkadot/types/lookup';
@@ -80,10 +81,11 @@ const addIpfsData = (ipfsData: IpfsData) => (collectionInfo: CollectionInfo): Co
 };
 
 function useCollectionInfosImpl (ids?: BN[]): CollectionInfo[] | undefined {
-  const { api } = useApi();
+  const { api, apiDefaultNft } = useApi();
+  const queryNfts = api.query[apiDefaultNft] as AugmentedQueries<'promise'>['uniques'];
   const { allAccounts } = useAccounts();
-  const metadata = useCall<[[BN[]], Option<PalletUniquesCollectionMetadata>[]]>(api.query.uniques.classMetadataOf.multi, [ids], QUERY_OPTS);
-  const details = useCall<[[BN[]], Option<PalletUniquesCollectionDetails>[]]>(api.query.uniques.class.multi, [ids], QUERY_OPTS);
+  const metadata = useCall<[[BN[]], Option<PalletUniquesCollectionMetadata>[]]>(queryNfts.classMetadataOf.multi, [ids], QUERY_OPTS);
+  const details = useCall<[[BN[]], Option<PalletUniquesCollectionDetails>[]]>(queryNfts.class.multi, [ids], QUERY_OPTS);
   const [state, setState] = useState<CollectionInfo[] | undefined>();
 
   const ipfsHashes = useMemo(

@@ -18,6 +18,7 @@ export interface BareProps {
 export interface ApiState {
   apiDefaultTx: SubmittableExtrinsicFunction;
   apiDefaultTxSudo: SubmittableExtrinsicFunction;
+  apiDefaultNft: string;
   chainSS58: number;
   hasInjectedAccounts: boolean;
   isApiReady: boolean;
