@@ -1,6 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-nfts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { AugmentedQueries } from '@polkadot/api-base/types';
 import type { StorageKey, u32 } from '@polkadot/types';
 import type { AccountId32 } from '@polkadot/types/interfaces';
 import type { AccountItem } from '../types.js';
@@ -26,22 +27,24 @@ function transformResults (results: StorageKey<[AccountId32, u32, u32]>[][]): Ac
 
 function useAccountItemsImpl (): AccountItem[] | undefined {
   const mountedRef = useIsMountedRef();
-  const { api } = useApi();
+  const { api, apiDefaultNft } = useApi();
   const { allAccounts } = useAccounts();
 
   const [state, setState] = useState<AccountItem[] | undefined>();
+
+  const queryNftAccount = api.query[apiDefaultNft].account as AugmentedQueries<'promise'>['uniques']['account'];
 
   useEffect((): void => {
     if (!allAccounts.length) {
       return;
     }
 
-    const promises = allAccounts.map((account) => api.query.uniques.account.keys(account));
+    const promises = allAccounts.map((account) => queryNftAccount.keys(account));
 
     Promise.all(promises)
       .then((results) => mountedRef.current && setState(transformResults(results)))
       .catch(console.error);
-  }, [allAccounts, api.query.uniques.account, mountedRef]);
+  }, [allAccounts, queryNftAccount, mountedRef]);
 
   return state;
 }

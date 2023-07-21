@@ -12,6 +12,7 @@ import type { BlockNumber, EventRecord } from '@polkadot/types/interfaces';
 export interface ApiState {
   apiDefaultTx: SubmittableExtrinsicFunction;
   apiDefaultTxSudo: SubmittableExtrinsicFunction;
+  apiDefaultNft: string;
   chainSS58: number;
   hasInjectedAccounts: boolean;
   isApiReady: boolean;
