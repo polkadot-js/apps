@@ -699,6 +699,8 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     info: 'polkadotBridgeHub',
     paraId: 1002,
     providers: {
+      'IBP-GeoDNS1': 'wss://sys.ibp.network/bridgehub-polkadot',
+      'IBP-GeoDNS2': 'wss://sys.dotters.network/bridgehub-polkadot',
       LuckyFriday: 'wss://rpc-bridge-hub-polkadot.luckyfriday.io',
       Parity: 'wss://polkadot-bridge-hub-rpc.polkadot.io',
       Stakeworld: 'wss://dot-rpc.stakeworld.io/bridgehub'
