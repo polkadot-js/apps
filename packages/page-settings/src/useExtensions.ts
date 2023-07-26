@@ -29,6 +29,7 @@ interface ExtensionProperties {
   tokenDecimals: number;
   tokenSymbol: string;
   ss58Format?: number;
+  userExtensionsLoaded?: boolean
 }
 
 interface SavedProperties {
@@ -45,7 +46,7 @@ function triggerAll (): void {
 }
 
 // save the properties for a specific extension
-function saveProperties (api: ApiPromise, { name, version }: InjectedExtension): void {
+function saveProperties (api: ApiPromise, { name, version }: InjectedExtension, hasLoadedUserExtensions: boolean): void {
   const storeKey = `properties:${api.genesisHash.toHex()}`;
   const allProperties = store.get(storeKey, {}) as SavedProperties;
 
@@ -53,7 +54,8 @@ function saveProperties (api: ApiPromise, { name, version }: InjectedExtension):
     extensionVersion: version,
     ss58Format: api.registry.chainSS58,
     tokenDecimals: api.registry.chainDecimals[0],
-    tokenSymbol: api.registry.chainTokens[0]
+    tokenSymbol: api.registry.chainTokens[0],
+    userExtensionsLoaded: hasLoadedUserExtensions
   };
 
   store.set(storeKey, allProperties);
@@ -65,16 +67,17 @@ function hasCurrentProperties (api: ApiPromise, { extension }: ExtensionKnown): 
 
   // when we don't have properties yet, assume nothing has changed and store
   if (!allProperties[extension.name]) {
-    saveProperties(api, extension);
+    saveProperties(api, extension, false);
 
     return true;
   }
 
-  const { ss58Format, tokenDecimals, tokenSymbol } = allProperties[extension.name];
+  const { ss58Format, tokenDecimals, tokenSymbol, userExtensionsLoaded } = allProperties[extension.name];
 
   return ss58Format === api.registry.chainSS58 &&
     tokenDecimals === api.registry.chainDecimals[0] &&
-    tokenSymbol === api.registry.chainTokens[0];
+    tokenSymbol === api.registry.chainTokens[0] &&
+    (tokenSymbol !== 'AVL' || Boolean(userExtensionsLoaded));
 }
 
 // filter extensions based on the properties we have available
@@ -113,9 +116,10 @@ async function getExtensionInfo (api: ApiPromise, extension: InjectedExtension):
 
         try {
           isOk = await metadata.provide(def);
+          const hasLoadedUserExtensions = !!def.userExtensions;
 
           if (isOk) {
-            saveProperties(api, extension);
+            saveProperties(api, extension, hasLoadedUserExtensions);
             triggerAll();
           }
         } catch {

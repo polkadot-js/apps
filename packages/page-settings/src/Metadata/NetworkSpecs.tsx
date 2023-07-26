@@ -5,8 +5,9 @@ import type { NetworkSpecsStruct } from '@polkadot/ui-settings/types';
 import type { ChainInfo, ChainType } from '../types.js';
 
 import React, { useCallback, useEffect, useReducer, useRef, useState } from 'react';
+import store from 'store';
 
-import { ChainImg, Input, QrNetworkSpecs, Spinner, styled, Table } from '@polkadot/react-components';
+import { Button, ChainImg, Input, QrNetworkSpecs, Spinner, styled, Table } from '@polkadot/react-components';
 import { useApi, useDebounce } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
@@ -18,7 +19,7 @@ interface Props {
 }
 
 // TODO-MOONBEAM: update NetworkSpecsStruct in @polkadot/ui-settings/types
-interface NetworkSpecsStructWithType extends NetworkSpecsStruct{
+interface NetworkSpecsStructWithType extends NetworkSpecsStruct {
   chainType: ChainType
 }
 
@@ -61,17 +62,21 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
   };
 
   const [networkSpecs, setNetworkSpecs] = useReducer(reducer, initialState);
+  const [userExtensions, setUserExtensions] = useState<string[] | undefined>();
 
   useEffect((): void => {
-    chainInfo && setNetworkSpecs({
-      chainType: chainInfo.chainType,
-      color: chainInfo.color || getRandomColor(),
-      decimals: chainInfo.tokenDecimals,
-      genesisHash: chainInfo.genesisHash,
-      prefix: chainInfo.ss58Format,
-      title: systemChain,
-      unit: chainInfo.tokenSymbol
-    });
+    if (chainInfo) {
+      setNetworkSpecs({
+        chainType: chainInfo.chainType,
+        color: chainInfo.color || getRandomColor(),
+        decimals: chainInfo.tokenDecimals,
+        genesisHash: chainInfo.genesisHash,
+        prefix: chainInfo.ss58Format,
+        title: systemChain,
+        unit: chainInfo.tokenSymbol
+      });
+      setUserExtensions(chainInfo.userExtensions ? Object.keys(chainInfo.userExtensions) : undefined);
+    }
   }, [chainInfo, systemChain]);
 
   const _onChangeColor = useCallback(
@@ -91,6 +96,14 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
   const _checkColorValid = useCallback(
     (): boolean => /^#[\da-fA-F]{6}|#[\da-fA-F]{3}$/.test(networkSpecs.color),
     [networkSpecs]
+  );
+
+  const _onClearStore = useCallback(
+    (): void => {
+      store.clearAll();
+      console.log('Store cleared');
+    },
+    []
   );
 
   const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
@@ -120,7 +133,7 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
             <ChainImg className='settings--networkSpecs-logo' />
           </div>
         </td>
-        <td rowSpan={7}>
+        <td rowSpan={9}>
           {qrData.genesisHash && (
             <QrNetworkSpecs
               className='settings--networkSpecs-qr'
@@ -203,6 +216,27 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
             label={t<string>('Chain Type')}
             value={networkSpecs.chainType}
           />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <Input
+            className='full'
+            isDisabled
+            label={t<string>('User extensions')}
+            value={userExtensions && userExtensions.length > 0 ? userExtensions.join(', ') : 'No signed / user extensions found'}
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <Button.Group>
+            <Button
+              icon='trash'
+              label={t<string>('Reset extensions store')}
+              onClick={_onClearStore}
+            />
+          </Button.Group>
         </td>
       </tr>
     </StyledTable>

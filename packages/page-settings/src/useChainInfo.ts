@@ -8,7 +8,7 @@ import { useMemo } from 'react';
 import { getSystemIcon } from '@polkadot/apps-config';
 import { DEFAULT_DECIMALS, DEFAULT_SS58 } from '@polkadot/react-api';
 import { createNamedHook, useApi } from '@polkadot/react-hooks';
-import { getSpecTypes } from '@polkadot/types-known';
+import { getSpecExtensions, getSpecTypes } from '@polkadot/types-known';
 import { formatBalance, isNumber } from '@polkadot/util';
 import { base64Encode } from '@polkadot/util-crypto';
 
@@ -32,7 +32,8 @@ function useChainInfoImpl (): ChainInfo | null {
           : DEFAULT_SS58.toNumber(),
         tokenDecimals: (api.registry.chainDecimals || [DEFAULT_DECIMALS.toNumber()])[0],
         tokenSymbol: (api.registry.chainTokens || formatBalance.getDefaults().unit)[0],
-        types: getSpecTypes(api.registry, systemChain, api.runtimeVersion.specName, api.runtimeVersion.specVersion) as unknown as Record<string, string>
+        types: getSpecTypes(api.registry, systemChain, api.runtimeVersion.specName, api.runtimeVersion.specVersion) as unknown as Record<string, string>,
+        userExtensions: getSpecExtensions(api.registry, systemChain, api.runtimeVersion.specName)
       }
       : null,
     [api, apiEndpoint, isApiReady, specName, systemChain, systemName, isEthereum]
