@@ -24,7 +24,7 @@
       16	Xiliang Chen                  	allow submit from Decod page (#5759)
       15	Eliott Teissonniere           	add nodle parachain colors (#7353)
       15	Jun Jiang                     	Update and fix Khala typedef (#8272)
-      14	lumir-mrkva                   	moved Basilisk rococo RPC (#9351)
+      15	lumir-mrkva                   	moved HydraDX rococo RPC (#9732)
       14	Sam Elamin                    	add missing specs (#9711)
       13	Gabriel Facco de Arruda       	Add InvArch to apps-config (#9145)
       13	Miguel Hervas                 	Adding Centrifuge OnFinality Service (#7328)
