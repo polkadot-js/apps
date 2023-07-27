@@ -1,0 +1,44 @@
+name: GGX Explorer Staging
+
+on:
+  push:
+    branches: 
+      - docker-build-action
+      - staging
+  pull_request:
+
+jobs:
+  docker-build-push-sydney:
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::${{ secrets.NONPROD_AWS_ACCOUNT_ID }}:role/github-dev
+
+      - name: Log in to Amazon ECR
+        id: login-ecr-public
+        uses: aws-actions/amazon-ecr-login@v1
+        with:
+          registry-type: public
+
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Set Image Tag
+        run: echo "SHORT_SHA=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_ENV
+
+      - name: Build, tag, and upload the docker image
+        env:
+          REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
+          REPOSITORY: explorer-dev
+        run: |
+          docker build -t $REGISTRY/$REPOSITORY:explorer-stg-$SHORT_SHA -f docker/Dockerfile .
+          docker push $REGISTRY/$REPOSITORY:explorer-stg-$SHORT_SHA
+
+      - name: Log out of Amazon ECR
+        run: docker logout ${{ steps.login-ecr-public.outputs.registry }}
