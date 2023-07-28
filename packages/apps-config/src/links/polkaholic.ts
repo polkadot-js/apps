@@ -20,7 +20,6 @@ export const Polkaholic: ExternalDef = {
     'Composable Finance': 'composable',
     'Crab Parachain': 'crab',
     'Crust Shadow': 'shadow',
-    'Dorafactory Network': 'dorafactory',
     Efinity: 'efinity',
     'Encointer on Kusama': 'encointer',
     'Equilibrium parachain': 'equilibrium',
