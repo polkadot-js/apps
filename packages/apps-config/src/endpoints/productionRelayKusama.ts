@@ -183,19 +183,6 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://dorafactory.org/kusama/',
-    info: 'dorafactory',
-    paraId: 2115,
-    providers: {
-      DORA: 'wss://kusama.dorafactory.org'
-    },
-    text: 'Dora Factory',
-    ui: {
-      color: '#FF761C',
-      logo: chainsDorafactoryPNG
-    }
-  },
-  {
     homepage: 'https://genshiro..io',
     info: 'Genshiro',
     paraId: 2024,
