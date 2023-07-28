@@ -17,7 +17,6 @@ export { chainsComposableFinancePNG } from './generated/composableFinancePNG.js'
 export { chainsCreditcoinTestPNG } from './generated/creditcoin-testPNG.js';
 export { chainsCreditcoinPNG } from './generated/creditcoinPNG.js';
 export { chainsDebioSVG } from './generated/debioSVG.js';
-export { chainsDorafactoryPNG } from './generated/dorafactoryPNG.js';
 export { chainsDustyPNG } from './generated/dustyPNG.js';
 export { chainsEquilibriumSVG } from './generated/equilibriumSVG.js';
 export { chainsFerrumPNG } from './generated/ferrumPNG.js';
