@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types.js';
 
 import { KUSAMA_GENESIS } from '../api/constants.js';
-import { chainsAbandPNG, chainsAltairSVG, chainsAmplitudeSVG, chainsDorafactoryPNG, chainsGenshiroSVG, chainsGmJPEG, chainsKaruraSVG, chainsKicoPNG, chainsKintsugiPNG, chainsKusamaSVG, chainsListenPNG, chainsMangataPNG, chainsRiodefiPNG, chainsShidenPNG, chainsTinkerPNG, chainsTuringPNG, chainsUnorthodoxPNG } from '../ui/logos/chains/index.js';
+import { chainsAbandPNG, chainsAltairSVG, chainsAmplitudeSVG, chainsGenshiroSVG, chainsGmJPEG, chainsKaruraSVG, chainsKicoPNG, chainsKintsugiPNG, chainsKusamaSVG, chainsListenPNG, chainsMangataPNG, chainsRiodefiPNG, chainsShidenPNG, chainsTinkerPNG, chainsTuringPNG, chainsUnorthodoxPNG } from '../ui/logos/chains/index.js';
 import { nodesApronPNG, nodesAresMarsPNG, nodesAssetHubSVG, nodesBajunPNG, nodesBasiliskPNG, nodesBifrostSVG, nodesBitcountryPNG, nodesBridgeHubBlackSVG, nodesCalamariPNG, nodesCrabSVG, nodesDatahighwayPNG, nodesEncointerBlueSVG, nodesImbuePNG, nodesIntegriteeSVG, nodesIpciSVG, nodesKabochaSVG, nodesKhalaSVG, nodesKrestPNG, nodesLitmusPNG, nodesLoomNetworkPNG, nodesMoonriverSVG, nodesParallelSVG, nodesPicassoPNG, nodesPichiuPNG, nodesPolkasmithSVG, nodesQuartzPNG, nodesRobonomicsSVG, nodesSakuraSVG, nodesShadowSVG, nodesSnowPNG, nodesSoraSubstrateSVG, nodesSubgameSVG, nodesSubsocialXSVG, nodesTrustbasePNG, nodesZeroSVG } from '../ui/logos/nodes/index.js';
 import { getTeleports } from './util.js';
 
