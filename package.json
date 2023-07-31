@@ -68,7 +68,7 @@
   },
   "dependencies": {
     "axios": "^1.4.0",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.3.1"
   },
   "devDependencies": {
     "@crustio/crust-pin": "^1.0.0",
