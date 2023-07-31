@@ -9,6 +9,10 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
 
+require('dotenv').config({
+  path: '../../.env'
+});
+
 const findPackages = require('../../scripts/findPackages.cjs');
 
 function createWebpack (context, mode = 'production') {
@@ -134,7 +138,9 @@ function createWebpack (context, mode = 'production') {
       }),
       new webpack.DefinePlugin({
         'process.env': {
+          LCURL: JSON.stringify(process.env.LCURL),
           NODE_ENV: JSON.stringify(mode),
+          TESTNETURL: JSON.stringify(process.env.TESTNETURL),
           WS_URL: JSON.stringify(process.env.WS_URL)
         }
       }),
