@@ -23,7 +23,7 @@ function makeContents (k, contents) {
 const all = {};
 const oversized = {};
 
-for (let dir of ['extensions', 'external', 'chains', 'nodes']) {
+for (let dir of ['extensions', 'external', 'chains']) {
   const sub = path.join('packages/apps-config/src/ui/logos', dir);
   const generated = path.join(sub, 'generated');
   const result = {};

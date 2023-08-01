@@ -7,7 +7,6 @@ import fs from 'node:fs';
 
 import { objectSpread } from '@polkadot/util';
 
-import chain from './chain/index.js';
 import spec from './spec/index.js';
 
 // Technically this shouldn't be a test - it was that way since historically we
@@ -16,7 +15,6 @@ import spec from './spec/index.js';
 
 describe('typesBundle', (): void => {
   const specEntries = Object.entries(spec);
-  const chainEntries = Object.entries(chain);
   const typesBundle: { chain: Record<string, unknown>, spec: Record<string, unknown> } = { chain: {}, spec: {} };
 
   afterAll((): void => {
@@ -43,18 +41,6 @@ export const typesBundle = ${JSON.stringify(typesBundle, null, 2)} as unknown as
         delete value.derives;
 
         typesBundle.spec[k] = value;
-      });
-    }
-  });
-
-  describe('chains', (): void => {
-    for (const [k, v] of chainEntries) {
-      it(`adds ${k}`, (): void => {
-        const value = objectSpread<{ derives: unknown }>({}, v);
-
-        delete value.derives;
-
-        typesBundle.chain[k] = value;
       });
     }
   });
