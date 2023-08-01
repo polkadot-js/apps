@@ -116,7 +116,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoCatalyst',
     paraId: 2031,
     providers: {
-      Centrifuge: 'wss://fullnode.catalyst.cntrfg.com'
+      // Centrifuge: 'wss://fullnode.catalyst.cntrfg.com' // https://github.com/polkadot-js/apps/issues/9748
     },
     text: 'Catalyst',
     ui: {
@@ -461,7 +461,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoSocietal',
     paraId: 4253,
     providers: {
-      Societal: 'wss://node-ws-rococo.testnet.sctl.link'
+      // Societal: 'wss://node-ws-rococo.testnet.sctl.link' // https://github.com/polkadot-js/apps/issues/9748
     },
     text: 'Societal',
     ui: {
