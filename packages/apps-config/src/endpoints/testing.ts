@@ -293,7 +293,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'ferrum',
     providers: {
-      FerrumNetwork: 'wss://testnet.dev.svcs.ferrumnetwork.io'
+      // FerrumNetwork: 'wss://testnet.dev.svcs.ferrumnetwork.io' // https://github.com/polkadot-js/apps/issues/9748
     },
     text: 'Ferrum Testnet',
     ui: {

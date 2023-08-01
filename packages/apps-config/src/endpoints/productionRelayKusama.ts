@@ -187,7 +187,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'dorafactory',
     paraId: 2115,
     providers: {
-      DORA: 'wss://kusama.dorafactory.org'
+      // DORA: 'wss://kusama.dorafactory.org' // https://github.com/polkadot-js/apps/issues/9748
     },
     text: 'Dora Factory',
     ui: {
@@ -245,7 +245,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'imbue',
     paraId: 2121,
     providers: {
-      'Imbue Network': 'wss://collator.production.imbue.network'
+      // 'Imbue Network': 'wss://collator.production.imbue.network' // https://github.com/polkadot-js/apps/issues/9748
     },
     text: 'Imbue Network',
     ui: {
