@@ -1,7 +1,10 @@
 name: Chain endpoints
 on:
   schedule:
-    - cron:  '50 0/12 * * *'
+    # twice daily (mornings/afternoons, the latter being busy)
+    # - cron:  '50 0/12 * * *'
+    # once daily (early mornings, 02:50 GMT, generally not busy)
+    - cron:  '50 2 * * *'
 
 jobs:
   endpoints:
