@@ -17,6 +17,7 @@ import { getTeleports } from './util.js';
 // IMPORTANT: Alphabetical based on text
 export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
   {
+    homepage: 'https://acurast.com',
     info: 'rococoAcurast',
     paraId: 2239,
     providers: {
