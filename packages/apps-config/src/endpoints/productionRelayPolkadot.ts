@@ -74,7 +74,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       Blast: 'wss://astar.public.blastapi.io',
       Dwellir: 'wss://astar-rpc.dwellir.com',
       OnFinality: 'wss://astar.api.onfinality.io/public-ws',
-      RadiumBlock: 'wss://astar.public.curie.radiumblock.co/ws',
+      // RadiumBlock: 'wss://astar.public.curie.radiumblock.co/ws', // https://github.com/polkadot-js/apps/issues/9748
       'light client': 'light://substrate-connect/polkadot/astar'
     },
     text: 'Astar',
@@ -231,8 +231,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'equilibrium',
     paraId: 2011,
     providers: {
-      Dwellir: 'wss://equilibrium-rpc.dwellir.com',
-      Equilibrium: 'wss://node.pol.equilibrium.io/'
+      Dwellir: 'wss://equilibrium-rpc.dwellir.com'
+      // Equilibrium: 'wss://node.pol.equilibrium.io/' // https://github.com/polkadot-js/apps/issues/9748
     },
     text: 'Equilibrium',
     ui: {
@@ -742,7 +742,7 @@ export const prodRelayPolkadot: EndpointOption = {
   providers: {
     // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
     'Automata 1RPC': 'wss://1rpc.io/dot',
-    BlockOps: 'wss://polkadot-public-rpc.blockops.network/ws',
+    // BlockOps: 'wss://polkadot-public-rpc.blockops.network/ws', // https://github.com/polkadot-js/apps/issues/9748
     Dwellir: 'wss://polkadot-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://polkadot-rpc-tn.dwellir.com',
     'IBP-GeoDNS1': 'wss://rpc.ibp.network/polkadot',

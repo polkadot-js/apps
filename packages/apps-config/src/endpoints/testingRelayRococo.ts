@@ -17,6 +17,7 @@ import { getTeleports } from './util.js';
 // IMPORTANT: Alphabetical based on text
 export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
   {
+    homepage: 'https://acurast.com',
     info: 'rococoAcurast',
     paraId: 2239,
     providers: {
@@ -116,7 +117,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoCatalyst',
     paraId: 2031,
     providers: {
-      Centrifuge: 'wss://fullnode.catalyst.cntrfg.com'
+      // Centrifuge: 'wss://fullnode.catalyst.cntrfg.com' // https://github.com/polkadot-js/apps/issues/9748
     },
     text: 'Catalyst',
     ui: {
@@ -220,7 +221,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoHydraDX',
     paraId: 2034,
     providers: {
-      // 'Galactic Council': 'wss://rococo-hydradx-rpc.hydration.dev' // https://github.com/polkadot-js/apps/issues/9712
+      'Galactic Council': 'wss://hydradx-rococo-rpc.play.hydration.cloud'
     },
     text: 'HydraDX',
     ui: {
@@ -461,7 +462,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoSocietal',
     paraId: 4253,
     providers: {
-      Societal: 'wss://node-ws-rococo.testnet.sctl.link'
+      // Societal: 'wss://node-ws-rococo.testnet.sctl.link' // https://github.com/polkadot-js/apps/issues/9748
     },
     text: 'Societal',
     ui: {
