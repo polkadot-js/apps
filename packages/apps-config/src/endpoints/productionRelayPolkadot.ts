@@ -27,8 +27,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       'Acala Foundation 3': 'wss://acala-rpc-3.aca-api.network/ws',
       Dwellir: 'wss://acala-rpc.dwellir.com',
       // 'Automata 1RPC': 'wss://1rpc.io/aca' // https://github.com/polkadot-js/apps/issues/8648
-      OnFinality: 'wss://acala-polkadot.api.onfinality.io/public-ws',
-      'Polkawallet 0': 'wss://acala.polkawallet.io'
+      OnFinality: 'wss://acala-polkadot.api.onfinality.io/public-ws'
+      // 'Polkawallet 0': 'wss://acala.polkawallet.io' // https://github.com/polkadot-js/apps/issues/9760
     },
     text: 'Acala',
     ui: {
@@ -43,7 +43,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       AjunaNetwork: 'wss://rpc-parachain.ajuna.network',
       // OnFinality: 'wss://ajuna.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9414
-      RadiumBlock: 'wss://ajuna.public.curie.radiumblock.co/ws'
+      // RadiumBlock: 'wss://ajuna.public.curie.radiumblock.co/ws' // https://github.com/polkadot-js/apps/issues/9760
     },
     text: 'Ajuna Network',
     ui: {
@@ -290,8 +290,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Dwellir: 'wss://hydradx-rpc.dwellir.com',
       'Galactic Council': 'wss://rpc.hydradx.cloud',
-      OnFinality: 'wss://hydradx.api.onfinality.io/public-ws',
-      ZeePrime: 'wss://rpc-lb.data6.zp-labs.net:8443/hydradx/ws/?token=2ZGuGivPJJAxXiT1hR1Yg2MXGjMrhEBYFjgbdPi'
+      OnFinality: 'wss://hydradx.api.onfinality.io/public-ws'
+      // ZeePrime: 'wss://rpc-lb.data6.zp-labs.net:8443/hydradx/ws/?token=2ZGuGivPJJAxXiT1hR1Yg2MXGjMrhEBYFjgbdPi' // https://github.com/polkadot-js/apps/issues/9760
     },
     text: 'HydraDX',
     ui: {
@@ -685,7 +685,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       LuckyFriday: 'wss://rpc-asset-hub-polkadot.luckyfriday.io',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-asset-hub-rpc.polkadot.io',
-      RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws',
+      // RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws', // https://github.com/polkadot-js/apps/issues/9760
       Stakeworld: 'wss://dot-rpc.stakeworld.io/assethub'
     },
     teleport: [-1],
