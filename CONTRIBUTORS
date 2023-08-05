@@ -1,4 +1,4 @@
-    4304	Jaco                          	Adjust chain workflow steps (#9753)
+    4305	Jaco                          	Disable unreachable endpoints (#9761)
       80	Thibaut Sardan                	Fix delegation with x0.1 conviction and typo (#9599)
       62	kwingram25                    	iadd fix (#2911)
       49	pan                           	update Bifrost kusama on Subsquare (#9752)
