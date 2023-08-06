@@ -71,7 +71,7 @@ function extractInfo (allAccounts: string[], id: BN, optDetails: Option<PalletUn
 }
 
 const addIpfsData = (ipfsData: IpfsData) => (collectionInfo: CollectionInfo): CollectionInfo => {
-  const ipfsHash = collectionInfo.metadata && collectionInfo.metadata.data?.toString();
+  const ipfsHash = collectionInfo.metadata && collectionInfo.metadata.data?.toPrimitive() as string;
 
   return {
     ...collectionInfo,
@@ -90,7 +90,7 @@ function useCollectionInfosImpl (ids?: BN[]): CollectionInfo[] | undefined {
     () => metadata && metadata[1].length
       ? metadata[1].map((o) =>
         o.isSome
-          ? o.unwrap().data.toString()
+          ? o.unwrap().data.toPrimitive() as string
           : ''
       )
       : [],
