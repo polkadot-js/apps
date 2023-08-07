@@ -7,6 +7,7 @@ import type { DropdownOption } from '../util/types.js';
 import React, { useCallback } from 'react';
 
 import Dropdown from '../Dropdown.js';
+import { filterDropdownItems } from '../util/index.js';
 import useRpcs from './useRpcs.js';
 
 interface Props {
@@ -34,6 +35,7 @@ function SelectMethod ({ className = '', isError, onChange, options, value }: Pr
       className={`${className} ui--DropdownLinked-Items`}
       isError={isError}
       onChange={onChange}
+      onSearch={filterDropdownItems}
       options={options}
       transform={_transform}
       value={value.method}

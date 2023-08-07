@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DropdownItemProps, DropdownProps } from 'semantic-ui-react';
+import type { DropdownItemProps, DropdownProps, StrictDropdownProps } from 'semantic-ui-react';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Button as SUIButton, Dropdown as SUIDropdown } from 'semantic-ui-react';
@@ -28,7 +28,7 @@ interface Props<Option extends DropdownItemProps> {
   onBlur?: () => void;
   onChange?: (value: any) => void;
   onClose?: () => void;
-  onSearch?: (filteredOptions: any[], query: string) => Option[];
+  onSearch?: StrictDropdownProps['search'];
   options: (React.ReactNode | Option)[];
   placeholder?: string;
   renderLabel?: (item: any) => any;

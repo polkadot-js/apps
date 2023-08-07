@@ -8,6 +8,7 @@ import type { DropdownOptions } from '../util/types.js';
 import React, { useCallback } from 'react';
 
 import Dropdown from '../Dropdown.js';
+import { filterDropdownItems } from '../util/index.js';
 
 interface Props {
   api: ApiPromise;
@@ -38,6 +39,7 @@ function SelectMethod ({ api, className = '', defaultValue, isDisabled, isError,
       isDisabled={isDisabled}
       isError={isError}
       onChange={onChange}
+      onSearch={filterDropdownItems}
       options={options}
       transform={transform}
       value={value.method}

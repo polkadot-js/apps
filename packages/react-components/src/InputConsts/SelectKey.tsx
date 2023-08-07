@@ -7,6 +7,7 @@ import type { ConstValueBase } from './types.js';
 import React from 'react';
 
 import Dropdown from '../Dropdown.js';
+import { filterDropdownItems } from '../util/index.js';
 
 interface Props {
   className?: string;
@@ -39,6 +40,7 @@ function SelectKey (props: Props): React.ReactElement<Props> | null {
       className={`${className} ui--DropdownLinked-Items`}
       isError={isError}
       onChange={onChange}
+      onSearch={filterDropdownItems}
       options={options}
       transform={transform(props)}
       value={value.method}
