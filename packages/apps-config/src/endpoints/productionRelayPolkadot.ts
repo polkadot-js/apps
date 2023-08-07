@@ -552,7 +552,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'polkadex',
     paraId: 2040,
     providers: {
-      Polkadex: 'wss://parachain.polkadex.trade/'
+      RadiumBlocks: 'wss://polkadex-parachain.public.curie.radiumblock.co/ws'
     },
     text: 'Polkadex',
     ui: {
