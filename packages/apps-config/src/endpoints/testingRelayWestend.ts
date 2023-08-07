@@ -149,6 +149,7 @@ export const testParasWestendCommon: EndpointOption[] = [
     providers: {
       'IBP-GeoDNS1': 'wss://sys.ibp.network/bridgehub-westend',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/bridgehub-westend',
+      OnFinality: 'wss://bridgehub-westend.api.onfinality.io/public-ws',
       Parity: 'wss://westend-bridge-hub-rpc.polkadot.io'
     },
     text: 'BridgeHub',
