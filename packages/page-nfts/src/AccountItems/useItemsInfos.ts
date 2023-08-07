@@ -72,7 +72,7 @@ function useItemsInfosImpl (accountItems: AccountItem[]): ItemInfo[] | undefined
     if (metadata && metadata[1].length) {
       return metadata[1].map((o) =>
         o.isSome
-          ? o.unwrap().data.toString()
+          ? o.unwrap().data.toPrimitive() as string
           : ''
       );
     }
