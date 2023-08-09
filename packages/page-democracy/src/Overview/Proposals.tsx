@@ -21,16 +21,16 @@ function Proposals ({ className }: Props): React.ReactElement<Props> {
   const proposals = useCall<DeriveProposal[]>(api.derive.democracy.proposals);
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t<string>('proposals'), 'start', 2],
-    [t<string>('proposer'), 'address'],
-    [t<string>('locked'), 'media--1200'],
+    [t('proposals'), 'start', 2],
+    [t('proposer'), 'address'],
+    [t('locked'), 'media--1200'],
     [undefined, undefined, 2]
   ]);
 
   return (
     <Table
       className={className}
-      empty={proposals && t<string>('No active proposals')}
+      empty={proposals && t('No active proposals')}
       header={headerRef.current}
     >
       {proposals?.map((proposal): React.ReactNode => (

@@ -40,14 +40,14 @@ function Add ({ onClose }: Props): React.ReactElement {
 
   return (
     <Modal
-      header={t<string>('Add an existing code hash')}
+      header={t('Add an existing code hash')}
       onClose={onClose}
     >
       <Modal.Content>
         <Input
           autoFocus
           isError={codeHash.length > 0 && !isCodeHashValid}
-          label={t<string>('code hash')}
+          label={t('code hash')}
           onChange={setCodeHash}
           value={codeHash}
         />
@@ -74,7 +74,7 @@ function Add ({ onClose }: Props): React.ReactElement {
         <Button
           icon='save'
           isDisabled={!isValid}
-          label={t<string>('Save')}
+          label={t('Save')}
           onClick={_onSave}
         />
       </Modal.Actions>

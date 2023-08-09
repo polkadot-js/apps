@@ -31,7 +31,7 @@ const DEFAULT_STATE: Teleport = {
   oneWay: []
 };
 
-const endpoints = createWsEndpoints((k: string, v?: string) => v || k).filter((v): v is ExtLinkOption => !!v.teleport);
+const endpoints = createWsEndpoints((k, v) => v?.toString() || k).filter((v): v is ExtLinkOption => !!v.teleport);
 
 function extractRelayDestinations (relayGenesis: string, filter: (l: ExtLinkOption) => boolean): ExtLinkOption[] {
   return endpoints

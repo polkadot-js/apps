@@ -25,7 +25,7 @@ function WarnBond ({ minBond, stakingInfo }: Props): React.ReactElement<Props> |
   );
 
   return isBelow
-    ? <MarkWarning content={t<string>('Your bonded amount is below the on-chain minimum threshold of {{minBond}} and may be chilled. Bond extra funds to increase the bonded amount.', { replace: { minBond: formatBalance(minBond) } })} />
+    ? <MarkWarning content={t('Your bonded amount is below the on-chain minimum threshold of {{minBond}} and may be chilled. Bond extra funds to increase the bonded amount.', { replace: { minBond: formatBalance(minBond) } })} />
     : null;
 }
 

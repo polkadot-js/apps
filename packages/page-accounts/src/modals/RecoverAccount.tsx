@@ -22,17 +22,17 @@ function RecoverAccount ({ address, className = '', onClose }: Props): React.Rea
   return (
     <Modal
       className={className}
-      header={t<string>('Initiate account recovery')}
+      header={t('Initiate account recovery')}
       onClose={onClose}
     >
       <Modal.Content>
         <InputAddress
           isDisabled
-          label={t<string>('the account to recover to')}
+          label={t('the account to recover to')}
           value={address}
         />
         <InputAddress
-          label={t<string>('recover this account')}
+          label={t('recover this account')}
           onChange={setRecover}
           type='allPlus'
         />
@@ -42,7 +42,7 @@ function RecoverAccount ({ address, className = '', onClose }: Props): React.Rea
           accountId={address}
           icon='recycle'
           isDisabled={!recover || recover === address}
-          label={t<string>('Start recovery')}
+          label={t('Start recovery')}
           onStart={onClose}
           params={[recover]}
           tx={api.tx.recovery.initiateRecovery}

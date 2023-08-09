@@ -37,7 +37,7 @@ function Voting ({ hash, isMember, members, prime, proposalId, type }: Props): R
     <>
       {isVotingOpen && (
         <Modal
-          header={t<string>('Vote on proposal')}
+          header={t('Vote on proposal')}
           onClose={toggleVoting}
           size='small'
         >
@@ -47,14 +47,14 @@ function Voting ({ hash, isMember, members, prime, proposalId, type }: Props): R
               onChange={setAccountId}
             />
             {accountId === prime && (
-              <MarkWarning content={t<string>('You are voting with this collective\'s prime account. The vote will be the default outcome in case of any abstentions.')} />
+              <MarkWarning content={t('You are voting with this collective\'s prime account. The vote will be the default outcome in case of any abstentions.')} />
             )}
           </Modal.Content>
           <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='ban'
-              label={t<string>('Vote Nay')}
+              label={t('Vote Nay')}
               onStart={toggleVoting}
               params={[hash, proposalId, false]}
               tx={api.tx[modLocation].vote}
@@ -62,7 +62,7 @@ function Voting ({ hash, isMember, members, prime, proposalId, type }: Props): R
             <TxButton
               accountId={accountId}
               icon='check'
-              label={t<string>('Vote Aye')}
+              label={t('Vote Aye')}
               onStart={toggleVoting}
               params={[hash, proposalId, true]}
               tx={api.tx[modLocation].vote}
@@ -73,7 +73,7 @@ function Voting ({ hash, isMember, members, prime, proposalId, type }: Props): R
       <Button
         icon='check'
         isDisabled={!isMember}
-        label={t<string>('Vote')}
+        label={t('Vote')}
         onClick={toggleVoting}
       />
     </>

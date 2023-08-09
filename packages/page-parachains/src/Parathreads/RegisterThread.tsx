@@ -59,7 +59,7 @@ function RegisterThread ({ className, nextParaId, onClose, ownedIds }: Props): R
   return (
     <Modal
       className={className}
-      header={t<string>('Register parathread')}
+      header={t('Register parathread')}
       onClose={onClose}
       size='large'
     >
@@ -74,46 +74,46 @@ function RegisterThread ({ className, nextParaId, onClose, ownedIds }: Props): R
           )
           : (
             <>
-              <Modal.Columns hint={t<string>('This account will be associated with the parachain and pay the deposit.')}>
+              <Modal.Columns hint={t('This account will be associated with the parachain and pay the deposit.')}>
                 <InputAddress
-                  label={t<string>('register from')}
+                  label={t('register from')}
                   onChange={setAccountId}
                   type='account'
                   value={accountId}
                 />
               </Modal.Columns>
-              <Modal.Columns hint={t<string>('The id of this parachain as known on the network')}>
+              <Modal.Columns hint={t('The id of this parachain as known on the network')}>
                 <InputNumber
                   autoFocus
                   defaultValue={nextParaId}
                   isError={isIdError}
                   isZeroable={false}
-                  label={t<string>('parachain id')}
+                  label={t('parachain id')}
                   onChange={setParaId}
                 />
               </Modal.Columns>
             </>
           )
         }
-        <Modal.Columns hint={t<string>('The WASM validation function for this parachain.')}>
+        <Modal.Columns hint={t('The WASM validation function for this parachain.')}>
           <InputFile
             isError={!wasm}
-            label={t<string>('code')}
+            label={t('code')}
             onChange={_setWasm}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The genesis state for this parachain.')}>
+        <Modal.Columns hint={t('The genesis state for this parachain.')}>
           <InputFile
             isError={!genesisState}
-            label={t<string>('initial state')}
+            label={t('initial state')}
             onChange={_setGenesisState}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The reservation fee for this parachain, including base fee and per-byte fees')}>
+        <Modal.Columns hint={t('The reservation fee for this parachain, including base fee and per-byte fees')}>
           <InputBalance
             defaultValue={reservedDeposit}
             isDisabled
-            label={t<string>('reserved deposit')}
+            label={t('reserved deposit')}
           />
         </Modal.Columns>
       </Modal.Content>

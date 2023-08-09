@@ -31,7 +31,9 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'aleph',
     providers: {
-      'Aleph Zero Foundation': 'wss://ws.azero.dev'
+      'Aleph Zero Foundation': 'wss://ws.azero.dev',
+      Dwellir: 'wss://aleph-zero-rpc.dwellir.com'
+
     },
     text: 'Aleph Zero',
     ui: {
@@ -288,7 +290,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'kusari',
     providers: {
-      Swapdex: 'wss://ws.kusari.network'
+      // Swapdex: 'wss://ws.kusari.network' // https://github.com/polkadot-js/apps/issues/9712
     },
     text: 'Kusari',
     ui: {
@@ -375,7 +377,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'polkadex',
     providers: {
       OnFinality: 'wss://polkadex.api.onfinality.io/public-ws',
-      'Polkadex Team': 'wss://mainnet.polkadex.trade'
+      RadiumBlocks: 'wss://polkadex.public.curie.radiumblock.co/ws'
     },
     text: 'Polkadex',
     ui: {
@@ -419,7 +421,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'sherpax',
     providers: {
-      ChainX: 'wss://mainnet.sherpax.io'
+      // ChainX: 'wss://mainnet.sherpax.io' // https://github.com/polkadot-js/apps/issues/9712
     },
     text: 'SherpaX',
     ui: {
@@ -510,12 +512,12 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'thebifrost-mainnet',
     providers: {
-      'Pilab #1': 'wss://public-01.mainnet.thebifrost.io/wss',
-      'Pilab #2': 'wss://public-02.mainnet.thebifrost.io/wss'
+      'Pilab #1': 'wss://public-01.mainnet.bifrostnetwork.com/wss',
+      'Pilab #2': 'wss://public-02.mainnet.bifrostnetwork.com/wss'
     },
     text: 'The Bifrost Mainnet',
     ui: {
-      color: '#5a25f0',
+      color: '#FF474C',
       logo: nodesThebifrostPNG
     }
   },

@@ -94,7 +94,7 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
   );
 
   const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
-    [t<string>('chain specifications'), 'start', 2]
+    [t('chain specifications'), 'start', 2]
   ]);
 
   if (!isApiReady) {
@@ -104,7 +104,7 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
   return (
     <StyledTable
       className={className}
-      empty={t<string>('No open tips')}
+      empty={t('No open tips')}
       header={headerRef.current}
     >
 
@@ -114,7 +114,7 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
             <Input
               className='full'
               isDisabled
-              label={t<string>('Network Name')}
+              label={t('Network Name')}
               value={networkSpecs.title}
             />
             <ChainImg className='settings--networkSpecs-logo' />
@@ -136,7 +136,7 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
               <Input
                 className='full settings--networkSpecs-colorInput'
                 isError={!_checkColorValid()}
-                label={t<string>('Color')}
+                label={t('Color')}
                 onChange={_onChangeColor}
                 value={networkSpecs.color}
               />
@@ -144,7 +144,7 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
                 className='settings--networkSpecs-colorChangeButton'
                 onClick={_onSetRandomColor}
               >
-                {t<string>('generate random color')}
+                {t('generate random color')}
               </a>
             </div>
             <ChainColorIndicator
@@ -159,7 +159,7 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
           <Input
             className='full'
             isDisabled
-            label={t<string>('Genesis Hash')}
+            label={t('Genesis Hash')}
             value={networkSpecs.genesisHash}
           />
         </td>
@@ -170,7 +170,7 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
           <Input
             className='full'
             isDisabled
-            label={t<string>('Unit')}
+            label={t('Unit')}
             value={networkSpecs.unit}
           />
         </td>
@@ -180,7 +180,7 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
           <Input
             className='full'
             isDisabled
-            label={t<string>('Address Prefix')}
+            label={t('Address Prefix')}
             value={networkSpecs.prefix.toString()}
           />
         </td>
@@ -190,7 +190,7 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
           <Input
             className='full'
             isDisabled
-            label={t<string>('Decimals')}
+            label={t('Decimals')}
             value={networkSpecs.decimals.toString()}
           />
         </td>
@@ -200,7 +200,7 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
           <Input
             className='full'
             isDisabled
-            label={t<string>('Chain Type')}
+            label={t('Chain Type')}
             value={networkSpecs.chainType}
           />
         </td>

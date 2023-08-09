@@ -24,9 +24,9 @@ function InputValidationUnstakeThreshold ({ onError, unstakeThreshold }: Props):
       let newError: string | null = null;
 
       if (unstakeThreshold.ltn(0)) {
-        newError = t<string>('The Threshold must be a positive number');
+        newError = t('The Threshold must be a positive number');
       } else if (unstakeThreshold.gt(BN_TEN)) {
-        newError = t<string>('The Threshold must lower than 11');
+        newError = t('The Threshold must lower than 11');
       }
 
       onError(newError);

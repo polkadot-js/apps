@@ -31,20 +31,20 @@ function Summary ({ bags, className = '', mapOwn }: Props): React.ReactElement<P
 
   return (
     <SummaryBox className={className}>
-      <CardSummary label={t<string>('total bags')}>
+      <CardSummary label={t('total bags')}>
         {bags
           ? formatNumber(bags.length)
           : <span className='--tmp'>99</span>
         }
       </CardSummary>
       <section>
-        <CardSummary label={t<string>('total nodes')}>
+        <CardSummary label={t('total nodes')}>
           {mapOwn
             ? formatNumber(total)
             : <span className='--tmp'>99</span>
           }
         </CardSummary>
-        <CardSummary label={t<string>('my nodes')}>
+        <CardSummary label={t('my nodes')}>
           {isNumber(myCount)
             ? formatNumber(myCount)
             : <span className='--tmp'>99</span>

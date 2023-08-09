@@ -27,10 +27,10 @@ function Bounties ({ className }: Props): React.ReactElement {
   );
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t<string>('bounties'), 'start', 3],
-    [t<string>('value')],
-    [t<string>('curator'), 'start'],
-    [t<string>('next action'), 'start', 3]
+    [t('bounties'), 'start', 3],
+    [t('value')],
+    [t('curator'), 'start'],
+    [t('next action'), 'start', 3]
   ]);
 
   return (
@@ -41,7 +41,7 @@ function Bounties ({ className }: Props): React.ReactElement {
       </Button.Group>
       <Table
         className='bounties-table-wrapper'
-        empty={sorted && t<string>('No open bounties')}
+        empty={sorted && t('No open bounties')}
         header={headerRef.current}
       >
         {sorted && info.bestNumber && sorted.map(({ bounty, description, index, proposals }) => (

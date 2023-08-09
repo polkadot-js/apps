@@ -20,7 +20,7 @@ function Summary ({ className, members }: Props): React.ReactElement<Props> {
 
   return (
     <SummaryBox className={className}>
-      <CardSummary label={t<string>('members')}>
+      <CardSummary label={t('members')}>
         {members === undefined
           ? <span className='--tmp'>99</span>
           : formatNumber(members.length)

@@ -18,7 +18,7 @@ function Summary ({ className, hashes }: Props): React.ReactElement<Props> {
 
   return (
     <SummaryBox className={className}>
-      <CardSummary label={t<string>('images')}>
+      <CardSummary label={t('images')}>
         {hashes === undefined
           ? <span className='--tmp'>99</span>
           : formatNumber(hashes.length)

@@ -54565,6 +54565,20 @@ export const typesBundle = {
       ]
     },
     "imbue": {
+      "rpc": {
+        "proposals": {
+          "getProjectKitty": {
+            "description": "Get the escrow address associated with a project",
+            "params": [
+              {
+                "name": "project_id",
+                "type": "u32"
+              }
+            ],
+            "type": "AccountId"
+          }
+        }
+      },
       "types": [
         {
           "minmax": [
@@ -59907,7 +59921,7 @@ export const typesBundle = {
       "rpc": {
         "xyk": {
           "calculate_buy_price": {
-            "description": "",
+            "description": "Calculates and returns sold_token_amount while providing bought_token_amount and respective reserves",
             "params": [
               {
                 "name": "input_reserve",
@@ -59925,7 +59939,7 @@ export const typesBundle = {
             "type": "XYKRpcResult<Balance>"
           },
           "calculate_sell_price": {
-            "description": "",
+            "description": "Calculates and returns bought_token_amount while providing sold_token_amount and respective reserves",
             "params": [
               {
                 "name": "input_reserve",
@@ -59943,7 +59957,7 @@ export const typesBundle = {
             "type": "XYKRpcResult<Balance>"
           },
           "get_burn_amount": {
-            "description": "",
+            "description": "Returns amounts of tokens received by burning provided liquidity_token_amount in pool of provided token ids",
             "params": [
               {
                 "name": "first_asset_id",
@@ -59961,7 +59975,7 @@ export const typesBundle = {
             "type": "RPCAmountsResult<Balance>"
           },
           "calculate_sell_price_id": {
-            "description": "",
+            "description": "Same as calculate_sell_price, but providing token_id instead of reserves. Reserves are fetched by function.",
             "params": [
               {
                 "name": "sold_token_id",
@@ -59979,7 +59993,7 @@ export const typesBundle = {
             "type": "XYKRpcResult<Balance>"
           },
           "calculate_buy_price_id": {
-            "description": "",
+            "description": "Same as calculate_buy_price, but providing token_id instead of reserves. Reserves are fetched by function.",
             "params": [
               {
                 "name": "sold_token_id",
@@ -59997,7 +60011,7 @@ export const typesBundle = {
             "type": "XYKRpcResult<Balance>"
           },
           "calculate_rewards_amount": {
-            "description": "",
+            "description": "Calculate rewards amount of liquidity token id for the user",
             "params": [
               {
                 "name": "user",
@@ -60011,7 +60025,7 @@ export const typesBundle = {
             "type": "XYKRpcResult<Balance>"
           },
           "calculate_balanced_sell_amount": {
-            "description": "",
+            "description": "Calculates how much amount x we need to swap from total_amount, so that after y = swap(x), the resulting balance equals (total_amount - x) / y = pool_x / pool_y - the resulting amounts can then be used to `mint_liquidity` with minimal leftover after operation",
             "params": [
               {
                 "name": "total_amount",
@@ -60025,7 +60039,7 @@ export const typesBundle = {
             "type": "XYKRpcResult<Balance>"
           },
           "get_max_instant_unreserve_amount": {
-            "description": "",
+            "description": "Instant unreserve amount",
             "params": [
               {
                 "name": "user",
@@ -60036,7 +60050,7 @@ export const typesBundle = {
                 "type": "TokenId"
               }
             ],
-            "type": "Balance"
+            "type": "XYKRpcResult<Balance>"
           },
           "get_max_instant_burn_amount": {
             "description": "",
@@ -60050,9 +60064,39 @@ export const typesBundle = {
                 "type": "TokenId"
               }
             ],
-            "type": "Balance"
+            "type": "XYKRpcResult<Balance>"
           },
-          "get_vesting_locked_at": {
+          "is_sell_asset_lock_free": {
+            "description": "",
+            "params": [
+              {
+                "name": "path",
+                "type": "Vec<TokenId>"
+              },
+              {
+                "name": "input_amount",
+                "type": "Balance"
+              }
+            ],
+            "type": "Option<bool>"
+          },
+          "is_buy_asset_lock_free": {
+            "description": "",
+            "params": [
+              {
+                "name": "path",
+                "type": "Vec<TokenId>"
+              },
+              {
+                "name": "input_amount",
+                "type": "Balance"
+              }
+            ],
+            "type": "Option<bool>"
+          }
+        },
+        "vesting": {
+          "getVestingLockedAt": {
             "description": "",
             "params": [
               {
@@ -60112,7 +60156,7 @@ export const typesBundle = {
       "rpc": {
         "xyk": {
           "calculate_buy_price": {
-            "description": "",
+            "description": "Calculates and returns sold_token_amount while providing bought_token_amount and respective reserves",
             "params": [
               {
                 "name": "input_reserve",
@@ -60130,7 +60174,7 @@ export const typesBundle = {
             "type": "XYKRpcResult<Balance>"
           },
           "calculate_sell_price": {
-            "description": "",
+            "description": "Calculates and returns bought_token_amount while providing sold_token_amount and respective reserves",
             "params": [
               {
                 "name": "input_reserve",
@@ -60148,7 +60192,7 @@ export const typesBundle = {
             "type": "XYKRpcResult<Balance>"
           },
           "get_burn_amount": {
-            "description": "",
+            "description": "Returns amounts of tokens received by burning provided liquidity_token_amount in pool of provided token ids",
             "params": [
               {
                 "name": "first_asset_id",
@@ -60166,7 +60210,7 @@ export const typesBundle = {
             "type": "RPCAmountsResult<Balance>"
           },
           "calculate_sell_price_id": {
-            "description": "",
+            "description": "Same as calculate_sell_price, but providing token_id instead of reserves. Reserves are fetched by function.",
             "params": [
               {
                 "name": "sold_token_id",
@@ -60184,7 +60228,7 @@ export const typesBundle = {
             "type": "XYKRpcResult<Balance>"
           },
           "calculate_buy_price_id": {
-            "description": "",
+            "description": "Same as calculate_buy_price, but providing token_id instead of reserves. Reserves are fetched by function.",
             "params": [
               {
                 "name": "sold_token_id",
@@ -60202,7 +60246,7 @@ export const typesBundle = {
             "type": "XYKRpcResult<Balance>"
           },
           "calculate_rewards_amount": {
-            "description": "",
+            "description": "Calculate rewards amount of liquidity token id for the user",
             "params": [
               {
                 "name": "user",
@@ -60216,7 +60260,7 @@ export const typesBundle = {
             "type": "XYKRpcResult<Balance>"
           },
           "calculate_balanced_sell_amount": {
-            "description": "",
+            "description": "Calculates how much amount x we need to swap from total_amount, so that after y = swap(x), the resulting balance equals (total_amount - x) / y = pool_x / pool_y - the resulting amounts can then be used to `mint_liquidity` with minimal leftover after operation",
             "params": [
               {
                 "name": "total_amount",
@@ -60230,7 +60274,7 @@ export const typesBundle = {
             "type": "XYKRpcResult<Balance>"
           },
           "get_max_instant_unreserve_amount": {
-            "description": "",
+            "description": "Instant unreserve amount",
             "params": [
               {
                 "name": "user",
@@ -60241,7 +60285,7 @@ export const typesBundle = {
                 "type": "TokenId"
               }
             ],
-            "type": "Balance"
+            "type": "XYKRpcResult<Balance>"
           },
           "get_max_instant_burn_amount": {
             "description": "",
@@ -60255,9 +60299,39 @@ export const typesBundle = {
                 "type": "TokenId"
               }
             ],
-            "type": "Balance"
+            "type": "XYKRpcResult<Balance>"
           },
-          "get_vesting_locked_at": {
+          "is_sell_asset_lock_free": {
+            "description": "",
+            "params": [
+              {
+                "name": "path",
+                "type": "Vec<TokenId>"
+              },
+              {
+                "name": "input_amount",
+                "type": "Balance"
+              }
+            ],
+            "type": "Option<bool>"
+          },
+          "is_buy_asset_lock_free": {
+            "description": "",
+            "params": [
+              {
+                "name": "path",
+                "type": "Vec<TokenId>"
+              },
+              {
+                "name": "input_amount",
+                "type": "Balance"
+              }
+            ],
+            "type": "Option<bool>"
+          }
+        },
+        "vesting": {
+          "getVestingLockedAt": {
             "description": "",
             "params": [
               {

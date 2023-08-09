@@ -135,7 +135,7 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
         store.set('types', types);
         setIsTypesValid(true);
         onStatusChange({
-          action: t<string>('Your custom types have been added'),
+          action: t('Your custom types have been added'),
           status: 'success'
         });
 
@@ -148,7 +148,7 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
         console.error(error);
         setIsTypesValid(false);
         onStatusChange({
-          action: t<string>(`Error saving your custom types. ${(error as Error).message}`),
+          action: t(`Error saving your custom types. ${(error as Error).message}`),
           status: 'error'
         });
       }
@@ -170,7 +170,7 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
           <InputFile
             clearContent={typesHasNoEntries && isTypesValid}
             isError={!isTypesValid}
-            label={t<string>('Additional types as a JSON file (or edit below)')}
+            label={t('Additional types as a JSON file (or edit below)')}
             onChange={_onChangeTypes}
             placeholder={typesPlaceholder}
           />
@@ -193,19 +193,19 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
       </div>
       <Button.Group>
         <CopyButton
-          label={t<string>('Share')}
-          type={t<string>('url')}
+          label={t('Share')}
+          type={t('url')}
           value={sharedUrl}
         />
         <Button
           icon='sync'
-          label={t<string>('Reset')}
+          label={t('Reset')}
           onClick={_clearTypes}
         />
         <Button
           icon='save'
           isDisabled={!isTypesValid || !isJsonValid}
-          label={t<string>('Save')}
+          label={t('Save')}
           onClick={_saveDeveloper}
         />
       </Button.Group>

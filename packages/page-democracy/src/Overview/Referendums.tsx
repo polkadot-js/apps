@@ -19,12 +19,12 @@ function Referendums ({ className = '', referendums }: Props): React.ReactElemen
   const { t } = useTranslation();
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t<string>('referenda'), 'start', 2],
-    [t<string>('remaining'), 'media--1200'],
-    [t<string>('activate'), 'media--1400'],
-    [t<string>('turnout'), 'media--1400'],
+    [t('referenda'), 'start', 2],
+    [t('remaining'), 'media--1200'],
+    [t('activate'), 'media--1400'],
+    [t('turnout'), 'media--1400'],
     [undefined, 'badge'],
-    [t<string>('votes'), 'expand'],
+    [t('votes'), 'expand'],
     [undefined, 'media--1000'],
     [undefined, undefined, 2]
   ]);
@@ -32,7 +32,7 @@ function Referendums ({ className = '', referendums }: Props): React.ReactElemen
   return (
     <Table
       className={className}
-      empty={referendums && t<string>('No active referendums')}
+      empty={referendums && t('No active referendums')}
       header={headerRef.current}
     >
       {referendums?.map((referendum): React.ReactNode => (

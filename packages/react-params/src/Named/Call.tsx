@@ -116,7 +116,7 @@ function Call ({ callName, children, className = '', labelHash, labelSignature, 
           {hash && (
             <Static
               className='hash'
-              label={labelHash || t<string>('extrinsic hash')}
+              label={labelHash || t('extrinsic hash')}
               value={hash}
               withCopy
             />
@@ -124,7 +124,7 @@ function Call ({ callName, children, className = '', labelHash, labelSignature, 
           {signature && (
             <Static
               className='hash'
-              label={labelSignature || t<string>('signature {{type}}', { replace: { type: signatureType ? `(${signatureType})` : '' } })}
+              label={labelSignature || t('signature {{type}}', { replace: { type: signatureType ? `(${signatureType})` : '' } })}
               value={signature}
               withCopy
             />
@@ -132,14 +132,14 @@ function Call ({ callName, children, className = '', labelHash, labelSignature, 
           {mortality && (
             <Static
               className='mortality'
-              label={t<string>('lifetime')}
+              label={t('lifetime')}
               value={mortality}
             />
           )}
           {tip?.gtn(0) && (
             <Static
               className='tip'
-              label={t<string>('tip')}
+              label={t('tip')}
               value={<FormatBalance value={tip} />}
             />
           )}

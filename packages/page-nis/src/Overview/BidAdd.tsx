@@ -43,24 +43,24 @@ function Bid ({ className, isDisabled, proxies }: Props): React.ReactElement<Pro
       <Button
         icon='plus'
         isDisabled={!proxiedAccounts.length || isDisabled}
-        label={t<string>('Bid via Proxy')}
+        label={t('Bid via Proxy')}
         onClick={toggleOpen}
       />
       {isOpen && (
         <Modal
           className={className}
-          header={t<string>('submit nis bid')}
+          header={t('submit nis bid')}
           onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns hint={t<string>('This account will make the bid for the nis and pay all associated fees.')}>
+            <Modal.Columns hint={t('This account will make the bid for the nis and pay all associated fees.')}>
               <InputAddress
                 filter={proxiedAccounts}
-                label={t<string>('use proxied account')}
+                label={t('use proxied account')}
                 labelExtra={
                   <Available
-                    label={<span className='label'>{t<string>('transferrable')}</span>}
+                    label={<span className='label'>{t('transferrable')}</span>}
                     params={accountId}
                   />
                 }
@@ -70,45 +70,45 @@ function Bid ({ className, isDisabled, proxies }: Props): React.ReactElement<Pro
               {accountId && (
                 <InputAddress
                   filter={proxies[accountId]}
-                  label={t<string>('send via proxy')}
+                  label={t('send via proxy')}
                   onChange={setProxyId}
                   type='account'
                 />
               )}
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The amount you wish to lock for the duration. It needs to be more than the nis minimum.')}>
+            <Modal.Columns hint={t('The amount you wish to lock for the duration. It needs to be more than the nis minimum.')}>
               <InputBalance
                 autoFocus
                 defaultValue={api.consts.nis.minBid}
                 isError={isAmountError}
                 isZeroable={false}
-                label={t<string>('bid amount')}
+                label={t('bid amount')}
                 onChange={setAmount}
               />
               <InputBalance
                 defaultValue={api.consts.nis.minBid}
                 isDisabled
-                label={t<string>('minimum bid amount')}
+                label={t('minimum bid amount')}
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The number of periods this bid is to be locked for, less than the maximum period.')}>
+            <Modal.Columns hint={t('The number of periods this bid is to be locked for, less than the maximum period.')}>
               <InputNumber
                 defaultValue={BN_ONE}
                 isError={isDurationError}
                 isZeroable={false}
-                label={t<string>('lock periods')}
+                label={t('lock periods')}
                 onChange={setDuration}
               />
               <InputNumber
                 defaultValue={api.consts.nis.queueCount}
                 isDisabled
-                label={t<string>('maximum lock periods')}
+                label={t('maximum lock periods')}
               />
               {!isDurationError && (
                 <InputNumber
                   defaultValue={api.consts.nis.basePeriod.mul(duration)}
                   isDisabled
-                  label={t<string>('length of lock (blocks, calculated)')}
+                  label={t('length of lock (blocks, calculated)')}
                 />
               )}
             </Modal.Columns>
@@ -119,7 +119,7 @@ function Bid ({ className, isDisabled, proxies }: Props): React.ReactElement<Pro
               extrinsic={tx}
               icon='check'
               isDisabled={isAmountError || isDurationError || !accountId}
-              label={t<string>('Bid')}
+              label={t('Bid')}
               onStart={toggleOpen}
             />
           </Modal.Actions>

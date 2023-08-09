@@ -66,7 +66,7 @@ function Member ({ bestNumber, className = '', value: { accountId, isCandidateVo
   );
 
   const votedOn = useMemo(
-    () => [isCandidateVoter && t<string>('Candidate'), isDefenderVoter && t<string>('Defender')]
+    () => [isCandidateVoter && t('Candidate'), isDefenderVoter && t('Defender')]
       .filter((s): s is string => !!s)
       .join(', '),
     [isCandidateVoter, isDefenderVoter, t]
@@ -80,43 +80,43 @@ function Member ({ bestNumber, className = '', value: { accountId, isCandidateVo
           {(isCandidateVoter || isDefenderVoter) && (
             <Tag
               color='blue'
-              label={t<string>('voted')}
+              label={t('voted')}
             />
           )}
           {isWarned && (
             <Tag
               color='orange'
-              label={t<string>('strikes')}
+              label={t('strikes')}
             />
           )}
           {isHead && (
             <Tag
               color='green'
-              label={t<string>('society head')}
+              label={t('society head')}
             />
           )}
           {isFounder && (
             <Tag
               color='green'
-              label={t<string>('founder')}
+              label={t('founder')}
             />
           )}
           {isSkeptic && (
             <Tag
               color='yellow'
-              label={t<string>('skeptic')}
+              label={t('skeptic')}
             />
           )}
           {isSuspended && (
             <Tag
               color='red'
-              label={t<string>('suspended')}
+              label={t('suspended')}
             />
           )}
           {availablePayout && (
             <Tag
               color='grey'
-              label={t<string>('payout')}
+              label={t('payout')}
             />
           )}
         </div>
@@ -126,7 +126,7 @@ function Member ({ bestNumber, className = '', value: { accountId, isCandidateVo
           <Expander
             className='payoutExpander'
             renderChildren={renderPayouts}
-            summary={t<string>('Payouts ({{count}})', { replace: { count: formatNumber(payouts.length) } })}
+            summary={t('Payouts ({{count}})', { replace: { count: formatNumber(payouts.length) } })}
           />
         )}
         {isOwner && availablePayout && (

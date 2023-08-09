@@ -27,7 +27,7 @@ function Summary ({ className = '', stakingOverview, targets: { counterForNomina
   return (
     <StyledSummaryBox className={className}>
       <section>
-        <CardSummary label={t<string>('validators')}>
+        <CardSummary label={t('validators')}>
           {stakingOverview
             ? <>{formatNumber(stakingOverview.validators.length)}&nbsp;/&nbsp;{formatNumber(stakingOverview.validatorCount)}</>
             : <span className='--tmp'>999 / 999</span>
@@ -35,7 +35,7 @@ function Summary ({ className = '', stakingOverview, targets: { counterForNomina
         </CardSummary>
         <CardSummary
           className='media--900'
-          label={t<string>('waiting')}
+          label={t('waiting')}
         >
           {waitingIds
             ? formatNumber(waitingIds.length)
@@ -46,8 +46,8 @@ function Summary ({ className = '', stakingOverview, targets: { counterForNomina
           className='media--1000'
           label={
             counterForNominators
-              ? t<string>('active / nominators')
-              : t<string>('nominators')
+              ? t('active / nominators')
+              : t('nominators')
           }
         >
           {nominators
@@ -67,7 +67,7 @@ function Summary ({ className = '', stakingOverview, targets: { counterForNomina
         {(idealStake > 0) && Number.isFinite(idealStake) && (
           <CardSummary
             className='media--1400'
-            label={t<string>('ideal staked')}
+            label={t('ideal staked')}
           >
             <>{(idealStake * 100).toFixed(1)}{percent}</>
           </CardSummary>
@@ -75,7 +75,7 @@ function Summary ({ className = '', stakingOverview, targets: { counterForNomina
         {(stakedFraction > 0) && (
           <CardSummary
             className='media--1300'
-            label={t<string>('staked')}
+            label={t('staked')}
           >
             <>{(stakedFraction * 100).toFixed(1)}{percent}</>
           </CardSummary>
@@ -83,7 +83,7 @@ function Summary ({ className = '', stakingOverview, targets: { counterForNomina
         {(inflation > 0) && Number.isFinite(inflation) && (
           <CardSummary
             className='media--1200'
-            label={t<string>('inflation')}
+            label={t('inflation')}
           >
             <>{inflation.toFixed(1)}{percent}</>
           </CardSummary>

@@ -36,3 +36,5 @@ export interface Route {
 }
 
 export type Routes = Route[];
+
+export type TFunction = (key: string, textOrOptions?: string | { replace: Record<string, unknown> }, options?: { ns: string }) => string;

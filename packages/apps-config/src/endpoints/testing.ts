@@ -139,8 +139,8 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'cere',
     providers: {
-      'Cere Network': 'wss://archive.testnet.cere.network/ws',
-      'Republic Crypto | Runtime': 'wss://testnet.cere-archive.republiccrypto-runtime.com:444'
+      // 'Cere Network': 'wss://archive.testnet.cere.network/ws' // https://github.com/polkadot-js/apps/issues/9712
+      // 'Republic Crypto | Runtime': 'wss://testnet.cere-archive.republiccrypto-runtime.com:444' // https://github.com/polkadot-js/apps/issues/9712
     },
     text: 'Cere Network Testnet',
     ui: {
@@ -293,7 +293,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'ferrum',
     providers: {
-      FerrumNetwork: 'wss://testnet.dev.svcs.ferrumnetwork.io'
+      // FerrumNetwork: 'wss://testnet.dev.svcs.ferrumnetwork.io' // https://github.com/polkadot-js/apps/issues/9748
     },
     text: 'Ferrum Testnet',
     ui: {
@@ -761,7 +761,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'sherpax',
     providers: {
-      Chainx: 'wss://sherpax-testnet.chainx.org'
+      // Chainx: 'wss://sherpax-testnet.chainx.org' // https://github.com/polkadot-js/apps/issues/9672
     },
     text: 'Sherpax Testnet',
     ui: {
@@ -907,12 +907,12 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'thebifrost-testnet',
     providers: {
-      'Pilab #1': 'wss://public-01.testnet.thebifrost.io/ws',
-      'Pilab #2': 'wss://public-02.testnet.thebifrost.io/ws'
+      'Pilab #1': 'wss://public-01.testnet.bifrostnetwork.com/wss',
+      'Pilab #2': 'wss://public-02.testnet.bifrostnetwork.com/wss'
     },
     text: 'The Bifrost Testnet',
     ui: {
-      color: '#5a25f0',
+      color: '#FF474C',
       logo: nodesThebifrostPNG
     }
   },

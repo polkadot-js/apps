@@ -28,7 +28,7 @@ function Mint ({ className, details, id, metadata }: Props): React.ReactElement<
       <Button
         icon='plus'
         isDisabled={metadata.isFrozen.isTrue}
-        label={t<string>('Mint')}
+        label={t('Mint')}
         onClick={toggleOpen}
       />
       {isOpen && (

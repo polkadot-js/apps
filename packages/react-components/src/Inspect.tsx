@@ -85,7 +85,7 @@ function DecodedInspect ({ className, hex, inspect, label }: Props): React.React
               className='isLink'
               key='hex'
             >
-              <td><label>{t<string>('link')}</label></td>
+              <td><label>{t('link')}</label></td>
               <td>
                 <a
                   href={link}

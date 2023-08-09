@@ -13,7 +13,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.132.2-6-x",
+  "version": "0.132.2-45-x",
   "main": "index.js",
   "dependencies": {
     "@acala-network/type-definitions": "5.1.1",
@@ -31,6 +31,7 @@
     "@kiltprotocol/type-definitions": "0.33.1",
     "@laminar/type-definitions": "0.3.1",
     "@logion/node-api": "0.16.0",
+    "@mangata-finance/type-definitions": "^1.0.0",
     "@metaverse-network-sdk/type-definitions": "0.0.1-16",
     "@parallel-finance/type-definitions": "1.7.17",
     "@peaqnetwork/type-definitions": "0.0.4",

@@ -21,7 +21,7 @@ function Curator ({ curator, isFromProposal }: Props): React.ReactElement<Props>
   return (
     <div>
       <AddressSmall value={curator.toString()} />
-      {isFromProposal && <Description description={t<string>('Proposed Curator')} />}
+      {isFromProposal && <Description description={t('Proposed Curator')} />}
     </div>
   );
 }

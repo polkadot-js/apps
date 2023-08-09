@@ -24,15 +24,15 @@ function BountyGiveUpCurator ({ curatorId, description, index, toggleOpen }: Pro
 
   return (
     <Modal
-      header={`${t<string>("give up curator's role")} - "${truncateTitle(description, 30)}"`}
+      header={`${t("give up curator's role")} - "${truncateTitle(description, 30)}"`}
       onClose={toggleOpen}
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={t<string>('You are giving up your curator role, the bounty will return to the Funded state. You will get your deposit back.')}>
+        <Modal.Columns hint={t('You are giving up your curator role, the bounty will return to the Funded state. You will get your deposit back.')}>
           <InputAddress
             isDisabled
-            label={t<string>('curator account')}
+            label={t('curator account')}
             type='account'
             value={curatorId.toString()}
             withLabel
@@ -43,7 +43,7 @@ function BountyGiveUpCurator ({ curatorId, description, index, toggleOpen }: Pro
         <TxButton
           accountId={curatorId}
           icon='check'
-          label={t<string>('Give up')}
+          label={t('Give up')}
           onStart={toggleOpen}
           params={[index]}
           tx={unassignCurator}

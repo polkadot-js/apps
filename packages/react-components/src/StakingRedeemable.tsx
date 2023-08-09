@@ -60,7 +60,7 @@ function StakingRedeemable ({ className = '', isPool, stakingInfo }: Props): Rea
                     ? [spanCount]
                     : []
               }
-              tooltip={t<string>('Withdraw these unbonded funds')}
+              tooltip={t('Withdraw these unbonded funds')}
               tx={
                 isPool
                   ? api.tx.nominationPools.withdrawUnbonded
