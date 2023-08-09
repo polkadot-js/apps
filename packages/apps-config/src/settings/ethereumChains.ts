@@ -26,5 +26,6 @@ export const ethereumChains = [
   'dracones',
   'dracones-dwarf',
   'subspace-evm-domain',
-  'ferrum-parachain'
+  'ferrum-parachain',
+  'quantum-portal-network-parachain'
 ];

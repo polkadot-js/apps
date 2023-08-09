@@ -197,6 +197,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   // fragnova,
   // 'fragnova-testnet': fragnova,
   'ferrum-parachain': ferrum,
+  'quantum-portal-network-parachain': ferrum,
   frequency,
   'frequency-rococo': frequency,
   galital,
