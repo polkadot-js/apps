@@ -15,8 +15,18 @@ interface Options <T> extends CallOptions<T> {
   transform?: (value: any) => T
 }
 
-function isCid (cid: string): boolean {
-  return !!cid && (isIPFS.cid(cid) || isIPFS.base32cid(cid.toLowerCase()));
+export function extractCid (cid: string): string {
+  return cid && ['ipfs://ipfs/', 'ipfs://', '/ipfs/'].reduce((result, e) => result.replace(e, ''), cid);
+}
+
+function isCid (_cid: string): boolean {
+  if (!_cid) {
+    return false;
+  }
+
+  const cid = extractCid(_cid);
+
+  return isIPFS.cid(cid) || isIPFS.base32cid(cid.toLowerCase());
 }
 
 const cache = new Map<string, any>();
@@ -68,7 +78,7 @@ export function useIpfsFetch <T> (hashes: string[] | undefined, options?: Option
     }
 
     return hashes
-      .map((hash) => isCid(hash) ? hash : '')
+      .map((hash) => isCid(hash) ? extractCid(hash) : '')
       .filter((hash) => !!hash);
   }, [hashes]);
 

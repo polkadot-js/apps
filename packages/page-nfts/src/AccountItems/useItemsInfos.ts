@@ -10,6 +10,7 @@ import type { ItemInfo, ItemSupportedIpfsData } from './types.js';
 import { useEffect, useMemo, useState } from 'react';
 
 import { createNamedHook, useApi, useCall, useIpfsFetch } from '@polkadot/react-hooks';
+import { extractCid } from '@polkadot/react-hooks/useIpfsFetch';
 
 type IpfsData = Map<string, ItemSupportedIpfsData | null>;
 
@@ -49,7 +50,7 @@ function extractInfo ([, itemId]: [BN, BN], metadata: Option<PalletUniquesItemMe
 }
 
 const addIpfsData = (ipfsData: IpfsData) => (itemInfo: ItemInfo): ItemInfo => {
-  const ipfsHash = itemInfo.metadata && itemInfo.metadata.data.toString();
+  const ipfsHash = itemInfo.metadata && extractCid(itemInfo.metadata.data.toPrimitive() as string);
 
   return {
     ...itemInfo,
