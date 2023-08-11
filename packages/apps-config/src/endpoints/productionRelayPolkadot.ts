@@ -41,8 +41,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'ajuna',
     paraId: 2051,
     providers: {
-      AjunaNetwork: 'wss://rpc-parachain.ajuna.network'
-      // OnFinality: 'wss://ajuna.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9414
+      AjunaNetwork: 'wss://rpc-parachain.ajuna.network',
+      OnFinality: 'wss://ajuna.api.onfinality.io/public-ws'
       // RadiumBlock: 'wss://ajuna.public.curie.radiumblock.co/ws' // https://github.com/polkadot-js/apps/issues/9760
     },
     text: 'Ajuna Network',
@@ -185,7 +185,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'crustParachain',
     paraId: 2008,
     providers: {
-      Crust: 'wss://crust-parachain.crustapps.net'
+      Crust: 'wss://crust-parachain.crustapps.net',
+      OnFinality: 'wss://crust-polkadot.api.onfinality.io/public-ws'
     },
     text: 'Crust',
     ui: {
@@ -231,7 +232,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'equilibrium',
     paraId: 2011,
     providers: {
-      Dwellir: 'wss://equilibrium-rpc.dwellir.com'
+      Dwellir: 'wss://equilibrium-rpc.dwellir.com',
+      OnFinality: 'wss://equilibrium.api.onfinality.io/public-ws'
       // Equilibrium: 'wss://node.pol.equilibrium.io/' // https://github.com/polkadot-js/apps/issues/9748
     },
     text: 'Equilibrium',
@@ -247,7 +249,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Dwellir: 'wss://frequency-rpc.dwellir.com',
       'Frequency 0': 'wss://0.rpc.frequency.xyz',
-      'Frequency 1': 'wss://1.rpc.frequency.xyz'
+      'Frequency 1': 'wss://1.rpc.frequency.xyz',
+      OnFinality: 'wss://frequency-polkadot.api.onfinality.io/public-ws'
     },
     text: 'Frequency',
     ui: {
@@ -304,7 +307,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'integritee',
     paraId: 2039,
     providers: {
-      Dwellir: 'wss://integritee-rpc.dwellir.com'
+      Dwellir: 'wss://integritee-rpc.dwellir.com',
+      OnFinality: 'wss://integritee-parachain.api.onfinality.io/public-ws'
       // Integritee: 'wss://polkadot.api.integritee.network' // https://github.com/polkadot-js/apps/issues/9726
     },
     text: 'Integritee Shell',
@@ -345,7 +349,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'kapex',
     paraId: 2007,
     providers: {
-      Dwellir: 'wss://kapex-rpc.dwellir.com'
+      Dwellir: 'wss://kapex-rpc.dwellir.com',
+      OnFinality: 'wss://kapex-parachain.api.onfinality.io/public-ws'
       // Totem: 'wss://k-ui.kapex.network' // https://github.com/polkadot-js/apps/issues/9616
     },
     text: 'Kapex',
@@ -388,7 +393,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2013,
     providers: {
       Dwellir: 'wss://litentry-rpc.dwellir.com',
-      Litentry: 'wss://rpc.litentry-parachain.litentry.io'
+      Litentry: 'wss://rpc.litentry-parachain.litentry.io',
+      OnFinality: 'wss://litentry.api.onfinality.io/public-ws'
     },
     text: 'Litentry',
     ui: {
@@ -401,7 +407,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'manta',
     paraId: 2104,
     providers: {
-      'Manta Network': 'wss://ws.manta.systems'
+      'Manta Network': 'wss://ws.manta.systems',
+      OnFinality: 'wss://manta.api.onfinality.io/public-ws'
     },
     text: 'Manta',
     ui: {
@@ -487,6 +494,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'origintrail-parachain',
     paraId: 2043,
     providers: {
+      OnFinality: 'wss://origintrail.api.onfinality.io/public-ws',
       TraceLabs: 'wss://parachain-rpc.origin-trail.network'
     },
     text: 'OriginTrail',
@@ -605,7 +613,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'subsocial',
     paraId: 2101,
     providers: {
-      Dappforce: 'wss://para.subsocial.network'
+      Dappforce: 'wss://para.subsocial.network',
+      OnFinality: 'wss://subsocial-polkadot.api.onfinality.io/public-ws'
     },
     text: 'Subsocial',
     ui: {
@@ -702,6 +711,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       'IBP-GeoDNS1': 'wss://sys.ibp.network/bridgehub-polkadot',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/bridgehub-polkadot',
       LuckyFriday: 'wss://rpc-bridge-hub-polkadot.luckyfriday.io',
+      OnFinality: 'wss://bridgehub-polkadot.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-bridge-hub-rpc.polkadot.io',
       Stakeworld: 'wss://dot-rpc.stakeworld.io/bridgehub'
     },
