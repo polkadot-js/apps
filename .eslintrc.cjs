@@ -25,5 +25,6 @@ module.exports = {
     // this seems very broken atm, false positives
     '@typescript-eslint/unbound-method': 'off',
     'header/header' : 'off',
+    'react/jsx-newline': 'off',
   }
 };
