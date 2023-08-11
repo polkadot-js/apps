@@ -94409,6 +94409,29 @@ export const typesBundle = {
         }
       ]
     },
+    "quantum-portal-network-parachain": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "AccountId": "EthereumAccountId",
+            "AccountId20": "EthereumAccountId",
+            "Address": "AccountId",
+            "LookupSource": "AccountId",
+            "Lookup0": "AccountId",
+            "EthereumSignature": {
+              "r": "H256",
+              "s": "H256",
+              "v": "U8"
+            },
+            "ExtrinsicSignature": "EthereumSignature"
+          }
+        }
+      ]
+    },
     "quartz": {
       "rpc": {
         "appPromotion": {

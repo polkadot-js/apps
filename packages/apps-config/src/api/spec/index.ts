@@ -262,6 +262,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   polymesh_testnet: polymeshTestnet,
   'pontem-node': pontem,
   prism,
+  'quantum-portal-network-parachain': ferrum,
   quartz,
   realis,
   'riochain-runtime': riochain,
