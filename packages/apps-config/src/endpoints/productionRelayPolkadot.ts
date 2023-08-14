@@ -115,7 +115,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'bitgreen',
     paraId: 2048,
     providers: {
-      Bitgreen: 'wss://mainnet.bitgreen.org'
+      Bitgreen: 'wss://mainnet.bitgreen.org',
+      OnFinality: 'wss://bitgreen.api.onfinality.io/public-ws'
     },
     text: 'Bitgreen',
     ui: {
