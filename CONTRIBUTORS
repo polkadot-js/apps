@@ -409,6 +409,7 @@
        1	Ricardo Rius                  	Update stable poc types (#3783)
        1	robcxyz                       	Add geometry labs endpoints for polkadot and kusama (#6477)
        1	Robert Gabriel Jakabosky      	Support BTreeSet. (#9206)
+       1	Robert Sprunk                 	Add REX network and logo (#9774)
        1	Robin Syihab                  	Fix typo in ID translation (#5865)
        1	Rocco Musolino                	italian translation typo fix (#3813)
        1	Saad                          	Reskinning Composable Finance/Picasso Portal Colors (#7696)
