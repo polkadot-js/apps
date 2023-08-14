@@ -115,7 +115,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'bitgreen',
     paraId: 2048,
     providers: {
-      Bitgreen: 'wss://mainnet.bitgreen.org'
+      Bitgreen: 'wss://mainnet.bitgreen.org',
+      OnFinality: 'wss://bitgreen.api.onfinality.io/public-ws'
     },
     text: 'Bitgreen',
     ui: {
@@ -200,7 +201,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Darwinia: 'wss://rpc.darwinia.network',
       'Darwinia Community': 'wss://darwinia-rpc.darwiniacommunitydao.xyz',
-      Dwellir: 'wss://darwinia-rpc.dwellir.com'
+      Dwellir: 'wss://darwinia-rpc.dwellir.com',
+      OnFinality: 'wss://darwinia2.api.onfinality.io/public-ws'
     },
     text: 'Darwinia2',
     ui: {
