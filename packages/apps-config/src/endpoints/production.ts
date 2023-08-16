@@ -377,7 +377,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'polkadex',
     providers: {
       OnFinality: 'wss://polkadex.api.onfinality.io/public-ws',
-      RadiumBlocks: 'wss://polkadex.public.curie.radiumblock.co/ws'
+      RadiumBlock: 'wss://polkadex.public.curie.radiumblock.co/ws'
     },
     text: 'Polkadex',
     ui: {
