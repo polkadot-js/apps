@@ -3,4 +3,5 @@
 
 // Do not edit. Auto-generated via node scripts/imgConvert.mjs
 
+export { extensionsAlephZeroSignerSVG } from './generated/aleph-zero-signerSVG.js';
 export { extensionsPolkadotJsSVG } from './generated/polkadot-jsSVG.js';

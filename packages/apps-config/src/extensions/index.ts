@@ -3,6 +3,7 @@
 
 import type { Browser, Extension, Known } from './types.js';
 
+import { AlephZeroSigner } from './aleph-zero-signer.js';
 import { PolkadotJs } from './polkadot-js.js';
 
 // The list of known extensions including the links to tem on the store. This is
@@ -10,6 +11,7 @@ import { PolkadotJs } from './polkadot-js.js';
 // one or more (Any known extension can and should be added here)
 
 export const knownExtensions: Record<string, Known> = {
+  'aleph-zero-signer': AlephZeroSigner,
   'polkadot-js': PolkadotJs
 };
 
