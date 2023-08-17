@@ -6,6 +6,7 @@ import type { ExternalDef } from './types.js';
 import { Commonwealth } from './commonwealth.js';
 import { Dotreasury } from './dotreasury.js';
 import { KodaDot } from './kodadot.js';
+import { MoonbeamApps } from './moonbeamApps.js';
 import { Polkaholic } from './polkaholic.js';
 import { Polkascan } from './polkascan.js';
 import { PolkassemblyIo, PolkassemblyNetwork } from './polkassembly.js';
@@ -19,6 +20,7 @@ export const externalLinks: Record<string, ExternalDef> = {
   Commonwealth,
   Dotreasury,
   KodaDot,
+  MoonbeamApps,
   Polkaholic,
   Polkascan,
   PolkassemblyIo,
