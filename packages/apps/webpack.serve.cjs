@@ -18,7 +18,7 @@ module.exports = merge(
     },
     plugins: [
       new HtmlWebpackPlugin({
-        PAGE_TITLE: 'Aleph Zero/Substrate Portal',
+        PAGE_TITLE: 'Azero.Dev',
         inject: true,
         template: path.join(__dirname, 'public/index.html')
       })

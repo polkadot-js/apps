@@ -1,14 +1,8 @@
 # @polkadot/apps-electron
 
-Desktop Polkadot apps client for Windows, Mac and Linux. 
-
-## Installation
-
-[Download here](https://github.com/polkadot-js/apps/releases/latest) latest versions for Windows, Mac and Linux.
+Desktop azero.dev client for Windows, Mac and Linux.
 
 ## Development and testing
-
-Contributions are welcome!
 
 Follow steps described [here](https://github.com/polkadot-js/apps#development) to setup the project.
 

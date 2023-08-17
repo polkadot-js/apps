@@ -4469,6 +4469,37 @@ __metadata:
   languageName: node
   linkType: hard
 
+"azero.dev@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "azero.dev@workspace:."
+  dependencies:
+    "@crustio/crust-pin": ^1.0.0
+    "@pinata/sdk": ^1.2.1
+    "@polkadot/dev": ^0.72.43
+    "@types/chart.js": ^2.9.37
+    "@types/file-saver": ^2.0.5
+    "@types/react-beautiful-dnd": ^13.1.4
+    "@types/react-copy-to-clipboard": ^5.0.4
+    "@types/react-dom": ^18.0.11
+    "@types/react-router-dom": ^5.3.3
+    "@types/store": ^2.0.2
+    "@types/styled-components": ^5.1.26
+    "@types/styled-theming": ^2.2.5
+    concurrently: ^8.0.1
+    devtron: ^1.4.0
+    dnslink-cloudflare: ^3.0.0
+    electron: ^23.2.4
+    electron-builder: 23.6.0
+    electron-builder-notarize: ^1.5.1
+    i18next-scanner: ^4.2.0
+    react: ^18.2.0
+    react-dom: ^18.2.0
+    react-is: ^18.2.0
+    source-map-explorer: ^2.5.3
+    styled-components: ^5.3.9
+  languageName: unknown
+  linkType: soft
+
 "babel-plugin-styled-components@npm:>= 1.12.0":
   version: 2.0.7
   resolution: "babel-plugin-styled-components@npm:2.0.7"
@@ -13252,37 +13283,6 @@ fsevents@~2.3.2:
   checksum: 48b5ef961a257f7653e6bc4d03aac1a817e4590d048cddee4f09a63cb3ed4ac120d15470725d4e37e087d57b231915d0563b16e596dd88d69a72ed669746c2bd
   languageName: node
   linkType: hard
-
-"polkadot-apps@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "polkadot-apps@workspace:."
-  dependencies:
-    "@crustio/crust-pin": ^1.0.0
-    "@pinata/sdk": ^1.2.1
-    "@polkadot/dev": ^0.72.43
-    "@types/chart.js": ^2.9.37
-    "@types/file-saver": ^2.0.5
-    "@types/react-beautiful-dnd": ^13.1.4
-    "@types/react-copy-to-clipboard": ^5.0.4
-    "@types/react-dom": ^18.0.11
-    "@types/react-router-dom": ^5.3.3
-    "@types/store": ^2.0.2
-    "@types/styled-components": ^5.1.26
-    "@types/styled-theming": ^2.2.5
-    concurrently: ^8.0.1
-    devtron: ^1.4.0
-    dnslink-cloudflare: ^3.0.0
-    electron: ^23.2.4
-    electron-builder: 23.6.0
-    electron-builder-notarize: ^1.5.1
-    i18next-scanner: ^4.2.0
-    react: ^18.2.0
-    react-dom: ^18.2.0
-    react-is: ^18.2.0
-    source-map-explorer: ^2.5.3
-    styled-components: ^5.3.9
-  languageName: unknown
-  linkType: soft
 
 "popper.js@npm:^1.14.4":
   version: 1.16.1
