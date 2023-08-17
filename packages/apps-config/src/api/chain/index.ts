@@ -3,10 +3,12 @@
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
+import cere from './cere.js';
 import kilt from './kilt.js';
 
 // NOTE: The mapping is done from chain name in system.chain
 const chain: Record<string, OverrideBundleDefinition> = {
+  'Cere Mainnet Beta': cere,
   'KILT Mashnet': kilt['KILT Mashnet'],
   'KILT Peregrine': kilt['KILT Peregrine'],
   'KILT Peregrine Stagenet': kilt['KILT Peregrine Stagenet'],
