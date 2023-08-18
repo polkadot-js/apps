@@ -32,7 +32,7 @@ function Members ({ className, members }: Props): React.ReactElement<Props> {
         header={headerRef.current}
         isSplit
       >
-        {members && members.map((a): React.ReactNode => (
+        {members?.map((a): React.ReactNode => (
           <Member
             key={a.accountId}
             value={a}

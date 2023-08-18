@@ -60,8 +60,8 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
 
   const valRender = useCallback(
     () => renderAddresses(
-      validators && validators[1].map(({ validatorId }) => validatorId),
-      validators && validators[1].map(({ indexValidator }) => indexValidator)
+      validators?.[1].map(({ validatorId }) => validatorId),
+      validators?.[1].map(({ indexValidator }) => indexValidator)
     ),
     [validators]
   );

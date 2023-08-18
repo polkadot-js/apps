@@ -166,7 +166,7 @@ function Payouts ({ className = '', historyDepth, isInElection, ownPools, ownVal
   const blockTime = useBlockInterval();
 
   const poolStashes = useMemo(
-    () => ownPools && ownPools.map(({ stashId }) => stashId),
+    () => ownPools?.map(({ stashId }) => stashId),
     [ownPools]
   );
 

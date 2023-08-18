@@ -65,7 +65,7 @@ function Events ({ className = '', emptyLabel, error, eventClassName, events, la
             <td><MarkError content={t('Unable to decode the block events. {{error}}', { replace: { error: error.message } })} /></td>
           </tr>
         )
-        : events && events.map((e) => renederEvent(eventClassName, e))
+        : events?.map((e) => renederEvent(eventClassName, e))
       }
     </Table>
   );

@@ -131,7 +131,7 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
               accountId={accountId}
               extrinsic={extrinsics}
               icon='credit-card'
-              isDisabled={!extrinsics || !extrinsics.length || !accountId}
+              isDisabled={!extrinsics?.length || !accountId}
               label={t('Payout')}
               onStart={togglePayout}
             />

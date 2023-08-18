@@ -49,7 +49,7 @@ async function retrieveJson (url: string): Promise<any> {
 }
 
 async function retrieveEnglish (): Promise<StringsMod> {
-  const paths = await retrieveJson('en/index.json') as Array<string>;
+  const paths = await retrieveJson('en/index.json') as string[];
   const strings: Strings[] = await Promise.all(paths.map((path) => retrieveJson(`en/${path}`) as Promise<Strings>));
 
   return strings.reduce((language: StringsMod, strings, index): StringsMod => {

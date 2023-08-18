@@ -58,7 +58,7 @@ function getVoteParams (accountId: string, lockClasses?: BN[]): [[accountId: str
 }
 
 function getRefParams (votes?: [classId: BN, refIds: BN[], casting: PalletConvictionVotingVoteCasting][]): [BN[]] | undefined {
-  if (votes && votes.length) {
+  if (votes?.length) {
     const refIds = votes.reduce<BN[]>((all, [, refIds]) => all.concat(refIds), []);
 
     if (refIds.length) {

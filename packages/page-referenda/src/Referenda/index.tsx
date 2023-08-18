@@ -41,7 +41,7 @@ function Referenda ({ className, isConvictionVote, members, palletReferenda, pal
   const [trackSelected, setTrackSelected] = useState(-1);
 
   const activeIssuance = useMemo(
-    () => totalIssuance && totalIssuance.sub(inactiveIssuance || BN_ZERO),
+    () => totalIssuance?.sub(inactiveIssuance || BN_ZERO),
     [inactiveIssuance, totalIssuance]
   );
 

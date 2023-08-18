@@ -174,7 +174,7 @@ class InputAddress extends React.PureComponent<Props, State> {
         ? defaultValue
         : this.hasValue(lastValue)
           ? lastValue
-          : (lastOption && lastOption.value)
+          : (lastOption?.value)
     );
     const actualOptions: Option[] = options
       ? dedupe(
@@ -254,7 +254,7 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 
   private hasValue (test?: Uint8Array | string | null): boolean {
-    const address = test && test.toString();
+    const address = test?.toString();
 
     return this.getFiltered().some(({ value }) => value === address);
   }
@@ -294,7 +294,7 @@ class InputAddress extends React.PureComponent<Props, State> {
       onChangeMulti(
         addresses
           .map(transformToAccountId)
-          .filter((address) => address as string) as string[]
+          .filter((address) => address!) as string[]
       );
     }
   };

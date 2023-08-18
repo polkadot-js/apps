@@ -123,7 +123,7 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       const dirFiles: DirFile[] = [];
 
-      for (let index = 0; index < files.length; index++) {
+      for (let index = 0, count = files.length; index < count; index++) {
         // console.info('f:', files[index]);
         dirFiles.push(files[index] as DirFile);
       }
@@ -180,7 +180,7 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
         }
 
         const fitter: SaveFile[] = [];
-        const mapImport: { [key: string]: boolean } = {};
+        const mapImport: Record<string, boolean> = {};
 
         for (const item of _list) {
           if (item.Hash && item.Name && item.UpEndpoint && item.PinEndpoint) {

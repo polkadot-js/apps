@@ -35,7 +35,7 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
 
   const _onChangeStash = useCallback(
     (accountId?: string | null): void => {
-      const acc = ownNominators && ownNominators.find(({ stashId }) => stashId === accountId);
+      const acc = ownNominators?.find(({ stashId }) => stashId === accountId);
 
       setIds(
         acc

@@ -207,7 +207,7 @@ async function getLightProvider (chain: string): Promise<ScProvider> {
 
   if (sc !== 'substrate-connect') {
     throw new Error(`Cannot connect to non substrate-connect protocol ${chain}`);
-  } else if (!relaySpecs[relayName] || (paraName && (!lightSpecs[relayName] || !lightSpecs[relayName][paraName]))) {
+  } else if (!relaySpecs[relayName] || (paraName && (!lightSpecs[relayName]?.[paraName]))) {
     throw new Error(`Unable to construct light chain ${chain}`);
   }
 
@@ -264,7 +264,7 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store }: Props): Rea
   const [extensions, setExtensions] = useState<InjectedExtension[] | undefined>();
   const apiEndpoint = useEndpoint(apiUrl);
   const relayUrls = useMemo(
-    () => (apiEndpoint && apiEndpoint.valueRelay && isNumber(apiEndpoint.paraId) && (apiEndpoint.paraId < 2000))
+    () => (apiEndpoint?.valueRelay && isNumber(apiEndpoint.paraId) && (apiEndpoint.paraId < 2000))
       ? apiEndpoint.valueRelay
       : null,
     [apiEndpoint]

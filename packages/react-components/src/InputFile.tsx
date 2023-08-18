@@ -49,7 +49,7 @@ function convertResult (result: ArrayBuffer): Uint8Array {
   if (data[0] === BYTE_STR_0 && data[1] === BYTE_STR_X) {
     let hex = u8aToString(data);
 
-    while (hex[hex.length - 1] === STR_NL) {
+    while (hex.endsWith(STR_NL)) {
       hex = hex.substring(0, hex.length - 1);
     }
 
@@ -94,7 +94,7 @@ function InputFile ({ accept, className = '', clearContent, isDisabled, isError 
   );
 
   const { getInputProps, getRootProps } = useDropzone({
-    accept: accept && accept.reduce((all, mime) => ({ ...all, [mime]: [] }), {}),
+    accept: accept?.reduce((all, mime) => ({ ...all, [mime]: [] }), {}),
     disabled: isDisabled,
     onDrop
   });

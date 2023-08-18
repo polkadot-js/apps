@@ -25,7 +25,7 @@ function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<P
   const { burn, pendingBounties, pendingProposals, spendPeriod, value } = useTreasury();
 
   const spendable = useMemo(
-    () => value && value.sub(pendingBounties).sub(pendingProposals),
+    () => value?.sub(pendingBounties).sub(pendingProposals),
     [value, pendingBounties, pendingProposals]
   );
 

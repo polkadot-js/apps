@@ -124,10 +124,10 @@ function UploadModal ({ className, file, onClose = NOOP, onSuccess = NOOP }: Pro
   }, [setAccount, setCurrentPair]);
 
   useEffect(() => {
-    const meta = (currentPair && currentPair.meta) || {};
-    const isExternal = (meta.isExternal as boolean) || false;
-    const isHardware = (meta.isHardware as boolean) || false;
-    const isInjected = (meta.isInjected as boolean) || false;
+    const meta = currentPair?.meta || {};
+    const isExternal = meta?.isExternal || false;
+    const isHardware = meta?.isHardware || false;
+    const isInjected = meta?.isInjected || false;
     const isUsable = !(isExternal || isHardware || isInjected);
 
     setAccountState({ isExternal, isHardware, isInjected });
@@ -305,7 +305,7 @@ function UploadModal ({ className, file, onClose = NOOP, onSuccess = NOOP }: Pro
         <Modal.Columns>
           <div className='files'>
             {file.file && <ShowFile file={file.file} />}
-            {file.files && file.files.map((f, i) =>
+            {file.files?.map((f, i) =>
               <ShowFile
                 file={f}
                 key={`file_item:${i}`}

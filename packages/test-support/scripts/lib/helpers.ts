@@ -33,7 +33,7 @@ export async function proposeMotion (api: ApiPromise, submittableExtrinsic: Subm
 
 export async function getMotion (api: ApiPromise, index: number): Promise<DeriveCollectiveProposal> {
   const bounties = await api.derive.bounties.bounties();
-  const bountyProposals = bounties.find((bounty) => (bounty.index.toNumber() === index))?.proposals as DeriveCollectiveProposal[];
+  const bountyProposals = bounties.find((bounty) => (bounty.index.toNumber() === index))?.proposals!;
 
   return bountyProposals[0];
 }
@@ -51,7 +51,7 @@ export async function multiGetMotion (api: ApiPromise, indexes: number[]): Promi
   const bountyProposals =
     indexes.map((index) =>
       bounties.find((bounty) =>
-        (bounty.index.toNumber() === index))?.proposals as DeriveCollectiveProposal[]);
+        (bounty.index.toNumber() === index))?.proposals!);
 
   return bountyProposals.map((arr) => arr[0]);
 }

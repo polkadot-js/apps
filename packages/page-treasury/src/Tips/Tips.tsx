@@ -86,7 +86,7 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectT
       )}
       header={headerRef.current}
     >
-      {tips && tips.map(([hash, tip]): React.ReactNode => (
+      {tips?.map(([hash, tip]): React.ReactNode => (
         <Tip
           bestNumber={bestNumber}
           defaultId={defaultId}

@@ -48,8 +48,8 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
     [codeHash]
   );
 
-  const [name, isNameValid, setName] = useNonEmptyString(code && code.json.name);
-  const { contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi([code && code.json.abi, code && code.contractAbi], codeHash, true);
+  const [name, isNameValid, setName] = useNonEmptyString(code?.json.name);
+  const { contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi([code?.json.abi, code?.contractAbi], codeHash, true);
 
   const blueprint = useMemo(
     () => isAbiValid && codeHash && contractAbi

@@ -21,7 +21,7 @@ function Moment ({ className = '', defaultValue, isDisabled, isError, label, onC
       <Static
         className={className}
         defaultValue={
-          (defaultValue && defaultValue.value)
+          (defaultValue?.value)
             ? (defaultValue.value as string).toString()
             : ''
         }

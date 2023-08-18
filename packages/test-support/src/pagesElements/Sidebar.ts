@@ -29,7 +29,7 @@ export class Sidebar {
   async selectTag (tagName: string): Promise<void> {
     const tagsCombobox = this.openTagsDropdown();
     const tagOptions = await within(tagsCombobox).findAllByRole('option');
-    const tag = tagOptions.find((tag) => tag.textContent === tagName) as HTMLElement;
+    const tag = tagOptions.find((tag) => tag.textContent === tagName)!;
 
     fireEvent.click(tag);
   }

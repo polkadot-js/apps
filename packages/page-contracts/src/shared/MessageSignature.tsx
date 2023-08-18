@@ -40,7 +40,7 @@ function MessageSignature ({ className, message: { args, isConstructor, isMutati
             {name}:
             {' '}
             <span className='ui--MessageSignature-type'>
-              {params && params[index]
+              {params?.[index]
                 ? <b>{truncate((params as string[])[index].toString())}</b>
                 : encodeTypeDef(api.registry, type)
               }

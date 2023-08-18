@@ -184,7 +184,7 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
         />
       }
     >
-      {list && list.map(([address, isElected, isFavorite]): React.ReactNode => (
+      {list?.map(([address, isElected, isFavorite]): React.ReactNode => (
         <Address
           address={address}
           filterName={nameFilter}

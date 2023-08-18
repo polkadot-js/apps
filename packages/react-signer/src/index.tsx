@@ -84,7 +84,7 @@ function extractCurrent (txqueue: QueueTx[]): ItemState {
     isRpc,
     isVisible,
     queueSize: available.length,
-    requestAddress: (currentItem && currentItem.accountId) || null
+    requestAddress: (currentItem?.accountId) || null
   };
 }
 
