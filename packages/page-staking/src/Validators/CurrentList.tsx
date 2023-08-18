@@ -97,7 +97,7 @@ function getFiltered (isOwn: boolean, stakingOverview: DeriveStakingOverview | u
 function mapValidators (infos: ValidatorInfo[]): Record<string, ValidatorInfo> {
   const result: Record<string, ValidatorInfo> = {};
 
-  for (let i = 0; i < infos.length; i++) {
+  for (let i = 0, count = infos.length; i < count; i++) {
     const info = infos[i];
 
     result[info.key] = info;

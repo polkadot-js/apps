@@ -46,10 +46,10 @@ function Sign ({ className = '' }: Props): React.ReactElement<Props> {
   const [isUnlockVisible, toggleUnlock] = useToggle();
 
   useEffect((): void => {
-    const meta = (currentPair && currentPair.meta) || {};
-    const isExternal = (meta.isExternal!) || false;
-    const isHardware = (meta.isHardware!) || false;
-    const isInjected = (meta.isInjected!) || false;
+    const meta = currentPair?.meta || {};
+    const isExternal = meta.isExternal || false;
+    const isHardware = meta.isHardware || false;
+    const isInjected = meta.isInjected || false;
     const isUsable = !(isExternal || isHardware || isInjected);
 
     setAccountState({ isExternal, isHardware, isInjected });

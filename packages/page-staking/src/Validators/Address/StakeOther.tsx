@@ -32,7 +32,7 @@ function extractFunction (all: NominatorValue[]): null | [number, () => React.Re
 function sumValue (all: { value: BN }[]): BN {
   const total = new BN(0);
 
-  for (let i = 0; i < all.length; i++) {
+  for (let i = 0, count = all.length; i < count; i++) {
     total.iadd(all[i].value);
   }
 
@@ -72,7 +72,7 @@ function StakeOther ({ nominators, stakeOther }: Props): React.ReactElement<Prop
       {(!rewarded || rewarded[0] !== 0) && (
         <ExpanderScroll
           className={rewarded ? '' : '--tmp'}
-          renderChildren={rewarded && rewarded[1]}
+          renderChildren={rewarded?.[1]}
           summary={
             <FormatBalance
               labelPost={` (${rewarded ? rewarded[0] : '0'})`}
