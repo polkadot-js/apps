@@ -34,7 +34,7 @@ async function submitRpc (api: ApiPromise, { method, section }: DefinitionRpcExt
   try {
     const rpc = api.rpc as unknown as Record<string, Record<string, (...params: unknown[]) => Promise<unknown>>>;
 
-    assert(isFunction(rpc[section] && rpc[section][method]), `api.rpc.${section}.${method} does not exist`);
+    assert(isFunction(rpc[section]?.[method]), `api.rpc.${section}.${method} does not exist`);
 
     const result = await rpc[section][method](...values);
 

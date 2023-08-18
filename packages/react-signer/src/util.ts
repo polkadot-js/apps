@@ -56,16 +56,16 @@ export function extractExternal (accountId: string | null): AddressFlags {
   }
 
   return {
-    accountOffset: pair.meta.accountOffset! || 0,
-    addressOffset: pair.meta.addressOffset! || 0,
+    accountOffset: pair.meta.accountOffset || 0,
+    addressOffset: pair.meta.addressOffset || 0,
     hardwareType: pair.meta.hardwareType as string,
     isHardware: !!isHardware,
     isMultisig: !!isMultisig,
     isProxied: !!isProxied,
     isQr: !!isExternal && !isMultisig && !isProxied && !isHardware && !isInjected,
     isUnlockable: isUnlockable && pair.isLocked,
-    threshold: (pair.meta.threshold!) || 0,
-    who: ((pair.meta.who!) || []).map(recodeAddress)
+    threshold: pair.meta.threshold || 0,
+    who: (pair.meta.who || []).map(recodeAddress)
   };
 }
 
