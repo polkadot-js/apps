@@ -132,7 +132,7 @@ function EnumParam (props: Props): React.ReactElement<Props> {
 
       current && onChange && onChange({
         isValid,
-        value: { [current[0].name!]: value }
+        value: { [current[0].name || 'unknown']: value }
       });
     },
     [current, isDisabled, onChange]

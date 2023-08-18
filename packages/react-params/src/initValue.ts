@@ -19,14 +19,14 @@ export default function getInitValue (registry: Registry, def: TypeDef): unknown
   } else if (def.info === TypeDefInfo.Struct) {
     return Array.isArray(def.sub)
       ? def.sub.reduce((result: Record<string, unknown>, def): Record<string, unknown> => {
-        result[def.name!] = getInitValue(registry, def);
+        result[def.name || 'unknown'] = getInitValue(registry, def);
 
         return result;
       }, {})
       : {};
   } else if (def.info === TypeDefInfo.Enum) {
     return Array.isArray(def.sub)
-      ? { [def.sub[0].name!]: getInitValue(registry, def.sub[0]) }
+      ? { [def.sub[0].name || 'unknown']: getInitValue(registry, def.sub[0]) }
       : {};
   }
 
