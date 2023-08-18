@@ -9,7 +9,7 @@ import { assert, BN } from '@polkadot/util';
 function getGenesis (name: string): HexString {
   const network = Object.entries(knownGenesis).find(([network]) => network === name);
 
-  assert(network && network[1][0], `Unable to find genesisHash for ${name}`);
+  assert(network?.[1][0], `Unable to find genesisHash for ${name}`);
 
   return network[1][0];
 }

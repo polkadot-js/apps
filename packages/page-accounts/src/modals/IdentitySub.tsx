@@ -98,12 +98,12 @@ function IdentitySubModal ({ address, className, onClose }: Props): React.ReactE
   }, [allAccounts, queryIds, queryInfos]);
 
   const _rowAdd = useCallback(
-    () => setInfos((infos) => infos && infos.concat([[allAccounts[0], '']])),
+    () => setInfos((infos) => infos?.concat([[allAccounts[0], '']])),
     [allAccounts]
   );
 
   const _rowRemove = useCallback(
-    () => setInfos((infos) => infos && infos.slice(0, infos.length - 1)),
+    () => setInfos((infos) => infos?.slice(0, infos.length - 1)),
     []
   );
 

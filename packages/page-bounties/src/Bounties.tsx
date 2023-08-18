@@ -1,8 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BN } from '@polkadot/util';
-
 import React, { useMemo, useRef } from 'react';
 
 import { Button, styled, Table } from '@polkadot/react-components';
@@ -22,7 +20,7 @@ function Bounties ({ className }: Props): React.ReactElement {
   const info = useBounties();
 
   const sorted = useMemo(
-    () => info && info.bounties && [...info.bounties].sort((a, b) => b.index.cmp(a.index)),
+    () => info?.bounties && [...info.bounties].sort((a, b) => b.index.cmp(a.index)),
     [info]
   );
 
@@ -32,6 +30,7 @@ function Bounties ({ className }: Props): React.ReactElement {
     [t('curator'), 'start'],
     [t('next action'), 'start', 3]
   ]);
+  const bestNumber = info.bestNumber;
 
   return (
     <StyledDiv className={className}>
@@ -44,9 +43,9 @@ function Bounties ({ className }: Props): React.ReactElement {
         empty={sorted && t('No open bounties')}
         header={headerRef.current}
       >
-        {sorted && info.bestNumber && sorted.map(({ bounty, description, index, proposals }) => (
+        {sorted && bestNumber && sorted.map(({ bounty, description, index, proposals }) => (
           <Bounty
-            bestNumber={info.bestNumber as BN}
+            bestNumber={bestNumber}
             bounty={bounty}
             description={description}
             index={index}

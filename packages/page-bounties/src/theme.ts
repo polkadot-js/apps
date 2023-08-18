@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-type bountyTheme = {
+interface bountyTheme {
   dark: string;
   light: string;
 }

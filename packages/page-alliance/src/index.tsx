@@ -52,11 +52,11 @@ function AllianceApp ({ basePath, className }: Props): React.ReactElement<Props>
     },
     {
       name: 'motions',
-      text: t('Motions ({{count}})', { replace: { count: (proposalHashes && proposalHashes.length) || 0 } })
+      text: t('Motions ({{count}})', { replace: { count: proposalHashes?.length || 0 } })
     },
     {
       name: 'announcements',
-      text: t('Announcements ({{count}})', { replace: { count: (accouncements && accouncements.length) || 0 } })
+      text: t('Announcements ({{count}})', { replace: { count: accouncements?.length || 0 } })
     },
     {
       name: 'unscrupulous',

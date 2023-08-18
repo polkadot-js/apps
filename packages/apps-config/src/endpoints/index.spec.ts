@@ -54,21 +54,23 @@ describe('urls are sorted', (): void => {
       lastHeader = text as string;
     } else {
       it(`${lastHeader}:: ${text as string}:: ${textBy}`, (): void => {
+        const item = filtered[index - 1];
+
         assert((
-          filtered[index - 1].isHeader ||
-          filtered[index - 1].linked ||
+          item.isHeader ||
+          item.linked ||
           (
-            isNumber(filtered[index - 1].paraId) &&
+            isNumber(item.paraId) &&
             (
-              (filtered[index - 1].paraId as number) < 2000
+              item.paraId < 2000
                 ? isNumber(paraId) && paraId >= 2000
                 : false
             )
           ) ||
-          filtered[index - 1].text === '' ||
-          text === filtered[index - 1].text ||
-          (text as string).localeCompare(filtered[index - 1].text as string) === 1
-        ), `${lastHeader}:: ${text as string} needs to be before ${filtered[index - 1].text as string}`);
+          item.text === '' ||
+          text === item.text ||
+          (text as string).localeCompare(item.text as string) === 1
+        ), `${lastHeader}:: ${text as string} needs to be before ${item.text as string}`);
       });
     }
   });
