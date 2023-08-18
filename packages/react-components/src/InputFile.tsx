@@ -75,7 +75,7 @@ function InputFile ({ accept, className = '', clearContent, isDisabled, isError 
         reader.onerror = NOOP;
 
         reader.onload = ({ target }: ProgressEvent<FileReader>): void => {
-          if (target && target.result) {
+          if (target?.result) {
             const name = file.name;
             const data = convertResult(target.result as ArrayBuffer);
 

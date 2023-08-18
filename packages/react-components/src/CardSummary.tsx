@@ -54,6 +54,9 @@ function CardSummary ({ children, className = '', label, progress }: Props): Rea
   }
 
   const isTimed = progress && progress.withTime && !isUndefined(progress.total);
+
+  // We don't care about the label as much...
+  // eslint-disable-next-line @typescript-eslint/no-base-to-string
   const testidSuffix = (label ?? '').toString();
 
   return (
