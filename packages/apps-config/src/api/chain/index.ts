@@ -6,6 +6,10 @@ import type { OverrideBundleDefinition } from '@polkadot/types/types';
 import cere from './cere.js';
 import kilt from './kilt.js';
 
+if (!kilt) {
+  throw new Error('Unable to retrieve kilt');
+}
+
 // NOTE: The mapping is done from chain name in system.chain
 const chain: Record<string, OverrideBundleDefinition> = {
   'Cere Mainnet Beta': cere,
