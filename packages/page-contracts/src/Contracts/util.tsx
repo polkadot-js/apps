@@ -13,13 +13,11 @@ import { getContractAbi } from '@polkadot/react-components/util';
 import MessageSignature from '../shared/MessageSignature.js';
 
 export function findCallMethod (callContract: ContractPromise | null, callMethodIndex = 0): AbiMessage | null {
-  const message = callContract && callContract.abi.messages[callMethodIndex];
-
-  return message || null;
+  return callContract?.abi.messages[callMethodIndex] || null;
 }
 
 export function getContractMethodFn (callContract: ContractPromise | null, callMethodIndex: number | null): AbiMessage | null {
-  const fn = callContract && callContract.abi && callMethodIndex !== null && callContract.abi.messages[callMethodIndex];
+  const fn = callMethodIndex !== null && callContract?.abi.messages[callMethodIndex];
 
   return fn || null;
 }

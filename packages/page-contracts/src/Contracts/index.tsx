@@ -34,7 +34,7 @@ function Contracts ({ className = '' }: Props): React.ReactElement<Props> {
 
   const _onShowDeploy = useCallback(
     (codeHash: string, constructorIndex: number): void => {
-      setCodeHash(codeHash || (allCodes && allCodes[0] ? allCodes[0].json.codeHash : undefined));
+      setCodeHash(codeHash || allCodes?.[0]?.json.codeHash || undefined);
       setConstructorIndex(constructorIndex);
       toggleDeploy();
     },
