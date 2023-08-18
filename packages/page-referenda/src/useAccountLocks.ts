@@ -73,10 +73,10 @@ function getLocks (api: ApiPromise, palletVote: PalletVote, votes: [classId: BN,
   const lockPeriod = api.consts[palletVote].voteLockingPeriod as BN;
   const locks: Lock[] = [];
 
-  for (let i = 0; i < votes.length; i++) {
+  for (let i = 0, count = votes.length; i < count; i++) {
     const [classId,, casting] = votes[i];
 
-    for (let i = 0; i < casting.votes.length; i++) {
+    for (let i = 0, castCount = casting.votes.length; i < castCount; i++) {
       const [refId, accountVote] = casting.votes[i];
       const refInfo = referenda.find(([id]) => id.eq(refId));
 
