@@ -56,7 +56,7 @@ class Params extends React.PureComponent<Props, State> {
       values: params.reduce(
         (result: RawParams, param, index): RawParams => {
           result.push(
-            values && values[index]
+            values?.[index]
               ? values[index]
               : createValue(registry, param)
           );
@@ -87,7 +87,7 @@ class Params extends React.PureComponent<Props, State> {
     const { children, className = '', isDisabled, isError, onEnter, onEscape, overrides, params, registry = statics.api.registry, withBorder = true, withExpander } = this.props;
     const { values = this.props.values } = this.state;
 
-    if (!values || !values.length) {
+    if (!values?.length) {
       return null;
     }
 

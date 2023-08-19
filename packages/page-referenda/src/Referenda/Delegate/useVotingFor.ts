@@ -74,7 +74,7 @@ function useVotingForImpl (palletVote: PalletVote, accountIds?: string[] | null)
     [locks]
   );
 
-  const votes = useCall(forParam && forParam[0] && api.query[palletVote]?.votingFor?.multi, forParam, FOR_OPT);
+  const votes = useCall(forParam?.[0] && api.query[palletVote]?.votingFor?.multi, forParam, FOR_OPT);
 
   return useMemo(
     () => locks && forParam

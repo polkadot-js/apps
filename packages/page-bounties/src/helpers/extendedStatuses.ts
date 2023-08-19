@@ -23,7 +23,7 @@ function getProposalByMethod (bountyProposals: DeriveCollectiveProposal[], metho
 }
 
 function bestValidProposalName (bountyProposals: DeriveCollectiveProposal[], status: BountyStatus): string | undefined {
-  const methods = bountyProposals.map(({ proposal }) => proposal && proposal.method);
+  const methods = bountyProposals.map(({ proposal }) => proposal?.method);
 
   return validMethods(status).find((method) => methods.includes(method));
 }

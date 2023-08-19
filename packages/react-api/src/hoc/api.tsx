@@ -17,7 +17,7 @@ export default function withApi <P extends ApiProps> (Inner: React.ComponentType
       return (
         <ApiCtx.Consumer>
           {(apiProps?: ApiProps): React.ReactNode => {
-            assert(apiProps && apiProps.api, 'Application root must be wrapped inside \'react-api/Api\' to provide API context');
+            assert(apiProps?.api, 'Application root must be wrapped inside \'react-api/Api\' to provide API context');
 
             return (
               <Inner

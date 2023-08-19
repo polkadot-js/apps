@@ -47,7 +47,7 @@ function Nominate ({ className = '', controllerId, nominating, onChange, poolId,
   useEffect((): void => {
     try {
       onChange({
-        nominateTx: selected && selected.length
+        nominateTx: selected?.length
           ? poolId
             ? api.tx.nominationPools.nominate(poolId, selected)
             : api.tx.staking.nominate(selected)

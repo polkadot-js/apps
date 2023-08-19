@@ -29,7 +29,7 @@ const IPFS_FETCH_OPTIONS = {
     }
 
     try {
-      const result = JSON.parse(data) as {[key: string]: any};
+      const result = JSON.parse(data) as Record<string, any>;
 
       if (result && typeof result === 'object') {
         return {
@@ -87,7 +87,7 @@ function useCollectionInfosImpl (ids?: BN[]): CollectionInfo[] | undefined {
   const [state, setState] = useState<CollectionInfo[] | undefined>();
 
   const ipfsHashes = useMemo(
-    () => metadata && metadata[1].length
+    () => metadata?.[1].length
       ? metadata[1].map((o) =>
         o.isSome
           ? o.unwrap().data.toPrimitive() as string

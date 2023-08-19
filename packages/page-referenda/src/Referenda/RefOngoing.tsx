@@ -93,7 +93,7 @@ function Ongoing ({ isMember, members, palletReferenda, palletVote, ranks, track
   return (
     <>
       <td className='all'>
-        {preimage && preimage.proposal
+        {preimage?.proposal
           ? (
             <CallExpander
               labelHash={t('preimage')}

@@ -21,9 +21,9 @@ function useAccountInfoImpl (accountId: string): AccountInfo | null {
   const member = useCall(api.query.nominationPools.poolMembers, [accountId], OPT_DEL);
 
   useEffect((): void => {
-    member && api.call.nominationPoolsApi &&
+    member &&
       api.call.nominationPoolsApi
-        .pendingRewards(accountId)
+        ?.pendingRewards(accountId)
         .then((claimable) =>
           isMountedRef.current && setState({ claimable, member })
         )

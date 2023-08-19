@@ -37,7 +37,7 @@ const EMPTY_HEADER: [React.ReactNode?, string?, number?][] = [['...', 'start', 6
 
 function transformResult ([[runtimeVersion, events], getBlock, getHeader]: [[RuntimeVersionPartial, EventRecord[] | null], SignedBlock, HeaderExtended?]): State {
   return {
-    events: events && events.map((record, index) => ({
+    events: events?.map((record, index) => ({
       indexes: [index],
       key: `${Date.now()}-${index}-${record.hash.toHex()}`,
       record
@@ -69,7 +69,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
   }, [error]);
 
   const systemEvents = useMemo(
-    () => events && events.filter(({ record: { phase } }) => !phase.isApplyExtrinsic),
+    () => events?.filter(({ record: { phase } }) => !phase.isApplyExtrinsic),
     [events]
   );
 

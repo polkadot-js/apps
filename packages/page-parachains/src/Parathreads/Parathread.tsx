@@ -29,8 +29,7 @@ function Parathread ({ id, leasePeriod, leases, nextAction }: Props): React.Reac
   const { headHex, lifecycle, manager } = useThreadInfo(id);
 
   const periods = useMemo(
-    () => leasePeriod?.currentPeriod && leases &&
-      leases.map(({ period }) => period),
+    () => leasePeriod?.currentPeriod && leases?.map(({ period }) => period),
     [leasePeriod?.currentPeriod, leases]
   );
 

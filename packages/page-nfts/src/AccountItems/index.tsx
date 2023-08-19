@@ -84,7 +84,7 @@ function AccountItems ({ className, infos = [] }: Props): React.ReactElement<Pro
         }
         header={headerRef.current}
       >
-        {itemsInfos && itemsInfos.map((info) => (
+        {itemsInfos?.map((info) => (
           <Item
             collectionName={collectionName}
             key={info.key}

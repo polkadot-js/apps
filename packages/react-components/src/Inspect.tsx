@@ -35,7 +35,7 @@ function formatInspect ({ inner = [], name = '', outer = [] }: Inspect, result: 
     result.push({ name, value: value.join(' ') });
   }
 
-  for (let i = 0; i < inner.length; i++) {
+  for (let i = 0, count = inner.length; i < count; i++) {
     formatInspect(inner[i], result);
   }
 

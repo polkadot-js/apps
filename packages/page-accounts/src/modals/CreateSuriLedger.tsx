@@ -41,7 +41,7 @@ function CreateSuriLedger ({ className, onChange, seedType }: Props): React.Reac
   useEffect((): void => {
     const network = ledgerNets.find(({ network }) => network === chainType);
 
-    onChange(`m/44'/${network?.slip44 as number}'/${accIndex}'/0'/${addIndex}'`);
+    onChange(`m/44'/${network?.slip44}'/${accIndex}'/0'/${addIndex}'`);
   }, [accIndex, addIndex, chainType, onChange]);
 
   return (

@@ -24,7 +24,7 @@ interface Props {
 function Pools ({ className, ids, ownPools, params }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const membersMap = useMembers();
-  const [typeIndex, setTypeIndex] = useState(() => ownPools && ownPools.length ? 0 : 1);
+  const [typeIndex, setTypeIndex] = useState(() => ownPools?.length ? 0 : 1);
 
   const ownAccounts = useMemo(
     () => ownPools && arrayFlatten(ownPools.map(({ members }) => Object.keys(members))),
@@ -81,7 +81,7 @@ function Pools ({ className, ids, ownPools, params }: Props): React.ReactElement
         emptySpinner={t('Retrieving nomination pools')}
         header={header}
       >
-        {membersMap && filtered && filtered.map((poolId) => (
+        {membersMap && filtered?.map((poolId) => (
           <Pool
             key={poolId.toString()}
             members={membersMap[poolId.toString()]}

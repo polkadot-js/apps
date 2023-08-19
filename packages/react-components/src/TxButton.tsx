@@ -73,7 +73,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
 
       extrinsics.forEach((extrinsic): void => {
         queueExtrinsic({
-          accountId: accountId && accountId.toString(),
+          accountId: accountId?.toString(),
           extrinsic,
           isUnsigned,
           txFailedCb: withSpinner ? _onFailed : onFailed,

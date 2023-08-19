@@ -97,7 +97,7 @@ function getFiltered (isOwn: boolean, stakingOverview: DeriveStakingOverview | u
 function mapValidators (infos: ValidatorInfo[]): Record<string, ValidatorInfo> {
   const result: Record<string, ValidatorInfo> = {};
 
-  for (let i = 0; i < infos.length; i++) {
+  for (let i = 0, count = infos.length; i < count; i++) {
     const info = infos[i];
 
     result[info.key] = info;
@@ -184,7 +184,7 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
         />
       }
     >
-      {list && list.map(([address, isElected, isFavorite]): React.ReactNode => (
+      {list?.map(([address, isElected, isFavorite]): React.ReactNode => (
         <Address
           address={address}
           filterName={nameFilter}
