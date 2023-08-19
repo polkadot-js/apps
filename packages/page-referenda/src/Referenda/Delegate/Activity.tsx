@@ -44,7 +44,7 @@ function Activity ({ allowEmpty, className, palletReferenda, tracks, value }: Pr
             {infos.map(([{ casting, classId, delegating }, info], index) => (
               <tr key={index}>
                 <td className='all'>
-                  {(info?.trackName) || classId.toString()}
+                  {info?.trackName || classId.toString()}
                 </td>
                 <td className='together'>
                   {

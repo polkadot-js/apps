@@ -174,7 +174,7 @@ class InputAddress extends React.PureComponent<Props, State> {
         ? defaultValue
         : this.hasValue(lastValue)
           ? lastValue
-          : (lastOption?.value)
+          : lastOption?.value
     );
     const actualOptions: Option[] = options
       ? dedupe(

@@ -73,7 +73,7 @@ function getLocks (api: ApiPromise, palletVote: PalletVote, votes: [classId: BN,
   const lockPeriod = api.consts[palletVote].voteLockingPeriod as BN;
   const locks: Lock[] = [];
 
-  for (let i = 0, count = votes.length; i < count; i++) {
+  for (let i = 0, voteCount = votes.length; i < voteCount; i++) {
     const [classId,, casting] = votes[i];
 
     for (let i = 0, castCount = casting.votes.length; i < castCount; i++) {

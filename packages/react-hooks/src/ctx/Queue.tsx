@@ -88,7 +88,7 @@ function mergeStatus (status: ActionStatusPartial[]): ActionStatus[] {
 
 function extractEvents (result?: SubmittableResult): ActionStatus[] {
   return mergeStatus(
-    ((result?.events) || [])
+    (result?.events || [])
       // filter events handled globally, or those we are not interested in, these are
       // handled by the global overview, so don't add them here
       .filter((record) =>

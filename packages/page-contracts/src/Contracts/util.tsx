@@ -17,7 +17,7 @@ export function findCallMethod (callContract: ContractPromise | null, callMethod
 }
 
 export function getContractMethodFn (callContract: ContractPromise | null, callMethodIndex: number | null): AbiMessage | null {
-  const fn = callMethodIndex !== null && callContract?.abi.messages[callMethodIndex];
+  const fn = callMethodIndex !== null && callContract?.abi?.messages[callMethodIndex];
 
   return fn || null;
 }
@@ -35,13 +35,11 @@ export function getContractForAddress (api: ApiPromise, address: string | null):
 }
 
 export function getCallMessageOptions (callContract: ContractPromise | null): DropdownItemProps[] {
-  return callContract
-    ? callContract.abi.messages.map((m, index) => ({
-      key: m.identifier,
-      text: (
-        <MessageSignature message={m} />
-      ),
-      value: index
-    }))
-    : [];
+  return callContract?.abi.messages.map((m, index) => ({
+    key: m.identifier,
+    text: (
+      <MessageSignature message={m} />
+    ),
+    value: index
+  })) || [];
 }

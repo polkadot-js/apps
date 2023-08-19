@@ -125,9 +125,9 @@ function UploadModal ({ className, file, onClose = NOOP, onSuccess = NOOP }: Pro
 
   useEffect(() => {
     const meta = currentPair?.meta || {};
-    const isExternal = meta?.isExternal || false;
-    const isHardware = meta?.isHardware || false;
-    const isInjected = meta?.isInjected || false;
+    const isExternal = meta.isExternal || false;
+    const isHardware = meta.isHardware || false;
+    const isInjected = meta.isInjected || false;
     const isUsable = !(isExternal || isHardware || isInjected);
 
     setAccountState({ isExternal, isHardware, isInjected });
