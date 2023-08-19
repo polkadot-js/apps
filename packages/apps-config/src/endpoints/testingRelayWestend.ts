@@ -183,7 +183,7 @@ export const testRelayWestend: EndpointOption = {
     ...testParasWestend
   ],
   providers: {
-    Blockops: 'wss://westend-rpc.blockops.network/ws',
+    // Blockops: 'wss://westend-rpc.blockops.network/ws', // https://github.com/polkadot-js/apps/issues/9795
     Dwellir: 'wss://westend-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://westend-rpc-tn.dwellir.com',
     'IBP-GeoDNS1': 'wss://rpc.ibp.network/westend',

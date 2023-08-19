@@ -234,8 +234,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'equilibrium',
     paraId: 2011,
     providers: {
-      Dwellir: 'wss://equilibrium-rpc.dwellir.com',
-      OnFinality: 'wss://equilibrium.api.onfinality.io/public-ws'
+      Dwellir: 'wss://equilibrium-rpc.dwellir.com'
+      // OnFinality: 'wss://equilibrium.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9795
       // Equilibrium: 'wss://node.pol.equilibrium.io/' // https://github.com/polkadot-js/apps/issues/9748
     },
     text: 'Equilibrium',
@@ -755,7 +755,7 @@ export const prodRelayPolkadot: EndpointOption = {
   providers: {
     // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
     'Automata 1RPC': 'wss://1rpc.io/dot',
-    Blockops: 'wss://polkadot-public-rpc.blockops.network/ws',
+    // Blockops: 'wss://polkadot-public-rpc.blockops.network/ws', // https://github.com/polkadot-js/apps/issues/9795
     Dwellir: 'wss://polkadot-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://polkadot-rpc-tn.dwellir.com',
     'IBP-GeoDNS1': 'wss://rpc.ibp.network/polkadot',
