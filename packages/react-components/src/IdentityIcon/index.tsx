@@ -4,12 +4,11 @@
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { IdentityProps } from '@polkadot/react-identicon/types';
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
-import type { ThemeProps } from '../types.js';
 
 import React, { useCallback } from 'react';
 
 import { getSystemIcon } from '@polkadot/apps-config';
-import { useApi, useQueue } from '@polkadot/react-hooks';
+import { useApi, useQueue, useTheme } from '@polkadot/react-hooks';
 import BaseIdentityIcon from '@polkadot/react-identicon';
 import { settings } from '@polkadot/ui-settings';
 
@@ -43,6 +42,7 @@ function isCodec (value?: AccountId | AccountIndex | Address | string | Uint8Arr
 function IdentityIcon ({ className = '', forceIconType, prefix, size = 24, theme, value }: Props): React.ReactElement<Props> {
   const { apiEndpoint, isEthereum, specName, systemName } = useApi();
   const { t } = useTranslation();
+  const { themeClassName } = useTheme();
   const { queueAction } = useQueue();
   const thisTheme = theme || getIdentityTheme(apiEndpoint, systemName, specName);
 
@@ -63,7 +63,7 @@ function IdentityIcon ({ className = '', forceIconType, prefix, size = 24, theme
   return (
     <StyledBaseIdentityIcon
       Custom={Custom}
-      className={className}
+      className={`${themeClassName} ${className}`}
       onCopy={onCopy}
       prefix={prefix}
       size={size}
@@ -73,17 +73,22 @@ function IdentityIcon ({ className = '', forceIconType, prefix, size = 24, theme
   );
 }
 
-const StyledBaseIdentityIcon = styled(BaseIdentityIcon)(({ theme }: ThemeProps) => `
-  ${theme.theme === 'dark'
-    ? `circle:first-child {
-      fill: #282829;
-    }`
-    : ''}
-
-  border: 1px solid ${theme.theme === 'dark' ? 'transparent' : '#ddd'};
+const StyledBaseIdentityIcon = styled(BaseIdentityIcon)`
   border-radius: 50%;
   display: inline-block;
   overflow: hidden;
-`);
+
+  &.theme--dark {
+    circle:first-child {
+      fill: #282829;
+    }
+
+    border: 1px solid transparent;
+  }
+
+  &.theme--light {
+    border: 1px solid #ddd;
+  }
+`;
 
 export default React.memo(IdentityIcon);
