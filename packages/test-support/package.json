@@ -17,11 +17,11 @@
   "version": "0.132.2-56-x",
   "dependencies": {
     "@testing-library/react": "^14.0.0",
-    "testcontainers": "^9.9.1"
+    "testcontainers": "^10.2.1"
   },
   "devDependencies": {
     "@polkadot/types-support": "^10.9.1",
-    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/jest-dom": "^6.0.1",
     "tsconfig-paths": "^4.2.0"
   },
   "peerDependencies": {
