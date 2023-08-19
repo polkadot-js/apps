@@ -6,7 +6,7 @@ import React from 'react';
 import { styled } from '@polkadot/react-components';
 
 interface Props {
-  color: string;
+  color?: string;
   className?: string;
 }
 
@@ -20,7 +20,7 @@ function ChainColorIndicator ({ className, color }: Props): React.ReactElement<P
 }
 
 const StyledDiv = styled.div(({ color }: Props): string => `
-  background-color: ${color} !important;
+  background-color: ${color || 'white'} !important;
   width: 100px;
   flex: 1;
   border-radius: 4px;
