@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@polkadot/types-support": "^10.9.1",
-    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/jest-dom": "^5.17.0",
     "tsconfig-paths": "^4.2.0"
   },
   "peerDependencies": {

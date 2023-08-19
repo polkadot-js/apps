@@ -59,6 +59,6 @@
     "moonbeam-types-bundle": "2.0.10",
     "pontem-types-bundle": "1.0.15",
     "rxjs": "^7.8.1",
-    "tslib": "^2.5.3"
+    "tslib": "^2.6.2"
   }
 }
