@@ -438,7 +438,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'karmachain',
     providers: {
-      Karmachain: 'wss://testnet.karmaco.in/testnet/ws'
+      // Karmachain: 'wss://testnet.karmaco.in/testnet/ws' // https://github.com/polkadot-js/apps/issues/9799
     },
     text: 'Karmachain Testnet',
     ui: {
