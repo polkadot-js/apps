@@ -108,7 +108,10 @@ jest.mock('@polkadot/react-hooks/useRegistrars', () => ({
 }));
 
 jest.mock('@polkadot/react-hooks/useTheme', () => ({
-  useTheme: () => ({ theme: 'light', themeClassName: 'theme--light' })
+  useTheme: () => ({
+    theme: 'light',
+    themeClassName: 'theme--light'
+  })
 }));
 
 export abstract class Page {

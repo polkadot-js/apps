@@ -4,7 +4,6 @@
 import React from 'react';
 
 import { Icon, styled } from '@polkadot/react-components';
-import { useTheme } from '@polkadot/react-hooks';
 
 interface Props {
   className?: string;
@@ -13,10 +12,8 @@ interface Props {
 }
 
 function BountyInfo ({ className = '', description, type = 'info' }: Props): React.ReactElement<Props> {
-  const { themeClassName } = useTheme();
-
   return (
-    <StyledDiv className={`${themeClassName} ${className}`}>
+    <StyledDiv className={className}>
       {type === 'warning' && (
         <div className='info-icon'>
           <Icon icon={'exclamation-triangle'} />
@@ -35,28 +32,12 @@ const StyledDiv = styled.div`
   font-size: var(--font-size-small);
   line-height: 1.5rem;
 
-  &.theme--dark {
-    .info-icon {
-      margin-right: 0.2rem;
-
-      svg {
-        color: #8E8E8E;
-      }
-    }
-  }
-
-  &.theme--light {
-    .info-icon {
-      margin-right: 0.2rem;
-
-      svg {
-        color: #4D4D4D;
-      }
-    }
-  }
-
   .info-icon {
     margin-right: 0.2rem;
+
+    svg {
+      color: var(--color-bounty-info);
+    }
   }
 
   .description {
