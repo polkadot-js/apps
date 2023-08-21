@@ -39,7 +39,7 @@
     "@polkadot/api": "^10.9.1",
     "@polkadot/api-derive": "^10.9.1",
     "@polkadot/networks": "^12.4.1",
-    "@polkadot/react-identicon": "^3.5.1",
+    "@polkadot/react-identicon": "^3.6.1",
     "@polkadot/types": "^10.9.1",
     "@polkadot/types-codec": "^10.9.1",
     "@polkadot/util": "^12.4.1",
