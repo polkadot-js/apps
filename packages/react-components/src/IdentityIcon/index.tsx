@@ -44,8 +44,6 @@ function IdentityIcon ({ className = '', forceIconType, prefix, size = 24, theme
   const { queueAction } = useQueue();
   const thisTheme = theme || getIdentityTheme(apiEndpoint, systemName, specName);
 
-  console.error(theme, forceIconType, thisTheme, forceIconType || (isEthereum ? 'ethereum' : thisTheme as 'substrate'));
-
   const Custom = thisTheme === 'robohash'
     ? RoboHash
     : undefined;
