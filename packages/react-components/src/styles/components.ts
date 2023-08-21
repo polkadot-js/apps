@@ -64,6 +64,17 @@ export default `
     }
   }
 
+  .ui--Identicon-React-Base {
+    border: 1px solid var(--border-identicon);
+    border-radius: 50%;
+    display: inline-block;
+    overflow: hidden;
+
+    svg circle:first-child {
+      fill: var(--bg-identicon-circle);
+    }
+  }
+
   .ui--Input {
     &.disabled {
       overflow: hidden;

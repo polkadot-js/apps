@@ -12,7 +12,6 @@ import { useApi, useQueue } from '@polkadot/react-hooks';
 import BaseIdentityIcon from '@polkadot/react-identicon';
 import { settings } from '@polkadot/ui-settings';
 
-import { styled } from '../styled.js';
 import { useTranslation } from '../translate.js';
 import RoboHash from './RoboHash/index.js';
 
@@ -45,6 +44,8 @@ function IdentityIcon ({ className = '', forceIconType, prefix, size = 24, theme
   const { queueAction } = useQueue();
   const thisTheme = theme || getIdentityTheme(apiEndpoint, systemName, specName);
 
+  console.error(theme, forceIconType, thisTheme, forceIconType || (isEthereum ? 'ethereum' : thisTheme as 'substrate'));
+
   const Custom = thisTheme === 'robohash'
     ? RoboHash
     : undefined;
@@ -59,10 +60,13 @@ function IdentityIcon ({ className = '', forceIconType, prefix, size = 24, theme
     [queueAction, t]
   );
 
+  // NOTE ui--Identicon-React-Base is applied here (defined in styles/components.ts)
+  // since it has a theme and the styled wrapper overrides it
+
   return (
-    <StyledBaseIdentityIcon
+    <BaseIdentityIcon
       Custom={Custom}
-      className={className}
+      className={`ui--Identicon-React-Base ${className}`}
       onCopy={onCopy}
       prefix={prefix}
       size={size}
@@ -71,16 +75,5 @@ function IdentityIcon ({ className = '', forceIconType, prefix, size = 24, theme
     />
   );
 }
-
-const StyledBaseIdentityIcon = styled(BaseIdentityIcon)`
-  border: 1px solid var(--border-identicon);
-  border-radius: 50%;
-  display: inline-block;
-  overflow: hidden;
-
-  svg circle:first-child {
-    fill: var(--bg-identicon-circle);
-  }
-`;
 
 export default React.memo(IdentityIcon);
