@@ -78,7 +78,7 @@ const StyledBaseIdentityIcon = styled(BaseIdentityIcon)`
   display: inline-block;
   overflow: hidden;
 
-  circle:first-child {
+  svg circle:first-child {
     fill: var(--bg-identicon-circle);
   }
 `;
