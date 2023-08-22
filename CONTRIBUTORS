@@ -1,4 +1,4 @@
-    4315	Jaco                          	Add missing & specifier to status (#9805)
+    4316	Jaco                          	Disable unreachable endpoints (#9808)
       80	Thibaut Sardan                	Fix delegation with x0.1 conviction and typo (#9599)
       62	kwingram25                    	iadd fix (#2911)
       49	pan                           	update Bifrost kusama on Subsquare (#9752)
