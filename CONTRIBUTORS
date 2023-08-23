@@ -25,7 +25,7 @@
       15	Eliott Teissonniere           	add nodle parachain colors (#7353)
       15	Jun Jiang                     	Update and fix Khala typedef (#8272)
       15	lumir-mrkva                   	moved HydraDX rococo RPC (#9732)
-      14	Sam Elamin                    	add missing specs (#9711)
+      15	Sam Elamin                    	enable imbue api (#9814)
       13	Gabriel Facco de Arruda       	Add InvArch to apps-config (#9145)
       13	Miguel Hervas                 	Adding Centrifuge OnFinality Service (#7328)
       13	Stefan Popov                  	Add SORA relaychain info (#9275)
