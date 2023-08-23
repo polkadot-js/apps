@@ -161,4 +161,4 @@ class Params extends React.PureComponent<Props, State> {
   };
 }
 
-export default translate<React.ComponentType<Props>>(Params);
+export default translate<Props>(Params);
