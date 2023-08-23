@@ -42,8 +42,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2051,
     providers: {
       AjunaNetwork: 'wss://rpc-parachain.ajuna.network',
-      OnFinality: 'wss://ajuna.api.onfinality.io/public-ws'
-      // RadiumBlock: 'wss://ajuna.public.curie.radiumblock.co/ws' // https://github.com/polkadot-js/apps/issues/9760
+      OnFinality: 'wss://ajuna.api.onfinality.io/public-ws',
+      RadiumBlock: 'wss://ajuna.public.curie.radiumblock.co/ws'
     },
     text: 'Ajuna Network',
     ui: {
@@ -697,7 +697,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       LuckyFriday: 'wss://rpc-asset-hub-polkadot.luckyfriday.io',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-asset-hub-rpc.polkadot.io',
-      // RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws', // https://github.com/polkadot-js/apps/issues/9760
+      RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws',
       Stakeworld: 'wss://dot-rpc.stakeworld.io/assethub'
     },
     teleport: [-1],
