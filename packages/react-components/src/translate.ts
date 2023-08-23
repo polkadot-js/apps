@@ -9,6 +9,6 @@ export function useTranslation (): { t: (key: string, options?: { replace: Recor
   return useTranslationBase('react-components');
 }
 
-export default function translate <T> (C: React.ComponentClass<T>): React.ComponentType<T> {
-  return withTranslation(['react-components'])(C) as unknown as React.ComponentType<T>;
+export default function translate <T, P = Omit<T, 't'>> (C: React.ComponentClass<T>): React.ComponentType<P> {
+  return withTranslation(['react-components'])(C) as unknown as React.ComponentType<P>;
 }
