@@ -34,7 +34,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'acurast',
     paraId: 2239,
     providers: {
-      Acurast: 'wss://ws-1.acurast-server-2.papers.tech'
+      Acurast: 'wss://acurast-canarynet-ws.prod.gke.papers.tech'
     },
     text: 'Acurast Canary',
     ui: {
