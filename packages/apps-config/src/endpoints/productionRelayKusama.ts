@@ -658,7 +658,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
       Blast: 'wss://shiden.public.blastapi.io',
       Dwellir: 'wss://shiden-rpc.dwellir.com',
       OnFinality: 'wss://shiden.api.onfinality.io/public-ws',
-      StakeTechnologies: 'wss://rpc.shiden.astar.network',
+      Astar: 'wss://rpc.shiden.astar.network',
       'light client': 'light://substrate-connect/kusama/shiden'
     },
     text: 'Shiden',
