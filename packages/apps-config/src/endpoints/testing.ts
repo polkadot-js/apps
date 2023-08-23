@@ -772,8 +772,8 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'shibuya',
     providers: {
-      Dwellir: 'wss://shibuya-rpc.dwellir.com',
-      StakeTechnologies: 'wss://rpc.shibuya.astar.network'
+      Astar: 'wss://rpc.shibuya.astar.network',
+      Dwellir: 'wss://shibuya-rpc.dwellir.com'
     },
     text: 'Shibuya',
     ui: {
