@@ -1,4 +1,4 @@
-    4317	Jaco                          	Bump deps (#9815)
+    4318	Jaco                          	Disable unreachable endpoints (#9818)
       80	Thibaut Sardan                	Fix delegation with x0.1 conviction and typo (#9599)
       62	kwingram25                    	iadd fix (#2911)
       49	pan                           	update Bifrost kusama on Subsquare (#9752)
