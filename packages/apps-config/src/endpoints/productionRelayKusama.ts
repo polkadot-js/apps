@@ -610,7 +610,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2048,
     providers: {
       Airalab: 'wss://kusama.rpc.robonomics.network/',
-      Leemo: 'wss://robonomics.leemo.me',
+      // Leemo: 'wss://robonomics.leemo.me', // https://github.com/polkadot-js/apps/issues/9817
       OnFinality: 'wss://robonomics.api.onfinality.io/public-ws',
       Samsara: 'wss://robonomics.0xsamsara.com'
     },
@@ -627,7 +627,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2240,
     providers: {
       Airalab: 'wss://kusama.rpc.robonomics.network/',
-      Leemo: 'wss://robonomics.leemo.me',
+      // Leemo: 'wss://robonomics.leemo.me', // https://github.com/polkadot-js/apps/issues/9817
       OnFinality: 'wss://robonomics.api.onfinality.io/public-ws',
       Samsara: 'wss://robonomics.0xsamsara.com'
     },
