@@ -416,6 +416,7 @@
        1	Sam Hellawell                 	Fix dock logos being blurry/low res (#4427)
        1	Satyam Agrawal                	Add Polymesh ITN Provider (#5242)
        1	Sergei Lonshakov              	Robonomics ParaID 2077 added (#5706)
+       1	serkixenos                    	Add Peerplays to ethereumChains (#9820)
        1	Shailesh B Nair               	Add KlugDossier (#5456)
        1	Shamil                        	Move Vara from Live networks to Test networks (#8295)
        1	Shaun Wang                    	Fix spelling: Javascript -> JavaScript. (#4698)
