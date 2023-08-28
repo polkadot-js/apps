@@ -59,7 +59,7 @@ function Overview ({ className, members, prime, rule, unscrupulous, voters }: Pr
         isSplit
         maxColumns={2}
       >
-        {members && members.map((m) => (
+        {members?.map((m) => (
           <Member
             bestNumber={bestNumber}
             info={m}

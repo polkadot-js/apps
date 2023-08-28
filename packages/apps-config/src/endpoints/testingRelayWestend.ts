@@ -183,7 +183,7 @@ export const testRelayWestend: EndpointOption = {
     ...testParasWestend
   ],
   providers: {
-    Blockops: 'wss://westend-rpc.blockops.network/ws',
+    // Blockops: 'wss://westend-rpc.blockops.network/ws', // https://github.com/polkadot-js/apps/issues/9795
     Dwellir: 'wss://westend-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://westend-rpc-tn.dwellir.com',
     'IBP-GeoDNS1': 'wss://rpc.ibp.network/westend',
@@ -191,7 +191,7 @@ export const testRelayWestend: EndpointOption = {
     LuckyFriday: 'wss://rpc-westend.luckyfriday.io',
     OnFinality: 'wss://westend.api.onfinality.io/public-ws',
     Parity: 'wss://westend-rpc.polkadot.io',
-    RadiumBlock: 'wss://westend.public.curie.radiumblock.co/ws',
+    // RadiumBlock: 'wss://westend.public.curie.radiumblock.co/ws', // https://github.com/polkadot-js/apps/issues/9807
     Stakeworld: 'wss://wnd-rpc.stakeworld.io',
     'light client': 'light://substrate-connect/westend'
   },

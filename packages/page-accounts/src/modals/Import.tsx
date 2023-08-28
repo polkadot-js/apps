@@ -116,7 +116,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
       <Modal.Content>
         <Modal.Columns>
           <AddressRow
-            defaultName={(pair?.meta.name as string) || null}
+            defaultName={pair?.meta.name || null}
             noDefaultNameOpacity
             value={pair?.address || null}
           />

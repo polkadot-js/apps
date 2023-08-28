@@ -57,7 +57,7 @@ function filterEvents (index: number, events?: KeyedEvent[] | null, maxBlockWeig
 
   return [
     dispatchInfo,
-    weight && weight.v1Weight,
+    weight?.v1Weight,
     weight && maxBlockWeight
       ? weight.v1Weight.mul(BN_TEN_THOUSAND).div(maxBlockWeight).toNumber() / 100
       : 0,

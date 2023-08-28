@@ -70,7 +70,7 @@ function useCollatorImpl (): Collator[] | undefined {
   const [state, setState] = useState<Collator[] | undefined>();
 
   const accountIds = useMemo(
-    () => state && state.map(({ accountId }) => accountId),
+    () => state?.map(({ accountId }) => accountId),
     [state]
   );
 

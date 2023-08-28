@@ -55,7 +55,11 @@ function unlockAccount ({ isUnlockCached, signAddress, signPassword }: AddressPr
   let publicKey;
 
   try {
-    publicKey = keyring.decodeAddress(signAddress as string);
+    if (!signAddress) {
+      throw new Error('Invalid signAddress');
+    }
+
+    publicKey = keyring.decodeAddress(signAddress);
   } catch (error) {
     console.error(error);
 
@@ -167,11 +171,15 @@ async function extractParams (api: ApiPromise, address: string, options: Partial
   const { meta: { accountOffset, addressOffset, isExternal, isHardware, isInjected, isProxied, source } } = pair;
 
   if (isHardware) {
-    return ['signing', address, { ...options, signer: new LedgerSigner(api.registry, getLedger, accountOffset as number || 0, addressOffset as number || 0) }];
+    return ['signing', address, { ...options, signer: new LedgerSigner(api.registry, getLedger, accountOffset || 0, addressOffset || 0) }];
   } else if (isExternal && !isProxied) {
     return ['qr', address, { ...options, signer: new QrSigner(api.registry, setQrState) }];
   } else if (isInjected) {
-    const injected = await web3FromSource(source as string);
+    if (!source) {
+      throw new Error(`Unable to find injected source for ${address}`);
+    }
+
+    const injected = await web3FromSource(source);
 
     assert(injected, `Unable to find a signer for ${address}`);
 

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/apps authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { fetch } from '@polkadot/x-fetch';
@@ -37,9 +37,9 @@ function fetchWithTimeout (url: string, timeout = 2_000): Promise<Response | nul
 }
 
 export function fetchJson <T> (url: string, timeout?: number): Promise<T | null> {
-  return fetchWithTimeout(url, timeout).then<T | null>((r) => r && r.json());
+  return fetchWithTimeout(url, timeout).then<T | null>((r) => r?.json() || null);
 }
 
 export function fetchText (url: string, timeout?: number): Promise<string | null> {
-  return fetchWithTimeout(url, timeout).then((r) => r && r.text());
+  return fetchWithTimeout(url, timeout).then((r) => r?.text() || null);
 }

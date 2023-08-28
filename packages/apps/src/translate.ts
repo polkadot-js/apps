@@ -8,6 +8,10 @@ interface TOptions {
   replace?: Record<string, unknown>;
 }
 
-export function useTranslation (): { t: (key: string, optionsOrText?: string | TOptions, options?: TOptions) => string } {
-  return useTranslationBase('apps');
+interface Translation {
+  t: (key: string, optionsOrText?: string | TOptions, options?: TOptions) => string
+}
+
+export function useTranslation (): Translation {
+  return useTranslationBase('apps') as unknown as Translation;
 }

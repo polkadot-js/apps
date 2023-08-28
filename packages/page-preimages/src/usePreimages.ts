@@ -41,7 +41,7 @@ function usePreimagesImpl (): HexString[] | undefined {
   ], filter, startValue);
 
   return useMemo(
-    () => hashes && hashes.map((h) => h.toHex()),
+    () => hashes?.map((h) => h.toHex()),
     [hashes]
   );
 }

@@ -54,13 +54,13 @@ function Member ({ bestNumber, className, info: { accountId, role }, isPrime, is
       <td className='address all relative'>
         <AddressSmall value={accountId} />
         <div className='absolute'>
-          {(info && info.isRetiringAt && (
+          {(info?.isRetiringAt && (
             <Tag
               color='yellow'
               hover={t('Is retiring')}
               label={t('retirting')}
             />
-          )) || (info && info.isUpForKicking && (
+          )) || (info?.isUpForKicking && (
             <Tag
               color='red'
               hover={t('Up for kicking')}
@@ -92,7 +92,7 @@ function Member ({ bestNumber, className, info: { accountId, role }, isPrime, is
               <Menu>
                 {hasNotice && (
                   <Menu.Item
-                    isDisabled={!!(info && info.isRetiringAt)}
+                    isDisabled={!!(info?.isRetiringAt)}
                     label={t('Announce retirement')}
                     onClick={doNotice}
                   />

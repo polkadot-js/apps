@@ -31,7 +31,7 @@ function Announcements ({ accouncements, className }: Props): React.ReactElement
         empty={accouncements && t('No annoucements')}
         header={annRef.current}
       >
-        {accouncements && accouncements.map((a) => (
+        {accouncements?.map((a) => (
           <Accouncement
             key={a.key}
             value={a}

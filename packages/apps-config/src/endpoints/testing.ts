@@ -438,7 +438,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'karmachain',
     providers: {
-      Karmachain: 'wss://testnet.karmaco.in/testnet/ws'
+      // Karmachain: 'wss://testnet.karmaco.in/testnet/ws' // https://github.com/polkadot-js/apps/issues/9799
     },
     text: 'Karmachain Testnet',
     ui: {
@@ -772,8 +772,8 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'shibuya',
     providers: {
-      Dwellir: 'wss://shibuya-rpc.dwellir.com',
-      StakeTechnologies: 'wss://rpc.shibuya.astar.network'
+      Astar: 'wss://rpc.shibuya.astar.network',
+      Dwellir: 'wss://shibuya-rpc.dwellir.com'
     },
     text: 'Shibuya',
     ui: {

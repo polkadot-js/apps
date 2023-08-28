@@ -34,7 +34,7 @@ function Voters ({ isAye, members, threshold, votes }: Props): React.ReactElemen
   );
 
   const renderVotes = useCallback(
-    () => votes && votes.map((address): React.ReactNode => (
+    () => votes?.map((address): React.ReactNode => (
       <AddressMini
         key={address.toString()}
         value={address}

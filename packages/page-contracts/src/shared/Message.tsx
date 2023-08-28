@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AbiConstructor, AbiMessage, ContractCallOutcome } from '@polkadot/api-contract/types';
+import type { AbiConstructor, ContractCallOutcome } from '@polkadot/api-contract/types';
 
 import React, { useCallback } from 'react';
 
@@ -15,7 +15,7 @@ export interface Props {
   className?: string;
   index: number;
   lastResult?: ContractCallOutcome;
-  message: AbiConstructor | AbiMessage;
+  message: AbiConstructor;
   onSelect?: (index: number) => void;
 }
 
