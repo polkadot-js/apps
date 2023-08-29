@@ -234,8 +234,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'equilibrium',
     paraId: 2011,
     providers: {
-      Dwellir: 'wss://equilibrium-rpc.dwellir.com'
-      // OnFinality: 'wss://equilibrium.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9795
+      Dwellir: 'wss://equilibrium-rpc.dwellir.com',
+      OnFinality: 'wss://equilibrium.api.onfinality.io/public-ws'
       // Equilibrium: 'wss://node.pol.equilibrium.io/' // https://github.com/polkadot-js/apps/issues/9748
     },
     text: 'Equilibrium',
