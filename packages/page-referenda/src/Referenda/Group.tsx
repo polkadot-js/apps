@@ -73,7 +73,7 @@ function Group ({ activeIssuance, className, isMember, members, palletReferenda,
       isSplit={!trackId}
       key={key}
     >
-      {referenda && referenda.map((r) => (
+      {referenda?.map((r) => (
         <Referendum
           activeIssuance={activeIssuance}
           isMember={isMember}

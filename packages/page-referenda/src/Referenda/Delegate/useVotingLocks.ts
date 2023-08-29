@@ -34,7 +34,7 @@ function useVotingLocksImpl (palletVote: PalletVote, accountIds?: string[] | nul
     [accountIds]
   );
 
-  const locks = useCall(locksParam && locksParam[0] && api.query[palletVote]?.classLocksFor?.multi, locksParam, LOCKS_OPT);
+  const locks = useCall(locksParam?.[0] && api.query[palletVote]?.classLocksFor?.multi, locksParam, LOCKS_OPT);
 
   return useMemo(
     () => locksParam

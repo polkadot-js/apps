@@ -37,7 +37,7 @@ function Multisig ({ isMultisig, meta }: Props): React.ReactElement<Props> | nul
         <div className='tr'>
           <div className='th signatories'>{t('signatories')}</div>
           <div className='td'>
-            {(who as string[])?.map((address) => (
+            {who?.map((address) => (
               <AddressMini
                 key={address}
                 value={address}

@@ -73,7 +73,7 @@ function Pool ({ accountId, className, info: { bonded: { roles }, metadata, nomi
   const accInfo = useAccountInfo(accountId);
 
   const stakingInfo = useMemo(
-    () => sessionProgress && accInfo && accInfo.member.unbondingEras && !accInfo.member.unbondingEras.isEmpty
+    () => sessionProgress && accInfo?.member.unbondingEras && !accInfo.member.unbondingEras.isEmpty
       ? calcUnbonding(accountId, stashId, sessionProgress, accInfo.member)
       : null,
     [accInfo, accountId, stashId, sessionProgress]

@@ -7,20 +7,16 @@ import type { HexString } from '@polkadot/util/types';
 
 // FIXME Ideally, we want these as Base from api-codec - as a stop-gap, any this until we have
 // params returning types extending Base (i.e. anything from api-codec)
-export type RawParamValue = unknown | undefined;
-
-export type RawParamValueArray = (RawParamValue | RawParamValue[])[];
-
-export type RawParamValues = RawParamValue | RawParamValueArray;
+export type RawParamValue = unknown;
 
 export interface RawParam {
   isValid: boolean;
-  value: RawParamValues;
+  value: RawParamValue;
 }
 
 export interface RawParamOnChangeValue {
   isValid: boolean;
-  value: RawParamValues;
+  value: RawParamValue;
 }
 
 export type RawParamOnChange = (value: RawParamOnChangeValue) => void;

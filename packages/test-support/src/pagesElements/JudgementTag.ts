@@ -15,7 +15,7 @@ export class JudgementTag {
   async assertRegistrars (expectedRegistrars: string[]): Promise<void> {
     const popup = await this.openPopup();
 
-    for (let index = 0; index < expectedRegistrars.length; index++) {
+    for (let index = 0, count = expectedRegistrars.length; index < count; index++) {
       await within(popup).findByText(expectedRegistrars[index]);
     }
   }

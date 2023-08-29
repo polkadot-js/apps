@@ -36,7 +36,7 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
 
   const loans = useMemo(
     (): Campaign[] | undefined => {
-      if (newRaise && auctionInfo && auctionInfo.leasePeriod && campaigns.funds) {
+      if (newRaise && auctionInfo?.leasePeriod && campaigns.funds) {
         const leasePeriodStart = auctionInfo.leasePeriod;
         const leasePeriodEnd = leasePeriodStart.add(rangeMax);
 
@@ -94,7 +94,7 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
     <Table
       className={className}
       empty={
-        newRaise && auctionInfo && auctionInfo.numAuctions && winningData && (
+        newRaise && auctionInfo?.numAuctions && winningData && (
           auctionInfo.endBlock && !winningData.length
             ? t('No winners in this auction')
             : t('No ongoing auction')
@@ -103,7 +103,7 @@ function Auction ({ auctionInfo, campaigns, className, winningData }: Props): Re
       header={headerRef.current}
       noBodyTag
     >
-      {auctionInfo && auctionInfo.leasePeriod && winningData && loans && (
+      {auctionInfo?.leasePeriod && winningData && loans && (
         winningData.length
           ? winningData.map(({ blockNumber, winners }, round) => (
             <tbody key={round}>

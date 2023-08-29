@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/page-addresses authors & contributors
+// Copyright 2017-2023 @polkadot/app-addresses authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* global jest */

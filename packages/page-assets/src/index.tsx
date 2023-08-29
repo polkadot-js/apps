@@ -25,7 +25,7 @@ interface Props {
 }
 
 function findOpenId (ids?: BN[]): BN {
-  if (!ids || !ids.length) {
+  if (!ids?.length) {
     return BN_ONE;
   }
 

@@ -35,7 +35,7 @@ function getStats (...apis: ApiPromise[]): { stats: ProviderStats, when: number 
     }
   };
 
-  for (let i = 0; i < apis.length; i++) {
+  for (let i = 0, count = apis.length; i < count; i++) {
     const s = apis[i].stats;
 
     if (s) {

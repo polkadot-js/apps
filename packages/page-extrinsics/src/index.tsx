@@ -44,7 +44,7 @@ function ExtrinsicsApp ({ basePath }: Props): React.ReactElement<Props> {
           <Route
             element={
               <Decoder
-                defaultValue={decoded && decoded.hex}
+                defaultValue={decoded?.hex}
                 setLast={setDecoded}
               />
             }

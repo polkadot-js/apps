@@ -68,7 +68,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
       recipientParaId === -1
         ? index === 0
         : recipientParaId === paraId
-    )?.value as string,
+    )?.value,
     [destinations, recipientParaId]
   );
 

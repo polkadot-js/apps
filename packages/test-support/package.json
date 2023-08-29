@@ -14,10 +14,10 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.132.2-50-x",
+  "version": "0.132.2-73-x",
   "dependencies": {
     "@testing-library/react": "^14.0.0",
-    "testcontainers": "^9.9.1"
+    "testcontainers": "^10.2.1"
   },
   "devDependencies": {
     "@polkadot/types-support": "^10.9.1",
