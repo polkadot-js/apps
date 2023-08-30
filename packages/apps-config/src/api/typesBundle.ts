@@ -49639,10 +49639,10 @@ export const typesBundle = {
             "type": "Vec<Option<Vec<u8>>>"
           },
           "queryDataProof": {
-            "description": "Generate the data proof for the given `index`",
+            "description": "Generate the data proof for the given `transaction_index`",
             "params": [
               {
-                "name": "data_index",
+                "name": "transaction_index",
                 "type": "u32"
               },
               {
