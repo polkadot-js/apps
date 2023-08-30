@@ -864,7 +864,8 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'subspace-gemini-3f',
     providers: {
-      Europe: 'wss://rpc-0.gemini-3f.subspace.network/ws'
+      Europe: 'wss://rpc-1.gemini-3f.subspace.network/ws',
+      US: 'wss://rpc-0.gemini-3f.subspace.network/ws'
     },
     text: 'Subspace Gemini 3f',
     ui: {
