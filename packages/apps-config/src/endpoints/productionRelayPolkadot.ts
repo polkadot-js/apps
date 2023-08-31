@@ -726,7 +726,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       'IBP-GeoDNS1': 'wss://sys.ibp.network/bridgehub-polkadot',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/bridgehub-polkadot',
       LuckyFriday: 'wss://rpc-bridge-hub-polkadot.luckyfriday.io',
-      OnFinality: 'wss://bridgehub-polkadot.api.onfinality.io/public-ws',
+      // OnFinality: 'wss://bridgehub-polkadot.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-bridge-hub-rpc.polkadot.io',
       Stakeworld: 'wss://dot-rpc.stakeworld.io/bridgehub'
     },

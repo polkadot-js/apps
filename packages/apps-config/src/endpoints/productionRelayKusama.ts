@@ -811,7 +811,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       'IBP-GeoDNS1': 'wss://sys.ibp.network/statemine',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/statemine',
       LuckyFriday: 'wss://rpc-asset-hub-kusama.luckyfriday.io',
-      OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
+      // OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
       Parity: 'wss://kusama-asset-hub-rpc.polkadot.io',
       RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws',
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/assethub'
