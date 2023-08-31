@@ -460,23 +460,23 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'snowbridgeBridgeHub',
-    paraId: 3016,
-    providers: {
-      Snowfork: 'wss://rococo-rpc.snowbridge.network/bridgehub'
-    },
-    text: 'Snowbridge Bridge Hub',
-    ui: {
-      logo: chainsSnowbridgePNG
-    }
-  },
-  {
     info: 'snowbridgeAssetHub',
     paraId: 3416,
     providers: {
       Snowfork: 'wss://rococo-rpc.snowbridge.network/assethub'
     },
     text: 'Snowbridge Asset Hub',
+    ui: {
+      logo: chainsSnowbridgePNG
+    }
+  },
+  {
+    info: 'snowbridgeBridgeHub',
+    paraId: 3016,
+    providers: {
+      Snowfork: 'wss://rococo-rpc.snowbridge.network/bridgehub'
+    },
+    text: 'Snowbridge Bridge Hub',
     ui: {
       logo: chainsSnowbridgePNG
     }
