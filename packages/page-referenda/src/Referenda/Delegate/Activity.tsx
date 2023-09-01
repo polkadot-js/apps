@@ -44,24 +44,24 @@ function Activity ({ allowEmpty, className, palletReferenda, tracks, value }: Pr
             {infos.map(([{ casting, classId, delegating }, info], index) => (
               <tr key={index}>
                 <td className='all'>
-                  {(info && info.trackName) || classId.toString()}
+                  {info?.trackName || classId.toString()}
                 </td>
                 <td className='together'>
                   {
                     (delegating &&
-                      t<string>('delegating')) ||
+                      t('delegating')) ||
                     (casting &&
-                      `${casting.length} ${casting.length === 1 ? t<string>('vote') : t<string>('votes')}`)
+                      `${casting.length} ${casting.length === 1 ? t('vote') : t('votes')}`)
                   }
                 </td>
               </tr>
             ))}
           </Table>
         )
-        : <MarkWarning content={t<string>('This account has no voting/delegating activity in the chain state')} />
+        : <MarkWarning content={t('This account has no voting/delegating activity in the chain state')} />
       }
       {!allowEmpty && infos.some(([{ delegating }]) => delegating) && (
-        <MarkWarning content={t<string>('This account has some delegations in itself')} />
+        <MarkWarning content={t('This account has some delegations in itself')} />
       )}
     </StyledDiv>
   );

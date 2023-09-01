@@ -139,8 +139,8 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'cere',
     providers: {
-      'Cere Network': 'wss://archive.testnet.cere.network/ws',
-      'Republic Crypto | Runtime': 'wss://testnet.cere-archive.republiccrypto-runtime.com:444'
+      // 'Cere Network': 'wss://archive.testnet.cere.network/ws' // https://github.com/polkadot-js/apps/issues/9712
+      // 'Republic Crypto | Runtime': 'wss://testnet.cere-archive.republiccrypto-runtime.com:444' // https://github.com/polkadot-js/apps/issues/9712
     },
     text: 'Cere Network Testnet',
     ui: {
@@ -293,7 +293,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'ferrum',
     providers: {
-      FerrumNetwork: 'wss://testnet.dev.svcs.ferrumnetwork.io'
+      // FerrumNetwork: 'wss://testnet.dev.svcs.ferrumnetwork.io' // https://github.com/polkadot-js/apps/issues/9748
     },
     text: 'Ferrum Testnet',
     ui: {
@@ -438,7 +438,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'karmachain',
     providers: {
-      Karmachain: 'wss://testnet.karmaco.in/testnet/ws'
+      // Karmachain: 'wss://testnet.karmaco.in/testnet/ws' // https://github.com/polkadot-js/apps/issues/9799
     },
     text: 'Karmachain Testnet',
     ui: {
@@ -761,7 +761,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'sherpax',
     providers: {
-      Chainx: 'wss://sherpax-testnet.chainx.org'
+      // Chainx: 'wss://sherpax-testnet.chainx.org' // https://github.com/polkadot-js/apps/issues/9672
     },
     text: 'Sherpax Testnet',
     ui: {
@@ -772,8 +772,8 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'shibuya',
     providers: {
-      Dwellir: 'wss://shibuya-rpc.dwellir.com',
-      StakeTechnologies: 'wss://rpc.shibuya.astar.network'
+      Astar: 'wss://rpc.shibuya.astar.network',
+      Dwellir: 'wss://shibuya-rpc.dwellir.com'
     },
     text: 'Shibuya',
     ui: {
@@ -856,6 +856,18 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
       Europe: 'wss://eu-0.gemini-2a.subspace.network/ws'
     },
     text: 'Subspace Gemini 2a',
+    ui: {
+      color: '#562b8e',
+      logo: nodesSubspacePNG
+    }
+  },
+  {
+    info: 'subspace-gemini-3f',
+    providers: {
+      Europe: 'wss://rpc-1.gemini-3f.subspace.network/ws',
+      US: 'wss://rpc-0.gemini-3f.subspace.network/ws'
+    },
+    text: 'Subspace Gemini 3f',
     ui: {
       color: '#562b8e',
       logo: nodesSubspacePNG

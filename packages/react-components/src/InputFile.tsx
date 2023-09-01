@@ -49,7 +49,7 @@ function convertResult (result: ArrayBuffer): Uint8Array {
   if (data[0] === BYTE_STR_0 && data[1] === BYTE_STR_X) {
     let hex = u8aToString(data);
 
-    while (hex[hex.length - 1] === STR_NL) {
+    while (hex.endsWith(STR_NL)) {
       hex = hex.substring(0, hex.length - 1);
     }
 
@@ -75,7 +75,7 @@ function InputFile ({ accept, className = '', clearContent, isDisabled, isError 
         reader.onerror = NOOP;
 
         reader.onload = ({ target }: ProgressEvent<FileReader>): void => {
-          if (target && target.result) {
+          if (target?.result) {
             const name = file.name;
             const data = convertResult(target.result as ArrayBuffer);
 
@@ -94,7 +94,7 @@ function InputFile ({ accept, className = '', clearContent, isDisabled, isError 
   );
 
   const { getInputProps, getRootProps } = useDropzone({
-    accept: accept && accept.reduce((all, mime) => ({ ...all, [mime]: [] }), {}),
+    accept: accept?.reduce((all, mime) => ({ ...all, [mime]: [] }), {}),
     disabled: isDisabled,
     onDrop
   });
@@ -105,8 +105,8 @@ function InputFile ({ accept, className = '', clearContent, isDisabled, isError 
       <em className='label'>
         {
           !file || clearContent
-            ? placeholder || t<string>('click to select or drag and drop the file here')
-            : placeholder || t<string>('{{name}} ({{size}} bytes)', {
+            ? placeholder || t('click to select or drag and drop the file here')
+            : placeholder || t('{{name}} ({{size}} bytes)', {
               replace: {
                 name: file.name,
                 size: formatNumber(file.size)

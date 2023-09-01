@@ -89,8 +89,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'cere',
     providers: {
-      'Cere Network': 'wss://archive.mainnet.cere.network/ws',
-      'Republic Crypto | Runtime': 'wss://mainnet.cere-archive.republiccrypto-runtime.com:444'
+      'Cere Network': 'wss://archive.mainnet.cere.network/ws'
+      // 'Republic Crypto | Runtime': 'wss://mainnet.cere-archive.republiccrypto-runtime.com:444' // https://github.com/polkadot-js/apps/issues/9828
     },
     text: 'Cere Network',
     ui: {
@@ -179,8 +179,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'edgeware',
     providers: {
       'Commonwealth Labs': 'wss://mainnet2.edgewa.re',
-      JelliedOwl: 'wss://edgeware.jelliedowl.net',
-      OnFinality: 'wss://edgeware.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8768
+      JelliedOwl: 'wss://edgeware.jelliedowl.net'
+      // OnFinality: 'wss://edgeware.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9795
     },
     text: 'Edgeware',
     ui: {
@@ -290,7 +290,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'kusari',
     providers: {
-      Swapdex: 'wss://ws.kusari.network'
+      // Swapdex: 'wss://ws.kusari.network' // https://github.com/polkadot-js/apps/issues/9712
     },
     text: 'Kusari',
     ui: {
@@ -377,7 +377,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'polkadex',
     providers: {
       OnFinality: 'wss://polkadex.api.onfinality.io/public-ws',
-      'Polkadex Team': 'wss://mainnet.polkadex.trade'
+      RadiumBlock: 'wss://polkadex.public.curie.radiumblock.co/ws'
     },
     text: 'Polkadex',
     ui: {
@@ -421,7 +421,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'sherpax',
     providers: {
-      ChainX: 'wss://mainnet.sherpax.io'
+      // ChainX: 'wss://mainnet.sherpax.io' // https://github.com/polkadot-js/apps/issues/9712
     },
     text: 'SherpaX',
     ui: {

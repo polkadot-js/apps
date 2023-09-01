@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ChartOptions, ChartTypeRegistry, TooltipItem } from 'chart.js';
-import type { TFunction } from 'i18next';
 import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { CurveGraph, ReferendumProps as Props } from '../types.js';
@@ -69,7 +68,7 @@ interface ChartProps extends ChartResult {
   options: typeof OPTIONS;
 }
 
-function createTitleCallback (t: TFunction, bestNumber: BN, blockInterval: BN, extraFn: (blockNumber: BN) => string): (items: TooltipItem<keyof ChartTypeRegistry>[]) => string | string[] {
+function createTitleCallback (t: (key: string, options?: { replace: Record<string, unknown> }) => string, bestNumber: BN, blockInterval: BN, extraFn: (blockNumber: BN) => string): (items: TooltipItem<keyof ChartTypeRegistry>[]) => string | string[] {
   return ([{ label }]: TooltipItem<keyof ChartTypeRegistry>[]): string | string[] => {
     try {
       const blockNumber = bnToBn(label.replace(/,/g, ''));
@@ -79,7 +78,7 @@ function createTitleCallback (t: TFunction, bestNumber: BN, blockInterval: BN, e
         const blocks = blockNumber.sub(bestNumber);
         const when = new Date(Date.now() + blocks.mul(blockInterval).toNumber()).toLocaleString();
         const calc = calcBlockTime(blockInterval, blocks, t);
-        const result = [`#${label}`, t<string>('{{when}} (est.)', { replace: { when } }), calc[1]];
+        const result = [`#${label}`, t('{{when}} (est.)', { replace: { when } }), calc[1]];
 
         if (extraTitle) {
           result.push(extraTitle);
@@ -178,7 +177,7 @@ function getChartResult (totalEligible: BN, isConvictionVote: boolean, info: Pal
   return null;
 }
 
-function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResultExt[], refId: BN, track: PalletReferendaTrackInfo, t: TFunction): ChartProps[] {
+function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResultExt[], refId: BN, track: PalletReferendaTrackInfo, t: (key: string, options?: { replace: Record<string, unknown> }) => string): ChartProps[] {
   const changeXMax = chartProps.reduce((max, { changeX }) =>
     max === -1 || changeX === -1
       ? -1
@@ -208,9 +207,9 @@ function getChartProps (bestNumber: BN, blockInterval: BN, chartProps: ChartResu
     const title = createTitleCallback(t, bestNumber, blockInterval, (blockNumber) =>
       confirmX && blockNumber.gte(confirmX[0])
         ? blockNumber.lte(confirmX[1])
-          ? t<string>('Confirmation period')
+          ? t('Confirmation period')
           : blockNumber.lte(confirmX[2])
-            ? t<string>('Enactment period')
+            ? t('Enactment period')
             : ''
         : ''
     );
@@ -374,14 +373,14 @@ function Referendum (props: Props): React.ReactElement<Props> {
   const chartLegend = useMemo(
     () => [
       [
-        t<string>('minimum approval'),
-        t<string>('current approval (failing)'),
-        t<string>('current approval (passing)')
+        t('minimum approval'),
+        t('current approval (failing)'),
+        t('current approval (passing)')
       ],
       [
-        t<string>('minimum support'),
-        t<string>('current support (failing)'),
-        t<string>('current support (passing)')
+        t('minimum support'),
+        t('current support (failing)'),
+        t('current support (passing)')
       ]
     ],
     [t]
@@ -408,14 +407,14 @@ function Referendum (props: Props): React.ReactElement<Props> {
               <Columar.Column>
                 <Chart.Line
                   legends={chartLegend[0]}
-                  title={t<string>('approval / {{percent}}%', { replace: { percent: chartProps[0].progress.percent.toFixed(1) } })}
+                  title={t('approval / {{percent}}%', { replace: { percent: chartProps[0].progress.percent.toFixed(1) } })}
                   {...chartProps[0]}
                 />
               </Columar.Column>
               <Columar.Column>
                 <Chart.Line
                   legends={chartLegend[1]}
-                  title={t<string>('support / {{percent}}%', { replace: { percent: chartProps[1].progress.percent.toFixed(1) } })}
+                  title={t('support / {{percent}}%', { replace: { percent: chartProps[1].progress.percent.toFixed(1) } })}
                   {...chartProps[1]}
                 />
               </Columar.Column>
@@ -425,13 +424,13 @@ function Referendum (props: Props): React.ReactElement<Props> {
             <Columar.Column>
               {submittedIn && (
                 <>
-                  <h5>{t<string>('Submitted at')}</h5>
+                  <h5>{t('Submitted at')}</h5>
                   #{formatNumber(submittedIn)}
                 </>
               )}
               {nextAlarm && (
                 <>
-                  <h5>{t<string>('Next alarm')}</h5>
+                  <h5>{t('Next alarm')}</h5>
                   #{formatNumber(nextAlarm)}
                 </>
               )}
@@ -439,19 +438,19 @@ function Referendum (props: Props): React.ReactElement<Props> {
             <Columar.Column>
               {enactAt && (
                 <>
-                  <h5>{enactAt.at ? t<string>('Enact at') : t<string>('Enact after')}</h5>
-                  {enactAt.at && '#'}{t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(enactAt.blocks) } })}
+                  <h5>{enactAt.at ? t('Enact at') : t('Enact after')}</h5>
+                  {enactAt.at && '#'}{t('{{blocks}} blocks', { replace: { blocks: formatNumber(enactAt.blocks) } })}
                 </>
               )}
               {confirmEnd && (
                 <>
-                  <h5>{t<string>('Confirm end')}</h5>
+                  <h5>{t('Confirm end')}</h5>
                   #{formatNumber(confirmEnd)}
                 </>
               )}
               {enactAt?.end && (
                 <>
-                  <h5>{t<string>('Enact end')}</h5>
+                  <h5>{t('Enact end')}</h5>
                   #{formatNumber(enactAt.end)}
                 </>
               )}

@@ -16,4 +16,4 @@ export interface AccountOverrides {
   info?: Override<UseAccountInfo>;
 }
 
-export type WaitOptions = { interval?: number, timeout?: number };
+export interface WaitOptions { interval?: number, timeout?: number }

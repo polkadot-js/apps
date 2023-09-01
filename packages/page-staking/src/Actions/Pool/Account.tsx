@@ -73,7 +73,7 @@ function Pool ({ accountId, className, info: { bonded: { roles }, metadata, nomi
   const accInfo = useAccountInfo(accountId);
 
   const stakingInfo = useMemo(
-    () => sessionProgress && accInfo && accInfo.member.unbondingEras && !accInfo.member.unbondingEras.isEmpty
+    () => sessionProgress && accInfo?.member.unbondingEras && !accInfo.member.unbondingEras.isEmpty
       ? calcUnbonding(accountId, stashId, sessionProgress, accInfo.member)
       : null,
     [accInfo, accountId, stashId, sessionProgress]
@@ -165,29 +165,29 @@ function Pool ({ accountId, className, info: { bonded: { roles }, metadata, nomi
           value={
             <Menu>
               <Menu.Item
-                label={t<string>('Bond more funds')}
+                label={t('Bond more funds')}
                 onClick={toggleBond}
               />
               <Menu.Item
                 isDisabled={!accInfo || accInfo.member.points.isZero()}
-                label={t<string>('Unbond funds')}
+                label={t('Unbond funds')}
                 onClick={toggleUnbond}
               />
               <Menu.Divider />
               <Menu.Item
                 isDisabled={!accInfo || accInfo.claimable.isZero()}
-                label={t<string>('Withdraw claimable')}
+                label={t('Withdraw claimable')}
                 onClick={claimPayout}
               />
               <Menu.Item
                 isDisabled={!stakingInfo || stakingInfo.redeemable.isZero()}
-                label={t<string>('Withdraw unbonded')}
+                label={t('Withdraw unbonded')}
                 onClick={withdrawUnbonded}
               />
               <Menu.Divider />
               <Menu.Item
                 isDisabled={!isNominator}
-                label={t<string>('Set nominees')}
+                label={t('Set nominees')}
                 onClick={toggleNominate}
               />
             </Menu>

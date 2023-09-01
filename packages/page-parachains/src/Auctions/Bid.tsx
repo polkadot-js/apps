@@ -61,7 +61,7 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
   );
 
   const currentWinner = useMemo(
-    () => lastWinners && lastWinners.winners.find(({ firstSlot, lastSlot }) =>
+    () => lastWinners?.winners.find(({ firstSlot, lastSlot }) =>
       firstSlot.eqn(rangeOpts[range].firstSlot) &&
       lastSlot.eqn(rangeOpts[range].lastSlot)
     ),
@@ -76,13 +76,13 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
       <Button
         icon='plus'
         isDisabled={!ownedIds.length || !hasAccounts || !auctionInfo?.numAuctions || !auctionInfo.leasePeriod || !auctionInfo.endBlock || !api.consts.auctions || bestNumber?.gte(auctionInfo.endBlock.add(api.consts.auctions.endingPeriod as BlockNumber))}
-        label={t<string>('Bid')}
+        label={t('Bid')}
         onClick={toggleOpen}
       />
       {isOpen && (
         <Modal
           className={className}
-          header={t<string>('Place bid')}
+          header={t('Place bid')}
           onClose={toggleOpen}
           size='large'
         >
@@ -91,9 +91,9 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
               onChange={setOwnerInfo}
               ownedIds={ownedIds}
             />
-            <Modal.Columns hint={t<string>('The first and last lease period for this bid. The last lease period should be after the first with the maximum determined by the auction config.')}>
+            <Modal.Columns hint={t('The first and last lease period for this bid. The last lease period should be after the first with the maximum determined by the auction config.')}>
               <Dropdown
-                label={t<string>('bid period range (first lease - last lease)')}
+                label={t('bid period range (first lease - last lease)')}
                 onChange={setRange}
                 options={rangeOpts}
                 value={range}
@@ -101,8 +101,8 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
             </Modal.Columns>
             <Modal.Columns hint={
               <>
-                <p>{t<string>('The amount to to bid for this parachain lease period range.')}</p>
-                <p>{t<string>('The bid should be more than the current range winner to be accepted and influence the auction outcome.')}</p>
+                <p>{t('The amount to to bid for this parachain lease period range.')}</p>
+                <p>{t('The bid should be more than the current range winner to be accepted and influence the auction outcome.')}</p>
               </>
             }
             >
@@ -110,14 +110,14 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
                 autoFocus
                 isError={isAmountError}
                 isZeroable={false}
-                label={t<string>('bid amount')}
+                label={t('bid amount')}
                 onChange={setAmount}
               />
               <InputBalance
                 defaultValue={currentWinner?.value}
                 isDisabled
                 key={range}
-                label={t<string>('current range winning bid')}
+                label={t('current range winning bid')}
               />
             </Modal.Columns>
           </Modal.Content>
@@ -126,7 +126,7 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
               accountId={accountId}
               icon='plus'
               isDisabled={!paraId || isAmountError || !auctionInfo?.leasePeriod}
-              label={t<string>('Bid')}
+              label={t('Bid')}
               onStart={toggleOpen}
               params={[paraId, auctionInfo?.numAuctions, auctionInfo?.leasePeriod?.addn(ranges[range][0]), auctionInfo?.leasePeriod?.addn(ranges[range][1]), amount]}
               tx={api.tx.auctions.bid}

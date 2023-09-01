@@ -11,8 +11,13 @@ type bStatus = 'isFunded' | 'isActive';
 
 async function getBounty (api: ApiPromise, bountyIndex: number): Promise<DeriveBounty> {
   const bounties = await api.derive.bounties.bounties();
+  const bounty = bounties.find((bounty) => bounty.index.toNumber() === bountyIndex);
 
-  return bounties.find((bounty) => (bounty.index.toNumber() === bountyIndex)) as DeriveBounty;
+  if (!bounty) {
+    throw new Error('Unable to find bounty');
+  }
+
+  return bounty;
 }
 
 export async function waitForBountyState (api: ApiPromise, expectedState: bStatus, index: number, { interval = 500,

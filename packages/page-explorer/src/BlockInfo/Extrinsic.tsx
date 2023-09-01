@@ -57,7 +57,7 @@ function filterEvents (index: number, events?: KeyedEvent[] | null, maxBlockWeig
 
   return [
     dispatchInfo,
-    weight && weight.v1Weight,
+    weight?.v1Weight,
     weight && maxBlockWeight
       ? weight.v1Weight.mul(BN_TEN_THOUSAND).div(maxBlockWeight).toNumber() / 100
       : 0,
@@ -93,13 +93,13 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, maxBloc
         const era = getEra(value, blockNumber);
 
         return era
-          ? t<string>('mortal, valid from #{{startAt}} to #{{endsAt}}', {
+          ? t('mortal, valid from #{{startAt}} to #{{endsAt}}', {
             replace: {
               endsAt: formatNumber(era[1]),
               startAt: formatNumber(era[0])
             }
           })
-          : t<string>('immortal');
+          : t('immortal');
       }
 
       return undefined;
@@ -163,7 +163,7 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, maxBloc
             <>
               <AddressMini value={value.signer} />
               <div className='explorer--BlockByHash-nonce'>
-                {t<string>('index')} {formatNumber(value.nonce)}
+                {t('index')} {formatNumber(value.nonce)}
               </div>
               <LinkExternal
                 data={value.hash.toHex()}

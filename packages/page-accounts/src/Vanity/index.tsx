@@ -171,15 +171,15 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
 
   const header = useMemo<[React.ReactNode?, string?, number?][]>(
     () => [
-      [t<string>('matches'), 'start', 2],
-      [t<string>('Evaluated {{count}} keys in {{elapsed}}s ({{avg}} keys/s)', {
+      [t('matches'), 'start', 2],
+      [t('Evaluated {{count}} keys in {{elapsed}}s ({{avg}} keys/s)', {
         replace: {
           avg: (keyCount / (elapsed / 1000)).toFixed(3),
           count: keyCount,
           elapsed: (elapsed / 1000).toFixed(2)
         }
       }), 'start --digits'],
-      [t<string>('secret'), 'start'],
+      [t('secret'), 'start'],
       []
     ],
     [elapsed, keyCount, t]
@@ -193,7 +193,7 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
           className='medium'
           isDisabled={isRunning}
           isError={!isMatchValid}
-          label={t<string>('Search for')}
+          label={t('Search for')}
           onChange={_onChangeMatch}
           onEnter={_toggleStart}
           value={match}
@@ -201,7 +201,7 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
         <Dropdown
           className='medium'
           isDisabled={isRunning}
-          label={t<string>('case sensitive')}
+          label={t('case sensitive')}
           onChange={setWithCase}
           options={BOOL_OPTIONS}
           value={withCase}
@@ -211,7 +211,7 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
         <Dropdown
           className='medium'
           defaultValue={type}
-          label={t<string>('keypair crypto type')}
+          label={t('keypair crypto type')}
           onChange={setType}
           options={isEthereum ? settings.availableCryptosEth : settings.availableCryptos}
         />
@@ -226,18 +226,18 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
           isDisabled={!isMatchValid}
           label={
             isRunning
-              ? t<string>('Stop generation')
-              : t<string>('Start generation')
+              ? t('Stop generation')
+              : t('Start generation')
           }
           onClick={_toggleStart}
         />
       </Button.Group>
       {matches.length !== 0 && (
         <>
-          <article className='warning centered'>{t<string>('Ensure that you utilized the "Save" functionality before using a generated address to receive funds. Without saving the address and the associated seed any funds sent to it will be lost.')}</article>
+          <article className='warning centered'>{t('Ensure that you utilized the "Save" functionality before using a generated address to receive funds. Without saving the address and the associated seed any funds sent to it will be lost.')}</article>
           <Table
             className='vanity--App-matches'
-            empty={t<string>('No matches found')}
+            empty={t('No matches found')}
             header={header}
           >
             {matches.map((match): React.ReactNode => (

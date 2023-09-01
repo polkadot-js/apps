@@ -19,27 +19,27 @@ interface Props {
   onForget: () => void;
 }
 
-function getContent (mode: Mode, t: <T = string> (key: string) => T): React.ReactNode | null {
+function getContent (mode: Mode, t: (key: string) => string): React.ReactNode | null {
   switch (mode) {
     case 'account':
       return (
         <>
-          <p>{t<string>('You are about to remove this account from your list of available accounts. Once completed, should you need to access it again, you will have to re-create the account either via seed or via a backup file.')}</p>
-          <p>{t<string>('This operation does not remove the history of the account from the chain, nor any associated funds from the account. The forget operation only limits your access to the account on this browser.')}</p>
+          <p>{t('You are about to remove this account from your list of available accounts. Once completed, should you need to access it again, you will have to re-create the account either via seed or via a backup file.')}</p>
+          <p>{t('This operation does not remove the history of the account from the chain, nor any associated funds from the account. The forget operation only limits your access to the account on this browser.')}</p>
         </>
       );
     case 'address':
       return (
         <>
-          <p>{t<string>('You are about to remove this address from your address book. Once completed, should you need to access it again, you will have to re-add the address.')}</p>
-          <p>{t<string>('This operation does not remove the history of the account from the chain, nor any associated funds from the account. The forget operation only limits your access to the address on this browser.')}</p>
+          <p>{t('You are about to remove this address from your address book. Once completed, should you need to access it again, you will have to re-add the address.')}</p>
+          <p>{t('This operation does not remove the history of the account from the chain, nor any associated funds from the account. The forget operation only limits your access to the address on this browser.')}</p>
         </>
       );
     case 'contract':
       return (
         <>
-          <p>{t<string>('You are about to remove this contract from your list of available contracts. Once completed, should you need to access it again, you will have to manually add the contract\'s address in the Instantiate tab.')}</p>
-          <p>{t<string>('This operation does not remove the history of the contract from the chain, nor any associated funds from its account. The forget operation only limits your access to the contract on this browser.')}</p>
+          <p>{t('You are about to remove this contract from your list of available contracts. Once completed, should you need to access it again, you will have to manually add the contract\'s address in the Instantiate tab.')}</p>
+          <p>{t('This operation does not remove the history of the contract from the chain, nor any associated funds from its account. The forget operation only limits your access to the contract on this browser.')}</p>
         </>
       );
     default:
@@ -47,20 +47,20 @@ function getContent (mode: Mode, t: <T = string> (key: string) => T): React.Reac
   }
 }
 
-function getHeaderText (mode: Mode, t: <T = string> (key: string) => T): string {
+function getHeaderText (mode: Mode, t: (key: string) => string): string {
   switch (mode) {
     case 'account':
-      return t<string>('Confirm account removal');
+      return t('Confirm account removal');
     case 'address':
-      return t<string>('Confirm address removal');
+      return t('Confirm address removal');
     case 'contract':
-      return t<string>('Confirm contract removal');
+      return t('Confirm contract removal');
     case 'code':
-      return t<string>('Confirm code removal');
+      return t('Confirm code removal');
   }
 }
 
-function renderContent (props: Props, t: <T = string> (key: string) => T): React.ReactNode | null {
+function renderContent (props: Props, t: (key: string) => string): React.ReactNode | null {
   const { address, mode = 'account' } = props;
 
   switch (mode) {
@@ -94,7 +94,7 @@ function Forget (props: Props): React.ReactElement<Props> {
       <Modal.Actions>
         <Button
           icon='trash'
-          label={t<string>('Forget')}
+          label={t('Forget')}
           onClick={onForget}
         />
       </Modal.Actions>

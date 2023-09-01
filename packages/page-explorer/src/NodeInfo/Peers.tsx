@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-nodeinfo authors & contributors
+// Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PeerInfo } from '@polkadot/types/interfaces';
@@ -32,9 +32,9 @@ function Peers ({ className = '', peers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t<string>('connected peers'), 'start', 2],
-    [t<string>('best hash'), 'start'],
-    [t<string>('best #'), 'number']
+    [t('connected peers'), 'start', 2],
+    [t('best hash'), 'start'],
+    [t('best #'), 'number']
   ]);
 
   const sorted = useMemo(
@@ -45,7 +45,7 @@ function Peers ({ className = '', peers }: Props): React.ReactElement<Props> {
   return (
     <StyledTable
       className={className}
-      empty={t<string>('no peers connected')}
+      empty={t('no peers connected')}
       header={headerRef.current}
     >
       {sorted?.map(({ bestHash, bestNumber, peerId, roles }) => (

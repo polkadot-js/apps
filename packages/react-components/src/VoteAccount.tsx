@@ -19,7 +19,7 @@ function VoteAccount ({ className = '', filter, onChange }: Props): React.ReactE
     <InputAddress
       className={className}
       filter={filter}
-      label={t<string>('vote with account')}
+      label={t('vote with account')}
       onChange={onChange}
       type='account'
       withLabel

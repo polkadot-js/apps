@@ -132,6 +132,7 @@ export const testParasWestendCommon: EndpointOption[] = [
       'Dwellir Tunisia': 'wss://westmint-rpc-tn.dwellir.com',
       'IBP-GeoDNS1': 'wss://sys.ibp.network/westmint',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/westmint',
+      OnFinality: 'wss://westmint.api.onfinality.io/public-ws',
       Parity: 'wss://westend-asset-hub-rpc.polkadot.io',
       Stakeworld: 'wss://wnd-rpc.stakeworld.io/assethub'
     },
@@ -146,7 +147,10 @@ export const testParasWestendCommon: EndpointOption[] = [
     info: 'westendBridgeHub',
     paraId: 1002,
     providers: {
-      // Parity: 'wss://westend-bridge-hub-rpc.polkadot.io' // https://github.com/polkadot-js/apps/issues/9348
+      'IBP-GeoDNS1': 'wss://sys.ibp.network/bridgehub-westend',
+      'IBP-GeoDNS2': 'wss://sys.dotters.network/bridgehub-westend',
+      OnFinality: 'wss://bridgehub-westend.api.onfinality.io/public-ws',
+      Parity: 'wss://westend-bridge-hub-rpc.polkadot.io'
     },
     text: 'BridgeHub',
     ui: {
@@ -158,8 +162,8 @@ export const testParasWestendCommon: EndpointOption[] = [
     paraId: 1001,
     providers: {
       'IBP-GeoDNS1': 'wss://sys.ibp.network/collectives-westend',
-      'IBP-GeoDNS2': 'wss://sys.dotters.network/collectives-westend'
-      // Parity: 'wss://westend-collectives-rpc.polkadot.io' // https://github.com/polkadot-js/apps/issues/9357
+      'IBP-GeoDNS2': 'wss://sys.dotters.network/collectives-westend',
+      Parity: 'wss://westend-collectives-rpc.polkadot.io'
     },
     teleport: [-1],
     text: 'Collectives',
@@ -179,7 +183,7 @@ export const testRelayWestend: EndpointOption = {
     ...testParasWestend
   ],
   providers: {
-    // BlockOps: 'wss://westend-rpc.blockops.network/ws', // https://github.com/polkadot-js/apps/issues/9614
+    Blockops: 'wss://westend-rpc.blockops.network/ws',
     Dwellir: 'wss://westend-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://westend-rpc-tn.dwellir.com',
     'IBP-GeoDNS1': 'wss://rpc.ibp.network/westend',
@@ -187,7 +191,7 @@ export const testRelayWestend: EndpointOption = {
     LuckyFriday: 'wss://rpc-westend.luckyfriday.io',
     OnFinality: 'wss://westend.api.onfinality.io/public-ws',
     Parity: 'wss://westend-rpc.polkadot.io',
-    RadiumBlock: 'wss://westend.public.curie.radiumblock.co/ws',
+    // RadiumBlock: 'wss://westend.public.curie.radiumblock.co/ws', // https://github.com/polkadot-js/apps/issues/9807
     Stakeworld: 'wss://wnd-rpc.stakeworld.io',
     'light client': 'light://substrate-connect/westend'
   },

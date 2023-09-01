@@ -52,7 +52,7 @@ function Contract ({ className, contract, index, links, onCall }: Props): React.
       try {
         keyring.forgetContract(contract.address.toString());
         status.status = 'success';
-        status.message = t<string>('address forgotten');
+        status.message = t('address forgotten');
       } catch (error) {
         status.status = 'error';
         status.message = (error as Error).message;
@@ -106,7 +106,7 @@ function Contract ({ className, contract, index, links, onCall }: Props): React.
         {!isUndefined(info) && (
           info
             ? info.type
-            : t<string>('Not on-chain')
+            : t('Not on-chain')
         )}
       </td>
       <td className='button'>

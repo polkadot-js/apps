@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AbiConstructor, AbiMessage, ContractCallOutcome } from '@polkadot/api-contract/types';
+import type { AbiConstructor, ContractCallOutcome } from '@polkadot/api-contract/types';
 
 import React, { useCallback } from 'react';
 
@@ -15,7 +15,7 @@ export interface Props {
   className?: string;
   index: number;
   lastResult?: ContractCallOutcome;
-  message: AbiConstructor | AbiMessage;
+  message: AbiConstructor;
   onSelect?: (index: number) => void;
 }
 
@@ -57,7 +57,7 @@ function Message ({ className = '', index, lastResult, message, onSelect }: Prop
             <Button
               className='accessory'
               icon='upload'
-              label={t<string>('deploy')}
+              label={t('deploy')}
               onClick={_onSelect}
             />
           )
@@ -66,7 +66,7 @@ function Message ({ className = '', index, lastResult, message, onSelect }: Prop
               className='accessory'
               icon='play'
               isDisabled={message.isMutating ? false : (!message.args.length && lastResult?.result.isOk)}
-              label={message.isMutating ? t<string>('exec') : t<string>('read')}
+              label={message.isMutating ? t('exec') : t('read')}
               onClick={_onSelect}
             />
           )
@@ -82,7 +82,7 @@ function Message ({ className = '', index, lastResult, message, onSelect }: Prop
             ? filterDocs(message.docs).map((line, index) => ((
               <div key={`${message.identifier}-docs-${index}`}>{line}</div>
             )))
-            : <i>&nbsp;{t<string>('No documentation provided')}&nbsp;</i>
+            : <i>&nbsp;{t('No documentation provided')}&nbsp;</i>
           }
         </div>
       </div>
@@ -90,7 +90,7 @@ function Message ({ className = '', index, lastResult, message, onSelect }: Prop
         <Output
           className='result'
           isFull
-          label={t<string>('current value')}
+          label={t('current value')}
         >
           {valueToText('Text', lastResult.output)}
         </Output>

@@ -73,7 +73,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
 
       extrinsics.forEach((extrinsic): void => {
         queueExtrinsic({
-          accountId: accountId && accountId.toString(),
+          accountId: accountId?.toString(),
           extrinsic,
           isUnsigned,
           txFailedCb: withSpinner ? _onFailed : onFailed,
@@ -107,7 +107,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
       )}
       isIcon={isIcon}
       isToplevel={isToplevel}
-      label={label || (isIcon ? '' : t<string>('Submit'))}
+      label={label || (isIcon ? '' : t('Submit'))}
       onClick={_onSend}
       tooltip={tooltip}
       withoutLink={withoutLink}

@@ -53,17 +53,17 @@ function Overview ({ className = '', favorites, hasAccounts, hasQueries, minComm
   );
 
   const filterOptions = useRef([
-    { text: t<string>('Own validators'), value: 'mine' },
-    { text: t<string>('All validators'), value: 'all' }
+    { text: t('Own validators'), value: 'mine' },
+    { text: t('All validators'), value: 'all' }
   ]);
 
   const intentOptions = useRef([
-    { text: t<string>('Active'), value: 'active' },
-    { text: t<string>('Waiting'), value: 'waiting' }
+    { text: t('Active'), value: 'active' },
+    { text: t('Waiting'), value: 'waiting' }
   ]);
 
   const ownStashIds = useMemo(
-    () => ownStashes && ownStashes.map(({ stashId }) => stashId),
+    () => ownStashes?.map(({ stashId }) => stashId),
     [ownStashes]
   );
 

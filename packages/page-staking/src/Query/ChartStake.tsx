@@ -75,9 +75,9 @@ function ChartStake ({ labels, validatorId }: Props): React.ReactElement<Props> 
   );
 
   const legends = useMemo(() => [
-    t<string>('{{currency}} clipped', { replace: { currency } }),
-    t<string>('{{currency}} total', { replace: { currency } }),
-    t<string>('{{currency}} average', { replace: { currency } })
+    t('{{currency}} clipped', { replace: { currency } }),
+    t('{{currency}} total', { replace: { currency } }),
+    t('{{currency}} average', { replace: { currency } })
   ], [currency, t]);
 
   return (
@@ -85,7 +85,7 @@ function ChartStake ({ labels, validatorId }: Props): React.ReactElement<Props> 
       colors={COLORS_STAKE}
       labels={labels}
       legends={legends}
-      title={t<string>('elected stake')}
+      title={t('elected stake')}
       values={values}
     />
   );

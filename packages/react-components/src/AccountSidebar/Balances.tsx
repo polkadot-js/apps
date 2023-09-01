@@ -20,7 +20,7 @@ function Balances ({ address, className }: Props): React.ReactElement<Props> | n
   return (
     <StyledSection className={className}>
       <div className='ui--AddressMenu-sectionHeader'>
-        {t<string>('balance')}
+        {t('balance')}
       </div>
       <AddressInfo
         address={address}

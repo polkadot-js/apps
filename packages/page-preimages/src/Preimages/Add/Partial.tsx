@@ -85,23 +85,23 @@ function Partial ({ className, onChange }: Props): React.ReactElement<Props> {
         className={className}
         hint={
           <>
-            <p>{t<string>('The image (proposal) will be stored on-chain against the hash of the contents.')}</p>
-            <p>{t<string>('When submitting a proposal the hash needs to be known. Proposals can be submitted with hash-only, but upon dispatch the preimage needs to be available.')}</p>
+            <p>{t('The image (proposal) will be stored on-chain against the hash of the contents.')}</p>
+            <p>{t('When submitting a proposal the hash needs to be known. Proposals can be submitted with hash-only, but upon dispatch the preimage needs to be available.')}</p>
           </>
         }
       >
         <Extrinsic
           defaultValue={apiDefaultTxSudo}
-          label={t<string>('propose')}
+          label={t('propose')}
           onChange={setProposal}
         />
         <Static
-          label={t<string>('preimage hash')}
+          label={t('preimage hash')}
           value={encodedHash}
           withCopy
         />
         <Static
-          label={t<string>('preimage length')}
+          label={t('preimage length')}
           value={encodedLength || '0'}
           withCopy
         />
@@ -109,12 +109,12 @@ function Partial ({ className, onChange }: Props): React.ReactElement<Props> {
       {!storageFee.isZero() && (
         <Modal.Columns
           className={className}
-          hint={t<string>('The calculated storage costs based on the base and the per-bytes fee.')}
+          hint={t('The calculated storage costs based on the base and the per-bytes fee.')}
         >
           <InputBalance
             defaultValue={storageFee}
             isDisabled
-            label={t<string>('calculated storage fee')}
+            label={t('calculated storage fee')}
           />
         </Modal.Columns>
       )}

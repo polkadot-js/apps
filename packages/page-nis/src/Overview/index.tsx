@@ -19,7 +19,7 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
   const proxies = useProxies();
   const { info } = useInfo();
 
-  const isDisabled = !info || !info.summary || info.summary.proportionOwed.isZero();
+  const isDisabled = !info?.summary || info.summary.proportionOwed.isZero();
 
   return (
     <div className={className}>

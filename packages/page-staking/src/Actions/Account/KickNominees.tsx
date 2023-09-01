@@ -53,7 +53,7 @@ function KickNominees ({ className = '', controllerId, nominating, onClose, stas
   return (
     <Modal
       className={className}
-      header={t<string>('Remove nominees')}
+      header={t('Remove nominees')}
       onClose={onClose}
       size='large'
     >
@@ -66,14 +66,14 @@ function KickNominees ({ className = '', controllerId, nominating, onClose, stas
           ? (
             <InputAddressMulti
               available={nominators}
-              availableLabel={t<string>('existing/active nominators')}
+              availableLabel={t('existing/active nominators')}
               defaultValue={nominating}
               maxCount={MAX_KICK}
               onChange={setSelected}
-              valueLabel={t<string>('nominators to be removed')}
+              valueLabel={t('nominators to be removed')}
             />
           )
-          : <Spinner label={t<string>('Retrieving active nominators')} />
+          : <Spinner label={t('Retrieving active nominators')} />
         }
       </Modal.Content>
       <Modal.Actions>
@@ -82,7 +82,7 @@ function KickNominees ({ className = '', controllerId, nominating, onClose, stas
           extrinsic={kickTx}
           icon='user-slash'
           isDisabled={!kickTx}
-          label={t<string>('Remove')}
+          label={t('Remove')}
           onStart={onClose}
         />
       </Modal.Actions>

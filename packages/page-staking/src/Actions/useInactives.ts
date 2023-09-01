@@ -97,7 +97,7 @@ function useInactivesImpl (stashId: string, nominees?: string[]): Inactives {
   useEffect((): () => void => {
     let unsub: (() => void) | undefined;
 
-    if (mountedRef.current && nominees && nominees.length && indexes) {
+    if (mountedRef.current && nominees?.length && indexes) {
       api
         .queryMulti(
           [[api.query.staking.nominators, stashId] as QueryableStorageMultiArg<'promise'>]

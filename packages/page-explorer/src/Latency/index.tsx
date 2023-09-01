@@ -55,7 +55,7 @@ function getPoints (details: Detail[], timeAvg: number): ChartInfo {
   const txTotal = details.reduce((a, { extrinsics: { count } }) => a + count, 0);
   const blockTotal = details.reduce((a, { block: { bytes } }) => a + bytes, 0);
 
-  for (let i = 0; i < details.length; i++) {
+  for (let i = 0, count = details.length; i < count; i++) {
     const blockNumber = formatNumber(details[i].block.number);
 
     blocks.labels.push(blockNumber);
@@ -75,7 +75,7 @@ function getPoints (details: Detail[], timeAvg: number): ChartInfo {
   const filtered = details.filter(({ delay }) => delay);
   const avgBase = timeAvg * filtered.length;
 
-  for (let i = 0; i < filtered.length; i++) {
+  for (let i = 0, count = filtered.length; i < count; i++) {
     times.labels.push(formatNumber(filtered[i].block.number));
     times.values[0].push(filtered[i].delay / 1000);
     times.values[1].push(avgBase / filtered.length / 1000);
@@ -123,16 +123,16 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
   const [legend, title] = useMemo(
     () => [
       {
-        blocks: [t<string>('bytes'), t<string>('average')],
-        events: [t<string>('events'), t<string>('system'), t<string>('average')],
-        extrinsics: [t<string>('extrinsics'), t<string>('average')],
-        times: [t<string>('blocktime'), t<string>('average')]
+        blocks: [t('bytes'), t('average')],
+        events: [t('events'), t('system'), t('average')],
+        extrinsics: [t('extrinsics'), t('average')],
+        times: [t('blocktime'), t('average')]
       },
       {
-        blocks: t<string>('blocksize (last {{n}} blocks)', { replace: { n: maxItems } }),
-        events: t<string>('events (last {{n}} blocks)', { replace: { n: maxItems } }),
-        extrinsics: t<string>('extrinsics (last {{n}} blocks)', { replace: { n: maxItems } }),
-        times: t<string>('blocktimes (last {{n}} blocks)', { replace: { n: maxItems } })
+        blocks: t('blocksize (last {{n}} blocks)', { replace: { n: maxItems } }),
+        events: t('events (last {{n}} blocks)', { replace: { n: maxItems } }),
+        extrinsics: t('extrinsics (last {{n}} blocks)', { replace: { n: maxItems } }),
+        times: t('blocktimes (last {{n}} blocks)', { replace: { n: maxItems } })
       }
     ],
     [maxItems, t]
@@ -144,14 +144,14 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
     <StyledDiv className={className}>
       <SummaryBox>
         <section>
-          <CardSummary label={t<string>('avg')}>
+          <CardSummary label={t('avg')}>
             {isLoaded
               ? formatTime(timeAvg)
               : EMPTY_TIME}
           </CardSummary>
           <CardSummary
             className='media--1000'
-            label={t<string>('std dev')}
+            label={t('std dev')}
           >
             {isLoaded
               ? formatTime(stdDev)
@@ -159,19 +159,19 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
           </CardSummary>
         </section>
         <section>
-          <CardSummary label={t<string>('min')}>
+          <CardSummary label={t('min')}>
             {isLoaded
               ? formatTime(timeMin)
               : EMPTY_TIME}
           </CardSummary>
-          <CardSummary label={t<string>('max')}>
+          <CardSummary label={t('max')}>
             {isLoaded
               ? formatTime(timeMax)
               : EMPTY_TIME
             }
           </CardSummary>
         </section>
-        <CardSummary label={t<string>('last')}>
+        <CardSummary label={t('last')}>
           {isLoaded
             ? formatTime(points.blockLast, 1)
             : EMPTY_TIME}

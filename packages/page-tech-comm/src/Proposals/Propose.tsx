@@ -68,13 +68,13 @@ function Propose ({ defaultThreshold = DEFAULT_THRESHOLD, defaultValue, filter, 
     <>
       {isOpen && (
         <Modal
-          header={t<string>('Propose a committee motion')}
+          header={t('Propose a committee motion')}
           onClose={onClose}
         >
           <Modal.Content>
             <InputAddress
               filter={members}
-              label={t<string>('propose from account')}
+              label={t('propose from account')}
               onChange={setAcountId}
               type='account'
               withLabel
@@ -82,15 +82,15 @@ function Propose ({ defaultThreshold = DEFAULT_THRESHOLD, defaultValue, filter, 
             <InputNumber
               className='medium'
               isError={!hasThreshold}
-              label={t<string>('threshold')}
+              label={t('threshold')}
               onChange={_onChangeThreshold}
-              placeholder={t<string>('Positive number between 1 and {{count}}', { replace: { count: members.length } })}
+              placeholder={t('Positive number between 1 and {{count}}', { replace: { count: members.length } })}
               value={threshold || undefined}
             />
             <Extrinsic
               defaultValue={defaultValue || apiDefaultTxSudo}
               filter={filter}
-              label={t<string>('proposal')}
+              label={t('proposal')}
               onChange={_onChangeExtrinsic}
             />
           </Modal.Content>
@@ -112,7 +112,7 @@ function Propose ({ defaultThreshold = DEFAULT_THRESHOLD, defaultValue, filter, 
       <Button
         icon='plus'
         isDisabled={!isMember}
-        label={t<string>('Submit proposal')}
+        label={t('Submit proposal')}
         onClick={onOpen}
       />
     </>

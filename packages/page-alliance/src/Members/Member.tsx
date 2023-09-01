@@ -54,29 +54,29 @@ function Member ({ bestNumber, className, info: { accountId, role }, isPrime, is
       <td className='address all relative'>
         <AddressSmall value={accountId} />
         <div className='absolute'>
-          {(info && info.isRetiringAt && (
+          {(info?.isRetiringAt && (
             <Tag
               color='yellow'
-              hover={t<string>('Is retiring')}
-              label={t<string>('retirting')}
+              hover={t('Is retiring')}
+              label={t('retirting')}
             />
-          )) || (info && info.isUpForKicking && (
+          )) || (info?.isUpForKicking && (
             <Tag
               color='red'
-              hover={t<string>('Up for kicking')}
-              label={t<string>('kicking')}
+              hover={t('Up for kicking')}
+              label={t('kicking')}
             />
           )) || (isPrime && (
             <Tag
               color='green'
-              hover={t<string>('Current prime member, default voting')}
-              label={t<string>('prime voter')}
+              hover={t('Current prime member, default voting')}
+              label={t('prime voter')}
             />
           )) || (isVoter && (
             <Tag
               color='green'
-              hover={t<string>('Allowed to vote on motions')}
-              label={t<string>('voter')}
+              hover={t('Allowed to vote on motions')}
+              label={t('voter')}
             />
           ))}
         </div>
@@ -92,8 +92,8 @@ function Member ({ bestNumber, className, info: { accountId, role }, isPrime, is
               <Menu>
                 {hasNotice && (
                   <Menu.Item
-                    isDisabled={!!(info && info.isRetiringAt)}
-                    label={t<string>('Announce retirement')}
+                    isDisabled={!!(info?.isRetiringAt)}
+                    label={t('Announce retirement')}
                     onClick={doNotice}
                   />
                 )}
@@ -108,7 +108,7 @@ function Member ({ bestNumber, className, info: { accountId, role }, isPrime, is
                       )
                     )
                   }
-                  label={t<string>('Retire')}
+                  label={t('Retire')}
                   onClick={doRetire}
                 />
               </Menu>

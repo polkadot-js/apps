@@ -28,7 +28,7 @@ function includeEntry (map: EventMap, event: Event, blockHash: string, blockNumb
   try {
     const { descriptor } = (event as unknown as IEvent<[PolkadotPrimitivesV4CandidateReceipt]>).data[0];
 
-    if (descriptor && descriptor.paraId) {
+    if (descriptor?.paraId) {
       map[descriptor.paraId.toString()] = {
         blockHash,
         blockNumber,

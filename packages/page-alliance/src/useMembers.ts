@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
-const ROLES = <const> ['Retiring', 'Ally', 'Fellow'];
+const ROLES = ['Retiring', 'Ally', 'Fellow'] as const;
 
 function addMembers (prev: Member[], ...query: AccountId32[][]): Member[] {
   const all: Member[] = [];
@@ -17,7 +17,7 @@ function addMembers (prev: Member[], ...query: AccountId32[][]): Member[] {
     const role = ROLES[i];
     const accountIds = query[i];
 
-    for (let j = 0; j < accountIds.length; j++) {
+    for (let j = 0, count = accountIds.length; j < count; j++) {
       const accountId = accountIds[j].toString();
       const existing = prev.find((p) =>
         p.accountId === accountId &&

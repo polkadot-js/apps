@@ -28,7 +28,7 @@ interface Entry {
 
 function findEntry (_upper: BN, _bagLower: BN, stashId: string, list: ListNode[] = []): Entry {
   const stashInfo = list.find((o) => o.stashId === stashId) || null;
-  const other = (stashInfo && stashInfo.jump && list.find((o) => o.stashId === stashInfo.jump)) || null;
+  const other = (stashInfo?.jump && list.find((o) => o.stashId === stashInfo.jump)) || null;
 
   return {
     canJump: !!other,
@@ -60,7 +60,7 @@ function Stash ({ bagLower, bagUpper, className, isLoading, list, stashId }: Pro
               accountId={stashInfo.stashId}
               icon='caret-up'
               isDisabled={isLoading}
-              label={t<string>('Move up {{jumpCount}}', { replace: { jumpCount } })}
+              label={t('Move up {{jumpCount}}', { replace: { jumpCount } })}
               params={[stashInfo.jump]}
               tx={(api.tx.voterBagsList || api.tx.bagsList || api.tx.voterList).putInFrontOf}
             />

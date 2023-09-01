@@ -29,50 +29,50 @@ function CreateSuriLedger ({ className, onChange, seedType }: Props): React.Reac
   })));
 
   const accOps = useRef(AVAIL_INDEXES.map((value) => ({
-    text: t<string>('Account type {{index}}', { replace: { index: value } }),
+    text: t('Account type {{index}}', { replace: { index: value } }),
     value
   })));
 
   const addOps = useRef(AVAIL_INDEXES.map((value) => ({
-    text: t<string>('Address index {{index}}', { replace: { index: value } }),
+    text: t('Address index {{index}}', { replace: { index: value } }),
     value
   })));
 
   useEffect((): void => {
     const network = ledgerNets.find(({ network }) => network === chainType);
 
-    onChange(`m/44'/${network?.slip44 as number}'/${accIndex}'/0'/${addIndex}'`);
+    onChange(`m/44'/${network?.slip44}'/${accIndex}'/0'/${addIndex}'`);
   }, [accIndex, addIndex, chainType, onChange]);
 
   return (
     <Modal.Columns
       className={className}
-      hint={t<string>('The derivation will be constructed from the values you specify.')}
+      hint={t('The derivation will be constructed from the values you specify.')}
     >
       {seedType === 'bip'
         ? (
           <>
             <Dropdown
-              label={t<string>('Ledger app type (originated from)')}
+              label={t('Ledger app type (originated from)')}
               onChange={setChainType}
               options={netOpts.current}
               value={chainType}
             />
             <Dropdown
-              label={t<string>('account type')}
+              label={t('account type')}
               onChange={setAccIndex}
               options={accOps.current}
               value={accIndex}
             />
             <Dropdown
-              label={t<string>('address index')}
+              label={t('address index')}
               onChange={setAddIndex}
               options={addOps.current}
               value={addIndex}
             />
           </>
         )
-        : <MarkError content={t<string>('Derivation for Ledger-type accounts are only available on mnemonic seeds.')} />
+        : <MarkError content={t('Derivation for Ledger-type accounts are only available on mnemonic seeds.')} />
       }
     </Modal.Columns>
   );

@@ -24,7 +24,7 @@ interface Props {
 function Pools ({ className, ids, ownPools, params }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const membersMap = useMembers();
-  const [typeIndex, setTypeIndex] = useState(() => ownPools && ownPools.length ? 0 : 1);
+  const [typeIndex, setTypeIndex] = useState(() => ownPools?.length ? 0 : 1);
 
   const ownAccounts = useMemo(
     () => ownPools && arrayFlatten(ownPools.map(({ members }) => Object.keys(members))),
@@ -47,18 +47,18 @@ function Pools ({ className, ids, ownPools, params }: Props): React.ReactElement
 
   const header = useMemo<[React.ReactNode?, string?, number?][]>(
     () => [
-      [t<string>('pools'), 'start', 2],
-      [t<string>('state'), 'media--1100'],
-      [t<string>('points')],
-      [t<string>('claimable'), 'media--1400'],
+      [t('pools'), 'start', 2],
+      [t('state'), 'media--1100'],
+      [t('points')],
+      [t('claimable'), 'media--1400'],
       [undefined, undefined, 3]
     ],
     [t]
   );
 
   const poolTypes = useRef([
-    { text: t<string>('Own pools'), value: 'mine' },
-    { text: t<string>('All pools'), value: 'all' }
+    { text: t('Own pools'), value: 'mine' },
+    { text: t('All pools'), value: 'all' }
   ]);
 
   return (
@@ -77,11 +77,11 @@ function Pools ({ className, ids, ownPools, params }: Props): React.ReactElement
       </Button.Group>
       <Table
         className={className}
-        empty={membersMap && filtered && t<string>('No available nomination pools')}
-        emptySpinner={t<string>('Retrieving nomination pools')}
+        empty={membersMap && filtered && t('No available nomination pools')}
+        emptySpinner={t('Retrieving nomination pools')}
         header={header}
       >
-        {membersMap && filtered && filtered.map((poolId) => (
+        {membersMap && filtered?.map((poolId) => (
           <Pool
             key={poolId.toString()}
             members={membersMap[poolId.toString()]}

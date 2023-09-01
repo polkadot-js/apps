@@ -38,7 +38,7 @@ function extractVotes (votes: Record<string, PalletRankedCollectiveVoteRecord> =
   const nays: [string, BN][] = [];
   const entries = Object.entries(votes);
 
-  for (let i = 0; i < entries.length; i++) {
+  for (let i = 0, count = entries.length; i < count; i++) {
     const [accountId, vote] = entries[i];
 
     if (vote.isAye) {
@@ -82,11 +82,11 @@ function Votes ({ className = '', id, isConvictionVote, palletVote, tally }: Pro
           isConvictionVote
             ? (
               <>
-                {t<string>('Aye')}
+                {t('Aye')}
                 <div><FormatBalance value={tally.ayes} /></div>
               </>
             )
-            : t<string>('Aye {{count}}', { replace: { count: formatNumber(tally.ayes) } })
+            : t('Aye {{count}}', { replace: { count: formatNumber(tally.ayes) } })
         }
       />
       <Expander
@@ -96,11 +96,11 @@ function Votes ({ className = '', id, isConvictionVote, palletVote, tally }: Pro
           isConvictionVote
             ? (
               <>
-                {t<string>('Nay')}
+                {t('Nay')}
                 <div><FormatBalance value={tally.nays} /></div>
               </>
             )
-            : t<string>('Nay {{count}}', { replace: { count: formatNumber(tally.nays) } })
+            : t('Nay {{count}}', { replace: { count: formatNumber(tally.nays) } })
         }
       />
     </td>

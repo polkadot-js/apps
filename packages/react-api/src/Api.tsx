@@ -183,7 +183,7 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, inject
   const defaultSection = Object.keys(api.tx)[0];
   const defaultMethod = Object.keys(api.tx[defaultSection])[0];
   const apiDefaultTx = api.tx[defaultSection][defaultMethod];
-  const apiDefaultTxSudo = (api.tx.system && api.tx.system.setCode) || apiDefaultTx;
+  const apiDefaultTxSudo = api.tx.system?.setCode || apiDefaultTx;
 
   setDeriveCache(api.genesisHash.toHex(), deriveMapCache);
 
@@ -212,7 +212,7 @@ async function getLightProvider (chain: string): Promise<ScProvider> {
 
   if (sc !== 'substrate-connect') {
     throw new Error(`Cannot connect to non substrate-connect protocol ${chain}`);
-  } else if (!relaySpecs[relayName] || (paraName && (!lightSpecs[relayName] || !lightSpecs[relayName][paraName]))) {
+  } else if (!relaySpecs[relayName] || (paraName && !lightSpecs[relayName]?.[paraName])) {
     throw new Error(`Unable to construct light chain ${chain}`);
   }
 
@@ -269,7 +269,7 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store }: Props): Rea
   const [extensions, setExtensions] = useState<InjectedExtension[] | undefined>();
   const apiEndpoint = useEndpoint(apiUrl);
   const relayUrls = useMemo(
-    () => (apiEndpoint && apiEndpoint.valueRelay && isNumber(apiEndpoint.paraId) && (apiEndpoint.paraId < 2000))
+    () => (apiEndpoint?.valueRelay && isNumber(apiEndpoint.paraId) && (apiEndpoint.paraId < 2000))
       ? apiEndpoint.valueRelay
       : null,
     [apiEndpoint]

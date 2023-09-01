@@ -22,16 +22,13 @@ function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null 
   const queued = useCall<DeriveDispatch[]>(api.derive.democracy.dispatchQueue);
 
   const filtered = useMemo(
-    () => bestNumber && queued &&
-      queued
-        .filter(({ at }) => at.gte(bestNumber))
-        .sort((a, b) => a.at.cmp(b.at)),
+    () => bestNumber && queued?.filter(({ at }) => at.gte(bestNumber)).sort((a, b) => a.at.cmp(b.at)),
     [bestNumber, queued]
   );
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t<string>('dispatch queue'), 'start', 2],
-    [t<string>('enact')],
+    [t('dispatch queue'), 'start', 2],
+    [t('enact')],
     [],
     [undefined, 'media--1000']
   ]);
@@ -39,7 +36,7 @@ function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null 
   return (
     <Table
       className={className}
-      empty={filtered && t<string>('Nothing queued for execution')}
+      empty={filtered && t('Nothing queued for execution')}
       header={headerRef.current}
     >
       {filtered?.map((entry): React.ReactNode => (

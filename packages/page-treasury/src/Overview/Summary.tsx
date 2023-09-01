@@ -25,7 +25,7 @@ function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<P
   const { burn, pendingBounties, pendingProposals, spendPeriod, value } = useTreasury();
 
   const spendable = useMemo(
-    () => value && value.sub(pendingBounties).sub(pendingProposals),
+    () => value?.sub(pendingBounties).sub(pendingProposals),
     [value, pendingBounties, pendingProposals]
   );
 
@@ -36,7 +36,7 @@ function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<P
       <section>
         <CardSummary
           className='media--1700'
-          label={t<string>('open')}
+          label={t('open')}
         >
           {proposalCount === undefined
             ? <span className='--tmp'>99</span>
@@ -44,7 +44,7 @@ function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<P
         </CardSummary>
         <CardSummary
           className='media--1600'
-          label={t<string>('approved')}
+          label={t('approved')}
         >
           {approvalCount === undefined
             ? <span className='--tmp'>99</span>
@@ -52,7 +52,7 @@ function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<P
         </CardSummary>
         <CardSummary
           className='media--1400'
-          label={t<string>('total')}
+          label={t('total')}
         >
           {totalProposals === undefined
             ? <span className='--tmp'>99</span>
@@ -63,7 +63,7 @@ function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<P
         {!pendingProposals.isZero() && (
           <CardSummary
             className='media--1100'
-            label={t<string>('approved')}
+            label={t('approved')}
           >
             <FormatBalance
               value={pendingProposals}
@@ -74,7 +74,7 @@ function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<P
         {!pendingBounties.isZero() && (
           <CardSummary
             className='media--1200'
-            label={t<string>('bounties')}
+            label={t('bounties')}
           >
             <FormatBalance
               value={pendingBounties}
@@ -84,7 +84,7 @@ function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<P
         )}
         <CardSummary
           className='media--1300'
-          label={t<string>('next burn')}
+          label={t('next burn')}
         >
           <FormatBalance
             className={burn ? '' : '--tmp'}
@@ -95,7 +95,7 @@ function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<P
       </section>
       <section>
         <CardSummary
-          label={t<string>('spendable / available')}
+          label={t('spendable / available')}
           progress={{
             hideValue: true,
             isBlurred: !hasSpendable,
@@ -119,7 +119,7 @@ function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<P
       {bestNumber && spendPeriod.gt(BN_ZERO) && (
         <section>
           <CardSummary
-            label={t<string>('spend period')}
+            label={t('spend period')}
             progress={{
               total: spendPeriod,
               value: bestNumber.mod(spendPeriod),

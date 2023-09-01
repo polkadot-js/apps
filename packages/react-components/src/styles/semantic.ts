@@ -1,9 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeDef } from '../types.js';
-
-export default (_theme: ThemeDef): string => `
+export default `
   .ui.hidden.divider {
     margin: 0.5rem 0;
   }

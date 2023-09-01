@@ -63,7 +63,7 @@ function groupAccounts (accounts: SortedAccount[]): Record<GroupName, string[]> 
     testing: []
   };
 
-  for (let i = 0; i < accounts.length; i++) {
+  for (let i = 0, count = accounts.length; i < count; i++) {
     const { account, address } = accounts[i];
     const cryptoType = getAccountCryptoType(address);
 
@@ -196,13 +196,13 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const header = useMemo(
     (): Record<GroupName, [React.ReactNode?, string?, number?, (() => void)?][]> => {
       const ret: Record<GroupName, [React.ReactNode?, string?, number?, (() => void)?][]> = {
-        accounts: [[<>{t<string>('accounts')}<div className='sub'>{t<string>('all locally stored accounts')}</div></>]],
-        hardware: [[<>{t<string>('hardware')}<div className='sub'>{t<string>('accounts managed via hardware devices')}</div></>]],
-        injected: [[<>{t<string>('extension')}<div className='sub'>{t<string>('accounts available via browser extensions')}</div></>]],
-        multisig: [[<>{t<string>('multisig')}<div className='sub'>{t<string>('on-chain multisig accounts')}</div></>]],
-        proxied: [[<>{t<string>('proxied')}<div className='sub'>{t<string>('on-chain proxied accounts')}</div></>]],
-        qr: [[<>{t<string>('via qr')}<div className='sub'>{t<string>('accounts available via mobile devices')}</div></>]],
-        testing: [[<>{t<string>('development')}<div className='sub'>{t<string>('accounts derived via development seeds')}</div></>]]
+        accounts: [[<>{t('accounts')}<div className='sub'>{t('all locally stored accounts')}</div></>]],
+        hardware: [[<>{t('hardware')}<div className='sub'>{t('accounts managed via hardware devices')}</div></>]],
+        injected: [[<>{t('extension')}<div className='sub'>{t('accounts available via browser extensions')}</div></>]],
+        multisig: [[<>{t('multisig')}<div className='sub'>{t('on-chain multisig accounts')}</div></>]],
+        proxied: [[<>{t('proxied')}<div className='sub'>{t('on-chain proxied accounts')}</div></>]],
+        qr: [[<>{t('via qr')}<div className='sub'>{t('accounts available via mobile devices')}</div></>]],
+        testing: [[<>{t('development')}<div className='sub'>{t('accounts derived via development seeds')}</div></>]]
       };
 
       Object.values(ret).forEach((a): void => {
@@ -316,7 +316,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           <SortDropdown
             className='media--1500'
             defaultValue={sortBy}
-            label={t<string>('sort by')}
+            label={t('sort by')}
             onChange={onSortChange}
             onClick={onSortDirectionChange}
             options={sortOptions.current}
@@ -328,7 +328,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           />
           <FilterInput
             filterOn={filterOn}
-            label={t<string>('filter by name or tags')}
+            label={t('filter by name or tags')}
             setFilter={setFilter}
           />
         </section>
@@ -337,25 +337,25 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
             <>
               <Button
                 icon='plus'
-                label={t<string>('Account')}
+                label={t('Account')}
                 onClick={toggleCreate}
               />
               <Button
                 icon='sync'
-                label={t<string>('From JSON')}
+                label={t('From JSON')}
                 onClick={toggleImport}
               />
             </>
           )}
           <Button
             icon='qrcode'
-            label={t<string>('From Qr')}
+            label={t('From Qr')}
             onClick={toggleQr}
           />
           {isLedgerEnabled && (
             <Button
               icon='project-diagram'
-              label={t<string>('From Ledger')}
+              label={t('From Ledger')}
               onClick={toggleLedger}
             />
           )}
@@ -364,14 +364,14 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
               {hasPalletMultisig && (
                 <Button
                   icon='plus'
-                  label={t<string>('Multisig')}
+                  label={t('Multisig')}
                   onClick={toggleMultisig}
                 />
               )}
               {hasPalletProxy && (
                 <Button
                   icon='plus'
-                  label={t<string>('Proxied')}
+                  label={t('Proxied')}
                   onClick={toggleProxy}
                 />
               )}
@@ -382,14 +382,14 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       {!isNextTick || !sortedAccounts.length
         ? (
           <Table
-            empty={isNextTick && sortedAccounts && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
+            empty={isNextTick && sortedAccounts && t("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
             header={header.accounts}
           />
         )
         : GROUP_ORDER.map((group) =>
           groups[group] && (
             <Table
-              empty={t<string>('No accounts')}
+              empty={t('No accounts')}
               header={header[group]}
               isSplit
               key={group}

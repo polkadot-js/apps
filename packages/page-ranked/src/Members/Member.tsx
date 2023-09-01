@@ -28,7 +28,7 @@ function Member ({ className, value: { accountId, info: { rank } } }: Props): Re
         <Tag
           className='absolute'
           color={COLOR_LST[rank.toNumber()] || COLOR_DEF}
-          hover={t<string>('Membership rank')}
+          hover={t('Membership rank')}
           label={rank.toString()}
         />
       </td>

@@ -34,31 +34,31 @@ function BountyActionMessage ({ bestNumber, blocksUntilUpdate, status }: Props):
     <div>
       {blocksUntilUpdate?.lte(BN_ZERO) && (
         <BountyInfo
-          description={t<string>('Update overdue')}
+          description={t('Update overdue')}
           type='warning'
         />
       )}
       {blocksUntilUpdate?.lt(blocksToShowWarning) && blocksUntilUpdate?.gt(BN_ZERO) && (
         <BountyInfo
-          description={t<string>('Close deadline')}
+          description={t('Close deadline')}
           type='warning'
         />
       )}
       {status.isApproved && (
         <BountyInfo
-          description={t<string>('Waiting for Bounty Funding')}
+          description={t('Waiting for Bounty Funding')}
           type='info'
         />
       )}
       {status.isCuratorProposed && (
         <BountyInfo
-          description={t<string>("Waiting for Curator's acceptance")}
+          description={t("Waiting for Curator's acceptance")}
           type='info'
         />
       )}
       {blocksUntilPayout?.lt(BN_ZERO) &&
         <BountyInfo
-          description={t<string>('Waiting for implementer to claim')}
+          description={t('Waiting for implementer to claim')}
           type='info'
         />
       }

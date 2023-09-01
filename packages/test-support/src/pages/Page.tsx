@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/page-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/test-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* global jest, fail */
@@ -108,7 +108,10 @@ jest.mock('@polkadot/react-hooks/useRegistrars', () => ({
 }));
 
 jest.mock('@polkadot/react-hooks/useTheme', () => ({
-  useTheme: () => ({ theme: 'light', themeClassName: 'theme--light' })
+  useTheme: () => ({
+    theme: 'light',
+    themeClassName: 'theme--light'
+  })
 }));
 
 export abstract class Page {

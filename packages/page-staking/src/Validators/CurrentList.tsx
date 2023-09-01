@@ -97,7 +97,7 @@ function getFiltered (isOwn: boolean, stakingOverview: DeriveStakingOverview | u
 function mapValidators (infos: ValidatorInfo[]): Record<string, ValidatorInfo> {
   const result: Record<string, ValidatorInfo> = {};
 
-  for (let i = 0; i < infos.length; i++) {
+  for (let i = 0, count = infos.length; i < count; i++) {
     const info = infos[i];
 
     result[info.key] = info;
@@ -137,16 +137,16 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>(
     isIntentions
       ? [
-        [t<string>('intentions'), 'start', 3],
-        [t<string>('nominators'), 'expand'],
-        [t<string>('commission'), 'number'],
+        [t('intentions'), 'start', 3],
+        [t('nominators'), 'expand'],
+        [t('commission'), 'number'],
         []
       ]
       : [
-        [t<string>('validators'), 'start', 3],
-        [t<string>('other stake'), 'expand'],
-        [t<string>('commission')],
-        [t<string>('last #')],
+        [t('validators'), 'start', 3],
+        [t('other stake'), 'expand'],
+        [t('commission')],
+        [t('last #')],
         []
       ]
   );
@@ -156,18 +156,18 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
       className={className}
       empty={
         isIntentions
-          ? list && t<string>('No waiting validators found')
-          : list && recentlyOnline && infoMap && t<string>('No active validators found')
+          ? list && t('No waiting validators found')
+          : list && recentlyOnline && infoMap && t('No active validators found')
       }
       emptySpinner={
         <>
-          {!waiting && <div>{t<string>('Retrieving validators')}</div>}
-          {!infoMap && <div>{t<string>('Retrieving validator info')}</div>}
+          {!waiting && <div>{t('Retrieving validators')}</div>}
+          {!infoMap && <div>{t('Retrieving validator info')}</div>}
           {isIntentions
-            ? !nominatedBy && <div>{t<string>('Retrieving nominators')}</div>
-            : !recentlyOnline && <div>{t<string>('Retrieving online status')}</div>
+            ? !nominatedBy && <div>{t('Retrieving nominators')}</div>
+            : !recentlyOnline && <div>{t('Retrieving online status')}</div>
           }
-          {!list && <div>{t<string>('Preparing validator list')}</div>}
+          {!list && <div>{t('Preparing validator list')}</div>}
         </>
       }
       filter={
@@ -184,7 +184,7 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
         />
       }
     >
-      {list && list.map(([address, isElected, isFavorite]): React.ReactNode => (
+      {list?.map(([address, isElected, isFavorite]): React.ReactNode => (
         <Address
           address={address}
           filterName={nameFilter}

@@ -31,14 +31,14 @@ function BondExtra ({ className, controllerId, onClose, poolId }: Props): React.
   const isAmountError = useAmountError(controllerId, amount, BN_ZERO);
 
   const typeRef = useRef([
-    { text: t<string>('Free balance'), value: 'free' },
-    { text: t<string>('Pool rewards'), value: 'rewards' }
+    { text: t('Free balance'), value: 'free' },
+    { text: t('Pool rewards'), value: 'rewards' }
   ]);
 
   return (
     <Modal
       className={className}
-      header={t<string>('Bond extra into pool')}
+      header={t('Bond extra into pool')}
       onClose={onClose}
       size='large'
     >
@@ -47,10 +47,10 @@ function BondExtra ({ className, controllerId, onClose, poolId }: Props): React.
           controllerId={controllerId}
           poolId={poolId}
         />
-        <Modal.Columns hint={t<string>('You can either bond a specific amount from your free balance, or all of the accumulated rewards.')}>
+        <Modal.Columns hint={t('You can either bond a specific amount from your free balance, or all of the accumulated rewards.')}>
           <Dropdown
             defaultValue={DEFAULT_TYPE}
-            label={t<string>('type of funds to bond')}
+            label={t('type of funds to bond')}
             onChange={setType}
             options={typeRef.current}
           />
@@ -58,10 +58,10 @@ function BondExtra ({ className, controllerId, onClose, poolId }: Props): React.
             <InputBalance
               autoFocus
               isError={isAmountError}
-              label={t<string>('additional free funds to bond')}
+              label={t('additional free funds to bond')}
               labelExtra={
                 <BalanceFree
-                  label={<span className='label'>{t<string>('balance')}</span>}
+                  label={<span className='label'>{t('balance')}</span>}
                   params={controllerId}
                 />
               }
@@ -75,7 +75,7 @@ function BondExtra ({ className, controllerId, onClose, poolId }: Props): React.
           accountId={controllerId}
           icon='sign-in-alt'
           isDisabled={type === 'free' && isAmountError}
-          label={t<string>('Bond Extra')}
+          label={t('Bond Extra')}
           onStart={onClose}
           params={[
             type === 'free'

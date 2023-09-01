@@ -14,9 +14,9 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.132.2-18-x",
+  "version": "0.132.2-83-x",
   "devDependencies": {
-    "chart.js": "^4.3.0"
+    "chart.js": "^4.3.3"
   },
   "peerDependencies": {
     "react": "*",

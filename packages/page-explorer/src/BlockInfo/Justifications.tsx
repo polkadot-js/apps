@@ -40,7 +40,7 @@ function JustificationList ({ value }: Props): React.ReactElement<Props> | null 
   const { t } = useTranslation();
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t<string>('justifications'), 'start']
+    [t('justifications'), 'start']
   ]);
 
   const justifications = value.unwrapOr(null);
@@ -51,7 +51,7 @@ function JustificationList ({ value }: Props): React.ReactElement<Props> | null 
 
   return (
     <Table
-      empty={t<string>('No justifications available')}
+      empty={t('No justifications available')}
       header={headerRef.current}
     >
       {justifications?.map((justification, index) => (

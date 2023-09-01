@@ -26,20 +26,20 @@ function Flags ({ className = '', flags: { isCouncil, isDevelopment, isExternal,
     <StyledDiv className={`${className} ui--AddressMenu-flags`}>
       {
         hasFlags && (
-          <h5>{t<string>('Flags')}</h5>
+          <h5>{t('Flags')}</h5>
         )
       }
       <div>
         {isValidator && (
           <Flag
             color='theme'
-            label={t<string>('Validator')}
+            label={t('Validator')}
           />
         )}
         {isNominator && (
           <Flag
             color='theme'
-            label={t<string>('Nominator')}
+            label={t('Nominator')}
           />
         )}
         {isExternal && (
@@ -47,57 +47,57 @@ function Flags ({ className = '', flags: { isCouncil, isDevelopment, isExternal,
             ? (
               <Flag
                 color='green'
-                label={t<string>('Multisig')}
+                label={t('Multisig')}
               />
             )
             : isProxied
               ? (
                 <Flag
                   color='grey'
-                  label={t<string>('Proxied')}
+                  label={t('Proxied')}
                 />
               )
               : (
                 <Flag
                   color='grey'
-                  label={t<string>('External')}
+                  label={t('External')}
                 />
               )
         )}
         {isInjected && (
           <Flag
             color='grey'
-            label={t<string>('Injected')}
+            label={t('Injected')}
           />
         )}
         {isDevelopment && (
           <Flag
             color='grey'
-            label={t<string>('Test account')}
+            label={t('Test account')}
           />
         )}
         {isCouncil && (
           <Flag
             color='blue'
-            label={t<string>('Council')}
+            label={t('Council')}
           />
         )}
         {isSociety && (
           <Flag
             color='green'
-            label={t<string>('Society')}
+            label={t('Society')}
           />
         )}
         {isTechCommittee && (
           <Flag
             color='orange'
-            label={t<string>('Technical committee')}
+            label={t('Technical committee')}
           />
         )}
         {isSudo && (
           <Flag
             color='pink'
-            label={t<string>('Sudo key')}
+            label={t('Sudo key')}
           />
         )}
       </div>

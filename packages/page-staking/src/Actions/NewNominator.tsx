@@ -57,12 +57,12 @@ function NewNominator ({ isInElection, targets }: Props): React.ReactElement<Pro
         icon='plus'
         isDisabled={isDisabled || !targets.validators?.length}
         key='new-nominator'
-        label={t<string>('Nominator')}
+        label={t('Nominator')}
         onClick={_toggle}
       />
       {isVisible && (
         <Modal
-          header={t<string>('Setup Nominator {{step}}/{{NUM_STEPS}}', {
+          header={t('Setup Nominator {{step}}/{{NUM_STEPS}}', {
             replace: {
               NUM_STEPS,
               step
@@ -97,7 +97,7 @@ function NewNominator ({ isInElection, targets }: Props): React.ReactElement<Pro
             <Button
               icon='step-backward'
               isDisabled={step === 1}
-              label={t<string>('prev')}
+              label={t('prev')}
               onClick={_prevStep}
             />
             {step === NUM_STEPS
@@ -106,7 +106,7 @@ function NewNominator ({ isInElection, targets }: Props): React.ReactElement<Pro
                   accountId={stashId}
                   icon='sign-in-alt'
                   isDisabled={!bondTx || !nominateTx || !stashId || !controllerId}
-                  label={t<string>('Bond & Nominate')}
+                  label={t('Bond & Nominate')}
                   onStart={_toggle}
                   params={[
                     stashId === controllerId
@@ -120,7 +120,7 @@ function NewNominator ({ isInElection, targets }: Props): React.ReactElement<Pro
                 <Button
                   icon='step-forward'
                   isDisabled={!bondTx}
-                  label={t<string>('next')}
+                  label={t('next')}
                   onClick={_nextStep}
                 />
               )

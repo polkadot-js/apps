@@ -48,13 +48,13 @@ function FundAdd ({ auctionInfo, bestNumber, className, leasePeriod, ownedIds }:
       <Button
         icon='plus'
         isDisabled={!ownedIds.length}
-        label={t<string>('Add fund')}
+        label={t('Add fund')}
         onClick={toggleOpen}
       />
       {isOpen && (
         <Modal
           className={className}
-          header={t<string>('Add campaign')}
+          header={t('Add campaign')}
           onClose={toggleOpen}
           size='large'
         >
@@ -63,38 +63,38 @@ function FundAdd ({ auctionInfo, bestNumber, className, leasePeriod, ownedIds }:
               onChange={setOwnerInfo}
               ownedIds={ownedIds}
             />
-            <Modal.Columns hint={t<string>('The amount to be raised in this funding campaign.')}>
+            <Modal.Columns hint={t('The amount to be raised in this funding campaign.')}>
               <InputBalance
                 isZeroable={false}
-                label={t<string>('crowdfund cap')}
+                label={t('crowdfund cap')}
                 onChange={setCap}
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The end block for contributions to this fund.')}>
+            <Modal.Columns hint={t('The end block for contributions to this fund.')}>
               <InputNumber
                 isError={isEndError}
-                label={t<string>('ending block')}
+                label={t('ending block')}
                 onChange={setEndBlock}
               />
             </Modal.Columns>
             <Modal.Columns
               hint={
                 <>
-                  <p>{t<string>('The first and last lease periods for this funding campaign.')}</p>
-                  <p>{t<string>('The ending lease period should be after the first and a maximum of {{maxPeriods}} periods more than the first', { replace: { maxPeriods } })}</p>
+                  <p>{t('The first and last lease periods for this funding campaign.')}</p>
+                  <p>{t('The ending lease period should be after the first and a maximum of {{maxPeriods}} periods more than the first', { replace: { maxPeriods } })}</p>
                 </>
               }
             >
               <InputNumber
                 defaultValue={defaultSlot}
                 isError={isFirstError}
-                label={t<string>('first period')}
+                label={t('first period')}
                 onChange={setFirstSlot}
               />
               <InputNumber
                 defaultValue={defaultSlot}
                 isError={isLastError}
-                label={t<string>('last period')}
+                label={t('last period')}
                 onChange={setLastSlot}
               />
             </Modal.Columns>
@@ -104,7 +104,7 @@ function FundAdd ({ auctionInfo, bestNumber, className, leasePeriod, ownedIds }:
               accountId={accountId}
               icon='plus'
               isDisabled={!paraId || !cap?.gt(BN_ZERO) || isEndError || isFirstError || isLastError}
-              label={t<string>('Add')}
+              label={t('Add')}
               onStart={toggleOpen}
               params={[paraId, cap, firstSlot, lastSlot, endBlock, null]}
               tx={api.tx.crowdloan.create}

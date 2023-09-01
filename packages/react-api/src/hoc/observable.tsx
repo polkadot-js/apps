@@ -82,7 +82,7 @@ export default function withObservable<T, P> (observable: Observable<P>, { callO
 
         return (
           <Inner {..._props}>
-            {render && render(callResult)}{children}
+            {render?.(callResult)}{children}
           </Inner>
         );
       }

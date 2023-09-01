@@ -25,14 +25,14 @@ function Summary ({ leasePeriod, parachainCount, proposalCount, upcomingCount }:
   return (
     <SummaryBox>
       <section>
-        <CardSummary label={t<string>('parachains')}>
+        <CardSummary label={t('parachains')}>
           {isNumber(parachainCount)
             ? formatNumber(parachainCount)
             : <span className='--tmp'>99</span>}
         </CardSummary>
         <CardSummary
           className='media--1000'
-          label={t<string>('parathreads')}
+          label={t('parathreads')}
         >
           {isNumber(upcomingCount)
             ? formatNumber(upcomingCount)
@@ -41,21 +41,21 @@ function Summary ({ leasePeriod, parachainCount, proposalCount, upcomingCount }:
         {isNumber(proposalCount) && (
           <CardSummary
             className='media--1000'
-            label={t<string>('proposals')}
+            label={t('proposals')}
           >
             {formatNumber(proposalCount)}
           </CardSummary>
         )}
       </section>
       <section>
-        <CardSummary label={t<string>('current lease')}>
+        <CardSummary label={t('current lease')}>
           {leasePeriod
             ? formatNumber(leasePeriod.currentPeriod)
             : <span className='--tmp'>99</span>}
         </CardSummary>
         <CardSummary
           className='media--1200'
-          label={t<string>('lease period')}
+          label={t('lease period')}
           progress={{
             isBlurred: !leasePeriod,
             total: leasePeriod ? leasePeriod.length : BN_THREE,
@@ -65,7 +65,7 @@ function Summary ({ leasePeriod, parachainCount, proposalCount, upcomingCount }:
         />
       </section>
       <section>
-        <CardSummary label={t<string>('finalized')}>
+        <CardSummary label={t('finalized')}>
           <BestFinalized />
         </CardSummary>
         <SummarySession

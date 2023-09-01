@@ -34,7 +34,7 @@ function Defender ({ className = '', info, isMember, ownMembers }: Props): React
   const votes = useCall<VoteType[]>(api.derive.society.members, undefined, OPT_VOTES);
 
   const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
-    [t<string>('defender'), 'start'],
+    [t('defender'), 'start'],
     [undefined, 'expand'],
     []
   ]);

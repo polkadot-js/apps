@@ -17,7 +17,7 @@ function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<
     {
       isRoot: true,
       name: 'contracts',
-      text: t<string>('Contracts')
+      text: t('Contracts')
     }
   ]);
 
