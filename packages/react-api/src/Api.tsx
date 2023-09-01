@@ -106,14 +106,13 @@ function makeCreateLink (baseApiUrl: string, isElectron: boolean): (path: string
 }
 
 async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>): Promise<ChainData> {
-  const [systemChain, systemChainType, systemName, systemVersion, properties, injectedAccounts] = await Promise.all([
+  const [systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
     api.rpc.system.chain(),
     api.rpc.system.chainType
       ? api.rpc.system.chainType()
       : Promise.resolve(statics.registry.createType('ChainType', 'Live')),
     api.rpc.system.name(),
     api.rpc.system.version(),
-    api.rpc.system.properties(),
     getInjectedAccounts(injectedPromise)
   ]);
 
