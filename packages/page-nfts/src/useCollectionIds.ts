@@ -1,7 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-nfts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AugmentedEvents, AugmentedQueries } from '@polkadot/api-base/types';
 import type { Changes } from '@polkadot/react-hooks/useEventChanges';
 import type { StorageKey, u32 } from '@polkadot/types';
 import type { EventRecord } from '@polkadot/types/interfaces';
@@ -31,16 +30,13 @@ function filter (records: EventRecord[]): Changes<u32> {
 }
 
 function useCollectionIdsImpl (): u32[] | undefined {
-  const { api, apiDefaultNft } = useApi();
-  const queryNfts = api.query[apiDefaultNft] as AugmentedQueries<'promise'>['uniques'];
-  const nftEvents = api.events[apiDefaultNft] as AugmentedEvents<'promise'>['uniques'];
-
-  const startValue = useMapKeys(queryNfts.class, [], OPT_KEYS);
+  const { api } = useApi();
+  const startValue = useMapKeys(api.query.uniques.class, [], OPT_KEYS);
 
   return useEventChanges([
-    nftEvents.Created,
-    nftEvents.Destroyed,
-    nftEvents.ForceCreated
+    api.events.uniques.Created,
+    api.events.uniques.Destroyed,
+    api.events.uniques.ForceCreated
   ], filter, startValue);
 }
 
