@@ -131,7 +131,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       // 'Metaverse Foundation': 'wss://tewai-rpc.bit.country' // https://github.com/polkadot-js/apps/issues/9059
     },
-    text: 'Bit.Country - Metaverse Network',
+    text: 'Metaverse Network Tewai',
     ui: {
       logo: nodesBitcountryPNG
     }
