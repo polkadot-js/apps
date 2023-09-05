@@ -116,13 +116,13 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://bit.country/?ref=polkadotjs',
+    homepage: 'https://pioneer.bit.country/?ref=polkadotjs',
     info: 'bitcountryPioneer',
     paraId: 2096,
     providers: {
       OnFinality: 'wss://pioneer.api.onfinality.io/public-ws'
     },
-    text: 'Bit.Country Pioneer',
+    text: 'Metaverse.Network Pioneer',
     ui: {
       color: '#000000',
       logo: nodesBitcountryPNG
