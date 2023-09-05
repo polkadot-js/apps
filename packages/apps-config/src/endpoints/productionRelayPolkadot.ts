@@ -201,8 +201,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Darwinia: 'wss://rpc.darwinia.network',
       'Darwinia Community': 'wss://darwinia-rpc.darwiniacommunitydao.xyz',
-      Dwellir: 'wss://darwinia-rpc.dwellir.com'
-      // OnFinality: 'wss://darwinia2.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9838
+      Dwellir: 'wss://darwinia-rpc.dwellir.com',
+      OnFinality: 'wss://darwinia2.api.onfinality.io/public-ws'
     },
     text: 'Darwinia2',
     ui: {
@@ -363,8 +363,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'kapex',
     paraId: 2007,
     providers: {
-      Dwellir: 'wss://kapex-rpc.dwellir.com'
-      // OnFinality: 'wss://kapex-parachain.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9821
+      Dwellir: 'wss://kapex-rpc.dwellir.com',
+      OnFinality: 'wss://kapex-parachain.api.onfinality.io/public-ws'
       // Totem: 'wss://k-ui.kapex.network' // https://github.com/polkadot-js/apps/issues/9616
     },
     text: 'Kapex',
