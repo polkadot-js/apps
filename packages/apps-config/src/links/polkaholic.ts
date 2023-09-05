@@ -45,7 +45,7 @@ export const Polkaholic: ExternalDef = {
     'Parallel Heiko': 'parallel-heiko',
     Picasso: 'picasso',
     'Pichiu Network': 'pichiu',
-    'Pioneer Network': 'bitcountrypioneer',
+    'Pioneer Network': 'pioneer',
     Polkadot: 'polkadot',
     'QUARTZ by UNIQUE': 'quartz',
     Robonomics: 'robonomics',
