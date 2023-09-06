@@ -830,7 +830,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       'IBP-GeoDNS1': 'wss://sys.ibp.network/bridgehub-kusama',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/bridgehub-kusama',
       LuckyFriday: 'wss://rpc-bridge-hub-kusama.luckyfriday.io',
-      OnFinality: 'wss://bridgehub-kusama.api.onfinality.io/public-ws',
+      // OnFinality: 'wss://bridgehub-kusama.api.onfinality.io/public-ws',
       Parity: 'wss://kusama-bridge-hub-rpc.polkadot.io',
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/bridgehub'
     },
