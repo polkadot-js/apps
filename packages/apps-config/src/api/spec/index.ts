@@ -91,6 +91,7 @@ import pangoro from './pangoro.js';
 import parallel from './parallel.js';
 import parami from './parami.js';
 import peaq from './peaq.js';
+import pendulum from './pendulum.js';
 import phoenix from './phoenix.js';
 import pichiu from './pichiu.js';
 import polkadex from './polkadex.js';
@@ -151,6 +152,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   ...acala,
   ajuna,
   altair,
+  'amplitude': pendulum,
   apron,
   'ares-gladios': aresGladios,
   'ares-mars': aresParachain,
@@ -197,6 +199,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   // fragnova,
   // 'fragnova-testnet': fragnova,
   'ferrum-parachain': ferrum,
+  'foucoco': pendulum,
   frequency,
   'frequency-rococo': frequency,
   galital,
@@ -254,6 +257,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'peaq-node': peaq,
   'peaq-node-dev': peaq,
   'peaq-node-krest': peaq,
+  pendulum,
   'phoenix-node': phoenix,
   'phoenix-parachain': phoenix,
   pichiu,
@@ -274,6 +278,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   snowbridge,
   'sora-substrate': soraSubstrate,
   sora_ksm: soraSubstrate,
+  'spacewalk-standalone':pendulum,
   spanner,
   stafi,
   standard,
