@@ -6,4 +6,3 @@ import type { OverrideBundleDefinition } from '@polkadot/types/types';
 import { typesBundleForPolkadot } from '@pendulum-chain/type-definitions';
 
 export default (typesBundleForPolkadot as { spec: { pendulum: OverrideBundleDefinition } }).spec.pendulum;
-
