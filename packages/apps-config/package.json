@@ -35,7 +35,7 @@
     "@metaverse-network-sdk/type-definitions": "0.0.1-16",
     "@parallel-finance/type-definitions": "2.0.0",
     "@peaqnetwork/type-definitions": "0.0.4",
-    "@pendulum-chain/type-definitions": "0.3.4",
+    "@pendulum-chain/type-definitions": "0.3.7",
     "@phala/typedefs": "0.2.33",
     "@polkadot/api": "^10.9.1",
     "@polkadot/api-derive": "^10.9.1",

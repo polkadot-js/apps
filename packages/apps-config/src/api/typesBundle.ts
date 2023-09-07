@@ -39555,7 +39555,7 @@ export const typesBundle = {
             "method": "getOldVaultReplaceRequests",
             "section": "replace"
           },
-          "getNewVaultRedeemRequests": {
+          "getNewVaultReplaceRequests": {
             "description": "Get all replace requests to a particular vault",
             "params": [
               {
@@ -39571,8 +39571,8 @@ export const typesBundle = {
             ],
             "type": "Vec<H256>",
             "isSubscription": false,
-            "jsonrpc": "replace_getNewVaultRedeemRequests",
-            "method": "getNewVaultRedeemRequests",
+            "jsonrpc": "replace_getNewVaultReplaceRequests",
+            "method": "getNewVaultReplaceRequests",
             "section": "replace"
           }
         },
@@ -39641,7 +39641,7 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Balance",
+            "type": "BalanceWrapper",
             "isSubscription": false,
             "jsonrpc": "vaultRegistry_getVaultCollateral",
             "method": "getVaultCollateral",
@@ -39681,7 +39681,7 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Balance",
+            "type": "BalanceWrapper",
             "isSubscription": false,
             "jsonrpc": "vaultRegistry_getVaultTotalCollateral",
             "method": "getVaultTotalCollateral",
@@ -39697,7 +39697,7 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Vec<(SpacewalkPrimitivesVaultId, Balance)>",
+            "type": "Vec<(SpacewalkPrimitivesVaultId, BalanceWrapper)>",
             "isSubscription": false,
             "jsonrpc": "vaultRegistry_getPremiumRedeemVaults",
             "method": "getPremiumRedeemVaults",
@@ -39713,7 +39713,7 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Vec<(SpacewalkPrimitivesVaultId, Balance)>",
+            "type": "Vec<(SpacewalkPrimitivesVaultId, BalanceWrapper)>",
             "isSubscription": false,
             "jsonrpc": "vaultRegistry_getVaultsWithIssuableTokens",
             "method": "getVaultsWithIssuableTokens",
@@ -39729,13 +39729,13 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Vec<(SpacewalkPrimitivesVaultId, Balance)>",
+            "type": "Vec<(SpacewalkPrimitivesVaultId, BalanceWrapper)>",
             "isSubscription": false,
             "jsonrpc": "vaultRegistry_getVaultsWithRedeemableTokens",
             "method": "getVaultsWithRedeemableTokens",
             "section": "vaultRegistry"
           },
-          "getIssuableTokensFromVault": {
+          "getIssueableTokensFromVault": {
             "description": "Get the amount of tokens a vault can issue",
             "params": [
               {
@@ -39749,10 +39749,10 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Balance",
+            "type": "BalanceWrapper",
             "isSubscription": false,
-            "jsonrpc": "vaultRegistry_getIssuableTokensFromVault",
-            "method": "getIssuableTokensFromVault",
+            "jsonrpc": "vaultRegistry_getIssueableTokensFromVault",
+            "method": "getIssueableTokensFromVault",
             "section": "vaultRegistry"
           },
           "getCollateralizationFromVault": {
@@ -39788,7 +39788,7 @@ export const typesBundle = {
               },
               {
                 "name": "collateral",
-                "type": "Balance"
+                "type": "BalanceWrapper"
               },
               {
                 "name": "onlyIssued",
@@ -39812,7 +39812,7 @@ export const typesBundle = {
             "params": [
               {
                 "name": "amount",
-                "type": "Balance"
+                "type": "BalanceWrapper"
               },
               {
                 "name": "currencyId",
@@ -39825,7 +39825,7 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Balance",
+            "type": "BalanceWrapper",
             "isSubscription": false,
             "jsonrpc": "vaultRegistry_getRequiredCollateralForWrapped",
             "method": "getRequiredCollateralForWrapped",
@@ -39845,7 +39845,7 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Balance",
+            "type": "BalanceWrapper",
             "isSubscription": false,
             "jsonrpc": "vaultRegistry_getRequiredCollateralForVault",
             "method": "getRequiredCollateralForVault",
@@ -39917,7 +39917,7 @@ export const typesBundle = {
             "CurrencyId": {},
             "NumberOrHex": "u128",
             "BalanceWrapper": {
-              "amount": "Balance"
+              "amount": "String"
             },
             "SpacewalkPrimitivesCurrencyId": {
               "_enum": {
@@ -51356,7 +51356,7 @@ export const typesBundle = {
             "method": "getOldVaultReplaceRequests",
             "section": "replace"
           },
-          "getNewVaultRedeemRequests": {
+          "getNewVaultReplaceRequests": {
             "description": "Get all replace requests to a particular vault",
             "params": [
               {
@@ -51372,8 +51372,8 @@ export const typesBundle = {
             ],
             "type": "Vec<H256>",
             "isSubscription": false,
-            "jsonrpc": "replace_getNewVaultRedeemRequests",
-            "method": "getNewVaultRedeemRequests",
+            "jsonrpc": "replace_getNewVaultReplaceRequests",
+            "method": "getNewVaultReplaceRequests",
             "section": "replace"
           }
         },
@@ -51442,7 +51442,7 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Balance",
+            "type": "BalanceWrapper",
             "isSubscription": false,
             "jsonrpc": "vaultRegistry_getVaultCollateral",
             "method": "getVaultCollateral",
@@ -51482,7 +51482,7 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Balance",
+            "type": "BalanceWrapper",
             "isSubscription": false,
             "jsonrpc": "vaultRegistry_getVaultTotalCollateral",
             "method": "getVaultTotalCollateral",
@@ -51498,7 +51498,7 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Vec<(SpacewalkPrimitivesVaultId, Balance)>",
+            "type": "Vec<(SpacewalkPrimitivesVaultId, BalanceWrapper)>",
             "isSubscription": false,
             "jsonrpc": "vaultRegistry_getPremiumRedeemVaults",
             "method": "getPremiumRedeemVaults",
@@ -51514,7 +51514,7 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Vec<(SpacewalkPrimitivesVaultId, Balance)>",
+            "type": "Vec<(SpacewalkPrimitivesVaultId, BalanceWrapper)>",
             "isSubscription": false,
             "jsonrpc": "vaultRegistry_getVaultsWithIssuableTokens",
             "method": "getVaultsWithIssuableTokens",
@@ -51530,13 +51530,13 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Vec<(SpacewalkPrimitivesVaultId, Balance)>",
+            "type": "Vec<(SpacewalkPrimitivesVaultId, BalanceWrapper)>",
             "isSubscription": false,
             "jsonrpc": "vaultRegistry_getVaultsWithRedeemableTokens",
             "method": "getVaultsWithRedeemableTokens",
             "section": "vaultRegistry"
           },
-          "getIssuableTokensFromVault": {
+          "getIssueableTokensFromVault": {
             "description": "Get the amount of tokens a vault can issue",
             "params": [
               {
@@ -51550,10 +51550,10 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Balance",
+            "type": "BalanceWrapper",
             "isSubscription": false,
-            "jsonrpc": "vaultRegistry_getIssuableTokensFromVault",
-            "method": "getIssuableTokensFromVault",
+            "jsonrpc": "vaultRegistry_getIssueableTokensFromVault",
+            "method": "getIssueableTokensFromVault",
             "section": "vaultRegistry"
           },
           "getCollateralizationFromVault": {
@@ -51589,7 +51589,7 @@ export const typesBundle = {
               },
               {
                 "name": "collateral",
-                "type": "Balance"
+                "type": "BalanceWrapper"
               },
               {
                 "name": "onlyIssued",
@@ -51613,7 +51613,7 @@ export const typesBundle = {
             "params": [
               {
                 "name": "amount",
-                "type": "Balance"
+                "type": "BalanceWrapper"
               },
               {
                 "name": "currencyId",
@@ -51626,7 +51626,7 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Balance",
+            "type": "BalanceWrapper",
             "isSubscription": false,
             "jsonrpc": "vaultRegistry_getRequiredCollateralForWrapped",
             "method": "getRequiredCollateralForWrapped",
@@ -51646,7 +51646,7 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Balance",
+            "type": "BalanceWrapper",
             "isSubscription": false,
             "jsonrpc": "vaultRegistry_getRequiredCollateralForVault",
             "method": "getRequiredCollateralForVault",
@@ -51718,7 +51718,7 @@ export const typesBundle = {
             "CurrencyId": {},
             "NumberOrHex": "u128",
             "BalanceWrapper": {
-              "amount": "Balance"
+              "amount": "String"
             },
             "SpacewalkPrimitivesCurrencyId": {
               "_enum": {
@@ -70230,7 +70230,7 @@ export const typesBundle = {
             "method": "getOldVaultReplaceRequests",
             "section": "replace"
           },
-          "getNewVaultRedeemRequests": {
+          "getNewVaultReplaceRequests": {
             "description": "Get all replace requests to a particular vault",
             "params": [
               {
@@ -70246,8 +70246,8 @@ export const typesBundle = {
             ],
             "type": "Vec<H256>",
             "isSubscription": false,
-            "jsonrpc": "replace_getNewVaultRedeemRequests",
-            "method": "getNewVaultRedeemRequests",
+            "jsonrpc": "replace_getNewVaultReplaceRequests",
+            "method": "getNewVaultReplaceRequests",
             "section": "replace"
           }
         },
@@ -70316,7 +70316,7 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Balance",
+            "type": "BalanceWrapper",
             "isSubscription": false,
             "jsonrpc": "vaultRegistry_getVaultCollateral",
             "method": "getVaultCollateral",
@@ -70356,7 +70356,7 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Balance",
+            "type": "BalanceWrapper",
             "isSubscription": false,
             "jsonrpc": "vaultRegistry_getVaultTotalCollateral",
             "method": "getVaultTotalCollateral",
@@ -70372,7 +70372,7 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Vec<(SpacewalkPrimitivesVaultId, Balance)>",
+            "type": "Vec<(SpacewalkPrimitivesVaultId, BalanceWrapper)>",
             "isSubscription": false,
             "jsonrpc": "vaultRegistry_getPremiumRedeemVaults",
             "method": "getPremiumRedeemVaults",
@@ -70388,7 +70388,7 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Vec<(SpacewalkPrimitivesVaultId, Balance)>",
+            "type": "Vec<(SpacewalkPrimitivesVaultId, BalanceWrapper)>",
             "isSubscription": false,
             "jsonrpc": "vaultRegistry_getVaultsWithIssuableTokens",
             "method": "getVaultsWithIssuableTokens",
@@ -70404,13 +70404,13 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Vec<(SpacewalkPrimitivesVaultId, Balance)>",
+            "type": "Vec<(SpacewalkPrimitivesVaultId, BalanceWrapper)>",
             "isSubscription": false,
             "jsonrpc": "vaultRegistry_getVaultsWithRedeemableTokens",
             "method": "getVaultsWithRedeemableTokens",
             "section": "vaultRegistry"
           },
-          "getIssuableTokensFromVault": {
+          "getIssueableTokensFromVault": {
             "description": "Get the amount of tokens a vault can issue",
             "params": [
               {
@@ -70424,10 +70424,10 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Balance",
+            "type": "BalanceWrapper",
             "isSubscription": false,
-            "jsonrpc": "vaultRegistry_getIssuableTokensFromVault",
-            "method": "getIssuableTokensFromVault",
+            "jsonrpc": "vaultRegistry_getIssueableTokensFromVault",
+            "method": "getIssueableTokensFromVault",
             "section": "vaultRegistry"
           },
           "getCollateralizationFromVault": {
@@ -70463,7 +70463,7 @@ export const typesBundle = {
               },
               {
                 "name": "collateral",
-                "type": "Balance"
+                "type": "BalanceWrapper"
               },
               {
                 "name": "onlyIssued",
@@ -70487,7 +70487,7 @@ export const typesBundle = {
             "params": [
               {
                 "name": "amount",
-                "type": "Balance"
+                "type": "BalanceWrapper"
               },
               {
                 "name": "currencyId",
@@ -70500,7 +70500,7 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Balance",
+            "type": "BalanceWrapper",
             "isSubscription": false,
             "jsonrpc": "vaultRegistry_getRequiredCollateralForWrapped",
             "method": "getRequiredCollateralForWrapped",
@@ -70520,7 +70520,7 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Balance",
+            "type": "BalanceWrapper",
             "isSubscription": false,
             "jsonrpc": "vaultRegistry_getRequiredCollateralForVault",
             "method": "getRequiredCollateralForVault",
@@ -70592,7 +70592,7 @@ export const typesBundle = {
             "CurrencyId": {},
             "NumberOrHex": "u128",
             "BalanceWrapper": {
-              "amount": "Balance"
+              "amount": "String"
             },
             "SpacewalkPrimitivesCurrencyId": {
               "_enum": {
@@ -101721,7 +101721,7 @@ export const typesBundle = {
             "method": "getOldVaultReplaceRequests",
             "section": "replace"
           },
-          "getNewVaultRedeemRequests": {
+          "getNewVaultReplaceRequests": {
             "description": "Get all replace requests to a particular vault",
             "params": [
               {
@@ -101737,8 +101737,8 @@ export const typesBundle = {
             ],
             "type": "Vec<H256>",
             "isSubscription": false,
-            "jsonrpc": "replace_getNewVaultRedeemRequests",
-            "method": "getNewVaultRedeemRequests",
+            "jsonrpc": "replace_getNewVaultReplaceRequests",
+            "method": "getNewVaultReplaceRequests",
             "section": "replace"
           }
         },
@@ -101807,7 +101807,7 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Balance",
+            "type": "BalanceWrapper",
             "isSubscription": false,
             "jsonrpc": "vaultRegistry_getVaultCollateral",
             "method": "getVaultCollateral",
@@ -101847,7 +101847,7 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Balance",
+            "type": "BalanceWrapper",
             "isSubscription": false,
             "jsonrpc": "vaultRegistry_getVaultTotalCollateral",
             "method": "getVaultTotalCollateral",
@@ -101863,7 +101863,7 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Vec<(SpacewalkPrimitivesVaultId, Balance)>",
+            "type": "Vec<(SpacewalkPrimitivesVaultId, BalanceWrapper)>",
             "isSubscription": false,
             "jsonrpc": "vaultRegistry_getPremiumRedeemVaults",
             "method": "getPremiumRedeemVaults",
@@ -101879,7 +101879,7 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Vec<(SpacewalkPrimitivesVaultId, Balance)>",
+            "type": "Vec<(SpacewalkPrimitivesVaultId, BalanceWrapper)>",
             "isSubscription": false,
             "jsonrpc": "vaultRegistry_getVaultsWithIssuableTokens",
             "method": "getVaultsWithIssuableTokens",
@@ -101895,13 +101895,13 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Vec<(SpacewalkPrimitivesVaultId, Balance)>",
+            "type": "Vec<(SpacewalkPrimitivesVaultId, BalanceWrapper)>",
             "isSubscription": false,
             "jsonrpc": "vaultRegistry_getVaultsWithRedeemableTokens",
             "method": "getVaultsWithRedeemableTokens",
             "section": "vaultRegistry"
           },
-          "getIssuableTokensFromVault": {
+          "getIssueableTokensFromVault": {
             "description": "Get the amount of tokens a vault can issue",
             "params": [
               {
@@ -101915,10 +101915,10 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Balance",
+            "type": "BalanceWrapper",
             "isSubscription": false,
-            "jsonrpc": "vaultRegistry_getIssuableTokensFromVault",
-            "method": "getIssuableTokensFromVault",
+            "jsonrpc": "vaultRegistry_getIssueableTokensFromVault",
+            "method": "getIssueableTokensFromVault",
             "section": "vaultRegistry"
           },
           "getCollateralizationFromVault": {
@@ -101954,7 +101954,7 @@ export const typesBundle = {
               },
               {
                 "name": "collateral",
-                "type": "Balance"
+                "type": "BalanceWrapper"
               },
               {
                 "name": "onlyIssued",
@@ -101978,7 +101978,7 @@ export const typesBundle = {
             "params": [
               {
                 "name": "amount",
-                "type": "Balance"
+                "type": "BalanceWrapper"
               },
               {
                 "name": "currencyId",
@@ -101991,7 +101991,7 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Balance",
+            "type": "BalanceWrapper",
             "isSubscription": false,
             "jsonrpc": "vaultRegistry_getRequiredCollateralForWrapped",
             "method": "getRequiredCollateralForWrapped",
@@ -102011,7 +102011,7 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Balance",
+            "type": "BalanceWrapper",
             "isSubscription": false,
             "jsonrpc": "vaultRegistry_getRequiredCollateralForVault",
             "method": "getRequiredCollateralForVault",
@@ -102083,7 +102083,7 @@ export const typesBundle = {
             "CurrencyId": {},
             "NumberOrHex": "u128",
             "BalanceWrapper": {
-              "amount": "Balance"
+              "amount": "String"
             },
             "SpacewalkPrimitivesCurrencyId": {
               "_enum": {

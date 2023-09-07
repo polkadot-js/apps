@@ -2592,13 +2592,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pendulum-chain/type-definitions@npm:0.3.4":
-  version: 0.3.4
-  resolution: "@pendulum-chain/type-definitions@npm:0.3.4"
+"@pendulum-chain/type-definitions@npm:0.3.7":
+  version: 0.3.7
+  resolution: "@pendulum-chain/type-definitions@npm:0.3.7"
   dependencies:
     "@babel/runtime": ^7.10.2
     "@open-web3/orml-type-definitions": ^1.1.4
-  checksum: 1fb425ec5de41ca45746edbace7fcbafbd929300c5d0f59a95b773e8617f7e56b61bef8b86d5b4c1c8bb2fe3a08e1ed7aa200be52a3ba0371bf2f9432339f9ed
+  checksum: cd955c4cd193b29c16cac3c3e199209eb8f1c2d5b0a2c5c5f80ab332394244927cc70bf4598e38f146076e394d928e8b6331d873cd91edc8a3a9c4635cf48f82
   languageName: node
   linkType: hard
 
@@ -3214,7 +3214,7 @@ __metadata:
     "@metaverse-network-sdk/type-definitions": 0.0.1-16
     "@parallel-finance/type-definitions": 2.0.0
     "@peaqnetwork/type-definitions": 0.0.4
-    "@pendulum-chain/type-definitions": 0.3.4
+    "@pendulum-chain/type-definitions": 0.3.7
     "@phala/typedefs": 0.2.33
     "@polkadot/api": ^10.9.1
     "@polkadot/api-derive": ^10.9.1
