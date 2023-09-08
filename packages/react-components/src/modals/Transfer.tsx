@@ -67,7 +67,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
     if (balances && balances.accountId?.eq(fromId) && fromId && toId && api.call.transactionPaymentApi && api.tx.balances) {
       nextTick(async (): Promise<void> => {
         try {
-          const extrinsic = api.tx.balances.transfer(toId, balances.availableBalance);
+          const extrinsic = (api.tx.balances.transferAllowDeath || api.tx.balances.transfer)(toId, balances.availableBalance);
           const { partialFee } = await extrinsic.paymentInfo(fromId);
           const adjFee = partialFee.muln(110).div(BN_HUNDRED);
           const maxTransfer = balances.availableBalance.sub(adjFee);
