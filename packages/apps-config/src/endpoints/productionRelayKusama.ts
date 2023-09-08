@@ -467,19 +467,6 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://pioneer.bit.country/?ref=polkadotjs',
-    info: 'pioneer',
-    paraId: 2096,
-    providers: {
-      OnFinality: 'wss://pioneer.api.onfinality.io/public-ws'
-    },
-    text: 'Metaverse.Network Pioneer',
-    ui: {
-      color: '#000000',
-      logo: nodesBitcountryPNG
-    }
-  },
-  {
     homepage: 'https://moonbeam.network/networks/moonriver/',
     info: 'moonriver',
     paraId: 2023,
@@ -548,6 +535,19 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#ed007e',
       logo: nodesPichiuPNG
+    }
+  },
+  {
+    homepage: 'https://pioneer.bit.country/?ref=polkadotjs',
+    info: 'pioneer',
+    paraId: 2096,
+    providers: {
+      OnFinality: 'wss://pioneer.api.onfinality.io/public-ws'
+    },
+    text: 'Pioneer',
+    ui: {
+      color: '#000000',
+      logo: nodesBitcountryPNG
     }
   },
   {

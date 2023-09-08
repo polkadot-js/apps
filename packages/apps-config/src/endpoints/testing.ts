@@ -127,16 +127,6 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'bitcountry',
-    providers: {
-      // 'Metaverse Foundation': 'wss://tewai-rpc.bit.country' // https://github.com/polkadot-js/apps/issues/9059
-    },
-    text: 'Metaverse Network Tewai',
-    ui: {
-      logo: nodesBitcountryPNG
-    }
-  },
-  {
     info: 'cere',
     providers: {
       // 'Cere Network': 'wss://archive.testnet.cere.network/ws' // https://github.com/polkadot-js/apps/issues/9712
@@ -914,6 +904,16 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#d622ff',
       logo: nodesTernoaSVG
+    }
+  },
+  {
+    info: 'bitcountry',
+    providers: {
+      // 'Metaverse Foundation': 'wss://tewai-rpc.bit.country' // https://github.com/polkadot-js/apps/issues/9059
+    },
+    text: 'Tewai',
+    ui: {
+      logo: nodesBitcountryPNG
     }
   },
   {
