@@ -14,9 +14,9 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.132.2-87-x",
+  "version": "0.132.2-88-x",
   "dependencies": {
-    "@polkadot/react-components": "^0.132.2-87-x",
+    "@polkadot/react-components": "^0.132.2-88-x",
     "file-saver": "^2.0.5"
   },
   "devDependencies": {
