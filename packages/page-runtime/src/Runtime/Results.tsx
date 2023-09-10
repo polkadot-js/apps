@@ -17,6 +17,9 @@ function Results ({ results }: Props): React.ReactElement<Props> | null {
     return null;
   }
 
+  // DEEBUG
+  // console.error(results[results.length - 1].result?.toHex());
+
   return (
     <section className='runtime--Results'>
       {results.map(({ def: { method, section, type }, error, id, result }): React.ReactNode => (

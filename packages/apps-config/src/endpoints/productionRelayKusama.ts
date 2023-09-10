@@ -148,7 +148,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Darwinia: 'wss://crab-rpc.darwinia.network/',
       'Darwinia Community': 'wss://crab-rpc.darwiniacommunitydao.xyz',
-      Dwellir: 'wss://darwiniacrab-rpc.dwellir.com',
+      // Dwellir: 'wss://darwiniacrab-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/9861
       OnFinality: 'wss://crab.api.onfinality.io/public-ws'
     },
     text: 'Crab2',
@@ -258,8 +258,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'imbue',
     paraId: 2121,
     providers: {
-      'Imbue Network 0': 'wss://imbue-kusama.imbue.network',
-      'Imbue Network 1': 'wss://collator.production.imbue.network'
+      'Imbue Network 0': 'wss://imbue-kusama.imbue.network'
+      // 'Imbue Network 1': 'wss://collator.production.imbue.network' // https://github.com/polkadot-js/apps/issues/9848
     },
     text: 'Imbue Network',
     ui: {
@@ -319,7 +319,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
       'Acala Foundation 1': 'wss://karura-rpc-1.aca-api.network',
       'Acala Foundation 2': 'wss://karura-rpc-2.aca-api.network/ws',
       'Acala Foundation 3': 'wss://karura-rpc-3.aca-api.network/ws',
-      Dwellir: 'wss://karura-rpc.dwellir.com',
+      // Dwellir: 'wss://karura-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/9861
       OnFinality: 'wss://karura.api.onfinality.io/public-ws'
       // 'Polkawallet 0': 'wss://karura.polkawallet.io' // https://github.com/polkadot-js/apps/issues/9383
     },
@@ -870,7 +870,7 @@ export const prodRelayKusama: EndpointOption = {
   providers: {
     // 'Geometry Labs': 'wss://kusama.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
     'Automata 1RPC': 'wss://1rpc.io/ksm',
-    Blockops: 'wss://kusama-public-rpc.blockops.network/ws',
+    // Blockops: 'wss://kusama-public-rpc.blockops.network/ws', // https://github.com/polkadot-js/apps/issues/9840
     Dwellir: 'wss://kusama-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://kusama-rpc-tn.dwellir.com',
     'IBP-GeoDNS1': 'wss://rpc.ibp.network/kusama',

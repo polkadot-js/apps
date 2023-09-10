@@ -201,8 +201,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Darwinia: 'wss://rpc.darwinia.network',
       'Darwinia Community': 'wss://darwinia-rpc.darwiniacommunitydao.xyz',
-      Dwellir: 'wss://darwinia-rpc.dwellir.com',
-      OnFinality: 'wss://darwinia2.api.onfinality.io/public-ws'
+      Dwellir: 'wss://darwinia-rpc.dwellir.com'
+      // OnFinality: 'wss://darwinia2.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9861
     },
     text: 'Darwinia2',
     ui: {
@@ -363,8 +363,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'kapex',
     paraId: 2007,
     providers: {
-      Dwellir: 'wss://kapex-rpc.dwellir.com'
-      // OnFinality: 'wss://kapex-parachain.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9821
+      Dwellir: 'wss://kapex-rpc.dwellir.com',
+      OnFinality: 'wss://kapex-parachain.api.onfinality.io/public-ws'
       // Totem: 'wss://k-ui.kapex.network' // https://github.com/polkadot-js/apps/issues/9616
     },
     text: 'Kapex',
@@ -767,7 +767,7 @@ export const prodRelayPolkadot: EndpointOption = {
   providers: {
     // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
     'Automata 1RPC': 'wss://1rpc.io/dot',
-    Blockops: 'wss://polkadot-public-rpc.blockops.network/ws',
+    // Blockops: 'wss://polkadot-public-rpc.blockops.network/ws', // https://github.com/polkadot-js/apps/issues/9840
     Dwellir: 'wss://polkadot-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://polkadot-rpc-tn.dwellir.com',
     'IBP-GeoDNS1': 'wss://rpc.ibp.network/polkadot',

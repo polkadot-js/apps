@@ -8,6 +8,7 @@ export { externalDotreasurySVG } from './generated/dotreasurySVG.js';
 export { externalDotscannerPNG } from './generated/dotscannerPNG.js';
 export { externalEmptySVG } from './generated/emptySVG.js';
 export { externalKodadotPNG } from './generated/kodadotPNG.js';
+export { externalMoonbeamAppsSVG } from './generated/moonbeamAppsSVG.js';
 export { externalPolkaholicPNG } from './generated/polkaholicPNG.js';
 export { externalPolkascanPNG } from './generated/polkascanPNG.js';
 export { externalPolkassemblyPNG } from './generated/polkassemblyPNG.js';
