@@ -116,19 +116,6 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://bit.country/?ref=polkadotjs',
-    info: 'bitcountryPioneer',
-    paraId: 2096,
-    providers: {
-      OnFinality: 'wss://pioneer.api.onfinality.io/public-ws'
-    },
-    text: 'Bit.Country Pioneer',
-    ui: {
-      color: '#000000',
-      logo: nodesBitcountryPNG
-    }
-  },
-  {
     homepage: 'https://www.calamari.network/',
     info: 'calamari',
     paraId: 2084,
@@ -548,6 +535,19 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#ed007e',
       logo: nodesPichiuPNG
+    }
+  },
+  {
+    homepage: 'https://pioneer.bit.country/?ref=polkadotjs',
+    info: 'pioneer',
+    paraId: 2096,
+    providers: {
+      OnFinality: 'wss://pioneer.api.onfinality.io/public-ws'
+    },
+    text: 'Pioneer',
+    ui: {
+      color: '#000000',
+      logo: nodesBitcountryPNG
     }
   },
   {
