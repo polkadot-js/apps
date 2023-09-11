@@ -310,6 +310,17 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    info: 'matrixchain',
+    providers: {
+      Enjin: 'wss://rpc.matrix.blockchain.enjin.io'
+    },
+    text: 'Enjin Matrixchain',
+    ui: {
+      color: '#7866d5',
+      logo: nodesEnjinSVG
+    }
+  },
+  {
     info: 'mathchain',
     providers: {
       //  MathWallet: 'wss://mathchain-asia.maiziqianbao.net/ws', // https://github.com/polkadot-js/apps/issues/8525
@@ -319,17 +330,6 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#000000',
       logo: nodesMathSVG
-    }
-  },
-  {
-    info: 'matrixchain',
-    providers: {
-      Enjin: 'wss://rpc.matrix.blockchain.enjin.io'
-    },
-    text: 'Enjin Matrixchain',
-    ui: {
-      color: '#7866d5',
-      logo: nodesEnjinSVG
     }
   },
   {
