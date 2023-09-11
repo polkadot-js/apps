@@ -72,9 +72,9 @@ jobs:
           path: "aleph-apps"
 
       - name: Init kustomize
-        uses: imranismail/setup-kustomize@v1
+        uses: imranismail/setup-kustomize@v2
         with:
-          kustomize-version: "3.8.6"
+          kustomize-version: ${{ vars.KUSTOMIZE_VERSION }}
 
       - name: Update aleph-wallet devnet kustomize file and trigger ArgoCD deploy
         env:

@@ -66,9 +66,9 @@ jobs:
           path: "aleph-apps"
 
       - name: Init kustomize
-        uses: imranismail/setup-kustomize@v1
+        uses: imranismail/setup-kustomize@v2
         with:
-          kustomize-version: "3.8.6"
+          kustomize-version: ${{ vars.KUSTOMIZE_VERSION }}
           
       - name: Update aleph-wallet image for testnet deployment from ArgoCD
         env:                                                                                                          
@@ -82,6 +82,7 @@ jobs:
             cd ${wallet_path}/aleph-apps/aleph-wallet/overlays/testnet/${i}
             kustomize edit set image "aleph-wallet-image-placeholder=${{ env.TESTNET_IMAGE }}"
           done
+
       - name: GIT | Commit changes to aleph-apps repository.
         uses: EndBug/add-and-commit@v5.1.0
         with:
