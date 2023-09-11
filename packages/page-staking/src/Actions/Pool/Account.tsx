@@ -19,10 +19,7 @@ import Nominate from '../Account/Nominate.js';
 import useSlashingSpans from '../useSlashingSpans.js';
 import BondExtra from './BondExtra.js';
 import Unbond from './Unbond.js';
-import useAccountInfoManualRewards from './useAccountInfoManualRewards.js';
-
-// TODO use pendingRewards API with Substrate >= 9.29
-// import useAccountInfo from './useAccountInfo';
+import useAccountInfo from './useAccountInfo.js';
 
 interface Props {
   accountId: string;
@@ -74,9 +71,7 @@ function Pool ({ accountId, className, info: { bonded: { roles }, metadata, nomi
   const [isNominateOpen, toggleNominate] = useToggle();
   const [isUnbondOpen, toggleUnbond] = useToggle();
 
-  // TODO use pendingRewards API with Substrate >= 9.29
-  // const accInfo = useAccountInfo(accountId);
-  const accInfo = useAccountInfoManualRewards(accountId, poolId);
+  const accInfo = useAccountInfo(accountId);
 
   const stakingInfo = useMemo(
     () => sessionProgress && accInfo && accInfo.member.unbondingEras && !accInfo.member.unbondingEras.isEmpty
