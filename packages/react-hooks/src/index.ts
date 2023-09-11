@@ -9,7 +9,6 @@ export { useAccountInfo } from './useAccountInfo.js';
 export { useAccounts } from './useAccounts.js';
 export { useAddresses } from './useAddresses.js';
 export { useAddressToDomain, systemNameToChainId } from './useAddressToDomain.js';
-export { useAlephBFTCommittee } from './useAlephBFTCommittee.js';
 export { useApi } from './useApi.js';
 export { useApiStats } from './useApiStats.js';
 export { useApiUrl } from './useApiUrl.js';

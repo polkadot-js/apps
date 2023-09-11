@@ -6,15 +6,15 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { DeriveEraExposure } from '@polkadot/api-derive/types';
 import getCommitteeManagement from '@polkadot/react-api/getCommitteeManagement';
 import { styled } from '@polkadot/react-components';
-import { useAlephBFTCommittee, useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { StorageKey } from '@polkadot/types';
 import { AnyTuple, Codec } from '@polkadot/types/types';
 
 import ActionsBanner from './ActionsBanner.js';
-import AlephBFTCommitteeList from './AlephBFTCommitteeList.js';
 import BlockProductionCommitteeList from './BlockProductionCommitteeList.js';
 import Summary from './Summary.js';
 import { parseSessionBlockCount, ValidatorPerformance } from './useCommitteePerformance.js';
+import { useFinalityCommittee } from './useFinalityCommittee.js';
 
 interface Props {
   session: number,
@@ -33,7 +33,7 @@ function Performance ({ era, session }: Props): React.ReactElement<Props> {
   const [expectedBlockCountInSessions, setExpectedBlockCountInSessions] = useState<number | undefined>(undefined);
   const sessionValidators = useCall<Codec[]>(api.query.session.validators);
 
-  const finalizingCommitteeAddresses = useAlephBFTCommittee(session);
+  const finalityCommitteeAddresses = useFinalityCommittee(session);
 
   const sessionValidatorsStrings = useMemo(() => {
     return sessionValidators?.map((validator) => validator.toString());
@@ -105,16 +105,14 @@ function Performance ({ era, session }: Props): React.ReactElement<Props> {
         era={era}
         eraValidatorPerformances={eraValidatorPerformances}
         expectedBlockCount={expectedBlockCountInSessions}
-        finalizingCommitteeSize={finalizingCommitteeAddresses?.length}
+        finalizingCommitteeSize={finalityCommitteeAddresses?.length}
         session={session}
       />
       <ActionsBanner />
       <StyledBlockProductionCommitteeList
         eraValidatorPerformances={eraValidatorPerformances}
         expectedBlockCount={expectedBlockCountInSessions}
-        onlyCommittee={false}
       />
-      <AlephBFTCommitteeList committeeAddresses={finalizingCommitteeAddresses} />
     </div>
   );
 }
