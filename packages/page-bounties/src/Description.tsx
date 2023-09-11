@@ -11,7 +11,7 @@ interface Props {
   description: string;
 }
 
-function Description ({ className = '', dataTestId = '', description }: Props): JSX.Element {
+function Description ({ className = '', dataTestId = '', description }: Props): React.JSX.Element {
   return (
     <StyledDiv
       className={className}

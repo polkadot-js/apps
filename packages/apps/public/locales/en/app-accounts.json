@@ -311,6 +311,7 @@
   "send": "send",
   "send from account": "send from account",
   "send to address": "send to address",
+  "send to address or domain": "send to address or domain",
   "signatories": "signatories",
   "signatory": "signatory",
   "somebody@example.com": "somebody@example.com",

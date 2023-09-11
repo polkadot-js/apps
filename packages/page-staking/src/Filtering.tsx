@@ -43,7 +43,7 @@ function Filtering ({ children, className, nameFilter, setNameFilter, setWithIde
       <Input
         autoFocus
         isFull
-        label={t<string>('filter by name, address or index')}
+        label={t<string>('filter by name, address, index or domain')}
         onChange={_setNameFilter}
         value={nameFilter}
       />

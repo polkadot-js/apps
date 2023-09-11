@@ -16,6 +16,7 @@
   "version": "0.127.2-2-x",
   "main": "index.js",
   "dependencies": {
+    "@azns/resolver-core": "^1.4.0",
     "@polkadot/api": "^10.3.4",
     "@polkadot/api-derive": "^10.3.4",
     "@polkadot/networks": "^11.1.3",

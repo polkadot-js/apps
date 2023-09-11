@@ -12,7 +12,7 @@ import React, { useMemo } from 'react';
 import { ApiPromise } from '@polkadot/api';
 import { AddressSmall, Columar, Icon, LinkExternal, Table } from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
-import { useApi, useCall, useDeriveAccountInfo, useToggle } from '@polkadot/react-hooks';
+import { useAddressToDomain, useApi, useCall, useDeriveAccountInfo, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
@@ -84,6 +84,7 @@ function Address ({ address, className = '', filterName, hasQueries, isFavorite,
   const { api } = useApi();
   const [isExpanded, toggleIsExpanded] = useToggle(false);
   const { accountInfo, slashingSpans } = useAddressCalls(api, address);
+  const { primaryDomain: domain } = useAddressToDomain(address);
 
   const { commission, nominators, stakeOther, stakeOwn } = useMemo(
     () => validatorInfo
@@ -93,8 +94,8 @@ function Address ({ address, className = '', filterName, hasQueries, isFavorite,
   );
 
   const isVisible = useMemo(
-    () => accountInfo ? checkVisibility(api, address, accountInfo, filterName, withIdentity) : true,
-    [api, accountInfo, address, filterName, withIdentity]
+    () => accountInfo ? checkVisibility(api, address, { ...accountInfo, domain }, filterName, withIdentity) : true,
+    [api, accountInfo, address, domain, filterName, withIdentity]
   );
 
   const statsLink = useMemo(

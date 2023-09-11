@@ -19,7 +19,7 @@ interface Props {
   status: BountyStatus;
 }
 
-function BountyInfos ({ beneficiary, proposals, status }: Props): JSX.Element {
+function BountyInfos ({ beneficiary, proposals, status }: Props): React.JSX.Element {
   const { t } = useTranslation();
 
   const proposalToDisplay = useMemo(() => proposals && getProposalToDisplay(proposals, status), [proposals, status]);

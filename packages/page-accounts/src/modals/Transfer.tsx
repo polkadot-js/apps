@@ -120,7 +120,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
             <InputAddress
               defaultValue={propRecipientId}
               isDisabled={!!propRecipientId}
-              label={t<string>('send to address')}
+              label={t<string>('send to address or domain')}
               labelExtra={
                 <Available
                   label={t<string>('transferrable')}

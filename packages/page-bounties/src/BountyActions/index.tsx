@@ -24,7 +24,7 @@ interface Props {
   value: Balance;
 }
 
-export function BountyActions ({ bestNumber, description, fee, index, proposals, status, value }: Props): JSX.Element {
+export function BountyActions ({ bestNumber, description, fee, index, proposals, status, value }: Props): React.JSX.Element {
   const { beneficiary, curator, unlockAt } = useBountyStatus(status);
   const blocksUntilPayout = useMemo(() => unlockAt?.sub(bestNumber), [bestNumber, unlockAt]);
 

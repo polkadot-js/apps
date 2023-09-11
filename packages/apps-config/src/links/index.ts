@@ -3,8 +3,12 @@
 
 import type { ExternalDef } from './types.js';
 
+import { AzeroId, TzeroId } from './azeroId.js';
 import { Subscan } from './subscan.js';
 
 export const externalLinks: Record<string, ExternalDef> = {
+  'AZERO.ID': AzeroId,
+  'TZERO.ID': TzeroId,
+  // eslint-disable-next-line sort-keys
   Subscan
 };

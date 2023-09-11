@@ -72,7 +72,7 @@ function AddressMini ({ balance, bonded, children, className = '', iconInfo, isH
                   {nameExtra}
                 </AccountName>
               )
-              : <span className='shortAddress'>{value}</span>
+              : <span className='shortAddress'>{value.toString()}</span>
             }
           </span>
         )}

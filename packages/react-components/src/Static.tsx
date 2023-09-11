@@ -33,11 +33,11 @@ function Static ({ children, className = '', copyValue, defaultValue, isFull, is
       withLabel={withLabel}
     >
       <div className='ui--Static ui dropdown selection disabled'>
-        {value || defaultValue}
+        {(value || defaultValue)?.toString()}
         {children}
       </div>
       {withCopy && (
-        <CopyButton value={copyValue || value || defaultValue} />
+        <CopyButton value={(copyValue || value || defaultValue)?.toString()} />
       )}
     </Labelled>
   );

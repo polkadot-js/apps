@@ -8,6 +8,7 @@ import React, { useCallback } from 'react';
 import { useToggle } from '@polkadot/react-hooks';
 
 import EditButton from './EditButton.js';
+import { AzeroId } from './index.js';
 import Input from './Input.js';
 import { styled } from './styled.js';
 import Tags from './Tags.js';
@@ -21,6 +22,7 @@ export interface RowProps {
   details?: React.ReactNode;
   icon?: React.ReactNode;
   iconInfo?: React.ReactNode;
+  isAzeroIdShown?: boolean;
   isDisabled?: boolean;
   isInline?: boolean;
   isEditableName?: boolean;
@@ -34,7 +36,7 @@ export interface RowProps {
   tags?: string[];
 }
 
-function Row ({ address, buttons, children, className = '', defaultName, details, icon, iconInfo, isDisabled, isEditableName, isEditableTags, isInline, isShortAddr = true, name, onChangeName, onChangeTags, onSaveName, onSaveTags, tags }: RowProps): React.ReactElement<RowProps> {
+function Row ({ address, buttons, children, className = '', defaultName, details, icon, iconInfo, isAzeroIdShown = false, isDisabled, isEditableName, isEditableTags, isInline, isShortAddr = true, name, onChangeName, onChangeTags, onSaveName, onSaveTags, tags }: RowProps): React.ReactElement<RowProps> {
   const [isEditingName, toggleIsEditingName] = useToggle();
   const [isEditingTags, toggleIsEditingTags] = useToggle();
 
@@ -86,8 +88,14 @@ function Row ({ address, buttons, children, className = '', defaultName, details
           )}
           {address && (
             <div className={`ui--Row-address ${isShortAddr ? 'shortAddr' : ''}`}>
-              {address}
+              {address.toString()}
             </div>
+          )}
+          {isAzeroIdShown && (
+            <AzeroId
+              address={address?.toString()}
+              isRegisterLinkShown={false}
+            />
           )}
           {details}
           {tags && (
@@ -187,7 +195,7 @@ const StyledDiv = styled.div`
   .ui--Row-address,
   .ui--Row-accountIndex {
     padding: 0;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
 
     &.shortAddr {
       min-width: var(--width-shortaddr);

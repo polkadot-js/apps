@@ -185,6 +185,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
         />
         <td className='address all'>
           <AddressSmall
+            isAzeroIdShown
             value={address}
             withShortAddress
           />

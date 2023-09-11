@@ -30,6 +30,9 @@ export const Subscan: ExternalDef = {
     validator: 'validator'
   },
   ui: {
-    logo: externalSubscanPNG
+    logo: {
+      dark: externalSubscanPNG,
+      light: externalSubscanPNG
+    }
   }
 };

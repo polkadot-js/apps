@@ -6,7 +6,7 @@ import type { AddressFlags } from '@polkadot/react-hooks/types';
 import React from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
-import { AccountName, Button, IdentityIcon, Input } from '@polkadot/react-components';
+import { AccountName, AzeroId, Button, IdentityIcon, Input } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
@@ -59,6 +59,10 @@ function AddressSection ({ accountIndex, defaultValue, editingName, flags, onCha
             <label>{t<string>('index')}:</label> {accountIndex}
           </div>
         )}
+        <AzeroId
+          address={value}
+          isRegisterLinkShown={flags.isEditable}
+        />
       </div>
       <div className='ui--AddressSection__CopyColumn'>
         <div className='ui--AddressMenu-copyaddr'>

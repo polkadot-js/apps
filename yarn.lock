@@ -19,6 +19,34 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@azns/resolver-core@npm:1.4.0, @azns/resolver-core@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "@azns/resolver-core@npm:1.4.0"
+  peerDependencies:
+    "@polkadot/api": ">=10"
+    "@polkadot/api-contract": ">=10"
+    "@polkadot/types": ">=10"
+    "@polkadot/util": ">=11.1.3"
+    "@polkadot/util-crypto": ">=11.1.3"
+    bufferutil: ">=4.0.1"
+    loglevel: ">=1.8"
+    utf-8-validate: ">=6"
+  checksum: 45e1a43e5258c48c96c5c34a13e7ff58986f78e3d3d1659a2bae97b40232d3c548507dfd1cddcab4135ccedea563c3e0a421aaa9199a2d85c142ffb56cffad1c
+  languageName: node
+  linkType: hard
+
+"@azns/resolver-react@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "@azns/resolver-react@npm:1.5.0"
+  dependencies:
+    "@azns/resolver-core": 1.4.0
+  peerDependencies:
+    react: ">=18"
+    react-dom: ">=18"
+  checksum: 8faa0a038b1a525b7d9ac49a6e638456ef61b7c2dff5502d650e42ed85524331939eaf546a19fb2f8862aff7476bbd6e971e97b028f776803cfba473e88f836c
+  languageName: node
+  linkType: hard
+
 "@babel/code-frame@npm:^7.0.0, @babel/code-frame@npm:^7.10.4, @babel/code-frame@npm:^7.12.13, @babel/code-frame@npm:^7.18.6":
   version: 7.18.6
   resolution: "@babel/code-frame@npm:7.18.6"
@@ -1500,6 +1528,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/apps-config@workspace:packages/apps-config"
   dependencies:
+    "@azns/resolver-core": ^1.4.0
     "@polkadot/api": ^10.3.4
     "@polkadot/api-derive": ^10.3.4
     "@polkadot/networks": ^11.1.3
@@ -3133,14 +3162,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*":
-  version: 17.0.44
-  resolution: "@types/react@npm:17.0.44"
+"@types/react@npm:^18.2.21":
+  version: 18.2.21
+  resolution: "@types/react@npm:18.2.21"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: ebee02778ca08f954c316dc907802264e0121c87b8fa2e7e0156ab0ef2a1b0a09d968c016a3600ec4c9a17dc09b4274f292d9b15a1a5369bb7e4072def82808f
+  checksum: ffed203bfe7aad772b8286f7953305c9181ac3a8f27d3f5400fbbc2a8e27ca8e5bbff818ee014f39ca0d19d2b3bb154e5bdbec7e232c6f80b59069375aa78349
   languageName: node
   linkType: hard
 
@@ -4473,6 +4502,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "azero.dev@workspace:."
   dependencies:
+    "@azns/resolver-core": ^1.4.0
+    "@azns/resolver-react": ^1.5.0
     "@crustio/crust-pin": ^1.0.0
     "@pinata/sdk": ^1.2.1
     "@polkadot/dev": ^0.72.43
@@ -4492,6 +4523,7 @@ __metadata:
     electron-builder: 23.6.0
     electron-builder-notarize: ^1.5.1
     i18next-scanner: ^4.2.0
+    loglevel: ^1.8.1
     react: ^18.2.0
     react-dom: ^18.2.0
     react-is: ^18.2.0
@@ -11293,6 +11325,13 @@ fsevents@~2.3.2:
     chalk: ^4.1.0
     is-unicode-supported: ^0.1.0
   checksum: fce1497b3135a0198803f9f07464165e9eb83ed02ceb2273930a6f8a508951178d8cf4f0378e9d28300a2ed2bc49050995d2bd5f53ab716bb15ac84d58c6ef74
+  languageName: node
+  linkType: hard
+
+"loglevel@npm:^1.8.1":
+  version: 1.8.1
+  resolution: "loglevel@npm:1.8.1"
+  checksum: a1a62db40291aaeaef2f612334c49e531bff71cc1d01a2acab689ab80d59e092f852ab164a5aedc1a752fdc46b7b162cb097d8a9eb2cf0b299511106c29af61d
   languageName: node
   linkType: hard
 

@@ -32,7 +32,7 @@ function Multisig ({ isMultisig, meta }: Props): React.ReactElement<Props> | nul
         <div className='tr'>
           <div className='th'>{t<string>('threshold')}</div>
           <div className='td'>
-            {threshold}/{(who as string[]).length}
+            {threshold?.toString()}/{(who as string[]).length}
           </div>
         </div>
         <div className='tr'>

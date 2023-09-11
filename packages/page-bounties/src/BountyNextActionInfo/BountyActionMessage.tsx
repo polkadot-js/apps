@@ -20,7 +20,7 @@ interface Props {
 export const BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING = 10;
 const BLOCKS_LEFT_TO_SHOW_WARNING = new BN('10000');
 
-function BountyActionMessage ({ bestNumber, blocksUntilUpdate, status }: Props): JSX.Element {
+function BountyActionMessage ({ bestNumber, blocksUntilUpdate, status }: Props): React.JSX.Element {
   const { t } = useTranslation();
   const { unlockAt } = useBountyStatus(status);
   const { bountyUpdatePeriod } = useBounties();

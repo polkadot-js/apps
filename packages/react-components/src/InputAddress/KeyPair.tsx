@@ -4,18 +4,20 @@
 import React from 'react';
 
 import AccountName from '../AccountName.js';
+import { AzeroIdDomain } from '../AzeroId/index.js';
 import IdentityIcon from '../IdentityIcon/index.js';
 import { styled } from '../styled.js';
 
 interface Props {
   address: string;
   className?: string;
+  domain?: string | null;
   isUppercase: boolean;
   name: string;
   style?: Record<string, string>;
 }
 
-function KeyPair ({ address, className = '' }: Props): React.ReactElement<Props> {
+function KeyPair ({ address, className = '', domain }: Props): React.ReactElement<Props> {
   return (
     <StyledDiv className={`${className} ui--KeyPair`}>
       <IdentityIcon
@@ -25,6 +27,7 @@ function KeyPair ({ address, className = '' }: Props): React.ReactElement<Props>
       <div className='name'>
         <AccountName value={address} />
       </div>
+      {domain && <StyledAzeroIdDomain domain={domain} />}
       <div className='address'>
         {address}
       </div>
@@ -69,6 +72,11 @@ const StyledDiv = styled.div`
       text-transform: uppercase;
     }
   }
+`;
+
+const StyledAzeroIdDomain = styled(AzeroIdDomain)`
+  opacity: var(--opacity-light);
+  font-size: var(--font-size-small);
 `;
 
 export default React.memo(KeyPair);

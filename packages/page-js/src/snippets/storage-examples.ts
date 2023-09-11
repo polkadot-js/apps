@@ -7,7 +7,7 @@ const label = {
   children: 'Storage',
   color: 'blue',
   size: 'tiny'
-};
+} as const;
 
 export const storageGetInfo: Snippet = {
   code: `// Get chain state information

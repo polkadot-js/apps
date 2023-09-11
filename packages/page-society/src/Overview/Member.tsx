@@ -21,7 +21,7 @@ interface Props {
   value: MapMember;
 }
 
-function renderJSXPayouts (bestNumber: BN, payouts: [BlockNumber, Balance][]): JSX.Element[] {
+function renderJSXPayouts (bestNumber: BN, payouts: [BlockNumber, Balance][]): React.JSX.Element[] {
   return payouts.map(([bn, value], index) => (
     <div
       className='payout'

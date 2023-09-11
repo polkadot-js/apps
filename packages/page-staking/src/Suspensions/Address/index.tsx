@@ -6,7 +6,7 @@ import React, { useCallback, useMemo } from 'react';
 import { ApiPromise } from '@polkadot/api';
 import { AddressSmall, Icon } from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
-import { useApi, useDeriveAccountInfo } from '@polkadot/react-hooks';
+import { useAddressToDomain, useApi, useDeriveAccountInfo } from '@polkadot/react-hooks';
 
 interface Props {
   address: string;
@@ -29,6 +29,7 @@ function queryAddress (address: string) {
 function Address ({ address, era, filterName, suspensionLiftsInEra, suspensionReason }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const { accountInfo } = useAddressCalls(api, address);
+  const { primaryDomain: domain } = useAddressToDomain(address);
 
   const onQueryStats = useCallback(
     () => queryAddress(address),
@@ -36,8 +37,8 @@ function Address ({ address, era, filterName, suspensionLiftsInEra, suspensionRe
   );
 
   const isVisible = useMemo(
-    () => accountInfo ? checkVisibility(api, address, accountInfo, filterName) : true,
-    [api, accountInfo, address, filterName]
+    () => accountInfo ? checkVisibility(api, address, { ...accountInfo, domain }, filterName) : true,
+    [api, accountInfo, address, domain, filterName]
   );
 
   if (!isVisible) {

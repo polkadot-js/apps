@@ -1,18 +1,19 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { LinkTypes } from '@polkadot/apps-config/links/types';
 import type { BN } from '@polkadot/util';
 
-import React, { useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { externalLinks } from '@polkadot/apps-config';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useTheme } from '@polkadot/react-hooks';
 
 import { styled } from './styled.js';
 import { useTranslation } from './translate.js';
 
-interface Props {
+type Props = {
   className?: string;
   data: BN | number | string;
   hash?: string;
@@ -21,12 +22,24 @@ interface Props {
   isSmall?: boolean;
   type: LinkTypes;
   withTitle?: boolean;
+};
+
+type GetLinksOptions = {
+  api: ApiPromise;
+  data: BN | number | string;
+  hash?: string;
+  isText?: boolean;
+  themeType: 'dark' | 'light';
+  type: LinkTypes;
 }
 
-function genLinks (systemChain: string, { data, hash, isText, type }: Props): React.ReactNode[] {
-  return Object
+async function genLinks (
+  systemChain: string,
+  { api, data, hash, isText, themeType, type }: GetLinksOptions
+): Promise<React.ReactElement[]> {
+  const linksPromises = Object
     .entries(externalLinks)
-    .map(([name, { chains, create, homepage, isActive, paths, ui }]): React.ReactNode | null => {
+    .map(async ([name, { chains, create, homepage, isActive, paths, ui }]): Promise<React.ReactElement | null> => {
       const extChain = chains[systemChain];
       const extPath = paths[type];
 
@@ -34,9 +47,15 @@ function genLinks (systemChain: string, { data, hash, isText, type }: Props): Re
         return null;
       }
 
+      const href = await create(extChain, extPath, data, hash, api);
+
+      if (!href) {
+        return null;
+      }
+
       return (
         <a
-          href={create(extChain, extPath, data, hash)}
+          href={href}
           key={name}
           rel='noopener noreferrer'
           target='_blank'
@@ -44,24 +63,34 @@ function genLinks (systemChain: string, { data, hash, isText, type }: Props): Re
         >
           {isText
             ? name
-            : <img src={ui.logo} />
+            : <img src={ui.logo[themeType]} />
           }
         </a>
       );
-    })
-    .filter((node): node is React.ReactNode => !!node);
+    });
+
+  try {
+    const linksOrNulls = await Promise.all(linksPromises);
+
+    return linksOrNulls.filter((node): node is React.ReactElement => !!node);
+  } catch {
+    return [];
+  }
 }
 
 function LinkExternal ({ className = '', data, hash, isSidebar, isSmall, isText, type, withTitle }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { systemChain } = useApi();
+  const theme = useTheme();
+  const { api, systemChain } = useApi();
+  const [links, setLinks] = useState<React.ReactElement[]>();
 
-  const links = useMemo(
-    () => genLinks(systemChain, { data, hash, isSidebar, isText, type }),
-    [systemChain, data, hash, isSidebar, isText, type]
-  );
+  useEffect(() => {
+    genLinks(systemChain, { api, data, hash, isText, themeType: theme.theme, type })
+      .then(setLinks)
+      .catch(console.error);
+  }, [api, systemChain, data, hash, isText, theme.theme, type]);
 
-  if (!links.length && !withTitle) {
+  if (!links?.length && !withTitle) {
     return null;
   }
 
@@ -72,7 +101,7 @@ function LinkExternal ({ className = '', data, hash, isSidebar, isSmall, isText,
         <h5>{t('external links')}</h5>
       )}
       <div className='links'>
-        {links.length
+        {links?.length
           ? links.map((link, index) => <span key={index}>{link}</span>)
           : <div>{t<string>('none')}</div>
         }

@@ -149,6 +149,7 @@ const StyledSidebar = styled(Sidebar)`
   .ui--AddressMenu-index {
     display: flex;
     flex-direction: row;
+    margin-bottom: 0.571rem;
 
     label {
       font-size: var(--font-size-small);

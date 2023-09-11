@@ -5,22 +5,20 @@ import type { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { ModalProps as Props } from '../types.js';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 
 import { AddressRow, Button, Input, InputAddress, Modal } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
-import { hexToU8a } from '@polkadot/util';
-import { ethereumEncode } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate.js';
+import { getAddressFromDomain, getValidatedAddress } from '../util.js';
 
 interface AddrState {
   address: string;
   addressInput: string;
   isAddressExisting: boolean;
   isAddressValid: boolean;
-  isPublicKey: boolean;
 }
 
 interface NameState {
@@ -30,51 +28,49 @@ interface NameState {
 
 function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api, isEthereum } = useApi();
+  const { api, isEthereum, systemChain } = useApi();
   const [{ isNameValid, name }, setName] = useState<NameState>({ isNameValid: false, name: '' });
-  const [{ address, addressInput, isAddressExisting, isAddressValid }, setAddress] = useState<AddrState>({ address: '', addressInput: '', isAddressExisting: false, isAddressValid: false, isPublicKey: false });
+  const [{ address, addressInput, isAddressExisting, isAddressValid }, setAddress] = useState<AddrState>({ address: '', addressInput: '', isAddressExisting: false, isAddressValid: false });
+  const latestAddressInput = useRef(address);
   const info = useCall<DeriveAccountInfo>(!!address && isAddressValid && api.derive.accounts.info, [address]);
   const isValid = (isAddressValid && isNameValid) && !!info?.accountId;
 
-  const _onChangeAddress = useCallback(
-    (addressInput: string): void => {
-      let address = '';
-      let isAddressValid = true;
+  const _onChangeAddressAsync = useCallback(
+    async (input: string): Promise<void> => {
+      latestAddressInput.current = input;
+
+      let address: string | null | undefined = getValidatedAddress(input, isEthereum);
       let isAddressExisting = false;
-      let isPublicKey = false;
 
-      try {
-        if (isEthereum) {
-          const rawAddress = hexToU8a(addressInput);
-
-          address = ethereumEncode(rawAddress);
-          isPublicKey = rawAddress.length === 20;
-        } else {
-          const publicKey = keyring.decodeAddress(addressInput);
-
-          address = keyring.encodeAddress(publicKey);
-          isPublicKey = publicKey.length === 32;
-        }
-
-        if (!isAddressValid) {
-          const old = keyring.getAddress(address);
-
-          if (old) {
-            const newName = old.meta.name || name;
-
-            isAddressExisting = true;
-            isAddressValid = true;
-
-            setName({ isNameValid: !!(newName || '').trim(), name: newName });
-          }
-        }
-      } catch {
-        isAddressValid = false;
+      if (!address) {
+        address = await getAddressFromDomain(input, { api, systemChain });
       }
 
-      setAddress({ address: isAddressValid ? address : '', addressInput, isAddressExisting, isAddressValid, isPublicKey });
+      if (address) {
+        const old = keyring.getAddress(address);
+
+        if (old) {
+          const newName = old.meta.name || name;
+
+          isAddressExisting = true;
+
+          setName({ isNameValid: !!(newName || '').trim(), name: newName });
+        }
+      }
+
+      if (latestAddressInput.current === input) {
+        // Prevent possible race condition -- only the latest input can change state.
+        setAddress({ address: address || '', addressInput: input, isAddressExisting, isAddressValid: !!address });
+      }
     },
-    [isEthereum, name]
+    [isEthereum, name, api, systemChain]
+  );
+
+  const _onChangeAddress = useCallback(
+    (input: string) => {
+      _onChangeAddressAsync(input).catch(console.error);
+    },
+    [_onChangeAddressAsync]
   );
 
   const _onChangeName = useCallback(
@@ -121,6 +117,7 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
       <Modal.Content>
         <AddressRow
           defaultName={name}
+          isAzeroIdShown
           noDefaultNameOpacity
           value={
             isAddressValid
@@ -132,7 +129,7 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
             autoFocus
             className='full'
             isError={!isAddressValid}
-            label={t<string>('address')}
+            label={t<string>('address or domain')}
             onChange={_onChangeAddress}
             onEnter={_onCommit}
             placeholder={t<string>('new address')}

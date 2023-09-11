@@ -2,13 +2,17 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DropdownItemProps } from 'semantic-ui-react';
+import type { ApiPromise } from '@polkadot/api';
 import type { KeyringOption$Type, KeyringOptions, KeyringSectionOption, KeyringSectionOptions } from '@polkadot/ui-keyring/options/types';
 import type { Option } from './types.js';
 
-import React from 'react';
+import { resolveDomainToAddress } from '@azns/resolver-core';
+import React, { GetDerivedStateFromProps } from 'react';
 import store from 'store';
 
+import { ApiCtx } from '@polkadot/react-api';
 import { withMulti, withObservable } from '@polkadot/react-api/hoc';
+import { systemNameToChainId } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { createOptionItem } from '@polkadot/ui-keyring/options/item';
 import { isNull, isUndefined } from '@polkadot/util';
@@ -20,8 +24,10 @@ import { styled } from '../styled.js';
 import { getAddressName, toAddress } from '../util/index.js';
 import createHeader from './createHeader.js';
 import createItem from './createItem.js';
+import wrapWithAddressResolver from './wrapWithAddressResolver.js';
 
-interface Props {
+type Props = {
+  addressToDomain: Record<string, string | undefined | null>;
   className?: string;
   defaultValue?: Uint8Array | string | null;
   filter?: string[] | null;
@@ -35,16 +41,16 @@ interface Props {
   onChange?: (value: string | null) => void;
   onChangeMulti?: (value: string[]) => void;
   options?: KeyringSectionOption[] | null;
-  optionsAll?: Record<string, Option[]>;
+  optionsAll?: KeyringOptions;
   placeholder?: string;
   type?: KeyringOption$Type;
   value?: string | Uint8Array | string[] | null;
   withEllipsis?: boolean;
   withExclude?: boolean;
   withLabel?: boolean;
-}
+};
 
-type ExportedType = React.ComponentType<Props> & {
+type ExportedType = React.ComponentType<Omit<Props, 'addressToDomain'>> & {
   createOption: (option: KeyringSectionOption, isUppercase?: boolean) => Option | null;
   setLastValue: (type: KeyringOption$Type, value: string) => void;
 };
@@ -52,6 +58,10 @@ type ExportedType = React.ComponentType<Props> & {
 interface State {
   lastValue?: string;
   value?: string | string[];
+  // Required, because apart from primary domain resolved by HOC,
+  // addresses have also non-primary domain which we can't query.
+  // This array allows to keep resolved pairs for search to work.
+  addressToDomains: Record<string, string[] | undefined>;
 }
 
 const STORAGE_KEY = 'options:InputAddress';
@@ -80,7 +90,29 @@ function transformToAccountId (value: string): string | null {
     : accountId;
 }
 
-function createOption (address: string): Option | null {
+async function transformOrResolveToAccountId (addressOrDomain: string, { api, systemChain }: {api: ApiPromise, systemChain: string}): Promise<string | null> {
+  const accountId = transformToAccountId(addressOrDomain);
+
+  if (accountId) {
+    return accountId;
+  }
+
+  const chainId = systemNameToChainId.get(systemChain);
+
+  if (!chainId) {
+    return null;
+  }
+
+  try {
+    const { address } = await resolveDomainToAddress(addressOrDomain, { chainId, customApi: api });
+
+    return address ? transformToAccountId(address) : null;
+  } catch {
+    return null;
+  }
+}
+
+function createOption (address: string, domain: string | null | undefined): Option | null {
   let isRecent: boolean | undefined;
   const pair = keyring.getAccount(address);
   let name: string | undefined;
@@ -98,7 +130,7 @@ function createOption (address: string): Option | null {
     }
   }
 
-  return createItem(createOptionItem(address, name), !isRecent);
+  return createItem({ ...createOptionItem(address, name), domain }, !isRecent);
 }
 
 function readOptions (): Record<string, Record<string, string>> {
@@ -134,23 +166,33 @@ function dedupe (options: Option[]): Option[] {
 }
 
 class InputAddress extends React.PureComponent<Props, State> {
-  public override state: State = {};
+  static override contextType = ApiCtx;
+  override context!: React.ContextType<typeof ApiCtx>;
 
-  public static getDerivedStateFromProps ({ type, value }: Props, { lastValue }: State): Pick<State, never> | null {
+  public override state: State = {
+    addressToDomains: {}
+  };
+
+  public static getDerivedStateFromProps: GetDerivedStateFromProps<Props, State> = ({ type, value }, { addressToDomains, lastValue }) => {
     try {
       return {
+        addressToDomains,
         lastValue: lastValue || getLastValue(type),
         value: Array.isArray(value)
-          ? value.map((v) => toAddress(v))
+          ? value.flatMap((v) => {
+            const result = toAddress(v);
+
+            return result ? [result] : [];
+          })
           : (toAddress(value) || undefined)
       };
     } catch {
       return null;
     }
-  }
+  };
 
   public override render (): React.ReactNode {
-    const { className = '', defaultValue, hideAddress = false, isDisabled = false, isError, isMultiple, label, labelExtra, options, optionsAll, placeholder, type = DEFAULT_TYPE, withEllipsis, withLabel } = this.props;
+    const { addressToDomain, className = '', defaultValue, hideAddress = false, isDisabled = false, isError, isMultiple, label, labelExtra, options, optionsAll, placeholder, type = DEFAULT_TYPE, withEllipsis, withLabel } = this.props;
     const hasOptions = (options && options.length !== 0) || (optionsAll && Object.keys(optionsAll[type]).length !== 0);
 
     // the options could be delayed, don't render without
@@ -162,7 +204,7 @@ class InputAddress extends React.PureComponent<Props, State> {
           className={className}
           label={label}
         >
-          No accounts are available for selection.
+              No accounts are available for selection.
         </Static>
       );
     }
@@ -179,14 +221,16 @@ class InputAddress extends React.PureComponent<Props, State> {
     const actualOptions: Option[] = options
       ? dedupe(
         options
-          .map((o) => createItem(o))
+          .map((o) => createItem({ ...o, domain: addressToDomain[o.value || ''] }))
           .filter((o): o is Option => !!o)
       )
       : isDisabled && actualValue
-        ? [createOption(actualValue)].filter((o): o is Option => !!o)
+        ? [createOption(actualValue, addressToDomain[actualValue])].filter((o): o is Option => !!o)
         : actualValue
           ? this.addActual(actualValue)
           : this.getFiltered();
+    const preparedActualOptions = actualOptions.map(({ value, ...rest }) => ({ ...rest, value: value ?? undefined }));
+
     const _defaultValue = (isMultiple || !isUndefined(value))
       ? undefined
       : actualValue;
@@ -206,7 +250,7 @@ class InputAddress extends React.PureComponent<Props, State> {
             : this.onChange
         }
         onSearch={this.onSearch}
-        options={actualOptions}
+        options={preparedActualOptions}
         placeholder={placeholder}
         renderLabel={
           isMultiple
@@ -229,7 +273,7 @@ class InputAddress extends React.PureComponent<Props, State> {
 
     return this.hasValue(actualValue)
       ? base
-      : base.concat(...[createOption(actualValue)].filter((o): o is Option => !!o));
+      : base.concat(...[createOption(actualValue, this.props.addressToDomain[actualValue])].filter((o): o is Option => !!o));
   }
 
   private renderLabel = ({ value }: KeyringSectionOption): React.ReactNode => {
@@ -255,11 +299,20 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 
   private getFiltered (): Option[] {
-    const { filter, optionsAll, type = DEFAULT_TYPE, withExclude = false } = this.props;
+    const { addressToDomain, filter, optionsAll, type = DEFAULT_TYPE, withExclude = false } = this.props;
+    const preparedOptionsPairs = Object.entries(optionsAll || {}).map(([type, options]) => [
+      type,
+      options.map(
+        (option) => option.value === null
+          ? createHeader(option)
+          : createItem({ ...option, domain: addressToDomain[option.value] })
+      )
+    ] as [keyof KeyringOptions, Option[]]);
+    const typeToOptions = Object.fromEntries(preparedOptionsPairs);
 
     return !optionsAll
       ? []
-      : dedupe(optionsAll[type]).filter(({ value }) =>
+      : dedupe(typeToOptions[type]).filter(({ value }) =>
         !filter || (
           !!value && (
             withExclude
@@ -267,7 +320,7 @@ class InputAddress extends React.PureComponent<Props, State> {
               : filter.includes(value)
           )
         )
-      );
+      ).map((option) => ({ ...option, domain: this.props.addressToDomain[option.value || ''] }));
   }
 
   private onChange = (address: string): void => {
@@ -295,13 +348,15 @@ class InputAddress extends React.PureComponent<Props, State> {
   };
 
   private onSearch = (filteredOptions: KeyringSectionOptions, _query: string): DropdownItemProps[] => {
-    const { isInput = true } = this.props;
+    const { addressToDomain, isInput = true } = this.props;
     const query = _query.trim();
     const queryLower = query.toLowerCase();
     const matches = filteredOptions.filter((item): boolean =>
       !!item.value && (
         (item.name.toLowerCase && item.name.toLowerCase().includes(queryLower)) ||
-        item.value.toLowerCase().includes(queryLower)
+        item.value.toLowerCase().includes(queryLower) ||
+        !!addressToDomain[item.value]?.toLowerCase().includes(queryLower) ||
+        !!this.state.addressToDomains[item.value]?.some((domain) => domain.toLowerCase().includes(queryLower))
       )
     );
 
@@ -315,6 +370,30 @@ class InputAddress extends React.PureComponent<Props, State> {
           ).option
         );
       }
+
+      const { api, systemChain } = this.context;
+
+      transformOrResolveToAccountId(query, { api, systemChain }).then((address) => {
+        if (!address) {
+          return;
+        }
+
+        keyring.saveRecent(address.toString());
+
+        if (this.state.addressToDomains[address]?.includes(query)) {
+          return;
+        }
+
+        this.setState(({ addressToDomains }) => ({
+          addressToDomains: {
+            ...addressToDomains,
+            [address]: [...new Set([
+              ...(addressToDomains[address] || []),
+              query
+            ])]
+          }
+        }));
+      }).catch(console.error);
     }
 
     // FIXME The return here is _very_ suspect, but it actually does exactly
@@ -376,22 +455,8 @@ const StyledDropdown = styled(Dropdown)`
 `;
 
 const ExportedComponent = withMulti(
-  InputAddress,
-  withObservable(keyring.keyringOption.optionsSubject, {
-    propName: 'optionsAll',
-    transform: (optionsAll: KeyringOptions): Record<string, (Option | React.ReactNode)[]> =>
-      Object.entries(optionsAll).reduce((result: Record<string, (Option | React.ReactNode)[]>, [type, options]): Record<string, (Option | React.ReactNode)[]> => {
-        result[type] = options
-          .map((option): Option | React.ReactNode | null =>
-            option.value === null
-              ? createHeader(option)
-              : createItem(option)
-          )
-          .filter((o): o is Option | React.ReactNode => !!o);
-
-        return result;
-      }, {})
-  })
+  wrapWithAddressResolver(InputAddress),
+  withObservable(keyring.keyringOption.optionsSubject, { propName: 'optionsAll' })
 ) as ExportedType;
 
 ExportedComponent.createOption = createItem;

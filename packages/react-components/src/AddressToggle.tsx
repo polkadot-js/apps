@@ -3,7 +3,7 @@
 
 import React, { useCallback, useMemo } from 'react';
 
-import { useApi, useDeriveAccountInfo } from '@polkadot/react-hooks';
+import { useAddressToDomain, useApi, useDeriveAccountInfo } from '@polkadot/react-hooks';
 
 import { checkVisibility } from './util/index.js';
 import AddressMini from './AddressMini.js';
@@ -23,10 +23,11 @@ interface Props {
 function AddressToggle ({ address, className = '', filter, isHidden, noToggle, onChange, value }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const info = useDeriveAccountInfo(address);
+  const domain = useAddressToDomain(address)?.primaryDomain;
 
   const isVisible = useMemo(
-    () => info ? checkVisibility(api, address, info, filter, false) : true,
-    [api, address, filter, info]
+    () => info ? checkVisibility(api, address, { ...info, domain }, filter, false) : true,
+    [api, address, filter, info, domain]
   );
 
   const _onClick = useCallback(

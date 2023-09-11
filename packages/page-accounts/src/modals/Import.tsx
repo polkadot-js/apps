@@ -116,6 +116,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
         <Modal.Columns>
           <AddressRow
             defaultName={(pair?.meta.name as string) || null}
+            isAzeroIdShown
             noDefaultNameOpacity
             value={pair?.address || null}
           />
@@ -145,7 +146,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
           {error && (
             <MarkError content={error} />
           )}
-          {differentGenesis && (
+          {!!differentGenesis && (
             <MarkWarning content={t<string>('The network from which this account was originally generated is different than the network you are currently connected to. Once imported ensure you toggle the "allow on any network" option for the account to keep it visible on the current network.')} />
           )}
           <ExternalWarning />

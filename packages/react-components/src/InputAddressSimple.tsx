@@ -1,7 +1,10 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { resolveDomainToAddress } from '@azns/resolver-core';
 import React, { useCallback, useState } from 'react';
+
+import { systemNameToChainId, useApi } from '@polkadot/react-hooks';
 
 import IdentityIcon from './IdentityIcon/index.js';
 import { toAddress } from './util/index.js';
@@ -29,19 +32,37 @@ interface Props {
 function InputAddressSimple ({ autoFocus, bytesLength, children, className = '', defaultValue, forceIconType, isDisabled, isError, isFull, label, noConvert, onChange, onEnter, onEscape, placeholder }: Props): React.ReactElement<Props> {
   const [address, setAddress] = useState<string | null>(defaultValue || null);
 
+  const { api, systemChain } = useApi();
+
+  const _prepareInput = useCallback(
+    async (input: string): Promise<string | null> => {
+      const formattedAddress = toAddress(input, undefined, bytesLength) || null;
+
+      if (formattedAddress) {
+        return noConvert ? input : formattedAddress;
+      }
+
+      const chainId = systemNameToChainId.get(systemChain);
+
+      if (!chainId) {
+        return null;
+      }
+
+      const { address: resolvedAddress } = await resolveDomainToAddress(input, { chainId, customApi: api });
+
+      return resolvedAddress || null;
+    },
+    [api, bytesLength, noConvert, systemChain]
+  );
+
   const _onChange = useCallback(
     (_address: string): void => {
-      const address = toAddress(_address, undefined, bytesLength) || null;
-      const output = noConvert
-        ? address
-          ? _address
-          : null
-        : address;
-
-      setAddress(output);
-      onChange && onChange(output);
+      _prepareInput(_address).catch(() => null).then((output) => {
+        setAddress(output);
+        onChange && onChange(output);
+      }).catch(console.error);
     },
-    [bytesLength, noConvert, onChange]
+    [_prepareInput, onChange]
   );
 
   return (

@@ -3,6 +3,8 @@
 
 import type { BN } from '@polkadot/util';
 
+import { ApiPromise } from '@polkadot/api';
+
 export interface LinkPath {
   // general
   address?: string;
@@ -33,7 +35,18 @@ export interface ExternalDef {
   homepage: string;
   isActive: boolean;
   paths: LinkPath;
-  ui: { logo: string; }
+  ui: {
+    logo: {
+      dark: string;
+      light: string;
+    };
+  };
 
-  create: (chain: string, path: string, data: BN | number | string, hash?: string) => string;
+  create: (
+    chain: string,
+    path: string,
+    data: BN | number | string,
+    hash: string | undefined,
+    api: ApiPromise | undefined,
+  ) => string | Promise<string | undefined>;
 }

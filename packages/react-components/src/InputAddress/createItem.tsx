@@ -11,7 +11,7 @@ import { decodeAddress } from '@polkadot/util-crypto';
 
 import KeyPair from './KeyPair.js';
 
-export default function createItem (option: KeyringSectionOption, isUppercase = true): Option | null {
+export default function createItem (option: KeyringSectionOption & {domain?: string | null}, isUppercase = true): Option | null {
   const allowedLength = keyring.keyring.type === 'ethereum'
     ? 20
     : 32;
@@ -23,6 +23,7 @@ export default function createItem (option: KeyringSectionOption, isUppercase = 
         text: (
           <KeyPair
             address={option.key || ''}
+            domain={option.domain}
             isUppercase={isUppercase}
             name={option.name}
           />

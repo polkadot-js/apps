@@ -235,7 +235,7 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
 const StyledSpan = styled.span`
   border: 1px dotted transparent;
   line-height: 1;
-  vertical-align: middle;
+
   white-space: nowrap;
 
   &.withSidebar:hover {
