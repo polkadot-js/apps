@@ -47,6 +47,7 @@ export { nodesEaveSVG } from './generated/eaveSVG.js';
 export { nodesEdgewareWhitePNG } from './generated/edgeware-whitePNG.js';
 export { nodesEfinitySVG } from './generated/efinitySVG.js';
 export { nodesEncointerBlueSVG } from './generated/encointer-blueSVG.js';
+export { nodesEnjinSVG } from './generated/enjinSVG.js';
 export { nodesEwxSVG } from './generated/ewxSVG.js';
 export { nodesFantourPNG } from './generated/fantourPNG.js';
 export { nodesGalitalLogoPNG } from './generated/galital-logoPNG.js';
