@@ -200,6 +200,17 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    info: 'matrixchain',
+    providers: {
+      Enjin: 'wss://rpc.matrix.blockchain.enjin.io'
+    },
+    text: 'Enjin Matrixchain',
+    ui: {
+      color: '#7866d5',
+      logo: nodesEnjinSVG
+    }
+  },
+  {
     info: 'equilibrium',
     providers: {
       // Equilibrium: 'wss://node.equilibrium.io' // https://github.com/polkadot-js/apps/issues/7219
@@ -307,17 +318,6 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: 'rgb(21, 38, 101)',
       logo: chainsLogionPNG
-    }
-  },
-  {
-    info: 'matrixchain',
-    providers: {
-      Enjin: 'wss://rpc.matrix.blockchain.enjin.io'
-    },
-    text: 'Enjin Matrixchain',
-    ui: {
-      color: '#7866d5',
-      logo: nodesEnjinSVG
     }
   },
   {
