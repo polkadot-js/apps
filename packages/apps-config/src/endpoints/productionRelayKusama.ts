@@ -138,7 +138,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
       // Dwellir: 'wss://darwiniacrab-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/9861
       OnFinality: 'wss://crab.api.onfinality.io/public-ws'
     },
-    text: 'Crab2',
+    text: 'Crab',
     ui: {
       color: '#512DBC',
       logo: nodesCrabSVG

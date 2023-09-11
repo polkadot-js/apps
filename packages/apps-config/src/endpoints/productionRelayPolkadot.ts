@@ -204,7 +204,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       Dwellir: 'wss://darwinia-rpc.dwellir.com'
       // OnFinality: 'wss://darwinia2.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9861
     },
-    text: 'Darwinia2',
+    text: 'Darwinia',
     ui: {
       color: '#FF0083',
       logo: nodesDarwiniaSVG
