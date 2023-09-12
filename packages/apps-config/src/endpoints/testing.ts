@@ -43,7 +43,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'aleph-testnet',
     providers: {
       'Aleph Zero Foundation': 'wss://ws.test.azero.dev',
-      Dwellir: 'wss://aleph-zero-testnet-rpc.dwellir.com',
+      Dwellir: 'wss://aleph-zero-testnet-rpc.dwellir.com'
       // OnFinality: 'wss://aleph-zero.api.onfinality.io/public-ws'
     },
     text: 'Aleph Zero Testnet',
