@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
-import type { DeriveAccountRegistration } from '@polkadot/api-derive/types';
+import type { ApiPromise } from '@polkadot/api';
+import type { DeriveAccountInfo, DeriveAccountRegistration } from '@polkadot/api-derive/types';
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
@@ -74,11 +75,6 @@ const MATCHERS: AddrMatcher[] = [
 
 const displayCache = new Map<string, React.ReactNode>();
 const indexCache = new Map<string, string>();
-const parentCache = new Map<string, string>();
-
-export function getParentAccount (value: string): string | undefined {
-  return parentCache.get(value);
-}
 
 function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [displayName: React.ReactNode, isLocal: boolean, isAddress: boolean, isSpecial: boolean] {
   let known: string | null = null;
@@ -179,6 +175,30 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
   return elem;
 }
 
+type GetDisplayedNameOptions = {
+  api: ApiPromise | undefined;
+  defaultName: string | undefined;
+  info: DeriveAccountInfo | undefined;
+  value: Props['value'];
+};
+
+function getDisplayedName ({ api, defaultName, info, value }: GetDisplayedNameOptions) {
+  const { accountId, accountIndex, identity, nickname } = info || {};
+  const cacheAddr = (accountId || value || '').toString();
+
+  if (api && isFunction(api.query.identity?.identityOf)) {
+    return identity?.display
+      ? extractIdentity(cacheAddr, identity)
+      : extractName(cacheAddr, accountIndex);
+  }
+
+  if (nickname) {
+    return nickname;
+  }
+
+  return defaultOrAddrNode(defaultName, cacheAddr, accountIndex);
+}
+
 function AccountName ({ children, className = '', defaultName, label, onClick, override, toggle, value, withSidebar }: Props): React.ReactElement<Props> {
   const api = useSystemApi();
   const info = useDeriveAccountInfo(value);
@@ -187,29 +207,16 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
 
   // set the actual nickname, local name, accountIndex, accountId
   useEffect((): void => {
-    const { accountId, accountIndex, identity, nickname } = info || {};
-    const cacheAddr = (accountId || value || '').toString();
-
-    if (identity?.parent) {
-      parentCache.set(cacheAddr, identity.parent.toString());
-    }
-
-    if (api && isFunction(api.query.identity?.identityOf)) {
-      setName(() =>
-        identity?.display
-          ? extractIdentity(cacheAddr, identity)
-          : extractName(cacheAddr, accountIndex)
-      );
-    } else if (nickname) {
-      setName(nickname);
-    } else {
-      setName(defaultOrAddrNode(defaultName, cacheAddr, accountIndex));
-    }
+    setName(
+      getDisplayedName({ api, defaultName, info, value })
+    );
   }, [api, defaultName, info, toggle, value]);
 
   const _onNameEdit = useCallback(
-    () => setName(defaultOrAddrNode(defaultName, (value || '').toString())),
-    [defaultName, value]
+    () => setName(
+      getDisplayedName({ api, defaultName, info, value })
+    ),
+    [api, defaultName, info, value]
   );
 
   const _onToggleSidebar = useCallback(
