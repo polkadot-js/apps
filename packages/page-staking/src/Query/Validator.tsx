@@ -6,6 +6,7 @@ import type { Props } from './types.js';
 import React from 'react';
 
 import { Columar, styled } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 
 import ChartPoints from './ChartPoints.js';
 import ChartPrefs from './ChartPrefs.js';
@@ -13,18 +14,11 @@ import ChartRewards from './ChartRewards.js';
 import ChartStake from './ChartStake.js';
 
 function Validator ({ className = '', labels, validatorId }: Props): React.ReactElement<Props> | null {
+  const { systemChain } = useApi();
+  const isAlephChain = systemChain.includes('Aleph Zero');
+
   return (
     <StyledColumar className={className}>
-      <Columar.Column>
-        <ChartPoints
-          labels={labels}
-          validatorId={validatorId}
-        />
-        <ChartRewards
-          labels={labels}
-          validatorId={validatorId}
-        />
-      </Columar.Column>
       <Columar.Column>
         <ChartStake
           labels={labels}
@@ -34,6 +28,18 @@ function Validator ({ className = '', labels, validatorId }: Props): React.React
           labels={labels}
           validatorId={validatorId}
         />
+      </Columar.Column>
+      <Columar.Column>
+        <ChartRewards
+          labels={labels}
+          validatorId={validatorId}
+        />
+        {!isAlephChain && (
+          <ChartPoints
+            labels={labels}
+            validatorId={validatorId}
+          />
+        )}
       </Columar.Column>
     </StyledColumar>
   );
