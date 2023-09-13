@@ -181,13 +181,9 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, inject
   const apiDefaultTx = api.tx[defaultSection][defaultMethod];
   const apiDefaultTxSudo = (api.tx.system && api.tx.system.setCode) || apiDefaultTx;
 
-  const nodleMovesUniquesVersion = 23;
-  const apiDefaultNft = (specName === 'nodle-para') && (api.runtimeVersion.specVersion.toNumber() >= nodleMovesUniquesVersion) ? 'substrateUniques' : 'uniques';
-
   setDeriveCache(api.genesisHash.toHex(), deriveMapCache);
 
   return {
-    apiDefaultNft,
     apiDefaultTx,
     apiDefaultTxSudo,
     chainSS58,
