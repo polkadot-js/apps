@@ -135,7 +135,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Darwinia: 'wss://crab-rpc.darwinia.network/',
       'Darwinia Community': 'wss://crab-rpc.darwiniacommunitydao.xyz',
-      // Dwellir: 'wss://darwiniacrab-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/9861
+      Dwellir: 'wss://darwiniacrab-rpc.dwellir.com',
       OnFinality: 'wss://crab.api.onfinality.io/public-ws'
     },
     text: 'Crab',
