@@ -307,7 +307,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Dwellir: 'wss://hydradx-rpc.dwellir.com',
       'Galactic Council': 'wss://rpc.hydradx.cloud',
-      OnFinality: 'wss://hydradx.api.onfinality.io/public-ws' 
+      OnFinality: 'wss://hydradx.api.onfinality.io/public-ws'
       // ZeePrime: 'wss://rpc-lb.data6.zp-labs.net:8443/hydradx/ws/?token=2ZGuGivPJJAxXiT1hR1Yg2MXGjMrhEBYFjgbdPi' // https://github.com/polkadot-js/apps/issues/9760
     },
     text: 'HydraDX',
