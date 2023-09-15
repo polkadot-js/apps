@@ -1478,6 +1478,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.10.2":
+  version: 7.22.15
+  resolution: "@babel/runtime@npm:7.22.15"
+  dependencies:
+    regenerator-runtime: ^0.14.0
+  checksum: 793296df1e41599a935a3d77ec01eb6088410d3fd4dbe4e92f06c6b7bb2f8355024e6d78621a3a35f44e0e23b0b59107f23d585384df4f3123256a1e1492040e
+  languageName: node
+  linkType: hard
+
 "@babel/template@npm:^7.22.5":
   version: 7.22.5
   resolution: "@babel/template@npm:7.22.5"
@@ -2531,7 +2540,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@open-web3/orml-type-definitions@npm:1.1.4":
+"@open-web3/orml-type-definitions@npm:1.1.4, @open-web3/orml-type-definitions@npm:^1.1.4":
   version: 1.1.4
   resolution: "@open-web3/orml-type-definitions@npm:1.1.4"
   dependencies:
@@ -2580,6 +2589,16 @@ __metadata:
   dependencies:
     "@open-web3/orml-type-definitions": ^0.9.4-38
   checksum: 6c38272a2170c8bfb91bb05bd8b46195c1dc9cd5ea85fc17531dd0d567eb889e2605080286a6c0bcd449217c999bc6d393bbc42db6347609aab23ec80cabcc1f
+  languageName: node
+  linkType: hard
+
+"@pendulum-chain/type-definitions@npm:0.3.7":
+  version: 0.3.7
+  resolution: "@pendulum-chain/type-definitions@npm:0.3.7"
+  dependencies:
+    "@babel/runtime": ^7.10.2
+    "@open-web3/orml-type-definitions": ^1.1.4
+  checksum: cd955c4cd193b29c16cac3c3e199209eb8f1c2d5b0a2c5c5f80ab332394244927cc70bf4598e38f146076e394d928e8b6331d873cd91edc8a3a9c4635cf48f82
   languageName: node
   linkType: hard
 
@@ -3195,6 +3214,7 @@ __metadata:
     "@metaverse-network-sdk/type-definitions": 0.0.1-16
     "@parallel-finance/type-definitions": 2.0.0
     "@peaqnetwork/type-definitions": 0.0.4
+    "@pendulum-chain/type-definitions": 0.3.7
     "@phala/typedefs": 0.2.33
     "@polkadot/api": ^10.9.1
     "@polkadot/api-derive": ^10.9.1
