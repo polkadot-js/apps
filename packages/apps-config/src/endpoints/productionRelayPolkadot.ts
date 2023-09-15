@@ -523,6 +523,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'parallel',
     paraId: 2012,
     providers: {
+      Dwellir: 'wss://parallel-rpc.dwellir.com',
       OnFinality: 'wss://parallel.api.onfinality.io/public-ws',
       Parallel: 'wss://rpc.parallel.fi'
     },
