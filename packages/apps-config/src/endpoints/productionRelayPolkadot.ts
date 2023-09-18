@@ -145,6 +145,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2002,
     providers: {
       Clover: 'wss://rpc-para.clover.finance',
+      Dwellir: 'wss://clover-rpc.dwellir.com',
       OnFinality: 'wss://clover.api.onfinality.io/public-ws'
     },
     text: 'Clover',
@@ -522,6 +523,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'parallel',
     paraId: 2012,
     providers: {
+      Dwellir: 'wss://parallel-rpc.dwellir.com',
       OnFinality: 'wss://parallel.api.onfinality.io/public-ws',
       Parallel: 'wss://rpc.parallel.fi'
     },
@@ -574,6 +576,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'polkadex',
     paraId: 2040,
     providers: {
+      Dwellir: 'wss://polkadex-rpc.dwellir.com',
       OnFinality: 'wss://polkadex-parachain.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://polkadex-parachain.public.curie.radiumblock.co/ws'
     },
