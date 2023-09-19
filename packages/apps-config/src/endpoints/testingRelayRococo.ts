@@ -566,18 +566,6 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'tangle',
-    paraId: 4006,
-    providers: {
-      // Webb: 'wss://tangle-rococo-archive.webb.tools' // https://github.com/polkadot-js/apps/issues/9069
-    },
-    text: 'Tangle',
-    ui: {
-      color: '#483d8b',
-      logo: chainsTanglePNG
-    }
-  },
-  {
     info: 'rococoTinkernet',
     paraId: 2125,
     providers: {

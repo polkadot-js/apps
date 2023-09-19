@@ -878,11 +878,11 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'tangle',
     providers: {
-      // Webb: 'wss://tangle-archive.webb.tools' // https://github.com/polkadot-js/apps/issues/9104
+      Webb: 'wss://rpc-archive.tangle.tools'
     },
-    text: 'Tangle Alpha',
+    text: 'Tangle Standalone Testnet',
     ui: {
-      color: '#0099ff',
+      color: '#7578fb',
       logo: chainsTanglePNG
     }
   },
