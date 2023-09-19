@@ -880,7 +880,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Webb: 'wss://rpc-archive.tangle.tools'
     },
-    text: 'Tangle Standalone Testnet',
+    text: 'Tangle',
     ui: {
       color: '#7578fb',
       logo: chainsTanglePNG
