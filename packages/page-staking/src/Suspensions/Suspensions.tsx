@@ -1,17 +1,18 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import type { u64, Vec } from '@polkadot/types';
+import type { EventRecord, Hash } from '@polkadot/types/interfaces';
+import type { Codec } from '@polkadot/types/types';
+import type { u32 } from '@polkadot/types-codec';
+import type { SuspensionEvent } from './index.js';
 
 import { useEffect, useMemo, useState } from 'react';
 
 import getCommitteeManagement, { COMMITTEE_MANAGEMENT_NAMES } from '@polkadot/react-api/getCommitteeManagement';
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
-import { u64, Vec } from '@polkadot/types';
-import { EventRecord, Hash } from '@polkadot/types/interfaces';
-import { Codec } from '@polkadot/types/types';
-import { u32 } from '@polkadot/types-codec';
 
 import useErasStartSessionIndexLookup from '../Performance/useErasStartSessionIndexLookup.js';
-import { SuspensionEvent } from './index.js';
 
 type SuspensionReasons = [string, string, number][];
 

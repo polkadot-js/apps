@@ -13,7 +13,7 @@ import { useApi, useTheme } from '@polkadot/react-hooks';
 import { styled } from './styled.js';
 import { useTranslation } from './translate.js';
 
-type Props = {
+interface Props {
   className?: string;
   data: BN | number | string;
   hash?: string;
@@ -22,9 +22,9 @@ type Props = {
   isSmall?: boolean;
   type: LinkTypes;
   withTitle?: boolean;
-};
+}
 
-type GetLinksOptions = {
+interface GetLinksOptions {
   api: ApiPromise;
   data: BN | number | string;
   hash?: string;

@@ -74,16 +74,14 @@ function BannerExtension () {
       <Banner type='warning'>
         <p>
           {t<string>('For extra protection, consider using the')}
-          &nbsp;
-          <a
+          &nbsp;<a
             href='https://chrome.google.com/webstore/detail/threatslayer/mgcmocglffknmbhhfjihifeldhghihpj'
             rel='noreferrer'
             target='_blank'
           >
             Threat Slayer
           </a>
-          &nbsp;
-          {t<string>('extension which protects you from dangerous websites in real-time.')}
+          &nbsp;{t<string>('extension which protects you from dangerous websites in real-time.')}
         </p>
 
       </Banner>

@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
+import type { Option, u8 } from '@polkadot/types';
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
 
 import { MarkWarning } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { Option, u8 } from '@polkadot/types';
 import { formatBalance } from '@polkadot/util';
 
 import { useTranslation } from '../../translate.js';

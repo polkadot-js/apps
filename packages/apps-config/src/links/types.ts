@@ -1,9 +1,8 @@
 // Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { BN } from '@polkadot/util';
-
-import { ApiPromise } from '@polkadot/api';
 
 export interface LinkPath {
   // general

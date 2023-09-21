@@ -1,5 +1,7 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import type { ValidatorPerformance } from './useCommitteePerformance.js';
 
 import React, { useMemo, useState } from 'react';
 
@@ -8,7 +10,7 @@ import { styled } from '@polkadot/react-components';
 import ActionsBanner from './ActionsBanner.js';
 import BlockProductionCommitteeList from './BlockProductionCommitteeList.js';
 import Summary from './Summary.js';
-import useSessionCommitteePerformance, { ValidatorPerformance } from './useCommitteePerformance.js';
+import useSessionCommitteePerformance from './useCommitteePerformance.js';
 import { useFinalityCommittee } from './useFinalityCommittee.js';
 
 interface Props {

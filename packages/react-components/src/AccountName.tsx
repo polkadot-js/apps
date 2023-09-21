@@ -180,12 +180,12 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
   return elem;
 }
 
-type GetDisplayedNameOptions = {
+interface GetDisplayedNameOptions {
   api: ApiPromise | undefined;
   defaultName: string | undefined;
   info: DeriveAccountInfo | undefined;
   value: Props['value'];
-};
+}
 
 function getDisplayedName ({ api, defaultName, info, value }: GetDisplayedNameOptions) {
   const { accountId, accountIndex, identity, nickname } = info || {};

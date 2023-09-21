@@ -1,9 +1,10 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import type { ApiPromise } from '@polkadot/api';
 
 import React, { useCallback, useMemo } from 'react';
 
-import { ApiPromise } from '@polkadot/api';
 import { AddressSmall, Icon } from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
 import { useAddressToDomain, useApi, useDeriveAccountInfo } from '@polkadot/react-hooks';

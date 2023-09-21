@@ -1,11 +1,12 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import type { EraIndex } from '@polkadot/types/interfaces';
+import type { Option, u32 } from '@polkadot/types-codec';
 
 import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
-import { EraIndex } from '@polkadot/types/interfaces';
-import { Option, u32 } from '@polkadot/types-codec';
 
 type SessionIndexEntry = [{ args: [EraIndex] }, Option<u32>];
 

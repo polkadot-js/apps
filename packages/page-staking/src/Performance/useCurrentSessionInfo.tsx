@@ -1,9 +1,10 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import type { DeriveSessionProgress } from '@polkadot/api-derive/types';
 
 import { useMemo } from 'react';
 
-import { DeriveSessionProgress } from '@polkadot/api-derive/types';
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
 function useCurrentSessionInfoImpl () {

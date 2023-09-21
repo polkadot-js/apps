@@ -8,9 +8,8 @@ import type { ICompact, INumber } from '@polkadot/types/types';
 import React, { useMemo } from 'react';
 
 import { AddressMini, AzeroId, LinkExternal, styled } from '@polkadot/react-components';
-import { CallExpander } from '@polkadot/react-params';
-
 import { convertWeight } from '@polkadot/react-hooks/useWeight';
+import { CallExpander } from '@polkadot/react-params';
 import { BN, formatNumber } from '@polkadot/util';
 
 import Event from '../Event.js';

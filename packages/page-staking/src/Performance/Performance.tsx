@@ -1,19 +1,21 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import type { DeriveEraExposure } from '@polkadot/api-derive/types';
+import type { StorageKey } from '@polkadot/types';
+import type { AnyTuple, Codec } from '@polkadot/types/types';
+import type { ValidatorPerformance } from './useCommitteePerformance.js';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { DeriveEraExposure } from '@polkadot/api-derive/types';
 import getCommitteeManagement from '@polkadot/react-api/getCommitteeManagement';
 import { styled } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { StorageKey } from '@polkadot/types';
-import { AnyTuple, Codec } from '@polkadot/types/types';
 
 import ActionsBanner from './ActionsBanner.js';
 import BlockProductionCommitteeList from './BlockProductionCommitteeList.js';
 import Summary from './Summary.js';
-import { parseSessionBlockCount, ValidatorPerformance } from './useCommitteePerformance.js';
+import { parseSessionBlockCount } from './useCommitteePerformance.js';
 import { useFinalityCommittee } from './useFinalityCommittee.js';
 
 interface Props {

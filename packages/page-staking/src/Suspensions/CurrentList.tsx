@@ -1,5 +1,7 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import type { SuspensionEvent } from './index.js';
 
 import React, { useRef, useState } from 'react';
 
@@ -9,7 +11,6 @@ import Filtering from '../Filtering.js';
 import useCurrentSessionInfo from '../Performance/useCurrentSessionInfo.js';
 import { useTranslation } from '../translate.js';
 import Address from './Address/index.js';
-import { SuspensionEvent } from './index.js';
 
 interface Props {
   suspensions: SuspensionEvent[] | undefined,

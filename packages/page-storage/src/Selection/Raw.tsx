@@ -1,13 +1,13 @@
 // Copyright 2017-2023 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { StorageEntry } from '@polkadot/types/primitive/types';
 import type { ComponentProps as Props } from '../types.js';
 
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { Button, Input, Output } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import { StorageEntry } from '@polkadot/types/primitive/types';
 import { compactAddLength, u8aToU8a } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';

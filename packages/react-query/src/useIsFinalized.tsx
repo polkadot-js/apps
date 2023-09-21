@@ -1,12 +1,11 @@
-// Copyright 2017-2022 @polkadot/react-query authors & contributors
+// Copyright 2017-2023 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BlockNumber } from '@polkadot/types/interfaces';
+import type { BlockNumber, Hash } from '@polkadot/types/interfaces';
 
 import { useEffect, useMemo, useState } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
-import { Hash } from '@polkadot/types/interfaces';
 
 interface Props {
   blockNumber?: BlockNumber;

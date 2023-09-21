@@ -1,18 +1,19 @@
 // Copyright 2017-2023 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SupportedChainId } from '@azns/resolver-core';
+import type { SupportedChainId } from '@azns/resolver-core';
+
 import React from 'react';
 
 import { systemNameToChainId, useAddressToDomain, useApi } from '@polkadot/react-hooks';
 
 import { AzeroIdInteractiveDomain, AzeroIdPlaceholder, AzeroIdRegisterLink } from './Atoms.js';
 
-type WrappedAzeroIdProps = {
+interface WrappedAzeroIdProps {
   address?: string;
   className?: string;
   isRegisterLinkShown?: boolean;
-};
+}
 
 type AzeroIdProps = WrappedAzeroIdProps & {
   chainId: SupportedChainId.AlephZero | SupportedChainId.AlephZeroTestnet,

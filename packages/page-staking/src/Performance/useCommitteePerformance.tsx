@@ -1,13 +1,14 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import type { StorageKey } from '@polkadot/types';
+import type { Hash } from '@polkadot/types/interfaces';
+import type { AnyTuple, Codec } from '@polkadot/types/types';
 
 import { useEffect, useState } from 'react';
 
 import getCommitteeManagement from '@polkadot/react-api/getCommitteeManagement';
 import { createNamedHook, useApi } from '@polkadot/react-hooks';
-import { StorageKey } from '@polkadot/types';
-import { Hash } from '@polkadot/types/interfaces';
-import { AnyTuple, Codec } from '@polkadot/types/types';
 
 export interface ValidatorPerformance {
   accountId: string,
@@ -57,7 +58,7 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
   const sessionPeriod = Number(getCommitteeManagement(api).consts.sessionPeriod.toString());
 
   useEffect(() => {
-    if (api && api.consts.elections) {
+    if (api?.consts.elections) {
       const promises = sessions.map((session) => api.rpc.chain.getBlockHash(getSessionFirstAndLastBlock(session, sessionPeriod).first));
 
       Promise.all(promises)
@@ -70,7 +71,7 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
   );
 
   useEffect(() => {
-    if (api && api.consts.elections) {
+    if (api?.consts.elections) {
       const promises = sessions.map((session) => api.rpc.chain.getBlockHash(getSessionFirstAndLastBlock(session, sessionPeriod).lastPerAura));
 
       Promise.all(promises)
@@ -83,7 +84,7 @@ function useSessionCommitteePerformanceImpl (sessions: number[]): SessionCommitt
   );
 
   useEffect(() => {
-    if (api && api.consts.elections) {
+    if (api?.consts.elections) {
       const promises = sessions.map((session) => api.rpc.chain.getBlockHash(getSessionFirstAndLastBlock(session, sessionPeriod).last));
 
       Promise.all(promises)

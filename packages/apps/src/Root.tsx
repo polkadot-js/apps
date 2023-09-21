@@ -23,10 +23,10 @@ function createTheme ({ uiTheme }: { uiTheme: string }): ThemeDef {
   const theme = uiTheme === 'dark'
     ? 'dark'
     : 'light';
-  document?.documentElement?.setAttribute('data-theme', theme);
-  
-  return { theme };
 
+  document?.documentElement?.setAttribute('data-theme', theme);
+
+  return { theme };
 }
 
 function Root ({ isElectron, store }: Props): React.ReactElement<Props> {

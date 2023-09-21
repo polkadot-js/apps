@@ -6,7 +6,7 @@ import { useResolveAddressToDomain } from '@azns/resolver-react';
 
 import { useApi } from './useApi.js';
 
-export const systemNameToChainId: Map<string, SupportedChainId.AlephZero | SupportedChainId.AlephZeroTestnet> = new Map([
+export const systemNameToChainId = new Map<string, SupportedChainId.AlephZero | SupportedChainId.AlephZeroTestnet>([
   ['Aleph Zero', SupportedChainId.AlephZero],
   ['Aleph Zero Testnet', SupportedChainId.AlephZeroTestnet]
 ]);

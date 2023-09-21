@@ -1,5 +1,7 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import type { EraValidatorPerformance } from './Performance.js';
 
 import React, { useMemo, useRef, useState } from 'react';
 
@@ -9,7 +11,6 @@ import { useLenientThresholdPercentage, useNextTick } from '@polkadot/react-hook
 import Filtering from '../Filtering.js';
 import { useTranslation } from '../translate.js';
 import Address from './Address/index.js';
-import { EraValidatorPerformance } from './Performance.js';
 
 interface Props {
   className?: string;

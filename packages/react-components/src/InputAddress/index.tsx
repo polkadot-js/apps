@@ -1,13 +1,14 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { GetDerivedStateFromProps } from 'react';
 import type { DropdownItemProps } from 'semantic-ui-react';
 import type { ApiPromise } from '@polkadot/api';
 import type { KeyringOption$Type, KeyringOptions, KeyringSectionOption, KeyringSectionOptions } from '@polkadot/ui-keyring/options/types';
 import type { Option } from './types.js';
 
 import { resolveDomainToAddress } from '@azns/resolver-core';
-import React, { GetDerivedStateFromProps } from 'react';
+import React from 'react';
 import store from 'store';
 
 import { ApiCtxRoot } from '@polkadot/react-api';
@@ -26,7 +27,7 @@ import createHeader from './createHeader.js';
 import createItem from './createItem.js';
 import wrapWithAddressResolver from './wrapWithAddressResolver.js';
 
-type Props = {
+interface Props {
   addressToDomain: Record<string, string | undefined | null>;
   className?: string;
   defaultValue?: Uint8Array | string | null;
@@ -48,7 +49,7 @@ type Props = {
   withEllipsis?: boolean;
   withExclude?: boolean;
   withLabel?: boolean;
-};
+}
 
 type ExportedType = React.ComponentType<Omit<Props, 'addressToDomain'>> & {
   createOption: (option: KeyringSectionOption, isUppercase?: boolean) => Option | null;
@@ -216,7 +217,7 @@ class InputAddress extends React.PureComponent<Props, State> {
         ? defaultValue
         : this.hasValue(lastValue)
           ? lastValue
-          : (lastOption && lastOption.value)
+          : (lastOption?.value)
     );
     const actualOptions: Option[] = options
       ? dedupe(
@@ -293,7 +294,7 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 
   private hasValue (test?: Uint8Array | string | null): boolean {
-    const address = test && test.toString();
+    const address = test?.toString();
 
     return this.getFiltered().some(({ value }) => value === address);
   }
@@ -342,7 +343,7 @@ class InputAddress extends React.PureComponent<Props, State> {
       onChangeMulti(
         addresses
           .map(transformToAccountId)
-          .filter((address) => address as string) as string[]
+          .filter((address) => !!address) as string[]
       );
     }
   };

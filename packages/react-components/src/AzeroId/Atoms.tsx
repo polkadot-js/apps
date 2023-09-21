@@ -13,11 +13,11 @@ import { styled } from '../styled.js';
 import Tooltip from '../Tooltip.js';
 import { useTranslation } from '../translate.js';
 
-type AzeroIdInteractiveDomainProps = {
+interface AzeroIdInteractiveDomainProps {
   className?: string;
   domain: string;
   chainId: SupportedChainId.AlephZero | SupportedChainId.AlephZeroTestnet;
-};
+}
 
 export const AzeroIdInteractiveDomain = ({ chainId, className, domain }: AzeroIdInteractiveDomainProps) => {
   const theme = useTheme();
@@ -79,12 +79,12 @@ export const AzeroIdInteractiveDomain = ({ chainId, className, domain }: AzeroId
   );
 };
 
-type AzeroIdDomainProps = {
+interface AzeroIdDomainProps {
   className?: string;
   domain: string;
   isLogoShown?: boolean;
   isCopyShown?: boolean;
-};
+}
 
 export const AzeroIdDomain = ({ className, domain, isCopyShown = false, isLogoShown = true }: AzeroIdDomainProps) => {
   const theme = useTheme();
@@ -109,10 +109,10 @@ const REGISTER_LINKS = {
   [SupportedChainId.AlephZeroTestnet]: 'https://tzero.id/'
 } as const;
 
-type AzeroIdRegisterLinkProps = {
+interface AzeroIdRegisterLinkProps {
   className?: string;
   chainId: keyof typeof REGISTER_LINKS;
-};
+}
 
 export const AzeroIdRegisterLink = ({ chainId, className }: AzeroIdRegisterLinkProps) => {
   const { t } = useTranslation();

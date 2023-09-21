@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
@@ -15,7 +15,7 @@ interface Props {
 
 function Tuple ({ decision, submit }: Props): React.ReactElement<Props> {
   const [first, second] = useMemo(
-    () => [submit, decision && decision.unwrapOr(null)],
+    () => [submit, decision?.unwrapOr(null)],
     [decision, submit]
   );
 
