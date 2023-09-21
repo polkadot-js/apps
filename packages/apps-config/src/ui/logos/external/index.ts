@@ -3,6 +3,7 @@
 
 // Do not edit. Auto-generated via node scripts/imgConvert.mjs
 
+export { externalCerestatsPNG } from './generated/cerestatsPNG.js';
 export { externalCommonwealthPNG } from './generated/commonwealthPNG.js';
 export { externalDotreasurySVG } from './generated/dotreasurySVG.js';
 export { externalDotscannerPNG } from './generated/dotscannerPNG.js';
