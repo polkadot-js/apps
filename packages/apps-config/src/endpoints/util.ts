@@ -38,6 +38,14 @@ function expandLinked (input: LinkOption[]): LinkOption[] {
             : undefined;
           child.valueRelay = valueRelay;
 
+          if (entry.ui?.identityIcon && child.paraId && child.paraId < 2000) {
+            if (!child.ui) {
+              child.ui = { identityIcon: entry.ui.identityIcon };
+            } else if (!child.ui.identityIcon) {
+              child.ui.identityIcon = entry.ui.identityIcon;
+            }
+          }
+
           return child;
         })
       )

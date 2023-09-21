@@ -19,7 +19,7 @@ interface Props {
   status: BountyStatus;
 }
 
-function BountyInfos ({ beneficiary, proposals, status }: Props): React.JSX.Element {
+function BountyInfos ({ beneficiary, proposals, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const proposalToDisplay = useMemo(() => proposals && getProposalToDisplay(proposals, status), [proposals, status]);
@@ -35,7 +35,7 @@ function BountyInfos ({ beneficiary, proposals, status }: Props): React.JSX.Elem
       {beneficiary && (
         <div>
           <AddressSmall value={beneficiary} />
-          <Description description={t<string>('Beneficiary')} />
+          <Description description={t('Beneficiary')} />
         </div>
       )}
     </>

@@ -13,7 +13,8 @@
     "verbatimModuleSyntax": false
   },
   "include": [
-    "packages/**/src/**/*"
+    "packages/**/src/**/*",
+    "scripts/*"
   ],
   "exclude": [
     "**/node_modules/**/*"

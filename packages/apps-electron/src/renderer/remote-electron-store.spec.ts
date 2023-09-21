@@ -39,8 +39,8 @@ describe('Remote Electron Store', () => {
       remoteStore.all(cb);
       await Promise.resolve();
 
-      expect(cb).nthCalledWith(1, 1, 'a');
-      expect(cb).nthCalledWith(2, 2, 'b');
+      expect(cb).toHaveBeenNthCalledWith(1, 1, 'a');
+      expect(cb).toHaveBeenNthCalledWith(2, 2, 'b');
     });
   });
 
@@ -52,8 +52,8 @@ describe('Remote Electron Store', () => {
       remoteStore.get('1', cb);
       await Promise.resolve();
 
-      expect(accountStore.get).toBeCalledWith('1');
-      expect(cb).toBeCalledWith('a');
+      expect(accountStore.get).toHaveBeenCalledWith('1');
+      expect(cb).toHaveBeenCalledWith('a');
     });
 
     it('calls callback with null if no accounts found', async () => {
@@ -63,7 +63,7 @@ describe('Remote Electron Store', () => {
       remoteStore.get('1', cb);
       await Promise.resolve();
 
-      expect(cb).toBeCalledWith(null);
+      expect(cb).toHaveBeenCalledWith(null);
     });
   });
 
@@ -75,8 +75,8 @@ describe('Remote Electron Store', () => {
       remoteStore.remove('1', cb);
       await Promise.resolve();
 
-      expect(accountStore.remove).toBeCalledWith('1');
-      expect(cb).toBeCalledTimes(1);
+      expect(accountStore.remove).toHaveBeenCalledWith('1');
+      expect(cb).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -88,8 +88,8 @@ describe('Remote Electron Store', () => {
       remoteStore.set('1', 'a' as unknown as KeyringJson, cb);
       await Promise.resolve();
 
-      expect(accountStore.set).toBeCalledWith('1', 'a');
-      expect(cb).toBeCalledTimes(1);
+      expect(accountStore.set).toHaveBeenCalledWith('1', 'a');
+      expect(cb).toHaveBeenCalledTimes(1);
     });
   });
 });

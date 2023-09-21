@@ -41,12 +41,12 @@ function Referenda ({ className, isConvictionVote, members, palletReferenda, pal
   const [trackSelected, setTrackSelected] = useState(-1);
 
   const activeIssuance = useMemo(
-    () => totalIssuance && totalIssuance.sub(inactiveIssuance || BN_ZERO),
+    () => totalIssuance?.sub(inactiveIssuance || BN_ZERO),
     [inactiveIssuance, totalIssuance]
   );
 
   const trackOpts = useMemo(
-    () => [{ text: t<string>('All active/available tracks'), value: -1 }].concat(
+    () => [{ text: t('All active/available tracks'), value: -1 }].concat(
       grouped
         .map(({ trackId, trackName }) => ({
           text: trackName,
@@ -83,7 +83,7 @@ function Referenda ({ className, isConvictionVote, members, palletReferenda, pal
       <Button.Group>
         <Dropdown
           className='topDropdown media--800'
-          label={t<string>('selected track')}
+          label={t('selected track')}
           onChange={setTrackSelected}
           options={trackOpts}
           value={trackSelected}

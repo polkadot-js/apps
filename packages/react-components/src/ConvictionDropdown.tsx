@@ -1,8 +1,6 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
-
 import React, { useRef } from 'react';
 
 import { useBlockInterval } from '@polkadot/react-hooks';
@@ -22,11 +20,11 @@ export interface Props {
 
 const CONVICTIONS = [1, 2, 4, 8, 16, 32].map((lock, index): [value: number, duration: number, durationBn: BN] => [index + 1, lock, new BN(lock)]);
 
-function createOptions (blockTime: BN, voteLockingPeriod: BN, t: TFunction): { text: string; value: number }[] {
+function createOptions (blockTime: BN, voteLockingPeriod: BN, t: (key: string, options?: { replace: Record<string, unknown> }) => string): { text: string; value: number }[] {
   return [
-    { text: t<string>('0.1x voting balance, no lockup period'), value: 0 },
+    { text: t('0.1x voting balance, no lockup period'), value: 0 },
     ...CONVICTIONS.map(([value, duration, durationBn]): { text: string; value: number } => ({
-      text: t<string>('{{value}}x voting balance, locked for {{duration}}x duration{{period}}', {
+      text: t('{{value}}x voting balance, locked for {{duration}}x duration{{period}}', {
         replace: {
           duration,
           period: voteLockingPeriod && voteLockingPeriod.gt(BN_ZERO)

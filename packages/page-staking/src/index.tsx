@@ -95,46 +95,46 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
     {
       isRoot: true,
       name: 'overview',
-      text: t<string>('Overview')
+      text: t('Overview')
     },
     {
       name: 'actions',
-      text: t<string>('Accounts')
+      text: t('Accounts')
     },
     hasStashes && isFunction(api.query.staking.activeEra) && {
       name: 'payout',
-      text: t<string>('Payouts')
+      text: t('Payouts')
     },
     isFunction(api.query.nominationPools?.minCreateBond) && {
       name: 'pools',
-      text: t<string>('Pools')
+      text: t('Pools')
     },
     {
       alias: 'returns',
       name: 'targets',
-      text: t<string>('Targets')
+      text: t('Targets')
     },
     hasStashes && isFunction((api.query.voterBagsList || api.query.bagsList || api.query.voterList)?.counterForListNodes) && {
       name: 'bags',
-      text: t<string>('Bags')
+      text: t('Bags')
     },
     {
       count: slashes.reduce((count, [, unapplied]) => count + unapplied.length, 0),
       name: 'slashes',
-      text: t<string>('Slashes')
+      text: t('Slashes')
     },
     {
       hasParams: true,
       name: 'query',
-      text: t<string>('Validator stats')
+      text: t('Validator stats')
     },
     {
       name: 'performance',
-      text: t<string>('Performance')
+      text: t('Performance')
     },
     {
       name: 'suspensions',
-      text: t<string>('Suspensions')
+      text: t('Suspensions')
     }
   ].filter((q): q is { name: string; text: string } => !!q), [api, hasStashes, slashes, t]);
 

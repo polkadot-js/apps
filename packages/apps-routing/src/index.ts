@@ -1,8 +1,7 @@
 // Copyright 2017-2023 @polkadot/apps-routing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
-import type { Routes } from './types.js';
+import type { Routes, TFunction } from './types.js';
 
 import accounts from './accounts.js';
 import addresses from './addresses.js';
@@ -23,6 +22,7 @@ import gilt from './gilt.js';
 import js from './js.js';
 import membership from './membership.js';
 import nfts from './nfts.js';
+import nis from './nis.js';
 import parachains from './parachains.js';
 import poll from './poll.js';
 import preimages from './preimages.js';
@@ -35,6 +35,7 @@ import settings from './settings.js';
 import signing from './signing.js';
 import society from './society.js';
 import staking from './staking.js';
+import staking2 from './staking2.js';
 import storage from './storage.js';
 import sudo from './sudo.js';
 import techcomm from './techcomm.js';
@@ -54,6 +55,7 @@ export default function create (t: TFunction): Routes {
     transfer(t),
     teleport(t),
     staking(t),
+    staking2(t),
     collator(t),
     // governance v2
     referenda(t),
@@ -72,10 +74,11 @@ export default function create (t: TFunction): Routes {
     bounties(t),
     // others
     parachains(t),
-    gilt(t),
     assets(t),
     nfts(t),
     society(t),
+    nis(t),
+    gilt(t),
     scheduler(t),
     calendar(t),
     contracts(t),

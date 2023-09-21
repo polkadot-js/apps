@@ -58,7 +58,7 @@ function getVoteParams (accountId: string, lockClasses?: BN[]): [[accountId: str
 }
 
 function getRefParams (votes?: [classId: BN, refIds: BN[], casting: PalletConvictionVotingVoteCasting][]): [BN[]] | undefined {
-  if (votes && votes.length) {
+  if (votes?.length) {
     const refIds = votes.reduce<BN[]>((all, [, refIds]) => all.concat(refIds), []);
 
     if (refIds.length) {
@@ -73,10 +73,10 @@ function getLocks (api: ApiPromise, palletVote: PalletVote, votes: [classId: BN,
   const lockPeriod = api.consts[palletVote].voteLockingPeriod as BN;
   const locks: Lock[] = [];
 
-  for (let i = 0; i < votes.length; i++) {
+  for (let i = 0, voteCount = votes.length; i < voteCount; i++) {
     const [classId,, casting] = votes[i];
 
-    for (let i = 0; i < casting.votes.length; i++) {
+    for (let i = 0, castCount = casting.votes.length; i < castCount; i++) {
       const [refId, accountVote] = casting.votes[i];
       const refInfo = referenda.find(([id]) => id.eq(refId));
 

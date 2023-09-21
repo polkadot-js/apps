@@ -137,7 +137,7 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
             renderChildren={renderTippers}
             summary={
               <>
-                <div>{t<string>('Tippers ({{count}})', { replace: { count: tips.length } })}</div>
+                <div>{t('Tippers ({{count}})', { replace: { count: tips.length } })}</div>
                 <FormatBalance value={median} />
               </>
             }
@@ -179,7 +179,7 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
             <TxButton
               accountId={councilId}
               icon='times'
-              label={t<string>('Close')}
+              label={t('Close')}
               params={[hash]}
               tx={(api.tx.tips || api.tx.treasury).closeTip}
             />

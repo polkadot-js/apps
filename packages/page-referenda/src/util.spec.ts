@@ -104,10 +104,6 @@ describe('curveThreshold', (): void => {
       ).toEqual('499999999');
     });
   });
-
-  // describe('Stepped', (): void => {
-
-  // });
 });
 
 describe('curveDelay', (): void => {

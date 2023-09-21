@@ -4,10 +4,10 @@
 export { default as Available } from './Available.js';
 export { default as BalanceFree } from './BalanceFree.js';
 export { default as BalanceVoting } from './BalanceVoting.js';
-export { default as BlockToTime } from './BlockToTime.js';
-export { default as Bonded } from './Bonded.js';
 export { default as BestFinalized } from './BestFinalized.js';
 export { default as BestNumber } from './BestNumber.js';
+export { default as BlockToTime } from './BlockToTime.js';
+export { default as Bonded } from './Bonded.js';
 export { default as Chain } from './Chain.js';
 export { default as Elapsed } from './Elapsed.js';
 export { default as FormatBalance } from './FormatBalance.js';

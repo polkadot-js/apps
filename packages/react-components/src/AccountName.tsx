@@ -8,9 +8,9 @@ import type { AccountId, AccountIndex, Address } from '@polkadot/types/interface
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 
-import { AccountSidebarCtx } from '@polkadot/app-accounts/Sidebar';
-import { registry } from '@polkadot/react-api';
+import { statics } from '@polkadot/react-api/statics';
 import { useDeriveAccountInfo, useSystemApi } from '@polkadot/react-hooks';
+import { AccountSidebarCtx } from '@polkadot/react-hooks/ctx/AccountSidebar';
 import { formatNumber, isCodec, isFunction, stringToU8a, u8aEmpty, u8aEq, u8aToBn } from '@polkadot/util';
 
 import { getAddressName } from './util/index.js';
@@ -33,7 +33,7 @@ interface Props {
 type AddrMatcher = (addr: unknown) => string | null;
 
 function createAllMatcher (prefix: string, name: string): AddrMatcher {
-  const test = registry.createType('AccountId', stringToU8a(prefix.padEnd(32, '\0')));
+  const test = statics.registry.createType('AccountId', stringToU8a(prefix.padEnd(32, '\0')));
 
   return (addr: unknown) =>
     test.eq(addr)
@@ -50,7 +50,7 @@ function createNumMatcher (prefix: string, name: string, add?: string): AddrMatc
   return (addr: unknown): string | null => {
     const u8a = isCodec(addr)
       ? addr.toU8a()
-      : registry.createType('AccountId', addr as string).toU8a();
+      : statics.registry.createType('AccountId', addr as string).toU8a();
 
     return (u8a.length >= minLength) && u8aEq(test, u8a.subarray(0, test.length)) && u8aEmpty(u8a.subarray(minLength))
       ? `${name} ${formatNumber(u8aToBn(u8a.subarray(test.length, minLength)))}${add ? ` (${add})` : ''}`
@@ -75,6 +75,11 @@ const MATCHERS: AddrMatcher[] = [
 
 const displayCache = new Map<string, React.ReactNode>();
 const indexCache = new Map<string, string>();
+const parentCache = new Map<string, string>();
+
+export function getParentAccount (value: string): string | undefined {
+  return parentCache.get(value);
+}
 
 function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [displayName: React.ReactNode, isLocal: boolean, isAddress: boolean, isSpecial: boolean] {
   let known: string | null = null;
@@ -242,7 +247,7 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
 const StyledSpan = styled.span`
   border: 1px dotted transparent;
   line-height: 1;
-
+  vertical-align: middle;
   white-space: nowrap;
 
   &.withSidebar:hover {

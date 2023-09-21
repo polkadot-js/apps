@@ -1,6 +1,7 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { Option } from '@polkadot/types';
 import type { SlashingSpans, ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
@@ -9,7 +10,6 @@ import type { NominatorValue } from './types.js';
 
 import React, { useMemo } from 'react';
 
-import { ApiPromise } from '@polkadot/api';
 import { AddressSmall, Columar, Icon, LinkExternal, Table } from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
 import { useAddressToDomain, useApi, useCall, useDeriveAccountInfo, useToggle } from '@polkadot/react-hooks';
@@ -150,13 +150,13 @@ function Address ({ address, className = '', filterName, hasQueries, isFavorite,
               <Columar.Column>
                 {hasQueries && (
                   <>
-                    <h5>{t<string>('graphs')}</h5>
+                    <h5>{t('graphs')}</h5>
                     <a href={statsLink}>
                       <Icon
                         className='highlight--color'
                         icon='chart-line'
                       />
-                      &nbsp;{t<string>('historic results')}
+                      &nbsp;{t('historic results')}
                     </a>
                   </>
                 )}

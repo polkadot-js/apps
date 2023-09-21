@@ -1,11 +1,11 @@
-// Copyright 2017-2023 @polkadot/app-nodeinfo authors & contributors
+// Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { Info } from './types.js';
 
 import React, { useEffect, useState } from 'react';
 
-import { ApiPromise } from '@polkadot/api';
 import { useApi } from '@polkadot/react-hooks';
 
 import Extrinsics from '../BlockInfo/Extrinsics.js';
@@ -61,7 +61,7 @@ function NodeInfo (): React.ReactElement {
       <Peers peers={info.peers} />
       <Extrinsics
         blockNumber={info.blockNumber}
-        label={t<string>('pending extrinsics')}
+        label={t('pending extrinsics')}
         value={info.extrinsics}
         withLink
       />

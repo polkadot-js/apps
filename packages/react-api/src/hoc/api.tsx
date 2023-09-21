@@ -6,9 +6,8 @@ import type { DefaultProps } from './types.js';
 
 import React from 'react';
 
+import { ApiCtx } from '@polkadot/react-hooks/ctx/Api';
 import { assert } from '@polkadot/util';
-
-import { ApiCtx } from '../Api.js';
 
 export default function withApi <P extends ApiProps> (Inner: React.ComponentType<P>, defaultProps: DefaultProps = {}): React.ComponentType<any> {
   class WithApi extends React.PureComponent<SubtractProps<P, ApiProps>> {
@@ -18,7 +17,7 @@ export default function withApi <P extends ApiProps> (Inner: React.ComponentType
       return (
         <ApiCtx.Consumer>
           {(apiProps?: ApiProps): React.ReactNode => {
-            assert(apiProps && apiProps.api, 'Application root must be wrapped inside \'react-api/Api\' to provide API context');
+            assert(apiProps?.api, 'Application root must be wrapped inside \'react-api/Api\' to provide API context');
 
             return (
               <Inner

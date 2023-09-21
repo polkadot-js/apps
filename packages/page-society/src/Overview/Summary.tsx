@@ -35,7 +35,7 @@ function Summary ({ className = '', info, payoutTotal }: Props): React.ReactElem
     <StyledSummaryBox className={className}>
       <section className='media--1100'>
         {info && members && (
-          <CardSummary label={t<string>('members')}>
+          <CardSummary label={t('members')}>
             {members.length}&nbsp;/&nbsp;{info.maxMembers.toString()}
           </CardSummary>
         )}
@@ -44,7 +44,7 @@ function Summary ({ className = '', info, payoutTotal }: Props): React.ReactElem
         <>
           <section>
             <CardSummary
-              label={t<string>('rotation')}
+              label={t('rotation')}
               progress={{
                 total: api.consts.society.rotationPeriod,
                 value: bestNumber.mod(api.consts.society.rotationPeriod),
@@ -54,7 +54,7 @@ function Summary ({ className = '', info, payoutTotal }: Props): React.ReactElem
           </section>
           <section className='media--1200'>
             <CardSummary
-              label={t<string>('challenge')}
+              label={t('challenge')}
               progress={{
                 total: api.consts.society.challengePeriod,
                 value: bestNumber.mod(api.consts.society.challengePeriod),
@@ -66,7 +66,7 @@ function Summary ({ className = '', info, payoutTotal }: Props): React.ReactElem
       )}
       <section>
         {payoutTotal && (
-          <CardSummary label={t<string>('payouts')}>
+          <CardSummary label={t('payouts')}>
             <FormatBalance
               value={payoutTotal}
               withSi
@@ -74,7 +74,7 @@ function Summary ({ className = '', info, payoutTotal }: Props): React.ReactElem
           </CardSummary>
         )}
         {pot && (
-          <CardSummary label={t<string>('pot')}>
+          <CardSummary label={t('pot')}>
             <FormatBalance
               value={pot}
               withSi

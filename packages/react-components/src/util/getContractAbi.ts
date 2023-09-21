@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { Abi } from '@polkadot/api-contract';
-import { api } from '@polkadot/react-api';
+import { statics } from '@polkadot/react-api/statics';
 
 import { getAddressMeta } from './getAddressMeta.js';
 
@@ -17,7 +17,7 @@ export function getContractAbi (address: string | null): Abi | null {
   try {
     const data = (meta.contract && JSON.parse(meta.contract.abi)) as string;
 
-    abi = new Abi(data, api.registry.getChainProperties());
+    abi = new Abi(data, statics.api.registry.getChainProperties());
   } catch (error) {
     console.error(error);
   }

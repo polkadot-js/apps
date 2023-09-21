@@ -30,11 +30,11 @@ function App ({ basePath, className, palletColl, palletPoll }: Props): React.Rea
       {
         isRoot: true,
         name: 'overview',
-        text: t<string>('Overview')
+        text: t('Overview')
       },
       {
         name: 'referenda',
-        text: t<string>('Referenda ({{count}})', { replace: { count: refCount || 0 } })
+        text: t('Referenda ({{count}})', { replace: { count: refCount || 0 } })
       }
     ],
     [refCount, t]
@@ -51,17 +51,17 @@ function App ({ basePath, className, palletColl, palletPoll }: Props): React.Rea
           <Route
             element={
               <Referenda
-                members={members && members.memberIds}
+                members={members?.memberIds}
                 palletReferenda={palletPoll}
                 palletVote={palletColl}
-                ranks={members && members.memberRanks}
+                ranks={members?.memberRanks}
               />
             }
             path='referenda'
           />
           <Route
             element={
-              <Members members={members && members.members} />
+              <Members members={members?.members} />
             }
             index
           />

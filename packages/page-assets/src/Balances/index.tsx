@@ -24,9 +24,9 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
   const balances = useBalances(info?.id);
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t<string>('accounts'), 'start'],
-    [t<string>('frozen'), 'start'],
-    [t<string>('sufficient'), 'start'],
+    [t('accounts'), 'start'],
+    [t('frozen'), 'start'],
+    [t('sufficient'), 'start'],
     [],
     []
   ]);
@@ -64,12 +64,12 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
   return (
     <StyledDiv className={className}>
       <Table
-        empty={info && balances && t<string>('No accounts with balances found for the asset')}
+        empty={info && balances && t('No accounts with balances found for the asset')}
         filter={assetOptions.length
           ? (
             <Dropdown
               isFull
-              label={t<string>('the asset to query for balances')}
+              label={t('the asset to query for balances')}
               onChange={setInfoIndex}
               options={assetOptions}
               value={infoIndex}

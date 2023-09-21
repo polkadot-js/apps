@@ -7,11 +7,15 @@ import type { PayoutStash } from './types.js';
 import React, { useEffect, useState } from 'react';
 
 import { AddressSmall, Table } from '@polkadot/react-components';
+import { BlockToTime } from '@polkadot/react-query';
+import { BN_MILLION } from '@polkadot/util';
 
+import useEraBlocks from './useEraBlocks.js';
 import { createErasString } from './util.js';
 
 interface Props {
   className?: string;
+  historyDepth?: BN;
   payout: PayoutStash;
 }
 
@@ -20,8 +24,9 @@ interface EraInfo {
   oldestEra?: BN;
 }
 
-function Stash ({ className = '', payout: { available, rewards, stashId } }: Props): React.ReactElement<Props> {
-  const [{ eraStr }, setEraInfo] = useState<EraInfo>({ eraStr: '' });
+function Stash ({ className = '', historyDepth, payout: { available, rewards, stashId } }: Props): React.ReactElement<Props> {
+  const [{ eraStr, oldestEra }, setEraInfo] = useState<EraInfo>({ eraStr: '' });
+  const eraBlocks = useEraBlocks(historyDepth, oldestEra);
 
   useEffect((): void => {
     rewards && setEraInfo({
@@ -42,7 +47,12 @@ function Stash ({ className = '', payout: { available, rewards, stashId } }: Pro
         <span className='payout-eras'>{eraStr}</span>
       </td>
       <Table.Column.Balance value={available} />
-      <td className='number' />
+      <td className='number'>
+        <BlockToTime
+          className={eraBlocks ? '' : '--tmp'}
+          value={eraBlocks || BN_MILLION}
+        />
+      </td>
       <td
         className='button'
         colSpan={3}

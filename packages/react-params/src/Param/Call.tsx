@@ -6,8 +6,9 @@ import type { Props } from '../types.js';
 
 import React from 'react';
 
-import { Call, Static } from '@polkadot/react-components';
+import { Static } from '@polkadot/react-components';
 
+import { Call } from '../Named/index.js';
 import { useTranslation } from '../translate.js';
 import Bare from './Bare.js';
 import Unknown from './Unknown.js';
@@ -37,7 +38,7 @@ function CallDisplay (props: Props): React.ReactElement<Props> {
       </Static>
       <Call
         callName={callName}
-        labelHash={t<string>('call hash / {{section}}.{{method}}', { replace: { method, section } })}
+        labelHash={t('call hash / {{section}}.{{method}}', { replace: { method, section } })}
         value={call}
         withHash
       />

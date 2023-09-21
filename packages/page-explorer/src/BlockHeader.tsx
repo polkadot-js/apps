@@ -15,6 +15,10 @@ interface Props {
 }
 
 function BlockHeader ({ value }: Props): React.ReactElement<Props> | null {
+  if (!value) {
+    return null;
+  }
+
   const hashHex = value.hash.toHex();
   const isFinalized = useIsFinalized({ blockNumber: value.number.unwrap(), hash: hashHex });
 

@@ -29,7 +29,7 @@ const IPFS_FETCH_OPTIONS = {
     }
 
     try {
-      const result = JSON.parse(data) as {[key: string]: any};
+      const result = JSON.parse(data) as Record<string, any>;
 
       if (result && typeof result === 'object') {
         return {
@@ -71,7 +71,7 @@ function extractInfo (allAccounts: string[], id: BN, optDetails: Option<PalletUn
 }
 
 const addIpfsData = (ipfsData: IpfsData) => (collectionInfo: CollectionInfo): CollectionInfo => {
-  const ipfsHash = collectionInfo.metadata && collectionInfo.metadata.data?.toString();
+  const ipfsHash = collectionInfo.metadata && collectionInfo.metadata.data?.toPrimitive() as string;
 
   return {
     ...collectionInfo,
@@ -87,10 +87,10 @@ function useCollectionInfosImpl (ids?: BN[]): CollectionInfo[] | undefined {
   const [state, setState] = useState<CollectionInfo[] | undefined>();
 
   const ipfsHashes = useMemo(
-    () => metadata && metadata[1].length
+    () => metadata?.[1].length
       ? metadata[1].map((o) =>
         o.isSome
-          ? o.unwrap().data.toString()
+          ? o.unwrap().data.toPrimitive() as string
           : ''
       )
       : [],

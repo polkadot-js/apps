@@ -17,13 +17,13 @@ function Members ({ className = '', members, prime }: Props): React.ReactElement
   const { t } = useTranslation();
 
   const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
-    [t<string>('members'), 'start', 3]
+    [t('members'), 'start', 3]
   ]);
 
   return (
     <Table
       className={className}
-      empty={members && t<string>('No members found')}
+      empty={members && t('No members found')}
       header={headerRef.current}
       isSplit
     >
@@ -36,8 +36,8 @@ function Members ({ className = '', members, prime }: Props): React.ReactElement
             {prime === accountId && (
               <Tag
                 color='green'
-                hover={t<string>('Committee prime member, default voting')}
-                label={t<string>('prime member')}
+                hover={t('Committee prime member, default voting')}
+                label={t('prime member')}
               />
             )}
           </td>

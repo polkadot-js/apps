@@ -1,13 +1,9 @@
 // Copyright 2017-2023 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '@polkadot/react-components/types';
-
 import React from 'react';
 
 import { Icon, styled } from '@polkadot/react-components';
-
-import { bountySvgColor } from '../theme.js';
 
 interface Props {
   className?: string;
@@ -30,7 +26,7 @@ function BountyInfo ({ className = '', description, type = 'info' }: Props): Rea
   );
 }
 
-const StyledDiv = styled.div(({ theme }: ThemeProps) => `
+const StyledDiv = styled.div`
   display: flex;
   align-items: center;
   font-size: var(--font-size-small);
@@ -40,7 +36,7 @@ const StyledDiv = styled.div(({ theme }: ThemeProps) => `
     margin-right: 0.2rem;
 
     svg {
-      color: ${bountySvgColor[theme.theme]};
+      color: var(--color-bounty-info);
     }
   }
 
@@ -51,6 +47,6 @@ const StyledDiv = styled.div(({ theme }: ThemeProps) => `
     color: var(--color-label);
     word-wrap: break-word;
   }
-`);
+`;
 
 export default React.memo(BountyInfo);

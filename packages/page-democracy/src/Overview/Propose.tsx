@@ -43,17 +43,17 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
   return (
     <Modal
       className={className}
-      header={t<string>('Submit proposal')}
+      header={t('Submit proposal')}
       onClose={onClose}
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={t<string>('The proposal will be registered from this account and the balance lock will be applied here.')}>
+        <Modal.Columns hint={t('The proposal will be registered from this account and the balance lock will be applied here.')}>
           <InputAddress
-            label={t<string>('send from account')}
+            label={t('send from account')}
             labelExtra={
               <Available
-                label={<span className='label'>{t<string>('transferrable')}</span>}
+                label={<span className='label'>{t('transferrable')}</span>}
                 params={accountId}
               />
             }
@@ -61,26 +61,26 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
             type='account'
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The hash of the preimage for the proposal as previously submitted or intended.')}>
+        <Modal.Columns hint={t('The hash of the preimage for the proposal as previously submitted or intended.')}>
           <Input
             autoFocus
             isError={!isHashValid}
-            label={t<string>('preimage hash')}
+            label={t('preimage hash')}
             onChange={_onChangeHash}
             value={hash}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The associated deposit for this proposal should be more then the minimum on-chain deposit required. It will be locked until the proposal passes.')}>
+        <Modal.Columns hint={t('The associated deposit for this proposal should be more then the minimum on-chain deposit required. It will be locked until the proposal passes.')}>
           <InputBalance
             defaultValue={api.consts.democracy.minimumDeposit}
             isError={!hasMinLocked}
-            label={t<string>('locked balance')}
+            label={t('locked balance')}
             onChange={setBalance}
           />
           <InputBalance
             defaultValue={api.consts.democracy.minimumDeposit}
             isDisabled
-            label={t<string>('minimum deposit')}
+            label={t('minimum deposit')}
           />
         </Modal.Columns>
       </Modal.Content>
@@ -89,7 +89,7 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
           accountId={accountId}
           icon='plus'
           isDisabled={!balance || !hasMinLocked || !isHashValid || !accountId || !publicProps || (isFunction(api.tx.preimage?.notePreimage) && !isFunction(api.tx.democracy?.notePreimage) && !preimage)}
-          label={t<string>('Submit proposal')}
+          label={t('Submit proposal')}
           onStart={onClose}
           params={
             api.tx.democracy.propose.meta.args.length === 3

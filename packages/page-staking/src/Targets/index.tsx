@@ -8,13 +8,13 @@ import type { NominatedByMap, SortedTargets, TargetSortBy, ValidatorInfo } from 
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import Legend from '@polkadot/app-staking2/Legend';
 import { Button, Icon, styled, Table, Toggle } from '@polkadot/react-components';
 import { useApi, useAvailableSlashes, useSavedFlags } from '@polkadot/react-hooks';
 
 import { MAX_NOMINATIONS } from '../constants.js';
 import ElectionBanner from '../ElectionBanner.js';
 import Filtering from '../Filtering.js';
-import Legend from '../Legend.js';
 import { useTranslation } from '../translate.js';
 import useIdentities from '../useIdentities.js';
 import Nominate from './Nominate.js';
@@ -204,10 +204,10 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
   // False positive, this is part of the type...
   // eslint-disable-next-line func-call-spacing
   const header = useMemo<[React.ReactNode?, string?, number?, (() => void)?][]>(() => [
-    [t<string>('validators'), 'start', 4],
-    [t<string>('last era payout'), 'media--1400'],
-    [t<string>('nominators'), 'media--1200', 2],
-    [t<string>('comm.'), 'media--1100'],
+    [t('validators'), 'start', 4],
+    [t('last era payout'), 'media--1400'],
+    [t('nominators'), 'media--1200', 2],
+    [t('comm.'), 'media--1100'],
     ...(SORT_KEYS as (keyof typeof labelsRef.current)[]).map((header): [React.ReactNode?, string?, number?, (() => void)?] => [
       <>{labelsRef.current[header]}<Icon icon={sortBy === header ? (sortFromMax ? 'chevron-down' : 'chevron-up') : 'minus'} /></>,
       `${sorted ? `isClickable ${sortBy === header ? 'highlight--border' : ''} number` : 'number'} ${CLASSES[header] || ''}`,
@@ -259,7 +259,7 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
         <Button
           icon='check'
           isDisabled={!validators?.length || !ownNominators?.length}
-          label={t<string>('Most profitable')}
+          label={t('Most profitable')}
           onClick={_selectProfitable}
         />
         <Nominate
@@ -270,19 +270,19 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
       </Button.Group>
       <ElectionBanner isInElection={isInElection} />
       <Table
-        empty={sorted && t<string>('No active validators to check')}
+        empty={sorted && t('No active validators to check')}
         emptySpinner={
           <>
-            {!(validators && allIdentity) && <div>{t<string>('Retrieving validators')}</div>}
-            {!nominatedBy && <div>{t<string>('Retrieving nominators')}</div>}
-            {!displayList && <div>{t<string>('Preparing target display')}</div>}
+            {!(validators && allIdentity) && <div>{t('Retrieving validators')}</div>}
+            {!nominatedBy && <div>{t('Retrieving nominators')}</div>}
+            {!displayList && <div>{t('Preparing target display')}</div>}
           </>
         }
         filter={filter}
         header={header}
         legend={<Legend />}
       >
-        {displayList && displayList.map((info): React.ReactNode =>
+        {displayList?.map((info): React.ReactNode =>
           <Validator
             allSlashes={allSlashes}
             canSelect={canSelect}

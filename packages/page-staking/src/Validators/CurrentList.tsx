@@ -83,7 +83,7 @@ function getFiltered (isOwn: boolean, favorites: string[], targets: SortedTarget
 function mapValidators (infos: ValidatorInfo[]): Record<string, ValidatorInfo> {
   const result: Record<string, ValidatorInfo> = {};
 
-  for (let i = 0; i < infos.length; i++) {
+  for (let i = 0, count = infos.length; i < count; i++) {
     const info = infos[i];
 
     result[info.key] = info;
@@ -116,11 +116,11 @@ function CurrentList ({ className, favorites, hasQueries, isOwn, nominatedBy, ow
 
   const headerRef = useRef<[React.ReactNode?, string?, number?][]>(
     [
-      [t<string>('validators'), 'start', 2],
-      [t<string>('other stake'), 'expand'],
-      [t<string>('own stake'), 'media--1100'],
-      [t<string>('nominators'), 'expand'],
-      [t<string>('commission')],
+      [t('validators'), 'start', 2],
+      [t('other stake'), 'expand'],
+      [t('own stake'), 'media--1100'],
+      [t('nominators'), 'expand'],
+      [t('commission')],
       [],
       [undefined, 'media--1200']
     ]
@@ -130,13 +130,13 @@ function CurrentList ({ className, favorites, hasQueries, isOwn, nominatedBy, ow
     <Table
       className={className}
       empty={
-        list && recentlyOnline && infoMap && t<string>('No active validators found')
+        list && recentlyOnline && infoMap && t('No active validators found')
       }
       emptySpinner={
         <>
-          {!infoMap && <div>{t<string>('Retrieving validator info')}</div>}
-          {!nominatedBy && <div>{t<string>('Retrieving nominators')}</div>}
-          {!list && <div>{t<string>('Preparing validator list')}</div>}
+          {!infoMap && <div>{t('Retrieving validator info')}</div>}
+          {!nominatedBy && <div>{t('Retrieving nominators')}</div>}
+          {!list && <div>{t('Preparing validator list')}</div>}
         </>
       }
       filter={
@@ -147,7 +147,7 @@ function CurrentList ({ className, favorites, hasQueries, isOwn, nominatedBy, ow
       }
       header={headerRef.current}
     >
-      {list && list.map(([address, isFavorite]): React.ReactNode => (
+      {list?.map(([address, isFavorite]): React.ReactNode => (
         <Address
           address={address}
           filterName={nameFilter}

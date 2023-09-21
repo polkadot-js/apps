@@ -6,6 +6,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore Warned on by nodenext resolution (while package does build in bundler mode)
 import type { KeyringJson } from '@polkadot/ui-keyring/types';
+import type { IpcMainHandler } from './ipc-main-handler.js';
 
 import * as tmp from 'tmp';
 
@@ -14,7 +15,6 @@ import * as tmp from 'tmp';
 import { FileStore } from '@polkadot/ui-keyring/stores';
 
 import { accountStoreIpcHandler } from './account-store.js';
-import { IpcMainHandler } from './ipc-main-handler.js';
 
 const exampleAccount = (address: string): KeyringJson => ({
   address,

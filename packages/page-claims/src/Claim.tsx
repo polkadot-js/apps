@@ -84,18 +84,18 @@ function Claim ({ accountId, className = '', ethereumAddress, ethereumSignature,
       isSuccess={hasClaim}
     >
       <StyledDiv className={className}>
-        {t<string>('Your Ethereum account')}
+        {t('Your Ethereum account')}
         <h2>{addrToChecksum(ethereumAddress.toString())}</h2>
         {hasClaim
           ? (
             <>
-              {t<string>('has a valid claim for')}
+              {t('has a valid claim for')}
               <h2><FormatBalance value={claimValue} /></h2>
               <Button.Group>
                 <TxButton
                   icon='paper-plane'
                   isUnsigned
-                  label={t<string>('Claim')}
+                  label={t('Claim')}
                   onSuccess={onSuccess}
                   {...constructTx(api, systemChain, accountId, ethereumSignature, statementKind, isOldClaimProcess)}
                 />
@@ -104,7 +104,7 @@ function Claim ({ accountId, className = '', ethereumAddress, ethereumSignature,
           )
           : (
             <>
-              {t<string>('does not appear to have a valid claim. Please double check that you have signed the transaction correctly on the correct ETH account.')}
+              {t('does not appear to have a valid claim. Please double check that you have signed the transaction correctly on the correct ETH account.')}
             </>
           )}
       </StyledDiv>

@@ -35,8 +35,8 @@ function Overview ({ className = '', favorites, hasAccounts, hasQueries, nominat
   const recentlyOnline = useCall<DeriveHeartbeats>(api.derive.imOnline?.receivedHeartbeats);
 
   const filterOptions = useRef([
-    { text: t<string>('Own validators'), value: 'mine' },
-    { text: t<string>('All validators'), value: 'all' }
+    { text: t('Own validators'), value: 'mine' },
+    { text: t('All validators'), value: 'all' }
   ]);
 
   const ownStashIds = useMemo(

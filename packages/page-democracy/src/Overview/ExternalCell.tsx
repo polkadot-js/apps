@@ -6,9 +6,8 @@ import type { Hash } from '@polkadot/types/interfaces';
 
 import React from 'react';
 
-import { CallExpander } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { Holder } from '@polkadot/react-params';
+import { CallExpander, Holder } from '@polkadot/react-params';
 
 import { useTranslation } from '../translate.js';
 
@@ -33,7 +32,7 @@ function ExternalCell ({ className = '', value }: Props): React.ReactElement<Pro
       withPadding
     >
       <CallExpander
-        labelHash={t<string>('proposal hash')}
+        labelHash={t('proposal hash')}
         value={preimage.proposal}
         withHash
       />

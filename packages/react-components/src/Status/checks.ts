@@ -1,6 +1,9 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// we use augmented types in this tsconfig
+import '@polkadot/api-augment/substrate';
+
 import type { DispatchError, DispatchResult, Event, EventRecord } from '@polkadot/types/interfaces';
 import type { XcmV3TraitsOutcome } from '@polkadot/types/lookup';
 

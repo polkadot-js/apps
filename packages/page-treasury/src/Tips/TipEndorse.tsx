@@ -41,7 +41,7 @@ function TipEndorse ({ defaultId, hash, isMember, isTipped, median, members, rec
       <Button
         icon='check'
         isDisabled={!isMember}
-        label={t<string>('Tip')}
+        label={t('Tip')}
         onClick={toggleOpen}
       />
       <TxButton
@@ -56,30 +56,30 @@ function TipEndorse ({ defaultId, hash, isMember, isTipped, median, members, rec
       />
       {isOpen && (
         <Modal
-          header={t<string>('Submit tip endorsement')}
+          header={t('Submit tip endorsement')}
           onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns hint={t<string>('Your endorsement will be applied for this account.')}>
+            <Modal.Columns hint={t('Your endorsement will be applied for this account.')}>
               <InputAddress
                 filter={members}
-                label={t<string>('submit with account')}
+                label={t('submit with account')}
                 onChange={setAccountId}
                 type='account'
                 withLabel
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('Allocate a suggested tip amount. With enough endorsements, the suggested values are averaged and sent to the beneficiary.')}>
+            <Modal.Columns hint={t('Allocate a suggested tip amount. With enough endorsements, the suggested values are averaged and sent to the beneficiary.')}>
               <InputBalance
                 autoFocus
                 defaultValue={median}
                 isZeroable
-                label={t<string>('value')}
+                label={t('value')}
                 onChange={setValue}
               />
               {totalBalance && totalBalance.isZero() && (
-                <MarkWarning content={t<string>('The recipient account has no balance, ensure the tip is more than the existential deposit to create the account.')} />
+                <MarkWarning content={t('The recipient account has no balance, ensure the tip is more than the existential deposit to create the account.')} />
               )}
             </Modal.Columns>
           </Modal.Content>
@@ -88,7 +88,7 @@ function TipEndorse ({ defaultId, hash, isMember, isTipped, median, members, rec
               accountId={accountId}
               icon='plus'
               isDisabled={!accountId}
-              label={t<string>('Submit tip')}
+              label={t('Submit tip')}
               onStart={toggleOpen}
               params={[hash, value]}
               tx={tipTx}

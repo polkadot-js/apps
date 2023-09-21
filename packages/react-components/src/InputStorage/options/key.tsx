@@ -1,12 +1,12 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { StorageEntry } from '@polkadot/types/primitive/types';
 import type { DropdownOption, DropdownOptions } from '../../util/types.js';
 
 import React from 'react';
 
-import { ApiPromise } from '@polkadot/api';
 import { getSiName } from '@polkadot/types/metadata/util';
 import { unwrapStorageType } from '@polkadot/types/util';
 

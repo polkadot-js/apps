@@ -1,10 +1,17 @@
 // Copyright 2017-2023 @polkadot/app-utilities authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { UseTranslationResponse } from 'react-i18next';
-
 import { useTranslation as useTranslationBase } from 'react-i18next';
 
-export function useTranslation (): UseTranslationResponse<'app-utilities', undefined> {
-  return useTranslationBase('app-utilities');
+interface TOptions {
+  ns?: string;
+  replace?: Record<string, unknown>;
+}
+
+interface Translation {
+  t: (key: string, optionsOrText?: string | TOptions, options?: TOptions) => string
+}
+
+export function useTranslation (): Translation {
+  return useTranslationBase('app-utilities') as unknown as Translation;
 }

@@ -6,8 +6,9 @@ import type { BN } from '@polkadot/util';
 
 import React, { useMemo, useState } from 'react';
 
-import { Button, ConvictionDropdown, Modal, ProposedAction, TxButton, VoteAccount, VoteValue } from '@polkadot/react-components';
+import { Button, ConvictionDropdown, Modal, TxButton, VoteAccount, VoteValue } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
+import { ProposedAction } from '@polkadot/react-params';
 
 import { useTranslation } from '../translate.js';
 
@@ -40,25 +41,25 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
     <>
       {isVotingOpen && (
         <Modal
-          header={t<string>('Vote on proposal')}
+          header={t('Vote on proposal')}
           onClose={toggleVoting}
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns hint={t<string>('If this proposal is passed, the changes will be applied via dispatch and the deposit returned.')}>
+            <Modal.Columns hint={t('If this proposal is passed, the changes will be applied via dispatch and the deposit returned.')}>
               <ProposedAction
                 idNumber={referendumId}
                 proposal={proposal}
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The vote will be recorded for this account. If another account delegated to this one, the delegated votes will also be counted.')}>
+            <Modal.Columns hint={t('The vote will be recorded for this account. If another account delegated to this one, the delegated votes will also be counted.')}>
               <VoteAccount onChange={setAccountId} />
             </Modal.Columns>
             <Modal.Columns
               hint={
                 <>
-                  <p>{t<string>('The balance associated with the vote will be locked as per the conviction specified and will not be available for transfer during this period.')}</p>
-                  <p>{t<string>('Conviction locks do overlap and are not additive, meaning that funds locked during a previous vote can be locked again.')}</p>
+                  <p>{t('The balance associated with the vote will be locked as per the conviction specified and will not be available for transfer during this period.')}</p>
+                  <p>{t('Conviction locks do overlap and are not additive, meaning that funds locked during a previous vote can be locked again.')}</p>
                 </>
               }
             >
@@ -70,7 +71,7 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
                 />
               )}
               <ConvictionDropdown
-                label={t<string>('conviction')}
+                label={t('conviction')}
                 onChange={setConviction}
                 value={conviction}
                 voteLockingPeriod={
@@ -85,7 +86,7 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
               accountId={accountId}
               icon='ban'
               isDisabled={isDisabled}
-              label={t<string>('Vote Nay')}
+              label={t('Vote Nay')}
               onStart={toggleVoting}
               params={
                 isCurrentVote
@@ -98,7 +99,7 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
               accountId={accountId}
               icon='check'
               isDisabled={isDisabled}
-              label={t<string>('Vote Aye')}
+              label={t('Vote Aye')}
               onStart={toggleVoting}
               params={
                 isCurrentVote
@@ -112,7 +113,7 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
       )}
       <Button
         icon='check-to-slot'
-        label={t<string>('Vote')}
+        label={t('Vote')}
         onClick={toggleVoting}
       />
     </>

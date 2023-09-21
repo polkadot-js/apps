@@ -31,7 +31,7 @@ function Proposal ({ className = '', imageHash, isMember, members, prime, type }
   const { hasFailed, isCloseable, isVoteable, remainingBlocks } = useVotingStatus(derive?.votes, members.length, type);
   const modLocation = useCollectiveInstance(type);
 
-  if (!modLocation || !derive || !derive.votes) {
+  if (!modLocation || !derive?.votes) {
     return null;
   }
 

@@ -1,13 +1,14 @@
 // Copyright 2017-2023 @polkadot/app-js authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { StrictLabelProps } from 'semantic-ui-react';
 import type { Snippet } from '../types.js';
 
-const label = {
+const label: StrictLabelProps = {
   children: 'Storage',
   color: 'blue',
   size: 'tiny'
-} as const;
+};
 
 export const storageGetInfo: Snippet = {
   code: `// Get chain state information

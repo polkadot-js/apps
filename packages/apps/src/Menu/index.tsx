@@ -1,7 +1,6 @@
 // Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
 import type { Route, Routes } from '@polkadot/apps-routing/types';
 import type { ApiProps } from '@polkadot/react-api/types';
 import type { AccountId } from '@polkadot/types/interfaces';
@@ -25,7 +24,7 @@ interface Props {
   className?: string;
 }
 
-function createExternals (t: TFunction): ItemRoute[] {
+function createExternals (t: (key: string, optionsOrText?: string | { replace: Record<string, unknown> }, options?: { ns: string }) => string): ItemRoute[] {
   return [
     {
       href: 'https://github.com/aleph-zero-foundation',
@@ -99,12 +98,12 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   const routeRef = useRef(createRoutes(t));
 
   const groupRef = useRef({
-    accounts: t<string>('Accounts'),
-    developer: t<string>('Developer'),
-    files: t<string>('Files'),
-    governance: t<string>('Governance'),
-    network: t<string>('Network'),
-    settings: t<string>('Settings')
+    accounts: t('Accounts'),
+    developer: t('Developer'),
+    files: t('Files'),
+    governance: t('Governance'),
+    network: t('Network'),
+    settings: t('Settings')
   });
 
   const hasSudo = useMemo(

@@ -67,16 +67,16 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
 
   const storageOptions = useMemo(
     () => [
-      { text: t<string>('Allow local in-browser account storage'), value: StorageMode.enabled },
-      { text: t<string>('Do not allow local in-browser account storage'), value: StorageMode.disabled }
+      { text: t('Allow local in-browser account storage'), value: StorageMode.enabled },
+      { text: t('Do not allow local in-browser account storage'), value: StorageMode.disabled }
     ],
     [t]
   );
 
   const themeOptions = useMemo(
     () => [
-      { text: t<string>('Dark theme (default)'), value: 'dark' },
-      { text: t<string>('Light theme'), value: 'light' }
+      { text: t('Dark theme (default)'), value: 'dark' },
+      { text: t('Light theme'), value: 'light' }
     ],
     [t]
   );
@@ -119,11 +119,11 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
 
   return (
     <div className={className}>
-      <h1>{t<string>('UI options')}</h1>
+      <h1>{t('UI options')}</h1>
       <div className='ui--row'>
         <Dropdown
           defaultValue={state.icon}
-          label={t<string>('default icon theme')}
+          label={t('default icon theme')}
           onChange={_handleChange('icon')}
           options={iconOptions}
         />
@@ -131,7 +131,7 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
       <div className='ui--row'>
         <Dropdown
           defaultValue={state.uiTheme}
-          label={t<string>('default interface theme')}
+          label={t('default interface theme')}
           onChange={_handleChange('uiTheme')}
           options={themeOptions}
         />
@@ -139,16 +139,16 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
       <div className='ui--row'>
         <Dropdown
           defaultValue={state.i18nLang}
-          label={t<string>('default interface language')}
+          label={t('default interface language')}
           onChange={_handleChange('i18nLang')}
           options={translateLanguages}
         />
       </div>
-      <h1>{t<string>('account options')}</h1>
+      <h1>{t('account options')}</h1>
       <div className='ui--row'>
         <Dropdown
           defaultValue={state.prefix}
-          label={t<string>('address prefix')}
+          label={t('address prefix')}
           onChange={_handleChange('prefix')}
           options={prefixOptions}
         />
@@ -158,14 +158,14 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
           <div className='ui--row'>
             <Dropdown
               defaultValue={state.storage}
-              label={t<string>('in-browser account creation')}
+              label={t('in-browser account creation')}
               onChange={_handleChange('storage')}
               options={storageOptions}
             />
           </div>
           {state.storage === StorageMode.enabled && (
             <div className='ui--row'>
-              <MarkWarning content={t<string>('It is recommended that you store all keys externally to the in-page browser local storage, either on browser extensions, signers operating via QR codes or hardware devices. This option is provided for advanced users with strong backup policies.')} />
+              <MarkWarning content={t('It is recommended that you store all keys externally to the in-page browser local storage, either on browser extensions, signers operating via QR codes or hardware devices. This option is provided for advanced users with strong backup policies.')} />
             </div>
           )}
         </>
@@ -180,7 +180,7 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
                   : ledgerConnOptions[0].value
               }
               isDisabled={!hasWebUsb}
-              label={t<string>('manage hardware connections')}
+              label={t('manage hardware connections')}
               onChange={_handleChange('ledgerConn')}
               options={ledgerConnOptions}
             />
@@ -189,13 +189,13 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
             ? state.ledgerConn !== 'none'
               ? (
                 <div className='ui--row'>
-                  <MarkWarning content={t<string>('Ledger support is still experimental and some issues may remain. Trust, but verify the addresses on your devices before transferring large amounts. There are some features that will not work, including batch calls (used extensively in staking and democracy) as well as any identity operations.')} />
+                  <MarkWarning content={t('Ledger support is still experimental and some issues may remain. Trust, but verify the addresses on your devices before transferring large amounts. There are some features that will not work, including batch calls (used extensively in staking and democracy) as well as any identity operations.')} />
                 </div>
               )
               : null
             : (
               <div className='ui--row'>
-                <MarkWarning content={t<string>('Ledger hardware device support is only available on Chromium-based browsers where WebUSB and WebHID support is available in the browser.')} />
+                <MarkWarning content={t('Ledger hardware device support is only available on Chromium-based browsers where WebUSB and WebHID support is available in the browser.')} />
               </div>
             )
           }
@@ -207,8 +207,8 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
           isDisabled={changed === null}
           label={
             changed
-              ? t<string>('Save & Reload')
-              : t<string>('Save')
+              ? t('Save & Reload')
+              : t('Save')
           }
           onClick={
             changed

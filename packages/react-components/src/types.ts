@@ -2,10 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
-import type { WithTranslation } from 'react-i18next';
+import type React from 'react';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { Abi } from '@polkadot/api-contract';
-import type { ThemeDef } from '@polkadot/react-hooks/ctx/types';
 import type { AccountId, AccountIndex, Address, Index } from '@polkadot/types/interfaces';
 import type { ActionStatus, TxCallback, TxFailedCallback } from './Status/types.js';
 
@@ -21,7 +20,13 @@ export interface AppProps {
   onStatusChange: (status: ActionStatus) => void;
 }
 
-export type I18nProps = BareProps & WithTranslation;
+export interface ThemeDef {
+  theme: 'dark' | 'light';
+}
+
+export interface I18nProps extends BareProps {
+  t: (key: string, options?: { replace: Record<string, unknown> }) => string;
+}
 
 export interface TxButtonProps {
   accountId?: AccountId | string | null;
@@ -79,3 +84,14 @@ export type FlagColor = 'blue' | 'black' | 'green' | 'grey' | 'lightgrey' | 'ora
 export type AccountIdIsh = AccountId | AccountIndex | Address | string | Uint8Array | null;
 
 export type DisplayedJudgement = 'Erroneous' | 'Low quality' | 'Known good' | 'Reasonable';
+
+export interface TabItem {
+  alias?: string;
+  count?: number;
+  hasParams?: boolean;
+  isExact?: boolean;
+  isHidden?: boolean;
+  isRoot?: boolean;
+  name: string;
+  text: React.ReactNode;
+}

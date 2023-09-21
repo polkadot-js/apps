@@ -7,9 +7,7 @@ import type { Environment } from '../types.js';
 function isElectron () {
   if (process?.versions?.electron) {
     return true;
-  }
-
-  if (window?.process?.type === 'renderer') {
+  } else if ((window?.process as unknown as (Record<string, string> | undefined))?.type === 'renderer') {
     return true;
   }
 

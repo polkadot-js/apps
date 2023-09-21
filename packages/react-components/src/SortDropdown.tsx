@@ -1,8 +1,9 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DropdownItemProps } from 'semantic-ui-react';
+
 import React from 'react';
-import { DropdownItemProps } from 'semantic-ui-react';
 
 import Dropdown from './Dropdown.js';
 import Icon from './Icon.js';
@@ -14,7 +15,7 @@ interface Props {
   label: string;
   onChange: (value: any) => void;
   onClick: () => void;
-  options: (React.ReactNode | DropdownItemProps)[];
+  options: (DropdownItemProps | React.ReactNode)[];
   sortDirection: 'descending' | 'ascending';
 }
 

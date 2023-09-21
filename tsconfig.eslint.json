@@ -4,6 +4,17 @@
     "baseUrl": "./packages",
     "composite": false
   },
+  "include": [
+    "packages/**/public/env-config.js",
+    "packages/**/src/**/*",
+    "packages/**/scripts/**/*",
+    "packages/**/test/**/*",
+    "packages/**/webpack.*.cjs",
+    "scripts/*",
+    ".prettierrc.cjs",
+    "eslint.config.js",
+    "i18next-scanner.config.cjs"
+  ],
   "exclude": [
     "build/**/*",
     "**/build/**/*",

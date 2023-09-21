@@ -4,11 +4,13 @@
 // The list of Ethereum networks, for these the UI will default to Ethereum-only accounts
 
 export const ethereumChains = [
+  'mythical-devnet',
   'frontier-template',
   'jaz',
   'moonbase',
   'moonbeam',
   'moonriver',
+  'moonsama',
   'moonshadow',
   'altbeacon',
   'alt-producer',
@@ -24,5 +26,9 @@ export const ethereumChains = [
   'thebifrost-testnet',
   'thebifrost-mainnet',
   'dracones',
-  'dracones-dwarf'
+  'dracones-dwarf',
+  'subspace-evm-domain',
+  'ferrum-parachain',
+  'quantum-portal-network-parachain',
+  'peerplays'
 ];

@@ -1,9 +1,10 @@
 // Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type React from 'react';
 import type { HorizontalPosition, VerticalPosition } from '@polkadot/react-components/Popup/types';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { getPosition } from '@polkadot/react-components/Popup/utils';
 

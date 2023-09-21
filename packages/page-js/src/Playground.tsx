@@ -88,7 +88,7 @@ function Playground ({ basePath, className = '' }: Props): React.ReactElement<Pr
     {
       isRoot: true,
       name: 'playground',
-      text: t<string>('Console')
+      text: t('Console')
     }
   ]);
 
@@ -244,7 +244,7 @@ function Playground ({ basePath, className = '' }: Props): React.ReactElement<Pr
         <Dropdown
           className='js--Dropdown'
           isFull
-          label={t<string>('Select example')}
+          label={t('Select example')}
           onChange={_selectExample}
           options={options}
           value={selected.value}

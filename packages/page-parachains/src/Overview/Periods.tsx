@@ -18,9 +18,9 @@ interface Props {
 }
 
 function getMapped (periods: number[], currentPeriod?: BN): string | undefined {
-  return currentPeriod && periods &&
+  return currentPeriod &&
     periods
-      .reduce((all: [BN, BN][], period): [BN, BN][] => {
+      ?.reduce((all: [BN, BN][], period): [BN, BN][] => {
         const bnp = currentPeriod.addn(period);
 
         if (!all.length || all[all.length - 1][1].add(BN_ONE).lt(bnp)) {

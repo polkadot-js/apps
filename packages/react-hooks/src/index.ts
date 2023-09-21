@@ -1,9 +1,11 @@
 // Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-export * from './ctx/index.js';
+// we use augmented types in this tsconfig
+import '@polkadot/api-augment/substrate';
 
 export { createNamedHook } from './createNamedHook.js';
+export * from './ctx/index.js';
 export { useAccountId } from './useAccountId.js';
 export { useAccountInfo } from './useAccountInfo.js';
 export { useAccounts } from './useAccounts.js';
@@ -19,8 +21,8 @@ export { useBestNumber } from './useBestNumber.js';
 export { useBlockAuthors } from './useBlockAuthors.js';
 export { useBlockEvents } from './useBlockEvents.js';
 export { useBlockInterval } from './useBlockInterval.js';
-export { useBlockTime } from './useBlockTime.js';
 export { useBlocksPerDays } from './useBlocksPerDays.js';
+export { useBlockTime } from './useBlockTime.js';
 export { useCacheKey } from './useCacheKey.js';
 export { useCall } from './useCall.js';
 export { useCallMulti } from './useCallMulti.js';
@@ -45,7 +47,6 @@ export { useIpfsLink } from './useIpfsLink.js';
 export { useIsMountedRef } from './useIsMountedRef.js';
 export { useJudgements } from './useJudgements.js';
 export { useKeyring } from './useKeyring.js';
-export { useLenientThresholdPercentage } from './useLenientThresholdPercentage.js';
 export { useLedger } from './useLedger.js';
 export { useMapEntries } from './useMapEntries.js';
 export { useMapKeys } from './useMapKeys.js';
@@ -54,23 +55,23 @@ export { useModal } from './useModal.js';
 export { useNextTick } from './useNextTick.js';
 export { useNonEmptyString } from './useNonEmptyString.js';
 export { useNonZeroBn } from './useNonZeroBn.js';
+export { useOutsideClick } from './useOutsideClick.js';
 export { useOwnEraRewards } from './useOwnEraRewards.js';
 export { useOwnStashes, useOwnStashIds } from './useOwnStashes.js';
 export { useOwnStashInfos } from './useOwnStashInfos.js';
-export { useOutsideClick } from './useOutsideClick.js';
 export { useParaApi } from './useParaApi.js';
+export { useIsParasLinked, useParaEndpoints } from './useParaEndpoints.js';
+export { usePassword } from './usePassword.js';
 export { usePopupWindow } from './usePopupWindow.js';
 export { usePreimage } from './usePreimage.js';
 export { useProxies } from './useProxies.js';
-export { useIsParasLinked, useParaEndpoints } from './useParaEndpoints.js';
-export { usePassword } from './usePassword.js';
 export { useQueue } from './useQueue.js';
 export { useRegistrars } from './useRegistrars.js';
 export { useSavedFlags } from './useSavedFlags.js';
 export { useScroll } from './useScroll.js';
-export { useSubidentities } from './useSubidentities.js';
 export { useStakingInfo } from './useStakingInfo.js';
 export { useStepper } from './useStepper.js';
+export { useSubidentities } from './useSubidentities.js';
 export { useSudo } from './useSudo.js';
 export { useSystemApi } from './useSystemApi.js';
 export { useTeleport } from './useTeleport.js';

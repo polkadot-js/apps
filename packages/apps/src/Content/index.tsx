@@ -7,8 +7,9 @@ import React, { Suspense, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import createRoutes from '@polkadot/apps-routing';
-import { ErrorBoundary, Spinner, styled, TabsCtx } from '@polkadot/react-components';
+import { ErrorBoundary, Spinner, styled } from '@polkadot/react-components';
 import { useApi, useQueue } from '@polkadot/react-hooks';
+import { TabsCtx } from '@polkadot/react-hooks/ctx/Tabs';
 
 import { findMissingApis } from '../endpoint.js';
 import { useTranslation } from '../translate.js';
@@ -62,7 +63,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
       {!missingApis
         ? (
           <div className='connecting'>
-            <Spinner label={t<string>('Initializing connection')} />
+            <Spinner label={t('Initializing connection')} />
           </div>
         )
         : (

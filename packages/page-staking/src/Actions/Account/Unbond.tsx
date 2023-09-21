@@ -1,21 +1,22 @@
 // Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AccountId, StakingLedger } from '@polkadot/types/interfaces';
+import type { StakingLedger } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
 import React, { useState } from 'react';
 
-import { InputAddress, InputBalance, Modal, Static, styled, TxButton } from '@polkadot/react-components';
+import { InputBalance, Modal, Static, styled, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../../translate.js';
+import SenderInfo from '../partials/SenderInfo.js';
 import useUnbondDuration from '../useUnbondDuration.js';
 
 interface Props {
-  controllerId?: AccountId | string | null;
+  controllerId?: string | null;
   onClose: () => void;
   stakingLedger?: StakingLedger;
   stashId: string;
@@ -30,31 +31,23 @@ function Unbond ({ controllerId, onClose, stakingLedger, stashId }: Props): Reac
 
   return (
     <StyledModal
-      header={t<string>('Unbond funds')}
+      header={t('Unbond funds')}
       onClose={onClose}
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={t<string>('The stash and controller pair, here the controller will be used to send the transaction.')}>
-          <InputAddress
-            defaultValue={stashId}
-            isDisabled
-            label={t<string>('stash account')}
-          />
-          <InputAddress
-            defaultValue={controllerId}
-            isDisabled
-            label={t<string>('controller account')}
-          />
-        </Modal.Columns>
-        <Modal.Columns hint={t<string>('The funds will only be available for withdrawal after the unbonding period, however will not be part of the staked amount after the next validator election. You can follow the unlock countdown in the UI.')}>
+        <SenderInfo
+          controllerId={controllerId}
+          stashId={stashId}
+        />
+        <Modal.Columns hint={t('The funds will only be available for withdrawal after the unbonding period, however will not be part of the staked amount after the next validator election. You can follow the unlock countdown in the UI.')}>
           <InputBalance
             autoFocus
             defaultValue={maxBalance}
-            label={t<string>('unbond amount')}
+            label={t('unbond amount')}
             labelExtra={
               <FormatBalance
-                label={<span className='label'>{t<string>('bonded')}</span>}
+                label={<span className='label'>{t('bonded')}</span>}
                 value={maxBalance}
               />
             }
@@ -64,7 +57,7 @@ function Unbond ({ controllerId, onClose, stakingLedger, stashId }: Props): Reac
           />
           {bondedBlocks?.gtn(0) && (
             <Static
-              label={t<string>('on-chain bonding duration')}
+              label={t('on-chain bonding duration')}
             >
               <BlockToTime value={bondedBlocks} />
             </Static>
@@ -76,7 +69,7 @@ function Unbond ({ controllerId, onClose, stakingLedger, stashId }: Props): Reac
           accountId={controllerId}
           icon='unlock'
           isDisabled={!maxUnbond?.gt(BN_ZERO)}
-          label={t<string>('Unbond')}
+          label={t('Unbond')}
           onStart={onClose}
           params={[maxUnbond]}
           tx={api.tx.staking.unbond}

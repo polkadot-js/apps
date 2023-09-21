@@ -49,7 +49,7 @@ function PollApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const itemsRef = useRef([{
     isRoot: true,
     name: 'poll',
-    text: t<string>('Denomination poll')
+    text: t('Denomination poll')
   }]);
 
   useEffect((): void => {
@@ -74,7 +74,7 @@ function PollApp ({ basePath, className }: Props): React.ReactElement<Props> {
     return (
       <main className={className}>
         <div className='pollContainer'>
-          <Spinner label={t<string>('Retrieving totals...')} />
+          <Spinner label={t('Retrieving totals...')} />
         </div>
       </main>
     );
@@ -111,7 +111,7 @@ function PollApp ({ basePath, className }: Props): React.ReactElement<Props> {
             <div>
               {canVote
                 ? <BlockToTime value={blocksLeft} />
-                : t<string>('Completed')
+                : t('Completed')
               }
               <div>#{formatNumber(api.consts.poll.end as BlockNumber)}</div>
             </div>
@@ -140,9 +140,9 @@ function PollApp ({ basePath, className }: Props): React.ReactElement<Props> {
                       label={
                         canVote
                           ? value
-                            ? t<string>('Aye, I support this')
-                            : t<string>('Nay, I do not support this')
-                          : t<string>('Voting closed')
+                            ? t('Aye, I support this')
+                            : t('Nay, I do not support this')
+                          : t('Voting closed')
                       }
                       onChange={onChange}
                       value={canVote && value}

@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Balance } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
-import { BN, formatBalance } from '@polkadot/util';
+import { formatBalance } from '@polkadot/util';
 
 import { balanceOf } from '../creation/balance.js';
 

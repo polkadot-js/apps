@@ -1,7 +1,7 @@
 // Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeDef } from './ctx/types.js';
+import type { ThemeDef } from '@polkadot/react-components/types';
 
 import { useContext, useMemo } from 'react';
 import { ThemeContext } from 'styled-components';
@@ -14,14 +14,14 @@ interface Theme {
 }
 
 function useThemeImpl (): Theme {
-  const { theme } = useContext(ThemeContext as React.Context<ThemeDef>);
+  const ctx = useContext(ThemeContext);
 
   return useMemo(
     (): Theme => ({
-      theme,
-      themeClassName: `theme--${theme}`
+      theme: (ctx?.theme || 'light') as 'light',
+      themeClassName: `theme--${(ctx?.theme || 'light') as 'light'}`
     }),
-    [theme]
+    [ctx]
   );
 }
 

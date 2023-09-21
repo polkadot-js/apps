@@ -404,7 +404,7 @@ class InputAddress extends React.PureComponent<Props, State> {
     return matches.filter((item, index): boolean => {
       const isLast = index === matches.length - 1;
       const nextItem = matches[index + 1];
-      const hasNext = nextItem && nextItem.value;
+      const hasNext = nextItem?.value;
 
       return !(isNull(item.value) || isUndefined(item.value)) || (!isLast && !!hasNext);
     }) as DropdownItemProps[];

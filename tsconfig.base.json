@@ -2,10 +2,16 @@
   "extends": "@polkadot/dev/config/tsconfig.json",
 	"compilerOptions": {
     "composite": true,
+    /**
+     * NOTE We have a lot of these, for ergonomic purposes it is
+     * better just letting the status-quo be (for the time being)
+     *
+     * Reverts https://github.com/polkadot-js/dev/pull/1074
+     **/
+    "noPropertyAccessFromIndexSignature": false,
 		"paths": {
       "@polkadot/apps": ["apps/src/index.tsx"],
       "@polkadot/apps/Root": ["apps/src/Root.tsx"],
-      "@polkadot/apps/themes": ["apps/src/themes.ts"],
       "@polkadot/apps-config": ["apps-config/src/index.ts"],
       "@polkadot/apps-config/endpoints": ["apps-config/src/endpoints/index.ts"],
       "@polkadot/apps-config/endpoints/*": ["apps-config/src/endpoints/*.ts"],
@@ -15,8 +21,6 @@
       "@polkadot/apps-routing": ["apps-routing/src/index.ts"],
       "@polkadot/apps-routing/*": ["apps-routing/src/*.ts"],
       "@polkadot/app-accounts": ["page-accounts/src/index.tsx"],
-      "@polkadot/app-accounts/modals/Transfer": ["page-accounts/src/modals/Transfer.tsx"],
-      "@polkadot/app-accounts/Sidebar": ["page-accounts/src/Sidebar/index.tsx"],
       "@polkadot/app-addresses": ["page-addresses/src/index.tsx"],
       "@polkadot/app-alliance": ["page-alliance/src/index.tsx"],
       "@polkadot/app-assets": ["page-assets/src/index.tsx"],
@@ -39,6 +43,7 @@
       "@polkadot/app-js": ["page-js/src/index.tsx"],
       "@polkadot/app-membership": ["page-membership/src/index.tsx"],
       "@polkadot/app-nfts": ["page-nfts/src/index.tsx"],
+      "@polkadot/app-nis": ["page-nis/src/index.tsx"],
       "@polkadot/app-parachains": ["page-parachains/src/index.tsx"],
       "@polkadot/app-parachains/Teleport": ["page-parachains/src/Teleport.tsx"],
       "@polkadot/app-parachains/useLeaseRanges": ["page-parachains/src/useLeaseRanges.ts"],
@@ -62,8 +67,8 @@
       "@polkadot/app-signing": ["page-signing/src/index.tsx"],
       "@polkadot/app-society": ["page-society/src/index.tsx"],
       "@polkadot/app-staking": ["page-staking/src/index.tsx"],
-      "@polkadot/app-staking/Legend": ["page-staking/src/Legend.tsx"],
       "@polkadot/app-staking2": ["page-staking2/src/index.tsx"],
+      "@polkadot/app-staking2/Legend": ["page-staking2/src/Legend.tsx"],
       "@polkadot/app-staking2/Pools": ["page-staking2/src/Pools/index.tsx"],
       "@polkadot/app-staking2/Pools/*": ["page-staking2/src/Pools/*.ts"],
       "@polkadot/app-storage": ["page-storage/src/index.tsx"],
@@ -87,7 +92,6 @@
       "@polkadot/react-components/styled": ["react-components/src/styled.ts"],
       "@polkadot/react-components/styles": ["react-components/src/styles/index.ts"],
       "@polkadot/react-components/styles/*": ["react-components/src/styles/*.ts"],
-      "@polkadot/react-components/Tabs/*": ["react-components/src/Tabs/*.ts"],
       "@polkadot/react-components/types": ["react-components/src/types.ts"],
       "@polkadot/react-components/util": ["react-components/src/util/index.ts"],
       "@polkadot/react-components/util/types": ["react-components/src/util/types.ts"],
@@ -103,6 +107,7 @@
       "@polkadot/react-params/valueToText": ["react-params/src/valueToText.tsx"],
       "@polkadot/react-query": ["react-query/src/index.ts"],
       "@polkadot/react-signer": ["react-signer/src/index.tsx"],
+      "@polkadot/react-signer/signers": ["react-signer/src/signers/index.ts"],
       "@polkadot/test-support/api": ["test-support/src/api/index.ts"],
       "@polkadot/test-support/creation/*": ["test-support/src/creation/*.ts"],
       "@polkadot/test-support/hooks": ["test-support/src/hooks/index.ts"],

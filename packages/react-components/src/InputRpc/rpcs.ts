@@ -12,7 +12,7 @@ function toExt (section: string, input: Record<string, DefinitionRpc>): Record<s
   return Object.entries(input).reduce((output: Record<string, DefinitionRpcExt>, [method, def]): Record<string, DefinitionRpcExt> => {
     output[method] = {
       isSubscription: false,
-      jsonrpc: `${method}_${section}`,
+      jsonrpc: `${section}_${method}`,
       method,
       section,
       ...def

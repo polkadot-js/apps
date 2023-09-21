@@ -9,7 +9,7 @@ import Bare from './Bare.js';
 
 interface Props {
   className?: string;
-  defaultValue?: any;
+  defaultValue?: unknown;
   isDisabled?: boolean;
   isError?: boolean;
   label?: React.ReactNode;

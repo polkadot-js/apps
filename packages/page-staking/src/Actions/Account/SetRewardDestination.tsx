@@ -12,6 +12,7 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate.js';
 import { createDestCurr } from '../destOptions.js';
+import SenderInfo from '../partials/SenderInfo.js';
 
 interface Props {
   defaultDestination?: RewardDestination;
@@ -37,41 +38,33 @@ function SetRewardDestination ({ controllerId, defaultDestination, onClose, stas
 
   return (
     <Modal
-      header={t<string>('Bonding Preferences')}
+      header={t('Bonding Preferences')}
       onClose={onClose}
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={t<string>('The stash and controller pair as linked. This operation will be performed via the controller.')}>
-          <InputAddress
-            defaultValue={stashId}
-            isDisabled
-            label={t<string>('stash account')}
-          />
-          <InputAddress
-            defaultValue={controllerId}
-            isDisabled
-            label={t<string>('controller account')}
-          />
-        </Modal.Columns>
-        <Modal.Columns hint={t<string>('All rewards will go towards the selected output destination when a payout is made.')}>
+        <SenderInfo
+          controllerId={controllerId}
+          stashId={stashId}
+        />
+        <Modal.Columns hint={t('All rewards will go towards the selected output destination when a payout is made.')}>
           <Dropdown
             defaultValue={defaultDestination?.toString()}
-            label={t<string>('payment destination')}
+            label={t('payment destination')}
             onChange={setDestination}
             options={options}
             value={destination}
           />
           {isAccount && (
             <InputAddress
-              label={t<string>('the payment account')}
+              label={t('the payment account')}
               onChange={setDestAccount}
               type='account'
               value={destAccount}
             />
           )}
           {isDestError && (
-            <MarkError content={t<string>('The selected destination account does not exist and cannot be used to receive rewards')} />
+            <MarkError content={t('The selected destination account does not exist and cannot be used to receive rewards')} />
           )}
         </Modal.Columns>
       </Modal.Content>
@@ -80,7 +73,7 @@ function SetRewardDestination ({ controllerId, defaultDestination, onClose, stas
           accountId={controllerId}
           icon='sign-in-alt'
           isDisabled={!controllerId || (isAccount && (!destAccount || isDestError))}
-          label={t<string>('Set reward destination')}
+          label={t('Set reward destination')}
           onStart={onClose}
           params={[
             isAccount

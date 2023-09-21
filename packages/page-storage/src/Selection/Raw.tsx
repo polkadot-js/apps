@@ -97,7 +97,7 @@ function Raw ({ onAdd }: Props): React.ReactElement<Props> {
         <div className='storage--actionrow-value'>
           <Input
             autoFocus
-            label={t<string>('hex-encoded storage key')}
+            label={t('hex-encoded storage key')}
             onChange={_onChangeKey}
             onEnter={_onAdd}
           />
@@ -114,7 +114,7 @@ function Raw ({ onAdd }: Props): React.ReactElement<Props> {
         <div className='storage--actionrow-decoded'>
           <Output
             isDisabled={true}
-            label={t<string>('Decoded pallet name and call')}
+            label={t('Decoded pallet name and call')}
             value={decodedKey}
             withCopy
           />

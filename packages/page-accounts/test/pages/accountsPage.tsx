@@ -1,6 +1,7 @@
-// Copyright 2017-2023 @polkadot/page-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Sidebar } from '@polkadot/test-support/pagesElements';
 import type { AccountOverrides } from '@polkadot/test-support/types';
 
 import { fireEvent, screen, within } from '@testing-library/react';
@@ -8,7 +9,6 @@ import React from 'react';
 
 import { anAccount } from '@polkadot/test-support/creation/account';
 import { Page } from '@polkadot/test-support/pages/Page';
-import { Sidebar } from '@polkadot/test-support/pagesElements';
 import { assertText, clickButton } from '@polkadot/test-support/utils';
 import { settings } from '@polkadot/ui-settings';
 
@@ -97,9 +97,11 @@ export class AccountsPage extends Page {
     const availableCategories = await within(sortByComponent).findAllByRole('option');
     const selectedCategory = availableCategories.find((category) => category.textContent === categoryName);
 
-    expect(selectedCategory).not.toBeUndefined();
+    if (!selectedCategory) {
+      throw new Error('No category found');
+    }
 
-    return selectedCategory as HTMLElement;
+    return selectedCategory;
   }
 
   private async getSortByComponent (): Promise<HTMLElement> {

@@ -16,13 +16,13 @@ function ActionsBanner (): React.ReactElement<null> | null {
     <MarkWarning
       className='warning centered'
       content={<>
-        {t<string>('Use the account actions to create a new validator/nominator stash and bond it to participate in staking. Do not send funds directly via a transfer to a validator. Learn more about the staking process ')}
+        {t('Use the account actions to create a new validator/nominator stash and bond it to participate in staking. Do not send funds directly via a transfer to a validator. Learn more about the staking process ')}
         {
           <a
             href={AlephZeroStakingHomepage}
             rel='noopener noreferrer'
             target='_blank'
-          >{t<string>('here.')}</a>
+          >{t('here.')}</a>
         }
       </>}
     />

@@ -41,7 +41,7 @@ function useOwnPoolsImpl (): OwnPool[] | undefined {
   const base = useCall(api.query.nominationPools?.poolMembers.multi, [allAccounts], OPT_MULTI);
 
   return useMemo(
-    () => base && base.map((base) => ({
+    () => base?.map((base) => ({
       ...base,
       ...createAccounts(api, base.poolId)
     })),

@@ -6,8 +6,9 @@ import type { BN } from '@polkadot/util';
 
 import React, { useCallback, useState } from 'react';
 
-import { Button, Extrinsic, Icon, InputNumber, styled, Toggle, TxButton } from '@polkadot/react-components';
+import { Button, Icon, InputNumber, styled, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
+import { Extrinsic } from '@polkadot/react-params';
 import { BN_ZERO, isFunction } from '@polkadot/util';
 
 import { useTranslation } from './translate.js';
@@ -40,7 +41,7 @@ function Sudo ({ className, isMine, sudoKey }: Props): React.ReactElement<Props>
       <StyledSection className={className}>
         <Extrinsic
           defaultValue={apiDefaultTxSudo}
-          label={t<string>('submit the following change')}
+          label={t('submit the following change')}
           onChange={_onChangeExtrinsic}
         />
         {isFunction(api.tx.sudo.sudoUncheckedWeight) && (
@@ -48,11 +49,11 @@ function Sudo ({ className, isMine, sudoKey }: Props): React.ReactElement<Props>
             isDisabled={!withWeight}
             isError={weight.eq(BN_ZERO)}
             isZeroable={false}
-            label={t<string>('unchecked weight for this call')}
+            label={t('unchecked weight for this call')}
             labelExtra={
               <Toggle
                 className='sudoToggle'
-                label={t<string>('with weight override')}
+                label={t('with weight override')}
                 onChange={toggleWithWeight}
                 value={withWeight}
               />
@@ -68,8 +69,8 @@ function Sudo ({ className, isMine, sudoKey }: Props): React.ReactElement<Props>
             isDisabled={!method || (withWeight ? weight.eq(BN_ZERO) : false)}
             label={
               withWeight
-                ? t<string>('Submit Sudo Unchecked')
-                : t<string>('Submit Sudo')
+                ? t('Submit Sudo Unchecked')
+                : t('Submit Sudo')
             }
             params={
               withWeight
@@ -89,7 +90,7 @@ function Sudo ({ className, isMine, sudoKey }: Props): React.ReactElement<Props>
       <article className='error padded'>
         <div>
           <Icon icon='ban' />
-          {t<string>('You do not have access to the current sudo key')}
+          {t('You do not have access to the current sudo key')}
         </div>
       </article>
     );

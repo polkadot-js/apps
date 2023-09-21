@@ -1,5 +1,7 @@
-// Copyright 2017-2023 @polkadot/page-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+/* global expect */
 
 import { within } from '@testing-library/react';
 

@@ -28,7 +28,7 @@ function Summary ({ className = '', eraValidators, targets: { counterForNominato
       <section>
         <CardSummary
           className='media--900'
-          label={t<string>('era validators')}
+          label={t('era validators')}
         >
           {eraValidators
             ? formatNumber(eraValidators.reserved.length + eraValidators.nonReserved.length)
@@ -39,8 +39,8 @@ function Summary ({ className = '', eraValidators, targets: { counterForNominato
           className='media--1000'
           label={
             counterForNominators
-              ? t<string>('active / nominators')
-              : t<string>('nominators')
+              ? t('active / nominators')
+              : t('nominators')
           }
         >
           {nominators
@@ -60,7 +60,7 @@ function Summary ({ className = '', eraValidators, targets: { counterForNominato
         {(stakedFraction > 0) && (
           <CardSummary
             className='media--1300'
-            label={t<string>('staked')}
+            label={t('staked')}
           >
             <>{(stakedFraction * 100).toFixed(1)}{percent}</>
           </CardSummary>
@@ -68,7 +68,7 @@ function Summary ({ className = '', eraValidators, targets: { counterForNominato
         {(inflation > 0) && Number.isFinite(inflation) && (
           <CardSummary
             className='media--1200'
-            label={t<string>('inflation')}
+            label={t('inflation')}
           >
             <>{inflation.toFixed(1)}{percent}</>
           </CardSummary>

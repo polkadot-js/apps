@@ -1,11 +1,11 @@
 // Copyright 2017-2023 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { SubmittableResult } from '@polkadot/api';
 import type { KeyringPair } from '@polkadot/keyring/types';
 import type { QueueTx, QueueTxMessageSetStatus, QueueTxStatus } from '@polkadot/react-components/Status/types';
 import type { AddressFlags } from './types.js';
 
-import { SubmittableResult } from '@polkadot/api';
 import { keyring } from '@polkadot/ui-keyring';
 
 const NOOP = () => undefined;
@@ -56,16 +56,16 @@ export function extractExternal (accountId: string | null): AddressFlags {
   }
 
   return {
-    accountOffset: pair.meta.accountOffset as number || 0,
-    addressOffset: pair.meta.addressOffset as number || 0,
+    accountOffset: pair.meta.accountOffset || 0,
+    addressOffset: pair.meta.addressOffset || 0,
     hardwareType: pair.meta.hardwareType as string,
     isHardware: !!isHardware,
     isMultisig: !!isMultisig,
     isProxied: !!isProxied,
     isQr: !!isExternal && !isMultisig && !isProxied && !isHardware && !isInjected,
     isUnlockable: isUnlockable && pair.isLocked,
-    threshold: (pair.meta.threshold as number) || 0,
-    who: ((pair.meta.who as string[]) || []).map(recodeAddress)
+    threshold: pair.meta.threshold || 0,
+    who: (pair.meta.who || []).map(recodeAddress)
   };
 }
 
@@ -75,7 +75,7 @@ export function recodeAddress (address: string | Uint8Array): string {
 
 export function handleTxResults (handler: 'send' | 'signAndSend', queueSetTxStatus: QueueTxMessageSetStatus, { id, txFailedCb = NOOP, txSuccessCb = NOOP, txUpdateCb = NOOP }: QueueTx, unsubscribe: () => void): (result: SubmittableResult) => void {
   return (result: SubmittableResult): void => {
-    if (!result || !result.status) {
+    if (!result?.status) {
       return;
     }
 

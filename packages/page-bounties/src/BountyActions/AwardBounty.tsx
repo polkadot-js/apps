@@ -32,28 +32,28 @@ function AwardBounty ({ curatorId, description, index }: Props): React.ReactElem
         <Button
           icon='award'
           isDisabled={false}
-          label={t<string>('Reward implementer')}
+          label={t('Reward implementer')}
           onClick={toggleOpen}
         />
         {isOpen && (
           <Modal
-            header={`${t<string>('award bounty')} - "${truncateTitle(description, 30)}"`}
+            header={`${t('award bounty')} - "${truncateTitle(description, 30)}"`}
             onClose={toggleOpen}
             size='large'
           >
             <Modal.Content>
-              <Modal.Columns hint={t<string>('The Curator account that will be used to send this transaction. Any applicable fees will be paid by this account.')}>
+              <Modal.Columns hint={t('The Curator account that will be used to send this transaction. Any applicable fees will be paid by this account.')}>
                 <InputAddress
                   defaultValue={curatorId}
                   isDisabled={true}
-                  label={t<string>('award with account')}
+                  label={t('award with account')}
                   type='account'
                   withLabel
                 />
               </Modal.Columns>
-              <Modal.Columns hint={t<string>("Reward the bounty to an implementer's account. The implementer will be able to claim the funds after a delay period.")}>
+              <Modal.Columns hint={t("Reward the bounty to an implementer's account. The implementer will be able to claim the funds after a delay period.")}>
                 <InputAddress
-                  label={t<string>('implementer account')}
+                  label={t('implementer account')}
                   onChange={setBeneficiaryId}
                   withLabel
                 />
@@ -63,7 +63,7 @@ function AwardBounty ({ curatorId, description, index }: Props): React.ReactElem
               <TxButton
                 accountId={curatorId}
                 icon='check'
-                label={t<string>('Approve')}
+                label={t('Approve')}
                 onStart={toggleOpen}
                 params={[index, beneficiaryId]}
                 tx={awardBounty}

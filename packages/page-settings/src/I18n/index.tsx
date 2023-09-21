@@ -13,7 +13,7 @@ import { settings } from '@polkadot/ui-settings';
 import { useTranslation } from '../translate.js';
 import StringInput from './StringInput.js';
 
-type Progress = [[number, number, number], Record<string, [number, number, number]>];
+type ProgressType = [[number, number, number], Record<string, [number, number, number]>];
 type Strings = Record<string, string>;
 type StringsMod = Record<string, Strings>;
 
@@ -49,7 +49,7 @@ async function retrieveJson (url: string): Promise<any> {
 }
 
 async function retrieveEnglish (): Promise<StringsMod> {
-  const paths = await retrieveJson('en/index.json') as Array<string>;
+  const paths = await retrieveJson('en/index.json') as string[];
   const strings: Strings[] = await Promise.all(paths.map((path) => retrieveJson(`en/${path}`) as Promise<Strings>));
 
   return strings.reduce((language: StringsMod, strings, index): StringsMod => {
@@ -94,7 +94,7 @@ async function retrieveAll (): Promise<Defaults> {
   };
 }
 
-function calcProgress (english: StringsMod, language: Strings): Progress {
+function calcProgress (english: StringsMod, language: Strings): ProgressType {
   const breakdown: Record<string, [number, number, number]> = {};
   let done = 0;
   let total = 0;
@@ -150,7 +150,7 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
   const [withEmpty, toggleWithEmpty] = useToggle();
   const [{ english, keys, modules }, setDefaults] = useState<Defaults>({ english: {}, keys: [], modules: [] });
   const [lng, setLng] = useState<string>('zh');
-  const [[modProgress, allProgress], setProgress] = useState<Progress>([[0, 0, 0], {}]);
+  const [[modProgress, allProgress], setProgress] = useState<ProgressType>([[0, 0, 0], {}]);
   const [record, setRecord] = useState<string>('app-accounts.json');
   const [strings, setStrings] = useState<Strings | null>(null);
 
@@ -187,7 +187,7 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
       if (hasPrevVal !== !!sanitized) {
         const [progress, breakdown] = calcProgress(english, languageCache[lng]);
 
-        setProgress(([counters]): Progress => {
+        setProgress(([counters]): ProgressType => {
           progress[2] = Math.max(0, progress[0] - counters[0]);
 
           return [progress, breakdown];
@@ -221,12 +221,12 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
             <div>
               <Dropdown
                 isFull
-                label={t<string>('the language to display translations for')}
+                label={t('the language to display translations for')}
                 onChange={setLng}
                 options={keys}
                 value={lng}
               />
-              {t<string>('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(modProgress) })}
+              {t('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(modProgress) })}
             </div>
             <Progress
               total={modProgress[1]}
@@ -237,12 +237,12 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
             <div>
               <Dropdown
                 isFull
-                label={t<string>('the module to display strings for')}
+                label={t('the module to display strings for')}
                 onChange={setRecord}
                 options={modules}
                 value={record}
               />
-              {t<string>('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(allProgress[record]) })}
+              {t('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(allProgress[record]) })}
             </div>
             <Progress
               total={allProgress[record]?.[1]}
@@ -255,8 +255,8 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
         <Toggle
           label={
             withEmpty
-              ? t<string>('include all empty strings in the generated file')
-              : t<string>('do not include empty strings in the generated file')
+              ? t('include all empty strings in the generated file')
+              : t('do not include empty strings in the generated file')
           }
           onChange={toggleWithEmpty}
           value={withEmpty}
@@ -265,12 +265,12 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
       <Button.Group>
         <Button
           icon='sync'
-          label={t<string>('Apply to UI')}
+          label={t('Apply to UI')}
           onClick={_doApply}
         />
         <Button
           icon='download'
-          label={t<string>('Generate {{lng}}/translation.json', { replace: { lng } })}
+          label={t('Generate {{lng}}/translation.json', { replace: { lng } })}
           onClick={_onDownload}
         />
       </Button.Group>

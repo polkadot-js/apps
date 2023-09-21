@@ -4,9 +4,14 @@
 const fs = require('node:fs');
 const path = require('node:path');
 
+/** @type {Record<string, string[]>} */
 const defaults = {};
 const i18nRoot = path.join(__dirname, '../packages/apps/public/locales');
 
+/**
+ * @param {string} langRoot
+ * @returns {string[]}
+ */
 function getEntries (langRoot) {
   return fs
     .readdirSync(langRoot)
@@ -19,6 +24,9 @@ function getEntries (langRoot) {
     .sort();
 }
 
+/**
+ * @param {string} lang
+ */
 function checkLanguage (lang) {
   console.log(`*** Checking ${lang}`);
 

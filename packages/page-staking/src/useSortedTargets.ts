@@ -308,7 +308,7 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
       minNominatorBond,
       minValidatorBond,
       ...(
-        inflation && inflation.stakedReturn
+        inflation?.stakedReturn
           ? addReturns(inflation, baseInfo)
           : baseInfo
       )

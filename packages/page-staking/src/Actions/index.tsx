@@ -64,7 +64,7 @@ function extractState (ownStashes?: StakerState[]): State {
   const bondedTotal = new BN(0);
 
   ownStashes.forEach(({ isStashNominating, isStashValidating, stakingLedger }): void => {
-    const value = stakingLedger && stakingLedger.total
+    const value = stakingLedger?.total
       ? stakingLedger.total.unwrap()
       : BN_ZERO;
 
@@ -123,8 +123,8 @@ function Actions ({ className = '', isInElection, minCommission, ownPools, ownSt
   const [stashTypeIndex, setStashTypeIndex] = useState(0);
 
   const accTypes = useRef([
-    { text: t<string>('Stashed'), value: 'stash' },
-    { text: t<string>('Pooled'), value: 'pool' }
+    { text: t('Stashed'), value: 'stash' },
+    { text: t('Pooled'), value: 'pool' }
   ]);
 
   const stashTypes = useRef([

@@ -15,7 +15,7 @@ interface Props {
 
 function Voters ({ balance, voters }: Props): React.ReactElement<Props> {
   const renderVoters = useCallback(
-    () => voters && voters.map((who): React.ReactNode =>
+    () => voters?.map((who): React.ReactNode =>
       <AddressMini
         key={who.toString()}
         value={who}

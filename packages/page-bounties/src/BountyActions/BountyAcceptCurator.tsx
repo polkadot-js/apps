@@ -35,37 +35,37 @@ function BountyAcceptCurator ({ curatorId, description, fee, index }: Props) {
         <Button
           icon='check'
           isDisabled={false}
-          label={t<string>('Accept')}
+          label={t('Accept')}
           onClick={toggleOpen}
         />
         {isOpen && (
           <Modal
-            header={`${t<string>('accept curator role')} - "${truncateTitle(description, 30)}"`}
+            header={`${t('accept curator role')} - "${truncateTitle(description, 30)}"`}
             onClose={toggleOpen}
             size='large'
           >
             <Modal.Content>
-              <Modal.Columns hint={t<string>('Only the account proposed as curator by the council can create the assign curator transaction')}>
+              <Modal.Columns hint={t('Only the account proposed as curator by the council can create the assign curator transaction')}>
                 <InputAddress
                   isDisabled
-                  label={t<string>('curator account')}
+                  label={t('curator account')}
                   type='account'
                   value={curatorId.toString()}
                   withLabel
                 />
               </Modal.Columns>
-              <Modal.Columns hint={t<string>("This amount will be sent to your account after bounty is rewarded and you claim curator's fee.")}>
+              <Modal.Columns hint={t("This amount will be sent to your account after bounty is rewarded and you claim curator's fee.")}>
                 <InputBalance
                   defaultValue={fee.toString()}
                   isDisabled
-                  label={t<string>("curator's fee")}
+                  label={t("curator's fee")}
                 />
               </Modal.Columns>
-              <Modal.Columns hint={t<string>('This amount will be reserved from your account and returned after bounty claim is confirmed or if you give up, unless you are slashed earlier.')}>
+              <Modal.Columns hint={t('This amount will be reserved from your account and returned after bounty claim is confirmed or if you give up, unless you are slashed earlier.')}>
                 <InputBalance
                   defaultValue={deposit.toString()}
                   isDisabled
-                  label={t<string>("curator's deposit")}
+                  label={t("curator's deposit")}
                 />
               </Modal.Columns>
             </Modal.Content>
@@ -73,7 +73,7 @@ function BountyAcceptCurator ({ curatorId, description, fee, index }: Props) {
               <TxButton
                 accountId={curatorId}
                 icon='check'
-                label={t<string>('Accept Curator Role')}
+                label={t('Accept Curator Role')}
                 onStart={toggleOpen}
                 params={[index]}
                 tx={acceptCurator}

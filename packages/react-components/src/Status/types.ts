@@ -16,11 +16,11 @@ export interface ActionStatusBase {
 }
 
 export interface ActionStatusPartial extends ActionStatusBase {
-  action: Actions | string;
+  action: string;
 }
 
 export interface ActionStatus extends ActionStatusBase {
-  action: Actions | string | string[];
+  action: string | string[];
 }
 
 export interface AccountInfo {

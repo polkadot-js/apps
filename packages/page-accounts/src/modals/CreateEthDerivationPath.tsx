@@ -33,7 +33,7 @@ function CreateEthDerivationPath ({ className, derivePath, deriveValidation, onC
       .fill(0)
       .map((_, i) => ({
         key: i,
-        text: t<string>('Address index {{index}}', {
+        text: t('Address index {{index}}', {
           replace: { index: i }
         }),
         value: i
@@ -43,10 +43,10 @@ function CreateEthDerivationPath ({ className, derivePath, deriveValidation, onC
   const [useCustomIndex, toggleCustomIndex] = useToggle();
 
   const errorIndex = useRef<Record<string, string>>({
-    INVALID_DERIVATION_PATH: t<string>('This is an invalid derivation path.'),
-    PASSWORD_IGNORED: t<string>('Password are ignored for hex seed'),
-    SOFT_NOT_ALLOWED: t<string>('Soft derivation paths are not allowed on ed25519'),
-    WARNING_SLASH_PASSWORD: t<string>('Your password contains at least one "/" character. Disregard this warning if it is intended.')
+    INVALID_DERIVATION_PATH: t('This is an invalid derivation path.'),
+    PASSWORD_IGNORED: t('Password are ignored for hex seed'),
+    SOFT_NOT_ALLOWED: t('Soft derivation paths are not allowed on ed25519'),
+    WARNING_SLASH_PASSWORD: t('Your password contains at least one "/" character. Disregard this warning if it is intended.')
   });
 
   useEffect((): void => {
@@ -58,8 +58,8 @@ function CreateEthDerivationPath ({ className, derivePath, deriveValidation, onC
       className={className}
       hint={
         seedType === 'raw'
-          ? t<string>('The derivation path is only relevant when deriving keys from a mnemonic.')
-          : t<string>('The derivation path allows you to create different accounts from the same base mnemonic.')
+          ? t('The derivation path is only relevant when deriving keys from a mnemonic.')
+          : t('The derivation path allows you to create different accounts from the same base mnemonic.')
       }
     >
       {seedType === 'bip'
@@ -67,7 +67,7 @@ function CreateEthDerivationPath ({ className, derivePath, deriveValidation, onC
           <>
             <div className='saveToggle'>
               <Checkbox
-                label={<>{t<string>('Use custom address index')}</>}
+                label={<>{t('Use custom address index')}</>}
                 onChange={toggleCustomIndex}
                 value={useCustomIndex}
               />
@@ -76,14 +76,14 @@ function CreateEthDerivationPath ({ className, derivePath, deriveValidation, onC
               ? (
                 <InputNumber
                   isDecimal={false}
-                  label={t<string>('Custom index')}
+                  label={t('Custom index')}
                   onChange={setCustomIndex}
                   value={customIndex}
                 />
               )
               : (
                 <Dropdown
-                  label={t<string>('address index')}
+                  label={t('address index')}
                   onChange={setAddIndex}
                   options={addressList}
                   value={addIndex}
@@ -91,7 +91,7 @@ function CreateEthDerivationPath ({ className, derivePath, deriveValidation, onC
               )}
             <div className='saveToggle'>
               <Checkbox
-                label={<>{t<string>('Use custom derivation path')}</>}
+                label={<>{t('Use custom derivation path')}</>}
                 onChange={toggleCustomPath}
                 value={useCustomPath}
               />
@@ -100,7 +100,7 @@ function CreateEthDerivationPath ({ className, derivePath, deriveValidation, onC
               ? (
                 <Input
                   isError={!!deriveValidation?.error}
-                  label={t<string>('secret derivation path')}
+                  label={t('secret derivation path')}
                   onChange={onChange}
                   placeholder={ETH_DEFAULT_PATH}
                   tabIndex={-1}
@@ -111,7 +111,7 @@ function CreateEthDerivationPath ({ className, derivePath, deriveValidation, onC
           </>
         )
         : (
-          <MarkWarning content={t<string>('The derivation path is only relevant when deriving keys from a mnemonic.')} />
+          <MarkWarning content={t('The derivation path is only relevant when deriving keys from a mnemonic.')} />
         )}
       {deriveValidation?.error && (
         <MarkError content={errorIndex.current[deriveValidation.error] || deriveValidation.error} />

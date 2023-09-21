@@ -65,43 +65,43 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
         <Button
           icon='step-forward'
           isDisabled={false}
-          label={t<string>('Propose curator')}
+          label={t('Propose curator')}
           onClick={toggleOpen}
         />
         {isOpen && (
           <Modal
-            header={`${t<string>('Propose curator')} - "${truncateTitle(description, 30)}"`}
+            header={`${t('Propose curator')} - "${truncateTitle(description, 30)}"`}
             onClose={toggleOpen}
             size='large'
             testId='propose-curator-modal'
           >
             <Modal.Content>
-              <Modal.Columns hint={t<string>('The council member that will create the motion.')}>
+              <Modal.Columns hint={t('The council member that will create the motion.')}>
                 <InputAddress
                   filter={members}
-                  label={t<string>('proposing account')}
+                  label={t('proposing account')}
                   onChange={setAccountId}
                   type='account'
                   withLabel
                 />
               </Modal.Columns>
-              <Modal.Columns hint={t<string>('Choose a curator whose background and expertise is such that they are capable of determining when the task is complete.')}>
+              <Modal.Columns hint={t('Choose a curator whose background and expertise is such that they are capable of determining when the task is complete.')}>
                 <InputAddress
-                  label={t<string>('select curator')}
+                  label={t('select curator')}
                   onChange={setCuratorId}
                   withLabel
                 />
               </Modal.Columns>
-              <Modal.Columns hint={t<string>('Part of the bounty value that will go to the Curator as a reward for their work')}>
+              <Modal.Columns hint={t('Part of the bounty value that will go to the Curator as a reward for their work')}>
                 <InputBalance
                   isError={!isFeeValid}
                   isZeroable
-                  label={t<string>("curator's fee")}
+                  label={t("curator's fee")}
                   onChange={setFee}
                   value={fee}
                 />
                 {!isFeeValid && (
-                  <MarkError content={t<string>("Curator's fee can't be higher than bounty value.")} />
+                  <MarkError content={t("Curator's fee can't be higher than bounty value.")} />
                 )}
               </Modal.Columns>
             </Modal.Content>
@@ -110,7 +110,7 @@ function ProposeCuratorAction ({ description, index, proposals, value }: Props):
                 accountId={accountId}
                 icon='check'
                 isDisabled={!isFeeValid}
-                label={t<string>('Propose curator')}
+                label={t('Propose curator')}
                 onStart={toggleOpen}
                 params={[threshold, proposeCuratorProposal, proposeCuratorProposal?.length]}
                 tx={api.tx[councilMod].propose}
