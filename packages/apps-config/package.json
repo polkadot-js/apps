@@ -16,8 +16,8 @@
   "version": "0.132.2-98-x",
   "main": "index.js",
   "dependencies": {
-    "@azns/resolver-core": "^1.4.0",
     "@acala-network/type-definitions": "5.1.2",
+    "@azns/resolver-core": "^1.4.0",
     "@bifrost-finance/type-definitions": "1.8.4",
     "@crustio/type-definitions": "1.3.0",
     "@darwinia/types": "2.8.10",
