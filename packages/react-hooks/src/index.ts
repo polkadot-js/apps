@@ -84,3 +84,4 @@ export { useVotingStatus } from './useVotingStatus.js';
 export { useWeight } from './useWeight.js';
 export { useWindowColumns } from './useWindowColumns.js';
 export { useWindowSize } from './useWindowSize.js';
+export { useLenientThresholdPercentage } from './useLenientThresholdPercentage.js';

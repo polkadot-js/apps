@@ -13,7 +13,6 @@ import { ApiStatsCtxRoot, BlockAuthorsCtxRoot, BlockEventsCtxRoot, KeyringCtxRoo
 import { settings } from '@polkadot/ui-settings';
 
 import Apps from './Apps.js';
-import { darkTheme, lightTheme } from './themes.js';
 
 interface Props {
   isElectron: boolean;
@@ -21,14 +20,13 @@ interface Props {
 }
 
 function createTheme ({ uiTheme }: { uiTheme: string }): ThemeDef {
-  const validTheme = uiTheme === 'light' ? 'light' : 'dark';
+  const theme = uiTheme === 'dark'
+    ? 'dark'
+    : 'light';
+  document?.documentElement?.setAttribute('data-theme', theme);
+  
+  return { theme };
 
-  document && document.documentElement &&
-    document.documentElement.setAttribute('data-theme', validTheme);
-
-  return uiTheme === 'light'
-    ? lightTheme
-    : darkTheme;
 }
 
 function Root ({ isElectron, store }: Props): React.ReactElement<Props> {

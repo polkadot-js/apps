@@ -4,7 +4,7 @@
 import { resolveAddressToDomain } from '@azns/resolver-core';
 import React, { ComponentType, useContext, useEffect, useState } from 'react';
 
-import { ApiCtx } from '@polkadot/react-api';
+import { ApiCtxRoot } from '@polkadot/react-api';
 import { systemNameToChainId } from '@polkadot/react-hooks';
 import { KeyringOptions, KeyringSectionOptions } from '@polkadot/ui-keyring/options/types';
 
@@ -16,7 +16,7 @@ type RequiredProps = {
 const wrapWithAddressResolver = <Props extends RequiredProps>(Component: ComponentType<Props>): ComponentType<Omit<Props, 'addressToDomain'>> => {
   const Wrapped = (props: Props) => {
     const [addressToDomain, setAddressToDomain] = useState<Record<string, string | null | undefined>>({});
-    const { api, systemChain } = useContext(ApiCtx);
+    const { api, systemChain } = useContext(ApiCtxRoot);
 
     const { options, optionsAll } = props;
 

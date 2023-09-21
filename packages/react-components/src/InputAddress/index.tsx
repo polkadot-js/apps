@@ -10,7 +10,7 @@ import { resolveDomainToAddress } from '@azns/resolver-core';
 import React, { GetDerivedStateFromProps } from 'react';
 import store from 'store';
 
-import { ApiCtx } from '@polkadot/react-api';
+import { ApiCtxRoot } from '@polkadot/react-api';
 import { withMulti, withObservable } from '@polkadot/react-api/hoc';
 import { systemNameToChainId } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
@@ -166,8 +166,8 @@ function dedupe (options: Option[]): Option[] {
 }
 
 class InputAddress extends React.PureComponent<Props, State> {
-  static override contextType = ApiCtx;
-  override context!: React.ContextType<typeof ApiCtx>;
+  static override contextType = ApiCtxRoot;
+  override context!: React.ContextType<typeof ApiCtxRoot>;
 
   public override state: State = {
     addressToDomains: {}
