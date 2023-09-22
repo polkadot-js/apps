@@ -7,8 +7,8 @@ import type { KeyringOptions, KeyringSectionOptions } from '@polkadot/ui-keyring
 import { resolveAddressToDomain } from '@azns/resolver-core';
 import React, { useContext, useEffect, useState } from 'react';
 
-import { ApiCtxRoot } from '@polkadot/react-api';
 import { systemNameToChainId } from '@polkadot/react-hooks';
+import { ApiCtx } from '@polkadot/react-hooks/ctx/Api';
 
 interface RequiredProps {
   options?: KeyringSectionOptions | null;
@@ -18,12 +18,12 @@ interface RequiredProps {
 const wrapWithAddressResolver = <Props extends RequiredProps>(Component: ComponentType<Props>): ComponentType<Omit<Props, 'addressToDomain'>> => {
   const Wrapped = (props: Props) => {
     const [addressToDomain, setAddressToDomain] = useState<Record<string, string | null | undefined>>({});
-    const { api, systemChain } = useContext(ApiCtxRoot);
+    const { api, systemChain } = useContext(ApiCtx);
 
     const { options, optionsAll } = props;
 
     useEffect(() => {
-      const chainId = systemNameToChainId.get(systemChain as string);
+      const chainId = systemNameToChainId.get(systemChain);
 
       if (!chainId) {
         return;
