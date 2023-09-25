@@ -277,6 +277,7 @@
        1	Abhishek Shah                 	Add mythical-devnet to ethereumChains (#9642)
        1	Adam                          	new edeware logo and color (#6249)
        1	Adedayo Akinpelu              	Add blockops endpoint (#9375)
+       1	Adrian Wennström              	Added Dwellir's Centrifuge and Pendulum RPC services. (#9902)
        1	Aidan Starke                  	Add `Root Network` types (#8034)
        1	Albert                        	Apply Nunito fonts globally (#3882)
        1	Alex                          	Add Curio parachain (#9183)
