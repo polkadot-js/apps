@@ -87,13 +87,6 @@ function Legend ({ className, isRelay, minCommission }: Props): React.ReactEleme
         />
         <span>{t('Blocks nominations')}</span>
       </span>
-      <span>
-        <Tag
-          color='lightgrey'
-          label='1,220'
-        />
-        <span>{t('Era points')}</span>
-      </span>
     </StyledDiv>
   );
 }
