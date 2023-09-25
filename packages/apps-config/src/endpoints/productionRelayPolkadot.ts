@@ -130,6 +130,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2031,
     providers: {
       Centrifuge: 'wss://fullnode.centrifuge.io',
+      Dwellir: 'wss://centrifuge-rpc.dwellir.com',
       LuckyFriday: 'wss://rpc-centrifuge.luckyfriday.io',
       OnFinality: 'wss://centrifuge-parachain.api.onfinality.io/public-ws'
     },
@@ -548,6 +549,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'pendulum',
     paraId: 2094,
     providers: {
+      Dwellir: 'wss://pendulum-rpc.dwellir.com',
       PendulumChain: 'wss://rpc-pendulum.prd.pendulumchain.tech'
     },
     text: 'Pendulum',
