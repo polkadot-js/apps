@@ -36,6 +36,7 @@ import Struct from './Struct.js';
 import Text from './Text.js';
 import Tuple from './Tuple.js';
 import Unknown from './Unknown.js';
+import BTreeMap from './BTreeMap.js';
 import Vector from './Vector.js';
 import VectorFixed from './VectorFixed.js';
 import Vote from './Vote.js';
@@ -76,6 +77,7 @@ const componentDef: TypeToComponent[] = [
   { c: Text, t: ['String', 'Text'] },
   { c: Struct, t: ['Struct'] },
   { c: Tuple, t: ['Tuple'] },
+  { c: BTreeMap, t: ['BTreeMap'] },
   { c: Vector, t: ['Vec', 'BTreeSet'] },
   { c: VectorFixed, t: ['VecFixed'] },
   { c: Vote, t: ['Vote'] },
@@ -125,6 +127,9 @@ function fromDef ({ displayName, info, lookupName, sub, type }: TypeDef): string
 
     case TypeDefInfo.BTreeSet:
       return 'BTreeSet';
+
+    case TypeDefInfo.BTreeMap:
+      return 'BTreeMap';
 
     case TypeDefInfo.Tuple:
       return components[type] === Account
