@@ -32,8 +32,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'aleph',
     providers: {
       'Aleph Zero Foundation': 'wss://ws.azero.dev',
-      Dwellir: 'wss://aleph-zero-rpc.dwellir.com'
-
+      Dwellir: 'wss://aleph-zero-rpc.dwellir.com',
+      OnFinality: 'wss://aleph-zero.api.onfinality.io/public-ws',
     },
     text: 'Aleph Zero',
     ui: {
