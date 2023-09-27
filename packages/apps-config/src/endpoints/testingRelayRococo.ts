@@ -641,7 +641,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoYerba',
     paraId: 4292,
     providers: {
-      Zeitgeist: 'wss://rpc.dev.yerba.network'
+      Yerba: 'wss://rpc.dev.yerba.network'
     },
     text: 'Yerba Network',
     ui: {
