@@ -98,16 +98,18 @@ function BTreeMapParam ({ className = '', defaultValue, isDisabled = false, labe
 
     for (const entry of values) {
       const [key, value] = entry.value as RawParam[];
+
       if (output.has(key)) {
         isValid = false;
         console.error('BTreeMap: Duplicate key', key);
       }
+
       output.set(key, value);
       isValid = isValid && entry.isValid;
     }
 
     onChange && onChange({
-      isValid: isValid,
+      isValid,
       value: output
     });
   }, [values, onChange]);
