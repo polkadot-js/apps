@@ -71,7 +71,7 @@ function BTreeMapParam ({ className = '', defaultValue, isDisabled = false, labe
       setParams((prev) =>
         getParams(keyValueParam, prev, isDisabled ? values.length : count)
       );
-  }, [count, defaultValue, isDisabled, keyValueParam]);
+  }, [count, values, isDisabled, keyValueParam]);
 
   // when !isDisable, generating an input list based on count
   useEffect((): void => {

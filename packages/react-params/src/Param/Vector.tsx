@@ -62,7 +62,7 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
       setParams((prev) =>
         getParams(inputParams, prev, isDisabled ? values.length : count)
       );
-  }, [count, defaultValue, isDisabled, inputParams]);
+  }, [count, values, isDisabled, inputParams]);
 
   // when !isDisable, generating an input list based on count
   useEffect((): void => {
