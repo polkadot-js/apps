@@ -7,7 +7,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { Button } from '@polkadot/react-components';
 import { BTreeMap } from '@polkadot/types';
-import { isUndefined, isCodec } from '@polkadot/util';
+import { isCodec, isUndefined } from '@polkadot/util';
 
 import Params from '../index.js';
 import getInitValue from '../initValue.js';
@@ -17,11 +17,11 @@ import useParamDefs from './useParamDefs.js';
 
 function getParamType ([key, value]: ParamDef[]): ParamDef[] {
   return [{
-    name: "(Key, Value)",
+    name: '(Key, Value)',
     type: {
       info: 17,
-      type: `(${key.type.type}, ${value.type.type})`,
-      sub: [key.type, value.type]
+      sub: [key.type, value.type],
+      type: `(${key.type.type}, ${value.type.type})`
     }
   }];
 }
@@ -49,11 +49,11 @@ export function getParams (keyValueParam: ParamDef[], prev: ParamDef[], max: num
 
 export function getValues ({ isValid, value }: RawParam): RawParam[] {
   return (isValid && isCodec(value) && value instanceof BTreeMap)
-    ? Array.from(value, ([key, value]) => {
+    ? [...value.entries()].map(([key, value]: RawParam[]) => {
       return {
         isValid: true,
         value: [{ isValid: true, value: key }, { isValid: true, value }]
-      }
+      };
     })
     : [];
 }
@@ -94,15 +94,17 @@ function BTreeMapParam ({ className = '', defaultValue, isDisabled = false, labe
   // when our values has changed, alert upstream
   useEffect((): void => {
     const output = new Map(values.map(({ value }) => value));
-    const isValid = output.size == values.length;
+    const isValid = output.size === values.length;
+
     if (!isValid) {
       console.error(`Duplicate keys in ${type.type}`);
     }
+
     onChange && onChange({
       isValid: values.reduce<boolean>((result, { isValid }) => result && isValid, isValid),
       value: output
     });
-  }, [values, onChange]);
+  }, [values, type, onChange]);
 
   const _rowAdd = useCallback(
     (): void => setCount((count) => count + 1),
@@ -124,13 +126,13 @@ function BTreeMapParam ({ className = '', defaultValue, isDisabled = false, labe
         <div className='ui--Param-BTreeMap-buttons'>
           <Button
             icon='plus'
-            label={t<string>('Add item')}
+            label={t('Add item')}
             onClick={_rowAdd}
           />
           <Button
             icon='minus'
             isDisabled={values.length === 0}
-            label={t<string>('Remove item')}
+            label={t('Remove item')}
             onClick={_rowRemove}
           />
         </div>
