@@ -93,18 +93,24 @@ function BTreeMapParam ({ className = '', defaultValue, isDisabled = false, labe
 
   // when our values has changed, alert upstream
   useEffect((): void => {
-    const output = new Map(values.map(({ value }) => value));
-    const isValid = output.size === values.length;
+    const output = new Map();
+    let isValid = true;
 
-    if (!isValid) {
-      console.error(`Duplicate keys in ${type.type}`);
+    for (const entry of values) {
+      const [key, value] = entry.value as RawParam[];
+      if (output.has(key)) {
+        isValid = false;
+        console.error('BTreeMap: Duplicate key', key);
+      }
+      output.set(key, value);
+      isValid = isValid && entry.isValid;
     }
 
     onChange && onChange({
-      isValid: values.reduce<boolean>((result, { isValid }) => result && isValid, isValid),
+      isValid: isValid,
       value: output
     });
-  }, [values, type, onChange]);
+  }, [values, onChange]);
 
   const _rowAdd = useCallback(
     (): void => setCount((count) => count + 1),
