@@ -85,6 +85,7 @@ export { nodesLoomNetworkPNG } from './generated/loom_networkPNG.js';
 export { nodesMantaPNG } from './generated/mantaPNG.js';
 export { nodesMathSVG } from './generated/mathSVG.js';
 export { nodesMd5PNG } from './generated/md5PNG.js';
+export { nodesMetaquityNetworkPNG } from './generated/metaquity-networkPNG.js';
 export { nodesMinixPNG } from './generated/minixPNG.js';
 export { nodesMoonbaseAlphaSVG } from './generated/moonbase_alphaSVG.js';
 export { nodesMoonbeamSVG } from './generated/moonbeamSVG.js';
