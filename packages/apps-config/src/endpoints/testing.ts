@@ -663,6 +663,16 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    info: 'phala',
+    providers: {
+      'Phala Network': 'wss://poc6.phala.network/ws'
+    },
+    text: 'Phala (PoC 6)',
+    ui: {
+      logo: nodesPhalaSVG
+    }
+  },
+  {
     info: 'phoenix',
     providers: {
       // 'phoenix Protocol': 'wss://phoenix-ws.coinid.pro/' // https://github.com/polkadot-js/apps/issues/6181
