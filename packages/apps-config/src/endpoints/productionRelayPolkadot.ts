@@ -521,6 +521,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'origintrail-parachain',
     paraId: 2043,
     providers: {
+      Dwellir: 'wss://origintrail-rpc.dwellir.com',
       OnFinality: 'wss://origintrail.api.onfinality.io/public-ws',
       TraceLabs: 'wss://parachain-rpc.origin-trail.network'
     },
