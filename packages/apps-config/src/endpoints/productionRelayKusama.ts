@@ -264,7 +264,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     },
     text: 'Integritee Network',
     ui: {
-      color: '#658ea9',
+      color: '#2e154b',
       logo: nodesIntegriteeSVG
     }
   },
