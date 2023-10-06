@@ -403,7 +403,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoEwx',
     paraId: 3345,
     providers: {
-      'Energy Web': 'wss://public-rpc.testnet.energywebx.org/'
+      'Energy Web': 'wss://public-rpc.testnet.energywebx.com/'
     },
     text: 'REX',
     ui: {
