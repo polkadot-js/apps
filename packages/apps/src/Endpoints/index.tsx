@@ -142,7 +142,7 @@ function isLocalForkDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid
       return false;
     }
   } else if (apiUrl.startsWith('light://')) {
-    return false;
+    return true;
   } else if (isUrlValid) {
     return false;
   }

@@ -11,6 +11,7 @@ import * as Sc from '@substrate/connect';
 import React, { useEffect, useMemo, useState } from 'react';
 import store from 'store';
 
+import { ChopsticksProvider } from '@acala-network/chopsticks-core';
 import { ApiPromise, ScProvider, WsProvider } from '@polkadot/api';
 import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
 import { ethereumChains, typesBundle } from '@polkadot/apps-config';
@@ -27,7 +28,6 @@ import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defau
 import { lightSpecs, relaySpecs } from './light/index.js';
 import { statics } from './statics.js';
 import { decodeUrlTypes } from './urlTypes.js';
-import { ChopsticksApiPromise } from './api-promise.js'
 
 interface Props {
   children: React.ReactNode;
@@ -235,17 +235,17 @@ async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: un
   try {
     const provider = isLight
       ? await getLightProvider(apiUrl.replace('light://', ''))
+      : store.get('isLocalFork')
+      ? new ChopsticksProvider(apiUrl)
       : new WsProvider(apiUrl);
 
-    const api = new ApiPromise({
+    statics.api = new ApiPromise({
       provider,
       registry: statics.registry,
       signer,
       types,
       typesBundle
     });
-
-    statics.api = store.get('isLocalFork') ? await ChopsticksApiPromise(api, apiUrl) : api;
 
     // See https://github.com/polkadot-js/api/pull/4672#issuecomment-1078843960
     if (isLight) {
