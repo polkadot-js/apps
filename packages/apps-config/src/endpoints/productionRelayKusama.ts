@@ -542,6 +542,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'pioneer',
     paraId: 2096,
     providers: {
+      MetaverseNetwork: 'wss://pioneer-rpc-3.bit.country/wss',
       OnFinality: 'wss://pioneer.api.onfinality.io/public-ws'
     },
     text: 'Pioneer',
