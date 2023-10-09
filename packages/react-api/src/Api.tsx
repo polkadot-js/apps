@@ -27,6 +27,7 @@ import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defau
 import { lightSpecs, relaySpecs } from './light/index.js';
 import { statics } from './statics.js';
 import { decodeUrlTypes } from './urlTypes.js';
+import { ChopsticksApiPromise } from './api-promise.js'
 
 interface Props {
   children: React.ReactNode;
@@ -236,13 +237,15 @@ async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: un
       ? await getLightProvider(apiUrl.replace('light://', ''))
       : new WsProvider(apiUrl);
 
-    statics.api = new ApiPromise({
+    const api = new ApiPromise({
       provider,
       registry: statics.registry,
       signer,
       types,
       typesBundle
     });
+
+    statics.api = store.get('isLocalFork') ? await ChopsticksApiPromise(api, apiUrl) : api;
 
     // See https://github.com/polkadot-js/api/pull/4672#issuecomment-1078843960
     if (isLight) {
