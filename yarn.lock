@@ -19,14 +19,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@acala-network/chopsticks-core@npm:^0.8.1":
-  version: 0.8.1
-  resolution: "@acala-network/chopsticks-core@npm:0.8.1"
+"@acala-network/chopsticks-core@npm:^0.8.2":
+  version: 0.8.2
+  resolution: "@acala-network/chopsticks-core@npm:0.8.2"
   dependencies:
-    "@acala-network/chopsticks-executor": 0.8.1
+    "@acala-network/chopsticks-executor": 0.8.2
     "@polkadot/api": ^10.9.1
     "@polkadot/util-crypto": ^12.3.2
-    axios: ^1.5.0
+    axios: ^1.5.1
     eventemitter3: ^5.0.1
     localforage: ^1.10.0
     lodash: ^4.17.21
@@ -35,17 +35,17 @@ __metadata:
     sql.js: ^1.8.0
     sqlite3: ^5.1.6
     typeorm: ^0.3.17
-    zod: ^3.22.2
-  checksum: 5c2c8d8076156b6d9d7a429d68f559a4e3f76fd83cab224adc2f4a347d5c3258645e53dad02604320ffd026f246f83a68ab0e9df1ed7650a1c02b4adb90a4ec0
+    zod: ^3.22.3
+  checksum: c08d4c8f7941df8ab083b782b1dcc6beec7306afbb6c1117ddda40dfacee188ac8652beb59f6fce450189f3e3201d6f689b86bc8a1cd9f816c15c5122f0422b3
   languageName: node
   linkType: hard
 
-"@acala-network/chopsticks-executor@npm:0.8.1":
-  version: 0.8.1
-  resolution: "@acala-network/chopsticks-executor@npm:0.8.1"
+"@acala-network/chopsticks-executor@npm:0.8.2":
+  version: 0.8.2
+  resolution: "@acala-network/chopsticks-executor@npm:0.8.2"
   dependencies:
     "@polkadot/wasm-util": ^7.2.2
-  checksum: ba65a97d6fafe695999570e6f977a5accd8361d65baa478a0ad4909f6b1d1bf7e526dc174ca2a120c0aae6bcaba6eefee794baf817693ee5cbcba88bee01b5d2
+  checksum: 20e15f37df8c2c166d39150db5476e2a7e67ebd9f7478f407d8b735700e3895c13d560d1664feb6299831969eb178ec53aecc37d29d65851d7dc58cf2e5da59d
   languageName: node
   linkType: hard
 
@@ -3352,7 +3352,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/apps@workspace:packages/apps"
   dependencies:
-    "@acala-network/chopsticks-core": ^0.8.1
+    "@acala-network/chopsticks-core": ^0.8.2
     "@polkadot/apps-config": ^0.132.2-115-x
     "@polkadot/apps-routing": ^0.132.2-115-x
     "@polkadot/dev": ^0.76.18
@@ -6525,7 +6525,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.5.0":
+"axios@npm:^1.5.1":
   version: 1.5.1
   resolution: "axios@npm:1.5.1"
   dependencies:
@@ -21330,7 +21330,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"zod@npm:^3.22.2":
+"zod@npm:^3.22.3":
   version: 3.22.4
   resolution: "zod@npm:3.22.4"
   checksum: 80bfd7f8039b24fddeb0718a2ec7c02aa9856e4838d6aa4864335a047b6b37a3273b191ef335bf0b2002e5c514ef261ffcda5a589fb084a48c336ffc4cdbab7f

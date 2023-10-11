@@ -231,11 +231,12 @@ async function getLightProvider (chain: string): Promise<ScProvider> {
 async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: unknown) => void): Promise<Record<string, Record<string, string>>> {
   const types = getDevTypes();
   const isLight = apiUrl.startsWith('light://');
+  const islocalFork = store.get('isLocalFork');
 
   try {
     const provider = isLight
       ? await getLightProvider(apiUrl.replace('light://', ''))
-      : store.get('isLocalFork')
+      : islocalFork
       ? new ChopsticksProvider(apiUrl)
       : new WsProvider(apiUrl);
 
