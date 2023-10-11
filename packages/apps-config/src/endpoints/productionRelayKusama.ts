@@ -135,8 +135,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Darwinia: 'wss://crab-rpc.darwinia.network/',
       'Darwinia Community': 'wss://crab-rpc.darwiniacommunitydao.xyz',
-      Dwellir: 'wss://darwiniacrab-rpc.dwellir.com',
-      OnFinality: 'wss://crab.api.onfinality.io/public-ws'
+      Dwellir: 'wss://darwiniacrab-rpc.dwellir.com'
     },
     text: 'Crab',
     ui: {
@@ -264,7 +263,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     },
     text: 'Integritee Network',
     ui: {
-      color: '#658ea9',
+      color: '#2e154b',
       logo: nodesIntegriteeSVG
     }
   },
@@ -542,6 +541,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'pioneer',
     paraId: 2096,
     providers: {
+      MetaverseNetwork: 'wss://pioneer-rpc-3.bit.country/wss',
       OnFinality: 'wss://pioneer.api.onfinality.io/public-ws'
     },
     text: 'Pioneer',
