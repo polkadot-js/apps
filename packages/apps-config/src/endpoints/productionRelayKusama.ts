@@ -230,7 +230,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
       // 'GM Intern': 'wss://intern.gmordie.com', // https://github.com/polkadot-js/apps/issues/9381
       // TerraBioDAO: 'wss://ws-node-gm.terrabiodao.org', // https://github.com/polkadot-js/apps/issues/8867
       // Leemo: 'wss://leemo.gmordie.com', // https://github.com/polkadot-js/apps/issues/9712
-      'bLd Nodes': 'wss://ws.gm.bldnodes.org',
+      // 'bLd Nodes': 'wss://ws.gm.bldnodes.org', // https://github.com/polkadot-js/apps/issues/9947
       'light client': 'light://substrate-connect/kusama/gm'
     },
     text: 'GM',
@@ -364,7 +364,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Dwellir: 'wss://kintsugi-rpc.dwellir.com',
       'Kintsugi Labs': 'wss://api-kusama.interlay.io/parachain',
-      LuckyFriday: 'wss://rpc-kintsugi.luckyfriday.io/',
+      // LuckyFriday: 'wss://rpc-kintsugi.luckyfriday.io/', // https://github.com/polkadot-js/apps/issues/9947
       OnFinality: 'wss://kintsugi.api.onfinality.io/public-ws'
     },
     text: 'Kintsugi BTC',
@@ -514,8 +514,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2087,
     providers: {
       Composable: 'wss://rpc.composablenodes.tech',
-      Dwellir: 'wss://picasso-rpc.dwellir.com',
-      LuckyFriday: 'wss://rpc-picasso.luckyfriday.io'
+      Dwellir: 'wss://picasso-rpc.dwellir.com'
+      // LuckyFriday: 'wss://rpc-picasso.luckyfriday.io' // https://github.com/polkadot-js/apps/issues/9947
     },
     text: 'Picasso',
     ui: {
@@ -830,7 +830,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     providers: {
       'IBP-GeoDNS1': 'wss://sys.ibp.network/bridgehub-kusama',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/bridgehub-kusama',
-      LuckyFriday: 'wss://rpc-bridge-hub-kusama.luckyfriday.io',
+      // LuckyFriday: 'wss://rpc-bridge-hub-kusama.luckyfriday.io', // https://github.com/polkadot-js/apps/issues/9947
       // OnFinality: 'wss://bridgehub-kusama.api.onfinality.io/public-ws',
       Parity: 'wss://kusama-bridge-hub-rpc.polkadot.io',
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/bridgehub'

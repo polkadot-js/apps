@@ -1004,7 +1004,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'web3games',
     providers: {
-      'Web3Games Foundation': 'wss://devnet.web3games.org'
+      // 'Web3Games Foundation': 'wss://devnet.web3games.org' // https://github.com/polkadot-js/apps/issues/9947
     },
     text: 'Web3Games',
     ui: {
