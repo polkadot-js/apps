@@ -58,9 +58,11 @@ function Nominate ({ className = '', controllerId, nominating, onChange, poolId,
     }
   }, [api, onChange, poolId, selected]);
 
-  const maxNominations = api.consts.staking.maxNominations
-    ? (api.consts.staking.maxNominations as BN).toNumber()
-    : MAX_NOMINATIONS;
+  const maxNominations = api.consts.staking.maxNominatorRewardedPerValidator
+    ? api.consts.staking.maxNominatorRewardedPerValidator.toNumber()
+    : api.consts.staking.maxNominations
+      ? (api.consts.staking.maxNominations as unknown as BN).toNumber()
+      : MAX_NOMINATIONS;
 
   return (
     <StyledDiv className={className}>
