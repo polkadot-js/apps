@@ -22,11 +22,11 @@ interface Props {
 function ValidateCode ({ codeHash, onChange }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const { t } = useTranslation();
-  const pristineCode = useCall<Option<PrefabWasmModule>>((api.query.contracts || api.query.contract).pristineCode, [codeHash]);
+  const optCode = useCall<Option<PrefabWasmModule>>((api.query.contracts || api.query.contract).pristineCode || (api.query.contracts || api.query.contract).codeStorage, [codeHash]);
   const [isValidHex, isValid] = useMemo(
     (): [boolean, boolean] => {
       const isValidHex = !!codeHash && isHex(codeHash) && codeHash.length === 66;
-      const isStored = !!pristineCode && pristineCode.isSome;
+      const isStored = !!optCode && optCode.isSome;
       const isValid = isValidHex && isStored;
 
       onChange(isValid);
@@ -36,7 +36,7 @@ function ValidateCode ({ codeHash, onChange }: Props): React.ReactElement<Props>
         isValid
       ];
     },
-    [codeHash, pristineCode, onChange]
+    [codeHash, optCode, onChange]
   );
 
   if (isValid || !isValidHex) {
