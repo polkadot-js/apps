@@ -25,7 +25,7 @@ const OPT_VOTES = {
   transform: (members: DeriveSocietyMember[]): VoteType[] =>
     members
       .filter(({ vote }): boolean => !!vote)
-      .map(({ accountId, vote }): VoteType => [accountId.toString(), vote as SocietyVote])
+      .map(({ accountId, vote }): VoteType => [accountId.toString(), vote as unknown as SocietyVote])
 };
 
 function Defender ({ className = '', info, isMember, ownMembers }: Props): React.ReactElement<Props> | null {

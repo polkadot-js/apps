@@ -1,4 +1,4 @@
-    4325	Jaco                          	Disable unreachable endpoints (#9862)
+    4327	Jaco                          	Bump API (#9950)
       80	Thibaut Sardan                	Fix delegation with x0.1 conviction and typo (#9599)
       62	kwingram25                    	iadd fix (#2911)
       49	pan                           	update Bifrost kusama on Subsquare (#9752)
@@ -398,6 +398,7 @@
        1	ok.man                        	update-mandala (#6785)
        1	okalenyk                      	*added Societal to Rococo (#9477)
        1	Owen                          	add kico2 (#8374)
+       1	Pablito Labarta               	Update Creditcoin WS endpoint (#9942)
        1	paulhealy09                   	Update Unit Network logo (Thanks to https://github.com/unit-network) (#5027)
        1	Pavel                         	Added new community node for SORA (#5600)
        1	Peter Chung                   	Align Sig Validity Indicator (#1660) (#1697)
