@@ -237,7 +237,13 @@ async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: un
     const provider = isLight
       ? await getLightProvider(apiUrl.replace('light://', ''))
       : islocalFork
-      ? new ChopsticksProvider(apiUrl)
+      ? new ChopsticksProvider({ endpoint: apiUrl, storageValues: {
+				System: {
+					Account: [
+						[['25fqepuLngYL2DK9ApTejNzqPadUUZ9ALYyKWX2jyvEiuZLa'], { providers: 1, data: { free: 1000 * 1e12 } }],
+					],
+				},
+			} })
       : new WsProvider(apiUrl);
 
     statics.api = new ApiPromise({
