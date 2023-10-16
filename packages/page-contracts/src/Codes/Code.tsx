@@ -24,7 +24,7 @@ interface Props {
 function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const optCode = useCall<Option<Codec>>(api.query.contracts.codeStorage, [code.json.codeHash]);
+  const optCode = useCall<Option<Codec>>(api.query.contracts.pristineCode || api.query.contracts.codeStorage, [code.json.codeHash]);
   const [isForgetOpen, toggleIsForgetOpen] = useToggle();
   const { contractAbi } = useAbi([code.json.abi, code.contractAbi], code.json.codeHash, true);
 
