@@ -559,7 +559,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'metaquity',
     providers: {
-      'Metaquity Testnet': 'wss://rpc.testnet.metaquity.xyz'
+      // 'Metaquity Testnet': 'wss://rpc.testnet.metaquity.xyz' // https://github.com/polkadot-js/apps/issues/9955
     },
     text: 'Metaquity Network Testnet',
     ui: {
