@@ -30,7 +30,7 @@ function Summary ({ trigger }: Props): React.ReactElement<Props> {
   }, [api, accountCounter]);
 
   useEffect((): void => {
-    api.query.contracts.codeStorage
+    (api.query.contracts.pristineCode || api.query.contracts.codeStorage)
       .keys()
       .then((arr) => setNumHashes(arr.length))
       .catch(console.error);

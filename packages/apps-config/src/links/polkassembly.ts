@@ -41,6 +41,7 @@ export const PolkassemblyIo: ExternalDef = {
   homepage: 'https://polkassembly.io/',
   isActive: true,
   paths: {
+    address: 'address',
     bounty: 'bounty',
     council: 'motion',
     democracyProposal: 'proposal',

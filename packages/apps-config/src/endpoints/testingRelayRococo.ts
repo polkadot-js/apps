@@ -21,7 +21,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoAcurast',
     paraId: 2239,
     providers: {
-      Acurast: 'wss://ws.acurast-rococo.diamond.papers.tech'
+      Acurast: 'wss://acurast-testnet-ws.prod.gke.papers.tech'
     },
     text: 'Acurast Testnet',
     ui: {
@@ -245,7 +245,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoImbue',
     paraId: 2121,
     providers: {
-      'Imbue Network': 'wss://rococo.imbue.network'
+      // 'Imbue Network': 'wss://rococo.imbue.network' // https://github.com/polkadot-js/apps/issues/9947
     },
     text: 'Imbue Network',
     ui: {
@@ -416,7 +416,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoEwx',
     paraId: 3345,
     providers: {
-      'Energy Web': 'wss://public-rpc.testnet.energywebx.org/'
+      'Energy Web': 'wss://public-rpc.testnet.energywebx.com/'
     },
     text: 'REX',
     ui: {
