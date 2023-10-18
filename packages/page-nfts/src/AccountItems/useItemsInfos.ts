@@ -54,7 +54,7 @@ function extractInfo ([, itemId]: [BN, BN], metadata: Option<PalletUniquesItemMe
 }
 
 const addFetchedMetadata = (fetchedMetadata: FetchedMetadata) => (itemInfo: ItemInfo): ItemInfo => {
-  const metadataLink = normalizeMetadataLink(itemInfo.metadata?.data.toString());
+  const metadataLink = normalizeMetadataLink(itemInfo.metadata?.data.toPrimitive() as string);
 
   return {
     ...itemInfo,

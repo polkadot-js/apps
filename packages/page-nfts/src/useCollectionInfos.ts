@@ -72,7 +72,7 @@ function extractInfo (allAccounts: string[], id: BN, optDetails: Option<PalletUn
 }
 
 const addFetchedMetadata = (fetchedMetadata: FetchedMetadata) => (collectionInfo: CollectionInfo): CollectionInfo => {
-  const metadataLink = normalizeMetadataLink(collectionInfo.metadata?.data.toString());
+  const metadataLink = normalizeMetadataLink(collectionInfo.metadata?.data.toPrimitive() as string);
 
   return {
     ...collectionInfo,
