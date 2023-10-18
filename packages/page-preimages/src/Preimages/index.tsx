@@ -41,7 +41,7 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
         empty={hashes && t('No hashes found')}
         header={headerRef.current}
       >
-        {hashes && hashes.map((h) => (
+        {hashes?.map((h) => (
           <Preimage
             key={h}
             value={h}

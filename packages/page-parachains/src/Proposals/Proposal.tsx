@@ -38,7 +38,7 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
   );
 
   const approveTx = useMemo(
-    () => api.tx.sudo && api.tx.sudo.sudo(api.tx.proposeParachain.approveProposal(id)),
+    () => api.tx.sudo?.sudo(api.tx.proposeParachain.approveProposal(id)),
     [api, id]
   );
 

@@ -18,7 +18,7 @@ function Proposals ({ proposals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const sortedIds = useMemo(
-    () => proposals && proposals.proposalIds.sort((a, b) => a.cmp(b)),
+    () => proposals?.proposalIds.sort((a, b) => a.cmp(b)),
     [proposals]
   );
 

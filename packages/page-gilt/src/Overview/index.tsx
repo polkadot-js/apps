@@ -20,7 +20,7 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
   const { info } = useInfo();
 
   const isDisabled = useMemo(
-    () => !info || !info.activeTotal || info.activeTotal.target.isZero(),
+    () => !info?.activeTotal || info.activeTotal.target.isZero(),
     [info]
   );
 

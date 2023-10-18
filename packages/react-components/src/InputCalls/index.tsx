@@ -25,7 +25,7 @@ interface Props {
 function InputCalls ({ className, label, onChange, withLabel }: Props): React.ReactElement<Props> | null {
   const [defs, defaultValue] = useRuntime();
   const [optionsSection] = useState<DropdownOptions>(() => sectionOptions(defs));
-  const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(() => methodOptions(defs, defaultValue && defaultValue.section));
+  const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(() => methodOptions(defs, defaultValue?.section));
   const [value, setValue] = useState<DefinitionCallNamed | null>(() => defaultValue);
 
   useEffect((): void => {

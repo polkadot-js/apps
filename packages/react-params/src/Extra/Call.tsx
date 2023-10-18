@@ -30,7 +30,7 @@ function mapArgs (args: unknown[]): RawParam[] {
 
 export function extractInitial (api: ApiPromise, initialValue: SubmittableExtrinsicFunction<'promise'>, input?: RawParam): { initialArgs?: RawParam[], initialValue: SubmittableExtrinsicFunction<'promise'> } {
   try {
-    return input && input.value
+    return input?.value
       ? isCall(input.value)
         ? {
           initialArgs: mapArgs(input.value.args),

@@ -14,8 +14,10 @@ interface Options <T> extends CallOptions<T> {
   transform?: (value: any) => T
 }
 
-export function normalizeMetadataLink (link: string): string {
-  if (!link || link.toLowerCase().startsWith('http')) {
+export function normalizeMetadataLink (link?: string): string {
+  if (!link) {
+    return '';
+  } else if (link.toLowerCase().startsWith('http')) {
     return link;
   }
 

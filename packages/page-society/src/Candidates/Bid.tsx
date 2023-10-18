@@ -31,7 +31,7 @@ function BidRow ({ index, value: { kind, value, who } }: Props): React.ReactElem
   const [isBidder, isVoucher] = useMemo(
     (): [boolean, boolean] => {
       const whoSS58 = who.toString();
-      const vouchSS58 = voucher && voucher.toString();
+      const vouchSS58 = voucher?.toString();
 
       return [
         allAccounts.some((accountId) => accountId === whoSS58),

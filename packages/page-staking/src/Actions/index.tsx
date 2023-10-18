@@ -64,7 +64,7 @@ function extractState (ownStashes?: StakerState[]): State {
   const bondedTotal = new BN(0);
 
   ownStashes.forEach(({ isStashNominating, isStashValidating, stakingLedger }): void => {
-    const value = stakingLedger && stakingLedger.total
+    const value = stakingLedger?.total
       ? stakingLedger.total.unwrap()
       : BN_ZERO;
 

@@ -42,7 +42,7 @@ function Extrinsics ({ blockNumber, className = '', events, label, maxBlockWeigh
       header={header}
       isFixed
     >
-      {value && value.map((extrinsic, index): React.ReactNode =>
+      {value?.map((extrinsic, index): React.ReactNode =>
         <ExtrinsicDisplay
           blockNumber={blockNumber}
           events={events}

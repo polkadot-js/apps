@@ -12,7 +12,7 @@ import CreateModal from '../modals/Create.js';
 import { useTranslation } from '../translate.js';
 import Address from './Address.js';
 
-type SortedAddress = { address: string; isFavorite: boolean };
+interface SortedAddress { address: string; isFavorite: boolean }
 
 interface Props {
   className?: string;

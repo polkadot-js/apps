@@ -22,7 +22,7 @@ function useExtrinsicTriggerImpl (checks: ExtrinsicCheck[]): string {
   const block = useCall<SignedBlockExtended>(api.derive.chain.subscribeNewBlocks);
 
   useEffect((): void => {
-    mountedRef.current && block && block.extrinsics && block.extrinsics.filter(({ extrinsic }) =>
+    mountedRef.current && block?.extrinsics?.filter(({ extrinsic }) =>
       extrinsic &&
       memoChecks.some((c) => c && c.is(extrinsic))
     ).length && setTrigger(() => block.createdAtHash?.toHex() || '');

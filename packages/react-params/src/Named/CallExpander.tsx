@@ -29,7 +29,7 @@ interface Props {
 
 function CallExpander ({ children, className = '', isHeader, labelHash, labelSignature, mortality, onError, stringId, tip, value, withBorder, withHash, withSignature }: Props): React.ReactElement<Props> | null {
   const call = useMemo(
-    () => value && value.callIndex
+    () => value?.callIndex
       ? value.registry.findMetaCall(value.callIndex)
       : null,
     [value]

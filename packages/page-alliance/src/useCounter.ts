@@ -10,7 +10,7 @@ function useCounterImpl (): number {
   const proposalHashes = useCall<unknown[]>(isApiReady && api.derive.alliance.proposalHashes);
 
   return useMemo(
-    () => (proposalHashes && proposalHashes.length) || 0,
+    () => proposalHashes?.length || 0,
     [proposalHashes]
   );
 }

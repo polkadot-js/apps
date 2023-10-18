@@ -34,7 +34,7 @@ function Collators ({ className }: Props): React.ReactElement<Props> {
         empty={collators && t('No running collators')}
         header={hdrRef.current}
       >
-        {collators && collators.map((c) => (
+        {collators?.map((c) => (
           <Collator
             info={c}
             key={c.accountId}

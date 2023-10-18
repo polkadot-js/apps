@@ -41,7 +41,7 @@ function Pool ({ className = '', members, ownAccounts, params, poolId }: Props):
   );
 
   const renderNominees = useCallback(
-    () => info && info.nominating.map((stashId, count): React.ReactNode => (
+    () => info?.nominating.map((stashId, count): React.ReactNode => (
       <AddressMini
         key={`${count}:${stashId}`}
         value={stashId}

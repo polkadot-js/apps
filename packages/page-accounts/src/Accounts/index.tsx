@@ -63,7 +63,7 @@ function groupAccounts (accounts: SortedAccount[]): Record<GroupName, string[]> 
     testing: []
   };
 
-  for (let i = 0; i < accounts.length; i++) {
+  for (let i = 0, count = accounts.length; i < count; i++) {
     const { account, address } = accounts[i];
     const cryptoType = getAccountCryptoType(address);
 

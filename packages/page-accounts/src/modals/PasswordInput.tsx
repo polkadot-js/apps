@@ -8,7 +8,7 @@ import { keyring } from '@polkadot/ui-keyring';
 
 import { useTranslation } from '../translate.js';
 
-type Props = {
+interface Props {
   onChange: (password: string, isPasswordValid: boolean) => void;
   onEnter: () => void;
 }

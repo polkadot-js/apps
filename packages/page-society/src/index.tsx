@@ -90,7 +90,7 @@ function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> 
 
   const [mapMembers, payoutTotal] = useMemo(
     () => members && info && skeptics && voters
-      ? getMapMembers(members, skeptics, voters, info, api.consts.society.maxStrikes.mul(BN_TWO).div(BN_THREE))
+      ? getMapMembers(members, skeptics, voters, info, (api.consts.society.graceStrikes || api.consts.society.maxStrikes).mul(BN_TWO).div(BN_THREE))
       : [undefined, undefined],
     [api, info, members, skeptics, voters]
   );

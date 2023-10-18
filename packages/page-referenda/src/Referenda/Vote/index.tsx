@@ -33,7 +33,7 @@ function filterMembers (allAccounts: string[], members?: string[], ranks?: BN[],
   if (members) {
     const accounts = members.filter((a) => allAccounts.includes(a));
 
-    if (ranks && trackInfo && trackInfo.compare) {
+    if (ranks && trackInfo?.compare) {
       const cmp = trackInfo.compare;
 
       return accounts.filter((_, i) => cmp(ranks[i]));

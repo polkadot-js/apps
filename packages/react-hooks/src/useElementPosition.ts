@@ -18,7 +18,7 @@ function useElementPositionImpl (ref: React.MutableRefObject<HTMLElement | undef
   const scrollY = useScroll();
 
   useEffect(() => {
-    if (mountedRef.current && ref && ref.current) {
+    if (mountedRef.current && ref?.current) {
       const { height, width, x, y } = ref.current.getBoundingClientRect();
 
       setElementPosition({

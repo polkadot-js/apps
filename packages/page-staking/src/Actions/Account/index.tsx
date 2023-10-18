@@ -294,17 +294,17 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                     onClick={toggleBondExtra}
                   />
                   <Menu.Item
-                    isDisabled={!isOwnController || !stakingAccount || !stakingAccount.stakingLedger || stakingAccount.stakingLedger.active?.isEmpty}
+                    isDisabled={!isOwnController || !stakingAccount?.stakingLedger || stakingAccount.stakingLedger.active?.isEmpty}
                     label={t('Unbond funds')}
                     onClick={toggleUnbond}
                   />
                   <Menu.Item
-                    isDisabled={!isOwnController || !stakingAccount || !stakingAccount.unlocking || !stakingAccount.unlocking.length}
+                    isDisabled={!isOwnController || !stakingAccount?.unlocking?.length}
                     label={t('Rebond funds')}
                     onClick={toggleRebond}
                   />
                   <Menu.Item
-                    isDisabled={!isOwnController || !stakingAccount || !stakingAccount.redeemable || !stakingAccount.redeemable.gtn(0)}
+                    isDisabled={!isOwnController || !stakingAccount?.redeemable || !stakingAccount.redeemable.gtn(0)}
                     label={t('Withdraw unbonded funds')}
                     onClick={withdrawFunds}
                   />

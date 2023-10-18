@@ -26,7 +26,7 @@ function Rebond ({ controllerId, onClose, stakingInfo, stashId }: Props): React.
   const [maxAdditional, setMaxAdditional] = useState<BN | undefined>();
 
   const startBalance = useMemo(
-    () => stakingInfo && stakingInfo.unlocking
+    () => stakingInfo?.unlocking
       ? stakingInfo.unlocking.reduce((total, { value }) => total.iadd(value), new BN(0))
       : BN_ZERO,
     [stakingInfo]

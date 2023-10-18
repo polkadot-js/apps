@@ -38,7 +38,7 @@ function extractVotes (votes: Record<string, PalletRankedCollectiveVoteRecord> =
   const nays: [string, BN][] = [];
   const entries = Object.entries(votes);
 
-  for (let i = 0; i < entries.length; i++) {
+  for (let i = 0, count = entries.length; i < count; i++) {
     const [accountId, vote] = entries[i];
 
     if (vote.isAye) {

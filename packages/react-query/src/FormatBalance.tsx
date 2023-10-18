@@ -21,7 +21,7 @@ interface Props {
   isShort?: boolean;
   label?: React.ReactNode;
   labelPost?: LabelPost;
-  value?: Compact<any> | BN | string | number | null | 'all';
+  value?: Compact<any> | BN | string | number | null;
   valueFormatted?: string;
   withCurrency?: boolean;
   withSi?: boolean;

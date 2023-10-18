@@ -158,7 +158,7 @@ function calcBonded (stakingInfo?: DeriveStakingAccount, bonded?: boolean | BN[]
       .filter((value) => value.gt(BN_ZERO));
 
     own = bonded[0];
-  } else if (stakingInfo && stakingInfo.stakingLedger && stakingInfo.stakingLedger.active && stakingInfo.accountId.eq(stakingInfo.stashId)) {
+  } else if (stakingInfo?.stakingLedger?.active && stakingInfo.accountId.eq(stakingInfo.stashId)) {
     own = stakingInfo.stakingLedger.active.unwrap();
   }
 
@@ -200,7 +200,7 @@ function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Prop
     ? DEFAULT_PREFS
     : withValidatorPrefs;
 
-  if (!validatorPrefsDisplay || !stakingInfo || !stakingInfo.validatorPrefs) {
+  if (!validatorPrefsDisplay || !stakingInfo?.validatorPrefs) {
     return null;
   }
 
@@ -442,7 +442,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       );
     }
 
-    if (bestNumber && convictionLocks && convictionLocks.length) {
+    if (bestNumber && convictionLocks?.length) {
       const max = convictionLocks.reduce((max, { total }) => bnMax(max, total), BN_ZERO);
 
       allItems.push(
@@ -506,7 +506,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
           summary={
             <FormatBalance
               formatIndex={formatIndex}
-              value={balancesAll && balancesAll.freeBalance.add(balancesAll.reservedBalance)}
+              value={balancesAll?.freeBalance.add(balancesAll.reservedBalance)}
             />
           }
         >
@@ -566,7 +566,7 @@ function AddressInfo (props: Props): React.ReactElement<Props> {
     <div className={`${className} ui--AddressInfo ${withBalanceToggle ? 'ui--AddressInfo-expander' : ''}`}>
       <div className={`column${withBalanceToggle ? ' column--expander' : ''}`}>
         {renderBalances(props, lookup.current, bestNumber, t)}
-        {withHexSessionId && withHexSessionId[0] && (
+        {withHexSessionId?.[0] && (
           <>
             <Label label={t('session keys')} />
             <div className='result'>{withHexSessionId[0]}</div>

@@ -139,7 +139,7 @@ function createClearReferendaTx (api: ApiPromise, address: string, ids: [BN, BN]
 async function showLedgerAddress (getLedger: () => Ledger, meta: KeyringJson$Meta): Promise<void> {
   const ledger = getLedger();
 
-  await ledger.getAddress(true, meta.accountOffset as number || 0, meta.addressOffset as number || 0);
+  await ledger.getAddress(true, meta.accountOffset || 0, meta.addressOffset || 0);
 }
 
 const transformRecovery = {
@@ -405,7 +405,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
     isFunction(api.api.tx.multisig?.asMulti) && isMultisig && createMenuGroup('multisigGroup', [
       <Menu.Item
         icon='file-signature'
-        isDisabled={!multiInfos || !multiInfos.length}
+        isDisabled={!multiInfos?.length}
         key='multisigApprovals'
         label={t('Multisig approvals')}
         onClick={toggleMultisig}
@@ -471,7 +471,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         />
         <td className='address all relative'>
           <AddressSmall
-            parentAddress={meta.parentAddress as string}
+            parentAddress={meta.parentAddress}
             value={address}
             withShortAddress
           />
@@ -549,8 +549,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               key='multisig-approve'
               onClose={toggleMultisig}
               ongoing={multiInfos}
-              threshold={meta.threshold as number}
-              who={meta.who as string[]}
+              threshold={meta.threshold}
+              who={meta.who}
             />
           )}
           {isRecoverAccountOpen && (

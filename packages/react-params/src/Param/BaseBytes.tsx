@@ -116,7 +116,7 @@ function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, 
     <StyledBare className={className}>
       <Input
         className={size}
-        defaultValue={defaultValue as string}
+        defaultValue={defaultValue}
         isAction={!!children}
         isDisabled={isDisabled}
         isError={isError || !isValid}

@@ -45,7 +45,7 @@ function Summary ({ bestNumber, className = '', electionsInfo, hasElections }: P
           </>
         )}
       </section>
-      {electionsInfo && electionsInfo.voteCount && (
+      {electionsInfo?.voteCount && (
         <section>
           <CardSummary label={t('voting round')}>
             #{formatNumber(electionsInfo.voteCount)}

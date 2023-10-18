@@ -30,10 +30,10 @@ function Unscrupulous ({ className, unscrupulous }: Props): React.ReactElement<P
   return (
     <div className={className}>
       <Table
-        empty={unscrupulous && unscrupulous.accounts && t('No accounts')}
+        empty={unscrupulous?.accounts && t('No accounts')}
         header={accRef.current}
       >
-        {unscrupulous && unscrupulous.accounts.map((m) => (
+        {unscrupulous?.accounts.map((m) => (
           <Account
             key={m}
             value={m}
@@ -41,10 +41,10 @@ function Unscrupulous ({ className, unscrupulous }: Props): React.ReactElement<P
         ))}
       </Table>
       <Table
-        empty={unscrupulous && unscrupulous.websites && t('No websites')}
+        empty={unscrupulous?.websites && t('No websites')}
         header={webRef.current}
       >
-        {unscrupulous && unscrupulous.websites.map((m) => (
+        {unscrupulous?.websites.map((m) => (
           <Website
             key={m}
             value={m}

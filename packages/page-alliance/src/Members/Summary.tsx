@@ -19,7 +19,7 @@ interface Props {
 
 function Summary ({ className, members, rule }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const ipfsLink = useIpfsLink(rule && rule.cid && rule.cid.ipfs);
+  const ipfsLink = useIpfsLink(rule?.cid?.ipfs);
 
   return (
     <SummaryBox className={className}>

@@ -36,7 +36,7 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
         empty={hashes && t('No call hashes found')}
         header={headerRef.current}
       >
-        {hashes && hashes.map((h) => (
+        {hashes?.map((h) => (
           <Details
             key={h}
             value={h}

@@ -32,8 +32,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'aleph',
     providers: {
       'Aleph Zero Foundation': 'wss://ws.azero.dev',
-      Dwellir: 'wss://aleph-zero-rpc.dwellir.com'
-
+      Dwellir: 'wss://aleph-zero-rpc.dwellir.com',
+      OnFinality: 'wss://aleph-zero.api.onfinality.io/public-ws'
     },
     text: 'Aleph Zero',
     ui: {
@@ -89,8 +89,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'cere',
     providers: {
-      'Cere Network': 'wss://archive.mainnet.cere.network/ws',
-      'Republic Crypto | Runtime': 'wss://mainnet.cere-archive.republiccrypto-runtime.com:444'
+      'Cere Network': 'wss://archive.mainnet.cere.network/ws'
+      // 'Republic Crypto | Runtime': 'wss://mainnet.cere-archive.republiccrypto-runtime.com:444' // https://github.com/polkadot-js/apps/issues/9828
     },
     text: 'Cere Network',
     ui: {
@@ -123,7 +123,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'creditcoin',
     providers: {
-      'Creditcoin Foundation': 'wss://rpc.mainnet.creditcoin.network/ws'
+      'Creditcoin Foundation': 'wss://mainnet.creditcoin.network/ws'
     },
     text: 'Creditcoin',
     ui: {
@@ -179,8 +179,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'edgeware',
     providers: {
       'Commonwealth Labs': 'wss://mainnet2.edgewa.re',
-      JelliedOwl: 'wss://edgeware.jelliedowl.net',
-      OnFinality: 'wss://edgeware.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/8768
+      JelliedOwl: 'wss://edgeware.jelliedowl.net'
+      // OnFinality: 'wss://edgeware.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9795
     },
     text: 'Edgeware',
     ui: {
@@ -377,7 +377,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'polkadex',
     providers: {
       OnFinality: 'wss://polkadex.api.onfinality.io/public-ws',
-      RadiumBlocks: 'wss://polkadex.public.curie.radiumblock.co/ws'
+      RadiumBlock: 'wss://polkadex.public.curie.radiumblock.co/ws'
     },
     text: 'Polkadex',
     ui: {

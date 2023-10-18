@@ -403,7 +403,7 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
         header={header}
         legend={<Legend />}
       >
-        {displayList && displayList.map((info): React.ReactNode =>
+        {displayList?.map((info): React.ReactNode =>
           <Validator
             allSlashes={allSlashes}
             canSelect={canSelect}

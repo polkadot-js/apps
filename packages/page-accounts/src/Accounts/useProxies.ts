@@ -45,9 +45,9 @@ function useProxiesImpl (address?: string | null): State | null {
   useEffect((): void => {
     setState(null);
 
-    address && api.query.proxy &&
+    address &&
       api.query.proxy
-        .proxies<ITuple<[Vec<ITuple<[AccountId, KitchensinkRuntimeProxyType]> | PalletProxyProxyDefinition>, BalanceOf]>>(address)
+        ?.proxies<ITuple<[Vec<ITuple<[AccountId, KitchensinkRuntimeProxyType]> | PalletProxyProxyDefinition>, BalanceOf]>>(address)
         .then(([_proxies]): void => {
           const proxies = api.tx.proxy.addProxy.meta.args.length === 3
             ? (_proxies as PalletProxyProxyDefinition[]).map(({ delay, delegate, proxyType }) =>

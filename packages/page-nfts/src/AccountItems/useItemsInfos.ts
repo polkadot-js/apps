@@ -23,7 +23,7 @@ const METADATA_FETCH_OPTIONS = {
     }
 
     try {
-      const result = JSON.parse(data) as {[key: string]: any};
+      const result = JSON.parse(data) as Record<string, any>;
 
       if (result && typeof result === 'object') {
         return {
@@ -38,10 +38,14 @@ const METADATA_FETCH_OPTIONS = {
 };
 
 function extractInfo ([, itemId]: [BN, BN], metadata: Option<PalletUniquesItemMetadata>, accountItems: AccountItem[]): ItemInfo {
-  const { accountId } = accountItems.find(({ itemId: _itemId }) => _itemId.eq(itemId)) as AccountItem;
+  const item = accountItems.find(({ itemId: _itemId }) => _itemId.eq(itemId));
+
+  if (!item) {
+    throw new Error('Unable to extract accountId');
+  }
 
   return {
-    account: accountId,
+    account: item.accountId,
     id: itemId,
     ipfsData: null,
     key: itemId.toString(),
@@ -50,7 +54,7 @@ function extractInfo ([, itemId]: [BN, BN], metadata: Option<PalletUniquesItemMe
 }
 
 const addFetchedMetadata = (fetchedMetadata: FetchedMetadata) => (itemInfo: ItemInfo): ItemInfo => {
-  const metadataLink = itemInfo.metadata && normalizeMetadataLink(itemInfo.metadata.data.toPrimitive() as string);
+  const metadataLink = normalizeMetadataLink(itemInfo.metadata?.data.toString());
 
   return {
     ...itemInfo,
@@ -70,7 +74,7 @@ function useItemsInfosImpl (accountItems: AccountItem[]): ItemInfo[] | undefined
   const metadata = useCall<[[[BN, BN][]], Option<PalletUniquesItemMetadata>[]]>(api.query.uniques.instanceMetadataOf.multi, [ids], QUERY_OPTS);
 
   const metadataLinks = useMemo((): string[] | undefined => {
-    if (metadata && metadata[1].length) {
+    if (metadata?.[1].length) {
       return metadata[1].map((o) =>
         o.isSome
           ? o.unwrap().data.toPrimitive() as string
@@ -84,7 +88,7 @@ function useItemsInfosImpl (accountItems: AccountItem[]): ItemInfo[] | undefined
   const fetchedMetadata = useMetadataFetch<ItemSupportedMetadata | null>(metadataLinks, METADATA_FETCH_OPTIONS);
 
   useEffect((): void => {
-    if (fetchedMetadata && accountItems.length && metadata && metadata[0][0].length) {
+    if (fetchedMetadata && accountItems.length && metadata?.[0][0].length) {
       const [collectionId] = metadata[0][0][0];
 
       if (!collectionId.eq(ids[0][0])) {

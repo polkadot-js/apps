@@ -96,7 +96,7 @@ function useTeleportImpl (): Teleport {
     if (paraId) {
       const endpoint = endpoints.find(({ value }) => value === apiUrl);
 
-      if (endpoint && endpoint.genesisHashRelay) {
+      if (endpoint?.genesisHashRelay) {
         const destinations = extractRelayDestinations(endpoint.genesisHashRelay, ({ paraId }) =>
           endpoint.teleport.includes(isNumber(paraId) ? paraId : -1)
         );

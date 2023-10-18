@@ -98,7 +98,7 @@ function expandKey (api: ApiPromise, key: QueryableStorageEntry<'promise'>): Key
   const isIterable = checkIterable(api.registry, type);
 
   return {
-    defaultValues: section === 'session' && type.isMap && api.consts.session && api.consts.session.dedupKeyPrefix
+    defaultValues: section === 'session' && type.isMap && api.consts.session?.dedupKeyPrefix
       ? [{ isValid: true, value: api.consts.session.dedupKeyPrefix.toHex() }]
       : null,
     isIterable,

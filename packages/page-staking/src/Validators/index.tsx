@@ -63,7 +63,7 @@ function Overview ({ className = '', favorites, hasAccounts, hasQueries, minComm
   ]);
 
   const ownStashIds = useMemo(
-    () => ownStashes && ownStashes.map(({ stashId }) => stashId),
+    () => ownStashes?.map(({ stashId }) => stashId),
     [ownStashes]
   );
 
