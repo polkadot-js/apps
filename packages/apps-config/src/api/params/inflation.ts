@@ -3,7 +3,7 @@
 
 import type { ApiPromise } from '@polkadot/api';
 
-import { CERE_NETWORK_GENESIS, CERE_NETWORK_TESTNET_GENESIS, DOCK_POS_TESTNET_GENESIS, KUSAMA_GENESIS, NEATCOIN_GENESIS, NFTMART_GENESIS, POLKADOT_GENESIS } from '../constants.js';
+import { CERE_NETWORK_GENESIS, CERE_NETWORK_TESTNET_GENESIS, DOCK_POS_TESTNET_GENESIS, KATE_NETWORK_TESTNET_GENESIS, KUSAMA_GENESIS, NEATCOIN_GENESIS, NFTMART_GENESIS, POLKADOT_GENESIS } from '../constants.js';
 
 interface InflationParams {
   auctionAdjust: number;
@@ -28,6 +28,7 @@ const DEFAULT_PARAMS: InflationParams = {
 };
 
 const CERE_NETWORK_INFLATION_PARAMS = { ...DEFAULT_PARAMS, maxInflation: 0.05, minInflation: 0.0001, stakeTarget: 0.2 };
+const AVAIL_NETWORK_INFLATION_PARAMS = { ...DEFAULT_PARAMS, minInflation: 0.01, maxInflation: 0.05 }
 
 const KNOWN_PARAMS: Record<string, InflationParams> = {
   [CERE_NETWORK_GENESIS]: CERE_NETWORK_INFLATION_PARAMS,
@@ -40,9 +41,10 @@ const KNOWN_PARAMS: Record<string, InflationParams> = {
   [KUSAMA_GENESIS]: { ...DEFAULT_PARAMS, auctionAdjust: (0.3 / 60), auctionMax: 60, stakeTarget: 0.75 },
   [NEATCOIN_GENESIS]: { ...DEFAULT_PARAMS, stakeTarget: 0.75 },
   [NFTMART_GENESIS]: { ...DEFAULT_PARAMS, falloff: 0.04, stakeTarget: 0.60 },
-  [POLKADOT_GENESIS]: { ...DEFAULT_PARAMS, stakeTarget: 0.75 }
+  [POLKADOT_GENESIS]: { ...DEFAULT_PARAMS, stakeTarget: 0.75 },
+  [KATE_NETWORK_TESTNET_GENESIS]: AVAIL_NETWORK_INFLATION_PARAMS
 };
 
-export function getInflationParams (api: ApiPromise): InflationParams {
+export function getInflationParams(api: ApiPromise): InflationParams {
   return KNOWN_PARAMS[api.genesisHash.toHex()] || DEFAULT_PARAMS;
 }

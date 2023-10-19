@@ -29,7 +29,7 @@ interface ExtensionProperties {
   tokenDecimals: number;
   tokenSymbol: string;
   ss58Format?: number;
-  userExtensionsLoaded?: boolean
+  userExtensionsLoadedOnSpec?: number
 }
 
 interface SavedProperties {
@@ -46,7 +46,7 @@ function triggerAll (): void {
 }
 
 // save the properties for a specific extension
-function saveProperties (api: ApiPromise, { name, version }: InjectedExtension, hasLoadedUserExtensions: boolean): void {
+function saveProperties (api: ApiPromise, { name, version }: InjectedExtension, hasLoadedUserExtensionsOnSpec: number): void {
   const storeKey = `properties:${api.genesisHash.toHex()}`;
   const allProperties = store.get(storeKey, {}) as SavedProperties;
 
@@ -55,7 +55,7 @@ function saveProperties (api: ApiPromise, { name, version }: InjectedExtension, 
     ss58Format: api.registry.chainSS58,
     tokenDecimals: api.registry.chainDecimals[0],
     tokenSymbol: api.registry.chainTokens[0],
-    userExtensionsLoaded: hasLoadedUserExtensions
+    userExtensionsLoadedOnSpec: hasLoadedUserExtensionsOnSpec
   };
 
   store.set(storeKey, allProperties);
@@ -67,17 +67,17 @@ function hasCurrentProperties (api: ApiPromise, { extension }: ExtensionKnown): 
 
   // when we don't have properties yet, assume nothing has changed and store
   if (!allProperties[extension.name]) {
-    saveProperties(api, extension, false);
+    saveProperties(api, extension, 0);
 
     return true;
   }
 
-  const { ss58Format, tokenDecimals, tokenSymbol, userExtensionsLoaded } = allProperties[extension.name];
+  const { ss58Format, tokenDecimals, tokenSymbol, userExtensionsLoadedOnSpec } = allProperties[extension.name];
 
   return ss58Format === api.registry.chainSS58 &&
     tokenDecimals === api.registry.chainDecimals[0] &&
     tokenSymbol === api.registry.chainTokens[0] &&
-    (tokenSymbol !== 'AVL' || Boolean(userExtensionsLoaded));
+    (tokenSymbol !== 'AVL' || (userExtensionsLoadedOnSpec !== undefined && userExtensionsLoadedOnSpec > 0));
 }
 
 // filter extensions based on the properties we have available
@@ -117,9 +117,14 @@ async function getExtensionInfo (api: ApiPromise, extension: InjectedExtension):
         try {
           isOk = await metadata.provide(def);
           const hasLoadedUserExtensions = !!def.userExtensions;
+          const maybeSpec = await api.query.system.lastRuntimeUpgrade()
+          let spec = 0
+          if (maybeSpec.isSome) {
+            spec = maybeSpec.unwrap().specVersion.toNumber()
+          }
 
           if (isOk) {
-            saveProperties(api, extension, hasLoadedUserExtensions);
+            saveProperties(api, extension, hasLoadedUserExtensions ? spec : 0);
             triggerAll();
           }
         } catch {
