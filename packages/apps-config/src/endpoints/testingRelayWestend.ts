@@ -162,6 +162,7 @@ export const testParasWestendCommon: EndpointOption[] = [
     info: 'westendCollectives',
     paraId: 1001,
     providers: {
+      'Dwellir Tunisia': 'wss://westend-collectives-rpc-tn.dwellir.com',
       'IBP-GeoDNS1': 'wss://sys.ibp.network/collectives-westend',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/collectives-westend',
       Parity: 'wss://westend-collectives-rpc.polkadot.io'
