@@ -147,6 +147,7 @@ export const testParasWestendCommon: EndpointOption[] = [
     info: 'westendBridgeHub',
     paraId: 1002,
     providers: {
+      'Dwellir Tunisia': 'wss://westend-bridge-hub-rpc-tn.dwellir.com',
       'IBP-GeoDNS1': 'wss://sys.ibp.network/bridgehub-westend',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/bridgehub-westend',
       OnFinality: 'wss://bridgehub-westend.api.onfinality.io/public-ws',
