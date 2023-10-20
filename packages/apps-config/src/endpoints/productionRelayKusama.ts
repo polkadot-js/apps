@@ -829,6 +829,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     info: 'kusamaBridgeHub',
     paraId: 1002,
     providers: {
+      'Dwellir Tunisia': 'wss://kusama-bridge-hub-rpc-tn.dwellir.com',
       'IBP-GeoDNS1': 'wss://sys.ibp.network/bridgehub-kusama',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/bridgehub-kusama',
       // LuckyFriday: 'wss://rpc-bridge-hub-kusama.luckyfriday.io', // https://github.com/polkadot-js/apps/issues/9947
