@@ -681,6 +681,7 @@ export const testParasRococoCommon: EndpointOption[] = [
     info: 'RococoAssetHub',
     paraId: 1000,
     providers: {
+      Dwellir: 'wss://rococo-asset-hub-rpc.dwellir.com',
       Parity: 'wss://rococo-asset-hub-rpc.polkadot.io'
     },
     teleport: [-1],
@@ -694,6 +695,7 @@ export const testParasRococoCommon: EndpointOption[] = [
     info: 'rococoBridgehub',
     paraId: 1013,
     providers: {
+      Dwellir: 'wss://rococo-bridge-hub-rpc.dwellir.com',
       Parity: 'wss://rococo-bridge-hub-rpc.polkadot.io'
     },
     teleport: [-1],
