@@ -742,6 +742,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     info: 'polkadotBridgeHub',
     paraId: 1002,
     providers: {
+      Dwellir: 'wss://polkadot-bridge-hub-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://polkadot-bridge-hub-rpc-tn.dwellir.com',
       'IBP-GeoDNS1': 'wss://sys.ibp.network/bridgehub-polkadot',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/bridgehub-polkadot',
@@ -759,6 +760,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     info: 'polkadotCollectives',
     paraId: 1001,
     providers: {
+      Dwellir: 'wss://polkadot-collectives-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://polkadot-collectives-rpc-tn.dwellir.com',
       'IBP-GeoDNS1': 'wss://sys.ibp.network/collectives-polkadot',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/collectives-polkadot',
