@@ -65,6 +65,18 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    info: 'thebifrost-mainnet',
+    providers: {
+      'Pilab #1': 'wss://public-01.mainnet.bifrostnetwork.com/wss',
+      'Pilab #2': 'wss://public-02.mainnet.bifrostnetwork.com/wss'
+    },
+    text: 'Bifrost Mainnet',
+    ui: {
+      color: '#FF474C',
+      logo: nodesThebifrostPNG
+    }
+  },
+  {
     info: 'bittensor',
     providers: {
       'Opentensor Fdn (Archive)': 'wss://entrypoint-finney.opentensor.ai:443'
@@ -508,18 +520,6 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#d622ff',
       logo: nodesTernoaSVG
-    }
-  },
-  {
-    info: 'thebifrost-mainnet',
-    providers: {
-      'Pilab #1': 'wss://public-01.mainnet.bifrostnetwork.com/wss',
-      'Pilab #2': 'wss://public-02.mainnet.bifrostnetwork.com/wss'
-    },
-    text: 'The Bifrost Mainnet',
-    ui: {
-      color: '#FF474C',
-      logo: nodesThebifrostPNG
     }
   },
   {
