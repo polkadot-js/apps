@@ -582,10 +582,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2095,
     providers: {
       Dwellir: 'wss://quartz-rpc.dwellir.com',
-      'Geo Load Balancer': 'wss://ws-quartz.unique.network',
       OnFinality: 'wss://quartz.api.onfinality.io/public-ws',
       'Unique America': 'wss://us-ws-quartz.unique.network',
-      'Unique Asia': 'wss://asia-ws-quartz.unique.network',
       'Unique Europe': 'wss://eu-ws-quartz.unique.network'
     },
     text: 'QUARTZ by UNIQUE',
