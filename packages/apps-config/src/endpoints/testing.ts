@@ -944,7 +944,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
       'Pilab #1': 'wss://public-01.testnet.bifrostnetwork.com/wss',
       'Pilab #2': 'wss://public-02.testnet.bifrostnetwork.com/wss'
     },
-    text: 'The Bifrost Testnet',
+    text: 'Bifrost Testnet',
     ui: {
       color: '#FF474C',
       logo: nodesThebifrostPNG
