@@ -107,6 +107,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Dwellir: 'wss://bifrost-rpc.dwellir.com',
       Liebi: 'wss://bifrost-rpc.liebi.com/ws',
+      LiebiUS: 'wss://us.bifrost-rpc.liebi.com/ws',
       OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws'
     },
     text: 'Bifrost',
@@ -274,7 +275,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       // 'InvArch Team': 'wss://tinker.invarch.network', // https://github.com/polkadot-js/apps/issues/8623
       Dwellir: 'wss://tinkernet-rpc.dwellir.com',
-      OnFinality: 'wss://invarch-tinkernet.api.onfinality.io/public-ws',
+      // OnFinality: 'wss://invarch-tinkernet.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9955
       'light client': 'light://substrate-connect/kusama/tinkernet'
     },
     text: 'InvArch Tinkernet',
@@ -541,8 +542,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'pioneer',
     paraId: 2096,
     providers: {
-      MetaverseNetwork: 'wss://pioneer-rpc-3.bit.country/wss',
-      OnFinality: 'wss://pioneer.api.onfinality.io/public-ws'
+      MetaverseNetwork: 'wss://pioneer-rpc-3.bit.country/wss'
+      // OnFinality: 'wss://pioneer.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9955
     },
     text: 'Pioneer',
     ui: {

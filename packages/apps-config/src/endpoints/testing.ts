@@ -110,7 +110,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'edgeware',
     providers: {
-      JelliedOwl: 'wss://beresheet.jelliedowl.net'
+      // JelliedOwl: 'wss://beresheet.jelliedowl.net' // https://github.com/polkadot-js/apps/issues/9952
     },
     text: 'Beresheet',
     ui: {
@@ -559,7 +559,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'metaquity',
     providers: {
-      'Metaquity Testnet': 'wss://rpc.testnet.metaquity.xyz'
+      // 'Metaquity Testnet': 'wss://rpc.testnet.metaquity.xyz' // https://github.com/polkadot-js/apps/issues/9955
     },
     text: 'Metaquity Network Testnet',
     ui: {

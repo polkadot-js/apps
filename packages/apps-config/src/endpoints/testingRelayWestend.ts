@@ -132,7 +132,7 @@ export const testParasWestendCommon: EndpointOption[] = [
       'Dwellir Tunisia': 'wss://westmint-rpc-tn.dwellir.com',
       'IBP-GeoDNS1': 'wss://sys.ibp.network/westmint',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/westmint',
-      OnFinality: 'wss://westmint.api.onfinality.io/public-ws',
+      // OnFinality: 'wss://westmint.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9955
       Parity: 'wss://westend-asset-hub-rpc.polkadot.io',
       Stakeworld: 'wss://wnd-rpc.stakeworld.io/assethub'
     },
@@ -149,7 +149,7 @@ export const testParasWestendCommon: EndpointOption[] = [
     providers: {
       'IBP-GeoDNS1': 'wss://sys.ibp.network/bridgehub-westend',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/bridgehub-westend',
-      OnFinality: 'wss://bridgehub-westend.api.onfinality.io/public-ws',
+      // OnFinality: 'wss://bridgehub-westend.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9960
       Parity: 'wss://westend-bridge-hub-rpc.polkadot.io'
     },
     text: 'BridgeHub',
