@@ -11,7 +11,7 @@ import * as Sc from '@substrate/connect';
 import React, { useEffect, useMemo, useState } from 'react';
 import store from 'store';
 
-import { ChopsticksProvider } from '@acala-network/chopsticks-core';
+import { ChopsticksProvider, setStorage } from '@acala-network/chopsticks-core';
 import { ApiPromise, ScProvider, WsProvider } from '@polkadot/api';
 import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
 import { ethereumChains, typesBundle } from '@polkadot/apps-config';
@@ -60,6 +60,8 @@ export const DEFAULT_AUX = ['Aux1', 'Aux2', 'Aux3', 'Aux4', 'Aux5', 'Aux6', 'Aux
 
 const DISALLOW_EXTENSIONS: string[] = [];
 const EMPTY_STATE = { hasInjectedAccounts: false, isApiReady: false } as unknown as ApiState;
+
+const islocalFork = store.get('isLocalFork');
 
 function isKeyringLoaded () {
   try {
@@ -231,20 +233,25 @@ async function getLightProvider (chain: string): Promise<ScProvider> {
 async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: unknown) => void): Promise<Record<string, Record<string, string>>> {
   const types = getDevTypes();
   const isLight = apiUrl.startsWith('light://');
-  const islocalFork = store.get('isLocalFork');
+  let provider;
 
   try {
-    const provider = isLight
-      ? await getLightProvider(apiUrl.replace('light://', ''))
-      : islocalFork
-      ? new ChopsticksProvider({ endpoint: apiUrl, storageValues: {
-				System: {
-					Account: [
-						[['25fqepuLngYL2DK9ApTejNzqPadUUZ9ALYyKWX2jyvEiuZLa'], { providers: 1, data: { free: 1000 * 1e12 } }],
-					],
-				},
-			} })
-      : new WsProvider(apiUrl);
+    if (isLight) {
+      provider = await getLightProvider(apiUrl.replace('light://', ''));
+    } else if (islocalFork) {
+      provider = await ChopsticksProvider.fromEndpoint(apiUrl);
+      // TODO: for testing, remove this later
+      await setStorage(provider.chain, {
+          System: {
+            Account: [
+              [['25fqepuLngYL2DK9ApTejNzqPadUUZ9ALYyKWX2jyvEiuZLa'], { providers: 1, data: { free: 1000 * 1e12 } }],
+            ],
+          },
+        }
+      );
+    } else {
+      provider = new WsProvider(apiUrl);
+    }
 
     statics.api = new ApiPromise({
       provider,
@@ -313,6 +320,10 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store }: Props): Rea
             .then(setState)
             .catch(onError);
         });
+
+        if (islocalFork) {
+          statics.api.connect();
+        }
 
         setIsApiInitialized(true);
       })
