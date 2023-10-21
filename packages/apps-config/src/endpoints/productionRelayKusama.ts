@@ -582,7 +582,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2095,
     providers: {
       Dwellir: 'wss://quartz-rpc.dwellir.com',
-      OnFinality: 'wss://quartz.api.onfinality.io/public-ws',
+      // OnFinality: 'wss://quartz.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9972
       'Unique America': 'wss://us-ws-quartz.unique.network',
       'Unique Europe': 'wss://eu-ws-quartz.unique.network'
     },
