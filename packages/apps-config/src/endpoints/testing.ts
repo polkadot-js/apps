@@ -128,6 +128,18 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    info: 'thebifrost-testnet',
+    providers: {
+      'Pilab #1': 'wss://public-01.testnet.bifrostnetwork.com/wss',
+      'Pilab #2': 'wss://public-02.testnet.bifrostnetwork.com/wss'
+    },
+    text: 'Bifrost Testnet',
+    ui: {
+      color: '#FF474C',
+      logo: nodesThebifrostPNG
+    }
+  },
+  {
     info: 'cere',
     providers: {
       // 'Cere Network': 'wss://archive.testnet.cere.network/ws' // https://github.com/polkadot-js/apps/issues/9712
@@ -630,9 +642,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'opal',
     providers: {
-      'Geo Load Balancer': 'wss://ws-opal.unique.network',
       'Unique America': 'wss://us-ws-opal.unique.network',
-      'Unique Asia': 'wss://asia-ws-opal.unique.network',
       'Unique Europe': 'wss://eu-ws-opal.unique.network'
     },
     text: 'OPAL by UNIQUE',
@@ -936,18 +946,6 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     text: 'Tewai',
     ui: {
       logo: nodesBitcountryPNG
-    }
-  },
-  {
-    info: 'thebifrost-testnet',
-    providers: {
-      'Pilab #1': 'wss://public-01.testnet.bifrostnetwork.com/wss',
-      'Pilab #2': 'wss://public-02.testnet.bifrostnetwork.com/wss'
-    },
-    text: 'The Bifrost Testnet',
-    ui: {
-      color: '#FF474C',
-      logo: nodesThebifrostPNG
     }
   },
   {

@@ -488,7 +488,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'heiko',
     paraId: 2085,
     providers: {
-      OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws',
+      // OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9964
       Parallel: 'wss://heiko-rpc.parallel.fi'
     },
     text: 'Parallel Heiko',
@@ -582,10 +582,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2095,
     providers: {
       Dwellir: 'wss://quartz-rpc.dwellir.com',
-      'Geo Load Balancer': 'wss://ws-quartz.unique.network',
-      OnFinality: 'wss://quartz.api.onfinality.io/public-ws',
+      // OnFinality: 'wss://quartz.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9972
       'Unique America': 'wss://us-ws-quartz.unique.network',
-      'Unique Asia': 'wss://asia-ws-quartz.unique.network',
       'Unique Europe': 'wss://eu-ws-quartz.unique.network'
     },
     text: 'QUARTZ by UNIQUE',
@@ -829,6 +827,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     info: 'kusamaBridgeHub',
     paraId: 1002,
     providers: {
+      Dwellir: 'wss://kusama-bridge-hub-rpc.dwellir.com',
+      'Dwellir Tunisia': 'wss://kusama-bridge-hub-rpc-tn.dwellir.com',
       'IBP-GeoDNS1': 'wss://sys.ibp.network/bridgehub-kusama',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/bridgehub-kusama',
       // LuckyFriday: 'wss://rpc-bridge-hub-kusama.luckyfriday.io', // https://github.com/polkadot-js/apps/issues/9947

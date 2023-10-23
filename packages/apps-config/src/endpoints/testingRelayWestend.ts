@@ -147,6 +147,8 @@ export const testParasWestendCommon: EndpointOption[] = [
     info: 'westendBridgeHub',
     paraId: 1002,
     providers: {
+      Dwellir: 'wss://westend-bridge-hub-rpc.dwellir.com',
+      'Dwellir Tunisia': 'wss://westend-bridge-hub-rpc-tn.dwellir.com',
       'IBP-GeoDNS1': 'wss://sys.ibp.network/bridgehub-westend',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/bridgehub-westend',
       // OnFinality: 'wss://bridgehub-westend.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9960
@@ -161,6 +163,8 @@ export const testParasWestendCommon: EndpointOption[] = [
     info: 'westendCollectives',
     paraId: 1001,
     providers: {
+      Dwellir: 'wss://westend-collectives-rpc.dwellir.com',
+      'Dwellir Tunisia': 'wss://westend-collectives-rpc-tn.dwellir.com',
       'IBP-GeoDNS1': 'wss://sys.ibp.network/collectives-westend',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/collectives-westend',
       Parity: 'wss://westend-collectives-rpc.polkadot.io'
