@@ -19,14 +19,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@acala-network/chopsticks-core@npm:^0.8.2":
-  version: 0.8.2
-  resolution: "@acala-network/chopsticks-core@npm:0.8.2"
+"@acala-network/chopsticks-core@npm:^0.8.5-0":
+  version: 0.8.5-0
+  resolution: "@acala-network/chopsticks-core@npm:0.8.5-0"
   dependencies:
-    "@acala-network/chopsticks-executor": 0.8.2
+    "@acala-network/chopsticks-executor": 0.8.5-0
     "@polkadot/api": ^10.9.1
     "@polkadot/util-crypto": ^12.3.2
     axios: ^1.5.1
+    comlink: ^4.4.1
     eventemitter3: ^5.0.1
     localforage: ^1.10.0
     lodash: ^4.17.21
@@ -36,16 +37,16 @@ __metadata:
     sqlite3: ^5.1.6
     typeorm: ^0.3.17
     zod: ^3.22.3
-  checksum: c08d4c8f7941df8ab083b782b1dcc6beec7306afbb6c1117ddda40dfacee188ac8652beb59f6fce450189f3e3201d6f689b86bc8a1cd9f816c15c5122f0422b3
+  checksum: 732cccb56fde580fabcbd8ca82d9458fbacf31caeea173a231591860859e5a9329a44432997409cb5f4e2274ce0a076c8e5b1820dbe952e9466540eaf32e205c
   languageName: node
   linkType: hard
 
-"@acala-network/chopsticks-executor@npm:0.8.2":
-  version: 0.8.2
-  resolution: "@acala-network/chopsticks-executor@npm:0.8.2"
+"@acala-network/chopsticks-executor@npm:0.8.5-0":
+  version: 0.8.5-0
+  resolution: "@acala-network/chopsticks-executor@npm:0.8.5-0"
   dependencies:
     "@polkadot/wasm-util": ^7.2.2
-  checksum: 20e15f37df8c2c166d39150db5476e2a7e67ebd9f7478f407d8b735700e3895c13d560d1664feb6299831969eb178ec53aecc37d29d65851d7dc58cf2e5da59d
+  checksum: ba0765621d3fda7f38054b1fd779527917b536cb8b61743175df8d727826a654752ad4558e9c20420b13cabc0934efa1cb516f592152b05f1796b299d9d5c5a8
   languageName: node
   linkType: hard
 
@@ -1917,7 +1918,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/apps@workspace:packages/apps"
   dependencies:
-    "@acala-network/chopsticks-core": ^0.8.2
+    "@acala-network/chopsticks-core": ^0.8.5-0
     "@polkadot/apps-config": ^0.132.2-124-x
     "@polkadot/apps-routing": ^0.132.2-124-x
     "@polkadot/dev": ^0.76.29
@@ -6370,6 +6371,13 @@ __metadata:
   dependencies:
     delayed-stream: ~1.0.0
   checksum: 49fa4aeb4916567e33ea81d088f6584749fc90c7abec76fd516bf1c5aa5c79f3584b5ba3de6b86d26ddd64bae5329c4c7479343250cfe71c75bb366eae53bb7c
+  languageName: node
+  linkType: hard
+
+"comlink@npm:^4.4.1":
+  version: 4.4.1
+  resolution: "comlink@npm:4.4.1"
+  checksum: 16d58a8f590087fc45432e31d6c138308dfd4b75b89aec0b7f7bb97ad33d810381bd2b1e608a1fb2cf05979af9cbfcdcaf1715996d5fcf77aeb013b6da3260af
   languageName: node
   linkType: hard
 
