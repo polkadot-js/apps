@@ -883,12 +883,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mangata-finance/type-definitions@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "@mangata-finance/type-definitions@npm:1.0.0"
+"@mangata-finance/type-definitions@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@mangata-finance/type-definitions@npm:2.0.0"
   peerDependencies:
-    "@polkadot/types": ^10.7.3
-  checksum: 6b93fd4c4e53b7fa0b1c145929ecd170fcbd7921a49ec18b128b32dafab2a4e06d678cc8058ffc7b95f921481387062b3b32bf31c9929005827d87599392e389
+    "@polkadot/types": 10.9.1
+  checksum: 4f24764c56afc0cc2113e1517517c786330553e25131a87edbc2cbb5ce85204e273e7706a9aec9c61eea1013adba93b112c35d674890c729cdc4322b46e53d3b
   languageName: node
   linkType: hard
 
@@ -1775,7 +1775,7 @@ __metadata:
     "@kiltprotocol/type-definitions": 0.33.1
     "@laminar/type-definitions": 0.3.1
     "@logion/node-api": 0.19.0-2
-    "@mangata-finance/type-definitions": ^1.0.0
+    "@mangata-finance/type-definitions": ^2.0.0
     "@metaverse-network-sdk/type-definitions": 0.0.1-16
     "@parallel-finance/type-definitions": 2.0.0
     "@peaqnetwork/type-definitions": 0.0.4
