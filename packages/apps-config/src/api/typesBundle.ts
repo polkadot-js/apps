@@ -58965,22 +58965,13 @@ export const typesBundle = {
               "seed": "ShufflingSeed",
               "count": "BlockNumber"
             },
-            "XYKRpcResult": {
-              "price": "Balance"
+            "RpcAssetMetadata": {
+              "tokenId": "TokenId",
+              "decimals": "u32",
+              "name": "Vec<u8>",
+              "symbol": "Vec<u8>"
             },
-            "RPCAmountsResult": {
-              "firstAssetAmount": "Balance",
-              "secondAssetAmount": "Balance"
-            },
-            "VestingInfo": {
-              "locked": "Balance",
-              "perBlock": "Balance",
-              "startingBlock": "BlockNumber"
-            },
-            "TokenId": "u32",
-            "VestingInfosWithLockedAt": {
-              "vestingInfosWithLockedAt": "Vec<(VestingInfo<Balance, BlockNumber>, Balance)>"
-            }
+            "TokenId": "u32"
           }
         }
       ],
@@ -59002,7 +58993,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "calculate_sell_price": {
             "description": "Calculates and returns bought_token_amount while providing sold_token_amount and respective reserves",
@@ -59020,7 +59011,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "get_burn_amount": {
             "description": "Returns amounts of tokens received by burning provided liquidity_token_amount in pool of provided token ids",
@@ -59038,7 +59029,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "RPCAmountsResult<Balance>"
+            "type": "(Balance,Balance)"
           },
           "calculate_sell_price_id": {
             "description": "Same as calculate_sell_price, but providing token_id instead of reserves. Reserves are fetched by function.",
@@ -59056,7 +59047,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "calculate_buy_price_id": {
             "description": "Same as calculate_buy_price, but providing token_id instead of reserves. Reserves are fetched by function.",
@@ -59074,7 +59065,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "calculate_rewards_amount": {
             "description": "Calculate rewards amount of liquidity token id for the user",
@@ -59088,7 +59079,7 @@ export const typesBundle = {
                 "type": "TokenId"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "calculate_balanced_sell_amount": {
             "description": "Calculates how much amount x we need to swap from total_amount, so that after y = swap(x), the resulting balance equals (total_amount - x) / y = pool_x / pool_y - the resulting amounts can then be used to `mint_liquidity` with minimal leftover after operation",
@@ -59102,7 +59093,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "get_max_instant_unreserve_amount": {
             "description": "Instant unreserve amount",
@@ -59116,7 +59107,7 @@ export const typesBundle = {
                 "type": "TokenId"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "get_max_instant_burn_amount": {
             "description": "",
@@ -59130,7 +59121,7 @@ export const typesBundle = {
                 "type": "TokenId"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "is_sell_asset_lock_free": {
             "description": "",
@@ -59159,22 +59150,16 @@ export const typesBundle = {
               }
             ],
             "type": "Option<bool>"
-          }
-        },
-        "vesting": {
-          "getVestingLockedAt": {
+          },
+          "get_tradeable_tokens": {
             "description": "",
-            "params": [
-              {
-                "name": "who",
-                "type": "AccountId"
-              },
-              {
-                "name": "token_id",
-                "type": "TokenId"
-              }
-            ],
-            "type": "VestingInfosWithLockedAt<Balance, BlockNumber>"
+            "params": [],
+            "type": "Vec<RpcAssetMetadata<TokenId>>"
+          },
+          "get_liq_tokens_for_trading": {
+            "description": "",
+            "params": [],
+            "type": "Vec<TokenId>"
           }
         }
       }
@@ -59200,22 +59185,13 @@ export const typesBundle = {
               "seed": "ShufflingSeed",
               "count": "BlockNumber"
             },
-            "XYKRpcResult": {
-              "price": "Balance"
+            "RpcAssetMetadata": {
+              "tokenId": "TokenId",
+              "decimals": "u32",
+              "name": "Vec<u8>",
+              "symbol": "Vec<u8>"
             },
-            "RPCAmountsResult": {
-              "firstAssetAmount": "Balance",
-              "secondAssetAmount": "Balance"
-            },
-            "VestingInfo": {
-              "locked": "Balance",
-              "perBlock": "Balance",
-              "startingBlock": "BlockNumber"
-            },
-            "TokenId": "u32",
-            "VestingInfosWithLockedAt": {
-              "vestingInfosWithLockedAt": "Vec<(VestingInfo<Balance, BlockNumber>, Balance)>"
-            }
+            "TokenId": "u32"
           }
         }
       ],
@@ -59237,7 +59213,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "calculate_sell_price": {
             "description": "Calculates and returns bought_token_amount while providing sold_token_amount and respective reserves",
@@ -59255,7 +59231,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "get_burn_amount": {
             "description": "Returns amounts of tokens received by burning provided liquidity_token_amount in pool of provided token ids",
@@ -59273,7 +59249,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "RPCAmountsResult<Balance>"
+            "type": "(Balance,Balance)"
           },
           "calculate_sell_price_id": {
             "description": "Same as calculate_sell_price, but providing token_id instead of reserves. Reserves are fetched by function.",
@@ -59291,7 +59267,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "calculate_buy_price_id": {
             "description": "Same as calculate_buy_price, but providing token_id instead of reserves. Reserves are fetched by function.",
@@ -59309,7 +59285,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "calculate_rewards_amount": {
             "description": "Calculate rewards amount of liquidity token id for the user",
@@ -59323,7 +59299,7 @@ export const typesBundle = {
                 "type": "TokenId"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "calculate_balanced_sell_amount": {
             "description": "Calculates how much amount x we need to swap from total_amount, so that after y = swap(x), the resulting balance equals (total_amount - x) / y = pool_x / pool_y - the resulting amounts can then be used to `mint_liquidity` with minimal leftover after operation",
@@ -59337,7 +59313,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "get_max_instant_unreserve_amount": {
             "description": "Instant unreserve amount",
@@ -59351,7 +59327,7 @@ export const typesBundle = {
                 "type": "TokenId"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "get_max_instant_burn_amount": {
             "description": "",
@@ -59365,7 +59341,7 @@ export const typesBundle = {
                 "type": "TokenId"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "is_sell_asset_lock_free": {
             "description": "",
@@ -59394,22 +59370,16 @@ export const typesBundle = {
               }
             ],
             "type": "Option<bool>"
-          }
-        },
-        "vesting": {
-          "getVestingLockedAt": {
+          },
+          "get_tradeable_tokens": {
             "description": "",
-            "params": [
-              {
-                "name": "who",
-                "type": "AccountId"
-              },
-              {
-                "name": "token_id",
-                "type": "TokenId"
-              }
-            ],
-            "type": "VestingInfosWithLockedAt<Balance, BlockNumber>"
+            "params": [],
+            "type": "Vec<RpcAssetMetadata<TokenId>>"
+          },
+          "get_liq_tokens_for_trading": {
+            "description": "",
+            "params": [],
+            "type": "Vec<TokenId>"
           }
         }
       }
