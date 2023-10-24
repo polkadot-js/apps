@@ -474,7 +474,6 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
       Blast: 'wss://moonriver.public.blastapi.io',
       Dwellir: 'wss://moonriver-rpc.dwellir.com',
       'Moonbeam Foundation': 'wss://wss.api.moonriver.moonbeam.network',
-      OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
       UnitedBloc: 'wss://moonriver.unitedbloc.com'
     },
     text: 'Moonriver',
