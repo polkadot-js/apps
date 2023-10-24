@@ -142,9 +142,6 @@ function createWebpack (context, mode = 'production') {
       new MiniCssExtractPlugin({
         filename: 'extr.[contenthash].css'
       }),
-      new webpack.NormalModuleReplacementPlugin(/node:/, (resource) => {
-        resource.request = resource.request.replace(/^node:/, '');
-      })
     ].concat(plugins),
     resolve: {
       alias,
