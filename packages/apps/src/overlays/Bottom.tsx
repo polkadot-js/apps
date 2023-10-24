@@ -18,7 +18,7 @@ function Bottom ({ className }: Props): React.ReactElement<Props> | null {
       <LocalFork />
       <DotApps />
     </StyledDiv>
-  )
+  );
 }
 
 const StyledDiv = styled.div`

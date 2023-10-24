@@ -121,7 +121,7 @@ function loadAffinities (groups: Group[]): Record<string, string> {
 function isSwitchDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid: boolean): boolean {
   if (!hasUrlChanged) {
     if (store.get('isLocalFork')) {
-      return false
+      return false;
     } else {
       return true;
     }
@@ -137,7 +137,7 @@ function isSwitchDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid: b
 function isLocalForkDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid: boolean): boolean {
   if (!hasUrlChanged) {
     if (store.get('isLocalFork')) {
-      return true
+      return true;
     } else {
       return false;
     }
@@ -246,9 +246,11 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
       store.set('isLocalFork', false);
       settings.set({ ...(settings.get()), apiUrl });
       window.location.assign(`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(apiUrl)}${window.location.hash}`);
+
       if (!hasUrlChanged) {
         window.location.reload();
       }
+
       onClose();
     },
     [apiUrl, onClose, hasUrlChanged]
@@ -259,9 +261,11 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
       store.set('isLocalFork', true);
       settings.set({ ...(settings.get()), apiUrl });
       window.location.assign(`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(apiUrl)}${window.location.hash}`);
+
       if (!hasUrlChanged) {
         window.location.reload();
       }
+
       onClose();
     },
     [apiUrl, onClose, hasUrlChanged]
@@ -287,7 +291,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
 
   const canLocalFork = useMemo(
     () => isLocalForkDisabled(hasUrlChanged, apiUrl, isUrlValid),
-    [hasUrlChanged, apiUrl, canSwitch]
+    [hasUrlChanged, apiUrl, isUrlValid]
   );
 
   return (
@@ -300,6 +304,10 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
           onClick={_onApply}
         />
       }
+      className={className}
+      offset={offset}
+      onClose={onClose}
+      position='left'
       secondaryButton={
         <Button
           icon='code-fork'
@@ -309,10 +317,6 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
           tooltip='fork-locally-btn'
         />
       }
-      className={className}
-      offset={offset}
-      onClose={onClose}
-      position='left'
       sidebarRef={sidebarRef}
     >
       {groups.map((group, index): React.ReactNode => (

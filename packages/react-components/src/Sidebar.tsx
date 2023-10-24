@@ -18,7 +18,7 @@ interface Props {
   sidebarRef: React.RefObject<HTMLDivElement>;
 }
 
-function Sidebar ({ button, secondaryButton, children, className = '', dataTestId = '', onClose, position, sidebarRef }: Props): React.ReactElement<Props> {
+function Sidebar ({ button, children, className = '', dataTestId = '', onClose, position, secondaryButton, sidebarRef }: Props): React.ReactElement<Props> {
   return (
     <StyledDiv
       className={`${className} ui--Sidebar ${position}Position`}

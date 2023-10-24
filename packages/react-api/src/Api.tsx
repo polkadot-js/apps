@@ -7,11 +7,11 @@ import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
 import type { ApiProps, ApiState } from './types.js';
 
+import { ChopsticksProvider, setStorage } from '@acala-network/chopsticks-core';
 import * as Sc from '@substrate/connect';
 import React, { useEffect, useMemo, useState } from 'react';
 import store from 'store';
 
-import { ChopsticksProvider, setStorage } from '@acala-network/chopsticks-core';
 import { ApiPromise, ScProvider, WsProvider } from '@polkadot/api';
 import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
 import { ethereumChains, typesBundle } from '@polkadot/apps-config';
@@ -61,7 +61,7 @@ export const DEFAULT_AUX = ['Aux1', 'Aux2', 'Aux3', 'Aux4', 'Aux5', 'Aux6', 'Aux
 const DISALLOW_EXTENSIONS: string[] = [];
 const EMPTY_STATE = { hasInjectedAccounts: false, isApiReady: false } as unknown as ApiState;
 
-const islocalFork = store.get('isLocalFork');
+const islocalFork = store.get('isLocalFork') as boolean;
 
 function isKeyringLoaded () {
   try {
@@ -242,12 +242,12 @@ async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: un
       provider = await ChopsticksProvider.fromEndpoint(apiUrl);
       // TODO: for testing, remove this later
       await setStorage(provider.chain, {
-          System: {
-            Account: [
-              [['25fqepuLngYL2DK9ApTejNzqPadUUZ9ALYyKWX2jyvEiuZLa'], { providers: 1, data: { free: 1000 * 1e12 } }],
-            ],
-          },
+        System: {
+          Account: [
+            [['25fqepuLngYL2DK9ApTejNzqPadUUZ9ALYyKWX2jyvEiuZLa'], { data: { free: 1000 * 1e12 }, providers: 1 }]
+          ]
         }
+      }
       );
     } else {
       provider = new WsProvider(apiUrl);
@@ -322,7 +322,8 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store }: Props): Rea
         });
 
         if (islocalFork) {
-          statics.api.connect();
+          statics.api.connect()
+            .catch(onError);
         }
 
         setIsApiInitialized(true);

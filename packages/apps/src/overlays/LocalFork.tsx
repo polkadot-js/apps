@@ -7,7 +7,7 @@ import store from 'store';
 import { useTranslation } from '../translate.js';
 import BaseOverlay from './Base.js';
 
-const isLocalFork = store.get('isLocalFork');
+const isLocalFork = store.get('isLocalFork') as boolean;
 
 interface Props {
   className?: string;
@@ -37,7 +37,7 @@ function LocalFork ({ className }: Props): React.ReactElement<Props> | null {
           .
         </div>
       </BaseOverlay>
-    )
+    );
   }
 
   return null;
