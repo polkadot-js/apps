@@ -240,6 +240,13 @@ async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: un
       provider = await getLightProvider(apiUrl.replace('light://', ''));
     } else if (islocalFork) {
       provider = await ChopsticksProvider.fromEndpoint(apiUrl);
+      await setStorage(provider.chain, {
+        System: {
+          Account: [
+            [['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'], { data: { free: 1000 * 1e12 }, providers: 1 }]
+          ]
+        }
+      });
     } else {
       provider = new WsProvider(apiUrl);
     }

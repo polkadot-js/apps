@@ -141,7 +141,7 @@ function createWebpack (context, mode = 'production') {
       new webpack.optimize.SplitChunksPlugin(),
       new MiniCssExtractPlugin({
         filename: 'extr.[contenthash].css'
-      }),
+      })
     ].concat(plugins),
     resolve: {
       alias,
