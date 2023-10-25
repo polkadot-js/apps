@@ -422,7 +422,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
   {
     homepage: 'https://logion.network/',
     info: 'logion',
-    paraId: 3341,
+    paraId: 3354,
     providers: {},
     text: 'Logion',
     ui: {
