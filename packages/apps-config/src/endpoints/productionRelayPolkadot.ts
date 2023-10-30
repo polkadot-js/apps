@@ -116,8 +116,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'bitgreen',
     paraId: 2048,
     providers: {
-      Bitgreen: 'wss://mainnet.bitgreen.org',
-      OnFinality: 'wss://bitgreen.api.onfinality.io/public-ws'
+      Bitgreen: 'wss://mainnet.bitgreen.org'
+      // OnFinality: 'wss://bitgreen.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9993
     },
     text: 'Bitgreen',
     ui: {
@@ -410,8 +410,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2013,
     providers: {
       Dwellir: 'wss://litentry-rpc.dwellir.com',
-      Litentry: 'wss://rpc.litentry-parachain.litentry.io',
-      OnFinality: 'wss://litentry.api.onfinality.io/public-ws'
+      Litentry: 'wss://rpc.litentry-parachain.litentry.io'
+      // OnFinality: 'wss://litentry.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9993
     },
     text: 'Litentry',
     ui: {
