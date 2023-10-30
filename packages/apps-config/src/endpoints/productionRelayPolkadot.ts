@@ -354,7 +354,9 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     homepage: 'https://invarch.network/',
     info: 'invarch',
     paraId: 3340,
-    providers: {},
+    providers: {
+      Dwellir: 'wss://invarch-rpc.dwellir.com'
+    },
     text: 'InvArch',
     ui: {
       color: 'linear-gradient(156deg, rgba(245,129,246,1) 0%, rgba(91,221,238,1) 100%)',
