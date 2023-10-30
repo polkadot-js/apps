@@ -359,7 +359,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     },
     text: 'InvArch',
     ui: {
-      color: 'linear-gradient(156deg, rgba(245,129,246,1) 0%, rgba(91,221,238,1) 100%)',
+      color: 'linear-gradient(278deg, #f7d365 5.74%, #ff408a 99.41%)',
       logo: chainsInvarchJPEG
     }
   },
