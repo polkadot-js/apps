@@ -17,19 +17,6 @@ import { getTeleports } from './util.js';
 // IMPORTANT: Alphabetical based on text
 export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
   {
-    homepage: 'https://www.t3rn.io/',
-    info: 't1rn',
-    paraId: 3334,
-    providers: {
-      t3rn: 'wss://rpc.t1rn.io'
-    },
-    text: 't1rn',
-    ui: {
-      color: '#131532',
-      logo: nodesT1rnPNG
-    }
-  },
-  {
     homepage: 'https://a.band',
     info: 'aband',
     paraId: 2257,
@@ -757,6 +744,19 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#000000',
       logo: nodesZeroSVG
+    }
+  },
+  {
+    homepage: 'https://www.t3rn.io/',
+    info: 't1rn',
+    paraId: 3334,
+    providers: {
+      t3rn: 'wss://rpc.t1rn.io'
+    },
+    text: 't1rn',
+    ui: {
+      color: '#131532',
+      logo: nodesT1rnPNG
     }
   },
   {
