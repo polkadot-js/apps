@@ -19,29 +19,30 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@acala-network/chopsticks-core@npm:^0.8.5-1":
-  version: 0.8.5-1
-  resolution: "@acala-network/chopsticks-core@npm:0.8.5-1"
+"@acala-network/chopsticks-core@npm:^0.9.0":
+  version: 0.9.0
+  resolution: "@acala-network/chopsticks-core@npm:0.9.0"
   dependencies:
-    "@acala-network/chopsticks-executor": 0.8.5-1
-    "@polkadot/api": ^10.9.1
-    "@polkadot/util-crypto": ^12.3.2
+    "@acala-network/chopsticks-executor": 0.9.0
+    "@polkadot/api": ^10.10.1
+    "@polkadot/util-crypto": ^12.5.1
     comlink: ^4.4.1
     eventemitter3: ^5.0.1
     lodash: ^4.17.21
     pino: ^8.15.0
     pino-pretty: ^10.2.0
     zod: ^3.22.3
-  checksum: 3011a5d8c1798e40191c5c35fd17ba8697d11b75f554762c3e7529ea82e99f06e76a51626e54ded1939f4036d6acec0861c7d8a61267c713472f83aafba20f81
+  checksum: 6a9057494122c131291e91f9c858cde892abc7426f7b7b4eeeaa326fd4f8bf711e6d0f41ae2c641483ea29a748cfb2e76b109537b869db30b506c1c2e0510e04
   languageName: node
   linkType: hard
 
-"@acala-network/chopsticks-executor@npm:0.8.5-1":
-  version: 0.8.5-1
-  resolution: "@acala-network/chopsticks-executor@npm:0.8.5-1"
+"@acala-network/chopsticks-executor@npm:0.9.0":
+  version: 0.9.0
+  resolution: "@acala-network/chopsticks-executor@npm:0.9.0"
   dependencies:
+    "@polkadot/util": ^12.5.1
     "@polkadot/wasm-util": ^7.2.2
-  checksum: 11766008ddb3dd8e651beb55604c5c570f8ff3fc50308069e4e8e8a7555194cda9136a21c463a7c455371f9eb4064e896e11bd8e50ff45ccc80b7cb5b0034441
+  checksum: e2914fc3d3cfb02e9777e6b7713411eccb9ea51199cbed52b80bcab58902bc07d43feb37378e585b3df0e8dd51c9b083932ad2a6281b35078482d19708ad3c15
   languageName: node
   linkType: hard
 
@@ -1867,7 +1868,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/apps@workspace:packages/apps"
   dependencies:
-    "@acala-network/chopsticks-core": ^0.8.5-1
+    "@acala-network/chopsticks-core": ^0.9.0
     "@polkadot/apps-config": ^0.132.2-134-x
     "@polkadot/apps-routing": ^0.132.2-134-x
     "@polkadot/dev": ^0.76.29
