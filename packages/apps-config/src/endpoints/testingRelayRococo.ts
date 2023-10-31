@@ -570,7 +570,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 't0rn',
     paraId: 3333,
     providers: {
-      t3rn: 'wss://ws.t0rn.io'
+      t3rn: 'wss://rpc.t0rn.io'
     },
     text: 't0rn',
     ui: {
