@@ -117,10 +117,11 @@ async function getExtensionInfo (api: ApiPromise, extension: InjectedExtension):
         try {
           isOk = await metadata.provide(def);
           const hasLoadedUserExtensions = !!def.userExtensions;
-          const maybeSpec = await api.query.system.lastRuntimeUpgrade()
-          let spec = 0
+          const maybeSpec = await api.query.system.lastRuntimeUpgrade();
+          let spec = 0;
+
           if (maybeSpec.isSome) {
-            spec = maybeSpec.unwrap().specVersion.toNumber()
+            spec = maybeSpec.unwrap().specVersion.toNumber();
           }
 
           if (isOk) {

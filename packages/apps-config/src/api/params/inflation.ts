@@ -28,7 +28,7 @@ const DEFAULT_PARAMS: InflationParams = {
 };
 
 const CERE_NETWORK_INFLATION_PARAMS = { ...DEFAULT_PARAMS, maxInflation: 0.05, minInflation: 0.0001, stakeTarget: 0.2 };
-const AVAIL_NETWORK_INFLATION_PARAMS = { ...DEFAULT_PARAMS, minInflation: 0.01, maxInflation: 0.05 }
+const AVAIL_NETWORK_INFLATION_PARAMS = { ...DEFAULT_PARAMS, maxInflation: 0.05, minInflation: 0.01 };
 
 const KNOWN_PARAMS: Record<string, InflationParams> = {
   [CERE_NETWORK_GENESIS]: CERE_NETWORK_INFLATION_PARAMS,
@@ -38,13 +38,13 @@ const KNOWN_PARAMS: Record<string, InflationParams> = {
   // https://github.com/paritytech/polkadot/blob/816cb64ea16102c6c79f6be2a917d832d98df757/runtime/kusama/src/lib.rs#L526-L527
   // 75% ideal target, see
   // https://github.com/paritytech/polkadot/blob/816cb64ea16102c6c79f6be2a917d832d98df757/runtime/kusama/src/lib.rs#L529-L531
+  [KATE_NETWORK_TESTNET_GENESIS]: AVAIL_NETWORK_INFLATION_PARAMS,
   [KUSAMA_GENESIS]: { ...DEFAULT_PARAMS, auctionAdjust: (0.3 / 60), auctionMax: 60, stakeTarget: 0.75 },
   [NEATCOIN_GENESIS]: { ...DEFAULT_PARAMS, stakeTarget: 0.75 },
   [NFTMART_GENESIS]: { ...DEFAULT_PARAMS, falloff: 0.04, stakeTarget: 0.60 },
-  [POLKADOT_GENESIS]: { ...DEFAULT_PARAMS, stakeTarget: 0.75 },
-  [KATE_NETWORK_TESTNET_GENESIS]: AVAIL_NETWORK_INFLATION_PARAMS
+  [POLKADOT_GENESIS]: { ...DEFAULT_PARAMS, stakeTarget: 0.75 }
 };
 
-export function getInflationParams(api: ApiPromise): InflationParams {
+export function getInflationParams (api: ApiPromise): InflationParams {
   return KNOWN_PARAMS[api.genesisHash.toHex()] || DEFAULT_PARAMS;
 }
