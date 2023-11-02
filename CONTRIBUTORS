@@ -319,6 +319,7 @@
        1	Denis Drozhzhin               	Genshiro on Rococo Testnet (#7423)
        1	dm4                           	Add Geminis parachain information (#7034)
        1	Dmytro Filippov               	Targets page: fix validators sorting (#6886)
+       1	Douglas Acosta                	Update new testnet wss url for Nodle - testingRelayRococo.ts (#10005)
        1	Eddie Machado                 	not truncating the address (#4311)
        1	Emilio Silva Schlenker        	[#943] Make hash/number query available globally to explorer (#1111)
        1	Emmanuel Thomas               	add kaizen endpoint to apps-ui (#9022)
