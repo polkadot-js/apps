@@ -314,6 +314,7 @@
        1	Damian Straszak               	change aleph testnet name to make it unique (#9329)
        1	Dan Forbes                    	Add block number to events on explorer page (#2759)
        1	Daniel Maricic                	add idiyanale to testing relay rococo (#9000)
+       1	Daniel Olano                  	Add Kreivo parachain to UI (#10008)
        1	ddorgan                       	Fix container build (#1456)
        1	ddorgan                       	Initial commit of kubernetes deployment (#616)
        1	Dean                          	mybank.network (#5024)
