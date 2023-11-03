@@ -146,8 +146,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'clover',
     paraId: 2002,
     providers: {
-      Clover: 'wss://rpc-para.clover.finance',
-      Dwellir: 'wss://clover-rpc.dwellir.com'
+      Clover: 'wss://rpc-para.clover.finance'
       // OnFinality: 'wss://clover.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9986
     },
     text: 'Clover',
