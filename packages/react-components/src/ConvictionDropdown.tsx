@@ -18,7 +18,7 @@ export interface Props {
   voteLockingPeriod: BN;
 }
 
-const CONVICTIONS = [1, 2, 4, 8, 16, 32].map((lock, index): [value: number, duration: number, durationBn: BN] => [index + 1, lock, new BN(lock)]);
+export const CONVICTIONS = [1, 2, 4, 8, 16, 32].map((lock, index): [value: number, duration: number, durationBn: BN] => [index + 1, lock, new BN(lock)]);
 
 function createOptions (blockTime: BN, voteLockingPeriod: BN, t: (key: string, options?: { replace: Record<string, unknown> }) => string): { text: string; value: number }[] {
   return [
