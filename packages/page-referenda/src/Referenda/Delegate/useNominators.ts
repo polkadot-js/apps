@@ -23,7 +23,7 @@ const NOMINATORS_OPT = {
 };
 
 // A list of all validators that any of our accounts nominate
-// (deduped accross accounts)
+// (deduped across accounts)
 function useNominatorsImpl (): string[] | null | undefined {
   const { api } = useApi();
   const { allAccounts } = useAccounts();

@@ -222,7 +222,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       // 1. The chain is migrated away from the parachain with all balances
       // 2. There is a forked relay-involved which we don't support
       //
-      // Additional details in orginal removal at
+      // Additional details in original removal at
       // https://github.com/polkadot-js/apps/pull/9555/files#r1225095086
     },
     text: 'Efinity',
