@@ -49721,7 +49721,7 @@ export const typesBundle = {
               "root": "H256",
               "proof": "Vec<H256>",
               "numberOfLeaves": "Compact<u32>",
-              "leaf_index": "Compact<u32>",
+              "leafIndex": "Compact<u32>",
               "leaf": "H256"
             },
             "Cell": {
