@@ -13,6 +13,7 @@ export const ethereumChains = [
   'moonsama',
   'moonshadow',
   'altbeacon',
+  'altbeacon-dev',
   'alt-producer',
   'flash-layer',
   'armonia-eva',
