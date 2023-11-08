@@ -16,7 +16,7 @@
   "type": "module",
   "version": "0.132.2-141-x",
   "dependencies": {
-    "@acala-network/chopsticks-core": "^0.9.0",
+    "@acala-network/chopsticks-core": "^0.9.1-5",
     "@polkadot/apps-config": "^0.132.2-141-x",
     "@polkadot/apps-routing": "^0.132.2-141-x",
     "@polkadot/dev": "^0.76.32",

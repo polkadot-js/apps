@@ -19,30 +19,30 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@acala-network/chopsticks-core@npm:^0.9.0":
-  version: 0.9.0
-  resolution: "@acala-network/chopsticks-core@npm:0.9.0"
+"@acala-network/chopsticks-core@npm:^0.9.1-5":
+  version: 0.9.1-5
+  resolution: "@acala-network/chopsticks-core@npm:0.9.1-5"
   dependencies:
-    "@acala-network/chopsticks-executor": 0.9.0
+    "@acala-network/chopsticks-executor": 0.9.1-5
     "@polkadot/api": ^10.10.1
     "@polkadot/util-crypto": ^12.5.1
     comlink: ^4.4.1
     eventemitter3: ^5.0.1
     lodash: ^4.17.21
-    pino: ^8.15.0
+    pino: ^8.16.1
     pino-pretty: ^10.2.0
     zod: ^3.22.3
-  checksum: 6a9057494122c131291e91f9c858cde892abc7426f7b7b4eeeaa326fd4f8bf711e6d0f41ae2c641483ea29a748cfb2e76b109537b869db30b506c1c2e0510e04
+  checksum: f5cb61cd0dbf8991b8b7e4ed03de2a1c697f69609ef6ac7ba7ffb863f9047bfa3c0f71ddf9c3ba19342dd72a1960b46aaf9edcbcffc109a72238bc3e82a95d10
   languageName: node
   linkType: hard
 
-"@acala-network/chopsticks-executor@npm:0.9.0":
-  version: 0.9.0
-  resolution: "@acala-network/chopsticks-executor@npm:0.9.0"
+"@acala-network/chopsticks-executor@npm:0.9.1-5":
+  version: 0.9.1-5
+  resolution: "@acala-network/chopsticks-executor@npm:0.9.1-5"
   dependencies:
     "@polkadot/util": ^12.5.1
     "@polkadot/wasm-util": ^7.2.2
-  checksum: e2914fc3d3cfb02e9777e6b7713411eccb9ea51199cbed52b80bcab58902bc07d43feb37378e585b3df0e8dd51c9b083932ad2a6281b35078482d19708ad3c15
+  checksum: 01f16ef11c5414f067dfef8360a715a086c8b5f75b5a86293bf15965a200d7c1bc5d0008cdd5bd58ceed4769e1a2a2d3980da7d722cfd43f9af2e6a15a5c9ed5
   languageName: node
   linkType: hard
 
@@ -1875,7 +1875,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/apps@workspace:packages/apps"
   dependencies:
-    "@acala-network/chopsticks-core": ^0.9.0
+    "@acala-network/chopsticks-core": ^0.9.1-5
     "@polkadot/apps-config": ^0.132.2-141-x
     "@polkadot/apps-routing": ^0.132.2-141-x
     "@polkadot/dev": ^0.76.32
@@ -14030,7 +14030,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"pino@npm:^8.15.0":
+"pino@npm:^8.16.1":
   version: 8.16.1
   resolution: "pino@npm:8.16.1"
   dependencies:
