@@ -146,8 +146,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'clover',
     paraId: 2002,
     providers: {
-      Clover: 'wss://rpc-para.clover.finance',
-      Dwellir: 'wss://clover-rpc.dwellir.com'
+      Clover: 'wss://rpc-para.clover.finance'
       // OnFinality: 'wss://clover.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9986
     },
     text: 'Clover',
@@ -189,8 +188,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'crustParachain',
     paraId: 2008,
     providers: {
-      Crust: 'wss://crust-parachain.crustapps.net',
-      OnFinality: 'wss://crust-polkadot.api.onfinality.io/public-ws'
+      Crust: 'wss://crust-parachain.crustapps.net'
+      // OnFinality: 'wss://crust-polkadot.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/10013
     },
     text: 'Crust',
     ui: {
@@ -324,7 +323,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'integritee',
     paraId: 2039,
     providers: {
-      Dwellir: 'wss://integritee-rpc.dwellir.com'
+      // Dwellir: 'wss://integritee-rpc.dwellir.com' // https://github.com/polkadot-js/apps/issues/10006
       // OnFinality: 'wss://integritee-parachain.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9977
       // Integritee: 'wss://polkadot.api.integritee.network' // https://github.com/polkadot-js/apps/issues/9726
     },
@@ -524,7 +523,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2043,
     providers: {
       Dwellir: 'wss://origintrail-rpc.dwellir.com',
-      OnFinality: 'wss://origintrail.api.onfinality.io/public-ws',
+      // OnFinality: 'wss://origintrail.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/10011
       TraceLabs: 'wss://parachain-rpc.origin-trail.network'
     },
     text: 'OriginTrail',

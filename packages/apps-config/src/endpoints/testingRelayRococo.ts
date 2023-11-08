@@ -356,7 +356,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoNodle',
     paraId: 2026,
     providers: {
-      OnFinality: 'wss://nodle-paradis.api.onfinality.io/public-ws'
+      OnFinality: 'wss://node-6957502816543653888.lh.onfinality.io/ws?apikey=09b04494-3139-4b57-a5d1-e1c4c18748ce'
     },
     text: 'Nodle',
     ui: {
@@ -570,7 +570,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 't0rn',
     paraId: 3333,
     providers: {
-      t3rn: 'wss://ws.t0rn.io'
+      t3rn: 'wss://rpc.t0rn.io'
     },
     text: 't0rn',
     ui: {

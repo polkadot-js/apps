@@ -33,6 +33,7 @@ export { chainsJurPNG } from './generated/jurPNG.js';
 export { chainsKaruraSVG } from './generated/karuraSVG.js';
 export { chainsKicoPNG } from './generated/kicoPNG.js';
 export { chainsKintsugiPNG } from './generated/kintsugiPNG.js';
+export { chainsKreivoSVG } from './generated/kreivoSVG.js';
 export { chainsKusamaSVG } from './generated/kusamaSVG.js';
 export { chainsListenPNG } from './generated/listenPNG.js';
 export { chainsLogionPNG } from './generated/logionPNG.js';
