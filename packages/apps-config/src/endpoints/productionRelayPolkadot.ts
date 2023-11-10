@@ -674,8 +674,10 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2037,
     providers: {
       Dwellir: 'wss://unique-rpc.dwellir.com',
+      'Geo Load Balancer': 'wss://ws.unique.network',
       OnFinality: 'wss://unique.api.onfinality.io/public-ws',
       'Unique America': 'wss://us-ws.unique.network',
+      'Unique Asia': 'wss://asia-ws.unique.network',
       'Unique Europe': 'wss://eu-ws.unique.network'
     },
     text: 'Unique Network',
