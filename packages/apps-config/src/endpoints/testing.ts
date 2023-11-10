@@ -641,7 +641,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'opal',
     providers: {
-      'Geo Load Balancer': 'wss://ws-opal.unique.network',      
+      'Geo Load Balancer': 'wss://ws-opal.unique.network',
       'Unique America': 'wss://us-ws-opal.unique.network',
       'Unique Asia': 'wss://asia-ws-opal.unique.network',
       'Unique Europe': 'wss://eu-ws-opal.unique.network'
