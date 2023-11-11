@@ -161,7 +161,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoEthos',
     paraId: 2095,
     providers: {
-      Jur: 'wss://ethos.jur.io'
+      // Jur: 'wss://ethos.jur.io' // https://github.com/polkadot-js/apps/issues/10025
     },
     text: 'Ethos',
     ui: {
