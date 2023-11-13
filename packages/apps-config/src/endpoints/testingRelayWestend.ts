@@ -107,19 +107,6 @@ export const testParasWestend: Omit<EndpointOption, 'teleport'>[] = [
       color: '#03f3f3',
       logo: nodesKhalaSVG
     }
-  },
-  {
-    homepage: 'https://www.kilt.io/',
-    info: 'kilt',
-    paraId: 2085,
-    providers: {
-      // 'KILT Protocol': 'wss://westend.kilt.io:9977' // https://github.com/polkadot-js/apps/issues/9059
-    },
-    text: 'WILT',
-    ui: {
-      color: '#8c145a',
-      logo: nodesKiltPNG
-    }
   }
 ];
 

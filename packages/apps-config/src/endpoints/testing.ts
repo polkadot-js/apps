@@ -463,7 +463,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'kilt',
     providers: {
-      'KILT Protocol': 'wss://full-nodes.kilt.io:9944/'
+      BOTLabs: 'wss://full-nodes.kilt.io:9944/'
     },
     text: 'KILT Mashnet',
     ui: {
@@ -473,7 +473,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'kilt',
     providers: {
-      'KILT Protocol': 'wss://peregrine.kilt.io/parachain-public-ws/'
+      BOTLabs: 'wss://peregrine.kilt.io/parachain-public-ws/'
     },
     text: 'KILT Peregrine',
     ui: {
