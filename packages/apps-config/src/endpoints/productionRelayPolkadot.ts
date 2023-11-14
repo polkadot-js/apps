@@ -382,8 +382,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'kilt',
     paraId: 2086,
     providers: {
-      Dwellir: 'wss://kilt-rpc.dwellir.com',
       BOTLabs: 'wss://spiritnet.kilt.io/',
+      Dwellir: 'wss://kilt-rpc.dwellir.com',
       OnFinality: 'wss://spiritnet.api.onfinality.io/public-ws'
     },
     text: 'KILT Spiritnet',
