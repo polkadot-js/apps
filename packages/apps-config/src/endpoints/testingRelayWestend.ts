@@ -5,7 +5,7 @@ import type { EndpointOption } from './types.js';
 
 import { WESTEND_GENESIS } from '../api/constants.js';
 import { chainsKaruraSVG, chainsStandardPNG } from '../ui/logos/chains/index.js';
-import { nodesAssetHubSVG, nodesBridgeHubSVG, nodesCentrifugePNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKhalaSVG, nodesKiltPNG, nodesKylinPNG, nodesMoonshadowPNG, nodesWestendColourSVG } from '../ui/logos/nodes/index.js';
+import { nodesAssetHubSVG, nodesBridgeHubSVG, nodesCentrifugePNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKhalaSVG, nodesKylinPNG, nodesMoonshadowPNG, nodesWestendColourSVG } from '../ui/logos/nodes/index.js';
 import { getTeleports } from './util.js';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -106,19 +106,6 @@ export const testParasWestend: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#03f3f3',
       logo: nodesKhalaSVG
-    }
-  },
-  {
-    homepage: 'https://www.kilt.io/',
-    info: 'kilt',
-    paraId: 2085,
-    providers: {
-      // 'KILT Protocol': 'wss://westend.kilt.io:9977' // https://github.com/polkadot-js/apps/issues/9059
-    },
-    text: 'WILT',
-    ui: {
-      color: '#8c145a',
-      logo: nodesKiltPNG
     }
   }
 ];
