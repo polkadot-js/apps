@@ -397,7 +397,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'kylin',
     paraId: 2052,
     providers: {
-      'Kylin Network': 'wss://polkadot.kylin-node.co.uk'
+      // 'Kylin Network': 'wss://polkadot.kylin-node.co.uk' // https://github.com/polkadot-js/apps/issues/10030
     },
     text: 'Kylin',
     ui: {
@@ -675,7 +675,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Dwellir: 'wss://unique-rpc.dwellir.com',
       'Geo Load Balancer': 'wss://ws.unique.network',
-      OnFinality: 'wss://unique.api.onfinality.io/public-ws',
+      // OnFinality: 'wss://unique.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/10030
       'Unique America': 'wss://us-ws.unique.network',
       'Unique Asia': 'wss://asia-ws.unique.network',
       'Unique Europe': 'wss://eu-ws.unique.network'
