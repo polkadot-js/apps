@@ -463,7 +463,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'kilt',
     providers: {
-      BOTLabs: 'wss://full-nodes.kilt.io:9944/'
+      // BOTLabs: 'wss://full-nodes.kilt.io:9944/' // https://github.com/polkadot-js/apps/issues/10033
     },
     text: 'KILT Mashnet',
     ui: {
