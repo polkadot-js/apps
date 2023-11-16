@@ -44,6 +44,7 @@
   "The deposit for this proposal will be locked for the referendum duration.": "The deposit for this proposal will be locked for the referendum duration.",
   "The deposit will be registered from this account and the balance lock will be applied here.": "The deposit will be registered from this account and the balance lock will be applied here.",
   "The hash of the preimage for the proposal as previously submitted or intended.": "The hash of the preimage for the proposal as previously submitted or intended.",
+  "The length value will be auto-populated from the on-chain value if it is found.": "The length value will be auto-populated from the on-chain value if it is found.",
   "The length value witll be auto-populated from the on-chain value if is is found.": "The length value witll be auto-populated from the on-chain value if is is found.",
   "The moment of enactment, either at a specific block, or after a specific number of blocks.": "The moment of enactment, either at a specific block, or after a specific number of blocks.",
   "The number of blocks to delay enactment after proposal approval.": "The number of blocks to delay enactment after proposal approval.",
