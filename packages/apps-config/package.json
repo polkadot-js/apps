@@ -1,7 +1,7 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/apps-config#readme",
   "license": "Apache-2.0",
@@ -13,7 +13,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.132.2-159-x",
+  "version": "0.132.2-160-x",
   "main": "index.js",
   "dependencies": {
     "@acala-network/type-definitions": "5.1.2",

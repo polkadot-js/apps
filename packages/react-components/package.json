@@ -1,7 +1,7 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/react-components#readme",
   "license": "Apache-2.0",
@@ -14,16 +14,16 @@
   },
   "sideEffects": true,
   "type": "module",
-  "version": "0.132.2-159-x",
+  "version": "0.132.2-160-x",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@polkadot/keyring": "^12.6.1",
-    "@polkadot/react-api": "^0.132.2-159-x",
+    "@polkadot/react-api": "^0.132.2-160-x",
     "@polkadot/react-identicon": "^3.6.4",
     "@polkadot/react-qr": "^3.6.4",
-    "@polkadot/react-query": "^0.132.2-159-x",
+    "@polkadot/react-query": "^0.132.2-160-x",
     "@polkadot/ui-keyring": "^3.6.4",
     "@polkadot/ui-settings": "^3.6.4",
     "@polkadot/util": "^12.6.1",
