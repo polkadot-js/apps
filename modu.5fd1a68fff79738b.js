@@ -1,1 +1,0 @@
-"use strict";(("undefined"!=typeof self?self:this).webpackChunk_polkadot_apps=("undefined"!=typeof self?self:this).webpackChunk_polkadot_apps||[]).push([[7564],{68061:(t,n,e)=>{function s(t){const n=String(t||"").trim();return n?n.split(/[ \t\n\r\f]+/g):[]}function i(t){return t.join(" ").trim()}e.d(n,{P:()=>i,Q:()=>s})}}]);
