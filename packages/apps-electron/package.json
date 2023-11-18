@@ -22,8 +22,8 @@
     "electron-updater": "^5.3.0"
   },
   "devDependencies": {
-    "@polkadot/dev": "^0.76.32",
-    "@types/tmp": "^0.2.3",
+    "@polkadot/dev": "^0.77.1",
+    "@types/tmp": "^0.2.6",
     "copy-webpack-plugin": "^11.0.0",
     "electron": "25.0.1",
     "electron-builder": "23.6.0",

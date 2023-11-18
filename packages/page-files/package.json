@@ -17,7 +17,7 @@
   "version": "0.132.2-159-x",
   "dependencies": {
     "@polkadot/react-components": "^0.132.2-159-x",
-    "axios": "^1.4.0"
+    "axios": "^1.6.2"
   },
   "peerDependencies": {
     "react": "*",
