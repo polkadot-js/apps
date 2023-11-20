@@ -406,7 +406,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'krest',
     paraId: 2241,
     providers: {
-      Krest: 'wss://wss-krest.peaq.network/'
+      Krest: 'wss://wss-krest.peaq.network/',
+      UnitedBloc: 'wss://krest.unitedbloc.com/'
     },
     text: 'Krest',
     ui: {
