@@ -7,6 +7,12 @@ import type { OverrideBundleDefinition } from '@polkadot/types/types';
 /* eslint-disable sort-keys */
 
 const definitions: OverrideBundleDefinition = {
+  signedExtensions: {
+    ChargeSponsor: {
+      extrinsic: {},
+      payload: {}
+    }
+  },
   types: [
     {
       // on all versions
