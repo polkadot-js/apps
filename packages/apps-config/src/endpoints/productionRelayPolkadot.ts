@@ -103,7 +103,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Liebi: 'wss://hk.p.bifrost-rpc.liebi.com/ws',
       LiebiEU: 'wss://eu.bifrost-polkadot-rpc.liebi.com/ws',
-      OnFinality: 'wss://bifrost-polkadot.api.onfinality.io/public-ws'
+      OnFinality: 'wss://bifrost-polkadot.api.onfinality.io/public-ws',
+      Dwellir: 'wss://bifrost-polkadot-rpc.dwellir.com'
     },
     text: 'Bifrost',
     ui: {
