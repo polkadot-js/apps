@@ -31,5 +31,6 @@ export const ethereumChains = [
   'subspace-evm-domain',
   'ferrum-parachain',
   'quantum-portal-network-parachain',
-  'peerplays'
+  'peerplays',
+  'innovatorchain'
 ];
