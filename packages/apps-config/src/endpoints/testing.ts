@@ -463,7 +463,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'kilt',
     providers: {
-      'KILT Protocol': 'wss://full-nodes.kilt.io:9944/'
+      // BOTLabs: 'wss://full-nodes.kilt.io:9944/' // https://github.com/polkadot-js/apps/issues/10033
     },
     text: 'KILT Mashnet',
     ui: {
@@ -473,7 +473,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'kilt',
     providers: {
-      'KILT Protocol': 'wss://peregrine.kilt.io/parachain-public-ws/'
+      BOTLabs: 'wss://peregrine.kilt.io/parachain-public-ws/'
     },
     text: 'KILT Peregrine',
     ui: {
@@ -641,7 +641,9 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'opal',
     providers: {
+      'Geo Load Balancer': 'wss://ws-opal.unique.network',
       'Unique America': 'wss://us-ws-opal.unique.network',
+      'Unique Asia': 'wss://asia-ws-opal.unique.network',
       'Unique Europe': 'wss://eu-ws-opal.unique.network'
     },
     text: 'OPAL by UNIQUE',
@@ -901,6 +903,17 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
       US: 'wss://rpc-0.gemini-3g.subspace.network/ws'
     },
     text: 'Subspace Gemini 3g',
+    ui: {
+      color: '#562b8e',
+      logo: nodesSubspacePNG
+    }
+  },
+  {
+    info: 'subspace-gemini-3g-nova',
+    providers: {
+      Subspace: 'wss://nova.gemini-3g.subspace.network/ws'
+    },
+    text: 'Subspace Gemini 3g Nova',
     ui: {
       color: '#562b8e',
       logo: nodesSubspacePNG

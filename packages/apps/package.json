@@ -1,7 +1,7 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/apps#readme",
   "license": "Apache-2.0",
@@ -14,27 +14,27 @@
   },
   "sideEffects": true,
   "type": "module",
-  "version": "0.132.2-150-x",
+  "version": "0.133.2-3-x",
   "dependencies": {
     "@acala-network/chopsticks-core": "^0.9.1-5",
-    "@polkadot/apps-config": "^0.132.2-150-x",
-    "@polkadot/apps-routing": "^0.132.2-150-x",
-    "@polkadot/dev": "^0.76.32",
-    "@polkadot/react-api": "^0.132.2-150-x",
-    "@polkadot/react-components": "^0.132.2-150-x",
-    "@polkadot/react-hooks": "^0.132.2-150-x",
-    "@polkadot/react-params": "^0.132.2-150-x",
-    "@polkadot/react-query": "^0.132.2-150-x",
-    "@polkadot/react-signer": "^0.132.2-150-x",
-    "punycode": "^2.3.0",
+    "@polkadot/apps-config": "^0.133.2-3-x",
+    "@polkadot/apps-routing": "^0.133.2-3-x",
+    "@polkadot/dev": "^0.77.1",
+    "@polkadot/react-api": "^0.133.2-3-x",
+    "@polkadot/react-components": "^0.133.2-3-x",
+    "@polkadot/react-hooks": "^0.133.2-3-x",
+    "@polkadot/react-params": "^0.133.2-3-x",
+    "@polkadot/react-query": "^0.133.2-3-x",
+    "@polkadot/react-signer": "^0.133.2-3-x",
+    "punycode": "^2.3.1",
     "query-string": "^8.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-is": "^18.2.0"
   },
   "devDependencies": {
-    "@types/punycode": "^2.1.0",
-    "assert": "^2.0.0",
+    "@types/punycode": "^2.1.2",
+    "assert": "^2.1.0",
     "buffer": "^6.0.3",
     "copy-webpack-plugin": "^11.0.0",
     "crypto-browserify": "^3.12.0",
@@ -48,7 +48,7 @@
     "process": "^0.11.10",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
-    "ts-loader": "^9.4.4"
+    "ts-loader": "^9.5.1"
   },
   "peerDependencies": {
     "typescript": "*",

@@ -503,7 +503,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'swapdex',
     providers: {
-      Swapdex: 'wss://ws.swapdex.network'
+      // Swapdex: 'wss://ws.swapdex.network' // https://github.com/polkadot-js/apps/issues/10030
     },
     text: 'Swapdex',
     ui: {
