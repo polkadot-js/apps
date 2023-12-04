@@ -718,6 +718,16 @@ export const testParasRococoCommon: EndpointOption[] = [
     }
   },
   {
+    info: 'rococoCoretime',
+    paraId: 1005,
+    providers: {
+      Parity: 'wss://rococo-coretime-rpc.polkadot.io'
+    },
+    teleport: [-1],
+    text: 'Coretime',
+    ui: {}
+  },
+  {
     homepage: 'https://encointer.org/',
     info: 'encointer',
     paraId: 1003,
@@ -730,16 +740,6 @@ export const testParasRococoCommon: EndpointOption[] = [
       color: '#0000cc',
       logo: nodesEncointerBlueSVG
     }
-  },
-  {
-    info: 'rococoCoretime',
-    paraId: 1005,
-    providers: {
-      Parity: 'wss://rococo-coretime-rpc.polkadot.io'
-    },
-    teleport: [-1],
-    text: 'Coretime',
-    ui: {}
   }
 ];
 
