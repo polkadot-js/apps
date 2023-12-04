@@ -1,4 +1,5 @@
 build/
+build-*/
 coverage/
 node_modules/
 tmp/
@@ -15,8 +16,10 @@ tmp/
 cc-test-reporter
 package-lock.json
 npm-debug.log*
+tsconfig.*buildinfo
 yarn-debug.log*
 yarn-error.log*
 .idea/
+.log
 env-config.js
 NOTES.md
