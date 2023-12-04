@@ -1,11 +1,9 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeDef } from '../types';
-
-export default (theme: ThemeDef): string => `
+export default `
   .ui--output {
-    background: ${theme.bgInput};
+    background: var(--bg-input);
     border-radius: 4px;
     border: 1px dashed #eee;
     box-sizing: border-box;
@@ -17,18 +15,12 @@ export default (theme: ThemeDef): string => `
     word-break: break-all;
 
     &.error {
-      background: ${theme.bgInputError};
+      background: var(--bg-input-error);
       border-color: #e0b4b4;
     }
 
     &.monospace {
       font-family: monospace;
-    }
-
-    .ui--output-button {
-      position: absolute;
-      top: 0.25rem;
-      right: 0.25rem;
     }
   }
 
@@ -45,12 +37,12 @@ export default (theme: ThemeDef): string => `
     padding-right: 0;
     padding-bottom: 0.3em;
     padding-left: 0.3em;
-    color: #2e86ab  !important;
-    background: none  !important;
+    color: #2e86ab !important;
+    background: none !important;
   }
 
   button.ui--Button {
-    font-family: ${theme.fontSans};
+    font: var(--font-sans);
   }
 
   .editable {
@@ -69,6 +61,17 @@ export default (theme: ThemeDef): string => `
       border-left: none;
       border-bottom-left-radius: 0;
       border-top-left-radius: 0;
+    }
+  }
+
+  .ui--Identicon-React-Base {
+    border: 1px solid var(--border-identicon);
+    border-radius: 50%;
+    display: inline-block;
+    overflow: hidden;
+
+    svg circle:first-child {
+      fill: var(--bg-identicon-circle);
     }
   }
 
@@ -119,5 +122,28 @@ export default (theme: ThemeDef): string => `
     text-align: center;
     z-index: 1002;
     max-width: 300px;
+
+
+    &.accounts-badge {
+      background-color: var(--bg-menu) !important;
+      color: var(--color-text) !important;
+      box-shadow: 0 2px 4px 0 rgb(34 36 38 / 12%), 0 2px 10px 0 rgb(34 36 38 / 15%);
+      z-index: 999;
+
+      &.place-top::after {
+        border-top-color: var(--bg-menu) !important;
+      }
+
+      &.place-right::after {
+        border-right-color: var(--bg-menu) !important;
+      }
+
+    a {
+      color: #3BBEFF;
+
+      &.purpleColor {
+        color: #E6007A;
+      }
+    }
   }
 `;

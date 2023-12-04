@@ -1,9 +1,17 @@
-// Copyright 2017-2020 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ParaId, ParachainProposal } from '@polkadot/types/interfaces';
+import type { AccountId, ParaValidatorIndex } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
-export interface ProposalExt {
-  id: ParaId;
-  proposal: ParachainProposal;
+export interface EventMapInfo {
+  blockHash: string;
+  blockNumber: BN;
+  relayParent: string;
+}
+
+export interface ValidatorInfo {
+  indexActive: ParaValidatorIndex;
+  indexValidator: ParaValidatorIndex;
+  validatorId: AccountId;
 }

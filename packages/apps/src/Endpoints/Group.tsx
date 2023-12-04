@@ -1,36 +1,41 @@
-// Copyright 2017-2020 @polkadot/apps authors & contributors
+// Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '@polkadot/react-components/types';
-import type { Group } from './types';
+import type { Group } from './types.js';
 
-import React, { useCallback } from 'react';
-import styled from 'styled-components';
-import { Icon } from '@polkadot/react-components';
+import React, { useCallback, useMemo } from 'react';
 
-import Network from './Network';
+import { Icon, styled } from '@polkadot/react-components';
+
+import Network from './Network.js';
 
 interface Props {
+  affinities: Record<string, string>;
   apiUrl: string;
   children?: React.ReactNode;
   className?: string;
   index: number;
   isSelected: boolean;
-  setApiUrl: (apiUrl: string) => void;
+  setApiUrl: (network: string, apiUrl: string) => void;
   setGroup: (groupIndex: number) => void;
   value: Group;
 }
 
-function GroupDisplay ({ apiUrl, children, className = '', index, isSelected, setApiUrl, setGroup, value: { header, networks } }: Props): React.ReactElement<Props> {
+function GroupDisplay ({ affinities, apiUrl, children, className = '', index, isSelected, setApiUrl, setGroup, value: { header, isSpaced, networks } }: Props): React.ReactElement<Props> {
   const _setGroup = useCallback(
     () => setGroup(isSelected ? -1 : index),
     [index, isSelected, setGroup]
   );
 
+  const filtered = useMemo(
+    () => networks.filter(({ isUnreachable }) => !isUnreachable),
+    [networks]
+  );
+
   return (
-    <div className={`${className}${isSelected ? ' isSelected' : ''}`}>
+    <StyledDiv className={`${className}${isSelected ? ' isSelected' : ''}`}>
       <div
-        className='groupHeader'
+        className={`groupHeader${isSpaced ? ' isSpaced' : ''}`}
         onClick={_setGroup}
       >
         <Icon icon={isSelected ? 'caret-up' : 'caret-down'} />
@@ -39,8 +44,9 @@ function GroupDisplay ({ apiUrl, children, className = '', index, isSelected, se
       {isSelected && (
         <>
           <div className='groupNetworks'>
-            {networks.map((network, index): React.ReactNode => (
+            {filtered.map((network, index): React.ReactNode => (
               <Network
+                affinity={affinities[network.name]}
                 apiUrl={apiUrl}
                 key={index}
                 setApiUrl={setApiUrl}
@@ -51,11 +57,11 @@ function GroupDisplay ({ apiUrl, children, className = '', index, isSelected, se
           {children}
         </>
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(GroupDisplay)(({ theme }: ThemeProps) => `
+const StyledDiv = styled.div`
   .groupHeader {
     border-radius: 0.25rem;
     cursor: pointer;
@@ -65,7 +71,11 @@ export default React.memo(styled(GroupDisplay)(({ theme }: ThemeProps) => `
     text-transform: uppercase;
 
     &:hover {
-      background: ${theme.bgTable};
+      background: var(--bg-table);
+    }
+
+    &.isSpaced {
+      margin-top: 0.75rem;
     }
 
     .ui--Icon {
@@ -76,4 +86,6 @@ export default React.memo(styled(GroupDisplay)(({ theme }: ThemeProps) => `
   .groupNetworks {
     padding: 0.25rem 0 0.5rem 1rem;
   }
-`));
+`;
+
+export default React.memo(GroupDisplay);

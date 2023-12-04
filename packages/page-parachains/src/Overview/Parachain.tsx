@@ -1,125 +1,193 @@
-// Copyright 2017-2020 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { HeadData } from '@polkadot/types/interfaces';
-import type { DeriveParachain } from '@polkadot/api-derive/types';
-import type { Option } from '@polkadot/types';
-import type { ThemeProps } from '@polkadot/react-components/types';
+import type { AccountId, GroupIndex, ParaId } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
+import type { LeasePeriod, QueuedAction } from '../types.js';
+import type { EventMapInfo, ValidatorInfo } from './types.js';
 
-import React, { useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
-import styled from 'styled-components';
-import { Badge, Button, Icon } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+
+import { AddressMini, Badge, Expander, ParaLink, styled, Table } from '@polkadot/react-components';
+import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
+import Lifecycle from './Lifecycle.js';
+import ParachainInfo from './ParachainInfo.js';
+import Periods from './Periods.js';
+import useParaInfo from './useParaInfo.js';
 
 interface Props {
+  bestNumber?: BN;
   className?: string;
-  parachain: DeriveParachain;
+  id: ParaId;
+  isScheduled?: boolean;
+  lastBacked?: EventMapInfo;
+  lastInclusion?: EventMapInfo;
+  lastTimeout?: EventMapInfo;
+  leasePeriod?: LeasePeriod;
+  nextAction?: QueuedAction;
+  sessionValidators?: AccountId[] | null;
+  validators?: [GroupIndex, ValidatorInfo[]];
 }
 
-const transformHead = {
-  transform: (headData: Option<HeadData>): string | null => {
-    if (headData.isSome) {
-      const hex = headData.unwrap().toHex();
+function renderAddresses (list?: AccountId[], indices?: BN[]): React.ReactElement<unknown>[] | undefined {
+  return list?.map((id, index) => (
+    <AddressMini
+      key={id.toString()}
+      nameExtra={indices && <>&nbsp;{`(${formatNumber(indices[index])})`}</>}
+      value={id}
+    />
+  ));
+}
 
-      return `${hex.slice(0, 18)}…${hex.slice(-16)}`;
-    }
-
-    return null;
-  }
-};
-
-function Parachain ({ className = '', parachain: { didUpdate, id, info, pendingSwapId, relayDispatchQueueSize = 0 } }: Props): React.ReactElement<Props> {
+function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion, lastTimeout, leasePeriod, nextAction, sessionValidators, validators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const headHex = useCall<string | null>(api.query.parachains.heads, [id], transformHead);
-  const history = useHistory();
+  const paraInfo = useParaInfo(id);
+  const [nonBacked, setNonBacked] = useState<AccountId[]>([]);
 
-  const _onClick = useCallback(
-    () => history.push(`/parachains/${id.toString()}`),
-    [history, id]
+  const blockDelay = useMemo(
+    () => bestNumber && (
+      lastInclusion
+        ? bestNumber.sub(lastInclusion.blockNumber)
+        : paraInfo.watermark
+          ? bestNumber.sub(paraInfo.watermark)
+          : undefined
+    ),
+    [bestNumber, lastInclusion, paraInfo]
   );
+
+  const valRender = useCallback(
+    () => renderAddresses(
+      validators?.[1].map(({ validatorId }) => validatorId),
+      validators?.[1].map(({ indexValidator }) => indexValidator)
+    ),
+    [validators]
+  );
+
+  const bckRender = useCallback(
+    () => renderAddresses(nonBacked),
+    [nonBacked]
+  );
+
+  useEffect((): void => {
+    if (sessionValidators) {
+      if (paraInfo.pendingAvail) {
+        const list = paraInfo.pendingAvail.availabilityVotes.toHuman()
+          .slice(2)
+          .replace(/_/g, '')
+          .split('')
+          .map((c, index) => c === '0' ? sessionValidators[index] : null)
+          .filter((v, index): v is AccountId => !!v && index < sessionValidators.length);
+
+        list.length !== sessionValidators.length && setNonBacked(list);
+      } else {
+        setNonBacked([]);
+      }
+    }
+  }, [paraInfo, sessionValidators]);
 
   return (
-    <tr
-      className={className}
-      onClick={_onClick}
-    >
-      <td className='number'>
-        <h1>{id.toString()}</h1>
+    <StyledTr className={`${className} ${(lastBacked || lastInclusion || paraInfo.watermark) ? '' : 'isDisabled'}`}>
+      <Table.Column.Id value={id} />
+      <td className='badge together'>
+        {paraInfo.paraInfo?.locked?.isFalse
+          ? (
+            <Badge
+              color='orange'
+              icon='unlock'
+            />
+          )
+          : <Badge color='transparent' />
+        }
+        <ParaLink id={id} />
       </td>
-      <td className='badges'>
-        <div>
-          <Badge
-            className='did-update'
-            color={didUpdate ? 'green' : 'gray'}
-            hover={
-              didUpdate
-                ? t<string>('Updated in the latest block')
-                : t<string>('Not updated in the last block')
+      <td className='number media--1400'>
+        <Expander
+          className={validators ? '' : '--tmp'}
+          renderChildren={valRender}
+          summary={t('Val. Group {{group}} ({{count}})', {
+            replace: {
+              count: formatNumber(validators?.[1]?.length || 0),
+              group: validators ? validators[0] : 0
             }
-            info={<Icon icon='check' />}
-          />
-          <Badge
-            className='pending-messages'
-            color={relayDispatchQueueSize ? 'counter' : 'gray'}
-            hover={t<string>('{{relayDispatchQueueSize}} dispatch messages pending', { replace: { relayDispatchQueueSize } })}
-            info={formatNumber(relayDispatchQueueSize)}
-          />
-        </div>
-      </td>
-      <td className='all start together headhex'>{headHex}</td>
-      <td className='number pending-swap-id media--800'>
-        {pendingSwapId?.toString()}
-      </td>
-      <td className='number media--800'>
-        {info?.scheduling?.toString() || t<string>('<unknown>')}
-      </td>
-      <td className='button'>
-        <Button
-          icon='arrow-right'
-          label={t('Info')}
-          onClick={_onClick}
+          })}
+        />
+        <Expander
+          renderChildren={bckRender}
+          summary={t('Non-voters ({{count}})', { replace: { count: formatNumber(nonBacked.length) } })}
         />
       </td>
-    </tr>
+      <td className='start together hash media--1500'>
+        <div className='shortHash'>{paraInfo.headHex}</div>
+      </td>
+      <td className='start'>
+        {paraInfo.updateAt && bestNumber && paraInfo.lifecycle?.isParachain
+          ? (
+            <>
+              {t('Upgrading')}
+              <BlockToTime value={paraInfo.updateAt.sub(bestNumber)} />
+              #{formatNumber(paraInfo.updateAt)}
+            </>
+          )
+          : (
+            <Lifecycle
+              lifecycle={paraInfo.lifecycle}
+              nextAction={nextAction}
+            />
+          )
+        }
+      </td>
+      <td className='all' />
+      <td className='number'>{blockDelay && <BlockToTime value={blockDelay} />}</td>
+      <td className='number no-pad-left'>
+        {lastInclusion
+          ? <a href={`#/explorer/query/${lastInclusion.blockHash}`}>{formatNumber(lastInclusion.blockNumber)}</a>
+          : paraInfo.watermark && formatNumber(paraInfo.watermark)
+        }
+      </td>
+      <td className='number no-pad-left media--900'>
+        {lastBacked &&
+          <a href={`#/explorer/query/${lastBacked.blockHash}`}>{formatNumber(lastBacked.blockNumber)}</a>
+        }
+      </td>
+      <td className='number no-pad-left media--1600'>
+        {lastTimeout &&
+          <a href={`#/explorer/query/${lastTimeout.blockHash}`}>{formatNumber(lastTimeout.blockNumber)}</a>
+        }
+      </td>
+      <td className='number no-pad-left'>
+        <ParachainInfo id={id} />
+      </td>
+      <td className='number media--1700'>
+        {formatNumber(paraInfo.qHrmpI)}
+      </td>
+      <td className='number no-pad-left media--1700'>
+        {formatNumber(paraInfo.qHrmpE)}
+      </td>
+      <td className='number together media--1100'>
+        <Periods
+          leasePeriod={leasePeriod}
+          periods={paraInfo.leases}
+        />
+      </td>
+    </StyledTr>
   );
 }
 
-export default React.memo(styled(Parachain)`
-  & {
-    cursor: pointer !important;
-  }
-
-  h1 {
-    margin-top: 0 !important;
-  }
-
-  td.badges > div {
-    width: 3rem;
-    display: flex;
-    align-items: center;
-  }
-
-  td.info > div {
-    display: flex;
-    align-items: center;
-  }
-
-  td.pending-swap-id {
-    &, & * {
-      color: red !important;
+const StyledTr = styled.tr`
+  &.isDisabled {
+    td {
+      opacity: 0.5
     }
   }
 
-  td.headhex {
-    font-family: ${({ theme }: ThemeProps) => theme.fontMono};
+  td.badge.together > div {
+    display: inline-block;
+    margin: 0 0.25rem 0 0;
+    vertical-align: middle;
   }
+`;
 
-  .did-update {
-    margin-bottom: 0;
-  }
-`);
+export default React.memo(Parachain);

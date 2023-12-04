@@ -1,16 +1,17 @@
-// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Data, Option, Vec } from '@polkadot/types';
-import type { AccountId, Balance } from '@polkadot/types/interfaces';
+import type { Data, Option } from '@polkadot/types';
+import type { AccountId } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
+
 import { Button, Columar, Input, InputAddress, Modal, Spinner, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCall, useSubidentities } from '@polkadot/react-hooks';
 import { u8aToString } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   address: string;
@@ -24,7 +25,7 @@ interface SubProps {
   name: string;
   setAddress: (index: number, value: string) => void;
   setName: (index: number, value: string) => void;
-  t: (key: string, opts?: { replace: Record<string, string | number> }) => string;
+  t: (key: string, options?: { replace: Record<string, unknown> }) => string;
 }
 
 function extractInfo ([[ids], opts]: [[string[]], Option<ITuple<[AccountId, Data]>>[]]): [string, string][] {
@@ -78,17 +79,13 @@ function IdentitySub ({ address, index, name, setAddress, setName, t }: SubProps
 
 const IdentitySubMemo = React.memo(IdentitySub);
 
-const transformIds = {
-  transform: ([, ids]: ITuple<[Balance, Vec<AccountId>]>) => ids.map((a) => a.toString())
-};
-
 const transformInfo = { withParams: true };
 
 function IdentitySubModal ({ address, className, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const queryIds = useCall<string[]>(api.query.identity.subsOf, [address], transformIds);
+  const queryIds = useSubidentities(address);
   const queryInfos = useCall<[[string[]], Option<ITuple<[AccountId, Data]>>[]]>(queryIds && queryIds.length !== 0 && api.query.identity.superOf.multi, [queryIds], transformInfo);
   const [infos, setInfos] = useState<[string, string][] | undefined>();
 
@@ -101,12 +98,12 @@ function IdentitySubModal ({ address, className, onClose }: Props): React.ReactE
   }, [allAccounts, queryIds, queryInfos]);
 
   const _rowAdd = useCallback(
-    () => setInfos((infos) => infos && infos.concat([[allAccounts[0], '']])),
+    () => setInfos((infos) => infos?.concat([[allAccounts[0], '']])),
     [allAccounts]
   );
 
   const _rowRemove = useCallback(
-    () => setInfos((infos) => infos && infos.slice(0, infos.length - 1)),
+    () => setInfos((infos) => infos?.slice(0, infos.length - 1)),
     []
   );
 
@@ -123,12 +120,13 @@ function IdentitySubModal ({ address, className, onClose }: Props): React.ReactE
   return (
     <Modal
       className={className}
-      header={t<string>('Register sub-identities')}
+      header={t('Register sub-identities')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
         {!infos
-          ? <Spinner label={t<string>('Retrieving sub-identities')} />
+          ? <Spinner label={t('Retrieving sub-identities')} />
           : (
             <div>
               {!infos.length
@@ -148,13 +146,13 @@ function IdentitySubModal ({ address, className, onClose }: Props): React.ReactE
               <Button.Group>
                 <Button
                   icon='plus'
-                  label={t<string>('Add sub')}
+                  label={t('Add sub')}
                   onClick={_rowAdd}
                 />
                 <Button
                   icon='minus'
                   isDisabled={infos.length === 0}
-                  label={t<string>('Remove sub')}
+                  label={t('Remove sub')}
                   onClick={_rowRemove}
                 />
               </Button.Group>
@@ -162,17 +160,17 @@ function IdentitySubModal ({ address, className, onClose }: Props): React.ReactE
           )
         }
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         {infos && (
           <TxButton
             accountId={address}
             isDisabled={infos.some(([address, raw]) => !address || !raw)}
-            label={t<string>('Set Subs')}
+            label={t('Set Subs')}
             onStart={onClose}
             params={[
               infos.map(([address, raw]) => [address, { raw }])
             ]}
-            tx='identity.setSubs'
+            tx={api.tx.identity.setSubs}
           />
         )}
       </Modal.Actions>

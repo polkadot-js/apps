@@ -1,0 +1,37 @@
+// Copyright 2017-2023 @polkadot/app-assets authors & contributors
+// SPDX-License-Identifier: Apache-2.0
+
+import type { BN } from '@polkadot/util';
+import type { AssetInfo } from '../types.js';
+
+import React from 'react';
+
+import { Button } from '@polkadot/react-components';
+
+import Create from './Create/index.js';
+import Assets from './Assets.js';
+import Summary from './Summary.js';
+
+interface Props {
+  className?: string;
+  ids?: BN[];
+  infos?: AssetInfo[];
+  openId: BN;
+}
+
+function Overview ({ className, ids, infos, openId }: Props): React.ReactElement<Props> {
+  return (
+    <div className={className}>
+      <Summary numAssets={ids?.length} />
+      <Button.Group>
+        <Create
+          assetIds={ids}
+          openId={openId}
+        />
+      </Button.Group>
+      <Assets infos={infos} />
+    </div>
+  );
+}
+
+export default React.memo(Overview);

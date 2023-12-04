@@ -1,106 +1,85 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AccountId, StakingLedger } from '@polkadot/types/interfaces';
+import type { StakingLedger } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
-import BN from 'bn.js';
 import React, { useState } from 'react';
-import styled from 'styled-components';
-import { InputAddress, InputBalance, Modal, Static, Toggle, TxButton } from '@polkadot/react-components';
-import { BlockToTime } from '@polkadot/react-query';
 
-import { useTranslation } from '../../translate';
-import useUnbondDuration from '../useUnbondDuration';
+import { InputBalance, Modal, Static, styled, TxButton } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
+import { BlockToTime, FormatBalance } from '@polkadot/react-query';
+import { BN_ZERO } from '@polkadot/util';
+
+import { useTranslation } from '../../translate.js';
+import SenderInfo from '../partials/SenderInfo.js';
+import useUnbondDuration from '../useUnbondDuration.js';
 
 interface Props {
-  className?: string;
-  controllerId?: AccountId | null;
+  controllerId?: string | null;
   onClose: () => void;
   stakingLedger?: StakingLedger;
   stashId: string;
 }
 
-function Unbond ({ className = '', controllerId, onClose, stakingLedger, stashId }: Props): React.ReactElement<Props> {
+function Unbond ({ controllerId, onClose, stakingLedger, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const bondedBlocks = useUnbondDuration();
-  const [maxBalance] = useState<BN | null>(stakingLedger?.active.unwrap() || null);
-  const [maxUnbond, setMaxUnbond] = useState<BN | null>(null);
-  const [withMax, setWithMax] = useState(false);
+  const [maxBalance] = useState<BN | null>(() => stakingLedger?.active?.unwrap() || null);
+  const [maxUnbond, setMaxUnbond] = useState<BN | undefined>();
 
   return (
-    <Modal
-      className={`staking--Unbond ${className}`}
-      header={t<string>('Unbond funds')}
+    <StyledModal
+      header={t('Unbond funds')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns>
-          <Modal.Column>
-            <InputAddress
-              defaultValue={stashId}
-              isDisabled
-              label={t<string>('stash account')}
-            />
-            <InputAddress
-              defaultValue={controllerId}
-              isDisabled
-              label={t<string>('controller account')}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The stash and controller pair, here the controller will be used to send the transaction.')}</p>
-          </Modal.Column>
-        </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <InputBalance
-              autoFocus
-              defaultValue={maxBalance}
-              help={t<string>('The amount of funds to unbond, this is adjusted using the bonded funds on the stash account.')}
-              isDisabled={withMax}
-              key={`unbondAmount-${withMax.toString()}`}
-              label={t<string>('unbond amount')}
-              maxValue={maxBalance}
-              onChange={setMaxUnbond}
-              withMax
-            >
-              <Toggle
-                isOverlay
-                label={t<string>('all bonded')}
-                onChange={setWithMax}
-                value={withMax}
+        <SenderInfo
+          controllerId={controllerId}
+          stashId={stashId}
+        />
+        <Modal.Columns hint={t('The funds will only be available for withdrawal after the unbonding period, however will not be part of the staked amount after the next validator election. You can follow the unlock countdown in the UI.')}>
+          <InputBalance
+            autoFocus
+            defaultValue={maxBalance}
+            label={t('unbond amount')}
+            labelExtra={
+              <FormatBalance
+                label={<span className='label'>{t('bonded')}</span>}
+                value={maxBalance}
               />
-            </InputBalance>
-            {bondedBlocks?.gtn(0) && (
-              <Static
-                help={t<string>('The bonding duration for any staked funds. After this period needs to be withdrawn.')}
-                label={t<string>('on-chain bonding duration')}
-              >
-                <BlockToTime blocks={bondedBlocks} />
-              </Static>
-            )}
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The funds will only be available for withdrawal after the unbonding period, however will not be part of the staked amount after the next validator election. You can follow the unlock countdown in the UI.')}</p>
-          </Modal.Column>
+            }
+            maxValue={maxBalance}
+            onChange={setMaxUnbond}
+            withMax
+          />
+          {bondedBlocks?.gtn(0) && (
+            <Static
+              label={t('on-chain bonding duration')}
+            >
+              <BlockToTime value={bondedBlocks} />
+            </Static>
+          )}
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={controllerId}
           icon='unlock'
-          isDisabled={!((withMax ? maxBalance : maxUnbond)?.gtn(0))}
-          label={t<string>('Unbond')}
+          isDisabled={!maxUnbond?.gt(BN_ZERO)}
+          label={t('Unbond')}
           onStart={onClose}
-          params={[withMax ? maxBalance : maxUnbond]}
-          tx='staking.unbond'
+          params={[maxUnbond]}
+          tx={api.tx.staking.unbond}
         />
       </Modal.Actions>
-    </Modal>
+    </StyledModal>
   );
 }
 
-export default React.memo(styled(Unbond)`
+const StyledModal = styled(Modal)`
   .staking--Unbond--max > div {
     justify-content: flex-end;
 
@@ -108,4 +87,6 @@ export default React.memo(styled(Unbond)`
       flex: 0;
     }
   }
-`);
+`;
+
+export default React.memo(Unbond);

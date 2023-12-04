@@ -1,19 +1,23 @@
-// Copyright 2017-2020 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { KeyedEvent } from '@polkadot/react-query/types';
+import type { TabItem } from '@polkadot/react-components/types';
+import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
 
-import React, { useContext, useRef } from 'react';
-import { Route, Switch } from 'react-router';
-import Tabs from '@polkadot/react-components/Tabs';
-import { useApi } from '@polkadot/react-hooks';
-import { BlockAuthorsContext, EventsContext } from '@polkadot/react-query';
+import React, { useMemo, useRef } from 'react';
+import { Route, Routes } from 'react-router';
 
-import BlockInfo from './BlockInfo';
-import Forks from './Forks';
-import Main from './Main';
-import NodeInfo from './NodeInfo';
-import { useTranslation } from './translate';
+import { Tabs } from '@polkadot/react-components';
+import { useApi, useBlockAuthors, useBlockEvents } from '@polkadot/react-hooks';
+import { isFunction } from '@polkadot/util';
+
+import Api from './Api/index.js';
+import BlockInfo from './BlockInfo/index.js';
+import Latency from './Latency/index.js';
+import NodeInfo from './NodeInfo/index.js';
+import Forks from './Forks.js';
+import Main from './Main.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   basePath: string;
@@ -21,56 +25,91 @@ interface Props {
   newEvents?: KeyedEvent[];
 }
 
-const HIDDESN_NOBABE = ['forks'];
-
-function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
-  const { api } = useApi();
-  const { lastHeaders } = useContext(BlockAuthorsContext);
-  const events = useContext(EventsContext);
-
-  const itemsRef = useRef([
+function createItemsRef (t: (key: string, options?: { replace: Record<string, unknown> }) => string): TabItem[] {
+  return [
     {
       isRoot: true,
       name: 'chain',
-      text: t<string>('Chain info')
+      text: t('Chain info')
     },
     {
       hasParams: true,
       name: 'query',
-      text: t<string>('Block details')
+      text: t('Block details')
+    },
+    {
+      name: 'latency',
+      text: t('Latency')
     },
     {
       name: 'forks',
-      text: t<string>('Forks')
+      text: t('Forks')
     },
     {
       name: 'node',
-      text: t<string>('Node info')
+      text: t('Node info')
+    },
+    {
+      // isHidden: true,
+      name: 'api',
+      text: t('API stats')
     }
-  ]);
+  ];
+}
+
+function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const { api } = useApi();
+  const { lastHeaders } = useBlockAuthors();
+  const { eventCount, events } = useBlockEvents();
+  const itemsRef = useRef(createItemsRef(t));
+
+  const hidden = useMemo<string[]>(
+    () => isFunction(api.query.babe?.authorities) ? [] : ['forks'],
+    [api]
+  );
 
   return (
     <main className={className}>
-      <header>
-        <Tabs
-          basePath={basePath}
-          hidden={api.query.babe ? undefined : HIDDESN_NOBABE}
-          items={itemsRef.current}
-        />
-      </header>
-      <Switch>
-        <Route path={`${basePath}/forks`}><Forks /></Route>
-        <Route path={`${basePath}/query/:value`}><BlockInfo /></Route>
-        <Route path={`${basePath}/query`}><BlockInfo /></Route>
-        <Route path={`${basePath}/node`}><NodeInfo /></Route>
-        <Route>
-          <Main
-            events={events}
-            headers={lastHeaders}
+      <Tabs
+        basePath={basePath}
+        hidden={hidden}
+        items={itemsRef.current}
+      />
+      <Routes>
+        <Route path={basePath}>
+          <Route
+            element={<Api />}
+            path='api'
+          />
+          <Route
+            element={<Forks />}
+            path='forks'
+          />
+          <Route
+            element={<Latency />}
+            path='latency'
+          />
+          <Route
+            element={<NodeInfo />}
+            path='node'
+          />
+          <Route
+            element={<BlockInfo />}
+            path='query/:value?'
+          />
+          <Route
+            element={
+              <Main
+                eventCount={eventCount}
+                events={events}
+                headers={lastHeaders}
+              />
+            }
+            index
           />
         </Route>
-      </Switch>
+      </Routes>
     </main>
   );
 }

@@ -1,67 +1,59 @@
-// Copyright 2017-2020 @polkadot/app-council authors & contributors
+// Copyright 2017-2023 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AccountId } from '@polkadot/types/interfaces';
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
+import type { AccountId } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
+
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
-import { Icon, LinkExternal, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useVotingStatus, useWeight } from '@polkadot/react-hooks';
+import { Icon, LinkExternal, Table } from '@polkadot/react-components';
+import { useAccounts, useCollectiveInstance, useVotingStatus } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import Close from './Close';
-import Voters from './Voters';
-import Voting from './Voting';
+import Close from './Close.js';
+import Voters from './Voters.js';
+import Voting from './Voting.js';
 
 interface Props {
   className?: string;
   isMember: boolean;
   members: string[];
   motion: DeriveCollectiveProposal;
-  prime: AccountId | null;
+  prime?: AccountId | null;
 }
 
 interface VoterState {
   hasVoted: boolean;
   hasVotedAye: boolean;
+  hasVotedNay: boolean;
 }
 
 function Motion ({ className = '', isMember, members, motion: { hash, proposal, votes }, prime }: Props): React.ReactElement<Props> | null {
-  const { t } = useTranslation();
-  const { api } = useApi();
   const { allAccounts } = useAccounts();
   const { hasFailed, isCloseable, isVoteable, remainingBlocks } = useVotingStatus(votes, members.length, 'council');
-  const [proposalWeight, proposalLength] = useWeight(proposal);
-
-  const [councilId, isMultiMembers] = useMemo(
-    (): [string | null, boolean] => {
-      const councilIds = allAccounts.filter((accountId) => members.includes(accountId));
-
-      return [councilIds[0] || null, councilIds.length > 1];
-    },
-    [allAccounts, members]
-  );
+  const modLocation = useCollectiveInstance('council');
 
   const { hasVoted, hasVotedAye } = useMemo(
     (): VoterState => {
       if (votes) {
-        const hasVotedAye = allAccounts.some((address) => votes.ayes.some((accountId) => accountId.eq(address)));
+        const hasVotedAye = allAccounts.some((a) => votes.ayes.some((accountId) => accountId.eq(a)));
+        const hasVotedNay = allAccounts.some((a) => votes.nays.some((accountId) => accountId.eq(a)));
 
         return {
-          hasVoted: hasVotedAye || allAccounts.some((address) => votes.nays.some((accountId) => accountId.eq(address))),
-          hasVotedAye
+          hasVoted: hasVotedAye || hasVotedNay,
+          hasVotedAye,
+          hasVotedNay
         };
       }
 
-      return { hasVoted: false, hasVotedAye: false };
+      return { hasVoted: false, hasVotedAye: false, hasVotedNay: false };
     },
     [allAccounts, votes]
   );
 
-  if (!votes) {
+  if (!votes || !modLocation) {
     return null;
   }
 
@@ -69,9 +61,10 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
 
   return (
     <tr className={className}>
-      <td className='number'><h1>{formatNumber(index)}</h1></td>
+      <Table.Column.Id value={index} />
       <ProposalCell
         imageHash={hash}
+        isCollective
         proposal={proposal}
       />
       <td className='number together'>
@@ -80,7 +73,7 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
       <td className='number together'>
         {remainingBlocks && end && (
           <>
-            <BlockToTime blocks={remainingBlocks} />
+            <BlockToTime value={remainingBlocks} />
             #{formatNumber(end)}
           </>
         )}
@@ -110,31 +103,12 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
           />
         )}
         {isCloseable && (
-          isMultiMembers
-            ? (
-              <Close
-                hasFailed={hasFailed}
-                hash={hash}
-                idNumber={index}
-                members={members}
-                proposal={proposal}
-              />
-            )
-            : (
-              <TxButton
-                accountId={councilId}
-                icon='times'
-                label={t<string>('Close')}
-                params={
-                  api.tx.council.close?.meta.args.length === 4
-                    ? hasFailed
-                      ? [hash, index, 0, 0]
-                      : [hash, index, proposalWeight, proposalLength]
-                    : [hash, index]
-                }
-                tx='council.close'
-              />
-            )
+          <Close
+            hasFailed={hasFailed}
+            hash={hash}
+            idNumber={index}
+            proposal={proposal}
+          />
         )}
       </td>
       <td className='badge'>
@@ -149,7 +123,6 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
         <LinkExternal
           data={index}
           hash={hash.toString()}
-          isLogo
           type='council'
         />
       </td>

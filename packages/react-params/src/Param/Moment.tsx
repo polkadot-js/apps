@@ -1,12 +1,13 @@
-// Copyright 2017-2020 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Props, RawParamOnChangeValue } from '../types';
+import type { Props, RawParamOnChangeValue } from '../types.js';
 
 import React, { useCallback } from 'react';
+
 import { Static } from '@polkadot/react-components';
 
-import Amount from './Amount';
+import Amount from './Amount.js';
 
 function Moment ({ className = '', defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, registry, type, withLabel }: Props): React.ReactElement<Props> {
   const _onChange = useCallback(
@@ -20,7 +21,7 @@ function Moment ({ className = '', defaultValue, isDisabled, isError, label, onC
       <Static
         className={className}
         defaultValue={
-          (defaultValue && defaultValue.value)
+          (defaultValue?.value)
             ? (defaultValue.value as string).toString()
             : ''
         }

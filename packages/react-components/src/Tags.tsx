@@ -1,17 +1,13 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { VoidFn } from './types';
-
 import React, { useCallback, useMemo } from 'react';
-import styled from 'styled-components';
-import { classes } from './util';
 
-import EditButton from './EditButton';
-import InputTags from './InputTags';
-import Tag from './Tag';
-
-import { useTranslation } from './translate';
+import EditButton from './EditButton.js';
+import InputTags from './InputTags.js';
+import { styled } from './styled.js';
+import Tag from './Tag.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   children?: React.ReactNode;
@@ -20,11 +16,13 @@ interface Props {
   isEditing?: boolean;
   onChange?: (_: string[]) => void;
   onToggleIsEditing?: () => void;
-  onSave?: VoidFn;
+  onSave?: () => void;
   value: string[];
+  withEditButton?: boolean;
+  withTitle?: boolean;
 }
 
-function Tags ({ children, className, isEditable, isEditing, onChange, onSave, onToggleIsEditing, value }: Props): React.ReactElement<Props> {
+function Tags ({ children, className = '', isEditable, isEditing, onChange, onSave, onToggleIsEditing, value, withEditButton = true, withTitle }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const contents = useMemo(
@@ -35,7 +33,7 @@ function Tags ({ children, className, isEditable, isEditing, onChange, onSave, o
           label={tag}
         />
       ))
-      : <label>{t<string>('no tags')}</label>,
+      : <div>{t('none')}</div>,
     [t, value]
   );
 
@@ -48,7 +46,10 @@ function Tags ({ children, className, isEditable, isEditing, onChange, onSave, o
   );
 
   return (
-    <div className={classes('ui--Tags', className)}>
+    <StyledDiv className={`${className} ui--Tags`}>
+      {withTitle && (
+        <h5>{t('Tags')}</h5>
+      )}
       {isEditable && isEditing
         ? (
           <InputTags
@@ -57,34 +58,49 @@ function Tags ({ children, className, isEditable, isEditing, onChange, onSave, o
             onChange={onChange}
             onClose={_onSave}
             openOnFocus
-            searchInput={{ autoFocus: true }}
+            searchInput={{ autoFocus: false }}
             value={value}
             withLabel={false}
           />
         )
-        : (
-          <div className='tags--toggle'>
-            {isEditable
-              ? (
-                <EditButton onClick={onToggleIsEditing}>
-                  {contents}
-                </EditButton>
-              )
-              : contents}
-          </div>
-        )
+        : isEditable && withEditButton
+          ? (
+            <EditButton
+              className={value.length === 0 ? 'center' : 'left'}
+              onClick={onToggleIsEditing}
+            >
+              {contents}
+            </EditButton>
+          )
+          : contents
       }
       {children}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Tags)`
-  .tags--toggle {
+const StyledDiv = styled.div`
+  label {
     display: inline-block;
+  }
 
-    label {
-      display: inline-block !important;
+  .ui--EditButton {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    &.center {
+      justify-content: center;
+    }
+
+    &.left {
+      justify-content: left;
     }
   }
-`);
+
+  .ui--Tag {
+    margin: 0.1rem 0 0.1rem 0.571rem;
+  }
+`;
+
+export default React.memo(Tags);

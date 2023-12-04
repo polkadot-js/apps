@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-settings authors & contributors
+// Copyright 2017-2023 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
@@ -6,12 +6,13 @@ import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
 import store from 'store';
-import styled from 'styled-components';
-import { registry } from '@polkadot/react-api';
-import { Button, Editor, InputFile } from '@polkadot/react-components';
+
+import { decodeUrlTypes, encodeUrlTypes } from '@polkadot/react-api/urlTypes';
+import { Button, CopyButton, Editor, InputFile, styled } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import { isJsonObject, stringToU8a, u8aToString } from '@polkadot/util';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 const EMPTY_CODE = '{\n\n}';
 const EMPTY_TYPES = {};
@@ -31,19 +32,22 @@ interface Props {
 
 function Developer ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const [code, setCode] = useState(EMPTY_CODE);
   const [isJsonValid, setIsJsonValid] = useState(true);
   const [isTypesValid, setIsTypesValid] = useState(true);
   const [types, setTypes] = useState<Record<string, any>>(EMPTY_TYPES);
   const [typesPlaceholder, setTypesPlaceholder] = useState<string | null>(null);
+  const [sharedUrl, setSharedUrl] = useState<string | null>(null);
 
   useEffect((): void => {
-    const types = store.get('types') as Record<string, unknown> || {};
+    const types = decodeUrlTypes() || store.get('types') as Record<string, unknown> || {};
 
     if (Object.keys(types).length) {
       setCode(JSON.stringify(types, null, 2));
       setTypes({});
       setTypesPlaceholder(Object.keys(types).join(', '));
+      setSharedUrl(encodeUrlTypes(types));
     }
   }, []);
 
@@ -109,7 +113,7 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
     (code: string): void => {
       try {
         if (!isJsonObject(code)) {
-          throw Error(t('This is not a valid JSON object.'));
+          throw Error('This is not a valid JSON object.');
         }
 
         _onChangeTypes(stringToU8a(code));
@@ -119,19 +123,27 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
         setTypesPlaceholder((error as Error).message);
       }
     },
-    [_onChangeTypes, t]
+    [_onChangeTypes]
   );
 
   const _saveDeveloper = useCallback(
     (): void => {
+      let url = null;
+
       try {
-        registry.register(types);
+        api.registerTypes(types);
         store.set('types', types);
         setIsTypesValid(true);
         onStatusChange({
-          action: t<string>('Your custom types have been added'),
+          action: t('Your custom types have been added'),
           status: 'success'
         });
+
+        if (Object.keys(types).length) {
+          url = encodeUrlTypes(types);
+
+          console.log(url);
+        }
       } catch (error) {
         console.error(error);
         setIsTypesValid(false);
@@ -140,8 +152,10 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
           status: 'error'
         });
       }
+
+      setSharedUrl(url);
     },
-    [onStatusChange, t, types]
+    [api, onStatusChange, t, types]
   );
 
   const typesHasNoEntries = Object.keys(types).length === 0;
@@ -150,14 +164,13 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
   /* eslint-disable react/jsx-max-props-per-line */
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <div className='ui--row'>
         <div className='full'>
           <InputFile
             clearContent={typesHasNoEntries && isTypesValid}
-            help={t<string>('Save the type definitions for your custom structures as key-value pairs in a valid JSON file. The key should be the name of your custom structure and the value an object containing your type definitions.')}
             isError={!isTypesValid}
-            label={t<string>('Additional types as a JSON file (or edit below)')}
+            label={t('Additional types as a JSON file (or edit below)')}
             onChange={_onChangeTypes}
             placeholder={typesPlaceholder}
           />
@@ -179,23 +192,28 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
         </div>
       </div>
       <Button.Group>
+        <CopyButton
+          label={t('Share')}
+          type={t('url')}
+          value={sharedUrl}
+        />
         <Button
           icon='sync'
-          label={t<string>('Reset')}
+          label={t('Reset')}
           onClick={_clearTypes}
         />
         <Button
           icon='save'
           isDisabled={!isTypesValid || !isJsonValid}
-          label={t<string>('Save')}
+          label={t('Save')}
           onClick={_saveDeveloper}
         />
       </Button.Group>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Developer)`
+const StyledDiv = styled.div`
   .editor {
     height: 21rem;
     margin-left: 2rem;
@@ -205,4 +223,6 @@ export default React.memo(styled(Developer)`
   .help {
     padding: 0.5rem 2rem;
   }
-`);
+`;
+
+export default React.memo(Developer);

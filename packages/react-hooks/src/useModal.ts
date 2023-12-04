@@ -1,13 +1,14 @@
-// Copyright 2017-2020 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ModalState } from './types';
+import type { ModalState } from './types.js';
 
 import { useCallback } from 'react';
 
-import { useToggle } from './useToggle';
+import { createNamedHook } from './createNamedHook.js';
+import { useToggle } from './useToggle.js';
 
-export function useModal (defaultIsOpen?: boolean, onOpen?: () => void, onClose?: () => void): ModalState {
+function useModalImpl (defaultIsOpen?: boolean, onOpen?: () => void, onClose?: () => void): ModalState {
   const [isOpen, , setIsOpen] = useToggle(defaultIsOpen || false);
   const _onOpen = useCallback(
     (): void => {
@@ -28,3 +29,5 @@ export function useModal (defaultIsOpen?: boolean, onOpen?: () => void, onClose?
 
   return { isOpen, onClose: _onClose, onOpen: _onOpen };
 }
+
+export const useModal = createNamedHook('useModal', useModalImpl);

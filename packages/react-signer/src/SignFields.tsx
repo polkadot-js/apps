@@ -1,15 +1,15 @@
-// Copyright 2017-2020 @polkadot/react-signer authors & contributors
+// Copyright 2017-2023 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SignerOptions } from '@polkadot/api/submittable/types';
 
-import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
+
 import { InputNumber, Modal, Output } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import { BN_ZERO } from '@polkadot/util';
+import { BN, BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   address: string | null;
@@ -20,7 +20,7 @@ interface Props {
 
 function SignFields ({ address, onChange, signedTx }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const [blocks, setBlocks] = useState(new BN(64));
+  const [blocks, setBlocks] = useState(() => new BN(64));
   const [nonce, setNonce] = useState(BN_ZERO);
   const { t } = useTranslation();
 
@@ -36,54 +36,44 @@ function SignFields ({ address, onChange, signedTx }: Props): React.ReactElement
   }, [blocks, nonce, onChange]);
 
   const _setBlocks = useCallback(
-    (blocks = BN_ZERO) => setBlocks(blocks),
+    (blocks: BN = BN_ZERO) => setBlocks(blocks),
     []
   );
 
   const _setNonce = useCallback(
-    (nonce = BN_ZERO) => setNonce(nonce),
+    (nonce: BN = BN_ZERO) => setNonce(nonce),
     []
   );
 
   return (
     <>
-      <Modal.Columns>
-        <Modal.Column>
-          <InputNumber
-            isDisabled={!!signedTx}
-            isZeroable
-            label={t<string>('Nonce')}
-            labelExtra={t<string>('Current account nonce: {{accountNonce}}', { replace: { accountNonce: nonce } })}
-            onChange={_setNonce}
-            value={nonce}
-          />
-          <InputNumber
-            isDisabled={!!signedTx}
-            isZeroable
-            label={t<string>('Lifetime (# of blocks)')}
-            labelExtra={t<string>('Set to 0 to make transaction immortal')}
-            onChange={_setBlocks}
-            value={blocks}
-          />
-        </Modal.Column>
-        <Modal.Column>
-          <p>{t('Override any applicable values for the specific signed output. These will be used to construct and display the signed transaction.')}</p>
-        </Modal.Column>
+      <Modal.Columns hint={t('Override any applicable values for the specific signed output. These will be used to construct and display the signed transaction.')}>
+        <InputNumber
+          isDisabled={!!signedTx}
+          isZeroable
+          label={t('Nonce')}
+          labelExtra={t('Current account nonce: {{accountNonce}}', { replace: { accountNonce: nonce } })}
+          onChange={_setNonce}
+          value={nonce}
+        />
+        <InputNumber
+          isDisabled={!!signedTx}
+          isZeroable
+          label={t('Lifetime (# of blocks)')}
+          labelExtra={t('Set to 0 to make transaction immortal')}
+          onChange={_setBlocks}
+          value={blocks}
+        />
       </Modal.Columns>
       {!!signedTx && (
-        <Modal.Columns>
-          <Modal.Column>
-            <Output
-              isFull
-              isTrimmed
-              label={t<string>('Signed transaction')}
-              value={signedTx}
-              withCopy
-            />
-          </Modal.Column>
-          <Modal.Column>
-            {t('The actual fully constructed signed output. This can be used for submission via other channels.')}
-          </Modal.Column>
+        <Modal.Columns hint={t('The actual fully constructed signed output. This can be used for submission via other channels.')}>
+          <Output
+            isFull
+            isTrimmed
+            label={t('Signed transaction')}
+            value={signedTx}
+            withCopy
+          />
         </Modal.Columns>
       )}
     </>

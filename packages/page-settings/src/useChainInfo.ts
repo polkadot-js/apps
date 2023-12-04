@@ -1,34 +1,42 @@
-// Copyright 2017-2020 @polkadot/app-settings authors & contributors
+// Copyright 2017-2023 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ChainInfo } from './types';
+import type { ChainInfo } from './types.js';
 
 import { useMemo } from 'react';
 
-import { getSystemChainColor, getSystemIcon } from '@polkadot/apps-config';
+import { getSystemIcon } from '@polkadot/apps-config';
+import { DEFAULT_DECIMALS, DEFAULT_SS58 } from '@polkadot/react-api';
+import { createNamedHook, useApi } from '@polkadot/react-hooks';
 import { getSpecTypes } from '@polkadot/types-known';
-import { DEFAULT_DECIMALS, DEFAULT_SS58, registry } from '@polkadot/react-api';
-import { useApi } from '@polkadot/react-hooks';
-import { isNumber } from '@polkadot/util';
+import { formatBalance, isNumber } from '@polkadot/util';
+import { base64Encode } from '@polkadot/util-crypto';
 
-export default function useChainInfo (): ChainInfo | null {
-  const { api, isApiReady, systemChain, systemName } = useApi();
+function useChainInfoImpl (): ChainInfo | null {
+  const { api, apiEndpoint, isApiReady, isEthereum, specName, systemChain, systemName } = useApi();
 
   return useMemo(
     () => isApiReady
       ? {
         chain: systemChain,
-        color: getSystemChainColor(systemChain, systemName),
+        chainType: isEthereum
+          ? 'ethereum'
+          : 'substrate',
+        color: apiEndpoint?.ui.color,
         genesisHash: api.genesisHash.toHex(),
-        icon: getSystemIcon(systemName),
-        metaCalls: Buffer.from(api.runtimeMetadata.asCallsOnly.toU8a()).toString('base64'),
+        icon: getSystemIcon(systemName, specName),
+        metaCalls: base64Encode(api.runtimeMetadata.asCallsOnly.toU8a()),
         specVersion: api.runtimeVersion.specVersion.toNumber(),
-        ss58Format: isNumber(api.registry.chainSS58) ? api.registry.chainSS58 : DEFAULT_SS58.toNumber(),
-        tokenDecimals: isNumber(api.registry.chainDecimals) ? api.registry.chainDecimals : DEFAULT_DECIMALS.toNumber(),
-        tokenSymbol: api.registry.chainToken || 'Unit',
-        types: getSpecTypes(registry, systemChain, api.runtimeVersion.specName, api.runtimeVersion.specVersion) as unknown as Record<string, string>
+        ss58Format: isNumber(api.registry.chainSS58)
+          ? api.registry.chainSS58
+          : DEFAULT_SS58.toNumber(),
+        tokenDecimals: (api.registry.chainDecimals || [DEFAULT_DECIMALS.toNumber()])[0],
+        tokenSymbol: (api.registry.chainTokens || formatBalance.getDefaults().unit)[0],
+        types: getSpecTypes(api.registry, systemChain, api.runtimeVersion.specName, api.runtimeVersion.specVersion) as unknown as Record<string, string>
       }
       : null,
-    [api, isApiReady, systemChain, systemName]
+    [api, apiEndpoint, isApiReady, specName, systemChain, systemName, isEthereum]
   );
 }
+
+export default createNamedHook('useChainInfo', useChainInfoImpl);

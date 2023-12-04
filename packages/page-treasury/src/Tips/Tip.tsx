@@ -1,19 +1,20 @@
-// Copyright 2017-2020 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2023 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AccountId, Balance, BlockNumber, OpenTip, OpenTipTo225 } from '@polkadot/types/interfaces';
+import type { AccountId, Balance, BlockNumber, OpenTipTo225 } from '@polkadot/types/interfaces';
+import type { PalletTipsOpenTip } from '@polkadot/types/lookup';
+import type { BN } from '@polkadot/util';
 
-import BN from 'bn.js';
-import React, { useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
-import { AddressSmall, AddressMini, Checkbox, Expander, Icon, LinkExternal, TxButton } from '@polkadot/react-components';
-import { useAccounts } from '@polkadot/react-hooks';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+
+import { AddressMini, AddressSmall, Checkbox, ExpanderScroll, Icon, LinkExternal, styled, TxButton } from '@polkadot/react-components';
+import { useAccounts, useApi } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO, formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import TipEndorse from './TipEndorse';
-import TipReason from './TipReason';
+import { useTranslation } from '../translate.js';
+import TipEndorse from './TipEndorse.js';
+import TipReason from './TipReason.js';
 
 interface Props {
   bestNumber?: BlockNumber;
@@ -22,10 +23,9 @@ interface Props {
   hash: string;
   isMember: boolean;
   members: string[];
-  onRefresh: () => void;
   onSelect: (hash: string, isSelected: boolean, value: BN) => void;
   onlyUntipped: boolean;
-  tip: OpenTip | OpenTipTo225;
+  tip: PalletTipsOpenTip | OpenTipTo225;
 }
 
 interface TipState {
@@ -38,11 +38,11 @@ interface TipState {
   median: BN;
 }
 
-function isCurrentTip (tip: OpenTip | OpenTipTo225): tip is OpenTip {
-  return !!(tip as OpenTip)?.findersFee;
+function isCurrentTip (tip: PalletTipsOpenTip | OpenTipTo225): tip is PalletTipsOpenTip {
+  return !!(tip as PalletTipsOpenTip)?.findersFee;
 }
 
-function extractTipState (tip: OpenTip | OpenTipTo225, allAccounts: string[]): TipState {
+function extractTipState (tip: PalletTipsOpenTip | OpenTipTo225, allAccounts: string[]): TipState {
   const closesAt = tip.closes.unwrapOr(null);
   let finder: AccountId | null = null;
   let deposit: Balance | null = null;
@@ -76,7 +76,8 @@ function extractTipState (tip: OpenTip | OpenTipTo225, allAccounts: string[]): T
   };
 }
 
-function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, onRefresh, onSelect, onlyUntipped, tip }: Props): React.ReactElement<Props> | null {
+function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, onSelect, onlyUntipped, tip }: Props): React.ReactElement<Props> | null {
+  const { api } = useApi();
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
 
@@ -92,6 +93,18 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
 
   const [isMedianSelected, setMedianTip] = useState(false);
 
+  const renderTippers = useCallback(
+    () => tip.tips.map(([tipper, balance]) => (
+      <AddressMini
+        balance={balance}
+        key={tipper.toString()}
+        value={tipper}
+        withBalance
+      />
+    )),
+    [tip]
+  );
+
   useEffect((): void => {
     onSelect(hash, isMedianSelected, median);
   }, [hash, isMedianSelected, median, onSelect]);
@@ -105,9 +118,10 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
   }
 
   const { reason, tips, who } = tip;
+  const recipient = who.toString();
 
   return (
-    <tr className={className}>
+    <StyledTr className={className}>
       <td className='address'>
         <AddressSmall value={who} />
       </td>
@@ -117,43 +131,35 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
         )}
       </td>
       <TipReason hash={reason} />
-      <td className='expand'>
+      <td className='expand media--1100'>
         {tips.length !== 0 && (
-          <Expander summary={
-            <>
-              <div>{t<string>('Tippers ({{count}})', { replace: { count: tips.length } })}</div>
-              <FormatBalance value={median} />
-            </>
-          }>
-            {tips.map(([tipper, balance]) => (
-              <AddressMini
-                balance={balance}
-                key={tipper.toString()}
-                value={tipper}
-                withBalance
-              />
-            ))}
-          </Expander>
+          <ExpanderScroll
+            renderChildren={renderTippers}
+            summary={
+              <>
+                <div>{t('Tippers ({{count}})', { replace: { count: tips.length } })}</div>
+                <FormatBalance value={median} />
+              </>
+            }
+          />
         )}
       </td>
       <td className='button together'>
         {closesAt
           ? (bestNumber && closesAt.gt(bestNumber)) && (
             <div className='closingTimer'>
-              <BlockToTime blocks={closesAt.sub(bestNumber)} />
+              <BlockToTime value={closesAt.sub(bestNumber)} />
               #{formatNumber(closesAt)}
             </div>
           )
-          : finder && (
+          : finder && isFinder && (
             <TxButton
               accountId={finder}
               className='media--1400'
               icon='times'
-              isDisabled={!isFinder}
               label={t('Cancel')}
-              onSuccess={onRefresh}
               params={[hash]}
-              tx='treasury.retractTip'
+              tx={(api.tx.tips || api.tx.treasury).retractTip}
             />
           )
         }
@@ -166,16 +172,16 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
               isTipped={isTipped}
               median={median}
               members={members}
+              recipient={recipient}
             />
           )
           : (
             <TxButton
               accountId={councilId}
               icon='times'
-              label={t<string>('Close')}
-              onSuccess={onRefresh}
+              label={t('Close')}
               params={[hash]}
-              tx='treasury.closeTip'
+              tx={(api.tx.tips || api.tx.treasury).closeTip}
             />
           )
         }
@@ -198,17 +204,18 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
       <td className='links media--1700'>
         <LinkExternal
           data={hash}
-          isLogo
           type='tip'
         />
       </td>
-    </tr>
+    </StyledTr>
   );
 }
 
-export default React.memo(styled(Tip)`
+const StyledTr = styled.tr`
   .closingTimer {
     display: inline-block;
     padding: 0 0.5rem;
   }
-`);
+`;
+
+export default React.memo(Tip);

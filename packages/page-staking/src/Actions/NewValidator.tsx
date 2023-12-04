@@ -1,29 +1,34 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BondInfo, SessionInfo, ValidateInfo } from './partials/types';
+import type { BN } from '@polkadot/util';
+import type { SortedTargets } from '../types.js';
+import type { BondInfo, SessionInfo, ValidateInfo } from './partials/types.js';
 
 import React, { useCallback, useState } from 'react';
-import { Button, Modal, TxButton } from '@polkadot/react-components';
+
+import { BatchWarning, Button, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import BondPartial from './partials/Bond';
-import SessionKeyPartial from './partials/SessionKey';
-import ValidatePartial from './partials/Validate';
+import { useTranslation } from '../translate.js';
+import BondPartial from './partials/Bond.js';
+import SessionKeyPartial from './partials/SessionKey.js';
+import ValidatePartial from './partials/Validate.js';
 
 interface Props {
   isInElection?: boolean;
+  minCommission?: BN;
+  targets: SortedTargets;
 }
 
 const NUM_STEPS = 2;
 
-function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
+function NewValidator ({ isInElection, minCommission, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isVisible, toggleVisible] = useToggle();
-  const [{ bondOwnTx, bondTx, controllerId, controllerTx, stashId }, setBondInfo] = useState<BondInfo>({});
+  const [{ bondTx, controllerId, controllerTx, stashId }, setBondInfo] = useState<BondInfo>({});
   const [{ sessionTx }, setSessionInfo] = useState<SessionInfo>({});
   const [{ validateTx }, setValidateInfo] = useState<ValidateInfo>({});
   const [step, setStep] = useState(1);
@@ -56,22 +61,26 @@ function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
         icon='plus'
         isDisabled={isDisabled}
         key='new-validator'
-        label={t<string>('Validator')}
+        label={t('Validator')}
         onClick={_toggle}
       />
       {isVisible && (
         <Modal
-          header={t<string>('Setup Validator {{step}}/{{NUM_STEPS}}', {
+          header={t('Setup Validator {{step}}/{{NUM_STEPS}}', {
             replace: {
               NUM_STEPS,
               step
             }
           })}
+          onClose={_toggle}
           size='large'
         >
           <Modal.Content>
             {step === 1 && (
-              <BondPartial onChange={setBondInfo} />
+              <BondPartial
+                minValidatorBond={targets.minValidatorBond}
+                onChange={setBondInfo}
+              />
             )}
             {controllerId && stashId && step === 2 && (
               <>
@@ -79,20 +88,25 @@ function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
                   controllerId={controllerId}
                   onChange={setSessionInfo}
                   stashId={stashId}
+                  withFocus
                 />
                 <ValidatePartial
                   controllerId={controllerId}
+                  minCommission={minCommission}
                   onChange={setValidateInfo}
                   stashId={stashId}
                 />
               </>
             )}
+            <Modal.Columns>
+              <BatchWarning />
+            </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={_toggle}>
+          <Modal.Actions>
             <Button
               icon='step-backward'
               isDisabled={step === 1}
-              label={t<string>('prev')}
+              label={t('prev')}
               onClick={_prevStep}
             />
             {step === NUM_STEPS
@@ -101,21 +115,21 @@ function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
                   accountId={stashId}
                   icon='sign-in-alt'
                   isDisabled={!bondTx || !sessionTx || !validateTx}
-                  label={t<string>('Bond & Validate')}
+                  label={t('Bond & Validate')}
                   onStart={_toggle}
                   params={[
                     controllerId === stashId
                       ? [bondTx, sessionTx, validateTx]
-                      : [bondOwnTx, sessionTx, validateTx, controllerTx]
+                      : [bondTx, sessionTx, validateTx, controllerTx]
                   ]}
-                  tx='utility.batch'
+                  tx={api.tx.utility.batchAll || api.tx.utility.batch}
                 />
               )
               : (
                 <Button
                   icon='step-forward'
                   isDisabled={!bondTx}
-                  label={t<string>('next')}
+                  label={t('next')}
                   onClick={_nextStep}
                 />
               )}

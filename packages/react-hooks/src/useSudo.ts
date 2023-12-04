@@ -1,28 +1,31 @@
-// Copyright 2017-2020 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId } from '@polkadot/types/interfaces';
-import type { UseSudo } from './types';
+import type { UseSudo } from './types.js';
 
 import { useEffect, useState } from 'react';
 
-import { useAccounts } from './useAccounts';
-import { useApi } from './useApi';
-import { useCall } from './useCall';
+import { createNamedHook } from './createNamedHook.js';
+import { useAccounts } from './useAccounts.js';
+import { useApi } from './useApi.js';
+import { useCall } from './useCall.js';
 
-const transformSudo = {
+const OPT = {
   transform: (key: AccountId) => key.toString()
 };
 
-export function useSudo (): UseSudo {
+function useSudoImpl (): UseSudo {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
-  const sudoKey = useCall<string>(hasAccounts && api.query.sudo?.key, undefined, transformSudo);
-  const [isMine, setIsMine] = useState(false);
+  const sudoKey = useCall<string>(hasAccounts && api.query.sudo?.key, undefined, OPT);
+  const [hasSudoKey, setHasSudoKey] = useState(false);
 
   useEffect((): void => {
-    setIsMine(!!sudoKey && !!allAccounts && allAccounts.some((key) => key === sudoKey));
+    setHasSudoKey(!!sudoKey && !!allAccounts && allAccounts.some((key) => key === sudoKey));
   }, [allAccounts, sudoKey]);
 
-  return { allAccounts, isMine, sudoKey };
+  return { allAccounts, hasSudoKey, sudoKey };
 }
+
+export const useSudo = createNamedHook('useSudo', useSudoImpl);

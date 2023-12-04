@@ -1,28 +1,32 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { NominateInfo } from './types';
-import type { SortedTargets } from '../../types';
+import type { BN } from '@polkadot/util';
+import type { SortedTargets } from '../../types.js';
+import type { NominateInfo } from './types.js';
 
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { InputAddress, InputAddressMulti, Modal } from '@polkadot/react-components';
+
+import { InputAddressMulti, MarkWarning, Modal, styled } from '@polkadot/react-components';
 import { useApi, useFavorites } from '@polkadot/react-hooks';
 
-import { MAX_NOMINATIONS, STORE_FAVS_BASE } from '../../constants';
-import { useTranslation } from '../../translate';
+import { MAX_NOMINATIONS, STORE_FAVS_BASE } from '../../constants.js';
+import { useTranslation } from '../../translate.js';
+import PoolInfo from './PoolInfo.js';
+import SenderInfo from './SenderInfo.js';
 
 interface Props {
   className?: string;
   controllerId: string;
   nominating?: string[];
   onChange: (info: NominateInfo) => void;
+  poolId?: BN;
   stashId: string;
   targets: SortedTargets;
   withSenders?: boolean;
 }
 
-function Nominate ({ className = '', controllerId, nominating, onChange, stashId, targets: { validatorIds = [] }, withSenders }: Props): React.ReactElement<Props> {
+function Nominate ({ className = '', controllerId, nominating, onChange, poolId, stashId, targets: { nominateIds = [] }, withSenders }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [favorites] = useFavorites(STORE_FAVS_BASE);
@@ -30,67 +34,76 @@ function Nominate ({ className = '', controllerId, nominating, onChange, stashId
   const [available] = useState<string[]>((): string[] => {
     const shortlist = [
       // ensure that the favorite is included in the list of stashes
-      ...favorites.filter((acc) => validatorIds.includes(acc)),
+      ...favorites.filter((a) => nominateIds.includes(a)),
       // make sure the nominee is not in our favorites already
-      ...(nominating || []).filter((acc) => !favorites.includes(acc))
+      ...(nominating || []).filter((a) => !favorites.includes(a))
     ];
 
-    return shortlist
-      .concat(...(validatorIds.filter((acc) => !shortlist.includes(acc))));
+    return shortlist.concat(
+      ...(nominateIds.filter((a) => !shortlist.includes(a)))
+    );
   });
 
   useEffect((): void => {
-    onChange({
-      nominateTx: selected && selected.length
-        ? api.tx.staking.nominate(selected)
-        : null
-    });
-  }, [api, onChange, selected]);
+    try {
+      onChange({
+        nominateTx: selected?.length
+          ? poolId
+            ? api.tx.nominationPools.nominate(poolId, selected)
+            : api.tx.staking.nominate(selected)
+          : null
+      });
+    } catch {
+      onChange({ nominateTx: null });
+    }
+  }, [api, onChange, poolId, selected]);
+
+  const maxNominations = api.consts.staking.maxNominatorRewardedPerValidator
+    ? api.consts.staking.maxNominatorRewardedPerValidator.toNumber()
+    : api.consts.staking.maxNominations
+      ? (api.consts.staking.maxNominations as unknown as BN).toNumber()
+      : MAX_NOMINATIONS;
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       {withSenders && (
-        <Modal.Columns>
-          <Modal.Column>
-            <InputAddress
-              defaultValue={stashId}
-              isDisabled
-              label={t<string>('stash account')}
+        poolId
+          ? (
+            <PoolInfo
+              controllerId={controllerId}
+              poolId={poolId}
             />
-            <InputAddress
-              defaultValue={controllerId}
-              isDisabled
-              label={t<string>('controller account')}
+          )
+          : (
+            <SenderInfo
+              controllerId={controllerId}
+              stashId={stashId}
             />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The stash that is to be affected. The transaction will be sent from the associated controller account.')}</p>
-          </Modal.Column>
-        </Modal.Columns>
+          )
       )}
-      <Modal.Columns>
-        <Modal.Column>
-          <InputAddressMulti
-            available={available}
-            availableLabel={t<string>('candidate accounts')}
-            defaultValue={nominating}
-            help={t<string>('Filter available candidates based on name, address or short account index.')}
-            maxCount={MAX_NOMINATIONS}
-            onChange={setSelected}
-            valueLabel={t<string>('nominated accounts')}
-          />
-          <article className='warning'>{t<string>('You should trust your nominations to act competently and honest; basing your decision purely on their current profitability could lead to reduced profits or even loss of funds.')}</article>
-        </Modal.Column>
-        <Modal.Column>
-          <p>{t<string>('Nominators can be selected manually from the list of all currently available validators.')}</p>
-          <p>{t<string>('Once transmitted the new selection will only take effect in 2 eras taking the new validator election cycle into account. Until then, the nominations will show as inactive.')}</p>
-        </Modal.Column>
+      <Modal.Columns
+        hint={
+          <>
+            <p>{t('Nominators can be selected manually from the list of all currently available validators.')}</p>
+            <p>{t('Once transmitted the new selection will only take effect in 2 eras taking the new validator election cycle into account. Until then, the nominations will show as inactive.')}</p>
+          </>
+        }
+      >
+        <InputAddressMulti
+          available={available}
+          availableLabel={t('candidate accounts')}
+          defaultValue={nominating}
+          maxCount={maxNominations}
+          onChange={setSelected}
+          valueLabel={t('nominated accounts')}
+        />
+        <MarkWarning content={t('You should trust your nominations to act competently and honest; basing your decision purely on their current profitability could lead to reduced profits or even loss of funds.')} />
       </Modal.Columns>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Nominate)`
+const StyledDiv = styled.div`
   article.warning {
     margin-top: 0;
   }
@@ -156,4 +169,6 @@ export default React.memo(styled(Nominate)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(Nominate);

@@ -1,13 +1,13 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
-import React, { useState } from 'react';
-import styled from 'styled-components';
 
-import Icon from './Icon';
-import { classes } from './util';
-import Tooltip from './Tooltip';
+import React, { useState } from 'react';
+
+import Icon from './Icon.js';
+import { styled } from './styled.js';
+import Tooltip from './Tooltip.js';
 
 interface Props {
   help: React.ReactNode;
@@ -18,10 +18,13 @@ interface Props {
 let id = 0;
 
 function LabelHelp ({ className = '', help, icon = 'question-circle' }: Props): React.ReactElement<Props> {
-  const [trigger] = useState(`label-help-${++id}`);
+  const [trigger] = useState(() => `label-help-${++id}`);
 
   return (
-    <div className={classes('ui--LabelHelp', className)}>
+    <StyledDiv
+      className={`${className} ui--LabelHelp`}
+      tabIndex={-1}
+    >
       <Icon
         icon={icon}
         tooltip={trigger}
@@ -30,13 +33,15 @@ function LabelHelp ({ className = '', help, icon = 'question-circle' }: Props): 
         text={help}
         trigger={trigger}
       />
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(LabelHelp)`
+const StyledDiv = styled.div`
   cursor: help;
   display: inline-block;
   line-height: 1rem;
   margin: 0 0 0 0.25rem;
-`);
+`;
+
+export default React.memo(LabelHelp);

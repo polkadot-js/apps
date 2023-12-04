@@ -1,16 +1,13 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
-
-import type { ThemeProps } from '../types';
 
 import { createGlobalStyle } from 'styled-components';
 
-import cssComponents from './components';
-import cssForm from './form';
-import cssMedia from './media';
-import cssRx from './rx';
-import cssSemantic from './semantic';
-import cssTheme from './theme';
+import cssComponents from './components.js';
+import cssForm from './form.js';
+import cssMedia from './media.js';
+import cssSemantic from './semantic.js';
+import cssTheme from './theme.js';
 
 interface Props {
   uiHighlight?: string;
@@ -19,23 +16,51 @@ interface Props {
 const BRIGHTNESS = 128 + 32;
 const FACTORS = [0.2126, 0.7152, 0.0722];
 const PARTS = [0, 2, 4];
+const VERY_DARK = 16;
 
-const defaultHighlight = '#f19135'; // '#f19135'; // #999
+const defaultHighlight = '#f19135';
 
 function getHighlight (uiHighlight: string | undefined): string {
   return (uiHighlight || defaultHighlight);
 }
 
-function getContrast (uiHighlight: string | undefined): string {
+function countBrightness (uiHighlight: string | undefined): number {
   const hc = getHighlight(uiHighlight).replace('#', '').toLowerCase();
-  const brightness = PARTS.reduce((b, p, index) => b + (parseInt(hc.substr(p, 2), 16) * FACTORS[index]), 0);
+
+  return PARTS.reduce((b, p, index) => b + (parseInt(hc.substring(p, p + 2), 16) * FACTORS[index]), 0);
+}
+
+function getContrast (uiHighlight: string | undefined): string {
+  const brightness = countBrightness(uiHighlight);
 
   return brightness > BRIGHTNESS
     ? 'rgba(45, 43, 41, 0.875)'
     : 'rgba(255, 253, 251, 0.875)';
 }
 
-export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Props & ThemeProps) => `
+function getMenuHoverContrast (uiHighlight: string | undefined): string {
+  const brightness = countBrightness(uiHighlight);
+
+  if (brightness < VERY_DARK) {
+    return 'rgba(255, 255, 255, 0.15)';
+  }
+
+  return brightness < BRIGHTNESS
+    ? 'rgba(0, 0, 0, 0.15)'
+    : 'rgba(255, 255, 255, 0.15)';
+}
+
+function hexToRGB (hex: string, alpha?: string) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+
+  return alpha
+    ? `rgba(${r}, ${g}, ${b}, ${alpha})`
+    : `rgb(${r}, ${g}, ${b})`;
+}
+
+export default createGlobalStyle<Props>(({ uiHighlight }: Props) => `
   .highlight--all {
     background: ${getHighlight(uiHighlight)} !important;
     border-color: ${getHighlight(uiHighlight)} !important;
@@ -58,9 +83,30 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     background: ${getContrast(uiHighlight)};
   }
 
+  .ui--MenuItem.isActive .ui--Badge {
+    background: ${getHighlight(uiHighlight)};
+    color: ${getContrast(uiHighlight)} !important;
+  }
+
+  .ui--MenuItem {
+    & .ui--Badge {
+      color: ${countBrightness(uiHighlight) < BRIGHTNESS ? '#fff' : '#424242'};
+    }
+
+    &:hover:not(.isActive) .ui--Badge {
+      background: ${countBrightness(uiHighlight) < BRIGHTNESS ? 'rgba(255, 255, 255, 0.8)' : '#4D4D4D'};
+      color: ${countBrightness(uiHighlight) > BRIGHTNESS ? '#fff' : '#424242'};
+    }
+  }
+
+  .ui--Tab .ui--Badge {
+    background: ${getHighlight(uiHighlight)};
+    color: ${countBrightness(uiHighlight) < BRIGHTNESS ? '#fff' : '#424242'};
+  }
+
   .highlight--bg-faint,
   .highlight--bg-light {
-    background: ${theme.bgTable};
+    background: var(--bg-table);
     position: relative;
 
     &:before {
@@ -80,7 +126,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   }
 
   .highlight--bg-light:before {
-    opacity: 0.125;
+    opacity: 0.2;
   }
 
   .highlight--border {
@@ -101,6 +147,32 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
 
   .highlight--gradient {
     background: ${`linear-gradient(90deg, ${uiHighlight || defaultHighlight}, transparent)`};
+  }
+
+  .ui--MenuItem.topLevel:hover,
+  .ui--MenuItem.isActive.topLevel:hover {
+    color: ${getContrast(uiHighlight)};
+
+    a {
+      background-color: ${getMenuHoverContrast(uiHighlight)};
+    }
+  }
+
+  .menuItems li:hover .groupHdr {
+    background: ${getMenuHoverContrast(uiHighlight)};
+    color: ${getContrast(uiHighlight)};
+  }
+
+  .groupMenu {
+    background: ${getHighlight(uiHighlight)} !important;
+
+    &::before {
+      background: ${getMenuHoverContrast(uiHighlight)};
+      color:  ${getContrast(uiHighlight)};
+    }
+    li {
+      color:  ${getContrast(uiHighlight)};
+    }
   }
 
   .highlight--hover-bg:hover {
@@ -174,17 +246,69 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
 
       .ui--Icon {
         background: transparent;
+        color: inherit;
         color: ${getHighlight(uiHighlight)};
       }
     }
   }
 
+  .ui--Popup .ui--Button.isOpen:not(.isDisabled):not(.isReadOnly) {
+    background: ${getHighlight(uiHighlight)} !important;
+    color: ${getContrast(uiHighlight)} !important;
+
+    .ui--Icon {
+      background: transparent !important;
+      color: ${getContrast(uiHighlight)} !important;
+    }
+  }
+
+
+  .ui--Menu {
+    .ui--Menu__Item:hover {
+       background: ${hexToRGB(getHighlight(uiHighlight), '.1')};
+    }
+
+    .ui--Toggle.isChecked .ui--Toggle-Slider {
+      background: ${getHighlight(uiHighlight)};
+
+      &::before {
+        border-color: ${getHighlight(uiHighlight)};
+      }
+    }
+  }
+
+  .ui--Sort {
+    .ui--Labelled.ui--Dropdown:hover {
+     .ui.selection.dropdown {
+        border-color: ${getHighlight(uiHighlight)};
+
+       .visible.menu {
+         border: 1px solid ${getHighlight(uiHighlight)};
+        }
+      }
+    }
+
+    button:hover {
+      border-color: ${getHighlight(uiHighlight)};
+    }
+
+    button:hover,
+    .ui--Labelled.ui--Dropdown:hover {
+      &::after {
+        background-color:  ${getHighlight(uiHighlight)};
+      }
+    }
+
+    .arrow.isActive {
+      color:  ${getHighlight(uiHighlight)};
+      opacity: 1;
+    }
+  }
+
   .theme--dark,
   .theme--light {
-    .ui--Tabs {
-      .ui--Tab.tabLinkActive {
-        border-bottom-color: ${getHighlight(uiHighlight)};
-      }
+    .ui--Tabs .active .tabLinkText::after {
+      background: ${getHighlight(uiHighlight)};
     }
 
     .ui.primary.button,
@@ -202,7 +326,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     .ui--Toggle.isChecked {
       &:not(.isRadio) {
         .ui--Toggle-Slider {
-          background-color: ${getHighlight(uiHighlight)} !important;
+          background: ${getHighlight(uiHighlight)} !important;
 
           &:before {
             border-color: ${getHighlight(uiHighlight)} !important;
@@ -212,10 +336,30 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     }
   }
 
+  .ui--ExpandButton:hover {
+    border-color: ${getHighlight(uiHighlight)} !important;
+
+    .ui--Icon {
+      color: ${getHighlight(uiHighlight)} !important;
+    }
+  }
+
+  .ui--Tag.themeColor.lightTheme,
+  .ui--InputTags.lightTheme .ui.label {
+    background: ${hexToRGB(getHighlight(uiHighlight), '0.08')};
+    color: ${countBrightness(uiHighlight) > BRIGHTNESS ? '#424242' : getHighlight(uiHighlight)};
+  }
+
+  .ui--Tag.themeColor.darkTheme,
+  .ui--InputTags.darkTheme .ui.label {
+    color: ${countBrightness(uiHighlight) > BRIGHTNESS ? getHighlight(uiHighlight) : '#fff'};
+  }
+
   #root {
-    background: ${theme.bgPage};
-    color: ${theme.color};
-    font-family: ${theme.fontSans};
+    background: var(--bg-page);
+    color: var(--color-text);
+    font: var(--font-sans);
+    font-weight: var(--font-weight-normal);
     height: 100%;
   }
 
@@ -224,7 +368,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   }
 
   article {
-    background: ${theme.bgTable};
+    background: var(--bg-table);
     border: 1px solid #f2f2f2;
     border-radius: 0.25rem;
     box-sizing: border-box;
@@ -241,6 +385,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     &.error,
     &.warning {
       border-left-width: 0.25rem;
+      font-size: var(--font-size-small);
       line-height: 1.5;
       margin-left: 2.25rem;
       padding: 0.75rem 1rem;
@@ -257,6 +402,15 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
         top: 0;
         z-index: -1;
       }
+    }
+
+    &.mark {
+      margin: 0.5rem 0 0.5rem 2.25rem;
+      padding: 0.5rem 1rem !important;
+    }
+
+    &.nomargin {
+      margin-left: 0;
     }
 
     &.extraMargin {
@@ -300,7 +454,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   body {
     height: 100%;
     margin: 0;
-    font-family: ${theme.fontSans};
+    font: var(--font-sans);
   }
 
   br {
@@ -331,12 +485,15 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   }
 
   h1, h2, h3, h4, h5 {
-    color: ${theme.colorSummary};
-    font-family: ${theme.fontSans};
-    font-weight: ${theme.fontWeightLight};
+    color: var(--color-header);
+    font: var(--font-sans);
+    font-weight: var(--font-weight-header);
+    margin-bottom: 0.25rem;
   }
 
+
   h1 {
+    font-size: var(--font-size-h1);
     text-transform: lowercase;
 
     em {
@@ -345,8 +502,16 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     }
   }
 
-  h1, h2, h3, h4, h5 {
-    margin-bottom: 0.25rem;
+  h2 {
+    font-size: var(--font-size-h2);
+  }
+
+  h3 {
+    font-size: var(--font-size-h3);
+  }
+
+  h4 {
+    font-size: var(--font-size-h4);
   }
 
   header {
@@ -364,11 +529,25 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
 
   label {
     box-sizing: border-box;
-    color: ${theme.colorLabel};
     display: block;
-    font-family: ${theme.fontSans};
-    font-size: 1rem;
-    font-weight: 400;
+    font: var(--font-sans);
+  }
+
+  // we treat h5 and label as equivalents
+  label, h5 {
+    color: var(--color-label);
+    font-size: var(--font-size-label);
+    font-style: normal;
+    font-weight: var(--font-weight-label);
+    line-height: 1rem;
+    margin-bottom: 0.25rem !important;
+    text-transform: var(--text-transform-label);
+    vertical-align: middle;
+  }
+
+  button {
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-normal);
   }
 
   main {
@@ -378,10 +557,9 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   }
 
   /* Add our overrides */
-  ${cssSemantic(theme)}
+  ${cssSemantic}
   ${cssTheme}
   ${cssForm}
   ${cssMedia}
-  ${cssRx}
-  ${cssComponents(theme)}
+  ${cssComponents}
 `);

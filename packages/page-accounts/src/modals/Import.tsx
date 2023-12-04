@@ -1,18 +1,21 @@
-// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Dispatch, SetStateAction } from 'react';
 import type { KeyringPair, KeyringPair$Json } from '@polkadot/keyring/types';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
-import type { ModalProps } from '../types';
+import type { HexString } from '@polkadot/util/types';
+import type { ModalProps } from '../types.js';
 
 import React, { useCallback, useMemo, useState } from 'react';
-import { AddressRow, Button, InputAddress, InputFile, Modal, Password } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
-import { u8aToString } from '@polkadot/util';
-import keyring from '@polkadot/ui-keyring';
 
-import { useTranslation } from '../translate';
-import ExternalWarning from './ExternalWarning';
+import { AddressRow, Button, InputAddress, InputFile, MarkError, MarkWarning, Modal, Password } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
+import { keyring } from '@polkadot/ui-keyring';
+import { assert, nextTick, u8aToString } from '@polkadot/util';
+
+import { useTranslation } from '../translate.js';
+import ExternalWarning from './ExternalWarning.js';
 
 interface Props extends ModalProps {
   className?: string;
@@ -25,13 +28,22 @@ interface PassState {
   password: string;
 }
 
-const acceptedFormats = ['application/json', 'text/plain'].join(', ');
+const acceptedFormats = ['application/json', 'text/plain'];
 
-function parseFile (file: Uint8Array, genesisHash?: string | null): KeyringPair | null {
+function parseFile (file: Uint8Array, setError: Dispatch<SetStateAction<string | null>>, isEthereum: boolean, genesisHash?: HexString | null): KeyringPair | null {
   try {
-    return keyring.createFromJson(JSON.parse(u8aToString(file)) as KeyringPair$Json, { genesisHash });
+    const pair = keyring.createFromJson(JSON.parse(u8aToString(file)) as KeyringPair$Json, { genesisHash });
+
+    if (isEthereum) {
+      assert(pair.type === 'ethereum', 'JSON File does not contain an ethereum type key pair');
+    } else {
+      assert(pair.type !== 'ethereum', 'JSON contains an ethereum keytype, this is not available on this network');
+    }
+
+    return pair;
   } catch (error) {
     console.error(error);
+    setError((error as Error).message ? (error as Error).message : (error as Error).toString());
   }
 
   return null;
@@ -39,16 +51,17 @@ function parseFile (file: Uint8Array, genesisHash?: string | null): KeyringPair 
 
 function Import ({ className = '', onClose, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api, isDevelopment } = useApi();
+  const { api, isDevelopment, isEthereum } = useApi();
   const [isBusy, setIsBusy] = useState(false);
   const [pair, setPair] = useState<KeyringPair | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [{ isPassValid, password }, setPass] = useState<PassState>({ isPassValid: false, password: '' });
   const apiGenesisHash = useMemo(() => isDevelopment ? null : api.genesisHash.toHex(), [api, isDevelopment]);
-  const differentGenesis = useMemo(() => pair?.meta.genesisHash && pair.meta.genesisHash !== apiGenesisHash, [apiGenesisHash, pair]);
+  const differentGenesis = useMemo(() => !!pair?.meta.genesisHash && pair.meta.genesisHash !== apiGenesisHash, [apiGenesisHash, pair]);
 
   const _onChangeFile = useCallback(
-    (file: Uint8Array) => setPair(parseFile(file, apiGenesisHash)),
-    [apiGenesisHash]
+    (file: Uint8Array) => setPair(parseFile(file, setError, isEthereum, apiGenesisHash)),
+    [apiGenesisHash, isEthereum]
   );
 
   const _onChangePass = useCallback(
@@ -63,7 +76,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
       }
 
       setIsBusy(true);
-      setTimeout((): void => {
+      nextTick((): void => {
         const status: Partial<ActionStatus> = { action: 'restore' };
 
         try {
@@ -71,7 +84,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
 
           status.status = 'success';
           status.account = pair.address;
-          status.message = t<string>('account restored');
+          status.message = t('account restored');
 
           InputAddress.setLastValue('account', pair.address);
         } catch (error) {
@@ -88,7 +101,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
         if (status.status !== 'error') {
           onClose();
         }
-      }, 0);
+      });
     },
     [onClose, onStatusChange, pair, password, t]
   );
@@ -96,65 +109,55 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
   return (
     <Modal
       className={className}
-      header={t<string>('Add via backup file')}
+      header={t('Add via backup file')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
         <Modal.Columns>
-          <Modal.Column>
-            <AddressRow
-              defaultName={(pair?.meta.name as string) || null}
-              noDefaultNameOpacity
-              value={pair?.address || null}
-            />
-          </Modal.Column>
+          <AddressRow
+            defaultName={pair?.meta.name || null}
+            noDefaultNameOpacity
+            value={pair?.address || null}
+          />
+        </Modal.Columns>
+        <Modal.Columns hint={t('Supply a backed-up JSON file, encrypted with your account-specific password.')}>
+          <InputFile
+            accept={acceptedFormats}
+            className='full'
+            isError={!pair}
+            label={t('backup file')}
+            onChange={_onChangeFile}
+            withLabel
+          />
+        </Modal.Columns>
+        <Modal.Columns hint={t('The password previously used to encrypt this account.')}>
+          <Password
+            autoFocus
+            className='full'
+            isError={!isPassValid}
+            label={t('password')}
+            onChange={_onChangePass}
+            onEnter={_onSave}
+            value={password}
+          />
         </Modal.Columns>
         <Modal.Columns>
-          <Modal.Column>
-            <InputFile
-              accept={acceptedFormats}
-              className='full'
-              help={t<string>('Select the JSON key file that was downloaded when you created the account. This JSON file contains your private key encrypted with your password.')}
-              isError={!pair}
-              label={t<string>('backup file')}
-              onChange={_onChangeFile}
-              withLabel
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('Supply a backed-up JSON file, encrypted with your account-specific password.')}</p>
-          </Modal.Column>
+          {error && (
+            <MarkError content={error} />
+          )}
+          {differentGenesis && (
+            <MarkWarning content={t('The network from which this account was originally generated is different than the network you are currently connected to. Once imported ensure you toggle the "allow on any network" option for the account to keep it visible on the current network.')} />
+          )}
+          <ExternalWarning />
         </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <Password
-              autoFocus
-              className='full'
-              help={t<string>('Type the password chosen at the account creation. It was used to encrypt your account\'s private key in the backup file.')}
-              isError={!isPassValid}
-              label={t<string>('password')}
-              onChange={_onChangePass}
-              onEnter={_onSave}
-              value={password}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The password previously used to encrypt this account.')}</p>
-          </Modal.Column>
-        </Modal.Columns>
-        { differentGenesis &&
-            <article className='warning'>
-              <p>{t<string>('The network from which this account was originally generated is different than the network you are currently connected to. Once imported ensure you toggle the "allow on any network" option for the account to keep it visible on the current network.')}</p>
-            </article>
-        }
-        <ExternalWarning />
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <Button
           icon='sync'
           isBusy={isBusy}
           isDisabled={!pair || !isPassValid}
-          label={t<string>('Restore')}
+          label={t('Restore')}
           onClick={_onSave}
         />
       </Modal.Actions>

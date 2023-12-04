@@ -1,17 +1,18 @@
-// Copyright 2017-2020 @polkadot/apps authors & contributors
+// Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { EventRecord } from '@polkadot/types/interfaces';
 import type { KeyringOptions } from '@polkadot/ui-keyring/options/types';
-import type { ActionStatus } from '@polkadot/react-components/Status/types';
 
-import React, { useContext, useEffect } from 'react';
-import { Status as StatusDisplay, StatusContext } from '@polkadot/react-components';
-import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
+import React, { useEffect } from 'react';
+
+import { Status as StatusDisplay } from '@polkadot/react-components';
+import { useAccounts, useApi, useCall, useQueue } from '@polkadot/react-hooks';
 import { stringToU8a } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   optionsAll?: KeyringOptions;
@@ -19,7 +20,7 @@ interface Props {
 
 let prevEventHash: string;
 
-function filterEvents (allAccounts: string[], t: <T = string> (key: string, opts?: Record<string, unknown>) => T, optionsAll?: KeyringOptions, events?: EventRecord[]): ActionStatus[] | null {
+function filterEvents (allAccounts: string[], t: (key: string, options?: { replace: Record<string, unknown> }) => string, optionsAll?: KeyringOptions, events?: EventRecord[]): ActionStatus[] | null {
   const eventHash = xxhashAsHex(stringToU8a(JSON.stringify(events)));
 
   if (!optionsAll || !events || eventHash === prevEventHash) {
@@ -37,7 +38,7 @@ function filterEvents (allAccounts: string[], t: <T = string> (key: string, opts
           return {
             account,
             action: `${section}.${method}`,
-            message: t<string>('transfer received'),
+            message: t('transfer received'),
             status: 'event'
           };
         }
@@ -46,7 +47,7 @@ function filterEvents (allAccounts: string[], t: <T = string> (key: string, opts
 
         return {
           action: `${section}.${method}`,
-          message: t<string>('update on #{{index}}', {
+          message: t('update on #{{index}}', {
             replace: {
               index
             }
@@ -61,7 +62,7 @@ function filterEvents (allAccounts: string[], t: <T = string> (key: string, opts
 }
 
 function Status ({ optionsAll }: Props): React.ReactElement<Props> {
-  const { queueAction } = useContext(StatusContext);
+  const { queueAction } = useQueue();
   const { api, isApiReady } = useApi();
   const { allAccounts } = useAccounts();
   const { t } = useTranslation();

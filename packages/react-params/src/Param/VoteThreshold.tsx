@@ -1,14 +1,15 @@
-// Copyright 2017-2020 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Props } from '../types';
+import type { BN } from '@polkadot/util';
+import type { Props } from '../types.js';
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
+
 import { Dropdown } from '@polkadot/react-components';
-import { ClassOf } from '@polkadot/types/create';
-import { bnToBn } from '@polkadot/util';
+import { bnToBn, isFunction } from '@polkadot/util';
 
-import Bare from './Bare';
+import Bare from './Bare.js';
 
 type TextMap = Record<number, string>;
 
@@ -24,7 +25,7 @@ export const textMap = options.reduce((textMap, { text, value }): TextMap => {
   return textMap;
 }, {} as unknown as TextMap);
 
-function VoteThresholdParam ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, registry, withLabel }: Props): React.ReactElement<Props> {
+function VoteThresholdParam ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, withLabel }: Props): React.ReactElement<Props> {
   const _onChange = useCallback(
     (value: number) =>
       onChange && onChange({
@@ -34,9 +35,13 @@ function VoteThresholdParam ({ className = '', defaultValue: { value }, isDisabl
     [onChange]
   );
 
-  const defaultValue = value instanceof ClassOf(registry, 'VoteThreshold')
-    ? value.toNumber()
-    : bnToBn(value as number).toNumber();
+  const defaultValue = useMemo(
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    () => isFunction((value as BN).toNumber)
+      ? (value as BN).toNumber()
+      : bnToBn(value as number).toNumber(),
+    [value]
+  );
 
   return (
     <Bare className={className}>

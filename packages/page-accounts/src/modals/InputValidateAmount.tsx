@@ -1,15 +1,17 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
-import type { AmountValidateState } from '../Accounts/types';
+import type { BN } from '@polkadot/util';
+import type { AmountValidateState } from '../Accounts/types.js';
 
-import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
+
+import { MarkError, MarkWarning } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   amount?: BN | null;
@@ -20,7 +22,7 @@ interface Props {
 function ValidateAmount ({ amount, delegatingAccount, onError }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const delegatingAccountBalance = useCall<DeriveBalancesAll>(api.derive.balances.all, [delegatingAccount]);
+  const delegatingAccountBalance = useCall<DeriveBalancesAll>(api.derive.balances?.all, [delegatingAccount]);
   const [{ error, warning }, setResult] = useState<AmountValidateState>({ error: null, warning: null });
 
   useEffect((): void => {
@@ -42,12 +44,10 @@ function ValidateAmount ({ amount, delegatingAccount, onError }: Props): React.R
     }
   }, [api, onError, amount, t, delegatingAccountBalance]);
 
-  if (error || warning) {
-    return (
-      <article className={error ? 'error' : 'warning'}>
-        <div>{error || warning}</div>
-      </article>
-    );
+  if (error) {
+    return <MarkError content={error} />;
+  } else if (warning) {
+    return <MarkWarning content={warning} />;
   }
 
   return null;

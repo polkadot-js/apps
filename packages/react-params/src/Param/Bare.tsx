@@ -1,9 +1,7 @@
-// Copyright 2017-2020 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
-import { classes } from '@polkadot/react-components/util';
 
 interface Props {
   children?: React.ReactNode;
@@ -12,12 +10,10 @@ interface Props {
 
 function Bare ({ children, className = '' }: Props): React.ReactElement<Props> {
   return (
-    <div className={classes('ui--row', className)}>
+    <div className={`${className} ui--row --relative`}>
       {children}
     </div>
   );
 }
 
-export default React.memo(styled(Bare)`
-  position: relative;
-`);
+export default React.memo(Bare);

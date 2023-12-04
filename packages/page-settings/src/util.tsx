@@ -1,14 +1,15 @@
-// Copyright 2017-2020 @polkadot/app-settings authors & contributors
+// Copyright 2017-2023 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/apps-config/settings/types';
 import type { SettingsStruct } from '@polkadot/ui-settings/types';
 
 import React from 'react';
-import { ChainImg, Dropdown, IdentityIcon } from '@polkadot/react-components';
-import uiSettings from '@polkadot/ui-settings';
 
-export function createOption ({ info, isHeader, text, value }: Option, overrides: string[] = [], override = 'empty'): Option | React.ReactNode {
+import { ChainImg, Dropdown, IdentityIcon } from '@polkadot/react-components';
+import { settings } from '@polkadot/ui-settings';
+
+export function createOption ({ info, isHeader, text, value }: Option, overrides: string[] = [], override = 'empty', extra?: string): Option | React.ReactNode {
   if (isHeader) {
     return (
       <Dropdown.Header
@@ -32,7 +33,7 @@ export function createOption ({ info, isHeader, text, value }: Option, overrides
               : info
           }
         />
-        <div className='ui--Dropdown-name'>{text}</div>
+        <div className='ui--Dropdown-name'>{text}{extra}</div>
       </div>
     ),
     value
@@ -72,12 +73,12 @@ export function createIdenticon ({ info, text, value }: Option, overrides: strin
   };
 }
 
-export function save (settings: SettingsStruct): void {
-  uiSettings.set(settings);
+export function save (state: SettingsStruct): void {
+  settings.set(state);
 }
 
-export function saveAndReload (settings: SettingsStruct): void {
-  save(settings);
+export function saveAndReload (state: SettingsStruct): void {
+  save(state);
 
   // HACK This is terrible, but since the API needs to re-connect and
   // the API does not yet handle re-connections properly, it is what it is

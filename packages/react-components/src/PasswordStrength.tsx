@@ -1,13 +1,11 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from './types';
-
-import React from 'react';
-import styled from 'styled-components';
 import strengthTester from 'owasp-password-strength-test';
+import React from 'react';
 
-import { useTranslation } from './translate';
+import { styled } from './styled.js';
+import { useTranslation } from './translate.js';
 
 const MAX_STRENGTH = 7; // equal to number of password tests in owasp strength tester
 
@@ -37,29 +35,30 @@ function PasswordStrength ({ className = '', value }: Props): React.ReactElement
   const style = { width: `${passwordStrength * 100 / MAX_STRENGTH}%` };
 
   return (
-    <div
+    <StyledDiv
       className={className}
       style={{ display: (value ? 'flex' : 'none') }}
     >
-      {t<string>('weak')}
+      {t('weak')}
       <div className='ui--Strength-bar'>
         <div
           className='ui--Strength-bar-highlighted'
           style={style}
         />
       </div>
-      {t<string>('strong')}
-    </div>
+      {t('strong')}
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(PasswordStrength)(({ theme }: ThemeProps) => `
+const StyledDiv = styled.div`
   align-items: center;
   margin-top: 0.5rem;
   margin-left: 2rem;
-  font-size: 1rem;
+  font-size: var(--font-size-base);
   text-transform: uppercase;
-  color: ${theme.colorLabel};
+  color: var(--color-label);
+
   .ui--Strength-bar {
     position: relative;
     height: 0.6rem;
@@ -69,6 +68,7 @@ export default React.memo(styled(PasswordStrength)(({ theme }: ThemeProps) => `
     border-radius: 0.15rem;
     background: #ECECEC;
   }
+
   .ui--Strength-bar-highlighted {
     position: absolute;
     top: -0.07rem;
@@ -77,4 +77,6 @@ export default React.memo(styled(PasswordStrength)(({ theme }: ThemeProps) => `
     border-radius: 0.15rem;
     background: linear-gradient(90.43deg, #FF8B00 0%, #FFBB50 112.75%);
   }
-`));
+`;
+
+export default React.memo(PasswordStrength);

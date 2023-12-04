@@ -1,22 +1,19 @@
-// Copyright 2017-2020 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
 import type { RegistrarInfo } from '@polkadot/types/interfaces';
+import type { Registrar } from './types.js';
 
 import { useMemo } from 'react';
 
-import { useAccounts } from './useAccounts';
-import { useApi } from './useApi';
-import { useCall } from './useCall';
+import { createNamedHook } from './createNamedHook.js';
+import { useAccounts } from './useAccounts.js';
+import { useApi } from './useApi.js';
+import { useCall } from './useCall.js';
 
 interface RegistrarNull {
   address: string | null;
-  index: number;
-}
-
-interface Registrar {
-  address: string;
   index: number;
 }
 
@@ -26,10 +23,10 @@ interface State {
   skipQuery?: boolean;
 }
 
-export function useRegistrars (skipQuery?: boolean): State {
+function useRegistrarsImpl (skipQuery?: boolean): State {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
-  const query = useCall<Option<RegistrarInfo>[]>(!skipQuery && hasAccounts && api.query.identity?.registrars);
+  const query = useCall<Option<RegistrarInfo>[]>(!skipQuery && api.query.identity?.registrars);
 
   // determine if we have a registrar or not - registrars are allowed to approve
   return useMemo(
@@ -44,10 +41,12 @@ export function useRegistrars (skipQuery?: boolean): State {
         .filter((registrar): registrar is Registrar => !!registrar.address);
 
       return {
-        isRegistrar: registrars.some(({ address }) => allAccounts.includes(address)),
+        isRegistrar: hasAccounts && registrars.some(({ address }) => allAccounts.includes(address)),
         registrars
       };
     },
-    [allAccounts, query]
+    [allAccounts, hasAccounts, query]
   );
 }
+
+export const useRegistrars = createNamedHook('useRegistrars', useRegistrarsImpl);

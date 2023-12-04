@@ -1,27 +1,35 @@
 {
-  "name": "@polkadot/react-api",
-  "version": "0.67.2-9",
-  "description": "A collection of RxJs React components the Polkadot JS API",
-  "main": "index.js",
-  "keywords": [
-    "Polkadot",
-    "React",
-    "RxJs"
-  ],
-  "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [],
-  "contributors": [],
-  "license": "Apache-2.0",
-  "engines": {
-    "node": ">=8.0"
-  },
-  "repository": "github:polkadot-js/apps",
   "bugs": "https://github.com/polkadot-js/apps/issues",
+  "engines": {
+    "node": ">=18"
+  },
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/react-api#readme",
+  "license": "Apache-2.0",
+  "name": "@polkadot/react-api",
+  "private": true,
+  "repository": {
+    "directory": "packages/react-api",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": true,
+  "type": "module",
+  "version": "0.133.2-3-x",
+  "browser": {
+    "fs": false,
+    "path": false
+  },
   "dependencies": {
-    "@babel/runtime": "^7.12.5",
-    "@polkadot/api": "^2.7.2-2",
-    "@polkadot/extension-dapp": "^0.35.0-beta.48",
-    "rxjs-compat": "^6.6.3"
+    "@polkadot/api": "^10.11.1",
+    "@polkadot/extension-compat-metamask": "^0.46.6",
+    "@polkadot/extension-dapp": "^0.46.6",
+    "@polkadot/rpc-provider": "^10.11.1",
+    "fflate": "^0.8.1",
+    "rxjs": "^7.8.1"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*",
+    "react-is": "*"
   }
 }

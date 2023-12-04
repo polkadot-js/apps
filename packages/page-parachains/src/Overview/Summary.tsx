@@ -1,57 +1,77 @@
-// Copyright 2017-2020 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import BN from 'bn.js';
-import React from 'react';
-import { SummaryBox, CardSummary } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
-import { BestNumber } from '@polkadot/react-query';
-import { formatNumber, isNumber } from '@polkadot/util';
+import type { LeasePeriod } from '../types.js';
 
-import { useTranslation } from '../translate';
+import React from 'react';
+
+import SummarySession from '@polkadot/app-explorer/SummarySession';
+import { CardSummary, SummaryBox } from '@polkadot/react-components';
+import { BestFinalized } from '@polkadot/react-query';
+import { BN_THREE, BN_TWO, formatNumber, isNumber } from '@polkadot/util';
+
+import { useTranslation } from '../translate.js';
 
 interface Props {
+  leasePeriod?: LeasePeriod;
   parachainCount?: number;
   proposalCount?: number;
-  nextFreeId?: BN;
+  upcomingCount?: number;
 }
 
-function Summary ({ nextFreeId, parachainCount, proposalCount }: Props): React.ReactElement<Props> {
+function Summary ({ leasePeriod, parachainCount, proposalCount, upcomingCount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
 
   return (
     <SummaryBox>
       <section>
-        <CardSummary label={t<string>('relay')}>
-          {api.query.parachains
-            ? t<string>('yes')
-            : t<string>('no')
-          }
+        <CardSummary label={t('parachains')}>
+          {isNumber(parachainCount)
+            ? formatNumber(parachainCount)
+            : <span className='--tmp'>99</span>}
         </CardSummary>
-        {isNumber(parachainCount) && (
-          <CardSummary label={t<string>('parachains')}>
-            {formatNumber(parachainCount)}
-          </CardSummary>
-        )}
+        <CardSummary
+          className='media--1000'
+          label={t('parathreads')}
+        >
+          {isNumber(upcomingCount)
+            ? formatNumber(upcomingCount)
+            : <span className='--tmp'>99</span>}
+        </CardSummary>
         {isNumber(proposalCount) && (
-          <CardSummary label={t<string>('proposals')}>
+          <CardSummary
+            className='media--1000'
+            label={t('proposals')}
+          >
             {formatNumber(proposalCount)}
-          </CardSummary>
-        )}
-        {api.query.parachains && nextFreeId && (
-          <CardSummary label={t<string>('next id')}>
-            {formatNumber(nextFreeId)}
           </CardSummary>
         )}
       </section>
       <section>
-        <CardSummary
-          className='media--800'
-          label={t<string>('best block')}
-        >
-          <BestNumber />
+        <CardSummary label={t('current lease')}>
+          {leasePeriod
+            ? formatNumber(leasePeriod.currentPeriod)
+            : <span className='--tmp'>99</span>}
         </CardSummary>
+        <CardSummary
+          className='media--1200'
+          label={t('lease period')}
+          progress={{
+            isBlurred: !leasePeriod,
+            total: leasePeriod ? leasePeriod.length : BN_THREE,
+            value: leasePeriod ? leasePeriod.progress : BN_TWO,
+            withTime: true
+          }}
+        />
+      </section>
+      <section>
+        <CardSummary label={t('finalized')}>
+          <BestFinalized />
+        </CardSummary>
+        <SummarySession
+          className='media--1200'
+          withEra={false}
+        />
       </section>
     </SummaryBox>
   );

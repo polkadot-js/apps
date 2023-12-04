@@ -1,17 +1,16 @@
-// Copyright 2017-2020 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2023 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { StringOrNull } from '@polkadot/react-components/types';
-
 import React, { useCallback, useState } from 'react';
+
 import { Button, Input, Modal } from '@polkadot/react-components';
 import { isNull } from '@polkadot/util';
-import { ABI, InputName } from '../shared';
 
-import ValidateCode from './ValidateCode';
-import store from '../store';
-import { useTranslation } from '../translate';
-import useAbi from '../useAbi';
+import { ABI, InputName } from '../shared/index.js';
+import store from '../store.js';
+import { useTranslation } from '../translate.js';
+import useAbi from '../useAbi.js';
+import ValidateCode from './ValidateCode.js';
 
 interface Props {
   onClose: () => void;
@@ -21,7 +20,7 @@ function Add ({ onClose }: Props): React.ReactElement {
   const { t } = useTranslation();
   const [codeHash, setCodeHash] = useState('');
   const [isCodeHashValid, setIsCodeHashValid] = useState(false);
-  const [name, setName] = useState<StringOrNull>(null);
+  const [name, setName] = useState<string | null>(null);
   const { abi, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
 
   const _onSave = useCallback(
@@ -30,12 +29,8 @@ function Add ({ onClose }: Props): React.ReactElement {
         return;
       }
 
-      store
-        .saveCode(codeHash, { abi, name, tags: [] })
-        .then(() => onClose())
-        .catch((error): void => {
-          console.error('Unable to save code', error);
-        });
+      store.saveCode(codeHash, { abi, name, tags: [] });
+      onClose();
     },
     [abi, codeHash, name, onClose]
   );
@@ -44,11 +39,13 @@ function Add ({ onClose }: Props): React.ReactElement {
   const isValid = isCodeHashValid && isNameValid && isAbiSupplied && isAbiValid;
 
   return (
-    <Modal header={t('Add an existing code hash')}>
+    <Modal
+      header={t('Add an existing code hash')}
+      onClose={onClose}
+    >
       <Modal.Content>
         <Input
           autoFocus
-          help={t('The code hash for the on-chain deployed code.')}
           isError={codeHash.length > 0 && !isCodeHashValid}
           label={t('code hash')}
           onChange={setCodeHash}
@@ -73,7 +70,7 @@ function Add ({ onClose }: Props): React.ReactElement {
           onRemove={onRemoveAbi}
         />
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <Button
           icon='save'
           isDisabled={!isValid}

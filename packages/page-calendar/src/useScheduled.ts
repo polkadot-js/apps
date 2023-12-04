@@ -1,15 +1,18 @@
-// Copyright 2017-2020 @polkadot/app-calendar authors & contributors
+// Copyright 2017-2023 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal, DeriveDispatch, DeriveReferendumExt, DeriveSessionProgress } from '@polkadot/api-derive/types';
 import type { Option } from '@polkadot/types';
-import type { BlockNumber, EraIndex, Scheduled, UnappliedSlash } from '@polkadot/types/interfaces';
-import type { EntryInfo, EntryType } from './types';
+import type { BlockNumber, EraIndex, LeasePeriodOf, Scheduled, UnappliedSlash } from '@polkadot/types/interfaces';
+import type { ITuple } from '@polkadot/types/types';
+import type { BN } from '@polkadot/util';
+import type { EntryInfo, EntryInfoTyped, EntryType } from './types.js';
 
-import BN from 'bn.js';
 import { useEffect, useState } from 'react';
-import { useApi, useBlockTime, useCall } from '@polkadot/react-hooks';
-import { BN_ONE } from '@polkadot/util';
+
+import { useLeaseRangeMax } from '@polkadot/app-parachains/useLeaseRanges';
+import { createNamedHook, useApi, useBestNumber, useBlockInterval, useCall } from '@polkadot/react-hooks';
+import { BN_ONE, BN_ZERO } from '@polkadot/util';
 
 interface DateExt {
   date: Date;
@@ -20,31 +23,31 @@ type SlashEntry = [{ args: [EraIndex] }, UnappliedSlash[]];
 
 type ScheduleEntry = [{ args: [BlockNumber] }, Option<Scheduled>[]];
 
-function newDate (blocks: BN, blockTime: number): DateExt {
-  const date = new Date(Date.now() + blocks.muln(blockTime).toNumber());
+function newDate (blocks: BN, blockTime: BN): DateExt {
+  const date = new Date(Date.now() + blocks.mul(blockTime).toNumber());
 
   return { date, dateTime: date.getTime() };
 }
 
-function createConstDurations (bestNumber: BlockNumber, blockTime: number, items: [EntryType, BlockNumber?][]): [EntryType, EntryInfo[]][] {
-  return items.map(([type, duration]): [EntryType, EntryInfo[]] => {
+function createConstDurations (bestNumber: BlockNumber, blockTime: BN, items: [EntryType, BlockNumber?, BN?, BN?][]): [EntryType, EntryInfo[]][] {
+  return items.map(([type, duration, additional = BN_ZERO, offset = BN_ZERO]): [EntryType, EntryInfo[]] => {
     if (!duration) {
       return [type, []];
     }
 
-    const blocks = duration.sub(bestNumber.mod(duration));
+    const startNumber = bestNumber.sub(offset);
+    const blocks = duration.sub(startNumber.mod(duration));
 
     return [type, [{
       ...newDate(blocks, blockTime),
-      blockNumber: bestNumber.add(blocks),
+      blockNumber: startNumber.add(blocks),
       blocks,
-      info: null,
-      type
+      info: startNumber.div(duration).iadd(additional)
     }]];
   });
 }
 
-function createCouncilMotions (bestNumber: BlockNumber, blockTime: number, motions: DeriveCollectiveProposal[]): [EntryType, EntryInfo[]][] {
+function createCouncilMotions (bestNumber: BlockNumber, blockTime: BN, motions: DeriveCollectiveProposal[]): [EntryType, EntryInfo[]][] {
   return [['councilMotion', motions
     .map(({ hash, votes }): EntryInfo | null => {
       if (!votes) {
@@ -58,15 +61,14 @@ function createCouncilMotions (bestNumber: BlockNumber, blockTime: number, motio
         ...newDate(blocks, blockTime),
         blockNumber: votes.end,
         blocks,
-        info: `${hashStr.substr(0, 6)}…${hashStr.substr(-4)}`,
-        type: 'councilMotion'
+        info: `${hashStr.slice(0, 6)}…${hashStr.slice(-4)}`
       };
     })
     .filter((item): item is EntryInfo => !!item)
   ]];
 }
 
-function createDispatches (bestNumber: BlockNumber, blockTime: number, dispatches: DeriveDispatch[]): [EntryType, EntryInfo[]][] {
+function createDispatches (bestNumber: BlockNumber, blockTime: BN, dispatches: DeriveDispatch[]): [EntryType, EntryInfo[]][] {
   return dispatches.map(({ at, index }): [EntryType, EntryInfo[]] => {
     const blocks = at.sub(bestNumber);
 
@@ -74,38 +76,35 @@ function createDispatches (bestNumber: BlockNumber, blockTime: number, dispatche
       ...newDate(blocks, blockTime),
       blockNumber: at,
       blocks,
-      info: index,
-      type: 'democracyDispatch'
+      info: index
     }]];
   });
 }
 
-function createReferendums (bestNumber: BlockNumber, blockTime: number, referendums: DeriveReferendumExt[]): [EntryType, EntryInfo[]][] {
+function createReferendums (bestNumber: BlockNumber, blockTime: BN, referendums: DeriveReferendumExt[]): [EntryType, EntryInfo[]][] {
   return referendums.reduce((result: [EntryType, EntryInfo[]][], { index, status }): [EntryType, EntryInfo[]][] => {
-    const enactBlocks = status.end.add(status.delay).sub(bestNumber);
-    const voteBlocks = status.end.sub(bestNumber).subn(1);
+    const enactBlocks = status.end.add(status.delay).isub(bestNumber);
+    const voteBlocks = status.end.sub(bestNumber).isub(BN_ONE);
 
     result.push(['referendumVote', [{
       ...newDate(voteBlocks, blockTime),
       blockNumber: bestNumber.add(voteBlocks),
       blocks: voteBlocks,
-      info: index,
-      type: 'referendumVote'
+      info: index
     }]]);
     result.push(['referendumDispatch', [{
       ...newDate(enactBlocks, blockTime),
       blockNumber: bestNumber.add(enactBlocks),
       blocks: enactBlocks,
       info: index,
-      isPending: true,
-      type: 'referendumDispatch'
+      isPending: true
     }]]);
 
     return result;
   }, []);
 }
 
-function createStakingInfo (bestNumber: BlockNumber, blockTime: number, sessionInfo: DeriveSessionProgress, unapplied: SlashEntry[], slashDeferDuration?: BlockNumber): [EntryType, EntryInfo[]][] {
+function createStakingInfo (bestNumber: BlockNumber, blockTime: BN, sessionInfo: DeriveSessionProgress, unapplied: SlashEntry[], slashDeferDuration?: BlockNumber): [EntryType, EntryInfo[]][] {
   const blocksEra = sessionInfo.eraLength.sub(sessionInfo.eraProgress);
   const blocksSes = sessionInfo.sessionLength.sub(sessionInfo.sessionProgress);
   const slashDuration = slashDeferDuration?.mul(sessionInfo.eraLength);
@@ -114,15 +113,14 @@ function createStakingInfo (bestNumber: BlockNumber, blockTime: number, sessionI
       .filter(([, values]) => values.length)
       .map(([key]): EntryInfo => {
         const eraIndex = key.args[0];
-        const blockProgress = sessionInfo.activeEra.sub(eraIndex).subn(1).mul(sessionInfo.eraLength).add(sessionInfo.eraProgress);
+        const blockProgress = sessionInfo.activeEra.sub(eraIndex).isub(BN_ONE).imul(sessionInfo.eraLength).iadd(sessionInfo.eraProgress);
         const blocks = slashDuration.sub(blockProgress);
 
         return {
           ...newDate(blocks, blockTime),
           blockNumber: bestNumber.add(blocks),
           blocks,
-          info: eraIndex,
-          type: 'stakingSlash'
+          info: eraIndex
         };
       })
     : [];
@@ -132,21 +130,19 @@ function createStakingInfo (bestNumber: BlockNumber, blockTime: number, sessionI
       ...newDate(blocksSes, blockTime),
       blockNumber: bestNumber.add(blocksSes),
       blocks: blocksSes,
-      info: sessionInfo.currentIndex.add(BN_ONE),
-      type: 'stakingEpoch'
+      info: sessionInfo.currentIndex.add(BN_ONE)
     }]],
     ['stakingEra', [{
       ...newDate(blocksEra, blockTime),
       blockNumber: bestNumber.add(blocksEra),
       blocks: blocksEra,
-      info: sessionInfo.activeEra.add(BN_ONE),
-      type: 'stakingEra'
+      info: sessionInfo.activeEra.add(BN_ONE)
     }]],
     ['stakingSlash', slashEras]
   ];
 }
 
-function createScheduled (bestNumber: BlockNumber, blockTime: number, scheduled: ScheduleEntry[]): [EntryType, EntryInfo[]][] {
+function createScheduled (bestNumber: BlockNumber, blockTime: BN, scheduled: ScheduleEntry[]): [EntryType, EntryInfo[]][] {
   return [['scheduler', scheduled
     .filter(([, vecSchedOpt]) => vecSchedOpt.some((schedOpt) => schedOpt.isSome))
     .reduce((items: EntryInfo[], [key, vecSchedOpt]): EntryInfo[] => {
@@ -167,8 +163,7 @@ function createScheduled (bestNumber: BlockNumber, blockTime: number, scheduled:
               ? idOrNull.isAscii
                 ? idOrNull.toUtf8()
                 : idOrNull.toHex()
-              : null,
-            type: 'scheduler'
+              : null
           });
 
           return items;
@@ -176,24 +171,45 @@ function createScheduled (bestNumber: BlockNumber, blockTime: number, scheduled:
     }, [])]];
 }
 
-function addFiltered (state: EntryInfo[], types: [EntryType, EntryInfo[]][]): EntryInfo[] {
-  return types.reduce((state: EntryInfo[], [typeFilter, items]): EntryInfo[] =>
-    state.filter(({ type }) => type !== typeFilter).concat(...items), state
-  );
+function createAuctionInfo (bestNumber: BlockNumber, blockTime: BN, rangeMax: BN, [leasePeriod, endBlock]: [LeasePeriodOf, BlockNumber]): [EntryType, EntryInfo[]][] {
+  const blocks = endBlock.sub(bestNumber);
+
+  return [
+    ['parachainAuction', [{
+      ...newDate(blocks, blockTime),
+      blockNumber: endBlock,
+      blocks,
+      info: `${leasePeriod.toString()} - ${leasePeriod.add(rangeMax).toString()}`
+    }]]
+  ];
+}
+
+function addFiltered (state: EntryInfoTyped[], types: [EntryType, EntryInfo[]][]): EntryInfoTyped[] {
+  return types.reduce((state: EntryInfoTyped[], [typeFilter, items]): EntryInfoTyped[] => {
+    return state
+      .filter(({ type }) => type !== typeFilter)
+      .concat(...items.map((item): EntryInfoTyped => {
+        (item as EntryInfoTyped).type = typeFilter;
+
+        return item as EntryInfoTyped;
+      }));
+  }, state);
 }
 
 // TODO council votes, tips closing
-export default function useScheduled (): EntryInfo[] {
+function useScheduledImpl (): EntryInfoTyped[] {
   const { api } = useApi();
-  const [blockTime] = useBlockTime();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
+  const blockTime = useBlockInterval();
+  const bestNumber = useBestNumber();
+  const leaseRangeMax = useLeaseRangeMax();
+  const auctionInfo = useCall<Option<ITuple<[LeasePeriodOf, BlockNumber]>>>(api.query.auctions?.auctionInfo);
   const councilMotions = useCall<DeriveCollectiveProposal[]>(api.derive.council?.proposals);
   const dispatches = useCall<DeriveDispatch[]>(api.derive.democracy?.dispatchQueue);
   const referendums = useCall<DeriveReferendumExt[]>(api.derive.democracy?.referendums);
-  const scheduled = useCall<ScheduleEntry[]>(api.query.scheduler?.agenda.entries as any);
-  const sessionInfo = useCall<DeriveSessionProgress>(api.query.staking && api.derive.session?.progress);
-  const slashes = useCall<SlashEntry[]>(api.query.staking?.unappliedSlashes.entries as any);
-  const [state, setState] = useState<EntryInfo[]>([]);
+  const scheduled = useCall<ScheduleEntry[]>(api.query.scheduler?.agenda?.entries);
+  const sessionInfo = useCall<DeriveSessionProgress>(api.derive.session?.progress);
+  const slashes = useCall<SlashEntry[]>(api.query.staking?.unappliedSlashes.entries);
+  const [state, setState] = useState<EntryInfoTyped[]>([]);
 
   useEffect((): void => {
     bestNumber && dispatches && setState((state) =>
@@ -220,18 +236,25 @@ export default function useScheduled (): EntryInfo[] {
   }, [bestNumber, blockTime, scheduled]);
 
   useEffect((): void => {
-    bestNumber && sessionInfo?.sessionLength.gt(BN_ONE) && slashes && setState((state) =>
-      addFiltered(state, createStakingInfo(bestNumber, blockTime, sessionInfo, slashes, api.consts.staking.slashDeferDuration))
+    bestNumber && sessionInfo?.sessionLength.gt(BN_ONE) && setState((state) =>
+      addFiltered(state, createStakingInfo(bestNumber, blockTime, sessionInfo, slashes || [], api.consts.staking?.slashDeferDuration))
     );
   }, [api, bestNumber, blockTime, sessionInfo, slashes]);
 
   useEffect((): void => {
+    bestNumber && auctionInfo?.isSome && setState((state) =>
+      addFiltered(state, createAuctionInfo(bestNumber, blockTime, leaseRangeMax, auctionInfo.unwrap()))
+    );
+  }, [auctionInfo, bestNumber, blockTime, leaseRangeMax]);
+
+  useEffect((): void => {
     bestNumber && setState((state) =>
       addFiltered(state, createConstDurations(bestNumber, blockTime, [
-        ['councilElection', (api.consts.elections || api.consts.electionsPhragmen)?.termDuration],
+        ['councilElection', (api.consts.elections || api.consts.phragmenElection || api.consts.electionsPhragmen)?.termDuration],
         ['democracyLaunch', api.consts.democracy?.launchPeriod],
+        ['parachainLease', api.consts.slots?.leasePeriod as BlockNumber, BN_ONE, api.consts.slots?.leaseOffset as BlockNumber],
         ['societyChallenge', api.consts.society?.challengePeriod],
-        ['societyRotate', api.consts.society?.rotationPeriod],
+        ['societyRotate', api.consts.society?.rotationPeriod as BlockNumber],
         ['treasurySpend', api.consts.treasury?.spendPeriod]
       ]))
     );
@@ -239,3 +262,5 @@ export default function useScheduled (): EntryInfo[] {
 
   return state;
 }
+
+export default createNamedHook('useScheduled', useScheduledImpl);

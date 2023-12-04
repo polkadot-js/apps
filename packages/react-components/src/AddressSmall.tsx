@@ -1,13 +1,14 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Address, AccountId } from '@polkadot/types/interfaces';
+import type { AccountId, Address } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import AccountName from './AccountName';
-import IdentityIcon from './IdentityIcon';
+import IdentityIcon from './IdentityIcon/index.js';
+import AccountName from './AccountName.js';
+import ParentAccount from './ParentAccount.js';
+import { styled } from './styled.js';
 
 interface Props {
   children?: React.ReactNode;
@@ -15,77 +16,101 @@ interface Props {
   defaultName?: string;
   onClickName?: () => void;
   overrideName?: React.ReactNode;
+  parentAddress?: string;
   withSidebar?: boolean;
+  withShortAddress?: boolean;
   toggle?: unknown;
-  value?: string | Address | AccountId | null | Uint8Array;
+  value?: string | Address | AccountId | null;
 }
 
-function AddressSmall ({ children, className = '', defaultName, onClickName, overrideName, toggle, value, withSidebar = true }: Props): React.ReactElement<Props> {
+function AddressSmall ({ children, className = '', defaultName, onClickName, overrideName, parentAddress, toggle, value, withShortAddress = false, withSidebar = true }: Props): React.ReactElement<Props> {
   return (
-    <div className={`ui--AddressSmall ${className}`}>
-      <IdentityIcon value={value as Uint8Array} />
-      <AccountName
-        className={withSidebar ? 'withSidebar' : ''}
-        defaultName={defaultName}
-        onClick={onClickName}
-        override={overrideName}
-        toggle={toggle}
-        value={value}
-        withSidebar={withSidebar}
-      >
-        {children}
-      </AccountName>
-    </div>
+    <StyledDiv className={`${className} ui--AddressSmall ${(parentAddress || withShortAddress) ? 'withPadding' : ''}`}>
+      <span className='ui--AddressSmall-icon'>
+        <IdentityIcon value={value as Uint8Array} />
+      </span>
+      <span className='ui--AddressSmall-info'>
+        {parentAddress && (
+          <div className='parentName'>
+            <ParentAccount address={parentAddress} />
+          </div>
+        )}
+        <AccountName
+          className={`accountName ${withSidebar ? 'withSidebar' : ''}`}
+          defaultName={defaultName}
+          onClick={onClickName}
+          override={overrideName}
+          toggle={toggle}
+          value={value}
+          withSidebar={withSidebar}
+        >
+          {children}
+        </AccountName>
+        {value && withShortAddress && (
+          <div
+            className='shortAddress'
+            data-testid='short-address'
+          >
+            {value.toString()}
+          </div>
+        )}
+      </span>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(AddressSmall)`
+const StyledDiv = styled.div`
+  overflow-x: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 
-  .ui--IdentityIcon,
-  .ui--AccountName {
+  &.withPadding {
+    padding: 0.75rem 0;
+  }
+
+  .ui--AddressSmall-icon {
+    .ui--IdentityIcon {
+      margin-right: 0.5rem;
+      vertical-align: middle;
+    }
+  }
+
+  .ui--AddressSmall-info {
+    position: relative;
     vertical-align: middle;
-  }
 
-  .ui--IdentityIcon {
-    margin-right: 0.75rem;
+    .parentName, .shortAddress {
+      font-size: var(--font-size-tiny);
+    }
+
+    .parentName {
+      left: 0;
+      position: absolute;
+      top: -0.80rem;
+    }
+
+    .shortAddress {
+      bottom: -0.95rem;
+      color: #8B8B8B;
+      display: inline-block;
+      left: 0;
+      min-width: var(--width-shortaddr);
+      max-width: var(--width-shortaddr);
+      overflow: hidden;
+      position: absolute;
+      text-overflow: ellipsis;
+    }
   }
 
   .ui--AccountName {
-    display: inline-block;
-    max-width: 26rem;
     overflow: hidden;
+    vertical-align: middle;
+    white-space: nowrap;
 
     &.withSidebar {
       cursor: help;
     }
-
-    @media only screen and (max-width: 1700px) {
-      max-width: 24rem;
-    }
-
-    @media only screen and (max-width: 1600px) {
-      max-width: 22rem;
-    }
-
-    @media only screen and (max-width: 1500px) {
-      max-width: 20rem;
-    }
-
-    @media only screen and (max-width: 1400px) {
-      max-width: 18rem;
-    }
-
-    @media only screen and (max-width: 1300px) {
-      max-width: 16rem;
-    }
-
-    @media only screen and (max-width: 1200px) {
-      max-width: 14rem;
-    }
-
-    @media only screen and (max-width: 1200px) {
-      max-width: 12rem;
-    }
   }
-`);
+`;
+
+export default React.memo(AddressSmall);

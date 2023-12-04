@@ -1,17 +1,19 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AmountValidateState } from '../Accounts/types';
+import type { Conviction } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
+import type { AmountValidateState } from '../Accounts/types.js';
 
-import BN from 'bn.js';
 import React, { useState } from 'react';
+
 import { ConvictionDropdown, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import { BalanceFree } from '@polkadot/react-query';
-import { Conviction } from '@polkadot/types/interfaces';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import ValidateAmount from './InputValidateAmount';
+import { useTranslation } from '../translate.js';
+import ValidateAmount from './InputValidateAmount.js';
 
 interface Props {
   onClose: () => void;
@@ -23,6 +25,7 @@ interface Props {
 
 function Delegate ({ onClose, previousAmount, previousConviction, previousDelegatedAccount, previousDelegatingAccount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const [amountError, setAmountError] = useState<AmountValidateState | null>(null);
   const [maxBalance] = useState<BN | undefined>();
   const [amount, setAmount] = useState<BN | undefined>(previousAmount);
@@ -42,76 +45,74 @@ function Delegate ({ onClose, previousAmount, previousConviction, previousDelega
     <Modal
       className='staking--Delegate'
       header={previousDelegatedAccount
-        ? t<string>('democracy vote delegation')
-        : t<string>('delegate democracy vote')
+        ? t('democracy vote delegation')
+        : t('delegate democracy vote')
       }
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns>
-          <Modal.Column>
-            <InputAddress
-              label={t<string>('delegating account')}
-              onChange={setDelegatingAccount}
-              type='account'
-              value={delegatingAccount}
-            />
-            <InputAddress
-              label={t<string>('delegated account')}
-              onChange={setDelegatedAccount}
-              type='account'
-              value={delegatedAccount}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('Any democracy vote performed by the delegated account will result in an additional vote from the delegating account')}</p>
-            <p>{t<string>('If the delegated account is currently voting in a referendum, the delegating vote and conviction will be added.')}</p>
-          </Modal.Column>
+        <Modal.Columns
+          hint={
+            <>
+              <p>{t('Any democracy vote performed by the delegated account will result in an additional vote from the delegating account')}</p>
+              <p>{t('If the delegated account is currently voting in a referendum, the delegating vote and conviction will be added.')}</p>
+            </>
+          }
+        >
+          <InputAddress
+            label={t('delegating account')}
+            onChange={setDelegatingAccount}
+            type='account'
+            value={delegatingAccount}
+          />
+          <InputAddress
+            label={t('delegated account')}
+            onChange={setDelegatedAccount}
+            type='account'
+            value={delegatedAccount}
+          />
         </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <InputBalance
-              autoFocus
-              help={t<string>('Amount to delegate for any democracy vote. This is adjusted using the available funds on the account.')}
-              isError={!!amountError?.error}
-              isZeroable={false}
-              label={t<string>('delegating amount')}
-              labelExtra={
-                <BalanceFree
-                  label={<span className='label'>{t<string>('balance')}</span>}
-                  params={delegatingAccount}
-                />
-              }
-              maxValue={maxBalance}
-              onChange={setAmount}
-              value={amount}
-            />
-            <ValidateAmount
-              amount={amount}
-              delegatingAccount={delegatingAccount}
-              onError={setAmountError}
-            />
-            <ConvictionDropdown
-              help={t<string>('The conviction that will be used for each delegated vote.')}
-              label={t<string>('conviction')}
-              onChange={setConviction}
-              value={conviction}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t('The amount to allocate and the conviction that will be applied to all votes made on a referendum.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t('The amount to allocate and the conviction that will be applied to all votes made on a referendum.')}>
+          <InputBalance
+            autoFocus
+            isError={!!amountError?.error}
+            isZeroable={false}
+            label={t('delegating amount')}
+            labelExtra={
+              <BalanceFree
+                label={<span className='label'>{t('balance')}</span>}
+                params={delegatingAccount}
+              />
+            }
+            maxValue={maxBalance}
+            onChange={setAmount}
+            value={amount}
+          />
+          <ValidateAmount
+            amount={amount}
+            delegatingAccount={delegatingAccount}
+            onError={setAmountError}
+          />
+          <ConvictionDropdown
+            label={t('conviction')}
+            onChange={setConviction}
+            value={conviction}
+            voteLockingPeriod={
+              api.consts.democracy.voteLockingPeriod ||
+              api.consts.democracy.enactmentPeriod
+            }
+          />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         {previousDelegatedAccount && (
           <TxButton
             accountId={delegatingAccount}
             icon='trash-alt'
-            label={t<string>('Undelegate')}
+            label={t('Undelegate')}
             onStart={onClose}
-            params={[]}
-            tx='democracy.undelegate'
+            tx={api.tx.democracy.undelegate}
           />
         )}
         <TxButton
@@ -119,12 +120,12 @@ function Delegate ({ onClose, previousAmount, previousConviction, previousDelega
           icon='sign-in-alt'
           isDisabled={!amount?.gt(BN_ZERO) || !!amountError?.error || !isDirty}
           label={previousDelegatedAccount
-            ? t<string>('Save delegation')
-            : t<string>('Delegate')
+            ? t('Save delegation')
+            : t('Delegate')
           }
           onStart={onClose}
           params={[delegatedAccount, conviction, amount]}
-          tx='democracy.delegate'
+          tx={api.tx.democracy.delegate}
         />
       </Modal.Actions>
     </Modal>

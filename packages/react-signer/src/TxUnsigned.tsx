@@ -1,23 +1,22 @@
-// Copyright 2017-2020 @polkadot/react-signer authors & contributors
+// Copyright 2017-2023 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
 
-import React, { useCallback, useContext } from 'react';
-import { Button, ErrorBoundary, Modal, StatusContext } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
+import React, { useCallback } from 'react';
 
-import { useTranslation } from './translate';
-import Transaction from './Transaction';
-import { handleTxResults } from './util';
+import { Button, ErrorBoundary, Modal } from '@polkadot/react-components';
+import { useQueue, useToggle } from '@polkadot/react-hooks';
+
+import Transaction from './Transaction.js';
+import { useTranslation } from './translate.js';
+import { handleTxResults } from './util.js';
 
 interface Props {
   className?: string;
   currentItem: QueueTx;
 }
-
-const NOOP = () => undefined;
 
 async function send (queueSetTxStatus: QueueTxMessageSetStatus, currentItem: QueueTx, tx: SubmittableExtrinsic<'promise'>): Promise<void> {
   currentItem.txStartCb && currentItem.txStartCb();
@@ -28,7 +27,7 @@ async function send (queueSetTxStatus: QueueTxMessageSetStatus, currentItem: Que
     }));
   } catch (error) {
     console.error('send: error:', error);
-    queueSetTxStatus(currentItem.id, 'error', {}, error);
+    queueSetTxStatus(currentItem.id, 'error', {}, error as Error);
 
     currentItem.txFailedCb && currentItem.txFailedCb(null);
   }
@@ -36,19 +35,8 @@ async function send (queueSetTxStatus: QueueTxMessageSetStatus, currentItem: Que
 
 function TxUnsigned ({ className, currentItem }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { queueSetTxStatus } = useContext(StatusContext);
+  const { queueSetTxStatus } = useQueue();
   const [isRenderError, toggleRenderError] = useToggle();
-
-  const _onCancel = useCallback(
-    (): void => {
-      const { id, signerCb = NOOP, txFailedCb = NOOP } = currentItem;
-
-      queueSetTxStatus(id, 'cancelled');
-      signerCb(id, null);
-      txFailedCb(null);
-    },
-    [currentItem, queueSetTxStatus]
-  );
 
   const _onSend = useCallback(
     async (): Promise<void> => {
@@ -69,7 +57,7 @@ function TxUnsigned ({ className, currentItem }: Props): React.ReactElement<Prop
           />
         </ErrorBoundary>
       </Modal.Content>
-      <Modal.Actions onCancel={_onCancel}>
+      <Modal.Actions>
         <Button
           icon='sign-in-alt'
           isDisabled={isRenderError}

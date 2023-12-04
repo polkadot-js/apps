@@ -1,59 +1,86 @@
-// Copyright 2017-2020 @polkadot/apps authors & contributors
+// Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '@polkadot/react-components/types';
-import type { Network } from './types';
+import type { Network } from './types.js';
 
 import React, { useCallback, useMemo } from 'react';
-import styled from 'styled-components';
-import { ChainImg } from '@polkadot/react-components';
 
-import Url from './Url';
+import { ChainImg, styled } from '@polkadot/react-components';
+
+import { useTranslation } from '../translate.js';
+import Url from './Url.js';
 
 interface Props {
+  affinity?: string; // unused - previous selection
   apiUrl: string;
   className?: string;
-  setApiUrl: (apiUrl: string) => void;
+  setApiUrl: (network: string, apiUrl: string) => void;
   value: Network;
 }
 
-function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { icon, isChild, name, providers } }: Props): React.ReactElement<Props> {
+function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { isChild, isRelay, isUnreachable, name, nameRelay: relay, paraId, providers, ui } }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const isSelected = useMemo(
     () => providers.some(({ url }) => url === apiUrl),
     [apiUrl, providers]
   );
 
-  const _selectFirst = useCallback(
-    () => setApiUrl(providers[0].url),
-    [providers, setApiUrl]
+  const _selectUrl = useCallback(
+    () => {
+      const filteredProviders = providers.filter(({ url }) => !url.startsWith('light://'));
+
+      return setApiUrl(name, filteredProviders[Math.floor(Math.random() * filteredProviders.length)].url);
+    },
+    [name, providers, setApiUrl]
+  );
+
+  const _setApiUrl = useCallback(
+    (apiUrl: string) => setApiUrl(name, apiUrl),
+    [name, setApiUrl]
   );
 
   return (
-    <div className={`${className}${isSelected ? ' isSelected highlight--border' : ''}`}>
+    <StyledDiv className={`${className}${isSelected ? ' isSelected highlight--border' : ''}${isUnreachable ? ' isUnreachable' : ''}`}>
       <div
         className={`endpointSection${isChild ? ' isChild' : ''}`}
-        onClick={_selectFirst}
+        onClick={isUnreachable ? undefined : _selectUrl}
       >
         <ChainImg
           className='endpointIcon'
-          logo={icon === 'local' ? 'empty' : icon}
+          isInline
+          logo={ui.logo || 'empty'}
+          withoutHl
         />
-        <div className='endpointValue'>{name}</div>
+        <div className='endpointValue'>
+          <div>{name}</div>
+          {isSelected && (isRelay || !!paraId) && (
+            <div className='endpointExtra'>
+              {isRelay
+                ? t('Relay chain')
+                : paraId && paraId < 1000
+                  ? t('{{relay}} System', { replace: { relay } })
+                  : paraId && paraId < 2000
+                    ? t('{{relay}} Common', { replace: { relay } })
+                    : t('{{relay}} Parachain', { replace: { relay } })
+              }
+            </div>
+          )}
+        </div>
       </div>
       {isSelected && providers.map(({ name, url }): React.ReactNode => (
         <Url
           apiUrl={apiUrl}
           key={url}
           label={name}
-          setApiUrl={setApiUrl}
+          setApiUrl={_setApiUrl}
           url={url}
         />
       ))}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(NetworkDisplay)(({ theme }: ThemeProps) => `
+const StyledDiv = styled.div`
   border-left: 0.25rem solid transparent;
   border-radius: 0.25rem;
   cursor: pointer;
@@ -61,15 +88,13 @@ export default React.memo(styled(NetworkDisplay)(({ theme }: ThemeProps) => `
   padding: 0.375rem 0.5rem 0.375rem 1rem;
   position: relative;
 
-  &.isSelected,
-  &:hover {
-    background: ${theme.bgTable};
+  &.isUnreachable {
+    opacity: var(--opacity-light);
   }
 
-  .endpointIcon {
-    height: 24px;
-    margin-right: 0.75rem;
-    width: 24px;
+  &.isSelected,
+  &:hover {
+    background: var(--bg-table);
   }
 
   .endpointSection {
@@ -78,6 +103,10 @@ export default React.memo(styled(NetworkDisplay)(({ theme }: ThemeProps) => `
     justify-content: flex-start;
     position: relative;
 
+    &+.ui--Toggle {
+      margin-top: 1rem;
+    }
+
     &.isChild .endpointIcon {
       margin-left: 1.25rem;
     }
@@ -85,5 +114,21 @@ export default React.memo(styled(NetworkDisplay)(({ theme }: ThemeProps) => `
     &+.endpointProvider {
       margin-top: -0.125rem;
     }
+
+    .endpointValue {
+      .endpointExtra {
+        font-size: var(--font-size-small);
+        opacity: var(--opacity-light);
+      }
+    }
   }
-`));
+
+  // we jiggle our labels somewhat...
+  label {
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-normal);
+    text-transform: none;
+  }
+`;
+
+export default React.memo(NetworkDisplay);

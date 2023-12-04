@@ -1,14 +1,17 @@
-// Copyright 2017-2020 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import BN from 'bn.js';
-import React, { useCallback, useState } from 'react';
-import { Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
-import { Available } from '@polkadot/react-query';
-import { isHex } from '@polkadot/util';
+import type { BN } from '@polkadot/util';
+import type { HexString } from '@polkadot/util/types';
 
-import { useTranslation } from '../translate';
+import React, { useCallback, useState } from 'react';
+
+import { Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
+import { useApi, useCall, usePreimage } from '@polkadot/react-hooks';
+import { Available } from '@polkadot/react-query';
+import { isFunction, isHex } from '@polkadot/util';
+
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
@@ -16,7 +19,7 @@ interface Props {
 }
 
 interface HashState {
-  hash?: string;
+  hash?: HexString;
   isHashValid: boolean;
 }
 
@@ -25,11 +28,13 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
   const { api } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [balance, setBalance] = useState<BN | undefined>();
-  const [{ hash, isHashValid }, setHash] = useState<HashState>({ hash: '', isHashValid: false });
+  const [{ hash, isHashValid }, setHash] = useState<HashState>({ isHashValid: false });
   const publicProps = useCall<unknown[]>(api.query.democracy.publicProps);
+  const preimage = usePreimage(hash);
 
   const _onChangeHash = useCallback(
-    (hash?: string): void => setHash({ hash, isHashValid: isHex(hash, 256) }),
+    (hash?: string): void =>
+      setHash({ hash: hash as HexString, isHashValid: isHex(hash, 256) }),
     []
   );
 
@@ -38,77 +43,62 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
   return (
     <Modal
       className={className}
-      header={t<string>('Submit proposal')}
+      header={t('Submit proposal')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns>
-          <Modal.Column>
-            <InputAddress
-              help={t<string>('The account you want to register the proposal from')}
-              label={t<string>('send from account')}
-              labelExtra={
-                <Available
-                  label={<span className='label'>{t<string>('transferrable')}</span>}
-                  params={accountId}
-                />
-              }
-              onChange={setAccountId}
-              type='account'
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The proposal will be registered from this account and the balance lock will be applied here.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t('The proposal will be registered from this account and the balance lock will be applied here.')}>
+          <InputAddress
+            label={t('send from account')}
+            labelExtra={
+              <Available
+                label={<span className='label'>{t('transferrable')}</span>}
+                params={accountId}
+              />
+            }
+            onChange={setAccountId}
+            type='account'
+          />
         </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <Input
-              autoFocus
-              help={t<string>('The preimage hash of the proposal')}
-              label={t<string>('preimage hash')}
-              onChange={_onChangeHash}
-              value={hash}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The hash of the preimage for the proposal as previously submitted or intended.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t('The hash of the preimage for the proposal as previously submitted or intended.')}>
+          <Input
+            autoFocus
+            isError={!isHashValid}
+            label={t('preimage hash')}
+            onChange={_onChangeHash}
+            value={hash}
+          />
         </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <InputBalance
-              defaultValue={api.consts.democracy.minimumDeposit}
-              help={t<string>('The locked value for this proposal')}
-              isError={!hasMinLocked}
-              label={t<string>('locked balance')}
-              onChange={setBalance}
-            />
-            <InputBalance
-              defaultValue={api.consts.democracy.minimumDeposit}
-              help={t<string>('The minimum deposit required')}
-              isDisabled
-              label={t<string>('minimum deposit')}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The associated deposit for this proposal should be more then the minimum on-chain deposit required. It will be locked until the proposal passes.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t('The associated deposit for this proposal should be more then the minimum on-chain deposit required. It will be locked until the proposal passes.')}>
+          <InputBalance
+            defaultValue={api.consts.democracy.minimumDeposit}
+            isError={!hasMinLocked}
+            label={t('locked balance')}
+            onChange={setBalance}
+          />
+          <InputBalance
+            defaultValue={api.consts.democracy.minimumDeposit}
+            isDisabled
+            label={t('minimum deposit')}
+          />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={accountId}
           icon='plus'
-          isDisabled={!balance || !hasMinLocked || !isHashValid || !accountId || !publicProps}
-          label={t<string>('Submit proposal')}
+          isDisabled={!balance || !hasMinLocked || !isHashValid || !accountId || !publicProps || (isFunction(api.tx.preimage?.notePreimage) && !isFunction(api.tx.democracy?.notePreimage) && !preimage)}
+          label={t('Submit proposal')}
           onStart={onClose}
           params={
             api.tx.democracy.propose.meta.args.length === 3
               ? [hash, balance, publicProps?.length]
-              : [hash, balance]
+              : isFunction(api.tx.preimage?.notePreimage) && !isFunction(api.tx.democracy?.notePreimage)
+                ? [preimage && { Lookup: { hash: preimage.proposalHash, len: preimage.proposalLength } }, balance]
+                : [hash, balance]
           }
-          tx='democracy.propose'
+          tx={api.tx.democracy.propose}
         />
       </Modal.Actions>
     </Modal>

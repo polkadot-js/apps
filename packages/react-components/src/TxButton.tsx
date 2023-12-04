@@ -1,33 +1,31 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { SubmittableResult } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
-import type { TxButtonProps as Props } from './types';
+import type { TxButtonProps as Props } from './types.js';
 
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { SubmittableResult } from '@polkadot/api';
-import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
+import React, { useCallback, useEffect, useState } from 'react';
+
+import { useIsMountedRef, useQueue } from '@polkadot/react-hooks';
 import { assert, isFunction } from '@polkadot/util';
 
-import Button from './Button';
-import { StatusContext } from './Status';
-import { useTranslation } from './translate';
+import Button from './Button/index.js';
+import { useTranslation } from './translate.js';
 
 function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon, isBasic, isBusy, isDisabled, isIcon, isToplevel, isUnsigned, label, onClick, onFailed, onSendRef, onStart, onSuccess, onUpdate, params, tooltip, tx, withSpinner, withoutLink }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
   const mountedRef = useIsMountedRef();
-  const { queueExtrinsic } = useContext(StatusContext);
+  const { queueExtrinsic } = useQueue();
   const [isSending, setIsSending] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
-  const needsAccount = !isUnsigned && !accountId;
 
   useEffect((): void => {
     (isStarted && onStart) && onStart();
   }, [isStarted, onStart]);
 
   const _onFailed = useCallback(
-    (result: SubmittableResult | null): void => {
+    (result: Error | SubmittableResult | null): void => {
       mountedRef.current && setIsSending(false);
 
       onFailed && onFailed(result);
@@ -53,19 +51,15 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
 
   const _onSend = useCallback(
     (): void => {
-      let extrinsics: SubmittableExtrinsic<'promise'>[];
+      let extrinsics: SubmittableExtrinsic<'promise'>[] | undefined;
 
       if (propsExtrinsic) {
         extrinsics = Array.isArray(propsExtrinsic)
           ? propsExtrinsic
           : [propsExtrinsic];
-      } else {
-        const [section, method] = (tx || '').split('.');
-
-        assert(api.tx[section] && api.tx[section][method], `Unable to find api.tx.${section}.${method}`);
-
+      } else if (tx) {
         extrinsics = [
-          api.tx[section][method](...(
+          tx(...(
             isFunction(params)
               ? params()
               : (params || [])
@@ -79,7 +73,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
 
       extrinsics.forEach((extrinsic): void => {
         queueExtrinsic({
-          accountId: accountId && accountId.toString(),
+          accountId: accountId?.toString(),
           extrinsic,
           isUnsigned,
           txFailedCb: withSpinner ? _onFailed : onFailed,
@@ -91,7 +85,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
 
       onClick && onClick();
     },
-    [_onFailed, _onStart, _onSuccess, accountId, api.tx, isUnsigned, onClick, onFailed, onSuccess, onUpdate, params, propsExtrinsic, queueExtrinsic, setIsSending, tx, withSpinner, mountedRef]
+    [_onFailed, _onStart, _onSuccess, accountId, isUnsigned, onClick, onFailed, onSuccess, onUpdate, params, propsExtrinsic, queueExtrinsic, setIsSending, tx, withSpinner, mountedRef]
   );
 
   if (onSendRef) {
@@ -104,10 +98,16 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
       icon={icon || 'check'}
       isBasic={isBasic}
       isBusy={isBusy}
-      isDisabled={isSending || isDisabled || needsAccount}
+      isDisabled={isSending || isDisabled || (!isUnsigned && !accountId) || (
+        tx
+          ? false
+          : Array.isArray(propsExtrinsic)
+            ? propsExtrinsic.length === 0
+            : !propsExtrinsic
+      )}
       isIcon={isIcon}
       isToplevel={isToplevel}
-      label={label || (isIcon ? '' : t<string>('Submit'))}
+      label={label || (isIcon ? '' : t('Submit'))}
       onClick={_onSend}
       tooltip={tooltip}
       withoutLink={withoutLink}

@@ -1,12 +1,14 @@
-// Copyright 2017-2020 @polkadot/app-signing authors & contributors
+// Copyright 2017-2023 @polkadot/app-signing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyringPair } from '@polkadot/keyring/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, InputAddress, Modal, Password } from '@polkadot/react-components';
 
-import { useTranslation } from './translate';
+import { Button, InputAddress, Modal, Password } from '@polkadot/react-components';
+import { nextTick } from '@polkadot/util';
+
+import { useTranslation } from './translate.js';
 
 interface Props {
   onClose: () => void;
@@ -36,7 +38,7 @@ function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> 
       }
 
       setIsBusy(true);
-      setTimeout((): void => {
+      nextTick((): void => {
         try {
           pair.decodePkcs8(password);
         } catch (error) {
@@ -47,7 +49,7 @@ function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> 
 
         setIsBusy(false);
         onUnlock();
-      }, 0);
+      });
     },
     [onUnlock, pair, password]
   );
@@ -59,45 +61,34 @@ function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> 
   return (
     <Modal
       className='toolbox--Unlock'
-      header={t<string>('Unlock account')}
+      header={t('Unlock account')}
+      onClose={onClose}
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns>
-          <Modal.Column>
-            <InputAddress
-              help={t<string>('The selected account to be unlocked.')}
-              isDisabled
-              label={t<string>('account')}
-              value={address}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('This account that will perform the message signing.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t('This account that will perform the message signing.')}>
+          <InputAddress
+            isDisabled
+            label={t('account')}
+            value={address}
+          />
         </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <Password
-              autoFocus
-              help={t<string>('The account\'s password specified at the creation of this account.')}
-              isError={!!unlockError}
-              label={t<string>('password')}
-              onChange={setPassword}
-              onEnter={_onUnlock}
-              value={password}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('Unlock the account for signing. Once active the signature will be generated based on the content provided.')}</p>
-          </Modal.Column>
+        <Modal.Columns hint={t('Unlock the account for signing. Once active the signature will be generated based on the content provided.')}>
+          <Password
+            autoFocus
+            isError={!!unlockError}
+            label={t('password')}
+            onChange={setPassword}
+            onEnter={_onUnlock}
+            value={password}
+          />
         </Modal.Columns>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <Button
           icon='unlock'
           isBusy={isBusy}
-          label={t<string>('Unlock')}
+          label={t('Unlock')}
           onClick={_onUnlock}
         />
       </Modal.Actions>

@@ -1,22 +1,22 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ContractPromise } from '@polkadot/api-contract';
 import type { ContractCallOutcome } from '@polkadot/api-contract/types';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { Option } from '@polkadot/types';
-import type { BlockNumber, ContractInfo } from '@polkadot/types/interfaces';
-import type { ContractLink } from './types';
+import type { ContractInfo } from '@polkadot/types/interfaces';
+import type { ContractLink } from './types.js';
 
-import React, { useCallback, useEffect, useState } from 'react';
-import keyring from '@polkadot/ui-keyring';
-import { ContractPromise } from '@polkadot/api-contract';
-import { AddressInfo, AddressMini, Button, Forget } from '@polkadot/react-components';
+import React, { useCallback } from 'react';
+
+import { AddressInfo, AddressMini, Button, Forget, styled } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
-import { BlockToTime } from '@polkadot/react-query';
-import { formatNumber, isFunction, isUndefined } from '@polkadot/util';
+import { keyring } from '@polkadot/ui-keyring';
+import { isUndefined } from '@polkadot/util';
 
-import Messages from '../shared/Messages';
-import { useTranslation } from '../translate';
+import Messages from '../shared/Messages.js';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
@@ -33,22 +33,12 @@ function transformInfo (optInfo: Option<ContractInfo>): ContractInfo | null {
 function Contract ({ className, contract, index, links, onCall }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
   const info = useCall<ContractInfo | null>(api.query.contracts.contractInfoOf, [contract.address], { transform: transformInfo });
-  const [evictAt, setEvictAt] = useState<BlockNumber | null>(null);
   const [isForgetOpen, toggleIsForgetOpen] = useToggle();
 
-  useEffect((): void => {
-    if (info && isFunction(api.rpc.contracts?.rentProjection)) {
-      api.rpc.contracts
-        .rentProjection(contract.address)
-        .then((value) => setEvictAt(value.unwrapOr(null)))
-        .catch(() => undefined);
-    }
-  }, [api, contract, info]);
-
   const _onCall = useCallback(
-    (messageIndex: number, resultCb: (messageIndex: number, result?: ContractCallOutcome) => void) => onCall(index, messageIndex, resultCb),
+    (messageIndex: number, resultCb: (messageIndex: number, result?: ContractCallOutcome) => void) =>
+      onCall(index, messageIndex, resultCb),
     [index, onCall]
   );
 
@@ -62,7 +52,7 @@ function Contract ({ className, contract, index, links, onCall }: Props): React.
       try {
         keyring.forgetContract(contract.address.toString());
         status.status = 'success';
-        status.message = t<string>('address forgotten');
+        status.message = t('address forgotten');
       } catch (error) {
         status.status = 'error';
         status.message = (error as Error).message;
@@ -74,7 +64,7 @@ function Contract ({ className, contract, index, links, onCall }: Props): React.
   );
 
   return (
-    <tr className={className}>
+    <StyledTr className={className}>
       <td className='address top'>
         {isForgetOpen && (
           <Forget
@@ -93,6 +83,7 @@ function Contract ({ className, contract, index, links, onCall }: Props): React.
           contractAbi={contract.abi}
           isWatching
           onSelect={_onCall}
+          trigger={links?.length}
           withMessages
         />
       </td>
@@ -109,26 +100,13 @@ function Contract ({ className, contract, index, links, onCall }: Props): React.
           address={contract.address}
           withBalance
           withBalanceToggle
-          withExtended={false}
         />
       </td>
       <td className='start together'>
         {!isUndefined(info) && (
           info
             ? info.type
-            : t<string>('Not on-chain')
-        )}
-      </td>
-      <td className='number together media--1100'>
-        {bestNumber && (
-          evictAt
-            ? (
-              <>
-                <BlockToTime blocks={evictAt.sub(bestNumber)} />
-                #{formatNumber(evictAt)}
-              </>
-            )
-            : t<string>('None')
+            : t('Not on-chain')
         )}
       </td>
       <td className='button'>
@@ -137,8 +115,14 @@ function Contract ({ className, contract, index, links, onCall }: Props): React.
           onClick={toggleIsForgetOpen}
         />
       </td>
-    </tr>
+    </StyledTr>
   );
 }
+
+const StyledTr = styled.tr`
+  td.top a+a {
+    margin-left: 0.75rem;
+  }
+`;
 
 export default React.memo(Contract);

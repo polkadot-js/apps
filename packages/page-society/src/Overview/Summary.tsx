@@ -1,61 +1,65 @@
-// Copyright 2017-2020 @polkadot/app-society authors & contributors
+// Copyright 2017-2023 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSociety } from '@polkadot/api-derive/types';
-import type { BlockNumber } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
-import { SummaryBox, CardSummary } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+
+import { CardSummary, styled, SummaryBox } from '@polkadot/react-components';
+import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
   info?: DeriveSociety;
+  payoutTotal?: BN;
 }
 
-function Summary ({ className = '', info }: Props): React.ReactElement<Props> {
+function Summary ({ className = '', info, payoutTotal }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const members = useCall<unknown[]>(api.derive.society.members);
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
+  const bestNumber = useBestNumber();
 
-  const pot = useMemo((): string | null => {
-    return info && info.pot.gtn(0)
-      ? info.pot.toString()
-      : null;
-  }, [info]);
+  const pot = useMemo(
+    () => info && info.pot.gtn(0)
+      ? info.pot
+      : null,
+    [info]
+  );
 
   return (
-    <SummaryBox className={className}>
+    <StyledSummaryBox className={className}>
       <section className='media--1100'>
         {info && members && (
-          <CardSummary label={t<string>('members')}>
-            {members.length}&nbsp;/&nbsp;{info.maxMembers.toString()}
+          <CardSummary label={t('members')}>
+            {members.length}&nbsp;/&nbsp;{info.maxMembers?.toString()}
           </CardSummary>
         )}
       </section>
       {bestNumber && (
         <>
-          <section>
-            <CardSummary
-              label={t<string>('rotation')}
-              progress={{
-                total: api.consts.society.rotationPeriod as BlockNumber,
-                value: bestNumber.mod(api.consts.society.rotationPeriod as BlockNumber),
-                withTime: true
-              }}
-            />
-          </section>
+          {api.consts.society.rotationPeriod && (
+            <section>
+              <CardSummary
+                label={t('rotation')}
+                progress={{
+                  total: api.consts.society.rotationPeriod as unknown as BN,
+                  value: bestNumber.mod(api.consts.society.rotationPeriod as unknown as BN),
+                  withTime: true
+                }}
+              />
+            </section>
+          )}
           <section className='media--1200'>
             <CardSummary
-              label={t<string>('challenge')}
+              label={t('challenge')}
               progress={{
-                total: api.consts.society.challengePeriod as BlockNumber,
-                value: bestNumber.mod(api.consts.society.challengePeriod as BlockNumber),
+                total: api.consts.society.challengePeriod,
+                value: bestNumber.mod(api.consts.society.challengePeriod),
                 withTime: true
               }}
             />
@@ -63,8 +67,16 @@ function Summary ({ className = '', info }: Props): React.ReactElement<Props> {
         </>
       )}
       <section>
+        {payoutTotal && (
+          <CardSummary label={t('payouts')}>
+            <FormatBalance
+              value={payoutTotal}
+              withSi
+            />
+          </CardSummary>
+        )}
         {pot && (
-          <CardSummary label={t<string>('pot')}>
+          <CardSummary label={t('pot')}>
             <FormatBalance
               value={pot}
               withSi
@@ -72,11 +84,11 @@ function Summary ({ className = '', info }: Props): React.ReactElement<Props> {
           </CardSummary>
         )}
       </section>
-    </SummaryBox>
+    </StyledSummaryBox>
   );
 }
 
-export default React.memo(styled(Summary)`
+const StyledSummaryBox = styled(SummaryBox)`
   .society--header--account {
     white-space: nowrap;
 
@@ -88,4 +100,6 @@ export default React.memo(styled(Summary)`
       margin-right: 0.5rem;
     }
   }
-`);
+`;
+
+export default React.memo(Summary);

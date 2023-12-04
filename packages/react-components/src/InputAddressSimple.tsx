@@ -1,66 +1,76 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useState } from 'react';
-import styled from 'styled-components';
 
-import addressToAddress from './util/toAddress';
-import IdentityIcon from './IdentityIcon';
-import Input from './Input';
+import IdentityIcon from './IdentityIcon/index.js';
+import { toAddress } from './util/index.js';
+import Input from './Input.js';
+import { styled } from './styled.js';
 
 interface Props {
   autoFocus?: boolean;
+  bytesLength?: 20 | 32;
   children?: React.ReactNode;
   className?: string;
   defaultValue?: string | null;
-  help?: React.ReactNode;
+  forceIconType?: 'ethereum' | 'substrate';
+  isDisabled?: boolean;
   isError?: boolean;
   isFull?: boolean;
   label?: React.ReactNode;
+  noConvert?: boolean;
   onChange?: (address: string | null) => void;
   onEnter?: () => void;
   onEscape?: () => void;
+  placeholder?: string;
 }
 
-function InputAddressSimple ({ autoFocus, children, className = '', defaultValue, help, isError, isFull, label, onChange, onEnter, onEscape }: Props): React.ReactElement<Props> {
+function InputAddressSimple ({ autoFocus, bytesLength, children, className = '', defaultValue, forceIconType, isDisabled, isError, isFull, label, noConvert, onChange, onEnter, onEscape, placeholder }: Props): React.ReactElement<Props> {
   const [address, setAddress] = useState<string | null>(defaultValue || null);
 
   const _onChange = useCallback(
     (_address: string): void => {
-      const address = addressToAddress(_address) || null;
+      const address = toAddress(_address, undefined, bytesLength) || null;
+      const output = noConvert
+        ? address
+          ? _address
+          : null
+        : address;
 
-      setAddress(address);
-
-      onChange && onChange(address);
+      setAddress(output);
+      onChange && onChange(output);
     },
-    [onChange]
+    [bytesLength, noConvert, onChange]
   );
 
   return (
-    <div className={className}>
+    <StyledDiv className={`${className} ui--InputAddressSimple`}>
       <Input
         autoFocus={autoFocus}
         defaultValue={defaultValue}
-        help={help}
+        isDisabled={isDisabled}
         isError={isError || !address}
         isFull={isFull}
         label={label}
         onChange={_onChange}
         onEnter={onEnter}
         onEscape={onEscape}
+        placeholder={placeholder}
       >
         {children}
       </Input>
       <IdentityIcon
         className='ui--InputAddressSimpleIcon'
+        forceIconType={forceIconType}
         size={32}
         value={address}
       />
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(InputAddressSimple)`
+const StyledDiv = styled.div`
   position: relative;
 
   .ui--InputAddressSimpleIcon {
@@ -71,4 +81,6 @@ export default React.memo(styled(InputAddressSimple)`
     position: absolute;
     top: 1rem;
   }
-`);
+`;
+
+export default React.memo(InputAddressSimple);

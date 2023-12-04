@@ -1,0 +1,8 @@
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// SPDX-License-Identifier: Apache-2.0
+
+// Automatically generated, do not edit
+
+/* eslint-disable simple-import-sort/imports */
+
+export default 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAMAAABrrFhUAAAAVFBMVEUAAADqFBTqFBTqFBTqFBTqFBTqFBTqFBTqFBTqFBTqFBTqFBTqFBTqFBTqFBTqFBTqFBTqFBTqFBTqFBTqFBTqFBTqFBTqFBTqFBTqFBTqFBTqFBTq6kesAAAAHHRSTlMABDxwYBxEuMrIjxMFhMfAOn69NavDfQ0BJ1MPlefmswAAAINJREFUeAHtwcUBhAAMALCeK+6w/56swJsmicMAAAAAAAAAAAAAAAAAAAAAAAAAAAAu19v9EYk9X+/P9xdp/Yt3+anqSOvSvMtP20VeXV8O4xR5zcv63AIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgNPaAZmLAdNfnFjiAAAAAElFTkSuQmCC';

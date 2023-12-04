@@ -1,10 +1,11 @@
-// Copyright 2017-2020 @polkadot/app-js authors & contributors
+// Copyright 2017-2023 @polkadot/app-js authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useState } from 'react';
+
 import { Button, Input, Popup } from '@polkadot/react-components';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;
@@ -19,7 +20,6 @@ interface Props {
 
 function ActionButtons ({ className = '', isCustomExample, isRunning, removeSnippet, runJs, saveSnippet, stopJs }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [isOpen, setIsOpen] = useState(false);
   const [snippetName, setSnippetName] = useState('');
 
   const _onChangeName = useCallback(
@@ -27,15 +27,9 @@ function ActionButtons ({ className = '', isCustomExample, isRunning, removeSnip
     []
   );
 
-  const _onPopupOpen = useCallback(
-    () => setIsOpen(true),
-    []
-  );
-
   const _onPopupClose = useCallback(
     (): void => {
       setSnippetName('');
-      setIsOpen(false);
     },
     []
   );
@@ -60,31 +54,31 @@ function ActionButtons ({ className = '', isCustomExample, isRunning, removeSnip
         : (
           <Popup
             className='popup-local'
-            isOpen={isOpen}
-            on='click'
-            onClose={_onPopupClose}
-            trigger={
-              <Button
-                icon='save'
-                onClick={_onPopupOpen}
-              />
+            onCloseAction={_onPopupClose}
+            value={
+              <>
+                <Input
+                  autoFocus
+                  maxLength={50}
+                  min={1}
+                  onChange={_onChangeName}
+                  onEnter={_saveSnippet}
+                  placeholder={t('Name your example')}
+                  value={snippetName}
+                  withLabel={false}
+                />
+                <Button
+                  icon='save'
+                  isDisabled={!snippetName.length}
+                  label={t('Save snippet to local storage')}
+                  onClick={_saveSnippet}
+                />
+              </>
             }
           >
-            <Input
-              autoFocus
-              maxLength={50}
-              min={1}
-              onChange={_onChangeName}
-              onEnter={_saveSnippet}
-              placeholder={t<string>('Name your example')}
-              value={snippetName}
-              withLabel={false}
-            />
             <Button
               icon='save'
-              isDisabled={!snippetName.length}
-              label={t<string>('Save snippet to local storage')}
-              onClick={_saveSnippet}
+              isReadOnly={false}
             />
           </Popup>
         )

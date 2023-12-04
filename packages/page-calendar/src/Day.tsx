@@ -1,25 +1,26 @@
-// Copyright 2017-2020 @polkadot/app-calendar authors & contributors
+// Copyright 2017-2023 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { EntryInfo } from './types';
+import type { EntryInfoTyped } from './types.js';
 
-import React, { useMemo, useRef } from 'react';
-import styled from 'styled-components';
-import { Button } from '@polkadot/react-components';
+import React, { useCallback, useMemo, useRef } from 'react';
 
-import DayHour from './DayHour';
-import DayTime from './DayTime';
-import { MONTHS } from './constants';
-import { useTranslation } from './translate';
+import { Button, styled } from '@polkadot/react-components';
+
+import { MONTHS } from './constants.js';
+import DayHour from './DayHour.js';
+import DayTime from './DayTime.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;
   date: Date;
   hasNextDay: boolean;
   now: Date;
-  scheduled: EntryInfo[];
+  scheduled: EntryInfoTyped[];
   setNextDay: () => void;
   setPrevDay: () => void;
+  setView: (v: boolean) => void;
 }
 
 const HOURS = ((): number[] => {
@@ -32,7 +33,7 @@ const HOURS = ((): number[] => {
   return hours;
 })();
 
-function Day ({ className, date, hasNextDay, now, scheduled, setNextDay, setPrevDay }: Props): React.ReactElement<Props> {
+function Day ({ className, date, hasNextDay, now, scheduled, setNextDay, setPrevDay, setView }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const monthRef = useRef(MONTHS.map((m) => t(m)));
@@ -46,10 +47,22 @@ function Day ({ className, date, hasNextDay, now, scheduled, setNextDay, setPrev
     [date, now]
   );
 
+  const _setView = useCallback(
+    (): void => setView(true),
+    [setView]
+  );
+
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <h1>
-        <div className='highlight--color'>{date.getDate()} {monthRef.current[date.getMonth()]} {date.getFullYear()} {isToday && <DayTime />}</div>
+        <div>
+          <Button
+            className='all-events-button'
+            icon={'list'}
+            onClick={_setView}
+          />
+          {date.getDate()} {monthRef.current[date.getMonth()]} {date.getFullYear()} {isToday && <DayTime />}
+        </div>
         <Button.Group>
           <Button
             icon='chevron-left'
@@ -75,11 +88,11 @@ function Day ({ className, date, hasNextDay, now, scheduled, setNextDay, setPrev
           />
         )}
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Day)`
+const StyledDiv = styled.div`
   flex: 1;
 
   .dayHeader {
@@ -93,4 +106,6 @@ export default React.memo(styled(Day)`
   .hoursContainer {
     z-index: 1;
   }
-`);
+`;
+
+export default React.memo(Day);

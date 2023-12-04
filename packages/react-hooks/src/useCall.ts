@@ -1,31 +1,58 @@
-// Copyright 2017-2020 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Codec } from '@polkadot/types/types';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { CallOptions, CallParam, CallParams } from './types';
+import type { ApiPromise } from '@polkadot/api';
+import type { PromiseResult, QueryableStorageEntry } from '@polkadot/api/types';
+import type { StorageEntryTypeLatest } from '@polkadot/types/interfaces';
+import type { AnyFunction, Codec } from '@polkadot/types/types';
+import type { CallOptions, CallParam, CallParams } from './types.js';
+import type { MountedRef } from './useIsMountedRef.js';
 
 import { useEffect, useRef, useState } from 'react';
-import { isNull, isUndefined } from '@polkadot/util';
 
-import { useIsMountedRef, MountedRef } from './useIsMountedRef';
+import { isFunction, isNull, isUndefined, nextTick } from '@polkadot/util';
 
-type TrackFnResult = Promise<() => void>;
+import { useApi } from './useApi.js';
+import { useIsMountedRef } from './useIsMountedRef.js';
 
-interface TrackFn {
+type VoidFn = () => void;
+
+// This should be VoidFn, however the API actually does allow us to use any general single-shot queries with
+// a result callback, so `api.query.system.account.at(<blockHash>, <account>, (info) => {... })` does work
+// (The same applies to e.g. keys or entries). So where we actually use the unsub, we cast `unknown` to `VoidFn`
+// to cater for our usecase.
+type TrackFnResult = Promise<unknown>;
+
+interface QueryTrackFn {
   (...params: CallParam[]): TrackFnResult;
   meta?: {
-    type: {
-      isDoubleMap: boolean;
-    };
+    type?: StorageEntryTypeLatest;
   };
 }
 
-interface Tracker {
+interface QueryMapFn extends QueryTrackFn {
+  meta: {
+    type: StorageEntryTypeLatest;
+  };
+}
+
+type QueryFn =
+  QueryableStorageEntry<'promise', []> |
+  QueryableStorageEntry<'promise', []>['entries'] |
+  QueryableStorageEntry<'promise', []>['keys'] |
+  QueryableStorageEntry<'promise', []>['multi'];
+
+type CallFn = (...params: unknown[]) => Promise<VoidFn>;
+
+export type TrackFn = PromiseResult<AnyFunction> | QueryFn;
+
+export interface Tracker {
+  error: Error | null;
+  fn: TrackFn | undefined | null | false;
   isActive: boolean;
-  count: number;
   serialized: string | null;
   subscriber: TrackFnResult | null;
+  type: 'useCall' | 'useCallMulti';
 }
 
 interface TrackerRef {
@@ -33,8 +60,16 @@ interface TrackerRef {
 }
 
 // the default transform, just returns what we have
-function transformIdentity <T> (value: unknown): T {
+export function transformIdentity <T> (value: unknown): T {
   return value as T;
+}
+
+function isMapFn (fn: unknown): fn is QueryMapFn {
+  return !!(fn as QueryTrackFn).meta?.type?.isMap;
+}
+
+function isQuery (fn: unknown): fn is QueryableStorageEntry<'promise', []> {
+  return !!fn && !isUndefined((fn as QueryableStorageEntry<'promise', []>).creator);
 }
 
 // extract the serialized and mapped params, all ready for use in our call
@@ -47,61 +82,92 @@ function extractParams <T> (fn: unknown, params: unknown[], { paramMap = transfo
   ];
 }
 
+export function handleError (error: Error, tracker: TrackerRef, fn?: unknown): void {
+  console.error(
+    tracker.current.error = new Error(`${tracker.current.type}(${
+      isQuery(fn)
+        ? `${fn.creator.section}.${fn.creator.method}`
+        : '...'
+    }):: ${error.message}:: ${error.stack || '<unknown>'}`)
+  );
+}
+
 // unsubscribe and remove from  the tracker
-function unsubscribe (tracker: TrackerRef): void {
+export function unsubscribe (tracker: TrackerRef): void {
   tracker.current.isActive = false;
 
   if (tracker.current.subscriber) {
-    tracker.current.subscriber.then((unsubFn) => unsubFn()).catch(console.error);
+    tracker.current.subscriber
+      .then((u) => isFunction(u) && (u as VoidFn)())
+      .catch((e) => handleError(e as Error, tracker));
     tracker.current.subscriber = null;
   }
 }
 
 // subscribe, trying to play nice with the browser threads
-function subscribe <T> (mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn | undefined, params: CallParams, setValue: (value: T) => void, { isSingle, transform = transformIdentity, withParams }: CallOptions<T> = {}): void {
+function subscribe <T> (api: ApiPromise, mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn | undefined, params: CallParams, setValue: (value: any) => void, { transform = transformIdentity, withParams, withParamsTransform }: CallOptions<T> = {}): void {
   const validParams = params.filter((p) => !isUndefined(p));
 
   unsubscribe(tracker);
 
-  setTimeout((): void => {
+  nextTick((): void => {
     if (mountedRef.current) {
-      if (fn && (!fn.meta || !fn.meta.type?.isDoubleMap || validParams.length === 2)) {
-        // swap to acive mode and reset our count
+      const canQuery = !!fn && (
+        isMapFn(fn)
+          ? fn.meta.type.asMap.hashers.length === validParams.length
+          : true
+      );
+
+      if (canQuery) {
+        // swap to active mode
         tracker.current.isActive = true;
-        tracker.current.count = 0;
-
-        tracker.current.subscriber = (fn as (...params: unknown[]) => Promise<() => void>)(...params, (value: Codec): void => {
-          // when we don't have an active sub, or single-shot, ignore (we use the isActive flag here
-          // since .subscriber may not be set on immediate callback)
-          if (mountedRef.current && tracker.current.isActive && (!isSingle || !tracker.current.count)) {
-            tracker.current.count++;
-
-            mountedRef.current && tracker.current.isActive && setValue(
-              withParams
-                ? [params, transform(value)] as any
-                : transform(value)
-            );
+        tracker.current.subscriber = (fn as CallFn)(...params, (value: Codec): void => {
+          // we use the isActive flag here since .subscriber may not be set on immediate callback)
+          if (mountedRef.current && tracker.current.isActive) {
+            try {
+              setValue(
+                withParams
+                  ? [params, transform(value, api)]
+                  : withParamsTransform
+                    ? transform([params, value], api)
+                    : transform(value, api)
+              );
+            } catch (error) {
+              handleError(error as Error, tracker, fn);
+            }
           }
-        });
+        }).catch((error) => handleError(error as Error, tracker, fn));
       } else {
         tracker.current.subscriber = null;
       }
     }
-  }, 0);
+  });
+}
+
+export function throwOnError (tracker: Tracker): void {
+  if (tracker.error) {
+    const error = tracker.error;
+
+    tracker.error = null;
+
+    throw error;
+  }
 }
 
 // tracks a stream, typically an api.* call (derive, rpc, query) that
 //  - returns a promise with an unsubscribe function
 //  - has a callback to set the value
 // FIXME The typings here need some serious TLC
-export function useCall <T> (fn: TrackFn | undefined | null | false, params?: CallParams, options?: CallOptions<T>): T | undefined {
+// FIXME This is generic, we cannot really use createNamedHook
+export function useCall <T> (fn: TrackFn | undefined | null | false, params?: CallParams | null, options?: CallOptions<T>): T | undefined {
+  const { api } = useApi();
   const mountedRef = useIsMountedRef();
-  const tracker = useRef<Tracker>({ count: 0, isActive: false, serialized: null, subscriber: null });
-  const [value, setValue] = useState<T | undefined>((options || {}).defaultValue);
+  const tracker = useRef<Tracker>({ error: null, fn: null, isActive: false, serialized: null, subscriber: null, type: 'useCall' });
+  const [value, setValue] = useState<T | undefined>(options?.defaultValue);
 
   // initial effect, we need an un-subscription
   useEffect((): () => void => {
-    return (): void => unsubscribe(tracker);
+    return () => unsubscribe(tracker);
   }, []);
 
   // on changes, re-subscribe
@@ -110,13 +176,16 @@ export function useCall <T> (fn: TrackFn | undefined | null | false, params?: Ca
     if (mountedRef.current && fn) {
       const [serialized, mappedParams] = extractParams(fn, params || [], options);
 
-      if (mappedParams && serialized !== tracker.current.serialized) {
+      if (mappedParams && ((fn !== tracker.current.fn) || (serialized !== tracker.current.serialized))) {
+        tracker.current.fn = fn;
         tracker.current.serialized = serialized;
 
-        subscribe(mountedRef, tracker, fn, mappedParams, setValue, options);
+        subscribe(api, mountedRef, tracker, fn, mappedParams, setValue, options);
       }
     }
-  }, [fn, options, mountedRef, params]);
+  }, [api, fn, options, mountedRef, params]);
+
+  // throwOnError(tracker.current);
 
   return value;
 }

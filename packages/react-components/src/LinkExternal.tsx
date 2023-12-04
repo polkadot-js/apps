@@ -1,33 +1,32 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LinkTypes } from '@polkadot/apps-config/links/types';
+import type { BN } from '@polkadot/util';
 
-import BN from 'bn.js';
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
+
 import { externalLinks } from '@polkadot/apps-config';
 import { useApi } from '@polkadot/react-hooks';
 
-import { useTranslation } from './translate';
+import { styled } from './styled.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;
   data: BN | number | string;
   hash?: string;
-  isLogo?: boolean;
+  isText?: boolean;
+  isSidebar?: boolean;
   isSmall?: boolean;
   type: LinkTypes;
+  withTitle?: boolean;
 }
 
-// function shortName (name: string): string {
-//   return `${name[0]}${name[name.length - 1]}`;
-// }
-
-function genLinks (systemChain: string, { data, hash, isLogo, type }: Props): React.ReactNode[] {
+function genLinks (systemChain: string, { data, hash, isText, type }: Props): React.ReactNode[] {
   return Object
     .entries(externalLinks)
-    .map(([name, { chains, create, isActive, logo, paths, url }]): React.ReactNode | null => {
+    .map(([name, { chains, create, homepage, isActive, paths, ui }]): React.ReactNode | null => {
       const extChain = chains[systemChain];
       const extPath = paths[type];
 
@@ -41,11 +40,11 @@ function genLinks (systemChain: string, { data, hash, isLogo, type }: Props): Re
           key={name}
           rel='noopener noreferrer'
           target='_blank'
-          title={`${name}, ${url}`}
+          title={`${name}, ${homepage}`}
         >
-          {isLogo
-            ? <img src={logo} />
-            : name
+          {isText
+            ? name
+            : <img src={ui.logo} />
           }
         </a>
       );
@@ -53,40 +52,68 @@ function genLinks (systemChain: string, { data, hash, isLogo, type }: Props): Re
     .filter((node): node is React.ReactNode => !!node);
 }
 
-function LinkExternal ({ className = '', data, hash, isLogo, isSmall, type }: Props): React.ReactElement<Props> | null {
+function LinkExternal ({ className = '', data, hash, isSidebar, isSmall, isText, type, withTitle }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { systemChain } = useApi();
+
   const links = useMemo(
-    () => genLinks(systemChain, { data, hash, isLogo, type }),
-    [systemChain, data, hash, isLogo, type]
+    () => genLinks(systemChain, { data, hash, isSidebar, isText, type }),
+    [systemChain, data, hash, isSidebar, isText, type]
   );
 
-  if (!links.length) {
+  if (!links.length && !withTitle) {
     return null;
   }
 
   return (
-    <div className={`${className}${isLogo ? ' isLogo' : ''}${isSmall ? ' isSmall' : ''}`}>
-      {!(isLogo || isSmall) && <div>{t<string>('View this externally')}</div>}
-      <div className='links'>{links.map((link, index) => <span key={index}>{link}</span>)}</div>
-    </div>
+    <StyledDiv className={`${className} ui--LinkExternal ${isText ? 'isText' : 'isLogo'} ${withTitle ? 'isMain' : ''} ${isSmall ? 'isSmall' : ''} ${isSidebar ? 'isSidebar' : ''}`}>
+      {(isText && !isSmall) && <div>{t('View this externally')}</div>}
+      {withTitle && (
+        <h5>{t('external links')}</h5>
+      )}
+      <div className='links'>
+        {links.length
+          ? links.map((link, index) => <span key={index}>{link}</span>)
+          : <div>{t('none')}</div>
+        }
+      </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(LinkExternal)`
+const StyledDiv = styled.div`
   text-align: right;
 
+  &.isMain {
+    text-align: left;
+  }
+
   &.isSmall {
-    font-size: 0.85rem;
+    font-size: var(--font-size-small);
     line-height: 1.35;
     text-align: center;
   }
 
-  &.isLogo {
-    line-height: 1;
+  &.isSidebar {
+    text-align: center;
 
     .links {
-      white-space: nowrap;
+      img {
+        height: 2rem;
+        width: 2rem;
+      }
+    }
+  }
+
+  &:not(.fullColor) {
+    .links {
+      img {
+        filter: grayscale(1) opacity(0.66);
+
+        &:hover {
+          filter: grayscale(0) opacity(1);
+        }
+      }
     }
   }
 
@@ -94,13 +121,8 @@ export default React.memo(styled(LinkExternal)`
     img {
       border-radius: 50%;
       cursor: pointer;
-      filter: grayscale(1) opacity(0.66);
       height: 1.5rem;
       width: 1.5rem;
-
-      &:hover {
-        filter: grayscale(0) opacity(1);
-      }
     }
 
     span {
@@ -112,4 +134,14 @@ export default React.memo(styled(LinkExternal)`
       margin-left: 0.3rem;
     }
   }
-`);
+
+  &.isLogo {
+    line-height: 1;
+
+    .links {
+      white-space: nowrap;
+    }
+  }
+`;
+
+export default React.memo(LinkExternal);

@@ -1,22 +1,21 @@
-// Copyright 2017-2020 @polkadot/apps authors & contributors
+// Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { LinkOption } from '@polkadot/apps-config/settings/types';
-import type { ThemeProps } from '@polkadot/react-components/types';
-import type { Group } from './types';
+import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
+import type { Group } from './types.js';
 
-import React, { useCallback, useMemo, useState } from 'react';
 // ok, this seems to be an eslint bug, this _is_ a package import
-/* eslint-disable-next-line node/no-deprecated-api */
-import punycode from 'punycode';
-import styled from 'styled-components';
-import { CUSTOM_ENDPOINT_KEY, createWsEndpoints } from '@polkadot/apps-config';
-import { Button, Input, Sidebar } from '@polkadot/react-components';
-import uiSettings from '@polkadot/ui-settings';
+import punycode from 'punycode/';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
+import store from 'store';
+
+import { createWsEndpoints, CUSTOM_ENDPOINT_KEY } from '@polkadot/apps-config';
+import { Button, Input, Sidebar, styled } from '@polkadot/react-components';
+import { settings } from '@polkadot/ui-settings';
 import { isAscii } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import GroupDisplay from './Group';
+import { useTranslation } from '../translate.js';
+import GroupDisplay from './Group.js';
 
 interface Props {
   className?: string;
@@ -31,31 +30,36 @@ interface UrlState {
   isUrlValid: boolean;
 }
 
+const STORAGE_AFFINITIES = 'network:affinities';
+
 function isValidUrl (url: string): boolean {
   return (
     // some random length... we probably want to parse via some lib
     (url.length >= 7) &&
     // check that it starts with a valid ws identifier
-    (url.startsWith('ws://') || url.startsWith('wss://'))
+    (url.startsWith('ws://') || url.startsWith('wss://') || url.startsWith('light://'))
   );
 }
 
 function combineEndpoints (endpoints: LinkOption[]): Group[] {
   return endpoints.reduce((result: Group[], e): Group[] => {
     if (e.isHeader) {
-      result.push({ header: e.text, isDevelopment: e.isDevelopment, networks: [] });
+      result.push({ header: e.text, isDevelopment: e.isDevelopment, isSpaced: e.isSpaced, networks: [] });
     } else {
       const prev = result[result.length - 1];
-      const prov = { name: e.textBy, url: e.value as string };
+      const prov = { isLightClient: e.isLightClient, name: e.textBy, url: e.value };
 
       if (prev.networks[prev.networks.length - 1] && e.text === prev.networks[prev.networks.length - 1].name) {
         prev.networks[prev.networks.length - 1].providers.push(prov);
-      } else {
+      } else if (!e.isUnreachable) {
         prev.networks.push({
-          icon: e.info,
           isChild: e.isChild,
+          isRelay: !!e.genesisHash,
           name: e.text as string,
-          providers: [prov]
+          nameRelay: e.textRelay as string,
+          paraId: e.paraId,
+          providers: [prov],
+          ui: e.ui
         });
       }
     }
@@ -93,17 +97,47 @@ function extractUrlState (apiUrl: string, groups: Group[]): UrlState {
   return {
     apiUrl,
     groupIndex,
-    hasUrlChanged: uiSettings.get().apiUrl !== apiUrl,
+    hasUrlChanged: settings.get().apiUrl !== apiUrl,
     isUrlValid: isValidUrl(apiUrl)
   };
+}
+
+function loadAffinities (groups: Group[]): Record<string, string> {
+  return Object
+    .entries<string>(store.get(STORAGE_AFFINITIES) as Record<string, string> || {})
+    .filter(([network, apiUrl]) =>
+      groups.some(({ networks }) =>
+        networks.some(({ name, providers }) =>
+          name === network && providers.some(({ url }) => url === apiUrl)
+        )
+      )
+    )
+    .reduce((result: Record<string, string>, [network, apiUrl]): Record<string, string> => ({
+      ...result,
+      [network]: apiUrl
+    }), {});
+}
+
+function isSwitchDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid: boolean): boolean {
+  if (!hasUrlChanged) {
+    return true;
+  } else if (apiUrl.startsWith('light://')) {
+    return false;
+  } else if (isUrlValid) {
+    return false;
+  }
+
+  return true;
 }
 
 function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const linkOptions = createWsEndpoints(t);
-  const [groups, setGroups] = useState(combineEndpoints(linkOptions));
-  const [{ apiUrl, groupIndex, hasUrlChanged, isUrlValid }, setApiUrl] = useState<UrlState>(extractUrlState(uiSettings.get().apiUrl, groups));
-  const [storedCustomEndpoints, setStoredCustomEndpoints] = useState<string[]>(getCustomEndpoints());
+  const [groups, setGroups] = useState(() => combineEndpoints(linkOptions));
+  const [{ apiUrl, groupIndex, hasUrlChanged, isUrlValid }, setApiUrl] = useState<UrlState>(() => extractUrlState(settings.get().apiUrl, groups));
+  const [storedCustomEndpoints, setStoredCustomEndpoints] = useState<string[]>(() => getCustomEndpoints());
+  const [affinities, setAffinities] = useState(() => loadAffinities(groups));
+  const sidebarRef = useRef<HTMLDivElement>(null);
 
   const isKnownUrl = useMemo(() => {
     let result = false;
@@ -142,33 +176,37 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
     []
   );
 
-  const _saveApiEndpoint = () => {
-    try {
-      localStorage.setItem(CUSTOM_ENDPOINT_KEY, JSON.stringify([...storedCustomEndpoints, apiUrl]));
-      _onApply();
-    } catch (e) {
-      console.error(e);
-      // ignore error
-    }
-  };
+  const _removeApiEndpoint = useCallback(
+    (): void => {
+      if (!isSavedCustomEndpoint) {
+        return;
+      }
 
-  const _removeApiEndpoint = () => {
-    if (!isSavedCustomEndpoint) return;
+      const newStoredCurstomEndpoints = storedCustomEndpoints.filter((url) => url !== apiUrl);
 
-    const newStoredCurstomEndpoints = storedCustomEndpoints.filter((url) => url !== apiUrl);
-
-    try {
-      localStorage.setItem(CUSTOM_ENDPOINT_KEY, JSON.stringify(newStoredCurstomEndpoints));
-      setGroups(combineEndpoints(createWsEndpoints(t)));
-      setStoredCustomEndpoints(getCustomEndpoints());
-    } catch (e) {
-      console.error(e);
-      // ignore error
-    }
-  };
+      try {
+        localStorage.setItem(CUSTOM_ENDPOINT_KEY, JSON.stringify(newStoredCurstomEndpoints));
+        setGroups(combineEndpoints(createWsEndpoints(t)));
+        setStoredCustomEndpoints(getCustomEndpoints());
+      } catch (e) {
+        console.error(e);
+        // ignore error
+      }
+    },
+    [apiUrl, isSavedCustomEndpoint, storedCustomEndpoints, t]
+  );
 
   const _setApiUrl = useCallback(
-    (apiUrl: string) => setApiUrl(extractUrlState(apiUrl, groups)),
+    (network: string, apiUrl: string): void => {
+      setAffinities((affinities): Record<string, string> => {
+        const newValue = { ...affinities, [network]: apiUrl };
+
+        store.set(STORAGE_AFFINITIES, newValue);
+
+        return newValue;
+      });
+      setApiUrl(extractUrlState(apiUrl, groups));
+    },
     [groups]
   );
 
@@ -185,23 +223,39 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
 
   const _onApply = useCallback(
     (): void => {
-      uiSettings.set({ ...(uiSettings.get()), apiUrl });
-
+      settings.set({ ...(settings.get()), apiUrl });
       window.location.assign(`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(apiUrl)}${window.location.hash}`);
       // window.location.reload();
-
       onClose();
     },
     [apiUrl, onClose]
   );
 
+  const _saveApiEndpoint = useCallback(
+    (): void => {
+      try {
+        localStorage.setItem(CUSTOM_ENDPOINT_KEY, JSON.stringify([...storedCustomEndpoints, apiUrl]));
+        _onApply();
+      } catch (e) {
+        console.error(e);
+        // ignore error
+      }
+    },
+    [_onApply, apiUrl, storedCustomEndpoints]
+  );
+
+  const canSwitch = useMemo(
+    () => isSwitchDisabled(hasUrlChanged, apiUrl, isUrlValid),
+    [hasUrlChanged, apiUrl, isUrlValid]
+  );
+
   return (
-    <Sidebar
+    <StyledSidebar
       button={
         <Button
           icon='sync'
-          isDisabled={!(hasUrlChanged && isUrlValid)}
-          label={t<string>('Switch')}
+          isDisabled={canSwitch}
+          label={t('Switch')}
           onClick={_onApply}
         />
       }
@@ -209,9 +263,11 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
       offset={offset}
       onClose={onClose}
       position='left'
+      sidebarRef={sidebarRef}
     >
       {groups.map((group, index): React.ReactNode => (
         <GroupDisplay
+          affinities={affinities}
           apiUrl={apiUrl}
           index={index}
           isSelected={groupIndex === index}
@@ -226,33 +282,37 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
                 className='endpointCustom'
                 isError={!isUrlValid}
                 isFull
-                label={t<string>('custom endpoint')}
+                label={t('custom endpoint')}
                 onChange={_onChangeCustom}
                 value={apiUrl}
               />
               {isSavedCustomEndpoint
-                ? <Button
-                  className='customButton'
-                  icon='trash-alt'
-                  onClick={_removeApiEndpoint}
-                />
-                : <Button
-                  className='customButton'
-                  icon='save'
-                  isDisabled={!isUrlValid || isKnownUrl}
-                  onClick={_saveApiEndpoint}
-                />
+                ? (
+                  <Button
+                    className='customButton'
+                    icon='trash-alt'
+                    onClick={_removeApiEndpoint}
+                  />
+                )
+                : (
+                  <Button
+                    className='customButton'
+                    icon='save'
+                    isDisabled={!isUrlValid || isKnownUrl}
+                    onClick={_saveApiEndpoint}
+                  />
+                )
               }
             </div>
           )}
         </GroupDisplay>
       ))}
-    </Sidebar>
+    </StyledSidebar>
   );
 }
 
-export default React.memo(styled(Endpoints)(({ theme }: ThemeProps) => `
-  color: ${theme.color};
+const StyledSidebar = styled(Sidebar)`
+  color: var(--color-text);
   padding-top: 3.5rem;
 
   .customButton {
@@ -270,4 +330,6 @@ export default React.memo(styled(Endpoints)(({ theme }: ThemeProps) => `
   .endpointCustomWrapper {
     position: relative;
   }
-`));
+`;
+
+export default React.memo(Endpoints);

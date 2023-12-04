@@ -1,13 +1,13 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useRef } from 'react';
+
 import { Table } from '@polkadot/react-components';
 
-import contracts from '../store';
-import { useTranslation } from '../translate';
-
-import Code from './Code';
+import contracts from '../store.js';
+import { useTranslation } from '../translate.js';
+import Code from './Code.js';
 
 interface Props {
   onShowDeploy: (codeHash: string, constructorIndex: number) => void;
@@ -27,7 +27,7 @@ function Codes ({ onShowDeploy }: Props): React.ReactElement<Props> {
 
   return (
     <Table
-      empty={t<string>('No code hashes available')}
+      empty={t('No code hashes available')}
       header={headerRef.current}
     >
       {contracts.getAllCode().map((code): React.ReactNode => (

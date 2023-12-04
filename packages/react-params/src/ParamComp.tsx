@@ -1,17 +1,18 @@
-// Copyright 2017-2020 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry, TypeDef } from '@polkadot/types/types';
-import type { ComponentMap, RawParam, RawParams, RawParamOnChangeValue } from './types';
+import type { ComponentMap, RawParam, RawParamOnChangeValue, RawParams } from './types.js';
 
 import React, { useCallback } from 'react';
 
-import Param from './Param';
+import Param from './Param/index.js';
 
 interface Props {
   defaultValue: RawParam;
   index: number;
   isDisabled?: boolean;
+  isError?: boolean;
   name?: string;
   onChange: (index: number, value: RawParamOnChangeValue) => void;
   onEnter?: () => void;
@@ -22,7 +23,7 @@ interface Props {
   values?: RawParams | null;
 }
 
-function ParamComp ({ defaultValue, index, isDisabled, name, onChange, onEnter, onEscape, overrides, registry, type }: Props): React.ReactElement<Props> {
+function ParamComp ({ defaultValue, index, isDisabled, isError, name, onChange, onEnter, onEscape, overrides, registry, type }: Props): React.ReactElement<Props> {
   const _onChange = useCallback(
     (value: RawParamOnChangeValue): void =>
       onChange(index, value),
@@ -34,6 +35,7 @@ function ParamComp ({ defaultValue, index, isDisabled, name, onChange, onEnter, 
       <Param
         defaultValue={defaultValue}
         isDisabled={isDisabled}
+        isError={isError}
         key={`input:${index}`}
         name={name}
         onChange={_onChange}

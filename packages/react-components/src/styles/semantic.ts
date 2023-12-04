@@ -1,9 +1,7 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeDef } from '../types';
-
-export default (theme: ThemeDef): string => `
+export default `
   .ui.hidden.divider {
     margin: 0.5rem 0;
   }
@@ -22,13 +20,15 @@ export default (theme: ThemeDef): string => `
   .ui.selection.dropdown,
   .ui.input > input,
   .ui.selection.dropdown > input {
-    background: ${theme.bgInput};
-    color: ${theme.color};
-    font-family: ${theme.fontSans};
+    background: var(--bg-input);
+    border-color: var(--border-input);
+    color: var(--color-text);
+    font: var(--font-sans);
+    font-size: var(--font-size-base);
 
     &:focus {
-      background: ${theme.bgInput};
-      color: ${theme.color};
+      background: var(--bg-input);
+      color: var(--color-text);
     }
   }
 
@@ -48,17 +48,17 @@ export default (theme: ThemeDef): string => `
     }
 
     &.selection.visible {
-      background: ${theme.bgInput};
-      color: ${theme.color};
+      background: var(--bg-input);
+      color: var(--color-text);
     }
 
     .menu {
-      background: ${theme.bgInput};
-      color: ${theme.color};
+      background: var(--bg-input);
+      color: var(--color-text);
 
       > .item {
         border-color: transparent !important;
-        color: ${theme.color} !important;
+        color: var(--color-text) !important;
 
         &.header.disabled {
           margin: 1em 0 0 0;
@@ -66,7 +66,7 @@ export default (theme: ThemeDef): string => `
 
           &:hover,
           &.selected {
-            background: ${theme.bgInput};
+            background: var(--bg-input);
           }
         }
       }
@@ -76,7 +76,7 @@ export default (theme: ThemeDef): string => `
       min-height: 1em;
 
       &:not(.default) {
-        color: ${theme.color} !important;
+        color: var(--color-text) !important;
       }
     }
   }
@@ -92,20 +92,26 @@ export default (theme: ThemeDef): string => `
         border-style: dashed;
       }
 
-      .ui.primary.buttons .ui.button {
-        background-color: #666;
-        border-color: transparent;
-        color: #f9f8f7;
-        opacity: 0.5;
+      .ui.buttons {
+        .ui.button {
+          background: transparent;
+        }
 
-        .dropdown.icon {
-          opacity: 0;
+        &.primary .ui.button {
+          background-color: #666;
+          border-color: transparent;
+          color: #f9f8f7;
+          opacity: 0.5;
+
+          .dropdown.icon {
+            opacity: 0;
+          }
         }
       }
     }
 
     &.error input {
-      background-color: ${theme.bgInputError};
+      background-color: var(--bg-input-error);
       border-color: #e0b4b4;
     }
 
@@ -116,62 +122,13 @@ export default (theme: ThemeDef): string => `
 
   .ui.label {
     background: transparent;
-    font-weight: 400;
+    font-weight: var(--font-weight-normal);
     position: relative;
     z-index: 1;
   }
 
-  .ui.modal {
-    background: ${theme.bgPage};
-    box-shadow: none;
-    color: ${theme.color};
-    font-family: ${theme.fontSans};
-
-    > .actions,
-    > .content {
-      background: transparent;
-    }
-
-    > .actions {
-      border-top: none;
-      text-align: right;
-      padding: 0 1rem !important;
-    }
-
-    /* approx h1, color, size, font */
-    > .header:not(.ui) {
-      background: transparent;
-      border-bottom: none;
-      color: ${theme.colorSummary};
-      font-family: ${theme.fontSans};
-      font-size: 1.75rem;
-      font-weight: 400;
-      line-height: 1.25rem;
-      padding: 1.5rem 1.75rem 0;
-      text-transform: lowercase;
-
-      > label {
-        margin-top: 0.5rem;
-      }
-    }
-
-    .description {
-      margin: 1.5em 0;
-      font-weight: 400;
-    }
-  }
-
   .ui.page.modals.transition.visible {
     display: flex !important;
-  }
-
-  .ui.popup {
-    background: ${theme.bgMenu};
-    color: ${theme.color};
-
-    .ui.text.menu .item {
-      color: ${theme.color};
-    }
   }
 
   .ui.secondary.vertical.menu > .item {
@@ -189,7 +146,7 @@ export default (theme: ThemeDef): string => `
 
   /* modals aligned to top, not center */
   .ui.dimmer {
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(96, 96, 96, 0.5);
     justify-content: flex-start;
   }
 

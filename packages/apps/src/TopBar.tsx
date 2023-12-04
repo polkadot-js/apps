@@ -1,10 +1,11 @@
-// Copyright 2017-2020 @polkadot/apps authors & contributors
+// Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // Unused atm, experiment as a replacement for NodeInfo on the SideBar
 
 import React from 'react';
-import styled from 'styled-components';
+
+import { styled } from '@polkadot/react-components';
 import { BestNumber, Chain, NodeName, NodeVersion } from '@polkadot/react-query';
 
 interface Props {
@@ -13,7 +14,7 @@ interface Props {
 
 function TopBar ({ className }: Props): React.ReactElement<Props> {
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <div>
         <NodeName />&nbsp;
         <NodeVersion label='v' />
@@ -22,13 +23,13 @@ function TopBar ({ className }: Props): React.ReactElement<Props> {
         <Chain />&nbsp;
         <BestNumber label='#' />
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(TopBar)`
+const StyledDiv = styled.div`
   background: #f2f2f2;
-  font-size: 0.85rem;
+  font-size: var(--font-size-small);
   line-height: 1rem;
   overflow: hidden;
   padding: 0.5rem 1rem;
@@ -52,4 +53,6 @@ export default React.memo(styled(TopBar)`
       border-width: 0;
     }
   }
-`);
+`;
+
+export default React.memo(TopBar);

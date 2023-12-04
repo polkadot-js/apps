@@ -1,10 +1,9 @@
-// Copyright 2017-2020 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SetIndex } from '@polkadot/types/interfaces';
 import type { DeriveElectionsInfo } from '@polkadot/api-derive/types';
-
-import BN from 'bn.js';
+import type { SetIndex } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
 export interface ComponentProps {
   electionsInfo?: DeriveElectionsInfo;

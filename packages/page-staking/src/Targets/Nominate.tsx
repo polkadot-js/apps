@@ -1,14 +1,14 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { StakerState } from '@polkadot/react-hooks/types';
 
 import React, { useCallback, useMemo, useState } from 'react';
-import styled from 'styled-components';
-import { AddressMini, Button, InputAddress, Modal, Static, TxButton } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { AddressMini, Button, InputAddress, Modal, Static, styled, TxButton } from '@polkadot/react-components';
+import { useApi, useToggle } from '@polkadot/react-hooks';
+
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
@@ -24,17 +24,18 @@ interface IdState {
 
 function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const [ids, setIds] = useState<IdState | null>(null);
   const [isOpen, toggleOpen] = useToggle();
 
-  const filter = useMemo(
+  const stashes = useMemo(
     () => (ownNominators || []).map(({ stashId }) => stashId),
     [ownNominators]
   );
 
   const _onChangeStash = useCallback(
     (accountId?: string | null): void => {
-      const acc = ownNominators && ownNominators.find(({ stashId }) => stashId === accountId);
+      const acc = ownNominators?.find(({ stashId }) => stashId === accountId);
 
       setIds(
         acc
@@ -49,73 +50,69 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
     <>
       <Button
         icon='hand-paper'
-        isDisabled={isDisabled || !filter.length || !targets.length}
-        label={t<string>('Nominate selected')}
+        isDisabled={isDisabled || !stashes.length || !targets.length}
+        label={t('Nominate selected')}
         onClick={toggleOpen}
       />
       {isOpen && (
-        <Modal
+        <StyledModal
           className={className}
-          header={t<string>('Nominate validators')}
+          header={t('Nominate validators')}
+          onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns>
-              <Modal.Column>
-                <InputAddress
-                  filter={filter}
-                  help={t<string>('Your stash account. The transaction will be sent from the associated controller.')}
-                  label={t<string>('the stash account to nominate with')}
-                  onChange={_onChangeStash}
-                  value={ids?.stashId}
-                />
-                <InputAddress
-                  isDisabled
-                  label={t<string>('the associated controller')}
-                  value={ids?.controllerId}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('One of your available nomination accounts, keyed by the stash. The transaction will be sent from the controller.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t('One of your available nomination accounts, keyed by the stash. The transaction will be sent from the controller.')}>
+              <InputAddress
+                filter={stashes}
+                label={t('the stash account to nominate with')}
+                onChange={_onChangeStash}
+                value={ids?.stashId}
+              />
+              <InputAddress
+                isDisabled
+                label={t('the associated controller')}
+                value={ids?.controllerId}
+              />
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <Static
-                  label={t<string>('selected validators')}
-                  value={
-                    targets.map((validatorId) => (
-                      <AddressMini
-                        className='addressStatic'
-                        key={validatorId}
-                        value={validatorId}
-                      />
-                    ))
-                  }
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('The selected validators to nominate, either via the "currently best algorithm" or via a manual selection.')}</p>
-                <p>{t<string>('Once transmitted the new selection will only take effect in 2 eras since the selection criteria for the next era was done at the end of the previous era. Until then, the nominations will show as inactive.')}</p>
-              </Modal.Column>
+            <Modal.Columns
+              hint={
+                <>
+                  <p>{t('The selected validators to nominate, either via the "currently best algorithm" or via a manual selection.')}</p>
+                  <p>{t('Once transmitted the new selection will only take effect in 2 eras since the selection criteria for the next era was done at the end of the previous era. Until then, the nominations will show as inactive.')}</p>
+                </>
+              }
+            >
+              <Static
+                label={t('selected validators')}
+                value={
+                  targets.map((validatorId) => (
+                    <AddressMini
+                      className='addressStatic'
+                      key={validatorId}
+                      value={validatorId}
+                    />
+                  ))
+                }
+              />
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleOpen}>
+          <Modal.Actions>
             <TxButton
               accountId={ids?.controllerId}
-              label={t<string>('Nominate')}
+              label={t('Nominate')}
               onStart={toggleOpen}
               params={[targets]}
-              tx='staking.nominate'
+              tx={api.tx.staking.nominate}
             />
           </Modal.Actions>
-        </Modal>
+        </StyledModal>
       )}
     </>
   );
 }
 
-export default React.memo(styled(Nominate)`
+const StyledModal = styled(Modal)`
   .ui--AddressMini.padded.addressStatic {
     padding-top: 0.5rem;
 
@@ -124,4 +121,6 @@ export default React.memo(styled(Nominate)`
       max-width: 10rem;
     }
   }
-`);
+`;
+
+export default React.memo(Nominate);

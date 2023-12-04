@@ -1,12 +1,11 @@
-// Copyright 2017-2020 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2023 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { VoidFn } from '@polkadot/react-components/types';
-
 import React from 'react';
+
 import { Input } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
@@ -15,7 +14,7 @@ interface Props {
   isError?: boolean;
   isDisabled?: boolean;
   onChange: (_: string) => void;
-  onEnter?: VoidFn;
+  onEnter?: () => void;
   value?: string;
 }
 
@@ -25,14 +24,9 @@ function InputName ({ className, isBusy, isContract, isError, onChange, onEnter,
   return (
     <Input
       className={className}
-      help={t<string>(
-        isContract
-          ? 'A name for the deployed contract to help users distinguish. Only used for display purposes.'
-          : 'A name for this WASM code to help users distinguish. Only used for display purposes.'
-      )}
       isDisabled={isBusy}
       isError={isError}
-      label={t<string>(
+      label={t(
         isContract
           ? 'contract name'
           : 'code bundle name'

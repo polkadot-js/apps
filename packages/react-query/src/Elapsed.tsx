@@ -1,13 +1,17 @@
-// Copyright 2017-2020 @polkadot/react-query authors & contributors
+// Copyright 2017-2023 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import BN from 'bn.js';
+import type { BN } from '@polkadot/util';
+
 import React, { useEffect, useState } from 'react';
+
+import { styled } from '@polkadot/react-components/styled';
 import { bnToBn } from '@polkadot/util';
 
 type Ticker = (now: number) => void;
 
 interface Props {
+  children?: React.ReactNode;
   className?: string;
   value?: BN | Date | number;
 }
@@ -28,34 +32,37 @@ function tick (): void {
   setTimeout(tick, TICK_TIMEOUT);
 }
 
-function getDisplayValue (now = 0, value: BN | Date | number = 0): string {
+function formatValue (value: number, type = 's', withDecimal = false): React.ReactNode {
+  const [pre, post] = value.toFixed(1).split('.');
+
+  return withDecimal
+    ? <>{pre}.{post} <span className='timeUnit'>{type}</span></>
+    : <>{pre} <span className='timeUnit'>{type}</span></>;
+}
+
+function getDisplayValue (now = 0, value: BN | Date | number = 0): React.ReactNode {
   const tsValue = (
     value && (value as Date).getTime
       ? (value as Date).getTime()
       : bnToBn(value as number).toNumber()
   ) || 0;
-  let display = '0.0 s';
 
-  if (now && tsValue) {
-    const elapsed = Math.max(Math.abs(now - tsValue), 0) / 1000;
-
-    if (elapsed < 15) {
-      display = `${elapsed.toFixed(1)} s`;
-    } else if (elapsed < 60) {
-      display = `${elapsed | 0} s`;
-    } else if (elapsed < 3600) {
-      display = `${elapsed / 60 | 0} min`;
-    } else {
-      display = `${elapsed / 3600 | 0} hr`;
-    }
+  if (!now || !tsValue) {
+    return formatValue(0, 's', true);
   }
 
-  return display;
+  const elapsed = Math.max(Math.abs(now - tsValue), 0) / 1000;
+
+  return (elapsed < 60)
+    ? formatValue(elapsed, 's', elapsed < 15)
+    : (elapsed < 3600)
+      ? formatValue(elapsed / 60, 'min')
+      : formatValue(elapsed / 3600, 'hr');
 }
 
 tick();
 
-function Elapsed ({ className = '', value }: Props): React.ReactElement<Props> {
+function Elapsed ({ children, className = '', value }: Props): React.ReactElement<Props> {
   const [now, setNow] = useState(lastNow);
 
   useEffect((): () => void => {
@@ -69,10 +76,16 @@ function Elapsed ({ className = '', value }: Props): React.ReactElement<Props> {
   }, []);
 
   return (
-    <div className={['ui--Elapsed', className].join(' ')}>
-      {getDisplayValue(now, value)}
-    </div>
+    <StyledDiv className={`${className} ui--Elapsed --digits`}>
+      {getDisplayValue(now, value)}{children}
+    </StyledDiv>
   );
 }
+
+const StyledDiv = styled.div`
+  .timeUnit {
+    font-size: var(--font-percent-tiny);
+  }
+`;
 
 export default React.memo(Elapsed);

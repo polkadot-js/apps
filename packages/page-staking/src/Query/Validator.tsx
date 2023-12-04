@@ -1,37 +1,51 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Props } from './types';
+import type { Props } from './types.js';
 
 import React from 'react';
-import styled from 'styled-components';
-import { Columar, Column } from '@polkadot/react-components';
 
-import ChartPoints from './ChartPoints';
-import ChartPrefs from './ChartPrefs';
-import ChartRewards from './ChartRewards';
-import ChartStake from './ChartStake';
+import { Columar, styled } from '@polkadot/react-components';
 
-function Validator ({ className = '', validatorId }: Props): React.ReactElement<Props> {
+import ChartPoints from './ChartPoints.js';
+import ChartPrefs from './ChartPrefs.js';
+import ChartRewards from './ChartRewards.js';
+import ChartStake from './ChartStake.js';
+
+function Validator ({ className = '', labels, validatorId }: Props): React.ReactElement<Props> | null {
   return (
-    <Columar className={className}>
-      <Column>
-        <ChartPoints validatorId={validatorId} />
-        <ChartRewards validatorId={validatorId} />
-      </Column>
-      <Column>
-        <ChartStake validatorId={validatorId} />
-        <ChartPrefs validatorId={validatorId} />
-      </Column>
-    </Columar>
+    <StyledColumar className={className}>
+      <Columar.Column>
+        <ChartPoints
+          labels={labels}
+          validatorId={validatorId}
+        />
+        <ChartRewards
+          labels={labels}
+          validatorId={validatorId}
+        />
+      </Columar.Column>
+      <Columar.Column>
+        <ChartStake
+          labels={labels}
+          validatorId={validatorId}
+        />
+        <ChartPrefs
+          labels={labels}
+          validatorId={validatorId}
+        />
+      </Columar.Column>
+    </StyledColumar>
   );
 }
 
-export default React.memo(styled(Validator)`
+const StyledColumar = styled(Columar)`
   .staking--Chart {
-    background: white;
-    border: 1px solid #eeecea;
+    background: var(--bg-table);
+    border: 1px solid var(--border-table);
     border-radius: 0.25rem;
     padding: 1rem 1.5rem;
   }
-`);
+`;
+
+export default React.memo(Validator);

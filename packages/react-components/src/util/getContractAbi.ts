@@ -1,14 +1,12 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyJson } from '@polkadot/types/types';
-
 import { Abi } from '@polkadot/api-contract';
-import { api } from '@polkadot/react-api';
+import { statics } from '@polkadot/react-api/statics';
 
-import getAddressMeta from './getAddressMeta';
+import { getAddressMeta } from './getAddressMeta.js';
 
-export default function getContractAbi (address: string | null): Abi | null {
+export function getContractAbi (address: string | null): Abi | null {
   if (!address) {
     return null;
   }
@@ -17,9 +15,9 @@ export default function getContractAbi (address: string | null): Abi | null {
   const meta = getAddressMeta(address, 'contract');
 
   try {
-    const data = meta.contract && JSON.parse(meta.contract.abi) as AnyJson;
+    const data = (meta.contract && JSON.parse(meta.contract.abi)) as string;
 
-    abi = new Abi(data, api.registry.getChainProperties());
+    abi = new Abi(data, statics.api.registry.getChainProperties());
   } catch (error) {
     console.error(error);
   }

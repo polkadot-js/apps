@@ -1,20 +1,21 @@
-// Copyright 2017-2020 @polkadot/app-tech-comm authors & contributors
+// Copyright 2017-2023 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ComponentProps as Props } from '../types';
+import type { ComponentProps as Props } from '../types.js';
 
 import React from 'react';
 
-import Members from './Members';
-import Summary from './Summary';
+import Members from './Members.js';
+import Summary from './Summary.js';
 
-function Overview ({ className = '', isMember, members, prime, proposals }: Props): React.ReactElement<Props> {
+function Overview ({ className = '', isMember, members, prime, proposalHashes, type }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
       <Summary
         isMember={isMember}
         members={members}
-        proposals={proposals}
+        proposalHashes={proposalHashes}
+        type={type}
       />
       <Members
         members={members}

@@ -1,60 +1,77 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
-import type { AppProps as Props, ThemeProps } from '@polkadot/react-components/types';
-import type { ElectionStatus } from '@polkadot/types/interfaces';
+import type { AppProps as Props } from '@polkadot/react-components/types';
+import type { ElectionStatus, ParaValidatorIndex, ValidatorId } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
-import React, { useMemo } from 'react';
-import { Route, Switch } from 'react-router';
+import React, { useCallback, useMemo, useState } from 'react';
+import { Route, Routes } from 'react-router';
 import { useLocation } from 'react-router-dom';
-import styled from 'styled-components';
-import { HelpOverlay } from '@polkadot/react-components';
-import Tabs from '@polkadot/react-components/Tabs';
-import { useAccounts, useApi, useAvailableSlashes, useCall, useFavorites, useOwnStashInfos, useStashIds } from '@polkadot/react-hooks';
+
+import Pools from '@polkadot/app-staking2/Pools';
+import useOwnPools from '@polkadot/app-staking2/Pools/useOwnPools';
+import { styled, Tabs } from '@polkadot/react-components';
+import { useAccounts, useApi, useAvailableSlashes, useCall, useCallMulti, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-import basicMd from './md/basic.md';
-import Actions from './Actions';
-import Overview from './Overview';
-import Payouts from './Payouts';
-import Query from './Query';
-import Summary from './Overview/Summary';
-import Slashes from './Slashes';
-import Targets from './Targets';
-import { STORE_FAVS_BASE } from './constants';
-import { useTranslation } from './translate';
-import useSortedTargets from './useSortedTargets';
+import Actions from './Actions/index.js';
+import Bags from './Bags/index.js';
+import Payouts from './Payouts/index.js';
+import Query from './Query/index.js';
+import Slashes from './Slashes/index.js';
+import Targets from './Targets/index.js';
+import Validators from './Validators/index.js';
+import { STORE_FAVS_BASE } from './constants.js';
+import { useTranslation } from './translate.js';
+import useNominations from './useNominations.js';
+import useSortedTargets from './useSortedTargets.js';
 
 const HIDDEN_ACC = ['actions', 'payout'];
 
-const transformElection = {
-  transform: (status: ElectionStatus) => status.isOpen
+const OPT_MULTI = {
+  defaultValue: [false, undefined, {}] as [boolean, BN | undefined, Record<string, boolean>],
+  transform: ([eraElectionStatus, minValidatorBond, validators, activeValidatorIndices]: [ElectionStatus | null, BN | undefined, ValidatorId[] | null, ParaValidatorIndex[] | null]): [boolean, BN | undefined, Record<string, boolean>] => [
+    !!eraElectionStatus && eraElectionStatus.isOpen,
+    minValidatorBond && !minValidatorBond.isZero()
+      ? minValidatorBond
+      : undefined,
+    validators && activeValidatorIndices
+      ? activeValidatorIndices.reduce((all, index) => ({ ...all, [validators[index.toNumber()].toString()]: true }), {})
+      : {}
+  ]
 };
 
 function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { hasAccounts } = useAccounts();
+  const { areAccountsLoaded, hasAccounts } = useAccounts();
   const { pathname } = useLocation();
+  const [withLedger, setWithLedger] = useState(false);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
-  const allStashes = useStashIds();
+  const [loadNominations, setLoadNominations] = useState(false);
+  const nominatedBy = useNominations(loadNominations);
+  const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview);
+  const [isInElection, minCommission, paraValidators] = useCallMulti<[boolean, BN | undefined, Record<string, boolean>]>([
+    api.query.staking.eraElectionStatus,
+    api.query.staking.minCommission,
+    api.query.session.validators,
+    (api.query.parasShared || api.query.shared)?.activeValidatorIndices
+  ], OPT_MULTI);
+  const ownPools = useOwnPools();
   const ownStashes = useOwnStashInfos();
   const slashes = useAvailableSlashes();
-  const targets = useSortedTargets(favorites);
-  const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview);
-  const isInElection = useCall<boolean>(api.query.staking?.eraElectionStatus, undefined, transformElection);
+  const targets = useSortedTargets(favorites, withLedger);
 
   const hasQueries = useMemo(
     () => hasAccounts && !!(api.query.imOnline?.authoredBlocks) && !!(api.query.staking.activeEra),
     [api, hasAccounts]
   );
 
-  const next = useMemo(
-    () => (allStashes && stakingOverview)
-      ? allStashes.filter((address) => !stakingOverview.validators.includes(address as any))
-      : undefined,
-    [allStashes, stakingOverview]
+  const hasStashes = useMemo(
+    () => hasAccounts && !!ownStashes && (ownStashes.length !== 0),
+    [hasAccounts, ownStashes]
   );
 
   const ownValidators = useMemo(
@@ -62,124 +79,150 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
     [ownStashes]
   );
 
+  const toggleLedger = useCallback(
+    () => setWithLedger(true),
+    []
+  );
+
+  const toggleNominatedBy = useCallback(
+    () => setLoadNominations(true),
+    []
+  );
+
   const items = useMemo(() => [
     {
       isRoot: true,
       name: 'overview',
-      text: t<string>('Staking overview')
+      text: t('Overview')
     },
     {
       name: 'actions',
-      text: t<string>('Account actions')
+      text: t('Accounts')
     },
-    isFunction(api.query.staking.activeEra)
-      ? {
-        name: 'payout',
-        text: t<string>('Payouts')
-      }
-      : null,
+    hasStashes && isFunction(api.query.staking.activeEra) && {
+      name: 'payout',
+      text: t('Payouts')
+    },
+    isFunction(api.query.nominationPools?.minCreateBond) && {
+      name: 'pools',
+      text: t('Pools')
+    },
     {
       alias: 'returns',
       name: 'targets',
-      text: t<string>('Targets')
+      text: t('Targets')
     },
-    {
-      name: 'waiting',
-      text: t<string>('Waiting')
+    hasStashes && isFunction((api.query.voterBagsList || api.query.bagsList || api.query.voterList)?.counterForListNodes) && {
+      name: 'bags',
+      text: t('Bags')
     },
     {
       count: slashes.reduce((count, [, unapplied]) => count + unapplied.length, 0),
       name: 'slashes',
-      text: t<string>('Slashes')
+      text: t('Slashes')
     },
     {
       hasParams: true,
       name: 'query',
-      text: t<string>('Validator stats')
+      text: t('Validator stats')
     }
-  ].filter((q): q is { name: string; text: string } => !!q), [api, slashes, t]);
+  ].filter((q): q is { name: string; text: string } => !!q), [api, hasStashes, slashes, t]);
 
   return (
-    <main className={`staking--App ${className}`}>
-      <HelpOverlay md={basicMd as string} />
-      <header>
-        <Tabs
-          basePath={basePath}
-          hidden={
-            hasAccounts
-              ? undefined
-              : HIDDEN_ACC
-          }
-          items={items}
-        />
-      </header>
-      <Summary
-        isVisible={pathname === basePath}
-        next={next}
-        nominators={targets.nominators}
-        stakingOverview={stakingOverview}
+    <StyledMain className={`${className} staking--App`}>
+      <Tabs
+        basePath={basePath}
+        hidden={
+          areAccountsLoaded && !hasAccounts
+            ? HIDDEN_ACC
+            : undefined
+        }
+        items={items}
       />
-      <Switch>
-        <Route path={`${basePath}/payout`}>
-          <Payouts
-            isInElection={isInElection}
-            ownValidators={ownValidators}
+      <Routes>
+        <Route path={basePath}>
+          <Route
+            element={
+              <Bags ownStashes={ownStashes} />
+            }
+            path='bags'
+          />
+          <Route
+            element={
+              <Payouts
+                historyDepth={targets.historyDepth}
+                isInElection={isInElection}
+                ownPools={ownPools}
+                ownValidators={ownValidators}
+              />
+            }
+            path='payout'
+          />
+          <Route
+            element={
+              <Pools ownPools={ownPools} />
+            }
+            path='pools'
+          />
+          <Route
+            element={
+              <Query />
+            }
+            path='query/:value?'
+          />
+          <Route
+            element={
+              <Slashes
+                ownStashes={ownStashes}
+                slashes={slashes}
+              />
+            }
+            path='slashes'
+          />
+          <Route
+            element={
+              <Targets
+                isInElection={isInElection}
+                nominatedBy={nominatedBy}
+                ownStashes={ownStashes}
+                stakingOverview={stakingOverview}
+                targets={targets}
+                toggleFavorite={toggleFavorite}
+                toggleLedger={toggleLedger}
+                toggleNominatedBy={toggleNominatedBy}
+              />
+            }
+            path='targets'
           />
         </Route>
-        <Route path={[`${basePath}/query/:value`, `${basePath}/query`]}>
-          <Query />
-        </Route>
-        <Route path={`${basePath}/slashes`}>
-          <Slashes
-            ownStashes={ownStashes}
-            slashes={slashes}
-          />
-        </Route>
-        <Route path={`${basePath}/targets`}>
-          <Targets
-            isInElection={isInElection}
-            ownStashes={ownStashes}
-            stakingOverview={stakingOverview}
-            targets={targets}
-            toggleFavorite={toggleFavorite}
-          />
-        </Route>
-        <Route path={`${basePath}/waiting`}>
-          <Overview
-            favorites={favorites}
-            hasQueries={hasQueries}
-            isIntentions
-            next={next}
-            stakingOverview={stakingOverview}
-            targets={targets}
-            toggleFavorite={toggleFavorite}
-          />
-        </Route>
-      </Switch>
+      </Routes>
       <Actions
-        className={pathname === `${basePath}/actions` ? '' : 'staking--hidden'}
+        className={pathname === `${basePath}/actions` ? '' : '--hidden'}
         isInElection={isInElection}
+        minCommission={minCommission}
+        ownPools={ownPools}
         ownStashes={ownStashes}
         targets={targets}
       />
-      <Overview
-        className={basePath === pathname ? '' : 'staking--hidden'}
+      <Validators
+        className={basePath === pathname ? '' : '--hidden'}
         favorites={favorites}
+        hasAccounts={hasAccounts}
         hasQueries={hasQueries}
-        next={next}
+        minCommission={minCommission}
+        nominatedBy={nominatedBy}
+        ownStashes={ownStashes}
+        paraValidators={paraValidators}
         stakingOverview={stakingOverview}
         targets={targets}
         toggleFavorite={toggleFavorite}
+        toggleNominatedBy={toggleNominatedBy}
       />
-    </main>
+    </StyledMain>
   );
 }
 
-export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
-  .staking--hidden {
-    display: none;
-  }
-
+const StyledMain = styled.main`
   .staking--Chart {
     margin-top: 1.5rem;
 
@@ -193,7 +236,9 @@ export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
   }
 
   .staking--optionsBar {
-    text-align: right;
+    margin: 0.5rem 0 1rem;
+    text-align: center;
+    white-space: normal;
 
     .staking--buttonToggle {
       display: inline-block;
@@ -204,7 +249,9 @@ export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
 
   .ui--Expander.stakeOver {
     .ui--Expander-summary {
-      color: ${theme.colorError};
+      color: var(--color-error);
     }
   }
-`));
+`;
+
+export default React.memo(StakingApp);

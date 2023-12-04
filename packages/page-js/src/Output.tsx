@@ -1,11 +1,11 @@
-// Copyright 2017-2020 @polkadot/app-js authors & contributors
+// Copyright 2017-2023 @polkadot/app-js authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '@polkadot/react-components/types';
-import type { Log } from './types';
+import type { Log } from './types.js';
 
 import React from 'react';
-import styled from 'styled-components';
+
+import { styled } from '@polkadot/react-components';
 import { isError, isNull, isUndefined } from '@polkadot/util';
 
 interface Props {
@@ -16,32 +16,52 @@ interface Props {
 
 const format = (value: unknown): string => {
   if (isError(value)) {
-    return value.stack ? value.stack : value.toString();
+    return value.stack
+      ? value.stack
+      : value.toString();
   } else if (isUndefined(value)) {
     return 'undefined';
   } else if (isNull(value)) {
     return 'null';
   } else if (Array.isArray(value)) {
-    return `[${value.map((value): string => format(value)).join(', ')}]`;
+    return `[${value.map(format).join(', ')}]`;
   } else if (value instanceof Map) {
-    return `{${[...value.entries()].map(([key, value]): string => (key as string) + ': ' + format(value)).join(', ')}}`;
+    return `{${[...value.entries()]
+      .map(([k, v]) => `${(k as string).toString()}: ${format(v)}`)
+      .join(', ')}}`;
   }
 
+  // This _could_ fail as well, hence the catch below
   return (value as string).toString();
 };
 
-const renderEntry = ({ args, type }: Log, index: number): React.ReactNode => (
-  <div
-    className={`js--Log ${type}`}
-    key={index}
-  >
-    {args.map((arg): string => format(arg)).join(' ')}
-  </div>
-);
+const renderEntry = ({ args, type }: Log, index: number): React.ReactNode => {
+  try {
+    return (
+      <div
+        className={`js--Log ${type}`}
+        key={index}
+      >
+        {args.map(format).join(' ')}
+      </div>
+    );
+  } catch (error) {
+    // e.g. this would hit here -
+    // console.log(api.createType('ProxyType').__proto__)
+    return (
+      <div
+        className={`js--Log ${type} error`}
+        key={index}
+      >
+        Internal error: {(error as Error).stack || (error as Error).message}
+      </div>
+    );
+  }
+};
 
 function Output ({ children, className = '', logs }: Props): React.ReactElement<Props> {
   return (
-    <article className={`container ${className}`}>
+    <StyledArticle className={`${className} container`}>
       <div className='logs-wrapper'>
         <div className='logs-container'>
           <pre className='logs-content'>
@@ -50,18 +70,17 @@ function Output ({ children, className = '', logs }: Props): React.ReactElement<
         </div>
       </div>
       {children}
-    </article>
+    </StyledArticle>
   );
 }
 
-export default React.memo(styled(Output)`
+const StyledArticle = styled.article`
   background-color: #4e4e4e;
   color: #ffffff;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  font-family: ${({ theme }: ThemeProps) => theme.fontMono};
-  font-size: 12px;
+  font: var(--font-mono);
   font-variant-ligatures: common-ligatures;
   line-height: 18px;
   padding: 50px 10px 10px;
@@ -92,4 +111,6 @@ export default React.memo(styled(Output)`
       color: #f88;
     }
   }
-`);
+`;
+
+export default React.memo(Output);

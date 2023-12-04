@@ -1,10 +1,12 @@
-// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useState } from 'react';
-import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
+import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
+
+import { useTranslation } from '../translate.js';
 
 interface Props {
   address: string;
@@ -14,35 +16,36 @@ interface Props {
 
 function RecoverAccount ({ address, className = '', onClose }: Props): React.ReactElement {
   const { t } = useTranslation();
+  const { api } = useApi();
   const [recover, setRecover] = useState<string | null>(null);
 
   return (
     <Modal
       className={className}
-      header={t<string>('Initiate account recovery')}
+      header={t('Initiate account recovery')}
+      onClose={onClose}
     >
       <Modal.Content>
         <InputAddress
           isDisabled
-          label={t<string>('the account to recover to')}
+          label={t('the account to recover to')}
           value={address}
         />
         <InputAddress
-          help={t<string>('Select the account you wish to recover into this account.')}
-          label={t<string>('recover this account')}
+          label={t('recover this account')}
           onChange={setRecover}
           type='allPlus'
         />
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <TxButton
           accountId={address}
           icon='recycle'
           isDisabled={!recover || recover === address}
-          label={t<string>('Start recovery')}
+          label={t('Start recovery')}
           onStart={onClose}
           params={[recover]}
-          tx='recovery.initiateRecovery'
+          tx={api.tx.recovery.initiateRecovery}
         />
       </Modal.Actions>
     </Modal>

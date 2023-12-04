@@ -1,16 +1,16 @@
-// Copyright 2017-2020 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TypeDef } from '@polkadot/types/types';
-import type { RawParam, RawParamOnChange, RawParamOnEnter, RawParamOnEscape, Size } from '../types';
+import type { RawParam, RawParamOnChange, RawParamOnEnter, RawParamOnEscape, Size, TypeDefExt } from '../types.js';
 
 import React, { useCallback, useState } from 'react';
-import { Input } from '@polkadot/react-components';
-import { compactAddLength, hexToU8a, isAscii, isHex, isU8a, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
+
+import { CopyButton, IdentityIcon, Input, styled } from '@polkadot/react-components';
+import { compactAddLength, hexToU8a, isAscii, isHex, stringToU8a, u8aToHex, u8aToString, u8aToU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
-import { useTranslation } from '../translate';
-import Bare from './Bare';
+import { useTranslation } from '../translate.js';
+import Bare from './Bare.js';
 
 interface Props {
   asHex?: boolean;
@@ -20,65 +20,80 @@ interface Props {
   isDisabled?: boolean;
   isError?: boolean;
   label?: React.ReactNode;
+  labelExtra?: React.ReactNode;
   length?: number;
   name?: string;
   onChange?: RawParamOnChange;
   onEnter?: RawParamOnEnter;
   onEscape?: RawParamOnEscape;
   size?: Size;
-  type: TypeDef & { withOptionActive?: boolean };
+  type: TypeDefExt;
   validate?: (u8a: Uint8Array) => boolean;
+  withCopy?: boolean;
   withLabel?: boolean;
   withLength?: boolean;
+}
+
+interface Validity {
+  isAddress: boolean;
+  isValid: boolean;
+  lastValue?: Uint8Array;
 }
 
 const defaultValidate = (): boolean =>
   true;
 
-function convertInput (value: string): [boolean, Uint8Array] {
+function convertInput (value: string): [boolean, boolean, Uint8Array] {
   if (value === '0x') {
-    return [true, new Uint8Array([])];
+    return [true, false, new Uint8Array([])];
   } else if (value.startsWith('0x')) {
     try {
-      return [true, hexToU8a(value)];
-    } catch (error) {
-      return [false, new Uint8Array([])];
+      return [true, false, hexToU8a(value)];
+    } catch {
+      return [false, false, new Uint8Array([])];
     }
   }
 
   // maybe it is an ss58?
   try {
-    return [true, decodeAddress(value)];
-  } catch (error) {
+    return [true, true, decodeAddress(value)];
+  } catch {
     // we continue
   }
 
   return isAscii(value)
-    ? [true, stringToU8a(value)]
-    : [value === '0x', new Uint8Array([])];
+    ? [true, false, stringToU8a(value)]
+    : [value === '0x', false, new Uint8Array([])];
 }
 
-function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, isDisabled, isError, label, length = -1, onChange, onEnter, onEscape, size = 'full', validate = defaultValidate, withLabel, withLength }: Props): React.ReactElement<Props> {
+function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, isDisabled, isError, label, labelExtra, length = -1, onChange, onEnter, onEscape, size = 'full', validate = defaultValidate, withCopy, withLabel, withLength }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [defaultValue] = useState(
-    value
-      ? isDisabled && isU8a(value) && isAscii(value)
-        ? u8aToString(value)
-        : isHex(value)
-          ? value
-          : u8aToHex(value as Uint8Array, isDisabled ? 256 : -1)
-      : undefined
+    (): string | undefined => {
+      if (value) {
+        const u8a = u8aToU8a(value as Uint8Array);
+
+        return isAscii(u8a)
+          ? u8aToString(u8a)
+          : u8aToHex(u8a);
+      }
+
+      return undefined;
+    }
   );
-  const [isValid, setIsValid] = useState(false);
+  const [{ isAddress, isValid, lastValue }, setValidity] = useState<Validity>(() => ({
+    isAddress: false,
+    isValid: isHex(defaultValue) || isAscii(defaultValue)
+  }));
 
   const _onChange = useCallback(
     (hex: string): void => {
-      let [isValid, value] = convertInput(hex);
+      let [isValid, isAddress, value] = convertInput(hex);
 
       isValid = isValid && validate(value) && (
         length !== -1
           ? value.length === length
-          : value.length !== 0
+          : (value.length !== 0 || hex === '0x')
       );
 
       if (withLength && isValid) {
@@ -92,32 +107,54 @@ function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, 
           : value
       });
 
-      setIsValid(isValid);
+      setValidity({ isAddress, isValid, lastValue: value });
     },
     [asHex, length, onChange, validate, withLength]
   );
 
   return (
-    <Bare className={className}>
+    <StyledBare className={className}>
       <Input
         className={size}
-        defaultValue={defaultValue as string}
+        defaultValue={defaultValue}
         isAction={!!children}
         isDisabled={isDisabled}
         isError={isError || !isValid}
         label={label}
+        labelExtra={labelExtra}
         onChange={_onChange}
         onEnter={onEnter}
         onEscape={onEscape}
-        placeholder={t<string>('0x prefixed hex, e.g. 0x1234 or ascii data')}
+        placeholder={t('0x prefixed hex, e.g. 0x1234 or ascii data')}
         type='text'
         withEllipsis
         withLabel={withLabel}
       >
         {children}
+        {withCopy && (
+          <CopyButton value={defaultValue} />
+        )}
+        {isAddress && (
+          <IdentityIcon
+            className='ui--InputAddressSimpleIcon'
+            size={32}
+            value={lastValue}
+          />
+        )}
       </Input>
-    </Bare>
+    </StyledBare>
   );
 }
+
+const StyledBare = styled(Bare)`
+  .ui--InputAddressSimpleIcon {
+    background: #eee;
+    border: 1px solid #888;
+    border-radius: 50%;
+    left: -16px;
+    position: absolute;
+    top: 8px;
+  }
+`;
 
 export default React.memo(BaseBytes);

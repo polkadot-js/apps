@@ -1,13 +1,24 @@
-// Copyright 2017-2020 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import BN from 'bn.js';
-import { useFormField, FormField } from './useFormField';
-import { BN_ZERO } from '@polkadot/util';
+import type { BN } from '@polkadot/util';
+import type { FormField } from './useFormField.js';
 
-export function useNonZeroBn (initialValue: BN = BN_ZERO): FormField<BN> {
-  return useFormField(
-    initialValue,
-    (value: BN): boolean => !value.isZero()
-  );
+import { useMemo } from 'react';
+
+import { BN_ZERO, bnToBn } from '@polkadot/util';
+
+import { createNamedHook } from './createNamedHook.js';
+import { useFormField } from './useFormField.js';
+
+function isValid (value: BN): boolean {
+  return !value.isZero();
 }
+
+function useNonZeroBnImpl (initialValue: BN | number = BN_ZERO): FormField<BN> {
+  const value = useMemo(() => bnToBn(initialValue), [initialValue]);
+
+  return useFormField(value, isValid);
+}
+
+export const useNonZeroBn = createNamedHook('useNonZeroBn', useNonZeroBnImpl);

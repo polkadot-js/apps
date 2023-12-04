@@ -1,52 +1,74 @@
-// Copyright 2017-2020 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveAccountFlags, DeriveAccountInfo } from '@polkadot/api-derive/types';
-import type { StringOrNull } from '@polkadot/react-components/types';
+import type { Nominations, ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
-import type { AddressFlags, AddressIdentity, UseAccountInfo } from './types';
+import type { HexString } from '@polkadot/util/types';
+import type { AddressFlags, AddressIdentity, UseAccountInfo } from './types.js';
 
-import { useCallback, useEffect, useState } from 'react';
-import keyring from '@polkadot/ui-keyring';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { useAccounts } from './useAccounts';
-import { useAddresses } from './useAddresses';
-import { useApi } from './useApi';
-import { useCall } from './useCall';
-import { useToggle } from './useToggle';
+import { keyring } from '@polkadot/ui-keyring';
+import { isFunction, isHex } from '@polkadot/util';
+
+import { createNamedHook } from './createNamedHook.js';
+import { useApi } from './useApi.js';
+import { useCall } from './useCall.js';
+import { useDeriveAccountFlags } from './useDeriveAccountFlags.js';
+import { useDeriveAccountInfo } from './useDeriveAccountInfo.js';
+import { useKeyring } from './useKeyring.js';
+import { useToggle } from './useToggle.js';
 
 const IS_NONE = {
   isCouncil: false,
   isDevelopment: false,
   isEditable: false,
+  isEthereum: false,
   isExternal: false,
   isFavorite: false,
   isHardware: false,
   isInContacts: false,
   isInjected: false,
   isMultisig: false,
+  isNominator: false,
   isOwned: false,
   isProxied: false,
   isSociety: false,
   isSudo: false,
-  isTechCommittee: false
+  isTechCommittee: false,
+  isValidator: false
 };
 
-export function useAccountInfo (value: string | null, isContract = false): UseAccountInfo {
+function useAccountInfoImpl (value: string | null, isContract = false): UseAccountInfo {
   const { api } = useApi();
-  const { isAccount } = useAccounts();
-  const { isAddress } = useAddresses();
-  const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [value]);
-  const accountFlags = useCall<DeriveAccountFlags>(api.derive.accounts.flags as any, [value]);
+  const { accounts: { isAccount }, addresses: { isAddress } } = useKeyring();
+  const accountInfo = useDeriveAccountInfo(value);
+  const accountFlags = useDeriveAccountFlags(value);
+  const nominator = useCall<Nominations>(api.query.staking?.nominators, [value]);
+  const validator = useCall<ValidatorPrefs>(api.query.staking?.validators, [value]);
   const [accountIndex, setAccountIndex] = useState<string | undefined>(undefined);
   const [tags, setSortedTags] = useState<string[]>([]);
   const [name, setName] = useState('');
-  const [genesisHash, setGenesisHash] = useState<StringOrNull>(null);
+  const [genesisHash, setGenesisHash] = useState<HexString | null>(null);
   const [identity, setIdentity] = useState<AddressIdentity | undefined>();
   const [flags, setFlags] = useState<AddressFlags>(IS_NONE);
   const [meta, setMeta] = useState<KeyringJson$Meta | undefined>();
-  const [isEditingName, toggleIsEditingName] = useToggle();
-  const [isEditingTags, toggleIsEditingTags] = useToggle();
+  const [isEditingName, toggleIsEditingName, setIsEditingName] = useToggle();
+  const [isEditingTags, toggleIsEditingTags, setIsEditingTags] = useToggle();
+
+  useEffect((): void => {
+    validator && setFlags((flags) => ({
+      ...flags,
+      isValidator: !validator.isEmpty
+    }));
+  }, [validator]);
+
+  useEffect((): void => {
+    nominator && setFlags((flags) => ({
+      ...flags,
+      isNominator: !nominator.isEmpty
+    }));
+  }, [nominator]);
 
   useEffect((): void => {
     accountFlags && setFlags((flags) => ({
@@ -67,7 +89,7 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
 
     let name;
 
-    if (api.query.identity && api.query.identity.identityOf) {
+    if (isFunction(api.query.identity?.identityOf)) {
       if (identity?.display) {
         name = identity.display;
       }
@@ -80,19 +102,11 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
     if (identity) {
       const judgements = identity.judgements.filter(([, judgement]) => !judgement.isFeePaid);
       const isKnownGood = judgements.some(([, judgement]) => judgement.isKnownGood);
-      const isReasonable = judgements.some(([, judgement]) => judgement.isReasonable);
-      const isErroneous = judgements.some(([, judgement]) => judgement.isErroneous);
-      const isLowQuality = judgements.some(([, judgement]) => judgement.isLowQuality);
 
       setIdentity({
         ...identity,
-        isBad: isErroneous || isLowQuality,
-        isErroneous,
         isExistent: !!identity.display,
-        isGood: isKnownGood || isReasonable,
         isKnownGood,
-        isLowQuality,
-        isReasonable,
         judgements,
         waitCount: identity.judgements.length - judgements.length
       });
@@ -112,7 +126,8 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
         setFlags((flags): AddressFlags => ({
           ...flags,
           isDevelopment: accountOrAddress?.meta.isTesting || false,
-          isEditable: !!(!identity?.display && (isInContacts || accountOrAddress?.meta.isMultisig || (accountOrAddress && !(accountOrAddress.meta.isInjected || accountOrAddress.meta.isHardware)))) || false,
+          isEditable: !!(!identity?.display && (isInContacts || accountOrAddress?.meta.isMultisig || (accountOrAddress && !(accountOrAddress.meta.isInjected)))) || false,
+          isEthereum: isHex(value, 160),
           isExternal: !!accountOrAddress?.meta.isExternal || false,
           isHardware: !!accountOrAddress?.meta.isHardware || false,
           isInContacts,
@@ -123,8 +138,8 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
         }));
         setMeta(accountOrAddress?.meta);
         setName(accountOrAddress?.meta.name || '');
-        setSortedTags(accountOrAddress?.meta.tags ? (accountOrAddress.meta.tags as string[]).sort() : []);
-      } catch (error) {
+        setSortedTags(accountOrAddress?.meta.tags?.sort() || []);
+      } catch {
         // ignore
       }
     }
@@ -153,7 +168,7 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
           const pair = keyring.getPair(value);
 
           pair && keyring.saveAccountMeta(pair, meta);
-        } catch (error) {
+        } catch {
           const pair = keyring.getAddress(value);
 
           if (pair) {
@@ -186,7 +201,7 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
           const currentKeyring = keyring.getPair(value);
 
           currentKeyring && keyring.saveAccountMeta(currentKeyring, meta);
-        } catch (error) {
+        } catch {
           keyring.saveAddress(value, meta);
         }
       }
@@ -214,7 +229,7 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
   );
 
   const onSetGenesisHash = useCallback(
-    (genesisHash: string | null): void => {
+    (genesisHash: HexString | null): void => {
       if (value) {
         const account = keyring.getPair(value);
 
@@ -227,15 +242,18 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
   );
 
   const setTags = useCallback(
-    (tags: string[]): void => setSortedTags(tags.sort()),
+    (tags: string[]) => setSortedTags(tags.sort()),
     []
   );
 
-  return {
+  const isEditing = useCallback(() => isEditingName || isEditingTags, [isEditingName, isEditingTags]);
+
+  return useMemo(() => ({
     accountIndex,
     flags,
     genesisHash,
     identity,
+    isEditing,
     isEditingName,
     isEditingTags,
     isNull: !value,
@@ -245,10 +263,14 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
     onSaveName,
     onSaveTags,
     onSetGenesisHash,
+    setIsEditingName,
+    setIsEditingTags,
     setName,
     setTags,
     tags,
     toggleIsEditingName,
     toggleIsEditingTags
-  };
+  }), [accountIndex, flags, genesisHash, identity, isEditing, isEditingName, isEditingTags, meta, name, onForgetAddress, onSaveName, onSaveTags, onSetGenesisHash, setIsEditingName, setIsEditingTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags, value]);
 }
+
+export const useAccountInfo = createNamedHook('useAccountInfo', useAccountInfoImpl);

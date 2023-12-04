@@ -1,14 +1,17 @@
-// Copyright 2017-2020 @polkadot/app-council authors & contributors
+// Copyright 2017-2023 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveElectionsInfo } from '@polkadot/api-derive/types';
+import type { BN } from '@polkadot/util';
 
-import React, { useEffect, useState } from 'react';
-import { Button, InputAddress, InputAddressMulti, Modal, TxButton, VoteValue } from '@polkadot/react-components';
+import React, { useEffect, useMemo, useState } from 'react';
+
+import { Button, InputAddress, InputAddressMulti, InputBalance, Modal, TxButton, VoteValue } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
+import { useModuleElections } from '../useModuleElections.js';
 
 interface Props {
   className?: string;
@@ -17,7 +20,7 @@ interface Props {
 
 const MAX_VOTES = 16;
 
-function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
+function Vote ({ electionsInfo }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isVisible, toggleVisible] = useToggle();
@@ -26,6 +29,7 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
   const [defaultVotes, setDefaultVotes] = useState<string[]>([]);
   const [votes, setVotes] = useState<string[]>([]);
   const [voteValue, setVoteValue] = useState(BN_ZERO);
+  const modLocation = useModuleElections();
 
   useEffect((): void => {
     if (electionsInfo) {
@@ -33,7 +37,7 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
 
       setAvailable(
         members
-          .map(([accountId]): string => accountId.toString())
+          .map(([accountId]) => accountId.toString())
           .concat(runnersUp.map(([accountId]) => accountId.toString()))
           .concat(candidates.map((accountId) => accountId.toString()))
       );
@@ -41,97 +45,104 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
   }, [electionsInfo]);
 
   useEffect((): void => {
-    accountId && api.derive.council.votesOf(accountId).then(({ votes }): void => {
-      setDefaultVotes(
-        votes
-          .map((accountId): string => accountId.toString())
-          .filter((accountId): boolean => available.includes(accountId))
-      );
-    });
+    accountId && api.derive.council
+      .votesOf(accountId)
+      .then(({ votes }): void => {
+        setDefaultVotes(
+          votes
+            .map((a) => a.toString())
+            .filter((a) => available.includes(a))
+        );
+      })
+      .catch(console.error);
   }, [api, accountId, available]);
+
+  const bondValue = useMemo(
+    (): BN | undefined => {
+      const location = api.consts.elections || api.consts.phragmenElection || api.consts.electionsPhragmen;
+
+      return location &&
+        location.votingBondBase &&
+        location.votingBondBase.add(location.votingBondFactor.muln(votes.length));
+    },
+    [api, votes]
+  );
+
+  if (!modLocation) {
+    return null;
+  }
 
   return (
     <>
       <Button
-        icon='check'
+        icon='check-to-slot'
         isDisabled={available.length === 0}
-        label={t<string>('Vote')}
+        label={t('Vote')}
         onClick={toggleVisible}
       />
       {isVisible && (
         <Modal
-          header={t<string>('Vote for current candidates')}
+          header={t('Vote for current candidates')}
+          onClose={toggleVisible}
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns>
-              <Modal.Column>
-                <InputAddress
-                  help={t<string>('This account will be use to approve each candidate.')}
-                  label={t<string>('voting account')}
-                  onChange={setAccountId}
-                  type='account'
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('The vote will be recorded for the selected account.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t('The vote will be recorded for the selected account.')}>
+              <InputAddress
+                label={t('voting account')}
+                onChange={setAccountId}
+                type='account'
+              />
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <VoteValue
-                  accountId={accountId}
-                  isCouncil
-                  onChange={setVoteValue}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('The value associated with this vote. The amount will be locked (not available for transfer) and used in all subsequent elections.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t('The value associated with this vote. The amount will be locked (not available for transfer) and used in all subsequent elections.')}>
+              <VoteValue
+                accountId={accountId}
+                onChange={setVoteValue}
+              />
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <InputAddressMulti
-                  available={available}
-                  availableLabel={t<string>('council candidates')}
-                  defaultValue={defaultVotes}
-                  help={t<string>('Select and order council candidates you wish to vote for.')}
-                  maxCount={MAX_VOTES}
-                  onChange={setVotes}
-                  valueLabel={t<string>('my ordered votes')}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('The votes for the members, runner-ups and candidates. These should be ordered based on your priority.')}</p>
-                <p>{t<string>('In calculating the election outcome, this prioritized vote ordering will be used to determine the final score for the candidates.')}</p>
-              </Modal.Column>
+            <Modal.Columns
+              hint={
+                <>
+                  <p>{t('The votes for the members, runner-ups and candidates. These should be ordered based on your priority.')}</p>
+                  <p>{t('In calculating the election outcome, this prioritized vote ordering will be used to determine the final score for the candidates.')}</p>
+                </>
+              }
+            >
+              <InputAddressMulti
+                available={available}
+                availableLabel={t('council candidates')}
+                defaultValue={defaultVotes}
+                maxCount={MAX_VOTES}
+                onChange={setVotes}
+                valueLabel={t('my ordered votes')}
+              />
             </Modal.Columns>
+            {bondValue && (
+              <Modal.Columns hint={t('The amount will be reserved for the duration of your vote')}>
+                <InputBalance
+                  defaultValue={bondValue}
+                  isDisabled
+                  label={t('voting bond')}
+                />
+              </Modal.Columns>
+            )}
           </Modal.Content>
-          <Modal.Actions onCancel={toggleVisible}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='trash-alt'
               isDisabled={!defaultVotes.length}
-              label={t<string>('Unvote all')}
+              label={t('Unvote all')}
               onStart={toggleVisible}
-              params={[]}
-              tx={
-                api.tx.electionsPhragmen
-                  ? 'electionsPhragmen.removeVoter'
-                  : 'elections.removeVoter'
-              }
+              tx={api.tx[modLocation].removeVoter}
             />
             <TxButton
               accountId={accountId}
               isDisabled={!accountId || votes.length === 0 || voteValue.lten(0)}
-              label={t<string>('Vote')}
+              label={t('Vote')}
               onStart={toggleVisible}
               params={[votes, voteValue]}
-              tx={
-                api.tx.electionsPhragmen
-                  ? 'electionsPhragmen.vote'
-                  : 'elections.vote'
-              }
+              tx={api.tx[modLocation].vote}
             />
           </Modal.Actions>
         </Modal>

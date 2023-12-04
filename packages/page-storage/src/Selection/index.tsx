@@ -1,16 +1,17 @@
-// Copyright 2017-2020 @polkadot/app-storage authors & contributors
+// Copyright 2017-2023 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { QueryTypes, ParitalQueryTypes } from '../types';
+import type { ParitalQueryTypes, QueryTypes } from '../types.js';
 
 import React, { useCallback, useRef } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
+
 import { Tabs } from '@polkadot/react-components';
 
-import Consts from './Consts';
-import Modules from './Modules';
-import Raw from './Raw';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
+import Consts from './Consts.js';
+import Modules from './Modules.js';
+import Raw from './Raw.js';
 
 interface Props {
   basePath: string;
@@ -26,36 +27,51 @@ function Selection ({ basePath, onAdd }: Props): React.ReactElement<Props> {
     {
       isRoot: true,
       name: 'modules',
-      text: t<string>('Storage')
+      text: t('Storage')
     },
     {
       name: 'constants',
-      text: t<string>('Constants')
+      text: t('Constants')
     },
     {
       name: 'raw',
-      text: t<string>('Raw storage')
+      text: t('Raw storage')
     }
   ]);
 
   const _onAdd = useCallback(
-    (query: ParitalQueryTypes): void => onAdd({ ...query, id: ++id }),
+    (query: ParitalQueryTypes) => onAdd({ ...query, id: ++id }),
     [onAdd]
   );
 
   return (
     <>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={itemsRef.current}
-        />
-      </header>
-      <Switch>
-        <Route path={`${basePath}/constants`}><Consts onAdd={_onAdd} /></Route>
-        <Route path={`${basePath}/raw`}><Raw onAdd={_onAdd} /></Route>
-        <Route><Modules onAdd={_onAdd} /></Route>
-      </Switch>
+      <Tabs
+        basePath={basePath}
+        items={itemsRef.current}
+      />
+      <Routes>
+        <Route path={basePath}>
+          <Route
+            element={
+              <Consts onAdd={_onAdd} />
+            }
+            path='constants'
+          />
+          <Route
+            element={
+              <Raw onAdd={_onAdd} />
+            }
+            path='raw'
+          />
+          <Route
+            element={
+              <Modules onAdd={_onAdd} />
+            }
+            index
+          />
+        </Route>
+      </Routes>
     </>
   );
 }

@@ -1,14 +1,15 @@
-// Copyright 2017-2020 @polkadot/app-rpc authors & contributors
+// Copyright 2017-2023 @polkadot/app-rpc authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AppProps as Props } from '@polkadot/react-components/types';
 
 import React, { useRef } from 'react';
-import { Route, Switch } from 'react-router';
-import Tabs from '@polkadot/react-components/Tabs';
+import { Route, Routes } from 'react-router';
 
-import Rpc from './Rpc';
-import { useTranslation } from './translate';
+import { Tabs } from '@polkadot/react-components';
+
+import Rpc from './Rpc/index.js';
+import { useTranslation } from './translate.js';
 
 function RpcApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -17,21 +18,26 @@ function RpcApp ({ basePath }: Props): React.ReactElement<Props> {
     {
       isRoot: true,
       name: 'rpc',
-      text: t<string>('RPC calls')
+      text: t('Submission')
     }
   ]);
 
   return (
-    <main className='toolbox--App'>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={itemsRef.current}
-        />
-      </header>
-      <Switch>
-        <Route><Rpc /></Route>
-      </Switch>
+    <main className='rpc--App'>
+      <Tabs
+        basePath={basePath}
+        items={itemsRef.current}
+      />
+      <Routes>
+        <Route path={basePath}>
+          <Route
+            element={
+              <Rpc />
+            }
+            index
+          />
+        </Route>
+      </Routes>
     </main>
   );
 }

@@ -1,36 +1,15 @@
-// Copyright 2017-2020 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { useEffect, useState } from 'react';
-import keyring from '@polkadot/ui-keyring';
+import type { Addresses } from './ctx/types.js';
 
-import { useIsMountedRef } from './useIsMountedRef';
+import { useContext } from 'react';
 
-interface UseAddresses {
-  allAddresses: string[];
-  hasAddresses: boolean;
-  isAddress: (address: string) => boolean;
+import { KeyringCtx } from './ctx/Keyring.js';
+import { createNamedHook } from './createNamedHook.js';
+
+function useAddressesImpl (): Addresses {
+  return useContext(KeyringCtx).addresses;
 }
 
-export function useAddresses (): UseAddresses {
-  const mountedRef = useIsMountedRef();
-  const [state, setState] = useState<UseAddresses>({ allAddresses: [], hasAddresses: false, isAddress: () => false });
-
-  useEffect((): () => void => {
-    const subscription = keyring.addresses.subject.subscribe((addresses): void => {
-      if (mountedRef.current) {
-        const allAddresses = addresses ? Object.keys(addresses) : [];
-        const hasAddresses = allAddresses.length !== 0;
-        const isAddress = (address: string): boolean => allAddresses.includes(address.toString());
-
-        setState({ allAddresses, hasAddresses, isAddress });
-      }
-    });
-
-    return (): void => {
-      setTimeout(() => subscription.unsubscribe(), 0);
-    };
-  }, [mountedRef]);
-
-  return state;
-}
+export const useAddresses = createNamedHook('useAddresses', useAddressesImpl);

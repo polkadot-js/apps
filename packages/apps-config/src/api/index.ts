@@ -1,21 +1,10 @@
-// Copyright 2017-2020 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import typesChain from './chain';
-import typesSpec from './spec';
+import { applyDerives } from './derives.js';
+import { typesBundle as typesOnlyBundle } from './typesBundle.js';
 
-export { default as typesBundle } from './bundle';
-export * from './constants';
-export { default as typesRpc } from './rpc';
+export * from './constants.js';
+export * from './params/index.js';
 
-export function getChainTypes (specName: string, chainName: string): Record<string, string | Record<string, unknown>> {
-  return {
-    ...(typesSpec[specName as 'edgeware'] || {}),
-    ...(typesChain[chainName as 'Beresheet'] || {})
-  };
-}
-
-export {
-  typesChain,
-  typesSpec
-};
+export const typesBundle = /*#__PURE__*/ applyDerives(typesOnlyBundle);

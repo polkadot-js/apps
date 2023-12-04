@@ -1,8 +1,13 @@
-// Copyright 2017-2020 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type React from 'react';
+
 import { useEffect, useState } from 'react';
-import keyring from '@polkadot/ui-keyring';
+
+import { keyring } from '@polkadot/ui-keyring';
+
+import { createNamedHook } from './createNamedHook.js';
 
 interface PasswordProps {
   password: string;
@@ -11,7 +16,7 @@ interface PasswordProps {
   setIsPasswordValid: React.Dispatch<boolean>;
 }
 
-export function usePassword (): PasswordProps {
+function usePasswordImpl (): PasswordProps {
   const [password, setPassword] = useState('');
   const [isPasswordValid, setIsPasswordValid] = useState(false);
 
@@ -26,3 +31,5 @@ export function usePassword (): PasswordProps {
     setPassword
   };
 }
+
+export const usePassword = createNamedHook('usePassword', usePasswordImpl);

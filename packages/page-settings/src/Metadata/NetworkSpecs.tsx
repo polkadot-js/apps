@@ -1,20 +1,25 @@
-// Copyright 2017-2020 @polkadot/app-settings authors & contributors
+// Copyright 2017-2023 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ChainInfo } from '../types';
+import type { NetworkSpecsStruct } from '@polkadot/ui-settings/types';
+import type { ChainInfo, ChainType } from '../types.js';
 
-import React, { useCallback, useEffect, useReducer, useState } from 'react';
-import styled from 'styled-components';
-import { Button, ChainImg, Columar, Column, Input, QrNetworkSpecs, Spinner } from '@polkadot/react-components';
+import React, { useCallback, useEffect, useReducer, useRef, useState } from 'react';
+
+import { ChainImg, Input, QrNetworkSpecs, Spinner, styled, Table } from '@polkadot/react-components';
 import { useApi, useDebounce } from '@polkadot/react-hooks';
-import { NetworkSpecsStruct } from '@polkadot/ui-settings';
 
-import ChainColorIndicator from './ChainColorIndicator';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
+import ChainColorIndicator from './ChainColorIndicator.js';
 
 interface Props {
   chainInfo: ChainInfo | null;
   className?: string;
+}
+
+// TODO-MOONBEAM: update NetworkSpecsStruct in @polkadot/ui-settings/types
+interface NetworkSpecsStructWithType extends NetworkSpecsStruct{
+  chainType: ChainType
 }
 
 function getRandomColor (): string {
@@ -29,6 +34,7 @@ function getRandomColor (): string {
 }
 
 const initialState = {
+  chainType: 'substrate' as ChainType,
   color: '#FFFFFF',
   decimals: 0,
   genesisHash: '',
@@ -40,10 +46,10 @@ const initialState = {
 function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { isApiReady, systemChain } = useApi();
-  const [qrData, setQrData] = useState<NetworkSpecsStruct>(initialState);
+  const [qrData, setQrData] = useState<NetworkSpecsStructWithType>(initialState);
   const debouncedQrData = useDebounce(qrData, 500);
 
-  const reducer = (state: NetworkSpecsStruct, delta: Partial<NetworkSpecsStruct>): NetworkSpecsStruct => {
+  const reducer = (state: NetworkSpecsStructWithType, delta: Partial<NetworkSpecsStructWithType>): NetworkSpecsStructWithType => {
     const newState = {
       ...state,
       ...delta
@@ -58,6 +64,7 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
 
   useEffect((): void => {
     chainInfo && setNetworkSpecs({
+      chainType: chainInfo.chainType,
       color: chainInfo.color || getRandomColor(),
       decimals: chainInfo.tokenDecimals,
       genesisHash: chainInfo.genesisHash,
@@ -71,8 +78,14 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
     (color: string): void => setNetworkSpecs({ color }),
     []
   );
+
   const _onSetRandomColor = useCallback(
-    (): void => setNetworkSpecs({ color: getRandomColor() }),
+    (event: React.MouseEvent<unknown>): void => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      setNetworkSpecs({ color: getRandomColor() });
+    },
     []
   );
   const _checkColorValid = useCallback(
@@ -80,91 +93,130 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
     [networkSpecs]
   );
 
+  const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
+    [t('chain specifications'), 'start', 2]
+  ]);
+
   if (!isApiReady) {
     return <Spinner />;
   }
 
   return (
-    <Columar className={className}>
-      <Column>
-        <div className='settings--networkSpecs-name'>
+    <StyledTable
+      className={className}
+      empty={t('No open tips')}
+      header={headerRef.current}
+    >
+
+      <tr>
+        <td>
+          <div className='settings--networkSpecs-name'>
+            <Input
+              className='full'
+              isDisabled
+              label={t('Network Name')}
+              value={networkSpecs.title}
+            />
+            <ChainImg className='settings--networkSpecs-logo' />
+          </div>
+        </td>
+        <td rowSpan={7}>
+          {qrData.genesisHash && (
+            <QrNetworkSpecs
+              className='settings--networkSpecs-qr'
+              networkSpecs={debouncedQrData}
+            />
+          )}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div className='settings--networkSpecs-color'>
+            <div>
+              <Input
+                className='full settings--networkSpecs-colorInput'
+                isError={!_checkColorValid()}
+                label={t('Color')}
+                onChange={_onChangeColor}
+                value={networkSpecs.color}
+              />
+              <a
+                className='settings--networkSpecs-colorChangeButton'
+                onClick={_onSetRandomColor}
+              >
+                {t('generate random color')}
+              </a>
+            </div>
+            <ChainColorIndicator
+              className='settings--networkSpecs-colorBar'
+              color={networkSpecs.color}
+            />
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
           <Input
             className='full'
-            help={t<string>('Name of the network. It is only for display purposes.')}
             isDisabled
-            label={t<string>('Network Name')}
-            value={networkSpecs.title}
+            label={t('Genesis Hash')}
+            value={networkSpecs.genesisHash}
           />
-          <ChainImg className='settings--networkSpecs-logo' />
-        </div>
-        <Input
-          className='full'
-          help={t<string>('The color used to distinguish this network with others, use color code with 3 or 6 digits, like "#FFF" or "#111111"')}
-          isError={!_checkColorValid()}
-          label={t<string>('Color')}
-          onChange={_onChangeColor}
-          value={networkSpecs.color}
-        >
-          <div className='settings--networkSpecs-colorButton'>
-            <Button
-              icon='sync'
-              key='spread'
-              label={t<string>('Random')}
-              onClick={_onSetRandomColor}
-            />
-            <ChainColorIndicator color={networkSpecs.color}/>
-          </div>
-        </Input>
-        <Input
-          className='full'
-          help={t<string>('Genesis Hash refers to initial state of the chain, it cannot be changed once the chain is launched')}
-          isDisabled
-          label={t<string>('Genesis Hash')}
-          value={networkSpecs.genesisHash}
-        />
-        <Input
-          className='full'
-          help={t<string>('Unit decides the name of 1 unit token, e.g. "DOT" for Polkadot')}
-          isDisabled
-          label={t<string>('Unit')}
-          value={networkSpecs.unit}
-        />
-        <Input
-          className='full'
-          help={t<string>('Prefix indicates the ss58 address format in this network, it is a number between 0 ~ 255 that describes the precise format of the bytes of the address')}
-          isDisabled
-          label={t<string>('Address Prefix')}
-          value={networkSpecs.prefix.toString()}
-        />
-        <Input
-          className='full'
-          help={t<string>('Decimals decides the smallest unit of the token, which is 1/10^decimals')}
-          isDisabled
-          label={t<string>('Decimals')}
-          value={networkSpecs.decimals.toString()}
-        />
-      </Column>
-      <Column>
-        <QrNetworkSpecs
-          className='settings--networkSpecs-qr'
-          networkSpecs={debouncedQrData}
-        />
-      </Column>
-    </Columar>
+        </td>
+      </tr>
+      <tr>
+        <td>
+
+          <Input
+            className='full'
+            isDisabled
+            label={t('Unit')}
+            value={networkSpecs.unit}
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <Input
+            className='full'
+            isDisabled
+            label={t('Address Prefix')}
+            value={networkSpecs.prefix.toString()}
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <Input
+            className='full'
+            isDisabled
+            label={t('Decimals')}
+            value={networkSpecs.decimals.toString()}
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <Input
+            className='full'
+            isDisabled
+            label={t('Chain Type')}
+            value={networkSpecs.chainType}
+          />
+        </td>
+      </tr>
+    </StyledTable>
   );
 }
 
-export default React.memo(styled(NetworkSpecs)`
-  top: .3rem;
+const StyledTable = styled(Table)`
+  td {
+    padding: 0;
 
-  .settings--networkSpecs-colorButton {
-    display: flex;
-    flex-direction: row;
-  }
-
-  .settings--networkSpecs-qr {
-    margin: 0.25rem auto;
-    max-width: 15rem;
+    .input.ui--Input input {
+      border: none !important;
+      background: transparent;
+    }
   }
 
   .settings--networkSpecs-name {
@@ -178,4 +230,47 @@ export default React.memo(styled(NetworkSpecs)`
       width: 32px;
     }
   }
-`);
+
+  .settings--networkSpecs-color {
+    position: relative;
+
+    > div:first-child {
+      display: flex;
+
+      .settings--networkSpecs-colorInput {
+        min-width: 124px;
+      }
+
+      .settings--networkSpecs-colorChangeButton {
+        user-select: none;
+        cursor: pointer;
+        background: transparent;
+        border: none;
+        outline: none;
+        align-self: flex-end;
+        padding-bottom: 0.9rem;
+      }
+    }
+
+    .settings--networkSpecs-colorBar {
+      border-radius: 50%;
+      border: 1px solid grey;
+      height: 32px;
+      left: 12px;
+      position: absolute;
+      top: 1rem;
+      width: 32px;
+    }
+  }
+
+  .settings--networkSpecs-qr {
+    margin: 0.25rem auto;
+    max-width: 15rem;
+
+    img {
+      border: 1px solid white;
+    }
+  }
+`;
+
+export default React.memo(NetworkSpecs);

@@ -1,14 +1,15 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BondInfo } from './partials/types';
+import type { BondInfo } from './partials/types.js';
 
 import React, { useCallback, useState } from 'react';
+
 import { Button, Modal, TxButton } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import BondPartial from './partials/Bond';
+import { useTranslation } from '../translate.js';
+import BondPartial from './partials/Bond.js';
 
 function NewStash (): React.ReactElement {
   const { t } = useTranslation();
@@ -28,24 +29,25 @@ function NewStash (): React.ReactElement {
       <Button
         icon='plus'
         key='new-stash'
-        label={t<string>('Stash')}
+        label={t('Stash')}
         onClick={_toggle}
       />
       {isVisible && (
         <Modal
-          header={t<string>('Bonding Preferences')}
+          header={t('Bonding Preferences')}
+          onClose={_toggle}
           size='large'
         >
           <Modal.Content>
             <BondPartial onChange={setBondInfo} />
           </Modal.Content>
-          <Modal.Actions onCancel={_toggle}>
+          <Modal.Actions>
             <TxButton
               accountId={stashId}
               extrinsic={bondTx}
               icon='sign-in-alt'
               isDisabled={!bondTx || !stashId}
-              label={t<string>('Bond')}
+              label={t('Bond')}
               onStart={_toggle}
             />
           </Modal.Actions>

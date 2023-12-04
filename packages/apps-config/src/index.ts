@@ -1,8 +1,9 @@
-// Copyright 2017-2020 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-export * from './api';
-export * from './extensions';
-export * from './links';
-export * from './settings';
-export * from './ui';
+export * from './api/index.js';
+export * from './endpoints/index.js';
+export * from './extensions/index.js';
+export * from './links/index.js';
+export * from './settings/index.js';
+export * from './ui/index.js';

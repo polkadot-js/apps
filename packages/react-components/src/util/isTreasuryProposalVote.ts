@@ -1,9 +1,9 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Proposal } from '@polkadot/types/interfaces';
+import type { Proposal } from '@polkadot/types/interfaces';
 
-export default function isTreasuryProposalVote (proposal?: Proposal | null): boolean {
+export function isTreasuryProposalVote (proposal?: Proposal | null): boolean {
   if (!proposal) {
     return false;
   }

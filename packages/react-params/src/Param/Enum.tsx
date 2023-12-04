@@ -1,16 +1,17 @@
-// Copyright 2017-2020 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TypeDef } from '@polkadot/types/types';
-import type { ParamDef, Props, RawParam } from '../types';
+import type { Registry, TypeDef } from '@polkadot/types/types';
+import type { ParamDef, Props, RawParam } from '../types.js';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
+
 import { Dropdown } from '@polkadot/react-components';
 import { Enum, getTypeDef } from '@polkadot/types';
+import { isObject } from '@polkadot/util';
 
-import Params from '../';
-import Bare from './Bare';
-import Static from './Static';
+import Params from '../index.js';
+import Bare from './Bare.js';
 
 interface Option {
   text?: string;
@@ -22,69 +23,126 @@ interface Options {
   subTypes: TypeDef[];
 }
 
+interface Initial {
+  initialEnum: string | undefined | null;
+  initialParams: RawParam[] | undefined | null;
+}
+
+function getSubTypes (registry: Registry, type: TypeDef): TypeDef[] {
+  return getTypeDef(
+    registry.createType(type.type as '(u32, u32)').toRawType()
+  ).sub as TypeDef[];
+}
+
+function getOptions (registry: Registry, type: TypeDef): Options {
+  const subTypes = getSubTypes(registry, type).filter(({ name }) =>
+    !!name &&
+    !name.startsWith('__Unused')
+  );
+
+  return {
+    options: subTypes.map(({ name }): Option => ({
+      text: name,
+      value: name
+    })),
+    subTypes
+  };
+}
+
+function getInitial (defaultValue: RawParam, options: Option[]): Initial {
+  if (defaultValue?.value) {
+    if (defaultValue.value instanceof Enum) {
+      return {
+        initialEnum: defaultValue.value.type,
+        initialParams: [{
+          isValid: true,
+          value: defaultValue.value.inner
+        }]
+      };
+    } else if (isObject<Record<string, unknown>>(defaultValue.value)) {
+      const [initialEnum, value] = Object.entries(defaultValue.value)[0];
+
+      // Ensure that the defaultValue is actually in our enum, e.g. it
+      // may start with __Unused<x> values, in which case it would be
+      // invalid
+      if (options.some(({ value }) => value === initialEnum)) {
+        return {
+          initialEnum,
+          initialParams: [{
+            isValid: true,
+            value
+          }]
+        };
+      }
+    }
+  }
+
+  return {
+    initialEnum: options[0]?.value,
+    initialParams: undefined
+  };
+}
+
+function getCurrent (registry: Registry, type: TypeDef, defaultValue: RawParam, subTypes: TypeDef[]): ParamDef[] | null {
+  const subs = getSubTypes(registry, type);
+
+  return defaultValue.value instanceof Enum
+    ? [{ name: defaultValue.value.type, type: subs[defaultValue.value.index] }]
+    : [{ name: subTypes[0].name, type: subTypes[0] }];
+}
+
 function EnumParam (props: Props): React.ReactElement<Props> {
   const { className = '', defaultValue, isDisabled, isError, label, onChange, overrides, registry, type, withLabel } = props;
-  const [current, setCurrent] = useState<ParamDef[] | null>(null);
-  const [initialValue, setInitialValue] = useState<string | null>(null);
-  const [{ options, subTypes }, setOptions] = useState<Options>({ options: [], subTypes: [] });
-
-  useEffect((): void => {
-    const rawType = registry.createType(type.type as 'u32').toRawType();
-    const typeDef = getTypeDef(rawType);
-    const subTypes = typeDef.sub as TypeDef[];
-
-    setOptions({
-      options: subTypes.map(({ name }): Option => ({
-        text: name,
-        value: name
-      })),
-      subTypes
-    });
-    setCurrent([{ name: subTypes[0].name, type: subTypes[0] }]);
-  }, [registry, type]);
-
-  useEffect((): void => {
-    setInitialValue(
-      defaultValue && defaultValue.value
-        ? defaultValue.value instanceof Enum
-          ? defaultValue.value.type
-          : Object.keys(defaultValue.value as Record<string, unknown>)[0]
-        : null
-    );
-  }, [defaultValue]);
+  const [{ options, subTypes }] = useState<Options>(() => getOptions(registry, type));
+  const [current, setCurrent] = useState<ParamDef[] | null>(() => getCurrent(registry, type, defaultValue, subTypes));
+  const [{ initialEnum, initialParams }, setInitial] = useState<Initial>(() => getInitial(defaultValue, options));
 
   const _onChange = useCallback(
     (value: string): void => {
-      const newType = subTypes.find(({ name }): boolean => name === value) || null;
+      if (isDisabled) {
+        return;
+      }
+
+      const newType = subTypes.find(({ name }) => name === value) || null;
 
       setCurrent(
         newType
           ? [{ name: newType.name, type: newType }]
           : null
       );
+
+      if (newType) {
+        // if the enum changes, we want to discard the original initParams,
+        // these are not applicable anymore, rather use empty defaults
+        setInitial((prev) =>
+          newType.name === prev.initialEnum
+            ? prev
+            : { initialEnum: prev.initialEnum, initialParams: null }
+        );
+      }
     },
-    [subTypes]
+    [isDisabled, subTypes]
   );
 
   const _onChangeParam = useCallback(
     ([{ isValid, value }]: RawParam[]): void => {
+      if (isDisabled) {
+        return;
+      }
+
       current && onChange && onChange({
         isValid,
-        value: { [current[0].name as string]: value }
+        value: { [current[0].name || 'unknown']: value }
       });
     },
-    [current, onChange]
+    [current, isDisabled, onChange]
   );
-
-  if (isDisabled) {
-    return <Static {...props} />;
-  }
 
   return (
     <Bare className={className}>
       <Dropdown
         className='full'
-        defaultValue={initialValue}
+        defaultValue={initialEnum}
         isDisabled={isDisabled}
         isError={isError}
         label={label}
@@ -95,10 +153,13 @@ function EnumParam (props: Props): React.ReactElement<Props> {
       />
       {current && (
         <Params
+          isDisabled={isDisabled}
+          isError={isError}
           onChange={_onChangeParam}
           overrides={overrides}
           params={current}
           registry={registry}
+          values={initialParams}
         />
       )}
     </Bare>

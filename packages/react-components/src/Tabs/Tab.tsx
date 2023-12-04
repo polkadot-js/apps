@@ -1,48 +1,39 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '../types';
-import type { TabItem } from './types';
+import type { TabItem } from '../types.js';
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import styled from 'styled-components';
 
-import Badge from '../Badge';
-import Icon from '../Icon';
+import Badge from '../Badge.js';
+import { styled } from '../styled.js';
 
 interface Props extends TabItem {
   basePath: string;
   className?: string;
   count?: number;
   index: number;
-  isSequence?: boolean;
-  num: number;
 }
 
-function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRoot, isSequence, name, num, text }: Props): React.ReactElement<Props> {
+function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRoot, name, text }: Props): React.ReactElement<Props> {
   const to = isRoot
     ? basePath
     : `${basePath}/${name}`;
 
   // only do exact matching when not the fallback (first position tab),
   // params are problematic for dynamic hidden such as app-accounts
-  const tabIsExact = isExact || !hasParams || (!isSequence && index === 0);
+  const tabIsExact = isExact || !hasParams || index === 0;
 
   return (
-    <NavLink
-      activeClassName='tabLinkActive'
-      className={`ui--Tab ${className}`}
-      exact={tabIsExact}
-      strict={tabIsExact}
+    <StyledNavLink
+      className={`${className} ui--Tab`}
+      end={tabIsExact}
       to={to}
     >
-      {text}{(isSequence && index < (num - 1)) && (
-        <Icon
-          className='tabIcon'
-          icon='arrow-right'
-        />
-      )}
+      <div className='tabLinkText'>
+        {text}
+      </div>
       {!!count && (
         <Badge
           className='tabCounter'
@@ -50,26 +41,52 @@ function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRo
           info={count}
         />
       )}
-    </NavLink>
+    </StyledNavLink>
   );
 }
 
-export default React.memo(styled(Tab)(({ theme }: ThemeProps) => `
-  border-bottom: 2px solid transparent;
-  color: ${theme.color} !important;
-  margin-bottom: -3px;
-  padding: 0.5rem 1.5rem 0.75rem;
-
-  &.tabLinkActive {
-    border-bottom-color: #e6e6e6;
-  }
+const StyledNavLink = styled(NavLink)`
+  align-items: center;
+  display: flex;
+  color: #8B8B8B;
+  height: 100%;
+  padding: 0 1.5rem;
+  position: relative;
 
   &:hover {
-    filter: highlight(120%);
+    color: #8B8B8B;
 
-    &:not(.tabLinkActive) {
-      border-bottom-color: #e6e6e6;
+    .tabLinkText::after {
+      background-color: #8B8B8B;
     }
+  }
+
+  &.active, &:hover {
+    .tabLinkText::after {
+      content: '';
+      position: absolute;
+      width: 3.14rem;
+      height: 2px;
+      bottom: -2px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  &.active {
+    color: var(--color-text) !important;
+    font-weight: var(--font-weight-normal);
+
+    &:hover {
+      cursor: default;
+    }
+  }
+
+  .tabLinkText {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
   }
 
   .tabCounter {
@@ -79,4 +96,6 @@ export default React.memo(styled(Tab)(({ theme }: ThemeProps) => `
   .tabIcon {
     margin-left: 0.75rem;
   }
-`));
+`;
+
+export default React.memo(Tab);

@@ -1,8 +1,9 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
+
+import { styled } from './styled.js';
 
 interface Props {
   children: React.ReactNode;
@@ -14,13 +15,13 @@ interface Props {
 
 function Card ({ children, className = '', isError, isSuccess, withBottomMargin }: Props): React.ReactElement<Props> {
   return (
-    <article className={`ui--Card${className}${(isError && !isSuccess) ? ' error' : ''}${(!isError && isSuccess) ? ' success' : ''}${withBottomMargin ? ' withBottomMargin' : ''}`}>
+    <StyledArticle className={`${className} ui--Card ${(isError && !isSuccess) ? 'error' : ''} ${(!isError && isSuccess) ? 'success' : ''} ${withBottomMargin ? 'withBottomMargin' : ''}`}>
       {children}
-    </article>
+    </StyledArticle>
   );
 }
 
-export default React.memo(styled(Card)`
+const StyledArticle = styled.article`
   position: relative;
   flex: 1 1;
   min-width: 24%;
@@ -30,7 +31,30 @@ export default React.memo(styled(Card)`
     opacity: 0.42;
   }
 
+  i.help.circle.icon,
+  .ui.button.mini,
+  .ui.button.tiny,
+  .addTags {
+    visibility: hidden;
+  }
+
+  .ui--AddressSummary-buttons {
+    text-align: right;
+    margin-bottom: 2em;
+
+    button {
+      margin-left: 0.2em;
+    }
+  }
+
   &:hover {
+    i.help.circle.icon,
+    .ui.button.mini,
+    .ui.button.tiny,
+    .addTags {
+      visibility: visible;
+    }
+
     label {
       opacity: 1;
     }
@@ -56,29 +80,6 @@ export default React.memo(styled(Card)`
   &.withBottomMargin {
     margin-bottom: 1.5rem;
   }
+`;
 
-  i.help.circle.icon,
-  .ui.button.mini,
-  .ui.button.tiny,
-  .addTags {
-    visibility: hidden;
-  }
-
-  &:hover {
-    i.help.circle.icon,
-    .ui.button.mini,
-    .ui.button.tiny,
-    .addTags {
-      visibility: visible;
-    }
-  }
-
-  .ui--AddressSummary-buttons {
-    text-align: right;
-    margin-bottom: 2em;
-
-    button {
-      margin-left: 0.2em;
-    }
-  }
-`);
+export default React.memo(Card);

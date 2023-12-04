@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "outDir": "./build",
+    "rootDir": "./src"
+  },
+  "exclude": [
+    "src/ctx/Api.tsx",
+    "src/ctx/types.ts"
+  ],
+  "references": [
+    { "path": "../apps-config/tsconfig.build.json" },
+    { "path": "../react-components/tsconfig.xref.json" }
+  ]
+}

@@ -1,13 +1,26 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DoughnutProps } from './types';
+import type { BN } from '@polkadot/util';
 
 import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
+
 import { bnToBn } from '@polkadot/util';
 
-import Base from './Base';
+import Base from './Base.js';
+
+interface DoughnutValue {
+  colors: string[];
+  label: string;
+  value: number | BN;
+}
+
+export interface Props {
+  className?: string;
+  size?: number;
+  values: DoughnutValue[];
+}
 
 interface Options {
   colorNormal: string[];
@@ -16,7 +29,7 @@ interface Options {
   labels: string[];
 }
 
-function ChartDoughnut ({ className = '', size = 100, values }: DoughnutProps): React.ReactElement<DoughnutProps> {
+function ChartDoughnut ({ className = '', size = 100, values }: Props): React.ReactElement<Props> {
   const options: Options = {
     colorHover: [],
     colorNormal: [],
@@ -32,7 +45,7 @@ function ChartDoughnut ({ className = '', size = 100, values }: DoughnutProps): 
   });
 
   return (
-    <Base className={className}>
+    <Base className={`${className} ui--Chart-Doughnut`}>
       <Doughnut
         data={{
           datasets: [{

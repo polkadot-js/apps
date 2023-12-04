@@ -1,10 +1,10 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
 
-import Button from './Button';
-import { useTranslation } from './translate';
+import Button from './Button/index.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;
@@ -22,7 +22,7 @@ function ButtonCancel ({ className = '', isDisabled, label, onClick, tabIndex }:
       className={className}
       icon='times'
       isDisabled={isDisabled}
-      label={label || t<string>('Cancel')}
+      label={label || t('Cancel')}
       onClick={onClick}
       tabIndex={tabIndex}
     />

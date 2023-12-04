@@ -1,10 +1,14 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import BN from 'bn.js';
+import type { BN } from '@polkadot/util';
+
 import React, { useEffect, useState } from 'react';
 
-import { useTranslation } from '../../translate';
+import { MarkWarning } from '@polkadot/react-components';
+import { BN_TEN } from '@polkadot/util';
+
+import { useTranslation } from '../../translate.js';
 
 interface Props {
   unstakeThreshold: BN | undefined;
@@ -20,9 +24,9 @@ function InputValidationUnstakeThreshold ({ onError, unstakeThreshold }: Props):
       let newError: string | null = null;
 
       if (unstakeThreshold.ltn(0)) {
-        newError = t<string>('The Threshold must be a positive number');
-      } else if (unstakeThreshold.gtn(10)) {
-        newError = t<string>('The Threshold must lower than 11');
+        newError = t('The Threshold must be a positive number');
+      } else if (unstakeThreshold.gt(BN_TEN)) {
+        newError = t('The Threshold must lower than 11');
       }
 
       onError(newError);
@@ -35,9 +39,7 @@ function InputValidationUnstakeThreshold ({ onError, unstakeThreshold }: Props):
   }
 
   return (
-    <article className='warning'>
-      <div>{error}</div>
-    </article>
+    <MarkWarning content={error} />
   );
 }
 

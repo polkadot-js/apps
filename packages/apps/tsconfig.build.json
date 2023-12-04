@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "outDir": "./build",
+    "rootDir": "./src"
+  },
+  "exclude": [
+    "public/*",
+    "webpack.*.cjs"
+  ],
+  "references": [
+    { "path": "../apps-config/tsconfig.build.json" },
+    { "path": "../apps-routing/tsconfig.build.json" },
+    { "path": "../react-components/tsconfig.build.json" },
+    { "path": "../react-hooks/tsconfig.build.json" },
+    { "path": "../react-signer/tsconfig.build.json" }
+  ]
+}

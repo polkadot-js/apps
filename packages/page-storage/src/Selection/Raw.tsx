@@ -1,17 +1,18 @@
-// Copyright 2017-2020 @polkadot/app-storage authors & contributors
+// Copyright 2017-2023 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ComponentProps as Props } from '../types';
+import type { ComponentProps as Props } from '../types.js';
 
 import React, { useCallback, useState } from 'react';
-import { Button, Input } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
+import { Button, Input } from '@polkadot/react-components';
 import { compactAddLength, u8aToU8a } from '@polkadot/util';
+
+import { useTranslation } from '../translate.js';
 
 function Raw ({ onAdd }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [{ isValid, key }, setValue] = useState<{ isValid: boolean; key: Uint8Array }>({ isValid: false, key: new Uint8Array([]) });
+  const [{ isValid, key }, setValue] = useState<{ isValid: boolean; key: Uint8Array }>(() => ({ isValid: false, key: new Uint8Array([]) }));
 
   const _onAdd = useCallback(
     (): void => {
@@ -37,7 +38,7 @@ function Raw ({ onAdd }: Props): React.ReactElement<Props> {
       <div className='storage--actionrow-value'>
         <Input
           autoFocus
-          label={t<string>('hex-encoded storage key')}
+          label={t('hex-encoded storage key')}
           onChange={_onChangeKey}
           onEnter={_onAdd}
         />

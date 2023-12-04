@@ -1,24 +1,24 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ConstantCodec } from '@polkadot/metadata/decorate/types';
-import type { DropdownOptions } from '../util/types';
-import type { ConstValue, ConstValueBase } from './types';
+import type { ApiPromise } from '@polkadot/api';
+import type { ConstantCodec } from '@polkadot/types/metadata/decorate/types';
+import type { DropdownOptions } from '../util/types.js';
+import type { ConstValue, ConstValueBase } from './types.js';
 
 import React, { useCallback, useState } from 'react';
-import { ApiPromise } from '@polkadot/api';
+
 import { useApi } from '@polkadot/react-hooks';
 
-import LinkedWrapper from '../InputExtrinsic/LinkedWrapper';
-import SelectKey from './SelectKey';
-import SelectSection from './SelectSection';
-import keyOptions from './options/key';
-import sectionOptions from './options/section';
+import LinkedWrapper from '../InputExtrinsic/LinkedWrapper.js';
+import keyOptions from './options/key.js';
+import sectionOptions from './options/section.js';
+import SelectKey from './SelectKey.js';
+import SelectSection from './SelectSection.js';
 
 interface Props {
   className?: string;
   defaultValue: ConstValueBase;
-  help?: React.ReactNode;
   isError?: boolean;
   label: React.ReactNode;
   onChange?: (value: ConstValue) => void;
@@ -28,7 +28,7 @@ interface Props {
 function getValue (api: ApiPromise, { method, section }: ConstValueBase): ConstValue {
   const firstSec = Object.keys(api.consts)[0];
   const firstMet = Object.keys(api.consts[firstSec])[0];
-  const value = (api.consts[section] && api.consts[section][method])
+  const value = api.consts[section]?.[method]
     ? { method, section }
     : { method: firstMet, section: firstSec };
 
@@ -38,38 +38,34 @@ function getValue (api: ApiPromise, { method, section }: ConstValueBase): ConstV
   };
 }
 
-function InputConsts ({ className = '', defaultValue, help, label, onChange, withLabel }: Props): React.ReactElement<Props> {
+function InputConsts ({ className = '', defaultValue, label, onChange, withLabel }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(keyOptions(api, defaultValue.section));
-  const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
-  const [value, setValue] = useState<ConstValue>(getValue(api, defaultValue));
+  const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(() => keyOptions(api, defaultValue.section));
+  const [optionsSection] = useState<DropdownOptions>(() => sectionOptions(api));
+  const [value, setValue] = useState<ConstValue>(() => getValue(api, defaultValue));
 
   const _onKeyChange = useCallback(
     (newValue: ConstValueBase): void => {
-      if (value.section === newValue.section && value.method === newValue.method) {
-        return;
+      if (value.section !== newValue.section || value.method !== newValue.method) {
+        const { method, section } = newValue;
+        const meta = (api.consts[section][method] as ConstantCodec).meta;
+        const updated = { meta, method, section };
+
+        setValue(updated);
+        onChange && onChange(updated);
       }
-
-      const { method, section } = newValue;
-      const meta = (api.consts[section][method] as ConstantCodec).meta;
-      const updated = { meta, method, section };
-
-      setValue(updated);
-      onChange && onChange(updated);
     },
     [api, onChange, value]
   );
 
   const _onSectionChange = useCallback(
-    (section: string): void => {
-      if (section === value.section) {
-        return;
+    (newSection: string): void => {
+      if (newSection !== value.section) {
+        const optionsMethod = keyOptions(api, newSection);
+
+        setOptionsMethod(optionsMethod);
+        _onKeyChange({ method: optionsMethod[0].value, section: newSection });
       }
-
-      const optionsMethod = keyOptions(api, section);
-
-      setOptionsMethod(optionsMethod);
-      _onKeyChange({ method: optionsMethod[0].value, section });
     },
     [_onKeyChange, api, value]
   );
@@ -77,7 +73,6 @@ function InputConsts ({ className = '', defaultValue, help, label, onChange, wit
   return (
     <LinkedWrapper
       className={className}
-      help={help}
       label={label}
       withLabel={withLabel}
     >

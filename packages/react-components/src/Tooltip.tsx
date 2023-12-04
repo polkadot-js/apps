@@ -1,31 +1,28 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
+import { createPortal } from 'react-dom';
 import ReactTooltip from 'react-tooltip';
-import styled from 'styled-components';
 
-const rootElement = typeof document === 'undefined'
-  ? null // This hack is required for server side rendering
-  : document.getElementById('tooltips');
+import { styled } from './styled.js';
+
+function rootElement () {
+  return typeof document === 'undefined'
+    ? null // This hack is required for server side rendering
+    : document.getElementById('tooltips');
+}
 
 interface Props {
+  children?: React.ReactNode;
   className?: string;
-  dataFor?: string;
-  effect?: 'solid' | 'float';
-  offset?: {
-    bottom?: number;
-    left?: number;
-    right?: number;
-    top?: number;
-  };
+  isClickable?: boolean;
   place?: 'bottom' | 'top' | 'right' | 'left';
-  text: React.ReactNode;
+  text?: React.ReactNode;
   trigger: string;
 }
 
-function Tooltip ({ className = '', effect = 'solid', offset, place = 'top', text, trigger }: Props): React.ReactElement<Props> | null {
+function Tooltip ({ children, className = '', isClickable = false, place, text, trigger }: Props): React.ReactElement<Props> | null {
   const [tooltipContainer] = useState(
     typeof document === 'undefined'
       ? {} as HTMLElement // This hack is required for server side rendering
@@ -33,35 +30,45 @@ function Tooltip ({ className = '', effect = 'solid', offset, place = 'top', tex
   );
 
   useEffect((): () => void => {
-    rootElement && rootElement.appendChild(tooltipContainer);
+    const root = rootElement();
+
+    root?.appendChild(tooltipContainer);
 
     return (): void => {
-      rootElement && rootElement.removeChild(tooltipContainer);
+      root?.removeChild(tooltipContainer);
     };
   }, [tooltipContainer]);
 
-  return ReactDOM.createPortal(
-    <ReactTooltip
-      className={`ui--Tooltip ${className}`}
-      effect={effect}
+  return createPortal(
+    <StyledReactTooltip
+      className={`${className} ui--Tooltip`}
+      clickable={isClickable}
+      effect='solid'
       id={trigger}
-      offset={offset}
       place={place}
     >
-      {className?.includes('address') ? <div>{text}</div> : text}
-    </ReactTooltip>,
+      <div className='tooltipSpacer'>
+        {text}{children}
+      </div>
+    </StyledReactTooltip>,
     tooltipContainer
   );
 }
 
-export default React.memo(styled(Tooltip)`
+// FIXME This cast should really not be needed since the export is React.Component<TooltipProps>,
+// however while it works as specified, it fails here on the definition. Until we have the component
+// upgraded to latest, we probably don't want to start digging...
+const StyledReactTooltip = styled(ReactTooltip as unknown as React.ComponentType<any>)`
+  .tooltipSpacer {
+    padding: 0.375rem;
+  }
+
   > div {
     overflow: hidden;
   }
 
-  &.address div {
-    overflow: hidden;
-    text-overflow: ellipsis;
+  &.ui--Tooltip {
+    z-index: 1002;
   }
 
   table {
@@ -86,17 +93,32 @@ export default React.memo(styled(Tooltip)`
     margin-top: 0.75rem;
   }
 
+  > div+div {
+    margin-top: 0.5rem;
+  }
+
+  &.address div {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .faded {
-    margin-top: -0.25rem;
+    margin-top: 0;
     opacity: 0.75 !important;
-    font-size: 0.85em !important;
+    font-size: var(--font-size-tiny) !important;
+
+    .faded {
+      font-size: 1em !important;
+    }
   }
 
   .faded+.faded {
-    margin-top: -0.5rem;
+    margin-top: 0;
   }
 
   .row+.row {
     margin-top: 0.5rem;
   }
-`);
+`;
+
+export default React.memo(Tooltip);

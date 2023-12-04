@@ -1,20 +1,18 @@
-// Copyright 2017-2020 @polkadot/app-addresses authors & contributors
+// Copyright 2017-2023 @polkadot/app-addresses authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveAccountInfo, DeriveBalancesAll } from '@polkadot/api-derive/types';
-import type { KeyringAddress } from '@polkadot/ui-keyring/types';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
-import type { ThemeDef } from '@polkadot/react-components/types';
+import type { KeyringAddress } from '@polkadot/ui-keyring/types';
+import type { HexString } from '@polkadot/util/types';
 
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-import styled, { ThemeContext } from 'styled-components';
-import Transfer from '@polkadot/app-accounts/modals/Transfer';
-import { AddressSmall, AddressInfo, Button, ChainLock, Icon, LinkExternal, Forget, Menu, Popup, Tags } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
-import keyring from '@polkadot/ui-keyring';
-import { BN_ZERO, formatNumber } from '@polkadot/util';
+import React, { useCallback, useEffect, useState } from 'react';
 
-import { useTranslation } from '../translate';
+import { AddressInfo, AddressSmall, Button, ChainLock, Columar, Forget, LinkExternal, Menu, Popup, Table, Tags, TransferModal } from '@polkadot/react-components';
+import { useApi, useBalancesAll, useDeriveAccountInfo, useToggle } from '@polkadot/react-hooks';
+import { keyring } from '@polkadot/ui-keyring';
+import { isFunction } from '@polkadot/util';
+
+import { useTranslation } from '../translate.js';
 
 interface Props {
   address: string;
@@ -24,24 +22,44 @@ interface Props {
   toggleFavorite: (address: string) => void;
 }
 
-const WITH_BALANCE = { available: true, bonded: true, free: true, locked: true, reserved: true, total: true, unlocking: true };
-
 const isEditable = true;
+
+const BAL_OPTS_DEFAULT = {
+  available: false,
+  bonded: false,
+  locked: false,
+  redeemable: false,
+  reserved: false,
+  total: true,
+  unlocking: false,
+  vested: false
+};
+
+const BAL_OPTS_EXPANDED = {
+  available: true,
+  bonded: true,
+  locked: true,
+  nonce: true,
+  redeemable: true,
+  reserved: true,
+  total: false,
+  unlocking: true,
+  vested: true
+};
 
 function Address ({ address, className = '', filter, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { theme } = useContext<ThemeDef>(ThemeContext);
   const api = useApi();
-  const info = useCall<DeriveAccountInfo>(api.api.derive.accounts.info, [address]);
-  const balancesAll = useCall<DeriveBalancesAll>(api.api.derive.balances.all, [address]);
+  const info = useDeriveAccountInfo(address);
+  const balancesAll = useBalancesAll(address);
   const [tags, setTags] = useState<string[]>([]);
   const [accName, setAccName] = useState('');
   const [current, setCurrent] = useState<KeyringAddress | null>(null);
   const [genesisHash, setGenesisHash] = useState<string | null>(null);
   const [isForgetOpen, setIsForgetOpen] = useState(false);
-  const [isSettingPopupOpen, setIsSettingPopupOpen] = useState(false);
   const [isTransferOpen, setIsTransferOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const [isExpanded, toggleIsExpanded] = useToggle(false);
 
   const _setTags = useCallback(
     (tags: string[]): void => setTags(tags.sort()),
@@ -52,14 +70,14 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
     const current = keyring.getAddress(address);
 
     setCurrent(current || null);
-    setGenesisHash((current && current.meta.genesisHash) || null);
+    setGenesisHash((current?.meta.genesisHash) || null);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect((): void => {
     const { identity, nickname } = info || {};
 
-    if (api.api.query.identity && api.api.query.identity.identityOf) {
+    if (isFunction(api.api.query.identity?.identityOf)) {
       if (identity?.display) {
         setAccName(identity.display);
       }
@@ -71,7 +89,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   useEffect((): void => {
     const account = keyring.getAddress(address);
 
-    _setTags(account?.meta?.tags as string[] || []);
+    _setTags(account?.meta?.tags || []);
     setAccName(account?.meta?.name || '');
   }, [_setTags, address]);
 
@@ -90,7 +108,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   }, [accName, filter, tags]);
 
   const _onGenesisChange = useCallback(
-    (genesisHash: string | null): void => {
+    (genesisHash: HexString | null): void => {
       setGenesisHash(genesisHash);
 
       const account = keyring.getAddress(address);
@@ -102,19 +120,9 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
     [address]
   );
 
-  const _onFavorite = useCallback(
-    (): void => toggleFavorite(address),
-    [address, toggleFavorite]
-  );
-
   const _toggleForget = useCallback(
     (): void => setIsForgetOpen(!isForgetOpen),
     [isForgetOpen]
-  );
-
-  const _toggleSettingPopup = useCallback(
-    (): void => setIsSettingPopupOpen(!isSettingPopupOpen),
-    [isSettingPopupOpen]
   );
 
   const _toggleTransfer = useCallback(
@@ -133,7 +141,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
         try {
           keyring.forgetAddress(address);
           status.status = 'success';
-          status.message = t<string>('address forgotten');
+          status.message = t('address forgotten');
         } catch (error) {
           status.status = 'error';
           status.message = (error as Error).message;
@@ -147,110 +155,128 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
     return null;
   }
 
-  return (
-    <tr className={className}>
-      <td className='favorite'>
-        <Icon
-          color={isFavorite ? 'orange' : 'gray'}
-          icon='star'
-          onClick={_onFavorite}
-        />
-      </td>
-      <td className='address'>
-        <AddressSmall value={address} />
-        {address && current && (
-          <>
-            {isForgetOpen && (
-              <Forget
-                address={current.address}
-                key='modal-forget-account'
-                mode='address'
-                onClose={_toggleForget}
-                onForget={_onForget}
-              />
-            )}
-            {isTransferOpen && (
-              <Transfer
-                key='modal-transfer'
-                onClose={_toggleTransfer}
-                recipientId={address}
-              />
-            )}
-          </>
-        )}
-      </td>
-      <td className='all'>
-        <div className='tags'>
-          <Tags value={tags} />
-        </div>
-      </td>
-      <td className='number media--1500'>
-        {balancesAll?.accountNonce.gt(BN_ZERO) && formatNumber(balancesAll.accountNonce)}
-      </td>
-      <td className='number'>
-        <AddressInfo
-          address={address}
-          withBalance={WITH_BALANCE}
-          withBalanceToggle
-          withExtended={false}
-        />
-      </td>
-      <td className='button'>
-        {api.api.tx.balances?.transfer && (
-          <Button
-            icon='paper-plane'
-            key='send'
-            label={t<string>('send')}
-            onClick={_toggleTransfer}
+  const PopupDropdown = (
+    <Menu>
+      <Menu.Item
+        isDisabled={!isEditable}
+        label={t('Forget this address')}
+        onClick={_toggleForget}
+      />
+      {isEditable && !api.isDevelopment && (
+        <>
+          <Menu.Divider />
+          <ChainLock
+            className='addresses--network-toggle'
+            genesisHash={genesisHash}
+            onChange={_onGenesisChange}
           />
-        )}
-        <Popup
-          className={`theme--${theme}`}
-          isOpen={isSettingPopupOpen}
-          onClose={_toggleSettingPopup}
-          trigger={
-            <Button
-              icon='ellipsis-v'
-              onClick={_toggleSettingPopup}
-            />
-          }
-        >
-          <Menu
-            onClick={_toggleSettingPopup}
-            text
-            vertical
-          >
-            <Menu.Item
-              disabled={!isEditable}
-              onClick={_toggleForget}
-            >
-              {t<string>('Forget this address')}
-            </Menu.Item>
-            <Menu.Divider />
-            <ChainLock
-              className='addresses--network-toggle'
-              genesisHash={genesisHash}
-              isDisabled={!isEditable || api.isDevelopment}
-              onChange={_onGenesisChange}
-            />
-          </Menu>
-        </Popup>
-      </td>
-      <td className='links media--1400'>
-        <LinkExternal
-          className='ui--AddressCard-exporer-link'
-          data={address}
-          isLogo
-          type='address'
+        </>
+      )}
+    </Menu>
+  );
+
+  return (
+    <>
+      <tr className={`${className} isExpanded isFirst packedBottom`}>
+        <Table.Column.Favorite
+          address={address}
+          isFavorite={isFavorite}
+          toggle={toggleFavorite}
         />
-      </td>
-    </tr>
+        <td className='address all'>
+          <AddressSmall
+            value={address}
+            withShortAddress
+          />
+          {address && current && (
+            <>
+              {isForgetOpen && (
+                <Forget
+                  address={current.address}
+                  key='modal-forget-account'
+                  mode='address'
+                  onClose={_toggleForget}
+                  onForget={_onForget}
+                />
+              )}
+              {isTransferOpen && (
+                <TransferModal
+                  key='modal-transfer'
+                  onClose={_toggleTransfer}
+                  recipientId={address}
+                />
+              )}
+            </>
+          )}
+        </td>
+        <td className='actions button'>
+          <Button.Group>
+            {isFunction(api.api.tx.balances?.transfer) && (
+              <Button
+                className='send-button'
+                icon='paper-plane'
+                key='send'
+                label={t('send')}
+                onClick={_toggleTransfer}
+              />
+            )}
+            <Popup value={PopupDropdown} />
+          </Button.Group>
+        </td>
+        <Table.Column.Expand
+          isExpanded={isExpanded}
+          toggle={toggleIsExpanded}
+        />
+      </tr>
+      <tr className={`${className} isExpanded ${isExpanded ? '' : 'isLast'} packedTop`}>
+        <td />
+        <td
+          className='balance all'
+          colSpan={2}
+        >
+          <AddressInfo
+            address={address}
+            balancesAll={balancesAll}
+            withBalance={BAL_OPTS_DEFAULT}
+          />
+        </td>
+        <td />
+      </tr>
+      <tr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'} packedTop`}>
+        <td />
+        <td
+          className='balance columar'
+          colSpan={2}
+        >
+          <AddressInfo
+            address={address}
+            balancesAll={balancesAll}
+            withBalance={BAL_OPTS_EXPANDED}
+          />
+          <Columar size='tiny'>
+            <Columar.Column>
+              <div data-testid='tags'>
+                <Tags
+                  value={tags}
+                  withTitle
+                />
+              </div>
+            </Columar.Column>
+          </Columar>
+          <Columar is100>
+            <Columar.Column>
+              <LinkExternal
+                data={address}
+                type='address'
+                withTitle
+              />
+            </Columar.Column>
+          </Columar>
+        </td>
+        <td />
+      </tr>
+    </>
   );
 }
 
-export default React.memo(styled(Address)`
-  .tags {
-    width: 100%;
-    min-height: 1.5rem;
-  }
-`);
+export default React.memo(Address);

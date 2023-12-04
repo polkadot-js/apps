@@ -1,0 +1,25 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "outDir": "./build",
+    "rootDir": "./src",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "target": "es2018",
+    /* This is a cjs target, so ignore */
+    "verbatimModuleSyntax": false
+  },
+  "exclude": [
+    "scripts/*"
+  ],
+  "references": [
+    { "path": "../react-api/tsconfig.build.json" },
+    { "path": "../react-api/tsconfig.xref.json" }
+  ],
+  "ts-node": {
+    "require": [
+      "tsconfig-paths/register"
+    ]
+  }
+}

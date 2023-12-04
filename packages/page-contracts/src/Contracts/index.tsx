@@ -1,137 +1,107 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ContractCallOutcome } from '@polkadot/api-contract/types';
-import type { FullNewBlock } from '@polkadot/api-derive/types';
-import type { ContractLink } from './types';
+import React, { useCallback, useState } from 'react';
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ApiPromise } from '@polkadot/api';
-import { ContractPromise } from '@polkadot/api-contract';
-import { Table } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
-import { formatNumber } from '@polkadot/util';
+import { Button, styled } from '@polkadot/react-components';
+import { useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import Contract from './Contract';
-import Call from './Call';
-import { getContractForAddress } from './util';
+import CodeAdd from '../Codes/Add.js';
+import Codes from '../Codes/index.js';
+import CodeUpload from '../Codes/Upload.js';
+import { useTranslation } from '../translate.js';
+import { useCodes } from '../useCodes.js';
+import { useContracts } from '../useContracts.js';
+import ContractAdd from './Add.js';
+import ContractsTable from './ContractsTable.js';
+import Deploy from './Deploy.js';
+import Summary from './Summary.js';
 
-export interface Props {
-  contracts: string[];
-  updated: number;
+interface Props {
+  className?: string;
 }
 
-interface Indexes {
-  contractIndex: number;
-  messageIndex: number;
-  onCallResult?: (messageIndex: number, result?: ContractCallOutcome) => void;
-}
-
-function filterContracts (api: ApiPromise, keyringContracts: string[] = []): ContractPromise[] {
-  return keyringContracts
-    .map((address) => getContractForAddress(api, address.toString()))
-    .filter((contract): contract is ContractPromise => !!contract);
-}
-
-function Contracts ({ contracts: keyringContracts }: Props): React.ReactElement<Props> {
+function Contracts ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const newBlock = useCall<FullNewBlock>(api.derive.chain.subscribeNewBlocks);
-  const [{ contractIndex, messageIndex, onCallResult }, setIndexes] = useState<Indexes>({ contractIndex: 0, messageIndex: 0 });
-  const [isCallOpen, setIsCallOpen] = useState(false);
-  const [contractLinks, setContractLinks] = useState<Record<string, ContractLink[]>>({});
+  const { allCodes, codeTrigger } = useCodes();
+  const { allContracts } = useContracts();
+  const [isAddOpen, toggleAdd] = useToggle();
+  const [isDeployOpen, toggleDeploy, setIsDeployOpen] = useToggle();
+  const [isHashOpen, toggleHash] = useToggle();
+  const [isUploadOpen, toggleUpload] = useToggle();
+  const [codeHash, setCodeHash] = useState<string | undefined>();
+  const [constructorIndex, setConstructorIndex] = useState(0);
 
-  const headerRef = useRef<[string?, string?, number?][]>([
-    [t('contracts'), 'start'],
-    [undefined, undefined, 3],
-    [t('status'), 'start'],
-    [t('projection'), 'media--1100'],
-    []
-  ]);
-
-  useEffect((): void => {
-    if (newBlock) {
-      const exts = newBlock.block.extrinsics
-        .filter(({ method: { method, section } }) => section === 'contracts' && method === 'call')
-        .map(({ args }): ContractLink | null => {
-          const contractId = keyringContracts.find((a) => args[0].eq(a));
-
-          if (!contractId) {
-            return null;
-          }
-
-          return {
-            blockHash: newBlock.blockHash.toHex(),
-            blockNumber: formatNumber(newBlock.blockNumber),
-            contractId
-          };
-        })
-        .filter((value): value is ContractLink => !!value);
-
-      exts.length && setContractLinks((links): Record<string, ContractLink[]> => {
-        exts.forEach((value): void => {
-          links[value.contractId] = [value].concat(links[value.contractId] || []).slice(0, 3);
-        });
-
-        return { ...links };
-      });
-    }
-  }, [keyringContracts, newBlock]);
-
-  const contracts = useMemo(
-    () => filterContracts(api, keyringContracts),
-    [api, keyringContracts]
-  );
-
-  const _toggleCall = useCallback(
-    () => setIsCallOpen((isCallOpen) => !isCallOpen),
-    []
-  );
-
-  const _onCall = useCallback(
-    (contractIndex: number, messageIndex: number, onCallResult: (messageIndex: number, result?: ContractCallOutcome) => void): void => {
-      setIndexes({ contractIndex, messageIndex, onCallResult });
-      setIsCallOpen(true);
+  const _onShowDeploy = useCallback(
+    (codeHash: string, constructorIndex: number): void => {
+      setCodeHash(codeHash || allCodes?.[0]?.json.codeHash || undefined);
+      setConstructorIndex(constructorIndex);
+      toggleDeploy();
     },
-    []
+    [allCodes, toggleDeploy]
   );
 
-  const _setMessageIndex = useCallback(
-    (messageIndex: number) => setIndexes((state) => ({ ...state, messageIndex })),
-    []
+  const _onCloseDeploy = useCallback(
+    () => setIsDeployOpen(false),
+    [setIsDeployOpen]
   );
-
-  const contract = contracts[contractIndex] || null;
 
   return (
-    <>
-      <Table
-        empty={t<string>('No contracts available')}
-        header={headerRef.current}
-      >
-        {contracts.map((contract, index): React.ReactNode => (
-          <Contract
-            contract={contract}
-            index={index}
-            key={contract.address.toString()}
-            links={contractLinks[contract.address.toString()]}
-            onCall={_onCall}
-          />
-        ))}
-      </Table>
-      {isCallOpen && contract && (
-        <Call
-          contract={contract}
-          isOpen={isCallOpen}
-          messageIndex={messageIndex}
-          onCallResult={onCallResult}
-          onChangeMessage={_setMessageIndex}
-          onClose={_toggleCall}
+    <StyledDiv className={className}>
+      <Summary trigger={codeTrigger} />
+      <Button.Group>
+        <Button
+          icon='plus'
+          label={t('Upload & deploy code')}
+          onClick={toggleUpload}
+        />
+        <Button
+          icon='plus'
+          label={t('Add an existing code hash')}
+          onClick={toggleHash}
+        />
+        <Button
+          icon='plus'
+          label={t('Add an existing contract')}
+          onClick={toggleAdd}
+        />
+      </Button.Group>
+      <ContractsTable
+        contracts={allContracts}
+        updated={codeTrigger}
+      />
+      <Codes
+        onShowDeploy={_onShowDeploy}
+        updated={codeTrigger}
+      />
+      {codeHash && isDeployOpen && (
+        <Deploy
+          codeHash={codeHash}
+          constructorIndex={constructorIndex}
+          onClose={_onCloseDeploy}
+          setConstructorIndex={setConstructorIndex}
         />
       )}
-    </>
+      {isUploadOpen && (
+        <CodeUpload onClose={toggleUpload} />
+      )}
+      {isHashOpen && (
+        <CodeAdd onClose={toggleHash} />
+      )}
+      {isAddOpen && (
+        <ContractAdd onClose={toggleAdd} />
+      )}
+    </StyledDiv>
   );
 }
+
+const StyledDiv = styled.div`
+  .ui--Table td > article {
+    background: transparent;
+    border: none;
+    margin: 0;
+    padding: 0;
+  }
+`;
 
 export default React.memo(Contracts);

@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // Robots lovingly delivered by Robohash.org
@@ -10,14 +10,13 @@
 // The Cats/"set4" were created by David Revoy, used under CC-BY-4.0 https://www.peppercarrot.com/en/article391/cat-avatar-generator
 // The avatars used in "set5" were created by Pablo Stanley, for https://avataaars.com/ They are "Free for personal and commercial use. 😇"
 
-import type { ThemeProps } from '../../types';
-
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
+
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import backgrounds from './backgrounds';
-import sets from './sets';
+import { styled } from '../../styled.js';
+import backgrounds from './backgrounds/index.js';
+import sets from './sets/index.js';
 
 interface Props {
   className?: string;
@@ -52,10 +51,10 @@ function createInfo (value: string): string[] {
     hash: blake2AsU8a(value),
     index: 0
   };
-  const result = [getIndex(backgrounds, hash) as string];
+  const result = [getIndex(backgrounds, hash)];
 
   getIndex(sets, hash).forEach((section): void => {
-    result.push(getIndex(section, hash) as string);
+    result.push(getIndex(section, hash));
   });
 
   return result;
@@ -72,7 +71,7 @@ function RoboHash ({ className, publicKey, size }: Props): React.ReactElement<Pr
   );
 
   return (
-    <div
+    <StyledDiv
       className={className}
       style={style}
     >
@@ -82,12 +81,12 @@ function RoboHash ({ className, publicKey, size }: Props): React.ReactElement<Pr
           src={src}
         />
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(RoboHash)(({ theme }: ThemeProps) => `
-  background: ${theme.bgPage};
+const StyledDiv = styled.div`
+  background: var(--bg-page);
   border-radius: 50%;
   position: relative;
   overflow: hidden;
@@ -103,4 +102,6 @@ export default React.memo(styled(RoboHash)(({ theme }: ThemeProps) => `
       opacity: 0.35;
     }
   }
-`));
+`;
+
+export default React.memo(RoboHash);

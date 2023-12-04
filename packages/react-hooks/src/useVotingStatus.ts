@@ -1,15 +1,18 @@
-// Copyright 2017-2020 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BlockNumber, Votes } from '@polkadot/types/interfaces';
+import type { ApiPromise } from '@polkadot/api';
+import type { BlockNumber, Votes } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
+import type { CollectiveType } from './types.js';
 
-import BN from 'bn.js';
 import { useMemo } from 'react';
-import { ApiPromise } from '@polkadot/api';
+
 import { isFunction } from '@polkadot/util';
 
-import { useApi } from './useApi';
-import { useCall } from './useCall';
+import { createNamedHook } from './createNamedHook.js';
+import { useApi } from './useApi.js';
+import { useBestNumber } from './useBestNumber.js';
 
 interface State {
   hasFailed: boolean;
@@ -21,8 +24,13 @@ interface State {
 
 const DEFAULT_STATUS = { hasFailed: false, hasPassed: false, isCloseable: false, isVoteable: false, remainingBlocks: null };
 
-function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numMembers: number, section: 'council' | 'technicalCommittee'): State {
-  if (!votes.end) {
+function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numMembers: number, section: CollectiveType): State {
+  const [instance] = api.registry.getModuleInstances(api.runtimeVersion.specName.toString(), section) || [section];
+  const modLocation = isFunction(api.tx[instance as 'technicalCommittee']?.close)
+    ? instance
+    : null;
+
+  if (!votes.end || !modLocation) {
     return {
       hasFailed: false,
       hasPassed: false,
@@ -33,17 +41,17 @@ function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numM
   }
 
   const isEnd = bestNumber.gte(votes.end);
+  // let approved = yes_votes >= voting.threshold;
   const hasPassed = votes.threshold.lten(votes.ayes.length);
+  // let disapproved = seats.saturating_sub(no_votes) < voting.threshold;
   const hasFailed = votes.threshold.gtn(Math.abs(numMembers - votes.nays.length));
 
   return {
     hasFailed,
     hasPassed,
-    isCloseable: isFunction(api.tx[section].close)
-      ? api.tx[section].close.meta.args.length === 4 // current-generation
-        ? isEnd || hasPassed || hasFailed
-        : isEnd
-      : false,
+    isCloseable: api.tx[modLocation].close.meta.args.length === 4 // current-generation
+      ? isEnd || hasPassed || hasFailed
+      : isEnd,
     isVoteable: !isEnd,
     remainingBlocks: isEnd
       ? null
@@ -51,9 +59,9 @@ function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numM
   };
 }
 
-export function useVotingStatus (votes: Votes | null | undefined, numMembers: number, section: 'council' | 'technicalCommittee'): State {
+function useVotingStatusImpl (votes: Votes | null | undefined, numMembers: number, section: CollectiveType): State {
   const { api } = useApi();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
+  const bestNumber = useBestNumber();
 
   return useMemo(
     () => bestNumber && votes
@@ -62,3 +70,5 @@ export function useVotingStatus (votes: Votes | null | undefined, numMembers: nu
     [api, bestNumber, numMembers, section, votes]
   );
 }
+
+export const useVotingStatus = createNamedHook('useVotingStatus', useVotingStatusImpl);

@@ -1,27 +1,50 @@
-// Copyright 2017-2020 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Props, Props as CProps } from '../types';
+import type { Props } from '../types.js';
 
-import React, { useMemo, useRef } from 'react';
-import { classes } from '@polkadot/react-components/util';
+import React, { useMemo } from 'react';
+
+import { getTypeDef } from '@polkadot/types';
 import { encodeTypeDef } from '@polkadot/types/create';
 import { isUndefined } from '@polkadot/util';
 
-import findComponent from './findComponent';
-import Static from './Static';
+import findComponent from './findComponent.js';
+import Static from './Static.js';
 
-function Param ({ className = '', defaultValue, isDisabled, isInOption, isOptional, name, onChange, onEnter, onEscape, overrides, registry, type }: Props): React.ReactElement<Props> | null {
-  const compRef = useRef<React.ComponentType<CProps> | null>(findComponent(registry, type, overrides));
+function formatJSON (input: string): string {
+  return input
+    .replace(/"/g, '')
+    .replace(/\\/g, '')
+    .replace(/:Null/g, '')
+    .replace(/:/g, ': ')
+    .replace(/,/g, ', ')
+    .replace(/^{_alias: {.*}, /, '{');
+}
 
-  const label = useMemo(
-    () => isUndefined(name)
-      ? encodeTypeDef(type)
-      : `${name}: ${encodeTypeDef(type)}`,
-    [name, type]
+function Param ({ className = '', defaultValue, isDisabled, isError, isOptional, name, onChange, onEnter, onEscape, overrides, registry, type }: Props): React.ReactElement<Props> | null {
+  const Component = useMemo(
+    () => findComponent(registry, type, overrides),
+    [registry, type, overrides]
   );
 
-  if (!compRef.current) {
+  const label = useMemo(
+    (): string => {
+      const inner = encodeTypeDef(
+        registry,
+        // if our type is a Lookup, try and unwrap again
+        registry.isLookupType(type.lookupName || type.type)
+          ? getTypeDef(registry.createType(type.type).toRawType())
+          : type
+      );
+      const fmtType = formatJSON(inner);
+
+      return `${isUndefined(name) ? '' : `${name}: `}${fmtType}${type.typeName && !fmtType.includes(type.typeName) ? ` (${type.typeName})` : ''}`;
+    },
+    [name, registry, type]
+  );
+
+  if (!Component) {
     return null;
   }
 
@@ -29,17 +52,17 @@ function Param ({ className = '', defaultValue, isDisabled, isInOption, isOption
     ? (
       <Static
         defaultValue={defaultValue}
-        label={label}
-        type={type}
+        isOptional
+        label='None'
       />
     )
     : (
-      <compRef.current
-        className={classes('ui--Param', className)}
+      <Component
+        className={`${className} ui--Param`}
         defaultValue={defaultValue}
         isDisabled={isDisabled}
-        isInOption={isInOption}
-        key={`${name || 'unknown'}:${type.toString()}`}
+        isError={isError}
+        key={`${name || 'unknown'}:${label}`}
         label={label}
         name={name}
         onChange={onChange}

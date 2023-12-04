@@ -1,13 +1,12 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveAccountInfo } from '@polkadot/api-derive/types';
-import type { ThemeProps } from '@polkadot/react-components/types';
 import type { AccountId, Address } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+
+import { useDeriveAccountInfo, useSystemApi } from '@polkadot/react-hooks';
 
 interface Props {
   children?: React.ReactNode;
@@ -24,27 +23,23 @@ function extractIndex ({ accountIndex }: Partial<DeriveAccountInfo> = {}): strin
 }
 
 function AccountIndex ({ children, className = '', defaultValue, label, value }: Props): React.ReactElement<Props> | null {
-  const { api } = useApi();
-  const info = useCall<DeriveAccountInfo>(api.derive.accounts.info, [value]);
+  const api = useSystemApi();
+  const info = useDeriveAccountInfo(value);
 
   const accountIndex = useMemo(
     () => extractIndex(info),
     [info]
   );
 
-  if (!api.query.indices) {
+  if (!api?.query.indices) {
     return null;
   }
 
   return (
-    <div className={`ui--AccountIndex ${className}`}>
+    <div className={`${className} ui--AccountIndex`}>
       {label || ''}<div className='account-index'>{accountIndex || defaultValue || '-'}</div>{children}
     </div>
   );
 }
 
-export default React.memo(styled(AccountIndex)`
-  .account-index {
-    font-family: ${({ theme }: ThemeProps) => theme.fontMono};
-  }
-`);
+export default React.memo(AccountIndex);

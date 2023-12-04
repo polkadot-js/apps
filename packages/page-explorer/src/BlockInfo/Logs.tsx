@@ -1,16 +1,17 @@
-// Copyright 2017-2020 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DigestItem } from '@polkadot/types/interfaces';
 import type { Codec, TypeDef } from '@polkadot/types/types';
 
 import React, { useRef } from 'react';
-import { getTypeDef } from '@polkadot/types/create';
+
 import { Expander, Table } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
-import { Struct, Tuple, Raw, Vec } from '@polkadot/types';
+import { Raw, Struct, Tuple, Vec } from '@polkadot/types';
+import { getTypeDef } from '@polkadot/types/create';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   value?: DigestItem[];
@@ -22,15 +23,15 @@ function formatU8a (value: Raw): React.ReactNode {
       isDisabled
       params={[{ type: getTypeDef('Bytes') }]}
       values={[{ isValid: true, value }]}
+      withExpander
     />
   );
 }
 
 function formatStruct (struct: Struct): React.ReactNode {
-  const types: Record<string, string> = struct.Type;
-  const params = Object.keys(types).map((name): { name: string; type: TypeDef } => ({
+  const params = Object.entries(struct.Type).map(([name, value]): { name: string; type: TypeDef } => ({
     name,
-    type: getTypeDef(types[name])
+    type: getTypeDef(value)
   }));
   const values = struct.toArray().map((value): { isValid: boolean; value: Codec } => ({
     isValid: true,
@@ -42,13 +43,13 @@ function formatStruct (struct: Struct): React.ReactNode {
       isDisabled
       params={params}
       values={values}
+      withExpander
     />
   );
 }
 
 function formatTuple (tuple: Tuple): React.ReactNode {
-  const types = tuple.Types;
-  const params = types.map((type): { type: TypeDef } => ({
+  const params = tuple.Types.map((type): { type: TypeDef } => ({
     type: getTypeDef(type)
   }));
   const values = tuple.toArray().map((value): { isValid: boolean; value: Codec } => ({
@@ -61,6 +62,7 @@ function formatTuple (tuple: Tuple): React.ReactNode {
       isDisabled
       params={params}
       values={values}
+      withExpander
     />
   );
 }
@@ -81,17 +83,18 @@ function formatVector (vector: Vec<Codec>): React.ReactNode {
       isDisabled
       params={params}
       values={values}
+      withExpander
     />
   );
 }
 
 function formatItem (item: DigestItem): React.ReactNode {
   if (item.value instanceof Struct) {
-    return formatStruct(item.value);
+    return formatStruct(item.value as Struct);
   } else if (item.value instanceof Tuple) {
     return formatTuple(item.value);
   } else if (item.value instanceof Vec) {
-    return formatVector(item.value);
+    return formatVector(item.value as Vec<Codec>);
   } else if (item.value instanceof Raw) {
     return formatU8a(item.value);
   }
@@ -99,21 +102,25 @@ function formatItem (item: DigestItem): React.ReactNode {
   return <div>{item.value.toString().split(',').join(', ')}</div>;
 }
 
-function Logs (props: Props): React.ReactElement<Props> | null {
-  const { value } = props;
+function Logs ({ value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
-  const headerRef = useRef([[t('logs'), 'start']]);
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
+    [t('logs'), 'start']
+  ]);
 
   return (
     <Table
-      empty={t<string>('No logs available')}
+      empty={t('No logs available')}
       header={headerRef.current}
     >
       {value?.map((log, index) => (
         <tr key={`log:${index}`}>
           <td className='overflow'>
-            <Expander summary={log.type.toString()}>
+            <Expander
+              isLeft
+              summary={log.type.toString()}
+            >
               {formatItem(log)}
             </Expander>
           </td>

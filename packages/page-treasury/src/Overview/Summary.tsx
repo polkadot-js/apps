@@ -1,82 +1,125 @@
-// Copyright 2017-2020 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2023 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveBalancesAccount } from '@polkadot/api-derive/types';
-import type { Balance } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
-import BN from 'bn.js';
-import React from 'react';
-import { SummaryBox, CardSummary } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import React, { useMemo } from 'react';
+
+import { CardSummary, SummaryBox } from '@polkadot/react-components';
+import { useApi, useBestNumber, useCall, useTreasury } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
-import { formatNumber, stringToU8a } from '@polkadot/util';
+import { BN_THREE, BN_TWO, BN_ZERO, formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-
-const TREASURY_ACCOUNT = stringToU8a('modlpy/trsry'.padEnd(32, '\0'));
+import { useTranslation } from '../translate.js';
 
 interface Props {
   approvalCount?: number;
   proposalCount?: number;
 }
 
-const PM_DIV = new BN(1000000);
-
 function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const bestNumber = useCall<Balance>(api.derive.chain.bestNumber);
+  const bestNumber = useBestNumber();
   const totalProposals = useCall<BN>(api.query.treasury.proposalCount);
-  const treasuryBalance = useCall<DeriveBalancesAccount>(api.derive.balances.account, [TREASURY_ACCOUNT]);
-  const spendPeriod = api.consts.treasury.spendPeriod;
+  const { burn, pendingBounties, pendingProposals, spendPeriod, value } = useTreasury();
 
-  const value = treasuryBalance?.freeBalance.gtn(0)
-    ? treasuryBalance.freeBalance
-    : null;
-  const burn = treasuryBalance?.freeBalance.gtn(0) && !api.consts.treasury.burn.isZero()
-    ? api.consts.treasury.burn.mul(treasuryBalance?.freeBalance).div(PM_DIV)
-    : null;
+  const spendable = useMemo(
+    () => value?.sub(pendingBounties).sub(pendingProposals),
+    [value, pendingBounties, pendingProposals]
+  );
+
+  const hasSpendable = !!(value && spendable);
 
   return (
     <SummaryBox>
       <section>
-        <CardSummary label={t<string>('proposals')}>
-          {formatNumber(proposalCount)}
+        <CardSummary
+          className='media--1700'
+          label={t('open')}
+        >
+          {proposalCount === undefined
+            ? <span className='--tmp'>99</span>
+            : formatNumber(proposalCount)}
         </CardSummary>
-        <CardSummary label={t<string>('total')}>
-          {formatNumber(totalProposals || 0)}
+        <CardSummary
+          className='media--1600'
+          label={t('approved')}
+        >
+          {approvalCount === undefined
+            ? <span className='--tmp'>99</span>
+            : formatNumber(approvalCount)}
         </CardSummary>
-      </section>
-      <section className='media--1200'>
-        <CardSummary label={t<string>('approved')}>
-          {formatNumber(approvalCount)}
+        <CardSummary
+          className='media--1400'
+          label={t('total')}
+        >
+          {totalProposals === undefined
+            ? <span className='--tmp'>99</span>
+            : formatNumber(totalProposals)}
         </CardSummary>
       </section>
       <section>
-        {value && (
-          <CardSummary label={t<string>('available')}>
-            <FormatBalance
-              value={value}
-              withSi
-            />
-          </CardSummary>
-        )}
-        {burn && (
+        {!pendingProposals.isZero() && (
           <CardSummary
-            className='media--1000'
-            label={t<string>('next burn')}
+            className='media--1100'
+            label={t('approved')}
           >
             <FormatBalance
-              value={burn}
+              value={pendingProposals}
               withSi
             />
           </CardSummary>
         )}
+        {!pendingBounties.isZero() && (
+          <CardSummary
+            className='media--1200'
+            label={t('bounties')}
+          >
+            <FormatBalance
+              value={pendingBounties}
+              withSi
+            />
+          </CardSummary>
+        )}
+        <CardSummary
+          className='media--1300'
+          label={t('next burn')}
+        >
+          <FormatBalance
+            className={burn ? '' : '--tmp'}
+            value={burn || 1}
+            withSi
+          />
+        </CardSummary>
       </section>
-      {bestNumber && spendPeriod?.gtn(0) && (
+      <section>
+        <CardSummary
+          label={t('spendable / available')}
+          progress={{
+            hideValue: true,
+            isBlurred: !hasSpendable,
+            total: hasSpendable ? value : BN_THREE,
+            value: hasSpendable ? spendable : BN_TWO
+          }}
+        >
+          <span className={hasSpendable ? '' : '--tmp'}>
+            <FormatBalance
+              value={spendable || BN_TWO}
+              withSi
+            />
+            <>&nbsp;/&nbsp;</>
+            <FormatBalance
+              value={value || BN_THREE}
+              withSi
+            />
+          </span>
+        </CardSummary>
+      </section>
+      {bestNumber && spendPeriod.gt(BN_ZERO) && (
         <section>
           <CardSummary
-            label={t<string>('spend period')}
+            label={t('spend period')}
             progress={{
               total: spendPeriod,
               value: bestNumber.mod(spendPeriod),

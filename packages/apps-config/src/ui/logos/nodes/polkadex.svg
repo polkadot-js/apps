@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="183.227" height="181.136" viewBox="0 0 183.227 181.136">
+  <g id="Icon" transform="translate(0 0)">
+    <g id="Letter" transform="translate(183.227 181.136) rotate(180)">
+      <path id="Path_1" data-name="Path 1" d="M0,0V24.855L42.582,67.837H68.229Z" transform="translate(0 24.457)"/>
+      <path id="Path_3" data-name="Path 3" d="M68.229,67.837V42.982L25.647,0H0Z" transform="translate(114.998 86.751)"/>
+      <path id="Path_4" data-name="Path 4" d="M68.229,0V24.855L25.647,67.837,68.229,110.43V136.4L0,67.837Z" transform="translate(160.86 112.907) rotate(90)"/>
+      <path id="Path_5" data-name="Path 5" d="M68.229,136.4V111.548L25.647,68.566,68.229,25.973V0L0,68.566Z" transform="translate(20.276 68.229) rotate(-90)"/>
+    </g>
+    <circle id="Ellipse" cx="11.585" cy="11.585" r="11.585" transform="translate(80.371 81.255)" fill="#e6007a"/>
+  </g>
+</svg>

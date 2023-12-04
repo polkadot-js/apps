@@ -1,41 +1,39 @@
-// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
-import type { DeriveBalancesAll, DeriveDemocracyLock } from '@polkadot/api-derive/types';
+import type { DeriveDemocracyLock, DeriveStakingAccount } from '@polkadot/api-derive/types';
+import type { Ledger } from '@polkadot/hw-ledger';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
-import type { ThemeDef } from '@polkadot/react-components/types';
 import type { Option } from '@polkadot/types';
 import type { ProxyDefinition, RecoveryConfig } from '@polkadot/types/interfaces';
-import type { KeyringAddress } from '@polkadot/ui-keyring/types';
-import type { Delegation } from '../types';
+import type { KeyringAddress, KeyringJson$Meta } from '@polkadot/ui-keyring/types';
+import type { AccountBalance, Delegation } from '../types.js';
 
-import BN from 'bn.js';
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import styled, { ThemeContext } from 'styled-components';
-import { ApiPromise } from '@polkadot/api';
-import { getLedger } from '@polkadot/react-api';
-import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
-import { useAccountInfo, useApi, useCall, useToggle } from '@polkadot/react-hooks';
-import keyring from '@polkadot/ui-keyring';
-import { BN_ZERO, formatBalance, formatNumber } from '@polkadot/util';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { useTranslation } from '../translate';
-import { createMenuGroup } from '../util';
-import Backup from '../modals/Backup';
-import ChangePass from '../modals/ChangePass';
-import DelegateModal from '../modals/Delegate';
-import Derive from '../modals/Derive';
-import IdentityMain from '../modals/IdentityMain';
-import IdentitySub from '../modals/IdentitySub';
-import ProxyOverview from '../modals/ProxyOverview';
-import MultisigApprove from '../modals/MultisigApprove';
-import RecoverAccount from '../modals/RecoverAccount';
-import RecoverSetup from '../modals/RecoverSetup';
-import Transfer from '../modals/Transfer';
-import UndelegateModal from '../modals/Undelegate';
-import useMultisigApprovals from './useMultisigApprovals';
-import useProxies from './useProxies';
+import useAccountLocks from '@polkadot/app-referenda/useAccountLocks';
+import { AddressInfo, AddressSmall, Badge, Button, ChainLock, Columar, CryptoType, Forget, LinkExternal, Menu, Popup, styled, Table, Tags, TransferModal } from '@polkadot/react-components';
+import { useAccountInfo, useApi, useBalancesAll, useBestNumber, useCall, useLedger, useQueue, useStakingInfo, useToggle } from '@polkadot/react-hooks';
+import { keyring } from '@polkadot/ui-keyring';
+import { BN, BN_ZERO, formatBalance, formatNumber, isFunction } from '@polkadot/util';
+
+import Backup from '../modals/Backup.js';
+import ChangePass from '../modals/ChangePass.js';
+import DelegateModal from '../modals/Delegate.js';
+import Derive from '../modals/Derive.js';
+import IdentityMain from '../modals/IdentityMain.js';
+import IdentitySub from '../modals/IdentitySub.js';
+import MultisigApprove from '../modals/MultisigApprove.js';
+import ProxyOverview from '../modals/ProxyOverview.js';
+import RecoverAccount from '../modals/RecoverAccount.js';
+import RecoverSetup from '../modals/RecoverSetup.js';
+import UndelegateModal from '../modals/Undelegate.js';
+import { useTranslation } from '../translate.js';
+import { createMenuGroup } from '../util.js';
+import useMultisigApprovals from './useMultisigApprovals.js';
+import useProxies from './useProxies.js';
 
 interface Props {
   account: KeyringAddress;
@@ -44,7 +42,7 @@ interface Props {
   filter: string;
   isFavorite: boolean;
   proxy?: [ProxyDefinition[], BN];
-  setBalance: (address: string, value: BN) => void;
+  setBalance: (address: string, value: AccountBalance) => void;
   toggleFavorite: (address: string) => void;
 }
 
@@ -52,6 +50,34 @@ interface DemocracyUnlockable {
   democracyUnlockTx: SubmittableExtrinsic<'promise'> | null;
   ids: BN[];
 }
+
+interface ReferendaUnlockable {
+  referendaUnlockTx: SubmittableExtrinsic<'promise'> | null;
+  ids: [classId: BN, refId: BN][];
+}
+
+const BAL_OPTS_DEFAULT = {
+  available: false,
+  bonded: false,
+  locked: false,
+  redeemable: false,
+  reserved: false,
+  total: true,
+  unlocking: false,
+  vested: false
+};
+
+const BAL_OPTS_EXPANDED = {
+  available: true,
+  bonded: true,
+  locked: true,
+  nonce: true,
+  redeemable: true,
+  reserved: true,
+  total: false,
+  unlocking: true,
+  vested: true
+};
 
 function calcVisible (filter: string, name: string, tags: string[]): boolean {
   if (filter.length === 0) {
@@ -65,12 +91,55 @@ function calcVisible (filter: string, name: string, tags: string[]): boolean {
   }, name.toLowerCase().includes(_filter));
 }
 
-function createClearDemocracyTx (api: ApiPromise, address: string, unlockableIds: BN[]): SubmittableExtrinsic<'promise'> {
-  return api.tx.utility.batch(
-    unlockableIds
-      .map((id) => api.tx.democracy.removeVote(id))
-      .concat(api.tx.democracy.unlock(address))
-  );
+function calcUnbonding (stakingInfo?: DeriveStakingAccount) {
+  if (!stakingInfo?.unlocking) {
+    return BN_ZERO;
+  }
+
+  const filtered = stakingInfo.unlocking
+    .filter(({ remainingEras, value }) => value.gt(BN_ZERO) && remainingEras.gt(BN_ZERO))
+    .map((unlock) => unlock.value);
+  const total = filtered.reduce((total, value) => total.iadd(value), new BN(0));
+
+  return total;
+}
+
+function createClearDemocracyTx (api: ApiPromise, address: string, ids: BN[]): SubmittableExtrinsic<'promise'> | null {
+  return api.tx.utility && ids.length
+    ? api.tx.utility.batch(
+      ids
+        .map((id) => api.tx.democracy.removeVote(id))
+        .concat(api.tx.democracy.unlock(address))
+    )
+    : null;
+}
+
+function createClearReferendaTx (api: ApiPromise, address: string, ids: [BN, BN][], palletReferenda = 'convictionVoting'): SubmittableExtrinsic<'promise'> | null {
+  if (!api.tx.utility || !ids.length) {
+    return null;
+  }
+
+  const inner = ids.map(([classId, refId]) => api.tx[palletReferenda].removeVote(classId, refId));
+
+  ids
+    .reduce((all: BN[], [classId]) => {
+      if (!all.find((id) => id.eq(classId))) {
+        all.push(classId);
+      }
+
+      return all;
+    }, [])
+    .forEach((classId): void => {
+      inner.push(api.tx[palletReferenda].unlock(classId, address));
+    });
+
+  return api.tx.utility.batch(inner);
+}
+
+async function showLedgerAddress (getLedger: () => Ledger, meta: KeyringJson$Meta): Promise<void> {
+  const ledger = getLedger();
+
+  await ledger.getAddress(true, meta.accountOffset || 0, meta.addressOffset || 0);
 }
 
 const transformRecovery = {
@@ -79,17 +148,21 @@ const transformRecovery = {
 
 function Account ({ account: { address, meta }, className = '', delegation, filter, isFavorite, proxy, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { theme } = useContext<ThemeDef>(ThemeContext);
-  const { queueExtrinsic } = useContext(StatusContext);
+  const [isExpanded, toggleIsExpanded] = useToggle(false);
+  const { queueExtrinsic } = useQueue();
   const api = useApi();
-  const bestNumber = useCall<BN>(api.api.derive.chain.bestNumber);
-  const balancesAll = useCall<DeriveBalancesAll>(api.api.derive.balances.all, [address]);
+  const { getLedger } = useLedger();
+  const bestNumber = useBestNumber();
+  const balancesAll = useBalancesAll(address);
+  const stakingInfo = useStakingInfo(address);
   const democracyLocks = useCall<DeriveDemocracyLock[]>(api.api.derive.democracy?.locks, [address]);
   const recoveryInfo = useCall<RecoveryConfig | null>(api.api.query.recovery?.recoverable, [address], transformRecovery);
   const multiInfos = useMultisigApprovals(address);
   const proxyInfo = useProxies(address);
-  const { flags: { isDevelopment, isExternal, isHardware, isInjected, isMultisig, isProxied }, genesisHash, identity, name: accName, onSetGenesisHash, tags } = useAccountInfo(address);
-  const [{ democracyUnlockTx }, setUnlockableIds] = useState<DemocracyUnlockable>({ democracyUnlockTx: null, ids: [] });
+  const { flags: { isDevelopment, isEditable, isEthereum, isExternal, isHardware, isInjected, isMultisig, isProxied }, genesisHash, identity, name: accName, onSetGenesisHash, tags } = useAccountInfo(address);
+  const convictionLocks = useAccountLocks('referenda', 'convictionVoting', address);
+  const [{ democracyUnlockTx }, setDemocracyUnlock] = useState<DemocracyUnlockable>({ democracyUnlockTx: null, ids: [] });
+  const [{ referendaUnlockTx }, setReferandaUnlock] = useState<ReferendaUnlockable>({ ids: [], referendaUnlockTx: null });
   const [vestingVestTx, setVestingTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [isBackupOpen, toggleBackup] = useToggle();
   const [isDeriveOpen, toggleDerive] = useToggle();
@@ -101,14 +174,21 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const [isPasswordOpen, togglePassword] = useToggle();
   const [isRecoverAccountOpen, toggleRecoverAccount] = useToggle();
   const [isRecoverSetupOpen, toggleRecoverSetup] = useToggle();
-  const [isSettingsOpen, toggleSettings] = useToggle();
   const [isTransferOpen, toggleTransfer] = useToggle();
   const [isDelegateOpen, toggleDelegate] = useToggle();
   const [isUndelegateOpen, toggleUndelegate] = useToggle();
 
   useEffect((): void => {
     if (balancesAll) {
-      setBalance(address, balancesAll.freeBalance.add(balancesAll.reservedBalance));
+      setBalance(address, {
+        // some chains don't have "active" in the Ledger
+        bonded: stakingInfo?.stakingLedger.active?.unwrap() || BN_ZERO,
+        locked: balancesAll.lockedBalance,
+        redeemable: stakingInfo?.redeemable || BN_ZERO,
+        total: balancesAll.freeBalance.add(balancesAll.reservedBalance),
+        transferrable: balancesAll.availableBalance,
+        unbonding: calcUnbonding(stakingInfo)
+      });
 
       api.api.tx.vesting?.vest && setVestingTx(() =>
         balancesAll.vestingLocked.isZero()
@@ -116,10 +196,10 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           : api.api.tx.vesting.vest()
       );
     }
-  }, [address, api, balancesAll, setBalance]);
+  }, [address, api, balancesAll, setBalance, stakingInfo]);
 
   useEffect((): void => {
-    bestNumber && democracyLocks && setUnlockableIds(
+    bestNumber && democracyLocks && setDemocracyUnlock(
       (prev): DemocracyUnlockable => {
         const ids = democracyLocks
           .filter(({ isFinished, unlockAt }) => isFinished && bestNumber.gt(unlockAt))
@@ -137,14 +217,28 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
     );
   }, [address, api, bestNumber, democracyLocks]);
 
+  useEffect((): void => {
+    bestNumber && convictionLocks && setReferandaUnlock(
+      (prev): ReferendaUnlockable => {
+        const ids = convictionLocks
+          .filter(({ endBlock }) => endBlock.gt(BN_ZERO) && bestNumber.gt(endBlock))
+          .map(({ classId, refId }): [classId: BN, refId: BN] => [classId, refId]);
+
+        if (JSON.stringify(prev.ids) === JSON.stringify(ids)) {
+          return prev;
+        }
+
+        return {
+          ids,
+          referendaUnlockTx: createClearReferendaTx(api.api, address, ids)
+        };
+      }
+    );
+  }, [address, api, bestNumber, convictionLocks]);
+
   const isVisible = useMemo(
     () => calcVisible(filter, accName, tags),
     [accName, filter, tags]
-  );
-
-  const _onFavorite = useCallback(
-    () => toggleFavorite(address),
-    [address, toggleFavorite]
   );
 
   const _onForget = useCallback(
@@ -161,7 +255,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       try {
         keyring.forgetAccount(address);
         status.status = 'success';
-        status.message = t<string>('account forgotten');
+        status.message = t('account forgotten');
       } catch (error) {
         status.status = 'error';
         status.message = (error as Error).message;
@@ -178,6 +272,14 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
     [address, democracyUnlockTx, queueExtrinsic]
   );
 
+  const _clearReferendaLocks = useCallback(
+    () => referendaUnlockTx && queueExtrinsic({
+      accountId: address,
+      extrinsic: referendaUnlockTx
+    }),
+    [address, referendaUnlockTx, queueExtrinsic]
+  );
+
   const _vestingVest = useCallback(
     () => vestingVestTx && queueExtrinsic({
       accountId: address,
@@ -190,409 +292,474 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
     // TODO: we should check the hardwareType from metadata here as well,
     // for now we are always assuming hardwareType === 'ledger'
     (): void => {
-      getLedger()
-        .getAddress(true, meta.accountOffset as number || 0, meta.addressOffset as number || 0)
-        .catch((error): void => {
-          console.error(`ledger: ${(error as Error).message}`);
-        });
+      showLedgerAddress(getLedger, meta).catch((error): void => {
+        console.error(`ledger: ${(error as Error).message}`);
+      });
     },
-    [meta]
+    [getLedger, meta]
   );
+
+  const menuItems = useMemo(() => [
+    createMenuGroup('identityGroup', [
+      isFunction(api.api.tx.identity?.setIdentity) && !isHardware && (
+        <Menu.Item
+          icon='link'
+          key='identityMain'
+          label={t('Set on-chain identity')}
+          onClick={toggleIdentityMain}
+        />
+      ),
+      isFunction(api.api.tx.identity?.setSubs) && identity?.display && !isHardware && (
+        <Menu.Item
+          icon='vector-square'
+          key='identitySub'
+          label={t('Set on-chain sub-identities')}
+          onClick={toggleIdentitySub}
+        />
+      ),
+      isFunction(api.api.tx.democracy?.unlock) && democracyUnlockTx && (
+        <Menu.Item
+          icon='broom'
+          key='clearDemocracy'
+          label={t('Clear expired democracy locks')}
+          onClick={_clearDemocracyLocks}
+        />
+      ),
+      isFunction(api.api.tx.convictionVoting?.unlock) && referendaUnlockTx && (
+        <Menu.Item
+          icon='broom'
+          key='clearReferenda'
+          label={t('Clear expired referenda locks')}
+          onClick={_clearReferendaLocks}
+        />
+      ),
+      isFunction(api.api.tx.vesting?.vest) && vestingVestTx && (
+        <Menu.Item
+          icon='unlock'
+          key='vestingVest'
+          label={t('Unlock vested amount')}
+          onClick={_vestingVest}
+        />
+      )
+    ], t('Identity')),
+    createMenuGroup('deriveGroup', [
+      !(isEthereum || isExternal || isHardware || isInjected || isMultisig || api.isEthereum) && (
+        <Menu.Item
+          icon='download'
+          key='deriveAccount'
+          label={t('Derive account via derivation path')}
+          onClick={toggleDerive}
+        />
+      ),
+      isHardware && (
+        <Menu.Item
+          icon='eye'
+          key='showHwAddress'
+          label={t('Show address on hardware device')}
+          onClick={_showOnHardware}
+        />
+      )
+    ], t('Derive')),
+    createMenuGroup('backupGroup', [
+      !(isExternal || isHardware || isInjected || isMultisig || isDevelopment) && (
+        <Menu.Item
+          icon='database'
+          key='backupJson'
+          label={t('Create a backup file for this account')}
+          onClick={toggleBackup}
+        />
+      ),
+      !(isExternal || isHardware || isInjected || isMultisig || isDevelopment) && (
+        <Menu.Item
+          icon='edit'
+          key='changePassword'
+          label={t("Change this account's password")}
+          onClick={togglePassword}
+        />
+      ),
+      !(isInjected || isDevelopment) && (
+        <Menu.Item
+          icon='trash-alt'
+          key='forgetAccount'
+          label={t('Forget this account')}
+          onClick={toggleForget}
+        />
+      )
+    ], t('Backup')),
+    isFunction(api.api.tx.recovery?.createRecovery) && createMenuGroup('reoveryGroup', [
+      !recoveryInfo && (
+        <Menu.Item
+          icon='redo'
+          key='makeRecoverable'
+          label={t('Make recoverable')}
+          onClick={toggleRecoverSetup}
+        />
+      ),
+      <Menu.Item
+        icon='screwdriver'
+        key='initRecovery'
+        label={t('Initiate recovery for another')}
+        onClick={toggleRecoverAccount}
+      />
+    ], t('Recovery')),
+    isFunction(api.api.tx.multisig?.asMulti) && isMultisig && createMenuGroup('multisigGroup', [
+      <Menu.Item
+        icon='file-signature'
+        isDisabled={!multiInfos?.length}
+        key='multisigApprovals'
+        label={t('Multisig approvals')}
+        onClick={toggleMultisig}
+      />
+    ], t('Multisig')),
+    isFunction(api.api.query.democracy?.votingOf) && delegation?.accountDelegated && createMenuGroup('undelegateGroup', [
+      <Menu.Item
+        icon='user-edit'
+        key='changeDelegate'
+        label={t('Change democracy delegation')}
+        onClick={toggleDelegate}
+      />,
+      <Menu.Item
+        icon='user-minus'
+        key='undelegate'
+        label= {t('Undelegate')}
+        onClick={toggleUndelegate}
+      />
+    ], t('Undelegate')),
+    createMenuGroup('delegateGroup', [
+      isFunction(api.api.query.democracy?.votingOf) && !delegation?.accountDelegated && (
+        <Menu.Item
+          icon='user-plus'
+          key='delegate'
+          label={t('Delegate democracy votes')}
+          onClick={toggleDelegate}
+        />
+      ),
+      isFunction(api.api.query.proxy?.proxies) && (
+        <Menu.Item
+          icon='sitemap'
+          key='proxy-overview'
+          label={proxy?.[0].length
+            ? t('Manage proxies')
+            : t('Add proxy')
+          }
+          onClick={toggleProxyOverview}
+        />
+      )
+    ], t('Delegate')),
+    isEditable && !api.isDevelopment && createMenuGroup('genesisGroup', [
+      <ChainLock
+        className='accounts--network-toggle'
+        genesisHash={genesisHash}
+        key='chainlock'
+        onChange={onSetGenesisHash}
+      />
+    ])
+  ].filter((i) => i),
+  [_clearDemocracyLocks, _clearReferendaLocks, _showOnHardware, _vestingVest, api, delegation, democracyUnlockTx, genesisHash, identity, isDevelopment, isEditable, isEthereum, isExternal, isHardware, isInjected, isMultisig, multiInfos, onSetGenesisHash, proxy, referendaUnlockTx, recoveryInfo, t, toggleBackup, toggleDelegate, toggleDerive, toggleForget, toggleIdentityMain, toggleIdentitySub, toggleMultisig, togglePassword, toggleProxyOverview, toggleRecoverAccount, toggleRecoverSetup, toggleUndelegate, vestingVestTx]);
 
   if (!isVisible) {
     return null;
   }
 
   return (
-    <tr className={className}>
-      <td className='favorite'>
-        <Icon
-          color={isFavorite ? 'orange' : 'gray'}
-          icon='star'
-          onClick={_onFavorite}
-        />
-      </td>
-      <td className='together'>
-        {recoveryInfo && (
-          <Badge
-            color='green'
-            hover={
-              <div>
-                <p>{t<string>('This account is recoverable, with the following friends:')}</p>
-                <div>
-                  {recoveryInfo.friends.map((friend, index): React.ReactNode => (
-                    <IdentityIcon
-                      key={index}
-                      value={friend}
-                    />
-                  ))}
-                </div>
-                <table>
-                  <tbody>
-                    <tr>
-                      <td>{t<string>('threshold')}</td>
-                      <td>{formatNumber(recoveryInfo.threshold)}</td>
-                    </tr>
-                    <tr>
-                      <td>{t<string>('delay')}</td>
-                      <td>{formatNumber(recoveryInfo.delayPeriod)}</td>
-                    </tr>
-                    <tr>
-                      <td>{t<string>('deposit')}</td>
-                      <td>{formatBalance(recoveryInfo.deposit)}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            }
-            icon='shield'
-          />
-        )}
-        {multiInfos && multiInfos.length !== 0 && (
-          <Badge
-            color='red'
-            hover={t<string>('Multisig approvals pending')}
-            info={multiInfos.length}
-          />
-        )}
-        {isProxied && !proxyInfo.hasOwned && (
-          <Badge
-            color='red'
-            hover={t<string>('Proxied account has no owned proxies')}
-            info='0'
-          />
-        )}
-        {delegation?.accountDelegated && (
-          <Badge
-            color='blue'
-            hover={t<string>('This account has a governance delegation')}
-            icon='calendar-check'
-            onClick={toggleDelegate}
-          />
-        )}
-        {!!proxy?.[0].length && (
-          <Badge
-            color='blue'
-            hover={t<string>('This account has {{proxyNumber}} proxy set.', {
-              replace: {
-                proxyNumber: proxy[0].length
-              }
-            })}
-            icon='arrow-right'
-            onClick={toggleProxyOverview}
-          />
-        )}
-      </td>
-      <td className='address'>
-        <AddressSmall value={address} />
-        {isBackupOpen && (
-          <Backup
-            address={address}
-            key='modal-backup-account'
-            onClose={toggleBackup}
-          />
-        )}
-        {isDelegateOpen && (
-          <DelegateModal
-            key='modal-delegate'
-            onClose={toggleDelegate}
-            previousAmount={delegation?.amount}
-            previousConviction={delegation?.conviction}
-            previousDelegatedAccount={delegation?.accountDelegated}
-            previousDelegatingAccount={address}
-          />
-        )}
-        {isDeriveOpen && (
-          <Derive
-            from={address}
-            key='modal-derive-account'
-            onClose={toggleDerive}
-          />
-        )}
-        {isForgetOpen && (
-          <Forget
-            address={address}
-            key='modal-forget-account'
-            onClose={toggleForget}
-            onForget={_onForget}
-          />
-        )}
-        {isIdentityMainOpen && (
-          <IdentityMain
-            address={address}
-            key='modal-identity-main'
-            onClose={toggleIdentityMain}
-          />
-        )}
-        {isIdentitySubOpen && (
-          <IdentitySub
-            address={address}
-            key='modal-identity-sub'
-            onClose={toggleIdentitySub}
-          />
-        )}
-        {isPasswordOpen && (
-          <ChangePass
-            address={address}
-            key='modal-change-pass'
-            onClose={togglePassword}
-          />
-        )}
-        {isTransferOpen && (
-          <Transfer
-            key='modal-transfer'
-            onClose={toggleTransfer}
-            senderId={address}
-          />
-        )}
-        {isProxyOverviewOpen && (
-          <ProxyOverview
-            key='modal-proxy-overview'
-            onClose={toggleProxyOverview}
-            previousProxy={proxy}
-            proxiedAccount={address}
-          />
-        )}
-        {isMultisigOpen && multiInfos && (
-          <MultisigApprove
-            address={address}
-            key='multisig-approve'
-            onClose={toggleMultisig}
-            ongoing={multiInfos}
-            threshold={meta.threshold as number}
-            who={meta.who as string[]}
-          />
-        )}
-        {isRecoverAccountOpen && (
-          <RecoverAccount
-            address={address}
-            key='recover-account'
-            onClose={toggleRecoverAccount}
-          />
-        )}
-        {isRecoverSetupOpen && (
-          <RecoverSetup
-            address={address}
-            key='recover-setup'
-            onClose={toggleRecoverSetup}
-          />
-        )}
-        {isUndelegateOpen && (
-          <UndelegateModal
-            accountDelegating={address}
-            key='modal-delegate'
-            onClose={toggleUndelegate}
-          />
-        )}
-      </td>
-      <td className='address media--1400'>
-        {meta.parentAddress && (
-          <AddressMini value={meta.parentAddress} />
-        )}
-      </td>
-      <td className='number'>
-        <CryptoType accountId={address} />
-      </td>
-      <td className='all'>
-        <div className='tags'>
-          <Tags value={tags} />
-        </div>
-      </td>
-      <td className='number media--1500'>
-        {balancesAll?.accountNonce.gt(BN_ZERO) && formatNumber(balancesAll.accountNonce)}
-      </td>
-      <td className='number'>
-        <AddressInfo
+    <>
+      <StyledTr className={`${className} isExpanded isFirst packedBottom`}>
+        <Table.Column.Favorite
           address={address}
-          withBalance
-          withBalanceToggle
-          withExtended={false}
+          isFavorite={isFavorite}
+          toggle={toggleFavorite}
         />
-      </td>
-      <td className='button'>
-        {api.api.tx.balances?.transfer && (
-          <Button
-            icon='paper-plane'
-            label={t<string>('send')}
-            onClick={toggleTransfer}
+        <td className='address all relative'>
+          <AddressSmall
+            parentAddress={meta.parentAddress}
+            value={address}
+            withShortAddress
           />
-        )}
-        <Popup
-          className={`theme--${theme}`}
-          isOpen={isSettingsOpen}
-          onClose={toggleSettings}
-          trigger={
-            <Button
-              icon='ellipsis-v'
-              onClick={toggleSettings}
+          {isBackupOpen && (
+            <Backup
+              address={address}
+              key='modal-backup-account'
+              onClose={toggleBackup}
             />
-          }
-        >
-          <Menu
-            onClick={toggleSettings}
-            text
-            vertical
-          >
-            {createMenuGroup([
-              api.api.tx.identity?.setIdentity && (
-                <Menu.Item
-                  key='identityMain'
-                  onClick={toggleIdentityMain}
-                >
-                  {t('Set on-chain identity')}
-                </Menu.Item>
-              ),
-              api.api.tx.identity?.setSubs && identity?.display && (
-                <Menu.Item
-                  key='identitySub'
-                  onClick={toggleIdentitySub}
-                >
-                  {t('Set on-chain sub-identities')}
-                </Menu.Item>
-              ),
-              api.api.tx.democracy?.unlock && democracyUnlockTx && (
-                <Menu.Item
-                  key='clearDemocracy'
-                  onClick={_clearDemocracyLocks}
-                >
-                  {t('Clear expired democracy locks')}
-                </Menu.Item>
-              ),
-              api.api.tx.vesting?.vest && vestingVestTx && (
-                <Menu.Item
-                  key='vestingVest'
-                  onClick={_vestingVest}
-                >
-                  {t('Unlock vested amount')}
-                </Menu.Item>
-              )
-            ])}
-            {createMenuGroup([
-              !(isExternal || isHardware || isInjected || isMultisig) && (
-                <Menu.Item
-                  key='deriveAccount'
-                  onClick={toggleDerive}
-                >
-                  {t('Derive account via derivation path')}
-                </Menu.Item>
-              ),
-              isHardware && (
-                <Menu.Item
-                  key='showHwAddress'
-                  onClick={_showOnHardware}
-                >
-                  {t('Show address on hardware device')}
-                </Menu.Item>
-              )
-            ])}
-            {createMenuGroup([
-              !(isExternal || isInjected || isMultisig || isDevelopment) && (
-                <Menu.Item
-                  key='backupJson'
-                  onClick={toggleBackup}
-                >
-                  {t('Create a backup file for this account')}
-                </Menu.Item>
-              ),
-              !(isExternal || isInjected || isMultisig || isDevelopment) && (
-                <Menu.Item
-                  key='changePassword'
-                  onClick={togglePassword}
-                >
-                  {t("Change this account's password")}
-                </Menu.Item>
-              ),
-              !(isInjected || isDevelopment) && (
-                <Menu.Item
-                  key='forgetAccount'
-                  onClick={toggleForget}
-                >
-                  {t('Forget this account')}
-                </Menu.Item>
-              )
-            ])}
-            {api.api.tx.recovery?.createRecovery && createMenuGroup([
-              !recoveryInfo && (
-                <Menu.Item
-                  key='makeRecoverable'
-                  onClick={toggleRecoverSetup}
-                >
-                  {t('Make recoverable')}
-                </Menu.Item>
-              ),
-              <Menu.Item
-                key='initRecovery'
-                onClick={toggleRecoverAccount}
-              >
-                {t('Initiate recovery for another')}
-              </Menu.Item>
-            ])}
-            {api.api.tx.multisig?.asMulti && isMultisig && createMenuGroup([
-              <Menu.Item
-                disabled={!multiInfos || !multiInfos.length}
-                key='multisigApprovals'
-                onClick={toggleMultisig}
-              >
-                {t('Multisig approvals')}
-              </Menu.Item>
-            ])}
-            {api.api.query.democracy?.votingOf && delegation?.accountDelegated && createMenuGroup([
-              <Menu.Item
-                key='changeDelegate'
-                onClick={toggleDelegate}
-              >
-                {t('Change democracy delegation')}
-              </Menu.Item>,
-              <Menu.Item
-                key='undelegate'
-                onClick={toggleUndelegate}
-              >
-                {t('Undelegate')}
-              </Menu.Item>
-            ])}
-            {api.api.query.democracy?.votingOf && !delegation?.accountDelegated && createMenuGroup([
-              <Menu.Item
-                key='delegate'
-                onClick={toggleDelegate}
-              >
-                {t('Delegate democracy votes')}
-              </Menu.Item>
-            ])}
-            {api.api.query.proxy?.proxies && createMenuGroup([
-              <Menu.Item
-                key='proxy-overview'
-                onClick={toggleProxyOverview}
-              >
-                {proxy?.[0].length
-                  ? t('Manage proxies')
-                  : t('Add proxy')
+          )}
+          {isDelegateOpen && (
+            <DelegateModal
+              key='modal-delegate'
+              onClose={toggleDelegate}
+              previousAmount={delegation?.amount}
+              previousConviction={delegation?.conviction}
+              previousDelegatedAccount={delegation?.accountDelegated}
+              previousDelegatingAccount={address}
+            />
+          )}
+          {isDeriveOpen && (
+            <Derive
+              from={address}
+              key='modal-derive-account'
+              onClose={toggleDerive}
+            />
+          )}
+          {isForgetOpen && (
+            <Forget
+              address={address}
+              key='modal-forget-account'
+              onClose={toggleForget}
+              onForget={_onForget}
+            />
+          )}
+          {isIdentityMainOpen && (
+            <IdentityMain
+              address={address}
+              key='modal-identity-main'
+              onClose={toggleIdentityMain}
+            />
+          )}
+          {isIdentitySubOpen && (
+            <IdentitySub
+              address={address}
+              key='modal-identity-sub'
+              onClose={toggleIdentitySub}
+            />
+          )}
+          {isPasswordOpen && (
+            <ChangePass
+              address={address}
+              key='modal-change-pass'
+              onClose={togglePassword}
+            />
+          )}
+          {isTransferOpen && (
+            <TransferModal
+              key='modal-transfer'
+              onClose={toggleTransfer}
+              senderId={address}
+            />
+          )}
+          {isProxyOverviewOpen && (
+            <ProxyOverview
+              key='modal-proxy-overview'
+              onClose={toggleProxyOverview}
+              previousProxy={proxy}
+              proxiedAccount={address}
+            />
+          )}
+          {isMultisig && isMultisigOpen && multiInfos && multiInfos.length !== 0 && (
+            <MultisigApprove
+              address={address}
+              key='multisig-approve'
+              onClose={toggleMultisig}
+              ongoing={multiInfos}
+              threshold={meta.threshold}
+              who={meta.who}
+            />
+          )}
+          {isRecoverAccountOpen && (
+            <RecoverAccount
+              address={address}
+              key='recover-account'
+              onClose={toggleRecoverAccount}
+            />
+          )}
+          {isRecoverSetupOpen && (
+            <RecoverSetup
+              address={address}
+              key='recover-setup'
+              onClose={toggleRecoverSetup}
+            />
+          )}
+          {isUndelegateOpen && (
+            <UndelegateModal
+              accountDelegating={address}
+              key='modal-delegate'
+              onClose={toggleUndelegate}
+            />
+          )}
+          <div className='absolute'>
+            {meta.genesisHash
+              ? <Badge color='transparent' />
+              : isDevelopment
+                ? (
+                  <Badge
+                    className='warning'
+                    hover={t('This is a development account derived from the known development seed. Do not use for any funds on a non-development network.')}
+                    icon='wrench'
+                  />
+                )
+                : (
+                  <Badge
+                    className='warning'
+                    hover={
+                      <div>
+                        <p>{t('This account is available on all networks. It is recommended to link to a specific network via the account options ("only this network" option) to limit availability. For accounts from an extension, set the network on the extension.')}</p>
+                        <p>{t('This does not send any transaction, rather it only sets the genesis in the account JSON.')}</p>
+                      </div>
+                    }
+                    icon='exclamation-triangle'
+                  />
+                )
+            }
+            {recoveryInfo && (
+              <Badge
+                className='recovery'
+                hover={
+                  <div>
+                    <p>{t('This account is recoverable, with the following friends:')}</p>
+                    <div>
+                      {recoveryInfo.friends.map((friend, index): React.ReactNode => (
+                        <AddressSmall
+                          key={index}
+                          value={friend}
+                        />
+                      ))}
+                    </div>
+                    <table>
+                      <tbody>
+                        <tr>
+                          <td>{t('threshold')}</td>
+                          <td>{formatNumber(recoveryInfo.threshold)}</td>
+                        </tr>
+                        <tr>
+                          <td>{t('delay')}</td>
+                          <td>{formatNumber(recoveryInfo.delayPeriod)}</td>
+                        </tr>
+                        <tr>
+                          <td>{t('deposit')}</td>
+                          <td>{formatBalance(recoveryInfo.deposit)}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 }
-              </Menu.Item>
-            ])}
-            <ChainLock
-              className='accounts--network-toggle'
-              genesisHash={genesisHash}
-              isDisabled={api.isDevelopment}
-              onChange={onSetGenesisHash}
+                icon='redo'
+              />
+            )}
+            {isProxied && proxyInfo?.isEmpty && (
+              <Badge
+                className='important'
+                hover={t('Proxied account has no owned proxies')}
+                icon='sitemap'
+                info='0'
+              />
+            )}
+            {isMultisig && multiInfos && multiInfos.length !== 0 && (
+              <Badge
+                className='important'
+                color='purple'
+                hover={t('Multisig approvals pending')}
+                hoverAction={t('View pending approvals')}
+                icon='file-signature'
+                onClick={toggleMultisig}
+              />
+            )}
+            {delegation?.accountDelegated && (
+              <Badge
+                className='information'
+                hover={t('This account has a governance delegation')}
+                hoverAction={t('Manage delegation')}
+                icon='calendar-check'
+                onClick={toggleDelegate}
+              />
+            )}
+            {proxy && proxy[0].length !== 0 && api.api.tx.utility && (
+              <Badge
+                className='information'
+                hover={
+                  proxy[0].length === 1
+                    ? t('This account has a proxy set')
+                    : t('This account has {{proxyNumber}} proxies set', { replace: { proxyNumber: proxy[0].length } })
+                }
+                hoverAction={t('Manage proxies')}
+                icon='sitemap'
+                onClick={toggleProxyOverview}
+              />
+            )}
+          </div>
+        </td>
+        <td className='actions button'>
+          <Button.Group>
+            {isFunction(api.api.tx.balances?.transfer) && (
+              <Button
+                className='send-button'
+                icon='paper-plane'
+                label={t('send')}
+                onClick={toggleTransfer}
+              />
+            )}
+            <Popup
+              isDisabled={!menuItems.length}
+              value={
+                <Menu>
+                  {menuItems}
+                </Menu>
+              }
             />
-          </Menu>
-        </Popup>
-      </td>
-      <td className='links media--1400'>
-        <LinkExternal
-          className='ui--AddressCard-exporer-link'
-          data={address}
-          isLogo
-          type='address'
+          </Button.Group>
+        </td>
+        <Table.Column.Expand
+          isExpanded={isExpanded}
+          toggle={toggleIsExpanded}
         />
-      </td>
-    </tr>
+      </StyledTr>
+      <StyledTr className={`${className} isExpanded ${isExpanded ? '' : 'isLast'} packedTop`}>
+        <td />
+        <td
+          className='balance all'
+          colSpan={2}
+        >
+          <AddressInfo
+            address={address}
+            balancesAll={balancesAll}
+            withBalance={BAL_OPTS_DEFAULT}
+          />
+        </td>
+        <td />
+      </StyledTr>
+      <StyledTr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'} packedTop`}>
+        <td />
+        <td
+          className='balance columar'
+          colSpan={2}
+        >
+          <AddressInfo
+            address={address}
+            balancesAll={balancesAll}
+            convictionLocks={convictionLocks}
+            withBalance={BAL_OPTS_EXPANDED}
+          />
+          <Columar size='tiny'>
+            <Columar.Column>
+              <div data-testid='tags'>
+                <Tags
+                  value={tags}
+                  withTitle
+                />
+              </div>
+            </Columar.Column>
+            <Columar.Column>
+              <h5>{t('account type')}</h5>
+              <CryptoType accountId={address} />
+            </Columar.Column>
+          </Columar>
+          <Columar is100>
+            <Columar.Column>
+              <LinkExternal
+                data={address}
+                type='address'
+                withTitle
+              />
+            </Columar.Column>
+          </Columar>
+        </td>
+        <td />
+      </StyledTr>
+    </>
   );
 }
 
-export default React.memo(styled(Account)`
-  .tags {
-    width: 100%;
-    min-height: 1.5rem;
+const StyledTr = styled.tr`
+  .devBadge {
+    opacity: var(--opacity-light);
   }
-`);
+`;
+
+export default React.memo(Account);

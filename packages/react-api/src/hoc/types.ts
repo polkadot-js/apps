@@ -1,9 +1,8 @@
-// Copyright 2017-2020 @polkadot/react-api authors & contributors
+// Copyright 2017-2023 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { OnChangeCb } from '../types';
-
-import React from 'react';
+import type React from 'react';
+import type { OnChangeCb } from '../types.js';
 
 export type Transform = (value: any, index: number) => any;
 
@@ -18,9 +17,9 @@ export interface Options {
   callOnResult?: OnChangeCb;
   fallbacks?: string[];
   isMulti?: boolean;
-  params?: any[];
+  params?: unknown[];
   paramName?: string;
-  paramPick?: (props: any) => any;
+  paramPick?: (props: any) => unknown;
   paramValid?: boolean;
   propName?: string;
   skipIf?: (props: any) => boolean;
@@ -28,11 +27,11 @@ export interface Options {
   withIndicator?: boolean;
 }
 
-export type RenderFn = (value?: any) => React.ReactNode;
+export type RenderFn = (value?: any) => any;
 
-export type StorageTransform = (input: any, index: number) => any | null;
+export type StorageTransform = (input: any, index: number) => unknown;
 
-export type HOC = (Component: React.ComponentType<any>, defaultProps?: DefaultProps, render?: RenderFn) => React.ComponentType<any>;
+export type HOC = (Component: React.ComponentType<unknown>, defaultProps?: DefaultProps, render?: RenderFn) => React.ComponentType<unknown>;
 
 export interface ApiMethod {
   name: string;

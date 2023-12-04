@@ -1,10 +1,12 @@
-// Copyright 2017-2020 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import * as subsocialDefinitions from '@subsocial/types/substrate/interfaces/definitions';
+// IMPORTANT
+//
+// We only load the definitions here explicitly - if we try to go via
+//   import { types } from '@subsocial/types';
+// we end up with multiple version of types/API since it uses CJS,
+// therefore here we explicitly import from the definitions (as re-exported)
+import { types } from '@subsocial/definitions/interfaces/subsocial/definitions.js'; // KEEP, see above
 
-import { typesFromDefs } from '../util';
-
-const subsocialTypes = typesFromDefs(subsocialDefinitions);
-
-export default subsocialTypes;
+export default { types };

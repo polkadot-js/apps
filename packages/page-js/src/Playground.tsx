@@ -1,34 +1,32 @@
-// Copyright 2017-2020 @polkadot/app-js authors & contributors
+// Copyright 2017-2023 @polkadot/app-js authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
 import type { KeyringInstance } from '@polkadot/keyring/types';
 import type { ApiProps } from '@polkadot/react-api/types';
 import type { AppProps as Props } from '@polkadot/react-components/types';
-import type { Log, LogType, Snippet } from './types';
+import type { Log, LogType, Snippet } from './types.js';
 
-import React, { useCallback, useRef, useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { Button, Dropdown, Editor } from '@polkadot/react-components';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+
+import { Button, Dropdown, Editor, styled, Tabs } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
-import uiKeyring from '@polkadot/ui-keyring';
 import * as types from '@polkadot/types';
+import uiKeyring from '@polkadot/ui-keyring';
 import * as util from '@polkadot/util';
 import * as hashing from '@polkadot/util-crypto';
 
-import { STORE_EXAMPLES, STORE_SELECTED, CUSTOM_LABEL } from './constants';
-import makeWrapper from './snippets/wrapping';
-import allSnippets from './snippets';
-import { useTranslation } from './translate';
-
-import Output from './Output';
-import ActionButtons from './ActionButtons';
+import { allSnippets, makeWrapper } from './snippets/index.js';
+import ActionButtons from './ActionButtons.js';
+import { CUSTOM_LABEL, STORE_EXAMPLES, STORE_SELECTED } from './constants.js';
+import Output from './Output.js';
+import { useTranslation } from './translate.js';
 
 interface Injected {
   api: ApiPromise;
   console: {
-    error: (...args: any[]) => void;
-    log: (...args: any[]) => void;
+    error: (...args: unknown[]) => void;
+    log: (...args: unknown[]) => void;
   };
   hashing: typeof hashing;
   keyring: KeyringInstance | null;
@@ -44,7 +42,7 @@ const DEFAULT_NULL = { Atomics: null, Bluetooth: null, Clipboard: null, Document
 const snippets = JSON.parse(JSON.stringify(allSnippets)) as Snippet[];
 let hasSnippetWrappers = false;
 
-function setupInjected ({ api, isDevelopment }: ApiProps, setIsRunning: (isRunning: boolean) => void, hookConsole: (type: LogType, args: any[]) => void): Injected {
+function setupInjected ({ api, isDevelopment }: ApiProps, setIsRunning: (isRunning: boolean) => void, hookConsole: (type: LogType, args: unknown[]) => void): Injected {
   return {
     ...Object
       .keys(window)
@@ -56,8 +54,8 @@ function setupInjected ({ api, isDevelopment }: ApiProps, setIsRunning: (isRunni
       }, { ...DEFAULT_NULL }),
     api: api.clone(),
     console: {
-      error: (...args: any[]) => hookConsole('error', args),
-      log: (...args: any[]) => hookConsole('log', args)
+      error: (...args: unknown[]) => hookConsole('error', args),
+      log: (...args: unknown[]) => hookConsole('log', args)
     },
     hashing,
     keyring: isDevelopment
@@ -73,7 +71,7 @@ function setupInjected ({ api, isDevelopment }: ApiProps, setIsRunning: (isRunni
 }
 
 // FIXME This... ladies & gentlemen, is a mess that should be untangled
-function Playground ({ className = '' }: Props): React.ReactElement<Props> {
+function Playground ({ basePath, className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const apiProps = useApi();
   const injectedRef = useRef<Injected | null>(null);
@@ -85,6 +83,14 @@ function Playground ({ className = '' }: Props): React.ReactElement<Props> {
   const [logs, setLogs] = useState<Log[]>([]);
   const [options, setOptions] = useState<Snippet[]>([]);
   const [selected, setSelected] = useState(snippets[0]);
+
+  const tabsRef = useRef([
+    {
+      isRoot: true,
+      name: 'playground',
+      text: t('Console')
+    }
+  ]);
 
   // initialize all options
   useEffect((): void => {
@@ -122,7 +128,7 @@ function Playground ({ className = '' }: Props): React.ReactElement<Props> {
   );
 
   const _hookConsole = useCallback(
-    (type: LogType, args: any[]): void => {
+    (type: LogType, args: unknown[]): void => {
       logs.push({ args, type });
       setLogs(logs.slice(0));
     },
@@ -142,27 +148,31 @@ function Playground ({ className = '' }: Props): React.ReactElement<Props> {
   );
 
   const _runJs = useCallback(
-    async (): Promise<void> => {
-      setIsRunning(true);
-      _clearConsole();
+    (): void => {
+      async function run () {
+        setIsRunning(true);
+        _clearConsole();
 
-      injectedRef.current = setupInjected(apiProps, setIsRunning, _hookConsole);
+        injectedRef.current = setupInjected(apiProps, setIsRunning, _hookConsole);
 
-      await injectedRef.current.api.isReady;
+        await injectedRef.current.api.isReady;
 
-      try {
-        // squash into a single line so exceptions (with line numbers) maps to the
-        // same line/origin as we have in the editor view
-        // TODO: Make the console.error here actually return the full stack
-        const exec = `(async ({${Object.keys(injectedRef.current).sort().join(',')}}) => { try { ${code} \n } catch (error) { console.error(error); setIsRunning(false); } })(injected);`;
+        try {
+          // squash into a single line so exceptions (with line numbers) maps to the
+          // same line/origin as we have in the editor view
+          // TODO: Make the console.error here actually return the full stack
+          const exec = `(async ({${Object.keys(injectedRef.current).sort().join(',')}}) => { try { ${code} \n } catch (error) { console.error(error); setIsRunning(false); } })(injected);`;
 
-        // eslint-disable-next-line no-new-func,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-implied-eval
-        new Function('injected', exec).bind({}, injectedRef.current)();
-      } catch (error) {
-        injectedRef.current.console.error(error);
+          // eslint-disable-next-line no-new-func,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-implied-eval
+          new Function('injected', exec).bind({}, injectedRef.current)();
+        } catch (error) {
+          injectedRef.current.console.error(error);
+        }
+
+        setIsRunning(false);
       }
 
-      setIsRunning(false);
+      run().catch(console.error);
     },
     [_clearConsole, _hookConsole, apiProps, code]
   );
@@ -225,17 +235,21 @@ function Playground ({ className = '' }: Props): React.ReactElement<Props> {
   const snippetName = selected.type === 'custom' ? selected.text : undefined;
 
   return (
-    <main className={`js--App ${className}`}>
-      <header className='container'>
+    <StyledMain className={`${className} js--App`}>
+      <Tabs
+        basePath={basePath}
+        items={tabsRef.current}
+      />
+      <section className='js--Selection'>
         <Dropdown
           className='js--Dropdown'
           isFull
-          label={t<string>('Select example')}
+          label={t('Select example')}
           onChange={_selectExample}
           options={options}
           value={selected.value}
         />
-      </header>
+      </section>
       <section className='js--Content'>
         <article className='container js--Editor'>
           <ActionButtons
@@ -279,21 +293,24 @@ function Playground ({ className = '' }: Props): React.ReactElement<Props> {
           </article>
         </div>
       )}
-    </main>
+    </StyledMain>
   );
 }
 
-export default React.memo(styled(Playground)`
+const StyledMain = styled.main`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  padding: 1rem 0 0;
   position: relative;
 
   article {
     p:last-child {
       margin-bottom: 0;
     }
+  }
+
+  .js--Selection {
+    margin-bottom: 1rem;
   }
 
   .js--Content {
@@ -399,4 +416,6 @@ export default React.memo(styled(Playground)`
       margin-bottom: 0;
     }
   }
-`);
+`;
+
+export default React.memo(Playground);

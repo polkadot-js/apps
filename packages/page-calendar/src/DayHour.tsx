@@ -1,12 +1,13 @@
-// Copyright 2017-2020 @polkadot/app-calendar authors & contributors
+// Copyright 2017-2023 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { EntryInfo } from './types';
+import type { EntryInfoTyped } from './types.js';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
-import DayItem from './DayItem';
+import { styled } from '@polkadot/react-components';
+
+import DayItem from './DayItem.js';
 
 interface Props {
   className?: string;
@@ -14,30 +15,32 @@ interface Props {
   hour: number;
   index: number;
   minutes: number;
-  scheduled: EntryInfo[];
+  scheduled: EntryInfoTyped[];
 }
 
 const MN_TO_MS = 60 * 1000;
 const HR_TO_MS = 60 * MN_TO_MS;
 
+function filterEntries (date: Date, minutes: number, index: number, scheduled: EntryInfoTyped[]): EntryInfoTyped[] {
+  const start = date.getTime() + (index * HR_TO_MS);
+  const end = start + HR_TO_MS;
+  const explicit = start + (minutes * MN_TO_MS);
+
+  return scheduled
+    .filter(({ dateTime }) => dateTime >= explicit && dateTime < end)
+    .sort((a, b) => (a.dateTime - b.dateTime) || a.type.localeCompare(b.type));
+}
+
 function DayHour ({ className = '', date, hour, index, minutes, scheduled }: Props): React.ReactElement<Props> | null {
   const filtered = useMemo(
-    (): EntryInfo[] => {
-      const start = date.getTime() + (index * HR_TO_MS);
-      const end = start + HR_TO_MS;
-      const explicit = start + (minutes * MN_TO_MS);
-
-      return scheduled
-        .filter(({ dateTime }) => dateTime >= explicit && dateTime < end)
-        .sort((a, b) => (a.dateTime - b.dateTime) || a.type.localeCompare(b.type));
-    },
+    () => filterEntries(date, minutes, index, scheduled),
     [date, index, minutes, scheduled]
   );
 
   const hourStr = `${` ${hour}`.slice(-2)} ${hour >= 12 ? 'pm' : 'am'}`;
 
   return (
-    <div className={`${className}${filtered.length ? ' hasItems' : ''}`}>
+    <StyledDiv className={`${className}${filtered.length ? ' hasItems' : ''}`}>
       <div className={`hourLabel${filtered.length ? ' highlight--color' : ''}`}>{hourStr}</div>
       <div className='hourContainer'>
         {filtered.map((item, index): React.ReactNode => (
@@ -47,22 +50,18 @@ function DayHour ({ className = '', date, hour, index, minutes, scheduled }: Pro
           />
         ))}
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(DayHour)`
+const StyledDiv = styled.div`
   align-items: center;
   display: flex;
   position: relative;
   z-index: 2;
 
-  // &:nth-child(even) {
-  //   background: #faf8f6;
-  // }
-
   &:nth-child(odd) {
-    background: white;
+    background: var(--bg-table);
   }
 
   &.isPast {
@@ -76,11 +75,11 @@ export default React.memo(styled(DayHour)`
 
   .hourLabel {
     flex: 0;
-    font-size: 0.85rem;
-    font-weight: 400;
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-normal);
     line-height: 1;
     min-width: 5.5rem;
-    opacity: 0.5;
+    opacity: var(--opacity-light);
     padding: 0.5rem 1rem;
     text-align: right;
     text-transform: uppercase;
@@ -89,8 +88,10 @@ export default React.memo(styled(DayHour)`
 
   &.hasItems .hourLabel {
     font-size: 1.1rem;
-    font-weight: 400;
+    font-weight: var(--font-weight-normal);
     opacity: 1;
     padding: 0.7rem 1rem;
   }
-`);
+`;
+
+export default React.memo(DayHour);

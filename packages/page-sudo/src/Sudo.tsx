@@ -1,16 +1,17 @@
-// Copyright 2017-2020 @polkadot/app-js authors & contributors
+// Copyright 2017-2023 @polkadot/app-js authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { BN } from '@polkadot/util';
 
-import BN from 'bn.js';
 import React, { useCallback, useState } from 'react';
-import styled from 'styled-components';
-import { Button, Icon, Extrinsic, Toggle, TxButton, InputNumber } from '@polkadot/react-components';
-import { useApi, useToggle } from '@polkadot/react-hooks';
-import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from './translate';
+import { Button, Icon, InputNumber, styled, Toggle, TxButton } from '@polkadot/react-components';
+import { useApi, useToggle } from '@polkadot/react-hooks';
+import { Extrinsic } from '@polkadot/react-params';
+import { BN_ZERO, isFunction } from '@polkadot/util';
+
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;
@@ -37,30 +38,29 @@ function Sudo ({ className, isMine, sudoKey }: Props): React.ReactElement<Props>
 
   return isMine
     ? (
-      <section className={className}>
+      <StyledSection className={className}>
         <Extrinsic
           defaultValue={apiDefaultTxSudo}
-          label={t<string>('submit the following change')}
+          label={t('submit the following change')}
           onChange={_onChangeExtrinsic}
         />
-        {api.tx.sudo.sudoUncheckedWeight && (
+        {isFunction(api.tx.sudo.sudoUncheckedWeight) && (
           <InputNumber
-            help={t<string>('The unchecked weight as specified for the sudoUncheckedWeight call.')}
             isDisabled={!withWeight}
             isError={weight.eq(BN_ZERO)}
             isZeroable={false}
-            label={t<string>('unchecked weight for this call')}
+            label={t('unchecked weight for this call')}
+            labelExtra={
+              <Toggle
+                className='sudoToggle'
+                label={t('with weight override')}
+                onChange={toggleWithWeight}
+                value={withWeight}
+              />
+            }
             onChange={_onChangeWeight}
             value={weight}
-          >
-            <Toggle
-              className='sudoToggle'
-              isOverlay
-              label={t<string>('with weight override')}
-              onChange={toggleWithWeight}
-              value={withWeight}
-            />
-          </InputNumber>
+          />
         )}
         <Button.Group>
           <TxButton
@@ -69,8 +69,8 @@ function Sudo ({ className, isMine, sudoKey }: Props): React.ReactElement<Props>
             isDisabled={!method || (withWeight ? weight.eq(BN_ZERO) : false)}
             label={
               withWeight
-                ? t<string>('Submit Sudo Unchecked')
-                : t<string>('Submit Sudo')
+                ? t('Submit Sudo Unchecked')
+                : t('Submit Sudo')
             }
             params={
               withWeight
@@ -79,26 +79,28 @@ function Sudo ({ className, isMine, sudoKey }: Props): React.ReactElement<Props>
             }
             tx={
               withWeight
-                ? 'sudo.sudoUncheckedWeight'
-                : 'sudo.sudo'
+                ? api.tx.sudo.sudoUncheckedWeight
+                : api.tx.sudo.sudo
             }
           />
         </Button.Group>
-      </section>
+      </StyledSection>
     )
     : (
       <article className='error padded'>
         <div>
           <Icon icon='ban' />
-          {t<string>('You do not have access to the current sudo key')}
+          {t('You do not have access to the current sudo key')}
         </div>
       </article>
     );
 }
 
-export default React.memo(styled(Sudo)`
+const StyledSection = styled.section`
   .sudoToggle {
     width: 100%;
     text-align: right;
   }
-`);
+`;
+
+export default React.memo(Sudo);

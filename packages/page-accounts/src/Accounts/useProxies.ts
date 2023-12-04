@@ -1,35 +1,31 @@
-// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Vec } from '@polkadot/types';
-import type { AccountId, BalanceOf, ProxyDefinition, ProxyType } from '@polkadot/types/interfaces';
+import type { AccountId, BalanceOf } from '@polkadot/types/interfaces';
+import type { KitchensinkRuntimeProxyType, PalletProxyProxyDefinition } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
+import type { BN } from '@polkadot/util';
 
-import BN from 'bn.js';
 import { useEffect, useState } from 'react';
-import { useAccounts, useApi, useIsMountedRef } from '@polkadot/react-hooks';
+
+import { createNamedHook, useAccounts, useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
 interface Proxy {
   address: string;
   delay: BN;
   isOwned: boolean;
-  type: ProxyType;
+  type: KitchensinkRuntimeProxyType;
 }
 
 interface State {
-  hasOwned: boolean;
+  isEmpty: boolean;
   owned: Proxy[];
   proxies: Proxy[];
 }
 
-const EMPTY_STATE: State = {
-  hasOwned: false,
-  owned: [],
-  proxies: []
-};
-
-function createProxy (allAccounts: string[], delegate: AccountId, type: ProxyType, delay = BN_ZERO): Proxy {
+function createProxy (allAccounts: string[], delegate: AccountId, type: KitchensinkRuntimeProxyType, delay = BN_ZERO): Proxy {
   const address = delegate.toString();
 
   return {
@@ -40,30 +36,30 @@ function createProxy (allAccounts: string[], delegate: AccountId, type: ProxyTyp
   };
 }
 
-export default function useProxies (address?: string | null): State {
+function useProxiesImpl (address?: string | null): State | null {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const mountedRef = useIsMountedRef();
-  const [known, setState] = useState<State>(EMPTY_STATE);
+  const [known, setState] = useState<State | null>(null);
 
   useEffect((): void => {
-    setState(EMPTY_STATE);
+    setState(null);
 
-    address && api.query.proxy &&
+    address &&
       api.query.proxy
-        .proxies<ITuple<[Vec<ITuple<[AccountId, ProxyType]> | ProxyDefinition>, BalanceOf]>>(address)
+        ?.proxies<ITuple<[Vec<ITuple<[AccountId, KitchensinkRuntimeProxyType]> | PalletProxyProxyDefinition>, BalanceOf]>>(address)
         .then(([_proxies]): void => {
           const proxies = api.tx.proxy.addProxy.meta.args.length === 3
-            ? (_proxies as ProxyDefinition[]).map(({ delay, delegate, proxyType }) =>
+            ? (_proxies as PalletProxyProxyDefinition[]).map(({ delay, delegate, proxyType }) =>
               createProxy(allAccounts, delegate, proxyType, delay)
             )
-            : (_proxies as [AccountId, ProxyType][]).map(([delegate, proxyType]) =>
+            : (_proxies as [AccountId, KitchensinkRuntimeProxyType][]).map(([delegate, proxyType]) =>
               createProxy(allAccounts, delegate, proxyType)
             );
           const owned = proxies.filter(({ isOwned }) => isOwned);
 
           mountedRef.current && setState({
-            hasOwned: owned.length !== 0,
+            isEmpty: owned.length === 0,
             owned,
             proxies
           });
@@ -73,3 +69,5 @@ export default function useProxies (address?: string | null): State {
 
   return known;
 }
+
+export default createNamedHook('useProxies', useProxiesImpl);

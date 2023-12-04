@@ -1,23 +1,23 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSessionProgress } from '@polkadot/api-derive/types';
-import type { SlashEra } from './types';
+import type { SlashEra } from './types.js';
 
-import BN from 'bn.js';
 import React, { useMemo } from 'react';
+
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
+import { BN, BN_ONE, formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   slash: SlashEra;
 }
 
-function Header ({ slash: { era, nominators, reporters, total, validators } }: Props): React.ReactElement<Props> | null {
+function Summary ({ slash: { era, nominators, reporters, total, validators } }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const sessionInfo = useCall<DeriveSessionProgress>(api.derive.session?.progress);
@@ -25,7 +25,7 @@ function Header ({ slash: { era, nominators, reporters, total, validators } }: P
   const [blockProgress, blockEnd] = useMemo(
     () => sessionInfo
       ? [
-        sessionInfo.activeEra.sub(era).subn(1).mul(sessionInfo.eraLength).add(sessionInfo.eraProgress),
+        sessionInfo.activeEra.sub(era).isub(BN_ONE).imul(sessionInfo.eraLength).iadd(sessionInfo.eraProgress),
         api.consts.staking.slashDeferDuration.mul(sessionInfo.eraLength)
       ]
       : [new BN(0), new BN(0)],
@@ -35,19 +35,19 @@ function Header ({ slash: { era, nominators, reporters, total, validators } }: P
   return (
     <SummaryBox>
       <section>
-        <CardSummary label={t<string>('validators')}>
+        <CardSummary label={t('validators')}>
           {formatNumber(validators.length)}
         </CardSummary>
-        <CardSummary label={t<string>('nominators')}>
+        <CardSummary label={t('nominators')}>
           {formatNumber(nominators.length)}
         </CardSummary>
-        <CardSummary label={t<string>('reporters')}>
+        <CardSummary label={t('reporters')}>
           {formatNumber(reporters.length)}
         </CardSummary>
       </section>
       {blockProgress.gtn(0) && (
         <CardSummary
-          label={t<string>('defer')}
+          label={t('defer')}
           progress={{
             total: blockEnd,
             value: blockProgress,
@@ -55,11 +55,11 @@ function Header ({ slash: { era, nominators, reporters, total, validators } }: P
           }}
         />
       )}
-      <CardSummary label={t<string>('total')}>
+      <CardSummary label={t('total')}>
         <FormatBalance value={total} />
       </CardSummary>
     </SummaryBox>
   );
 }
 
-export default React.memo(Header);
+export default React.memo(Summary);

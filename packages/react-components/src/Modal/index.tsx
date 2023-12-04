@@ -1,52 +1,133 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeDef } from '@polkadot/react-components/types';
-import type { ActionsProps, ColumnProps, ModalProps } from './types';
+import React, { useCallback, useEffect } from 'react';
+import { createPortal } from 'react-dom';
+import { createGlobalStyle } from 'styled-components';
 
-import React, { useContext } from 'react';
-import { ThemeContext } from 'styled-components';
-import SUIModal from 'semantic-ui-react/dist/commonjs/modules/Modal/Modal';
+import { useTheme } from '@polkadot/react-hooks';
 
-import Actions from './Actions';
-import Column from './Column';
-import Columns from './Columns';
+import ErrorBoundary from '../ErrorBoundary.js';
+import { styled } from '../styled.js';
+import Actions from './Actions.js';
+import Columns from './Columns.js';
+import Content from './Content.js';
+import Header from './Header.js';
 
-type ModalType = React.FC<ModalProps> & {
-  Actions: React.FC<ActionsProps>;
-  Column: React.FC<ColumnProps>;
-  Columns: React.FC<ColumnProps>;
-  Content: typeof SUIModal.Content;
-  Header: typeof SUIModal.Header;
-  Description: typeof SUIModal.Description;
-};
+interface Props {
+  size?: 'large' | 'medium' | 'small';
+  children: React.ReactNode;
+  className?: string;
+  header?: React.ReactNode;
+  open?: boolean;
+  onClose: () => void;
+  testId?: string;
+}
 
-function ModalBase (props: ModalProps): React.ReactElement<ModalProps> {
-  const { theme } = useContext<ThemeDef>(ThemeContext);
-  const { children, className = '', header, open = true } = props;
+function ModalBase ({ children, className = '', header, onClose, size = 'medium', testId = 'modal' }: Props): React.ReactElement<Props> {
+  const { themeClassName } = useTheme();
 
-  return (
-    <SUIModal
-      {...props}
-      className={`theme--${theme} ui--Modal ${className}`}
-      header={undefined}
-      open={open}
+  const listenKeyboard = useCallback((event: KeyboardEvent) => {
+    // eslint-disable-next-line deprecation/deprecation
+    if (event.key === 'Escape' || event.keyCode === 27) {
+      onClose();
+    }
+  }, [onClose]);
+
+  useEffect(() => {
+    window.addEventListener('keydown', listenKeyboard, true);
+
+    return () => {
+      window.removeEventListener('keydown', listenKeyboard, true);
+    };
+  }, [listenKeyboard]);
+
+  return createPortal(
+    <StyledDiv
+      className={`${className} ui--Modal ${size}Size ${themeClassName} `}
+      data-testid={testId}
     >
-      {header && (
-        <SUIModal.Header>{header}</SUIModal.Header>
-      )}
-      {children}
-    </SUIModal>
+      <DisableGlobalScroll />
+      <div
+        className='ui--Modal__overlay'
+        onClick={onClose}
+      />
+      <div className='ui--Modal__body'>
+        <Header
+          header={header}
+          onClose={onClose}
+        />
+        <ErrorBoundary>
+          {children}
+        </ErrorBoundary>
+      </div>
+    </StyledDiv>,
+    document.body
   );
 }
 
-const Modal = React.memo(ModalBase) as unknown as ModalType;
+const DisableGlobalScroll = createGlobalStyle`
+  body {
+    overflow: hidden;
+  }
+`;
+
+const StyledDiv = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  z-index: 1000;
+  overflow-y: auto;
+
+  .ui--Modal__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(96, 96, 96, 0.5);
+  }
+
+  .ui--Modal__body {
+    margin-top: 30px;
+    background: var(--bg-page);
+    border-radius: 4px;
+    box-shadow: none;
+
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+
+    max-width: 900px;
+    width: calc(100% - 16px);
+
+    color: var(--color-text);
+    font: var(--font-sans);
+  }
+
+  &.smallSize .ui--Modal__body {
+    max-width: 720px;
+  }
+
+  &.largeSize .ui--Modal__body {
+    max-width: 1080px;
+  }
+`;
+
+const Modal = React.memo(ModalBase) as unknown as typeof ModalBase & {
+  Actions: typeof Actions;
+  Columns: typeof Columns;
+  Content: typeof Content;
+};
 
 Modal.Actions = Actions;
-Modal.Column = Column;
 Modal.Columns = Columns;
-Modal.Content = SUIModal.Content;
-Modal.Header = SUIModal.Header;
-Modal.Description = SUIModal.Description;
+Modal.Content = Content;
 
 export default Modal;

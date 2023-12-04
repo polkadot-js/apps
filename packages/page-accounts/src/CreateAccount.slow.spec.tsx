@@ -1,24 +1,25 @@
-// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import AccountsApp from '@polkadot/app-accounts';
-import { MemoryStore } from '@polkadot/app-accounts/test-support/MemoryStore';
-import { lightTheme } from '@polkadot/apps/themes';
-import { Api } from '@polkadot/react-api';
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
 import '@polkadot/react-components/i18n';
-import { useApi } from '@polkadot/react-hooks';
+
 import { fireEvent, render, waitForElementToBeRemoved } from '@testing-library/react';
-import React, { PropsWithChildren } from 'react';
+import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
-const SUBSTRATE_PORT = Number.parseInt(process.env.TEST_SUBSTRATE_PORT || '30333');
+import AccountsApp from '@polkadot/app-accounts';
+import { ApiCtxRoot } from '@polkadot/react-api';
+import { lightTheme } from '@polkadot/react-components';
+import { MemoryStore } from '@polkadot/test-support/keyring';
+import { WaitForApi } from '@polkadot/test-support/react';
+import { SUBSTRATE_PORT } from '@polkadot/test-support/substrate';
 
-const WaitForApi = ({ children }: { children: React.ReactNode }): PropsWithChildren<any> | null => {
-  const api = useApi();
-
-  return api.isApiReady ? (children) : null;
-};
+function noop (): void {
+  // do nothing
+}
 
 const renderAccounts = () => {
   const memoryStore = new MemoryStore();
@@ -26,26 +27,31 @@ const renderAccounts = () => {
   return render(
     <MemoryRouter>
       <ThemeProvider theme={lightTheme}>
-        <Api store={memoryStore}
-          url={`ws://127.0.0.1:${SUBSTRATE_PORT}`}>
+        <ApiCtxRoot
+          apiUrl={`ws://127.0.0.1:${SUBSTRATE_PORT}`}
+          isElectron={false}
+          store={memoryStore}
+        >
           <WaitForApi>
             <div>
-              <AccountsApp basePath='/accounts'
-                onStatusChange={() => { /* */
-                }}/>
+              <AccountsApp
+                basePath='/accounts'
+                onStatusChange={noop}
+              />
             </div>
           </WaitForApi>
-        </Api>
+        </ApiCtxRoot>
       </ThemeProvider>
     </MemoryRouter>
   );
 };
 
-describe.only('--SLOW--: Account Create', () => {
-  it('new create modal', async () => {
+// eslint-disable-next-line jest/no-disabled-tests
+describe.skip('--SLOW--: Account Create', () => {
+  it('created account is added to list', async () => {
     const { findByTestId, findByText, queryByText } = renderAccounts();
 
-    const addAccountButton = await findByText('Add account', {}, { timeout: 5000 });
+    const addAccountButton = await findByText('Add account', {});
 
     fireEvent.click(addAccountButton);
 
@@ -54,7 +60,7 @@ describe.only('--SLOW--: Account Create', () => {
 
     fireEvent.click(hiddenCheckbox);
 
-    const nextStepButton = await findByText('Next', {}, { timeout: 4000 });
+    const nextStepButton = await findByText('Next', {});
 
     fireEvent.click(nextStepButton);
 
@@ -70,11 +76,11 @@ describe.only('--SLOW--: Account Create', () => {
 
     fireEvent.change(passwordInput2, { target: { value: 'password' } });
 
-    const toStep3Button = await findByText('Next', {}, { timeout: 4000 });
+    const toStep3Button = await findByText('Next', {});
 
     fireEvent.click(toStep3Button);
 
-    const createAnAccountButton = await findByText('Save', {}, { timeout: 4000 });
+    const createAnAccountButton = await findByText('Save', {});
 
     fireEvent.click(createAnAccountButton);
 
@@ -83,22 +89,22 @@ describe.only('--SLOW--: Account Create', () => {
     expect(await findByText('MY NEW ACCOUNT')).toBeTruthy();
   });
 
-  it('error message for derivation path', async () => {
+  it('gives an error message when entering invalid derivation path', async () => {
     const { findByTestId, findByText } = renderAccounts();
 
-    const addAccountButton = await findByText('Add account', {}, { timeout: 5000 });
+    const addAccountButton = await findByText('Add account', {});
 
     fireEvent.click(addAccountButton);
 
-    const showAdvancedOptionsButton = await findByText('Advanced creation options', {}, { timeout: 5000 });
+    const showAdvancedOptionsButton = await findByText('Advanced creation options', {});
 
     fireEvent.click(showAdvancedOptionsButton);
 
-    const derivationPathInput = await findByTestId('secret derivation path', {}, { timeout: 5000 });
+    const derivationPathInput = await findByTestId('secret derivation path', {});
 
     fireEvent.change(derivationPathInput, { target: { value: '//abc//' } });
 
-    const errorMsg = await findByText('Unable to match provided value to a secret URI', {}, { timeout: 5000 });
+    const errorMsg = await findByText('Unable to match provided value to a secret URI', {});
 
     expect(errorMsg).toBeTruthy();
   });

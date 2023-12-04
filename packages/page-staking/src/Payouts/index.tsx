@@ -1,36 +1,36 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
 import type { DeriveStakerReward } from '@polkadot/api-derive/types';
+import type { OwnPool } from '@polkadot/app-staking2/Pools/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
-import type { PayoutStash, PayoutValidator } from './types';
+import type { PayoutStash, PayoutValidator } from './types.js';
 
-import BN from 'bn.js';
 import React, { useMemo, useRef, useState } from 'react';
-import styled from 'styled-components';
-import { ApiPromise } from '@polkadot/api';
-import { Button, Table, ToggleGroup } from '@polkadot/react-components';
-import { useApi, useCall, useOwnEraRewards } from '@polkadot/react-hooks';
-import { FormatBalance } from '@polkadot/react-query';
-import { BN_ZERO, isFunction } from '@polkadot/util';
 
-import ElectionBanner from '../ElectionBanner';
-import { useTranslation } from '../translate';
-import useStakerPayouts from './useStakerPayouts';
-import PayButton from './PayButton';
-import Stash from './Stash';
-import Validator from './Validator';
+import { Button, MarkWarning, styled, Table, ToggleGroup } from '@polkadot/react-components';
+import { useApi, useBlockInterval, useCall, useOwnEraRewards } from '@polkadot/react-hooks';
+import { BN, BN_THREE } from '@polkadot/util';
+
+import ElectionBanner from '../ElectionBanner.js';
+import { useTranslation } from '../translate.js';
+import PayButton from './PayButton.js';
+import Stash from './Stash.js';
+import Validator from './Validator.js';
 
 interface Props {
   className?: string;
+  historyDepth?: BN;
   isInElection?: boolean;
+  ownPools?: OwnPool[];
   ownValidators: StakerState[];
 }
 
 interface Available {
-  stashTotal?: BN | null;
+  stashAvail?: BN | null;
   stashes?: PayoutStash[];
+  valAvail?: BN | null;
+  valTotal?: BN | null;
   validators?: PayoutValidator[];
 }
 
@@ -41,16 +41,15 @@ interface EraSelection {
 
 const DAY_SECS = new BN(1000 * 60 * 60 * 24);
 
-function groupByValidator (allRewards: Record<string, DeriveStakerReward[]>, stakerPayoutsAfter: BN): PayoutValidator[] {
+function groupByValidator (allRewards: Record<string, DeriveStakerReward[]>): PayoutValidator[] {
   return Object
     .entries(allRewards)
     .reduce((grouped: PayoutValidator[], [stashId, rewards]): PayoutValidator[] => {
       rewards
-        .filter(({ era }) => era.gte(stakerPayoutsAfter))
         .forEach((reward): void => {
           Object
             .entries(reward.validators)
-            .forEach(([validatorId, { value }]): void => {
+            .forEach(([validatorId, { total, value }]): void => {
               const entry = grouped.find((entry) => entry.validatorId === validatorId);
 
               if (entry) {
@@ -66,6 +65,7 @@ function groupByValidator (allRewards: Record<string, DeriveStakerReward[]>, sta
                 }
 
                 entry.available = entry.available.add(value);
+                entry.total = entry.total.add(total);
               } else {
                 grouped.push({
                   available: value,
@@ -73,6 +73,7 @@ function groupByValidator (allRewards: Record<string, DeriveStakerReward[]>, sta
                     era: reward.era,
                     stashes: { [stashId]: value }
                   }],
+                  total,
                   validatorId
                 });
               }
@@ -99,173 +100,197 @@ function extractStashes (allRewards: Record<string, DeriveStakerReward[]>): Payo
     .sort((a, b) => b.available.cmp(a.available));
 }
 
-function getAvailable (allRewards: Record<string, DeriveStakerReward[]> | null | undefined, stakerPayoutsAfter: BN): Available {
+function getAvailable (allRewards: Record<string, DeriveStakerReward[]> | null | undefined): Available {
   if (allRewards) {
     const stashes = extractStashes(allRewards);
-    const stashTotal = stashes.length
-      ? stashes.reduce((total: BN, { available }) => total.add(available), BN_ZERO)
+    const validators = groupByValidator(allRewards);
+    const stashAvail = stashes.length
+      ? stashes.reduce<BN>((a, { available }) => a.iadd(available), new BN(0))
       : null;
+    const [valAvail, valTotal] = validators.length
+      ? validators.reduce<[BN, BN]>(([a, t], { available, total }) => [a.iadd(available), t.iadd(total)], [new BN(0), new BN(0)])
+      : [null, null];
 
     return {
-      stashTotal,
+      stashAvail,
       stashes,
-      validators: groupByValidator(allRewards, stakerPayoutsAfter)
+      valAvail,
+      valTotal,
+      validators
     };
   }
 
   return {};
 }
 
-function getOptions (api: ApiPromise, eraLength: BN | undefined, historyDepth: BN | undefined, t: TFunction): EraSelection[] {
-  if (eraLength && historyDepth) {
-    const blocksPerDay = DAY_SECS.div(api.consts.babe?.expectedBlockTime || api.consts.timestamp?.minimumPeriod.muln(2) || new BN(6000));
-    const maxBlocks = eraLength.mul(historyDepth);
-    const eraSelection: EraSelection[] = [];
-    let days = 2;
+function getOptions (blockTime: BN, eraLength: BN | undefined, historyDepth: BN | undefined, t: (key: string, options?: { replace: Record<string, unknown> }) => string): EraSelection[] {
+  if (!eraLength || !historyDepth) {
+    return [{ text: '', value: 0 }];
+  }
 
-    while (true) {
-      const dayBlocks = blocksPerDay.muln(days);
+  const blocksPerDay = DAY_SECS.div(blockTime);
+  const maxBlocks = eraLength.mul(historyDepth);
+  const eraSelection: EraSelection[] = [];
+  const days = new BN(2);
 
-      if (dayBlocks.gte(maxBlocks)) {
-        break;
-      }
+  while (true) {
+    const dayBlocks = blocksPerDay.mul(days);
 
-      eraSelection.push({
-        text: t<string>('{{days}} days', { replace: { days } }),
-        value: dayBlocks.div(eraLength).toNumber()
-      });
-
-      days = days * 3;
+    if (dayBlocks.gte(maxBlocks)) {
+      break;
     }
 
     eraSelection.push({
-      text: t<string>('Max, {{eras}} eras', { replace: { eras: historyDepth.toNumber() } }),
-      value: historyDepth.toNumber()
+      text: t('{{days}} days', { replace: { days: days.toString() } }),
+      value: dayBlocks.div(eraLength).toNumber()
     });
 
-    return eraSelection;
+    days.imul(BN_THREE);
   }
 
-  return [{ text: '', value: 0 }];
+  eraSelection.push({
+    text: t('Max, {{eras}} eras', { replace: { eras: historyDepth.toNumber() } }),
+    value: historyDepth.toNumber()
+  });
+
+  return eraSelection;
 }
 
-function Payouts ({ className = '', isInElection, ownValidators }: Props): React.ReactElement<Props> {
+function Payouts ({ className = '', historyDepth, isInElection, ownPools, ownValidators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [hasOwnValidators] = useState(ownValidators.length !== 0);
-  const [myStashesIndex, setMyStashesIndex] = useState((api.tx.staking.payoutStakers && hasOwnValidators) ? 0 : 1);
+  const [hasOwnValidators] = useState(() => ownValidators.length !== 0);
+  const [myStashesIndex, setMyStashesIndex] = useState(() => hasOwnValidators ? 0 : 1);
   const [eraSelectionIndex, setEraSelectionIndex] = useState(0);
   const eraLength = useCall<BN>(api.derive.session.eraLength);
-  const historyDepth = useCall<BN>(api.query.staking.historyDepth);
-  const stakerPayoutsAfter = useStakerPayouts();
-  const isDisabled = isInElection || !isFunction(api.tx.utility?.batch);
+  const blockTime = useBlockInterval();
+
+  const poolStashes = useMemo(
+    () => ownPools?.map(({ stashId }) => stashId),
+    [ownPools]
+  );
 
   const eraSelection = useMemo(
-    () => getOptions(api, eraLength, historyDepth, t),
-    [api, eraLength, historyDepth, t]
+    () => getOptions(blockTime, eraLength, historyDepth, t),
+    [blockTime, eraLength, historyDepth, t]
   );
 
-  const { allRewards, isLoadingRewards } = useOwnEraRewards(eraSelection[eraSelectionIndex].value, myStashesIndex ? undefined : ownValidators);
+  const { allRewards, isLoadingRewards } = useOwnEraRewards(eraSelection[eraSelectionIndex].value, myStashesIndex ? undefined : ownValidators, poolStashes);
 
-  const { stashTotal, stashes, validators } = useMemo(
-    () => getAvailable(allRewards, stakerPayoutsAfter),
-    [allRewards, stakerPayoutsAfter]
+  const { stashAvail, stashes, valAvail, validators } = useMemo(
+    () => getAvailable(allRewards),
+    [allRewards]
   );
 
-  const headerStashes = useMemo(() => [
-    [myStashesIndex ? t('payout/stash') : t('overall/validator'), 'start', 2],
-    [t('eras'), 'start'],
-    [t('available')],
-    [('remaining')],
-    [undefined, undefined, 3]
-  ], [myStashesIndex, t]);
+  const headerStashes = useMemo<[React.ReactNode?, string?, number?][]>(
+    () => [
+      [myStashesIndex ? t('payout/stash') : t('overall/validator'), 'start', 2],
+      [t('eras'), 'start'],
+      [myStashesIndex ? t('own') : t('total')],
+      [('remaining')],
+      [undefined, undefined, 3]
+    ],
+    [myStashesIndex, t]
+  );
 
-  const headerValidatorsRef = useRef([
+  const headerValidatorsRef = useRef<[React.ReactNode?, string?, number?][]>([
     [t('payout/validator'), 'start', 2],
     [t('eras'), 'start'],
-    [t('available')],
+    [t('own')],
     [('remaining')],
     [undefined, undefined, 3]
   ]);
 
   const valOptions = useMemo(() => [
-    { isDisabled: !hasOwnValidators, text: t('My validators'), value: 'val' },
-    { text: t('My stashes'), value: 'all' }
+    { isDisabled: !hasOwnValidators, text: t('Own validators'), value: 'val' },
+    { text: t('Own stashes'), value: 'all' }
   ], [hasOwnValidators, t]);
 
-  const footer = useMemo(() => (
+  const footerStash = useMemo(() => (
     <tr>
       <td colSpan={3} />
-      <td className='number'>
-        {stashTotal && <FormatBalance value={stashTotal} />}
-      </td>
+      <Table.Column.Balance value={stashAvail} />
       <td colSpan={4} />
     </tr>
-  ), [stashTotal]);
+  ), [stashAvail]);
+
+  const footerVal = useMemo(() => (
+    <tr>
+      <td colSpan={3} />
+      <Table.Column.Balance value={valAvail} />
+      <td colSpan={4} />
+    </tr>
+  ), [valAvail]);
 
   return (
-    <div className={className}>
-      {api.tx.staking.payoutStakers && (
-        <Button.Group>
-          <ToggleGroup
-            onChange={setMyStashesIndex}
-            options={valOptions}
-            value={myStashesIndex}
-          />
-          <ToggleGroup
-            onChange={setEraSelectionIndex}
-            options={eraSelection}
-            value={eraSelectionIndex}
-          />
-          <PayButton
-            isAll
-            isDisabled={isDisabled}
-            payout={validators}
-          />
-        </Button.Group>
-      )}
+    <StyledDiv className={className}>
+      <Button.Group>
+        <ToggleGroup
+          onChange={setMyStashesIndex}
+          options={valOptions}
+          value={myStashesIndex}
+        />
+        <ToggleGroup
+          onChange={setEraSelectionIndex}
+          options={eraSelection}
+          value={eraSelectionIndex}
+        />
+        <PayButton
+          isAll
+          isDisabled={isInElection}
+          payout={validators}
+        />
+      </Button.Group>
       <ElectionBanner isInElection={isInElection} />
-      {api.tx.staking.payoutStakers && !isLoadingRewards && !stashes?.length && (
-        <article className='warning centered'>
+      {!isLoadingRewards && !stashes?.length && (
+        <MarkWarning
+          className='warning centered'
+          withIcon={false}
+        >
           <p>{t('Payouts of rewards for a validator can be initiated by any account. This means that as soon as a validator or nominator requests a payout for an era, all the nominators for that validator will be rewarded. Each user does not need to claim individually and the suggestion is that validators should claim rewards for everybody as soon as an era ends.')}</p>
           <p>{t('If you have not claimed rewards straight after the end of the era, the validator is in the active set and you are seeing no rewards, this would mean that the reward payout transaction was made by another account on your behalf. Always check your favorite explorer to see any historic payouts made to your accounts.')}</p>
-        </article>
+        </MarkWarning>
       )}
       <Table
-        empty={!isLoadingRewards && stashes && t<string>('No pending payouts for your stashes')}
-        emptySpinner={t<string>('Retrieving info for the selected eras, this will take some time')}
-        footer={footer}
+        empty={!isLoadingRewards && stashes && (
+          myStashesIndex
+            ? t('No pending payouts for your stashes')
+            : t('No pending payouts for your validators')
+        )}
+        emptySpinner={t('Retrieving info for the selected eras, this will take some time')}
+        footer={footerStash}
         header={headerStashes}
         isFixed
       >
         {!isLoadingRewards && stashes?.map((payout): React.ReactNode => (
           <Stash
-            isDisabled={isDisabled}
+            historyDepth={historyDepth}
             key={payout.stashId}
             payout={payout}
-            stakerPayoutsAfter={stakerPayoutsAfter}
           />
         ))}
       </Table>
-      {api.tx.staking.payoutStakers && (myStashesIndex === 1) && !isLoadingRewards && validators && (validators.length !== 0) && (
+      {(myStashesIndex === 1) && !isLoadingRewards && validators && (validators.length !== 0) && (
         <Table
+          footer={footerVal}
           header={headerValidatorsRef.current}
           isFixed
         >
-          {!isLoadingRewards && validators.map((payout): React.ReactNode => (
+          {!isLoadingRewards && validators.filter(({ available }) => !available.isZero()).map((payout): React.ReactNode => (
             <Validator
-              isDisabled={isDisabled}
+              historyDepth={historyDepth}
+              isDisabled={isInElection}
               key={payout.validatorId}
               payout={payout}
             />
           ))}
         </Table>
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Payouts)`
+const StyledDiv = styled.div`
   .payout-eras {
     padding-left: 0.25rem;
     vertical-align: middle;
@@ -274,4 +299,6 @@ export default React.memo(styled(Payouts)`
       white-space: nowrap;
     }
   }
-`);
+`;
+
+export default React.memo(Payouts);

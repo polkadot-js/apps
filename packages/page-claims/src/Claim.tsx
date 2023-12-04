@@ -1,51 +1,55 @@
-// Copyright 2017-2020 @polkadot/app-claims authors & contributors
+// Copyright 2017-2023 @polkadot/app-claims authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option } from '@polkadot/types';
+import type { ApiPromise } from '@polkadot/api';
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { TxCallback } from '@polkadot/react-components/Status/types';
-import type { BalanceOf, EthereumAddress, StatementKind } from '@polkadot/types/interfaces';
+import type { Option } from '@polkadot/types';
+import type { BalanceOf, EthereumAddress, EthereumSignature, StatementKind } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { Button, Card, TxButton } from '@polkadot/react-components';
+
+import { Button, Card, styled, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
+import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from './translate';
-import { addrToChecksum, getStatement } from './util';
+import { useTranslation } from './translate.js';
+import { addrToChecksum, getStatement } from './util.js';
 
 interface Props {
   accountId: string;
   className?: string;
-  ethereumAddress: EthereumAddress | null;
-  ethereumSignature: string | null;
+  ethereumAddress?: EthereumAddress | string | null;
+  ethereumSignature?: EthereumSignature | string | null;
   // Do we sign with `claims.claimAttest` (new) instead of `claims.claim` (old)?
   isOldClaimProcess: boolean;
   onSuccess?: TxCallback;
-  statementKind?: StatementKind;
-  systemChain: string;
+  statementKind?: StatementKind | null;
 }
 
 interface ConstructTx {
-  params?: any[];
-  tx?: string;
+  params?: unknown[];
+  tx?: (...args: unknown[]) => SubmittableExtrinsic<'promise'>;
 }
 
 // Depending on isOldClaimProcess, construct the correct tx.
-function constructTx (systemChain: string, accountId: string, ethereumSignature: string | null, kind: StatementKind | undefined, isOldClaimProcess: boolean): ConstructTx {
+// FIXME We actually want to return the constructed extrinsic here (probably in useMemo)
+function constructTx (api: ApiPromise, systemChain: string, accountId: string, ethereumSignature: EthereumSignature | string | undefined | null, kind: StatementKind | undefined | null, isOldClaimProcess: boolean): ConstructTx {
   if (!ethereumSignature) {
     return {};
   }
 
   return isOldClaimProcess || !kind
-    ? { params: [accountId, ethereumSignature], tx: 'claims.claim' }
-    : { params: [accountId, ethereumSignature, getStatement(systemChain, kind)?.sentence], tx: 'claims.claimAttest' };
+    ? { params: [accountId, ethereumSignature], tx: api.tx.claims.claim }
+    : { params: [accountId, ethereumSignature, getStatement(systemChain, kind)?.sentence], tx: api.tx.claims.claimAttest };
 }
 
-function Claim ({ accountId, className = '', ethereumAddress, ethereumSignature, isOldClaimProcess, onSuccess, statementKind, systemChain }: Props): React.ReactElement<Props> | null {
+function Claim ({ accountId, className = '', ethereumAddress, ethereumSignature, isOldClaimProcess, onSuccess, statementKind }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const [claimValue, setClaimValue] = useState<BalanceOf | null>(null);
+  const { api, systemChain } = useApi();
+  const [claimValue, setClaimValue] = useState<BN | null>(null);
   const [isBusy, setIsBusy] = useState(false);
 
   useEffect((): void => {
@@ -58,30 +62,34 @@ function Claim ({ accountId, className = '', ethereumAddress, ethereumSignature,
     api.query.claims
       .claims<Option<BalanceOf>>(ethereumAddress)
       .then((claim): void => {
-        setClaimValue(claim.unwrapOr(null));
+        setClaimValue(claim.unwrapOr(BN_ZERO));
         setIsBusy(false);
       })
-      .catch((): void => setIsBusy(false));
+      .catch((error): void => {
+        console.error(error);
+
+        setIsBusy(false);
+      });
   }, [api, ethereumAddress]);
 
-  if (!ethereumAddress || isBusy) {
+  if (!ethereumAddress || isBusy || !claimValue) {
     return null;
   }
 
-  const hasClaim = claimValue && claimValue.gten(0);
+  const hasClaim = claimValue.gt(BN_ZERO);
 
   return (
     <Card
       isError={!hasClaim}
-      isSuccess={!!hasClaim}
+      isSuccess={hasClaim}
     >
-      <div className={className}>
-        {t<string>('Your Ethereum account')}
-        <h3>{addrToChecksum(ethereumAddress.toString())}</h3>
-        {hasClaim && claimValue
+      <StyledDiv className={className}>
+        {t('Your Ethereum account')}
+        <h2>{addrToChecksum(ethereumAddress.toString())}</h2>
+        {hasClaim
           ? (
             <>
-              {t<string>('has a valid claim for')}
+              {t('has a valid claim for')}
               <h2><FormatBalance value={claimValue} /></h2>
               <Button.Group>
                 <TxButton
@@ -89,23 +97,23 @@ function Claim ({ accountId, className = '', ethereumAddress, ethereumSignature,
                   isUnsigned
                   label={t('Claim')}
                   onSuccess={onSuccess}
-                  {...constructTx(systemChain, accountId, ethereumSignature, statementKind, isOldClaimProcess)}
+                  {...constructTx(api, systemChain, accountId, ethereumSignature, statementKind, isOldClaimProcess)}
                 />
               </Button.Group>
             </>
           )
           : (
             <>
-              {t<string>('does not appear to have a valid claim. Please double check that you have signed the transaction correctly on the correct ETH account.')}
+              {t('does not appear to have a valid claim. Please double check that you have signed the transaction correctly on the correct ETH account.')}
             </>
           )}
-      </div>
+      </StyledDiv>
     </Card>
   );
 }
 
 export const ClaimStyles = `
-font-size: 1.15rem;
+font-size: var(--font-size-h3);
 display: flex;
 flex-direction: column;
 justify-content: center;
@@ -127,8 +135,10 @@ h2 {
   margin: 0.5rem 0 2rem;
   font-family: monospace;
   font-size: 2.5rem;
-  font-weight: 400;
+  font-weight: var(--font-weight-normal);
 }
 `;
 
-export default React.memo(styled(Claim)`${ClaimStyles}`);
+const StyledDiv = styled.div`${ClaimStyles}`;
+
+export default React.memo(Claim);

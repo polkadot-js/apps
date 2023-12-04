@@ -1,14 +1,16 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Slash } from './types';
+import type { Slash } from './types.js';
 
 import React, { useCallback } from 'react';
-import { AddressMini, AddressSmall, Badge, Checkbox, Expander } from '@polkadot/react-components';
+
+import { AddressMini, AddressSmall, Badge, Checkbox, ExpanderScroll } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   index: number;
@@ -17,12 +19,25 @@ interface Props {
   slash: Slash;
 }
 
-function Row ({ index, isSelected, onSelect, slash: { isMine, slash: { others, own, payout, reporters, validator }, total, totalOther } }: Props): React.ReactElement<Props> {
+function Row ({ index, isSelected, onSelect, slash: { era, isMine, slash: { others, own, payout, reporters, validator }, total, totalOther } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
 
   const _onSelect = useCallback(
     () => onSelect && onSelect(index),
     [index, onSelect]
+  );
+
+  const renderOthers = useCallback(
+    () => others.map(([accountId, balance], index): React.ReactNode => (
+      <AddressMini
+        balance={balance}
+        key={index}
+        value={accountId}
+        withBalance
+      />
+    )),
+    [others]
   );
 
   return (
@@ -40,16 +55,10 @@ function Row ({ index, isSelected, onSelect, slash: { isMine, slash: { others, o
       </td>
       <td className='expand all'>
         {!!others.length && (
-          <Expander summary={t<string>('Nominators ({{count}})', { replace: { count: formatNumber(others.length) } })}>
-            {others.map(([accountId, balance], index): React.ReactNode => (
-              <AddressMini
-                balance={balance}
-                key={index}
-                value={accountId}
-                withBalance
-              />
-            ))}
-          </Expander>
+          <ExpanderScroll
+            renderChildren={renderOthers}
+            summary={t('Nominators ({{count}})', { replace: { count: formatNumber(others.length) } })}
+          />
         )}
       </td>
       <td className='address'>
@@ -72,6 +81,11 @@ function Row ({ index, isSelected, onSelect, slash: { isMine, slash: { others, o
       <td className='number together'>
         <FormatBalance value={payout} />
       </td>
+      {!api.query.staking.earliestUnappliedSlash && !!api.consts.staking.slashDeferDuration && (
+        <td className='number together'>
+          {formatNumber(era)}
+        </td>
+      )}
       <td>
         <Checkbox
           isDisabled={!onSelect}

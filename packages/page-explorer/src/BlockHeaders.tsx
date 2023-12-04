@@ -1,12 +1,14 @@
-// Copyright 2017-2020 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HeaderExtended } from '@polkadot/api-derive/types';
+
 import React, { useRef } from 'react';
-import { HeaderExtended } from '@polkadot/api-derive';
+
 import { Table } from '@polkadot/react-components';
 
-import BlockHeader from './BlockHeader';
-import { useTranslation } from './translate';
+import BlockHeader from './BlockHeader.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   headers: HeaderExtended[];
@@ -15,13 +17,13 @@ interface Props {
 function BlockHeaders ({ headers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('recent blocks'), 'start', 3]
   ]);
 
   return (
     <Table
-      empty={t<string>('No blocks available')}
+      empty={t('No blocks available')}
       header={headerRef.current}
     >
       {headers

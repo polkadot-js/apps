@@ -1,15 +1,16 @@
-// Copyright 2017-2020 @polkadot/app-settings authors & contributors
+// Copyright 2017-2023 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { QueryableStorageEntry } from '@polkadot/api/types';
 import type { Option } from '@polkadot/types';
-import type { Codec } from '@polkadot/types/types';
 import type { EthereumAddress } from '@polkadot/types/interfaces';
+import type { Codec } from '@polkadot/types/types';
 
 import { useEffect, useState } from 'react';
-import { useAccounts, useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
 
-export default function usePolkadotPreclaims (): string[] {
+import { createNamedHook, useAccounts, useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
+
+function usePolkadotPreclaimsImpl (): string[] {
   const { allAccounts } = useAccounts();
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
@@ -42,8 +43,10 @@ export default function usePolkadotPreclaims (): string[] {
             .map(([address]) => address)
         );
       }
-    );
+    ).catch(console.error);
   }, [api, allAccounts, mountedRef, preclaims]);
 
   return needsAttest;
 }
+
+export default createNamedHook('usePolkadotPreclaims', usePolkadotPreclaimsImpl);

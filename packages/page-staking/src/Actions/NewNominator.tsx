@@ -1,17 +1,18 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BondInfo, NominateInfo } from './partials/types';
-import type { SortedTargets } from '../types';
+import type { SortedTargets } from '../types.js';
+import type { BondInfo, NominateInfo } from './partials/types.js';
 
 import React, { useCallback, useState } from 'react';
-import { Button, Modal, TxButton } from '@polkadot/react-components';
+
+import { BatchWarning, Button, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import BondPartial from './partials/Bond';
-import NominatePartial from './partials/Nominate';
+import { useTranslation } from '../translate.js';
+import BondPartial from './partials/Bond.js';
+import NominatePartial from './partials/Nominate.js';
 
 interface Props {
   isInElection?: boolean;
@@ -25,7 +26,7 @@ function NewNominator ({ isInElection, targets }: Props): React.ReactElement<Pro
   const { t } = useTranslation();
   const { api } = useApi();
   const [isVisible, toggleVisible] = useToggle();
-  const [{ bondOwnTx, bondTx, controllerId, controllerTx, stashId }, setBondInfo] = useState<BondInfo>({});
+  const [{ bondTx, controllerId, controllerTx, stashId }, setBondInfo] = useState<BondInfo>({});
   const [{ nominateTx }, setNominateInfo] = useState<NominateInfo>({});
   const [step, setStep] = useState(1);
   const isDisabled = isInElection || !isFunction(api.tx.utility?.batch);
@@ -56,22 +57,28 @@ function NewNominator ({ isInElection, targets }: Props): React.ReactElement<Pro
         icon='plus'
         isDisabled={isDisabled || !targets.validators?.length}
         key='new-nominator'
-        label={t<string>('Nominator')}
+        label={t('Nominator')}
         onClick={_toggle}
       />
       {isVisible && (
         <Modal
-          header={t<string>('Setup Nominator {{step}}/{{NUM_STEPS}}', {
+          header={t('Setup Nominator {{step}}/{{NUM_STEPS}}', {
             replace: {
               NUM_STEPS,
               step
             }
           })}
+          onClose={_toggle}
           size='large'
         >
           <Modal.Content>
             {step === 1 && (
-              <BondPartial onChange={setBondInfo} />
+              <BondPartial
+                isNominating
+                minNominated={targets.minNominated}
+                minNominatorBond={targets.minNominatorBond}
+                onChange={setBondInfo}
+              />
             )}
             {controllerId && stashId && step === 2 && (
               <NominatePartial
@@ -82,12 +89,15 @@ function NewNominator ({ isInElection, targets }: Props): React.ReactElement<Pro
                 targets={targets}
               />
             )}
+            <Modal.Columns>
+              <BatchWarning />
+            </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={_toggle}>
+          <Modal.Actions>
             <Button
               icon='step-backward'
               isDisabled={step === 1}
-              label={t<string>('prev')}
+              label={t('prev')}
               onClick={_prevStep}
             />
             {step === NUM_STEPS
@@ -96,21 +106,21 @@ function NewNominator ({ isInElection, targets }: Props): React.ReactElement<Pro
                   accountId={stashId}
                   icon='sign-in-alt'
                   isDisabled={!bondTx || !nominateTx || !stashId || !controllerId}
-                  label={t<string>('Bond & Nominate')}
+                  label={t('Bond & Nominate')}
                   onStart={_toggle}
                   params={[
                     stashId === controllerId
                       ? [bondTx, nominateTx]
-                      : [bondOwnTx, nominateTx, controllerTx]
+                      : [bondTx, nominateTx, controllerTx]
                   ]}
-                  tx='utility.batch'
+                  tx={api.tx.utility.batchAll || api.tx.utility.batch}
                 />
               )
               : (
                 <Button
                   icon='step-forward'
                   isDisabled={!bondTx}
-                  label={t<string>('next')}
+                  label={t('next')}
                   onClick={_nextStep}
                 />
               )

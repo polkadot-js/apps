@@ -1,16 +1,17 @@
-// Copyright 2017-2020 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2023 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Registry, TypeDef } from '@polkadot/types/types';
 import type { RawParams } from '@polkadot/react-params/types';
+import type { Registry, TypeDef } from '@polkadot/types/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
+
 import UIParams from '@polkadot/react-params';
 
 interface Props {
   isDisabled?: boolean;
-  params?: ParamDef[];
-  onChange: (values: any[]) => void;
+  params?: ParamDef[] | null | '';
+  onChange: (values: unknown[]) => void;
   onEnter?: () => void;
   registry: Registry;
 }

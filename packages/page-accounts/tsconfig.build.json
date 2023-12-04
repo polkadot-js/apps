@@ -1,0 +1,21 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "outDir": "./build",
+    "rootDir": "./src"
+  },
+  "exclude": [
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "**/test/**/*"
+  ],
+  "references": [
+    { "path": "../page-claims/tsconfig.build.json" },
+    { "path": "../page-referenda/tsconfig.build.json" },
+    { "path": "../page-settings/tsconfig.build.json" },
+    { "path": "../react-components/tsconfig.build.json" },
+    { "path": "../react-hooks/tsconfig.build.json" },
+    { "path": "../react-params/tsconfig.build.json" }
+  ]
+}

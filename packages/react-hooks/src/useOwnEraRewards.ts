@@ -1,18 +1,20 @@
-// Copyright 2017-2020 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { DeriveEraPoints, DeriveEraRewards, DeriveStakerReward } from '@polkadot/api-derive/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
-import type { StakerState } from './types';
+import type { StakerState } from './types.js';
 
 import { useEffect, useState } from 'react';
-import { registry } from '@polkadot/react-api';
+
 import { BN_ZERO } from '@polkadot/util';
 
-import { useApi } from './useApi';
-import { useCall } from './useCall';
-import { useIsMountedRef } from './useIsMountedRef';
-import { useOwnStashIds } from './useOwnStashes';
+import { createNamedHook } from './createNamedHook.js';
+import { useApi } from './useApi.js';
+import { useCall } from './useCall.js';
+import { useIsMountedRef } from './useIsMountedRef.js';
+import { useOwnStashIds } from './useOwnStashes.js';
 
 interface State {
   allRewards?: Record<string, DeriveStakerReward[]> | null;
@@ -30,6 +32,18 @@ interface Filtered {
   validatorEras: ValidatorWithEras[];
 }
 
+const EMPTY_FILTERED: Filtered = {
+  filteredEras: [],
+  validatorEras: []
+};
+
+const EMPTY_STATE: State = {
+  isLoadingRewards: true,
+  rewardCount: 0
+};
+
+const OPT_REWARDS = { withParams: true };
+
 function getRewards ([[stashIds], available]: [[string[]], DeriveStakerReward[][]]): State {
   const allRewards: Record<string, DeriveStakerReward[]> = {};
 
@@ -44,7 +58,7 @@ function getRewards ([[stashIds], available]: [[string[]], DeriveStakerReward[][
   };
 }
 
-function getValRewards (validatorEras: ValidatorWithEras[], erasPoints: DeriveEraPoints[], erasRewards: DeriveEraRewards[]): State {
+function getValRewards (api: ApiPromise, validatorEras: ValidatorWithEras[], erasPoints: DeriveEraPoints[], erasRewards: DeriveEraRewards[]): State {
   const allRewards: Record<string, DeriveStakerReward[]> = {};
 
   validatorEras.forEach(({ eras, stashId }): void => {
@@ -56,7 +70,7 @@ function getValRewards (validatorEras: ValidatorWithEras[], erasPoints: DeriveEr
         const reward = eraPoints.validators[stashId].mul(eraRewards.eraReward).div(eraPoints.eraPoints);
 
         if (!reward.isZero()) {
-          const total = registry.createType('Balance', reward);
+          const total = api.createType('Balance', reward);
 
           if (!allRewards[stashId]) {
             allRewards[stashId] = [];
@@ -87,14 +101,14 @@ function getValRewards (validatorEras: ValidatorWithEras[], erasPoints: DeriveEr
   };
 }
 
-export function useOwnEraRewards (maxEras?: number, ownValidators?: StakerState[]): State {
+function useOwnEraRewardsImpl (maxEras?: number, ownValidators?: StakerState[], additional?: string[]): State {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
-  const stashIds = useOwnStashIds();
+  const stashIds = useOwnStashIds(additional);
   const allEras = useCall<EraIndex[]>(api.derive.staking?.erasHistoric);
-  const [{ filteredEras, validatorEras }, setFiltered] = useState<Filtered>({ filteredEras: [], validatorEras: [] });
-  const [state, setState] = useState<State>({ isLoadingRewards: true, rewardCount: 0 });
-  const stakerRewards = useCall<[[string[]], DeriveStakerReward[][]]>(!ownValidators?.length && !!filteredEras.length && stashIds && api.derive.staking?.stakerRewardsMultiEras, [stashIds, filteredEras], { withParams: true });
+  const [{ filteredEras, validatorEras }, setFiltered] = useState<Filtered>(EMPTY_FILTERED);
+  const [state, setState] = useState<State>(EMPTY_STATE);
+  const stakerRewards = useCall<[[string[]], DeriveStakerReward[][]]>(!ownValidators?.length && !!filteredEras.length && stashIds && api.derive.staking?.stakerRewardsMultiEras, [stashIds, filteredEras], OPT_REWARDS);
   const erasPoints = useCall<DeriveEraPoints[]>(!!validatorEras.length && !!filteredEras.length && api.derive.staking._erasPoints, [filteredEras, false]);
   const erasRewards = useCall<DeriveEraRewards[]>(!!validatorEras.length && !!filteredEras.length && api.derive.staking._erasRewards, [filteredEras, false]);
 
@@ -107,7 +121,14 @@ export function useOwnEraRewards (maxEras?: number, ownValidators?: StakerState[
       const filteredEras = allEras.slice(-1 * maxEras);
       const validatorEras: ValidatorWithEras[] = [];
 
-      if (ownValidators?.length) {
+      if (allEras.length === 0) {
+        setState({
+          allRewards: {},
+          isLoadingRewards: false,
+          rewardCount: 0
+        });
+        setFiltered({ filteredEras, validatorEras });
+      } else if (ownValidators?.length) {
         ownValidators.forEach(({ stakingLedger, stashId }): void => {
           if (stakingLedger) {
             const eras = filteredEras.filter((era) => !stakingLedger.claimedRewards.some((c) => era.eq(c)));
@@ -140,9 +161,11 @@ export function useOwnEraRewards (maxEras?: number, ownValidators?: StakerState[
 
   useEffect((): void => {
     mountedRef && erasPoints && erasRewards && ownValidators && setState(
-      getValRewards(validatorEras, erasPoints, erasRewards)
+      getValRewards(api, validatorEras, erasPoints, erasRewards)
     );
-  }, [erasPoints, erasRewards, mountedRef, ownValidators, validatorEras]);
+  }, [api, erasPoints, erasRewards, mountedRef, ownValidators, validatorEras]);
 
   return state;
 }
+
+export const useOwnEraRewards = createNamedHook('useOwnEraRewards', useOwnEraRewardsImpl);

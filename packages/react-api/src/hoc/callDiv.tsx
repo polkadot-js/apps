@@ -1,12 +1,12 @@
-// Copyright 2017-2020 @polkadot/react-api authors & contributors
+// Copyright 2017-2023 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DefaultProps, Options } from './types';
-import type { BaseProps } from '../types';
+import type { BaseProps } from '../types.js';
+import type { DefaultProps, Options } from './types.js';
 
 import React from 'react';
 
-import withCall from './call';
+import withCall from './call.js';
 
 interface Props<T> extends BaseProps<T> {
   callResult?: T;
@@ -22,7 +22,7 @@ export default function withCallDiv<T> (endpoint: string, options: Options = {})
           {...defaultProps}
           className={[className || '', callUpdated ? 'rx--updated' : undefined].join(' ')}
         >
-          {label}{render(callResult)}{children}
+          {label}{render(callResult as T)}{children}
         </div>
       );
     }

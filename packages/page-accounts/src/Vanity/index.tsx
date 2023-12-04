@@ -1,29 +1,30 @@
-// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { KeypairType } from '@polkadot/util-crypto/types';
-import type { GeneratorMatches, GeneratorMatch, GeneratorResult } from '@polkadot/vanitygen/types';
+import type { GeneratorMatch, GeneratorMatches, GeneratorResult } from '@polkadot/vanitygen/types';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import styled from 'styled-components';
-import { Button, Dropdown, Input, Table } from '@polkadot/react-components';
+
+import { Button, Dropdown, Input, styled, Table } from '@polkadot/react-components';
 import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
-import uiSettings from '@polkadot/ui-settings';
+import { settings } from '@polkadot/ui-settings';
+import { nextTick } from '@polkadot/util';
 import generator from '@polkadot/vanitygen/generator';
 import matchRegex from '@polkadot/vanitygen/regex';
 import generatorSort from '@polkadot/vanitygen/sort';
 
-import CreateModal from '../modals/Create';
-import { useTranslation } from '../translate';
-import Match from './Match';
+import CreateModal from '../modals/Create.js';
+import { useTranslation } from '../translate.js';
+import Match from './Match.js';
 
 interface Props {
   className?: string;
   onStatusChange: (status: ActionStatus) => void;
 }
 
-interface Match {
+interface MatchState {
   isMatchValid: boolean;
   match: string;
 }
@@ -45,7 +46,7 @@ const BOOL_OPTIONS = [
 
 function VanityApp ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { isEthereum } = useApi();
+  const { api, isEthereum } = useApi();
   const results = useRef<GeneratorResult[]>([]);
   const runningRef = useRef(false);
   const mountedRef = useIsMountedRef();
@@ -58,7 +59,7 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
     matches: [],
     startAt: 0
   });
-  const [{ isMatchValid, match }, setMatch] = useState<Match>({ isMatchValid: true, match: DEFAULT_MATCH });
+  const [{ isMatchValid, match }, setMatch] = useState<MatchState>({ isMatchValid: true, match: DEFAULT_MATCH });
   const [type, setType] = useState<KeypairType>('ed25519');
   const [withCase, setWithCase] = useState(true);
 
@@ -108,21 +109,21 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
         return _checkMatches();
       }
 
-      setTimeout((): void => {
+      nextTick((): void => {
         if (mountedRef.current) {
           if (results.current.length === 25) {
             _checkMatches();
           }
 
           results.current.push(
-            generator({ match, runs: 10, type, withCase, withHex: true })
+            generator({ match, runs: 10, ss58Format: api.registry.chainSS58 || 0, type, withCase, withHex: true })
           );
 
           _executeGeneration();
         }
-      }, 0);
+      });
     },
-    [_checkMatches, match, mountedRef, runningRef, type, withCase]
+    [_checkMatches, api, match, mountedRef, runningRef, type, withCase]
   );
 
   const _onChangeMatch = useCallback(
@@ -168,38 +169,39 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
     }
   }, [_executeGeneration, isRunning]);
 
-  const header = useMemo(() => [
-    [t('matches'), 'start', 2],
-    [t('Evaluated {{count}} keys in {{elapsed}}s ({{avg}} keys/s)', {
-      replace: {
-        avg: (keyCount / (elapsed / 1000)).toFixed(3),
-        count: keyCount,
-        elapsed: (elapsed / 1000).toFixed(2)
-      }
-    }), 'start'],
-    [t('secret'), 'start'],
-    []
-  ], [elapsed, keyCount, t]);
+  const header = useMemo<[React.ReactNode?, string?, number?][]>(
+    () => [
+      [t('matches'), 'start', 2],
+      [t('Evaluated {{count}} keys in {{elapsed}}s ({{avg}} keys/s)', {
+        replace: {
+          avg: (keyCount / (elapsed / 1000)).toFixed(3),
+          count: keyCount,
+          elapsed: (elapsed / 1000).toFixed(2)
+        }
+      }), 'start --digits'],
+      [t('secret'), 'start'],
+      []
+    ],
+    [elapsed, keyCount, t]
+  );
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <div className='ui--row'>
         <Input
           autoFocus
           className='medium'
-          help={t<string>('Type here what you would like your address to contain. This tool will generate the keys and show the associated addresses that best match your search. You can use "?" as a wildcard for a character.')}
           isDisabled={isRunning}
           isError={!isMatchValid}
-          label={t<string>('Search for')}
+          label={t('Search for')}
           onChange={_onChangeMatch}
           onEnter={_toggleStart}
           value={match}
         />
         <Dropdown
           className='medium'
-          help={t<string>('Should the search be case sensitive, e.g if you select "no" your search for "Some" may return addresses containing "somE" or "sOme"...')}
           isDisabled={isRunning}
-          label={t<string>('case sensitive')}
+          label={t('case sensitive')}
           onChange={setWithCase}
           options={BOOL_OPTIONS}
           value={withCase}
@@ -209,10 +211,9 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
         <Dropdown
           className='medium'
           defaultValue={type}
-          help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
-          label={t<string>('keypair crypto type')}
+          label={t('keypair crypto type')}
           onChange={setType}
-          options={isEthereum ? uiSettings.availableCryptosEth : uiSettings.availableCryptos}
+          options={isEthereum ? settings.availableCryptosEth : settings.availableCryptos}
         />
       </div>
       <Button.Group>
@@ -225,18 +226,18 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
           isDisabled={!isMatchValid}
           label={
             isRunning
-              ? t<string>('Stop generation')
-              : t<string>('Start generation')
+              ? t('Stop generation')
+              : t('Start generation')
           }
           onClick={_toggleStart}
         />
       </Button.Group>
       {matches.length !== 0 && (
         <>
-          <article className='warning centered'>{t<string>('Ensure that you utilized the "Save" functionality before using a generated address to receive funds. Without saving the address any funds and the associated seed any funds sent to it will be lost.')}</article>
+          <article className='warning centered'>{t('Ensure that you utilized the "Save" functionality before using a generated address to receive funds. Without saving the address and the associated seed any funds sent to it will be lost.')}</article>
           <Table
             className='vanity--App-matches'
-            empty={t<string>('No matches found')}
+            empty={t('No matches found')}
             header={header}
           >
             {matches.map((match): React.ReactNode => (
@@ -258,11 +259,11 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
           type={type}
         />
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(VanityApp)`
+const StyledDiv = styled.div`
   .vanity--App-matches {
     overflow-x: auto;
     padding: 1em 0;
@@ -273,4 +274,6 @@ export default React.memo(styled(VanityApp)`
     opacity: 0.45;
     text-align: center;
   }
-`);
+`;
+
+export default React.memo(VanityApp);

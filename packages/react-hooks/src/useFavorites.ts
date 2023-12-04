@@ -1,25 +1,31 @@
-// Copyright 2017-2020 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
-import { useCacheKey } from './useCacheKey';
+import { createNamedHook } from './createNamedHook.js';
+import { useCacheKey } from './useCacheKey.js';
 
 // hook for favorites with local storage
-export function useFavorites (storageKeyBase: string): [string[], (address: string) => void] {
+function useFavoritesImpl (storageKeyBase: string): [string[], (address: string) => void] {
   const [getCache, setCache] = useCacheKey<string[]>(storageKeyBase);
-  const [favorites, setFavorites] = useState<string[]>(getCache() || []);
+  const [favorites, setFavorites] = useState<string[]>(() => getCache() || []);
 
   const toggleFavorite = useCallback(
     (address: string): void => setFavorites(
-      (favorites: string[]) => setCache(
+      (favorites) => setCache(
         favorites.includes(address)
-          ? favorites.filter((accountId): boolean => address !== accountId)
+          ? favorites.filter((a) => address !== a)
           : [...favorites, address]
       )
     ),
     [setCache]
   );
 
-  return [favorites, toggleFavorite];
+  return useMemo(
+    () => [favorites, toggleFavorite],
+    [favorites, toggleFavorite]
+  );
 }
+
+export const useFavorites = createNamedHook('useFavorites', useFavoritesImpl);

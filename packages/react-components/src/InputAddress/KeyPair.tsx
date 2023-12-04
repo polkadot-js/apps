@@ -1,13 +1,11 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '@polkadot/react-components/types';
-
 import React from 'react';
-import styled from 'styled-components';
 
-import AccountName from '../AccountName';
-import IdentityIcon from '../IdentityIcon';
+import AccountName from '../AccountName.js';
+import IdentityIcon from '../IdentityIcon/index.js';
+import { styled } from '../styled.js';
 
 interface Props {
   address: string;
@@ -19,7 +17,7 @@ interface Props {
 
 function KeyPair ({ address, className = '' }: Props): React.ReactElement<Props> {
   return (
-    <div className={`ui--KeyPair ${className}`}>
+    <StyledDiv className={`${className} ui--KeyPair`}>
       <IdentityIcon
         className='icon'
         value={address}
@@ -30,11 +28,11 @@ function KeyPair ({ address, className = '' }: Props): React.ReactElement<Props>
       <div className='address'>
         {address}
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(KeyPair)`
+const StyledDiv = styled.div`
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
@@ -44,9 +42,11 @@ export default React.memo(styled(KeyPair)`
   > .address {
     display: inline-block;
     flex: 1;
-    font-family: ${({ theme }: ThemeProps) => theme.fontMono};
+    font-size: var(--font-size-small);
     margin-left: 1rem;
-    opacity: 0.5;
+    max-width: var(--width-shortaddr);
+    min-width: var(--width-shortaddr);
+    opacity: var(--opacity-light);
     overflow: hidden;
     text-align: right;
     text-overflow: ellipsis;
@@ -69,4 +69,6 @@ export default React.memo(styled(KeyPair)`
       text-transform: uppercase;
     }
   }
-`);
+`;
+
+export default React.memo(KeyPair);

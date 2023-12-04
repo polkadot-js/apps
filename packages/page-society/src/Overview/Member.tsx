@@ -1,92 +1,177 @@
-// Copyright 2017-2020 @polkadot/app-society authors & contributors
+// Copyright 2017-2023 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveSocietyMember } from '@polkadot/api-derive/types';
+import type { Balance, BlockNumber } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
+import type { MapMember } from '../types.js';
 
-import React, { useEffect, useRef, useState } from 'react';
-import { AddressSmall, Icon, Modal, Tag } from '@polkadot/react-components';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import React, { useCallback, useMemo } from 'react';
 
-import drawCanary from '../draw/canary';
-import { useTranslation } from '../translate';
+import { AddressSmall, Columar, Expander, styled, Tag, TxButton } from '@polkadot/react-components';
+import { useAccounts, useApi } from '@polkadot/react-hooks';
+import { BlockToTime, FormatBalance } from '@polkadot/react-query';
+import { formatNumber } from '@polkadot/util';
+
+import { useTranslation } from '../translate.js';
+import DesignKusama from './DesignKusama.js';
 
 interface Props {
+  bestNumber?: BN;
   className?: string;
-  isHead?: boolean;
-  value: DeriveSocietyMember;
+  value: MapMember;
 }
 
-const CANVAS_STYLE = {
-  display: 'block',
-  margin: '0 auto'
-};
+function renderJSXPayouts (bestNumber: BN, payouts: [BlockNumber, Balance][]): React.ReactElement<unknown>[] {
+  return payouts.map(([bn, value], index) => (
+    <div
+      className='payout'
+      key={index}
+    >
+      <Columar>
+        <Columar.Column>
+          <FormatBalance value={value} />
+        </Columar.Column>
+        <Columar.Column>
+          <div>#{formatNumber(bn)}</div>
+          {bn.gt(bestNumber) && (
+            <BlockToTime
+              key={index}
+              value={bn.sub(bestNumber)}
+            />
+          )}
+        </Columar.Column>
+      </Columar>
+    </div>
+  ));
+}
 
-function Member ({ className = '', isHead, value: { accountId, strikes } }: Props): React.ReactElement<Props> {
+function Member ({ bestNumber, className = '', value: { accountId, isCandidateVoter, isDefenderVoter, isFounder, isHead, isSkeptic, isSuspended, isWarned, key, payouts, strikes } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [canInk] = useState(api.genesisHash.eq('0xb0a8d493285c2df73290dfb7e61f870f17b41801197a149ca93654499ea3dafe'));
-  const [isInkShowing, toggleInk] = useToggle();
+  const { allAccounts } = useAccounts();
 
-  useEffect((): void => {
-    if (canvasRef.current) {
-      const ctx = canvasRef.current.getContext('2d');
+  const renderPayouts = useCallback(
+    () => bestNumber && payouts && renderJSXPayouts(bestNumber, payouts),
+    [bestNumber, payouts]
+  );
 
-      if (ctx) {
-        drawCanary(ctx, accountId);
-      }
-    }
-  });
+  const isOwner = useMemo(
+    () => allAccounts.some((a) => a === key),
+    [allAccounts, key]
+  );
+
+  const availablePayout = useMemo(
+    () => bestNumber && payouts.find(([b]) => bestNumber.gt(b)),
+    [bestNumber, payouts]
+  );
+
+  const votedOn = useMemo(
+    () => [isCandidateVoter && t('Candidate'), isDefenderVoter && t('Defender')]
+      .filter((s): s is string => !!s)
+      .join(', '),
+    [isCandidateVoter, isDefenderVoter, t]
+  );
 
   return (
-    <tr className={className}>
-      <td className='address'>
+    <StyledTr className={className}>
+      <td className='address relative all'>
         <AddressSmall value={accountId} />
+        <div className='absolute'>
+          {(isCandidateVoter || isDefenderVoter) && (
+            <Tag
+              color='blue'
+              label={t('voted')}
+            />
+          )}
+          {isWarned && (
+            <Tag
+              color='orange'
+              label={t('strikes')}
+            />
+          )}
+          {isHead && (
+            <Tag
+              color='green'
+              label={t('society head')}
+            />
+          )}
+          {isFounder && (
+            <Tag
+              color='green'
+              label={t('founder')}
+            />
+          )}
+          {isSkeptic && (
+            <Tag
+              color='yellow'
+              label={t('skeptic')}
+            />
+          )}
+          {isSuspended && (
+            <Tag
+              color='red'
+              label={t('suspended')}
+            />
+          )}
+          {availablePayout && (
+            <Tag
+              color='grey'
+              label={t('payout')}
+            />
+          )}
+        </div>
       </td>
-      <td>
-        {isHead && (
-          <Tag
-            color='green'
-            hover={t<string>('Current society head, exempt')}
-            label={t<string>('society head')}
+      <td className='number together'>
+        {!!payouts?.length && (
+          <Expander
+            className='payoutExpander'
+            renderChildren={renderPayouts}
+            summary={t('Payouts ({{count}})', { replace: { count: formatNumber(payouts.length) } })}
+          />
+        )}
+        {isOwner && availablePayout && (
+          <TxButton
+            accountId={accountId}
+            icon='ellipsis-h'
+            label='Payout'
+            params={[]}
+            tx={api.tx.society.payout}
           />
         )}
       </td>
-      <td className='all'>&nbsp;</td>
-      <td className='number'>
-        {strikes.toString()}
+      <td className='together'>{votedOn}</td>
+      <td className='number'>{formatNumber(strikes)}</td>
+      <td className='button start'>
+        <DesignKusama accountId={accountId} />
       </td>
-      <td>
-        {canInk && (
-          <>
-            <Icon
-              icon='pen-nib'
-              onClick={toggleInk}
-            />
-            {isInkShowing && (
-              <Modal
-                header={t('design samples')}
-                size='large'
-              >
-                <Modal.Content>
-                  <canvas
-                    height={525}
-                    ref={canvasRef}
-                    style={CANVAS_STYLE}
-                    width={800}
-                  />
-                </Modal.Content>
-                <Modal.Actions
-                  cancelLabel={t<string>('Close')}
-                  onCancel={toggleInk}
-                />
-              </Modal>
-            )}
-          </>
-        )}
-      </td>
-    </tr>
+    </StyledTr>
   );
 }
+
+const StyledTr = styled.tr`
+  .payoutExpander {
+    .payout+.payout {
+      margin-top: 0.5rem;
+    }
+
+    .ui--Columar {
+      flex-wrap: unset;
+
+      .ui--Column {
+        min-width: 15ch;
+
+        &:first-child {
+          max-width: 100% !important;
+        }
+
+        &:last-child {
+          min-width: 15ch;
+          max-width: 15ch;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+`;
 
 export default React.memo(Member);

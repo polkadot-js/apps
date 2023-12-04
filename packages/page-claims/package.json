@@ -1,19 +1,27 @@
 {
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "engines": {
+    "node": ">=18"
+  },
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-claims#readme",
+  "license": "Apache-2.0",
   "name": "@polkadot/app-claims",
   "private": true,
-  "version": "0.67.2-9",
-  "description": "An app for claiming Polkadot tokens",
-  "main": "index.js",
-  "scripts": {},
-  "author": "Keith Ingram <keith@parity.io>",
-  "maintainers": [
-    "Keith Ingram <keith@parity.io>",
-    "Jaco Greeff <jacogr@gmail.com>"
-  ],
-  "license": "Apache-2.0",
+  "repository": {
+    "directory": "packages/page-claims",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "0.133.2-3-x",
   "dependencies": {
-    "@babel/runtime": "^7.12.5",
-    "@polkadot/react-components": "^0.67.2-9",
+    "@polkadot/react-components": "^0.133.2-3-x",
     "secp256k1": "^3.8.0"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*",
+    "react-is": "*"
   }
 }

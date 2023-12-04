@@ -1,37 +1,34 @@
-// Copyright 2017-2020 @polkadot/react-query authors & contributors
+// Copyright 2017-2023 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Moment } from '@polkadot/types/interfaces';
+import type { Moment } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
+
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import Elapsed from './Elapsed';
+import Elapsed from './Elapsed.js';
 
 interface Props {
   children?: React.ReactNode;
   className?: string;
   label?: React.ReactNode;
+  value?: Moment;
 }
 
-function TimeNow ({ children, className = '', label }: Props): React.ReactElement<Props> {
-  const { api, isSubstrateV2 } = useApi();
-  const timestamp = useCall<Moment>(api.query.timestamp.now);
-  const [now, setNow] = useState<BN | undefined>();
+function TimeNow ({ children, className = '', label, value }: Props): React.ReactElement<Props> {
+  const { api } = useApi();
+  const timestamp = useCall<Moment>(!value && api.query.timestamp?.now);
 
-  useEffect((): void => {
-    setNow(
-      isSubstrateV2 || !timestamp
-        ? timestamp
-        : timestamp.muln(1000)
-    );
-  }, [timestamp, isSubstrateV2]);
+  const [now, hasValue] = useMemo(
+    () => [value || timestamp, !!(value || timestamp)],
+    [timestamp, value]
+  );
 
   return (
-    <div className={className}>
+    <div className={`${className} ${hasValue ? '' : '--tmp'}`}>
       {label || ''}
-      <Elapsed value={now} />
+      <Elapsed value={hasValue ? now : Date.now()} />
       {children}
     </div>
   );

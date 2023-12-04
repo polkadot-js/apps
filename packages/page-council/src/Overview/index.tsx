@@ -1,27 +1,29 @@
-// Copyright 2017-2020 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCouncilVotes, DeriveElectionsInfo } from '@polkadot/api-derive/types';
-import type { AccountId, BlockNumber } from '@polkadot/types/interfaces';
+import type { AccountId } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import { Button } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
 
-import Candidates from './Candidates';
-import Members from './Members';
-import SubmitCandidacy from './SubmitCandidacy';
-import Summary from './Summary';
-import Vote from './Vote';
+import { Button } from '@polkadot/react-components';
+import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
+
+import { useModuleElections } from '../useModuleElections.js';
+import Candidates from './Candidates.js';
+import Members from './Members.js';
+import SubmitCandidacy from './SubmitCandidacy.js';
+import Summary from './Summary.js';
+import Vote from './Vote.js';
 
 interface Props {
   className?: string;
-  prime: AccountId | null;
+  prime?: AccountId | null;
 }
 
 const transformVotes = {
-  transform: (entries: DeriveCouncilVotes): Record<string, AccountId[]> => {
-    return entries.reduce((result: Record<string, AccountId[]>, [voter, { votes }]): Record<string, AccountId[]> => {
+  transform: (entries: DeriveCouncilVotes): Record<string, AccountId[]> =>
+    entries.reduce<Record<string, AccountId[]>>((result, [voter, { votes }]) => {
       votes.forEach((candidate): void => {
         const address = candidate.toString();
 
@@ -33,35 +35,43 @@ const transformVotes = {
       });
 
       return result;
-    }, {});
-  }
+    }, {})
 };
 
 function Overview ({ className = '', prime }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
+  const bestNumber = useBestNumber();
   const electionsInfo = useCall<DeriveElectionsInfo>(api.derive.elections.info);
   const allVotes = useCall<Record<string, AccountId[]>>(api.derive.council.votes, undefined, transformVotes);
+  const modElections = useModuleElections();
+  const hasElections = !!modElections;
 
   return (
     <div className={className}>
       <Summary
         bestNumber={bestNumber}
         electionsInfo={electionsInfo}
+        hasElections={!!modElections}
       />
-      <Button.Group>
-        <Vote electionsInfo={electionsInfo} />
-        <SubmitCandidacy electionsInfo={electionsInfo} />
-      </Button.Group>
+      {hasElections && (
+        <Button.Group>
+          <Vote electionsInfo={electionsInfo} />
+          <SubmitCandidacy electionsInfo={electionsInfo} />
+        </Button.Group>
+      )}
       <Members
         allVotes={allVotes}
         electionsInfo={electionsInfo}
+        hasElections={hasElections}
         prime={prime}
       />
-      <Candidates
-        allVotes={allVotes}
-        electionsInfo={electionsInfo}
-      />
+      {hasElections && (
+        <Candidates
+          allVotes={allVotes}
+          electionsInfo={electionsInfo}
+          hasElections={hasElections}
+        />
+      )}
     </div>
   );
 }

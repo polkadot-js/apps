@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry, TypeDef } from '@polkadot/types/types';
@@ -19,14 +19,14 @@ export default function getInitValue (registry: Registry, def: TypeDef): unknown
   } else if (def.info === TypeDefInfo.Struct) {
     return Array.isArray(def.sub)
       ? def.sub.reduce((result: Record<string, unknown>, def): Record<string, unknown> => {
-        result[def.name as string] = getInitValue(registry, def);
+        result[def.name || 'unknown'] = getInitValue(registry, def);
 
         return result;
       }, {})
       : {};
   } else if (def.info === TypeDefInfo.Enum) {
     return Array.isArray(def.sub)
-      ? { [def.sub[0].name as string]: getInitValue(registry, def.sub[0]) }
+      ? { [def.sub[0].name || 'unknown']: getInitValue(registry, def.sub[0]) }
       : {};
   }
 
@@ -96,6 +96,8 @@ export default function getInitValue (registry: Registry, def: TypeDef): unknown
       return '';
 
     case 'AccountId':
+    case 'AccountId20':
+    case 'AccountId32':
     case 'AccountIdOf':
     case 'Address':
     case 'Call':
@@ -106,6 +108,7 @@ export default function getInitValue (registry: Registry, def: TypeDef): unknown
     case 'LookupSource':
     case 'MisbehaviorReport':
     case 'Proposal':
+    case 'RuntimeCall':
     case 'Signature':
     case 'SessionKey':
     case 'StorageKey':

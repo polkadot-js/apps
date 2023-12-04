@@ -1,12 +1,16 @@
-// Copyright 2017-2020 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Props } from '../types';
+import type { Props as BaseProps } from '../types.js';
 
 import React from 'react';
 
-import BaseBytes from './BaseBytes';
-import Static from './Static';
+import BaseBytes from './BaseBytes.js';
+import Static from './Static.js';
+
+interface Props extends BaseProps {
+  children?: React.ReactNode;
+}
 
 function Unknown (props: Props): React.ReactElement<Props> {
   const { className = '', defaultValue, isDisabled, isError, label, name, onChange, onEnter, onEscape, type } = props;
@@ -29,7 +33,6 @@ function Unknown (props: Props): React.ReactElement<Props> {
       onEnter={onEnter}
       onEscape={onEscape}
       type={type}
-      withLength={false}
     />
   );
 }

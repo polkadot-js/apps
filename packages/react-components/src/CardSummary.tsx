@@ -1,20 +1,22 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { UInt } from '@polkadot/types';
-import type { ThemeProps } from './types';
+import type { BN } from '@polkadot/util';
 
-import BN from 'bn.js';
 import React from 'react';
-import styled from 'styled-components';
-import { formatNumber, isUndefined } from '@polkadot/util';
 
-import Progress from './Progress';
-import Labelled from './Labelled';
 import { BlockToTime } from '@polkadot/react-query';
+import { BN_HUNDRED, formatNumber, isUndefined } from '@polkadot/util';
+
+import Labelled from './Labelled.js';
+import Progress from './Progress.js';
+import { styled } from './styled.js';
 
 interface ProgressProps {
+  hideGraph?: boolean;
   hideValue?: boolean;
+  isBlurred?: boolean;
   isPercent?: boolean;
   total?: BN | UInt;
   value?: BN | UInt;
@@ -24,14 +26,13 @@ interface ProgressProps {
 interface Props {
   children?: React.ReactNode;
   className?: string;
-  help?: React.ReactNode;
   label: React.ReactNode;
   progress?: ProgressProps;
 }
 
-function CardSummary ({ children, className = '', help, label, progress }: Props): React.ReactElement<Props> | null {
-  const value = progress && progress.value;
-  const total = progress && progress.total;
+function CardSummary ({ children, className = '', label, progress }: Props): React.ReactElement<Props> | null {
+  const value = progress?.value;
+  const total = progress?.total;
   const left = progress && !isUndefined(value) && !isUndefined(total) && value.gten(0) && total.gtn(0)
     ? (
       value.gt(total)
@@ -42,7 +43,7 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
         }`
         : (
           progress.isPercent
-            ? value.muln(100).div(total).toString()
+            ? value.mul(BN_HUNDRED).div(total).toString()
             : formatNumber(value)
         )
     )
@@ -54,18 +55,27 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
 
   const isTimed = progress && progress.withTime && !isUndefined(progress.total);
 
+  // We don't care about the label as much...
+  // eslint-disable-next-line @typescript-eslint/no-base-to-string
+  const testidSuffix = (label ?? '').toString();
+
   return (
-    <article className={className}>
+    <StyledArticle
+      className={className}
+      data-testid={`card-summary:${testidSuffix}`}
+    >
       <Labelled
-        help={help}
         isSmall
         label={label}
       >
         {children}{
           progress && !progress.hideValue && (
             <>
-              {isTimed && (
-                <BlockToTime blocks={progress.total} />
+              {isTimed && !children && (
+                <BlockToTime
+                  className={progress.isBlurred ? '--tmp' : ''}
+                  value={progress.total}
+                />
               )}
               <div className={isTimed ? 'isSecondary' : 'isPrimary'}>
                 {!left || isUndefined(progress.total)
@@ -78,8 +88,8 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
                     }`
                     : (
                       <BlockToTime
-                        blocks={progress.total.sub(progress.value)}
-                        className='timer'
+                        className={`${progress.isBlurred ? '--tmp' : ''} timer`}
+                        value={progress.total.sub(progress.value)}
                       />
                     )
                 }
@@ -88,17 +98,17 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
           )
         }
       </Labelled>
-      {progress && <Progress {...progress} />}
-    </article>
+      {progress && !progress.hideGraph && <Progress {...progress} />}
+    </StyledArticle>
   );
 }
 
-export default React.memo(styled(CardSummary)(({ theme }: ThemeProps) => `
+const StyledArticle = styled.article`
   align-items: center;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  color: ${theme.colorSummary};
+  color: var(--color-summary);
   display: flex;
   flex: 0 1 auto;
   flex-flow: row wrap;
@@ -114,14 +124,18 @@ export default React.memo(styled(CardSummary)(({ theme }: ThemeProps) => `
   }
 
   > .ui--Labelled {
-    font-size: 1.75rem;
-    font-weight: ${theme.fontWeightLight};
+    font-size: var(--font-size-h1);
+    font-weight: var(--font-weight-header);
     position: relative;
     line-height: 1;
     text-align: right;
 
+    > .ui--Labelled-content {
+      color: var(--color-header);
+    }
+
     > * {
-      margin: 0.5rem 0;
+      margin: 0.25rem 0;
 
       &:first-child {
         margin-top: 0;
@@ -132,13 +146,9 @@ export default React.memo(styled(CardSummary)(({ theme }: ThemeProps) => `
       }
     }
 
-    > label {
-      font-size: 0.95rem;
-    }
-
     .isSecondary {
-      font-size: 1rem;
-      font-weight: 400;
+      font-size: var(--font-size-base);
+      font-weight: var(--font-weight-normal);
 
       .timer {
         min-width: 8rem;
@@ -154,4 +164,6 @@ export default React.memo(styled(CardSummary)(({ theme }: ThemeProps) => `
       font-size: 1.4rem;
     }
   }
-`));
+`;
+
+export default React.memo(CardSummary);

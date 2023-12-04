@@ -1,23 +1,22 @@
-// Copyright 2017-2020 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveReferendumExt } from '@polkadot/api-derive/types';
-import type { Balance, BlockNumber } from '@polkadot/types/interfaces';
+import type { Balance } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
-import { Badge, Button, Icon, LinkExternal } from '@polkadot/react-components';
-import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
-import { BlockToTime } from '@polkadot/react-query';
-import { formatNumber, isBoolean } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import useChangeCalc from '../useChangeCalc';
-import PreImageButton from './PreImageButton';
-import ProposalCell from './ProposalCell';
-import ReferendumVotes from './ReferendumVotes';
-import Voting from './Voting';
+import { Badge, Button, Columar, ExpandButton, Icon, LinkExternal, Progress, Table } from '@polkadot/react-components';
+import { useAccounts, useApi, useBestNumber, useCall, useToggle } from '@polkadot/react-hooks';
+import { BlockToTime } from '@polkadot/react-query';
+import { BN, BN_ONE, formatNumber, isBoolean } from '@polkadot/util';
+
+import { useTranslation } from '../translate.js';
+import useChangeCalc from '../useChangeCalc.js';
+import PreImageButton from './PreImageButton.js';
+import ProposalCell from './ProposalCell.js';
+import ReferendumVotes from './ReferendumVotes.js';
+import Voting from './Voting.js';
 
 interface Props {
   className?: string;
@@ -35,17 +34,23 @@ interface VoteType {
   hasVotedAye: boolean;
 }
 
+function percentage (val: BN, div: BN): string {
+  return Math.min(100, val.muln(10000).div(div).toNumber() / 100).toFixed(2);
+}
+
 function Referendum ({ className = '', value: { allAye, allNay, image, imageHash, index, isPassing, status, voteCountAye, voteCountNay, votedAye, votedNay, votedTotal } }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
-  const totalIssuance = useCall<Balance>(api.query.balances.totalIssuance);
+  const bestNumber = useBestNumber();
+  const [isExpanded, toggleIsExpanded] = useToggle(false);
+  const totalIssuance = useCall<Balance>(api.query.balances?.totalIssuance);
   const { changeAye, changeNay } = useChangeCalc(status.threshold, votedAye, votedNay, votedTotal);
   const threshold = useMemo(
     () => status.threshold.type.toString().replace('majority', ' majority '),
     [status]
   );
+  const totalCalculated = votedAye.add(votedNay);
 
   const [percentages, { hasVoted, hasVotedAye }] = useMemo(
     (): [Percentages | null, VoteType] => {
@@ -58,11 +63,11 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
           {
             aye: votedTotal.isZero()
               ? ''
-              : `${(aye.muln(10000).div(votedTotal).toNumber() / 100).toFixed(2)}%`,
+              : `${percentage(aye, votedTotal)}%`,
             nay: votedTotal.isZero()
               ? ''
-              : `${(nay.muln(10000).div(votedTotal).toNumber() / 100).toFixed(2)}%`,
-            turnout: `${((votedTotal.muln(10000).div(totalIssuance).toNumber()) / 100).toFixed(2)}%`
+              : `${percentage(nay, votedTotal)}%`,
+            turnout: `${percentage(votedTotal, totalIssuance)}%`
           },
           {
             hasVoted: hasVotedAye || allNay.some(({ accountId }) => allAccounts.includes(accountId.toString())),
@@ -81,98 +86,109 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
   }
 
   const enactBlock = status.end.add(status.delay);
-  const remainBlock = status.end.sub(bestNumber).subn(1);
+  const remainBlock = status.end.sub(bestNumber).isub(BN_ONE);
 
   return (
-    <tr className={className}>
-      <td className='number'><h1>{formatNumber(index)}</h1></td>
-      <ProposalCell
-        imageHash={imageHash}
-        proposal={image?.proposal}
-      />
-      <td className='number together media--1200'>
-        <BlockToTime blocks={remainBlock} />
-        {t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(remainBlock) } })}
-      </td>
-      <td className='number together media--1400'>
-        <BlockToTime blocks={enactBlock.sub(bestNumber)} />
-        #{formatNumber(enactBlock)}
-      </td>
-      <td className='number together media--1400'>
-        {percentages && (
-          <>
-            <div>{percentages.turnout}</div>
-            {percentages.aye && (
-              <div>{t<string>('{{percentage}} aye', { replace: { percentage: percentages.aye } })}</div>
-            )}
-          </>
-        )}
-      </td>
-      <td className='badge'>
-        {isBoolean(isPassing) && (
-          <Badge
-            color={isPassing ? 'green' : 'red'}
-            hover={
-              isPassing
-                ? t<string>('{{threshold}}, passing', { replace: { threshold } })
-                : t<string>('{{threshold}}, not passing', { replace: { threshold } })
-            }
-            icon={isPassing ? 'check' : 'times'}
-          />
-        )}
-      </td>
-      <td className='expand'>
-        <ReferendumVotes
-          change={changeAye}
-          count={voteCountAye}
-          isAye
-          isWinning={isPassing}
-          total={votedAye}
-          votes={allAye}
+    <>
+      <tr className={`${className} isExpanded isFirst ${isExpanded ? '' : 'isLast'}`}>
+        <Table.Column.Id value={index} />
+        <ProposalCell
+          imageHash={imageHash}
+          proposal={image?.proposal}
         />
-        <ReferendumVotes
-          change={changeNay}
-          count={voteCountNay}
-          isAye={false}
-          isWinning={!isPassing}
-          total={votedNay}
-          votes={allNay}
-        />
-      </td>
-      <td className='button'>
-        <Button.Group>
-          {!image?.proposal && (
-            <PreImageButton imageHash={imageHash} />
+        <td className='number together media--1200'>
+          <BlockToTime value={remainBlock} />
+          {t('{{blocks}} blocks', { replace: { blocks: formatNumber(remainBlock) } })}
+        </td>
+        <td className='number together media--1400'>
+          <BlockToTime value={enactBlock.sub(bestNumber)} />
+          #{formatNumber(enactBlock)}
+        </td>
+        <td className='number together media--1400'>
+          {percentages && (
+            <>
+              <div>{percentages.turnout}</div>
+            </>
           )}
-          <Voting
-            proposal={image?.proposal}
-            referendumId={index}
+        </td>
+        <td className='badge'>
+          {isBoolean(isPassing) && (
+            <Badge
+              color={isPassing ? 'green' : 'red'}
+              hover={
+                isPassing
+                  ? t('{{threshold}}, passing', { replace: { threshold } })
+                  : t('{{threshold}}, not passing', { replace: { threshold } })
+              }
+              icon={isPassing ? 'check' : 'times'}
+            />
+          )}
+        </td>
+        <td className='expand'>
+          <ReferendumVotes
+            change={changeAye}
+            count={voteCountAye}
+            isAye
+            isWinning={isPassing}
+            total={votedAye}
+            votes={allAye}
           />
-        </Button.Group>
-      </td>
-      <td className='badge'>
-        <Icon
-          color={hasVoted ? (hasVotedAye ? 'green' : 'red') : 'gray'}
-          icon='asterisk'
-        />
-      </td>
-      <td className='links media--1000'>
-        <LinkExternal
-          data={index}
-          isLogo
-          type='referendum'
-        />
-      </td>
-    </tr>
+          <ReferendumVotes
+            change={changeNay}
+            count={voteCountNay}
+            isAye={false}
+            isWinning={!isPassing}
+            total={votedNay}
+            votes={allNay}
+          />
+        </td>
+        <td className='media--1000 middle chart'>
+          <Progress
+            total={totalCalculated}
+            value={votedAye}
+          />
+        </td>
+        <td className='badge'>
+          <Icon
+            color={hasVoted ? (hasVotedAye ? 'green' : 'red') : 'gray'}
+            icon='asterisk'
+          />
+        </td>
+        <td className='actions'>
+          <Button.Group>
+            {!image?.proposal && (
+              <PreImageButton imageHash={imageHash} />
+            )}
+            <Voting
+              proposal={image?.proposal}
+              referendumId={index}
+            />
+            <ExpandButton
+              expanded={isExpanded}
+              onClick={toggleIsExpanded}
+            />
+          </Button.Group>
+        </td>
+      </tr>
+      <tr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'}`}>
+        <td />
+        <td
+          className='columar'
+          colSpan={100}
+        >
+          <Columar is100>
+            <Columar.Column>
+              <LinkExternal
+                data={index}
+                type='democracyReferendum'
+                withTitle
+              />
+            </Columar.Column>
+          </Columar>
+        </td>
+      </tr>
+    </>
   );
 }
 
-export default React.memo(styled(Referendum)`
-  .democracy--Referendum-results {
-    margin-bottom: 1em;
-
-    &.chart {
-      text-align: center;
-    }
-  }
-`);
+export default React.memo(Referendum);

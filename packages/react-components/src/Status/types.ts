@@ -1,26 +1,26 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableResult } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import type { SignerResult } from '@polkadot/api/types';
 import type { AccountId, Address } from '@polkadot/types/interfaces';
-import type { DefinitionRpcExt, SignerPayloadJSON } from '@polkadot/types/types';
+import type { DefinitionRpcExt, Registry, SignerPayloadJSON } from '@polkadot/types/types';
 
 export type Actions = 'create' | 'edit' | 'restore' | 'forget' | 'backup' | 'changePassword' | 'transfer';
 
 export interface ActionStatusBase {
   account?: AccountId | Address | string;
   message?: string;
-  status: 'error' | 'event' | 'queued' | 'received' | 'success';
+  status: 'error' | 'event' | 'eventWarn' | 'queued' | 'received' | 'success';
 }
 
 export interface ActionStatusPartial extends ActionStatusBase {
-  action: Actions | string;
+  action: string;
 }
 
 export interface ActionStatus extends ActionStatusBase {
-  action: Actions | string | string[];
+  action: string | string[];
 }
 
 export interface AccountInfo {
@@ -33,7 +33,7 @@ export type SignerCallback = (id: number, result: SignerResult | null) => void;
 
 export type TxCallback = (status: SubmittableResult) => void;
 
-export type TxFailedCallback = (status: SubmittableResult | null) => void;
+export type TxFailedCallback = (status: Error | SubmittableResult | null) => void;
 
 export interface QueueTx extends AccountInfo {
   error?: Error;
@@ -49,7 +49,7 @@ export interface QueueTx extends AccountInfo {
   txSuccessCb?: TxCallback;
   txStartCb?: () => void;
   txUpdateCb?: TxCallback;
-  values?: any[];
+  values?: unknown[];
   status: QueueTxStatus;
 }
 
@@ -71,7 +71,7 @@ export interface QueueTxExtrinsic extends AccountInfo {
 
 export interface QueueTxRpc extends AccountInfo {
   rpc: DefinitionRpcExt;
-  values: any[];
+  values: unknown[];
 }
 
 export interface PartialAccountInfo {
@@ -91,14 +91,14 @@ export interface PartialQueueTxExtrinsic extends PartialAccountInfo {
 
 export interface PartialQueueTxRpc extends PartialAccountInfo {
   rpc: DefinitionRpcExt;
-  values: any[];
+  values: unknown[];
 }
 
 export type QueueTxRpcAdd = (value: PartialQueueTxRpc) => void;
 
 export type QueueTxExtrinsicAdd = (value: PartialQueueTxExtrinsic) => void;
 
-export type QueueTxPayloadAdd = (payload: SignerPayloadJSON, signerCb: SignerCallback) => void;
+export type QueueTxPayloadAdd = (registry: Registry, payload: SignerPayloadJSON, signerCb: SignerCallback) => void;
 
 export type QueueTxMessageSetStatus = (id: number, status: QueueTxStatus, result?: any, error?: Error) => void;
 

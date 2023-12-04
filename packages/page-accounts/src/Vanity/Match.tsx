@@ -1,14 +1,12 @@
-// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '@polkadot/react-components/types';
-
 import React, { useCallback, useMemo } from 'react';
-import styled from 'styled-components';
-import { Button, IdentityIcon } from '@polkadot/react-components';
+
+import { Button, IdentityIcon, styled } from '@polkadot/react-components';
 import { u8aToHex } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   address: string;
@@ -17,7 +15,7 @@ interface Props {
   offset: number;
   onCreateToggle: (seed: string) => void;
   onRemove: (address: string) => void;
-  seed: Uint8Array;
+  seed?: Uint8Array;
 }
 
 function Match ({ address, className = '', count, offset, onCreateToggle, onRemove, seed }: Props): React.ReactElement<Props> {
@@ -37,7 +35,7 @@ function Match ({ address, className = '', count, offset, onCreateToggle, onRemo
   );
 
   return (
-    <tr className={className}>
+    <StyledTr className={className}>
       <td
         className='number'
         colSpan={2}
@@ -58,7 +56,7 @@ function Match ({ address, className = '', count, offset, onCreateToggle, onRemo
       <td className='button'>
         <Button
           icon='plus'
-          label={t<string>('Save')}
+          label={t('Save')}
           onClick={_onCreate}
         />
         <Button
@@ -66,11 +64,11 @@ function Match ({ address, className = '', count, offset, onCreateToggle, onRemo
           onClick={_onRemove}
         />
       </td>
-    </tr>
+    </StyledTr>
   );
 }
 
-export default React.memo(styled(Match)`
+const StyledTr = styled.tr`
   text-align: center;
 
   &:hover {
@@ -98,7 +96,7 @@ export default React.memo(styled(Match)`
 
   .vanity--Match-item {
     display: inline-block;
-    font-family: ${({ theme }: ThemeProps) => theme.fontMono};
+    font: var(--font-mono);
     margin: 0 auto;
     padding: 0.5em;
     position: relative;
@@ -108,4 +106,6 @@ export default React.memo(styled(Match)`
     opacity: 0.45;
     padding: 0 1rem;
   }
-`);
+`;
+
+export default React.memo(Match);

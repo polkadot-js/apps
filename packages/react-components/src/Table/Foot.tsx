@@ -1,10 +1,9 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '../types';
-
 import React from 'react';
-import styled from 'styled-components';
+
+import { styled } from '../styled.js';
 
 interface Props {
   className?: string;
@@ -18,17 +17,17 @@ function Foot ({ className = '', footer, isEmpty }: Props): React.ReactElement<P
   }
 
   return (
-    <tfoot className={className}>
+    <StyledTfoot className={`${className} ui--Table-Foot`}>
       {footer}
-    </tfoot>
+    </StyledTfoot>
   );
 }
 
-export default React.memo(styled(Foot)(({ theme }: ThemeProps) => `
+const StyledTfoot = styled.tfoot`
   td {
-    color: rgba(${theme.theme === 'dark' ? '254, 240, 240' : '78, 78, 78'}, 0.66);
-    font-family: ${theme.fontSans};
-    font-weight: 400;
+    color: var(--color-table-foot);
+    font: var(--font-sans);
+    font-weight: var(--font-weight-normal);
     padding: 0.75rem 1rem 0.25rem;
     text-align: right;
     vertical-align: baseline;
@@ -36,6 +35,8 @@ export default React.memo(styled(Foot)(({ theme }: ThemeProps) => `
   }
 
   tr {
-    background: ${theme.bgPage};
+    background: var(--bg-page);
   }
-`));
+`;
+
+export default React.memo(Foot);

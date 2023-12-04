@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // Something is seriously going wrong here...
@@ -9,8 +9,8 @@
 
 import CodeFlask from 'codeflask';
 import React, { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
-import { classes } from '@polkadot/react-components/util';
+
+import { styled } from './styled.js';
 
 interface Props {
   className?: string;
@@ -39,7 +39,7 @@ interface Props {
  * ```
  */
 function Editor ({ className = '', code, isValid, onEdit }: Props): React.ReactElement<Props> {
-  const [editorId] = useState(`flask-${Date.now()}`);
+  const [editorId] = useState(() => `flask-${Date.now()}`);
   const editorRef = useRef<CodeFlask | null>(null);
 
   useEffect((): void => {
@@ -62,16 +62,16 @@ function Editor ({ className = '', code, isValid, onEdit }: Props): React.ReactE
   }, [code]);
 
   return (
-    <div
-      className={classes('ui-Editor', className, isValid === false ? 'invalid' : '')}
+    <StyledDiv
+      className={`${className} ui-Editor ${isValid === false ? 'invalid' : ''}`}
       id={editorId}
     />
   );
 }
 
-export default React.memo(styled(Editor)`
+const StyledDiv = styled.div`
   .codeflask {
-    border: 1px solid rgba(34,36,38,.15);
+    border: 1px solid var(--border-input);
     background: transparent;
   }
 
@@ -81,4 +81,6 @@ export default React.memo(styled(Editor)`
       border-color: #e0b4b4;
     }
   }
-`);
+`;
+
+export default React.memo(Editor);

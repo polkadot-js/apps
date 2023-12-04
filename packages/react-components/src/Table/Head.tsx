@@ -1,27 +1,27 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '../types';
-
 import React from 'react';
-import styled from 'styled-components';
+
+import { styled } from '../styled.js';
 
 type HeaderDef = [React.ReactNode?, string?, number?, (() => void)?];
 
 interface Props {
+  children?: React.ReactNode;
   className?: string;
   filter?: React.ReactNode;
-  header?: (null | undefined | HeaderDef)[];
+  header?: (false | null | undefined | HeaderDef)[];
   isEmpty: boolean;
 }
 
-function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactElement<Props> | null {
+function Head ({ children, className = '', filter, header, isEmpty }: Props): React.ReactElement<Props> | null {
   if (!header?.length) {
     return null;
   }
 
   return (
-    <thead className={className}>
+    <StyledThead className={`${className} ui--Table-Head`}>
       {filter && (
         <tr className='filter'>
           <th colSpan={100}>{filter}</th>
@@ -36,40 +36,46 @@ function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactE
             onClick={onClick}
           >
             {index === 0
-              ? <h1 className='highlight--color'>{label}</h1>
-              : isEmpty
-                ? ''
-                : label
+              ? <h1>{label}</h1>
+              : !isEmpty && label && <label>{label}</label>
             }
           </th>
         )}
       </tr>
-    </thead>
+      {children}
+    </StyledThead>
   );
 }
 
-export default React.memo(styled(Head)(({ theme }: ThemeProps) => `
-  position: relative;
+const StyledThead = styled.thead`
   z-index: 1;
 
   th {
-    font-family: ${theme.fontSans};
-    font-weight: 400;
-    padding: 0.75rem 1rem 0.25rem;
+    background: var(--bg-table);
+    font: var(--font-sans);
+    font-weight: var(--font-weight-normal);
+    padding: 0.375rem 1rem;
     text-align: right;
-    vertical-align: baseline;
+    vertical-align: middle;
     white-space: nowrap;
 
-    h1, h2 {
-      font-size: 1.75rem;
+    h1 {
+      display: table-cell;
+      vertical-align: middle;
+
+      .sub {
+        display: inline-block;
+        font-size: var(--font-size-base);
+        font-weight: var(--font-weight-normal);
+        opacity: var(--opacity-light);
+        padding-left: 1.5rem;
+        text-overflow: ellipsis;
+        vertical-align: middle;
+      }
     }
 
-    &:first-child {
-      border-left: 1px solid ${theme.borderTable};
-    }
-
-    &:last-child {
-      border-right: 1px solid ${theme.borderTable};
+    > label {
+      margin: 0 !important;
     }
 
     &.address {
@@ -81,12 +87,12 @@ export default React.memo(styled(Head)(({ theme }: ThemeProps) => `
       padding: 0;
     }
 
-    &.expand {
+    &.expand,
+    &.number {
       text-align: right;
     }
 
     &.isClickable {
-      border-bottom: 2px solid transparent;
       cursor: pointer;
     }
 
@@ -94,27 +100,34 @@ export default React.memo(styled(Head)(({ theme }: ThemeProps) => `
       padding: 0 !important;
     }
 
+    &.no-pad-left {
+      padding-left: 0.125rem;
+    }
+
+    &.no-pad-right {
+      padding-right: 0.125rem;
+    }
+
     &.start {
       text-align: left;
+    }
+
+    &.balances {
+      text-align: right;
+      padding-right: 2.25rem;
     }
   }
 
   tr {
-    background: ${theme.bgTable};
     text-transform: lowercase;
 
-    &:first-child {
-      th {
-        border-top: 1px solid ${theme.borderTable};
-      }
-    }
-
     &.filter {
-      .ui.input {
+      .ui.input,
+      .ui.selection.dropdown {
         background: transparent;
 
         &:first-child {
-          margin-top: -1px;
+          margin-top: 0;
         }
       }
 
@@ -125,8 +138,10 @@ export default React.memo(styled(Head)(({ theme }: ThemeProps) => `
 
     &:not(.filter) {
       th {
-        color: rgba(${theme.theme === 'dark' ? '254, 240, 240' : '78, 78, 78'}, 0.66);
+        color: var(--color-table-head);
       }
     }
   }
-`));
+`;
+
+export default React.memo(Head);

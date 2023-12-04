@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "outDir": "./build",
+    "rootDir": "./src",
+    /* Some of our types dependencies are not playing along nicely */
+    "verbatimModuleSyntax": false
+  },
+  "exclude": [
+    "**/build-*",
+    "**/*.spec.ts"
+  ],
+  "references": []
+}

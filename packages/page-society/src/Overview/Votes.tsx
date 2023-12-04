@@ -1,12 +1,12 @@
-// Copyright 2017-2020 @polkadot/app-society authors & contributors
+// Copyright 2017-2023 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { VoteSplit, VoteType } from '../types';
+import type { VoteSplit, VoteType } from '../types.js';
 
 import React, { useEffect, useState } from 'react';
 
-import { useTranslation } from '../translate';
-import VotesExpander from './VotesExpander';
+import { useTranslation } from '../translate.js';
+import VotesExpander from './VotesExpander.js';
 
 interface Props {
   votes?: VoteType[];
@@ -18,24 +18,24 @@ function Votes ({ votes }: Props): React.ReactElement<Props> {
 
   useEffect((): void => {
     votes && setVoteSplit({
-      allAye: votes.filter(([, vote]): boolean => vote.isApprove),
-      allNay: votes.filter(([, vote]): boolean => vote.isReject),
-      allSkeptic: votes.filter(([, vote]): boolean => vote.isSkeptic)
+      allAye: votes.filter(([, vote]) => vote.isApprove),
+      allNay: votes.filter(([, vote]) => vote.isReject),
+      allSkeptic: votes.filter(([, vote]) => vote.isSkeptic)
     });
   }, [votes]);
 
   return (
     <td className='expand'>
       <VotesExpander
-        label={t<string>('Skeptics')}
+        label={t('Skeptics')}
         votes={allSkeptic}
       />
       <VotesExpander
-        label={t<string>('Approvals')}
+        label={t('Approvals')}
         votes={allAye}
       />
       <VotesExpander
-        label={t<string>('Rejections')}
+        label={t('Rejections')}
         votes={allNay}
       />
     </td>

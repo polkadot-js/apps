@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "importHelpers": true,
+    "jsx": "react-jsx",
+    "module": "esnext",
+    "skipLibCheck": true,
+    "target": "esnext"
+  }
+}

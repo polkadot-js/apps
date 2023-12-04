@@ -1,25 +1,26 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
-import type { DropdownOptions } from '../util/types';
+import type { DropdownOptions } from '../util/types.js';
 
 import React, { useCallback } from 'react';
-import { ApiPromise } from '@polkadot/api';
 
-import Dropdown from '../Dropdown';
-import { classes } from '../util';
+import Dropdown from '../Dropdown.js';
 
 interface Props {
   api: ApiPromise;
   className?: string;
+  defaultValue?: string;
+  isDisabled?: boolean;
   isError?: boolean;
-  onChange: (value: SubmittableExtrinsicFunction<'promise'>) => void;
+  onChange?: (value: SubmittableExtrinsicFunction<'promise'>) => void;
   options: DropdownOptions;
   value: SubmittableExtrinsicFunction<'promise'>;
 }
 
-function SelectMethod ({ api, className = '', isError, onChange, options, value }: Props): React.ReactElement<Props> | null {
+function SelectMethod ({ api, className = '', defaultValue, isDisabled, isError, onChange, options, value }: Props): React.ReactElement<Props> | null {
   const transform = useCallback(
     (method: string): SubmittableExtrinsicFunction<'promise'> =>
       api.tx[value.section][method],
@@ -32,7 +33,9 @@ function SelectMethod ({ api, className = '', isError, onChange, options, value 
 
   return (
     <Dropdown
-      className={classes('ui--DropdownLinked-Items', className)}
+      className={`${className} ui--DropdownLinked-Items`}
+      defaultValue={defaultValue}
+      isDisabled={isDisabled}
       isError={isError}
       onChange={onChange}
       options={options}

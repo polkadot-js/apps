@@ -1,22 +1,22 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import queryString from 'query-string';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
+
 import { Input, Toggle } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { isString } from '@polkadot/util';
 
-import { useTranslation } from './translate';
-import Ledgend from './Ledgend';
+import { useTranslation } from './translate.js';
 
 interface Props {
   children?: React.ReactNode;
   className?: string;
   nameFilter: string;
-  setNameFilter: (value: string) => void;
-  setWithIdentity: (value: boolean) => void;
-  withIdentity: boolean;
+  setNameFilter: (value: string, isQuery: boolean) => void;
+  setWithIdentity?: (value: boolean) => void;
+  withIdentity?: boolean;
 }
 
 function Filtering ({ children, className, nameFilter, setNameFilter, setWithIdentity, withIdentity }: Props): React.ReactElement<Props> | null {
@@ -28,32 +28,38 @@ function Filtering ({ children, className, nameFilter, setNameFilter, setWithIde
     const queryFilter = queryString.parse(location.href.split('?')[1]).filter;
 
     if (isString(queryFilter)) {
-      setNameFilter(queryFilter);
+      setNameFilter(queryFilter, true);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const _setNameFilter = useCallback(
+    (value: string) => setNameFilter(value, false),
+    [setNameFilter]
+  );
 
   return (
     <div className={className}>
       <Input
         autoFocus
         isFull
-        label={t<string>('filter by name, address or index')}
-        onChange={setNameFilter}
+        label={t('filter by name, address or index')}
+        onChange={_setNameFilter}
         value={nameFilter}
       />
-      <div className='staking--optionsBar'>
-        {children}
-        {api.query.identity && (
-          <Toggle
-            className='staking--buttonToggle'
-            label={t<string>('only with an identity')}
-            onChange={setWithIdentity}
-            value={withIdentity}
-          />
-        )}
-        <Ledgend />
-      </div>
+      {(children || setWithIdentity) && (
+        <div className='staking--optionsBar'>
+          {children}
+          {setWithIdentity && api.query.identity && (
+            <Toggle
+              className='staking--buttonToggle'
+              label={t('with an identity')}
+              onChange={setWithIdentity}
+              value={withIdentity}
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 }

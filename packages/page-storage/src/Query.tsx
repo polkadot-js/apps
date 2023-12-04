@@ -1,18 +1,21 @@
-// Copyright 2017-2020 @polkadot/app-storage authors & contributors
+// Copyright 2017-2023 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { QueryableStorageEntry } from '@polkadot/api/types';
-import type { RenderFn, DefaultProps, ComponentRenderer } from '@polkadot/react-api/hoc/types';
+import type { ComponentRenderer, DefaultProps, RenderFn } from '@polkadot/react-api/hoc/types';
 import type { ConstValue } from '@polkadot/react-components/InputConsts/types';
 import type { Option, Raw } from '@polkadot/types';
-import type { QueryTypes, StorageModuleQuery } from './types';
+import type { Registry } from '@polkadot/types/types';
+import type { QueryTypes, StorageModuleQuery } from './types.js';
 
 import React, { useCallback, useMemo } from 'react';
-import styled from 'styled-components';
-import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
-import { Button, Labelled } from '@polkadot/react-components';
+
 import { withCallDiv } from '@polkadot/react-api/hoc';
+import { Button, Labelled, styled } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import valueToText from '@polkadot/react-params/valueToText';
+import { getSiName } from '@polkadot/types/metadata/util';
+import { unwrapStorageType } from '@polkadot/types/util';
 import { compactStripLength, isU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
 interface Props {
@@ -24,7 +27,7 @@ interface Props {
 interface CacheInstance {
   Component: React.ComponentType<any>;
   render: RenderFn;
-  refresh: (swallowErrors: boolean, contentShorten: boolean) => React.ComponentType<any>;
+  refresh: (swallowErrors: boolean) => React.ComponentType<any>;
 }
 
 const cache: CacheInstance[] = [];
@@ -50,21 +53,25 @@ function keyToName (isConst: boolean, _key: Uint8Array | QueryableStorageEntry<'
   return `${key.creator.section}.${key.creator.method}`;
 }
 
-function typeToString ({ creator: { meta: { modifier, type } } }: QueryableStorageEntry<'promise'>): string {
-  const _type = unwrapStorageType(type);
+function constTypeToString (registry: Registry, { meta }: ConstValue): string {
+  return getSiName(registry.lookup, meta.type);
+}
+
+function queryTypeToString (registry: Registry, { creator: { meta: { modifier, type } } }: QueryableStorageEntry<'promise'>): string {
+  const _type = unwrapStorageType(registry, type);
 
   return modifier.isOptional
     ? `Option<${_type}>`
     : _type;
 }
 
-function createComponent (type: string, Component: React.ComponentType<any>, defaultProps: DefaultProps, renderHelper: ComponentRenderer): { Component: React.ComponentType<any>; render: (createComponent: RenderFn) => React.ComponentType<any>; refresh: (swallowErrors: boolean, contentShorten: boolean) => React.ComponentType<any> } {
+function createComponent (type: string, Component: React.ComponentType<any>, defaultProps: DefaultProps, renderHelper: ComponentRenderer): { Component: React.ComponentType<any>; render: (createComponent: RenderFn) => React.ComponentType<any>; refresh: (swallowErrors: boolean) => React.ComponentType<any> } {
   return {
     Component,
     // In order to modify the parameters which are used to render the default component, we can use this method
-    refresh: (swallowErrors: boolean, contentShorten: boolean): React.ComponentType<any> =>
+    refresh: (): React.ComponentType<any> =>
       renderHelper(
-        (value: any) => <pre>{valueToText(type, value, swallowErrors, contentShorten)}</pre>,
+        (value: unknown) => <pre>{valueToText(type, value as null)}</pre>,
         defaultProps
       ),
     // In order to replace the default component during runtime we can provide a RenderFn to create a new 'plugged' component
@@ -73,18 +80,18 @@ function createComponent (type: string, Component: React.ComponentType<any>, def
   };
 }
 
-function getCachedComponent (query: QueryTypes): CacheInstance {
-  const { id, isConst, key, params = [] } = query as StorageModuleQuery;
+function getCachedComponent (registry: Registry, query: QueryTypes): CacheInstance {
+  const { blockHash, id, isConst, key, params = [] } = query as StorageModuleQuery;
 
   if (!cache[id]) {
     let renderHelper;
     let type: string;
 
     if (isConst) {
-      const { meta, method, section } = key as unknown as ConstValue;
+      const { method, section } = key as unknown as ConstValue;
 
       renderHelper = withCallDiv(`consts.${section}.${method}`, { withIndicator: true });
-      type = meta.type.toString();
+      type = constTypeToString(registry, key as unknown as ConstValue);
     } else {
       if (isU8a(key)) {
         // subscribe to the raw key here
@@ -100,29 +107,31 @@ function getCachedComponent (query: QueryTypes): CacheInstance {
         const { creator: { meta: { type } } } = key;
         const allCount = type.isPlain
           ? 0
-          : type.isMap
-            ? 1
-            : 2;
+          : type.asMap.hashers.length;
+        const isEntries = values.length !== allCount;
 
         renderHelper = withCallDiv('subscribe', {
           paramName: 'params',
           paramValid: true,
-          params: values.length === allCount
-            ? [key, ...values]
-            : [key.entries, ...values],
+          params: isEntries
+            ? [key.entries, ...values]
+            : blockHash
+              // eslint-disable-next-line deprecation/deprecation
+              ? [key.at, blockHash, ...values]
+              : [key, ...values],
           withIndicator: true
         });
       }
 
-      type = key.creator && key.creator.meta
-        ? typeToString(key)
+      type = key.creator?.meta
+        ? queryTypeToString(registry, key)
         : 'Raw';
     }
 
     const defaultProps = { className: 'ui--output' };
     const Component = renderHelper(
       // By default we render a simple div node component with the query results in it
-      (value: any) => <pre>{valueToText(type, value, true, true)}</pre>,
+      (value: unknown) => <pre>{valueToText(type, value as null)}</pre>,
       defaultProps
     );
 
@@ -133,17 +142,18 @@ function getCachedComponent (query: QueryTypes): CacheInstance {
 }
 
 function Query ({ className = '', onRemove, value }: Props): React.ReactElement<Props> | null {
+  const { api } = useApi();
   const [{ Component }, callName, callType] = useMemo(
     () => [
-      getCachedComponent(value),
+      getCachedComponent(api.registry, value),
       keyToName(value.isConst, value.key),
       value.isConst
-        ? (value.key as unknown as ConstValue).meta.type.toString()
+        ? constTypeToString(api.registry, value.key as unknown as ConstValue)
         : isU8a(value.key)
           ? 'Raw'
-          : typeToString(value.key as QueryableStorageEntry<'promise'>)
+          : queryTypeToString(api.registry, value.key as QueryableStorageEntry<'promise'>)
     ],
-    [value]
+    [api, value]
   );
 
   const _onRemove = useCallback(
@@ -160,7 +170,7 @@ function Query ({ className = '', onRemove, value }: Props): React.ReactElement<
   }
 
   return (
-    <div className={`storage--Query storage--actionrow ${className}`}>
+    <StyledDiv className={`${className} storage--Query storage--actionrow`}>
       <div className='storage--actionrow-value'>
         <Labelled
           label={
@@ -179,11 +189,11 @@ function Query ({ className = '', onRemove, value }: Props): React.ReactElement<
           onClick={_onRemove}
         />
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Query)`
+const StyledDiv = styled.div`
   margin-bottom: 0.25em;
 
   label {
@@ -212,4 +222,6 @@ export default React.memo(styled(Query)`
   .storage--actionrow-buttons {
     margin-top: -0.25rem; /* offset parent spacing for buttons */
   }
-`);
+`;
+
+export default React.memo(Query);

@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "outDir": "./build",
+    "rootDir": "./src"
+  },
+  "references": [
+    { "path": "../page-ranked/tsconfig.build.json" },
+    { "path": "../react-components/tsconfig.build.json" }
+  ]
+}

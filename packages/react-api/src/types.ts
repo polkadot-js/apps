@@ -1,10 +1,11 @@
-// Copyright 2017-2020 @polkadot/react-api authors & contributors
+// Copyright 2017-2023 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { InjectedExtension } from '@polkadot/extension-inject/types';
+import type React from 'react';
+import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/promise/types';
-
-import { ApiPromise } from '@polkadot/api/promise';
+import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
+import type { InjectedExtension } from '@polkadot/extension-inject/types';
 
 // helpers for HOC props
 export type OmitProps<T, K> = Pick<T, Exclude<keyof T, K>>;
@@ -17,11 +18,13 @@ export interface BareProps {
 export interface ApiState {
   apiDefaultTx: SubmittableExtrinsicFunction;
   apiDefaultTxSudo: SubmittableExtrinsicFunction;
+  chainSS58: number;
   hasInjectedAccounts: boolean;
   isApiReady: boolean;
   isDevelopment: boolean;
   isEthereum: boolean;
-  isSubstrateV2: boolean;
+  specName: string;
+  specVersion: string;
   systemChain: string;
   systemName: string;
   systemVersion: string;
@@ -29,10 +32,15 @@ export interface ApiState {
 
 export interface ApiProps extends ApiState {
   api: ApiPromise;
+  apiEndpoint: LinkOption | null;
   apiError: string | null;
+  apiRelay: ApiPromise | null;
+  apiUrl?: string;
+  createLink: (path: string, apiUrl?: string) => string;
   extensions?: InjectedExtension[];
   isApiConnected: boolean;
   isApiInitialized: boolean;
+  isElectron: boolean;
   isWaitingInjected: boolean;
 }
 
@@ -55,11 +63,11 @@ export interface CallState {
 
 export type CallProps = ApiProps & CallState;
 
-export type BaseProps<T> = BareProps & CallProps & ChangeProps & {
+export interface BaseProps<T> extends BareProps, CallProps, ChangeProps {
   children?: React.ReactNode;
   label?: string;
   render?: (value?: T) => React.ReactNode;
-};
+}
 
 export type Formatter = (value?: any) => string;
 

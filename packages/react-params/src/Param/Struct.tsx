@@ -1,36 +1,45 @@
-// Copyright 2017-2020 @polkadot/react-params authors & contributors
+// Copyright 2017-2023 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Props, RawParam } from '../types';
+import type { Props, RawParam } from '../types.js';
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 
-import Params from '../';
-import Base from './Base';
-import Static from './Static';
-import useParamDefs from './useParamDefs';
+import { Struct } from '@polkadot/types';
+import { isCodec } from '@polkadot/util';
+
+import Params from '../index.js';
+import Base from './Base.js';
+import useParamDefs from './useParamDefs.js';
+
+function extractValues ({ isValid, value }: RawParam): RawParam[] | undefined {
+  return (isValid && isCodec(value) && value instanceof Struct)
+    ? value.toArray().map((value) => ({ isValid: true, value }))
+    : undefined;
+}
 
 function StructParam (props: Props): React.ReactElement<Props> {
   const params = useParamDefs(props.registry, props.type);
-  const { className = '', isDisabled, label, onChange, overrides, withLabel } = props;
+  const { className = '', defaultValue, isDisabled, label, onChange, overrides, withLabel } = props;
+  const [values] = useState(() => extractValues(defaultValue));
 
   const _onChangeParams = useCallback(
     (values: RawParam[]): void => {
+      if (isDisabled) {
+        return;
+      }
+
       onChange && onChange({
         isValid: values.reduce((result: boolean, { isValid }) => result && isValid, true),
         value: params.reduce((value: Record<string, unknown>, { name }, index): Record<string, unknown> => {
-          value[name as string] = values[index].value;
+          value[name || 'unknown'] = values[index].value;
 
           return value;
         }, {})
       });
     },
-    [params, onChange]
+    [isDisabled, params, onChange]
   );
-
-  if (isDisabled) {
-    return <Static {...props} />;
-  }
 
   return (
     <div className='ui--Params-Struct'>
@@ -40,10 +49,12 @@ function StructParam (props: Props): React.ReactElement<Props> {
         withLabel={withLabel}
       />
       <Params
+        isDisabled={isDisabled}
         onChange={_onChangeParams}
         overrides={overrides}
         params={params}
         registry={props.registry}
+        values={values}
       />
     </div>
   );

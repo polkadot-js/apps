@@ -1,115 +1,158 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Balance } from '@polkadot/types/interfaces';
+import type { Option } from '@polkadot/types';
+import type { Balance } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
-import BN from 'bn.js';
 import React, { useMemo } from 'react';
-import { SummaryBox, CardSummary } from '@polkadot/react-components';
+
+import { CardSummary, styled, SummaryBox } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
+import { BN_THREE, BN_TWO, BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   avgStaked?: BN;
+  className?: string;
+  lastEra?: BN;
   lowStaked?: BN;
-  lastReward?: BN;
+  minNominated?: BN;
+  minNominatorBond?: BN;
   numNominators?: number;
   numValidators?: number;
+  stakedReturn: number;
+  totalIssuance?: BN;
   totalStaked?: BN;
 }
 
-function Summary ({ avgStaked, lastReward, lowStaked, numNominators, numValidators, totalStaked }: Props): React.ReactElement<Props> {
+interface ProgressInfo {
+  hideValue: true;
+  isBlurred: boolean;
+  total: BN;
+  value: BN;
+}
+
+const OPT_REWARD = {
+  transform: (optBalance: Option<Balance>) =>
+    optBalance.unwrapOrDefault()
+};
+
+function getProgressInfo (value?: BN, total?: BN): ProgressInfo {
+  return {
+    hideValue: true,
+    isBlurred: !(value && total),
+    total: (value && total) ? total : BN_THREE,
+    value: (value && total) ? value : BN_TWO
+  };
+}
+
+function Summary ({ avgStaked, className, lastEra, lowStaked, minNominated, minNominatorBond, stakedReturn, totalIssuance, totalStaked }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const totalIssuance = useCall<Balance>(api.query.balances?.totalIssuance);
+  const lastReward = useCall<BN>(lastEra && api.query.staking.erasValidatorReward, [lastEra], OPT_REWARD);
 
   const progressStake = useMemo(
-    () => totalIssuance && totalStaked && totalStaked.gtn(0)
-      ? {
-        hideValue: true,
-        total: totalIssuance,
-        value: totalStaked
-      }
-      : undefined,
+    () => getProgressInfo(totalStaked, totalIssuance),
     [totalIssuance, totalStaked]
   );
 
   const progressAvg = useMemo(
-    () => avgStaked && lowStaked && avgStaked.gtn(0)
-      ? {
-        hideValue: true,
-        total: avgStaked,
-        value: lowStaked
-      }
-      : undefined,
+    () => getProgressInfo(lowStaked, avgStaked),
     [avgStaked, lowStaked]
   );
 
+  const percent = <span className='percent'>%</span>;
+
   return (
-    <SummaryBox>
+    <StyledSummaryBox className={className}>
       <section className='media--800'>
-        {totalIssuance && (
+        <CardSummary
+          label={t('total staked')}
+          progress={progressStake}
+        >
+          <FormatBalance
+            className={progressStake.isBlurred ? '--tmp' : ''}
+            value={progressStake.value}
+            withSi
+          />
+        </CardSummary>
+      </section>
+      <section className='media--800'>
+        <CardSummary label={t('returns')}>
+          {totalIssuance && (stakedReturn > 0)
+            ? Number.isFinite(stakedReturn)
+              ? <>{stakedReturn.toFixed(1)}{percent}</>
+              : '-.-%'
+            : <span className='--tmp'>0.0{percent}</span>
+          }
+        </CardSummary>
+      </section>
+      <section className='media--1000'>
+        <CardSummary
+          label={`${t('lowest / avg staked')}`}
+          progress={progressAvg}
+        >
+          <span className={progressAvg.isBlurred ? '--tmp' : ''}>
+            <FormatBalance
+              value={progressAvg.value}
+              withCurrency={false}
+              withSi
+            />
+            &nbsp;/&nbsp;
+            <FormatBalance
+              className={progressAvg.isBlurred ? '--tmp' : ''}
+              value={progressAvg.total}
+              withSi
+            />
+          </span>
+        </CardSummary>
+      </section>
+      <section className='media--1600'>
+        {minNominated?.gt(BN_ZERO) && (
           <CardSummary
-            label={`${totalStaked?.gtn(0) ? `${t<string>('total staked')} / ` : ''}${t<string>('total issuance')}`}
-            progress={progressStake}
+            className='media--1600'
+            label={
+              minNominatorBond
+                ? t('min nominated / threshold')
+                : t('min nominated')}
           >
-            <div>
-              {totalStaked?.gtn(0) && (
-                <>
-                  <FormatBalance
-                    value={totalStaked}
-                    withCurrency={false}
-                    withSi
-                  />
-                  &nbsp;/&nbsp;
-                </>
-              )}
-              <FormatBalance
-                value={totalIssuance}
-                withSi
-              />
-            </div>
+            <FormatBalance
+              value={minNominated}
+              withCurrency={!minNominatorBond}
+              withSi
+            />
+            {minNominatorBond && (
+              <>
+                &nbsp;/&nbsp;
+                <FormatBalance
+                  value={minNominatorBond}
+                  withSi
+                />
+              </>
+            )}
           </CardSummary>
         )}
       </section>
-      {avgStaked && lowStaked && (
-        <CardSummary
-          className='media--1000'
-          label={`${t<string>('lowest / avg staked')}`}
-          progress={progressAvg}
-        >
+      <section>
+        <CardSummary label={t('last reward')}>
           <FormatBalance
-            value={lowStaked}
-            withCurrency={false}
-            withSi
-          />
-          &nbsp;/&nbsp;
-          <FormatBalance
-            value={avgStaked}
+            className={lastReward ? '' : '--tmp'}
+            value={lastReward || 1}
             withSi
           />
         </CardSummary>
-      )}
-      {numValidators && numNominators && (
-        <CardSummary
-          className='media--1600'
-          label={`${t<string>('nominators')} / ${t<string>('validators')}`}
-        >
-          {numNominators}&nbsp;/&nbsp;{numValidators}
-        </CardSummary>
-      )}
-      {lastReward?.gtn(0) && (
-        <CardSummary label={t<string>('last reward')}>
-          <FormatBalance
-            value={lastReward}
-            withSi
-          />
-        </CardSummary>
-      )}
-    </SummaryBox>
+      </section>
+    </StyledSummaryBox>
   );
 }
+
+const StyledSummaryBox = styled(SummaryBox)`
+  .percent {
+    font-size: var(--font-percent-tiny);
+  }
+`;
 
 export default React.memo(Summary);

@@ -1,17 +1,28 @@
 {
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "engines": {
+    "node": ">=18"
+  },
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-staking#readme",
+  "license": "Apache-2.0",
   "name": "@polkadot/app-staking",
   "private": true,
-  "version": "0.67.2-9",
-  "description": "A basic staking app",
-  "main": "index.js",
-  "scripts": {},
-  "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [],
-  "license": "Apache-2.0",
+  "repository": {
+    "directory": "packages/page-staking",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "0.133.2-3-x",
   "dependencies": {
-    "@babel/runtime": "^7.12.5",
-    "@polkadot/app-explorer": "^0.67.2-9",
-    "@polkadot/react-components": "^0.67.2-9",
-    "@polkadot/react-query": "^0.67.2-9"
+    "@polkadot/app-explorer": "^0.133.2-3-x",
+    "@polkadot/react-components": "^0.133.2-3-x",
+    "@polkadot/react-query": "^0.133.2-3-x"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*",
+    "react-is": "*"
   }
 }

@@ -1,17 +1,17 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2023 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
-import type { PayoutValidator } from './types';
+import type { PayoutValidator } from './types.js';
 
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { ApiPromise } from '@polkadot/api';
-import { AddressMini, Button, Modal, InputAddress, Static, TxButton } from '@polkadot/react-components';
-import { useApi, useAccounts, useToggle } from '@polkadot/react-hooks';
+import React, { useEffect, useMemo, useState } from 'react';
 
-import { useTranslation } from '../translate';
+import { AddressMini, Button, InputAddress, Modal, Static, styled, TxButton } from '@polkadot/react-components';
+import { useApi, useToggle, useTxBatch } from '@polkadot/react-hooks';
+
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
@@ -25,162 +25,126 @@ interface SinglePayout {
   validatorId: string;
 }
 
-function createBatches (api: ApiPromise, maxPayouts: number, payouts: SinglePayout[]): SubmittableExtrinsic<'promise'>[] {
+function createStream (api: ApiPromise, payouts: SinglePayout[]): SubmittableExtrinsic<'promise'>[] {
   return payouts
     .sort((a, b) => a.era.cmp(b.era))
-    .reduce((batches: SubmittableExtrinsic<'promise'>[][], { era, validatorId }): SubmittableExtrinsic<'promise'>[][] => {
-      const tx = api.tx.staking.payoutStakers(validatorId, era);
-      const batch = batches[batches.length - 1];
-
-      if (batch.length >= maxPayouts) {
-        batches.push([tx]);
-      } else {
-        batch.push(tx);
-      }
-
-      return batches;
-    }, [[]])
-    .map((batch) =>
-      batch.length === 1
-        ? batch[0]
-        : api.tx.utility.batch(batch)
+    .map(({ era, validatorId }) =>
+      api.tx.staking.payoutStakers(validatorId, era)
     );
 }
 
-function createExtrinsics (api: ApiPromise, payout: PayoutValidator | PayoutValidator[], maxPayouts: number): SubmittableExtrinsic<'promise'>[] | null {
-  if (Array.isArray(payout)) {
-    if (payout.length === 1) {
-      return createExtrinsics(api, payout[0], maxPayouts);
-    }
+function createExtrinsics (api: ApiPromise, payout: PayoutValidator | PayoutValidator[]): SubmittableExtrinsic<'promise'>[] | null {
+  if (!Array.isArray(payout)) {
+    const { eras, validatorId } = payout;
 
-    return createBatches(api, maxPayouts, payout.reduce((payouts: SinglePayout[], { eras, validatorId }): SinglePayout[] => {
-      eras.forEach(({ era }): void => {
-        payouts.push({ era, validatorId });
-      });
-
-      return payouts;
-    }, []));
+    return eras.length === 1
+      ? [api.tx.staking.payoutStakers(validatorId, eras[0].era)]
+      : createStream(api, eras.map((era): SinglePayout => ({ era: era.era, validatorId })));
+  } else if (payout.length === 1) {
+    return createExtrinsics(api, payout[0]);
   }
 
-  const { eras, validatorId } = payout;
+  return createStream(api, payout.reduce((payouts: SinglePayout[], { eras, validatorId }): SinglePayout[] => {
+    eras.forEach(({ era }): void => {
+      payouts.push({ era, validatorId });
+    });
 
-  return eras.length === 1
-    ? [api.tx.staking.payoutStakers(validatorId, eras[0].era)]
-    : createBatches(api, maxPayouts, eras.map((era): SinglePayout => ({ era: era.era, validatorId })));
+    return payouts;
+  }, []));
 }
 
 function PayButton ({ className, isAll, isDisabled, payout }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { allAccounts } = useAccounts();
   const [isVisible, togglePayout] = useToggle();
   const [accountId, setAccount] = useState<string | null>(null);
-  const [extrinsics, setExtrinsics] = useState<SubmittableExtrinsic<'promise'>[] | null>(null);
-  const [maxPayouts, setMaxPayouts] = useState(0);
+  const [txs, setTxs] = useState<SubmittableExtrinsic<'promise'>[] | null>(null);
+  const batchOpts = useMemo(
+    () => ({
+      max: 36 * 64 / (api.consts.staking.maxNominatorRewardedPerValidator?.toNumber() || 64)
+    }),
+    [api]
+  );
+  const extrinsics = useTxBatch(txs, batchOpts);
 
   useEffect((): void => {
-    if (api.tx.utility && allAccounts.length && payout && (!Array.isArray(payout) || payout.length !== 0)) {
-      const { eras, validatorId } = Array.isArray(payout)
-        ? payout[0]
-        : payout;
-
-      api.tx.staking
-        .payoutStakers(validatorId, eras[0].era)
-        .paymentInfo(allAccounts[0])
-        .then((info) => setMaxPayouts(Math.floor(
-          // 65% of the block weight on a single extrinsic (64 for safety)
-          api.consts.system.maximumBlockWeight.muln(64).div(info.weight).toNumber() / 100
-        )))
-        .catch(console.error);
-    } else {
-      // at 64 payouts we can fit in 36 (as per tests)
-      setMaxPayouts(Math.floor(
-        36 * 64 / (api.consts.staking.maxNominatorRewardedPerValidator?.toNumber() || 64)
-      ));
-    }
-  }, [allAccounts, api, payout]);
-
-  useEffect((): void => {
-    api.tx.utility && payout && setExtrinsics(
-      () => createExtrinsics(api, payout, maxPayouts)
+    payout && setTxs(
+      () => createExtrinsics(api, payout)
     );
-  }, [api, maxPayouts, payout]);
+  }, [api, payout]);
 
   const isPayoutEmpty = !payout || (Array.isArray(payout) && payout.length === 0);
 
   return (
     <>
       {payout && isVisible && (
-        <Modal
+        <StyledModal
           className={className}
-          header={t<string>('Payout all stakers')}
+          header={t('Payout all stakers')}
+          onClose={togglePayout}
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns>
-              <Modal.Column>
-                <InputAddress
-                  label={t<string>('request payout from')}
-                  onChange={setAccount}
-                  type='account'
-                  value={accountId}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('Any account can request payout for stakers, this is not limited to accounts that will be rewarded.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t('Any account can request payout for stakers, this is not limited to accounts that will be rewarded.')}>
+              <InputAddress
+                label={t('request payout from')}
+                onChange={setAccount}
+                type='account'
+                value={accountId}
+              />
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                {Array.isArray(payout)
-                  ? (
-                    <Static
-                      label={t<string>('payout stakers for (multiple)')}
-                      value={
-                        payout.map(({ validatorId }) => (
-                          <AddressMini
-                            className='addressStatic'
-                            key={validatorId}
-                            value={validatorId}
-                          />
-                        ))
-                      }
-                    />
-                  )
-                  : (
-                    <InputAddress
-                      defaultValue={payout.validatorId}
-                      isDisabled
-                      label={t<string>('payout stakers for (single)')}
-                    />
-                  )
-                }
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('All the listed validators and all their nominators will receive their rewards.')}</p>
-                <p>{t<string>('The UI puts a limit of 40 payouts at a time, where each payout is a single validator for a single era.')}</p>
-              </Modal.Column>
+            <Modal.Columns
+              hint={
+                <>
+                  <p>{t('All the listed validators and all their nominators will receive their rewards.')}</p>
+                  <p>{t('The UI puts a limit of 40 payouts at a time, where each payout is a single validator for a single era.')}</p>
+                </>
+              }
+            >
+              {Array.isArray(payout)
+                ? (
+                  <Static
+                    label={t('payout stakers for (multiple)')}
+                    value={
+                      payout.map(({ validatorId }) => (
+                        <AddressMini
+                          className='addressStatic'
+                          key={validatorId}
+                          value={validatorId}
+                        />
+                      ))
+                    }
+                  />
+                )
+                : (
+                  <InputAddress
+                    defaultValue={payout.validatorId}
+                    isDisabled
+                    label={t('payout stakers for (single)')}
+                  />
+                )
+              }
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={togglePayout}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               extrinsic={extrinsics}
               icon='credit-card'
-              isDisabled={!extrinsics || !extrinsics.length || !accountId}
-              label={t<string>('Payout')}
+              isDisabled={!extrinsics?.length || !accountId}
+              label={t('Payout')}
               onStart={togglePayout}
             />
           </Modal.Actions>
-        </Modal>
+        </StyledModal>
       )}
       <Button
         icon='credit-card'
         isDisabled={isDisabled || isPayoutEmpty}
         label={
           (isAll || Array.isArray(payout))
-            ? t<string>('Payout all')
-            : t<string>('Payout')
+            ? t('Payout all')
+            : t('Payout')
         }
         onClick={togglePayout}
       />
@@ -188,8 +152,9 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
   );
 }
 
-export default React.memo(styled(PayButton)`
+const StyledModal = styled(Modal)`
   .ui--AddressMini.padded.addressStatic {
+    display: inline-block;
     padding-top: 0.5rem;
 
     .ui--AddressMini-info {
@@ -197,4 +162,6 @@ export default React.memo(styled(PayButton)`
       max-width: 10rem;
     }
   }
-`);
+`;
+
+export default React.memo(PayButton);

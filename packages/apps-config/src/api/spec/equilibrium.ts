@@ -1,79 +1,108 @@
-// Copyright 2017-2020 @polkadot/apps-config authors & contributors
+// Copyright 2017-2023 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// structs need to be in order
-/* eslint-disable sort-keys */
+import type { ApiInterfaceRx } from '@polkadot/api/types';
+import type { Enum } from '@polkadot/types';
+import type { AccountId, AccountIndex, Address, Balance } from '@polkadot/types/interfaces';
+import type { OverrideBundleDefinition } from '@polkadot/types/types';
+import type { Struct, u64, u128, Vec } from '@polkadot/types-codec';
+import type { ITuple } from '@polkadot/types-codec/types';
 
-export default {
-  BlockNumber: 'u64',
-  Keys: 'SessionKeys3',
-  Balance: 'u64',
-  FixedI64: 'i64',
-  SignedBalance: {
-    _enum: {
-      Positive: 'Balance',
-      Negative: 'Balance'
-    }
-  },
-  ReinitRequest: {
-    account: 'AccountId',
-    authority_index: 'AuthIndex',
-    validators_len: 'u32',
-    block_num: 'BlockNumber'
-  },
-  Currency: {
-    _enum: ['Unknown', 'Usd', 'EQ', 'Eth', 'Btc', 'Eos', 'Dot']
-  },
-  UserGroup: {
-    _enum: ['Unknown', 'Balances', 'Bailsman']
-  },
-  TotalAggregates: {
-    collateral: 'Balance',
-    debt: 'Balance'
-  },
-  PricePeriod: {
-    _enum: ['Min', 'TenMin', 'Hour', 'FourHour', 'Day']
-  },
-  DataPoint: {
-    price: 'u64',
-    account_id: 'AccountId',
-    block_number: 'BlockNumber',
-    timestamp: 'u64'
-  },
-  PricePoint: {
-    block_number: 'BlockNumber',
-    timestamp: 'u64',
-    price: 'u64',
-    data_points: 'Vec<DataPoint>'
-  },
-  BalancesAggregate: {
-    total_issuance: 'Balance',
-    total_debt: 'Balance'
-  },
-  VestingInfo: {
-    locked: 'Balance',
-    perBlock: 'Balance',
-    startingBlock: 'BlockNumber'
-  },
-  LookupSource: 'AccountId',
-  BalanceOf: 'Balance',
-  TransferReason: {
-    _enum: [
-      'Common',
-      'InterestFee',
-      'MarginCall',
-      'BailsmenRedistribution',
-      'TreasuryEqBuyout',
-      'TreasuryBuyEq'
-    ]
-  },
-  ProposalStatus: {
-    _enum: ['Initiated', 'Approved', 'Rejected']
-  },
-  ProposalVotes: {
-    votes_for: 'Vec<AccountId>',
-    votes_against: 'Vec<AccountId>',
-    status: 'ProposalStatus',
-    expiry: 'BlockNumber'
-  }
+import { map, of } from 'rxjs';
+
+import { memo } from '@polkadot/api-derive/util';
+import { U8aFixed } from '@polkadot/types-codec';
+
+export interface SignedBalance extends Enum {
+  readonly isPositive: boolean;
+  readonly asPositive: Balance;
+  readonly isNegative: boolean;
+  readonly asNegative: Balance;
+}
+
+export const u64FromCurrency = (currency: string): bigint => {
+  const buf = Buffer.from(currency.toLowerCase());
+  const size = buf.length;
+
+  return buf.reduce((val, digit, i) => {
+    const exp = BigInt(size - 1 - i);
+
+    return BigInt(val) + BigInt(256) ** exp * BigInt(digit);
+  }, BigInt(0));
 };
+
+const TOKENS = ['eq'];
+
+interface EqPrimitivesBalanceAccountData extends Enum {
+  readonly isV0: boolean;
+  readonly asV0: {
+    readonly lock: u128;
+    readonly balance: Vec<ITuple<[u64, EqPrimitivesSignedBalance]>>;
+  } & Struct;
+  readonly type: 'V0';
+}
+
+interface EqPrimitivesSignedBalance extends Enum {
+  readonly isPositive: boolean;
+  readonly asPositive: u128;
+  readonly isNegative: boolean;
+  readonly asNegative: u128;
+  readonly type: 'Positive' | 'Negative';
+}
+
+export const createDerives = (tokens: string[]) => tokens.reduce((prev, token, i) => {
+  const isNative = !i;
+
+  return {
+    ...prev,
+
+    [token]: { customAccount: (instanceId: string, api: ApiInterfaceRx) => {
+      const { registry } = api;
+      const asset = u64FromCurrency(token);
+
+      return memo(instanceId, (address: AccountIndex | AccountId | Address | string) => api.query.system.account(address).pipe(map((v) => {
+        const data = (v as unknown as { data: EqPrimitivesBalanceAccountData }).data;
+
+        const miscFrozen = isNative ? data.asV0.lock : registry.createType('u128', 0);
+        const feeFrozen = miscFrozen;
+        const reserved = registry.createType('u128', 0);
+
+        const entry = data.asV0.balance.find(([assetId]) => {
+          return assetId.toBigInt() === asset;
+        });
+
+        const balance = entry?.[1];
+
+        const free = balance?.isPositive
+          ? balance.asPositive
+          : registry.createType('u128', 0);
+
+        return {
+          feeFrozen, free, miscFrozen, reserved
+        };
+      })));
+    },
+    customLocks: (instanceId: string, api: ApiInterfaceRx) => {
+      const { registry } = api;
+
+      return memo(instanceId, (address: AccountIndex | AccountId | Address | string) => isNative
+        ? api.query.system.account(address).pipe(map((v) => {
+          const data = (v as unknown as { data: EqPrimitivesBalanceAccountData }).data;
+
+          return [{
+            amount: data.asV0.lock,
+            id: new U8aFixed(registry),
+            reasons: ''
+          }];
+        }))
+        : of([]));
+    } }
+  };
+}, {});
+
+const definitions: OverrideBundleDefinition = {
+  derives: createDerives(TOKENS),
+  instances: { balances: TOKENS }
+};
+
+export default definitions;

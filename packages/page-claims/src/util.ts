@@ -1,11 +1,12 @@
-// Copyright 2017-2020 @polkadot/app-claims authors & contributors
+// Copyright 2017-2023 @polkadot/app-claims authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { EthereumAddress, EcdsaSignature, StatementKind } from '@polkadot/types/interfaces';
+import type { EcdsaSignature, EthereumAddress, StatementKind } from '@polkadot/types/interfaces';
 
-import secp256k1 from 'secp256k1/elliptic';
-import registry from '@polkadot/react-api/typeRegistry';
-import { assert, hexToU8a, stringToU8a, u8aToBuffer, u8aConcat } from '@polkadot/util';
+import secp256k1 from 'secp256k1/elliptic.js';
+
+import { statics } from '@polkadot/react-api/statics';
+import { assert, hexToU8a, stringToU8a, u8aConcat, u8aToBuffer } from '@polkadot/util';
 import { keccakAsHex, keccakAsU8a } from '@polkadot/util-crypto';
 
 interface RecoveredSignature {
@@ -22,7 +23,7 @@ interface SignatureParts {
 // converts an Ethereum address to a checksum representation
 export function addrToChecksum (_address: string): string {
   const address = _address.toLowerCase();
-  const hash = keccakAsHex(address.substr(2)).substr(2);
+  const hash = keccakAsHex(address.substring(2)).substring(2);
   let result = '0x';
 
   for (let n = 0; n < 40; n++) {
@@ -77,7 +78,7 @@ export function recoverAddress (message: string, { recovery, signature }: Signat
   const senderPubKey = secp256k1.recover(msgHash, signature, recovery);
 
   return publicToAddr(
-    secp256k1.publicKeyConvert(senderPubKey, false).slice(1)
+    secp256k1.publicKeyConvert(senderPubKey, false).subarray(1)
   );
 }
 
@@ -94,8 +95,8 @@ export function recoverFromJSON (signatureJson: string | null): RecoveredSignatu
 
     return {
       error: null,
-      ethereumAddress: registry.createType('EthereumAddress', recoverAddress(msg, parts)),
-      signature: registry.createType('EcdsaSignature', u8aConcat(parts.signature, new Uint8Array([parts.recovery])))
+      ethereumAddress: statics.registry.createType('EthereumAddress', recoverAddress(msg, parts)),
+      signature: statics.registry.createType('EcdsaSignature', u8aConcat(parts.signature, new Uint8Array([parts.recovery])))
     };
   } catch (error) {
     console.error(error);

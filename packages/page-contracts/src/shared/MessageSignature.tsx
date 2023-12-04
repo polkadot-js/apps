@@ -1,16 +1,15 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AbiMessage } from '@polkadot/api-contract/types';
-import type { ThemeProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import styled from 'styled-components';
-import { Icon, Tooltip } from '@polkadot/react-components';
-import { encodeTypeDef } from '@polkadot/types/create';
-import { stringCamelCase } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { Icon, styled, Tooltip } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
+import { encodeTypeDef } from '@polkadot/types/create';
+
+import { useTranslation } from '../translate.js';
 
 const MAX_PARAM_LENGTH = 20;
 
@@ -18,7 +17,7 @@ export interface Props {
   asConstructor?: boolean;
   className?: string;
   message: AbiMessage;
-  params?: any[];
+  params?: unknown[];
   withTooltip?: boolean;
 }
 
@@ -28,21 +27,22 @@ function truncate (param: string): string {
     : param;
 }
 
-function MessageSignature ({ className, message: { args, identifier, isConstructor, isMutating, returnType }, params = [], withTooltip = false }: Props): React.ReactElement<Props> {
+function MessageSignature ({ className, message: { args, isConstructor, isMutating, method, returnType }, params = [], withTooltip = false }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
 
   return (
-    <div className={className}>
-      <span className='ui--MessageSignature-name'>{stringCamelCase(identifier)}</span>
+    <StyledDiv className={className}>
+      <span className='ui--MessageSignature-name'>{method}</span>
       {' '}({args.map(({ name, type }, index): React.ReactNode => {
         return (
           <React.Fragment key={`${name}-args-${index}`}>
             {name}:
             {' '}
             <span className='ui--MessageSignature-type'>
-              {params && params[index]
+              {params?.[index]
                 ? <b>{truncate((params as string[])[index].toString())}</b>
-                : encodeTypeDef(type)
+                : encodeTypeDef(api.registry, type)
               }
             </span>
             {index < (args.length) - 1 && ', '}
@@ -54,7 +54,7 @@ function MessageSignature ({ className, message: { args, identifier, isConstruct
           :
           {' '}
           <span className='ui--MessageSignature-returnType'>
-            {encodeTypeDef(returnType)}
+            {encodeTypeDef(api.registry, returnType)}
           </span>
         </>
       )}
@@ -63,34 +63,34 @@ function MessageSignature ({ className, message: { args, identifier, isConstruct
           <Icon
             className='ui--MessageSignature-mutates'
             icon='database'
-            tooltip={`mutates-${identifier}`}
+            tooltip={`mutates-${method}`}
           />
           {withTooltip && (
             <Tooltip
-              text={t<string>('Mutates contract state')}
-              trigger={`mutates-${identifier}`}
+              text={t('Mutates contract state')}
+              trigger={`mutates-${method}`}
             />
           )}
         </>
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(MessageSignature)`
-  font-family: ${({ theme }: ThemeProps) => theme.fontMono};
-  font-weight: 400;
+const StyledDiv = styled.div`
+  font: var(--font-mono);
+  font-weight: var(--font-weight-normal);
   flex-grow: 1;
 
   .ui--MessageSignature-mutates {
     color: #ff8600;
     margin-left: 0.5rem;
-    opacity: 0.6;
+    opacity: var(--opacity-light);
   }
 
   .ui--MessageSignature-name {
     color: #2f8ddb;
-    font-weight: 400;
+    font-weight: var(--font-weight-normal);
   }
 
   .ui--MessageSignature-type {
@@ -100,4 +100,6 @@ export default React.memo(styled(MessageSignature)`
   .ui--MessageSignature-returnType {
     color: #ff8600;
   }
-`);
+`;
+
+export default React.memo(MessageSignature);

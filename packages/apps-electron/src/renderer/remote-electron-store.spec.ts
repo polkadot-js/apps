@@ -1,7 +1,13 @@
-// Copyright 2017-2020 @polkadot/apps authors & contributors
+// Copyright 2017-2023 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { RemoteElectronStore } from './remote-electron-store';
+/// <reference types="@polkadot/dev-test/globals.d.ts" />
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore Warned on by nodenext resolution (while package does build in bundler mode)
+import type { KeyringJson } from '@polkadot/ui-keyring/types';
+
+import { RemoteElectronStore } from './remote-electron-store.js';
 
 describe('Remote Electron Store', () => {
   const accountStore = {
@@ -33,8 +39,8 @@ describe('Remote Electron Store', () => {
       remoteStore.all(cb);
       await Promise.resolve();
 
-      expect(cb).nthCalledWith(1, 1, 'a');
-      expect(cb).nthCalledWith(2, 2, 'b');
+      expect(cb).toHaveBeenNthCalledWith(1, 1, 'a');
+      expect(cb).toHaveBeenNthCalledWith(2, 2, 'b');
     });
   });
 
@@ -46,8 +52,8 @@ describe('Remote Electron Store', () => {
       remoteStore.get('1', cb);
       await Promise.resolve();
 
-      expect(accountStore.get).toBeCalledWith('1');
-      expect(cb).toBeCalledWith('a');
+      expect(accountStore.get).toHaveBeenCalledWith('1');
+      expect(cb).toHaveBeenCalledWith('a');
     });
 
     it('calls callback with null if no accounts found', async () => {
@@ -57,7 +63,7 @@ describe('Remote Electron Store', () => {
       remoteStore.get('1', cb);
       await Promise.resolve();
 
-      expect(cb).toBeCalledWith(null);
+      expect(cb).toHaveBeenCalledWith(null);
     });
   });
 
@@ -69,8 +75,8 @@ describe('Remote Electron Store', () => {
       remoteStore.remove('1', cb);
       await Promise.resolve();
 
-      expect(accountStore.remove).toBeCalledWith('1');
-      expect(cb).toBeCalledTimes(1);
+      expect(accountStore.remove).toHaveBeenCalledWith('1');
+      expect(cb).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -79,11 +85,11 @@ describe('Remote Electron Store', () => {
       accountStore.set.mockResolvedValue(null);
       const cb = jest.fn();
 
-      remoteStore.set('1', 'a' as any, cb);
+      remoteStore.set('1', 'a' as unknown as KeyringJson, cb);
       await Promise.resolve();
 
-      expect(accountStore.set).toBeCalledWith('1', 'a');
-      expect(cb).toBeCalledTimes(1);
+      expect(accountStore.set).toHaveBeenCalledWith('1', 'a');
+      expect(cb).toHaveBeenCalledTimes(1);
     });
   });
 });

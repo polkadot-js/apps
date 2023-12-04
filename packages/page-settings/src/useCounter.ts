@@ -1,10 +1,14 @@
-// Copyright 2017-2020 @polkadot/app-settings authors & contributors
+// Copyright 2017-2023 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import useExtensions from './useExtensions';
+import { createNamedHook } from '@polkadot/react-hooks';
 
-export default function useCounter (): number {
+import useExtensions from './useExtensions.js';
+
+function useCounterImpl (): number {
   const { count } = useExtensions();
 
   return count;
 }
+
+export default createNamedHook('useCounter', useCounterImpl);

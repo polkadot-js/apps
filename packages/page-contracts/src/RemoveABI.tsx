@@ -1,13 +1,14 @@
-// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CodeStored } from './types';
+import type { CodeStored } from './types.js';
 
 import React, { useCallback } from 'react';
+
 import { Button, Modal } from '@polkadot/react-components';
 
-import CodeRow from './shared/CodeRow';
-import { useTranslation } from './translate';
+import CodeRow from './shared/CodeRow.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   code: CodeStored;
@@ -29,7 +30,7 @@ function RemoveABI ({ code, onClose, onRemove }: Props): React.ReactElement<Prop
   return (
     <Modal
       className='app--accounts-Modal'
-      header={t<string>('Confirm ABI removal')}
+      header={t('Confirm ABI removal')}
       onClose={onClose}
     >
       <Modal.Content>
@@ -37,14 +38,14 @@ function RemoveABI ({ code, onClose, onRemove }: Props): React.ReactElement<Prop
           code={code}
           isInline
         >
-          <p>{t<string>('You are about to remove this code\'s ABI. Once completed, should you need to access it again, you will have to manually re-upload it.')}</p>
-          <p>{t<string>('This operation does not impact the associated on-chain code or any of its contracts.')}</p>
+          <p>{t('You are about to remove this code\'s ABI. Once completed, should you need to access it again, you will have to manually re-upload it.')}</p>
+          <p>{t('This operation does not impact the associated on-chain code or any of its contracts.')}</p>
         </CodeRow>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
+      <Modal.Actions>
         <Button
           icon='trash'
-          label={t<string>('Remove')}
+          label={t('Remove')}
           onClick={_onRemove}
         />
       </Modal.Actions>

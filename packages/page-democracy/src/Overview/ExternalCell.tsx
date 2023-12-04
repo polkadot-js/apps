@@ -1,15 +1,15 @@
-// Copyright 2017-2020 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveProposalImage } from '@polkadot/api-derive/types';
 import type { Hash } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import { useApi, useCall } from '@polkadot/react-hooks';
-import { CallExpander } from '@polkadot/react-components';
-import { Holder } from '@polkadot/react-params';
 
-import { useTranslation } from '../translate';
+import { useApi, useCall } from '@polkadot/react-hooks';
+import { CallExpander, Holder } from '@polkadot/react-params';
+
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
@@ -32,7 +32,7 @@ function ExternalCell ({ className = '', value }: Props): React.ReactElement<Pro
       withPadding
     >
       <CallExpander
-        labelHash={t<string>('proposal hash')}
+        labelHash={t('proposal hash')}
         value={preimage.proposal}
         withHash
       />

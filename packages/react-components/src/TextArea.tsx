@@ -1,17 +1,14 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from './types';
-
 import React, { useCallback } from 'react';
-import styled from 'styled-components';
 
-import Labelled from './Labelled';
+import Labelled from './Labelled.js';
+import { styled } from './styled.js';
 
 interface Props {
   children?: React.ReactNode;
   className?: string;
-  help?: React.ReactNode;
   isError?: boolean;
   isReadOnly?: boolean;
   label?: React.ReactNode;
@@ -20,7 +17,7 @@ interface Props {
   withLabel?: boolean;
 }
 
-function TextArea ({ children, className, help, isError, isReadOnly, label, onChange, seed, withLabel }: Props): React.ReactElement<Props> {
+function TextArea ({ children, className, isError, isReadOnly, label, onChange, seed, withLabel }: Props): React.ReactElement<Props> {
   const _onChange = useCallback(
     ({ target: { value } }: React.ChangeEvent<HTMLTextAreaElement>): void => {
       onChange && onChange(value);
@@ -29,9 +26,8 @@ function TextArea ({ children, className, help, isError, isReadOnly, label, onCh
   );
 
   return (
-    <Labelled
+    <StyledLabelled
       className={className}
-      help={help}
       label={label}
       withLabel={withLabel}
     >
@@ -49,20 +45,20 @@ function TextArea ({ children, className, help, isError, isReadOnly, label, onCh
         />
         {children}
       </div>
-    </Labelled>
+    </StyledLabelled>
   );
 }
 
-export default React.memo(styled(TextArea)(({ theme }: ThemeProps) => `
+const StyledLabelled = styled(Labelled)`
   .TextAreaWithDropdown {
     display: flex;
     textarea {
       border-radius: 0.25rem 0 0 0.25rem;
       border: 1px solid #DDE1EB;
       border-right: none;
-      background: ${theme.bgInput};
+      background: var(--bg-input);
       box-sizing: border-box;
-      color: ${theme.color};
+      color: var(--color-text);
       display: block;
       outline: none;
       padding: 1.75rem 3rem 0.75rem 1.5rem;
@@ -70,18 +66,18 @@ export default React.memo(styled(TextArea)(({ theme }: ThemeProps) => `
       width: 100%;
 
       &:read-only {
-        background: ${theme.bgInverse};
+        background: var(--bg-inverse);
         box-shadow: none;
         outline: none;
 
         ~ .ui.buttons > .ui.selection.dropdown {
-          background: ${theme.bgInverse};
+          background: var(--bg-inverse);
         }
       }
 
       &.ui-textArea-withError {
-        background: ${theme.bgInputError};
-        color: ${theme.colorError};
+        background: var(--bg-input-error);
+        color: var(--color-error);
       }
     }
 
@@ -98,4 +94,6 @@ export default React.memo(styled(TextArea)(({ theme }: ThemeProps) => `
       }
     }
   }
-`));
+`;
+
+export default React.memo(TextArea);

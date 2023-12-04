@@ -1,30 +1,29 @@
-// Copyright 2017-2020 @polkadot/react-signer authors & contributors
+// Copyright 2017-2023 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyringPair } from '@polkadot/keyring/types';
 
 import React, { useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
-import { Modal, Password, Toggle } from '@polkadot/react-components';
-import keyring from '@polkadot/ui-keyring';
 
-import { useTranslation } from './translate';
-import { UNLOCK_MINS } from './util';
+import { Modal, Password, styled, Toggle } from '@polkadot/react-components';
+import { keyring } from '@polkadot/ui-keyring';
+
+import { useTranslation } from './translate.js';
+import { UNLOCK_MINS } from './util.js';
 
 interface Props {
   address: string;
   className?: string;
-  error?: string;
+  error?: string | null;
   onChange: (password: string, isUnlockCached: boolean) => void;
   onEnter?: () => void;
-  password: string;
   tabIndex?: number;
 }
 
 function getPair (address: string): KeyringPair | null {
   try {
     return keyring.getPair(address);
-  } catch (error) {
+  } catch {
     return null;
   }
 }
@@ -48,33 +47,31 @@ function Unlock ({ address, className, error, onChange, onEnter, tabIndex }: Pro
   }
 
   return (
-    <Modal.Columns className={className}>
-      <Modal.Column>
-        <Password
-          autoFocus
-          isError={!!error}
-          label={t<string>('unlock account with password')}
-          onChange={setPassword}
-          onEnter={onEnter}
-          tabIndex={tabIndex}
-          value={password}
-        >
+    <StyledModalColumns
+      className={className}
+      hint={t('Unlock the sending account to allow signing of this transaction.')}
+    >
+      <Password
+        autoFocus
+        isError={!!error}
+        label={t('unlock account with password')}
+        labelExtra={
           <Toggle
-            isOverlay
-            label={t<string>('unlock for {{expiry}} min', { replace: { expiry: UNLOCK_MINS } })}
+            label={t('unlock for {{expiry}} min', { replace: { expiry: UNLOCK_MINS } })}
             onChange={setIsUnlockCached}
             value={isUnlockCached}
           />
-        </Password>
-      </Modal.Column>
-      <Modal.Column>
-        <p>{t('Unlock the sending account to allow signing of this transaction.')}</p>
-      </Modal.Column>
-    </Modal.Columns>
+        }
+        onChange={setPassword}
+        onEnter={onEnter}
+        tabIndex={tabIndex}
+        value={password}
+      />
+    </StyledModalColumns>
   );
 }
 
-export default React.memo(styled(Unlock)`
+const StyledModalColumns = styled(Modal.Columns)`
   .errorLabel {
     margin-right: 1rem;
     color: #9f3a38 !important;
@@ -83,4 +80,6 @@ export default React.memo(styled(Unlock)`
   .ui--Toggle {
     bottom: 1.1rem;
   }
-`);
+`;
+
+export default React.memo(Unlock);

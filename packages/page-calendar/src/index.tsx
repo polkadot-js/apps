@@ -1,18 +1,18 @@
-// Copyright 2017-2020 @polkadot/app-calendar authors & contributors
+// Copyright 2017-2023 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '@polkadot/react-components/types';
-import type { DateState } from './types';
+import type { DateState } from './types.js';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import styled from 'styled-components';
-import { Tabs } from '@polkadot/react-components';
 
-import Day from './Day';
-import Month from './Month';
-import { useTranslation } from './translate';
-import useScheduled from './useScheduled';
-import { getDateState, nextMonth, prevMonth } from './util';
+import { styled, Tabs } from '@polkadot/react-components';
+
+import Day from './Day.js';
+import Month from './Month.js';
+import { useTranslation } from './translate.js';
+import UpcomingEvents from './UpcomingEvents.js';
+import useScheduled from './useScheduled.js';
+import { getDateState, nextMonth, prevMonth } from './util.js';
 
 interface Props {
   basePath: string;
@@ -24,13 +24,14 @@ const NOW_INC = 30 * 1000;
 function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const scheduled = useScheduled();
-  const [now, setNow] = useState(new Date());
-  const [dateState, setDateState] = useState(getDateState(now, now));
+  const [now, setNow] = useState(() => new Date());
+  const [dateState, setDateState] = useState(() => getDateState(now, now));
+  const [allEventsView, setAllEventsView] = useState(false);
 
   const itemsRef = useRef([{
     isRoot: true,
     name: 'view',
-    text: t<string>('Upcoming events')
+    text: t('Upcoming events')
   }]);
 
   useEffect((): () => void => {
@@ -107,14 +108,17 @@ function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props>
     []
   );
 
+  const _setAllEventsView = useCallback(
+    (v: boolean) => setAllEventsView(v),
+    []
+  );
+
   return (
-    <main className={className}>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={itemsRef.current}
-        />
-      </header>
+    <StyledMain className={className}>
+      <Tabs
+        basePath={basePath}
+        items={itemsRef.current}
+      />
       <div className='calendarFlex'>
         <Month
           hasNextMonth={hasNextMonth}
@@ -126,28 +130,51 @@ function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props>
           setPrevMonth={_prevMonth}
           state={dateState}
         />
-        <Day
-          date={dateState.dateSelected}
-          hasNextDay={hasNextDay}
-          now={now}
-          scheduled={scheduled}
-          setNextDay={_nextDay}
-          setPrevDay={_prevDay}
-        />
+        <div className='wrapper-style'>
+          {allEventsView
+            ? (
+              <UpcomingEvents
+                className='upcoming-events'
+                scheduled={scheduled}
+                setView={_setAllEventsView}
+              />
+            )
+            : (
+              <Day
+                date={dateState.dateSelected}
+                hasNextDay={hasNextDay}
+                now={now}
+                scheduled={scheduled}
+                setNextDay={_nextDay}
+                setPrevDay={_prevDay}
+                setView={_setAllEventsView}
+              />
+            )
+          }
+        </div>
       </div>
-    </main>
+    </StyledMain>
   );
 }
 
-export default React.memo(styled(CalendarApp)(({ theme }: ThemeProps) => `
+const StyledMain = styled.main`
   .calendarFlex {
     align-items: flex-start;
     display: flex;
     flex-wrap: nowrap;
 
+    .wrapper-style {
+      flex: 1;
+
+      .upcoming-events {
+        position: relative;
+        max-width: 100%;
+      }
+    }
+
     > div {
-      background-color: ${theme.bgTable};
-      border: 1px solid ${theme.borderTable};
+      background-color: var(--bg-table);
+      border: 1px solid var(--border-table);
       border-radius: 0.25rem;
 
       &+div {
@@ -155,19 +182,31 @@ export default React.memo(styled(CalendarApp)(({ theme }: ThemeProps) => `
       }
 
       .ui--Button-Group {
-        margin-top: 0;
+        margin: 0;
       }
     }
 
     h1 {
       align-items: center;
+      border-bottom: 0.25rem solid var(--bg-page);
       display: flex;
       justify-content: space-between;
-      padding: 0.5rem 0.5rem 0 1rem;
+      padding: 0.5rem 0.5rem 0.5rem 1rem;
+
+      > div:first-child {
+        align-items: center;
+        display: inline-flex;
+      }
+
+      .all-events-button {
+        margin-right: 1rem;
+      }
 
       .ui--Button {
-        font-size: 1rem;
+        font-size: var(--font-size-small);
       }
     }
   }
-`));
+`;
+
+export default React.memo(CalendarApp);

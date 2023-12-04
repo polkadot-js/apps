@@ -1,24 +1,27 @@
-// Copyright 2017-2020 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveProposalImage } from '@polkadot/api-derive/types';
-import type { AccountId } from '@polkadot/types/interfaces';
+import type { AccountId, Balance } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
-import BN from 'bn.js';
 import React, { useState } from 'react';
-import { Button, InputAddress, Modal, ProposedAction, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
+import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
+import { ProposedAction } from '@polkadot/react-params';
+
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
+  deposit?: Balance;
   depositors: AccountId[];
   image?: DeriveProposalImage;
   proposalId: BN | number;
 }
 
-function Seconding ({ depositors, image, proposalId }: Props): React.ReactElement<Props> | null {
+function Seconding ({ deposit, depositors, image, proposalId }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
   const { api } = useApi();
@@ -33,56 +36,53 @@ function Seconding ({ depositors, image, proposalId }: Props): React.ReactElemen
     <>
       {isSecondingOpen && (
         <Modal
-          header={t<string>('Second proposal')}
+          header={t('Endorse proposal')}
+          onClose={toggleSeconding}
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns>
-              <Modal.Column>
-                <ProposedAction
-                  idNumber={proposalId}
-                  proposal={image?.proposal}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('The proposal is in the queue for future referendums. One proposal from this list will move forward to voting.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t('The proposal is in the queue for future referendums. One proposal from this list will move forward to voting.')}>
+              <ProposedAction
+                idNumber={proposalId}
+                proposal={image?.proposal}
+              />
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <InputAddress
-                  help={t<string>('Select the account you wish to second with. This will lock your funds until the proposal is either approved or rejected')}
-                  label={t<string>('second with account')}
-                  onChange={setAccountId}
-                  type='account'
-                  withLabel
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('Seconding a proposal that indicates your backing for the proposal. Proposals with greater interest moves up the queue for potential next referendums.')}</p>
-              </Modal.Column>
+            <Modal.Columns hint={t('Endorsing a proposal that indicates your backing for the proposal. Proposals with greater interest moves up the queue for potential next referendums.')}>
+              <InputAddress
+                label={t('endorse with account')}
+                onChange={setAccountId}
+                type='account'
+                withLabel
+              />
+            </Modal.Columns>
+            <Modal.Columns hint={t('The deposit will be locked for the lifetime of the proposal.')}>
+              <InputBalance
+                defaultValue={deposit || api.consts.democracy.minimumDeposit}
+                isDisabled
+                label={t('deposit required')}
+              />
             </Modal.Columns>
           </Modal.Content>
-          <Modal.Actions onCancel={toggleSeconding}>
+          <Modal.Actions>
             <TxButton
               accountId={accountId}
               icon='sign-in-alt'
               isDisabled={!accountId}
-              label={t<string>('Second')}
+              label={t('Endorse')}
               onStart={toggleSeconding}
               params={
                 api.tx.democracy.second.meta.args.length === 2
                   ? [proposalId, depositors.length]
                   : [proposalId]
               }
-              tx='democracy.second'
+              tx={api.tx.democracy.second}
             />
           </Modal.Actions>
         </Modal>
       )}
       <Button
         icon='toggle-off'
-        label={t<string>('Second')}
+        label={t('Endorse')}
         onClick={toggleSeconding}
       />
     </>

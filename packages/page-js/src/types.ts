@@ -1,20 +1,19 @@
-// Copyright 2017-2020 @polkadot/app-js authors & contributors
+// Copyright 2017-2023 @polkadot/app-js authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SemanticShorthandItem } from 'semantic-ui-react/dist/commonjs/generic';
-import type { LabelProps } from 'semantic-ui-react/dist/commonjs/elements/Label';
+import type { DropdownItemProps, StrictLabelProps } from 'semantic-ui-react';
 
 export type LogType = 'error' | 'log';
 
 export interface Log {
-  args: any[];
+  args: unknown[];
   type: LogType;
 }
 
-export interface Snippet {
+export interface Snippet extends DropdownItemProps {
   text: string;
   value: string;
   code: string;
-  label?: SemanticShorthandItem<LabelProps>;
+  label?: StrictLabelProps;
   type?: 'custom' | 'shared';
 }

@@ -1,10 +1,13 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
 import store from 'store';
 
-import Dropdown from './Dropdown';
+import { useTheme } from '@polkadot/react-hooks';
+
+import Dropdown from './Dropdown.js';
+import { styled } from './styled.js';
 
 interface Option {
   key: string;
@@ -16,7 +19,6 @@ interface Props {
   allowAdd?: boolean;
   className?: string;
   defaultValue?: string[];
-  help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
   label?: React.ReactNode;
@@ -53,13 +55,14 @@ function onAddTag (value: string): void {
   saveTags(tags);
 }
 
-function InputTags ({ allowAdd = true, className = '', defaultValue, help, isDisabled, isError, label, onBlur, onChange, onClose, placeholder, searchInput, value, withLabel }: Props): React.ReactElement<Props> {
+function InputTags ({ allowAdd = true, className = '', defaultValue, isDisabled, isError, label, onBlur, onChange, onClose, placeholder, searchInput, value, withLabel }: Props): React.ReactElement<Props> {
+  const { theme } = useTheme();
+
   return (
-    <Dropdown
+    <StyledDropdown
       allowAdd={allowAdd && !isDisabled}
-      className={className}
+      className={`${className} ui--InputTags ${theme}Theme`}
       defaultValue={defaultValue}
-      help={help}
       isDisabled={isDisabled}
       isError={isError}
       isMultiple
@@ -76,5 +79,31 @@ function InputTags ({ allowAdd = true, className = '', defaultValue, help, isDis
     />
   );
 }
+
+const StyledDropdown = styled(Dropdown)`
+  && .ui.label {
+    border: none;
+    border-radius: 0.25rem;
+    box-shadow: none;
+    color: #fff;
+    display: inline-block;
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-normal);
+    line-height: 1.143rem;
+    margin: 0.125rem 0.125rem;
+    padding: 0.571em 0.857em;
+    position: relative;
+    white-space: nowrap;
+    z-index: 1;
+
+    .delete.icon::before {
+      content: '\u2715';
+    }
+  }
+
+  &&.darkTheme .ui.label {
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+`;
 
 export default React.memo(InputTags);
