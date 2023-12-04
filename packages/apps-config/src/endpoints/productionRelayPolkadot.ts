@@ -592,7 +592,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2040,
     providers: {
       Dwellir: 'wss://polkadex-rpc.dwellir.com',
-      // OnFinality: 'wss://polkadex-parachain.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/10039
+      OnFinality: 'wss://polkadex-parachain.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://polkadex-parachain.public.curie.radiumblock.co/ws'
     },
     text: 'Polkadex',
