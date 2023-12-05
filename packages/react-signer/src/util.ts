@@ -6,6 +6,8 @@ import type { KeyringPair } from '@polkadot/keyring/types';
 import type { QueueTx, QueueTxMessageSetStatus, QueueTxStatus } from '@polkadot/react-components/Status/types';
 import type { AddressFlags } from './types.js';
 
+import {stringify} from 'flatted';
+
 import { keyring } from '@polkadot/ui-keyring';
 
 const NOOP = () => undefined;
@@ -81,7 +83,7 @@ export function handleTxResults (handler: 'send' | 'signAndSend', queueSetTxStat
 
     const status = result.status.type.toLowerCase() as QueueTxStatus;
 
-    console.log(`${handler}: status :: ${JSON.stringify(result)}`);
+    console.log(`${handler}: status :: ${stringify(result)}`);
 
     queueSetTxStatus(id, status, result);
     txUpdateCb(result);
