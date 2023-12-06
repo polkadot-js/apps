@@ -677,16 +677,6 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'phala',
     providers: {
-      'Phala Network': 'wss://poc5.phala.network/ws'
-    },
-    text: 'Phala (PoC 5)',
-    ui: {
-      logo: nodesPhalaSVG
-    }
-  },
-  {
-    info: 'phala',
-    providers: {
       'Phala Network': 'wss://poc6.phala.network/ws'
     },
     text: 'Phala (PoC 6)',
