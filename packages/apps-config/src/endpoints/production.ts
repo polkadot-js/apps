@@ -547,7 +547,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'vara',
     providers: {
-      'Gear': 'wss://rpc.vara-network.io'
+      Gear: 'wss://rpc.vara-network.io'
     },
     text: 'Vara',
     ui: {
