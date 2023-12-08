@@ -49718,7 +49718,9 @@ export const typesBundle = {
               "mandatory": "u32"
             },
             "DataProof": {
-              "root": "H256",
+              "dataRoot": "H256", 
+              "blobRoot": 'Option<H256>', 
+              "bridgeRoot": 'Option<H256>',
               "proof": "Vec<H256>",
               "numberOfLeaves": "Compact<u32>",
               "leafIndex": "Compact<u32>",
