@@ -487,6 +487,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Blast: 'wss://moonriver.public.blastapi.io',
       Dwellir: 'wss://moonriver-rpc.dwellir.com',
+      OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
       'Moonbeam Foundation': 'wss://wss.api.moonriver.moonbeam.network',
       UnitedBloc: 'wss://moonriver.unitedbloc.com'
     },
