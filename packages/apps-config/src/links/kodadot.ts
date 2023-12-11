@@ -8,10 +8,10 @@ import { externalKodadotSVG } from '../ui/logos/external/index.js';
 
 const getNetwork = (_chain: string) => {
   const chain = {
-    'kusama': 'rmrk',
-    'basilisk': 'bsx',
-    'statemint': 'ahp',
-    'statemine': 'ahk'
+    basilisk: 'bsx',
+    kusama: 'rmrk',
+    statemine: 'ahk',
+    statemint: 'ahp'
   }[_chain];
 
   return `https://kodadot.xyz/${chain}/u/`;
@@ -19,10 +19,10 @@ const getNetwork = (_chain: string) => {
 
 export const KodaDot: ExternalDef = {
   chains: {
-    Kusama: 'kusama',
     Basilisk: 'basilisk',
+    Kusama: 'kusama',
     Statemine: 'statemine',
-    Statemint: 'statemint',
+    Statemint: 'statemint'
   },
   create: (_chain: string, _path: string, data: BN | number | string): string =>
     `${getNetwork(_chain)}${data.toString()}`,
