@@ -295,7 +295,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoLitentry',
     paraId: 2106,
     providers: {
-      Litentry: 'wss://rpc.rococo-parachain-sg.litentry.io'
+      Litentry: 'wss://rpc.rococo-parachain.litentry.io'
     },
     text: 'Litentry',
     ui: {
@@ -716,6 +716,16 @@ export const testParasRococoCommon: EndpointOption[] = [
       color: '#000000',
       logo: nodesSubstrateContractsNodePNG
     }
+  },
+  {
+    info: 'rococoCoretime',
+    paraId: 1005,
+    providers: {
+      Parity: 'wss://rococo-coretime-rpc.polkadot.io'
+    },
+    teleport: [-1],
+    text: 'Coretime',
+    ui: {}
   },
   {
     homepage: 'https://encointer.org/',
