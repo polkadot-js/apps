@@ -51769,6 +51769,22 @@ export const typesBundle = {
             "type": "Vec<RpcEvent>"
           }
         },
+        "frequencyTxPayment": {
+          "computeCapacityFeeDetails": {
+            "description": "Compute the capacity fee details for a given transaction",
+            "params": [
+              {
+                "name": "encoded_xt",
+                "type": "Vec<u8>"
+              },
+              {
+                "name": "at",
+                "type": "Option<BlockHash>"
+              }
+            ],
+            "type": "FeeDetails"
+          }
+        },
         "handles": {
           "getHandleForMsa": {
             "description": "Get handle for a given msa_id",
@@ -51803,6 +51819,16 @@ export const typesBundle = {
               }
             ],
             "type": "PresumptiveSuffixesResponse"
+          },
+          "validateHandle": {
+            "description": "Check whether the supplied handle passes all the checks performed by claim_handle call.",
+            "params": [
+              {
+                "name": "base_handle",
+                "type": "String"
+              }
+            ],
+            "type": "bool"
           }
         },
         "messages": {
@@ -51930,6 +51956,26 @@ export const typesBundle = {
             "version": 1
           }
         ],
+        "CapacityTransactionPaymentRuntimeApi": [
+          {
+            "methods": {
+              "compute_capacity_fee": {
+                "description": "Compute the capacity fee for a given transaction",
+                "params": [
+                  {
+                    "name": "encoded_xt",
+                    "type": "Vec<u8>"
+                  },
+                  {
+                    "name": "at",
+                    "type": "Option<BlockHash>"
+                  }
+                ],
+                "type": "FeeDetails"
+              }
+            }
+          }
+        ],
         "HandlesRuntimeApi": [
           {
             "methods": {
@@ -51966,9 +52012,19 @@ export const typesBundle = {
                   }
                 ],
                 "type": "PresumptiveSuffixesResponse"
+              },
+              "validate_handle": {
+                "description": "Check whether the supplied handle passes all the checks performed by claim_handle call.",
+                "params": [
+                  {
+                    "name": "base_handle",
+                    "type": "String"
+                  }
+                ],
+                "type": "bool"
               }
             },
-            "version": 1
+            "version": 2
           }
         ],
         "MessagesRuntimeApi": [
@@ -52277,6 +52333,22 @@ export const typesBundle = {
             "type": "Vec<RpcEvent>"
           }
         },
+        "frequencyTxPayment": {
+          "computeCapacityFeeDetails": {
+            "description": "Compute the capacity fee details for a given transaction",
+            "params": [
+              {
+                "name": "encoded_xt",
+                "type": "Vec<u8>"
+              },
+              {
+                "name": "at",
+                "type": "Option<BlockHash>"
+              }
+            ],
+            "type": "FeeDetails"
+          }
+        },
         "handles": {
           "getHandleForMsa": {
             "description": "Get handle for a given msa_id",
@@ -52311,6 +52383,16 @@ export const typesBundle = {
               }
             ],
             "type": "PresumptiveSuffixesResponse"
+          },
+          "validateHandle": {
+            "description": "Check whether the supplied handle passes all the checks performed by claim_handle call.",
+            "params": [
+              {
+                "name": "base_handle",
+                "type": "String"
+              }
+            ],
+            "type": "bool"
           }
         },
         "messages": {
@@ -52438,6 +52520,26 @@ export const typesBundle = {
             "version": 1
           }
         ],
+        "CapacityTransactionPaymentRuntimeApi": [
+          {
+            "methods": {
+              "compute_capacity_fee": {
+                "description": "Compute the capacity fee for a given transaction",
+                "params": [
+                  {
+                    "name": "encoded_xt",
+                    "type": "Vec<u8>"
+                  },
+                  {
+                    "name": "at",
+                    "type": "Option<BlockHash>"
+                  }
+                ],
+                "type": "FeeDetails"
+              }
+            }
+          }
+        ],
         "HandlesRuntimeApi": [
           {
             "methods": {
@@ -52474,9 +52576,19 @@ export const typesBundle = {
                   }
                 ],
                 "type": "PresumptiveSuffixesResponse"
+              },
+              "validate_handle": {
+                "description": "Check whether the supplied handle passes all the checks performed by claim_handle call.",
+                "params": [
+                  {
+                    "name": "base_handle",
+                    "type": "String"
+                  }
+                ],
+                "type": "bool"
               }
             },
-            "version": 1
+            "version": 2
           }
         ],
         "MessagesRuntimeApi": [

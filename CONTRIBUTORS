@@ -440,6 +440,7 @@
        1	serkixenos                    	Add Peerplays to ethereumChains (#9820)
        1	Shailesh B Nair               	Add KlugDossier (#5456)
        1	Shamil                        	Move Vara from Live networks to Test networks (#8295)
+       1	Shannon Wells                 	update @frequency/api-augment to v1.9.0 (#10062)
        1	Shaun Wang                    	Fix spelling: Javascript -> JavaScript. (#4698)
        1	Shunfan Zhou                  	Re-enable Phala (PoC 5) Testnet (#7462)
        1	SimonKraus                    	fix(staking): fix typo (#4926)
