@@ -842,7 +842,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       LuckyFriday: 'wss://rpc-asset-hub-kusama.luckyfriday.io',
       // OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
       Parity: 'wss://kusama-asset-hub-rpc.polkadot.io',
-      RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws',
+      // RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws',
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/assethub'
     },
     teleport: [-1],
