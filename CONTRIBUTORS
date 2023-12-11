@@ -376,6 +376,7 @@
        1	KkenWv                        	Add KICO logo and endpoint (#6906)
        1	KRogLA                        	sub accounts search fix (#2572)
        1	Lauro Gripa Neto              	Add portuguese translation (#2940)
+       1	Leechael                      	chore: Remove Phala PoC5 since it going to take down (#10082)
        1	Letho                         	Coinversation (#6597)
        1	loanMaster                    	fix: issue 9127. teleport reactivated (#9529)
        1	lreesby                       	Turing added to Rococo (#7603)
