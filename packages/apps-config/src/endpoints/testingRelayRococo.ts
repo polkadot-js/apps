@@ -476,7 +476,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'snowbridgeAssetHub',
     paraId: 3416,
     providers: {
-      Snowfork: 'wss://rococo-rpc.snowbridge.network/assethub'
+      // Snowfork: 'wss://rococo-rpc.snowbridge.network/assethub' // https://github.com/polkadot-js/apps/issues/10091
     },
     text: 'Snowbridge Asset Hub',
     ui: {
@@ -487,7 +487,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'snowbridgeBridgeHub',
     paraId: 3016,
     providers: {
-      Snowfork: 'wss://rococo-rpc.snowbridge.network/bridgehub'
+      // Snowfork: 'wss://rococo-rpc.snowbridge.network/bridgehub' // https://github.com/polkadot-js/apps/issues/10091
     },
     text: 'Snowbridge Bridge Hub',
     ui: {

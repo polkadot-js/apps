@@ -525,7 +525,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'ternoa',
     providers: {
-      CapsuleCorp: 'wss://mainnet.ternoa.network'
+      // CapsuleCorp: 'wss://mainnet.ternoa.network' // https://github.com/polkadot-js/apps/issues/10091
     },
     text: 'Ternoa',
     ui: {
