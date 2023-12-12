@@ -410,6 +410,7 @@
        1	Omgzilla                      	Removing Kapex RPC for Dwellir | Update productionRelayPolkadot.ts (#10074)
        1	Owen                          	add kico2 (#8374)
        1	Pablito Labarta               	Update Creditcoin WS endpoint (#9942)
+       1	Paco Yang                     	Fix transfer button disappearance (#10081)
        1	paulhealy09                   	Update Unit Network logo (Thanks to https://github.com/unit-network) (#5027)
        1	Pavel                         	Added new community node for SORA (#5600)
        1	Peter Chung                   	Align Sig Validity Indicator (#1660) (#1697)
