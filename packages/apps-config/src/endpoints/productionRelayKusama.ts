@@ -394,7 +394,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'kreivo',
     paraId: 2281,
     providers: {
-      Virto: 'wss://kreivo.io/'
+      // Virto: 'wss://kreivo.io/' // https://github.com/polkadot-js/apps/issues/10091
     },
     text: 'Kreivo - By Virto',
     ui: {
@@ -768,7 +768,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 't1rn',
     paraId: 3334,
     providers: {
-      t3rn: 'wss://rpc.t1rn.io'
+      // t3rn: 'wss://rpc.t1rn.io' // https://github.com/polkadot-js/apps/issues/10091
     },
     text: 't1rn',
     ui: {

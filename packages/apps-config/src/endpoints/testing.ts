@@ -220,7 +220,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'debio-testnet',
     providers: {
-      DeBio: 'wss://ws-rpc.testnet.debio.network'
+      // DeBio: 'wss://ws-rpc.testnet.debio.network' // https://github.com/polkadot-js/apps/issues/10091
     },
     text: 'DeBio Testnet',
     ui: {
@@ -441,7 +441,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'karmachain',
     providers: {
-      Karmachain: 'wss://api3.karmaco.in'
+      // Karmachain: 'wss://api3.karmaco.in' // https://github.com/polkadot-js/apps/issues/10091
     },
     text: 'Karmachain Testnet',
     ui: {
@@ -618,7 +618,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'myriad-tesnet',
     providers: {
-      Myriad: 'wss://ws-rpc.testnet.myriad.social'
+      // Myriad: 'wss://ws-rpc.testnet.myriad.social' // https://github.com/polkadot-js/apps/issues/10091
     },
     text: 'Myriad Testnet',
     ui: {
@@ -877,8 +877,8 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'subspace-gemini-3f',
     providers: {
-      Europe: 'wss://rpc-1.gemini-3f.subspace.network/ws',
-      US: 'wss://rpc-0.gemini-3f.subspace.network/ws'
+      Europe: 'wss://rpc-1.gemini-3f.subspace.network/ws'
+      // US: 'wss://rpc-0.gemini-3f.subspace.network/ws' // https://github.com/polkadot-js/apps/issues/10091
     },
     text: 'Subspace Gemini 3f',
     ui: {
