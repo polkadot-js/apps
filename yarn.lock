@@ -4931,6 +4931,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"avail-js-sdk@npm:^0.1.5":
+  version: 0.1.5
+  resolution: "avail-js-sdk@npm:0.1.5"
+  dependencies:
+    "@polkadot/api": ^10.10.1
+  checksum: 58aeb7aece7d3d24fe260ea4a146d8653a6d4b601306e93ecdc50accac1ab8e18bab5fbcdc8d2549eb3de5d5f40f4192690ec9b82a4bc9e6957787efea598dc4
+  languageName: node
+  linkType: hard
+
 "available-typed-arrays@npm:^1.0.4":
   version: 1.0.4
   resolution: "available-typed-arrays@npm:1.0.4"
@@ -13956,6 +13965,7 @@ fsevents@~2.3.2:
     "@types/store": ^2.0.2
     "@types/styled-components": ^5.1.26
     "@types/styled-theming": ^2.2.5
+    avail-js-sdk: ^0.1.5
     axios: ^1.4.0
     concurrently: ^8.2.0
     devtron: ^1.4.0
