@@ -51,7 +51,7 @@ function needsApiCheck (api: ApiPromise): boolean {
       { claimedRewards: [1, 2] }
     );
 
-    assert(v && v.isSome && (v.unwrap() as unknown as { claimsRewards: Vec<u32> }).claimsRewards.eq([1, 2, 3]), 'Needs a claimedRewards struct');
+    assert((v.unwrapOrDefault() as unknown as { claimedRewards: Vec<u32> }).claimedRewards, 'Needs a claimedRewards struct');
   } catch {
     console.warn('No known claimedRewards inside staking ledger, disabling staking route');
 
