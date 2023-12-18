@@ -7,8 +7,8 @@ import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/api-derive/types';
 import type { DisplayedJudgement } from '@polkadot/react-components/types';
 import type { u128 } from '@polkadot/types';
-import type { AccountId, BlockNumber, Call, Exposure, Hash, RewardDestination, SessionIndex, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
-import type { PalletPreimageRequestStatus } from '@polkadot/types/lookup';
+import type { AccountId, BlockNumber, Call, Exposure, Hash, RewardDestination, SessionIndex, ValidatorPrefs } from '@polkadot/types/interfaces';
+import type { PalletPreimageRequestStatus, PalletStakingStakingLedger } from '@polkadot/types/lookup';
 import type { ICompact, IExtrinsic, INumber, Registry } from '@polkadot/types/types';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { BN } from '@polkadot/util';
@@ -154,7 +154,7 @@ export interface StakerState {
   isStashValidating: boolean;
   nominating?: string[];
   sessionIds: string[];
-  stakingLedger?: StakingLedger;
+  stakingLedger?: PalletStakingStakingLedger;
   stashId: string;
   validatorPrefs?: ValidatorPrefs;
 }
