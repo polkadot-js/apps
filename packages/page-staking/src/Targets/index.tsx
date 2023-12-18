@@ -219,7 +219,7 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
       daysPayout,
       isBabe: !!api.consts.babe,
       isQueryFiltered,
-      maxPaid: api.consts.staking?.maxNominatorRewardedPerValidator
+      maxPaid: api.consts.staking?.maxNominatorRewardedPerValidator as u32
     }),
     [api, daysPayout, isQueryFiltered, toggles]
   );

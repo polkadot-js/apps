@@ -3,6 +3,7 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { u32 } from '@polkadot/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
 import type { PayoutValidator } from './types.js';
 
@@ -61,7 +62,7 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
   const [txs, setTxs] = useState<SubmittableExtrinsic<'promise'>[] | null>(null);
   const batchOpts = useMemo(
     () => ({
-      max: 36 * 64 / (api.consts.staking.maxNominatorRewardedPerValidator?.toNumber() || 64)
+      max: 36 * 64 / ((api.consts.staking.maxNominatorRewardedPerValidator as u32)?.toNumber() || 64)
     }),
     [api]
   );
