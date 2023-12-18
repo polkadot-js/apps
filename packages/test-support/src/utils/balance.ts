@@ -9,7 +9,7 @@ import { formatBalance } from '@polkadot/util';
 import { balanceOf } from '../creation/balance.js';
 
 /**
- * Creates a balance instance for testing purposes which most often do not need to specifiy/use decimal part.
+ * Creates a balance instance for testing purposes which most often do not need to specify/use decimal part.
  * @param amountInt Integer part of the balance number
  * @param decimalsString Decimals part of the balance number. Note! This is a string sequence just after '.' separator
  *  that is the point that separates integers from decimals. E.g. (100, 4567) => 100.45670000...00

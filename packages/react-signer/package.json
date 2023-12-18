@@ -1,7 +1,7 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/react-signer#readme",
   "license": "Apache-2.0",
@@ -14,10 +14,10 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.132.2-83-x",
+  "version": "0.133.2-27-x",
   "dependencies": {
-    "@polkadot/hw-ledger": "^12.4.2",
-    "@polkadot/react-components": "^0.132.2-83-x"
+    "@polkadot/hw-ledger": "^12.6.1",
+    "@polkadot/react-components": "^0.133.2-27-x"
   },
   "peerDependencies": {
     "react": "*",

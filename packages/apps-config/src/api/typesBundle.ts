@@ -39448,6 +39448,512 @@ export const typesBundle = {
         }
       ]
     },
+    "amplitude": {
+      "rpc": {
+        "issue": {
+          "getIssueRequests": {
+            "description": "Get all issue requests for a particular account",
+            "params": [
+              {
+                "name": "accountId",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<H256>",
+            "isSubscription": false,
+            "jsonrpc": "issue_getIssueRequests",
+            "method": "getIssueRequests",
+            "section": "issue"
+          },
+          "getVaultIssueRequests": {
+            "description": "Get all issue requests for a particular vault",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<H256>",
+            "isSubscription": false,
+            "jsonrpc": "issue_getVaultIssueRequests",
+            "method": "getVaultIssueRequests",
+            "section": "issue"
+          }
+        },
+        "redeem": {
+          "getRedeemRequests": {
+            "description": "Get all redeem requests for a particular account",
+            "params": [
+              {
+                "name": "accountId",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<H256>",
+            "isSubscription": false,
+            "jsonrpc": "redeem_getRedeemRequests",
+            "method": "getRedeemRequests",
+            "section": "redeem"
+          },
+          "getVaultRedeemRequests": {
+            "description": "Get all redeem requests for a particular vault",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<H256>",
+            "isSubscription": false,
+            "jsonrpc": "redeem_getVaultRedeemRequests",
+            "method": "getVaultRedeemRequests",
+            "section": "redeem"
+          }
+        },
+        "replace": {
+          "getOldVaultReplaceRequests": {
+            "description": "Get all replace requests from a particular vault",
+            "params": [
+              {
+                "name": "accountId",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<H256>",
+            "isSubscription": false,
+            "jsonrpc": "replace_getOldVaultReplaceRequests",
+            "method": "getOldVaultReplaceRequests",
+            "section": "replace"
+          },
+          "getNewVaultReplaceRequests": {
+            "description": "Get all replace requests to a particular vault",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<H256>",
+            "isSubscription": false,
+            "jsonrpc": "replace_getNewVaultReplaceRequests",
+            "method": "getNewVaultReplaceRequests",
+            "section": "replace"
+          }
+        },
+        "oracle": {
+          "currencyToUsd": {
+            "description": "Get the USD value of a currency",
+            "params": [
+              {
+                "name": "amount",
+                "type": "BalanceWrapper"
+              },
+              {
+                "name": "currencyId",
+                "type": "SpacewalkPrimitivesCurrencyId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "BalanceWrapper",
+            "isSubscription": false,
+            "jsonrpc": "oracle_currencyToUsd",
+            "method": "currencyToUsd",
+            "section": "oracle"
+          },
+          "usdToCurrency": {
+            "description": "Get the currency value of a USD amount",
+            "params": [
+              {
+                "name": "amount",
+                "type": "BalanceWrapper"
+              },
+              {
+                "name": "currencyId",
+                "type": "SpacewalkPrimitivesCurrencyId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "BalanceWrapper",
+            "isSubscription": false,
+            "jsonrpc": "oracle_usdToCurrency",
+            "method": "usdToCurrency",
+            "section": "oracle"
+          }
+        },
+        "vaultRegistry": {
+          "getVaultCollateral": {
+            "description": "Get the vault's collateral (excluding nomination)",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "SpacewalkPrimitivesVaultId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "BalanceWrapper",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getVaultCollateral",
+            "method": "getVaultCollateral",
+            "section": "vaultRegistry"
+          },
+          "getVaultsByAccountId": {
+            "description": "Get all the vaultIds registered by a vault's accountId",
+            "params": [
+              {
+                "name": "accountId",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<SpacewalkPrimitivesVaultId>",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getVaultsByAccountId",
+            "method": "getVaultsByAccountId",
+            "section": "vaultRegistry"
+          },
+          "getVaultTotalCollateral": {
+            "description": "Get the vault's collateral (including nomination)",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "SpacewalkPrimitivesVaultId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "BalanceWrapper",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getVaultTotalCollateral",
+            "method": "getVaultTotalCollateral",
+            "section": "vaultRegistry"
+          },
+          "getPremiumRedeemVaults": {
+            "description": "Get all vaults below the premium redeem threshold, ordered in descending order of this amount",
+            "params": [
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(SpacewalkPrimitivesVaultId, BalanceWrapper)>",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getPremiumRedeemVaults",
+            "method": "getPremiumRedeemVaults",
+            "section": "vaultRegistry"
+          },
+          "getVaultsWithIssuableTokens": {
+            "description": "Get all vaults with non-zero issuable tokens, ordered in descending order of this amount",
+            "params": [
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(SpacewalkPrimitivesVaultId, BalanceWrapper)>",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getVaultsWithIssuableTokens",
+            "method": "getVaultsWithIssuableTokens",
+            "section": "vaultRegistry"
+          },
+          "getVaultsWithRedeemableTokens": {
+            "description": "Get all vaults with non-zero redeemable tokens, ordered in descending order of this amount",
+            "params": [
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(SpacewalkPrimitivesVaultId, BalanceWrapper)>",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getVaultsWithRedeemableTokens",
+            "method": "getVaultsWithRedeemableTokens",
+            "section": "vaultRegistry"
+          },
+          "getIssueableTokensFromVault": {
+            "description": "Get the amount of tokens a vault can issue",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "SpacewalkPrimitivesVaultId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "BalanceWrapper",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getIssueableTokensFromVault",
+            "method": "getIssueableTokensFromVault",
+            "section": "vaultRegistry"
+          },
+          "getCollateralizationFromVault": {
+            "description": "Get the collateralization rate of a vault",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "SpacewalkPrimitivesVaultId"
+              },
+              {
+                "name": "onlyIssued",
+                "type": "bool"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "FixedU128",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getCollateralizationFromVault",
+            "method": "getCollateralizationFromVault",
+            "section": "vaultRegistry"
+          },
+          "getCollateralizationFromVaultAndCollateral": {
+            "description": "Get the collateralization rate of a vault and collateral",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "SpacewalkPrimitivesVaultId"
+              },
+              {
+                "name": "collateral",
+                "type": "BalanceWrapper"
+              },
+              {
+                "name": "onlyIssued",
+                "type": "bool"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "FixedU128",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getCollateralizationFromVaultAndCollateral",
+            "method": "getCollateralizationFromVaultAndCollateral",
+            "section": "vaultRegistry"
+          },
+          "getRequiredCollateralForWrapped": {
+            "description": "Get the minimum amount of collateral required for the given amount of token with the current threshold and exchange rate",
+            "params": [
+              {
+                "name": "amount",
+                "type": "BalanceWrapper"
+              },
+              {
+                "name": "currencyId",
+                "type": "SpacewalkPrimitivesCurrencyId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "BalanceWrapper",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getRequiredCollateralForWrapped",
+            "method": "getRequiredCollateralForWrapped",
+            "section": "vaultRegistry"
+          },
+          "getRequiredCollateralForVault": {
+            "description": "Get the amount of collateral required for the given vault to be at the current SecureCollateralThreshold with the current exchange rate",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "SpacewalkPrimitivesVaultId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "BalanceWrapper",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getRequiredCollateralForVault",
+            "method": "getRequiredCollateralForVault",
+            "section": "vaultRegistry"
+          }
+        },
+        "farming": {
+          "getFarmingRewards": {
+            "description": "Get farming rewards",
+            "params": [
+              {
+                "name": "who",
+                "type": "AccountId"
+              },
+              {
+                "name": "pid",
+                "type": "PoolId"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(SpacewalkPrimitivesCurrencyId, Balance)>",
+            "isSubscription": false,
+            "jsonrpc": "farming_getFarmingRewards",
+            "method": "getFarmingRewards",
+            "section": "farming"
+          },
+          "getGaugeRewards": {
+            "description": "Get gauge rewards",
+            "params": [
+              {
+                "name": "who",
+                "type": "AccountId"
+              },
+              {
+                "name": "pid",
+                "type": "PoolId"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(SpacewalkPrimitivesCurrencyId, Balance)>",
+            "isSubscription": false,
+            "jsonrpc": "farming_getGaugeRewards",
+            "method": "getGaugeRewards",
+            "section": "farming"
+          }
+        }
+      },
+      "instances": {
+        "council": [
+          "generalCouncil"
+        ]
+      },
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "OracleKey": {},
+            "CurrencyId": {},
+            "NumberOrHex": "u128",
+            "BalanceWrapper": {
+              "amount": "String"
+            },
+            "SpacewalkPrimitivesCurrencyId": {
+              "_enum": {
+                "Native": "Null",
+                "XCM": "u8",
+                "Stellar": "SpacewalkPrimitivesAsset",
+                "ZenlinkLPToken": "(u8,u8,u8,u8)"
+              }
+            },
+            "SpacewalkPrimitivesAsset": {
+              "_enum": {
+                "StellarNative": "Null",
+                "AlphaNum4": {
+                  "code": "[u8;4]",
+                  "issuer": "[u8;32]"
+                },
+                "AlphaNum12": {
+                  "code": "[u8;12]",
+                  "issuer": "[u8;32]"
+                }
+              }
+            },
+            "SpacewalkPrimitivesVaultId": {
+              "accountId": "AccountId32",
+              "currencies": "SpacewalkPrimitivesVaultCurrencyPair"
+            },
+            "SpacewalkPrimitivesVaultCurrencyPair": {
+              "collateral": "SpacewalkPrimitivesCurrencyId",
+              "wrapped": "SpacewalkPrimitivesCurrencyId"
+            },
+            "PoolId": "u32"
+          }
+        }
+      ],
+      "alias": {}
+    },
     "apron": {
       "types": [
         {
@@ -50743,6 +51249,512 @@ export const typesBundle = {
         }
       ]
     },
+    "foucoco": {
+      "rpc": {
+        "issue": {
+          "getIssueRequests": {
+            "description": "Get all issue requests for a particular account",
+            "params": [
+              {
+                "name": "accountId",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<H256>",
+            "isSubscription": false,
+            "jsonrpc": "issue_getIssueRequests",
+            "method": "getIssueRequests",
+            "section": "issue"
+          },
+          "getVaultIssueRequests": {
+            "description": "Get all issue requests for a particular vault",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<H256>",
+            "isSubscription": false,
+            "jsonrpc": "issue_getVaultIssueRequests",
+            "method": "getVaultIssueRequests",
+            "section": "issue"
+          }
+        },
+        "redeem": {
+          "getRedeemRequests": {
+            "description": "Get all redeem requests for a particular account",
+            "params": [
+              {
+                "name": "accountId",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<H256>",
+            "isSubscription": false,
+            "jsonrpc": "redeem_getRedeemRequests",
+            "method": "getRedeemRequests",
+            "section": "redeem"
+          },
+          "getVaultRedeemRequests": {
+            "description": "Get all redeem requests for a particular vault",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<H256>",
+            "isSubscription": false,
+            "jsonrpc": "redeem_getVaultRedeemRequests",
+            "method": "getVaultRedeemRequests",
+            "section": "redeem"
+          }
+        },
+        "replace": {
+          "getOldVaultReplaceRequests": {
+            "description": "Get all replace requests from a particular vault",
+            "params": [
+              {
+                "name": "accountId",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<H256>",
+            "isSubscription": false,
+            "jsonrpc": "replace_getOldVaultReplaceRequests",
+            "method": "getOldVaultReplaceRequests",
+            "section": "replace"
+          },
+          "getNewVaultReplaceRequests": {
+            "description": "Get all replace requests to a particular vault",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<H256>",
+            "isSubscription": false,
+            "jsonrpc": "replace_getNewVaultReplaceRequests",
+            "method": "getNewVaultReplaceRequests",
+            "section": "replace"
+          }
+        },
+        "oracle": {
+          "currencyToUsd": {
+            "description": "Get the USD value of a currency",
+            "params": [
+              {
+                "name": "amount",
+                "type": "BalanceWrapper"
+              },
+              {
+                "name": "currencyId",
+                "type": "SpacewalkPrimitivesCurrencyId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "BalanceWrapper",
+            "isSubscription": false,
+            "jsonrpc": "oracle_currencyToUsd",
+            "method": "currencyToUsd",
+            "section": "oracle"
+          },
+          "usdToCurrency": {
+            "description": "Get the currency value of a USD amount",
+            "params": [
+              {
+                "name": "amount",
+                "type": "BalanceWrapper"
+              },
+              {
+                "name": "currencyId",
+                "type": "SpacewalkPrimitivesCurrencyId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "BalanceWrapper",
+            "isSubscription": false,
+            "jsonrpc": "oracle_usdToCurrency",
+            "method": "usdToCurrency",
+            "section": "oracle"
+          }
+        },
+        "vaultRegistry": {
+          "getVaultCollateral": {
+            "description": "Get the vault's collateral (excluding nomination)",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "SpacewalkPrimitivesVaultId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "BalanceWrapper",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getVaultCollateral",
+            "method": "getVaultCollateral",
+            "section": "vaultRegistry"
+          },
+          "getVaultsByAccountId": {
+            "description": "Get all the vaultIds registered by a vault's accountId",
+            "params": [
+              {
+                "name": "accountId",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<SpacewalkPrimitivesVaultId>",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getVaultsByAccountId",
+            "method": "getVaultsByAccountId",
+            "section": "vaultRegistry"
+          },
+          "getVaultTotalCollateral": {
+            "description": "Get the vault's collateral (including nomination)",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "SpacewalkPrimitivesVaultId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "BalanceWrapper",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getVaultTotalCollateral",
+            "method": "getVaultTotalCollateral",
+            "section": "vaultRegistry"
+          },
+          "getPremiumRedeemVaults": {
+            "description": "Get all vaults below the premium redeem threshold, ordered in descending order of this amount",
+            "params": [
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(SpacewalkPrimitivesVaultId, BalanceWrapper)>",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getPremiumRedeemVaults",
+            "method": "getPremiumRedeemVaults",
+            "section": "vaultRegistry"
+          },
+          "getVaultsWithIssuableTokens": {
+            "description": "Get all vaults with non-zero issuable tokens, ordered in descending order of this amount",
+            "params": [
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(SpacewalkPrimitivesVaultId, BalanceWrapper)>",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getVaultsWithIssuableTokens",
+            "method": "getVaultsWithIssuableTokens",
+            "section": "vaultRegistry"
+          },
+          "getVaultsWithRedeemableTokens": {
+            "description": "Get all vaults with non-zero redeemable tokens, ordered in descending order of this amount",
+            "params": [
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(SpacewalkPrimitivesVaultId, BalanceWrapper)>",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getVaultsWithRedeemableTokens",
+            "method": "getVaultsWithRedeemableTokens",
+            "section": "vaultRegistry"
+          },
+          "getIssueableTokensFromVault": {
+            "description": "Get the amount of tokens a vault can issue",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "SpacewalkPrimitivesVaultId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "BalanceWrapper",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getIssueableTokensFromVault",
+            "method": "getIssueableTokensFromVault",
+            "section": "vaultRegistry"
+          },
+          "getCollateralizationFromVault": {
+            "description": "Get the collateralization rate of a vault",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "SpacewalkPrimitivesVaultId"
+              },
+              {
+                "name": "onlyIssued",
+                "type": "bool"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "FixedU128",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getCollateralizationFromVault",
+            "method": "getCollateralizationFromVault",
+            "section": "vaultRegistry"
+          },
+          "getCollateralizationFromVaultAndCollateral": {
+            "description": "Get the collateralization rate of a vault and collateral",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "SpacewalkPrimitivesVaultId"
+              },
+              {
+                "name": "collateral",
+                "type": "BalanceWrapper"
+              },
+              {
+                "name": "onlyIssued",
+                "type": "bool"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "FixedU128",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getCollateralizationFromVaultAndCollateral",
+            "method": "getCollateralizationFromVaultAndCollateral",
+            "section": "vaultRegistry"
+          },
+          "getRequiredCollateralForWrapped": {
+            "description": "Get the minimum amount of collateral required for the given amount of token with the current threshold and exchange rate",
+            "params": [
+              {
+                "name": "amount",
+                "type": "BalanceWrapper"
+              },
+              {
+                "name": "currencyId",
+                "type": "SpacewalkPrimitivesCurrencyId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "BalanceWrapper",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getRequiredCollateralForWrapped",
+            "method": "getRequiredCollateralForWrapped",
+            "section": "vaultRegistry"
+          },
+          "getRequiredCollateralForVault": {
+            "description": "Get the amount of collateral required for the given vault to be at the current SecureCollateralThreshold with the current exchange rate",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "SpacewalkPrimitivesVaultId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "BalanceWrapper",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getRequiredCollateralForVault",
+            "method": "getRequiredCollateralForVault",
+            "section": "vaultRegistry"
+          }
+        },
+        "farming": {
+          "getFarmingRewards": {
+            "description": "Get farming rewards",
+            "params": [
+              {
+                "name": "who",
+                "type": "AccountId"
+              },
+              {
+                "name": "pid",
+                "type": "PoolId"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(SpacewalkPrimitivesCurrencyId, Balance)>",
+            "isSubscription": false,
+            "jsonrpc": "farming_getFarmingRewards",
+            "method": "getFarmingRewards",
+            "section": "farming"
+          },
+          "getGaugeRewards": {
+            "description": "Get gauge rewards",
+            "params": [
+              {
+                "name": "who",
+                "type": "AccountId"
+              },
+              {
+                "name": "pid",
+                "type": "PoolId"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(SpacewalkPrimitivesCurrencyId, Balance)>",
+            "isSubscription": false,
+            "jsonrpc": "farming_getGaugeRewards",
+            "method": "getGaugeRewards",
+            "section": "farming"
+          }
+        }
+      },
+      "instances": {
+        "council": [
+          "generalCouncil"
+        ]
+      },
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "OracleKey": {},
+            "CurrencyId": {},
+            "NumberOrHex": "u128",
+            "BalanceWrapper": {
+              "amount": "String"
+            },
+            "SpacewalkPrimitivesCurrencyId": {
+              "_enum": {
+                "Native": "Null",
+                "XCM": "u8",
+                "Stellar": "SpacewalkPrimitivesAsset",
+                "ZenlinkLPToken": "(u8,u8,u8,u8)"
+              }
+            },
+            "SpacewalkPrimitivesAsset": {
+              "_enum": {
+                "StellarNative": "Null",
+                "AlphaNum4": {
+                  "code": "[u8;4]",
+                  "issuer": "[u8;32]"
+                },
+                "AlphaNum12": {
+                  "code": "[u8;12]",
+                  "issuer": "[u8;32]"
+                }
+              }
+            },
+            "SpacewalkPrimitivesVaultId": {
+              "accountId": "AccountId32",
+              "currencies": "SpacewalkPrimitivesVaultCurrencyPair"
+            },
+            "SpacewalkPrimitivesVaultCurrencyPair": {
+              "collateral": "SpacewalkPrimitivesCurrencyId",
+              "wrapped": "SpacewalkPrimitivesCurrencyId"
+            },
+            "PoolId": "u32"
+          }
+        }
+      ],
+      "alias": {}
+    },
     "frequency": {
       "rpc": {
         "frequency": {
@@ -50755,6 +51767,22 @@ export const typesBundle = {
               }
             ],
             "type": "Vec<RpcEvent>"
+          }
+        },
+        "frequencyTxPayment": {
+          "computeCapacityFeeDetails": {
+            "description": "Compute the capacity fee details for a given transaction",
+            "params": [
+              {
+                "name": "encoded_xt",
+                "type": "Vec<u8>"
+              },
+              {
+                "name": "at",
+                "type": "Option<BlockHash>"
+              }
+            ],
+            "type": "FeeDetails"
           }
         },
         "handles": {
@@ -50791,6 +51819,16 @@ export const typesBundle = {
               }
             ],
             "type": "PresumptiveSuffixesResponse"
+          },
+          "validateHandle": {
+            "description": "Check whether the supplied handle passes all the checks performed by claim_handle call.",
+            "params": [
+              {
+                "name": "base_handle",
+                "type": "String"
+              }
+            ],
+            "type": "bool"
           }
         },
         "messages": {
@@ -50918,6 +51956,26 @@ export const typesBundle = {
             "version": 1
           }
         ],
+        "CapacityTransactionPaymentRuntimeApi": [
+          {
+            "methods": {
+              "compute_capacity_fee": {
+                "description": "Compute the capacity fee for a given transaction",
+                "params": [
+                  {
+                    "name": "encoded_xt",
+                    "type": "Vec<u8>"
+                  },
+                  {
+                    "name": "at",
+                    "type": "Option<BlockHash>"
+                  }
+                ],
+                "type": "FeeDetails"
+              }
+            }
+          }
+        ],
         "HandlesRuntimeApi": [
           {
             "methods": {
@@ -50954,9 +52012,19 @@ export const typesBundle = {
                   }
                 ],
                 "type": "PresumptiveSuffixesResponse"
+              },
+              "validate_handle": {
+                "description": "Check whether the supplied handle passes all the checks performed by claim_handle call.",
+                "params": [
+                  {
+                    "name": "base_handle",
+                    "type": "String"
+                  }
+                ],
+                "type": "bool"
               }
             },
-            "version": 1
+            "version": 2
           }
         ],
         "MessagesRuntimeApi": [
@@ -51265,6 +52333,22 @@ export const typesBundle = {
             "type": "Vec<RpcEvent>"
           }
         },
+        "frequencyTxPayment": {
+          "computeCapacityFeeDetails": {
+            "description": "Compute the capacity fee details for a given transaction",
+            "params": [
+              {
+                "name": "encoded_xt",
+                "type": "Vec<u8>"
+              },
+              {
+                "name": "at",
+                "type": "Option<BlockHash>"
+              }
+            ],
+            "type": "FeeDetails"
+          }
+        },
         "handles": {
           "getHandleForMsa": {
             "description": "Get handle for a given msa_id",
@@ -51299,6 +52383,16 @@ export const typesBundle = {
               }
             ],
             "type": "PresumptiveSuffixesResponse"
+          },
+          "validateHandle": {
+            "description": "Check whether the supplied handle passes all the checks performed by claim_handle call.",
+            "params": [
+              {
+                "name": "base_handle",
+                "type": "String"
+              }
+            ],
+            "type": "bool"
           }
         },
         "messages": {
@@ -51426,6 +52520,26 @@ export const typesBundle = {
             "version": 1
           }
         ],
+        "CapacityTransactionPaymentRuntimeApi": [
+          {
+            "methods": {
+              "compute_capacity_fee": {
+                "description": "Compute the capacity fee for a given transaction",
+                "params": [
+                  {
+                    "name": "encoded_xt",
+                    "type": "Vec<u8>"
+                  },
+                  {
+                    "name": "at",
+                    "type": "Option<BlockHash>"
+                  }
+                ],
+                "type": "FeeDetails"
+              }
+            }
+          }
+        ],
         "HandlesRuntimeApi": [
           {
             "methods": {
@@ -51462,9 +52576,19 @@ export const typesBundle = {
                   }
                 ],
                 "type": "PresumptiveSuffixesResponse"
+              },
+              "validate_handle": {
+                "description": "Check whether the supplied handle passes all the checks performed by claim_handle call.",
+                "params": [
+                  {
+                    "name": "base_handle",
+                    "type": "String"
+                  }
+                ],
+                "type": "bool"
               }
             },
-            "version": 1
+            "version": 2
           }
         ],
         "MessagesRuntimeApi": [
@@ -57953,22 +59077,13 @@ export const typesBundle = {
               "seed": "ShufflingSeed",
               "count": "BlockNumber"
             },
-            "XYKRpcResult": {
-              "price": "Balance"
+            "RpcAssetMetadata": {
+              "tokenId": "TokenId",
+              "decimals": "u32",
+              "name": "Vec<u8>",
+              "symbol": "Vec<u8>"
             },
-            "RPCAmountsResult": {
-              "firstAssetAmount": "Balance",
-              "secondAssetAmount": "Balance"
-            },
-            "VestingInfo": {
-              "locked": "Balance",
-              "perBlock": "Balance",
-              "startingBlock": "BlockNumber"
-            },
-            "TokenId": "u32",
-            "VestingInfosWithLockedAt": {
-              "vestingInfosWithLockedAt": "Vec<(VestingInfo<Balance, BlockNumber>, Balance)>"
-            }
+            "TokenId": "u32"
           }
         }
       ],
@@ -57990,7 +59105,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "calculate_sell_price": {
             "description": "Calculates and returns bought_token_amount while providing sold_token_amount and respective reserves",
@@ -58008,7 +59123,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "get_burn_amount": {
             "description": "Returns amounts of tokens received by burning provided liquidity_token_amount in pool of provided token ids",
@@ -58026,7 +59141,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "RPCAmountsResult<Balance>"
+            "type": "(Balance,Balance)"
           },
           "calculate_sell_price_id": {
             "description": "Same as calculate_sell_price, but providing token_id instead of reserves. Reserves are fetched by function.",
@@ -58044,7 +59159,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "calculate_buy_price_id": {
             "description": "Same as calculate_buy_price, but providing token_id instead of reserves. Reserves are fetched by function.",
@@ -58062,7 +59177,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "calculate_rewards_amount": {
             "description": "Calculate rewards amount of liquidity token id for the user",
@@ -58076,7 +59191,7 @@ export const typesBundle = {
                 "type": "TokenId"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "calculate_balanced_sell_amount": {
             "description": "Calculates how much amount x we need to swap from total_amount, so that after y = swap(x), the resulting balance equals (total_amount - x) / y = pool_x / pool_y - the resulting amounts can then be used to `mint_liquidity` with minimal leftover after operation",
@@ -58090,7 +59205,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "get_max_instant_unreserve_amount": {
             "description": "Instant unreserve amount",
@@ -58104,7 +59219,7 @@ export const typesBundle = {
                 "type": "TokenId"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "get_max_instant_burn_amount": {
             "description": "",
@@ -58118,7 +59233,7 @@ export const typesBundle = {
                 "type": "TokenId"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "is_sell_asset_lock_free": {
             "description": "",
@@ -58147,22 +59262,16 @@ export const typesBundle = {
               }
             ],
             "type": "Option<bool>"
-          }
-        },
-        "vesting": {
-          "getVestingLockedAt": {
+          },
+          "get_tradeable_tokens": {
             "description": "",
-            "params": [
-              {
-                "name": "who",
-                "type": "AccountId"
-              },
-              {
-                "name": "token_id",
-                "type": "TokenId"
-              }
-            ],
-            "type": "VestingInfosWithLockedAt<Balance, BlockNumber>"
+            "params": [],
+            "type": "Vec<RpcAssetMetadata<TokenId>>"
+          },
+          "get_liq_tokens_for_trading": {
+            "description": "",
+            "params": [],
+            "type": "Vec<TokenId>"
           }
         }
       }
@@ -58188,22 +59297,13 @@ export const typesBundle = {
               "seed": "ShufflingSeed",
               "count": "BlockNumber"
             },
-            "XYKRpcResult": {
-              "price": "Balance"
+            "RpcAssetMetadata": {
+              "tokenId": "TokenId",
+              "decimals": "u32",
+              "name": "Vec<u8>",
+              "symbol": "Vec<u8>"
             },
-            "RPCAmountsResult": {
-              "firstAssetAmount": "Balance",
-              "secondAssetAmount": "Balance"
-            },
-            "VestingInfo": {
-              "locked": "Balance",
-              "perBlock": "Balance",
-              "startingBlock": "BlockNumber"
-            },
-            "TokenId": "u32",
-            "VestingInfosWithLockedAt": {
-              "vestingInfosWithLockedAt": "Vec<(VestingInfo<Balance, BlockNumber>, Balance)>"
-            }
+            "TokenId": "u32"
           }
         }
       ],
@@ -58225,7 +59325,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "calculate_sell_price": {
             "description": "Calculates and returns bought_token_amount while providing sold_token_amount and respective reserves",
@@ -58243,7 +59343,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "get_burn_amount": {
             "description": "Returns amounts of tokens received by burning provided liquidity_token_amount in pool of provided token ids",
@@ -58261,7 +59361,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "RPCAmountsResult<Balance>"
+            "type": "(Balance,Balance)"
           },
           "calculate_sell_price_id": {
             "description": "Same as calculate_sell_price, but providing token_id instead of reserves. Reserves are fetched by function.",
@@ -58279,7 +59379,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "calculate_buy_price_id": {
             "description": "Same as calculate_buy_price, but providing token_id instead of reserves. Reserves are fetched by function.",
@@ -58297,7 +59397,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "calculate_rewards_amount": {
             "description": "Calculate rewards amount of liquidity token id for the user",
@@ -58311,7 +59411,7 @@ export const typesBundle = {
                 "type": "TokenId"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "calculate_balanced_sell_amount": {
             "description": "Calculates how much amount x we need to swap from total_amount, so that after y = swap(x), the resulting balance equals (total_amount - x) / y = pool_x / pool_y - the resulting amounts can then be used to `mint_liquidity` with minimal leftover after operation",
@@ -58325,7 +59425,7 @@ export const typesBundle = {
                 "type": "Balance"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "get_max_instant_unreserve_amount": {
             "description": "Instant unreserve amount",
@@ -58339,7 +59439,7 @@ export const typesBundle = {
                 "type": "TokenId"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "get_max_instant_burn_amount": {
             "description": "",
@@ -58353,7 +59453,7 @@ export const typesBundle = {
                 "type": "TokenId"
               }
             ],
-            "type": "XYKRpcResult<Balance>"
+            "type": "Balance"
           },
           "is_sell_asset_lock_free": {
             "description": "",
@@ -58382,22 +59482,16 @@ export const typesBundle = {
               }
             ],
             "type": "Option<bool>"
-          }
-        },
-        "vesting": {
-          "getVestingLockedAt": {
+          },
+          "get_tradeable_tokens": {
             "description": "",
-            "params": [
-              {
-                "name": "who",
-                "type": "AccountId"
-              },
-              {
-                "name": "token_id",
-                "type": "TokenId"
-              }
-            ],
-            "type": "VestingInfosWithLockedAt<Balance, BlockNumber>"
+            "params": [],
+            "type": "Vec<RpcAssetMetadata<TokenId>>"
+          },
+          "get_liq_tokens_for_trading": {
+            "description": "",
+            "params": [],
+            "type": "Vec<TokenId>"
           }
         }
       }
@@ -69110,6 +70204,512 @@ export const typesBundle = {
           "BalanceLock": "OrmlBalanceLock"
         }
       }
+    },
+    "pendulum": {
+      "rpc": {
+        "issue": {
+          "getIssueRequests": {
+            "description": "Get all issue requests for a particular account",
+            "params": [
+              {
+                "name": "accountId",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<H256>",
+            "isSubscription": false,
+            "jsonrpc": "issue_getIssueRequests",
+            "method": "getIssueRequests",
+            "section": "issue"
+          },
+          "getVaultIssueRequests": {
+            "description": "Get all issue requests for a particular vault",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<H256>",
+            "isSubscription": false,
+            "jsonrpc": "issue_getVaultIssueRequests",
+            "method": "getVaultIssueRequests",
+            "section": "issue"
+          }
+        },
+        "redeem": {
+          "getRedeemRequests": {
+            "description": "Get all redeem requests for a particular account",
+            "params": [
+              {
+                "name": "accountId",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<H256>",
+            "isSubscription": false,
+            "jsonrpc": "redeem_getRedeemRequests",
+            "method": "getRedeemRequests",
+            "section": "redeem"
+          },
+          "getVaultRedeemRequests": {
+            "description": "Get all redeem requests for a particular vault",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<H256>",
+            "isSubscription": false,
+            "jsonrpc": "redeem_getVaultRedeemRequests",
+            "method": "getVaultRedeemRequests",
+            "section": "redeem"
+          }
+        },
+        "replace": {
+          "getOldVaultReplaceRequests": {
+            "description": "Get all replace requests from a particular vault",
+            "params": [
+              {
+                "name": "accountId",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<H256>",
+            "isSubscription": false,
+            "jsonrpc": "replace_getOldVaultReplaceRequests",
+            "method": "getOldVaultReplaceRequests",
+            "section": "replace"
+          },
+          "getNewVaultReplaceRequests": {
+            "description": "Get all replace requests to a particular vault",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<H256>",
+            "isSubscription": false,
+            "jsonrpc": "replace_getNewVaultReplaceRequests",
+            "method": "getNewVaultReplaceRequests",
+            "section": "replace"
+          }
+        },
+        "oracle": {
+          "currencyToUsd": {
+            "description": "Get the USD value of a currency",
+            "params": [
+              {
+                "name": "amount",
+                "type": "BalanceWrapper"
+              },
+              {
+                "name": "currencyId",
+                "type": "SpacewalkPrimitivesCurrencyId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "BalanceWrapper",
+            "isSubscription": false,
+            "jsonrpc": "oracle_currencyToUsd",
+            "method": "currencyToUsd",
+            "section": "oracle"
+          },
+          "usdToCurrency": {
+            "description": "Get the currency value of a USD amount",
+            "params": [
+              {
+                "name": "amount",
+                "type": "BalanceWrapper"
+              },
+              {
+                "name": "currencyId",
+                "type": "SpacewalkPrimitivesCurrencyId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "BalanceWrapper",
+            "isSubscription": false,
+            "jsonrpc": "oracle_usdToCurrency",
+            "method": "usdToCurrency",
+            "section": "oracle"
+          }
+        },
+        "vaultRegistry": {
+          "getVaultCollateral": {
+            "description": "Get the vault's collateral (excluding nomination)",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "SpacewalkPrimitivesVaultId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "BalanceWrapper",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getVaultCollateral",
+            "method": "getVaultCollateral",
+            "section": "vaultRegistry"
+          },
+          "getVaultsByAccountId": {
+            "description": "Get all the vaultIds registered by a vault's accountId",
+            "params": [
+              {
+                "name": "accountId",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<SpacewalkPrimitivesVaultId>",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getVaultsByAccountId",
+            "method": "getVaultsByAccountId",
+            "section": "vaultRegistry"
+          },
+          "getVaultTotalCollateral": {
+            "description": "Get the vault's collateral (including nomination)",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "SpacewalkPrimitivesVaultId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "BalanceWrapper",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getVaultTotalCollateral",
+            "method": "getVaultTotalCollateral",
+            "section": "vaultRegistry"
+          },
+          "getPremiumRedeemVaults": {
+            "description": "Get all vaults below the premium redeem threshold, ordered in descending order of this amount",
+            "params": [
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(SpacewalkPrimitivesVaultId, BalanceWrapper)>",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getPremiumRedeemVaults",
+            "method": "getPremiumRedeemVaults",
+            "section": "vaultRegistry"
+          },
+          "getVaultsWithIssuableTokens": {
+            "description": "Get all vaults with non-zero issuable tokens, ordered in descending order of this amount",
+            "params": [
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(SpacewalkPrimitivesVaultId, BalanceWrapper)>",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getVaultsWithIssuableTokens",
+            "method": "getVaultsWithIssuableTokens",
+            "section": "vaultRegistry"
+          },
+          "getVaultsWithRedeemableTokens": {
+            "description": "Get all vaults with non-zero redeemable tokens, ordered in descending order of this amount",
+            "params": [
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(SpacewalkPrimitivesVaultId, BalanceWrapper)>",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getVaultsWithRedeemableTokens",
+            "method": "getVaultsWithRedeemableTokens",
+            "section": "vaultRegistry"
+          },
+          "getIssueableTokensFromVault": {
+            "description": "Get the amount of tokens a vault can issue",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "SpacewalkPrimitivesVaultId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "BalanceWrapper",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getIssueableTokensFromVault",
+            "method": "getIssueableTokensFromVault",
+            "section": "vaultRegistry"
+          },
+          "getCollateralizationFromVault": {
+            "description": "Get the collateralization rate of a vault",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "SpacewalkPrimitivesVaultId"
+              },
+              {
+                "name": "onlyIssued",
+                "type": "bool"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "FixedU128",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getCollateralizationFromVault",
+            "method": "getCollateralizationFromVault",
+            "section": "vaultRegistry"
+          },
+          "getCollateralizationFromVaultAndCollateral": {
+            "description": "Get the collateralization rate of a vault and collateral",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "SpacewalkPrimitivesVaultId"
+              },
+              {
+                "name": "collateral",
+                "type": "BalanceWrapper"
+              },
+              {
+                "name": "onlyIssued",
+                "type": "bool"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "FixedU128",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getCollateralizationFromVaultAndCollateral",
+            "method": "getCollateralizationFromVaultAndCollateral",
+            "section": "vaultRegistry"
+          },
+          "getRequiredCollateralForWrapped": {
+            "description": "Get the minimum amount of collateral required for the given amount of token with the current threshold and exchange rate",
+            "params": [
+              {
+                "name": "amount",
+                "type": "BalanceWrapper"
+              },
+              {
+                "name": "currencyId",
+                "type": "SpacewalkPrimitivesCurrencyId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "BalanceWrapper",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getRequiredCollateralForWrapped",
+            "method": "getRequiredCollateralForWrapped",
+            "section": "vaultRegistry"
+          },
+          "getRequiredCollateralForVault": {
+            "description": "Get the amount of collateral required for the given vault to be at the current SecureCollateralThreshold with the current exchange rate",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "SpacewalkPrimitivesVaultId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "BalanceWrapper",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getRequiredCollateralForVault",
+            "method": "getRequiredCollateralForVault",
+            "section": "vaultRegistry"
+          }
+        },
+        "farming": {
+          "getFarmingRewards": {
+            "description": "Get farming rewards",
+            "params": [
+              {
+                "name": "who",
+                "type": "AccountId"
+              },
+              {
+                "name": "pid",
+                "type": "PoolId"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(SpacewalkPrimitivesCurrencyId, Balance)>",
+            "isSubscription": false,
+            "jsonrpc": "farming_getFarmingRewards",
+            "method": "getFarmingRewards",
+            "section": "farming"
+          },
+          "getGaugeRewards": {
+            "description": "Get gauge rewards",
+            "params": [
+              {
+                "name": "who",
+                "type": "AccountId"
+              },
+              {
+                "name": "pid",
+                "type": "PoolId"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(SpacewalkPrimitivesCurrencyId, Balance)>",
+            "isSubscription": false,
+            "jsonrpc": "farming_getGaugeRewards",
+            "method": "getGaugeRewards",
+            "section": "farming"
+          }
+        }
+      },
+      "instances": {
+        "council": [
+          "generalCouncil"
+        ]
+      },
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "OracleKey": {},
+            "CurrencyId": {},
+            "NumberOrHex": "u128",
+            "BalanceWrapper": {
+              "amount": "String"
+            },
+            "SpacewalkPrimitivesCurrencyId": {
+              "_enum": {
+                "Native": "Null",
+                "XCM": "u8",
+                "Stellar": "SpacewalkPrimitivesAsset",
+                "ZenlinkLPToken": "(u8,u8,u8,u8)"
+              }
+            },
+            "SpacewalkPrimitivesAsset": {
+              "_enum": {
+                "StellarNative": "Null",
+                "AlphaNum4": {
+                  "code": "[u8;4]",
+                  "issuer": "[u8;32]"
+                },
+                "AlphaNum12": {
+                  "code": "[u8;12]",
+                  "issuer": "[u8;32]"
+                }
+              }
+            },
+            "SpacewalkPrimitivesVaultId": {
+              "accountId": "AccountId32",
+              "currencies": "SpacewalkPrimitivesVaultCurrencyPair"
+            },
+            "SpacewalkPrimitivesVaultCurrencyPair": {
+              "collateral": "SpacewalkPrimitivesCurrencyId",
+              "wrapped": "SpacewalkPrimitivesCurrencyId"
+            },
+            "PoolId": "u32"
+          }
+        }
+      ],
+      "alias": {}
     },
     "phoenix-node": {
       "types": [
@@ -100095,6 +101695,512 @@ export const typesBundle = {
           }
         }
       ]
+    },
+    "spacewalk-standalone": {
+      "rpc": {
+        "issue": {
+          "getIssueRequests": {
+            "description": "Get all issue requests for a particular account",
+            "params": [
+              {
+                "name": "accountId",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<H256>",
+            "isSubscription": false,
+            "jsonrpc": "issue_getIssueRequests",
+            "method": "getIssueRequests",
+            "section": "issue"
+          },
+          "getVaultIssueRequests": {
+            "description": "Get all issue requests for a particular vault",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<H256>",
+            "isSubscription": false,
+            "jsonrpc": "issue_getVaultIssueRequests",
+            "method": "getVaultIssueRequests",
+            "section": "issue"
+          }
+        },
+        "redeem": {
+          "getRedeemRequests": {
+            "description": "Get all redeem requests for a particular account",
+            "params": [
+              {
+                "name": "accountId",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<H256>",
+            "isSubscription": false,
+            "jsonrpc": "redeem_getRedeemRequests",
+            "method": "getRedeemRequests",
+            "section": "redeem"
+          },
+          "getVaultRedeemRequests": {
+            "description": "Get all redeem requests for a particular vault",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<H256>",
+            "isSubscription": false,
+            "jsonrpc": "redeem_getVaultRedeemRequests",
+            "method": "getVaultRedeemRequests",
+            "section": "redeem"
+          }
+        },
+        "replace": {
+          "getOldVaultReplaceRequests": {
+            "description": "Get all replace requests from a particular vault",
+            "params": [
+              {
+                "name": "accountId",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<H256>",
+            "isSubscription": false,
+            "jsonrpc": "replace_getOldVaultReplaceRequests",
+            "method": "getOldVaultReplaceRequests",
+            "section": "replace"
+          },
+          "getNewVaultReplaceRequests": {
+            "description": "Get all replace requests to a particular vault",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<H256>",
+            "isSubscription": false,
+            "jsonrpc": "replace_getNewVaultReplaceRequests",
+            "method": "getNewVaultReplaceRequests",
+            "section": "replace"
+          }
+        },
+        "oracle": {
+          "currencyToUsd": {
+            "description": "Get the USD value of a currency",
+            "params": [
+              {
+                "name": "amount",
+                "type": "BalanceWrapper"
+              },
+              {
+                "name": "currencyId",
+                "type": "SpacewalkPrimitivesCurrencyId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "BalanceWrapper",
+            "isSubscription": false,
+            "jsonrpc": "oracle_currencyToUsd",
+            "method": "currencyToUsd",
+            "section": "oracle"
+          },
+          "usdToCurrency": {
+            "description": "Get the currency value of a USD amount",
+            "params": [
+              {
+                "name": "amount",
+                "type": "BalanceWrapper"
+              },
+              {
+                "name": "currencyId",
+                "type": "SpacewalkPrimitivesCurrencyId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "BalanceWrapper",
+            "isSubscription": false,
+            "jsonrpc": "oracle_usdToCurrency",
+            "method": "usdToCurrency",
+            "section": "oracle"
+          }
+        },
+        "vaultRegistry": {
+          "getVaultCollateral": {
+            "description": "Get the vault's collateral (excluding nomination)",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "SpacewalkPrimitivesVaultId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "BalanceWrapper",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getVaultCollateral",
+            "method": "getVaultCollateral",
+            "section": "vaultRegistry"
+          },
+          "getVaultsByAccountId": {
+            "description": "Get all the vaultIds registered by a vault's accountId",
+            "params": [
+              {
+                "name": "accountId",
+                "type": "AccountId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<SpacewalkPrimitivesVaultId>",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getVaultsByAccountId",
+            "method": "getVaultsByAccountId",
+            "section": "vaultRegistry"
+          },
+          "getVaultTotalCollateral": {
+            "description": "Get the vault's collateral (including nomination)",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "SpacewalkPrimitivesVaultId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "BalanceWrapper",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getVaultTotalCollateral",
+            "method": "getVaultTotalCollateral",
+            "section": "vaultRegistry"
+          },
+          "getPremiumRedeemVaults": {
+            "description": "Get all vaults below the premium redeem threshold, ordered in descending order of this amount",
+            "params": [
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(SpacewalkPrimitivesVaultId, BalanceWrapper)>",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getPremiumRedeemVaults",
+            "method": "getPremiumRedeemVaults",
+            "section": "vaultRegistry"
+          },
+          "getVaultsWithIssuableTokens": {
+            "description": "Get all vaults with non-zero issuable tokens, ordered in descending order of this amount",
+            "params": [
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(SpacewalkPrimitivesVaultId, BalanceWrapper)>",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getVaultsWithIssuableTokens",
+            "method": "getVaultsWithIssuableTokens",
+            "section": "vaultRegistry"
+          },
+          "getVaultsWithRedeemableTokens": {
+            "description": "Get all vaults with non-zero redeemable tokens, ordered in descending order of this amount",
+            "params": [
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(SpacewalkPrimitivesVaultId, BalanceWrapper)>",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getVaultsWithRedeemableTokens",
+            "method": "getVaultsWithRedeemableTokens",
+            "section": "vaultRegistry"
+          },
+          "getIssueableTokensFromVault": {
+            "description": "Get the amount of tokens a vault can issue",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "SpacewalkPrimitivesVaultId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "BalanceWrapper",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getIssueableTokensFromVault",
+            "method": "getIssueableTokensFromVault",
+            "section": "vaultRegistry"
+          },
+          "getCollateralizationFromVault": {
+            "description": "Get the collateralization rate of a vault",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "SpacewalkPrimitivesVaultId"
+              },
+              {
+                "name": "onlyIssued",
+                "type": "bool"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "FixedU128",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getCollateralizationFromVault",
+            "method": "getCollateralizationFromVault",
+            "section": "vaultRegistry"
+          },
+          "getCollateralizationFromVaultAndCollateral": {
+            "description": "Get the collateralization rate of a vault and collateral",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "SpacewalkPrimitivesVaultId"
+              },
+              {
+                "name": "collateral",
+                "type": "BalanceWrapper"
+              },
+              {
+                "name": "onlyIssued",
+                "type": "bool"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "FixedU128",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getCollateralizationFromVaultAndCollateral",
+            "method": "getCollateralizationFromVaultAndCollateral",
+            "section": "vaultRegistry"
+          },
+          "getRequiredCollateralForWrapped": {
+            "description": "Get the minimum amount of collateral required for the given amount of token with the current threshold and exchange rate",
+            "params": [
+              {
+                "name": "amount",
+                "type": "BalanceWrapper"
+              },
+              {
+                "name": "currencyId",
+                "type": "SpacewalkPrimitivesCurrencyId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "BalanceWrapper",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getRequiredCollateralForWrapped",
+            "method": "getRequiredCollateralForWrapped",
+            "section": "vaultRegistry"
+          },
+          "getRequiredCollateralForVault": {
+            "description": "Get the amount of collateral required for the given vault to be at the current SecureCollateralThreshold with the current exchange rate",
+            "params": [
+              {
+                "name": "vaultId",
+                "type": "SpacewalkPrimitivesVaultId"
+              },
+              {
+                "name": "at",
+                "type": "BlockHash",
+                "isHistoric": true,
+                "isOptional": true
+              }
+            ],
+            "type": "BalanceWrapper",
+            "isSubscription": false,
+            "jsonrpc": "vaultRegistry_getRequiredCollateralForVault",
+            "method": "getRequiredCollateralForVault",
+            "section": "vaultRegistry"
+          }
+        },
+        "farming": {
+          "getFarmingRewards": {
+            "description": "Get farming rewards",
+            "params": [
+              {
+                "name": "who",
+                "type": "AccountId"
+              },
+              {
+                "name": "pid",
+                "type": "PoolId"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(SpacewalkPrimitivesCurrencyId, Balance)>",
+            "isSubscription": false,
+            "jsonrpc": "farming_getFarmingRewards",
+            "method": "getFarmingRewards",
+            "section": "farming"
+          },
+          "getGaugeRewards": {
+            "description": "Get gauge rewards",
+            "params": [
+              {
+                "name": "who",
+                "type": "AccountId"
+              },
+              {
+                "name": "pid",
+                "type": "PoolId"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "Vec<(SpacewalkPrimitivesCurrencyId, Balance)>",
+            "isSubscription": false,
+            "jsonrpc": "farming_getGaugeRewards",
+            "method": "getGaugeRewards",
+            "section": "farming"
+          }
+        }
+      },
+      "instances": {
+        "council": [
+          "generalCouncil"
+        ]
+      },
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "OracleKey": {},
+            "CurrencyId": {},
+            "NumberOrHex": "u128",
+            "BalanceWrapper": {
+              "amount": "String"
+            },
+            "SpacewalkPrimitivesCurrencyId": {
+              "_enum": {
+                "Native": "Null",
+                "XCM": "u8",
+                "Stellar": "SpacewalkPrimitivesAsset",
+                "ZenlinkLPToken": "(u8,u8,u8,u8)"
+              }
+            },
+            "SpacewalkPrimitivesAsset": {
+              "_enum": {
+                "StellarNative": "Null",
+                "AlphaNum4": {
+                  "code": "[u8;4]",
+                  "issuer": "[u8;32]"
+                },
+                "AlphaNum12": {
+                  "code": "[u8;12]",
+                  "issuer": "[u8;32]"
+                }
+              }
+            },
+            "SpacewalkPrimitivesVaultId": {
+              "accountId": "AccountId32",
+              "currencies": "SpacewalkPrimitivesVaultCurrencyPair"
+            },
+            "SpacewalkPrimitivesVaultCurrencyPair": {
+              "collateral": "SpacewalkPrimitivesCurrencyId",
+              "wrapped": "SpacewalkPrimitivesCurrencyId"
+            },
+            "PoolId": "u32"
+          }
+        }
+      ],
+      "alias": {}
     },
     "spanner": {
       "types": [

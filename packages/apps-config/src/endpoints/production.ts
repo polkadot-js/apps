@@ -3,8 +3,8 @@
 
 import type { EndpointOption } from './types.js';
 
-import { chains3dpassSVG, chainsAlephSVG, chainsBittensorPNG, chainsCreditcoinPNG, chainsDebioSVG, chainsEquilibriumSVG, chainsFragnovaPNG, chainsGenshiroSVG, chainsJurPNG, chainsLogionPNG, chainsMyriadPNG, chainsSpannerPNG, chainsVaraSVG } from '../ui/logos/chains/index.js';
-import { nodesAresOdysseySVG, nodesAutomataPNG, nodesCentrifugePNG, nodesCereSVG, nodesChainxSVG, nodesCompetitorsClubPNG, nodesCrownSterlingPNG, nodesCrustSVG, nodesDatahighwayPNG, nodesDockPNG, nodesEdgewareWhitePNG, nodesEfinitySVG, nodesHanyonycashPNG, nodesHumanodePNG, nodesJoystreamSVG, nodesKulupuSVG, nodesKusariSVG, nodesMathSVG, nodesMinixPNG, nodesNftmartPNG, nodesNodleSVG, nodesPolkadexSVG, nodesPolymeshSVG, nodesRiochainSVG, nodesRobonomicsSVG, nodesSherpaxPNG, nodesSoraSubstrateSVG, nodesStafiPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesSwapdexSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesUniartsPNG, nodesUnitnetworkPNG } from '../ui/logos/nodes/index.js';
+import { chains3dpassSVG, chainsAlephSVG, chainsBittensorPNG, chainsCreditcoinPNG, chainsDebioSVG, chainsEquilibriumSVG, chainsFragnovaPNG, chainsGenshiroSVG, chainsJurPNG, chainsLogionPNG, chainsMyriadPNG, chainsSpannerPNG, chainsVaraPNG } from '../ui/logos/chains/index.js';
+import { nodesAresOdysseySVG, nodesAutomataPNG, nodesCentrifugePNG, nodesCereSVG, nodesChainxSVG, nodesCompetitorsClubPNG, nodesCrownSterlingPNG, nodesCrustSVG, nodesDatahighwayPNG, nodesDockPNG, nodesEdgewareWhitePNG, nodesEfinitySVG, nodesHanyonycashPNG, nodesHumanodePNG, nodesInnovatorPNG, nodesJoystreamSVG, nodesKulupuSVG, nodesKusariSVG, nodesMathSVG, nodesMinixPNG, nodesNftmartPNG, nodesNodleSVG, nodesPolkadexSVG, nodesPolymeshSVG, nodesRiochainSVG, nodesRobonomicsSVG, nodesSherpaxPNG, nodesSoraSubstrateSVG, nodesStafiPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesSwapdexSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesUniartsPNG, nodesUnitnetworkPNG } from '../ui/logos/nodes/index.js';
 
 export * from './productionRelayKusama.js';
 export * from './productionRelayPolkadot.js';
@@ -32,8 +32,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'aleph',
     providers: {
       'Aleph Zero Foundation': 'wss://ws.azero.dev',
-      Dwellir: 'wss://aleph-zero-rpc.dwellir.com'
-
+      Dwellir: 'wss://aleph-zero-rpc.dwellir.com',
+      OnFinality: 'wss://aleph-zero.api.onfinality.io/public-ws'
     },
     text: 'Aleph Zero',
     ui: {
@@ -62,6 +62,18 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#EC7032',
       logo: nodesAutomataPNG
+    }
+  },
+  {
+    info: 'thebifrost-mainnet',
+    providers: {
+      'Pilab #1': 'wss://public-01.mainnet.bifrostnetwork.com/wss',
+      'Pilab #2': 'wss://public-02.mainnet.bifrostnetwork.com/wss'
+    },
+    text: 'Bifrost Mainnet',
+    ui: {
+      color: '#FF474C',
+      logo: nodesThebifrostPNG
     }
   },
   {
@@ -123,7 +135,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'creditcoin',
     providers: {
-      'Creditcoin Foundation': 'wss://rpc.mainnet.creditcoin.network/ws'
+      'Creditcoin Foundation': 'wss://mainnet.creditcoin.network/ws'
     },
     text: 'Creditcoin',
     ui: {
@@ -146,6 +158,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'crust',
     providers: {
       'Crust Network': 'wss://rpc.crust.network',
+      Dwellir: 'wss://crust-mainnet-rpc.dwellir.com',
       OnFinality: 'wss://crust.api.onfinality.io/public-ws'
     },
     text: 'Crust Network',
@@ -251,6 +264,17 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     text: 'Humanode',
     ui: {
       logo: nodesHumanodePNG
+    }
+  },
+  {
+    info: 'innovatorchain',
+    providers: {
+      Innovator: 'wss://rpc.innovatorchain.com'
+    },
+    text: 'Innovator Chain',
+    ui: {
+      color: '#0067F4',
+      logo: nodesInnovatorPNG
     }
   },
   {
@@ -490,7 +514,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'swapdex',
     providers: {
-      Swapdex: 'wss://ws.swapdex.network'
+      // Swapdex: 'wss://ws.swapdex.network' // https://github.com/polkadot-js/apps/issues/10030
     },
     text: 'Swapdex',
     ui: {
@@ -507,18 +531,6 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#d622ff',
       logo: nodesTernoaSVG
-    }
-  },
-  {
-    info: 'thebifrost-mainnet',
-    providers: {
-      'Pilab #1': 'wss://public-01.mainnet.bifrostnetwork.com/wss',
-      'Pilab #2': 'wss://public-02.mainnet.bifrostnetwork.com/wss'
-    },
-    text: 'The Bifrost Mainnet',
-    ui: {
-      color: '#FF474C',
-      logo: nodesThebifrostPNG
     }
   },
   {
@@ -546,12 +558,12 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'vara',
     providers: {
-      'Gear Tech': 'wss://rpc.vara-network.io'
+      Gear: 'wss://rpc.vara.network'
     },
     text: 'Vara',
     ui: {
       color: '#00a87a',
-      logo: chainsVaraSVG
+      logo: chainsVaraPNG
     }
   },
   {

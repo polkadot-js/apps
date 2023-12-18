@@ -89,7 +89,7 @@ function AccountMenuButtons ({ className = '', flags, isEditing, isEditingName, 
         )
         : (
           <Button.Group>
-            {isFunction(api.api.tx.balances?.transfer) && (
+            {(isFunction(api.api.tx.balances?.transferAllowDeath) || isFunction(api.api.tx.balances?.transfer)) && (
               <Button
                 icon='paper-plane'
                 isDisabled={isEditing}
