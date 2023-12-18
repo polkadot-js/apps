@@ -456,6 +456,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       Blast: 'wss://moonbeam.public.blastapi.io',
       Dwellir: 'wss://moonbeam-rpc.dwellir.com',
       'Moonbeam Foundation': 'wss://wss.api.moonbeam.network',
+      OnFinality: 'wss://moonbeam.api.onfinality.io/public-ws',
       UnitedBloc: 'wss://moonbeam.unitedbloc.com'
     },
     text: 'Moonbeam',
@@ -594,7 +595,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2040,
     providers: {
       Dwellir: 'wss://polkadex-rpc.dwellir.com',
-      // OnFinality: 'wss://polkadex-parachain.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/10039
+      OnFinality: 'wss://polkadex-parachain.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://polkadex-parachain.public.curie.radiumblock.co/ws'
     },
     text: 'Polkadex',
