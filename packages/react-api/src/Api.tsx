@@ -121,6 +121,7 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
       !DISALLOW_EXTENSIONS.includes(source)
     ),
     properties: statics.registry.createType('ChainProperties', {
+      isEthereum: api.registry.chainIsEthereum,
       ss58Format: api.registry.chainSS58,
       tokenDecimals: api.registry.chainDecimals,
       tokenSymbol: api.registry.chainTokens
@@ -142,7 +143,7 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, inject
     : settings.prefix;
   const tokenSymbol = properties.tokenSymbol.unwrapOr([formatBalance.getDefaults().unit, ...DEFAULT_AUX]);
   const tokenDecimals = properties.tokenDecimals.unwrapOr([DEFAULT_DECIMALS]);
-  const isEthereum = ethereumChains.includes(api.runtimeVersion.specName.toString()) || urlIsEthereum;
+  const isEthereum = properties.isEthereum.isTrue || ethereumChains.includes(api.runtimeVersion.specName.toString()) || urlIsEthereum;
   const isDevelopment = (systemChainType.isDevelopment || systemChainType.isLocal || isTestChain(systemChain));
 
   console.log(`chain: ${systemChain} (${systemChainType.toString()}), ${stringify(properties)}`);
@@ -150,6 +151,7 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, inject
   // explicitly override the ss58Format as specified
   statics.registry.setChainProperties(
     statics.registry.createType('ChainProperties', {
+      isEthereum,
       ss58Format,
       tokenDecimals,
       tokenSymbol
