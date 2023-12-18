@@ -62,7 +62,7 @@ function Nominate ({ className = '', controllerId, nominating, onChange, poolId,
   const maxNominations = api.consts.staking.maxNominatorRewardedPerValidator
     ? (api.consts.staking.maxNominatorRewardedPerValidator as u32).toNumber()
     : api.consts.staking.maxNominations
-      ? (api.consts.staking.maxNominations as unknown as BN).toNumber()
+      ? (api.consts.staking.maxNominations as u32).toNumber()
       : MAX_NOMINATIONS;
 
   return (
