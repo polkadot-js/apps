@@ -44,7 +44,7 @@
     "@polkadot/types": "^10.11.1",
     "@polkadot/types-codec": "^10.11.1",
     "@polkadot/util": "^12.6.1",
-    "@polkadot/wasm-util": "^7.3.1",
+    "@polkadot/wasm-util": "^7.3.2",
     "@polkadot/x-fetch": "^12.6.1",
     "@polkadot/x-ws": "^12.6.1",
     "@polymeshassociation/polymesh-types": "5.5.2",
