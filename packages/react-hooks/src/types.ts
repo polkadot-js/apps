@@ -6,7 +6,8 @@ import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/api-derive/types';
 import type { DisplayedJudgement } from '@polkadot/react-components/types';
-import type { AccountId, Balance, BlockNumber, Call, Exposure, Hash, RewardDestination, SessionIndex, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
+import type { u128 } from '@polkadot/types';
+import type { AccountId, BlockNumber, Call, Exposure, Hash, RewardDestination, SessionIndex, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { PalletPreimageRequestStatus } from '@polkadot/types/lookup';
 import type { ICompact, IExtrinsic, INumber, Registry } from '@polkadot/types/types';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
@@ -52,14 +53,14 @@ export interface Inflation {
 
 export interface Slash {
   accountId: AccountId;
-  amount: Balance;
+  amount: u128;
 }
 
 export interface SessionRewards {
   blockHash: Hash;
   blockNumber: BlockNumber;
   isEventsEmpty: boolean;
-  reward: Balance;
+  reward: u128;
   sessionIndex: SessionIndex;
   slashes: Slash[];
 }
