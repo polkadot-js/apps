@@ -46,12 +46,12 @@ function needsApiCheck (api: ApiPromise): boolean {
   }
 
   try {
-    const v = api.registry.createType<Option<PalletStakingStakingLedger>>(
+    const v = api.registry.createType<PalletStakingStakingLedger>(
       unwrapStorageType(api.registry, api.query.staking.ledger.creator.meta.type),
-      { claimedRewards: [1, 2] }
+      { claimedRewards: [1, 2, 3] }
     );
 
-    assert((v.unwrapOrDefault() as unknown as { claimedRewards: Vec<u32> }).claimedRewards, 'Needs a claimedRewards struct');
+    assert((v as unknown as { claimedRewards: Vec<u32> }).claimedRewards?.eq([1, 2, 3]), 'Needs a claimedRewards array');
   } catch {
     console.warn('No known claimedRewards inside staking ledger, disabling staking route');
 
