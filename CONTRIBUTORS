@@ -462,6 +462,7 @@
        1	Tore19                        	Added Stafi Network logos & endpoints (#3683)
        1	Torsten Stüber                	Make disabled input fields selectable (#9299)
        1	Toufeeq Pasha                 	Added GIANT parachain to rococo network (#9034)
+       1	Uğur Eren                     	Fix make transfer example (#10094)
        1	unitpdw                       	unitlogo changes 1 (#8335)
        1	Vadim                         	fix overflow issue in extensions table (#7767)
        1	valentunn                     	Fix Kusama name in ru translation (#7498)
