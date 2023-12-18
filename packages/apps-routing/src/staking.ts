@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { Option, u32, Vec } from '@polkadot/types';
+import type { u32, Vec } from '@polkadot/types';
 import type { PalletStakingExposure, PalletStakingStakingLedger } from '@polkadot/types/lookup';
 import type { Route, TFunction } from './types.js';
 
