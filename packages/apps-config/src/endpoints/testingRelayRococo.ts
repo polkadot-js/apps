@@ -404,7 +404,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoPicasso',
     paraId: 2087,
     providers: {
-      Composable: 'wss://picasso-rococo-rpc-lb.composablenodes.tech'
+      // Composable: 'wss://picasso-rococo-rpc-lb.composablenodes.tech' // https://github.com/polkadot-js/apps/issues/10103
     },
     text: 'Picasso Testnet',
     ui: {
