@@ -30,7 +30,7 @@
     "@interlay/interbtc-types": "1.13.0",
     "@kiltprotocol/type-definitions": "0.34.0",
     "@laminar/type-definitions": "0.3.1",
-    "@logion/node-api": "0.19.0-2",
+    "@logion/node-api": "0.27.0-4",
     "@mangata-finance/type-definitions": "^2.1.2",
     "@metaverse-network-sdk/type-definitions": "0.0.1-16",
     "@parallel-finance/type-definitions": "2.0.1",

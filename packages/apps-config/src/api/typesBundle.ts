@@ -58701,7 +58701,10 @@ export const typesBundle = {
               "collection_can_upload": "bool",
               "seal": "Option<Hash>",
               "sponsorship_id": "Option<SponsorshipId>",
-              "value_fee": "Balance"
+              "value_fee": "Balance",
+              "legal_fee": "Balance",
+              "collection_item_fee": "Balance",
+              "tokens_record_fee": "Balance"
             },
             "MetadataItemParams": {
               "name": "Hash",
@@ -58712,7 +58715,8 @@ export const typesBundle = {
               "name": "Hash",
               "value": "Hash",
               "submitter": "SupportedAccountId",
-              "acknowledged": "bool"
+              "acknowledgedByOwner": "bool",
+              "acknowledgedByVerifiedIssuer": "bool"
             },
             "LocType": {
               "_enum": [
@@ -58721,9 +58725,17 @@ export const typesBundle = {
                 "Collection"
               ]
             },
+            "LocLinkParams": {
+              "id": "LocId",
+              "nature": "Hash",
+              "submitter": "SupportedAccountId"
+            },
             "LocLink": {
               "id": "LocId",
-              "nature": "Hash"
+              "nature": "Hash",
+              "submitter": "SupportedAccountId",
+              "acknowledgedByOwner": "bool",
+              "acknowledgedByVerifiedIssuer": "bool"
             },
             "FileParams": {
               "hash": "Hash",
@@ -58734,7 +58746,8 @@ export const typesBundle = {
               "hash": "Hash",
               "nature": "Hash",
               "submitter": "SupportedAccountId",
-              "acknowledged": "bool"
+              "acknowledgedByOwner": "bool",
+              "acknowledgedByVerifiedIssuer": "bool"
             },
             "LocVoidInfo": {
               "replacer": "Option<LocId>"
@@ -58758,7 +58771,11 @@ export const typesBundle = {
                 "V15AddTokenIssuance",
                 "V16MoveTokenIssuance",
                 "V17HashItemRecordPublicData",
-                "V18AddValueFee"
+                "V18AddValueFee",
+                "V19AcknowledgeItemsByIssuer",
+                "V20AddCustomLegalFee",
+                "V21EnableRequesterLinks",
+                "V22AddRecurrentFees"
               ]
             },
             "Requester": {
@@ -58876,9 +58893,14 @@ export const typesBundle = {
             },
             "Beneficiary": {
               "_enum": {
-                "Treasury": null,
+                "Other": null,
                 "LegalOfficer": "AccountId"
               }
+            },
+            "ItemsParams": {
+              "metadata": "Vec<MetadataItemParams>",
+              "files": "Vec<FileParams>",
+              "links": "Vec<LocLinkParams>"
             },
             "Fixed64": "Int<64, Fixed64>",
             "FixedI64": "Int<64, FixedI64>",
