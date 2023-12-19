@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+Changes:
+
+- Bump 3rd party types packages
+
+
 ## 0.133.1 Nov 19, 2023
 
 Contributed:
