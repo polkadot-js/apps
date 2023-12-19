@@ -220,7 +220,8 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'debio-testnet',
     providers: {
-      // DeBio: 'wss://ws-rpc.testnet.debio.network' // https://github.com/polkadot-js/apps/issues/10091
+      DeBio: 'wss://ws-rpc.testnet.debio.network', // https://github.com/polkadot-js/apps/issues/10091
+      Octopus: 'wss://gateway.testnet.octopus.network/debionetwork/554976cbb180f676f188abe14d63ca24'
     },
     text: 'DeBio Testnet',
     ui: {
@@ -618,8 +619,9 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   },
   {
     info: 'myriad-tesnet',
-    providers: {
-      // Myriad: 'wss://ws-rpc.testnet.myriad.social' // https://github.com/polkadot-js/apps/issues/10091
+    providers: {     
+      Myriad: 'wss://ws-rpc.testnet.myriad.social', // https://github.com/polkadot-js/apps/issues/10091
+      Octopus: 'wss://gateway.testnet.octopus.network/myriad/8f543a1c219f14d83c0faedefdd5be6e'
     },
     text: 'Myriad Testnet',
     ui: {
