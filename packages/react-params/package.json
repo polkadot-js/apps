@@ -17,7 +17,7 @@
   "version": "0.133.2-32-x",
   "dependencies": {
     "@polkadot/react-components": "^0.133.2-32-x",
-    "multiformats": "^11.0.2"
+    "multiformats": "^12.1.3"
   },
   "peerDependencies": {
     "react": "*",
