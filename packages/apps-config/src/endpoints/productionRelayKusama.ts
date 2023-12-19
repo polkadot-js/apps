@@ -175,7 +175,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'ipci',
     paraId: 2222,
     providers: {
-      Airalab: 'wss://kusama.rpc.ipci.io'
+      // Airalab: 'wss://kusama.rpc.ipci.io' // https://github.com/polkadot-js/apps/issues/10103
     },
     text: 'DAO IPCI',
     ui: {
@@ -307,6 +307,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
       'Acala Foundation 2': 'wss://karura-rpc-2.aca-api.network/ws',
       'Acala Foundation 3': 'wss://karura-rpc-3.aca-api.network/ws',
       // Dwellir: 'wss://karura-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/9861
+      LuckyFriday: 'wss://rpc-karura.luckyfriday.io',
       OnFinality: 'wss://karura.api.onfinality.io/public-ws'
       // 'Polkawallet 0': 'wss://karura.polkawallet.io' // https://github.com/polkadot-js/apps/issues/9383
     },
@@ -393,7 +394,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'kreivo',
     paraId: 2281,
     providers: {
-      Virto: 'wss://kreivo.io/'
+      // Virto: 'wss://kreivo.io/' // https://github.com/polkadot-js/apps/issues/10091
     },
     text: 'Kreivo - By Virto',
     ui: {
@@ -488,6 +489,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
       Blast: 'wss://moonriver.public.blastapi.io',
       Dwellir: 'wss://moonriver-rpc.dwellir.com',
       'Moonbeam Foundation': 'wss://wss.api.moonriver.moonbeam.network',
+      OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
       UnitedBloc: 'wss://moonriver.unitedbloc.com'
     },
     text: 'Moonriver',
@@ -767,7 +769,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 't1rn',
     paraId: 3334,
     providers: {
-      t3rn: 'wss://rpc.t1rn.io'
+      // t3rn: 'wss://rpc.t1rn.io' // https://github.com/polkadot-js/apps/issues/10091
     },
     text: 't1rn',
     ui: {
@@ -841,7 +843,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       LuckyFriday: 'wss://rpc-asset-hub-kusama.luckyfriday.io',
       // OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
       Parity: 'wss://kusama-asset-hub-rpc.polkadot.io',
-      RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws',
+      // RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws',
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/assethub'
     },
     teleport: [-1],

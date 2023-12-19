@@ -3,8 +3,9 @@
 
 import type { EndpointOption } from './types.js';
 
-import { chains3dpassSVG, chainsAcalaSVG, chainsAlephSVG, chainsBrainstormPNG, chainsCreditcoinTestPNG, chainsDebioSVG, chainsEquilibriumSVG, chainsFerrumPNG, chainsFragnovaPNG, chainsJurPNG, chainsKintsugiPNG, chainsLogionPNG, chainsMyriadPNG, chainsShidenPNG, chainsSkyekiwiPNG, chainsTanglePNG } from '../ui/logos/chains/index.js';
-import { nodesAjunaPNG, nodesArcticPNG, nodesAresGladiosSVG, nodesAutomataPNG, nodesBifrostSVG, nodesBitcountryPNG, nodesCereSVG, nodesCessPNG, nodesCloverSVG, nodesCrustMaxwellSVG, nodesCurioSVG, nodesDatahighwayPNG, nodesDockPNG, nodesDolphinSVG, nodesDotmogSVG, nodesEdgewareWhitePNG, nodesEncointerBlueSVG, nodesFantourPNG, nodesGalitalLogoPNG, nodesGamepowerSVG, nodesGeekSVG, nodesInterlaySVG, nodesIpsePNG, nodesJazPNG, nodesJupiterSVG, nodesKarmachainSVG, nodesKhalaSVG, nodesKiltPNG, nodesKlugPNG, nodesKylinPNG, nodesLaminarCircleSVG, nodesLitentryPNG, nodesMantaPNG, nodesMathSVG, nodesMetaquityNetworkPNG, nodesMinixPNG, nodesMoonbaseAlphaSVG, nodesMybankPNG, nodesNftmartPNG, nodesNodleSVG, nodesOpalLogoPNG, nodesOpportunityPNG, nodesPangoroSVG, nodesPhalaSVG, nodesPhoenixPNG, nodesPichiuPNG, nodesPolkadexSVG, nodesPolkafoundrySVG, nodesPolymeshSVG, nodesPontemSVG, nodesPrismPNG, nodesRealisPNG, nodesRiochainSVG, nodesSherpaxPNG, nodesSoonsocialPNG, nodesSoraSubstrateSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesSubspacePNG, nodesSubstrateHexagonSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesUniartsPNG, nodesUniqueSVG, nodesUnitnetworkPNG, nodesWeb3gamesSVG, nodesZCloakSVG, nodesElysiusmPNG } from '../ui/logos/nodes/index.js';
+
+import { chains3dpassSVG, chainsAcalaSVG, chainsAlephSVG, chainsBrainstormPNG, chainsCreditcoinTestPNG, chainsDebioSVG, chainsEquilibriumSVG, chainsFerrumPNG, chainsFragnovaPNG, chainsJurPNG, chainsKintsugiPNG, chainsLogionPNG, chainsMyriadPNG, chainsShidenPNG, chainsSkyekiwiPNG, chainsTanglePNG, chainsVaraTestnetPNG } from '../ui/logos/chains/index.js';
+import { nodesAjunaPNG, nodesArcticPNG, nodesAresGladiosSVG, nodesAutomataPNG, nodesBifrostSVG, nodesBitcountryPNG, nodesCereSVG, nodesCessPNG, nodesCloverSVG, nodesCrustMaxwellSVG, nodesCurioSVG, nodesDatahighwayPNG, nodesDockPNG, nodesDolphinSVG, nodesDotmogSVG, nodesEdgewareWhitePNG, nodesEncointerBlueSVG, nodesElysiusmPNG, nodesFantourPNG, nodesGalitalLogoPNG, nodesGamepowerSVG, nodesGeekSVG, nodesInterlaySVG, nodesIpsePNG, nodesJazPNG, nodesJupiterSVG, nodesKarmachainSVG, nodesKhalaSVG, nodesKiltPNG, nodesKlugPNG, nodesKylinPNG, nodesLaminarCircleSVG, nodesLitentryPNG, nodesMantaPNG, nodesMathSVG, nodesMetaquityNetworkPNG, nodesMinixPNG, nodesMoonbaseAlphaSVG, nodesMybankPNG, nodesNftmartPNG, nodesNodleSVG, nodesOpalLogoPNG, nodesOpportunityPNG, nodesPangoroSVG, nodesPhalaSVG, nodesPhoenixPNG, nodesPichiuPNG, nodesPolkadexSVG, nodesPolkafoundrySVG, nodesPolymeshSVG, nodesPontemSVG, nodesPrismPNG, nodesRealisPNG, nodesRiochainSVG, nodesSherpaxPNG, nodesSoonsocialPNG, nodesSoraSubstrateSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesSubspacePNG, nodesSubstrateHexagonSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesUniartsPNG, nodesUniqueSVG, nodesUnitnetworkPNG, nodesWeb3gamesSVG, nodesZCloakSVG } from '../ui/logos/nodes/index.js';
 
 export * from './testingRelayRococo.js';
 export * from './testingRelayWestend.js';
@@ -219,7 +220,8 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'debio-testnet',
     providers: {
-      DeBio: 'wss://ws-rpc.testnet.debio.network'
+      DeBio: 'wss://ws-rpc.testnet.debio.network',
+      Octopus: 'wss://gateway.testnet.octopus.network/debionetwork/554976cbb180f676f188abe14d63ca24'
     },
     text: 'DeBio Testnet',
     ui: {
@@ -451,7 +453,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'karmachain',
     providers: {
-      Karmachain: 'wss://api3.karmaco.in'
+      // Karmachain: 'wss://api3.karmaco.in' // https://github.com/polkadot-js/apps/issues/10091
     },
     text: 'Karmachain Testnet',
     ui: {
@@ -606,6 +608,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
       Blast: 'wss://moonbase-alpha.public.blastapi.io',
       Dwellir: 'wss://moonbase-rpc.dwellir.com',
       'Moonbeam Foundation': 'wss://wss.api.moonbase.moonbeam.network',
+      OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
       UnitedBloc: 'wss://moonbase.unitedbloc.com'
     },
     text: 'Moonbase Alpha',
@@ -628,7 +631,8 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'myriad-tesnet',
     providers: {
-      Myriad: 'wss://ws-rpc.testnet.myriad.social'
+      Myriad: 'wss://ws-rpc.testnet.myriad.social',
+      Octopus: 'wss://gateway.testnet.octopus.network/myriad/8f543a1c219f14d83c0faedefdd5be6e'
     },
     text: 'Myriad Testnet',
     ui: {
@@ -682,16 +686,6 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#4B30DD',
       logo: nodesPangoroSVG
-    }
-  },
-  {
-    info: 'phala',
-    providers: {
-      'Phala Network': 'wss://poc5.phala.network/ws'
-    },
-    text: 'Phala (PoC 5)',
-    ui: {
-      logo: nodesPhalaSVG
     }
   },
   {
@@ -897,8 +891,8 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'subspace-gemini-3f',
     providers: {
-      Europe: 'wss://rpc-1.gemini-3f.subspace.network/ws',
-      US: 'wss://rpc-0.gemini-3f.subspace.network/ws'
+      Europe: 'wss://rpc-1.gemini-3f.subspace.network/ws'
+      // US: 'wss://rpc-0.gemini-3f.subspace.network/ws' // https://github.com/polkadot-js/apps/issues/10091
     },
     text: 'Subspace Gemini 3f',
     ui: {
@@ -1023,6 +1017,17 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#1452F0',
       logo: nodesUnitnetworkPNG
+    }
+  },
+  {
+    info: 'vara-testnet',
+    providers: {
+      Gear: 'wss://testnet.vara.network'
+    },
+    text: 'Vara Testnet',
+    ui: {
+      color: '#202022',
+      logo: chainsVaraTestnetPNG
     }
   },
   {
