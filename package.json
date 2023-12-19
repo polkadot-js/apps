@@ -16,9 +16,9 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.133.2-32-x",
+  "version": "0.133.2-33-x",
   "versions": {
-    "git": "0.133.2-32-x",
+    "git": "0.133.2-33-x",
     "npm": "0.133.1"
   },
   "workspaces": [
@@ -69,7 +69,7 @@
   "devDependencies": {
     "@crustio/crust-pin": "^1.0.0",
     "@pinata/sdk": "^1.2.1",
-    "@polkadot/dev": "^0.78.1",
+    "@polkadot/dev": "^0.78.4",
     "@types/chart.js": "^2.9.41",
     "@types/file-saver": "^2.0.7",
     "@types/react-beautiful-dnd": "^13.1.7",
@@ -80,10 +80,10 @@
     "concurrently": "^8.2.2",
     "devtron": "^1.4.0",
     "dnslink-cloudflare": "^3.0.0",
-    "electron": "25.0.1",
-    "electron-builder": "23.6.0",
+    "electron": "28.0.0",
+    "electron-builder": "24.10.0",
     "electron-builder-notarize": "^1.5.1",
-    "extensionless": "^1.7.3",
+    "extensionless": "^1.9.6",
     "i18next-scanner": "^4.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
