@@ -647,10 +647,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@interlay/interbtc-types@npm:1.13.0":
-  version: 1.13.0
-  resolution: "@interlay/interbtc-types@npm:1.13.0"
-  checksum: 8c338d075e20c85beace6dd0f661c37dc6ec37207cb6f9c76abbd81cc4f446e36ad82c82006054c0b8bedf318cdf8c9ec2cf1e5ae35bc0abeca55a54cd2d8eb1
+"@interlay/interbtc-types@npm:2.0.1":
+  version: 2.0.1
+  resolution: "@interlay/interbtc-types@npm:2.0.1"
+  checksum: ce0efbf18d2c3aae1fb2f626e5f1627f9c68c3de5e147af6c7771b06d19e099dfd09ef3fb31b66545cb13a94db04c81610675f2f9f7c1e16b77b22ae102b5c05
   languageName: node
   linkType: hard
 
@@ -1804,7 +1804,7 @@ __metadata:
     "@equilab/definitions": "npm:1.4.18"
     "@fragnova/api-augment": "npm:0.1.0-spec-1.0.4-mainnet"
     "@frequency-chain/api-augment": "npm:1.9.0"
-    "@interlay/interbtc-types": "npm:1.13.0"
+    "@interlay/interbtc-types": "npm:2.0.1"
     "@kiltprotocol/type-definitions": "npm:0.34.0"
     "@laminar/type-definitions": "npm:0.3.1"
     "@logion/node-api": "npm:0.27.0-4"

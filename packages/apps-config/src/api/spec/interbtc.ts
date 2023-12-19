@@ -10,7 +10,7 @@ import type { Balance } from '@polkadot/types/interfaces';
 import type { FrameSystemAccountInfo } from '@polkadot/types/lookup';
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-import interbtc from '@interlay/interbtc-types';
+import { definitions as interbtc } from '@interlay/interbtc-types';
 import { combineLatest, map } from 'rxjs';
 
 import { memo } from '@polkadot/api-derive/util';
@@ -75,6 +75,6 @@ const definitions: OverrideBundleDefinition = {
   },
 
   ...interbtc
-} as any;
+};
 
 export default definitions;
