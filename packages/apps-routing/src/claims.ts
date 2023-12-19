@@ -11,7 +11,13 @@ export default function create (t: TFunction): Route {
     display: {
       needsAccounts: true,
       needsApi: [
-        'tx.claims.mintClaim'
+        // NOTE The functionality is currently non-working - with no way of
+        // actually testing changes with test-cases, it falls into the
+        // non-fixable bucket
+        //
+        // Original mintClaim check
+        // 'tx.claims.mintClaim'
+        'tx.claims.disableForAll'
       ]
     },
     group: 'accounts',
