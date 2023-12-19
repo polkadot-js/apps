@@ -1890,7 +1890,7 @@ __metadata:
     "@types/tmp": "npm:^0.2.6"
     copy-webpack-plugin: "npm:^11.0.0"
     electron: "npm:28.0.0"
-    electron-builder: "npm:24.9.1"
+    electron-builder: "npm:24.10.0"
     electron-builder-notarize: "npm:^1.5.1"
     electron-log: "npm:^5.0.1"
     electron-updater: "npm:^6.1.7"
@@ -2204,7 +2204,7 @@ __metadata:
     "@types/react-dom": "npm:^18.2.18"
     chart.js: "npm:^4.4.1"
     chartjs-plugin-annotation: "npm:^3.0.1"
-    chartjs-plugin-crosshair: "npm:^1.2.0"
+    chartjs-plugin-crosshair: "npm:^2.0.0"
     codeflask: "npm:^1.4.1"
     i18next: "npm:^23.7.11"
     i18next-browser-languagedetector: "npm:^7.2.0"
@@ -4679,11 +4679,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"app-builder-lib@npm:24.9.1":
-  version: 24.9.1
-  resolution: "app-builder-lib@npm:24.9.1"
+"app-builder-lib@npm:24.10.0":
+  version: 24.10.0
+  resolution: "app-builder-lib@npm:24.10.0"
   dependencies:
-    7zip-bin: "npm:~5.2.0"
     "@develar/schema-utils": "npm:~2.6.5"
     "@electron/notarize": "npm:2.1.0"
     "@electron/osx-sign": "npm:1.0.5"
@@ -4692,12 +4691,12 @@ __metadata:
     "@types/fs-extra": "npm:9.0.13"
     async-exit-hook: "npm:^2.0.1"
     bluebird-lst: "npm:^1.0.9"
-    builder-util: "npm:24.8.1"
+    builder-util: "npm:24.9.4"
     builder-util-runtime: "npm:9.2.3"
     chromium-pickle-js: "npm:^0.2.0"
     debug: "npm:^4.3.4"
     ejs: "npm:^3.1.8"
-    electron-publish: "npm:24.8.1"
+    electron-publish: "npm:24.9.4"
     form-data: "npm:^4.0.0"
     fs-extra: "npm:^10.1.0"
     hosted-git-info: "npm:^4.1.0"
@@ -4711,7 +4710,7 @@ __metadata:
     semver: "npm:^7.3.8"
     tar: "npm:^6.1.12"
     temp-file: "npm:^3.4.0"
-  checksum: 4592c348f370940a70bb844665b90c102bc7ebccde42cd9df340ffccfbbad13900a0f6f6da850ac7bf39d3a361acd4a9639acbbef11b998c16c989a2e6634d5c
+  checksum: 8350e08488d13c239ae62d8b4e799d5017d186547538161f47ec6475a3b290152e644e01788f4e35ba0b5bebdf4ef5118450fb52e76bc1813eb81f3db8025976
   languageName: node
   linkType: hard
 
@@ -5626,9 +5625,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"builder-util@npm:24.8.1":
-  version: 24.8.1
-  resolution: "builder-util@npm:24.8.1"
+"builder-util@npm:24.9.4":
+  version: 24.9.4
+  resolution: "builder-util@npm:24.9.4"
   dependencies:
     7zip-bin: "npm:~5.2.0"
     "@types/debug": "npm:^4.1.6"
@@ -5646,7 +5645,7 @@ __metadata:
     source-map-support: "npm:^0.5.19"
     stat-mode: "npm:^1.0.0"
     temp-file: "npm:^3.4.0"
-  checksum: 7adfeccdeaf873fcbf56934376b7ae11b169ff552b60e8b5e91c5afd785452fbbc7acab24eb2f3f505dd5d5611edb3be38fab2ef912d7848d6fb35b25f663541
+  checksum: df830846d6149491616bdedf8e6829385cb968105762a835bda29eaeaea8f54254f5b14b9a3c4d060d0402d3bf886e48ab2a0c28c4615b4904fc25ad7c68ec90
   languageName: node
   linkType: hard
 
@@ -5933,12 +5932,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chartjs-plugin-crosshair@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "chartjs-plugin-crosshair@npm:1.2.0"
+"chartjs-plugin-crosshair@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "chartjs-plugin-crosshair@npm:2.0.0"
   peerDependencies:
-    chart.js: ^3.4.0
-  checksum: 971a88bc4b4acce7cf3f69c5344018b84ea23dc98db6241f005c11cb2ad14fc49d5ad946e165414d63b13fe7855136752d99733a9f969a12f22ee97d59173fa8
+    chart.js: ^4.0.1
+  checksum: f07105c2995c80d7a011a9e97765b97f1fbb1db7eab514381d0a50df665239fdc86219b920299e5363347a7857cbfef957499548df27ab756531415461b77d72
   languageName: node
   linkType: hard
 
@@ -7371,12 +7370,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dmg-builder@npm:24.9.1":
-  version: 24.9.1
-  resolution: "dmg-builder@npm:24.9.1"
+"dmg-builder@npm:24.10.0":
+  version: 24.10.0
+  resolution: "dmg-builder@npm:24.10.0"
   dependencies:
-    app-builder-lib: "npm:24.9.1"
-    builder-util: "npm:24.8.1"
+    app-builder-lib: "npm:24.10.0"
+    builder-util: "npm:24.9.4"
     builder-util-runtime: "npm:9.2.3"
     dmg-license: "npm:^1.0.11"
     fs-extra: "npm:^10.1.0"
@@ -7385,7 +7384,7 @@ __metadata:
   dependenciesMeta:
     dmg-license:
       optional: true
-  checksum: 9a5725215e734b82bb06beb44380c4a8faabc26fb0dcb58cdd537ed69e1c3d51c32bcfa2a8730482a3f5525cc142febe3e48c07267021a68b6d03d5c35cb1033
+  checksum: 237d071ed74b38ab817d85685790b1daf3d415377c0842de850226dd1885441ab5107d9a7193e23660b1c17054b6fca85d4d9c28e7efd4944c5b879aa5e0727c
   languageName: node
   linkType: hard
 
@@ -7677,15 +7676,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-builder@npm:24.9.1":
-  version: 24.9.1
-  resolution: "electron-builder@npm:24.9.1"
+"electron-builder@npm:24.10.0":
+  version: 24.10.0
+  resolution: "electron-builder@npm:24.10.0"
   dependencies:
-    app-builder-lib: "npm:24.9.1"
-    builder-util: "npm:24.8.1"
+    app-builder-lib: "npm:24.10.0"
+    builder-util: "npm:24.9.4"
     builder-util-runtime: "npm:9.2.3"
     chalk: "npm:^4.1.2"
-    dmg-builder: "npm:24.9.1"
+    dmg-builder: "npm:24.10.0"
     fs-extra: "npm:^10.1.0"
     is-ci: "npm:^3.0.0"
     lazy-val: "npm:^1.0.5"
@@ -7695,7 +7694,7 @@ __metadata:
   bin:
     electron-builder: cli.js
     install-app-deps: install-app-deps.js
-  checksum: e29cf9e212626159ee8ff7ea1fd0fc7d8dcde2962bb1b28ccc375708f04c1a8e1b586c17a5becc2ef9ed55a88a5e29f7e18e12d8d5df0fa7f0c133c5da8c7a32
+  checksum: 0773bcafdcfa00f70d441f0a9cff1de8b6b87a8ad65285b6bcf4f2a9f6cc17640759b2b4bff408bf3bfbe15b00598de020a87f2cc7fe84b2338e7427dfd9a24f
   languageName: node
   linkType: hard
 
@@ -7716,18 +7715,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-publish@npm:24.8.1":
-  version: 24.8.1
-  resolution: "electron-publish@npm:24.8.1"
+"electron-publish@npm:24.9.4":
+  version: 24.9.4
+  resolution: "electron-publish@npm:24.9.4"
   dependencies:
     "@types/fs-extra": "npm:^9.0.11"
-    builder-util: "npm:24.8.1"
+    builder-util: "npm:24.9.4"
     builder-util-runtime: "npm:9.2.3"
     chalk: "npm:^4.1.2"
     fs-extra: "npm:^10.1.0"
     lazy-val: "npm:^1.0.5"
     mime: "npm:^2.5.2"
-  checksum: 63990427370ac646eeaec599852529c47fa5836c322fceb3ee76b968602e57ea573240f280e796c1884313984eddc1b4baa26713964796ffdc08f87e457be228
+  checksum: c4e9397b5ef070dbede48fece9d36d3dcaec7df1052f49744df790ff9793da24d52c22d949067dd7a5cbf9f5f06cd2243c221ec5bfdab3080b4c37f5b39a0473
   languageName: node
   linkType: hard
 
@@ -14128,7 +14127,7 @@ __metadata:
     devtron: "npm:^1.4.0"
     dnslink-cloudflare: "npm:^3.0.0"
     electron: "npm:28.0.0"
-    electron-builder: "npm:24.9.1"
+    electron-builder: "npm:24.10.0"
     electron-builder-notarize: "npm:^1.5.1"
     extensionless: "npm:^1.9.6"
     i18next-scanner: "npm:^4.4.0"

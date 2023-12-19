@@ -26,7 +26,7 @@
     "@types/tmp": "^0.2.6",
     "copy-webpack-plugin": "^11.0.0",
     "electron": "28.0.0",
-    "electron-builder": "24.9.1",
+    "electron-builder": "24.10.0",
     "electron-builder-notarize": "^1.5.1",
     "html-webpack-plugin": "^5.5.4",
     "tmp": "^0.2.1"
