@@ -619,7 +619,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   },
   {
     info: 'myriad-tesnet',
-    providers: {     
+    providers: {
       Myriad: 'wss://ws-rpc.testnet.myriad.social',
       Octopus: 'wss://gateway.testnet.octopus.network/myriad/8f543a1c219f14d83c0faedefdd5be6e'
     },
