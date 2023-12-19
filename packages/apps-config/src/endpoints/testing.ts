@@ -290,7 +290,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     text: 'Elysium',
     ui: {
       color: '#9FC131',
-      logo: nodesElysiusmPNG
+      logo: nodesElysiumPNG
     }
   },
   {
