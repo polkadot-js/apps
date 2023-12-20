@@ -170,7 +170,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'debio',
     providers: {
-      DeBio: 'wss://ws-rpc.debio.network',
+      // DeBio: 'wss://ws-rpc.debio.network', // https://github.com/polkadot-js/apps/issues/10118
       Octopus: 'wss://gateway.mainnet.octopus.network/debionetwork/ae48005a0c7ecb4053394559a7f4069e'
     },
     text: 'DeBio',
