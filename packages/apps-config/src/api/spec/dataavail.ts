@@ -50,7 +50,6 @@ const definitions: OverrideBundleDefinition = {
                 ],
                 type: 'Vec<Option<Vec<u8>>>'
             },
-
             queryDataProof: {
                 description: 'Generate the data proof for the given `transaction_index`',
                 params: [
@@ -65,6 +64,28 @@ const definitions: OverrideBundleDefinition = {
                     }
                 ],
                 type: 'DataProof'
+            },
+            getSyncCommitteePoseidons: {
+                description: "Get sync committee poseidons for the slot on the LC",
+                params: [
+                    {
+                        name: "slot",
+                        type: 'u64'
+                    }],
+                type: "U256"
+            },
+            getHeader: {
+                description: "Get headers from LC",
+                params: [
+                    {
+                        name: "slot",
+                        type: "u64"
+                    }],
+                type: "H256"
+            },
+            getHead: {
+                description: "Get head from LC",
+                type: "u64"
             }
         }
     },
