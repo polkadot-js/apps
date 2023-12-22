@@ -679,7 +679,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'pangoro',
     providers: {
-      'Darwinia Network': 'wss://pangoro-rpc.darwinia.network'
+      // 'Darwinia Network': 'wss://pangoro-rpc.darwinia.network' // https://github.com/polkadot-js/apps/issues/10109
     },
     text: 'Pangoro2',
     ui: {
