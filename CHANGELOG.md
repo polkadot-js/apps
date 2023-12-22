@@ -55,7 +55,7 @@ Contributed:
 - Add Energy Web X (https://github.com/renesy)
 - Add Subspace Gemini 3f endpoint (https://github.com/natachadelarosa)
 - Add new Snowbridge forks (https://github.com/alistair-singh)
-- Add extenal Moonbeam apps links (https://github.com/mmaurello)
+- Add external Moonbeam apps links (https://github.com/mmaurello)
 - Update OnFinality Darwinia/Kapex endpoints (https://github.com/MinjieTian)
 - Update RadiumBlock Westend endpoints (https://github.com/radiumb)
 - Update Pinoneer networks (https://github.com/justinphamnz)
@@ -69,7 +69,7 @@ Contributed:
 - Update Karamachain endpoints (https://github.com/HolyGrease)
 - Update Tangle pictures & endpoints (https://github.com/1xstj)
 - Add Subsquare links for Vara network (https://github.com/wliyongfeng)
-- Add Cere stats extenal links support (https://github.com/shamilkhan)
+- Add Cere stats external links support (https://github.com/shamilkhan)
 - Dwellir endpoints for Unique/Quartz (https://github.com/jakobilobi)
 - Update stable endpoints (https://github.com/samelamin)
 - Add Dwellir Centrifuge & Pendulum endpoints (https://github.com/awnns)
@@ -153,7 +153,7 @@ Changes:
 
 - Disable unreachable endpoints
 - Extend chain config with ui logo overrides
-- Adjust Enum inputs with unsued filtering
+- Adjust Enum inputs with unused filtering
 
 
 ## 0.131.4 May 23, 2023
@@ -381,7 +381,7 @@ Changes:
 - Convert all used images to inline data: format
 - Add support for Reciprocal Gov2 tracks
 - Reformat endpoint config & setup
-- Add explicit ErrorBoundary accross all modals
+- Add explicit ErrorBoundary across all modals
 - Ensure AccountId size limits are adheared to in inputs
 - Adjust address-only AccountName display
 - Enusre event decoding uses registry from correct blockHash
@@ -520,7 +520,7 @@ Changes:
 - Allow referena voting with no preimage
 - Display icon for unlocked parachains
 - Apply consistency in preimage hash styling (w/ copy)
-- Ensure referenda sumbission always has the correct length
+- Ensure referenda submission always has the correct length
 - Don't reply on availability of `earliestUnappliedSlash`
 - Support new preimage pallet on democracy
 - Add Collectives parachain info
