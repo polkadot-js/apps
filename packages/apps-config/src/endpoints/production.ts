@@ -214,17 +214,6 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'equilibrium',
-    providers: {
-      // Equilibrium: 'wss://node.equilibrium.io' // https://github.com/polkadot-js/apps/issues/7219
-    },
-    text: 'Equilibrium',
-    ui: {
-      color: '#1792ff',
-      logo: chainsEquilibriumSVG
-    }
-  },
-  {
     info: 'elysium',
     providers: {
       elysium: 'wss://ws.elysiumchain.tech'
@@ -233,6 +222,17 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#9FC131',
       logo: nodesElysiumPNG
+    }
+  },
+  {
+    info: 'equilibrium',
+    providers: {
+      // Equilibrium: 'wss://node.equilibrium.io' // https://github.com/polkadot-js/apps/issues/7219
+    },
+    text: 'Equilibrium',
+    ui: {
+      color: '#1792ff',
+      logo: chainsEquilibriumSVG
     }
   },
   {
