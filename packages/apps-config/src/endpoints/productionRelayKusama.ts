@@ -323,6 +323,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2004,
     providers: {
       Dwellir: 'wss://khala-rpc.dwellir.com',
+      Helikon: 'wss://rpc.helikon.io/khala',
       OnFinality: 'wss://khala.api.onfinality.io/public-ws',
       Phala: 'wss://khala-api.phala.network/ws'
     },
