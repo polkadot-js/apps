@@ -59,6 +59,7 @@ export { nodesHelixstreetPNG } from './generated/helixstreetPNG.js';
 export { nodesHumanodePNG } from './generated/humanodePNG.js';
 export { nodesIdavollPNG } from './generated/idavollPNG.js';
 export { nodesImbuePNG } from './generated/imbuePNG.js';
+export { nodesInnovatorPNG } from './generated/innovatorPNG.js';
 export { nodesIntegriteeSVG } from './generated/integriteeSVG.js';
 export { nodesInterlaySVG } from './generated/interlaySVG.js';
 export { nodesIpciSVG } from './generated/ipciSVG.js';

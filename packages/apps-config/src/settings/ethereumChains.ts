@@ -32,5 +32,6 @@ export const ethereumChains = [
   'ferrum-parachain',
   'quantum-portal-network-parachain',
   'peerplays',
-  'innovatorchain'
+  'innovatorchain',
+  'masverse'
 ];

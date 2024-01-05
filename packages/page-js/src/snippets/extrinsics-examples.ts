@@ -22,7 +22,7 @@ const randomAmount = Math.floor((Math.random() * 100000) + 1);
 const transfer = api.tx.balances.transferAllowDeath(BOB, randomAmount);
 
 // Sign and Send the transaction
-await transferAllowDeath.signAndSend(ALICE, ({ events = [], status }) => {
+await transfer.signAndSend(ALICE, ({ events = [], status }) => {
   if (status.isInBlock) {
     console.log('Successful transfer of ' + randomAmount + ' with hash ' + status.asInBlock.toHex());
   } else {

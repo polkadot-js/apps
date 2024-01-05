@@ -295,7 +295,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoLitentry',
     paraId: 2106,
     providers: {
-      Litentry: 'wss://rpc.rococo-parachain-sg.litentry.io'
+      Litentry: 'wss://rpc.rococo-parachain.litentry.io'
     },
     text: 'Litentry',
     ui: {
@@ -404,7 +404,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoPicasso',
     paraId: 2087,
     providers: {
-      Composable: 'wss://picasso-rococo-rpc-lb.composablenodes.tech'
+      // Composable: 'wss://picasso-rococo-rpc-lb.composablenodes.tech' // https://github.com/polkadot-js/apps/issues/10103
     },
     text: 'Picasso Testnet',
     ui: {
@@ -476,7 +476,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'snowbridgeAssetHub',
     paraId: 3416,
     providers: {
-      Snowfork: 'wss://rococo-rpc.snowbridge.network/assethub'
+      // Snowfork: 'wss://rococo-rpc.snowbridge.network/assethub' // https://github.com/polkadot-js/apps/issues/10091
     },
     text: 'Snowbridge Asset Hub',
     ui: {
@@ -487,7 +487,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'snowbridgeBridgeHub',
     paraId: 3016,
     providers: {
-      Snowfork: 'wss://rococo-rpc.snowbridge.network/bridgehub'
+      // Snowfork: 'wss://rococo-rpc.snowbridge.network/bridgehub' // https://github.com/polkadot-js/apps/issues/10091
     },
     text: 'Snowbridge Bridge Hub',
     ui: {
@@ -716,6 +716,16 @@ export const testParasRococoCommon: EndpointOption[] = [
       color: '#000000',
       logo: nodesSubstrateContractsNodePNG
     }
+  },
+  {
+    info: 'rococoCoretime',
+    paraId: 1005,
+    providers: {
+      Parity: 'wss://rococo-coretime-rpc.polkadot.io'
+    },
+    teleport: [-1],
+    text: 'Coretime',
+    ui: {}
   },
   {
     homepage: 'https://encointer.org/',
