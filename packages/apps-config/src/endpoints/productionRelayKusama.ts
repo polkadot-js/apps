@@ -678,6 +678,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
       Blast: 'wss://shiden.public.blastapi.io',
       Dwellir: 'wss://shiden-rpc.dwellir.com',
       OnFinality: 'wss://shiden.api.onfinality.io/public-ws',
+      RadiumBlock: 'wss://shiden.public.curie.radiumblock.co/ws',
       'light client': 'light://substrate-connect/kusama/shiden'
     },
     text: 'Shiden',
