@@ -207,6 +207,19 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://laosnetwork.io/',
+    info: 'rorocoLaos',
+    paraId: 4343,
+    providers: {
+      'Freeverse.io': 'wss://rpc.giedi.laosfoundation.io'
+    },
+    text: 'Giedi',
+    ui: {
+      color: '#dffe77',
+      logo: nodesGiediPNG
+    }
+  },
+  {
     info: 'helixstreet',
     paraId: 3025,
     providers: {
@@ -672,19 +685,6 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)',
       logo: nodesZeitgeistPNG
-    }
-  },
-  {
-    homepage: 'https://laosnetwork.io/',
-    info: 'rorocoLaos',
-    paraId: 4343,
-    providers: {
-      'Freeverse.io': 'wss://rpc.giedi.laosfoundation.io'
-    },
-    text: 'Giedi',
-    ui: {
-      color: '#dffe77',
-      logo: nodesGiediPNG
     }
   }
 ];
