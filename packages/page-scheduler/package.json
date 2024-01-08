@@ -1,16 +1,16 @@
 {
-  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "bugs": "https://github.com/availproject/avail-apps/issues",
   "engines": {
     "node": ">=16"
   },
-  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-scheduler#readme",
+  "homepage": "https://github.com/availproject/avail-apps/tree/master/packages/page-scheduler#readme",
   "license": "Apache-2.0",
   "name": "@polkadot/app-scheduler",
   "private": true,
   "repository": {
     "directory": "packages/page-scheduler",
     "type": "git",
-    "url": "https://github.com/polkadot-js/apps.git"
+    "url": "https://github.com/availproject/avail-apps.git"
   },
   "sideEffects": false,
   "type": "module",
