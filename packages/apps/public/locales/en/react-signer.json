@@ -1,5 +1,7 @@
 {
   "Adding an optional tip to the transaction could allow for higher priority, especially when the chain is busy.": "Adding an optional tip to the transaction could allow for higher priority, especially when the chain is busy.",
+  "App Id": "App Id",
+  "Application Id.": "Application Id.",
   "Authorize transaction": "Authorize transaction",
   "Current account nonce: {{accountNonce}}": "Current account nonce: {{accountNonce}}",
   "Do not include a tip for the block author": "Do not include a tip for the block author",
@@ -17,6 +19,7 @@
   "Sign and Submit": "Sign and Submit",
   "Sign via Qr": "Sign via Qr",
   "Signed transaction": "Signed transaction",
+  "Specify different Application Id for this Tx": "Specify different Application Id for this Tx",
   "Submit (no signature)": "Submit (no signature)",
   "Submit individual": "Submit individual",
   "Submit {{queueSize}} items": "Submit {{queueSize}} items",

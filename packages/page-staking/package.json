@@ -1,16 +1,16 @@
 {
-  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "bugs": "https://github.com/availproject/avail-apps/issues",
   "engines": {
     "node": ">=16"
   },
-  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-staking#readme",
+  "homepage": "https://github.com/availproject/avail-apps/tree/master/packages/page-staking#readme",
   "license": "Apache-2.0",
   "name": "@polkadot/app-staking",
   "private": true,
   "repository": {
     "directory": "packages/page-staking",
     "type": "git",
-    "url": "https://github.com/polkadot-js/apps.git"
+    "url": "https://github.com/availproject/avail-apps.git"
   },
   "sideEffects": false,
   "type": "module",

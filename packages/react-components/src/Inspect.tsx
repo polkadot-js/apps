@@ -11,6 +11,7 @@ import { u8aToHex } from '@polkadot/util';
 import Output from './Output.js';
 import { styled } from './styled.js';
 import { useTranslation } from './translate.js';
+import { decodeU8IntAppId } from "avail-js-sdk/helpers";
 
 interface Props {
   className?: string;
@@ -32,10 +33,7 @@ function formatInspect ({ inner = [], name = '', outer = [] }: Inspect, result: 
       if (name !== 'appId') {
         value[i] = u8aToHex(outer[i], undefined, false);
       } else {
-        const hexAppId = u8aToHex(outer[i], undefined, false);
-        const appId = parseInt(hexAppId, 16) >> 2;
-
-        value[i] = appId.toString();
+        value[i] = decodeU8IntAppId(outer[i]);
       }
     }
 

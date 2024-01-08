@@ -1,16 +1,16 @@
 {
-  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "bugs": "https://github.com/availproject/avail-apps/issues",
   "engines": {
     "node": ">=16"
   },
-  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/apps-routing#readme",
+  "homepage": "https://github.com/availproject/avail-apps/tree/master/packages/apps-routing#readme",
   "license": "Apache-2.0",
   "name": "@polkadot/apps-routing",
   "private": true,
   "repository": {
     "directory": "packages/apps-routing",
     "type": "git",
-    "url": "https://github.com/polkadot-js/apps.git"
+    "url": "https://github.com/availproject/avail-apps.git"
   },
   "sideEffects": false,
   "type": "module",
