@@ -55,7 +55,7 @@ function BidRow ({ index, value: { kind, value, who } }: Props): React.ReactElem
             <TxButton
               accountId={voucher}
               icon='times'
-              label={t<string>('Unvouch')}
+              label={t('Unvouch')}
               params={[index]}
               tx={api.tx.society.unvouch}
             />
@@ -64,7 +64,7 @@ function BidRow ({ index, value: { kind, value, who } }: Props): React.ReactElem
             <TxButton
               accountId={who}
               icon='times'
-              label={t<string>('Unbid')}
+              label={t('Unbid')}
               params={[index]}
               tx={api.tx.society.unbid}
             />

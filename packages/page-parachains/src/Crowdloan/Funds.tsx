@@ -68,24 +68,24 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
   );
 
   const headerActiveRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t<string>('ongoing'), 'start', 2],
+    [t('ongoing'), 'start', 2],
     [undefined, 'media--800'],
     [undefined, 'media--2000'],
-    [t<string>('ending'), 'media--1200'],
-    [t<string>('leases')],
-    [t<string>('raised')],
-    [t<string>('count'), 'media--1100'],
+    [t('ending'), 'media--1200'],
+    [t('leases')],
+    [t('raised')],
+    [t('count'), 'media--1100'],
     [undefined, 'media--1000']
   ]);
 
   const headedEndedRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t<string>('completed'), 'start', 2],
+    [t('completed'), 'start', 2],
     [undefined, 'media--800'],
     [undefined, 'media--2000'],
-    [t<string>('ending'), 'media--1200'],
-    [t<string>('leases')],
-    [t<string>('raised')],
-    [t<string>('count'), 'media--1100'],
+    [t('ending'), 'media--1200'],
+    [t('leases')],
+    [t('raised')],
+    [t('count'), 'media--1100'],
     [undefined, 'media--1000']
   ]);
 
@@ -93,11 +93,11 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
     <>
       <MarkWarning
         className='warning centered'
-        content={t<string>('Do not transfer any funds directly to a specific account that is associated with a loan or a team. Use the "Contribute" action to record the contribution on-chain using the crowdloan runtime module. When the fund is dissolved, after either the parachain lease expires or the loan ending without winning, the full value will be returned to your account by the runtime. Funds sent directly to an account, without using the crowdloan functionality, may not be returned by the receiving account.')}
+        content={t('Do not transfer any funds directly to a specific account that is associated with a loan or a team. Use the "Contribute" action to record the contribution on-chain using the crowdloan runtime module. When the fund is dissolved, after either the parachain lease expires or the loan ending without winning, the full value will be returned to your account by the runtime. Funds sent directly to an account, without using the crowdloan functionality, may not be returned by the receiving account.')}
       />
       <Table
         className={className}
-        empty={value && activeSorted && t<string>('No active campaigns found')}
+        empty={value && activeSorted && t('No active campaigns found')}
         header={headerActiveRef.current}
       >
         {activeSorted?.map((fund) => (
@@ -112,7 +112,7 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
       </Table>
       <Table
         className={className}
-        empty={value && endedSorted && t<string>('No completed campaigns found')}
+        empty={value && endedSorted && t('No completed campaigns found')}
         header={headedEndedRef.current}
       >
         {endedSorted?.map((fund) => (

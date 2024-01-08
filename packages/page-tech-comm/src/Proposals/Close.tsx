@@ -36,20 +36,20 @@ function Close ({ hasFailed, hash, idNumber, proposal, type }: Props): React.Rea
     <>
       {isOpen && (
         <Modal
-          header={t<string>('Close proposal')}
+          header={t('Close proposal')}
           onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns hint={t<string>('The proposal that will be affected. Once closed for the current voting round, it would need to be re-submitted for a subsequent voting round.')}>
+            <Modal.Columns hint={t('The proposal that will be affected. Once closed for the current voting round, it would need to be re-submitted for a subsequent voting round.')}>
               <ProposedAction
                 idNumber={idNumber}
                 proposal={proposal}
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The committee account that will apply the close for the current round.')}>
+            <Modal.Columns hint={t('The committee account that will apply the close for the current round.')}>
               <InputAddress
-                label={t<string>('close from account')}
+                label={t('close from account')}
                 onChange={setAccountId}
                 type='account'
               />
@@ -74,7 +74,7 @@ function Close ({ hasFailed, hash, idNumber, proposal, type }: Props): React.Rea
       )}
       <Button
         icon='times'
-        label={t<string>('Close')}
+        label={t('Close')}
         onClick={toggleOpen}
       />
     </>

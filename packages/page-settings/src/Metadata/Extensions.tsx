@@ -48,13 +48,13 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
   );
 
   const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
-    [t<string>('Extensions'), 'start']
+    [t('Extensions'), 'start']
   ]);
 
   return (
     <StyledTable
       className={className}
-      empty={t<string>('No Upgradable extensions')}
+      empty={t('No Upgradable extensions')}
       header={headerRef.current}
     >
       {extensions
@@ -63,7 +63,7 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
             <tr className='isExpanded isFirst'>
               <td>
                 <Dropdown
-                  label={t<string>('upgradable extensions')}
+                  label={t('upgradable extensions')}
                   onChange={setSelectedIndex}
                   options={options}
                   value={selectedIndex}
@@ -76,7 +76,7 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
                   <Button
                     icon='upload'
                     isDisabled={isBusy}
-                    label={t<string>('Update metadata')}
+                    label={t('Update metadata')}
                     onClick={_updateMeta}
                   />
                 </Button.Group>

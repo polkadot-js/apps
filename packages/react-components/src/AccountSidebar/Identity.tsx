@@ -55,7 +55,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
     >
       <div className='ui--AddressMenu-section ui--AddressMenu-identity'>
         <div className='ui--AddressMenu-sectionHeader'>
-          {t<string>('identity')}
+          {t('identity')}
         </div>
         <div>
           <AvatarItem
@@ -74,7 +74,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
           <div className='ui--AddressMenu-identityTable'>
             {identity.parent && (
               <div className='tr parent'>
-                <div className='th'>{t<string>('parent')}</div>
+                <div className='th'>{t('parent')}</div>
                 <div className='td'>
                   <AddressMini
                     className='parent'
@@ -86,7 +86,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
             )}
             {identity.email && (
               <div className='tr'>
-                <div className='th'>{t<string>('email')}</div>
+                <div className='th'>{t('email')}</div>
                 <div className='td'>
                   {isHex(identity.email) || !identity.isKnownGood
                     ? identity.email
@@ -104,7 +104,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
             )}
             {identity.web && (
               <div className='tr'>
-                <div className='th'>{t<string>('website')}</div>
+                <div className='th'>{t('website')}</div>
                 <div className='td'>
                   {isHex(identity.web) || !identity.isKnownGood
                     ? identity.web
@@ -122,7 +122,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
             )}
             {identity.twitter && (
               <div className='tr'>
-                <div className='th'>{t<string>('twitter')}</div>
+                <div className='th'>{t('twitter')}</div>
                 <div className='td'>
                   {isHex(identity.twitter) || !identity.isKnownGood
                     ? identity.twitter
@@ -144,7 +144,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
             )}
             {identity.other && AddressIdentityOtherDiscordKey in identity.other && (
               <div className='tr'>
-                <div className='th'>{t<string>('discord')}</div>
+                <div className='th'>{t('discord')}</div>
                 <div className='td'>
                   {identity.other[AddressIdentityOtherDiscordKey]}
                 </div>
@@ -152,7 +152,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
             )}
             {identity.riot && (
               <div className='tr'>
-                <div className='th'>{t<string>('riot')}</div>
+                <div className='th'>{t('riot')}</div>
                 <div className='td'>
                   {identity.riot}
                 </div>
@@ -160,7 +160,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
             )}
             {!!subs?.length && (
               <div className='tr'>
-                <div className='th top'>{t<string>('subs')}</div>
+                <div className='th top'>{t('subs')}</div>
                 <div
                   className='td'
                   data-testid='subs'
@@ -191,7 +191,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
               <li>
                 <IconLink
                   icon='address-card'
-                  label={t<string>('Add identity judgment')}
+                  label={t('Add identity judgment')}
                   onClick={toggleIsJudgementOpen}
                 />
               </li>

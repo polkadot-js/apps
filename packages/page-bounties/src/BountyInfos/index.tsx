@@ -35,7 +35,7 @@ function BountyInfos ({ beneficiary, proposals, status }: Props): React.ReactEle
       {beneficiary && (
         <div>
           <AddressSmall value={beneficiary} />
-          <Description description={t<string>('Beneficiary')} />
+          <Description description={t('Beneficiary')} />
         </div>
       )}
     </>

@@ -25,17 +25,17 @@ function Multisig ({ isMultisig, meta }: Props): React.ReactElement<Props> | nul
   return (
     <section className='ui--AddressMenu-multisig withDivider'>
       <div className='ui--AddressMenu-sectionHeader'>
-        {t<string>('multisig')}
+        {t('multisig')}
       </div>
       <div className='ui--AddressMenu-multisigTable'>
         <div className='tr'>
-          <div className='th'>{t<string>('threshold')}</div>
+          <div className='th'>{t('threshold')}</div>
           <div className='td'>
             {threshold}/{who?.length}
           </div>
         </div>
         <div className='tr'>
-          <div className='th signatories'>{t<string>('signatories')}</div>
+          <div className='th signatories'>{t('signatories')}</div>
           <div className='td'>
             {(who as string[])?.map((address) => (
               <AddressMini

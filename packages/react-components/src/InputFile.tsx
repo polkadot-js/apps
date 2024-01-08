@@ -105,8 +105,8 @@ function InputFile ({ accept, className = '', clearContent, isDisabled, isError 
       <em className='label'>
         {
           !file || clearContent
-            ? placeholder || t<string>('click to select or drag and drop the file here')
-            : placeholder || t<string>('{{name}} ({{size}} bytes)', {
+            ? placeholder || t('click to select or drag and drop the file here')
+            : placeholder || t('{{name}} ({{size}} bytes)', {
               replace: {
                 name: file.name,
                 size: formatNumber(file.size)

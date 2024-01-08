@@ -98,8 +98,8 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
         status.account = address;
         status.status = address ? 'success' : 'error';
         status.message = isAddressExisting
-          ? t<string>('address edited')
-          : t<string>('address created');
+          ? t('address edited')
+          : t('address created');
 
         InputAddress.setLastValue('address', address);
       } catch (error) {
@@ -115,7 +115,7 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
 
   return (
     <Modal
-      header={t<string>('Add an address')}
+      header={t('Add an address')}
       onClose={onClose}
     >
       <Modal.Content>
@@ -132,16 +132,16 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
             autoFocus
             className='full'
             isError={!isAddressValid}
-            label={t<string>('address')}
+            label={t('address')}
             onChange={_onChangeAddress}
             onEnter={_onCommit}
-            placeholder={t<string>('new address')}
+            placeholder={t('new address')}
             value={addressInput}
           />
           <Input
             className='full'
             isError={!isNameValid}
-            label={t<string>('name')}
+            label={t('name')}
             onChange={_onChangeName}
             onEnter={_onCommit}
             value={name}
@@ -152,7 +152,7 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
         <Button
           icon='save'
           isDisabled={!isValid}
-          label={t<string>('Save')}
+          label={t('Save')}
           onClick={_onCommit}
         />
       </Modal.Actions>

@@ -1,7 +1,6 @@
 // Copyright 2017-2023 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
 import type { DeriveDemocracyLock } from '@polkadot/api-derive/types';
 import type { Balance } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
@@ -40,7 +39,7 @@ let id = 0;
 //   - all unlockable together
 //   - all ongoing together
 //   - unlocks are displayed individually
-function groupLocks (t: TFunction, bestNumber: BN, locks: Partial<DeriveDemocracyLock>[] = []): State {
+function groupLocks (t: (key: string, options?: { replace: Record<string, unknown> }) => string, bestNumber: BN, locks: Partial<DeriveDemocracyLock>[] = []): State {
   return {
     maxBalance: bnMax(...locks.map(({ balance }) => balance).filter((b): b is Balance => !!b)),
     sorted: locks
@@ -62,13 +61,13 @@ function groupLocks (t: TFunction, bestNumber: BN, locks: Partial<DeriveDemocrac
                 {isCountdown
                   ? (
                     <BlockToTime
-                      label={`${t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(blocks) } })}, `}
+                      label={`${t('{{blocks}} blocks', { replace: { blocks: formatNumber(blocks) } })}, `}
                       value={blocks}
                     />
                   )
                   : isFinished
-                    ? t<string>('lock expired')
-                    : t<string>('ongoing referendum')
+                    ? t('lock expired')
+                    : t('ongoing referendum')
                 }
               </div>
             ),

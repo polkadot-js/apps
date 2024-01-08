@@ -18,16 +18,16 @@ function Codes ({ onShowDeploy }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef<[string?, string?, number?][]>([
-    [t<string>('code hashes'), 'start'],
+    [t('code hashes'), 'start'],
     [],
     [],
-    [t<string>('status'), 'start'],
+    [t('status'), 'start'],
     []
   ]);
 
   return (
     <Table
-      empty={t<string>('No code hashes available')}
+      empty={t('No code hashes available')}
       header={headerRef.current}
     >
       {contracts.getAllCode().map((code): React.ReactNode => (

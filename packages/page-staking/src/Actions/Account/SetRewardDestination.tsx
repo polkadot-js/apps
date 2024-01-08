@@ -38,7 +38,7 @@ function SetRewardDestination ({ controllerId, defaultDestination, onClose, stas
 
   return (
     <Modal
-      header={t<string>('Bonding Preferences')}
+      header={t('Bonding Preferences')}
       onClose={onClose}
       size='large'
     >
@@ -47,24 +47,24 @@ function SetRewardDestination ({ controllerId, defaultDestination, onClose, stas
           controllerId={controllerId}
           stashId={stashId}
         />
-        <Modal.Columns hint={t<string>('All rewards will go towards the selected output destination when a payout is made.')}>
+        <Modal.Columns hint={t('All rewards will go towards the selected output destination when a payout is made.')}>
           <Dropdown
             defaultValue={defaultDestination?.toString()}
-            label={t<string>('payment destination')}
+            label={t('payment destination')}
             onChange={setDestination}
             options={options}
             value={destination}
           />
           {isAccount && (
             <InputAddress
-              label={t<string>('the payment account')}
+              label={t('the payment account')}
               onChange={setDestAccount}
               type='account'
               value={destAccount}
             />
           )}
           {isDestError && (
-            <MarkError content={t<string>('The selected destination account does not exist and cannot be used to receive rewards')} />
+            <MarkError content={t('The selected destination account does not exist and cannot be used to receive rewards')} />
           )}
         </Modal.Columns>
       </Modal.Content>
@@ -73,7 +73,7 @@ function SetRewardDestination ({ controllerId, defaultDestination, onClose, stas
           accountId={controllerId}
           icon='sign-in-alt'
           isDisabled={!controllerId || (isAccount && (!destAccount || isDestError))}
-          label={t<string>('Set reward destination')}
+          label={t('Set reward destination')}
           onStart={onClose}
           params={[
             isAccount

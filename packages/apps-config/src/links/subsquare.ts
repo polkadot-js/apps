@@ -24,6 +24,7 @@ export const Subsquare: ExternalDef = {
     Kusama: 'kusama',
     Litentry: 'litentry',
     Litmus: 'litmus',
+    Moonriver: 'moonriver',
     Phala: 'phala',
     Polkadot: 'polkadot',
     Rococo: 'rococo',

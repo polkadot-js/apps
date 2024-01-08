@@ -53,8 +53,8 @@ function IdentityIcon ({ className = '', forceIconType, prefix, size = 24, theme
   const onCopy = useCallback(
     (account: string) => queueAction({
       account,
-      action: t<string>('clipboard'),
-      message: t<string>('address copied'),
+      action: t('clipboard'),
+      message: t('address copied'),
       status: 'queued'
     }),
     [queueAction, t]

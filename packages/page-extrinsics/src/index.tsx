@@ -1,7 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-extrinsics authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
 import type { AppProps as Props, TabItem } from '@polkadot/react-components/types';
 import type { DecodedExtrinsic } from './types.js';
 
@@ -14,17 +13,17 @@ import Decoder from './Decoder.js';
 import Submission from './Submission.js';
 import { useTranslation } from './translate.js';
 
-function createItemsRef (t: TFunction): TabItem[] {
+function createItemsRef (t: (key: string, options?: { replace: Record<string, unknown> }) => string): TabItem[] {
   return [
     {
       isRoot: true,
       name: 'create',
-      text: t<string>('Submission')
+      text: t('Submission')
     },
     {
       hasParams: true,
       name: 'decode',
-      text: t<string>('Decode')
+      text: t('Decode')
     }
   ];
 }

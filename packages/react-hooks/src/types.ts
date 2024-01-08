@@ -170,7 +170,7 @@ export interface Judgement {
 
 export type UseJudgements = Judgement[]
 
-export type BatchType = 'all' | 'default';
+export type BatchType = 'all' | 'default' | 'force';
 
 export interface BatchOptions {
   max?: number;

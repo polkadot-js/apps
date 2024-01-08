@@ -37,8 +37,8 @@ function Validate ({ className = '', controllerId, minCommission, onChange, stas
   );
 
   const blockedOptions = useRef([
-    { text: t<string>('Yes, allow nominations'), value: true },
-    { text: t<string>('No, block all nominations'), value: false }
+    { text: t('Yes, allow nominations'), value: true },
+    { text: t('No, block all nominations'), value: false }
   ]);
 
   useEffect((): void => {
@@ -73,25 +73,25 @@ function Validate ({ className = '', controllerId, minCommission, onChange, stas
           stashId={stashId}
         />
       )}
-      <Modal.Columns hint={t<string>('The commission is deducted from all rewards before the remainder is split with nominators.')}>
+      <Modal.Columns hint={t('The commission is deducted from all rewards before the remainder is split with nominators.')}>
         <InputNumber
           autoFocus={withFocus}
           defaultValue={defaultComm}
           isError={commErr}
           isZeroable
-          label={t<string>('reward commission percentage')}
+          label={t('reward commission percentage')}
           maxValue={MAX_COMM}
           onChange={_setCommission}
         />
         {commErr && (
-          <MarkError content={t<string>('The commission is below the on-chain minimum of {{p}}%', { replace: { p: (minCommission.mul(MAX_COMM).div(COMM_MUL).toNumber() / 100).toFixed(2) } })} />
+          <MarkError content={t('The commission is below the on-chain minimum of {{p}}%', { replace: { p: (minCommission.mul(MAX_COMM).div(COMM_MUL).toNumber() / 100).toFixed(2) } })} />
         )}
       </Modal.Columns>
       {isFunction(api.tx.staking.kick) && (
-        <Modal.Columns hint={t<string>('The validator can block any new nominations. By default it is set to allow all nominations.')}>
+        <Modal.Columns hint={t('The validator can block any new nominations. By default it is set to allow all nominations.')}>
           <Dropdown
             defaultValue={true}
-            label={t<string>('allows new nominations')}
+            label={t('allows new nominations')}
             onChange={setAllowNoms}
             options={blockedOptions.current}
           />

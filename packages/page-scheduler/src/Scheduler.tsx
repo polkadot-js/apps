@@ -93,17 +93,17 @@ function Schedule ({ className = '' }: Props): React.ReactElement<Props> {
   );
 
   const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
-    [t<string>('scheduled'), 'start'],
-    [t<string>('id'), 'start'],
-    [t<string>('remaining')],
-    [t<string>('period')],
-    [t<string>('count')]
+    [t('scheduled'), 'start'],
+    [t('id'), 'start'],
+    [t('remaining')],
+    [t('period')],
+    [t('count')]
   ]);
 
   return (
     <Table
       className={className}
-      empty={filtered && t<string>('No active schedules')}
+      empty={filtered && t('No active schedules')}
       header={headerRef.current}
     >
       {filtered?.map((value): React.ReactNode => (

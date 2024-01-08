@@ -99,9 +99,9 @@ function Api ({ className }: Props): React.ReactElement<Props> {
 
   const { bytesLegend, requestsLegend } = useMemo(
     () => ({
-      bytesLegend: [t<string>('sent'), t<string>('recv'), t<string>('average')],
-      errorsLegend: [t<string>('errors')],
-      requestsLegend: [t<string>('total'), t<string>('requests'), t<string>('subscriptions'), t<string>('average')]
+      bytesLegend: [t('sent'), t('recv'), t('average')],
+      errorsLegend: [t('errors')],
+      requestsLegend: [t('total'), t('requests'), t('subscriptions'), t('average')]
     }), [t]
   );
 
@@ -119,24 +119,24 @@ function Api ({ className }: Props): React.ReactElement<Props> {
     <StyledDiv className={className}>
       <SummaryBox>
         <section>
-          <CardSummary label={t<string>('sent')}>
+          <CardSummary label={t('sent')}>
             {isLoaded
               ? <>{formatNumber(last.stats.total.bytesSent / 1024)}kB</>
               : EMPTY_BYTES}
           </CardSummary>
-          <CardSummary label={t<string>('recv')}>
+          <CardSummary label={t('recv')}>
             {isLoaded
               ? <>{formatNumber(last.stats.total.bytesRecv / 1024)}kB</>
               : EMPTY_BYTES}
           </CardSummary>
         </section>
         <section>
-          <CardSummary label={t<string>('total req')}>
+          <CardSummary label={t('total req')}>
             {isLoaded
               ? <>{formatNumber(last.stats.total.requests)}</>
               : EMPTY_NUMBER}
           </CardSummary>
-          <CardSummary label={t<string>('total sub')}>
+          <CardSummary label={t('total sub')}>
             {isLoaded
               ? <>{formatNumber(last.stats.total.subscriptions)}</>
               : EMPTY_NUMBER}
@@ -148,14 +148,14 @@ function Api ({ className }: Props): React.ReactElement<Props> {
           colors={COLORS_REQUESTS}
           legends={requestsLegend}
           options={OPTIONS}
-          title={t<string>('requests made')}
+          title={t('requests made')}
           value={requestsChart}
         />
         <Chart
           colors={COLORS_BYTES}
           legends={bytesLegend}
           options={OPTIONS}
-          title={t<string>('bytes transferred')}
+          title={t('bytes transferred')}
           value={bytesChart}
         />
       </NextTick>

@@ -30,7 +30,7 @@ function ValidateAmount ({ amount, delegatingAccount, onError }: Props): React.R
       let newError: string | null = null;
 
       if (amount.gte(delegatingAccountBalance.freeBalance)) {
-        newError = t<string>('The maximum amount you can delegate is the amount of funds available on the delegating account.');
+        newError = t('The maximum amount you can delegate is the amount of funds available on the delegating account.');
       }
 
       setResult((state): AmountValidateState => {

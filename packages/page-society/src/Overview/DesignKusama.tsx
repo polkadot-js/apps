@@ -53,7 +53,7 @@ function DesignKusama ({ accountId }: Props): React.ReactElement<Props> | null {
       />
       {isShowing && (
         <Modal
-          header={t<string>('design samples')}
+          header={t('design samples')}
           onClose={toggleDesign}
           size='large'
         >

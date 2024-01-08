@@ -1,9 +1,8 @@
 // Copyright 2017-2023 @polkadot/apps-routing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
 import type { ApiPromise } from '@polkadot/api';
-import type { Route } from './types.js';
+import type { Route, TFunction } from './types.js';
 
 import Component from '@polkadot/app-contracts';
 import { assertReturn } from '@polkadot/util';
@@ -32,6 +31,6 @@ export default function create (t: TFunction): Route {
     group: 'developer',
     icon: 'compress',
     name: 'contracts',
-    text: t<string>('nav.contracts', 'Contracts', { ns: 'apps-routing' })
+    text: t('nav.contracts', 'Contracts', { ns: 'apps-routing' })
   };
 }

@@ -52,14 +52,14 @@ function InputOwner ({ noCodeCheck, onChange, ownedIds }: Props): React.ReactEle
   return (
     <Modal.Columns hint={
       <>
-        <p>{t<string>('This account that has been used to register the parachain. This will pay all associated fees.')}</p>
-        <p>{t<string>('The parachain id is associated with the selected account via parathread registration.')}</p>
+        <p>{t('This account that has been used to register the parachain. This will pay all associated fees.')}</p>
+        <p>{t('The parachain id is associated with the selected account via parathread registration.')}</p>
       </>
     }
     >
       <InputAddress
         filter={owners}
-        label={t<string>('parachain owner')}
+        label={t('parachain owner')}
         onChange={setAccountId}
         type='account'
         value={accountId}
@@ -68,13 +68,13 @@ function InputOwner ({ noCodeCheck, onChange, ownedIds }: Props): React.ReactEle
         <Dropdown
           defaultValue={optIds[0].value}
           key={accountId}
-          label={t<string>('parachain id')}
+          label={t('parachain id')}
           onChange={_setParaId}
           options={optIds}
         />
       )}
       {!noCodeCheck && !paraId && (
-        <MarkError content={t<string>('Before using this registered paraId, you need to have a WASM validation function registered on-chain')} />
+        <MarkError content={t('Before using this registered paraId, you need to have a WASM validation function registered on-chain')} />
       )}
     </Modal.Columns>
   );

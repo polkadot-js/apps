@@ -55,7 +55,6 @@
   "The value of the balance that is to be split to the abstain, aye and nay parts of the vote": "The value of the balance that is to be split to the abstain, aye and nay parts of the vote",
   "The value of the balance that is to be split to the aye and nay parts of the vote": "The value of the balance that is to be split to the aye and nay parts of the vote",
   "The vote will be recorded for this account. If another account delegated to this one, the delegated votes will also be counted.": "The vote will be recorded for this account. If another account delegated to this one, the delegated votes will also be counted.",
-  "This account has no voting/delating activity in the chain state": "This account has no voting/delating activity in the chain state",
   "This account has no voting/delegating activity in the chain state": "This account has no voting/delegating activity in the chain state",
   "This account has some delegations in itself": "This account has some delegations in itself",
   "Validators": "Validators",

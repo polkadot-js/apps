@@ -1,7 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
 import type { Data, Option } from '@polkadot/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
@@ -26,7 +25,7 @@ interface SubProps {
   name: string;
   setAddress: (index: number, value: string) => void;
   setName: (index: number, value: string) => void;
-  t: TFunction;
+  t: (key: string, options?: { replace: Record<string, unknown> }) => string;
 }
 
 function extractInfo ([[ids], opts]: [[string[]], Option<ITuple<[AccountId, Data]>>[]]): [string, string][] {
@@ -61,7 +60,7 @@ function IdentitySub ({ address, index, name, setAddress, setName, t }: SubProps
       <Columar.Column>
         <InputAddress
           defaultValue={address}
-          label={t<string>('address {{index}}', { replace: { index: index + 1 } })}
+          label={t('address {{index}}', { replace: { index: index + 1 } })}
           onChange={_setAddress}
         />
       </Columar.Column>
@@ -70,7 +69,7 @@ function IdentitySub ({ address, index, name, setAddress, setName, t }: SubProps
           defaultValue={name}
           isError={!name}
           isFull
-          label={t<string>('sub name')}
+          label={t('sub name')}
           onChange={_setName}
         />
       </Columar.Column>
@@ -121,17 +120,17 @@ function IdentitySubModal ({ address, className, onClose }: Props): React.ReactE
   return (
     <Modal
       className={className}
-      header={t<string>('Register sub-identities')}
+      header={t('Register sub-identities')}
       onClose={onClose}
       size='large'
     >
       <Modal.Content>
         {!infos
-          ? <Spinner label={t<string>('Retrieving sub-identities')} />
+          ? <Spinner label={t('Retrieving sub-identities')} />
           : (
             <div>
               {!infos.length
-                ? <article>{t<string>('No sub identities set.')}</article>
+                ? <article>{t('No sub identities set.')}</article>
                 : infos.map(([address, name], index) =>
                   <IdentitySubMemo
                     address={address}
@@ -147,13 +146,13 @@ function IdentitySubModal ({ address, className, onClose }: Props): React.ReactE
               <Button.Group>
                 <Button
                   icon='plus'
-                  label={t<string>('Add sub')}
+                  label={t('Add sub')}
                   onClick={_rowAdd}
                 />
                 <Button
                   icon='minus'
                   isDisabled={infos.length === 0}
-                  label={t<string>('Remove sub')}
+                  label={t('Remove sub')}
                   onClick={_rowRemove}
                 />
               </Button.Group>
@@ -166,7 +165,7 @@ function IdentitySubModal ({ address, className, onClose }: Props): React.ReactE
           <TxButton
             accountId={address}
             isDisabled={infos.some(([address, raw]) => !address || !raw)}
-            label={t<string>('Set Subs')}
+            label={t('Set Subs')}
             onStart={onClose}
             params={[
               infos.map(([address, raw]) => [address, { raw }])

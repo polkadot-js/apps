@@ -30,11 +30,11 @@ function App ({ basePath, className, palletColl, palletPoll }: Props): React.Rea
       {
         isRoot: true,
         name: 'overview',
-        text: t<string>('Overview')
+        text: t('Overview')
       },
       {
         name: 'referenda',
-        text: t<string>('Referenda ({{count}})', { replace: { count: refCount || 0 } })
+        text: t('Referenda ({{count}})', { replace: { count: refCount || 0 } })
       }
     ],
     [refCount, t]

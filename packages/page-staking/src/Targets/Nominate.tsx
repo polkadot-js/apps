@@ -51,40 +51,40 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
       <Button
         icon='hand-paper'
         isDisabled={isDisabled || !stashes.length || !targets.length}
-        label={t<string>('Nominate selected')}
+        label={t('Nominate selected')}
         onClick={toggleOpen}
       />
       {isOpen && (
         <StyledModal
           className={className}
-          header={t<string>('Nominate validators')}
+          header={t('Nominate validators')}
           onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns hint={t<string>('One of your available nomination accounts, keyed by the stash. The transaction will be sent from the controller.')}>
+            <Modal.Columns hint={t('One of your available nomination accounts, keyed by the stash. The transaction will be sent from the controller.')}>
               <InputAddress
                 filter={stashes}
-                label={t<string>('the stash account to nominate with')}
+                label={t('the stash account to nominate with')}
                 onChange={_onChangeStash}
                 value={ids?.stashId}
               />
               <InputAddress
                 isDisabled
-                label={t<string>('the associated controller')}
+                label={t('the associated controller')}
                 value={ids?.controllerId}
               />
             </Modal.Columns>
             <Modal.Columns
               hint={
                 <>
-                  <p>{t<string>('The selected validators to nominate, either via the "currently best algorithm" or via a manual selection.')}</p>
-                  <p>{t<string>('Once transmitted the new selection will only take effect in 2 eras since the selection criteria for the next era was done at the end of the previous era. Until then, the nominations will show as inactive.')}</p>
+                  <p>{t('The selected validators to nominate, either via the "currently best algorithm" or via a manual selection.')}</p>
+                  <p>{t('Once transmitted the new selection will only take effect in 2 eras since the selection criteria for the next era was done at the end of the previous era. Until then, the nominations will show as inactive.')}</p>
                 </>
               }
             >
               <Static
-                label={t<string>('selected validators')}
+                label={t('selected validators')}
                 value={
                   targets.map((validatorId) => (
                     <AddressMini
@@ -100,7 +100,7 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
           <Modal.Actions>
             <TxButton
               accountId={ids?.controllerId}
-              label={t<string>('Nominate')}
+              label={t('Nominate')}
               onStart={toggleOpen}
               params={[targets]}
               tx={api.tx.staking.nominate}

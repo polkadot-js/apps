@@ -38,18 +38,18 @@ function Vote ({ className = '', defaultValue: { value }, isDisabled, isError, o
   );
 
   const optAyeRef = useRef([
-    { text: t<string>('Nay'), value: false },
-    { text: t<string>('Aye'), value: true }
+    { text: t('Nay'), value: false },
+    { text: t('Aye'), value: true }
   ]);
 
   const optConvRef = useRef([
-    { text: t<string>('None'), value: 0 },
-    { text: t<string>('Locked1x'), value: 1 },
-    { text: t<string>('Locked2x'), value: 2 },
-    { text: t<string>('Locked3x'), value: 3 },
-    { text: t<string>('Locked4x'), value: 4 },
-    { text: t<string>('Locked5x'), value: 5 },
-    { text: t<string>('Locked6x'), value: 6 }
+    { text: t('None'), value: 0 },
+    { text: t('Locked1x'), value: 1 },
+    { text: t('Locked2x'), value: 2 },
+    { text: t('Locked3x'), value: 3 },
+    { text: t('Locked4x'), value: 4 },
+    { text: t('Locked5x'), value: 5 },
+    { text: t('Locked6x'), value: 6 }
   ]);
 
   const defaultVote = isBn(value)
@@ -68,7 +68,7 @@ function Vote ({ className = '', defaultValue: { value }, isDisabled, isError, o
         defaultValue={defaultVote}
         isDisabled={isDisabled}
         isError={isError}
-        label={t<string>('aye: bool')}
+        label={t('aye: bool')}
         onChange={onChangeVote}
         options={optAyeRef.current}
         withLabel={withLabel}
@@ -78,7 +78,7 @@ function Vote ({ className = '', defaultValue: { value }, isDisabled, isError, o
         defaultValue={defaultConv}
         isDisabled={isDisabled}
         isError={isError}
-        label={t<string>('conviction: Conviction')}
+        label={t('conviction: Conviction')}
         onChange={onChangeConviction}
         options={optConvRef.current}
         withLabel={withLabel}

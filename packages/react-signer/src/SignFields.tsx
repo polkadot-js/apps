@@ -51,16 +51,16 @@ function SignFields ({ address, onChange, signedTx }: Props): React.ReactElement
         <InputNumber
           isDisabled={!!signedTx}
           isZeroable
-          label={t<string>('Nonce')}
-          labelExtra={t<string>('Current account nonce: {{accountNonce}}', { replace: { accountNonce: nonce } })}
+          label={t('Nonce')}
+          labelExtra={t('Current account nonce: {{accountNonce}}', { replace: { accountNonce: nonce } })}
           onChange={_setNonce}
           value={nonce}
         />
         <InputNumber
           isDisabled={!!signedTx}
           isZeroable
-          label={t<string>('Lifetime (# of blocks)')}
-          labelExtra={t<string>('Set to 0 to make transaction immortal')}
+          label={t('Lifetime (# of blocks)')}
+          labelExtra={t('Set to 0 to make transaction immortal')}
           onChange={_setBlocks}
           value={blocks}
         />
@@ -70,7 +70,7 @@ function SignFields ({ address, onChange, signedTx }: Props): React.ReactElement
           <Output
             isFull
             isTrimmed
-            label={t<string>('Signed transaction')}
+            label={t('Signed transaction')}
             value={signedTx}
             withCopy
           />

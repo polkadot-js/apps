@@ -22,11 +22,11 @@ function UtilitiesApp ({ basePath, className }: Props): React.ReactElement<Props
     {
       isRoot: true,
       name: 'convert',
-      text: t<string>('Convert address')
+      text: t('Convert address')
     },
     {
       name: 'hash',
-      text: t<string>('Hash data')
+      text: t('Hash data')
     }
   ]);
 

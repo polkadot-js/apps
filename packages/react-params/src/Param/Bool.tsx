@@ -22,8 +22,8 @@ function BoolParam ({ className = '', defaultValue: { value }, isDisabled, isErr
   );
 
   const options = useRef([
-    { text: t<string>('No'), value: false },
-    { text: t<string>('Yes'), value: true }
+    { text: t('No'), value: false },
+    { text: t('Yes'), value: true }
   ]);
 
   const _onChange = useCallback(

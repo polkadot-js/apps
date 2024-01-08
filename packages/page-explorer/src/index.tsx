@@ -1,7 +1,6 @@
 // Copyright 2017-2023 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
 import type { TabItem } from '@polkadot/react-components/types';
 import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
 
@@ -26,34 +25,34 @@ interface Props {
   newEvents?: KeyedEvent[];
 }
 
-function createItemsRef (t: TFunction): TabItem[] {
+function createItemsRef (t: (key: string, options?: { replace: Record<string, unknown> }) => string): TabItem[] {
   return [
     {
       isRoot: true,
       name: 'chain',
-      text: t<string>('Chain info')
+      text: t('Chain info')
     },
     {
       hasParams: true,
       name: 'query',
-      text: t<string>('Block details')
+      text: t('Block details')
     },
     {
       name: 'latency',
-      text: t<string>('Latency')
+      text: t('Latency')
     },
     {
       name: 'forks',
-      text: t<string>('Forks')
+      text: t('Forks')
     },
     {
       name: 'node',
-      text: t<string>('Node info')
+      text: t('Node info')
     },
     {
       // isHidden: true,
       name: 'api',
-      text: t<string>('API stats')
+      text: t('API stats')
     }
   ];
 }

@@ -37,7 +37,7 @@ function UpcomingEvents ({ className, scheduled, setView }: Props): React.ReactE
             icon='calendar'
             onClick={_setView}
           />
-          {t<string>('Upcoming Events')}
+          {t('Upcoming Events')}
         </div>
       </h1>
       <ul className='allEventsWrapper'>

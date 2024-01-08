@@ -32,7 +32,7 @@ function ExternalCell ({ className = '', value }: Props): React.ReactElement<Pro
       withPadding
     >
       <CallExpander
-        labelHash={t<string>('proposal hash')}
+        labelHash={t('proposal hash')}
         value={preimage.proposal}
         withHash
       />

@@ -61,9 +61,9 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectT
   );
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t<string>('tips'), 'start'],
-    [t<string>('finder'), 'address media--1400'],
-    [t<string>('reason'), 'start'],
+    [t('tips'), 'start'],
+    [t('finder'), 'address media--1400'],
+    [t('reason'), 'start'],
     [undefined, 'media--1100'],
     [],
     [undefined, 'badge media--1700'],
@@ -74,11 +74,11 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectT
   return (
     <StyledTable
       className={className}
-      empty={tips && t<string>('No open tips')}
+      empty={tips && t('No open tips')}
       filter={isMember && (
         <div className='tipsFilter'>
           <Toggle
-            label={t<string>('show only untipped/closing')}
+            label={t('show only untipped/closing')}
             onChange={setOnlyUntipped}
             value={onlyUntipped}
           />

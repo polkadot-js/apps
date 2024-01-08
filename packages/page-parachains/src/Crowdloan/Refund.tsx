@@ -27,20 +27,20 @@ function Refund ({ className, paraId }: Props): React.ReactElement<Props> {
       <Button
         icon='minus'
         isDisabled={!hasAccounts}
-        label={t<string>('Refund')}
+        label={t('Refund')}
         onClick={toggleOpen}
       />
       {isOpen && (
         <Modal
           className={className}
-          header={t<string>('Withdraw from fund')}
+          header={t('Withdraw from fund')}
           onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns hint={t<string>('This account will be used to send the transaction.')}>
+            <Modal.Columns hint={t('This account will be used to send the transaction.')}>
               <InputAddress
-                label={t<string>('requesting from')}
+                label={t('requesting from')}
                 onChange={setAccountId}
                 type='account'
                 value={accountId}
@@ -51,7 +51,7 @@ function Refund ({ className, paraId }: Props): React.ReactElement<Props> {
             <TxButton
               accountId={accountId}
               icon='credit-card'
-              label={t<string>('Refund')}
+              label={t('Refund')}
               onStart={toggleOpen}
               params={[paraId]}
               tx={api.tx.crowdloan.refund}

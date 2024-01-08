@@ -12,7 +12,7 @@ import { bnToBn } from '@polkadot/util';
 import { createNamedHook } from './createNamedHook.js';
 import { useApi } from './useApi.js';
 
-const endpoints = createWsEndpoints((key: string, value: string | undefined) => value || key);
+const endpoints = createWsEndpoints((k, v) => v?.toString() || k);
 
 function extractRelayEndpoints (genesisHash: string): LinkOption[] {
   return endpoints.filter(({ genesisHashRelay }) =>

@@ -147,117 +147,117 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
   return (
     <Modal
       className={className}
-      header={t<string>('Register identity')}
+      header={t('Register identity')}
       onClose={onClose}
     >
       <Modal.Content>
         <Input
           autoFocus
           isError={!okDisplay}
-          label={t<string>('display name')}
+          label={t('display name')}
           maxLength={32}
           onChange={setValDisplay}
-          placeholder={t<string>('My On-Chain Name')}
+          placeholder={t('My On-Chain Name')}
           value={valDisplay}
         />
         <Input
           isDisabled={!hasLegal}
           isError={!okLegal}
-          label={t<string>('legal name')}
+          label={t('legal name')}
           labelExtra={
             <Toggle
-              label={t<string>('include field')}
+              label={t('include field')}
               onChange={setHasLegal}
               value={hasLegal}
             />
           }
           maxLength={32}
           onChange={setValLegal}
-          placeholder={t<string>('Full Legal Name')}
+          placeholder={t('Full Legal Name')}
           value={hasLegal ? valLegal : '<none>'}
         />
         <Input
           isDisabled={!hasEmail}
           isError={!okEmail}
-          label={t<string>('email')}
+          label={t('email')}
           labelExtra={
             <Toggle
-              label={t<string>('include field')}
+              label={t('include field')}
               onChange={setHasEmail}
               value={hasEmail}
             />
           }
           maxLength={32}
           onChange={setValEmail}
-          placeholder={t<string>('somebody@example.com')}
+          placeholder={t('somebody@example.com')}
           value={hasEmail ? valEmail : '<none>'}
         />
         <Input
           isDisabled={!hasWeb}
           isError={!okWeb}
-          label={t<string>('web')}
+          label={t('web')}
           labelExtra={
             <Toggle
-              label={t<string>('include field')}
+              label={t('include field')}
               onChange={setHasWeb}
               value={hasWeb}
             />
           }
           maxLength={32}
           onChange={setValWeb}
-          placeholder={t<string>('https://example.com')}
+          placeholder={t('https://example.com')}
           value={hasWeb ? valWeb : '<none>'}
         />
         <Input
           isDisabled={!hasTwitter}
           isError={!okTwitter}
-          label={t<string>('twitter')}
+          label={t('twitter')}
           labelExtra={
             <Toggle
-              label={t<string>('include field')}
+              label={t('include field')}
               onChange={setHasTwitter}
               value={hasTwitter}
             />
           }
           onChange={setValTwitter}
-          placeholder={t<string>('@YourTwitterName')}
+          placeholder={t('@YourTwitterName')}
           value={hasTwitter ? valTwitter : '<none>'}
         />
         <Input
           isDisabled={!hasDiscord}
           isError={!okDiscord}
-          label={t<string>('discord')}
+          label={t('discord')}
           labelExtra={
             <Toggle
-              label={t<string>('include field')}
+              label={t('include field')}
               onChange={setHasDiscord}
               value={hasDiscord}
             />
           }
           onChange={setValDiscord}
-          placeholder={t<string>('YourDiscordHandle')}
+          placeholder={t('YourDiscordHandle')}
           value={hasDiscord ? valDiscord : '<none>'}
         />
         <Input
           isDisabled={!hasRiot}
           isError={!okRiot}
-          label={t<string>('riot name')}
+          label={t('riot name')}
           labelExtra={
             <Toggle
-              label={t<string>('include field')}
+              label={t('include field')}
               onChange={setHasRiot}
               value={hasRiot}
             />
           }
           maxLength={32}
           onChange={setValRiot}
-          placeholder={t<string>('@yourname:matrix.org')}
+          placeholder={t('@yourname:matrix.org')}
           value={hasRiot ? valRiot : '<none>'}
         />
         <InputBalance
           defaultValue={api.consts.identity?.basicDeposit}
           isDisabled
-          label={t<string>('total deposit')}
+          label={t('total deposit')}
         />
       </Modal.Content>
       <Modal.Actions>
@@ -265,14 +265,14 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
           accountId={address}
           icon={'trash-alt'}
           isDisabled={!gotPreviousIdentity}
-          label={t<string>('Clear Identity')}
+          label={t('Clear Identity')}
           onStart={onClose}
           tx={api.tx.identity.clearIdentity}
         />
         <TxButton
           accountId={address}
           isDisabled={!okAll}
-          label={t<string>('Set Identity')}
+          label={t('Set Identity')}
           onStart={onClose}
           params={[info]}
           tx={api.tx.identity.setIdentity}

@@ -32,8 +32,8 @@ function CreateConfirmation ({ address, derivePath, name, pairType, seed }: Prop
       <Modal.Columns
         hint={
           <>
-            <p>{t<string>('We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always download this file later by clicking on "Backup" button from the Accounts section.')}</p>
-            <p>{t<string>('Please make sure to save this file in a secure location as it is required, together with your password, to restore your account.')}</p>
+            <p>{t('We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always download this file later by clicking on "Backup" button from the Accounts section.')}</p>
+            <p>{t('Please make sure to save this file in a secure location as it is required, together with your password, to restore your account.')}</p>
           </>
         }
       >
@@ -47,17 +47,17 @@ function CreateConfirmation ({ address, derivePath, name, pairType, seed }: Prop
         )}
         {shortSeed && (
           <Static
-            label={t<string>('partial seed')}
+            label={t('partial seed')}
             value={shortSeed}
           />
         )}
         <Static
-          label={t<string>('keypair type')}
+          label={t('keypair type')}
           value={pairType}
         />
         <Static
-          label={t<string>('derivation path')}
-          value={derivePath || t<string>('<none provided>')}
+          label={t('derivation path')}
+          value={derivePath || t('<none provided>')}
         />
       </Modal.Columns>
     </Modal.Content>

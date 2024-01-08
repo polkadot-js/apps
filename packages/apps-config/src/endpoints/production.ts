@@ -31,7 +31,9 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'aleph',
     providers: {
-      'Aleph Zero Foundation': 'wss://ws.azero.dev'
+      'Aleph Zero Foundation': 'wss://ws.azero.dev',
+      Dwellir: 'wss://aleph-zero-rpc.dwellir.com'
+
     },
     text: 'Aleph Zero',
     ui: {
@@ -455,7 +457,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'stafi',
     providers: {
-      // 'Stafi Foundation': 'wss://mainnet-rpc.stafi.io' // isDisabled: true, // Cannot find type ChainId
+      // 'Stafi Foundation': 'wss://mainnet-rpc.stafi.io' // Cannot find type ChainId
     },
     text: 'Stafi',
     ui: {
@@ -510,12 +512,12 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'thebifrost-mainnet',
     providers: {
-      'Pilab #1': 'wss://public-01.mainnet.thebifrost.io/wss',
-      'Pilab #2': 'wss://public-02.mainnet.thebifrost.io/wss'
+      'Pilab #1': 'wss://public-01.mainnet.bifrostnetwork.com/wss',
+      'Pilab #2': 'wss://public-02.mainnet.bifrostnetwork.com/wss'
     },
     text: 'The Bifrost Mainnet',
     ui: {
-      color: '#5a25f0',
+      color: '#FF474C',
       logo: nodesThebifrostPNG
     }
   },
@@ -533,7 +535,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'unitnetwork',
     providers: {
-      // UnitNetwork: 'wss://www.unitnode3.info:443'
+      // UnitNetwork: 'wss://www.unitnode3.info:443' // Duplicated in Rococo
     },
     text: 'UnitNetwork',
     ui: {

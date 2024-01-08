@@ -50,11 +50,11 @@ function AssetApp ({ basePath, className }: Props): React.ReactElement<Props> {
     {
       isRoot: true,
       name: 'overview',
-      text: t<string>('Overview')
+      text: t('Overview')
     },
     {
       name: 'balances',
-      text: t<string>('Balances')
+      text: t('Balances')
     }
   ]);
 

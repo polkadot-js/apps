@@ -61,12 +61,12 @@ function NewValidator ({ isInElection, minCommission, targets }: Props): React.R
         icon='plus'
         isDisabled={isDisabled}
         key='new-validator'
-        label={t<string>('Validator')}
+        label={t('Validator')}
         onClick={_toggle}
       />
       {isVisible && (
         <Modal
-          header={t<string>('Setup Validator {{step}}/{{NUM_STEPS}}', {
+          header={t('Setup Validator {{step}}/{{NUM_STEPS}}', {
             replace: {
               NUM_STEPS,
               step
@@ -106,7 +106,7 @@ function NewValidator ({ isInElection, minCommission, targets }: Props): React.R
             <Button
               icon='step-backward'
               isDisabled={step === 1}
-              label={t<string>('prev')}
+              label={t('prev')}
               onClick={_prevStep}
             />
             {step === NUM_STEPS
@@ -115,7 +115,7 @@ function NewValidator ({ isInElection, minCommission, targets }: Props): React.R
                   accountId={stashId}
                   icon='sign-in-alt'
                   isDisabled={!bondTx || !sessionTx || !validateTx}
-                  label={t<string>('Bond & Validate')}
+                  label={t('Bond & Validate')}
                   onStart={_toggle}
                   params={[
                     controllerId === stashId
@@ -129,7 +129,7 @@ function NewValidator ({ isInElection, minCommission, targets }: Props): React.R
                 <Button
                   icon='step-forward'
                   isDisabled={!bondTx}
-                  label={t<string>('next')}
+                  label={t('next')}
                   onClick={_nextStep}
                 />
               )}

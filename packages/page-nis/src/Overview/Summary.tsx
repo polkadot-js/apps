@@ -27,7 +27,7 @@ function Summary ({ className, info }: Props): React.ReactElement<Props> {
       <section>
         {bestNumber && (
           <CardSummary
-            label={t<string>('intake')}
+            label={t('intake')}
             progress={{
               total: api.consts.nis.intakePeriod,
               value: bestNumber.mod(api.consts.nis.intakePeriod),
@@ -39,7 +39,7 @@ function Summary ({ className, info }: Props): React.ReactElement<Props> {
       <section>
         {info?.summary && (
           <CardSummary
-            label={t<string>('proportion')}
+            label={t('proportion')}
             progress={{
               isPercent: true,
               total: BN_QUINTILL,

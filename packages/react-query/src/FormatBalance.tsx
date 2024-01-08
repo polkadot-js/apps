@@ -95,7 +95,7 @@ function FormatBalance ({ children, className = '', format, formatIndex, isShort
             ? splitFormat(valueFormatted, labelPost, isShort)
             : value
               ? value === 'all'
-                ? <>{t<string>('everything')}{labelPost || ''}</>
+                ? <>{t('everything')}{labelPost || ''}</>
                 : applyFormat(value, formatInfo, withCurrency, withSi, isShort, labelPost)
               : isString(labelPost)
                 ? `-${labelPost.toString()}`

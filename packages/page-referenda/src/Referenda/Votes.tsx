@@ -82,11 +82,11 @@ function Votes ({ className = '', id, isConvictionVote, palletVote, tally }: Pro
           isConvictionVote
             ? (
               <>
-                {t<string>('Aye')}
+                {t('Aye')}
                 <div><FormatBalance value={tally.ayes} /></div>
               </>
             )
-            : t<string>('Aye {{count}}', { replace: { count: formatNumber(tally.ayes) } })
+            : t('Aye {{count}}', { replace: { count: formatNumber(tally.ayes) } })
         }
       />
       <Expander
@@ -96,11 +96,11 @@ function Votes ({ className = '', id, isConvictionVote, palletVote, tally }: Pro
           isConvictionVote
             ? (
               <>
-                {t<string>('Nay')}
+                {t('Nay')}
                 <div><FormatBalance value={tally.nays} /></div>
               </>
             )
-            : t<string>('Nay {{count}}', { replace: { count: formatNumber(tally.nays) } })
+            : t('Nay {{count}}', { replace: { count: formatNumber(tally.nays) } })
         }
       />
     </td>

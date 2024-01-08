@@ -21,14 +21,13 @@ interface Props {
 }
 
 function createTheme ({ uiTheme }: { uiTheme: string }): ThemeDef {
-  const validTheme = uiTheme === 'dark' ? 'dark' : 'light';
+  const theme = uiTheme === 'dark'
+    ? 'dark'
+    : 'light';
 
-  document && document.documentElement &&
-    document.documentElement.setAttribute('data-theme', validTheme);
+  document?.documentElement?.setAttribute('data-theme', theme);
 
-  return uiTheme === 'dark'
-    ? darkTheme
-    : lightTheme;
+  return { theme };
 }
 
 function Root ({ isElectron, store }: Props): React.ReactElement<Props> {
@@ -39,7 +38,7 @@ function Root ({ isElectron, store }: Props): React.ReactElement<Props> {
   }, []);
 
   // The ordering here is critical. It defines the hierarchy of dependencies,
-  // i.e. Block* could from Api. Certainly no cross-deps allowed
+  // i.e. Block* depends on Api. Certainly no cross-deps allowed
   return (
     <Suspense fallback='...'>
       <ThemeProvider theme={theme}>

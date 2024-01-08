@@ -53,8 +53,8 @@ function Voters ({ isAye, members, threshold, votes }: Props): React.ReactElemen
       renderChildren={renderVotes}
       summary={
         isAye
-          ? t<string>('Aye {{count}}', { replace: { count } })
-          : t<string>('Nay {{count}}', { replace: { count } })
+          ? t('Aye {{count}}', { replace: { count } })
+          : t('Nay {{count}}', { replace: { count } })
       }
     />
   );

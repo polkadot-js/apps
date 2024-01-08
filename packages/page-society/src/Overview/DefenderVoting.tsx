@@ -21,25 +21,25 @@ function DefenderVoting ({ isMember, ownMembers }: Props): React.ReactElement<Pr
   const [accountId, setAccountId] = useState<string | null>(null);
 
   const voteOptsRef = useRef([
-    { text: t<string>('Aye, I approve'), value: true },
-    { text: t<string>('Nay, I do not approve'), value: false }
+    { text: t('Aye, I approve'), value: true },
+    { text: t('Nay, I do not approve'), value: false }
   ]);
 
   return (
     <>
       {isVisible && (
         <Modal
-          header={t<string>('Vote for defender')}
+          header={t('Vote for defender')}
           onClose={toggleVisible}
         >
           <Modal.Content>
             <InputAddress
               filter={ownMembers}
-              label={t<string>('vote from account')}
+              label={t('vote from account')}
               onChange={setAccountId}
             />
             <Dropdown
-              label={t<string>('vote for defender')}
+              label={t('vote for defender')}
               onChange={setVote}
               options={voteOptsRef.current}
               value={vote}
@@ -49,7 +49,7 @@ function DefenderVoting ({ isMember, ownMembers }: Props): React.ReactElement<Pr
             <TxButton
               accountId={accountId}
               icon='check'
-              label={t<string>('Vote')}
+              label={t('Vote')}
               onStart={toggleVisible}
               params={[vote]}
               tx={api.tx.society.defenderVote}
@@ -60,7 +60,7 @@ function DefenderVoting ({ isMember, ownMembers }: Props): React.ReactElement<Pr
       <Button
         icon='check'
         isDisabled={!isMember}
-        label={t<string>('Vote')}
+        label={t('Vote')}
         onClick={toggleVisible}
       />
     </>

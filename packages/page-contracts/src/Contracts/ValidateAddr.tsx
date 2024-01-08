@@ -48,8 +48,8 @@ function ValidateAddr ({ address, onChange }: Props): React.ReactElement<Props> 
   return (
     <InfoForInput type='error'>
       {isAddress
-        ? t<string>('Unable to find deployed contract code at the specified address')
-        : t<string>('The value is not in a valid address format')
+        ? t('Unable to find deployed contract code at the specified address')
+        : t('The value is not in a valid address format')
       }
     </InfoForInput>
   );

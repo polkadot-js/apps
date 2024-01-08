@@ -123,10 +123,10 @@ function VoteValue ({ accountId, autoFocus, label, noDefault, onChange }: Props)
       }
       isDisabled={isDisabled}
       isZeroable
-      label={label || t<string>('vote value')}
+      label={label || t('vote value')}
       labelExtra={
         <BalanceVoting
-          label={<label>{t<string>('voting balance')}</label>}
+          label={<label>{t('voting balance')}</label>}
           params={accountId}
         />
       }

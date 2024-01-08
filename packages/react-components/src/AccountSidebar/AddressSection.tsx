@@ -48,7 +48,7 @@ function AddressSection ({ accountIndex, defaultValue, editingName, flags, onCha
                 />
               )
               : flags.isEditable
-                ? (defaultValue.toUpperCase() || t<string>('<unknown>'))
+                ? (defaultValue.toUpperCase() || t('<unknown>'))
                 : undefined
           }
           value={value}
@@ -59,7 +59,7 @@ function AddressSection ({ accountIndex, defaultValue, editingName, flags, onCha
         </div>
         {accountIndex && (
           <div className='ui--AddressMenu-index'>
-            <label>{t<string>('index')}:</label> {accountIndex}
+            <label>{t('index')}:</label> {accountIndex}
           </div>
         )}
       </div>
@@ -72,7 +72,7 @@ function AddressSection ({ accountIndex, defaultValue, editingName, flags, onCha
               <Button.Group>
                 <Button
                   icon={isCopyShown ? 'check' : 'copy'}
-                  label={isCopyShown ? t<string>('Copied') : t<string>('Copy')}
+                  label={isCopyShown ? t('Copied') : t('Copy')}
                   onClick={isCopyShown ? NOOP : toggleIsCopyShown }
                   onMouseLeave={isCopyShown ? toggleIsCopyShown : NOOP }
                 />

@@ -60,7 +60,7 @@ function Stash ({ bagLower, bagUpper, className, isLoading, list, stashId }: Pro
               accountId={stashInfo.stashId}
               icon='caret-up'
               isDisabled={isLoading}
-              label={t<string>('Move up {{jumpCount}}', { replace: { jumpCount } })}
+              label={t('Move up {{jumpCount}}', { replace: { jumpCount } })}
               params={[stashInfo.jump]}
               tx={(api.tx.voterBagsList || api.tx.bagsList || api.tx.voterList).putInFrontOf}
             />
