@@ -63,29 +63,7 @@ const definitions: OverrideBundleDefinition = {
                         isOptional: true
                     }
                 ],
-                type: 'DataProof'
-            },
-            getSyncCommitteePoseidons: {
-                description: "Get sync committee poseidons for the slot on the LC",
-                params: [
-                    {
-                        name: "slot",
-                        type: 'u64'
-                    }],
-                type: "U256"
-            },
-            getHeader: {
-                description: "Get headers from LC",
-                params: [
-                    {
-                        name: "slot",
-                        type: "u64"
-                    }],
-                type: "H256"
-            },
-            getHead: {
-                description: "Get head from LC",
-                type: "u64"
+                type: 'DataProofResponse'
             }
         }
     },
@@ -162,6 +140,25 @@ const definitions: OverrideBundleDefinition = {
                     numberOfLeaves: 'Compact<u32>',
                     leafIndex: 'Compact<u32>',
                     leaf: 'H256'
+                },
+                DataProofResponse: {
+                    dataProof:DataProof,
+                    message:Option<Message>,
+                },
+                Message:{
+                    messageType: MessageType,
+                    from: H256,
+                    to: H256,
+                    originDomain: u32,
+                    destinationDomain: u32,
+                    data: Vec<u8>,
+                    id: u64
+                },
+                MessageType:{
+                    _enum: [
+                        ArbitraryMessage,
+                        FungibleToken
+                    ]
                 },
                 Cell: {
                     row: 'BlockLengthRows',
