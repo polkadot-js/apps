@@ -926,7 +926,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'tangle',
     providers: {
-      Webb: 'wss://rpc-archive.tangle.tools'
+      Webb: 'wss://testnet-rpc.tangle.tools'
     },
     text: 'Tangle',
     ui: {
