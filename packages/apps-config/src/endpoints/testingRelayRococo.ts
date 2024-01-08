@@ -307,7 +307,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoMangata',
     paraId: 2110,
     providers: {
-    Mangata: 'wss://collator-01-ws-rococo.mangata.online'
+      Mangata: 'wss://collator-01-ws-rococo.mangata.online'
     },
     text: 'Mangata',
     ui: {
