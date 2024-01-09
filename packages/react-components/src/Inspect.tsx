@@ -3,6 +3,7 @@
 
 import type { Inspect } from '@polkadot/types/types';
 
+import { decodeU8IntAppId } from 'avail-js-sdk/helpers';
 import React, { useMemo } from 'react';
 
 import { useApi } from '@polkadot/react-hooks';
@@ -11,7 +12,6 @@ import { u8aToHex } from '@polkadot/util';
 import Output from './Output.js';
 import { styled } from './styled.js';
 import { useTranslation } from './translate.js';
-import { decodeU8IntAppId } from "avail-js-sdk/helpers";
 
 interface Props {
   className?: string;

@@ -145,25 +145,25 @@ const definitions: OverrideBundleDefinition = {
           leafIndex: 'Compact<u32>',
           leaf: 'H256'
         },
-          DataProofResponse: {
-              dataProof: 'DataProof',
-              message: 'Option<Message>',
-          },
-          Message: {
-              messageType: 'MessageType',
-              from: 'H256',
-              to: 'H256',
-              originDomain: 'u32',
-              destinationDomain: 'u32',
-              data: 'Vec<u8>',
-              id: 'u64'
-          },
-          MessageType:{
-              _enum: [
-                  'ArbitraryMessage',
-                  'FungibleToken'
-              ]
-          },
+        DataProofResponse: {
+          dataProof: 'DataProof',
+          message: 'Option<Message>'
+        },
+        Message: {
+          messageType: 'MessageType',
+          from: 'H256',
+          to: 'H256',
+          originDomain: 'u32',
+          destinationDomain: 'u32',
+          data: 'Vec<u8>',
+          id: 'u64'
+        },
+        MessageType: {
+          _enum: [
+            'ArbitraryMessage',
+            'FungibleToken'
+          ]
+        },
         Cell: {
           row: 'BlockLengthRows',
           col: 'BlockLengthColumns'
