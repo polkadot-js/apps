@@ -47,6 +47,6 @@ const KNOWN_PARAMS: Record<string, InflationParams> = {
   [VARA_NETWORK_TESTNET_GENESIS]: VARA_NETWORK_INFLATION_PARAMS
 };
 
-export function getInflationParams(api: ApiPromise): InflationParams {
+export function getInflationParams (api: ApiPromise): InflationParams {
   return KNOWN_PARAMS[api.genesisHash.toHex()] || DEFAULT_PARAMS;
 }
