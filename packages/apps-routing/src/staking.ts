@@ -1,8 +1,9 @@
-// Copyright 2017-2023 @polkadot/apps-routing authors & contributors
+// Copyright 2017-2024 @polkadot/apps-routing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { PalletStakingExposure } from '@polkadot/types/lookup';
+import type { u32, Vec } from '@polkadot/types';
+import type { PalletStakingExposure, PalletStakingStakingLedger } from '@polkadot/types/lookup';
 import type { Route, TFunction } from './types.js';
 
 import Component from '@polkadot/app-staking';
@@ -40,6 +41,19 @@ function needsApiCheck (api: ApiPromise): boolean {
     }
   } catch {
     console.warn('Unable to create staking bond transaction, disabling staking route');
+
+    return false;
+  }
+
+  try {
+    const v = api.registry.createType<PalletStakingStakingLedger>(
+      unwrapStorageType(api.registry, api.query.staking.ledger.creator.meta.type),
+      { claimedRewards: [1, 2, 3] }
+    );
+
+    assert((v as unknown as { claimedRewards: Vec<u32> }).claimedRewards.eq([1, 2, 3]), 'Needs a claimedRewards array');
+  } catch {
+    console.warn('No known claimedRewards inside staking ledger, disabling staking route');
 
     return false;
   }

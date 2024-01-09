@@ -1,10 +1,11 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
 import type { DeriveSessionInfo, DeriveStakingElected, DeriveStakingWaiting } from '@polkadot/api-derive/types';
 import type { Inflation } from '@polkadot/react-hooks/types';
-import type { Option, u32 } from '@polkadot/types';
+import type { Option, u32, Vec } from '@polkadot/types';
+import type { PalletStakingStakingLedger } from '@polkadot/types/lookup';
 import type { SortedTargets, TargetSortBy, ValidatorInfo } from './types.js';
 
 import { useMemo } from 'react';
@@ -28,6 +29,10 @@ interface MultiResult {
   minNominatorBond?: BN;
   minValidatorBond?: BN;
   totalIssuance?: BN;
+}
+
+interface OldLedger {
+  claimedRewards: Vec<u32>;
 }
 
 const EMPTY_PARTIAL: Partial<SortedTargets> = {};
@@ -62,6 +67,10 @@ const OPT_MULTI = {
     totalIssuance
   })
 };
+
+function getLegacyRewards (ledger: PalletStakingStakingLedger): u32[] {
+  return ledger.legacyClaimedRewards || (ledger as unknown as OldLedger).claimedRewards || [];
+}
 
 function mapIndex (mapBy: TargetSortBy): (info: ValidatorInfo, index: number) => ValidatorInfo {
   return (info, index): ValidatorInfo => {
@@ -147,8 +156,10 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
     }, BN_ZERO);
 
     const key = accountId.toString();
+    const rewards = getLegacyRewards(stakingLedger);
+
     const lastEraPayout = !lastEra.isZero()
-      ? stakingLedger.claimedRewards[stakingLedger.claimedRewards.length - 1]
+      ? rewards[rewards.length - 1]
       : undefined;
 
     list[i] = {
@@ -171,7 +182,7 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
         return isNominating || allAccounts.includes(nominator);
       }, allAccounts.includes(key)),
       key,
-      knownLength: activeEra.sub(stakingLedger.claimedRewards[0] || activeEra),
+      knownLength: activeEra.sub(rewards[0] || activeEra),
       // only use if it is more recent than historyDepth
       lastPayout: earliestEra && lastEraPayout && lastEraPayout.gt(earliestEra) && !sessionLength.eq(BN_ONE)
         ? lastEra.sub(lastEraPayout).mul(eraLength)
@@ -179,7 +190,7 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
       minNominated,
       numNominators: (exposure.others || []).length,
       numRecentPayouts: earliestEra
-        ? stakingLedger.claimedRewards.filter((era) => era.gte(earliestEra)).length
+        ? rewards.filter((era) => era.gte(earliestEra)).length
         : 0,
       rankBondOther: 0,
       rankBondOwn: 0,
