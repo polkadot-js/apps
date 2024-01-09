@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-params authors & contributors
+// Copyright 2017-2024 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { I18nProps } from '@polkadot/react-components/types';
