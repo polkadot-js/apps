@@ -285,6 +285,19 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://laosnetwork.io/',
+    info: 'k-laos',
+    paraId: 3336,
+    providers: {
+      Freeverse: 'wss://rpc.klaos.laosfoundation.io'
+    },
+    text: 'K-Laos',
+    ui: {
+      color: 'linear-gradient(158deg, rgba(226,157,0,1) 0%, rgba(234,55,203,1) 100%)',
+      logo: nodesKlaosPNG
+    }
+  },
+  {
     homepage: 'https://kabocha.network',
     info: 'kabocha',
     paraId: 2113,
@@ -413,19 +426,6 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     text: 'Krest',
     ui: {
       logo: nodesKrestPNG
-    }
-  },
-  {
-    homepage: 'https://laosnetwork.io/',
-    info: 'k-laos',
-    paraId: 3336,
-    providers: {
-      Freeverse: 'wss://rpc.klaos.laosfoundation.io'
-    },
-    text: 'K-Laos',
-    ui: {
-      color: 'linear-gradient(158deg, rgba(226,157,0,1) 0%, rgba(234,55,203,1) 100%)',
-      logo: nodesKlaosPNG
     }
   },
   {
