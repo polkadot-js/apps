@@ -234,10 +234,11 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://crowdloan.energywebx.com/',
+    homepage: 'https://energywebx.com/',
     info: 'ewx',
     paraId: 3345,
     providers: {
+      'Energy Web': 'wss://public-rpc.mainnet.energywebx.com/'
     },
     text: 'Energy Web X',
     ui: {
