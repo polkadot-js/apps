@@ -53,6 +53,7 @@ export { nodesGalitalLogoPNG } from './generated/galital-logoPNG.js';
 export { nodesGamepowerSVG } from './generated/gamepowerSVG.js';
 export { nodesGeekSVG } from './generated/geekSVG.js';
 export { nodesGiantPNG } from './generated/giantPNG.js';
+export { nodesGiediPNG } from './generated/giediPNG.js';
 export { nodesHanyonycashPNG } from './generated/hanyonycashPNG.js';
 export { nodesHashedPNG } from './generated/hashedPNG.js';
 export { nodesHelixstreetPNG } from './generated/helixstreetPNG.js';
