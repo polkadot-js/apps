@@ -6,7 +6,7 @@ import type { HexString } from '@polkadot/util/types';
 import { knownGenesis } from '@polkadot/networks/defaults';
 import { assert, BN } from '@polkadot/util';
 
-function getGenesis (name: string): HexString {
+function getGenesis(name: string): HexString {
   const network = Object.entries(knownGenesis).find(([network]) => network === name);
 
   assert(network?.[1][0], `Unable to find genesisHash for ${name}`);
@@ -36,3 +36,7 @@ export const NFTMART_GENESIS = '0xfcf9074303d8f319ad1bf0195b145871977e7c375883b8
 export const CERE_NETWORK_GENESIS = '0x81443836a9a24caaa23f1241897d1235717535711d1d3fe24eae4fdc942c092c';
 
 export const CERE_NETWORK_TESTNET_GENESIS = '0x42b9b44b4950b6c1edae543a7696caf8d0a160e9bc0424ab4ab217f7a8ba30dc';
+
+export const VARA_NETWORK_GENESIS = '0xfe1b4c55fd4d668101126434206571a7838a8b6b93a6d1b95d607e78e6c53763';
+
+export const VARA_NETWORK_TESTNET_GENESIS = '0x525639f713f397dcf839bd022cd821f367ebcf179de7b9253531f8adbe5436d6';
