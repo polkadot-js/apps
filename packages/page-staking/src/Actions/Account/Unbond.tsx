@@ -1,7 +1,7 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { StakingLedger } from '@polkadot/types/interfaces';
+import type { PalletStakingStakingLedger } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
 import React, { useState } from 'react';
@@ -18,7 +18,7 @@ import useUnbondDuration from '../useUnbondDuration.js';
 interface Props {
   controllerId?: string | null;
   onClose: () => void;
-  stakingLedger?: StakingLedger;
+  stakingLedger?: PalletStakingStakingLedger;
   stashId: string;
 }
 

@@ -1,10 +1,10 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
 import type { QueryableStorageMultiArg } from '@polkadot/api/types';
 import type { DeriveSessionIndexes } from '@polkadot/api-derive/types';
-import type { Option } from '@polkadot/types';
+import type { Option, u32 } from '@polkadot/types';
 import type { EraIndex, Exposure, Nominations, SlashingSpans } from '@polkadot/types/interfaces';
 
 import { useEffect, useState } from 'react';
@@ -21,7 +21,7 @@ interface Inactives {
 }
 
 function extractState (api: ApiPromise, stashId: string, slashes: Option<SlashingSpans>[], nominees: string[], { activeEra }: DeriveSessionIndexes, submittedIn: EraIndex, exposures: Exposure[]): Inactives {
-  const max = api.consts.staking?.maxNominatorRewardedPerValidator;
+  const max = api.consts.staking?.maxNominatorRewardedPerValidator as u32;
 
   // chilled
   // NOTE With the introduction of the SlashReported event,

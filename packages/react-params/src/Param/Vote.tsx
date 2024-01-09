@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-params authors & contributors
+// Copyright 2017-2024 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Props } from '../types.js';
@@ -7,7 +7,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Dropdown } from '@polkadot/react-components';
 import { GenericVote } from '@polkadot/types';
-import { isBn } from '@polkadot/util';
+import { isBn, isNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
 import Bare from './Bare.js';
@@ -17,6 +17,7 @@ interface VoteParts {
   conviction: number;
 }
 
+const AYE_MASK = 0b10000000;
 const EMPTY_VOTE: VoteParts = { aye: true, conviction: 0 };
 
 function Vote ({ className = '', defaultValue: { value }, isDisabled, isError, onChange, withLabel }: Props): React.ReactElement<Props> {
@@ -53,10 +54,12 @@ function Vote ({ className = '', defaultValue: { value }, isDisabled, isError, o
   ]);
 
   const defaultVote = isBn(value)
-    ? (value.toNumber() !== 0)
-    : value instanceof GenericVote
-      ? value.isAye
-      : (value as number !== 0);
+    ? !!(value.toNumber() & AYE_MASK)
+    : isNumber(value)
+      ? !!(value & AYE_MASK)
+      : value instanceof GenericVote
+        ? value.isAye
+        : !!value;
   const defaultConv = value instanceof GenericVote
     ? value.conviction.index
     : 0;

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/apps authors & contributors
+// Copyright 2017-2024 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // Do not edit. Auto-generated via node scripts/imgConvert.mjs
@@ -59,6 +59,7 @@ export { nodesHelixstreetPNG } from './generated/helixstreetPNG.js';
 export { nodesHumanodePNG } from './generated/humanodePNG.js';
 export { nodesIdavollPNG } from './generated/idavollPNG.js';
 export { nodesImbuePNG } from './generated/imbuePNG.js';
+export { nodesInnovatorPNG } from './generated/innovatorPNG.js';
 export { nodesIntegriteeSVG } from './generated/integriteeSVG.js';
 export { nodesInterlaySVG } from './generated/interlaySVG.js';
 export { nodesIpciSVG } from './generated/ipciSVG.js';
