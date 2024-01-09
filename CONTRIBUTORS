@@ -419,6 +419,7 @@
        1	Pierre Krieger                	Update translation.json (#6266)
        1	Pierre-Luc Gagné              	Added a warning popup at account creation for seed backup (#325)
        1	Piotr Mikołajczyk             	Fix `jsonrpc` attribute (#9576)
+       1	Pioua                         	typo fix (#10123)
        1	Polkassembly                  	Added fellowship refrenda (#9135)
        1	Preschian Febryantara         	add KodaDot logo (#7151)
        1	Puneet Saraswat               	Frequency rococo  (#8076)
