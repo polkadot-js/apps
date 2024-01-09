@@ -595,7 +595,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'polimec',
     paraId: 3344,
     providers: {
-      "Polimec Foundation": 'wss://rpc.polimec.org'
+      'Polimec Foundation': 'wss://rpc.polimec.org'
     },
     text: 'Polimec',
     ui: {
