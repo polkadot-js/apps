@@ -49651,7 +49651,22 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "DataProofResponse"
+            "type": "DataProof"
+          },
+          "queryDataProofV2": {
+            "description": "Generate the data proof for the given `transaction_index`",
+            "params": [
+              {
+                "name": "transaction_index",
+                "type": "u32"
+              },
+              {
+                "name": "at",
+                "type": "Hash",
+                "isOptional": true
+              }
+            ],
+            "type": "ProofResponse"
           }
         }
       },
@@ -49734,8 +49749,17 @@ export const typesBundle = {
               "leafIndex": "Compact<u32>",
               "leaf": "H256"
             },
-            "DataProofResponse": {
-              "dataProof": "DataProof",
+            "DataProofV2": {
+              "dataRoot": "H256",
+              "blobRoot": "H256",
+              "bridgeRoot": "H256",
+              "proof": "Vec<H256>",
+              "numberOfLeaves": "Compact<u32>",
+              "leafIndex": "Compact<u32>",
+              "leaf": "H256"
+            },
+            "ProofResponse": {
+              "dataProof": "DataProofV2",
               "message": "Option<Message>"
             },
             "Message": {
