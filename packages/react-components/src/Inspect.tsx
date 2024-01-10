@@ -1,8 +1,9 @@
-// Copyright 2017-2023 @polkadot/app-extrinsics authors & contributors
+// Copyright 2017-2024 @polkadot/app-extrinsics authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Inspect } from '@polkadot/types/types';
 
+import { decodeU8IntAppId } from 'avail-js-sdk/helpers';
 import React, { useMemo } from 'react';
 
 import { useApi } from '@polkadot/react-hooks';
@@ -11,7 +12,6 @@ import { u8aToHex } from '@polkadot/util';
 import Output from './Output.js';
 import { styled } from './styled.js';
 import { useTranslation } from './translate.js';
-import { decodeU8IntAppId } from "avail-js-sdk/helpers";
 
 interface Props {
   className?: string;

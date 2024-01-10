@@ -1,16 +1,16 @@
 {
-  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "bugs": "https://github.com/availproject/avail-apps/issues",
   "engines": {
     "node": ">=16"
   },
-  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-membership#readme",
+  "homepage": "https://github.com/availproject/avail-apps/tree/master/packages/page-membership#readme",
   "license": "Apache-2.0",
   "name": "@polkadot/app-membership",
   "private": true,
   "repository": {
     "directory": "packages/page-membership",
     "type": "git",
-    "url": "https://github.com/polkadot-js/apps.git"
+    "url": "https://github.com/availproject/avail-apps.git"
   },
   "sideEffects": false,
   "type": "module",

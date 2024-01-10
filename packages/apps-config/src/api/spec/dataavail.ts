@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/apps-config authors & contributors
+// Copyright 2017-2024 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
@@ -65,6 +65,21 @@ const definitions: OverrideBundleDefinition = {
           }
         ],
         type: 'DataProof'
+      },
+      queryDataProofV2: {
+        description: 'Generate the data proof for the given `transaction_index`',
+        params: [
+          {
+            name: 'transaction_index',
+            type: 'u32'
+          },
+          {
+            name: 'at',
+            type: 'Hash',
+            isOptional: true
+          }
+        ],
+        type: 'ProofResponse'
       }
     }
   },
@@ -92,6 +107,10 @@ const definitions: OverrideBundleDefinition = {
           appLookup: 'DataLookup',
           commitment: 'KateCommitment'
         },
+        V2HeaderExtension: {
+          appLookup: 'DataLookup',
+          commitment: 'KateCommitment'
+        },
         VTHeaderExtension: {
           newField: 'Vec<u8>',
           commitment: 'KateCommitment',
@@ -100,6 +119,7 @@ const definitions: OverrideBundleDefinition = {
         HeaderExtension: {
           _enum: {
             V1: 'V1HeaderExtension',
+            V2: 'V2HeaderExtension',
             VTest: 'VTHeaderExtension'
           }
         },
@@ -139,6 +159,34 @@ const definitions: OverrideBundleDefinition = {
           numberOfLeaves: 'Compact<u32>',
           leafIndex: 'Compact<u32>',
           leaf: 'H256'
+        },
+        DataProofV2: {
+          dataRoot: 'H256',
+          blobRoot: 'H256',
+          bridgeRoot: 'H256',
+          proof: 'Vec<H256>',
+          numberOfLeaves: 'Compact<u32>',
+          leafIndex: 'Compact<u32>',
+          leaf: 'H256'
+        },
+        ProofResponse: {
+          dataProof: 'DataProofV2',
+          message: 'Option<Message>'
+        },
+        Message: {
+          messageType: 'MessageType',
+          from: 'H256',
+          to: 'H256',
+          originDomain: 'u32',
+          destinationDomain: 'u32',
+          data: 'Vec<u8>',
+          id: 'u64'
+        },
+        MessageType: {
+          _enum: [
+            'ArbitraryMessage',
+            'FungibleToken'
+          ]
         },
         Cell: {
           row: 'BlockLengthRows',

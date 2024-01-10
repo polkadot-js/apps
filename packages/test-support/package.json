@@ -1,16 +1,16 @@
 {
-  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "bugs": "https://github.com/availproject/avail-apps/issues",
   "engines": {
     "node": ">=16"
   },
-  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/test-support#readme",
+  "homepage": "https://github.com/availproject/avail-apps/tree/master/packages/test-support#readme",
   "license": "Apache-2.0",
   "name": "@polkadot/test-support",
   "private": true,
   "repository": {
     "directory": "packages/test-support",
     "type": "git",
-    "url": "https://github.com/polkadot-js/apps.git"
+    "url": "https://github.com/availproject/avail-apps.git"
   },
   "sideEffects": false,
   "type": "module",
