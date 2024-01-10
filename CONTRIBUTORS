@@ -378,6 +378,7 @@
        1	Kirill Shirobokov             	ru translations for page-accouts are added (#9219)
        1	KkenWv                        	Add KICO logo and endpoint (#6906)
        1	KRogLA                        	sub accounts search fix (#2572)
+       1	Kutsal Kaan Bilgin            	Added Helikon RPC node endpoints for Phala, Khala and HydraDX. (#10161)
        1	Lauro Gripa Neto              	Add portuguese translation (#2940)
        1	Leechael                      	chore: Remove Phala PoC5 since it going to take down (#10082)
        1	legape                        	Add Chainflip networks (#10153)
