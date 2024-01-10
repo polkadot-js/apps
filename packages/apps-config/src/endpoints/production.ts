@@ -225,17 +225,6 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'equilibrium',
-    providers: {
-      Equilibrium: 'wss://node.equilibrium.io'
-    },
-    text: 'Equilibrium',
-    ui: {
-      color: '#1792ff',
-      logo: chainsEquilibriumSVG
-    }
-  },
-  {
     info: 'fragnova',
     providers: { // The actual hosted secure websocket endpoint
       'Fragnova Network': 'wss://ws.fragnova.network'
@@ -244,17 +233,6 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#6b35a8',
       logo: chainsFragnovaPNG
-    }
-  },
-  {
-    info: 'genshiro',
-    providers: {
-      Equilibrium: 'wss://node.genshiro.io' // https://github.com/polkadot-js/apps/issues/9266
-    },
-    text: 'Genshiro',
-    ui: {
-      color: '#e8662d',
-      logo: chainsGenshiroSVG
     }
   },
   {
