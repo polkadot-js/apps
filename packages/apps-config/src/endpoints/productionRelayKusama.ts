@@ -200,7 +200,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'Genshiro',
     paraId: 2024,
     providers: {
-      Genshiro: 'wss://node.ksm.genshiro.io'
+      Genshiro: 'wss://node.genshiro.io'
     },
     text: 'Genshiro',
     ui: {
