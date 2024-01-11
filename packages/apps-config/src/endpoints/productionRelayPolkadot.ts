@@ -711,8 +711,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'watr',
     paraId: 2058,
     providers: {
-      Watr: 'wss://watr-rpc.watr-api.network',
-      RadiumBlock: 'wss://watr.public.curie.radiumblock.co/ws'
+      RadiumBlock: 'wss://watr.public.curie.radiumblock.co/ws',
+      Watr: 'wss://watr-rpc.watr-api.network'
     },
     text: 'Watr Network',
     ui: {
