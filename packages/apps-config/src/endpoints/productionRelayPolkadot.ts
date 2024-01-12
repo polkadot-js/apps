@@ -242,7 +242,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     },
     text: 'Energy Web X',
     ui: {
-      color: '#452E66',
+      color: '#53B1FF',
       logo: nodesEwxSVG
     }
   },
