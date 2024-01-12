@@ -597,7 +597,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'qpn',
     paraId: 2274,
     providers: {
-      FerrumNetwork: 'wss://qpn.svcs.ferrumnetwork.io/'
+      // FerrumNetwork: 'wss://qpn.svcs.ferrumnetwork.io/' // https://github.com/polkadot-js/apps/issues/10172
     },
     text: 'Quantum Portal Network',
     ui: {
