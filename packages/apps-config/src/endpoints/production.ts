@@ -226,8 +226,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   },
   {
     info: 'fragnova',
-    providers: { // The actual hosted secure websocket endpoint
-      'Fragnova Network': 'wss://ws.fragnova.network'
+    providers: {
+      // 'Fragnova Network': 'wss://ws.fragnova.network' // https://github.com/polkadot-js/apps/issues/10172
     },
     text: 'Fragnova', // The text to display on the dropdown
     ui: {
@@ -281,8 +281,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'jur',
     providers: {
-      'Iceberg Nodes': 'wss://jur-mainnet-archive-rpc-1.icebergnodes.io',
-      'Simply Staking': 'wss://jur-archive-mainnet-1.simplystaking.xyz/VX68C07AR4K2/ws'
+      'Iceberg Nodes': 'wss://jur-mainnet-archive-rpc-1.icebergnodes.io'
+      // 'Simply Staking': 'wss://jur-archive-mainnet-1.simplystaking.xyz/VX68C07AR4K2/ws' // https://github.com/polkadot-js/apps/issues/10172
     },
     text: 'Jur',
     ui: {
@@ -349,7 +349,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'myriad',
     providers: {
-      Myriad: 'wss://ws-rpc.myriad.social',
+      // Myriad: 'wss://ws-rpc.myriad.social', // https://github.com/polkadot-js/apps/issues/10172
       Octopus: 'wss://gateway.mainnet.octopus.network/myriad/a4cb0a6e30ff5233a3567eb4e8cb71e0'
     },
     text: 'Myriad',
@@ -516,7 +516,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'ternoa',
     providers: {
-      CapsuleCorp: 'wss://mainnet.ternoa.network'
+      // CapsuleCorp: 'wss://mainnet.ternoa.network' // https://github.com/polkadot-js/apps/issues/10172
     },
     text: 'Ternoa',
     ui: {
