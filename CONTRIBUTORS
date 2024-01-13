@@ -380,6 +380,7 @@
        1	Kevin Neilson                 	remove OnFinality public endpoints (#9978)
        1	Kirill Shirobokov             	ru translations for page-accouts are added (#9219)
        1	KkenWv                        	Add KICO logo and endpoint (#6906)
+       1	Klaudiusz Dembler             	Add joyutils RPC endpoint for Joystream (#10176)
        1	KRogLA                        	sub accounts search fix (#2572)
        1	Lauro Gripa Neto              	Add portuguese translation (#2940)
        1	Leechael                      	chore: Remove Phala PoC5 since it going to take down (#10082)
