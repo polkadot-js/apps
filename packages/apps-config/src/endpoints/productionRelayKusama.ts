@@ -196,11 +196,11 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://genshiro..io',
+    homepage: 'https://genshiro.io',
     info: 'Genshiro',
     paraId: 2024,
     providers: {
-      Genshiro: 'wss://node.genshiro.io'
+      // Genshiro: 'wss://node.genshiro.io' // https://github.com/polkadot-js/apps/issues/10174
     },
     text: 'Genshiro',
     ui: {
@@ -214,7 +214,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     isUnreachable: true,
     paraId: 2226,
     providers: {
-      Equilibrium: 'wss://node.genshiro.io'
+      // Equilibrium: 'wss://node.genshiro.io' // https://github.com/polkadot-js/apps/issues/10174
     },
     text: 'Genshiro crowdloan 2',
     ui: {
