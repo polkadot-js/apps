@@ -270,8 +270,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'joystream',
     providers: {
-      Jsgenesis: 'wss://rpc.joystream.org',
-      Joyutils: 'wss://rpc.joyutils.org'
+      Joyutils: 'wss://rpc.joyutils.org',
+      Jsgenesis: 'wss://rpc.joystream.org'
     },
     text: 'Joystream',
     ui: {
