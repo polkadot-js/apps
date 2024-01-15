@@ -345,7 +345,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoMetaquity-network',
     paraId: 4304,
     providers: {
-      Metaquity: 'wss://rpc.rococo-testnet.metaquity.xyz'
+      // Metaquity: 'wss://rpc.rococo-testnet.metaquity.xyz' // https://github.com/polkadot-js/apps/issues/10178
     },
     text: 'Metaquity Network',
     ui: {
