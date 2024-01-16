@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-tech-comm authors & contributors
+// Copyright 2017-2024 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CollectiveType } from '@polkadot/react-hooks/types';
@@ -34,11 +34,11 @@ function TechCommApp ({ basePath, className, type }: Props): React.ReactElement<
     {
       isRoot: true,
       name: 'overview',
-      text: t<string>('Overview')
+      text: t('Overview')
     },
     {
       name: 'proposals',
-      text: t<string>('Proposals ({{count}})', { replace: { count: (proposalHashes && proposalHashes.length) || 0 } })
+      text: t('Proposals ({{count}})', { replace: { count: proposalHashes?.length || 0 } })
     }
   ], [proposalHashes, t]);
 

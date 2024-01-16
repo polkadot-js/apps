@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-params authors & contributors
+// Copyright 2017-2024 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Call } from '@polkadot/types/interfaces';
@@ -28,7 +28,7 @@ function ProposedAction ({ className = '', idNumber, proposal }: Props): React.R
   if (!proposal) {
     return (
       <div className={`${className} ui--ProposedAction`}>
-        <div>{stringId ? `#${stringId}: ` : ''}{t<string>('No execution details available for this proposal')}</div>
+        <div>{stringId ? `#${stringId}: ` : ''}{t('No execution details available for this proposal')}</div>
       </div>
     );
   }
@@ -37,7 +37,7 @@ function ProposedAction ({ className = '', idNumber, proposal }: Props): React.R
     <div className={`${className} ui--ProposedAction`}>
       <CallExpander
         isHeader
-        labelHash={t<string>('preimage')}
+        labelHash={t('preimage')}
         stringId={stringId}
         value={proposal}
         withHash

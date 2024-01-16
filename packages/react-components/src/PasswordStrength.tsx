@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import strengthTester from 'owasp-password-strength-test';
@@ -39,14 +39,14 @@ function PasswordStrength ({ className = '', value }: Props): React.ReactElement
       className={className}
       style={{ display: (value ? 'flex' : 'none') }}
     >
-      {t<string>('weak')}
+      {t('weak')}
       <div className='ui--Strength-bar'>
         <div
           className='ui--Strength-bar-highlighted'
           style={style}
         />
       </div>
-      {t<string>('strong')}
+      {t('strong')}
     </StyledDiv>
   );
 }

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
@@ -21,9 +21,9 @@ function useAccountInfoImpl (accountId: string): AccountInfo | null {
   const member = useCall(api.query.nominationPools.poolMembers, [accountId], OPT_DEL);
 
   useEffect((): void => {
-    member && api.call.nominationPoolsApi &&
+    member &&
       api.call.nominationPoolsApi
-        .pendingRewards(accountId)
+        ?.pendingRewards(accountId)
         .then((claimable) =>
           isMountedRef.current && setState({ claimable, member })
         )

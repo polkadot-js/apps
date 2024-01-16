@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/apps authors & contributors
+// Copyright 2017-2024 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Route } from '@polkadot/apps-routing/types';
@@ -63,7 +63,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
       {!missingApis
         ? (
           <div className='connecting'>
-            <Spinner label={t<string>('Initializing connection')} />
+            <Spinner label={t('Initializing connection')} />
           </div>
         )
         : (

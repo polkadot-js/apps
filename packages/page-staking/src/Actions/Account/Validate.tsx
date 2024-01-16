@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -24,7 +24,7 @@ function Validate ({ controllerId, minCommission, onClose, stashId }: Props): Re
 
   return (
     <Modal
-      header={t<string>('Set validator preferences')}
+      header={t('Set validator preferences')}
       onClose={onClose}
       size='large'
     >
@@ -44,7 +44,7 @@ function Validate ({ controllerId, minCommission, onClose, stashId }: Props): Re
           extrinsic={validateTx}
           icon='certificate'
           isDisabled={!validateTx}
-          label={t<string>('Validate')}
+          label={t('Validate')}
           onStart={onClose}
         />
       </Modal.Actions>

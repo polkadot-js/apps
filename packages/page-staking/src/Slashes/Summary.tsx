@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSessionProgress } from '@polkadot/api-derive/types';
@@ -35,19 +35,19 @@ function Summary ({ slash: { era, nominators, reporters, total, validators } }: 
   return (
     <SummaryBox>
       <section>
-        <CardSummary label={t<string>('validators')}>
+        <CardSummary label={t('validators')}>
           {formatNumber(validators.length)}
         </CardSummary>
-        <CardSummary label={t<string>('nominators')}>
+        <CardSummary label={t('nominators')}>
           {formatNumber(nominators.length)}
         </CardSummary>
-        <CardSummary label={t<string>('reporters')}>
+        <CardSummary label={t('reporters')}>
           {formatNumber(reporters.length)}
         </CardSummary>
       </section>
       {blockProgress.gtn(0) && (
         <CardSummary
-          label={t<string>('defer')}
+          label={t('defer')}
           progress={{
             total: blockEnd,
             value: blockProgress,
@@ -55,7 +55,7 @@ function Summary ({ slash: { era, nominators, reporters, total, validators } }: 
           }}
         />
       )}
-      <CardSummary label={t<string>('total')}>
+      <CardSummary label={t('total')}>
         <FormatBalance value={total} />
       </CardSummary>
     </SummaryBox>

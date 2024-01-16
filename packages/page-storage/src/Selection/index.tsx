@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-storage authors & contributors
+// Copyright 2017-2024 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParitalQueryTypes, QueryTypes } from '../types.js';
@@ -27,15 +27,15 @@ function Selection ({ basePath, onAdd }: Props): React.ReactElement<Props> {
     {
       isRoot: true,
       name: 'modules',
-      text: t<string>('Storage')
+      text: t('Storage')
     },
     {
       name: 'constants',
-      text: t<string>('Constants')
+      text: t('Constants')
     },
     {
       name: 'raw',
-      text: t<string>('Raw storage')
+      text: t('Raw storage')
     }
   ]);
 

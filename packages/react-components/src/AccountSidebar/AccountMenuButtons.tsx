@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AddressFlags } from '@polkadot/react-hooks/types';
@@ -77,23 +77,23 @@ function AccountMenuButtons ({ className = '', flags, isEditing, isEditingName, 
           <Button.Group>
             <Button
               icon='times'
-              label={t<string>('Cancel')}
+              label={t('Cancel')}
               onClick={onCancel}
             />
             <Button
               icon='save'
-              label={t<string>('Save')}
+              label={t('Save')}
               onClick={onEdit}
             />
           </Button.Group>
         )
         : (
           <Button.Group>
-            {isFunction(api.api.tx.balances?.transfer) && (
+            {(isFunction(api.api.tx.balances?.transferAllowDeath) || isFunction(api.api.tx.balances?.transfer)) && (
               <Button
                 icon='paper-plane'
                 isDisabled={isEditing}
-                label={t<string>('Send')}
+                label={t('Send')}
                 onClick={toggleIsTransferOpen}
               />
             )}
@@ -101,7 +101,7 @@ function AccountMenuButtons ({ className = '', flags, isEditing, isEditingName, 
               <Button
                 icon='plus'
                 isDisabled={isEditing}
-                label={t<string>('Save')}
+                label={t('Save')}
                 onClick={_onUpdateName}
               />
             )}
@@ -109,14 +109,14 @@ function AccountMenuButtons ({ className = '', flags, isEditing, isEditingName, 
               <Button
                 icon='ban'
                 isDisabled={isEditing}
-                label={t<string>('Remove')}
+                label={t('Remove')}
                 onClick={_onForgetAddress}
               />
             )}
             <Button
               icon='edit'
               isDisabled={!flags.isEditable}
-              label={t<string>('Edit')}
+              label={t('Edit')}
               onClick={onEdit}
             />
           </Button.Group>

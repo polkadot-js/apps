@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-storage authors & contributors
+// Copyright 2017-2024 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ConstValue } from '@polkadot/react-components/InputConsts/types';
@@ -37,7 +37,7 @@ function Consts ({ onAdd }: Props): React.ReactElement<Props> {
       <div className='storage--actionrow-value'>
         <InputConsts
           defaultValue={defaultValue}
-          label={t<string>('selected constant query')}
+          label={t('selected constant query')}
           onChange={setValue}
         />
       </div>

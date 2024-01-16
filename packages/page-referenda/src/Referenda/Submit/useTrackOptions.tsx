@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2024 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -14,8 +14,8 @@ import { bnToBn } from '@polkadot/util';
 import { getTrackInfo, getTrackName } from '../../util.js';
 
 function getTrackOptions (api: ApiPromise, specName: string, palletReferenda: string, tracks: TrackDescription[], include?: (BN | number)[], exclude?: (BN | number)[]): TrackOption[] {
-  const includeBn = include && include.map((v) => bnToBn(v));
-  const excludeBn = exclude && exclude.map((v) => bnToBn(v));
+  const includeBn = include?.map((v) => bnToBn(v));
+  const excludeBn = exclude?.map((v) => bnToBn(v));
 
   return tracks
     .filter(({ id }) =>

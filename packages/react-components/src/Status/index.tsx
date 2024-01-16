@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
@@ -189,7 +189,7 @@ const StyledDiv = styled.div`
   width: 4.5rem;
   z-index: 1001;
 
-  :hover {
+  &:hover {
     transform: scale(1);
     width: 23rem;
 

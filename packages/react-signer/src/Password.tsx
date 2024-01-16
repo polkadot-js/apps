@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-signer authors & contributors
+// Copyright 2017-2024 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyringPair } from '@polkadot/keyring/types';
@@ -54,10 +54,10 @@ function Unlock ({ address, className, error, onChange, onEnter, tabIndex }: Pro
       <Password
         autoFocus
         isError={!!error}
-        label={t<string>('unlock account with password')}
+        label={t('unlock account with password')}
         labelExtra={
           <Toggle
-            label={t<string>('unlock for {{expiry}} min', { replace: { expiry: UNLOCK_MINS } })}
+            label={t('unlock for {{expiry}} min', { replace: { expiry: UNLOCK_MINS } })}
             onChange={setIsUnlockCached}
             value={isUnlockCached}
           />

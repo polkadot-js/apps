@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type React from 'react';
@@ -18,7 +18,7 @@ function useElementPositionImpl (ref: React.MutableRefObject<HTMLElement | undef
   const scrollY = useScroll();
 
   useEffect(() => {
-    if (mountedRef.current && ref && ref.current) {
+    if (mountedRef.current && ref?.current) {
       const { height, width, x, y } = ref.current.getBoundingClientRect();
 
       setElementPosition({

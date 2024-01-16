@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-settings authors & contributors
+// Copyright 2017-2024 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AppProps as Props } from '@polkadot/react-components/types';
@@ -27,20 +27,20 @@ function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
     {
       isRoot: true,
       name: 'general',
-      text: t<string>('General')
+      text: t('General')
     },
     {
       count: numExtensions,
       name: 'metadata',
-      text: t<string>('Metadata')
+      text: t('Metadata')
     },
     {
       name: 'developer',
-      text: t<string>('Developer')
+      text: t('Developer')
     },
     {
       name: 'i18n',
-      text: t<string>('Translate')
+      text: t('Translate')
     }
   ], [numExtensions, t]);
 

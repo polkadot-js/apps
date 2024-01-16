@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2024 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AppProps as Props } from '@polkadot/react-components/types';
@@ -27,11 +27,11 @@ function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
     {
       isRoot: true,
       name: 'overview',
-      text: t<string>('My accounts')
+      text: t('My accounts')
     },
     {
       name: 'vanity',
-      text: t<string>('Vanity generator')
+      text: t('Vanity generator')
     }
   ]);
 

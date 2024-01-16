@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-alliance authors & contributors
+// Copyright 2017-2024 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Member as MemberType, Rule, Unscrupulous } from '../types.js';
@@ -29,7 +29,7 @@ function Overview ({ className, members, prime, rule, unscrupulous, voters }: Pr
   const bestNumber = useBestNumber();
 
   const hdrRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t<string>('members'), 'start', 3]
+    [t('members'), 'start', 3]
   ]);
 
   return (
@@ -42,7 +42,7 @@ function Overview ({ className, members, prime, rule, unscrupulous, voters }: Pr
         <Button
           icon='add'
           isDisabled={!members || !unscrupulous}
-          label={t<string>('Join')}
+          label={t('Join')}
           onClick={toggleJoin}
         />
         {members && unscrupulous && isJoinOpen && (
@@ -54,12 +54,12 @@ function Overview ({ className, members, prime, rule, unscrupulous, voters }: Pr
         )}
       </Button.Group>
       <Table
-        empty={members && t<string>('No members')}
+        empty={members && t('No members')}
         header={hdrRef.current}
         isSplit
         maxColumns={2}
       >
-        {members && members.map((m) => (
+        {members?.map((m) => (
           <Member
             bestNumber={bestNumber}
             info={m}

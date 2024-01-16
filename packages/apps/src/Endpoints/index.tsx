@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/apps authors & contributors
+// Copyright 2017-2024 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
@@ -255,7 +255,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
         <Button
           icon='sync'
           isDisabled={canSwitch}
-          label={t<string>('Switch')}
+          label={t('Switch')}
           onClick={_onApply}
         />
       }
@@ -282,7 +282,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
                 className='endpointCustom'
                 isError={!isUrlValid}
                 isFull
-                label={t<string>('custom endpoint')}
+                label={t('custom endpoint')}
                 onChange={_onChangeCustom}
                 value={apiUrl}
               />

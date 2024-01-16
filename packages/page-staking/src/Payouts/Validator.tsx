@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -72,7 +72,7 @@ function Validator ({ className = '', historyDepth, isDisabled, payout }: Props)
         className='expand'
         colSpan={2}
       >
-        <Expander summary={t<string>('{{count}} own stashes', { replace: { count: numNominators } })}>
+        <Expander summary={t('{{count}} own stashes', { replace: { count: numNominators } })}>
           {Object.entries(nominators).map(([stashId, balance]) =>
             <AddressMini
               balance={balance}

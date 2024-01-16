@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-preimages authors & contributors
+// Copyright 2017-2024 @polkadot/app-preimages authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Preimage } from '@polkadot/react-hooks/types';
@@ -28,7 +28,7 @@ function PreimageCall ({ className = '', value }: Props): React.ReactElement<Pro
             <>
               {value.proposal && (
                 <CallExpander
-                  labelHash={t<string>('call')}
+                  labelHash={t('call')}
                   value={value.proposal}
                 />
               )}

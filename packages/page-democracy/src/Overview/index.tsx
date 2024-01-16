@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2024 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveReferendumExt } from '@polkadot/api-derive/types';
@@ -34,13 +34,13 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
         {api.tx.democracy.notePreimage && (
           <Button
             icon='plus'
-            label={t<string>('Submit preimage')}
+            label={t('Submit preimage')}
             onClick={togglePreimage}
           />
         )}
         <Button
           icon='plus'
-          label={t<string>('Submit proposal')}
+          label={t('Submit proposal')}
           onClick={togglePropose}
         />
       </Button.Group>

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/apps-config authors & contributors
+// Copyright 2017-2024 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -45,7 +45,7 @@ export const Polkaholic: ExternalDef = {
     'Parallel Heiko': 'parallel-heiko',
     Picasso: 'picasso',
     'Pichiu Network': 'pichiu',
-    'Pioneer Network': 'bitcountrypioneer',
+    'Pioneer Network': 'pioneer',
     Polkadot: 'polkadot',
     'QUARTZ by UNIQUE': 'quartz',
     Robonomics: 'robonomics',

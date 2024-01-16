@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -28,7 +28,7 @@ interface Props {
 function getValue (api: ApiPromise, { method, section }: ConstValueBase): ConstValue {
   const firstSec = Object.keys(api.consts)[0];
   const firstMet = Object.keys(api.consts[firstSec])[0];
-  const value = (api.consts[section] && api.consts[section][method])
+  const value = api.consts[section]?.[method]
     ? { method, section }
     : { method: firstMet, section: firstSec };
 

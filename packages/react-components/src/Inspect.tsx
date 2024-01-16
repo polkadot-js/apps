@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-extrinsics authors & contributors
+// Copyright 2017-2024 @polkadot/app-extrinsics authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Inspect } from '@polkadot/types/types';
@@ -35,7 +35,7 @@ function formatInspect ({ inner = [], name = '', outer = [] }: Inspect, result: 
     result.push({ name, value: value.join(' ') });
   }
 
-  for (let i = 0; i < inner.length; i++) {
+  for (let i = 0, count = inner.length; i < count; i++) {
     formatInspect(inner[i], result);
   }
 
@@ -85,7 +85,7 @@ function DecodedInspect ({ className, hex, inspect, label }: Props): React.React
               className='isLink'
               key='hex'
             >
-              <td><label>{t<string>('link')}</label></td>
+              <td><label>{t('link')}</label></td>
               <td>
                 <a
                   href={link}

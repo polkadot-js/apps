@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2024 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId } from '@polkadot/types/interfaces';
@@ -8,7 +8,7 @@ import { useMemo } from 'react';
 
 import { createNamedHook, useAccounts, useCollectiveMembers } from '@polkadot/react-hooks';
 
-export type UserRolesInfo = { roles: UserRole[], isCurator: boolean };
+export interface UserRolesInfo { roles: UserRole[], isCurator: boolean }
 
 function useUserRoleImpl (curatorId?: AccountId): UserRolesInfo {
   const { allAccounts, hasAccounts } = useAccounts();

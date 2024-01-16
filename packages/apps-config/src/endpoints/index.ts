@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/apps-config authors & contributors
+// Copyright 2017-2024 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction, TOptions } from '../types.js';
@@ -13,14 +13,10 @@ export { CUSTOM_ENDPOINT_KEY } from './development.js';
 export * from './production.js';
 export * from './testing.js';
 
-function defaultT (keyOrText: string, text?: string, options?: TOptions): string {
+function defaultT (keyOrText: string, text?: string | TOptions, options?: TOptions): string {
   return (
-    (
-      options &&
-      options.replace &&
-      options.replace.host
-    ) ||
-    text ||
+    (options?.replace?.host as string) ||
+    text?.toString() ||
     keyOrText
   );
 }

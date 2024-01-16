@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AppProps as Props } from '@polkadot/react-components/types';
@@ -42,11 +42,11 @@ function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
     {
       isRoot: true,
       name: 'sign',
-      text: t<string>('Validators')
+      text: t('Validators')
     },
     isFunction(api.query.nominationPools?.minCreateBond) && {
       name: 'pools',
-      text: t<string>('Pools')
+      text: t('Pools')
     }
   ]);
 

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakerPrefs } from '@polkadot/api-derive/types';
@@ -63,8 +63,8 @@ function ChartPrefs ({ labels, validatorId }: Props): React.ReactElement<Props> 
   );
 
   const legendsRef = useRef([
-    t<string>('commission'),
-    t<string>('average')
+    t('commission'),
+    t('average')
   ]);
 
   return (
@@ -72,7 +72,7 @@ function ChartPrefs ({ labels, validatorId }: Props): React.ReactElement<Props> 
       colors={COLORS_POINTS}
       labels={labels}
       legends={legendsRef.current}
-      title={t<string>('commission')}
+      title={t('commission')}
       values={values}
     />
   );

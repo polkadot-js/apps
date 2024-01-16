@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-params authors & contributors
+// Copyright 2017-2024 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ComponentMap } from './types.js';
@@ -9,13 +9,13 @@ export const balanceCalls = [
   'auctions.bid',
   'balances.forceTransfer', 'balances.forceUnreserve', 'balances.setBalance', 'balances.transfer', 'balances.transferAllowDeath', 'balances.transferKeepAlive',
   'bounties.proposeBounty', 'bounties.proposeCurator',
-  'childBounties.proposeCurator',
+  'childBounties.addChildBounty', 'childBounties.proposeCurator',
   'claims.mintClaim',
   'convictionVoting.delegate', 'convictionVoting.vote',
   'crowdloan.contribute', 'crowdloan.create', 'crowdloan.edit',
   'democracy.delegate', 'democracy.propose', 'democracy.vote',
   'identity.requestJudgement', 'identity.setFee',
-  'nominationPools.bondExtra', 'nominationPools.join', 'nominationPools.unbond',
+  'nominationPools.bondExtra', 'nominationPools.create', 'nominationPools.createWithPoolId', 'nominationPools.join', 'nominationPools.unbond',
   'phragmenElection.vote',
   'society.bid', 'society.vouch',
   'staking.bond', 'staking.bondExtra', 'staking.rebond', 'staking.unbond',

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-assets authors & contributors
+// Copyright 2017-2024 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BatchOptions } from '@polkadot/react-hooks/types';
@@ -61,7 +61,7 @@ function Create ({ assetIds, className, onClose, openId }: Props): React.ReactEl
   return (
     <Modal
       className={className}
-      header={t<string>('create asset {{step}}/{{steps}}', { replace: { step, steps: 2 } })}
+      header={t('create asset {{step}}/{{steps}}', { replace: { step, steps: 2 } })}
       onClose={onClose}
       size='large'
     >
@@ -85,7 +85,7 @@ function Create ({ assetIds, className, onClose, openId }: Props): React.ReactEl
           <Button
             icon='step-forward'
             isDisabled={!asset}
-            label={t<string>('Next')}
+            label={t('Next')}
             onClick={nextStep}
           />
         }
@@ -93,14 +93,14 @@ function Create ({ assetIds, className, onClose, openId }: Props): React.ReactEl
           <>
             <Button
               icon='step-backward'
-              label={t<string>('Prev')}
+              label={t('Prev')}
               onClick={prevStep}
             />
             <TxButton
               accountId={asset?.accountId}
               extrinsic={extrinsic}
               icon='plus'
-              label={t<string>('Create')}
+              label={t('Create')}
               onStart={onClose}
             />
           </>

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2024 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
@@ -46,8 +46,8 @@ function VotersColumn ({ className, option, proposals, status }: Props): React.R
           <div className='vote-numbers'>
             <span className='vote-numbers-icon'><Icon icon={icons[option]} /></span>
             <span className='vote-numbers-label'>
-              {option === 'ayes' && t<string>('Aye: {{count}}', { replace: { count: votes ? votes.length : 0 } })}
-              {option === 'nays' && t<string>('Nay: {{count}}', { replace: { count: votes ? votes.length : 0 } })}
+              {option === 'ayes' && t('Aye: {{count}}', { replace: { count: votes ? votes.length : 0 } })}
+              {option === 'nays' && t('Nay: {{count}}', { replace: { count: votes ? votes.length : 0 } })}
             </span>
           </div>
           {voters}

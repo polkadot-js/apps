@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/apps authors & contributors
+// Copyright 2017-2024 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Network } from './types.js';
@@ -56,12 +56,12 @@ function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { isChild, 
           {isSelected && (isRelay || !!paraId) && (
             <div className='endpointExtra'>
               {isRelay
-                ? t<string>('Relay chain')
+                ? t('Relay chain')
                 : paraId && paraId < 1000
-                  ? t<string>('{{relay}} System', { replace: { relay } })
+                  ? t('{{relay}} System', { replace: { relay } })
                   : paraId && paraId < 2000
-                    ? t<string>('{{relay}} Common', { replace: { relay } })
-                    : t<string>('{{relay}} Parachain', { replace: { relay } })
+                    ? t('{{relay}} Common', { replace: { relay } })
+                    : t('{{relay}} Parachain', { replace: { relay } })
               }
             </div>
           )}

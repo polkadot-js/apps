@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-signing authors & contributors
+// Copyright 2017-2024 @polkadot/app-signing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AppProps as Props } from '@polkadot/react-components/types';
@@ -19,11 +19,11 @@ function SigningApp ({ basePath }: Props): React.ReactElement<Props> {
     {
       isRoot: true,
       name: 'sign',
-      text: t<string>('Sign message')
+      text: t('Sign message')
     },
     {
       name: 'verify',
-      text: t<string>('Verify signature')
+      text: t('Verify signature')
     }
   ]);
 

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-api authors & contributors
+// Copyright 2017-2024 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { OnChangeCb } from '../types.js';
@@ -6,7 +6,7 @@ import type { OnChangeCb } from '../types.js';
 import { isFunction, isObservable } from '@polkadot/util';
 
 export function triggerChange (value?: unknown, ...callOnResult: (OnChangeCb | undefined)[]): void {
-  if (!callOnResult || !callOnResult.length) {
+  if (!callOnResult?.length) {
     return;
   }
 

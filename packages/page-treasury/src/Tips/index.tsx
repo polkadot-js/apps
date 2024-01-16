@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2024 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -63,7 +63,7 @@ function TipsEntry ({ className, hashes, isMember, members }: Props): React.Reac
           extrinsic={batchTxs}
           icon='fighter-jet'
           isDisabled={!isMember || !batchTxs}
-          label={t<string>('Median tip selected')}
+          label={t('Median tip selected')}
         />
       </Button.Group>
       <Tips

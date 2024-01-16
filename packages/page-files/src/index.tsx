@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-files authors & contributors
+// Copyright 2017-2024 @polkadot/app-files authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
@@ -22,7 +22,7 @@ function FilesApp ({ basePath, className }: Props): React.ReactElement<Props> {
     {
       isRoot: true,
       name: 'crust',
-      text: t<string>('Your Files')
+      text: t('Your Files')
     }
   ]);
 

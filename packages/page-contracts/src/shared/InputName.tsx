@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2024 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -26,7 +26,7 @@ function InputName ({ className, isBusy, isContract, isError, onChange, onEnter,
       className={className}
       isDisabled={isBusy}
       isError={isError}
-      label={t<string>(
+      label={t(
         isContract
           ? 'contract name'
           : 'code bundle name'

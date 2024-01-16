@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/apps authors & contributors
+// Copyright 2017-2024 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useMemo } from 'react';
@@ -49,7 +49,7 @@ function DotApps ({ className }: Props): React.ReactElement<Props> | null {
         type='info'
       >
         <div>
-          {t<string>('You are connected to the development instance of the UI. For a fully decentralized experience, you are encouraged to use the IPFS deployed version as the canonical URL: ')}
+          {t('You are connected to the development instance of the UI. For a fully decentralized experience, you are encouraged to use the IPFS deployed version as the canonical URL: ')}
           <a
             href={appsUrl}
             rel='noreferrer'

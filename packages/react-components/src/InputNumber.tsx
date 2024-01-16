@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -252,8 +252,8 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
       onPaste={_onPaste}
       placeholder={placeholder || (
         isSigned
-          ? t<string>('Valid number')
-          : t<string>('Positive number')
+          ? t('Valid number')
+          : t('Positive number')
       )}
       type='text'
       value={value}

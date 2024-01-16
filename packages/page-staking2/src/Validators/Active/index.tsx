@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SessionInfo, Validator } from '../../types.js';
@@ -27,14 +27,14 @@ function Active ({ className = '', legend, points, sessionInfo, toggleFavorite, 
 
   const header = useRef<[string?, string?, number?][]>([
     // favorite, badges, details, expand
-    [t<string>('validators'), 'start', 4]
+    [t('validators'), 'start', 4]
   ]);
 
   return (
     <Table
       className={className}
-      empty={isNextTick && validatorsActive && t<string>('No session validators found')}
-      emptySpinner={t<string>('Retrieving session validators')}
+      empty={isNextTick && validatorsActive && t('No session validators found')}
+      emptySpinner={t('Retrieving session validators')}
       header={header.current}
       isSplit
       legend={legend}

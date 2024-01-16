@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2024 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Hash } from '@polkadot/types/interfaces';
@@ -28,7 +28,7 @@ function PreImageButton ({ imageHash, isImminent }: Props): React.ReactElement<P
         <>
           <Button
             icon='plus'
-            label={t<string>('Image')}
+            label={t('Image')}
             onClick={togglePreimage}
           />
           {isPreimageOpen && (

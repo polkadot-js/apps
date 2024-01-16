@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-storage authors & contributors
+// Copyright 2017-2024 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ComponentProps as Props } from '../types.js';
@@ -38,7 +38,7 @@ function Raw ({ onAdd }: Props): React.ReactElement<Props> {
       <div className='storage--actionrow-value'>
         <Input
           autoFocus
-          label={t<string>('hex-encoded storage key')}
+          label={t('hex-encoded storage key')}
           onChange={_onChangeKey}
           onEnter={_onAdd}
         />

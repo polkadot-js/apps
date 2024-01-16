@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useEffect, useState } from 'react';
@@ -32,10 +32,10 @@ function Tooltip ({ children, className = '', isClickable = false, place, text, 
   useEffect((): () => void => {
     const root = rootElement();
 
-    root && root.appendChild(tooltipContainer);
+    root?.appendChild(tooltipContainer);
 
     return (): void => {
-      root && root.removeChild(tooltipContainer);
+      root?.removeChild(tooltipContainer);
     };
   }, [tooltipContainer]);
 

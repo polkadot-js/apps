@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-storage authors & contributors
+// Copyright 2017-2024 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { QueryableStorageEntry } from '@polkadot/api/types';
@@ -123,7 +123,7 @@ function getCachedComponent (registry: Registry, query: QueryTypes): CacheInstan
         });
       }
 
-      type = key.creator && key.creator.meta
+      type = key.creator?.meta
         ? queryTypeToString(registry, key)
         : 'Raw';
     }

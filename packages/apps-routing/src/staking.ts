@@ -1,10 +1,10 @@
-// Copyright 2017-2023 @polkadot/apps-routing authors & contributors
+// Copyright 2017-2024 @polkadot/apps-routing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
 import type { ApiPromise } from '@polkadot/api';
-import type { PalletStakingExposure } from '@polkadot/types/lookup';
-import type { Route } from './types.js';
+import type { u32, Vec } from '@polkadot/types';
+import type { PalletStakingExposure, PalletStakingStakingLedger } from '@polkadot/types/lookup';
+import type { Route, TFunction } from './types.js';
 
 import Component from '@polkadot/app-staking';
 import { ZERO_ACCOUNT } from '@polkadot/react-hooks/useWeight';
@@ -45,6 +45,19 @@ function needsApiCheck (api: ApiPromise): boolean {
     return false;
   }
 
+  try {
+    const v = api.registry.createType<PalletStakingStakingLedger>(
+      unwrapStorageType(api.registry, api.query.staking.ledger.creator.meta.type),
+      { claimedRewards: [1, 2, 3] }
+    );
+
+    assert((v as unknown as { claimedRewards: Vec<u32> }).claimedRewards.eq([1, 2, 3]), 'Needs a claimedRewards array');
+  } catch {
+    console.warn('No known claimedRewards inside staking ledger, disabling staking route');
+
+    return false;
+  }
+
   return true;
 }
 
@@ -61,6 +74,6 @@ export default function create (t: TFunction): Route {
     group: 'network',
     icon: 'certificate',
     name: 'staking',
-    text: t<string>('nav.staking', 'Staking', { ns: 'apps-routing' })
+    text: t('nav.staking', 'Staking', { ns: 'apps-routing' })
   };
 }

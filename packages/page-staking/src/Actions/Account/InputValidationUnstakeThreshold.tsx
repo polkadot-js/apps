@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -24,9 +24,9 @@ function InputValidationUnstakeThreshold ({ onError, unstakeThreshold }: Props):
       let newError: string | null = null;
 
       if (unstakeThreshold.ltn(0)) {
-        newError = t<string>('The Threshold must be a positive number');
+        newError = t('The Threshold must be a positive number');
       } else if (unstakeThreshold.gt(BN_TEN)) {
-        newError = t<string>('The Threshold must lower than 11');
+        newError = t('The Threshold must lower than 11');
       }
 
       onError(newError);

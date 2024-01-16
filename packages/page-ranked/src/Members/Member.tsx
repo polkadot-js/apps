@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-ranked authors & contributors
+// Copyright 2017-2024 @polkadot/app-ranked authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { FlagColor } from '@polkadot/react-components/types';
@@ -28,7 +28,7 @@ function Member ({ className, value: { accountId, info: { rank } } }: Props): Re
         <Tag
           className='absolute'
           color={COLOR_LST[rank.toNumber()] || COLOR_DEF}
-          hover={t<string>('Membership rank')}
+          hover={t('Membership rank')}
           label={rank.toString()}
         />
       </td>

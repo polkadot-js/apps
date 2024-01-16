@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-nfts authors & contributors
+// Copyright 2017-2024 @polkadot/app-nfts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import '@polkadot/api-augment/substrate';
@@ -30,11 +30,11 @@ function NftApp ({ basePath, className }: Props): React.ReactElement<Props> {
     {
       isRoot: true,
       name: 'overview',
-      text: t<string>('Overview')
+      text: t('Overview')
     },
     {
       name: 'my-nfts',
-      text: t<string>('My NFTs')
+      text: t('My NFTs')
     }
   ]);
 

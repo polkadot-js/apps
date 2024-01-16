@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2024 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useMemo } from 'react';
@@ -36,12 +36,12 @@ function TreasuryApp ({ basePath }: Props): React.ReactElement<Props> {
     {
       isRoot: true,
       name: 'overview',
-      text: t<string>('Overview')
+      text: t('Overview')
     },
     isFunction((api.query.tips || api.query.treasury)?.tips) && {
       count: tipHashes?.length,
       name: 'tips',
-      text: t<string>('Tips')
+      text: t('Tips')
     }
   ].filter((t: TabItem | false): t is TabItem => !!t), [api, t, tipHashes]);
 

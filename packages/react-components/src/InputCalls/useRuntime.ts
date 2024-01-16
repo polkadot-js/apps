@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -19,11 +19,11 @@ function getAllCalls (api: ApiPromise): [Record<string, Record<string, Definitio
   let defValue: DefinitionCallNamed | null = null;
   const sections = getEntries(api.call);
 
-  for (let i = 0; i < sections.length; i++) {
+  for (let i = 0, secCount = sections.length; i < secCount; i++) {
     const [section, methodsObj] = sections[i];
     const methods = getEntries(methodsObj);
 
-    for (let j = 0; j < methods.length; j++) {
+    for (let j = 0, metCount = methods.length; j < metCount; j++) {
       const [method, { meta }] = methods[j] as unknown as [string, { meta: DefinitionCallNamed }];
 
       if (meta) {

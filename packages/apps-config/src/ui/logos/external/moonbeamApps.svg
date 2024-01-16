@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns:xodm="http://www.corel.com/coreldraw/odm/2003" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 2500 2500" style="enable-background:new 0 0 2500 2500;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;}
+	.st1{fill:#E1177C;}
+	.st2{fill:#53CBC9;}
+</style>
+<g id="Layer_x0020_1">
+	<g id="_2167087048384">
+		<rect y="0" class="st0" width="2500" height="2500"></rect>
+		<g>
+			<path class="st1" d="M1723,2214c30,0,56,17,56,39s-26,39-56,39H903c-30,0-56-17-56-39s26-39,56-39H1723z"></path>
+			<circle class="st1" cx="725" cy="2235" r="56"></circle>
+			<circle class="st1" cx="1218" cy="2028" r="56"></circle>
+			<path class="st1" d="M2180,1972c30,0,56,26,56,56s-26,56-56,56h-803c-30,0-56-26-56-56s26-56,56-56H2180z"></path>
+			<circle class="st1" cx="164" cy="1821" r="56"></circle>
+			<path class="st1" d="M963,1765c30,0,56,26,56,56s-26,56-56,56H302c-30,0-56-26-56-56s26-56,56-56H963z"></path>
+			<path class="st1" d="M2444,1765c30,0,56,26,56,56s-26,56-56,56H1131c-30,0-56-26-56-56s26-56,56-56H2444z"></path>
+			<path class="st1" d="M2198,1557c30,0,56,26,56,56s-26,56-56,56H587c-30,0-56-26-56-56s26-56,56-56H2198z"></path>
+			<circle class="st1" cx="410" cy="1613" r="56"></circle>
+			<path class="st1" d="M1861,1354c30,0,56,26,56,56s-26,56-56,56H250c-30,0-56-26-56-56s26-56,56-56H1861z"></path>
+			<circle class="st1" cx="56" cy="1411" r="56"></circle>
+			<circle class="st1" cx="410" cy="1203" r="56"></circle>
+			<path class="st1" d="M2353,1147c30,0,56,26,56,56s-26,56-56,56H600c-30,0-56-26-56-56s26-56,56-56H2353z"></path>
+			<path class="st2" d="M1744,271c285,121,475,419,453,721c-510,0-1019,4-1529-4c0-203,69-410,216-553c216-220,574-289,859-164H1744     z"></path>
+		</g>
+	</g>
+</g>
+</svg>

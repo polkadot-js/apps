@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableResult } from '@polkadot/api';
@@ -88,7 +88,7 @@ function mergeStatus (status: ActionStatusPartial[]): ActionStatus[] {
 
 function extractEvents (result?: SubmittableResult): ActionStatus[] {
   return mergeStatus(
-    ((result && result.events) || [])
+    (result?.events || [])
       // filter events handled globally, or those we are not interested in, these are
       // handled by the global overview, so don't add them here
       .filter((record) =>

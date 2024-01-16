@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Changes } from '@polkadot/react-hooks/useEventChanges';
@@ -36,7 +36,7 @@ function eventFilter (records: EventRecord[]): Changes<AccountId32> {
 }
 
 function mapValidators (validators?: AccountId32[]): Validator[] | undefined {
-  return validators && validators.map((a) => {
+  return validators?.map((a) => {
     const stashId = a.toString();
 
     return {

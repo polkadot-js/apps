@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-utilities authors & contributors
+// Copyright 2017-2024 @polkadot/app-utilities authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
@@ -85,7 +85,7 @@ function Addresses ({ className }: Props): React.ReactElement<Props> {
         <InputAddressSimple
           autoFocus
           isError={!publicKey}
-          label={t<string>('address to convert')}
+          label={t('address to convert')}
           noConvert
           onChange={setAddress}
         />
@@ -93,7 +93,7 @@ function Addresses ({ className }: Props): React.ReactElement<Props> {
       <div className='ui--row'>
         <Dropdown
           defaultValue={prefix}
-          label={t<string>('address prefix')}
+          label={t('address prefix')}
           onChange={setPrefix}
           options={prefixOptions}
         />
@@ -103,7 +103,7 @@ function Addresses ({ className }: Props): React.ReactElement<Props> {
           <div className='ui--row'>
             <Static
               className='medium'
-              label={t<string>('input ss58 prefix')}
+              label={t('input ss58 prefix')}
               value={formatNumber(inputSS58)}
             />
           </div>
@@ -113,14 +113,14 @@ function Addresses ({ className }: Props): React.ReactElement<Props> {
                 defaultValue={converted}
                 isDisabled
                 key={converted}
-                label={t<string>('converted address')}
+                label={t('converted address')}
               />
             </div>
           )}
           <div className='ui--row'>
             <Static
               className='full'
-              label={t<string>('hex public key')}
+              label={t('hex public key')}
               value={publicKey}
             />
           </div>

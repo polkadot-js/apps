@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useEffect, useState } from 'react';
@@ -66,7 +66,7 @@ function InputAddressMulti ({ available, availableLabel, className = '', default
         className='ui--InputAddressMulti-Input'
         isSmall
         onChange={setFilter}
-        placeholder={t<string>('filter by name, address, or account index')}
+        placeholder={t('filter by name, address, or account index')}
         value={_filter}
         withLabel={false}
       />

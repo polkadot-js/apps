@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import queryString from 'query-string';
@@ -43,7 +43,7 @@ function Filtering ({ children, className, nameFilter, setNameFilter, setWithIde
       <Input
         autoFocus
         isFull
-        label={t<string>('filter by name, address or index')}
+        label={t('filter by name, address or index')}
         onChange={_setNameFilter}
         value={nameFilter}
       />
@@ -53,7 +53,7 @@ function Filtering ({ children, className, nameFilter, setNameFilter, setWithIde
           {setWithIdentity && api.query.identity && (
             <Toggle
               className='staking--buttonToggle'
-              label={t<string>('with an identity')}
+              label={t('with an identity')}
               onChange={setWithIdentity}
               value={withIdentity}
             />

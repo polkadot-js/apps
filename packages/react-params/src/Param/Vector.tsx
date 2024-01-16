@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-params authors & contributors
+// Copyright 2017-2024 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParamDef, Props, RawParam } from '../types.js';
@@ -111,13 +111,13 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
         <div className='ui--Param-Vector-buttons'>
           <Button
             icon='plus'
-            label={t<string>('Add item')}
+            label={t('Add item')}
             onClick={_rowAdd}
           />
           <Button
             icon='minus'
             isDisabled={values.length === 0}
-            label={t<string>('Remove item')}
+            label={t('Remove item')}
             onClick={_rowRemove}
           />
         </div>

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2024 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -93,10 +93,10 @@ function Ongoing ({ isMember, members, palletReferenda, palletVote, ranks, track
   return (
     <>
       <td className='all'>
-        {preimage && preimage.proposal
+        {preimage?.proposal
           ? (
             <CallExpander
-              labelHash={t<string>('preimage')}
+              labelHash={t('preimage')}
               value={preimage.proposal}
               withHash
             />
@@ -115,10 +115,10 @@ function Ongoing ({ isMember, members, palletReferenda, palletVote, ranks, track
       <RefEnd
         label={
           confirmEnd
-            ? t<string>('Confirming')
+            ? t('Confirming')
             : decideEnd
-              ? t<string>('Deciding')
-              : t<string>('Preparing')
+              ? t('Deciding')
+              : t('Preparing')
         }
         when={periodEnd}
       />

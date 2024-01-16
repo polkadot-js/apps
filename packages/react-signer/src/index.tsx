@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-signer authors & contributors
+// Copyright 2017-2024 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -34,7 +34,7 @@ async function submitRpc (api: ApiPromise, { method, section }: DefinitionRpcExt
   try {
     const rpc = api.rpc as unknown as Record<string, Record<string, (...params: unknown[]) => Promise<unknown>>>;
 
-    assert(isFunction(rpc[section] && rpc[section][method]), `api.rpc.${section}.${method} does not exist`);
+    assert(isFunction(rpc[section]?.[method]), `api.rpc.${section}.${method} does not exist`);
 
     const result = await rpc[section][method](...values);
 
@@ -84,7 +84,7 @@ function extractCurrent (txqueue: QueueTx[]): ItemState {
     isRpc,
     isVisible,
     queueSize: available.length,
-    requestAddress: (currentItem && currentItem.accountId) || null
+    requestAddress: (currentItem?.accountId) || null
   };
 }
 

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveAccountFlags } from '@polkadot/api-derive/types';
@@ -11,7 +11,7 @@ import { useSystemApi } from './useSystemApi.js';
 function useDeriveAccountFlagsImpl (value?: AccountId | Address | Uint8Array | string | null): DeriveAccountFlags | undefined {
   const api = useSystemApi();
 
-  return useCall<DeriveAccountFlags>(api && api.derive.accounts.flags, [value]);
+  return useCall<DeriveAccountFlags>(api?.derive.accounts.flags, [value]);
 }
 
 export const useDeriveAccountFlags = createNamedHook('useDeriveAccountFlags', useDeriveAccountFlagsImpl);

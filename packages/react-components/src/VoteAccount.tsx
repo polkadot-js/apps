@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -19,7 +19,7 @@ function VoteAccount ({ className = '', filter, onChange }: Props): React.ReactE
     <InputAddress
       className={className}
       filter={filter}
-      label={t<string>('vote with account')}
+      label={t('vote with account')}
       onChange={onChange}
       type='account'
       withLabel

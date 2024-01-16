@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2024 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveTreasuryProposal } from '@polkadot/api-derive/types';
@@ -52,7 +52,7 @@ function ProposalDisplay ({ className = '', isMember, members, proposal: { counc
         <td className={hasProposals ? 'middle' : 'button'}>
           {hasCouncil
             ? hasProposals
-              ? <a href='#/council/motions'>{t<string>('Voting')}</a>
+              ? <a href='#/council/motions'>{t('Voting')}</a>
               : withSend && (
                 <Council
                   id={id}

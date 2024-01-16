@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -20,7 +20,7 @@ function Balances ({ address, className }: Props): React.ReactElement<Props> | n
   return (
     <StyledSection className={className}>
       <div className='ui--AddressMenu-sectionHeader'>
-        {t<string>('balance')}
+        {t('balance')}
       </div>
       <AddressInfo
         address={address}

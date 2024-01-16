@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { StakerState } from '@polkadot/react-hooks/types';
@@ -105,7 +105,7 @@ function Slashes ({ ownStashes = [], slashes }: Props): React.ReactElement<Props
           : era.sub(api.consts.staking.slashDeferDuration).sub(BN_ONE)
       )
       .map((era) => ({
-        text: t<string>('era {{era}}', { replace: { era: formatNumber(era) } }),
+        text: t('era {{era}}', { replace: { era: formatNumber(era) } }),
         value: era.toString()
       })),
     [api, rows, t]
@@ -117,13 +117,13 @@ function Slashes ({ ownStashes = [], slashes }: Props): React.ReactElement<Props
   );
 
   const emptyHeader = useRef<[React.ReactNode?, string?, number?][]>([
-    [t<string>('unapplied'), 'start']
+    [t('unapplied'), 'start']
   ]);
 
   if (!rows.length) {
     return (
       <Table
-        empty={t<string>('There are no unapplied/pending slashes')}
+        empty={t('There are no unapplied/pending slashes')}
         header={emptyHeader.current}
       />
     );

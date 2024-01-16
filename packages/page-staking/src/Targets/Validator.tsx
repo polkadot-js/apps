@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { UnappliedSlash } from '@polkadot/types/interfaces';
@@ -102,7 +102,7 @@ function Validator ({ allSlashes, canSelect, filterName, info: { accountId, bond
         {slashes.length !== 0 && (
           <Badge
             color='red'
-            hover={t<string>('Slashed in era {{eras}}', {
+            hover={t('Slashed in era {{eras}}', {
               replace: {
                 eras: slashes.map(({ era }) => formatNumber(era)).join(', ')
               }
@@ -120,9 +120,9 @@ function Validator ({ allSlashes, canSelect, filterName, info: { accountId, bond
           api.consts.babe
             ? time.days
               ? time.days === 1
-                ? t<string>('yesterday')
-                : t<string>('{{days}} days', { replace: { days: time.days } })
-              : t<string>('recently')
+                ? t('yesterday')
+                : t('{{days}} days', { replace: { days: time.days } })
+              : t('recently')
             : formatNumber(lastPayout)
         )}
       </td>

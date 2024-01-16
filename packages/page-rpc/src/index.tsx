@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-rpc authors & contributors
+// Copyright 2017-2024 @polkadot/app-rpc authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AppProps as Props } from '@polkadot/react-components/types';
@@ -18,7 +18,7 @@ function RpcApp ({ basePath }: Props): React.ReactElement<Props> {
     {
       isRoot: true,
       name: 'rpc',
-      text: t<string>('Submission')
+      text: t('Submission')
     }
   ]);
 

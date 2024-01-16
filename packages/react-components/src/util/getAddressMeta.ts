@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyringItemType, KeyringJson$Meta } from '@polkadot/ui-keyring/types';
@@ -11,7 +11,7 @@ export function getAddressMeta (address: string, type: KeyringItemType | null = 
   try {
     const pair = keyring.getAddress(address, type);
 
-    meta = pair && pair.meta;
+    meta = pair?.meta;
   } catch {
     // we could pass invalid addresses, so it may throw
   }

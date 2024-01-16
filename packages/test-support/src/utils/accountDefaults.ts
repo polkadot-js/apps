@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/test-supports authors & contributors
+// Copyright 2017-2024 @polkadot/test-supports authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
@@ -17,7 +17,7 @@ export interface Account {
   staking: DeriveStakingAccount
 }
 
-export type AccountsMap = { [address: string]: Account };
+export type AccountsMap = Record<string, Account>;
 
 export type Override<T> = {
   [P in keyof T]?: T[P];

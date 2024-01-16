@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-params authors & contributors
+// Copyright 2017-2024 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Codec } from '@polkadot/types/types';
@@ -45,7 +45,7 @@ function StaticParam ({ asHex, children, childrenPre, className = '', defaultVal
       <Static
         className='full'
         label={label}
-        value={<pre>{value || (isOptional ? <>&nbsp;</> : t<string>('<empty>'))}</pre>}
+        value={<pre>{value || (isOptional ? <>&nbsp;</> : t('<empty>'))}</pre>}
       />
       {children}
     </StyledBare>

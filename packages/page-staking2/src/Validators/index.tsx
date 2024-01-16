@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SessionInfo } from '../types.js';
@@ -29,8 +29,8 @@ function Validators ({ className = '', favorites, isRelay, sessionInfo, toggleFa
   const points = usePoints(sessionInfo);
 
   const intentOptions = useRef([
-    { text: t<string>('Active'), value: 'active' },
-    { text: t<string>('Waiting'), value: 'waiting' }
+    { text: t('Active'), value: 'active' },
+    { text: t('Waiting'), value: 'waiting' }
   ]);
 
   const legend = <Legend isRelay={isRelay} />;

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-storage authors & contributors
+// Copyright 2017-2024 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { QueryTypes } from './types.js';
@@ -13,7 +13,7 @@ interface Props {
 }
 
 function Queries ({ onRemove, value }: Props): React.ReactElement<Props> | null {
-  if (!value || !value.length) {
+  if (!value?.length) {
     return null;
   }
 

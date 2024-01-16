@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -23,7 +23,7 @@ function Spinner ({ className = '', label, noLabel, variant = 'app' }: Props): R
         className={variant === 'push' ? '' : 'highlight--bg highlight--border'}
         src={spinnerSrc}
       />
-      {!noLabel && variant.startsWith('app') && <div className='text'>{label || t<string>('Retrieving data')}</div>}
+      {!noLabel && variant.startsWith('app') && <div className='text'>{label || t('Retrieving data')}</div>}
     </StyledSpinner>
   );
 }

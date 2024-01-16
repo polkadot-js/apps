@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2024 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Compact } from '@polkadot/types';
@@ -54,7 +54,7 @@ function ProposalCell ({ className = '', imageHash, isCollective, proposal }: Pr
   return (
     <StyledTd className={`${className} all`}>
       <CallExpander
-        labelHash={t<string>('proposal hash')}
+        labelHash={t('proposal hash')}
         value={displayProposal}
         withHash={!isTreasury && !isExternal}
       >

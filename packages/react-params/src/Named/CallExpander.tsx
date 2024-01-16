@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-params authors & contributors
+// Copyright 2017-2024 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Call, Extrinsic } from '@polkadot/types/interfaces';
@@ -29,7 +29,7 @@ interface Props {
 
 function CallExpander ({ children, className = '', isHeader, labelHash, labelSignature, mortality, onError, stringId, tip, value, withBorder, withHash, withSignature }: Props): React.ReactElement<Props> | null {
   const call = useMemo(
-    () => value && value.callIndex
+    () => value?.callIndex
       ? value.registry.findMetaCall(value.callIndex)
       : null,
     [value]

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-alliance authors & contributors
+// Copyright 2017-2024 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Cid } from '../types.js';
@@ -19,19 +19,19 @@ function Announcements ({ accouncements, className }: Props): React.ReactElement
   const { t } = useTranslation();
 
   const annRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t<string>('annoucements'), 'start'],
-    [t<string>('version'), 'number'],
-    [t<string>('codec'), 'number'],
-    [t<string>('code'), 'number']
+    [t('annoucements'), 'start'],
+    [t('version'), 'number'],
+    [t('codec'), 'number'],
+    [t('code'), 'number']
   ]);
 
   return (
     <div className={className}>
       <Table
-        empty={accouncements && t<string>('No annoucements')}
+        empty={accouncements && t('No annoucements')}
         header={annRef.current}
       >
-        {accouncements && accouncements.map((a) => (
+        {accouncements?.map((a) => (
           <Accouncement
             key={a.key}
             value={a}

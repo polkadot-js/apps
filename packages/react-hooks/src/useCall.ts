@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -163,7 +163,7 @@ export function useCall <T> (fn: TrackFn | undefined | null | false, params?: Ca
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const tracker = useRef<Tracker>({ error: null, fn: null, isActive: false, serialized: null, subscriber: null, type: 'useCall' });
-  const [value, setValue] = useState<T | undefined>((options || {}).defaultValue);
+  const [value, setValue] = useState<T | undefined>(options?.defaultValue);
 
   // initial effect, we need an un-subscription
   useEffect((): () => void => {

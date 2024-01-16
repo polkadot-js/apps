@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-assets authors & contributors
+// Copyright 2017-2024 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // augment package
@@ -25,7 +25,7 @@ interface Props {
 }
 
 function findOpenId (ids?: BN[]): BN {
-  if (!ids || !ids.length) {
+  if (!ids?.length) {
     return BN_ONE;
   }
 
@@ -50,11 +50,11 @@ function AssetApp ({ basePath, className }: Props): React.ReactElement<Props> {
     {
       isRoot: true,
       name: 'overview',
-      text: t<string>('Overview')
+      text: t('Overview')
     },
     {
       name: 'balances',
-      text: t<string>('Balances')
+      text: t('Balances')
     }
   ]);
 
