@@ -149,7 +149,7 @@ export const testParasRococo: EndpointOption[] = [
     info: 'rococoCurio',
     paraId: 3339,
     providers: {
-      'Curio': 'wss://testnet.parachain.curioinvest.com/'
+      Curio: 'wss://testnet.parachain.curioinvest.com/'
     },
     text: 'Curio Testnet',
     ui: {
