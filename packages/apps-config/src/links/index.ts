@@ -6,7 +6,7 @@ import type { ExternalDef } from './types.js';
 import { CereStats } from './cerestats.js';
 import { Commonwealth } from './commonwealth.js';
 import { Dotreasury } from './dotreasury.js';
-import { Edgscan } from './edgscan';
+import { Edgscan } from './edgscan.js';
 import { KodaDot } from './kodadot.js';
 import { MoonbeamApps } from './moonbeamApps.js';
 import { Polkaholic } from './polkaholic.js';
