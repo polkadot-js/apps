@@ -154,7 +154,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'cess-testnet',
     providers: {
-      CESS: 'wss://testnet-rpc0.cess.cloud/ws/'
+      // CESS: 'wss://testnet-rpc0.cess.cloud/ws/' // https://github.com/polkadot-js/apps/issues/10184
     },
     text: 'CESS Testnet',
     ui: {
