@@ -1,9 +1,9 @@
-// Copyright 2017-2023 @polkadot/apps-config authors & contributors
+// Copyright 2017-2024 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 export interface TOptions {
   ns?: string;
-  replace?: Record<string, string>
+  replace?: Record<string, unknown>
 }
 
-export type TFunction = (keyOrText: string, text?: string, options?: TOptions) => string;
+export type TFunction = (keyOrText: string, textOrOptions?: string | TOptions, options?: TOptions) => string;

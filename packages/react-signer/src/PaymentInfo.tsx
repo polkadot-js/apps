@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-signer authors & contributors
+// Copyright 2017-2024 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
@@ -48,7 +48,7 @@ function PaymentInfo ({ accountId, className = '', extrinsic, isHeader }: Props)
     return null;
   }
 
-  const isFeeError = api.consts.balances && !api.tx.balances?.transfer.is(extrinsic) && balances?.accountId.eq(accountId) && (
+  const isFeeError = api.consts.balances && !(api.tx.balances?.transferAllowDeath?.is(extrinsic) || api.tx.balances?.transfer?.is(extrinsic)) && balances?.accountId.eq(accountId) && (
     balances.availableBalance.lte(dispatchInfo.partialFee) ||
     balances.freeBalance.sub(dispatchInfo.partialFee).lte(api.consts.balances.existentialDeposit)
   );
@@ -65,7 +65,7 @@ function PaymentInfo ({ accountId, className = '', extrinsic, isHeader }: Props)
         }
       />
       {isFeeError && (
-        <MarkWarning content={t<string>('The account does not have enough free funds (excluding locked/bonded/reserved) available to cover the transaction fees without dropping the balance below the account existential amount.')} />
+        <MarkWarning content={t('The account does not have enough free funds (excluding locked/bonded/reserved) available to cover the transaction fees without dropping the balance below the account existential amount.')} />
       )}
     </>
   );

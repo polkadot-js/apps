@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { I18nProps } from '@polkadot/react-components/types';
@@ -24,7 +24,7 @@ function ValidateSessionEd25519 ({ onError, sessionId, stashId }: Props): React.
     let newError: string | null = null;
 
     if (sessionId === stashId) {
-      newError = t<string>('For fund security, your session key should not match your stash key.');
+      newError = t('For fund security, your session key should not match your stash key.');
     }
 
     onError(newError);

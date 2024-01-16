@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-js authors & contributors
+// Copyright 2017-2024 @polkadot/app-js authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useState } from 'react';
@@ -63,14 +63,14 @@ function ActionButtons ({ className = '', isCustomExample, isRunning, removeSnip
                   min={1}
                   onChange={_onChangeName}
                   onEnter={_saveSnippet}
-                  placeholder={t<string>('Name your example')}
+                  placeholder={t('Name your example')}
                   value={snippetName}
                   withLabel={false}
                 />
                 <Button
                   icon='save'
                   isDisabled={!snippetName.length}
-                  label={t<string>('Save snippet to local storage')}
+                  label={t('Save snippet to local storage')}
                   onClick={_saveSnippet}
                 />
               </>

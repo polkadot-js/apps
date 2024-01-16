@@ -1,11 +1,11 @@
-// Copyright 2017-2023 @polkadot/app-society authors & contributors
+// Copyright 2017-2024 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSociety, DeriveSocietyMember } from '@polkadot/api-derive/types';
 import type { MapMember } from './types.js';
 
 import React, { useMemo } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -90,7 +90,7 @@ function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> 
 
   const [mapMembers, payoutTotal] = useMemo(
     () => members && info && skeptics && voters
-      ? getMapMembers(members, skeptics, voters, info, api.consts.society.maxStrikes.mul(BN_TWO).div(BN_THREE))
+      ? getMapMembers(members, skeptics, voters, info, (api.consts.society.graceStrikes || api.consts.society.maxStrikes).mul(BN_TWO).div(BN_THREE))
       : [undefined, undefined],
     [api, info, members, skeptics, voters]
   );
@@ -99,16 +99,16 @@ function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> 
     {
       isRoot: true,
       name: 'overview',
-      text: t<string>('Overview')
+      text: t('Overview')
     },
     {
       count: candidateCount,
       name: 'candidates',
-      text: t<string>('Candidates')
+      text: t('Candidates')
     },
     {
       name: 'suspended',
-      text: t<string>('Suspended')
+      text: t('Suspended')
     }
   ], [candidateCount, t]);
 
@@ -118,28 +118,39 @@ function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> 
         basePath={basePath}
         items={items}
       />
-      <Switch>
-        <Route path={`${basePath}/candidates`}>
-          <Candidates
-            allMembers={allMembers}
-            candidates={candidates}
-            isMember={isMember}
-            ownMembers={ownMembers}
+      <Routes>
+        <Route path={basePath}>
+          <Route
+            element={
+              <Candidates
+                allMembers={allMembers}
+                candidates={candidates}
+                isMember={isMember}
+                ownMembers={ownMembers}
+              />
+            }
+            path='candidates'
+          />
+          <Route
+            element={
+              <Suspended />
+            }
+            path='suspended'
+          />
+          <Route
+            element={
+              <Overview
+                info={info}
+                isMember={isMember}
+                mapMembers={mapMembers}
+                ownMembers={ownMembers}
+                payoutTotal={payoutTotal}
+              />
+            }
+            index
           />
         </Route>
-        <Route path={`${basePath}/suspended`}>
-          <Suspended />
-        </Route>
-        <Route>
-          <Overview
-            info={info}
-            isMember={isMember}
-            mapMembers={mapMembers}
-            ownMembers={ownMembers}
-            payoutTotal={payoutTotal}
-          />
-        </Route>
-      </Switch>
+      </Routes>
     </main>
   );
 }

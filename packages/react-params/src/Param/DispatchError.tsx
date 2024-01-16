@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-params authors & contributors
+// Copyright 2017-2024 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DispatchError } from '@polkadot/types/interfaces';
@@ -69,14 +69,14 @@ function ErrorDisplay (props: Props): React.ReactElement<Props> {
       <Input
         className='full'
         isDisabled
-        label={t<string>('type')}
+        label={t('type')}
         value={type}
       />
       {details && (
         <Input
           className='full'
           isDisabled
-          label={t<string>('details')}
+          label={t('details')}
           value={details}
         />
       )}

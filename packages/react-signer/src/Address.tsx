@@ -1,6 +1,7 @@
-// Copyright 2017-2023 @polkadot/react-signer authors & contributors
+// Copyright 2017-2024 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { QueueTx } from '@polkadot/react-components/Status/types';
 import type { Option, Vec } from '@polkadot/types';
@@ -12,7 +13,6 @@ import type { AddressFlags, AddressProxy } from './types.js';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { ApiPromise } from '@polkadot/api';
 import { InputAddress, MarkError, Modal, Toggle } from '@polkadot/react-components';
 import { useAccounts, useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { BN_ZERO, isFunction } from '@polkadot/util';
@@ -58,7 +58,7 @@ function findCall (tx: Call | SubmittableExtrinsic<'promise'>): { method: string
     const { method, section } = tx.registry.findMetaCall(tx.callIndex);
 
     return { method, section };
-  } catch (error) {
+  } catch {
     return { method: 'unknown', section: 'unknown' };
   }
 }
@@ -312,8 +312,8 @@ function Address ({ currentItem, onChange, onEnter, passwordError, requestAddres
             isDisabled={proxyInfo.isProxied}
             label={
               isProxyActive
-                ? t<string>('Use a proxy for this call')
-                : t<string>("Don't use a proxy for this call")
+                ? t('Use a proxy for this call')
+                : t("Don't use a proxy for this call")
             }
             onChange={setIsProxyActive}
             value={isProxyActive}
@@ -326,8 +326,8 @@ function Address ({ currentItem, onChange, onEnter, passwordError, requestAddres
             className='tipToggle'
             label={
               isMultiCall
-                ? t<string>('Multisig message with call (for final approval)')
-                : t<string>('Multisig approval with hash (non-final approval)')
+                ? t('Multisig message with call (for final approval)')
+                : t('Multisig approval with hash (non-final approval)')
             }
             onChange={setIsMultiCall}
             value={isMultiCall}

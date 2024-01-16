@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-params authors & contributors
+// Copyright 2017-2024 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -9,7 +9,7 @@ import Bare from './Bare.js';
 
 interface Props {
   className?: string;
-  defaultValue?: any;
+  defaultValue?: unknown;
   isDisabled?: boolean;
   isError?: boolean;
   label?: React.ReactNode;

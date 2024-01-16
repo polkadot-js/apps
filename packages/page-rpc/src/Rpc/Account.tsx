@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-rpc authors & contributors
+// Copyright 2017-2024 @polkadot/app-rpc authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -33,7 +33,7 @@ function Account ({ className = '', defaultValue, isError, onChange }: Props): R
         <InputAddress
           defaultValue={defaultValue}
           isError={isError}
-          label={t<string>('sign data from account')}
+          label={t('sign data from account')}
           onChange={setAccountId}
           placeholder='0x...'
           type='account'
@@ -42,7 +42,7 @@ function Account ({ className = '', defaultValue, isError, onChange }: Props): R
       {accountId && (
         <Labelled
           className='small'
-          label={t<string>('with an index of')}
+          label={t('with an index of')}
         >
           <Nonce
             callOnResult={setAccountNonce}

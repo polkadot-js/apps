@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2024 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, StorageKey } from '@polkadot/types';
@@ -83,7 +83,7 @@ function mergeCurrent (ranges: [number, number][], auctionInfo: AuctionInfo, pre
   const current = createWinning(auctionInfo, blockOffset, extractWinners(ranges, auctionInfo, optCurrent));
 
   if (current.winners.length) {
-    if (!prev || !prev.length) {
+    if (!prev?.length) {
       return [current];
     }
 

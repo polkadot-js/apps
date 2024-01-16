@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-signer authors & contributors
+// Copyright 2017-2024 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { QueueTx } from '@polkadot/react-components/Status/types';
@@ -6,7 +6,8 @@ import type { BN } from '@polkadot/util';
 
 import React from 'react';
 
-import { CallExpander, Modal, styled } from '@polkadot/react-components';
+import { Modal, styled } from '@polkadot/react-components';
+import { CallExpander } from '@polkadot/react-params';
 
 import PaymentInfo from './PaymentInfo.js';
 import { useTranslation } from './translate.js';
@@ -29,7 +30,7 @@ function Transaction ({ accountId, className, currentItem: { extrinsic, isUnsign
   return (
     <StyledModalColumns
       className={className}
-      hint={t<string>('The details of the transaction including the type, the description (as available from the chain metadata) as well as any parameters and fee estimations (as available) for the specific type of call.')}
+      hint={t('The details of the transaction including the type, the description (as available from the chain metadata) as well as any parameters and fee estimations (as available) for the specific type of call.')}
     >
       <CallExpander
         isHeader

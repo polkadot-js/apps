@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2024 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Header } from '@polkadot/types/interfaces';
@@ -374,8 +374,8 @@ function Forks ({ className }: Props): React.ReactElement<Props> | null {
     <StyledDiv className={className}>
       <SummaryBox>
         <section>
-          <CardSummary label={t<string>('blocks')}>{formatNumber(countRef.current.numBlocks)}</CardSummary>
-          <CardSummary label={t<string>('forks')}>{formatNumber(countRef.current.numForks)}</CardSummary>
+          <CardSummary label={t('blocks')}>{formatNumber(countRef.current.numBlocks)}</CardSummary>
+          <CardSummary label={t('forks')}>{formatNumber(countRef.current.numForks)}</CardSummary>
         </section>
       </SummaryBox>
       <table>

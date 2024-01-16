@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2024 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -26,13 +26,13 @@ function Summary ({ activeCap, activeRaised, className, fundCount, isLoading, to
 
   return (
     <SummaryBox className={className}>
-      <CardSummary label={t<string>('funds')}>
+      <CardSummary label={t('funds')}>
         {fundCount === undefined
           ? <span className='--tmp'>99</span>
           : formatNumber(fundCount)}
       </CardSummary>
       <CardSummary
-        label={`${t<string>('active raised / cap')}`}
+        label={`${t('active raised / cap')}`}
         progress={{
           hideValue: true,
           isBlurred: isLoading,
@@ -54,7 +54,7 @@ function Summary ({ activeCap, activeRaised, className, fundCount, isLoading, to
         </span>
       </CardSummary>
       <CardSummary
-        label={`${t<string>('total raised / cap')}`}
+        label={`${t('total raised / cap')}`}
         progress={{
           hideValue: true,
           isBlurred: isLoading,

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2024 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback } from 'react';
@@ -40,14 +40,14 @@ const CreateAccountInputs = ({ name: { isNameValid, name }, onCommit, setName, s
 
   return (
     <>
-      <Modal.Columns hint={t<string>('The name for this account and how it will appear under your addresses. With an on-chain identity, it can be made available to others.')}>
+      <Modal.Columns hint={t('The name for this account and how it will appear under your addresses. With an on-chain identity, it can be made available to others.')}>
         <Input
           className='full'
           isError={!isNameValid}
-          label={t<string>('name')}
+          label={t('name')}
           onChange={_onChangeName}
           onEnter={onCommit}
-          placeholder={t<string>('new account')}
+          placeholder={t('new account')}
           value={name}
         />
       </Modal.Columns>

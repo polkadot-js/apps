@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyringItemType } from '@polkadot/ui-keyring/types';
@@ -6,5 +6,5 @@ import type { KeyringItemType } from '@polkadot/ui-keyring/types';
 import { getAddressMeta } from './getAddressMeta.js';
 
 export function getAddressTags (address: string, type: KeyringItemType | null = null): string[] {
-  return getAddressMeta(address, type).tags as string[] || [];
+  return getAddressMeta(address, type).tags || [];
 }

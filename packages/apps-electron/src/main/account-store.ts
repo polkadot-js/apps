@@ -1,9 +1,10 @@
-// Copyright 2017-2023 @polkadot/apps authors & contributors
+// Copyright 2017-2024 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore Warned on by nodenext resolution (while package does build in bundler mode)
 import type { KeyringJson } from '@polkadot/ui-keyring/types';
+import type { IpcMainHandler } from './ipc-main-handler.js';
 
 import electron from 'electron';
 import path from 'path';
@@ -12,7 +13,6 @@ import path from 'path';
 // @ts-ignore Warned on by nodenext resolution (while package does build in bundler mode)
 import { FileStore } from '@polkadot/ui-keyring/stores';
 
-import { IpcMainHandler } from './ipc-main-handler.js';
 import { registerIpcHandler } from './register-ipc-handler.js';
 
 const ACCOUNTS_SUBFOLDER = 'polkadot-accounts';
@@ -40,7 +40,7 @@ export const accountStoreIpcHandler = (fileStore: FileStore): IpcMainHandler => 
   'account-store-get': async (key: string) => new Promise((resolve) => {
     try {
       fileStore.get(safeWriteKey(key), resolve);
-    } catch (err) {
+    } catch {
       resolve(null);
     }
   }),

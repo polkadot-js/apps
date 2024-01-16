@@ -15,9 +15,11 @@
   "nav.fellowship": "Fellowship",
   "nav.files": "Files (IPFS)",
   "nav.gilt": "Gilt",
+  "nav.github": "GitHub",
   "nav.js": "JavaScript",
   "nav.membership": "Membership",
   "nav.nfts": "NFTs",
+  "nav.nis": "Non-interactive Staking",
   "nav.parachains": "Parachains",
   "nav.poll": "Token poll",
   "nav.preimages": "Preimages",
@@ -37,5 +39,6 @@
   "nav.transfer": "Transfer",
   "nav.treasury": "Treasury",
   "nav.utilities": "Utilities",
-  "nav.whitelist": "Whitelist"
+  "nav.whitelist": "Whitelist",
+  "nav.wiki": "Wiki"
 }

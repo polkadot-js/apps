@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-params authors & contributors
+// Copyright 2017-2024 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Props, RawParam } from '../types.js';
@@ -32,7 +32,7 @@ function StructParam (props: Props): React.ReactElement<Props> {
       onChange && onChange({
         isValid: values.reduce((result: boolean, { isValid }) => result && isValid, true),
         value: params.reduce((value: Record<string, unknown>, { name }, index): Record<string, unknown> => {
-          value[name as string] = values[index].value;
+          value[name || 'unknown'] = values[index].value;
 
           return value;
         }, {})

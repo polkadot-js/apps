@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-params authors & contributors
+// Copyright 2017-2024 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Props as BaseProps } from '../types.js';
@@ -17,13 +17,9 @@ interface Props extends BaseProps {
 function isValidAddress (value: string | null | undefined, isEthereum: boolean): boolean {
   if (value) {
     try {
-      if (isEthereum) {
-        return isEthereumAddress(value);
-      } else {
-        return validateAddress(value);
-      }
-
-      return true;
+      return isEthereum
+        ? isEthereumAddress(value)
+        : validateAddress(value);
     } catch (err) {
       console.error(err);
     }

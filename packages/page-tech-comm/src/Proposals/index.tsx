@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-tech-comm authors & contributors
+// Copyright 2017-2024 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
@@ -23,11 +23,11 @@ function Proposals ({ className = '', defaultProposal, defaultThreshold, filter,
   const { t } = useTranslation();
 
   const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
-    [t<string>('proposals'), 'start', 2],
-    [t<string>('threshold')],
-    [t<string>('voting end')],
-    [t<string>('aye'), 'address'],
-    [t<string>('nay'), 'address'],
+    [t('proposals'), 'start', 2],
+    [t('threshold')],
+    [t('voting end')],
+    [t('aye'), 'address'],
+    [t('nay'), 'address'],
     []
   ]);
 
@@ -44,7 +44,7 @@ function Proposals ({ className = '', defaultProposal, defaultThreshold, filter,
         />
       </Button.Group>
       <Table
-        empty={proposalHashes && t<string>('No committee proposals')}
+        empty={proposalHashes && t('No committee proposals')}
         header={headerRef.current}
       >
         {proposalHashes?.map((hash: Hash): React.ReactNode => (

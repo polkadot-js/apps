@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-settings authors & contributors
+// Copyright 2017-2024 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -31,9 +31,7 @@ interface ExtensionProperties {
   ss58Format?: number;
 }
 
-interface SavedProperties {
-  [name: string]: ExtensionProperties;
-}
+type SavedProperties = Record<string, ExtensionProperties>;
 
 type TriggerFn = (counter: number) => void;
 
@@ -118,19 +116,18 @@ async function getExtensionInfo (api: ApiPromise, extension: InjectedExtension):
             saveProperties(api, extension);
             triggerAll();
           }
-        } catch (error) {
+        } catch {
           // ignore
         }
 
         return isOk;
       }
     };
-  } catch (error) {
+  } catch {
     return null;
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function getKnown (api: ApiPromise, extensions: InjectedExtension[], _: number): Promise<ExtensionKnown[]> {
   const all = await Promise.all(
     extensions.map((extension) => getExtensionInfo(api, extension))

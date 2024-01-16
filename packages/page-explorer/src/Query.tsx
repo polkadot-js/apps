@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2024 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useState } from 'react';
@@ -51,7 +51,7 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
         isError={!isValid && value.length !== 0}
         onChange={_setHash}
         onEnter={_onQuery}
-        placeholder={t<string>('block hash or number to query')}
+        placeholder={t('block hash or number to query')}
         withLabel={false}
       >
         <Button

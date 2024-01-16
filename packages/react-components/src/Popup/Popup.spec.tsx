@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-components  authors & contributors
+// Copyright 2017-2024 @polkadot/react-components  authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /// <reference types="@polkadot/dev-test/globals.d.ts" />
@@ -7,7 +7,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React, { Suspense } from 'react';
 import { ThemeProvider } from 'styled-components';
 
-import { lightTheme } from '@polkadot/apps/themes';
+import { lightTheme } from '@polkadot/react-components';
 import i18next from '@polkadot/react-components/i18n';
 
 import Popup from './index.js';
@@ -42,6 +42,7 @@ describe('Popup Component', () => {
     await i18next.changeLanguage('en');
   });
 
+  // eslint-disable-next-line jest/expect-expect
   it('opens and closes', async () => {
     renderPopup();
 
@@ -54,6 +55,7 @@ describe('Popup Component', () => {
     });
   });
 
+  // eslint-disable-next-line jest/expect-expect
   it('closes popup with outside click', async () => {
     renderPopup();
 

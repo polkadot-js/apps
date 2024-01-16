@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
@@ -25,7 +25,7 @@ function WarnBond ({ minBond, stakingInfo }: Props): React.ReactElement<Props> |
   );
 
   return isBelow
-    ? <MarkWarning content={t<string>('Your bonded amount is below the on-chain minimum threshold of {{minBond}} and may be chilled. Bond extra funds to increase the bonded amount.', { replace: { minBond: formatBalance(minBond) } })} />
+    ? <MarkWarning content={t('Your bonded amount is below the on-chain minimum threshold of {{minBond}} and may be chilled. Bond extra funds to increase the bonded amount.', { replace: { minBond: formatBalance(minBond) } })} />
     : null;
 }
 

@@ -1,10 +1,7 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeDef } from '@polkadot/react-hooks/ctx/types';
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default (_theme: ThemeDef): string => `
+export default `
   .ui--output {
     background: var(--bg-input);
     border-radius: 4px;
@@ -64,6 +61,17 @@ export default (_theme: ThemeDef): string => `
       border-left: none;
       border-bottom-left-radius: 0;
       border-top-left-radius: 0;
+    }
+  }
+
+  .ui--Identicon-React-Base {
+    border: 1px solid var(--border-identicon);
+    border-radius: 50%;
+    display: inline-block;
+    overflow: hidden;
+
+    svg circle:first-child {
+      fill: var(--bg-identicon-circle);
     }
   }
 

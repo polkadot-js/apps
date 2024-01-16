@@ -1,13 +1,14 @@
-// Copyright 2017-2023 @polkadot/test-support authors & contributors
+// Copyright 2017-2024 @polkadot/test-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiPromise } from '@polkadot/api';
-import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import { KeyringPair } from '@polkadot/keyring/types';
+import type { ApiPromise } from '@polkadot/api';
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
+import type { KeyringPair } from '@polkadot/keyring/types';
+import type { Hash } from '@polkadot/types/interfaces';
+
 import { charlieSigner, daveSigner, eveSigner, ferdieSigner } from '@polkadot/test-support/keyring';
 import { execute } from '@polkadot/test-support/transaction';
-import { Hash } from '@polkadot/types/interfaces';
 import { BN } from '@polkadot/util';
 
 import { LENGTH_BOUND, TREASURY_ADDRESS, WEIGHT_BOUND } from './constants.js';
@@ -23,7 +24,7 @@ export async function acceptMotion (api: ApiPromise, hash: Hash, index: number):
 }
 
 export async function fillTreasury (api: ApiPromise, signer: KeyringPair): Promise<void> {
-  await execute(api.tx.balances.transfer(TREASURY_ADDRESS, new BN('50000000000000000')), signer);
+  await execute((api.tx.balances.transferAllowDeath || api.tx.balances.transfer)(TREASURY_ADDRESS, new BN('50000000000000000')), signer);
 }
 
 export async function proposeMotion (api: ApiPromise, submittableExtrinsic: SubmittableExtrinsic<'promise'>, signer: KeyringPair): Promise<void> {
@@ -32,7 +33,11 @@ export async function proposeMotion (api: ApiPromise, submittableExtrinsic: Subm
 
 export async function getMotion (api: ApiPromise, index: number): Promise<DeriveCollectiveProposal> {
   const bounties = await api.derive.bounties.bounties();
-  const bountyProposals = bounties.find((bounty) => (bounty.index.toNumber() === index))?.proposals as DeriveCollectiveProposal[];
+  const bountyProposals = bounties.find((bounty) => (bounty.index.toNumber() === index))?.proposals;
+
+  if (!bountyProposals) {
+    throw new Error('Unable to find proposal');
+  }
 
   return bountyProposals[0];
 }
@@ -50,9 +55,13 @@ export async function multiGetMotion (api: ApiPromise, indexes: number[]): Promi
   const bountyProposals =
     indexes.map((index) =>
       bounties.find((bounty) =>
-        (bounty.index.toNumber() === index))?.proposals as DeriveCollectiveProposal[]);
+        (bounty.index.toNumber() === index)
+      )?.proposals
+    );
 
-  return bountyProposals.map((arr) => arr[0]);
+  return bountyProposals
+    .map((arr) => arr?.[0])
+    .filter((arr): arr is DeriveCollectiveProposal => !!arr);
 }
 
 async function multiVoteAye (acceptMotionSigners: KeyringPair[], api: ApiPromise, indexes: number[], hashes: Hash[]) {

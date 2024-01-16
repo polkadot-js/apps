@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-collator authors & contributors
+// Copyright 2017-2024 @polkadot/app-collator authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BTreeSet } from '@polkadot/types';
@@ -70,7 +70,7 @@ function useCollatorImpl (): Collator[] | undefined {
   const [state, setState] = useState<Collator[] | undefined>();
 
   const accountIds = useMemo(
-    () => state && state.map(({ accountId }) => accountId),
+    () => state?.map(({ accountId }) => accountId),
     [state]
   );
 

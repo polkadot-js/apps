@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-council authors & contributors
+// Copyright 2017-2024 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, MemberCount } from '@polkadot/types/interfaces';
@@ -34,7 +34,7 @@ function Voters ({ isAye, members, threshold, votes }: Props): React.ReactElemen
   );
 
   const renderVotes = useCallback(
-    () => votes && votes.map((address): React.ReactNode => (
+    () => votes?.map((address): React.ReactNode => (
       <AddressMini
         key={address.toString()}
         value={address}
@@ -53,8 +53,8 @@ function Voters ({ isAye, members, threshold, votes }: Props): React.ReactElemen
       renderChildren={renderVotes}
       summary={
         isAye
-          ? t<string>('Aye {{count}}', { replace: { count } })
-          : t<string>('Nay {{count}}', { replace: { count } })
+          ? t('Aye {{count}}', { replace: { count } })
+          : t('Nay {{count}}', { replace: { count } })
       }
     />
   );

@@ -1,17 +1,15 @@
-// Copyright 2017-2023 @polkadot/app-nfts authors & contributors
+// Copyright 2017-2024 @polkadot/app-nfts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 import type { PalletUniquesCollectionDetails, PalletUniquesCollectionMetadata } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { CollectionInfo } from './types.js';
+import type { CollectionInfo, CollectionSupportedIpfsData } from './types.js';
 
 import { useEffect, useMemo, useState } from 'react';
 
 import { createNamedHook, useAccounts, useApi, useCall, useIpfsFetch } from '@polkadot/react-hooks';
-
-import { CollectionSupportedIpfsData } from './types.js';
 
 type IpfsData = Map<string, CollectionSupportedIpfsData | null>;
 
@@ -31,7 +29,7 @@ const IPFS_FETCH_OPTIONS = {
     }
 
     try {
-      const result = JSON.parse(data) as {[key: string]: any};
+      const result = JSON.parse(data) as Record<string, any>;
 
       if (result && typeof result === 'object') {
         return {
@@ -73,7 +71,7 @@ function extractInfo (allAccounts: string[], id: BN, optDetails: Option<PalletUn
 }
 
 const addIpfsData = (ipfsData: IpfsData) => (collectionInfo: CollectionInfo): CollectionInfo => {
-  const ipfsHash = collectionInfo.metadata && collectionInfo.metadata.data?.toString();
+  const ipfsHash = collectionInfo.metadata && collectionInfo.metadata.data?.toPrimitive() as string;
 
   return {
     ...collectionInfo,
@@ -89,10 +87,10 @@ function useCollectionInfosImpl (ids?: BN[]): CollectionInfo[] | undefined {
   const [state, setState] = useState<CollectionInfo[] | undefined>();
 
   const ipfsHashes = useMemo(
-    () => metadata && metadata[1].length
+    () => metadata?.[1].length
       ? metadata[1].map((o) =>
         o.isSome
-          ? o.unwrap().data.toString()
+          ? o.unwrap().data.toPrimitive() as string
           : ''
       )
       : [],

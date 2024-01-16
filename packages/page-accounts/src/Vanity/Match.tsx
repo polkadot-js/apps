@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2024 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useMemo } from 'react';
@@ -15,7 +15,7 @@ interface Props {
   offset: number;
   onCreateToggle: (seed: string) => void;
   onRemove: (address: string) => void;
-  seed: Uint8Array;
+  seed?: Uint8Array;
 }
 
 function Match ({ address, className = '', count, offset, onCreateToggle, onRemove, seed }: Props): React.ReactElement<Props> {
@@ -56,7 +56,7 @@ function Match ({ address, className = '', count, offset, onCreateToggle, onRemo
       <td className='button'>
         <Button
           icon='plus'
-          label={t<string>('Save')}
+          label={t('Save')}
           onClick={_onCreate}
         />
         <Button

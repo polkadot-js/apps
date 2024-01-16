@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-assets authors & contributors
+// Copyright 2017-2024 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletAssetsAssetDetails, PalletAssetsAssetMetadata } from '@polkadot/types/lookup';
@@ -28,7 +28,7 @@ function Mint ({ className, details, id, metadata }: Props): React.ReactElement<
       <Button
         icon='plus'
         isDisabled={metadata.isFrozen.isTrue}
-        label={t<string>('Mint')}
+        label={t('Mint')}
         onClick={toggleOpen}
       />
       {isOpen && (

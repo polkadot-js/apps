@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2024 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import '@polkadot/api-augment/substrate';
@@ -6,7 +6,7 @@ import '@polkadot/api-augment/substrate';
 import type { ParaId } from '@polkadot/types/interfaces';
 
 import React, { useRef } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 import { useLocation } from 'react-router-dom';
 
 import { Tabs } from '@polkadot/react-components';
@@ -50,23 +50,23 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
     {
       isRoot: true,
       name: 'overview',
-      text: t<string>('Overview')
+      text: t('Overview')
     },
     {
       name: 'parathreads',
-      text: t<string>('Parathreads')
+      text: t('Parathreads')
     },
     api.query.proposeParachain && {
       name: 'proposals',
-      text: t<string>('Proposals')
+      text: t('Proposals')
     },
     api.query.auctions && {
       name: 'auctions',
-      text: t<string>('Auctions')
+      text: t('Auctions')
     },
     api.query.crowdloan && {
       name: 'crowdloan',
-      text: t<string>('Crowdloan')
+      text: t('Crowdloan')
     }
   ].filter((q) => !!q));
 
@@ -76,27 +76,38 @@ function ParachainsApp ({ basePath, className }: Props): React.ReactElement<Prop
         basePath={basePath}
         items={items.current}
       />
-      <Switch>
-        <Route path={`${basePath}/auctions`}>
-          <Auctions
-            auctionInfo={auctionInfo}
-            campaigns={campaigns}
-            ownedIds={ownedIds}
-            winningData={winningData}
+      <Routes>
+        <Route path={basePath}>
+          <Route
+            element={
+              <Auctions
+                auctionInfo={auctionInfo}
+                campaigns={campaigns}
+                ownedIds={ownedIds}
+                winningData={winningData}
+              />
+            }
+            path='auctions'
+          />
+          <Route
+            element={
+              <Crowdloan
+                auctionInfo={auctionInfo}
+                campaigns={campaigns}
+                leasePeriod={leasePeriod}
+                ownedIds={ownedIds}
+              />
+            }
+            path='crowdloan'
+          />
+          <Route
+            element={
+              <Proposals proposals={proposals} />
+            }
+            path='proposals'
           />
         </Route>
-        <Route path={`${basePath}/crowdloan`}>
-          <Crowdloan
-            auctionInfo={auctionInfo}
-            campaigns={campaigns}
-            leasePeriod={leasePeriod}
-            ownedIds={ownedIds}
-          />
-        </Route>
-        <Route path={`${basePath}/proposals`}>
-          <Proposals proposals={proposals} />
-        </Route>
-      </Switch>
+      </Routes>
       <Overview
         actionsQueue={actionsQueue}
         className={pathname === basePath ? '' : '--hidden'}

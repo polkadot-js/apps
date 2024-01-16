@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/apps authors & contributors
+// Copyright 2017-2024 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable camelcase */
@@ -12,7 +12,6 @@ const webpack = require('webpack');
 const findPackages = require('../../scripts/findPackages.cjs');
 
 function createWebpack (context, mode = 'production') {
-  const pkgJson = require(path.join(context, 'package.json'));
   const alias = findPackages().reduce((alias, { dir, name }) => {
     alias[name] = path.resolve(context, `../${dir}/src`);
 
@@ -38,7 +37,7 @@ function createWebpack (context, mode = 'production') {
       rules: [
         {
           scheme: 'data',
-          type: 'asset/resource',
+          type: 'asset/resource'
         },
         {
           include: /node_modules/,

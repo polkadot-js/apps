@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-runtime authors & contributors
+// Copyright 2017-2024 @polkadot/app-runtime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParamDef, RawParam } from '@polkadot/react-params/types';
@@ -74,7 +74,7 @@ function Selection ({ onSubmit }: Props): React.ReactElement<Props> {
   return (
     <section className='runtime--Selection'>
       <InputCalls
-        label={t<string>('call the selected endpoint')}
+        label={t('call the selected endpoint')}
         onChange={_onChangeMethod}
       />
       {method && (
@@ -88,7 +88,7 @@ function Selection ({ onSubmit }: Props): React.ReactElement<Props> {
         <Button
           icon='sign-in-alt'
           isDisabled={!isValid || !method}
-          label={t<string>('Submit Runtime call')}
+          label={t('Submit Runtime call')}
           onClick={_onSubmit}
         />
       </Button.Group>

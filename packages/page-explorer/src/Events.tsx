@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2024 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
@@ -45,7 +45,7 @@ function Events ({ className = '', emptyLabel, error, eventClassName, events, la
 
   const header = useMemo<[React.ReactNode?, string?, number?][]>(
     () => [
-      [label || t<string>('recent events'), 'start']
+      [label || t('recent events'), 'start']
     ],
     [label, t]
   );
@@ -53,7 +53,7 @@ function Events ({ className = '', emptyLabel, error, eventClassName, events, la
   return (
     <Table
       className={className}
-      empty={emptyLabel || t<string>('No events available')}
+      empty={emptyLabel || t('No events available')}
       header={header}
     >
       {error
@@ -62,10 +62,10 @@ function Events ({ className = '', emptyLabel, error, eventClassName, events, la
             className={eventClassName}
             key='error'
           >
-            <td><MarkError content={t<string>('Unable to decode the block events. {{error}}', { replace: { error: error.message } })} /></td>
+            <td><MarkError content={t('Unable to decode the block events. {{error}}', { replace: { error: error.message } })} /></td>
           </tr>
         )
-        : events && events.map((e) => renederEvent(eventClassName, e))
+        : events?.map((e) => renederEvent(eventClassName, e))
       }
     </Table>
   );

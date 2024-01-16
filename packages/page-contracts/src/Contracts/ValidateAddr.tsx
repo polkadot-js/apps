@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2024 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
@@ -28,7 +28,7 @@ function ValidateAddr ({ address, onChange }: Props): React.ReactElement<Props> 
     try {
       keyring.decodeAddress(address || '');
       setIsAddress(true);
-    } catch (error) {
+    } catch {
       setIsAddress(false);
     }
   }, [address]);
@@ -48,8 +48,8 @@ function ValidateAddr ({ address, onChange }: Props): React.ReactElement<Props> 
   return (
     <InfoForInput type='error'>
       {isAddress
-        ? t<string>('Unable to find deployed contract code at the specified address')
-        : t<string>('The value is not in a valid address format')
+        ? t('Unable to find deployed contract code at the specified address')
+        : t('The value is not in a valid address format')
       }
     </InfoForInput>
   );

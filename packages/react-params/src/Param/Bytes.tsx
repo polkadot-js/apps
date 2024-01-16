@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-params authors & contributors
+// Copyright 2017-2024 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Props } from '../types.js';
@@ -33,7 +33,7 @@ function Bytes ({ className = '', defaultValue, isDisabled, isError, label, name
 
   const toggleLabel = !isDisabled && (
     <Toggle
-      label={t<string>('file upload')}
+      label={t('file upload')}
       onChange={setFileInput}
       value={isFileDrop}
     />

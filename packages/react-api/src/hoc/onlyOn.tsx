@@ -1,9 +1,8 @@
-// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2024 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ComponentType } from 'react';
 import type { Environment } from '../types.js';
-
-import { ComponentType } from 'react';
 
 import { getEnvironment } from '../util/index.js';
 

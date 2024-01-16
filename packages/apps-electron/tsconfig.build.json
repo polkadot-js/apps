@@ -3,7 +3,15 @@
   "compilerOptions": {
     "baseUrl": "..",
     "outDir": "./build",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    /* Since this is a forced-by-electron-CJS-module, we have to switch this off */
+    "verbatimModuleSyntax": false
   },
-  "references": []
+  "exclude": [
+    "webpack.*.cjs"
+  ],
+  "references": [
+    { "path": "../apps/tsconfig.build.json" },
+    { "path": "../react-components/tsconfig.build.json" }
+  ]
 }

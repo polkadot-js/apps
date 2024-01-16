@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -155,7 +155,9 @@ function createBatches (api: ApiPromise, txs: SubmittableExtrinsic<'promise'>[],
         ? batch[0]
         : type === 'all' && isFunction(api.tx.utility.batchAll)
           ? api.tx.utility.batchAll(batch)
-          : api.tx.utility.batch(batch)
+          : type === 'force' && isFunction(api.tx.utility.forceBatch)
+            ? api.tx.utility.forceBatch(batch)
+            : api.tx.utility.batch(batch)
     );
 }
 

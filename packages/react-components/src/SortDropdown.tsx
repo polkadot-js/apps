@@ -1,5 +1,7 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import type { DropdownItemProps } from 'semantic-ui-react';
 
 import React from 'react';
 
@@ -13,7 +15,7 @@ interface Props {
   label: string;
   onChange: (value: any) => void;
   onClick: () => void;
-  options: unknown[];
+  options: (DropdownItemProps | React.ReactNode)[];
   sortDirection: 'descending' | 'ascending';
 }
 

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
@@ -32,8 +32,8 @@ function CopyButton ({ children, className = '', icon = 'copy', label, type, val
   const _onCopy = useCallback(
     (): void => {
       queueAction && queueAction({
-        action: t<string>('clipboard'),
-        message: t<string>('{{type}} copied', { replace: { type: type || t<string>('value') } }),
+        action: t('clipboard'),
+        message: t('{{type}} copied', { replace: { type: type || t('value') } }),
         status: 'queued'
       });
     },

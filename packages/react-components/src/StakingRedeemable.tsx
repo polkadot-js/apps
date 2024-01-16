@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
@@ -60,7 +60,7 @@ function StakingRedeemable ({ className = '', isPool, stakingInfo }: Props): Rea
                     ? [spanCount]
                     : []
               }
-              tooltip={t<string>('Withdraw these unbonded funds')}
+              tooltip={t('Withdraw these unbonded funds')}
               tx={
                 isPool
                   ? api.tx.nominationPools.withdrawUnbonded

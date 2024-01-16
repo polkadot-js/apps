@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Call } from '@polkadot/types/interfaces';
@@ -62,6 +62,7 @@ function useWeightImpl (call?: Call | null): Result {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState<Result>(() => objectSpread({
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     isWeightV2: !isFunction(api.registry.createType<V1Weight>('Weight').toBn)
   }, EMPTY_STATE));
 

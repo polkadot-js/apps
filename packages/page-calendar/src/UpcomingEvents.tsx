@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-calendar authors & contributors
+// Copyright 2017-2024 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EntryInfoTyped } from './types.js';
@@ -37,7 +37,7 @@ function UpcomingEvents ({ className, scheduled, setView }: Props): React.ReactE
             icon='calendar'
             onClick={_setView}
           />
-          {t<string>('Upcoming Events')}
+          {t('Upcoming Events')}
         </div>
       </h1>
       <ul className='allEventsWrapper'>

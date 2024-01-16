@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-society authors & contributors
+// Copyright 2017-2024 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { VoteSplit, VoteType } from '../types.js';
@@ -27,15 +27,15 @@ function Votes ({ votes }: Props): React.ReactElement<Props> {
   return (
     <td className='expand'>
       <VotesExpander
-        label={t<string>('Skeptics')}
+        label={t('Skeptics')}
         votes={allSkeptic}
       />
       <VotesExpander
-        label={t<string>('Approvals')}
+        label={t('Approvals')}
         votes={allAye}
       />
       <VotesExpander
-        label={t<string>('Rejections')}
+        label={t('Rejections')}
         votes={allNay}
       />
     </td>

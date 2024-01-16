@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2024 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -28,7 +28,7 @@ function TrackDropdown ({ className, exclude, include, onChange, palletReferenda
     <Dropdown
       className={className}
       defaultValue={trackOpts[0].value}
-      label={t<string>('submission track')}
+      label={t('submission track')}
       onChange={onChange}
       options={trackOpts}
     />

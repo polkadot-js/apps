@@ -1,10 +1,10 @@
-// Copyright 2017-2023 @polkadot/app-settings authors & contributors
+// Copyright 2017-2024 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AppProps as Props } from '@polkadot/react-components/types';
 
 import React, { useMemo } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
@@ -27,20 +27,20 @@ function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
     {
       isRoot: true,
       name: 'general',
-      text: t<string>('General')
+      text: t('General')
     },
     {
       count: numExtensions,
       name: 'metadata',
-      text: t<string>('Metadata')
+      text: t('Metadata')
     },
     {
       name: 'developer',
-      text: t<string>('Developer')
+      text: t('Developer')
     },
     {
       name: 'i18n',
-      text: t<string>('Translate')
+      text: t('Translate')
     }
   ], [numExtensions, t]);
 
@@ -60,20 +60,34 @@ function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
         hidden={hidden}
         items={items}
       />
-      <Switch>
-        <Route path={`${basePath}/developer`}>
-          <Developer onStatusChange={onStatusChange} />
+      <Routes>
+        <Route path={basePath}>
+          <Route
+            element={
+              <Developer onStatusChange={onStatusChange} />
+            }
+            path='developer'
+          />
+          <Route
+            element={
+              <I18n />
+            }
+            path='i18n'
+          />
+          <Route
+            element={
+              <Metadata />
+            }
+            path='metadata'
+          />
+          <Route
+            element={
+              <General />
+            }
+            index
+          />
         </Route>
-        <Route path={`${basePath}/i18n`}>
-          <I18n />
-        </Route>
-        <Route path={`${basePath}/metadata`}>
-          <Metadata />
-        </Route>
-        <Route>
-          <General />
-        </Route>
-      </Switch>
+      </Routes>
     </main>
   );
 }

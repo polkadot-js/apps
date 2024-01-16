@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2024 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
@@ -19,7 +19,7 @@ interface Props {
   status: BountyStatus;
 }
 
-function BountyInfos ({ beneficiary, proposals, status }: Props): JSX.Element {
+function BountyInfos ({ beneficiary, proposals, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const proposalToDisplay = useMemo(() => proposals && getProposalToDisplay(proposals, status), [proposals, status]);
@@ -35,7 +35,7 @@ function BountyInfos ({ beneficiary, proposals, status }: Props): JSX.Element {
       {beneficiary && (
         <div>
           <AddressSmall value={beneficiary} />
-          <Description description={t<string>('Beneficiary')} />
+          <Description description={t('Beneficiary')} />
         </div>
       )}
     </>

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2024 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DigestItem } from '@polkadot/types/interfaces';
@@ -106,12 +106,12 @@ function Logs ({ value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t<string>('logs'), 'start']
+    [t('logs'), 'start']
   ]);
 
   return (
     <Table
-      empty={t<string>('No logs available')}
+      empty={t('No logs available')}
       header={headerRef.current}
     >
       {value?.map((log, index) => (

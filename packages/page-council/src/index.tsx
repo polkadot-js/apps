@@ -1,11 +1,11 @@
-// Copyright 2017-2023 @polkadot/app-council authors & contributors
+// Copyright 2017-2024 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 import { useLocation } from 'react-router-dom';
 
 import { Tabs } from '@polkadot/react-components';
@@ -35,12 +35,12 @@ function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> 
     {
       isRoot: true,
       name: 'overview',
-      text: t<string>('Overview')
+      text: t('Overview')
     },
     {
       count: numMotions,
       name: 'motions',
-      text: t<string>('Motions')
+      text: t('Motions')
     }
   ], [numMotions, t]);
 
@@ -50,14 +50,19 @@ function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> 
         basePath={basePath}
         items={items}
       />
-      <Switch>
-        <Route path={`${basePath}/motions`}>
-          <Motions
-            motions={motions}
-            prime={prime}
+      <Routes>
+        <Route path={basePath}>
+          <Route
+            element={
+              <Motions
+                motions={motions}
+                prime={prime}
+              />
+            }
+            path='motions'
           />
         </Route>
-      </Switch>
+      </Routes>
       <Overview
         className={[basePath, `${basePath}/candidates`].includes(pathname) ? '' : '--hidden'}
         prime={prime}

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-scheduler authors & contributors
+// Copyright 2017-2024 @polkadot/app-scheduler authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BlockNumber } from '@polkadot/types/interfaces';
@@ -7,8 +7,8 @@ import type { ScheduledExt } from './types.js';
 import React from 'react';
 
 import Hash from '@polkadot/app-preimages/Preimages/Hash';
-import { CallExpander } from '@polkadot/react-components';
 import { usePreimage } from '@polkadot/react-hooks';
+import { CallExpander } from '@polkadot/react-params';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 

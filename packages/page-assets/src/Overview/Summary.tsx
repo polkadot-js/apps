@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-assets authors & contributors
+// Copyright 2017-2024 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -18,7 +18,7 @@ function Summary ({ className, numAssets }: Props): React.ReactElement<Props> {
 
   return (
     <SummaryBox className={className}>
-      <CardSummary label={t<string>('assets')}>
+      <CardSummary label={t('assets')}>
         {formatNumber(numAssets)}
       </CardSummary>
     </SummaryBox>

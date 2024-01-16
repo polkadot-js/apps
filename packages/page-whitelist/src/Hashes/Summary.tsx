@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-whitelist authors & contributors
+// Copyright 2017-2024 @polkadot/app-whitelist authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -18,7 +18,7 @@ function Summary ({ className, hashes }: Props): React.ReactElement<Props> {
 
   return (
     <SummaryBox className={className}>
-      <CardSummary label={t<string>('hashes')}>
+      <CardSummary label={t('hashes')}>
         {hashes === undefined
           ? <span className='--tmp'>99</span>
           : formatNumber(hashes.length)

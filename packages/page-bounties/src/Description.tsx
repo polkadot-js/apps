@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2024 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -11,7 +11,7 @@ interface Props {
   description: string;
 }
 
-function Description ({ className = '', dataTestId = '', description }: Props): JSX.Element {
+function Description ({ className = '', dataTestId = '', description }: Props): React.ReactElement<Props> {
   return (
     <StyledDiv
       className={className}

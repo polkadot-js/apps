@@ -1,6 +1,7 @@
-// Copyright 2017-2023 @polkadot/react-params authors & contributors
+// Copyright 2017-2024 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type React from 'react';
 import type { Registry, TypeDef } from '@polkadot/types/types';
 import type { ComponentMap, Props } from '../types.js';
 
@@ -41,6 +42,7 @@ import Vote from './Vote.js';
 import VoteThreshold from './VoteThreshold.js';
 
 interface TypeToComponent {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   c: React.ComponentType<any>;
   t: string[];
 }
@@ -74,7 +76,7 @@ const componentDef: TypeToComponent[] = [
   { c: Text, t: ['String', 'Text'] },
   { c: Struct, t: ['Struct'] },
   { c: Tuple, t: ['Tuple'] },
-  { c: Vector, t: ['Vec'] },
+  { c: Vector, t: ['Vec', 'BTreeSet'] },
   { c: VectorFixed, t: ['VecFixed'] },
   { c: Vote, t: ['Vote'] },
   { c: VoteThreshold, t: ['VoteThreshold'] },
@@ -120,6 +122,9 @@ function fromDef ({ displayName, info, lookupName, sub, type }: TypeDef): string
 
     case TypeDefInfo.Struct:
       return 'Struct';
+
+    case TypeDefInfo.BTreeSet:
+      return 'BTreeSet';
 
     case TypeDefInfo.Tuple:
       return components[type] === Account

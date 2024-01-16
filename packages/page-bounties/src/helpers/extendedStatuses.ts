@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2024 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
@@ -23,7 +23,7 @@ function getProposalByMethod (bountyProposals: DeriveCollectiveProposal[], metho
 }
 
 function bestValidProposalName (bountyProposals: DeriveCollectiveProposal[], status: BountyStatus): string | undefined {
-  const methods = bountyProposals.map(({ proposal }) => proposal && proposal.method);
+  const methods = bountyProposals.map(({ proposal }) => proposal?.method);
 
   return validMethods(status).find((method) => methods.includes(method));
 }

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2024 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveProposal } from '@polkadot/api-derive/types';
@@ -57,9 +57,9 @@ function Proposal ({ className = '', value: { balance, image, imageHash, index, 
         <td className='expand'>
           {seconding.length !== 0 && (
             <ExpanderScroll
-              empty={seconding && t<string>('No endorsements')}
+              empty={seconding && t('No endorsements')}
               renderChildren={renderSeconds}
-              summary={t<string>('Endorsed ({{count}})', { replace: { count: seconding.length } })}
+              summary={t('Endorsed ({{count}})', { replace: { count: seconding.length } })}
             />
           )}
         </td>

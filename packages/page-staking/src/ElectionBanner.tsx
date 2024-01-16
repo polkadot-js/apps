@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -21,7 +21,7 @@ function ElectionBanner ({ isInElection }: Props): React.ReactElement<Props> | n
   return (
     <MarkWarning
       className='warning centered'
-      content={t<string>('There is currently an ongoing election for new validator candidates. As such staking operations are not permitted.')}
+      content={t('There is currently an ongoing election for new validator candidates. As such staking operations are not permitted.')}
     />
   );
 }

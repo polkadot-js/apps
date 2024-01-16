@@ -1,19 +1,19 @@
-// Copyright 2017-2023 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2024 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
+import type { ValidUnassignCuratorAction } from '../types.js';
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 
-import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import { Menu, Popup } from '@polkadot/react-components';
 import { useCollectiveMembers, useToggle } from '@polkadot/react-hooks';
 
 import { determineUnassignCuratorAction } from '../helpers/index.js';
 import { useBountyStatus, useUserRole } from '../hooks/index.js';
 import { useTranslation } from '../translate.js';
-import { ValidUnassignCuratorAction } from '../types.js';
 import BountyRejectCurator from './BountyRejectCurator.js';
 import CloseBounty from './CloseBounty.js';
 import ExtendBountyExpiryAction from './ExtendBountyExpiryAction.js';
@@ -45,9 +45,9 @@ function Index ({ bestNumber, className, description, index, proposals, status }
   const availableSlashActions = determineUnassignCuratorAction(roles, status, blocksUntilUpdate);
 
   const slashCuratorActionNames = useRef<Record<ValidUnassignCuratorAction, string>>({
-    SlashCuratorAction: t<string>('Slash curator'),
-    SlashCuratorMotion: t<string>('Slash curator (Council)'),
-    UnassignCurator: t<string>('Unassign curator')
+    SlashCuratorAction: t('Slash curator'),
+    SlashCuratorMotion: t('Slash curator (Council)'),
+    UnassignCurator: t('Unassign curator')
   });
 
   const existingCloseBountyProposal = useMemo(
@@ -130,28 +130,28 @@ function Index ({ bestNumber, className, description, index, proposals, status }
               {showCloseBounty && (
                 <Menu.Item
                   key='closeBounty'
-                  label={t<string>('Close')}
+                  label={t('Close')}
                   onClick={toggleCloseBounty}
                 />
               )}
               {showRejectCurator && (
                 <Menu.Item
                   key='rejectCurator'
-                  label={t<string>('Reject curator')}
+                  label={t('Reject curator')}
                   onClick={toggleRejectCurator}
                 />
               )}
               {showExtendExpiry && (
                 <Menu.Item
                   key='extendExpiry'
-                  label={t<string>('Extend expiry')}
+                  label={t('Extend expiry')}
                   onClick={toggleExtendExpiry}
                 />
               )}
               {showGiveUpCurator && (
                 <Menu.Item
                   key='giveUpCurator'
-                  label={t<string>('Give up')}
+                  label={t('Give up')}
                   onClick={toggleGiveUpCurator}
                 />
               )}

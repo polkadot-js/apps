@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2024 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BountyApi } from './hooks/useBounties.js';
@@ -30,23 +30,23 @@ function Summary ({ className = '', info: { bestNumber, bounties, bountyCount, c
     <SummaryBox className={`${className} ui--BountySummary`}>
       <section>
         {bounties && (
-          <CardSummary label={t<string>('active')}>
+          <CardSummary label={t('active')}>
             {formatNumber(bounties.length)}
           </CardSummary>
         )}
         {bountyCount && bounties && (
-          <CardSummary label={t<string>('past')}>
+          <CardSummary label={t('past')}>
             {formatNumber(bountyCount.subn(bounties.length))}
           </CardSummary>
         )}
         {childCount && (
-          <CardSummary label={t<string>('children')}>
+          <CardSummary label={t('children')}>
             {formatNumber(childCount)}
           </CardSummary>
         )}
       </section>
       <section>
-        <CardSummary label={t<string>('active total')}>
+        <CardSummary label={t('active total')}>
           <FormatBalance
             value={totalValue}
             withSi
@@ -56,7 +56,7 @@ function Summary ({ className = '', info: { bestNumber, bounties, bountyCount, c
       <section>
         {bestNumber && !spendPeriod.isZero() && (
           <CardSummary
-            label={t<string>('funding period')}
+            label={t('funding period')}
             progress={{
               total: spendPeriod,
               value: bestNumber.mod(spendPeriod),

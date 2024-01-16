@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
@@ -41,7 +41,7 @@ function useOwnPoolsImpl (): OwnPool[] | undefined {
   const base = useCall(api.query.nominationPools?.poolMembers.multi, [allAccounts], OPT_MULTI);
 
   return useMemo(
-    () => base && base.map((base) => ({
+    () => base?.map((base) => ({
       ...base,
       ...createAccounts(api, base.poolId)
     })),

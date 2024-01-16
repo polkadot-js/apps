@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-js authors & contributors
+// Copyright 2017-2024 @polkadot/app-js authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Snippet } from '../types.js';
@@ -19,7 +19,7 @@ const BOB = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty';
 const randomAmount = Math.floor((Math.random() * 100000) + 1);
 
 // Create a extrinsic, transferring randomAmount units to Bob.
-const transfer = api.tx.balances.transfer(BOB, randomAmount);
+const transfer = api.tx.balances.transferAllowDeath(BOB, randomAmount);
 
 // Sign and Send the transaction
 await transfer.signAndSend(ALICE, ({ events = [], status }) => {

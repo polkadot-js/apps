@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2024 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
@@ -19,7 +19,7 @@ interface Props {
   status: BountyStatus;
 }
 
-function VotingSummary ({ className, proposal, status }: Props): JSX.Element {
+function VotingSummary ({ className, proposal, status }: Props): React.ReactElement<Props> {
   const { members } = useCollectiveMembers('council');
   const { t } = useTranslation();
   const ayes = useMemo(() => proposal?.votes?.ayes?.length, [proposal]);
@@ -34,8 +34,8 @@ function VotingSummary ({ className, proposal, status }: Props): JSX.Element {
           className={className}
           data-testid='voting-summary'
         >
-          <div className='voting-summary-text'><span>{t<string>('Aye')}</span> <b>{ayes}/{threshold}</b></div>
-          <div className='voting-summary-text'><span>{t<string>('Nay')}</span> <b>{nays}/{nayThreshold}</b></div>
+          <div className='voting-summary-text'><span>{t('Aye')}</span> <b>{ayes}/{threshold}</b></div>
+          <div className='voting-summary-text'><span>{t('Nay')}</span> <b>{nays}/{nayThreshold}</b></div>
           <div className='link-info'>
             <VotingLink />
             <VotingDescriptionInfo

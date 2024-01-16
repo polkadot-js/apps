@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-council authors & contributors
+// Copyright 2017-2024 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, Balance } from '@polkadot/types/interfaces';
@@ -32,7 +32,7 @@ function Candidate ({ address, balance, className = '', hasElections, isPrime, v
             <Tag
               className='absolute'
               color='green'
-              label={t<string>('prime')}
+              label={t('prime')}
             />
           )}
         </td>

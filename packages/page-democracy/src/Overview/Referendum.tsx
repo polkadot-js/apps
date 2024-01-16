@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2024 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveReferendumExt } from '@polkadot/api-derive/types';
@@ -98,7 +98,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
         />
         <td className='number together media--1200'>
           <BlockToTime value={remainBlock} />
-          {t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(remainBlock) } })}
+          {t('{{blocks}} blocks', { replace: { blocks: formatNumber(remainBlock) } })}
         </td>
         <td className='number together media--1400'>
           <BlockToTime value={enactBlock.sub(bestNumber)} />
@@ -117,8 +117,8 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
               color={isPassing ? 'green' : 'red'}
               hover={
                 isPassing
-                  ? t<string>('{{threshold}}, passing', { replace: { threshold } })
-                  : t<string>('{{threshold}}, not passing', { replace: { threshold } })
+                  ? t('{{threshold}}, passing', { replace: { threshold } })
+                  : t('{{threshold}}, not passing', { replace: { threshold } })
               }
               icon={isPassing ? 'check' : 'times'}
             />

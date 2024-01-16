@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2024 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
@@ -24,7 +24,7 @@ interface Props {
   value: Balance;
 }
 
-export function BountyActions ({ bestNumber, description, fee, index, proposals, status, value }: Props): JSX.Element {
+export function BountyActions ({ bestNumber, description, fee, index, proposals, status, value }: Props): React.ReactElement<Props> {
   const { beneficiary, curator, unlockAt } = useBountyStatus(status);
   const blocksUntilPayout = useMemo(() => unlockAt?.sub(bestNumber), [bestNumber, unlockAt]);
 

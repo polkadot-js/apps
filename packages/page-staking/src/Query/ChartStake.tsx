@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveOwnExposure } from '@polkadot/api-derive/types';
@@ -75,9 +75,9 @@ function ChartStake ({ labels, validatorId }: Props): React.ReactElement<Props> 
   );
 
   const legends = useMemo(() => [
-    t<string>('{{currency}} clipped', { replace: { currency } }),
-    t<string>('{{currency}} total', { replace: { currency } }),
-    t<string>('{{currency}} average', { replace: { currency } })
+    t('{{currency}} clipped', { replace: { currency } }),
+    t('{{currency}} total', { replace: { currency } }),
+    t('{{currency}} average', { replace: { currency } })
   ], [currency, t]);
 
   return (
@@ -85,7 +85,7 @@ function ChartStake ({ labels, validatorId }: Props): React.ReactElement<Props> 
       colors={COLORS_STAKE}
       labels={labels}
       legends={legends}
-      title={t<string>('elected stake')}
+      title={t('elected stake')}
       values={values}
     />
   );

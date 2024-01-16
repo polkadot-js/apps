@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2024 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParaId } from '@polkadot/types/interfaces';
@@ -39,7 +39,7 @@ function Actions ({ className, ownedIds }: Props): React.ReactElement<Props> {
       <Button
         icon='plus'
         isDisabled={!api.tx.registrar.reserve}
-        label={t<string>('ParaId')}
+        label={t('ParaId')}
         onClick={toggleReserveOpen}
       />
       {isReserveOpen && (
@@ -51,7 +51,7 @@ function Actions ({ className, ownedIds }: Props): React.ReactElement<Props> {
       <Button
         icon='plus'
         isDisabled={api.tx.registrar.reserve ? !ownedIds.length : false}
-        label={t<string>('ParaThread')}
+        label={t('ParaThread')}
         onClick={toggleRegisterOpen}
       />
       {isRegisterOpen && (

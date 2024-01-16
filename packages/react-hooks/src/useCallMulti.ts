@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -69,7 +69,7 @@ export function useCallMulti <T> (calls?: QueryableStorageMultiArg<'promise'>[] 
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const tracker = useRef<Tracker>({ error: null, fn: null, isActive: false, serialized: null, subscriber: null, type: 'useCallMulti' });
-  const [value, setValue] = useState<T>(() => (isUndefined((options || {}).defaultValue) ? [] : (options || {}).defaultValue) as unknown as T);
+  const [value, setValue] = useState<T>(() => (isUndefined(options?.defaultValue) ? [] : options?.defaultValue) as unknown as T);
 
   // initial effect, we need an un-subscription
   useEffect((): () => void => {

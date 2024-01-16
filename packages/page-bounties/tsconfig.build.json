@@ -5,5 +5,12 @@
     "outDir": "./build",
     "rootDir": "./src"
   },
-  "references": []
+  "exclude": [
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "**/test/**/*"
+  ],
+  "references": [
+    { "path": "../react-components/tsconfig.build.json" }
+  ]
 }

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2024 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
@@ -81,7 +81,7 @@ function group (tracks: TrackDescription[], totalIssuance?: BN, referenda?: Refe
   const other: ReferendaGroupKnown = { key: 'referenda', referenda: [] };
 
   // sort the referenda by track inside groups
-  for (let i = 0; i < referenda.length; i++) {
+  for (let i = 0, count = referenda.length; i < count; i++) {
     const ref = referenda[i];
 
     // only ongoing have tracks
@@ -132,7 +132,7 @@ function group (tracks: TrackDescription[], totalIssuance?: BN, referenda?: Refe
   }
 
   // sort referenda per group
-  for (let i = 0; i < grouped.length; i++) {
+  for (let i = 0, count = grouped.length; i < count; i++) {
     grouped[i].referenda.sort(sortReferenda);
   }
 

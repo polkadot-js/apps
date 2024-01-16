@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-params authors & contributors
+// Copyright 2017-2024 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry, TypeDef } from '@polkadot/types/types';
@@ -14,7 +14,7 @@ function expandDef (registry: Registry, td: TypeDef): TypeDef {
     return getTypeDef(
       registry.createType(td.type as 'u32').toRawType()
     );
-  } catch (e) {
+  } catch {
     return td;
   }
 }

@@ -1,10 +1,7 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeDef } from '@polkadot/react-hooks/ctx/types';
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default (_theme: ThemeDef): string => `
+export default `
   .ui.hidden.divider {
     margin: 0.5rem 0;
   }

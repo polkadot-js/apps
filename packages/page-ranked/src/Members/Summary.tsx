@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2024 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Member as MemberType } from '../types.js';
@@ -20,7 +20,7 @@ function Summary ({ className, members }: Props): React.ReactElement<Props> {
 
   return (
     <SummaryBox className={className}>
-      <CardSummary label={t<string>('members')}>
+      <CardSummary label={t('members')}>
         {members === undefined
           ? <span className='--tmp'>99</span>
           : formatNumber(members.length)

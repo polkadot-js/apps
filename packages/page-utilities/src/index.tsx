@@ -1,8 +1,8 @@
-// Copyright 2017-2023 @polkadot/app-utilities authors & contributors
+// Copyright 2017-2024 @polkadot/app-utilities authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useRef } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
 
@@ -22,11 +22,11 @@ function UtilitiesApp ({ basePath, className }: Props): React.ReactElement<Props
     {
       isRoot: true,
       name: 'convert',
-      text: t<string>('Convert address')
+      text: t('Convert address')
     },
     {
       name: 'hash',
-      text: t<string>('Hash data')
+      text: t('Hash data')
     }
   ]);
 
@@ -36,14 +36,22 @@ function UtilitiesApp ({ basePath, className }: Props): React.ReactElement<Props
         basePath={basePath}
         items={tabsRef.current}
       />
-      <Switch>
-        <Route path={`${basePath}/hash`}>
-          <Hash />
+      <Routes>
+        <Route path={basePath}>
+          <Route
+            element={
+              <Hash />
+            }
+            path='hash'
+          />
+          <Route
+            element={
+              <Convert />
+            }
+            index
+          />
         </Route>
-        <Route>
-          <Convert />
-        </Route>
-      </Switch>
+      </Routes>
     </main>
   );
 }

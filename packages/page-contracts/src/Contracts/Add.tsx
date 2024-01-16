@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2024 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
@@ -65,7 +65,7 @@ function Add ({ onClose }: Props): React.ReactElement {
 
   return (
     <Modal
-      header={t<string>('Add an existing contract')}
+      header={t('Add an existing contract')}
       onClose={onClose}
     >
       <Modal.Content>
@@ -77,7 +77,7 @@ function Add ({ onClose }: Props): React.ReactElement {
           <Input
             autoFocus
             isError={!isAddressValid}
-            label={t<string>('contract address')}
+            label={t('contract address')}
             onChange={setAddress}
             value={address || ''}
           />
@@ -106,7 +106,7 @@ function Add ({ onClose }: Props): React.ReactElement {
         <Button
           icon='save'
           isDisabled={!isValid}
-          label={t<string>('Save')}
+          label={t('Save')}
           onClick={_onAdd}
         />
       </Modal.Actions>

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/apps-config authors & contributors
+// Copyright 2017-2024 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -12,6 +12,7 @@ export const Statescan: ExternalDef = {
     Kusama: 'kusama',
     Litentry: 'litentry',
     Litmus: 'litmus',
+    Polkadot: 'polkadot',
     Statemine: 'statemine',
     Statemint: 'statemint',
     'Westend Collectives': 'westend-collectives',

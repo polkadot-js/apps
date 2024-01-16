@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-calendar authors & contributors
+// Copyright 2017-2024 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DateState } from './types.js';
@@ -31,7 +31,7 @@ function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props>
   const itemsRef = useRef([{
     isRoot: true,
     name: 'view',
-    text: t<string>('Upcoming events')
+    text: t('Upcoming events')
   }]);
 
   useEffect((): () => void => {

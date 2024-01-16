@@ -1,10 +1,10 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
-const HEADER = `// Copyright 2017-2023 @polkadot/react-components authors & contributors
+const HEADER = `// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // Automatically generated, do not edit
@@ -12,15 +12,23 @@ const HEADER = `// Copyright 2017-2023 @polkadot/react-components authors & cont
 /* eslint-disable simple-import-sort/imports */`;
 const PATH = 'packages/react-components/src/IdentityIcon/RoboHash';
 
+/**
+ * @param {number} index
+ * @returns {string}
+ */
 function getCounter (index) {
   return `000${index}`.slice(-3);
 }
 
+/**
+ * @param {string} dir
+ * @returns {string[]}
+ */
 function getFiles (dir) {
   const genpath = path.join(dir, 'generated');
 
   if (!fs.existsSync(genpath)) {
-    fs.mkdirSync(genpath, { force: true });
+    fs.mkdirSync(genpath, { recursive: true });
   }
 
   const all = fs
@@ -51,7 +59,7 @@ function getFiles (dir) {
         : 0
     );
 
-  for (let f of all) {
+  for (const f of all) {
     if (f.endsWith('.png')) {
       fs.writeFileSync(path.join(dir, `generated/${f}`).replace('.png', '.ts'), `${HEADER}\n\nexport default 'data:image/png;base64,${fs.readFileSync(path.join(dir, f)).toString('base64')}';\n`);
     }
@@ -62,6 +70,7 @@ function getFiles (dir) {
 
 function extractBg () {
   const root = path.join(__dirname, '..', PATH, 'backgrounds');
+  /** @type {string[]} */
   const files = [];
 
   getFiles(root).forEach((sub) => {
@@ -79,6 +88,7 @@ function extractSets () {
     )
   );
 
+  /** @type {string[]} */
   const imports = [];
   let list = '[';
 

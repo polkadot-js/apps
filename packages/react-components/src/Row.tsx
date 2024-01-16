@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
@@ -86,7 +86,7 @@ function Row ({ address, buttons, children, className = '', defaultName, details
           )}
           {address && (
             <div className={`ui--Row-address ${isShortAddr ? 'shortAddr' : ''}`}>
-              {address}
+              {address.toString()}
             </div>
           )}
           {details}

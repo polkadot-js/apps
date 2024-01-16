@@ -1,5 +1,8 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+// we use augmented types in this tsconfig
+import '@polkadot/api-augment/substrate';
 
 import type { DispatchError, DispatchResult, Event, EventRecord } from '@polkadot/types/interfaces';
 import type { XcmV3TraitsOutcome } from '@polkadot/types/lookup';
@@ -87,7 +90,7 @@ export function getDispatchError (dispatchError: DispatchError): string {
       const error = dispatchError.registry.findMetaError(mod);
 
       message = `${error.section}.${error.name}`;
-    } catch (error) {
+    } catch {
       // swallow
     }
   } else if (dispatchError.isToken) {

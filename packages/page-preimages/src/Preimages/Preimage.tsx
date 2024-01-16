@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-preimages authors & contributors
+// Copyright 2017-2024 @polkadot/app-preimages authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
@@ -25,7 +25,7 @@ function Preimage ({ className, value }: Props): React.ReactElement<Props> {
       <Hash value={value} />
       <Call value={info} />
       <td className='number media--1000'>
-        {info && info.proposalLength
+        {info?.proposalLength
           ? formatNumber(info.proposalLength)
           : <span className='--tmp'>999,999</span>}
       </td>

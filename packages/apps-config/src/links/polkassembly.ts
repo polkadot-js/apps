@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/apps-config authors & contributors
+// Copyright 2017-2024 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -8,28 +8,40 @@ import { externalPolkassemblyPNG } from '../ui/logos/external/index.js';
 
 export const PolkassemblyIo: ExternalDef = {
   chains: {
-    Altair: 'Altair',
+    Acala: 'acala',
+    Altair: 'altair',
     Astar: 'astar',
+    Basilisk: 'basilisk',
     'Bifrost Polkadot': 'bifrost',
     Calamari: 'calamari',
+    Centrifuge: 'centrifuge',
     'Centrifuge Mainnet': 'centrifuge',
+    'Cere Mainnet Beta': 'cere',
+    Collectives: 'collectives',
+    'Equilibrium parachain': 'equilibrium',
+    'Hashed Network': 'hashed',
+    HydraDX: 'hydradx',
+    'Integritee Network (Kusama)': 'integritee',
     Khala: 'khala',
     Kusama: 'kusama',
     'Kusama CC3': 'kusama',
     Parallel: 'parallel',
     'Parallel Heiko': 'heiko',
+    Picasso: 'picasso',
     'Pioneer Network': 'pioneer',
     Polkadex: 'polkadex',
     Polkadot: 'polkadot',
     Robonomics: 'robonomics',
     Shibuya: 'shibuya',
-    Shiden: 'shiden'
+    Shiden: 'shiden',
+    'Westend Collectives': 'westend-collectives'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.polkassembly.io/${path}/${data.toString()}`,
   homepage: 'https://polkassembly.io/',
   isActive: true,
   paths: {
+    address: 'address',
     bounty: 'bounty',
     council: 'motion',
     democracyProposal: 'proposal',

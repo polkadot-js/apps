@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Slash } from './types.js';
@@ -57,7 +57,7 @@ function Row ({ index, isSelected, onSelect, slash: { era, isMine, slash: { othe
         {!!others.length && (
           <ExpanderScroll
             renderChildren={renderOthers}
-            summary={t<string>('Nominators ({{count}})', { replace: { count: formatNumber(others.length) } })}
+            summary={t('Nominators ({{count}})', { replace: { count: formatNumber(others.length) } })}
           />
         )}
       </td>

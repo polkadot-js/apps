@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-preimages authors & contributors
+// Copyright 2017-2024 @polkadot/app-preimages authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Preimage } from '@polkadot/react-hooks/types';
@@ -33,7 +33,7 @@ function Free ({ className, value: { count, deposit, proposalHash, status } }: P
       accountId={deposit.who}
       className={className}
       icon='minus'
-      label={t<string>('Unnote')}
+      label={t('Unnote')}
       params={[proposalHash]}
       tx={api.tx.preimage.unnotePreimage}
     />

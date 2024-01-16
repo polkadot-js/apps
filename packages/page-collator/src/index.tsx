@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-collator authors & contributors
+// Copyright 2017-2024 @polkadot/app-collator authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useRef } from 'react';
@@ -20,7 +20,7 @@ function CollatorApp ({ basePath, className }: Props): React.ReactElement<Props>
     {
       isRoot: true,
       name: 'index',
-      text: t<string>('Overview')
+      text: t('Overview')
     }
   ]);
 
