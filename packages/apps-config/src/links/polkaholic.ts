@@ -40,7 +40,7 @@ export const Polkaholic: ExternalDef = {
     Moonriver: 'moonriver',
     'Nodle Parachain': 'nodle',
     'OAK Network': 'oak',
-    'OriginTrail Parachain': 'origintrail',
+    'NeuroWeb': 'neuroweb',
     Parallel: 'parallel',
     'Parallel Heiko': 'parallel-heiko',
     Picasso: 'picasso',

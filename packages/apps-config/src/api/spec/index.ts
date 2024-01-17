@@ -85,7 +85,7 @@ import nodle from './nodle.js';
 import oak from './oak.js';
 import opal from './opal.js';
 import opportunity from './opportunity.js';
-import origintrail from './origintrail.js';
+import neuroweb from './neuroweb.js';
 import pangolin from './pangolin.js';
 import pangoro from './pangoro.js';
 import parallel from './parallel.js';
@@ -250,7 +250,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   oak,
   opal,
   opportunity,
-  'origintrail-parachain': origintrail,
+  neuroweb,
   parallel,
   parami,
   'peaq-node': peaq,
