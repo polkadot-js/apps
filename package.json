@@ -67,7 +67,7 @@
     "test:skipped": "echo 'tests skipped'"
   },
   "dependencies": {
-    "avail-js-sdk": "^0.1.13",
+    "avail-js-sdk": "^0.1.15",
     "axios": "^1.4.0",
     "dotenv": "^16.3.1"
   },

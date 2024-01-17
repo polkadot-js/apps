@@ -111,6 +111,10 @@ const definitions: OverrideBundleDefinition = {
           appLookup: 'DataLookup',
           commitment: 'KateCommitment'
         },
+        V3HeaderExtension: {
+          appLookup: 'DataLookup',
+          commitment: 'KateCommitment'
+        },
         VTHeaderExtension: {
           newField: 'Vec<u8>',
           commitment: 'KateCommitment',
@@ -120,6 +124,7 @@ const definitions: OverrideBundleDefinition = {
           _enum: {
             V1: 'V1HeaderExtension',
             V2: 'V2HeaderExtension',
+            V3: 'V3HeaderExtension',
             VTest: 'VTHeaderExtension'
           }
         },
