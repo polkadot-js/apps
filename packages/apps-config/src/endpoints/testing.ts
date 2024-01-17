@@ -539,17 +539,6 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'logion',
     providers: {
-      Logion: 'wss://chimay.logion.network'
-    },
-    text: 'logion Para Testnet',
-    ui: {
-      color: 'rgb(21, 38, 101)',
-      logo: chainsLogionPNG
-    }
-  },
-  {
-    info: 'logion',
-    providers: {
       Logion: 'wss://test-rpc01.logion.network'
     },
     text: 'logion Standalone Testnet',
