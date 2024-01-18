@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types.js';
 
 import { POLKADOT_GENESIS } from '../api/constants.js';
-import { chainsAcalaSVG, chainsBitgreenPNG, chainsComposableFinancePNG, chainsEquilibriumSVG, chainsFrequencySVG, chainsGeminisPNG, chainsInvarchJPEG, chainsLogionPNG, chainsOakPNG, chainsNeurowebPNG, chainsPeaqPNG, chainsPendulumSVG, chainsPolkadotCircleSVG, chainsSnakenetSVG, chainsTotemSVG, chainsWatrPNG } from '../ui/logos/chains/index.js';
+import { chainsAcalaSVG, chainsBitgreenPNG, chainsComposableFinancePNG, chainsEquilibriumSVG, chainsFrequencySVG, chainsGeminisPNG, chainsInvarchJPEG, chainsLogionPNG, chainsNeurowebPNG, chainsOakPNG, chainsPeaqPNG, chainsPendulumSVG, chainsPolkadotCircleSVG, chainsSnakenetSVG, chainsTotemSVG, chainsWatrPNG } from '../ui/logos/chains/index.js';
 import { nodesAjunaPNG, nodesAresOdysseySVG, nodesAssetHubSVG, nodesAstarPNG, nodesAventusSVG, nodesBifrostSVG, nodesBridgeHubSVG, nodesCentrifugePNG, nodesCloverSVG, nodesCoinversationPNG, nodesCrustParachainSVG, nodesDarwiniaSVG, nodesEfinitySVG, nodesEwxSVG, nodesHashedPNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKiltPNG, nodesKylinPNG, nodesLitentryPNG, nodesMantaPNG, nodesMoonbeamSVG, nodesMoonsamaSVG, nodesNodleSVG, nodesOmnibtcSVG, nodesParallelSVG, nodesPhalaSVG, nodesPolimecSVG, nodesPolkadexSVG, nodesSoraSubstrateSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesT3rnPNG, nodesUniqueSVG, nodesZeitgeistPNG } from '../ui/logos/nodes/index.js';
 import { getTeleports } from './util.js';
 
@@ -481,6 +481,20 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://neuroweb.ai',
+    info: 'neuroweb',
+    paraId: 2043,
+    providers: {
+      Dwellir: 'wss://origintrail-rpc.dwellir.com',
+      TraceLabs: 'wss://parachain-rpc.origin-trail.network'
+    },
+    text: 'NeuroWeb',
+    ui: {
+      color: '#000000',
+      logo: chainsNeurowebPNG
+    }
+  },
+  {
     homepage: 'https://nodle.com',
     info: 'nodle',
     paraId: 2026,
@@ -520,20 +534,6 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#6759E9',
       logo: nodesOmnibtcSVG
-    }
-  },
-  {
-    homepage: 'https://neuroweb.ai',
-    info: 'neuroweb',
-    paraId: 2043,
-    providers: {
-      Dwellir: 'wss://origintrail-rpc.dwellir.com',
-      TraceLabs: 'wss://parachain-rpc.origin-trail.network'
-    },
-    text: 'NeuroWeb',
-    ui: {
-      color: '#000000',
-      logo: chainsNeurowebPNG
     }
   },
   {
