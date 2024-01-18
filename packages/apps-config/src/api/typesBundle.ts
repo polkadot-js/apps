@@ -66797,6 +66797,20 @@ export const typesBundle = {
         }
       ]
     },
+    "neuroweb": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "Address": "AccountId",
+            "LookupSource": "AccountId"
+          }
+        }
+      ]
+    },
     "nftmart": {
       "types": [
         {
@@ -69368,20 +69382,6 @@ export const typesBundle = {
               "metadata": "Vec<u8>"
             },
             "TokenId": "U256"
-          }
-        }
-      ]
-    },
-    "neuroweb": {
-      "types": [
-        {
-          "minmax": [
-            0,
-            null
-          ],
-          "types": {
-            "Address": "AccountId",
-            "LookupSource": "AccountId"
           }
         }
       ]
