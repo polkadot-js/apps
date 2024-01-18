@@ -378,6 +378,19 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://neuroweb.ai',
+    info: 'rococoNeuroWeb',
+    paraId: 2043,
+    providers: {
+      TraceLabs: 'wss://parachain-testnet-rpc.origin-trail.network/'
+    },
+    text: 'NeuroWeb Testnet',
+    ui: {
+      color: '#646566',
+      logo: chainsNeurowebTestnetPNG
+    }
+  },
+  {
     info: 'rococoNodle',
     paraId: 2026,
     providers: {
@@ -398,19 +411,6 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#8CC63F',
       logo: nodesOliSVG
-    }
-  },
-  {
-    homepage: 'https://neuroweb.ai',
-    info: 'rococoNeuroWeb',
-    paraId: 2043,
-    providers: {
-      TraceLabs: 'wss://parachain-testnet-rpc.origin-trail.network/'
-    },
-    text: 'NeuroWeb Testnet',
-    ui: {
-      color: '#646566',
-      logo: chainsNeurowebTestnetPNG
     }
   },
   {
