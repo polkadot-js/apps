@@ -69372,7 +69372,7 @@ export const typesBundle = {
         }
       ]
     },
-    "origintrail-parachain": {
+    "neuroweb": {
       "types": [
         {
           "minmax": [
