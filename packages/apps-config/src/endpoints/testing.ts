@@ -154,7 +154,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'cess-testnet',
     providers: {
-      CESS: 'wss://testnet-rpc0.cess.cloud/ws/'
+      // CESS: 'wss://testnet-rpc0.cess.cloud/ws/' // https://github.com/polkadot-js/apps/issues/10184
     },
     text: 'CESS Testnet',
     ui: {
@@ -231,7 +231,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'debio-testnet',
     providers: {
-      DeBio: 'wss://ws-rpc.testnet.debio.network',
+      // DeBio: 'wss://ws-rpc.testnet.debio.network', // https://github.com/polkadot-js/apps/issues/10172
       Octopus: 'wss://gateway.testnet.octopus.network/debionetwork/554976cbb180f676f188abe14d63ca24'
     },
     text: 'DeBio Testnet',
@@ -539,17 +539,6 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'logion',
     providers: {
-      Logion: 'wss://chimay.logion.network'
-    },
-    text: 'logion Para Testnet',
-    ui: {
-      color: 'rgb(21, 38, 101)',
-      logo: chainsLogionPNG
-    }
-  },
-  {
-    info: 'logion',
-    providers: {
       Logion: 'wss://test-rpc01.logion.network'
     },
     text: 'logion Standalone Testnet',
@@ -631,7 +620,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'myriad-tesnet',
     providers: {
-      Myriad: 'wss://ws-rpc.testnet.myriad.social',
+      // Myriad: 'wss://ws-rpc.testnet.myriad.social', // https://github.com/polkadot-js/apps/issues/10172
       Octopus: 'wss://gateway.testnet.octopus.network/myriad/8f543a1c219f14d83c0faedefdd5be6e'
     },
     text: 'Myriad Testnet',
@@ -811,7 +800,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'skyekiwi',
     providers: {
-      SkyeKiwi: 'wss://staging.rpc.skye.kiwi'
+      // SkyeKiwi: 'wss://staging.rpc.skye.kiwi' // https://github.com/polkadot-js/apps/issues/10197
     },
     text: 'SkyeKiwi Testnet',
     ui: {

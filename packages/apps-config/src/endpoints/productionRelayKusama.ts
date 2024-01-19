@@ -196,11 +196,11 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://genshiro..io',
+    homepage: 'https://genshiro.io',
     info: 'Genshiro',
     paraId: 2024,
     providers: {
-      Genshiro: 'wss://node.genshiro.io'
+      // Genshiro: 'wss://node.genshiro.io' // https://github.com/polkadot-js/apps/issues/10174
     },
     text: 'Genshiro',
     ui: {
@@ -214,7 +214,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     isUnreachable: true,
     paraId: 2226,
     providers: {
-      Equilibrium: 'wss://node.genshiro.io'
+      // Equilibrium: 'wss://node.genshiro.io' // https://github.com/polkadot-js/apps/issues/10174
     },
     text: 'Genshiro crowdloan 2',
     ui: {
@@ -597,7 +597,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'qpn',
     paraId: 2274,
     providers: {
-      FerrumNetwork: 'wss://qpn.svcs.ferrumnetwork.io/'
+      // FerrumNetwork: 'wss://qpn.svcs.ferrumnetwork.io/' // https://github.com/polkadot-js/apps/issues/10172
     },
     text: 'Quantum Portal Network',
     ui: {
@@ -917,7 +917,7 @@ export const prodRelayKusama: EndpointOption = {
   providers: {
     // 'Geometry Labs': 'wss://kusama.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
     'Automata 1RPC': 'wss://1rpc.io/ksm',
-    // Blockops: 'wss://kusama-public-rpc.blockops.network/ws', // https://github.com/polkadot-js/apps/issues/9840
+    Blockops: 'wss://kusama-public-rpc.blockops.network/ws', // https://github.com/polkadot-js/apps/issues/9840
     Dwellir: 'wss://kusama-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://kusama-rpc-tn.dwellir.com',
     'IBP-GeoDNS1': 'wss://rpc.ibp.network/kusama',

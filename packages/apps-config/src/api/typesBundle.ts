@@ -48081,48 +48081,6 @@ export const typesBundle = {
         }
       ]
     },
-    "curio-devnet": {
-      "types": [
-        {
-          "minmax": [
-            0,
-            null
-          ],
-          "types": {
-            "StakingRates": {
-              "collatorStakingRate": "Perquintill",
-              "collatorRewardRate": "Perquintill",
-              "delegatorStakingRate": "Perquintill",
-              "delegatorRewardRate": "Perquintill"
-            }
-          }
-        }
-      ],
-      "runtime": {
-        "Staking": [
-          {
-            "methods": {
-              "get_staking_rates": {
-                "description": "Calculate the current staking and reward rates for collators and delegators",
-                "params": [],
-                "type": "StakingRates"
-              },
-              "get_unclaimed_staking_rewards": {
-                "description": "Calculate the claimable staking rewards for a given account address",
-                "params": [
-                  {
-                    "name": "account",
-                    "type": "AccountId32"
-                  }
-                ],
-                "type": "Balance"
-              }
-            },
-            "version": 1
-          }
-        ]
-      }
-    },
     "curio-testnet": {
       "types": [
         {
@@ -48158,6 +48116,16 @@ export const typesBundle = {
                   }
                 ],
                 "type": "Balance"
+              },
+              "get_sorted_proposed_candidates": {
+                "description": "Provides a sorted list of collators most suited for given delegator's stake amount determined with some heuristic algorithm",
+                "params": [
+                  {
+                    "name": "balance",
+                    "type": "Balance"
+                  }
+                ],
+                "type": "Vec<AccountId32>"
               }
             },
             "version": 1
@@ -66829,6 +66797,20 @@ export const typesBundle = {
         }
       ]
     },
+    "neuroweb": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "Address": "AccountId",
+            "LookupSource": "AccountId"
+          }
+        }
+      ]
+    },
     "nftmart": {
       "types": [
         {
@@ -69400,20 +69382,6 @@ export const typesBundle = {
               "metadata": "Vec<u8>"
             },
             "TokenId": "U256"
-          }
-        }
-      ]
-    },
-    "origintrail-parachain": {
-      "types": [
-        {
-          "minmax": [
-            0,
-            null
-          ],
-          "types": {
-            "Address": "AccountId",
-            "LookupSource": "AccountId"
           }
         }
       ]
