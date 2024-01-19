@@ -8,6 +8,7 @@ import { createCustom, createDev, createOwn } from './development.js';
 import { prodChains, prodRelayKusama, prodRelayPolkadot } from './production.js';
 import { testChains, testRelayRococo, testRelayWestend } from './testing.js';
 import { expandEndpoints } from './util.js';
+import { testRelayPaseo } from './testingRelayPaseo.js';
 
 export { CUSTOM_ENDPOINT_KEY } from './development.js';
 export * from './production.js';
@@ -62,6 +63,16 @@ export function createWsEndpoints (t: TFunction = defaultT, firstOnly = false, w
       value: ''
     },
     ...expandEndpoints(t, [testRelayRococo], firstOnly, withSort),
+    {
+      isDisabled: false,
+      isHeader: true,
+      isSpaced: true,
+      text: t('rpc.header.live', 'Live networks', { ns: 'apps-config' }),
+      textBy: '',
+      ui: {},
+      value: ''
+    },
+    ...expandEndpoints(t, [testRelayPaseo], firstOnly, withSort),
     {
       isDisabled: false,
       isHeader: true,
