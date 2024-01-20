@@ -854,7 +854,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
       color: '#a5503c',
       logo: nodesYerbanetworkPNG
     }
-  },
+  }
 ];
 
 export const prodParasKusamaCommon: EndpointOption[] = [
