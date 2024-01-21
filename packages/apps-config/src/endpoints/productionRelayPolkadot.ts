@@ -625,7 +625,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'sora',
     paraId: 2025,
     providers: {
-      // Soramitsu: 'wss://ws.framenode-1.r0.sora2.soramitsu.co.jp'
+      Soramitsu: 'wss://ws.parachain-collator-1.pc1.sora2.soramitsu.co.jp'
     },
     text: 'SORA',
     ui: {
