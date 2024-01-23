@@ -162,6 +162,16 @@ export const testParasWestendCommon: EndpointOption[] = [
       color: '#e6777a',
       logo: 'fa;people-group'
     }
+  },
+  {
+    info: 'westendPeople',
+    paraId: 1004,
+    providers: {
+      Parity: 'wss://westend-people-rpc.polkadot.io'
+    },
+    teleport: [-1],
+    text: 'People',
+    ui: { }
   }
 ];
 
