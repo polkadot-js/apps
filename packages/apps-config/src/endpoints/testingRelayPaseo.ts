@@ -57,9 +57,8 @@ export const testRelayPaseo: EndpointOption = {
     ...testParasPaseo
   ],
   providers: {
-    Amforc: 'wss://paseo.rpc.amforc.com',
-    
-    //'light client': 'light://substrate-connect/paseo'
+    Amforc: 'wss://paseo.rpc.amforc.com'
+    // 'light client': 'light://substrate-connect/paseo'
   },
   teleport: getTeleports(testParasPaseoCommon),
   text: 'Paseo',
