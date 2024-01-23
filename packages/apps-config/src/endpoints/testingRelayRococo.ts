@@ -520,6 +520,16 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    info: 'rococoOpenZeppelin',
+    paraId: 4353,
+    providers: {},
+    text: 'OpenZeppelin Runtime Template',
+    ui: {
+      color: '#f653a2',
+      logo: nodesOzPNG
+    }
+  },
+  {
     info: 'rococoSocietal',
     paraId: 4253,
     providers: {
@@ -697,16 +707,6 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)',
       logo: nodesZeitgeistPNG
-    }
-  },
-  {
-    info: 'rococoOpenZeppelin',
-    paraId: 4353,
-    providers: {},
-    text: 'OpenZeppelin Runtime Template',
-    ui: {
-      color: '#f653a2',
-      logo: nodesOzPNG
     }
   }
 ];
