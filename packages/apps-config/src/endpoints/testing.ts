@@ -1,9 +1,9 @@
-// Copyright 2017-2023 @polkadot/apps-config authors & contributors
+// Copyright 2017-2024 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EndpointOption } from './types.js';
 
-import { chains3dpassSVG, chainsAcalaSVG, chainsAlephSVG, chainsBrainstormPNG, chainsCreditcoinTestPNG, chainsDebioSVG, chainsEquilibriumSVG, chainsFerrumPNG, chainsFragnovaPNG, chainsJurPNG, chainsKintsugiPNG, chainsLogionPNG, chainsMyriadPNG, chainsShidenPNG, chainsSkyekiwiPNG, chainsTanglePNG, chainsVaraTestnetPNG } from '../ui/logos/chains/index.js';
+import { chains3dpassSVG, chainsAcalaSVG, chainsAlephSVG, chainsBrainstormPNG, chainsChainflipPNG, chainsCreditcoinTestPNG, chainsDebioSVG, chainsEquilibriumSVG, chainsFerrumPNG, chainsFragnovaPNG, chainsJurPNG, chainsKintsugiPNG, chainsLogionPNG, chainsMyriadPNG, chainsShidenPNG, chainsSkyekiwiPNG, chainsTanglePNG, chainsVaraTestnetPNG } from '../ui/logos/chains/index.js';
 import { nodesAjunaPNG, nodesArcticPNG, nodesAresGladiosSVG, nodesAutomataPNG, nodesBifrostSVG, nodesBitcountryPNG, nodesCereSVG, nodesCessPNG, nodesCloverSVG, nodesCrustMaxwellSVG, nodesCurioSVG, nodesDatahighwayPNG, nodesDockPNG, nodesDolphinSVG, nodesDotmogSVG, nodesEdgewareWhitePNG, nodesElysiumPNG, nodesEncointerBlueSVG, nodesFantourPNG, nodesGalitalLogoPNG, nodesGamepowerSVG, nodesGeekSVG, nodesInterlaySVG, nodesIpsePNG, nodesJazPNG, nodesJupiterSVG, nodesKarmachainSVG, nodesKhalaSVG, nodesKiltPNG, nodesKlugPNG, nodesKylinPNG, nodesLaminarCircleSVG, nodesLitentryPNG, nodesMantaPNG, nodesMathSVG, nodesMetaquityNetworkPNG, nodesMinixPNG, nodesMoonbaseAlphaSVG, nodesMybankPNG, nodesNftmartPNG, nodesNodleSVG, nodesOpalLogoPNG, nodesOpportunityPNG, nodesPangoroSVG, nodesPhalaSVG, nodesPhoenixPNG, nodesPichiuPNG, nodesPolkadexSVG, nodesPolkafoundrySVG, nodesPolymeshSVG, nodesPontemSVG, nodesPrismPNG, nodesRealisPNG, nodesRiochainSVG, nodesSherpaxPNG, nodesSoonsocialPNG, nodesSoraSubstrateSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesSubspacePNG, nodesSubstrateHexagonSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesUniartsPNG, nodesUniqueSVG, nodesUnitnetworkPNG, nodesWeb3gamesSVG, nodesZCloakSVG } from '../ui/logos/nodes/index.js';
 
 export * from './testingRelayRococo.js';
@@ -154,12 +154,23 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'cess-testnet',
     providers: {
-      CESS: 'wss://testnet-rpc0.cess.cloud/ws/'
+      // CESS: 'wss://testnet-rpc0.cess.cloud/ws/' // https://github.com/polkadot-js/apps/issues/10184
     },
     text: 'CESS Testnet',
     ui: {
       color: '#2269a9',
       logo: nodesCessPNG
+    }
+  },
+  {
+    info: 'chainflip',
+    providers: {
+      chainflip: 'wss://perseverance.chainflip.xyz'
+    },
+    text: 'Chainflip Testnet',
+    ui: {
+      color: '#111111',
+      logo: chainsChainflipPNG
     }
   },
   {
@@ -219,7 +230,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'debio-testnet',
     providers: {
-      DeBio: 'wss://ws-rpc.testnet.debio.network',
+      // DeBio: 'wss://ws-rpc.testnet.debio.network', // https://github.com/polkadot-js/apps/issues/10172
       Octopus: 'wss://gateway.testnet.octopus.network/debionetwork/554976cbb180f676f188abe14d63ca24'
     },
     text: 'DeBio Testnet',
@@ -538,17 +549,6 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'logion',
     providers: {
-      Logion: 'wss://chimay.logion.network'
-    },
-    text: 'logion Para Testnet',
-    ui: {
-      color: 'rgb(21, 38, 101)',
-      logo: chainsLogionPNG
-    }
-  },
-  {
-    info: 'logion',
-    providers: {
       Logion: 'wss://test-rpc01.logion.network'
     },
     text: 'logion Standalone Testnet',
@@ -630,7 +630,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'myriad-tesnet',
     providers: {
-      Myriad: 'wss://ws-rpc.testnet.myriad.social',
+      // Myriad: 'wss://ws-rpc.testnet.myriad.social', // https://github.com/polkadot-js/apps/issues/10172
       Octopus: 'wss://gateway.testnet.octopus.network/myriad/8f543a1c219f14d83c0faedefdd5be6e'
     },
     text: 'Myriad Testnet',
@@ -810,7 +810,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'skyekiwi',
     providers: {
-      SkyeKiwi: 'wss://staging.rpc.skye.kiwi'
+      // SkyeKiwi: 'wss://staging.rpc.skye.kiwi' // https://github.com/polkadot-js/apps/issues/10197
     },
     text: 'SkyeKiwi Testnet',
     ui: {
@@ -936,7 +936,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'tangle',
     providers: {
-      Webb: 'wss://rpc-archive.tangle.tools'
+      Webb: 'wss://testnet-rpc.tangle.tools'
     },
     text: 'Tangle',
     ui: {

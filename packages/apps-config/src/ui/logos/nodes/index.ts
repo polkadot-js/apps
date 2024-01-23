@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/apps authors & contributors
+// Copyright 2017-2024 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // Do not edit. Auto-generated via node scripts/imgConvert.mjs
@@ -54,6 +54,7 @@ export { nodesGalitalLogoPNG } from './generated/galital-logoPNG.js';
 export { nodesGamepowerSVG } from './generated/gamepowerSVG.js';
 export { nodesGeekSVG } from './generated/geekSVG.js';
 export { nodesGiantPNG } from './generated/giantPNG.js';
+export { nodesGiediPNG } from './generated/giediPNG.js';
 export { nodesHanyonycashPNG } from './generated/hanyonycashPNG.js';
 export { nodesHashedPNG } from './generated/hashedPNG.js';
 export { nodesHelixstreetPNG } from './generated/helixstreetPNG.js';
@@ -73,6 +74,7 @@ export { nodesKabochaSVG } from './generated/kabochaSVG.js';
 export { nodesKarmachainSVG } from './generated/karmachainSVG.js';
 export { nodesKhalaSVG } from './generated/khalaSVG.js';
 export { nodesKiltPNG } from './generated/kiltPNG.js';
+export { nodesKlaosPNG } from './generated/klaosPNG.js';
 export { nodesKlugPNG } from './generated/klugPNG.js';
 export { nodesKonomiPNG } from './generated/konomiPNG.js';
 export { nodesKrestPNG } from './generated/krestPNG.js';
@@ -111,6 +113,7 @@ export { nodesPhoenixPNG } from './generated/phoenixPNG.js';
 export { nodesPicassoPNG } from './generated/picassoPNG.js';
 export { nodesPichiuPNG } from './generated/pichiuPNG.js';
 export { nodesPlasmPNG } from './generated/plasmPNG.js';
+export { nodesPolimecSVG } from './generated/polimecSVG.js';
 export { nodesPolkadexSVG } from './generated/polkadexSVG.js';
 export { nodesPolkafoundrySVG } from './generated/polkafoundrySVG.js';
 export { nodesPolkasmithSVG } from './generated/polkasmithSVG.js';
