@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/apps-config authors & contributors
+// Copyright 2017-2024 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -50,9 +50,9 @@ export const Subscan: ExternalDef = {
     'Moonbase Alpha': 'moonbase',
     Moonbeam: 'moonbeam',
     Moonriver: 'moonriver',
+    NeuroWeb: 'neuroweb',
+    'NeuroWeb Testnet': 'neuroweb-testnet',
     'Nodle Parachain': 'nodle',
-    'OriginTrail Parachain': 'origintrail',
-    'OriginTrail Parachain Testnet': 'origintrail-testnet',
     Pangolin: 'pangolin',
     'Pangolin Parachain': 'pangolin-parachain',
     Pangoro: 'pangoro',

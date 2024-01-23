@@ -1,9 +1,9 @@
-// Copyright 2017-2023 @polkadot/apps-config authors & contributors
+// Copyright 2017-2024 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
 
-import { CERE_NETWORK_GENESIS, CERE_NETWORK_TESTNET_GENESIS, DOCK_POS_TESTNET_GENESIS, KUSAMA_GENESIS, NEATCOIN_GENESIS, NFTMART_GENESIS, POLKADOT_GENESIS } from '../constants.js';
+import { CERE_NETWORK_GENESIS, CERE_NETWORK_TESTNET_GENESIS, DOCK_POS_TESTNET_GENESIS, KUSAMA_GENESIS, NEATCOIN_GENESIS, NFTMART_GENESIS, POLKADOT_GENESIS, VARA_NETWORK_GENESIS, VARA_NETWORK_TESTNET_GENESIS } from '../constants.js';
 
 interface InflationParams {
   auctionAdjust: number;
@@ -29,6 +29,8 @@ const DEFAULT_PARAMS: InflationParams = {
 
 const CERE_NETWORK_INFLATION_PARAMS = { ...DEFAULT_PARAMS, maxInflation: 0.05, minInflation: 0.0001, stakeTarget: 0.2 };
 
+const VARA_NETWORK_INFLATION_PARAMS = { ...DEFAULT_PARAMS, maxInflation: 0, minInflation: 0.0001, stakeTarget: 0.85 };
+
 const KNOWN_PARAMS: Record<string, InflationParams> = {
   [CERE_NETWORK_GENESIS]: CERE_NETWORK_INFLATION_PARAMS,
   [CERE_NETWORK_TESTNET_GENESIS]: CERE_NETWORK_INFLATION_PARAMS,
@@ -40,7 +42,9 @@ const KNOWN_PARAMS: Record<string, InflationParams> = {
   [KUSAMA_GENESIS]: { ...DEFAULT_PARAMS, auctionAdjust: (0.3 / 60), auctionMax: 60, stakeTarget: 0.75 },
   [NEATCOIN_GENESIS]: { ...DEFAULT_PARAMS, stakeTarget: 0.75 },
   [NFTMART_GENESIS]: { ...DEFAULT_PARAMS, falloff: 0.04, stakeTarget: 0.60 },
-  [POLKADOT_GENESIS]: { ...DEFAULT_PARAMS, stakeTarget: 0.75 }
+  [POLKADOT_GENESIS]: { ...DEFAULT_PARAMS, stakeTarget: 0.75 },
+  [VARA_NETWORK_GENESIS]: VARA_NETWORK_INFLATION_PARAMS,
+  [VARA_NETWORK_TESTNET_GENESIS]: VARA_NETWORK_INFLATION_PARAMS
 };
 
 export function getInflationParams (api: ApiPromise): InflationParams {
