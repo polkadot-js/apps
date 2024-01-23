@@ -261,17 +261,6 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'encointer',
-    providers: {
-      'Encointer Association': 'wss://gesell.encointer.org'
-    },
-    text: 'Encointer Gesell',
-    ui: {
-      color: '#0000cc',
-      logo: nodesEncointerBlueSVG
-    }
-  },
-  {
     info: 'elysium',
     providers: {
       elysium: 'wss://ws.atlantischain.network'
@@ -280,6 +269,17 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#9FC131',
       logo: nodesElysiumPNG
+    }
+  },
+  {
+    info: 'encointer',
+    providers: {
+      'Encointer Association': 'wss://gesell.encointer.org'
+    },
+    text: 'Encointer Gesell',
+    ui: {
+      color: '#0000cc',
+      logo: nodesEncointerBlueSVG
     }
   },
   {
