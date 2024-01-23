@@ -414,6 +414,16 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    info: 'rococoOpenZeppelin',
+    paraId: 4353,
+    providers: {},
+    text: 'OpenZeppelin Runtime Template',
+    ui: {
+      color: '#f653a2',
+      logo: nodesOzPNG
+    }
+  },
+  {
     info: 'rococoPangolin',
     paraId: 2105,
     providers: {
@@ -517,16 +527,6 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     text: 'Snowbridge Bridge Hub',
     ui: {
       logo: chainsSnowbridgePNG
-    }
-  },
-  {
-    info: 'rococoOpenZeppelin',
-    paraId: 4353,
-    providers: {},
-    text: 'OpenZeppelin Runtime Template',
-    ui: {
-      color: '#f653a2',
-      logo: nodesOzPNG
     }
   },
   {
