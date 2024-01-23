@@ -415,7 +415,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
   },
   {
     info: 'rococoOpenZeppelin',
-    paraId: 4353,
+    paraId: 4354,
     providers: {},
     text: 'OpenZeppelin Runtime Template',
     ui: {
