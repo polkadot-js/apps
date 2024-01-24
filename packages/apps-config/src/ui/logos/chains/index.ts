@@ -10,6 +10,7 @@ export { chainsAcurastPNG } from './generated/acurastPNG.js';
 export { chainsAlephSVG } from './generated/alephSVG.js';
 export { chainsAltairSVG } from './generated/altairSVG.js';
 export { chainsAmplitudeSVG } from './generated/amplitudeSVG.js';
+export { chainsBevmSVG } from './generated/bevmSVG.js';
 export { chainsBitgreenPNG } from './generated/bitgreenPNG.js';
 export { chainsBittensorPNG } from './generated/bittensorPNG.js';
 export { chainsBrainstormPNG } from './generated/brainstormPNG.js';
