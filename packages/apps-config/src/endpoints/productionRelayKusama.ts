@@ -732,7 +732,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'sora',
     paraId: 2011,
     providers: {
-      Soramitsu: 'wss://ws.parachain-collator-1.c1.sora2.soramitsu.co.jp'
+      Soramitsu: 'wss://ws.parachain-collator-2.c2.sora2.soramitsu.co.jp'
     },
     text: 'SORA',
     ui: {
