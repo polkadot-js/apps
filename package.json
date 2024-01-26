@@ -120,5 +120,8 @@
     "@polkadot/x-textencoder": "^12.6.2",
     "@polkadot/x-ws": "^12.6.2",
     "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "bignumber.js": "^9.1.2"
   }
 }

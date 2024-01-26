@@ -11,16 +11,18 @@ import type { NominatorValue } from './types.js';
 
 import React, { useMemo } from 'react';
 
-import { AddressSmall, Columar, Icon, LinkExternal, Table, Tag } from '@polkadot/react-components';
+import {AddressSmall, Button, Columar, Icon, LinkExternal, Table, Tag} from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
 import { useApi, useCall, useDeriveAccountInfo, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../../translate.js';
-import NominatedBy from './NominatedBy.js';
-import StakeOther from './StakeOther.js';
 import Status from './Status.js';
+import Voter from '../../models/voter'
+import {useRemainingVotes} from '../../useRemainingVotes'
+import {useGetValidators} from '../../useGetValidators'
+import ProposeMotion from '../../../../page-council/src/Motions/ProposeMotion'
 
 interface Props {
   address: string;
@@ -33,12 +35,13 @@ interface Props {
   isPara?: boolean;
   lastBlock?: string;
   minCommission?: BN;
-  nominatedBy?: NominatedByType[];
+  // nominatedBy?: NominatedByType[];
   points?: string;
   recentlyOnline?: DeriveHeartbeatAuthor;
   toggleFavorite: (accountId: string) => void;
   validatorInfo?: ValidatorInfo;
   withIdentity?: boolean;
+  onVoteSuccess: () => Promise<void>
 }
 
 interface StakingState {
@@ -90,13 +93,15 @@ function useAddressCalls (api: ApiPromise, address: string, isMain?: boolean) {
   return { accountInfo, slashingSpans };
 }
 
-function Address ({ address, className = '', filterName, hasQueries, isElected, isFavorite, isMain, isPara, lastBlock, minCommission, nominatedBy, points, recentlyOnline, toggleFavorite, validatorInfo, withIdentity }: Props): React.ReactElement<Props> | null {
+function Address ({ address, className = '', filterName, hasQueries, isElected, isFavorite, isMain, isPara, lastBlock, minCommission, points, recentlyOnline, toggleFavorite, validatorInfo, withIdentity, onVoteSuccess }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isExpanded, toggleIsExpanded] = useToggle(false);
   const { accountInfo, slashingSpans } = useAddressCalls(api, address, isMain);
+  const [isToggleVote, toggleVote] = useToggle();
+  const { data: remainingVotesData, refetch: refetchRemainingVotesData } = useRemainingVotes(validatorInfo)
 
-  const { commission, isChilled, nominators, stakeOther, stakeOwn } = useMemo(
+  const { isChilled, nominators } = useMemo(
     () => validatorInfo
       ? expandInfo(validatorInfo, minCommission)
       : {},
@@ -137,7 +142,8 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
             isMain={isMain}
             isPara={isPara}
             isRelay={!!(api.query.parasShared || api.query.shared)?.activeValidatorIndices}
-            nominators={isMain ? nominators : nominatedBy}
+            // nominators={isMain ? nominators : nominatedBy}
+            nominators={nominators}
             onlineCount={recentlyOnline?.blockCount}
             onlineMessage={recentlyOnline?.hasMessage}
           />
@@ -152,28 +158,27 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
             />
           )}
         </td>
-        {isMain
-          ? (
-            <StakeOther
-              nominators={nominators}
-              stakeOther={stakeOther}
-            />
-          )
-          : (
-            <NominatedBy
-              nominators={nominatedBy}
-              slashingSpans={slashingSpans}
-            />
-          )
-        }
         <td className='number'>
-          {commission || <span className='--tmp'>50.00%</span>}
+          <FormatBalance
+            value={validatorInfo?.totalNomination}
+          />
         </td>
-        {isMain && (
-          <td className='number'>
-            {lastBlock}
-          </td>
-        )}
+        <td className='number'>
+          <FormatBalance
+            value={validatorInfo?.rewardPotBalance}
+          />
+        </td>
+        <td className='number'>
+          {lastBlock}
+        </td>
+        <td>
+          <Button
+            className={'flex'}
+            icon='sign-in-alt'
+            label={t('Vote')}
+            onClick={toggleVote}
+          />
+        </td>
         <Table.Column.Expand
           isExpanded={isExpanded}
           toggle={toggleIsExpanded}
@@ -192,11 +197,11 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
           >
             <Columar size='small'>
               <Columar.Column>
-                {isMain && stakeOwn?.gtn(0) && (
+                {isMain && validatorInfo?.selfBonded && validatorInfo?.selfBonded > 0 && (
                   <>
                     <h5>{t('own stake')}</h5>
                     <FormatBalance
-                      value={stakeOwn}
+                      value={validatorInfo?.selfBonded}
                     />
                   </>
                 )}
@@ -227,7 +232,16 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
             </Columar>
           </td>
           <td />
+          <td />
         </tr>
+      )}
+      {isToggleVote && (
+        <Voter
+          onClose={toggleVote}
+          validatorId={validatorInfo?.account}
+          onSuccess={onVoteSuccess}
+          remainingVotesData={remainingVotesData}
+        />
       )}
     </>
   );

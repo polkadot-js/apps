@@ -27,6 +27,8 @@ import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defau
 import { lightSpecs, relaySpecs } from './light/index.js';
 import { statics } from './statics.js';
 import { decodeUrlTypes } from './urlTypes.js';
+import {BEVM_RPC} from '@polkadot/react-api/bevm_rpc'
+import {BEVM_TYPES} from '@polkadot/react-api/bevm_types'
 
 interface Props {
   children: React.ReactNode;
@@ -242,8 +244,9 @@ async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: un
       provider,
       registry: statics.registry,
       signer,
-      types,
-      typesBundle
+      types: { ...types, ...BEVM_TYPES },
+      typesBundle,
+      rpc: BEVM_RPC,
     });
 
     // See https://github.com/polkadot-js/api/pull/4672#issuecomment-1078843960

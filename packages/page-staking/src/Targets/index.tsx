@@ -30,7 +30,8 @@ interface Props {
   nominatedBy?: NominatedByMap;
   ownStashes?: StakerState[];
   stakingOverview?: DeriveStakingOverview;
-  targets: SortedTargets;
+  // targets: SortedTargets;
+  targets: ValidatorInfo[];
   toggleFavorite: (address: string) => void;
   toggleLedger: () => void;
   toggleNominatedBy: () => void;

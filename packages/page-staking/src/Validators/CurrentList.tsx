@@ -14,7 +14,7 @@ import { useApi, useBlockAuthors, useNextTick } from '@polkadot/react-hooks';
 
 import Filtering from '../Filtering.js';
 import { useTranslation } from '../translate.js';
-import Address from './Address/index.js';
+import Address from './Address';
 
 interface Props {
   className?: string;
@@ -27,13 +27,13 @@ interface Props {
   isOwn: boolean;
   minCommission?: BN;
   nominatedBy?: NominatedByMap;
-  ownStashIds?: string[];
   paraValidators: Record<string, boolean>;
   recentlyOnline?: DeriveHeartbeats;
   setNominators?: (nominators: string[]) => void;
   stakingOverview?: DeriveStakingOverview;
-  targets: SortedTargets;
+  targets: ValidatorInfo[];
   toggleFavorite: (address: string) => void;
+  onVoteSuccess: () => Promise<void>
 }
 
 type AccountExtend = [string, boolean, boolean];
@@ -43,29 +43,19 @@ interface Filtered {
   waiting?: AccountExtend[];
 }
 
-function filterAccounts (isOwn: boolean, accounts: string[] = [], ownStashIds: string[] = [], elected: string[], favorites: string[], without: string[]): AccountExtend[] {
+function filterAccounts (isOwn: boolean, accounts: string[] = [], elected: string[], favorites: string[], without: string[]): AccountExtend[] {
   return accounts
-    .filter((accountId) =>
-      !without.includes(accountId) && (
-        !isOwn ||
-        ownStashIds.includes(accountId)
-      )
-    )
+    .filter((accountId): boolean => !without.includes(accountId as any))
     .map((accountId): AccountExtend => [
       accountId,
       elected.includes(accountId),
       favorites.includes(accountId)
     ])
-    .sort(([accA,, isFavA]: AccountExtend, [accB,, isFavB]: AccountExtend): number => {
-      const isStashA = ownStashIds.includes(accA);
-      const isStashB = ownStashIds.includes(accB);
-
-      return isFavA === isFavB
-        ? isStashA === isStashB
-          ? 0
-          : (isStashA ? -1 : 1)
-        : (isFavA ? -1 : 1);
-    });
+    .sort(([, , isFavA]: AccountExtend, [, , isFavB]: AccountExtend): number =>
+      isFavA === isFavB
+        ? 0
+        : (isFavA ? -1 : 1)
+    );
 }
 
 function accountsToString (accounts: AccountId[]): string[] {
@@ -78,18 +68,20 @@ function accountsToString (accounts: AccountId[]): string[] {
   return result;
 }
 
-function getFiltered (isOwn: boolean, stakingOverview: DeriveStakingOverview | undefined, favorites: string[], next?: string[], ownStashIds?: string[]): Filtered {
+function getFiltered (isOwn: boolean, stakingOverview: DeriveStakingOverview | undefined, favorites: string[], next?: string[]): Filtered {
   if (!stakingOverview) {
     return {};
   }
+  const allElected = [""]
+  const validatorIds: any[] = stakingOverview.validators
 
-  const allElected = accountsToString(stakingOverview.nextElected);
-  const validatorIds = accountsToString(stakingOverview.validators);
+  // const allElected = accountsToString(stakingOverview.nextElected);
+  // const validatorIds = accountsToString(stakingOverview.validators);
 
   return {
-    validators: filterAccounts(isOwn, validatorIds, ownStashIds, allElected, favorites, []),
-    waiting: filterAccounts(isOwn, allElected, ownStashIds, allElected, favorites, validatorIds).concat(
-      filterAccounts(isOwn, next, ownStashIds, [], favorites, allElected)
+    validators: filterAccounts(isOwn, validatorIds, allElected, favorites, []),
+    waiting: filterAccounts(isOwn, allElected, allElected, favorites, validatorIds).concat(
+      filterAccounts(isOwn, next, [], favorites, allElected)
     )
   };
 }
@@ -108,7 +100,7 @@ function mapValidators (infos: ValidatorInfo[]): Record<string, ValidatorInfo> {
 
 const DEFAULT_PARAS = {};
 
-function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, minCommission, nominatedBy, ownStashIds, paraValidators = DEFAULT_PARAS, recentlyOnline, stakingOverview, targets, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, minCommission, nominatedBy, paraValidators = DEFAULT_PARAS, recentlyOnline, stakingOverview, targets, toggleFavorite, onVoteSuccess }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { byAuthor, eraPoints } = useBlockAuthors();
@@ -116,8 +108,8 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
   const isNextTick = useNextTick();
 
   const { validators, waiting } = useMemo(
-    () => getFiltered(isOwn, stakingOverview, favorites, targets.waitingIds, ownStashIds),
-    [favorites, isOwn, ownStashIds, stakingOverview, targets]
+    () => getFiltered(isOwn, stakingOverview, favorites, targets.waitingIds),
+    [favorites, isOwn, stakingOverview, targets]
   );
 
   const list = useMemo(
@@ -139,14 +131,19 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
       ? [
         [t('intentions'), 'start', 3],
         [t('nominators'), 'expand'],
-        [t('commission'), 'number'],
+        [t('total staked'), 'expand'],
+        [t('Pots Balances')],
+        [],
         []
       ]
       : [
         [t('validators'), 'start', 3],
-        [t('other stake'), 'expand'],
-        [t('commission')],
+        // [t('other stake'), 'expand'],
+        [t('total staked'), 'expand'],
+        // [t('commission')],
+        [t('pots balances')],
         [t('last #')],
+        [],
         []
       ]
   );
@@ -184,14 +181,14 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
         />
       }
     >
-      {list?.map(([address, isElected, isFavorite]): React.ReactNode => (
+      {validators?.map(([address, isElected, isFavorite]): React.ReactNode => (
         <Address
           address={address}
           filterName={nameFilter}
           hasQueries={hasQueries}
           isElected={isElected}
           isFavorite={isFavorite}
-          isMain={!isIntentions}
+          isMain={true}
           isPara={paraValidators[address]}
           key={address}
           lastBlock={byAuthor[address]}
@@ -200,7 +197,8 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
           points={eraPoints[address]}
           recentlyOnline={recentlyOnline?.[address]}
           toggleFavorite={toggleFavorite}
-          validatorInfo={infoMap?.[address]}
+          validatorInfo={targets.find(item => item.account === address)}
+          onVoteSuccess={onVoteSuccess}
         />
       ))}
     </Table>

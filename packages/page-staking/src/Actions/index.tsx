@@ -27,7 +27,7 @@ interface Props {
   isInElection?: boolean;
   minCommission?: BN;
   ownPools?: OwnPool[];
-  ownStashes?: StakerState[];
+  // ownStashes?: StakerState[];
   next?: string[];
   validators?: string[];
   targets: SortedTargets;
@@ -53,40 +53,40 @@ function sortStashes (a: StakerState, b: StakerState): number {
   return assignValue(a) - assignValue(b);
 }
 
-function extractState (ownStashes?: StakerState[]): State {
-  if (!ownStashes) {
-    return {};
-  }
-
-  const bondedNoms = new BN(0);
-  const bondedNone = new BN(0);
-  const bondedVals = new BN(0);
-  const bondedTotal = new BN(0);
-
-  ownStashes.forEach(({ isStashNominating, isStashValidating, stakingLedger }): void => {
-    const value = stakingLedger?.total
-      ? stakingLedger.total.unwrap()
-      : BN_ZERO;
-
-    bondedTotal.iadd(value);
-
-    if (isStashNominating) {
-      bondedNoms.iadd(value);
-    } else if (isStashValidating) {
-      bondedVals.iadd(value);
-    } else {
-      bondedNone.iadd(value);
-    }
-  });
-
-  return {
-    bondedNoms,
-    bondedNone,
-    bondedTotal,
-    bondedVals,
-    foundStashes: ownStashes.sort(sortStashes)
-  };
-}
+// function extractState (ownStashes?: StakerState[]): State {
+//   if (!ownStashes) {
+//     return {};
+//   }
+//
+//   const bondedNoms = new BN(0);
+//   const bondedNone = new BN(0);
+//   const bondedVals = new BN(0);
+//   const bondedTotal = new BN(0);
+//
+//   ownStashes.forEach(({ isStashNominating, isStashValidating, stakingLedger }): void => {
+//     const value = stakingLedger?.total
+//       ? stakingLedger.total.unwrap()
+//       : BN_ZERO;
+//
+//     bondedTotal.iadd(value);
+//
+//     if (isStashNominating) {
+//       bondedNoms.iadd(value);
+//     } else if (isStashValidating) {
+//       bondedVals.iadd(value);
+//     } else {
+//       bondedNone.iadd(value);
+//     }
+//   });
+//
+//   return {
+//     bondedNoms,
+//     bondedNone,
+//     bondedTotal,
+//     bondedVals,
+//     foundStashes: ownStashes.sort(sortStashes)
+//   };
+// }
 
 function filterStashes (stashTypeIndex: number, stashes: StakerState[]): StakerState[] {
   return stashes.filter(({ isStashNominating, isStashValidating }) => {
@@ -115,7 +115,7 @@ function formatTotal (stashTypeIndex: number, state: State): React.ReactNode {
   return value && <FormatBalance value={value} />;
 }
 
-function Actions ({ className = '', isInElection, minCommission, ownPools, ownStashes, targets }: Props): React.ReactElement<Props> {
+function Actions ({ className = '', isInElection, minCommission, ownPools, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const allSlashes = useAvailableSlashes();
@@ -134,35 +134,35 @@ function Actions ({ className = '', isInElection, minCommission, ownPools, ownSt
     { text: t('Inactive'), value: 'chill' }
   ]);
 
-  const state = useMemo(
-    () => extractState(ownStashes),
-    [ownStashes]
-  );
+  // const state = useMemo(
+  //   () => extractState(ownStashes),
+  //   [ownStashes]
+  // );
 
-  const [filtered, footer] = useMemo(
-    () => [
-      state.foundStashes && filterStashes(stashTypeIndex, state.foundStashes),
-      (
-        <tr key='footer'>
-          <td colSpan={4} />
-          <td className='number'>{formatTotal(stashTypeIndex, state)}</td>
-          <td colSpan={2} />
-        </tr>
-      )
-    ],
-    [state, stashTypeIndex]
-  );
+  // const [filtered, footer] = useMemo(
+  //   () => [
+  //     state.foundStashes && filterStashes(stashTypeIndex, state.foundStashes),
+  //     (
+  //       <tr key='footer'>
+  //         <td colSpan={4} />
+  //         <td className='number'>{formatTotal(stashTypeIndex, state)}</td>
+  //         <td colSpan={2} />
+  //       </tr>
+  //     )
+  //   ],
+  //   [state, stashTypeIndex]
+  // );
 
   return (
     <div className={className}>
       <Button.Group>
-        {api.consts.nominationPools && (
-          <ToggleGroup
-            onChange={setAccTypeIndex}
-            options={accTypes.current}
-            value={accTypeIndex}
-          />
-        )}
+        {/*{api.consts.nominationPools && (*/}
+        {/*  <ToggleGroup*/}
+        {/*    onChange={setAccTypeIndex}*/}
+        {/*    options={accTypes.current}*/}
+        {/*    value={accTypeIndex}*/}
+        {/*  />*/}
+        {/*)}*/}
         {accTypeIndex === 0 && (
           <>
             <ToggleGroup
@@ -184,8 +184,8 @@ function Actions ({ className = '', isInElection, minCommission, ownPools, ownSt
         )}
       </Button.Group>
       <ElectionBanner isInElection={isInElection} />
-      {accTypeIndex === 0
-        ? (
+      {/*{accTypeIndex === 0*/}
+      {/*  ? (*/}
           <Accounts
             allSlashes={allSlashes}
             footer={footer}
@@ -194,15 +194,15 @@ function Actions ({ className = '', isInElection, minCommission, ownPools, ownSt
             minCommission={minCommission}
             targets={targets}
           />
-        )
-        : (
-          <Pools
-            allSlashes={allSlashes}
-            list={ownPools}
-            targets={targets}
-          />
-        )
-      }
+      {/*  )*/}
+      {/*  : (*/}
+      {/*    <Pools*/}
+      {/*      allSlashes={allSlashes}*/}
+      {/*      list={ownPools}*/}
+      {/*      targets={targets}*/}
+      {/*    />*/}
+      {/*  )*/}
+      {/*}*/}
     </div>
   );
 }
