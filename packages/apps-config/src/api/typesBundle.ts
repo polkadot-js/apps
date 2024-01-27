@@ -66697,6 +66697,21 @@ export const typesBundle = {
         }
       ]
     },
+    "muse": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "AccountId": "EthereumAccountId",
+            "Address": "AccountId",
+            "LookupSource": "AccountId"
+          }
+        }
+      ]
+    },
     "mybank.network Testnet": {
       "types": [
         {
