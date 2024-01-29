@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
-import type { SortedTargets } from '../types.js';
+import type {SortedTargets, ValidatorInfo} from '../types.js';
 
 import React from 'react';
 
@@ -20,11 +20,11 @@ interface Props {
   className?: string;
   nominators?: string[];
   stakingOverview?: DeriveStakingOverview;
-  targets: SortedTargets;
-  onVoteSuccess?: () => Promise<void>,
+  targets: ValidatorInfo[];
+  onVoteSuccess?: () => Promise<void>;
 }
 
-function Summary ({ className = '', stakingOverview, onVoteSuccess
+function Summary ({ className = '', stakingOverview, onVoteSuccess, targets
                     // targets: { counterForNominators, nominators, waitingIds }
 }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -32,6 +32,22 @@ function Summary ({ className = '', stakingOverview, onVoteSuccess
   const [isValidateOpen, toggleValidate] = useToggle();
   const [isChillOpen, toggleChill] = useToggle();
   const [isRegister, toggleRegister] = useToggle();
+  const { allAccounts } = useAccounts()
+
+  const renderActionButton = () => {
+    const targetAccount = targets.find(i => allAccounts.includes(i.account!))
+
+    if (targetAccount) {
+      if (stakingOverview && stakingOverview.candidateorDrop[0]?.isChilled) {
+        return <Button icon='plus' onClick={toggleValidate} label={t('Candidate')} />
+      } else {
+        return <Button icon='plus' onClick={toggleChill} label={t('Drop')} />
+
+      }
+    } else {
+      return <Button className={'register-node'} icon='plus' onClick={toggleRegister} label={t('Register validator')} />
+    }
+  }
 
   return (
     <StyledSummaryBox className={className}>
@@ -135,9 +151,7 @@ function Summary ({ className = '', stakingOverview, onVoteSuccess
       {/*  </CardSummary>*/}
       {/*</section>*/}
       <section>
-        <Button className={'register-node'} icon='plus' onClick={toggleRegister} label={t('Register validator')} />
-        {isRegister && <RegisterNode onClose={toggleRegister} onSuccess={onVoteSuccess} />}
-
+        {renderActionButton()}
       </section>
       {/*<section>*/}
         {/*{*/}
@@ -164,24 +178,26 @@ function Summary ({ className = '', stakingOverview, onVoteSuccess
         {/*  </span>*/}
         {/*}*/}
       {/*  <div>*/}
-      {/*    {*/}
-      {/*      isValidateOpen && (*/}
-      {/*        <Validate*/}
-      {/*          onClose={toggleValidate}*/}
-      {/*          validatorId={stakingOverview?.candidateorDrop[0].account + ''}*/}
-      {/*          onSuccess={() => {}}*/}
-      {/*        />*/}
-      {/*      )*/}
-      {/*    }*/}
-      {/*    {*/}
-      {/*      isChillOpen && (*/}
-      {/*        <Chill*/}
-      {/*          onClose={toggleChill}*/}
-      {/*          validatorId={stakingOverview?.candidateorDrop[0].account + ''}*/}
-      {/*          onSuccess={() => {}}*/}
-      {/*        />*/}
-      {/*      )*/}
-      {/*    }*/}
+      {
+        isValidateOpen && (
+          <Validate
+            onClose={toggleValidate}
+            validatorId={stakingOverview?.candidateorDrop[0].account + ''}
+            onSuccess={() => {}}
+          />
+        )
+      }
+      {isRegister && <RegisterNode onClose={toggleRegister} onSuccess={onVoteSuccess} />}
+
+      {
+        isChillOpen && (
+          <Chill
+            onClose={toggleChill}
+            validatorId={stakingOverview?.candidateorDrop[0].account + ''}
+            onSuccess={() => {}}
+          />
+        )
+      }
 
       {/*  </div>*/}
       {/*</section>*/}

@@ -4,7 +4,7 @@
 import type { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
 import type { BN } from '@polkadot/util';
-import type { NominatedByMap, SortedTargets } from '../types.js';
+import type {NominatedByMap, SortedTargets, ValidatorInfo} from '../types.js';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
@@ -26,7 +26,7 @@ interface Props {
   // ownStashes?: StakerState[];
   paraValidators?: Record<string, boolean>;
   stakingOverview?: DeriveStakingOverview;
-  targets: SortedTargets;
+  targets: ValidatorInfo[];
   toggleFavorite: (address: string) => void;
   toggleLedger?: () => void;
   toggleNominatedBy: () => void;
