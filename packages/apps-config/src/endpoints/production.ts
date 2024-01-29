@@ -32,6 +32,17 @@ export * from './productionRelayPolkadot.js';
 //
 // IMPORTANT: Alphabetical based on text
 export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
+  {
+    info: 'bevm-canary',
+    providers: {
+      'BEVM': 'wss://bevm-canary.chainx.org/ws',
+    },
+    text: 'Bevm Canary',
+    ui: {
+      color: '#CDA164',
+      logo: chainsBevmSVG
+    }
+  },
   // {
   //   info: '3dpass',
   //   providers: {
@@ -228,17 +239,6 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   //     logo: nodesEdgewareWhitePNG
   //   }
   // },
-  {
-    info: 'bevm-canary',
-    providers: {
-      'BEVM': 'wss://bevm-canary.chainx.org/ws',
-    },
-    text: 'Bevm Canary',
-    ui: {
-      color: '#CDA164',
-      logo: chainsBevmSVG
-    }
-  },
   // {
   //   info: 'efinity',
   //   providers: {

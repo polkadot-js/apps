@@ -17,6 +17,17 @@ export * from './testingRelayWestend.js';
 //
 // IMPORTANT: Alphabetical based on text
 export const testChains: Omit<EndpointOption, 'teleport'>[] = [
+  {
+    info: 'bevm-testnet',
+    providers: {
+      'BEVM': 'wss://bevm-testnet.chainx.org/ws',
+    },
+    text: 'Bevm Testnet',
+    ui: {
+      color: '#CDA164',
+      logo: chainsBevmSVG
+    }
+  },
   // {
   //   info: '3dpass-testnet',
   //   providers: {
@@ -117,17 +128,6 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   //     logo: nodesEdgewareWhitePNG
   //   }
   // },
-  {
-    info: 'bevm-testnet',
-    providers: {
-      'BEVM': 'wss://bevm-testnet.chainx.org/ws',
-    },
-    text: 'Bevm Testnet',
-    ui: {
-      color: '#CDA164',
-      logo: chainsBevmSVG
-    }
-  },
   // {
   //   info: 'bifrost',
   //   providers: {

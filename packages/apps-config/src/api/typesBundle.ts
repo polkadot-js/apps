@@ -66697,6 +66697,21 @@ export const typesBundle = {
         }
       ]
     },
+    "muse": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "AccountId": "EthereumAccountId",
+            "Address": "AccountId",
+            "LookupSource": "AccountId"
+          }
+        }
+      ]
+    },
     "mybank.network Testnet": {
       "types": [
         {
@@ -66793,6 +66808,20 @@ export const typesBundle = {
                 "Bool": "Bool"
               }
             }
+          }
+        }
+      ]
+    },
+    "neuroweb": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "Address": "AccountId",
+            "LookupSource": "AccountId"
           }
         }
       ]
@@ -69368,20 +69397,6 @@ export const typesBundle = {
               "metadata": "Vec<u8>"
             },
             "TokenId": "U256"
-          }
-        }
-      ]
-    },
-    "origintrail-parachain": {
-      "types": [
-        {
-          "minmax": [
-            0,
-            null
-          ],
-          "types": {
-            "Address": "AccountId",
-            "LookupSource": "AccountId"
           }
         }
       ]
