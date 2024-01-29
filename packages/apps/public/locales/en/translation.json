@@ -1866,10 +1866,12 @@
   "UnBound": "",
   "ReBound": "",
   "Unfreeze": "",
-  "Register node": "",
-  "Register new node": "",
+  "Register validator": "",
+  "Register new validator": "",
   "Register Account": "",
   "Unique, within 12 characters, make sure not repeated": "",
   "Unique and unchangeable, non-transferable after registration": "",
-  "Number of node mortgages": ""
+  "Number of node mortgages": "",
+  "Drop Out": "",
+  "Candidate": ""
 }

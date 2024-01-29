@@ -11,7 +11,7 @@ import type { NominatorValue } from './types.js';
 
 import React, { useMemo } from 'react';
 
-import {AddressSmall, Button, Columar, Icon, LinkExternal, Table, Tag} from '@polkadot/react-components';
+import {AddressSmall, Badge, Button, Columar, Icon, LinkExternal, Table, Tag} from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
 import { useApi, useCall, useDeriveAccountInfo, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
@@ -21,8 +21,13 @@ import { useTranslation } from '../../translate.js';
 import Status from './Status.js';
 import Voter from '../../models/voter'
 import {useRemainingVotes} from '../../useRemainingVotes'
-import {useGetValidators} from '../../useGetValidators'
-import ProposeMotion from '../../../../page-council/src/Motions/ProposeMotion'
+import {styled} from '@polkadot/react-components/styled'
+
+const ValidatorStatus = styled.div`
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+`
 
 interface Props {
   address: string;
@@ -156,6 +161,33 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
               color='lightgrey'
               label={points}
             />
+          )}
+        </td>
+        <td>
+          {validatorInfo?.isValidating ? (
+            <ValidatorStatus>
+              <Badge
+                color='green'
+                icon='chevron-right'
+              />
+              {t('Validator')}
+            </ValidatorStatus>
+          ) : validatorInfo?.isChilled ? (
+            <ValidatorStatus>
+              <Badge
+                color='red'
+                icon='chevron-right'
+              />
+              {t('Drop Out')}
+            </ValidatorStatus>
+          ) : (
+            <ValidatorStatus>
+              <Badge
+                color='blue'
+                icon='chevron-right'
+              />
+              {t('Candidate')}
+            </ValidatorStatus>
           )}
         </td>
         <td className='number'>

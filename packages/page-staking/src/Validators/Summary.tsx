@@ -135,7 +135,7 @@ function Summary ({ className = '', stakingOverview, onVoteSuccess
       {/*  </CardSummary>*/}
       {/*</section>*/}
       <section>
-        <Button className={'register-node'} icon='plus' onClick={toggleRegister} label={t('Register Node')} />
+        <Button className={'register-node'} icon='plus' onClick={toggleRegister} label={t('Register validator')} />
         {isRegister && <RegisterNode onClose={toggleRegister} onSuccess={onVoteSuccess} />}
 
       </section>

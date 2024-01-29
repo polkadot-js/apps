@@ -1398,11 +1398,14 @@
   "UnBound": "撤票",
   "ReBound": "切换",
   "Unfreeze": "解冻",
-  "Register Node": "注册节点",
-  "Register new node": "注册节点",
+  "Register validator": "注册节点",
+  "Register new validator": "注册节点",
   "Register Account": "当前账户",
   "Unique, within 12 characters, make sure not repeated": "唯一，12个字符以内，请确定不重复",
   "Unique and unchangeable, non-transferable after registration": "唯一且不可更改，注册后不可转让",
   "Number of node mortgages": "节点抵押数量",
-  "The node of validate": "验证节点"
+  "The node of validate": "验证节点",
+  "status": "状态",
+  "Drop Out": "已退选",
+  "Candidate": "参选"
 }

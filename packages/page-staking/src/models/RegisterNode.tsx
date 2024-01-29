@@ -25,7 +25,7 @@ function RegisterNewNode({ nodeslist, onClose, onSuccess }: Props): React.ReactE
 
   return (
     <Modal
-      header={t('Register new node')}
+      header={t('Register new validator')}
       size='large'
       onClose={onClose}
     >
