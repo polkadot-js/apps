@@ -1,7 +1,6 @@
-import React, { useRef } from 'react';
+import React, {useMemo, useRef, useState} from 'react';
 import styled from 'styled-components';
-import {Table} from '@polkadot/react-components';
-import {useApi} from '@polkadot/react-hooks';
+import {Button, Table, ToggleGroup} from '@polkadot/react-components';
 // import {getNominationAndDividedExternal} from '@polkadot/react-hooks-chainx/useNomination';
 import {useTranslation} from '../translate';
 // import {Nomination, UserNominations, Dividended, UserInterest} from '@polkadot/react-hooks-chainx/types';
@@ -20,10 +19,14 @@ interface Props {
 
 function UserNomination({ onStatusChange, validatorInfoList, className = ''}: Props): React.ReactElement<Props> | null {
   const {t} = useTranslation();
-  const {api} = useApi();
   const { data: allNominationData, loading, refetch } = useAllNominationData()
   //let { allDividended, allNominations } = useNomination([currentAccount]);
+  const [typeIndex, setTypeIndex] = useState(0);
 
+  const stashTypes = useRef([
+    { text: t('Nominators'), value: 'Nominators' },
+    { text: t('Validators'), value: 'vals' },
+  ]);
   // const [state, setState] = useState({
   //   allNominations: [],
   //   allDividended: []
@@ -41,19 +44,30 @@ function UserNomination({ onStatusChange, validatorInfoList, className = ''}: Pr
   const allNominations = allNominationData.map(i => i.ownNominations).flat()
   const allDividended = allNominationData.map(i => i.ownDividended).flat()
 
-  const validNominations = allNominations.filter((nmn) => {
-    const userInterestItem = allDividended.find(dvd => dvd.account === nmn.account);
-    const interestNode = userInterestItem?.interests.find(i => i.validator === nmn.validatorId);
-    const blInterestNode = Boolean(interestNode ? Number(interestNode?.interest) !== 0 : 0);
-    const chunks: number = nmn?.unbondedChunks ? nmn.unbondedChunks.reduce((total, record) => {
-      return total + Number(record.value);
-    }, 0) : 0;
-    const blNomination: boolean = Boolean(Number(nmn.nomination) !== 0);
-    return blNomination || Boolean(chunks !== 0) || blInterestNode;
-  })
+  const validNominations = useMemo(() => {
+    const formattedAllNominations = allNominations.filter((nmn) => {
+      const userInterestItem = allDividended.find(dvd => dvd.account === nmn.account);
+      const interestNode = userInterestItem?.interests.find(i => i.validator === nmn.validatorId);
+      const blInterestNode = Boolean(interestNode ? Number(interestNode?.interest) !== 0 : 0);
+      const chunks: number = nmn?.unbondedChunks ? nmn.unbondedChunks.reduce((total, record) => {
+        return total + Number(record.value);
+      }, 0) : 0;
+      const blNomination: boolean = Boolean(Number(nmn.nomination) !== 0);
+      return blNomination || Boolean(chunks !== 0) || blInterestNode;
+    })
+
+    return typeIndex === 0 ? formattedAllNominations : formattedAllNominations.filter(i => validatorInfoList.find(j => j.account === i.account))
+  }, [typeIndex, JSON.stringify(allNominations), JSON.stringify(validatorInfoList)])
 
   return (
     <div>
+      <Button.Group>
+        <ToggleGroup
+          onChange={setTypeIndex}
+          options={stashTypes.current}
+          value={typeIndex}
+        />
+      </Button.Group>
       <div className={`container ${className}`}>
         <Table
           empty={!loading}
@@ -79,8 +93,6 @@ function UserNomination({ onStatusChange, validatorInfoList, className = ''}: Pr
               }
             })
           }
-
-
         </Table>
       </div>
     </div>

@@ -66,8 +66,8 @@ export default function create (t: TFunction): Route {
     Component,
     display: {
       needsApi: [
-        // 'query.staking.erasStakers',
-        // 'tx.staking.bond'
+        // 'query.xstaking.validators',
+        'tx.xStaking.bond'
       ],
       // needsApiCheck
     },

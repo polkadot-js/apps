@@ -37,7 +37,6 @@ export const useAllNominationData = (): UseAllNominationData => {
   const [loading, setLoading] = useState<boolean>(true);
   const [data, setData] = useState<{ ownNominations: Nomination[]; ownDividended: UserInterest[]; account: string }[]>([])
 
-  console.log('data', data)
   async function getAllNominationAndDivided() {
     try {
       setLoading(true);
