@@ -183,7 +183,7 @@ function Summary ({ className = '', stakingOverview, onVoteSuccess, targets
           <Validate
             onClose={toggleValidate}
             validatorId={stakingOverview?.candidateorDrop[0].account + ''}
-            onSuccess={() => {}}
+            onSuccess={onVoteSuccess}
           />
         )
       }
@@ -194,7 +194,7 @@ function Summary ({ className = '', stakingOverview, onVoteSuccess, targets
           <Chill
             onClose={toggleChill}
             validatorId={stakingOverview?.candidateorDrop[0].account + ''}
-            onSuccess={() => {}}
+            onSuccess={onVoteSuccess}
           />
         )
       }
