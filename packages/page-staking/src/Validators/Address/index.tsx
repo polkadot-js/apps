@@ -170,7 +170,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
                 color='green'
                 icon='chevron-right'
               />
-              {t('Validator')}
+              {t('Active')}
             </ValidatorStatus>
           ) : validatorInfo?.isChilled ? (
             <ValidatorStatus>
@@ -186,7 +186,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
                 color='blue'
                 icon='chevron-right'
               />
-              {t('Candidate')}
+              {t('Waiting')}
             </ValidatorStatus>
           )}
         </td>

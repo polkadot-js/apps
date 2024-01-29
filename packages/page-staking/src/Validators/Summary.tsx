@@ -45,7 +45,7 @@ function Summary ({ className = '', stakingOverview, onVoteSuccess, targets
 
       }
     } else {
-      return <Button className={'register-node'} icon='plus' onClick={toggleRegister} label={t('Register validator')} />
+      return <Button className={'register-node'} icon='plus' onClick={toggleRegister} label={t('Validator')} />
     }
   }
 
@@ -116,7 +116,7 @@ function Summary ({ className = '', stakingOverview, onVoteSuccess, targets
       {/*</section>*/}
       <section>
         {stakingOverview && (
-          <CardSummary label={t('Validator')}>
+          <CardSummary label={t('Validators')}>
             {stakingOverview.validatorCount.toString()} &nbsp;/&nbsp; {stakingOverview.validators.length}
           </CardSummary>
         )}

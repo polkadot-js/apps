@@ -1407,5 +1407,12 @@
   "The node of validate": "验证节点",
   "status": "状态",
   "Drop Out": "已退选",
-  "Candidate": "参选"
+  "Candidate": "参选",
+  "Validators": "验证人",
+  "Validator name": "验证人名称",
+  "The number of tokens that the validator needs to stake": "",
+  "Active": "",
+  "Waiting": "",
+  "Bonded": "",
+  "Interest": ""
 }

@@ -1873,5 +1873,11 @@
   "Unique and unchangeable, non-transferable after registration": "",
   "Number of node mortgages": "",
   "Drop Out": "",
-  "Candidate": ""
+  "Validators": "",
+  "Validator name": "",
+  "The number of tokens that the validator needs to stake": "",
+  "Active": "",
+  "Waiting": "",
+  "Bonded": "",
+  "Interest": ""
 }

@@ -46,7 +46,7 @@ function RegisterNewNode({ nodeslist, onClose, onSuccess }: Props): React.ReactE
         </Modal.Columns>
         <Modal.Columns>
           <Input
-            label={t('Unique, within 12 characters, make sure not repeated')}
+            label={t('Validator name')}
             onChange={setNodeName}
             type='text'
           />
@@ -56,7 +56,7 @@ function RegisterNewNode({ nodeslist, onClose, onSuccess }: Props): React.ReactE
         <Modal.Columns>
           <InputBalance
             autoFocus
-            label={t('Number of node mortgages')}
+            label={t('The number of tokens that the validator needs to stake')}
             onChange={setAmount}
           />
           {/*<p>{t('Number of node mortgages')}</p>*/}

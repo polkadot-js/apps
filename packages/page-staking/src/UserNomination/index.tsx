@@ -34,9 +34,9 @@ function UserNomination({ onStatusChange, validatorInfoList, className = ''}: Pr
 
   const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
     [t('My accounts'), 'start'],
-    [t('The node of validate'), 'start'],
-    [t('Number of votes'), 'start'],
-    [t('Number of interests'), 'start'],
+    [t('Validator'), 'start'],
+    [t('Bonded'), 'start'],
+    [t('Interest'), 'start'],
     [t('Freeze'), 'start'],
     [undefined, 'start']
   ]);
