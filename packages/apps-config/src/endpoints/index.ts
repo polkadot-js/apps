@@ -63,16 +63,16 @@ export function createWsEndpoints (t: TFunction = defaultT, firstOnly = false, w
     //   value: ''
     // },
     // ...expandEndpoints(t, [testRelayRococo], firstOnly, withSort),
-    {
-      isDisabled: false,
-      isHeader: true,
-      isSpaced: true,
-      text: t('rpc.header.paseo.relay', 'Test Paseo & parachains', { ns: 'apps-config' }),
-      textBy: '',
-      ui: {},
-      value: ''
-    },
-    ...expandEndpoints(t, [testRelayPaseo], firstOnly, withSort),
+    // {
+    //   isDisabled: false,
+    //   isHeader: true,
+    //   isSpaced: true,
+    //   text: t('rpc.header.paseo.relay', 'Test Paseo & parachains', { ns: 'apps-config' }),
+    //   textBy: '',
+    //   ui: {},
+    //   value: ''
+    // },
+    // ...expandEndpoints(t, [testRelayPaseo], firstOnly, withSort),
     {
       isDisabled: false,
       isHeader: true,
