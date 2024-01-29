@@ -1414,5 +1414,6 @@
   "Active": "",
   "Waiting": "",
   "Bonded": "",
-  "Interest": ""
+  "Interest": "",
+  "Validator drop": "退选"
 }

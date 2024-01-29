@@ -23,7 +23,7 @@ function Chill({ onClose, validatorId, onSuccess }: Props): React.ReactElement<P
 
   return (
     <Modal
-      header={t('Node Drop')}
+      header={t('Validator drop')}
       size='large'
       onClose={onClose}
     >
