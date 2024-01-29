@@ -98,48 +98,48 @@ function Summary ({ className = '', stakingOverview, onVoteSuccess
       {/*  /!*  </CardSummary>*!/*/}
       {/*  /!*)}*!/*/}
       {/*</section>*/}
-      {/*<section>*/}
-      {/*  <SummarySession />*/}
-      {/*</section>*/}
       <section>
         {stakingOverview && (
-          <CardSummary label={t('Elector')}>
+          <CardSummary label={t('Validator')}>
             {stakingOverview.validatorCount.toString()} &nbsp;/&nbsp; {stakingOverview.validators.length}
           </CardSummary>
         )}
+      </section>
+      <section>
+        <SummarySession />
+      </section>
 
-      </section>
+      {/*<section>*/}
+      {/*  <CardSummary*/}
+      {/*    className='validator--Summary-authors'*/}
+      {/*    label={t('Last Block')}*/}
+      {/*  >*/}
+      {/*    {lastBlockAuthors?.map((author): React.ReactNode => (*/}
+      {/*      <IdentityIcon*/}
+      {/*        className='validator--Account-block-icon'*/}
+      {/*        key={author}*/}
+      {/*        value={author}*/}
+      {/*      />*/}
+      {/*    ))}*/}
+      {/*    {lastBlockNumber}*/}
+      {/*  </CardSummary>*/}
+      {/*</section>*/}
+      {/*<section>*/}
+      {/*  <CardSummary*/}
+      {/*    className='validator--Summary-authors'*/}
+      {/*    label={t('Block Producer')}*/}
+      {/*  >*/}
+      {/*    {lastBlockAuthors?.map((author): React.ReactNode => (*/}
+      {/*      <AddressSmall value={author} key={author} />*/}
+      {/*    ))}*/}
+      {/*  </CardSummary>*/}
+      {/*</section>*/}
       <section>
-        <CardSummary
-          className='validator--Summary-authors'
-          label={t('Last Block')}
-        >
-          {lastBlockAuthors?.map((author): React.ReactNode => (
-            <IdentityIcon
-              className='validator--Account-block-icon'
-              key={author}
-              value={author}
-            />
-          ))}
-          {lastBlockNumber}
-        </CardSummary>
-      </section>
-      <section>
-        <CardSummary
-          className='validator--Summary-authors'
-          label={t('Block Producer')}
-        >
-          {lastBlockAuthors?.map((author): React.ReactNode => (
-            <AddressSmall value={author} key={author} />
-          ))}
-        </CardSummary>
-      </section>
-      <section>
-        <Button icon='plus' onClick={toggleRegister} label={t('Register Node')} />
+        <Button className={'register-node'} icon='plus' onClick={toggleRegister} label={t('Register Node')} />
         {isRegister && <RegisterNode onClose={toggleRegister} onSuccess={onVoteSuccess} />}
 
       </section>
-      <section>
+      {/*<section>*/}
         {/*{*/}
         {/*  hasAccounts ? <span>{*/}
         {/*    targets.find(item => item.account === currentAccount) ? (<span>*/}
@@ -163,33 +163,34 @@ function Summary ({ className = '', stakingOverview, onVoteSuccess
         {/*    <SummarySession setN={setN} />*/}
         {/*  </span>*/}
         {/*}*/}
-        <div>
-          {
-            isValidateOpen && (
-              <Validate
-                onClose={toggleValidate}
-                validatorId={stakingOverview?.candidateorDrop[0].account + ''}
-                onSuccess={() => {}}
-              />
-            )
-          }
-          {
-            isChillOpen && (
-              <Chill
-                onClose={toggleChill}
-                validatorId={stakingOverview?.candidateorDrop[0].account + ''}
-                onSuccess={() => {}}
-              />
-            )
-          }
+      {/*  <div>*/}
+      {/*    {*/}
+      {/*      isValidateOpen && (*/}
+      {/*        <Validate*/}
+      {/*          onClose={toggleValidate}*/}
+      {/*          validatorId={stakingOverview?.candidateorDrop[0].account + ''}*/}
+      {/*          onSuccess={() => {}}*/}
+      {/*        />*/}
+      {/*      )*/}
+      {/*    }*/}
+      {/*    {*/}
+      {/*      isChillOpen && (*/}
+      {/*        <Chill*/}
+      {/*          onClose={toggleChill}*/}
+      {/*          validatorId={stakingOverview?.candidateorDrop[0].account + ''}*/}
+      {/*          onSuccess={() => {}}*/}
+      {/*        />*/}
+      {/*      )*/}
+      {/*    }*/}
 
-        </div>
-      </section>
+      {/*  </div>*/}
+      {/*</section>*/}
     </StyledSummaryBox>
   );
 }
 
 const StyledSummaryBox = styled(SummaryBox)`
+  align-items: center;
   .validator--Account-block-icon {
     display: inline-block;
     margin-right: 0.75rem;
@@ -205,6 +206,9 @@ const StyledSummaryBox = styled(SummaryBox)`
 
   .percent {
     font-size: var(--font-percent-tiny);
+  }
+  .register-node {
+    height: fit-content;
   }
 `;
 

@@ -4,7 +4,7 @@
 import type { DeriveSessionProgress } from '@polkadot/api-derive/types';
 import type { Forcing } from '@polkadot/types/interfaces';
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import { CardSummary } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -12,6 +12,7 @@ import { Elapsed } from '@polkadot/react-query';
 import { BN_THREE, BN_TWO, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from './translate.js';
+import BN from 'bn.js';
 
 interface Props {
   className?: string;
@@ -22,8 +23,40 @@ interface Props {
 function SummarySession ({ className, withEra = true, withSession = true }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const [eraProgress, setEraProgress] = useState<number>(0)
+  const [eraLength, setEraLength] = useState<number>(0)
   const sessionInfo = useCall<DeriveSessionProgress>(api.derive.session?.progress);
-  const forcing = useCall<Forcing>(api.query.staking?.forceEra);
+  const forcing = useCall<Forcing>(api.query.xStaking?.forceEra);
+
+  const sessionLength = api.consts?.babe?.epochDuration
+  const sessionsPerEra = useCall<BN>(api.query?.xStaking?.sessionsPerEra)
+  const currentIndex = useCall<BN>(api.query?.session?.currentIndex)
+  const activeEra = useCall<BN>(api.query?.xStaking?.activeEra)
+
+  const currentSlot = useCall<BN>(api.query.babe.currentSlot)
+  const epochIndex = useCall<BN>(api.query.babe.epochIndex)
+  const genesisSlot = useCall<BN>(api.query.babe.genesisSlot)
+
+  const erasStartSessionIndex = useCall<BN>(activeEra && api.query?.xStaking?.erasStartSessionIndex, [(activeEra?.toJSON() as any)?.index])
+
+  useEffect(() => {
+    if (sessionLength && sessionsPerEra) {
+      setEraLength(sessionsPerEra.mul(sessionLength)?.toNumber())
+    }
+    if (sessionLength && currentIndex && currentSlot && epochIndex && genesisSlot && erasStartSessionIndex) {
+      const epochStartSlot = epochIndex?.mul(sessionLength).iadd(genesisSlot);
+
+      if (epochStartSlot) {
+        const sessionProgress = currentSlot?.sub(epochStartSlot);
+
+        if (sessionProgress) {
+          const eraProgress = currentIndex.sub(new BN(erasStartSessionIndex?.toJSON())).imul(sessionLength).iadd(sessionProgress)
+          setEraProgress(eraProgress?.toNumber())
+        }
+      }
+
+    }
+  }, [currentIndex, currentSlot, sessionLength, sessionsPerEra, epochIndex, genesisSlot, erasStartSessionIndex])
 
   const eraLabel = t('era');
   const sessionLabel = api.query.babe
@@ -69,12 +102,14 @@ function SummarySession ({ className, withEra = true, withSession = true }: Prop
                     total: sessionInfo && forcing
                       ? forcing.isForceAlways
                         ? sessionInfo.sessionLength
-                        : sessionInfo.eraLength
+                        // : sessionInfo.eraLength
+                        : new BN(eraLength)
                       : BN_THREE,
                     value: sessionInfo && forcing
                       ? forcing.isForceAlways
                         ? sessionInfo.sessionProgress
-                        : sessionInfo.eraProgress
+                        // : sessionInfo.eraProgress
+                        : new BN(eraProgress)
                       : BN_TWO,
                     withTime: true
                   }}
