@@ -23,7 +23,7 @@ function Validate({ onClose, validatorId, onSuccess}: Props): React.ReactElement
 
   return (
     <Modal
-      header={t('Node participates in the election')}
+      header={t('Validator participates in the election')}
       size='large'
       onClose={onClose}
     >
