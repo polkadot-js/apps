@@ -20,7 +20,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'bevm-testnet',
     providers: {
-      'BEVM': 'wss://bevm-testnet.chainx.org/ws',
+      'BEVM': 'wss://testnet.bevm.io/ws',
     },
     text: 'Bevm Testnet',
     ui: {
