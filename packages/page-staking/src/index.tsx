@@ -112,9 +112,8 @@ function StakingApp ({ basePath, onStatusChange, className = '' }: Props): React
         <Route path={basePath}>
           <Route path={'actions'} element={(
             <UserNomination
-              // basePath={basePath}
               validatorInfoList={validatorInfoList}
-              onStatusChange={onStatusChange}
+              onVoteSuccess={refetchValidatorInfoList}
             />
           )}/>
 

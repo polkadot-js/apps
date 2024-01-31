@@ -1880,5 +1880,8 @@
   "Waiting": "",
   "Bonded": "",
   "Interest": "",
-  "Validator drop": ""
+  "Validator drop": "",
+  "Nominators": "",
+  "Drop": "",
+  "Participate": ""
 }

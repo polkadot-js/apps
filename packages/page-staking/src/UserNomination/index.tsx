@@ -1,6 +1,6 @@
 import React, {useMemo, useRef, useState} from 'react';
 import styled from 'styled-components';
-import {Button, Table, ToggleGroup} from '@polkadot/react-components';
+import {Button, SummaryBox, Table, ToggleGroup} from '@polkadot/react-components';
 // import {getNominationAndDividedExternal} from '@polkadot/react-hooks-chainx/useNomination';
 import {useTranslation} from '../translate';
 // import {Nomination, UserNominations, Dividended, UserInterest} from '@polkadot/react-hooks-chainx/types';
@@ -8,20 +8,26 @@ import {useTranslation} from '../translate';
 import UserTable from './usertable';
 import {ValidatorInfo} from '../types';
 import {useAllNominationData} from '../useAllNominationData'
-import {ActionStatus} from '@polkadot/react-components/Status/types'
+import {useToggle} from '@polkadot/react-hooks'
+import Validate from '../models/validate'
+import RegisterNode from '../models/RegisterNode'
+import Chill from '../models/chill'
 
 interface Props {
   validatorInfoList: ValidatorInfo[];
   className?: string;
-  onStatusChange: (status: ActionStatus) => void;
+  onVoteSuccess: () => Promise<void>
 }
 
 
-function UserNomination({ onStatusChange, validatorInfoList, className = ''}: Props): React.ReactElement<Props> | null {
+function UserNomination({ onVoteSuccess, validatorInfoList, className = ''}: Props): React.ReactElement<Props> | null {
   const {t} = useTranslation();
   const { data: allNominationData, loading, refetch } = useAllNominationData()
   //let { allDividended, allNominations } = useNomination([currentAccount]);
   const [typeIndex, setTypeIndex] = useState(0);
+  const [isValidateOpen, toggleValidate] = useToggle();
+  const [isChillOpen, toggleChill] = useToggle();
+  const [isRegister, toggleRegister] = useToggle();
 
   const stashTypes = useRef([
     { text: t('Nominators'), value: 'Nominators' },
@@ -67,7 +73,13 @@ function UserNomination({ onStatusChange, validatorInfoList, className = ''}: Pr
           options={stashTypes.current}
           value={typeIndex}
         />
+        <StyledSummaryBox>
+          <Button className={'register-node'} icon='plus' onClick={toggleRegister} label={t('Validator')} />
+          <Button icon='plus' onClick={toggleValidate} label={t('Candidate')} />
+          <Button icon='plus' onClick={toggleChill} label={t('Drop')} />
+        </StyledSummaryBox>
       </Button.Group>
+
       <div className={`container ${className}`}>
         <Table
           empty={!loading}
@@ -96,6 +108,23 @@ function UserNomination({ onStatusChange, validatorInfoList, className = ''}: Pr
           }
         </Table>
       </div>
+      {
+        isValidateOpen && (
+          <Validate
+            onClose={toggleValidate}
+            onSuccess={onVoteSuccess}
+          />
+        )
+      }
+      {isRegister && <RegisterNode onClose={toggleRegister} onSuccess={onVoteSuccess} />}
+      {
+        isChillOpen && (
+          <Chill
+            onClose={toggleChill}
+            onSuccess={onVoteSuccess}
+          />
+        )
+      }
     </div>
   );
 }
@@ -118,3 +147,8 @@ export default React.memo(styled(UserNomination)`
     }
   }
 `);
+
+const StyledSummaryBox = styled(SummaryBox)`
+  display: flex;
+  justify-content: flex-end;
+`;

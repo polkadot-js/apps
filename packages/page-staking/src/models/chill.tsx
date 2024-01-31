@@ -5,20 +5,17 @@ import React, { useState } from 'react';
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useTranslation } from '../translate';
 import { Available } from '@polkadot/react-query';
-import { TxCallback } from '@polkadot/react-components/Status/types';
 import {useApi} from '@polkadot/react-hooks'
-
 
 interface Props {
   onClose: () => void;
-  validatorId: string | undefined;
-  onSuccess?: TxCallback;
+  onSuccess?: () => Promise<void>;
 }
 
-function Chill({ onClose, validatorId, onSuccess }: Props): React.ReactElement<Props> {
+function Chill({ onClose, onSuccess }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [accountId, setAccount] = useState<string | null | undefined>();
-  const transferrable = <span className='label'>{t<string>('transferrable')}</span>;
+  const transferrable = <span className='label'>{t('transferrable')}</span>;
   const { api } = useApi()
 
   return (
@@ -29,21 +26,19 @@ function Chill({ onClose, validatorId, onSuccess }: Props): React.ReactElement<P
     >
       <Modal.Content>
         <Modal.Columns>
-          <Modal.Columns>
-            <InputAddress
-              label={t('Drop Account')}
-              labelExtra={
-                <Available
-                  label={transferrable}
-                />
-              }
-              onChange={setAccount}
-              type='account'
-            />
-          </Modal.Columns>
-          <Modal.Columns>
-            <p>{t('Drop this node')}</p>
-          </Modal.Columns>
+          <InputAddress
+            label={t('Drop Account')}
+            labelExtra={
+              <Available
+                label={transferrable}
+              />
+            }
+            onChange={setAccount}
+            type='account'
+          />
+          {/*<Modal.Columns>*/}
+          {/*  <p>{t('Drop this node')}</p>*/}
+          {/*</Modal.Columns>*/}
         </Modal.Columns>
         {/* <Modal.Columns>
           <Modal.Column>

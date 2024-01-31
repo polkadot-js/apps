@@ -5,16 +5,14 @@ import React, { useState } from 'react';
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useTranslation } from '../translate';
 import { Available } from '@polkadot/react-query';
-import { TxCallback } from '@polkadot/react-components/Status/types';
 import {useApi} from '@polkadot/react-hooks'
 
 interface Props {
   onClose: () => void;
-  validatorId: string | undefined;
-  onSuccess?: TxCallback;
+  onSuccess?: () => Promise<void>;
 }
 
-function Validate({ onClose, validatorId, onSuccess}: Props): React.ReactElement<Props> {
+function Validate({ onClose, onSuccess}: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi()
 
@@ -29,21 +27,16 @@ function Validate({ onClose, validatorId, onSuccess}: Props): React.ReactElement
     >
       <Modal.Content>
         <Modal.Columns>
-          <Modal.Columns>
-            <InputAddress
-              label={t('Participates Account')}
-              labelExtra={
-                <Available
-                  label={transferrable}
-                />
-              }
-              onChange={setAccount}
-              type='account'
-            />
-          </Modal.Columns>
-          <Modal.Columns>
-            <p>{t('Participates new node')}</p>
-          </Modal.Columns>
+          <InputAddress
+            label={t('Participates Account')}
+            labelExtra={
+              <Available
+                label={transferrable}
+              />
+            }
+            onChange={setAccount}
+            type='account'
+          />
         </Modal.Columns>
         {/* <Modal.Columns>
           <Modal.Column>

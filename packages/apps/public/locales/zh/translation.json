@@ -1416,5 +1416,7 @@
   "Bonded": "",
   "Interest": "",
   "Validator drop": "退选",
-  "Nominators": "投票人"
+  "Nominators": "投票人",
+  "Drop": "退选",
+  "Participate": "参选"
 }

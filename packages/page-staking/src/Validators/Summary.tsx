@@ -151,7 +151,7 @@ function Summary ({ className = '', stakingOverview, onVoteSuccess, targets
       {/*  </CardSummary>*/}
       {/*</section>*/}
       <section>
-        {renderActionButton()}
+        <Button className={'register-node'} icon='plus' onClick={toggleRegister} label={t('Validator')} />
       </section>
       {/*<section>*/}
         {/*{*/}
@@ -178,26 +178,24 @@ function Summary ({ className = '', stakingOverview, onVoteSuccess, targets
         {/*  </span>*/}
         {/*}*/}
       {/*  <div>*/}
-      {
-        isValidateOpen && (
-          <Validate
-            onClose={toggleValidate}
-            validatorId={stakingOverview?.candidateorDrop[0].account + ''}
-            onSuccess={onVoteSuccess}
-          />
-        )
-      }
+      {/*{*/}
+      {/*  isValidateOpen && (*/}
+      {/*    <Validate*/}
+      {/*      onClose={toggleValidate}*/}
+      {/*      onSuccess={onVoteSuccess}*/}
+      {/*    />*/}
+      {/*  )*/}
+      {/*}*/}
       {isRegister && <RegisterNode onClose={toggleRegister} onSuccess={onVoteSuccess} />}
 
-      {
-        isChillOpen && (
-          <Chill
-            onClose={toggleChill}
-            validatorId={stakingOverview?.candidateorDrop[0].account + ''}
-            onSuccess={onVoteSuccess}
-          />
-        )
-      }
+      {/*{*/}
+      {/*  isChillOpen && (*/}
+      {/*    <Chill*/}
+      {/*      onClose={toggleChill}*/}
+      {/*      onSuccess={onVoteSuccess}*/}
+      {/*    />*/}
+      {/*  )*/}
+      {/*}*/}
 
       {/*  </div>*/}
       {/*</section>*/}
