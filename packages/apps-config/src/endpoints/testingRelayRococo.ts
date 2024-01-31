@@ -5,7 +5,7 @@ import type { EndpointOption } from './types.js';
 
 import { ROCOCO_GENESIS } from '../api/constants.js';
 import { chainsAcurastPNG, chainsAmplitudeSVG, chainsBitgreenPNG, chainsFrequencySVG, chainsGenshiroSVG, chainsHydratePNG, chainsIdiyanaleLogoWhiteSVG, chainsJurPNG, chainsMangataPNG, chainsMoonsamaPNG, chainsNeurowebTestnetPNG, chainsRococoSVG, chainsSnowbridgePNG, chainsT0rnPNG, chainsTinkerPNG, chainsTotemSVG, chainsTuringPNG, chainsVirtoPNG, chainsWatrPNG } from '../ui/logos/chains/index.js';
-import { nodesArcticPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBasiliskPNG, nodesBasiliskRococoBgPNG, nodesBifrostSVG, nodesBridgeHubBlackSVG, nodesCentrifugePNG, nodesConftiSVG, nodesCrustParachainSVG, nodesCurioSVG, nodesDatahighwayPNG, nodesDolphinSVG, nodesEncointerBlueSVG, nodesGiantPNG, nodesGiediPNG, nodesHelixstreetPNG, nodesImbuePNG, nodesIntegriteeSVG, nodesKabochaSVG, nodesKiltPNG, nodesLitentryRococoPNG, nodesMd5PNG, nodesMetaquityNetworkPNG, nodesNodleSVG, nodesOliSVG, nodesPangolinSVG, nodesPhalaSVG, nodesPicassoPNG, nodesPolkadexSVG, nodesRexSVG, nodesRobonomicsSVG, nodesRocfinitySVG, nodesSocietalSVG, nodesSoonsocialXPNG, nodesSoraSubstrateSVG, nodesSubstrateContractsNodePNG, nodesTrappistRococoPNG, nodesUnitnetworkPNG, nodesYerbanetworkPNG, nodesZeitgeistPNG, nodesZeroSVG } from '../ui/logos/nodes/index.js';
+import { nodesArcticPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBasiliskPNG, nodesBasiliskRococoBgPNG, nodesBifrostSVG, nodesBridgeHubBlackSVG, nodesCentrifugePNG, nodesConftiSVG, nodesCrustParachainSVG, nodesCurioSVG, nodesDatahighwayPNG, nodesDolphinSVG, nodesEncointerBlueSVG, nodesGiantPNG, nodesGiediPNG, nodesHelixstreetPNG, nodesImbuePNG, nodesIntegriteeSVG, nodesKabochaSVG, nodesKiltPNG, nodesLitentryRococoPNG, nodesMd5PNG, nodesMetaquityNetworkPNG, nodesMusePNG, nodesNodleSVG, nodesOliSVG, nodesOzPNG, nodesPangolinSVG, nodesPhalaSVG, nodesPicassoPNG, nodesPolkadexSVG, nodesRexSVG, nodesRobonomicsSVG, nodesRocfinitySVG, nodesSocietalSVG, nodesSoonsocialXPNG, nodesSoraSubstrateSVG, nodesSubstrateContractsNodePNG, nodesTrappistRococoPNG, nodesUnitnetworkPNG, nodesYerbanetworkPNG, nodesZeitgeistPNG, nodesZeroSVG } from '../ui/logos/nodes/index.js';
 import { getTeleports } from './util.js';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -378,6 +378,18 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    info: 'rococoMuse',
+    paraId: 201804,
+    providers: {
+      Parity: 'wss://rococo-muse-rpc.polkadot.io'
+    },
+    text: 'Muse network',
+    ui: {
+      color: '#110ff9',
+      logo: nodesMusePNG
+    }
+  },
+  {
     homepage: 'https://neuroweb.ai',
     info: 'rococoNeuroWeb',
     paraId: 2043,
@@ -411,6 +423,16 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#8CC63F',
       logo: nodesOliSVG
+    }
+  },
+  {
+    info: 'rococoOpenZeppelin',
+    paraId: 4354,
+    providers: {},
+    text: 'OpenZeppelin Runtime Template',
+    ui: {
+      color: '#f653a2',
+      logo: nodesOzPNG
     }
   },
   {
@@ -765,6 +787,16 @@ export const testParasRococoCommon: EndpointOption[] = [
       color: '#0000cc',
       logo: nodesEncointerBlueSVG
     }
+  },
+  {
+    info: 'rococoPeople',
+    paraId: 1004,
+    providers: {
+      Parity: 'wss://rococo-people-rpc.polkadot.io'
+    },
+    teleport: [-1],
+    text: 'People',
+    ui: { }
   }
 ];
 

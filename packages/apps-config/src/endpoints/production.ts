@@ -316,9 +316,11 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'logion',
     providers: {
-      // Logion: 'wss://rpc01.logion.network' // https://github.com/polkadot-js/apps/issues/10195
+      'Logion 1': 'wss://rpc01.logion.network',
+      'Logion 2': 'wss://rpc02.logion.network',
+      'Logion 3': 'wss://rpc03.logion.network'
     },
-    text: 'logion Standalone',
+    text: 'Logion Standalone',
     ui: {
       color: 'rgb(21, 38, 101)',
       logo: chainsLogionPNG
@@ -392,6 +394,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'polkadex',
     providers: {
+      Dwellir: 'wss://polkadex-mainnet-rpc.dwellir.com',
       OnFinality: 'wss://polkadex.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://polkadex.public.curie.radiumblock.co/ws'
     },

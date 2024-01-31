@@ -78,6 +78,7 @@ import mangata from './mangata.js';
 import manta from './manta.js';
 import mathchain from './mathchain.js';
 import moonbeam from './moonbeam.js';
+import muse from './muse.js';
 import mybank from './mybank.js';
 import neatcoin from './neatcoin.js';
 import neuroweb from './neuroweb.js';
@@ -241,6 +242,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   moonbeam,
   moonriver: moonbeam,
   moonshadow: moonbeam,
+  muse,
   'mybank.network Testnet': mybank,
   neatcoin,
   neuroweb,
