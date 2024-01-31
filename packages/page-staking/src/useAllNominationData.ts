@@ -40,7 +40,7 @@ export const useAllNominationData = (): UseAllNominationData => {
   async function getAllNominationAndDivided() {
     try {
       setLoading(true);
-      const result = await Promise.all(allAccounts.map(async (account: string) => {
+      const result = await Promise.all([...allAccounts].map(async (account: string) => {
         const ownNominations: any[] = [];
         const ownDividended: any[] = [];
         const res = await api.rpc.xstaking.getNominationByAccount(account);
@@ -65,7 +65,7 @@ export const useAllNominationData = (): UseAllNominationData => {
         Object.keys(userDivided).forEach((key: string) => {
           current = {
             validator: key,
-            interest: userDivided[key]
+            interest: userDivided[key].split(',')
           };
           dividedArray.push(current);
         });

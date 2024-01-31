@@ -86,6 +86,7 @@ function UserNomination({ onStatusChange, validatorInfoList, className = ''}: Pr
                     validatorInfoList={validatorInfoList}
                     userInterest={userInterest?.interests?.find(item => item.validator === validNominations[index].validatorId)?.interest}
                     onSuccess={refetch}
+                    isNominatorList={typeIndex === 0}
                   />
                 );
               } else {

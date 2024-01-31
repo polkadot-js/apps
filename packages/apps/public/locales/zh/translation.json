@@ -1415,5 +1415,6 @@
   "Waiting": "",
   "Bonded": "",
   "Interest": "",
-  "Validator drop": "退选"
+  "Validator drop": "退选",
+  "Nominators": "投票人"
 }

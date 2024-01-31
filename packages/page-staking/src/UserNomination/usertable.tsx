@@ -16,15 +16,16 @@ import {Nomination} from '../useAllNominationData'
 
 interface Props {
   accountId?: string;
-  nomination?: Nomination,
+  nomination?: Nomination;
   userInterest?: string;
-  onSuccess: () => Promise<void>
+  onSuccess: () => Promise<void>;
   validatorInfoList: ValidatorInfo[];
+  isNominatorList: boolean;
 }
 
 
 
-function UserTable({ accountId, nomination, userInterest, onSuccess, validatorInfoList }: Props): React.ReactElement<Props> {
+function UserTable({ accountId, nomination, userInterest, onSuccess, validatorInfoList, isNominatorList }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 //   const [rebonds, setReBonds] = useState(true);
 //   const [hoursafter, sethoursafter] = useState<BN>();
@@ -67,7 +68,10 @@ function UserTable({ accountId, nomination, userInterest, onSuccess, validatorIn
         <FormatBalance value={nomination?.nomination} />
       </td>
       <td>
-        <FormatBalance value={userInterest ?? '0'}/>
+        <FormatBalance
+          // userInterest 第一项是 BTC，第二项是 BEVM，投票人的奖励是 BTC，验证人是奖励的BEVM，
+          value={(isNominatorList ? userInterest?.[0] : userInterest?.[1]) ?? '0'}
+          format={isNominatorList ? [8, 'BTC']: undefined} />
       </td>
       <td>
         <FormatBalance value={chunks > 0 ? chunks : '0'} />
