@@ -197,7 +197,13 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
         </td>
         <td className='number'>
           <FormatBalance
-            value={validatorInfo?.rewardPotBalance}
+            value={validatorInfo?.rewardPotBevmBalance}
+          />
+        </td>
+        <td className='number'>
+          <FormatBalance
+            format={[18, 'BTC']}
+            value={validatorInfo?.rewardPotBtcBalance}
           />
         </td>
         <td className='number'>
@@ -263,6 +269,8 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
               </Columar.Column>
             </Columar>
           </td>
+          <td />
+          <td />
           <td />
           <td />
         </tr>

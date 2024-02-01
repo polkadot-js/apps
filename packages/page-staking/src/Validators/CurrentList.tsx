@@ -127,22 +127,24 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
   );
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>(
-    isIntentions
-      ? [
-        [t('intentions'), 'start', 3],
-        [t('nominators'), 'expand'],
-        [t('total staked'), 'expand'],
-        [t('Pots Balances')],
-        [],
-        []
-      ]
-      : [
+    // isIntentions
+    //   ? [
+    //     [t('intentions'), 'start', 3],
+    //     [t('nominators'), 'expand'],
+    //     [t('total staked'), 'expand'],
+    //     [t('Pots Balances')],
+    //     [],
+    //     []
+    //   ]
+    //   : [
+      [
         [t('validators'), 'start', 3],
         [t('status'), 'expand'],
         // [t('other stake'), 'expand'],
         [t('total staked'), 'expand'],
         // [t('commission')],
-        [t('pots balances')],
+        [`${t('reward')}(BEVM)`],
+        [`${t('reward')}(BTC)`],
         [t('last #')],
         [],
         []
