@@ -895,6 +895,30 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    info: 'subspace-gemini-3g',
+    providers: {
+      Europe: 'wss://rpc-1.gemini-3g.subspace.network/ws',
+      US: 'wss://rpc-0.gemini-3g.subspace.network/ws'
+    },
+    text: 'Subspace Gemini 3g',
+    ui: {
+      color: '#562b8e',
+      logo: nodesSubspacePNG
+    }
+  },
+  {
+    info: 'subspace-gemini-3h',
+    providers: {
+      US2: 'wss://rpc-1.gemini-3h.subspace.network/ws',
+      US: 'wss://rpc-0.gemini-3h.subspace.network/ws'
+    },
+    text: 'Subspace Gemini 3h',
+    ui: {
+      color: '#562b8e',
+      logo: nodesSubspacePNG
+    }
+  },
+  {
     info: 'subspace',
     providers: {
       // 'Subspace Network': 'wss://test-rpc.subspace.network' // https://github.com/polkadot-js/apps/issues/8598
