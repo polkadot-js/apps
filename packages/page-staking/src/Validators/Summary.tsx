@@ -150,9 +150,10 @@ function Summary ({ className = '', stakingOverview, onVoteSuccess, targets
       {/*    ))}*/}
       {/*  </CardSummary>*/}
       {/*</section>*/}
-      <section>
-        <Button className={'register-node'} icon='plus' onClick={toggleRegister} label={t('Validator')} />
-      </section>
+      <section/>
+      {/*<section>*/}
+      {/*  <Button className={'register-node'} icon='plus' onClick={toggleRegister} label={t('Validator')} />*/}
+      {/*</section>*/}
       {/*<section>*/}
         {/*{*/}
         {/*  hasAccounts ? <span>{*/}
@@ -186,7 +187,7 @@ function Summary ({ className = '', stakingOverview, onVoteSuccess, targets
       {/*    />*/}
       {/*  )*/}
       {/*}*/}
-      {isRegister && <RegisterNode onClose={toggleRegister} onSuccess={onVoteSuccess} />}
+      {/*{isRegister && <RegisterNode onClose={toggleRegister} onSuccess={onVoteSuccess} />}*/}
 
       {/*{*/}
       {/*  isChillOpen && (*/}
