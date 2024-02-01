@@ -10,7 +10,7 @@ import type { BN } from '@polkadot/util';
 import React, { useRef } from 'react';
 
 import { withCalls, withMulti } from '@polkadot/react-api/hoc';
-import { useBestNumber } from '@polkadot/react-hooks';
+import {useApi, useBestNumber, useCall} from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN_MAX_INTEGER, BN_ZERO, bnMax, formatBalance, formatNumber, isObject } from '@polkadot/util';
 
@@ -37,6 +37,7 @@ export interface BalanceActiveType {
   total?: boolean;
   unlocking?: boolean;
   vested?: boolean;
+  btcAvailable?: boolean
 }
 
 export interface CryptoActiveType {
@@ -65,6 +66,7 @@ interface Props {
   withHexSessionId?: (string | null)[];
   withValidatorPrefs?: boolean | ValidatorPrefsType;
   withLabel?: boolean;
+  btcBalance?: number
 }
 
 interface RefLock {
@@ -84,7 +86,8 @@ const DEFAULT_BALANCES: BalanceActiveType = {
   reserved: true,
   total: true,
   unlocking: true,
-  vested: true
+  vested: true,
+  btcAvailable: true
 };
 const DEFAULT_EXTENDED = {
   crypto: true,
@@ -239,7 +242,7 @@ function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Prop
 
 function createBalanceItems (formatIndex: number, lookup: Record<string, string>, t: TFunction, { address, balanceDisplay, balancesAll, bestNumber, convictionLocks, democracyLocks, isAllLocked, otherBonded, ownBonded, stakingInfo, votingOf, withBalanceToggle, withLabel }: { address: string; balanceDisplay: BalanceActiveType; balancesAll?: DeriveBalancesAll | DeriveBalancesAccountData; bestNumber?: BlockNumber; convictionLocks?: RefLock[]; democracyLocks?: DeriveDemocracyLock[]; isAllLocked: boolean; otherBonded: BN[]; ownBonded: BN; stakingInfo?: DeriveStakingAccount; votingOf?: Voting; withBalanceToggle: boolean, withLabel: boolean }): React.ReactNode {
   const allItems: React.ReactNode[] = [];
-  const deriveBalances = balancesAll as DeriveBalancesAll;
+  const deriveBalances = balancesAll as (DeriveBalancesAll & { btcBalance: any });
 
   !withBalanceToggle && balanceDisplay.total && allItems.push(
     <React.Fragment key={0}>
@@ -260,6 +263,19 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
         formatIndex={formatIndex}
         labelPost={<IconVoid />}
         value={deriveBalances.availableBalance}
+      />
+    </React.Fragment>
+  );
+
+  balancesAll && balanceDisplay.vested && deriveBalances.btcBalance && allItems.push(
+    <React.Fragment key={11}>
+      <Label label={t('transferrable')} />
+      <FormatBalance
+        className='result'
+        formatIndex={formatIndex}
+        labelPost={<IconVoid />}
+        format={[18, 'BTC']}
+        value={deriveBalances.btcBalance}
       />
     </React.Fragment>
   );
@@ -528,7 +544,8 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
 }
 
 function renderBalances (props: Props, lookup: Record<string, string>, bestNumber: BlockNumber | undefined, t: TFunction): React.ReactNode[] {
-  const { address, balancesAll, convictionLocks, democracyLocks, stakingInfo, votingOf, withBalance = true, withBalanceToggle = false, withLabel = false } = props;
+  const { address, balancesAll, convictionLocks, democracyLocks, stakingInfo, votingOf, btcBalance, withBalance = true, withBalanceToggle = false, withLabel = false } = props;
+  const balancesAllWithBtc = balancesAll && btcBalance !== undefined ? { ...balancesAll, btcBalance } : undefined
   const balanceDisplay = withBalance === true
     ? DEFAULT_BALANCES
     : withBalance || false;
@@ -538,12 +555,12 @@ function renderBalances (props: Props, lookup: Record<string, string>, bestNumbe
   }
 
   const [ownBonded, otherBonded] = calcBonded(stakingInfo, balanceDisplay.bonded);
-  const isAllLocked = !!balancesAll && balancesAll.lockedBreakdown.some(({ amount }): boolean => amount?.isMax());
+  const isAllLocked = !!balancesAllWithBtc && balancesAllWithBtc.lockedBreakdown.some(({ amount }): boolean => amount?.isMax());
   const baseOpts = { address, balanceDisplay, bestNumber, convictionLocks, democracyLocks, isAllLocked, otherBonded, ownBonded, votingOf, withBalanceToggle, withLabel };
-  const items = [createBalanceItems(0, lookup, t, { ...baseOpts, balancesAll, stakingInfo })];
+  const items = [createBalanceItems(0, lookup, t, { ...baseOpts, balancesAll: balancesAllWithBtc, stakingInfo })];
 
-  withBalanceToggle && balancesAll?.additional.length && balancesAll.additional.forEach((balancesAll, index): void => {
-    items.push(createBalanceItems(index + 1, lookup, t, { ...baseOpts, balancesAll }));
+  withBalanceToggle && balancesAllWithBtc?.additional.length && balancesAllWithBtc.additional.forEach((balancesAllWithBtc, index): void => {
+    items.push(createBalanceItems(index + 1, lookup, t, { ...baseOpts, balancesAll: balancesAllWithBtc }));
   });
 
   return items;
@@ -552,7 +569,9 @@ function renderBalances (props: Props, lookup: Record<string, string>, bestNumbe
 function AddressInfo (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const bestNumber = useBestNumber();
-  const { children, className = '', extraInfo, withBalanceToggle, withHexSessionId } = props;
+  const { children, className = '', extraInfo, withBalanceToggle, withHexSessionId, address } = props;
+  const { api } = useApi()
+  const btcBalance = useCall<{ free: number }>(api.query.xBtcLedger.accountStore, [address])
 
   const lookup = useRef<Record<string, string>>({
     democrac: t('via Democracy/Vote'),
@@ -565,7 +584,7 @@ function AddressInfo (props: Props): React.ReactElement<Props> {
   return (
     <div className={`${className} ui--AddressInfo ${withBalanceToggle ? 'ui--AddressInfo-expander' : ''}`}>
       <div className={`column${withBalanceToggle ? ' column--expander' : ''}`}>
-        {renderBalances(props, lookup.current, bestNumber, t)}
+        {renderBalances({ ...props, btcBalance: btcBalance?.free }, lookup.current, bestNumber, t)}
         {withHexSessionId?.[0] && (
           <>
             <Label label={t('session keys')} />
