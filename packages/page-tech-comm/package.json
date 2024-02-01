@@ -1,7 +1,7 @@
 {
   "bugs": "https://github.com/polkadot-js/apps/issues",
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-tech-comm#readme",
   "license": "Apache-2.0",
@@ -14,10 +14,10 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.132.2-142-x",
+  "version": "0.133.2-80-x",
   "dependencies": {
-    "@polkadot/react-components": "^0.132.2-142-x",
-    "@polkadot/react-query": "^0.132.2-142-x"
+    "@polkadot/react-components": "^0.133.2-80-x",
+    "@polkadot/react-query": "^0.133.2-80-x"
   },
   "peerDependencies": {
     "react": "*",

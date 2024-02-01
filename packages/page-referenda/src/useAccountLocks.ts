@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2024 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -9,6 +9,7 @@ import type { Lock, PalletReferenda, PalletVote } from './types.js';
 
 import { useMemo } from 'react';
 
+import { CONVICTIONS } from '@polkadot/react-components/ConvictionDropdown';
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { BN_MAX_INTEGER } from '@polkadot/util';
 
@@ -84,8 +85,9 @@ function getLocks (api: ApiPromise, palletVote: PalletVote, votes: [classId: BN,
         const [, tally] = refInfo;
         let total: BN | undefined;
         let endBlock: BN| undefined;
-        let conviction = 0;
+        let convictionIndex = 0;
         let locked = 'None';
+        const durationIndex = 1;
 
         if (accountVote.isStandard) {
           const { balance, vote } = accountVote.asStandard;
@@ -93,7 +95,7 @@ function getLocks (api: ApiPromise, palletVote: PalletVote, votes: [classId: BN,
           total = balance;
 
           if ((tally.isApproved && vote.isAye) || (tally.isRejected && vote.isNay)) {
-            conviction = vote.conviction.index;
+            convictionIndex = vote.conviction.index;
             locked = vote.conviction.type;
           }
         } else if (accountVote.isSplit) {
@@ -118,7 +120,7 @@ function getLocks (api: ApiPromise, palletVote: PalletVote, votes: [classId: BN,
             : tally.asTimedOut[0];
         } else if (tally.isApproved || tally.isRejected) {
           endBlock = lockPeriod
-            .muln(conviction)
+            .muln(convictionIndex ? CONVICTIONS[convictionIndex - 1][durationIndex] : 0)
             .add(
               tally.isApproved
                 ? tally.asApproved[0]

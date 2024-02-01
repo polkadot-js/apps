@@ -1,11 +1,11 @@
-// Copyright 2017-2023 @polkadot/apps-config authors & contributors
+// Copyright 2017-2024 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EndpointOption } from './types.js';
 
 import { WESTEND_GENESIS } from '../api/constants.js';
 import { chainsKaruraSVG, chainsStandardPNG } from '../ui/logos/chains/index.js';
-import { nodesAssetHubSVG, nodesBridgeHubSVG, nodesCentrifugePNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKhalaSVG, nodesKiltPNG, nodesKylinPNG, nodesMoonshadowPNG, nodesWestendColourSVG } from '../ui/logos/nodes/index.js';
+import { nodesAssetHubSVG, nodesBridgeHubSVG, nodesCentrifugePNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKhalaSVG, nodesKylinPNG, nodesMoonshadowPNG, nodesWestendColourSVG } from '../ui/logos/nodes/index.js';
 import { getTeleports } from './util.js';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -107,19 +107,6 @@ export const testParasWestend: Omit<EndpointOption, 'teleport'>[] = [
       color: '#03f3f3',
       logo: nodesKhalaSVG
     }
-  },
-  {
-    homepage: 'https://www.kilt.io/',
-    info: 'kilt',
-    paraId: 2085,
-    providers: {
-      // 'KILT Protocol': 'wss://westend.kilt.io:9977' // https://github.com/polkadot-js/apps/issues/9059
-    },
-    text: 'WILT',
-    ui: {
-      color: '#8c145a',
-      logo: nodesKiltPNG
-    }
   }
 ];
 
@@ -175,6 +162,16 @@ export const testParasWestendCommon: EndpointOption[] = [
       color: '#e6777a',
       logo: 'fa;people-group'
     }
+  },
+  {
+    info: 'westendPeople',
+    paraId: 1004,
+    providers: {
+      Parity: 'wss://westend-people-rpc.polkadot.io'
+    },
+    teleport: [-1],
+    text: 'People',
+    ui: { }
   }
 ];
 
@@ -187,7 +184,7 @@ export const testRelayWestend: EndpointOption = {
     ...testParasWestend
   ],
   providers: {
-    // Blockops: 'wss://westend-rpc.blockops.network/ws', // https://github.com/polkadot-js/apps/issues/9840
+    Blockops: 'wss://westend-rpc.blockops.network/ws', // https://github.com/polkadot-js/apps/issues/9840
     Dwellir: 'wss://westend-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://westend-rpc-tn.dwellir.com',
     'IBP-GeoDNS1': 'wss://rpc.ibp.network/westend',

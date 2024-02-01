@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/apps-config authors & contributors
+// Copyright 2017-2024 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
@@ -37,6 +37,16 @@ const definitions: OverrideBundleDefinition = {
               }
             ],
             type: 'Balance'
+          },
+          get_sorted_proposed_candidates: {
+            description: 'Provides a sorted list of collators most suited for given delegator\'s stake amount determined with some heuristic algorithm',
+            params: [
+              {
+                name: 'balance',
+                type: 'Balance'
+              }
+            ],
+            type: 'Vec<AccountId32>'
           }
         },
         version: 1

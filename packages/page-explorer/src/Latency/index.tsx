@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2024 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ChartContents, Detail } from './types.js';
@@ -101,7 +101,7 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
 
   useEffect((): void => {
     // HACK try and render the charts in order - this _may_ work around the
-    // crosshair plugin init issues, but at best it is non-reproducable
+    // crosshair plugin init issues, but at best it is non-reproducible
     if (isLoaded) {
       const index = shouldRender.findIndex((v) => !v);
 

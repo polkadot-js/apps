@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AddressFlags } from '@polkadot/react-hooks/types';
@@ -89,7 +89,7 @@ function AccountMenuButtons ({ className = '', flags, isEditing, isEditingName, 
         )
         : (
           <Button.Group>
-            {isFunction(api.api.tx.balances?.transfer) && (
+            {(isFunction(api.api.tx.balances?.transferAllowDeath) || isFunction(api.api.tx.balances?.transfer)) && (
               <Button
                 icon='paper-plane'
                 isDisabled={isEditing}

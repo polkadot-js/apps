@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type React from 'react';
@@ -6,8 +6,9 @@ import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/api-derive/types';
 import type { DisplayedJudgement } from '@polkadot/react-components/types';
-import type { AccountId, Balance, BlockNumber, Call, Exposure, Hash, RewardDestination, SessionIndex, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
-import type { PalletPreimageRequestStatus } from '@polkadot/types/lookup';
+import type { u128 } from '@polkadot/types';
+import type { AccountId, BlockNumber, Call, Exposure, Hash, RewardDestination, SessionIndex, ValidatorPrefs } from '@polkadot/types/interfaces';
+import type { PalletPreimageRequestStatus, PalletStakingStakingLedger } from '@polkadot/types/lookup';
 import type { ICompact, IExtrinsic, INumber, Registry } from '@polkadot/types/types';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { BN } from '@polkadot/util';
@@ -52,14 +53,14 @@ export interface Inflation {
 
 export interface Slash {
   accountId: AccountId;
-  amount: Balance;
+  amount: u128;
 }
 
 export interface SessionRewards {
   blockHash: Hash;
   blockNumber: BlockNumber;
   isEventsEmpty: boolean;
-  reward: Balance;
+  reward: u128;
   sessionIndex: SessionIndex;
   slashes: Slash[];
 }
@@ -153,7 +154,7 @@ export interface StakerState {
   isStashValidating: boolean;
   nominating?: string[];
   sessionIds: string[];
-  stakingLedger?: StakingLedger;
+  stakingLedger?: PalletStakingStakingLedger;
   stashId: string;
   validatorPrefs?: ValidatorPrefs;
 }
