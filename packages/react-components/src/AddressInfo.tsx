@@ -274,7 +274,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
         className='result'
         formatIndex={formatIndex}
         labelPost={<IconVoid />}
-        format={[18, 'BTC']}
+        format={[8, 'SATS']}
         value={deriveBalances.btcBalance}
       />
     </React.Fragment>

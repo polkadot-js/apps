@@ -204,7 +204,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
         </td>
         <td className='number'>
           <FormatBalance
-            format={[18, 'BTC']}
+            format={[8, 'SATS']}
             value={validatorInfo?.rewardPotBtcBalance}
           />
         </td>

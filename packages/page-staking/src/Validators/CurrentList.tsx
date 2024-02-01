@@ -144,7 +144,7 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
         [t('total staked'), 'expand'],
         // [t('commission')],
         [`${t('reward')}(BEVM)`],
-        [`${t('reward')}(BTC)`],
+        [`${t('reward')}(SATS)`],
         [t('last #')],
         [],
         []
