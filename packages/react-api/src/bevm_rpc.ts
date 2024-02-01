@@ -394,6 +394,21 @@ export const BEVM_RPC = {
         }
       ],
       "type": "NominatorInfo<BlockNumber>"
+    },
+    "checkCandidate": {
+      "description": "Three checks: (1) has the desire to win the election. (2) meets the threshold of a valid candidate. (3) has set session keys by calling pallet_session set_keys.",
+      "params": [
+        {
+          "name": "who",
+          "type": "AccountId"
+        },
+        {
+          "name": "at",
+          "type": "Hash",
+          "isOptional": true
+        }
+      ],
+      "type": "(bool,bool,bool)"
     }
   },
   "xfee": {

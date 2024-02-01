@@ -20,13 +20,13 @@ function Legend ({ className, isRelay, minCommission }: Props): React.ReactEleme
 
   return (
     <StyledDiv className={className}>
-      <span>
-        <Badge
-          color='blue'
-          icon='chevron-right'
-        />
-        <span>{t('Next session')}</span>
-      </span>
+      {/*<span>*/}
+      {/*  <Badge*/}
+      {/*    color='blue'*/}
+      {/*    icon='chevron-right'*/}
+      {/*  />*/}
+      {/*  <span>{t('Next session')}</span>*/}
+      {/*</span>*/}
       {minCommission && (
         <span>
           <Badge
@@ -36,64 +36,64 @@ function Legend ({ className, isRelay, minCommission }: Props): React.ReactEleme
           <span>{t('Chilled')}</span>
         </span>
       )}
-      {isRelay && (
-        <span>
-          <Badge
-            color='purple'
-            icon='vector-square'
-          />
-          <span>{t('Para validator')}</span>
-        </span>
-      )}
-      <span>
-        <Badge
-          color='green'
-          info='5'
-        />
-        <span>{t('Produced blocks')}</span>
-      </span>
-      <span>
-        <Badge
-          color='green'
-          icon='envelope'
-        />
-        <span>{t('Online message')}</span>
-      </span>
-      <span>
-        <Badge
-          color='green'
-          icon='hand-paper'
-        />
-        <span>{t('Nominating')}</span>
-      </span>
+      {/*{isRelay && (*/}
+      {/*  <span>*/}
+      {/*    <Badge*/}
+      {/*      color='purple'*/}
+      {/*      icon='vector-square'*/}
+      {/*    />*/}
+      {/*    <span>{t('Para validator')}</span>*/}
+      {/*  </span>*/}
+      {/*)}*/}
+      {/*<span>*/}
+      {/*  <Badge*/}
+      {/*    color='green'*/}
+      {/*    info='5'*/}
+      {/*  />*/}
+      {/*  <span>{t('Produced blocks')}</span>*/}
+      {/*</span>*/}
+      {/*<span>*/}
+      {/*  <Badge*/}
+      {/*    color='green'*/}
+      {/*    icon='envelope'*/}
+      {/*  />*/}
+      {/*  <span>{t('Online message')}</span>*/}
+      {/*</span>*/}
+      {/*<span>*/}
+      {/*  <Badge*/}
+      {/*    color='green'*/}
+      {/*    icon='hand-paper'*/}
+      {/*  />*/}
+      {/*  <span>{t('Nominating')}</span>*/}
+      {/*</span>*/}
       <span>
         <Badge
           color='red'
           icon='balance-scale-right'
         />
-        <span>{t('Oversubscribed')}</span>
+        <span>{t('Not yet a candidate')}</span>
       </span>
       <span>
         <Badge
           color='red'
           icon='skull-crossbones'
         />
-        <span>{t('Slashed')}</span>
+        <span>{t('Session key not set')}</span>
       </span>
       <span>
         <Badge
           color='red'
           icon='user-slash'
         />
-        <span>{t('Blocks nominations')}</span>
+        <span>{t('Own stake below minimum')}</span>
       </span>
-      <span>
-        <Tag
-          color='lightgrey'
-          label='1,220'
-        />
-        <span>{t('Era points')}</span>
-      </span>
+      {/*<span>*/}
+      {/*  <Tag*/}
+      {/*    color='lightgrey'*/}
+      {/*    label='1,220'*/}
+      {/*  />*/}
+      {/*  <span>{t('Era points')}</span>*/}
+      {/*</span>*/}
     </StyledDiv>
   );
 }

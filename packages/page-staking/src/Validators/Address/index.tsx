@@ -58,7 +58,7 @@ interface StakingState {
   stakeOwn?: BN;
 }
 
-function expandInfo ({ exposure, validatorPrefs }: ValidatorInfo, minCommission?: BN): StakingState {
+function expandInfo ({ exposure, validatorPrefs, isChilled }: ValidatorInfo, minCommission?: BN): StakingState {
   let nominators: NominatorValue[] | undefined;
   let stakeTotal: BN | undefined;
   let stakeOther: BN | undefined;
@@ -78,7 +78,8 @@ function expandInfo ({ exposure, validatorPrefs }: ValidatorInfo, minCommission?
 
   return {
     commission: commission?.toHuman(),
-    isChilled: commission && minCommission && commission.isZero() && commission.lt(minCommission),
+    // isChilled: commission && minCommission && commission.isZero() && commission.lt(minCommission),
+    isChilled,
     nominators,
     stakeOther,
     stakeOwn,
@@ -142,6 +143,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
         />
         <td className='badge together'>
           <Status
+            address={address}
             isChilled={isChilled}
             isElected={isElected}
             isMain={isMain}

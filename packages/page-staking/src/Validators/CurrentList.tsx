@@ -177,12 +177,12 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
         />
       }
       header={headerRef.current}
-      // legend={
-      //   <Legend
-      //     isRelay={!isIntentions && !!(api.query.parasShared || api.query.shared)?.activeValidatorIndices}
-      //     minCommission={minCommission}
-      //   />
-      // }
+      legend={
+        <Legend
+          isRelay={!isIntentions && !!(api.query.parasShared || api.query.shared)?.activeValidatorIndices}
+          minCommission={minCommission}
+        />
+      }
     >
       {validators?.map(([address, isElected, isFavorite]): React.ReactNode => (
         <Address
