@@ -89,7 +89,7 @@ export function curveThreshold (curve: PalletReferendaCurve, input: BN, div: BN)
         )
       )
     );
-  } else if (curve.asReciprocal) {
+  } else if (curve.isReciprocal) {
     const { factor, xOffset, yOffset } = curve.asReciprocal;
     const div = x.add(xOffset);
 
