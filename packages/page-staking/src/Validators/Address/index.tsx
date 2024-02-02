@@ -166,6 +166,9 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
           )}
         </td>
         <td>
+          {validatorInfo?.referralId}
+        </td>
+        <td>
           {validatorInfo?.isValidating ? (
             <ValidatorStatus>
               <Badge
@@ -271,6 +274,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
               </Columar.Column>
             </Columar>
           </td>
+          <td />
           <td />
           <td />
           <td />
