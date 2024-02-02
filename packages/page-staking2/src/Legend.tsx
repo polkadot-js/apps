@@ -76,16 +76,16 @@ function Legend ({ className, isRelay, minCommission }: Props): React.ReactEleme
       <span>
         <Badge
           color='red'
-          icon='skull-crossbones'
+          icon='user-slash'
         />
-        <span>{t('Session key not set')}</span>
+        <span>{t('Own stake below minimum')}</span>
       </span>
       <span>
         <Badge
           color='red'
-          icon='user-slash'
+          icon='skull-crossbones'
         />
-        <span>{t('Own stake below minimum')}</span>
+        <span>{t('Session key not set')}</span>
       </span>
       {/*<span>*/}
       {/*  <Tag*/}

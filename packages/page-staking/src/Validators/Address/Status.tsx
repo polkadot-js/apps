@@ -49,7 +49,7 @@ function Status ({ isChilled, isElected, isMain, isPara, isRelay, nominators = N
         (
           <Badge
             color='red'
-            icon='skull-crossbones'
+            icon='user-slash'
           />
         )
       }
@@ -57,7 +57,7 @@ function Status ({ isChilled, isElected, isMain, isPara, isRelay, nominators = N
         (
           <Badge
             color='red'
-            icon='balance-scale-right'
+            icon='skull-crossbones'
           />
         )
       }
