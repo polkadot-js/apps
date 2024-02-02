@@ -71,7 +71,7 @@ function UserTable({ accountId, nomination, userInterest, onSuccess, validatorIn
         <FormatBalance
           // userInterest 第一项是 BTC，第二项是 BEVM，投票人的奖励是 BTC，验证人是奖励的BEVM，
           value={(isNominatorList ? userInterest?.[0] : userInterest?.[1]) ?? '0'}
-          format={isNominatorList ? [8, 'SATS']: undefined} />
+          format={isNominatorList ? [10, 'SATS']: undefined} />
       </td>
       <td>
         <FormatBalance value={chunks > 0 ? chunks : '0'} />
