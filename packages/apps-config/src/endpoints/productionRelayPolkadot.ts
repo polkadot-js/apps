@@ -582,6 +582,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       Dwellir: 'wss://phala-rpc.dwellir.com',
       Helikon: 'wss://rpc.helikon.io/phala',
       OnFinality: 'wss://phala.api.onfinality.io/public-ws',
+      RadiumBlock: 'wss://phala.public.curie.radiumblock.co/ws',
       Phala: 'wss://api.phala.network/ws'
     },
     text: 'Phala Network',
