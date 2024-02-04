@@ -110,7 +110,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'edgeware',
     providers: {
-      // JelliedOwl: 'wss://beresheet.jelliedowl.net' // https://github.com/polkadot-js/apps/issues/9952
+      JelliedOwl: 'wss://beresheet.jelliedowl.net'
     },
     text: 'Beresheet',
     ui: {
