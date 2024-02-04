@@ -32,17 +32,17 @@ export * from './productionRelayPolkadot.js';
 //
 // IMPORTANT: Alphabetical based on text
 export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
-  {
-    info: 'bevm-canary',
-    providers: {
-      'BEVM': 'wss://rpc-canary-1.bevm.io/ws',
-    },
-    text: 'Bevm Canary',
-    ui: {
-      color: '#CDA164',
-      logo: chainsBevmSVG
-    }
-  },
+  // {
+  //   info: 'bevm-canary',
+  //   providers: {
+  //     'BEVM': 'wss://rpc-canary-1.bevm.io/ws',
+  //   },
+  //   text: 'Bevm Canary',
+  //   ui: {
+  //     color: '#CDA164',
+  //     logo: chainsBevmSVG
+  //   }
+  // },
   // {
   //   info: '3dpass',
   //   providers: {
