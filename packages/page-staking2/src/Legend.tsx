@@ -78,7 +78,7 @@ function Legend ({ className, isRelay, minCommission }: Props): React.ReactEleme
           color='red'
           icon='user-slash'
         />
-        <span>{t('Own stake below minimum')}</span>
+        <span>{t('Below minimum stake')}</span>
       </span>
       <span>
         <Badge
