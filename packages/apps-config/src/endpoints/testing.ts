@@ -112,7 +112,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       JelliedOwl: 'wss://beresheet.jelliedowl.net'
     },
-    text: 'Beresheet',
+    text: 'Beresheet (Edgeware)',
     ui: {
       logo: nodesEdgewareWhitePNG
     }
