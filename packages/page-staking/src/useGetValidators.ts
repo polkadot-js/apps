@@ -2,6 +2,7 @@ import {useEffect, useState } from "react"
 import {ValidatorInfo} from './types'
 import {useApi} from '@polkadot/react-hooks'
 import BigNumber from "bignumber.js"
+import { hexToString } from '@polkadot/util';
 
 const sortTotalNomination = (a: string | number, b: string | number): number => {
   const aTotalNomination = new BigNumber(a)
@@ -38,6 +39,12 @@ export const useGetValidators = (): { data: ValidatorInfo[]; refetch: () => Prom
 
     const validatorInfoList: ValidatorInfo[] = res.toJSON()
     setData(getSortList(validatorInfoList))
+    const rewardPoolData = await Promise.all(validatorInfoList.map(async (i: ValidatorInfo) => {
+      const identity = await api.query.identity.identityOf(i.account)
+      const formattedIdentity = identity.toJSON()
+      return [formattedIdentity?.info.display.raw ? `0x${hexToString(formattedIdentity?.info.display.raw)}` : '', i.rewardPotBevmBalance]
+    }))
+    console.log('rewardPoolData', rewardPoolData)
   }
 
   useEffect(()=>{
