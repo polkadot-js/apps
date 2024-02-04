@@ -39,10 +39,10 @@ export const useGetValidators = (): { data: ValidatorInfo[]; refetch: () => Prom
 
     const validatorInfoList: ValidatorInfo[] = res.toJSON()
     setData(getSortList(validatorInfoList))
-    const rewardPoolData = await Promise.all(validatorInfoList.map(async (i: ValidatorInfo) => {
+    const rewardPoolData = await Promise.all((validatorInfoList || []).map(async (i: ValidatorInfo) => {
       const identity = await api.query.identity.identityOf(i.account)
       const formattedIdentity = identity.toJSON()
-      return [formattedIdentity?.info.display.raw ? `0x${hexToString(formattedIdentity?.info.display.raw)}` : '', i.rewardPotBevmBalance]
+      return [formattedIdentity?.info?.display?.raw ? `0x${hexToString(formattedIdentity?.info?.display?.raw)}` : '', i.rewardPotBevmBalance]
     }))
     console.log('rewardPoolData', rewardPoolData)
   }
