@@ -85,6 +85,7 @@ export { nodesLitentryRococoPNG } from './generated/litentry-rococoPNG.js';
 export { nodesLitentryPNG } from './generated/litentryPNG.js';
 export { nodesLitmusPNG } from './generated/litmusPNG.js';
 export { nodesLoomNetworkPNG } from './generated/loom_networkPNG.js';
+export { nodesMagnetSVG } from './generated/magnetSVG.js';
 export { nodesMantaPNG } from './generated/mantaPNG.js';
 export { nodesMathSVG } from './generated/mathSVG.js';
 export { nodesMd5PNG } from './generated/md5PNG.js';
