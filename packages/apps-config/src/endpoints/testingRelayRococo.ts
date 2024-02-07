@@ -330,7 +330,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
   },
     {
     info:"rococoMagnet",
-    paraId: 4350,
+    paraId: 4361,
     providers:{
       Magnet:'wss://magnet-rpc.magport.io/ws'
     },
