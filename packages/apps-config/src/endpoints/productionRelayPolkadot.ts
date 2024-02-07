@@ -337,6 +337,20 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://dot.crowdloan.integritee.network/',
+    info: 'integritee',
+    paraId: 3359,
+    providers: {
+      Dwellir: 'wss://integritee-rpc.dwellir.com',
+      Integritee: 'wss://polkadot.api.integritee.network'
+    },
+    text: 'Integritee Network',
+    ui: {
+      color: '#658ea9',
+      logo: nodesIntegriteeSVG
+    }
+  },
+  {
     homepage: 'https://interlay.io/',
     info: 'interlay',
     paraId: 2032,
