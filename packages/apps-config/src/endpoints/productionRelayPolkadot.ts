@@ -323,20 +323,6 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://integritee.network',
-    info: 'integritee',
-    paraId: 2039,
-    providers: {
-      Dwellir: 'wss://integritee-rpc.dwellir.com',
-      Integritee: 'wss://polkadot.api.integritee.network'
-    },
-    text: 'Integritee Shell',
-    ui: {
-      color: '#658ea9',
-      logo: nodesIntegriteeSVG
-    }
-  },
-  {
     homepage: 'https://dot.crowdloan.integritee.network/',
     info: 'integritee',
     paraId: 3359,
@@ -345,6 +331,20 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       Integritee: 'wss://polkadot.api.integritee.network'
     },
     text: 'Integritee Network',
+    ui: {
+      color: '#658ea9',
+      logo: nodesIntegriteeSVG
+    }
+  },
+  {
+    homepage: 'https://integritee.network',
+    info: 'integritee',
+    paraId: 2039,
+    providers: {
+      Dwellir: 'wss://integritee-rpc.dwellir.com',
+      Integritee: 'wss://polkadot.api.integritee.network'
+    },
+    text: 'Integritee Shell',
     ui: {
       color: '#658ea9',
       logo: nodesIntegriteeSVG
