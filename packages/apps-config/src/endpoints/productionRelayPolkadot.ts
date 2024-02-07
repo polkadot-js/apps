@@ -341,8 +341,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'integritee',
     paraId: 2039,
     providers: {
-      //Dwellir: 'wss://integritee-rpc.dwellir.com',
-      //Integritee: 'wss://polkadot.api.integritee.network'
+      // Dwellir: 'wss://integritee-rpc.dwellir.com',
+      // Integritee: 'wss://polkadot.api.integritee.network'
     },
     text: 'Integritee Shell',
     ui: {
