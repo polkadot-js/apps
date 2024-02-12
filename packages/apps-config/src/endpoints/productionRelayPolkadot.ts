@@ -605,6 +605,21 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://polkadex.trade/crowdloans',
+    info: 'polkadex',
+    paraId: 3363,
+    providers: {
+      Dwellir: 'wss://polkadex-parachain-rpc.dwellir.com',
+      OnFinality: 'wss://polkadex-parachain.api.onfinality.io/public-ws',
+      RadiumBlock: 'wss://polkadex-parachain.public.curie.radiumblock.co/ws'
+    },
+    text: 'Polkadex',
+    ui: {
+      color: '#7C30DD',
+      logo: nodesPolkadexSVG
+    }
+  },
+  {
     homepage: 'https://polkadex.trade/',
     info: 'polkadex',
     paraId: 2040,
