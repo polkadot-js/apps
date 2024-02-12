@@ -144,18 +144,6 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'curio',
-    paraId: 3339,
-    providers: {
-      Curio: 'wss://parachain.curioinvest.com/'
-    },
-    text: 'Curio',
-    ui: {
-      color: 'rgb(96, 98, 246)',
-      logo: nodesCurioSVG
-    }
-  },
-  {
     homepage: 'https://crust.network/',
     info: 'shadow',
     paraId: 2012,
@@ -179,6 +167,18 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     text: 'Crust Shadow 2',
     ui: {
       logo: nodesShadowSVG
+    }
+  },
+  {
+    info: 'curio',
+    paraId: 3339,
+    providers: {
+      Curio: 'wss://parachain.curioinvest.com/'
+    },
+    text: 'Curio',
+    ui: {
+      color: 'rgb(96, 98, 246)',
+      logo: nodesCurioSVG
     }
   },
   {
