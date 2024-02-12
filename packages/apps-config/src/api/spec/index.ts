@@ -78,14 +78,15 @@ import mangata from './mangata.js';
 import manta from './manta.js';
 import mathchain from './mathchain.js';
 import moonbeam from './moonbeam.js';
+import muse from './muse.js';
 import mybank from './mybank.js';
 import neatcoin from './neatcoin.js';
+import neuroweb from './neuroweb.js';
 import nftmart from './nftmart.js';
 import nodle from './nodle.js';
 import oak from './oak.js';
 import opal from './opal.js';
 import opportunity from './opportunity.js';
-import origintrail from './origintrail.js';
 import pangolin from './pangolin.js';
 import pangoro from './pangoro.js';
 import parallel from './parallel.js';
@@ -242,8 +243,10 @@ const spec: Record<string, OverrideBundleDefinition> = {
   moonbeam,
   moonriver: moonbeam,
   moonshadow: moonbeam,
+  muse,
   'mybank.network Testnet': mybank,
   neatcoin,
+  neuroweb,
   nftmart,
   'node-moonbeam': moonbeam,
   'node-polkadex': polkadex,
@@ -251,7 +254,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   oak,
   opal,
   opportunity,
-  'origintrail-parachain': origintrail,
   parallel,
   parami,
   'peaq-node': peaq,

@@ -539,17 +539,6 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'logion',
     providers: {
-      Logion: 'wss://chimay.logion.network'
-    },
-    text: 'logion Para Testnet',
-    ui: {
-      color: 'rgb(21, 38, 101)',
-      logo: chainsLogionPNG
-    }
-  },
-  {
-    info: 'logion',
-    providers: {
       Logion: 'wss://test-rpc01.logion.network'
     },
     text: 'logion Standalone Testnet',
@@ -811,7 +800,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'skyekiwi',
     providers: {
-      SkyeKiwi: 'wss://staging.rpc.skye.kiwi'
+      // SkyeKiwi: 'wss://staging.rpc.skye.kiwi' // https://github.com/polkadot-js/apps/issues/10197
     },
     text: 'SkyeKiwi Testnet',
     ui: {

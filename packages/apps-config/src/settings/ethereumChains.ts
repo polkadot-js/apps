@@ -33,5 +33,7 @@ export const ethereumChains = [
   'quantum-portal-network-parachain',
   'peerplays',
   'innovatorchain',
-  'masverse'
+  'masverse',
+  'laos',
+  'muse'
 ];
