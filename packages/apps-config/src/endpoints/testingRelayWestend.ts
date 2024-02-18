@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/apps-config authors & contributors
+// Copyright 2017-2024 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EndpointOption } from './types.js';
@@ -162,6 +162,16 @@ export const testParasWestendCommon: EndpointOption[] = [
       color: '#e6777a',
       logo: 'fa;people-group'
     }
+  },
+  {
+    info: 'westendPeople',
+    paraId: 1004,
+    providers: {
+      Parity: 'wss://westend-people-rpc.polkadot.io'
+    },
+    teleport: [-1],
+    text: 'People',
+    ui: { }
   }
 ];
 
@@ -174,7 +184,7 @@ export const testRelayWestend: EndpointOption = {
     ...testParasWestend
   ],
   providers: {
-    // Blockops: 'wss://westend-rpc.blockops.network/ws', // https://github.com/polkadot-js/apps/issues/9840
+    Blockops: 'wss://westend-rpc.blockops.network/ws', // https://github.com/polkadot-js/apps/issues/9840
     Dwellir: 'wss://westend-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://westend-rpc-tn.dwellir.com',
     'IBP-GeoDNS1': 'wss://rpc.ibp.network/westend',

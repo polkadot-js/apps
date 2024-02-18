@@ -1,6 +1,7 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { u32 } from '@polkadot/types';
 import type { NominatorValue } from './types.js';
 
 import React, { useMemo } from 'react';
@@ -63,7 +64,7 @@ function StakeOther ({ nominators, stakeOther }: Props): React.ReactElement<Prop
   const { api } = useApi();
 
   const [rewarded, rewardedTotal, unrewarded, unrewardedTotal] = useMemo(
-    () => extractTotals(api.consts.staking?.maxNominatorRewardedPerValidator, nominators, stakeOther),
+    () => extractTotals(api.consts.staking?.maxNominatorRewardedPerValidator as u32, nominators, stakeOther),
     [api, nominators, stakeOther]
   );
 

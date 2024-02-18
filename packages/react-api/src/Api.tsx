@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-api authors & contributors
+// Copyright 2017-2024 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
@@ -124,6 +124,7 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
       !DISALLOW_EXTENSIONS.includes(source)
     ),
     properties: statics.registry.createType('ChainProperties', {
+      isEthereum: api.registry.chainIsEthereum,
       ss58Format: api.registry.chainSS58,
       tokenDecimals: api.registry.chainDecimals,
       tokenSymbol: api.registry.chainTokens
@@ -135,7 +136,7 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
   };
 }
 
-async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, types: Record<string, Record<string, string>>): Promise<ApiState> {
+async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, types: Record<string, Record<string, string>>, urlIsEthereum = false): Promise<ApiState> {
   statics.registry.register(types);
 
   const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api, injectedPromise);
@@ -145,7 +146,7 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, inject
     : settings.prefix;
   const tokenSymbol = properties.tokenSymbol.unwrapOr([formatBalance.getDefaults().unit, ...DEFAULT_AUX]);
   const tokenDecimals = properties.tokenDecimals.unwrapOr([DEFAULT_DECIMALS]);
-  const isEthereum = ethereumChains.includes(api.runtimeVersion.specName.toString());
+  const isEthereum = properties.isEthereum.isTrue || ethereumChains.includes(api.runtimeVersion.specName.toString()) || urlIsEthereum;
   const isDevelopment = (systemChainType.isDevelopment || systemChainType.isLocal || isTestChain(systemChain));
 
   console.log(`chain: ${systemChain} (${systemChainType.toString()}), ${stringify(properties)}`);
@@ -153,6 +154,7 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, inject
   // explicitly override the ss58Format as specified
   statics.registry.setChainProperties(
     statics.registry.createType('ChainProperties', {
+      isEthereum,
       ss58Format,
       tokenDecimals,
       tokenSymbol
@@ -314,7 +316,9 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store }: Props): Rea
             .then(setExtensions)
             .catch(console.error);
 
-          loadOnReady(statics.api, apiEndpoint, injectedPromise, store, types)
+          const urlIsEthereum = !!location.href.includes('keyring-type=ethereum');
+
+          loadOnReady(statics.api, apiEndpoint, injectedPromise, store, types, urlIsEthereum)
             .then(setState)
             .catch(onError);
         });

@@ -1,9 +1,9 @@
-// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { Bytes } from '@polkadot/types';
-import type { AccountId, Balance, Call, Hash } from '@polkadot/types/interfaces';
+import type { Bytes, u32, u128 } from '@polkadot/types';
+import type { AccountId, Call, Hash } from '@polkadot/types/interfaces';
 import type { FrameSupportPreimagesBounded, PalletPreimageRequestStatus } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
@@ -30,6 +30,15 @@ interface StatusParams {
 }
 
 type Result = 'unknown' | 'hash' | 'hashAndLen';
+
+interface OldUnrequested {
+  deposit: ITuple<[AccountId, u128]>;
+}
+
+interface OldRequested {
+  deposit: Option<ITuple<[AccountId, u128]>>;
+  len: Option<u32>;
+}
 
 /**
  * @internal Determine if we are working with current generation (H256,u32)
@@ -140,7 +149,7 @@ function createResult (interimResult: PreimageStatus, optBytes: Option<Bytes> | 
 }
 
 /** @internal Helper to unwrap a deposit tuple into a structure */
-function convertDeposit (deposit?: [AccountId, Balance] | null): PreimageDeposit | undefined {
+function convertDeposit (deposit?: [AccountId, u128] | null): PreimageDeposit | undefined {
   return deposit
     ? {
       amount: deposit[1],
@@ -163,11 +172,15 @@ function getBytesParams (interimResult: PreimageStatus, optStatus: Option<Pallet
         // FIXME Cannot recall how to deal with these
         // (unlike Unrequested below, didn't have an example)
       } else {
-        const { count, deposit, len } = asRequested;
-
-        result.count = count.toNumber();
-        result.deposit = convertDeposit(deposit.unwrapOr(null));
-        result.proposalLength = len.unwrapOr(BN_ZERO);
+        result.count = asRequested.count.toNumber();
+        result.deposit = convertDeposit(
+          asRequested.maybeTicket
+            ? asRequested.maybeTicket.unwrapOr(null)
+            : (asRequested as unknown as OldRequested).deposit.unwrapOr(null)
+        );
+        result.proposalLength = asRequested.maybeLen
+          ? asRequested.maybeLen.unwrapOr(BN_ZERO)
+          : (asRequested as unknown as OldRequested).len.unwrapOr(BN_ZERO);
       }
     } else if (result.status.isUnrequested) {
       const asUnrequested = result.status.asUnrequested;
@@ -175,13 +188,11 @@ function getBytesParams (interimResult: PreimageStatus, optStatus: Option<Pallet
       if (asUnrequested instanceof Option) {
         result.deposit = convertDeposit(
           // old-style conversion
-          (asUnrequested as Option<ITuple<[AccountId, Balance]>>).unwrapOr(null)
+          (asUnrequested as Option<ITuple<[AccountId, u128]>>).unwrapOr(null)
         );
       } else {
-        const { deposit, len } = result.status.asUnrequested;
-
-        result.deposit = convertDeposit(deposit);
-        result.proposalLength = len;
+        result.deposit = convertDeposit(asUnrequested.ticket || (asUnrequested as unknown as OldUnrequested).deposit);
+        result.proposalLength = asUnrequested.len;
       }
     } else {
       console.error(`Unhandled PalletPreimageRequestStatus type: ${result.status.type}`);

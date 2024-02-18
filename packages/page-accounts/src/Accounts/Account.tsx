@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2024 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -677,7 +677,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         </td>
         <td className='actions button'>
           <Button.Group>
-            {isFunction(api.api.tx.balances?.transfer) && (
+            {(isFunction(api.api.tx.balances?.transferAllowDeath) || isFunction(api.api.tx.balances?.transfer)) && (
               <Button
                 className='send-button'
                 icon='paper-plane'
