@@ -97,6 +97,7 @@ export { nodesMoonriverSVG } from './generated/moonriverSVG.js';
 export { nodesMoonrockPNG } from './generated/moonrockPNG.js';
 export { nodesMoonsamaSVG } from './generated/moonsamaSVG.js';
 export { nodesMoonshadowPNG } from './generated/moonshadowPNG.js';
+export { nodesMusePNG } from './generated/musePNG.js';
 export { nodesMybankPNG } from './generated/mybankPNG.js';
 export { nodesNftmartPNG } from './generated/nftmartPNG.js';
 export { nodesNodleSVG } from './generated/nodleSVG.js';
