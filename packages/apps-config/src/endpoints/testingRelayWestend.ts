@@ -164,6 +164,16 @@ export const testParasWestendCommon: EndpointOption[] = [
     }
   },
   {
+    info: 'westendCoretime',
+    paraId: 1005,
+    providers: {
+      Parity: 'wss://westend-coretime-rpc.polkadot.io'
+    },
+    teleport: [-1],
+    text: 'Coretime',
+    ui: {}
+  },
+  {
     info: 'westendPeople',
     paraId: 1004,
     providers: {
