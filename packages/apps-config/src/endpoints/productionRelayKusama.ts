@@ -846,17 +846,6 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://yerba.network',
-    info: 'yerba',
-    paraId: 3345,
-    providers: {},
-    text: 'Yerba Network',
-    ui: {
-      color: '#a5503c',
-      logo: nodesYerbanetworkPNG
-    }
-  },
-  {
     homepage: 'https://xode.net',
     info: 'xode',
     paraId: 3344,
@@ -867,6 +856,17 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#ed1f7a',
       logo: nodesXodePNG
+    }
+  },
+  {
+    homepage: 'https://yerba.network',
+    info: 'yerba',
+    paraId: 3345,
+    providers: {},
+    text: 'Yerba Network',
+    ui: {
+      color: '#a5503c',
+      logo: nodesYerbanetworkPNG
     }
   }
 ];
