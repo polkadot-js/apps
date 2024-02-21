@@ -77,7 +77,7 @@ function hasCurrentProperties (api: ApiPromise, { extension }: ExtensionKnown): 
   return ss58Format === api.registry.chainSS58 &&
     tokenDecimals === api.registry.chainDecimals[0] &&
     tokenSymbol === api.registry.chainTokens[0] &&
-    (tokenSymbol !== 'AVL' || (userExtensionsLoadedOnSpec !== undefined && userExtensionsLoadedOnSpec > 0));
+    ((tokenSymbol !== 'AVL' && tokenSymbol !== 'AVAIL') || (userExtensionsLoadedOnSpec !== undefined && userExtensionsLoadedOnSpec > 0));
 }
 
 // filter extensions based on the properties we have available
