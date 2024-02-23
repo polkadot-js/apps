@@ -31,7 +31,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'ajuna',
     providers: {
-      'Ajuna Network': 'wss://rpc-test.ajuna.network'
+      // 'Ajuna Network': 'wss://rpc-test.ajuna.network' // https://github.com/polkadot-js/apps/issues/10289
     },
     text: 'Ajuna Testnet',
     ui: {
