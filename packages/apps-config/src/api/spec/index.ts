@@ -182,6 +182,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   crust,
   'crust-parachain': crust,
   'cumulus-test-parachain': testPara,
+  'curio-mainnet': curio,
   'curio-testnet': curio,
   datahighway: westlake,
   'datahighway-parachain': datahighwayParachain,

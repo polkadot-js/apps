@@ -89,7 +89,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'aventus',
     paraId: 2056,
     providers: {
-      // Aventus: 'wss://public-rpc.mainnet.aventus.io' // https://github.com/polkadot-js/apps/issues/10197
+      Aventus: 'wss://public-rpc.mainnet.aventus.io'
     },
     text: 'Aventus',
     ui: {
@@ -427,7 +427,10 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     homepage: 'https://logion.network/',
     info: 'logion',
     paraId: 3354,
-    providers: {},
+    providers: {
+      'Logion 1': 'wss://para-rpc01.logion.network',
+      'Logion 2': 'wss://para-rpc02.logion.network'
+    },
     text: 'Logion',
     ui: {
       color: 'rgb(21, 38, 101)',
@@ -472,7 +475,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'moonsama',
     paraId: 3334,
     providers: {
-      Moonsama: 'wss://rpc.moonsama.com/ws'
+      // Moonsama: 'wss://rpc.moonsama.com/ws' // https://github.com/polkadot-js/apps/issues/10289
     },
     text: 'Moonsama',
     ui: {
@@ -488,6 +491,17 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       Dwellir: 'wss://origintrail-rpc.dwellir.com',
       TraceLabs: 'wss://parachain-rpc.origin-trail.network'
     },
+    text: 'NeuroWeb',
+    ui: {
+      color: '#000000',
+      logo: chainsNeurowebPNG
+    }
+  },
+  {
+    homepage: 'https://neuroweb.ai',
+    info: 'neuroweb',
+    paraId: 3360,
+    providers: {},
     text: 'NeuroWeb',
     ui: {
       color: '#000000',
@@ -604,6 +618,21 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#caffa0',
       logo: nodesPolimecSVG
+    }
+  },
+  {
+    homepage: 'https://polkadex.trade/crowdloans',
+    info: 'polkadex',
+    paraId: 3363,
+    providers: {
+      // Dwellir: 'wss://polkadex-parachain-rpc.dwellir.com',
+      // OnFinality: 'wss://polkadex-parachain.api.onfinality.io/public-ws',
+      // RadiumBlock: 'wss://polkadex-parachain.public.curie.radiumblock.co/ws'
+    },
+    text: 'Polkadex',
+    ui: {
+      color: '#7C30DD',
+      logo: nodesPolkadexSVG
     }
   },
   {
