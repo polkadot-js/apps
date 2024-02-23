@@ -784,7 +784,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'zero',
     paraId: 2236,
     providers: {
-      ZeroNetwork: 'wss://rpc-1.kusama.node.zero.io'
+      // ZeroNetwork: 'wss://rpc-1.kusama.node.zero.io' // https://github.com/polkadot-js/apps/issues/10289
     },
     text: 'subzero',
     ui: {
