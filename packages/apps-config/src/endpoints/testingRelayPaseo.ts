@@ -57,7 +57,8 @@ export const testRelayPaseo: EndpointOption = {
     ...testParasPaseo
   ],
   providers: {
-    Amforc: 'wss://paseo.rpc.amforc.com'
+    Amforc: 'wss://paseo.rpc.amforc.com',
+    'IBP-GeoDNS2': 'wss://rpc.dotters.network/paseo'
     // 'light client': 'light://substrate-connect/paseo'
   },
   teleport: getTeleports(testParasPaseoCommon),

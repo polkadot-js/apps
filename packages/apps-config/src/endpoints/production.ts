@@ -3,7 +3,7 @@
 
 import type { EndpointOption } from './types.js';
 
-import { chains3dpassSVG, chainsAlephSVG, chainsBittensorPNG, chainsChainflipPNG, chainsCreditcoinPNG, chainsDebioSVG, chainsFragnovaPNG, chainsJurPNG, chainsLogionPNG, chainsMyriadPNG, chainsSpannerPNG, chainsVaraPNG, chainsVtbPNG } from '../ui/logos/chains/index.js';
+import { chains3dpassSVG, chainsAlephSVG, chainsBittensorPNG, chainsChainflipPNG, chainsCreditcoinPNG, chainsDebioSVG, chainsFragnovaPNG, chainsJurPNG, chainsLiberlandPNG, chainsLogionPNG, chainsMyriadPNG, chainsSpannerPNG, chainsVaraPNG, chainsVtbPNG } from '../ui/logos/chains/index.js';
 import { nodesAresOdysseySVG, nodesAutomataPNG, nodesCentrifugePNG, nodesCereSVG, nodesChainxSVG, nodesCompetitorsClubPNG, nodesCrownSterlingPNG, nodesCrustSVG, nodesDatahighwayPNG, nodesDockPNG, nodesEdgewareWhitePNG, nodesEfinitySVG, nodesHanyonycashPNG, nodesHumanodePNG, nodesInnovatorPNG, nodesJoystreamSVG, nodesKulupuSVG, nodesKusariSVG, nodesMathSVG, nodesMinixPNG, nodesNftmartPNG, nodesNodleSVG, nodesPolkadexSVG, nodesPolymeshSVG, nodesRiochainSVG, nodesRobonomicsSVG, nodesSherpaxPNG, nodesSoraSubstrateSVG, nodesStafiPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesSwapdexSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesUniartsPNG, nodesUnitnetworkPNG } from '../ui/logos/nodes/index.js';
 
 export * from './productionRelayKusama.js';
@@ -204,7 +204,10 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'edgeware',
     providers: {
       'Commonwealth Labs': 'wss://mainnet2.edgewa.re',
-      JelliedOwl: 'wss://edgeware.jelliedowl.net'
+      'JelliedOwl London': 'wss://edgeware-rpc1.jelliedowl.net',
+      'JelliedOwl Los Angeles': 'wss://edgeware-rpc3.jelliedowl.net',
+      'JelliedOwl New York': 'wss://edgeware-rpc0.jelliedowl.net',
+      'JelliedOwl Singapore': 'wss://edgeware-rpc2.jelliedowl.net'
       // OnFinality: 'wss://edgeware.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9795
     },
     text: 'Edgeware',
@@ -311,6 +314,17 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#b8860b',
       logo: nodesKusariSVG
+    }
+  },
+  {
+    info: 'Liberland',
+    providers: {
+      'Liberland Government': 'wss://mainnet.liberland.org'
+    },
+    text: 'Liberland mainnet',
+    ui: {
+      color: 'rgb(13, 52, 93)',
+      logo: chainsLiberlandPNG
     }
   },
   {
