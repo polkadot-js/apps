@@ -203,7 +203,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'edgeware',
     providers: {
-      'Commonwealth Labs': 'wss://mainnet2.edgewa.re'
+      'Commonwealth Labs': 'wss://mainnet2.edgewa.re',
       'JelliedOwl London': 'wss://edgeware-rpc1.jelliedowl.net',
       'JelliedOwl Los Angeles': 'wss://edgeware-rpc3.jelliedowl.net',
       'JelliedOwl New York': 'wss://edgeware-rpc0.jelliedowl.net',
