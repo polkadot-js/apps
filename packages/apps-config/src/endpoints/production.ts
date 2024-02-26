@@ -20,7 +20,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: '3dpass',
     providers: {
-      // '3dpass': 'wss://rpc2.3dpass.org' // https://github.com/polkadot-js/apps/issues/10289
+      '3dpass': 'wss://rpc.3dpscan.io'
     },
     text: '3DPass',
     ui: {
