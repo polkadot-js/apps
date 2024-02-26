@@ -39,7 +39,6 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
   const publicProps = useCall<unknown[]>(api.query.democracy.publicProps);
   const preimage = usePreimage(imageHash);
 
-
   useEffect((): void => {
     preimage?.proposalLength && setImageLen((prev) => ({
       imageLen: prev.imageLen,
