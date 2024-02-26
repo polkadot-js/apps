@@ -170,6 +170,18 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    info: 'curio',
+    paraId: 3339,
+    providers: {
+      Curio: 'wss://parachain.curioinvest.com/'
+    },
+    text: 'Curio',
+    ui: {
+      color: 'rgb(96, 98, 246)',
+      logo: nodesCurioSVG
+    }
+  },
+  {
     homepage: 'https://ipci.io',
     info: 'ipci',
     paraId: 2222,
@@ -918,9 +930,9 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     providers: {
       'Encointer Association': 'wss://kusama.api.encointer.org',
       'IBP-GeoDNS1': 'wss://sys.ibp.network/encointer-kusama',
-      'IBP-GeoDNS2': 'wss://sys.dotters.network/encointer-kusama',
+      'IBP-GeoDNS2': 'wss://sys.dotters.network/encointer-kusama'
       // OnFinality: 'wss://encointer.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9986
-      Stakeworld: 'wss://ksm-rpc.stakeworld.io/encointer'
+      // Stakeworld: 'wss://ksm-rpc.stakeworld.io/encointer'
     },
     teleport: [], // teleport is temporarily disabled until xcm V3 is supported
     text: 'Encointer Network',

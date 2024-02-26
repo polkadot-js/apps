@@ -3,7 +3,7 @@
 
 import type { EndpointOption } from './types.js';
 
-import { chains3dpassSVG, chainsAlephSVG, chainsBittensorPNG, chainsChainflipPNG, chainsCreditcoinPNG, chainsDebioSVG, chainsFragnovaPNG, chainsJurPNG, chainsLogionPNG, chainsMyriadPNG, chainsSpannerPNG, chainsVaraPNG, chainsVtbPNG } from '../ui/logos/chains/index.js';
+import { chains3dpassSVG, chainsAlephSVG, chainsBittensorPNG, chainsChainflipPNG, chainsCreditcoinPNG, chainsDebioSVG, chainsFragnovaPNG, chainsJurPNG, chainsLiberlandPNG, chainsLogionPNG, chainsMyriadPNG, chainsSpannerPNG, chainsVaraPNG, chainsVtbPNG } from '../ui/logos/chains/index.js';
 import { nodesAresOdysseySVG, nodesAutomataPNG, nodesCentrifugePNG, nodesCereSVG, nodesChainxSVG, nodesCompetitorsClubPNG, nodesCrownSterlingPNG, nodesCrustSVG, nodesDatahighwayPNG, nodesDockPNG, nodesEdgewareWhitePNG, nodesEfinitySVG, nodesHanyonycashPNG, nodesHumanodePNG, nodesInnovatorPNG, nodesJoystreamSVG, nodesKulupuSVG, nodesKusariSVG, nodesMathSVG, nodesMinixPNG, nodesNftmartPNG, nodesNodleSVG, nodesPolkadexSVG, nodesPolymeshSVG, nodesRiochainSVG, nodesRobonomicsSVG, nodesSherpaxPNG, nodesSoraSubstrateSVG, nodesStafiPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesSwapdexSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesUniartsPNG, nodesUnitnetworkPNG } from '../ui/logos/nodes/index.js';
 
 export * from './productionRelayKusama.js';
@@ -20,7 +20,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: '3dpass',
     providers: {
-      '3dpass': 'wss://rpc2.3dpass.org'
+      // '3dpass': 'wss://rpc2.3dpass.org' // https://github.com/polkadot-js/apps/issues/10289
     },
     text: '3DPass',
     ui: {
@@ -55,7 +55,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'automata',
     providers: {
-      'Automata Network': 'wss://api.ata.network',
+      // 'Automata Network': 'wss://api.ata.network', // https://github.com/polkadot-js/apps/issues/10289
       OnFinality: 'wss://automata.api.onfinality.io/public-ws'
     },
     text: 'Automata',
@@ -157,7 +157,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'crown-sterling',
     providers: {
-      'Crown Sterling': 'wss://blockchain.crownsterling.io'
+      // 'Crown Sterling': 'wss://blockchain.crownsterling.io' https://github.com/polkadot-js/apps/issues/10289
     },
     text: 'Crown Sterling',
     ui: {
@@ -204,7 +204,10 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'edgeware',
     providers: {
       'Commonwealth Labs': 'wss://mainnet2.edgewa.re',
-      JelliedOwl: 'wss://edgeware.jelliedowl.net'
+      'JelliedOwl London': 'wss://edgeware-rpc1.jelliedowl.net',
+      'JelliedOwl Los Angeles': 'wss://edgeware-rpc3.jelliedowl.net',
+      'JelliedOwl New York': 'wss://edgeware-rpc0.jelliedowl.net',
+      'JelliedOwl Singapore': 'wss://edgeware-rpc2.jelliedowl.net'
       // OnFinality: 'wss://edgeware.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9795
     },
     text: 'Edgeware',
@@ -282,7 +285,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'jur',
     providers: {
-      'Iceberg Nodes': 'wss://jur-mainnet-archive-rpc-1.icebergnodes.io'
+      // 'Iceberg Nodes': 'wss://jur-mainnet-archive-rpc-1.icebergnodes.io' // https://github.com/polkadot-js/apps/issues/10289
       // 'Simply Staking': 'wss://jur-archive-mainnet-1.simplystaking.xyz/VX68C07AR4K2/ws' // https://github.com/polkadot-js/apps/issues/10172
     },
     text: 'Jur',
@@ -311,6 +314,17 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#b8860b',
       logo: nodesKusariSVG
+    }
+  },
+  {
+    info: 'Liberland',
+    providers: {
+      'Liberland Government': 'wss://mainnet.liberland.org'
+    },
+    text: 'Liberland mainnet',
+    ui: {
+      color: 'rgb(13, 52, 93)',
+      logo: chainsLiberlandPNG
     }
   },
   {
