@@ -884,7 +884,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       LuckyFriday: 'wss://rpc-asset-hub-kusama.luckyfriday.io',
       // OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
       Parity: 'wss://kusama-asset-hub-rpc.polkadot.io',
-      // RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws',
+      RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws',
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/assethub'
     },
     teleport: [-1],
@@ -905,6 +905,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       // LuckyFriday: 'wss://rpc-bridge-hub-kusama.luckyfriday.io', // https://github.com/polkadot-js/apps/issues/9947
       // OnFinality: 'wss://bridgehub-kusama.api.onfinality.io/public-ws',
       Parity: 'wss://kusama-bridge-hub-rpc.polkadot.io',
+      RadiumBlock: 'wss://bridgehub-kusama.public.curie.radiumblock.co/ws',
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/bridgehub'
     },
     text: 'BridgeHub',
