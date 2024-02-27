@@ -7,6 +7,7 @@ import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
 import type { ApiProps, ApiState } from './types.js';
 
+import { ChopsticksProvider, setStorage } from '@acala-network/chopsticks-core';
 import * as Sc from '@substrate/connect';
 import React, { useEffect, useMemo, useState } from 'react';
 import store from 'store';
@@ -232,11 +233,23 @@ async function getLightProvider (chain: string): Promise<ScProvider> {
 async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: unknown) => void): Promise<Record<string, Record<string, string>>> {
   const types = getDevTypes();
   const isLight = apiUrl.startsWith('light://');
+  let provider;
 
   try {
-    const provider = isLight
-      ? await getLightProvider(apiUrl.replace('light://', ''))
-      : new WsProvider(apiUrl);
+    if (isLight) {
+      provider = await getLightProvider(apiUrl.replace('light://', ''));
+    } else if (store.get('isLocalFork')) {
+      provider = await ChopsticksProvider.fromEndpoint(apiUrl);
+      await setStorage(provider.chain, {
+        System: {
+          Account: [
+            [['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'], { data: { free: 1000 * 1e12 }, providers: 1 }]
+          ]
+        }
+      });
+    } else {
+      provider = new WsProvider(apiUrl);
+    }
 
     statics.api = new ApiPromise({
       provider,
@@ -257,7 +270,7 @@ async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: un
   return types;
 }
 
-export function ApiCtxRoot ({ apiUrl, children, isElectron, store }: Props): React.ReactElement<Props> | null {
+export function ApiCtxRoot ({ apiUrl, children, isElectron, store: keyringStore }: Props): React.ReactElement<Props> | null {
   const { queuePayload, queueSetTxStatus } = useQueue();
   const [state, setState] = useState<ApiState>(EMPTY_STATE);
   const [isApiConnected, setIsApiConnected] = useState(false);
@@ -303,15 +316,20 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store }: Props): Rea
 
           const urlIsEthereum = !!location.href.includes('keyring-type=ethereum');
 
-          loadOnReady(statics.api, apiEndpoint, injectedPromise, store, types, urlIsEthereum)
+          loadOnReady(statics.api, apiEndpoint, injectedPromise, keyringStore, types, urlIsEthereum)
             .then(setState)
             .catch(onError);
         });
 
+        if (store.get('isLocalFork')) {
+          statics.api.connect()
+            .catch(onError);
+        }
+
         setIsApiInitialized(true);
       })
       .catch(onError);
-  }, [apiEndpoint, apiUrl, queuePayload, queueSetTxStatus, store]);
+  }, [apiEndpoint, apiUrl, queuePayload, queueSetTxStatus, keyringStore]);
 
   if (!value.isApiInitialized) {
     return null;

@@ -8,6 +8,7 @@ import { styled } from './styled.js';
 
 interface Props {
   button?: React.ReactNode;
+  secondaryButton?: React.ReactNode;
   children: React.ReactNode;
   className?: string;
   dataTestId?: string;
@@ -17,7 +18,7 @@ interface Props {
   sidebarRef: React.RefObject<HTMLDivElement>;
 }
 
-function Sidebar ({ button, children, className = '', dataTestId = '', onClose, position, sidebarRef }: Props): React.ReactElement<Props> {
+function Sidebar ({ button, children, className = '', dataTestId = '', onClose, position, secondaryButton, sidebarRef }: Props): React.ReactElement<Props> {
   return (
     <StyledDiv
       className={`${className} ui--Sidebar ${position}Position`}
@@ -26,6 +27,7 @@ function Sidebar ({ button, children, className = '', dataTestId = '', onClose, 
     >
       <Button.Group className='ui--Sidebar-buttons'>
         {button}
+        {secondaryButton}
         <Button
           dataTestId='close-sidebar-button'
           icon='times'
