@@ -61,8 +61,6 @@ export const DEFAULT_AUX = ['Aux1', 'Aux2', 'Aux3', 'Aux4', 'Aux5', 'Aux6', 'Aux
 const DISALLOW_EXTENSIONS: string[] = [];
 const EMPTY_STATE = { hasInjectedAccounts: false, isApiReady: false } as unknown as ApiState;
 
-const islocalFork = store.get('isLocalFork') as boolean;
-
 function isKeyringLoaded () {
   try {
     return !!keyring.keyring;
@@ -240,7 +238,7 @@ async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: un
   try {
     if (isLight) {
       provider = await getLightProvider(apiUrl.replace('light://', ''));
-    } else if (islocalFork) {
+    } else if (store.get('isLocalFork')) {
       provider = await ChopsticksProvider.fromEndpoint(apiUrl);
       await setStorage(provider.chain, {
         System: {
@@ -272,7 +270,7 @@ async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: un
   return types;
 }
 
-export function ApiCtxRoot ({ apiUrl, children, isElectron, store }: Props): React.ReactElement<Props> | null {
+export function ApiCtxRoot ({ apiUrl, children, isElectron, store: keyringStore }: Props): React.ReactElement<Props> | null {
   const { queuePayload, queueSetTxStatus } = useQueue();
   const [state, setState] = useState<ApiState>(EMPTY_STATE);
   const [isApiConnected, setIsApiConnected] = useState(false);
@@ -318,12 +316,12 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store }: Props): Rea
 
           const urlIsEthereum = !!location.href.includes('keyring-type=ethereum');
 
-          loadOnReady(statics.api, apiEndpoint, injectedPromise, store, types, urlIsEthereum)
+          loadOnReady(statics.api, apiEndpoint, injectedPromise, keyringStore, types, urlIsEthereum)
             .then(setState)
             .catch(onError);
         });
 
-        if (islocalFork) {
+        if (store.get('isLocalFork')) {
           statics.api.connect()
             .catch(onError);
         }
@@ -331,7 +329,7 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store }: Props): Rea
         setIsApiInitialized(true);
       })
       .catch(onError);
-  }, [apiEndpoint, apiUrl, queuePayload, queueSetTxStatus, store]);
+  }, [apiEndpoint, apiUrl, queuePayload, queueSetTxStatus, keyringStore]);
 
   if (!value.isApiInitialized) {
     return null;

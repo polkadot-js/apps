@@ -7,8 +7,6 @@ import store from 'store';
 import { useTranslation } from '../translate.js';
 import BaseOverlay from './Base.js';
 
-const isLocalFork = store.get('isLocalFork') as boolean;
-
 interface Props {
   className?: string;
 }
@@ -16,7 +14,7 @@ interface Props {
 function LocalFork ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
-  if (isLocalFork) {
+  if (store.get('isLocalFork')) {
     return (
       <BaseOverlay
         className={className}
