@@ -41,3 +41,9 @@
 	 * @license http://www.opensource.org/licenses/bsd-license.php BSD License
 	 *
 	 */
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
