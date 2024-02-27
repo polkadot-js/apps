@@ -940,6 +940,7 @@ export const prodRelayKusama: EndpointOption = {
   ],
   providers: {
     // 'Geometry Labs': 'wss://kusama.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
+    RockX: 'wss://rockx-ksm.w3node.com/polka-public-ksm/ws',
     'Automata 1RPC': 'wss://1rpc.io/ksm',
     Blockops: 'wss://kusama-public-rpc.blockops.network/ws', // https://github.com/polkadot-js/apps/issues/9840
     Dwellir: 'wss://kusama-rpc.dwellir.com',
