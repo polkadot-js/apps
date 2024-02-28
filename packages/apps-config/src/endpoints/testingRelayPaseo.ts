@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types.js';
 
 import { PASEO_GENESIS } from '../api/constants.js';
-import { chainsPaseoPNG, chainsPaseoBgPNG } from '../ui/logos/chains/index.js';
+import { chainsPaseoBgPNG, chainsPaseoPNG } from '../ui/logos/chains/index.js';
 // import { testnetParachainSVG } from '../ui/logos/nodes/index.js';
 import { getTeleports } from './util.js';
 
