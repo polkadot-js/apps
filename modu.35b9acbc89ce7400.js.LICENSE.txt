@@ -18,13 +18,6 @@
  */
 
 /*!
- * The buffer module from node.js, for the browser.
- *
- * @author   Feross Aboukhadijeh <https://feross.org>
- * @license  MIT
- */
-
-/*!
 * chartjs-plugin-annotation v3.0.1
 * https://www.chartjs.org/chartjs-plugin-annotation/index
  * (c) 2023 chartjs-plugin-annotation Contributors
