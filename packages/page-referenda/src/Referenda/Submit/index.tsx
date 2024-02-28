@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2024 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { RawParam } from '@polkadot/react-params/types';
@@ -200,7 +200,7 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
               hint={
                 <>
                   <p>{t('The hash of the preimage for the proposal as previously submitted or intended.')}</p>
-                  <p>{t('The length value witll be auto-populated from the on-chain value if is is found.')}</p>
+                  <p>{t('The length value will be auto-populated from the on-chain value if it is found.')}</p>
                 </>
               }
             >

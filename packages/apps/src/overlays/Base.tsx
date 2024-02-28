@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/apps authors & contributors
+// Copyright 2017-2024 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
@@ -60,8 +60,8 @@ const StyledDiv = styled.div`
   z-index: 500;
 
   &.isBottom {
-    bottom: 0.75rem;
-    top: auto;
+    position: static;
+    z-index: 0;
   }
 
   &.isFull {

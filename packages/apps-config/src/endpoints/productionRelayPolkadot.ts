@@ -1,11 +1,11 @@
-// Copyright 2017-2023 @polkadot/apps-config authors & contributors
+// Copyright 2017-2024 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EndpointOption } from './types.js';
 
 import { POLKADOT_GENESIS } from '../api/constants.js';
-import { chainsAcalaSVG, chainsBitgreenPNG, chainsComposableFinancePNG, chainsEquilibriumSVG, chainsFrequencySVG, chainsGeminisPNG, chainsInvarchJPEG, chainsLogionPNG, chainsOakPNG, chainsOrigintrailPNG, chainsPeaqPNG, chainsPendulumSVG, chainsPolkadotCircleSVG, chainsSnakenetSVG, chainsTotemSVG, chainsWatrPNG } from '../ui/logos/chains/index.js';
-import { nodesAjunaPNG, nodesAresOdysseySVG, nodesAssetHubSVG, nodesAstarPNG, nodesAventusSVG, nodesBifrostSVG, nodesBridgeHubSVG, nodesCentrifugePNG, nodesCloverSVG, nodesCoinversationPNG, nodesCrustParachainSVG, nodesDarwiniaSVG, nodesEfinitySVG, nodesEwxSVG, nodesHashedPNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKiltPNG, nodesKylinPNG, nodesLitentryPNG, nodesMantaPNG, nodesMoonbeamSVG, nodesMoonsamaSVG, nodesNodleSVG, nodesOmnibtcSVG, nodesParallelSVG, nodesPhalaSVG, nodesPolkadexSVG, nodesSoraSubstrateSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesT3rnPNG, nodesUniqueSVG, nodesZeitgeistPNG } from '../ui/logos/nodes/index.js';
+import { chainsAcalaSVG, chainsBitgreenPNG, chainsComposableFinancePNG, chainsEquilibriumSVG, chainsFrequencySVG, chainsGeminisPNG, chainsInvarchJPEG, chainsLogionPNG, chainsNeurowebPNG, chainsOakPNG, chainsPeaqPNG, chainsPendulumSVG, chainsPolkadotCircleSVG, chainsSnakenetSVG, chainsTotemSVG, chainsWatrPNG } from '../ui/logos/chains/index.js';
+import { nodesAjunaPNG, nodesAresOdysseySVG, nodesAssetHubSVG, nodesAstarPNG, nodesAventusSVG, nodesBifrostSVG, nodesBridgeHubSVG, nodesCentrifugePNG, nodesCloverSVG, nodesCoinversationPNG, nodesCrustParachainSVG, nodesDarwiniaSVG, nodesEfinitySVG, nodesEwxSVG, nodesHashedPNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKiltPNG, nodesKylinPNG, nodesLitentryPNG, nodesMantaPNG, nodesMoonbeamSVG, nodesMoonsamaSVG, nodesNodleSVG, nodesOmnibtcSVG, nodesParallelSVG, nodesPhalaSVG, nodesPolimecSVG, nodesPolkadexSVG, nodesSoraSubstrateSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesT3rnPNG, nodesUniqueSVG, nodesZeitgeistPNG } from '../ui/logos/nodes/index.js';
 import { getTeleports } from './util.js';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -26,6 +26,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       // 'Acala Foundation 2': 'wss://acala-rpc-2.aca-api.network/ws', // https://github.com/polkadot-js/apps/issues/6965
       'Acala Foundation 3': 'wss://acala-rpc-3.aca-api.network/ws',
       Dwellir: 'wss://acala-rpc.dwellir.com',
+      LuckyFriday: 'wss://rpc-acala.luckyfriday.io',
       // 'Automata 1RPC': 'wss://1rpc.io/aca' // https://github.com/polkadot-js/apps/issues/8648
       OnFinality: 'wss://acala-polkadot.api.onfinality.io/public-ws'
       // 'Polkawallet 0': 'wss://acala.polkawallet.io' // https://github.com/polkadot-js/apps/issues/9760
@@ -41,7 +42,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'ajuna',
     paraId: 2051,
     providers: {
-      AjunaNetwork: 'wss://rpc-parachain.ajuna.network',
+      // AjunaNetwork: 'wss://rpc-parachain.ajuna.network', // https://github.com/polkadot-js/apps/issues/10172
       OnFinality: 'wss://ajuna.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://ajuna.public.curie.radiumblock.co/ws'
     },
@@ -101,7 +102,9 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'bifrost',
     paraId: 2030,
     providers: {
+      Dwellir: 'wss://bifrost-polkadot-rpc.dwellir.com',
       Liebi: 'wss://hk.p.bifrost-rpc.liebi.com/ws',
+      LiebiEU: 'wss://eu.bifrost-polkadot-rpc.liebi.com/ws',
       OnFinality: 'wss://bifrost-polkadot.api.onfinality.io/public-ws'
     },
     text: 'Bifrost',
@@ -115,8 +118,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'bitgreen',
     paraId: 2048,
     providers: {
-      Bitgreen: 'wss://mainnet.bitgreen.org',
-      OnFinality: 'wss://bitgreen.api.onfinality.io/public-ws'
+      Bitgreen: 'wss://mainnet.bitgreen.org'
+      // OnFinality: 'wss://bitgreen.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9993
     },
     text: 'Bitgreen',
     ui: {
@@ -145,9 +148,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'clover',
     paraId: 2002,
     providers: {
-      Clover: 'wss://rpc-para.clover.finance',
-      Dwellir: 'wss://clover-rpc.dwellir.com',
-      OnFinality: 'wss://clover.api.onfinality.io/public-ws'
+      // Clover: 'wss://rpc-para.clover.finance' // https://github.com/polkadot-js/apps/issues/10172
+      // OnFinality: 'wss://clover.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9986
     },
     text: 'Clover',
     ui: {
@@ -174,8 +176,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2019,
     providers: {
       Composable: 'wss://rpc.composable.finance',
-      Dwellir: 'wss://composable-rpc.dwellir.com',
-      OnFinality: 'wss://composable.api.onfinality.io/public-ws'
+      Dwellir: 'wss://composable-rpc.dwellir.com'
+      // OnFinality: 'wss://composable.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9986
     },
     text: 'Composable Finance',
     ui: {
@@ -188,8 +190,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'crustParachain',
     paraId: 2008,
     providers: {
-      Crust: 'wss://crust-parachain.crustapps.net',
-      OnFinality: 'wss://crust-polkadot.api.onfinality.io/public-ws'
+      Crust: 'wss://crust-parachain.crustapps.net'
+      // OnFinality: 'wss://crust-polkadot.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/10013
     },
     text: 'Crust',
     ui: {
@@ -222,7 +224,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       // 1. The chain is migrated away from the parachain with all balances
       // 2. There is a forked relay-involved which we don't support
       //
-      // Additional details in orginal removal at
+      // Additional details in original removal at
       // https://github.com/polkadot-js/apps/pull/9555/files#r1225095086
     },
     text: 'Efinity',
@@ -232,14 +234,15 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://crowdloan.energywebx.com/',
+    homepage: 'https://energywebx.com/',
     info: 'ewx',
     paraId: 3345,
     providers: {
+      'Energy Web': 'wss://public-rpc.mainnet.energywebx.com/'
     },
     text: 'Energy Web X',
     ui: {
-      color: '#452E66',
+      color: '#53B1FF',
       logo: nodesEwxSVG
     }
   },
@@ -248,9 +251,9 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'equilibrium',
     paraId: 2011,
     providers: {
-      Dwellir: 'wss://equilibrium-rpc.dwellir.com',
-      OnFinality: 'wss://equilibrium.api.onfinality.io/public-ws'
-      // Equilibrium: 'wss://node.pol.equilibrium.io/' // https://github.com/polkadot-js/apps/issues/9748
+      // Dwellir: 'wss://equilibrium-rpc.dwellir.com'
+      // OnFinality: 'wss://equilibrium.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9977
+      // Equilibrium: 'wss://node.equilibrium.io' // https://github.com/polkadot-js/apps/issues/10174
     },
     text: 'Equilibrium',
     ui: {
@@ -309,7 +312,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Dwellir: 'wss://hydradx-rpc.dwellir.com',
       'Galactic Council': 'wss://rpc.hydradx.cloud',
-      OnFinality: 'wss://hydradx.api.onfinality.io/public-ws'
+      Helikon: 'wss://rpc.helikon.io/hydradx'
+      // OnFinality: 'wss://hydradx.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9986
       // ZeePrime: 'wss://rpc-lb.data6.zp-labs.net:8443/hydradx/ws/?token=2ZGuGivPJJAxXiT1hR1Yg2MXGjMrhEBYFjgbdPi' // https://github.com/polkadot-js/apps/issues/9760
     },
     text: 'HydraDX',
@@ -324,8 +328,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2039,
     providers: {
       Dwellir: 'wss://integritee-rpc.dwellir.com',
-      OnFinality: 'wss://integritee-parachain.api.onfinality.io/public-ws'
-      // Integritee: 'wss://polkadot.api.integritee.network' // https://github.com/polkadot-js/apps/issues/9726
+      Integritee: 'wss://polkadot.api.integritee.network'
     },
     text: 'Integritee Shell',
     ui: {
@@ -340,8 +343,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Dwellir: 'wss://interlay-rpc.dwellir.com',
       'Kintsugi Labs': 'wss://api.interlay.io/parachain',
-      LuckyFriday: 'wss://rpc-interlay.luckyfriday.io/',
-      OnFinality: 'wss://interlay.api.onfinality.io/public-ws'
+      LuckyFriday: 'wss://rpc-interlay.luckyfriday.io/'
+      // OnFinality: 'wss://interlay.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9986
     },
     text: 'Interlay',
     ui: {
@@ -353,10 +356,12 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     homepage: 'https://invarch.network/',
     info: 'invarch',
     paraId: 3340,
-    providers: {},
+    providers: {
+      Dwellir: 'wss://invarch-rpc.dwellir.com'
+    },
     text: 'InvArch',
     ui: {
-      color: 'linear-gradient(156deg, rgba(245,129,246,1) 0%, rgba(91,221,238,1) 100%)',
+      color: 'linear-gradient(278deg, #f7d365 5.74%, #ff408a 99.41%)',
       logo: chainsInvarchJPEG
     }
   },
@@ -365,8 +370,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'kapex',
     paraId: 2007,
     providers: {
-      Dwellir: 'wss://kapex-rpc.dwellir.com',
-      OnFinality: 'wss://kapex-parachain.api.onfinality.io/public-ws'
+      // Dwellir: 'wss://kapex-rpc.dwellir.com'
+      // OnFinality: 'wss://kapex-parachain.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9986
       // Totem: 'wss://k-ui.kapex.network' // https://github.com/polkadot-js/apps/issues/9616
     },
     text: 'Kapex',
@@ -380,8 +385,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'kilt',
     paraId: 2086,
     providers: {
+      BOTLabs: 'wss://spiritnet.kilt.io/',
       Dwellir: 'wss://kilt-rpc.dwellir.com',
-      'KILT Protocol': 'wss://spiritnet.kilt.io/',
       OnFinality: 'wss://spiritnet.api.onfinality.io/public-ws'
     },
     text: 'KILT Spiritnet',
@@ -395,7 +400,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'kylin',
     paraId: 2052,
     providers: {
-      'Kylin Network': 'wss://polkadot.kylin-node.co.uk'
+      // 'Kylin Network': 'wss://polkadot.kylin-node.co.uk' // https://github.com/polkadot-js/apps/issues/10030
     },
     text: 'Kylin',
     ui: {
@@ -409,8 +414,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2013,
     providers: {
       Dwellir: 'wss://litentry-rpc.dwellir.com',
-      Litentry: 'wss://rpc.litentry-parachain.litentry.io',
-      OnFinality: 'wss://litentry.api.onfinality.io/public-ws'
+      Litentry: 'wss://rpc.litentry-parachain.litentry.io'
+      // OnFinality: 'wss://litentry.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9993
     },
     text: 'Litentry',
     ui: {
@@ -421,8 +426,11 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
   {
     homepage: 'https://logion.network/',
     info: 'logion',
-    paraId: 3341,
-    providers: {},
+    paraId: 3354,
+    providers: {
+      'Logion 1': 'wss://para-rpc01.logion.network',
+      'Logion 2': 'wss://para-rpc02.logion.network'
+    },
     text: 'Logion',
     ui: {
       color: 'rgb(21, 38, 101)',
@@ -434,8 +442,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'manta',
     paraId: 2104,
     providers: {
-      'Manta Network': 'wss://ws.manta.systems',
-      OnFinality: 'wss://manta.api.onfinality.io/public-ws'
+      'Manta Network': 'wss://ws.manta.systems'
+      // OnFinality: 'wss://manta.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9977
     },
     text: 'Manta',
     ui: {
@@ -453,6 +461,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       Dwellir: 'wss://moonbeam-rpc.dwellir.com',
       'Moonbeam Foundation': 'wss://wss.api.moonbeam.network',
       OnFinality: 'wss://moonbeam.api.onfinality.io/public-ws',
+      RadiumBlock: 'wss://moonbeam.public.curie.radiumblock.co/ws',
       UnitedBloc: 'wss://moonbeam.unitedbloc.com'
     },
     text: 'Moonbeam',
@@ -466,12 +475,37 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'moonsama',
     paraId: 3334,
     providers: {
-      Moonsama: 'wss://rpc.moonsama.com/ws'
+      // Moonsama: 'wss://rpc.moonsama.com/ws' // https://github.com/polkadot-js/apps/issues/10289
     },
     text: 'Moonsama',
     ui: {
       color: '#1a202c',
       logo: nodesMoonsamaSVG
+    }
+  },
+  {
+    homepage: 'https://neuroweb.ai',
+    info: 'neuroweb',
+    paraId: 2043,
+    providers: {
+      Dwellir: 'wss://origintrail-rpc.dwellir.com',
+      TraceLabs: 'wss://parachain-rpc.origin-trail.network'
+    },
+    text: 'NeuroWeb',
+    ui: {
+      color: '#000000',
+      logo: chainsNeurowebPNG
+    }
+  },
+  {
+    homepage: 'https://neuroweb.ai',
+    info: 'neuroweb',
+    paraId: 3360,
+    providers: {},
+    text: 'NeuroWeb',
+    ui: {
+      color: '#000000',
+      logo: chainsNeurowebPNG
     }
   },
   {
@@ -517,28 +551,13 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://parachain.origintrail.io',
-    info: 'origintrail-parachain',
-    paraId: 2043,
-    providers: {
-      Dwellir: 'wss://origintrail-rpc.dwellir.com',
-      OnFinality: 'wss://origintrail.api.onfinality.io/public-ws',
-      TraceLabs: 'wss://parachain-rpc.origin-trail.network'
-    },
-    text: 'OriginTrail',
-    ui: {
-      color: '#FB5DEB',
-      logo: chainsOrigintrailPNG
-    }
-  },
-  {
     homepage: 'https://parallel.fi',
     info: 'parallel',
     paraId: 2012,
     providers: {
-      Dwellir: 'wss://parallel-rpc.dwellir.com',
-      OnFinality: 'wss://parallel.api.onfinality.io/public-ws',
-      Parallel: 'wss://rpc.parallel.fi'
+      Dwellir: 'wss://parallel-rpc.dwellir.com'
+      // OnFinality: 'wss://parallel.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9986
+      // Parallel: 'wss://polkadot-parallel-rpc.parallel.fi' // https://github.com/polkadot-js/apps/issues/10220
     },
     text: 'Parallel',
     ui: {
@@ -576,8 +595,10 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2035,
     providers: {
       Dwellir: 'wss://phala-rpc.dwellir.com',
+      Helikon: 'wss://rpc.helikon.io/phala',
       OnFinality: 'wss://phala.api.onfinality.io/public-ws',
-      Phala: 'wss://api.phala.network/ws'
+      Phala: 'wss://api.phala.network/ws',
+      RadiumBlock: 'wss://phala.public.curie.radiumblock.co/ws'
     },
     text: 'Phala Network',
     ui: {
@@ -586,11 +607,40 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://www.polimec.org/',
+    info: 'polimec',
+    paraId: 3344,
+    providers: {
+      Helikon: 'wss://rpc.helikon.io/polimec',
+      'Polimec Foundation': 'wss://rpc.polimec.org'
+    },
+    text: 'Polimec',
+    ui: {
+      color: '#caffa0',
+      logo: nodesPolimecSVG
+    }
+  },
+  {
+    homepage: 'https://polkadex.trade/crowdloans',
+    info: 'polkadex',
+    paraId: 3363,
+    providers: {
+      // Dwellir: 'wss://polkadex-parachain-rpc.dwellir.com',
+      // OnFinality: 'wss://polkadex-parachain.api.onfinality.io/public-ws',
+      // RadiumBlock: 'wss://polkadex-parachain.public.curie.radiumblock.co/ws'
+    },
+    text: 'Polkadex',
+    ui: {
+      color: '#7C30DD',
+      logo: nodesPolkadexSVG
+    }
+  },
+  {
     homepage: 'https://polkadex.trade/',
     info: 'polkadex',
     paraId: 2040,
     providers: {
-      Dwellir: 'wss://polkadex-rpc.dwellir.com',
+      Dwellir: 'wss://polkadex-parachain-rpc.dwellir.com',
       OnFinality: 'wss://polkadex-parachain.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://polkadex-parachain.public.curie.radiumblock.co/ws'
     },
@@ -605,7 +655,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'sora',
     paraId: 2025,
     providers: {
-      // Soramitsu: 'wss://ws.framenode-1.r0.sora2.soramitsu.co.jp'
+      Soramitsu: 'wss://ws.parachain-collator-3.pc3.sora2.soramitsu.co.jp'
     },
     text: 'SORA',
     ui: {
@@ -646,7 +696,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2101,
     providers: {
       Dappforce: 'wss://para.subsocial.network',
-      OnFinality: 'wss://subsocial-polkadot.api.onfinality.io/public-ws'
+      Dwellir: 'wss://subsocial-rpc.dwellir.com'
+      // OnFinality: 'wss://subsocial-polkadot.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9977
     },
     text: 'Subsocial',
     ui: {
@@ -674,7 +725,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Dwellir: 'wss://unique-rpc.dwellir.com',
       'Geo Load Balancer': 'wss://ws.unique.network',
-      OnFinality: 'wss://unique.api.onfinality.io/public-ws',
+      // OnFinality: 'wss://unique.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/10030
       'Unique America': 'wss://us-ws.unique.network',
       'Unique Asia': 'wss://asia-ws.unique.network',
       'Unique Europe': 'wss://eu-ws.unique.network'
@@ -690,7 +741,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'watr',
     paraId: 2058,
     providers: {
-      // Watr: 'wss://rpc.watr.org' // https://github.com/polkadot-js/apps/issues/9361
+      RadiumBlock: 'wss://watr.public.curie.radiumblock.co/ws',
+      Watr: 'wss://watr-rpc.watr-api.network'
     },
     text: 'Watr Network',
     ui: {
@@ -741,11 +793,14 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     info: 'polkadotBridgeHub',
     paraId: 1002,
     providers: {
+      Dwellir: 'wss://polkadot-bridge-hub-rpc.dwellir.com',
+      'Dwellir Tunisia': 'wss://polkadot-bridge-hub-rpc-tn.dwellir.com',
       'IBP-GeoDNS1': 'wss://sys.ibp.network/bridgehub-polkadot',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/bridgehub-polkadot',
       LuckyFriday: 'wss://rpc-bridge-hub-polkadot.luckyfriday.io',
       OnFinality: 'wss://bridgehub-polkadot.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-bridge-hub-rpc.polkadot.io',
+      RadiumBlock: 'wss://bridgehub-polkadot.public.curie.radiumblock.co/ws',
       Stakeworld: 'wss://dot-rpc.stakeworld.io/bridgehub'
     },
     text: 'BridgeHub',
@@ -757,6 +812,8 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     info: 'polkadotCollectives',
     paraId: 1001,
     providers: {
+      Dwellir: 'wss://polkadot-collectives-rpc.dwellir.com',
+      'Dwellir Tunisia': 'wss://polkadot-collectives-rpc-tn.dwellir.com',
       'IBP-GeoDNS1': 'wss://sys.ibp.network/collectives-polkadot',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/collectives-polkadot',
       LuckyFriday: 'wss://rpc-collectives-polkadot.luckyfriday.io',
@@ -785,14 +842,13 @@ export const prodRelayPolkadot: EndpointOption = {
   providers: {
     // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
     'Automata 1RPC': 'wss://1rpc.io/dot',
-    // Blockops: 'wss://polkadot-public-rpc.blockops.network/ws', // https://github.com/polkadot-js/apps/issues/9840
+    Blockops: 'wss://polkadot-public-rpc.blockops.network/ws', // https://github.com/polkadot-js/apps/issues/9840
     Dwellir: 'wss://polkadot-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://polkadot-rpc-tn.dwellir.com',
     'IBP-GeoDNS1': 'wss://rpc.ibp.network/polkadot',
     'IBP-GeoDNS2': 'wss://rpc.dotters.network/polkadot',
     LuckyFriday: 'wss://rpc-polkadot.luckyfriday.io',
     OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
-    Parity: 'wss://rpc.polkadot.io',
     RadiumBlock: 'wss://polkadot.public.curie.radiumblock.co/ws',
     Stakeworld: 'wss://dot-rpc.stakeworld.io',
     'light client': 'light://substrate-connect/polkadot'

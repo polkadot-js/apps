@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/apps authors & contributors
+// Copyright 2017-2024 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // Do not edit. Auto-generated via node scripts/imgConvert.mjs
@@ -13,6 +13,7 @@ export { chainsAmplitudeSVG } from './generated/amplitudeSVG.js';
 export { chainsBitgreenPNG } from './generated/bitgreenPNG.js';
 export { chainsBittensorPNG } from './generated/bittensorPNG.js';
 export { chainsBrainstormPNG } from './generated/brainstormPNG.js';
+export { chainsChainflipPNG } from './generated/chainflipPNG.js';
 export { chainsComposableFinancePNG } from './generated/composableFinancePNG.js';
 export { chainsCreditcoinTestPNG } from './generated/creditcoin-testPNG.js';
 export { chainsCreditcoinPNG } from './generated/creditcoinPNG.js';
@@ -33,16 +34,18 @@ export { chainsJurPNG } from './generated/jurPNG.js';
 export { chainsKaruraSVG } from './generated/karuraSVG.js';
 export { chainsKicoPNG } from './generated/kicoPNG.js';
 export { chainsKintsugiPNG } from './generated/kintsugiPNG.js';
+export { chainsKreivoSVG } from './generated/kreivoSVG.js';
 export { chainsKusamaSVG } from './generated/kusamaSVG.js';
+export { chainsLiberlandPNG } from './generated/liberlandPNG.js';
 export { chainsListenPNG } from './generated/listenPNG.js';
 export { chainsLogionPNG } from './generated/logionPNG.js';
 export { chainsMangataPNG } from './generated/mangataPNG.js';
 export { chainsMangataxPNG } from './generated/mangataxPNG.js';
 export { chainsMoonsamaPNG } from './generated/moonsamaPNG.js';
 export { chainsMyriadPNG } from './generated/myriadPNG.js';
+export { chainsNeurowebTestnetPNG } from './generated/neuroweb-testnetPNG.js';
+export { chainsNeurowebPNG } from './generated/neurowebPNG.js';
 export { chainsOakPNG } from './generated/oakPNG.js';
-export { chainsOrigintrailTestnetPNG } from './generated/origintrail-testnetPNG.js';
-export { chainsOrigintrailPNG } from './generated/origintrailPNG.js';
 export { chainsPeaqPNG } from './generated/peaqPNG.js';
 export { chainsPendulumSVG } from './generated/pendulumSVG.js';
 export { chainsPicassoSVG } from './generated/picassoSVG.js';
@@ -62,6 +65,8 @@ export { chainsTinkerPNG } from './generated/tinkerPNG.js';
 export { chainsTotemSVG } from './generated/totemSVG.js';
 export { chainsTuringPNG } from './generated/turingPNG.js';
 export { chainsUnorthodoxPNG } from './generated/unorthodoxPNG.js';
-export { chainsVaraSVG } from './generated/varaSVG.js';
+export { chainsVaraTestnetPNG } from './generated/vara-testnetPNG.js';
+export { chainsVaraPNG } from './generated/varaPNG.js';
 export { chainsVirtoPNG } from './generated/virtoPNG.js';
+export { chainsVtbPNG } from './generated/vtbPNG.js';
 export { chainsWatrPNG } from './generated/watrPNG.js';
