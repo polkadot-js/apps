@@ -238,7 +238,7 @@ async function createApi (apiUrl: string, signer: ApiSigner, onError: (error: un
   try {
     if (isLight) {
       provider = await getLightProvider(apiUrl.replace('light://', ''));
-    } else if (store.get('isLocalFork')) {
+    } else if (store.get('localFork') === apiUrl) {
       provider = await ChopsticksProvider.fromEndpoint(apiUrl);
       await setStorage(provider.chain, {
         System: {
@@ -321,7 +321,7 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store: keyringStore 
             .catch(onError);
         });
 
-        if (store.get('isLocalFork')) {
+        if (store.get('localFork') === apiUrl) {
           statics.api.connect()
             .catch(onError);
         }
