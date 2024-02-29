@@ -4,6 +4,8 @@
 import React from 'react';
 import store from 'store';
 
+import { settings } from '@polkadot/ui-settings';
+
 import { useTranslation } from '../translate.js';
 import BaseOverlay from './Base.js';
 
@@ -14,7 +16,7 @@ interface Props {
 function LocalFork ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
-  if (store.get('isLocalFork')) {
+  if (store.get('localFork') === settings.get().apiUrl) {
     return (
       <BaseOverlay
         className={className}
