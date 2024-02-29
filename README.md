@@ -9,7 +9,7 @@
 
 `avail-apps` is a modified version of the [@polkadot/apps](https://github.com/polkadot-js/apps) repository for visualizing and interacting with the Avail network.
 
-Learn more about Avail at the Avail [product page](https://www.availproject.org) and [documentation](https://availproject.github.io/) websites.
+Learn more about Avail at the Avail [product page](https://www.availproject.org) and [documentation](https://docs.availproject.org/) websites.
 
 You can access a live version of the explorer for the Avail Testnet at https://goldberg.avail.tools/
 
