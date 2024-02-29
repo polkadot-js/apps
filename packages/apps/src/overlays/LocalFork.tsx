@@ -1,9 +1,10 @@
 // Copyright 2017-2024 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { settings } from '@polkadot/ui-settings';
 import React from 'react';
 import store from 'store';
+
+import { settings } from '@polkadot/ui-settings';
 
 import { useTranslation } from '../translate.js';
 import BaseOverlay from './Base.js';
