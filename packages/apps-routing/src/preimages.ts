@@ -11,6 +11,7 @@ export default function create (t: TFunction): Route {
     display: {
       needsAccounts: true,
       needsApi: [
+        'query.preimage.requestStatusFor',
         'query.preimage.statusFor',
         'tx.preimage.notePreimage'
       ]
