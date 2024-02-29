@@ -330,7 +330,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'Commune',
     providers: {
-      OnFinality : 'wss://mainnet.liberland.org',
+      OnFinality : 'wss://commune.api.onfinality.io/public-ws',
       Commune: "wss://commune-api-node-1.communeai.net"
     },
     text: 'Commune',
