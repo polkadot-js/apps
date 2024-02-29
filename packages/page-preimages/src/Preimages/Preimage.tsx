@@ -20,6 +20,8 @@ interface Props {
 function Preimage ({ className, value }: Props): React.ReactElement<Props> {
   const info = usePreimage(value);
 
+  console.log('INFO: ', info);
+
   return (
     <tr className={className}>
       <Hash value={value} />
