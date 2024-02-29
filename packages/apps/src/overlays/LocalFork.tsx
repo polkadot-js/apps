@@ -1,6 +1,7 @@
 // Copyright 2017-2024 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { settings } from '@polkadot/ui-settings';
 import React from 'react';
 import store from 'store';
 
@@ -14,7 +15,7 @@ interface Props {
 function LocalFork ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
-  if (store.get('isLocalFork')) {
+  if (store.get('localFork') === settings.get().apiUrl) {
     return (
       <BaseOverlay
         className={className}
