@@ -186,19 +186,6 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://mnet.io/?ref=polkadotjs',
-    info: 'continuum',
-    paraId: 3346,
-    providers: {
-      MNet: 'wss://continuum-rpc-1.metaverse.network/wss'
-    },
-    text: 'MNet Continuum',
-    ui: {
-      color: 'linear-gradient(94deg, #2B388F 2.95%, #DB126E 97.18%)',
-      logo: nodesContinuumPNG
-    }
-  },
-  {
     homepage: 'https://crust.network',
     info: 'crustParachain',
     paraId: 2008,
@@ -462,6 +449,19 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#2070a6',
       logo: nodesMantaPNG
+    }
+  },
+  {
+    homepage: 'https://mnet.io/?ref=polkadotjs',
+    info: 'continuum',
+    paraId: 3346,
+    providers: {
+      MNet: 'wss://continuum-rpc-1.metaverse.network/wss'
+    },
+    text: 'MNet Continuum',
+    ui: {
+      color: 'linear-gradient(94deg, #2B388F 2.95%, #DB126E 97.18%)',
+      logo: nodesContinuumPNG
     }
   },
   {
