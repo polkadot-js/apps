@@ -1777,6 +1777,7 @@
   "rpc.prod.centrifuge": "",
   "rpc.prod.chainx": "",
   "rpc.prod.crab": "",
+  "rpc.prod.continuum": "",
   "rpc.prod.crust": "",
   "rpc.prod.darwinia": "",
   "rpc.prod.dock-pos-mainnet": "",
