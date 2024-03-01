@@ -192,7 +192,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       MNet: 'wss://continuum-rpc-1.metaverse.network/wss'
     },
-    text: 'Continuum',
+    text: 'MNet Continuum',
     ui: {
       color: 'linear-gradient(94deg, #2B388F 2.95%, #DB126E 97.18%)',
       logo: nodesContinuumPNG
