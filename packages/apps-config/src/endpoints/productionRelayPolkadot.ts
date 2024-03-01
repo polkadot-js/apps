@@ -194,7 +194,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     },
     text: 'Continuum',
     ui: {
-      color: '#6A3182',
+      color: 'linear-gradient(94deg, #2B388F 2.95%, #DB126E 97.18%)',
       logo: nodesContinuumPNG
     }
   },
