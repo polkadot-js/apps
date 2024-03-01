@@ -186,9 +186,9 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://app.bit.country/?ref=polkadotjs',
+    homepage: 'https://mnet.io/?ref=polkadotjs',
     info: 'continuum',
-    paraId: 3349,
+    paraId: 3346,
     providers: {
       MNet: 'wss://continuum-rpc-1.metaverse.network/wss'
     },
