@@ -195,7 +195,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     text: 'Continuum',
     ui: {
       color: '#6A3182',
-      logo: nodesContinuumPNG,
+      logo: nodesContinuumPNG
     }
   },
   {
@@ -777,7 +777,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       color: 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)',
       logo: nodesZeitgeistPNG
     }
-  },
+  }
 ];
 
 export const prodParasPolkadotCommon: EndpointOption[] = [
@@ -841,7 +841,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       color: '#e6777a',
       logo: 'fa;people-group'
     }
-  },
+  }
 ];
 
 export const prodRelayPolkadot: EndpointOption = {
