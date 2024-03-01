@@ -36,6 +36,7 @@ export interface ApiProps extends ApiState {
   isApiInitialized: boolean;
   isElectron: boolean;
   isWaitingInjected: boolean;
+  isLocalFork?: boolean;
 }
 
 export interface Accounts {

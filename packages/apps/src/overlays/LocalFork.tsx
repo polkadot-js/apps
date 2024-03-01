@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import store from 'store';
 
-import { settings } from '@polkadot/ui-settings';
+import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
 import BaseOverlay from './Base.js';
@@ -15,8 +14,9 @@ interface Props {
 
 function LocalFork ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const { isLocalFork } = useApi();
 
-  if (store.get('localFork') === settings.get().apiUrl) {
+  if (isLocalFork) {
     return (
       <BaseOverlay
         className={className}
