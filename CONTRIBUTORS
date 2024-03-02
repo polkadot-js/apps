@@ -296,6 +296,7 @@
        1	Adedamola                     	Restore blockops rpcs endpoint (#10170)
        1	Adedayo Akinpelu              	Add blockops endpoint (#9375)
        1	Adrian Wennström              	Added Dwellir's Centrifuge and Pendulum RPC services. (#9902)
+       1	AgoL5866                      	Adding RockX endpoint (#10302)
        1	Aidan Starke                  	Add `Root Network` types (#8034)
        1	Albert                        	Apply Nunito fonts globally (#3882)
        1	Albrecht                      	Rename KILT Protocol to "BOTLabs" (#10032)
