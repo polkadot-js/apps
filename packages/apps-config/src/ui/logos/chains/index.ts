@@ -14,6 +14,7 @@ export { chainsBitgreenPNG } from './generated/bitgreenPNG.js';
 export { chainsBittensorPNG } from './generated/bittensorPNG.js';
 export { chainsBrainstormPNG } from './generated/brainstormPNG.js';
 export { chainsChainflipPNG } from './generated/chainflipPNG.js';
+export { chainsCommunePNG } from './generated/communePNG.js';
 export { chainsComposableFinancePNG } from './generated/composableFinancePNG.js';
 export { chainsCreditcoinTestPNG } from './generated/creditcoin-testPNG.js';
 export { chainsCreditcoinPNG } from './generated/creditcoinPNG.js';
