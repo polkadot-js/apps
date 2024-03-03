@@ -1,6 +1,6 @@
 import {useEffect, useState } from "react"
 
-const SCAN_API = 'https://multiscan-api.coming.chat'
+const SCAN_API = 'https://multiscan-api-pre.coming.chat'
 
 type StashedValidator = {
   accountId: string
