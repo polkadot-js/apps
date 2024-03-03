@@ -21,6 +21,7 @@ import { STORE_FAVS_BASE } from './constants.js';
 import { useTranslation } from './translate.js';
 import UserNomination from './UserNomination';
 import {useGetValidators} from './useGetValidators'
+import { ValidatorSlashed } from './ValidatorSlashed';
 
 const HIDDEN_ACC = ['actions', 'payout'];
 
@@ -88,6 +89,10 @@ function StakingApp ({ basePath, onStatusChange, className = '' }: Props): React
       name: 'actions',
       text: t('Accounts')
     },
+    {
+      name: 'slashed',
+      text: t('Slashed')
+    },
   ].filter((q): q is { name: string; text: string } => !!q), [api, t]);
 
   const stakingOverview = {
@@ -116,6 +121,7 @@ function StakingApp ({ basePath, onStatusChange, className = '' }: Props): React
               onVoteSuccess={refetchValidatorInfoList}
             />
           )}/>
+          <Route path={'slashed'} element={<ValidatorSlashed />}/>
 
           {/*<Route*/}
           {/*  element={*/}
