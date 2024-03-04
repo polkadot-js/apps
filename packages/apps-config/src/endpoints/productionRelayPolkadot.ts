@@ -17,19 +17,6 @@ import { getTeleports } from './util.js';
 // IMPORTANT: Alphabetical based on text
 export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
   {
-    homepage: 'https://hyperbridge.network',
-    info: 'hyperbridge',
-    paraId: 3367,
-    providers: {
-      BlockOps: 'wss://hyperbridge-nexus-rpc.blockops.network'
-    },
-    text: 'Hyperbridge (Nexus)',
-    ui: {
-      color: '#ED6FF1',
-      logo: nodesHyperbridgeSVG
-    }
-  },
-  {
     homepage: 'https://acala.network/',
     info: 'acala',
     paraId: 2000,
@@ -346,6 +333,19 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#f653a2',
       logo: chainsSnakenetSVG
+    }
+  },
+  {
+    homepage: 'https://hyperbridge.network',
+    info: 'hyperbridge',
+    paraId: 3367,
+    providers: {
+      BlockOps: 'wss://hyperbridge-nexus-rpc.blockops.network'
+    },
+    text: 'Hyperbridge (Nexus)',
+    ui: {
+      color: '#ED6FF1',
+      logo: nodesHyperbridgeSVG
     }
   },
   {

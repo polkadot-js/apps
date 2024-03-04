@@ -17,19 +17,6 @@ import { getTeleports } from './util.js';
 // IMPORTANT: Alphabetical based on text
 export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
   {
-    homepage: 'https://hyperbridge.network',
-    info: 'hyperbridge',
-    paraId: 3340,
-    providers: {
-      BlockOps: 'wss://hyperbridge-messier-rpc.blockops.network'
-    },
-    text: 'Hyperbridge (Messier)',
-    ui: {
-      color: '#ED6FF1',
-      logo: nodesHyperbridgeSVG
-    }
-  },
-  {
     homepage: 'https://a.band',
     info: 'aband',
     paraId: 2257,
@@ -262,6 +249,19 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#f47b36',
       logo: chainsGmJPEG
+    }
+  },
+  {
+    homepage: 'https://hyperbridge.network',
+    info: 'hyperbridge',
+    paraId: 3340,
+    providers: {
+      BlockOps: 'wss://hyperbridge-messier-rpc.blockops.network'
+    },
+    text: 'Hyperbridge (Messier)',
+    ui: {
+      color: '#ED6FF1',
+      logo: nodesHyperbridgeSVG
     }
   },
   {

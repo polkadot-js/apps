@@ -17,19 +17,6 @@ import { getTeleports } from './util.js';
 // IMPORTANT: Alphabetical based on text
 export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
   {
-    homepage: 'https://hyperbridge.network',
-    info: 'rococoHyperbridge',
-    paraId: 4374,
-    providers: {
-      BlockOps: 'wss://hyperbridge-gargantua-rpc.blockops.network'
-    },
-    text: 'Hyperbridge (Gargantua)',
-    ui: {
-      color: '#ED6FF1',
-      logo: nodesHyperbridgeSVG
-    }
-  },
-  {
     homepage: 'https://acurast.com',
     info: 'rococoAcurast',
     paraId: 2239,
@@ -265,6 +252,19 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#f653a2',
       logo: chainsHydratePNG
+    }
+  },
+  {
+    homepage: 'https://hyperbridge.network',
+    info: 'rococoHyperbridge',
+    paraId: 4374,
+    providers: {
+      BlockOps: 'wss://hyperbridge-gargantua-rpc.blockops.network'
+    },
+    text: 'Hyperbridge (Gargantua)',
+    ui: {
+      color: '#ED6FF1',
+      logo: nodesHyperbridgeSVG
     }
   },
   {
