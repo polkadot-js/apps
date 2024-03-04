@@ -177,6 +177,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   coinversation,
   'competitors-club': competitorsClub,
   contextfree: automata,
+  'continuum-runtime': bitcountryPioneer,
   contracts,
   'crown-sterling': crownSterlingChain,
   crust,
