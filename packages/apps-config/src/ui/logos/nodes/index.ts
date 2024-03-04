@@ -63,6 +63,7 @@ export { nodesImbuePNG } from './generated/imbuePNG.js';
 export { nodesInnovatorPNG } from './generated/innovatorPNG.js';
 export { nodesIntegriteeSVG } from './generated/integriteeSVG.js';
 export { nodesInterlaySVG } from './generated/interlaySVG.js';
+export { nodesInvoPNG } from './generated/invoPNG.js';
 export { nodesIpciSVG } from './generated/ipciSVG.js';
 export { nodesIpsePNG } from './generated/ipsePNG.js';
 export { nodesIpseSVG } from './generated/ipseSVG.js';
