@@ -60,7 +60,7 @@ export const Polkaholic: ExternalDef = {
     kintsugi: 'kintsugi'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
-    `https://${chain}.polkaholic.io/${path}/${data.toString()}`,
+    `https://polkaholic.io/${path}/${data.toString()}&chainfilters=${chain}`,
   homepage: 'https://polkaholic.io/',
   isActive: true,
   paths: {
