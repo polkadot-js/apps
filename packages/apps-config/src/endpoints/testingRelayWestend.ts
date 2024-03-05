@@ -120,8 +120,8 @@ export const testParasWestendCommon: EndpointOption[] = [
       'IBP-GeoDNS1': 'wss://sys.ibp.network/westmint',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/westmint',
       // OnFinality: 'wss://westmint.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9955
-      Parity: 'wss://westend-asset-hub-rpc.polkadot.io',
-      Stakeworld: 'wss://wnd-rpc.stakeworld.io/assethub'
+      Parity: 'wss://westend-asset-hub-rpc.polkadot.io'
+      // Stakeworld: 'wss://wnd-rpc.stakeworld.io/assethub'
     },
     teleport: [-1],
     text: 'AssetHub',
@@ -164,6 +164,16 @@ export const testParasWestendCommon: EndpointOption[] = [
     }
   },
   {
+    info: 'westendCoretime',
+    paraId: 1005,
+    providers: {
+      Parity: 'wss://westend-coretime-rpc.polkadot.io'
+    },
+    teleport: [-1],
+    text: 'Coretime',
+    ui: {}
+  },
+  {
     info: 'westendPeople',
     paraId: 1004,
     providers: {
@@ -193,7 +203,7 @@ export const testRelayWestend: EndpointOption = {
     OnFinality: 'wss://westend.api.onfinality.io/public-ws',
     Parity: 'wss://westend-rpc.polkadot.io',
     RadiumBlock: 'wss://westend.public.curie.radiumblock.co/ws',
-    Stakeworld: 'wss://wnd-rpc.stakeworld.io',
+    // Stakeworld: 'wss://wnd-rpc.stakeworld.io',
     'light client': 'light://substrate-connect/westend'
   },
   teleport: getTeleports(testParasWestendCommon),

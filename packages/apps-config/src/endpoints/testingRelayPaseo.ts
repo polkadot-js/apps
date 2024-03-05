@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types.js';
 
 import { PASEO_GENESIS } from '../api/constants.js';
-import { } from '../ui/logos/chains/index.js';
+import { chainsPaseoBgPNG, chainsPaseoPNG } from '../ui/logos/chains/index.js';
 // import { testnetParachainSVG } from '../ui/logos/nodes/index.js';
 import { getTeleports } from './util.js';
 
@@ -57,13 +57,15 @@ export const testRelayPaseo: EndpointOption = {
     ...testParasPaseo
   ],
   providers: {
-    Amforc: 'wss://paseo.rpc.amforc.com'
+    Amforc: 'wss://paseo.rpc.amforc.com',
+    'IBP-GeoDNS2': 'wss://rpc.dotters.network/paseo'
     // 'light client': 'light://substrate-connect/paseo'
   },
   teleport: getTeleports(testParasPaseoCommon),
   text: 'Paseo',
   ui: {
-    color: '#e6007a',
-    identityIcon: 'polkadot'
+    color: `url(${chainsPaseoBgPNG}) #A0FED4`,
+    identityIcon: 'polkadot',
+    logo: chainsPaseoPNG
   }
 };
