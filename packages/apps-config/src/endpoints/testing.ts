@@ -581,17 +581,6 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'Phyken Network',
-    providers: {
-      'Phyken Testnet': 'wss://rpc.testnet.metaquity.xyz'
-    },
-    text: 'Phyken Network Testnet',
-    ui: {
-      color: '#48B96C',
-      logo: nodesPhykenNetworkPNG
-    }
-  },
-  {
     info: 'minix',
     providers: {
       // Chainx: 'wss://minichain.coming.chat/ws' // https://github.com/polkadot-js/apps/issues/8132
@@ -707,6 +696,17 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#d42181',
       logo: nodesPhoenixPNG
+    }
+  },
+  {
+    info: 'Phyken Network',
+    providers: {
+      'Phyken Testnet': 'wss://rpc.testnet.metaquity.xyz'
+    },
+    text: 'Phyken Network Testnet',
+    ui: {
+      color: '#48B96C',
+      logo: nodesPhykenNetworkPNG
     }
   },
   {
