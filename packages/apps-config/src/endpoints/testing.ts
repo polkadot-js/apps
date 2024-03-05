@@ -3,7 +3,7 @@
 
 import type { EndpointOption } from './types.js';
 
-import { chains3dpassSVG, chainsAcalaSVG, chainsAlephSVG, chainsBrainstormPNG, chainsChainflipPNG, chainsCreditcoinTestPNG, chainsDebioSVG, chainsEquilibriumSVG, chainsFerrumPNG, chainsFragnovaPNG, chainsJurPNG, chainsKintsugiPNG, chainsLogionPNG, chainsMyriadPNG, chainsShidenPNG, chainsSkyekiwiPNG, chainsTanglePNG, chainsVaraTestnetPNG } from '../ui/logos/chains/index.js';
+import { chains3dpassSVG, chainsAcalaSVG, chainsAlephSVG, chainsBrainstormPNG, chainsChainflipPNG, chainsCreditcoinTestPNG, chainsDebioSVG, chainsEquilibriumSVG, chainsFerrumPNG, chainsFragnovaPNG, chainsJurPNG, chainsKintsugiPNG, chainsLiberlandPNG, chainsLogionPNG, chainsMyriadPNG, chainsShidenPNG, chainsSkyekiwiPNG, chainsTanglePNG, chainsVaraTestnetPNG } from '../ui/logos/chains/index.js';
 import { nodesAjunaPNG, nodesArcticPNG, nodesAresGladiosSVG, nodesAutomataPNG, nodesBifrostSVG, nodesBitcountryPNG, nodesCereSVG, nodesCessPNG, nodesCloverSVG, nodesCrustMaxwellSVG, nodesCurioSVG, nodesDatahighwayPNG, nodesDockPNG, nodesDolphinSVG, nodesDotmogSVG, nodesEdgewareWhitePNG, nodesEncointerBlueSVG, nodesFantourPNG, nodesGalitalLogoPNG, nodesGamepowerSVG, nodesGeekSVG, nodesInterlaySVG, nodesIpsePNG, nodesJazPNG, nodesJupiterSVG, nodesKarmachainSVG, nodesKhalaSVG, nodesKiltPNG, nodesKlugPNG, nodesKylinPNG, nodesLaminarCircleSVG, nodesLitentryPNG, nodesMantaPNG, nodesMathSVG, nodesMetaquityNetworkPNG, nodesMinixPNG, nodesMoonbaseAlphaSVG, nodesMybankPNG, nodesNftmartPNG, nodesNodleSVG, nodesOpalLogoPNG, nodesOpportunityPNG, nodesPangoroSVG, nodesPhalaSVG, nodesPhoenixPNG, nodesPichiuPNG, nodesPolkadexSVG, nodesPolkafoundrySVG, nodesPolymeshSVG, nodesPontemSVG, nodesPrismPNG, nodesRealisPNG, nodesRiochainSVG, nodesSherpaxPNG, nodesSoonsocialPNG, nodesSoraSubstrateSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesSubspacePNG, nodesSubstrateHexagonSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesUniartsPNG, nodesUniqueSVG, nodesUnitnetworkPNG, nodesWeb3gamesSVG, nodesZCloakSVG } from '../ui/logos/nodes/index.js';
 
 export * from './testingRelayRococo.js';
@@ -31,7 +31,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'ajuna',
     providers: {
-      'Ajuna Network': 'wss://rpc-test.ajuna.network'
+      // 'Ajuna Network': 'wss://rpc-test.ajuna.network' // https://github.com/polkadot-js/apps/issues/10289
     },
     text: 'Ajuna Testnet',
     ui: {
@@ -110,9 +110,9 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'edgeware',
     providers: {
-      // JelliedOwl: 'wss://beresheet.jelliedowl.net' // https://github.com/polkadot-js/apps/issues/9952
+      JelliedOwl: 'wss://beresheet.jelliedowl.net'
     },
-    text: 'Beresheet',
+    text: 'Beresheet (Edgeware)',
     ui: {
       logo: nodesEdgewareWhitePNG
     }
@@ -523,6 +523,17 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     text: 'Kylin Testnet',
     ui: {
       logo: nodesKylinPNG
+    }
+  },
+  {
+    info: 'Liberland',
+    providers: {
+      'Liberland Government': 'wss://testchain.liberland.org'
+    },
+    text: 'Liberland testnet',
+    ui: {
+      color: 'rgb(231, 196, 36)',
+      logo: chainsLiberlandPNG
     }
   },
   {

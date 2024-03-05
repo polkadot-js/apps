@@ -12,8 +12,8 @@ import Signer from '@polkadot/react-signer';
 
 import Content from './Content/index.js';
 import Menu from './Menu/index.js';
+import BottomOverlay from './overlays/Bottom.js';
 import ConnectingOverlay from './overlays/Connecting.js';
-import DotAppsOverlay from './overlays/DotApps.js';
 import WarmUp from './WarmUp.js';
 
 export const PORTAL_ID = 'portals';
@@ -39,7 +39,7 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
             <Content />
           </Signer>
           <ConnectingOverlay />
-          <DotAppsOverlay />
+          <BottomOverlay />
           <div id={PORTAL_ID} />
         </AccountSidebar>
       </StyledDiv>

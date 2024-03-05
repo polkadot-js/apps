@@ -93,6 +93,7 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
 const StyledTable = styled(Table)`
   table {
     overflow: visible;
+    z-index: 2;
   }
 `;
 

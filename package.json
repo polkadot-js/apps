@@ -8,7 +8,7 @@
   "homepage": "https://github.com/polkadot-js/apps#readme",
   "license": "Apache-2.0",
   "name": "polkadot-apps",
-  "packageManager": "yarn@3.2.0",
+  "packageManager": "yarn@4.1.0",
   "private": true,
   "repository": {
     "type": "git",
@@ -16,9 +16,9 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.133.2-81-x",
+  "version": "0.133.2-112-x",
   "versions": {
-    "git": "0.133.2-81-x",
+    "git": "0.133.2-112-x",
     "npm": "0.133.1"
   },
   "workspaces": [
