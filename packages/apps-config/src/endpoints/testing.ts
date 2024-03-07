@@ -19,7 +19,7 @@ import config from '../variables/config.js';
 // IMPORTANT: Alphabetical based on text
 export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
-    info: 'data-avail',
+    info: 'avail',
     providers: {
       AVAIL: config.TESTNETURL
     },

@@ -64,8 +64,8 @@ function getApiUrl (): string {
 
 function getLightClientUrl (): string {
   // we split here so that both these forms are allowed
-  //  - http://localhost:3000/?light=https://kate.avail.tools/#/explorer
-  //  - http://localhost:3000/#/explorer?light=https://kate.avail.tools/light/v1
+  //  - http://localhost:3000/?light=https://goldberg.avail.tools/#/explorer
+  //  - http://localhost:3000/#/explorer?light=https://goldberg.avail.tools/light/v1
   const urlOptions = queryString.parse(location.href.split('?')[1]);
 
   // if specified, this takes priority

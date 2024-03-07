@@ -151,7 +151,7 @@ async function getKnown (api: ApiPromise, extensions: InjectedExtension[], _: nu
 const EMPTY_STATE = { count: 0, extensions: [] };
 
 function useExtensionsImpl (): Extensions {
-  const { api, extensions, isApiReady, isDevelopment } = useApi();
+  const { api, extensions, isApiReady } = useApi();
   const [all, setAll] = useState<ExtensionKnown[] | undefined>();
   const [trigger, setTrigger] = useState(0);
 
@@ -172,10 +172,10 @@ function useExtensionsImpl (): Extensions {
   }, [api, extensions, trigger]);
 
   return useMemo(
-    () => isDevelopment || !isApiReady || !all
+    () => !isApiReady || !all
       ? EMPTY_STATE
       : filterAll(api, all),
-    [all, api, isApiReady, isDevelopment]
+    [all, api, isApiReady]
   );
 }
 
