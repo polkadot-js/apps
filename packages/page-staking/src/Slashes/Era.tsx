@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { BN } from '@polkadot/util';
 import type { SlashEra } from './types.js';
 
 import React, { useCallback, useRef, useState } from 'react';
@@ -17,7 +18,7 @@ import Summary from './Summary.js';
 interface Props {
   buttons: React.ReactNode;
   councilId: string | null;
-  councilThreshold: number;
+  councilThreshold: BN;
   slash: SlashEra;
 }
 

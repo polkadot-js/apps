@@ -3,6 +3,8 @@
 
 import type { ApiPromise } from '@polkadot/api';
 
+import { BN } from '@polkadot/util';
+
 import { KULUPU_GENESIS, KUSAMA_GENESIS, POLKADOT_GENESIS } from '../constants.js';
 
 // normal fast-track proposals
@@ -51,4 +53,21 @@ export function getSlashProposalThreshold (api: ApiPromise): number {
 
 export function getTreasuryProposalThreshold (api: ApiPromise): number {
   return TREASURY[api.genesisHash.toHex()] || TREASURY.default;
+}
+
+export function calcThreshold (members: unknown[], threshold: number): BN {
+  const frac = members.length * threshold;
+  const ceil = Math.ceil(frac);
+
+  return new BN(
+    Math.min(
+      members.length,
+      ceil + (
+        // for evenly divisible, adjust upwards
+        Math.floor(frac) === ceil
+          ? 1
+          : 0
+      )
+    )
+  );
 }
