@@ -19,11 +19,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@acala-network/chopsticks-core@npm:^0.9.9":
-  version: 0.9.9
-  resolution: "@acala-network/chopsticks-core@npm:0.9.9"
+"@acala-network/chopsticks-core@npm:^0.9.10":
+  version: 0.9.10
+  resolution: "@acala-network/chopsticks-core@npm:0.9.10"
   dependencies:
-    "@acala-network/chopsticks-executor": "npm:0.9.9"
+    "@acala-network/chopsticks-executor": "npm:0.9.10"
     "@polkadot/rpc-provider": "npm:^10.11.2"
     "@polkadot/types": "npm:^10.11.2"
     "@polkadot/types-codec": "npm:^10.11.2"
@@ -38,17 +38,17 @@ __metadata:
     pino-pretty: "npm:^10.3.1"
     rxjs: "npm:^7.8.1"
     zod: "npm:^3.22.4"
-  checksum: 10/695312401d2059e6c341d9b6166e163969dd0447897c60424b1bde8709dfa4bbe83fc18c9547d7bbc8c8f8bfbae2533d986d5eaef856f534b135c313613faf91
+  checksum: 10/c16d50b94d1c382e59993f7010d54e19699b75463e59c60e927277a2cfa0ff1c3f5723753e49c970294511efe82d3dee04e934a3c10c3599286c206b2d88a6a1
   languageName: node
   linkType: hard
 
-"@acala-network/chopsticks-executor@npm:0.9.9":
-  version: 0.9.9
-  resolution: "@acala-network/chopsticks-executor@npm:0.9.9"
+"@acala-network/chopsticks-executor@npm:0.9.10":
+  version: 0.9.10
+  resolution: "@acala-network/chopsticks-executor@npm:0.9.10"
   dependencies:
     "@polkadot/util": "npm:^12.6.2"
     "@polkadot/wasm-util": "npm:^7.3.2"
-  checksum: 10/c0acdaf148d329c12d66030f0dd42be6e8cb77b58f6969c27b6d6be54cc2d0f6e61697ad83ddefe1a5c35c8d1efb9ad5f425bd5992a469be55cca99630193e8d
+  checksum: 10/1eb963430672ba0c6769363f9fe968b61c3c0efe53bf94887aa10ec5fb46e52c0defe06a99d903c8022041a24b8dc253d11b8067379552a94472ce72c400bf08
   languageName: node
   linkType: hard
 
@@ -1948,7 +1948,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/apps@workspace:packages/apps"
   dependencies:
-    "@acala-network/chopsticks-core": "npm:^0.9.9"
+    "@acala-network/chopsticks-core": "npm:^0.9.10"
     "@polkadot/apps-config": "npm:^0.133.2-119-x"
     "@polkadot/apps-routing": "npm:^0.133.2-119-x"
     "@polkadot/dev": "npm:^0.78.4"
