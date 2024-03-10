@@ -22,7 +22,7 @@ export const useGetStashedValidators = (): { data: StashedValidator[]; loading: 
 
   const getData = async (apiUrl: string, page = 0, pageSize = 100) => {
     setLoading(true)
-    const scanApi = apiUrl.includes('mainnet') ? SCAN_API_MAINNET : SCAN_API_TESTNET
+    const scanApi = apiUrl.includes('testnet') ? SCAN_API_TESTNET : SCAN_API_MAINNET
     const response = await fetch(`${scanApi}/bevmsub/xstaking/slashedEvents?page=${page}&page_size=${pageSize}`)
     const result = await response.json()
     setLoading(false)
