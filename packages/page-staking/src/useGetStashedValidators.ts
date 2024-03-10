@@ -1,6 +1,8 @@
 import {useEffect, useState } from "react"
+import {useApi} from '@polkadot/react-hooks'
 
-const SCAN_API = 'https://multiscan-api-pre.coming.chat'
+const SCAN_API_TESTNET = 'https://multiscan-api-pre.coming.chat'
+const SCAN_API_MAINNET = 'https://multiscan-api.coming.chat'
 
 type StashedValidator = {
   accountId: string
@@ -13,21 +15,23 @@ type StashedValidator = {
   extrinsicHash: string
 }
 
-export const useGetStashedValidators = (): { data: StashedValidator[]; loading: boolean; refetch: (page: number, pageSize: number) => Promise<void>; } => {
+export const useGetStashedValidators = (): { data: StashedValidator[]; loading: boolean; refetch: (url: string, page: number, pageSize: number) => Promise<void>; } => {
   const [data, setData] = useState<StashedValidator[]>([])
   const [loading, setLoading] = useState(false)
+  const { apiUrl } = useApi()
 
-  const getData = async (page = 0, pageSize = 100) => {
+  const getData = async (apiUrl: string, page = 0, pageSize = 100) => {
     setLoading(true)
-    const response = await fetch(`${SCAN_API}/bevmsub/xstaking/slashedEvents?page=${page}&page_size=${pageSize}`)
+    const scanApi = apiUrl.includes('mainnet') ? SCAN_API_MAINNET : SCAN_API_TESTNET
+    const response = await fetch(`${scanApi}/bevmsub/xstaking/slashedEvents?page=${page}&page_size=${pageSize}`)
     const result = await response.json()
     setLoading(false)
     setData(result?.items || [])
   }
 
   useEffect(() => {
-    getData()
-  }, []);
+    apiUrl && getData(apiUrl)
+  }, [apiUrl]);
 
   return { data, loading, refetch: getData }
 }
