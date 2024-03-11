@@ -70974,8 +70974,8 @@ export const typesBundle = {
             "jsonrpc": "validatormanager_validatorsPool",
             "method": "validatorsPool",
             "section": "validatormanager"
-          },
-        },
+          }
+        }
       },
       "types": [
         {
@@ -70997,7 +70997,7 @@ export const typesBundle = {
             "ExtrinsicSignature": "EthereumSignature",
             "Lookup0": "AccountId",
             "LookupSource": "AccountId",
-            "MaintenanceIndex": "u32",
+            "MaintenanceIndex": "u32"
           }
         }
       ]
