@@ -1846,6 +1846,7 @@ __metadata:
   resolution: "@polkadot/app-utilities@workspace:packages/page-utilities"
   dependencies:
     "@polkadot/react-components": "npm:^0.133.2-120-x"
+    "@polkadot/react-params": "npm:^0.133.2-120-x"
   peerDependencies:
     react: "*"
     react-dom: "*"
