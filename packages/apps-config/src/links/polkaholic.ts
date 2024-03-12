@@ -75,11 +75,11 @@ export const Polkaholic: ExternalDef = {
     Statemine: 'statemine',
     Statemint: 'statemint',
     SubsocialX: 'subsocialx',
-    subzero: 'subzero'
+    subzero: 'subzero',
     Tanganika: 'tanganika',
     Turing: 'turing',
     Unique: 'unique',
-    Zeitgeist: 'zeitgeist',
+    Zeitgeist: 'zeitgeist'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://polkaholic.io/${path}/${data.toString()}&chainfilters=${chain}`,
