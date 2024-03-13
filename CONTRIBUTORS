@@ -311,6 +311,7 @@
        1	Andy Bell                     	Dali to Picasso (#9102)
        1	Anthony Chan                  	fix the cess testnet logo wrong bug (#8649)
        1	Arjun Porwal                  	Add Metadata for Polkadex crowdloan (#10259)
+       1	Assem                         	chore: update `chainflip-perseverance` archive endpoint 🚀 (#10352)
        1	Bart200c                      	add kylin network (#7865)
        1	Bill Laboon                   	Add explanation that Docker port is 80 (#1480)
        1	BoBin                         	Add subscan rococo extra link (#4439)
