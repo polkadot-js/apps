@@ -165,7 +165,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'chainflip',
     providers: {
-      chainflip: 'wss://perseverance.chainflip.xyz'
+      chainflip: 'wss://archive.perseverance.chainflip.io'
     },
     text: 'Chainflip Testnet',
     ui: {
