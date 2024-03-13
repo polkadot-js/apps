@@ -878,7 +878,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'xode',
     paraId: 3344,
     providers: {
-      XodeCommunity: 'wss://bootnodea01.xode.net/n7yoxCmcIrCF6VziCcDmYTwL8R03a/rpc'
+      XodeCommunity: 'wss://rpcnodea01.xode.net/n7yoxCmcIrCF6VziCcDmYTwL8R03a/rpc'
     },
     text: 'Xode',
     ui: {
