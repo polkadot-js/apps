@@ -295,7 +295,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoIntegritee',
     paraId: 3002,
     providers: {
-      Integritee: 'wss://rococo.api.integritee.network'
+      // Integritee: 'wss://rococo.api.integritee.network' // https://github.com/polkadot-js/apps/issues/10353
     },
     text: 'Integritee Network',
     ui: {
@@ -308,7 +308,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoInvo',
     paraId: 4377,
     providers: {
-      'Invo Network': 'wss://rococo.api.invo.network'
+      // 'Invo Network': 'wss://rococo.api.invo.network' // https://github.com/polkadot-js/apps/issues/10353
     },
     text: 'Invo Testnet',
     ui: {
