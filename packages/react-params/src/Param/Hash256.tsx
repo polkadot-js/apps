@@ -40,7 +40,7 @@ function Hash256 ({ className = '', defaultValue, isDisabled, isError, label, na
 
   const toggleLabel = !isDisabled && (
     <Toggle
-      label={t<string>('hash a file')}
+      label={t('hash a file')}
       onChange={_setFileInput}
       value={isFileDrop}
     />

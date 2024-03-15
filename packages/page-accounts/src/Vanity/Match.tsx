@@ -56,7 +56,7 @@ function Match ({ address, className = '', count, offset, onCreateToggle, onRemo
       <td className='button'>
         <Button
           icon='plus'
-          label={t<string>('Save')}
+          label={t('Save')}
           onClick={_onCreate}
         />
         <Button

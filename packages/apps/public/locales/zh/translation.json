@@ -215,6 +215,7 @@
   "Forget this asset": "忘记这个资产",
   "Forget this code hash": "忘记这个代码哈希",
   "Forget this contract": "忘记该合约",
+  "Fork Locally": "本地分叉",
   "Forks": "(Forks)分叉",
   "Full Legal Name": "法定全称",
   "Future versions of the web-only interface will drop support for non-external accounts, much like the IPFS version.": "未来版本的纯 web 界面将不再支持非外部帐户，这与 IPFS 版本非常相似。",

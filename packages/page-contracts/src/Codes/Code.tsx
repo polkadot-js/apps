@@ -24,7 +24,7 @@ interface Props {
 function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const optCode = useCall<Option<Codec>>(api.query.contracts.codeStorage, [code.json.codeHash]);
+  const optCode = useCall<Option<Codec>>(api.query.contracts.pristineCode || api.query.contracts.codeStorage, [code.json.codeHash]);
   const [isForgetOpen, toggleIsForgetOpen] = useToggle();
   const { contractAbi } = useAbi([code.json.abi, code.contractAbi], code.json.codeHash, true);
 
@@ -72,8 +72,8 @@ function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Pro
                 code={code || ''}
                 isInline
               >
-                <p>{t<string>('You are about to remove this code from your list of available code hashes. Once completed, should you need to access it again, you will have to manually add the code hash again.')}</p>
-                <p>{t<string>('This operation does not remove the uploaded code WASM and ABI from the chain, nor any deployed contracts. The forget operation only limits your access to the code on this browser.')}</p>
+                <p>{t('You are about to remove this code from your list of available code hashes. Once completed, should you need to access it again, you will have to manually add the code hash again.')}</p>
+                <p>{t('This operation does not remove the uploaded code WASM and ABI from the chain, nor any deployed contracts. The forget operation only limits your access to the code on this browser.')}</p>
               </CodeRow>
             </Forget>
           )}
@@ -94,7 +94,7 @@ function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Pro
       </td>
       <td className='start together'>
         {optCode && (
-          optCode.isSome ? t<string>('Available') : t<string>('Not on-chain')
+          optCode.isSome ? t('Available') : t('Not on-chain')
         )}
       </td>
       <td className='button'>
@@ -105,7 +105,7 @@ function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Pro
         {!contractAbi && (
           <Button
             icon='upload'
-            label={t<string>('deploy')}
+            label={t('deploy')}
             onClick={_onShowDeploy}
           />
         )}

@@ -56,7 +56,7 @@ function expandInfo ({ exposure, validatorPrefs }: ValidatorInfo, minCommission?
   let stakeOther: BN | undefined;
   let stakeOwn: BN | undefined;
 
-  if (exposure && exposure.total) {
+  if (exposure?.total) {
     nominators = exposure.others.map(({ value, who }) => ({
       nominatorId: who.toString(),
       value: value.unwrap()
@@ -194,7 +194,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
               <Columar.Column>
                 {isMain && stakeOwn?.gtn(0) && (
                   <>
-                    <h5>{t<string>('own stake')}</h5>
+                    <h5>{t('own stake')}</h5>
                     <FormatBalance
                       value={stakeOwn}
                     />
@@ -204,13 +204,13 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
               <Columar.Column>
                 {hasQueries && (
                   <>
-                    <h5>{t<string>('graphs')}</h5>
+                    <h5>{t('graphs')}</h5>
                     <a href={statsLink}>
                       <Icon
                         className='highlight--color'
                         icon='chart-line'
                       />
-                      &nbsp;{t<string>('historic results')}
+                      &nbsp;{t('historic results')}
                     </a>
                   </>
                 )}

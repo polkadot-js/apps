@@ -39,7 +39,7 @@ function PreImage ({ className = '', imageHash, isImminent = false, onClose }: P
   const [proposal, setProposal] = useState<SubmittableExtrinsic>();
 
   useEffect((): void => {
-    const encodedProposal = (proposal as SubmittableExtrinsic)?.method.toHex() || '';
+    const encodedProposal = proposal?.method.toHex() || '';
     const storageFee = api.consts.democracy.preimageByteDeposit
       ? (api.consts.democracy.preimageByteDeposit as unknown as BN).mul(
         encodedProposal
@@ -63,17 +63,17 @@ function PreImage ({ className = '', imageHash, isImminent = false, onClose }: P
   return (
     <StyledModal
       className={className}
-      header={t<string>('Submit preimage')}
+      header={t('Submit preimage')}
       onClose={onClose}
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={t<string>('This account will pay the fees for the preimage, based on the size thereof.')}>
+        <Modal.Columns hint={t('This account will pay the fees for the preimage, based on the size thereof.')}>
           <InputAddress
-            label={t<string>('send from account')}
+            label={t('send from account')}
             labelExtra={
               <Available
-                label={<span className='label'>{t<string>('transferrable')}</span>}
+                label={<span className='label'>{t('transferrable')}</span>}
                 params={accountId}
               />
             }
@@ -83,28 +83,28 @@ function PreImage ({ className = '', imageHash, isImminent = false, onClose }: P
         </Modal.Columns>
         <Modal.Columns hint={
           <>
-            <p>{t<string>('The image (proposal) will be stored on-chain against the hash of the contents.')}</p>
-            <p>{t<string>('When submitting a proposal the hash needs to be known. Proposals can be submitted with hash-only, but upon dispatch the preimage needs to be available.')}</p>
+            <p>{t('The image (proposal) will be stored on-chain against the hash of the contents.')}</p>
+            <p>{t('When submitting a proposal the hash needs to be known. Proposals can be submitted with hash-only, but upon dispatch the preimage needs to be available.')}</p>
           </>
         }
         >
           <Extrinsic
             defaultValue={apiDefaultTxSudo}
-            label={t<string>('propose')}
+            label={t('propose')}
             onChange={setProposal}
           />
           <Static
-            label={t<string>('preimage hash')}
+            label={t('preimage hash')}
             value={encodedHash}
             withCopy
           />
         </Modal.Columns>
         {!isImminent && storageFee && (
-          <Modal.Columns hint={t<string>('The calculated storage costs based on the size and the per-bytes fee.')}>
+          <Modal.Columns hint={t('The calculated storage costs based on the size and the per-bytes fee.')}>
             <InputBalance
               defaultValue={storageFee}
               isDisabled
-              label={t<string>('calculated storage fee')}
+              label={t('calculated storage fee')}
             />
           </Modal.Columns>
         )}
@@ -114,7 +114,7 @@ function PreImage ({ className = '', imageHash, isImminent = false, onClose }: P
           accountId={accountId}
           icon='plus'
           isDisabled={!proposal || !accountId || !isMatched || !encodedProposal}
-          label={t<string>('Submit preimage')}
+          label={t('Submit preimage')}
           onStart={onClose}
           params={[encodedProposal]}
           tx={

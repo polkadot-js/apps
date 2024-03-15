@@ -29,7 +29,7 @@ function Nominate ({ className = '', controllerId, nominating, onClose, poolId, 
   return (
     <StyledModal
       className={className}
-      header={t<string>('Nominate Validators')}
+      header={t('Nominate Validators')}
       onClose={onClose}
       size='large'
     >
@@ -51,7 +51,7 @@ function Nominate ({ className = '', controllerId, nominating, onClose, poolId, 
           extrinsic={nominateTx}
           icon='hand-paper'
           isDisabled={!nominateTx}
-          label={t<string>('Nominate')}
+          label={t('Nominate')}
           onStart={onClose}
         />
       </Modal.Actions>

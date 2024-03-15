@@ -61,8 +61,8 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
   const accountInfo = useCall<AccountInfoWithProviders | AccountInfoWithRefCount>(api.query.system.account, [propSenderId || senderId]);
 
   useEffect((): void => {
-    const fromId = propSenderId || senderId as string;
-    const toId = propRecipientId || recipientId as string;
+    const fromId = propSenderId || senderId;
+    const toId = propRecipientId || recipientId;
 
     if (balances && balances.accountId?.eq(fromId) && fromId && toId && api.call.transactionPaymentApi && api.tx.balances) {
       nextTick(async (): Promise<void> => {
@@ -102,20 +102,20 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
   return (
     <StyledModal
       className='app--accounts-Modal'
-      header={t<string>('Send funds')}
+      header={t('Send funds')}
       onClose={onClose}
       size='large'
     >
       <Modal.Content>
         <div className={className}>
-          <Modal.Columns hint={t<string>('The transferred balance will be subtracted (along with fees) from the sender account.')}>
+          <Modal.Columns hint={t('The transferred balance will be subtracted (along with fees) from the sender account.')}>
             <InputAddress
               defaultValue={propSenderId}
               isDisabled={!!propSenderId}
-              label={t<string>('send from account')}
+              label={t('send from account')}
               labelExtra={
                 <Available
-                  label={t<string>('transferrable')}
+                  label={t('transferrable')}
                   params={propSenderId || senderId}
                 />
               }
@@ -123,14 +123,14 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
               type='account'
             />
           </Modal.Columns>
-          <Modal.Columns hint={t<string>('The beneficiary will have access to the transferred fees when the transaction is included in a block.')}>
+          <Modal.Columns hint={t('The beneficiary will have access to the transferred fees when the transaction is included in a block.')}>
             <InputAddress
               defaultValue={propRecipientId}
               isDisabled={!!propRecipientId}
-              label={t<string>('send to address')}
+              label={t('send to address')}
               labelExtra={
                 <Available
-                  label={t<string>('transferrable')}
+                  label={t('transferrable')}
                   params={propRecipientId || recipientId}
                 />
               }
@@ -138,10 +138,10 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
               type='allPlus'
             />
             {recipientPhish && (
-              <MarkError content={t<string>('The recipient is associated with a known phishing site on {{url}}', { replace: { url: recipientPhish } })} />
+              <MarkError content={t('The recipient is associated with a known phishing site on {{url}}', { replace: { url: recipientPhish } })} />
             )}
           </Modal.Columns>
-          <Modal.Columns hint={t<string>('If the recipient account is new, the balance needs to be more than the existential deposit. Likewise if the sending account balance drops below the same value, the account will be removed from the state.')}>
+          <Modal.Columns hint={t('If the recipient account is new, the balance needs to be more than the existential deposit. Likewise if the sending account balance drops below the same value, the account will be removed from the state.')}>
             {canToggleAll && isAll
               ? (
                 <InputBalance
@@ -149,7 +149,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                   defaultValue={maxTransfer}
                   isDisabled
                   key={maxTransfer?.toString()}
-                  label={t<string>('transferrable minus fees')}
+                  label={t('transferrable minus fees')}
                 />
               )
               : (
@@ -158,27 +158,27 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                     autoFocus
                     isError={!hasAvailable}
                     isZeroable
-                    label={t<string>('amount')}
+                    label={t('amount')}
                     maxValue={maxTransfer}
                     onChange={setAmount}
                   />
                   <InputBalance
                     defaultValue={api.consts.balances?.existentialDeposit}
                     isDisabled
-                    label={t<string>('existential deposit')}
+                    label={t('existential deposit')}
                   />
                 </>
               )
             }
           </Modal.Columns>
-          <Modal.Columns hint={t<string>('With the keep-alive option set, the account is protected against removal due to low balances.')}>
+          <Modal.Columns hint={t('With the keep-alive option set, the account is protected against removal due to low balances.')}>
             {isFunction(api.tx.balances?.transferKeepAlive) && (
               <Toggle
                 className='typeToggle'
                 label={
                   isProtected
-                    ? t<string>('Transfer with account keep-alive checks')
-                    : t<string>('Normal transfer without keep-alive checks')
+                    ? t('Transfer with account keep-alive checks')
+                    : t('Normal transfer without keep-alive checks')
                 }
                 onChange={setIsProtected}
                 value={isProtected}
@@ -187,16 +187,16 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
             {canToggleAll && (
               <Toggle
                 className='typeToggle'
-                label={t<string>('Transfer the full account balance, reap the sender')}
+                label={t('Transfer the full account balance, reap the sender')}
                 onChange={setIsAll}
                 value={isAll}
               />
             )}
             {!isProtected && !noReference && (
-              <MarkWarning content={t<string>('There is an existing reference count on the sender account. As such the account cannot be reaped from the state.')} />
+              <MarkWarning content={t('There is an existing reference count on the sender account. As such the account cannot be reaped from the state.')} />
             )}
             {noFees && (
-              <MarkWarning content={t<string>('The transaction, after application of the transfer fees, will drop the available balance below the existential deposit. As such the transfer will fail. The account needs more free funds to cover the transaction fees.')} />
+              <MarkWarning content={t('The transaction, after application of the transfer fees, will drop the available balance below the existential deposit. As such the transfer will fail. The account needs more free funds to cover the transaction fees.')} />
             )}
           </Modal.Columns>
         </div>
@@ -210,7 +210,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
             !(propRecipientId || recipientId) ||
             !!recipientPhish
           }
-          label={t<string>('Make Transfer')}
+          label={t('Make Transfer')}
           onStart={onClose}
           params={
             canToggleAll && isAll

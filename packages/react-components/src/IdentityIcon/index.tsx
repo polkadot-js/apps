@@ -4,7 +4,6 @@
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { IdentityProps } from '@polkadot/react-identicon/types';
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
-import type { ThemeProps } from '../types.js';
 
 import React, { useCallback } from 'react';
 
@@ -13,7 +12,6 @@ import { useApi, useQueue } from '@polkadot/react-hooks';
 import BaseIdentityIcon from '@polkadot/react-identicon';
 import { settings } from '@polkadot/ui-settings';
 
-import { styled } from '../styled.js';
 import { useTranslation } from '../translate.js';
 import RoboHash from './RoboHash/index.js';
 
@@ -53,17 +51,20 @@ function IdentityIcon ({ className = '', forceIconType, prefix, size = 24, theme
   const onCopy = useCallback(
     (account: string) => queueAction({
       account,
-      action: t<string>('clipboard'),
-      message: t<string>('address copied'),
+      action: t('clipboard'),
+      message: t('address copied'),
       status: 'queued'
     }),
     [queueAction, t]
   );
 
+  // NOTE ui--Identicon-React-Base is applied here (defined in styles/components.ts)
+  // since it has a theme and the styled wrapper overrides it
+
   return (
-    <StyledBaseIdentityIcon
+    <BaseIdentityIcon
       Custom={Custom}
-      className={className}
+      className={`ui--Identicon-React-Base ${className}`}
       onCopy={onCopy}
       prefix={prefix}
       size={size}
@@ -72,18 +73,5 @@ function IdentityIcon ({ className = '', forceIconType, prefix, size = 24, theme
     />
   );
 }
-
-const StyledBaseIdentityIcon = styled(BaseIdentityIcon)(({ theme }: ThemeProps) => `
-  ${theme.theme === 'dark'
-    ? `circle:first-child {
-      fill: #282829;
-    }`
-    : ''}
-
-  border: 1px solid ${theme.theme === 'dark' ? 'transparent' : '#ddd'};
-  border-radius: 50%;
-  display: inline-block;
-  overflow: hidden;
-`);
 
 export default React.memo(IdentityIcon);

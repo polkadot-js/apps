@@ -72,13 +72,13 @@ function NominatedBy ({ nominators, slashingSpans }: Props): React.ReactElement<
       {active && (
         <ExpanderScroll
           renderChildren={active[1]}
-          summary={t<string>('Nominations ({{count}})', { replace: { count: formatNumber(active[0]) } })}
+          summary={t('Nominations ({{count}})', { replace: { count: formatNumber(active[0]) } })}
         />
       )}
       {chilled && (
         <ExpanderScroll
           renderChildren={chilled[1]}
-          summary={t<string>('Renomination required ({{count}})', { replace: { count: formatNumber(chilled[0]) } })}
+          summary={t('Renomination required ({{count}})', { replace: { count: formatNumber(chilled[0]) } })}
         />
       )}
     </td>

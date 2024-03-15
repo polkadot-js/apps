@@ -7,7 +7,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Dropdown } from '@polkadot/react-components';
 import { GenericVote } from '@polkadot/types';
-import { isBn } from '@polkadot/util';
+import { isBn, isNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
 import Bare from './Bare.js';
@@ -17,6 +17,7 @@ interface VoteParts {
   conviction: number;
 }
 
+const AYE_MASK = 0b10000000;
 const EMPTY_VOTE: VoteParts = { aye: true, conviction: 0 };
 
 function Vote ({ className = '', defaultValue: { value }, isDisabled, isError, onChange, withLabel }: Props): React.ReactElement<Props> {
@@ -38,25 +39,27 @@ function Vote ({ className = '', defaultValue: { value }, isDisabled, isError, o
   );
 
   const optAyeRef = useRef([
-    { text: t<string>('Nay'), value: false },
-    { text: t<string>('Aye'), value: true }
+    { text: t('Nay'), value: false },
+    { text: t('Aye'), value: true }
   ]);
 
   const optConvRef = useRef([
-    { text: t<string>('None'), value: 0 },
-    { text: t<string>('Locked1x'), value: 1 },
-    { text: t<string>('Locked2x'), value: 2 },
-    { text: t<string>('Locked3x'), value: 3 },
-    { text: t<string>('Locked4x'), value: 4 },
-    { text: t<string>('Locked5x'), value: 5 },
-    { text: t<string>('Locked6x'), value: 6 }
+    { text: t('None'), value: 0 },
+    { text: t('Locked1x'), value: 1 },
+    { text: t('Locked2x'), value: 2 },
+    { text: t('Locked3x'), value: 3 },
+    { text: t('Locked4x'), value: 4 },
+    { text: t('Locked5x'), value: 5 },
+    { text: t('Locked6x'), value: 6 }
   ]);
 
   const defaultVote = isBn(value)
-    ? (value.toNumber() !== 0)
-    : value instanceof GenericVote
-      ? value.isAye
-      : (value as number !== 0);
+    ? !!(value.toNumber() & AYE_MASK)
+    : isNumber(value)
+      ? !!(value & AYE_MASK)
+      : value instanceof GenericVote
+        ? value.isAye
+        : !!value;
   const defaultConv = value instanceof GenericVote
     ? value.conviction.index
     : 0;
@@ -68,7 +71,7 @@ function Vote ({ className = '', defaultValue: { value }, isDisabled, isError, o
         defaultValue={defaultVote}
         isDisabled={isDisabled}
         isError={isError}
-        label={t<string>('aye: bool')}
+        label={t('aye: bool')}
         onChange={onChangeVote}
         options={optAyeRef.current}
         withLabel={withLabel}
@@ -78,7 +81,7 @@ function Vote ({ className = '', defaultValue: { value }, isDisabled, isError, o
         defaultValue={defaultConv}
         isDisabled={isDisabled}
         isError={isError}
-        label={t<string>('conviction: Conviction')}
+        label={t('conviction: Conviction')}
         onChange={onChangeConviction}
         options={optConvRef.current}
         withLabel={withLabel}

@@ -54,7 +54,7 @@ function Group ({ activeIssuance, className, isMember, members, palletReferenda,
   const [header, key] = useMemo(
     (): [([React.ReactNode?, string?, number?] | null)[], string] => [
       [
-        [trackName ? <>{trackName}<div className='sub'>{trackInfo?.text}</div></> : t<string>('referenda'), 'start', 8],
+        [trackName ? <>{trackName}<div className='sub'>{trackInfo?.text}</div></> : t('referenda'), 'start', 8],
         null && [headerButton]
       ],
       trackName
@@ -67,13 +67,13 @@ function Group ({ activeIssuance, className, isMember, members, palletReferenda,
   return (
     <Table
       className={className}
-      empty={referenda && t<string>('No active referenda')}
+      empty={referenda && t('No active referenda')}
       header={header}
       headerChildren={headerChildren}
       isSplit={!trackId}
       key={key}
     >
-      {referenda && referenda.map((r) => (
+      {referenda?.map((r) => (
         <Referendum
           activeIssuance={activeIssuance}
           isMember={isMember}

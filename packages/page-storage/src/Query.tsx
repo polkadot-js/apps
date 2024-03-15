@@ -123,7 +123,7 @@ function getCachedComponent (registry: Registry, query: QueryTypes): CacheInstan
         });
       }
 
-      type = key.creator && key.creator.meta
+      type = key.creator?.meta
         ? queryTypeToString(registry, key)
         : 'Raw';
     }

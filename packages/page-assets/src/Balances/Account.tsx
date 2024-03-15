@@ -41,11 +41,11 @@ function Account ({ account: { balance, isFrozen, reason, sufficient }, accountI
         <AddressSmall value={accountId} />
       </td>
       <td className='start'>
-        {isFrozen?.isTrue ? t<string>('Yes') : t<string>('No')}
+        {isFrozen?.isTrue ? t('Yes') : t('No')}
       </td>
       <td className='start'>
         {sufficient
-          ? sufficient.isTrue ? t<string>('Yes') : t<string>('No')
+          ? sufficient.isTrue ? t('Yes') : t('No')
           : reason?.toString()}
       </td>
       <td className='number all'>

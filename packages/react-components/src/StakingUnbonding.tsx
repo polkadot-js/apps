@@ -97,20 +97,20 @@ function StakingUnbonding ({ className = '', iconPosition = 'left', stakingInfo 
             className='row'
             key={index}
           >
-            <div>{t<string>('Unbonding {{value}}', { replace: { value: formatBalance(value, { forceUnit: '-' }) } })}</div>
+            <div>{t('Unbonding {{value}}', { replace: { value: formatBalance(value, { forceUnit: '-' }) } })}</div>
             <div className='faded'>
               {api.consts.babe?.epochDuration
                 ? (
                   <BlockToTime
-                    label={`${t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(blocks) } })}, `}
+                    label={`${t('{{blocks}} blocks', { replace: { blocks: formatNumber(blocks) } })}, `}
                     value={blocks}
                   />
                 )
-                : t<string>('{{eras}} eras remaining', { replace: { eras: formatNumber(eras) } })
+                : t('{{eras}} eras remaining', { replace: { eras: formatNumber(eras) } })
               }
             </div>
             {isStalled && (
-              <div className='faded'>{t<string>('Era is overdue for completion due to current network operating conditions')}</div>
+              <div className='faded'>{t('Era is overdue for completion due to current network operating conditions')}</div>
             )}
           </div>
         ))}

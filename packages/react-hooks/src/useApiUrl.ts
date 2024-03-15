@@ -13,7 +13,7 @@ import { createNamedHook } from './createNamedHook.js';
 import { useIsMountedRef } from './useIsMountedRef.js';
 
 function disconnect (provider: ProviderInterface | null): null {
-  provider && provider.disconnect().catch(console.error);
+  provider?.disconnect().catch(console.error);
 
   return null;
 }

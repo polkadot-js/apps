@@ -60,8 +60,8 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
 
   const valRender = useCallback(
     () => renderAddresses(
-      validators && validators[1].map(({ validatorId }) => validatorId),
-      validators && validators[1].map(({ indexValidator }) => indexValidator)
+      validators?.[1].map(({ validatorId }) => validatorId),
+      validators?.[1].map(({ indexValidator }) => indexValidator)
     ),
     [validators]
   );
@@ -107,7 +107,7 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
         <Expander
           className={validators ? '' : '--tmp'}
           renderChildren={valRender}
-          summary={t<string>('Val. Group {{group}} ({{count}})', {
+          summary={t('Val. Group {{group}} ({{count}})', {
             replace: {
               count: formatNumber(validators?.[1]?.length || 0),
               group: validators ? validators[0] : 0
@@ -116,7 +116,7 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
         />
         <Expander
           renderChildren={bckRender}
-          summary={t<string>('Non-voters ({{count}})', { replace: { count: formatNumber(nonBacked.length) } })}
+          summary={t('Non-voters ({{count}})', { replace: { count: formatNumber(nonBacked.length) } })}
         />
       </td>
       <td className='start together hash media--1500'>
@@ -126,7 +126,7 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
         {paraInfo.updateAt && bestNumber && paraInfo.lifecycle?.isParachain
           ? (
             <>
-              {t<string>('Upgrading')}
+              {t('Upgrading')}
               <BlockToTime value={paraInfo.updateAt.sub(bestNumber)} />
               #{formatNumber(paraInfo.updateAt)}
             </>

@@ -19,7 +19,11 @@ interface Props {
 function Collection ({ className, value: { details, id, ipfsData } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const name = ipfsData?.name || '';
-  const imageLink = ipfsData?.image ? `https://ipfs.io/ipfs/${ipfsData.image}` : '';
+  let imageLink = '';
+
+  if (ipfsData?.image) {
+    imageLink = ipfsData.image.toLowerCase().startsWith('http') ? ipfsData.image : `https://ipfs.io/ipfs/${ipfsData.image}`;
+  }
 
   return (
     <tr className={className}>
@@ -38,7 +42,7 @@ function Collection ({ className, value: { details, id, ipfsData } }: Props): Re
         }
       </td>
       <td className='address media--1000'>{details && <AddressSmall value={details.owner} />}</td>
-      <td className='string'>{details && details.isFrozen.isTrue && t<string>('Frozen')}</td>
+      <td className='string'>{details && details.isFrozen.isTrue && t('Frozen')}</td>
       <td className='number'>{details && formatNumber(details.items || (details as unknown as { instances: BN }).instances)}</td>
     </tr>
   );

@@ -74,12 +74,12 @@ function TreasuryCell ({ className = '', value }: Props): React.ReactElement<Pro
         <InputAddress
           defaultValue={proposal.beneficiary}
           isDisabled
-          label={t<string>('beneficiary')}
+          label={t('beneficiary')}
         />
         <InputBalance
           defaultValue={proposal.value}
           isDisabled
-          label={t<string>('payout')}
+          label={t('payout')}
         />
       </Params>
     </div>

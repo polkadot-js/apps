@@ -88,7 +88,7 @@ function Playground ({ basePath, className = '' }: Props): React.ReactElement<Pr
     {
       isRoot: true,
       name: 'playground',
-      text: t<string>('Console')
+      text: t('Console')
     }
   ]);
 
@@ -244,7 +244,7 @@ function Playground ({ basePath, className = '' }: Props): React.ReactElement<Pr
         <Dropdown
           className='js--Dropdown'
           isFull
-          label={t<string>('Select example')}
+          label={t('Select example')}
           onChange={_selectExample}
           options={options}
           value={selected.value}
@@ -280,13 +280,13 @@ function Playground ({ basePath, className = '' }: Props): React.ReactElement<Pr
       {isWarnOpen && (
         <div className='warnOverlay'>
           <article className='warning centered'>
-            <p>{t<string>('This is a developer tool that allows you to execute selected snippets in a limited context.')}</p>
-            <p>{t<string>('Never execute JS snippets from untrusted sources.')}</p>
-            <p>{t<string>('Unless you are a developer with insight into what the specific script does to your environment (based on reading the code being executed) generally the advice would be to not use this environment.')}</p>
+            <p>{t('This is a developer tool that allows you to execute selected snippets in a limited context.')}</p>
+            <p>{t('Never execute JS snippets from untrusted sources.')}</p>
+            <p>{t('Unless you are a developer with insight into what the specific script does to your environment (based on reading the code being executed) generally the advice would be to not use this environment.')}</p>
             <Button.Group>
               <Button
                 icon='times'
-                label={t<string>('Close')}
+                label={t('Close')}
                 onClick={toggleWarnOpen}
               />
             </Button.Group>

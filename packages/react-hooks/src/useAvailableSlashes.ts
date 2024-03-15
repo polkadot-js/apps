@@ -27,7 +27,7 @@ function useAvailableSlashesImpl (): [BN, PalletStakingUnappliedSlash[]][] {
   useEffect((): Unsub => {
     let unsub: Unsub | undefined;
     const [from, offset] = api.query.staking?.earliestUnappliedSlash
-      ? [earliestSlash && earliestSlash.unwrapOr(null), BN_ZERO]
+      ? [earliestSlash?.unwrapOr(null), BN_ZERO]
       // future depth (one more than activeEra for delay)
       : [indexes?.activeEra, BN_ONE.add(api.consts.staking?.slashDeferDuration || BN_HUNDRED)];
 

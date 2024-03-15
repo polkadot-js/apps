@@ -34,13 +34,13 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
         {api.tx.democracy.notePreimage && (
           <Button
             icon='plus'
-            label={t<string>('Submit preimage')}
+            label={t('Submit preimage')}
             onClick={togglePreimage}
           />
         )}
         <Button
           icon='plus'
-          label={t<string>('Submit proposal')}
+          label={t('Submit proposal')}
           onClick={togglePropose}
         />
       </Button.Group>

@@ -24,7 +24,7 @@ const OPT_MEM = {
 
 const OPT_PRM = {
   transform: (accountId: AccountId | null): string | null =>
-    accountId && accountId.toString()
+    accountId?.toString() || null
 };
 
 function useCollectiveMembersImpl (collective: CollectiveType): Result {

@@ -19,7 +19,7 @@ function useMemberInfoImpl (accountId: string): MemberInfo | undefined {
       accountId,
       deposit: depositOf.unwrapOr(null),
       isUpForKicking: upForKicking && upForKicking.isTrue,
-      retiringAt: retiringAt && retiringAt.unwrapOr(null)
+      retiringAt: retiringAt?.unwrapOr(null)
     },
     [accountId, depositOf, retiringAt, upForKicking]
   );

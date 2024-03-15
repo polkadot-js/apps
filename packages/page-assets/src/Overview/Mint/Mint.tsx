@@ -38,41 +38,41 @@ function Mint ({ className, details: { issuer, minBalance }, id, metadata, onClo
   return (
     <Modal
       className={className}
-      header={t<string>('mint asset')}
+      header={t('mint asset')}
       onClose={onClose}
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={t<string>('The recipient account for this minting operation.')}>
+        <Modal.Columns hint={t('The recipient account for this minting operation.')}>
           <InputAddress
             defaultValue={issuer}
             isDisabled
-            label={t<string>('issuer account')}
+            label={t('issuer account')}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The recipient account for this minting operation.')}>
+        <Modal.Columns hint={t('The recipient account for this minting operation.')}>
           <InputAddress
-            label={t<string>('mint to address')}
+            label={t('mint to address')}
             onChange={setRecipientId}
             type='allPlus'
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The amount of tokens to issue to the account.')}>
+        <Modal.Columns hint={t('The amount of tokens to issue to the account.')}>
           <InputBalance
             autoFocus
             isError={!isAmountValid}
             isZeroable={false}
-            label={t<string>('amount to issue')}
+            label={t('amount to issue')}
             onChange={setAmount}
             siDecimals={siDecimals}
             siSymbol={siSymbol}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The minimum balance allowed for the asset.')}>
+        <Modal.Columns hint={t('The minimum balance allowed for the asset.')}>
           <InputBalance
             defaultValue={minBalance}
             isDisabled
-            label={t<string>('minimum balance')}
+            label={t('minimum balance')}
             siDecimals={siDecimals}
             siSymbol={siSymbol}
           />
@@ -83,7 +83,7 @@ function Mint ({ className, details: { issuer, minBalance }, id, metadata, onClo
           accountId={issuer}
           icon='plus'
           isDisabled={!recipientId || !isAmountValid}
-          label={t<string>('Mint')}
+          label={t('Mint')}
           onStart={onClose}
           params={[id, recipientId, amount]}
           tx={api.tx.assets.mint}

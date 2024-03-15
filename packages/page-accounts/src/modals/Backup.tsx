@@ -59,7 +59,7 @@ function Backup ({ address, onClose }: Props): React.ReactElement<Props> {
   return (
     <Modal
       className='app--accounts-Modal'
-      header={t<string>('Backup account')}
+      header={t('Backup account')}
       onClose={onClose}
     >
       <Modal.Content>
@@ -67,13 +67,13 @@ function Backup ({ address, onClose }: Props): React.ReactElement<Props> {
           isInline
           value={address}
         >
-          <p>{t<string>('An encrypted backup file will be created once you have pressed the "Download" button. This can be used to re-import your account on any other machine.')}</p>
-          <p>{t<string>('Save this backup file in a secure location. Additionally, the password associated with this account is needed together with this backup file in order to restore your account.')}</p>
+          <p>{t('An encrypted backup file will be created once you have pressed the "Download" button. This can be used to re-import your account on any other machine.')}</p>
+          <p>{t('Save this backup file in a secure location. Additionally, the password associated with this account is needed together with this backup file in order to restore your account.')}</p>
           <div>
             <Password
               autoFocus
               isError={isPassTouched && !isPassValid}
-              label={t<string>('password')}
+              label={t('password')}
               onChange={_onChangePass}
               onEnter={_doBackup}
               tabIndex={0}
@@ -87,7 +87,7 @@ function Backup ({ address, onClose }: Props): React.ReactElement<Props> {
           icon='download'
           isBusy={isBusy}
           isDisabled={!isPassValid}
-          label={t<string>('Download')}
+          label={t('Download')}
           onClick={_doBackup}
         />
       </Modal.Actions>

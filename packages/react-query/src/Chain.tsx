@@ -19,7 +19,7 @@ function Chain ({ children, className = '', label }: Props): React.ReactElement<
 
   return (
     <div className={className}>
-      {label || ''}{systemChain || t<string>('Unknown')}{children}
+      {label || ''}{systemChain || t('Unknown')}{children}
     </div>
   );
 }

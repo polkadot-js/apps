@@ -13,7 +13,7 @@ interface Props {
 }
 
 function Queries ({ onRemove, value }: Props): React.ReactElement<Props> | null {
-  if (!value || !value.length) {
+  if (!value?.length) {
     return null;
   }
 

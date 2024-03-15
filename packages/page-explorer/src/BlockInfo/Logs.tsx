@@ -106,12 +106,12 @@ function Logs ({ value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t<string>('logs'), 'start']
+    [t('logs'), 'start']
   ]);
 
   return (
     <Table
-      empty={t<string>('No logs available')}
+      empty={t('No logs available')}
       header={headerRef.current}
     >
       {value?.map((log, index) => (

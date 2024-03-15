@@ -54,7 +54,7 @@ function ProposalCell ({ className = '', imageHash, isCollective, proposal }: Pr
   return (
     <StyledTd className={`${className} all`}>
       <CallExpander
-        labelHash={t<string>('proposal hash')}
+        labelHash={t('proposal hash')}
         value={displayProposal}
         withHash={!isTreasury && !isExternal}
       >

@@ -32,9 +32,7 @@ interface ExtensionProperties {
   userExtensionsLoadedOnSpec?: number
 }
 
-interface SavedProperties {
-  [name: string]: ExtensionProperties;
-}
+type SavedProperties = Record<string, ExtensionProperties>;
 
 type TriggerFn = (counter: number) => void;
 

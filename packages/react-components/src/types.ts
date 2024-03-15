@@ -3,7 +3,6 @@
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
 import type React from 'react';
-import type { WithTranslation } from 'react-i18next';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { Abi } from '@polkadot/api-contract';
 import type { AccountId, AccountIndex, Address, Index } from '@polkadot/types/interfaces';
@@ -25,7 +24,9 @@ export interface ThemeDef {
   theme: 'dark' | 'light';
 }
 
-export type I18nProps = BareProps & WithTranslation;
+export interface I18nProps extends BareProps {
+  t: (key: string, options?: { replace: Record<string, unknown> }) => string;
+}
 
 export interface TxButtonProps {
   accountId?: AccountId | string | null;

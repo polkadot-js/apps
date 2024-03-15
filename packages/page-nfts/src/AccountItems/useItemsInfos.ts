@@ -5,28 +5,29 @@ import type { Option } from '@polkadot/types';
 import type { PalletUniquesItemMetadata } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { AccountItem } from '../types.js';
-import type { ItemInfo, ItemSupportedIpfsData } from './types.js';
+import type { ItemInfo, ItemSupportedMetadata } from './types.js';
 
 import { useEffect, useMemo, useState } from 'react';
 
-import { createNamedHook, useApi, useCall, useIpfsFetch } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useCall, useMetadataFetch } from '@polkadot/react-hooks';
+import { normalizeMetadataLink } from '@polkadot/react-hooks/useMetadataFetch';
 
-type IpfsData = Map<string, ItemSupportedIpfsData | null>;
+type FetchedMetadata = Map<string, ItemSupportedMetadata | null>;
 
 const QUERY_OPTS = { withParams: true };
 
-const IPFS_FETCH_OPTIONS = {
-  transform: (data: string | undefined): ItemSupportedIpfsData | null => {
+const METADATA_FETCH_OPTIONS = {
+  transform: (data: string | undefined): ItemSupportedMetadata | null => {
     if (!data) {
       return null;
     }
 
     try {
-      const result = JSON.parse(data) as {[key: string]: any};
+      const result = JSON.parse(data) as Record<string, any>;
 
       if (result && typeof result === 'object') {
         return {
-          image: typeof result.image === 'string' ? result.image.replace(/ipfs:\/\/|ipfs\//gi, '') : null,
+          image: typeof result.image === 'string' ? normalizeMetadataLink(result.image) : null,
           name: typeof result.name === 'string' ? result.name : null
         };
       }
@@ -37,10 +38,14 @@ const IPFS_FETCH_OPTIONS = {
 };
 
 function extractInfo ([, itemId]: [BN, BN], metadata: Option<PalletUniquesItemMetadata>, accountItems: AccountItem[]): ItemInfo {
-  const { accountId } = accountItems.find(({ itemId: _itemId }) => _itemId.eq(itemId)) as AccountItem;
+  const item = accountItems.find(({ itemId: _itemId }) => _itemId.eq(itemId));
+
+  if (!item) {
+    throw new Error('Unable to extract accountId');
+  }
 
   return {
-    account: accountId,
+    account: item.accountId,
     id: itemId,
     ipfsData: null,
     key: itemId.toString(),
@@ -48,12 +53,12 @@ function extractInfo ([, itemId]: [BN, BN], metadata: Option<PalletUniquesItemMe
   };
 }
 
-const addIpfsData = (ipfsData: IpfsData) => (itemInfo: ItemInfo): ItemInfo => {
-  const ipfsHash = itemInfo.metadata && itemInfo.metadata.data.toString();
+const addFetchedMetadata = (fetchedMetadata: FetchedMetadata) => (itemInfo: ItemInfo): ItemInfo => {
+  const metadataLink = normalizeMetadataLink(itemInfo.metadata?.data.toPrimitive() as string);
 
   return {
     ...itemInfo,
-    ipfsData: (ipfsHash && ipfsData.has(ipfsHash) && ipfsData.get(ipfsHash)) || null
+    ipfsData: (metadataLink && fetchedMetadata.has(metadataLink) && fetchedMetadata.get(metadataLink)) || null
   };
 };
 
@@ -68,11 +73,11 @@ function useItemsInfosImpl (accountItems: AccountItem[]): ItemInfo[] | undefined
 
   const metadata = useCall<[[[BN, BN][]], Option<PalletUniquesItemMetadata>[]]>(api.query.uniques.instanceMetadataOf.multi, [ids], QUERY_OPTS);
 
-  const ipfsHashes = useMemo((): string[] | undefined => {
-    if (metadata && metadata[1].length) {
+  const metadataLinks = useMemo((): string[] | undefined => {
+    if (metadata?.[1].length) {
       return metadata[1].map((o) =>
         o.isSome
-          ? o.unwrap().data.toString()
+          ? o.unwrap().data.toPrimitive() as string
           : ''
       );
     }
@@ -80,10 +85,10 @@ function useItemsInfosImpl (accountItems: AccountItem[]): ItemInfo[] | undefined
     return undefined;
   }, [metadata]);
 
-  const ipfsData = useIpfsFetch<ItemSupportedIpfsData | null>(ipfsHashes, IPFS_FETCH_OPTIONS);
+  const fetchedMetadata = useMetadataFetch<ItemSupportedMetadata | null>(metadataLinks, METADATA_FETCH_OPTIONS);
 
   useEffect((): void => {
-    if (ipfsData && accountItems.length && metadata && metadata[0][0].length) {
+    if (fetchedMetadata && accountItems.length && metadata?.[0][0].length) {
       const [collectionId] = metadata[0][0][0];
 
       if (!collectionId.eq(ids[0][0])) {
@@ -92,9 +97,9 @@ function useItemsInfosImpl (accountItems: AccountItem[]): ItemInfo[] | undefined
 
       const itemsInfos = metadata[0][0].map((id, index) => extractInfo(id, metadata[1][index], accountItems));
 
-      setState(itemsInfos.map(addIpfsData(ipfsData)));
+      setState(itemsInfos.map(addFetchedMetadata(fetchedMetadata)));
     }
-  }, [accountItems, ids, ipfsData, metadata]);
+  }, [accountItems, ids, fetchedMetadata, metadata]);
 
   return state;
 }

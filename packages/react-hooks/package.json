@@ -1,7 +1,7 @@
 {
   "bugs": "https://github.com/availproject/avail-apps/issues",
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "homepage": "https://github.com/availproject/avail-apps/tree/master/packages/react-hooks#readme",
   "license": "Apache-2.0",
@@ -14,10 +14,10 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.132.2-22-x",
+  "version": "0.133.2-120-x",
   "dependencies": {
-    "@polkadot/hw-ledger": "^12.3.2",
-    "@polkadot/hw-ledger-transports": "^12.3.2",
+    "@polkadot/hw-ledger": "^12.6.2",
+    "@polkadot/hw-ledger-transports": "^12.6.2",
     "is-ipfs": "^8.0.1"
   },
   "peerDependencies": {

@@ -83,14 +83,14 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
             <DueBlocks
               dueBlocks={blocksUntilPayout}
               endBlock={unlockAt}
-              label={t<string>('payout')}
+              label={t('payout')}
             />
           )}
           {blocksUntilUpdate && updateDue && (
             <DueBlocks
               dueBlocks={blocksUntilUpdate}
               endBlock={updateDue}
-              label={t<string>('update')}
+              label={t('update')}
             />
           )}
           <BountyActionMessage
@@ -147,11 +147,11 @@ function Bounty ({ bestNumber, bounty, className = '', description, index, propo
             </Columar.Column>
             <Columar.Column>
               <div className='column'>
-                <h5>{t<string>('Proposer')}</h5>
+                <h5>{t('Proposer')}</h5>
                 <AddressSmall value={proposer} />
               </div>
               <div className='column'>
-                <h5>{t<string>('Bond')}</h5>
+                <h5>{t('Bond')}</h5>
                 <div className='inline-balance'><FormatBalance value={bond} /></div>
               </div>
               {curator && (

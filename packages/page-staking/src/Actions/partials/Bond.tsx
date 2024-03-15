@@ -116,20 +116,20 @@ function Bond ({ className = '', isNominating, minNominated, minNominatorBond, m
           needsController
             ? (
               <>
-                <p>{t<string>('Think of the stash as your cold wallet and the controller as your hot wallet. Funding operations are controlled by the stash, any other non-funding actions by the controller itself.')}</p>
-                <p>{t<string>('To ensure optimal fund security using the same stash/controller is strongly discouraged, but not forbidden.')}</p>
+                <p>{t('Think of the stash as your cold wallet and the controller as your hot wallet. Funding operations are controlled by the stash, any other non-funding actions by the controller itself.')}</p>
+                <p>{t('To ensure optimal fund security using the same stash/controller is strongly discouraged, but not forbidden.')}</p>
               </>
             )
             : (
               <>
-                <p>{t<string>('The stash should be treated as a cold wallet.')}</p>
-                <p>{t<string>('As such it is recommended that you setup a proxy to control operations via the stash.')}</p>
+                <p>{t('The stash should be treated as a cold wallet.')}</p>
+                <p>{t('As such it is recommended that you setup a proxy to control operations via the stash.')}</p>
               </>
             )
         }
       >
         <InputAddress
-          label={t<string>('stash account')}
+          label={t('stash account')}
           onChange={setStashId}
           type='account'
           value={stashId}
@@ -137,7 +137,7 @@ function Bond ({ className = '', isNominating, minNominated, minNominatorBond, m
         {needsController && (
           <>
             <InputAddress
-              label={t<string>('controller account')}
+              label={t('controller account')}
               onChange={setControllerId}
               type='account'
               value={controllerId}
@@ -154,8 +154,8 @@ function Bond ({ className = '', isNominating, minNominated, minNominatorBond, m
         <Modal.Columns
           hint={
             <>
-              <p>{t<string>('The amount placed at-stake should not be your full available amount to allow for transaction fees.')}</p>
-              <p>{t<string>('Once bonded, it will need to be unlocked/withdrawn and will be locked for at least the bonding duration.')}</p>
+              <p>{t('The amount placed at-stake should not be your full available amount to allow for transaction fees.')}</p>
+              <p>{t('Once bonded, it will need to be unlocked/withdrawn and will be locked for at least the bonding duration.')}</p>
             </>
           }
         >
@@ -163,10 +163,10 @@ function Bond ({ className = '', isNominating, minNominated, minNominatorBond, m
             autoFocus
             defaultValue={startBalance}
             isError={!hasValue || !!amountError?.error}
-            label={t<string>('value bonded')}
+            label={t('value bonded')}
             labelExtra={
               <BalanceFree
-                label={<span className='label'>{t<string>('balance')}</span>}
+                label={<span className='label'>{t('balance')}</span>}
                 params={stashId}
               />
             }
@@ -184,31 +184,31 @@ function Bond ({ className = '', isNominating, minNominated, minNominatorBond, m
           />
           {bondedBlocks?.gtn(0) && (
             <Static
-              label={t<string>('on-chain bonding duration')}
+              label={t('on-chain bonding duration')}
             >
               <BlockToTime value={bondedBlocks} />
             </Static>
           )}
         </Modal.Columns>
       )}
-      <Modal.Columns hint={t<string>('Rewards (once paid) can be deposited to either the stash or controller, with different effects.')}>
+      <Modal.Columns hint={t('Rewards (once paid) can be deposited to either the stash or controller, with different effects.')}>
         <Dropdown
           defaultValue={0}
-          label={t<string>('payment destination')}
+          label={t('payment destination')}
           onChange={setDestination}
           options={options}
           value={destination}
         />
         {isAccount && (
           <InputAddress
-            label={t<string>('the payment account')}
+            label={t('the payment account')}
             onChange={setDestAccount}
             type='account'
             value={destAccount}
           />
         )}
         {isDestError && (
-          <MarkError content={t<string>('The selected destination account does not exist and cannot be used to receive rewards')} />
+          <MarkError content={t('The selected destination account does not exist and cannot be used to receive rewards')} />
         )}
       </Modal.Columns>
     </div>

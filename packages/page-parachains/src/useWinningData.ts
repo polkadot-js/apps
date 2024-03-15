@@ -83,7 +83,7 @@ function mergeCurrent (ranges: [number, number][], auctionInfo: AuctionInfo, pre
   const current = createWinning(auctionInfo, blockOffset, extractWinners(ranges, auctionInfo, optCurrent));
 
   if (current.winners.length) {
-    if (!prev || !prev.length) {
+    if (!prev?.length) {
       return [current];
     }
 

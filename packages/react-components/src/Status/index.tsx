@@ -189,7 +189,7 @@ const StyledDiv = styled.div`
   width: 4.5rem;
   z-index: 1001;
 
-  :hover {
+  &:hover {
     transform: scale(1);
     width: 23rem;
 

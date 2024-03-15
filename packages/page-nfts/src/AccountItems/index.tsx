@@ -20,7 +20,7 @@ interface Props {
 
 function AccountItems ({ className, infos = [] }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const NO_NAME = ` - ${t<string>('no name')} -`;
+  const NO_NAME = ` - ${t('no name')} -`;
 
   const [infoIndex, setInfoIndex] = useState(0);
   const [info, setInfo] = useState<CollectionInfoComplete | null>(null);
@@ -54,8 +54,8 @@ function AccountItems ({ className, infos = [] }: Props): React.ReactElement<Pro
   );
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t<string>('items'), 'start', 2],
-    [t<string>('owner'), 'address media--1000']
+    [t('items'), 'start', 2],
+    [t('owner'), 'address media--1000']
   ]);
 
   useEffect((): void => {
@@ -69,12 +69,12 @@ function AccountItems ({ className, infos = [] }: Props): React.ReactElement<Pro
   return (
     <StyledDiv className={className}>
       <Table
-        empty={!info && accountItems && t<string>('No accounts with items found for the collection')}
+        empty={!info && accountItems && t('No accounts with items found for the collection')}
         filter={collectionOptions.length
           ? (
             <Dropdown
               isFull
-              label={t<string>('the collection to query for items')}
+              label={t('the collection to query for items')}
               onChange={setInfoIndex}
               options={collectionOptions}
               value={infoIndex}
@@ -84,7 +84,7 @@ function AccountItems ({ className, infos = [] }: Props): React.ReactElement<Pro
         }
         header={headerRef.current}
       >
-        {itemsInfos && itemsInfos.map((info) => (
+        {itemsInfos?.map((info) => (
           <Item
             collectionName={collectionName}
             key={info.key}

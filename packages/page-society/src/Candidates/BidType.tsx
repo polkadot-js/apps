@@ -22,7 +22,7 @@ function BidType ({ className, value }: Props): React.ReactElement<Props> {
 
   return (
     <StyledDiv className={className}>
-      <div>{value && value.type}</div>
+      <div>{value?.type}</div>
       {vouchId && <AddressSmall value={vouchId} />}
     </StyledDiv>
   );

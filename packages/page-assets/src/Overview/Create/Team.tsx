@@ -35,26 +35,26 @@ function Team ({ accountId, className = '', defaultValue, onChange }: Props): Re
 
   return (
     <Modal.Content className={className}>
-      <Modal.Columns hint={t<string>('The account that is to be used for ongoing admin on the token.')}>
+      <Modal.Columns hint={t('The account that is to be used for ongoing admin on the token.')}>
         <InputAddress
           defaultValue={initial?.adminId || accountId}
-          label={t<string>('admin account')}
+          label={t('admin account')}
           onChange={setAdminId}
           type='account'
         />
       </Modal.Columns>
-      <Modal.Columns hint={t<string>('The account that is to be used for issuing this token.')}>
+      <Modal.Columns hint={t('The account that is to be used for issuing this token.')}>
         <InputAddress
           defaultValue={initial?.issuerId || accountId}
-          label={t<string>('issuer account')}
+          label={t('issuer account')}
           onChange={setIssuerId}
           type='account'
         />
       </Modal.Columns>
-      <Modal.Columns hint={t<string>('The account that is to be used for performing freezing.')}>
+      <Modal.Columns hint={t('The account that is to be used for performing freezing.')}>
         <InputAddress
           defaultValue={initial?.freezerId || accountId}
-          label={t<string>('freezer account')}
+          label={t('freezer account')}
           onChange={setFreezerId}
           type='account'
         />

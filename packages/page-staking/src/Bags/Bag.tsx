@@ -47,7 +47,7 @@ function Bag ({ bagLower, bagUpper, info, nodesOwn }: Props): React.ReactElement
 
   useEffect((): void => {
     setLoading(
-      nodesOwn && nodesOwn.length
+      nodesOwn?.length
         ? !isCompleted || !bonded
         : false
     );

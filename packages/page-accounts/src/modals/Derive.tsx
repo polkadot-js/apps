@@ -137,7 +137,7 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
 
       setIsBusy(true);
       nextTick((): void => {
-        const status = createAccount(source, suri, name, password, t<string>('created account'), isDevelopment ? undefined : api.genesisHash.toHex());
+        const status = createAccount(source, suri, name, password, t('created account'), isDevelopment ? undefined : api.genesisHash.toHex());
 
         queueAction(status);
         setIsBusy(false);
@@ -150,7 +150,7 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
   const sourceStatic = (
     <InputAddress
       isDisabled
-      label={t<string>('derive root account')}
+      label={t('derive root account')}
       value={from}
     />
   );
@@ -158,7 +158,7 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
   return (
     <Modal
       className={className}
-      header={t<string>('Derive account from pair')}
+      header={t('Derive account from pair')}
       onClose={onClose}
     >
       {address && isConfirmationOpen
@@ -179,7 +179,7 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
                 <Password
                   autoFocus
                   isError={!!lockedError}
-                  label={t<string>('password')}
+                  label={t('password')}
                   onChange={_onChangeRootPass}
                   value={rootPass}
                 />
@@ -194,9 +194,9 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
                 {sourceStatic}
                 <Input
                   autoFocus
-                  label={t<string>('derivation path')}
+                  label={t('derivation path')}
                   onChange={setSuri}
-                  placeholder={t<string>('//hard/soft')}
+                  placeholder={t('//hard/soft')}
                 />
                 {deriveError && (
                   <MarkError content={deriveError} />
@@ -219,7 +219,7 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
               icon='lock'
               isBusy={isBusy}
               isDisabled={!isRootValid}
-              label={t<string>('Unlock')}
+              label={t('Unlock')}
               onClick={_onUnlock}
             />
           )
@@ -228,13 +228,13 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
               <>
                 <Button
                   icon='step-backward'
-                  label={t<string>('Prev')}
+                  label={t('Prev')}
                   onClick={toggleConfirmation}
                 />
                 <Button
                   icon='plus'
                   isBusy={isBusy}
-                  label={t<string>('Save')}
+                  label={t('Save')}
                   onClick={_onCommit}
                 />
               </>
@@ -243,7 +243,7 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
               <Button
                 icon='step-forward'
                 isDisabled={!isValid}
-                label={t<string>('Next')}
+                label={t('Next')}
                 onClick={toggleConfirmation}
               />
             )

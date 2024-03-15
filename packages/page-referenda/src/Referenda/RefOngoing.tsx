@@ -93,10 +93,10 @@ function Ongoing ({ isMember, members, palletReferenda, palletVote, ranks, track
   return (
     <>
       <td className='all'>
-        {preimage && preimage.proposal
+        {preimage?.proposal
           ? (
             <CallExpander
-              labelHash={t<string>('preimage')}
+              labelHash={t('preimage')}
               value={preimage.proposal}
               withHash
             />
@@ -115,10 +115,10 @@ function Ongoing ({ isMember, members, palletReferenda, palletVote, ranks, track
       <RefEnd
         label={
           confirmEnd
-            ? t<string>('Confirming')
+            ? t('Confirming')
             : decideEnd
-              ? t<string>('Deciding')
-              : t<string>('Preparing')
+              ? t('Deciding')
+              : t('Preparing')
         }
         when={periodEnd}
       />

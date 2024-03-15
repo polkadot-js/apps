@@ -48,11 +48,11 @@ function SessionKey ({ className = '', controllerId, onChange, stashId, withFocu
           stashId={stashId}
         />
       )}
-      <Modal.Columns hint={t<string>('The hex output from author_rotateKeys, as executed on the validator node. The keys will show as pending until applied at the start of a new session.')}>
+      <Modal.Columns hint={t('The hex output from author_rotateKeys, as executed on the validator node. The keys will show as pending until applied at the start of a new session.')}>
         <Input
           autoFocus={withFocus}
           isError={!keys}
-          label={t<string>('Keys from rotateKeys')}
+          label={t('Keys from rotateKeys')}
           onChange={setKeys}
           placeholder='0x...'
         />

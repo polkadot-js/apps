@@ -254,7 +254,7 @@ function useScheduledImpl (): EntryInfoTyped[] {
         ['democracyLaunch', api.consts.democracy?.launchPeriod],
         ['parachainLease', api.consts.slots?.leasePeriod as BlockNumber, BN_ONE, api.consts.slots?.leaseOffset as BlockNumber],
         ['societyChallenge', api.consts.society?.challengePeriod],
-        ['societyRotate', api.consts.society?.rotationPeriod],
+        ['societyRotate', api.consts.society?.rotationPeriod as BlockNumber],
         ['treasurySpend', api.consts.treasury?.spendPeriod]
       ]))
     );

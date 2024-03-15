@@ -1,7 +1,7 @@
 {
   "bugs": "https://github.com/availproject/avail-apps/issues",
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "homepage": "https://github.com/availproject/avail-apps/tree/master/packages/test-support#readme",
   "license": "Apache-2.0",
@@ -14,14 +14,14 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.132.2-22-x",
+  "version": "0.133.2-120-x",
   "dependencies": {
-    "@testing-library/react": "^14.0.0",
-    "testcontainers": "^9.9.1"
+    "@testing-library/react": "^14.1.2",
+    "testcontainers": "^10.4.0"
   },
   "devDependencies": {
-    "@polkadot/types-support": "^10.9.1",
-    "@testing-library/jest-dom": "^5.16.5",
+    "@polkadot/types-support": "^10.11.2",
+    "@testing-library/jest-dom": "^5.17.0",
     "tsconfig-paths": "^4.2.0"
   },
   "peerDependencies": {

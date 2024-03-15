@@ -29,8 +29,7 @@ function Parathread ({ id, leasePeriod, leases, nextAction }: Props): React.Reac
   const { headHex, lifecycle, manager } = useThreadInfo(id);
 
   const periods = useMemo(
-    () => leasePeriod?.currentPeriod && leases &&
-      leases.map(({ period }) => period),
+    () => leasePeriod?.currentPeriod && leases?.map(({ period }) => period),
     [leasePeriod?.currentPeriod, leases]
   );
 
@@ -64,7 +63,7 @@ function Parathread ({ id, leasePeriod, leases, nextAction }: Props): React.Reac
                 periods={periods}
               />
             )
-            : t<string>('None')
+            : t('None')
         )}
       </td>
       <td className='button media--900'>
@@ -72,7 +71,7 @@ function Parathread ({ id, leasePeriod, leases, nextAction }: Props): React.Reac
           accountId={manager}
           icon='times'
           isDisabled={!isManager}
-          label={t<string>('Deregister')}
+          label={t('Deregister')}
           params={[id]}
           tx={api.tx.registrar.deregister}
         />

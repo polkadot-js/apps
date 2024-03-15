@@ -35,8 +35,8 @@ function Council ({ id, isDisabled, members }: Props): React.ReactElement<Props>
   const threshold = Math.ceil((members?.length || 0) * getTreasuryProposalThreshold(api));
 
   const councilTypeOptRef = useRef([
-    { text: t<string>('Acceptance proposal to council'), value: 'accept' },
-    { text: t<string>('Rejection proposal to council'), value: 'reject' }
+    { text: t('Acceptance proposal to council'), value: 'accept' },
+    { text: t('Rejection proposal to council'), value: 'reject' }
   ]);
 
   useEffect((): void => {
@@ -55,23 +55,23 @@ function Council ({ id, isDisabled, members }: Props): React.ReactElement<Props>
     <>
       {isOpen && (
         <Modal
-          header={t<string>('Send to council')}
+          header={t('Send to council')}
           onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns hint={t<string>('The council member that is proposing this, submission equates to an "aye" vote.')}>
+            <Modal.Columns hint={t('The council member that is proposing this, submission equates to an "aye" vote.')}>
               <InputAddress
                 filter={members}
-                label={t<string>('submit with council account')}
+                label={t('submit with council account')}
                 onChange={setAccountId}
                 type='account'
                 withLabel
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('Proposal can either be to approve or reject this spend. Once approved, the change is applied by either removing the proposal or scheduling payout.')}>
+            <Modal.Columns hint={t('Proposal can either be to approve or reject this spend. Once approved, the change is applied by either removing the proposal or scheduling payout.')}>
               <Dropdown
-                label={t<string>('council proposal type')}
+                label={t('council proposal type')}
                 onChange={setProposalType}
                 options={councilTypeOptRef.current}
                 value={proposalType}
@@ -83,7 +83,7 @@ function Council ({ id, isDisabled, members }: Props): React.ReactElement<Props>
               accountId={accountId}
               icon='check'
               isDisabled={!accountId || !threshold}
-              label={t<string>('Send to council')}
+              label={t('Send to council')}
               onStart={toggleOpen}
               params={
                 api.tx[modCouncil].propose.meta.args.length === 3
@@ -98,7 +98,7 @@ function Council ({ id, isDisabled, members }: Props): React.ReactElement<Props>
       <Button
         icon='step-forward'
         isDisabled={isDisabled}
-        label={t<string>('To council')}
+        label={t('To council')}
         onClick={toggleOpen}
       />
     </>

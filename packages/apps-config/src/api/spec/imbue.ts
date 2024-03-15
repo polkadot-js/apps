@@ -4,6 +4,18 @@
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
 const definitions: OverrideBundleDefinition = {
+  rpc: {
+    proposals: {
+      getProjectKitty: {
+        description: 'Get the escrow address associated with a project',
+        params: [{
+          name: 'project_id',
+          type: 'u32'
+        }],
+        type: 'AccountId'
+      }
+    }
+  },
   types: [
     {
       // on all versions
@@ -12,8 +24,7 @@ const definitions: OverrideBundleDefinition = {
         Address: 'MultiAddress',
         LookupSource: 'MultiAddress'
       }
-    }
-  ]
+    }]
 };
 
 export default definitions;

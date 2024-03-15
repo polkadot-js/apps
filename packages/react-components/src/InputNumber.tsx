@@ -252,8 +252,8 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
       onPaste={_onPaste}
       placeholder={placeholder || (
         isSigned
-          ? t<string>('Valid number')
-          : t<string>('Positive number')
+          ? t('Valid number')
+          : t('Positive number')
       )}
       type='text'
       value={value}

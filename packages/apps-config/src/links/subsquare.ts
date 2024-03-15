@@ -11,7 +11,7 @@ export const Subsquare: ExternalDef = {
     Acala: 'acala',
     Altair: 'altair',
     Basilisk: 'basilisk',
-    Bifrost: 'bifrost',
+    Bifrost: 'bifrost-kusama',
     'Bifrost Polkadot': 'bifrost-polkadot',
     Centrifuge: 'centrifuge',
     Collectives: 'collectives',
@@ -29,15 +29,17 @@ export const Subsquare: ExternalDef = {
     Polkadot: 'polkadot',
     Rococo: 'rococo',
     'Turing Network': 'turing',
+    'Vara Network': 'vara',
     'Westend Collectives': 'westend-collectives',
     Zeitgeist: 'zeitgeist',
     kintsugi: 'kintsugi'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
-    `https://${chain}.subsquare.io/${path}/${data.toString()}`,
+    `https://${chain}.subsquare.io/${path}/${data.toString()}${path === 'user' ? '/votes' : ''}`,
   homepage: 'https://subsquare.io/',
   isActive: true,
   paths: {
+    address: 'user',
     bounty: 'treasury/bounty',
     council: 'council/motion',
     democracyExternal: 'democracy/external',

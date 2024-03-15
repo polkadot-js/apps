@@ -9,6 +9,7 @@ import type { Lock, PalletReferenda, PalletVote } from './types.js';
 
 import { useMemo } from 'react';
 
+import { CONVICTIONS } from '@polkadot/react-components/ConvictionDropdown';
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { BN_MAX_INTEGER } from '@polkadot/util';
 
@@ -58,7 +59,7 @@ function getVoteParams (accountId: string, lockClasses?: BN[]): [[accountId: str
 }
 
 function getRefParams (votes?: [classId: BN, refIds: BN[], casting: PalletConvictionVotingVoteCasting][]): [BN[]] | undefined {
-  if (votes && votes.length) {
+  if (votes?.length) {
     const refIds = votes.reduce<BN[]>((all, [, refIds]) => all.concat(refIds), []);
 
     if (refIds.length) {
@@ -73,10 +74,10 @@ function getLocks (api: ApiPromise, palletVote: PalletVote, votes: [classId: BN,
   const lockPeriod = api.consts[palletVote].voteLockingPeriod as BN;
   const locks: Lock[] = [];
 
-  for (let i = 0; i < votes.length; i++) {
+  for (let i = 0, voteCount = votes.length; i < voteCount; i++) {
     const [classId,, casting] = votes[i];
 
-    for (let i = 0; i < casting.votes.length; i++) {
+    for (let i = 0, castCount = casting.votes.length; i < castCount; i++) {
       const [refId, accountVote] = casting.votes[i];
       const refInfo = referenda.find(([id]) => id.eq(refId));
 
@@ -84,8 +85,9 @@ function getLocks (api: ApiPromise, palletVote: PalletVote, votes: [classId: BN,
         const [, tally] = refInfo;
         let total: BN | undefined;
         let endBlock: BN| undefined;
-        let conviction = 0;
+        let convictionIndex = 0;
         let locked = 'None';
+        const durationIndex = 1;
 
         if (accountVote.isStandard) {
           const { balance, vote } = accountVote.asStandard;
@@ -93,7 +95,7 @@ function getLocks (api: ApiPromise, palletVote: PalletVote, votes: [classId: BN,
           total = balance;
 
           if ((tally.isApproved && vote.isAye) || (tally.isRejected && vote.isNay)) {
-            conviction = vote.conviction.index;
+            convictionIndex = vote.conviction.index;
             locked = vote.conviction.type;
           }
         } else if (accountVote.isSplit) {
@@ -118,7 +120,7 @@ function getLocks (api: ApiPromise, palletVote: PalletVote, votes: [classId: BN,
             : tally.asTimedOut[0];
         } else if (tally.isApproved || tally.isRejected) {
           endBlock = lockPeriod
-            .muln(conviction)
+            .muln(convictionIndex ? CONVICTIONS[convictionIndex - 1][durationIndex] : 0)
             .add(
               tally.isApproved
                 ? tally.asApproved[0]

@@ -68,7 +68,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
       recipientParaId === -1
         ? index === 0
         : recipientParaId === paraId
-    )?.value as string,
+    )?.value,
     [destinations, recipientParaId]
   );
 
@@ -129,17 +129,17 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
 
   return (
     <Modal
-      header={t<string>('Teleport assets')}
+      header={t('Teleport assets')}
       onClose={onClose}
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={t<string>('The transferred balance will be subtracted (along with fees) from the sender account.')}>
+        <Modal.Columns hint={t('The transferred balance will be subtracted (along with fees) from the sender account.')}>
           <InputAddress
-            label={t<string>('send from account')}
+            label={t('send from account')}
             labelExtra={
               <Available
-                label={t<string>('transferrable')}
+                label={t('transferrable')}
                 params={senderId}
               />
             }
@@ -148,21 +148,21 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
           />
         </Modal.Columns>
         {chainOpts.length !== 0 && (
-          <Modal.Columns hint={t<string>('The destination chain for this asset teleport. The transferred value will appear on this chain.')}>
+          <Modal.Columns hint={t('The destination chain for this asset teleport. The transferred value will appear on this chain.')}>
             <Dropdown
               defaultValue={chainOpts[0].value}
-              label={t<string>('destination chain')}
+              label={t('destination chain')}
               onChange={setParaId}
               options={chainOpts}
             />
             {!isParaTeleport && oneWay.includes(recipientParaId) && (
-              <MarkWarning content={t<string>('Currently this is a one-way transfer since the on-chain runtime functionality to send the funds from the destination chain back to this account not yet available.')} />
+              <MarkWarning content={t('Currently this is a one-way transfer since the on-chain runtime functionality to send the funds from the destination chain back to this account not yet available.')} />
             )}
           </Modal.Columns>
         )}
-        <Modal.Columns hint={t<string>('The beneficiary will have access to the transferred amount when the transaction is included in a block.')}>
+        <Modal.Columns hint={t('The beneficiary will have access to the transferred amount when the transaction is included in a block.')}>
           <InputAddress
-            label={t<string>('send to address')}
+            label={t('send to address')}
             onChange={setRecipientId}
             type='allPlus'
           />
@@ -170,8 +170,8 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
         <Modal.Columns
           hint={
             <>
-              <p>{t<string>('This is the amount to be teleported to the destination chain and does not account for the source or the destination transfer fee')}</p>
-              <p>{t<string>('The amount deposited to the recipient will be net the calculated cross-chain fee. If the recipient address is new, the amount deposited should be greater than the Existential Deposit')}</p>
+              <p>{t('This is the amount to be teleported to the destination chain and does not account for the source or the destination transfer fee')}</p>
+              <p>{t('The amount deposited to the recipient will be net the calculated cross-chain fee. If the recipient address is new, the amount deposited should be greater than the Existential Deposit')}</p>
             </>
           }
         >
@@ -179,14 +179,14 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
             autoFocus
             isError={!hasAvailable}
             isZeroable
-            label={t<string>('amount')}
+            label={t('amount')}
             onChange={setAmount}
           />
           <InputBalance
             defaultValue={destApi?.consts.balances?.existentialDeposit}
             isDisabled
             isLoading={!destApi}
-            label={t<string>('destination existential deposit')}
+            label={t('destination existential deposit')}
           />
         </Modal.Columns>
       </Modal.Content>
@@ -195,7 +195,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
           accountId={senderId}
           icon='share-square'
           isDisabled={!allowTeleport || !hasAvailable || !recipientId || !amount || !destApi || (!isParaTeleport && recipientParaId === INVALID_PARAID)}
-          label={t<string>('Teleport')}
+          label={t('Teleport')}
           onStart={onClose}
           params={params}
           tx={call}

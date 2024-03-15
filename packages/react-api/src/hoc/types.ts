@@ -29,7 +29,7 @@ export interface Options {
 
 export type RenderFn = (value?: any) => any;
 
-export type StorageTransform = (input: any, index: number) => unknown | null;
+export type StorageTransform = (input: any, index: number) => unknown;
 
 export type HOC = (Component: React.ComponentType<unknown>, defaultProps?: DefaultProps, render?: RenderFn) => React.ComponentType<unknown>;
 

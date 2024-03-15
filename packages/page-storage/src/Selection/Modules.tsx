@@ -98,7 +98,7 @@ function expandKey (api: ApiPromise, key: QueryableStorageEntry<'promise'>): Key
   const isIterable = checkIterable(api.registry, type);
 
   return {
-    defaultValues: section === 'session' && type.isMap && api.consts.session && api.consts.session.dedupKeyPrefix
+    defaultValues: section === 'session' && type.isMap && api.consts.session?.dedupKeyPrefix
       ? [{ isValid: true, value: api.consts.session.dedupKeyPrefix.toHex() }]
       : null,
     isIterable,
@@ -214,7 +214,7 @@ function Modules ({ className = '', onAdd }: Props): React.ReactElement<Props> {
       <div className='storage--actionrow-value'>
         <InputStorage
           defaultValue={startValue}
-          label={t<string>('selected state query')}
+          label={t('selected state query')}
           onChange={_onChangeKey}
         />
         <Params
@@ -227,9 +227,9 @@ function Modules ({ className = '', onAdd }: Props): React.ReactElement<Props> {
         <Input
           isDisabled={!isValid || !isAtAllowed}
           isError={!!textHash && !blockHash}
-          label={t<string>('blockhash to query at')}
+          label={t('blockhash to query at')}
           onChange={_onChangeAt}
-          placeholder={t<string>('0x...')}
+          placeholder={t('0x...')}
         />
         <Columar
           className='keyColumar'
@@ -239,8 +239,8 @@ function Modules ({ className = '', onAdd }: Props): React.ReactElement<Props> {
             <Output
               isDisabled
               label={isPartialKey
-                ? t<string>('encoded partial key')
-                : t<string>('encoded storage key')
+                ? t('encoded partial key')
+                : t('encoded storage key')
               }
               value={hexKey}
               withCopy
@@ -249,7 +249,7 @@ function Modules ({ className = '', onAdd }: Props): React.ReactElement<Props> {
           <Columar.Column>
             <DecodeInspect
               inspect={inspect}
-              label={t<string>('encoded key details')}
+              label={t('encoded key details')}
             />
           </Columar.Column>
         </Columar>

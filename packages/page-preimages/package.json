@@ -1,7 +1,7 @@
 {
   "bugs": "https://github.com/availproject/avail-apps/issues",
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "homepage": "https://github.com/availproject/avail-apps/tree/master/packages/page-preimages#readme",
   "license": "Apache-2.0",
@@ -14,7 +14,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.132.2-22-x",
+  "version": "0.133.2-120-x",
   "peerDependencies": {
     "react": "*",
     "react-dom": "*",

@@ -55,7 +55,7 @@ function ProxyAdd ({ className = '', onClose, onStatusChange }: Props): React.Re
     (): void => {
       if (stashAddress) {
         const options = { genesisHash: isDevelopment ? undefined : api.genesisHash.toHex(), name: name.trim() };
-        const status = createProxy(stashAddress, options, t<string>('added proxy'));
+        const status = createProxy(stashAddress, options, t('added proxy'));
 
         onStatusChange(status);
         onClose();
@@ -74,27 +74,27 @@ function ProxyAdd ({ className = '', onClose, onStatusChange }: Props): React.Re
   return (
     <Modal
       className={className}
-      header={t<string>('Add proxied account')}
+      header={t('Add proxied account')}
       onClose={onClose}
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={t<string>('The address that has previously setup a proxy to one of the accounts that you control.')}>
+        <Modal.Columns hint={t('The address that has previously setup a proxy to one of the accounts that you control.')}>
           <InputAddressSimple
             autoFocus
             isError={!proxyInfo || proxyInfo.isEmpty}
-            label={t<string>('proxied account')}
+            label={t('proxied account')}
             onChange={setStashAddress}
-            placeholder={t<string>('address being proxied')}
+            placeholder={t('address being proxied')}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The name is for unique identification of the account in your owner lists.')}>
+        <Modal.Columns hint={t('The name is for unique identification of the account in your owner lists.')}>
           <Input
             className='full'
             isError={!isNameValid}
-            label={t<string>('name')}
+            label={t('name')}
             onChange={_onChangeName}
-            placeholder={t<string>('proxied name')}
+            placeholder={t('proxied name')}
           />
         </Modal.Columns>
       </Modal.Content>
@@ -102,7 +102,7 @@ function ProxyAdd ({ className = '', onClose, onStatusChange }: Props): React.Re
         <Button
           icon='plus'
           isDisabled={!isValid}
-          label={t<string>('Add')}
+          label={t('Add')}
           onClick={_createProxied}
         />
       </Modal.Actions>

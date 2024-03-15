@@ -106,7 +106,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
         {slashes.length !== 0 && (
           <Badge
             color='red'
-            hover={t<string>('Slashed in era {{eras}}', {
+            hover={t('Slashed in era {{eras}}', {
               replace: {
                 eras: slashes.map(({ era }) => formatNumber(era)).join(', ')
               }
@@ -247,7 +247,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                   icon='stop'
                   isDisabled={!isOwnController || isDisabled}
                   key='stop'
-                  label={t<string>('Stop')}
+                  label={t('Stop')}
                   tx={api.tx.staking.chill}
                 />
               )
@@ -259,7 +259,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                         icon='sign-in-alt'
                         isDisabled={!isOwnController || isDisabled}
                         key='set'
-                        label={t<string>('Session Key')}
+                        label={t('Session Key')}
                         onClick={toggleSetSession}
                       />
                     )
@@ -268,7 +268,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                         icon='certificate'
                         isDisabled={!isOwnController || isDisabled || !hasBonded}
                         key='validate'
-                        label={t<string>('Validate')}
+                        label={t('Validate')}
                         onClick={toggleValidate}
                       />
                     )
@@ -277,7 +277,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                     icon='hand-paper'
                     isDisabled={!isOwnController || isDisabled || !hasBonded}
                     key='nominate'
-                    label={t<string>('Nominate')}
+                    label={t('Nominate')}
                     onClick={toggleNominate}
                   />
                 </Button.Group>
@@ -290,46 +290,46 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                 <Menu>
                   <Menu.Item
                     isDisabled={!isOwnStash || !balancesAll?.freeBalance.gtn(0)}
-                    label={t<string>('Bond more funds')}
+                    label={t('Bond more funds')}
                     onClick={toggleBondExtra}
                   />
                   <Menu.Item
-                    isDisabled={!isOwnController || !stakingAccount || !stakingAccount.stakingLedger || stakingAccount.stakingLedger.active?.isEmpty}
-                    label={t<string>('Unbond funds')}
+                    isDisabled={!isOwnController || !stakingAccount?.stakingLedger || stakingAccount.stakingLedger.active?.isEmpty}
+                    label={t('Unbond funds')}
                     onClick={toggleUnbond}
                   />
                   <Menu.Item
-                    isDisabled={!isOwnController || !stakingAccount || !stakingAccount.unlocking || !stakingAccount.unlocking.length}
-                    label={t<string>('Rebond funds')}
+                    isDisabled={!isOwnController || !stakingAccount?.unlocking?.length}
+                    label={t('Rebond funds')}
                     onClick={toggleRebond}
                   />
                   <Menu.Item
-                    isDisabled={!isOwnController || !stakingAccount || !stakingAccount.redeemable || !stakingAccount.redeemable.gtn(0)}
-                    label={t<string>('Withdraw unbonded funds')}
+                    isDisabled={!isOwnController || !stakingAccount?.redeemable || !stakingAccount.redeemable.gtn(0)}
+                    label={t('Withdraw unbonded funds')}
                     onClick={withdrawFunds}
                   />
                   <Menu.Divider />
                   <Menu.Item
                     isDisabled={!isOwnStash || !needsSetController}
-                    label={t<string>('Change controller account')}
+                    label={t('Change controller account')}
                     onClick={toggleSetController}
                   />
                   <Menu.Item
                     isDisabled={!isOwnController}
-                    label={t<string>('Change reward destination')}
+                    label={t('Change reward destination')}
                     onClick={toggleRewardDestination}
                   />
                   {isStashValidating && (
                     <>
                       <Menu.Item
                         isDisabled={!isOwnController}
-                        label={t<string>('Change validator preferences')}
+                        label={t('Change validator preferences')}
                         onClick={toggleValidate}
                       />
                       {isFunction(api.tx.staking.kick) && (
                         <Menu.Item
                           isDisabled={!isOwnController}
-                          label={t<string>('Remove nominees')}
+                          label={t('Remove nominees')}
                           onClick={toggleKick}
                         />
                       )}
@@ -339,20 +339,20 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                   {!isStashNominating && (
                     <Menu.Item
                       isDisabled={!isOwnController}
-                      label={t<string>('Change session keys')}
+                      label={t('Change session keys')}
                       onClick={toggleSetSession}
                     />
                   )}
                   {isStashNominating && (
                     <Menu.Item
                       isDisabled={!isOwnController || !targets.validators?.length}
-                      label={t<string>('Set nominees')}
+                      label={t('Set nominees')}
                       onClick={toggleNominate}
                     />
                   )}
                   {!isStashNominating && (
                     <Menu.Item
-                      label={t<string>('Inject session keys (advanced)')}
+                      label={t('Inject session keys (advanced)')}
                       onClick={toggleInject}
                     />
                   )}

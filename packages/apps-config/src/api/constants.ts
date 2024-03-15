@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2024 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
@@ -9,7 +9,7 @@ import { assert, BN } from '@polkadot/util';
 function getGenesis (name: string): HexString {
   const network = Object.entries(knownGenesis).find(([network]) => network === name);
 
-  assert(network && network[1][0], `Unable to find genesisHash for ${name}`);
+  assert(network?.[1][0], `Unable to find genesisHash for ${name}`);
 
   return network[1][0];
 }
@@ -22,6 +22,8 @@ export const POLKADOT_GENESIS = getGenesis('polkadot');
 export const POLKADOT_DENOM_BLOCK = new BN(1248328);
 
 export const ROCOCO_GENESIS = getGenesis('rococo');
+
+export const PASEO_GENESIS = '0x74300973617e2936e22d46e94fee5016a1a514747ae108277b770d02b47d37d9';
 
 export const WESTEND_GENESIS = getGenesis('westend');
 
@@ -40,3 +42,6 @@ export const CERE_NETWORK_TESTNET_GENESIS = '0x42b9b44b4950b6c1edae543a7696caf8d
 export const GOLDBERG_NETWORK_TESTNET_GENESIS = '0x6f09966420b2608d1947ccfb0f2a362450d1fc7fd902c29b67c906eaa965a7ae';
 
 export const COUSCOUS_NETWORK_TESTNET_GENESIS = '0x870e903076fe2bec249cc31fdb1b5717d89d0a0b6ae38241a58d6edeac5e1859';
+export const VARA_NETWORK_GENESIS = '0xfe1b4c55fd4d668101126434206571a7838a8b6b93a6d1b95d607e78e6c53763';
+
+export const VARA_NETWORK_TESTNET_GENESIS = '0x525639f713f397dcf839bd022cd821f367ebcf179de7b9253531f8adbe5436d6';

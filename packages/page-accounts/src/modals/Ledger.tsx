@@ -48,12 +48,12 @@ function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> 
   const [isBusy, setIsBusy] = useState(false);
 
   const accOps = useRef(AVAIL_INDEXES.map((value): Option => ({
-    text: t<string>('Account type {{index}}', { replace: { index: value } }),
+    text: t('Account type {{index}}', { replace: { index: value } }),
     value
   })));
 
   const addOps = useRef(AVAIL_INDEXES.map((value): Option => ({
-    text: t<string>('Address index {{index}}', { replace: { index: value } }),
+    text: t('Address index {{index}}', { replace: { index: value } }),
     value
   })));
 
@@ -82,33 +82,33 @@ function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> 
   return (
     <Modal
       className={className}
-      header={t<string>('Add account via Ledger')}
+      header={t('Add account via Ledger')}
       onClose={onClose}
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={t<string>('The name for this account as it will appear under your accounts.')}>
+        <Modal.Columns hint={t('The name for this account as it will appear under your accounts.')}>
           <Input
             autoFocus
             className='full'
             isError={!isNameValid}
-            label={t<string>('name')}
+            label={t('name')}
             onChange={_onChangeName}
-            placeholder={t<string>('account name')}
+            placeholder={t('account name')}
             value={name}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The account type that you wish to create. This is the top-level derivation.')}>
+        <Modal.Columns hint={t('The account type that you wish to create. This is the top-level derivation.')}>
           <Dropdown
-            label={t<string>('account type')}
+            label={t('account type')}
             onChange={setAccIndex}
             options={accOps.current}
             value={accIndex}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The address index on the account that you wish to add. This is the second-level derivation.')}>
+        <Modal.Columns hint={t('The address index on the account that you wish to add. This is the second-level derivation.')}>
           <Dropdown
-            label={t<string>('address index')}
+            label={t('address index')}
             onChange={setAddIndex}
             options={addOps.current}
             value={addIndex}
@@ -123,7 +123,7 @@ function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> 
           icon='plus'
           isBusy={isBusy}
           isDisabled={!isNameValid}
-          label={t<string>('Save')}
+          label={t('Save')}
           onClick={_onSave}
         />
       </Modal.Actions>

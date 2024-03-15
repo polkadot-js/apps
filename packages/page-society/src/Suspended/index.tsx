@@ -51,12 +51,12 @@ function Suspended ({ className }: Props): React.ReactElement<Props> {
 
   const headerRef = useRef({
     candidates: [
-      [t<string>('candidates'), 'start'],
-      [t<string>('bid kind'), 'start'],
-      [t<string>('value')]
+      [t('candidates'), 'start'],
+      [t('bid kind'), 'start'],
+      [t('value')]
     ] as [React.ReactNode?, string?, number?][],
     members: [
-      [t<string>('members'), 'start', 3]
+      [t('members'), 'start', 3]
     ] as [React.ReactNode?, string?, number?][]
   });
 
@@ -64,7 +64,7 @@ function Suspended ({ className }: Props): React.ReactElement<Props> {
     <div className={className}>
       <Table
         className={className}
-        empty={members && t<string>('No suspended members')}
+        empty={members && t('No suspended members')}
         header={headerRef.current.members}
       >
         {members?.map((accountId): React.ReactNode => (
@@ -76,7 +76,7 @@ function Suspended ({ className }: Props): React.ReactElement<Props> {
       </Table>
       <Table
         className={className}
-        empty={candidates && t<string>('No suspended candidates')}
+        empty={candidates && t('No suspended candidates')}
         header={headerRef.current.candidates}
       >
         {candidates?.map(({ accountId, balance, bid }): React.ReactNode => (

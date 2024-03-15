@@ -140,7 +140,7 @@ async function unpin (exclude) {
       .map((r) => r.ipfs_pin_hash)
       .filter((hash) => hash !== exclude);
 
-    for (let i = 0; i < hashes.length; i++) {
+    for (let i = 0, count = hashes.length; i < count; i++) {
       const hash = hashes[i];
 
       try {
@@ -172,7 +172,7 @@ async function dnslink (hash) {
         .join('.')
     );
 
-  for (let i = 0; i < records.length; i++) {
+  for (let i = 0, count = records.length; i < count; i++) {
     const record = records[i];
 
     try {

@@ -18,7 +18,7 @@ interface Props {
 
 function ChartDisplay ({ className = '', colors, labels, legends, title, values }: Props): React.ReactElement<Props> {
   const isLoading = useMemo(
-    () => !labels || labels.length === 0 || !values || values.length === 0 || !values[0] || !values[0].length,
+    () => !labels || labels.length === 0 || !values || values.length === 0 || !values[0]?.length,
     [labels, values]
   );
 

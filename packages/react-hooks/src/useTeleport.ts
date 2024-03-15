@@ -31,7 +31,7 @@ const DEFAULT_STATE: Teleport = {
   oneWay: []
 };
 
-const endpoints = createWsEndpoints((k: string, v?: string) => v || k).filter((v): v is ExtLinkOption => !!v.teleport);
+const endpoints = createWsEndpoints((k, v) => v?.toString() || k).filter((v): v is ExtLinkOption => !!v.teleport);
 
 function extractRelayDestinations (relayGenesis: string, filter: (l: ExtLinkOption) => boolean): ExtLinkOption[] {
   return endpoints
@@ -96,7 +96,7 @@ function useTeleportImpl (): Teleport {
     if (paraId) {
       const endpoint = endpoints.find(({ value }) => value === apiUrl);
 
-      if (endpoint && endpoint.genesisHashRelay) {
+      if (endpoint?.genesisHashRelay) {
         const destinations = extractRelayDestinations(endpoint.genesisHashRelay, ({ paraId }) =>
           endpoint.teleport.includes(isNumber(paraId) ? paraId : -1)
         );

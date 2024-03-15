@@ -13,9 +13,8 @@ export interface RouteProps extends AppProps, BareProps {
 }
 
 export interface Route {
-  // FIXME This is weird, we really expect the memo to be there...
-  Component: React.ComponentType<RouteProps> | React.MemoExoticComponent<any>;
-  Modal?: React.ComponentType<any> | React.MemoExoticComponent<any>;
+  Component: React.ComponentType<any>;
+  Modal?: React.ComponentType<any>;
   display: {
     isDevelopment?: boolean;
     isHidden?: boolean;
@@ -36,3 +35,5 @@ export interface Route {
 }
 
 export type Routes = Route[];
+
+export type TFunction = (key: string, textOrOptions?: string | { replace: Record<string, unknown> }, options?: { ns: string }) => string;

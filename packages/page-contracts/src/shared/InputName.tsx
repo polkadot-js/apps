@@ -26,7 +26,7 @@ function InputName ({ className, isBusy, isContract, isError, onChange, onEnter,
       className={className}
       isDisabled={isBusy}
       isError={isError}
-      label={t<string>(
+      label={t(
         isContract
           ? 'contract name'
           : 'code bundle name'

@@ -20,7 +20,7 @@ interface Props {
 }
 
 function Auctions ({ auctionInfo, campaigns, className, ownedIds, winningData }: Props): React.ReactElement<Props> {
-  const lastWinners = winningData && winningData[0];
+  const lastWinners = winningData?.[0];
 
   return (
     <div className={className}>

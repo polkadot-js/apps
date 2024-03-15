@@ -70,7 +70,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
     const current = keyring.getAddress(address);
 
     setCurrent(current || null);
-    setGenesisHash((current && current.meta.genesisHash) || null);
+    setGenesisHash((current?.meta.genesisHash) || null);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -89,7 +89,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   useEffect((): void => {
     const account = keyring.getAddress(address);
 
-    _setTags(account?.meta?.tags as string[] || []);
+    _setTags(account?.meta?.tags || []);
     setAccName(account?.meta?.name || '');
   }, [_setTags, address]);
 
@@ -141,7 +141,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
         try {
           keyring.forgetAddress(address);
           status.status = 'success';
-          status.message = t<string>('address forgotten');
+          status.message = t('address forgotten');
         } catch (error) {
           status.status = 'error';
           status.message = (error as Error).message;
@@ -159,7 +159,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
     <Menu>
       <Menu.Item
         isDisabled={!isEditable}
-        label={t<string>('Forget this address')}
+        label={t('Forget this address')}
         onClick={_toggleForget}
       />
       {isEditable && !api.isDevelopment && (
@@ -216,7 +216,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
                 className='send-button'
                 icon='paper-plane'
                 key='send'
-                label={t<string>('send')}
+                label={t('send')}
                 onClick={_toggleTransfer}
               />
             )}

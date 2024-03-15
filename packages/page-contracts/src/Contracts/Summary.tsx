@@ -30,7 +30,7 @@ function Summary ({ trigger }: Props): React.ReactElement<Props> {
   }, [api, accountCounter]);
 
   useEffect((): void => {
-    api.query.contracts.codeStorage
+    (api.query.contracts.pristineCode || api.query.contracts.codeStorage)
       .keys()
       .then((arr) => setNumHashes(arr.length))
       .catch(console.error);
@@ -39,15 +39,15 @@ function Summary ({ trigger }: Props): React.ReactElement<Props> {
   return (
     <SummaryBox>
       <section>
-        <CardSummary label={t<string>('addresses')}>
+        <CardSummary label={t('addresses')}>
           {formatNumber(accountCounter)}
         </CardSummary>
       </section>
       <section>
-        <CardSummary label={t<string>('code hashes')}>
+        <CardSummary label={t('code hashes')}>
           {formatNumber(numHashes)}
         </CardSummary>
-        <CardSummary label={t<string>('contracts')}>
+        <CardSummary label={t('contracts')}>
           {formatNumber(numContracts)}
         </CardSummary>
       </section>

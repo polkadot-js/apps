@@ -20,7 +20,7 @@ const mapping: [OverrideBundleDefinition, string[]][] = [
 export function applyDerives (typesBundle: OverrideBundleType): OverrideBundleType {
   mapping.forEach(([{ derives }, chains]): void => {
     chains.forEach((chain): void => {
-      if (typesBundle.spec && typesBundle.spec[chain]) {
+      if (typesBundle.spec?.[chain]) {
         typesBundle.spec[chain].derives = derives;
       }
     });

@@ -13,6 +13,7 @@ export const ethereumChains = [
   'moonsama',
   'moonshadow',
   'altbeacon',
+  'altbeacon-dev',
   'alt-producer',
   'flash-layer',
   'armonia-eva',
@@ -28,5 +29,11 @@ export const ethereumChains = [
   'dracones',
   'dracones-dwarf',
   'subspace-evm-domain',
-  'ferrum-parachain'
+  'ferrum-parachain',
+  'quantum-portal-network-parachain',
+  'peerplays',
+  'innovatorchain',
+  'masverse',
+  'laos',
+  'muse'
 ];

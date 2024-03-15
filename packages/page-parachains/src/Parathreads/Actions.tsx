@@ -39,7 +39,7 @@ function Actions ({ className, ownedIds }: Props): React.ReactElement<Props> {
       <Button
         icon='plus'
         isDisabled={!api.tx.registrar.reserve}
-        label={t<string>('ParaId')}
+        label={t('ParaId')}
         onClick={toggleReserveOpen}
       />
       {isReserveOpen && (
@@ -51,7 +51,7 @@ function Actions ({ className, ownedIds }: Props): React.ReactElement<Props> {
       <Button
         icon='plus'
         isDisabled={api.tx.registrar.reserve ? !ownedIds.length : false}
-        label={t<string>('ParaThread')}
+        label={t('ParaThread')}
         onClick={toggleRegisterOpen}
       />
       {isRegisterOpen && (

@@ -170,21 +170,21 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   const isValid = isFirstStepValid && isSecondStepValid;
 
   const errorIndex = useRef<Record<string, string>>({
-    INVALID_DERIVATION_PATH: t<string>('This is an invalid derivation path.'),
-    PASSWORD_IGNORED: t<string>('Password are ignored for hex seed'),
-    SOFT_NOT_ALLOWED: t<string>('Soft derivation paths are not allowed on ed25519'),
-    WARNING_SLASH_PASSWORD: t<string>('Your password contains at least one "/" character. Disregard this warning if it is intended.')
+    INVALID_DERIVATION_PATH: t('This is an invalid derivation path.'),
+    PASSWORD_IGNORED: t('Password are ignored for hex seed'),
+    SOFT_NOT_ALLOWED: t('Soft derivation paths are not allowed on ed25519'),
+    WARNING_SLASH_PASSWORD: t('Your password contains at least one "/" character. Disregard this warning if it is intended.')
   });
 
   const seedOpt = useRef((
     isDevelopment
-      ? [{ text: t<string>('Development'), value: 'dev' }]
+      ? [{ text: t('Development'), value: 'dev' }]
       : []
   ).concat(
-    { text: t<string>('Mnemonic'), value: 'bip' },
+    { text: t('Mnemonic'), value: 'bip' },
     isEthereum
-      ? { text: t<string>('Private Key'), value: 'raw' }
-      : { text: t<string>('Raw seed'), value: 'raw' }
+      ? { text: t('Private Key'), value: 'raw' }
+      : { text: t('Raw seed'), value: 'raw' }
   ));
 
   const _onChangePath = useCallback(
@@ -231,7 +231,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
       setIsBusy(true);
       nextTick((): void => {
         const options = { genesisHash: isDevelopment ? undefined : api.genesisHash.toHex(), isHardware: false, name: name.trim() };
-        const status = createAccount(seed, derivePath, pairType, options, password, t<string>('created account'));
+        const status = createAccount(seed, derivePath, pairType, options, password, t('created account'));
 
         onStatusChange(status);
         setIsBusy(false);
@@ -244,7 +244,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   return (
     <StyledModal
       className={className}
-      header={t<string>('Add an account via seed {{step}}/{{STEPS_COUNT}}', { replace: { STEPS_COUNT, step } })}
+      header={t('Add an account via seed {{step}}/{{STEPS_COUNT}}', { replace: { STEPS_COUNT, step } })}
       onClose={onClose}
       size='large'
     >
@@ -259,18 +259,18 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
           />
         </Modal.Columns>
         {step === 1 && <>
-          <Modal.Columns hint={t<string>('The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.')}>
+          <Modal.Columns hint={t('The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.')}>
             <TextArea
               isError={!isSeedValid}
               isReadOnly={seedType === 'dev'}
               label={
                 seedType === 'bip'
-                  ? t<string>('mnemonic seed')
+                  ? t('mnemonic seed')
                   : seedType === 'dev'
-                    ? t<string>('development seed')
+                    ? t('development seed')
                     : isEthereum
-                      ? t<string>('ethereum private key')
-                      : t<string>('seed (hex or string)')
+                      ? t('ethereum private key')
+                      : t('seed (hex or string)')
               }
               onChange={_onChangeSeed}
               seed={seed}
@@ -278,7 +278,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             >
               <CopyButton
                 className='copyMoved'
-                type={seedType === 'bip' ? t<string>('mnemonic') : seedType === 'raw' ? isEthereum ? t<string>('private key') : 'seed' : t<string>('raw seed')}
+                type={seedType === 'bip' ? t('mnemonic') : seedType === 'raw' ? isEthereum ? t('private key') : 'seed' : t('raw seed')}
                 value={seed}
               />
               <Dropdown
@@ -292,13 +292,13 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
           <Expander
             className='accounts--Creator-advanced'
             isPadded
-            summary={t<string>('Advanced creation options')}
+            summary={t('Advanced creation options')}
           >
             {pairType !== 'ethereum' && (
-              <Modal.Columns hint={t<string>('If you are moving accounts between applications, ensure that you use the correct type.')}>
+              <Modal.Columns hint={t('If you are moving accounts between applications, ensure that you use the correct type.')}>
                 <Dropdown
                   defaultValue={pairType}
-                  label={t<string>('keypair crypto type')}
+                  label={t('keypair crypto type')}
                   onChange={_onChangePairType}
                   options={
                     isEthereum
@@ -329,20 +329,20 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                   />
                 )
                 : (
-                  <Modal.Columns hint={t<string>('The derivation path allows you to create different accounts from the same base mnemonic.')}>
+                  <Modal.Columns hint={t('The derivation path allows you to create different accounts from the same base mnemonic.')}>
                     <Input
                       isDisabled={seedType === 'raw'}
                       isError={!!deriveValidation?.error}
-                      label={t<string>('secret derivation path')}
+                      label={t('secret derivation path')}
                       onChange={_onChangePath}
                       placeholder={
                         seedType === 'raw'
                           ? pairType === 'sr25519'
-                            ? t<string>('//hard/soft')
-                            : t<string>('//hard')
+                            ? t('//hard/soft')
+                            : t('//hard')
                           : pairType === 'sr25519'
-                            ? t<string>('//hard/soft///password')
-                            : t<string>('//hard///password')
+                            ? t('//hard/soft///password')
+                            : t('//hard///password')
                       }
                       tabIndex={-1}
                       value={derivePath}
@@ -360,7 +360,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             <ExternalWarning />
             <div className='saveToggle'>
               <Checkbox
-                label={<>{t<string>('I have saved my mnemonic seed safely')}</>}
+                label={<>{t('I have saved my mnemonic seed safely')}</>}
                 onChange={_toggleMnemonicSaved}
                 value={isMnemonicSaved}
               />
@@ -397,7 +397,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             activeOnEnter
             icon='step-forward'
             isDisabled={!isFirstStepValid}
-            label={t<string>('Next')}
+            label={t('Next')}
             onClick={nextStep}
           />
         }
@@ -405,14 +405,14 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
           <>
             <Button
               icon='step-backward'
-              label={t<string>('Prev')}
+              label={t('Prev')}
               onClick={prevStep}
             />
             <Button
               activeOnEnter
               icon='step-forward'
               isDisabled={!isSecondStepValid}
-              label={t<string>('Next')}
+              label={t('Next')}
               onClick={nextStep}
             />
           </>
@@ -421,14 +421,14 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
           <>
             <Button
               icon='step-backward'
-              label={t<string>('Prev')}
+              label={t('Prev')}
               onClick={prevStep}
             />
             <Button
               activeOnEnter
               icon='plus'
               isBusy={isBusy}
-              label={t<string>('Save')}
+              label={t('Save')}
               onClick={_onCommit}
             />
           </>

@@ -32,10 +32,10 @@ function Tooltip ({ children, className = '', isClickable = false, place, text, 
   useEffect((): () => void => {
     const root = rootElement();
 
-    root && root.appendChild(tooltipContainer);
+    root?.appendChild(tooltipContainer);
 
     return (): void => {
-      root && root.removeChild(tooltipContainer);
+      root?.removeChild(tooltipContainer);
     };
   }, [tooltipContainer]);
 

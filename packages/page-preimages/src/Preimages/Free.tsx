@@ -33,7 +33,7 @@ function Free ({ className, value: { count, deposit, proposalHash, status } }: P
       accountId={deposit.who}
       className={className}
       icon='minus'
-      label={t<string>('Unnote')}
+      label={t('Unnote')}
       params={[proposalHash]}
       tx={api.tx.preimage.unnotePreimage}
     />

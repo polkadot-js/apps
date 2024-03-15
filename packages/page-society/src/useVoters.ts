@@ -27,7 +27,7 @@ async function getVoters (api: ApiPromise, candidates: DeriveSocietyCandidate[])
         const key = accountId.toString();
         const vote = opt.unwrap();
 
-        if (vote.isSkeptic) {
+        if ((vote as unknown as { isSkeptic: boolean }).isSkeptic) {
           !skeptics.includes(key) && skeptics.push(key);
         } else {
           !voters.includes(key) && voters.push(key);

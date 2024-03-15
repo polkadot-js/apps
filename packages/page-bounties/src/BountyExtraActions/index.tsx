@@ -45,9 +45,9 @@ function Index ({ bestNumber, className, description, index, proposals, status }
   const availableSlashActions = determineUnassignCuratorAction(roles, status, blocksUntilUpdate);
 
   const slashCuratorActionNames = useRef<Record<ValidUnassignCuratorAction, string>>({
-    SlashCuratorAction: t<string>('Slash curator'),
-    SlashCuratorMotion: t<string>('Slash curator (Council)'),
-    UnassignCurator: t<string>('Unassign curator')
+    SlashCuratorAction: t('Slash curator'),
+    SlashCuratorMotion: t('Slash curator (Council)'),
+    UnassignCurator: t('Unassign curator')
   });
 
   const existingCloseBountyProposal = useMemo(
@@ -130,28 +130,28 @@ function Index ({ bestNumber, className, description, index, proposals, status }
               {showCloseBounty && (
                 <Menu.Item
                   key='closeBounty'
-                  label={t<string>('Close')}
+                  label={t('Close')}
                   onClick={toggleCloseBounty}
                 />
               )}
               {showRejectCurator && (
                 <Menu.Item
                   key='rejectCurator'
-                  label={t<string>('Reject curator')}
+                  label={t('Reject curator')}
                   onClick={toggleRejectCurator}
                 />
               )}
               {showExtendExpiry && (
                 <Menu.Item
                   key='extendExpiry'
-                  label={t<string>('Extend expiry')}
+                  label={t('Extend expiry')}
                   onClick={toggleExtendExpiry}
                 />
               )}
               {showGiveUpCurator && (
                 <Menu.Item
                   key='giveUpCurator'
-                  label={t<string>('Give up')}
+                  label={t('Give up')}
                   onClick={toggleGiveUpCurator}
                 />
               )}

@@ -48,19 +48,19 @@ function AllianceApp ({ basePath, className }: Props): React.ReactElement<Props>
     {
       isRoot: true,
       name: 'overview',
-      text: t<string>('Overview')
+      text: t('Overview')
     },
     {
       name: 'motions',
-      text: t<string>('Motions ({{count}})', { replace: { count: (proposalHashes && proposalHashes.length) || 0 } })
+      text: t('Motions ({{count}})', { replace: { count: proposalHashes?.length || 0 } })
     },
     {
       name: 'announcements',
-      text: t<string>('Announcements ({{count}})', { replace: { count: (accouncements && accouncements.length) || 0 } })
+      text: t('Announcements ({{count}})', { replace: { count: accouncements?.length || 0 } })
     },
     {
       name: 'unscrupulous',
-      text: t<string>('Unscrupulous')
+      text: t('Unscrupulous')
     }
   ], [accouncements, proposalHashes, t]);
 

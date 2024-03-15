@@ -27,15 +27,15 @@ function Votes ({ votes }: Props): React.ReactElement<Props> {
   return (
     <td className='expand'>
       <VotesExpander
-        label={t<string>('Skeptics')}
+        label={t('Skeptics')}
         votes={allSkeptic}
       />
       <VotesExpander
-        label={t<string>('Approvals')}
+        label={t('Approvals')}
         votes={allAye}
       />
       <VotesExpander
-        label={t<string>('Rejections')}
+        label={t('Rejections')}
         votes={allNay}
       />
     </td>

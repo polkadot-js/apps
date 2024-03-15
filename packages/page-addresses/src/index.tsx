@@ -18,7 +18,7 @@ function AddressesApp ({ basePath, onStatusChange }: Props): React.ReactElement<
     {
       isRoot: true,
       name: 'contacts',
-      text: t<string>('My contacts')
+      text: t('My contacts')
     }
   ]);
 

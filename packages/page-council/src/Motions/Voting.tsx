@@ -38,24 +38,24 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal }: Props
     <>
       {isVotingOpen && (
         <Modal
-          header={t<string>('Vote on proposal')}
+          header={t('Vote on proposal')}
           onClose={toggleVoting}
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns hint={t<string>('The proposal that is being voted on. It will pass when the threshold is reached.')}>
+            <Modal.Columns hint={t('The proposal that is being voted on. It will pass when the threshold is reached.')}>
               <ProposedAction
                 idNumber={idNumber}
                 proposal={proposal}
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The council account for this vote. The selection is filtered by the current members.')}>
+            <Modal.Columns hint={t('The council account for this vote. The selection is filtered by the current members.')}>
               <VoteAccount
                 filter={members}
                 onChange={setAccountId}
               />
               {isPrime && (
-                <MarkWarning content={t<string>('You are voting with this collective\'s prime account. The vote will be the default outcome in case of any abstentions.')} />
+                <MarkWarning content={t('You are voting with this collective\'s prime account. The vote will be the default outcome in case of any abstentions.')} />
               )}
             </Modal.Columns>
           </Modal.Content>
@@ -64,7 +64,7 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal }: Props
               accountId={accountId}
               icon='ban'
               isDisabled={isDisabled}
-              label={t<string>('Vote Nay')}
+              label={t('Vote Nay')}
               onStart={toggleVoting}
               params={[hash, idNumber, false]}
               tx={api.tx[modLocation].vote}
@@ -73,7 +73,7 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal }: Props
               accountId={accountId}
               icon='check-to-slot'
               isDisabled={isDisabled}
-              label={t<string>('Vote Aye')}
+              label={t('Vote Aye')}
               onStart={toggleVoting}
               params={[hash, idNumber, true]}
               tx={api.tx[modLocation].vote}
@@ -84,7 +84,7 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal }: Props
       <Button
         icon='check-to-slot'
         isDisabled={isDisabled}
-        label={t<string>('Vote')}
+        label={t('Vote')}
         onClick={toggleVoting}
       />
     </>

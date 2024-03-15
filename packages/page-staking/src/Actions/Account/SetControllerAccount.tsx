@@ -33,23 +33,23 @@ function SetControllerAccount ({ defaultControllerId, onClose, stashId }: Props)
 
   return (
     <Modal
-      header={t<string>('Change controller account')}
+      header={t('Change controller account')}
       onClose={onClose}
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={t<string>('The stash account that is used. This will allow the controller to perform all non-funds related operations on behalf of the account.')}>
+        <Modal.Columns hint={t('The stash account that is used. This will allow the controller to perform all non-funds related operations on behalf of the account.')}>
           <InputAddress
             isDisabled
-            label={t<string>('stash account')}
+            label={t('stash account')}
             value={stashId}
           />
         </Modal.Columns>
         {needsController && (
-          <Modal.Columns hint={t<string>('The selected controller tied to this stash. Once set, this account will be able to control the actions performed by the stash account.')}>
+          <Modal.Columns hint={t('The selected controller tied to this stash. Once set, this account will be able to control the actions performed by the stash account.')}>
             <InputAddress
               defaultValue={defaultControllerId}
-              label={t<string>('controller account')}
+              label={t('controller account')}
               onChange={setControllerId}
               type='account'
               value={controllerId}
@@ -75,7 +75,7 @@ function SetControllerAccount ({ defaultControllerId, onClose, stashId }: Props)
                 : false
             )
           }
-          label={t<string>('Set controller')}
+          label={t('Set controller')}
           onStart={onClose}
           params={
             needsController

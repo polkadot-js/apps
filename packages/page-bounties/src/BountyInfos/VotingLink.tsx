@@ -19,7 +19,7 @@ function VotingLink ({ className }: Props): React.ReactElement<Props> {
       className={className}
       href='#/council/motions'
     >
-      {t<string>('Voting')}
+      {t('Voting')}
     </StyledA>
   );
 }

@@ -51,31 +51,31 @@ function Rebag ({ bagUpper, stashIds }: Props): React.ReactElement<Props> | null
     <>
       <Button
         icon='refresh'
-        label={t<string>('Rebag {{count}}', { replace: { count: availableIds.length } })}
+        label={t('Rebag {{count}}', { replace: { count: availableIds.length } })}
         onClick={toggleVisible}
       />
       {isVisible && (
         <Modal
-          header={t<string>('Rebag dislocated entries')}
+          header={t('Rebag dislocated entries')}
           onClose={toggleVisible}
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns hint={t<string>('The account that will submit the rebag transaction.')}>
+            <Modal.Columns hint={t('The account that will submit the rebag transaction.')}>
               <InputAddress
-                label={t<string>('rebag from account')}
+                label={t('rebag from account')}
                 onChange={setAccountId}
                 type='account'
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The accounts that will be rebagged as a result of this operation.')}>
+            <Modal.Columns hint={t('The accounts that will be rebagged as a result of this operation.')}>
               <InputAddressMulti
                 available={availableIds}
-                availableLabel={t<string>('unselected')}
+                availableLabel={t('unselected')}
                 defaultValue={availableIds}
                 maxCount={Number.MAX_SAFE_INTEGER}
                 onChange={setSelectedIds}
-                valueLabel={t<string>('to rebag')}
+                valueLabel={t('to rebag')}
               />
             </Modal.Columns>
           </Modal.Content>
@@ -85,7 +85,7 @@ function Rebag ({ bagUpper, stashIds }: Props): React.ReactElement<Props> | null
               extrinsic={tx}
               icon='refresh'
               isDisabled={!tx || !selectedIds.length}
-              label={t<string>('Rebag')}
+              label={t('Rebag')}
               onStart={toggleVisible}
             />
           </Modal.Actions>

@@ -38,7 +38,7 @@ function SetKey ({ allAccounts, className = '', isMine, sudoKey }: Props): React
               <InputAddress
                 className='sudoInputAddress'
                 isInput={true}
-                label={t<string>('sudo key')}
+                label={t('sudo key')}
                 onChange={setSelected}
                 type='all'
                 value={selected}
@@ -47,7 +47,7 @@ function SetKey ({ allAccounts, className = '', isMine, sudoKey }: Props): React
                 accountId={sudoKey}
                 icon='sign-in-alt'
                 isDisabled={!isMine || sudoKey === selected}
-                label={t<string>('Reassign')}
+                label={t('Reassign')}
                 params={[selected]}
                 tx={api.tx.sudo.setKey}
               />
@@ -56,7 +56,7 @@ function SetKey ({ allAccounts, className = '', isMine, sudoKey }: Props): React
           : (
             <Labelled
               className='ui--Dropdown sudoLabelled'
-              label={t<string>('sudo key')}
+              label={t('sudo key')}
               withLabel
             >
               <AddressMini value={sudoKey} />
@@ -66,7 +66,7 @@ function SetKey ({ allAccounts, className = '', isMine, sudoKey }: Props): React
       </StyledSection>
       {willLose && (
         <article className='warning padded'>
-          <div>{t<string>('You will no longer have sudo access')}</div>
+          <div>{t('You will no longer have sudo access')}</div>
         </article>
       )}
     </section>

@@ -1,7 +1,7 @@
 {
   "bugs": "https://github.com/availproject/avail-apps/issues",
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "homepage": "https://github.com/availproject/avail-apps/tree/master/packages/react-api#readme",
   "license": "Apache-2.0",
@@ -14,17 +14,17 @@
   },
   "sideEffects": true,
   "type": "module",
-  "version": "0.132.2-22-x",
+  "version": "0.133.2-120-x",
   "browser": {
     "fs": false,
     "path": false
   },
   "dependencies": {
-    "@polkadot/api": "^10.9.1",
-    "@polkadot/extension-compat-metamask": "^0.46.5",
-    "@polkadot/extension-dapp": "^0.46.5",
-    "@polkadot/rpc-provider": "^10.9.1",
-    "fflate": "^0.8.0",
+    "@polkadot/api": "^10.11.2",
+    "@polkadot/extension-compat-metamask": "^0.46.6",
+    "@polkadot/extension-dapp": "^0.46.6",
+    "@polkadot/rpc-provider": "^10.11.2",
+    "fflate": "^0.8.1",
     "rxjs": "^7.8.1"
   },
   "peerDependencies": {
