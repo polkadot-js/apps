@@ -434,7 +434,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2281,
     providers: {
       Kippu: 'wss://kreivo.kippu.rocks/',
-      Virto: 'wss://kreivo.io/',
+      Virto: 'wss://kreivo.io/'
     },
     text: 'Kreivo - By Virto',
     ui: {
