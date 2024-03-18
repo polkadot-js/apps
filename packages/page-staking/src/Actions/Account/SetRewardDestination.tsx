@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
-import type { RewardDestination } from '@polkadot/types/interfaces';
+import type { PalletStakingRewardDestination } from '@polkadot/types/lookup';
 import type { DestinationType } from '../types.js';
 
 import React, { useMemo, useState } from 'react';
@@ -15,7 +15,7 @@ import { createDestCurr } from '../destOptions.js';
 import SenderInfo from '../partials/SenderInfo.js';
 
 interface Props {
-  defaultDestination?: RewardDestination;
+  defaultDestination?: PalletStakingRewardDestination | null;
   controllerId: string;
   onClose: () => void;
   stashId: string;
