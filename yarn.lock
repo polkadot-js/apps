@@ -1047,14 +1047,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@noble/hashes@npm:1.3.3, @noble/hashes@npm:~1.3.0, @noble/hashes@npm:~1.3.1":
+"@noble/hashes@npm:1.3.3, @noble/hashes@npm:^1.2.0, @noble/hashes@npm:^1.3.3, @noble/hashes@npm:~1.3.0, @noble/hashes@npm:~1.3.1":
   version: 1.3.3
   resolution: "@noble/hashes@npm:1.3.3"
   checksum: 10/1025ddde4d24630e95c0818e63d2d54ee131b980fe113312d17ed7468bc18f54486ac86c907685759f8a7e13c2f9b9e83ec7b67d1cc20836f36b5e4a65bb102d
   languageName: node
   linkType: hard
 
-"@noble/hashes@npm:^1.2.0, @noble/hashes@npm:^1.3.1, @noble/hashes@npm:^1.3.3":
+"@noble/hashes@npm:^1.3.1":
   version: 1.4.0
   resolution: "@noble/hashes@npm:1.4.0"
   checksum: 10/e156e65794c473794c52fa9d06baf1eb20903d0d96719530f523cc4450f6c721a957c544796e6efd0197b2296e7cd70efeb312f861465e17940a3e3c7e0febc6
@@ -1917,6 +1917,7 @@ __metadata:
   resolution: "@polkadot/app-utilities@workspace:packages/page-utilities"
   dependencies:
     "@polkadot/react-components": "npm:^0.134.2-2-x"
+    "@polkadot/react-params": "npm:^0.134.2-2-x"
   peerDependencies:
     react: "*"
     react-dom: "*"
@@ -6389,7 +6390,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"colorette@npm:^2.0.10, colorette@npm:^2.0.14, colorette@npm:^2.0.7":
+"colorette@npm:^2.0.10, colorette@npm:^2.0.14":
+  version: 2.0.16
+  resolution: "colorette@npm:2.0.16"
+  checksum: 10/8501db5750d3b8f0935bdc9e999cbd6b6420b5c127a8c0bd41aaf252fe3f6636ff3a5c51e6dc8e12692e0b96ee3d28a4dfd0f89a86ef167a5728d4c926b67f31
+  languageName: node
+  linkType: hard
+
+"colorette@npm:^2.0.7":
   version: 2.0.20
   resolution: "colorette@npm:2.0.20"
   checksum: 10/0b8de48bfa5d10afc160b8eaa2b9938f34a892530b2f7d7897e0458d9535a066e3998b49da9d21161c78225b272df19ae3a64d6df28b4c9734c0e55bbd02406f
