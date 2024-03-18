@@ -37,6 +37,7 @@
       "@polkadot/app-explorer": ["page-explorer/src/index.tsx"],
       "@polkadot/app-explorer/*": ["page-explorer/src/*.tsx"],
       "@polkadot/app-fellowship": ["page-fellowship/src/index.tsx"],
+      "@polkadot/app-fellowship-treasury": ["page-fellowship-treasury/src/index.tsx"],
       "@polkadot/app-files": ["page-files/src/index.tsx"],
       "@polkadot/app-gilt": ["page-gilt/src/index.tsx"],
       "@polkadot/app-i18n": ["page-i18n/src/index.tsx"],
