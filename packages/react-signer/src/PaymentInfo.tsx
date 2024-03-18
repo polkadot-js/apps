@@ -9,8 +9,9 @@ import type { BN } from '@polkadot/util';
 import React, { useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
 
-import { Expander, MarkWarning } from '@polkadot/react-components';
+import { Expander, MarkError, MarkWarning } from '@polkadot/react-components';
 import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
+import { keyring } from '@polkadot/ui-keyring';
 import { formatBalance, nextTick } from '@polkadot/util';
 
 import { useTranslation } from './translate.js';
@@ -28,6 +29,7 @@ function PaymentInfo ({ accountId, className = '', extrinsic, isHeader }: Props)
   const { t } = useTranslation();
   const { api } = useApi();
   const [dispatchInfo, setDispatchInfo] = useState<RuntimeDispatchInfo | null>(null);
+  const [isDryRunError, setIsDryRunError] = useState(false);
   const balances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [accountId]);
   const mountedRef = useIsMountedRef();
 
@@ -53,6 +55,16 @@ function PaymentInfo ({ accountId, className = '', extrinsic, isHeader }: Props)
     balances.freeBalance.sub(dispatchInfo.partialFee).lte(api.consts.balances.existentialDeposit)
   );
 
+  if (extrinsic.hasDryRun && accountId) {
+    const pair = keyring.getPair(accountId);
+
+    if (!pair.isLocked) {
+      extrinsic.dryRun(pair, { nonce: -1 })
+        .then(({ isErr }) => setIsDryRunError(isErr))
+        .catch(() => setIsDryRunError(false));
+    }
+  }
+
   return (
     <>
       <Expander
@@ -66,6 +78,9 @@ function PaymentInfo ({ accountId, className = '', extrinsic, isHeader }: Props)
       />
       {isFeeError && (
         <MarkWarning content={t('The account does not have enough free funds (excluding locked/bonded/reserved) available to cover the transaction fees without dropping the balance below the account existential amount.')} />
+      )}
+      {isDryRunError && (
+        <MarkError content={t('The transaction would not be successfully executed')} />
       )}
     </>
   );
