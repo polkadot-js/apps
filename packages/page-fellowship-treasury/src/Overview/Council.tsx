@@ -8,7 +8,8 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { Button, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useCollectiveInstance, useToggle } from '@polkadot/react-hooks';
+import { useCollectiveInstance, useToggle } from '@polkadot/react-hooks';
+import { useApi } from '../hooks/useApi.js'
 
 import { useTranslation } from '../translate.js';
 

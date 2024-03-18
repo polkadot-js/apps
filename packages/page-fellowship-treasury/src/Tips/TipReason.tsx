@@ -6,8 +6,9 @@ import type { Hash } from '@polkadot/types/interfaces';
 
 import React from 'react';
 
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useCall } from '@polkadot/react-hooks';
 import { hexToString } from '@polkadot/util';
+import { useApi } from '../hooks/useApi.js'
 
 interface Props {
   hash: Hash;
@@ -22,7 +23,7 @@ const OPT = {
 
 function TipReason ({ hash }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const reasonText = useCall<string | null>((api.query.tips || api.query.treasury).reasons, [hash], OPT);
+  const reasonText = useCall<string | null>((api.query.tips || api.query.fellowshipTreasury).reasons, [hash], OPT);
 
   return (
     <td className='start all'>{reasonText || hash.toHex()}</td>

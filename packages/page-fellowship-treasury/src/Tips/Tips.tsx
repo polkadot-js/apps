@@ -9,7 +9,8 @@ import type { BN } from '@polkadot/util';
 import React, { useMemo, useRef, useState } from 'react';
 
 import { styled, Table, Toggle } from '@polkadot/react-components';
-import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
+import { useBestNumber, useCall } from '@polkadot/react-hooks';
+import { useApi } from '../hooks/useApi.js'
 
 import { useTranslation } from '../translate.js';
 import Tip from './Tip.js';
@@ -53,7 +54,7 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectT
   const { api } = useApi();
   const [onlyUntipped, setOnlyUntipped] = useState(false);
   const bestNumber = useBestNumber();
-  const tipsWithHashes = useCall<[[string[]], Option<PalletTipsOpenTip>[]]>(hashes && (api.query.tips || api.query.treasury).tips.multi, [hashes], TIP_OPTS);
+  const tipsWithHashes = useCall<[[string[]], Option<PalletTipsOpenTip>[]]>(hashes && (api.query.tips || api.query.fellowshipTreasury).tips.multi, [hashes], TIP_OPTS);
 
   const tips = useMemo(
     () => extractTips(tipsWithHashes, hashes),

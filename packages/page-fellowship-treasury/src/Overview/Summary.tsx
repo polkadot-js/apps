@@ -6,9 +6,10 @@ import type { BN } from '@polkadot/util';
 import React, { useMemo } from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
-import { useApi, useBestNumber, useCall, useTreasury } from '@polkadot/react-hooks';
+import { useBestNumber, useCall, useTreasury } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN_THREE, BN_TWO, BN_ZERO, formatNumber } from '@polkadot/util';
+import { useApi } from '../hooks/useApi.js'
 
 import { useTranslation } from '../translate.js';
 
@@ -19,9 +20,9 @@ interface Props {
 
 function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
+  const { api, isApiReady } = useApi();
   const bestNumber = useBestNumber();
-  const totalProposals = useCall<BN>(api.query.treasury.proposalCount);
+  const totalProposals = useCall<BN>(isApiReady && api.query.fellowshipTreasury.proposalCount);
   const { burn, pendingBounties, pendingProposals, spendPeriod, value } = useTreasury();
 
   const spendable = useMemo(

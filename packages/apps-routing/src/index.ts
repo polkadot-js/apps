@@ -17,6 +17,7 @@ import democracy from './democracy.js';
 import explorer from './explorer.js';
 import extrinsics from './extrinsics.js';
 import fellowship from './fellowship.js';
+import fellowshipTreasury from './fellowship-treasury.js';
 import files from './files.js';
 import gilt from './gilt.js';
 import js from './js.js';
@@ -61,6 +62,7 @@ export default function create (t: TFunction): Routes {
     referenda(t),
     membership(t),
     alliance(t),
+    fellowshipTreasury(t),
     fellowship(t),
     ranked(t),
     preimages(t),

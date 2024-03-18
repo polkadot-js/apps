@@ -6,8 +6,9 @@ import type { BN } from '@polkadot/util';
 import React, { useMemo, useState } from 'react';
 
 import { Button, InputAddress, InputBalance, MarkWarning, Modal, Static, TxButton } from '@polkadot/react-components';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { useToggle } from '@polkadot/react-hooks';
 import { BN_HUNDRED, BN_MILLION } from '@polkadot/util';
+import { useApi } from '../hooks/useApi.js'
 
 import { useTranslation } from '../translate.js';
 

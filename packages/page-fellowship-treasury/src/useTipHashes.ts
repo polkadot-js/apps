@@ -3,8 +3,9 @@
 
 import type { StorageKey } from '@polkadot/types';
 import type { Hash } from '@polkadot/types/interfaces';
+import { useApi } from './hooks/useApi.js'
 
-import { createNamedHook, useApi, useEventTrigger, useMapKeys } from '@polkadot/react-hooks';
+import { createNamedHook, useEventTrigger, useMapKeys } from '@polkadot/react-hooks';
 
 const OPT = {
   transform: (keys: StorageKey<[Hash]>[]): string[] =>
@@ -13,13 +14,14 @@ const OPT = {
 
 function useTipHashesImpl (): string[] | undefined {
   const { api } = useApi();
+
   const trigger = useEventTrigger([
     api.events.tips?.NewTip,
     api.events.tips?.TipClosed,
     api.events.tips?.TipRetracted
   ]);
 
-  return useMapKeys((api.query.tips || api.query.treasury)?.tips, [], OPT, trigger.blockHash);
+  return useMapKeys((api.query.tips || api.query.fellowshipTreasury)?.tips, [], OPT, trigger.blockHash);
 }
 
 export default createNamedHook('useTipHashes', useTipHashesImpl);

@@ -7,8 +7,8 @@ import type { BN } from '@polkadot/util';
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { Button, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useTxBatch } from '@polkadot/react-hooks';
-
+import { useAccounts, useTxBatch } from '@polkadot/react-hooks';
+import { useApi } from '../hooks/useApi.js'
 import { useTranslation } from '../translate.js';
 import TipCreate from './TipCreate.js';
 import Tips from './Tips.js';
@@ -47,7 +47,7 @@ function TipsEntry ({ className, hashes, isMember, members }: Props): React.Reac
         quickTips,
         quickTxs: Object
           .entries(quickTips)
-          .map(([hash, value]) => value && (api.tx.tips || api.tx.treasury).tip(hash, value))
+          .map(([hash, value]) => value && (api.tx.tips || api.tx.fellowshipTreasury).tip(hash, value))
           .filter((value): value is SubmittableExtrinsic<'promise'> => !!value)
       };
     }),

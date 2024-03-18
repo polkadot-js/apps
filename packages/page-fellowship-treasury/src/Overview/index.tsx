@@ -6,11 +6,16 @@ import type { DeriveTreasuryProposals } from '@polkadot/api-derive/types';
 import React from 'react';
 
 import { Button } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useCall } from '@polkadot/react-hooks';
+import { useApi } from '../hooks/useApi.js'
 
 import ProposalCreate from './ProposalCreate.js';
 import Proposals from './Proposals.js';
 import Summary from './Summary.js';
+
+import '../codegen/augment-api.js'
+import '../codegen/augment-types.js'
+
 
 interface Props {
   className?: string;
@@ -19,8 +24,8 @@ interface Props {
 }
 
 function Overview ({ className, isMember, members }: Props): React.ReactElement<Props> {
-  const { api } = useApi();
-  const info = useCall<DeriveTreasuryProposals>(api.derive.treasury.proposals);
+  const { api, isApiReady } = useApi();
+  const info = useCall<DeriveTreasuryProposals>(isApiReady && api.derive.treasury.proposals);
 
   return (
     <div className={className}>

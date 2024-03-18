@@ -8,9 +8,10 @@ import type { BN } from '@polkadot/util';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { AddressMini, AddressSmall, Checkbox, ExpanderScroll, Icon, LinkExternal, styled, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi } from '@polkadot/react-hooks';
+import { useAccounts } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO, formatNumber } from '@polkadot/util';
+import { useApi } from '../hooks/useApi.js'
 
 import { useTranslation } from '../translate.js';
 import TipEndorse from './TipEndorse.js';
@@ -159,7 +160,7 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
               icon='times'
               label={t('Cancel')}
               params={[hash]}
-              tx={(api.tx.tips || api.tx.treasury).retractTip}
+              tx={(api.tx.tips || api.tx.fellowshipTreasury).retractTip}
             />
           )
         }
@@ -181,7 +182,7 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
               icon='times'
               label={t('Close')}
               params={[hash]}
-              tx={(api.tx.tips || api.tx.treasury).closeTip}
+              tx={(api.tx.tips || api.tx.fellowshipTreasury).closeTip}
             />
           )
         }

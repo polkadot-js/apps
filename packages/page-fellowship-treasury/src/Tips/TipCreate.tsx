@@ -6,8 +6,9 @@ import type { BN } from '@polkadot/util';
 import React, { useMemo, useState } from 'react';
 
 import { Button, Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
+import { useApi } from '../hooks/useApi.js'
 
 import { useTranslation } from '../translate.js';
 
@@ -28,7 +29,7 @@ function TipCreate ({ members }: Props): React.ReactElement<Props> | null {
   const [value, setValue] = useState<BN | undefined>();
   const maxReasonLen = useMemo(
     () => Math.min(MAX_REASON_LEN, (
-      (api.consts.tips || api.consts.treasury)?.maximumReasonLength?.toNumber() ||
+      (api.consts.tips || api.consts.fellowshipTreasury)?.maximumReasonLength?.toNumber() ||
       MAX_REASON_LEN
     )),
     [api]
@@ -40,7 +41,7 @@ function TipCreate ({ members }: Props): React.ReactElement<Props> | null {
   const hasValue = !!value && value.gt(BN_ZERO);
   const hasReason = !!reason && (reason.length >= MIN_REASON_LEN) && (reason.length <= maxReasonLen);
 
-  if (!(api.tx.tips.tipNew || api.tx.treasury.tipNew)) {
+  if (!(api.tx.tips.tipNew || api.tx.fellowshipTreasury.tipNew)) {
     return null;
   }
 
@@ -105,8 +106,8 @@ function TipCreate ({ members }: Props): React.ReactElement<Props> | null {
               }
               tx={
                 isMember
-                  ? (api.tx.tips || api.tx.treasury).tipNew
-                  : (api.tx.tips || api.tx.treasury).reportAwesome
+                  ? (api.tx.tips || api.tx.fellowshipTreasury).tipNew
+                  : (api.tx.tips || api.tx.fellowshipTreasury).reportAwesome
               }
             />
           </Modal.Actions>

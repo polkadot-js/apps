@@ -7,7 +7,8 @@ import type { BN } from '@polkadot/util';
 import React, { useState } from 'react';
 
 import { Button, InputAddress, InputBalance, MarkWarning, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
+import { useCall, useToggle } from '@polkadot/react-hooks';
+import { useApi } from '../hooks/useApi.js'
 
 import { useTranslation } from '../translate.js';
 
@@ -34,7 +35,7 @@ function TipEndorse ({ defaultId, hash, isMember, isTipped, median, members, rec
   const [value, setValue] = useState<BN | undefined>();
   const totalBalance = useCall<BN>(api.derive.balances?.all, [recipient], OPT);
 
-  const tipTx = (api.tx.tips || api.tx.treasury).tip;
+  const tipTx = (api.tx.tips || api.tx.fellowshipTreasury).tip;
 
   return (
     <>
