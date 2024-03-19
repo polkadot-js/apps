@@ -26,11 +26,11 @@ function AppId ({ className, onChange }: Props): React.ReactElement<Props> | nul
   return (
     <Modal.Columns
       className={className}
-      hint={t<string>('Application Id.')}
+      hint={t('Application Id.')}
     >
       <InputNumber
-        label={t<string>('App Id')}
-        labelExtra={t<string>('Specify different Application Id for this Tx')}
+        label={t('App Id')}
+        labelExtra={t('Specify different Application Id for this Tx')}
         // eslint-disable-next-line react/jsx-no-bind
         onChange={handleChange}
       />

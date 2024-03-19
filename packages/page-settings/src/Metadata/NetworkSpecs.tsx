@@ -223,7 +223,7 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
           <Input
             className='full'
             isDisabled
-            label={t<string>('User extensions')}
+            label={t('User extensions')}
             value={userExtensions && userExtensions.length > 0 ? userExtensions.join(', ') : 'No signed / user extensions found'}
           />
         </td>
@@ -233,7 +233,7 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
           <Button.Group>
             <Button
               icon='trash'
-              label={t<string>('Reset extensions store')}
+              label={t('Reset extensions store')}
               onClick={_onClearStore}
             />
           </Button.Group>

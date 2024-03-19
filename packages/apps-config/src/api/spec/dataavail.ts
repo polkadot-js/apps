@@ -33,7 +33,7 @@ const definitions: OverrideBundleDefinition = {
             isOptional: true
           }
         ],
-        type: 'Vec<u8>'
+        type: 'Vec<(U256, [u8; 48])>'
       },
       queryAppData: {
         description: 'Fetches app data rows for the given app',
@@ -50,22 +50,6 @@ const definitions: OverrideBundleDefinition = {
         ],
         type: 'Vec<Option<Vec<u8>>>'
       },
-
-      queryDataProof: {
-        description: 'Generate the data proof for the given `transaction_index`',
-        params: [
-          {
-            name: 'transaction_index',
-            type: 'u32'
-          },
-          {
-            name: 'at',
-            type: 'Hash',
-            isOptional: true
-          }
-        ],
-        type: 'DataProof'
-      },
       queryDataProofV2: {
         description: 'Generate the data proof for the given `transaction_index`',
         params: [
@@ -80,6 +64,21 @@ const definitions: OverrideBundleDefinition = {
           }
         ],
         type: 'ProofResponse'
+      },
+      queryRows: {
+        description: 'Query rows based on their indices',
+        params: [
+          {
+            name: 'rows',
+            type: 'Vec<u32>'
+          },
+          {
+            name: 'at',
+            type: 'Hash',
+            isOptional: true
+          }
+        ],
+        type: 'Vec<Vec<u8>>'
       }
     }
   },
@@ -103,22 +102,14 @@ const definitions: OverrideBundleDefinition = {
           commitment: 'Vec<u8>',
           dataRoot: 'H256'
         },
-        V1HeaderExtension: {
-          appLookup: 'DataLookup',
-          commitment: 'KateCommitment'
-        },
-        V2HeaderExtension: {
-          appLookup: 'DataLookup',
-          commitment: 'KateCommitment'
-        },
         V3HeaderExtension: {
           appLookup: 'DataLookup',
           commitment: 'KateCommitment'
         },
         HeaderExtension: {
           _enum: {
-            V1: 'V1HeaderExtension',
-            V2: 'V2HeaderExtension',
+            V1: 'V3HeaderExtension',
+            V2: 'V3HeaderExtension',
             V3: 'V3HeaderExtension'
           }
         },

@@ -283,7 +283,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
     [apiUrl, onClose, hasUrlChanged]
   );
 
-  const _onLocalFork = useCallback(
+  useCallback(
     (): void => {
       store.set('localFork', apiUrl);
       settings.set({ ...(settings.get()), apiUrl });
