@@ -400,6 +400,7 @@
        1	Lauro Gripa Neto              	Add portuguese translation (#2940)
        1	Leechael                      	chore: Remove Phala PoC5 since it going to take down (#10082)
        1	legape                        	Add Chainflip networks (#10153)
+       1	Leonardo Razovic              	Polimec: add new RPC provider and change color  (#10371)
        1	Letho                         	Coinversation (#6597)
        1	loanMaster                    	fix: issue 9127. teleport reactivated (#9529)
        1	Loïs                          	add harmonie network (allfeat testnet) (#10235)
