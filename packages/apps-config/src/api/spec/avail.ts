@@ -50,7 +50,7 @@ const definitions: OverrideBundleDefinition = {
         ],
         type: 'Vec<Option<Vec<u8>>>'
       },
-      queryDataProofV2: {
+      queryDataProof: {
         description: 'Generate the data proof for the given `transaction_index`',
         params: [
           {
@@ -144,13 +144,6 @@ const definitions: OverrideBundleDefinition = {
           mandatory: 'u32'
         },
         DataProof: {
-          root: 'H256',
-          proof: 'Vec<H256>',
-          numberOfLeaves: 'Compact<u32>',
-          leafIndex: 'Compact<u32>',
-          leaf: 'H256'
-        },
-        DataProofV2: {
           dataRoot: 'H256',
           blobRoot: 'H256',
           bridgeRoot: 'H256',
@@ -160,17 +153,22 @@ const definitions: OverrideBundleDefinition = {
           leaf: 'H256'
         },
         ProofResponse: {
-          dataProof: 'DataProofV2',
-          message: 'Option<Message>'
+          dataProof: 'DataProof',
+          message: 'Option<AddressedMessage>'
         },
-        Message: {
-          messageType: 'MessageType',
+        AddressedMessage: {
+          message: 'Message',
           from: 'H256',
           to: 'H256',
           originDomain: 'u32',
           destinationDomain: 'u32',
-          data: 'Vec<u8>',
           id: 'u64'
+        },
+        Message: {
+          _enum: {
+            ArbitraryMessage: 'ArbitraryMessage',
+            FungibleToken: 'FungibleToken'
+          }
         },
         MessageType: {
           _enum: [
@@ -178,6 +176,12 @@ const definitions: OverrideBundleDefinition = {
             'FungibleToken'
           ]
         },
+        FungibleToken: {
+          asset_id: 'H256',
+          amount: 'String'
+        },
+        BoundedData: 'Vec<u8>',
+        ArbitraryMessage: 'BoundedData',
         Cell: {
           row: 'BlockLengthRows',
           col: 'BlockLengthColumns'
