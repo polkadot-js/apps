@@ -433,8 +433,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'kreivo',
     paraId: 2281,
     providers: {
-      Kippu: 'wss://kreivo.kippu.rocks/'
-      // Virto: 'wss://kreivo.io/' // https://github.com/polkadot-js/apps/issues/10091
+      Kippu: 'wss://kreivo.kippu.rocks/',
+      Virto: 'wss://kreivo.io/'
     },
     text: 'Kreivo - By Virto',
     ui: {
@@ -878,7 +878,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'xode',
     paraId: 3344,
     providers: {
-      XodeCommunity: 'wss://bootnodea01.xode.net/n7yoxCmcIrCF6VziCcDmYTwL8R03a/rpc'
+      XodeCommunity: 'wss://rpcnodea01.xode.net/n7yoxCmcIrCF6VziCcDmYTwL8R03a/rpc'
     },
     text: 'Xode',
     ui: {
