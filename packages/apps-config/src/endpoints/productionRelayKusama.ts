@@ -851,7 +851,6 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'turing',
     paraId: 2114,
     providers: {
-      Dwellir: 'wss://turing-rpc.dwellir.com',
       OAK: 'wss://rpc.turing.oak.tech'
     },
     text: 'Turing Network',
