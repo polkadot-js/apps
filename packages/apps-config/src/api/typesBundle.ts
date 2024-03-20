@@ -48645,7 +48645,7 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Vec<Option<Vec<u8>>>"
+            "type": "Vec<Option<Vec<U256>>>"
           },
           "queryDataProof": {
             "description": "Generate the data proof for the given `transaction_index`",
@@ -48675,7 +48675,7 @@ export const typesBundle = {
                 "isOptional": true
               }
             ],
-            "type": "Vec<Vec<u8>>"
+            "type": "Vec<Vec<U256>>"
           }
         }
       },
