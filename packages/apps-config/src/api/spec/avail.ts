@@ -153,7 +153,7 @@ const definitions: OverrideBundleDefinition = {
         TxDataRoots: {
           dataRoot: 'H256',
           blobRoot: 'H256',
-          bridgeRoot: 'H256',
+          bridgeRoot: 'H256'
         },
         ProofResponse: {
           dataProof: 'DataProof',
