@@ -144,13 +144,16 @@ const definitions: OverrideBundleDefinition = {
           mandatory: 'u32'
         },
         DataProof: {
-          dataRoot: 'H256',
-          blobRoot: 'H256',
-          bridgeRoot: 'H256',
+          roots: 'TxDataRoots',
           proof: 'Vec<H256>',
           numberOfLeaves: 'Compact<u32>',
           leafIndex: 'Compact<u32>',
           leaf: 'H256'
+        },
+        TxDataRoots: {
+          dataRoot: 'H256',
+          blobRoot: 'H256',
+          bridgeRoot: 'H256',
         },
         ProofResponse: {
           dataProof: 'DataProof',
@@ -177,7 +180,7 @@ const definitions: OverrideBundleDefinition = {
           ]
         },
         FungibleToken: {
-          asset_id: 'H256',
+          assetId: 'H256',
           amount: 'String'
         },
         BoundedData: 'Vec<u8>',
