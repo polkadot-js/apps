@@ -31,7 +31,6 @@ export interface ApiState {
   chainSS58: number;
   fork: Blockchain | null;
   hasInjectedAccounts: boolean;
-  injectedAccounts: InjectedAccountExt[];
   isApiReady: boolean;
   isDevelopment: boolean;
   isEthereum: boolean;

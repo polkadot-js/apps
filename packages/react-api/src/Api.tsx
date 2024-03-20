@@ -188,7 +188,6 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, fork: 
     chainSS58,
     fork,
     hasInjectedAccounts: injectedAccounts.length !== 0,
-    injectedAccounts,
     isApiReady: true,
     isDevelopment,
     isEthereum,
@@ -319,13 +318,7 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store: keyringStore 
           const urlIsEthereum = !!location.href.includes('keyring-type=ethereum');
 
           loadOnReady(statics.api, apiEndpoint, fork, injectedPromise, keyringStore, types, urlIsEthereum)
-            .then((state) => {
-              setState(state);
-
-              if (isLocalFork && fork) {
-                // TODO: setStorage for all accounts, do we need this?
-              }
-            })
+            .then(setState)
             .catch(onError);
         });
 

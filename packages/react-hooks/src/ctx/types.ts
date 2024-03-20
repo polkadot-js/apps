@@ -10,22 +10,12 @@ import type { InjectedExtension } from '@polkadot/extension-inject/types';
 import type { ProviderStats } from '@polkadot/rpc-provider/types';
 import type { BlockNumber, EventRecord } from '@polkadot/types/interfaces';
 
-interface InjectedAccountExt {
-  address: string;
-  meta: {
-    name: string;
-    source: string;
-    whenCreated: number;
-  };
-}
-
 export interface ApiState {
   apiDefaultTx: SubmittableExtrinsicFunction;
   apiDefaultTxSudo: SubmittableExtrinsicFunction;
   chainSS58: number;
   fork: Blockchain | null;
   hasInjectedAccounts: boolean;
-  injectedAccounts: InjectedAccountExt[];
   isApiReady: boolean;
   isDevelopment: boolean;
   isEthereum: boolean;
