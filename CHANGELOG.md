@@ -1,5 +1,25 @@
 # CHANGELOG
 
+## 0.135.1 Mar 21, 2024
+
+Contributed:
+
+- Add integritee para to paseo (https://github.com/brenzi)
+- Polimec: add new RPC provider and change color (https://github.com/lrazovic)
+- Remove the Turing Network endpoint provided by the provider Dwellir (https://github.com/imstar15)
+- Update ethereumChains.ts (https://github.com/dastanfv)
+- Remove Automata 1RPC (https://github.com/laboon)
+- Add XCM encoder utility (https://github.com/serban300)
+- Restore Virto provider for Kreivo in Kusama (https://github.com/olanod)
+- Disable polkaholic (https://github.com/sourabhniyogi)
+
+Changes:
+
+- Bump @polkadot/* lib deps
+- Disable unreachable endpoints
+- Fix Collator call for compatibility
+
+
 ## 0.134.1 Mar 14, 2024
 
 Contributed:
