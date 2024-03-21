@@ -3,6 +3,8 @@
 
 import type { EndpointOption } from './types.js';
 
+import { nodesIntegriteeSVG } from '@polkadot/apps-config/ui/logos/nodes';
+
 import { PASEO_GENESIS } from '../api/constants.js';
 import { chainsPaseoBgPNG, chainsPaseoPNG } from '../ui/logos/chains/index.js';
 // import { testnetParachainSVG } from '../ui/logos/nodes/index.js';
@@ -29,6 +31,19 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   //     logo: testnetParachainSVG
   //   }
   // }
+  {
+    homepage: 'https://integritee.network',
+    info: 'integritee',
+    paraId: 2039,
+    providers: {
+      Integritee: 'wss://paseo.api.integritee.network'
+    },
+    text: 'Integritee Network (Paseo)',
+    ui: {
+      color: '#658ea9',
+      logo: nodesIntegriteeSVG
+    }
+  }
 ];
 
 export const testParasPaseoCommon: EndpointOption[] = [
