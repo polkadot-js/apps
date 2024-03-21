@@ -22,9 +22,10 @@ interface Props {
   label: React.ReactNode;
   onChange?: (value: QueryableStorageEntry<'promise'>) => void;
   withLabel?: boolean;
+  searchable?: boolean
 }
 
-function InputStorage ({ className = '', defaultValue, label, onChange, withLabel }: Props): React.ReactElement<Props> {
+function InputStorage ({ className = '', defaultValue, label, onChange, searchable = false, withLabel }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(() => keyOptions(api, defaultValue.creator.section));
   const [optionsSection] = useState<DropdownOptions>(() => sectionOptions(api));
@@ -63,6 +64,7 @@ function InputStorage ({ className = '', defaultValue, label, onChange, withLabe
         className='small'
         onChange={_onSectionChange}
         options={optionsSection}
+        searchable={searchable}
         value={value}
       />
       <SelectKey

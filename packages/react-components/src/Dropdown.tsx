@@ -38,13 +38,14 @@ interface Props<Option extends DropdownItemProps> {
   value?: unknown;
   withEllipsis?: boolean;
   withLabel?: boolean;
+  searchable?: boolean;
 }
 
 export type IDropdown<Option extends DropdownItemProps> = React.ComponentType<Props<Option>> & {
   Header: React.ComponentType<{ content: React.ReactNode }>;
 }
 
-function DropdownBase<Option extends DropdownItemProps> ({ allowAdd = false, children, className = '', defaultValue, dropdownClassName, isButton, isDisabled, isError, isFull, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, tabIndex, transform, value, withEllipsis, withLabel }: Props<Option>): React.ReactElement<Props<Option>> {
+function DropdownBase<Option extends DropdownItemProps> ({ allowAdd = false, children, className = '', defaultValue, dropdownClassName, isButton, isDisabled, isError, isFull, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, searchable = false, tabIndex, transform, value, withEllipsis, withLabel }: Props<Option>): React.ReactElement<Props<Option>> {
   const lastUpdate = useRef<string>('');
   const [stored, setStored] = useState<string | undefined>();
 
@@ -102,7 +103,7 @@ function DropdownBase<Option extends DropdownItemProps> ({ allowAdd = false, chi
       options={options as Option[]}
       placeholder={placeholder}
       renderLabel={renderLabel}
-      search={onSearch || allowAdd}
+      search={searchable || onSearch || allowAdd}
       searchInput={searchInput}
       selection
       tabIndex={tabIndex}

@@ -15,9 +15,10 @@ interface Props {
   onChange: (value: string) => void;
   options: DropdownOptions;
   value: QueryableStorageEntry<'promise'>;
+  searchable?: boolean
 }
 
-function SelectSection ({ className = '', defaultValue, isError, onChange, options, value: { creator: { section } } }: Props): React.ReactElement<Props> {
+function SelectSection ({ className = '', defaultValue, isError, onChange, options, searchable = false, value: { creator: { section } } }: Props): React.ReactElement<Props> {
   return (
     <Dropdown
       className={`${className} ui--DropdownLinked-Sections`}
@@ -25,6 +26,7 @@ function SelectSection ({ className = '', defaultValue, isError, onChange, optio
       isError={isError}
       onChange={onChange}
       options={options}
+      searchable={searchable}
       value={section}
       withLabel={false}
     />

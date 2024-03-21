@@ -216,6 +216,7 @@ function Modules ({ className = '', onAdd }: Props): React.ReactElement<Props> {
           defaultValue={startValue}
           label={t('selected state query')}
           onChange={_onChangeKey}
+          searchable={true}
         />
         <Params
           key={`${section}.${method}:params` /* force re-render on change */}
