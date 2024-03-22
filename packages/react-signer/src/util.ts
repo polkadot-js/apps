@@ -43,7 +43,7 @@ export function extractExternal (accountId: string | null): AddressFlags {
   }
 
   const pair = keyring.getPair(publicKey);
-  const { isExternal, isHardware, isInjected, isMultisig, isProxied, isLocal } = pair.meta;
+  const { isExternal, isHardware, isInjected, isLocal, isMultisig, isProxied } = pair.meta;
   const isUnlockable = !isExternal && !isHardware && !isInjected;
 
   if (isUnlockable) {

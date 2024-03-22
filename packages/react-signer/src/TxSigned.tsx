@@ -80,19 +80,20 @@ function unlockAccount ({ isUnlockCached, signAddress, signPassword }: AddressPr
   return null;
 }
 
-async function fakeSignForChopsticks(api: ApiPromise, tx: SubmittableExtrinsic<'promise'>, sender: string,): Promise<void> {
-	const account = await api.query.system.account(sender)
-	const options = {
-		nonce: account.nonce,
-		genesisHash: api.genesisHash,
-		runtimeVersion: api.runtimeVersion,
-		blockHash: api.genesisHash,
-	};
-	const mockSignature = new Uint8Array(64)
-	mockSignature.fill(0xcd)
-	mockSignature.set([0xde, 0xad, 0xbe, 0xef])
-	tx.signFake(sender, options)
-	tx.signature.set(mockSignature)
+async function fakeSignForChopsticks (api: ApiPromise, tx: SubmittableExtrinsic<'promise'>, sender: string): Promise<void> {
+  const account = await api.query.system.account(sender);
+  const options = {
+    blockHash: api.genesisHash,
+    genesisHash: api.genesisHash,
+    nonce: account.nonce,
+    runtimeVersion: api.runtimeVersion
+  };
+  const mockSignature = new Uint8Array(64);
+
+  mockSignature.fill(0xcd);
+  mockSignature.set([0xde, 0xad, 0xbe, 0xef]);
+  tx.signFake(sender, options);
+  tx.signature.set(mockSignature);
 }
 
 async function signAndSend (queueSetTxStatus: QueueTxMessageSetStatus, currentItem: QueueTx, tx: SubmittableExtrinsic<'promise'>, pairOrAddress: KeyringPair | string, options: Partial<SignerOptions>, api: ApiPromise, isMockSign: boolean): Promise<void> {
@@ -102,7 +103,7 @@ async function signAndSend (queueSetTxStatus: QueueTxMessageSetStatus, currentIt
     if (!isMockSign) {
       await tx.signAsync(pairOrAddress, options);
     } else {
-      await fakeSignForChopsticks(api, tx, pairOrAddress as string)
+      await fakeSignForChopsticks(api, tx, pairOrAddress as string);
     }
 
     console.info('sending', tx.toHex());
@@ -127,7 +128,7 @@ async function signAsync (queueSetTxStatus: QueueTxMessageSetStatus, { id, txFai
     if (!isMockSign) {
       await tx.signAsync(pairOrAddress, options);
     } else {
-      await fakeSignForChopsticks(api, tx, pairOrAddress as string)
+      await fakeSignForChopsticks(api, tx, pairOrAddress as string);
     }
 
     return tx.toJSON();
@@ -398,7 +399,7 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
         return t('Sign (no submission)');
       }
     }
-  }, [flags.isQr, flags.isLocal, isSubmit])
+  }, [flags.isQr, flags.isLocal, isSubmit, t]);
 
   const isAutoCapable = senderInfo.signAddress && (queueSize > 1) && isSubmit && !(flags.isHardware || flags.isMultisig || flags.isProxied || flags.isQr || flags.isUnlockable) && !isRenderError;
 

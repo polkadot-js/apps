@@ -107,13 +107,13 @@ function LocalAdd ({ className = '', onClose, onStatusChange }: Props): React.Re
         </Modal.Columns>
         <Modal.Columns hint={t('Optional. The balance for this account Default to 0.')}>
           <Input
-            type='number'
-            min={0}
             className='full'
             label={t('balance')}
+            min={0}
             onChange={setBalance}
-            value={balance}
             placeholder={t('1000')}
+            type='number'
+            value={balance}
           />
         </Modal.Columns>
       </Modal.Content>
