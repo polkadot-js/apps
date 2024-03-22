@@ -392,7 +392,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
   },
   {
     info: 'rococoMuse',
-    paraId: 201804,
+    paraId: 3369,
     providers: {
       Parity: 'wss://rococo-muse-rpc.polkadot.io'
     },
