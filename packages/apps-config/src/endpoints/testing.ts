@@ -185,17 +185,6 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'creditcoin2-testnet',
-    providers: {
-      'Creditcoin Foundation': 'wss://rpc.testnet.creditcoin.network/ws'
-    },
-    text: 'Creditcoin PoS Testnet (v2.5)',
-    ui: {
-      color: '#ffffff',
-      logo: chainsCreditcoinTestPNG
-    }
-  },
-  {
     info: 'creditcoin3-testnet',
     providers: {
       'Creditcoin Foundation': 'wss://rpc.cc3-testnet.creditcoin.network/ws'
@@ -203,6 +192,17 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     text: 'Creditcoin EVM Testnet (v3)',
     ui: {
       color: '#9cffaa',
+      logo: chainsCreditcoinTestPNG
+    }
+  },
+  {
+    info: 'creditcoin2-testnet',
+    providers: {
+      'Creditcoin Foundation': 'wss://rpc.testnet.creditcoin.network/ws'
+    },
+    text: 'Creditcoin PoS Testnet (v2.5)',
+    ui: {
+      color: '#ffffff',
       logo: chainsCreditcoinTestPNG
     }
   },
