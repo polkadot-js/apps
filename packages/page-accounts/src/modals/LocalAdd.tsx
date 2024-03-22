@@ -7,7 +7,6 @@ import type { ModalProps } from '../types.js';
 
 import { setStorage } from '@acala-network/chopsticks-core';
 import React, { useCallback, useState } from 'react';
-import store from 'store';
 
 import { Button, Input, InputAddressSimple, Modal } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
@@ -22,33 +21,24 @@ interface Props extends ModalProps {
 }
 
 interface CreateOptions {
+  balance: number;
   name: string;
   tags?: string[];
-  balance?: number;
 }
 
-export async function createLocalAccount (chain: Blockchain, address: string, { balance = 1000, name }: CreateOptions): Promise<ActionStatus> {
+export async function createLocalAccount (chain: Blockchain, address: string, { balance, name }: CreateOptions): Promise<ActionStatus> {
   const status = { action: 'create' } as ActionStatus;
-  const existing = store.get('localAccounts') as { address: string, name: string, balance: number }[] | undefined;
 
   try {
+    keyring.addExternal(address, { isLocal: true, name, tags: ['local'] });
+
     await setStorage(chain, {
       System: {
         Account: [
-          ...(existing || []).map((account) => {
-            return [[account.address], { data: { free: account.balance * 1e12 }, providers: 1 }];
-          }),
           [[address], { data: { free: balance * 1e12 }, providers: 1 }]
         ]
       }
     });
-
-    keyring.addExternal(address, { isLocal: true, name, tags: ['local'] });
-
-    store.set('localAccounts', [
-      ...(existing || []),
-      { address, balance, name }
-    ]);
 
     status.account = address;
     status.status = 'success';
@@ -66,6 +56,7 @@ function LocalAdd ({ className = '', onClose, onStatusChange }: Props): React.Re
   const { t } = useTranslation();
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [address, setAdress] = useState<string | null>(null);
+  const [balance, setBalance] = useState<string>('0');
 
   const _createLocalAccount = useCallback(
     async () => {
@@ -73,13 +64,13 @@ function LocalAdd ({ className = '', onClose, onStatusChange }: Props): React.Re
         return;
       }
 
-      const options = { balance: 1000, name: name.trim() };
+      const options = { balance: balance ? Number(balance) : 0, name: name.trim() };
       const status = await createLocalAccount(chain, address, options);
 
       onStatusChange(status);
       onClose();
     },
-    [address, name, chain, onClose, onStatusChange]
+    [address, name, balance, chain, onClose, onStatusChange]
   );
 
   const _onChangeName = useCallback(
@@ -97,7 +88,7 @@ function LocalAdd ({ className = '', onClose, onStatusChange }: Props): React.Re
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={t('Any address, this can override accounts in other sections')}>
+        <Modal.Columns hint={t('Any address, this can override other accounts')}>
           <InputAddressSimple
             autoFocus
             label={t('address')}
@@ -112,6 +103,17 @@ function LocalAdd ({ className = '', onClose, onStatusChange }: Props): React.Re
             label={t('name')}
             onChange={_onChangeName}
             placeholder={t('local account name')}
+          />
+        </Modal.Columns>
+        <Modal.Columns hint={t('Optional. The balance for this account Default to 0.')}>
+          <Input
+            type='number'
+            min={0}
+            className='full'
+            label={t('balance')}
+            onChange={setBalance}
+            value={balance}
+            placeholder={t('1000')}
           />
         </Modal.Columns>
       </Modal.Content>
