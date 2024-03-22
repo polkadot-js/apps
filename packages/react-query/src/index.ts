@@ -19,3 +19,5 @@ export { default as SessionToTime } from './SessionToTime.js';
 export { default as TimeNow } from './TimeNow.js';
 export { default as TotalInactive } from './TotalInactive.js';
 export { default as TotalIssuance } from './TotalIssuance.js';
+export { default as BrokerStatus } from './BrokerStatus.js';
+export { default as PoolSize} from './PoolSize.js';

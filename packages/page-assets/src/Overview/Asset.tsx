@@ -22,6 +22,7 @@ function Asset ({ className, value: { details, id, isIssuerMe, metadata } }: Pro
       : [0, '---'],
     [metadata]
   );
+  console.log(metadata?.name.toUtf8())
 
   return (
     <tr className={className}>
