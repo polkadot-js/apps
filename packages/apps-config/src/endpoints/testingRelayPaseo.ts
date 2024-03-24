@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types.js';
 
 import { PASEO_GENESIS } from '../api/constants.js';
-import { chainsPaseoBgPNG, chainsPaseoPNG } from '../ui/logos/chains/index.js';
+import { chainsPaseoPNG } from '../ui/logos/chains/index.js';
 // import { testnetParachainSVG } from '../ui/logos/nodes/index.js';
 import { getTeleports } from './util.js';
 
@@ -64,7 +64,7 @@ export const testRelayPaseo: EndpointOption = {
   teleport: getTeleports(testParasPaseoCommon),
   text: 'Paseo',
   ui: {
-    color: `url(${chainsPaseoBgPNG}) #A0FED4`,
+    color: `#38393F`,
     identityIcon: 'polkadot',
     logo: chainsPaseoPNG
   }
