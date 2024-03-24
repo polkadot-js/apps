@@ -64,7 +64,7 @@ export const testRelayPaseo: EndpointOption = {
   teleport: getTeleports(testParasPaseoCommon),
   text: 'Paseo',
   ui: {
-    color: `#38393F`,
+    color: '#38393F',
     identityIcon: 'polkadot',
     logo: chainsPaseoPNG
   }
