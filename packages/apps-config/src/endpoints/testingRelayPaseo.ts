@@ -44,6 +44,20 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
       logo: nodesIntegriteeSVG
     }
   }
+  // {
+  //   homepage: 'https://pop.r0gue.io/',
+  //   info: 'Pop Network',
+  //   paraId: 4001,
+  //   providers: {
+  //     // placeholder endpoint
+  //     R0GUE: 'wss://127.0.0.1:38215'
+  //   },
+  //   text: 'Pop Network',
+  //   ui: {
+  //     color: '#2B0532',
+  //     logo: chainsPopNetworkSVG
+  //   }
+  // }
 ];
 
 export const testParasPaseoCommon: EndpointOption[] = [

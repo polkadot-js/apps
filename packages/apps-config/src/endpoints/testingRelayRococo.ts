@@ -734,6 +734,20 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
       logo: nodesZeitgeistPNG
     }
   }
+  // {
+  //   homepage: 'https://pop.r0gue.io/',
+  //   info: 'Pop Network',
+  //   paraId: 4385,
+  //   providers: {
+  //     // placeholder endpoint
+  //     R0GUE: 'wss://127.0.0.1:38215'
+  //   },
+  //   text: 'Pop Network',
+  //   ui: {
+  //     color: '#2B0532',
+  //     logo: chainsPopNetworkSVG
+  //   }
+  // }
 ];
 
 export const testParasRococoCommon: EndpointOption[] = [
