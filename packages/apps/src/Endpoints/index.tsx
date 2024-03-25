@@ -11,6 +11,7 @@ import store from 'store';
 
 import { createWsEndpoints, CUSTOM_ENDPOINT_KEY } from '@polkadot/apps-config';
 import { Button, Input, Sidebar, styled } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import { settings } from '@polkadot/ui-settings';
 import { isAscii } from '@polkadot/util';
 
@@ -118,9 +119,9 @@ function loadAffinities (groups: Group[]): Record<string, string> {
     }), {});
 }
 
-function isSwitchDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid: boolean): boolean {
+function isSwitchDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid: boolean, isLocalFork?: boolean): boolean {
   if (!hasUrlChanged) {
-    if (store.get('isLocalFork')) {
+    if (isLocalFork) {
       return false;
     } else {
       return true;
@@ -134,9 +135,9 @@ function isSwitchDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid: b
   return true;
 }
 
-function isLocalForkDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid: boolean): boolean {
+function isLocalForkDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid: boolean, isLocalFork?: boolean): boolean {
   if (!hasUrlChanged) {
-    if (store.get('isLocalFork')) {
+    if (isLocalFork) {
       return true;
     } else {
       return false;
@@ -153,6 +154,7 @@ function isLocalForkDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid
 function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const linkOptions = createWsEndpoints(t);
+  const { isLocalFork } = useApi();
   const [groups, setGroups] = useState(() => combineEndpoints(linkOptions));
   const [{ apiUrl, groupIndex, hasUrlChanged, isUrlValid }, setApiUrl] = useState<UrlState>(() => extractUrlState(settings.get().apiUrl, groups));
   const [storedCustomEndpoints, setStoredCustomEndpoints] = useState<string[]>(() => getCustomEndpoints());
@@ -243,7 +245,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
 
   const _onApply = useCallback(
     (): void => {
-      store.set('isLocalFork', false);
+      store.set('localFork', '');
       settings.set({ ...(settings.get()), apiUrl });
       window.location.assign(`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(apiUrl)}${window.location.hash}`);
 
@@ -258,7 +260,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
 
   const _onLocalFork = useCallback(
     (): void => {
-      store.set('isLocalFork', true);
+      store.set('localFork', apiUrl);
       settings.set({ ...(settings.get()), apiUrl });
       window.location.assign(`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(apiUrl)}${window.location.hash}`);
 
@@ -285,38 +287,38 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
   );
 
   const canSwitch = useMemo(
-    () => isSwitchDisabled(hasUrlChanged, apiUrl, isUrlValid),
-    [hasUrlChanged, apiUrl, isUrlValid]
+    () => isSwitchDisabled(hasUrlChanged, apiUrl, isUrlValid, isLocalFork),
+    [hasUrlChanged, apiUrl, isUrlValid, isLocalFork]
   );
 
   const canLocalFork = useMemo(
-    () => isLocalForkDisabled(hasUrlChanged, apiUrl, isUrlValid),
-    [hasUrlChanged, apiUrl, isUrlValid]
+    () => isLocalForkDisabled(hasUrlChanged, apiUrl, isUrlValid, isLocalFork),
+    [hasUrlChanged, apiUrl, isUrlValid, isLocalFork]
   );
 
   return (
     <StyledSidebar
-      button={
-        <Button
-          icon='sync'
-          isDisabled={canSwitch}
-          label={t('Switch')}
-          onClick={_onApply}
-        />
+      buttons={
+        <>
+          <Button
+            icon='code-fork'
+            isDisabled={canLocalFork}
+            label={t('Fork Locally')}
+            onClick={_onLocalFork}
+            tooltip='fork-locally-btn'
+          />
+          <Button
+            icon='sync'
+            isDisabled={canSwitch}
+            label={t('Switch')}
+            onClick={_onApply}
+          />
+        </>
       }
       className={className}
       offset={offset}
       onClose={onClose}
       position='left'
-      secondaryButton={
-        <Button
-          icon='code-fork'
-          isDisabled={canLocalFork}
-          label={t('Fork Locally')}
-          onClick={_onLocalFork}
-          tooltip='fork-locally-btn'
-        />
-      }
       sidebarRef={sidebarRef}
     >
       {groups.map((group, index): React.ReactNode => (

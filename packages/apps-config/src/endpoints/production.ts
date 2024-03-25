@@ -203,7 +203,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'edgeware',
     providers: {
-      'Commonwealth Labs': 'wss://mainnet2.edgewa.re',
+      // 'Commonwealth Labs': 'wss://mainnet2.edgewa.re', // https://github.com/polkadot-js/apps/issues/10373
       'JelliedOwl London': 'wss://edgeware-rpc1.jelliedowl.net',
       'JelliedOwl Los Angeles': 'wss://edgeware-rpc3.jelliedowl.net',
       'JelliedOwl New York': 'wss://edgeware-rpc0.jelliedowl.net',
@@ -262,7 +262,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'innovatorchain',
     providers: {
-      Innovator: 'wss://rpc.innovatorchain.com'
+      // Innovator: 'wss://rpc.innovatorchain.com' // https://github.com/polkadot-js/apps/issues/10373
     },
     text: 'Innovator Chain',
     ui: {
@@ -319,6 +319,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'Liberland',
     providers: {
+      Dwellir: 'wss://liberland-rpc.dwellir.com',
       'Liberland Government': 'wss://mainnet.liberland.org'
     },
     text: 'Liberland mainnet',
