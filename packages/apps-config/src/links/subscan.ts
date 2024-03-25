@@ -53,6 +53,7 @@ export const Subscan: ExternalDef = {
     NeuroWeb: 'neuroweb',
     'NeuroWeb Testnet': 'neuroweb-testnet',
     'Nodle Parachain': 'nodle',
+    'OPAL by UNIQUE': 'opal',
     Pangolin: 'pangolin',
     'Pangolin Parachain': 'pangolin-parachain',
     Pangoro: 'pangoro',
