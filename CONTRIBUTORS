@@ -298,6 +298,7 @@
        1	abhi                          	fix text and isUnreachable properties for SNOW Network (#8252)
        1	Abhishek Shah                 	Add mythical-devnet to ethereumChains (#9642)
        1	Adam                          	new edeware logo and color (#6249)
+       1	Adam Steeber                  	Fix MAX_SIGNATORIES (#10387)
        1	Adedamola                     	Restore blockops rpcs endpoint (#10170)
        1	Adedayo Akinpelu              	Add blockops endpoint (#9375)
        1	Adrian Wennström              	Added Dwellir's Centrifuge and Pendulum RPC services. (#9902)
