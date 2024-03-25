@@ -101,7 +101,7 @@ function BTreeMapParam ({ className = '', defaultValue, isDisabled = false, labe
 
       if (output.has(key)) {
         isValid = false;
-        console.error('BTreeMap: Duplicate key', key);
+        console.error('BTreeMap: Duplicate key ', key);
       }
 
       output.set(key, value);
