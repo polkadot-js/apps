@@ -58,6 +58,7 @@ export const Subscan: ExternalDef = {
     Pangoro: 'pangoro',
     Parallel: 'parallel',
     'Parallel Heiko': 'parallel-heiko',
+    'Paseo Testnet': 'paseo',
     Phala: 'phala',
     Picasso: 'picasso',
     'Pioneer Network': 'pioneer',
