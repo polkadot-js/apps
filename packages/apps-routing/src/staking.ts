@@ -45,6 +45,7 @@ function needsApiCheck (api: ApiPromise): boolean {
     return false;
   }
 
+  // For compatibility - `api.query.staking.ledger` returns `legacyClaimedRewards` instead of `claimedRewards` as of v1.4
   try {
     const v = api.registry.createType<PalletStakingStakingLedger>(
       unwrapStorageType(api.registry, api.query.staking.ledger.creator.meta.type),
