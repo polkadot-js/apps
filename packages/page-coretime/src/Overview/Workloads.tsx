@@ -25,6 +25,7 @@ function Workloads ({ className, infos }: Props): React.ReactElement<Props> {
     [t('assignment'), 'start media--1600'],
     []
   ]);
+  infos?.sort((a, b) => a.core - b.core);
 
   return (
     <Table

@@ -17,11 +17,14 @@ function Workload ({ className, value: { core, info } }: Props): React.ReactElem
 
   console.log('info', info.toString())
   console.log('assignment', info[0]['assignment'].toString())
+
+  const sanitizedAssignment = info[0]['assignment']['isTask'] ? info[0]['assignment']['asTask'] : info[0]['assignment'];
+
   return (
     <tr className={className}>
       <Table.Column.Id value={Number(core)} />
       <td className='start media--1300'>{info[0]['mask'].toString()}</td>
-      <td className='start media--1600'>{info[0]['assignment'].toString()}</td>
+      <td className='start media--1600'>{sanitizedAssignment.toString()}</td>
     </tr>
   );
 }
