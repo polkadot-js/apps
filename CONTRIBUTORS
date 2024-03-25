@@ -510,6 +510,7 @@
        1	X5 Engine                     	fix tiny typo (#2399)
        1	xsteadybcgo                   	feat: update statemine & westmint config (#5476)
        1	y                             	Add Phoenix parachain (#4939)
+       1	Yakio                         	Add Subscan link to Paseo and Opal testnet (#10393)
        1	YessineAmor                   	add ar translation for page-calendar (#3816)
        1	Yin Jiaquan                   	Add Automata private RPC relay (#8167)
        1	yooml                         	update parachain id (#5065)
