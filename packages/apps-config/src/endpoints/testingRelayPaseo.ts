@@ -3,7 +3,7 @@
 
 import type { EndpointOption } from './types.js';
 
-import { chainsFrequencyPaseoSVG, chainsPaseoBgPNG, chainsPaseoPNG } from '@polkadot/apps-config/ui/logos/chains';
+import { chainsFrequencyPaseoSVG, chainsPaseoPNG } from '@polkadot/apps-config/ui/logos/chains';
 import { nodesIntegriteeSVG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
@@ -93,7 +93,7 @@ export const testRelayPaseo: EndpointOption = {
   teleport: getTeleports(testParasPaseoCommon),
   text: 'Paseo',
   ui: {
-    color: `url(${chainsPaseoBgPNG}) #A0FED4`,
+    color: '#38393F',
     identityIcon: 'polkadot',
     logo: chainsPaseoPNG
   }
