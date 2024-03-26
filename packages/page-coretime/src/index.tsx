@@ -10,6 +10,7 @@ import { Tabs } from '@polkadot/react-components';
 import { useTranslation } from './translate.js';
 import Overview from './Overview/index.js';
 import useWorkloadInfos from './useWorkloadInfos.js';
+import useWorkplanInfos from './useWorkplanInfos.js';
 
 interface Props {
   basePath: string;
@@ -30,8 +31,8 @@ function createItemsRef(t: (key: string, options?: { replace: Record<string, unk
 function CoretimeApp({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const itemsRef = useRef(createItemsRef(t));
-  console.log('coretime overview')
-  const infos = useWorkloadInfos();
+  const workloadInfos = useWorkloadInfos();
+  const workplanInfos = useWorkplanInfos();
 
   return (
     <main className={className}>
@@ -39,7 +40,8 @@ function CoretimeApp({ basePath, className }: Props): React.ReactElement<Props> 
         basePath={basePath}
         items={itemsRef.current}
       />
-      <Overview infos={infos}/>
+      <Overview workloadInfos={workloadInfos}
+        workplanInfos={workplanInfos} />
     </main>
   );
 }

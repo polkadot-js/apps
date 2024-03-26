@@ -3,12 +3,13 @@
 
 import type { PalletBrokerScheduleItem } from '@polkadot/types/lookup';
 
-export interface WorkloadInfo {
+export interface CoreWorkloadInfo {
   core: number;
-  info: PalletBrokerScheduleItem[]
+  info: PalletBrokerScheduleItem[];
 }
 
-export interface CoreWorkloadInfo {
+export interface CoreWorkplanInfo {
+  timeslice: number;
   core: number;
   info: PalletBrokerScheduleItem[];
 }

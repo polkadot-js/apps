@@ -10,8 +10,8 @@ import type { PalletBrokerScheduleItem } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
 function extractInfo (info: PalletBrokerScheduleItem[], core: number): CoreWorkloadInfo {
-  console.log('cored', core)
-  console.log('unfod', info)
+  console.log('workloadinf', info)
+
   return {
     core,
     info
@@ -28,8 +28,6 @@ function useWorkloadInfosImpl (): CoreWorkloadInfo[] | undefined {
   const cores = useMapKeys(api.query.broker.workload, [], OPT_KEY)
   const workloadInfo = useCall<[[BN[]], PalletBrokerScheduleItem[]]>(api.query.broker.workload.multi, [cores], {withParams: true} );
   const [state, setState] = useState<CoreWorkloadInfo[] | undefined>();
-  console.log(workloadInfo)
-
   useEffect((): void => {
 
     workloadInfo &&
