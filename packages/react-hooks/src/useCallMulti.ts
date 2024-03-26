@@ -1,18 +1,18 @@
-// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
 import type { QueryableStorageMultiArg } from '@polkadot/api/types';
-import type { Tracker } from './useCall';
-import type { MountedRef } from './useIsMountedRef';
+import type { Tracker } from './useCall.js';
+import type { MountedRef } from './useIsMountedRef.js';
 
 import { useEffect, useRef, useState } from 'react';
 
 import { isUndefined, nextTick } from '@polkadot/util';
 
-import { useApi } from './useApi';
-import { handleError, transformIdentity, unsubscribe } from './useCall';
-import { useIsMountedRef } from './useIsMountedRef';
+import { useApi } from './useApi.js';
+import { handleError, transformIdentity, unsubscribe } from './useCall.js';
+import { useIsMountedRef } from './useIsMountedRef.js';
 
 interface TrackerRef {
   current: Tracker;
@@ -69,7 +69,7 @@ export function useCallMulti <T> (calls?: QueryableStorageMultiArg<'promise'>[] 
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const tracker = useRef<Tracker>({ error: null, fn: null, isActive: false, serialized: null, subscriber: null, type: 'useCallMulti' });
-  const [value, setValue] = useState<T>(() => (isUndefined((options || {}).defaultValue) ? [] : (options || {}).defaultValue) as unknown as T);
+  const [value, setValue] = useState<T>(() => (isUndefined(options?.defaultValue) ? [] : options?.defaultValue) as unknown as T);
 
   // initial effect, we need an un-subscription
   useEffect((): () => void => {

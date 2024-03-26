@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
@@ -9,10 +9,10 @@ import { useMemo } from 'react';
 import { createWsEndpoints } from '@polkadot/apps-config';
 import { bnToBn } from '@polkadot/util';
 
-import { createNamedHook } from './createNamedHook';
-import { useApi } from './useApi';
+import { createNamedHook } from './createNamedHook.js';
+import { useApi } from './useApi.js';
 
-const endpoints = createWsEndpoints((key: string, value: string | undefined) => value || key);
+const endpoints = createWsEndpoints((k, v) => v?.toString() || k);
 
 function extractRelayEndpoints (genesisHash: string): LinkOption[] {
   return endpoints.filter(({ genesisHashRelay }) =>

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2024 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, Tuple } from '@polkadot/types';
@@ -11,7 +11,7 @@ import { Expander, Table } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
 import { getTypeDef } from '@polkadot/types/create';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   value: Option<Justifications>;
@@ -31,6 +31,7 @@ function formatTuple (tuple: Tuple): React.ReactNode {
       isDisabled
       params={params}
       values={values}
+      withExpander
     />
   );
 }
@@ -38,7 +39,7 @@ function formatTuple (tuple: Tuple): React.ReactNode {
 function JustificationList ({ value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('justifications'), 'start']
   ]);
 
@@ -50,7 +51,7 @@ function JustificationList ({ value }: Props): React.ReactElement<Props> | null 
 
   return (
     <Table
-      empty={t<string>('No justifications available')}
+      empty={t('No justifications available')}
       header={headerRef.current}
     >
       {justifications?.map((justification, index) => (

@@ -1,14 +1,14 @@
-// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2024 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useRef } from 'react';
 
 import { Tabs } from '@polkadot/react-components';
 
-import Bounties from './Bounties';
-import { useTranslation } from './translate';
+import Bounties from './Bounties.js';
+import { useTranslation } from './translate.js';
 
-export { default as useCounter } from './useCounter';
+export { default as useCounter } from './useCounter.js';
 
 interface Props {
   basePath: string;
@@ -22,12 +22,12 @@ function BountiesApp ({ basePath, className = '' }: Props): React.ReactElement<P
     {
       isRoot: true,
       name: 'index',
-      text: t<string>('Overview')
+      text: t('Overview')
     }
   ]);
 
   return (
-    <main className={`bounties--App ${className}`}>
+    <main className={`${className} bounties--App`}>
       <Tabs
         basePath={basePath}
         items={itemsRef.current}

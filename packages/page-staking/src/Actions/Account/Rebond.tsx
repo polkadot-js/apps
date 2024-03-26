@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
@@ -9,8 +9,8 @@ import { InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BN, BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
-import SenderInfo from '../partials/SenderInfo';
+import { useTranslation } from '../../translate.js';
+import SenderInfo from '../partials/SenderInfo.js';
 
 interface Props {
   controllerId: string | null;
@@ -26,7 +26,7 @@ function Rebond ({ controllerId, onClose, stakingInfo, stashId }: Props): React.
   const [maxAdditional, setMaxAdditional] = useState<BN | undefined>();
 
   const startBalance = useMemo(
-    () => stakingInfo && stakingInfo.unlocking
+    () => stakingInfo?.unlocking
       ? stakingInfo.unlocking.reduce((total, { value }) => total.iadd(value), new BN(0))
       : BN_ZERO,
     [stakingInfo]
@@ -34,7 +34,7 @@ function Rebond ({ controllerId, onClose, stakingInfo, stashId }: Props): React.
 
   return (
     <Modal
-      header= {t<string>('Bond more funds')}
+      header= {t('Bond more funds')}
       onClose={onClose}
       size='large'
     >
@@ -44,13 +44,12 @@ function Rebond ({ controllerId, onClose, stakingInfo, stashId }: Props): React.
           stashId={stashId}
         />
         {startBalance && (
-          <Modal.Columns hint={t<string>('The amount the is to be rebonded from the value currently unlocking, i.e. previously unbonded')}>
+          <Modal.Columns hint={t('The amount the is to be rebonded from the value currently unlocking, i.e. previously unbonded')}>
             <InputBalance
               autoFocus
               defaultValue={startBalance}
-              help={t<string>('Amount to add to the currently bonded funds. This is adjusted using the funds currently unlocking.')}
               isError={!maxAdditional || maxAdditional.eqn(0) || maxAdditional.gt(startBalance)}
-              label={t<string>('rebonded amount')}
+              label={t('rebonded amount')}
               onChange={setMaxAdditional}
             />
           </Modal.Columns>
@@ -61,7 +60,7 @@ function Rebond ({ controllerId, onClose, stakingInfo, stashId }: Props): React.
           accountId={controllerId}
           icon='sign-in-alt'
           isDisabled={!maxAdditional || maxAdditional.isZero() || !startBalance || maxAdditional.gt(startBalance)}
-          label={t<string>('Rebond')}
+          label={t('Rebond')}
           onStart={onClose}
           params={[maxAdditional]}
           tx={api.tx.staking.rebond}

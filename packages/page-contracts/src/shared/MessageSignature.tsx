@@ -1,16 +1,15 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AbiMessage } from '@polkadot/api-contract/types';
 
 import React from 'react';
-import styled from 'styled-components';
 
-import { Icon, Tooltip } from '@polkadot/react-components';
+import { Icon, styled, Tooltip } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { encodeTypeDef } from '@polkadot/types/create';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 const MAX_PARAM_LENGTH = 20;
 
@@ -33,7 +32,7 @@ function MessageSignature ({ className, message: { args, isConstructor, isMutati
   const { api } = useApi();
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <span className='ui--MessageSignature-name'>{method}</span>
       {' '}({args.map(({ name, type }, index): React.ReactNode => {
         return (
@@ -41,7 +40,7 @@ function MessageSignature ({ className, message: { args, isConstructor, isMutati
             {name}:
             {' '}
             <span className='ui--MessageSignature-type'>
-              {params && params[index]
+              {params?.[index]
                 ? <b>{truncate((params as string[])[index].toString())}</b>
                 : encodeTypeDef(api.registry, type)
               }
@@ -68,17 +67,17 @@ function MessageSignature ({ className, message: { args, isConstructor, isMutati
           />
           {withTooltip && (
             <Tooltip
-              text={t<string>('Mutates contract state')}
+              text={t('Mutates contract state')}
               trigger={`mutates-${method}`}
             />
           )}
         </>
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(MessageSignature)`
+const StyledDiv = styled.div`
   font: var(--font-mono);
   font-weight: var(--font-weight-normal);
   flex-grow: 1;
@@ -86,7 +85,7 @@ export default React.memo(styled(MessageSignature)`
   .ui--MessageSignature-mutates {
     color: #ff8600;
     margin-left: 0.5rem;
-    opacity: 0.6;
+    opacity: var(--opacity-light);
   }
 
   .ui--MessageSignature-name {
@@ -101,4 +100,6 @@ export default React.memo(styled(MessageSignature)`
   .ui--MessageSignature-returnType {
     color: #ff8600;
   }
-`);
+`;
+
+export default React.memo(MessageSignature);

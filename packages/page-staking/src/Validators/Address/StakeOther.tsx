@@ -1,7 +1,8 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { NominatorValue } from './types';
+import type { u32 } from '@polkadot/types';
+import type { NominatorValue } from './types.js';
 
 import React, { useMemo } from 'react';
 
@@ -12,36 +13,38 @@ import { BN, BN_ZERO } from '@polkadot/util';
 
 interface Props {
   stakeOther?: BN;
-  nominators: NominatorValue[];
+  nominators?: NominatorValue[];
 }
 
 function extractFunction (all: NominatorValue[]): null | [number, () => React.ReactNode[]] {
-  return all.length
-    ? [
-      all.length,
-      () => all.map(({ nominatorId, value }): React.ReactNode =>
-        <AddressMini
-          bonded={value}
-          key={nominatorId}
-          value={nominatorId}
-          withBonded
-        />
-      )
-    ]
-    : null;
+  return [
+    all.length,
+    () => all.map(({ nominatorId, value }): React.ReactNode =>
+      <AddressMini
+        bonded={value}
+        key={nominatorId}
+        value={nominatorId}
+        withBonded
+      />
+    )
+  ];
 }
 
 function sumValue (all: { value: BN }[]): BN {
   const total = new BN(0);
 
-  for (let i = 0; i < all.length; i++) {
+  for (let i = 0, count = all.length; i < count; i++) {
     total.iadd(all[i].value);
   }
 
   return total;
 }
 
-function extractTotals (maxPaid: BN | undefined, nominators: NominatorValue[], stakeOther?: BN): [null | [number, () => React.ReactNode[]], BN, null | [number, () => React.ReactNode[]], BN] {
+function extractTotals (maxPaid: BN | undefined, nominators?: NominatorValue[], stakeOther?: BN): [null | [number, () => React.ReactNode[]], BN, null | [number, () => React.ReactNode[]], BN] {
+  if (!nominators) {
+    return [null, BN_ZERO, null, BN_ZERO];
+  }
+
   const sorted = nominators.sort((a, b) => b.value.cmp(a.value));
 
   if (!maxPaid || maxPaid.gtn(sorted.length)) {
@@ -61,36 +64,35 @@ function StakeOther ({ nominators, stakeOther }: Props): React.ReactElement<Prop
   const { api } = useApi();
 
   const [rewarded, rewardedTotal, unrewarded, unrewardedTotal] = useMemo(
-    () => extractTotals(api.consts.staking?.maxNominatorRewardedPerValidator, nominators, stakeOther),
+    () => extractTotals(api.consts.staking?.maxNominatorRewardedPerValidator as u32, nominators, stakeOther),
     [api, nominators, stakeOther]
   );
 
   return (
     <td className='expand all'>
-      {rewarded && (
-        <>
-          <ExpanderScroll
-            renderChildren={rewarded[1]}
-            summary={
-              <FormatBalance
-                labelPost={` (${rewarded[0]})`}
-                value={rewardedTotal}
-              />
-            }
-          />
-          {unrewarded && (
-            <ExpanderScroll
-              className='stakeOver'
-              renderChildren={unrewarded[1]}
-              summary={
-                <FormatBalance
-                  labelPost={` (${unrewarded[0]})`}
-                  value={unrewardedTotal}
-                />
-              }
+      {(!rewarded || rewarded[0] !== 0) && (
+        <ExpanderScroll
+          className={rewarded ? '' : '--tmp'}
+          renderChildren={rewarded?.[1]}
+          summary={
+            <FormatBalance
+              labelPost={` (${rewarded ? rewarded[0] : '0'})`}
+              value={rewardedTotal}
             />
-          )}
-        </>
+          }
+        />
+      )}
+      {unrewarded && (
+        <ExpanderScroll
+          className='stakeOver'
+          renderChildren={unrewarded[1]}
+          summary={
+            <FormatBalance
+              labelPost={` (${unrewarded[0]})`}
+              value={unrewardedTotal}
+            />
+          }
+        />
       )}
     </td>
   );

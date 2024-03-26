@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -7,7 +7,7 @@ import React from 'react';
 
 import { InputAddress, InputNumber, Modal } from '@polkadot/react-components';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../../translate.js';
 
 interface Props {
   className?: string;
@@ -25,17 +25,17 @@ function PoolInfo ({ className = '', controllerId, poolId }: Props): React.React
   return (
     <Modal.Columns
       className={className}
-      hint={t<string>('The pool and pool member that is to be affected. The transaction will be sent from the associated pool member account.')}
+      hint={t('The pool and pool member that is to be affected. The transaction will be sent from the associated pool member account.')}
     >
       <InputNumber
         defaultValue={poolId}
         isDisabled
-        label={t<string>('pool id')}
+        label={t('pool id')}
       />
       <InputAddress
         defaultValue={controllerId}
         isDisabled
-        label={t<string>('member account')}
+        label={t('member account')}
       />
     </Modal.Columns>
   );

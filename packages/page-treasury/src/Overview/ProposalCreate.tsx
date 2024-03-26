@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2024 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -9,7 +9,7 @@ import { Button, InputAddress, InputBalance, MarkWarning, Modal, Static, TxButto
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { BN_HUNDRED, BN_MILLION } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
@@ -40,24 +40,22 @@ function Propose ({ className }: Props): React.ReactElement<Props> | null {
       {isOpen && (
         <Modal
           className={className}
-          header={t<string>('Submit treasury proposal')}
+          header={t('Submit treasury proposal')}
           onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns hint={t<string>('This account will make the proposal and be responsible for the bond.')}>
+            <Modal.Columns hint={t('This account will make the proposal and be responsible for the bond.')}>
               <InputAddress
-                help={t<string>('Select the account you wish to submit the proposal from.')}
-                label={t<string>('submit with account')}
+                label={t('submit with account')}
                 onChange={setAccountId}
                 type='account'
                 withLabel
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The beneficiary will receive the full amount if the proposal passes.')}>
+            <Modal.Columns hint={t('The beneficiary will receive the full amount if the proposal passes.')}>
               <InputAddress
-                help={t<string>('The account to which the proposed balance will be transferred if approved')}
-                label={t<string>('beneficiary')}
+                label={t('beneficiary')}
                 onChange={setBeneficiary}
                 type='allPlus'
               />
@@ -65,41 +63,37 @@ function Propose ({ className }: Props): React.ReactElement<Props> | null {
             <Modal.Columns
               hint={
                 <>
-                  <p>{t<string>('The value is the amount that is being asked for and that will be allocated to the beneficiary if the proposal is approved.')}</p>
+                  <p>{t('The value is the amount that is being asked for and that will be allocated to the beneficiary if the proposal is approved.')}</p>
                   {bondMax
-                    ? <p>{t<string>('Of the beneficiary amount, no less than the minimum bond amount and no more than maximum on-chain bond would need to be put up as collateral. This is calculated from {{bondPercentage}} of the requested amount.', { replace: { bondPercentage } })}</p>
-                    : <p>{t<string>('Of the beneficiary amount, no less than the minimum bond amount would need to be put up as collateral. This is calculated from {{bondPercentage}} of the requested amount.', { replace: { bondPercentage } })}</p>
+                    ? <p>{t('Of the beneficiary amount, no less than the minimum bond amount and no more than maximum on-chain bond would need to be put up as collateral. This is calculated from {{bondPercentage}} of the requested amount.', { replace: { bondPercentage } })}</p>
+                    : <p>{t('Of the beneficiary amount, no less than the minimum bond amount would need to be put up as collateral. This is calculated from {{bondPercentage}} of the requested amount.', { replace: { bondPercentage } })}</p>
                   }
                 </>
               }
             >
               <InputBalance
-                help={t<string>('The amount that will be allocated from the treasury pot')}
                 isError={!hasValue}
-                label={t<string>('value')}
+                label={t('value')}
                 onChange={setValue}
               />
               <Static
-                help={t<string>('The on-chain percentage for the treasury')}
-                label={t<string>('proposal bond')}
+                label={t('proposal bond')}
               >
                 {bondPercentage}
               </Static>
               <InputBalance
                 defaultValue={bondMin}
-                help={t<string>('The minimum amount that will be bonded')}
                 isDisabled
-                label={t<string>('minimum bond')}
+                label={t('minimum bond')}
               />
               {bondMax && (
                 <InputBalance
                   defaultValue={bondMax}
-                  help={t<string>('The maximum amount that will be bonded')}
                   isDisabled
-                  label={t<string>('maximum bond')}
+                  label={t('maximum bond')}
                 />
               )}
-              <MarkWarning content={t<string>('Be aware that once submitted the proposal will be put to a council vote. If the proposal is rejected due to a lack of info, invalid requirements or non-benefit to the network as a whole, the full bond posted (as describe above) will be lost.')} />
+              <MarkWarning content={t('Be aware that once submitted the proposal will be put to a vote. If the proposal is rejected due to a lack of info, invalid requirements or non-benefit to the network as a whole, the full bond posted (as describe above) will be lost.')} />
             </Modal.Columns>
           </Modal.Content>
           <Modal.Actions>
@@ -107,7 +101,7 @@ function Propose ({ className }: Props): React.ReactElement<Props> | null {
               accountId={accountId}
               icon='plus'
               isDisabled={!accountId || !hasValue}
-              label={t<string>('Submit proposal')}
+              label={t('Submit proposal')}
               onStart={toggleOpen}
               params={[value, beneficiary]}
               tx={api.tx.treasury.proposeSpend}
@@ -117,7 +111,7 @@ function Propose ({ className }: Props): React.ReactElement<Props> | null {
       )}
       <Button
         icon='plus'
-        label={t<string>('Submit proposal')}
+        label={t('Submit proposal')}
         onClick={toggleOpen}
       />
     </>

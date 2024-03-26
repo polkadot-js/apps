@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2024 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
@@ -9,10 +9,10 @@ import { AddressRow, Button, Input, Modal } from '@polkadot/react-components';
 import { useApi, useNonEmptyString } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 
-import { ABI, InputName } from '../shared';
-import { useTranslation } from '../translate';
-import useAbi from '../useAbi';
-import ValidateAddr from './ValidateAddr';
+import { ABI, InputName } from '../shared/index.js';
+import { useTranslation } from '../translate.js';
+import useAbi from '../useAbi.js';
+import ValidateAddr from './ValidateAddr.js';
 
 interface Props {
   onClose: () => void;
@@ -76,9 +76,8 @@ function Add ({ onClose }: Props): React.ReactElement {
         >
           <Input
             autoFocus
-            help={t<string>('The address for the deployed contract instance.')}
             isError={!isAddressValid}
-            label={t<string>('contract address')}
+            label={t('contract address')}
             onChange={setAddress}
             value={address || ''}
           />
@@ -107,7 +106,7 @@ function Add ({ onClose }: Props): React.ReactElement {
         <Button
           icon='save'
           isDisabled={!isValid}
-          label={t<string>('Save')}
+          label={t('Save')}
           onClick={_onAdd}
         />
       </Modal.Actions>

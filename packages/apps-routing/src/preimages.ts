@@ -1,8 +1,7 @@
-// Copyright 2017-2022 @polkadot/apps-routing authors & contributors
+// Copyright 2017-2024 @polkadot/apps-routing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
-import type { Route } from './types';
+import type { Route, TFunction } from './types.js';
 
 import Component from '@polkadot/app-preimages';
 
@@ -12,10 +11,8 @@ export default function create (t: TFunction): Route {
     display: {
       needsAccounts: true,
       needsApi: [
-        'tx.preimage.notePreimage',
-        // only enable when we have referenda (or ranked would be applicable as
-        // well, we basically want to disable on all Gov1 chains)
-        'tx.referenda.submit'
+        'query.preimage.statusFor',
+        'tx.preimage.notePreimage'
       ]
     },
     group: 'governance',

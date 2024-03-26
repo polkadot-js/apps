@@ -1,15 +1,15 @@
-// Copyright 2017-2022 @polkadot/app-nfts authors & contributors
+// Copyright 2017-2024 @polkadot/app-nfts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { CollectionInfo } from '../types';
+import type { CollectionInfo } from '../types.js';
 
 import React from 'react';
 
-import { AddressSmall, IconLink } from '@polkadot/react-components';
+import { AddressSmall, IconLink, Table } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
@@ -19,11 +19,15 @@ interface Props {
 function Collection ({ className, value: { details, id, ipfsData } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const name = ipfsData?.name || '';
-  const imageLink = ipfsData?.image ? `https://ipfs.io/ipfs/${ipfsData.image}` : '';
+  let imageLink = '';
+
+  if (ipfsData?.image) {
+    imageLink = ipfsData.image.toLowerCase().startsWith('http') ? ipfsData.image : `https://ipfs.io/ipfs/${ipfsData.image}`;
+  }
 
   return (
     <tr className={className}>
-      <td className='number'><h1>{formatNumber(id)}</h1></td>
+      <Table.Column.Id value={id} />
       <td className='together all'>
         { name && imageLink
           ? (

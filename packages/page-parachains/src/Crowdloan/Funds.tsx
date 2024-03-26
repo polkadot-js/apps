@@ -1,17 +1,17 @@
-// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2024 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParaId } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
-import type { Campaign, LeasePeriod } from '../types';
+import type { Campaign, LeasePeriod } from '../types.js';
 
 import React, { useMemo, useRef } from 'react';
 
 import { MarkWarning, Table } from '@polkadot/react-components';
 import { useBestHash, useIsParasLinked } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import Fund from './Fund';
+import { useTranslation } from '../translate.js';
+import Fund from './Fund.js';
 
 interface Props {
   bestNumber?: BN;
@@ -67,7 +67,7 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
     [active, ended, hasLinksMap]
   );
 
-  const headerActiveRef = useRef([
+  const headerActiveRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('ongoing'), 'start', 2],
     [undefined, 'media--800'],
     [undefined, 'media--2000'],
@@ -78,7 +78,7 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
     [undefined, 'media--1000']
   ]);
 
-  const headedEndedRef = useRef([
+  const headedEndedRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('completed'), 'start', 2],
     [undefined, 'media--800'],
     [undefined, 'media--2000'],
@@ -93,11 +93,11 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
     <>
       <MarkWarning
         className='warning centered'
-        content={t<string>('Do not transfer any funds directly to a specific account that is associated with a loan or a team. Use the "Contribute" action to record the contribution on-chain using the crowdloan runtime module. When the fund is dissolved, after either the parachain lease expires or the loan ending without winning, the full value will be returned to your account by the runtime. Funds sent directly to an account, without using the crowdloan functionality, may not be returned by the receiving account.')}
+        content={t('Do not transfer any funds directly to a specific account that is associated with a loan or a team. Use the "Contribute" action to record the contribution on-chain using the crowdloan runtime module. When the fund is dissolved, after either the parachain lease expires or the loan ending without winning, the full value will be returned to your account by the runtime. Funds sent directly to an account, without using the crowdloan functionality, may not be returned by the receiving account.')}
       />
       <Table
         className={className}
-        empty={value && activeSorted && t<string>('No active campaigns found')}
+        empty={value && activeSorted && t('No active campaigns found')}
         header={headerActiveRef.current}
       >
         {activeSorted?.map((fund) => (
@@ -112,7 +112,7 @@ function Funds ({ bestNumber, className, leasePeriod, value }: Props): React.Rea
       </Table>
       <Table
         className={className}
-        empty={value && endedSorted && t<string>('No completed campaigns found')}
+        empty={value && endedSorted && t('No completed campaigns found')}
         header={headedEndedRef.current}
       >
         {endedSorted?.map((fund) => (

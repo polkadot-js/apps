@@ -1,17 +1,17 @@
-// Copyright 2017-2022 @polkadot/app-alliance authors & contributors
+// Copyright 2017-2024 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Member as MemberType, Rule, Unscrupulous } from '../types';
+import type { Member as MemberType, Rule, Unscrupulous } from '../types.js';
 
 import React, { useRef } from 'react';
 
 import { Button, Table } from '@polkadot/react-components';
 import { useBestNumber, useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import Join from './Join';
-import Member from './Member';
-import Summary from './Summary';
+import { useTranslation } from '../translate.js';
+import Join from './Join.js';
+import Member from './Member.js';
+import Summary from './Summary.js';
 
 interface Props {
   className?: string;
@@ -28,11 +28,8 @@ function Overview ({ className, members, prime, rule, unscrupulous, voters }: Pr
   const [isJoinOpen, toggleJoin] = useToggle();
   const bestNumber = useBestNumber();
 
-  const hdrRef = useRef([
-    [t<string>('members'), 'start', 2],
-    [t<string>('deposit'), 'number'],
-    [t<string>('role'), 'number'],
-    []
+  const hdrRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
+    [t('members'), 'start', 3]
   ]);
 
   return (
@@ -45,7 +42,7 @@ function Overview ({ className, members, prime, rule, unscrupulous, voters }: Pr
         <Button
           icon='add'
           isDisabled={!members || !unscrupulous}
-          label={t<string>('Join')}
+          label={t('Join')}
           onClick={toggleJoin}
         />
         {members && unscrupulous && isJoinOpen && (
@@ -57,10 +54,12 @@ function Overview ({ className, members, prime, rule, unscrupulous, voters }: Pr
         )}
       </Button.Group>
       <Table
-        empty={members && t<string>('No members')}
+        empty={members && t('No members')}
         header={hdrRef.current}
+        isSplit
+        maxColumns={2}
       >
-        {members && members.map((m) => (
+        {members?.map((m) => (
           <Member
             bestNumber={bestNumber}
             info={m}

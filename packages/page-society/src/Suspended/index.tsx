@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-society authors & contributors
+// Copyright 2017-2024 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, StorageKey } from '@polkadot/types';
@@ -11,8 +11,8 @@ import React, { useRef } from 'react';
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import Suspension from './Suspension';
+import { useTranslation } from '../translate.js';
+import Suspension from './Suspension.js';
 
 interface Props {
   className?: string;
@@ -52,19 +52,19 @@ function Suspended ({ className }: Props): React.ReactElement<Props> {
   const headerRef = useRef({
     candidates: [
       [t('candidates'), 'start'],
-      [t('bid kind'), 'start', 2],
+      [t('bid kind'), 'start'],
       [t('value')]
-    ],
+    ] as [React.ReactNode?, string?, number?][],
     members: [
-      [t('members'), 'start']
-    ]
+      [t('members'), 'start', 3]
+    ] as [React.ReactNode?, string?, number?][]
   });
 
   return (
     <div className={className}>
       <Table
         className={className}
-        empty={members && t<string>('No suspended members')}
+        empty={members && t('No suspended members')}
         header={headerRef.current.members}
       >
         {members?.map((accountId): React.ReactNode => (
@@ -76,7 +76,7 @@ function Suspended ({ className }: Props): React.ReactElement<Props> {
       </Table>
       <Table
         className={className}
-        empty={candidates && t<string>('No suspended candidates')}
+        empty={candidates && t('No suspended candidates')}
         header={headerRef.current.candidates}
       >
         {candidates?.map(({ accountId, balance, bid }): React.ReactNode => (

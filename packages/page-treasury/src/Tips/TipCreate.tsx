@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2024 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -9,7 +9,7 @@ import { Button, Input, InputAddress, InputBalance, Modal, TxButton } from '@pol
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   members: string[];
@@ -48,48 +48,44 @@ function TipCreate ({ members }: Props): React.ReactElement<Props> | null {
     <>
       <Button
         icon='plus'
-        label={t<string>('Propose tip')}
+        label={t('Propose tip')}
         onClick={toggleOpen}
       />
       {isOpen && (
         <Modal
-          header={t<string>('Submit tip request')}
+          header={t('Submit tip request')}
           onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns hint={t<string>('Use this account to request the tip from. This can be a normal or council account.')}>
+            <Modal.Columns hint={t('Use this account to request the tip from. This can be a normal or council account.')}>
               <InputAddress
-                help={t<string>('Select the account you wish to submit the tip from.')}
-                label={t<string>('submit with account')}
+                label={t('submit with account')}
                 onChange={setAccountId}
                 type='account'
                 withLabel
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The beneficiary will received the tip as approved by council members.')}>
+            <Modal.Columns hint={t('The beneficiary will received the tip as approved by council members.')}>
               <InputAddress
-                help={t<string>('The account to which the tip will be transferred if approved')}
-                label={t<string>('beneficiary')}
+                label={t('beneficiary')}
                 onChange={setBeneficiary}
                 type='allPlus'
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('A reason (to be stored-on-chain) as to why the recipient deserves a tip payout.')}>
+            <Modal.Columns hint={t('A reason (to be stored-on-chain) as to why the recipient deserves a tip payout.')}>
               <Input
                 autoFocus
-                help={t<string>('The reason why this tip should be paid.')}
                 isError={!hasReason}
-                label={t<string>('tip reason')}
+                label={t('tip reason')}
                 onChange={setReason}
               />
             </Modal.Columns>
             {isMember && (
-              <Modal.Columns hint={t<string>('As a council member, you can suggest an initial value for the tip, each other council member can suggest their own.')}>
+              <Modal.Columns hint={t('As a council member, you can suggest an initial value for the tip, each other council member can suggest their own.')}>
                 <InputBalance
-                  help={t<string>('The suggested value for this tip')}
                   isError={!hasValue}
-                  label={t<string>('tip value')}
+                  label={t('tip value')}
                   onChange={setValue}
                 />
               </Modal.Columns>
@@ -100,7 +96,7 @@ function TipCreate ({ members }: Props): React.ReactElement<Props> | null {
               accountId={accountId}
               icon='plus'
               isDisabled={!accountId || (isMember && !hasValue) || !hasReason}
-              label={t<string>('Propose tip')}
+              label={t('Propose tip')}
               onStart={toggleOpen}
               params={
                 isMember

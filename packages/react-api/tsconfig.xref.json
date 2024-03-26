@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "outDir": "./build",
+    "rootDir": "./src"
+  },
+  "include": [
+    "src/statics.ts",
+    "src/types.ts",
+    "src/hoc/*",
+    "src/transform/*",
+    "src/util/*"
+  ],
+  "references": [
+    { "path": "../react-hooks/tsconfig.xref.json" }
+  ]
+}

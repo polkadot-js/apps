@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2024 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveReferendumExt } from '@polkadot/api-derive/types';
@@ -8,13 +8,13 @@ import React from 'react';
 import { Button } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import Externals from './Externals';
-import PreImage from './PreImage';
-import Proposals from './Proposals';
-import Propose from './Propose';
-import Referendums from './Referendums';
-import Summary from './Summary';
+import { useTranslation } from '../translate.js';
+import Externals from './Externals.js';
+import PreImage from './PreImage.js';
+import Proposals from './Proposals.js';
+import Propose from './Propose.js';
+import Referendums from './Referendums.js';
+import Summary from './Summary.js';
 
 interface Props {
   className?: string;
@@ -31,14 +31,16 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
     <div className={className}>
       <Summary referendumCount={referendums?.length} />
       <Button.Group>
+        {api.tx.democracy.notePreimage && (
+          <Button
+            icon='plus'
+            label={t('Submit preimage')}
+            onClick={togglePreimage}
+          />
+        )}
         <Button
           icon='plus'
-          label={t<string>('Submit preimage')}
-          onClick={togglePreimage}
-        />
-        <Button
-          icon='plus'
-          label={t<string>('Submit proposal')}
+          label={t('Submit proposal')}
           onClick={togglePropose}
         />
       </Button.Group>

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2024 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useEffect, useRef, useState } from 'react';
@@ -6,8 +6,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { selectableNetworks } from '@polkadot/networks';
 import { Dropdown, MarkError, Modal } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
-import { AVAIL_INDEXES } from './Ledger';
+import { useTranslation } from '../translate.js';
+import { AVAIL_INDEXES } from './Ledger.js';
 
 interface Props {
   className?: string;
@@ -41,33 +41,30 @@ function CreateSuriLedger ({ className, onChange, seedType }: Props): React.Reac
   useEffect((): void => {
     const network = ledgerNets.find(({ network }) => network === chainType);
 
-    onChange(`m/44'/${network?.slip44 as number}'/${accIndex}'/0'/${addIndex}'`);
+    onChange(`m/44'/${network?.slip44}'/${accIndex}'/0'/${addIndex}'`);
   }, [accIndex, addIndex, chainType, onChange]);
 
   return (
     <Modal.Columns
       className={className}
-      hint={t<string>('The derivation will be constructed from the values you specify.')}
+      hint={t('The derivation will be constructed from the values you specify.')}
     >
       {seedType === 'bip'
         ? (
           <>
             <Dropdown
-              help={t('The network to derive on')}
               label={t('Ledger app type (originated from)')}
               onChange={setChainType}
               options={netOpts.current}
               value={chainType}
             />
             <Dropdown
-              help={t('The account type (derivation) to use')}
               label={t('account type')}
               onChange={setAccIndex}
               options={accOps.current}
               value={accIndex}
             />
             <Dropdown
-              help={t('The address index (derivation on account) to use')}
               label={t('address index')}
               onChange={setAddIndex}
               options={addOps.current}
@@ -75,7 +72,7 @@ function CreateSuriLedger ({ className, onChange, seedType }: Props): React.Reac
             />
           </>
         )
-        : <MarkError content={t<string>('Derivation for Ledger-type accounts are only available on mnemonic seeds.')} />
+        : <MarkError content={t('Derivation for Ledger-type accounts are only available on mnemonic seeds.')} />
       }
     </Modal.Columns>
   );

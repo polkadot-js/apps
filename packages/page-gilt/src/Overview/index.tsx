@@ -1,15 +1,15 @@
-// Copyright 2017-2022 @polkadot/app-gilt authors & contributors
+// Copyright 2017-2024 @polkadot/app-gilt authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useMemo } from 'react';
 
 import { Button } from '@polkadot/react-components';
 
-import { useProxies } from '../useProxies';
-import BidAdd from './BidAdd';
-import Queues from './Queues';
-import Summary from './Summary';
-import useInfo from './useInfo';
+import { useProxies } from '../useProxies.js';
+import BidAdd from './BidAdd.js';
+import Queues from './Queues.js';
+import Summary from './Summary.js';
+import useInfo from './useInfo.js';
 
 interface Props {
   className?: string;
@@ -20,7 +20,7 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
   const { info } = useInfo();
 
   const isDisabled = useMemo(
-    () => !info || !info.activeTotal || info.activeTotal.target.isZero(),
+    () => !info?.activeTotal || info.activeTotal.target.isZero(),
     [info]
   );
 

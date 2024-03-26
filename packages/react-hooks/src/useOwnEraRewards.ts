@@ -1,20 +1,22 @@
-// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
 import type { DeriveEraPoints, DeriveEraRewards, DeriveStakerReward } from '@polkadot/api-derive/types';
+import type { u32 } from '@polkadot/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
-import type { StakerState } from './types';
+import type { PalletStakingStakingLedger } from '@polkadot/types/lookup';
+import type { StakerState } from './types.js';
 
 import { useEffect, useState } from 'react';
 
 import { BN_ZERO } from '@polkadot/util';
 
-import { createNamedHook } from './createNamedHook';
-import { useApi } from './useApi';
-import { useCall } from './useCall';
-import { useIsMountedRef } from './useIsMountedRef';
-import { useOwnStashIds } from './useOwnStashes';
+import { createNamedHook } from './createNamedHook.js';
+import { useApi } from './useApi.js';
+import { useCall } from './useCall.js';
+import { useIsMountedRef } from './useIsMountedRef.js';
+import { useOwnStashIds } from './useOwnStashes.js';
 
 interface State {
   allRewards?: Record<string, DeriveStakerReward[]> | null;
@@ -43,6 +45,10 @@ const EMPTY_STATE: State = {
 };
 
 const OPT_REWARDS = { withParams: true };
+
+function getLegacyRewards (ledger: PalletStakingStakingLedger): u32[] {
+  return ledger.legacyClaimedRewards || (ledger as unknown as { claimedRewards: u32[] }).claimedRewards || [];
+}
 
 function getRewards ([[stashIds], available]: [[string[]], DeriveStakerReward[][]]): State {
   const allRewards: Record<string, DeriveStakerReward[]> = {};
@@ -131,7 +137,7 @@ function useOwnEraRewardsImpl (maxEras?: number, ownValidators?: StakerState[], 
       } else if (ownValidators?.length) {
         ownValidators.forEach(({ stakingLedger, stashId }): void => {
           if (stakingLedger) {
-            const eras = filteredEras.filter((era) => !stakingLedger.claimedRewards.some((c) => era.eq(c)));
+            const eras = filteredEras.filter((era) => !getLegacyRewards(stakingLedger).some((c) => era.eq(c)));
 
             if (eras.length) {
               validatorEras.push({ eras, stashId });

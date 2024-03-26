@@ -1,17 +1,16 @@
-// Copyright 2017-2022 @polkadot/app-society authors & contributors
+// Copyright 2017-2024 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSociety } from '@polkadot/api-derive/types';
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
-import { CardSummary, SummaryBox } from '@polkadot/react-components';
+import { CardSummary, styled, SummaryBox } from '@polkadot/react-components';
 import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
@@ -33,29 +32,31 @@ function Summary ({ className = '', info, payoutTotal }: Props): React.ReactElem
   );
 
   return (
-    <SummaryBox className={className}>
+    <StyledSummaryBox className={className}>
       <section className='media--1100'>
         {info && members && (
-          <CardSummary label={t<string>('members')}>
-            {members.length}&nbsp;/&nbsp;{info.maxMembers.toString()}
+          <CardSummary label={t('members')}>
+            {members.length}&nbsp;/&nbsp;{info.maxMembers?.toString()}
           </CardSummary>
         )}
       </section>
       {bestNumber && (
         <>
-          <section>
-            <CardSummary
-              label={t<string>('rotation')}
-              progress={{
-                total: api.consts.society.rotationPeriod,
-                value: bestNumber.mod(api.consts.society.rotationPeriod),
-                withTime: true
-              }}
-            />
-          </section>
+          {api.consts.society.rotationPeriod && (
+            <section>
+              <CardSummary
+                label={t('rotation')}
+                progress={{
+                  total: api.consts.society.rotationPeriod as unknown as BN,
+                  value: bestNumber.mod(api.consts.society.rotationPeriod as unknown as BN),
+                  withTime: true
+                }}
+              />
+            </section>
+          )}
           <section className='media--1200'>
             <CardSummary
-              label={t<string>('challenge')}
+              label={t('challenge')}
               progress={{
                 total: api.consts.society.challengePeriod,
                 value: bestNumber.mod(api.consts.society.challengePeriod),
@@ -67,7 +68,7 @@ function Summary ({ className = '', info, payoutTotal }: Props): React.ReactElem
       )}
       <section>
         {payoutTotal && (
-          <CardSummary label={t<string>('payouts')}>
+          <CardSummary label={t('payouts')}>
             <FormatBalance
               value={payoutTotal}
               withSi
@@ -75,7 +76,7 @@ function Summary ({ className = '', info, payoutTotal }: Props): React.ReactElem
           </CardSummary>
         )}
         {pot && (
-          <CardSummary label={t<string>('pot')}>
+          <CardSummary label={t('pot')}>
             <FormatBalance
               value={pot}
               withSi
@@ -83,11 +84,11 @@ function Summary ({ className = '', info, payoutTotal }: Props): React.ReactElem
           </CardSummary>
         )}
       </section>
-    </SummaryBox>
+    </StyledSummaryBox>
   );
 }
 
-export default React.memo(styled(Summary)`
+const StyledSummaryBox = styled(SummaryBox)`
   .society--header--account {
     white-space: nowrap;
 
@@ -99,4 +100,6 @@ export default React.memo(styled(Summary)`
       margin-right: 0.5rem;
     }
   }
-`);
+`;
+
+export default React.memo(Summary);

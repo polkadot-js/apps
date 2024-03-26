@@ -1,7 +1,5 @@
-// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2024 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
-
-import type { TFunction } from 'i18next';
 
 import React, { useCallback, useState } from 'react';
 
@@ -9,7 +7,7 @@ import { Button, Input, InputAddress, InputBalance, InputFile, InputNumber, Inpu
 import { useApi } from '@polkadot/react-hooks';
 import { BN, BN_TEN, BN_THOUSAND, BN_ZERO, compactAddLength } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
@@ -25,7 +23,7 @@ interface ValidatorProps {
   address: string;
   index: number;
   setAddress: (index: number, value: string) => void;
-  t: TFunction;
+  t: (key: string, options?: { replace: Record<string, unknown> }) => string;
 }
 
 function Validator ({ address, index, setAddress, t }: ValidatorProps): React.ReactElement<ValidatorProps> {
@@ -49,7 +47,7 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
   const [accountId, setAccountId] = useState<string | null>(null);
   const [name, setName] = useState('');
   const [paraId, setParaId] = useState<BN | undefined>();
-  const [balance, setBalance] = useState(() => BN_THOUSAND.mul(BN_TEN.pow(new BN(api.registry.chainDecimals[0]))));
+  const [balance, setBalance] = useState<BN | undefined>(() => BN_THOUSAND.mul(BN_TEN.pow(new BN(api.registry.chainDecimals[0]))));
   const [validators, setValidators] = useState<string[]>(['']);
   const [{ isWasmValid, wasm }, setWasm] = useState<CodeState>({ isWasmValid: false, wasm: null });
   const [genesisState, setGenesisState] = useState<Uint8Array | null>(null);
@@ -86,53 +84,51 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
   return (
     <Modal
       className={className}
-      header={t<string>('Propose parachain')}
+      header={t('Propose parachain')}
       onClose={onClose}
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={t<string>('This account will be associated with the parachain and pay the deposit.')}>
+        <Modal.Columns hint={t('This account will be associated with the parachain and pay the deposit.')}>
           <InputAddress
-            label={t<string>('propose from')}
+            label={t('propose from')}
             onChange={setAccountId}
             type='account'
             value={accountId}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The name for this parachain, the id and the allocated/requested balance.')}>
+        <Modal.Columns hint={t('The name for this parachain, the id and the allocated/requested balance.')}>
           <Input
             autoFocus
             isError={!isNameValid}
-            label={t<string>('parachain name')}
+            label={t('parachain name')}
             onChange={setName}
           />
           <InputNumber
             isZeroable={false}
-            label={t<string>('requested id')}
+            label={t('requested id')}
             onChange={setParaId}
           />
           <InputBalance
             defaultValue={balance}
-            label={t<string>('initial balance')}
+            label={t('initial balance')}
             onChange={setBalance}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The WASM validation function as well as the genesis state for this parachain.')}>
+        <Modal.Columns hint={t('The WASM validation function as well as the genesis state for this parachain.')}>
           <InputWasm
-            help={t<string>('The compiled runtime WASM for the parachain you wish to register.')}
             isError={!isWasmValid}
-            label={t<string>('validation code')}
+            label={t('validation code')}
             onChange={_setWasm}
-            placeholder={wasm && !isWasmValid && t<string>('The code is not recognized as being in valid WASM format')}
+            placeholder={wasm && !isWasmValid && t('The code is not recognized as being in valid WASM format')}
           />
           <InputFile
-            help={t<string>('The genesis state for the parachain.')}
             isError={!genesisState}
-            label={t<string>('genesis state')}
+            label={t('genesis state')}
             onChange={_setGenesisState}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('The validators for this parachain. At least one is required and where multiple is supplied, they need to be unique.')}>
+        <Modal.Columns hint={t('The validators for this parachain. At least one is required and where multiple is supplied, they need to be unique.')}>
           {validators.map((address, index) => (
             <Validator
               address={address}
@@ -143,21 +139,21 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
             />
           ))}
           {!validators.length && (
-            <MarkWarning content={t<string>('You need to supply at last one running validator for your parachain alongside this request.')} />
+            <MarkWarning content={t('You need to supply at last one running validator for your parachain alongside this request.')} />
           )}
           {isValDuplicate && (
-            <MarkWarning content={t<string>('You have duplicated validator entries, ensure each is unique.')} />
+            <MarkWarning content={t('You have duplicated validator entries, ensure each is unique.')} />
           )}
           <Button.Group>
             <Button
               icon='plus'
-              label={t<string>('Add validator')}
+              label={t('Add validator')}
               onClick={_addValidator}
             />
             <Button
               icon='minus'
               isDisabled={validators.length === 0}
-              label={t<string>('Remove validator')}
+              label={t('Remove validator')}
               onClick={_delValidator}
             />
           </Button.Group>

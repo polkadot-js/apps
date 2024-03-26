@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2024 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
@@ -7,13 +7,12 @@ import type { PalletTipsOpenTip } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { Table, Toggle } from '@polkadot/react-components';
+import { styled, Table, Toggle } from '@polkadot/react-components';
 import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import Tip from './Tip';
+import { useTranslation } from '../translate.js';
+import Tip from './Tip.js';
 
 interface Props {
   className?: string;
@@ -24,11 +23,11 @@ interface Props {
   onSelectTip: (hash: string, isSelected: boolean, value: BN) => void,
 }
 
-type Tip = [string, PalletTipsOpenTip | OpenTipTo225];
+type TipType = [string, PalletTipsOpenTip | OpenTipTo225];
 
 const TIP_OPTS = { withParams: true };
 
-function extractTips (tipsWithHashes?: [[string[]], Option<PalletTipsOpenTip>[]], inHashes?: string[] | null): Tip[] | undefined {
+function extractTips (tipsWithHashes?: [[string[]], Option<PalletTipsOpenTip>[]], inHashes?: string[] | null): TipType[] | undefined {
   if (!tipsWithHashes || !inHashes) {
     return undefined;
   }
@@ -61,7 +60,7 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectT
     [hashes, tipsWithHashes]
   );
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('tips'), 'start'],
     [t('finder'), 'address media--1400'],
     [t('reason'), 'start'],
@@ -73,13 +72,13 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectT
   ]);
 
   return (
-    <Table
+    <StyledTable
       className={className}
-      empty={tips && t<string>('No open tips')}
+      empty={tips && t('No open tips')}
       filter={isMember && (
         <div className='tipsFilter'>
           <Toggle
-            label={t<string>('show only untipped/closing')}
+            label={t('show only untipped/closing')}
             onChange={setOnlyUntipped}
             value={onlyUntipped}
           />
@@ -87,7 +86,7 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectT
       )}
       header={headerRef.current}
     >
-      {tips && tips.map(([hash, tip]): React.ReactNode => (
+      {tips?.map(([hash, tip]): React.ReactNode => (
         <Tip
           bestNumber={bestNumber}
           defaultId={defaultId}
@@ -100,11 +99,11 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectT
           tip={tip}
         />
       ))}
-    </Table>
+    </StyledTable>
   );
 }
 
-export default React.memo(styled(Tips)`
+const StyledTable = styled(Table)`
   .tipsFilter {
     text-align: right;
 
@@ -113,4 +112,6 @@ export default React.memo(styled(Tips)`
       margin-top: 0.75rem;
     }
   }
-`);
+`;
+
+export default React.memo(Tips);

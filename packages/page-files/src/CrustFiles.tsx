@@ -1,17 +1,18 @@
-// Copyright 2017-2022 @polkadot/app-files authors & contributors
+// Copyright 2017-2024 @polkadot/app-files authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ActionStatusBase } from '@polkadot/react-components/Status/types';
+import type { DirFile, FileInfo, SaveFile } from './types.js';
+
 import FileSaver from 'file-saver';
-import React, { useCallback, useContext, useRef, useState } from 'react';
-import styled from 'styled-components';
+import React, { useCallback, useRef, useState } from 'react';
 
-import { Badge, Button, CopyButton, Icon, StatusContext, Table } from '@polkadot/react-components';
-import { ActionStatusBase, QueueProps } from '@polkadot/react-components/Status/types';
+import { Badge, Button, CopyButton, Icon, styled, Table } from '@polkadot/react-components';
+import { useQueue } from '@polkadot/react-hooks';
 
-import { useFiles } from './hooks';
-import { useTranslation } from './translate';
-import { DirFile, FileInfo, SaveFile } from './types';
-import UploadModal from './UploadModal';
+import { useFiles } from './hooks.js';
+import { useTranslation } from './translate.js';
+import UploadModal from './UploadModal.js';
 
 const MCopyButton = styled(CopyButton)`
   .copySpan {
@@ -35,7 +36,7 @@ const ItemFile = styled.tr`
 
 const shortStr = (name: string, count = 6): string => {
   if (name.length > (count * 2)) {
-    return `${name.substr(0, count)}...${name.substr(name.length - count)}`;
+    return `${name.substring(0, count)}...${name.substring(name.length - count)}`;
   }
 
   return name;
@@ -62,7 +63,7 @@ export interface Props {
 
 function CrustFiles ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { queueAction } = useContext<QueueProps>(StatusContext);
+  const { queueAction } = useQueue();
   const [showUpMode, setShowUpMode] = useState(false);
   const wFiles = useFiles();
   const [file, setFile] = useState<FileInfo | undefined>(undefined);
@@ -122,9 +123,9 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       const dirFiles: DirFile[] = [];
 
-      for (let index = 0; index < files.length; index++) {
+      for (let i = 0, count = files.length; i < count; i++) {
         // console.info('f:', files[index]);
-        dirFiles.push(files[index] as DirFile);
+        dirFiles.push(files[i]);
       }
 
       console.info(dirFiles);
@@ -137,6 +138,7 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
 
     e.target.value = '';
   }, [setFile, setShowUpMode, queueAction, t]);
+
   const _onImportResult = useCallback<(m: string, s?: ActionStatusBase['status']) => void>(
     (message, status = 'queued') => {
       queueAction && queueAction({
@@ -179,7 +181,7 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
         }
 
         const fitter: SaveFile[] = [];
-        const mapImport: { [key: string]: boolean } = {};
+        const mapImport: Record<string, boolean> = {};
 
         for (const item of _list) {
           if (item.Hash && item.Name && item.UpEndpoint && item.PinEndpoint) {
@@ -193,7 +195,7 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
         wFiles.setFiles([...fitter, ...filterOld]);
         _onImportResult(t('Import Success'), 'success');
       };
-    } catch (e) {
+    } catch {
       _onImportResult(t('file content error'), 'error');
     }
   }, [wFiles, _onImportResult, t]);
@@ -212,10 +214,11 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
   const _export = useCallback(() => {
     const blob = new Blob([JSON.stringify(wFiles.files)], { type: 'application/json; charset=utf-8' });
 
+    // eslint-disable-next-line deprecation/deprecation
     FileSaver.saveAs(blob, 'files.json');
   }, [wFiles]);
 
-  return <main className={className}>
+  return <StyledMain className={className}>
     <header></header>
     <input
       onChange={_onInputFile}
@@ -267,8 +270,8 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
       />
     </div>
     <Table
-      empty={t<string>('No files')}
-      emptySpinner={t<string>('Loading')}
+      empty={t('No files')}
+      emptySpinner={t('Loading')}
       header={[
         [t('files'), 'start', 2],
         [t('file cid'), 'expand', 2],
@@ -303,7 +306,7 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
             <MCopyButton value={f.Hash}>
               <Badge
                 color='highlight'
-                hover={t<string>('Copy file cid')}
+                hover={t('Copy file cid')}
                 icon='copy'
               />
             </MCopyButton>
@@ -330,7 +333,7 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
               {!f.items && (
                 <Badge
                   color='highlight'
-                  hover={t<string>('Download')}
+                  hover={t('Download')}
                   icon='download'
                   onClick={createOnDown(f)}
                 />
@@ -338,7 +341,7 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
               <MCopyButton value={createUrl(f)}>
                 <Badge
                   color='highlight'
-                  hover={t<string>('Copy link')}
+                  hover={t('Copy link')}
                   icon='copy'
                 />
               </MCopyButton>
@@ -352,10 +355,10 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
     <div>
       {t('Note: The file list is cached locally, switching browsers or devices will not keep displaying the original browser information.')}
     </div>
-  </main>;
+  </StyledMain>;
 }
 
-export default React.memo(styled(CrustFiles)`
+const StyledMain = styled.main`
   h1 {
     text-transform: unset !important;
   }
@@ -395,4 +398,6 @@ export default React.memo(styled(CrustFiles)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(CrustFiles);

@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
@@ -9,9 +9,9 @@ import { useEffect, useState } from 'react';
 import { createWsEndpoints } from '@polkadot/apps-config';
 import { isNumber } from '@polkadot/util';
 
-import { createNamedHook } from './createNamedHook';
-import { useApi } from './useApi';
-import { useCall } from './useCall';
+import { createNamedHook } from './createNamedHook.js';
+import { useApi } from './useApi.js';
+import { useCall } from './useCall.js';
 
 interface Teleport {
   allowTeleport: boolean;
@@ -31,7 +31,7 @@ const DEFAULT_STATE: Teleport = {
   oneWay: []
 };
 
-const endpoints = createWsEndpoints((k: string, v?: string) => v || k).filter((v): v is ExtLinkOption => !!v.teleport);
+const endpoints = createWsEndpoints((k, v) => v?.toString() || k).filter((v): v is ExtLinkOption => !!v.teleport);
 
 function extractRelayDestinations (relayGenesis: string, filter: (l: ExtLinkOption) => boolean): ExtLinkOption[] {
   return endpoints
@@ -96,7 +96,7 @@ function useTeleportImpl (): Teleport {
     if (paraId) {
       const endpoint = endpoints.find(({ value }) => value === apiUrl);
 
-      if (endpoint && endpoint.genesisHashRelay) {
+      if (endpoint?.genesisHashRelay) {
         const destinations = extractRelayDestinations(endpoint.genesisHashRelay, ({ paraId }) =>
           endpoint.teleport.includes(isNumber(paraId) ? paraId : -1)
         );

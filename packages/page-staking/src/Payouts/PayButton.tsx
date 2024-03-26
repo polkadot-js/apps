@@ -1,18 +1,18 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { u32 } from '@polkadot/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
-import type { PayoutValidator } from './types';
+import type { PayoutValidator } from './types.js';
 
 import React, { useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
 
-import { ApiPromise } from '@polkadot/api';
-import { AddressMini, Button, InputAddress, Modal, Static, TxButton } from '@polkadot/react-components';
+import { AddressMini, Button, InputAddress, Modal, Static, styled, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle, useTxBatch } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
@@ -62,7 +62,7 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
   const [txs, setTxs] = useState<SubmittableExtrinsic<'promise'>[] | null>(null);
   const batchOpts = useMemo(
     () => ({
-      max: 36 * 64 / (api.consts.staking.maxNominatorRewardedPerValidator?.toNumber() || 64)
+      max: 36 * 64 / ((api.consts.staking.maxNominatorRewardedPerValidator as u32)?.toNumber() || 64)
     }),
     [api]
   );
@@ -79,16 +79,16 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
   return (
     <>
       {payout && isVisible && (
-        <Modal
+        <StyledModal
           className={className}
-          header={t<string>('Payout all stakers')}
+          header={t('Payout all stakers')}
           onClose={togglePayout}
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns hint={t<string>('Any account can request payout for stakers, this is not limited to accounts that will be rewarded.')}>
+            <Modal.Columns hint={t('Any account can request payout for stakers, this is not limited to accounts that will be rewarded.')}>
               <InputAddress
-                label={t<string>('request payout from')}
+                label={t('request payout from')}
                 onChange={setAccount}
                 type='account'
                 value={accountId}
@@ -97,15 +97,15 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
             <Modal.Columns
               hint={
                 <>
-                  <p>{t<string>('All the listed validators and all their nominators will receive their rewards.')}</p>
-                  <p>{t<string>('The UI puts a limit of 40 payouts at a time, where each payout is a single validator for a single era.')}</p>
+                  <p>{t('All the listed validators and all their nominators will receive their rewards.')}</p>
+                  <p>{t('The UI puts a limit of 40 payouts at a time, where each payout is a single validator for a single era.')}</p>
                 </>
               }
             >
               {Array.isArray(payout)
                 ? (
                   <Static
-                    label={t<string>('payout stakers for (multiple)')}
+                    label={t('payout stakers for (multiple)')}
                     value={
                       payout.map(({ validatorId }) => (
                         <AddressMini
@@ -121,7 +121,7 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
                   <InputAddress
                     defaultValue={payout.validatorId}
                     isDisabled
-                    label={t<string>('payout stakers for (single)')}
+                    label={t('payout stakers for (single)')}
                   />
                 )
               }
@@ -132,20 +132,20 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
               accountId={accountId}
               extrinsic={extrinsics}
               icon='credit-card'
-              isDisabled={!extrinsics || !extrinsics.length || !accountId}
-              label={t<string>('Payout')}
+              isDisabled={!extrinsics?.length || !accountId}
+              label={t('Payout')}
               onStart={togglePayout}
             />
           </Modal.Actions>
-        </Modal>
+        </StyledModal>
       )}
       <Button
         icon='credit-card'
         isDisabled={isDisabled || isPayoutEmpty}
         label={
           (isAll || Array.isArray(payout))
-            ? t<string>('Payout all')
-            : t<string>('Payout')
+            ? t('Payout all')
+            : t('Payout')
         }
         onClick={togglePayout}
       />
@@ -153,8 +153,9 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
   );
 }
 
-export default React.memo(styled(PayButton)`
+const StyledModal = styled(Modal)`
   .ui--AddressMini.padded.addressStatic {
+    display: inline-block;
     padding-top: 0.5rem;
 
     .ui--AddressMini-info {
@@ -162,4 +163,6 @@ export default React.memo(styled(PayButton)`
       max-width: 10rem;
     }
   }
-`);
+`;
+
+export default React.memo(PayButton);

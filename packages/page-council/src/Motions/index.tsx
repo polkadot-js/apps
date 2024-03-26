@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-council authors & contributors
+// Copyright 2017-2024 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
@@ -9,11 +9,11 @@ import React, { useRef } from 'react';
 import { Button, Table } from '@polkadot/react-components';
 import { useCollectiveMembers } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import Motion from './Motion';
-import ProposeExternal from './ProposeExternal';
-import ProposeMotion from './ProposeMotion';
-import Slashing from './Slashing';
+import { useTranslation } from '../translate.js';
+import Motion from './Motion.js';
+import ProposeExternal from './ProposeExternal.js';
+import ProposeMotion from './ProposeMotion.js';
+import Slashing from './Slashing.js';
 
 interface Props {
   className?: string;
@@ -25,7 +25,7 @@ function Proposals ({ className = '', motions, prime }: Props): React.ReactEleme
   const { t } = useTranslation();
   const { isMember, members } = useCollectiveMembers('council');
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('motions'), 'start', 2],
     [t('threshold')],
     [t('voting end')],
@@ -52,7 +52,7 @@ function Proposals ({ className = '', motions, prime }: Props): React.ReactEleme
         />
       </Button.Group>
       <Table
-        empty={motions && t<string>('No council motions')}
+        empty={motions && t('No council motions')}
         header={headerRef.current}
       >
         {motions?.map((motion: DeriveCollectiveProposal): React.ReactNode => (

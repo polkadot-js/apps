@@ -1,17 +1,16 @@
-// Copyright 2017-2022 @polkadot/app-storage authors & contributors
+// Copyright 2017-2024 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { QueryableStorageEntry } from '@polkadot/api/types';
-import type { RawParams } from '@polkadot/react-params/types';
+import type { RawParams, TypeDefExt } from '@polkadot/react-params/types';
 import type { StorageEntryTypeLatest } from '@polkadot/types/interfaces';
-import type { Inspect, Registry, TypeDef } from '@polkadot/types/types';
-import type { ComponentProps as Props } from '../types';
+import type { Inspect, Registry } from '@polkadot/types/types';
+import type { ComponentProps as Props } from '../types.js';
 
 import React, { useCallback, useMemo, useState } from 'react';
-import styled from 'styled-components';
 
-import { ApiPromise } from '@polkadot/api';
-import { Button, Columar, Input, InputStorage, Inspect as DecodeInspect, Output } from '@polkadot/react-components';
+import { Button, Columar, Input, InputStorage, Inspect as DecodeInspect, Output, styled } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';
 import { getTypeDef } from '@polkadot/types';
@@ -19,13 +18,9 @@ import { getSiName } from '@polkadot/types/metadata/util';
 import { TypeDefInfo } from '@polkadot/types/types';
 import { compactStripLength, isHex, isNull, isUndefined, u8aToHex } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
-interface TypeDefExt extends TypeDef {
-  withOptionActive?: boolean;
-}
-
-type ParamsType = { type: TypeDefExt }[];
+type ParamsType = { name?: string, type: TypeDefExt }[];
 
 interface KeyState {
   defaultValues: RawParams | undefined | null;
@@ -65,16 +60,18 @@ function expandParams (registry: Registry, st: StorageEntryTypeLatest, isIterabl
   }
 
   return types.map((str, index) => {
+    let name: string | undefined;
     let type: TypeDefExt;
 
     if (isIterable && index === (types.length - 1)) {
+      // name = 'entryKey';
       type = getTypeDef(`Option<${str}>`);
       type.withOptionActive = true;
     } else {
       type = getTypeDef(str);
     }
 
-    return { type };
+    return { name, type };
   });
 }
 
@@ -101,7 +98,7 @@ function expandKey (api: ApiPromise, key: QueryableStorageEntry<'promise'>): Key
   const isIterable = checkIterable(api.registry, type);
 
   return {
-    defaultValues: section === 'session' && type.isMap && api.consts.session && api.consts.session.dedupKeyPrefix
+    defaultValues: section === 'session' && type.isMap && api.consts.session?.dedupKeyPrefix
       ? [{ isValid: true, value: api.consts.session.dedupKeyPrefix.toHex() }]
       : null,
     isIterable,
@@ -210,15 +207,14 @@ function Modules ({ className = '', onAdd }: Props): React.ReactElement<Props> {
     [isIterable, isValid, values]
   );
 
-  const { creator: { meta, method, section } } = key;
+  const { creator: { method, section } } = key;
 
   return (
-    <section className={`${className} storage--actionrow`}>
+    <StyledSection className={`${className} storage--actionrow`}>
       <div className='storage--actionrow-value'>
         <InputStorage
           defaultValue={startValue}
-          help={meta && meta.docs.join(' ')}
-          label={t<string>('selected state query')}
+          label={t('selected state query')}
           onChange={_onChangeKey}
         />
         <Params
@@ -231,9 +227,9 @@ function Modules ({ className = '', onAdd }: Props): React.ReactElement<Props> {
         <Input
           isDisabled={!isValid || !isAtAllowed}
           isError={!!textHash && !blockHash}
-          label={t<string>('blockhash to query at')}
+          label={t('blockhash to query at')}
           onChange={_onChangeAt}
-          placeholder={t<string>('0x...')}
+          placeholder={t('0x...')}
         />
         <Columar
           className='keyColumar'
@@ -243,8 +239,8 @@ function Modules ({ className = '', onAdd }: Props): React.ReactElement<Props> {
             <Output
               isDisabled
               label={isPartialKey
-                ? t<string>('encoded partial key')
-                : t<string>('encoded storage key')
+                ? t('encoded partial key')
+                : t('encoded storage key')
               }
               value={hexKey}
               withCopy
@@ -253,7 +249,7 @@ function Modules ({ className = '', onAdd }: Props): React.ReactElement<Props> {
           <Columar.Column>
             <DecodeInspect
               inspect={inspect}
-              label={t<string>('encoded key details')}
+              label={t('encoded key details')}
             />
           </Columar.Column>
         </Columar>
@@ -265,11 +261,11 @@ function Modules ({ className = '', onAdd }: Props): React.ReactElement<Props> {
           onClick={_onAdd}
         />
       </div>
-    </section>
+    </StyledSection>
   );
 }
 
-export default React.memo(styled(Modules)`
+const StyledSection = styled.section`
   .ui--Column:last-child .ui--Labelled {
     padding-left: 0.5rem;
 
@@ -277,4 +273,6 @@ export default React.memo(styled(Modules)`
       left: 2.05rem; /* 3.55 - 1.5 (diff from padding above) */
     }
   }
-`);
+`;
+
+export default React.memo(Modules);

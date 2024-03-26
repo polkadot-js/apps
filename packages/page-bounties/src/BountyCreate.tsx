@@ -1,17 +1,17 @@
-// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2024 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { useBalance, useBounties } from '@polkadot/app-bounties/hooks';
 import { Button, Input, InputAddress, InputBalance, MarkError, Modal, TxButton } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import { calculateBountyBond, countUtf8Bytes } from './helpers';
-import { useTranslation } from './translate';
+import { calculateBountyBond, countUtf8Bytes } from './helpers/index.js';
+import { useBalance, useBounties } from './hooks/index.js';
+import { useTranslation } from './translate.js';
 
 const MIN_TITLE_LEN = 1;
 const TITLE_DEFAULT_VALUE = '';
@@ -55,62 +55,58 @@ function BountyCreate () {
       <Button
         icon='plus'
         isDisabled={false}
-        label={t<string>('Add Bounty')}
+        label={t('Add Bounty')}
         onClick={toggleIsOpen}
       />
       {isOpen && (
         <Modal
           className='ui--AddBountyModal'
-          header={t<string>('Add Bounty')}
+          header={t('Add Bounty')}
           onClose={toggleIsOpen}
         >
           <Modal.Content>
-            <Modal.Columns hint={t<string>('Description of the Bounty (to be stored on-chain)')}>
+            <Modal.Columns hint={t('Description of the Bounty (to be stored on-chain)')}>
               <Input
                 autoFocus
                 defaultValue={TITLE_DEFAULT_VALUE}
-                help={t<string>('The description of this bounty')}
                 isError={!isTitleValid}
-                label={t<string>('bounty title')}
+                label={t('bounty title')}
                 onChange={onTitleChange}
                 value={title}
               />
               {!isTitleValid && (title !== TITLE_DEFAULT_VALUE) && (
-                <MarkError content={t<string>('Title too long')} />
+                <MarkError content={t('Title too long')} />
               )}
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('How much should be paid out for completed Bounty. Upon funding, the amount will be reserved in treasury.')}>
+            <Modal.Columns hint={t('How much should be paid out for completed Bounty. Upon funding, the amount will be reserved in treasury.')}>
               <InputBalance
-                help={t<string>("The total payment amount of this bounty, curator's fee included.")}
                 isError={!isValueValid}
                 isZeroable
-                label={t<string>('bounty requested allocation')}
+                label={t('bounty requested allocation')}
                 onChange={setValue}
                 value={value}
               />
               {!isValueValid && !value?.eq(BOUNTY_DEFAULT_VALUE) && (
-                <MarkError content={t<string>('Allocation value is smaller than the minimum bounty value.')} />
+                <MarkError content={t('Allocation value is smaller than the minimum bounty value.')} />
               )}
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('Proposer bond depends on bounty title length.')}>
+            <Modal.Columns hint={t('Proposer bond depends on bounty title length.')}>
               <InputBalance
                 defaultValue={bond.toString()}
-                help={t<string>('This amount will be reserved from origin account and returned on approval or slashed upon rejection.')}
                 isDisabled
-                label={t<string>('bounty bond')}
+                label={t('bounty bond')}
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('This account will propose the bounty. Bond amount will be reserved on its balance.')}>
+            <Modal.Columns hint={t('This account will propose the bounty. Bond amount will be reserved on its balance.')}>
               <InputAddress
-                help={t<string>('Select the account you wish to propose the bounty from.')}
                 isError={!hasFunds}
-                label={t<string>('submit with account')}
+                label={t('submit with account')}
                 onChange={setAccountId}
                 type='account'
                 withLabel
               />
               {!hasFunds && (
-                <MarkError content={t<string>('Account does not have enough funds.')} />
+                <MarkError content={t('Account does not have enough funds.')} />
               )}
             </Modal.Columns>
           </Modal.Content>
@@ -119,7 +115,7 @@ function BountyCreate () {
               accountId={accountId}
               icon='plus'
               isDisabled={!accountId || !isValid}
-              label={t<string>('Add Bounty')}
+              label={t('Add Bounty')}
               onStart={toggleIsOpen}
               params={[value, title]}
               tx={proposeBounty}

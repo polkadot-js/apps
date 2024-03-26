@@ -1,25 +1,22 @@
-// Copyright 2017-2022 @polkadot/react-params authors & contributors
+// Copyright 2017-2024 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type React from 'react';
 import type { Registry, TypeDef } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
 
 // FIXME Ideally, we want these as Base from api-codec - as a stop-gap, any this until we have
 // params returning types extending Base (i.e. anything from api-codec)
-export type RawParamValue = unknown | undefined;
-
-export type RawParamValueArray = (RawParamValue | RawParamValue[])[];
-
-export type RawParamValues = RawParamValue | RawParamValueArray;
+export type RawParamValue = unknown;
 
 export interface RawParam {
   isValid: boolean;
-  value: RawParamValues;
+  value: RawParamValue;
 }
 
 export interface RawParamOnChangeValue {
   isValid: boolean;
-  value: RawParamValues;
+  value: RawParamValue;
 }
 
 export type RawParamOnChange = (value: RawParamOnChangeValue) => void;
@@ -44,7 +41,7 @@ export interface Props {
   // eslint-disable-next-line no-use-before-define
   overrides?: ComponentMap;
   registry: Registry;
-  type: TypeDef & { withOptionActive?: boolean };
+  type: TypeDefExt;
   withLabel?: boolean;
 }
 
@@ -65,4 +62,8 @@ export interface ExpandedCid {
     digest: HexString;
   };
   version: 0 | 1;
+}
+
+export interface TypeDefExt extends TypeDef {
+  withOptionActive?: boolean;
 }

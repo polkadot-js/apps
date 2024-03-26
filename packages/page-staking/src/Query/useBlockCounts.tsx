@@ -1,9 +1,9 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSessionIndexes } from '@polkadot/api-derive/types';
 import type { u32 } from '@polkadot/types';
-import type { SessionRewards } from '../types';
+import type { SessionRewards } from '../types.js';
 
 import { useEffect, useState } from 'react';
 
@@ -19,12 +19,13 @@ function useBlockCountsImpl (accountId: string, sessionRewards: SessionRewards[]
   const [historic, setHistoric] = useState<u32[]>([]);
 
   useEffect((): void => {
-    if (isFunction(api.query.imOnline?.authoredBlocks) && sessionRewards && sessionRewards.length) {
+    if (isFunction(api.query.imOnline?.authoredBlocks) && sessionRewards?.length) {
       const filtered = sessionRewards.filter(({ sessionIndex }): boolean => sessionIndex.gt(BN_ZERO));
 
       if (filtered.length) {
         Promise
           .all(filtered.map(({ parentHash, sessionIndex }): Promise<u32> =>
+            // eslint-disable-next-line deprecation/deprecation
             api.query.imOnline.authoredBlocks.at(parentHash, sessionIndex.sub(BN_ONE), accountId)
           ))
           .then((historic): void => {

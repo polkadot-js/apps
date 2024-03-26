@@ -1,16 +1,23 @@
-// Copyright 2017-2022 @polkadot/test-support authors & contributors
+// Copyright 2017-2024 @polkadot/test-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiPromise } from '@polkadot/api';
-import { DeriveBounty } from '@polkadot/api-derive/types';
-import { waitFor, WaitOptions } from '@polkadot/test-support/utils/waitFor';
+import type { ApiPromise } from '@polkadot/api';
+import type { DeriveBounty } from '@polkadot/api-derive/types';
+import type { WaitOptions } from '@polkadot/test-support/types';
+
+import { waitFor } from '@polkadot/test-support/utils';
 
 type bStatus = 'isFunded' | 'isActive';
 
 async function getBounty (api: ApiPromise, bountyIndex: number): Promise<DeriveBounty> {
   const bounties = await api.derive.bounties.bounties();
+  const bounty = bounties.find((bounty) => bounty.index.toNumber() === bountyIndex);
 
-  return bounties.find((bounty) => (bounty.index.toNumber() === bountyIndex)) as DeriveBounty;
+  if (!bounty) {
+    throw new Error('Unable to find bounty');
+  }
+
+  return bounty;
 }
 
 export async function waitForBountyState (api: ApiPromise, expectedState: bStatus, index: number, { interval = 500,

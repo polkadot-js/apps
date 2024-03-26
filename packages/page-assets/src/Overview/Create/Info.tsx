@@ -1,8 +1,8 @@
-// Copyright 2017-2022 @polkadot/app-assets authors & contributors
+// Copyright 2017-2024 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { InfoState } from './types';
+import type { InfoState } from './types.js';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
@@ -10,7 +10,7 @@ import { Input, InputAddress, InputBalance, InputNumber, Modal } from '@polkadot
 import { useApi } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../../translate.js';
 
 interface Props {
   assetIds: BN[];
@@ -26,11 +26,11 @@ function Info ({ assetIds, className = '', defaultValue, onChange, openId }: Pro
   const [initial] = useState(() => defaultValue);
   const [initialId] = useState(() => openId);
   const [accountId, setAccountId] = useState<string | null>(null);
-  const [assetId, setAssetId] = useState<BN | null>(null);
-  const [assetDecimals, setAssetDecimals] = useState<BN | null>(null);
+  const [assetId, setAssetId] = useState<BN | undefined>();
+  const [assetDecimals, setAssetDecimals] = useState<BN | undefined>();
   const [assetName, setAssetName] = useState<string | null | undefined>(() => defaultValue?.assetName);
   const [assetSymbol, setAssetSymbol] = useState<string | null | undefined>(() => defaultValue?.assetSymbol);
-  const [minBalance, setMinBalance] = useState<BN | null>(null);
+  const [minBalance, setMinBalance] = useState<BN | undefined>();
 
   const [siDecimals, siSymbol] = useMemo(
     () => assetDecimals && assetSymbol
@@ -69,55 +69,55 @@ function Info ({ assetIds, className = '', defaultValue, onChange, openId }: Pro
 
   return (
     <Modal.Content className={className}>
-      <Modal.Columns hint={t<string>('The account that is to be used to create this asset and setup the initial metadata.')}>
+      <Modal.Columns hint={t('The account that is to be used to create this asset and setup the initial metadata.')}>
         <InputAddress
           defaultValue={initial?.accountId}
-          label={t<string>('creator account')}
+          label={t('creator account')}
           onChange={setAccountId}
           type='account'
         />
       </Modal.Columns>
-      <Modal.Columns hint={t<string>('The descriptive name for this asset.')}>
+      <Modal.Columns hint={t('The descriptive name for this asset.')}>
         <Input
           autoFocus
           defaultValue={initial?.assetName}
           isError={!isValidName}
-          label={t<string>('asset name')}
+          label={t('asset name')}
           onChange={setAssetName}
         />
       </Modal.Columns>
-      <Modal.Columns hint={t<string>('The symbol that will represent this asset.')}>
+      <Modal.Columns hint={t('The symbol that will represent this asset.')}>
         <Input
           defaultValue={initial?.assetSymbol}
           isError={!isValidSymbol}
-          label={t<string>('asset symbol')}
+          label={t('asset symbol')}
           onChange={setAssetSymbol}
         />
       </Modal.Columns>
-      <Modal.Columns hint={t<string>('The number of decimals for this token. Max allowed via the UI is set to 20.')}>
+      <Modal.Columns hint={t('The number of decimals for this token. Max allowed via the UI is set to 20.')}>
         <InputNumber
           defaultValue={initial?.assetDecimals}
           isError={!isValidDecimals}
-          label={t<string>('asset decimals')}
+          label={t('asset decimals')}
           onChange={setAssetDecimals}
         />
       </Modal.Columns>
-      <Modal.Columns hint={t<string>('The minimum balance for the asset. This is specified in the units and decimals as requested.')}>
+      <Modal.Columns hint={t('The minimum balance for the asset. This is specified in the units and decimals as requested.')}>
         <InputBalance
           defaultValue={initial?.minBalance}
           isZeroable={false}
-          label={t<string>('minimum balance')}
+          label={t('minimum balance')}
           onChange={setMinBalance}
           siDecimals={siDecimals}
           siSymbol={siSymbol}
         />
       </Modal.Columns>
-      <Modal.Columns hint={t<string>('The selected id for the asset. This should not match an already-existing asset id.')}>
+      <Modal.Columns hint={t('The selected id for the asset. This should not match an already-existing asset id.')}>
         <InputNumber
           defaultValue={initial?.assetId || initialId}
           isError={!isValidId}
           isZeroable={false}
-          label={t<string>('asset id')}
+          label={t('asset id')}
           onChange={setAssetId}
         />
       </Modal.Columns>

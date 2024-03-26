@@ -1,8 +1,9 @@
-// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2024 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import type { AccountId, BountyIndex } from '@polkadot/types/interfaces';
+import type { ValidUnassignCuratorAction } from '../types.js';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
@@ -11,10 +12,9 @@ import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useCollectiveInstance, useCollectiveMembers } from '@polkadot/react-hooks';
 import { BN } from '@polkadot/util';
 
-import { truncateTitle } from '../helpers';
-import { useBounties } from '../hooks';
-import { useTranslation } from '../translate';
-import { ValidUnassignCuratorAction } from '../types';
+import { truncateTitle } from '../helpers/index.js';
+import { useBounties } from '../hooks/index.js';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   action: ValidUnassignCuratorAction;
@@ -27,7 +27,6 @@ interface Props {
 interface ActionProperties {
   filter: string[];
   header: string;
-  helpMessage: string;
   params: unknown[] | (() => unknown[]) | undefined;
   proposingAccountTip: string;
   tip: string;
@@ -57,7 +56,6 @@ function SlashCurator ({ action, curatorId, description, index, toggleOpen }: Pr
     SlashCuratorAction: {
       filter: allAccounts,
       header: t('This action will Slash the Curator.'),
-      helpMessage: t('The Curator that will be slashed.'),
       params: [index],
       proposingAccountTip: t('The account that will create the transaction.'),
       tip: t("Curator's deposit will be slashed and curator will be unassigned. Bounty will return to the Funded state."),
@@ -67,7 +65,6 @@ function SlashCurator ({ action, curatorId, description, index, toggleOpen }: Pr
     SlashCuratorMotion: {
       filter: members,
       header: t('This action will create a Council motion to slash the Curator.'),
-      helpMessage: t('The Curator that will be slashed.'),
       params: [threshold, unassignCuratorProposal, unassignCuratorProposal?.length],
       proposingAccountTip: t('The council member that will create the motion, submission equates to an "aye" vote.'),
       tip: t("If the motion is approved, Curator's deposit will be slashed and Curator will be unassigned. Bounty will return to the Funded state."),
@@ -77,7 +74,6 @@ function SlashCurator ({ action, curatorId, description, index, toggleOpen }: Pr
     UnassignCurator: {
       filter: members,
       header: t('This action will create a Council motion to unassign the Curator.'),
-      helpMessage: t('The Curator that will be unassigned'),
       params: [threshold, unassignCuratorProposal, unassignCuratorProposal?.length],
       proposingAccountTip: t('The council member that will create the motion, submission equates to an "aye" vote.'),
       tip: t('If the motion is approved, the current Curator will be unassigned and the Bounty will return to the Funded state.'),
@@ -86,7 +82,7 @@ function SlashCurator ({ action, curatorId, description, index, toggleOpen }: Pr
     }
   }), [t, index, unassignCurator, api, allAccounts, councilMod, members, threshold, unassignCuratorProposal]);
 
-  const { filter, helpMessage, params, proposingAccountTip, tip, title, tx } = actionProperties[action];
+  const { filter, params, proposingAccountTip, tip, title, tx } = actionProperties[action];
 
   if (!tx) {
     return null;
@@ -102,8 +98,7 @@ function SlashCurator ({ action, curatorId, description, index, toggleOpen }: Pr
         <Modal.Columns hint={proposingAccountTip}>
           <InputAddress
             filter={filter}
-            help={t<string>('The account that will sign the transaction.')}
-            label={t<string>('proposing account')}
+            label={t('proposing account')}
             onChange={setAccountId}
             type='account'
             withLabel
@@ -112,9 +107,8 @@ function SlashCurator ({ action, curatorId, description, index, toggleOpen }: Pr
         <Modal.Columns hint={tip}>
           <InputAddress
             defaultValue={curatorId}
-            help={helpMessage}
             isDisabled
-            label={t<string>('current curator')}
+            label={t('current curator')}
             withLabel
           />
         </Modal.Columns>

@@ -1,14 +1,12 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
-
-import type { TFunction } from 'i18next';
 
 interface Option {
   text: string;
   value: string;
 }
 
-export function createDestPrev (t: TFunction): Option[] {
+export function createDestPrev (t: (key: string, options?: { replace: Record<string, unknown> }) => string): Option[] {
   return [
     { text: t('Stash account (increase the amount at stake)'), value: 'Staked' },
     { text: t('Stash account (do not increase the amount at stake)'), value: 'Stash' },
@@ -16,6 +14,6 @@ export function createDestPrev (t: TFunction): Option[] {
   ];
 }
 
-export function createDestCurr (t: TFunction): Option[] {
+export function createDestCurr (t: (key: string, options?: { replace: Record<string, unknown> }) => string): Option[] {
   return createDestPrev(t).concat({ text: t('Specified payment account'), value: 'Account' });
 }

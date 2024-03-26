@@ -1,29 +1,28 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveHasIdentity, DeriveStakingOverview } from '@polkadot/api-derive/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
 import type { u32 } from '@polkadot/types-codec';
 import type { BN } from '@polkadot/util';
-import type { NominatedByMap, SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
+import type { NominatedByMap, SortedTargets, TargetSortBy, ValidatorInfo } from '../types.js';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button, Icon, Table, Toggle } from '@polkadot/react-components';
+import Legend from '@polkadot/app-staking2/Legend';
+import { Button, Icon, styled, Table, Toggle } from '@polkadot/react-components';
 import { useApi, useAvailableSlashes, useBlocksPerDays, useSavedFlags } from '@polkadot/react-hooks';
 import { BN_HUNDRED } from '@polkadot/util';
 
-import { MAX_NOMINATIONS } from '../constants';
-import ElectionBanner from '../ElectionBanner';
-import Filtering from '../Filtering';
-import Legend from '../Legend';
-import { useTranslation } from '../translate';
-import useIdentities from '../useIdentities';
-import Nominate from './Nominate';
-import Summary from './Summary';
-import useOwnNominators from './useOwnNominators';
-import Validator from './Validator';
+import { MAX_NOMINATIONS } from '../constants.js';
+import ElectionBanner from '../ElectionBanner.js';
+import Filtering from '../Filtering.js';
+import { useTranslation } from '../translate.js';
+import useIdentities from '../useIdentities.js';
+import Nominate from './Nominate.js';
+import Summary from './Summary.js';
+import useOwnNominators from './useOwnNominators.js';
+import Validator from './Validator.js';
 
 interface Props {
   className?: string;
@@ -208,10 +207,10 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
   const [sorted, setSorted] = useState<ValidatorInfo[] | undefined>();
 
   const labelsRef = useRef({
-    rankBondOther: t<string>('other stake'),
-    rankBondOwn: t<string>('own stake'),
-    rankBondTotal: t<string>('total stake'),
-    rankOverall: t<string>('return')
+    rankBondOther: t('other stake'),
+    rankBondOwn: t('own stake'),
+    rankBondTotal: t('total stake'),
+    rankOverall: t('return')
   });
 
   const flags = useMemo(
@@ -220,7 +219,7 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
       daysPayout,
       isBabe: !!api.consts.babe,
       isQueryFiltered,
-      maxPaid: api.consts.staking?.maxNominatorRewardedPerValidator
+      maxPaid: api.consts.staking?.maxNominatorRewardedPerValidator as u32
     }),
     [api, daysPayout, isQueryFiltered, toggles]
   );
@@ -288,12 +287,14 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
     []
   );
 
-  const header = useMemo(() => [
-    [t('validators'), 'start', 3],
+  // False positive, this is part of the type...
+  // eslint-disable-next-line func-call-spacing
+  const header = useMemo<[React.ReactNode?, string?, number?, (() => void)?][]>(() => [
+    [t('validators'), 'start', 4],
     [t('payout'), 'media--1400'],
     [t('nominators'), 'media--1200', 2],
     [t('comm.'), 'media--1100'],
-    ...(SORT_KEYS as (keyof typeof labelsRef.current)[]).map((header) => [
+    ...(SORT_KEYS as (keyof typeof labelsRef.current)[]).map((header): [React.ReactNode?, string?, number?, (() => void)?] => [
       <>{labelsRef.current[header]}<Icon icon={sortBy === header ? (sortFromMax ? 'chevron-down' : 'chevron-up') : 'minus'} /></>,
       `${sorted ? `isClickable ${sortBy === header ? 'highlight--border' : ''} number` : 'number'} ${CLASSES[header] || ''}`,
       1,
@@ -313,7 +314,7 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
       >
         <Toggle
           className='staking--buttonToggle'
-          label={t<string>('one validator per operator')}
+          label={t('one validator per operator')}
           onChange={setToggle.withGroup}
           value={toggles.withGroup}
         />
@@ -321,8 +322,8 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
           className='staking--buttonToggle'
           label={
             MAX_COMM_PERCENT > 0
-              ? t<string>('comm. <= {{maxComm}}%', { replace: { maxComm: MAX_COMM_PERCENT } })
-              : t<string>('comm. <= median')
+              ? t('comm. <= {{maxComm}}%', { replace: { maxComm: MAX_COMM_PERCENT } })
+              : t('comm. <= median')
           }
           onChange={setToggle.withoutComm}
           value={toggles.withoutComm}
@@ -331,8 +332,8 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
           className='staking--buttonToggle'
           label={
             MAX_CAP_PERCENT < 100
-              ? t<string>('capacity < {{maxCap}}%', { replace: { maxCap: MAX_CAP_PERCENT } })
-              : t<string>('with capacity')
+              ? t('capacity < {{maxCap}}%', { replace: { maxCap: MAX_CAP_PERCENT } })
+              : t('with capacity')
           }
           onChange={setToggle.withoutOver}
           value={toggles.withoutOver}
@@ -341,14 +342,14 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
           // FIXME have some sane era defaults for Aura
           <Toggle
             className='staking--buttonToggle'
-            label={t<string>('recent payouts')}
+            label={t('recent payouts')}
             onChange={setToggle.withPayout}
             value={toggles.withPayout}
           />
         )}
         <Toggle
           className='staking--buttonToggle'
-          label={t<string>('currently elected')}
+          label={t('currently elected')}
           onChange={setToggle.withElected}
           value={toggles.withElected}
         />
@@ -362,7 +363,7 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
   const canSelect = selected.length < maxNominations;
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <Summary
         avgStaked={avgStaked}
         lastEra={lastEra}
@@ -379,7 +380,7 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
         <Button
           icon='check'
           isDisabled={!validators?.length || !ownNominators?.length}
-          label={t<string>('Most profitable')}
+          label={t('Most profitable')}
           onClick={_selectProfitable}
         />
         <Nominate
@@ -390,7 +391,7 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
       </Button.Group>
       <ElectionBanner isInElection={isInElection} />
       <Table
-        empty={sorted && t<string>('No active validators to check')}
+        empty={sorted && t('No active validators to check')}
         emptySpinner={
           <>
             {!(validators && allIdentity) && <div>{t('Retrieving validators')}</div>}
@@ -402,7 +403,7 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
         header={header}
         legend={<Legend />}
       >
-        {displayList && displayList.map((info): React.ReactNode =>
+        {displayList?.map((info): React.ReactNode =>
           <Validator
             allSlashes={allSlashes}
             canSelect={canSelect}
@@ -417,11 +418,11 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
           />
         )}
       </Table>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Targets)`
+const StyledDiv = styled.div`
   text-align: center;
 
   th.isClickable {
@@ -433,4 +434,6 @@ export default React.memo(styled(Targets)`
   .ui--Table {
     overflow-x: auto;
   }
-`);
+`;
+
+export default React.memo(Targets);

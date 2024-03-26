@@ -1,32 +1,32 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2024 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ExternalDef } from './types';
+import type { ExternalDef } from './types.js';
 
-import Commonwealth from './commonwealth';
-import Dotreasury from './dotreasury';
-import DotScanner from './dotscanner';
-import KodaDot from './kodadot';
-import Polkaholic from './polkaholic';
-import Polkascan from './polkascan';
-import { PolkassemblyIo, PolkassemblyNetwork } from './polkassembly';
-import Polkastats from './polkastats';
-import Singular from './singular';
-import Statescan from './statescan';
-import SubId from './subid';
-import Subscan from './subscan';
-import Subsquare from './subsquare';
+import { CereStats } from './cerestats.js';
+import { Commonwealth } from './commonwealth.js';
+import { Dotreasury } from './dotreasury.js';
+import { Edgscan } from './edgscan.js';
+import { KodaDot } from './kodadot.js';
+import { MoonbeamApps } from './moonbeamApps.js';
+import { Polkascan } from './polkascan.js';
+import { PolkassemblyIo, PolkassemblyNetwork } from './polkassembly.js';
+import { Singular } from './singular.js';
+import { Statescan } from './statescan.js';
+import { SubId } from './subid.js';
+import { Subscan } from './subscan.js';
+import { Subsquare } from './subsquare.js';
 
 export const externalLinks: Record<string, ExternalDef> = {
+  CereStats,
   Commonwealth,
-  DotScanner,
   Dotreasury,
+  Edgscan,
   KodaDot,
-  Polkaholic,
+  MoonbeamApps,
   Polkascan,
   PolkassemblyIo,
   PolkassemblyNetwork,
-  Polkastats,
   'Singular (NFTs)': Singular,
   Statescan,
   SubId,

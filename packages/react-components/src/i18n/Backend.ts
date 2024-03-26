@@ -1,7 +1,7 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import languageCache from './cache';
+import languageCache from './cache.js';
 
 type Callback = (error: string | null, data: any) => void;
 
@@ -10,9 +10,9 @@ type LoadResult = [string | null, Record<string, string> | boolean];
 const loaders: Record<string, Promise<LoadResult>> = {};
 
 export default class Backend {
-  type = <const> 'backend';
+  type = 'backend' as const;
 
-  static type = <const> 'backend';
+  static type = 'backend' as const;
 
   async read (lng: string, _namespace: string, responder: Callback): Promise<void> {
     if (languageCache[lng]) {

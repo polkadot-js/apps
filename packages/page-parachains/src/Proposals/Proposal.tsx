@@ -1,19 +1,19 @@
-// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2024 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParaId } from '@polkadot/types/interfaces';
-import type { ScheduledProposals } from '../types';
+import type { ScheduledProposals } from '../types.js';
 
 import React, { useCallback, useMemo } from 'react';
 
-import { AddressMini, AddressSmall, Badge, Expander, ParaLink, TxButton } from '@polkadot/react-components';
+import { AddressMini, AddressSmall, Badge, Expander, ParaLink, Table, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useSudo } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import { sliceHex } from '../util';
-import useProposal from './useProposal';
+import { useTranslation } from '../translate.js';
+import { sliceHex } from '../util.js';
+import useProposal from './useProposal.js';
 
 interface Props {
   approvedIds: ParaId[];
@@ -38,7 +38,7 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
   );
 
   const approveTx = useMemo(
-    () => api.tx.sudo && api.tx.sudo.sudo(api.tx.proposeParachain.approveProposal(id)),
+    () => api.tx.sudo?.sudo(api.tx.proposeParachain.approveProposal(id)),
     [api, id]
   );
 
@@ -59,7 +59,7 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
 
   return (
     <tr>
-      <td className='number together'><h1>{formatNumber(id)}</h1></td>
+      <Table.Column.Id value={id} />
       <td className='badge together'>
         {(proposal.isApproved || proposal.isScheduled) && (
           <Badge
@@ -74,7 +74,7 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
         {proposal.proposal?.validators && (
           <Expander
             renderChildren={renderVals}
-            summary={t<string>('Validators ({{count}})', { replace: { count: formatNumber(proposal.proposal?.validators.length) } })}
+            summary={t('Validators ({{count}})', { replace: { count: formatNumber(proposal.proposal?.validators.length) } })}
           />
         )}
       </td>
@@ -90,7 +90,7 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
               extrinsic={approveTx}
               icon='check'
               isDisabled={!hasSudoKey}
-              label={t<string>('Approve')}
+              label={t('Approve')}
             />
             <TxButton
               accountId={hasSudoKey ? sudoKey : proposal.proposal?.proposer}
@@ -98,7 +98,7 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
               extrinsic={cancelTx}
               icon='ban'
               isDisabled={!hasSudoKey || !proposal.proposal}
-              label={t<string>('Cancel')}
+              label={t('Cancel')}
             />
           </>
         )}

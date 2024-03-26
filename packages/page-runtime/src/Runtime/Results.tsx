@@ -1,7 +1,7 @@
-// Copyright 2017-2022 @polkadot/app-runtime authors & contributors
+// Copyright 2017-2024 @polkadot/app-runtime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Result } from './types';
+import type { Result } from './types.js';
 
 import React from 'react';
 
@@ -16,6 +16,9 @@ function Results ({ results }: Props): React.ReactElement<Props> | null {
   if (!results.length) {
     return null;
   }
+
+  // DEEBUG
+  // console.error(results[results.length - 1].result?.toHex());
 
   return (
     <section className='runtime--Results'>

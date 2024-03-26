@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableResult } from '@polkadot/api';
@@ -16,11 +16,11 @@ export interface ActionStatusBase {
 }
 
 export interface ActionStatusPartial extends ActionStatusBase {
-  action: Actions | string;
+  action: string;
 }
 
 export interface ActionStatus extends ActionStatusBase {
-  action: Actions | string | string[];
+  action: string | string[];
 }
 
 export interface AccountInfo {

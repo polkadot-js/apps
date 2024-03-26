@@ -1,11 +1,11 @@
-// Copyright 2017-2022 @polkadot/app-tech-comm authors & contributors
+// Copyright 2017-2024 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useRef } from 'react';
 
 import { AddressSmall, Table, Tag } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
@@ -16,15 +16,16 @@ interface Props {
 function Members ({ className = '', members, prime }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const headerRef = useRef([
+  const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
     [t('members'), 'start', 3]
   ]);
 
   return (
     <Table
       className={className}
-      empty={members && t<string>('No members found')}
+      empty={members && t('No members found')}
       header={headerRef.current}
+      isSplit
     >
       {members?.map((accountId): React.ReactNode => (
         <tr key={accountId}>
@@ -35,8 +36,8 @@ function Members ({ className = '', members, prime }: Props): React.ReactElement
             {prime === accountId && (
               <Tag
                 color='green'
-                hover={t<string>('Committee prime member, default voting')}
-                label={t<string>('prime member')}
+                hover={t('Committee prime member, default voting')}
+                label={t('prime member')}
               />
             )}
           </td>

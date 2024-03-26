@@ -1,41 +1,44 @@
-// Copyright 2017-2022 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2024 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { KeyedEvent } from '@polkadot/react-query/types';
+import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
 import type { BlockNumber, Extrinsic } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
 
 import { Table } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import ExtrinsicDisplay from './Extrinsic';
+import { useTranslation } from '../translate.js';
+import ExtrinsicDisplay from './Extrinsic.js';
 
 interface Props {
   blockNumber?: BlockNumber;
   className?: string;
   events?: KeyedEvent[] | null;
   label?: React.ReactNode;
+  maxBlockWeight?: BN;
   value?: Extrinsic[] | null;
   withLink: boolean;
 }
 
-function Extrinsics ({ blockNumber, className = '', events, label, value, withLink }: Props): React.ReactElement<Props> {
+function Extrinsics ({ blockNumber, className = '', events, label, maxBlockWeight, value, withLink }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
 
-  const header = useMemo(() => [
-    [label || t<string>('extrinsics'), 'start', 2],
-    [t('events'), 'start media--1000', 2],
-    [t('weight'), 'media--1400'],
-    [undefined, 'address media--1200']
-  ], [label, t]);
+  const header = useMemo<[React.ReactNode?, string?, number?][]>(
+    () => [
+      [label || t('extrinsics'), 'start', 2],
+      [t('events'), 'start media--1000', 2],
+      [t('weight'), 'media--1400'],
+      [undefined, 'address media--1200']
+    ],
+    [label, t]
+  );
 
   return (
     <Table
       className={className}
-      empty={t<string>('No extrinsics available')}
+      empty={t('No extrinsics available')}
       header={header}
       isFixed
     >
@@ -45,7 +48,7 @@ function Extrinsics ({ blockNumber, className = '', events, label, value, withLi
           events={events}
           index={index}
           key={`extrinsic:${index}`}
-          maxBlockWeight={api.consts.system.blockWeights?.maxBlock}
+          maxBlockWeight={maxBlockWeight}
           value={extrinsic}
           withLink={withLink}
         />

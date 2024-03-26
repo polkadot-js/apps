@@ -1,0 +1,8 @@
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
+// SPDX-License-Identifier: Apache-2.0
+
+// Automatically generated, do not edit
+
+/* eslint-disable simple-import-sort/imports */
+
+export default 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAMAAABrrFhUAAABa1BMVEUAAABvw/nus8Hzsr72sbz5sLz6sLv5sbz4sb3zsr+7v9fxsr/2sb35sLz6sLv8sLr9r7r+r7n+r7n/r7n+r7r9r7r3sb3xs7+vwt/ktsfzsr/3sbz6sLv8sLr+r7r/r7n/r7n8sLr6sLvSutDysr/4sbz7sLv9sLr+r7nts8L3sb37sLv9sLr+r7nwsr/3sbz7sLv+r7rxs8D4sbz8sLryuMT4sbz8sLr4sbzyuMT1rr75sLz8sLv8sLv1sb/+r7r+r7n+r7n/r7n/r7n/r7n/r7n/r7n/r7n/r7n/r7n/r7n/r7n/r7n/rrj+tL39v8b8w8r9vMT/sbv35Ob18PH08vP17+/43eH9u8P17u/09fX09PT25uj9ucH/rrn+s7z34uX51Nn17/D25ef8v8f08fL26er+tL717O309fT34eT/sLr42Nz08/P7ytD+uMD51tv+srz+tr/6z9X25+n33+L7yM//srv/r7mM8Ng4AAAAeXRSTlMAAQ4lP18hXj0kARQ5aZnE4vP4S/LhORMBBiZfnc/w//rOnAMkZazh/A9Mnt79GWS99RtvzRNp0GsUAVLCxAEEtAQFtEr7WhIW/uDS0/////////////////////////////////////////////////////////+zSFwvUAAAAjdJREFUeAHs0IMBAgAQAMDPtm3vP1+YIdfdCBcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB8g0Qylc5k4wGyuXwhmYhvUiyVK9VavdFsxQO0mu1OrVrp9vrxFQbD0Xgynd3MHxMwn91MF8vRcBAfbrXebHf72dXDA672u+1mvYrPdTieLszQVQHDUBTAUCn5fMxjBv+ahq2C0o2DHB/oGx/gU/DOGqH7MeUCTAsAlJyiwP3aVhrmAAC9alXY/nqzDTAXAITtbi9o/3A8aZgTAPT5eBEDcL3B3ABwu4sBeDyXAHg+3u3X1bHDMBCF4VK2mDCsKSyZwugwdX/J7iDSnfXM+d9F35MWAAAAgIwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUDWxe7W8ALV6o/lxjXqttACtdqf7cZ12qzwA9pMPwMxkLWYWDsCO6/mBJQIOfM91WDSA1+sPhqOxFQEej4aDfs8TDMDeRGmtVRjFZLw4Cv82n3gsFiBJlf5NTclC02LzNJEKwP5M/6XmCRkvmecAeuazVIDFsgBYrcl461UBsFyIBYg22xxgF5Dxgl0OsN1EUgFof8jvmB2ZjMfHLNc97EkqQHzabZVS2flCFrqcM6XUdneKxQIQX2/p/fF8kZVez8c9vV1Z9FeYg2TPZCneJwFjGAIAAAAAAAAAAAAAAAAAACAgAAAAAAAAAADe1Pr36G0E4Bvb0VhHqwOGMQAAAABJRU5ErkJggg==';

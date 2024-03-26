@@ -1,14 +1,14 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SessionInfo } from '../partials/types';
+import type { SessionInfo } from '../partials/types.js';
 
 import React, { useState } from 'react';
 
 import { Modal, TxButton } from '@polkadot/react-components';
 
-import { useTranslation } from '../../translate';
-import SessionKeyPartital from '../partials/SessionKey';
+import { useTranslation } from '../../translate.js';
+import SessionKeyPartital from '../partials/SessionKey.js';
 
 interface Props {
   controllerId: string;
@@ -22,7 +22,7 @@ function SetSessionKey ({ controllerId, onClose, stashId }: Props): React.ReactE
 
   return (
     <Modal
-      header={t<string>('Set Session Key')}
+      header={t('Set Session Key')}
       onClose={onClose}
       size='large'
     >
@@ -41,7 +41,7 @@ function SetSessionKey ({ controllerId, onClose, stashId }: Props): React.ReactE
           extrinsic={sessionTx}
           icon='sign-in-alt'
           isDisabled={!sessionTx}
-          label={t<string>('Set Session Key')}
+          label={t('Set Session Key')}
           onStart={onClose}
         />
       </Modal.Actions>

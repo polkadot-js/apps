@@ -1,10 +1,11 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import '@polkadot/api-augment';
 
+import type { OwnPool } from '@polkadot/app-staking2/Pools/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
-import type { OwnPool, SortedTargets } from '../types';
+import type { SortedTargets } from '../types.js';
 
 import React, { useMemo, useRef, useState } from 'react';
 
@@ -13,13 +14,13 @@ import { useApi, useAvailableSlashes } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN, BN_ZERO } from '@polkadot/util';
 
-import ElectionBanner from '../ElectionBanner';
-import { useTranslation } from '../translate';
-import Accounts from './Accounts';
-import NewNominator from './NewNominator';
-import NewStash from './NewStash';
-import NewValidator from './NewValidator';
-import Pools from './Pools';
+import ElectionBanner from '../ElectionBanner.js';
+import { useTranslation } from '../translate.js';
+import Accounts from './Accounts.js';
+import NewNominator from './NewNominator.js';
+import NewStash from './NewStash.js';
+import NewValidator from './NewValidator.js';
+import Pools from './Pools.js';
 
 interface Props {
   className?: string;
@@ -63,7 +64,7 @@ function extractState (ownStashes?: StakerState[]): State {
   const bondedTotal = new BN(0);
 
   ownStashes.forEach(({ isStashNominating, isStashValidating, stakingLedger }): void => {
-    const value = stakingLedger && stakingLedger.total
+    const value = stakingLedger?.total
       ? stakingLedger.total.unwrap()
       : BN_ZERO;
 
@@ -122,8 +123,8 @@ function Actions ({ className = '', isInElection, minCommission, ownPools, ownSt
   const [stashTypeIndex, setStashTypeIndex] = useState(0);
 
   const accTypes = useRef([
-    { text: t<string>('Stashed'), value: 'stash' },
-    { text: t<string>('Pooled'), value: 'pool' }
+    { text: t('Stashed'), value: 'stash' },
+    { text: t('Pooled'), value: 'pool' }
   ]);
 
   const stashTypes = useRef([

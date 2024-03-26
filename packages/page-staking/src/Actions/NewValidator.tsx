@@ -1,9 +1,9 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { SortedTargets } from '../types';
-import type { BondInfo, SessionInfo, ValidateInfo } from './partials/types';
+import type { SortedTargets } from '../types.js';
+import type { BondInfo, SessionInfo, ValidateInfo } from './partials/types.js';
 
 import React, { useCallback, useState } from 'react';
 
@@ -11,10 +11,10 @@ import { BatchWarning, Button, Modal, TxButton } from '@polkadot/react-component
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import BondPartial from './partials/Bond';
-import SessionKeyPartial from './partials/SessionKey';
-import ValidatePartial from './partials/Validate';
+import { useTranslation } from '../translate.js';
+import BondPartial from './partials/Bond.js';
+import SessionKeyPartial from './partials/SessionKey.js';
+import ValidatePartial from './partials/Validate.js';
 
 interface Props {
   isInElection?: boolean;
@@ -28,7 +28,7 @@ function NewValidator ({ isInElection, minCommission, targets }: Props): React.R
   const { t } = useTranslation();
   const { api } = useApi();
   const [isVisible, toggleVisible] = useToggle();
-  const [{ bondOwnTx, bondTx, controllerId, controllerTx, stashId }, setBondInfo] = useState<BondInfo>({});
+  const [{ bondTx, controllerId, controllerTx, stashId }, setBondInfo] = useState<BondInfo>({});
   const [{ sessionTx }, setSessionInfo] = useState<SessionInfo>({});
   const [{ validateTx }, setValidateInfo] = useState<ValidateInfo>({});
   const [step, setStep] = useState(1);
@@ -61,12 +61,12 @@ function NewValidator ({ isInElection, minCommission, targets }: Props): React.R
         icon='plus'
         isDisabled={isDisabled}
         key='new-validator'
-        label={t<string>('Validator')}
+        label={t('Validator')}
         onClick={_toggle}
       />
       {isVisible && (
         <Modal
-          header={t<string>('Setup Validator {{step}}/{{NUM_STEPS}}', {
+          header={t('Setup Validator {{step}}/{{NUM_STEPS}}', {
             replace: {
               NUM_STEPS,
               step
@@ -106,7 +106,7 @@ function NewValidator ({ isInElection, minCommission, targets }: Props): React.R
             <Button
               icon='step-backward'
               isDisabled={step === 1}
-              label={t<string>('prev')}
+              label={t('prev')}
               onClick={_prevStep}
             />
             {step === NUM_STEPS
@@ -115,12 +115,12 @@ function NewValidator ({ isInElection, minCommission, targets }: Props): React.R
                   accountId={stashId}
                   icon='sign-in-alt'
                   isDisabled={!bondTx || !sessionTx || !validateTx}
-                  label={t<string>('Bond & Validate')}
+                  label={t('Bond & Validate')}
                   onStart={_toggle}
                   params={[
                     controllerId === stashId
                       ? [bondTx, sessionTx, validateTx]
-                      : [bondOwnTx, sessionTx, validateTx, controllerTx]
+                      : [bondTx, sessionTx, validateTx, controllerTx]
                   ]}
                   tx={api.tx.utility.batchAll || api.tx.utility.batch}
                 />
@@ -129,7 +129,7 @@ function NewValidator ({ isInElection, minCommission, targets }: Props): React.R
                 <Button
                   icon='step-forward'
                   isDisabled={!bondTx}
-                  label={t<string>('next')}
+                  label={t('next')}
                   onClick={_nextStep}
                 />
               )}

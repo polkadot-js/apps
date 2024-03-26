@@ -1,25 +1,25 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSessionProgress, DeriveUnlocking } from '@polkadot/api-derive/types';
+import type { PoolInfo } from '@polkadot/app-staking2/Pools/types';
 import type { PalletNominationPoolsPoolMember, PalletNominationPoolsPoolRoles } from '@polkadot/types/lookup';
-import type { PoolInfo } from '../../Pools/types';
-import type { SortedTargets } from '../../types';
+import type { SortedTargets } from '../../types.js';
 
-import React, { useCallback, useContext, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
-import { AddressSmall, Badge, Menu, Popup, StakingRedeemable, StakingUnbonding, StatusContext } from '@polkadot/react-components';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { AddressSmall, Badge, Menu, Popup, StakingRedeemable, StakingUnbonding } from '@polkadot/react-components';
+import { useApi, useQueue, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN, formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
-import ListNominees from '../Account/ListNominees';
-import Nominate from '../Account/Nominate';
-import useSlashingSpans from '../useSlashingSpans';
-import BondExtra from './BondExtra';
-import Unbond from './Unbond';
-import useAccountInfo from './useAccountInfo';
+import { useTranslation } from '../../translate.js';
+import ListNominees from '../Account/ListNominees.js';
+import Nominate from '../Account/Nominate.js';
+import useSlashingSpans from '../useSlashingSpans.js';
+import BondExtra from './BondExtra.js';
+import Unbond from './Unbond.js';
+import useAccountInfo from './useAccountInfo.js';
 
 interface Props {
   accountId: string;
@@ -66,14 +66,14 @@ function Pool ({ accountId, className, info: { bonded: { roles }, metadata, nomi
   const { t } = useTranslation();
   const { api } = useApi();
   const spanCount = useSlashingSpans(stashId);
-  const { queueExtrinsic } = useContext(StatusContext);
+  const { queueExtrinsic } = useQueue();
   const [isBondOpen, toggleBond] = useToggle();
   const [isNominateOpen, toggleNominate] = useToggle();
   const [isUnbondOpen, toggleUnbond] = useToggle();
   const accInfo = useAccountInfo(accountId);
 
   const stakingInfo = useMemo(
-    () => sessionProgress && accInfo && accInfo.member.unbondingEras && !accInfo.member.unbondingEras.isEmpty
+    () => sessionProgress && accInfo?.member.unbondingEras && !accInfo.member.unbondingEras.isEmpty
       ? calcUnbonding(accountId, stashId, sessionProgress, accInfo.member)
       : null,
     [accInfo, accountId, stashId, sessionProgress]
@@ -165,29 +165,29 @@ function Pool ({ accountId, className, info: { bonded: { roles }, metadata, nomi
           value={
             <Menu>
               <Menu.Item
-                label={t<string>('Bond more funds')}
+                label={t('Bond more funds')}
                 onClick={toggleBond}
               />
               <Menu.Item
                 isDisabled={!accInfo || accInfo.member.points.isZero()}
-                label={t<string>('Unbond funds')}
+                label={t('Unbond funds')}
                 onClick={toggleUnbond}
               />
               <Menu.Divider />
               <Menu.Item
                 isDisabled={!accInfo || accInfo.claimable.isZero()}
-                label={t<string>('Withdraw claimable')}
+                label={t('Withdraw claimable')}
                 onClick={claimPayout}
               />
               <Menu.Item
                 isDisabled={!stakingInfo || stakingInfo.redeemable.isZero()}
-                label={t<string>('Withdraw unbonded')}
+                label={t('Withdraw unbonded')}
                 onClick={withdrawUnbonded}
               />
               <Menu.Divider />
               <Menu.Item
                 isDisabled={!isNominator}
-                label={t<string>('Set nominees')}
+                label={t('Set nominees')}
                 onClick={toggleNominate}
               />
             </Menu>

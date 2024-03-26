@@ -1,9 +1,9 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, StorageKey } from '@polkadot/types';
 import type { Nominations } from '@polkadot/types/interfaces';
-import type { NominatedByMap } from './types';
+import type { NominatedByMap } from './types.js';
 
 import { useMemo } from 'react';
 
@@ -12,14 +12,14 @@ import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 function extractNominators (nominations: [StorageKey, Option<Nominations>][]): NominatedByMap {
   const mapped: NominatedByMap = {};
 
-  for (let i = 0; i < nominations.length; i++) {
+  for (let i = 0, nomCount = nominations.length; i < nomCount; i++) {
     const [key, optNoms] = nominations[i];
 
     if (optNoms.isSome && key.args.length) {
       const nominatorId = key.args[0].toString();
       const { submittedIn, targets } = optNoms.unwrap();
 
-      for (let j = 0; j < targets.length; j++) {
+      for (let j = 0, tarCount = targets.length; j < tarCount; j++) {
         const validatorId = targets[j].toString();
 
         if (!mapped[validatorId]) {

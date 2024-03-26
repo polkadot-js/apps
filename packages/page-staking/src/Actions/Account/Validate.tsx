@@ -1,15 +1,15 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { ValidateInfo } from '../partials/types';
+import type { ValidateInfo } from '../partials/types.js';
 
 import React, { useState } from 'react';
 
 import { Modal, TxButton } from '@polkadot/react-components';
 
-import { useTranslation } from '../../translate';
-import ValidatePartial from '../partials/Validate';
+import { useTranslation } from '../../translate.js';
+import ValidatePartial from '../partials/Validate.js';
 
 interface Props {
   controllerId: string;
@@ -24,7 +24,7 @@ function Validate ({ controllerId, minCommission, onClose, stashId }: Props): Re
 
   return (
     <Modal
-      header={t<string>('Set validator preferences')}
+      header={t('Set validator preferences')}
       onClose={onClose}
       size='large'
     >
@@ -44,7 +44,7 @@ function Validate ({ controllerId, minCommission, onClose, stashId }: Props): Re
           extrinsic={validateTx}
           icon='certificate'
           isDisabled={!validateTx}
-          label={t<string>('Validate')}
+          label={t('Validate')}
           onStart={onClose}
         />
       </Modal.Actions>

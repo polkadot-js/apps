@@ -1,22 +1,21 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AbiConstructor, AbiMessage, ContractCallOutcome } from '@polkadot/api-contract/types';
+import type { AbiConstructor, ContractCallOutcome } from '@polkadot/api-contract/types';
 
 import React, { useCallback } from 'react';
-import styled from 'styled-components';
 
-import { Button, Output } from '@polkadot/react-components';
+import { Button, Output, styled } from '@polkadot/react-components';
 import valueToText from '@polkadot/react-params/valueToText';
 
-import { useTranslation } from '../translate';
-import MessageSignature from './MessageSignature';
+import { useTranslation } from '../translate.js';
+import MessageSignature from './MessageSignature.js';
 
 export interface Props {
   className?: string;
   index: number;
   lastResult?: ContractCallOutcome;
-  message: AbiConstructor | AbiMessage;
+  message: AbiConstructor;
   onSelect?: (index: number) => void;
 }
 
@@ -48,7 +47,7 @@ function Message ({ className = '', index, lastResult, message, onSelect }: Prop
   );
 
   return (
-    <div
+    <StyledDiv
       className={`${className} ${!onSelect ? 'exempt-hover' : ''} ${message.isConstructor ? 'constructor' : ''}`}
       key={`${message.identifier}-${index}`}
     >
@@ -58,7 +57,7 @@ function Message ({ className = '', index, lastResult, message, onSelect }: Prop
             <Button
               className='accessory'
               icon='upload'
-              label={t<string>('deploy')}
+              label={t('deploy')}
               onClick={_onSelect}
             />
           )
@@ -67,7 +66,7 @@ function Message ({ className = '', index, lastResult, message, onSelect }: Prop
               className='accessory'
               icon='play'
               isDisabled={message.isMutating ? false : (!message.args.length && lastResult?.result.isOk)}
-              label={message.isMutating ? t<string>('exec') : t<string>('read')}
+              label={message.isMutating ? t('exec') : t('read')}
               onClick={_onSelect}
             />
           )
@@ -83,7 +82,7 @@ function Message ({ className = '', index, lastResult, message, onSelect }: Prop
             ? filterDocs(message.docs).map((line, index) => ((
               <div key={`${message.identifier}-docs-${index}`}>{line}</div>
             )))
-            : <i>&nbsp;{t<string>('No documentation provided')}&nbsp;</i>
+            : <i>&nbsp;{t('No documentation provided')}&nbsp;</i>
           }
         </div>
       </div>
@@ -91,16 +90,16 @@ function Message ({ className = '', index, lastResult, message, onSelect }: Prop
         <Output
           className='result'
           isFull
-          label={t<string>('current value')}
+          label={t('current value')}
         >
           {valueToText('Text', lastResult.output)}
         </Output>
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Message)`
+const StyledDiv = styled.div`
   align-items: center;
   border-radius: 0.25rem;
   display: flex;
@@ -117,7 +116,7 @@ export default React.memo(styled(Message)`
     margin-left: 1.5rem;
 
     .docs {
-      font-size: 0.9rem;
+      font-size: var(--font-size-small);
       font-weight: var(--font-weight-normal);
     }
   }
@@ -129,4 +128,6 @@ export default React.memo(styled(Message)`
   &+& {
     margin-top: 0.5rem;
   }
-`);
+`;
+
+export default React.memo(Message);

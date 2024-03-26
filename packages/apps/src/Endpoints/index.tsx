@@ -1,22 +1,22 @@
-// Copyright 2017-2022 @polkadot/apps authors & contributors
+// Copyright 2017-2024 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
-import type { Group } from './types';
+import type { Group } from './types.js';
 
 // ok, this seems to be an eslint bug, this _is_ a package import
 import punycode from 'punycode/';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import store from 'store';
-import styled from 'styled-components';
 
 import { createWsEndpoints, CUSTOM_ENDPOINT_KEY } from '@polkadot/apps-config';
-import { Button, Input, Sidebar } from '@polkadot/react-components';
+import { Button, Input, Sidebar, styled } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import { settings } from '@polkadot/ui-settings';
 import { isAscii } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import GroupDisplay from './Group';
+import { useTranslation } from '../translate.js';
+import GroupDisplay from './Group.js';
 
 interface Props {
   className?: string;
@@ -54,13 +54,13 @@ function combineEndpoints (endpoints: LinkOption[]): Group[] {
         prev.networks[prev.networks.length - 1].providers.push(prov);
       } else if (!e.isUnreachable) {
         prev.networks.push({
-          icon: e.info,
           isChild: e.isChild,
           isRelay: !!e.genesisHash,
           name: e.text as string,
           nameRelay: e.textRelay as string,
           paraId: e.paraId,
-          providers: [prov]
+          providers: [prov],
+          ui: e.ui
         });
       }
     }
@@ -119,11 +119,31 @@ function loadAffinities (groups: Group[]): Record<string, string> {
     }), {});
 }
 
-function isSwitchDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid: boolean): boolean {
+function isSwitchDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid: boolean, isLocalFork?: boolean): boolean {
   if (!hasUrlChanged) {
-    return true;
+    if (isLocalFork) {
+      return false;
+    } else {
+      return true;
+    }
   } else if (apiUrl.startsWith('light://')) {
     return false;
+  } else if (isUrlValid) {
+    return false;
+  }
+
+  return true;
+}
+
+function isLocalForkDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid: boolean, isLocalFork?: boolean): boolean {
+  if (!hasUrlChanged) {
+    if (isLocalFork) {
+      return true;
+    } else {
+      return false;
+    }
+  } else if (apiUrl.startsWith('light://')) {
+    return true;
   } else if (isUrlValid) {
     return false;
   }
@@ -134,10 +154,12 @@ function isSwitchDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid: b
 function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const linkOptions = createWsEndpoints(t);
+  const { isLocalFork } = useApi();
   const [groups, setGroups] = useState(() => combineEndpoints(linkOptions));
   const [{ apiUrl, groupIndex, hasUrlChanged, isUrlValid }, setApiUrl] = useState<UrlState>(() => extractUrlState(settings.get().apiUrl, groups));
   const [storedCustomEndpoints, setStoredCustomEndpoints] = useState<string[]>(() => getCustomEndpoints());
   const [affinities, setAffinities] = useState(() => loadAffinities(groups));
+  const sidebarRef = useRef<HTMLDivElement>(null);
 
   const isKnownUrl = useMemo(() => {
     let result = false;
@@ -223,12 +245,32 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
 
   const _onApply = useCallback(
     (): void => {
+      store.set('localFork', '');
       settings.set({ ...(settings.get()), apiUrl });
       window.location.assign(`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(apiUrl)}${window.location.hash}`);
-      // window.location.reload();
+
+      if (!hasUrlChanged) {
+        window.location.reload();
+      }
+
       onClose();
     },
-    [apiUrl, onClose]
+    [apiUrl, onClose, hasUrlChanged]
+  );
+
+  const _onLocalFork = useCallback(
+    (): void => {
+      store.set('localFork', apiUrl);
+      settings.set({ ...(settings.get()), apiUrl });
+      window.location.assign(`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(apiUrl)}${window.location.hash}`);
+
+      if (!hasUrlChanged) {
+        window.location.reload();
+      }
+
+      onClose();
+    },
+    [apiUrl, onClose, hasUrlChanged]
   );
 
   const _saveApiEndpoint = useCallback(
@@ -245,24 +287,39 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
   );
 
   const canSwitch = useMemo(
-    () => isSwitchDisabled(hasUrlChanged, apiUrl, isUrlValid),
-    [hasUrlChanged, apiUrl, isUrlValid]
+    () => isSwitchDisabled(hasUrlChanged, apiUrl, isUrlValid, isLocalFork),
+    [hasUrlChanged, apiUrl, isUrlValid, isLocalFork]
+  );
+
+  const canLocalFork = useMemo(
+    () => isLocalForkDisabled(hasUrlChanged, apiUrl, isUrlValid, isLocalFork),
+    [hasUrlChanged, apiUrl, isUrlValid, isLocalFork]
   );
 
   return (
-    <Sidebar
-      button={
-        <Button
-          icon='sync'
-          isDisabled={canSwitch}
-          label={t<string>('Switch')}
-          onClick={_onApply}
-        />
+    <StyledSidebar
+      buttons={
+        <>
+          <Button
+            icon='code-fork'
+            isDisabled={canLocalFork}
+            label={t('Fork Locally')}
+            onClick={_onLocalFork}
+            tooltip='fork-locally-btn'
+          />
+          <Button
+            icon='sync'
+            isDisabled={canSwitch}
+            label={t('Switch')}
+            onClick={_onApply}
+          />
+        </>
       }
       className={className}
       offset={offset}
       onClose={onClose}
       position='left'
+      sidebarRef={sidebarRef}
     >
       {groups.map((group, index): React.ReactNode => (
         <GroupDisplay
@@ -281,7 +338,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
                 className='endpointCustom'
                 isError={!isUrlValid}
                 isFull
-                label={t<string>('custom endpoint')}
+                label={t('custom endpoint')}
                 onChange={_onChangeCustom}
                 value={apiUrl}
               />
@@ -306,11 +363,11 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
           )}
         </GroupDisplay>
       ))}
-    </Sidebar>
+    </StyledSidebar>
   );
 }
 
-export default React.memo(styled(Endpoints)`
+const StyledSidebar = styled(Sidebar)`
   color: var(--color-text);
   padding-top: 3.5rem;
 
@@ -329,4 +386,6 @@ export default React.memo(styled(Endpoints)`
   .endpointCustomWrapper {
     position: relative;
   }
-`);
+`;
+
+export default React.memo(Endpoints);

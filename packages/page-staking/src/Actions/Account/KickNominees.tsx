@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -9,8 +9,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { InputAddressMulti, Modal, Spinner, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../../translate';
-import SenderInfo from '../partials/SenderInfo';
+import { useTranslation } from '../../translate.js';
+import SenderInfo from '../partials/SenderInfo.js';
 
 interface Props {
   className?: string;
@@ -53,7 +53,7 @@ function KickNominees ({ className = '', controllerId, nominating, onClose, stas
   return (
     <Modal
       className={className}
-      header={t<string>('Remove nominees')}
+      header={t('Remove nominees')}
       onClose={onClose}
       size='large'
     >
@@ -66,15 +66,14 @@ function KickNominees ({ className = '', controllerId, nominating, onClose, stas
           ? (
             <InputAddressMulti
               available={nominators}
-              availableLabel={t<string>('existing/active nominators')}
+              availableLabel={t('existing/active nominators')}
               defaultValue={nominating}
-              help={t<string>('Filter available nominators based on name, address or short account index.')}
               maxCount={MAX_KICK}
               onChange={setSelected}
-              valueLabel={t<string>('nominators to be removed')}
+              valueLabel={t('nominators to be removed')}
             />
           )
-          : <Spinner label={t<string>('Retrieving active nominators')} />
+          : <Spinner label={t('Retrieving active nominators')} />
         }
       </Modal.Content>
       <Modal.Actions>
@@ -83,7 +82,7 @@ function KickNominees ({ className = '', controllerId, nominating, onClose, stas
           extrinsic={kickTx}
           icon='user-slash'
           isDisabled={!kickTx}
-          label={t<string>('Remove')}
+          label={t('Remove')}
           onStart={onClose}
         />
       </Modal.Actions>

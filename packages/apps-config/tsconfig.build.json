@@ -3,7 +3,13 @@
   "compilerOptions": {
     "baseUrl": "..",
     "outDir": "./build",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    /* Some of our types dependencies are not playing along nicely */
+    "verbatimModuleSyntax": false
   },
+  "exclude": [
+    "**/build-*",
+    "**/*.spec.ts"
+  ],
   "references": []
 }

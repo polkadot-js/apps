@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
@@ -11,8 +11,8 @@ import React from 'react';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
-import { useTranslation } from './translate';
-import TxButton from './TxButton';
+import { useTranslation } from './translate.js';
+import TxButton from './TxButton.js';
 
 interface DeriveStakingAccountPartial {
   controllerId: DeriveStakingAccount['controllerId'] | string;
@@ -60,7 +60,7 @@ function StakingRedeemable ({ className = '', isPool, stakingInfo }: Props): Rea
                     ? [spanCount]
                     : []
               }
-              tooltip={t<string>('Withdraw these unbonded funds')}
+              tooltip={t('Withdraw these unbonded funds')}
               tx={
                 isPool
                   ? api.tx.nominationPools.withdrawUnbonded

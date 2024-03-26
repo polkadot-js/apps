@@ -1,19 +1,18 @@
-// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2024 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BlockNumber, BountyStatus } from '@polkadot/types/interfaces';
+import type { BountyStatus } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
 
-import { useBountyStatus } from '@polkadot/app-bounties/hooks';
 import { BN, BN_HUNDRED, BN_ZERO } from '@polkadot/util';
 
-import { useBounties } from '../hooks';
-import { useTranslation } from '../translate';
-import BountyInfo from './BountyInfo';
+import { useBounties, useBountyStatus } from '../hooks/index.js';
+import { useTranslation } from '../translate.js';
+import BountyInfo from './BountyInfo.js';
 
 interface Props {
-  bestNumber: BlockNumber;
+  bestNumber: BN;
   blocksUntilUpdate?: BN;
   status: BountyStatus;
 }
@@ -21,7 +20,7 @@ interface Props {
 export const BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING = 10;
 const BLOCKS_LEFT_TO_SHOW_WARNING = new BN('10000');
 
-function BountyActionMessage ({ bestNumber, blocksUntilUpdate, status }: Props): JSX.Element {
+function BountyActionMessage ({ bestNumber, blocksUntilUpdate, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { unlockAt } = useBountyStatus(status);
   const { bountyUpdatePeriod } = useBounties();
@@ -35,31 +34,31 @@ function BountyActionMessage ({ bestNumber, blocksUntilUpdate, status }: Props):
     <div>
       {blocksUntilUpdate?.lte(BN_ZERO) && (
         <BountyInfo
-          description={t<string>('Update overdue')}
+          description={t('Update overdue')}
           type='warning'
         />
       )}
       {blocksUntilUpdate?.lt(blocksToShowWarning) && blocksUntilUpdate?.gt(BN_ZERO) && (
         <BountyInfo
-          description={t<string>('Close deadline')}
+          description={t('Close deadline')}
           type='warning'
         />
       )}
       {status.isApproved && (
         <BountyInfo
-          description={t<string>('Waiting for Bounty Funding')}
+          description={t('Waiting for Bounty Funding')}
           type='info'
         />
       )}
       {status.isCuratorProposed && (
         <BountyInfo
-          description={t<string>("Waiting for Curator's acceptance")}
+          description={t("Waiting for Curator's acceptance")}
           type='info'
         />
       )}
       {blocksUntilPayout?.lt(BN_ZERO) &&
         <BountyInfo
-          description={t<string>('Waiting for implementer to claim')}
+          description={t('Waiting for implementer to claim')}
           type='info'
         />
       }

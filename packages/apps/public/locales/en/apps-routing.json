@@ -15,9 +15,11 @@
   "nav.fellowship": "Fellowship",
   "nav.files": "Files (IPFS)",
   "nav.gilt": "Gilt",
+  "nav.github": "GitHub",
   "nav.js": "JavaScript",
   "nav.membership": "Membership",
   "nav.nfts": "NFTs",
+  "nav.nis": "Non-interactive Staking",
   "nav.parachains": "Parachains",
   "nav.poll": "Token poll",
   "nav.preimages": "Preimages",
@@ -25,6 +27,7 @@
   "nav.referenda": "Referenda",
   "nav.rpc": "RPC calls",
   "nav.runtime": "Runtime calls",
+  "nav.scheduler": "Scheduler",
   "nav.settings": "Settings",
   "nav.signing": "Sign and verify",
   "nav.society": "Society",
@@ -36,5 +39,6 @@
   "nav.transfer": "Transfer",
   "nav.treasury": "Treasury",
   "nav.utilities": "Utilities",
-  "nav.whitelist": "Whitelist"
+  "nav.whitelist": "Whitelist",
+  "nav.wiki": "Wiki"
 }

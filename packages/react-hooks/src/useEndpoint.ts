@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
@@ -7,9 +7,9 @@ import { useMemo } from 'react';
 
 import { createWsEndpoints } from '@polkadot/apps-config';
 
-import { createNamedHook } from './createNamedHook';
+import { createNamedHook } from './createNamedHook.js';
 
-const endpoints = createWsEndpoints((k: string, v?: string) => v || k);
+const endpoints = createWsEndpoints((k, v) => v?.toString() || k);
 
 export function getEndpoint (apiUrl?: string): LinkOption | null {
   return endpoints.find(({ value }) => value === apiUrl) || null;

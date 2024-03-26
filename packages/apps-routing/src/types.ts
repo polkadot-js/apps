@@ -1,7 +1,8 @@
-// Copyright 2017-2022 @polkadot/apps-routing authors & contributors
+// Copyright 2017-2024 @polkadot/apps-routing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
+import type React from 'react';
 import type { ApiPromise } from '@polkadot/api';
 import type { AppProps, BareProps } from '@polkadot/react-components/types';
 
@@ -12,9 +13,8 @@ export interface RouteProps extends AppProps, BareProps {
 }
 
 export interface Route {
-  // FIXME This is weird, we really expect the memo to be there...
-  Component: React.ComponentType<RouteProps> | React.MemoExoticComponent<any>;
-  Modal?: React.ComponentType<any> | React.MemoExoticComponent<any>;
+  Component: React.ComponentType<any>;
+  Modal?: React.ComponentType<any>;
   display: {
     isDevelopment?: boolean;
     isHidden?: boolean;
@@ -35,3 +35,5 @@ export interface Route {
 }
 
 export type Routes = Route[];
+
+export type TFunction = (key: string, textOrOptions?: string | { replace: Record<string, unknown> }, options?: { ns: string }) => string;

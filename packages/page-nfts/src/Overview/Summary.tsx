@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-nfts authors & contributors
+// Copyright 2017-2024 @polkadot/app-nfts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -6,7 +6,7 @@ import React from 'react';
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
@@ -18,7 +18,7 @@ function Summary ({ className, numCollections }: Props): React.ReactElement<Prop
 
   return (
     <SummaryBox className={className}>
-      <CardSummary label={t<string>('collections')}>
+      <CardSummary label={t('collections')}>
         {formatNumber(numCollections)}
       </CardSummary>
     </SummaryBox>

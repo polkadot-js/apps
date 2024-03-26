@@ -1,17 +1,17 @@
-// Copyright 2017-2022 @polkadot/app-preimages authors & contributors
+// Copyright 2017-2024 @polkadot/app-preimages authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 
 import React, { useRef } from 'react';
 
-import { Button, Table } from '@polkadot/react-components';
+import { Button, styled, Table } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
-import usePreimages from '../usePreimages';
-import Add from './Add';
-import Preimage from './Preimage';
-import Summary from './Summary';
+import { useTranslation } from '../translate.js';
+import usePreimages from '../usePreimages.js';
+import Add from './Add/index.js';
+import Preimage from './Preimage.js';
+import Summary from './Summary.js';
 
 interface Props {
   className?: string;
@@ -23,33 +23,41 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const hashes = usePreimages();
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('preimages'), 'start', 2],
-    [t('size')],
-    [t('status')],
-    [t('count')]
+    [undefined, 'media--1300'],
+    [t('length'), 'media--1000'],
+    [t('status'), 'start media--1200']
   ]);
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <Summary hashes={hashes} />
       <Button.Group>
         <Add />
       </Button.Group>
       <Table
         className={className}
-        empty={hashes && t<string>('No hashes found')}
+        empty={hashes && t('No hashes found')}
         header={headerRef.current}
       >
-        {hashes && hashes.map((h) => (
+        {hashes?.map((h) => (
           <Preimage
             key={h}
             value={h}
           />
         ))}
       </Table>
-    </div>
+    </StyledDiv>
   );
 }
+
+const StyledDiv = styled.div`
+  td.preimageStatus {
+    div+.ui--Button {
+      margin-top: 0.25rem;
+    }
+  }
+`;
 
 export default React.memo(Hashes);

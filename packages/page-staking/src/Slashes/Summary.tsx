@@ -1,8 +1,8 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSessionProgress } from '@polkadot/api-derive/types';
-import type { SlashEra } from './types';
+import type { SlashEra } from './types.js';
 
 import React, { useMemo } from 'react';
 
@@ -11,7 +11,7 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN, BN_ONE, formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   slash: SlashEra;
@@ -35,19 +35,19 @@ function Summary ({ slash: { era, nominators, reporters, total, validators } }: 
   return (
     <SummaryBox>
       <section>
-        <CardSummary label={t<string>('validators')}>
+        <CardSummary label={t('validators')}>
           {formatNumber(validators.length)}
         </CardSummary>
-        <CardSummary label={t<string>('nominators')}>
+        <CardSummary label={t('nominators')}>
           {formatNumber(nominators.length)}
         </CardSummary>
-        <CardSummary label={t<string>('reporters')}>
+        <CardSummary label={t('reporters')}>
           {formatNumber(reporters.length)}
         </CardSummary>
       </section>
       {blockProgress.gtn(0) && (
         <CardSummary
-          label={t<string>('defer')}
+          label={t('defer')}
           progress={{
             total: blockEnd,
             value: blockProgress,
@@ -55,7 +55,7 @@ function Summary ({ slash: { era, nominators, reporters, total, validators } }: 
           }}
         />
       )}
-      <CardSummary label={t<string>('total')}>
+      <CardSummary label={t('total')}>
         <FormatBalance value={total} />
       </CardSummary>
     </SummaryBox>

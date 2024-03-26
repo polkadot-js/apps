@@ -1,17 +1,16 @@
-// Copyright 2017-2022 @polkadot/app-alliance authors & contributors
+// Copyright 2017-2024 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { Member as MemberType } from '../types';
+import type { Member as MemberType } from '../types.js';
 
-import React, { useCallback, useContext, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
-import { AddressSmall, Menu, Popup, StatusContext, Tag } from '@polkadot/react-components';
-import { useAccounts, useApi } from '@polkadot/react-hooks';
-import { FormatBalance } from '@polkadot/react-query';
+import { AddressSmall, Menu, Popup, Tag } from '@polkadot/react-components';
+import { useAccounts, useApi, useQueue } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import useMemberInfo from '../useMemberInfo';
+import { useTranslation } from '../translate.js';
+import useMemberInfo from '../useMemberInfo.js';
 
 interface Props {
   bestNumber?: BN;
@@ -26,7 +25,7 @@ function Member ({ bestNumber, className, info: { accountId, role }, isPrime, is
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const info = useMemberInfo(accountId);
-  const { queueExtrinsic } = useContext(StatusContext);
+  const { queueExtrinsic } = useQueue();
   const hasNotice = !!api.tx.alliance.giveRetirementNotice;
 
   const hasActions = useMemo(
@@ -52,40 +51,35 @@ function Member ({ bestNumber, className, info: { accountId, role }, isPrime, is
 
   return (
     <tr className={className}>
-      <td className='address'>
+      <td className='address all relative'>
         <AddressSmall value={accountId} />
-      </td>
-      <td className='all'>
-        {(info && info.isRetiringAt && (
-          <Tag
-            color='yellow'
-            hover={t<string>('Is retiring')}
-            label={t<string>('retirting')}
-          />
-        )) || (info && info.isUpForKicking && (
-          <Tag
-            color='red'
-            hover={t<string>('Up for kicking')}
-            label={t<string>('kicking')}
-          />
-        )) || (isPrime && (
-          <Tag
-            color='green'
-            hover={t<string>('Current prime member, default voting')}
-            label={t<string>('prime voter')}
-          />
-        )) || (isVoter && (
-          <Tag
-            color='green'
-            hover={t<string>('Allowed to vote on motions')}
-            label={t<string>('voter')}
-          />
-        ))}
-      </td>
-      <td className='number'>
-        {info && info.deposit && (
-          <FormatBalance value={info.deposit} />
-        )}
+        <div className='absolute'>
+          {(info?.isRetiringAt && (
+            <Tag
+              color='yellow'
+              hover={t('Is retiring')}
+              label={t('retirting')}
+            />
+          )) || (info?.isUpForKicking && (
+            <Tag
+              color='red'
+              hover={t('Up for kicking')}
+              label={t('kicking')}
+            />
+          )) || (isPrime && (
+            <Tag
+              color='green'
+              hover={t('Current prime member, default voting')}
+              label={t('prime voter')}
+            />
+          )) || (isVoter && (
+            <Tag
+              color='green'
+              hover={t('Allowed to vote on motions')}
+              label={t('voter')}
+            />
+          ))}
+        </div>
       </td>
       <td className='number'>
         {role}
@@ -98,8 +92,8 @@ function Member ({ bestNumber, className, info: { accountId, role }, isPrime, is
               <Menu>
                 {hasNotice && (
                   <Menu.Item
-                    isDisabled={!!(info && info.isRetiringAt)}
-                    label={t<string>('Announce retirement')}
+                    isDisabled={!!(info?.isRetiringAt)}
+                    label={t('Announce retirement')}
                     onClick={doNotice}
                   />
                 )}
@@ -114,7 +108,7 @@ function Member ({ bestNumber, className, info: { accountId, role }, isPrime, is
                       )
                     )
                   }
-                  label={t<string>('Retire')}
+                  label={t('Retire')}
                   onClick={doRetire}
                 />
               </Menu>

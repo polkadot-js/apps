@@ -1,11 +1,11 @@
-FROM ubuntu:18.04 as builder
+FROM ubuntu:latest as builder
 
 # Install any needed packages
 RUN apt-get update && \
-  apt-get install --no-install-recommends -y curl git gnupg ca-certificates
+  apt-get install --no-install-recommends -y build-essential curl git gnupg ca-certificates
 
 # install nodejs
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_lts.x | bash -
 RUN apt-get install --no-install-recommends -y nodejs && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
@@ -24,7 +24,7 @@ ENV WS_URL=
 
 WORKDIR /usr/share/nginx/html
 
-COPY env.sh .
+COPY docker/env.sh .
 
 RUN apk add --no-cache bash; chmod +x env.sh
 

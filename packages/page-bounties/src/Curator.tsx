@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2024 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Codec } from '@polkadot/types/types';
@@ -7,8 +7,8 @@ import React from 'react';
 
 import { AddressSmall } from '@polkadot/react-components';
 
-import Description from './Description';
-import { useTranslation } from './translate';
+import Description from './Description.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   curator: Codec;
@@ -21,7 +21,7 @@ function Curator ({ curator, isFromProposal }: Props): React.ReactElement<Props>
   return (
     <div>
       <AddressSmall value={curator.toString()} />
-      {isFromProposal && <Description description={t<string>('Proposed Curator')} />}
+      {isFromProposal && <Description description={t('Proposed Curator')} />}
     </div>
   );
 }

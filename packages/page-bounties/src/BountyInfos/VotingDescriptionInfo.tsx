@@ -1,16 +1,15 @@
-// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2024 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BountyStatus } from '@polkadot/types/interfaces';
 
 import React, { useRef } from 'react';
-import styled from 'styled-components';
 
-import { LabelHelp } from '@polkadot/react-components';
+import { LabelHelp, styled } from '@polkadot/react-components';
 
-import { proposalNameToDisplay } from '../helpers/extendedStatuses';
-import { useTranslation } from '../translate';
+import { proposalNameToDisplay } from '../helpers/extendedStatuses.js';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
@@ -30,17 +29,19 @@ function VotingDescriptionInfo ({ className, proposal, status }: Props): React.R
   });
 
   return (
-    <div
+    <StyledDiv
       className={className}
       data-testid='voting-description'
     >
       {bestProposalName && votingDescriptions.current[bestProposalName] &&
         <LabelHelp help={votingDescriptions.current[bestProposalName]} />
       }
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(VotingDescriptionInfo)`
+const StyledDiv = styled.div`
   margin-left: 0.2rem;
-`);
+`;
+
+export default React.memo(VotingDescriptionInfo);

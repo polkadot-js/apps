@@ -1,19 +1,19 @@
-// Copyright 2017-2022 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
 import type { PromiseResult, QueryableStorageEntry } from '@polkadot/api/types';
 import type { StorageEntryTypeLatest } from '@polkadot/types/interfaces';
 import type { AnyFunction, Codec } from '@polkadot/types/types';
-import type { CallOptions, CallParam, CallParams } from './types';
-import type { MountedRef } from './useIsMountedRef';
+import type { CallOptions, CallParam, CallParams } from './types.js';
+import type { MountedRef } from './useIsMountedRef.js';
 
 import { useEffect, useRef, useState } from 'react';
 
 import { isFunction, isNull, isUndefined, nextTick } from '@polkadot/util';
 
-import { useApi } from './useApi';
-import { useIsMountedRef } from './useIsMountedRef';
+import { useApi } from './useApi.js';
+import { useIsMountedRef } from './useIsMountedRef.js';
 
 type VoidFn = () => void;
 
@@ -163,7 +163,7 @@ export function useCall <T> (fn: TrackFn | undefined | null | false, params?: Ca
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const tracker = useRef<Tracker>({ error: null, fn: null, isActive: false, serialized: null, subscriber: null, type: 'useCall' });
-  const [value, setValue] = useState<T | undefined>((options || {}).defaultValue);
+  const [value, setValue] = useState<T | undefined>(options?.defaultValue);
 
   // initial effect, we need an un-subscription
   useEffect((): () => void => {

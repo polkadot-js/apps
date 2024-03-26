@@ -1,8 +1,8 @@
-// Copyright 2017-2022 @polkadot/app-alliance authors & contributors
+// Copyright 2017-2024 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { bool, Option, UInt } from '@polkadot/types';
-import type { MemberInfo } from './types';
+import type { MemberInfo } from './types.js';
 
 import { useMemo } from 'react';
 
@@ -19,7 +19,7 @@ function useMemberInfoImpl (accountId: string): MemberInfo | undefined {
       accountId,
       deposit: depositOf.unwrapOr(null),
       isUpForKicking: upForKicking && upForKicking.isTrue,
-      retiringAt: retiringAt && retiringAt.unwrapOr(null)
+      retiringAt: retiringAt?.unwrapOr(null)
     },
     [accountId, depositOf, retiringAt, upForKicking]
   );

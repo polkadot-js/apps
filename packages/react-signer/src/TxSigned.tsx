@@ -1,6 +1,7 @@
-// Copyright 2017-2022 @polkadot/react-signer authors & contributors
+// Copyright 2017-2024 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { SignerOptions } from '@polkadot/api/submittable/types';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { Ledger } from '@polkadot/hw-ledger';
@@ -8,33 +9,35 @@ import type { KeyringPair } from '@polkadot/keyring/types';
 import type { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
 import type { Option } from '@polkadot/types';
 import type { Multisig, Timepoint } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { AddressFlags, AddressProxy, QrState } from './types';
+import type { AddressFlags, AddressProxy, QrState } from './types.js';
 
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-import styled from 'styled-components';
+import React, { useCallback, useEffect, useState } from 'react';
 
-import { ApiPromise } from '@polkadot/api';
 import { web3FromSource } from '@polkadot/extension-dapp';
-import { Button, ErrorBoundary, Modal, Output, StatusContext, Toggle } from '@polkadot/react-components';
-import { useApi, useLedger, useToggle } from '@polkadot/react-hooks';
+import { Button, ErrorBoundary, Modal, Output, styled, Toggle } from '@polkadot/react-components';
+import { useApi, useLedger, useQueue, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
-import { assert, BN_ZERO, nextTick } from '@polkadot/util';
+import { assert, nextTick } from '@polkadot/util';
 import { addressEq } from '@polkadot/util-crypto';
 
-import Address from './Address';
-import Qr from './Qr';
-import { AccountSigner, LedgerSigner, QrSigner } from './signers';
-import SignFields from './SignFields';
-import Tip from './Tip';
-import Transaction from './Transaction';
-import { useTranslation } from './translate';
-import { cacheUnlock, extractExternal, handleTxResults } from './util';
+import { AccountSigner, LedgerSigner, QrSigner } from './signers/index.js';
+import Address from './Address.js';
+import Qr from './Qr.js';
+import SignFields from './SignFields.js';
+import Tip from './Tip.js';
+import Transaction from './Transaction.js';
+import { useTranslation } from './translate.js';
+import { cacheUnlock, extractExternal, handleTxResults } from './util.js';
 
 interface Props {
   className?: string;
   currentItem: QueueTx;
-  requestAddress: string;
+  isQueueSubmit: boolean;
+  queueSize: number;
+  requestAddress: string | null;
+  setIsQueueSubmit: (isQueueSubmit: boolean) => void;
 }
 
 interface InnerTx {
@@ -52,7 +55,11 @@ function unlockAccount ({ isUnlockCached, signAddress, signPassword }: AddressPr
   let publicKey;
 
   try {
-    publicKey = keyring.decodeAddress(signAddress as string);
+    if (!signAddress) {
+      throw new Error('Invalid signAddress');
+    }
+
+    publicKey = keyring.decodeAddress(signAddress);
   } catch (error) {
     console.error(error);
 
@@ -120,12 +127,13 @@ async function wrapTx (api: ApiPromise, currentItem: QueueTx, { isMultiCall, mul
 
   if (multiRoot) {
     const multiModule = api.tx.multisig ? 'multisig' : 'utility';
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const [info, { weight }] = await Promise.all([
       api.query[multiModule].multisigs<Option<Multisig>>(multiRoot, tx.method.hash),
-      tx.paymentInfo(multiRoot)
+      tx.paymentInfo(multiRoot) as Promise<{ weight: any }>
     ]);
 
-    console.log('multisig max weight=', weight.toString());
+    console.log('multisig max weight=', (weight as string).toString());
 
     const { threshold, who } = extractExternal(multiRoot);
     const others = who.filter((w) => w !== signAddress);
@@ -136,13 +144,19 @@ async function wrapTx (api: ApiPromise, currentItem: QueueTx, { isMultiCall, mul
     }
 
     tx = isMultiCall
-      ? api.tx[multiModule].asMulti.meta.args.length === 6
+      ? api.tx[multiModule].asMulti.meta.args.length === 5
         // We are doing toHex here since we have a Vec<u8> input
-        ? api.tx[multiModule].asMulti(threshold, others, timepoint, tx.method.toHex(), false, weight)
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        : api.tx[multiModule].asMulti(threshold, others, timepoint, tx.method)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        ? api.tx[multiModule].asMulti(threshold, others, timepoint, tx.method.toHex(), weight)
+        : api.tx[multiModule].asMulti.meta.args.length === 6
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          ? api.tx[multiModule].asMulti(threshold, others, timepoint, tx.method.toHex(), false, weight)
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          : api.tx[multiModule].asMulti(threshold, others, timepoint, tx.method)
       : api.tx[multiModule].approveAsMulti.meta.args.length === 5
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         ? api.tx[multiModule].approveAsMulti(threshold, others, timepoint, tx.method.hash, weight)
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
@@ -157,11 +171,15 @@ async function extractParams (api: ApiPromise, address: string, options: Partial
   const { meta: { accountOffset, addressOffset, isExternal, isHardware, isInjected, isProxied, source } } = pair;
 
   if (isHardware) {
-    return ['signing', address, { ...options, signer: new LedgerSigner(api.registry, getLedger, accountOffset as number || 0, addressOffset as number || 0) }];
+    return ['signing', address, { ...options, signer: new LedgerSigner(api.registry, getLedger, accountOffset || 0, addressOffset || 0) }];
   } else if (isExternal && !isProxied) {
     return ['qr', address, { ...options, signer: new QrSigner(api.registry, setQrState) }];
   } else if (isInjected) {
-    const injected = await web3FromSource(source as string);
+    if (!source) {
+      throw new Error(`Unable to find injected source for ${address}`);
+    }
+
+    const injected = await web3FromSource(source);
 
     assert(injected, `Unable to find a signer for ${address}`);
 
@@ -181,11 +199,11 @@ function tryExtract (address: string | null): AddressFlags {
   }
 }
 
-function TxSigned ({ className, currentItem, requestAddress }: Props): React.ReactElement<Props> | null {
+function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAddress, setIsQueueSubmit }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { getLedger } = useLedger();
-  const { queueSetTxStatus } = useContext(StatusContext);
+  const { queueSetTxStatus } = useQueue();
   const [flags, setFlags] = useState(() => tryExtract(requestAddress));
   const [error, setError] = useState<Error | null>(null);
   const [{ isQrHashed, qrAddress, qrPayload, qrResolve }, setQrState] = useState<QrState>(() => ({ isQrHashed: false, qrAddress: '', qrPayload: new Uint8Array() }));
@@ -197,7 +215,8 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   const [signedOptions, setSignedOptions] = useState<Partial<SignerOptions>>({});
   const [signedTx, setSignedTx] = useState<string | null>(null);
   const [{ innerHash, innerTx }, setCallInfo] = useState<InnerTx>(EMPTY_INNER);
-  const [tip, setTip] = useState(BN_ZERO);
+  const [tip, setTip] = useState<BN | undefined>();
+  const [initialIsQueueSubmit] = useState(isQueueSubmit);
 
   useEffect((): void => {
     setFlags(tryExtract(senderInfo.signAddress));
@@ -248,7 +267,9 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
           } catch (error) {
             console.error(error);
 
-            passwordError = t<string>('Unable to connect to the Ledger, ensure support is enabled in settings and no other app is using it. {{error}}', { replace: { error: (error as Error).message } });
+            const errorMessage = (error as Error).message;
+
+            passwordError = t('Unable to connect to the Ledger, ensure support is enabled in settings and no other app is using it. {{errorMessage}}', { replace: { errorMessage } });
           }
         }
       }
@@ -336,9 +357,18 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
     [_onSend, _onSendPayload, _onSign, _unlock, currentItem, isSubmit, queueSetTxStatus, senderInfo]
   );
 
+  const isAutoCapable = senderInfo.signAddress && (queueSize > 1) && isSubmit && !(flags.isHardware || flags.isMultisig || flags.isProxied || flags.isQr || flags.isUnlockable) && !isRenderError;
+
+  if (!isBusy && isAutoCapable && initialIsQueueSubmit) {
+    setBusy(true);
+    setTimeout(_doStart, 1000);
+
+    return null;
+  }
+
   return (
     <>
-      <Modal.Content className={className}>
+      <StyledModalContent className={className}>
         <ErrorBoundary
           error={error}
           onError={toggleRenderError}
@@ -382,7 +412,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
                     <Output
                       isDisabled
                       isTrimmed
-                      label={t<string>('multisig call data')}
+                      label={t('multisig call data')}
                       value={innerTx}
                       withCopy
                     />
@@ -393,7 +423,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
                     <Output
                       isDisabled
                       isTrimmed
-                      label={t<string>('call hash')}
+                      label={t('call hash')}
                       value={innerHash}
                       withCopy
                     />
@@ -403,7 +433,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
             )
           }
         </ErrorBoundary>
-      </Modal.Content>
+      </StyledModalContent>
       <Modal.Actions>
         <Button
           icon={
@@ -415,33 +445,45 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
           isDisabled={!senderInfo.signAddress || isRenderError}
           label={
             flags.isQr
-              ? t<string>('Sign via Qr')
+              ? t('Sign via Qr')
               : isSubmit
-                ? t<string>('Sign and Submit')
-                : t<string>('Sign (no submission)')
+                ? t('Sign and Submit')
+                : t('Sign (no submission)')
           }
           onClick={_doStart}
           tabIndex={2}
         />
-        {!isBusy && (
-          <Toggle
-            className='signToggle'
-            isDisabled={!!currentItem.payload}
-            label={
-              isSubmit
-                ? t<string>('Sign and Submit')
-                : t<string>('Sign (no submission)')
-            }
-            onChange={setIsSubmit}
-            value={isSubmit}
-          />
-        )}
+        <div className='signToggle'>
+          {!isBusy && (
+            <Toggle
+              isDisabled={!!currentItem.payload}
+              label={
+                isSubmit
+                  ? t('Sign and Submit')
+                  : t('Sign (no submission)')
+              }
+              onChange={setIsSubmit}
+              value={isSubmit}
+            />
+          )}
+          {isAutoCapable && (
+            <Toggle
+              label={
+                isQueueSubmit
+                  ? t('Submit {{queueSize}} items', { replace: { queueSize } })
+                  : t('Submit individual')
+              }
+              onChange={setIsQueueSubmit}
+              value={isQueueSubmit}
+            />
+          )}
+        </div>
       </Modal.Actions>
     </>
   );
 }
 
-export default React.memo(styled(TxSigned)`
+const StyledModalContent = styled(Modal.Content)`
   .tipToggle {
     width: 100%;
     text-align: right;
@@ -450,4 +492,6 @@ export default React.memo(styled(TxSigned)`
   .ui--Checks {
     margin-top: 0.75rem;
   }
-`);
+`;
+
+export default React.memo(TxSigned);

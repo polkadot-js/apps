@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2024 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -11,7 +11,7 @@ import { useApi, useLedger } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { arrayRange } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Option {
   text: string;
@@ -82,26 +82,24 @@ function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> 
   return (
     <Modal
       className={className}
-      header={t<string>('Add account via Ledger')}
+      header={t('Add account via Ledger')}
       onClose={onClose}
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={t<string>('The name for this account as it will appear under your accounts.')}>
+        <Modal.Columns hint={t('The name for this account as it will appear under your accounts.')}>
           <Input
             autoFocus
             className='full'
-            help={t<string>('Name given to this account to uniquely identity the account to yourself.')}
             isError={!isNameValid}
-            label={t<string>('name')}
+            label={t('name')}
             onChange={_onChangeName}
-            placeholder={t<string>('account name')}
+            placeholder={t('account name')}
             value={name}
           />
         </Modal.Columns>
         <Modal.Columns hint={t('The account type that you wish to create. This is the top-level derivation.')}>
           <Dropdown
-            help={t('The account type (derivation) to use')}
             label={t('account type')}
             onChange={setAccIndex}
             options={accOps.current}
@@ -110,7 +108,6 @@ function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> 
         </Modal.Columns>
         <Modal.Columns hint={t('The address index on the account that you wish to add. This is the second-level derivation.')}>
           <Dropdown
-            help={t('The address index (derivation on account) to use')}
             label={t('address index')}
             onChange={setAddIndex}
             options={addOps.current}
@@ -126,7 +123,7 @@ function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> 
           icon='plus'
           isBusy={isBusy}
           isDisabled={!isNameValid}
-          label={t<string>('Save')}
+          label={t('Save')}
           onClick={_onSave}
         />
       </Modal.Actions>

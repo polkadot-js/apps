@@ -1,15 +1,15 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
 import type { PalletBagsListListNode } from '@polkadot/types/lookup';
-import type { BagMap } from './types';
+import type { BagMap } from './types.js';
 
 import { useEffect, useState } from 'react';
 
 import { createNamedHook, useCall } from '@polkadot/react-hooks';
 
-import useQueryModule from './useQueryModule';
+import useQueryModule from './useQueryModule.js';
 
 const MULTI_OPTS = {
   transform: (opts: Option<PalletBagsListListNode>[]): BagMap =>
@@ -33,7 +33,7 @@ function merge (prev: BagMap | undefined, curr: BagMap): BagMap {
   return Object
     .entries(curr)
     .reduce((all: BagMap, [id, nodes]): BagMap => {
-      all[id] = prev && prev[id] && JSON.stringify(nodes) === JSON.stringify(prev[id])
+      all[id] = prev?.[id] && JSON.stringify(nodes) === JSON.stringify(prev[id])
         ? prev[id]
         : nodes;
 

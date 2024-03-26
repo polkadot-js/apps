@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2024 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useState } from 'react';
@@ -7,7 +7,7 @@ import { AddressRow, Button, Modal, Password, PasswordStrength } from '@polkadot
 import { keyring } from '@polkadot/ui-keyring';
 import { nextTick } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
@@ -65,7 +65,7 @@ function ChangePass ({ address, className = '', onClose }: Props): React.ReactEl
           }
 
           account.decodePkcs8(oldPass);
-        } catch (error) {
+        } catch {
           setOldPass((state: OldPass) => ({ ...state, isOldValid: false }));
           setIsBusy(false);
 
@@ -74,7 +74,7 @@ function ChangePass ({ address, className = '', onClose }: Props): React.ReactEl
 
         try {
           keyring.encryptAccount(account, newPass1.password);
-        } catch (error) {
+        } catch {
           setNewPass2((state: NewPass) => ({ ...state, isValid: false }));
           setIsBusy(false);
 
@@ -91,7 +91,7 @@ function ChangePass ({ address, className = '', onClose }: Props): React.ReactEl
   return (
     <Modal
       className={`${className} app--accounts-Modal`}
-      header={t<string>('Change account password')}
+      header={t('Change account password')}
       onClose={onClose}
       size='large'
     >
@@ -100,31 +100,28 @@ function ChangePass ({ address, className = '', onClose }: Props): React.ReactEl
           isInline
           value={address}
         />
-        <Modal.Columns hint={t<string>('The existing account password as specified when this account was created or when it was last changed.')}>
+        <Modal.Columns hint={t('The existing account password as specified when this account was created or when it was last changed.')}>
           <Password
             autoFocus
-            help={t<string>('The existing account password as specified when this account was created or when it was last changed.')}
             isError={!isOldValid}
-            label={t<string>('your current password')}
+            label={t('your current password')}
             onChange={_onChangeOld}
             tabIndex={1}
             value={oldPass}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('This will apply to any future use of this account as stored on this browser. Ensure that you securely store this new password and that it is strong and unique to the account.')}>
+        <Modal.Columns hint={t('This will apply to any future use of this account as stored on this browser. Ensure that you securely store this new password and that it is strong and unique to the account.')}>
           <Password
-            help={t<string>('The new account password. Once set, all future account unlocks will be performed with this new password.')}
             isError={!newPass1.isValid}
-            label={t<string>('your new password')}
+            label={t('your new password')}
             onChange={_onChangeNew1}
             onEnter={_doChange}
             tabIndex={2}
             value={newPass1.password}
           />
           <Password
-            help={t<string>('Verify the password entered above.')}
             isError={!newPass2.isValid}
-            label={t<string>('password (repeat)')}
+            label={t('password (repeat)')}
             onChange={_onChangeNew2}
             onEnter={_doChange}
             tabIndex={2}
@@ -138,7 +135,7 @@ function ChangePass ({ address, className = '', onClose }: Props): React.ReactEl
           icon='sign-in-alt'
           isBusy={isBusy}
           isDisabled={!newPass1.isValid || !newPass2.isValid || !isOldValid}
-          label={t<string>('Change')}
+          label={t('Change')}
           onClick={_doChange}
         />
       </Modal.Actions>

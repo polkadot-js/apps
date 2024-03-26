@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -6,7 +6,7 @@ import React from 'react';
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   accountDelegating: string | null;
@@ -20,16 +20,16 @@ function Undelegate ({ accountDelegating, onClose }: Props): React.ReactElement<
   return (
     <Modal
       className='staking--Undelegate'
-      header= {t<string>('Undelegate')}
+      header= {t('Undelegate')}
       onClose={onClose}
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={t<string>('You will remove any delegation made by this acccount')}>
+        <Modal.Columns hint={t('You will remove any delegation made by this acccount')}>
           <InputAddress
             defaultValue={accountDelegating}
             isDisabled
-            label={t<string>('delegating account')}
+            label={t('delegating account')}
           />
         </Modal.Columns>
       </Modal.Content>
@@ -37,7 +37,7 @@ function Undelegate ({ accountDelegating, onClose }: Props): React.ReactElement<
         <TxButton
           accountId={accountDelegating}
           icon='sign-in-alt'
-          label={t<string>('Undelegate')}
+          label={t('Undelegate')}
           onStart={onClose}
           tx={api.tx.democracy.undelegate}
         />

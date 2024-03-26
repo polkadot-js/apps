@@ -1,14 +1,14 @@
-// Copyright 2017-2022 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2024 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { LeasePeriod } from '../types';
+import type { LeasePeriod } from '../types.js';
 
 import React, { useMemo } from 'react';
 
 import { BN_ONE, formatNumber } from '@polkadot/util';
 
-import LeaseBlocks from './LeaseBlocks';
+import LeaseBlocks from './LeaseBlocks.js';
 
 interface Props {
   className?: string;
@@ -18,9 +18,9 @@ interface Props {
 }
 
 function getMapped (periods: number[], currentPeriod?: BN): string | undefined {
-  return currentPeriod && periods &&
+  return currentPeriod &&
     periods
-      .reduce((all: [BN, BN][], period): [BN, BN][] => {
+      ?.reduce((all: [BN, BN][], period): [BN, BN][] => {
         const bnp = currentPeriod.addn(period);
 
         if (!all.length || all[all.length - 1][1].add(BN_ONE).lt(bnp)) {

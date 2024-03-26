@@ -1,43 +1,42 @@
-// Copyright 2017-2022 @polkadot/apps authors & contributors
+// Copyright 2017-2024 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from 'i18next';
 import type { Route, Routes } from '@polkadot/apps-routing/types';
 import type { ApiProps } from '@polkadot/react-api/types';
 import type { AccountId } from '@polkadot/types/interfaces';
-import type { Group, Groups, ItemRoute } from './types';
+import type { Group, Groups, ItemRoute } from './types.js';
 
 import React, { useMemo, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import styled from 'styled-components';
 
 import createRoutes from '@polkadot/apps-routing';
+import { styled } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall, useTeleport } from '@polkadot/react-hooks';
 
-import { findMissingApis } from '../endpoint';
-import { useTranslation } from '../translate';
-import ChainInfo from './ChainInfo';
-import Grouping from './Grouping';
-import Item from './Item';
-import NodeInfo from './NodeInfo';
+import { findMissingApis } from '../endpoint.js';
+import { useTranslation } from '../translate.js';
+import ChainInfo from './ChainInfo.js';
+import Grouping from './Grouping.js';
+import Item from './Item.js';
+import NodeInfo from './NodeInfo.js';
 
 interface Props {
   className?: string;
 }
 
-function createExternals (t: TFunction): ItemRoute[] {
+function createExternals (t: (key: string, optionsOrText?: string | { replace: Record<string, unknown> }, options?: { ns: string }) => string): ItemRoute[] {
   return [
     {
       href: 'https://github.com/polkadot-js/apps',
       icon: 'code-branch',
       name: 'github',
-      text: t<string>('nav.github', 'GitHub', { ns: 'apps-routing' })
+      text: t('nav.github', 'GitHub', { ns: 'apps-routing' })
     },
     {
       href: 'https://wiki.polkadot.network',
       icon: 'book',
       name: 'wiki',
-      text: t<string>('nav.wiki', 'Wiki', { ns: 'apps-routing' })
+      text: t('nav.wiki', 'Wiki', { ns: 'apps-routing' })
     }
   ];
 }
@@ -125,14 +124,14 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   );
 
   return (
-    <div className={`${className}${(!apiProps.isApiReady || !apiProps.isApiConnected) ? ' isLoading' : ''} highlight--bg`}>
+    <StyledDiv className={`${className}${(!apiProps.isApiReady || !apiProps.isApiConnected) ? ' isLoading' : ''} highlight--bg`}>
       <div className='menuContainer'>
         <div className='menuSection'>
           <ChainInfo />
           <ul className='menuItems'>
             {visibleGroups.map(({ name, routes }): React.ReactNode => (
               <Grouping
-                isActive={activeRoute && activeRoute.group === name.toLowerCase()}
+                isActive={!!activeRoute && activeRoute.group === name.toLowerCase()}
                 key={name}
                 name={name}
                 routes={routes}
@@ -154,15 +153,19 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
         </div>
         <NodeInfo className='media--1400' />
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Menu)`
+const StyledDiv = styled.div`
   width: 100%;
   padding: 0;
   z-index: 220;
   position: relative;
+
+  .smallShow {
+    display: none;
+  }
 
   & .menuContainer {
     flex-direction: row;
@@ -229,4 +232,27 @@ export default React.memo(styled(Menu)`
     align-self: center;
   }
 
-`);
+  @media only screen and (max-width: 800px) {
+    .groupHdr {
+      padding: 0.857rem 0.75rem;
+    }
+
+    .smallShow {
+      display: initial;
+    }
+
+    .smallHide {
+      display: none;
+    }
+
+    .menuItems {
+      margin-right: 0;
+
+      > li + li {
+        margin-left: 0.25rem;
+      }
+    }
+  }
+`;
+
+export default React.memo(Menu);

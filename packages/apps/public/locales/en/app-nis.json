@@ -1,0 +1,23 @@
+{
+  "Bid": "Bid",
+  "Bid via Proxy": "Bid via Proxy",
+  "No active nis queues found.": "No active nis queues found.",
+  "Overview": "Overview",
+  "The amount you wish to lock for the duration. It needs to be more than the nis minimum.": "The amount you wish to lock for the duration. It needs to be more than the nis minimum.",
+  "The number of periods this bid is to be locked for, less than the maximum period.": "The number of periods this bid is to be locked for, less than the maximum period.",
+  "This account will make the bid for the nis and pay all associated fees.": "This account will make the bid for the nis and pay all associated fees.",
+  "balance": "balance",
+  "bid amount": "bid amount",
+  "intake": "intake",
+  "length of lock (blocks, calculated)": "length of lock (blocks, calculated)",
+  "lock periods": "lock periods",
+  "maximum lock periods": "maximum lock periods",
+  "minimum bid amount": "minimum bid amount",
+  "participants": "participants",
+  "proportion": "proportion",
+  "queues": "queues",
+  "send via proxy": "send via proxy",
+  "submit nis bid": "submit nis bid",
+  "transferrable": "transferrable",
+  "use proxied account": "use proxied account"
+}

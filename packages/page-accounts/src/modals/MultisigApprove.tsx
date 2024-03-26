@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2024 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -6,21 +6,21 @@ import type { AccountId, Call, H256, Multisig } from '@polkadot/types/interfaces
 import type { CallFunction } from '@polkadot/types/types';
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { AddressMini, Call as CallDisplay, Dropdown, Expander, Input, InputAddress, MarkError, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { AddressMini, Dropdown, Expander, Input, InputAddress, MarkError, Modal, styled, Toggle, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useWeight } from '@polkadot/react-hooks';
+import { Call as CallDisplay } from '@polkadot/react-params';
 import { assert, isHex } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   address: string;
   className?: string;
   onClose: () => void;
   ongoing: [H256, Multisig][];
-  threshold: number;
-  who: string[];
+  threshold?: number;
+  who?: string[];
 }
 
 interface MultiInfo {
@@ -45,13 +45,13 @@ const EMPTY_CALL: CallData = {
   callInfo: null
 };
 
-function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: Props): React.ReactElement<Props> {
+function MultisigApprove ({ className = '', onClose, ongoing, threshold = 0, who = [] }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const [callHex, setCallHex] = useState<string>('');
   const [{ callData, callError, callInfo }, setCallData] = useState<CallData>(EMPTY_CALL);
-  const [callWeight, callLength] = useWeight(callData);
+  const { encodedCallLength, weight } = useWeight(callData);
   const [hash, setHash] = useState<string | null>(() => ongoing[0][0].toHex());
   const [{ isMultiCall, multisig }, setMultisig] = useState<MultiInfo>(() => ({ isMultiCall: false, multisig: null }));
   const [isCallOverride, setCallOverride] = useState(true);
@@ -62,8 +62,8 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
   const [tx, setTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
 
   const callOptRef = useRef<Option[]>([
-    { text: t<string>('Approve this call hash'), value: 'aye' },
-    { text: t<string>('Cancel this call hash'), value: 'nay' }
+    { text: t('Approve this call hash'), value: 'aye' },
+    { text: t('Cancel this call hash'), value: 'nay' }
   ]);
 
   const hashes = useMemo<Option[]>(
@@ -87,7 +87,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
     setOthers(
       who
         .map((w) => api.createType('AccountId', w))
-        .filter((w) => !w.eq(signatory))
+        .filter((w) => !signatory || !w.eq(signatory))
     );
   }, [api, signatory, who]);
 
@@ -138,36 +138,41 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
         ? type === 'aye'
           ? isMultiCall && isCallOverride
             ? callData
-              ? multiMod.asMulti.meta.args.length === 6
-                ? multiMod.asMulti(threshold, others, multisig.when, callData.toHex(), false, callWeight)
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore (We are doing toHex here since we have a Vec<u8> input)
-                : multiMod.asMulti(threshold, others, multisig.when, callData)
+              ? multiMod.asMulti.meta.args.length === 5
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+                ? multiMod.asMulti(threshold, others, multisig.when, callData.toHex(), weight as any)
+                : multiMod.asMulti.meta.args.length === 6
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore (We are doing toHex here since we have a Vec<u8> input)
+                  ? multiMod.asMulti(threshold, others, multisig.when, callData.toHex(), false, weight)
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore (We are doing toHex here since we have a Vec<u8> input)
+                  : multiMod.asMulti(threshold, others, multisig.when, callData)
               : null
             : multiMod.approveAsMulti.meta.args.length === 5
-              ? multiMod.approveAsMulti(threshold, others, multisig.when, hash, callWeight)
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+              ? multiMod.approveAsMulti(threshold, others, multisig.when, hash, weight as any)
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               : multiMod.approveAsMulti(threshold, others, multisig.when, hash)
           : multiMod.cancelAsMulti(threshold, others, multisig.when, hash)
         : null
     );
-  }, [api, callData, callWeight, hash, isCallOverride, isMultiCall, others, multisig, threshold, type]);
+  }, [api, callData, hash, isCallOverride, isMultiCall, others, multisig, threshold, type, weight]);
 
   const isAye = type === 'aye';
 
   return (
-    <Modal
+    <StyledModal
       className={className}
-      header={t<string>('Pending call hashes')}
+      header={t('Pending call hashes')}
       onClose={onClose}
       size='large'
     >
       <Modal.Content>
         <Modal.Columns hint={t('The call hash from the list of available and unapproved calls.')}>
           <Dropdown
-            help={t<string>('The call hashes that have not been executed as of yet.')}
-            label={t<string>('pending hashes {{count}}', {
+            label={t('pending hashes {{count}}', {
               replace: { count: hashes.length }
             })}
             onChange={setHash}
@@ -177,17 +182,17 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
         </Modal.Columns>
         {multisig && (
           <>
-            <Modal.Columns hint={t<string>('The creator for this multisig call')}>
+            <Modal.Columns hint={t('The creator for this multisig call')}>
               <InputAddress
                 defaultValue={multisig.depositor}
                 isDisabled
-                label={t<string>('depositor')}
+                label={t('depositor')}
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The current approvals applied to this multisig')}>
+            <Modal.Columns hint={t('The current approvals applied to this multisig')}>
               <Expander
                 isPadded
-                summary={t<string>('Existing approvals ({{approvals}}/{{threshold}})', {
+                summary={t('Existing approvals ({{approvals}}/{{threshold}})', {
                   replace: {
                     approvals: multisig.approvals.length,
                     threshold
@@ -207,8 +212,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
         )}
         <Modal.Columns hint={t('The operation type to apply. For approvals both non-final and final approvals are supported.')}>
           <Dropdown
-            help={t<string>('Either approve or reject this call.')}
-            label={t<string>('approval type')}
+            label={t('approval type')}
             onChange={setType}
             options={callOptRef.current}
             value={type}
@@ -219,8 +223,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
             <Modal.Columns hint={t('For approvals outstanding approvers will be shown, for hashes that should be cancelled the first approver is required.')}>
               <InputAddress
                 filter={whoFilter}
-                help={t<string>('The signatory to send the approval/cancel from')}
-                label={t<string>('signatory')}
+                label={t('signatory')}
                 onChange={setSignatory}
               />
             </Modal.Columns>
@@ -244,7 +247,6 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
                       : (
                         <Input
                           autoFocus
-                          help={t('For final approvals, the actual full call data is required to execute the transaction')}
                           isError={!callHex || !!callError}
                           label={t('call data for final approval')}
                           onChange={setCallHex}
@@ -260,8 +262,8 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
                     className='tipToggle'
                     label={
                       isMultiCall
-                        ? t<string>('Multisig message with call (for final approval)')
-                        : t<string>('Multisig approval with hash (non-final approval)')
+                        ? t('Multisig message with call (for final approval)')
+                        : t('Multisig approval with hash (non-final approval)')
                     }
                     onChange={setCallOverride}
                     value={isCallOverride}
@@ -277,18 +279,20 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
           accountId={signatory}
           extrinsic={tx}
           icon={isAye ? 'check' : 'times'}
-          isDisabled={!tx || (isAye && (!whoFilter.length || (!!callData && !callLength)))}
+          isDisabled={!tx || (isAye && (!whoFilter.length || (!!callData && !encodedCallLength)))}
           label={isAye ? 'Approve' : 'Reject'}
           onStart={onClose}
         />
       </Modal.Actions>
-    </Modal>
+    </StyledModal>
   );
 }
 
-export default React.memo(styled(MultisigApprove)`
+const StyledModal = styled(Modal)`
   .tipToggle {
     width: 100%;
     text-align: right;
   }
-`);
+`;
+
+export default React.memo(MultisigApprove);

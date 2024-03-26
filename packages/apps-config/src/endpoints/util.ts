@@ -1,8 +1,8 @@
-// Copyright 2017-2022 @polkadot/apps-config authors & contributors
+// Copyright 2017-2024 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TFunction } from '../types';
-import type { EndpointOption, LinkOption } from './types';
+import type { TFunction } from '../types.js';
+import type { EndpointOption, LinkOption } from './types.js';
 
 interface SortOption {
   isUnreachable?: boolean;
@@ -38,6 +38,14 @@ function expandLinked (input: LinkOption[]): LinkOption[] {
             : undefined;
           child.valueRelay = valueRelay;
 
+          if (entry.ui?.identityIcon && child.paraId && child.paraId < 2000) {
+            if (!child.ui) {
+              child.ui = { identityIcon: entry.ui.identityIcon };
+            } else if (!child.ui.identityIcon) {
+              child.ui.identityIcon = entry.ui.identityIcon;
+            }
+          }
+
           return child;
         })
       )
@@ -45,7 +53,7 @@ function expandLinked (input: LinkOption[]): LinkOption[] {
   }, []);
 }
 
-function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, info, isChild, isDisabled, isUnreachable, linked, paraId, providers, teleport, text }: EndpointOption, firstOnly: boolean, withSort: boolean): LinkOption[] {
+function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, info, isChild, isDisabled, isUnreachable, linked, paraId, providers, teleport, text, ui }: EndpointOption, firstOnly: boolean, withSort: boolean): LinkOption[] {
   const hasProviders = Object.keys(providers).length !== 0;
   const base = {
     genesisHash,
@@ -56,7 +64,8 @@ function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, info, i
     isUnreachable: isUnreachable || !hasProviders,
     paraId,
     teleport,
-    text
+    text,
+    ui
   };
 
   const result = Object
@@ -75,7 +84,14 @@ function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, info, i
         ? t('lightclient.experimental', 'light client (experimental)', { ns: 'apps-config' })
         : t('rpc.hosted.via', 'via {{host}}', { ns: 'apps-config', replace: { host } }),
       value
-    }));
+    }))
+    .sort((a, b) =>
+      a.isLightClient
+        ? 1
+        : b.isLightClient
+          ? -1
+          : a.textBy.toLocaleLowerCase().localeCompare(b.textBy.toLocaleLowerCase())
+    );
 
   if (linked) {
     const last = result[result.length - 1];
@@ -100,4 +116,11 @@ export function expandEndpoints (t: TFunction, input: EndpointOption[], firstOnl
     .sort(withSort ? sortLinks : sortNoop)
     .reduce((all: LinkOption[], e) =>
       all.concat(expandEndpoint(t, e, firstOnly, withSort)), []);
+}
+
+export function getTeleports (input: EndpointOption[]): number[] {
+  return input
+    .filter(({ teleport }) => !!teleport && teleport[0] === -1)
+    .map(({ paraId }) => paraId)
+    .filter((id): id is number => !!id);
 }

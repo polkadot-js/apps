@@ -1,5 +1,804 @@
 # CHANGELOG
 
+## 0.135.1 Mar 21, 2024
+
+Contributed:
+
+- Add integritee para to paseo (https://github.com/brenzi)
+- Polimec: add new RPC provider and change color (https://github.com/lrazovic)
+- Remove the Turing Network endpoint provided by the provider Dwellir (https://github.com/imstar15)
+- Update ethereumChains.ts (https://github.com/dastanfv)
+- Remove Automata 1RPC (https://github.com/laboon)
+- Add XCM encoder utility (https://github.com/serban300)
+- Restore Virto provider for Kreivo in Kusama (https://github.com/olanod)
+- Disable polkaholic (https://github.com/sourabhniyogi)
+
+Changes:
+
+- Bump @polkadot/* lib deps
+- Disable unreachable endpoints
+- Fix Collator call for compatibility
+
+
+## 0.134.1 Mar 14, 2024
+
+Contributed:
+
+- Update chainflip-perseverance archive endpoint
+- Change Xode RPC address (https://github.com/hgminerva)
+- Update translation.json (https://github.com/Marvel63)
+- Peerplays types bundle (https://github.com/serkixenos)
+- Add Paseo's IBP endpoint (https://github.com/miloskriz)
+- Add harmonie network (allfeat testnet) (https://github.com/SailorSnoW)
+- Wake up Integritee shell on Polkadot and adapt naming (https://github.com/brenzi)
+- Fix typo in condition check for a curve type (https://github.com/rzadp)
+- Changed metaquity to phyken network (https://github.com/Ekaanth)
+- Add dwellir liberland endpoint (https://github.com/gflow33)
+- Add Invo Network to Rococo (https://github.com/ayushmishra2005)
+- Add metadata for integritee crowdloan (https://github.com/brenzi)
+- Re-enable Edgeware Beresheet (https://github.com/JelliedOwl)
+- Add Xode Project (https://github.com/hgminerva)
+- Add Hyperbridge networks (https://github.com/seunlanlege)
+- Upgrade chopsticks version (https://github.com/qiweiii)
+- Adding RockX endpoint (https://github.com/AgoL5866)
+- Add Continuum Metaverse.Network to Polkadot Relay (https://github.com/tritm-cs)
+- Fix make local fork non persistent across sessions (https://github.com/qiweiii)
+- Add dwellir endpoint for robonomics (https://github.com/gflow33)
+- Fix switch rpc in url should not auto use local fork (https://github.com/qiweiii)
+- Fix updating the democracy proposal modal (https://github.com/Dudleyneedham)
+- Enable LuckyFriday Bridgehub (https://github.com/paradox-tt)
+- Support ipfs://ipfs/ links (https://github.com/jsidorenko)
+- Add logo and background for Paseo testnet (https://github.com/al3mart)
+- Adding RadiumBlock as Polkadot AssetHub, Kusama AssetHub, BridgeHub-Kusama and BridgeHub-Polkadot Endpoint provider (https://github.com/radiumb)
+- Add Kippu rpc endpoint for Kreivo (https://github.com/pandres95)
+- Integrate chopsticks (https://github.com/qiweiii)
+- Update 3dpass provider endpoint (https://github.com/fedosov)
+- Re-enable JelliedOwl Edgeware (https://github.com/JelliedOwl)
+- Disable encointer & westend endpoints (no funding) (https://github.com/stakeworld)
+- Add metadata for NeuroWeb crowdloan (https://github.com/NZT48)
+- Add Metadata for Polkadex crowdloan (https://github.com/ap211unitech)
+- Add Curio Kusama chain (https://github.com/alexxxkny)
+- Add Liberland network (https://github.com/DorianSternVukotic)
+- Reorganise Edgeware RPCs (https://github.com/JelliedOwl)
+- Enable Aventus provider (https://github.com/nahuseyoum)
+- Add coretime-westend RPC (https://github.com/BulatSaif)
+- Add Logion parachain endpoints (https://github.com/gdethier)
+- Re-enable hydradx rococo endpoint (https://github.com/jak-pan)
+- Adding RadiumBlock as Moonbeam Endpoint Provider (https://github.com/radiumb)
+- Fix dropdown options not visible for metadata upgradable extensions 
+- Adding RadiumBlock as Phala and Moonriver Endpoint provider (https://github.com/radiumb)
+- Add IBP endpoints to Paseo (https://github.com/senseless)
+- Add muse network (https://github.com/Moliholy)
+- Add dwellir endpoint for subsocial (https://github.com/gflow33)
+- Reactivate integritee rpc endpoints (https://github.com/brenzi)
+- Use archive nodes for SORA Kusama and Polkadot parachains (https://github.com/stefashkaa)
+- Integrate Laos Chain as Ethereum-Based Chain (https://github.com/asiniscalchi)
+- Add Paseo testnet (https://github.com/al3mart)
+- Remove Crab Dwellir endpoint (https://github.com/JayJay1024)
+- Update Logion RPCs (https://github.com/gdethier)
+- OpenZeppelin runtime template (https://github.com/KitHat)
+- Add people parachain RPC (https://github.com/BulatSaif)
+- Dwellir: update Polkadex parachain, add Polkadex mainnet (https://github.com/jakobilobi)
+- Update Dwellir productionRelayPolkadot.ts (https://github.com/Maharacha)
+- Dwellir Bifrost Kusama endpoint working again (https://github.com/jonathanudd)
+- Add SORA Polkadot Parachain node (https://github.com/stefashkaa)
+- Add edgscan.ink explorer (https://github.com/ShankarWarang)
+- Add Yerba Network to Kusama (https://github.com/agryaznov)
+- Adding RadiumBlock as Khala Endpoint provider (https://github.com/radiumb)
+- Return DAO IPCI endpoint (https://github.com/falconexe)
+- Rename OriginTrail Prachain to NeuroWeb (https://github.com/NZT48)
+- Update Dwellir productionRelayPolkadot.ts (https://github.com/benjichat)
+- Remove Logion para testnet (https://github.com/gdethier)
+- Update Curio Parachain (https://github.com/alexxxkny)
+- Updated md5 rococo parachain collator 1 provider url (https://github.com/sebastianmontero)
+- Ternoa is a live network (https://github.com/soufiane-capsule)
+- Add joyutils RPC endpoint for Joystream (https://github.com/kdembler)
+- Restore blockops rpcs endpoint (https://github.com/Damola12345)
+- Change logo and color of Energy Web X network (https://github.com/renesy)
+- Add RadiumBlock endpoint to Watr - Update productionRelayPolkadot.ts (https://github.com/radiumb)
+- Fixed urls for genshiro & equilibrium (https://github.com/mikolajsobolewski)
+- Add Helikon public RPC node for Polimec (https://github.com/kukabi)
+- Added Helikon RPC node endpoints for Phala, Khala and HydraDX (https://github.com/kukabi)
+- Integration of K-LAOS kusama parachain (https://github.com/asiniscalchi)
+- Set up Vara inflation pararms (https://github.com/EugenWay)
+- Add Chainflip networks (https://github.com/GabrielBuragev)
+- OnFinality Frequency Recovery (https://github.com/CrazySurfBoy)
+- Integrate LAOS Rococo Parachain (Giedi) (https://github.com/asiniscalchi)
+- Reenable Mangata's project rococo endpoint (https://github.com/tenequm)
+- Update tangle testnet rpc endpoint (https://github.com/salman01zp)
+- Adding RadiumBlock as Shiden Endpoint provider (https://github.com/radiumb)
+- Update productionRelayPolkadot.ts (https://github.com/benjichat)
+- Update parallel rpc (https://github.com/GopherJ)
+- Add Polimec Network (https://github.com/vstam1)
+- Reenable nodes (https://github.com/alex-nax)
+- Fix changelog typos (https://github.com/dzizazda)
+- Add public RPC endpoint for Energy Web X (https://github.com/renesy)
+- Add VTB Network Mainnet (https://github.com/Wasif-Jamal)
+- Octopus Provider for Myriad and Debio (https://github.com/RiXelanya)
+- Get isEthereum from chain properties (https://github.com/fgamundi)
+- Fix Expected object keys to be in ascending order (https://github.com/CrazySurfBoy)
+- Add Ternoa websocket (https://github.com/soufiane-capsule)
+- Fix make transfer example (https://github.com/ugur-eren)
+- Add Vara Testnet (https://github.com/EugenWay)
+- Fix transfer button disappearance (https://github.com/pacoyang)
+- Change ethereum icons based on URL (https://github.com/wirednkod)
+- Update overrides (https://github.com/Tbaut)
+- Fix typos (https://github.com/shuoer86)
+- Update kodadot link & logo (https://github.com/roiLeo)
+- Update @frequency/api-augment to v1.9.0 (https://github.com/shannonwells)
+- Update vara logo (https://github.com/EugenWay)
+- Update Litentry rococo-parachain endpoint (https://github.com/Kailai-Wang)
+- Remove Phala PoC5 since it going to take down (https://github.com/Leechael)
+- Removing Kapex RPC for Dwellir | Update productionRelayPolkadot.ts (https://github.com/Omgzilla)
+- Disable RadiumBlock assethub endpoints for kusama and polkadot (https://github.com/radiumb)
+- Add masverse node (https://github.com/duonghb53)
+- Add rococo coretime parachain rpc (https://github.com/BulatSaif)
+- Added LuckyFriday's Acala node (https://github.com/paradox-tt)
+- Added Dwellir endpoint for Bifrost Polkadot (https://github.com/gflow33)
+- Add Innovatorchain (https://github.com/masterdubs)
+- Add Subspace Gemini-3g Nova testing rpc (https://github.com/vedhavyas)
+- Update krest network providers (https://github.com/lavish0000)
+- Add innovatorchain in evm chains (https://github.com/masterdubs)
+- Remove Parity's Polkadot and Kusama RPC providers (https://github.com/PierreBesson)
+
+Changes
+
+- Disable unreachable endpoints (https://github.com/jacogr)
+- Bump yarn berry
+- Bump @polkadot/* deps
+- Disable staking for unknown rewards handling
+- Bump 3rd-party deps
+- Disable claims (non-working)
+- Support requestStatusFor for usePreimage
+- Fix break in backwards compatibility with preimages
+
+
+## 0.133.1 Nov 19, 2023
+
+Contributed:
+
+- Update Polkadex endpoint (https://github.com/zktony)
+- Update Imbue endpoints (https://github.com/samelamin)
+- Add Dwellir endpoints (https://github.com/jonathanudd)
+- Update Acurast endpoint & paraid (https://github.com/RomarQ)
+- Add Hashed network parachain (https://github.com/sebastianmontero)
+- Add Aleph Zero Dwellir endpoint (https://github.com/jonathanudd)
+- Re-add OnFinality endpoints for Parallel/Unique (https://github.com/banananeko)
+- Add Myhtical dev to Ethereum-compatible list (https://github.com/weezy20)
+- Update nodes for TheBitfrost network (https://github.com/alstjd0921)
+- Add Stakeworld endpoint for Encointer (https://github.com/stakeworld)
+- Update Stakeworld endpoints for Statemint/Statemine (https://github.com/stakeworld)
+- Update TheBitfrost testnet details (https://github.com/alstjd0921)
+- Use types package for Mangata types (https://github.com/devdanco)
+- Add Ubsquare external link for Moonriver (https://github.com/wliyongfeng)
+- Add Trappist Rococo parachain (https://github.com/stiiifff)
+- Add additional LuckyFriday nodes (https://github.com/paradox-tt)
+- Add Moonsama endpoints (https://github.com/kyilkhor)
+- Add Polkassembly link for Cera (https://github.com/shamilkhan)
+- Add Imbue RPC endpoint (https://github.com/samelamin)
+- Remove Dotscanner (https://github.com/jeluard)
+- Add missing Imbue specs (https://github.com/samelamin)
+- Update RadiumBlock Westened networks (https://github.com/radiumb)
+- Add IBP BridgeHub support (https://github.com/miloskriz)
+- Add OnFinality Westmint endpoint (https://github.com/mikespook)
+- Move HydraDX Rococo endpoint (https://github.com/mrq1911)
+- Re-enable Jelliedowl endpoints (https://github.com/JelliedOwl)
+- Update Subsquare Bitfrost link (https://github.com/awesomepan)
+- Add Acurast Kusama parachain (https://github.com/RomarQ)
+- Add OnFinality BridgeHub RPC (https://github.com/mikespook)
+- Enable Parity endpoints (https://github.com/BulatSaif)
+- Fix reading of NFT metadata (https://github.com/jsidorenko)
+- Update Polkadex endpoints (https://github.com/zktony)
+- Add Qpn Kusama parachain (https://github.com/3ierratango)
+- Update RadiumBlock Polkadot endpoints (https://github.com/radiumb)
+- Add OnFinality Bitgreen endpoints (https://github.com/mikespook)
+- Add Rex network (https://github.com/renesy)
+- Update Blockops RPC endpoints (https://github.com/calvin-puram)
+- Adjust types for Cere network (https://github.com/shamilkhan)
+- Update RadiumBlock Kusama endpoints (https://github.com/radiumb)
+- Add Onfinality Polkadex endpoints (https://github.com/mikespook)
+- Rename Stake Technologies to Astar (https://github.com/bobo-k2)
+- Enable Imbue endpoint (https://github.com/samelamin)
+- Update Acurast endpoints (https://github.com/RomarQ)
+- Add Peerplays to Ethereum-compatible list (https://github.com/serkixenos)
+- Update OnFinality Darwinia (https://github.com/mikespook)
+- Update OnFinality Equilibrium (https://github.com/mikespook)
+- Restore BlockOps RPCs (https://github.com/calvin-puram)
+- Add InvArch Dwellir (https://github.com/jakobilobi)
+- Add Energy Web X (https://github.com/renesy)
+- Add Subspace Gemini 3f endpoint (https://github.com/natachadelarosa)
+- Add new Snowbridge forks (https://github.com/alistair-singh)
+- Add external Moonbeam apps links (https://github.com/mmaurello)
+- Update OnFinality Darwinia/Kapex endpoints (https://github.com/MinjieTian)
+- Update RadiumBlock Westend endpoints (https://github.com/radiumb)
+- Update Pinoneer networks (https://github.com/justinphamnz)
+- Update Darwinia display names (https://github.com/JayJay1024)
+- Update OnFinality support for multiple chains (https://github.com/GitHubMind)
+- Remove OnFinality Kusama AssetHub (https://github.com/GitHubMind)
+- RPCs for Pendulum, Amplitude & Foucoco (https://github.com/gianfra-t)
+- Update OnFinality HydraDX endpoints (https://github.com/MinjieTian)
+- Update Darwinia Crab Dwellir endpoint (https://github.com/jakobilobi)
+- Dwellir endpoints for Clover, Polkadex & Parallel (https://github.com/jonathanudd)
+- Update Karamachain endpoints (https://github.com/HolyGrease)
+- Update Tangle pictures & endpoints (https://github.com/1xstj)
+- Add Subsquare links for Vara network (https://github.com/wliyongfeng)
+- Add Cere stats external links support (https://github.com/shamilkhan)
+- Dwellir endpoints for Unique/Quartz (https://github.com/jakobilobi)
+- Update stable endpoints (https://github.com/samelamin)
+- Add Dwellir Centrifuge & Pendulum endpoints (https://github.com/awnns)
+- Add Yerba network (https://github.com/pgherveou)
+- Add Phala POC6 (https://github.com/nanometerzhu)
+- Update Acurast Rococo (https://github.com/RomarQ)
+- Add Logion parachain (https://github.com/gdethier)
+- Add Metaquity endpoints (https://github.com/Ekaanth)
+- Add OnFinality Aleph Zero endpoint (https://github.com/MinjieTian)
+- Add Dwellir OriginTrail endpoint (https://github.com/jakobilobi)
+- Update EnergyWeb endpoint (https://github.com/renesy)
+- Update Polkaseembly address links (https://github.com/niklabh)
+- Additional Metaverse Pinoneer endpoints (https://github.com/justinphamnz)
+- Integritee logo change (https://github.com/brenzi)
+- Update Onfinality Darwinia Crab (https://github.com/fewensa)
+- Update Creditcoin endpoints (https://github.com/pLabarta)
+- Support for latest contracts pallet (https://github.com/vampik33)
+- Update Liebi providers (https://github.com/TomatoAres)
+- Add Metaquity on Rococo (https://github.com/Ekaanth)
+- Additional Dwellir endpoints (https://github.com/jonathanudd)
+- Update TheBifrost network description (https://github.com/alstjd0921)
+- Remove Unique Asia RPCs (https://github.com/uandysmith)
+- Add Dwellir endpoints for BridgeHub/Collectives (https://github.com/jonathanudd)
+- Update to latest Mangata types package (https://github.com/devdanco)
+- Remove some OnFinality endpoints (https://github.com/themacexpert)
+- Change Logion paraid (https://github.com/gdethier)
+- Re-enable Watr network endpoint (https://github.com/Moliholy)
+- Add Dwellir InvArch endpoint (https://github.com/jonathanudd)
+- Add Watr spec types (https://github.com/Moliholy)
+- Update InvArch logo and colors (https://github.com/arrudagates)
+- Add t1rn chain on Kusama (https://github.com/3h4x)
+- Update Nodle Rococo endpoint (https://github.com/Douglasacost)
+- Add Subspace Gemini 3g endpoints (https://github.com/natachadelarosa)
+- Add Kreivo parachain (https://github.com/olanod)
+- Remove Clover Dwellir endpoint (https://github.com/jonathanudd)
+- Fix locking period display (https://github.com/Nick-1979)
+- Add AltLayer to Ethereum-compatible list (https://github.com/atenjin)
+- Add Asia and Geo endpoints for Unique (https://github.com/BuddyGlas)
+- Rename Kilt Protocol to BOTLAbs (https://github.com/weichweich)
+- Fix some spelling mistakes (https://github.com/abujulaibib)
+
+Changes:
+
+- Apply batch transactions for Gov2 delegations
+- Add missing status specifiers
+- Adjust types for i18n usage
+- Adjust usage for CSS top-level variables
+- fix light theme Identitycon background
+- Adjust CI workflow steps
+- Disable unreachable endpoints
+
+
+## 0.132.1 Jun 19, 2023
+
+Contributed:
+
+- Add Karmachain testnet endpoints (Thanks to https://github.com/HolyGrease)
+- Adjust Subscocial endpoints (Thanks to https://github.com/olehmell)
+- Update RadiumBlock Polkadot endpoints (Thanks to https://github.com/radiumb)
+- Add RadiumBlock Collectives endpoints (Thanks to https://github.com/radiumb)
+- Update RadiumBlock Westend endpoints (Thanks to https://github.com/radiumb)
+- Update Liebi Rococo endpoints (Thanks to https://github.com/TomatoAres)
+- Add Dwellir endpoint for Interlay (Thanks to https://github.com/jonathanudd)
+- Add Stakeworld endpoints for AssetHub (Thanks to https://github.com/stakeworld)
+- Add Stakeworld endpoints for BridgeHub (Thanks to https://github.com/stakeworld)
+- Additional chains for external Sub.ID links (Thanks to https://github.com/olehmell)
+- Add Subsquare links for Collectives (Thanks to https://github.com/wliyongfeng)
+- Add Subsquare links for Bifrost (Thanks to https://github.com/wliyongfeng)
+- Add endpoint for Krest network (Thanks to https://github.com/sfffaaa)
+- Add endpoint for Peaq network (Thanks to https://github.com/sfffaaa)
+- Expand supported Dwellir networks (Thanks to https://github.com/jonathanudd)
+- Add Darwinia community provider (Thanks to https://github.com/fewensa)
+- Fix JSONRPC payload creation (Thanks to https://github.com/pmikolajczyk41)
+- Expand Legacy ETH support (Thanks to https://github.com/sirius651)
+- Add Jur chain (Thanks to https://github.com/ashi20192020)
+- Rename State* to AssetHub (Thanks to https://github.com/BulatSaif)
+- Add Polkaseembly links for Collectives (Thanks to https://github.com/rajdeep7Singh)
+- Re-active teleport with Xcm V3 support (Thanks to https://github.com/loanMaster)
+
+Changes:
+
+- Disable unreachable endpoints
+- Extend chain config with ui logo overrides
+- Adjust Enum inputs with unused filtering
+
+
+## 0.131.4 May 23, 2023
+
+Changes:
+
+- Attempt fix for electron build (Linux executable name)
+
+
+## 0.131.3 May 23, 2023
+
+Changes:
+
+- Attempt fix for electron build (Linux executable name)
+
+
+## 0.131.2 May 23, 2023
+
+Changes:
+
+- Attempt fix for electron build (Mac entitlements)
+
+
+## 0.131.1 May 23, 2023
+
+Contributed:
+
+- Extend links for Polkassembly (Thanks to https://github.com/niklabh)
+- Add Subsquare links for Darwinia2 (Thanks to https://github.com/wliyongfeng)
+- Update Mangata Kusama endpoints (Thanks to https://github.com/tenequm)
+- Add JurNode testnet (Thanks to https://github.com/ashi20192020)
+- Add Ethereum support for Ferrum (Thanks to https://github.com/3ierratango)
+- Add Gens parachain (Thanks to https://github.com/alex-nax)
+- Add Dwellir endpoint for Kapex (Thanks to https://github.com/jonathanudd)
+- Add Phala Rococo parachain (Thanks to https://github.com/tolak)
+- Add Societal Rococo parachain (Thanks to https://github.com/okalenyk)
+- Restore Nodle testnet endpoint (Thanks to https://github.com/simonsso)
+
+Changes:
+
+- Cater for current Substrate bonding extrinsic arguments
+- Add basic NIS dashboard
+- Break circular dependencies, use composite tsconfig
+- Adjust electron build to use `--project` specifiers
+- Disable unreachable endpoints
+
+
+## 0.130.1 May 9, 2023
+
+Contributed:
+
+- OnFinality Ajuna endpoint (Thanks to https://github.com/jamesbayly)
+- OnFinality Basilisk endpoint (Thanks to https://github.com/jamesbayly)
+- Dwellir Phala endpoint (Thanks to https://github.com/Maharacha)
+- LuckyFriday Polkadot endpoint (Thanks to https://github.com/paradox-tt)
+- StakeWorld Polkadot endpoint (Thanks to https://github.com/stakeworld)
+- Subspace EVM to ethereum-compatible list (Thanks to https://github.com/vedhavyas)
+- Re-activate Centrifuge endpoints (Thanks to https://github.com/wischli)
+
+Changes:
+
+- Extend unbonding info message in case of stalled eras
+- Ensure only positive values on stalled era unbonding block calculations
+- Display hex public key in address conversion utility
+- Disable unreachable endpoints
+
+
+## 0.129.1 Apr 30, 2023
+
+Contributed:
+
+- Add BlockOps Kusama/Polkadot endpoints (Thanks to https://github.com/haroldsphinx)
+- Update Darwinia endpoints (Thanks to https://github.com/fewensa)
+
+Changes:
+
+- Disable unreachable endpoints
+
+
+## 0.128.1 Apr 24, 2023
+
+Contributed:
+
+- Update Manta endpoint (Thanks to https://github.com/grenade)
+- Update Mangata endpoints (Thanks to https://github.com/tenequm)
+- Update Rococo Basilisk endpoint (Thanks to https://github.com/mrq1911)
+- Add Rococo MD5 endpoint (Thanks to https://github.com/sebastianmontero)
+- Add Stakeworld Kusama endpoint (Thanks to https://github.com/stakeworld)
+- Add LuckyFriday Kusama & Statemine endpoints (Thanks to https://github.com/paradox-tt)
+
+Changes:
+
+- Link to IPFS version from development URL
+- Disable unreachable endpoints
+
+
+## 0.127.1 Apr 16, 2023
+
+Contributed:
+
+- Change Aleph testnet name (Thanks to https://github.com/DamianStraszak)
+- Add Westend BlockOps RPC (Thanks to https://github.com/calvin-puram)
+- Add Westend RadiumBlock RPC (Thanks to https://github.com/radiumb)
+- Update Frequency packages to latest (Thanks to https://github.com/wilwade)
+- Add OnFinality Quartz RPC (Thanks to https://github.com/deverka)
+
+Changes:
+
+- Disable unreachable endpoints
+
+
+## 0.126.1 Apr 10, 2023
+
+Contributed:
+
+- Allow disabled input selection on FF (Thanks to https://github.com/TorstenStueber)
+- Add SORA parachains (Thanks to https://github.com/stefashkaa)
+- Add LuckyFriday to Westend (Thanks to https://github.com/paradox-tt)
+- Update 3dpass logo (Thanks to https://github.com/fedosov)
+- Update JelliedOwl endpoints (Thanks to https://github.com/JelliedOwl)
+
+Changes:
+
+- Disable unreachable endpoints
+- De-bump PinataSDK for IPFS uploads
+
+
+## 0.125.1 Apr 3, 2023
+
+Contributed:
+
+- Remove Pinknode endpoints (Thanks to https://github.com/albertov19)
+- Add missing OnFinality networks (Thanks to https://github.com/jamesbayly)
+- Remove Dwellir endpoint for Edgeware (Thanks to https://github.com/Maharacha)
+- Add Tangle parachain (Thanks to https://github.com/1xstj)
+- Add Aband parachain (Thanks to https://github.com/octavei)
+- Fix Bajun logo (Thanks to https://github.com/darkfriend77)
+- Fix Thebifrost logo (Thanks to https://github.com/alstjd0921)
+- Add IBP provider for Kusama & Polkadot (Thanks to https://github.com/miloskriz)
+- Correct Statescan external links (Thanks to https://github.com/wliyongfeng)
+- Remove OnFinality endpoint for Pichiu (Thanks to https://github.com/banananeko)
+- Subscan external support for Gov2 (Thanks to https://github.com/WoeOm)
+- Add Polkadot BridgeHub parachain (Thsnka to https://github.com/lazam)
+- Adjust BidgeHub logo (Thanks to https://github.com/serban300)
+- Add Rococo Idiyanale parachain (Thanks to https://github.com/woss)
+- Remove Pangolin from test networks (Thanks to https://github.com/isunaslabs)
+- Adjust CI endpoint check (Thanks to https://github.com/jamesbayly)
+- Reenable rate-limited OnFinality endpoints (Thanks to https://github.com/jamesbayly)
+- Update Moonbeam-* network logos (Thanks to https://github.com/albertov19)
+- Update Tangle network url (Thanks to https://github.com/1xstj)
+- Expand Statescan chain support (Thanks to https://github.com/wliyongfeng)
+- Add endpoints for Kaizen (Thanks to https://github.com/nuel77)
+- Remove Pinknode endpoints (Thanks to https://github.com/rishikarthikeyan27)
+- Remove Dwellir endpoint for Bajun (Thanks to https://github.com/Maharacha)
+- Add Unique support for appPromition RPCs (Thanks to https://github.com/u-andy-smith)
+- RadiumBlock Bajun RPC endpoint (Thanks to https://github.com/radiumb)
+- Add Rococo GIANT parahcin (Thanks to https://github.com/ToufeeqP)
+- Add ZeePrime endpoint to HydraDX (Thanks to https://github.com/mrq1911)
+- Add Ethereum support for Pangolin2 (Thanks to https://github.com/isunaslabs)
+- Add Subsquare link for Litentry (Thanks to https://github.com/wliyongfeng)
+- Add Watr Polkadot (Thanks to https://github.com/NachoPal)
+- Restore OnFinality endpoint (Thanks to https://github.com/TomatoAres)
+- Add Peaq parachain logo (Thanks to https://github.com/lavish0000)
+- Fix Statemint endpoint (Thanks to https://github.com/radiumb)
+- Add Krest parachain (Thanks to https://github.com/kamrangul2404)
+- Adjust Hashed & Luhn endpoints (Thanks to https://github.com/mgravitt)
+- Update Aventus endpoints & colors (Thanks to https://github.com/nahuseyoum)
+- Add Subsquare link for Kusama (Thanks to https://github.com/wliyongfeng)
+- Add Gov2 support for Polkaseembly (Thanks to https://github.com/niklabh)
+- Remove Darwinia Crab network (Thanks to https://github.com/isunaslabs)
+- Update Dwellir endpoint for Darwinia (Thanks to https://github.com/Maharacha)
+- Add InArch network (Thanks to https://github.com/arrudagates)
+- Add support for Discord identities (Thanks to https://github.com/nbaztec)
+- Rename Dali network to Picasso on Rococo (Thanks to https://github.com/andyjsbell)
+- Update Darwinia Crab RPC (Thanks to https://github.com/isunaslabs)
+- Remove OnFinality for Unique (Thanks to https://github.com/ashkuc)
+- Update Polmesh type bundles (Thanks to https://github.com/F-OBrien)
+- Show Discord identity in Sidebar (Thanks to https://github.com/nbaztec)
+- Move Battery Station to Rococo (Thanks to https://github.com/sea212)
+- Move Zeitgeist to Polkadot (Thanks to https://github.com/sea212)
+- Add OnFinality endpoint for Darwinia Crab (Thanks to https://github.com/banananeko)
+- Update network list for Subscan support (Thanks to https://github.com/carlhong)
+- Update IBP endpoints (Thanks to https://github.com/miloskriz)
+- Add t3rn parachain (Thanks to https://github.com/alexand3rwilke)
+- Enable appPromotion for Unique (Thanks to https://github.com/u-andy-smith)
+- Add Curio parachain (Thanks to https://github.com/alexxxkny)
+- Add Fragnova networks (Thanks to https://github.com/sinkingsugar)
+- Add Ethereum-compat for Frontier template (Thanks to https://github.com/koushiro)
+- Switch Finney endpoint (Thanks to https://github.com/camfairchild)
+- Support BTreeSet inputs (Thanks to https://github.com/Neopallium)
+- Add Subsocial Polkadot parachain (Thanks to https://github.com/olehmell)
+- Update Manta paraId & providers (Thanks to https://github.com/grenade)
+- Add OnFinality Westmint endpoint (Thanks to https://github.com/banananeko)
+- Update Vara endpoints (Thanks to https://github.com/EugenWay)
+- i18n accounts page in ru (Thanks to https://github.com/kikirilll)
+- Adjust development check for Ethereum chains (Thanks to https://github.com/farcaller)
+- Readd OnFinality for Unique (Thanks to https://github.com/banananeko)
+- Remove OnFinality endpoint for Westmint (Thanks to https://github.com/banananeko)
+- Remove OnFinality endpoint for Mangata (Thanks to https://github.com/devdanco)
+- Move Subsocial RPCs (Thanks to https://github.com/olehmell)
+- Modify UnitedBloc endpoints (Thanks to https://github.com/albertov19)
+- Add support for WeightV2 in contracts (Thanks to https://github.com/niklabh)
+- Add Ethereum support for Dracones (Thanks to https://github.com/farcaller)
+- Add Stakeworld endpoint for Westend (Thanks to https://github.com/stakeworld)
+- Add Cere networks (Thanks to https://github.com/shamilkhan)
+- Update Frequency RPC (Thanks to https://github.com/mattheworris)
+- Statescan support for Polkadot (Thanks to https://github.com/wliyongfeng)
+- Change Zeitgest Polkadot endpoint (Thanks to https://github.com/sea212)
+- Add Mangata archive endpoint (Thanks to https://github.com/devdanco)
+- Cera config improvements (Thanks to https://github.com/shamilkhan)
+- Add derive override for Mangata (Thanks to https://github.com/vanderian)
+- Expand type definitions for Mangata (Thanks to https://github.com/vanderian)
+
+Changes:
+
+- Ensure teleport flag only applies to common parachains
+- Add support for Ethereum multisig creation
+- Fix minor transfer toggle inconvenience
+- Adjust batch size calculations (w/ proofSize from WeightV2)
+- Adjust detection of preimage pallet usage
+- Add Governance trackinfo descriptions for Polkadot
+- Remove proxy pre-filtering (differs between chains)
+- Defer keyring init until chain type is determined
+- Ensure consistent labels where linked dropdowns are used
+- Convert all used images to inline data: format
+- Add support for Reciprocal Gov2 tracks
+- Reformat endpoint config & setup
+- Add explicit ErrorBoundary across all modals
+- Ensure AccountId size limits are adheared to in inputs
+- Adjust address-only AccountName display
+- Enusre event decoding uses registry from correct blockHash
+- Adjust council to submit images via new preimage pallet
+- Remove unmaintained external links
+- Disable unreachable endpoints
+- Adjust built bundle splitting
+- Use Ubuntu & Node LTS versions for docker images
+- Remove 3rd-party packages that have resolution problems
+
+
+## 0.124.1 Jan 30, 2023
+
+Contributed:
+
+- TheBifrost testnet & logo changes (Thanks to https://github.com/alstjd0921)
+- Add Kusama BridgeHub (Thanks to https://github.com/BulatSaif)
+- subsquare link for Rococo (Thanks to https://github.com/wliyongfeng)
+- Adjust external Moonbase links (Thanks to https://github.com/albertov19)
+- Add Collectives OnFinality endpoint (Thanks to https://github.com/banananeko)
+- Remove Ajuna OnFinality endpoint (Thanks to https://github.com/MinjieTian)
+- Add Ajuna RadiumBlock endpoint (Thanks to https://github.com/radiumb)
+- Update Bitgreen endpoints (Thanks to https://github.com/abhath-labs)
+- Adjust Subsocial providers (Thanks to https://github.com/teodorus-nathaniel)
+- Add IPB endpoints to Westend (Thanks to https://github.com/miloskriz)
+- Add Ferrum network (Thanks to https://github.com/3ierratango)
+- Dwellir endpoint for Amplitude (Thanks to https://github.com/Maharacha)
+- Add logos for BridgeHub chains (Thanks to https://github.com/serban300)
+
+Changes:
+
+- Align council & other collective layouts
+- Add `ExtrinsicPayload` decoding in extrinsics -> Decode
+- Allow for non-promt signing of multiple txs
+- Optimize multi-column Table renders
+- Adjust `usePreimage` to handle inline calls
+- Remove `Founding` role in alliance (aligns with latest Substrate)
+- Ensure API stats graph correctly displays in/out transfers
+- Add `useTimer` hook (used in `ApiCtx`)
+- Allow for `fa-*` icons for chains (initially used in Collectives/BridgeHub)
+- Allow for conviction voting delegation setup
+- Disable unreachable endpoints
+- Dedupe/align chart titles
+- Wrap network latency & API stats wraphs in `NextTick`
+- Adjust display for RPC output labels
+
+
+## 0.123.1 Jan 16, 2023
+
+Contributed:
+
+- Update Subsquare external links (Thanks to https://github.com/wliyongfeng)
+- Add Subsquare external links for referenda (Thanks to https://github.com/wliyongfeng)
+- Add Subsquare external links for fellowship (Thanks to https://github.com/wliyongfeng)
+- Update Robonomics endpoints (Thanks to https://github.com/Leemo94)
+- Update Edgeware endpoints (Thanks to https://github.com/ShankarWarang)
+- Update OnFinality endpoints for Clover & Parallel (Thanks to https://github.com/banananeko)
+- Ethereum compatibility for Atlayer (Thanks to https://github.com/atenjin)
+- Ethereum compatibility for Darwinia (Thanks to https://github.com/isunaslabs)
+- Ethereum compatibility for Bifrost (Thanks to https://github.com/dnjscksdn98)
+- Fix entry params encoding for `Option<Bytes>` (Thanks to https://github.com/adamdossa)
+- Light client bootnode for Astar (Thanks to https://github.com/gluneau)
+- Update Bitgreen types (Thanks to https://github.com/abhath-labs)
+- Add Bitgreen as Polkadot parachain (Thanks to https://github.com/abhath-labs)
+- Unitlogo endpoint changes (Thanks to https://github.com/unitpdw)
+- Add Dwellir endpoints for Moonbeam/Moonriver (Thanks to https://github.com/Maharacha)
+- Remove Dwellir endpoints for Altair, Centrifuge, Integritee, Kisugi (Thanks to https://github.com/Maharacha)
+- Remove OnFinality endpoint for Quartz (Thanks to https://github.com/ashkuc)
+- Enable Crust Shadow endpoint (Thanks to https://github.com/yashirooooo)
+- Update RadiumBlock Statemint endpoint (Thanks to https://github.com/radiumb)
+- Update RadiumBlock Polkadot endpoint (Thanks to https://github.com/radiumb)
+- Add RadiumBlock Astar endpoint (Thanks to https://github.com/radiumb)
+- Update endpoints for Rococo Frequency (Thanks to https://github.com/wilwade)
+- Add new Subsocial parachain endpoint (Thanks to https://github.com/olehmell)
+- Add Robonomics crowdloan 2 information (Thanks to https://github.com/vol4tim)
+- Add Polkassembly external links for referenda (Thanks to https://github.com/niklabh)
+- Update Arjun RPC endpoint (Thanks to https://github.com/darkfriend77)
+- Updata Acala types package (Thanks to https://github.com/qwer951123)
+- Add Kiko2 parachain info (Thanks to https://github.com/wetalice)
+- Add Kusama RioDefi parachain (Thanks to https://github.com/liuliang)
+- Add Frequency mainnet (Thanks to https://github.com/wilwade)
+- Enable OnFinality Quartz endpoint (Thanks to https://github.com/banananeko)
+- Enable OnFinality Bifrost, Parallel, Heiko & Clover endpoints (Thanks to https://github.com/banananeko)
+- Update Picasso endpoint (Thanks to https://github.com/alexkdefi)
+- Add stake.plus endpoints for Kusama, Polkadot & Westend (Thanks to https://github.com/senseless)
+- Updata Sora endpoints for testing & production (Thanks to https://github.com/stefashkaa)
+- Remove extra Subspace Gemini 2a endpoints (Thanks to https://github.com/nazar-pc)
+- Custom signed extension for Encointer (Thanks to https://github.com/clangenb)
+- Add Pendulum chain (Thanks to https://github.com/gonzamontiel)
+- Update Rococo Amplitude information (Thanks to https://github.com/gonzamontiel)
+- Update Kilt type definitions (Thanks to https://github.com/ntn-x2)
+- Add Myriad endpoint (Thanks to https://github.com/irmannmal)
+- Add DeBio network endpoint (Thanks to https://github.com/irmannmal)
+- Add Joystream mainnet info (Thanks to https://github.com/Lezek123)
+- Update Pendulum logo (Thanks to https://github.com/cr4pt0)
+- Add 3dpass network (Thanks to https://github.com/fedosov)
+- Add Rococo Acurast network (Thanks to https://github.com/godenzim)
+- Remove Pinknode Shibuya (Thanks to https://github.com/Shawn-Eng-888)
+- Remove Dwellir endpoints for Moonbeam/Moonriver (Thanks to https://github.com/Maharacha)
+- Remove Dwellir endpoint for Subspace Gemini 2a (Thanks to https://github.com/Maharacha)
+- Adjust RadiumBlock hybrid compute endpoints (Thanks to https://github.com/radiumb)
+- Add Rococo Ethos (Thanks to https://github.com/ashi20192020)
+- Add OnFinality endpoint for HydraDx (Thanks to https://github.com/banananeko)
+- Enable OnFinality Tinker endpoint (Thanks to https://github.com/arrudagates)
+- Add UnitedBloc endpoints (Thanks to https://github.com/albertov19)
+- Add Bitgreen testnet & mainnet (Thanks to https://github.com/abhath-labs)
+- Add Bittensor Nakamoto (Thanks to https://github.com/camfairchild)
+- Add Dwellir Tunisia location endpoints (Thanks to https://github.com/Maharacha)
+- Add high-quality Kusama svg logo (Thanks to https://github.com/Nick-1979)
+- Adjust OmniBTC endpoints (Thanks to https://github.com/icodezjb)
+- Add Rococo Bridge hub parachain (Thanks to https://github.com/BulatSaif)
+- Add Subzero parachain (Thanks to https://github.com/2075)
+- Updata Crust IPFS files endpoints (Thanks to https://github.com/BOBOKaa)
+- Re-introduce support for per-chain types (Thanks to https://github.com/ntn-x2)
+- Adjust KILT types to apply per-chain (Thanks to https://github.com/ntn-x2)
+- Remove OnFinality endpoint for Efinity (Thanks to https://github.com/tommycodebox)
+- Fix democracy display when no launchPeriod is available (Thanks to https://github.com/sander2)
+- Improve council compatibility across chains (Thanks to https://github.com/peterwht)
+- Add Onfinaly Ajuna endpoint (Thanks to https://github.com/banananeko)
+- Update t0rn endpoint (Thanks to https://github.com/3h4x)
+
+Changes:
+
+- Display all decimals on InputBalance component
+- Adjust Latency charts (with in-order rendering for latest chart plugins)
+- Swap to default 1x conviction
+- Expand full structures on Struct & Enum params display
+- Adjust Call/Event Balance display (known call configs)
+- Adjust function detection for proxy/multisig operations
+- Adjust chilled filtering for latest Substrate (no auto chill)
+- Display warning/error messages on preimage app (encoding issues)
+- Display referenda locks in account section
+- Display inactive issuance for referenda
+- Display account import & qr warning where genesisHash is mismatched
+- Add support for abstain conviction voting
+- Allow referena voting with no preimage
+- Display icon for unlocked parachains
+- Apply consistency in preimage hash styling (w/ copy)
+- Ensure referenda submission always has the correct length
+- Don't reply on availability of `earliestUnappliedSlash`
+- Support new preimage pallet on democracy
+- Add Collectives parachain info
+- Adjust democracy proposeExternal
+- Don't assume council availability on treasury rendering
+- Sort & display ranked collectives
+- Display track info (as per config) for different tracks
+- Add & display track texts for fellowship
+- Render MultiAddress.Id via Address component
+- Sort endpoints by provider name in display
+- Adjust detection of democracy app display
+- Display scheduler entries with inline hash
+- Allow selection of origin where track has multiples
+- Adjust pool metadata display (no unicode, overflow)
+- Cleanup detail vote displays
+- Decode all scheduler entries via hash lookup (as available)
+- Add display filters for referenda tracks
+- Adjust event mapping, no non-required firing
+- Split scheduler from democracy into own app
+- Enable vote-disable based on rank and track
+- Adjust proxy list for governance 2 pallets
+- Add calculations for referenda curves (& display on ongoing)
+- Add elased overlays on referendum graphs
+- Ensure new-generation slash has correct era offset in calculations
+- Display referenda confirming end block
+- Add full ErrorBoundary around 3rd party chart component
+- Add Unnote capability to preimages
+- Remove odd/even table backgrounds; round table rows
+- Apply expander functionality of all applicable tables
+- Rework params labels to allow for sub with Option
+- Adjust all styled component wrappers (+ bug fixes for underlying hidden issues)
+- Rework context usage, move all to react-hooks package
+- Allow input of AccountId32/20 as non-native AccountId format
+- Remove unmaintained HelpOverlay usage
+- Remove all per-label help icons (unnaintained)
+- Disable all unreachable endpoints
+- Add option (default: off) to allow in-localStorage account saving
+
+
+## 0.122.2 Nov 7, 2022
+
+Changes:
+
+- Bump Electron packages to workaround/fix 0.122.1 Mac issues
+
+
+## 0.122.1 Nov 7, 2022
+
+Contributed:
+
+- Adjust Account/Address layouts with dual-column
+- Add Zeitgeist to Subsquare links (Thanks to https://github.com/wliyongfeng)
+- Add Centrifuge & Altair to Subsquare links (Thanks to https://github.com/wliyongfeng)
+- Add Litentry/Litmus Statescan links (Thanks to https://github.com/wliyongfeng)
+- Add Rococo MD5 parachain (Thanks to https://github.com/3yekn)
+- Add Rococo Frequency parachain (Thanks to https://github.com/saraswatpuneet)
+- Add Rococo Tinkernet pareachain (Thanks to https://github.com/arrudagates)
+- Add Rococo Watr parachain (Thanks to https://github.com/NachoPal)
+- Add Rococo HydraX parachain (Thanks to https://github.com/green-jay)
+- Update Subscan links (Thanks to https://github.com/carlhong)
+- Updata Subscan logo (Thanks to https://github.com/carlhong)
+- Fix Darwinia Subscan link (Thanks to https://github.com/JayJay1024)
+- Add Root chain types (Thanks to https://github.com/aidan-starke)
+- Add Adjuna parachain (Thanks to https://github.com/darkfriend77)
+- Add support for parachain light clients (Thanks to https://github.com/arrudagates)
+- Update OnFinality Pichiu endpoint (Thanks to https://github.com/banananeko)
+- Add OnFinality Invarch Tinker endpoint (Thanks to https://github.com/banananeko)
+- Add OnFinality Bajun endpoint (Thanks to https://github.com/cowboy-bebug)
+- Add OnFinality Phala endpoint (Thanks to https://github.com/banananeko)
+- Add long-term Rococo Bajun id (Thanks to https://github.com/cowboy-bebug)
+- Update Bifrost endpoints (Thanks to https://github.com/awesomepan)
+- Add Radiumblock endpoint for Statemint (Thanks to https://github.com/radiumb)
+- Add Adventus parachain info (Thanks to https://github.com/nahuseyoum)
+- Add additional Edgeware endpoint (Thanks to https://github.com/JelliedOwl)
+- Updata Galactic Council endpoints (Thanks to https://github.com/lumir-mrkva)
+- Add Robonomics & Integritee endpoints (Thanks to https://github.com/Ank4n)
+- Adjust Subspace Gemini 1 endpoitns (Thanks to https://github.com/nazar-pc)
+- Add Subspace Gemini 2a endpoints (Thanks to https://github.com/nazar-pc)
+- Update KILT types to latest (Thanks to https://github.com/ntn-x2)
+- Add Subid link for Bitcountry (Thanks to https://github.com/teodorus-nathaniel)
+- Add Polkadot Bitgreen parachain (Thanks to https://github.com/abhath-labs)
+- Update Rocfinity logo (Thanks to https://github.com/leonardocustodio)
+- Update Logion types (Thanks to https://github.com/gdethier)
+- Add OAK chain (Thanks to https://github.com/justinzhou93)
+- Add Totem StageX network (Thanks to https://github.com/chrisdcosta)
+- Update Kusama/Rococo Kabocha (Thans to https://github.com/decentration)
+- Remove Dwellir endpoints for Composanle & Picaso (Thanks to https://github.com/benjichat)
+- Add Dwellir endpoints for Altair & Centrifuge (Thanks to https://github.com/Maharacha)
+- Add Dwellir endpoint for Joystream (Thanks to https://github.com/Maharacha)
+- Add Dwellir endpoint for Subspace Gemini 2a (Thanks to https://github.com/Maharacha)
+- Add Dwellir endpoint for Alpeh Zero (Thanks to https://github.com/Maharacha)
+- Add Dwellir endpoint for Equilibrium (Thanks to https://github.com/Maharacha)
+- Remove Dwellir endpoints for Moonbeam & Moonriver (Thanks to https://github.com/Maharacha)
+- Add Automata endpoint (Thanks to https://github.com/smilenow)
+- New endpoint for Beresheet (Thanks to https://github.com/ShankarWarang)
+- Add Leemo endpoint for GM (Thanks to https://github.com/Leemo94)
+- Add Crust Shadow 2 loan info (Thanks to https://github.com/mmyyrroonn)
+- Add Genshiro 2 loan info (Thanks to https://github.com/alex-nax)
+- Move KILT parachain to Polkadot (Thanks to https://github.com/wischli)
+- Update Amplitude endpoint (Thanks to https://github.com/gonzamontiel)
+- Add DAO IPCI endpoint (Thanks to https://github.com/PavelSheremetev)
+- Update Rococo Zeitgeist para (Thanks to https://github.com/sea212)
+- Update Parity Rockmine endpoint (Thanks to https://github.com/PierreBesson)
+- Add Samsara Robonomics endpoint (Thanks to https://github.com/0xSamsara)
+- Update Robonomics endpoints (Thanks to https://github.com/Leemo94)
+- Light client support for Shiden & Astar (Thanks to https://github.com/gluneau)
+- Updates to Shiden & Astar bootnodes (Thanks to https://github.com/gluneau)
+- Updata & fix Khala types (Thanks to https://github.com/jasl)
+- Add Rococo Briodgehub parachain (Thanks to https://github.com/lazam)
+- Add Vara network (Thanks to https://github.com/EugenWay)
+- Add identity icon override for Litentry (Thanks to https://github.com/Kailai-Wang)
+- Updata Amplitude endpoint (Thanks to https://github.com/gonzamontiel)
+
+Changes:
+
+- Retrieve light client specs via async import
+- Pass alliance retiringAt info as available
+- Retrieve pending pool info via runtime call
+- Update Governance 2 UI with track info (latest APIs)
+- Support for new preimages pallet structure
+- Adjust identity judgements with new hash parameter
+- Cater for Weight V2 usage
+- Disable unreachable endpoints
+
+
 ## 0.121.1 Aug 22, 2022
 
 Contributed:
@@ -1730,7 +2529,7 @@ Contributed:
 - Added ChainX endpoints & logo (thanks to https://github.com/qinghuan-chain)
 - Add Ares Rococo relay endpoints (Thanks to https://github.com/jiyilanzhou)
 - Adjust Rococo types for Plasm (Thanks to https://github.com/akru)
-- Add Rococo Ares parachain (https://github.com/jiyilanzhou)
+- Add Rococo Ares parachain (Thanks to https://github.com/jiyilanzhou)
 - Add Rococo PolkaBTC endpoint (Thanks to https://github.com/savudani8)
 - Add Rococo Hydrate parachain (thanks to https://github.com/lumir-mrkva)
 - Adjust Darwinia for new chain properties (Thanks to https://github.com/WoeOm)
@@ -1774,7 +2573,7 @@ Contributed:
 - Allow for bounty extension (Thanks to https://github.com/MiZiet)
 - Add tooltips to bounties (Thanks to https://github.com/MiZiet)
 - Adjust styling for bounties (thanks to https://github.com/MiZiet)
-- Allow using bounties without default treasury (https://github.com/ekowalsk)
+- Allow using bounties without default treasury (Thanks to https://github.com/ekowalsk)
 - Add close bounty action (Thanks to https://github.com/ekowalsk)
 - Fix Chinese i18n (Thanks to https://github.com/pfcoder)
 - Update chain types for Galois (Thanks to https://github.com/hging)
@@ -2052,7 +2851,7 @@ Changes:
 Contributed:
 
 - Improve support/naming for Ethereum-compatible accounts (Thanks to https://github.com/joelamouche)
-- Support for Ethereum-compatible signature verification (https://github.com/joelamouche)
+- Support for Ethereum-compatible signature verification (Thanks to https://github.com/joelamouche)
 - Added Moonbeam types for current versions (Thanks to https://github.com/joelamouche)
 - Added Moonbase Alpha to list of test networks (Thanks to (Thanks to https://github.com/joelamouche))
 - Add Equilibrium Mainnet; updated Equilibrium Testnet (Thanks to https://github.com/pr0fedt)
@@ -2302,7 +3101,7 @@ Contributed:
 - Initial i18n Italian (Thanks to https://github.com/excerebrose)
 - i18n Bahasa Indonesian updates (Thanks to https://github.com/nzjourney)
 - Ad per-block/end-block vesting info (thanks to https://github.com/niklabh)
-- Update Polkastats logo (https://github.com/mariopino)
+- Update Polkastats logo (Thanks to https://github.com/mariopino)
 - Fixes for i18n translation page on swapping (Thanks to https://github.com/motinados)
 
 Changes:
@@ -2557,7 +3356,7 @@ Changes:
 
 Contributed:
 
-- Update Subscan links with supported chains (https://github.com/carumusan)
+- Update Subscan links with supported chains (Thanks to https://github.com/carumusan)
 - Enhance Electron desktop with CSP & best practices (Thanks to https://github.com/EthWorks)
 - Activate Electron update feature by default (Thanks to https://github.com/EthWorks)
 - Use external browser for embedded links in Electron (Thanks to https://github.com/EthWorks)

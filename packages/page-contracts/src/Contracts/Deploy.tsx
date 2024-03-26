@@ -1,8 +1,9 @@
-// Copyright 2017-2022 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2024 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { BlueprintSubmittableResult } from '@polkadot/api-contract/promise/types';
+import type { BN } from '@polkadot/util';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -11,14 +12,14 @@ import { Dropdown, Input, InputAddress, InputBalance, Modal, Toggle, TxButton } 
 import { useApi, useFormField, useNonEmptyString } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { keyring } from '@polkadot/ui-keyring';
-import { BN, BN_ZERO, isHex, stringify } from '@polkadot/util';
+import { BN_ZERO, isHex, stringify } from '@polkadot/util';
 import { randomAsHex } from '@polkadot/util-crypto';
 
-import { ABI, InputMegaGas, InputName, MessageSignature, Params } from '../shared';
-import store from '../store';
-import { useTranslation } from '../translate';
-import useAbi from '../useAbi';
-import useWeight from '../useWeight';
+import { ABI, InputMegaGas, InputName, MessageSignature, Params } from '../shared/index.js';
+import store from '../store.js';
+import { useTranslation } from '../translate.js';
+import useAbi from '../useAbi.js';
+import useWeight from '../useWeight.js';
 
 interface Props {
   codeHash: string;
@@ -47,8 +48,8 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
     [codeHash]
   );
 
-  const [name, isNameValid, setName] = useNonEmptyString(code && code.json.name);
-  const { contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi([code && code.json.abi, code && code.contractAbi], codeHash, true);
+  const [name, isNameValid, setName] = useNonEmptyString(code?.json.name);
+  const { contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi([code?.json.abi, code?.contractAbi], codeHash, true);
 
   const blueprint = useMemo(
     () => isAbiValid && codeHash && contractAbi
@@ -79,14 +80,14 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
       if (blueprint && contractAbi?.constructors[constructorIndex]?.method) {
         try {
           return blueprint.tx[contractAbi.constructors[constructorIndex].method]({
-            gasLimit: weight.weight,
+            gasLimit: weight.isWeightV2 ? weight.weightV2 : weight.weight,
             salt: withSalt
               ? salt
               : null,
             storageDepositLimit: null,
             value: contractAbi?.constructors[constructorIndex].isPayable ? value : undefined
           }, ...params);
-        } catch (error) {
+        } catch {
           return null;
         }
       }
@@ -103,7 +104,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
             abi: stringify(result.contract.abi.json),
             genesisHash: api.genesisHash.toHex()
           },
-          name,
+          name: name || undefined,
           tags: []
         });
 
@@ -123,12 +124,11 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
     >
       <Modal.Content>
         <InputAddress
-          help={t('Specify the user account to use for this deployment. Any fees will be deducted from this account.')}
           isInput={false}
           label={t('deployment account')}
           labelExtra={
             <Available
-              label={t<string>('transferrable')}
+              label={t('transferrable')}
               params={accountId}
             />
           }
@@ -156,7 +156,6 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
         {contractAbi && (
           <>
             <Dropdown
-              help={t<string>('The deployment constructor information for this contract, as provided by the ABI.')}
               isDisabled={contractAbi.constructors.length <= 1}
               label={t('deployment constructor')}
               onChange={setConstructorIndex}
@@ -172,31 +171,28 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
         )}
         {contractAbi?.constructors[constructorIndex].isPayable && (
           <InputBalance
-            help={t<string>('The balance to transfer from the `origin` to the newly created contract.')}
             isError={!isValueValid}
             isZeroable
-            label={t<string>('value')}
+            label={t('value')}
             onChange={setValue}
             value={value}
           />
         )}
         <Input
-          help={t<string>('A hex or string value that acts as a salt for this deployment.')}
           isDisabled={!withSalt}
-          label={t<string>('unique deployment salt')}
+          label={t('unique deployment salt')}
+          labelExtra={
+            <Toggle
+              label={t('use deployment salt')}
+              onChange={setWithSalt}
+              value={withSalt}
+            />
+          }
           onChange={setSalt}
-          placeholder={t<string>('0x prefixed hex, e.g. 0x1234 or ascii data')}
-          value={withSalt ? salt : t<string>('<none>')}
-        >
-          <Toggle
-            isOverlay
-            label={t<string>('use deployment salt')}
-            onChange={setWithSalt}
-            value={withSalt}
-          />
-        </Input>
+          placeholder={t('0x prefixed hex, e.g. 0x1234 or ascii data')}
+          value={withSalt ? salt : t('<none>')}
+        />
         <InputMegaGas
-          help={t<string>('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
           weight={weight}
         />
       </Modal.Content>

@@ -1,15 +1,15 @@
-// Copyright 2017-2022 @polkadot/app-society authors & contributors
+// Copyright 2017-2024 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { MapMember } from '../types';
+import type { MapMember } from '../types.js';
 
 import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 import { useBestNumber } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import Member from './Member';
+import { useTranslation } from '../translate.js';
+import Member from './Member.js';
 
 interface Props {
   className?: string;
@@ -20,8 +20,8 @@ function Members ({ className = '', mapMembers }: Props): React.ReactElement<Pro
   const { t } = useTranslation();
   const bestNumber = useBestNumber();
 
-  const headerRef = useRef([
-    [t('members'), 'start', 3],
+  const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
+    [t('members'), 'start', 2],
     [t('voted on'), 'start'],
     [t('strikes')],
     []
@@ -30,7 +30,7 @@ function Members ({ className = '', mapMembers }: Props): React.ReactElement<Pro
   return (
     <Table
       className={className}
-      empty={mapMembers && t<string>('No active members')}
+      empty={mapMembers && t('No active members')}
       header={headerRef.current}
     >
       {mapMembers?.map((value): React.ReactNode => (

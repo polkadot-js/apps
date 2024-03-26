@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2024 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -9,7 +9,7 @@ import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   trigger: number;
@@ -30,7 +30,7 @@ function Summary ({ trigger }: Props): React.ReactElement<Props> {
   }, [api, accountCounter]);
 
   useEffect((): void => {
-    api.query.contracts.codeStorage
+    (api.query.contracts.pristineCode || api.query.contracts.codeStorage)
       .keys()
       .then((arr) => setNumHashes(arr.length))
       .catch(console.error);
@@ -39,15 +39,15 @@ function Summary ({ trigger }: Props): React.ReactElement<Props> {
   return (
     <SummaryBox>
       <section>
-        <CardSummary label={t<string>('addresses')}>
+        <CardSummary label={t('addresses')}>
           {formatNumber(accountCounter)}
         </CardSummary>
       </section>
       <section>
-        <CardSummary label={t<string>('code hashes')}>
+        <CardSummary label={t('code hashes')}>
           {formatNumber(numHashes)}
         </CardSummary>
-        <CardSummary label={t<string>('contracts')}>
+        <CardSummary label={t('contracts')}>
           {formatNumber(numContracts)}
         </CardSummary>
       </section>

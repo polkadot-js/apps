@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2024 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
@@ -11,9 +11,9 @@ import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-component
 import { useApi, useCollectiveInstance, useCollectiveMembers, useToggle } from '@polkadot/react-hooks';
 import { BN } from '@polkadot/util';
 
-import { truncateTitle } from '../helpers';
-import { useBounties } from '../hooks';
-import { useTranslation } from '../translate';
+import { truncateTitle } from '../helpers/index.js';
+import { useBounties } from '../hooks/index.js';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   description: string;
@@ -55,21 +55,20 @@ function BountyInitiateVoting ({ description, index, proposals }: Props): React.
         <Button
           icon='step-forward'
           isDisabled={false}
-          label={t<string>('Initiate voting')}
+          label={t('Initiate voting')}
           onClick={toggleOpen}
         />
         {isOpen && (
           <Modal
-            header={`${t<string>('Initiate voting')} - "${truncateTitle(description, 30)}"`}
+            header={`${t('Initiate voting')} - "${truncateTitle(description, 30)}"`}
             onClose={toggleOpen}
             size='large'
           >
             <Modal.Content>
-              <Modal.Columns hint={t<string>('The council member that will create a motion, submission equates to an "aye" vote for chosen option.')}>
+              <Modal.Columns hint={t('The council member that will create a motion, submission equates to an "aye" vote for chosen option.')}>
                 <InputAddress
                   filter={members}
-                  help={t<string>('Select the council member account you wish to use to create a motion for the Bounty.')}
-                  label={t<string>('vote with account')}
+                  label={t('vote with account')}
                   onChange={setAccountId}
                   type='account'
                   withLabel
@@ -81,7 +80,7 @@ function BountyInitiateVoting ({ description, index, proposals }: Props): React.
                 accountId={accountId}
                 icon='check'
                 isDisabled={false}
-                label={t<string>('Approve')}
+                label={t('Approve')}
                 onStart={toggleOpen}
                 params={[threshold, approveBountyProposal.current, approveBountyProposal.current.length]}
                 tx={api.tx[councilMod].propose}
@@ -90,7 +89,7 @@ function BountyInitiateVoting ({ description, index, proposals }: Props): React.
                 accountId={accountId}
                 icon='ban'
                 isDisabled={false}
-                label={t<string>('Reject')}
+                label={t('Reject')}
                 onStart={toggleOpen}
                 params={[threshold, closeBountyProposal.current, closeBountyProposal.current.length]}
                 tx={api.tx[councilMod].propose}

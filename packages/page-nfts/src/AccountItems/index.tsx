@@ -1,18 +1,17 @@
-// Copyright 2017-2022 @polkadot/app-nfts authors & contributors
+// Copyright 2017-2024 @polkadot/app-nfts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CollectionInfo, CollectionInfoComplete } from '../types';
+import type { CollectionInfo, CollectionInfoComplete } from '../types.js';
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { Dropdown, Table } from '@polkadot/react-components';
+import { Dropdown, styled, Table } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-import Item from './Item';
-import useAccountItems from './useAccountItems';
-import useItemsInfos from './useItemsInfos';
+import { useTranslation } from '../translate.js';
+import Item from './Item.js';
+import useAccountItems from './useAccountItems.js';
+import useItemsInfos from './useItemsInfos.js';
 
 interface Props {
   className?: string;
@@ -54,7 +53,7 @@ function AccountItems ({ className, infos = [] }: Props): React.ReactElement<Pro
     [completeInfos, NO_NAME]
   );
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('items'), 'start', 2],
     [t('owner'), 'address media--1000']
   ]);
@@ -68,14 +67,14 @@ function AccountItems ({ className, infos = [] }: Props): React.ReactElement<Pro
   }, [completeInfos, infoIndex]);
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       <Table
-        empty={!info && accountItems && t<string>('No accounts with items found for the collection')}
+        empty={!info && accountItems && t('No accounts with items found for the collection')}
         filter={collectionOptions.length
           ? (
             <Dropdown
               isFull
-              label={t<string>('the collection to query for items')}
+              label={t('the collection to query for items')}
               onChange={setInfoIndex}
               options={collectionOptions}
               value={infoIndex}
@@ -85,7 +84,7 @@ function AccountItems ({ className, infos = [] }: Props): React.ReactElement<Pro
         }
         header={headerRef.current}
       >
-        {itemsInfos && itemsInfos.map((info) => (
+        {itemsInfos?.map((info) => (
           <Item
             collectionName={collectionName}
             key={info.key}
@@ -93,12 +92,14 @@ function AccountItems ({ className, infos = [] }: Props): React.ReactElement<Pro
           />
         ))}
       </Table>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(AccountItems)`
+const StyledDiv = styled.div`
   table {
     overflow: auto;
   }
-`);
+`;
+
+export default React.memo(AccountItems);

@@ -1,16 +1,15 @@
-// Copyright 2017-2022 @polkadot/app-society authors & contributors
+// Copyright 2017-2024 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletSocietyBid } from '@polkadot/types/lookup';
 
 import React, { useMemo } from 'react';
 
-import { AddressSmall, TxButton } from '@polkadot/react-components';
+import { AddressSmall, Table, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi } from '@polkadot/react-hooks';
-import { FormatBalance } from '@polkadot/react-query';
 
-import { useTranslation } from '../translate';
-import BidType from './BidType';
+import { useTranslation } from '../translate.js';
+import BidType from './BidType.js';
 
 interface Props {
   index: number;
@@ -32,7 +31,7 @@ function BidRow ({ index, value: { kind, value, who } }: Props): React.ReactElem
   const [isBidder, isVoucher] = useMemo(
     (): [boolean, boolean] => {
       const whoSS58 = who.toString();
-      const vouchSS58 = voucher && voucher.toString();
+      const vouchSS58 = voucher?.toString();
 
       return [
         allAccounts.some((accountId) => accountId === whoSS58),
@@ -49,39 +48,31 @@ function BidRow ({ index, value: { kind, value, who } }: Props): React.ReactElem
       <td className='address all'>
         <AddressSmall value={who} />
       </td>
-      <BidType value={kind} />
-      <td className='number'>
-        <FormatBalance value={value} />
-      </td>
-      <td className='number'>
-        {tip && (
-          <FormatBalance value={tip} />
-        )}
-      </td>
-      <td className='button'>
+      <td className='start'>
+        <BidType value={kind} />
         {kind.isVouch
-          ? (
+          ? isVoucher && (
             <TxButton
               accountId={voucher}
               icon='times'
-              isDisabled={!isVoucher}
-              label={t<string>('Unvouch')}
+              label={t('Unvouch')}
               params={[index]}
               tx={api.tx.society.unvouch}
             />
           )
-          : (
+          : isBidder && (
             <TxButton
               accountId={who}
               icon='times'
-              isDisabled={!isBidder}
-              label={t<string>('Unbid')}
+              label={t('Unbid')}
               params={[index]}
               tx={api.tx.society.unbid}
             />
           )
         }
       </td>
+      <Table.Column.Balance value={value} />
+      <Table.Column.Balance value={tip} />
     </tr>
   );
 }

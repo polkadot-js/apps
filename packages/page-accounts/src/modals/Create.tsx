@@ -1,27 +1,26 @@
-// Copyright 2017-2022 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2024 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
-import type { AddressState, CreateOptions, CreateProps, DeriveValidationOutput, PairType, SeedType } from '../types';
+import type { AddressState, CreateOptions, CreateProps, DeriveValidationOutput, PairType, SeedType } from '../types.js';
 
 import React, { useCallback, useRef, useState } from 'react';
-import styled from 'styled-components';
 
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
-import { AddressRow, Button, Checkbox, CopyButton, Dropdown, Expander, Input, MarkError, MarkWarning, Modal, TextArea } from '@polkadot/react-components';
+import { AddressRow, Button, Checkbox, CopyButton, Dropdown, Expander, Input, MarkError, MarkWarning, Modal, styled, TextArea } from '@polkadot/react-components';
 import { useApi, useLedger, useStepper } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { isHex, nextTick, u8aToHex } from '@polkadot/util';
 import { hdLedger, hdValidatePath, keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
 
-import { useTranslation } from '../translate';
-import { tryCreateAccount } from '../util';
-import CreateAccountInputs from './CreateAccountInputs';
-import CreateConfirmation from './CreateConfirmation';
-import CreateEthDerivationPath, { ETH_DEFAULT_PATH } from './CreateEthDerivationPath';
-import CreateSuriLedger from './CreateSuriLedger';
-import ExternalWarning from './ExternalWarning';
+import { useTranslation } from '../translate.js';
+import { tryCreateAccount } from '../util.js';
+import CreateAccountInputs from './CreateAccountInputs.js';
+import CreateConfirmation from './CreateConfirmation.js';
+import CreateEthDerivationPath, { ETH_DEFAULT_PATH } from './CreateEthDerivationPath.js';
+import CreateSuriLedger from './CreateSuriLedger.js';
+import ExternalWarning from './ExternalWarning.js';
 
 const DEFAULT_PAIR_TYPE = 'sr25519';
 const STEPS_COUNT = 3;
@@ -158,7 +157,8 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   const [{ address, derivePath, deriveValidation, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(() => generateSeed(
     propsSeed,
     isEthereum ? ETH_DEFAULT_PATH : '',
-    propsSeed ? 'raw' : 'bip', isEthereum ? 'ethereum' : propsType
+    propsSeed ? 'raw' : 'bip',
+    isEthereum ? 'ethereum' : propsType
   ));
   const [isMnemonicSaved, setIsMnemonicSaved] = useState<boolean>(false);
   const [step, nextStep, prevStep] = useStepper();
@@ -170,21 +170,21 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   const isValid = isFirstStepValid && isSecondStepValid;
 
   const errorIndex = useRef<Record<string, string>>({
-    INVALID_DERIVATION_PATH: t<string>('This is an invalid derivation path.'),
-    PASSWORD_IGNORED: t<string>('Password are ignored for hex seed'),
-    SOFT_NOT_ALLOWED: t<string>('Soft derivation paths are not allowed on ed25519'),
-    WARNING_SLASH_PASSWORD: t<string>('Your password contains at least one "/" character. Disregard this warning if it is intended.')
+    INVALID_DERIVATION_PATH: t('This is an invalid derivation path.'),
+    PASSWORD_IGNORED: t('Password are ignored for hex seed'),
+    SOFT_NOT_ALLOWED: t('Soft derivation paths are not allowed on ed25519'),
+    WARNING_SLASH_PASSWORD: t('Your password contains at least one "/" character. Disregard this warning if it is intended.')
   });
 
   const seedOpt = useRef((
     isDevelopment
-      ? [{ text: t<string>('Development'), value: 'dev' }]
+      ? [{ text: t('Development'), value: 'dev' }]
       : []
   ).concat(
-    { text: t<string>('Mnemonic'), value: 'bip' },
+    { text: t('Mnemonic'), value: 'bip' },
     isEthereum
-      ? { text: t<string>('Private Key'), value: 'raw' }
-      : { text: t<string>('Raw seed'), value: 'raw' }
+      ? { text: t('Private Key'), value: 'raw' }
+      : { text: t('Raw seed'), value: 'raw' }
   ));
 
   const _onChangePath = useCallback(
@@ -230,8 +230,8 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
 
       setIsBusy(true);
       nextTick((): void => {
-        const options = { genesisHash: isDevelopment ? undefined : api.genesisHash.toString(), isHardware: false, name: name.trim() };
-        const status = createAccount(seed, derivePath, pairType, options, password, t<string>('created account'));
+        const options = { genesisHash: isDevelopment ? undefined : api.genesisHash.toHex(), isHardware: false, name: name.trim() };
+        const status = createAccount(seed, derivePath, pairType, options, password, t('created account'));
 
         onStatusChange(status);
         setIsBusy(false);
@@ -242,9 +242,9 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   );
 
   return (
-    <Modal
+    <StyledModal
       className={className}
-      header={t<string>('Add an account via seed {{step}}/{{STEPS_COUNT}}', { replace: { STEPS_COUNT, step } })}
+      header={t('Add an account via seed {{step}}/{{STEPS_COUNT}}', { replace: { STEPS_COUNT, step } })}
       onClose={onClose}
       size='large'
     >
@@ -255,26 +255,22 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             fullLength
             isEditableName={false}
             noDefaultNameOpacity
-            value={isSeedValid ? address : ''}
+            value={(isSeedValid && address) || null}
           />
         </Modal.Columns>
         {step === 1 && <>
-          <Modal.Columns hint={t<string>('The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.')}>
+          <Modal.Columns hint={t('The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.')}>
             <TextArea
-              help={isEthereum
-                ? t<string>("Your ethereum key pair is derived from your private key. Don't divulge this key.")
-                : t<string>('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
-              isAction
               isError={!isSeedValid}
               isReadOnly={seedType === 'dev'}
               label={
                 seedType === 'bip'
-                  ? t<string>('mnemonic seed')
+                  ? t('mnemonic seed')
                   : seedType === 'dev'
-                    ? t<string>('development seed')
+                    ? t('development seed')
                     : isEthereum
-                      ? t<string>('ethereum private key')
-                      : t<string>('seed (hex or string)')
+                      ? t('ethereum private key')
+                      : t('seed (hex or string)')
               }
               onChange={_onChangeSeed}
               seed={seed}
@@ -282,7 +278,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             >
               <CopyButton
                 className='copyMoved'
-                type={seedType === 'bip' ? t<string>('mnemonic') : seedType === 'raw' ? isEthereum ? t<string>('private key') : 'seed' : t<string>('raw seed')}
+                type={seedType === 'bip' ? t('mnemonic') : seedType === 'raw' ? isEthereum ? t('private key') : 'seed' : t('raw seed')}
                 value={seed}
               />
               <Dropdown
@@ -296,14 +292,13 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
           <Expander
             className='accounts--Creator-advanced'
             isPadded
-            summary={t<string>('Advanced creation options')}
+            summary={t('Advanced creation options')}
           >
             {pairType !== 'ethereum' && (
-              <Modal.Columns hint={t<string>('If you are moving accounts between applications, ensure that you use the correct type.')}>
+              <Modal.Columns hint={t('If you are moving accounts between applications, ensure that you use the correct type.')}>
                 <Dropdown
                   defaultValue={pairType}
-                  help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
-                  label={t<string>('keypair crypto type')}
+                  label={t('keypair crypto type')}
                   onChange={_onChangePairType}
                   options={
                     isEthereum
@@ -334,21 +329,20 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                   />
                 )
                 : (
-                  <Modal.Columns hint={t<string>('The derivation path allows you to create different accounts from the same base mnemonic.')}>
+                  <Modal.Columns hint={t('The derivation path allows you to create different accounts from the same base mnemonic.')}>
                     <Input
-                      help={(t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. An optional "///<password>" can be used with a mnemonic seed, and may only be specified once.'))}
                       isDisabled={seedType === 'raw'}
                       isError={!!deriveValidation?.error}
-                      label={t<string>('secret derivation path')}
+                      label={t('secret derivation path')}
                       onChange={_onChangePath}
                       placeholder={
                         seedType === 'raw'
                           ? pairType === 'sr25519'
-                            ? t<string>('//hard/soft')
-                            : t<string>('//hard')
+                            ? t('//hard/soft')
+                            : t('//hard')
                           : pairType === 'sr25519'
-                            ? t<string>('//hard/soft///password')
-                            : t<string>('//hard///password')
+                            ? t('//hard/soft///password')
+                            : t('//hard///password')
                       }
                       tabIndex={-1}
                       value={derivePath}
@@ -366,7 +360,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             <ExternalWarning />
             <div className='saveToggle'>
               <Checkbox
-                label={<>{t<string>('I have saved my mnemonic seed safely')}</>}
+                label={<>{t('I have saved my mnemonic seed safely')}</>}
                 onChange={_toggleMnemonicSaved}
                 value={isMnemonicSaved}
               />
@@ -403,7 +397,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             activeOnEnter
             icon='step-forward'
             isDisabled={!isFirstStepValid}
-            label={t<string>('Next')}
+            label={t('Next')}
             onClick={nextStep}
           />
         }
@@ -411,14 +405,14 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
           <>
             <Button
               icon='step-backward'
-              label={t<string>('Prev')}
+              label={t('Prev')}
               onClick={prevStep}
             />
             <Button
               activeOnEnter
               icon='step-forward'
               isDisabled={!isSecondStepValid}
-              label={t<string>('Next')}
+              label={t('Next')}
               onClick={nextStep}
             />
           </>
@@ -427,24 +421,24 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
           <>
             <Button
               icon='step-backward'
-              label={t<string>('Prev')}
+              label={t('Prev')}
               onClick={prevStep}
             />
             <Button
               activeOnEnter
               icon='plus'
               isBusy={isBusy}
-              label={t<string>('Save')}
+              label={t('Save')}
               onClick={_onCommit}
             />
           </>
         )}
       </Modal.Actions>
-    </Modal>
+    </StyledModal>
   );
 }
 
-export default React.memo(styled(Create)`
+const StyledModal = styled(Modal)`
   .accounts--Creator-advanced {
     margin-top: 1rem;
     overflow: visible;
@@ -476,4 +470,6 @@ export default React.memo(styled(Create)`
       }
     }
   }
-`);
+`;
+
+export default React.memo(Create);

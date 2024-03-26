@@ -1,14 +1,14 @@
-// Copyright 2017-2022 @polkadot/app-assets authors & contributors
+// Copyright 2017-2024 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AssetInfo } from '../types';
+import type { AssetInfo } from '../types.js';
 
 import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
-import Asset from './Asset';
+import { useTranslation } from '../translate.js';
+import Asset from './Asset.js';
 
 interface Props {
   className?: string;
@@ -18,7 +18,7 @@ interface Props {
 function Assets ({ className, infos }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const headerRef = useRef([
+  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('assets'), 'start', 2],
     [t('owner'), 'address media--1000'],
     [t('admin'), 'address media--1300'],
@@ -31,7 +31,7 @@ function Assets ({ className, infos }: Props): React.ReactElement<Props> {
   return (
     <Table
       className={className}
-      empty={infos && t<string>('No assets found')}
+      empty={infos && t('No assets found')}
       header={headerRef.current}
     >
       {infos?.map((info) => (

@@ -1,17 +1,17 @@
-// Copyright 2017-2022 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2024 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BountyStatus } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
-import VotingDescriptionInfo from '@polkadot/app-bounties/BountyInfos/VotingDescriptionInfo';
+import { styled } from '@polkadot/react-components';
 import { useCollectiveMembers } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import VotingLink from './VotingLink';
+import { useTranslation } from '../translate.js';
+import VotingDescriptionInfo from './VotingDescriptionInfo.js';
+import VotingLink from './VotingLink.js';
 
 interface Props {
   className?: string;
@@ -19,7 +19,7 @@ interface Props {
   status: BountyStatus;
 }
 
-function VotingSummary ({ className, proposal, status }: Props): JSX.Element {
+function VotingSummary ({ className, proposal, status }: Props): React.ReactElement<Props> {
   const { members } = useCollectiveMembers('council');
   const { t } = useTranslation();
   const ayes = useMemo(() => proposal?.votes?.ayes?.length, [proposal]);
@@ -30,7 +30,7 @@ function VotingSummary ({ className, proposal, status }: Props): JSX.Element {
   return (
     <>
       {proposal && (
-        <div
+        <StyledDiv
           className={className}
           data-testid='voting-summary'
         >
@@ -43,15 +43,15 @@ function VotingSummary ({ className, proposal, status }: Props): JSX.Element {
               status={status}
             />
           </div>
-        </div>
+        </StyledDiv>
       )}
     </>
   );
 }
 
-export default React.memo(styled(VotingSummary)`
+const StyledDiv = styled.div`
   .voting-summary-text {
-    font-size: 0.85rem;
+    font-size: var(--font-size-small);
     line-height: 1.5rem;
     color: var(--color-label);
 
@@ -67,4 +67,6 @@ export default React.memo(styled(VotingSummary)`
     align-items: center;
     line-height: 1.5rem;
   }
-`);
+`;
+
+export default React.memo(VotingSummary);

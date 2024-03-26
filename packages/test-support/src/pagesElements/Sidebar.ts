@@ -1,9 +1,11 @@
-// Copyright 2017-2022 @polkadot/test-supports authors & contributors
+// Copyright 2017-2024 @polkadot/test-supports authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+/* global expect */
 
 import { fireEvent, screen, within } from '@testing-library/react';
 
-import { JudgementTag } from './JudgementTag';
+import { JudgementTag } from './JudgementTag.js';
 
 export class Sidebar {
   public sidebar: HTMLElement;
@@ -27,7 +29,11 @@ export class Sidebar {
   async selectTag (tagName: string): Promise<void> {
     const tagsCombobox = this.openTagsDropdown();
     const tagOptions = await within(tagsCombobox).findAllByRole('option');
-    const tag = tagOptions.find((tag) => tag.textContent === tagName) as HTMLElement;
+    const tag = tagOptions.find((tag) => tag.textContent === tagName);
+
+    if (!tag) {
+      throw new Error(`Unable to find tag ${tagName}`);
+    }
 
     fireEvent.click(tag);
   }

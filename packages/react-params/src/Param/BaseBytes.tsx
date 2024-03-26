@@ -1,18 +1,16 @@
-// Copyright 2017-2022 @polkadot/react-params authors & contributors
+// Copyright 2017-2024 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TypeDef } from '@polkadot/types/types';
-import type { RawParam, RawParamOnChange, RawParamOnEnter, RawParamOnEscape, Size } from '../types';
+import type { RawParam, RawParamOnChange, RawParamOnEnter, RawParamOnEscape, Size, TypeDefExt } from '../types.js';
 
 import React, { useCallback, useState } from 'react';
-import styled from 'styled-components';
 
-import { CopyButton, IdentityIcon, Input } from '@polkadot/react-components';
+import { CopyButton, IdentityIcon, Input, styled } from '@polkadot/react-components';
 import { compactAddLength, hexToU8a, isAscii, isHex, stringToU8a, u8aToHex, u8aToString, u8aToU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
-import { useTranslation } from '../translate';
-import Bare from './Bare';
+import { useTranslation } from '../translate.js';
+import Bare from './Bare.js';
 
 interface Props {
   asHex?: boolean;
@@ -22,13 +20,14 @@ interface Props {
   isDisabled?: boolean;
   isError?: boolean;
   label?: React.ReactNode;
+  labelExtra?: React.ReactNode;
   length?: number;
   name?: string;
   onChange?: RawParamOnChange;
   onEnter?: RawParamOnEnter;
   onEscape?: RawParamOnEscape;
   size?: Size;
-  type: TypeDef & { withOptionActive?: boolean };
+  type: TypeDefExt;
   validate?: (u8a: Uint8Array) => boolean;
   withCopy?: boolean;
   withLabel?: boolean;
@@ -50,7 +49,7 @@ function convertInput (value: string): [boolean, boolean, Uint8Array] {
   } else if (value.startsWith('0x')) {
     try {
       return [true, false, hexToU8a(value)];
-    } catch (error) {
+    } catch {
       return [false, false, new Uint8Array([])];
     }
   }
@@ -58,7 +57,7 @@ function convertInput (value: string): [boolean, boolean, Uint8Array] {
   // maybe it is an ss58?
   try {
     return [true, true, decodeAddress(value)];
-  } catch (error) {
+  } catch {
     // we continue
   }
 
@@ -67,7 +66,7 @@ function convertInput (value: string): [boolean, boolean, Uint8Array] {
     : [value === '0x', false, new Uint8Array([])];
 }
 
-function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, isDisabled, isError, label, length = -1, onChange, onEnter, onEscape, size = 'full', validate = defaultValidate, withCopy, withLabel, withLength }: Props): React.ReactElement<Props> {
+function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, isDisabled, isError, label, labelExtra, length = -1, onChange, onEnter, onEscape, size = 'full', validate = defaultValidate, withCopy, withLabel, withLength }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [defaultValue] = useState(
     (): string | undefined => {
@@ -114,18 +113,19 @@ function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, 
   );
 
   return (
-    <Bare className={className}>
+    <StyledBare className={className}>
       <Input
         className={size}
-        defaultValue={defaultValue as string}
+        defaultValue={defaultValue}
         isAction={!!children}
         isDisabled={isDisabled}
         isError={isError || !isValid}
         label={label}
+        labelExtra={labelExtra}
         onChange={_onChange}
         onEnter={onEnter}
         onEscape={onEscape}
-        placeholder={t<string>('0x prefixed hex, e.g. 0x1234 or ascii data')}
+        placeholder={t('0x prefixed hex, e.g. 0x1234 or ascii data')}
         type='text'
         withEllipsis
         withLabel={withLabel}
@@ -142,11 +142,11 @@ function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, 
           />
         )}
       </Input>
-    </Bare>
+    </StyledBare>
   );
 }
 
-export default React.memo(styled(BaseBytes)`
+const StyledBare = styled(Bare)`
   .ui--InputAddressSimpleIcon {
     background: #eee;
     border: 1px solid #888;
@@ -155,4 +155,6 @@ export default React.memo(styled(BaseBytes)`
     position: absolute;
     top: 8px;
   }
-`);
+`;
+
+export default React.memo(BaseBytes);

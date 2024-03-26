@@ -1,19 +1,18 @@
-// Copyright 2017-2022 @polkadot/app-signing authors & contributors
+// Copyright 2017-2024 @polkadot/app-signing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeypairType } from '@polkadot/util-crypto/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
 
-import { Badge, Dropdown, Input, InputAddress, Static } from '@polkadot/react-components';
+import { Badge, Dropdown, Input, InputAddress, Static, styled } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { isHex } from '@polkadot/util';
 import { signatureVerify } from '@polkadot/util-crypto';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 type CryptoTypes = KeypairType | 'unknown';
 
@@ -28,7 +27,7 @@ function Verify ({ className = '' }: Props): React.ReactElement {
   const [{ data, isHexData }, setData] = useState<{ data: string; isHexData: boolean }>({ data: '', isHexData: false });
   const [{ isValidPk, publicKey }, setPublicKey] = useState<{ isValidPk: boolean; publicKey: Uint8Array | null }>({ isValidPk: false, publicKey: null });
   const [{ isValidSignature, signature }, setSignature] = useState<{ isValidSignature: boolean; signature: string }>({ isValidSignature: false, signature: '' });
-  const [cryptoOptions] = useState([{ text: t<string>('Crypto not detected'), value: 'unknown' }].concat(settings.availableCryptos as { text: string; value: string }[]));
+  const [cryptoOptions] = useState([{ text: t('Crypto not detected'), value: 'unknown' }].concat(settings.availableCryptos as { text: string; value: string }[]));
 
   useEffect((): void => {
     let cryptoType: CryptoTypes = 'unknown';
@@ -75,14 +74,13 @@ function Verify ({ className = '' }: Props): React.ReactElement {
   );
 
   return (
-    <div className={`toolbox--Verify ${className}`}>
+    <StyledDiv className={`${className} toolbox--Verify`}>
       <div className='ui--row'>
         <InputAddress
           className='full'
-          help={t<string>('The account that signed the input')}
           isError={!isValidPk}
           isInput
-          label={t<string>('verify using address')}
+          label={t('verify using address')}
           onChange={_onChangeAddress}
         />
       </div>
@@ -90,8 +88,7 @@ function Verify ({ className = '' }: Props): React.ReactElement {
         <Input
           autoFocus
           className='full'
-          help={t<string>('The data that was signed. This is used in combination with the signature for the verification. It can either be hex or a string.')}
-          label={t<string>('using the following data')}
+          label={t('using the following data')}
           onChange={_onChangeData}
           value={data}
         />
@@ -106,9 +103,8 @@ function Verify ({ className = '' }: Props): React.ReactElement {
         </div>
         <Input
           className='full'
-          help={t<string>('The signature as by the account being checked, supplied as a hex-formatted string.')}
           isError={!isValidSignature}
-          label={t<string>('the supplied signature')}
+          label={t('the supplied signature')}
           onChange={_onChangeSignature}
           value={signature}
         />
@@ -116,27 +112,25 @@ function Verify ({ className = '' }: Props): React.ReactElement {
       <div className='ui--row'>
         <Dropdown
           defaultValue={cryptoType}
-          help={t<string>('Cryptography used to create this signature. It is auto-detected on valid signatures.')}
           isDisabled
-          label={t<string>('signature crypto type')}
+          label={t('signature crypto type')}
           options={cryptoOptions}
         />
         <Static
           className='medium'
-          help={t<string>('Detection on the input string to determine if it is hex or non-hex.')}
-          label={t<string>('hex input data')}
+          label={t('hex input data')}
           value={
             isHexData
-              ? t<string>('Yes')
-              : t<string>('No')
+              ? t('Yes')
+              : t('No')
           }
         />
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(Verify)`
+const StyledDiv = styled.div`
   .ui--AlignedIconContainer {
     position: absolute;
     z-index: 1;
@@ -147,4 +141,6 @@ export default React.memo(styled(Verify)`
     position: relative;
     top: 1.25rem;
   }
-`);
+`;
+
+export default React.memo(Verify);

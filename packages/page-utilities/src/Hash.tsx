@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-utilities authors & contributors
+// Copyright 2017-2024 @polkadot/app-utilities authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useState } from 'react';
@@ -7,7 +7,7 @@ import { Input, Output, Static } from '@polkadot/react-components';
 import { hexToU8a, isHex, stringToU8a } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';
 
-import { useTranslation } from './translate';
+import { useTranslation } from './translate.js';
 
 interface Props {
   className?: string;
@@ -51,8 +51,7 @@ function Hash ({ className }: Props): React.ReactElement<Props> {
         <Input
           autoFocus
           className='full'
-          help={t<string>('The input data to hash. This can be either specified as a hex value (0x-prefix) or as a string.')}
-          label={t<string>('from the following data')}
+          label={t('from the following data')}
           onChange={_onChangeData}
           value={data}
         />
@@ -60,22 +59,20 @@ function Hash ({ className }: Props): React.ReactElement<Props> {
       <div className='ui--row'>
         <Static
           className='medium'
-          help={t<string>('Detection on the input string to determine if it is hex or non-hex.')}
-          label={t<string>('hex input data')}
+          label={t('hex input data')}
           value={
             isHexData
-              ? t<string>('Yes')
-              : t<string>('No')
+              ? t('Yes')
+              : t('No')
           }
         />
       </div>
       <div className='ui--row'>
         <Output
           className='full'
-          help={t<string>('The blake2b 256-bit hash of the actual input data.')}
           isHidden={hash.length === 0}
           isMonospace
-          label={t<string>('the resulting hash is')}
+          label={t('the resulting hash is')}
           value={hash}
           withCopy
         />

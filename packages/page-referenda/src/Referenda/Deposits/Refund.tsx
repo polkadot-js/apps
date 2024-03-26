@@ -1,15 +1,15 @@
-// Copyright 2017-2022 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2024 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
-import type { PalletReferenda } from '../../types';
+import type { PalletReferenda } from '../../types.js';
 
 import React, { useState } from 'react';
 
 import { Button, InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../../translate.js';
 
 interface Props {
   className?: string;
@@ -28,24 +28,23 @@ function Refund ({ className = '', id, palletReferenda }: Props): React.ReactEle
       {isOpen && (
         <Modal
           className={className}
-          header={t<string>('Refund decision deposit')}
+          header={t('Refund decision deposit')}
           onClose={toggleOpen}
           size='large'
         >
           <Modal.Content>
-            <Modal.Columns hint={t<string>('The transaction will be submitted from this account.')}>
+            <Modal.Columns hint={t('The transaction will be submitted from this account.')}>
               <InputAddress
-                help={t<string>('The account you want to refund from')}
-                label={t<string>('refund from account')}
+                label={t('refund from account')}
                 onChange={setAccountId}
                 type='account'
               />
             </Modal.Columns>
-            <Modal.Columns hint={t<string>('The referendum this deposit would apply to.')}>
+            <Modal.Columns hint={t('The referendum this deposit would apply to.')}>
               <InputNumber
                 defaultValue={id}
                 isDisabled
-                label={t<string>('referendum id')}
+                label={t('referendum id')}
               />
             </Modal.Columns>
           </Modal.Content>
@@ -53,7 +52,7 @@ function Refund ({ className = '', id, palletReferenda }: Props): React.ReactEle
             <TxButton
               accountId={accountId}
               icon='minus'
-              label={t<string>('Refund deposit')}
+              label={t('Refund deposit')}
               onStart={toggleOpen}
               params={[id]}
               tx={api.tx[palletReferenda as 'referenda'].refundDecisionDeposit}
@@ -63,7 +62,7 @@ function Refund ({ className = '', id, palletReferenda }: Props): React.ReactEle
       )}
       <Button
         icon='minus'
-        label={t<string>('Refund deposit')}
+        label={t('Refund deposit')}
         onClick={toggleOpen}
       />
     </>

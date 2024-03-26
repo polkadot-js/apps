@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Text } from '@polkadot/types';
@@ -12,7 +12,7 @@ function toExt (section: string, input: Record<string, DefinitionRpc>): Record<s
   return Object.entries(input).reduce((output: Record<string, DefinitionRpcExt>, [method, def]): Record<string, DefinitionRpcExt> => {
     output[method] = {
       isSubscription: false,
-      jsonrpc: `${method}_${section}`,
+      jsonrpc: `${section}_${method}`,
       method,
       section,
       ...def

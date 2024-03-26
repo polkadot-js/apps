@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-society authors & contributors
+// Copyright 2017-2024 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSocietyCandidate } from '@polkadot/api-derive/types';
@@ -8,11 +8,11 @@ import React from 'react';
 import { Button } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
-import BidNew from './BidNew';
-import Bids from './Bids';
-import AllCandidates from './Candidates';
-import VouchFor from './VouchFor';
+import { useTranslation } from '../translate.js';
+import BidNew from './BidNew.js';
+import Bids from './Bids.js';
+import AllCandidates from './Candidates.js';
+import VouchFor from './VouchFor.js';
 
 interface Props {
   allMembers: string[];
@@ -32,13 +32,13 @@ function Candidates ({ allMembers, candidates, className, isMember, ownMembers }
       <Button.Group>
         <Button
           icon='plus'
-          label={t<string>('Submit bid')}
+          label={t('Submit bid')}
           onClick={toggleBidOpen}
         />
         <Button
           icon='plus'
           isDisabled={!isMember}
-          label={t<string>('Vouch for')}
+          label={t('Vouch for')}
           onClick={toggleVouchOpen}
         />
         {isBidOpen && (

@@ -1,8 +1,8 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
-import type { AmountValidateState } from '../types';
+import type { AmountValidateState } from '../types.js';
 
 import React, { useEffect, useState } from 'react';
 
@@ -10,7 +10,7 @@ import { MarkError, MarkWarning } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BN, BN_TEN, BN_THOUSAND, BN_ZERO, formatBalance } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../../translate.js';
 
 interface Props {
   controllerId: string | null;
@@ -35,7 +35,7 @@ function formatExistential (value: BN): string {
   while (fmt.length !== 1 && ['.', '0'].includes(fmt[fmt.length - 1])) {
     const isLast = fmt.endsWith('.');
 
-    fmt = fmt.substr(0, fmt.length - 1);
+    fmt = fmt.substring(0, fmt.length - 1);
 
     if (isLast) {
       break;

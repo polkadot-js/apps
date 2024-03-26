@@ -1,0 +1,8 @@
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
+// SPDX-License-Identifier: Apache-2.0
+
+// Automatically generated, do not edit
+
+/* eslint-disable simple-import-sort/imports */
+
+export default 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAMAAABrrFhUAAABVlBMVEUAAACxlriy2vey3fmx3vqx3/yx4Pyx4P2x3/yy4Puy3fm3wtqy2/iy3vuy3/yx4P2x4f2x4f6x4v6x4v+x4v+x4v6x4f6y3Pe3vdWz1/Ky3vmy3/ux4Pyx4f6x4f6x4v+x4v+x4f6x4P21zemy3Piy3/ux4P2x4v+z2vay3vqx4P2x4f6x4v+y2/ey3/ux4f2x4f6y3Piy3/yx4f233vmx4f6x3/y33viw3Pqy3/yy4f6y4f6w3fqx4v6x4v+x4v+x4v+x4v+x4v+x4v+x4v+x4v+x4v+x4v+x4v+w4v+14/7A5v3E5/y+5f2z4//F5/zk8Pfw8/Xy9PTv8/Xe7vi85f3u8vX19PT09PTm8Pa65f3j7/fV7PnA5vzx8/Tp8fa24/7s8vXh7/ey4v/Z7fjz9PTL6fu55P7i7/fX7Pm04/635P7Q6vrn8fbf7/fJ6fu04/+x4v84vyt2AAAAcnRSTlMAAQ4lP18hIV49JAEUOWmZxOLz+Evy4RMBBiZfnc/w//rOnAMkZaz8D0ye3v0ZZL31G2/NE9BrFAFSwsQBBLQFSvtaEhb+4NLT/////////////////////////////////////////////////////7P0y6mFAAACMklEQVR4AezQhWEaQAAAwE/qbVxxd4e64N1/pSoyQHDuRrgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAPjg5ffb8xcuwAq9ev3l7ehL2ybuz84vLq+ub27uwAne39w9Xlxfnj5GwF6KxeCKZSv+VWU1AJv1XKpuLx6Jhx+ULxdJDOf3HygP+KD+UioV82F2Vaq3eSP+x6oClRr1WrYTd1Gy1O+mZtQTMdNqtZtg93d77cjq95oCZ8vteN+yWDxcfG+n0BgJmGh8/fQ6748vXb+V0ekMBM+XvX3/sTEB/kE5vMGBm0N+ZgOF2AoYCdoMAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQJGYQVG+xswnkx/Ptl0Mv7dfl0dOwwDURguZZsJHcXMEDSEsf+HoDq40p3NzP7vps+24GcBhqPx5M+NR8OfBbAQfwAAZC0AzAGgpo7rWSKA5zpTBdYAfhBGcZJaEUCaxFEY+IwB4GR5URR5WVkQQFV+Tp45YAug6rx4l8/IQjN98lpxBYAbF5/yUpHxVJkXn2IXXAHmCw2wXJHxVksNsJizBajW+ittPDKe1+iTryuuANR233vsNyDjYdN/AbqWuAJgu8tf9fsDWeiw7/NXuy3YAhCOp/p8ud7ISrfr5VyfjmC9FIanWpCl0CoPshkSAAEQAAEQAAEQAAEQAAEQAAEQAAEQAAFgkADcafjv0d0IwBN8h0twBwYDqQAAAABJRU5ErkJggg==';

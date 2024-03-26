@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-tech-comm authors & contributors
+// Copyright 2017-2024 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
@@ -6,11 +6,12 @@ import type { CollectiveType } from '@polkadot/react-hooks/types';
 
 import React, { useCallback, useState } from 'react';
 
-import { Button, Extrinsic, InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
+import { Button, InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCollectiveInstance, useModal } from '@polkadot/react-hooks';
+import { Extrinsic } from '@polkadot/react-params';
 import { BN } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   defaultThreshold?: number;
@@ -67,31 +68,29 @@ function Propose ({ defaultThreshold = DEFAULT_THRESHOLD, defaultValue, filter, 
     <>
       {isOpen && (
         <Modal
-          header={t<string>('Propose a committee motion')}
+          header={t('Propose a committee motion')}
           onClose={onClose}
         >
           <Modal.Content>
             <InputAddress
               filter={members}
-              help={t<string>('Select the account you wish to make the proposal with.')}
-              label={t<string>('propose from account')}
+              label={t('propose from account')}
               onChange={setAcountId}
               type='account'
               withLabel
             />
             <InputNumber
               className='medium'
-              help={t<string>('The minimum number of committee votes required to approve this motion')}
               isError={!hasThreshold}
-              label={t<string>('threshold')}
+              label={t('threshold')}
               onChange={_onChangeThreshold}
-              placeholder={t<string>('Positive number between 1 and {{count}}', { replace: { count: members.length } })}
+              placeholder={t('Positive number between 1 and {{count}}', { replace: { count: members.length } })}
               value={threshold || undefined}
             />
             <Extrinsic
               defaultValue={defaultValue || apiDefaultTxSudo}
               filter={filter}
-              label={t<string>('proposal')}
+              label={t('proposal')}
               onChange={_onChangeExtrinsic}
             />
           </Modal.Content>
@@ -113,7 +112,7 @@ function Propose ({ defaultThreshold = DEFAULT_THRESHOLD, defaultValue, filter, 
       <Button
         icon='plus'
         isDisabled={!isMember}
-        label={t<string>('Submit proposal')}
+        label={t('Submit proposal')}
         onClick={onOpen}
       />
     </>

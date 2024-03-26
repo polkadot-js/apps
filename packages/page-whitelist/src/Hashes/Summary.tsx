@@ -1,12 +1,12 @@
-// Copyright 2017-2022 @polkadot/app-whitelist authors & contributors
+// Copyright 2017-2024 @polkadot/app-whitelist authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
 
-import { CardSummary, Spinner, SummaryBox } from '@polkadot/react-components';
+import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
@@ -18,9 +18,9 @@ function Summary ({ className, hashes }: Props): React.ReactElement<Props> {
 
   return (
     <SummaryBox className={className}>
-      <CardSummary label={t<string>('hashes')}>
+      <CardSummary label={t('hashes')}>
         {hashes === undefined
-          ? <Spinner noLabel />
+          ? <span className='--tmp'>99</span>
           : formatNumber(hashes.length)
         }
       </CardSummary>

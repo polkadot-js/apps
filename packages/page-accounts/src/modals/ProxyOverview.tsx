@@ -1,4 +1,4 @@
-// Copyright 2017-2022 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -9,15 +9,14 @@ import type { KitchensinkRuntimeProxyType, PalletProxyProxyDefinition } from '@p
 import type { BN } from '@polkadot/util';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import styled from 'styled-components';
 
-import { BatchWarning, Button, Dropdown, InputAddress, InputBalance, MarkError, Modal, TxButton } from '@polkadot/react-components';
+import { BatchWarning, Button, Dropdown, InputAddress, InputBalance, MarkError, Modal, styled, TxButton } from '@polkadot/react-components';
 import { useApi, useTxBatch } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 
-type PrevProxy = [AccountId | null, KitchensinkRuntimeProxyType];
+type PrevProxyProp = [AccountId | null, KitchensinkRuntimeProxyType];
 
 interface Props {
   className?: string;
@@ -29,7 +28,7 @@ interface Props {
 interface ValueProps {
   index: number;
   typeOpts: { text: string; value: number }[];
-  value: PrevProxy;
+  value: PrevProxyProp;
 }
 
 interface NewProxyProps extends ValueProps {
@@ -78,10 +77,9 @@ function PrevProxy ({ index, onRemove, typeOpts, value: [accountId, type] }: Pre
         <InputAddress
           defaultValue={accountId}
           isDisabled
-          label={t<string>('proxy account')}
+          label={t('proxy account')}
         />
         <Dropdown
-          help={'Type of proxy'}
           isDisabled
           label={'type'}
           options={typeOpts}
@@ -124,16 +122,15 @@ function NewProxy ({ index, onChangeAccount, onChangeType, onRemove, proxiedAcco
       <div className='input-column'>
         <InputAddress
           isError={!accountId}
-          label={t<string>('proxy account')}
+          label={t('proxy account')}
           onChange={_onChangeAccount}
           type='account'
           value={accountId}
         />
         {accountId && accountId.eq(proxiedAccount) && (
-          <MarkError content={t<string>('You should not setup proxies to act as a self-proxy.')} />
+          <MarkError content={t('You should not setup proxies to act as a self-proxy.')} />
         )}
         <Dropdown
-          help={'Type of proxy'}
           label={'type'}
           onChange={_onChangeType}
           options={typeOpts}
@@ -171,8 +168,8 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
   const [batchPrevious, setBatchPrevious] = useState<SubmittableExtrinsic<'promise'>[]>([]);
   const [batchAdded, setBatchAdded] = useState<SubmittableExtrinsic<'promise'>[]>([]);
   const [txs, setTxs] = useState<SubmittableExtrinsic<'promise'>[] | null>(null);
-  const [previous, setPrevious] = useState<PrevProxy[]>(() => existing.map(({ delegate, proxyType }) => [delegate, proxyType]));
-  const [added, setAdded] = useState<PrevProxy[]>([]);
+  const [previous, setPrevious] = useState<PrevProxyProp[]>(() => existing.map(({ delegate, proxyType }) => [delegate, proxyType]));
+  const [added, setAdded] = useState<PrevProxyProp[]>([]);
   const extrinsics = useTxBatch(txs, BATCH_OPTS);
 
   const reservedAmount = useMemo(
@@ -251,22 +248,22 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
   const isSameAdd = added.some(([accountId]) => accountId && accountId.eq(proxiedAccount));
 
   return (
-    <Modal
+    <StyledModal
       className={className}
-      header={t<string>('Proxy overview')}
+      header={t('Proxy overview')}
       onClose={onClose}
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={t<string>('Any account set as proxy will be able to perform actions in place of the proxied account')}>
+        <Modal.Columns hint={t('Any account set as proxy will be able to perform actions in place of the proxied account')}>
           <InputAddress
             isDisabled={true}
-            label={t<string>('proxied account')}
+            label={t('proxied account')}
             type='account'
             value={proxiedAccount}
           />
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('If you add several proxy accounts for the same proxy type (e.g 2 accounts set as proxy for Governance), then any of those 2 accounts will be able to perform governance actions on behalf of the proxied account')}>
+        <Modal.Columns hint={t('If you add several proxy accounts for the same proxy type (e.g 2 accounts set as proxy for Governance), then any of those 2 accounts will be able to perform governance actions on behalf of the proxied account')}>
           {previous.map((value, index) => (
             <PrevProxy
               index={index}
@@ -291,16 +288,16 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
           <Button.Group>
             <Button
               icon='plus'
-              label={t<string>('Add proxy')}
+              label={t('Add proxy')}
               onClick={_addProxy}
             />
           </Button.Group>
         </Modal.Columns>
-        <Modal.Columns hint={t<string>('A deposit paid by the proxied account that can not be used while the proxy is in existence. The deposit is returned when the proxy is destroyed. The amount reserved is based on the base deposit and number of proxies')}>
+        <Modal.Columns hint={t('A deposit paid by the proxied account that can not be used while the proxy is in existence. The deposit is returned when the proxy is destroyed. The amount reserved is based on the base deposit and number of proxies')}>
           <InputBalance
             defaultValue={reservedAmount}
             isDisabled
-            label={t<string>('reserved balance')}
+            label={t('reserved balance')}
           />
         </Modal.Columns>
         <Modal.Columns>
@@ -312,7 +309,7 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
           <TxButton
             accountId={proxiedAccount}
             icon='trash-alt'
-            label={t<string>('Clear all')}
+            label={t('Clear all')}
             onStart={onClose}
             tx={api.tx.proxy.removeProxies}
           />
@@ -325,11 +322,11 @@ function ProxyOverview ({ className, onClose, previousProxy: [existing] = EMPTY_
           onStart={onClose}
         />
       </Modal.Actions>
-    </Modal>
+    </StyledModal>
   );
 }
 
-export default React.memo(styled(ProxyOverview)`
+const StyledModal = styled(Modal)`
   .proxy-container {
     display: grid;
     grid-column-gap: 0.5rem;
@@ -345,4 +342,6 @@ export default React.memo(styled(ProxyOverview)`
       padding-top: 0.3rem;
     }
   }
-`);
+`;
+
+export default React.memo(ProxyOverview);

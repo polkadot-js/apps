@@ -1,16 +1,15 @@
-// Copyright 2017-2022 @polkadot/app-calendar authors & contributors
+// Copyright 2017-2024 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { EntryInfoTyped } from './types';
+import type { EntryInfoTyped } from './types.js';
 
 import React, { useCallback, useMemo, useState } from 'react';
-import styled from 'styled-components';
 
-import { Button } from '@polkadot/react-components';
+import { Button, styled } from '@polkadot/react-components';
 import { formatNumber, isString } from '@polkadot/util';
 
-import { useTranslation } from './translate';
-import { dateCalendarFormat } from './util';
+import { useTranslation } from './translate.js';
+import { dateCalendarFormat } from './util.js';
 
 interface Props {
   className?: string;
@@ -81,89 +80,89 @@ function DayItem ({ className, item: { blockNumber, date, info, type }, showAllE
           : formatNumber(info)
       );
       const typeLink = ['councilElection'].includes(type)
-        ? createLink('council', t<string>('via Council'))
+        ? createLink('council', t('via Council'))
         : ['councilMotion'].includes(type)
-          ? createLink('council/motions', t<string>('via Council/Motions'))
+          ? createLink('council/motions', t('via Council/Motions'))
           : ['democracyDispatch', 'scheduler'].includes(type)
-            ? createLink('democracy/dispatch', t<string>('via Democracy/Dispatch'))
+            ? createLink('democracy/dispatch', t('via Democracy/Dispatch'))
             : ['democracyLaunch', 'referendumDispatch', 'referendumVote'].includes(type)
-              ? createLink('/democracy', t<string>('via Democracy'))
+              ? createLink('/democracy', t('via Democracy'))
               : ['societyChallenge', 'societyRotate'].includes(type)
-                ? createLink('society', t<string>('via Society'))
+                ? createLink('society', t('via Society'))
                 : ['stakingEpoch', 'stakingEra'].includes(type)
-                  ? createLink('staking', t<string>('via Staking'))
+                  ? createLink('staking', t('via Staking'))
                   : ['stakingSlash'].includes(type)
-                    ? createLink('staking/slashes', t<string>('via Staking/Slashed'))
+                    ? createLink('staking/slashes', t('via Staking/Slashed'))
                     : ['treasurySpend'].includes(type)
-                      ? createLink('treasury', t<string>('via Treasury'))
+                      ? createLink('treasury', t('via Treasury'))
                       : ['parachainLease'].includes(type)
-                        ? createLink('parachains', t<string>('via Parachains'))
+                        ? createLink('parachains', t('via Parachains'))
                         : ['parachainAuction'].includes(type)
-                          ? createLink('parachains/auction', t<string>('via Parachains/Auction'))
+                          ? createLink('parachains/auction', t('via Parachains/Auction'))
                           : undefined;
       let s = '';
 
       switch (type) {
         case 'councilElection':
-          s = t<string>('Election of new council candidates');
+          s = t('Election of new council candidates');
           break;
 
         case 'councilMotion':
-          s = t<string>('Voting ends on council motion {{id}}', { replace: { id } });
+          s = t('Voting ends on council motion {{id}}', { replace: { id } });
           break;
 
         case 'democracyDispatch':
-          s = t<string>('Enactment of the result of referendum {{id}}', { replace: { id } });
+          s = t('Enactment of the result of referendum {{id}}', { replace: { id } });
           break;
 
         case 'democracyLaunch':
-          s = t<string>('Start of the next referendum voting period');
+          s = t('Start of the next referendum voting period');
           break;
 
         case 'parachainAuction':
-          s = t<string>('End of the current parachain auction {{id}}', { replace: { id } });
+          s = t('End of the current parachain auction {{id}}', { replace: { id } });
           break;
 
         case 'parachainLease':
-          s = t<string>('Start of the next parachain lease period {{id}}', { replace: { id } });
+          s = t('Start of the next parachain lease period {{id}}', { replace: { id } });
           break;
 
         case 'referendumDispatch':
-          s = t<string>('Potential dispatch of referendum {{id}} (if passed)', { replace: { id } });
+          s = t('Potential dispatch of referendum {{id}} (if passed)', { replace: { id } });
           break;
 
         case 'referendumVote':
-          s = t<string>('Voting ends for referendum {{id}}', { replace: { id } });
+          s = t('Voting ends for referendum {{id}}', { replace: { id } });
           break;
 
         case 'scheduler':
           s = id
-            ? t<string>('Execute named scheduled task {{id}}', { replace: { id } })
-            : t<string>('Execute anonymous scheduled task');
+            ? t('Execute named scheduled task {{id}}', { replace: { id } })
+            : t('Execute anonymous scheduled task');
           break;
 
         case 'stakingEpoch':
-          s = t<string>('Start of a new staking session {{id}}', { replace: { id } });
+          s = t('Start of a new staking session {{id}}', { replace: { id } });
           break;
 
         case 'stakingEra':
-          s = t<string>('Start of a new staking era {{id}}', { replace: { id } });
+          s = t('Start of a new staking era {{id}}', { replace: { id } });
           break;
 
         case 'stakingSlash':
-          s = t<string>('Application of slashes from era {{id}}', { replace: { id } });
+          s = t('Application of slashes from era {{id}}', { replace: { id } });
           break;
 
         case 'treasurySpend':
-          s = t<string>('Start of next spending period');
+          s = t('Start of next spending period');
           break;
 
         case 'societyChallenge':
-          s = t<string>('Start of next membership challenge period');
+          s = t('Start of next membership challenge period');
           break;
 
         case 'societyRotate':
-          s = t<string>('Acceptance of new members and bids');
+          s = t('Acceptance of new members and bids');
           break;
 
         default:
@@ -178,7 +177,7 @@ function DayItem ({ className, item: { blockNumber, date, info, type }, showAllE
   );
 
   return (
-    <div className={className}>
+    <StyledDiv className={className}>
       {showAllEvents &&
         <div className='itemDate'>{date.toLocaleString(undefined, FORMAT_OPTIONS)}</div>
       }
@@ -192,11 +191,11 @@ function DayItem ({ className, item: { blockNumber, date, info, type }, showAllE
           onClick={_exportCal}
         />
       )}
-    </div>
+    </StyledDiv>
   );
 }
 
-export default React.memo(styled(DayItem)`
+const StyledDiv = styled.div`
   align-items: flex-start;
   display: flex;
   justify-content: flex-start;
@@ -228,7 +227,7 @@ export default React.memo(styled(DayItem)`
   .itemBlock {
     background: #aaa;
     color: #eee;
-    font-size: 0.85rem;
+    font-size: var(--font-size-small);
     align-self: center;
     padding: 0.075rem 0.375rem;
     border-radius: 0.25rem;
@@ -246,4 +245,6 @@ export default React.memo(styled(DayItem)`
     padding: 0 0.375rem;
     border-radius: 0.25rem;
   }
-`);
+`;
+
+export default React.memo(DayItem);
