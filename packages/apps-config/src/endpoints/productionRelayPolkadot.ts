@@ -566,7 +566,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'nodle',
     paraId: 2026,
     providers: {
-      Dwellir: 'wss://eden-rpc.dwellir.com',
+      Dwellir: 'wss://nodle-rpc.dwellir.com',
       OnFinality: 'wss://nodle-parachain.api.onfinality.io/public-ws'
     },
     text: 'Nodle',
