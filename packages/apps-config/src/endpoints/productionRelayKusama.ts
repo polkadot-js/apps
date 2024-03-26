@@ -934,6 +934,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       RadiumBlock: 'wss://bridgehub-kusama.public.curie.radiumblock.co/ws',
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/bridgehub'
     },
+    teleport: [-1],
     text: 'BridgeHub',
     ui: {
       logo: nodesBridgeHubBlackSVG
