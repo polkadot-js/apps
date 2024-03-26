@@ -2,20 +2,22 @@ import Summary from './Summary.js';
 
 import React from 'react';
 import Workloads from './Workloads.js';
-import { CoreWorkloadInfo } from '../types.js';
+import Workplans from './Workplans.js';
+import { CoreWorkloadInfo, CoreWorkplanInfo } from '../types.js';
 
 interface Props {
   className?: string;
-  infos?: CoreWorkloadInfo[];
+  workloadInfos?: CoreWorkloadInfo[];
+  workplanInfos?: CoreWorkplanInfo[];
 }
 
-function Overview ({ className, infos }: Props): React.ReactElement<Props> {
-  console.log('timeslice', Summary)
+function Overview ({ className, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
 
   return (
     <div className={className}>
       <Summary></Summary>
-      <Workloads infos={infos}/>
+      <Workloads workloadInfos={workloadInfos}/>
+      <Workplans workplanInfos={workplanInfos}/>
     </div>
   )
 }
