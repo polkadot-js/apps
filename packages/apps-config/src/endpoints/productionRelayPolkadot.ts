@@ -857,6 +857,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       RadiumBlock: 'wss://bridgehub-polkadot.public.curie.radiumblock.co/ws',
       Stakeworld: 'wss://dot-rpc.stakeworld.io/bridgehub'
     },
+    teleport: [-1],
     text: 'BridgeHub',
     ui: {
       logo: nodesBridgeHubSVG
