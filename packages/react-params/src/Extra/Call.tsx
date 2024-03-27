@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-extrinsics authors & contributors
+// Copyright 2017-2024 @polkadot/app-extrinsics authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -30,7 +30,7 @@ function mapArgs (args: unknown[]): RawParam[] {
 
 export function extractInitial (api: ApiPromise, initialValue: SubmittableExtrinsicFunction<'promise'>, input?: RawParam): { initialArgs?: RawParam[], initialValue: SubmittableExtrinsicFunction<'promise'> } {
   try {
-    return input && input.value
+    return input?.value
       ? isCall(input.value)
         ? {
           initialArgs: mapArgs(input.value.args),

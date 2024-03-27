@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-files authors & contributors
+// Copyright 2017-2024 @polkadot/app-files authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatusBase } from '@polkadot/react-components/Status/types';
@@ -123,9 +123,9 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       const dirFiles: DirFile[] = [];
 
-      for (let index = 0; index < files.length; index++) {
+      for (let i = 0, count = files.length; i < count; i++) {
         // console.info('f:', files[index]);
-        dirFiles.push(files[index] as DirFile);
+        dirFiles.push(files[i]);
       }
 
       console.info(dirFiles);
@@ -138,6 +138,7 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
 
     e.target.value = '';
   }, [setFile, setShowUpMode, queueAction, t]);
+
   const _onImportResult = useCallback<(m: string, s?: ActionStatusBase['status']) => void>(
     (message, status = 'queued') => {
       queueAction && queueAction({
@@ -180,7 +181,7 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
         }
 
         const fitter: SaveFile[] = [];
-        const mapImport: { [key: string]: boolean } = {};
+        const mapImport: Record<string, boolean> = {};
 
         for (const item of _list) {
           if (item.Hash && item.Name && item.UpEndpoint && item.PinEndpoint) {

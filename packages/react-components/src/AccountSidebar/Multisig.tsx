@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
@@ -37,7 +37,7 @@ function Multisig ({ isMultisig, meta }: Props): React.ReactElement<Props> | nul
         <div className='tr'>
           <div className='th signatories'>{t('signatories')}</div>
           <div className='td'>
-            {(who as string[])?.map((address) => (
+            {who?.map((address) => (
               <AddressMini
                 key={address}
                 value={address}

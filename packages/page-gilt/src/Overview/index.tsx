@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-gilt authors & contributors
+// Copyright 2017-2024 @polkadot/app-gilt authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useMemo } from 'react';
@@ -20,7 +20,7 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
   const { info } = useInfo();
 
   const isDisabled = useMemo(
-    () => !info || !info.activeTotal || info.activeTotal.target.isZero(),
+    () => !info?.activeTotal || info.activeTotal.target.isZero(),
     [info]
   );
 

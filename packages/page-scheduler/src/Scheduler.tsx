@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-scheduler authors & contributors
+// Copyright 2017-2024 @polkadot/app-scheduler authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -85,10 +85,7 @@ function Schedule ({ className = '' }: Props): React.ReactElement<Props> {
   const items = useCall<ScheduledExt[]>(api.query.scheduler.agenda.entries, undefined, OPT_SCHED);
 
   const filtered = useMemo(
-    () => bestNumber && items &&
-      items
-        .filter(({ blockNumber }) => blockNumber.gte(bestNumber))
-        .sort((a, b) => a.blockNumber.cmp(b.blockNumber)),
+    () => bestNumber && items?.filter(({ blockNumber }) => blockNumber.gte(bestNumber)).sort((a, b) => a.blockNumber.cmp(b.blockNumber)),
     [bestNumber, items]
   );
 

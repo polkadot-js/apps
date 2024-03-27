@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2024 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -73,7 +73,7 @@ function Group ({ activeIssuance, className, isMember, members, palletReferenda,
       isSplit={!trackId}
       key={key}
     >
-      {referenda && referenda.map((r) => (
+      {referenda?.map((r) => (
         <Referendum
           activeIssuance={activeIssuance}
           isMember={isMember}

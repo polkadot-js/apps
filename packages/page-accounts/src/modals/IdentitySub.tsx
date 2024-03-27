@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2024 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Data, Option } from '@polkadot/types';
@@ -98,12 +98,12 @@ function IdentitySubModal ({ address, className, onClose }: Props): React.ReactE
   }, [allAccounts, queryIds, queryInfos]);
 
   const _rowAdd = useCallback(
-    () => setInfos((infos) => infos && infos.concat([[allAccounts[0], '']])),
+    () => setInfos((infos) => infos?.concat([[allAccounts[0], '']])),
     [allAccounts]
   );
 
   const _rowRemove = useCallback(
-    () => setInfos((infos) => infos && infos.slice(0, infos.length - 1)),
+    () => setInfos((infos) => infos?.slice(0, infos.length - 1)),
     []
   );
 

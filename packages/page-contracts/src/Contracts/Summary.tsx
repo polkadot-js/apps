@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2024 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -30,7 +30,7 @@ function Summary ({ trigger }: Props): React.ReactElement<Props> {
   }, [api, accountCounter]);
 
   useEffect((): void => {
-    api.query.contracts.codeStorage
+    (api.query.contracts.pristineCode || api.query.contracts.codeStorage)
       .keys()
       .then((arr) => setNumHashes(arr.length))
       .catch(console.error);

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { StakerState } from '@polkadot/react-hooks/types';
@@ -35,7 +35,7 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
 
   const _onChangeStash = useCallback(
     (accountId?: string | null): void => {
-      const acc = ownNominators && ownNominators.find(({ stashId }) => stashId === accountId);
+      const acc = ownNominators?.find(({ stashId }) => stashId === accountId);
 
       setIds(
         acc

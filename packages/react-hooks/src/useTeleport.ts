@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
@@ -96,7 +96,7 @@ function useTeleportImpl (): Teleport {
     if (paraId) {
       const endpoint = endpoints.find(({ value }) => value === apiUrl);
 
-      if (endpoint && endpoint.genesisHashRelay) {
+      if (endpoint?.genesisHashRelay) {
         const destinations = extractRelayDestinations(endpoint.genesisHashRelay, ({ paraId }) =>
           endpoint.teleport.includes(isNumber(paraId) ? paraId : -1)
         );

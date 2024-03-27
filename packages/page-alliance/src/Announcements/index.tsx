@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-alliance authors & contributors
+// Copyright 2017-2024 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Cid } from '../types.js';
@@ -31,7 +31,7 @@ function Announcements ({ accouncements, className }: Props): React.ReactElement
         empty={accouncements && t('No annoucements')}
         header={annRef.current}
       >
-        {accouncements && accouncements.map((a) => (
+        {accouncements?.map((a) => (
           <Accouncement
             key={a.key}
             value={a}

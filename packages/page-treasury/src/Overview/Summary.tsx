@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2024 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -25,7 +25,7 @@ function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<P
   const { burn, pendingBounties, pendingProposals, spendPeriod, value } = useTreasury();
 
   const spendable = useMemo(
-    () => value && value.sub(pendingBounties).sub(pendingProposals),
+    () => value?.sub(pendingBounties).sub(pendingProposals),
     [value, pendingBounties, pendingProposals]
   );
 

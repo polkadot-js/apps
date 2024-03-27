@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-alliance authors & contributors
+// Copyright 2017-2024 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Member as MemberType, Rule, Unscrupulous } from '../types.js';
@@ -59,7 +59,7 @@ function Overview ({ className, members, prime, rule, unscrupulous, voters }: Pr
         isSplit
         maxColumns={2}
       >
-        {members && members.map((m) => (
+        {members?.map((m) => (
           <Member
             bestNumber={bestNumber}
             info={m}

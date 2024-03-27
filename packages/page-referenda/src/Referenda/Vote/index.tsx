@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2024 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -33,7 +33,7 @@ function filterMembers (allAccounts: string[], members?: string[], ranks?: BN[],
   if (members) {
     const accounts = members.filter((a) => allAccounts.includes(a));
 
-    if (ranks && trackInfo && trackInfo.compare) {
+    if (ranks && trackInfo?.compare) {
       const cmp = trackInfo.compare;
 
       return accounts.filter((_, i) => cmp(ranks[i]));

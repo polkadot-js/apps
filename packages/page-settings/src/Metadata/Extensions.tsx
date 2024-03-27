@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-settings authors & contributors
+// Copyright 2017-2024 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ChainInfo } from '../types.js';
@@ -93,6 +93,7 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
 const StyledTable = styled(Table)`
   table {
     overflow: visible;
+    z-index: 2;
   }
 `;
 

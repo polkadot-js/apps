@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-nfts authors & contributors
+// Copyright 2017-2024 @polkadot/app-nfts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CollectionInfo, CollectionInfoComplete } from '../types.js';
@@ -84,7 +84,7 @@ function AccountItems ({ className, infos = [] }: Props): React.ReactElement<Pro
         }
         header={headerRef.current}
       >
-        {itemsInfos && itemsInfos.map((info) => (
+        {itemsInfos?.map((info) => (
           <Item
             collectionName={collectionName}
             key={info.key}

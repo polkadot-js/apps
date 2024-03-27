@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-query authors & contributors
+// Copyright 2017-2024 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Compact } from '@polkadot/types';
@@ -21,7 +21,7 @@ interface Props {
   isShort?: boolean;
   label?: React.ReactNode;
   labelPost?: LabelPost;
-  value?: Compact<any> | BN | string | number | null | 'all';
+  value?: Compact<any> | BN | string | number | null;
   valueFormatted?: string;
   withCurrency?: boolean;
   withSi?: boolean;

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2024 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
@@ -57,7 +57,7 @@ function filterEvents (index: number, events?: KeyedEvent[] | null, maxBlockWeig
 
   return [
     dispatchInfo,
-    weight && weight.v1Weight,
+    weight?.v1Weight,
     weight && maxBlockWeight
       ? weight.v1Weight.mul(BN_TEN_THOUSAND).div(maxBlockWeight).toNumber() / 100
       : 0,

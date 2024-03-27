@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-tech-comm authors & contributors
+// Copyright 2017-2024 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
@@ -31,7 +31,7 @@ function Proposal ({ className = '', imageHash, isMember, members, prime, type }
   const { hasFailed, isCloseable, isVoteable, remainingBlocks } = useVotingStatus(derive?.votes, members.length, type);
   const modLocation = useCollectiveInstance(type);
 
-  if (!modLocation || !derive || !derive.votes) {
+  if (!modLocation || !derive?.votes) {
     return null;
   }
 

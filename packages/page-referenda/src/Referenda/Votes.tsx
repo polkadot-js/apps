@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2024 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletRankedCollectiveVoteRecord } from '@polkadot/types/lookup';
@@ -38,7 +38,7 @@ function extractVotes (votes: Record<string, PalletRankedCollectiveVoteRecord> =
   const nays: [string, BN][] = [];
   const entries = Object.entries(votes);
 
-  for (let i = 0; i < entries.length; i++) {
+  for (let i = 0, count = entries.length; i < count; i++) {
     const [accountId, vote] = entries[i];
 
     if (vote.isAye) {

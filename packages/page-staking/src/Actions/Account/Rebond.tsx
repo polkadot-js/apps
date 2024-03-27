@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
@@ -26,7 +26,7 @@ function Rebond ({ controllerId, onClose, stakingInfo, stashId }: Props): React.
   const [maxAdditional, setMaxAdditional] = useState<BN | undefined>();
 
   const startBalance = useMemo(
-    () => stakingInfo && stakingInfo.unlocking
+    () => stakingInfo?.unlocking
       ? stakingInfo.unlocking.reduce((total, { value }) => total.iadd(value), new BN(0))
       : BN_ZERO,
     [stakingInfo]

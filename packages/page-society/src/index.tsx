@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-society authors & contributors
+// Copyright 2017-2024 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSociety, DeriveSocietyMember } from '@polkadot/api-derive/types';
@@ -90,7 +90,7 @@ function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> 
 
   const [mapMembers, payoutTotal] = useMemo(
     () => members && info && skeptics && voters
-      ? getMapMembers(members, skeptics, voters, info, api.consts.society.maxStrikes.mul(BN_TWO).div(BN_THREE))
+      ? getMapMembers(members, skeptics, voters, info, (api.consts.society.graceStrikes || api.consts.society.maxStrikes).mul(BN_TWO).div(BN_THREE))
       : [undefined, undefined],
     [api, info, members, skeptics, voters]
   );

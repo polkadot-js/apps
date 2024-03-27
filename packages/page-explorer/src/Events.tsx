@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2024 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
@@ -65,7 +65,7 @@ function Events ({ className = '', emptyLabel, error, eventClassName, events, la
             <td><MarkError content={t('Unable to decode the block events. {{error}}', { replace: { error: error.message } })} /></td>
           </tr>
         )
-        : events && events.map((e) => renederEvent(eventClassName, e))
+        : events?.map((e) => renederEvent(eventClassName, e))
       }
     </Table>
   );

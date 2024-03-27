@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
@@ -22,7 +22,7 @@ function useExtrinsicTriggerImpl (checks: ExtrinsicCheck[]): string {
   const block = useCall<SignedBlockExtended>(api.derive.chain.subscribeNewBlocks);
 
   useEffect((): void => {
-    mountedRef.current && block && block.extrinsics && block.extrinsics.filter(({ extrinsic }) =>
+    mountedRef.current && block?.extrinsics?.filter(({ extrinsic }) =>
       extrinsic &&
       memoChecks.some((c) => c && c.is(extrinsic))
     ).length && setTrigger(() => block.createdAtHash?.toHex() || '');

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2024 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
@@ -39,7 +39,7 @@ function PreImage ({ className = '', imageHash, isImminent = false, onClose }: P
   const [proposal, setProposal] = useState<SubmittableExtrinsic>();
 
   useEffect((): void => {
-    const encodedProposal = (proposal as SubmittableExtrinsic)?.method.toHex() || '';
+    const encodedProposal = proposal?.method.toHex() || '';
     const storageFee = api.consts.democracy.preimageByteDeposit
       ? (api.consts.democracy.preimageByteDeposit as unknown as BN).mul(
         encodedProposal

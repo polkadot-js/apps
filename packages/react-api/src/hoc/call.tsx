@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-api authors & contributors
+// Copyright 2017-2024 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // SInce this file is deemed deprecated (and awaiting removal), we just don't care
@@ -181,7 +181,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
           !!apiSection
         ) || [{}, expanded[0][1], expanded[0][2], expanded[0][3]];
 
-        assert(apiSection && apiSection[method], `Unable to find api.${area}.${section}.${method}`);
+        assert(apiSection?.[method], `Unable to find api.${area}.${section}.${method}`);
 
         const meta = apiSection[method].meta;
 

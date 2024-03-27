@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-api authors & contributors
+// Copyright 2017-2024 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiProps, SubtractProps } from '../types.js';
@@ -17,7 +17,7 @@ export default function withApi <P extends ApiProps> (Inner: React.ComponentType
       return (
         <ApiCtx.Consumer>
           {(apiProps?: ApiProps): React.ReactNode => {
-            assert(apiProps && apiProps.api, 'Application root must be wrapped inside \'react-api/Api\' to provide API context');
+            assert(apiProps?.api, 'Application root must be wrapped inside \'react-api/Api\' to provide API context');
 
             return (
               <Inner

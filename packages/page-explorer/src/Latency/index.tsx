@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2024 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ChartContents, Detail } from './types.js';
@@ -55,7 +55,7 @@ function getPoints (details: Detail[], timeAvg: number): ChartInfo {
   const txTotal = details.reduce((a, { extrinsics: { count } }) => a + count, 0);
   const blockTotal = details.reduce((a, { block: { bytes } }) => a + bytes, 0);
 
-  for (let i = 0; i < details.length; i++) {
+  for (let i = 0, count = details.length; i < count; i++) {
     const blockNumber = formatNumber(details[i].block.number);
 
     blocks.labels.push(blockNumber);
@@ -75,7 +75,7 @@ function getPoints (details: Detail[], timeAvg: number): ChartInfo {
   const filtered = details.filter(({ delay }) => delay);
   const avgBase = timeAvg * filtered.length;
 
-  for (let i = 0; i < filtered.length; i++) {
+  for (let i = 0, count = filtered.length; i < count; i++) {
     times.labels.push(formatNumber(filtered[i].block.number));
     times.values[0].push(filtered[i].delay / 1000);
     times.values[1].push(avgBase / filtered.length / 1000);
@@ -101,7 +101,7 @@ function Latency ({ className }: Props): React.ReactElement<Props> {
 
   useEffect((): void => {
     // HACK try and render the charts in order - this _may_ work around the
-    // crosshair plugin init issues, but at best it is non-reproducable
+    // crosshair plugin init issues, but at best it is non-reproducible
     if (isLoaded) {
       const index = shouldRender.findIndex((v) => !v);
 

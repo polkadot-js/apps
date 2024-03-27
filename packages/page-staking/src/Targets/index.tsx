@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveHasIdentity, DeriveStakingOverview } from '@polkadot/api-derive/types';
@@ -219,7 +219,7 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
       daysPayout,
       isBabe: !!api.consts.babe,
       isQueryFiltered,
-      maxPaid: api.consts.staking?.maxNominatorRewardedPerValidator
+      maxPaid: api.consts.staking?.maxNominatorRewardedPerValidator as u32
     }),
     [api, daysPayout, isQueryFiltered, toggles]
   );
@@ -403,7 +403,7 @@ function Targets ({ className = '', isInElection, nominatedBy, ownStashes, targe
         header={header}
         legend={<Legend />}
       >
-        {displayList && displayList.map((info): React.ReactNode =>
+        {displayList?.map((info): React.ReactNode =>
           <Validator
             allSlashes={allSlashes}
             canSelect={canSelect}

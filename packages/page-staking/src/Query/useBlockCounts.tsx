@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSessionIndexes } from '@polkadot/api-derive/types';
@@ -19,7 +19,7 @@ function useBlockCountsImpl (accountId: string, sessionRewards: SessionRewards[]
   const [historic, setHistoric] = useState<u32[]>([]);
 
   useEffect((): void => {
-    if (isFunction(api.query.imOnline?.authoredBlocks) && sessionRewards && sessionRewards.length) {
+    if (isFunction(api.query.imOnline?.authoredBlocks) && sessionRewards?.length) {
       const filtered = sessionRewards.filter(({ sessionIndex }): boolean => sessionIndex.gt(BN_ZERO));
 
       if (filtered.length) {

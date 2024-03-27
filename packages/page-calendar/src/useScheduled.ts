@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-calendar authors & contributors
+// Copyright 2017-2024 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal, DeriveDispatch, DeriveReferendumExt, DeriveSessionProgress } from '@polkadot/api-derive/types';
@@ -254,7 +254,7 @@ function useScheduledImpl (): EntryInfoTyped[] {
         ['democracyLaunch', api.consts.democracy?.launchPeriod],
         ['parachainLease', api.consts.slots?.leasePeriod as BlockNumber, BN_ONE, api.consts.slots?.leaseOffset as BlockNumber],
         ['societyChallenge', api.consts.society?.challengePeriod],
-        ['societyRotate', api.consts.society?.rotationPeriod],
+        ['societyRotate', api.consts.society?.rotationPeriod as BlockNumber],
         ['treasurySpend', api.consts.treasury?.spendPeriod]
       ]))
     );

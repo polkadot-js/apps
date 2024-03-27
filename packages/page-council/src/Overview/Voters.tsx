@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-council authors & contributors
+// Copyright 2017-2024 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, Balance } from '@polkadot/types/interfaces';
@@ -15,7 +15,7 @@ interface Props {
 
 function Voters ({ balance, voters }: Props): React.ReactElement<Props> {
   const renderVoters = useCallback(
-    () => voters && voters.map((who): React.ReactNode =>
+    () => voters?.map((who): React.ReactNode =>
       <AddressMini
         key={who.toString()}
         value={who}

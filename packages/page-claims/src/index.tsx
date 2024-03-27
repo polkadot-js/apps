@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-claims authors & contributors
+// Copyright 2017-2024 @polkadot/app-claims authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AppProps as Props } from '@polkadot/react-components/types';
@@ -85,7 +85,7 @@ function ClaimsApp ({ basePath }: Props): React.ReactElement<Props> {
   // - an `EthereumAddress` when there's a preclaim
   // - null if no preclaim
   // - `PRECLAIMS_LOADING` if we're fetching the results
-  const [preclaimEthereumAddress, setPreclaimEthereumAddress] = useState<string | null | undefined | typeof PRECLAIMS_LOADING>(PRECLAIMS_LOADING);
+  const [preclaimEthereumAddress, setPreclaimEthereumAddress] = useState<string | null | undefined>(PRECLAIMS_LOADING);
   const isPreclaimed = !!preclaimEthereumAddress && preclaimEthereumAddress !== PRECLAIMS_LOADING;
 
   const itemsRef = useRef([{

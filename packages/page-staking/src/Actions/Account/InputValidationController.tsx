@@ -1,9 +1,10 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { Option } from '@polkadot/types';
-import type { AccountId, StakingLedger } from '@polkadot/types/interfaces';
+import type { AccountId } from '@polkadot/types/interfaces';
+import type { PalletStakingStakingLedger } from '@polkadot/types/lookup';
 
 import React, { useEffect, useState } from 'react';
 
@@ -32,7 +33,7 @@ const OPT_BOND = {
 };
 
 const OPT_STASH = {
-  transform: (value: Option<StakingLedger>): string | null =>
+  transform: (value: Option<PalletStakingStakingLedger>): string | null =>
     value.isSome
       ? value.unwrap().stash.toString()
       : null

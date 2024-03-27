@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2024 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Dispatch, SetStateAction } from 'react';
@@ -116,7 +116,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
       <Modal.Content>
         <Modal.Columns>
           <AddressRow
-            defaultName={(pair?.meta.name as string) || null}
+            defaultName={pair?.meta.name || null}
             noDefaultNameOpacity
             value={pair?.address || null}
           />

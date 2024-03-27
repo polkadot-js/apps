@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2024 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AuctionInfo, Campaigns, OwnedId, Winning } from '../types.js';
@@ -20,7 +20,7 @@ interface Props {
 }
 
 function Auctions ({ auctionInfo, campaigns, className, ownedIds, winningData }: Props): React.ReactElement<Props> {
-  const lastWinners = winningData && winningData[0];
+  const lastWinners = winningData?.[0];
 
   return (
     <div className={className}>

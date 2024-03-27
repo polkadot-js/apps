@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSessionProgress, DeriveUnlocking } from '@polkadot/api-derive/types';
@@ -73,7 +73,7 @@ function Pool ({ accountId, className, info: { bonded: { roles }, metadata, nomi
   const accInfo = useAccountInfo(accountId);
 
   const stakingInfo = useMemo(
-    () => sessionProgress && accInfo && accInfo.member.unbondingEras && !accInfo.member.unbondingEras.isEmpty
+    () => sessionProgress && accInfo?.member.unbondingEras && !accInfo.member.unbondingEras.isEmpty
       ? calcUnbonding(accountId, stashId, sessionProgress, accInfo.member)
       : null,
     [accInfo, accountId, stashId, sessionProgress]

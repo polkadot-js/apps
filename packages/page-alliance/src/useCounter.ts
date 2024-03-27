@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2024 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { useMemo } from 'react';
@@ -10,7 +10,7 @@ function useCounterImpl (): number {
   const proposalHashes = useCall<unknown[]>(isApiReady && api.derive.alliance.proposalHashes);
 
   return useMemo(
-    () => (proposalHashes && proposalHashes.length) || 0,
+    () => proposalHashes?.length || 0,
     [proposalHashes]
   );
 }

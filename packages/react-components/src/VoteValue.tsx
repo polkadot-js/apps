@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
@@ -29,7 +29,7 @@ interface ValueState {
   value: BN;
 }
 
-const LOCKS_ORDERED = ['pyconvot', 'democrac', 'phrelect'];
+const LOCKS_ORDERED = ['pyconvot', 'democrac', 'phrelect'] as const;
 
 function getValues (selectedId: string | null | undefined, noDefault: boolean | undefined, allBalances: DeriveBalancesAll, existential: BN): ValueState {
   const sortedLocks = allBalances.lockedBreakdown
@@ -40,7 +40,7 @@ function getValues (selectedId: string | null | undefined, noDefault: boolean | 
     // then sort by the type of lock (we try to find relevant)
     .sort((a, b): number => {
       if (!a.id.eq(b.id)) {
-        for (let i = 0; i < LOCKS_ORDERED.length; i++) {
+        for (let i = 0, count = LOCKS_ORDERED.length; i < count; i++) {
           const lockName = LOCKS_ORDERED[i];
 
           if (a.id.eq(lockName)) {

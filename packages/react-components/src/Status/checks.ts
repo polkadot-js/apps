@@ -1,11 +1,11 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // we use augmented types in this tsconfig
 import '@polkadot/api-augment/substrate';
 
 import type { DispatchError, DispatchResult, Event, EventRecord } from '@polkadot/types/interfaces';
-import type { XcmV3TraitsOutcome } from '@polkadot/types/lookup';
+import type { StagingXcmV4TraitsOutcome } from '@polkadot/types/lookup';
 
 type EventCheck = (event: Event) => string | null;
 
@@ -41,8 +41,8 @@ function dispatchResultMulti ({ data: [,,,, result] }: Event): string | null {
 function xcmAttempted ({ data: [outcome] }: Event): string | null {
   if (!outcome) {
     return INCOMPLETE;
-  } else if ((outcome as XcmV3TraitsOutcome).isIncomplete) {
-    const [, error] = (outcome as XcmV3TraitsOutcome).asIncomplete;
+  } else if ((outcome as StagingXcmV4TraitsOutcome).isIncomplete) {
+    const error = (outcome as StagingXcmV4TraitsOutcome).asIncomplete.error;
 
     return `error: ${error.type}`;
   }

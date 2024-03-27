@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2024 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BlockNumber } from '@polkadot/types/interfaces';
@@ -61,7 +61,7 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
   );
 
   const currentWinner = useMemo(
-    () => lastWinners && lastWinners.winners.find(({ firstSlot, lastSlot }) =>
+    () => lastWinners?.winners.find(({ firstSlot, lastSlot }) =>
       firstSlot.eqn(rangeOpts[range].firstSlot) &&
       lastSlot.eqn(rangeOpts[range].lastSlot)
     ),

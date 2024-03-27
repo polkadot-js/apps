@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2024 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -89,7 +89,7 @@ export function curveThreshold (curve: PalletReferendaCurve, input: BN, div: BN)
         )
       )
     );
-  } else if (curve.asReciprocal) {
+  } else if (curve.isReciprocal) {
     const { factor, xOffset, yOffset } = curve.asReciprocal;
     const div = x.add(xOffset);
 

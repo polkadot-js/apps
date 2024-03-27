@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2024 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BatchOptions } from '@polkadot/react-hooks/types';
@@ -82,9 +82,9 @@ function Delegate ({ className, palletReferenda, palletVote, tracks }: Props): R
     () => [
       { text: t('Addresses'), value: 'address' },
       isFunction(api.query.staking?.nominators) &&
-        { isDisabled: !allVals || !allVals.length, text: t('Validators'), value: 'validators' },
+        { isDisabled: !allVals?.length, text: t('Validators'), value: 'validators' },
       isFunction(api.query.fellowshipCollective?.members) &&
-        { isDisabled: !allFell || !allFell.length, text: t('Fellows'), value: 'fellows' }
+        { isDisabled: !allFell?.length, text: t('Fellows'), value: 'fellows' }
     ],
     [allFell, allVals, api, t]
   );

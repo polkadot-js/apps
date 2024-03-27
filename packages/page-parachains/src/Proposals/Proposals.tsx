@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2024 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Proposals as UseProposals } from '../types.js';
@@ -18,7 +18,7 @@ function Proposals ({ proposals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const sortedIds = useMemo(
-    () => proposals && proposals.proposalIds.sort((a, b) => a.cmp(b)),
+    () => proposals?.proposalIds.sort((a, b) => a.cmp(b)),
     [proposals]
   );
 

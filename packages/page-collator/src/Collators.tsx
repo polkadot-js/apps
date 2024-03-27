@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-collator authors & contributors
+// Copyright 2017-2024 @polkadot/app-collator authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useRef } from 'react';
@@ -34,7 +34,7 @@ function Collators ({ className }: Props): React.ReactElement<Props> {
         empty={collators && t('No running collators')}
         header={hdrRef.current}
       >
-        {collators && collators.map((c) => (
+        {collators?.map((c) => (
           <Collator
             info={c}
             key={c.accountId}

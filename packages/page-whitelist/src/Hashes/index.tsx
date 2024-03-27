@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-whitelist authors & contributors
+// Copyright 2017-2024 @polkadot/app-whitelist authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
@@ -36,7 +36,7 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
         empty={hashes && t('No call hashes found')}
         header={headerRef.current}
       >
-        {hashes && hashes.map((h) => (
+        {hashes?.map((h) => (
           <Details
             key={h}
             value={h}

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2024 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
@@ -86,7 +86,7 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectT
       )}
       header={headerRef.current}
     >
-      {tips && tips.map(([hash, tip]): React.ReactNode => (
+      {tips?.map(([hash, tip]): React.ReactNode => (
         <Tip
           bestNumber={bestNumber}
           defaultId={defaultId}

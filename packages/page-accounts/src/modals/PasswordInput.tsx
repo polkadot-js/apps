@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2024 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useEffect, useState } from 'react';
@@ -8,7 +8,7 @@ import { keyring } from '@polkadot/ui-keyring';
 
 import { useTranslation } from '../translate.js';
 
-type Props = {
+interface Props {
   onChange: (password: string, isPasswordValid: boolean) => void;
   onEnter: () => void;
 }

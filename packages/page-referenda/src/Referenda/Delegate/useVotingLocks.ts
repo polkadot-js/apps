@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2024 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { INumber } from '@polkadot/types/types';
@@ -34,7 +34,7 @@ function useVotingLocksImpl (palletVote: PalletVote, accountIds?: string[] | nul
     [accountIds]
   );
 
-  const locks = useCall(locksParam && locksParam[0] && api.query[palletVote]?.classLocksFor?.multi, locksParam, LOCKS_OPT);
+  const locks = useCall(locksParam?.[0] && api.query[palletVote]?.classLocksFor?.multi, locksParam, LOCKS_OPT);
 
   return useMemo(
     () => locksParam

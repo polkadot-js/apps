@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2024 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParaId } from '@polkadot/types/interfaces';
@@ -29,8 +29,7 @@ function Parathread ({ id, leasePeriod, leases, nextAction }: Props): React.Reac
   const { headHex, lifecycle, manager } = useThreadInfo(id);
 
   const periods = useMemo(
-    () => leasePeriod?.currentPeriod && leases &&
-      leases.map(({ period }) => period),
+    () => leasePeriod?.currentPeriod && leases?.map(({ period }) => period),
     [leasePeriod?.currentPeriod, leases]
   );
 

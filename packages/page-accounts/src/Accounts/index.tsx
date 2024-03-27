@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2024 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
@@ -63,7 +63,7 @@ function groupAccounts (accounts: SortedAccount[]): Record<GroupName, string[]> 
     testing: []
   };
 
-  for (let i = 0; i < accounts.length; i++) {
+  for (let i = 0, count = accounts.length; i < count; i++) {
     const { account, address } = accounts[i];
     const cryptoType = getAccountCryptoType(address);
 

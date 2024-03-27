@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-scheduler authors & contributors
+// Copyright 2017-2024 @polkadot/app-scheduler authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveDispatch } from '@polkadot/api-derive/types';
@@ -22,10 +22,7 @@ function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null 
   const queued = useCall<DeriveDispatch[]>(api.derive.democracy.dispatchQueue);
 
   const filtered = useMemo(
-    () => bestNumber && queued &&
-      queued
-        .filter(({ at }) => at.gte(bestNumber))
-        .sort((a, b) => a.at.cmp(b.at)),
+    () => bestNumber && queued?.filter(({ at }) => at.gte(bestNumber)).sort((a, b) => a.at.cmp(b.at)),
     [bestNumber, queued]
   );
 

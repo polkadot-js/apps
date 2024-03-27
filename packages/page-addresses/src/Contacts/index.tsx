@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-addresses authors & contributors
+// Copyright 2017-2024 @polkadot/app-addresses authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
@@ -12,7 +12,7 @@ import CreateModal from '../modals/Create.js';
 import { useTranslation } from '../translate.js';
 import Address from './Address.js';
 
-type SortedAddress = { address: string; isFavorite: boolean };
+interface SortedAddress { address: string; isFavorite: boolean }
 
 interface Props {
   className?: string;

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
@@ -33,7 +33,7 @@ function merge (prev: BagMap | undefined, curr: BagMap): BagMap {
   return Object
     .entries(curr)
     .reduce((all: BagMap, [id, nodes]): BagMap => {
-      all[id] = prev && prev[id] && JSON.stringify(nodes) === JSON.stringify(prev[id])
+      all[id] = prev?.[id] && JSON.stringify(nodes) === JSON.stringify(prev[id])
         ? prev[id]
         : nodes;
 

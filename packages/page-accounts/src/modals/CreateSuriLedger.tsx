@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2024 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useEffect, useRef, useState } from 'react';
@@ -41,7 +41,7 @@ function CreateSuriLedger ({ className, onChange, seedType }: Props): React.Reac
   useEffect((): void => {
     const network = ledgerNets.find(({ network }) => network === chainType);
 
-    onChange(`m/44'/${network?.slip44 as number}'/${accIndex}'/0'/${addIndex}'`);
+    onChange(`m/44'/${network?.slip44}'/${accIndex}'/0'/${addIndex}'`);
   }, [accIndex, addIndex, chainType, onChange]);
 
   return (

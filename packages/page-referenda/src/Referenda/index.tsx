@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2024 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -41,7 +41,7 @@ function Referenda ({ className, isConvictionVote, members, palletReferenda, pal
   const [trackSelected, setTrackSelected] = useState(-1);
 
   const activeIssuance = useMemo(
-    () => totalIssuance && totalIssuance.sub(inactiveIssuance || BN_ZERO),
+    () => totalIssuance?.sub(inactiveIssuance || BN_ZERO),
     [inactiveIssuance, totalIssuance]
   );
 

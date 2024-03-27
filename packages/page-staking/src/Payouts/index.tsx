@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakerReward } from '@polkadot/api-derive/types';
@@ -166,7 +166,7 @@ function Payouts ({ className = '', historyDepth, isInElection, ownPools, ownVal
   const blockTime = useBlockInterval();
 
   const poolStashes = useMemo(
-    () => ownPools && ownPools.map(({ stashId }) => stashId),
+    () => ownPools?.map(({ stashId }) => stashId),
     [ownPools]
   );
 

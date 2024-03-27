@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-api authors & contributors
+// Copyright 2017-2024 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type React from 'react';
@@ -29,7 +29,7 @@ export interface Options {
 
 export type RenderFn = (value?: any) => any;
 
-export type StorageTransform = (input: any, index: number) => unknown | null;
+export type StorageTransform = (input: any, index: number) => unknown;
 
 export type HOC = (Component: React.ComponentType<unknown>, defaultProps?: DefaultProps, render?: RenderFn) => React.ComponentType<unknown>;
 

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-addresses authors & contributors
+// Copyright 2017-2024 @polkadot/app-addresses authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
@@ -70,7 +70,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
     const current = keyring.getAddress(address);
 
     setCurrent(current || null);
-    setGenesisHash((current && current.meta.genesisHash) || null);
+    setGenesisHash((current?.meta.genesisHash) || null);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -89,7 +89,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   useEffect((): void => {
     const account = keyring.getAddress(address);
 
-    _setTags(account?.meta?.tags as string[] || []);
+    _setTags(account?.meta?.tags || []);
     setAccName(account?.meta?.name || '');
   }, [_setTags, address]);
 
@@ -211,7 +211,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
         </td>
         <td className='actions button'>
           <Button.Group>
-            {isFunction(api.api.tx.balances?.transfer) && (
+            {(isFunction(api.api.tx.balances?.transferAllowDeath) || isFunction(api.api.tx.balances?.transfer)) && (
               <Button
                 className='send-button'
                 icon='paper-plane'

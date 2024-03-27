@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-council authors & contributors
+// Copyright 2017-2024 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -53,7 +53,7 @@ function Slashing ({ className = '', isMember, members }: Props): React.ReactEle
   );
 
   useEffect((): void => {
-    const actioned = selectedEra && slashes && slashes.find(([era]) => era.eqn(selectedEra));
+    const actioned = selectedEra && slashes?.find(([era]) => era.eqn(selectedEra));
     const proposal = actioned
       ? api.tx.staking.cancelDeferredSlash(actioned[0], actioned[1].map((_, index) => index))
       : null;

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-society authors & contributors
+// Copyright 2017-2024 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -27,7 +27,7 @@ async function getVoters (api: ApiPromise, candidates: DeriveSocietyCandidate[])
         const key = accountId.toString();
         const vote = opt.unwrap();
 
-        if (vote.isSkeptic) {
+        if ((vote as unknown as { isSkeptic: boolean }).isSkeptic) {
           !skeptics.includes(key) && skeptics.push(key);
         } else {
           !voters.includes(key) && voters.push(key);

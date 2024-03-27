@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -56,7 +56,7 @@ function expandInfo ({ exposure, validatorPrefs }: ValidatorInfo, minCommission?
   let stakeOther: BN | undefined;
   let stakeOwn: BN | undefined;
 
-  if (exposure && exposure.total) {
+  if (exposure?.total) {
     nominators = exposure.others.map(({ value, who }) => ({
       nominatorId: who.toString(),
       value: value.unwrap()

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-extrinsics authors & contributors
+// Copyright 2017-2024 @polkadot/app-extrinsics authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AppProps as Props, TabItem } from '@polkadot/react-components/types';
@@ -44,7 +44,7 @@ function ExtrinsicsApp ({ basePath }: Props): React.ReactElement<Props> {
           <Route
             element={
               <Decoder
-                defaultValue={decoded && decoded.hex}
+                defaultValue={decoded?.hex}
                 setLast={setDecoded}
               />
             }

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-society authors & contributors
+// Copyright 2017-2024 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSociety } from '@polkadot/api-derive/types';
@@ -36,22 +36,24 @@ function Summary ({ className = '', info, payoutTotal }: Props): React.ReactElem
       <section className='media--1100'>
         {info && members && (
           <CardSummary label={t('members')}>
-            {members.length}&nbsp;/&nbsp;{info.maxMembers.toString()}
+            {members.length}&nbsp;/&nbsp;{info.maxMembers?.toString()}
           </CardSummary>
         )}
       </section>
       {bestNumber && (
         <>
-          <section>
-            <CardSummary
-              label={t('rotation')}
-              progress={{
-                total: api.consts.society.rotationPeriod,
-                value: bestNumber.mod(api.consts.society.rotationPeriod),
-                withTime: true
-              }}
-            />
-          </section>
+          {api.consts.society.rotationPeriod && (
+            <section>
+              <CardSummary
+                label={t('rotation')}
+                progress={{
+                  total: api.consts.society.rotationPeriod as unknown as BN,
+                  value: bestNumber.mod(api.consts.society.rotationPeriod as unknown as BN),
+                  withTime: true
+                }}
+              />
+            </section>
+          )}
           <section className='media--1200'>
             <CardSummary
               label={t('challenge')}

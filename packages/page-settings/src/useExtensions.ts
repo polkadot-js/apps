@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-settings authors & contributors
+// Copyright 2017-2024 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -31,9 +31,7 @@ interface ExtensionProperties {
   ss58Format?: number;
 }
 
-interface SavedProperties {
-  [name: string]: ExtensionProperties;
-}
+type SavedProperties = Record<string, ExtensionProperties>;
 
 type TriggerFn = (counter: number) => void;
 

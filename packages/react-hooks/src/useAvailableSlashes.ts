@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveSessionIndexes } from '@polkadot/api-derive/types';
@@ -27,7 +27,7 @@ function useAvailableSlashesImpl (): [BN, PalletStakingUnappliedSlash[]][] {
   useEffect((): Unsub => {
     let unsub: Unsub | undefined;
     const [from, offset] = api.query.staking?.earliestUnappliedSlash
-      ? [earliestSlash && earliestSlash.unwrapOr(null), BN_ZERO]
+      ? [earliestSlash?.unwrapOr(null), BN_ZERO]
       // future depth (one more than activeEra for delay)
       : [indexes?.activeEra, BN_ONE.add(api.consts.staking?.slashDeferDuration || BN_HUNDRED)];
 

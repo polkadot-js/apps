@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import '@polkadot/api-augment';
@@ -64,7 +64,7 @@ function extractState (ownStashes?: StakerState[]): State {
   const bondedTotal = new BN(0);
 
   ownStashes.forEach(({ isStashNominating, isStashValidating, stakingLedger }): void => {
-    const value = stakingLedger && stakingLedger.total
+    const value = stakingLedger?.total
       ? stakingLedger.total.unwrap()
       : BN_ZERO;
 

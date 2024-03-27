@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-settings authors & contributors
+// Copyright 2017-2024 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { useTranslation as useTranslationBase } from 'react-i18next';
@@ -8,6 +8,10 @@ export interface TOptions {
   replace?: Record<string, unknown>
 }
 
-export function useTranslation (): { t: (key: string, optionsOrText?: string | TOptions, options?: TOptions) => string } {
-  return useTranslationBase('app-settings');
+interface Translation {
+  t: (key: string, optionsOrText?: string | TOptions, options?: TOptions) => string
+}
+
+export function useTranslation (): Translation {
+  return useTranslationBase('app-settings') as unknown as Translation;
 }

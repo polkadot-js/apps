@@ -1,11 +1,10 @@
-// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableResult } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import type { ActionStatus, ActionStatusPartial, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueProps, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus, SignerCallback } from '@polkadot/react-components/Status/types';
-import type { Bytes } from '@polkadot/types';
-import type { DispatchError } from '@polkadot/types/interfaces';
+import type { DispatchError, EventRecord } from '@polkadot/types/interfaces';
 import type { ITuple, Registry, SignerPayloadJSON } from '@polkadot/types/types';
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
@@ -88,7 +87,7 @@ function mergeStatus (status: ActionStatusPartial[]): ActionStatus[] {
 
 function extractEvents (result?: SubmittableResult): ActionStatus[] {
   return mergeStatus(
-    ((result && result.events) || [])
+    (result?.events || [])
       // filter events handled globally, or those we are not interested in, these are
       // handled by the global overview, so don't add them here
       .filter((record) =>
@@ -125,7 +124,7 @@ function extractEvents (result?: SubmittableResult): ActionStatus[] {
               const abi = getContractAbi(accountId.toString());
 
               if (abi) {
-                const decoded = abi.decodeEvent(encoded as Bytes);
+                const decoded = abi.decodeEvent(encoded as EventRecord);
 
                 return {
                   action: decoded.event.identifier,

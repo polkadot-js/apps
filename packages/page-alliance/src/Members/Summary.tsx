@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-alliance authors & contributors
+// Copyright 2017-2024 @polkadot/app-alliance authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Member as MemberType, Rule } from '../types.js';
@@ -19,7 +19,7 @@ interface Props {
 
 function Summary ({ className, members, rule }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const ipfsLink = useIpfsLink(rule && rule.cid && rule.cid.ipfs);
+  const ipfsLink = useIpfsLink(rule?.cid?.ipfs);
 
   return (
     <SummaryBox className={className}>

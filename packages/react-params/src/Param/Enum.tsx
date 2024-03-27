@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-params authors & contributors
+// Copyright 2017-2024 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry, TypeDef } from '@polkadot/types/types';
@@ -132,7 +132,7 @@ function EnumParam (props: Props): React.ReactElement<Props> {
 
       current && onChange && onChange({
         isValid,
-        value: { [current[0].name as string]: value }
+        value: { [current[0].name || 'unknown']: value }
       });
     },
     [current, isDisabled, onChange]

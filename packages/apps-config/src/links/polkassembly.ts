@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/apps-config authors & contributors
+// Copyright 2017-2024 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -41,6 +41,7 @@ export const PolkassemblyIo: ExternalDef = {
   homepage: 'https://polkassembly.io/',
   isActive: true,
   paths: {
+    address: 'address',
     bounty: 'bounty',
     council: 'motion',
     democracyProposal: 'proposal',

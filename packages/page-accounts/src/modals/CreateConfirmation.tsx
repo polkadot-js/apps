@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2024 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeypairType } from '@polkadot/util-crypto/types';
@@ -22,10 +22,10 @@ interface Props {
 function CreateConfirmation ({ address, derivePath, name, pairType, seed }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
-  const splitSeed = seed && seed.split(' ');
+  const splitSeed = seed?.split(' ');
   const shortSeed = isHex(seed)
     ? `${seed.slice(10)} … ${seed.slice(-8)}`
-    : splitSeed && splitSeed.map((value, index) => (index % 3) ? '…' : value).join(' ');
+    : splitSeed?.map((value, index) => (index % 3) ? '…' : value).join(' ');
 
   return (
     <Modal.Content>

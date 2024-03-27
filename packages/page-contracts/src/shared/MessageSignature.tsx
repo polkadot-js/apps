@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AbiMessage } from '@polkadot/api-contract/types';
@@ -40,7 +40,7 @@ function MessageSignature ({ className, message: { args, isConstructor, isMutati
             {name}:
             {' '}
             <span className='ui--MessageSignature-type'>
-              {params && params[index]
+              {params?.[index]
                 ? <b>{truncate((params as string[])[index].toString())}</b>
                 : encodeTypeDef(api.registry, type)
               }

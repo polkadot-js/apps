@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2024 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -19,8 +19,8 @@ interface Props {
   className?: string;
   onClose: () => void;
   ongoing: [H256, Multisig][];
-  threshold: number;
-  who: string[];
+  threshold?: number;
+  who?: string[];
 }
 
 interface MultiInfo {
@@ -45,7 +45,7 @@ const EMPTY_CALL: CallData = {
   callInfo: null
 };
 
-function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: Props): React.ReactElement<Props> {
+function MultisigApprove ({ className = '', onClose, ongoing, threshold = 0, who = [] }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();

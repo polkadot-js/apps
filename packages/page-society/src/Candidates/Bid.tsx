@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-society authors & contributors
+// Copyright 2017-2024 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletSocietyBid } from '@polkadot/types/lookup';
@@ -31,7 +31,7 @@ function BidRow ({ index, value: { kind, value, who } }: Props): React.ReactElem
   const [isBidder, isVoucher] = useMemo(
     (): [boolean, boolean] => {
       const whoSS58 = who.toString();
-      const vouchSS58 = voucher && voucher.toString();
+      const vouchSS58 = voucher?.toString();
 
       return [
         allAccounts.some((accountId) => accountId === whoSS58),

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId32 } from '@polkadot/types/interfaces';
@@ -47,7 +47,7 @@ function Bag ({ bagLower, bagUpper, info, nodesOwn }: Props): React.ReactElement
 
   useEffect((): void => {
     setLoading(
-      nodesOwn && nodesOwn.length
+      nodesOwn?.length
         ? !isCompleted || !bonded
         : false
     );

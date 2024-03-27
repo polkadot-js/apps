@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2024 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
@@ -34,7 +34,7 @@ interface UploadedFileData {
   uploadedSignatories: string[];
 }
 
-const MAX_SIGNATORIES = 16;
+const MAX_SIGNATORIES = 100;
 const BN_TWO = new BN(2);
 
 const acceptedFormats = ['application/json'];

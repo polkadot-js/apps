@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2024 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useState } from 'react';
@@ -34,7 +34,7 @@ function Contracts ({ className = '' }: Props): React.ReactElement<Props> {
 
   const _onShowDeploy = useCallback(
     (codeHash: string, constructorIndex: number): void => {
-      setCodeHash(codeHash || (allCodes && allCodes[0] ? allCodes[0].json.codeHash : undefined));
+      setCodeHash(codeHash || allCodes?.[0]?.json.codeHash || undefined);
       setConstructorIndex(constructorIndex);
       toggleDeploy();
     },

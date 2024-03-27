@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2024 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletReferenda, TrackDescription, TrackInfoExt } from '../../types.js';
@@ -44,7 +44,7 @@ function Activity ({ allowEmpty, className, palletReferenda, tracks, value }: Pr
             {infos.map(([{ casting, classId, delegating }, info], index) => (
               <tr key={index}>
                 <td className='all'>
-                  {(info && info.trackName) || classId.toString()}
+                  {info?.trackName || classId.toString()}
                 </td>
                 <td className='together'>
                   {

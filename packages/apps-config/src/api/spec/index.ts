@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/apps-config authors & contributors
+// Copyright 2017-2024 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
@@ -78,19 +78,22 @@ import mangata from './mangata.js';
 import manta from './manta.js';
 import mathchain from './mathchain.js';
 import moonbeam from './moonbeam.js';
+import muse from './muse.js';
 import mybank from './mybank.js';
+import mythos from './mythos.js';
 import neatcoin from './neatcoin.js';
+import neuroweb from './neuroweb.js';
 import nftmart from './nftmart.js';
 import nodle from './nodle.js';
 import oak from './oak.js';
 import opal from './opal.js';
 import opportunity from './opportunity.js';
-import origintrail from './origintrail.js';
 import pangolin from './pangolin.js';
 import pangoro from './pangoro.js';
 import parallel from './parallel.js';
 import parami from './parami.js';
 import peaq from './peaq.js';
+import pendulum from './pendulum.js';
 import phoenix from './phoenix.js';
 import pichiu from './pichiu.js';
 import polkadex from './polkadex.js';
@@ -151,6 +154,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   ...acala,
   ajuna,
   altair,
+  amplitude: pendulum,
   apron,
   'ares-gladios': aresGladios,
   'ares-mars': aresParachain,
@@ -174,12 +178,13 @@ const spec: Record<string, OverrideBundleDefinition> = {
   coinversation,
   'competitors-club': competitorsClub,
   contextfree: automata,
+  'continuum-runtime': bitcountryPioneer,
   contracts,
   'crown-sterling': crownSterlingChain,
   crust,
   'crust-parachain': crust,
   'cumulus-test-parachain': testPara,
-  'curio-devnet': curio,
+  'curio-mainnet': curio,
   'curio-testnet': curio,
   datahighway: westlake,
   'datahighway-parachain': datahighwayParachain,
@@ -197,6 +202,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   // fragnova,
   // 'fragnova-testnet': fragnova,
   'ferrum-parachain': ferrum,
+  foucoco: pendulum,
   frequency,
   'frequency-rococo': frequency,
   galital,
@@ -239,8 +245,11 @@ const spec: Record<string, OverrideBundleDefinition> = {
   moonbeam,
   moonriver: moonbeam,
   moonshadow: moonbeam,
+  muse,
   'mybank.network Testnet': mybank,
+  mythos,
   neatcoin,
+  neuroweb,
   nftmart,
   'node-moonbeam': moonbeam,
   'node-polkadex': polkadex,
@@ -248,12 +257,12 @@ const spec: Record<string, OverrideBundleDefinition> = {
   oak,
   opal,
   opportunity,
-  'origintrail-parachain': origintrail,
   parallel,
   parami,
   'peaq-node': peaq,
   'peaq-node-dev': peaq,
   'peaq-node-krest': peaq,
+  pendulum,
   'phoenix-node': phoenix,
   'phoenix-parachain': phoenix,
   pichiu,
@@ -262,6 +271,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   polymesh_testnet: polymeshTestnet,
   'pontem-node': pontem,
   prism,
+  'quantum-portal-network-parachain': ferrum,
   quartz,
   realis,
   'riochain-runtime': riochain,
@@ -273,6 +283,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   snowbridge,
   'sora-substrate': soraSubstrate,
   sora_ksm: soraSubstrate,
+  'spacewalk-standalone': pendulum,
   spanner,
   stafi,
   standard,

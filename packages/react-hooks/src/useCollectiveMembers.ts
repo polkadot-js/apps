@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId } from '@polkadot/types/interfaces';
@@ -24,7 +24,7 @@ const OPT_MEM = {
 
 const OPT_PRM = {
   transform: (accountId: AccountId | null): string | null =>
-    accountId && accountId.toString()
+    accountId?.toString() || null
 };
 
 function useCollectiveMembersImpl (collective: CollectiveType): Result {

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ProviderInterface } from '@polkadot/rpc-provider/types';
@@ -13,7 +13,7 @@ import { createNamedHook } from './createNamedHook.js';
 import { useIsMountedRef } from './useIsMountedRef.js';
 
 function disconnect (provider: ProviderInterface | null): null {
-  provider && provider.disconnect().catch(console.error);
+  provider?.disconnect().catch(console.error);
 
   return null;
 }

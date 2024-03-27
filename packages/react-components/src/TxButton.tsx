@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableResult } from '@polkadot/api';
@@ -73,7 +73,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
 
       extrinsics.forEach((extrinsic): void => {
         queueExtrinsic({
-          accountId: accountId && accountId.toString(),
+          accountId: accountId?.toString(),
           extrinsic,
           isUnsigned,
           txFailedCb: withSpinner ? _onFailed : onFailed,

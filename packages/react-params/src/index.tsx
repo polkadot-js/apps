@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-params authors & contributors
+// Copyright 2017-2024 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { I18nProps } from '@polkadot/react-components/types';
@@ -39,7 +39,7 @@ interface State {
   values?: RawParams;
 }
 
-export { Holder };
+export { createValue, Holder, ParamComp };
 
 class Params extends React.PureComponent<Props, State> {
   public override state: State = {
@@ -56,7 +56,7 @@ class Params extends React.PureComponent<Props, State> {
       values: params.reduce(
         (result: RawParams, param, index): RawParams => {
           result.push(
-            values && values[index]
+            values?.[index]
               ? values[index]
               : createValue(registry, param)
           );
@@ -87,7 +87,7 @@ class Params extends React.PureComponent<Props, State> {
     const { children, className = '', isDisabled, isError, onEnter, onEscape, overrides, params, registry = statics.api.registry, withBorder = true, withExpander } = this.props;
     const { values = this.props.values } = this.state;
 
-    if (!values || !values.length) {
+    if (!values?.length) {
       return null;
     }
 
@@ -161,4 +161,4 @@ class Params extends React.PureComponent<Props, State> {
   };
 }
 
-export default translate<React.ComponentType<Props>>(Params);
+export default translate<Props>(Params);

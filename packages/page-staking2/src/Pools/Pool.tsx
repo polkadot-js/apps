@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -41,7 +41,7 @@ function Pool ({ className = '', members, ownAccounts, params, poolId }: Props):
   );
 
   const renderNominees = useCallback(
-    () => info && info.nominating.map((stashId, count): React.ReactNode => (
+    () => info?.nominating.map((stashId, count): React.ReactNode => (
       <AddressMini
         key={`${count}:${stashId}`}
         value={stashId}

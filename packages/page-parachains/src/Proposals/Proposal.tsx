@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2024 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParaId } from '@polkadot/types/interfaces';
@@ -38,7 +38,7 @@ function Proposal ({ approvedIds, id, scheduled }: Props): React.ReactElement<Pr
   );
 
   const approveTx = useMemo(
-    () => api.tx.sudo && api.tx.sudo.sudo(api.tx.proposeParachain.approveProposal(id)),
+    () => api.tx.sudo?.sudo(api.tx.proposeParachain.approveProposal(id)),
     [api, id]
   );
 

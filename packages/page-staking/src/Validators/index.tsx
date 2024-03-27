@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/types';
@@ -63,7 +63,7 @@ function Overview ({ className = '', favorites, hasAccounts, hasQueries, minComm
   ]);
 
   const ownStashIds = useMemo(
-    () => ownStashes && ownStashes.map(({ stashId }) => stashId),
+    () => ownStashes?.map(({ stashId }) => stashId),
     [ownStashes]
   );
 
