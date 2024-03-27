@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 import { AddressSmall, Columar, LinkExternal, MarkError, Table } from '@polkadot/react-components';
 import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { convertWeight } from '@polkadot/react-hooks/useWeight';
+import { settings } from '@polkadot/ui-settings';
 import { formatNumber } from '@polkadot/util';
 
 import { getLCFromUrl } from '../../../apps-config/src/variables/config.js';
@@ -21,7 +22,6 @@ import Extrinsics from './Extrinsics.js';
 import Justifications from './Justifications.js';
 import Logs from './Logs.js';
 import Summary from './Summary.js';
-import { settings } from '@polkadot/ui-settings';
 
 interface Props {
   className?: string;
