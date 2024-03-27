@@ -36,7 +36,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'Frequency',
     paraId: 4000,
     providers: {
-      Integritee: 'wss://0.rpc.testnet.amplica.io'
+      'Amplica Labs': 'wss://0.rpc.testnet.amplica.io'
     },
     text: 'Frequency',
     ui: {
