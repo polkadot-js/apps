@@ -7,6 +7,7 @@ import type { LinkOption } from './types.js';
 import { createCustom, createDev, createOwn } from './development.js';
 // import { prodChains, prodRelayKusama, prodRelayPolkadot } from './production.js';
 // import { testChains, testRelayRococo, testRelayWestend } from './testing.js';
+import { prodChains } from './production.js';
 import { testChains } from './testing.js';
 import { expandEndpoints } from './util.js';
 
@@ -65,16 +66,16 @@ export function createWsEndpoints (t: TFunction = defaultT, firstOnly = false, w
     //   value: ''
     // },
     // ...expandEndpoints(t, [testRelayRococo], firstOnly, withSort),
-    // {
-    //   isDisabled: false,
-    //   isHeader: true,
-    //   isSpaced: true,
-    //   text: t('rpc.header.live', 'Live networks', { ns: 'apps-config' }),
-    //   textBy: '',
-    //   ui: {},
-    //   value: ''
-    // },
-    // ...expandEndpoints(t, prodChains, firstOnly, withSort),
+    {
+      isDisabled: false,
+      isHeader: true,
+      isSpaced: true,
+      text: t('rpc.header.live', 'Live networks', { ns: 'apps-config' }),
+      textBy: '',
+      ui: {},
+      value: ''
+    },
+    ...expandEndpoints(t, prodChains, firstOnly, withSort),
     {
       isDisabled: false,
       isHeader: true,

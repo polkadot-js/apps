@@ -11,7 +11,7 @@
 
 Learn more about Avail at the Avail [product page](https://www.availproject.org) and [documentation](https://docs.availproject.org/) websites.
 
-You can access a live version of the explorer for the Avail Testnet at https://goldberg.avail.tools/
+You can access a live version of the explorer for the Avail Testnet at https://explorer.avail.so/
 
 
 ## Overview

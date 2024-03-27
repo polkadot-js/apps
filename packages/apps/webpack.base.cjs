@@ -138,9 +138,11 @@ function createWebpack (context, mode = 'production') {
       }),
       new webpack.DefinePlugin({
         'process.env': {
-          LCURL: JSON.stringify(process.env.LCURL),
+          TURING_URL:JSON.stringify(process.env.TURING_URL),
+          TURING_LC:JSON.stringify(process.env.TURING_LC),
+          MAINNET_URL:JSON.stringify(process.env.MAINNET_URL),
+          MAINNET_LC:JSON.stringify(process.env.MAINNET_LC),
           NODE_ENV: JSON.stringify(mode),
-          TESTNETURL: JSON.stringify(process.env.TESTNETURL),
           WS_URL: JSON.stringify(process.env.WS_URL)
         }
       }),

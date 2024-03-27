@@ -14,13 +14,14 @@ import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { convertWeight } from '@polkadot/react-hooks/useWeight';
 import { formatNumber } from '@polkadot/util';
 
-import config from '../../../apps-config/src/variables/config.js';
+import { getLCFromUrl } from '../../../apps-config/src/variables/config.js';
 import Events from '../Events.js';
 import { useTranslation } from '../translate.js';
 import Extrinsics from './Extrinsics.js';
 import Justifications from './Justifications.js';
 import Logs from './Logs.js';
 import Summary from './Summary.js';
+import { settings } from '@polkadot/ui-settings';
 
 interface Props {
   className?: string;
@@ -100,7 +101,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
         mountedRef.current && setState(transformResult(result));
 
         const number = result[2]?.number.unwrap().toNumber();
-        let LightClientURI = `${config.LCURL}/v1`;
+        let LightClientURI = `${getLCFromUrl(settings.get().apiUrl)}/v1`;
         const url = new URL(window.location.href);
         const searchParams = new URLSearchParams(url.search);
         const getParam = searchParams.get('light');
