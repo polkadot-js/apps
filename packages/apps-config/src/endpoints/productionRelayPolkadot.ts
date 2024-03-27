@@ -651,7 +651,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       Helikon: 'wss://rpc.helikon.io/phala',
       OnFinality: 'wss://phala.api.onfinality.io/public-ws',
       Phala: 'wss://api.phala.network/ws',
-      RadiumBlock: 'wss://phala.public.curie.radiumblock.co/ws'
+      RadiumBlock: 'wss://phala.public.curie.radiumblock.co/ws',
+      Rockx: 'wss://rockx-phala.w3node.com/polka-public-phala/ws'
     },
     text: 'Phala Network',
     ui: {
