@@ -44,6 +44,7 @@ import transfer from './transfer.js';
 import treasury from './treasury.js';
 import utilities from './utilities.js';
 import whitelist from './whitelist.js';
+import coretime from './coretime.js';
 
 export default function create (t: TFunction): Routes {
   return [
@@ -57,6 +58,7 @@ export default function create (t: TFunction): Routes {
     staking(t),
     staking2(t),
     collator(t),
+    coretime(t),
     // governance v2
     referenda(t),
     membership(t),
