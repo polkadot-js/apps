@@ -204,7 +204,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'ferrum-parachain': ferrum,
   foucoco: pendulum,
   frequency,
-  'frequency-rococo': frequency,
+  'frequency-testnet': frequency,
   galital,
   'galital-collator': galitalParachain,
   gamepower,

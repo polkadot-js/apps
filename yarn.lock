@@ -676,14 +676,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@frequency-chain/api-augment@npm:1.9.0":
-  version: 1.9.0
-  resolution: "@frequency-chain/api-augment@npm:1.9.0"
+"@frequency-chain/api-augment@npm:1.11.1":
+  version: 1.11.1
+  resolution: "@frequency-chain/api-augment@npm:1.11.1"
   dependencies:
     "@polkadot/api": "npm:^10.9.1"
     "@polkadot/rpc-provider": "npm:^10.9.1"
     "@polkadot/types": "npm:^10.9.1"
-  checksum: 10/88dea981d8c735a042064c534fb10db4e8351008f334321ebb7b22666c9f00db83e70d6df6a3919d0863bd4b20e4dd695a6305cb94a8b3a1b4c1f174e5eb0155
+  checksum: 10/a6a10f9d98da168d307a7e1571843969114189c63a2de0b1aa02cce3a7f898b5ab3954bc95864dba16c67967c4912cff21474dbd2be789980e0e250a55348834
   languageName: node
   linkType: hard
 
@@ -1949,7 +1949,7 @@ __metadata:
     "@edgeware/node-types": "npm:3.6.2-wako"
     "@equilab/definitions": "npm:1.4.18"
     "@fragnova/api-augment": "npm:0.1.0-spec-1.0.4-mainnet"
-    "@frequency-chain/api-augment": "npm:1.9.0"
+    "@frequency-chain/api-augment": "npm:1.11.1"
     "@interlay/interbtc-types": "npm:1.13.0"
     "@kiltprotocol/type-definitions": "npm:0.34.0"
     "@laminar/type-definitions": "npm:0.3.1"
