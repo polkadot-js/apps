@@ -273,11 +273,12 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
       store.set('localFork', '');
       settings.set({ ...(settings.get()), apiUrl });
 
-      const newLCUrl = getLCFromUrl(apiUrl)
-      if (lcUrl !== newLCUrl){
-        window.localStorage.setItem('lcUrl', newLCUrl)
+      const newLCUrl = getLCFromUrl(apiUrl);
+
+      if (lcUrl !== newLCUrl) {
+        window.localStorage.setItem('lcUrl', newLCUrl);
         window.location.assign(`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(apiUrl)}&light=${encodeURIComponent(newLCUrl)}${window.location.hash}`);
-      }else{
+      } else {
         window.location.assign(`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(apiUrl)}${window.location.hash}`);
       }
 
@@ -287,7 +288,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
 
       onClose();
     },
-    [apiUrl, onClose, hasUrlChanged]
+    [apiUrl, lcUrl, onClose, hasUrlChanged]
   );
 
   useCallback(

@@ -10,7 +10,7 @@ const config: { [network: string]: { url: `wss://${string}`, lcUrl: string } } =
   //   url: process.env.MAINNET_URL as `wss://${string}` || 'wss://rpc-hex-devnet.avail.tools/ws',
   //   lcUrl: process.env.MAINNET_LC as string || 'https://rpc-hex-devnet.avail.tools',
   // }
-}
+};
 
 export const getLCFromUrl = (_apiUrl: string) => {
   return config.turing.lcUrl

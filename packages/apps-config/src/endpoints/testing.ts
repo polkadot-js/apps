@@ -28,5 +28,5 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
       color: '#5e6067',
       logo: nodesAvailPNG
     }
-  },
+  }
 ];

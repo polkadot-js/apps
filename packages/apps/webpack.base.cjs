@@ -138,11 +138,11 @@ function createWebpack (context, mode = 'production') {
       }),
       new webpack.DefinePlugin({
         'process.env': {
-          TURING_URL:JSON.stringify(process.env.TURING_URL),
-          TURING_LC:JSON.stringify(process.env.TURING_LC),
-          MAINNET_URL:JSON.stringify(process.env.MAINNET_URL),
-          MAINNET_LC:JSON.stringify(process.env.MAINNET_LC),
+          MAINNET_LC: JSON.stringify(process.env.MAINNET_LC),
+          MAINNET_URL: JSON.stringify(process.env.MAINNET_URL),
           NODE_ENV: JSON.stringify(mode),
+          TURING_LC: JSON.stringify(process.env.TURING_LC),
+          TURING_URL: JSON.stringify(process.env.TURING_URL),
           WS_URL: JSON.stringify(process.env.WS_URL)
         }
       }),
