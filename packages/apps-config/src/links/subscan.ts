@@ -52,8 +52,6 @@ export const Subscan: ExternalDef = {
     'Nodle Parachain': 'nodle',
     'OPAL by UNIQUE': 'opal',
     Pangolin2: 'pangolin',
-    Parallel: 'parallel',
-    'Parallel Heiko': 'parallel-heiko',
     'Paseo Testnet': 'paseo',
     Phala: 'phala',
     Picasso: 'picasso',
