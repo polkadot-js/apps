@@ -3,8 +3,8 @@
 // eslint-disable-next-line
 const config: { [network: string]: { url: `wss://${string}`, lcUrl: string } } = {
   turing: {
-    url: process.env.TURING_URL as `wss://${string}` || 'wss://turing.avail.so/ws',
-    lcUrl: process.env.TURING_LC as string || ''// 'https://turing.avail.so',
+    lcUrl: process.env.TURING_LC || 'https://turing.avail.so',
+    url: process.env.TURING_URL as `wss://${string}` || 'wss://temp-rpc-turing.avail.so/rpc'
   }
   // mainnet: {
   //   url: process.env.MAINNET_URL as `wss://${string}` || 'wss://rpc-hex-devnet.avail.tools/ws',
@@ -13,12 +13,12 @@ const config: { [network: string]: { url: `wss://${string}`, lcUrl: string } } =
 };
 
 export const getLCFromUrl = (_apiUrl: string) => {
-  return config.turing.lcUrl
+  return config.turing.lcUrl;
   // if (apiUrl.includes("turing")) {
   //   return config.turing.lcUrl
   // } else {
   //   return config.mainnet.lcUrl
   // }
-}
+};
 
 export default config;
