@@ -1,6 +1,7 @@
 // Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Blockchain } from '@acala-network/chopsticks-core';
 import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/promise/types';
 import type { HeaderExtended } from '@polkadot/api-derive/types';
@@ -13,6 +14,7 @@ export interface ApiState {
   apiDefaultTx: SubmittableExtrinsicFunction;
   apiDefaultTxSudo: SubmittableExtrinsicFunction;
   chainSS58: number;
+  fork: Blockchain | null;
   hasInjectedAccounts: boolean;
   isApiReady: boolean;
   isDevelopment: boolean;

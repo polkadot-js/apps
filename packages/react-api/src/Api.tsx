@@ -1,11 +1,12 @@
 // Copyright 2017-2024 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Blockchain } from '@acala-network/chopsticks-core';
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
 import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
-import type { ApiProps, ApiState } from './types.js';
+import type { ApiProps, ApiState, InjectedAccountExt } from './types.js';
 
 import { ChopsticksProvider, setStorage } from '@acala-network/chopsticks-core';
 import * as Sc from '@substrate/connect';
@@ -36,15 +37,6 @@ interface Props {
   store?: KeyringStore;
 }
 
-interface InjectedAccountExt {
-  address: string;
-  meta: {
-    name: string;
-    source: string;
-    whenCreated: number;
-  };
-}
-
 interface ChainData {
   injectedAccounts: InjectedAccountExt[];
   properties: ChainProperties;
@@ -52,6 +44,11 @@ interface ChainData {
   systemChainType: ChainType;
   systemName: string;
   systemVersion: string;
+}
+
+interface CreateApiReturn {
+  types: Record<string, Record<string, string>>;
+  fork: Blockchain | null;
 }
 
 export const DEFAULT_DECIMALS = statics.registry.createType('u32', 12);
@@ -134,7 +131,7 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
   };
 }
 
-async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, types: Record<string, Record<string, string>>, urlIsEthereum = false): Promise<ApiState> {
+async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, fork: Blockchain | null, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, types: Record<string, Record<string, string>>, urlIsEthereum = false): Promise<ApiState> {
   statics.registry.register(types);
 
   const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api, injectedPromise);
@@ -189,6 +186,7 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, inject
     apiDefaultTx,
     apiDefaultTxSudo,
     chainSS58,
+    fork,
     hasInjectedAccounts: injectedAccounts.length !== 0,
     isApiReady: true,
     isDevelopment,
@@ -230,17 +228,19 @@ async function getLightProvider (chain: string): Promise<ScProvider> {
 /**
  * @internal
  */
-async function createApi (apiUrl: string, signer: ApiSigner, isLocalFork: boolean, onError: (error: unknown) => void): Promise<Record<string, Record<string, string>>> {
+async function createApi (apiUrl: string, signer: ApiSigner, isLocalFork: boolean, onError: (error: unknown) => void): Promise<CreateApiReturn> {
   const types = getDevTypes();
   const isLight = apiUrl.startsWith('light://');
   let provider;
+  let chopsticksFork: Blockchain | null = null;
 
   try {
     if (isLight) {
       provider = await getLightProvider(apiUrl.replace('light://', ''));
     } else if (isLocalFork) {
       provider = await ChopsticksProvider.fromEndpoint(apiUrl);
-      await setStorage(provider.chain, {
+      chopsticksFork = provider.chain;
+      await setStorage(chopsticksFork, {
         System: {
           Account: [
             [['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'], { data: { free: 1000 * 1e12 }, providers: 1 }]
@@ -267,7 +267,7 @@ async function createApi (apiUrl: string, signer: ApiSigner, isLocalFork: boolea
     onError(error);
   }
 
-  return types;
+  return { fork: chopsticksFork, types };
 }
 
 export function ApiCtxRoot ({ apiUrl, children, isElectron, store: keyringStore }: Props): React.ReactElement<Props> | null {
@@ -304,7 +304,7 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store: keyringStore 
     };
 
     createApi(apiUrl, new ApiSigner(statics.registry, queuePayload, queueSetTxStatus), isLocalFork, onError)
-      .then((types): void => {
+      .then(({ fork, types }): void => {
         statics.api.on('connected', () => setIsApiConnected(true));
         statics.api.on('disconnected', () => setIsApiConnected(false));
         statics.api.on('error', onError);
@@ -317,7 +317,7 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store: keyringStore 
 
           const urlIsEthereum = !!location.href.includes('keyring-type=ethereum');
 
-          loadOnReady(statics.api, apiEndpoint, injectedPromise, keyringStore, types, urlIsEthereum)
+          loadOnReady(statics.api, apiEndpoint, fork, injectedPromise, keyringStore, types, urlIsEthereum)
             .then(setState)
             .catch(onError);
         });

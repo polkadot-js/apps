@@ -1,6 +1,7 @@
 // Copyright 2017-2024 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Blockchain } from '@acala-network/chopsticks-core';
 import type React from 'react';
 import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/promise/types';
@@ -15,10 +16,20 @@ export interface BareProps {
   className?: string;
 }
 
+export interface InjectedAccountExt {
+  address: string;
+  meta: {
+    name: string;
+    source: string;
+    whenCreated: number;
+  };
+}
+
 export interface ApiState {
   apiDefaultTx: SubmittableExtrinsicFunction;
   apiDefaultTxSudo: SubmittableExtrinsicFunction;
   chainSS58: number;
+  fork: Blockchain | null;
   hasInjectedAccounts: boolean;
   isApiReady: boolean;
   isDevelopment: boolean;
