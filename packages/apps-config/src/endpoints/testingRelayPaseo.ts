@@ -6,7 +6,7 @@ import type { EndpointOption } from './types.js';
 import { nodesIntegriteeSVG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
-import { chainsPaseoBgPNG, chainsPaseoPNG } from '../ui/logos/chains/index.js';
+import { chainsPaseoBgPNG, chainsPaseoPNG, chainsPopNetworkSVG } from '../ui/logos/chains/index.js';
 // import { testnetParachainSVG } from '../ui/logos/nodes/index.js';
 import { getTeleports } from './util.js';
 
@@ -54,7 +54,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   //   },
   //   text: 'Pop Network',
   //   ui: {
-  //     color: '#2B0532',
+  //     color: '#1C0533',
   //     logo: chainsPopNetworkSVG
   //   }
   // }

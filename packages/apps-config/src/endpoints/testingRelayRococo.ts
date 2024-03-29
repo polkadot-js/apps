@@ -744,7 +744,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
   //   },
   //   text: 'Pop Network',
   //   ui: {
-  //     color: '#2B0532',
+  //     color: '#1C0533',
   //     logo: chainsPopNetworkSVG
   //   }
   // }
