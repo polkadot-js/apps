@@ -49,7 +49,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'Pop Network',
     paraId: 4001,
     providers: {
-      R0GUE: 'wss://57.151.80.80:9944'
+      R0GUE: 'wss://pop-network.eastus.cloudapp.azure.com'
     },
     text: 'Pop Network',
     ui: {
