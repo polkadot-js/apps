@@ -45,11 +45,11 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://pop.r0gue.io/',
+    homepage: 'https://popnetwork.xyz/',
     info: 'Pop Network',
     paraId: 4001,
     providers: {
-      R0GUE: 'wss://pop-network.eastus.cloudapp.azure.com'
+      R0GUE: 'wss://rpc1.paseo.popnetwork.xyz'
     },
     text: 'Pop Network',
     ui: {
