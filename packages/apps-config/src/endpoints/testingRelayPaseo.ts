@@ -4,6 +4,7 @@
 import type { EndpointOption } from './types.js';
 
 import { chainsFrequencyPaseoSVG, chainsPaseoPNG } from '@polkadot/apps-config/ui/logos/chains';
+import {chainsXcavatePNG } from '@polkadot/apps-config/ui/logos/chains';
 import { nodesIntegriteeSVG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
@@ -56,7 +57,20 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
       color: '#658ea9',
       logo: nodesIntegriteeSVG
     }
-  }
+  },
+  {
+    homepage: 'https://xcavate.io/',
+    info: 'Xcavate',
+    paraId: 4003,
+    providers: {
+      Xcavate: 'wss://paseo.api.xcavate.network'
+    },
+    text: 'Xcavate',
+    ui: {
+      color: '#19455E',
+      logo: chainsXcavatePNG,
+    }
+  },
 ];
 
 export const testParasPaseoCommon: EndpointOption[] = [

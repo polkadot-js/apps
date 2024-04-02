@@ -73,3 +73,4 @@ export { chainsVaraPNG } from './generated/varaPNG.js';
 export { chainsVirtoPNG } from './generated/virtoPNG.js';
 export { chainsVtbPNG } from './generated/vtbPNG.js';
 export { chainsWatrPNG } from './generated/watrPNG.js';
+export { chainsXcavatePNG } from './generated/xcavatePNG.js';
