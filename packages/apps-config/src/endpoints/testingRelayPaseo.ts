@@ -49,7 +49,8 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'Pop Network',
     paraId: 4001,
     providers: {
-      R0GUE: 'wss://rpc1.paseo.popnetwork.xyz'
+      'R0GUE-RPC1': 'wss://rpc1.paseo.popnetwork.xyz',
+      'R0GUE-RPC2': 'wss://rpc2.paseo.popnetwork.xyz'
     },
     text: 'Pop Network',
     ui: {
