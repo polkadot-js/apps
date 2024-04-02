@@ -1,0 +1,13 @@
+diff --git a/node_modules/@polkadot/types-codec/base/Vec.js b/node_modules/@polkadot/types-codec/base/Vec.js
+index a35ab7a..2281bc7 100644
+--- a/node_modules/@polkadot/types-codec/base/Vec.js
++++ b/node_modules/@polkadot/types-codec/base/Vec.js
+@@ -1,7 +1,7 @@
+ import { compactFromU8aLim, identity, isHex, isU8a, logger, stringify, u8aToU8a } from '@polkadot/util';
+ import { AbstractArray } from '../abstract/Array.js';
+ import { decodeU8aVec, typeToConstructor } from '../utils/index.js';
+-const MAX_LENGTH = 64 * 1024;
++const MAX_LENGTH = 2 * 64 * 1024;
+ const l = logger('Vec');
+ function decodeVecLength(value) {
+     if (Array.isArray(value)) {
