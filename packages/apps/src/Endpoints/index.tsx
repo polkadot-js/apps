@@ -343,7 +343,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
 
       onClose();
     },
-    [apiUrl, onClose, hasUrlChanged, hasUrlChanged]
+    [apiUrl, onClose, hasUrlChanged]
   );
 
   const _saveApiEndpoint = useCallback(
