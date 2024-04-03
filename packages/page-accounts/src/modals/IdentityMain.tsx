@@ -89,8 +89,8 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
 
   useEffect((): void => {
     if (identityOpt && identityOpt.isSome) {
-      const { info } = identityOpt.unwrap();
-
+      const identityData = identityOpt.unwrap();
+      const info = identityData.info || (identityData as any)[0].info as IdentityInfo
       setData(info.display, null, setValDisplay);
       setData(info.email, setHasEmail, setValEmail);
       setData(info.legal, setHasLegal, setValLegal);
