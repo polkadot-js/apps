@@ -7,8 +7,8 @@ import React, { useRef } from 'react';
 
 import { Tabs } from '@polkadot/react-components';
 
-import { useTranslation } from './translate.js';
 import Overview from './Overview/index.js';
+import { useTranslation } from './translate.js';
 import useWorkloadInfos from './useWorkloadInfos.js';
 import useWorkplanInfos from './useWorkplanInfos.js';
 
@@ -17,8 +17,8 @@ interface Props {
   className?: string;
 }
 
-function createItemsRef(t: (key: string, options?: { replace: Record<string, unknown> }) => string): TabItem[] {
-  console.log('creation')
+function createItemsRef (t: (key: string, options?: { replace: Record<string, unknown> }) => string): TabItem[] {
+
   return [
     {
       isRoot: true,
@@ -28,7 +28,7 @@ function createItemsRef(t: (key: string, options?: { replace: Record<string, unk
   ];
 }
 
-function CoretimeApp({ basePath, className }: Props): React.ReactElement<Props> {
+function CoretimeApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const itemsRef = useRef(createItemsRef(t));
   const workloadInfos = useWorkloadInfos();
@@ -40,8 +40,10 @@ function CoretimeApp({ basePath, className }: Props): React.ReactElement<Props> 
         basePath={basePath}
         items={itemsRef.current}
       />
-      <Overview workloadInfos={workloadInfos}
-        workplanInfos={workplanInfos} />
+      <Overview
+        workloadInfos={workloadInfos}
+        workplanInfos={workplanInfos}
+      />
     </main>
   );
 }

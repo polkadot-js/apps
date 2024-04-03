@@ -1,8 +1,9 @@
 // Copyright 2017-2024 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React from 'react';
 import type { PalletBrokerStatusRecord } from '@polkadot/types/lookup';
+
+import React from 'react';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
 
@@ -12,10 +13,10 @@ interface Props {
   query: string;
 }
 
-function BrokerStatus({ children, className = '', query }: Props): React.ReactElement<Props> {
+function BrokerStatus ({ children, className = '', query }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const status = useCall<PalletBrokerStatusRecord>(api.query.broker?.status);
-  const strStatus = status === undefined ? '' : status.toJSON()[query]
+  const strStatus = status === undefined ? '' : status.toJSON()[query];
 
   return (
     <div className={className}>
@@ -26,4 +27,3 @@ function BrokerStatus({ children, className = '', query }: Props): React.ReactEl
 }
 
 export default React.memo(BrokerStatus);
-

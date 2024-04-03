@@ -12,6 +12,7 @@ import calendar from './calendar.js';
 import claims from './claims.js';
 import collator from './collator.js';
 import contracts from './contracts.js';
+import coretime from './coretime.js';
 import council from './council.js';
 import democracy from './democracy.js';
 import explorer from './explorer.js';
@@ -44,7 +45,6 @@ import transfer from './transfer.js';
 import treasury from './treasury.js';
 import utilities from './utilities.js';
 import whitelist from './whitelist.js';
-import coretime from './coretime.js';
 
 export default function create (t: TFunction): Routes {
   return [

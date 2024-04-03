@@ -12,16 +12,15 @@ interface Props {
   value: CoreWorkplanInfo;
 }
 
-function Workload ({ className, value: { core, timeslice, info } }: Props): React.ReactElement<Props> {
+function Workload ({ className, value: { core, info, timeslice } }: Props): React.ReactElement<Props> {
+  const maskAsPerc = info[0].mask.bitLength() / 80 * 100;
 
-  const maskAsPerc = info[0]['mask'].bitLength() / 80 * 100;
-
-  const sanitizedAssignment = info[0]['assignment']['isTask'] ? info[0]['assignment']['asTask'] : info[0]['assignment'];
+  const sanitizedAssignment = info[0].assignment.isTask ? info[0].assignment.asTask : info[0].assignment;
 
   return (
     <tr className={className}>
       <Table.Column.Id value={Number(core)} />
-      <td className='start media--1630'>{`${maskAsPerc} %`}</td>
+      <td className='start media--1300'>{`${maskAsPerc} %`}</td>
       <td className='start media--1600'>{sanitizedAssignment.toString()}</td>
       <td className='start media--1900'>{timeslice.toString()}</td>
     </tr>

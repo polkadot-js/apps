@@ -6,11 +6,10 @@ import React from 'react';
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import Timeslice from './Timeslice.js';
 import { useTranslation } from '../translate.js';
 import Cores from './Cores.js';
 import Pools from './Pools.js';
-
+import Timeslice from './Timeslice.js';
 
 function Summary (): React.ReactElement {
   const { t } = useTranslation();

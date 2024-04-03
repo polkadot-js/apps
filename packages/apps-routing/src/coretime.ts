@@ -15,8 +15,8 @@ export default function create (t: TFunction): Route {
       needsApiInstances: true
     },
     group: 'network',
-    icon: 'building',
+    icon: 'calendar-clock',
     name: 'coretime',
-    text: t('nav.coretime', 'Coretime', { ns: 'app-coretime' }),
+    text: t('nav.coretime', 'Coretime (Experimental)', { ns: 'app-coretime' })
   };
 }

@@ -12,10 +12,24 @@ interface Props {
   value: CoreWorkloadInfo;
 }
 
-function Workload ({ className, value: { core, info } }: Props): React.ReactElement<Props> {
-  const maskAsPerc = info[0]['mask'].bitLength() / 80 * 100;
+function hexToBin(hex: string): string {
+  return parseInt(hex, 16).toString(2);
+}
 
-  const sanitizedAssignment = info[0]['assignment']['isTask'] ? info[0]['assignment']['asTask'] : info[0]['assignment'];
+
+function Workload({ className, value: { core, info } }: Props): React.ReactElement<Props> {
+  const maskAsPerc = info[0].mask.bitLength() / 80 * 100;
+  const trimmedHex: string = info[0].mask.toHex().slice(2);
+  const arr: string[] = trimmedHex.split("");
+
+  let buffArr: string = '';
+
+  arr.forEach((bit) => {
+    buffArr = buffArr.concat(hexToBin(bit))
+  })
+
+
+  const sanitizedAssignment = info[0].assignment.isTask ? info[0].assignment.asTask : info[0].assignment;
 
   return (
     <tr className={className}>

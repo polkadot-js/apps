@@ -1,16 +1,16 @@
 // Copyright 2017-2024 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { useEffect, useState } from 'react';
 import type { StorageKey, u16 } from '@polkadot/types';
-
-import { createNamedHook, useApi, useCall, useMapKeys } from '@polkadot/react-hooks';
-import { CoreWorkloadInfo } from './types.js';
 import type { PalletBrokerScheduleItem } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
+import type { CoreWorkloadInfo } from './types.js';
+
+import { useEffect, useState } from 'react';
+
+import { createNamedHook, useApi, useCall, useMapKeys } from '@polkadot/react-hooks';
 
 function extractInfo (info: PalletBrokerScheduleItem[], core: number): CoreWorkloadInfo {
-  console.log('workloadinf', info)
 
   return {
     core,
@@ -25,11 +25,11 @@ const OPT_KEY = {
 
 function useWorkloadInfosImpl (): CoreWorkloadInfo[] | undefined {
   const { api } = useApi();
-  const cores = useMapKeys(api.query.broker.workload, [], OPT_KEY)
-  const workloadInfo = useCall<[[BN[]], PalletBrokerScheduleItem[]]>(api.query.broker.workload.multi, [cores], {withParams: true} );
+  const cores = useMapKeys(api.query.broker.workload, [], OPT_KEY);
+  const workloadInfo = useCall<[[BN[]], PalletBrokerScheduleItem[]]>(api.query.broker.workload.multi, [cores], { withParams: true });
   const [state, setState] = useState<CoreWorkloadInfo[] | undefined>();
-  useEffect((): void => {
 
+  useEffect((): void => {
     workloadInfo &&
       setState(
         workloadInfo[0][0].map((info, index) =>
@@ -42,4 +42,3 @@ function useWorkloadInfosImpl (): CoreWorkloadInfo[] | undefined {
 }
 
 export default createNamedHook('useWorkloadInfos', useWorkloadInfosImpl);
-
