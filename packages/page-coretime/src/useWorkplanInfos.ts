@@ -5,11 +5,12 @@ import type { Option, StorageKey, u16, u32 } from '@polkadot/types';
 import type { PalletBrokerScheduleItem } from '@polkadot/types/lookup';
 import type { CoreWorkplanInfo } from './types.js';
 
+import type { Vec } from '@polkadot/types';
 import { useEffect, useState } from 'react';
 
 import { createNamedHook, useApi, useCall, useMapKeys } from '@polkadot/react-hooks';
 
-function extractInfo(info: PalletBrokerScheduleItem[], timeslice: number, core: number) {
+function extractInfo(info: Vec<PalletBrokerScheduleItem>, timeslice: number, core: number) {
   return {
     core,
     info,
@@ -30,7 +31,7 @@ function useWorkplanInfosImpl(): CoreWorkplanInfo[] | undefined {
     return value[0];
   });
 
-  const workplanInfo = useCall<[[[u32, u16][]], Option<PalletBrokerScheduleItem>[]]>(api.query.broker.workplan.multi, [sanitizedKeys], { withParams: true });
+  const workplanInfo = useCall<[[[u32, u16][]], Option<Vec<PalletBrokerScheduleItem>>[]]>(api.query.broker.workplan.multi, [sanitizedKeys], { withParams: true });
 
   const [state, setState] = useState<CoreWorkplanInfo[] | undefined>();
 
@@ -38,7 +39,7 @@ function useWorkplanInfosImpl(): CoreWorkplanInfo[] | undefined {
     workplanInfo?.[1] &&
       setState(
         workplanInfo[0][0].map((info, index) =>
-          extractInfo(workplanInfo[1][index].unwrap() as unknown as PalletBrokerScheduleItem[], info[0].toNumber(), info[1].toNumber())
+          extractInfo(workplanInfo[1][index].unwrap(), info[0].toNumber(), info[1].toNumber())
         )
       );
   }, [workplanInfo]);
