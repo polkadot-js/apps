@@ -2,9 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CoreWorkloadInfo } from '../types.js';
+import { hexToBin } from '../utils.js';
 
 import React from 'react';
-
+import { MaskCoverage } from '@polkadot/react-components';
 import { Table } from '@polkadot/react-components';
 
 interface Props {
@@ -12,20 +13,14 @@ interface Props {
   value: CoreWorkloadInfo;
 }
 
-function hexToBin(hex: string): string {
-  return parseInt(hex, 16).toString(2);
-}
-
-
 function Workload({ className, value: { core, info } }: Props): React.ReactElement<Props> {
-  const maskAsPerc = info[0].mask.bitLength() / 80 * 100;
   const trimmedHex: string = info[0].mask.toHex().slice(2);
   const arr: string[] = trimmedHex.split("");
 
-  let buffArr: string = '';
+  let buffArr: string[] = [];
 
   arr.forEach((bit) => {
-    buffArr = buffArr.concat(hexToBin(bit))
+    hexToBin(bit).split("").forEach((v) => buffArr.push(v))
   })
 
 
@@ -34,10 +29,11 @@ function Workload({ className, value: { core, info } }: Props): React.ReactEleme
   return (
     <tr className={className}>
       <Table.Column.Id value={Number(core)} />
-      <td className='start media--1300'>{`${maskAsPerc} %`}</td>
+      <td><MaskCoverage values={buffArr} /></td>
       <td className='start media--1600'>{sanitizedAssignment.toString()}</td>
     </tr>
   );
 }
+
 
 export default React.memo(Workload);

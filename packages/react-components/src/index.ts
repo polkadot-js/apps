@@ -76,6 +76,7 @@ export { default as Password } from './Password.js';
 export { default as PasswordStrength } from './PasswordStrength.js';
 export { default as Popup } from './Popup/index.js';
 export { default as Progress } from './Progress.js';
+export { default as MaskCoverage } from './MaskCoverage.js';
 export { default as Row } from './Row.js';
 export { default as Sidebar } from './Sidebar.js';
 export { default as SortDropdown } from './SortDropdown.js';
