@@ -3,11 +3,11 @@
 
 import type { EndpointOption } from './types.js';
 
-import { chainsFrequencyPaseoSVG, chainsPaseoPNG } from '@polkadot/apps-config/ui/logos/chains';
+import { chainsFrequencyPaseoSVG } from '@polkadot/apps-config/ui/logos/chains';
 import { nodesIntegriteeSVG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
-import { chainsPaseoBgPNG, chainsPaseoPNG, chainsPopNetworkSVG } from '../ui/logos/chains/index.js';
+import { chainsPaseoPNG, chainsPopNetworkSVG } from '../ui/logos/chains/index.js';
 // import { testnetParachainSVG } from '../ui/logos/nodes/index.js';
 import { getTeleports } from './util.js';
 
