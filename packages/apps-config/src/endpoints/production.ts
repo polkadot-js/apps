@@ -18,6 +18,7 @@ export * from './productionRelayPolkadot.js';
 //   providers: The actual hosted secure websocket endpoint
 //
 // IMPORTANT: Alphabetical based on text
+// TODO-mainnet
 export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   // {
   //   info: 'avail',
