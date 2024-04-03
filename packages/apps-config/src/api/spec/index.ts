@@ -35,6 +35,7 @@ import crust from './crust.js';
 import testPara from './cumulus-test-parachain.js';
 import curio from './curio.js';
 import darwinia from './darwinia.js';
+import dataavail from './dataavail.js';
 import datahighwayParachain from './datahighway.js';
 import dockMainnet from './dock-mainnet.js';
 import dockTestnet from './dock-testnet.js';
@@ -81,6 +82,7 @@ import mathchain from './mathchain.js';
 import moonbeam from './moonbeam.js';
 import muse from './muse.js';
 import mybank from './mybank.js';
+import mythos from './mythos.js';
 import neatcoin from './neatcoin.js';
 import neuroweb from './neuroweb.js';
 import nftmart from './nftmart.js';
@@ -187,6 +189,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'cumulus-test-parachain': testPara,
   'curio-mainnet': curio,
   'curio-testnet': curio,
+  'data-avail': dataavail,
   datahighway: westlake,
   'datahighway-parachain': datahighwayParachain,
   dawn: eave,
@@ -248,6 +251,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   moonshadow: moonbeam,
   muse,
   'mybank.network Testnet': mybank,
+  mythos,
   neatcoin,
   neuroweb,
   nftmart,

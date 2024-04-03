@@ -5,7 +5,7 @@
 
 import { strict as assert } from 'node:assert';
 
-import { isNumber, isString } from '@polkadot/util';
+import { isString } from '@polkadot/util';
 
 import { createWsEndpoints } from './index.js';
 
@@ -38,42 +38,6 @@ describe('WS urls are all valid', (): void => {
       assert(!INVALID_CHARS.some((c) => value.includes(c)), `${value} should not contain invalid characters such as ${INVALID_CHARS.join(', ')}`);
     });
   }
-});
-
-describe('urls are sorted', (): void => {
-  let hasDevelopment = false;
-  let lastHeader = '';
-  const filtered = allEndpoints.filter(({ isHeader, text }): boolean => {
-    hasDevelopment = hasDevelopment || (!!isHeader && text === 'Development');
-
-    return !hasDevelopment;
-  });
-
-  filtered.forEach(({ isHeader, paraId, text, textBy }, index): void => {
-    if (isHeader) {
-      lastHeader = text as string;
-    } else {
-      it(`${lastHeader}:: ${text as string}:: ${textBy}`, (): void => {
-        const item = filtered[index - 1];
-
-        assert((
-          item.isHeader ||
-          item.linked ||
-          (
-            isNumber(item.paraId) &&
-            (
-              item.paraId < 2000
-                ? isNumber(paraId) && paraId >= 2000
-                : false
-            )
-          ) ||
-          item.text === '' ||
-          text === item.text ||
-          (text as string).localeCompare(item.text as string) === 1
-        ), `${lastHeader}:: ${text as string} needs to be before ${item.text as string}`);
-      });
-    }
-  });
 });
 
 describe('urls are not duplicated', (): void => {

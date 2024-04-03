@@ -25,24 +25,24 @@ jobs:
              name: avail-explorer
              path: /home/runner/work/avail-apps/avail-apps/packages/apps/avail-explorer.tar.gz
 
-  build_publish:
-    needs: [build_explorer]
-    runs-on: ubuntu-latest
-    steps:
-         - uses: actions/download-artifact@v2
-           with:
-             name: avail-explorer
-         - name: Prepare
-           id: prepare
-           run: |
-               TAG=${GITHUB_REF#refs/tags/}
-               echo ::set-output name=tag_name::${TAG}
-         - name: publish builds
-           uses: svenstaro/upload-release-action@v2
-           with:
-             repo_token: ${{ secrets.PAT_TOKEN }}
-             file: /home/runner/work/avail-apps/avail-apps/avail-explorer*
-             release_name: ${{ steps.prepare.outputs.tag_name }}
-             tag: ${{ steps.prepare.outputs.tag_name }}
-             overwrite: true
-             file_glob: true
+  # build_publish:
+  #   needs: [build_explorer]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #        - uses: actions/download-artifact@v2
+  #          with:
+  #            name: avail-explorer
+  #        - name: Prepare
+  #          id: prepare
+  #          run: |
+  #              TAG=${GITHUB_REF#refs/tags/}
+  #              echo ::set-output name=tag_name::${TAG}
+  #        - name: publish builds
+  #          uses: svenstaro/upload-release-action@v2
+  #          with:
+  #            repo_token: ${{ secrets.PAT_TOKEN }}
+  #            file: /home/runner/work/avail-apps/avail-apps/avail-explorer*
+  #            release_name: ${{ steps.prepare.outputs.tag_name }}
+  #            tag: ${{ steps.prepare.outputs.tag_name }}
+  #            overwrite: true
+  #            file_glob: true

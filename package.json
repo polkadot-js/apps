@@ -8,7 +8,7 @@
   "homepage": "https://github.com/availproject/avail-apps#readme",
   "license": "Apache-2.0",
   "name": "polkadot-apps",
-  "packageManager": "yarn@4.1.0",
+  "packageManager": "yarn@4.1.1",
   "private": true,
   "repository": {
     "type": "git",
@@ -16,10 +16,10 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.133.2-120-x",
+  "version": "0.135.2-16-x",
   "versions": {
-    "git": "0.133.2-120-x",
-    "npm": "0.133.1"
+    "git": "0.135.2-16-x",
+    "npm": "0.135.1"
   },
   "workspaces": [
     "packages/*"
@@ -57,7 +57,7 @@
     "packElectron:mac": "yarn build:release:electron && electron-builder build --mac --project packages/apps-electron",
     "packElectron:test": "yarn build:release:electron && electron-builder --dir --project packages/apps-electron",
     "packElectron:win": "yarn build:release:electron && electron-builder build --win --project packages/apps-electron",
-    "postinstall": "polkadot-dev-yarn-only",
+    "postinstall": "polkadot-dev-yarn-only && patch-package",
     "postinstall:electron": "electron-builder install-app-deps",
     "start": "yarn clean && cd packages/apps && yarn polkadot-exec-webpack serve --config webpack.serve.cjs --port 3000",
     "start:electron": "yarn clean:electronBuild && concurrently 'yarn build:devElectronMain && cd packages/apps-electron && electron ./build/electron.js' 'yarn build:devElectronRenderer'",
@@ -67,9 +67,10 @@
     "test:skipped": "echo 'tests skipped'"
   },
   "dependencies": {
-    "avail-js-sdk": "^0.1.15",
+    "avail-js-sdk": "^0.2.7",
     "axios": "^1.4.0",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "patch-package": "^8.0.0"
   },
   "devDependencies": {
     "@crustio/crust-pin": "^1.0.0",
@@ -96,24 +97,24 @@
     "source-map-explorer": "^2.5.3"
   },
   "resolutions": {
-    "@polkadot/api": "^10.11.2",
-    "@polkadot/api-augment": "^10.11.2",
-    "@polkadot/api-base": "^10.11.2",
-    "@polkadot/api-contract": "^10.11.2",
-    "@polkadot/api-derive": "^10.11.2",
+    "@polkadot/api": "^10.12.4",
+    "@polkadot/api-augment": "^10.12.4",
+    "@polkadot/api-base": "^10.12.4",
+    "@polkadot/api-contract": "^10.12.4",
+    "@polkadot/api-derive": "^10.12.4",
     "@polkadot/hw-ledger": "^12.6.2",
     "@polkadot/keyring": "^12.6.2",
     "@polkadot/networks": "^12.6.2",
-    "@polkadot/phishing": "^0.22.1",
-    "@polkadot/rpc-augment": "^10.11.2",
-    "@polkadot/rpc-core": "^10.11.2",
-    "@polkadot/rpc-provider": "^10.11.2",
-    "@polkadot/types": "^10.11.2",
-    "@polkadot/types-augment": "^10.11.2",
-    "@polkadot/types-codec": "^10.11.2",
-    "@polkadot/types-create": "^10.11.2",
-    "@polkadot/types-known": "^10.11.2",
-    "@polkadot/types-support": "^10.11.2",
+    "@polkadot/phishing": "^0.22.4",
+    "@polkadot/rpc-augment": "^10.12.4",
+    "@polkadot/rpc-core": "^10.12.4",
+    "@polkadot/rpc-provider": "^10.12.4",
+    "@polkadot/types": "^10.12.4",
+    "@polkadot/types-augment": "^10.12.4",
+    "@polkadot/types-codec": "^10.12.4",
+    "@polkadot/types-create": "^10.12.4",
+    "@polkadot/types-known": "^10.12.4",
+    "@polkadot/types-support": "^10.12.4",
     "@polkadot/util": "^12.6.2",
     "@polkadot/util-crypto": "^12.6.2",
     "@polkadot/wasm-crypto": "^7.3.2",

@@ -9,7 +9,7 @@ import { extractIpfsDetails } from '@polkadot/react-hooks/useIpfs';
 import { settings } from '@polkadot/ui-settings';
 import { assert } from '@polkadot/util';
 
-import config from '../../apps-config/src/variables/config.js';
+import { getLCFromUrl } from '../../apps-config/src/variables/config.js';
 
 function networkOrUrl (apiUrl: string, lcUrl: string): void {
   if (apiUrl.startsWith('light://')) {
@@ -62,10 +62,10 @@ function getApiUrl (): string {
       : 'ws://127.0.0.1:9944'; // nothing found, go local
 }
 
-function getLightClientUrl (): string {
+function getLightClientUrl (apiUrl: string): string {
   // we split here so that both these forms are allowed
-  //  - http://localhost:3000/?light=https://goldberg.avail.tools/#/explorer
-  //  - http://localhost:3000/#/explorer?light=https://goldberg.avail.tools/light/v1
+  //  - http://localhost:3000/?light=https://mainnet.avail.tools/#/explorer
+  //  - http://localhost:3000/#/explorer?light=https://mainnet.avail.tools/light/v1
   const urlOptions = queryString.parse(location.href.split('?')[1]);
 
   // if specified, this takes priority
@@ -79,7 +79,7 @@ function getLightClientUrl (): string {
   }
 
   const stored = window.localStorage.getItem('lcUrl');
-  const fallUrl = config.LCURL + '/v1';
+  const fallUrl = getLCFromUrl(apiUrl) + '/v1';
 
   console.log('LC fallback=', fallUrl);
   const fallbackUrl = fallUrl;
@@ -92,7 +92,7 @@ function getLightClientUrl (): string {
 
 // There cannot be a Substrate Connect light client default (expect only jrpc EndpointType)
 const apiUrl = getApiUrl();
-const lcUrl = getLightClientUrl();
+const lcUrl = getLightClientUrl(apiUrl);
 
 // set the default as retrieved here
 settings.set({ apiUrl });

@@ -15,7 +15,7 @@ import { useApi } from '@polkadot/react-hooks';
 import { settings } from '@polkadot/ui-settings';
 import { isAscii } from '@polkadot/util';
 
-import config from '../../../apps-config/src/variables/config.js';
+import { getLCFromUrl } from '../../../apps-config/src/variables/config.js';
 import { useTranslation } from '../translate.js';
 import GroupDisplay from './Group.js';
 
@@ -131,7 +131,7 @@ function extractLcUrlState (lcUrl: string | null, groups: Group[]): LcUrlState {
   }
 
   if (lcUrl === null) {
-    const lcU = `${config.LCURL}/json-rpc`;
+    const lcU = `${getLCFromUrl(settings.get().apiUrl)}/json-rpc`;
 
     lcUrl = lcU;
   }
@@ -174,6 +174,22 @@ function isSwitchDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid: b
 
   return true;
 }
+
+// function isLocalForkDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid: boolean, isLocalFork?: boolean): boolean {
+//   if (!hasUrlChanged) {
+//     if (isLocalFork) {
+//       return true;
+//     } else {
+//       return false;
+//     }
+//   } else if (apiUrl.startsWith('light://')) {
+//     return true;
+//   } else if (isUrlValid) {
+//     return false;
+//   }
+
+//   return true;
+// }
 
 function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -272,7 +288,15 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
     (): void => {
       store.set('localFork', '');
       settings.set({ ...(settings.get()), apiUrl });
-      window.location.assign(`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(apiUrl)}${window.location.hash}`);
+
+      const newLCUrl = getLCFromUrl(apiUrl);
+
+      if (lcUrl !== newLCUrl) {
+        window.localStorage.setItem('lcUrl', newLCUrl);
+        window.location.assign(`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(apiUrl)}&light=${encodeURIComponent(newLCUrl)}${window.location.hash}`);
+      } else {
+        window.location.assign(`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(apiUrl)}${window.location.hash}`);
+      }
 
       if (!hasUrlChanged) {
         window.location.reload();
@@ -280,8 +304,32 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
 
       onClose();
     },
-    [apiUrl, onClose, hasUrlChanged]
+    [apiUrl, lcUrl, onClose, hasUrlChanged]
   );
+
+  // const _onLocalFork = useCallback(
+  //   (): void => {
+  //     store.set('localFork', apiUrl);
+  //     store.set('localFork', '');
+  //     settings.set({ ...(settings.get()), apiUrl });
+
+  //     const newLCUrl = getLCFromUrl(apiUrl);
+
+  //     if (lcUrl !== newLCUrl) {
+  //       window.localStorage.setItem('lcUrl', newLCUrl);
+  //       window.location.assign(`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(apiUrl)}&light=${encodeURIComponent(newLCUrl)}${window.location.hash}`);
+  //     } else {
+  //       window.location.assign(`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(apiUrl)}${window.location.hash}`);
+  //     }
+
+  //     if (!hasUrlChanged) {
+  //       window.location.reload();
+  //     }
+
+  //     onClose();
+  //   },
+  //   [apiUrl, lcUrl, onClose, hasUrlChanged]
+  // );
 
   useCallback(
     (): void => {
@@ -316,6 +364,11 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
     [hasUrlChanged, apiUrl, isUrlValid, isLocalFork]
   );
 
+  // const canLocalFork = useMemo(
+  //   () => isLocalForkDisabled(hasUrlChanged, apiUrl, isUrlValid, isLocalFork),
+  //   [hasUrlChanged, apiUrl, isUrlValid, isLocalFork]
+  // );
+
   const canLCSwitch = useMemo(
     () => isSwitchDisabled(hasLcUrlChanged, lcUrl, isLcUrlValid),
     [hasLcUrlChanged, lcUrl, isLcUrlValid]
@@ -335,10 +388,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
   const _onLcApply = useCallback(
     (): void => {
       window.localStorage.setItem('lcUrl', lcUrl);
-
       window.location.assign(`${window.location.origin}${window.location.pathname}?light=${encodeURIComponent(lcUrl)}${window.location.hash}`);
-      // window.location.reload();
-
       onClose();
     },
     [lcUrl, onClose]
@@ -348,6 +398,13 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
     <StyledSidebar
       buttons={
         <>
+          {/* <Button
+            icon='code-fork'
+            isDisabled={canLocalFork}
+            label={t('Fork Locally')}
+            onClick={_onLocalFork}
+            tooltip='fork-locally-btn'
+          /> */}
           <Button
             icon='sync'
             isDisabled={canSwitch}

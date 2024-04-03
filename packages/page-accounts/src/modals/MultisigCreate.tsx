@@ -34,7 +34,7 @@ interface UploadedFileData {
   uploadedSignatories: string[];
 }
 
-const MAX_SIGNATORIES = 16;
+const MAX_SIGNATORIES = 100;
 const BN_TWO = new BN(2);
 
 const acceptedFormats = ['application/json'];
