@@ -4,6 +4,7 @@
 import type { ApiPromise } from '@polkadot/api';
 import type { Data, Option } from '@polkadot/types';
 import type { IdentityInfo, Registration } from '@polkadot/types/interfaces';
+import type { PalletIdentityRegistration } from '@polkadot/types/lookup';
 
 import React, { useEffect, useState } from 'react';
 
@@ -89,7 +90,8 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
 
   useEffect((): void => {
     if (identityOpt && identityOpt.isSome) {
-      const { info } = identityOpt.unwrap();
+      const identityData = identityOpt.unwrap();
+      const info = identityData.info || (identityData as unknown as PalletIdentityRegistration[])[0].info;
 
       setData(info.display, null, setValDisplay);
       setData(info.email, setHasEmail, setValEmail);

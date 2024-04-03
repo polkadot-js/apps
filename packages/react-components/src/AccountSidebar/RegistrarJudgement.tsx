@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
+import type { IdentityInfo } from '@polkadot/types/interfaces';
 import type { PalletIdentityRegistration } from '@polkadot/types/lookup';
 import type { HexString } from '@polkadot/util/types';
 
@@ -34,10 +35,15 @@ const JUDGEMENT_ENUM = [
 ];
 
 const OPT_ID = {
-  transform: (optId: Option<PalletIdentityRegistration>): HexString | null =>
-    optId.isSome
-      ? optId.unwrap().info.hash.toHex()
-      : null
+  transform: (optId: Option<PalletIdentityRegistration>): HexString | null => {
+    if (!optId.isSome) {
+      return null;
+    }
+
+    const identityData = optId.unwrap();
+
+    return identityData.info ? identityData.info.hash.toHex() : ((identityData as unknown as PalletIdentityRegistration[])[0].info as IdentityInfo).hash.toHex();
+  }
 };
 
 function RegistrarJudgement ({ address, registrars, toggleJudgement }: Props): React.ReactElement<Props> {
