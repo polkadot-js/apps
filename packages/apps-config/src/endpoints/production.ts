@@ -44,7 +44,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'Ares Odyssey',
     providers: {
-      'Ares Protocol': 'wss://odyssey.aresprotocol.io'
+      // 'Ares Protocol': 'wss://odyssey.aresprotocol.io' // https://github.com/polkadot-js/apps/issues/10411
     },
     text: 'Ares Odyssey',
     ui: {

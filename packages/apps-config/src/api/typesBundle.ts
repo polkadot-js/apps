@@ -67259,6 +67259,21 @@ export const typesBundle = {
         }
       ]
     },
+    "mythos": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "AccountId": "EthereumAccountId",
+            "Address": "AccountId",
+            "LookupSource": "AccountId"
+          }
+        }
+      ]
+    },
     "neatcoin": {
       "types": [
         {

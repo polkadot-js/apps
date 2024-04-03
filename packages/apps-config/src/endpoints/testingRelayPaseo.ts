@@ -3,6 +3,7 @@
 
 import type { EndpointOption } from './types.js';
 
+import { chainsFrequencyPaseoSVG, chainsPaseoPNG } from '@polkadot/apps-config/ui/logos/chains';
 import { nodesIntegriteeSVG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
@@ -31,6 +32,19 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   //     logo: testnetParachainSVG
   //   }
   // }
+  {
+    homepage: 'https://www.frequency.xyz',
+    info: 'Frequency',
+    paraId: 4000,
+    providers: {
+      'Amplica Labs': 'wss://0.rpc.testnet.amplica.io'
+    },
+    text: 'Frequency',
+    ui: {
+      color: '#19455E',
+      logo: chainsFrequencyPaseoSVG
+    }
+  },
   {
     homepage: 'https://integritee.network',
     info: 'integritee',
@@ -94,7 +108,7 @@ export const testRelayPaseo: EndpointOption = {
   teleport: getTeleports(testParasPaseoCommon),
   text: 'Paseo',
   ui: {
-    color: `url(${chainsPaseoBgPNG}) #A0FED4`,
+    color: '#38393F',
     identityIcon: 'polkadot',
     logo: chainsPaseoPNG
   }
