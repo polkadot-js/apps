@@ -52,7 +52,7 @@ const STORE_FAVS = 'accounts:favorites';
 
 const GROUP_ORDER: GroupName[] = ['accounts', 'injected', 'qr', 'hardware', 'proxied', 'multisig', 'testing'];
 
-function groupAccounts (accounts: SortedAccount[]): Record<GroupName, string[]> {
+function groupAccounts(accounts: SortedAccount[]): Record<GroupName, string[]> {
   const ret: Record<GroupName, string[]> = {
     accounts: [],
     hardware: [],
@@ -87,7 +87,7 @@ function groupAccounts (accounts: SortedAccount[]): Record<GroupName, string[]> 
   return ret;
 }
 
-function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
+function Overview({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();

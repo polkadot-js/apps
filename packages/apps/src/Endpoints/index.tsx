@@ -175,6 +175,22 @@ function isSwitchDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid: b
   return true;
 }
 
+// function isLocalForkDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid: boolean, isLocalFork?: boolean): boolean {
+//   if (!hasUrlChanged) {
+//     if (isLocalFork) {
+//       return true;
+//     } else {
+//       return false;
+//     }
+//   } else if (apiUrl.startsWith('light://')) {
+//     return true;
+//   } else if (isUrlValid) {
+//     return false;
+//   }
+
+//   return true;
+// }
+
 function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const linkOptions = createWsEndpoints(t);
@@ -291,6 +307,30 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
     [apiUrl, lcUrl, onClose, hasUrlChanged]
   );
 
+  // const _onLocalFork = useCallback(
+  //   (): void => {
+  //     store.set('localFork', apiUrl);
+  //     store.set('localFork', '');
+  //     settings.set({ ...(settings.get()), apiUrl });
+
+  //     const newLCUrl = getLCFromUrl(apiUrl);
+
+  //     if (lcUrl !== newLCUrl) {
+  //       window.localStorage.setItem('lcUrl', newLCUrl);
+  //       window.location.assign(`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(apiUrl)}&light=${encodeURIComponent(newLCUrl)}${window.location.hash}`);
+  //     } else {
+  //       window.location.assign(`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(apiUrl)}${window.location.hash}`);
+  //     }
+
+  //     if (!hasUrlChanged) {
+  //       window.location.reload();
+  //     }
+
+  //     onClose();
+  //   },
+  //   [apiUrl, lcUrl, onClose, hasUrlChanged]
+  // );
+
   useCallback(
     (): void => {
       store.set('localFork', apiUrl);
@@ -303,7 +343,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
 
       onClose();
     },
-    [apiUrl, onClose, hasUrlChanged]
+    [apiUrl, onClose, hasUrlChanged, hasUrlChanged]
   );
 
   const _saveApiEndpoint = useCallback(
@@ -323,6 +363,11 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
     () => isSwitchDisabled(hasUrlChanged, apiUrl, isUrlValid, isLocalFork),
     [hasUrlChanged, apiUrl, isUrlValid, isLocalFork]
   );
+
+  // const canLocalFork = useMemo(
+  //   () => isLocalForkDisabled(hasUrlChanged, apiUrl, isUrlValid, isLocalFork),
+  //   [hasUrlChanged, apiUrl, isUrlValid, isLocalFork]
+  // );
 
   const canLCSwitch = useMemo(
     () => isSwitchDisabled(hasLcUrlChanged, lcUrl, isLcUrlValid),
@@ -353,6 +398,13 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
     <StyledSidebar
       buttons={
         <>
+          {/* <Button
+            icon='code-fork'
+            isDisabled={canLocalFork}
+            label={t('Fork Locally')}
+            onClick={_onLocalFork}
+            tooltip='fork-locally-btn'
+          /> */}
           <Button
             icon='sync'
             isDisabled={canSwitch}

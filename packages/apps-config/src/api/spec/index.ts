@@ -82,6 +82,7 @@ import mathchain from './mathchain.js';
 import moonbeam from './moonbeam.js';
 import muse from './muse.js';
 import mybank from './mybank.js';
+import mythos from './mythos.js';
 import neatcoin from './neatcoin.js';
 import neuroweb from './neuroweb.js';
 import nftmart from './nftmart.js';
@@ -250,6 +251,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   moonshadow: moonbeam,
   muse,
   'mybank.network Testnet': mybank,
+  mythos,
   neatcoin,
   neuroweb,
   nftmart,
