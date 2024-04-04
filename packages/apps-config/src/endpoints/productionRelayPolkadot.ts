@@ -633,7 +633,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'pendulum',
     paraId: 2094,
     providers: {
-      Dwellir: 'wss://pendulum-rpc.dwellir.com',
+      // Dwellir: 'wss://pendulum-rpc.dwellir.com',
       PendulumChain: 'wss://rpc-pendulum.prd.pendulumchain.tech'
     },
     text: 'Pendulum',
