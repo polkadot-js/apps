@@ -58,6 +58,19 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://laosnetwork.io/',
+    info: 'laos-omega',
+    paraId: 4006,
+    providers: {
+      Freeverse: 'wss://rpc.klaos.laosfoundation.io'
+    },
+    text: 'Laos Omega',
+    ui: {
+      color: 'linear-gradient(158deg, rgba(226,157,0,1) 0%, rgba(234,55,203,1) 100%)',
+      // logo: nodesKlaosPNG
+    }
+  },
+  {
     homepage: 'https://popnetwork.xyz/',
     info: 'Pop Network',
     paraId: 4001,
