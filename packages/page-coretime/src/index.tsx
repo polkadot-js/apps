@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TabItem } from '@polkadot/react-components/types';
@@ -18,7 +18,6 @@ interface Props {
 }
 
 function createItemsRef (t: (key: string, options?: { replace: Record<string, unknown> }) => string): TabItem[] {
-
   return [
     {
       isRoot: true,

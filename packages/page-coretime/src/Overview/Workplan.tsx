@@ -1,28 +1,28 @@
-// Copyright 2017-2024 @polkadot/app-assets authors & contributors
+// Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CoreWorkplanInfo } from '../types.js';
 
 import React from 'react';
-import { MaskCoverage } from '@polkadot/react-components';
+
+import { MaskCoverage, Table } from '@polkadot/react-components';
+
 import { hexToBin } from '../utils.js';
-import { Table } from '@polkadot/react-components';
 
 interface Props {
   className?: string;
   value: CoreWorkplanInfo;
 }
 
-function Workload({ className, value: { core, info, timeslice } }: Props): React.ReactElement<Props> {
+function Workload ({ className, value: { core, info, timeslice } }: Props): React.ReactElement<Props> {
   const trimmedHex: string = info[0].mask.toHex().slice(2);
-  console.log(trimmedHex)
-  const arr: string[] = trimmedHex.split("");
+  const arr: string[] = trimmedHex.split('');
 
-  let buffArr: string[] = [];
+  const buffArr: string[] = [];
 
   arr.forEach((bit) => {
-    hexToBin(bit).split("").forEach((v) => buffArr.push(v))
-  })
+    hexToBin(bit).split('').forEach((v) => buffArr.push(v));
+  });
 
   const sanitizedAssignment = info[0].assignment.isTask ? info[0].assignment.asTask : info[0].assignment;
 

@@ -1,5 +1,10 @@
+// [object Object]
+// SPDX-License-Identifier: Apache-2.0
+
 import React from 'react';
+
 import { styled } from './styled.js';
+
 const BarContainer = styled.div`
   display: flex;
 `;
@@ -13,16 +18,20 @@ const Segment = styled.div<SectionProps>`
   height: 20px;
   margin-right: 2px;
   opacity: ${(props) => {
-    return props.value
+    return props.value;
   }};
   width: 100%;
   background-color: var(--bg-inverse);
 `;
-function MaskCoverage({ values }: { values: string[] }) {
+
+function MaskCoverage ({ values }: { values: string[] }) {
   return (
     <BarContainer className='highlight--bg'>
       {values.map((value, index) => (
-        <Segment key={index} value={value === '1' ? '0' : '1'} />
+        <Segment
+          key={index}
+          value={value === '1' ? '0' : '1'}
+        />
       ))}
     </BarContainer>
   );

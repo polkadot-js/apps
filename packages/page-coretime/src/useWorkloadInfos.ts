@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-assets authors & contributors
+// Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { StorageKey, u16, Vec } from '@polkadot/types';
@@ -10,8 +10,7 @@ import { useEffect, useState } from 'react';
 
 import { createNamedHook, useApi, useCall, useMapKeys } from '@polkadot/react-hooks';
 
-function extractInfo(info: PalletBrokerScheduleItem[], core: number): CoreWorkloadInfo {
-
+function extractInfo (info: PalletBrokerScheduleItem[], core: number): CoreWorkloadInfo {
   return {
     core,
     info
@@ -23,7 +22,7 @@ const OPT_KEY = {
     keys.map(({ args: [core] }) => core)
 };
 
-function useWorkloadInfosImpl(): CoreWorkloadInfo[] | undefined {
+function useWorkloadInfosImpl (): CoreWorkloadInfo[] | undefined {
   const { api } = useApi();
   const cores = useMapKeys(api.query.broker.workload, [], OPT_KEY);
   const workloadInfo = useCall<[[BN[]], Vec<PalletBrokerScheduleItem>[]]>(api.query.broker.workload.multi, [cores], { withParams: true });

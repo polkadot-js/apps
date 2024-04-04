@@ -1,16 +1,15 @@
-// Copyright 2017-2024 @polkadot/app-assets authors & contributors
+// Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option, StorageKey, u16, u32 } from '@polkadot/types';
+import type { Option, StorageKey, u16, u32, Vec } from '@polkadot/types';
 import type { PalletBrokerScheduleItem } from '@polkadot/types/lookup';
 import type { CoreWorkplanInfo } from './types.js';
 
-import type { Vec } from '@polkadot/types';
 import { useEffect, useState } from 'react';
 
 import { createNamedHook, useApi, useCall, useMapKeys } from '@polkadot/react-hooks';
 
-function extractInfo(info: Vec<PalletBrokerScheduleItem>, timeslice: number, core: number) {
+function extractInfo (info: Vec<PalletBrokerScheduleItem>, timeslice: number, core: number) {
   return {
     core,
     info,
@@ -23,7 +22,7 @@ const OPT_KEY = {
     keys.map(({ args: [timeslice, core] }) => [timeslice, core])
 };
 
-function useWorkplanInfosImpl(): CoreWorkplanInfo[] | undefined {
+function useWorkplanInfosImpl (): CoreWorkplanInfo[] | undefined {
   const { api } = useApi();
   const workplanKeys = useMapKeys(api.query.broker.workplan, [], OPT_KEY);
 

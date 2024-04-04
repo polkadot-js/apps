@@ -1,15 +1,16 @@
-// [object Object]
+// Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CoreWorkloadInfo, CoreWorkplanInfo } from '../types.js';
 
 import React, { useMemo, useState } from 'react';
+
 import { Button, Columar, Dropdown } from '@polkadot/react-components';
 
+import { useTranslation } from '../translate.js';
 import Summary from './Summary.js';
 import Workloads from './Workloads.js';
 import Workplans from './Workplans.js';
-import { useTranslation } from '../translate.js';
 
 interface Props {
   className?: string;
@@ -17,25 +18,28 @@ interface Props {
   workplanInfos?: CoreWorkplanInfo[];
 }
 
-function uniqByForEach(array: CoreWorkplanInfo[] | undefined) {
+function uniqByForEach (array: CoreWorkplanInfo[] | undefined) {
   const workplanCores: number[] = [];
   const workplanTS: number[] = [];
+
   if (array) {
     array.forEach((item) => {
       if (!workplanCores.includes(item.core)) {
         workplanCores.push(item.core);
       }
+
       if (!workplanTS.includes(item.timeslice)) {
         workplanTS.push(item.timeslice);
       }
-    })
+    });
+
     return { workplanCores, workplanTS };
   } else {
-    return { workplanCores: [], workplanTS: [] }
+    return { workplanCores: [], workplanTS: [] };
   }
 }
 
-function Overview({ className, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
+function Overview ({ className, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const [workloadCoreSelected, setWorkloadCoreSelected] = useState(-1);
@@ -43,15 +47,16 @@ function Overview({ className, workloadInfos, workplanInfos }: Props): React.Rea
   const [workplanSliceSelected, setWorkplanSliceSelected] = useState(-1);
 
   const workloadCores = workloadInfos?.length;
-  let coreArr: number[] = [];
+  const coreArr: number[] = [];
 
-  const len = workloadCores ? workloadCores : 0;
+  const len = workloadCores || 0;
 
   Array(len).fill(0).map((_, index) => {
-    coreArr.push(index)
+    coreArr.push(index);
   });
 
-  const { workplanCores, workplanTS } = uniqByForEach(workplanInfos)
+  const { workplanCores, workplanTS } = uniqByForEach(workplanInfos);
+
   workplanCores?.sort((a, b) => a - b);
   workplanTS?.sort((a, b) => a - b);
 
@@ -68,7 +73,7 @@ function Overview({ className, workloadInfos, workplanInfos }: Props): React.Rea
   );
   const filteredWLC = useMemo(
     () => {
-      return workloadCoreSelected === -1 ? workloadInfos : workloadInfos?.filter(({ core }) => core === workloadCoreSelected)
+      return workloadCoreSelected === -1 ? workloadInfos : workloadInfos?.filter(({ core }) => core === workloadCoreSelected);
     },
     [workloadInfos, workloadCoreSelected]
   );
@@ -87,13 +92,13 @@ function Overview({ className, workloadInfos, workplanInfos }: Props): React.Rea
   const filteredWorkplan = useMemo(
     () => {
       if (workplanCoreSelected === workplanSliceSelected) {
-        return workplanInfos
+        return workplanInfos;
       } else if (workplanCoreSelected === -1) {
-        return workplanInfos?.filter(({ timeslice }) => timeslice === workplanSliceSelected)
+        return workplanInfos?.filter(({ timeslice }) => timeslice === workplanSliceSelected);
       } else if (workplanSliceSelected === -1) {
-        return workplanInfos?.filter(({ core }) => core === workplanCoreSelected)
+        return workplanInfos?.filter(({ core }) => core === workplanCoreSelected);
       } else {
-        return workplanInfos?.filter(({ core, timeslice }) => core === workplanCoreSelected && timeslice === workplanSliceSelected)
+        return workplanInfos?.filter(({ core, timeslice }) => core === workplanCoreSelected && timeslice === workplanSliceSelected);
       }
     }
     ,
@@ -141,7 +146,8 @@ function Overview({ className, workloadInfos, workplanInfos }: Props): React.Rea
       <Columar>
         <Columar.Column>
           <Workloads
-            workloadInfos={filteredWLC} />
+            workloadInfos={filteredWLC}
+          />
         </Columar.Column>
         <Columar.Column>
           <Workplans
