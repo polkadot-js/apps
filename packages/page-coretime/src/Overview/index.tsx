@@ -47,13 +47,12 @@ function Overview ({ className, workloadInfos, workplanInfos }: Props): React.Re
   const [workplanSliceSelected, setWorkplanSliceSelected] = useState(-1);
 
   const workloadCores = workloadInfos?.length;
-  const coreArr: number[] = [];
+
+  const coreArr: number[] = useMemo(() => [], []);
 
   const len = workloadCores || 0;
 
-  Array(len).fill(0).map((_, index) => {
-    coreArr.push(index);
-  });
+  Array(len).fill(0).map((_, index) => coreArr.push(index));
 
   const { workplanCores, workplanTS } = uniqByForEach(workplanInfos);
 
