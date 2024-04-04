@@ -32,6 +32,20 @@ function Summary (): React.ReactElement {
           </>
 
         )}
+        {api.query.coretimeAssignmentProvider && (
+          <>
+            <CardSummary label={t('current timeslice')}>
+              <Timeslice />
+            </CardSummary>
+            <CardSummary label={t('core count')}>
+              <Cores />
+            </CardSummary>
+            <CardSummary label={t('pool size')}>
+              <Pools />
+            </CardSummary>
+          </>
+
+        )}
       </section>
     </SummaryBox>
   );

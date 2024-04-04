@@ -1500,6 +1500,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-coretime@workspace:packages/page-coretime":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-coretime@workspace:packages/page-coretime"
+  dependencies:
+    "@polkadot/react-components": "npm:^0.133.2-119-x"
+    "@polkadot/react-query": "npm:^0.133.2-119-x"
+  peerDependencies:
+    react: "*"
+    react-dom: "*"
+    react-is: "*"
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/app-council@workspace:packages/page-council":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-council@workspace:packages/page-council"
@@ -6292,14 +6305,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"colorette@npm:^2.0.10, colorette@npm:^2.0.14":
-  version: 2.0.16
-  resolution: "colorette@npm:2.0.16"
-  checksum: 10/8501db5750d3b8f0935bdc9e999cbd6b6420b5c127a8c0bd41aaf252fe3f6636ff3a5c51e6dc8e12692e0b96ee3d28a4dfd0f89a86ef167a5728d4c926b67f31
-  languageName: node
-  linkType: hard
-
-"colorette@npm:^2.0.7":
+"colorette@npm:^2.0.10, colorette@npm:^2.0.14, colorette@npm:^2.0.7":
   version: 2.0.20
   resolution: "colorette@npm:2.0.20"
   checksum: 10/0b8de48bfa5d10afc160b8eaa2b9938f34a892530b2f7d7897e0458d9535a066e3998b49da9d21161c78225b272df19ae3a64d6df28b4c9734c0e55bbd02406f
