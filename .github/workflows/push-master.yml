@@ -13,11 +13,11 @@ jobs:
         step: ['build:release:www']
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
         token: ${{ secrets.GH_PAT_BOT }}
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@v4
       with:
         node-version: 'lts/*'
     - name: ${{ matrix.step }}
@@ -40,8 +40,8 @@ jobs:
     if: "startsWith(github.event.head_commit.message, '[CI Skip] release/stable')"
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
         node-version: 'lts/*'
     - name: docker
@@ -58,10 +58,10 @@ jobs:
         os: [macos-latest, ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         token: ${{ secrets.GH_PAT_BOT }}
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@v4
       with:
         node-version: 'lts/*'
     - name: Prepare for app notarization (macOS)
