@@ -3,8 +3,10 @@
 
 import type { EndpointOption } from './types.js';
 
+import { chainsFrequencyPaseoSVG, chainsPaseoPNG, chainsPopNetworkSVG } from '@polkadot/apps-config/ui/logos/chains';
+import { nodesIntegriteeSVG } from '@polkadot/apps-config/ui/logos/nodes';
+
 import { PASEO_GENESIS } from '../api/constants.js';
-import { chainsPaseoBgPNG, chainsPaseoPNG } from '../ui/logos/chains/index.js';
 // import { testnetParachainSVG } from '../ui/logos/nodes/index.js';
 import { getTeleports } from './util.js';
 
@@ -29,6 +31,46 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   //     logo: testnetParachainSVG
   //   }
   // }
+  {
+    homepage: 'https://www.frequency.xyz',
+    info: 'Frequency',
+    paraId: 4000,
+    providers: {
+      'Amplica Labs': 'wss://0.rpc.testnet.amplica.io'
+    },
+    text: 'Frequency',
+    ui: {
+      color: '#19455E',
+      logo: chainsFrequencyPaseoSVG
+    }
+  },
+  {
+    homepage: 'https://integritee.network',
+    info: 'integritee',
+    paraId: 2039,
+    providers: {
+      Integritee: 'wss://paseo.api.integritee.network'
+    },
+    text: 'Integritee Network (Paseo)',
+    ui: {
+      color: '#658ea9',
+      logo: nodesIntegriteeSVG
+    }
+  },
+  {
+    homepage: 'https://popnetwork.xyz/',
+    info: 'Pop Network',
+    paraId: 4001,
+    providers: {
+      'R0GUE-RPC1': 'wss://rpc1.paseo.popnetwork.xyz',
+      'R0GUE-RPC2': 'wss://rpc2.paseo.popnetwork.xyz'
+    },
+    text: 'Pop Network',
+    ui: {
+      color: '#1C0533',
+      logo: chainsPopNetworkSVG
+    }
+  }
 ];
 
 export const testParasPaseoCommon: EndpointOption[] = [
@@ -65,7 +107,7 @@ export const testRelayPaseo: EndpointOption = {
   teleport: getTeleports(testParasPaseoCommon),
   text: 'Paseo',
   ui: {
-    color: `url(${chainsPaseoBgPNG}) #A0FED4`,
+    color: '#38393F',
     identityIcon: 'polkadot',
     logo: chainsPaseoPNG
   }

@@ -165,7 +165,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'chainflip',
     providers: {
-      chainflip: 'wss://perseverance.chainflip.xyz'
+      chainflip: 'wss://archive.perseverance.chainflip.io'
     },
     text: 'Chainflip Testnet',
     ui: {
@@ -185,13 +185,24 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'creditcoin-testnet',
+    info: 'creditcoin3-testnet',
+    providers: {
+      'Creditcoin Foundation': 'wss://rpc.cc3-testnet.creditcoin.network/ws'
+    },
+    text: 'Creditcoin EVM Testnet (v3)',
+    ui: {
+      color: '#9cffaa',
+      logo: chainsCreditcoinTestPNG
+    }
+  },
+  {
+    info: 'creditcoin2-testnet',
     providers: {
       'Creditcoin Foundation': 'wss://rpc.testnet.creditcoin.network/ws'
     },
-    text: 'Creditcoin Testnet',
+    text: 'Creditcoin PoS Testnet (v2.5)',
     ui: {
-      color: '#00DF83',
+      color: '#ffffff',
       logo: chainsCreditcoinTestPNG
     }
   },
