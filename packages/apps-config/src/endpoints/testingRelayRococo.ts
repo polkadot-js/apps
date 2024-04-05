@@ -190,7 +190,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     },
     text: 'Frequency',
     ui: {
-      color: '#29fd47',
+      color: '#544974',
       logo: chainsFrequencySVG
     }
   },
@@ -392,7 +392,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
   },
   {
     info: 'rococoMuse',
-    paraId: 201804,
+    paraId: 3369,
     providers: {
       Parity: 'wss://rococo-muse-rpc.polkadot.io'
     },

@@ -363,7 +363,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
       Helikon: 'wss://rpc.helikon.io/khala',
       OnFinality: 'wss://khala.api.onfinality.io/public-ws',
       Phala: 'wss://khala-api.phala.network/ws',
-      RadiumBlock: 'wss://khala.public.curie.radiumblock.co/ws'
+      RadiumBlock: 'wss://khala.public.curie.radiumblock.co/ws',
+      Rockx: 'wss://rockx-khala.w3node.com/polka-public-khala/ws'
     },
     text: 'Khala Network',
     ui: {
@@ -934,6 +935,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       RadiumBlock: 'wss://bridgehub-kusama.public.curie.radiumblock.co/ws',
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/bridgehub'
     },
+    teleport: [-1],
     text: 'BridgeHub',
     ui: {
       logo: nodesBridgeHubBlackSVG
@@ -969,7 +971,7 @@ export const prodRelayKusama: EndpointOption = {
   ],
   providers: {
     // 'Geometry Labs': 'wss://kusama.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
-    'Automata 1RPC': 'wss://1rpc.io/ksm',
+    // 'Automata 1RPC': 'wss://1rpc.io/ksm',
     Blockops: 'wss://kusama-public-rpc.blockops.network/ws', // https://github.com/polkadot-js/apps/issues/9840
     Dwellir: 'wss://kusama-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://kusama-rpc-tn.dwellir.com',

@@ -15,7 +15,7 @@
     "url": "https://github.com/polkadot-js/apps.git"
   },
   "sideEffects": false,
-  "version": "0.135.1",
+  "version": "0.135.2-20-x",
   "main": "build/electron.js",
   "dependencies": {
     "electron-log": "^5.0.1",
