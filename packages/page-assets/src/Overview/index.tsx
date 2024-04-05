@@ -4,12 +4,13 @@
 import type { BN } from '@polkadot/util';
 import type { AssetInfo } from '../types.js';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Button } from '@polkadot/react-components';
 
 import Create from './Create/index.js';
 import Assets from './Assets.js';
+import Query from './Query.js';
 import Summary from './Summary.js';
 
 interface Props {
@@ -20,16 +21,20 @@ interface Props {
 }
 
 function Overview ({ className, ids, infos, openId }: Props): React.ReactElement<Props> {
+  const [keyword, setKeyword] = useState('');
+  const filteredInfos = keyword ? infos?.filter(({ key, metadata }) => key === keyword || metadata?.name.toUtf8().includes(keyword)) : infos;
+
   return (
     <div className={className}>
       <Summary numAssets={ids?.length} />
+      <Query onQuery={setKeyword} />
       <Button.Group>
         <Create
           assetIds={ids}
           openId={openId}
         />
       </Button.Group>
-      <Assets infos={infos} />
+      <Assets infos={filteredInfos} />
     </div>
   );
 }
