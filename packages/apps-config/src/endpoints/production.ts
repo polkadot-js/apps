@@ -332,8 +332,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'logion',
     providers: {
       'Logion 1': 'wss://rpc01.logion.network',
-      'Logion 2': 'wss://rpc02.logion.network',
-      'Logion 3': 'wss://rpc03.logion.network'
+      'Logion 2': 'wss://rpc02.logion.network'
     },
     text: 'Logion Standalone',
     ui: {
