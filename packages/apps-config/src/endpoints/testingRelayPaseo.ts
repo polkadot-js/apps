@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types.js';
 
 import { chainsFrequencyPaseoSVG, chainsLaosOmegaPNG, chainsPaseoPNG, chainsPopNetworkSVG } from '@polkadot/apps-config/ui/logos/chains';
-import { nodesIntegriteeSVG } from '@polkadot/apps-config/ui/logos/nodes';
+import { nodesIntegriteeSVG, nodesNodleSVG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
 // import { testnetParachainSVG } from '../ui/logos/nodes/index.js';
@@ -68,6 +68,19 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#f7f4e7',
       logo: chainsLaosOmegaPNG
+    }
+  },
+  {
+    homepage: 'https://www.nodle.com/',
+    info: 'NodleParadis',
+    paraId: 2026,
+    providers: {
+      OnFinality: 'wss://node-6957502816543653888.lh.onfinality.io/ws?apikey=09b04494-3139-4b57-a5d1-e1c4c18748ce'
+    },
+    text: 'Nodle',
+    ui: {
+      color: '#1ab394',
+      logo: nodesNodleSVG
     }
   },
   {
