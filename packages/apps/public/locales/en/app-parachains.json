@@ -51,6 +51,7 @@
   "The amount is less than the minimum allowed contribution of {{value}}": "The amount is less than the minimum allowed contribution of {{value}}",
   "The amount is more than the remaining contribution needed {{value}}": "The amount is more than the remaining contribution needed {{value}}",
   "The amount to be raised in this funding campaign.": "The amount to be raised in this funding campaign.",
+  "The amount to bid for this parachain lease period range.": "The amount to bid for this parachain lease period range.",
   "The amount to contribute from this account.": "The amount to contribute from this account.",
   "The amount to to bid for this parachain lease period range.": "The amount to to bid for this parachain lease period range.",
   "The beneficiary will have access to the transferred amount when the transaction is included in a block.": "The beneficiary will have access to the transferred amount when the transaction is included in a block.",
