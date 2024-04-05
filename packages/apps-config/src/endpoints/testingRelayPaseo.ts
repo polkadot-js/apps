@@ -3,7 +3,7 @@
 
 import type { EndpointOption } from './types.js';
 
-import { chainsFrequencyPaseoSVG, chainsPaseoPNG, chainsPopNetworkSVG, chainsLaosOmegaPNG } from '@polkadot/apps-config/ui/logos/chains';
+import { chainsFrequencyPaseoSVG, chainsLaosOmegaPNG, chainsPaseoPNG, chainsPopNetworkSVG } from '@polkadot/apps-config/ui/logos/chains';
 import { nodesIntegriteeSVG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
@@ -62,7 +62,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'laos-omega',
     paraId: 4006,
     providers: {
-      Freeverse: 'wss://rpc.laosomega.laosfoundation.io'
+      'freeverse.io': 'wss://rpc.laosomega.laosfoundation.io'
     },
     text: 'Laos Omega',
     ui: {
