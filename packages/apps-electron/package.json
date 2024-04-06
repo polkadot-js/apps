@@ -15,7 +15,7 @@
     "url": "https://github.com/availproject/avail-apps.git"
   },
   "sideEffects": false,
-  "version": "0.135.2-16-x",
+  "version": "0.135.2-26-x",
   "main": "build/electron.js",
   "dependencies": {
     "electron-log": "^5.0.1",
