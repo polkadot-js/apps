@@ -4,7 +4,7 @@
 const config: { [network: string]: { url: `wss://${string}`, lcUrl: string } } = {
   goldberg: {
     lcUrl: process.env.GOLDBERG_LC || 'https://api.lightclient.goldberg.avail.tools/v1',
-    url: process.env.GOLDBERG_URL as `wss://${string}` || 'wss://goldberg.avail.tools/ws'
+    url: process.env.GOLDBERG_URL as `wss://${string}` || 'wss://rpc-testnet.avail.tools/ws'
   },
   turing: {
     lcUrl: process.env.TURING_LC || 'https://api.lightclient.turing.avail.so/v1',
@@ -19,7 +19,7 @@ const config: { [network: string]: { url: `wss://${string}`, lcUrl: string } } =
 export const getLCFromUrl = (apiUrl: string) => {
   if (apiUrl.includes('turing')) {
     return config.turing.lcUrl;
-  } else if (apiUrl.includes('goldberg')) {
+  } else if (apiUrl.includes('goldberg') || apiUrl === 'wss://rpc-testnet.avail.tools/ws') {
     return config.goldberg.lcUrl;
   } else {
     return config.turing.lcUrl; // TODO-mainnet

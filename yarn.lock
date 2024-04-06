@@ -5242,12 +5242,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"avail-js-sdk@npm:^0.2.7":
-  version: 0.2.7
-  resolution: "avail-js-sdk@npm:0.2.7"
+"avail-js-sdk@npm:^0.2.8":
+  version: 0.2.8
+  resolution: "avail-js-sdk@npm:0.2.8"
   dependencies:
     "@polkadot/api": "npm:^10.11.3"
-  checksum: 10/33e24dfa25816b22832eaf0c19e12fb1061e5b776b6ad880a4355717754a8ef792d54a37107b2a4a7ba54b490e446b4e797c8cd6d0408b07dd56c2ffe2e1f104
+  checksum: 10/f5c74d044de6d60919860f68cd17dd97efbb24a029c303f929df0d3a50d5722f636f27882dffa88c5aed5abad930a9ffa80cab1cc43706c7a8fd2b14bbee7b71
   languageName: node
   linkType: hard
 
@@ -14516,7 +14516,7 @@ __metadata:
     "@types/react-dom": "npm:^18.2.18"
     "@types/react-router-dom": "npm:^5.3.3"
     "@types/store": "npm:^2.0.5"
-    avail-js-sdk: "npm:^0.2.7"
+    avail-js-sdk: "npm:^0.2.8"
     axios: "npm:^1.4.0"
     concurrently: "npm:^8.2.2"
     devtron: "npm:^1.4.0"
