@@ -34,3 +34,22 @@ await transfer.signAndSend(ALICE, ({ events = [], status }) => {
   });
 });`
 };
+
+export const daSubmitDataCall: Snippet = {
+  value: 'daSubmitDataCall',
+  text: 'Call Submit Data and listen to events',
+  label: { color: 'grey', children: 'Extrinsics', size: 'tiny' },
+  code: `// You need to be connected to a development chain for this example to work.
+const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
+
+const data = "Hello World";
+const submitData = api.tx.dataAvailability.submitData(data);
+
+// Sign and Send the transaction
+await submitData.signAndSend(ALICE, ({ events = [], status }) => {
+  console.log(status);
+  events.forEach(({ phase, event: { data, method, section } }) => {
+    console.log(phase.toString() + ' : ' + section + '.' + method + ' ' + data.toString());
+  });
+});`
+};

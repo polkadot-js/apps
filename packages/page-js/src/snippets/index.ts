@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { constsStakingParameters } from './consts-examples.js';
-import { extrinsicMakeTransfer } from './extrinsics-examples.js';
+import { daSubmitDataCall, extrinsicMakeTransfer } from './extrinsics-examples.js';
 import { rpcNetworkAuthoring, rpcNewHead, rpcQueryState, rpcSysthemInfo } from './rpc-examples.js';
 import { storageGetInfo, storageKeys, storageListenToBalanceChange, storageListenToMultipleBalancesChange, storageRetrieveInfoOnQueryKeys, storageSystemEvents } from './storage-examples.js';
 
@@ -20,5 +20,6 @@ export const allSnippets = [
   storageRetrieveInfoOnQueryKeys,
   storageKeys,
   constsStakingParameters,
-  extrinsicMakeTransfer
+  extrinsicMakeTransfer,
+  daSubmitDataCall
 ] as const;
