@@ -568,6 +568,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'vara',
     providers: {
       Blast: 'wss://vara-mainnet.public.blastapi.io',
+      dPRC: 'wss://vara.drpc.org',
       Gear: 'wss://rpc.vara.network'
     },
     text: 'Vara',
