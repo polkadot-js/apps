@@ -9,6 +9,7 @@ import { Tabs } from '@polkadot/react-components';
 import Convert from './Convert.js';
 import Hash from './Hash.js';
 import { useTranslation } from './translate.js';
+import Xcm from './Xcm.js';
 
 interface Props {
   basePath: string;
@@ -27,6 +28,10 @@ function UtilitiesApp ({ basePath, className }: Props): React.ReactElement<Props
     {
       name: 'hash',
       text: t('Hash data')
+    },
+    {
+      name: 'xcm',
+      text: t('Encode XCM')
     }
   ]);
 
@@ -38,6 +43,12 @@ function UtilitiesApp ({ basePath, className }: Props): React.ReactElement<Props
       />
       <Routes>
         <Route path={basePath}>
+          <Route
+            element={
+              <Xcm />
+            }
+            path='xcm'
+          />
           <Route
             element={
               <Hash />

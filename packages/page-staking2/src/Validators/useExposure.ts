@@ -1,7 +1,7 @@
 // Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PalletStakingExposure } from '@polkadot/types/lookup';
+import type { SpStakingExposure } from '@polkadot/types/lookup';
 import type { SessionInfo, Validator } from '../types.js';
 import type { UseExposure, UseExposureExposure } from './types.js';
 
@@ -13,13 +13,13 @@ import { BN } from '@polkadot/util';
 import { useCacheMap } from '../useCache.js';
 
 const OPT_EXPOSURE = {
-  transform: ({ others, own, total }: PalletStakingExposure): UseExposureExposure => ({
+  transform: ({ others, own, total }: SpStakingExposure): UseExposureExposure => ({
     others: others
       .map(({ value, who }) => ({
         value: value.unwrap(),
         who: who.toString()
       }))
-      .sort((a, b) => b.value.cmp(a.value)),
+      .sort((a, b) => (b.value as BN).cmp(a.value)),
     own: own.unwrap(),
     total: total.unwrap()
   })

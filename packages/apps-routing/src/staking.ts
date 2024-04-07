@@ -3,7 +3,7 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { u32, Vec } from '@polkadot/types';
-import type { PalletStakingExposure, PalletStakingStakingLedger } from '@polkadot/types/lookup';
+import type { PalletStakingStakingLedger, SpStakingExposure } from '@polkadot/types/lookup';
 import type { Route, TFunction } from './types.js';
 
 import Component from '@polkadot/app-staking';
@@ -14,7 +14,7 @@ import { assert, BN_ONE } from '@polkadot/util';
 function needsApiCheck (api: ApiPromise): boolean {
   try {
     // we need a known Exposure type
-    const { others: [{ value, who }], own, total } = api.registry.createType<PalletStakingExposure>(
+    const { others: [{ value, who }], own, total } = api.registry.createType<SpStakingExposure>(
       unwrapStorageType(api.registry, api.query.staking.erasStakers.creator.meta.type),
       { others: [{ value: BN_ONE, who: ZERO_ACCOUNT }], own: BN_ONE, total: BN_ONE }
     );
@@ -45,15 +45,25 @@ function needsApiCheck (api: ApiPromise): boolean {
     return false;
   }
 
+  // For compatibility - `api.query.staking.ledger` returns `legacyClaimedRewards` instead of `claimedRewards` as of v1.4
   try {
     const v = api.registry.createType<PalletStakingStakingLedger>(
       unwrapStorageType(api.registry, api.query.staking.ledger.creator.meta.type),
       { claimedRewards: [1, 2, 3] }
     );
 
-    assert((v as unknown as { claimedRewards: Vec<u32> }).claimedRewards.eq([1, 2, 3]), 'Needs a claimedRewards array');
+    if ((v as unknown as { claimedRewards: Vec<u32> }).claimedRewards) {
+      assert((v as unknown as { claimedRewards: Vec<u32> }).claimedRewards.eq([1, 2, 3]), 'Needs a claimedRewards array');
+    } else {
+      const v = api.registry.createType<PalletStakingStakingLedger>(
+        unwrapStorageType(api.registry, api.query.staking.ledger.creator.meta.type),
+        { legacyClaimedRewards: [1, 2, 3] }
+      );
+
+      assert(v.legacyClaimedRewards.eq([1, 2, 3]), 'Needs a legacyClaimedRewards array');
+    }
   } catch {
-    console.warn('No known claimedRewards inside staking ledger, disabling staking route');
+    console.warn('No known legacyClaimedRewards or claimedRewards inside staking ledger, disabling staking route');
 
     return false;
   }
