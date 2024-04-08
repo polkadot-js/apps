@@ -52907,7 +52907,7 @@ export const typesBundle = {
         }
       ]
     },
-    "frequency-rococo": {
+    "frequency-testnet": {
       "rpc": {
         "frequency": {
           "getEvents": {
