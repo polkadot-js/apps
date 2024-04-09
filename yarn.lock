@@ -19,11 +19,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@acala-network/chopsticks-core@npm:^0.9.9":
-  version: 0.9.9
-  resolution: "@acala-network/chopsticks-core@npm:0.9.9"
+"@acala-network/chopsticks-core@npm:^0.10.0":
+  version: 0.10.0
+  resolution: "@acala-network/chopsticks-core@npm:0.10.0"
   dependencies:
-    "@acala-network/chopsticks-executor": "npm:0.9.9"
+    "@acala-network/chopsticks-executor": "npm:0.10.0"
     "@polkadot/rpc-provider": "npm:^10.11.2"
     "@polkadot/types": "npm:^10.11.2"
     "@polkadot/types-codec": "npm:^10.11.2"
@@ -33,22 +33,22 @@ __metadata:
     comlink: "npm:^4.4.1"
     eventemitter3: "npm:^5.0.1"
     lodash: "npm:^4.17.21"
-    lru-cache: "npm:^10.1.0"
-    pino: "npm:^8.17.2"
-    pino-pretty: "npm:^10.3.1"
+    lru-cache: "npm:^10.2.0"
+    pino: "npm:^8.19.0"
+    pino-pretty: "npm:^11.0.0"
     rxjs: "npm:^7.8.1"
     zod: "npm:^3.22.4"
-  checksum: 10/695312401d2059e6c341d9b6166e163969dd0447897c60424b1bde8709dfa4bbe83fc18c9547d7bbc8c8f8bfbae2533d986d5eaef856f534b135c313613faf91
+  checksum: 10/2fcf74c0208b0431124c1a5633e3e14ba6eb341135a91aca4ebd82b18ef1415b80c4335cb46e9c298fbf3e7113c1cf568568b6a056f460880370428cd53cecde
   languageName: node
   linkType: hard
 
-"@acala-network/chopsticks-executor@npm:0.9.9":
-  version: 0.9.9
-  resolution: "@acala-network/chopsticks-executor@npm:0.9.9"
+"@acala-network/chopsticks-executor@npm:0.10.0":
+  version: 0.10.0
+  resolution: "@acala-network/chopsticks-executor@npm:0.10.0"
   dependencies:
     "@polkadot/util": "npm:^12.6.2"
     "@polkadot/wasm-util": "npm:^7.3.2"
-  checksum: 10/c0acdaf148d329c12d66030f0dd42be6e8cb77b58f6969c27b6d6be54cc2d0f6e61697ad83ddefe1a5c35c8d1efb9ad5f425bd5992a469be55cca99630193e8d
+  checksum: 10/0c209dc01eb10f20dbb2e6492a0c78c8ecc2820839ded693f65402de7a7ab3cd8f84d0de42dac3e733fcca5c468ad6cf8c8453848e27468906313e6bda626734
   languageName: node
   linkType: hard
 
@@ -2020,7 +2020,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/apps@workspace:packages/apps"
   dependencies:
-    "@acala-network/chopsticks-core": "npm:^0.9.9"
+    "@acala-network/chopsticks-core": "npm:^0.10.0"
     "@polkadot/apps-config": "npm:^0.135.2-31-x"
     "@polkadot/apps-routing": "npm:^0.135.2-31-x"
     "@polkadot/dev": "npm:^0.78.4"
@@ -12309,7 +12309,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lru-cache@npm:^10.1.0":
+"lru-cache@npm:^10.2.0":
   version: 10.2.0
   resolution: "lru-cache@npm:10.2.0"
   checksum: 10/502ec42c3309c0eae1ce41afca471f831c278566d45a5273a0c51102dee31e0e250a62fa9029c3370988df33a14188a38e682c16143b794de78668de3643e302
@@ -14293,7 +14293,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pino-abstract-transport@npm:^1.0.0, pino-abstract-transport@npm:v1.1.0":
+"pino-abstract-transport@npm:^1.0.0, pino-abstract-transport@npm:^1.1.0":
   version: 1.1.0
   resolution: "pino-abstract-transport@npm:1.1.0"
   dependencies:
@@ -14303,9 +14303,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pino-pretty@npm:^10.3.1":
-  version: 10.3.1
-  resolution: "pino-pretty@npm:10.3.1"
+"pino-pretty@npm:^11.0.0":
+  version: 11.0.0
+  resolution: "pino-pretty@npm:11.0.0"
   dependencies:
     colorette: "npm:^2.0.7"
     dateformat: "npm:^4.6.3"
@@ -14323,7 +14323,7 @@ __metadata:
     strip-json-comments: "npm:^3.1.1"
   bin:
     pino-pretty: bin.js
-  checksum: 10/4284f125f7e8a5a10e856c8fd591ba34c30c0a0071a0b265a9eda43c3e447ba11d40b06cc67108675586358a5d1213a6ac3a92f6abd2896abfbab9a5b4c17072
+  checksum: 10/0d63dd92b3bd0c5ac85ded7fa5667c72998efd6b431f4ee89d27ec37758c1e44c5d458ad65e09757926bfef618b3ac51cb1126a3d9c0a1aaa4e4f1d34a97856b
   languageName: node
   linkType: hard
 
@@ -14334,14 +14334,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pino@npm:^8.17.2":
-  version: 8.19.0
-  resolution: "pino@npm:8.19.0"
+"pino@npm:^8.19.0":
+  version: 8.20.0
+  resolution: "pino@npm:8.20.0"
   dependencies:
     atomic-sleep: "npm:^1.0.0"
     fast-redact: "npm:^3.1.1"
     on-exit-leak-free: "npm:^2.1.0"
-    pino-abstract-transport: "npm:v1.1.0"
+    pino-abstract-transport: "npm:^1.1.0"
     pino-std-serializers: "npm:^6.0.0"
     process-warning: "npm:^3.0.0"
     quick-format-unescaped: "npm:^4.0.3"
@@ -14351,7 +14351,7 @@ __metadata:
     thread-stream: "npm:^2.0.0"
   bin:
     pino: bin.js
-  checksum: 10/c98e8bedb7c9eca5c0e75c2dd910a58b0e470da282c5a4787873a591666cc7cce33561d9ba6d6a20cf6bc4bc8d15b7db84cf6156f262081a5c6b8de134285789
+  checksum: 10/c236ad50ea6fa533b25275928ac1c3c96d6c06df08f79a70d91a571fcf1b6fe0570c6f4b00eb5ad201fa9b4a9292d4cfe21fd8af29fa1df44aa1963d35c1bf8b
   languageName: node
   linkType: hard
 
