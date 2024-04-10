@@ -5,9 +5,10 @@ import type { AuctionInfo, Campaigns, LeasePeriod, OwnedId } from '../types.js';
 
 import React from 'react';
 
-import { Button } from '@polkadot/react-components';
+import { Button, MarkWarning } from '@polkadot/react-components';
 import { useBestNumber } from '@polkadot/react-hooks';
 
+import { useTranslation } from '../translate.js';
 import FundAdd from './FundAdd.js';
 import Funds from './Funds.js';
 import Summary from './Summary.js';
@@ -21,10 +22,15 @@ interface Props {
 }
 
 function Crowdloan ({ auctionInfo, campaigns: { activeCap, activeRaised, funds, isLoading, totalCap, totalRaised }, className, leasePeriod, ownedIds }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const bestNumber = useBestNumber();
 
   return (
     <div className={className}>
+      <MarkWarning
+        className='warning centered'
+        content={t('Crowdloans will be deprecated in favor of Coretime. When Coretime is active in Polkadot, this page will be removed.')}
+      />
       <Summary
         activeCap={activeCap}
         activeRaised={activeRaised}
