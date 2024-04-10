@@ -942,6 +942,16 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     }
   },
   {
+    info: 'kusamaCoretime',
+    paraId: 1005,
+    providers: {
+      Parity: 'wss://kusama-coretime-rpc.polkadot.io'
+    },
+    teleport: [-1],
+    text: 'Coretime',
+    ui: {}
+  },
+  {
     homepage: 'https://encointer.org/',
     info: 'encointer',
     paraId: 1001,
