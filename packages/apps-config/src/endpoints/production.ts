@@ -113,7 +113,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'chainflip',
     providers: {
-      chainflip: 'wss://mainnet-archive.chainflip.io'
+      chainflip: 'wss://mainnet-archive.chainflip.io',
+      dwellir: 'wss://chainflip-rpc.dwellir.com'
     },
     text: 'Chainflip',
     ui: {
