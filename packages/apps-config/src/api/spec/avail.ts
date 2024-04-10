@@ -35,21 +35,6 @@ const definitions: OverrideBundleDefinition = {
         ],
         type: 'Vec<(U256, [u8; 48])>'
       },
-      queryAppData: {
-        description: 'Fetches app data rows for the given app',
-        params: [
-          {
-            name: 'app_id',
-            type: 'AppId'
-          },
-          {
-            name: 'at',
-            type: 'Hash',
-            isOptional: true
-          }
-        ],
-        type: 'Vec<Option<Vec<U256>>>'
-      },
       queryDataProof: {
         description: 'Generate the data proof for the given `transaction_index`',
         params: [
@@ -88,13 +73,13 @@ const definitions: OverrideBundleDefinition = {
       minmax: [0, undefined],
       types: {
         AppId: 'Compact<u32>',
-        DataLookupIndexItem: {
+        DataLookupItem: {
           appId: 'AppId',
           start: 'Compact<u32>'
         },
-        DataLookup: {
+        CompactDataLookup: {
           size: 'Compact<u32>',
-          index: 'Vec<DataLookupIndexItem>'
+          index: 'Vec<DataLookupItem>'
         },
         KateCommitment: {
           rows: 'Compact<u16>',
@@ -103,7 +88,7 @@ const definitions: OverrideBundleDefinition = {
           dataRoot: 'H256'
         },
         V3HeaderExtension: {
-          appLookup: 'DataLookup',
+          appLookup: 'CompactDataLookup',
           commitment: 'KateCommitment'
         },
         HeaderExtension: {
