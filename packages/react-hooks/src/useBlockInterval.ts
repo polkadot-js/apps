@@ -13,11 +13,11 @@ import { useApi } from './useApi.js';
 import { useCall } from './useCall.js';
 
 function useBlockIntervalImpl (apiOverride?: ApiPromise | null): BN {
-  let { api } = useApi();
+  const { api } = useApi();
 
-  api = apiOverride || api;
-  const blockTimeAura = useCall(api.call.auraApi?.slotDuration && api.call.auraApi.slotDuration, []);
-  const blockTimeBabe = useCall(api.call.babeApi?.configuration && api.call.babeApi.configuration, [], {
+  const currApi = apiOverride || api;
+  const blockTimeAura = useCall(currApi.call.auraApi?.slotDuration && currApi.call.auraApi.slotDuration, []);
+  const blockTimeBabe = useCall(currApi.call.babeApi?.configuration && currApi.call.babeApi.configuration, [], {
     transform: (data: BabeGenesisConfiguration | undefined) => data?.slotDuration
   });
 
