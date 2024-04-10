@@ -126,6 +126,7 @@ export const testRelayPaseo: EndpointOption = {
   ],
   providers: {
     Amforc: 'wss://paseo.rpc.amforc.com',
+    Dwellir: 'wss://paseo-rpc.dwellir.com',
     'IBP-GeoDNS1': 'wss://rpc.ibp.network/paseo',
     'IBP-GeoDNS2': 'wss://rpc.dotters.network/paseo'
     // 'light client': 'light://substrate-connect/paseo'
