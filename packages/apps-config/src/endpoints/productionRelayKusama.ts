@@ -956,6 +956,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     info: 'encointer',
     paraId: 1001,
     providers: {
+      Dwellir: 'wss://encointer-kusama-rpc.dwellir.com',
       'Encointer Association': 'wss://kusama.api.encointer.org',
       'IBP-GeoDNS1': 'wss://sys.ibp.network/encointer-kusama',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/encointer-kusama'
