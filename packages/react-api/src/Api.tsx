@@ -14,7 +14,7 @@ import store from 'store';
 
 import { ApiPromise, ScProvider, WsProvider } from '@polkadot/api';
 import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
-import { ethereumChains, typesBundle } from '@polkadot/apps-config';
+import { ethereumChains, injectExtensions, typesBundle } from '@polkadot/apps-config';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputConsts/units';
 import { useApiUrl, useEndpoint, useQueue } from '@polkadot/react-hooks';
@@ -309,17 +309,19 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store: keyringStore 
         statics.api.on('disconnected', () => setIsApiConnected(false));
         statics.api.on('error', onError);
         statics.api.on('ready', (): void => {
-          const injectedPromise = web3Enable('polkadot-js/apps');
+          injectExtensions().then(() => {
+            const injectedPromise = web3Enable('polkadot-js/apps');
 
-          injectedPromise
-            .then(setExtensions)
-            .catch(console.error);
+            injectedPromise
+              .then(setExtensions)
+              .catch(console.error);
 
-          const urlIsEthereum = !!location.href.includes('keyring-type=ethereum');
+            const urlIsEthereum = !!location.href.includes('keyring-type=ethereum');
 
-          loadOnReady(statics.api, apiEndpoint, injectedPromise, keyringStore, types, urlIsEthereum)
-            .then(setState)
-            .catch(onError);
+            loadOnReady(statics.api, apiEndpoint, injectedPromise, keyringStore, types, urlIsEthereum)
+              .then(setState)
+              .catch(onError);
+          }).catch(onError);
         });
 
         if (isLocalFork) {

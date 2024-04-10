@@ -3,6 +3,9 @@
 
 import type { Browser, Extension, Known } from './types.js';
 
+import { initPolkadotSnap } from '@chainsafe/metamask-polkadot-adapter/build/extension';
+import { catchError, firstValueFrom, from, of, timeout, zip } from 'rxjs';
+
 import { PolkadotJs } from './polkadot-js.js';
 
 // The list of known extensions including the links to tem on the store. This is
@@ -22,3 +25,13 @@ export const availableExtensions = Object
 
     return available;
   }, { chrome: [], firefox: [] });
+
+// Some extensions do not use `@polkadot/extension-inject` and need to be manually inject into a window context
+export function injectExtensions (): Promise<boolean[]> {
+  return firstValueFrom(zip([
+    initPolkadotSnap
+  ].map((method) => firstValueFrom(from(method({})).pipe(
+    timeout(1000), // timeout if method() doesn't resolve after 1s
+    catchError(() => of(false))
+  )))));
+}
