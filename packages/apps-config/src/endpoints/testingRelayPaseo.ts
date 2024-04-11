@@ -100,20 +100,21 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
 ];
 
 export const testParasPaseoCommon: EndpointOption[] = [
-  // {
-  //   info: 'PaseoAssetHub',
-  //   paraId: 1000,
-  //   providers: {
-  //     Dwellir: 'wss://paseo-asset-hub-rpc.dwellir.com',
-  //     Parity: 'wss://paseo-asset-hub-rpc.polkadot.io'
-  //   },
-  //   teleport: [-1],
-  //   text: 'AssetHub',
-  //   ui: {
-  //     color: '#77bb77',
-  //     logo: nodesAssetHubSVG
-  //   }
-  // }
+  {
+    info: 'PaseoAssetHub',
+    paraId: 1000,
+    providers: {
+      Dwellir: 'wss://paseo-asset-hub-rpc.dwellir.com',
+      Parity: 'wss://paseo-asset-hub-rpc.polkadot.io',
+      'IBP-GeoDNS2': 'wss://sys.dotters.network/asset-hub-paseo'
+    },
+    teleport: [-1],
+    text: 'AssetHub',
+    ui: {
+      color: '#77bb77',
+      logo: nodesAssetHubSVG
+    }
+  }
 ];
 
 export const testRelayPaseo: EndpointOption = {
