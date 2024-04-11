@@ -30,7 +30,7 @@ function calcInterval (api: ApiPromise): BN {
         ? api.consts.timestamp.minimumPeriod.mul(BN_TWO)
         : api.query.parachainSystem
           // default guess for a parachain
-          ? DEFAULT_TIME.mul(BN_TWO)
+          ? api.consts.aura?.slotDuration ?? DEFAULT_TIME.mul(BN_TWO)
           // default guess for others
           : DEFAULT_TIME
     )
