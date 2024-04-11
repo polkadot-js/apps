@@ -22,7 +22,7 @@ interface CreateOptions {
   tags?: string[];
 }
 
-export async function createLocalAccount (address: string, { name }: CreateOptions): Promise<ActionStatus> {
+export function createLocalAccount (address: string, { name }: CreateOptions): ActionStatus {
   const status = { action: 'create' } as ActionStatus;
 
   try {
@@ -51,7 +51,7 @@ function LocalAdd ({ className = '', onClose, onStatusChange }: Props): React.Re
       }
 
       const options = { name: name.trim() };
-      const status = await createLocalAccount(address, options);
+      const status = createLocalAccount(address, options);
 
       onStatusChange(status);
       onClose();
