@@ -1,15 +1,12 @@
 // Copyright 2017-2024 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Blockchain } from '@acala-network/chopsticks-core';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { ModalProps } from '../types.js';
 
-import { setStorage } from '@acala-network/chopsticks-core';
 import React, { useCallback, useState } from 'react';
 
 import { Button, Input, InputAddressSimple, Modal } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 
 import { useTranslation } from '../translate.js';
@@ -21,24 +18,15 @@ interface Props extends ModalProps {
 }
 
 interface CreateOptions {
-  balance: number;
   name: string;
   tags?: string[];
 }
 
-export async function createLocalAccount (chain: Blockchain, address: string, { balance, name }: CreateOptions): Promise<ActionStatus> {
+export async function createLocalAccount (address: string, { name }: CreateOptions): Promise<ActionStatus> {
   const status = { action: 'create' } as ActionStatus;
 
   try {
     keyring.addExternal(address, { isLocal: true, name, tags: ['local'] });
-
-    await setStorage(chain, {
-      System: {
-        Account: [
-          [[address], { data: { free: balance * 1e12 }, providers: 1 }]
-        ]
-      }
-    });
 
     status.account = address;
     status.status = 'success';
@@ -52,25 +40,23 @@ export async function createLocalAccount (chain: Blockchain, address: string, { 
 }
 
 function LocalAdd ({ className = '', onClose, onStatusChange }: Props): React.ReactElement<Props> {
-  const { fork: chain } = useApi();
   const { t } = useTranslation();
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [address, setAdress] = useState<string | null>(null);
-  const [balance, setBalance] = useState<string>('0');
 
   const _createLocalAccount = useCallback(
     async () => {
-      if (!address || !chain) {
+      if (!address) {
         return;
       }
 
-      const options = { balance: balance ? Number(balance) : 0, name: name.trim() };
-      const status = await createLocalAccount(chain, address, options);
+      const options = { name: name.trim() };
+      const status = await createLocalAccount(address, options);
 
       onStatusChange(status);
       onClose();
     },
-    [address, name, balance, chain, onClose, onStatusChange]
+    [address, name, onClose, onStatusChange]
   );
 
   const _onChangeName = useCallback(
@@ -103,17 +89,6 @@ function LocalAdd ({ className = '', onClose, onStatusChange }: Props): React.Re
             label={t('name')}
             onChange={_onChangeName}
             placeholder={t('local account name')}
-          />
-        </Modal.Columns>
-        <Modal.Columns hint={t('Optional. The balance for this account Default to 0.')}>
-          <Input
-            className='full'
-            label={t('balance')}
-            min={0}
-            onChange={setBalance}
-            placeholder={t('1000')}
-            type='number'
-            value={balance}
           />
         </Modal.Columns>
       </Modal.Content>
