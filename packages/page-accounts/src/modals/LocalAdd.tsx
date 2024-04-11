@@ -45,7 +45,7 @@ function LocalAdd ({ className = '', onClose, onStatusChange }: Props): React.Re
   const [address, setAdress] = useState<string | null>(null);
 
   const _createLocalAccount = useCallback(
-    async () => {
+    () => {
       if (!address) {
         return;
       }
