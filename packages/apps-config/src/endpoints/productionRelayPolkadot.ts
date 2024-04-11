@@ -308,9 +308,9 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'hashed',
     paraId: 2093,
     providers: {
-      'Hashed Systems 1': 'wss://c1.hashed.live',
+      'Hashed Systems 1': 'wss://c1.hashed.network',
       'Hashed Systems 2': 'wss://c2.hashed.network',
-      'Hashed Systems 3': 'wss://c3.hashed.live'
+      'Hashed Systems 3': 'wss://c3.hashed.network'
     },
     text: 'Hashed Network',
     ui: {
