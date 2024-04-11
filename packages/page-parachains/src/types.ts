@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, AuctionIndex, BalanceOf, BlockNumber, LeasePeriodOf, ParachainProposal, ParaId, SessionIndex } from '@polkadot/types/interfaces';
-import type { PolkadotParachainPrimitivesHrmpChannelId, PolkadotRuntimeCommonCrowdloanFundInfo, PolkadotRuntimeCommonParasRegistrarParaInfo, PolkadotRuntimeParachainsHrmpHrmpChannel } from '@polkadot/types/lookup';
+import type { PolkadotParachainPrimitivesPrimitivesHrmpChannelId, PolkadotRuntimeCommonCrowdloanFundInfo, PolkadotRuntimeCommonParasRegistrarParaInfo, PolkadotRuntimeParachainsHrmpHrmpChannel } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
-export type ChannelMap = Record<string, [PolkadotParachainPrimitivesHrmpChannelId, PolkadotRuntimeParachainsHrmpHrmpChannel][]>;
+export type ChannelMap = Record<string, [PolkadotParachainPrimitivesPrimitivesHrmpChannelId, PolkadotRuntimeParachainsHrmpHrmpChannel][]>;
 
 export interface AllChannels {
   dst: ChannelMap;
