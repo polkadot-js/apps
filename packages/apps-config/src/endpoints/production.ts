@@ -3,7 +3,7 @@
 
 import type { EndpointOption } from './types.js';
 
-import { chains3dpassSVG, chainsAlephSVG, chainsBittensorPNG, chainsChainflipPNG, chainsCreditcoinPNG, chainsDebioSVG, chainsFragnovaPNG, chainsJurPNG, chainsLiberlandPNG, chainsLogionPNG, chainsMyriadPNG, chainsSpannerPNG, chainsVaraPNG, chainsVtbPNG } from '../ui/logos/chains/index.js';
+import { chains3dpassSVG, chainsAlephSVG, chainsBittensorPNG, chainsChainflipPNG, chainsCreditcoinPNG, chainsDebioSVG, chainsFragnovaPNG, chainsJurPNG, chainsLiberlandPNG, chainsLogionPNG, chainsMyriadPNG, chainsSpannerPNG, chainsTanglePNG, chainsVaraPNG, chainsVtbPNG } from '../ui/logos/chains/index.js';
 import { nodesAresOdysseySVG, nodesAutomataPNG, nodesCentrifugePNG, nodesCereSVG, nodesChainxSVG, nodesCompetitorsClubPNG, nodesCrownSterlingPNG, nodesCrustSVG, nodesDatahighwayPNG, nodesDockPNG, nodesEdgewareWhitePNG, nodesEfinitySVG, nodesHanyonycashPNG, nodesHumanodePNG, nodesInnovatorPNG, nodesJoystreamSVG, nodesKulupuSVG, nodesKusariSVG, nodesMathSVG, nodesMinixPNG, nodesNftmartPNG, nodesNodleSVG, nodesPolkadexSVG, nodesPolymeshSVG, nodesRiochainSVG, nodesRobonomicsSVG, nodesSherpaxPNG, nodesSoraSubstrateSVG, nodesStafiPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesSwapdexSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesUniartsPNG, nodesUnitnetworkPNG } from '../ui/logos/nodes/index.js';
 
 export * from './productionRelayKusama.js';
@@ -113,7 +113,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'chainflip',
     providers: {
-      chainflip: 'wss://mainnet-archive.chainflip.io'
+      chainflip: 'wss://mainnet-archive.chainflip.io',
+      dwellir: 'wss://chainflip-rpc.dwellir.com'
     },
     text: 'Chainflip',
     ui: {
@@ -532,6 +533,17 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    info: 'tangle',
+    providers: {
+      Webb: 'wss://rpc.tangle.tools'
+    },
+    text: 'Tangle',
+    ui: {
+      color: '#7578fb',
+      logo: chainsTanglePNG
+    }
+  },
+  {
     info: 'ternoa',
     providers: {
       CapsuleCorp: 'wss://mainnet.ternoa.network' // https://github.com/polkadot-js/apps/issues/10172
@@ -568,7 +580,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'vara',
     providers: {
       Blast: 'wss://vara-mainnet.public.blastapi.io',
-      Gear: 'wss://rpc.vara.network'
+      Gear: 'wss://rpc.vara.network',
+      dPRC: 'wss://vara.drpc.org'
     },
     text: 'Vara',
     ui: {
