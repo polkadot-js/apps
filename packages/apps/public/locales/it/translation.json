@@ -1776,6 +1776,7 @@
   "rpc.pontem": "",
   "rpc.prod.centrifuge": "",
   "rpc.prod.chainx": "",
+  "rpc.prod.continuum": "",
   "rpc.prod.crab": "",
   "rpc.prod.crust": "",
   "rpc.prod.darwinia": "",

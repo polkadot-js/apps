@@ -11,6 +11,6 @@ jobs:
     steps:
       - uses: jacogr/action-approve@795afd1dd096a2071d7ec98740661af4e853b7da
         with:
-          authors: jacogr
+          authors: jacogr, TarikGul
           labels: -auto
           token: ${{ secrets.GH_PAT_BOT }}
