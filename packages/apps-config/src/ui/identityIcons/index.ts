@@ -18,7 +18,8 @@ export const identitySpec: Record<string, string> = [
   ['kusama', 'polkadot'],
   ['polkadot', 'polkadot'],
   ['rococo', 'polkadot'],
-  ['westend', 'polkadot']
+  ['westend', 'polkadot'],
+  ['paseo', 'polkadot']
 ].reduce((icons, [spec, icon]): Record<string, string> => ({
   ...icons,
   [spec.toLowerCase().replace(/-/g, ' ')]: icon

@@ -80,6 +80,7 @@ import mathchain from './mathchain.js';
 import moonbeam from './moonbeam.js';
 import muse from './muse.js';
 import mybank from './mybank.js';
+import mythos from './mythos.js';
 import neatcoin from './neatcoin.js';
 import neuroweb from './neuroweb.js';
 import nftmart from './nftmart.js';
@@ -177,11 +178,13 @@ const spec: Record<string, OverrideBundleDefinition> = {
   coinversation,
   'competitors-club': competitorsClub,
   contextfree: automata,
+  'continuum-runtime': bitcountryPioneer,
   contracts,
   'crown-sterling': crownSterlingChain,
   crust,
   'crust-parachain': crust,
   'cumulus-test-parachain': testPara,
+  'curio-mainnet': curio,
   'curio-testnet': curio,
   datahighway: westlake,
   'datahighway-parachain': datahighwayParachain,
@@ -201,7 +204,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'ferrum-parachain': ferrum,
   foucoco: pendulum,
   frequency,
-  'frequency-rococo': frequency,
+  'frequency-testnet': frequency,
   galital,
   'galital-collator': galitalParachain,
   gamepower,
@@ -244,6 +247,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   moonshadow: moonbeam,
   muse,
   'mybank.network Testnet': mybank,
+  mythos,
   neatcoin,
   neuroweb,
   nftmart,

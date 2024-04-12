@@ -15,7 +15,11 @@ interface Props {
 
 function Item ({ className, collectionName, value: { account, id, ipfsData } }: Props): React.ReactElement<Props> {
   const name = ipfsData?.name || collectionName;
-  const imageLink = ipfsData?.image ? `https://ipfs.io/ipfs/${ipfsData.image}` : '';
+  let imageLink = '';
+
+  if (ipfsData?.image) {
+    imageLink = ipfsData.image.toLowerCase().startsWith('http') ? ipfsData.image : `https://ipfs.io/ipfs/${ipfsData.image}`;
+  }
 
   return (
     <tr className={className}>
