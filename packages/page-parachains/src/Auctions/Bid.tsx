@@ -101,7 +101,7 @@ function Bid ({ auctionInfo, className, lastWinners, ownedIds }: Props): React.R
             </Modal.Columns>
             <Modal.Columns hint={
               <>
-                <p>{t('The amount to to bid for this parachain lease period range.')}</p>
+                <p>{t('The amount to bid for this parachain lease period range.')}</p>
                 <p>{t('The bid should be more than the current range winner to be accepted and influence the auction outcome.')}</p>
               </>
             }

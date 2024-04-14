@@ -5,7 +5,7 @@ import type { EndpointOption } from './types.js';
 
 import { POLKADOT_GENESIS } from '../api/constants.js';
 import { chainsAcalaSVG, chainsBitgreenPNG, chainsComposableFinancePNG, chainsEquilibriumSVG, chainsFrequencySVG, chainsGeminisPNG, chainsInvarchJPEG, chainsLogionPNG, chainsNeurowebPNG, chainsOakPNG, chainsPeaqPNG, chainsPendulumSVG, chainsPolkadotCircleSVG, chainsSnakenetSVG, chainsTotemSVG, chainsWatrPNG } from '../ui/logos/chains/index.js';
-import { nodesAjunaPNG, nodesAresOdysseySVG, nodesAssetHubSVG, nodesAstarPNG, nodesAventusSVG, nodesBifrostSVG, nodesBridgeHubSVG, nodesCentrifugePNG, nodesCloverSVG, nodesCoinversationPNG, nodesContinuumPNG, nodesCrustParachainSVG, nodesDarwiniaSVG, nodesEfinitySVG, nodesEwxSVG, nodesHashedPNG, nodesHyperbridgeSVG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKiltPNG, nodesKylinPNG, nodesLitentryPNG, nodesMantaPNG, nodesMoonbeamSVG, nodesMoonsamaSVG, nodesNodleSVG, nodesOmnibtcSVG, nodesParallelSVG, nodesPhalaSVG, nodesPolimecSVG, nodesPolkadexSVG, nodesSoraSubstrateSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesT3rnPNG, nodesUniqueSVG, nodesZeitgeistPNG } from '../ui/logos/nodes/index.js';
+import { nodesAjunaPNG, nodesAresOdysseySVG, nodesAssetHubSVG, nodesAstarPNG, nodesAventusSVG, nodesBifrostSVG, nodesBridgeHubSVG, nodesCentrifugePNG, nodesCloverSVG, nodesCoinversationPNG, nodesContinuumPNG, nodesCrustParachainSVG, nodesDarwiniaSVG, nodesEfinitySVG, nodesEwxSVG, nodesHashedPNG, nodesHyperbridgeSVG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKiltPNG, nodesKylinPNG, nodesLitentryPNG, nodesMantaPNG, nodesMoonbeamSVG, nodesMoonsamaSVG, nodesMythosPNG, nodesNodleSVG, nodesOmnibtcSVG, nodesParallelSVG, nodesPhalaSVG, nodesPolimecSVG, nodesPolkadexSVG, nodesSoraSubstrateSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesT3rnPNG, nodesUniqueSVG, nodesZeitgeistPNG } from '../ui/logos/nodes/index.js';
 import { getTeleports } from './util.js';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -286,7 +286,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     },
     text: 'Frequency',
     ui: {
-      color: '#4b64ff',
+      color: '#00b6af',
       logo: chainsFrequencySVG
     }
   },
@@ -308,9 +308,9 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'hashed',
     paraId: 2093,
     providers: {
-      'Hashed Systems 1': 'wss://c1.hashed.live',
+      'Hashed Systems 1': 'wss://c1.hashed.network',
       'Hashed Systems 2': 'wss://c2.hashed.network',
-      'Hashed Systems 3': 'wss://c3.hashed.live'
+      'Hashed Systems 3': 'wss://c3.hashed.network'
     },
     text: 'Hashed Network',
     ui: {
@@ -524,6 +524,19 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://mythos.foundation/',
+    info: 'mythos',
+    paraId: 3369,
+    providers: {
+      parity: 'wss://polkadot-mythos-rpc.polkadot.io'
+    },
+    text: 'Mythos',
+    ui: {
+      color: '#262528',
+      logo: nodesMythosPNG
+    }
+  },
+  {
     homepage: 'https://neuroweb.ai',
     info: 'neuroweb',
     paraId: 2043,
@@ -538,22 +551,11 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://neuroweb.ai',
-    info: 'neuroweb',
-    paraId: 3360,
-    providers: {},
-    text: 'NeuroWeb',
-    ui: {
-      color: '#000000',
-      logo: chainsNeurowebPNG
-    }
-  },
-  {
     homepage: 'https://nodle.com',
     info: 'nodle',
     paraId: 2026,
     providers: {
-      Dwellir: 'wss://eden-rpc.dwellir.com',
+      Dwellir: 'wss://nodle-rpc.dwellir.com',
       OnFinality: 'wss://nodle-parachain.api.onfinality.io/public-ws'
     },
     text: 'Nodle',
@@ -620,7 +622,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'pendulum',
     paraId: 2094,
     providers: {
-      Dwellir: 'wss://pendulum-rpc.dwellir.com',
+      // Dwellir: 'wss://pendulum-rpc.dwellir.com',
       PendulumChain: 'wss://rpc-pendulum.prd.pendulumchain.tech'
     },
     text: 'Pendulum',
@@ -638,7 +640,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       Helikon: 'wss://rpc.helikon.io/phala',
       OnFinality: 'wss://phala.api.onfinality.io/public-ws',
       Phala: 'wss://api.phala.network/ws',
-      RadiumBlock: 'wss://phala.public.curie.radiumblock.co/ws'
+      RadiumBlock: 'wss://phala.public.curie.radiumblock.co/ws',
+      Rockx: 'wss://rockx-phala.w3node.com/polka-public-phala/ws'
     },
     text: 'Phala Network',
     ui: {
@@ -651,12 +654,13 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'polimec',
     paraId: 3344,
     providers: {
+      Amforc: 'wss://polimec.rpc.amforc.com',
       Helikon: 'wss://rpc.helikon.io/polimec',
       'Polimec Foundation': 'wss://rpc.polimec.org'
     },
     text: 'Polimec',
     ui: {
-      color: '#caffa0',
+      color: '#25311C',
       logo: nodesPolimecSVG
     }
   },
@@ -843,6 +847,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       RadiumBlock: 'wss://bridgehub-polkadot.public.curie.radiumblock.co/ws',
       Stakeworld: 'wss://dot-rpc.stakeworld.io/bridgehub'
     },
+    teleport: [-1],
     text: 'BridgeHub',
     ui: {
       logo: nodesBridgeHubSVG
@@ -881,7 +886,7 @@ export const prodRelayPolkadot: EndpointOption = {
   ],
   providers: {
     // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
-    'Automata 1RPC': 'wss://1rpc.io/dot',
+    // 'Automata 1RPC': 'wss://1rpc.io/dot',
     Blockops: 'wss://polkadot-public-rpc.blockops.network/ws', // https://github.com/polkadot-js/apps/issues/9840
     Dwellir: 'wss://polkadot-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://polkadot-rpc-tn.dwellir.com',
