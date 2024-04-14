@@ -13,43 +13,31 @@ const definitions: OverrideBundleDefinition = {
         description: 'Get the list of active validators',
         params: [],
         type: 'Vec<AccountId>',
-        method: 'activeValidators',
-        section: 'validatormanager'
       },
       currentMaintenanceIndex: {
         description: 'Get current maintenance index',
         params: [],
         type: 'MaintenanceIndex',
-        method: 'currentMaintenanceIndex',
-        section: 'validatormanager'
       },
       nextMaintenanceIndex: {
         description: 'Get next maintenance index',
         params: [],
         type: 'MaintenanceIndex',
-        method: 'nextMaintenanceIndex',
-        section: 'validatormanager'
       },
       offenceValidators: {
         description: 'Get the list of active validators who made the offence',
         params: [],
         type: 'Vec<(AccountId, AuthIndex)>',
-        method: 'offenceValidators',
-        section: 'validatormanager'
       },
       offlineValidators: {
         description: 'Get the list of active validators who went offline',
         params: [],
         type: 'Vec<(AccountId, AuthIndex)>',
-        method: 'offlineValidators',
-        section: 'validatormanager'
       },
       validatorsPool: {
         description: 'Get the list of validator candidates',
         params: [],
         type: 'Vec<AccountId>',
-        method: 'validatorsPool',
-        section: 'validatormanager'
       }
     }
   },
