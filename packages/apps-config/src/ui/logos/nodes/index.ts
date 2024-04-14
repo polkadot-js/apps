@@ -113,6 +113,7 @@ export { nodesPangolinSVG } from './generated/pangolinSVG.js';
 export { nodesPangoroSVG } from './generated/pangoroSVG.js';
 export { nodesParallelSVG } from './generated/parallelSVG.js';
 export { nodesParamiJPEG } from './generated/paramiJPEG.js';
+export { nodesPeerplaysPNG } from './generated/peerplaysPNG.js';
 export { nodesPhalaSVG } from './generated/phalaSVG.js';
 export { nodesPhoenixPNG } from './generated/phoenixPNG.js';
 export { nodesPhykenNetworkPNG } from './generated/phyken-networkPNG.js';
