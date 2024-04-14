@@ -13,7 +13,6 @@ const definitions: OverrideBundleDefinition = {
         description: 'Get the list of active validators',
         params: [],
         type: 'Vec<AccountId>',
-        isSubscription: false,
         jsonrpc: 'validatormanager_activeValidators',
         method: 'activeValidators',
         section: 'validatormanager'
@@ -22,7 +21,6 @@ const definitions: OverrideBundleDefinition = {
         description: 'Get current maintenance index',
         params: [],
         type: 'MaintenanceIndex',
-        isSubscription: false,
         jsonrpc: 'validatormanager_currentMaintenanceIndex',
         method: 'currentMaintenanceIndex',
         section: 'validatormanager'
@@ -31,7 +29,6 @@ const definitions: OverrideBundleDefinition = {
         description: 'Get next maintenance index',
         params: [],
         type: 'MaintenanceIndex',
-        isSubscription: false,
         jsonrpc: 'validatormanager_nextMaintenanceIndex',
         method: 'nextMaintenanceIndex',
         section: 'validatormanager'
@@ -40,7 +37,6 @@ const definitions: OverrideBundleDefinition = {
         description: 'Get the list of active validators who made the offence',
         params: [],
         type: 'Vec<(AccountId, AuthIndex)>',
-        isSubscription: false,
         jsonrpc: 'validatormanager_offenceValidators',
         method: 'offenceValidators',
         section: 'validatormanager'
@@ -49,7 +45,6 @@ const definitions: OverrideBundleDefinition = {
         description: 'Get the list of active validators who went offline',
         params: [],
         type: 'Vec<(AccountId, AuthIndex)>',
-        isSubscription: false,
         jsonrpc: 'validatormanager_offlineValidators',
         method: 'offlineValidators',
         section: 'validatormanager'
@@ -58,7 +53,6 @@ const definitions: OverrideBundleDefinition = {
         description: 'Get the list of validator candidates',
         params: [],
         type: 'Vec<AccountId>',
-        isSubscription: false,
         jsonrpc: 'validatormanager_validatorsPool',
         method: 'validatorsPool',
         section: 'validatormanager'
