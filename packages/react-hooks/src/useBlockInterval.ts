@@ -6,11 +6,11 @@ import type { BabeGenesisConfiguration } from '@polkadot/types/interfaces/babe';
 
 import { useMemo } from 'react';
 
-import { A_DAY } from '@polkadot/react-hooks/useBlocksPerDays';
 import { BN, BN_THOUSAND, BN_TWO, bnMin } from '@polkadot/util';
 
 import { createNamedHook } from './createNamedHook.js';
 import { useApi } from './useApi.js';
+import { A_DAY } from './useBlocksPerDays.js';
 import { useCall } from './useCall.js';
 
 // Some chains incorrectly use these, i.e. it is set to values such as 0 or even 2
