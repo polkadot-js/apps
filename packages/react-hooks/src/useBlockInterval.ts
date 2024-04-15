@@ -43,7 +43,7 @@ function useBlockIntervalImpl (apiOverride?: ApiPromise | null): BN {
   const { api } = useApi();
 
   const currApi = apiOverride || api;
-  const blockTimeAura = useCall(currApi.call.auraApi?.slotDuration && currApi.call.auraApi.slotDuration, []);
+  const blockTimeAura = useCall<BN>(currApi.call.auraApi?.slotDuration && currApi.call.auraApi.slotDuration, []);
   const blockTimeBabe = useCall(currApi.call.babeApi?.configuration && currApi.call.babeApi.configuration, [], {
     transform: (data: BabeGenesisConfiguration | undefined) => data?.slotDuration
   });
@@ -51,7 +51,7 @@ function useBlockIntervalImpl (apiOverride?: ApiPromise | null): BN {
   return useMemo(
     () => (blockTimeAura || blockTimeBabe) ?? calcInterval(currApi),
     [blockTimeAura, blockTimeBabe, currApi]
-  ) as BN;
+  );
 }
 
 export const useBlockInterval = createNamedHook('useBlockInterval', useBlockIntervalImpl);
