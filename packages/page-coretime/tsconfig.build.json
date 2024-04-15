@@ -6,8 +6,8 @@
     "rootDir": "./src"
   },
   "references": [
-    { "path": "../apps-config/tsconfig.build.json" },
-    { "path": "../page-explorer/tsconfig.build.json" },
+    { "path": "../react-api/tsconfig.xref.json" },
+    { "path": "../react-hooks/tsconfig.build.json" },
     { "path": "../react-components/tsconfig.build.json" }
   ]
 }
