@@ -1,8 +1,8 @@
 // Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PalletBrokerScheduleItem, PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor } from '@polkadot/types/lookup';
 import type { u32, u128 } from '@polkadot/types';
+import type { PalletBrokerScheduleItem, PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor } from '@polkadot/types/lookup';
 
 export interface CoreWorkloadInfo {
   core: number;

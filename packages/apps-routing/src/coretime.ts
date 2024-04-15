@@ -11,7 +11,7 @@ export default function create (t: TFunction): Route {
     display: {
       needsApi: [
         ['query.broker.status',
-        'query.coretimeAssignmentProvider.coreDescriptors']
+          'query.coretimeAssignmentProvider.coreDescriptors']
       ],
       needsApiInstances: true
     },

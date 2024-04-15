@@ -8,10 +8,10 @@ import React, { useMemo, useState } from 'react';
 import { Button, Columar, Dropdown } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate.js';
+import CoreDescriptors from './CoreDescriptors.js';
 import Summary from './Summary.js';
 import Workloads from './Workloads.js';
 import Workplans from './Workplans.js';
-import CoreDescriptors from './CoreDescriptors.js';
 
 interface Props {
   className?: string;
@@ -21,7 +21,7 @@ interface Props {
   relay?: boolean;
 }
 
-function uniqByForEach(array: CoreWorkplanInfo[] | undefined) {
+function uniqByForEach (array: CoreWorkplanInfo[] | undefined) {
   const workplanCores: number[] = [];
   const workplanTS: number[] = [];
 
@@ -42,98 +42,93 @@ function uniqByForEach(array: CoreWorkplanInfo[] | undefined) {
   }
 }
 
-function Overview({ className, workloadInfos, workplanInfos, coreInfos, relay }: Props): React.ReactElement<Props> {
+function Overview ({ className, coreInfos, relay, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const [workloadCoreSelected, setWorkloadCoreSelected] = useState(-1);
+  const [workplanCoreSelected, setWorkplanCoreSelected] = useState(-1);
+  const [workplanSliceSelected, setWorkplanSliceSelected] = useState(-1);
+  const workloadCores = workloadInfos?.length;
+
+  const coreArr: number[] = useMemo(() => [], []);
+
+  const len = workloadCores || 0;
+
+  Array(len).fill(0).map((_, index) => coreArr.push(index));
+
+  const { workplanCores, workplanTS } = uniqByForEach(workplanInfos);
+
+  workplanCores?.sort((a, b) => a - b);
+  workplanTS?.sort((a, b) => a - b);
+
+  const workloadCoreOpts = useMemo(
+    () => [{ text: t('All active/available cores'), value: -1 }].concat(
+      coreArr
+        .map((c) => ({
+          text: `Core ${c}`,
+          value: c
+        }))
+        .filter((v): v is { text: string, value: number } => !!v.text)
+    ),
+    [coreArr, t]
+  );
+  const filteredWLC = useMemo(
+    () => {
+      return workloadCoreSelected === -1 ? workloadInfos : workloadInfos?.filter(({ core }) => core === workloadCoreSelected);
+    },
+    [workloadInfos, workloadCoreSelected]
+  );
+  const workplanCoreOpts = useMemo(
+    () => [{ text: t('All scehduled cores'), value: -1 }].concat(
+      workplanCores
+        .map((c) => ({
+          text: `Core ${c}`,
+          value: c
+        }))
+        .filter((v): v is { text: string, value: number } => !!v.text)
+    ),
+    [workplanCores, t]
+  );
+
+  const filteredWorkplan = useMemo(
+    () => {
+      if (workplanCoreSelected === workplanSliceSelected) {
+        return workplanInfos;
+      } else if (workplanCoreSelected === -1) {
+        return workplanInfos?.filter(({ timeslice }) => timeslice === workplanSliceSelected);
+      } else if (workplanSliceSelected === -1) {
+        return workplanInfos?.filter(({ core }) => core === workplanCoreSelected);
+      } else {
+        return workplanInfos?.filter(({ core, timeslice }) => core === workplanCoreSelected && timeslice === workplanSliceSelected);
+      }
+    }
+    ,
+    [workplanInfos, workplanCoreSelected, workplanSliceSelected]
+  );
+
+  const workplanTSOpts = useMemo(
+    () => [{ text: t('All available slices'), value: -1 }].concat(
+      workplanTS
+        .map((ts) => ({
+          text: `Timeslice ${ts}`,
+          value: ts
+        }))
+        .filter((v): v is { text: string, value: number } => !!v.text)
+    ),
+    [workplanTS, t]
+  );
 
   if (relay) {
-
     return (
       <div className={className}>
         <Summary relay={relay}></Summary>
         <Columar>
           <Columar.Column>
-            <CoreDescriptors coreInfos={coreInfos}
-            />
+            <CoreDescriptors coreInfos={coreInfos} />
           </Columar.Column>
         </Columar>
       </div>
     );
-
   } else {
-    const [workloadCoreSelected, setWorkloadCoreSelected] = useState(-1);
-    const [workplanCoreSelected, setWorkplanCoreSelected] = useState(-1);
-    const [workplanSliceSelected, setWorkplanSliceSelected] = useState(-1);
-
-    const workloadCores = workloadInfos?.length;
-
-    const coreArr: number[] = useMemo(() => [], []);
-
-    const len = workloadCores || 0;
-
-    Array(len).fill(0).map((_, index) => coreArr.push(index));
-
-    const { workplanCores, workplanTS } = uniqByForEach(workplanInfos);
-
-    workplanCores?.sort((a, b) => a - b);
-    workplanTS?.sort((a, b) => a - b);
-
-    const workloadCoreOpts = useMemo(
-      () => [{ text: t('All active/available cores'), value: -1 }].concat(
-        coreArr
-          .map((c) => ({
-            text: `Core ${c}`,
-            value: c
-          }))
-          .filter((v): v is { text: string, value: number } => !!v.text)
-      ),
-      [coreArr, t]
-    );
-    const filteredWLC = useMemo(
-      () => {
-        return workloadCoreSelected === -1 ? workloadInfos : workloadInfos?.filter(({ core }) => core === workloadCoreSelected);
-      },
-      [workloadInfos, workloadCoreSelected]
-    );
-    const workplanCoreOpts = useMemo(
-      () => [{ text: t('All scehduled cores'), value: -1 }].concat(
-        workplanCores
-          .map((c) => ({
-            text: `Core ${c}`,
-            value: c
-          }))
-          .filter((v): v is { text: string, value: number } => !!v.text)
-      ),
-      [workplanCores, t]
-    );
-
-    const filteredWorkplan = useMemo(
-      () => {
-        if (workplanCoreSelected === workplanSliceSelected) {
-          return workplanInfos;
-        } else if (workplanCoreSelected === -1) {
-          return workplanInfos?.filter(({ timeslice }) => timeslice === workplanSliceSelected);
-        } else if (workplanSliceSelected === -1) {
-          return workplanInfos?.filter(({ core }) => core === workplanCoreSelected);
-        } else {
-          return workplanInfos?.filter(({ core, timeslice }) => core === workplanCoreSelected && timeslice === workplanSliceSelected);
-        }
-      }
-      ,
-      [workplanInfos, workplanCoreSelected, workplanSliceSelected]
-    );
-
-    const workplanTSOpts = useMemo(
-      () => [{ text: t('All available slices'), value: -1 }].concat(
-        workplanTS
-          .map((ts) => ({
-            text: `Timeslice ${ts}`,
-            value: ts
-          }))
-          .filter((v): v is { text: string, value: number } => !!v.text)
-      ),
-      [workplanTS, t]
-    );
-
     return (
       <div className={className}>
         <Summary></Summary>
@@ -175,8 +170,6 @@ function Overview({ className, workloadInfos, workplanInfos, coreInfos, relay }:
       </div>
     );
   }
-
-
 }
 
 export default React.memo(Overview);

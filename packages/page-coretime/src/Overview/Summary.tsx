@@ -7,37 +7,42 @@ import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
+import useQueueStatus from '../useQueueStatus.js';
+import BrokerId from './BrokerId.js';
 import Cores from './Cores.js';
 import Pools from './Pools.js';
-import Timeslice from './Timeslice.js';
-import BrokerId from './BrokerId.js';
 import QueueStatus from './QueueStatus.js';
-import useQueueStatus from '../useQueueStatus.js';
+import Timeslice from './Timeslice.js';
 
 interface Props {
   relay?: boolean;
 }
-function Summary({ relay }: Props): React.ReactElement {
+
+function Summary ({ relay }: Props): React.ReactElement {
   const { t } = useTranslation();
   const { api } = useApi();
+  const queueStatus = useQueueStatus();
 
   if (relay) {
-    const queueStatus = useQueueStatus();
     return (
       <SummaryBox>
-        <section >
+        <section>
           {api.query.coretimeAssignmentProvider && (
             <>
               <CardSummary label={t('broker Id')}>
                 <BrokerId />
               </CardSummary>
               <CardSummary label={t('traffic')}>
-                <QueueStatus value={queueStatus} 
-                query={'traffic'}/>
+                <QueueStatus
+                  query={'traffic'}
+                  value={queueStatus}
+                />
               </CardSummary>
               <CardSummary label={t('next index')}>
-              <QueueStatus value={queueStatus} 
-                query={'nextIndex'}/>
+                <QueueStatus
+                  query={'nextIndex'}
+                  value={queueStatus}
+                />
               </CardSummary>
             </>
 
@@ -48,7 +53,7 @@ function Summary({ relay }: Props): React.ReactElement {
   } else {
     return (
       <SummaryBox>
-        <section >
+        <section>
           {api.query.broker && (
             <>
               <CardSummary label={t('current timeslice')}>
@@ -67,8 +72,6 @@ function Summary({ relay }: Props): React.ReactElement {
       </SummaryBox>
     );
   }
-
-
 }
 
 export default React.memo(Summary);

@@ -9,32 +9,35 @@ interface Props {
   value?: PolkadotRuntimeParachainsAssignerCoretimeWorkState;
 }
 
-function CurrentWork({ value }: Props): React.ReactElement<Props> {
+function CurrentWork ({ value }: Props): React.ReactElement<Props> {
   const assignments: string[] = [];
+
   if (value) {
     if (value.assignments.length > 1) {
-      value.assignments.map((_, index) => {
+      value.assignments.forEach((_, index) => {
         const ratio = value.assignments[index][1].ratio.toNumber() / 57600 * 100;
+
         if (value.assignments[index][0].isIdle) {
-          assignments.push(`${ratio}% Idle`)
+          assignments.push(`${ratio}% Idle`);
         } else if (value.assignments[index][0].isPool) {
-          assignments.push(`${ratio}% Pool`)
+          assignments.push(`${ratio}% Pool`);
         } else {
-          assignments.push(`${ratio}% Task: ${value.assignments[index][0].asTask.toString()}`)
+          assignments.push(`${ratio}% Task: ${value.assignments[index][0].asTask.toString()}`);
         }
       }
-      )
+      );
+
       return (
         <td className='start media--1300'>{assignments.join(', ')}</td>
       );
     } else {
       if (value.assignments[0][0].isIdle) {
         return (
-          <td className='start media--1300'>{`100% Idle`}</td>
+          <td className='start media--1300'>{'100% Idle'}</td>
         );
       } else if (value.assignments[0][0].isPool) {
         return (
-          <td className='start media--1300'>{`100% Pool`}</td>
+          <td className='start media--1300'>{'100% Pool'}</td>
         );
       } else {
         return (
@@ -42,11 +45,10 @@ function CurrentWork({ value }: Props): React.ReactElement<Props> {
         );
       }
     }
-
   } else {
     return (
       <td className='start media--1300'>{'Queue empty'}</td>
-    )
+    );
   }
 }
 
