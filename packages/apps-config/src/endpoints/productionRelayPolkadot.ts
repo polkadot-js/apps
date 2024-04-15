@@ -308,9 +308,9 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'hashed',
     paraId: 2093,
     providers: {
-      'Hashed Systems 1': 'wss://c1.hashed.live',
+      'Hashed Systems 1': 'wss://c1.hashed.network',
       'Hashed Systems 2': 'wss://c2.hashed.network',
-      'Hashed Systems 3': 'wss://c3.hashed.live'
+      'Hashed Systems 3': 'wss://c3.hashed.network'
     },
     text: 'Hashed Network',
     ui: {
@@ -544,17 +544,6 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       Dwellir: 'wss://origintrail-rpc.dwellir.com',
       TraceLabs: 'wss://parachain-rpc.origin-trail.network'
     },
-    text: 'NeuroWeb',
-    ui: {
-      color: '#000000',
-      logo: chainsNeurowebPNG
-    }
-  },
-  {
-    homepage: 'https://neuroweb.ai',
-    info: 'neuroweb',
-    paraId: 3360,
-    providers: {},
     text: 'NeuroWeb',
     ui: {
       color: '#000000',
