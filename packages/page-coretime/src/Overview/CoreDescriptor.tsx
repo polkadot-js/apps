@@ -1,8 +1,8 @@
 // Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CoreDescription } from '@polkadot/react-hooks/types';
 import type { PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor } from '@polkadot/types/lookup';
-import type { CoreDescription } from '../types.js';
 
 import React from 'react';
 

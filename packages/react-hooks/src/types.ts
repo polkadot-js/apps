@@ -6,9 +6,9 @@ import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/api-derive/types';
 import type { DisplayedJudgement } from '@polkadot/react-components/types';
-import type { u128 } from '@polkadot/types';
+import type { u32, u128 } from '@polkadot/types';
 import type { AccountId, BlockNumber, Call, Exposure, Hash, SessionIndex, ValidatorPrefs } from '@polkadot/types/interfaces';
-import type { PalletPreimageRequestStatus, PalletStakingRewardDestination, PalletStakingStakingLedger } from '@polkadot/types/lookup';
+import type { PalletBrokerScheduleItem, PalletPreimageRequestStatus, PalletStakingRewardDestination, PalletStakingStakingLedger, PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor } from '@polkadot/types/lookup';
 import type { ICompact, IExtrinsic, INumber, Registry } from '@polkadot/types/types';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { BN } from '@polkadot/util';
@@ -212,4 +212,27 @@ export interface V2WeightConstruct {
 export interface WeightResult {
   v1Weight: BN;
   v2Weight: V2WeightConstruct;
+}
+
+export interface CoreDescription {
+  core: number;
+  info: PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor[];
+}
+
+export interface OnDemandQueueStatus {
+  traffic: u128;
+  nextIndex: u32;
+  smallestIndex: u32;
+  freedIndices: [string, u32][];
+}
+
+export interface CoreWorkloadInfo {
+  core: number;
+  info: PalletBrokerScheduleItem[];
+}
+
+export interface CoreWorkplanInfo {
+  timeslice: number;
+  core: number;
+  info: PalletBrokerScheduleItem[];
 }

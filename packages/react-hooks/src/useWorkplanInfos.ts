@@ -3,7 +3,7 @@
 
 import type { Option, StorageKey, u16, u32, Vec } from '@polkadot/types';
 import type { PalletBrokerScheduleItem } from '@polkadot/types/lookup';
-import type { CoreWorkplanInfo } from '../../page-coretime/src/types.js';
+import type { CoreWorkplanInfo } from './types.js';
 
 import { useEffect, useState } from 'react';
 
@@ -46,4 +46,4 @@ function useWorkplanInfosImpl (): CoreWorkplanInfo[] | undefined {
   return state;
 }
 
-export default createNamedHook('useWorkplanInfos', useWorkplanInfosImpl);
+export const useWorkplanInfos = createNamedHook('useWorkplanInfos', useWorkplanInfosImpl);

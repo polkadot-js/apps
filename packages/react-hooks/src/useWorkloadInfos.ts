@@ -4,7 +4,7 @@
 import type { StorageKey, u32, Vec } from '@polkadot/types';
 import type { PalletBrokerScheduleItem } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { CoreWorkloadInfo } from '../../page-coretime/src/types.js';
+import type { CoreWorkloadInfo } from './types.js';
 
 import { useEffect, useState } from 'react';
 
@@ -41,4 +41,4 @@ function useWorkloadInfosImpl (): CoreWorkloadInfo[] | undefined {
   return state;
 }
 
-export default createNamedHook('useWorkloadInfos', useWorkloadInfosImpl);
+export const useWorkloadInfos = createNamedHook('useWorkloadInfos', useWorkloadInfosImpl);

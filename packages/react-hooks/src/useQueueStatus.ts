@@ -1,7 +1,7 @@
 // Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { OnDemandQueueStatus } from '../../page-coretime/src/types.js';
+import type { OnDemandQueueStatus } from './types.js';
 
 import { useEffect, useState } from 'react';
 
@@ -33,4 +33,4 @@ function useQueueStatusImpl (): OnDemandQueueStatus | undefined {
   return state;
 }
 
-export default createNamedHook('useQueueStatus', useQueueStatusImpl);
+export const useQueueStatus = createNamedHook('useQueueStatus', useQueueStatusImpl);

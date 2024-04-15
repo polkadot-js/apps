@@ -1,7 +1,7 @@
 // Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CoreDescription, CoreWorkloadInfo, CoreWorkplanInfo } from '../types.js';
+import type { CoreDescription, CoreWorkloadInfo, CoreWorkplanInfo } from '@polkadot/react-hooks/types';
 
 import React, { useMemo, useState } from 'react';
 
