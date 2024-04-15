@@ -11,13 +11,15 @@ import Overview from './Overview/index.js';
 import { useTranslation } from './translate.js';
 import useWorkloadInfos from './useWorkloadInfos.js';
 import useWorkplanInfos from './useWorkplanInfos.js';
+import { useApi } from '@polkadot/react-hooks';
+import useCoreDescriptor from './useCoreDescriptor.js';
 
 interface Props {
   basePath: string;
   className?: string;
 }
 
-function createItemsRef (t: (key: string, options?: { replace: Record<string, unknown> }) => string): TabItem[] {
+function createItemsRef(t: (key: string, options?: { replace: Record<string, unknown> }) => string): TabItem[] {
   return [
     {
       isRoot: true,
@@ -27,24 +29,41 @@ function createItemsRef (t: (key: string, options?: { replace: Record<string, un
   ];
 }
 
-function CoretimeApp ({ basePath, className }: Props): React.ReactElement<Props> {
+function CoretimeApp({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const itemsRef = useRef(createItemsRef(t));
-  const workloadInfos = useWorkloadInfos();
-  const workplanInfos = useWorkplanInfos();
+  const { api } = useApi();
 
-  return (
-    <main className={className}>
-      <Tabs
-        basePath={basePath}
-        items={itemsRef.current}
-      />
-      <Overview
-        workloadInfos={workloadInfos}
-        workplanInfos={workplanInfos}
-      />
-    </main>
-  );
+  if (api.query.broker) {
+    const workloadInfos = useWorkloadInfos();
+    const workplanInfos = useWorkplanInfos();
+
+    return (
+      <main className={className}>
+        <Tabs
+          basePath={basePath}
+          items={itemsRef.current}
+        />
+        <Overview
+          workloadInfos={workloadInfos}
+          workplanInfos={workplanInfos}
+        />
+      </main>
+    );
+  } else {
+    const coreInfos = useCoreDescriptor();
+    return (
+      <main className={className}>
+        <Tabs
+          basePath={basePath}
+          items={itemsRef.current}
+        />
+        <Overview relay={true}
+        coreInfos={coreInfos}/>
+      </main>
+    );
+  }
+
 }
 
 export default React.memo(CoretimeApp);

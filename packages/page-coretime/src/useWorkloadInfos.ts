@@ -1,7 +1,7 @@
 // Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { StorageKey, u16, Vec } from '@polkadot/types';
+import type { StorageKey, u32, Vec } from '@polkadot/types';
 import type { PalletBrokerScheduleItem } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { CoreWorkloadInfo } from './types.js';
@@ -18,7 +18,7 @@ function extractInfo (info: PalletBrokerScheduleItem[], core: number): CoreWorkl
 }
 
 const OPT_KEY = {
-  transform: (keys: StorageKey<[u16]>[]): u16[] =>
+  transform: (keys: StorageKey<[u32]>[]): u32[] =>
     keys.map(({ args: [core] }) => core)
 };
 

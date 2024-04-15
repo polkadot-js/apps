@@ -10,45 +10,65 @@ import { useTranslation } from '../translate.js';
 import Cores from './Cores.js';
 import Pools from './Pools.js';
 import Timeslice from './Timeslice.js';
+import BrokerId from './BrokerId.js';
+import QueueStatus from './QueueStatus.js';
+import useQueueStatus from '../useQueueStatus.js';
 
-function Summary (): React.ReactElement {
+interface Props {
+  relay?: boolean;
+}
+function Summary({ relay }: Props): React.ReactElement {
   const { t } = useTranslation();
   const { api } = useApi();
 
-  return (
-    <SummaryBox>
-      <section>
-        {api.query.broker && (
-          <>
-            <CardSummary label={t('current timeslice')}>
-              <Timeslice />
-            </CardSummary>
-            <CardSummary label={t('core count')}>
-              <Cores />
-            </CardSummary>
-            <CardSummary label={t('pool size')}>
-              <Pools />
-            </CardSummary>
-          </>
+  if (relay) {
+    const queueStatus = useQueueStatus();
+    return (
+      <SummaryBox>
+        <section >
+          {api.query.coretimeAssignmentProvider && (
+            <>
+              <CardSummary label={t('broker Id')}>
+                <BrokerId />
+              </CardSummary>
+              <CardSummary label={t('traffic')}>
+                <QueueStatus value={queueStatus} 
+                query={'traffic'}/>
+              </CardSummary>
+              <CardSummary label={t('next index')}>
+              <QueueStatus value={queueStatus} 
+                query={'nextIndex'}/>
+              </CardSummary>
+            </>
 
-        )}
-        {api.query.coretimeAssignmentProvider && (
-          <>
-            <CardSummary label={t('current timeslice')}>
-              <Timeslice />
-            </CardSummary>
-            <CardSummary label={t('core count')}>
-              <Cores />
-            </CardSummary>
-            <CardSummary label={t('pool size')}>
-              <Pools />
-            </CardSummary>
-          </>
+          )}
+        </section>
+      </SummaryBox>
+    );
+  } else {
+    return (
+      <SummaryBox>
+        <section >
+          {api.query.broker && (
+            <>
+              <CardSummary label={t('current timeslice')}>
+                <Timeslice />
+              </CardSummary>
+              <CardSummary label={t('core count')}>
+                <Cores />
+              </CardSummary>
+              <CardSummary label={t('pool size')}>
+                <Pools />
+              </CardSummary>
+            </>
 
-        )}
-      </section>
-    </SummaryBox>
-  );
+          )}
+        </section>
+      </SummaryBox>
+    );
+  }
+
+
 }
 
 export default React.memo(Summary);

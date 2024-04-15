@@ -1,7 +1,7 @@
 // Copyright 2017-2024 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor } from '@polkadot/types-augment/lookup/types-kusama';
+import type { PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor } from '@polkadot/types/lookup';
 
 import React from 'react';
 
