@@ -25,6 +25,7 @@
     { "path": "./packages/page-claims/tsconfig.spec.json" },
     { "path": "./packages/page-collator/tsconfig.build.json" },
     { "path": "./packages/page-contracts/tsconfig.build.json" },
+    { "path": "./packages/page-coretime/tsconfig.spec.json" },
     { "path": "./packages/page-council/tsconfig.build.json" },
     { "path": "./packages/page-democracy/tsconfig.build.json" },
     { "path": "./packages/page-explorer/tsconfig.build.json" },
