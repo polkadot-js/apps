@@ -4,7 +4,7 @@
 import type { StorageKey, u32, Vec } from '@polkadot/types';
 import type { PalletBrokerScheduleItem } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
-import type { CoreWorkloadInfo } from './types.js';
+import type { CoreWorkloadInfo } from '../../page-coretime/src/types.js';
 
 import { useEffect, useState } from 'react';
 

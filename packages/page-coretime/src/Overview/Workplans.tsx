@@ -37,7 +37,7 @@ function Workplans ({ className, filteredWorkplan }: Props): React.ReactElement<
   return (
     <Table
       className={className}
-      empty={sanitized && t('No workṕlan found')}
+      empty={sanitized && t('No workplan found')}
       header={headerRef.current}
     >
 

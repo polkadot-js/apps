@@ -6,13 +6,10 @@ import type { TabItem } from '@polkadot/react-components/types';
 import React, { useRef } from 'react';
 
 import { Tabs } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useCoreDescriptor, useWorkloadInfos, useWorkplanInfos } from '@polkadot/react-hooks';
 
 import Overview from './Overview/index.js';
 import { useTranslation } from './translate.js';
-import useCoreDescriptor from './useCoreDescriptor.js';
-import useWorkloadInfos from './useWorkloadInfos.js';
-import useWorkplanInfos from './useWorkplanInfos.js';
 
 interface Props {
   basePath: string;

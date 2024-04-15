@@ -3,7 +3,7 @@
 
 import type { StorageKey, u32, Vec } from '@polkadot/types';
 import type { PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor } from '@polkadot/types/lookup';
-import type { CoreDescription } from './types.js';
+import type { CoreDescription } from '../../page-coretime/src/types.js';
 
 import { useEffect, useState } from 'react';
 

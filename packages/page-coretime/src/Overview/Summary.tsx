@@ -1,13 +1,14 @@
 // Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { OnDemandQueueStatus } from '../types.js';
+
 import React from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useQueueStatus } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
-import useQueueStatus from '../useQueueStatus.js';
 import BrokerId from './BrokerId.js';
 import Cores from './Cores.js';
 import Pools from './Pools.js';
@@ -21,7 +22,7 @@ interface Props {
 function Summary ({ relay }: Props): React.ReactElement {
   const { t } = useTranslation();
   const { api } = useApi();
-  const queueStatus = useQueueStatus();
+  const queueStatus: OnDemandQueueStatus | undefined = useQueueStatus();
 
   if (relay) {
     return (
