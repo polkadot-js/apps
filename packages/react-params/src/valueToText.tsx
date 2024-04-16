@@ -68,6 +68,8 @@ export default function valueToText (type: string, value: Codec | undefined | nu
     // eslint-disable-next-line @typescript-eslint/unbound-method
     ['Bytes', 'Raw', 'Option<Keys>', 'Keys'].includes(type) && isFunction(value.toU8a)
       ? u8aToHex(value.toU8a(true))
+      // HACK Handle Keys as hex-only (this should go away once the node value is
+      // consistently swapped to `Bytes`)
       : type === 'Vec<(ValidatorId,Keys)>'
         ? toHumanJson(formatKeys(value as unknown as [ValidatorId, Keys][]))
         : value instanceof Raw
