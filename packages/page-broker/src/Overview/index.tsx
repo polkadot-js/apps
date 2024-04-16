@@ -3,7 +3,7 @@
 
 import type { CoreDescription, CoreWorkloadInfo, CoreWorkplanInfo } from '@polkadot/react-hooks/types';
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { Button, Columar, Dropdown } from '@polkadot/react-components';
 
@@ -17,7 +17,6 @@ interface Props {
   workloadInfos?: CoreWorkloadInfo[];
   workplanInfos?: CoreWorkplanInfo[];
   coreInfos?: CoreDescription[];
-  relay?: boolean;
 }
 
 function uniqByForEach (array: CoreWorkplanInfo[] | undefined) {
@@ -46,13 +45,14 @@ function Overview ({ className, workloadInfos, workplanInfos }: Props): React.Re
   const [workloadCoreSelected, setWorkloadCoreSelected] = useState(-1);
   const [workplanCoreSelected, setWorkplanCoreSelected] = useState(-1);
   const [workplanSliceSelected, setWorkplanSliceSelected] = useState(-1);
-  const workloadCores = workloadInfos?.length;
+  const [coreArr, setCoreArr] = useState<number[]>([]);
 
-  const coreArr: number[] = useMemo(() => [], []);
+  useEffect(() => {
+    // Your coreArr initialization logic goes here
+    const newCoreArr = Array.from({ length: workloadInfos?.length || 0 }, (_, index) => index);
 
-  const len = workloadCores || 0;
-
-  Array(len).fill(0).map((_, index) => coreArr.push(index));
+    setCoreArr(newCoreArr);
+  }, [workloadInfos]);
 
   const { workplanCores, workplanTS } = uniqByForEach(workplanInfos);
 
@@ -62,14 +62,12 @@ function Overview ({ className, workloadInfos, workplanInfos }: Props): React.Re
   const workloadCoreOpts = useMemo(
     () => [{ text: t('All active/available cores'), value: -1 }].concat(
       coreArr
-        .map((c) => {
-          console.log('c', c);
-
-          return {
+        .map((c) => (
+          {
             text: `Core ${c}`,
             value: c
-          };
-        })
+          }
+        ))
         .filter((v): v is { text: string, value: number } => !!v.text)
     ),
     [coreArr, t]
@@ -83,14 +81,12 @@ function Overview ({ className, workloadInfos, workplanInfos }: Props): React.Re
   const workplanCoreOpts = useMemo(
     () => [{ text: t('All scehduled cores'), value: -1 }].concat(
       workplanCores
-        .map((c) => {
-          console.log('cwp', c);
-
-          return {
+        .map((c) =>
+          ({
             text: `Core ${c}`,
             value: c
-          };
-        })
+          })
+        )
         .filter((v): v is { text: string, value: number } => !!v.text)
     ),
     [workplanCores, t]
@@ -129,7 +125,7 @@ function Overview ({ className, workloadInfos, workplanInfos }: Props): React.Re
       <Summary></Summary>
       <Button.Group>
         <Dropdown
-          className='topDropdown media--800'
+          className='start media--800'
           label={t('selected core for workload')}
           onChange={setWorkloadCoreSelected}
           options={workloadCoreOpts}

@@ -6,7 +6,7 @@ import type { TabItem } from '@polkadot/react-components/types';
 import React, { useRef } from 'react';
 
 import { Tabs } from '@polkadot/react-components';
-import { useWorkloadInfos, useWorkplanInfos } from '@polkadot/react-hooks';
+import { useApi, useWorkloadInfos, useWorkplanInfos } from '@polkadot/react-hooks';
 
 import Overview from './Overview/index.js';
 import { useTranslation } from './translate.js';
@@ -29,8 +29,9 @@ function createItemsRef (t: (key: string, options?: { replace: Record<string, un
 function BrokerApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const itemsRef = useRef(createItemsRef(t));
-  const workloadInfos = useWorkloadInfos();
-  const workplanInfos = useWorkplanInfos();
+  const { api, isApiReady } = useApi();
+  const workloadInfos = useWorkloadInfos(api, isApiReady);
+  const workplanInfos = useWorkplanInfos(api, isApiReady);
 
   return (
     <main className={className}>
