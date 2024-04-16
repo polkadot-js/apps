@@ -451,14 +451,14 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
   {
     homepage: 'https://laosnetwork.io/',
     info: 'laos',
-    paraId: 4006,
+    paraId: 3370,
     providers: {
-      // 'freeverse.io': 'wss://rpc.laos.laosfoundation.io'
+      'freeverse.io': 'wss://rpc.laos.laosfoundation.io'
     },
     text: 'Laos',
     ui: {
       color: '#f7f4e7',
-      logo: chainsLaosOmegaPNG
+      logo: chainsLaosPNG
     }
   },
   {
