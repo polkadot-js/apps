@@ -18,6 +18,8 @@ function BrokerStatus ({ children, className = '', query }: Props): React.ReactE
   const status = useCall<PalletBrokerStatusRecord>(api.query.broker?.status);
   const strStatus = status === undefined ? '' : status.toJSON()[query];
 
+  console.log(strStatus);
+
   return (
     <div className={className}>
       {strStatus?.toString()}

@@ -6,7 +6,7 @@ import type { TabItem } from '@polkadot/react-components/types';
 import React, { useRef } from 'react';
 
 import { Tabs } from '@polkadot/react-components';
-import { useCoreDescriptor } from '@polkadot/react-hooks';
+import { useWorkloadInfos, useWorkplanInfos } from '@polkadot/react-hooks';
 
 import Overview from './Overview/index.js';
 import { useTranslation } from './translate.js';
@@ -26,10 +26,11 @@ function createItemsRef (t: (key: string, options?: { replace: Record<string, un
   ];
 }
 
-function CoretimeApp ({ basePath, className }: Props): React.ReactElement<Props> {
+function BrokerApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const itemsRef = useRef(createItemsRef(t));
-  const coreInfos = useCoreDescriptor();
+  const workloadInfos = useWorkloadInfos();
+  const workplanInfos = useWorkplanInfos();
 
   return (
     <main className={className}>
@@ -38,10 +39,11 @@ function CoretimeApp ({ basePath, className }: Props): React.ReactElement<Props>
         items={itemsRef.current}
       />
       <Overview
-        coreInfos={coreInfos}
+        workloadInfos={workloadInfos}
+        workplanInfos={workplanInfos}
       />
     </main>
   );
 }
 
-export default React.memo(CoretimeApp);
+export default React.memo(BrokerApp);

@@ -8,6 +8,7 @@ import addresses from './addresses.js';
 import alliance from './alliance.js';
 import assets from './assets.js';
 import bounties from './bounties.js';
+import broker from './broker.js';
 import calendar from './calendar.js';
 import claims from './claims.js';
 import collator from './collator.js';
@@ -59,6 +60,7 @@ export default function create (t: TFunction): Routes {
     staking2(t),
     collator(t),
     coretime(t),
+    broker(t),
     // governance v2
     referenda(t),
     membership(t),

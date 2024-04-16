@@ -10,46 +10,26 @@ interface Props {
 }
 
 function CurrentWork ({ value }: Props): React.ReactElement<Props> {
-  const assignments: string[] = [];
+  const response: string[] = [];
 
   if (value) {
-    if (value.assignments.length > 1) {
-      value.assignments.forEach((_, index) => {
-        const ratio = value.assignments[index][1].ratio.toNumber() / 57600 * 100;
+    value.assignments.forEach((_, index) => {
+      const ratio = value.assignments[index][1].ratio.toNumber() / 57600 * 100;
 
-        if (value.assignments[index][0].isIdle) {
-          assignments.push(`${ratio}% Idle`);
-        } else if (value.assignments[index][0].isPool) {
-          assignments.push(`${ratio}% Pool`);
-        } else {
-          assignments.push(`${ratio}% Task: ${value.assignments[index][0].asTask.toString()}`);
-        }
-      }
-      );
-
-      return (
-        <td className='start media--1300'>{assignments.join(', ')}</td>
-      );
-    } else {
-      if (value.assignments[0][0].isIdle) {
-        return (
-          <td className='start media--1300'>{'100% Idle'}</td>
-        );
-      } else if (value.assignments[0][0].isPool) {
-        return (
-          <td className='start media--1300'>{'100% Pool'}</td>
-        );
+      if (value.assignments[index][0].isIdle) {
+        response.push(`${ratio}% Idle`);
+      } else if (value.assignments[index][0].isPool) {
+        response.push(`${ratio}% Pool`);
       } else {
-        return (
-          <td className='start media--1300'>{`100% Task: ${value.assignments[0][0].asTask.toString()}`}</td>
-        );
+        response.push(`${ratio}% Task: ${value.assignments[index][0].asTask.toString()}`);
       }
     }
-  } else {
-    return (
-      <td className='start media--1300'>{'Queue empty'}</td>
     );
   }
+
+  return (
+    <td className='start media--1300'>{response.length > 1 ? response.join(', ') : response[0]}</td>
+  );
 }
 
 export default React.memo(CurrentWork);

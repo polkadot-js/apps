@@ -3,21 +3,20 @@
 
 import type { Route, TFunction } from './types.js';
 
-import Component from '@polkadot/app-coretime';
+import Component from '@polkadot/app-broker';
 
 export default function create (t: TFunction): Route {
   return {
     Component,
     display: {
       needsApi: [
-
-        'query.coretimeAssignmentProvider.coreDescriptors'
+        'query.broker.status'
       ],
       needsApiInstances: true
     },
     group: 'network',
     icon: 'calendar-clock',
-    name: 'coretime',
-    text: t('nav.coretime', 'Coretime (Experimental)', { ns: 'app-coretime' })
+    name: 'broker',
+    text: t('nav.broker', 'Coretime Broker (Experimental)', { ns: 'app-broker' })
   };
 }
