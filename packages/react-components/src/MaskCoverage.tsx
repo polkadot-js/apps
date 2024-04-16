@@ -7,13 +7,17 @@ import { styled } from './styled.js';
 
 const BarContainer = styled.div`
   display: flex;
+  align-items: center;
+  border-radius: 4px;
+  overflow: hidden;
 `;
 
 interface SectionProps {
-  value: string; // Define the props interface
+  value: string;
 }
 
 const Segment = styled.div<SectionProps>`
+  flex: 1;
   width: 5px;
   height: 20px;
   margin-right: 2px;
@@ -21,7 +25,7 @@ const Segment = styled.div<SectionProps>`
     return props.value;
   }};
   width: 100%;
-  background-color: var(--bg-inverse);
+  background-color: ${(props) => props.value === '1' ? 'var(--bg-inverse)' : 'white'};
 `;
 
 function MaskCoverage ({ values }: { values: string[] }) {
