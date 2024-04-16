@@ -457,7 +457,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     },
     text: 'Laos',
     ui: {
-      color: '#f7f4e7',
+      color: 'linear-gradient(90deg, #25143B 0%, #613D93 29.69%, #EF9365 69.79%, #E2CF61 100%)',
       logo: chainsLaosPNG
     }
   },
