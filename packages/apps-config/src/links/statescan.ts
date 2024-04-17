@@ -9,7 +9,7 @@ import { externalStatescanSVG } from '../ui/logos/external/index.js';
 export const Statescan: ExternalDef = {
   chains: {
     Collectives: 'Collectives',
-    Crust: "crust-parachain",
+    Crust: 'crust-parachain',
     'Crust Shadow': 'shadow',
     Kusama: 'kusama',
     'Kusama Asset Hub': 'statemine',
