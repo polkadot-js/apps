@@ -1523,6 +1523,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-broker@workspace:packages/page-broker":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-broker@workspace:packages/page-broker"
+  dependencies:
+    "@polkadot/react-components": "npm:0.135.2-51-x"
+    "@polkadot/react-query": "npm:0.135.2-51-x"
+  peerDependencies:
+    react: "*"
+    react-dom: "*"
+    react-is: "*"
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/app-calendar@workspace:packages/page-calendar":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-calendar@workspace:packages/page-calendar"
@@ -1575,8 +1588,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/app-coretime@workspace:packages/page-coretime"
   dependencies:
-    "@polkadot/react-components": "npm:0.135.2-49-x"
-    "@polkadot/react-query": "npm:0.135.2-49-x"
+    "@polkadot/react-components": "npm:0.135.2-51-x"
+    "@polkadot/react-query": "npm:0.135.2-51-x"
   peerDependencies:
     react: "*"
     react-dom: "*"
@@ -2300,7 +2313,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/react-components@npm:^0.135.2-51-x, @polkadot/react-components@workspace:packages/react-components":
+"@polkadot/react-components@npm:0.135.2-51-x, @polkadot/react-components@npm:^0.135.2-51-x, @polkadot/react-components@workspace:packages/react-components":
   version: 0.0.0-use.local
   resolution: "@polkadot/react-components@workspace:packages/react-components"
   dependencies:
@@ -2423,7 +2436,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/react-query@npm:^0.135.2-51-x, @polkadot/react-query@workspace:packages/react-query":
+"@polkadot/react-query@npm:0.135.2-51-x, @polkadot/react-query@npm:^0.135.2-51-x, @polkadot/react-query@workspace:packages/react-query":
   version: 0.0.0-use.local
   resolution: "@polkadot/react-query@workspace:packages/react-query"
   peerDependencies:
