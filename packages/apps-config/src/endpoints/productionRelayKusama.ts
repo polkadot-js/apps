@@ -963,7 +963,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       // OnFinality: 'wss://encointer.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9986
       // Stakeworld: 'wss://ksm-rpc.stakeworld.io/encointer'
     },
-    teleport: [], // teleport is temporarily disabled until xcm V3 is supported
+    teleport: [-1],
     text: 'Encointer Network',
     ui: {
       color: '#0000cc',
