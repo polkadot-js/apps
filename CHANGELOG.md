@@ -1,5 +1,70 @@
 # CHANGELOG
 
+## 0.136.1 Apr 18, 2024
+
+Contributed:
+
+- Update Creditcoin Testnet Details (https://github.com/wi-ry)
+- Change Muse paraId (https://github.com/Moliholy)
+- Add Subscan link to Paseo and Opal testnet (https://github.com/yakio)
+- Update Frequency information (https://github.com/wilwade)
+- Fix MAX_SIGNATORIES (https://github.com/adamsteeber)
+- Add mythos parachain (https://github.com/Moliholy)
+- Update Dwellir Nodle RPC endpoint (https://github.com/jakobilobi)
+- Fix broken metadata tab for Paseo (https://github.com/al3mart)
+- Update the provider for Phyken Network (https://github.com/Ekaanth)
+- Add bridge hub teleport destination for Polkadot and Kusama (https://github.com/PierreBesson)
+- Update subscan.ts, change the host of some networks (https://github.com/freehere107)
+- Add RockX phala/khala endpoints (https://github.com/AgoL5866)
+- Fix provider for Frequency (https://github.com/wilwade)
+- Update Subscan network config (https://github.com/carlhong)
+- Search/filter functionality of selection dropdowns (https://github.com/dominikfedor)
+- Add Pop Netowrk to Paseo (https://github.com/al3mart)
+- Remove Automata 1RPC from Kusama (https://github.com/laboon)
+- Remove Dwellir from Pendulum (https://github.com/benjichat)
+- feat: support asset filter (https://github.com/monkeyWie)
+- Peerplays types bundle (https://github.com/serkixenos)
+- Nodle testnet migrated from Roccoco to Paseo (https://github.com/simonsso)
+- Update Creditcoin Testnet Naming (https://github.com/wi-ry)
+- chore: remove Logion RPC 3 (https://github.com/gdethier)
+- Add Blast rpc (https://github.com/EugenWay)
+- LAOS Omega added to paseo (https://github.com/asiniscalchi)
+- Updated the md5 network endpoint for the Hashed Systems provider (https://github.com/sebastianmontero)
+- Add Vara RPC endpoint (https://github.com/EugenWay)
+- Update CI checkout, and setup_node to v4 (https://github.com/simonsso)
+- Update Frequency Types package and testnet chain name (https://github.com/wilwade)
+- Fix query slot duration for block interval (https://github.com/Moliholy)
+- Add Dwellir paseo-rpc endpoint (https://github.com/jakobilobi)
+- Add coretime-kusama rpc (https://github.com/BulatSaif)
+- Adds Dancebox Tanssi TestNet (https://github.com/albertov19)
+- Add Dwellir encointer-kusama-rpc endpoint (https://github.com/jakobilobi)
+- Add tangle to live networks (https://github.com/salman01zp)
+- Upgrade chopsticks (https://github.com/qiweiii)
+- Adding Dwellir Chainflip endpoint (https://github.com/jonathanudd)
+- feat: local fork allow fake accounts (https://github.com/qiweiii)
+- fix: remove local account storage override (https://github.com/qiweiii)
+- Add IBP RPC endpoints for coretime-westend, coretime-people, and asset-hub-paseo (https://github.com/senseless)
+- Updated endpoints for Hashed Systems 1 and 2 providers (https://github.com/sebastianmontero)
+- Restore Virto provider for Kreivo in Kusama (https://github.com/pandres95)
+- fix: show parachain names for paseo (https://github.com/al3mart)
+- Remove connection between 3360 chain id and NueroWeb (https://github.com/NZT48)
+- use runtime API's to query block time (https://github.com/Moliholy)
+- added copy button to Output (https://github.com/bee344)
+- Add LAOS polkadot parachain (https://github.com/asiniscalchi)
+- Add more statescan external links (https://github.com/wliyongfeng)
+- Make encointer teleporter again (https://github.com/brenzi)
+- Updated Invo network testnet URL (https://github.com/ayushmishra2005)
+
+Changes:
+
+- Fix apps-routing for staking (Westend)
+- Bump yarn to 4.1.1
+- Disable unreachable endpoints
+- Add warning banners for Auctions and Crowdloans
+- Update polkadot/* deps
+- Resolve module location for endpoints when it exists
+
+
 ## 0.135.1 Mar 21, 2024
 
 Contributed:
