@@ -59612,6 +59612,12 @@ export const typesBundle = {
             "SealV0": "(u64, Signature)",
             "Seal": "(ConsensusEngineId, Bytes)",
             "Consensus": "(ConsensusEngineId, Bytes)",
+            "ExtrinsicInclusionMode": {
+              "_enum": [
+                "AllExtrinsics",
+                "OnlyInherents"
+              ]
+            },
             "BeefyKey": "[u8; 33]",
             "Keys": "SessionKeys2",
             "SessionKeys1": "(AccountId)",

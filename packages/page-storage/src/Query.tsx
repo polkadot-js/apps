@@ -211,7 +211,7 @@ const StyledDiv = styled.div`
   }
 
   pre {
-    margin: 0;
+    margin: 0.5;
 
     .ui--Param-text {
       overflow: hidden;

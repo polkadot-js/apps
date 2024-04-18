@@ -6,6 +6,7 @@ import type { Codec } from '@polkadot/types/types';
 
 import React from 'react';
 
+import { CopyButton } from '@polkadot/react-components';
 import { Option, Raw } from '@polkadot/types';
 import { isFunction, isNull, isUndefined, stringify, u8aToHex } from '@polkadot/util';
 
@@ -14,15 +15,14 @@ interface DivProps {
   key?: string;
 }
 
-function div ({ className = '', key }: DivProps, ...values: React.ReactNode[]): React.ReactNode {
-  return (
-    <div
-      className={`${className} ui--Param-text`}
-      key={key}
-    >
-      {values}
-    </div>
-  );
+function div ({ className = '', key }: DivProps, ...values: React.ReactNode[]): { cName: string, key: string | undefined, values: React.ReactNode[] } {
+  const cName = `${className} ui--Param-text`;
+
+  return {
+    cName,
+    key,
+    values
+  };
 }
 
 function formatKeys (keys: [ValidatorId, Keys][]): string {
@@ -52,11 +52,19 @@ export function toHumanJson (value: unknown): string {
 
 export default function valueToText (type: string, value: Codec | undefined | null): React.ReactNode {
   if (isNull(value) || isUndefined(value)) {
-    return div({}, '<unknown>');
+    const { cName, key, values } = div({}, '<unknown>');
+
+    return (
+      <div
+        className={cName}
+        key={key}
+      >
+        {values}
+      </div>
+    );
   }
 
-  return div(
-    {},
+  const renderedValue = (
     // eslint-disable-next-line @typescript-eslint/unbound-method
     ['Bytes', 'Raw', 'Option<Keys>', 'Keys'].includes(type) && isFunction(value.toU8a)
       ? u8aToHex(value.toU8a(true))
@@ -71,5 +79,17 @@ export default function valueToText (type: string, value: Codec | undefined | nu
           : (value instanceof Option) && value.isNone
             ? '<none>'
             : toHumanJson(toHuman(value))
+  );
+
+  const { cName, key, values } = div({}, renderedValue);
+
+  return (
+    <div
+      className={cName}
+      key={key}
+    >
+      {values}
+      <CopyButton value={renderedValue} />
+    </div>
   );
 }
