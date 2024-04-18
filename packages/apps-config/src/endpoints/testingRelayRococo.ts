@@ -308,7 +308,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoInvo',
     paraId: 4377,
     providers: {
-      // 'Invo Network': 'wss://rococo.api.invo.network' // https://github.com/polkadot-js/apps/issues/10353
+      'Invo Network': 'wss://chain.dev.ourinvo.com'
     },
     text: 'Invo Testnet',
     ui: {
