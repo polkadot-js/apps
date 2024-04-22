@@ -3,6 +3,7 @@
 
 import type { Option } from '@polkadot/types';
 import type { PalletIdentityRegistration } from '@polkadot/types/lookup';
+import type { ITuple } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
 
 import React, { useEffect, useState } from 'react';
@@ -34,9 +35,9 @@ const JUDGEMENT_ENUM = [
 ];
 
 const OPT_ID = {
-  transform: (optId: Option<PalletIdentityRegistration>): HexString | null =>
+  transform: (optId: Option<ITuple<[PalletIdentityRegistration]>>): HexString | null =>
     optId.isSome
-      ? optId.unwrap().info.hash.toHex()
+      ? optId.unwrap()[0].info.hash.toHex()
       : null
 };
 
