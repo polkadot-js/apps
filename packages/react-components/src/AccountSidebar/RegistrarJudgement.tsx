@@ -1,7 +1,7 @@
 // Copyright 2017-2024 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option } from '@polkadot/types';
+import type { Bytes, Option } from '@polkadot/types';
 import type { PalletIdentityRegistration } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
@@ -35,7 +35,7 @@ const JUDGEMENT_ENUM = [
 ];
 
 const OPT_ID = {
-  transform: (optId: Option<ITuple<[PalletIdentityRegistration]>>): HexString | null =>
+  transform: (optId: Option<ITuple<[PalletIdentityRegistration, Option<Bytes>]>>): HexString | null =>
     optId.isSome
       ? optId.unwrap()[0].info.hash.toHex()
       : null
