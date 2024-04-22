@@ -20,7 +20,8 @@ function extractStake (labels: string[], exposures: DeriveOwnExposure[], divisor
   const expSet = new Array<number>(labels.length);
   const avgSet = new Array<number>(labels.length);
   const [total, avgCount] = exposures.reduce(([total, avgCount], { clipped }) => {
-    const cli = balanceToNumber(clipped.total?.unwrap(), divisor);
+    const cliOpt = (clipped.isSome && clipped.unwrap().pageTotal.unwrap()) || undefined;
+    const cli = balanceToNumber(cliOpt, divisor);
 
     if (cli > 0) {
       total += cli;
@@ -31,9 +32,11 @@ function extractStake (labels: string[], exposures: DeriveOwnExposure[], divisor
   }, [0, 0]);
 
   exposures.forEach(({ clipped, era, exposure }): void => {
+    const cliOptTotal = (clipped.isSome && clipped.unwrap().pageTotal.unwrap()) || undefined;
+    const expOptTotal = (exposure.isSome && exposure.unwrap().total.unwrap()) || undefined;
     // Darwinia Crab doesn't have the total field
-    const cli = balanceToNumber(clipped.total?.unwrap(), divisor);
-    const exp = balanceToNumber(exposure.total?.unwrap(), divisor);
+    const cli = balanceToNumber(cliOptTotal, divisor);
+    const exp = balanceToNumber(expOptTotal, divisor);
     const avg = avgCount > 0
       ? Math.ceil(total * 100 / avgCount) / 100
       : 0;
