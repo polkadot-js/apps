@@ -20,7 +20,7 @@ export const prodChains: EndpointOption[] = [
     info: 'dock-pos-mainnet',
     text: 'Dock PoS Mainnet',
     providers: {
-      'Dock Association': 'wss://mainnet-val6.docknode.io'
+      'Dock Association': 'wss://mainnet-node.dock.io'
     }
   }
 ];
