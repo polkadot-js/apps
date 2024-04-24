@@ -6,7 +6,7 @@ import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/api-derive/types';
 import type { DisplayedJudgement } from '@polkadot/react-components/types';
-import type { Option, u128 } from '@polkadot/types';
+import type { Option, u32, u128, Vec } from '@polkadot/types';
 import type { AccountId, BlockNumber, Call, Hash, SessionIndex, ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { PalletPreimageRequestStatus, PalletStakingRewardDestination, PalletStakingStakingLedger, SpStakingExposurePage, SpStakingPagedExposureMetadata } from '@polkadot/types/lookup';
 import type { ICompact, IExtrinsic, INumber, Registry } from '@polkadot/types/types';
@@ -146,6 +146,7 @@ export interface StakerState {
   destination?: PalletStakingRewardDestination | null;
   exposurePaged?: Option<SpStakingExposurePage>;
   exposureMeta?: Option<SpStakingPagedExposureMetadata>
+  claimedRewardsEras?: Vec<u32>
   hexSessionIdNext: string | null;
   hexSessionIdQueue: string | null;
   isLoading: boolean;

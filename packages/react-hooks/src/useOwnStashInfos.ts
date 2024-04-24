@@ -36,7 +36,7 @@ const QUERY_OPTS = {
   withPrefs: true
 };
 
-function getStakerState (stashId: string, allAccounts: string[], [isOwnStash, { controllerId: _controllerId, exposureMeta, exposurePaged, nextSessionIds: _nextSessionIds, nominators, rewardDestination, sessionIds: _sessionIds, stakingLedger, validatorPrefs }, validateInfo]: [boolean, DeriveStakingAccount, ValidatorInfo]): StakerState {
+function getStakerState (stashId: string, allAccounts: string[], [isOwnStash, { claimedRewardsEras, controllerId: _controllerId, exposureMeta, exposurePaged, nextSessionIds: _nextSessionIds, nominators, rewardDestination, sessionIds: _sessionIds, stakingLedger, validatorPrefs }, validateInfo]: [boolean, DeriveStakingAccount, ValidatorInfo]): StakerState {
   const isStashNominating = !!(nominators?.length);
   const isStashValidating = !(Array.isArray(validateInfo) ? validateInfo[1].isEmpty : validateInfo.isEmpty);
   const nextSessionIds = _nextSessionIds instanceof Map
@@ -50,6 +50,7 @@ function getStakerState (stashId: string, allAccounts: string[], [isOwnStash, { 
   const controllerId = toIdString(_controllerId);
 
   return {
+    claimedRewardsEras,
     controllerId,
     destination: rewardDestination,
     exposureMeta,
