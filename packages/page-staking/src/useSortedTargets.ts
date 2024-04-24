@@ -36,7 +36,7 @@ interface OldLedger {
 }
 
 const EMPTY_PARTIAL: Partial<SortedTargets> = {};
-const DEFAULT_FLAGS_ELECTED = { withController: true, withExposure: true, withPrefs: true, withClaimedRewardsEras: true };
+const DEFAULT_FLAGS_ELECTED = { withClaimedRewardsEras: true, withController: true, withExposure: true, withPrefs: true };
 const DEFAULT_FLAGS_WAITING = { withController: true, withPrefs: true };
 
 const OPT_ERA = {
