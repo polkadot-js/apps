@@ -19,12 +19,12 @@ function extractStake (labels: string[], exposures: DeriveOwnExposure[], divisor
   const expPagedSet = new Array<number>(labels.length);
   const expMetaSet = new Array<number>(labels.length);
   const avgSet = new Array<number>(labels.length);
-  const [total, avgCount] = exposures.reduce(([total, avgCount], { exposurePaged }) => {
-    const expPaged = exposurePaged.isSome && exposurePaged.unwrap();
-    const expP = balanceToNumber((expPaged && expPaged.pageTotal?.unwrap()) || BN_ZERO, divisor);
+  const [total, avgCount] = exposures.reduce(([total, avgCount], { exposureMeta }) => {
+    const expMeta = exposureMeta.isSome && exposureMeta.unwrap();
+    const expM = balanceToNumber((expMeta && expMeta.total?.unwrap()) || BN_ZERO, divisor);
 
-    if (expP > 0) {
-      total += expP;
+    if (expM > 0) {
+      total += expM;
       avgCount++;
     }
 

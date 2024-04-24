@@ -143,7 +143,7 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
     const expMeta = exposureMeta.isSome && exposureMeta.unwrap();
     // some overrides (e.g. Darwinia Crab) does not have the own/total field in Exposure
     let [bondOwn, bondTotal] = exp && expMeta
-      ? [expMeta.own.unwrap(), exp.pageTotal.unwrap()]
+      ? [expMeta.own.unwrap(), expMeta.total.unwrap()]
       : [BN_ZERO, BN_ZERO];
 
     const skipRewards = bondTotal.isZero();

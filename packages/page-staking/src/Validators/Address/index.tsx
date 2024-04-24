@@ -56,12 +56,12 @@ function expandInfo ({ exposureMeta, exposurePaged, validatorPrefs }: ValidatorI
   let stakeOther: BN | undefined;
   let stakeOwn: BN | undefined;
 
-  if (exposurePaged?.pageTotal) {
+  if (exposureMeta?.total) {
     nominators = exposurePaged.others.map(({ value, who }) => ({
       nominatorId: who.toString(),
       value: value.unwrap()
     }));
-    stakeTotal = exposurePaged.pageTotal?.unwrap() || BN_ZERO;
+    stakeTotal = exposureMeta.total?.unwrap() || BN_ZERO;
     stakeOwn = exposureMeta.own.unwrap();
     stakeOther = stakeTotal.sub(stakeOwn);
   }
