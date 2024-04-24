@@ -68,8 +68,10 @@ const OPT_MULTI = {
   })
 };
 
-function getLegacyRewards (ledger: PalletStakingStakingLedger): u32[] {
-  return ledger.legacyClaimedRewards || (ledger as unknown as OldLedger).claimedRewards || [];
+function getLegacyRewards (ledger: PalletStakingStakingLedger, claimedRewardsEras: Vec<u32>): u32[] {
+  const legacyRewards = ledger.legacyClaimedRewards || (ledger as unknown as OldLedger).claimedRewards || [];
+
+  return legacyRewards.concat(claimedRewardsEras.toArray());
 }
 
 function mapIndex (mapBy: TargetSortBy): (info: ValidatorInfo, index: number) => ValidatorInfo {
@@ -129,11 +131,12 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
 function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], { activeEra, eraLength, lastEra, sessionLength }: LastEra, historyDepth?: BN, withReturns?: boolean): [ValidatorInfo[], Record<string, BN>] {
   const nominators: Record<string, BN> = {};
   const emptyExposure = api.createType('SpStakingExposurePage');
+  const emptyExposureMeta = api.createType('SpStakingPagedExposureMetadata');
   const earliestEra = historyDepth && lastEra.sub(historyDepth).iadd(BN_ONE);
   const list = new Array<ValidatorInfo>(derive.info.length);
 
   for (let i = 0; i < derive.info.length; i++) {
-    const { accountId, exposureMeta, exposurePaged, stakingLedger, validatorPrefs } = derive.info[i];
+    const { accountId, claimedRewardsEras, exposureMeta, exposurePaged, stakingLedger, validatorPrefs } = derive.info[i];
     const exp = exposurePaged.isSome && exposurePaged.unwrap();
     const expMeta = exposureMeta.isSome && exposureMeta.unwrap();
     // some overrides (e.g. Darwinia Crab) does not have the own/total field in Exposure
@@ -157,7 +160,7 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
     }, BN_ZERO);
 
     const key = accountId.toString();
-    const rewards = getLegacyRewards(stakingLedger);
+    const rewards = getLegacyRewards(stakingLedger, claimedRewardsEras);
 
     const lastEraPayout = !lastEra.isZero()
       ? rewards[rewards.length - 1]
@@ -170,7 +173,8 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
       bondShare: 0,
       bondTotal,
       commissionPer: validatorPrefs.commission.unwrap().toNumber() / 10_000_000,
-      exposure: exp || emptyExposure,
+      exposureMeta: expMeta || emptyExposureMeta,
+      exposurePaged: exp || emptyExposure,
       isActive: !skipRewards,
       isBlocking: !!(validatorPrefs.blocked && validatorPrefs.blocked.isTrue),
       isElected: !isWaitingDerive(derive) && derive.nextElected.some((e) => e.eq(accountId)),

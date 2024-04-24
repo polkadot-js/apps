@@ -3,7 +3,7 @@
 
 import type { Inflation } from '@polkadot/react-hooks/types';
 import type { AccountId, Balance, BlockNumber, EraIndex, Hash, SessionIndex, ValidatorPrefs, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
-import type { SpStakingExposurePage } from '@polkadot/types/lookup';
+import type { SpStakingExposurePage, SpStakingPagedExposureMetadata } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
 export type Nominators = Record<string, string[]>;
@@ -52,7 +52,8 @@ export interface ValidatorInfo extends ValidatorInfoRank {
   bondShare: number;
   bondTotal: BN;
   commissionPer: number;
-  exposure: SpStakingExposurePage;
+  exposurePaged: SpStakingExposurePage;
+  exposureMeta: SpStakingPagedExposureMetadata
   isActive: boolean;
   isBlocking: boolean;
   isElected: boolean;
