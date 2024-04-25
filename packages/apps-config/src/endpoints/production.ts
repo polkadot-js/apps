@@ -321,7 +321,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'Liberland',
     providers: {
       Dwellir: 'wss://liberland-rpc.dwellir.com',
-      'Liberland Government': 'wss://mainnet.liberland.org'
+      'Liberland Government': 'wss://mainnet.liberland.org',
+      F33R0: 'wss://arch-lib.f33r0.site/1'
     },
     text: 'Liberland mainnet',
     ui: {
