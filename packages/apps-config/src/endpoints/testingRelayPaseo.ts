@@ -105,6 +105,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
     paraId: 1000,
     providers: {
       Dwellir: 'wss://asset-hub-paseo-rpc.dwellir.com',
+      'IBP-GeoDNS1': 'wss://sys.ibp.network/asset-hub-paseo',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/asset-hub-paseo'
     },
     teleport: [-1],
