@@ -515,7 +515,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       'Moonbeam Foundation': 'wss://wss.api.moonbeam.network',
       OnFinality: 'wss://moonbeam.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://moonbeam.public.curie.radiumblock.co/ws',
-      UnitedBloc: 'wss://moonbeam.unitedbloc.com'
+      UnitedBloc: 'wss://moonbeam.unitedbloc.com',
+      Allnodes: 'wss://moonbeam-rpc.publicnode.com'
     },
     text: 'Moonbeam',
     ui: {
@@ -910,6 +911,7 @@ export const prodRelayPolkadot: EndpointOption = {
     RadiumBlock: 'wss://polkadot.public.curie.radiumblock.co/ws',
     RockX: 'wss://rockx-dot.w3node.com/polka-public-dot/ws',
     Stakeworld: 'wss://dot-rpc.stakeworld.io',
+    Allnodes: 'wss://polkadot-rpc.publicnode.com',
     'light client': 'light://substrate-connect/polkadot'
   },
   teleport: getTeleports(prodParasPolkadotCommon),
