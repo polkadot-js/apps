@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## 0.137.1 Apr 27, 2024
+
+Contributed:
+
+- Identity fix. Username has been introduced in identity pallet (Thanks tohttps://github.com/niklabh)
+- Add Dwellir asset-hub-paseo-rpc endpoint (Thanks to https://github.com/jakobilobi)
+- Archive Logion solochain and switch testnet (Thanks to https://github.com/gdethier)
+- Update dancebox endpoint (Thanks to https://github.com/albertov19)
+- Add analog testnet (Thanks to https://github.com/FlorianFranzen)
+
+Changes:
+
+- Fix Staking with latest breaking changes
+- Bump polkadot/* deps
+
+
 ## 0.136.1 Apr 18, 2024
 
 Contributed:
