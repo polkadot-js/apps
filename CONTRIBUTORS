@@ -16,7 +16,7 @@
       25	Luke Schoen                   	fix typo kusama (#3083)
       24	sxlwar                        	crab config (#6995)
       24	WoeOm                         	feat: subscan support fellowship, referenda v2 (#8987)
-      22	Tarik Gul                     	Fix Staking with latest breaking changes! (#10498)
+      23	Tarik Gul                     	Bump polkadot/* deps (#10517)
       20	Nikita                        	Update icon and colors for Realis.Network (#6336)
       18	fomod-in                      	Update translation.json (#5942)
       18	Wei Tang                      	Re-enable Neatcoin endpoint (#8271)
