@@ -93,7 +93,7 @@ function groupAccounts (accounts: SortedAccount[]): Record<GroupName, string[]> 
 
 function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api, fork/*, isElectron*/ } = useApi();
+  const { api, fork } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
   // const { isIpfs } = useIpfs();
   const { isLedgerEnabled } = useLedger();
