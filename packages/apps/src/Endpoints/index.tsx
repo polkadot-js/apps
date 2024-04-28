@@ -40,7 +40,7 @@ interface LcUrlState {
 
 const STORAGE_AFFINITIES = 'network:affinities';
 
-function isValidUrl (url: string): boolean {
+function isValidUrl(url: string): boolean {
   return (
     // some random length... we probably want to parse via some lib
     (url.length >= 7) &&
@@ -49,7 +49,7 @@ function isValidUrl (url: string): boolean {
   );
 }
 
-function isValidHttpUrl (url: string): boolean {
+function isValidHttpUrl(url: string): boolean {
   return (
     // some random length... we probably want to parse via some lib
     (url.length >= 7) &&
@@ -58,7 +58,7 @@ function isValidHttpUrl (url: string): boolean {
   );
 }
 
-function combineEndpoints (endpoints: LinkOption[]): Group[] {
+function combineEndpoints(endpoints: LinkOption[]): Group[] {
   return endpoints.reduce((result: Group[], e): Group[] => {
     if (e.isHeader) {
       result.push({ header: e.text, isDevelopment: e.isDevelopment, isSpaced: e.isSpaced, networks: [] });
@@ -85,7 +85,7 @@ function combineEndpoints (endpoints: LinkOption[]): Group[] {
   }, []);
 }
 
-function getCustomEndpoints (): string[] {
+function getCustomEndpoints(): string[] {
   try {
     const storedAsset = localStorage.getItem(CUSTOM_ENDPOINT_KEY);
 
@@ -100,7 +100,7 @@ function getCustomEndpoints (): string[] {
   return [];
 }
 
-function extractUrlState (apiUrl: string, groups: Group[]): UrlState {
+function extractUrlState(apiUrl: string, groups: Group[]): UrlState {
   let groupIndex = groups.findIndex(({ networks }) =>
     networks.some(({ providers }) =>
       providers.some(({ url }) => url === apiUrl)
@@ -119,7 +119,7 @@ function extractUrlState (apiUrl: string, groups: Group[]): UrlState {
   };
 }
 
-function extractLcUrlState (lcUrl: string | null, groups: Group[]): LcUrlState {
+function extractLcUrlState(lcUrl: string | null, groups: Group[]): LcUrlState {
   let lcGroupIndex = groups.findIndex(({ networks }) =>
     networks.some(({ providers }) =>
       providers.some(({ url }) => url === lcUrl)
@@ -143,7 +143,7 @@ function extractLcUrlState (lcUrl: string | null, groups: Group[]): LcUrlState {
   };
 }
 
-function loadAffinities (groups: Group[]): Record<string, string> {
+function loadAffinities(groups: Group[]): Record<string, string> {
   return Object
     .entries<string>(store.get(STORAGE_AFFINITIES) as Record<string, string> || {})
     .filter(([network, apiUrl]) =>
@@ -159,7 +159,7 @@ function loadAffinities (groups: Group[]): Record<string, string> {
     }), {});
 }
 
-function isSwitchDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid: boolean, isLocalFork?: boolean): boolean {
+function isSwitchDisabled(hasUrlChanged: boolean, apiUrl: string, isUrlValid: boolean, isLocalFork?: boolean): boolean {
   if (!hasUrlChanged) {
     if (isLocalFork) {
       return false;
@@ -175,7 +175,7 @@ function isSwitchDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid: b
   return true;
 }
 
-function isLocalForkDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid: boolean, isLocalFork?: boolean): boolean {
+function isLocalForkDisabled(hasUrlChanged: boolean, apiUrl: string, isUrlValid: boolean, isLocalFork?: boolean): boolean {
   if (!hasUrlChanged) {
     if (isLocalFork) {
       return true;
@@ -191,7 +191,7 @@ function isLocalForkDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid
   return true;
 }
 
-function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElement<Props> {
+function Endpoints({ className = '', offset, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const linkOptions = createWsEndpoints(t);
   const { isLocalFork } = useApi();
@@ -471,10 +471,10 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
         />
       </div>
       <div style={{
-          alignItems: 'center',
-          display: 'flex',
-          justifyContent: 'right'
-        }}
+        alignItems: 'center',
+        display: 'flex',
+        justifyContent: 'right'
+      }}
       >
         <Button
           icon='code-fork'
