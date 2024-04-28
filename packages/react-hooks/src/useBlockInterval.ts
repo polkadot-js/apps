@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
+import type { BabeGenesisConfiguration } from '@polkadot/types/interfaces/babe';
 
 import { useMemo } from 'react';
 
@@ -10,6 +11,7 @@ import { BN, BN_THOUSAND, BN_TWO, bnMin } from '@polkadot/util';
 import { createNamedHook } from './createNamedHook.js';
 import { useApi } from './useApi.js';
 import { A_DAY } from './useBlocksPerDays.js';
+import { useCall } from './useCall.js';
 
 // Some chains incorrectly use these, i.e. it is set to values such as 0 or even 2
 // Use a low minimum validity threshold to check these against
@@ -30,7 +32,7 @@ function calcInterval (api: ApiPromise): BN {
         ? api.consts.timestamp.minimumPeriod.mul(BN_TWO)
         : api.query.parachainSystem
           // default guess for a parachain
-          ? DEFAULT_TIME.mul(BN_TWO)
+          ? api.consts.aura?.slotDuration ?? DEFAULT_TIME.mul(BN_TWO)
           // default guess for others
           : DEFAULT_TIME
     )
@@ -40,9 +42,15 @@ function calcInterval (api: ApiPromise): BN {
 function useBlockIntervalImpl (apiOverride?: ApiPromise | null): BN {
   const { api } = useApi();
 
+  const currApi = apiOverride || api;
+  const blockTimeAura = useCall<BN>(currApi.call.auraApi?.slotDuration && currApi.call.auraApi.slotDuration, []);
+  const blockTimeBabe = useCall(currApi.call.babeApi?.configuration && currApi.call.babeApi.configuration, [], {
+    transform: (data: BabeGenesisConfiguration | undefined) => data?.slotDuration
+  });
+
   return useMemo(
-    () => calcInterval(apiOverride || api),
-    [api, apiOverride]
+    () => (blockTimeAura || blockTimeBabe) ?? calcInterval(currApi),
+    [blockTimeAura, blockTimeBabe, currApi]
   );
 }
 

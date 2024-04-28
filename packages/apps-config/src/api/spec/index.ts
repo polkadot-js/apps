@@ -95,6 +95,7 @@ import pangoro from './pangoro.js';
 import parallel from './parallel.js';
 import parami from './parami.js';
 import peaq from './peaq.js';
+import peerplays from './peerplays.js';
 import pendulum from './pendulum.js';
 import phoenix from './phoenix.js';
 import pichiu from './pichiu.js';
@@ -208,7 +209,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'ferrum-parachain': ferrum,
   foucoco: pendulum,
   frequency,
-  'frequency-rococo': frequency,
+  'frequency-testnet': frequency,
   galital,
   'galital-collator': galitalParachain,
   gamepower,
@@ -266,6 +267,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'peaq-node': peaq,
   'peaq-node-dev': peaq,
   'peaq-node-krest': peaq,
+  peerplays,
   pendulum,
   'phoenix-node': phoenix,
   'phoenix-parachain': phoenix,

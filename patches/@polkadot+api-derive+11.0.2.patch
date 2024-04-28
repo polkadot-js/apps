@@ -1,0 +1,686 @@
+diff --git a/node_modules/@polkadot/api-derive/cjs/elections/info.js b/node_modules/@polkadot/api-derive/cjs/elections/info.js
+index ee04ade..3996a14 100644
+--- a/node_modules/@polkadot/api-derive/cjs/elections/info.js
++++ b/node_modules/@polkadot/api-derive/cjs/elections/info.js
+@@ -45,7 +45,10 @@ function getModules(api) {
+             : api.query.elections
+                 ? 'elections'
+                 : null;
+-    return [council, elections];
++    // In some cases council here can refer to `generalCouncil` depending on what the chain specific override is.
++    // Therefore, we check to see if it exists in the query field. If it does not we default to `council`.
++    const resolvedCouncil = api.query[council] ? council : 'council';
++    return [resolvedCouncil, elections];
+ }
+ function queryAll(api, council, elections) {
+     return api.queryMulti([
+diff --git a/node_modules/@polkadot/api-derive/cjs/packageInfo.js b/node_modules/@polkadot/api-derive/cjs/packageInfo.js
+index 8c981e1..b9e197b 100644
+--- a/node_modules/@polkadot/api-derive/cjs/packageInfo.js
++++ b/node_modules/@polkadot/api-derive/cjs/packageInfo.js
+@@ -1,4 +1,4 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.packageInfo = void 0;
+-exports.packageInfo = { name: '@polkadot/api-derive', path: typeof __dirname === 'string' ? __dirname : 'auto', type: 'cjs', version: '10.12.4' };
++exports.packageInfo = { name: '@polkadot/api-derive', path: typeof __dirname === 'string' ? __dirname : 'auto', type: 'cjs', version: '11.0.2' };
+diff --git a/node_modules/@polkadot/api-derive/cjs/society/members.js b/node_modules/@polkadot/api-derive/cjs/society/members.js
+index c6e7963..f841099 100644
+--- a/node_modules/@polkadot/api-derive/cjs/society/members.js
++++ b/node_modules/@polkadot/api-derive/cjs/society/members.js
+@@ -26,15 +26,13 @@ function _membersCurr(api, accountIds) {
+         (0, rxjs_1.of)(accountIds),
+         api.query.society.members.multi(accountIds),
+         api.query.society.payouts.multi(accountIds),
+-        api.query.society.defenderVotes.multi(accountIds),
++        api.query.society.challengeRoundCount().pipe((0, rxjs_1.switchMap)((round) => api.query.society.defenderVotes.multi(accountIds.map((accountId) => [round, accountId])))),
+         api.query.society.suspendedMembers.multi(accountIds)
+     ]).pipe((0, rxjs_1.map)(([accountIds, members, payouts, defenderVotes, suspendedMembers]) => accountIds
+         .map((accountId, index) => members[index].isSome
+         ? {
+             accountId,
+-            isDefenderVoter: defenderVotes[index].isSome
+-                ? defenderVotes[index].unwrap().approve.isTrue
+-                : false,
++            isDefenderVoter: defenderVotes[index].isSome,
+             isSuspended: suspendedMembers[index].isSome,
+             member: members[index].unwrap(),
+             payouts: payouts[index].payouts
+diff --git a/node_modules/@polkadot/api-derive/cjs/staking/electedInfo.js b/node_modules/@polkadot/api-derive/cjs/staking/electedInfo.js
+index 2ebacfa..50e8ae1 100644
+--- a/node_modules/@polkadot/api-derive/cjs/staking/electedInfo.js
++++ b/node_modules/@polkadot/api-derive/cjs/staking/electedInfo.js
+@@ -9,7 +9,7 @@ function combineAccounts(nextElected, validators) {
+     return (0, util_1.arrayFlatten)([nextElected, validators.filter((v) => !nextElected.find((n) => n.eq(v)))]);
+ }
+ function electedInfo(instanceId, api) {
+-    return (0, index_js_1.memo)(instanceId, (flags = DEFAULT_FLAGS) => api.derive.staking.validators().pipe((0, rxjs_1.switchMap)(({ nextElected, validators }) => api.derive.staking.queryMulti(combineAccounts(nextElected, validators), flags).pipe((0, rxjs_1.map)((info) => ({
++    return (0, index_js_1.memo)(instanceId, (flags = DEFAULT_FLAGS, page = 0) => api.derive.staking.validators().pipe((0, rxjs_1.switchMap)(({ nextElected, validators }) => api.derive.staking.queryMulti(combineAccounts(nextElected, validators), flags, page).pipe((0, rxjs_1.map)((info) => ({
+         info,
+         nextElected,
+         validators
+diff --git a/node_modules/@polkadot/api-derive/cjs/staking/ownExposure.js b/node_modules/@polkadot/api-derive/cjs/staking/ownExposure.js
+index fd5fc30..0b8b521 100644
+--- a/node_modules/@polkadot/api-derive/cjs/staking/ownExposure.js
++++ b/node_modules/@polkadot/api-derive/cjs/staking/ownExposure.js
+@@ -5,13 +5,18 @@ const rxjs_1 = require("rxjs");
+ const index_js_1 = require("../util/index.js");
+ const util_js_1 = require("./util.js");
+ function _ownExposures(instanceId, api) {
+-    return (0, index_js_1.memo)(instanceId, (accountId, eras, _withActive) => eras.length
+-        ? (0, rxjs_1.combineLatest)([
+-            (0, rxjs_1.combineLatest)(eras.map((e) => api.query.staking.erasStakersClipped(e, accountId))),
+-            (0, rxjs_1.combineLatest)(eras.map((e) => api.query.staking.erasStakers(e, accountId)))
+-        ]).pipe((0, rxjs_1.map)(([clp, exp]) => eras.map((era, index) => ({ clipped: clp[index], era, exposure: exp[index] }))))
+-        : (0, rxjs_1.of)([]));
++    return (0, index_js_1.memo)(instanceId, (accountId, eras, _withActive, page) => {
++        return eras.length
++            ? (0, rxjs_1.combineLatest)([
++                // Backwards and forward compat for historical integrity when using `erasHistoricApplyAccount`
++                (0, rxjs_1.combineLatest)(eras.map((e) => api.query.staking.erasStakersClipped(e, accountId))),
++                (0, rxjs_1.combineLatest)(eras.map((e) => api.query.staking.erasStakers(e, accountId))),
++                (0, rxjs_1.combineLatest)(eras.map((e) => api.query.staking.erasStakersPaged(e, accountId, page))),
++                (0, rxjs_1.combineLatest)(eras.map((e) => api.query.staking.erasStakersOverview(e, accountId)))
++            ]).pipe((0, rxjs_1.map)(([clp, exp, paged, expMeta]) => eras.map((era, index) => ({ clipped: clp[index], era, exposure: exp[index], exposureMeta: expMeta[index], exposurePaged: paged[index] }))))
++            : (0, rxjs_1.of)([]);
++    });
+ }
+ exports._ownExposures = _ownExposures;
+-exports.ownExposure = (0, index_js_1.firstMemo)((api, accountId, era) => api.derive.staking._ownExposures(accountId, [era], true));
++exports.ownExposure = (0, index_js_1.firstMemo)((api, accountId, era, page) => api.derive.staking._ownExposures(accountId, [era], true, page || 0));
+ exports.ownExposures = (0, util_js_1.erasHistoricApplyAccount)('_ownExposures');
+diff --git a/node_modules/@polkadot/api-derive/cjs/staking/query.js b/node_modules/@polkadot/api-derive/cjs/staking/query.js
+index d67f320..d9dad86 100644
+--- a/node_modules/@polkadot/api-derive/cjs/staking/query.js
++++ b/node_modules/@polkadot/api-derive/cjs/staking/query.js
+@@ -9,11 +9,16 @@ function rewardDestinationCompat(rewardDestination) {
+         ? rewardDestination.unwrapOr(null)
+         : rewardDestination;
+ }
+-function parseDetails(stashId, controllerIdOpt, nominatorsOpt, rewardDestinationOpts, validatorPrefs, exposure, stakingLedgerOpt) {
++function filterClaimedRewards(api, cl) {
++    return api.registry.createType('Vec<u32>', cl.filter((c) => c !== -1));
++}
++function parseDetails(api, stashId, controllerIdOpt, nominatorsOpt, rewardDestinationOpts, validatorPrefs, exposure, stakingLedgerOpt, exposureMeta, claimedRewards) {
+     return {
+         accountId: stashId,
++        claimedRewardsEras: filterClaimedRewards(api, claimedRewards),
+         controllerId: controllerIdOpt?.unwrapOr(null) || null,
+-        exposure,
++        exposureMeta,
++        exposurePaged: exposure,
+         nominators: nominatorsOpt.isSome
+             ? nominatorsOpt.unwrap().targets
+             : [],
+@@ -37,11 +42,20 @@ function getLedgers(api, optIds, { withLedger = false }) {
+             : emptyLed);
+     }));
+ }
+-function getStashInfo(api, stashIds, activeEra, { withController, withDestination, withExposure, withLedger, withNominations, withPrefs }) {
++function getStashInfo(api, stashIds, activeEra, { withClaimedRewardsEras, withController, withDestination, withExposure, withExposureMeta, withLedger, withNominations, withPrefs }, page) {
+     const emptyNoms = api.registry.createType('Option<Nominations>');
+     const emptyRewa = api.registry.createType('RewardDestination');
+-    const emptyExpo = api.registry.createType('Exposure');
++    const emptyExpo = api.registry.createType('Option<SpStakingExposurePage>');
+     const emptyPrefs = api.registry.createType('ValidatorPrefs');
++    const emptyExpoMeta = api.registry.createType('Option<SpStakingPagedExposureMetadata>');
++    const emptyClaimedRewards = [-1];
++    const depth = Number(api.consts.staking.historyDepth.toNumber());
++    const eras = new Array(depth).fill(0).map((_, idx) => {
++        if (idx === 0) {
++            return activeEra.toNumber() - 1;
++        }
++        return activeEra.toNumber() - idx - 1;
++    });
+     return (0, rxjs_1.combineLatest)([
+         withController || withLedger
+             ? (0, rxjs_1.combineLatest)(stashIds.map((s) => api.query.staking.bonded(s)))
+@@ -56,22 +70,43 @@ function getStashInfo(api, stashIds, activeEra, { withController, withDestinatio
+             ? (0, rxjs_1.combineLatest)(stashIds.map((s) => api.query.staking.validators(s)))
+             : (0, rxjs_1.of)(stashIds.map(() => emptyPrefs)),
+         withExposure
+-            ? (0, rxjs_1.combineLatest)(stashIds.map((s) => api.query.staking.erasStakers(activeEra, s)))
+-            : (0, rxjs_1.of)(stashIds.map(() => emptyExpo))
++            ? (0, rxjs_1.combineLatest)(stashIds.map((s) => api.query.staking.erasStakersPaged(activeEra, s, page)))
++            : (0, rxjs_1.of)(stashIds.map(() => emptyExpo)),
++        withExposureMeta
++            ? (0, rxjs_1.combineLatest)(stashIds.map((s) => api.query.staking.erasStakersOverview(activeEra, s)))
++            : (0, rxjs_1.of)(stashIds.map(() => emptyExpoMeta)),
++        withClaimedRewardsEras
++            ? (0, rxjs_1.combineLatest)(stashIds.map((s) => (0, rxjs_1.combineLatest)([
++                (0, rxjs_1.combineLatest)(eras.map((e) => api.query.staking.claimedRewards(e, s))),
++                (0, rxjs_1.combineLatest)(eras.map((e) => api.query.staking.erasStakersOverview(e, s)))
++            ]))).pipe((0, rxjs_1.map)((r) => {
++                return r.map(([stashClaimedEras, overview]) => {
++                    // stashClaimedEras length will match the length of eras
++                    return stashClaimedEras.map((claimedReward, idx) => {
++                        const o = overview[idx].isSome && overview[idx].unwrap();
++                        if (claimedReward.length === (o && o.pageCount.toNumber())) {
++                            return eras[idx];
++                        }
++                        return -1;
++                    });
++                });
++            }))
++            : (0, rxjs_1.of)(stashIds.map(() => emptyClaimedRewards))
+     ]);
+ }
+-function getBatch(api, activeEra, stashIds, flags) {
+-    return getStashInfo(api, stashIds, activeEra, flags).pipe((0, rxjs_1.switchMap)(([controllerIdOpt, nominatorsOpt, rewardDestination, validatorPrefs, exposure]) => getLedgers(api, controllerIdOpt, flags).pipe((0, rxjs_1.map)((stakingLedgerOpts) => stashIds.map((stashId, index) => parseDetails(stashId, controllerIdOpt[index], nominatorsOpt[index], rewardDestination[index], validatorPrefs[index], exposure[index], stakingLedgerOpts[index]))))));
++function getBatch(api, activeEra, stashIds, flags, page) {
++    return getStashInfo(api, stashIds, activeEra, flags, page).pipe((0, rxjs_1.switchMap)(([controllerIdOpt, nominatorsOpt, rewardDestination, validatorPrefs, exposure, exposureMeta, claimedRewardsEras]) => getLedgers(api, controllerIdOpt, flags).pipe((0, rxjs_1.map)((stakingLedgerOpts) => stashIds.map((stashId, index) => parseDetails(api, stashId, controllerIdOpt[index], nominatorsOpt[index], rewardDestination[index], validatorPrefs[index], exposure[index], stakingLedgerOpts[index], exposureMeta[index], claimedRewardsEras[index]))))));
+ }
+ /**
+  * @description From a stash, retrieve the controllerId and all relevant details
+  */
+-exports.query = (0, index_js_1.firstMemo)((api, accountId, flags) => api.derive.staking.queryMulti([accountId], flags));
++exports.query = (0, index_js_1.firstMemo)((api, accountId, flags, page) => api.derive.staking.queryMulti([accountId], flags, page));
+ function queryMulti(instanceId, api) {
+-    return (0, index_js_1.memo)(instanceId, (accountIds, flags) => api.derive.session.indexes().pipe((0, rxjs_1.switchMap)(({ activeEra }) => {
++    return (0, index_js_1.memo)(instanceId, (accountIds, flags, page) => api.derive.session.indexes().pipe((0, rxjs_1.switchMap)(({ activeEra }) => {
+         const stashIds = accountIds.map((a) => api.registry.createType('AccountId', a));
++        const p = page || 0;
+         return stashIds.length
+-            ? getBatch(api, activeEra, stashIds, flags)
++            ? getBatch(api, activeEra, stashIds, flags, p)
+             : (0, rxjs_1.of)([]);
+     })));
+ }
+diff --git a/node_modules/@polkadot/api-derive/cjs/staking/stakerRewards.js b/node_modules/@polkadot/api-derive/cjs/staking/stakerRewards.js
+index d79a40a..70ae4f6 100644
+--- a/node_modules/@polkadot/api-derive/cjs/staking/stakerRewards.js
++++ b/node_modules/@polkadot/api-derive/cjs/staking/stakerRewards.js
+@@ -4,11 +4,12 @@ exports.stakerRewardsMulti = exports.stakerRewardsMultiEras = exports.stakerRewa
+ const rxjs_1 = require("rxjs");
+ const util_1 = require("@polkadot/util");
+ const index_js_1 = require("../util/index.js");
+-function extractCompatRewards(ledger) {
+-    return ledger
++function extractCompatRewards(claimedRewardsEras, ledger) {
++    const l = ledger
+         ? (ledger.legacyClaimedRewards ||
+-            ledger.claimedRewards)
++            ledger.claimedRewards).toArray()
+         : [];
++    return claimedRewardsEras.toArray().concat(l);
+ }
+ function parseRewards(api, stashId, [erasPoints, erasPrefs, erasRewards], exposures) {
+     return exposures.map(({ era, isEmpty, isValidator, nominating, validators: eraValidators }) => {
+@@ -80,13 +81,13 @@ function allUniqValidators(rewards) {
+         return [all, perStash];
+     }, [[], []]);
+ }
+-function removeClaimed(validators, queryValidators, reward) {
++function removeClaimed(validators, queryValidators, reward, claimedRewardsEras) {
+     const rm = [];
+     Object.keys(reward.validators).forEach((validatorId) => {
+         const index = validators.indexOf(validatorId);
+         if (index !== -1) {
+             const valLedger = queryValidators[index].stakingLedger;
+-            if (extractCompatRewards(valLedger).some((e) => reward.era.eq(e))) {
++            if (extractCompatRewards(claimedRewardsEras, valLedger).some((e) => reward.era.eq(e))) {
+                 rm.push(validatorId);
+             }
+         }
+@@ -95,8 +96,8 @@ function removeClaimed(validators, queryValidators, reward) {
+         delete reward.validators[validatorId];
+     });
+ }
+-function filterRewards(eras, valInfo, { rewards, stakingLedger }) {
+-    const filter = eras.filter((e) => !extractCompatRewards(stakingLedger).some((s) => s.eq(e)));
++function filterRewards(eras, valInfo, { claimedRewardsEras, rewards, stakingLedger }) {
++    const filter = eras.filter((e) => !extractCompatRewards(claimedRewardsEras, stakingLedger).some((s) => s.eq(e)));
+     const validators = valInfo.map(([v]) => v);
+     const queryValidators = valInfo.map(([, q]) => q);
+     return rewards
+@@ -105,7 +106,7 @@ function filterRewards(eras, valInfo, { rewards, stakingLedger }) {
+         if (!filter.some((e) => reward.era.eq(e))) {
+             return false;
+         }
+-        removeClaimed(validators, queryValidators, reward);
++        removeClaimed(validators, queryValidators, reward, claimedRewardsEras);
+         return true;
+     })
+         .filter(({ validators }) => Object.keys(validators).length !== 0)
+@@ -127,19 +128,20 @@ function _stakerRewards(instanceId, api) {
+         api.derive.staking._stakerExposures(accountIds, eras, withActive),
+         api.derive.staking._stakerRewardsEras(eras, withActive)
+     ]).pipe((0, rxjs_1.switchMap)(([queries, exposures, erasResult]) => {
+-        const allRewards = queries.map(({ stakingLedger, stashId }, index) => (!stashId || !stakingLedger)
++        const allRewards = queries.map(({ claimedRewardsEras, stakingLedger, stashId }, index) => (!stashId || (!stakingLedger && !claimedRewardsEras))
+             ? []
+             : parseRewards(api, stashId, erasResult, exposures[index]));
+         if (withActive) {
+             return (0, rxjs_1.of)(allRewards);
+         }
+         const [allValidators, stashValidators] = allUniqValidators(allRewards);
+-        return api.derive.staking.queryMulti(allValidators, { withLedger: true }).pipe((0, rxjs_1.map)((queriedVals) => queries.map(({ stakingLedger }, index) => filterRewards(eras, stashValidators[index]
++        return api.derive.staking.queryMulti(allValidators, { withClaimedRewardsEras: true, withLedger: true }).pipe((0, rxjs_1.map)((queriedVals) => queries.map(({ claimedRewardsEras, stakingLedger }, index) => filterRewards(eras, stashValidators[index]
+             .map((validatorId) => [
+             validatorId,
+             queriedVals.find((q) => q.accountId.eq(validatorId))
+         ])
+             .filter((v) => !!v[1]), {
++            claimedRewardsEras,
+             rewards: allRewards[index],
+             stakingLedger
+         }))));
+diff --git a/node_modules/@polkadot/api-derive/cjs/staking/util.js b/node_modules/@polkadot/api-derive/cjs/staking/util.js
+index a8aa95e..a40c479 100644
+--- a/node_modules/@polkadot/api-derive/cjs/staking/util.js
++++ b/node_modules/@polkadot/api-derive/cjs/staking/util.js
+@@ -33,7 +33,7 @@ function erasHistoricApplyAccount(fn) {
+     return (instanceId, api) => 
+     // Cannot quite get the typing right, but it is right in the code
+     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+-    (0, index_js_1.memo)(instanceId, (accountId, withActive = false) => api.derive.staking.erasHistoric(withActive).pipe((0, rxjs_1.switchMap)((e) => api.derive.staking[fn](accountId, e, withActive))));
++    (0, index_js_1.memo)(instanceId, (accountId, withActive = false, page) => api.derive.staking.erasHistoric(withActive).pipe((0, rxjs_1.switchMap)((e) => api.derive.staking[fn](accountId, e, withActive, page || 0))));
+ }
+ exports.erasHistoricApplyAccount = erasHistoricApplyAccount;
+ function singleEra(fn) {
+diff --git a/node_modules/@polkadot/api-derive/cjs/staking/validators.js b/node_modules/@polkadot/api-derive/cjs/staking/validators.js
+index da0fab4..7a8d328 100644
+--- a/node_modules/@polkadot/api-derive/cjs/staking/validators.js
++++ b/node_modules/@polkadot/api-derive/cjs/staking/validators.js
+@@ -4,11 +4,11 @@ exports.validators = exports.nextElected = void 0;
+ const rxjs_1 = require("rxjs");
+ const index_js_1 = require("../util/index.js");
+ function nextElected(instanceId, api) {
+-    return (0, index_js_1.memo)(instanceId, () => api.query.staking.erasStakers
++    return (0, index_js_1.memo)(instanceId, () => api.query.staking.erasStakersPaged
+         ? api.derive.session.indexes().pipe(
+         // only populate for next era in the last session, so track both here - entries are not
+         // subscriptions, so we need a trigger - currentIndex acts as that trigger to refresh
+-        (0, rxjs_1.switchMap)(({ currentEra }) => api.query.staking.erasStakers.keys(currentEra)), (0, rxjs_1.map)((keys) => keys.map(({ args: [, accountId] }) => accountId)))
++        (0, rxjs_1.switchMap)(({ currentEra }) => api.query.staking.erasStakersPaged.keys(currentEra)), (0, rxjs_1.map)((keys) => keys.map(({ args: [, accountId] }) => accountId)))
+         : api.query.staking['currentElected']());
+ }
+ exports.nextElected = nextElected;
+diff --git a/node_modules/@polkadot/api-derive/elections/info.js b/node_modules/@polkadot/api-derive/elections/info.js
+index 981b9b1..5442332 100644
+--- a/node_modules/@polkadot/api-derive/elections/info.js
++++ b/node_modules/@polkadot/api-derive/elections/info.js
+@@ -42,7 +42,10 @@ function getModules(api) {
+             : api.query.elections
+                 ? 'elections'
+                 : null;
+-    return [council, elections];
++    // In some cases council here can refer to `generalCouncil` depending on what the chain specific override is.
++    // Therefore, we check to see if it exists in the query field. If it does not we default to `council`.
++    const resolvedCouncil = api.query[council] ? council : 'council';
++    return [resolvedCouncil, elections];
+ }
+ function queryAll(api, council, elections) {
+     return api.queryMulti([
+diff --git a/node_modules/@polkadot/api-derive/packageInfo.js b/node_modules/@polkadot/api-derive/packageInfo.js
+index f8159a4..1991755 100644
+--- a/node_modules/@polkadot/api-derive/packageInfo.js
++++ b/node_modules/@polkadot/api-derive/packageInfo.js
+@@ -1 +1 @@
+-export const packageInfo = { name: '@polkadot/api-derive', path: (import.meta && import.meta.url) ? new URL(import.meta.url).pathname.substring(0, new URL(import.meta.url).pathname.lastIndexOf('/') + 1) : 'auto', type: 'esm', version: '10.12.4' };
++export const packageInfo = { name: '@polkadot/api-derive', path: (import.meta && import.meta.url) ? new URL(import.meta.url).pathname.substring(0, new URL(import.meta.url).pathname.lastIndexOf('/') + 1) : 'auto', type: 'esm', version: '11.0.2' };
+diff --git a/node_modules/@polkadot/api-derive/society/members.js b/node_modules/@polkadot/api-derive/society/members.js
+index e38cf64..8fe42cb 100644
+--- a/node_modules/@polkadot/api-derive/society/members.js
++++ b/node_modules/@polkadot/api-derive/society/members.js
+@@ -23,15 +23,13 @@ function _membersCurr(api, accountIds) {
+         of(accountIds),
+         api.query.society.members.multi(accountIds),
+         api.query.society.payouts.multi(accountIds),
+-        api.query.society.defenderVotes.multi(accountIds),
++        api.query.society.challengeRoundCount().pipe(switchMap((round) => api.query.society.defenderVotes.multi(accountIds.map((accountId) => [round, accountId])))),
+         api.query.society.suspendedMembers.multi(accountIds)
+     ]).pipe(map(([accountIds, members, payouts, defenderVotes, suspendedMembers]) => accountIds
+         .map((accountId, index) => members[index].isSome
+         ? {
+             accountId,
+-            isDefenderVoter: defenderVotes[index].isSome
+-                ? defenderVotes[index].unwrap().approve.isTrue
+-                : false,
++            isDefenderVoter: defenderVotes[index].isSome,
+             isSuspended: suspendedMembers[index].isSome,
+             member: members[index].unwrap(),
+             payouts: payouts[index].payouts
+diff --git a/node_modules/@polkadot/api-derive/staking/electedInfo.d.ts b/node_modules/@polkadot/api-derive/staking/electedInfo.d.ts
+index 07cf2cf..7d4d7e3 100644
+--- a/node_modules/@polkadot/api-derive/staking/electedInfo.d.ts
++++ b/node_modules/@polkadot/api-derive/staking/electedInfo.d.ts
+@@ -1,3 +1,3 @@
+ import type { Observable } from 'rxjs';
+ import type { DeriveApi, DeriveStakingElected, StakingQueryFlags } from '../types.js';
+-export declare function electedInfo(instanceId: string, api: DeriveApi): (flags?: StakingQueryFlags) => Observable<DeriveStakingElected>;
++export declare function electedInfo(instanceId: string, api: DeriveApi): (flags?: StakingQueryFlags, page?: number) => Observable<DeriveStakingElected>;
+diff --git a/node_modules/@polkadot/api-derive/staking/electedInfo.js b/node_modules/@polkadot/api-derive/staking/electedInfo.js
+index 5528b39..d96f147 100644
+--- a/node_modules/@polkadot/api-derive/staking/electedInfo.js
++++ b/node_modules/@polkadot/api-derive/staking/electedInfo.js
+@@ -6,7 +6,7 @@ function combineAccounts(nextElected, validators) {
+     return arrayFlatten([nextElected, validators.filter((v) => !nextElected.find((n) => n.eq(v)))]);
+ }
+ export function electedInfo(instanceId, api) {
+-    return memo(instanceId, (flags = DEFAULT_FLAGS) => api.derive.staking.validators().pipe(switchMap(({ nextElected, validators }) => api.derive.staking.queryMulti(combineAccounts(nextElected, validators), flags).pipe(map((info) => ({
++    return memo(instanceId, (flags = DEFAULT_FLAGS, page = 0) => api.derive.staking.validators().pipe(switchMap(({ nextElected, validators }) => api.derive.staking.queryMulti(combineAccounts(nextElected, validators), flags, page).pipe(map((info) => ({
+         info,
+         nextElected,
+         validators
+diff --git a/node_modules/@polkadot/api-derive/staking/ownExposure.d.ts b/node_modules/@polkadot/api-derive/staking/ownExposure.d.ts
+index bfbfb8e..09d2981 100644
+--- a/node_modules/@polkadot/api-derive/staking/ownExposure.d.ts
++++ b/node_modules/@polkadot/api-derive/staking/ownExposure.d.ts
+@@ -1,6 +1,8 @@
+ import type { Observable } from 'rxjs';
++import type { u32 } from '@polkadot/types';
+ import type { EraIndex } from '@polkadot/types/interfaces';
++import type { AnyNumber } from '@polkadot/types-codec/types';
+ import type { DeriveApi, DeriveOwnExposure } from '../types.js';
+-export declare function _ownExposures(instanceId: string, api: DeriveApi): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean) => Observable<DeriveOwnExposure[]>;
+-export declare const ownExposure: (instanceId: string, api: DeriveApi) => (accountId: string | Uint8Array, era: EraIndex) => Observable<DeriveOwnExposure>;
++export declare function _ownExposures(instanceId: string, api: DeriveApi): (accountId: Uint8Array | string, eras: EraIndex[], withActive: boolean, page: u32 | AnyNumber) => Observable<DeriveOwnExposure[]>;
++export declare const ownExposure: (instanceId: string, api: DeriveApi) => (accountId: string | Uint8Array, era: EraIndex, page?: u32 | AnyNumber | undefined) => Observable<DeriveOwnExposure>;
+ export declare const ownExposures: (instanceId: string, api: DeriveApi) => (accountId: string | Uint8Array, withActive?: boolean | undefined) => Observable<DeriveOwnExposure[]>;
+diff --git a/node_modules/@polkadot/api-derive/staking/ownExposure.js b/node_modules/@polkadot/api-derive/staking/ownExposure.js
+index 4344924..5759d76 100644
+--- a/node_modules/@polkadot/api-derive/staking/ownExposure.js
++++ b/node_modules/@polkadot/api-derive/staking/ownExposure.js
+@@ -2,12 +2,17 @@ import { combineLatest, map, of } from 'rxjs';
+ import { firstMemo, memo } from '../util/index.js';
+ import { erasHistoricApplyAccount } from './util.js';
+ export function _ownExposures(instanceId, api) {
+-    return memo(instanceId, (accountId, eras, _withActive) => eras.length
+-        ? combineLatest([
+-            combineLatest(eras.map((e) => api.query.staking.erasStakersClipped(e, accountId))),
+-            combineLatest(eras.map((e) => api.query.staking.erasStakers(e, accountId)))
+-        ]).pipe(map(([clp, exp]) => eras.map((era, index) => ({ clipped: clp[index], era, exposure: exp[index] }))))
+-        : of([]));
++    return memo(instanceId, (accountId, eras, _withActive, page) => {
++        return eras.length
++            ? combineLatest([
++                // Backwards and forward compat for historical integrity when using `erasHistoricApplyAccount`
++                combineLatest(eras.map((e) => api.query.staking.erasStakersClipped(e, accountId))),
++                combineLatest(eras.map((e) => api.query.staking.erasStakers(e, accountId))),
++                combineLatest(eras.map((e) => api.query.staking.erasStakersPaged(e, accountId, page))),
++                combineLatest(eras.map((e) => api.query.staking.erasStakersOverview(e, accountId)))
++            ]).pipe(map(([clp, exp, paged, expMeta]) => eras.map((era, index) => ({ clipped: clp[index], era, exposure: exp[index], exposureMeta: expMeta[index], exposurePaged: paged[index] }))))
++            : of([]);
++    });
+ }
+-export const ownExposure = /*#__PURE__*/ firstMemo((api, accountId, era) => api.derive.staking._ownExposures(accountId, [era], true));
++export const ownExposure = /*#__PURE__*/ firstMemo((api, accountId, era, page) => api.derive.staking._ownExposures(accountId, [era], true, page || 0));
+ export const ownExposures = /*#__PURE__*/ erasHistoricApplyAccount('_ownExposures');
+diff --git a/node_modules/@polkadot/api-derive/staking/query.d.ts b/node_modules/@polkadot/api-derive/staking/query.d.ts
+index c590ab1..de4e967 100644
+--- a/node_modules/@polkadot/api-derive/staking/query.d.ts
++++ b/node_modules/@polkadot/api-derive/staking/query.d.ts
+@@ -1,7 +1,9 @@
+ import type { Observable } from 'rxjs';
++import type { u32 } from '@polkadot/types';
++import type { AnyNumber } from '@polkadot/types-codec/types';
+ import type { DeriveApi, DeriveStakingQuery, StakingQueryFlags } from '../types.js';
+ /**
+  * @description From a stash, retrieve the controllerId and all relevant details
+  */
+-export declare const query: (instanceId: string, api: DeriveApi) => (accountId: string | Uint8Array, flags: StakingQueryFlags) => Observable<DeriveStakingQuery>;
+-export declare function queryMulti(instanceId: string, api: DeriveApi): (accountIds: (Uint8Array | string)[], flags: StakingQueryFlags) => Observable<DeriveStakingQuery[]>;
++export declare const query: (instanceId: string, api: DeriveApi) => (accountId: string | Uint8Array, flags: StakingQueryFlags, page?: u32 | undefined) => Observable<DeriveStakingQuery>;
++export declare function queryMulti(instanceId: string, api: DeriveApi): (accountIds: (Uint8Array | string)[], flags: StakingQueryFlags, page?: u32 | AnyNumber) => Observable<DeriveStakingQuery[]>;
+diff --git a/node_modules/@polkadot/api-derive/staking/query.js b/node_modules/@polkadot/api-derive/staking/query.js
+index 5b66398..e505c56 100644
+--- a/node_modules/@polkadot/api-derive/staking/query.js
++++ b/node_modules/@polkadot/api-derive/staking/query.js
+@@ -6,11 +6,16 @@ function rewardDestinationCompat(rewardDestination) {
+         ? rewardDestination.unwrapOr(null)
+         : rewardDestination;
+ }
+-function parseDetails(stashId, controllerIdOpt, nominatorsOpt, rewardDestinationOpts, validatorPrefs, exposure, stakingLedgerOpt) {
++function filterClaimedRewards(api, cl) {
++    return api.registry.createType('Vec<u32>', cl.filter((c) => c !== -1));
++}
++function parseDetails(api, stashId, controllerIdOpt, nominatorsOpt, rewardDestinationOpts, validatorPrefs, exposure, stakingLedgerOpt, exposureMeta, claimedRewards) {
+     return {
+         accountId: stashId,
++        claimedRewardsEras: filterClaimedRewards(api, claimedRewards),
+         controllerId: controllerIdOpt?.unwrapOr(null) || null,
+-        exposure,
++        exposureMeta,
++        exposurePaged: exposure,
+         nominators: nominatorsOpt.isSome
+             ? nominatorsOpt.unwrap().targets
+             : [],
+@@ -34,11 +39,28 @@ function getLedgers(api, optIds, { withLedger = false }) {
+             : emptyLed);
+     }));
+ }
+-function getStashInfo(api, stashIds, activeEra, { withController, withDestination, withExposure, withLedger, withNominations, withPrefs }) {
++function getStashInfo(api, stashIds, activeEra, { withClaimedRewardsEras, withController, withDestination, withExposure, withExposureMeta, withLedger, withNominations, withPrefs }, page) {
+     const emptyNoms = api.registry.createType('Option<Nominations>');
+     const emptyRewa = api.registry.createType('RewardDestination');
+-    const emptyExpo = api.registry.createType('Exposure');
++    const emptyExpo = api.registry.createType('Option<SpStakingExposurePage>');
+     const emptyPrefs = api.registry.createType('ValidatorPrefs');
++    const emptyExpoMeta = api.registry.createType('Option<SpStakingPagedExposureMetadata>');
++    const emptyClaimedRewards = [-1];
++    let depth = Number(api.consts.staking.historyDepth.toNumber());
++    try{
++        let numberActiveEra = Number(activeEra.words[0])
++        if (numberActiveEra < depth){
++            depth = numberActiveEra
++        }
++    }catch(err){
++        console.log(err)
++    }
++    const eras = new Array(depth).fill(0).map((_, idx) => {
++        if (idx === 0) {
++            return activeEra.toNumber() - 1;
++        }
++        return activeEra.toNumber() - idx - 1;
++    });
+     return combineLatest([
+         withController || withLedger
+             ? combineLatest(stashIds.map((s) => api.query.staking.bonded(s)))
+@@ -53,22 +75,43 @@ function getStashInfo(api, stashIds, activeEra, { withController, withDestinatio
+             ? combineLatest(stashIds.map((s) => api.query.staking.validators(s)))
+             : of(stashIds.map(() => emptyPrefs)),
+         withExposure
+-            ? combineLatest(stashIds.map((s) => api.query.staking.erasStakers(activeEra, s)))
+-            : of(stashIds.map(() => emptyExpo))
++            ? combineLatest(stashIds.map((s) => api.query.staking.erasStakersPaged(activeEra, s, page)))
++            : of(stashIds.map(() => emptyExpo)),
++        withExposureMeta
++            ? combineLatest(stashIds.map((s) => api.query.staking.erasStakersOverview(activeEra, s)))
++            : of(stashIds.map(() => emptyExpoMeta)),
++        withClaimedRewardsEras
++            ? combineLatest(stashIds.map((s) => combineLatest([
++                combineLatest(eras.map((e) => api.query.staking.claimedRewards(e, s))),
++                combineLatest(eras.map((e) => api.query.staking.erasStakersOverview(e, s)))
++            ]))).pipe(map((r) => {
++                return r.map(([stashClaimedEras, overview]) => {
++                    // stashClaimedEras length will match the length of eras
++                    return stashClaimedEras.map((claimedReward, idx) => {
++                        const o = overview[idx].isSome && overview[idx].unwrap();
++                        if (claimedReward.length === (o && o.pageCount.toNumber())) {
++                            return eras[idx];
++                        }
++                        return -1;
++                    });
++                });
++            }))
++            : of(stashIds.map(() => emptyClaimedRewards))
+     ]);
+ }
+-function getBatch(api, activeEra, stashIds, flags) {
+-    return getStashInfo(api, stashIds, activeEra, flags).pipe(switchMap(([controllerIdOpt, nominatorsOpt, rewardDestination, validatorPrefs, exposure]) => getLedgers(api, controllerIdOpt, flags).pipe(map((stakingLedgerOpts) => stashIds.map((stashId, index) => parseDetails(stashId, controllerIdOpt[index], nominatorsOpt[index], rewardDestination[index], validatorPrefs[index], exposure[index], stakingLedgerOpts[index]))))));
++function getBatch(api, activeEra, stashIds, flags, page) {
++    return getStashInfo(api, stashIds, activeEra, flags, page).pipe(switchMap(([controllerIdOpt, nominatorsOpt, rewardDestination, validatorPrefs, exposure, exposureMeta, claimedRewardsEras]) => getLedgers(api, controllerIdOpt, flags).pipe(map((stakingLedgerOpts) => stashIds.map((stashId, index) => parseDetails(api, stashId, controllerIdOpt[index], nominatorsOpt[index], rewardDestination[index], validatorPrefs[index], exposure[index], stakingLedgerOpts[index], exposureMeta[index], claimedRewardsEras[index]))))));
+ }
+ /**
+  * @description From a stash, retrieve the controllerId and all relevant details
+  */
+-export const query = /*#__PURE__*/ firstMemo((api, accountId, flags) => api.derive.staking.queryMulti([accountId], flags));
++export const query = /*#__PURE__*/ firstMemo((api, accountId, flags, page) => api.derive.staking.queryMulti([accountId], flags, page));
+ export function queryMulti(instanceId, api) {
+-    return memo(instanceId, (accountIds, flags) => api.derive.session.indexes().pipe(switchMap(({ activeEra }) => {
++    return memo(instanceId, (accountIds, flags, page) => api.derive.session.indexes().pipe(switchMap(({ activeEra }) => {
+         const stashIds = accountIds.map((a) => api.registry.createType('AccountId', a));
++        const p = page || 0;
+         return stashIds.length
+-            ? getBatch(api, activeEra, stashIds, flags)
++            ? getBatch(api, activeEra, stashIds, flags, p)
+             : of([]);
+     })));
+ }
+diff --git a/node_modules/@polkadot/api-derive/staking/stakerRewards.js b/node_modules/@polkadot/api-derive/staking/stakerRewards.js
+index 1cac769..5fd373c 100644
+--- a/node_modules/@polkadot/api-derive/staking/stakerRewards.js
++++ b/node_modules/@polkadot/api-derive/staking/stakerRewards.js
+@@ -1,11 +1,12 @@
+ import { combineLatest, map, of, switchMap } from 'rxjs';
+ import { BN_BILLION, BN_ZERO, objectSpread } from '@polkadot/util';
+ import { firstMemo, memo } from '../util/index.js';
+-function extractCompatRewards(ledger) {
+-    return ledger
++function extractCompatRewards(claimedRewardsEras, ledger) {
++    const l = ledger
+         ? (ledger.legacyClaimedRewards ||
+-            ledger.claimedRewards)
++            ledger.claimedRewards).toArray()
+         : [];
++    return claimedRewardsEras.toArray().concat(l);
+ }
+ function parseRewards(api, stashId, [erasPoints, erasPrefs, erasRewards], exposures) {
+     return exposures.map(({ era, isEmpty, isValidator, nominating, validators: eraValidators }) => {
+@@ -77,13 +78,13 @@ function allUniqValidators(rewards) {
+         return [all, perStash];
+     }, [[], []]);
+ }
+-function removeClaimed(validators, queryValidators, reward) {
++function removeClaimed(validators, queryValidators, reward, claimedRewardsEras) {
+     const rm = [];
+     Object.keys(reward.validators).forEach((validatorId) => {
+         const index = validators.indexOf(validatorId);
+         if (index !== -1) {
+             const valLedger = queryValidators[index].stakingLedger;
+-            if (extractCompatRewards(valLedger).some((e) => reward.era.eq(e))) {
++            if (extractCompatRewards(claimedRewardsEras, valLedger).some((e) => reward.era.eq(e))) {
+                 rm.push(validatorId);
+             }
+         }
+@@ -92,8 +93,8 @@ function removeClaimed(validators, queryValidators, reward) {
+         delete reward.validators[validatorId];
+     });
+ }
+-function filterRewards(eras, valInfo, { rewards, stakingLedger }) {
+-    const filter = eras.filter((e) => !extractCompatRewards(stakingLedger).some((s) => s.eq(e)));
++function filterRewards(eras, valInfo, { claimedRewardsEras, rewards, stakingLedger }) {
++    const filter = eras.filter((e) => !extractCompatRewards(claimedRewardsEras, stakingLedger).some((s) => s.eq(e)));
+     const validators = valInfo.map(([v]) => v);
+     const queryValidators = valInfo.map(([, q]) => q);
+     return rewards
+@@ -102,7 +103,7 @@ function filterRewards(eras, valInfo, { rewards, stakingLedger }) {
+         if (!filter.some((e) => reward.era.eq(e))) {
+             return false;
+         }
+-        removeClaimed(validators, queryValidators, reward);
++        removeClaimed(validators, queryValidators, reward, claimedRewardsEras);
+         return true;
+     })
+         .filter(({ validators }) => Object.keys(validators).length !== 0)
+@@ -123,19 +124,20 @@ export function _stakerRewards(instanceId, api) {
+         api.derive.staking._stakerExposures(accountIds, eras, withActive),
+         api.derive.staking._stakerRewardsEras(eras, withActive)
+     ]).pipe(switchMap(([queries, exposures, erasResult]) => {
+-        const allRewards = queries.map(({ stakingLedger, stashId }, index) => (!stashId || !stakingLedger)
++        const allRewards = queries.map(({ claimedRewardsEras, stakingLedger, stashId }, index) => (!stashId || (!stakingLedger && !claimedRewardsEras))
+             ? []
+             : parseRewards(api, stashId, erasResult, exposures[index]));
+         if (withActive) {
+             return of(allRewards);
+         }
+         const [allValidators, stashValidators] = allUniqValidators(allRewards);
+-        return api.derive.staking.queryMulti(allValidators, { withLedger: true }).pipe(map((queriedVals) => queries.map(({ stakingLedger }, index) => filterRewards(eras, stashValidators[index]
++        return api.derive.staking.queryMulti(allValidators, { withClaimedRewardsEras: true, withLedger: true }).pipe(map((queriedVals) => queries.map(({ claimedRewardsEras, stakingLedger }, index) => filterRewards(eras, stashValidators[index]
+             .map((validatorId) => [
+             validatorId,
+             queriedVals.find((q) => q.accountId.eq(validatorId))
+         ])
+             .filter((v) => !!v[1]), {
++            claimedRewardsEras,
+             rewards: allRewards[index],
+             stakingLedger
+         }))));
+diff --git a/node_modules/@polkadot/api-derive/staking/types.d.ts b/node_modules/@polkadot/api-derive/staking/types.d.ts
+index b2e0122..7b6d214 100644
+--- a/node_modules/@polkadot/api-derive/staking/types.d.ts
++++ b/node_modules/@polkadot/api-derive/staking/types.d.ts
+@@ -1,6 +1,7 @@
+ /// <reference types="bn.js" />
++import type { Option, u32, Vec } from '@polkadot/types';
+ import type { AccountId, Balance, EraIndex, RewardPoint } from '@polkadot/types/interfaces';
+-import type { PalletStakingRewardDestination, PalletStakingStakingLedger, PalletStakingValidatorPrefs, SpStakingExposure, SpStakingExposurePage } from '@polkadot/types/lookup';
++import type { PalletStakingRewardDestination, PalletStakingStakingLedger, PalletStakingValidatorPrefs, SpStakingExposure, SpStakingExposurePage, SpStakingPagedExposureMetadata } from '@polkadot/types/lookup';
+ import type { BN } from '@polkadot/util';
+ import type { DeriveSessionIndexes } from '../session/types.js';
+ export type DeriveEraValPoints = Record<string, RewardPoint>;
+@@ -31,8 +32,10 @@ export interface DeriveStakerPoints {
+ }
+ export interface DeriveOwnExposure {
+     clipped: SpStakingExposure;
++    exposurePaged: Option<SpStakingExposurePage>;
+     era: EraIndex;
+     exposure: SpStakingExposure;
++    exposureMeta: Option<SpStakingPagedExposureMetadata>;
+ }
+ export interface DeriveEraExposureNominating {
+     validatorId: string;
+@@ -89,11 +92,13 @@ export interface DeriveStakingValidators {
+ }
+ export interface DeriveStakingStash {
+     controllerId: AccountId | null;
+-    exposure: SpStakingExposure;
++    exposurePaged: Option<SpStakingExposurePage>;
++    exposureMeta: Option<SpStakingPagedExposureMetadata>;
+     nominators: AccountId[];
+     rewardDestination: PalletStakingRewardDestination | null;
+     stashId: AccountId;
+     validatorPrefs: PalletStakingValidatorPrefs;
++    claimedRewardsEras: Vec<u32>;
+ }
+ export interface DeriveStakingQuery extends DeriveStakingStash {
+     accountId: AccountId;
+@@ -127,4 +132,6 @@ export interface StakingQueryFlags {
+     withLedger?: boolean;
+     withNominations?: boolean;
+     withPrefs?: boolean;
++    withExposureMeta?: boolean;
++    withClaimedRewardsEras?: boolean;
+ }
+diff --git a/node_modules/@polkadot/api-derive/staking/util.js b/node_modules/@polkadot/api-derive/staking/util.js
+index 546767d..93c3984 100644
+--- a/node_modules/@polkadot/api-derive/staking/util.js
++++ b/node_modules/@polkadot/api-derive/staking/util.js
+@@ -28,7 +28,7 @@ export function erasHistoricApplyAccount(fn) {
+     return (instanceId, api) => 
+     // Cannot quite get the typing right, but it is right in the code
+     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+-    memo(instanceId, (accountId, withActive = false) => api.derive.staking.erasHistoric(withActive).pipe(switchMap((e) => api.derive.staking[fn](accountId, e, withActive))));
++    memo(instanceId, (accountId, withActive = false, page) => api.derive.staking.erasHistoric(withActive).pipe(switchMap((e) => api.derive.staking[fn](accountId, e, withActive, page || 0))));
+ }
+ export function singleEra(fn) {
+     return (instanceId, api) => 
+diff --git a/node_modules/@polkadot/api-derive/staking/validators.js b/node_modules/@polkadot/api-derive/staking/validators.js
+index 32380ce..8663847 100644
+--- a/node_modules/@polkadot/api-derive/staking/validators.js
++++ b/node_modules/@polkadot/api-derive/staking/validators.js
+@@ -1,11 +1,11 @@
+ import { combineLatest, map, of, switchMap } from 'rxjs';
+ import { memo } from '../util/index.js';
+ export function nextElected(instanceId, api) {
+-    return memo(instanceId, () => api.query.staking.erasStakers
++    return memo(instanceId, () => api.query.staking.erasStakersPaged
+         ? api.derive.session.indexes().pipe(
+         // only populate for next era in the last session, so track both here - entries are not
+         // subscriptions, so we need a trigger - currentIndex acts as that trigger to refresh
+-        switchMap(({ currentEra }) => api.query.staking.erasStakers.keys(currentEra)), map((keys) => keys.map(({ args: [, accountId] }) => accountId)))
++        switchMap(({ currentEra }) => api.query.staking.erasStakersPaged.keys(currentEra)), map((keys) => keys.map(({ args: [, accountId] }) => accountId)))
+         : api.query.staking['currentElected']());
+ }
+ /**

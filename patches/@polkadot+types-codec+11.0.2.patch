@@ -1,0 +1,949 @@
+diff --git a/node_modules/@polkadot/types-codec/abstract/Array.d.ts b/node_modules/@polkadot/types-codec/abstract/Array.d.ts
+index 9c7b8f4..dba177a 100644
+--- a/node_modules/@polkadot/types-codec/abstract/Array.d.ts
++++ b/node_modules/@polkadot/types-codec/abstract/Array.d.ts
+@@ -58,7 +58,7 @@ export declare abstract class AbstractArray<T extends Codec> extends Array<T> im
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    toHuman(isExtended?: boolean): AnyJson;
++    toHuman(isExtended?: boolean, disableAscii?: boolean): AnyJson;
+     /**
+      * @description Converts the Object to JSON, typically used for RPC transfers
+      */
+@@ -66,7 +66,7 @@ export declare abstract class AbstractArray<T extends Codec> extends Array<T> im
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive(): AnyJson;
++    toPrimitive(disableAscii?: boolean): AnyJson;
+     /**
+      * @description Returns the base runtime type name for this instance
+      */
+diff --git a/node_modules/@polkadot/types-codec/abstract/Array.js b/node_modules/@polkadot/types-codec/abstract/Array.js
+index 3289572..1d341a7 100644
+--- a/node_modules/@polkadot/types-codec/abstract/Array.js
++++ b/node_modules/@polkadot/types-codec/abstract/Array.js
+@@ -97,11 +97,11 @@ export class AbstractArray extends Array {
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    toHuman(isExtended) {
++    toHuman(isExtended, disableAscii) {
+         const count = this.length;
+         const result = new Array(count);
+         for (let i = 0; i < count; i++) {
+-            result[i] = this[i] && this[i].toHuman(isExtended);
++            result[i] = this[i] && this[i].toHuman(isExtended, disableAscii);
+         }
+         return result;
+     }
+@@ -121,11 +121,11 @@ export class AbstractArray extends Array {
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive() {
++    toPrimitive(disableAscii) {
+         const count = this.length;
+         const result = new Array(count);
+         for (let i = 0; i < count; i++) {
+-            result[i] = this[i] && this[i].toPrimitive();
++            result[i] = this[i] && this[i].toPrimitive(disableAscii);
+         }
+         return result;
+     }
+diff --git a/node_modules/@polkadot/types-codec/abstract/Base.d.ts b/node_modules/@polkadot/types-codec/abstract/Base.d.ts
+index 1b4732f..6b2f374 100644
+--- a/node_modules/@polkadot/types-codec/abstract/Base.d.ts
++++ b/node_modules/@polkadot/types-codec/abstract/Base.d.ts
+@@ -42,7 +42,7 @@ export declare abstract class AbstractBase<T extends Codec> implements Codec {
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    toHuman(isExtended?: boolean): AnyJson;
++    toHuman(isExtended?: boolean, disableAscii?: boolean): AnyJson;
+     /**
+      * @description Converts the Object to JSON, typically used for RPC transfers
+      */
+@@ -50,7 +50,7 @@ export declare abstract class AbstractBase<T extends Codec> implements Codec {
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive(): AnyJson;
++    toPrimitive(disableAscii?: boolean): AnyJson;
+     /**
+      * @description Returns the string representation of the value
+      */
+diff --git a/node_modules/@polkadot/types-codec/abstract/Base.js b/node_modules/@polkadot/types-codec/abstract/Base.js
+index 1d56f94..9fd7ad8 100644
+--- a/node_modules/@polkadot/types-codec/abstract/Base.js
++++ b/node_modules/@polkadot/types-codec/abstract/Base.js
+@@ -58,8 +58,8 @@ export class AbstractBase {
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    toHuman(isExtended) {
+-        return this.__internal__raw.toHuman(isExtended);
++    toHuman(isExtended, disableAscii) {
++        return this.__internal__raw.toHuman(isExtended, disableAscii);
+     }
+     /**
+      * @description Converts the Object to JSON, typically used for RPC transfers
+@@ -70,8 +70,8 @@ export class AbstractBase {
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive() {
+-        return this.__internal__raw.toPrimitive();
++    toPrimitive(disableAscii) {
++        return this.__internal__raw.toPrimitive(disableAscii);
+     }
+     /**
+      * @description Returns the string representation of the value
+diff --git a/node_modules/@polkadot/types-codec/abstract/Object.d.ts b/node_modules/@polkadot/types-codec/abstract/Object.d.ts
+index f14b2c0..874f20a 100644
+--- a/node_modules/@polkadot/types-codec/abstract/Object.d.ts
++++ b/node_modules/@polkadot/types-codec/abstract/Object.d.ts
+@@ -38,7 +38,7 @@ export declare abstract class AbstractObject<T extends ToString> implements Code
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    abstract toHuman(isExtended?: boolean): AnyJson;
++    abstract toHuman(isExtended?: boolean, disableAscii?: boolean): AnyJson;
+     /**
+      * @description Converts the Object to JSON, typically used for RPC transfers
+      */
+@@ -46,7 +46,7 @@ export declare abstract class AbstractObject<T extends ToString> implements Code
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    abstract toPrimitive(): AnyJson;
++    abstract toPrimitive(disableAscii?: boolean): AnyJson;
+     /**
+      * @description Returns the string representation of the value
+      */
+diff --git a/node_modules/@polkadot/types-codec/base/Compact.d.ts b/node_modules/@polkadot/types-codec/base/Compact.d.ts
+index 6fa8bfc..37c647f 100644
+--- a/node_modules/@polkadot/types-codec/base/Compact.d.ts
++++ b/node_modules/@polkadot/types-codec/base/Compact.d.ts
+@@ -57,7 +57,7 @@ export declare class Compact<T extends INumber> implements ICompact<T> {
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    toHuman(isExtended?: boolean): AnyJson;
++    toHuman(isExtended?: boolean, disableAscii?: boolean): AnyJson;
+     /**
+      * @description Converts the Object to JSON, typically used for RPC transfers
+      */
+@@ -69,7 +69,7 @@ export declare class Compact<T extends INumber> implements ICompact<T> {
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive(): string | number;
++    toPrimitive(disableAscii?: boolean): string | number;
+     /**
+      * @description Returns the base runtime type name for this instance
+      */
+diff --git a/node_modules/@polkadot/types-codec/base/Compact.js b/node_modules/@polkadot/types-codec/base/Compact.js
+index cd13cc0..77fae06 100644
+--- a/node_modules/@polkadot/types-codec/base/Compact.js
++++ b/node_modules/@polkadot/types-codec/base/Compact.js
+@@ -111,8 +111,8 @@ export class Compact {
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    toHuman(isExtended) {
+-        return this.__internal__raw.toHuman(isExtended);
++    toHuman(isExtended, disableAscii) {
++        return this.__internal__raw.toHuman(isExtended, disableAscii);
+     }
+     /**
+      * @description Converts the Object to JSON, typically used for RPC transfers
+@@ -129,8 +129,8 @@ export class Compact {
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive() {
+-        return this.__internal__raw.toPrimitive();
++    toPrimitive(disableAscii) {
++        return this.__internal__raw.toPrimitive(disableAscii);
+     }
+     /**
+      * @description Returns the base runtime type name for this instance
+diff --git a/node_modules/@polkadot/types-codec/base/Enum.d.ts b/node_modules/@polkadot/types-codec/base/Enum.d.ts
+index 5acad94..9e3db3f 100644
+--- a/node_modules/@polkadot/types-codec/base/Enum.d.ts
++++ b/node_modules/@polkadot/types-codec/base/Enum.d.ts
+@@ -84,7 +84,7 @@ export declare class Enum implements IEnum {
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    toHuman(isExtended?: boolean): AnyJson;
++    toHuman(isExtended?: boolean, disableAscii?: boolean): AnyJson;
+     /**
+      * @description Converts the Object to JSON, typically used for RPC transfers
+      */
+@@ -96,7 +96,7 @@ export declare class Enum implements IEnum {
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive(): AnyJson;
++    toPrimitive(disableAscii?: boolean): AnyJson;
+     /**
+      * @description Returns a raw struct representation of the enum types
+      */
+diff --git a/node_modules/@polkadot/types-codec/base/Enum.js b/node_modules/@polkadot/types-codec/base/Enum.js
+index 2b508e5..5667c50 100644
+--- a/node_modules/@polkadot/types-codec/base/Enum.js
++++ b/node_modules/@polkadot/types-codec/base/Enum.js
+@@ -294,10 +294,10 @@ export class Enum {
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    toHuman(isExtended) {
++    toHuman(isExtended, disableAscii) {
+         return this.__internal__isBasic || this.isNone
+             ? this.type
+-            : { [this.type]: this.__internal__raw.toHuman(isExtended) };
++            : { [this.type]: this.__internal__raw.toHuman(isExtended, disableAscii) };
+     }
+     /**
+      * @description Converts the Object to JSON, typically used for RPC transfers
+@@ -316,10 +316,10 @@ export class Enum {
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive() {
++    toPrimitive(disableAscii) {
+         return this.__internal__isBasic
+             ? this.type
+-            : { [stringCamelCase(this.type)]: this.__internal__raw.toPrimitive() };
++            : { [stringCamelCase(this.type)]: this.__internal__raw.toPrimitive(disableAscii) };
+     }
+     /**
+      * @description Returns a raw struct representation of the enum types
+diff --git a/node_modules/@polkadot/types-codec/base/Option.d.ts b/node_modules/@polkadot/types-codec/base/Option.d.ts
+index 28b98ef..d9d7e42 100644
+--- a/node_modules/@polkadot/types-codec/base/Option.d.ts
++++ b/node_modules/@polkadot/types-codec/base/Option.d.ts
+@@ -55,7 +55,7 @@ export declare class Option<T extends Codec> implements IOption<T> {
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    toHuman(isExtended?: boolean): AnyJson;
++    toHuman(isExtended?: boolean, disableAscii?: boolean): AnyJson;
+     /**
+      * @description Converts the Object to JSON, typically used for RPC transfers
+      */
+@@ -63,7 +63,7 @@ export declare class Option<T extends Codec> implements IOption<T> {
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive(): AnyJson;
++    toPrimitive(disableAscii?: boolean): AnyJson;
+     /**
+      * @description Returns the base runtime type name for this instance
+      */
+diff --git a/node_modules/@polkadot/types-codec/base/Option.js b/node_modules/@polkadot/types-codec/base/Option.js
+index 512f758..f713525 100644
+--- a/node_modules/@polkadot/types-codec/base/Option.js
++++ b/node_modules/@polkadot/types-codec/base/Option.js
+@@ -153,8 +153,8 @@ export class Option {
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    toHuman(isExtended) {
+-        return this.__internal__raw.toHuman(isExtended);
++    toHuman(isExtended, disableAscii) {
++        return this.__internal__raw.toHuman(isExtended, disableAscii);
+     }
+     /**
+      * @description Converts the Object to JSON, typically used for RPC transfers
+@@ -167,10 +167,10 @@ export class Option {
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive() {
++    toPrimitive(disableAscii) {
+         return this.isNone
+             ? null
+-            : this.__internal__raw.toPrimitive();
++            : this.__internal__raw.toPrimitive(disableAscii);
+     }
+     /**
+      * @description Returns the base runtime type name for this instance
+diff --git a/node_modules/@polkadot/types-codec/base/Vec.js b/node_modules/@polkadot/types-codec/base/Vec.js
+index a35ab7a..2281bc7 100644
+--- a/node_modules/@polkadot/types-codec/base/Vec.js
++++ b/node_modules/@polkadot/types-codec/base/Vec.js
+@@ -1,7 +1,7 @@
+ import { compactFromU8aLim, identity, isHex, isU8a, logger, stringify, u8aToU8a } from '@polkadot/util';
+ import { AbstractArray } from '../abstract/Array.js';
+ import { decodeU8aVec, typeToConstructor } from '../utils/index.js';
+-const MAX_LENGTH = 64 * 1024;
++const MAX_LENGTH = 2 * 64 * 1024;
+ const l = logger('Vec');
+ function decodeVecLength(value) {
+     if (Array.isArray(value)) {
+diff --git a/node_modules/@polkadot/types-codec/cjs/abstract/Array.js b/node_modules/@polkadot/types-codec/cjs/abstract/Array.js
+index d480773..4dc8aad 100644
+--- a/node_modules/@polkadot/types-codec/cjs/abstract/Array.js
++++ b/node_modules/@polkadot/types-codec/cjs/abstract/Array.js
+@@ -100,11 +100,11 @@ class AbstractArray extends Array {
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    toHuman(isExtended) {
++    toHuman(isExtended, disableAscii) {
+         const count = this.length;
+         const result = new Array(count);
+         for (let i = 0; i < count; i++) {
+-            result[i] = this[i] && this[i].toHuman(isExtended);
++            result[i] = this[i] && this[i].toHuman(isExtended, disableAscii);
+         }
+         return result;
+     }
+@@ -124,11 +124,11 @@ class AbstractArray extends Array {
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive() {
++    toPrimitive(disableAscii) {
+         const count = this.length;
+         const result = new Array(count);
+         for (let i = 0; i < count; i++) {
+-            result[i] = this[i] && this[i].toPrimitive();
++            result[i] = this[i] && this[i].toPrimitive(disableAscii);
+         }
+         return result;
+     }
+diff --git a/node_modules/@polkadot/types-codec/cjs/abstract/Base.js b/node_modules/@polkadot/types-codec/cjs/abstract/Base.js
+index 80256c7..a303d77 100644
+--- a/node_modules/@polkadot/types-codec/cjs/abstract/Base.js
++++ b/node_modules/@polkadot/types-codec/cjs/abstract/Base.js
+@@ -61,8 +61,8 @@ class AbstractBase {
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    toHuman(isExtended) {
+-        return this.__internal__raw.toHuman(isExtended);
++    toHuman(isExtended, disableAscii) {
++        return this.__internal__raw.toHuman(isExtended, disableAscii);
+     }
+     /**
+      * @description Converts the Object to JSON, typically used for RPC transfers
+@@ -73,8 +73,8 @@ class AbstractBase {
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive() {
+-        return this.__internal__raw.toPrimitive();
++    toPrimitive(disableAscii) {
++        return this.__internal__raw.toPrimitive(disableAscii);
+     }
+     /**
+      * @description Returns the string representation of the value
+diff --git a/node_modules/@polkadot/types-codec/cjs/base/Compact.js b/node_modules/@polkadot/types-codec/cjs/base/Compact.js
+index b4b846b..6a7a54a 100644
+--- a/node_modules/@polkadot/types-codec/cjs/base/Compact.js
++++ b/node_modules/@polkadot/types-codec/cjs/base/Compact.js
+@@ -114,8 +114,8 @@ class Compact {
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    toHuman(isExtended) {
+-        return this.__internal__raw.toHuman(isExtended);
++    toHuman(isExtended, disableAscii) {
++        return this.__internal__raw.toHuman(isExtended, disableAscii);
+     }
+     /**
+      * @description Converts the Object to JSON, typically used for RPC transfers
+@@ -132,8 +132,8 @@ class Compact {
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive() {
+-        return this.__internal__raw.toPrimitive();
++    toPrimitive(disableAscii) {
++        return this.__internal__raw.toPrimitive(disableAscii);
+     }
+     /**
+      * @description Returns the base runtime type name for this instance
+diff --git a/node_modules/@polkadot/types-codec/cjs/base/Enum.js b/node_modules/@polkadot/types-codec/cjs/base/Enum.js
+index f7758e8..b4839bb 100644
+--- a/node_modules/@polkadot/types-codec/cjs/base/Enum.js
++++ b/node_modules/@polkadot/types-codec/cjs/base/Enum.js
+@@ -297,10 +297,10 @@ class Enum {
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    toHuman(isExtended) {
++    toHuman(isExtended, disableAscii) {
+         return this.__internal__isBasic || this.isNone
+             ? this.type
+-            : { [this.type]: this.__internal__raw.toHuman(isExtended) };
++            : { [this.type]: this.__internal__raw.toHuman(isExtended, disableAscii) };
+     }
+     /**
+      * @description Converts the Object to JSON, typically used for RPC transfers
+@@ -319,10 +319,10 @@ class Enum {
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive() {
++    toPrimitive(disableAscii) {
+         return this.__internal__isBasic
+             ? this.type
+-            : { [(0, util_1.stringCamelCase)(this.type)]: this.__internal__raw.toPrimitive() };
++            : { [(0, util_1.stringCamelCase)(this.type)]: this.__internal__raw.toPrimitive(disableAscii) };
+     }
+     /**
+      * @description Returns a raw struct representation of the enum types
+diff --git a/node_modules/@polkadot/types-codec/cjs/base/Option.js b/node_modules/@polkadot/types-codec/cjs/base/Option.js
+index a443d01..9b1ad14 100644
+--- a/node_modules/@polkadot/types-codec/cjs/base/Option.js
++++ b/node_modules/@polkadot/types-codec/cjs/base/Option.js
+@@ -156,8 +156,8 @@ class Option {
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    toHuman(isExtended) {
+-        return this.__internal__raw.toHuman(isExtended);
++    toHuman(isExtended, disableAscii) {
++        return this.__internal__raw.toHuman(isExtended, disableAscii);
+     }
+     /**
+      * @description Converts the Object to JSON, typically used for RPC transfers
+@@ -170,10 +170,10 @@ class Option {
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive() {
++    toPrimitive(disableAscii) {
+         return this.isNone
+             ? null
+-            : this.__internal__raw.toPrimitive();
++            : this.__internal__raw.toPrimitive(disableAscii);
+     }
+     /**
+      * @description Returns the base runtime type name for this instance
+diff --git a/node_modules/@polkadot/types-codec/cjs/extended/BTreeSet.js b/node_modules/@polkadot/types-codec/cjs/extended/BTreeSet.js
+index e87f589..4a24d85 100644
+--- a/node_modules/@polkadot/types-codec/cjs/extended/BTreeSet.js
++++ b/node_modules/@polkadot/types-codec/cjs/extended/BTreeSet.js
+@@ -132,10 +132,10 @@ class BTreeSet extends Set {
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    toHuman(isExtended) {
++    toHuman(isExtended, disableAscii) {
+         const json = [];
+         for (const v of this.values()) {
+-            json.push(v.toHuman(isExtended));
++            json.push(v.toHuman(isExtended, disableAscii));
+         }
+         return json;
+     }
+@@ -158,10 +158,10 @@ class BTreeSet extends Set {
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive() {
++    toPrimitive(disableAscii) {
+         const json = [];
+         for (const v of this.values()) {
+-            json.push(v.toPrimitive());
++            json.push(v.toPrimitive(disableAscii));
+         }
+         return json;
+     }
+diff --git a/node_modules/@polkadot/types-codec/cjs/extended/Map.js b/node_modules/@polkadot/types-codec/cjs/extended/Map.js
+index d0860a4..25eb8b1 100644
+--- a/node_modules/@polkadot/types-codec/cjs/extended/Map.js
++++ b/node_modules/@polkadot/types-codec/cjs/extended/Map.js
+@@ -143,12 +143,12 @@ class CodecMap extends Map {
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    toHuman(isExtended) {
++    toHuman(isExtended, disableAscii) {
+         const json = {};
+         for (const [k, v] of this.entries()) {
+-            json[k instanceof Raw_js_1.Raw && k.isAscii
++            json[k instanceof Raw_js_1.Raw && !disableAscii && k.isAscii
+                 ? k.toUtf8()
+-                : k.toString()] = v.toHuman(isExtended);
++                : k.toString()] = v.toHuman(isExtended, disableAscii);
+         }
+         return json;
+     }
+@@ -165,12 +165,12 @@ class CodecMap extends Map {
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive() {
++    toPrimitive(disableAscii) {
+         const json = {};
+         for (const [k, v] of this.entries()) {
+-            json[k instanceof Raw_js_1.Raw && k.isAscii
++            json[k instanceof Raw_js_1.Raw && !disableAscii && k.isAscii
+                 ? k.toUtf8()
+-                : k.toString()] = v.toPrimitive();
++                : k.toString()] = v.toPrimitive(disableAscii);
+         }
+         return json;
+     }
+diff --git a/node_modules/@polkadot/types-codec/cjs/extended/WrapperKeepOpaque.js b/node_modules/@polkadot/types-codec/cjs/extended/WrapperKeepOpaque.js
+index a09b9be..b2acaf4 100644
+--- a/node_modules/@polkadot/types-codec/cjs/extended/WrapperKeepOpaque.js
++++ b/node_modules/@polkadot/types-codec/cjs/extended/WrapperKeepOpaque.js
+@@ -63,18 +63,18 @@ class WrapperKeepOpaque extends Bytes_js_1.Bytes {
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    toHuman(isExtended) {
++    toHuman(isExtended, disableAscii) {
+         return this.__internal__decoded
+-            ? this.__internal__decoded.toHuman(isExtended)
+-            : super.toHuman();
++            ? this.__internal__decoded.toHuman(isExtended, disableAscii)
++            : super.toHuman(isExtended, disableAscii);
+     }
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive() {
++    toPrimitive(disableAscii) {
+         return this.__internal__decoded
+-            ? this.__internal__decoded.toPrimitive()
+-            : super.toPrimitive();
++            ? this.__internal__decoded.toPrimitive(disableAscii)
++            : super.toPrimitive(disableAscii);
+     }
+     /**
+      * @description Returns the base runtime type name for this instance
+diff --git a/node_modules/@polkadot/types-codec/cjs/native/Json.js b/node_modules/@polkadot/types-codec/cjs/native/Json.js
+index 03e49f5..1c7426a 100644
+--- a/node_modules/@polkadot/types-codec/cjs/native/Json.js
++++ b/node_modules/@polkadot/types-codec/cjs/native/Json.js
+@@ -91,10 +91,10 @@ class Json extends Map {
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive() {
++    toPrimitive(disableAscii) {
+         return [...this.entries()].reduce((json, [key, value]) => {
+             json[key] = (0, util_1.isFunction)(value.toPrimitive)
+-                ? value.toPrimitive()
++                ? value.toPrimitive(disableAscii)
+                 : value;
+             return json;
+         }, {});
+diff --git a/node_modules/@polkadot/types-codec/cjs/native/Raw.js b/node_modules/@polkadot/types-codec/cjs/native/Raw.js
+index 03ebb36..9ee2a8c 100644
+--- a/node_modules/@polkadot/types-codec/cjs/native/Raw.js
++++ b/node_modules/@polkadot/types-codec/cjs/native/Raw.js
+@@ -91,8 +91,8 @@ class Raw extends Uint8Array {
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    toHuman() {
+-        return this.toPrimitive();
++    toHuman(_isExtended, disableAscii) {
++        return this.toPrimitive(disableAscii);
+     }
+     /**
+      * @description Converts the Object to JSON, typically used for RPC transfers
+@@ -103,8 +103,8 @@ class Raw extends Uint8Array {
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive() {
+-        if (this.isAscii) {
++    toPrimitive(disableAscii) {
++        if (!disableAscii && this.isAscii) {
+             const text = this.toUtf8();
+             // ensure we didn't end up with multibyte codepoints
+             if ((0, util_1.isAscii)(text)) {
+diff --git a/node_modules/@polkadot/types-codec/cjs/native/Struct.js b/node_modules/@polkadot/types-codec/cjs/native/Struct.js
+index e2dfa7c..f4b4ea4 100644
+--- a/node_modules/@polkadot/types-codec/cjs/native/Struct.js
++++ b/node_modules/@polkadot/types-codec/cjs/native/Struct.js
+@@ -209,10 +209,10 @@ class Struct extends Map {
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    toHuman(isExtended) {
++    toHuman(isExtended, disableAscii) {
+         const json = {};
+         for (const [k, v] of this.entries()) {
+-            json[k] = v.toHuman(isExtended);
++            json[k] = v.toHuman(isExtended, disableAscii);
+         }
+         return json;
+     }
+@@ -231,10 +231,10 @@ class Struct extends Map {
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive() {
++    toPrimitive(disableAscii) {
+         const json = {};
+         for (const [k, v] of this.entries()) {
+-            json[k] = v.toPrimitive();
++            json[k] = v.toPrimitive(disableAscii);
+         }
+         return json;
+     }
+diff --git a/node_modules/@polkadot/types-codec/cjs/packageInfo.js b/node_modules/@polkadot/types-codec/cjs/packageInfo.js
+index cef7a0f..81a60ac 100644
+--- a/node_modules/@polkadot/types-codec/cjs/packageInfo.js
++++ b/node_modules/@polkadot/types-codec/cjs/packageInfo.js
+@@ -1,4 +1,4 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.packageInfo = void 0;
+-exports.packageInfo = { name: '@polkadot/types-codec', path: typeof __dirname === 'string' ? __dirname : 'auto', type: 'cjs', version: '10.12.4' };
++exports.packageInfo = { name: '@polkadot/types-codec', path: typeof __dirname === 'string' ? __dirname : 'auto', type: 'cjs', version: '11.0.2' };
+diff --git a/node_modules/@polkadot/types-codec/extended/BTreeSet.d.ts b/node_modules/@polkadot/types-codec/extended/BTreeSet.d.ts
+index c529a33..c94759b 100644
+--- a/node_modules/@polkadot/types-codec/extended/BTreeSet.d.ts
++++ b/node_modules/@polkadot/types-codec/extended/BTreeSet.d.ts
+@@ -39,7 +39,7 @@ export declare class BTreeSet<V extends Codec = Codec> extends Set<V> implements
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    toHuman(isExtended?: boolean): AnyJson;
++    toHuman(isExtended?: boolean, disableAscii?: boolean): AnyJson;
+     /**
+      * @description Converts the Object to JSON, typically used for RPC transfers
+      */
+@@ -51,7 +51,7 @@ export declare class BTreeSet<V extends Codec = Codec> extends Set<V> implements
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive(): AnyJson;
++    toPrimitive(disableAscii?: boolean): AnyJson;
+     /**
+      * @description Returns the string representation of the value
+      */
+diff --git a/node_modules/@polkadot/types-codec/extended/BTreeSet.js b/node_modules/@polkadot/types-codec/extended/BTreeSet.js
+index 5751020..c273ca7 100644
+--- a/node_modules/@polkadot/types-codec/extended/BTreeSet.js
++++ b/node_modules/@polkadot/types-codec/extended/BTreeSet.js
+@@ -129,10 +129,10 @@ export class BTreeSet extends Set {
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    toHuman(isExtended) {
++    toHuman(isExtended, disableAscii) {
+         const json = [];
+         for (const v of this.values()) {
+-            json.push(v.toHuman(isExtended));
++            json.push(v.toHuman(isExtended, disableAscii));
+         }
+         return json;
+     }
+@@ -155,10 +155,10 @@ export class BTreeSet extends Set {
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive() {
++    toPrimitive(disableAscii) {
+         const json = [];
+         for (const v of this.values()) {
+-            json.push(v.toPrimitive());
++            json.push(v.toPrimitive(disableAscii));
+         }
+         return json;
+     }
+diff --git a/node_modules/@polkadot/types-codec/extended/Map.d.ts b/node_modules/@polkadot/types-codec/extended/Map.d.ts
+index 3647c55..b6a44fe 100644
+--- a/node_modules/@polkadot/types-codec/extended/Map.d.ts
++++ b/node_modules/@polkadot/types-codec/extended/Map.d.ts
+@@ -34,7 +34,7 @@ export declare class CodecMap<K extends Codec = Codec, V extends Codec = Codec>
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    toHuman(isExtended?: boolean): Record<string, AnyJson>;
++    toHuman(isExtended?: boolean, disableAscii?: boolean): Record<string, AnyJson>;
+     /**
+      * @description Converts the Object to JSON, typically used for RPC transfers
+      */
+@@ -42,7 +42,7 @@ export declare class CodecMap<K extends Codec = Codec, V extends Codec = Codec>
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive(): AnyJson;
++    toPrimitive(disableAscii?: boolean): AnyJson;
+     /**
+      * @description Returns the base runtime type name for this instance
+      */
+diff --git a/node_modules/@polkadot/types-codec/extended/Map.js b/node_modules/@polkadot/types-codec/extended/Map.js
+index 4a44e4a..1a3de43 100644
+--- a/node_modules/@polkadot/types-codec/extended/Map.js
++++ b/node_modules/@polkadot/types-codec/extended/Map.js
+@@ -140,12 +140,12 @@ export class CodecMap extends Map {
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    toHuman(isExtended) {
++    toHuman(isExtended, disableAscii) {
+         const json = {};
+         for (const [k, v] of this.entries()) {
+-            json[k instanceof Raw && k.isAscii
++            json[k instanceof Raw && !disableAscii && k.isAscii
+                 ? k.toUtf8()
+-                : k.toString()] = v.toHuman(isExtended);
++                : k.toString()] = v.toHuman(isExtended, disableAscii);
+         }
+         return json;
+     }
+@@ -162,12 +162,12 @@ export class CodecMap extends Map {
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive() {
++    toPrimitive(disableAscii) {
+         const json = {};
+         for (const [k, v] of this.entries()) {
+-            json[k instanceof Raw && k.isAscii
++            json[k instanceof Raw && !disableAscii && k.isAscii
+                 ? k.toUtf8()
+-                : k.toString()] = v.toPrimitive();
++                : k.toString()] = v.toPrimitive(disableAscii);
+         }
+         return json;
+     }
+diff --git a/node_modules/@polkadot/types-codec/extended/WrapperKeepOpaque.d.ts b/node_modules/@polkadot/types-codec/extended/WrapperKeepOpaque.d.ts
+index edf9b23..e57e3a0 100644
+--- a/node_modules/@polkadot/types-codec/extended/WrapperKeepOpaque.d.ts
++++ b/node_modules/@polkadot/types-codec/extended/WrapperKeepOpaque.d.ts
+@@ -19,11 +19,11 @@ export declare class WrapperKeepOpaque<T extends Codec> extends Bytes {
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    toHuman(isExtended?: boolean): AnyJson;
++    toHuman(isExtended?: boolean, disableAscii?: boolean): AnyJson;
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive(): any;
++    toPrimitive(disableAscii?: boolean): any;
+     /**
+      * @description Returns the base runtime type name for this instance
+      */
+diff --git a/node_modules/@polkadot/types-codec/extended/WrapperKeepOpaque.js b/node_modules/@polkadot/types-codec/extended/WrapperKeepOpaque.js
+index cdd21f7..e6caefa 100644
+--- a/node_modules/@polkadot/types-codec/extended/WrapperKeepOpaque.js
++++ b/node_modules/@polkadot/types-codec/extended/WrapperKeepOpaque.js
+@@ -60,18 +60,18 @@ export class WrapperKeepOpaque extends Bytes {
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    toHuman(isExtended) {
++    toHuman(isExtended, disableAscii) {
+         return this.__internal__decoded
+-            ? this.__internal__decoded.toHuman(isExtended)
+-            : super.toHuman();
++            ? this.__internal__decoded.toHuman(isExtended, disableAscii)
++            : super.toHuman(isExtended, disableAscii);
+     }
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive() {
++    toPrimitive(disableAscii) {
+         return this.__internal__decoded
+-            ? this.__internal__decoded.toPrimitive()
+-            : super.toPrimitive();
++            ? this.__internal__decoded.toPrimitive(disableAscii)
++            : super.toPrimitive(disableAscii);
+     }
+     /**
+      * @description Returns the base runtime type name for this instance
+diff --git a/node_modules/@polkadot/types-codec/native/Json.d.ts b/node_modules/@polkadot/types-codec/native/Json.d.ts
+index 8d62351..51d0ab0 100644
+--- a/node_modules/@polkadot/types-codec/native/Json.d.ts
++++ b/node_modules/@polkadot/types-codec/native/Json.d.ts
+@@ -53,7 +53,7 @@ export declare class Json extends Map<string, any> implements Codec {
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive(): Record<string, AnyJson>;
++    toPrimitive(disableAscii?: boolean): Record<string, AnyJson>;
+     /**
+      * @description Returns the base runtime type name for this instance
+      */
+diff --git a/node_modules/@polkadot/types-codec/native/Json.js b/node_modules/@polkadot/types-codec/native/Json.js
+index 17d3810..710a160 100644
+--- a/node_modules/@polkadot/types-codec/native/Json.js
++++ b/node_modules/@polkadot/types-codec/native/Json.js
+@@ -88,10 +88,10 @@ export class Json extends Map {
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive() {
++    toPrimitive(disableAscii) {
+         return [...this.entries()].reduce((json, [key, value]) => {
+             json[key] = isFunction(value.toPrimitive)
+-                ? value.toPrimitive()
++                ? value.toPrimitive(disableAscii)
+                 : value;
+             return json;
+         }, {});
+diff --git a/node_modules/@polkadot/types-codec/native/Raw.d.ts b/node_modules/@polkadot/types-codec/native/Raw.d.ts
+index 985421a..6e31edf 100644
+--- a/node_modules/@polkadot/types-codec/native/Raw.d.ts
++++ b/node_modules/@polkadot/types-codec/native/Raw.d.ts
+@@ -59,7 +59,7 @@ export declare class Raw extends Uint8Array implements IU8a {
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    toHuman(): AnyJson;
++    toHuman(_isExtended?: boolean, disableAscii?: boolean): AnyJson;
+     /**
+      * @description Converts the Object to JSON, typically used for RPC transfers
+      */
+@@ -67,7 +67,7 @@ export declare class Raw extends Uint8Array implements IU8a {
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive(): AnyJson;
++    toPrimitive(disableAscii?: boolean): AnyJson;
+     /**
+      * @description Returns the base runtime type name for this instance
+      */
+diff --git a/node_modules/@polkadot/types-codec/native/Raw.js b/node_modules/@polkadot/types-codec/native/Raw.js
+index 8e82c32..b61fac7 100644
+--- a/node_modules/@polkadot/types-codec/native/Raw.js
++++ b/node_modules/@polkadot/types-codec/native/Raw.js
+@@ -88,8 +88,8 @@ export class Raw extends Uint8Array {
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    toHuman() {
+-        return this.toPrimitive();
++    toHuman(_isExtended, disableAscii) {
++        return this.toPrimitive(disableAscii);
+     }
+     /**
+      * @description Converts the Object to JSON, typically used for RPC transfers
+@@ -100,8 +100,8 @@ export class Raw extends Uint8Array {
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive() {
+-        if (this.isAscii) {
++    toPrimitive(disableAscii) {
++        if (!disableAscii && this.isAscii) {
+             const text = this.toUtf8();
+             // ensure we didn't end up with multibyte codepoints
+             if (isAscii(text)) {
+diff --git a/node_modules/@polkadot/types-codec/native/Struct.d.ts b/node_modules/@polkadot/types-codec/native/Struct.d.ts
+index 8ef44fe..40efed5 100644
+--- a/node_modules/@polkadot/types-codec/native/Struct.d.ts
++++ b/node_modules/@polkadot/types-codec/native/Struct.d.ts
+@@ -80,7 +80,7 @@ export declare class Struct<S extends TypesDef = TypesDef, V extends {
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    toHuman(isExtended?: boolean): Record<string, AnyJson>;
++    toHuman(isExtended?: boolean, disableAscii?: boolean): Record<string, AnyJson>;
+     /**
+      * @description Converts the Object to JSON, typically used for RPC transfers
+      */
+@@ -88,7 +88,7 @@ export declare class Struct<S extends TypesDef = TypesDef, V extends {
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive(): Record<string, AnyJson>;
++    toPrimitive(disableAscii?: boolean): Record<string, AnyJson>;
+     /**
+      * @description Returns the base runtime type name for this instance
+      */
+diff --git a/node_modules/@polkadot/types-codec/native/Struct.js b/node_modules/@polkadot/types-codec/native/Struct.js
+index bef2fcd..7f6c762 100644
+--- a/node_modules/@polkadot/types-codec/native/Struct.js
++++ b/node_modules/@polkadot/types-codec/native/Struct.js
+@@ -206,10 +206,10 @@ export class Struct extends Map {
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
+      */
+-    toHuman(isExtended) {
++    toHuman(isExtended, disableAscii) {
+         const json = {};
+         for (const [k, v] of this.entries()) {
+-            json[k] = v.toHuman(isExtended);
++            json[k] = v.toHuman(isExtended, disableAscii);
+         }
+         return json;
+     }
+@@ -228,10 +228,10 @@ export class Struct extends Map {
+     /**
+      * @description Converts the value in a best-fit primitive form
+      */
+-    toPrimitive() {
++    toPrimitive(disableAscii) {
+         const json = {};
+         for (const [k, v] of this.entries()) {
+-            json[k] = v.toPrimitive();
++            json[k] = v.toPrimitive(disableAscii);
+         }
+         return json;
+     }
+diff --git a/node_modules/@polkadot/types-codec/packageInfo.js b/node_modules/@polkadot/types-codec/packageInfo.js
+index a430760..3b81622 100644
+--- a/node_modules/@polkadot/types-codec/packageInfo.js
++++ b/node_modules/@polkadot/types-codec/packageInfo.js
+@@ -1 +1 @@
+-export const packageInfo = { name: '@polkadot/types-codec', path: (import.meta && import.meta.url) ? new URL(import.meta.url).pathname.substring(0, new URL(import.meta.url).pathname.lastIndexOf('/') + 1) : 'auto', type: 'esm', version: '10.12.4' };
++export const packageInfo = { name: '@polkadot/types-codec', path: (import.meta && import.meta.url) ? new URL(import.meta.url).pathname.substring(0, new URL(import.meta.url).pathname.lastIndexOf('/') + 1) : 'auto', type: 'esm', version: '11.0.2' };
+diff --git a/node_modules/@polkadot/types-codec/types/codec.d.ts b/node_modules/@polkadot/types-codec/types/codec.d.ts
+index b8be5e9..92855a9 100644
+--- a/node_modules/@polkadot/types-codec/types/codec.d.ts
++++ b/node_modules/@polkadot/types-codec/types/codec.d.ts
+@@ -70,16 +70,19 @@ export interface Codec {
+     toHex(isLe?: boolean): HexString;
+     /**
+      * @description Converts the Object to to a human-friendly JSON, with additional fields, expansion and formatting of information
++     * @param isExtended When set, for some (e.g. call) it can add more info, e.g. metadata documentation. (Generally not needed in all cases, but can be useful in Events, Calls, ...)
++     * @param disableAscii When set, for some (e.g. `Raw` types) it will disable converting the value to ascii.
+      */
+-    toHuman(isExtended?: boolean): AnyJson;
++    toHuman(isExtended?: boolean, disableAscii?: boolean): AnyJson;
+     /**
+      * @description Converts the Object to JSON, typically used for RPC transfers
+      */
+     toJSON(): AnyJson;
+     /**
+      * @description Converts the value in a best-fit primitive form
++     * @param disableAscii
+      */
+-    toPrimitive(): AnyJson;
++    toPrimitive(disableAscii?: boolean): AnyJson;
+     /**
+      * @description Returns the base runtime type name for this instance
+      */
+diff --git a/node_modules/@polkadot/types-codec/types/interfaces.d.ts b/node_modules/@polkadot/types-codec/types/interfaces.d.ts
+index 2834750..5f031a8 100644
+--- a/node_modules/@polkadot/types-codec/types/interfaces.d.ts
++++ b/node_modules/@polkadot/types-codec/types/interfaces.d.ts
+@@ -24,7 +24,7 @@ export interface INumber extends Codec {
+     toBigInt(): bigint;
+     toBn(): BN;
+     toNumber(): number;
+-    toPrimitive(): string | number;
++    toPrimitive(disableAscii?: boolean): string | number;
+ }
+ export interface IFloat extends Codec {
+     toNumber(): number;
+@@ -58,7 +58,7 @@ export interface IU8a extends Uint8Array, Codec {
+     readonly isAscii: boolean;
+     readonly isUtf8: boolean;
+     bitLength(): number;
+-    toHuman(isExtended?: boolean): any;
++    toHuman(isExtended?: boolean, disableAscii?: boolean): any;
+     toJSON(): any;
+     toUtf8(): string;
+ }

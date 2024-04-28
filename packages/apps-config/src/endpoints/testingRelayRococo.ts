@@ -308,7 +308,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoInvo',
     paraId: 4377,
     providers: {
-      // 'Invo Network': 'wss://rococo.api.invo.network' // https://github.com/polkadot-js/apps/issues/10353
+      'Invo Network': 'wss://chain.dev.ourinvo.com'
     },
     text: 'Invo Testnet',
     ui: {
@@ -370,7 +370,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoMd5',
     paraId: 2093,
     providers: {
-      'Hashed Systems': 'wss://c1md5.hashed.live'
+      'Hashed Systems': 'wss://c1md5.hashed.network'
     },
     text: 'MD5 Network',
     ui: {

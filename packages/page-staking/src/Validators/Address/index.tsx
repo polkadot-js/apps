@@ -50,19 +50,19 @@ interface StakingState {
   stakeOwn?: BN;
 }
 
-function expandInfo ({ exposure, validatorPrefs }: ValidatorInfo, minCommission?: BN): StakingState {
+function expandInfo ({ exposureMeta, exposurePaged, validatorPrefs }: ValidatorInfo, minCommission?: BN): StakingState {
   let nominators: NominatorValue[] | undefined;
   let stakeTotal: BN | undefined;
   let stakeOther: BN | undefined;
   let stakeOwn: BN | undefined;
 
-  if (exposure?.total) {
-    nominators = exposure.others.map(({ value, who }) => ({
+  if (exposureMeta?.total) {
+    nominators = exposurePaged.others.map(({ value, who }) => ({
       nominatorId: who.toString(),
       value: value.unwrap()
     }));
-    stakeTotal = exposure.total?.unwrap() || BN_ZERO;
-    stakeOwn = exposure.own.unwrap();
+    stakeTotal = exposureMeta.total?.unwrap() || BN_ZERO;
+    stakeOwn = exposureMeta.own.unwrap();
     stakeOther = stakeTotal.sub(stakeOwn);
   }
 

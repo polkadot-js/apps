@@ -434,8 +434,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'kreivo',
     paraId: 2281,
     providers: {
-      Kippu: 'wss://kreivo.kippu.rocks/'
-      // Virto: 'wss://kreivo.io/' // https://github.com/polkadot-js/apps/issues/10373
+      Kippu: 'wss://kreivo.kippu.rocks/',
+      Virto: 'wss://kreivo.io/'
     },
     text: 'Kreivo - By Virto',
     ui: {
@@ -942,17 +942,28 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     }
   },
   {
+    info: 'kusamaCoretime',
+    paraId: 1005,
+    providers: {
+      Parity: 'wss://kusama-coretime-rpc.polkadot.io'
+    },
+    teleport: [-1],
+    text: 'Coretime',
+    ui: {}
+  },
+  {
     homepage: 'https://encointer.org/',
     info: 'encointer',
     paraId: 1001,
     providers: {
+      Dwellir: 'wss://encointer-kusama-rpc.dwellir.com',
       'Encointer Association': 'wss://kusama.api.encointer.org',
       'IBP-GeoDNS1': 'wss://sys.ibp.network/encointer-kusama',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/encointer-kusama'
       // OnFinality: 'wss://encointer.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9986
       // Stakeworld: 'wss://ksm-rpc.stakeworld.io/encointer'
     },
-    teleport: [], // teleport is temporarily disabled until xcm V3 is supported
+    teleport: [-1],
     text: 'Encointer Network',
     ui: {
       color: '#0000cc',
