@@ -533,7 +533,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
       'Moonbeam Foundation': 'wss://wss.api.moonriver.moonbeam.network',
       OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://moonriver.public.curie.radiumblock.co/ws',
-      UnitedBloc: 'wss://moonriver.unitedbloc.com'
+      UnitedBloc: 'wss://moonriver.unitedbloc.com',
+      Allnodes: 'wss://moonriver-rpc.publicnode.com'
     },
     text: 'Moonriver',
     ui: {
@@ -993,6 +994,7 @@ export const prodRelayKusama: EndpointOption = {
     RadiumBlock: 'wss://kusama.public.curie.radiumblock.co/ws',
     RockX: 'wss://rockx-ksm.w3node.com/polka-public-ksm/ws',
     Stakeworld: 'wss://ksm-rpc.stakeworld.io',
+    Allnodes: 'wss://kusama-rpc.publicnode.com',
     'light client': 'light://substrate-connect/kusama'
   },
   teleport: getTeleports(prodParasKusamaCommon),
