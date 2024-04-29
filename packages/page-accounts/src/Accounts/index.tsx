@@ -299,6 +299,12 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           onStatusChange={onStatusChange}
         />
       )}
+      {isLocalOpen && (
+        <Local
+          onClose={toggleLocal}
+          onStatusChange={onStatusChange}
+        />
+      )}
       {isMultisigOpen && (
         <Multisig
           onClose={toggleMultisig}
@@ -384,6 +390,13 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
                 />
               )}
             </>
+          )}
+          {fork && (
+            <Button
+              icon='plus'
+              label={t('Local')}
+              onClick={toggleLocal}
+            />
           )}
           {fork && (
             <Button
