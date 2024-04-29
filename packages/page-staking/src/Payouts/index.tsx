@@ -251,6 +251,20 @@ function Payouts ({ className = '', historyDepth, isInElection, ownPools, ownVal
           <p>{t('If you have not claimed rewards straight after the end of the era, the validator is in the active set and you are seeing no rewards, this would mean that the reward payout transaction was made by another account on your behalf. Always check your favorite explorer to see any historic payouts made to your accounts.')}</p>
         </MarkWarning>
       )}
+      <MarkWarning
+        className='warning centered'
+        withIcon={false}
+      >
+        <p>{'The payout section is currently not working properly at the moment due to a bug in Polkadot-apps. You may have an "Already claimed" error while trying to trigger payouts.'}</p>
+        <p>
+          {'You can follow the issue on this link '}
+          <a
+            href='https://github.com/polkadot-js/apps/issues/10512'
+            rel='noreferrer'
+            target='_blank'
+          >polkadot-js/apps/issues/10512</a>
+        </p>
+      </MarkWarning>
       <Table
         empty={!isLoadingRewards && stashes && (
           myStashesIndex

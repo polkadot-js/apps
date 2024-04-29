@@ -283,6 +283,7 @@
   "{{count}} own stashes": "{{count}} own stashes",
   "{{currency}} average": "{{currency}} average",
   "{{currency}} clipped": "{{currency}} clipped",
+  "{{currency}} paged": "{{currency}} paged",
   "{{currency}} rewards": "{{currency}} rewards",
   "{{currency}} slashed": "{{currency}} slashed",
   "{{currency}} total": "{{currency}} total",

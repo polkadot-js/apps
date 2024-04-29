@@ -1,0 +1,21 @@
+diff --git a/node_modules/@polkadot/api-derive/staking/query.js b/node_modules/@polkadot/api-derive/staking/query.js
+index 7f28a13..8580e17 100644
+--- a/node_modules/@polkadot/api-derive/staking/query.js
++++ b/node_modules/@polkadot/api-derive/staking/query.js
+@@ -46,7 +46,15 @@ function getStashInfo(api, stashIds, activeEra, { withClaimedRewardsEras, withCo
+     const emptyPrefs = api.registry.createType('ValidatorPrefs');
+     const emptyExpoMeta = api.registry.createType('Option<SpStakingPagedExposureMetadata>');
+     const emptyClaimedRewards = [-1];
+-    const depth = Number(api.consts.staking.historyDepth.toNumber());
++    let depth = Number(api.consts.staking.historyDepth.toNumber());
++    try{
++        let activeEraNumber = Number(activeEra.words[0])
++        if (activeEraNumber < depth){
++            depth = activeEraNumber
++        }
++    }catch(err){
++        console.log(err)
++    }
+     const eras = new Array(depth).fill(0).map((_, idx) => {
+         if (idx === 0) {
+             return activeEra.toNumber() - 1;

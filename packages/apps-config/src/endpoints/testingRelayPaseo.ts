@@ -3,8 +3,8 @@
 
 import type { EndpointOption } from './types.js';
 
-import { chainsFrequencyPaseoSVG, chainsPaseoPNG, chainsPopNetworkSVG } from '@polkadot/apps-config/ui/logos/chains';
-import { nodesIntegriteeSVG, nodesNodleSVG } from '@polkadot/apps-config/ui/logos/nodes';
+import { chainsFrequencyPaseoSVG, chainsLaosOmegaPNG, chainsPaseoPNG, chainsPopNetworkSVG } from '@polkadot/apps-config/ui/logos/chains';
+import { nodesAssetHubSVG, nodesIntegriteeSVG, nodesNodleSVG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
 // import { testnetParachainSVG } from '../ui/logos/nodes/index.js';
@@ -58,6 +58,19 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://laosnetwork.io/',
+    info: 'laos-omega',
+    paraId: 4006,
+    providers: {
+      'freeverse.io': 'wss://rpc.laosomega.laosfoundation.io'
+    },
+    text: 'Laos Omega',
+    ui: {
+      color: '#f7f4e7',
+      logo: chainsLaosOmegaPNG
+    }
+  },
+  {
     homepage: 'https://www.nodle.com/',
     info: 'NodleParadis',
     paraId: 2026,
@@ -87,20 +100,20 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
 ];
 
 export const testParasPaseoCommon: EndpointOption[] = [
-  // {
-  //   info: 'PaseoAssetHub',
-  //   paraId: 1000,
-  //   providers: {
-  //     Dwellir: 'wss://paseo-asset-hub-rpc.dwellir.com',
-  //     Parity: 'wss://paseo-asset-hub-rpc.polkadot.io'
-  //   },
-  //   teleport: [-1],
-  //   text: 'AssetHub',
-  //   ui: {
-  //     color: '#77bb77',
-  //     logo: nodesAssetHubSVG
-  //   }
-  // }
+  {
+    info: 'PaseoAssetHub',
+    paraId: 1000,
+    providers: {
+      Dwellir: 'wss://asset-hub-paseo-rpc.dwellir.com',
+      'IBP-GeoDNS2': 'wss://sys.dotters.network/asset-hub-paseo'
+    },
+    teleport: [-1],
+    text: 'AssetHub',
+    ui: {
+      color: '#77bb77',
+      logo: nodesAssetHubSVG
+    }
+  }
 ];
 
 export const testRelayPaseo: EndpointOption = {
@@ -113,6 +126,7 @@ export const testRelayPaseo: EndpointOption = {
   ],
   providers: {
     Amforc: 'wss://paseo.rpc.amforc.com',
+    Dwellir: 'wss://paseo-rpc.dwellir.com',
     'IBP-GeoDNS1': 'wss://rpc.ibp.network/paseo',
     'IBP-GeoDNS2': 'wss://rpc.dotters.network/paseo'
     // 'light client': 'light://substrate-connect/paseo'
