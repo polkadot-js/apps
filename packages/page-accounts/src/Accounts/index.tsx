@@ -45,7 +45,7 @@ interface SortControls {
   sortFromMax: boolean;
 }
 
-type GroupName = 'accounts' | 'chopsticks' | 'hardware' | 'injected' | 'multisig' | 'proxied' | 'qr' | 'testing';
+type GroupName = 'accounts' | 'chopsticks' | 'chopsticks' | 'hardware' | 'injected' | 'multisig' | 'proxied' | 'qr' | 'testing';
 
 const DEFAULT_SORT_CONTROLS: SortControls = { sortBy: 'date', sortFromMax: true };
 
@@ -79,6 +79,8 @@ function groupAccounts (accounts: SortedAccount[]): Record<GroupName, string[]> 
       ret.multisig.push(address);
     } else if (cryptoType === 'proxied') {
       ret.proxied.push(address);
+    } else if (cryptoType === 'chopsticks') {
+      ret.chopsticks.push(address);
     } else if (cryptoType === 'chopsticks') {
       ret.chopsticks.push(address);
     } else if (cryptoType === 'qr') {
@@ -299,6 +301,12 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           onStatusChange={onStatusChange}
         />
       )}
+      {isLocalOpen && (
+        <Local
+          onClose={toggleLocal}
+          onStatusChange={onStatusChange}
+        />
+      )}
       {isMultisigOpen && (
         <Multisig
           onClose={toggleMultisig}
@@ -384,6 +392,13 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
                 />
               )}
             </>
+          )}
+          {fork && (
+            <Button
+              icon='plus'
+              label={t('Local')}
+              onClick={toggleLocal}
+            />
           )}
           {fork && (
             <Button
