@@ -512,7 +512,6 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       'Automata 1RPC': 'wss://1rpc.io/glmr',
       Blast: 'wss://moonbeam.public.blastapi.io',
       Dwellir: 'wss://moonbeam-rpc.dwellir.com',
-      OnFinality: 'wss://moonbeam.api.onfinality.io/public-ws',
       'Moonbeam Foundation': 'wss://wss.api.moonbeam.network',
       OnFinality: 'wss://moonbeam.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://moonbeam.public.curie.radiumblock.co/ws',

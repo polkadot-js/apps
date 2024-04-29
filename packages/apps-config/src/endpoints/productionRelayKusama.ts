@@ -450,6 +450,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2241,
     providers: {
       Krest: 'wss://wss-krest.peaq.network/',
+      OnFinality: 'wss://krest.api.onfinality.io/public-ws',
       UnitedBloc: 'wss://krest.unitedbloc.com/'
     },
     text: 'Krest',
@@ -530,7 +531,6 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Blast: 'wss://moonriver.public.blastapi.io',
       Dwellir: 'wss://moonriver-rpc.dwellir.com',
-      OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
       'Moonbeam Foundation': 'wss://wss.api.moonriver.moonbeam.network',
       OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://moonriver.public.curie.radiumblock.co/ws',
