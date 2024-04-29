@@ -258,7 +258,11 @@ function Payouts ({ className = '', historyDepth, isInElection, ownPools, ownVal
         <p>{'The payout section is currently not working properly at the moment due to a bug in Polkadot-apps. You may have an "Already claimed" error while trying to trigger payouts.'}</p>
         <p>
           {'You can follow the issue on this link '}
-          <a target="_blank" href="https://github.com/polkadot-js/apps/issues/10512">polkadot-js/apps/issues/10512</a>
+          <a
+            href='https://github.com/polkadot-js/apps/issues/10512'
+            rel='noreferrer'
+            target='_blank'
+          >polkadot-js/apps/issues/10512</a>
         </p>
       </MarkWarning>
       <Table
