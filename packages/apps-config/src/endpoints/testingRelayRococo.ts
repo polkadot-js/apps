@@ -4,8 +4,8 @@
 import type { EndpointOption } from './types.js';
 
 import { ROCOCO_GENESIS } from '../api/constants.js';
-import { chainsAcurastPNG, chainsAmplitudeSVG, chainsBitgreenPNG, chainsFrequencySVG, chainsGenshiroSVG, chainsHydratePNG, chainsIdiyanaleLogoWhiteSVG, chainsJurPNG, chainsMangataPNG, chainsMoonsamaPNG, chainsOrigintrailTestnetPNG, chainsRococoSVG, chainsSnowbridgePNG, chainsT0rnPNG, chainsTinkerPNG, chainsTotemSVG, chainsTuringPNG, chainsVirtoPNG, chainsWatrPNG } from '../ui/logos/chains/index.js';
-import { nodesArcticPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBasiliskPNG, nodesBasiliskRococoBgPNG, nodesBifrostSVG, nodesBridgeHubBlackSVG, nodesCentrifugePNG, nodesConftiSVG, nodesCrustParachainSVG, nodesDatahighwayPNG, nodesDolphinSVG, nodesEncointerBlueSVG, nodesGiantPNG, nodesHelixstreetPNG, nodesImbuePNG, nodesIntegriteeSVG, nodesKabochaSVG, nodesKiltPNG, nodesLitentryRococoPNG, nodesMd5PNG, nodesMetaquityNetworkPNG, nodesNodleSVG, nodesOliSVG, nodesPangolinSVG, nodesPhalaSVG, nodesPicassoPNG, nodesPolkadexSVG, nodesRexSVG, nodesRobonomicsSVG, nodesRocfinitySVG, nodesSocietalSVG, nodesSoonsocialXPNG, nodesSoraSubstrateSVG, nodesSubstrateContractsNodePNG, nodesTrappistRococoPNG, nodesUnitnetworkPNG, nodesYerbanetworkPNG, nodesZeitgeistPNG, nodesZeroSVG } from '../ui/logos/nodes/index.js';
+import { chainsAcurastPNG, chainsAmplitudeSVG, chainsBitgreenPNG, chainsFrequencySVG, chainsGenshiroSVG, chainsHydratePNG, chainsIdiyanaleLogoWhiteSVG, chainsJurPNG, chainsMangataPNG, chainsMoonsamaPNG, chainsNeurowebTestnetPNG, chainsRococoSVG, chainsSnowbridgePNG, chainsT0rnPNG, chainsTinkerPNG, chainsTotemSVG, chainsTuringPNG, chainsVirtoPNG, chainsWatrPNG } from '../ui/logos/chains/index.js';
+import { nodesArcticPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBasiliskPNG, nodesBasiliskRococoBgPNG, nodesBifrostSVG, nodesBridgeHubBlackSVG, nodesCentrifugePNG, nodesConftiSVG, nodesCrustParachainSVG, nodesCurioSVG, nodesDatahighwayPNG, nodesDolphinSVG, nodesEncointerBlueSVG, nodesGiantPNG, nodesGiediPNG, nodesHelixstreetPNG, nodesHyperbridgeSVG, nodesImbuePNG, nodesIntegriteeSVG, nodesInvoPNG, nodesKabochaSVG, nodesKiltPNG, nodesLitentryRococoPNG, nodesMd5PNG, nodesMusePNG, nodesOliSVG, nodesOzPNG, nodesPangolinSVG, nodesPhalaSVG, nodesPicassoPNG, nodesPolkadexSVG, nodesRexSVG, nodesRobonomicsSVG, nodesRocfinitySVG, nodesSocietalSVG, nodesSoonsocialXPNG, nodesSoraSubstrateSVG, nodesSubstrateContractsNodePNG, nodesTrappistRococoPNG, nodesUnitnetworkPNG, nodesYerbanetworkPNG, nodesZeitgeistPNG, nodesZeroSVG } from '../ui/logos/nodes/index.js';
 import { getTeleports } from './util.js';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -147,6 +147,18 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    info: 'rococoCurio',
+    paraId: 3339,
+    providers: {
+      Curio: 'wss://testnet.parachain.curioinvest.com/'
+    },
+    text: 'Curio Testnet',
+    ui: {
+      color: 'rgb(96, 98, 246)',
+      logo: nodesCurioSVG
+    }
+  },
+  {
     info: 'rococoDolphin',
     paraId: 2084,
     providers: {
@@ -178,7 +190,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     },
     text: 'Frequency',
     ui: {
-      color: '#29fd47',
+      color: '#544974',
       logo: chainsFrequencySVG
     }
   },
@@ -207,6 +219,19 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://laosnetwork.io/',
+    info: 'rorocoLaos',
+    paraId: 4343,
+    providers: {
+      'Freeverse.io': 'wss://rpc.giedi.laosfoundation.io'
+    },
+    text: 'Giedi',
+    ui: {
+      color: '#dffe77',
+      logo: nodesGiediPNG
+    }
+  },
+  {
     info: 'helixstreet',
     paraId: 3025,
     providers: {
@@ -227,6 +252,19 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#f653a2',
       logo: chainsHydratePNG
+    }
+  },
+  {
+    homepage: 'https://hyperbridge.network',
+    info: 'rococoHyperbridge',
+    paraId: 4374,
+    providers: {
+      BlockOps: 'wss://hyperbridge-gargantua-rpc.blockops.network'
+    },
+    text: 'Hyperbridge (Gargantua)',
+    ui: {
+      color: '#ED6FF1',
+      logo: nodesHyperbridgeSVG
     }
   },
   {
@@ -257,12 +295,25 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoIntegritee',
     paraId: 3002,
     providers: {
-      Integritee: 'wss://rococo.api.integritee.network'
+      // Integritee: 'wss://rococo.api.integritee.network' // https://github.com/polkadot-js/apps/issues/10353
     },
     text: 'Integritee Network',
     ui: {
       color: '#658ea9',
       logo: nodesIntegriteeSVG
+    }
+  },
+  {
+    homepage: 'https://ourinvo.com/',
+    info: 'rococoInvo',
+    paraId: 4377,
+    providers: {
+      'Invo Network': 'wss://chain.dev.ourinvo.com'
+    },
+    text: 'Invo Testnet',
+    ui: {
+      color: '#000000',
+      logo: nodesInvoPNG
     }
   },
   {
@@ -307,7 +358,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoMangata',
     paraId: 2110,
     providers: {
-      // Mangata: 'wss://collator-01-ws-rococo.mangata.online' // https://github.com/polkadot-js/apps/issues/10028
+      Mangata: 'wss://collator-01-ws-rococo.mangata.online'
     },
     text: 'Mangata',
     ui: {
@@ -319,25 +370,12 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoMd5',
     paraId: 2093,
     providers: {
-      'Hashed Systems': 'wss://c1.md5.hashed.live'
+      'Hashed Systems': 'wss://c1md5.hashed.network'
     },
     text: 'MD5 Network',
     ui: {
       color: '#175bae',
       logo: nodesMd5PNG
-    }
-  },
-  {
-    homepage: 'https://www.metaquity.xyz/',
-    info: 'rococoMetaquity-network',
-    paraId: 4304,
-    providers: {
-      Metaquity: 'wss://rpc.rococo-testnet.metaquity.xyz'
-    },
-    text: 'Metaquity Network',
-    ui: {
-      color: '#4034AB',
-      logo: nodesMetaquityNetworkPNG
     }
   },
   {
@@ -353,15 +391,28 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'rococoNodle',
-    paraId: 2026,
+    info: 'rococoMuse',
+    paraId: 3369,
     providers: {
-      OnFinality: 'wss://node-6957502816543653888.lh.onfinality.io/ws?apikey=09b04494-3139-4b57-a5d1-e1c4c18748ce'
+      Parity: 'wss://rococo-muse-rpc.polkadot.io'
     },
-    text: 'Nodle',
+    text: 'Muse network',
     ui: {
-      color: '#1ab394',
-      logo: nodesNodleSVG
+      color: '#110ff9',
+      logo: nodesMusePNG
+    }
+  },
+  {
+    homepage: 'https://neuroweb.ai',
+    info: 'rococoNeuroWeb',
+    paraId: 2043,
+    providers: {
+      TraceLabs: 'wss://parachain-testnet-rpc.origin-trail.network/'
+    },
+    text: 'NeuroWeb Testnet',
+    ui: {
+      color: '#646566',
+      logo: chainsNeurowebTestnetPNG
     }
   },
   {
@@ -376,16 +427,13 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://parachain.origintrail.io',
-    info: 'rococoOriginTrailParachain',
-    paraId: 2043,
-    providers: {
-      TraceLabs: 'wss://parachain-testnet-rpc.origin-trail.network/'
-    },
-    text: 'OriginTrail Testnet',
+    info: 'rococoOpenZeppelin',
+    paraId: 4354,
+    providers: {},
+    text: 'OpenZeppelin Runtime Template',
     ui: {
-      color: '#0C0C0C',
-      logo: chainsOrigintrailTestnetPNG
+      color: '#f653a2',
+      logo: nodesOzPNG
     }
   },
   {
@@ -740,6 +788,16 @@ export const testParasRococoCommon: EndpointOption[] = [
       color: '#0000cc',
       logo: nodesEncointerBlueSVG
     }
+  },
+  {
+    info: 'rococoPeople',
+    paraId: 1004,
+    providers: {
+      Parity: 'wss://rococo-people-rpc.polkadot.io'
+    },
+    teleport: [-1],
+    text: 'People',
+    ui: { }
   }
 ];
 

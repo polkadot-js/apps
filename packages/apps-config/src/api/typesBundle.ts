@@ -47697,6 +47697,424 @@ export const typesBundle = {
         }
       ]
     },
+    "continuum-runtime": {
+      "Amount": "i128",
+      "AmountOf": "Amount",
+      "AuctionId": "u64",
+      "AuctionIdOf": "AuctionId",
+      "BalanceIdOf": "Balance",
+      "MetaverseId": "u64",
+      "FungibleTokenId": {
+        "_enum": {
+          "NativeToken": "TokenId",
+          "FungibleToken": "TokenId",
+          "DEXShare": "(TokenId, TokenId)",
+          "MiningResource": "TokenId"
+        }
+      },
+      "CurrencyIdOf": "FungibleTokenId",
+      "TradingPairStatus": {
+        "_enum": [
+          "NotEnabled",
+          "Enabled"
+        ]
+      },
+      "TradingPair": "(FungibleTokenId,FungibleTokenId)",
+      "TokenId": "u64",
+      "SpotId": "u32",
+      "ItemId": {
+        "_enum": {
+          "NFT": "AssetId",
+          "Spot": "(u64, MetaverseId)",
+          "Metaverse": "MetaverseId",
+          "Block": "u64"
+        }
+      },
+      "Address": "MultiAddress",
+      "LookupSource": "MultiAddress",
+      "AccountInfo": "AccountInfoWithTripleRefCount",
+      "AssetInfo": {
+        "owner": "AccountId",
+        "data": "AssetData"
+      },
+      "AssetId": "u64",
+      "AssetData": {
+        "name": "Text",
+        "description": "Text",
+        "properties": "Text",
+        "supporters": "Vec<AccountId>"
+      },
+      "AuctionItem": {
+        "itemId": "ItemId",
+        "recipient": "AccountId",
+        "initialAmount": "Balance",
+        "amount": "Balance",
+        "startTime": "u32",
+        "endTime": "u32",
+        "auctionType": "AuctionType",
+        "listingLevel": "ListingLevel",
+        "currencyId": "FungibleTokenId"
+      },
+      "AuctionInfo": {
+        "bid": "Option<(AccountId,Balance)>",
+        "start": "BlockNumber",
+        "end": "Option<BlockNumber>"
+      },
+      "AuctionType": {
+        "_enum": [
+          "Auction",
+          "BuyNow"
+        ]
+      },
+      "RentId": "u64",
+      "RentalInfo": {
+        "owner": "AccountId",
+        "start": "BlockNumber",
+        "end": "Option<BlockNumber>",
+        "price_per_block": "Balance"
+      },
+      "CountryId": "u64",
+      "CollectionId": "u64",
+      "ClassId": "u32",
+      "ClassInfoOf": {
+        "metadata": "Vec<u8>",
+        "totalIssuance": "TokenId",
+        "owner": "AccountId",
+        "data": "NftClassData"
+      },
+      "TokenInfoOf": {
+        "metadata": "Vec<u8>",
+        "owner": "AccountId",
+        "data": "NftAssetData"
+      },
+      "NftCollectionData": {
+        "name": "Vec<u8>",
+        "owner": "AccountId",
+        "properties": "Vec<u8>"
+      },
+      "NftGroupCollectionData": {
+        "name": "Vec<u8>",
+        "properties": "Vec<u8>"
+      },
+      "NftAssetData": {
+        "deposit": "Balance",
+        "attributes": "Attributes"
+      },
+      "NftClassData": {
+        "deposit": "Balance",
+        "attributes": "Attributes",
+        "tokenType": "TokenType",
+        "collectionType": "CollectionType",
+        "totalSupply": "u64",
+        "initialSupply": "u64"
+      },
+      "NetworkId": {
+        "_enum": {
+          "Any": "Null",
+          "Named": "Vec<u8>",
+          "Polkadot": "Null",
+          "Kusama": "Null"
+        }
+      },
+      "CollectionType": {
+        "_enum": [
+          "Collectable",
+          "Wearable",
+          "Executable"
+        ]
+      },
+      "CurrencyId": "SocialTokenCurrencyId",
+      "TokenSymbol": {
+        "_enum": [
+          "NUUM",
+          "AUSD",
+          "ACA",
+          "DOT"
+        ]
+      },
+      "CountryCurrencyId": "u32",
+      "ChainId": {
+        "_enum": {
+          "RelayChain": "Null",
+          "ParaChain": "ParaId"
+        }
+      },
+      "XCurrencyId": {
+        "chain_id": "ChainId",
+        "currency_id": "CurrencyId"
+      },
+      "GroupCollectionId": "u64",
+      "ClassIdOf": "ClassId",
+      "TokenIdOf": "TokenId",
+      "PoolId": "u32",
+      "SocialTokenCurrencyId": {
+        "_enum": {
+          "NativeToken": "TokenId",
+          "FungibleToken": "TokenId",
+          "DEXShare": "(TokenId, TokenId)",
+          "MiningResource": "TokenId"
+        }
+      },
+      "Country": {
+        "owner": "AccountId",
+        "metadata": "Text",
+        "currency_id": "SocialTokenCurrencyId"
+      },
+      "Ticker": "Vec<u8>",
+      "Token": {
+        "ticker": "Ticker",
+        "total_supply": "Balance"
+      },
+      "CountryFund": {
+        "vault": "AccountId",
+        "value": "u128",
+        "backing": "u128",
+        "currency_id": "SocialTokenCurrencyId"
+      },
+      "LandId": "u64",
+      "BlindBoxId": "u64",
+      "BlindBoxType": {
+        "_enum": [
+          "KSM",
+          "NUUM",
+          "MainnetNFTHat",
+          "MainnetNFTJacket",
+          "MainnetNFTPants",
+          "MainnetNFTShoes",
+          "CollectableNFT"
+        ]
+      },
+      "BlindBoxRewardItem": {
+        "recipient": "AccountId",
+        "amount": "u32",
+        "blindbox_type": "BlindBoxType"
+      },
+      "TokenType": {
+        "_enum": [
+          "Transferable",
+          "BoundToAddress"
+        ]
+      },
+      "ListingLevel": {
+        "_enum": {
+          "Global": "Null",
+          "Local": "MetaverseId"
+        }
+      },
+      "ResourceId": "[u8; 32]",
+      "VoteThreshold": {
+        "_enum": [
+          "SuperMajorityApprove",
+          "SuperMajorityAgainst",
+          "RelativeMajority"
+        ]
+      },
+      "ProposalId": "u64",
+      "ReferendumId": "u64",
+      "CountryParameter": {
+        "_enum": {
+          "MaxProposals": "u8",
+          "SetReferendumJury": "AccountId"
+        }
+      },
+      "PreimageStatus": {
+        "_enum": {
+          "Missing": "BlockNumber",
+          "Available": {
+            "data": "Vec<u8>",
+            "provider": "AccountId",
+            "deposit": "Balance",
+            "since": "BlockNumber",
+            "expiry": "Option<BlockNumber>"
+          }
+        }
+      },
+      "ReferendumParameters": {
+        "voting_threshold": "Option<VoteThreshold>",
+        "min_proposal_launch_period": "BlockNumber",
+        "voting_period": "BlockNumber",
+        "enactment_period": "BlockNumber",
+        "local_vote_locking_period": "BlockNumber",
+        "max_proposals_per_metaverse": "u8"
+      },
+      "Vote": {
+        "aye": "bool"
+      },
+      "Tally": {
+        "ayes": "Balance",
+        "nays": "Balance",
+        "turnout": "Balance"
+      },
+      "VotingRecord": {
+        "votes": "Vec<(ReferendumId,Vote<Balance>)>",
+        "prior": "PriorLock<BlockNumber, Balance>"
+      },
+      "ProposalInfo": {
+        "proposed_by": "AccountId",
+        "hash": "Hash",
+        "description": "Vec<u8>",
+        "referendum_launch_block": "BlockNumber"
+      },
+      "ReferendumStatus": {
+        "end": "BlockNumber",
+        "metaverse": "MetaverseId",
+        "proposal": "ProposalId",
+        "tally": "Tally<Balance>",
+        "threshold": "Option<VoteThreshold>"
+      },
+      "RoundIndex": "u32",
+      "MetaverseMetadata": "Vec<u8>",
+      "VestingScheduleOf": "VestingSchedule",
+      "VestingSchedule": {
+        "token": "FungibleTokenId",
+        "start": "BlockNumber",
+        "period": "BlockNumber",
+        "periodCount": "u32",
+        "perPeriod": "Compact<Balance>"
+      },
+      "NFTClassId": "u32",
+      "Attributes": "BTreeMap<Vec<u8>,Vec<u8>>",
+      "EstateId": "u64",
+      "Coordinates": "Vec<(i32,i32)>",
+      "Coordinate": "(i32,i32)",
+      "NewBound": "(i32,i32)",
+      "UndeployedLandBlockId": "u128",
+      "LandUnits": "Vec<(i32, i32)>",
+      "UndeployedLandBlockType": {
+        "_enum": [
+          "Transferable",
+          "BoundToAddress"
+        ]
+      },
+      "MetaverseInfo": {
+        "owner": "AccountId",
+        "metadata": "MetaverseMetadata",
+        "currencyId": "FungibleTokenId"
+      },
+      "OrmlAccountData": {
+        "free": "Balance",
+        "frozen": "Balance",
+        "reserved": "Balance"
+      },
+      "OrmlBalanceLock": {
+        "amount": "Balance",
+        "id": "LockIdentifier"
+      },
+      "OrmlVestingSchedule": {
+        "token": "FungibleTokenId",
+        "start": "BlockNumber",
+        "period": "BlockNumber",
+        "periodCount": "u32",
+        "perPeriod": "Balance"
+      },
+      "Candidate": {
+        "id": "AccountId",
+        "fee": "Perbill",
+        "bond": "Balance",
+        "nominators": "Vec<Bond>",
+        "total": "Balance",
+        "state": "CollatorStatus"
+      },
+      "CollatorStatus": {
+        "_enum": {
+          "Active": "Null",
+          "Idle": "Null",
+          "Leaving": "RoundIndex"
+        }
+      },
+      "RangeBalance": {
+        "min": "Balance",
+        "ideal": "Balance",
+        "max": "Balance"
+      },
+      "RangePerbill": {
+        "min": "Perbill",
+        "ideal": "Perbill",
+        "max": "Perbill"
+      },
+      "InflationInfo": {
+        "expect": "RangeBalance",
+        "annual": "RangePerbill",
+        "round": "RangePerbill"
+      },
+      "OrderedSet": "Vec<Bond>",
+      "Collator": {
+        "id": "AccountId",
+        "bond": "Balance",
+        "nominators": "Vec<Bond>",
+        "total": "Balance",
+        "state": "CollatorStatus"
+      },
+      "CollatorSnapshot": {
+        "bond": "Balance",
+        "nominators": "Vec<Bond>",
+        "total": "Balance"
+      },
+      "RoundInfo": {
+        "current": "RoundIndex",
+        "first": "BlockNumber",
+        "length": "u32"
+      },
+      "Nominator": {
+        "nominations": "Vec<Bond>",
+        "total": "Balance"
+      },
+      "Bond": {
+        "owner": "AccountId",
+        "amount": "Balance"
+      },
+      "ValidatorStatus": {
+        "_enum": {
+          "Active": "Null",
+          "Idle": "Null",
+          "Leaving": "RoundIndex"
+        }
+      },
+      "MetaverseToken": {
+        "ticker": "Ticker",
+        "totalSupply": "Balance"
+      },
+      "MetaverseParameter": {
+        "_enum": {
+          "MaxProposals": "u8",
+          "SetReferendumJury": "AccountId"
+        }
+      },
+      "Delegations": {
+        "votes": "Balance",
+        "capital": "Balance"
+      },
+      "Conviction": {
+        "_enum": [
+          "None",
+          "Locked1x",
+          "Locked2x",
+          "Locked3x",
+          "Locked4x",
+          "Locked5x",
+          "Locked6x"
+        ]
+      },
+      "PalletGovernanceVote": {
+        "aye": "bool",
+        "balance": "Balance",
+        "conviction": "Conviction"
+      },
+      "PriorLock": "(BlockNumber, Balance)",
+      "ReferendumInfo": {
+        "_enum": {
+          "Ongoing": "ReferendumStatus<BlockNumber,Balance>",
+          "Finished": {
+            "passed": "bool",
+            "end": "BlockNumber"
+          }
+        }
+      },
+      "PowerAmount": "u64",
+      "ElementId": "u32",
+      "GeneratorNftId": "(ClassId, TokenId)",
+      "DistributorNftId": "(ClassId, TokenId)"
+    },
     "contracts": {
       "types": [
         {
@@ -48081,7 +48499,7 @@ export const typesBundle = {
         }
       ]
     },
-    "curio-devnet": {
+    "curio-mainnet": {
       "types": [
         {
           "minmax": [
@@ -48116,6 +48534,16 @@ export const typesBundle = {
                   }
                 ],
                 "type": "Balance"
+              },
+              "get_sorted_proposed_candidates": {
+                "description": "Provides a sorted list of collators most suited for given delegator's stake amount determined with some heuristic algorithm",
+                "params": [
+                  {
+                    "name": "balance",
+                    "type": "Balance"
+                  }
+                ],
+                "type": "Vec<AccountId32>"
               }
             },
             "version": 1
@@ -48158,6 +48586,16 @@ export const typesBundle = {
                   }
                 ],
                 "type": "Balance"
+              },
+              "get_sorted_proposed_candidates": {
+                "description": "Provides a sorted list of collators most suited for given delegator's stake amount determined with some heuristic algorithm",
+                "params": [
+                  {
+                    "name": "balance",
+                    "type": "Balance"
+                  }
+                ],
+                "type": "Vec<AccountId32>"
               }
             },
             "version": 1
@@ -52033,6 +52471,16 @@ export const typesBundle = {
               }
             ],
             "type": "Option<Vec<SchemaGrantResponse>>"
+          },
+          "getKeysByMsaId": {
+            "description": "Fetch Keys for an MSA Id",
+            "params": [
+              {
+                "name": "msa_id",
+                "type": "MessageSourceId"
+              }
+            ],
+            "type": "Option<KeyInfoResponse>"
           }
         },
         "schemas": {
@@ -52060,6 +52508,16 @@ export const typesBundle = {
               }
             ],
             "type": "bool"
+          },
+          "getVersions": {
+            "description": "Get different versions and schema ids for a complete schema name or only a namespace",
+            "params": [
+              {
+                "name": "schema_name",
+                "type": "String"
+              }
+            ],
+            "type": "Option<Vec<SchemaVersionResponse>>"
           }
         },
         "statefulStorage": {
@@ -52308,9 +52766,19 @@ export const typesBundle = {
                   }
                 ],
                 "type": "Option<SchemaResponse>"
+              },
+              "get_schema_versions_by_name": {
+                "description": "Fetch the schema versions by name",
+                "params": [
+                  {
+                    "name": "schema_name",
+                    "type": "Vec<u8>"
+                  }
+                ],
+                "type": "Option<Vec<SchemaVersionResponse>>"
               }
             },
-            "version": 1
+            "version": 2
           }
         ],
         "StatefulStorageRuntimeApi": [
@@ -52407,8 +52875,8 @@ export const typesBundle = {
             "DelegatorId": "MessageSourceId",
             "ProviderId": "MessageSourceId",
             "KeyInfoResponse": {
-              "key": "AccountId",
-              "msaId": "MessageSourceId"
+              "msa_keys": "Vec<AccountId>",
+              "msa_id": "MessageSourceId"
             },
             "SchemaGrantResponse": {
               "schema_id": "SchemaId",
@@ -52416,6 +52884,7 @@ export const typesBundle = {
             },
             "SchemaId": "u16",
             "SchemaModel": "Vec<u8>",
+            "SchemaVersion": "u8",
             "SchemaResponse": {
               "schema_id": "SchemaId",
               "model": "SchemaModel",
@@ -52443,6 +52912,11 @@ export const typesBundle = {
                 "SignatureRequired"
               ]
             },
+            "SchemaVersionResponse": {
+              "schema_name": "String",
+              "schema_version": "SchemaVersion",
+              "schema_id": "SchemaId"
+            },
             "PageId": "u16",
             "PageHash": "u32",
             "PageNonce": "u16",
@@ -52469,7 +52943,7 @@ export const typesBundle = {
         }
       ]
     },
-    "frequency-rococo": {
+    "frequency-testnet": {
       "rpc": {
         "frequency": {
           "getEvents": {
@@ -52597,6 +53071,16 @@ export const typesBundle = {
               }
             ],
             "type": "Option<Vec<SchemaGrantResponse>>"
+          },
+          "getKeysByMsaId": {
+            "description": "Fetch Keys for an MSA Id",
+            "params": [
+              {
+                "name": "msa_id",
+                "type": "MessageSourceId"
+              }
+            ],
+            "type": "Option<KeyInfoResponse>"
           }
         },
         "schemas": {
@@ -52624,6 +53108,16 @@ export const typesBundle = {
               }
             ],
             "type": "bool"
+          },
+          "getVersions": {
+            "description": "Get different versions and schema ids for a complete schema name or only a namespace",
+            "params": [
+              {
+                "name": "schema_name",
+                "type": "String"
+              }
+            ],
+            "type": "Option<Vec<SchemaVersionResponse>>"
           }
         },
         "statefulStorage": {
@@ -52872,9 +53366,19 @@ export const typesBundle = {
                   }
                 ],
                 "type": "Option<SchemaResponse>"
+              },
+              "get_schema_versions_by_name": {
+                "description": "Fetch the schema versions by name",
+                "params": [
+                  {
+                    "name": "schema_name",
+                    "type": "Vec<u8>"
+                  }
+                ],
+                "type": "Option<Vec<SchemaVersionResponse>>"
               }
             },
-            "version": 1
+            "version": 2
           }
         ],
         "StatefulStorageRuntimeApi": [
@@ -52971,8 +53475,8 @@ export const typesBundle = {
             "DelegatorId": "MessageSourceId",
             "ProviderId": "MessageSourceId",
             "KeyInfoResponse": {
-              "key": "AccountId",
-              "msaId": "MessageSourceId"
+              "msa_keys": "Vec<AccountId>",
+              "msa_id": "MessageSourceId"
             },
             "SchemaGrantResponse": {
               "schema_id": "SchemaId",
@@ -52980,6 +53484,7 @@ export const typesBundle = {
             },
             "SchemaId": "u16",
             "SchemaModel": "Vec<u8>",
+            "SchemaVersion": "u8",
             "SchemaResponse": {
               "schema_id": "SchemaId",
               "model": "SchemaModel",
@@ -53006,6 +53511,11 @@ export const typesBundle = {
                 "AppendOnly",
                 "SignatureRequired"
               ]
+            },
+            "SchemaVersionResponse": {
+              "schema_name": "String",
+              "schema_version": "SchemaVersion",
+              "schema_id": "SchemaId"
             },
             "PageId": "u16",
             "PageHash": "u32",
@@ -59102,6 +59612,12 @@ export const typesBundle = {
             "SealV0": "(u64, Signature)",
             "Seal": "(ConsensusEngineId, Bytes)",
             "Consensus": "(ConsensusEngineId, Bytes)",
+            "ExtrinsicInclusionMode": {
+              "_enum": [
+                "AllExtrinsics",
+                "OnlyInherents"
+              ]
+            },
             "BeefyKey": "[u8; 33]",
             "Keys": "SessionKeys2",
             "SessionKeys1": "(AccountId)",
@@ -66729,6 +67245,21 @@ export const typesBundle = {
         }
       ]
     },
+    "muse": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "AccountId": "EthereumAccountId",
+            "Address": "AccountId",
+            "LookupSource": "AccountId"
+          }
+        }
+      ]
+    },
     "mybank.network Testnet": {
       "types": [
         {
@@ -66806,6 +67337,21 @@ export const typesBundle = {
         }
       ]
     },
+    "mythos": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "AccountId": "EthereumAccountId",
+            "Address": "AccountId",
+            "LookupSource": "AccountId"
+          }
+        }
+      ]
+    },
     "neatcoin": {
       "types": [
         {
@@ -66825,6 +67371,20 @@ export const typesBundle = {
                 "Bool": "Bool"
               }
             }
+          }
+        }
+      ]
+    },
+    "neuroweb": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "Address": "AccountId",
+            "LookupSource": "AccountId"
           }
         }
       ]
@@ -69404,20 +69964,6 @@ export const typesBundle = {
         }
       ]
     },
-    "origintrail-parachain": {
-      "types": [
-        {
-          "minmax": [
-            0,
-            null
-          ],
-          "types": {
-            "Address": "AccountId",
-            "LookupSource": "AccountId"
-          }
-        }
-      ]
-    },
     "parallel": {
       "rpc": {
         "oracle": {
@@ -70464,6 +71010,66 @@ export const typesBundle = {
           "BalanceLock": "OrmlBalanceLock"
         }
       }
+    },
+    "peerplays": {
+      "rpc": {
+        "validatormanager": {
+          "activeValidators": {
+            "description": "Get the list of active validators",
+            "params": [],
+            "type": "Vec<AccountId>"
+          },
+          "currentMaintenanceIndex": {
+            "description": "Get current maintenance index",
+            "params": [],
+            "type": "MaintenanceIndex"
+          },
+          "nextMaintenanceIndex": {
+            "description": "Get next maintenance index",
+            "params": [],
+            "type": "MaintenanceIndex"
+          },
+          "offenceValidators": {
+            "description": "Get the list of active validators who made the offence",
+            "params": [],
+            "type": "Vec<(AccountId, AuthIndex)>"
+          },
+          "offlineValidators": {
+            "description": "Get the list of active validators who went offline",
+            "params": [],
+            "type": "Vec<(AccountId, AuthIndex)>"
+          },
+          "validatorsPool": {
+            "description": "Get the list of validator candidates",
+            "params": [],
+            "type": "Vec<AccountId>"
+          }
+        }
+      },
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "AccountId": "EthereumAccountId",
+            "AccountId20": "EthereumAccountId",
+            "AccountId32": "EthereumAccountId",
+            "Address": "AccountId",
+            "AuthIndex": "u32",
+            "EthereumSignature": {
+              "r": "H256",
+              "s": "H256",
+              "v": "U8"
+            },
+            "ExtrinsicSignature": "EthereumSignature",
+            "Lookup0": "AccountId",
+            "LookupSource": "AccountId",
+            "MaintenanceIndex": "u32"
+          }
+        }
+      ]
     },
     "pendulum": {
       "rpc": {

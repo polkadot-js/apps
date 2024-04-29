@@ -120,8 +120,8 @@ export const testParasWestendCommon: EndpointOption[] = [
       'IBP-GeoDNS1': 'wss://sys.ibp.network/westmint',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/westmint',
       // OnFinality: 'wss://westmint.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9955
-      Parity: 'wss://westend-asset-hub-rpc.polkadot.io',
-      Stakeworld: 'wss://wnd-rpc.stakeworld.io/assethub'
+      Parity: 'wss://westend-asset-hub-rpc.polkadot.io'
+      // Stakeworld: 'wss://wnd-rpc.stakeworld.io/assethub'
     },
     teleport: [-1],
     text: 'AssetHub',
@@ -162,6 +162,28 @@ export const testParasWestendCommon: EndpointOption[] = [
       color: '#e6777a',
       logo: 'fa;people-group'
     }
+  },
+  {
+    info: 'westendCoretime',
+    paraId: 1005,
+    providers: {
+      'IBP-GeoDNS2': 'wss://sys.dotters.network/coretime-westend',
+      Parity: 'wss://westend-coretime-rpc.polkadot.io'
+    },
+    teleport: [-1],
+    text: 'Coretime',
+    ui: {}
+  },
+  {
+    info: 'westendPeople',
+    paraId: 1004,
+    providers: {
+      'IBP-GeoDNS2': 'wss://sys.dotters.network/people-westend',
+      Parity: 'wss://westend-people-rpc.polkadot.io'
+    },
+    teleport: [-1],
+    text: 'People',
+    ui: { }
   }
 ];
 
@@ -174,7 +196,7 @@ export const testRelayWestend: EndpointOption = {
     ...testParasWestend
   ],
   providers: {
-    // Blockops: 'wss://westend-rpc.blockops.network/ws', // https://github.com/polkadot-js/apps/issues/9840
+    Blockops: 'wss://westend-rpc.blockops.network/ws', // https://github.com/polkadot-js/apps/issues/9840
     Dwellir: 'wss://westend-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://westend-rpc-tn.dwellir.com',
     'IBP-GeoDNS1': 'wss://rpc.ibp.network/westend',
@@ -183,7 +205,7 @@ export const testRelayWestend: EndpointOption = {
     OnFinality: 'wss://westend.api.onfinality.io/public-ws',
     Parity: 'wss://westend-rpc.polkadot.io',
     RadiumBlock: 'wss://westend.public.curie.radiumblock.co/ws',
-    Stakeworld: 'wss://wnd-rpc.stakeworld.io',
+    // Stakeworld: 'wss://wnd-rpc.stakeworld.io',
     'light client': 'light://substrate-connect/westend'
   },
   teleport: getTeleports(testParasWestendCommon),

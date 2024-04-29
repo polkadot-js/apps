@@ -34,7 +34,7 @@ function KickNominees ({ className = '', controllerId, nominating, onClose, stas
   const queryInfo = useCall<DeriveStakingQuery>(api.derive.staking.query, [stashId, accountOpts]);
 
   const nominators = useMemo(
-    () => queryInfo?.exposure?.others.map(({ who }) => who.toString()),
+    () => queryInfo?.exposurePaged.isSome && queryInfo?.exposurePaged.unwrap().others.map(({ who }) => who.toString()),
     [queryInfo]
   );
 

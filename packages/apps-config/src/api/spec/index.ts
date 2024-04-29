@@ -78,19 +78,22 @@ import mangata from './mangata.js';
 import manta from './manta.js';
 import mathchain from './mathchain.js';
 import moonbeam from './moonbeam.js';
+import muse from './muse.js';
 import mybank from './mybank.js';
+import mythos from './mythos.js';
 import neatcoin from './neatcoin.js';
+import neuroweb from './neuroweb.js';
 import nftmart from './nftmart.js';
 import nodle from './nodle.js';
 import oak from './oak.js';
 import opal from './opal.js';
 import opportunity from './opportunity.js';
-import origintrail from './origintrail.js';
 import pangolin from './pangolin.js';
 import pangoro from './pangoro.js';
 import parallel from './parallel.js';
 import parami from './parami.js';
 import peaq from './peaq.js';
+import peerplays from './peerplays.js';
 import pendulum from './pendulum.js';
 import phoenix from './phoenix.js';
 import pichiu from './pichiu.js';
@@ -176,12 +179,13 @@ const spec: Record<string, OverrideBundleDefinition> = {
   coinversation,
   'competitors-club': competitorsClub,
   contextfree: automata,
+  'continuum-runtime': bitcountryPioneer,
   contracts,
   'crown-sterling': crownSterlingChain,
   crust,
   'crust-parachain': crust,
   'cumulus-test-parachain': testPara,
-  'curio-devnet': curio,
+  'curio-mainnet': curio,
   'curio-testnet': curio,
   datahighway: westlake,
   'datahighway-parachain': datahighwayParachain,
@@ -201,7 +205,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'ferrum-parachain': ferrum,
   foucoco: pendulum,
   frequency,
-  'frequency-rococo': frequency,
+  'frequency-testnet': frequency,
   galital,
   'galital-collator': galitalParachain,
   gamepower,
@@ -242,8 +246,11 @@ const spec: Record<string, OverrideBundleDefinition> = {
   moonbeam,
   moonriver: moonbeam,
   moonshadow: moonbeam,
+  muse,
   'mybank.network Testnet': mybank,
+  mythos,
   neatcoin,
+  neuroweb,
   nftmart,
   'node-moonbeam': moonbeam,
   'node-polkadex': polkadex,
@@ -251,12 +258,12 @@ const spec: Record<string, OverrideBundleDefinition> = {
   oak,
   opal,
   opportunity,
-  'origintrail-parachain': origintrail,
   parallel,
   parami,
   'peaq-node': peaq,
   'peaq-node-dev': peaq,
   'peaq-node-krest': peaq,
+  peerplays,
   pendulum,
   'phoenix-node': phoenix,
   'phoenix-parachain': phoenix,
