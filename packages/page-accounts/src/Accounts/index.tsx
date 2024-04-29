@@ -45,7 +45,7 @@ interface SortControls {
   sortFromMax: boolean;
 }
 
-type GroupName = 'accounts' | 'chopsticks' | 'chopsticks' | 'hardware' | 'injected' | 'multisig' | 'proxied' | 'qr' | 'testing';
+type GroupName = 'accounts' | 'chopsticks' | 'hardware' | 'injected' | 'multisig' | 'proxied' | 'qr' | 'testing';
 
 const DEFAULT_SORT_CONTROLS: SortControls = { sortBy: 'date', sortFromMax: true };
 
@@ -79,8 +79,6 @@ function groupAccounts (accounts: SortedAccount[]): Record<GroupName, string[]> 
       ret.multisig.push(address);
     } else if (cryptoType === 'proxied') {
       ret.proxied.push(address);
-    } else if (cryptoType === 'chopsticks') {
-      ret.chopsticks.push(address);
     } else if (cryptoType === 'chopsticks') {
       ret.chopsticks.push(address);
     } else if (cryptoType === 'qr') {
