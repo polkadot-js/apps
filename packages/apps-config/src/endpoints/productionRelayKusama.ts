@@ -904,7 +904,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     info: 'KusamaAssetHub',
     paraId: 1000,
     providers: {
-      Dwellir: 'wss://statemine-rpc.dwellir.com',
+      Dwellir: 'wss://asset-hub-kusama-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://statemine-rpc-tn.dwellir.com',
       'IBP-GeoDNS1': 'wss://sys.ibp.network/statemine',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/statemine',
