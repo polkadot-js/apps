@@ -803,7 +803,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       ZeroNetwork: 'wss://rpc-1.kusama.node.zero.io'
     },
-    text: 'subzero',
+    text: 'ZERO Canary',
     ui: {
       color: '#000000',
       logo: nodesZeroSVG
