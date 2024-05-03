@@ -1117,13 +1117,15 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'zero',
+    homepage: 'https://zero.io',
+    info: 'ZERO Alphaville',
     providers: {
-      // ZERO: 'wss://alphaville.zero.io' // https://github.com/polkadot-js/apps/issues/8263
+      GameDAO: 'wss://rpc.dev.gamedao.net'
     },
-    text: 'Zero Alphaville',
+    text: 'ZERO Alphaville',
     ui: {
-      color: '#000000'
+      color: '#00ffcc',
+      logo: nodesZeroSVG
     }
   }
 ];
