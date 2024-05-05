@@ -797,19 +797,6 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://zero.io',
-    info: 'zero',
-    paraId: 2236,
-    providers: {
-      ZeroNetwork: 'wss://rpc-1.kusama.node.zero.io'
-    },
-    text: 'subzero',
-    ui: {
-      color: '#000000',
-      logo: nodesZeroSVG
-    }
-  },
-  {
     homepage: 'https://www.t3rn.io/',
     info: 't1rn',
     paraId: 3334,
@@ -895,6 +882,19 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#a5503c',
       logo: nodesYerbanetworkPNG
+    }
+  },
+  {
+    homepage: 'https://zero.io',
+    info: 'zero',
+    paraId: 2236,
+    providers: {
+      'Zero Network': 'wss://rpc-1.kusama.node.zero.io'
+    },
+    text: 'ZERO Canary',
+    ui: {
+      color: '#000000',
+      logo: nodesZeroSVG
     }
   }
 ];
