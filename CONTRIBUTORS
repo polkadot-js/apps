@@ -363,6 +363,7 @@
        1	FOB                           	Fix Polymesh types bundle to use correct specNames and update branding (#9182)
        1	Fr4ctalbit                    	Turn Submit proposal tab into a modal (#1698)
        1	Francesco Occhipinti          	[CI Skip] update the remote server location, closes #487 (#492)
+       1	Frank Bell                    	chore(pop): add rpc (#10538)
        1	gabriel klawitter             	CI: add file for substrate-ui and substrate-ui-light domains (#767)
        1	George Angelopoulos           	typo fix (#5704)
        1	Georgi Zlatarev               	Dolphin parachain on Rococo (#7401)
