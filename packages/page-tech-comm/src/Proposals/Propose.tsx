@@ -28,7 +28,7 @@ interface ProposalState {
 }
 
 // TODO We probably want to pull this from config
-const DEFAULT_THRESHOLD = 1 / 2;
+const DEFAULT_THRESHOLD = 5 / 7;
 
 function Propose ({ defaultThreshold = DEFAULT_THRESHOLD, defaultValue, filter, isMember, members, type }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
