@@ -522,6 +522,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'tangle',
     providers: {
+      Dwellir: 'wss://tangle-mainnet-rpc.dwellir.com',
       Webb: 'wss://rpc.tangle.tools'
     },
     text: 'Tangle',
