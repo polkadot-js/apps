@@ -952,6 +952,16 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     ui: {}
   },
   {
+    info: 'kusamaPeople',
+    paraId: 1004,
+    providers: {
+      Parity: 'wss://kusama-people-rpc.polkadot.io'
+    },
+    teleport: [-1],
+    text: 'People',
+    ui: {}
+  },
+  {
     homepage: 'https://encointer.org/',
     info: 'encointer',
     paraId: 1001,
