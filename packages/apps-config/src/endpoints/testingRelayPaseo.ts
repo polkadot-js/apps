@@ -106,7 +106,9 @@ export const testParasPaseoCommon: EndpointOption[] = [
     paraId: 1000,
     providers: {
       Dwellir: 'wss://asset-hub-paseo-rpc.dwellir.com',
-      'IBP-GeoDNS2': 'wss://sys.dotters.network/asset-hub-paseo'
+      'IBP-GeoDNS1': 'wss://sys.ibp.network/asset-hub-paseo',
+      'IBP-GeoDNS2': 'wss://sys.dotters.network/asset-hub-paseo',
+      StakeWorld: 'wss://pas-rpc.stakeworld.io/assethub'
     },
     teleport: [-1],
     text: 'AssetHub',
@@ -129,7 +131,8 @@ export const testRelayPaseo: EndpointOption = {
     Amforc: 'wss://paseo.rpc.amforc.com',
     Dwellir: 'wss://paseo-rpc.dwellir.com',
     'IBP-GeoDNS1': 'wss://rpc.ibp.network/paseo',
-    'IBP-GeoDNS2': 'wss://rpc.dotters.network/paseo'
+    'IBP-GeoDNS2': 'wss://rpc.dotters.network/paseo',
+    StakeWorld: 'wss://pas-rpc.stakeworld.io'
     // 'light client': 'light://substrate-connect/paseo'
   },
   teleport: getTeleports(testParasPaseoCommon),
