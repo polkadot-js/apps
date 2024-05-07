@@ -32,6 +32,7 @@ export { nodesCoinversationPNG } from './generated/coinversationPNG.js';
 export { nodesCompetitorsClubPNG } from './generated/competitors-clubPNG.js';
 export { nodesConftiSVG } from './generated/conftiSVG.js';
 export { nodesContinuumPNG } from './generated/continuumPNG.js';
+export { nodesCoretimeSVG } from './generated/coretimeSVG.js';
 export { nodesCrabSVG } from './generated/crabSVG.js';
 export { nodesCrownSterlingPNG } from './generated/crown-sterlingPNG.js';
 export { nodesCrustMaxwellSVG } from './generated/crust-maxwellSVG.js';
