@@ -16,10 +16,10 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.135.2-26-x",
+  "version": "0.137.1",
   "versions": {
-    "git": "0.135.2-26-x",
-    "npm": "0.135.1"
+    "git": "0.137.1",
+    "npm": "0.137.1"
   },
   "workspaces": [
     "packages/*"
@@ -67,10 +67,11 @@
     "test:skipped": "echo 'tests skipped'"
   },
   "dependencies": {
-    "avail-js-sdk": "^0.2.8",
+    "avail-js-sdk": "^0.2.12",
     "axios": "^1.4.0",
     "dotenv": "^16.3.1",
-    "patch-package": "^8.0.0"
+    "patch-package": "^8.0.0",
+    "postinstall-postinstall": "^2.1.0"
   },
   "devDependencies": {
     "@crustio/crust-pin": "^1.0.0",
@@ -97,24 +98,24 @@
     "source-map-explorer": "^2.5.3"
   },
   "resolutions": {
-    "@polkadot/api": "^10.12.4",
-    "@polkadot/api-augment": "^10.12.4",
-    "@polkadot/api-base": "^10.12.4",
-    "@polkadot/api-contract": "^10.12.4",
-    "@polkadot/api-derive": "^10.12.4",
+    "@polkadot/api": "^11.0.2",
+    "@polkadot/api-augment": "^11.0.2",
+    "@polkadot/api-base": "^11.0.2",
+    "@polkadot/api-contract": "^11.0.2",
+    "@polkadot/api-derive": "^11.0.2",
     "@polkadot/hw-ledger": "^12.6.2",
     "@polkadot/keyring": "^12.6.2",
     "@polkadot/networks": "^12.6.2",
-    "@polkadot/phishing": "^0.22.4",
-    "@polkadot/rpc-augment": "^10.12.4",
-    "@polkadot/rpc-core": "^10.12.4",
-    "@polkadot/rpc-provider": "^10.12.4",
-    "@polkadot/types": "^10.12.4",
-    "@polkadot/types-augment": "^10.12.4",
-    "@polkadot/types-codec": "^10.12.4",
-    "@polkadot/types-create": "^10.12.4",
-    "@polkadot/types-known": "^10.12.4",
-    "@polkadot/types-support": "^10.12.4",
+    "@polkadot/phishing": "^0.22.6",
+    "@polkadot/rpc-augment": "^11.0.2",
+    "@polkadot/rpc-core": "^11.0.2",
+    "@polkadot/rpc-provider": "^11.0.2",
+    "@polkadot/types": "^11.0.2",
+    "@polkadot/types-augment": "^11.0.2",
+    "@polkadot/types-codec": "^11.0.2",
+    "@polkadot/types-create": "^11.0.2",
+    "@polkadot/types-known": "^11.0.2",
+    "@polkadot/types-support": "^11.0.2",
     "@polkadot/util": "^12.6.2",
     "@polkadot/util-crypto": "^12.6.2",
     "@polkadot/wasm-crypto": "^7.3.2",

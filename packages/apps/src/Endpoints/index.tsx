@@ -310,17 +310,8 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
   // const _onLocalFork = useCallback(
   //   (): void => {
   //     store.set('localFork', apiUrl);
-  //     store.set('localFork', '');
   //     settings.set({ ...(settings.get()), apiUrl });
-
-  //     const newLCUrl = getLCFromUrl(apiUrl);
-
-  //     if (lcUrl !== newLCUrl) {
-  //       window.localStorage.setItem('lcUrl', newLCUrl);
-  //       window.location.assign(`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(apiUrl)}&light=${encodeURIComponent(newLCUrl)}${window.location.hash}`);
-  //     } else {
-  //       window.location.assign(`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(apiUrl)}${window.location.hash}`);
-  //     }
+  //     window.location.assign(`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(apiUrl)}${window.location.hash}`);
 
   //     if (!hasUrlChanged) {
   //       window.location.reload();
@@ -328,23 +319,8 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
 
   //     onClose();
   //   },
-  //   [apiUrl, lcUrl, onClose, hasUrlChanged]
+  //   [apiUrl, onClose, hasUrlChanged]
   // );
-
-  useCallback(
-    (): void => {
-      store.set('localFork', apiUrl);
-      settings.set({ ...(settings.get()), apiUrl });
-      window.location.assign(`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(apiUrl)}${window.location.hash}`);
-
-      if (!hasUrlChanged) {
-        window.location.reload();
-      }
-
-      onClose();
-    },
-    [apiUrl, onClose, hasUrlChanged]
-  );
 
   const _saveApiEndpoint = useCallback(
     (): void => {
@@ -398,13 +374,6 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
     <StyledSidebar
       buttons={
         <>
-          {/* <Button
-            icon='code-fork'
-            isDisabled={canLocalFork}
-            label={t('Fork Locally')}
-            onClick={_onLocalFork}
-            tooltip='fork-locally-btn'
-          /> */}
           <Button
             icon='sync'
             isDisabled={canSwitch}
@@ -477,6 +446,20 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
           value={lcUrl}
         />
       </div>
+      {/* <div style={{
+        alignItems: 'center',
+        display: 'flex',
+        justifyContent: 'right'
+      }}
+      >
+        <Button
+          icon='code-fork'
+          isDisabled={canLocalFork}
+          label={t('Fork Locally')}
+          onClick={_onLocalFork}
+          tooltip='fork-locally-btn'
+        />
+      </div> */}
     </StyledSidebar>
   );
 }

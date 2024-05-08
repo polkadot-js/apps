@@ -52857,6 +52857,16 @@ export const typesBundle = {
               }
             ],
             "type": "Option<Vec<SchemaGrantResponse>>"
+          },
+          "getKeysByMsaId": {
+            "description": "Fetch Keys for an MSA Id",
+            "params": [
+              {
+                "name": "msa_id",
+                "type": "MessageSourceId"
+              }
+            ],
+            "type": "Option<KeyInfoResponse>"
           }
         },
         "schemas": {
@@ -52884,6 +52894,16 @@ export const typesBundle = {
               }
             ],
             "type": "bool"
+          },
+          "getVersions": {
+            "description": "Get different versions and schema ids for a complete schema name or only a namespace",
+            "params": [
+              {
+                "name": "schema_name",
+                "type": "String"
+              }
+            ],
+            "type": "Option<Vec<SchemaVersionResponse>>"
           }
         },
         "statefulStorage": {
@@ -53132,9 +53152,19 @@ export const typesBundle = {
                   }
                 ],
                 "type": "Option<SchemaResponse>"
+              },
+              "get_schema_versions_by_name": {
+                "description": "Fetch the schema versions by name",
+                "params": [
+                  {
+                    "name": "schema_name",
+                    "type": "Vec<u8>"
+                  }
+                ],
+                "type": "Option<Vec<SchemaVersionResponse>>"
               }
             },
-            "version": 1
+            "version": 2
           }
         ],
         "StatefulStorageRuntimeApi": [
@@ -53231,8 +53261,8 @@ export const typesBundle = {
             "DelegatorId": "MessageSourceId",
             "ProviderId": "MessageSourceId",
             "KeyInfoResponse": {
-              "key": "AccountId",
-              "msaId": "MessageSourceId"
+              "msa_keys": "Vec<AccountId>",
+              "msa_id": "MessageSourceId"
             },
             "SchemaGrantResponse": {
               "schema_id": "SchemaId",
@@ -53240,6 +53270,7 @@ export const typesBundle = {
             },
             "SchemaId": "u16",
             "SchemaModel": "Vec<u8>",
+            "SchemaVersion": "u8",
             "SchemaResponse": {
               "schema_id": "SchemaId",
               "model": "SchemaModel",
@@ -53267,6 +53298,11 @@ export const typesBundle = {
                 "SignatureRequired"
               ]
             },
+            "SchemaVersionResponse": {
+              "schema_name": "String",
+              "schema_version": "SchemaVersion",
+              "schema_id": "SchemaId"
+            },
             "PageId": "u16",
             "PageHash": "u32",
             "PageNonce": "u16",
@@ -53293,7 +53329,7 @@ export const typesBundle = {
         }
       ]
     },
-    "frequency-rococo": {
+    "frequency-testnet": {
       "rpc": {
         "frequency": {
           "getEvents": {
@@ -53421,6 +53457,16 @@ export const typesBundle = {
               }
             ],
             "type": "Option<Vec<SchemaGrantResponse>>"
+          },
+          "getKeysByMsaId": {
+            "description": "Fetch Keys for an MSA Id",
+            "params": [
+              {
+                "name": "msa_id",
+                "type": "MessageSourceId"
+              }
+            ],
+            "type": "Option<KeyInfoResponse>"
           }
         },
         "schemas": {
@@ -53448,6 +53494,16 @@ export const typesBundle = {
               }
             ],
             "type": "bool"
+          },
+          "getVersions": {
+            "description": "Get different versions and schema ids for a complete schema name or only a namespace",
+            "params": [
+              {
+                "name": "schema_name",
+                "type": "String"
+              }
+            ],
+            "type": "Option<Vec<SchemaVersionResponse>>"
           }
         },
         "statefulStorage": {
@@ -53696,9 +53752,19 @@ export const typesBundle = {
                   }
                 ],
                 "type": "Option<SchemaResponse>"
+              },
+              "get_schema_versions_by_name": {
+                "description": "Fetch the schema versions by name",
+                "params": [
+                  {
+                    "name": "schema_name",
+                    "type": "Vec<u8>"
+                  }
+                ],
+                "type": "Option<Vec<SchemaVersionResponse>>"
               }
             },
-            "version": 1
+            "version": 2
           }
         ],
         "StatefulStorageRuntimeApi": [
@@ -53795,8 +53861,8 @@ export const typesBundle = {
             "DelegatorId": "MessageSourceId",
             "ProviderId": "MessageSourceId",
             "KeyInfoResponse": {
-              "key": "AccountId",
-              "msaId": "MessageSourceId"
+              "msa_keys": "Vec<AccountId>",
+              "msa_id": "MessageSourceId"
             },
             "SchemaGrantResponse": {
               "schema_id": "SchemaId",
@@ -53804,6 +53870,7 @@ export const typesBundle = {
             },
             "SchemaId": "u16",
             "SchemaModel": "Vec<u8>",
+            "SchemaVersion": "u8",
             "SchemaResponse": {
               "schema_id": "SchemaId",
               "model": "SchemaModel",
@@ -53830,6 +53897,11 @@ export const typesBundle = {
                 "AppendOnly",
                 "SignatureRequired"
               ]
+            },
+            "SchemaVersionResponse": {
+              "schema_name": "String",
+              "schema_version": "SchemaVersion",
+              "schema_id": "SchemaId"
             },
             "PageId": "u16",
             "PageHash": "u32",
@@ -59926,6 +59998,12 @@ export const typesBundle = {
             "SealV0": "(u64, Signature)",
             "Seal": "(ConsensusEngineId, Bytes)",
             "Consensus": "(ConsensusEngineId, Bytes)",
+            "ExtrinsicInclusionMode": {
+              "_enum": [
+                "AllExtrinsics",
+                "OnlyInherents"
+              ]
+            },
             "BeefyKey": "[u8; 33]",
             "Keys": "SessionKeys2",
             "SessionKeys1": "(AccountId)",
@@ -71318,6 +71396,66 @@ export const typesBundle = {
           "BalanceLock": "OrmlBalanceLock"
         }
       }
+    },
+    "peerplays": {
+      "rpc": {
+        "validatormanager": {
+          "activeValidators": {
+            "description": "Get the list of active validators",
+            "params": [],
+            "type": "Vec<AccountId>"
+          },
+          "currentMaintenanceIndex": {
+            "description": "Get current maintenance index",
+            "params": [],
+            "type": "MaintenanceIndex"
+          },
+          "nextMaintenanceIndex": {
+            "description": "Get next maintenance index",
+            "params": [],
+            "type": "MaintenanceIndex"
+          },
+          "offenceValidators": {
+            "description": "Get the list of active validators who made the offence",
+            "params": [],
+            "type": "Vec<(AccountId, AuthIndex)>"
+          },
+          "offlineValidators": {
+            "description": "Get the list of active validators who went offline",
+            "params": [],
+            "type": "Vec<(AccountId, AuthIndex)>"
+          },
+          "validatorsPool": {
+            "description": "Get the list of validator candidates",
+            "params": [],
+            "type": "Vec<AccountId>"
+          }
+        }
+      },
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "AccountId": "EthereumAccountId",
+            "AccountId20": "EthereumAccountId",
+            "AccountId32": "EthereumAccountId",
+            "Address": "AccountId",
+            "AuthIndex": "u32",
+            "EthereumSignature": {
+              "r": "H256",
+              "s": "H256",
+              "v": "U8"
+            },
+            "ExtrinsicSignature": "EthereumSignature",
+            "Lookup0": "AccountId",
+            "LookupSource": "AccountId",
+            "MaintenanceIndex": "u32"
+          }
+        }
+      ]
     },
     "pendulum": {
       "rpc": {

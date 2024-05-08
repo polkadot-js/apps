@@ -8,7 +8,7 @@ const config: { [network: string]: { url: `wss://${string}`, lcUrl: string } } =
   },
   turing: {
     lcUrl: process.env.TURING_LC || 'https://api.lightclient.turing.avail.so/v1',
-    url: process.env.TURING_URL as `wss://${string}` || 'wss://turing-rpc.avail.so'
+    url: process.env.TURING_URL as `wss://${string}` || 'wss://turing-rpc.avail.so/ws'
   }
   // mainnet: { // TODO-mainnet
   //   lcUrl: process.env.MAINNET_LC as string || 'https://api.lightclient.mainnet.avail.tools/v1',

@@ -8,6 +8,8 @@
   "Don't use a proxy for this call": "Don't use a proxy for this call",
   "Include an optional tip for faster processing": "Include an optional tip for faster processing",
   "Lifetime (# of blocks)": "Lifetime (# of blocks)",
+  "Mock Sign (no submission)": "Mock Sign (no submission)",
+  "Mock Sign and Submit": "Mock Sign and Submit",
   "Multisig approval with hash (non-final approval)": "Multisig approval with hash (non-final approval)",
   "Multisig message with call (for final approval)": "Multisig message with call (for final approval)",
   "Non-signature, non-hex data received from QR. Data contains \"{{sample}}\" instead of a hex-only signature. Please present the correct signature generated from the QR presented for submission.": "Non-signature, non-hex data received from QR. Data contains \"{{sample}}\" instead of a hex-only signature. Please present the correct signature generated from the QR presented for submission.",
