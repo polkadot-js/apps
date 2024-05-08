@@ -36,8 +36,6 @@ interface OldLedger {
 }
 
 const EMPTY_PARTIAL: Partial<SortedTargets> = {};
-// To get claimedRewards, activate `withClaimedRewardsEras` to true.
-// Currently its turned off because of performance issues.
 const DEFAULT_FLAGS_ELECTED = { withClaimedRewardsEras: true, withController: true, withExposure: true, withExposureMeta: true, withPrefs: true };
 const DEFAULT_FLAGS_WAITING = { withController: true, withPrefs: true };
 

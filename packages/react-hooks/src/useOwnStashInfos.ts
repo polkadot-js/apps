@@ -26,8 +26,6 @@ function toIdString (id?: AccountId | null): string | null {
     : null;
 }
 
-// To get claimedRewards, activate `withClaimedRewardsEras` to true.
-// Currently its turned off because of performance issues.
 const QUERY_OPTS = {
   withClaimedRewardsEras: true,
   withDestination: true,
