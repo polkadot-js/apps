@@ -33,7 +33,7 @@ const EMPTY_STATE: StateBase = {
 };
 
 const availGenesis: typeof knownGenesis = {
-  turing: ['0xd3d2f3a3495dc597434a99d7d449ebad6616db45e4e4f178f31cc6fa14378b70']
+  "avail-turing": ['0xd3d2f3a3495dc597434a99d7d449ebad6616db45e4e4f178f31cc6fa14378b70']
 };
 const newKnownGenesis: typeof knownGenesis = {
   ...knownGenesis,
@@ -41,7 +41,7 @@ const newKnownGenesis: typeof knownGenesis = {
 };
 
 const availLedger: typeof knownLedger = {
-  turing: 42
+  "avail-turing": 0x800002c5
 };
 const newKnownLedger: typeof knownLedger = {
   ...knownLedger,
