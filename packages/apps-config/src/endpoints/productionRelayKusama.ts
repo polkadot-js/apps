@@ -969,6 +969,16 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       color: '#0000cc',
       logo: nodesEncointerBlueSVG
     }
+  },
+  {
+    info: 'kusamaPeople',
+    paraId: 1004,
+    providers: {
+      Parity: 'wss://kusama-people-rpc.polkadot.io'
+    },
+    teleport: [-1],
+    text: 'People',
+    ui: {}
   }
 ];
 
