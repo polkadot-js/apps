@@ -126,6 +126,7 @@
     "@polkadot/x-textdecoder": "^12.6.2",
     "@polkadot/x-textencoder": "^12.6.2",
     "@polkadot/x-ws": "^12.6.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "@zondax/ledger-substrate": "^0.42.1"
   }
 }

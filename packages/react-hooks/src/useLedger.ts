@@ -32,11 +32,27 @@ const EMPTY_STATE: StateBase = {
   isLedgerEnabled: false
 };
 
+const availGenesis: typeof knownGenesis = {
+  'avail-turing': ['0xd3d2f3a3495dc597434a99d7d449ebad6616db45e4e4f178f31cc6fa14378b70']
+};
+const newKnownGenesis: typeof knownGenesis = {
+  ...knownGenesis,
+  ...availGenesis
+};
+
+const availLedger: typeof knownLedger = {
+  'avail-turing': 0x800002c5
+};
+const newKnownLedger: typeof knownLedger = {
+  ...knownLedger,
+  ...availLedger
+};
+
 const hasWebUsb = !!(window as unknown as { USB?: unknown }).USB;
 const ledgerChains = Object
-  .keys(knownGenesis)
-  .filter((n) => knownLedger[n]);
-const ledgerHashes = ledgerChains.reduce<string[]>((all, n) => [...all, ...knownGenesis[n]], []);
+  .keys(newKnownGenesis)
+  .filter((n) => newKnownLedger[n]);
+const ledgerHashes = ledgerChains.reduce<string[]>((all, n) => [...all, ...newKnownGenesis[n]], []);
 let ledger: Ledger | null = null;
 let ledgerType: TransportType | null = null;
 
@@ -45,7 +61,7 @@ function retrieveLedger (api: ApiPromise): Ledger {
 
   if (!ledger || ledgerType !== currType) {
     const genesisHex = api.genesisHash.toHex();
-    const network = ledgerChains.find((network) => knownGenesis[network].includes(genesisHex));
+    const network = ledgerChains.find((network) => newKnownGenesis[network].includes(genesisHex));
 
     assert(network, `Unable to find a known Ledger config for genesisHash ${genesisHex}`);
 
