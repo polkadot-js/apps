@@ -983,7 +983,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'tangle',
     providers: {
-      Webb: 'wss://testnet-rpc.tangle.tools'
+      // Webb: 'wss://testnet-rpc.tangle.tools' // https://github.com/polkadot-js/apps/issues/10555
     },
     text: 'Tangle',
     ui: {
@@ -1098,7 +1098,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'xsocial',
     providers: {
-      DappForce: 'wss://xsocial.subsocial.network'
+      // DappForce: 'wss://xsocial.subsocial.network' // https://github.com/polkadot-js/apps/issues/10555
     },
     text: 'xSocial',
     ui: {
