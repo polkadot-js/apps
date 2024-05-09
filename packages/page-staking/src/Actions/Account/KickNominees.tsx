@@ -23,7 +23,8 @@ interface Props {
 const MAX_KICK = 128;
 
 const accountOpts = {
-  withExposure: true
+  withExposure: true,
+  withExposureErasStakersLegacy: true
 };
 
 function KickNominees ({ className = '', controllerId, nominating, onClose, stashId }: Props): React.ReactElement<Props> | null {
@@ -34,8 +35,10 @@ function KickNominees ({ className = '', controllerId, nominating, onClose, stas
   const queryInfo = useCall<DeriveStakingQuery>(api.derive.staking.query, [stashId, accountOpts]);
 
   const nominators = useMemo(
-    () => queryInfo?.exposurePaged.isSome && queryInfo?.exposurePaged.unwrap().others.map(({ who }) => who.toString()),
-    [queryInfo]
+    () => queryInfo?.exposurePaged.isSome
+      ? queryInfo?.exposurePaged.unwrap().others.map(({ who }) => who.toString())
+      : queryInfo?.exposureEraStakers?.others.map(({ who }) => who.toString()),
+      [queryInfo]
   );
 
   useEffect((): void => {
