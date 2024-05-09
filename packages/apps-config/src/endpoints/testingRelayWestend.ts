@@ -115,7 +115,7 @@ export const testParasWestendCommon: EndpointOption[] = [
     info: 'WestendAssetHub',
     paraId: 1000,
     providers: {
-      Dwellir: 'wss://westmint-rpc.dwellir.com',
+      Dwellir: 'wss://asset-hub-westend-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://westmint-rpc-tn.dwellir.com',
       'IBP-GeoDNS1': 'wss://sys.ibp.network/westmint',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/westmint',

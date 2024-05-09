@@ -256,7 +256,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'hyperbridge',
     paraId: 3340,
     providers: {
-      BlockOps: 'wss://hyperbridge-messier-rpc.blockops.network'
+      // BlockOps: 'wss://hyperbridge-messier-rpc.blockops.network' // https://github.com/polkadot-js/apps/issues/10555
     },
     text: 'Hyperbridge (Messier)',
     ui: {
@@ -450,6 +450,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2241,
     providers: {
       Krest: 'wss://wss-krest.peaq.network/',
+      OnFinality: 'wss://krest.api.onfinality.io/public-ws',
       UnitedBloc: 'wss://krest.unitedbloc.com/'
     },
     text: 'Krest',
@@ -797,19 +798,6 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://zero.io',
-    info: 'zero',
-    paraId: 2236,
-    providers: {
-      ZeroNetwork: 'wss://rpc-1.kusama.node.zero.io'
-    },
-    text: 'subzero',
-    ui: {
-      color: '#000000',
-      logo: nodesZeroSVG
-    }
-  },
-  {
     homepage: 'https://www.t3rn.io/',
     info: 't1rn',
     paraId: 3334,
@@ -896,6 +884,19 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
       color: '#a5503c',
       logo: nodesYerbanetworkPNG
     }
+  },
+  {
+    homepage: 'https://zero.io',
+    info: 'zero',
+    paraId: 2236,
+    providers: {
+      'Zero Network': 'wss://rpc-1.kusama.node.zero.io'
+    },
+    text: 'ZERO Canary',
+    ui: {
+      color: '#000000',
+      logo: nodesZeroSVG
+    }
   }
 ];
 
@@ -904,7 +905,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     info: 'KusamaAssetHub',
     paraId: 1000,
     providers: {
-      Dwellir: 'wss://statemine-rpc.dwellir.com',
+      Dwellir: 'wss://asset-hub-kusama-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://statemine-rpc-tn.dwellir.com',
       'IBP-GeoDNS1': 'wss://sys.ibp.network/statemine',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/statemine',
@@ -971,6 +972,16 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       color: '#0000cc',
       logo: nodesEncointerBlueSVG
     }
+  },
+  {
+    info: 'kusamaPeople',
+    paraId: 1004,
+    providers: {
+      Parity: 'wss://kusama-people-rpc.polkadot.io'
+    },
+    teleport: [-1],
+    text: 'People',
+    ui: {}
   }
 ];
 

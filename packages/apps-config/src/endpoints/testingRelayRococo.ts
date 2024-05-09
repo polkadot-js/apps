@@ -308,7 +308,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoInvo',
     paraId: 4377,
     providers: {
-      'Invo Network': 'wss://chain.dev.ourinvo.com'
+      // 'Invo Network': 'wss://chain.dev.ourinvo.com' // https://github.com/polkadot-js/apps/issues/10555
     },
     text: 'Invo Testnet',
     ui: {
@@ -654,7 +654,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoTuring',
     paraId: 2114,
     providers: {
-      OAK: 'wss://rpc.turing-staging.oak.tech'
+      // OAK: 'wss://rpc.turing-staging.oak.tech' // https://github.com/polkadot-js/apps/issues/10555
     },
     text: 'Turing Network (Staging)',
     ui: {
@@ -729,7 +729,7 @@ export const testParasRococoCommon: EndpointOption[] = [
     info: 'RococoAssetHub',
     paraId: 1000,
     providers: {
-      Dwellir: 'wss://rococo-asset-hub-rpc.dwellir.com',
+      Dwellir: 'wss://asset-hub-rococo-rpc.dwellir.com',
       Parity: 'wss://rococo-asset-hub-rpc.polkadot.io'
     },
     teleport: [-1],
