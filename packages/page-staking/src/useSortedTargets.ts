@@ -137,10 +137,10 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
 
   for (let i = 0; i < derive.info.length; i++) {
     const { accountId, claimedRewardsEras, exposureMeta, exposurePaged, stakingLedger, validatorPrefs } = derive.info[i];
-    const exp = exposurePaged.isSome && exposurePaged.unwrap();
+    const expPaged = exposurePaged.isSome && exposurePaged.unwrap();
     const expMeta = exposureMeta.isSome && exposureMeta.unwrap();
     // some overrides (e.g. Darwinia Crab) does not have the own/total field in Exposure
-    let [bondOwn, bondTotal] = exp && expMeta
+    let [bondOwn, bondTotal] = expPaged && expMeta
       ? [expMeta.own.unwrap(), expMeta.total.unwrap()]
       : [BN_ZERO, BN_ZERO];
 
@@ -151,7 +151,7 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
     }
 
     // some overrides (e.g. Darwinia Crab) does not have the value field in IndividualExposure
-    const minNominated = ((exp && exp.others) || []).reduce((min: BN, { value = api.createType('Compact<Balance>') }): BN => {
+    const minNominated = ((expPaged && expPaged.others) || []).reduce((min: BN, { value = api.createType('Compact<Balance>') }): BN => {
       const actual = value.unwrap();
 
       return min.isZero() || actual.lt(min)
@@ -174,12 +174,12 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
       bondTotal,
       commissionPer: validatorPrefs.commission.unwrap().toNumber() / 10_000_000,
       exposureMeta: expMeta || emptyExposureMeta,
-      exposurePaged: exp || emptyExposure,
+      exposurePaged: expPaged || emptyExposure,
       isActive: !skipRewards,
       isBlocking: !!(validatorPrefs.blocked && validatorPrefs.blocked.isTrue),
       isElected: !isWaitingDerive(derive) && derive.nextElected.some((e) => e.eq(accountId)),
       isFavorite: favorites.includes(key),
-      isNominating: ((exp && exp.others) || []).reduce((isNominating, indv): boolean => {
+      isNominating: ((expPaged && expPaged.others) || []).reduce((isNominating, indv): boolean => {
         const nominator = indv.who.toString();
 
         nominators[nominator] = (nominators[nominator] || BN_ZERO).add(indv.value?.toBn() || BN_ZERO);
@@ -193,7 +193,7 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
         ? lastEra.sub(lastEraPayout).mul(eraLength)
         : undefined,
       minNominated,
-      numNominators: ((exp && exp.others) || []).length,
+      numNominators: ((expPaged && expPaged.others) || []).length,
       numRecentPayouts: earliestEra
         ? rewards.filter((era) => era.gte(earliestEra)).length
         : 0,
