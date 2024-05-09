@@ -15,6 +15,46 @@ import { balanceToNumber } from './util.js';
 
 const COLORS_STAKE = [undefined, '#8c2200', '#acacac'];
 
+function getExpText (exposures?: DeriveOwnExposure[]): 'paged' | 'clipped' {
+  return exposures?.length && exposures[0].exposureMeta.isSome
+    ? 'paged'
+    : 'clipped';
+}
+
+function extractStakeLegacy (labels: string[], exposures: DeriveOwnExposure[], divisor: BN): LineData {
+  const cliSet = new Array<number>(labels.length);
+  const expSet = new Array<number>(labels.length);
+  const avgSet = new Array<number>(labels.length);
+  const [total, avgCount] = exposures.reduce(([total, avgCount], { clipped }) => {
+    const cli = balanceToNumber(clipped.total?.unwrap(), divisor);
+
+    if (cli > 0) {
+      total += cli;
+      avgCount++;
+    }
+
+    return [total, avgCount];
+  }, [0, 0]);
+
+  exposures.forEach(({ clipped, era, exposure }): void => {
+    // Darwinia Crab doesn't have the total field
+    const cli = balanceToNumber(clipped.total?.unwrap(), divisor);
+    const exp = balanceToNumber(exposure.total?.unwrap(), divisor);
+    const avg = avgCount > 0
+      ? Math.ceil(total * 100 / avgCount) / 100
+      : 0;
+    const index = labels.indexOf(era.toHuman());
+
+    if (index !== -1) {
+      avgSet[index] = avg;
+      cliSet[index] = cli;
+      expSet[index] = exp;
+    }
+  });
+
+  return [cliSet, expSet, avgSet];
+}
+
 function extractStake (labels: string[], exposures: DeriveOwnExposure[], divisor: BN): LineData {
   const expPagedSet = new Array<number>(labels.length);
   const expMetaSet = new Array<number>(labels.length);
@@ -58,6 +98,7 @@ function ChartStake ({ labels, validatorId }: Props): React.ReactElement<Props> 
   const params = useMemo(() => [validatorId, false], [validatorId]);
   const ownExposures = useCall<DeriveOwnExposure[]>(api.derive.staking.ownExposures, params);
   const [values, setValues] = useState<LineData>([]);
+  const [expText, setExpText] = useState<'clipped'| 'paged'>('paged');
 
   const { currency, divisor } = useMemo(
     () => ({
@@ -68,20 +109,31 @@ function ChartStake ({ labels, validatorId }: Props): React.ReactElement<Props> 
   );
 
   useEffect(
+    () => setExpText(getExpText(ownExposures)),
+    [ownExposures]
+  );
+
+  useEffect(
     () => setValues([]),
     [validatorId]
   );
 
   useEffect(
-    () => ownExposures && setValues(extractStake(labels, ownExposures, divisor)),
+    () => {
+      ownExposures && setValues(
+        ownExposures.length && ownExposures[0].exposureMeta.isSome
+          ? extractStake(labels, ownExposures, divisor)
+          : extractStakeLegacy(labels, ownExposures, divisor)
+      );
+    },
     [labels, divisor, ownExposures]
   );
 
   const legends = useMemo(() => [
-    t('{{currency}} paged', { replace: { currency } }),
+    t('{{currency}} {{expText}}', { replace: { currency, expText } }),
     t('{{currency}} total', { replace: { currency } }),
     t('{{currency}} average', { replace: { currency } })
-  ], [currency, t]);
+  ], [currency, expText, t]);
 
   return (
     <Chart

@@ -38,7 +38,7 @@ function KickNominees ({ className = '', controllerId, nominating, onClose, stas
     () => queryInfo?.exposurePaged.isSome
       ? queryInfo?.exposurePaged.unwrap().others.map(({ who }) => who.toString())
       : queryInfo?.exposureEraStakers?.others.map(({ who }) => who.toString()),
-      [queryInfo]
+    [queryInfo]
   );
 
   useEffect((): void => {
