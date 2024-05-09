@@ -256,7 +256,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'hyperbridge',
     paraId: 3340,
     providers: {
-      BlockOps: 'wss://hyperbridge-messier-rpc.blockops.network'
+      // BlockOps: 'wss://hyperbridge-messier-rpc.blockops.network' // https://github.com/polkadot-js/apps/issues/10555
     },
     text: 'Hyperbridge (Messier)',
     ui: {
