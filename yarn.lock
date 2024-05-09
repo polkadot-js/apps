@@ -1601,6 +1601,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-staking-legacy@workspace:packages/page-staking-legacy":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-staking-legacy@workspace:packages/page-staking-legacy"
+  dependencies:
+    "@polkadot/app-explorer": "npm:^0.137.2-10-x"
+    "@polkadot/react-components": "npm:^0.137.2-10-x"
+    "@polkadot/react-query": "npm:^0.137.2-10-x"
+  peerDependencies:
+    react: "*"
+    react-dom: "*"
+    react-is: "*"
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/app-staking2@workspace:packages/page-staking2":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-staking2@workspace:packages/page-staking2"
