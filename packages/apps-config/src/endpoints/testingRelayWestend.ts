@@ -167,6 +167,7 @@ export const testParasWestendCommon: EndpointOption[] = [
     info: 'westendCoretime',
     paraId: 1005,
     providers: {
+      'IBP-GeoDNS1': 'wss://sys.ibp.network/coretime-westend',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/coretime-westend',
       Parity: 'wss://westend-coretime-rpc.polkadot.io'
     },
@@ -178,6 +179,7 @@ export const testParasWestendCommon: EndpointOption[] = [
     info: 'westendPeople',
     paraId: 1004,
     providers: {
+      'IBP-GeoDNS1': 'wss://sys.ibp.network/people-westend',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/people-westend',
       Parity: 'wss://westend-people-rpc.polkadot.io'
     },
