@@ -69,7 +69,8 @@ const MATCHERS: AddrMatcher[] = [
   createNumMatcher('modlpy/nopls\x00', 'Pool', 'Stash'),
   createNumMatcher('modlpy/nopls\x01', 'Pool', 'Reward'),
   createNumMatcher('para', 'Parachain'),
-  createNumMatcher('sibl', 'Sibling')
+  createNumMatcher('sibl', 'Sibling'),
+  createAllMatcher('modlavl/brdg', 'Bridge')
 ];
 
 const displayCache = new Map<string, React.ReactNode>();
