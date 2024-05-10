@@ -832,7 +832,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     info: 'PolkadotAssetHub',
     paraId: 1000,
     providers: {
-      Dwellir: 'wss://statemint-rpc.dwellir.com',
+      Dwellir: 'wss://asset-hub-polkadot-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://statemint-rpc-tn.dwellir.com',
       'IBP-GeoDNS1': 'wss://sys.ibp.network/statemint',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/statemint',

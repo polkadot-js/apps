@@ -15,6 +15,7 @@ const chain: Record<string, OverrideBundleDefinition> = {
   'Cere Mainnet Beta': cere,
   'KILT Mashnet': kilt['KILT Mashnet'],
   'KILT Peregrine': kilt['KILT Peregrine'],
+  'KILT Peregrine Develop': kilt['KILT Peregrine Develop'],
   'KILT Peregrine Stagenet': kilt['KILT Peregrine Stagenet'],
   'KILT Spiritnet': kilt['KILT Spiritnet'],
   'KILT Spiritnet Develop': kilt['KILT Spiritnet Develop']
