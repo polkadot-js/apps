@@ -10,7 +10,7 @@
       30	RadiumBlock                   	Adding RadiumBlock as  Polkadot AssetHub, Kusama AssetHub, BridgeHub-Kusama and BridgeHub-Polkadot Endpoint provider  (#10292)
       30	Yongfeng LI                   	Add more statescan external links (#10479)
       29	Ewa Kowalska                  	Style badges in accounts list (#6208)
-      27	Tarik Gul                     	Disable unreachable endpoints (#10556)
+      29	Tarik Gul                     	Fix staking legacy versions (#10558)
       27	Yiwei Li                      	Re-add OnFinality endpoints for Parallel and Unique (#9641)
       25	Aleksandr Krupenkin           	Added Shiden Crowdloan 2 (#7426)
       25	Krzysztof Jelski              	Increase UI test timeouts and mark interBTC unreachable (#6247)
