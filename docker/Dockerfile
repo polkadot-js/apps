@@ -9,6 +9,9 @@ RUN curl -sL https://deb.nodesource.com/setup_lts.x | bash -
 RUN apt-get install --no-install-recommends -y nodejs && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
+
+ARG TURING_URL
+ARG GOLDBERG_URL
 RUN npm install yarn -g
 
 WORKDIR /apps
