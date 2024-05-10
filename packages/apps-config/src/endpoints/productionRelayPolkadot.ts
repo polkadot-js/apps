@@ -509,14 +509,14 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'moonbeam',
     paraId: 2004,
     providers: {
+      Allnodes: 'wss://moonbeam-rpc.publicnode.com',
       'Automata 1RPC': 'wss://1rpc.io/glmr',
       Blast: 'wss://moonbeam.public.blastapi.io',
       Dwellir: 'wss://moonbeam-rpc.dwellir.com',
       'Moonbeam Foundation': 'wss://wss.api.moonbeam.network',
       OnFinality: 'wss://moonbeam.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://moonbeam.public.curie.radiumblock.co/ws',
-      UnitedBloc: 'wss://moonbeam.unitedbloc.com',
-      Allnodes: 'wss://moonbeam-rpc.publicnode.com'
+      UnitedBloc: 'wss://moonbeam.unitedbloc.com'
     },
     text: 'Moonbeam',
     ui: {
@@ -899,6 +899,7 @@ export const prodRelayPolkadot: EndpointOption = {
     ...prodParasPolkadot
   ],
   providers: {
+    Allnodes: 'wss://polkadot-rpc.publicnode.com',
     // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
     // 'Automata 1RPC': 'wss://1rpc.io/dot',
     Blockops: 'wss://polkadot-public-rpc.blockops.network/ws', // https://github.com/polkadot-js/apps/issues/9840
@@ -911,7 +912,6 @@ export const prodRelayPolkadot: EndpointOption = {
     RadiumBlock: 'wss://polkadot.public.curie.radiumblock.co/ws',
     RockX: 'wss://rockx-dot.w3node.com/polka-public-dot/ws',
     Stakeworld: 'wss://dot-rpc.stakeworld.io',
-    Allnodes: 'wss://polkadot-rpc.publicnode.com',
     'light client': 'light://substrate-connect/polkadot'
   },
   teleport: getTeleports(prodParasPolkadotCommon),
