@@ -625,9 +625,12 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     homepage: 'https://peaq.network/',
     info: 'peaq',
     paraId: 3338,
-    providers: {},
+    providers: {
+      OnFinality: 'wss://peaq.api.onfinality.io/public-ws'
+    },
     text: 'peaq',
     ui: {
+      color: '#281C66',
       logo: chainsPeaqPNG
     }
   },
