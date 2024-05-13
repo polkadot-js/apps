@@ -1228,7 +1228,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/api-augment@npm:^11.0.3":
+"@polkadot/api-augment@npm:^11.0.2":
   version: 11.0.3
   resolution: "@polkadot/api-augment@npm:11.0.3"
   dependencies:
@@ -1243,7 +1243,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/api-base@npm:^11.0.3":
+"@polkadot/api-base@npm:^11.0.2":
   version: 11.0.3
   resolution: "@polkadot/api-base@npm:11.0.3"
   dependencies:
@@ -1256,7 +1256,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/api-contract@npm:^11.0.3":
+"@polkadot/api-contract@npm:^11.0.2":
   version: 11.0.3
   resolution: "@polkadot/api-contract@npm:11.0.3"
   dependencies:
@@ -1273,7 +1273,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/api-derive@npm:^11.0.3":
+"@polkadot/api-derive@npm:^11.0.2":
   version: 11.0.3
   resolution: "@polkadot/api-derive@npm:11.0.3"
   dependencies:
@@ -1291,7 +1291,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/api@npm:^11.0.3":
+"@polkadot/api@npm:^11.0.2":
   version: 11.0.3
   resolution: "@polkadot/api@npm:11.0.3"
   dependencies:
@@ -2296,7 +2296,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/rpc-augment@npm:^11.0.3":
+"@polkadot/rpc-augment@npm:^11.0.2":
   version: 11.0.3
   resolution: "@polkadot/rpc-augment@npm:11.0.3"
   dependencies:
@@ -2309,7 +2309,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/rpc-core@npm:^11.0.3":
+"@polkadot/rpc-core@npm:^11.0.2":
   version: 11.0.3
   resolution: "@polkadot/rpc-core@npm:11.0.3"
   dependencies:
@@ -2323,7 +2323,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/rpc-provider@npm:^11.0.3":
+"@polkadot/rpc-provider@npm:^11.0.2":
   version: 11.0.3
   resolution: "@polkadot/rpc-provider@npm:11.0.3"
   dependencies:
@@ -2363,7 +2363,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/types-augment@npm:^11.0.3":
+"@polkadot/types-augment@npm:^11.0.2":
   version: 11.0.3
   resolution: "@polkadot/types-augment@npm:11.0.3"
   dependencies:
@@ -2375,7 +2375,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types-codec@npm:^11.0.3":
+"@polkadot/types-codec@npm:^11.0.2":
   version: 11.0.3
   resolution: "@polkadot/types-codec@npm:11.0.3"
   dependencies:
@@ -2386,7 +2386,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types-create@npm:^11.0.3":
+"@polkadot/types-create@npm:^11.0.2":
   version: 11.0.3
   resolution: "@polkadot/types-create@npm:11.0.3"
   dependencies:
@@ -2397,7 +2397,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types-known@npm:^11.0.3":
+"@polkadot/types-known@npm:^11.0.2":
   version: 11.0.3
   resolution: "@polkadot/types-known@npm:11.0.3"
   dependencies:
@@ -2411,7 +2411,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types-support@npm:^11.0.3":
+"@polkadot/types-support@npm:^11.0.2":
   version: 11.0.3
   resolution: "@polkadot/types-support@npm:11.0.3"
   dependencies:
@@ -2421,7 +2421,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types@npm:^11.0.3":
+"@polkadot/types@npm:^11.0.2":
   version: 11.0.3
   resolution: "@polkadot/types@npm:11.0.3"
   dependencies:
