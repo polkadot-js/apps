@@ -1228,7 +1228,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/api-augment@npm:^11.0.2":
+"@polkadot/api-augment@npm:^11.0.3":
   version: 11.0.3
   resolution: "@polkadot/api-augment@npm:11.0.3"
   dependencies:
@@ -1243,7 +1243,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/api-base@npm:^11.0.2":
+"@polkadot/api-base@npm:^11.0.3":
   version: 11.0.3
   resolution: "@polkadot/api-base@npm:11.0.3"
   dependencies:
@@ -1256,7 +1256,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/api-contract@npm:^11.0.2":
+"@polkadot/api-contract@npm:^11.0.3":
   version: 11.0.3
   resolution: "@polkadot/api-contract@npm:11.0.3"
   dependencies:
@@ -1273,7 +1273,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/api-derive@npm:^11.0.2":
+"@polkadot/api-derive@npm:^11.0.3":
   version: 11.0.3
   resolution: "@polkadot/api-derive@npm:11.0.3"
   dependencies:
@@ -1291,7 +1291,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/api@npm:^11.0.2":
+"@polkadot/api@npm:^11.0.3":
   version: 11.0.3
   resolution: "@polkadot/api@npm:11.0.3"
   dependencies:
@@ -1425,7 +1425,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/app-contracts@workspace:packages/page-contracts"
   dependencies:
-    "@polkadot/api-contract": "npm:^11.0.2"
+    "@polkadot/api-contract": "npm:^11.0.3"
     eventemitter3: "npm:^5.0.1"
   peerDependencies:
     react: "*"
@@ -1823,12 +1823,12 @@ __metadata:
     "@peaqnetwork/type-definitions": "npm:0.0.4"
     "@pendulum-chain/type-definitions": "npm:0.3.8"
     "@phala/typedefs": "npm:0.2.33"
-    "@polkadot/api": "npm:^11.0.2"
-    "@polkadot/api-derive": "npm:^11.0.2"
+    "@polkadot/api": "npm:^11.0.3"
+    "@polkadot/api-derive": "npm:^11.0.3"
     "@polkadot/networks": "npm:^12.6.2"
     "@polkadot/react-identicon": "npm:^3.6.6"
-    "@polkadot/types": "npm:^11.0.2"
-    "@polkadot/types-codec": "npm:^11.0.2"
+    "@polkadot/types": "npm:^11.0.3"
+    "@polkadot/types-codec": "npm:^11.0.3"
     "@polkadot/util": "npm:^12.6.2"
     "@polkadot/wasm-util": "npm:^7.3.2"
     "@polkadot/x-fetch": "npm:^12.6.2"
@@ -2022,7 +2022,7 @@ __metadata:
   dependencies:
     "@metamask/detect-provider": "npm:^2.0.0"
     "@polkadot/extension-inject": "npm:0.47.3"
-    "@polkadot/types": "npm:^11.0.2"
+    "@polkadot/types": "npm:^11.0.3"
     "@polkadot/util": "npm:^12.6.2"
     tslib: "npm:^2.6.2"
     web3: "npm:^4.7.0"
@@ -2053,9 +2053,9 @@ __metadata:
   version: 0.47.3
   resolution: "@polkadot/extension-inject@npm:0.47.3"
   dependencies:
-    "@polkadot/api": "npm:^11.0.2"
-    "@polkadot/rpc-provider": "npm:^11.0.2"
-    "@polkadot/types": "npm:^11.0.2"
+    "@polkadot/api": "npm:^11.0.3"
+    "@polkadot/rpc-provider": "npm:^11.0.3"
+    "@polkadot/types": "npm:^11.0.3"
     "@polkadot/util": "npm:^12.6.2"
     "@polkadot/util-crypto": "npm:^12.6.2"
     "@polkadot/x-global": "npm:^12.6.2"
@@ -2137,10 +2137,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/react-api@workspace:packages/react-api"
   dependencies:
-    "@polkadot/api": "npm:^11.0.2"
+    "@polkadot/api": "npm:^11.0.3"
     "@polkadot/extension-compat-metamask": "npm:^0.47.3"
     "@polkadot/extension-dapp": "npm:^0.47.3"
-    "@polkadot/rpc-provider": "npm:^11.0.2"
+    "@polkadot/rpc-provider": "npm:^11.0.3"
     fflate: "npm:^0.8.1"
     rxjs: "npm:^7.8.1"
   peerDependencies:
@@ -2296,7 +2296,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/rpc-augment@npm:^11.0.2":
+"@polkadot/rpc-augment@npm:^11.0.3":
   version: 11.0.3
   resolution: "@polkadot/rpc-augment@npm:11.0.3"
   dependencies:
@@ -2309,7 +2309,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/rpc-core@npm:^11.0.2":
+"@polkadot/rpc-core@npm:^11.0.3":
   version: 11.0.3
   resolution: "@polkadot/rpc-core@npm:11.0.3"
   dependencies:
@@ -2323,7 +2323,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/rpc-provider@npm:^11.0.2":
+"@polkadot/rpc-provider@npm:^11.0.3":
   version: 11.0.3
   resolution: "@polkadot/rpc-provider@npm:11.0.3"
   dependencies:
@@ -2351,7 +2351,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/test-support@workspace:packages/test-support"
   dependencies:
-    "@polkadot/types-support": "npm:^11.0.2"
+    "@polkadot/types-support": "npm:^11.0.3"
     "@testing-library/jest-dom": "npm:^5.17.0"
     "@testing-library/react": "npm:^14.1.2"
     testcontainers: "npm:^10.4.0"
@@ -2363,7 +2363,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/types-augment@npm:^11.0.2":
+"@polkadot/types-augment@npm:^11.0.3":
   version: 11.0.3
   resolution: "@polkadot/types-augment@npm:11.0.3"
   dependencies:
@@ -2375,7 +2375,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types-codec@npm:^11.0.2":
+"@polkadot/types-codec@npm:^11.0.3":
   version: 11.0.3
   resolution: "@polkadot/types-codec@npm:11.0.3"
   dependencies:
@@ -2386,7 +2386,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types-create@npm:^11.0.2":
+"@polkadot/types-create@npm:^11.0.3":
   version: 11.0.3
   resolution: "@polkadot/types-create@npm:11.0.3"
   dependencies:
@@ -2397,7 +2397,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types-known@npm:^11.0.2":
+"@polkadot/types-known@npm:^11.0.3":
   version: 11.0.3
   resolution: "@polkadot/types-known@npm:11.0.3"
   dependencies:
@@ -2411,7 +2411,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types-support@npm:^11.0.2":
+"@polkadot/types-support@npm:^11.0.3":
   version: 11.0.3
   resolution: "@polkadot/types-support@npm:11.0.3"
   dependencies:
@@ -2421,7 +2421,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types@npm:^11.0.2":
+"@polkadot/types@npm:^11.0.3":
   version: 11.0.3
   resolution: "@polkadot/types@npm:11.0.3"
   dependencies:
