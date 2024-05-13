@@ -71,6 +71,7 @@
       "@polkadot/app-staking2/Legend": ["page-staking2/src/Legend.tsx"],
       "@polkadot/app-staking2/Pools": ["page-staking2/src/Pools/index.tsx"],
       "@polkadot/app-staking2/Pools/*": ["page-staking2/src/Pools/*.ts"],
+      "@polkadot/app-staking-legacy": ["page-staking-legacy/src/index.tsx"],
       "@polkadot/app-storage": ["page-storage/src/index.tsx"],
       "@polkadot/app-sudo": ["page-sudo/src/index.tsx"],
       "@polkadot/app-tech-comm": ["page-tech-comm/src/index.tsx"],

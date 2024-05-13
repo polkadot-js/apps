@@ -1,0 +1,27 @@
+diff --git a/node_modules/@polkadot/types/extrinsic/Extrinsic.js b/node_modules/@polkadot/types/extrinsic/Extrinsic.js
+index d3d31e5..288780c 100644
+--- a/node_modules/@polkadot/types/extrinsic/Extrinsic.js
++++ b/node_modules/@polkadot/types/extrinsic/Extrinsic.js
+@@ -145,6 +145,12 @@ class ExtrinsicBase extends AbstractBase {
+     get assetId() {
+         return this.inner.signature.assetId;
+     }
++    /**
++     * @description Forward compat
++     */
++    get appId() {
++        return this.inner.signature.appId;
++    }
+     /**
+      * @description Returns the raw transaction version (not flagged with signing information)
+     */
+@@ -248,7 +254,8 @@ export class GenericExtrinsic extends ExtrinsicBase {
+             method: this.method.toHuman(isExpanded, disableAscii)
+         }, this.isSigned
+             ? {
+-                assetId: this.assetId.toHuman(isExpanded, disableAscii),
++                // assetId: this.assetId.toHuman(isExpanded, disableAscii),
++                appId: this.appId.toHuman(isExpanded, disableAscii),
+                 era: this.era.toHuman(isExpanded, disableAscii),
+                 nonce: this.nonce.toHuman(isExpanded, disableAscii),
+                 signature: this.signature.toHex(),
