@@ -35,10 +35,16 @@ const JUDGEMENT_ENUM = [
 ];
 
 const OPT_ID = {
-  transform: (optId: Option<ITuple<[PalletIdentityRegistration, Option<Bytes>]>>): HexString | null =>
-    optId.isSome
+  transform: (optId: Option<ITuple<[PalletIdentityRegistration, Option<Bytes>]>>): HexString | null => {
+    const id = optId.isSome
+      ? optId.unwrap()
+      : null;
+
+    // Backwards compatibility - https://github.com/polkadot-js/apps/issues/10493
+    return Array.isArray(id)
       ? optId.unwrap()[0].info.hash.toHex()
-      : null
+      : (id as unknown as PalletIdentityRegistration).info.hash.toHex();
+  }
 };
 
 function RegistrarJudgement ({ address, registrars, toggleJudgement }: Props): React.ReactElement<Props> {
