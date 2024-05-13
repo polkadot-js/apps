@@ -41,9 +41,11 @@ const OPT_ID = {
       : null;
 
     // Backwards compatibility - https://github.com/polkadot-js/apps/issues/10493
-    return Array.isArray(id)
-      ? optId.unwrap()[0].info.hash.toHex()
-      : (id as unknown as PalletIdentityRegistration).info.hash.toHex();
+    return !id
+      ? null
+      : Array.isArray(id)
+        ? optId.unwrap()[0].info.hash.toHex()
+        : (id as unknown as PalletIdentityRegistration).info.hash.toHex();
   }
 };
 
