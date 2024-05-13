@@ -510,7 +510,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2004,
     providers: {
       Allnodes: 'wss://moonbeam-rpc.publicnode.com',
-      'Automata 1RPC': 'wss://1rpc.io/glmr',
+      // 'Automata 1RPC': 'wss://1rpc.io/glmr', // https://github.com/polkadot-js/apps/issues/10566
       Blast: 'wss://moonbeam.public.blastapi.io',
       Dwellir: 'wss://moonbeam-rpc.dwellir.com',
       'Moonbeam Foundation': 'wss://wss.api.moonbeam.network',
