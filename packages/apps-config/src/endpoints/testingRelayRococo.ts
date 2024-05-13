@@ -69,7 +69,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoBajun',
     paraId: 2119,
     providers: {
-      AjunaNetwork: 'wss://rpc-rococo.bajun.network'
+      // 'AjunaNetwork': 'wss://rpc-rococo.bajun.network' // moved to paseo
     },
     text: 'Bajun Network',
     ui: {
