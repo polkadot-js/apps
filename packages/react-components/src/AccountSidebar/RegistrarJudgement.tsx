@@ -44,7 +44,7 @@ const OPT_ID = {
     return !id
       ? null
       : Array.isArray(id)
-        ? optId.unwrap()[0].info.hash.toHex()
+        ? id[0].info.hash.toHex()
         : (id as unknown as PalletIdentityRegistration).info.hash.toHex();
   }
 };
