@@ -980,7 +980,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     info: 'kusamaPeople',
     paraId: 1004,
     providers: {
-      Parity: 'wss://kusama-people-rpc.polkadot.io'
+      Parity: 'wss://kusama-people-rpc.polkadot.io',
+      Stakeworld: 'wss://ksm-rpc.stakeworld.io/people'
     },
     teleport: [-1],
     text: 'People',
