@@ -6,7 +6,7 @@ import '@polkadot/api-augment/substrate';
 
 import type { BN } from '@polkadot/util';
 
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { Route, Routes } from 'react-router';
 
 import { Tabs } from '@polkadot/react-components';
@@ -69,10 +69,6 @@ function AssetApp ({ basePath, className }: Props): React.ReactElement<Props> {
     () => findOpenId(ids),
     [ids]
   );
-
-  useEffect(() => {
-    console.log('Balances infos: ', infos);
-  }, [infos]);
 
   return (
     <main className={className}>
