@@ -2,8 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { Data, Option } from '@polkadot/types';
+import type { Bytes, Data, Option } from '@polkadot/types';
 import type { IdentityInfo, Registration } from '@polkadot/types/interfaces';
+import type { PalletIdentityRegistration } from '@polkadot/types/lookup';
+import type { ITuple } from '@polkadot/types-codec/types';
 
 import React, { useEffect, useState } from 'react';
 
@@ -36,19 +38,19 @@ interface ValueState {
 const WHITESPACE = [' ', '\t'];
 
 function setData (data: Data, setActive: null | ((isActive: boolean) => void), setVal: (val: string) => void): void {
-  if (data.isRaw) {
+  if (data && data.isRaw) {
     setActive && setActive(true);
     setVal(u8aToString(data.asRaw.toU8a(true)));
   }
 }
 
-function setAdditionalFieldData (api: ApiPromise, info: IdentityInfo, key: string, setActive: null | ((isActive: boolean) => void), setVal: (val: string) => void): Data {
+function setAdditionalFieldData (api: ApiPromise, info: IdentityInfo, key: string, setActive: null | ((isActive: boolean) => void), setVal: (val: string) => void): Data | null {
   const dataKey = api.registry.createType('Data', api.registry.createType('Data', { Raw: key }));
   const dataNone = api.registry.createType('Data', '');
 
-  const value = info.additional.find((v) => v[0].eq(dataKey))?.[1] || dataNone;
+  const value = info.additional ? info.additional.find((v) => v[0].eq(dataKey))?.[1] || dataNone : null;
 
-  if (value.isRaw) {
+  if (value && value.isRaw) {
     setData(value, setActive, setVal);
   }
 
@@ -70,7 +72,7 @@ function checkValue (hasValue: boolean, value: string | null | undefined, minLen
 function IdentityMain ({ address, className = '', onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const identityOpt = useCall<Option<Registration>>(api.query.identity.identityOf, [address]);
+  const identityOpt = useCall<Option<ITuple<[PalletIdentityRegistration, Option<Bytes>]>>>(api.query.identity.identityOf, [address]);
   const [{ info, okAll, okDiscord, okDisplay, okEmail, okLegal, okRiot, okTwitter, okWeb }, setInfo] = useState<ValueState>({ info: {}, okAll: false });
   const [hasEmail, setHasEmail] = useState(false);
   const [hasLegal, setHasLegal] = useState(false);
@@ -89,7 +91,8 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
 
   useEffect((): void => {
     if (identityOpt && identityOpt.isSome) {
-      const { info } = identityOpt.unwrap();
+      const identity = identityOpt.unwrap();
+      const info = Array.isArray(identity) ? identity[0].info : (identity as Registration).info;
 
       setData(info.display, null, setValDisplay);
       setData(info.email, setHasEmail, setValEmail);
@@ -100,8 +103,8 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
 
       setData(info.web, setHasWeb, setValWeb);
 
-      [info.display, info.email, info.legal, info.riot, info.twitter, infoDiscord, info.web].some((info: Data) => {
-        if (info.isRaw) {
+      [info.display, info.email, info.legal, info.riot, info.twitter, infoDiscord, info.web].some((info: Data | null) => {
+        if (info && info.isRaw) {
           setGotPreviousIdentity(true);
 
           return true;
