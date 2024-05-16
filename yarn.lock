@@ -1745,6 +1745,7 @@ __metadata:
     "@polkadot/types": "npm:^11.0.3"
     "@polkadot/types-codec": "npm:^11.0.3"
     "@polkadot/util": "npm:^12.6.2"
+    "@polkadot/util-crypto": "npm:^12.6.2"
     "@polkadot/wasm-util": "npm:^7.3.2"
     "@polkadot/x-fetch": "npm:^12.6.2"
     "@polkadot/x-ws": "npm:^12.6.2"

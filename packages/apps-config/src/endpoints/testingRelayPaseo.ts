@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types.js';
 
 import { chainsFrequencyPaseoSVG, chainsLaosOmegaPNG, chainsPaseoPNG, chainsPopNetworkSVG } from '@polkadot/apps-config/ui/logos/chains';
-import { nodesAssetHubSVG, nodesIntegriteeSVG, nodesKiltPNG, nodesNodleSVG } from '@polkadot/apps-config/ui/logos/nodes';
+import { nodesAssetHubSVG, nodesHyperbridgeSVG, nodesIntegriteeSVG, nodesKiltPNG, nodesNodleSVG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
 // import { testnetParachainSVG } from '../ui/logos/nodes/index.js';
@@ -42,6 +42,19 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#19455E',
       logo: chainsFrequencyPaseoSVG
+    }
+  },
+  {
+    homepage: 'https://hyperbridge.network',
+    info: 'Hyperbridge',
+    paraId: 4009,
+    providers: {
+      BlockOps: 'wss://hyperbridge-paseo-rpc.blockops.network'
+    },
+    text: 'Hyperbridge (Gargantua)',
+    ui: {
+      color: '#ED6FF1',
+      logo: nodesHyperbridgeSVG
     }
   },
   {
