@@ -58052,7 +58052,6 @@ export const typesBundle = {
         }
       ]
     },
-    "hyperbridge": {},
     "halongbay": {
       "types": [
         {
@@ -58600,6 +58599,7 @@ export const typesBundle = {
         }
       ]
     },
+    "hyperbridge": {},
     "idavoll": {
       "types": [
         {
