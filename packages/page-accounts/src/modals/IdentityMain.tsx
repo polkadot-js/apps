@@ -121,6 +121,7 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
   // also giving support for the new identity logic inside of the Peoples chain.
   // The new logic is specific to people system parachains.
   const [isLegacyIdentity, setIsLegacyIdentity] = useState<boolean>(!specName.includes('people-'));
+  const [isPalletChecked, setIsPalletChecked] = useState<boolean>(false);
 
   useEffect((): void => {
     if (identityOpt && identityOpt.isSome) {
@@ -128,10 +129,11 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
       const foundInfo = Array.isArray(identity) ? identity[0].info : (identity as Registration).info;
 
       // Ensure we set the state before ever jumping into the logic below.
-      if (isLegacyIdentity) {
+      if (!isPalletChecked) {
         // riot was replaced with matrix, so if we see riot as part of the structure
         // we know its part of the legacy identity logic
         foundInfo.riot ? setIsLegacyIdentity(true) : setIsLegacyIdentity(false);
+        setIsPalletChecked(true);
       } else {
         setData(foundInfo.display, null, setValDisplay);
         setData(foundInfo.email, setHasEmail, setValEmail);
@@ -140,13 +142,12 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
         setData(foundInfo.twitter, setHasTwitter, setValTwitter);
         setData((foundInfo as unknown as PeopleIdentityInfo).matrix, setHasMatrix, setValMatrix);
         setData((foundInfo as unknown as PeopleIdentityInfo).github, setHasGithub, setValGithub);
+        setData(foundInfo.web, setHasWeb, setValWeb);
         const infoDiscord = isLegacyIdentity ? setAdditionalFieldData(api, foundInfo, AddressIdentityOtherDiscordKey, setHasDiscord, setValDiscord) : setDiscordFieldData((foundInfo as unknown as PeopleIdentityInfo), setHasDiscord, setValDiscord);
 
-        setData(foundInfo.web, setHasWeb, setValWeb);
-
-        const previousKeys = !isLegacyIdentity
-          ? [foundInfo.display, foundInfo.email, (foundInfo as unknown as PeopleIdentityInfo).github, foundInfo.legal, (foundInfo as unknown as PeopleIdentityInfo).matrix, foundInfo.twitter, infoDiscord, foundInfo.web]
-          : [foundInfo.display, foundInfo.email, foundInfo.legal, foundInfo.riot, foundInfo.twitter, infoDiscord, foundInfo.web];
+        const previousKeys = isLegacyIdentity
+          ? [foundInfo.display, foundInfo.email, foundInfo.legal, foundInfo.riot, foundInfo.twitter, infoDiscord, foundInfo.web]
+          : [foundInfo.display, foundInfo.email, (foundInfo as unknown as PeopleIdentityInfo).github, foundInfo.legal, (foundInfo as unknown as PeopleIdentityInfo).matrix, foundInfo.twitter, infoDiscord, foundInfo.web];
 
         previousKeys.some((info: Data | null) => {
           if (info && info.isRaw) {
@@ -159,7 +160,7 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
         });
       }
     }
-  }, [identityOpt, api, isLegacyIdentity]);
+  }, [identityOpt, api, isLegacyIdentity, isPalletChecked]);
 
   useEffect((): void => {
     const okDisplay = checkValue(true, valDisplay, 1, [], [], []);
