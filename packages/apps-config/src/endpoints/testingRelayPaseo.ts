@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types.js';
 
 import { chainsFrequencyPaseoSVG, chainsLaosOmegaPNG, chainsPaseoPNG, chainsPopNetworkSVG } from '@polkadot/apps-config/ui/logos/chains';
-import { nodesAssetHubSVG, nodesHyperbridgeSVG, nodesIntegriteeSVG, nodesKiltPNG, nodesNodleSVG } from '@polkadot/apps-config/ui/logos/nodes';
+import { nodesAssetHubSVG, nodesBifrostSVG, nodesHyperbridgeSVG, nodesIntegriteeSVG, nodesKiltPNG, nodesNodleSVG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
 // import { testnetParachainSVG } from '../ui/logos/nodes/index.js';
@@ -31,6 +31,19 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   //     logo: testnetParachainSVG
   //   }
   // }
+  {
+    homepage: 'https://bifrost.finance',
+    info: 'Bifrost(Paseo)',
+    paraId: 2030,
+    providers: {
+      Liebi: 'wss://bifrost-rpc.paseo.liebi.com/ws'
+    },
+    text: 'Bifrost',
+    ui: {
+      color: '#5a25f0',
+      logo: nodesBifrostSVG
+    }
+  },
   {
     homepage: 'https://www.frequency.xyz',
     info: 'Frequency',
