@@ -44,6 +44,7 @@
     "@polkadot/types": "^11.0.3",
     "@polkadot/types-codec": "^11.0.3",
     "@polkadot/util": "^12.6.2",
+    "@polkadot/util-crypto": "^12.6.2",
     "@polkadot/wasm-util": "^7.3.2",
     "@polkadot/x-fetch": "^12.6.2",
     "@polkadot/x-ws": "^12.6.2",

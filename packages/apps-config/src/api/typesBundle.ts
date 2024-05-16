@@ -57999,6 +57999,7 @@ export const typesBundle = {
         }
       ]
     },
+    "gargantua": {},
     "hack-hydra-dx": {
       "types": [
         {
@@ -58051,6 +58052,7 @@ export const typesBundle = {
         }
       ]
     },
+    "hyperbridge": {},
     "halongbay": {
       "types": [
         {
@@ -64642,6 +64644,7 @@ export const typesBundle = {
         }
       ]
     },
+    "messier": {},
     "moonbase": {
       "alias": {
         "assetManager": {
@@ -71650,6 +71653,7 @@ export const typesBundle = {
         }
       ]
     },
+    "nexus": {},
     "nftmart": {
       "types": [
         {
