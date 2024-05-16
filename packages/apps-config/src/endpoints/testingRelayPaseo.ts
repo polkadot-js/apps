@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types.js';
 
 import { chainsFrequencyPaseoSVG, chainsLaosOmegaPNG, chainsPaseoPNG, chainsPopNetworkSVG } from '@polkadot/apps-config/ui/logos/chains';
-import { nodesAssetHubSVG, nodesIntegriteeSVG, nodesNodleSVG } from '@polkadot/apps-config/ui/logos/nodes';
+import { nodesAssetHubSVG, nodesIntegriteeSVG, nodesKiltPNG, nodesNodleSVG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
 // import { testnetParachainSVG } from '../ui/logos/nodes/index.js';
@@ -55,6 +55,18 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#658ea9',
       logo: nodesIntegriteeSVG
+    }
+  },
+  {
+    info: 'kilt',
+    paraId: 2086,
+    providers: {
+      BOTLabs: 'wss://peregrine.kilt.io/parachain-public-ws/'
+    },
+    text: 'KILT Peregrine',
+    ui: {
+      color: 'linear-gradient(45deg, #f05a27 0%, #8c145a 100%)',
+      logo: nodesKiltPNG
     }
   },
   {
