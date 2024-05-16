@@ -117,43 +117,47 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
   const [valDiscord, setValDiscord] = useState('');
   const [valWeb, setValWeb] = useState('');
   const [gotPreviousIdentity, setGotPreviousIdentity] = useState(false);
-  // HACK since the types are different in the peoples chains, we need to add this check to ensure we deal with legacy systems.
-  const [isLegacyIdentity, setIsLegacyIdentity] = useState(!specName.includes('people-'));
+  // HACK This ensures we can deal with legacy indentity information for chains while
+  // also giving support for the new identity logic inside of the Peoples chain.
+  // The new logic is specific to people system parachains.
+  const [isLegacyIdentity, setIsLegacyIdentity] = useState<boolean>(!specName.includes('people-'));
 
   useEffect((): void => {
     if (identityOpt && identityOpt.isSome) {
       const identity = identityOpt.unwrap();
       const foundInfo = Array.isArray(identity) ? identity[0].info : (identity as Registration).info;
 
-      // The new peoples chains dont have changed riot with matrix.
-      if (!foundInfo.riot) {
-        setIsLegacyIdentity(false);
+      // Ensure we set the state before ever jumping into the logic below.
+      if (isLegacyIdentity) {
+        // riot was replaced with matrix, so if we see riot as part of the structure
+        // we know its part of the legacy identity logic
+        foundInfo.riot ? setIsLegacyIdentity(true) : setIsLegacyIdentity(false);
+      } else {
+        setData(foundInfo.display, null, setValDisplay);
+        setData(foundInfo.email, setHasEmail, setValEmail);
+        setData(foundInfo.legal, setHasLegal, setValLegal);
+        setData(foundInfo.riot, setHasRiot, setValRiot);
+        setData(foundInfo.twitter, setHasTwitter, setValTwitter);
+        setData((foundInfo as unknown as PeopleIdentityInfo).matrix, setHasMatrix, setValMatrix);
+        setData((foundInfo as unknown as PeopleIdentityInfo).github, setHasGithub, setValGithub);
+        const infoDiscord = isLegacyIdentity ? setAdditionalFieldData(api, foundInfo, AddressIdentityOtherDiscordKey, setHasDiscord, setValDiscord) : setDiscordFieldData((foundInfo as unknown as PeopleIdentityInfo), setHasDiscord, setValDiscord);
+
+        setData(foundInfo.web, setHasWeb, setValWeb);
+
+        const previousKeys = !isLegacyIdentity
+          ? [foundInfo.display, foundInfo.email, (foundInfo as unknown as PeopleIdentityInfo).github, foundInfo.legal, (foundInfo as unknown as PeopleIdentityInfo).matrix, foundInfo.twitter, infoDiscord, foundInfo.web]
+          : [foundInfo.display, foundInfo.email, foundInfo.legal, foundInfo.riot, foundInfo.twitter, infoDiscord, foundInfo.web];
+
+        previousKeys.some((info: Data | null) => {
+          if (info && info.isRaw) {
+            setGotPreviousIdentity(true);
+
+            return true;
+          } else {
+            return false;
+          }
+        });
       }
-
-      setData(foundInfo.display, null, setValDisplay);
-      setData(foundInfo.email, setHasEmail, setValEmail);
-      setData(foundInfo.legal, setHasLegal, setValLegal);
-      setData(foundInfo.riot, setHasRiot, setValRiot);
-      setData(foundInfo.twitter, setHasTwitter, setValTwitter);
-      setData((foundInfo as unknown as PeopleIdentityInfo).matrix, setHasMatrix, setValMatrix);
-      setData((foundInfo as unknown as PeopleIdentityInfo).github, setHasGithub, setValGithub);
-      const infoDiscord = isLegacyIdentity ? setAdditionalFieldData(api, foundInfo, AddressIdentityOtherDiscordKey, setHasDiscord, setValDiscord) : setDiscordFieldData((foundInfo as unknown as PeopleIdentityInfo), setHasDiscord, setValDiscord);
-
-      setData(foundInfo.web, setHasWeb, setValWeb);
-
-      const previousKeys = !isLegacyIdentity
-        ? [foundInfo.display, foundInfo.email, (foundInfo as unknown as PeopleIdentityInfo).github, foundInfo.legal, (foundInfo as unknown as PeopleIdentityInfo).matrix, foundInfo.twitter, infoDiscord, foundInfo.web]
-        : [foundInfo.display, foundInfo.email, foundInfo.legal, foundInfo.riot, foundInfo.twitter, infoDiscord, foundInfo.web];
-
-      previousKeys.some((info: Data | null) => {
-        if (info && info.isRaw) {
-          setGotPreviousIdentity(true);
-
-          return true;
-        } else {
-          return false;
-        }
-      });
     }
   }, [identityOpt, api, isLegacyIdentity]);
 
@@ -301,57 +305,63 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
         />
         {
           !isLegacyIdentity
-            ? <Input
-              isDisabled={!hasMatrix}
-              isError={!okMatrix}
-              label={t('matrix name')}
-              labelExtra={
-                <Toggle
-                  label={t('include field')}
-                  onChange={setHasMatrix}
-                  value={hasMatrix}
-                />
-              }
-              maxLength={32}
-              onChange={setValMatrix}
-              placeholder={t('@yourname:matrix.org')}
-              value={hasMatrix ? valMatrix : '<none>'}
-            />
-            : <Input
-              isDisabled={!hasRiot}
-              isError={!okRiot}
-              label={t('riot name')}
-              labelExtra={
-                <Toggle
-                  label={t('include field')}
-                  onChange={setHasRiot}
-                  value={hasRiot}
-                />
-              }
-              maxLength={32}
-              onChange={setValRiot}
-              placeholder={t('@yourname:matrix.org')}
-              value={hasRiot ? valRiot : '<none>'}
-            />
+            ? (
+              <Input
+                isDisabled={!hasMatrix}
+                isError={!okMatrix}
+                label={t('matrix name')}
+                labelExtra={
+                  <Toggle
+                    label={t('include field')}
+                    onChange={setHasMatrix}
+                    value={hasMatrix}
+                  />
+                }
+                maxLength={32}
+                onChange={setValMatrix}
+                placeholder={t('@yourname:matrix.org')}
+                value={hasMatrix ? valMatrix : '<none>'}
+              />
+            )
+            : (
+              <Input
+                isDisabled={!hasRiot}
+                isError={!okRiot}
+                label={t('riot name')}
+                labelExtra={
+                  <Toggle
+                    label={t('include field')}
+                    onChange={setHasRiot}
+                    value={hasRiot}
+                  />
+                }
+                maxLength={32}
+                onChange={setValRiot}
+                placeholder={t('@yourname:matrix.org')}
+                value={hasRiot ? valRiot : '<none>'}
+              />
+            )
         }
         {
           !isLegacyIdentity
-            ? <Input
-              isDisabled={!hasGithub}
-              isError={!okGithub}
-              label={t('Github name')}
-              labelExtra={
-                <Toggle
-                  label={t('include field')}
-                  onChange={setHasGithub}
-                  value={hasGithub}
-                />
-              }
-              maxLength={32}
-              onChange={setValGithub}
-              placeholder={t('YourGithubHandle')}
-              value={hasGithub ? valGithub : '<none>'}
-            />
+            ? (
+              <Input
+                isDisabled={!hasGithub}
+                isError={!okGithub}
+                label={t('Github name')}
+                labelExtra={
+                  <Toggle
+                    label={t('include field')}
+                    onChange={setHasGithub}
+                    value={hasGithub}
+                  />
+                }
+                maxLength={32}
+                onChange={setValGithub}
+                placeholder={t('YourGithubHandle')}
+                value={hasGithub ? valGithub : '<none>'}
+              />
+            )
             : <div></div>
         }
         <InputBalance
