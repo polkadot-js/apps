@@ -5,10 +5,10 @@ import type { OverrideBundleDefinition, OverrideBundleType } from '@polkadot/typ
 
 import equilibrium from './spec/equilibrium.js';
 import genshiro from './spec/genshiro.js';
+import hyperbridge from './spec/hyperbridge.js';
 import interbtc from './spec/interbtc.js';
 import mangata from './spec/mangata.js';
 import subspace from './spec/subspace.js';
-import hyperbridge from './spec/hyperbridge.js';
 
 const mapping: [OverrideBundleDefinition, string[]][] = [
   [equilibrium, ['Equilibrium', 'Equilibrium-parachain']],
