@@ -45,18 +45,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'kilt',
-    paraId: 2086,
-    providers: {
-      BOTLabs: 'wss://peregrine.kilt.io/parachain-public-ws/'
-    },
-    text: 'KILT Peregrine',
-    ui: {
-      color: 'linear-gradient(45deg, #f05a27 0%, #8c145a 100%)',
-      logo: nodesKiltPNG
-    }
-  },
-  {
     homepage: 'https://integritee.network',
     info: 'integritee',
     paraId: 2039,
@@ -67,6 +55,18 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#658ea9',
       logo: nodesIntegriteeSVG
+    }
+  },
+  {
+    info: 'kilt',
+    paraId: 2086,
+    providers: {
+      BOTLabs: 'wss://peregrine.kilt.io/parachain-public-ws/'
+    },
+    text: 'KILT Peregrine',
+    ui: {
+      color: 'linear-gradient(45deg, #f05a27 0%, #8c145a 100%)',
+      logo: nodesKiltPNG
     }
   },
   {
