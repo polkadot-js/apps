@@ -487,7 +487,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoKilt',
     paraId: 2086,
     providers: {
-      // 'KILT Protocol': 'wss://rococo.kilt.io' // https://github.com/polkadot-js/apps/issues/9338
+      BOTLabs: 'wss://rilt.kilt.io'
     },
     text: 'RILT',
     ui: {
@@ -797,7 +797,7 @@ export const testParasRococoCommon: EndpointOption[] = [
     },
     teleport: [-1],
     text: 'People',
-    ui: { }
+    ui: {}
   }
 ];
 
