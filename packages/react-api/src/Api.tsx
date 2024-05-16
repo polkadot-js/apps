@@ -251,8 +251,6 @@ async function createApi (apiUrl: string, signer: ApiSigner, isLocalFork: boolea
       provider = new WsProvider(apiUrl);
     }
 
-    console.log("hello world: ", typesBundle)
-
     statics.api = new ApiPromise({
       provider,
       registry: statics.registry,
