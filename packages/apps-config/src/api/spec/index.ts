@@ -44,6 +44,7 @@ import encointerNodeNotee from './encointer-node-notee.js';
 import encointerNodeTeeproxy from './encointer-node-teeproxy.js';
 import encointerPara from './encointer-para.js';
 import equilibrium from './equilibrium.js';
+import elysium from './elysium.js';
 import fantour from './fantour.js';
 // See https://github.com/polkadot-js/apps/pull/9243
 // import fragnova from './fragnova.js';
@@ -199,6 +200,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,
   'encointer-parachain': encointerPara,
+  'elysium': elysium,
   fantour,
   // See https://github.com/polkadot-js/apps/pull/9243
   // fragnova,
