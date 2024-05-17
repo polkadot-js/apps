@@ -10,25 +10,25 @@ const definitions: OverrideBundleDefinition = {
       // on all versions
       minmax: [0, undefined],
       types: {
-        "Address": "MultiAddress",
-        "LookupSource": "MultiAddress",
-        "Account": {
-           "nonce": "U256",
-           "balance": "U256"
+        Address: 'MultiAddress',
+        LookupSource: 'MultiAddress',
+        Account: {
+          nonce: 'U256',
+          balance: 'U256'
         },
-        "Transaction": {
-           "nonce": "U256",
-           "action": "String",
-           "gas_price": "u64",
-           "gas_limit": "u64",
-           "value": "U256",
-           "input": "Vec<u8>",
-           "signature": "Signature"
+        Transaction: {
+          nonce: 'U256',
+          action: 'String',
+          gas_price: 'u64',
+          gas_limit: 'u64',
+          value: 'U256',
+          input: 'Vec<u8>',
+          signature: 'Signature'
         },
-        "Signature": {
-           "v": "u64",
-           "r": "H256",
-           "s": "H256"
+        Signature: {
+          v: 'u64',
+          r: 'H256',
+          s: 'H256'
         }
       }
     }
