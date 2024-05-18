@@ -949,7 +949,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     providers: {
       'IBP-GeoDNS1': 'wss://sys.ibp.network/coretime-kusama',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/coretime-kusama',
-      Parity: 'wss://kusama-coretime-rpc.polkadot.io'
+      Parity: 'wss://kusama-coretime-rpc.polkadot.io',
+      Stakeworld: 'wss://ksm-rpc.stakeworld.io/coretime'
     },
     teleport: [-1],
     text: 'Coretime',
