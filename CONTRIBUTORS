@@ -359,6 +359,7 @@
        1	equilibrium-de                	updates genshiro info (#6412)
        1	fadomire                      	Fix translations loading for ever (#5282)
        1	falconexe                     	return DAO IPCI endpoint (#10194)
+       1	Faraz Ahmad                   	added elysium chain as mainnet (#10590)
        1	fixxxedpoint                  	Changed THRESHOLD in useBlockTime so chains that uses values smaller than 1s for the MinimumPeriod (pallet_timestamp) parameter are displayed correctly (#6045)
        1	Florian Franzen               	add analog testnet (#10508)
        1	FOB                           	Fix Polymesh types bundle to use correct specNames and update branding (#9182)
