@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types.js';
 
 import { chainsFrequencyPaseoSVG, chainsLaosOmegaPNG, chainsPaseoPNG, chainsPopNetworkSVG } from '@polkadot/apps-config/ui/logos/chains';
-import { nodesAssetHubSVG, nodesIntegriteeSVG, nodesNodleSVG } from '@polkadot/apps-config/ui/logos/nodes';
+import { nodesAssetHubSVG, nodesBifrostSVG, nodesHyperbridgeSVG, nodesIntegriteeSVG, nodesKiltPNG, nodesNodleSVG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
 // import { testnetParachainSVG } from '../ui/logos/nodes/index.js';
@@ -32,6 +32,19 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   //   }
   // }
   {
+    homepage: 'https://bifrost.finance',
+    info: 'Bifrost(Paseo)',
+    paraId: 2030,
+    providers: {
+      Liebi: 'wss://bifrost-rpc.paseo.liebi.com/ws'
+    },
+    text: 'Bifrost',
+    ui: {
+      color: '#5a25f0',
+      logo: nodesBifrostSVG
+    }
+  },
+  {
     homepage: 'https://www.frequency.xyz',
     info: 'Frequency',
     paraId: 4000,
@@ -45,6 +58,19 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://hyperbridge.network',
+    info: 'Hyperbridge',
+    paraId: 4009,
+    providers: {
+      BlockOps: 'wss://hyperbridge-paseo-rpc.blockops.network'
+    },
+    text: 'Hyperbridge (Gargantua)',
+    ui: {
+      color: '#ED6FF1',
+      logo: nodesHyperbridgeSVG
+    }
+  },
+  {
     homepage: 'https://integritee.network',
     info: 'integritee',
     paraId: 2039,
@@ -55,6 +81,18 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#658ea9',
       logo: nodesIntegriteeSVG
+    }
+  },
+  {
+    info: 'kilt',
+    paraId: 2086,
+    providers: {
+      BOTLabs: 'wss://peregrine.kilt.io/parachain-public-ws/'
+    },
+    text: 'KILT Peregrine',
+    ui: {
+      color: 'linear-gradient(45deg, #f05a27 0%, #8c145a 100%)',
+      logo: nodesKiltPNG
     }
   },
   {
@@ -106,7 +144,9 @@ export const testParasPaseoCommon: EndpointOption[] = [
     paraId: 1000,
     providers: {
       Dwellir: 'wss://asset-hub-paseo-rpc.dwellir.com',
-      'IBP-GeoDNS2': 'wss://sys.dotters.network/asset-hub-paseo'
+      'IBP-GeoDNS1': 'wss://sys.ibp.network/asset-hub-paseo',
+      'IBP-GeoDNS2': 'wss://sys.dotters.network/asset-hub-paseo',
+      StakeWorld: 'wss://pas-rpc.stakeworld.io/assethub'
     },
     teleport: [-1],
     text: 'AssetHub',
@@ -129,7 +169,8 @@ export const testRelayPaseo: EndpointOption = {
     Amforc: 'wss://paseo.rpc.amforc.com',
     Dwellir: 'wss://paseo-rpc.dwellir.com',
     'IBP-GeoDNS1': 'wss://rpc.ibp.network/paseo',
-    'IBP-GeoDNS2': 'wss://rpc.dotters.network/paseo'
+    'IBP-GeoDNS2': 'wss://rpc.dotters.network/paseo',
+    StakeWorld: 'wss://pas-rpc.stakeworld.io'
     // 'light client': 'light://substrate-connect/paseo'
   },
   teleport: getTeleports(testParasPaseoCommon),

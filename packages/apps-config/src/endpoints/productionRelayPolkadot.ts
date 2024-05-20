@@ -42,7 +42,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'ajuna',
     paraId: 2051,
     providers: {
-      // AjunaNetwork: 'wss://rpc-parachain.ajuna.network', // https://github.com/polkadot-js/apps/issues/10172
+      AjunaNetwork: 'wss://rpc-para.ajuna.network',
       OnFinality: 'wss://ajuna.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://ajuna.public.curie.radiumblock.co/ws'
     },
@@ -453,7 +453,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'laos',
     paraId: 3370,
     providers: {
-      // 'freeverse.io': 'wss://rpc.laos.laosfoundation.io'
+      'freeverse.io': 'wss://rpc.laos.laosfoundation.io'
     },
     text: 'Laos',
     ui: {
@@ -509,7 +509,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'moonbeam',
     paraId: 2004,
     providers: {
-      'Automata 1RPC': 'wss://1rpc.io/glmr',
+      Allnodes: 'wss://moonbeam-rpc.publicnode.com',
+      // 'Automata 1RPC': 'wss://1rpc.io/glmr', // https://github.com/polkadot-js/apps/issues/10566
       Blast: 'wss://moonbeam.public.blastapi.io',
       Dwellir: 'wss://moonbeam-rpc.dwellir.com',
       'Moonbeam Foundation': 'wss://wss.api.moonbeam.network',
@@ -624,9 +625,12 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     homepage: 'https://peaq.network/',
     info: 'peaq',
     paraId: 3338,
-    providers: {},
+    providers: {
+      // OnFinality: 'wss://peaq.api.onfinality.io/public-ws'
+    },
     text: 'peaq',
     ui: {
+      color: '#281C66',
       logo: chainsPeaqPNG
     }
   },
@@ -829,7 +833,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     info: 'PolkadotAssetHub',
     paraId: 1000,
     providers: {
-      Dwellir: 'wss://statemint-rpc.dwellir.com',
+      Dwellir: 'wss://asset-hub-polkadot-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://statemint-rpc-tn.dwellir.com',
       'IBP-GeoDNS1': 'wss://sys.ibp.network/statemint',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/statemint',
@@ -898,6 +902,7 @@ export const prodRelayPolkadot: EndpointOption = {
     ...prodParasPolkadot
   ],
   providers: {
+    Allnodes: 'wss://polkadot-rpc.publicnode.com',
     // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
     // 'Automata 1RPC': 'wss://1rpc.io/dot',
     Blockops: 'wss://polkadot-public-rpc.blockops.network/ws', // https://github.com/polkadot-js/apps/issues/9840

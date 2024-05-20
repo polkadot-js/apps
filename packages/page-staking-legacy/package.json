@@ -1,0 +1,28 @@
+{
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "engines": {
+    "node": ">=18"
+  },
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-staking-legacy#readme",
+  "license": "Apache-2.0",
+  "name": "@polkadot/app-staking-legacy",
+  "private": true,
+  "repository": {
+    "directory": "packages/page-staking-legacy",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "0.137.2-28-x",
+  "dependencies": {
+    "@polkadot/app-explorer": "^0.137.2-28-x",
+    "@polkadot/react-components": "^0.137.2-28-x",
+    "@polkadot/react-query": "^0.137.2-28-x"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*",
+    "react-is": "*"
+  }
+}

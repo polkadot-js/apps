@@ -55,6 +55,7 @@ import gamepower from './gamepower.js';
 import genshiro from './genshiro.js';
 import hanonycash from './hanonycash.js';
 import hydrate from './hydrate.js';
+import hyperbridge from './hyperbridge.js';
 import idavoll from './idavoll.js';
 import imbue from './imbue.js';
 import integritee from './integritee.js';
@@ -206,11 +207,13 @@ const spec: Record<string, OverrideBundleDefinition> = {
   galital,
   'galital-collator': galitalParachain,
   gamepower,
+  gargantua: hyperbridge,
   'hack-hydra-dx': hydrate,
   halongbay: polkafoundry,
   hanonycash,
   heiko: parallel,
   'hydra-dx': hydrate,
+  hyperbridge,
   idavoll,
   imbue,
   'integritee-parachain': integritee,
@@ -239,6 +242,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'manta-node': manta,
   mathchain,
   'mathchain-galois': galois,
+  messier: hyperbridge,
   moonbase: moonbeam,
   moonbeam,
   moonriver: moonbeam,
@@ -248,6 +252,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   mythos,
   neatcoin,
   neuroweb,
+  nexus: hyperbridge,
   nftmart,
   'node-moonbeam': moonbeam,
   'node-polkadex': polkadex,

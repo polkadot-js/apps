@@ -36,9 +36,7 @@ interface OldLedger {
 }
 
 const EMPTY_PARTIAL: Partial<SortedTargets> = {};
-// To get claimedRewards, activate `withClaimedRewardsEras` to true.
-// Currently its turned off because of performance issues.
-const DEFAULT_FLAGS_ELECTED = { withClaimedRewardsEras: false, withController: true, withExposure: true, withExposureMeta: true, withPrefs: true };
+const DEFAULT_FLAGS_ELECTED = { withController: true, withExposure: true, withExposureMeta: true, withPrefs: true };
 const DEFAULT_FLAGS_WAITING = { withController: true, withPrefs: true };
 
 const OPT_ERA = {
@@ -302,8 +300,8 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
     api.query.staking.minValidatorBond,
     api.query.balances?.totalIssuance
   ], OPT_MULTI);
-  const electedInfo = useCall<DeriveStakingElected>(api.derive.staking.electedInfo, [{ ...DEFAULT_FLAGS_ELECTED, withLedger }]);
-  const waitingInfo = useCall<DeriveStakingWaiting>(api.derive.staking.waitingInfo, [{ ...DEFAULT_FLAGS_WAITING, withLedger }]);
+  const electedInfo = useCall<DeriveStakingElected>(api.derive.staking.electedInfo, [{ ...DEFAULT_FLAGS_ELECTED, withClaimedRewardsEras: withLedger, withLedger }]);
+  const waitingInfo = useCall<DeriveStakingWaiting>(api.derive.staking.waitingInfo, [{ ...DEFAULT_FLAGS_WAITING, withClaimedRewardsEras: withLedger, withLedger }]);
   const lastEraInfo = useCall<LastEra>(api.derive.session.info, undefined, OPT_ERA);
 
   const baseInfo = useMemo(
