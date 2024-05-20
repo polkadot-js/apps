@@ -177,6 +177,7 @@ export const testParasWestendCommon: EndpointOption[] = [
   },
   {
     info: 'westendPeople',
+    isPeople: true,
     paraId: 1004,
     providers: {
       'IBP-GeoDNS1': 'wss://sys.ibp.network/people-westend',
@@ -193,6 +194,7 @@ export const testRelayWestend: EndpointOption = {
   dnslink: 'westend',
   genesisHash: WESTEND_GENESIS,
   info: 'westend',
+  isRelay: true,
   linked: [
     ...testParasWestendCommon,
     ...testParasWestend

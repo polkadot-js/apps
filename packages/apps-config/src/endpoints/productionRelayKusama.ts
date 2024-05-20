@@ -995,6 +995,7 @@ export const prodRelayKusama: EndpointOption = {
   dnslink: 'kusama',
   genesisHash: KUSAMA_GENESIS,
   info: 'kusama',
+  isRelay: true,
   linked: [
     ...prodParasKusamaCommon,
     ...prodParasKusama

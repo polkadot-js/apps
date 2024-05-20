@@ -161,6 +161,7 @@ export const testRelayPaseo: EndpointOption = {
   dnslink: 'paseo',
   genesisHash: PASEO_GENESIS,
   info: 'paseo',
+  isRelay: true,
   linked: [
     ...testParasPaseoCommon,
     ...testParasPaseo

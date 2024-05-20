@@ -24,11 +24,13 @@ export interface EndpointOption extends BaseOption {
   isChild?: boolean;
   isDevelopment?: boolean;
   isDisabled?: boolean;
+  isPeople?: boolean;
   isUnreachable?: boolean;
   linked?: EndpointOption[];
   info?: string;
   providers: Record<string, `${'wss://' | 'light://substrate-connect/'}${string}`>;
   text: string;
+  isRelay?: boolean;
 }
 
 export interface LinkOption extends BaseOption, Option {
@@ -36,10 +38,12 @@ export interface LinkOption extends BaseOption, Option {
   isChild?: boolean;
   isDevelopment?: boolean;
   isLightClient?: boolean;
+  isPeople?: boolean;
   isRelay?: boolean;
   isUnreachable?: boolean;
   isSpaced?: boolean;
   linked?: LinkOption[];
+  providers?: `${'wss://' | 'light://substrate-connect/'}${string}`[];
   textBy: string;
   textRelay?: React.ReactNode;
   value: string;

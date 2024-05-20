@@ -793,6 +793,7 @@ export const testRelayRococo: EndpointOption = {
   dnslink: 'rococo',
   genesisHash: ROCOCO_GENESIS,
   info: 'rococo',
+  isRelay: true,
   linked: [
     ...testParasRococoCommon,
     ...testParasRococo
