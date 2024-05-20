@@ -626,7 +626,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'peaq',
     paraId: 3338,
     providers: {
-      Dwellir: 'wss://peaq-rpc.dwellir.com',
+      Dwellir: 'wss://peaq-rpc.dwellir.com'
       // OnFinality: 'wss://peaq.api.onfinality.io/public-ws'
     },
     text: 'peaq',
