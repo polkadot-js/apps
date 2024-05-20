@@ -234,7 +234,7 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
             className='full'
             isDisabled
             label={t('Avail apps version')}
-            value={"V1.9-RC7"}
+            value={'V1.9-RC7'}
           />
         </td>
       </tr>
