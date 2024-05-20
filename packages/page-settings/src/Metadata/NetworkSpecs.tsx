@@ -230,6 +230,16 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
       </tr>
       <tr>
         <td>
+          <Input
+            className='full'
+            isDisabled
+            label={t('Avail apps version')}
+            value={'V1.9-RC7'}
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
           <Button.Group>
             <Button
               icon='trash'
