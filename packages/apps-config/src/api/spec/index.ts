@@ -40,6 +40,7 @@ import dockTestnet from './dock-testnet.js';
 import dotmog from './dotmog.js';
 import eave from './eave.js';
 import edgeware from './edgeware.js';
+import elysium from './elysium.js';
 import encointerNodeNotee from './encointer-node-notee.js';
 import encointerNodeTeeproxy from './encointer-node-teeproxy.js';
 import encointerPara from './encointer-para.js';
@@ -196,6 +197,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'dock-pos-test-runtime': dockTestnet,
   'dotmog-node': dotmog,
   edgeware,
+  elysium,
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,
   'encointer-parachain': encointerPara,
