@@ -24,14 +24,26 @@ export interface EndpointOption extends BaseOption {
   isChild?: boolean;
   isDevelopment?: boolean;
   isDisabled?: boolean;
+  /**
+   * Declares whether the given endpoint is the People chain used to store identity information.
+   */
   isPeople?: boolean;
   isUnreachable?: boolean;
   linked?: EndpointOption[];
   info?: string;
   providers: Record<string, `${'wss://' | 'light://substrate-connect/'}${string}`>;
   text: string;
+  /**
+   * Declares whether or not the endpoint is a relay chain.
+   */
   isRelay?: boolean;
+  /**
+   * Declares whether the given endpoint uses the People chain to store identity information.
+   */
   isPeopleForIdentity?: boolean;
+  /**
+   * Declares the relays name.
+   */
   relayName?: string;
 }
 
