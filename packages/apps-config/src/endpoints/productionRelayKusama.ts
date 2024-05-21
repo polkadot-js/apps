@@ -449,6 +449,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'krest',
     paraId: 2241,
     providers: {
+      Dwellir: 'wss://krest-rpc.dwellir.com',
       Krest: 'wss://wss-krest.peaq.network/',
       OnFinality: 'wss://krest.api.onfinality.io/public-ws',
       UnitedBloc: 'wss://krest.unitedbloc.com/'
@@ -949,7 +950,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     providers: {
       'IBP-GeoDNS1': 'wss://sys.ibp.network/coretime-kusama',
       'IBP-GeoDNS2': 'wss://sys.dotters.network/coretime-kusama',
-      Parity: 'wss://kusama-coretime-rpc.polkadot.io'
+      Parity: 'wss://kusama-coretime-rpc.polkadot.io',
+      Stakeworld: 'wss://ksm-rpc.stakeworld.io/coretime'
     },
     teleport: [-1],
     text: 'Coretime',
