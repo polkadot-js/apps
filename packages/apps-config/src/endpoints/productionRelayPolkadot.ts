@@ -898,6 +898,7 @@ export const prodRelayPolkadot: EndpointOption = {
   dnslink: 'polkadot',
   genesisHash: POLKADOT_GENESIS,
   info: 'polkadot',
+  isPeopleForIdentity: true,
   isRelay: true,
   linked: [
     ...prodParasPolkadotCommon,

@@ -194,6 +194,7 @@ export const testRelayWestend: EndpointOption = {
   dnslink: 'westend',
   genesisHash: WESTEND_GENESIS,
   info: 'westend',
+  isPeopleForIdentity: true,
   isRelay: true,
   linked: [
     ...testParasWestendCommon,

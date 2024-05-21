@@ -53,7 +53,7 @@ function expandLinked (input: LinkOption[]): LinkOption[] {
   }, []);
 }
 
-function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, info, isChild, isDisabled, isPeople, isRelay, isUnreachable, linked, paraId, providers, teleport, text, ui }: EndpointOption, firstOnly: boolean, withSort: boolean): LinkOption[] {
+function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, info, isChild, isDisabled, isPeople, isPeopleForIdentity, isUnreachable, linked, paraId, providers, teleport, text, ui }: EndpointOption, firstOnly: boolean, withSort: boolean): LinkOption[] {
   const hasProviders = Object.keys(providers).length !== 0;
   const base = {
     genesisHash,
@@ -62,7 +62,7 @@ function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, info, i
     isChild,
     isDisabled,
     isPeople,
-    isRelay,
+    isPeopleForIdentity,
     isUnreachable: isUnreachable || !hasProviders,
     paraId,
     providers: Object.keys(providers).map((k) => providers[k]),
@@ -82,7 +82,7 @@ function expandEndpoint (t: TFunction, { dnslink, genesisHash, homepage, info, i
       ...base,
       dnslink: index === 0 ? dnslink : undefined,
       isLightClient: value.startsWith('light://'),
-      isRelay: isRelay || false,
+      isRelay: false,
       textBy: value.startsWith('light://')
         ? t('lightclient.experimental', 'light client (experimental)', { ns: 'apps-config' })
         : t('rpc.hosted.via', 'via {{host}}', { ns: 'apps-config', replace: { host } }),

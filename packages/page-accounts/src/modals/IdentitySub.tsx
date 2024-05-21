@@ -83,10 +83,10 @@ const transformInfo = { withParams: true };
 
 function IdentitySubModal ({ address, className, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
+  const { apiIdentity } = useApi();
   const { allAccounts } = useAccounts();
   const queryIds = useSubidentities(address);
-  const queryInfos = useCall<[[string[]], Option<ITuple<[AccountId, Data]>>[]]>(queryIds && queryIds.length !== 0 && api.query.identity.superOf.multi, [queryIds], transformInfo);
+  const queryInfos = useCall<[[string[]], Option<ITuple<[AccountId, Data]>>[]]>(queryIds && queryIds.length !== 0 && apiIdentity.query.identity.superOf.multi, [queryIds], transformInfo);
   const [infos, setInfos] = useState<[string, string][] | undefined>();
 
   useEffect((): void => {
@@ -170,7 +170,7 @@ function IdentitySubModal ({ address, className, onClose }: Props): React.ReactE
             params={[
               infos.map(([address, raw]) => [address, { raw }])
             ]}
-            tx={api.tx.identity.setSubs}
+            tx={apiIdentity.tx.identity.setSubs}
           />
         )}
       </Modal.Actions>

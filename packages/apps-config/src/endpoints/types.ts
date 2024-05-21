@@ -31,6 +31,7 @@ export interface EndpointOption extends BaseOption {
   providers: Record<string, `${'wss://' | 'light://substrate-connect/'}${string}`>;
   text: string;
   isRelay?: boolean;
+  isPeopleForIdentity?: boolean;
 }
 
 export interface LinkOption extends BaseOption, Option {
@@ -46,6 +47,7 @@ export interface LinkOption extends BaseOption, Option {
   providers?: `${'wss://' | 'light://substrate-connect/'}${string}`[];
   textBy: string;
   textRelay?: React.ReactNode;
+  isPeopleForIdentity?: boolean;
   value: string;
   valueRelay?: string[];
 }
