@@ -287,10 +287,10 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store: keyringStore 
     [apiEndpoint]
   );
   const peopleUrls = useMemo(
-    () => (peopleEndpoint?.isPeople && apiEndpoint?.isRelay && peopleEndpoint?.providers)
+    () => (peopleEndpoint?.isPeople && peopleEndpoint?.providers)
       ? peopleEndpoint.providers
       : null,
-    [apiEndpoint, peopleEndpoint]
+    [peopleEndpoint]
   );
   const apiRelay = useApiUrl(relayUrls);
   const apiSystemPeople = useApiUrl(peopleUrls);

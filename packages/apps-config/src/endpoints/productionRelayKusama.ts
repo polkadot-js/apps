@@ -984,6 +984,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
   },
   {
     info: 'kusamaPeople',
+    isPeople: true,
     isPeopleForIdentity: false,
     paraId: 1004,
     providers: {
