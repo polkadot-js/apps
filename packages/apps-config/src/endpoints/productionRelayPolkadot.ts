@@ -520,7 +520,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     },
     text: 'Moonbeam',
     ui: {
-      color: '#53cbc9',
+      color: '#000000',
       logo: nodesMoonbeamSVG
     }
   },

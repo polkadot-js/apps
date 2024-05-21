@@ -540,7 +540,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     },
     text: 'Moonriver',
     ui: {
-      color: '#171e43',
+      color: '#06353d',
       logo: nodesMoonriverSVG
     }
   },
