@@ -961,6 +961,17 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    info: 'subspace-gemini-3h-nova',
+    providers: {
+      Subspace: 'wss://nova-0.gemini-3h.subspace.network/ws'
+    },
+    text: 'Subspace Gemini 3h Nova',
+    ui: {
+      color: '#562b8e',
+      logo: nodesSubspacePNG
+    }
+  },
+  {
     info: 'subspace',
     providers: {
       // 'Subspace Network': 'wss://test-rpc.subspace.network' // https://github.com/polkadot-js/apps/issues/8598
