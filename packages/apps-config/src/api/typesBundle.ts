@@ -55181,6 +55181,38 @@ export const typesBundle = {
         }
       ]
     },
+    "elysium": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "Address": "MultiAddress",
+            "LookupSource": "MultiAddress",
+            "Account": {
+              "nonce": "U256",
+              "balance": "U256"
+            },
+            "Transaction": {
+              "nonce": "U256",
+              "action": "String",
+              "gas_price": "u64",
+              "gas_limit": "u64",
+              "value": "U256",
+              "input": "Vec<u8>",
+              "signature": "Signature"
+            },
+            "Signature": {
+              "v": "u64",
+              "r": "H256",
+              "s": "H256"
+            }
+          }
+        }
+      ]
+    },
     "encointer-node-notee": {
       "types": [
         {
