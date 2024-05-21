@@ -832,6 +832,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
 export const prodParasPolkadotCommon: EndpointOption[] = [
   {
     info: 'PolkadotAssetHub',
+    isPeopleForIdentity: true,
     paraId: 1000,
     providers: {
       Dwellir: 'wss://asset-hub-polkadot-rpc.dwellir.com',
@@ -853,6 +854,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
   },
   {
     info: 'polkadotBridgeHub',
+    isPeopleForIdentity: true,
     paraId: 1002,
     providers: {
       Dwellir: 'wss://polkadot-bridge-hub-rpc.dwellir.com',
@@ -873,6 +875,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
   },
   {
     info: 'polkadotCollectives',
+    isPeopleForIdentity: true,
     paraId: 1001,
     providers: {
       Dwellir: 'wss://polkadot-collectives-rpc.dwellir.com',

@@ -905,6 +905,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
 export const prodParasKusamaCommon: EndpointOption[] = [
   {
     info: 'KusamaAssetHub',
+    isPeopleForIdentity: true,
     paraId: 1000,
     providers: {
       Dwellir: 'wss://asset-hub-kusama-rpc.dwellir.com',
@@ -926,6 +927,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
   },
   {
     info: 'kusamaBridgeHub',
+    isPeopleForIdentity: true,
     paraId: 1002,
     providers: {
       Dwellir: 'wss://kusama-bridge-hub-rpc.dwellir.com',
@@ -946,6 +948,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
   },
   {
     info: 'kusamaCoretime',
+    isPeopleForIdentity: true,
     paraId: 1005,
     providers: {
       'IBP-GeoDNS1': 'wss://sys.ibp.network/coretime-kusama',
@@ -962,6 +965,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
   {
     homepage: 'https://encointer.org/',
     info: 'encointer',
+    isPeopleForIdentity: true,
     paraId: 1001,
     providers: {
       Dwellir: 'wss://encointer-kusama-rpc.dwellir.com',
@@ -980,6 +984,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
   },
   {
     info: 'kusamaPeople',
+    isPeopleForIdentity: false,
     paraId: 1004,
     providers: {
       Parity: 'wss://kusama-people-rpc.polkadot.io',

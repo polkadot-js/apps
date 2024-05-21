@@ -113,6 +113,7 @@ export const testParasWestend: Omit<EndpointOption, 'teleport'>[] = [
 export const testParasWestendCommon: EndpointOption[] = [
   {
     info: 'WestendAssetHub',
+    isPeopleForIdentity: true,
     paraId: 1000,
     providers: {
       Dwellir: 'wss://asset-hub-westend-rpc.dwellir.com',
@@ -132,6 +133,7 @@ export const testParasWestendCommon: EndpointOption[] = [
   },
   {
     info: 'westendBridgeHub',
+    isPeopleForIdentity: true,
     paraId: 1002,
     providers: {
       Dwellir: 'wss://westend-bridge-hub-rpc.dwellir.com',
@@ -148,6 +150,7 @@ export const testParasWestendCommon: EndpointOption[] = [
   },
   {
     info: 'westendCollectives',
+    isPeopleForIdentity: true,
     paraId: 1001,
     providers: {
       Dwellir: 'wss://westend-collectives-rpc.dwellir.com',
@@ -165,6 +168,7 @@ export const testParasWestendCommon: EndpointOption[] = [
   },
   {
     info: 'westendCoretime',
+    isPeopleForIdentity: true,
     paraId: 1005,
     providers: {
       'IBP-GeoDNS1': 'wss://sys.ibp.network/coretime-westend',
@@ -178,6 +182,7 @@ export const testParasWestendCommon: EndpointOption[] = [
   {
     info: 'westendPeople',
     isPeople: true,
+    isPeopleForIdentity: false,
     paraId: 1004,
     providers: {
       'IBP-GeoDNS1': 'wss://sys.ibp.network/people-westend',
