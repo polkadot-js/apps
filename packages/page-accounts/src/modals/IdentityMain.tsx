@@ -94,7 +94,7 @@ function checkValue (hasValue: boolean, value: string | null | undefined, minLen
 
 function IdentityMain ({ address, className = '', onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { apiIdentity, specName } = useApi();
+  const { apiIdentity, enableIdentity, specName } = useApi();
   const identityOpt = useCall<Option<ITuple<[PalletIdentityRegistration, Option<Bytes>]>>>(apiIdentity.query.identity.identityOf, [address]);
   const [{ okAll, okDiscord, okDisplay, okEmail, okGithub, okLegal, okMatrix, okRiot, okTwitter, okWeb }, setOkInfo] = useState<ValueState>({ okAll: false });
   const [legacyInfo, setLegacyInfo] = useState<Record<string, unknown>>({});
@@ -375,14 +375,14 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
         <TxButton
           accountId={address}
           icon={'trash-alt'}
-          isDisabled={!gotPreviousIdentity}
+          isDisabled={!enableIdentity || !gotPreviousIdentity}
           label={t('Clear Identity')}
           onStart={onClose}
           tx={apiIdentity.tx.identity.clearIdentity}
         />
         <TxButton
           accountId={address}
-          isDisabled={!okAll}
+          isDisabled={!enableIdentity || !okAll}
           label={t('Set Identity')}
           onStart={onClose}
           params={[isLegacyIdentity ? legacyInfo : info]}

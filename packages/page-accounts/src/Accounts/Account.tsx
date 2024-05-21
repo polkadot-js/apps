@@ -150,7 +150,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const { t } = useTranslation();
   const [isExpanded, toggleIsExpanded] = useToggle(false);
   const { queueExtrinsic } = useQueue();
-  const { api, apiIdentity, isDevelopment: isDevelopmentApiProps, isEthereum: isEthereumApiProps } = useApi();
+  const { api, apiIdentity, enableIdentity, isDevelopment: isDevelopmentApiProps, isEthereum: isEthereumApiProps } = useApi();
   const { getLedger } = useLedger();
   const bestNumber = useBestNumber();
   const balancesAll = useBalancesAll(address);
@@ -301,7 +301,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
 
   const menuItems = useMemo(() => [
     createMenuGroup('identityGroup', [
-      isFunction(apiIdentity.tx.identity?.setIdentity) && !isHardware && (
+      isFunction(apiIdentity.tx.identity?.setIdentity) && enableIdentity && !isHardware && (
         <Menu.Item
           icon='link'
           key='identityMain'
@@ -309,7 +309,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           onClick={toggleIdentityMain}
         />
       ),
-      isFunction(apiIdentity.tx.identity?.setSubs) && identity?.display && !isHardware && (
+      isFunction(apiIdentity.tx.identity?.setSubs) && enableIdentity && identity?.display && !isHardware && (
         <Menu.Item
           icon='vector-square'
           key='identitySub'
@@ -455,7 +455,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       />
     ])
   ].filter((i) => i),
-  [_clearDemocracyLocks, _clearReferendaLocks, _showOnHardware, _vestingVest, api, apiIdentity.tx.identity, delegation, democracyUnlockTx, genesisHash, identity, isDevelopment, isDevelopmentApiProps, isEthereumApiProps, isEditable, isEthereum, isExternal, isHardware, isInjected, isMultisig, multiInfos, onSetGenesisHash, proxy, referendaUnlockTx, recoveryInfo, t, toggleBackup, toggleDelegate, toggleDerive, toggleForget, toggleIdentityMain, toggleIdentitySub, toggleMultisig, togglePassword, toggleProxyOverview, toggleRecoverAccount, toggleRecoverSetup, toggleUndelegate, vestingVestTx]);
+  [_clearDemocracyLocks, _clearReferendaLocks, _showOnHardware, _vestingVest, api, apiIdentity.tx.identity, enableIdentity, delegation, democracyUnlockTx, genesisHash, identity, isDevelopment, isDevelopmentApiProps, isEthereumApiProps, isEditable, isEthereum, isExternal, isHardware, isInjected, isMultisig, multiInfos, onSetGenesisHash, proxy, referendaUnlockTx, recoveryInfo, t, toggleBackup, toggleDelegate, toggleDerive, toggleForget, toggleIdentityMain, toggleIdentitySub, toggleMultisig, togglePassword, toggleProxyOverview, toggleRecoverAccount, toggleRecoverSetup, toggleUndelegate, vestingVestTx]);
 
   if (!isVisible) {
     return null;

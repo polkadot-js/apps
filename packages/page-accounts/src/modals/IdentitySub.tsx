@@ -83,7 +83,7 @@ const transformInfo = { withParams: true };
 
 function IdentitySubModal ({ address, className, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { apiIdentity } = useApi();
+  const { apiIdentity, enableIdentity } = useApi();
   const { allAccounts } = useAccounts();
   const queryIds = useSubidentities(address);
   const queryInfos = useCall<[[string[]], Option<ITuple<[AccountId, Data]>>[]]>(queryIds && queryIds.length !== 0 && apiIdentity.query.identity.superOf.multi, [queryIds], transformInfo);
@@ -164,7 +164,7 @@ function IdentitySubModal ({ address, className, onClose }: Props): React.ReactE
         {infos && (
           <TxButton
             accountId={address}
-            isDisabled={infos.some(([address, raw]) => !address || !raw)}
+            isDisabled={!enableIdentity || infos.some(([address, raw]) => !address || !raw)}
             label={t('Set Subs')}
             onStart={onClose}
             params={[

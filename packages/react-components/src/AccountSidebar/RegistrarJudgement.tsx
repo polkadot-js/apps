@@ -51,7 +51,7 @@ const OPT_ID = {
 
 function RegistrarJudgement ({ address, registrars, toggleJudgement }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { apiIdentity } = useApi();
+  const { apiIdentity, enableIdentity } = useApi();
   const identityHash = useCall(apiIdentity.query.identity.identityOf, [address], OPT_ID);
   const [addresses] = useState(() => registrars.map(({ address }) => address));
   const [judgementAccountId, setJudgementAccountId] = useState<string | null>(null);
@@ -110,7 +110,7 @@ function RegistrarJudgement ({ address, registrars, toggleJudgement }: Props): R
         <TxButton
           accountId={judgementAccountId}
           icon='check'
-          isDisabled={!identityHash || registrarIndex === -1}
+          isDisabled={!enableIdentity || !identityHash || registrarIndex === -1}
           label={t('Judge')}
           onStart={toggleJudgement}
           params={

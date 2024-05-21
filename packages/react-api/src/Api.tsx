@@ -298,9 +298,11 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store: keyringStore 
     () => makeCreateLink(apiUrl, isElectron),
     [apiUrl, isElectron]
   );
+  // TODO: Once the people migration is complete for polkadot, we can remove the polkadot check at the end.
+  const enableIdentity = apiEndpoint?.isPeople || (isNumber(apiEndpoint?.paraId) && (apiEndpoint?.paraId >= 2000)) || apiEndpoint?.info?.toLowerCase() === 'polkadot';
   const value = useMemo<ApiProps>(
-    () => objectSpread({}, state, { api: statics.api, apiEndpoint, apiError, apiIdentity: ((apiEndpoint?.isPeopleForIdentity && apiSystemPeople) || statics.api), apiRelay, apiSystemPeople, apiUrl, createLink, extensions, isApiConnected, isApiInitialized, isElectron, isLocalFork, isWaitingInjected: !extensions }),
-    [apiError, createLink, extensions, isApiConnected, isApiInitialized, isElectron, isLocalFork, state, apiEndpoint, apiRelay, apiUrl, apiSystemPeople]
+    () => objectSpread({}, state, { api: statics.api, apiEndpoint, apiError, apiIdentity: ((apiEndpoint?.isPeopleForIdentity && apiSystemPeople) || statics.api), apiRelay, apiSystemPeople, apiUrl, createLink, enableIdentity, extensions, isApiConnected, isApiInitialized, isElectron, isLocalFork, isWaitingInjected: !extensions }),
+    [apiError, createLink, extensions, isApiConnected, isApiInitialized, isElectron, isLocalFork, state, apiEndpoint, apiRelay, apiUrl, apiSystemPeople, enableIdentity]
   );
 
   // initial initialization
