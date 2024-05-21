@@ -45,7 +45,13 @@ export interface ApiProps extends ApiState {
   api: ApiPromise;
   apiEndpoint: LinkOption | null;
   apiError: string | null;
+  /**
+   * The identity api used for retrieving identities from the people chain.
+   */
   apiIdentity: ApiPromise;
+  /**
+   * Used for checking if tx.idenitity.* should be used. Can be used for other scenarios as well.
+   */
   enableIdentity: boolean;
   apiRelay: ApiPromise | null;
   apiSystemPeople: ApiPromise | null;
