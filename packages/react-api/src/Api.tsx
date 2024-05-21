@@ -279,7 +279,7 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store: keyringStore 
   const [extensions, setExtensions] = useState<InjectedExtension[] | undefined>();
   const [isLocalFork] = useState(store.get('localFork') === apiUrl);
   const apiEndpoint = useEndpoint(apiUrl);
-  const peopleEndpoint = usePeopleEndpoint(apiEndpoint?.info);
+  const peopleEndpoint = usePeopleEndpoint(apiEndpoint?.relayName || apiEndpoint?.info);
   const relayUrls = useMemo(
     () => (apiEndpoint?.valueRelay && isNumber(apiEndpoint.paraId) && (apiEndpoint.paraId < 2000))
       ? apiEndpoint.valueRelay
@@ -287,10 +287,10 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store: keyringStore 
     [apiEndpoint]
   );
   const peopleUrls = useMemo(
-    () => (peopleEndpoint?.isPeople && peopleEndpoint?.providers)
+    () => (peopleEndpoint?.isPeople && !apiEndpoint?.isPeople && peopleEndpoint?.providers && apiEndpoint?.isPeopleForIdentity)
       ? peopleEndpoint.providers
       : null,
-    [peopleEndpoint]
+    [apiEndpoint, peopleEndpoint]
   );
   const apiRelay = useApiUrl(relayUrls);
   const apiSystemPeople = useApiUrl(peopleUrls);

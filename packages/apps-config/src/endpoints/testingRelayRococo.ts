@@ -721,6 +721,7 @@ export const testParasRococoCommon: EndpointOption[] = [
       Dwellir: 'wss://asset-hub-rococo-rpc.dwellir.com',
       Parity: 'wss://rococo-asset-hub-rpc.polkadot.io'
     },
+    relayName: 'rococo',
     teleport: [-1],
     text: 'AssetHub',
     ui: {
@@ -736,6 +737,7 @@ export const testParasRococoCommon: EndpointOption[] = [
       Dwellir: 'wss://rococo-bridge-hub-rpc.dwellir.com',
       Parity: 'wss://rococo-bridge-hub-rpc.polkadot.io'
     },
+    relayName: 'rococo',
     teleport: [-1],
     text: 'Bridgehub',
     ui: {
@@ -749,6 +751,7 @@ export const testParasRococoCommon: EndpointOption[] = [
     providers: {
       Parity: 'wss://rococo-contracts-rpc.polkadot.io'
     },
+    relayName: 'rococo',
     teleport: [-1],
     text: 'Contracts',
     ui: {
@@ -763,6 +766,7 @@ export const testParasRococoCommon: EndpointOption[] = [
     providers: {
       Parity: 'wss://rococo-coretime-rpc.polkadot.io'
     },
+    relayName: 'rococo',
     teleport: [-1],
     text: 'Coretime',
     ui: {}
@@ -775,6 +779,7 @@ export const testParasRococoCommon: EndpointOption[] = [
     providers: {
       'Encointer Association': 'wss://rococo.api.encointer.org'
     },
+    relayName: 'rococo',
     teleport: [-1],
     text: 'Encointer Lietaer',
     ui: {
@@ -789,6 +794,7 @@ export const testParasRococoCommon: EndpointOption[] = [
     providers: {
       Parity: 'wss://rococo-people-rpc.polkadot.io'
     },
+    relayName: 'rococo',
     teleport: [-1],
     text: 'People',
     ui: {}

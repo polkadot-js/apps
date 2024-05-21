@@ -845,6 +845,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws',
       Stakeworld: 'wss://dot-rpc.stakeworld.io/assethub'
     },
+    relayName: 'polkadot',
     teleport: [-1],
     text: 'AssetHub',
     ui: {
@@ -867,6 +868,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       RadiumBlock: 'wss://bridgehub-polkadot.public.curie.radiumblock.co/ws',
       Stakeworld: 'wss://dot-rpc.stakeworld.io/bridgehub'
     },
+    relayName: 'polkadot',
     teleport: [-1],
     text: 'BridgeHub',
     ui: {
@@ -888,6 +890,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       RadiumBlock: 'wss://collectives.public.curie.radiumblock.co/ws',
       Stakeworld: 'wss://dot-rpc.stakeworld.io/collectives'
     },
+    relayName: 'polkadot',
     teleport: [-1],
     text: 'Collectives',
     ui: {

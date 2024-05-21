@@ -918,6 +918,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws',
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/assethub'
     },
+    relayName: 'kusama',
     teleport: [-1],
     text: 'AssetHub',
     ui: {
@@ -940,6 +941,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       RadiumBlock: 'wss://bridgehub-kusama.public.curie.radiumblock.co/ws',
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/bridgehub'
     },
+    relayName: 'kusama',
     teleport: [-1],
     text: 'BridgeHub',
     ui: {
@@ -956,6 +958,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       Parity: 'wss://kusama-coretime-rpc.polkadot.io',
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/coretime'
     },
+    relayName: 'kusama',
     teleport: [-1],
     text: 'Coretime',
     ui: {
@@ -975,6 +978,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       // OnFinality: 'wss://encointer.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9986
       // Stakeworld: 'wss://ksm-rpc.stakeworld.io/encointer'
     },
+    relayName: 'kusama',
     teleport: [-1],
     text: 'Encointer Network',
     ui: {
@@ -991,6 +995,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       Parity: 'wss://kusama-people-rpc.polkadot.io',
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/people'
     },
+    relayName: 'kusama',
     teleport: [-1],
     text: 'People',
     ui: {}

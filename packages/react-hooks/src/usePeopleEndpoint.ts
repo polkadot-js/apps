@@ -12,8 +12,8 @@ import { createNamedHook } from './createNamedHook.js';
 
 const endpoints = createWsEndpoints((k, v) => v?.toString() || k);
 
-export function getPeopleEndpoint (relayInfo?: string): LinkOption | null {
-  return endpoints.find(({ info, isPeople }) => isPeople && isString(info) && isString(relayInfo) && info.toLowerCase().includes(relayInfo.toLowerCase())) || null;
+export function getPeopleEndpoint (curApiInfo?: string): LinkOption | null {
+  return endpoints.find(({ info, isPeople }) => isPeople && isString(info) && isString(curApiInfo) && info.toLowerCase().includes(curApiInfo.toLowerCase())) || null;
 }
 
 function usePeopleEndpointImpl (relayInfo?: string): LinkOption | null {

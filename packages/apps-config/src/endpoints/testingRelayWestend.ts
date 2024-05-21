@@ -124,6 +124,7 @@ export const testParasWestendCommon: EndpointOption[] = [
       Parity: 'wss://westend-asset-hub-rpc.polkadot.io'
       // Stakeworld: 'wss://wnd-rpc.stakeworld.io/assethub'
     },
+    relayName: 'westend',
     teleport: [-1],
     text: 'AssetHub',
     ui: {
@@ -143,6 +144,7 @@ export const testParasWestendCommon: EndpointOption[] = [
       // OnFinality: 'wss://bridgehub-westend.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9960
       Parity: 'wss://westend-bridge-hub-rpc.polkadot.io'
     },
+    relayName: 'westend',
     text: 'BridgeHub',
     ui: {
       logo: nodesBridgeHubSVG
@@ -159,6 +161,7 @@ export const testParasWestendCommon: EndpointOption[] = [
       'IBP-GeoDNS2': 'wss://sys.dotters.network/collectives-westend',
       Parity: 'wss://westend-collectives-rpc.polkadot.io'
     },
+    relayName: 'westend',
     teleport: [-1],
     text: 'Collectives',
     ui: {
@@ -175,6 +178,7 @@ export const testParasWestendCommon: EndpointOption[] = [
       'IBP-GeoDNS2': 'wss://sys.dotters.network/coretime-westend',
       Parity: 'wss://westend-coretime-rpc.polkadot.io'
     },
+    relayName: 'westend',
     teleport: [-1],
     text: 'Coretime',
     ui: {}
@@ -189,6 +193,7 @@ export const testParasWestendCommon: EndpointOption[] = [
       'IBP-GeoDNS2': 'wss://sys.dotters.network/people-westend',
       Parity: 'wss://westend-people-rpc.polkadot.io'
     },
+    relayName: 'westend',
     teleport: [-1],
     text: 'People',
     ui: { }

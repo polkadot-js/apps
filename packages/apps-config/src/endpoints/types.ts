@@ -32,6 +32,7 @@ export interface EndpointOption extends BaseOption {
   text: string;
   isRelay?: boolean;
   isPeopleForIdentity?: boolean;
+  relayName?: string;
 }
 
 export interface LinkOption extends BaseOption, Option {
@@ -45,6 +46,7 @@ export interface LinkOption extends BaseOption, Option {
   isSpaced?: boolean;
   linked?: LinkOption[];
   providers?: `${'wss://' | 'light://substrate-connect/'}${string}`[];
+  relayName?: string;
   textBy: string;
   textRelay?: React.ReactNode;
   isPeopleForIdentity?: boolean;
