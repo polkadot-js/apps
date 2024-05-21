@@ -24,9 +24,9 @@ interface State {
 }
 
 function useRegistrarsImpl (skipQuery?: boolean): State {
-  const { api } = useApi();
+  const { apiIdentity } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
-  const query = useCall<Option<RegistrarInfo>[]>(!skipQuery && api.query.identity?.registrars);
+  const query = useCall<Option<RegistrarInfo>[]>(!skipQuery && apiIdentity.query.identity?.registrars);
 
   // determine if we have a registrar or not - registrars are allowed to approve
   return useMemo(

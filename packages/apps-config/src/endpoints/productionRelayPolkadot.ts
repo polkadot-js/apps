@@ -832,6 +832,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
 export const prodParasPolkadotCommon: EndpointOption[] = [
   {
     info: 'PolkadotAssetHub',
+    isPeopleForIdentity: true,
     paraId: 1000,
     providers: {
       Dwellir: 'wss://asset-hub-polkadot-rpc.dwellir.com',
@@ -844,6 +845,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws',
       Stakeworld: 'wss://dot-rpc.stakeworld.io/assethub'
     },
+    relayName: 'polkadot',
     teleport: [-1],
     text: 'AssetHub',
     ui: {
@@ -853,6 +855,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
   },
   {
     info: 'polkadotBridgeHub',
+    isPeopleForIdentity: true,
     paraId: 1002,
     providers: {
       Dwellir: 'wss://polkadot-bridge-hub-rpc.dwellir.com',
@@ -865,6 +868,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       RadiumBlock: 'wss://bridgehub-polkadot.public.curie.radiumblock.co/ws',
       Stakeworld: 'wss://dot-rpc.stakeworld.io/bridgehub'
     },
+    relayName: 'polkadot',
     teleport: [-1],
     text: 'BridgeHub',
     ui: {
@@ -873,6 +877,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
   },
   {
     info: 'polkadotCollectives',
+    isPeopleForIdentity: true,
     paraId: 1001,
     providers: {
       Dwellir: 'wss://polkadot-collectives-rpc.dwellir.com',
@@ -885,6 +890,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       RadiumBlock: 'wss://collectives.public.curie.radiumblock.co/ws',
       Stakeworld: 'wss://dot-rpc.stakeworld.io/collectives'
     },
+    relayName: 'polkadot',
     teleport: [-1],
     text: 'Collectives',
     ui: {
@@ -898,6 +904,8 @@ export const prodRelayPolkadot: EndpointOption = {
   dnslink: 'polkadot',
   genesisHash: POLKADOT_GENESIS,
   info: 'polkadot',
+  isPeopleForIdentity: true,
+  isRelay: true,
   linked: [
     ...prodParasPolkadotCommon,
     ...prodParasPolkadot

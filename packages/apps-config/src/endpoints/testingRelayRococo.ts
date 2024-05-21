@@ -703,11 +703,13 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
 export const testParasRococoCommon: EndpointOption[] = [
   {
     info: 'RococoAssetHub',
+    isPeopleForIdentity: true,
     paraId: 1000,
     providers: {
       Dwellir: 'wss://asset-hub-rococo-rpc.dwellir.com',
       Parity: 'wss://rococo-asset-hub-rpc.polkadot.io'
     },
+    relayName: 'rococo',
     teleport: [-1],
     text: 'AssetHub',
     ui: {
@@ -717,11 +719,13 @@ export const testParasRococoCommon: EndpointOption[] = [
   },
   {
     info: 'rococoBridgehub',
+    isPeopleForIdentity: true,
     paraId: 1013,
     providers: {
       Dwellir: 'wss://rococo-bridge-hub-rpc.dwellir.com',
       Parity: 'wss://rococo-bridge-hub-rpc.polkadot.io'
     },
+    relayName: 'rococo',
     teleport: [-1],
     text: 'Bridgehub',
     ui: {
@@ -730,10 +734,12 @@ export const testParasRococoCommon: EndpointOption[] = [
   },
   {
     info: 'rococoContracts',
+    isPeopleForIdentity: true,
     paraId: 1002,
     providers: {
       Parity: 'wss://rococo-contracts-rpc.polkadot.io'
     },
+    relayName: 'rococo',
     teleport: [-1],
     text: 'Contracts',
     ui: {
@@ -743,10 +749,12 @@ export const testParasRococoCommon: EndpointOption[] = [
   },
   {
     info: 'rococoCoretime',
+    isPeopleForIdentity: true,
     paraId: 1005,
     providers: {
       Parity: 'wss://rococo-coretime-rpc.polkadot.io'
     },
+    relayName: 'rococo',
     teleport: [-1],
     text: 'Coretime',
     ui: {}
@@ -754,10 +762,12 @@ export const testParasRococoCommon: EndpointOption[] = [
   {
     homepage: 'https://encointer.org/',
     info: 'encointer',
+    isPeopleForIdentity: true,
     paraId: 1003,
     providers: {
       'Encointer Association': 'wss://rococo.api.encointer.org'
     },
+    relayName: 'rococo',
     teleport: [-1],
     text: 'Encointer Lietaer',
     ui: {
@@ -767,10 +777,12 @@ export const testParasRococoCommon: EndpointOption[] = [
   },
   {
     info: 'rococoPeople',
+    isPeopleForIdentity: false,
     paraId: 1004,
     providers: {
       Parity: 'wss://rococo-people-rpc.polkadot.io'
     },
+    relayName: 'rococo',
     teleport: [-1],
     text: 'People',
     ui: {}
@@ -781,6 +793,8 @@ export const testRelayRococo: EndpointOption = {
   dnslink: 'rococo',
   genesisHash: ROCOCO_GENESIS,
   info: 'rococo',
+  isPeopleForIdentity: true,
+  isRelay: true,
   linked: [
     ...testParasRococoCommon,
     ...testParasRococo

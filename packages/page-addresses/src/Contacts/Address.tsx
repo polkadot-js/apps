@@ -77,7 +77,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   useEffect((): void => {
     const { identity, nickname } = info || {};
 
-    if (isFunction(api.api.query.identity?.identityOf)) {
+    if (isFunction(api.apiIdentity.query.identity?.identityOf)) {
       if (identity?.display) {
         setAccName(identity.display);
       }

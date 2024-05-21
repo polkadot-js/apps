@@ -30,7 +30,10 @@ export interface ApiProps extends ApiState {
   api: ApiPromise;
   apiEndpoint: LinkOption | null;
   apiError: string | null;
+  apiIdentity: ApiPromise;
+  enableIdentity: boolean;
   apiRelay: ApiPromise | null;
+  apiSystemPeople: ApiPromise | null;
   apiUrl?: string;
   createLink: (path: string, apiUrl?: string) => string;
   extensions?: InjectedExtension[];
