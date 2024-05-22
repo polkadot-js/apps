@@ -432,12 +432,14 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
   {
     homepage: 'https://virto.network/',
     info: 'kreivo',
+    isPeopleForIdentity: true,
     paraId: 2281,
     providers: {
       Kippu: 'wss://kreivo.kippu.rocks/',
       Virto: 'wss://kreivo.io/'
     },
     text: 'Kreivo - By Virto',
+    relayName: 'kusama',
     ui: {
       color: '#294940',
       identityIcon: 'polkadot',
