@@ -910,8 +910,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     providers: {
       Dwellir: 'wss://asset-hub-kusama-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://statemine-rpc-tn.dwellir.com',
-      'IBP-GeoDNS1': 'wss://sys.ibp.network/statemine',
-      'IBP-GeoDNS2': 'wss://sys.dotters.network/statemine',
+      IBP1: 'wss://sys.ibp.network/statemine',
+      IBP2: 'wss://sys.dotters.network/statemine',
       LuckyFriday: 'wss://rpc-asset-hub-kusama.luckyfriday.io',
       // OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
       Parity: 'wss://kusama-asset-hub-rpc.polkadot.io',
@@ -933,8 +933,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     providers: {
       Dwellir: 'wss://kusama-bridge-hub-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://kusama-bridge-hub-rpc-tn.dwellir.com',
-      'IBP-GeoDNS1': 'wss://sys.ibp.network/bridgehub-kusama',
-      'IBP-GeoDNS2': 'wss://sys.dotters.network/bridgehub-kusama',
+      IBP1: 'wss://sys.ibp.network/bridgehub-kusama',
+      IBP2: 'wss://sys.dotters.network/bridgehub-kusama',
       LuckyFriday: 'wss://rpc-bridge-hub-kusama.luckyfriday.io',
       // OnFinality: 'wss://bridgehub-kusama.api.onfinality.io/public-ws',
       Parity: 'wss://kusama-bridge-hub-rpc.polkadot.io',
@@ -953,8 +953,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1005,
     providers: {
-      'IBP-GeoDNS1': 'wss://sys.ibp.network/coretime-kusama',
-      'IBP-GeoDNS2': 'wss://sys.dotters.network/coretime-kusama',
+      IBP1: 'wss://sys.ibp.network/coretime-kusama',
+      IBP2: 'wss://sys.dotters.network/coretime-kusama',
       Parity: 'wss://kusama-coretime-rpc.polkadot.io',
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/coretime'
     },
@@ -973,8 +973,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     providers: {
       Dwellir: 'wss://encointer-kusama-rpc.dwellir.com',
       'Encointer Association': 'wss://kusama.api.encointer.org',
-      'IBP-GeoDNS1': 'wss://sys.ibp.network/encointer-kusama',
-      'IBP-GeoDNS2': 'wss://sys.dotters.network/encointer-kusama'
+      IBP1: 'wss://sys.ibp.network/encointer-kusama',
+      IBP2: 'wss://sys.dotters.network/encointer-kusama'
       // OnFinality: 'wss://encointer.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9986
       // Stakeworld: 'wss://ksm-rpc.stakeworld.io/encointer'
     },
@@ -1019,8 +1019,8 @@ export const prodRelayKusama: EndpointOption = {
     Blockops: 'wss://kusama-public-rpc.blockops.network/ws', // https://github.com/polkadot-js/apps/issues/9840
     Dwellir: 'wss://kusama-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://kusama-rpc-tn.dwellir.com',
-    'IBP-GeoDNS1': 'wss://rpc.ibp.network/kusama',
-    'IBP-GeoDNS2': 'wss://rpc.dotters.network/kusama',
+    IBP1: 'wss://rpc.ibp.network/kusama',
+    IBP2: 'wss://rpc.dotters.network/kusama',
     LuckyFriday: 'wss://rpc-kusama.luckyfriday.io',
     OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
     RadiumBlock: 'wss://kusama.public.curie.radiumblock.co/ws',
