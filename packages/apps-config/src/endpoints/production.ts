@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types.js';
 
 import { chains3dpassSVG, chainsAlephSVG, chainsBittensorPNG, chainsChainflipPNG, chainsCreditcoinPNG, chainsDebioSVG, chainsFragnovaPNG, chainsJurPNG, chainsLiberlandPNG, chainsLogionPNG, chainsMyriadPNG, chainsSpannerPNG, chainsTanglePNG, chainsVaraPNG, chainsVtbPNG } from '../ui/logos/chains/index.js';
-import { nodesAresOdysseySVG, nodesAutomataPNG, nodesCentrifugePNG, nodesCereSVG, nodesChainxSVG, nodesCompetitorsClubPNG, nodesCrownSterlingPNG, nodesCrustSVG, nodesDatahighwayPNG, nodesDockPNG, nodesEdgewareWhitePNG, nodesEfinitySVG, nodesHanyonycashPNG, nodesHumanodePNG, nodesInnovatorPNG, nodesJoystreamSVG, nodesKulupuSVG, nodesKusariSVG, nodesMathSVG, nodesMinixPNG, nodesNftmartPNG, nodesNodleSVG, nodesPolkadexSVG, nodesPolymeshSVG, nodesRiochainSVG, nodesRobonomicsSVG, nodesSherpaxPNG, nodesSoraSubstrateSVG, nodesStafiPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesSwapdexSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesUniartsPNG, nodesUnitnetworkPNG } from '../ui/logos/nodes/index.js';
+import { nodesAresOdysseySVG, nodesAutomataPNG, nodesCentrifugePNG, nodesCereSVG, nodesChainxSVG, nodesCompetitorsClubPNG, nodesCrownSterlingPNG, nodesCrustSVG, nodesDatahighwayPNG, nodesDockPNG, nodesEdgewareWhitePNG, nodesEfinitySVG, nodesElysiumPNG, nodesHanyonycashPNG, nodesHumanodePNG, nodesInnovatorPNG, nodesJoystreamSVG, nodesKulupuSVG, nodesKusariSVG, nodesMathSVG, nodesMinixPNG, nodesNftmartPNG, nodesNodleSVG, nodesPolkadexSVG, nodesPolymeshSVG, nodesRiochainSVG, nodesRobonomicsSVG, nodesSherpaxPNG, nodesSoraSubstrateSVG, nodesStafiPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesSwapdexSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesUniartsPNG, nodesUnitnetworkPNG } from '../ui/logos/nodes/index.js';
 
 export * from './productionRelayKusama.js';
 export * from './productionRelayPolkadot.js';
@@ -229,6 +229,17 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    info: 'elysium',
+    providers: {
+      Elysium: 'wss://ws.elysiumchain.tech'
+    },
+    text: 'Elysium',
+    ui: {
+      color: '#140533',
+      logo: nodesElysiumPNG
+    }
+  },
+  {
     info: 'fragnova',
     providers: {
       // 'Fragnova Network': 'wss://ws.fragnova.network' // https://github.com/polkadot-js/apps/issues/10172
@@ -332,10 +343,9 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'logion',
     providers: {
-      'Logion 1': 'wss://rpc01.logion.network',
-      'Logion 2': 'wss://rpc02.logion.network'
+      'Logion 1': 'wss://rpc01.logion.network'
     },
-    text: 'Logion Standalone',
+    text: 'Logion Solochain (Archive)',
     ui: {
       color: 'rgb(21, 38, 101)',
       logo: chainsLogionPNG
@@ -535,6 +545,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'tangle',
     providers: {
+      Dwellir: 'wss://tangle-mainnet-rpc.dwellir.com',
       Webb: 'wss://rpc.tangle.tools'
     },
     text: 'Tangle',

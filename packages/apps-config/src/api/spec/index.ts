@@ -40,6 +40,7 @@ import dockTestnet from './dock-testnet.js';
 import dotmog from './dotmog.js';
 import eave from './eave.js';
 import edgeware from './edgeware.js';
+import elysium from './elysium.js';
 import encointerNodeNotee from './encointer-node-notee.js';
 import encointerNodeTeeproxy from './encointer-node-teeproxy.js';
 import encointerPara from './encointer-para.js';
@@ -56,6 +57,7 @@ import gamepower from './gamepower.js';
 import genshiro from './genshiro.js';
 import hanonycash from './hanonycash.js';
 import hydrate from './hydrate.js';
+import hyperbridge from './hyperbridge.js';
 import idavoll from './idavoll.js';
 import imbue from './imbue.js';
 import integritee from './integritee.js';
@@ -93,6 +95,7 @@ import pangoro from './pangoro.js';
 import parallel from './parallel.js';
 import parami from './parami.js';
 import peaq from './peaq.js';
+import peerplays from './peerplays.js';
 import pendulum from './pendulum.js';
 import phoenix from './phoenix.js';
 import pichiu from './pichiu.js';
@@ -194,6 +197,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'dock-pos-test-runtime': dockTestnet,
   'dotmog-node': dotmog,
   edgeware,
+  elysium,
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,
   'encointer-parachain': encointerPara,
@@ -208,11 +212,13 @@ const spec: Record<string, OverrideBundleDefinition> = {
   galital,
   'galital-collator': galitalParachain,
   gamepower,
+  gargantua: hyperbridge,
   'hack-hydra-dx': hydrate,
   halongbay: polkafoundry,
   hanonycash,
   heiko: parallel,
   'hydra-dx': hydrate,
+  hyperbridge,
   idavoll,
   imbue,
   'integritee-parachain': integritee,
@@ -241,6 +247,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'manta-node': manta,
   mathchain,
   'mathchain-galois': galois,
+  messier: hyperbridge,
   moonbase: moonbeam,
   moonbeam,
   moonriver: moonbeam,
@@ -250,6 +257,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   mythos,
   neatcoin,
   neuroweb,
+  nexus: hyperbridge,
   nftmart,
   'node-moonbeam': moonbeam,
   'node-polkadex': polkadex,
@@ -262,6 +270,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'peaq-node': peaq,
   'peaq-node-dev': peaq,
   'peaq-node-krest': peaq,
+  peerplays,
   pendulum,
   'phoenix-node': phoenix,
   'phoenix-parachain': phoenix,

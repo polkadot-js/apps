@@ -38,6 +38,7 @@ import signing from './signing.js';
 import society from './society.js';
 import staking from './staking.js';
 import staking2 from './staking2.js';
+import stakingLegacy from './stakingLegacy.js';
 import storage from './storage.js';
 import sudo from './sudo.js';
 import techcomm from './techcomm.js';
@@ -58,6 +59,8 @@ export default function create (t: TFunction): Routes {
     teleport(t),
     staking(t),
     staking2(t),
+    // Legacy staking Pre v14 pallet version.
+    stakingLegacy(t),
     collator(t),
     coretime(t),
     broker(t),

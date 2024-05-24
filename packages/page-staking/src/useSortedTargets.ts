@@ -36,7 +36,7 @@ interface OldLedger {
 }
 
 const EMPTY_PARTIAL: Partial<SortedTargets> = {};
-const DEFAULT_FLAGS_ELECTED = { withController: true, withExposure: true, withPrefs: true };
+const DEFAULT_FLAGS_ELECTED = { withController: true, withExposure: true, withExposureMeta: true, withPrefs: true };
 const DEFAULT_FLAGS_WAITING = { withController: true, withPrefs: true };
 
 const OPT_ERA = {
@@ -68,8 +68,10 @@ const OPT_MULTI = {
   })
 };
 
-function getLegacyRewards (ledger: PalletStakingStakingLedger): u32[] {
-  return ledger.legacyClaimedRewards || (ledger as unknown as OldLedger).claimedRewards || [];
+function getLegacyRewards (ledger: PalletStakingStakingLedger, claimedRewardsEras: Vec<u32>): u32[] {
+  const legacyRewards = ledger.legacyClaimedRewards || (ledger as unknown as OldLedger).claimedRewards || [];
+
+  return legacyRewards.concat(claimedRewardsEras.toArray());
 }
 
 function mapIndex (mapBy: TargetSortBy): (info: ValidatorInfo, index: number) => ValidatorInfo {
@@ -128,16 +130,18 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
 
 function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], { activeEra, eraLength, lastEra, sessionLength }: LastEra, historyDepth?: BN, withReturns?: boolean): [ValidatorInfo[], Record<string, BN>] {
   const nominators: Record<string, BN> = {};
-  const emptyExposure = api.createType('Exposure');
+  const emptyExposure = api.createType('SpStakingExposurePage');
+  const emptyExposureMeta = api.createType('SpStakingPagedExposureMetadata');
   const earliestEra = historyDepth && lastEra.sub(historyDepth).iadd(BN_ONE);
   const list = new Array<ValidatorInfo>(derive.info.length);
 
   for (let i = 0; i < derive.info.length; i++) {
-    const { accountId, exposure = emptyExposure, stakingLedger, validatorPrefs } = derive.info[i];
-
+    const { accountId, claimedRewardsEras, exposureMeta, exposurePaged, stakingLedger, validatorPrefs } = derive.info[i];
+    const exp = exposurePaged.isSome && exposurePaged.unwrap();
+    const expMeta = exposureMeta.isSome && exposureMeta.unwrap();
     // some overrides (e.g. Darwinia Crab) does not have the own/total field in Exposure
-    let [bondOwn, bondTotal] = exposure.total
-      ? [exposure.own.unwrap(), exposure.total.unwrap()]
+    let [bondOwn, bondTotal] = exp && expMeta
+      ? [expMeta.own.unwrap(), expMeta.total.unwrap()]
       : [BN_ZERO, BN_ZERO];
 
     const skipRewards = bondTotal.isZero();
@@ -147,7 +151,7 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
     }
 
     // some overrides (e.g. Darwinia Crab) does not have the value field in IndividualExposure
-    const minNominated = (exposure.others || []).reduce((min: BN, { value = api.createType('Compact<Balance>') }): BN => {
+    const minNominated = ((exp && exp.others) || []).reduce((min: BN, { value = api.createType('Compact<Balance>') }): BN => {
       const actual = value.unwrap();
 
       return min.isZero() || actual.lt(min)
@@ -156,7 +160,7 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
     }, BN_ZERO);
 
     const key = accountId.toString();
-    const rewards = getLegacyRewards(stakingLedger);
+    const rewards = getLegacyRewards(stakingLedger, claimedRewardsEras);
 
     const lastEraPayout = !lastEra.isZero()
       ? rewards[rewards.length - 1]
@@ -169,12 +173,13 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
       bondShare: 0,
       bondTotal,
       commissionPer: validatorPrefs.commission.unwrap().toNumber() / 10_000_000,
-      exposure,
+      exposureMeta: expMeta || emptyExposureMeta,
+      exposurePaged: exp || emptyExposure,
       isActive: !skipRewards,
       isBlocking: !!(validatorPrefs.blocked && validatorPrefs.blocked.isTrue),
       isElected: !isWaitingDerive(derive) && derive.nextElected.some((e) => e.eq(accountId)),
       isFavorite: favorites.includes(key),
-      isNominating: (exposure.others || []).reduce((isNominating, indv): boolean => {
+      isNominating: ((exp && exp.others) || []).reduce((isNominating, indv): boolean => {
         const nominator = indv.who.toString();
 
         nominators[nominator] = (nominators[nominator] || BN_ZERO).add(indv.value?.toBn() || BN_ZERO);
@@ -188,7 +193,7 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
         ? lastEra.sub(lastEraPayout).mul(eraLength)
         : undefined,
       minNominated,
-      numNominators: (exposure.others || []).length,
+      numNominators: ((exp && exp.others) || []).length,
       numRecentPayouts: earliestEra
         ? rewards.filter((era) => era.gte(earliestEra)).length
         : 0,
@@ -295,8 +300,8 @@ function useSortedTargetsImpl (favorites: string[], withLedger: boolean): Sorted
     api.query.staking.minValidatorBond,
     api.query.balances?.totalIssuance
   ], OPT_MULTI);
-  const electedInfo = useCall<DeriveStakingElected>(api.derive.staking.electedInfo, [{ ...DEFAULT_FLAGS_ELECTED, withLedger }]);
-  const waitingInfo = useCall<DeriveStakingWaiting>(api.derive.staking.waitingInfo, [{ ...DEFAULT_FLAGS_WAITING, withLedger }]);
+  const electedInfo = useCall<DeriveStakingElected>(api.derive.staking.electedInfo, [{ ...DEFAULT_FLAGS_ELECTED, withClaimedRewardsEras: withLedger, withLedger }]);
+  const waitingInfo = useCall<DeriveStakingWaiting>(api.derive.staking.waitingInfo, [{ ...DEFAULT_FLAGS_WAITING, withClaimedRewardsEras: withLedger, withLedger }]);
   const lastEraInfo = useCall<LastEra>(api.derive.session.info, undefined, OPT_ERA);
 
   const baseInfo = useMemo(

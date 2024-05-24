@@ -1,8 +1,9 @@
 // Copyright 2017-2024 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Option } from '@polkadot/types';
+import type { Bytes, Option } from '@polkadot/types';
 import type { PalletIdentityRegistration } from '@polkadot/types/lookup';
+import type { ITuple } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
 
 import React, { useEffect, useState } from 'react';
@@ -34,10 +35,18 @@ const JUDGEMENT_ENUM = [
 ];
 
 const OPT_ID = {
-  transform: (optId: Option<PalletIdentityRegistration>): HexString | null =>
-    optId.isSome
-      ? optId.unwrap().info.hash.toHex()
-      : null
+  transform: (optId: Option<ITuple<[PalletIdentityRegistration, Option<Bytes>]>>): HexString | null => {
+    const id = optId.isSome
+      ? optId.unwrap()
+      : null;
+
+    // Backwards compatibility - https://github.com/polkadot-js/apps/issues/10493
+    return !id
+      ? null
+      : Array.isArray(id)
+        ? id[0].info.hash.toHex()
+        : (id as unknown as PalletIdentityRegistration).info.hash.toHex();
+  }
 };
 
 function RegistrarJudgement ({ address, registrars, toggleJudgement }: Props): React.ReactElement<Props> {

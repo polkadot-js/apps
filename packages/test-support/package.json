@@ -14,13 +14,13 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.135.2-51-x",
+  "version": "0.137.2-32-x",
   "dependencies": {
     "@testing-library/react": "^14.1.2",
     "testcontainers": "^10.4.0"
   },
   "devDependencies": {
-    "@polkadot/types-support": "^10.12.4",
+    "@polkadot/types-support": "^11.0.3",
     "@testing-library/jest-dom": "^5.17.0",
     "tsconfig-paths": "^4.2.0"
   },
