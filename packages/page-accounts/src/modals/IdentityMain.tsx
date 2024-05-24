@@ -94,8 +94,8 @@ function checkValue (hasValue: boolean, value: string | null | undefined, minLen
 
 function IdentityMain ({ address, className = '', onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api, specName } = useApi();
-  const identityOpt = useCall<Option<ITuple<[PalletIdentityRegistration, Option<Bytes>]>>>(api.query.identity.identityOf, [address]);
+  const { apiIdentity, enableIdentity, specName } = useApi();
+  const identityOpt = useCall<Option<ITuple<[PalletIdentityRegistration, Option<Bytes>]>>>(apiIdentity.query.identity.identityOf, [address]);
   const [{ okAll, okDiscord, okDisplay, okEmail, okGithub, okLegal, okMatrix, okRiot, okTwitter, okWeb }, setOkInfo] = useState<ValueState>({ okAll: false });
   const [legacyInfo, setLegacyInfo] = useState<Record<string, unknown>>({});
   const [info, setInfo] = useState<Record<string, unknown>>({});
@@ -143,7 +143,7 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
         setData((foundInfo as unknown as PeopleIdentityInfo).matrix, setHasMatrix, setValMatrix);
         setData((foundInfo as unknown as PeopleIdentityInfo).github, setHasGithub, setValGithub);
         setData(foundInfo.web, setHasWeb, setValWeb);
-        const infoDiscord = isLegacyIdentity ? setAdditionalFieldData(api, foundInfo, AddressIdentityOtherDiscordKey, setHasDiscord, setValDiscord) : setDiscordFieldData((foundInfo as unknown as PeopleIdentityInfo), setHasDiscord, setValDiscord);
+        const infoDiscord = isLegacyIdentity ? setAdditionalFieldData(apiIdentity, foundInfo, AddressIdentityOtherDiscordKey, setHasDiscord, setValDiscord) : setDiscordFieldData((foundInfo as unknown as PeopleIdentityInfo), setHasDiscord, setValDiscord);
 
         const previousKeys = isLegacyIdentity
           ? [foundInfo.display, foundInfo.email, foundInfo.legal, foundInfo.riot, foundInfo.twitter, infoDiscord, foundInfo.web]
@@ -160,7 +160,7 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
         });
       }
     }
-  }, [identityOpt, api, isLegacyIdentity, isPalletChecked]);
+  }, [identityOpt, apiIdentity, isLegacyIdentity, isPalletChecked]);
 
   useEffect((): void => {
     const okDisplay = checkValue(true, valDisplay, 1, [], [], []);
@@ -366,7 +366,7 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
             : <div></div>
         }
         <InputBalance
-          defaultValue={api.consts.identity?.basicDeposit}
+          defaultValue={apiIdentity.consts.identity?.basicDeposit}
           isDisabled
           label={t('total deposit')}
         />
@@ -375,18 +375,18 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
         <TxButton
           accountId={address}
           icon={'trash-alt'}
-          isDisabled={!gotPreviousIdentity}
+          isDisabled={!enableIdentity || !gotPreviousIdentity}
           label={t('Clear Identity')}
           onStart={onClose}
-          tx={api.tx.identity.clearIdentity}
+          tx={apiIdentity.tx.identity.clearIdentity}
         />
         <TxButton
           accountId={address}
-          isDisabled={!okAll}
+          isDisabled={!enableIdentity || !okAll}
           label={t('Set Identity')}
           onStart={onClose}
           params={[isLegacyIdentity ? legacyInfo : info]}
-          tx={api.tx.identity.setIdentity}
+          tx={apiIdentity.tx.identity.setIdentity}
         />
       </Modal.Actions>
     </Modal>

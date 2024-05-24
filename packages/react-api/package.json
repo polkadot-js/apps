@@ -14,16 +14,16 @@
   },
   "sideEffects": true,
   "type": "module",
-  "version": "0.137.2-30-x",
+  "version": "0.137.2-41-x",
   "browser": {
     "fs": false,
     "path": false
   },
   "dependencies": {
-    "@polkadot/api": "^11.0.3",
-    "@polkadot/extension-compat-metamask": "^0.47.3",
-    "@polkadot/extension-dapp": "^0.47.3",
-    "@polkadot/rpc-provider": "^11.0.3",
+    "@polkadot/api": "^11.1.1",
+    "@polkadot/extension-compat-metamask": "^0.47.5",
+    "@polkadot/extension-dapp": "^0.47.5",
+    "@polkadot/rpc-provider": "^11.1.1",
     "fflate": "^0.8.1",
     "rxjs": "^7.8.1"
   },

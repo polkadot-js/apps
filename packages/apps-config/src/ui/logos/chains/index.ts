@@ -56,6 +56,7 @@ export { chainsOakPNG } from './generated/oakPNG.js';
 export { chainsPaseoPNG } from './generated/paseoPNG.js';
 export { chainsPeaqPNG } from './generated/peaqPNG.js';
 export { chainsPendulumSVG } from './generated/pendulumSVG.js';
+export { chainsPeopleKusamaSVG } from './generated/people-kusamaSVG.js';
 export { chainsPicassoSVG } from './generated/picassoSVG.js';
 export { chainsPolkadotCircleSVG } from './generated/polkadot-circleSVG.js';
 export { chainsPopNetworkSVG } from './generated/pop-networkSVG.js';

@@ -221,8 +221,9 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Elysium: 'wss://ws.elysiumchain.tech'
     },
-    text: 'ELysium',
+    text: 'Elysium',
     ui: {
+      color: '#140533',
       logo: nodesElysiumPNG
     }
   },
