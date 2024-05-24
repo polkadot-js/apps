@@ -12,7 +12,6 @@ export { nodesAresOdysseySVG } from './generated/ares-odysseySVG.js';
 export { nodesAresPNG } from './generated/aresPNG.js';
 export { nodesAssetHubSVG } from './generated/assetHubSVG.js';
 export { nodesAstarPNG } from './generated/astarPNG.js';
-export { nodesAutomataPNG } from './generated/automataPNG.js';
 export { nodesAventusSVG } from './generated/aventusSVG.js';
 export { nodesBajunPNG } from './generated/bajunPNG.js';
 export { nodesBasiliskRococoBgPNG } from './generated/basilisk-rococo-bgPNG.js';
