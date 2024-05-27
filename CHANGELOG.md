@@ -1,5 +1,56 @@
 # CHANGELOG
 
+## 0.138.1 May 24, 2024
+
+Contributed:
+
+- Remove Automata mainnet and contextfree testnet (Thanks to https://github.com/Liao1)
+- Add IBP2 for hydradx endpoints (Thanks to https://github.com/senseless)
+- Maintenance of IBP endpoints (Thanks to https://github.com/miloskriz)
+- Moonbeam rebrand (Thanks to https://github.com/albertov19)
+- Adds null check before accessing multisigs (Thanks to https://github.com/gupnik)
+- Add Subspace Gemini 3h Nova endpoint (Thanks to https://github.com/jim-counter)
+- Remove Rococo Trappist Rpc (Thanks to https://github.com/PierreBesson)
+- Update the title and logo for elysium (Thanks to https://github.com/farazahmadvaival)
+- Add Subspace gemini 3h endpoints (Thanks to https://github.com/dnoishi)
+- Added Dwellir endpoints for Krest and Peaq (Thanks to https://github.com/abbaahmad)
+- Added elysium chain as mainnet (Thanks to https://github.com/farazahmadvaival)
+- Add Stakeworld coretime rpc endpoint (Thanks to https://github.com/stakeworld)
+- Migrate bifrost-rococo to bifrost-paseo providers (Thanks to https://github.com/TomatoAres)
+- Adds support for hyperbridge (Thanks to https://github.com/seunlanlege)
+- Added provider (Thanks to https://github.com/asiniscalchi)
+- Update Peregrine location and fix RILT endpoint (Thanks to https://github.com/ntn-x2)
+- Add Stakeworld people chain rpc endpoint (Thanks to https://github.com/stakeworld)
+- Added ajuna polkadot rpc with correct naming (Thanks to https://github.com/darkfriend77)
+- Disable Onfinality endpoint for peaq (Thanks to https://github.com/CrazySurfBoy)
+- Add Onfinality endpoint for peaq (Thanks to https://github.com/CrazySurfBoy)
+- Add Allnodes endpoints for Polkadot, Kusama, Moonbeam, Moonriver (Thanks to https://github.com/3eph1r0th)
+- Maintenance of IBP endpoints for several chains (Thanks to https://github.com/miloskriz)
+- Add Kusama Krest OnFinality provider (Thanks to https://github.com/CrazySurfBoy)
+- Add people-kusama RPC (Thanks to https://github.com/BulatSaif)
+- Adding RPCs to Paseo Network (Thanks to https://github.com/hbulgarini)
+- Upgrade KILT to sdk 0.35.1 (Thanks to https://github.com/ntn-x2)
+- Update Dwellir AssetHub endpoints (Thanks to https://github.com/jakobilobi)
+- Add Dwellir tangle to polkadot.js (Thanks to https://github.com/gflow33)
+- Update zero canary, alphaville (Thanks to https://github.com/2075)
+- Add rpc for Pop (Thanks to https://github.com/evilrobot-01)
+
+Changes:
+
+- Add backwards compatibility for legacy staking pages
+- Fix Staking Rewards and update polkadot deps
+- Fix useSortedTargets flags for claimedRewards
+- Disable unreachable endpoints
+- Backwards compatibility for identityOf return type
+- Add Coretime and AssetHub logo for Kusama
+- Fix polkadex assets balances page
+- Fix "Set identity" on accounts
+- Filter assets before multi call
+- Use apiSystemPeople for identities on {relay | system} chains, and keep compat for parachains
+- Update polkadot-js deps
+- Fix Identities for polkadot system chains
+- Add Kusama people logo
+
 ## 0.137.1 Apr 27, 2024
 
 Contributed:

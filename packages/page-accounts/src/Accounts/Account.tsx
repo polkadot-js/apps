@@ -150,13 +150,13 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const { t } = useTranslation();
   const [isExpanded, toggleIsExpanded] = useToggle(false);
   const { queueExtrinsic } = useQueue();
-  const api = useApi();
+  const { api, apiIdentity, enableIdentity, isDevelopment: isDevelopmentApiProps, isEthereum: isEthereumApiProps } = useApi();
   const { getLedger } = useLedger();
   const bestNumber = useBestNumber();
   const balancesAll = useBalancesAll(address);
   const stakingInfo = useStakingInfo(address);
-  const democracyLocks = useCall<DeriveDemocracyLock[]>(api.api.derive.democracy?.locks, [address]);
-  const recoveryInfo = useCall<RecoveryConfig | null>(api.api.query.recovery?.recoverable, [address], transformRecovery);
+  const democracyLocks = useCall<DeriveDemocracyLock[]>(api.derive.democracy?.locks, [address]);
+  const recoveryInfo = useCall<RecoveryConfig | null>(api.query.recovery?.recoverable, [address], transformRecovery);
   const multiInfos = useMultisigApprovals(address);
   const proxyInfo = useProxies(address);
   const { flags: { isDevelopment, isEditable, isEthereum, isExternal, isHardware, isInjected, isMultisig, isProxied }, genesisHash, identity, name: accName, onSetGenesisHash, tags } = useAccountInfo(address);
@@ -190,10 +190,10 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         unbonding: calcUnbonding(stakingInfo)
       });
 
-      api.api.tx.vesting?.vest && setVestingTx(() =>
+      api.tx.vesting?.vest && setVestingTx(() =>
         balancesAll.vestingLocked.isZero()
           ? null
-          : api.api.tx.vesting.vest()
+          : api.tx.vesting.vest()
       );
     }
   }, [address, api, balancesAll, setBalance, stakingInfo]);
@@ -210,7 +210,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         }
 
         return {
-          democracyUnlockTx: createClearDemocracyTx(api.api, address, ids),
+          democracyUnlockTx: createClearDemocracyTx(api, address, ids),
           ids
         };
       }
@@ -230,7 +230,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
 
         return {
           ids,
-          referendaUnlockTx: createClearReferendaTx(api.api, address, ids)
+          referendaUnlockTx: createClearReferendaTx(api, address, ids)
         };
       }
     );
@@ -301,7 +301,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
 
   const menuItems = useMemo(() => [
     createMenuGroup('identityGroup', [
-      isFunction(api.api.tx.identity?.setIdentity) && !isHardware && (
+      isFunction(apiIdentity.tx.identity?.setIdentity) && enableIdentity && !isHardware && (
         <Menu.Item
           icon='link'
           key='identityMain'
@@ -309,7 +309,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           onClick={toggleIdentityMain}
         />
       ),
-      isFunction(api.api.tx.identity?.setSubs) && identity?.display && !isHardware && (
+      isFunction(apiIdentity.tx.identity?.setSubs) && enableIdentity && identity?.display && !isHardware && (
         <Menu.Item
           icon='vector-square'
           key='identitySub'
@@ -317,7 +317,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           onClick={toggleIdentitySub}
         />
       ),
-      isFunction(api.api.tx.democracy?.unlock) && democracyUnlockTx && (
+      isFunction(api.tx.democracy?.unlock) && democracyUnlockTx && (
         <Menu.Item
           icon='broom'
           key='clearDemocracy'
@@ -325,7 +325,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           onClick={_clearDemocracyLocks}
         />
       ),
-      isFunction(api.api.tx.convictionVoting?.unlock) && referendaUnlockTx && (
+      isFunction(api.tx.convictionVoting?.unlock) && referendaUnlockTx && (
         <Menu.Item
           icon='broom'
           key='clearReferenda'
@@ -333,7 +333,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           onClick={_clearReferendaLocks}
         />
       ),
-      isFunction(api.api.tx.vesting?.vest) && vestingVestTx && (
+      isFunction(api.tx.vesting?.vest) && vestingVestTx && (
         <Menu.Item
           icon='unlock'
           key='vestingVest'
@@ -343,7 +343,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       )
     ], t('Identity')),
     createMenuGroup('deriveGroup', [
-      !(isEthereum || isExternal || isHardware || isInjected || isMultisig || api.isEthereum) && (
+      !(isEthereum || isExternal || isHardware || isInjected || isMultisig || isEthereumApiProps) && (
         <Menu.Item
           icon='download'
           key='deriveAccount'
@@ -386,7 +386,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         />
       )
     ], t('Backup')),
-    isFunction(api.api.tx.recovery?.createRecovery) && createMenuGroup('reoveryGroup', [
+    isFunction(api.tx.recovery?.createRecovery) && createMenuGroup('reoveryGroup', [
       !recoveryInfo && (
         <Menu.Item
           icon='redo'
@@ -402,7 +402,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         onClick={toggleRecoverAccount}
       />
     ], t('Recovery')),
-    isFunction(api.api.tx.multisig?.asMulti) && isMultisig && createMenuGroup('multisigGroup', [
+    isFunction(api.tx.multisig?.asMulti) && isMultisig && createMenuGroup('multisigGroup', [
       <Menu.Item
         icon='file-signature'
         isDisabled={!multiInfos?.length}
@@ -411,7 +411,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         onClick={toggleMultisig}
       />
     ], t('Multisig')),
-    isFunction(api.api.query.democracy?.votingOf) && delegation?.accountDelegated && createMenuGroup('undelegateGroup', [
+    isFunction(api.query.democracy?.votingOf) && delegation?.accountDelegated && createMenuGroup('undelegateGroup', [
       <Menu.Item
         icon='user-edit'
         key='changeDelegate'
@@ -426,7 +426,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       />
     ], t('Undelegate')),
     createMenuGroup('delegateGroup', [
-      isFunction(api.api.query.democracy?.votingOf) && !delegation?.accountDelegated && (
+      isFunction(api.query.democracy?.votingOf) && !delegation?.accountDelegated && (
         <Menu.Item
           icon='user-plus'
           key='delegate'
@@ -434,7 +434,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           onClick={toggleDelegate}
         />
       ),
-      isFunction(api.api.query.proxy?.proxies) && (
+      isFunction(api.query.proxy?.proxies) && (
         <Menu.Item
           icon='sitemap'
           key='proxy-overview'
@@ -446,7 +446,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         />
       )
     ], t('Delegate')),
-    isEditable && !api.isDevelopment && createMenuGroup('genesisGroup', [
+    isEditable && !isDevelopmentApiProps && createMenuGroup('genesisGroup', [
       <ChainLock
         className='accounts--network-toggle'
         genesisHash={genesisHash}
@@ -455,7 +455,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       />
     ])
   ].filter((i) => i),
-  [_clearDemocracyLocks, _clearReferendaLocks, _showOnHardware, _vestingVest, api, delegation, democracyUnlockTx, genesisHash, identity, isDevelopment, isEditable, isEthereum, isExternal, isHardware, isInjected, isMultisig, multiInfos, onSetGenesisHash, proxy, referendaUnlockTx, recoveryInfo, t, toggleBackup, toggleDelegate, toggleDerive, toggleForget, toggleIdentityMain, toggleIdentitySub, toggleMultisig, togglePassword, toggleProxyOverview, toggleRecoverAccount, toggleRecoverSetup, toggleUndelegate, vestingVestTx]);
+  [_clearDemocracyLocks, _clearReferendaLocks, _showOnHardware, _vestingVest, api, apiIdentity.tx.identity, enableIdentity, delegation, democracyUnlockTx, genesisHash, identity, isDevelopment, isDevelopmentApiProps, isEthereumApiProps, isEditable, isEthereum, isExternal, isHardware, isInjected, isMultisig, multiInfos, onSetGenesisHash, proxy, referendaUnlockTx, recoveryInfo, t, toggleBackup, toggleDelegate, toggleDerive, toggleForget, toggleIdentityMain, toggleIdentitySub, toggleMultisig, togglePassword, toggleProxyOverview, toggleRecoverAccount, toggleRecoverSetup, toggleUndelegate, vestingVestTx]);
 
   if (!isVisible) {
     return null;
@@ -660,7 +660,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                 onClick={toggleDelegate}
               />
             )}
-            {proxy && proxy[0].length !== 0 && api.api.tx.utility && (
+            {proxy && proxy[0].length !== 0 && api.tx.utility && (
               <Badge
                 className='information'
                 hover={
@@ -677,7 +677,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         </td>
         <td className='actions button'>
           <Button.Group>
-            {(isFunction(api.api.tx.balances?.transferAllowDeath) || isFunction(api.api.tx.balances?.transfer)) && (
+            {(isFunction(api.tx.balances?.transferAllowDeath) || isFunction(api.tx.balances?.transfer)) && (
               <Button
                 className='send-button'
                 icon='paper-plane'

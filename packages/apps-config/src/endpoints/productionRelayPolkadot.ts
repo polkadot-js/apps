@@ -325,7 +325,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Dwellir: 'wss://hydradx-rpc.dwellir.com',
       'Galactic Council': 'wss://rpc.hydradx.cloud',
-      Helikon: 'wss://rpc.helikon.io/hydradx'
+      Helikon: 'wss://rpc.helikon.io/hydradx',
+      IBP2: 'wss://hydradx.paras.dotters.network'
       // OnFinality: 'wss://hydradx.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9986
       // ZeePrime: 'wss://rpc-lb.data6.zp-labs.net:8443/hydradx/ws/?token=2ZGuGivPJJAxXiT1hR1Yg2MXGjMrhEBYFjgbdPi' // https://github.com/polkadot-js/apps/issues/9760
     },
@@ -520,7 +521,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     },
     text: 'Moonbeam',
     ui: {
-      color: '#53cbc9',
+      color: '#000000',
       logo: nodesMoonbeamSVG
     }
   },
@@ -832,18 +833,20 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
 export const prodParasPolkadotCommon: EndpointOption[] = [
   {
     info: 'PolkadotAssetHub',
+    isPeopleForIdentity: true,
     paraId: 1000,
     providers: {
       Dwellir: 'wss://asset-hub-polkadot-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://statemint-rpc-tn.dwellir.com',
-      'IBP-GeoDNS1': 'wss://sys.ibp.network/statemint',
-      'IBP-GeoDNS2': 'wss://sys.dotters.network/statemint',
+      IBP1: 'wss://sys.ibp.network/statemint',
+      IBP2: 'wss://sys.dotters.network/statemint',
       LuckyFriday: 'wss://rpc-asset-hub-polkadot.luckyfriday.io',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-asset-hub-rpc.polkadot.io',
       RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws',
       Stakeworld: 'wss://dot-rpc.stakeworld.io/assethub'
     },
+    relayName: 'polkadot',
     teleport: [-1],
     text: 'AssetHub',
     ui: {
@@ -853,18 +856,20 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
   },
   {
     info: 'polkadotBridgeHub',
+    isPeopleForIdentity: true,
     paraId: 1002,
     providers: {
       Dwellir: 'wss://polkadot-bridge-hub-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://polkadot-bridge-hub-rpc-tn.dwellir.com',
-      'IBP-GeoDNS1': 'wss://sys.ibp.network/bridgehub-polkadot',
-      'IBP-GeoDNS2': 'wss://sys.dotters.network/bridgehub-polkadot',
+      IBP1: 'wss://sys.ibp.network/bridgehub-polkadot',
+      IBP2: 'wss://sys.dotters.network/bridgehub-polkadot',
       LuckyFriday: 'wss://rpc-bridge-hub-polkadot.luckyfriday.io',
       OnFinality: 'wss://bridgehub-polkadot.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-bridge-hub-rpc.polkadot.io',
       RadiumBlock: 'wss://bridgehub-polkadot.public.curie.radiumblock.co/ws',
       Stakeworld: 'wss://dot-rpc.stakeworld.io/bridgehub'
     },
+    relayName: 'polkadot',
     teleport: [-1],
     text: 'BridgeHub',
     ui: {
@@ -873,18 +878,20 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
   },
   {
     info: 'polkadotCollectives',
+    isPeopleForIdentity: true,
     paraId: 1001,
     providers: {
       Dwellir: 'wss://polkadot-collectives-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://polkadot-collectives-rpc-tn.dwellir.com',
-      'IBP-GeoDNS1': 'wss://sys.ibp.network/collectives-polkadot',
-      'IBP-GeoDNS2': 'wss://sys.dotters.network/collectives-polkadot',
+      IBP1: 'wss://sys.ibp.network/collectives-polkadot',
+      IBP2: 'wss://sys.dotters.network/collectives-polkadot',
       LuckyFriday: 'wss://rpc-collectives-polkadot.luckyfriday.io',
       OnFinality: 'wss://collectives.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-collectives-rpc.polkadot.io',
       RadiumBlock: 'wss://collectives.public.curie.radiumblock.co/ws',
       Stakeworld: 'wss://dot-rpc.stakeworld.io/collectives'
     },
+    relayName: 'polkadot',
     teleport: [-1],
     text: 'Collectives',
     ui: {
@@ -898,6 +905,8 @@ export const prodRelayPolkadot: EndpointOption = {
   dnslink: 'polkadot',
   genesisHash: POLKADOT_GENESIS,
   info: 'polkadot',
+  isPeopleForIdentity: true,
+  isRelay: true,
   linked: [
     ...prodParasPolkadotCommon,
     ...prodParasPolkadot
@@ -909,8 +918,8 @@ export const prodRelayPolkadot: EndpointOption = {
     Blockops: 'wss://polkadot-public-rpc.blockops.network/ws', // https://github.com/polkadot-js/apps/issues/9840
     Dwellir: 'wss://polkadot-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://polkadot-rpc-tn.dwellir.com',
-    'IBP-GeoDNS1': 'wss://rpc.ibp.network/polkadot',
-    'IBP-GeoDNS2': 'wss://rpc.dotters.network/polkadot',
+    IBP1: 'wss://rpc.ibp.network/polkadot',
+    IBP2: 'wss://rpc.dotters.network/polkadot',
     LuckyFriday: 'wss://rpc-polkadot.luckyfriday.io',
     OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
     RadiumBlock: 'wss://polkadot.public.curie.radiumblock.co/ws',

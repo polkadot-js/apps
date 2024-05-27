@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types.js';
 
 import { KUSAMA_GENESIS } from '../api/constants.js';
-import { chainsAbandPNG, chainsAcurastPNG, chainsAltairSVG, chainsAmplitudeSVG, chainsAssethubKusamaSVG, chainsCoretimeKusamaSVG, chainsDorafactoryPNG, chainsGenshiroSVG, chainsGmJPEG, chainsKaruraSVG, chainsKicoPNG, chainsKintsugiPNG, chainsKreivoSVG, chainsKusamaSVG, chainsListenPNG, chainsMangataPNG, chainsQpnPNG, chainsRiodefiPNG, chainsShidenPNG, chainsTinkerPNG, chainsTuringPNG, chainsUnorthodoxPNG } from '../ui/logos/chains/index.js';
+import { chainsAbandPNG, chainsAcurastPNG, chainsAltairSVG, chainsAmplitudeSVG, chainsAssethubKusamaSVG, chainsCoretimeKusamaSVG, chainsDorafactoryPNG, chainsGenshiroSVG, chainsGmJPEG, chainsKaruraSVG, chainsKicoPNG, chainsKintsugiPNG, chainsKreivoSVG, chainsKusamaSVG, chainsListenPNG, chainsMangataPNG, chainsPeopleKusamaSVG, chainsQpnPNG, chainsRiodefiPNG, chainsShidenPNG, chainsTinkerPNG, chainsTuringPNG, chainsUnorthodoxPNG } from '../ui/logos/chains/index.js';
 import { nodesApronPNG, nodesAresMarsPNG, nodesBajunPNG, nodesBasiliskPNG, nodesBifrostSVG, nodesBitcountryPNG, nodesBridgeHubBlackSVG, nodesCalamariPNG, nodesCrabSVG, nodesCurioSVG, nodesDatahighwayPNG, nodesEncointerBlueSVG, nodesHyperbridgeSVG, nodesImbuePNG, nodesIntegriteeSVG, nodesIpciSVG, nodesKabochaSVG, nodesKhalaSVG, nodesKlaosPNG, nodesKrestPNG, nodesLitmusPNG, nodesLoomNetworkPNG, nodesMoonriverSVG, nodesParallelSVG, nodesPicassoPNG, nodesPichiuPNG, nodesPolkasmithSVG, nodesQuartzPNG, nodesRobonomicsSVG, nodesSakuraSVG, nodesShadowSVG, nodesSnowPNG, nodesSoraSubstrateSVG, nodesSubgameSVG, nodesSubsocialXSVG, nodesT1rnPNG, nodesTrustbasePNG, nodesXodePNG, nodesYerbanetworkPNG, nodesZeroSVG } from '../ui/logos/nodes/index.js';
 import { getTeleports } from './util.js';
 
@@ -540,7 +540,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     },
     text: 'Moonriver',
     ui: {
-      color: '#171e43',
+      color: '#06353d',
       logo: nodesMoonriverSVG
     }
   },
@@ -905,18 +905,20 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
 export const prodParasKusamaCommon: EndpointOption[] = [
   {
     info: 'KusamaAssetHub',
+    isPeopleForIdentity: true,
     paraId: 1000,
     providers: {
       Dwellir: 'wss://asset-hub-kusama-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://statemine-rpc-tn.dwellir.com',
-      'IBP-GeoDNS1': 'wss://sys.ibp.network/statemine',
-      'IBP-GeoDNS2': 'wss://sys.dotters.network/statemine',
+      IBP1: 'wss://sys.ibp.network/statemine',
+      IBP2: 'wss://sys.dotters.network/statemine',
       LuckyFriday: 'wss://rpc-asset-hub-kusama.luckyfriday.io',
       // OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
       Parity: 'wss://kusama-asset-hub-rpc.polkadot.io',
       RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws',
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/assethub'
     },
+    relayName: 'kusama',
     teleport: [-1],
     text: 'AssetHub',
     ui: {
@@ -926,18 +928,20 @@ export const prodParasKusamaCommon: EndpointOption[] = [
   },
   {
     info: 'kusamaBridgeHub',
+    isPeopleForIdentity: true,
     paraId: 1002,
     providers: {
       Dwellir: 'wss://kusama-bridge-hub-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://kusama-bridge-hub-rpc-tn.dwellir.com',
-      'IBP-GeoDNS1': 'wss://sys.ibp.network/bridgehub-kusama',
-      'IBP-GeoDNS2': 'wss://sys.dotters.network/bridgehub-kusama',
+      IBP1: 'wss://sys.ibp.network/bridgehub-kusama',
+      IBP2: 'wss://sys.dotters.network/bridgehub-kusama',
       LuckyFriday: 'wss://rpc-bridge-hub-kusama.luckyfriday.io',
       // OnFinality: 'wss://bridgehub-kusama.api.onfinality.io/public-ws',
       Parity: 'wss://kusama-bridge-hub-rpc.polkadot.io',
       RadiumBlock: 'wss://bridgehub-kusama.public.curie.radiumblock.co/ws',
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/bridgehub'
     },
+    relayName: 'kusama',
     teleport: [-1],
     text: 'BridgeHub',
     ui: {
@@ -946,13 +950,15 @@ export const prodParasKusamaCommon: EndpointOption[] = [
   },
   {
     info: 'kusamaCoretime',
+    isPeopleForIdentity: true,
     paraId: 1005,
     providers: {
-      'IBP-GeoDNS1': 'wss://sys.ibp.network/coretime-kusama',
-      'IBP-GeoDNS2': 'wss://sys.dotters.network/coretime-kusama',
+      IBP1: 'wss://sys.ibp.network/coretime-kusama',
+      IBP2: 'wss://sys.dotters.network/coretime-kusama',
       Parity: 'wss://kusama-coretime-rpc.polkadot.io',
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/coretime'
     },
+    relayName: 'kusama',
     teleport: [-1],
     text: 'Coretime',
     ui: {
@@ -962,15 +968,17 @@ export const prodParasKusamaCommon: EndpointOption[] = [
   {
     homepage: 'https://encointer.org/',
     info: 'encointer',
+    isPeopleForIdentity: true,
     paraId: 1001,
     providers: {
       Dwellir: 'wss://encointer-kusama-rpc.dwellir.com',
       'Encointer Association': 'wss://kusama.api.encointer.org',
-      'IBP-GeoDNS1': 'wss://sys.ibp.network/encointer-kusama',
-      'IBP-GeoDNS2': 'wss://sys.dotters.network/encointer-kusama'
+      IBP1: 'wss://sys.ibp.network/encointer-kusama',
+      IBP2: 'wss://sys.dotters.network/encointer-kusama'
       // OnFinality: 'wss://encointer.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9986
       // Stakeworld: 'wss://ksm-rpc.stakeworld.io/encointer'
     },
+    relayName: 'kusama',
     teleport: [-1],
     text: 'Encointer Network',
     ui: {
@@ -980,14 +988,20 @@ export const prodParasKusamaCommon: EndpointOption[] = [
   },
   {
     info: 'kusamaPeople',
+    isPeople: true,
+    isPeopleForIdentity: false,
     paraId: 1004,
     providers: {
       Parity: 'wss://kusama-people-rpc.polkadot.io',
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/people'
     },
+    relayName: 'kusama',
     teleport: [-1],
     text: 'People',
-    ui: {}
+    ui: {
+      color: '#36454F',
+      logo: chainsPeopleKusamaSVG
+    }
   }
 ];
 
@@ -995,6 +1009,8 @@ export const prodRelayKusama: EndpointOption = {
   dnslink: 'kusama',
   genesisHash: KUSAMA_GENESIS,
   info: 'kusama',
+  isPeopleForIdentity: true,
+  isRelay: true,
   linked: [
     ...prodParasKusamaCommon,
     ...prodParasKusama
@@ -1006,8 +1022,8 @@ export const prodRelayKusama: EndpointOption = {
     Blockops: 'wss://kusama-public-rpc.blockops.network/ws', // https://github.com/polkadot-js/apps/issues/9840
     Dwellir: 'wss://kusama-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://kusama-rpc-tn.dwellir.com',
-    'IBP-GeoDNS1': 'wss://rpc.ibp.network/kusama',
-    'IBP-GeoDNS2': 'wss://rpc.dotters.network/kusama',
+    IBP1: 'wss://rpc.ibp.network/kusama',
+    IBP2: 'wss://rpc.dotters.network/kusama',
     LuckyFriday: 'wss://rpc-kusama.luckyfriday.io',
     OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
     RadiumBlock: 'wss://kusama.public.curie.radiumblock.co/ws',
