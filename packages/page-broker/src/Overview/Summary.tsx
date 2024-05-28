@@ -3,15 +3,22 @@
 
 import React from 'react';
 
-import { CardSummary, SummaryBox } from '@polkadot/react-components';
+import { CardSummary, SummaryBox, UsageBar } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
+import type { CoreWorkloadInfo } from '@polkadot/react-hooks/types';
 
 import { useTranslation } from '../translate.js';
 import Cores from './Cores.js';
 import Pools from './Pools.js';
 import Timeslice from './Timeslice.js';
+import { LinkOption } from '@polkadot/apps-config/endpoints/types';
 
-function Summary (): React.ReactElement {
+interface Props {
+  apiEndpoint?: LinkOption | null;
+  workloadInfos?: CoreWorkloadInfo[] | CoreWorkloadInfo
+}
+
+function Summary({ apiEndpoint, workloadInfos }: Props): React.ReactElement {
   const { t } = useTranslation();
   const { api } = useApi();
 
@@ -32,6 +39,9 @@ function Summary (): React.ReactElement {
           </>
 
         )}
+        <UsageBar
+          info={workloadInfos}
+          apiEndpoint={apiEndpoint}></UsageBar>
       </section>
     </SummaryBox>
   );

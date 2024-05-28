@@ -4,6 +4,7 @@
 import type { CoreDescription, CoreWorkloadInfo, CoreWorkplanInfo } from '@polkadot/react-hooks/types';
 
 import React, { useEffect, useMemo, useState } from 'react';
+import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 
 import { Button, Columar, Dropdown } from '@polkadot/react-components';
 
@@ -17,9 +18,10 @@ interface Props {
   workloadInfos?: CoreWorkloadInfo[];
   workplanInfos?: CoreWorkplanInfo[];
   coreInfos?: CoreDescription[];
+  apiEndpoint?: LinkOption | null;
 }
 
-function uniqByForEach (array: CoreWorkplanInfo[] | undefined) {
+function uniqByForEach(array: CoreWorkplanInfo[] | undefined) {
   const workplanCores: number[] = [];
   const workplanTS: number[] = [];
 
@@ -40,11 +42,10 @@ function uniqByForEach (array: CoreWorkplanInfo[] | undefined) {
   }
 }
 
-function Overview ({ className, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
+function Overview({ className, workloadInfos, workplanInfos, apiEndpoint }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [workloadCoreSelected, setWorkloadCoreSelected] = useState(-1);
   const [workplanCoreSelected, setWorkplanCoreSelected] = useState(-1);
-  const [workplanSliceSelected, setWorkplanSliceSelected] = useState(-1);
   const [coreArr, setCoreArr] = useState<number[]>([]);
 
   useEffect(() => {
@@ -82,10 +83,10 @@ function Overview ({ className, workloadInfos, workplanInfos }: Props): React.Re
     () => [{ text: t('All scehduled cores'), value: -1 }].concat(
       workplanCores
         .map((c) =>
-          ({
-            text: `Core ${c}`,
-            value: c
-          })
+        ({
+          text: `Core ${c}`,
+          value: c
+        })
         )
         .filter((v): v is { text: string, value: number } => !!v.text)
     ),
@@ -94,35 +95,19 @@ function Overview ({ className, workloadInfos, workplanInfos }: Props): React.Re
 
   const filteredWorkplan = useMemo(
     () => {
-      if (workplanCoreSelected === workplanSliceSelected) {
+      if (workplanCoreSelected === -1) {
         return workplanInfos;
-      } else if (workplanCoreSelected === -1) {
-        return workplanInfos?.filter(({ timeslice }) => timeslice === workplanSliceSelected);
-      } else if (workplanSliceSelected === -1) {
-        return workplanInfos?.filter(({ core }) => core === workplanCoreSelected);
       } else {
-        return workplanInfos?.filter(({ core, timeslice }) => core === workplanCoreSelected && timeslice === workplanSliceSelected);
+        return workplanInfos?.filter(({ core }) => core === workplanCoreSelected);
       }
     }
     ,
-    [workplanInfos, workplanCoreSelected, workplanSliceSelected]
-  );
-
-  const workplanTSOpts = useMemo(
-    () => [{ text: t('All available slices'), value: -1 }].concat(
-      workplanTS
-        .map((ts) => ({
-          text: `Timeslice ${ts}`,
-          value: ts
-        }))
-        .filter((v): v is { text: string, value: number } => !!v.text)
-    ),
-    [workplanTS, t]
+    [workplanInfos, workplanCoreSelected]
   );
 
   return (
     <div className={className}>
-      <Summary></Summary>
+      <Summary apiEndpoint={apiEndpoint} workloadInfos={workloadInfos}></Summary>
       <Button.Group>
         <Dropdown
           className='start media--800'
@@ -137,13 +122,6 @@ function Overview ({ className, workloadInfos, workplanInfos }: Props): React.Re
           onChange={setWorkplanCoreSelected}
           options={workplanCoreOpts}
           value={workplanCoreSelected}
-        />
-        <Dropdown
-          className='start media--1600'
-          label={t('selected timeslice')}
-          onChange={setWorkplanSliceSelected}
-          options={workplanTSOpts}
-          value={workplanSliceSelected}
         />
       </Button.Group>
       <Columar>

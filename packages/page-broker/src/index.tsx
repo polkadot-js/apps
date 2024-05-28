@@ -29,7 +29,7 @@ function createItemsRef (t: (key: string, options?: { replace: Record<string, un
 function BrokerApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const itemsRef = useRef(createItemsRef(t));
-  const { api, isApiReady } = useApi();
+  const { api, apiEndpoint, isApiReady } = useApi();
   const workloadInfos = useWorkloadInfos(api, isApiReady);
   const workplanInfos = useWorkplanInfos(api, isApiReady);
 
@@ -42,6 +42,7 @@ function BrokerApp ({ basePath, className }: Props): React.ReactElement<Props> {
       <Overview
         workloadInfos={workloadInfos}
         workplanInfos={workplanInfos}
+        apiEndpoint={apiEndpoint}
       />
     </main>
   );
