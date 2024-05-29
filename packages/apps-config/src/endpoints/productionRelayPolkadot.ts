@@ -212,6 +212,18 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://crust.network',
+    info: 'crustParachain2',
+    paraId: 3375,
+    providers: {
+      Crust: 'wss://crust-parachain.crustapps.net'
+    },
+    text: 'Crust 2',
+    ui: {
+      logo: nodesCrustParachainSVG
+    }
+  },
+  {
     homepage: 'https://darwinia.network/',
     info: 'darwinia',
     paraId: 2046,
