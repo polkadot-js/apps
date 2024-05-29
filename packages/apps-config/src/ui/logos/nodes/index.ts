@@ -110,7 +110,6 @@ export { nodesOpalLogoPNG } from './generated/opal-logoPNG.js';
 export { nodesOpportunityPNG } from './generated/opportunityPNG.js';
 export { nodesOzPNG } from './generated/ozPNG.js';
 export { nodesPangolinSVG } from './generated/pangolinSVG.js';
-export { nodesPangoroSVG } from './generated/pangoroSVG.js';
 export { nodesParallelSVG } from './generated/parallelSVG.js';
 export { nodesParamiJPEG } from './generated/paramiJPEG.js';
 export { nodesPeerplaysPNG } from './generated/peerplaysPNG.js';
