@@ -90,7 +90,6 @@ import oak from './oak.js';
 import opal from './opal.js';
 import opportunity from './opportunity.js';
 import pangolin from './pangolin.js';
-import pangoro from './pangoro.js';
 import parallel from './parallel.js';
 import parami from './parami.js';
 import peaq from './peaq.js';
@@ -150,7 +149,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   Equilibrium: equilibrium,
   Genshiro: genshiro,
   Pangolin: pangolin,
-  Pangoro: pangoro,
   VLN: vln,
   'VLN-PC': vlnrococo,
   ...acala,
