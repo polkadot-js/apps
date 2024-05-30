@@ -992,6 +992,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     isPeopleForIdentity: false,
     paraId: 1004,
     providers: {
+      IBP1: 'wss://sys.ibp.network/people-kusama',
+      IBP2: 'wss://sys.dotters.network/people-kusama',
       Parity: 'wss://kusama-people-rpc.polkadot.io',
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/people'
     },
