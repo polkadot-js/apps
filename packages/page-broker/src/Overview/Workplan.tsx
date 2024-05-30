@@ -5,7 +5,7 @@ import type { CoreWorkplanInfo } from '@polkadot/react-hooks/types';
 
 import React from 'react';
 
-import { MaskCoverage, Table } from '@polkadot/react-components';
+import { Columar } from '@polkadot/react-components';
 
 import { hexToBin } from '../utils.js';
 
@@ -14,7 +14,7 @@ interface Props {
   value: CoreWorkplanInfo;
 }
 
-function Workload ({ className, value: { core, info, timeslice } }: Props): React.ReactElement<Props> {
+function Workload ({ value: { info, timeslice } }: Props): React.ReactElement<Props> {
   const trimmedHex: string = info[0].mask.toHex().slice(2);
   const arr: string[] = trimmedHex.split('');
 
@@ -24,15 +24,28 @@ function Workload ({ className, value: { core, info, timeslice } }: Props): Reac
     hexToBin(bit).split('').forEach((v) => buffArr.push(v));
   });
 
+  buffArr.filter((v) => v === '1');
+
   const sanitizedAssignment = info[0].assignment.isTask ? info[0].assignment.asTask : info[0].assignment;
 
   return (
-    <tr className={className}>
-      <Table.Column.Id value={Number(core)} />
-      <td><MaskCoverage values={buffArr} /></td>
-      <td className='start media--1600'>{sanitizedAssignment.toString()}</td>
-      <td className='start media--1900'>{timeslice.toString()}</td>
-    </tr>
+    <Columar>
+      <td>
+        <Columar.Column>
+          <h5>{'Assignment'}</h5>
+          {sanitizedAssignment.toString()}
+        </Columar.Column>
+      </td>
+      <td><Columar.Column>
+        <h5>{'Mask'}</h5>
+        {`${buffArr.length / 80 * 100}%`}
+      </Columar.Column>
+      </td>
+      <td><Columar.Column>
+        <h5>{'Timeslice'}</h5>
+        {timeslice.toString()}
+      </Columar.Column>
+      </td></Columar>
   );
 }
 

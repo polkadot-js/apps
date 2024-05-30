@@ -40,9 +40,10 @@ function BrokerApp ({ basePath, className }: Props): React.ReactElement<Props> {
         items={itemsRef.current}
       />
       <Overview
+        api={api}
+        apiEndpoint={apiEndpoint}
         workloadInfos={workloadInfos}
         workplanInfos={workplanInfos}
-        apiEndpoint={apiEndpoint}
       />
     </main>
   );

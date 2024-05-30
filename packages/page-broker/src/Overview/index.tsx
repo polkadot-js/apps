@@ -1,27 +1,28 @@
 // Copyright 2017-2024 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
+import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { CoreDescription, CoreWorkloadInfo, CoreWorkplanInfo } from '@polkadot/react-hooks/types';
 
 import React, { useEffect, useMemo, useState } from 'react';
-import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 
-import { Button, Columar, Dropdown } from '@polkadot/react-components';
+import { Button, Dropdown } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate.js';
+import CoresTable from './CoresTables.js';
 import Summary from './Summary.js';
-import Workloads from './Workloads.js';
-import Workplans from './Workplans.js';
 
 interface Props {
   className?: string;
+  api?: ApiPromise
   workloadInfos?: CoreWorkloadInfo[];
   workplanInfos?: CoreWorkplanInfo[];
   coreInfos?: CoreDescription[];
   apiEndpoint?: LinkOption | null;
 }
 
-function uniqByForEach(array: CoreWorkplanInfo[] | undefined) {
+function uniqByForEach (array: CoreWorkplanInfo[] | undefined) {
   const workplanCores: number[] = [];
   const workplanTS: number[] = [];
 
@@ -42,7 +43,7 @@ function uniqByForEach(array: CoreWorkplanInfo[] | undefined) {
   }
 }
 
-function Overview({ className, workloadInfos, workplanInfos, apiEndpoint }: Props): React.ReactElement<Props> {
+function Overview ({ api, apiEndpoint, className, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [workloadCoreSelected, setWorkloadCoreSelected] = useState(-1);
   const [workplanCoreSelected, setWorkplanCoreSelected] = useState(-1);
@@ -83,10 +84,10 @@ function Overview({ className, workloadInfos, workplanInfos, apiEndpoint }: Prop
     () => [{ text: t('All scehduled cores'), value: -1 }].concat(
       workplanCores
         .map((c) =>
-        ({
-          text: `Core ${c}`,
-          value: c
-        })
+          ({
+            text: `Core ${c}`,
+            value: c
+          })
         )
         .filter((v): v is { text: string, value: number } => !!v.text)
     ),
@@ -107,7 +108,10 @@ function Overview({ className, workloadInfos, workplanInfos, apiEndpoint }: Prop
 
   return (
     <div className={className}>
-      <Summary apiEndpoint={apiEndpoint} workloadInfos={workloadInfos}></Summary>
+      <Summary
+        apiEndpoint={apiEndpoint}
+        workloadInfos={workloadInfos}
+      ></Summary>
       <Button.Group>
         <Dropdown
           className='start media--800'
@@ -124,18 +128,11 @@ function Overview({ className, workloadInfos, workplanInfos, apiEndpoint }: Prop
           value={workplanCoreSelected}
         />
       </Button.Group>
-      <Columar>
-        <Columar.Column>
-          <Workloads
-            workloadInfos={filteredWLC}
-          />
-        </Columar.Column>
-        <Columar.Column>
-          <Workplans
-            filteredWorkplan={filteredWorkplan}
-          />
-        </Columar.Column>
-      </Columar>
+      <CoresTable
+        api={api}
+        workloadInfos={filteredWLC}
+        workplanInfos={filteredWorkplan}
+      />
     </div>
   );
 }

@@ -3,50 +3,24 @@
 
 import type { CoreWorkloadInfo } from '@polkadot/react-hooks/types';
 
-import React, { useRef } from 'react';
+import React from 'react';
 
-import { Table } from '@polkadot/react-components';
-
-import { useTranslation } from '../translate.js';
 import Workload from './Workload.js';
 
 interface Props {
-  className?: string;
-  workloadInfos?: CoreWorkloadInfo[] | CoreWorkloadInfo;
+  workloadInfos?: CoreWorkloadInfo[];
 }
 
-function Workloads ({ className, workloadInfos }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
-  let sanitized: CoreWorkloadInfo[] = [];
-
-  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('workload'), 'start', 1],
-    [t('mask'), 'start media--1300'],
-    [t('assignment'), 'start media--1600']
-  ]);
-
-  if (Array.isArray(workloadInfos)) {
-    sanitized = workloadInfos;
-  } else if (workloadInfos) {
-    sanitized.push(workloadInfos);
-  }
-
-  sanitized?.sort((a, b) => a.core - b.core);
-
+function Workloads ({ workloadInfos }: Props): React.ReactElement<Props> {
   return (
-    <Table
-      className={className}
-      empty={workloadInfos && t('No workload found')}
-      header={headerRef.current}
-    >
-
-      {sanitized?.map((v) => (
+    <>
+      {workloadInfos?.map((v) => (
         <Workload
           key={v.core}
           value={v}
         />
       ))}
-    </Table>
+    </>
   );
 }
 

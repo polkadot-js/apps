@@ -8,7 +8,7 @@ import type { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/ap
 import type { DisplayedJudgement } from '@polkadot/react-components/types';
 import type { Option, u32, u128, Vec } from '@polkadot/types';
 import type { AccountId, BlockNumber, Call, Hash, SessionIndex, ValidatorPrefs } from '@polkadot/types/interfaces';
-import type { PalletPreimageRequestStatus, PalletStakingRewardDestination, PalletStakingStakingLedger, SpStakingExposurePage, SpStakingPagedExposureMetadata } from '@polkadot/types/lookup';
+import type { PalletBrokerScheduleItem, PalletPreimageRequestStatus, PalletStakingRewardDestination, PalletStakingStakingLedger, PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor, SpStakingExposurePage, SpStakingPagedExposureMetadata } from '@polkadot/types/lookup';
 import type { ICompact, IExtrinsic, INumber, Registry } from '@polkadot/types/types';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { BN } from '@polkadot/util';
@@ -19,7 +19,7 @@ export type CallParam = any;
 
 export type CallParams = [] | CallParam[];
 
-export interface CallOptions <T> {
+export interface CallOptions<T> {
   defaultValue?: T;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   paramMap?: (params: any) => CallParams;
