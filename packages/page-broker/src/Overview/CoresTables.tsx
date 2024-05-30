@@ -1,33 +1,21 @@
 // Copyright 2017-2024 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiPromise } from '@polkadot/api';
 import type { CoreWorkloadInfo, CoreWorkplanInfo } from '@polkadot/react-hooks/types';
-import type { PalletBrokerStatusRecord } from '@polkadot/types/lookup';
 
 import React from 'react';
-
-import { useCall } from '@polkadot/react-hooks';
 
 import CoreTable from './CoreTable.js';
 
 interface Props {
-  api?: ApiPromise;
+  cores?: number;
   workloadInfos?: CoreWorkloadInfo[] | CoreWorkloadInfo;
   workplanInfos?: CoreWorkplanInfo[] | CoreWorkplanInfo;
 }
 
-function CoresTable ({ api, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
-  const query = useCall<PalletBrokerStatusRecord>(api?.query.broker?.status);
-  const cores = query ? query.toJSON().coreCount : 0;
+function CoresTable({ cores, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
 
-  console.log('core', cores);
   const coreArr = [];
-
-  for (let core = 0; core < Number(cores); core++) {
-    console.log('core', core);
-    coreArr.push(core);
-  }
 
   let sanitizedWorkloadInfos: CoreWorkloadInfo[] = [];
   let sanitizedWorkplanInfos: CoreWorkplanInfo[] = [];
@@ -47,6 +35,16 @@ function CoresTable ({ api, workloadInfos, workplanInfos }: Props): React.ReactE
   sanitizedWorkloadInfos?.sort((a, b) => a.core - b.core);
   sanitizedWorkplanInfos?.sort((a, b) => a.core - b.core);
 
+  if (cores === -1) {
+    for (let core = 0; core < sanitizedWorkloadInfos?.length; core++) {
+      console.log('core', core);
+      coreArr.push(core);
+    }
+  } else if (cores) {
+    coreArr.push(cores)
+  }
+
+
   const list: [number, CoreWorkloadInfo[], CoreWorkplanInfo[]][] = [];
 
   coreArr.forEach((c) => {
@@ -57,14 +55,14 @@ function CoresTable ({ api, workloadInfos, workplanInfos }: Props): React.ReactE
     <>
       {
         list.map((c) =>
-          (
-            <CoreTable
-              core={c[0]}
-              key={c[0]}
-              workload={c[1]}
-              workplan={c[2]}
-            />
-          )
+        (
+          <CoreTable
+            core={c[0]}
+            key={c[0]}
+            workload={c[1]}
+            workplan={c[2]}
+          />
+        )
         )
       }
     </>
