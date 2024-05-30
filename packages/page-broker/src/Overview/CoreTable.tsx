@@ -25,7 +25,6 @@ function CoreTable ({ core, workload, workplan }: Props): React.ReactElement<Pro
     [],
     []
   ]);
-  console.log('wp core', core, workplan)
 
   return (
     <Table

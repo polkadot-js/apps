@@ -1,7 +1,7 @@
 // Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { OnDemandQueueStatus, CoreDescription } from '@polkadot/react-hooks/types';
+import type { CoreDescription, OnDemandQueueStatus } from '@polkadot/react-hooks/types';
 
 import React from 'react';
 
@@ -16,7 +16,7 @@ interface Props {
   coreDscriptors?: CoreDescription[];
 }
 
-function Summary({ coreDscriptors }: Props): React.ReactElement<Props> {
+function Summary ({ coreDscriptors }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, apiEndpoint } = useApi();
   const queueStatus: OnDemandQueueStatus | undefined = useQueueStatus();
@@ -29,7 +29,7 @@ function Summary({ coreDscriptors }: Props): React.ReactElement<Props> {
             <CardSummary label={t('broker Id')}>
               <BrokerId />
             </CardSummary>
-            <CardSummary label={t('traffic')}>
+            <CardSummary label={t('traffic multiplier')}>
               <QueueStatus
                 query={'traffic'}
                 value={queueStatus}

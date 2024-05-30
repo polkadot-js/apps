@@ -20,7 +20,7 @@ interface Props {
   apiEndpoint?: LinkOption | null;
 }
 
-function Overview({ apiEndpoint, className, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
+function Overview ({ apiEndpoint, className, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [workloadCoreSelected, setWorkloadCoreSelected] = useState(-1);
   const [coreArr, setCoreArr] = useState<number[]>([]);
@@ -63,6 +63,7 @@ function Overview({ apiEndpoint, className, workloadInfos, workplanInfos }: Prop
     ,
     [workplanInfos, workloadCoreSelected]
   );
+
   return (
     <div className={className}>
       <Summary

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
-import type { CoreWorkloadInfo, CoreDescription } from '@polkadot/react-hooks/types';
+import type { CoreDescription, CoreWorkloadInfo } from '@polkadot/react-hooks/types';
 import type { PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor } from '@polkadot/types/lookup';
 
 import React from 'react';
@@ -13,7 +13,7 @@ interface Props {
   coreDescriptors?: CoreDescription[];
 }
 
-function UsageBar({ apiEndpoint, info, coreDescriptors }: Props): React.ReactElement<Props> {
+function UsageBar ({ apiEndpoint, coreDescriptors, info }: Props): React.ReactElement<Props> {
   const color = apiEndpoint?.ui.color ? apiEndpoint?.ui.color : '#f19135';
   const radius = 50;
   const strokeWidth = 15;
@@ -26,30 +26,31 @@ function UsageBar({ apiEndpoint, info, coreDescriptors }: Props): React.ReactEle
   if (coreDescriptors) {
     coreDescriptors.map((description) => {
       let sanitized: PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor[] = [];
+
       if (Array.isArray(description.info)) {
         sanitized = description.info;
       } else if (description.info) {
         sanitized.push(description.info);
       }
-      console.log(description.info)
+
+      console.log(description.info);
       sanitized.map((i) => {
-        let info = i.currentWork.unwrapOr(undefined);
+        const info = i.currentWork.unwrapOr(undefined);
+
         if (info) {
           info.assignments.forEach((_, index) => {
             if (info.assignments[index][0].isIdle) {
-              idles++
+              idles++;
             } else if (info.assignments[index][0].isPool) {
-              pools++
+              pools++;
             } else {
-              tasks++
+              tasks++;
             }
-          })
+          });
         }
-      })
-    })
-
+      });
+    });
   } else {
-
     let sanitized: CoreWorkloadInfo[] = [];
 
     if (Array.isArray(info)) {

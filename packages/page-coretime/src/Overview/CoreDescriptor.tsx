@@ -6,7 +6,7 @@ import type { PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor } from '@p
 
 import React from 'react';
 
-import { Table } from '@polkadot/react-components';
+import { Columar, Table } from '@polkadot/react-components';
 
 import CoreQueue from './CoreQueue.js';
 import CurrentWork from './CurrentWork.js';
