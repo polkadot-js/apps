@@ -1,20 +1,24 @@
 // Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { OnDemandQueueStatus } from '@polkadot/react-hooks/types';
+import type { OnDemandQueueStatus, CoreDescription } from '@polkadot/react-hooks/types';
 
 import React from 'react';
 
-import { CardSummary, SummaryBox } from '@polkadot/react-components';
+import { CardSummary, SummaryBox, UsageBar } from '@polkadot/react-components';
 import { useApi, useQueueStatus } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
 import BrokerId from './BrokerId.js';
 import QueueStatus from './QueueStatus.js';
 
-function Summary (): React.ReactElement {
+interface Props {
+  coreDscriptors?: CoreDescription[];
+}
+
+function Summary({ coreDscriptors }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
+  const { api, apiEndpoint } = useApi();
   const queueStatus: OnDemandQueueStatus | undefined = useQueueStatus();
 
   return (
@@ -40,6 +44,10 @@ function Summary (): React.ReactElement {
           </>
 
         )}
+        <UsageBar
+          apiEndpoint={apiEndpoint}
+          coreDescriptors={coreDscriptors}
+        />
       </section>
     </SummaryBox>
   );

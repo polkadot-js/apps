@@ -2,42 +2,72 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
-import type { CoreWorkloadInfo } from '@polkadot/react-hooks/types';
+import type { CoreWorkloadInfo, CoreDescription } from '@polkadot/react-hooks/types';
+import type { PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor } from '@polkadot/types/lookup';
 
 import React from 'react';
 
 interface Props {
   info?: CoreWorkloadInfo[] | CoreWorkloadInfo;
   apiEndpoint?: LinkOption | null;
+  coreDescriptors?: CoreDescription[];
 }
 
-function UsageBar ({ apiEndpoint, info }: Props): React.ReactElement<Props> {
+function UsageBar({ apiEndpoint, info, coreDescriptors }: Props): React.ReactElement<Props> {
   const color = apiEndpoint?.ui.color ? apiEndpoint?.ui.color : '#f19135';
   const radius = 50;
   const strokeWidth = 15;
   const circumference = 2 * Math.PI * radius;
 
-  let sanitized: CoreWorkloadInfo[] = [];
-
-  if (Array.isArray(info)) {
-    sanitized = info;
-  } else if (info) {
-    sanitized.push(info);
-  }
-
   let tasks = 0;
   let idles = 0;
   let pools = 0;
 
-  sanitized?.forEach((v) => {
-    if (v.info[0].assignment.isTask) {
-      ++tasks;
-    } else if (v.info[0].assignment.isPool) {
-      ++pools;
-    } else {
-      ++idles;
+  if (coreDescriptors) {
+    coreDescriptors.map((description) => {
+      let sanitized: PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor[] = [];
+      if (Array.isArray(description.info)) {
+        sanitized = description.info;
+      } else if (description.info) {
+        sanitized.push(description.info);
+      }
+      console.log(description.info)
+      sanitized.map((i) => {
+        let info = i.currentWork.unwrapOr(undefined);
+        if (info) {
+          info.assignments.forEach((_, index) => {
+            if (info.assignments[index][0].isIdle) {
+              idles++
+            } else if (info.assignments[index][0].isPool) {
+              pools++
+            } else {
+              tasks++
+            }
+          })
+        }
+      })
+    })
+
+  } else {
+
+    let sanitized: CoreWorkloadInfo[] = [];
+
+    if (Array.isArray(info)) {
+      sanitized = info;
+    } else if (info) {
+      sanitized.push(info);
     }
-  });
+
+    sanitized?.forEach((v) => {
+      if (v.info[0].assignment.isTask) {
+        ++tasks;
+      } else if (v.info[0].assignment.isPool) {
+        ++pools;
+      } else {
+        ++idles;
+      }
+    });
+  }
 
   const total = tasks + idles + pools;
   const taskPerc = (tasks / total) * 100;

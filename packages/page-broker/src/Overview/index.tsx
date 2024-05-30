@@ -20,10 +20,9 @@ interface Props {
   apiEndpoint?: LinkOption | null;
 }
 
-function Overview ({ apiEndpoint, className, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
+function Overview({ apiEndpoint, className, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [workloadCoreSelected, setWorkloadCoreSelected] = useState(-1);
-  let workplanCoreSelected = -1;
   const [coreArr, setCoreArr] = useState<number[]>([]);
 
   useEffect(() => {
@@ -48,24 +47,22 @@ function Overview ({ apiEndpoint, className, workloadInfos, workplanInfos }: Pro
   );
   const filteredWLC = useMemo(
     () => {
-      workplanCoreSelected = workloadCoreSelected
       return workloadCoreSelected === -1 ? workloadInfos : workloadInfos?.filter(({ core }) => core === workloadCoreSelected);
     },
-    [workloadInfos, workloadCoreSelected, workplanCoreSelected]
+    [workloadInfos, workloadCoreSelected]
   );
 
   const filteredWorkplan = useMemo(
     () => {
-      if (workplanCoreSelected === -1) {
+      if (workloadCoreSelected === -1) {
         return workplanInfos;
       } else {
-        return workplanInfos?.filter(({ core }) => core === workplanCoreSelected);
+        return workplanInfos?.filter(({ core }) => core === workloadCoreSelected);
       }
     }
     ,
-    [workplanInfos, workplanCoreSelected]
+    [workplanInfos, workloadCoreSelected]
   );
-
   return (
     <div className={className}>
       <Summary

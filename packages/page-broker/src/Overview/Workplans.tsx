@@ -12,7 +12,7 @@ interface Props {
   workplanInfos?: CoreWorkplanInfo[] | CoreWorkplanInfo;
 }
 
-function Workplans ({ workplanInfos }: Props): React.ReactElement<Props> {
+function Workplans({ workplanInfos }: Props): React.ReactElement<Props> {
   let sanitized: CoreWorkplanInfo[] = [];
 
   if (Array.isArray(workplanInfos)) {
@@ -21,16 +21,18 @@ function Workplans ({ workplanInfos }: Props): React.ReactElement<Props> {
     sanitized.push(workplanInfos);
   }
 
+  console.log('core', sanitized)
+
   sanitized?.sort((a, b) => a.core - b.core);
 
   return (
     <>
       {sanitized?.map((workplanInfo) => (
-        <Workplan
-          key={workplanInfo.core}
-          value={workplanInfo}
-        />
-      ))}
+          <Workplan
+            key={workplanInfo.core}
+            value={workplanInfo}
+          />
+        ))}
     </>
   );
 }

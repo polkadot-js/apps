@@ -18,7 +18,8 @@ interface Props {
 function Overview ({ className, coreInfos }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
-      <Summary></Summary>
+      <Summary
+      coreDscriptors={coreInfos}></Summary>
       <Columar>
         <Columar.Column>
           <CoreDescriptors coreInfos={coreInfos} />

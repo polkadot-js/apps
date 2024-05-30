@@ -13,8 +13,7 @@ interface Props {
   workplanInfos?: CoreWorkplanInfo[] | CoreWorkplanInfo;
 }
 
-function CoresTable({ cores, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
-
+function CoresTable ({ cores, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
   const coreArr = [];
 
   let sanitizedWorkloadInfos: CoreWorkloadInfo[] = [];
@@ -37,13 +36,11 @@ function CoresTable({ cores, workloadInfos, workplanInfos }: Props): React.React
 
   if (cores === -1) {
     for (let core = 0; core < sanitizedWorkloadInfos?.length; core++) {
-      console.log('core', core);
       coreArr.push(core);
     }
-  } else if (cores) {
-    coreArr.push(cores)
+  } else if (cores !== undefined) {
+    coreArr.push(cores);
   }
-
 
   const list: [number, CoreWorkloadInfo[], CoreWorkplanInfo[]][] = [];
 
@@ -55,14 +52,14 @@ function CoresTable({ cores, workloadInfos, workplanInfos }: Props): React.React
     <>
       {
         list.map((c) =>
-        (
-          <CoreTable
-            core={c[0]}
-            key={c[0]}
-            workload={c[1]}
-            workplan={c[2]}
-          />
-        )
+          (
+            <CoreTable
+              core={c[0]}
+              key={c[0]}
+              workload={c[1]}
+              workplan={c[2]}
+            />
+          )
         )
       }
     </>
