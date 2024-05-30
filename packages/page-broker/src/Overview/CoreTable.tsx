@@ -21,7 +21,9 @@ function CoreTable ({ core, workload, workplan }: Props): React.ReactElement<Pro
   const { t } = useTranslation();
 
   const headerRef = useRef<([React.ReactNode?, string?] | false)[]>([
-    [t('core')]
+    [t('core')],
+    [],
+    []
   ]);
 
   return (
