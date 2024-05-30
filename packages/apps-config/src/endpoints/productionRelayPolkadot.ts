@@ -325,7 +325,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Dwellir: 'wss://hydradx-rpc.dwellir.com',
       'Galactic Council': 'wss://rpc.hydradx.cloud',
-      Helikon: 'wss://rpc.helikon.io/hydradx'
+      Helikon: 'wss://rpc.helikon.io/hydradx',
+      IBP2: 'wss://hydradx.paras.dotters.network'
       // OnFinality: 'wss://hydradx.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9986
       // ZeePrime: 'wss://rpc-lb.data6.zp-labs.net:8443/hydradx/ws/?token=2ZGuGivPJJAxXiT1hR1Yg2MXGjMrhEBYFjgbdPi' // https://github.com/polkadot-js/apps/issues/9760
     },
@@ -626,7 +627,6 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'peaq',
     paraId: 3338,
     providers: {
-      Dwellir: 'wss://peaq-rpc.dwellir.com'
       // OnFinality: 'wss://peaq.api.onfinality.io/public-ws'
     },
     text: 'peaq',

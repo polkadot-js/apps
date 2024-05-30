@@ -10,7 +10,6 @@ import apron from './apron.js';
 import aresGladios from './ares-gladios.js';
 import aresParachain from './ares-parachain.js';
 import astar from './astar.js';
-import automata from './automata.js';
 import bajun from './bajun.js';
 import basilisk from './basilisk.js';
 import beresheet from './beresheet.js';
@@ -91,7 +90,6 @@ import oak from './oak.js';
 import opal from './opal.js';
 import opportunity from './opportunity.js';
 import pangolin from './pangolin.js';
-import pangoro from './pangoro.js';
 import parallel from './parallel.js';
 import parami from './parami.js';
 import peaq from './peaq.js';
@@ -151,7 +149,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   Equilibrium: equilibrium,
   Genshiro: genshiro,
   Pangolin: pangolin,
-  Pangoro: pangoro,
   VLN: vln,
   'VLN-PC': vlnrococo,
   ...acala,
@@ -164,7 +161,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'ares-odyssey': aresParachain,
   asgard: bifrostAsgard,
   astar,
-  automata,
   bajun,
   basilisk,
   beresheet,
@@ -180,7 +176,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'clover-rococo': cloverRococo,
   coinversation,
   'competitors-club': competitorsClub,
-  contextfree: automata,
   'continuum-runtime': bitcountryPioneer,
   contracts,
   'crown-sterling': crownSterlingChain,
