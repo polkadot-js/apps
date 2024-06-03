@@ -65,17 +65,6 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'communeai',
-    providers: {
-      Bitconnect: 'wss://commune-api-node-1.communeai.net'
-    },
-    text: 'Commune AI',
-    ui: {
-      color: '#060606',
-      logo: chainsCommuneaiPNG
-    }
-  },
-  {
     info: 'bittensor',
     providers: {
       'Opentensor Fdn (Archive)': 'wss://entrypoint-finney.opentensor.ai:443'
@@ -130,6 +119,17 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#F6C94A',
       logo: nodesChainxSVG
+    }
+  },
+  {
+    info: 'communeai',
+    providers: {
+      Bitconnect: 'wss://commune-api-node-1.communeai.net'
+    },
+    text: 'Commune AI',
+    ui: {
+      color: '#060606',
+      logo: chainsCommuneaiPNG
     }
   },
   {
