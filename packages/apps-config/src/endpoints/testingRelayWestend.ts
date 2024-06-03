@@ -174,6 +174,7 @@ export const testParasWestendCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1005,
     providers: {
+      Dwellir: 'wss://coretime-westend-rpc.dwellir.com',
       IBP1: 'wss://sys.ibp.network/coretime-westend',
       IBP2: 'wss://sys.dotters.network/coretime-westend',
       Parity: 'wss://westend-coretime-rpc.polkadot.io'
