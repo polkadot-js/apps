@@ -992,6 +992,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     isPeopleForIdentity: false,
     paraId: 1004,
     providers: {
+      Dwellir: 'wss://people-kusama-rpc.dwellir.com',
       IBP1: 'wss://sys.ibp.network/people-kusama',
       IBP2: 'wss://sys.dotters.network/people-kusama',
       Parity: 'wss://kusama-people-rpc.polkadot.io',
