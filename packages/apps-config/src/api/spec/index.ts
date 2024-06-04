@@ -33,6 +33,7 @@ import crust from './crust.js';
 import testPara from './cumulus-test-parachain.js';
 import curio from './curio.js';
 import darwinia from './darwinia.js';
+import darwinia_koi from './darwinia-koi.js';
 import datahighwayParachain from './datahighway.js';
 import dockMainnet from './dock-mainnet.js';
 import dockTestnet from './dock-testnet.js';
@@ -89,7 +90,6 @@ import nodle from './nodle.js';
 import oak from './oak.js';
 import opal from './opal.js';
 import opportunity from './opportunity.js';
-import pangolin from './pangolin.js';
 import parallel from './parallel.js';
 import parami from './parami.js';
 import peaq from './peaq.js';
@@ -142,11 +142,11 @@ import zero from './zero.js';
 
 // NOTE: The mapping is done from specName in state.getRuntimeVersion
 const spec: Record<string, OverrideBundleDefinition> = {
-  Crab: crab,
-  Darwinia: darwinia,
+  Crab2: crab,
+  Darwinia2: darwinia,
+  'Darwinia Koi': darwinia_koi,
   Equilibrium: equilibrium,
   Genshiro: genshiro,
-  Pangolin: pangolin,
   VLN: vln,
   'VLN-PC': vlnrococo,
   ...acala,
