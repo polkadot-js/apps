@@ -722,7 +722,7 @@ export const testParasRococoCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1013,
     providers: {
-      Dwellir: 'wss://rococo-bridge-hub-rpc.dwellir.com',
+      Dwellir: 'wss://bridge-hub-rococo-rpc.dwellir.com',
       Parity: 'wss://rococo-bridge-hub-rpc.polkadot.io'
     },
     relayName: 'rococo',

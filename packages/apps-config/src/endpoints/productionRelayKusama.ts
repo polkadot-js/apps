@@ -931,7 +931,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1002,
     providers: {
-      Dwellir: 'wss://kusama-bridge-hub-rpc.dwellir.com',
+      Dwellir: 'wss://bridge-hub-kusama-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://kusama-bridge-hub-rpc-tn.dwellir.com',
       IBP1: 'wss://sys.ibp.network/bridgehub-kusama',
       IBP2: 'wss://sys.dotters.network/bridgehub-kusama',

@@ -137,7 +137,7 @@ export const testParasWestendCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1002,
     providers: {
-      Dwellir: 'wss://westend-bridge-hub-rpc.dwellir.com',
+      Dwellir: 'wss://bridge-hub-westend-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://westend-bridge-hub-rpc-tn.dwellir.com',
       IBP1: 'wss://sys.ibp.network/bridgehub-westend',
       IBP2: 'wss://sys.dotters.network/bridgehub-westend',
@@ -155,7 +155,7 @@ export const testParasWestendCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1001,
     providers: {
-      Dwellir: 'wss://westend-collectives-rpc.dwellir.com',
+      Dwellir: 'wss://collectives-westend-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://westend-collectives-rpc-tn.dwellir.com',
       IBP1: 'wss://sys.ibp.network/collectives-westend',
       IBP2: 'wss://sys.dotters.network/collectives-westend',
