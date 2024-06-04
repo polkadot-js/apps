@@ -1,6 +1,20 @@
 // Copyright 2017-2024 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { typesBundleForPolkadotApps } from '@darwinia/types/mix/index.js';
+import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
-export default typesBundleForPolkadotApps.spec.Pangolin;
+// structs need to be in order
+/* eslint-disable sort-keys */
+
+const definitions: OverrideBundleDefinition = {
+  types: [
+    {
+      // on all versions
+      minmax: [0, undefined],
+      types: {
+      }
+    }
+  ]
+};
+
+export default definitions;

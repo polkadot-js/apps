@@ -144,8 +144,6 @@ import zero from './zero.js';
 const spec: Record<string, OverrideBundleDefinition> = {
   Crab: crab,
   Darwinia: darwinia,
-  'Darwinia Crab PC2': pangolin,
-  'Darwinia PC2': pangolin,
   Equilibrium: equilibrium,
   Genshiro: genshiro,
   Pangolin: pangolin,
