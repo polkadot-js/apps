@@ -36,7 +36,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'Bajun(paseo)',
     paraId: 2119,
     providers: {
-      'BajunNetwork': 'wss://rpc-paseo.bajun.network'
+      BajunNetwork: 'wss://rpc-paseo.bajun.network'
     },
     text: 'Bajun Network (Paseo)',
     ui: {
