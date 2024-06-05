@@ -135,7 +135,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2105,
     providers: {
       Darwinia: 'wss://crab-rpc.darwinia.network/',
-      'Darwinia Community': 'wss://crab-rpc.darwiniacommunitydao.xyz'
+      'Darwinia Community': 'wss://crab-rpc.darwiniacommunitydao.xyz',
+      Dwellir: 'wss://darwiniacrab-rpc.dwellir.com'
     },
     text: 'Crab',
     ui: {
@@ -343,7 +344,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
       'Acala Foundation 1': 'wss://karura-rpc-1.aca-api.network',
       'Acala Foundation 2': 'wss://karura-rpc-2.aca-api.network/ws',
       'Acala Foundation 3': 'wss://karura-rpc-3.aca-api.network/ws',
-      // Dwellir: 'wss://karura-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/9861
+      Dwellir: 'wss://karura-rpc.dwellir.com',
       LuckyFriday: 'wss://rpc-karura.luckyfriday.io',
       OnFinality: 'wss://karura.api.onfinality.io/public-ws'
       // 'Polkawallet 0': 'wss://karura.polkawallet.io' // https://github.com/polkadot-js/apps/issues/9383
@@ -842,7 +843,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'turing',
     paraId: 2114,
     providers: {
-      OAK: 'wss://rpc.turing.oak.tech'
+      OAK: 'wss://rpc.turing.oak.tech',
+      Dwellir: 'wss://turing-rpc.dwellir.com'
     },
     text: 'Turing Network',
     ui: {

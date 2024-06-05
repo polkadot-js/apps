@@ -67,7 +67,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'bittensor',
     providers: {
-      'Opentensor Fdn (Archive)': 'wss://entrypoint-finney.opentensor.ai:443'
+      'Opentensor Fdn (Archive)': 'wss://entrypoint-finney.opentensor.ai:443',
+      Dwellir: 'wss://bittensor-mainnet-rpc.dwellir.com'
     },
     text: 'Bittensor',
     ui: {
