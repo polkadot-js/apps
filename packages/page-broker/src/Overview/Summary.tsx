@@ -7,12 +7,14 @@ import type { CoreWorkloadInfo } from '@polkadot/react-hooks/types';
 import React from 'react';
 
 import { CardSummary, SummaryBox, UsageBar } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useCurrentPrice, useRenewalBump } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
 import Cores from './Cores.js';
-import Pools from './Pools.js';
+import RegionLength from './RegionLength.js';
+import RenewalPrice from './RenewalPrice.js';
 import Timeslice from './Timeslice.js';
+import TimeslicePeriod from './TimeslicePeriod.js';
 
 interface Props {
   apiEndpoint?: LinkOption | null;
@@ -22,6 +24,8 @@ interface Props {
 function Summary ({ apiEndpoint, workloadInfos }: Props): React.ReactElement {
   const { t } = useTranslation();
   const { api } = useApi();
+  const renewalBump = useRenewalBump();
+  const currentPrice = useCurrentPrice();
 
   return (
     <SummaryBox>
@@ -34,8 +38,17 @@ function Summary ({ apiEndpoint, workloadInfos }: Props): React.ReactElement {
             <CardSummary label={t('core count')}>
               <Cores />
             </CardSummary>
-            <CardSummary label={t('pool size')}>
-              <Pools />
+            <CardSummary label={t('timeslice period')}>
+              <TimeslicePeriod />
+            </CardSummary>
+            <CardSummary label={t('region length')}>
+              <RegionLength />
+            </CardSummary>
+            <CardSummary label={t('estimated bulk price')}>
+              <RenewalPrice
+                currentPrice={currentPrice}
+                renewalBump={renewalBump}
+              />
             </CardSummary>
           </>
 

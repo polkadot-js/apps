@@ -24,7 +24,7 @@ function UsageBar ({ apiEndpoint, coreDescriptors, info }: Props): React.ReactEl
   let pools = 0;
 
   if (coreDescriptors) {
-    coreDescriptors.map((description) => {
+    coreDescriptors.forEach((description) => {
       let sanitized: PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor[] = [];
 
       if (Array.isArray(description.info)) {
@@ -33,8 +33,7 @@ function UsageBar ({ apiEndpoint, coreDescriptors, info }: Props): React.ReactEl
         sanitized.push(description.info);
       }
 
-      console.log(description.info);
-      sanitized.map((i) => {
+      sanitized.forEach((i) => {
         const info = i.currentWork.unwrapOr(undefined);
 
         if (info) {
@@ -74,8 +73,8 @@ function UsageBar ({ apiEndpoint, coreDescriptors, info }: Props): React.ReactEl
   const taskPerc = (tasks / total) * 100;
   const poolPerc = (pools / total) * 100;
 
-  const taskOffset = (taskPerc / 100) * circumference;
-  const poolOffset = taskOffset + (poolPerc / 100) * circumference;
+  const taskOffset = (taskPerc / 100) * 360;
+  const poolOffset = taskOffset + (poolPerc / 100) * 360;
 
   return (
     <div>
@@ -92,6 +91,14 @@ function UsageBar ({ apiEndpoint, coreDescriptors, info }: Props): React.ReactEl
           stroke='#f0f0f0'
           strokeWidth={strokeWidth}
         />
+        <text
+          dy='.3em'
+          fill='rgba(78, 78, 78, 0.66)'
+          fontWeight='bold'
+          textAnchor='middle'
+          x='50%'
+          y='50%'
+        >usage</text>
         <circle
           className='highlight--bg'
           cx={radius}
@@ -102,7 +109,9 @@ function UsageBar ({ apiEndpoint, coreDescriptors, info }: Props): React.ReactEl
           strokeDasharray={circumference}
           strokeWidth={strokeWidth}
           transform={`rotate(-90 ${radius} ${radius})`}
-        />
+        >
+          <title>Tasks assignment: {taskPerc.toFixed(2)}%</title>
+        </circle>
         <circle
           cx={radius}
           cy={radius}
@@ -113,7 +122,9 @@ function UsageBar ({ apiEndpoint, coreDescriptors, info }: Props): React.ReactEl
           strokeDashoffset={taskOffset}
           strokeWidth={strokeWidth}
           transform={`rotate(-90 ${radius} ${radius})`}
-        />
+        >
+          <title style={{ opacity: '.2' }}>Pool assignment: {poolPerc.toFixed(2)}%</title>
+        </circle>
         <circle
           cx={radius}
           cy={radius}
@@ -124,7 +135,9 @@ function UsageBar ({ apiEndpoint, coreDescriptors, info }: Props): React.ReactEl
           strokeDashoffset={poolOffset}
           strokeWidth={strokeWidth}
           transform={`rotate(-90 ${radius} ${radius})`}
-        />
+        >
+          <title>Idle assignment: {(100 - taskPerc - poolPerc).toFixed(2)}%</title>
+        </circle>
       </svg>
     </div>
 

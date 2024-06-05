@@ -1,6 +1,7 @@
 // Copyright 2017-2024 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { CoreWorkplanInfo } from '@polkadot/react-hooks/types';
 
 import React from 'react';
@@ -9,10 +10,11 @@ import Workplan from './Workplan.js';
 
 interface Props {
   className?: string;
+  api: ApiPromise;
   workplanInfos?: CoreWorkplanInfo[] | CoreWorkplanInfo;
 }
 
-function Workplans ({ workplanInfos }: Props): React.ReactElement<Props> {
+function Workplans ({ api, workplanInfos }: Props): React.ReactElement<Props> {
   let sanitized: CoreWorkplanInfo[] = [];
 
   if (Array.isArray(workplanInfos)) {
@@ -27,6 +29,7 @@ function Workplans ({ workplanInfos }: Props): React.ReactElement<Props> {
     <>
       {sanitized?.map((workplanInfo) => (
         <Workplan
+          api={api}
           key={workplanInfo.core}
           value={workplanInfo}
         />

@@ -1,12 +1,15 @@
 // Copyright 2017-2024 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { CoreDescription, CoreWorkloadInfo, CoreWorkplanInfo } from '@polkadot/react-hooks/types';
+import type { PalletBrokerStatusRecord } from '@polkadot/types/lookup';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { Button, Dropdown } from '@polkadot/react-components';
+import { useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
 import CoresTable from './CoresTables.js';
@@ -18,9 +21,11 @@ interface Props {
   workplanInfos?: CoreWorkplanInfo[];
   coreInfos?: CoreDescription[];
   apiEndpoint?: LinkOption | null;
+  api: ApiPromise;
+  isReady: boolean;
 }
 
-function Overview ({ apiEndpoint, className, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
+function Overview ({ api, apiEndpoint, className, isReady, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [workloadCoreSelected, setWorkloadCoreSelected] = useState(-1);
   const [coreArr, setCoreArr] = useState<number[]>([]);
@@ -64,6 +69,10 @@ function Overview ({ apiEndpoint, className, workloadInfos, workplanInfos }: Pro
     [workplanInfos, workloadCoreSelected]
   );
 
+  const status = useCall<PalletBrokerStatusRecord>(isReady && api.query.broker?.status);
+  const timeslice = status?.toHuman().lastCommittedTimeslice?.toString();
+  const timesliceAsString = timeslice === undefined ? '' : timeslice.toString().split(',').join('');
+
   return (
     <div className={className}>
       <Summary
@@ -80,7 +89,9 @@ function Overview ({ apiEndpoint, className, workloadInfos, workplanInfos }: Pro
         />
       </Button.Group>
       <CoresTable
+        api={api}
         cores={workloadCoreSelected}
+        timeslice={Number(timesliceAsString)}
         workloadInfos={filteredWLC}
         workplanInfos={filteredWorkplan}
       />

@@ -21,7 +21,10 @@ function Overview ({ className, coreInfos }: Props): React.ReactElement<Props> {
       ></Summary>
       {
         coreInfos?.map((v) => (
-          <CoreDescriptors coreInfos={v} />
+          <CoreDescriptors
+            coreInfos={v}
+            key={v.core}
+          />
         ))
       }
     </div>

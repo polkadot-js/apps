@@ -1,6 +1,7 @@
 // Copyright 2017-2024 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { CoreWorkloadInfo, CoreWorkplanInfo } from '@polkadot/react-hooks/types';
 
 import React from 'react';
@@ -8,12 +9,14 @@ import React from 'react';
 import CoreTable from './CoreTable.js';
 
 interface Props {
+  api: ApiPromise;
   cores?: number;
   workloadInfos?: CoreWorkloadInfo[] | CoreWorkloadInfo;
   workplanInfos?: CoreWorkplanInfo[] | CoreWorkplanInfo;
+  timeslice: number;
 }
 
-function CoresTable ({ cores, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
+function CoresTable ({ api, cores, timeslice, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
   const coreArr = [];
 
   let sanitizedWorkloadInfos: CoreWorkloadInfo[] = [];
@@ -54,8 +57,10 @@ function CoresTable ({ cores, workloadInfos, workplanInfos }: Props): React.Reac
         list.map((c) =>
           (
             <CoreTable
+              api={api}
               core={c[0]}
               key={c[0]}
+              timeslice={timeslice}
               workload={c[1]}
               workplan={c[2]}
             />
