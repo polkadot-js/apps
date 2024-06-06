@@ -57,7 +57,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoAventus',
     paraId: 2056,
     providers: {
-      Aventus: 'wss://public-rpc.public-testnet.aventus.io'
+      Aventus: 'wss://public-rpc.testnet.aventus.network'
     },
     text: 'Aventus',
     ui: {
