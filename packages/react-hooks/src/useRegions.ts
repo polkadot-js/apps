@@ -43,7 +43,8 @@ function useRegionsImpl (api: ApiPromise): RegionInfo[] | undefined {
   const [state, setState] = useState<RegionInfo[] | undefined>();
 
   useEffect((): void => {
-    regionInfo?.[1] &&
+    regionInfo &&
+      regionInfo[0][0].length > 0 &&
       setState(
         regionInfo[0][0].map((info, index) =>
           extractInfo(info.core.toNumber(), info.begin.toNumber(), regionInfo[1][index].unwrap().end.toNumber(), regionInfo[1][index].unwrap().owner.unwrap(), regionInfo[1][index].unwrap().paid.toString(), info.mask.toHex())

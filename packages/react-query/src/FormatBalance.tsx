@@ -81,10 +81,9 @@ function applyFormat (value: Compact<any> | BN | string | number, [decimals, tok
   } else {
     return createElement(prefix, postfix, unitPost, labelPost, isShort);
   }
-
 }
 
-function FormatBalance ({ children, className = '', useTicker, format, formatIndex, isShort, label, labelPost, value, valueFormatted, withCurrency, withSi }: Props): React.ReactElement<Props> {
+function FormatBalance ({ children, className = '', format, formatIndex, isShort, label, labelPost, useTicker, value, valueFormatted, withCurrency, withSi }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
 

@@ -22,6 +22,7 @@ export { useBlockEvents } from './useBlockEvents.js';
 export { useBlockInterval } from './useBlockInterval.js';
 export { useBlocksPerDays } from './useBlocksPerDays.js';
 export { useBlockTime } from './useBlockTime.js';
+export { useBrokerStatus } from './useBrokerStatus.js';
 export { useCacheKey } from './useCacheKey.js';
 export { useCall } from './useCall.js';
 export { useCallMulti } from './useCallMulti.js';

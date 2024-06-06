@@ -45,16 +45,16 @@ function CoresTable ({ api, cores, timeslice, workloadInfos, workplanInfos }: Pr
     coreArr.push(cores);
   }
 
-  const list: [number, CoreWorkloadInfo[], CoreWorkplanInfo[]][] = [];
+  const filteredList: [number, CoreWorkloadInfo[], CoreWorkplanInfo[]][] = [];
 
   coreArr.forEach((c) => {
-    list.push([c, sanitizedWorkloadInfos.filter((v) => v.core === c), sanitizedWorkplanInfos.filter((v) => v.core === c)]);
+    filteredList.push([c, sanitizedWorkloadInfos.filter((v) => v.core === c), sanitizedWorkplanInfos.filter((v) => v.core === c)]);
   });
 
   return (
     <>
       {
-        list.map((c) =>
+        filteredList.map((c) =>
           (
             <CoreTable
               api={api}

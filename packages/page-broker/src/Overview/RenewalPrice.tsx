@@ -12,18 +12,12 @@ interface Props {
   currentPrice?: string;
 }
 
-function RenewalPrice({ currentPrice, renewalBump }: Props): React.ReactElement<Props> | null {
-  const percentage = renewalBump === undefined ? 0 : Number.parseInt(renewalBump) / 1000000000;
+function RenewalPrice ({ currentPrice, renewalBump }: Props): React.ReactElement<Props> | null {
+  const percentage = renewalBump ? Number.parseInt(renewalBump) / 1000000000 : 0;
 
-  console.log(percentage);
-
-  const price = currentPrice === undefined ? 0 : Number.parseInt(currentPrice);
-
-  console.log(currentPrice);
+  const price = currentPrice ? Number.parseInt(currentPrice) : 0;
 
   const renewalPrice = price * percentage + price;
-
-  console.log(renewalPrice);
 
   return (
     <div className='ui--balance-value'>
