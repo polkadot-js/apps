@@ -27,13 +27,10 @@ import cloverRococo from './clover-rococo.js';
 import coinversation from './coinversation.js';
 import competitorsClub from './competitors-club.js';
 import contracts from './contracts.js';
-import crab from './crab.js';
 import crownSterlingChain from './crown-sterling.js';
 import crust from './crust.js';
 import testPara from './cumulus-test-parachain.js';
 import curio from './curio.js';
-import darwinia from './darwinia.js';
-import darwinia_koi from './darwinia-koi.js';
 import datahighwayParachain from './datahighway.js';
 import dockMainnet from './dock-mainnet.js';
 import dockTestnet from './dock-testnet.js';
@@ -142,9 +139,6 @@ import zero from './zero.js';
 
 // NOTE: The mapping is done from specName in state.getRuntimeVersion
 const spec: Record<string, OverrideBundleDefinition> = {
-  Crab2: crab,
-  Darwinia2: darwinia,
-  'Darwinia Koi': darwinia_koi,
   Equilibrium: equilibrium,
   Genshiro: genshiro,
   VLN: vln,
