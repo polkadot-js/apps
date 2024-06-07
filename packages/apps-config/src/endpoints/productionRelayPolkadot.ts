@@ -89,7 +89,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'aventus',
     paraId: 2056,
     providers: {
-      Aventus: 'wss://public-rpc.mainnet.aventus.io'
+      Aventus: 'wss://public-rpc.mainnet.aventus.network'
     },
     text: 'Aventus',
     ui: {

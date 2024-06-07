@@ -13,6 +13,7 @@ export const Statescan: ExternalDef = {
     'Crust Shadow': 'shadow',
     Kusama: 'kusama',
     'Kusama Asset Hub': 'statemine',
+    'Kusama People': 'people-kusama',
     Litentry: 'litentry',
     Litmus: 'litmus',
     Parallel: 'parallel',
