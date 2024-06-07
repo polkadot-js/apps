@@ -859,7 +859,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1002,
     providers: {
-      Dwellir: 'wss://polkadot-bridge-hub-rpc.dwellir.com',
+      Dwellir: 'wss://bridge-hub-polkadot-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://polkadot-bridge-hub-rpc-tn.dwellir.com',
       IBP1: 'wss://sys.ibp.network/bridgehub-polkadot',
       IBP2: 'wss://sys.dotters.network/bridgehub-polkadot',
@@ -881,7 +881,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1001,
     providers: {
-      Dwellir: 'wss://polkadot-collectives-rpc.dwellir.com',
+      Dwellir: 'wss://collectives-polkadot-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://polkadot-collectives-rpc-tn.dwellir.com',
       IBP1: 'wss://sys.ibp.network/collectives-polkadot',
       IBP2: 'wss://sys.dotters.network/collectives-polkadot',
