@@ -58,6 +58,19 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://darwinia.network/',
+    info: 'Darwinia Koi',
+    paraId: 2105,
+    providers: {
+      Darwinia: 'wss://koi-rpc.darwinia.network'
+    },
+    text: 'Darwinia Koi',
+    ui: {
+      color: '#FF0083',
+      logo: nodesDarwiniaKoiSVG
+    }
+  },
+  {
     homepage: 'https://www.frequency.xyz',
     info: 'Frequency',
     paraId: 4000,
@@ -106,19 +119,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: 'linear-gradient(45deg, #f05a27 0%, #8c145a 100%)',
       logo: nodesKiltPNG
-    }
-  },
-  {
-    homepage: 'https://darwinia.network/',
-    info: 'Darwinia Koi',
-    paraId: 2105,
-    providers: {
-      Darwinia: 'wss://koi-rpc.darwinia.network'
-    },
-    text: 'Darwinia Koi',
-    ui: {
-      color: '#FF0083',
-      logo: nodesDarwiniaKoiSVG
     }
   },
   {
