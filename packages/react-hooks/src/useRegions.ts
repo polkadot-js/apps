@@ -3,7 +3,6 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { Option, StorageKey } from '@polkadot/types';
-import type { AccountId } from '@polkadot/types/interfaces';
 import type { PalletBrokerRegionId, PalletBrokerRegionRecord } from '@polkadot/types/lookup';
 
 import { useEffect, useState } from 'react';
@@ -14,12 +13,12 @@ interface RegionInfo {
   core: number,
   start: number,
   end: number,
-  owner: AccountId,
+  owner: string,
   paid: string,
   mask: `0x${string}`
 }
 
-function extractInfo (core: number, start: number, end: number, owner: AccountId, paid: string, mask: `0x${string}`) {
+function extractInfo (core: number, start: number, end: number, owner: string, paid: string, mask: `0x${string}`) {
   return {
     core,
     end,
@@ -47,7 +46,7 @@ function useRegionsImpl (api: ApiPromise): RegionInfo[] | undefined {
       regionInfo[0][0].length > 0 &&
       setState(
         regionInfo[0][0].map((info, index) =>
-          extractInfo(info.core.toNumber(), info.begin.toNumber(), regionInfo[1][index].unwrap().end.toNumber(), regionInfo[1][index].unwrap().owner.unwrap(), regionInfo[1][index].unwrap().paid.toString(), info.mask.toHex())
+          extractInfo(info.core.toNumber(), info.begin.toNumber(), regionInfo[1][index].unwrap().end.toNumber(), regionInfo[1][index].unwrap().owner.toString(), regionInfo[1][index].unwrap().paid.toString(), info.mask.toHex())
         )
       );
   }, [regionInfo]);

@@ -4,7 +4,9 @@
 import type { ApiPromise } from '@polkadot/api';
 import type { CoreWorkplanInfo } from '@polkadot/react-hooks/types';
 
-import React from 'react';
+import React, { useRef } from 'react';
+
+import { Table } from '@polkadot/react-components';
 
 import Workplan from './Workplan.js';
 
@@ -15,6 +17,12 @@ interface Props {
 }
 
 function Workplans ({ api, workplanInfos }: Props): React.ReactElement<Props> {
+  const headerRef = useRef<([React.ReactNode?, string?] | false)[]>([
+    ['workplans'],
+    [],
+    []
+  ]);
+
   let sanitized: CoreWorkplanInfo[] = [];
 
   if (Array.isArray(workplanInfos)) {
@@ -26,7 +34,10 @@ function Workplans ({ api, workplanInfos }: Props): React.ReactElement<Props> {
   sanitized?.sort((a, b) => a.core - b.core);
 
   return (
-    <>
+    <Table
+      empty={'No workplan found'}
+      header={headerRef.current}
+    >
       {sanitized?.map((workplanInfo) => (
         <Workplan
           api={api}
@@ -34,7 +45,7 @@ function Workplans ({ api, workplanInfos }: Props): React.ReactElement<Props> {
           value={workplanInfo}
         />
       ))}
-    </>
+    </Table>
   );
 }
 

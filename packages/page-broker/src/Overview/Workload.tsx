@@ -6,26 +6,20 @@ import type { CoreWorkloadInfo } from '@polkadot/react-hooks/types';
 
 import React from 'react';
 
-import { Columar } from '@polkadot/react-components';
-import { useRegions } from '@polkadot/react-hooks';
-
-import { hexToBin } from '../utils.js';
+import { ExpandButton } from '@polkadot/react-components';
+import { useRegions, useToggle } from '@polkadot/react-hooks';
 
 interface Props {
   api: ApiPromise;
   value: CoreWorkloadInfo;
-  timeslice: number,
+  timeslice: number;
+  isExpanded?: boolean;
 }
 
 function Workload ({ api, timeslice, value: { core, info } }: Props): React.ReactElement<Props> {
-  const trimmedHex: string = info[0].mask.toHex().slice(2);
-  const arr: string[] = trimmedHex.split('');
+  const [isExpanded, toggleIsExpanded] = useToggle(false);
 
   const buffArr: string[] = [];
-
-  arr.forEach((bit) => {
-    hexToBin(bit).split('').forEach((v) => buffArr.push(v));
-  });
 
   const regionInfo = useRegions(api);
 
@@ -36,27 +30,33 @@ function Workload ({ api, timeslice, value: { core, info } }: Props): React.Reac
   const sanitizedAssignment = info[0].assignment.isTask ? info[0].assignment.asTask : info[0].assignment;
 
   return (
-    <Columar>
-      <Columar.Column>
+    <><tr>
+      <td>
         <h5>{'Assignment'}</h5>
-        <td className='start'>{sanitizedAssignment.toString()}</td>
-      </Columar.Column>
-      <Columar.Column>
+        {sanitizedAssignment.toString()}
+      </td>
+      <td>
         <h5>{'Mask'}</h5>
-        <td>{`${buffArr.length / 80 * 100}%`}</td>
-      </Columar.Column>
-      <Columar.Column>
-        <h5>{'Lease start'}</h5>
-        <td>{timeslice?.toString()}</td>
-      </Columar.Column>
-      <Columar.Column>
-        <h5>{'Lease end'}</h5>
-        <td>
-          {regionInfo?.[0].end.toString()}
-        </td>
-      </Columar.Column>
-    </Columar>
-
+        {`${buffArr.length / 80 * 100}%`}
+      </td>
+      <ExpandButton
+        expanded={isExpanded}
+        onClick={toggleIsExpanded}
+      />
+    </tr>
+    {isExpanded &&
+        <tr>
+          <td>
+            <h5>{'Lease start'}</h5>
+            {regionInfo?.[0].start.toString()}
+          </td>
+          <td>
+            <h5>{'Lease end'}</h5>
+            {regionInfo?.[0].end.toString()}
+          </td>
+        </tr>
+    }
+    </>
   );
 }
 

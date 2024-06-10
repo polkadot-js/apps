@@ -3,25 +3,39 @@
 
 import type { PolkadotRuntimeParachainsAssignerCoretimeQueueDescriptor } from '@polkadot/types/lookup';
 
-import React from 'react';
+import React, { useRef } from 'react';
+
+import { Table } from '@polkadot/react-components';
 
 interface Props {
   value?: PolkadotRuntimeParachainsAssignerCoretimeQueueDescriptor;
 }
 
 function CoreQueue ({ value }: Props): React.ReactElement<Props> {
-  if (value) {
-    return (
-      <>
-        <td className='start media--1600'>{value?.first.toString()}</td>
-        <td className='start media--1900'>{value?.last.toString()}</td>
-      </>
-    );
-  } else {
-    return (
-      <td className='start media--1600'>{'Queue empty'}</td>
-    );
-  }
+  const headerRef = useRef<([React.ReactNode?, string?] | false)[]>([
+    ['work queue']
+  ]);
+
+  return (
+    <Table header={headerRef.current}>
+      {value
+        ? <tr>
+          <td>
+            <h5>{'first'}</h5>
+            {value?.first.toString()}
+          </td>
+          <td>
+            <h5>{'last'}</h5>
+            {value?.last.toString()}
+          </td>
+        </tr>
+        : <tr>
+          <td>
+            {'No work queue found'}
+          </td>
+        </tr>}
+    </Table>
+  );
 }
 
 export default React.memo(CoreQueue);

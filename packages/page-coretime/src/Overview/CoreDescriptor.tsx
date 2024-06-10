@@ -29,10 +29,13 @@ function CoreDescriptor ({ className, value: { core, info } }: Props): React.Rea
     <tr className={className}>
       <Table.Column.Id value={Number(core)} />
       {sanitized?.map((i) => (
-        <CurrentWork
+        <td
           key={core}
-          value={i.currentWork.unwrapOr(undefined)}
-        />
+        >
+          <CurrentWork
+            value={i.currentWork.unwrapOr(undefined)}
+          />
+        </td>
       ))
       }
       {sanitized?.map((i) => (

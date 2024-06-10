@@ -6,7 +6,7 @@ import type { CoreWorkloadInfo, CoreWorkplanInfo } from '@polkadot/react-hooks/t
 
 import React, { useRef } from 'react';
 
-import { Columar, Table } from '@polkadot/react-components';
+import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate.js';
 import Workloads from './Workloads.js';
@@ -25,8 +25,8 @@ function CoreTable ({ api, core, timeslice, workload, workplan }: Props): React.
 
   const headerRef = useRef<([React.ReactNode?, string?] | false)[]>([
     [t('core')],
-    ['workload'],
-    ['workplan']
+    [],
+    []
   ]);
 
   return (
@@ -35,23 +35,17 @@ function CoreTable ({ api, core, timeslice, workload, workplan }: Props): React.
     >
       <Table.Column.Id value={core || 0} />
       <td>
-        <Columar isReverse={true}>
-          <Columar.Column>
-            <Workloads
-              api={api}
-              timeslice={timeslice}
-              workloadInfos={workload}
-            />
-          </Columar.Column></Columar>
+        <Workloads
+          api={api}
+          timeslice={timeslice}
+          workloadInfos={workload}
+        />
       </td>
       <td>
-        <Columar isReverse={true}>
-          <Columar.Column>
-            <Workplans
-              api={api}
-              workplanInfos={workplan}
-            />
-          </Columar.Column></Columar>
+        <Workplans
+          api={api}
+          workplanInfos={workplan}
+        />
       </td>
     </Table>
   );

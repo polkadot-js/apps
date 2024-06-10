@@ -6,7 +6,6 @@ import type { CoreWorkplanInfo } from '@polkadot/react-hooks/types';
 
 import React from 'react';
 
-import { Columar } from '@polkadot/react-components';
 import { useRegions } from '@polkadot/react-hooks';
 
 import { hexToBin } from '../utils.js';
@@ -36,18 +35,17 @@ function Workload ({ api, value: { core, info, timeslice } }: Props): React.Reac
   regionInfo?.filter((v) => v.core === core && v.start >= timeslice);
 
   return (
-    <Columar>
+    <tr>
       <td>
-        <Columar.Column>
-          <h5>{'Assignment'}</h5>
-          {sanitizedAssignment.toString()}
-        </Columar.Column>
+        <h5>{'Assignment'}</h5>
+        {sanitizedAssignment !== undefined ? sanitizedAssignment.toString() : 'N/A'}
       </td>
-      <td><Columar.Column>
-        <h5>{'Mask'}</h5>
-        {`${buffArr.length / 80 * 100}%`}
-      </Columar.Column>
-      </td></Columar>
+      <h5>{'Mask'}</h5>
+      {buffArr.length > 0 ? `${buffArr.length / 80 * 100}%` : 'N/A'}
+      <td>
+      </td>
+    </tr>
+
   );
 }
 

@@ -21,8 +21,8 @@ function CoreDescriptors ({ className, coreInfos }: Props): React.ReactElement<P
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('core'), 'start', 1],
-    [t('current work'), 'start media--1300'],
-    [t('work queue'), 'start media--1600']
+    [],
+    []
   ]);
 
   if (Array.isArray(coreInfos)) {
