@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types.js';
 
 import { chainsFrequencyPaseoSVG, chainsLaosOmegaPNG, chainsPaseoPNG, chainsPopNetworkSVG } from '@polkadot/apps-config/ui/logos/chains';
-import { nodesAssetHubSVG, nodesBajunPNG, nodesBifrostSVG, nodesHyperbridgeSVG, nodesIntegriteeSVG, nodesKiltPNG, nodesNodleSVG } from '@polkadot/apps-config/ui/logos/nodes';
+import { nodesAjunaPNG, nodesAssetHubSVG, nodesBajunPNG, nodesBifrostSVG, nodesHyperbridgeSVG, nodesIntegriteeSVG, nodesKiltPNG, nodesNodleSVG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
 // import { testnetParachainSVG } from '../ui/logos/nodes/index.js';
@@ -31,6 +31,19 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   //     logo: testnetParachainSVG
   //   }
   // }
+  {
+    homepage: 'https://ajuna.io/',
+    info: 'Ajuna(paseo)',
+    paraId: 2051,
+    providers: {
+      BajunNetwork: 'wss://rpc-paseo.ajuna.network'
+    },
+    text: 'Ajuna Network (Paseo)',
+    ui: {
+      color: '#161212',
+      logo: nodesAjunaPNG
+    }
+  },
   {
     homepage: 'https://ajuna.io/',
     info: 'Bajun(paseo)',
