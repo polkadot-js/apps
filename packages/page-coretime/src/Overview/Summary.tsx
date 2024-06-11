@@ -24,26 +24,27 @@ function Summary ({ coreDscriptors }: Props): React.ReactElement<Props> {
   return (
     <SummaryBox>
       <section>
-        {api.query.coretimeAssignmentProvider && (
-          <>
+        <>
+          {api.query.coretimeAssignmentProvider &&
             <CardSummary label={t('broker Id')}>
               <BrokerId />
-            </CardSummary>
-            <CardSummary label={t('traffic multiplier')}>
-              <QueueStatus
-                query={'traffic'}
-                value={queueStatus}
-              />
-            </CardSummary>
-            <CardSummary label={t('next index')}>
-              <QueueStatus
-                query={'nextIndex'}
-                value={queueStatus}
-              />
-            </CardSummary>
-          </>
-
-        )}
+            </CardSummary>}
+          {api.query.onDemandAssignmentProvider.queueStatus &&
+            <>
+              <CardSummary label={t('traffic multiplier')}>
+                <QueueStatus
+                  query={'traffic'}
+                  value={queueStatus}
+                />
+              </CardSummary>
+              <CardSummary label={t('next index')}>
+                <QueueStatus
+                  query={'nextIndex'}
+                  value={queueStatus}
+                />
+              </CardSummary>
+            </>}
+        </>
         <UsageBar
           apiEndpoint={apiEndpoint}
           coreDescriptors={coreDscriptors}

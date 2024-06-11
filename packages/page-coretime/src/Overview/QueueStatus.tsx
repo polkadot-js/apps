@@ -14,23 +14,22 @@ interface Props {
 }
 
 function QueueStatus ({ className, query, value }: Props): React.ReactElement<Props> {
-  if (query === 'traffic') {
-    return (
-      <div className={className}>
-        <FormatBalance
-          className={value?.traffic.toString() ? '' : '--tmp'}
-          value={value?.traffic.toString() || 1}
-          withSi
-        />
-      </div>
-    );
-  } else {
-    return (
-      <div className={className}>
-        {value?.nextIndex.toString()}
-      </div>
-    );
-  }
+  return (
+    <>
+      {value && query === 'traffic'
+        ? <div className={className}>
+          <FormatBalance
+            className={value?.traffic.toString() ? '' : '--tmp'}
+            value={value?.traffic.toString() || 1}
+            withSi
+          />
+        </div>
+        : value &&
+        <div className={className}>
+          {value?.nextIndex.toString()}
+        </div>}
+    </>
+  );
 }
 
 export default React.memo(QueueStatus);
