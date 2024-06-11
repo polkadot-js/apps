@@ -19,24 +19,25 @@ interface Props {
 function Workloads ({ api, timeslice, workloadInfos }: Props): React.ReactElement<Props> {
   const headerRef = useRef<([React.ReactNode?, string?] | false)[]>([
     ['workloads'],
-    [],
     []
   ]);
 
   return (
-    <Table
-      empty={'No workload found'}
-      header={headerRef.current}
-    >
-      {workloadInfos?.map((v) => (
-        <Workload
-          api={api}
-          key={v.core}
-          timeslice={timeslice}
-          value={v}
-        />
-      ))}
-    </Table>
+    <div style={{ verticalAlign: 'top', width: '55em' }}>
+      <Table
+        empty={'No workload found'}
+        header={headerRef.current}
+      >
+        {workloadInfos?.map((v) => (
+          <Workload
+            api={api}
+            key={v.core}
+            timeslice={timeslice}
+            value={v}
+          />
+        ))}
+      </Table>
+    </div>
   );
 }
 

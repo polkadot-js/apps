@@ -16,7 +16,7 @@ interface Props {
   value: CoreDescription;
 }
 
-function CoreDescriptor ({ className, value: { core, info } }: Props): React.ReactElement<Props> {
+function CoreDescriptor ({ value: { core, info } }: Props): React.ReactElement<Props> {
   let sanitized: PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor[] = [];
 
   if (Array.isArray(info)) {
@@ -26,7 +26,7 @@ function CoreDescriptor ({ className, value: { core, info } }: Props): React.Rea
   }
 
   return (
-    <tr className={className}>
+    <>
       <Table.Column.Id value={Number(core)} />
       {sanitized?.map((i) => (
         <td
@@ -39,12 +39,15 @@ function CoreDescriptor ({ className, value: { core, info } }: Props): React.Rea
       ))
       }
       {sanitized?.map((i) => (
-        <CoreQueue
+        <td
           key={core}
-          value={i.queue.unwrapOr(undefined)}
-        />
+        >
+          <CoreQueue
+            value={i.queue.unwrapOr(undefined)}
+          />
+        </td>
       ))}
-    </tr>
+    </>
   );
 }
 

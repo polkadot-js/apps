@@ -19,7 +19,6 @@ interface Props {
 function Workplans ({ api, workplanInfos }: Props): React.ReactElement<Props> {
   const headerRef = useRef<([React.ReactNode?, string?] | false)[]>([
     ['workplans'],
-    [],
     []
   ]);
 
@@ -34,18 +33,20 @@ function Workplans ({ api, workplanInfos }: Props): React.ReactElement<Props> {
   sanitized?.sort((a, b) => a.core - b.core);
 
   return (
-    <Table
-      empty={'No workplan found'}
-      header={headerRef.current}
-    >
-      {sanitized?.map((workplanInfo) => (
-        <Workplan
-          api={api}
-          key={workplanInfo.core}
-          value={workplanInfo}
-        />
-      ))}
-    </Table>
+    <div style={{ verticalAlign: 'top', width: '55em' }}>
+      <Table
+        empty={'No workplan found'}
+        header={headerRef.current}
+      >
+        {sanitized?.map((workplanInfo) => (
+          <Workplan
+            api={api}
+            key={workplanInfo.core}
+            value={workplanInfo}
+          />
+        ))}
+      </Table>
+    </div>
   );
 }
 

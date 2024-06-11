@@ -34,14 +34,14 @@ function CoreTable ({ api, core, timeslice, workload, workplan }: Props): React.
       header={headerRef.current}
     >
       <Table.Column.Id value={core || 0} />
-      <td>
+      <td style={{ verticalAlign: 'top' }}>
         <Workloads
           api={api}
           timeslice={timeslice}
           workloadInfos={workload}
         />
       </td>
-      <td>
+      <td style={{ verticalAlign: 'top' }}>
         <Workplans
           api={api}
           workplanInfos={workplan}

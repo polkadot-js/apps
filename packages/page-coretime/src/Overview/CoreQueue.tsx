@@ -31,7 +31,7 @@ function CoreQueue ({ value }: Props): React.ReactElement<Props> {
         </tr>
         : <tr>
           <td>
-            {'No work queue found'}
+            <h5>{'No work queue found'}</h5>
           </td>
         </tr>}
     </Table>

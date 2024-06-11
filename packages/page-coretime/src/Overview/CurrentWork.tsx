@@ -34,6 +34,8 @@ function CurrentWork ({ value }: Props): React.ReactElement<Props> {
     );
   }
 
+  const needsExpansion = response.length > 1;
+
   return (
     <Table header={headerRef.current}>
       {value
@@ -42,16 +44,18 @@ function CurrentWork ({ value }: Props): React.ReactElement<Props> {
             ? <tr key={index}>
               <td>
                 {r}
-              </td>
-              <ExpandButton
-                expanded={isExpanded}
-                onClick={toggleIsExpanded}
-              />
+              </td>{
+                needsExpansion &&
+                <ExpandButton
+                  expanded={isExpanded}
+                  onClick={toggleIsExpanded}
+                />}
             </tr>
-            : isExpanded && <tr>
+            : <tr key={index}>{
+              isExpanded &&
               <td>
                 {r}
-              </td>
+              </td>}
             </tr>
         ))
         : <tr>
@@ -61,7 +65,6 @@ function CurrentWork ({ value }: Props): React.ReactElement<Props> {
         </tr>
       }
     </Table>
-    // <td className='start media--1300'>{response.length > 1 ? response.join(', ') : response[0]}</td>
   );
 }
 
