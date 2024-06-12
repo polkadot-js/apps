@@ -174,3 +174,4 @@ export { nodesZCloakSVG } from './generated/zCloakSVG.js';
 export { nodesZeitgeistPNG } from './generated/zeitgeistPNG.js';
 export { nodesZenlinkSVG } from './generated/zenlinkSVG.js';
 export { nodesZeroSVG } from './generated/zeroSVG.js';
+export { kineraRococoPNG } from './generated/kinera-rococoPNG.js'
