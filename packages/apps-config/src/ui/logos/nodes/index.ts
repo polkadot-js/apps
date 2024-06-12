@@ -39,6 +39,7 @@ export { nodesCrustSVG } from './generated/crustSVG.js';
 export { nodesCurioSVG } from './generated/curioSVG.js';
 export { nodesDaliPNG } from './generated/daliPNG.js';
 export { nodesDanceboxSVG } from './generated/danceboxSVG.js';
+export { nodesDarwiniaKoiSVG } from './generated/darwinia-koiSVG.js';
 export { nodesDarwiniaSVG } from './generated/darwiniaSVG.js';
 export { nodesDatahighwayPNG } from './generated/datahighwayPNG.js';
 export { nodesDockPNG } from './generated/dockPNG.js';
