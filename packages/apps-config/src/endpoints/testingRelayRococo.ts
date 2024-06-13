@@ -763,7 +763,7 @@ export const testParasRococoCommon: EndpointOption[] = [
     ui: {
       logo: kineraRococoPNG
     }
-  },
+  }
 ];
 
 export const testRelayRococo: EndpointOption = {
