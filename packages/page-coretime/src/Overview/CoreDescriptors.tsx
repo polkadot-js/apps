@@ -12,12 +12,11 @@ import CoreDescriptor from './CoreDescriptor.js';
 
 interface Props {
   className?: string;
-  coreInfos?: CoreDescription[] | CoreDescription;
+  coreInfos?: CoreDescription;
 }
 
-function CoreDescriptors ({ className, coreInfos }: Props): React.ReactElement<Props> {
+function CoreDescriptors({ className, coreInfos }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  let sanitized: CoreDescription[] = [];
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('core'), 'start', 1],
@@ -25,24 +24,13 @@ function CoreDescriptors ({ className, coreInfos }: Props): React.ReactElement<P
     []
   ]);
 
-  if (Array.isArray(coreInfos)) {
-    sanitized = coreInfos;
-  } else if (coreInfos) {
-    sanitized.push(coreInfos);
-  }
-
   return (
     <Table
       className={className}
       empty={coreInfos && t('No core description found')}
       header={headerRef.current}
     >
-      {sanitized?.map((v) => (
-        <CoreDescriptor
-          key={v.core}
-          value={v}
-        />
-      ))}
+      {coreInfos && <CoreDescriptor value={coreInfos} />}
     </Table>
   );
 }
