@@ -759,7 +759,7 @@ export const testParasRococoCommon: EndpointOption[] = [
     },
     relayName: 'rococo',
     teleport: [-1],
-    text: 'Bridgehub',
+    text: 'Kinera Testnet',
     ui: {
       logo: kineraRococoPNG
     }
