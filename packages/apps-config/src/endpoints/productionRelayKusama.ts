@@ -135,7 +135,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2105,
     providers: {
       Darwinia: 'wss://crab-rpc.darwinia.network/',
-      'Darwinia Community': 'wss://crab-rpc.darwiniacommunitydao.xyz'
+      'Darwinia Community': 'wss://crab-rpc.darwiniacommunitydao.xyz',
+      Dwellir: 'wss://darwiniacrab-rpc.dwellir.com'
     },
     text: 'Crab',
     ui: {
@@ -343,7 +344,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
       'Acala Foundation 1': 'wss://karura-rpc-1.aca-api.network',
       'Acala Foundation 2': 'wss://karura-rpc-2.aca-api.network/ws',
       'Acala Foundation 3': 'wss://karura-rpc-3.aca-api.network/ws',
-      // Dwellir: 'wss://karura-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/9861
+      Dwellir: 'wss://karura-rpc.dwellir.com',
       LuckyFriday: 'wss://rpc-karura.luckyfriday.io',
       OnFinality: 'wss://karura.api.onfinality.io/public-ws'
       // 'Polkawallet 0': 'wss://karura.polkawallet.io' // https://github.com/polkadot-js/apps/issues/9383
@@ -842,6 +843,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'turing',
     paraId: 2114,
     providers: {
+      Dwellir: 'wss://turing-rpc.dwellir.com',
       OAK: 'wss://rpc.turing.oak.tech'
     },
     text: 'Turing Network',
@@ -931,7 +933,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1002,
     providers: {
-      Dwellir: 'wss://kusama-bridge-hub-rpc.dwellir.com',
+      Dwellir: 'wss://bridge-hub-kusama-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://kusama-bridge-hub-rpc-tn.dwellir.com',
       IBP1: 'wss://sys.ibp.network/bridgehub-kusama',
       IBP2: 'wss://sys.dotters.network/bridgehub-kusama',
@@ -953,6 +955,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1005,
     providers: {
+      Dwellir: 'wss://coretime-kusama-rpc.dwellir.com',
       IBP1: 'wss://sys.ibp.network/coretime-kusama',
       IBP2: 'wss://sys.dotters.network/coretime-kusama',
       Parity: 'wss://kusama-coretime-rpc.polkadot.io',
@@ -992,6 +995,9 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     isPeopleForIdentity: false,
     paraId: 1004,
     providers: {
+      Dwellir: 'wss://people-kusama-rpc.dwellir.com',
+      IBP1: 'wss://sys.ibp.network/people-kusama',
+      IBP2: 'wss://sys.dotters.network/people-kusama',
       Parity: 'wss://kusama-people-rpc.polkadot.io',
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/people'
     },
