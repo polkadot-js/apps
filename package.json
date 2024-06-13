@@ -19,7 +19,7 @@
   "version": "0.138.2-14-x",
   "versions": {
     "git": "0.138.2-14-x",
-    "npm": "0.138.1"
+    "npm": "0.138.2-14-x"
   },
   "workspaces": [
     "packages/*"
