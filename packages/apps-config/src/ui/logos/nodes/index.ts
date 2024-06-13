@@ -78,7 +78,7 @@ export { nodesKabochaSVG } from './generated/kabochaSVG.js';
 export { nodesKarmachainSVG } from './generated/karmachainSVG.js';
 export { nodesKhalaSVG } from './generated/khalaSVG.js';
 export { nodesKiltPNG } from './generated/kiltPNG.js';
-export { nodesKineraPNG } from './generated/kinera-rococoPNG.js';
+export { nodesKineraPNG } from './generated/kineraPNG.js';
 export { nodesKlaosPNG } from './generated/klaosPNG.js';
 export { nodesKlugPNG } from './generated/klugPNG.js';
 export { nodesKonomiPNG } from './generated/konomiPNG.js';

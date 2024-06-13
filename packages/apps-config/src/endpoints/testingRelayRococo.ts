@@ -30,19 +30,6 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'Kinera Testnet',
-    isPeopleForIdentity: true,
-    paraId: 4437,
-    providers: {
-      'Kinera Node': 'wss://node.kinera.network'
-    },
-    text: 'Kinera Testnet',
-    ui: {
-      color: '#000000',
-      logo: nodesKineraPNG
-    }
-  },
-  {
     info: 'rococoAmplitude',
     paraId: 2124,
     providers: {
@@ -315,6 +302,19 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#7C30DD',
       logo: nodesPolkadexSVG
+    }
+  },
+  {
+    info: 'rococoKinera',
+    isPeopleForIdentity: true,
+    paraId: 4437,
+    providers: {
+      'Kinera Node': 'wss://node.kinera.network'
+    },
+    text: 'Kinera Testnet',
+    ui: {
+      color: '#000000',
+      logo: nodesKineraPNG
     }
   },
   {
@@ -762,7 +762,7 @@ export const testParasRococoCommon: EndpointOption[] = [
     teleport: [-1],
     text: 'People',
     ui: {}
-  },
+  }
 ];
 
 export const testRelayRococo: EndpointOption = {
