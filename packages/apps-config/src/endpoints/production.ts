@@ -343,7 +343,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'logion',
     providers: {
-      'Logion 1': 'wss://rpc01.logion.network'
+      // 'Logion 1': 'wss://rpc01.logion.network' // https://github.com/polkadot-js/apps/issues/10667
     },
     text: 'Logion Solochain (Archive)',
     ui: {

@@ -43,8 +43,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2051,
     providers: {
       AjunaNetwork: 'wss://rpc-para.ajuna.network',
-      OnFinality: 'wss://ajuna.api.onfinality.io/public-ws',
-      RadiumBlock: 'wss://ajuna.public.curie.radiumblock.co/ws'
+      OnFinality: 'wss://ajuna.api.onfinality.io/public-ws'
+      // RadiumBlock: 'wss://ajuna.public.curie.radiumblock.co/ws' // https://github.com/polkadot-js/apps/issues/10663
     },
     text: 'Ajuna Network',
     ui: {
@@ -217,7 +217,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2046,
     providers: {
       Darwinia: 'wss://rpc.darwinia.network',
-      'Darwinia Community': 'wss://darwinia-rpc.darwiniacommunitydao.xyz',
+      // 'Darwinia Community': 'wss://darwinia-rpc.darwiniacommunitydao.xyz', // https://github.com/polkadot-js/apps/issues/10667
       Dwellir: 'wss://darwinia-rpc.dwellir.com'
       // OnFinality: 'wss://darwinia2.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9861
     },
@@ -838,8 +838,8 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     providers: {
       Dwellir: 'wss://asset-hub-polkadot-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://statemint-rpc-tn.dwellir.com',
-      IBP1: 'wss://sys.ibp.network/statemint',
-      IBP2: 'wss://sys.dotters.network/statemint',
+      // IBP1: 'wss://sys.ibp.network/statemint', // https://github.com/polkadot-js/apps/issues/10667
+      // IBP2: 'wss://sys.dotters.network/statemint', // wss://sys.dotters.network/statemint
       LuckyFriday: 'wss://rpc-asset-hub-polkadot.luckyfriday.io',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-asset-hub-rpc.polkadot.io',

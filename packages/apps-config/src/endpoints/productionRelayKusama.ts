@@ -34,7 +34,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'acurast',
     paraId: 2239,
     providers: {
-      Acurast: 'wss://acurast-canarynet-ws.prod.gke.papers.tech'
+      // Acurast: 'wss://acurast-canarynet-ws.prod.gke.papers.tech' // https://github.com/polkadot-js/apps/issues/10667
     },
     text: 'Acurast Canary',
     ui: {
@@ -135,7 +135,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2105,
     providers: {
       Darwinia: 'wss://crab-rpc.darwinia.network/',
-      'Darwinia Community': 'wss://crab-rpc.darwiniacommunitydao.xyz',
+      // 'Darwinia Community': 'wss://crab-rpc.darwiniacommunitydao.xyz', // https://github.com/polkadot-js/apps/issues/10663
       Dwellir: 'wss://darwiniacrab-rpc.dwellir.com'
     },
     text: 'Crab',
@@ -345,7 +345,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
       'Acala Foundation 2': 'wss://karura-rpc-2.aca-api.network/ws',
       'Acala Foundation 3': 'wss://karura-rpc-3.aca-api.network/ws',
       Dwellir: 'wss://karura-rpc.dwellir.com',
-      LuckyFriday: 'wss://rpc-karura.luckyfriday.io',
+      // LuckyFriday: 'wss://rpc-karura.luckyfriday.io',  // https://github.com/polkadot-js/apps/issues/10663
       OnFinality: 'wss://karura.api.onfinality.io/public-ws'
       // 'Polkawallet 0': 'wss://karura.polkawallet.io' // https://github.com/polkadot-js/apps/issues/9383
     },
@@ -364,7 +364,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
       Helikon: 'wss://rpc.helikon.io/khala',
       OnFinality: 'wss://khala.api.onfinality.io/public-ws',
       Phala: 'wss://khala-api.phala.network/ws',
-      RadiumBlock: 'wss://khala.public.curie.radiumblock.co/ws',
+      // RadiumBlock: 'wss://khala.public.curie.radiumblock.co/ws', // https://github.com/polkadot-js/apps/issues/10663
       Rockx: 'wss://rockx-khala.w3node.com/polka-public-khala/ws'
     },
     text: 'Khala Network',
