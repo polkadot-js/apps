@@ -331,6 +331,19 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://magnet.magport.io/',
+    info: 'rococoMagnet',
+    paraId: 4361,
+    providers: {
+      Magnet: 'wss://magnet-rpc.magport.io/ws'
+    },
+    text: 'Magnet',
+    ui: {
+      color: '#58BFAB',
+      logo: nodesMagnetPNG
+    }
+  },
+  {
     info: 'rococoMangata',
     paraId: 2110,
     providers: {

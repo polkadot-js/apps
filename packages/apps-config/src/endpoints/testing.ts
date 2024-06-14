@@ -604,7 +604,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     },
     text: 'Moonbase Alpha',
     ui: {
-      color: '#F45B5B',
+      color: '#2B1D3C',
       logo: nodesMoonbaseAlphaSVG
     }
   },
