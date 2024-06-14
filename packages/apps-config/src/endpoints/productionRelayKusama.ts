@@ -918,7 +918,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       // OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
       Parity: 'wss://kusama-asset-hub-rpc.polkadot.io',
       RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws',
-      Stakeworld: 'wss://ksm-rpc.stakeworld.io/assethub'
+      Stakeworld: 'wss://ksm-rpc.stakeworld.io/assethub',
+      SubQuery: 'wss://kusama.rpc.subquery.network/public/ws'
     },
     relayName: 'kusama',
     teleport: [-1],
