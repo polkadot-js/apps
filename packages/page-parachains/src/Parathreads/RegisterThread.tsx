@@ -29,7 +29,7 @@ function RegisterThread ({ className, nextParaId, onClose, ownedIds }: Props): R
   const [paraId, setParaId] = useState<BN | undefined>();
   const [wasm, setWasm] = useState<Uint8Array | null>(null);
   const [genesisState, setGenesisState] = useState<Uint8Array | null>(null);
-  const paraConfig = useCall<PolkadotRuntimeParachainsConfigurationHostConfiguration>(api.query.configuration.activeConfig);
+  const paraConfig = useCall<PolkadotRuntimeParachainsConfigurationHostConfiguration>(api.query.configuration?.activeConfig);
 
   const _setGenesisState = useCallback(
     (data: Uint8Array) => setGenesisState(compactAddLength(data)),
