@@ -357,6 +357,7 @@
        1	Dominik Fedor                 	Search/filter functionality of selection dropdowns (#9766)
        1	DorianSternVukotic            	Add Liberland network (#10266)
        1	Douglas Acosta                	Update new testnet wss url for Nodle - testingRelayRococo.ts (#10005)
+       1	Ed                            	Add communeai (#10630)
        1	Eddie Machado                 	not truncating the address (#4311)
        1	Emilio Silva Schlenker        	[#943] Make hash/number query available globally to explorer (#1111)
        1	Emmanuel Thomas               	add kaizen endpoint to apps-ui (#9022)
