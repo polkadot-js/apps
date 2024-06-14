@@ -504,6 +504,7 @@
        1	Stéphane P                    	Fix Fr translations typos (#5104)
        1	Steve Degosserie              	Add Trappist Rococo parachain (#9669)
        1	Subsocial                     	Specify the custom types for Subsocial parachain (#5009)
+       1	sulijia                       	add magnet to rococo (#10670)
        1	tarrball                      	Grammar fix in staking tooltip (#6727)
        1	Teddy Rogers                  	Add CESS Testnet to TEST NETWORK (#7908)
        1	Tom                           	Add IBP endpoints to Paseo (#10231)
