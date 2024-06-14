@@ -25,6 +25,7 @@ import chainx from './chainx.js';
 import clover from './clover.js';
 import cloverRococo from './clover-rococo.js';
 import coinversation from './coinversation.js';
+import communeai from './communeai.js';
 import competitorsClub from './competitors-club.js';
 import contracts from './contracts.js';
 import crab from './crab.js';
@@ -175,6 +176,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   clover,
   'clover-rococo': cloverRococo,
   coinversation,
+  communeai,
   'competitors-club': competitorsClub,
   'continuum-runtime': bitcountryPioneer,
   contracts,
