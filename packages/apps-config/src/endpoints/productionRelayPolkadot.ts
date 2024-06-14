@@ -844,7 +844,8 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-asset-hub-rpc.polkadot.io',
       RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws',
-      Stakeworld: 'wss://dot-rpc.stakeworld.io/assethub'
+      Stakeworld: 'wss://dot-rpc.stakeworld.io/assethub',
+      SubQuery: 'wss://polkadot.rpc.subquery.network/public/ws'
     },
     relayName: 'polkadot',
     teleport: [-1],
