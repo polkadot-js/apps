@@ -3,7 +3,7 @@
 
 import type { EndpointOption } from './types.js';
 
-import { chainsFrequencyPaseoSVG, chainsLaosOmegaPNG, chainsPaseoPNG, chainsPopNetworkSVG } from '@polkadot/apps-config/ui/logos/chains';
+import { chainsFrequencyPaseoSVG, chainsHydrationPaseoSVG, chainsLaosOmegaPNG, chainsPaseoPNG, chainsPopNetworkSVG } from '@polkadot/apps-config/ui/logos/chains';
 import { nodesAssetHubSVG, nodesBifrostSVG, nodesHyperbridgeSVG, nodesIntegriteeSVG, nodesKiltPNG, nodesNodleSVG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
@@ -55,6 +55,19 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#19455E',
       logo: chainsFrequencyPaseoSVG
+    }
+  },
+  {
+    homepage: 'https://hydration.net',
+    info: 'rococoHydraDX',
+    paraId: 2034,
+    providers: {
+      'Galactic Council': 'wss://paseo-rpc.play.hydration.cloud'
+    },
+    text: 'Hydration (Paseo)',
+    ui: {
+      color: '#b3d7fa',
+      logo: chainsHydrationPaseoSVG
     }
   },
   {
