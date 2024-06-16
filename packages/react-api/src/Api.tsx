@@ -243,7 +243,7 @@ async function createApi (apiUrl: string, signer: ApiSigner, isLocalFork: boolea
       await setStorage(chopsticksFork, {
         System: {
           Account: [
-            [['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'], { data: { free: 1000 * 1e12 }, providers: 1 }]
+            [['5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'], { data: { free: 100000 * 1e12 }, providers: 1 }]
           ]
         }
       });
