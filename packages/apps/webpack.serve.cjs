@@ -14,7 +14,8 @@ module.exports = merge(
       hot: true,
       open: false,
       port: 8080,
-      static: path.resolve(__dirname, 'build')
+      static: path.resolve(__dirname, 'build'),
+      disableHostCheck: true
     },
     plugins: [
       new HtmlWebpackPlugin({
