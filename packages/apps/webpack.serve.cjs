@@ -13,7 +13,7 @@ module.exports = merge(
     devServer: {
       hot: true,
       open: false,
-      port: 3000,
+      port: 8080,
       static: path.resolve(__dirname, 'build')
     },
     plugins: [
