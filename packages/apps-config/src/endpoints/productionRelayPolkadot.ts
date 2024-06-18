@@ -217,9 +217,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2046,
     providers: {
       Darwinia: 'wss://rpc.darwinia.network',
-      // 'Darwinia Community': 'wss://darwinia-rpc.darwiniacommunitydao.xyz', // https://github.com/polkadot-js/apps/issues/10667
+      Dcdao: 'wss://darwinia-rpc.dcdao.box',
       Dwellir: 'wss://darwinia-rpc.dwellir.com'
-      // OnFinality: 'wss://darwinia2.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9861
     },
     text: 'Darwinia',
     ui: {
