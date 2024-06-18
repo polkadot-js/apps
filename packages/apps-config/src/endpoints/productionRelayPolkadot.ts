@@ -557,7 +557,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'neuroweb',
     paraId: 2043,
     providers: {
-      Dwellir: 'wss://origintrail-rpc.dwellir.com',
+      Dwellir: 'wss://neuroweb-rpc.dwellir.com',
       TraceLabs: 'wss://parachain-rpc.origin-trail.network'
     },
     text: 'NeuroWeb',
