@@ -844,8 +844,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-asset-hub-rpc.polkadot.io',
       RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws',
-      Stakeworld: 'wss://dot-rpc.stakeworld.io/assethub',
-      SubQuery: 'wss://polkadot.rpc.subquery.network/public/ws'
+      Stakeworld: 'wss://dot-rpc.stakeworld.io/assethub'
     },
     relayName: 'polkadot',
     teleport: [-1],
@@ -926,7 +925,8 @@ export const prodRelayPolkadot: EndpointOption = {
     RadiumBlock: 'wss://polkadot.public.curie.radiumblock.co/ws',
     RockX: 'wss://rockx-dot.w3node.com/polka-public-dot/ws',
     Stakeworld: 'wss://dot-rpc.stakeworld.io',
-    'light client': 'light://substrate-connect/polkadot'
+    'light client': 'light://substrate-connect/polkadot',
+    SubQuery: 'wss://polkadot.rpc.subquery.network/public/ws'
   },
   teleport: getTeleports(prodParasPolkadotCommon),
   text: 'Polkadot',
