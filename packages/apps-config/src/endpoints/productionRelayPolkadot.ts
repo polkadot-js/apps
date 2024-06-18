@@ -43,8 +43,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2051,
     providers: {
       AjunaNetwork: 'wss://rpc-para.ajuna.network',
-      OnFinality: 'wss://ajuna.api.onfinality.io/public-ws'
-      // RadiumBlock: 'wss://ajuna.public.curie.radiumblock.co/ws' // https://github.com/polkadot-js/apps/issues/10663
+      OnFinality: 'wss://ajuna.api.onfinality.io/public-ws',
+      RadiumBlock: 'wss://ajuna.public.curie.radiumblock.co/ws'
     },
     text: 'Ajuna Network',
     ui: {
