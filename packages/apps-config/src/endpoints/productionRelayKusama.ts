@@ -1035,8 +1035,8 @@ export const prodRelayKusama: EndpointOption = {
     RadiumBlock: 'wss://kusama.public.curie.radiumblock.co/ws',
     RockX: 'wss://rockx-ksm.w3node.com/polka-public-ksm/ws',
     Stakeworld: 'wss://ksm-rpc.stakeworld.io',
-    'light client': 'light://substrate-connect/kusama',
-    SubQuery: 'wss://kusama.rpc.subquery.network/public/ws'
+    SubQuery: 'wss://kusama.rpc.subquery.network/public/ws',
+    'light client': 'light://substrate-connect/kusama'
   },
   teleport: getTeleports(prodParasKusamaCommon),
   text: 'Kusama',
