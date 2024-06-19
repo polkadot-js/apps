@@ -925,8 +925,8 @@ export const prodRelayPolkadot: EndpointOption = {
     RadiumBlock: 'wss://polkadot.public.curie.radiumblock.co/ws',
     RockX: 'wss://rockx-dot.w3node.com/polka-public-dot/ws',
     Stakeworld: 'wss://dot-rpc.stakeworld.io',
-    'light client': 'light://substrate-connect/polkadot',
-    SubQuery: 'wss://polkadot.rpc.subquery.network/public/ws'
+    SubQuery: 'wss://polkadot.rpc.subquery.network/public/ws',
+    'light client': 'light://substrate-connect/polkadot' 
   },
   teleport: getTeleports(prodParasPolkadotCommon),
   text: 'Polkadot',
