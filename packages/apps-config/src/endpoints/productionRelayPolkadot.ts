@@ -926,7 +926,7 @@ export const prodRelayPolkadot: EndpointOption = {
     RockX: 'wss://rockx-dot.w3node.com/polka-public-dot/ws',
     Stakeworld: 'wss://dot-rpc.stakeworld.io',
     SubQuery: 'wss://polkadot.rpc.subquery.network/public/ws',
-    'light client': 'light://substrate-connect/polkadot' 
+    'light client': 'light://substrate-connect/polkadot'
   },
   teleport: getTeleports(prodParasPolkadotCommon),
   text: 'Polkadot',
