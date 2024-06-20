@@ -1,5 +1,46 @@
 # CHANGELOG
 
+## 0.139.1 June 20, 2024
+
+Contributed:
+
+- Remove Dwellir Peaq RPC endpoint (Thanks to https://github.com/abbaahmad)
+- Remove Pangoro (Thanks to https://github.com/AurevoirXavier)
+- Add IBP endpoints to `people-kusama` and HydraDX (Thanks to https://github.com/miloskriz)
+- Add statescan external link for Kusama People (Thanks to https://github.com/wliyongfeng)
+- Update Aventus Public RPC endpoints (Thanks to https://github.com/RuiSMagalhaes)
+- Added Paseo Bajun RPC, and Remove bajun Rococo, and Ajuna Test (Thanks to https://github.com/darkfriend77)
+- Add Dwellir Coretime Kusama Endpoint (Thanks to https://github.com/jakobilobi)
+- Adjusted some Dwellir Endpoints (Thanks to https://github.com/awnns)
+- Update Dwellir Bridge Hub and Collectives endpoints (Thanks to https://github.com/jakobilobi)
+- Add Dwellir People Westend and People Kusama Endpoints (Thanks to https://github.com/jakobilobi)
+- Remove Frequency on Rococo (Thanks to https://github.com/wilwade)
+- Add Dwellir Coretime Westend endpoint (Thanks to https://github.com/jakobilobi)
+- Fix Paseo relay for identity (Thanks to https://github.com/al3mart)
+- Add New Koi testnet to replace Pangolin (Thanks to https://github.com/AurevoirXavier)
+- Add Ajuna Paseo RPC (Thanks to https://github.com/darkfriend77)
+- Add support for BTreeMap and fix optional rpc (Thanks to https://github.com/Neopallium)
+- Updated Moonbase Alpha Logo and dApp Logo (Thanks to https://github.com/albertov19)
+- Add communeai (Thanks to https://github.com/EdSDR)
+- Add Magnet to Rococo (Thanks to https://github.com/sulijia)
+- Add SubQuery endpoint to Kusama (Thanks to https://github.com/deverka)
+- Add SubQuery endpoint to Polkadot (Thanks to https://github.com/deverka)
+- Add Kinera Logo and wss (Thanks to https://github.com/antonioarieiro)
+- Increase Alive Balance - Chopsticks (Thanks to https://github.com/DrW3RK)
+- Add Dcdao (Thanks to https://github.com/fewensa)
+- Dwellir: Update Neuroweb endpoint (Thanks to https://github.com/jakobilobi)
+- Add RadiumBlock Khala and Ajuna endpoints in Curie (Thanks to https://github.com/radiumb)
+- Fix SubQeury endpoint for Kusama (Thanks to https://github.com/deverka)
+- Fix SubQuery endpoint for Polkadot (Thanks to https://github.com/deverka)
+- Update Peerplays types bundle (Thanks to https://github.com/serkixenos)
+- Update Acurast Canary (Thanks to https://github.com/bb4L)
+
+Changes:
+
+- Fix wasm.length to use parasConfig.maxCodeSize (Thanks to https://github.com/TarikGul)
+- Disable unreachable endpoints
+- Bump all Polkadot-js deps 
+
 ## 0.138.1 May 24, 2024
 
 Contributed:
