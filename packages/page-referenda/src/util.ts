@@ -234,7 +234,8 @@ export function calcCurves ({ decisionPeriod, minApproval, minSupport }: PalletR
   let currentWithPrecision = new BN(0);
 
   for (let i = 0; i < last; i++) {
-    const current = currentWithPrecision.divn(100)
+    const current = currentWithPrecision.divn(100);
+
     approval[i] = curveThreshold(minApproval, current, decisionPeriod);
     support[i] = curveThreshold(minSupport, current, decisionPeriod);
     x[i] = current;

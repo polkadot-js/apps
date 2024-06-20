@@ -143,14 +143,14 @@ function getChartResult (totalEligible: BN, isConvictionVote: boolean, info: Pal
 
       // Bringing it to a higher precision.
       // Otherwise, graphs with short periods (on dev chains) are invalid.
-      const stepWithPrecision = x[x.length - 1].sub(x[0]).muln(100).divn(x.length)
+      const stepWithPrecision = x[x.length - 1].sub(x[0]).muln(100).divn(x.length);
       const lastIndex = x.length - 1;
       const lastBlock = endConfirm?.add(track.minEnactmentPeriod);
 
       // if the confirmation end is later than shown on our graph, we extend it
-      if (lastBlock?.gt(since.add(x[lastIndex]))) { 
+      if (lastBlock?.gt(since.add(x[lastIndex]))) {
         let currentBlockWithPrecision = x[lastIndex].add(since).muln(100).add(stepWithPrecision);
-        let currentBlock = currentBlockWithPrecision.divn(100)
+        let currentBlock = currentBlockWithPrecision.divn(100);
 
         do {
           labels.push(formatNumber(currentBlock));
@@ -167,7 +167,7 @@ function getChartResult (totalEligible: BN, isConvictionVote: boolean, info: Pal
           values[1][2].push(values[1][2][lastIndex]);
 
           currentBlockWithPrecision = currentBlockWithPrecision.add(stepWithPrecision);
-          currentBlock = currentBlockWithPrecision.divn(100)
+          currentBlock = currentBlockWithPrecision.divn(100);
         } while (currentBlock.lt(lastBlock));
       }
 
