@@ -227,16 +227,19 @@ export function calcCurves ({ decisionPeriod, minApproval, minSupport }: PalletR
   const approval = new Array<BN>(CURVE_LENGTH);
   const support = new Array<BN>(CURVE_LENGTH);
   const x = new Array<BN>(CURVE_LENGTH);
-  const step = decisionPeriod.divn(CURVE_LENGTH);
   const last = CURVE_LENGTH - 1;
-  let current = new BN(0);
+  // Bringing it to a higher precision before dividing by curve length.
+  // Otherwise, graphs with short periods (on dev chains) are invalid.
+  const stepWithPrecision = decisionPeriod.muln(100).divn(CURVE_LENGTH);
+  let currentWithPrecision = new BN(0);
 
   for (let i = 0; i < last; i++) {
+    const current = currentWithPrecision.divn(100)
     approval[i] = curveThreshold(minApproval, current, decisionPeriod);
     support[i] = curveThreshold(minSupport, current, decisionPeriod);
     x[i] = current;
 
-    current = current.add(step);
+    currentWithPrecision = currentWithPrecision.add(stepWithPrecision);
   }
 
   // since we may be lossy with the step, we explicitly calc the final point at 100%
