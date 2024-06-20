@@ -66627,6 +66627,21 @@ export const typesBundle = {
             "description": "Get the list of validator candidates",
             "params": [],
             "type": "Vec<AccountId>"
+          },
+          "validators": {
+            "description": "Get the list of validator candidates",
+            "params": [],
+            "type": "Vec<AccountId>"
+          },
+          "selectedValidators": {
+            "description": "Get the list of active validators",
+            "params": [],
+            "type": "Vec<AccountId>"
+          },
+          "nextValidators": {
+            "description": "Get the list of next session active validators",
+            "params": [],
+            "type": "Vec<AccountId>"
           }
         }
       },
