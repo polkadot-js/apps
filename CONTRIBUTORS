@@ -3,7 +3,7 @@
       62	kwingram25                    	iadd fix (#2911)
       49	pan                           	update Bifrost kusama on Subsquare (#9752)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
-      43	Tarik Gul                     	Bump all necessary polkadot-js deps (#10689)
+      44	Tarik Gul                     	0.139.1 (#10691)
       41	MiZiet                        	Apply styles to the unbonding icon (#6314)
       33	Joakim Nyman                  	Revert "Update productionRelayPolkadot.ts" (#10207)
       31	RadiumBlock                   	Add RadiumBlock  Khala and Ajuna endpoints in Curie (#10684)
