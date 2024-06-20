@@ -13,6 +13,7 @@ import claims from './claims.js';
 import collator from './collator.js';
 import contracts from './contracts.js';
 import council from './council.js';
+import ddelegation from './ddelegation';
 import democracy from './democracy.js';
 import explorer from './explorer.js';
 import extrinsics from './extrinsics.js';
@@ -75,6 +76,7 @@ export default function create (t: TFunction): Routes {
     // other governance-related
     treasury(t),
     bounties(t),
+    ddelegation(t),
     // others
     parachains(t),
     assets(t),
