@@ -462,7 +462,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
   },
   {
     info: 'regionxCocos',
-    paraId: 4461,
+    paraId: 4459,
     providers: {
       RegionX: 'wss://cocos-node.regionx.tech'
     },
