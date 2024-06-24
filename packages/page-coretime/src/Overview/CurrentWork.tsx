@@ -1,18 +1,17 @@
 // Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { useState, useEffect, useRef } from 'react';
-
 import type { PolkadotRuntimeParachainsAssignerCoretimeWorkState } from '@polkadot/types/lookup';
 
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+
 import { Table } from '@polkadot/react-components';
 
 interface Props {
   value?: PolkadotRuntimeParachainsAssignerCoretimeWorkState;
 }
 
-function createAssignments(value?: PolkadotRuntimeParachainsAssignerCoretimeWorkState): string {
+function createAssignments (value?: PolkadotRuntimeParachainsAssignerCoretimeWorkState): string {
   if (value) {
     if (value.assignments.length > 1) {
       return value.assignments.map((_, index) => {
@@ -25,27 +24,27 @@ function createAssignments(value?: PolkadotRuntimeParachainsAssignerCoretimeWork
         } else {
           return `${ratio}% Task: ${value.assignments[index][0].asTask.toString()}`;
         }
-      }).join(', ')
+      }).join(', ');
     } else {
       if (value.assignments[0][0].isIdle) {
-        return '100% Idle'
+        return '100% Idle';
       } else if (value.assignments[0][0].isPool) {
-        return '100% Pool'
+        return '100% Pool';
       } else {
-        return `100% Task: ${value.assignments[0][0].asTask.toString()}`
+        return `100% Task: ${value.assignments[0][0].asTask.toString()}`;
       }
     }
   } else {
-    return 'Queue empty'
+    return 'Queue empty';
   }
 }
 
-function CurrentWork({ value }: Props): React.ReactElement<Props> {
+function CurrentWork ({ value }: Props): React.ReactElement<Props> {
   const [assignments, setAssignments] = useState('');
 
   useEffect(() => {
-    setAssignments(createAssignments(value))
-  }, []);
+    setAssignments(createAssignments(value));
+  }, [value]);
 
   const headerRef = useRef<([React.ReactNode?, string?] | false)[]>([
     ['current work']
@@ -57,7 +56,7 @@ function CurrentWork({ value }: Props): React.ReactElement<Props> {
         <td className='start media--1300'>{assignments}</td>
       </tr>
     </Table>
-  )
+  );
 }
 
 export default React.memo(CurrentWork);

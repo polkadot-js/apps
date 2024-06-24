@@ -15,7 +15,7 @@ interface Props {
   coreInfos?: CoreDescription;
 }
 
-function CoreDescriptors({ className, coreInfos }: Props): React.ReactElement<Props> {
+function CoreDescriptors ({ className, coreInfos }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
