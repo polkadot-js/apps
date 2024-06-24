@@ -34,7 +34,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'acurast',
     paraId: 2239,
     providers: {
-      Acurast: 'wss://acurast-canarynet-ws.prod.gke.papers.tech'
+      Acurast: 'wss://public-rpc.canary.acurast.com'
+      // Acurast: 'wss://acurast-canarynet-ws.prod.gke.papers.tech' // https://github.com/polkadot-js/apps/issues/10667
     },
     text: 'Acurast Canary',
     ui: {
@@ -135,7 +136,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2105,
     providers: {
       Darwinia: 'wss://crab-rpc.darwinia.network/',
-      'Darwinia Community': 'wss://crab-rpc.darwiniacommunitydao.xyz',
+      Dcdao: 'wss://crab-rpc.dcdao.box',
       Dwellir: 'wss://darwiniacrab-rpc.dwellir.com'
     },
     text: 'Crab',
@@ -345,7 +346,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
       'Acala Foundation 2': 'wss://karura-rpc-2.aca-api.network/ws',
       'Acala Foundation 3': 'wss://karura-rpc-3.aca-api.network/ws',
       Dwellir: 'wss://karura-rpc.dwellir.com',
-      LuckyFriday: 'wss://rpc-karura.luckyfriday.io',
+      // LuckyFriday: 'wss://rpc-karura.luckyfriday.io',  // https://github.com/polkadot-js/apps/issues/10663
       OnFinality: 'wss://karura.api.onfinality.io/public-ws'
       // 'Polkawallet 0': 'wss://karura.polkawallet.io' // https://github.com/polkadot-js/apps/issues/9383
     },
@@ -1025,7 +1026,6 @@ export const prodRelayKusama: EndpointOption = {
     // 'Geometry Labs': 'wss://kusama.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
     // 'Automata 1RPC': 'wss://1rpc.io/ksm',
     Allnodes: 'wss://kusama-rpc.publicnode.com',
-    Blockops: 'wss://kusama-public-rpc.blockops.network/ws', // https://github.com/polkadot-js/apps/issues/9840
     Dwellir: 'wss://kusama-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://kusama-rpc-tn.dwellir.com',
     IBP1: 'wss://rpc.ibp.network/kusama',
@@ -1035,6 +1035,7 @@ export const prodRelayKusama: EndpointOption = {
     RadiumBlock: 'wss://kusama.public.curie.radiumblock.co/ws',
     RockX: 'wss://rockx-ksm.w3node.com/polka-public-ksm/ws',
     Stakeworld: 'wss://ksm-rpc.stakeworld.io',
+    SubQuery: 'wss://kusama.rpc.subquery.network/public/ws',
     'light client': 'light://substrate-connect/kusama'
   },
   teleport: getTeleports(prodParasKusamaCommon),
