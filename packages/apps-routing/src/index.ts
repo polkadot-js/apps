@@ -8,10 +8,12 @@ import addresses from './addresses.js';
 import alliance from './alliance.js';
 import assets from './assets.js';
 import bounties from './bounties.js';
+import broker from './broker.js';
 import calendar from './calendar.js';
 import claims from './claims.js';
 import collator from './collator.js';
 import contracts from './contracts.js';
+import coretime from './coretime.js';
 import council from './council.js';
 import democracy from './democracy.js';
 import explorer from './explorer.js';
@@ -60,6 +62,8 @@ export default function create (t: TFunction): Routes {
     // Legacy staking Pre v14 pallet version.
     stakingLegacy(t),
     collator(t),
+    coretime(t),
+    broker(t),
     // governance v2
     referenda(t),
     membership(t),
