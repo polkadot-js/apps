@@ -6,13 +6,25 @@ import type { ParamDef, Props, RawParam } from '../types.js';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { Button } from '@polkadot/react-components';
-import { isUndefined } from '@polkadot/util';
+import { BTreeMap } from '@polkadot/types';
+import { isCodec, isUndefined } from '@polkadot/util';
 
 import Params from '../index.js';
 import getInitValue from '../initValue.js';
 import { useTranslation } from '../translate.js';
 import Base from './Base.js';
 import useParamDefs from './useParamDefs.js';
+
+function getParamType ([key, value]: ParamDef[]): ParamDef[] {
+  return [{
+    name: '(Key, Value)',
+    type: {
+      info: 17,
+      sub: [key.type, value.type],
+      type: `(${key.type.type}, ${value.type.type})`
+    }
+  }];
+}
 
 function getParam ([{ name, type }]: ParamDef[], index: number): ParamDef {
   return {
@@ -21,7 +33,7 @@ function getParam ([{ name, type }]: ParamDef[], index: number): ParamDef {
   };
 }
 
-export function getParams (inputParams: ParamDef[], prev: ParamDef[], max: number): ParamDef[] {
+export function getParams (keyValueParam: ParamDef[], prev: ParamDef[], max: number): ParamDef[] {
   if (prev.length === max) {
     return prev;
   }
@@ -29,64 +41,76 @@ export function getParams (inputParams: ParamDef[], prev: ParamDef[], max: numbe
   const params: ParamDef[] = [];
 
   for (let index = 0; index < max; index++) {
-    params.push(getParam(inputParams, index));
+    params.push(getParam(keyValueParam, index));
   }
 
   return params;
 }
 
-export function getValues ({ value }: RawParam): RawParam[] {
-  if (value instanceof Set) {
-    value = [...value.values()];
-  }
-
-  return Array.isArray(value)
-    ? value.map((value: RawParam) =>
-      isUndefined(value) || isUndefined(value.isValid)
-        ? { isValid: !isUndefined(value), value }
-        : value
-    )
+export function getValues ({ isValid, value }: RawParam): RawParam[] {
+  return (isValid && isCodec(value) && value instanceof BTreeMap)
+    ? [...value.entries()].map(([key, value]: RawParam[]) => {
+      return {
+        isValid: true,
+        value: [{ isValid: true, value: key }, { isValid: true, value }]
+      };
+    })
     : [];
 }
 
-function Vector ({ className = '', defaultValue, isDisabled = false, label, onChange, overrides, registry, type, withLabel }: Props): React.ReactElement<Props> | null {
+function BTreeMapParam ({ className = '', defaultValue, isDisabled = false, label, onChange, overrides, registry, type, withLabel }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const inputParams = useParamDefs(registry, type);
+  const keyValueParam = getParamType(useParamDefs(registry, type));
   const [values, setValues] = useState<RawParam[]>(() => getValues(defaultValue));
   const [count, setCount] = useState(() => values.length);
-  const [params, setParams] = useState<ParamDef[]>(() => getParams(inputParams, [], count));
+  const [params, setParams] = useState<ParamDef[]>(() => getParams(keyValueParam, [], count));
 
   // build up the list of parameters we are using
   useEffect((): void => {
-    inputParams.length &&
+    keyValueParam.length &&
       setParams((prev) =>
-        getParams(inputParams, prev, isDisabled ? values.length : count)
+        getParams(keyValueParam, prev, isDisabled ? values.length : count)
       );
-  }, [count, values, isDisabled, inputParams]);
+  }, [count, values, isDisabled, keyValueParam]);
 
   // when !isDisable, generating an input list based on count
   useEffect((): void => {
-    !isDisabled && inputParams.length &&
+    !isDisabled && keyValueParam.length &&
       setValues((values): RawParam[] => {
         if (values.length === count) {
           return values;
         }
 
         while (values.length < count) {
-          const value = getInitValue(registry, inputParams[0].type);
+          const value = getInitValue(registry, keyValueParam[0].type);
 
           values.push({ isValid: !isUndefined(value), value });
         }
 
         return values.slice(0, count);
       });
-  }, [count, defaultValue, inputParams, isDisabled, registry]);
+  }, [count, defaultValue, keyValueParam, isDisabled, registry]);
 
   // when our values has changed, alert upstream
   useEffect((): void => {
+    const output = new Map();
+    let isValid = true;
+
+    for (const entry of values) {
+      const [key, value] = entry.value as RawParam[];
+
+      if (output.has(key)) {
+        isValid = false;
+        console.error('BTreeMap: Duplicate key ', key);
+      }
+
+      output.set(key, value);
+      isValid = isValid && entry.isValid;
+    }
+
     onChange && onChange({
-      isValid: values.reduce<boolean>((result, { isValid }) => result && isValid, true),
-      value: values.map(({ value }) => value)
+      isValid,
+      value: output
     });
   }, [values, onChange]);
 
@@ -107,7 +131,7 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
       withLabel={withLabel}
     >
       {!isDisabled && (
-        <div className='ui--Param-Vector-buttons'>
+        <div className='ui--Param-BTreeMap-buttons'>
           <Button
             icon='plus'
             label={t('Add item')}
@@ -133,4 +157,4 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
   );
 }
 
-export default React.memo(Vector);
+export default React.memo(BTreeMapParam);

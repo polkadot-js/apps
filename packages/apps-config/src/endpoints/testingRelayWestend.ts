@@ -137,7 +137,7 @@ export const testParasWestendCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1002,
     providers: {
-      Dwellir: 'wss://westend-bridge-hub-rpc.dwellir.com',
+      Dwellir: 'wss://bridge-hub-westend-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://westend-bridge-hub-rpc-tn.dwellir.com',
       IBP1: 'wss://sys.ibp.network/bridgehub-westend',
       IBP2: 'wss://sys.dotters.network/bridgehub-westend',
@@ -155,7 +155,7 @@ export const testParasWestendCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1001,
     providers: {
-      Dwellir: 'wss://westend-collectives-rpc.dwellir.com',
+      Dwellir: 'wss://collectives-westend-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://westend-collectives-rpc-tn.dwellir.com',
       IBP1: 'wss://sys.ibp.network/collectives-westend',
       IBP2: 'wss://sys.dotters.network/collectives-westend',
@@ -174,6 +174,7 @@ export const testParasWestendCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1005,
     providers: {
+      Dwellir: 'wss://coretime-westend-rpc.dwellir.com',
       IBP1: 'wss://sys.ibp.network/coretime-westend',
       IBP2: 'wss://sys.dotters.network/coretime-westend',
       Parity: 'wss://westend-coretime-rpc.polkadot.io'
@@ -189,6 +190,7 @@ export const testParasWestendCommon: EndpointOption[] = [
     isPeopleForIdentity: false,
     paraId: 1004,
     providers: {
+      Dwellir: 'wss://people-westend-rpc.dwellir.com',
       IBP1: 'wss://sys.ibp.network/people-westend',
       IBP2: 'wss://sys.dotters.network/people-westend',
       Parity: 'wss://westend-people-rpc.polkadot.io'
@@ -211,7 +213,6 @@ export const testRelayWestend: EndpointOption = {
     ...testParasWestend
   ],
   providers: {
-    Blockops: 'wss://westend-rpc.blockops.network/ws', // https://github.com/polkadot-js/apps/issues/9840
     Dwellir: 'wss://westend-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://westend-rpc-tn.dwellir.com',
     IBP1: 'wss://rpc.ibp.network/westend',

@@ -1318,8 +1318,6 @@
   "rpc.mandala": "Mandala (Testnet Acala, hébergé par Acala)",
   "rpc.nodle-arcadia": "Arcadia (Testnet Nodle, hébergé par Nodle)",
   "rpc.nodle-main": "Nodle Main",
-  "rpc.pangolin": "Pangolin",
-  "rpc.pangoro": "Pangoro",
   "rpc.phala": "Phala PoC-3",
   "rpc.polkadot.parity": "Polkadot",
   "rpc.polkadot.w3f": "Polkadot",
