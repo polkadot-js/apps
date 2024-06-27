@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## 0.140.1 June 27, 2024
+
+Contributed:
+
+- BlockOps remove public endpoint support for Kusama and Westend
+
+Changes:
+
+- Fix confusing param naming in execute
+- Update polkadot-js deps
+    - Api: 12.0.2
+    - Phishing: 0.22.10
+    - Tools: 0.56.14
+    - Extension: 0.48.1
+
+
 ## 0.139.1 June 20, 2024
 
 Contributed:
