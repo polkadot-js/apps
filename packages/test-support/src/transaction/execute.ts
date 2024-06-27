@@ -7,7 +7,7 @@ import type { EventRecord, ExtrinsicStatus } from '@polkadot/types/interfaces';
 
 import { waitFor } from '../utils/waitFor.js';
 
-export async function execute (extrinsic: SubmittableExtrinsic<'promise'>, singer: KeyringPair, logger = { info: console.log }): Promise<void> {
+export async function execute (extrinsic: SubmittableExtrinsic<'promise'>, signer: KeyringPair, logger = { info: console.log }): Promise<void> {
   let currentTxDone = false;
 
   function sendStatusCb ({ events = [], status }: { events?: EventRecord[], status: ExtrinsicStatus; }) {
@@ -35,6 +35,6 @@ export async function execute (extrinsic: SubmittableExtrinsic<'promise'>, singe
     }
   }
 
-  await extrinsic.signAndSend(singer, sendStatusCb);
+  await extrinsic.signAndSend(signer, sendStatusCb);
   await waitFor(() => currentTxDone, { timeout: 20000 });
 }
