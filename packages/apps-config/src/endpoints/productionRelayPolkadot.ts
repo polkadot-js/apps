@@ -203,7 +203,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'crustParachain',
     paraId: 2008,
     providers: {
-      Crust: 'wss://crust-parachain.crustapps.net'
+      Crust: 'wss://crust-parachain.crustapps.net',
+      'Crust XYZ': 'wss://crust-parachain.crustnetwork.xyz'
       // OnFinality: 'wss://crust-polkadot.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/10013
     },
     text: 'Crust',
