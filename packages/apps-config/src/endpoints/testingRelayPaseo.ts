@@ -212,7 +212,7 @@ export const testRelayPaseo: EndpointOption = {
     IBP1: 'wss://rpc.ibp.network/paseo',
     IBP2: 'wss://rpc.dotters.network/paseo',
     StakeWorld: 'wss://pas-rpc.stakeworld.io',
-    Zondax: 'wss://api.zondax.ch/paso/node/rpc'
+    Zondax: 'wss://api.zondax.ch/pas/node/rpc'
     // 'light client': 'light://substrate-connect/paseo'
   },
   teleport: getTeleports(testParasPaseoCommon),
