@@ -450,17 +450,6 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'rococoPhala',
-    paraId: 2004,
-    providers: {
-      'Phala Network': 'wss://rhala-node.phala.network/ws'
-    },
-    text: 'Rhala Testnet',
-    ui: {
-      logo: nodesPhalaSVG
-    }
-  },
-  {
     info: 'regionxCocos',
     paraId: 4459,
     providers: {
@@ -470,6 +459,17 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#0CC184',
       logo: nodesRegionxCocosPNG
+    }
+  },
+  {
+    info: 'rococoPhala',
+    paraId: 2004,
+    providers: {
+      'Phala Network': 'wss://rhala-node.phala.network/ws'
+    },
+    text: 'Rhala Testnet',
+    ui: {
+      logo: nodesPhalaSVG
     }
   },
   {
