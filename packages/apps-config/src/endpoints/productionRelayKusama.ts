@@ -151,7 +151,9 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2012,
     providers: {
       Crust: 'wss://rpc-shadow.crust.network/',
-      'Crust XYZ': 'wss://rpc-shadow.crustnetwork.xyz'
+      'Crust XYZ': 'wss://rpc-shadow.crustnetwork.xyz',
+      'Crust APP': 'wss://rpc-shadow.crustnetwork.app',
+      'Crust CC': 'wss://rpc-shadow.crustnetwork.cc'
     },
     text: 'Crust Shadow',
     ui: {
