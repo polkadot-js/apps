@@ -170,6 +170,9 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'crust',
     providers: {
       'Crust Network': 'wss://rpc.crust.network',
+      'Crust Network APP': 'wss://rpc.crustnetwork.app',
+      'Crust Network CC': 'wss://rpc.crustnetwork.cc',
+      'Crust Network XYZ': 'wss://rpc.crustnetwork.xyz',
       Dwellir: 'wss://crust-mainnet-rpc.dwellir.com',
       OnFinality: 'wss://crust.api.onfinality.io/public-ws'
     },
