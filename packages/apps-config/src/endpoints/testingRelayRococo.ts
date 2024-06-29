@@ -438,18 +438,6 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'rococoEwx',
-    paraId: 3345,
-    providers: {
-      'Energy Web': 'wss://public-rpc.testnet.energywebx.com/'
-    },
-    text: 'REX',
-    ui: {
-      color: '#452E66',
-      logo: nodesRexSVG
-    }
-  },
-  {
     info: 'regionxCocos',
     paraId: 4459,
     providers: {
@@ -459,6 +447,18 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#0CC184',
       logo: nodesRegionxCocosPNG
+    }
+  },
+  {
+    info: 'rococoEwx',
+    paraId: 3345,
+    providers: {
+      'Energy Web': 'wss://public-rpc.testnet.energywebx.com/'
+    },
+    text: 'REX',
+    ui: {
+      color: '#452E66',
+      logo: nodesRexSVG
     }
   },
   {
