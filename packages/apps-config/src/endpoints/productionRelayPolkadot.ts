@@ -820,7 +820,6 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'zeitgeist',
     paraId: 2092,
     providers: {
-      Dwellir: 'wss://zeitgeist-rpc.dwellir.com',
       OnFinality: 'wss://zeitgeist.api.onfinality.io/public-ws',
       ZeitgeistPM: 'wss://main.rpc.zeitgeist.pm/ws'
     },
