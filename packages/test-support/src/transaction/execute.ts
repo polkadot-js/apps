@@ -35,6 +35,6 @@ export async function execute (extrinsic: SubmittableExtrinsic<'promise'>, signe
     }
   }
 
-  await extrinsic.signAndSend(signer, sendStatusCb);
+  await extrinsic.signAndSend(signer, { withSignedTransaction: true }, sendStatusCb);
   await waitFor(() => currentTxDone, { timeout: 20000 });
 }
