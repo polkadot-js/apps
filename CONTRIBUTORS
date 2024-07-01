@@ -496,6 +496,7 @@
        1	Satyam Agrawal                	Add Polymesh ITN Provider (#5242)
        1	Sephiroth                     	Add Allnodes endpoints for Polkadot, Kusama, Moonbeam, Moonriver (#10520)
        1	Sergei Lonshakov              	Robonomics ParaID 2077 added (#5706)
+       1	Sergej Sakac                  	Add RegionX Cocos (#10696)
        1	Shailesh B Nair               	Add KlugDossier (#5456)
        1	Shamil                        	Move Vara from Live networks to Test networks (#8295)
        1	Shannon Wells                 	update @frequency/api-augment to v1.9.0 (#10062)
