@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## 0.141.1 July 1, 2024
+
+Contributed:
+
+- Add Zondax paseo rpc endpoint (Thanks to https://github.com/emmanuelm41)
+- Higher precision of referenda graphs (Thanks to https://github.com/rzadp)
+- Add additional RPC endpoint for Crust Mainnet, Crust Parachain, Crust Shadow (Thanks to https://github.com/wuhaixian1984)
+- Add RegionX Cocos (Thanks to https://github.com/Szegoo)
+- Remove Dwellir Zeitgeist endpoint (Thanks to https://github.com/abbaahmad)
+
+Changes:
+
+- Enable `withSignedTransaction` for signing and sending payloads
+
+
 ## 0.140.1 June 27, 2024
 
 Contributed:
