@@ -1,4 +1,7 @@
 {
   "eslint.enable": true,
-  "eslint.experimental.useFlatConfig": true
+  "eslint.experimental.useFlatConfig": true,
+  "githubPullRequests.ignoredPullRequestBranches": [
+    "master"
+  ]
 }
