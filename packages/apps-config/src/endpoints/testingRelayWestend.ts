@@ -217,7 +217,7 @@ export const testRelayWestend: EndpointOption = {
     'Dwellir Tunisia': 'wss://westend-rpc-tn.dwellir.com',
     IBP1: 'wss://rpc.ibp.network/westend',
     IBP2: 'wss://rpc.dotters.network/westend',
-    LuckyFriday: 'wss://rpc-westend.luckyfriday.io',
+    // LuckyFriday: 'wss://rpc-westend.luckyfriday.io', // https://github.com/polkadot-js/apps/issues/10728
     OnFinality: 'wss://westend.api.onfinality.io/public-ws',
     Parity: 'wss://westend-rpc.polkadot.io',
     RadiumBlock: 'wss://westend.public.curie.radiumblock.co/ws',

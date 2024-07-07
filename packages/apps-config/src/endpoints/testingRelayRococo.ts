@@ -186,7 +186,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rorocoLaos',
     paraId: 4343,
     providers: {
-      'Freeverse.io': 'wss://rpc.giedi.laosfoundation.io'
+      // 'Freeverse.io': 'wss://rpc.giedi.laosfoundation.io' // https://github.com/polkadot-js/apps/issues/10728
     },
     text: 'Giedi',
     ui: {
@@ -607,7 +607,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 't0rn',
     paraId: 3333,
     providers: {
-      t3rn: 'wss://rpc.t0rn.io'
+      // t3rn: 'wss://rpc.t0rn.io' // https://github.com/polkadot-js/apps/issues/10728
     },
     text: 't0rn',
     ui: {
