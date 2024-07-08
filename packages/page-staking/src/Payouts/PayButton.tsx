@@ -13,6 +13,7 @@ import { AddressMini, Button, InputAddress, Modal, Static, styled, TxButton } fr
 import { useApi, useToggle, useTxBatch } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
+import type { BatchOptions } from '@polkadot/react-hooks/types';
 
 interface Props {
   className?: string;
@@ -60,9 +61,10 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
   const [isVisible, togglePayout] = useToggle();
   const [accountId, setAccount] = useState<string | null>(null);
   const [txs, setTxs] = useState<SubmittableExtrinsic<'promise'>[] | null>(null);
-  const batchOpts = useMemo(
+  const batchOpts = useMemo<BatchOptions>(
     () => ({
-      max: 36 * 64 / ((api.consts.staking.maxNominatorRewardedPerValidator as u32)?.toNumber() || 64)
+      max: 36 * 64 / ((api.consts.staking.maxNominatorRewardedPerValidator as u32)?.toNumber() || 64),
+      type: "force"
     }),
     [api]
   );
