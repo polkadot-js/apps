@@ -3,6 +3,7 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { BatchOptions } from '@polkadot/react-hooks/types';
 import type { u32 } from '@polkadot/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
 import type { PayoutValidator } from './types.js';
@@ -13,7 +14,6 @@ import { AddressMini, Button, InputAddress, Modal, Static, styled, TxButton } fr
 import { useApi, useToggle, useTxBatch } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
-import type { BatchOptions } from '@polkadot/react-hooks/types';
 
 interface Props {
   className?: string;
@@ -64,7 +64,7 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
   const batchOpts = useMemo<BatchOptions>(
     () => ({
       max: 36 * 64 / ((api.consts.staking.maxNominatorRewardedPerValidator as u32)?.toNumber() || 64),
-      type: "force"
+      type: 'force'
     }),
     [api]
   );
