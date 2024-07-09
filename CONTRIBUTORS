@@ -414,6 +414,7 @@
        1	Kai                           	Fix broken contract deployment function (#1643)
        1	kaichao                       	Refresh zh translations (#3322)
        1	kamrangul2404                 	Add krest parachain (kusama)  (#9079)
+       1	Kanishka Rajput               	Update polkassembly.ts networks (#10740)
        1	Ken Truong                    	Add Continuum Metaverse.Network to Polkadot Relay (#10321)
        1	Kerwin Zhu                    	fix Chinese translation of 'comm.' (#4464)
        1	Kevin Gislason                	add manta testnet (#5355)
