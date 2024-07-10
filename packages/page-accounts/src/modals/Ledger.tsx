@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { Ledger } from '@polkadot/hw-ledger';
+import type { LedgerGeneric } from '@polkadot/hw-ledger';
 
 import React, { useCallback, useRef, useState } from 'react';
 
@@ -26,8 +26,8 @@ interface Props {
 export const AVAIL_INDEXES = arrayRange(20);
 
 // query the ledger for the address, adding it to the keyring
-async function queryLedger (api: ApiPromise, getLedger: () => Ledger, name: string, accountOffset: number, addressOffset: number): Promise<void> {
-  const { address } = await getLedger().getAddress(false, accountOffset, addressOffset);
+async function queryLedger (api: ApiPromise, getLedger: () => LedgerGeneric, name: string, accountOffset: number, addressOffset: number, ss58Prefix: number): Promise<void> {
+  const { address } = await getLedger().getAddress(false, accountOffset, ss58Prefix);
 
   keyring.addHardware(address, 'ledger', {
     accountOffset,
@@ -67,7 +67,7 @@ function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> 
       setError(null);
       setIsBusy(true);
 
-      queryLedger(api, getLedger, name, accIndex, addIndex)
+      queryLedger(api, getLedger, name, accIndex, addIndex, api.consts.system.ss58Prefix.toNumber())
         .then(() => onClose())
         .catch((error: Error): void => {
           console.error(error);

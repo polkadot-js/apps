@@ -6,7 +6,7 @@ import type { TransportType } from '@polkadot/hw-ledger-transports/types';
 
 import { useCallback, useMemo } from 'react';
 
-import { Ledger } from '@polkadot/hw-ledger';
+import { LedgerGeneric } from '@polkadot/hw-ledger';
 import { knownGenesis, knownLedger } from '@polkadot/networks/defaults';
 import uiSettings from '@polkadot/ui-settings';
 import { assert } from '@polkadot/util';
@@ -22,7 +22,7 @@ interface StateBase {
 }
 
 interface State extends StateBase {
-  getLedger: () => Ledger;
+  getLedger: () => LedgerGeneric;
 }
 
 const EMPTY_STATE: StateBase = {
@@ -37,10 +37,10 @@ const ledgerChains = Object
   .keys(knownGenesis)
   .filter((n) => knownLedger[n]);
 const ledgerHashes = ledgerChains.reduce<string[]>((all, n) => [...all, ...knownGenesis[n]], []);
-let ledger: Ledger | null = null;
+let ledger: LedgerGeneric | null = null;
 let ledgerType: TransportType | null = null;
 
-function retrieveLedger (api: ApiPromise): Ledger {
+function retrieveLedger (api: ApiPromise): LedgerGeneric {
   const currType = uiSettings.ledgerConn as TransportType;
 
   if (!ledger || ledgerType !== currType) {
@@ -49,7 +49,7 @@ function retrieveLedger (api: ApiPromise): Ledger {
 
     assert(network, `Unable to find a known Ledger config for genesisHash ${genesisHex}`);
 
-    ledger = new Ledger(currType, network);
+    ledger = new LedgerGeneric(currType, network ,knownLedger[network]);
     ledgerType = currType;
   }
 

@@ -2,27 +2,27 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Signer, SignerResult } from '@polkadot/api/types';
-import type { Ledger } from '@polkadot/hw-ledger';
+import type { LedgerGeneric } from '@polkadot/hw-ledger';
 import type { Registry, SignerPayloadJSON } from '@polkadot/types/types';
+
+import { hexToU8a } from '@polkadot/util';
 
 let id = 0;
 
 export class LedgerSigner implements Signer {
   readonly #accountOffset: number;
-  readonly #addressOffset: number;
-  readonly #getLedger: () => Ledger;
+  readonly #getLedger: () => LedgerGeneric;
   readonly #registry: Registry;
 
-  constructor (registry: Registry, getLedger: () => Ledger, accountOffset: number, addressOffset: number) {
+  constructor (registry: Registry, getLedger: () => LedgerGeneric, accountOffset: number) {
     this.#accountOffset = accountOffset;
-    this.#addressOffset = addressOffset;
     this.#getLedger = getLedger;
     this.#registry = registry;
   }
 
   public async signPayload (payload: SignerPayloadJSON): Promise<SignerResult> {
     const raw = this.#registry.createType('ExtrinsicPayload', payload, { version: payload.version });
-    const { signature } = await this.#getLedger().sign(raw.toU8a(true), this.#accountOffset, this.#addressOffset);
+    const { signature } = await this.#getLedger().signWithMetadata(raw.toU8a(true), this.#accountOffset, { metadata: Buffer.from(hexToU8a(this.#registry.metadata.toHex())) });
 
     return { id: ++id, signature };
   }
