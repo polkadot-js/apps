@@ -6,7 +6,7 @@ import type { Signer, SignerResult } from '@polkadot/api/types';
 import type { LedgerGeneric } from '@polkadot/hw-ledger';
 import type { Registry, SignerPayloadJSON } from '@polkadot/types/types';
 
-import { objectSpread } from '@polkadot/util';
+import { objectSpread, hexToU8a, u8aToBuffer } from '@polkadot/util';
 import { signatureVerify } from '@polkadot/util-crypto'
 import { init, RuntimeMetadata } from 'merkleized-metadata';
 
@@ -40,9 +40,12 @@ export class LedgerSigner implements Signer {
         tokenSymbol: 'DOT'
     });
 
+    console.log(this.#registry.metadata.toJSON())
+    console.log('Address in apps: ', address);
+    console.log(digest.hash());
     const newPayload = objectSpread({}, payload, { mode: 1, metadataHash: '0x' + digest.hash() });
     const raw = this.#registry.createType('ExtrinsicPayload', newPayload);
-    const { signature } = await this.#getLedger().sign(raw.toU8a(true), 0, this.#accountOffset);
+    const { signature } = await this.#getLedger().signWithMetadata(raw.toU8a(true), 0, this.#accountOffset, { metadata: Buffer.from(hexToU8a('0x' + digest.hash())) });
 
     const extrinsic = this.#registry.createType(
       'Extrinsic',
