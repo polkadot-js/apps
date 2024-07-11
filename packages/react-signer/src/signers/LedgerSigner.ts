@@ -6,8 +6,8 @@ import type { Signer, SignerResult } from '@polkadot/api/types';
 import type { LedgerGeneric } from '@polkadot/hw-ledger';
 import type { Registry, SignerPayloadJSON } from '@polkadot/types/types';
 
-import { u8aToBuffer } from '@polkadot/util';
-import { merkleizeMetadata } from '@polkadot-api/merkleize-metadata';
+import { objectSpread } from '@polkadot/util';
+import { init, RuntimeMetadata } from 'merkleized-metadata';
 
 let id = 0;
 
@@ -25,18 +25,30 @@ export class LedgerSigner implements Signer {
   }
 
   public async signPayload (payload: SignerPayloadJSON): Promise<SignerResult> {
+    const mm = await init();
     const m = await this.#api.call.metadata.metadataAtVersion(15);
-    const merkleizedMetadata = merkleizeMetadata(m.unwrap().toU8a(), {
-      base58Prefix: 0,
-      decimals: 10,
-      specName: 'polkadot',
-      specVersion: 1_002_006,
-      tokenSymbol: 'DOT'
+    const { specName, specVersion } = await this.#api.rpc.state.getRuntimeVersion();
+    const runtimeMetadata = RuntimeMetadata.fromHex(m.toHex());
+    const digest = mm.generateMetadataDigest(runtimeMetadata, {
+        base58Prefix: this.#api.consts.system.ss58Prefix.toNumber(),
+        decimals: 10,
+        specName: specName.toString(),
+        specVersion: specVersion.toNumber(),
+        tokenSymbol: 'DOT'
     });
-    const hash = merkleizedMetadata.digest();
-    const raw = this.#registry.createType('ExtrinsicPayload', payload, { version: payload.version });
-    const { signature } = await this.#getLedger().signWithMetadata(raw.toU8a(true), this.#accountOffset, { metadata: u8aToBuffer(hash) });
 
-    return { id: ++id, signature };
+    const newPayload = objectSpread({}, payload, { mode: 1, metadataHash: '0x' + digest.hash() });
+    const raw = this.#registry.createType('ExtrinsicPayload', newPayload);
+    const { signature } = await this.#getLedger().sign(raw.toU8a(true), 0, this.#accountOffset);
+
+    const extrinsic = this.#registry.createType(
+      'Extrinsic',
+      { method: raw.method },
+      { version: 4 }
+    );
+
+    extrinsic.addSignature(payload.address, signature, raw.toHex())
+
+    return { id: ++id, signature, signedTransaction: extrinsic.toHex() };
   }
 }

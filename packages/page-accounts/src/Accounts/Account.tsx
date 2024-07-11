@@ -139,7 +139,7 @@ function createClearReferendaTx (api: ApiPromise, address: string, ids: [BN, BN]
 async function showLedgerAddress (getLedger: () => LedgerGeneric, meta: KeyringJson$Meta): Promise<void> {
   const ledger = getLedger();
 
-  await ledger.getAddress(true, meta.accountOffset || 0, meta.addressOffset || 0);
+  await ledger.getAddress(0, true, meta.accountOffset || 0, meta.addressOffset || 0);
 }
 
 const transformRecovery = {

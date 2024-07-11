@@ -19,7 +19,7 @@ import { web3FromSource } from '@polkadot/extension-dapp';
 import { Button, ErrorBoundary, Modal, Output, styled, Toggle } from '@polkadot/react-components';
 import { useApi, useLedger, useQueue, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
-import { assert, nextTick } from '@polkadot/util';
+import { assert, nextTick, objectSpread } from '@polkadot/util';
 import { addressEq } from '@polkadot/util-crypto';
 
 import { AccountSigner, LedgerSigner, QrSigner } from './signers/index.js';
@@ -195,7 +195,7 @@ async function extractParams (api: ApiPromise, address: string, options: Partial
   const { meta: { accountOffset, isExternal, isHardware, isInjected, isLocal, isProxied, source } } = pair;
 
   if (isHardware) {
-    return ['signing', address, { ...options, signer: new LedgerSigner(api, getLedger, accountOffset || 0) }, false];
+    return ['signing', address, { ...objectSpread({}, options, { mode: 1 }), signer: new LedgerSigner(api, getLedger, accountOffset || 0) }, false];
   } else if (isLocal) {
     return ['signing', address, { ...options, signer: new AccountSigner(api.registry, pair) }, true];
   } else if (isExternal && !isProxied) {
@@ -287,7 +287,7 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
         } else if (flags.isHardware) {
           try {
             const ledger = getLedger();
-            const { address } = await ledger.getAddress(false, flags.accountOffset, flags.addressOffset);
+            const { address } = await ledger.getAddress(0, false, flags.accountOffset, flags.addressOffset);
 
             console.log(`Signing with Ledger address ${address}`);
           } catch (error) {
@@ -342,7 +342,7 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
       if (senderInfo.signAddress) {
         const [tx, [, pairOrAddress, options, isMockSign]] = await Promise.all([
           wrapTx(api, currentItem, senderInfo),
-          extractParams(api, senderInfo.signAddress, { ...signedOptions, tip, withSignedTransaction: true }, getLedger, setQrState)
+          extractParams(api, senderInfo.signAddress, { ...signedOptions, tip, withSignedTransaction: true, mode: 1 }, getLedger, setQrState)
         ]);
 
         setSignedTx(await signAsync(queueSetTxStatus, currentItem, tx, pairOrAddress, options, api, isMockSign));

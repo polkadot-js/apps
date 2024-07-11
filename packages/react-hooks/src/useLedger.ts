@@ -49,7 +49,7 @@ function retrieveLedger (api: ApiPromise): LedgerGeneric {
 
     assert(network, `Unable to find a known Ledger config for genesisHash ${genesisHex}`);
 
-    ledger = new LedgerGeneric(currType, network, knownLedger[network]);
+    ledger = new LedgerGeneric(currType, network, knownLedger[network], 'dot', 'https://api.zondax.ch/polkadot/transaction/metadata');
     ledgerType = currType;
   }
 
