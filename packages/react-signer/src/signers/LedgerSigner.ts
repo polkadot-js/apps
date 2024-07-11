@@ -7,6 +7,7 @@ import type { LedgerGeneric } from '@polkadot/hw-ledger';
 import type { Registry, SignerPayloadJSON } from '@polkadot/types/types';
 
 import { objectSpread } from '@polkadot/util';
+import { signatureVerify } from '@polkadot/util-crypto'
 import { init, RuntimeMetadata } from 'merkleized-metadata';
 
 let id = 0;
@@ -25,6 +26,8 @@ export class LedgerSigner implements Signer {
   }
 
   public async signPayload (payload: SignerPayloadJSON): Promise<SignerResult> {
+    // TODO hardcoded just for testing, will remove or fix soon!
+    const { address } = await this.#getLedger().getAddress(0, false, 0, 0);
     const mm = await init();
     const m = await this.#api.call.metadata.metadataAtVersion(15);
     const { specName, specVersion } = await this.#api.rpc.state.getRuntimeVersion();
@@ -47,7 +50,10 @@ export class LedgerSigner implements Signer {
       { version: 4 }
     );
 
-    extrinsic.addSignature(payload.address, signature, raw.toHex())
+    console.log(address);
+    extrinsic.addSignature(address, signature, raw.toHex())
+
+    console.log('verify: ', signatureVerify(extrinsic.toHex(), signature, address))
 
     return { id: ++id, signature, signedTransaction: extrinsic.toHex() };
   }
