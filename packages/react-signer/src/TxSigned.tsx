@@ -195,7 +195,7 @@ async function extractParams (api: ApiPromise, address: string, options: Partial
   const { meta: { accountOffset, isExternal, isHardware, isInjected, isLocal, isProxied, source } } = pair;
 
   if (isHardware) {
-    return ['signing', address, { ...options, signer: new LedgerSigner(api.registry, getLedger, accountOffset || 0) }, false];
+    return ['signing', address, { ...options, signer: new LedgerSigner(api, getLedger, accountOffset || 0) }, false];
   } else if (isLocal) {
     return ['signing', address, { ...options, signer: new AccountSigner(api.registry, pair) }, true];
   } else if (isExternal && !isProxied) {
