@@ -899,6 +899,19 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       color: '#e6777a',
       logo: 'fa;people-group'
     }
+  },
+  {
+    info: 'polkadotPeople',
+    isPeople: true,
+    isPeopleForIdentity: false,
+    paraId: 1004,
+    providers: {
+      Parity: 'wss://polkadot-people-rpc.polkadot.io'
+    },
+    relayName: 'polkadot',
+    teleport: [-1],
+    text: 'People',
+    ui: {}
   }
 ];
 
