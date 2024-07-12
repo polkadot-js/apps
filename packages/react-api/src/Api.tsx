@@ -304,9 +304,6 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store: keyringStore 
     [apiError, createLink, extensions, isApiConnected, isApiInitialized, isElectron, isLocalFork, state, apiEndpoint, apiRelay, apiUrl, apiSystemPeople, enableIdentity]
   );
 
-  console.log('peopleUrls: ', peopleUrls);
-  console.log(value);
-
   // initial initialization
   useEffect((): void => {
     const onError = (error: unknown): void => {
