@@ -6,9 +6,8 @@ import type { Signer, SignerResult } from '@polkadot/api/types';
 import type { LedgerGeneric } from '@polkadot/hw-ledger';
 import type { Registry, SignerPayloadJSON } from '@polkadot/types/types';
 
-import { objectSpread, hexToU8a, u8aToBuffer } from '@polkadot/util';
-import { signatureVerify } from '@polkadot/util-crypto'
-import { init, RuntimeMetadata } from 'merkleized-metadata';
+import { hexToU8a, objectSpread, u8aToHex } from '@polkadot/util';
+import { merkleizeMetadata } from '@polkadot-api/merkleize-metadata';
 
 let id = 0;
 
@@ -28,24 +27,23 @@ export class LedgerSigner implements Signer {
   public async signPayload (payload: SignerPayloadJSON): Promise<SignerResult> {
     // TODO hardcoded just for testing, will remove or fix soon!
     const { address } = await this.#getLedger().getAddress(0, false, 0, 0);
-    const mm = await init();
     const m = await this.#api.call.metadata.metadataAtVersion(15);
     const { specName, specVersion } = await this.#api.rpc.state.getRuntimeVersion();
-    const runtimeMetadata = RuntimeMetadata.fromHex(m.toHex());
-    const digest = mm.generateMetadataDigest(runtimeMetadata, {
-        base58Prefix: this.#api.consts.system.ss58Prefix.toNumber(),
-        decimals: 10,
-        specName: specName.toString(),
-        specVersion: specVersion.toNumber(),
-        tokenSymbol: 'DOT'
+    const merkleizedMetadata = merkleizeMetadata(m.toHex(), {
+      base58Prefix: this.#api.consts.system.ss58Prefix.toNumber(),
+      decimals: 10,
+      specName: specName.toString(),
+      specVersion: specVersion.toNumber(),
+      tokenSymbol: 'DOT'
     });
 
-    console.log(this.#registry.metadata.toJSON())
-    console.log('Address in apps: ', address);
-    console.log(digest.hash());
-    const newPayload = objectSpread({}, payload, { mode: 1, metadataHash: '0x' + digest.hash() });
+    const metadataHash = u8aToHex(merkleizedMetadata.digest());
+
+    const newPayload = objectSpread({}, payload, { metadataHash, mode: 1 });
     const raw = this.#registry.createType('ExtrinsicPayload', newPayload);
-    const { signature } = await this.#getLedger().signWithMetadata(raw.toU8a(true), 0, this.#accountOffset, { metadata: Buffer.from(hexToU8a('0x' + digest.hash())) });
+    const txMetadata = u8aToHex(merkleizedMetadata.getProofForExtrinsicPayload(u8aToHex(raw.toU8a(true))));
+    const buff = Buffer.from(hexToU8a(txMetadata));
+    const { signature } = await this.#getLedger().signWithMetadata(raw.toU8a(true), 0, this.#accountOffset, { metadata: buff });
 
     const extrinsic = this.#registry.createType(
       'Extrinsic',
@@ -53,10 +51,7 @@ export class LedgerSigner implements Signer {
       { version: 4 }
     );
 
-    console.log(address);
-    extrinsic.addSignature(address, signature, raw.toHex())
-
-    console.log('verify: ', signatureVerify(extrinsic.toHex(), signature, address))
+    extrinsic.addSignature(address, signature, raw.toHex());
 
     return { id: ++id, signature, signedTransaction: extrinsic.toHex() };
   }
