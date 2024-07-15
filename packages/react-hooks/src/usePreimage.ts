@@ -132,6 +132,10 @@ function createResult (api: ApiPromise, interimResult: PreimageStatus, optBytes:
 
     proposal = api.createType('Call', tx.method);
 
+    if (tx.toHex() !== callData.toString()) {
+      proposalWarning = 'Cannot decode data as extrinsic, length mismatch'
+    }
+
     return result();
   } catch {}
 
