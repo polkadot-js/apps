@@ -56,7 +56,7 @@ export class LedgerSigner implements Signer {
     const { raw, txMetadata } = await this.getMetadataProof(payload);
 
     const buff = Buffer.from(hexToU8a(txMetadata));
-    const { signature } = await this.#getLedger().signWithMetadata(raw.toU8a(true), 0, this.#accountIndex, { metadata: buff });
+    const { signature } = await this.#getLedger().signWithMetadata(raw.toU8a(true), this.#accountIndex, this.#addressOffset, { metadata: buff });
 
     const extrinsic = this.#registry.createType(
       'Extrinsic',
