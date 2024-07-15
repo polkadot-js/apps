@@ -3,7 +3,7 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { Bytes, u32, u128 } from '@polkadot/types';
-import type { AccountId, Call, Hash } from '@polkadot/types/interfaces';
+import type { AccountId, Hash } from '@polkadot/types/interfaces';
 import type { FrameSupportPreimagesBounded, PalletPreimageRequestStatus } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
@@ -13,7 +13,7 @@ import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
-import { BN, BN_ZERO, formatNumber, isString, isU8a, objectSpread, u8aToHex, u8aConcat, compactToU8a, u8aEq } from '@polkadot/util';
+import { BN, BN_ZERO, formatNumber, isString, isU8a, objectSpread, u8aToHex } from '@polkadot/util';
 
 type BytesParamsType = [[proposalHash: HexString, proposalLength: BN]] | [proposalHash: HexString];
 
@@ -109,13 +109,13 @@ function createResult (api: ApiPromise, interimResult: PreimageStatus, optBytes:
     ? optBytes
     : optBytes.unwrapOr(null);
 
-  const result = (preimage: Pick<Preimage, "proposal" | "proposalLength" | "proposalWarning" | "proposalError">) => objectSpread<Preimage>({}, interimResult, {
+  const result = (preimage: Pick<Preimage, 'proposal' | 'proposalLength' | 'proposalWarning' | 'proposalError'>) => objectSpread<Preimage>({}, interimResult, {
     isCompleted: true,
     ...preimage
   });
 
   if (!callData) {
-    return result({ proposalWarning: 'No preimage bytes found' })
+    return result({ proposalWarning: 'No preimage bytes found' });
   }
 
   try {
@@ -124,7 +124,7 @@ function createResult (api: ApiPromise, interimResult: PreimageStatus, optBytes:
     const proposal = api.createType('Call', tx.method);
 
     if (tx.toHex() === callData.toString()) {
-      return result({proposal})
+      return result({ proposal });
     }
   } catch {}
 
@@ -139,19 +139,19 @@ function createResult (api: ApiPromise, interimResult: PreimageStatus, optBytes:
       return result({
         proposal,
         proposalWarning: callLength !== storeLength ? `Decoded call length does not match on-chain stored preimage length (${formatNumber(callLength)} bytes vs ${formatNumber(storeLength)} bytes)` : null
-      })
+      });
     } else {
       // for the old style, we set the actual length
       return result({
         proposal,
         proposalLength: new BN(callLength)
-      })
+      });
     }
   } catch (error) {
     console.error(error);
   }
 
-  return result({proposalError: 'Unable to decode preimage bytes into a valid Call'});
+  return result({ proposalError: 'Unable to decode preimage bytes into a valid Call' });
 }
 
 /** @internal Helper to unwrap a deposit tuple into a structure */
