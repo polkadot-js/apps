@@ -104,7 +104,7 @@ export function getPreimageHash (api: ApiPromise, hashOrBounded: Hash | HexStrin
 }
 
 /** @internal Creates a final result */
-function createResult (interimResult: PreimageStatus, optBytes: Option<Bytes> | Uint8Array): Preimage {
+function createResult (api: ApiPromise, interimResult: PreimageStatus, optBytes: Option<Bytes> | Uint8Array): Preimage {
   const callData = isU8a(optBytes)
     ? optBytes
     : optBytes.unwrapOr(null);
@@ -237,14 +237,14 @@ function usePreimageImpl (hashOrBounded?: Hash | HexString | FrameSupportPreimag
   return useMemo(
     () => resultPreimageFor
       ? optBytes
-        ? createResult(resultPreimageFor, optBytes)
+        ? createResult(api, resultPreimageFor, optBytes)
         : resultPreimageFor
       : resultPreimageHash
         ? inlineData
-          ? createResult(resultPreimageHash, inlineData)
+          ? createResult(api, resultPreimageHash, inlineData)
           : resultPreimageHash
         : undefined,
-    [inlineData, optBytes, resultPreimageHash, resultPreimageFor]
+    [api, inlineData, optBytes, resultPreimageHash, resultPreimageFor]
   );
 }
 
