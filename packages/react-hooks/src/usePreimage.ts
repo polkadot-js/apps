@@ -98,7 +98,6 @@ export function getPreimageHash (api: ApiPromise, hashOrBounded: Hash | HexStrin
       isHashParam: getParamType(api) === 'hash',
       proposalHash,
       proposalLength: inlineData && new BN(inlineData.length),
-      registry: api.registry,
       status: null
     }
   };
