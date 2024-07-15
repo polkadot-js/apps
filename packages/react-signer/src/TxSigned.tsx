@@ -287,7 +287,7 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
         } else if (flags.isHardware) {
           try {
             const ledger = getLedger();
-            const { address } = await ledger.getAddress(0, false, flags.accountOffset, flags.addressOffset);
+            const { address } = await ledger.getAddress(api.consts.system.ss58Prefix.toNumber(), false, flags.accountOffset, flags.addressOffset);
 
             console.log(`Signing with Ledger address ${address}`);
           } catch (error) {
@@ -304,7 +304,7 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
 
       return !passwordError;
     },
-    [flags, getLedger, senderInfo, t]
+    [flags, getLedger, senderInfo, t, api.consts.system.ss58Prefix]
   );
 
   const _onSendPayload = useCallback(

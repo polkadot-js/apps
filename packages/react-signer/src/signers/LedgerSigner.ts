@@ -6,7 +6,7 @@ import type { Signer, SignerResult } from '@polkadot/api/types';
 import type { LedgerGeneric } from '@polkadot/hw-ledger';
 import type { Registry, SignerPayloadJSON } from '@polkadot/types/types';
 
-import { hexToU8a, objectSpread, u8aToHex } from '@polkadot/util';
+import { objectSpread, u8aToHex } from '@polkadot/util';
 import { merkleizeMetadata } from '@polkadot-api/merkleize-metadata';
 
 let id = 0;
@@ -42,7 +42,7 @@ export class LedgerSigner implements Signer {
 
     return {
       raw,
-      txMetadata: u8aToHex(merkleizedMetadata.getProofForExtrinsicPayload(u8aToHex(raw.toU8a(true))))
+      txMetadata: merkleizedMetadata.getProofForExtrinsicPayload(u8aToHex(raw.toU8a(true)))
     };
   }
 
@@ -55,7 +55,7 @@ export class LedgerSigner implements Signer {
     );
     const { raw, txMetadata } = await this.getMetadataProof(payload);
 
-    const buff = Buffer.from(hexToU8a(txMetadata));
+    const buff = Buffer.from(txMetadata);
     const { signature } = await this.#getLedger().signWithMetadata(raw.toU8a(true), this.#accountIndex, this.#addressOffset, { metadata: buff });
 
     const extrinsic = this.#registry.createType(
