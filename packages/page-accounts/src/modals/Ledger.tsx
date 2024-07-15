@@ -27,7 +27,7 @@ export const AVAIL_INDEXES = arrayRange(20);
 
 // query the ledger for the address, adding it to the keyring
 async function queryLedger (api: ApiPromise, getLedger: () => LedgerGeneric, name: string, accountOffset: number, addressOffset: number, ss58Prefix: number): Promise<void> {
-  const { address } = await getLedger().getAddress(ss58Prefix, false, 0, accountOffset);
+  const { address } = await getLedger().getAddress(ss58Prefix, false, accountOffset, addressOffset);
 
   keyring.addHardware(address, 'ledger', {
     accountOffset,
