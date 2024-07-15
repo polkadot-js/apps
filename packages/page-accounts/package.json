@@ -16,12 +16,12 @@
   "type": "module",
   "version": "0.141.1",
   "dependencies": {
-    "@polkadot/hw-ledger": "^12.6.2",
-    "@polkadot/phishing": "^6",
+    "@polkadot/hw-ledger": "^13.0.2",
+    "@polkadot/phishing": "^0.23.1",
     "@polkadot/react-components": "^0.141.1",
     "@polkadot/react-hooks": "^0.141.1",
-    "@polkadot/util": "^12.6.2",
-    "@polkadot/vanitygen": "^0.56.13",
+    "@polkadot/util": "^13.0.2",
+    "@polkadot/vanitygen": "^0.57.1",
     "detect-browser": "^5.3.0",
     "file-saver": "^2.0.5"
   },
