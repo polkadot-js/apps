@@ -13,7 +13,7 @@ import { useMemo } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
-import { BN, BN_ZERO, formatNumber, isString, isU8a, objectSpread, u8aToHex } from '@polkadot/util';
+import { BN, BN_ZERO, formatNumber, isString, isU8a, objectSpread, u8aToHex, u8aConcat, compactToU8a, u8aEq } from '@polkadot/util';
 
 type BytesParamsType = [[proposalHash: HexString, proposalLength: BN]] | [proposalHash: HexString];
 
@@ -108,59 +108,50 @@ function createResult (api: ApiPromise, interimResult: PreimageStatus, optBytes:
   const callData = isU8a(optBytes)
     ? optBytes
     : optBytes.unwrapOr(null);
-  let proposal: Call | null = null;
-  let proposalError: string | null = null;
-  let proposalWarning: string | null = null;
-  let proposalLength: BN | undefined;
 
-  const result = () => objectSpread<Preimage>({}, interimResult, {
+  const result = (preimage: Pick<Preimage, "proposal" | "proposalLength" | "proposalWarning" | "proposalError">) => objectSpread<Preimage>({}, interimResult, {
     isCompleted: true,
-    proposal,
-    proposalError,
-    proposalLength: proposalLength || interimResult.proposalLength,
-    proposalWarning
+    ...preimage
   });
 
   if (!callData) {
-    proposalWarning = 'No preimage bytes found';
-
-    return result();
+    return result({ proposalWarning: 'No preimage bytes found' })
   }
 
   try {
     const tx = api.tx(callData.toString());
 
-    proposal = api.createType('Call', tx.method);
+    const proposal = api.createType('Call', tx.method);
 
-    if (tx.toHex() !== callData.toString()) {
-      proposalWarning = 'Cannot decode data as extrinsic, length mismatch'
+    if (tx.toHex() === callData.toString()) {
+      return result({proposal})
     }
-
-    return result();
   } catch {}
 
   try {
-    proposal = api.registry.createType('Call', callData);
+    const proposal = api.registry.createType('Call', callData);
 
     const callLength = proposal.encodedLength;
 
     if (interimResult.proposalLength) {
       const storeLength = interimResult.proposalLength.toNumber();
 
-      if (callLength !== storeLength) {
-        proposalWarning = `Decoded call length does not match on-chain stored preimage length (${formatNumber(callLength)} bytes vs ${formatNumber(storeLength)} bytes)`;
-      }
+      return result({
+        proposal,
+        proposalWarning: callLength !== storeLength ? `Decoded call length does not match on-chain stored preimage length (${formatNumber(callLength)} bytes vs ${formatNumber(storeLength)} bytes)` : null
+      })
     } else {
       // for the old style, we set the actual length
-      proposalLength = new BN(callLength);
+      return result({
+        proposal,
+        proposalLength: new BN(callLength)
+      })
     }
   } catch (error) {
     console.error(error);
-
-    proposalError = 'Unable to decode preimage bytes into a valid Call';
   }
 
-  return result();
+  return result({proposalError: 'Unable to decode preimage bytes into a valid Call'});
 }
 
 /** @internal Helper to unwrap a deposit tuple into a structure */
