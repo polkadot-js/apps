@@ -136,10 +136,10 @@ function createClearReferendaTx (api: ApiPromise, address: string, ids: [BN, BN]
   return api.tx.utility.batch(inner);
 }
 
-async function showLedgerAddress (getLedger: () => LedgerGeneric, meta: KeyringJson$Meta): Promise<void> {
+async function showLedgerAddress (getLedger: () => LedgerGeneric, meta: KeyringJson$Meta, ss58Prefix: number): Promise<void> {
   const ledger = getLedger();
 
-  await ledger.getAddress(0, true, meta.accountOffset || 0, meta.addressOffset || 0);
+  await ledger.getAddress(ss58Prefix, true, meta.accountOffset || 0, meta.addressOffset || 0);
 }
 
 const transformRecovery = {
@@ -292,11 +292,11 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
     // TODO: we should check the hardwareType from metadata here as well,
     // for now we are always assuming hardwareType === 'ledger'
     (): void => {
-      showLedgerAddress(getLedger, meta).catch((error): void => {
+      showLedgerAddress(getLedger, meta, api.consts.system.ss58Prefix.toNumber()).catch((error): void => {
         console.error(`ledger: ${(error as Error).message}`);
       });
     },
-    [getLedger, meta]
+    [getLedger, meta, api.consts.system.ss58Prefix]
   );
 
   const menuItems = useMemo(() => [
