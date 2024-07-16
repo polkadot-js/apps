@@ -962,8 +962,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       Dwellir: 'wss://coretime-kusama-rpc.dwellir.com',
       IBP1: 'wss://sys.ibp.network/coretime-kusama',
       IBP2: 'wss://sys.dotters.network/coretime-kusama',
-      Parity: 'wss://kusama-coretime-rpc.polkadot.io',
       LuckyFriday: 'wss://rpc-coretime-kusama.luckyfriday.io',
+      Parity: 'wss://kusama-coretime-rpc.polkadot.io',
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/coretime'
     },
     relayName: 'kusama',
@@ -1003,8 +1003,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       Dwellir: 'wss://people-kusama-rpc.dwellir.com',
       IBP1: 'wss://sys.ibp.network/people-kusama',
       IBP2: 'wss://sys.dotters.network/people-kusama',
-      Parity: 'wss://kusama-people-rpc.polkadot.io',
       LuckyFriday: 'wss://rpc-people-kusama.luckyfriday.io',
+      Parity: 'wss://kusama-people-rpc.polkadot.io',
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/people'
     },
     relayName: 'kusama',
