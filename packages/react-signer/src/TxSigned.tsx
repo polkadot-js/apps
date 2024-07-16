@@ -19,7 +19,7 @@ import { web3FromSource } from '@polkadot/extension-dapp';
 import { Button, ErrorBoundary, Modal, Output, styled, Toggle } from '@polkadot/react-components';
 import { useApi, useLedger, useQueue, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
-import { assert, nextTick, objectSpread } from '@polkadot/util';
+import { assert, nextTick } from '@polkadot/util';
 import { addressEq } from '@polkadot/util-crypto';
 
 import { AccountSigner, LedgerSigner, QrSigner } from './signers/index.js';
@@ -195,7 +195,7 @@ async function extractParams (api: ApiPromise, address: string, options: Partial
   const { meta: { accountOffset, addressOffset, isExternal, isHardware, isInjected, isLocal, isProxied, source } } = pair;
 
   if (isHardware) {
-    return ['signing', address, { ...objectSpread({}, options), signer: new LedgerSigner(api, getLedger, accountOffset || 0, addressOffset || 0) }, false];
+    return ['signing', address, { ...options, signer: new LedgerSigner(api, getLedger, accountOffset || 0, addressOffset || 0) }, false];
   } else if (isLocal) {
     return ['signing', address, { ...options, signer: new AccountSigner(api.registry, pair) }, true];
   } else if (isExternal && !isProxied) {
