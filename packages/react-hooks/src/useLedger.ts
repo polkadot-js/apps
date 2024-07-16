@@ -49,7 +49,9 @@ function retrieveLedger (api: ApiPromise): LedgerGeneric {
 
     assert(network, `Unable to find a known Ledger config for genesisHash ${genesisHex}`);
 
-    ledger = new LedgerGeneric(currType, network, knownLedger[network]);
+    // All chains use the `slip44` from polkadot in their derivation path in ledger.
+    // This interface is specific to the underlying PolkadotGenericApp.
+    ledger = new LedgerGeneric(currType, network, knownLedger.polkadot);
     ledgerType = currType;
   }
 
