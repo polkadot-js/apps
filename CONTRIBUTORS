@@ -485,6 +485,7 @@
        1	Raphael Flechtner             	chore: use new kilt logo (#5649)
        1	Ravi Kumar                    	Add hi_IN translation (#5420)
        1	Raymond Zhong                 	Add types for beresheet runtime (#5576)
+       1	Rbdude25                      	Update productionRelayKusama.ts adding LuckyFriday provider to UI (#10758)
        1	Ricardo Rius                  	Update stable poc types (#3783)
        1	robcxyz                       	Add geometry labs endpoints for polkadot and kusama (#6477)
        1	Robin Syihab                  	Fix typo in ID translation (#5865)
