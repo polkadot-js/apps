@@ -3,9 +3,10 @@
 
 import type { CoreDescription } from '@polkadot/react-hooks/types';
 
-import React, { useRef } from 'react';
+import React, { useMemo } from 'react';
 
-import { Table } from '@polkadot/react-components';
+import { ExpandButton, Table } from '@polkadot/react-components';
+import { useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
 import CoreDescriptor from './CoreDescriptor.js';
@@ -17,18 +18,45 @@ interface Props {
 
 function CoreDescriptors ({ className, coreInfos }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const [isExpanded, toggleExpanded] = useToggle();
+  const trackName = 'core'
+;
 
-  const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('core'), 'start', 1],
-    [],
-    []
-  ]);
+  const [headerButton, headerChildren] = useMemo(
+    () => [
+      false && coreInfos && (
+        <ExpandButton
+          expanded={isExpanded}
+          onClick={toggleExpanded}
+        />
+      ),
+      isExpanded && coreInfos && (
+        <tr>
+          <th colSpan={8} />
+        </tr>
+      )
+    ],
+    [isExpanded, toggleExpanded, coreInfos]
+  );
+
+  const [header, key] = useMemo(
+    (): [([React.ReactNode?, string?, number?] | null)[], string] => [
+      [
+        [trackName ? <>{trackName}<div className='sub'>{coreInfos?.core}</div></> : t('core'), 'start', 8],
+        null && [headerButton]
+      ],
+      trackName
+    ],
+    [headerButton, t, coreInfos, trackName]
+  );
 
   return (
     <Table
       className={className}
       empty={coreInfos && t('No core description found')}
-      header={headerRef.current}
+      header={header}
+      headerChildren={headerChildren}
+      key={key}
     >
       {coreInfos && <CoreDescriptor value={coreInfos} />}
     </Table>

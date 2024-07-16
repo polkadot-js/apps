@@ -6,7 +6,7 @@ import type { PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor } from '@p
 
 import React from 'react';
 
-import { Table } from '@polkadot/react-components';
+import { styled } from '@polkadot/react-components';
 
 import CoreQueue from './CoreQueue.js';
 import CurrentWork from './CurrentWork.js';
@@ -27,28 +27,40 @@ function CoreDescriptor ({ value: { core, info } }: Props): React.ReactElement<P
 
   return (
     <>
-      <Table.Column.Id value={Number(core)} />
-      {sanitized?.map((i) => (
-        <td
-          key={core}
-        >
-          <CurrentWork
-            value={i.currentWork.unwrapOr(undefined)}
-          />
-        </td>
-      ))
-      }
-      {sanitized?.map((i) => (
-        <td
-          key={core}
-        >
-          <CoreQueue
-            value={i.queue.unwrapOr(undefined)}
-          />
-        </td>
-      ))}
+      <StyledTr className={'asdfasdf'}>
+        {sanitized?.map((i) => (
+          <td
+            key={core}
+          >
+            <CurrentWork
+              value={i.currentWork.unwrapOr(undefined)}
+            />
+          </td>
+        ))
+        }
+        {sanitized?.map((i) => (
+          <td
+            key={core}
+          >
+            <CoreQueue
+              value={i.queue.unwrapOr(undefined)}
+            />
+          </td>
+        ))}
+      </StyledTr>
     </>
   );
 }
+
+const StyledTr = styled.tr`
+  .shortHash {
+    max-width: var(--width-shorthash);
+    min-width: 3em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: var(--width-shorthash);
+  }
+`;
 
 export default React.memo(CoreDescriptor);
