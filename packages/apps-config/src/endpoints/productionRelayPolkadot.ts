@@ -26,7 +26,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       // 'Acala Foundation 2': 'wss://acala-rpc-2.aca-api.network/ws', // https://github.com/polkadot-js/apps/issues/6965
       'Acala Foundation 3': 'wss://acala-rpc-3.aca-api.network/ws',
       Dwellir: 'wss://acala-rpc.dwellir.com',
-      LuckyFriday: 'wss://rpc-acala.luckyfriday.io',
+      // LuckyFriday: 'wss://rpc-acala.luckyfriday.io', // https://github.com/polkadot-js/apps/issues/10728
       // 'Automata 1RPC': 'wss://1rpc.io/aca' // https://github.com/polkadot-js/apps/issues/8648
       OnFinality: 'wss://acala-polkadot.api.onfinality.io/public-ws'
       // 'Polkawallet 0': 'wss://acala.polkawallet.io' // https://github.com/polkadot-js/apps/issues/9760
@@ -661,8 +661,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       Helikon: 'wss://rpc.helikon.io/phala',
       OnFinality: 'wss://phala.api.onfinality.io/public-ws',
       Phala: 'wss://api.phala.network/ws',
-      RadiumBlock: 'wss://phala.public.curie.radiumblock.co/ws',
-      Rockx: 'wss://rockx-phala.w3node.com/polka-public-phala/ws'
+      RadiumBlock: 'wss://phala.public.curie.radiumblock.co/ws'
+      // Rockx: 'wss://rockx-phala.w3node.com/polka-public-phala/ws' // https://github.com/polkadot-js/apps/issues/10728
     },
     text: 'Phala Network',
     ui: {
@@ -899,6 +899,19 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       color: '#e6777a',
       logo: 'fa;people-group'
     }
+  },
+  {
+    info: 'polkadotPeople',
+    isPeople: true,
+    isPeopleForIdentity: false,
+    paraId: 1004,
+    providers: {
+      Parity: 'wss://polkadot-people-rpc.polkadot.io'
+    },
+    relayName: 'polkadot',
+    teleport: [-1],
+    text: 'People',
+    ui: {}
   }
 ];
 
