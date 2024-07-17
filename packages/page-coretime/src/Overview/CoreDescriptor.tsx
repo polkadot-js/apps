@@ -16,7 +16,7 @@ interface Props {
   value: CoreDescription;
 }
 
-function CoreDescriptor ({ value: { core, info } }: Props): React.ReactElement<Props> {
+function CoreDescriptor ({ value: { core, info }, className }: Props): React.ReactElement<Props> {
   let sanitized: PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor[] = [];
 
   if (Array.isArray(info)) {
@@ -27,7 +27,7 @@ function CoreDescriptor ({ value: { core, info } }: Props): React.ReactElement<P
 
   return (
     <>
-      <StyledTr className={'asdfasdf'}>
+      <StyledTr className={className}>
         {sanitized?.map((i) => (
           <td
             key={core}

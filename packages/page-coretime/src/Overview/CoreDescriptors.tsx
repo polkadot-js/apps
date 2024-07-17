@@ -19,8 +19,6 @@ interface Props {
 function CoreDescriptors ({ className, coreInfos }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isExpanded, toggleExpanded] = useToggle();
-  const trackName = 'core'
-;
 
   const [headerButton, headerChildren] = useMemo(
     () => [
@@ -42,12 +40,12 @@ function CoreDescriptors ({ className, coreInfos }: Props): React.ReactElement<P
   const [header, key] = useMemo(
     (): [([React.ReactNode?, string?, number?] | null)[], string] => [
       [
-        [trackName ? <>{trackName}<div className='sub'>{coreInfos?.core}</div></> : t('core'), 'start', 8],
+        [<>{t('core')}<div className='sub'>{coreInfos?.core}</div></>, 'start', 8],
         null && [headerButton]
       ],
-      trackName
+      'core'
     ],
-    [headerButton, t, coreInfos, trackName]
+    [headerButton, t, coreInfos]
   );
 
   return (
@@ -58,7 +56,7 @@ function CoreDescriptors ({ className, coreInfos }: Props): React.ReactElement<P
       headerChildren={headerChildren}
       key={key}
     >
-      {coreInfos && <CoreDescriptor value={coreInfos} />}
+      {coreInfos && <CoreDescriptor value={coreInfos} className={className}/>}
     </Table>
   );
 }
