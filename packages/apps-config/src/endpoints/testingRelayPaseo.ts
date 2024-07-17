@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types.js';
 
 import { chainsFrequencyPaseoSVG, chainsLaosOmegaPNG, chainsPaseoPNG, chainsPopNetworkSVG } from '@polkadot/apps-config/ui/logos/chains';
-import { nodesAjunaPNG, nodesAssetHubSVG, nodesBajunPNG, nodesBifrostSVG, nodesDarwiniaKoiSVG, nodesHyperbridgeSVG, nodesIntegriteeSVG, nodesKiltPNG, nodesMusePNG, nodesNodleSVG, nodesMandalaPNG } from '@polkadot/apps-config/ui/logos/nodes';
+import { nodesAjunaPNG, nodesAssetHubSVG, nodesBajunPNG, nodesBifrostSVG, nodesDarwiniaKoiSVG, nodesHyperbridgeSVG, nodesIntegriteeSVG, nodesKiltPNG, nodesMandalaPNG, nodesMusePNG, nodesNodleSVG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
 // import { testnetParachainSVG } from '../ui/logos/nodes/index.js';
@@ -188,15 +188,16 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: "https://mandalachain.io",
-    info: "Niskala",
+    homepage: 'https://mandalachain.io',
+    info: 'Niskala',
     paraId: 4022,
-    providers:{
-      'Baliola 1': "wss://mlg1.mandalachain.io",
-      'Baliola 2': "wss://mlg2.mandalachain.io",
-    }, text: "Niskala",
+    providers: {
+      'Baliola 1': 'wss://mlg1.mandalachain.io',
+      'Baliola 2': 'wss://mlg2.mandalachain.io'
+    },
+    text: 'Niskala',
     ui: {
-      color: "#0036ac",
+      color: '#0036ac',
       logo: nodesMandalaPNG
     }
   }
