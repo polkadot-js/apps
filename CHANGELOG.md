@@ -1,5 +1,30 @@
 # CHANGELOG
 
+## 0.142.1 July 18, 2024
+
+Contributed:
+
+- Remove Giedi (Thanks to https://github.com/ccubu)
+- Use forceBatch in Staking Payout (Thanks to https://github.com/rzadp)
+- Update polkaassembly.ts networks (Thanks to https://github.com/KanishkaRajputd)
+- Disable enableIdentity for polkadot (Thanks to https://github.com/kaichaosun)
+- Add Polkadot People parachain (Thanks to https://github.com/BulatSaif)
+- Try decoding a preimage as a transaction (Thanks to https://github.com/rzadp)
+- Add muse paseo (Thanks to https://github.com/Moliholy)
+- Update productionRelayKusama.ts adding LuckyFriday provider to UI (Thanks to https://github.com/Rbdude25)
+- Change Vara endpoint (Thanks to https://github.com/EugenWay)
+- Add Niskala testnet to paseo (Thanks to https://github.com/zianksm)
+- Remove Klaos (Thanks to https://github.com/ccubu)
+
+Changes:
+
+- Disable unreachable endpoints
+- Enable apiIdentity for polkadot
+- Ledger support for PolkadotGenericApp
+    - This fixes ledger support in the UI to be up to date with the most recent breaking changes
+- Add pools warning for staking to staking page
+
+
 ## 0.141.1 July 1, 2024
 
 Contributed:
