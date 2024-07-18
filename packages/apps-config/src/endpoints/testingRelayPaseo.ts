@@ -148,6 +148,18 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    info: 'muse',
+    paraId: 3369,
+    providers: {
+      Parity: 'wss://paseo-muse-rpc.polkadot.io'
+    },
+    text: 'Muse network',
+    ui: {
+      color: '#110ff9',
+      logo: nodesMusePNG
+    }
+  },
+  {
     homepage: 'https://mandalachain.io',
     info: 'Niskala',
     paraId: 4022,
@@ -159,18 +171,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#0036ac',
       logo: nodesMandalaPNG
-    }
-  },
-  {
-    info: 'muse',
-    paraId: 3369,
-    providers: {
-      Parity: 'wss://paseo-muse-rpc.polkadot.io'
-    },
-    text: 'Muse network',
-    ui: {
-      color: '#110ff9',
-      logo: nodesMusePNG
     }
   },
   {
