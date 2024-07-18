@@ -200,7 +200,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
       color: '#1C0533',
       logo: chainsPopNetworkSVG
     }
-  },
+  }
 ];
 
 export const testParasPaseoCommon: EndpointOption[] = [
