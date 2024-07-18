@@ -148,6 +148,20 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://mandalachain.io',
+    info: 'Niskala',
+    paraId: 4022,
+    providers: {
+      'Baliola 1': 'wss://mlg1.mandalachain.io',
+      'Baliola 2': 'wss://mlg2.mandalachain.io'
+    },
+    text: 'Niskala',
+    ui: {
+      color: '#0036ac',
+      logo: nodesMandalaPNG
+    }
+  },
+  {
     info: 'muse',
     paraId: 3369,
     providers: {
@@ -187,20 +201,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
       logo: chainsPopNetworkSVG
     }
   },
-  {
-    homepage: 'https://mandalachain.io',
-    info: 'Niskala',
-    paraId: 4022,
-    providers: {
-      'Baliola 1': 'wss://mlg1.mandalachain.io',
-      'Baliola 2': 'wss://mlg2.mandalachain.io'
-    },
-    text: 'Niskala',
-    ui: {
-      color: '#0036ac',
-      logo: nodesMandalaPNG
-    }
-  }
 ];
 
 export const testParasPaseoCommon: EndpointOption[] = [
