@@ -44,7 +44,9 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       AjunaNetwork: 'wss://rpc-para.ajuna.network',
       OnFinality: 'wss://ajuna.api.onfinality.io/public-ws',
-      RadiumBlock: 'wss://ajuna.public.curie.radiumblock.co/ws'
+      RadiumBlock: 'wss://ajuna.public.curie.radiumblock.co/ws',
+      IBP1: 'wss://ajuna.ibp.network',
+      IBP2: 'wss://ajuna.dotters.network'
     },
     text: 'Ajuna Network',
     ui: {
@@ -105,7 +107,9 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       Dwellir: 'wss://bifrost-polkadot-rpc.dwellir.com',
       Liebi: 'wss://hk.p.bifrost-rpc.liebi.com/ws',
       LiebiEU: 'wss://eu.bifrost-polkadot-rpc.liebi.com/ws',
-      OnFinality: 'wss://bifrost-polkadot.api.onfinality.io/public-ws'
+      OnFinality: 'wss://bifrost-polkadot.api.onfinality.io/public-ws',
+      IBP1: 'wss://bifrost-polkadot.ibp.network',
+      IBP2: 'wss://bifrost-polkadot.dotters.network'
     },
     text: 'Bifrost',
     ui: {
@@ -344,7 +348,9 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'hyperbridge',
     paraId: 3367,
     providers: {
-      BlockOps: 'wss://hyperbridge-nexus-rpc.blockops.network'
+      BlockOps: 'wss://hyperbridge-nexus-rpc.blockops.network',
+      IBP1: 'wss://nexus.ibp.network',
+      IBP2: 'wss://nexus.dotters.network'
     },
     text: 'Hyperbridge (Nexus)',
     ui: {
@@ -431,7 +437,9 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       BOTLabs: 'wss://spiritnet.kilt.io/',
       Dwellir: 'wss://kilt-rpc.dwellir.com',
-      OnFinality: 'wss://spiritnet.api.onfinality.io/public-ws'
+      OnFinality: 'wss://spiritnet.api.onfinality.io/public-ws',
+      IBP1: 'wss://kilt.ibp.network',
+      IBP2: 'wss://kilt.dotters.network'
     },
     text: 'KILT Spiritnet',
     ui: {
@@ -520,7 +528,9 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       'Moonbeam Foundation': 'wss://wss.api.moonbeam.network',
       OnFinality: 'wss://moonbeam.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://moonbeam.public.curie.radiumblock.co/ws',
-      UnitedBloc: 'wss://moonbeam.unitedbloc.com'
+      UnitedBloc: 'wss://moonbeam.unitedbloc.com',
+      IBP1: 'wss://moonbeam.ibp.network',
+      IBP2: 'wss://moonbeam.dotters.network'
     },
     text: 'Moonbeam',
     ui: {
@@ -677,7 +687,9 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Amforc: 'wss://polimec.rpc.amforc.com',
       Helikon: 'wss://rpc.helikon.io/polimec',
-      'Polimec Foundation': 'wss://rpc.polimec.org'
+      'Polimec Foundation': 'wss://rpc.polimec.org',
+      IBP1: 'wss://polimec.ibp.network',
+      IBP2: 'wss://polimec.dotters.network'
     },
     text: 'Polimec',
     ui: {
@@ -793,7 +805,9 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       // OnFinality: 'wss://unique.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/10030
       'Unique America': 'wss://us-ws.unique.network',
       'Unique Asia': 'wss://asia-ws.unique.network',
-      'Unique Europe': 'wss://eu-ws.unique.network'
+      'Unique Europe': 'wss://eu-ws.unique.network',
+      IBP1: 'wss://unique.ibp.network',
+      IBP2: 'wss://unique.dotters.network'
     },
     text: 'Unique Network',
     ui: {
@@ -839,8 +853,8 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     providers: {
       Dwellir: 'wss://asset-hub-polkadot-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://statemint-rpc-tn.dwellir.com',
-      // IBP1: 'wss://sys.ibp.network/statemint', // https://github.com/polkadot-js/apps/issues/10667
-      // IBP2: 'wss://sys.dotters.network/statemint', // wss://sys.dotters.network/statemint
+      IBP1: 'wss://sys.ibp.network/asset-hub-polkadot',
+      IBP2: 'wss://sys.dotters.network/asset-hub-polkadot',
       LuckyFriday: 'wss://rpc-asset-hub-polkadot.luckyfriday.io',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-asset-hub-rpc.polkadot.io',
@@ -906,7 +920,9 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     isPeopleForIdentity: false,
     paraId: 1004,
     providers: {
-      Parity: 'wss://polkadot-people-rpc.polkadot.io'
+      Parity: 'wss://polkadot-people-rpc.polkadot.io',
+      IBP1: 'wss://sys.ibp.network/people-polkadot',
+      IBP2: 'wss://sys.dotters.network/people-polkadot'
     },
     relayName: 'polkadot',
     teleport: [-1],
