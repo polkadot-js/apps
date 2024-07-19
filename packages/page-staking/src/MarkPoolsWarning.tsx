@@ -18,7 +18,7 @@ function MarkPoolsWarning ({ children, className = '', withIcon = true }: Props)
       <strong>Nomination Pools are evolving!</strong>
       <br />
       <br />
-      Soon you will be able to participate in a pool and in OpenGov with your pooled funds, and switch pools with the same ease as solo stakers!
+      Soon you will be able to participate in a pool and in OpenGov with your pooled funds!
       <br />
       <br />
       You do not need to do anything, unless you are participating in a pool and also staking solo from the same account.
