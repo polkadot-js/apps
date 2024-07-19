@@ -907,6 +907,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     paraId: 1004,
     providers: {
       Parity: 'wss://polkadot-people-rpc.polkadot.io'
+      RadiumBlock: 'wss://people-polkadot.public.curie.radiumblock.co/ws'
     },
     relayName: 'polkadot',
     teleport: [-1],
