@@ -9,8 +9,7 @@ interface Option {
 export function createDestPrev (t: (key: string, options?: { replace: Record<string, unknown> }) => string): Option[] {
   return [
     { text: t('Stash account (increase the amount at stake)'), value: 'Staked' },
-    { text: t('Stash account (do not increase the amount at stake)'), value: 'Stash' },
-    { text: t('Controller account'), value: 'Controller' }
+    { text: t('Stash account (do not increase the amount at stake)'), value: 'Stash' }
   ];
 }
 
