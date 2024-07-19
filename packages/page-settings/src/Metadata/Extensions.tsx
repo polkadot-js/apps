@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ChainInfo } from '../types.js';
+import type { HexString } from '@polkadot/util/types';
+import type { RawMetadataDef } from '@polkadot/extension-inject/types';
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 
@@ -17,9 +19,14 @@ import iconOption from './iconOption.js';
 interface Props {
   chainInfo: ChainInfo | null;
   className?: string;
+  rawMetadata: HexString | null;
 }
 
-function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props> {
+function Extensions ({ chainInfo, className, rawMetadata }: Props): React.ReactElement<Props> {
+  const rawDef: RawMetadataDef = {
+    genesisHash: chainInfo ? chainInfo.genesisHash : '0x00',
+    rawMetadata: rawMetadata ? rawMetadata : '0x00',
+  }
   const { t } = useTranslation();
   const { extensions } = useExtensions();
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -36,15 +43,16 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
     (): void => {
       if (chainInfo && extensions?.[selectedIndex]) {
         toggleBusy();
+        console.log('updating meta');
 
         extensions[selectedIndex]
-          .update(chainInfo)
+          .update(chainInfo, rawDef)
           .catch(() => false)
           .then(() => toggleBusy())
           .catch(console.error);
       }
     },
-    [chainInfo, extensions, selectedIndex, toggleBusy]
+    [chainInfo, extensions, rawDef, selectedIndex, toggleBusy]
   );
 
   const headerRef = useRef<[React.ReactNode?, string?, number?][]>([

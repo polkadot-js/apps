@@ -8,15 +8,18 @@ import { useApi } from '@polkadot/react-hooks';
 import useChainInfo from '../useChainInfo.js';
 import Extensions from './Extensions.js';
 import NetworkSpecs from './NetworkSpecs.js';
+import useRawMetadata from '../useRawMetadata.js';
 
 export default function Metadata (): React.ReactElement {
   const { isDevelopment } = useApi();
+  const rawMetadata = useRawMetadata();
   const chainInfo = useChainInfo();
 
   return (
     <>
       {!isDevelopment && (
-        <Extensions chainInfo={chainInfo} />
+        <Extensions chainInfo={chainInfo}
+        rawMetadata={rawMetadata} />
       )}
       <NetworkSpecs chainInfo={chainInfo} />
     </>

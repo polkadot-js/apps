@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { InjectedExtension, InjectedMetadataKnown, MetadataDef } from '@polkadot/extension-inject/types';
+import type { InjectedExtension, InjectedMetadataKnown, MetadataDef, RawMetadataDef } from '@polkadot/extension-inject/types';
 
 import { useEffect, useMemo, useState } from 'react';
 import store from 'store';
@@ -12,7 +12,7 @@ import { createNamedHook, useApi } from '@polkadot/react-hooks';
 interface ExtensionKnown {
   extension: InjectedExtension;
   known: InjectedMetadataKnown[];
-  update: (def: MetadataDef) => Promise<boolean>;
+  update: (def: MetadataDef, rawDef: RawMetadataDef) => Promise<boolean>;
 }
 
 interface ExtensionInfo extends ExtensionKnown {
@@ -106,22 +106,31 @@ async function getExtensionInfo (api: ApiPromise, extension: InjectedExtension):
     return {
       extension,
       known,
-      update: async (def: MetadataDef): Promise<boolean> => {
+      update: async (def: MetadataDef, rawDef: RawMetadataDef): Promise<boolean> => {
+        console.log('def: ', def)
+        console.log('rawdef: ', rawDef)
         let isOk = false;
 
         try {
-          isOk = await metadata.provide(def);
-
+          console.log('checking')
+          const firstCheck = await metadata.provide(def);
+          console.log('first check done')
+          const secondCheck = await metadata.provideRaw(rawDef)
+          console.log('second check done')
+          isOk = firstCheck && secondCheck;
+          console.log('old isOk: ', isOk);
           if (isOk) {
             saveProperties(api, extension);
             triggerAll();
           }
+
         } catch {
           // ignore
         }
-
         return isOk;
-      }
+
+
+      },
     };
   } catch {
     return null;
