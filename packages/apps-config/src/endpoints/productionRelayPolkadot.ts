@@ -716,7 +716,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'http://robonomics.network/',
+    homepage: 'http://robonomics.network/'
     info: 'robonomics',
     paraId: 3388,
     providers: {
