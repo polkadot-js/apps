@@ -3,7 +3,7 @@
 
 import type { EndpointOption } from './types.js';
 
-import { chainsFrequencyPaseoSVG, chainsLaosOmegaPNG, chainsPaseoPNG, chainsPopNetworkSVG } from '@polkadot/apps-config/ui/logos/chains';
+import { chainsFrequencyPaseoSVG, chainsLaosSigmaPNG, chainsPaseoPNG, chainsPopNetworkSVG } from '@polkadot/apps-config/ui/logos/chains';
 import { nodesAjunaPNG, nodesAssetHubSVG, nodesBajunPNG, nodesBifrostSVG, nodesDarwiniaKoiSVG, nodesHyperbridgeSVG, nodesIntegriteeSVG, nodesKiltPNG, nodesMandalaPNG, nodesMusePNG, nodesNodleSVG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
@@ -136,15 +136,15 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   },
   {
     homepage: 'https://laosnetwork.io/',
-    info: 'laos-omega',
+    info: 'laos-sigma',
     paraId: 4006,
     providers: {
-      'freeverse.io': 'wss://rpc.laosomega.laosfoundation.io'
+      'freeverse.io': 'wss://rpc.laossigma.laosfoundation.io'
     },
-    text: 'Laos Omega',
+    text: 'Laos Sigma',
     ui: {
-      color: '#f7f4e7',
-      logo: chainsLaosOmegaPNG
+      color: '#363435',
+      logo: chainsLaosSigmaPNG
     }
   },
   {

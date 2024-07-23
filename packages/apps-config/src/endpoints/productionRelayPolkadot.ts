@@ -919,6 +919,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     isPeopleForIdentity: false,
     paraId: 1004,
     providers: {
+      LuckyFriday: 'wss://rpc-people-polkadot.luckyfriday.io',
       Parity: 'wss://polkadot-people-rpc.polkadot.io',
       RadiumBlock: 'wss://people-polkadot.public.curie.radiumblock.co/ws'
     },
