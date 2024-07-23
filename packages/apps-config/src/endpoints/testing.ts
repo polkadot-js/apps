@@ -28,16 +28,5 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
       color: '#5e6067',
       logo: nodesAvailPNG
     }
-  },
-  {
-    info: 'avail',
-    providers: {
-      AVAIL: config.goldberg.url
-    },
-    text: 'Avail Goldberg Testnet',
-    ui: {
-      color: '#5e6067',
-      logo: nodesAvailPNG
-    }
   }
 ];

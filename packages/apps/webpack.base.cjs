@@ -138,8 +138,6 @@ function createWebpack (context, mode = 'production') {
       }),
       new webpack.DefinePlugin({
         'process.env': {
-          GOLDBERG_LC: JSON.stringify(process.env.GOLDBERG_LC),
-          GOLDBERG_URL: JSON.stringify(process.env.GOLDBERG_URL),
           MAINNET_LC: JSON.stringify(process.env.MAINNET_LC),
           MAINNET_URL: JSON.stringify(process.env.MAINNET_URL),
           NODE_ENV: JSON.stringify(mode),
