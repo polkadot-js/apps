@@ -111,14 +111,8 @@ async function getExtensionInfo (api: ApiPromise, extension: InjectedExtension):
         let isOk = false;
 
         try {
-          console.log('checking')
-          const firstCheck = await metadata.provide(def);
-          console.log('first check done')
-          console.log('second check done')
-          isOk = firstCheck;
-          console.log('old isOk: ', isOk);
-          const secondCheck = await metadata.get();
-          console.log('injected meta: ', secondCheck)
+          isOk = await metadata.provide(def);
+
           if (isOk) {
             saveProperties(api, extension);
             triggerAll();
@@ -128,8 +122,6 @@ async function getExtensionInfo (api: ApiPromise, extension: InjectedExtension):
           // ignore
         }
         return isOk;
-
-
       },
     };
   } catch {
