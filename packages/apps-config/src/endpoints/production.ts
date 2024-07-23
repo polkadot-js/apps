@@ -24,7 +24,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       AVAIL: config.mainnet.url
     },
-    text: 'Avail network',
+    text: 'Avail DA network',
     ui: {
       color: '#1B1E26',
       logo: nodesAvailPNG
