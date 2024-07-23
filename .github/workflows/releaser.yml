@@ -63,4 +63,4 @@ jobs:
           tags: availj/explorer:${{ steps.prepare.outputs.tag_name }}
           build-args: |
             TURING_URL=wss://turing-rpc.avail.so/ws
-            GOLDBERG_URL=wss://goldberg-testnet-rpc.avail.tools/ws
+            MAINNET_URL=wss://mainnet-rpc.avail.so/ws

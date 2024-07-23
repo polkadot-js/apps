@@ -3,10 +3,10 @@
 
 import type { EndpointOption } from './types.js';
 
+import { nodesAvailPNG } from '../ui/logos/nodes/index.js';
 // import { chains3dpassSVG, chainsAlephSVG, chainsBittensorPNG, chainsChainflipPNG, chainsCreditcoinPNG, chainsDebioSVG, chainsFragnovaPNG, chainsJurPNG, chainsLiberlandPNG, chainsLogionPNG, chainsMyriadPNG, chainsSpannerPNG, chainsVaraPNG, chainsVtbPNG } from '../ui/logos/chains/index.js';
 // import { nodesAresOdysseySVG, nodesAutomataPNG, nodesCentrifugePNG, nodesCereSVG, nodesChainxSVG, nodesCompetitorsClubPNG, nodesCrownSterlingPNG, nodesCrustSVG, nodesDatahighwayPNG, nodesDockPNG, nodesEdgewareWhitePNG, nodesEfinitySVG, nodesHanyonycashPNG, nodesHumanodePNG, nodesInnovatorPNG, nodesJoystreamSVG, nodesKulupuSVG, nodesKusariSVG, nodesMathSVG, nodesMinixPNG, nodesNftmartPNG, nodesNodleSVG, nodesPolkadexSVG, nodesPolymeshSVG, nodesRiochainSVG, nodesRobonomicsSVG, nodesSherpaxPNG, nodesSoraSubstrateSVG, nodesStafiPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesSwapdexSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesUniartsPNG, nodesUnitnetworkPNG } from '../ui/logos/nodes/index.js';
-// import config from '../variables/config.js';
-// import { nodesAvailPNG } from '../ui/logos/nodes/index.js';
+import config from '../variables/config.js';
 
 export * from './productionRelayKusama.js';
 export * from './productionRelayPolkadot.js';
@@ -18,17 +18,16 @@ export * from './productionRelayPolkadot.js';
 //   providers: The actual hosted secure websocket endpoint
 //
 // IMPORTANT: Alphabetical based on text
-// TODO-mainnet
 export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
-  // {
-  //   info: 'avail',
-  //   providers: {
-  //     AVAIL: config.mainnet.url
-  //   },
-  //   text: 'Avail network',
-  //   ui: {
-  //     color: '#1B1E26',
-  //     logo: nodesAvailPNG
-  //   }
-  // },
+  {
+    info: 'avail',
+    providers: {
+      AVAIL: config.mainnet.url
+    },
+    text: 'Avail network',
+    ui: {
+      color: '#1B1E26',
+      logo: nodesAvailPNG
+    }
+  }
 ];
