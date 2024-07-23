@@ -6,7 +6,7 @@ import type { TransportType } from '@polkadot/hw-ledger-transports/types';
 
 import { useCallback, useMemo } from 'react';
 
-import { Ledger, LedgerGeneric } from '@polkadot/hw-ledger';
+import { LedgerGeneric } from '@polkadot/hw-ledger';
 import { knownGenesis, knownLedger } from '@polkadot/networks/defaults';
 import { settings } from '@polkadot/ui-settings';
 import { assert } from '@polkadot/util';
@@ -23,7 +23,6 @@ interface StateBase {
 
 interface State extends StateBase {
   getLedger: () => LedgerGeneric;
-  ledgerAppType: string;
 }
 
 const EMPTY_STATE: StateBase = {
@@ -39,38 +38,32 @@ const ledgerChains = Object
   .filter((n) => knownLedger[n]);
 const ledgerHashes = ledgerChains.reduce<string[]>((all, n) => [...all, ...knownGenesis[n]], []);
 let ledger: LedgerGeneric | null = null;
-let legacyLedger: Ledger | null = null;
 let ledgerType: TransportType | null = null;
+let ledgerApp: string | null;
 
-function retrieveLedger (api: ApiPromise, appType: string): LedgerGeneric {
+function retrieveLedger (api: ApiPromise): LedgerGeneric {
   const currType = settings.get().ledgerConn as TransportType;
+  const currApp = settings.get().ledgerApp;
 
-  if (!ledger || ledgerType !== currType) {
+  if (!ledger || ledgerType !== currType || currApp !== ledgerApp) {
     const genesisHex = api.genesisHash.toHex();
     const network = ledgerChains.find((network) => knownGenesis[network].includes(genesisHex));
 
     assert(network, `Unable to find a known Ledger config for genesisHash ${genesisHex}`);
 
-    switch (appType) {
-      case 'generic':
-        console.log('hit generic');
-        ledger = new LedgerGeneric(currType, network, knownLedger.polkadot);
-        break;
-      case 'migration':
-        console.log('hit Migration');
-        ledger = new LedgerGeneric(currType, network, knownLedger[network]);
-        break;
-      case 'legacy':
-        legacyLedger = new Ledger(currType, network);
-        break;
-      default:
-        ledger = new LedgerGeneric(currType, network, knownLedger.polkadot);
+    if (currApp === 'generic') {
+      // All chains use the `slip44` from polkadot in their derivation path in ledger.
+      // This interface is specific to the underlying PolkadotGenericApp.
+      ledger = new LedgerGeneric(currType, network, knownLedger.polkadot);
+    } else if (currApp === 'migration') {
+      ledger = new LedgerGeneric(currType, network, knownLedger[network]);
+    } else {
+      // This will never get touched since it will always hit the above two. This satisfies the compiler.
+      ledger = new LedgerGeneric(currType, network, knownLedger.polkadot);
     }
 
-    // All chains use the `slip44` from polkadot in their derivation path in ledger.
-    // This interface is specific to the underlying PolkadotGenericApp.
-    ledger = new LedgerGeneric(currType, network, knownLedger.polkadot);
     ledgerType = currType;
+    ledgerApp = currApp;
   }
 
   return ledger;
@@ -92,13 +85,13 @@ function useLedgerImpl (): State {
   const { api, isApiReady } = useApi();
 
   const getLedger = useCallback(
-    () => retrieveLedger(api, settings.ledgerApp),
-    [api, settings.ledgerApp]
+    () => retrieveLedger(api),
+    [api]
   );
 
   return useMemo(
-    () => ({ ...(isApiReady ? getState(api) : EMPTY_STATE), getLedger, ledgerAppType: settings.ledgerApp }),
-    [api, getLedger, isApiReady, settings.ledgerApp]
+    () => ({ ...(isApiReady ? getState(api) : EMPTY_STATE), getLedger }),
+    [api, getLedger, isApiReady]
   );
 }
 

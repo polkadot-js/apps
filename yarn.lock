@@ -1782,7 +1782,7 @@ __metadata:
     "@polkadot/api": "npm:^12.2.1"
     "@polkadot/api-derive": "npm:^12.2.1"
     "@polkadot/networks": "npm:^13.0.2"
-    "@polkadot/react-identicon": "npm:^3.8.1"
+    "@polkadot/react-identicon": "npm:^3.8.2"
     "@polkadot/types": "npm:^12.2.1"
     "@polkadot/types-codec": "npm:^12.2.1"
     "@polkadot/util": "npm:^13.0.2"
@@ -2132,7 +2132,7 @@ __metadata:
     chartjs-plugin-annotation: "npm:^3.0.1"
     chartjs-plugin-crosshair: "npm:^2.0.0"
     codeflask: "npm:^1.4.1"
-    i18next: "npm:^23.8.11"
+    i18next: "npm:^23.7.11"
     i18next-browser-languagedetector: "npm:^7.2.0"
     owasp-password-strength-test: "npm:^1.3.0"
     react-beautiful-dnd: "npm:^13.1.1"
@@ -2171,13 +2171,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/react-identicon@npm:^3.8.1":
-  version: 3.8.1
-  resolution: "@polkadot/react-identicon@npm:3.8.1"
+"@polkadot/react-identicon@npm:^3.8.1, @polkadot/react-identicon@npm:^3.8.2":
+  version: 3.8.2
+  resolution: "@polkadot/react-identicon@npm:3.8.2"
   dependencies:
     "@polkadot/keyring": "npm:^13.0.2"
-    "@polkadot/ui-settings": "npm:3.8.1"
-    "@polkadot/ui-shared": "npm:3.8.1"
+    "@polkadot/ui-settings": "npm:3.8.2"
+    "@polkadot/ui-shared": "npm:3.8.2"
     "@polkadot/util": "npm:^13.0.2"
     "@polkadot/util-crypto": "npm:^13.0.2"
     ethereum-blockies-base64: "npm:^1.0.2"
@@ -2192,7 +2192,7 @@ __metadata:
     react: "*"
     react-dom: "*"
     react-is: "*"
-  checksum: 10/e4a954cc1f51e60596addc55b397f8956506267f855a87436fba2c98c1fedf3ab4ef99753e536b4f49f7aa05a3f49efbe00acc2b2a05346f215944e36a1b1546
+  checksum: 10/791c4210410193f495d5b368d42730e8896503179d1bdbc6d3fe3cca37252a2480eeaeba8a56401d30c4223d2b35808f14b6b9156e563a68e74a3895df0f6abb
   languageName: node
   linkType: hard
 
@@ -2415,7 +2415,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/ui-settings@npm:3.8.1, @polkadot/ui-settings@npm:^3.8.1":
+"@polkadot/ui-settings@npm:3.8.1":
   version: 3.8.1
   resolution: "@polkadot/ui-settings@npm:3.8.1"
   dependencies:
@@ -2431,16 +2431,32 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/ui-shared@npm:3.8.1":
-  version: 3.8.1
-  resolution: "@polkadot/ui-shared@npm:3.8.1"
+"@polkadot/ui-settings@npm:3.8.2, @polkadot/ui-settings@npm:^3.8.1":
+  version: 3.8.2
+  resolution: "@polkadot/ui-settings@npm:3.8.2"
+  dependencies:
+    "@polkadot/networks": "npm:^13.0.2"
+    "@polkadot/util": "npm:^13.0.2"
+    eventemitter3: "npm:^5.0.1"
+    store: "npm:^2.0.12"
+    tslib: "npm:^2.6.2"
+  peerDependencies:
+    "@polkadot/networks": "*"
+    "@polkadot/util": "*"
+  checksum: 10/fa33f165cf9bba0492a1e56ecf0406b98392e24e395eb76dc892806eceec31d500585b417f49c3313ef6dff33e766de1d0e16864d9c4600494f50b50c4ef2ef8
+  languageName: node
+  linkType: hard
+
+"@polkadot/ui-shared@npm:3.8.2":
+  version: 3.8.2
+  resolution: "@polkadot/ui-shared@npm:3.8.2"
   dependencies:
     colord: "npm:^2.9.3"
     tslib: "npm:^2.6.2"
   peerDependencies:
     "@polkadot/util": "*"
     "@polkadot/util-crypto": "*"
-  checksum: 10/828c49ba6a19beb2ea399a7fd4eab528806869c50e43dfb994bb5a70d8260a7dd8301db00721226d9a85dabd70b856028c43e1aaf2bff440060b59b0ebca4902
+  checksum: 10/add5ac48726c23cedc9fc5577c09130c5e331cdaa7fbdb762f43ed6fd1fbb4347c86c5a0480791b0095a4f82d0ea0f175d91d35a21c44b36b0ca5f7846843c06
   languageName: node
   linkType: hard
 
@@ -10134,16 +10150,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:*":
-  version: 23.7.11
-  resolution: "i18next@npm:23.7.11"
-  dependencies:
-    "@babel/runtime": "npm:^7.23.2"
-  checksum: 10/1127bc17f94459d40bd9aaa0350e9786d3853eb82449aabb4514e187fafc752c76a3f52c6be1c2722bfdadaa74f0d26b4f7dd04528ba6b2de7e34f5c6c019c21
-  languageName: node
-  linkType: hard
-
-"i18next@npm:^23.8.11":
+"i18next@npm:*, i18next@npm:^23.7.11":
   version: 23.12.2
   resolution: "i18next@npm:23.12.2"
   dependencies:
@@ -18122,22 +18129,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ws@npm:^8.13.0, ws@npm:^8.14.2, ws@npm:^8.8.1":
-  version: 8.15.1
-  resolution: "ws@npm:8.15.1"
-  peerDependencies:
-    bufferutil: ^4.0.1
-    utf-8-validate: ">=5.0.2"
-  peerDependenciesMeta:
-    bufferutil:
-      optional: true
-    utf-8-validate:
-      optional: true
-  checksum: 10/746a3102d43e8df7b09f5814bec858f12d10185a7abd655537f3291b687d440bb80fc9d1e082f8dee42d4d74307f78a96810e18a2c8e13053b003c6608c1c648
-  languageName: node
-  linkType: hard
-
-"ws@npm:^8.16.0":
+"ws@npm:^8.13.0, ws@npm:^8.14.2, ws@npm:^8.16.0, ws@npm:^8.8.1":
   version: 8.18.0
   resolution: "ws@npm:8.18.0"
   peerDependencies:
