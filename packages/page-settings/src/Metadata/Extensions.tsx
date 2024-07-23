@@ -25,9 +25,6 @@ interface Props {
 
 function Extensions({ chainInfo, className, rawMetadata }: Props): React.ReactElement<Props> {
   const rawDef: MetadataDef = objectSpread<MetadataDef>({}, { ...chainInfo, rawMetadata: rawMetadata ? rawMetadata : '0x00' })
-  console.log('raw placeholder', rawMetadata)
-  // const rawDef = chainInfo;
-  console.log('rawDef in Extensions.tsx:', rawDef);
 
   const { t } = useTranslation();
   const { extensions } = useExtensions();
@@ -46,16 +43,11 @@ function Extensions({ chainInfo, className, rawMetadata }: Props): React.ReactEl
       if (chainInfo && extensions?.[selectedIndex]) {
         toggleBusy();
 
-        console.log('running _updateMeta');
-        console.log('running new rawDef', rawDef);
-
-
         extensions[selectedIndex]
           .update(rawDef)
           .catch(() => false)
           .then(() => toggleBusy())
           .catch(console.error);
-        console.log('updated')
       }
     },
     [chainInfo, extensions, rawDef, selectedIndex, toggleBusy]

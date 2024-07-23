@@ -7,22 +7,20 @@ import { useEffect, useState } from 'react';
 
 import { createNamedHook, useApi, } from '@polkadot/react-hooks';
 
-function useRawMetadataImpl (): HexString | null {
-  const { api,  isApiReady} = useApi();
+function useRawMetadataImpl(): HexString | null {
+  const { api, isApiReady } = useApi();
   const [state, setState] = useState<HexString | null>(null);
 
   useEffect(
-    ():void => {
-        isApiReady
-      && api.call.metadata.metadataAtVersion(15).then((opaque) => {
-        const raw = opaque.toHex();
+    (): void => {
+      isApiReady
+        && api.call.metadata.metadataAtVersion(15).then((opaque) => {
+          const raw = opaque.toHex();
 
-        console.log('raw: ', raw);
+          setState(raw)
 
-        setState(raw)
-
-
-      }).catch()},
+        }).catch()
+    },
     [api, isApiReady]
   );
 
