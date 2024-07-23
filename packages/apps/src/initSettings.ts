@@ -79,7 +79,7 @@ function getLightClientUrl (apiUrl: string): string {
   }
 
   const stored = window.localStorage.getItem('lcUrl');
-  const fallUrl = getLCFromUrl(apiUrl) + '/v1';
+  const fallUrl = getLCFromUrl(apiUrl);
 
   console.log('LC fallback=', fallUrl);
   const fallbackUrl = fallUrl;
