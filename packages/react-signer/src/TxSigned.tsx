@@ -193,6 +193,9 @@ async function wrapTx (api: ApiPromise, currentItem: QueueTx, { isMultiCall, mul
 async function extractParams (api: ApiPromise, address: string, options: Partial<SignerOptions>, getLedger: () => LedgerGeneric, setQrState: (state: QrState) => void): Promise<['qr' | 'signing', string, Partial<SignerOptions>, boolean]> {
   const pair = keyring.getPair(address);
   const { meta: { accountOffset, addressOffset, isExternal, isHardware, isInjected, isLocal, isProxied, source } } = pair;
+  console.log('isHardware: ', isHardware);
+  console.log('isExternal ', isExternal);
+  console.log('isInjexted: ', isInjected);
 
   if (isHardware) {
     return ['signing', address, { ...options, signer: new LedgerSigner(api, getLedger, accountOffset || 0, addressOffset || 0) }, false];
@@ -208,6 +211,10 @@ async function extractParams (api: ApiPromise, address: string, options: Partial
     const injected = await web3FromSource(source);
 
     assert(injected, `Unable to find a signer for ${address}`);
+
+    console.log('injected signer metadata: ',injected.metadata);
+    console.log('injected signer withST: ',options.withSignedTransaction);
+    console.log('injected signer mode: ', options.mode);
 
     return ['signing', address, { ...options, signer: injected.signer }, false];
   }

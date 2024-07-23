@@ -41,6 +41,7 @@ let ledger: LedgerGeneric | null = null;
 let ledgerType: TransportType | null = null;
 
 function retrieveLedger (api: ApiPromise): LedgerGeneric {
+  console.log('retrieve ledger');
   const currType = uiSettings.ledgerConn as TransportType;
 
   if (!ledger || ledgerType !== currType) {

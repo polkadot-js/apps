@@ -14,10 +14,14 @@ export default function Metadata (): React.ReactElement {
   const { isDevelopment } = useApi();
   const rawMetadata = useRawMetadata();
   const chainInfo = useChainInfo();
+  const isMetadataReady = rawMetadata !== null;
+
+  console.log('chainInfo: ', chainInfo)
+  console.log('raw metadata after chain: ', rawMetadata)
 
   return (
     <>
-      {!isDevelopment && (
+      {!isDevelopment && isMetadataReady && (
         <Extensions chainInfo={chainInfo}
         rawMetadata={rawMetadata} />
       )}

@@ -3,14 +3,15 @@
 
 import type { ChainInfo } from '../types.js';
 import type { HexString } from '@polkadot/util/types';
-import type { RawMetadataDef } from '@polkadot/extension-inject/types';
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
+import type { MetadataDef } from '@polkadot/extension-inject/types';
 
 import { knownExtensions } from '@polkadot/apps-config';
 import { externalEmptySVG } from '@polkadot/apps-config/ui/logos/external';
 import { Button, Dropdown, Spinner, styled, Table } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
+import { objectSpread } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
 import useExtensions from '../useExtensions.js';
@@ -19,14 +20,15 @@ import iconOption from './iconOption.js';
 interface Props {
   chainInfo: ChainInfo | null;
   className?: string;
-  rawMetadata: HexString | null;
+  rawMetadata?: HexString | null;
 }
 
-function Extensions ({ chainInfo, className, rawMetadata }: Props): React.ReactElement<Props> {
-  const rawDef: RawMetadataDef = {
-    genesisHash: chainInfo ? chainInfo.genesisHash : '0x00',
-    rawMetadata: rawMetadata ? rawMetadata : '0x00',
-  }
+function Extensions({ chainInfo, className, rawMetadata }: Props): React.ReactElement<Props> {
+  const rawDef: MetadataDef = objectSpread<MetadataDef>({}, { ...chainInfo, rawMetadata: rawMetadata ? rawMetadata : '0x00' })
+  console.log('raw placeholder', rawMetadata)
+  // const rawDef = chainInfo;
+  console.log('rawDef in Extensions.tsx:', rawDef);
+
   const { t } = useTranslation();
   const { extensions } = useExtensions();
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -43,13 +45,17 @@ function Extensions ({ chainInfo, className, rawMetadata }: Props): React.ReactE
     (): void => {
       if (chainInfo && extensions?.[selectedIndex]) {
         toggleBusy();
-        console.log('updating meta');
+
+        console.log('running _updateMeta');
+        console.log('running new rawDef', rawDef);
+
 
         extensions[selectedIndex]
-          .update(chainInfo, rawDef)
+          .update(rawDef)
           .catch(() => false)
           .then(() => toggleBusy())
           .catch(console.error);
+        console.log('updated')
       }
     },
     [chainInfo, extensions, rawDef, selectedIndex, toggleBusy]
