@@ -43,6 +43,7 @@ export { chainsKintsugiPNG } from './generated/kintsugiPNG.js';
 export { chainsKreivoSVG } from './generated/kreivoSVG.js';
 export { chainsKusamaSVG } from './generated/kusamaSVG.js';
 export { chainsLaosOmegaPNG } from './generated/laos-omegaPNG.js';
+export { chainsLaosSigmaPNG } from './generated/laos-sigmaPNG.js';
 export { chainsLaosPNG } from './generated/laosPNG.js';
 export { chainsLiberlandPNG } from './generated/liberlandPNG.js';
 export { chainsListenPNG } from './generated/listenPNG.js';
