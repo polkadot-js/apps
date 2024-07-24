@@ -43,9 +43,9 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2051,
     providers: {
       AjunaNetwork: 'wss://rpc-para.ajuna.network',
-      OnFinality: 'wss://ajuna.api.onfinality.io/public-ws',
       IBP1: 'wss://ajuna.ibp.network',
       IBP2: 'wss://ajuna.dotters.network',
+      OnFinality: 'wss://ajuna.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://ajuna.public.curie.radiumblock.co/ws'
     },
     text: 'Ajuna Network',
@@ -105,10 +105,10 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2030,
     providers: {
       Dwellir: 'wss://bifrost-polkadot-rpc.dwellir.com',
-      Liebi: 'wss://hk.p.bifrost-rpc.liebi.com/ws',
-      LiebiEU: 'wss://eu.bifrost-polkadot-rpc.liebi.com/ws',
       IBP1: 'wss://bifrost-polkadot.ibp.network',
       IBP2: 'wss://bifrost-polkadot.dotters.network',
+      Liebi: 'wss://hk.p.bifrost-rpc.liebi.com/ws',
+      LiebiEU: 'wss://eu.bifrost-polkadot-rpc.liebi.com/ws',
       OnFinality: 'wss://bifrost-polkadot.api.onfinality.io/public-ws'
     },
     text: 'Bifrost',
@@ -525,12 +525,12 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       // 'Automata 1RPC': 'wss://1rpc.io/glmr', // https://github.com/polkadot-js/apps/issues/10566
       Blast: 'wss://moonbeam.public.blastapi.io',
       Dwellir: 'wss://moonbeam-rpc.dwellir.com',
-      'Moonbeam Foundation': 'wss://wss.api.moonbeam.network',
       IBP1: 'wss://moonbeam.ibp.network',
       IBP2: 'wss://moonbeam.dotters.network',
+      'Moonbeam Foundation': 'wss://wss.api.moonbeam.network',
       OnFinality: 'wss://moonbeam.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://moonbeam.public.curie.radiumblock.co/ws',
-      UnitedBloc: 'wss://moonbeam.unitedbloc.com',
+      UnitedBloc: 'wss://moonbeam.unitedbloc.com'
     },
     text: 'Moonbeam',
     ui: {
