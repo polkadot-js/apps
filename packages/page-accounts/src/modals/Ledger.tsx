@@ -9,8 +9,10 @@ import React, { useCallback, useRef, useState } from 'react';
 import { Button, Dropdown, Input, MarkError, Modal } from '@polkadot/react-components';
 import { useApi, useLedger } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
+import { settings } from '@polkadot/ui-settings';
 import { arrayRange } from '@polkadot/util';
 
+import Banner from '../Accounts/Banner.js';
 import { useTranslation } from '../translate.js';
 
 interface Option {
@@ -118,6 +120,9 @@ function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> 
           )}
         </Modal.Columns>
       </Modal.Content>
+      <Banner type={'warning'}>
+        <p>{`You are using the Ledger ${settings.ledgerApp.toUpperCase()} App. If you would like to switch it, please go the "manage ledger app" in the settings.`}</p>
+      </Banner>
       <Modal.Actions>
         <Button
           icon='plus'
