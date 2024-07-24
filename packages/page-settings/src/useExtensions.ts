@@ -106,8 +106,8 @@ async function getExtensionInfo (api: ApiPromise, extension: InjectedExtension):
     return {
       extension,
       known,
-      update: async (def: MetadataDef,): Promise<boolean> => {
-        console.log('def in useExtensions: ', def)
+      update: async (def: MetadataDef): Promise<boolean> => {
+        console.log('def in useExtensions: ', def);
         let isOk = false;
 
         try {
@@ -117,12 +117,12 @@ async function getExtensionInfo (api: ApiPromise, extension: InjectedExtension):
             saveProperties(api, extension);
             triggerAll();
           }
-
         } catch {
           // ignore
         }
+
         return isOk;
-      },
+      }
     };
   } catch {
     return null;
