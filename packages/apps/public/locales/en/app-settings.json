@@ -41,6 +41,7 @@
   "in-browser account creation": "in-browser account creation",
   "include all empty strings in the generated file": "include all empty strings in the generated file",
   "manage hardware connections": "manage hardware connections",
+  "manage ledger app": "manage ledger app",
   "the language to display translations for": "the language to display translations for",
   "the module to display strings for": "the module to display strings for",
   "upgradable extensions": "upgradable extensions",
