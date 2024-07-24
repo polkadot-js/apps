@@ -26,8 +26,6 @@ interface Props {
 function Extensions ({ chainInfo, className, rawMetadata }: Props): React.ReactElement<Props> {
   const isMetadataReady = rawMetadata !== null;
 
-  console.log('isMetadataReady', isMetadataReady);
-
   const { t } = useTranslation();
   const { extensions } = useExtensions();
   const [selectedIndex, setSelectedIndex] = useState(0);

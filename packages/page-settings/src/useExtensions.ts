@@ -107,7 +107,6 @@ async function getExtensionInfo (api: ApiPromise, extension: InjectedExtension):
       extension,
       known,
       update: async (def: MetadataDef): Promise<boolean> => {
-        console.log('def in useExtensions: ', def);
         let isOk = false;
 
         try {
