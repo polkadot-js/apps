@@ -49,7 +49,7 @@ function Extensions ({ chainInfo, className, rawMetadata }: Props): React.ReactE
       if (chainInfo && extensions?.[selectedIndex]) {
         toggleBusy();
 
-        const rawDef: MetadataDef = objectSpread<MetadataDef>({}, { ...chainInfo, rawMetadata: rawMetadata || '0x00' });
+        const rawDef: MetadataDef = objectSpread<MetadataDef>({}, { ...chainInfo, rawMetadata });
 
         extensions[selectedIndex]
           .update(rawDef)
