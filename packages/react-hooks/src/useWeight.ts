@@ -16,7 +16,7 @@ import { useIsMountedRef } from './useIsMountedRef.js';
 
 type V1Weight = INumber;
 
-interface V2Weight {
+export interface V2Weight {
   refTime: ICompact<INumber>;
   proofSize: ICompact<INumber>;
 }
@@ -48,13 +48,13 @@ export function convertWeight (weight: V1Weight | V2Weight): WeightResult {
     // V1.5 weight (when not converted)
     const refTime = (weight as V2Weight).refTime.toBn();
 
-    return { v1Weight: refTime, v2Weight: { refTime } };
+    return { v1Weight: refTime, v2Weight: { proofSize: BN_ZERO, refTime } };
   }
 
   // V1 weight
   const refTime = (weight as V1Weight).toBn();
 
-  return { v1Weight: refTime, v2Weight: { refTime } };
+  return { v1Weight: refTime, v2Weight: { proofSize: BN_ZERO, refTime } };
 }
 
 // for a given call, calculate the weight
