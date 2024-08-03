@@ -184,6 +184,15 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
               options={ledgerConnOptions}
             />
           </div>
+          {/* <div className='ui--row'>
+            <Dropdown
+              defaultValue={state.ledgerApp}
+              isDisabled={!hasLedgerChain}
+              label={t('manage ledger app')}
+              onChange={_handleChange('ledgerApp')}
+              options={_ledgerAppOptions}
+            />
+          </div> */}
           {hasWebUsb
             ? state.ledgerConn !== 'none'
               ? (

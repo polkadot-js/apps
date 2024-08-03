@@ -118,6 +118,9 @@ function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> 
           )}
         </Modal.Columns>
       </Modal.Content>
+      {/* <Banner type={'warning'}>
+        <p>{`You are using the Ledger ${settings.ledgerApp.toUpperCase()} App. If you would like to switch it, please go the "manage ledger app" in the settings.`}</p>
+      </Banner> */}
       <Modal.Actions>
         <Button
           icon='plus'

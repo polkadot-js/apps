@@ -192,6 +192,9 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                 value={isAll}
               />
             )}
+            {/* {senderIdMeta && senderIdMeta.isHardware && (
+              <MarkWarning content={t(`You are using the Ledger ${settings.ledgerApp.toUpperCase()} App. If you would like to switch it, please go the "manage ledger app" in the settings.`)} />
+            )} */}
             {!isProtected && !noReference && (
               <MarkWarning content={t('There is an existing reference count on the sender account. As such the account cannot be reaped from the state.')} />
             )}

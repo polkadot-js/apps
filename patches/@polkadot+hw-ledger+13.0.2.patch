@@ -1,25 +1,27 @@
 diff --git a/node_modules/@polkadot/hw-ledger/cjs/defaults.js b/node_modules/@polkadot/hw-ledger/cjs/defaults.js
-index 94cf3de..141b22b 100644
+index 2cbaeb8..f29d302 100644
 --- a/node_modules/@polkadot/hw-ledger/cjs/defaults.js
 +++ b/node_modules/@polkadot/hw-ledger/cjs/defaults.js
-@@ -6,6 +6,8 @@ exports.ledgerApps = {
+@@ -6,6 +6,9 @@ exports.ledgerApps = {
      ajuna: 'Ajuna',
      'aleph-node': 'AlephZero',
      astar: 'Astar',
 +    avail: 'Avail',
++    'avail-hex': 'Avail',
 +    'avail-turing': 'Avail',
      bifrost: 'Bifrost',
      'bifrost-kusama': 'BifrostKusama',
      centrifuge: 'Centrifuge',
 diff --git a/node_modules/@polkadot/hw-ledger/defaults.js b/node_modules/@polkadot/hw-ledger/defaults.js
-index 9f06432..9d913d1 100644
+index 22838f2..2026f2f 100644
 --- a/node_modules/@polkadot/hw-ledger/defaults.js
 +++ b/node_modules/@polkadot/hw-ledger/defaults.js
-@@ -3,6 +3,8 @@ export const ledgerApps = {
+@@ -3,6 +3,9 @@ export const ledgerApps = {
      ajuna: 'Ajuna',
      'aleph-node': 'AlephZero',
      astar: 'Astar',
 +    avail: 'Avail',
++    'avail-hex': 'Avail',
 +    'avail-turing': 'Avail',
      bifrost: 'Bifrost',
      'bifrost-kusama': 'BifrostKusama',

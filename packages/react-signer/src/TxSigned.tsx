@@ -328,7 +328,7 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
       if (senderInfo.signAddress) {
         const [tx, [status, pairOrAddress, options, isMockSign]] = await Promise.all([
           wrapTx(api, currentItem, senderInfo),
-          extractParams(api, senderInfo.signAddress, { appId, nonce: -1, tip } as Partial<SignerOptions>, getLedger, setQrState)
+          extractParams(api, senderInfo.signAddress, { appId, nonce: -1, tip, withSignedTransaction: true } as Partial<SignerOptions>, getLedger, setQrState)
         ]);
 
         queueSetTxStatus(currentItem.id, status);
@@ -345,7 +345,7 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
       if (senderInfo.signAddress) {
         const [tx, [, pairOrAddress, options, isMockSign]] = await Promise.all([
           wrapTx(api, currentItem, senderInfo),
-          extractParams(api, senderInfo.signAddress, { ...signedOptions, tip }, getLedger, setQrState)
+          extractParams(api, senderInfo.signAddress, { ...signedOptions, tip, withSignedTransaction: true }, getLedger, setQrState)
         ]);
 
         setSignedTx(await signAsync(queueSetTxStatus, currentItem, tx, pairOrAddress, options, api, isMockSign));
