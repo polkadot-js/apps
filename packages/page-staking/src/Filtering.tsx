@@ -21,7 +21,7 @@ interface Props {
 
 function Filtering ({ children, className, nameFilter, setNameFilter, setWithIdentity, withIdentity }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { api } = useApi();
+  const { apiIdentity } = useApi();
 
   // on load, parse the query string and extract the filter
   useEffect((): void => {
@@ -50,7 +50,7 @@ function Filtering ({ children, className, nameFilter, setNameFilter, setWithIde
       {(children || setWithIdentity) && (
         <div className='staking--optionsBar'>
           {children}
-          {setWithIdentity && api.query.identity && (
+          {setWithIdentity && apiIdentity.query.identity && (
             <Toggle
               className='staking--buttonToggle'
               label={t('with an identity')}

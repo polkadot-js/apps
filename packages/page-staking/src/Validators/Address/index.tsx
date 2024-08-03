@@ -92,7 +92,7 @@ function useAddressCalls (api: ApiPromise, address: string, isMain?: boolean) {
 
 function Address ({ address, className = '', filterName, hasQueries, isElected, isFavorite, isMain, isPara, lastBlock, minCommission, nominatedBy, points, recentlyOnline, toggleFavorite, validatorInfo, withIdentity }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { api } = useApi();
+  const { api, apiIdentity } = useApi();
   const [isExpanded, toggleIsExpanded] = useToggle(false);
   const { accountInfo, slashingSpans } = useAddressCalls(api, address, isMain);
 
@@ -104,8 +104,8 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
   );
 
   const isVisible = useMemo(
-    () => accountInfo ? checkVisibility(api, address, accountInfo, filterName, withIdentity) : true,
-    [api, accountInfo, address, filterName, withIdentity]
+    () => accountInfo ? checkVisibility(apiIdentity, address, accountInfo, filterName, withIdentity) : true,
+    [accountInfo, address, filterName, apiIdentity, withIdentity]
   );
 
   const statsLink = useMemo(

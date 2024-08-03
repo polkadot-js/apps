@@ -23,6 +23,7 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
   const [infoIndex, setInfoIndex] = useState(0);
   const [info, setInfo] = useState<AssetInfoComplete | null>(null);
   const balances = useBalances(info?.id);
+  const maxNumLength = Number.MAX_SAFE_INTEGER.toString().length;
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('accounts'), 'start'],
@@ -42,9 +43,9 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
   const assetOptions = useMemo(
     () => completeInfos.map(({ id, metadata }) => ({
       text: `${metadata.name.toUtf8()} (${formatNumber(id)})`,
-      value: id.toNumber()
+      value: id.toString().length < maxNumLength ? id.toNumber() : id.toString()
     })),
-    [completeInfos]
+    [completeInfos, maxNumLength]
   );
 
   const siFormat = useMemo(
@@ -67,7 +68,7 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
   useEffect((): void => {
     setInfo(() =>
       infoIndex >= 0
-        ? completeInfos.find(({ id }) => id.toNumber() === infoIndex) ?? null
+        ? completeInfos.find(({ id }) => id.toString() === infoIndex.toString()) ?? null
         : null
     );
   }, [completeInfos, infoIndex]);
