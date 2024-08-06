@@ -1,9 +1,9 @@
-// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { Bytes } from '@polkadot/types';
-import type { AccountId, Balance, Call, Hash } from '@polkadot/types/interfaces';
+import type { Bytes, u32, u128 } from '@polkadot/types';
+import type { AccountId, Hash } from '@polkadot/types/interfaces';
 import type { FrameSupportPreimagesBounded, PalletPreimageRequestStatus } from '@polkadot/types/lookup';
 import type { ITuple } from '@polkadot/types/types';
 import type { HexString } from '@polkadot/util/types';
@@ -30,6 +30,15 @@ interface StatusParams {
 }
 
 type Result = 'unknown' | 'hash' | 'hashAndLen';
+
+interface OldUnrequested {
+  deposit: ITuple<[AccountId, u128]>;
+}
+
+interface OldRequested {
+  deposit: Option<ITuple<[AccountId, u128]>>;
+  len: Option<u32>;
+}
 
 /**
  * @internal Determine if we are working with current generation (H256,u32)
@@ -89,58 +98,64 @@ export function getPreimageHash (api: ApiPromise, hashOrBounded: Hash | HexStrin
       isHashParam: getParamType(api) === 'hash',
       proposalHash,
       proposalLength: inlineData && new BN(inlineData.length),
-      registry: api.registry,
       status: null
     }
   };
 }
 
 /** @internal Creates a final result */
-function createResult (interimResult: PreimageStatus, optBytes: Option<Bytes> | Uint8Array): Preimage {
+function createResult (api: ApiPromise, interimResult: PreimageStatus, optBytes: Option<Bytes> | Uint8Array): Preimage {
   const callData = isU8a(optBytes)
     ? optBytes
     : optBytes.unwrapOr(null);
-  let proposal: Call | null = null;
-  let proposalError: string | null = null;
-  let proposalWarning: string | null = null;
-  let proposalLength: BN | undefined;
 
-  if (callData) {
-    try {
-      proposal = interimResult.registry.createType('Call', callData);
+  const result = (preimage: Pick<Preimage, 'proposal' | 'proposalLength' | 'proposalWarning' | 'proposalError'>) => objectSpread<Preimage>({}, interimResult, {
+    isCompleted: true,
+    ...preimage
+  });
 
-      const callLength = proposal.encodedLength;
-
-      if (interimResult.proposalLength) {
-        const storeLength = interimResult.proposalLength.toNumber();
-
-        if (callLength !== storeLength) {
-          proposalWarning = `Decoded call length does not match on-chain stored preimage length (${formatNumber(callLength)} bytes vs ${formatNumber(storeLength)} bytes)`;
-        }
-      } else {
-        // for the old style, we set the actual length
-        proposalLength = new BN(callLength);
-      }
-    } catch (error) {
-      console.error(error);
-
-      proposalError = 'Unable to decode preimage bytes into a valid Call';
-    }
-  } else {
-    proposalWarning = 'No preimage bytes found';
+  if (!callData) {
+    return result({ proposalWarning: 'No preimage bytes found' });
   }
 
-  return objectSpread<Preimage>({}, interimResult, {
-    isCompleted: true,
-    proposal,
-    proposalError,
-    proposalLength: proposalLength || interimResult.proposalLength,
-    proposalWarning
-  });
+  try {
+    const tx = api.tx(callData.toString());
+
+    const proposal = api.createType('Call', tx.method);
+
+    if (tx.toHex() === callData.toString()) {
+      return result({ proposal });
+    }
+  } catch {}
+
+  try {
+    const proposal = api.registry.createType('Call', callData);
+
+    const callLength = proposal.encodedLength;
+
+    if (interimResult.proposalLength) {
+      const storeLength = interimResult.proposalLength.toNumber();
+
+      return result({
+        proposal,
+        proposalWarning: callLength !== storeLength ? `Decoded call length does not match on-chain stored preimage length (${formatNumber(callLength)} bytes vs ${formatNumber(storeLength)} bytes)` : null
+      });
+    } else {
+      // for the old style, we set the actual length
+      return result({
+        proposal,
+        proposalLength: new BN(callLength)
+      });
+    }
+  } catch (error) {
+    console.error(error);
+  }
+
+  return result({ proposalError: 'Unable to decode preimage bytes into a valid Call' });
 }
 
 /** @internal Helper to unwrap a deposit tuple into a structure */
-function convertDeposit (deposit?: [AccountId, Balance] | null): PreimageDeposit | undefined {
+function convertDeposit (deposit?: [AccountId, u128] | null): PreimageDeposit | undefined {
   return deposit
     ? {
       amount: deposit[1],
@@ -150,9 +165,9 @@ function convertDeposit (deposit?: [AccountId, Balance] | null): PreimageDeposit
 }
 
 /** @internal Returns the parameters required for a call to bytes */
-function getBytesParams (interimResult: PreimageStatus, optStatus: Option<PalletPreimageRequestStatus>): BytesParams {
+function getBytesParams (interimResult: PreimageStatus, someOptStatus: Option<PalletPreimageRequestStatus>): BytesParams {
   const result = objectSpread<PreimageStatus>({}, interimResult, {
-    status: optStatus.unwrapOr(null)
+    status: someOptStatus.unwrapOr(null)
   });
 
   if (result.status) {
@@ -163,11 +178,15 @@ function getBytesParams (interimResult: PreimageStatus, optStatus: Option<Pallet
         // FIXME Cannot recall how to deal with these
         // (unlike Unrequested below, didn't have an example)
       } else {
-        const { count, deposit, len } = asRequested;
-
-        result.count = count.toNumber();
-        result.deposit = convertDeposit(deposit.unwrapOr(null));
-        result.proposalLength = len.unwrapOr(BN_ZERO);
+        result.count = asRequested.count.toNumber();
+        result.deposit = convertDeposit(
+          asRequested.maybeTicket
+            ? asRequested.maybeTicket.unwrapOr(null)
+            : (asRequested as unknown as OldRequested).deposit.unwrapOr(null)
+        );
+        result.proposalLength = asRequested.maybeLen
+          ? asRequested.maybeLen.unwrapOr(BN_ZERO)
+          : (asRequested as unknown as OldRequested).len.unwrapOr(BN_ZERO);
       }
     } else if (result.status.isUnrequested) {
       const asUnrequested = result.status.asUnrequested;
@@ -175,13 +194,11 @@ function getBytesParams (interimResult: PreimageStatus, optStatus: Option<Pallet
       if (asUnrequested instanceof Option) {
         result.deposit = convertDeposit(
           // old-style conversion
-          (asUnrequested as Option<ITuple<[AccountId, Balance]>>).unwrapOr(null)
+          (asUnrequested as Option<ITuple<[AccountId, u128]>>).unwrapOr(null)
         );
       } else {
-        const { deposit, len } = result.status.asUnrequested;
-
-        result.deposit = convertDeposit(deposit);
-        result.proposalLength = len;
+        result.deposit = convertDeposit(asUnrequested.ticket || (asUnrequested as unknown as OldUnrequested).deposit);
+        result.proposalLength = asUnrequested.len;
       }
     } else {
       console.error(`Unhandled PalletPreimageRequestStatus type: ${result.status.type}`);
@@ -207,14 +224,18 @@ function usePreimageImpl (hashOrBounded?: Hash | HexString | FrameSupportPreimag
     [api, hashOrBounded]
   );
 
+  // api.query.preimage.statusFor has been deprecated in favor of api.query.preimage.requestStatusFor.
+  // To ensure we get all preimages correctly we query both storages. see: https://github.com/polkadot-js/apps/pull/10310
   const optStatus = useCall<Option<PalletPreimageRequestStatus>>(!inlineData && paramsStatus && api.query.preimage?.statusFor, paramsStatus);
+  const optRequstStatus = useCall<Option<PalletPreimageRequestStatus>>(!inlineData && paramsStatus && api.query.preimage?.requestStatusFor, paramsStatus);
+  const someOptStatus = optStatus?.isSome ? optStatus : optRequstStatus;
 
   // from the retrieved status (if any), get the on-chain stored bytes
   const { paramsBytes, resultPreimageFor } = useMemo(
-    () => resultPreimageHash && optStatus
-      ? getBytesParams(resultPreimageHash, optStatus)
+    () => resultPreimageHash && someOptStatus
+      ? getBytesParams(resultPreimageHash, someOptStatus)
       : {},
-    [optStatus, resultPreimageHash]
+    [someOptStatus, resultPreimageHash]
   );
 
   const optBytes = useCall<Option<Bytes>>(paramsBytes && api.query.preimage?.preimageFor, paramsBytes);
@@ -223,14 +244,14 @@ function usePreimageImpl (hashOrBounded?: Hash | HexString | FrameSupportPreimag
   return useMemo(
     () => resultPreimageFor
       ? optBytes
-        ? createResult(resultPreimageFor, optBytes)
+        ? createResult(api, resultPreimageFor, optBytes)
         : resultPreimageFor
       : resultPreimageHash
         ? inlineData
-          ? createResult(resultPreimageHash, inlineData)
+          ? createResult(api, resultPreimageHash, inlineData)
           : resultPreimageHash
         : undefined,
-    [inlineData, optBytes, resultPreimageHash, resultPreimageFor]
+    [api, inlineData, optBytes, resultPreimageHash, resultPreimageFor]
   );
 }
 

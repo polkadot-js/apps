@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/apps-config authors & contributors
+// Copyright 2017-2024 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // overrides based on the actual software node type, valid values are one of -
@@ -18,7 +18,8 @@ export const identitySpec: Record<string, string> = [
   ['kusama', 'polkadot'],
   ['polkadot', 'polkadot'],
   ['rococo', 'polkadot'],
-  ['westend', 'polkadot']
+  ['westend', 'polkadot'],
+  ['paseo', 'polkadot']
 ].reduce((icons, [spec, icon]): Record<string, string> => ({
   ...icons,
   [spec.toLowerCase().replace(/-/g, ' ')]: icon

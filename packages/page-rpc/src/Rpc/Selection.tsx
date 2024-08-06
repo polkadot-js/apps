@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-rpc authors & contributors
+// Copyright 2017-2024 @polkadot/app-rpc authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { QueueTxRpcAdd } from '@polkadot/react-components/Status/types';
@@ -72,7 +72,7 @@ function Selection ({ queueRpc }: Props): React.ReactElement<Props> {
     (): void => queueRpc({
       rpc,
       values: values
-        .filter(({ value }) => !isNull(value))
+        .filter(({ value }, idx) => !rpc.params[idx].isOptional || !isNull(value))
         .map(({ value }): any => value)
     }),
     [queueRpc, rpc, values]

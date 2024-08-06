@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-nfts authors & contributors
+// Copyright 2017-2024 @polkadot/app-nfts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -19,7 +19,11 @@ interface Props {
 function Collection ({ className, value: { details, id, ipfsData } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const name = ipfsData?.name || '';
-  const imageLink = ipfsData?.image ? `https://ipfs.io/ipfs/${ipfsData.image}` : '';
+  let imageLink = '';
+
+  if (ipfsData?.image) {
+    imageLink = ipfsData.image.toLowerCase().startsWith('http') ? ipfsData.image : `https://ipfs.io/ipfs/${ipfsData.image}`;
+  }
 
   return (
     <tr className={className}>

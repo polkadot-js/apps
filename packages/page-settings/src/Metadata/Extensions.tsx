@@ -1,14 +1,17 @@
-// Copyright 2017-2023 @polkadot/app-settings authors & contributors
+// Copyright 2017-2024 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { MetadataDef } from '@polkadot/extension-inject/types';
+import type { HexString } from '@polkadot/util/types';
 import type { ChainInfo } from '../types.js';
 
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { knownExtensions } from '@polkadot/apps-config';
 import { externalEmptySVG } from '@polkadot/apps-config/ui/logos/external';
 import { Button, Dropdown, Spinner, styled, Table } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
+import { objectSpread } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
 import useExtensions from '../useExtensions.js';
@@ -17,13 +20,22 @@ import iconOption from './iconOption.js';
 interface Props {
   chainInfo: ChainInfo | null;
   className?: string;
+  rawMetadata: HexString | null;
 }
 
-function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props> {
+function Extensions ({ chainInfo, className, rawMetadata }: Props): React.ReactElement<Props> {
+  const isMetadataReady = rawMetadata !== null;
+
   const { t } = useTranslation();
   const { extensions } = useExtensions();
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [isBusy, toggleBusy] = useToggle();
+  const [isBusy, toggleBusy] = useToggle(true);
+
+  useEffect((): void => {
+    if (isMetadataReady) {
+      toggleBusy();
+    }
+  }, [isMetadataReady, toggleBusy]);
 
   const options = useMemo(
     () => (extensions || []).map(({ extension: { name, version } }, value) =>
@@ -37,14 +49,16 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
       if (chainInfo && extensions?.[selectedIndex]) {
         toggleBusy();
 
+        const rawDef: MetadataDef = objectSpread<MetadataDef>({}, { ...chainInfo, rawMetadata });
+
         extensions[selectedIndex]
-          .update(chainInfo)
+          .update(rawDef)
           .catch(() => false)
           .then(() => toggleBusy())
           .catch(console.error);
       }
     },
-    [chainInfo, extensions, selectedIndex, toggleBusy]
+    [chainInfo, extensions, rawMetadata, selectedIndex, toggleBusy]
   );
 
   const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
@@ -93,6 +107,7 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
 const StyledTable = styled(Table)`
   table {
     overflow: visible;
+    z-index: 2;
   }
 `;
 

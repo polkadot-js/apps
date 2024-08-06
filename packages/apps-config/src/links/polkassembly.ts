@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/apps-config authors & contributors
+// Copyright 2017-2024 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -23,24 +23,30 @@ export const PolkassemblyIo: ExternalDef = {
     HydraDX: 'hydradx',
     'Integritee Network (Kusama)': 'integritee',
     Khala: 'khala',
+    Kintsugi: 'kintsugi',
     Kusama: 'kusama',
     'Kusama CC3': 'kusama',
+    'Kusama People': 'kusama',
     Parallel: 'parallel',
     'Parallel Heiko': 'heiko',
     Picasso: 'picasso',
     'Pioneer Network': 'pioneer',
-    Polkadex: 'polkadex',
+    'Polkadex Main Network': 'polkadex',
     Polkadot: 'polkadot',
     Robonomics: 'robonomics',
+    Rococo: 'rococo',
     Shibuya: 'shibuya',
     Shiden: 'shiden',
-    'Westend Collectives': 'westend-collectives'
+    'Vara Network': 'vara',
+    'Westend Collectives': 'westend-collectives',
+    Zeitgeist: 'zeitgeist'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.polkassembly.io/${path}/${data.toString()}`,
   homepage: 'https://polkassembly.io/',
   isActive: true,
   paths: {
+    address: 'address',
     bounty: 'bounty',
     council: 'motion',
     democracyProposal: 'proposal',

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-params authors & contributors
+// Copyright 2017-2024 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -95,6 +95,10 @@ const StyledDiv = styled.div`
   }
 
   .ui--Param-Vector-buttons {
+    text-align: right;
+  }
+
+  .ui--Param-BTreeMap-buttons {
     text-align: right;
   }
 

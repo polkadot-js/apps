@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/apps authors & contributors
+// Copyright 2017-2024 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BareProps as Props } from '@polkadot/react-components/types';
@@ -12,8 +12,8 @@ import Signer from '@polkadot/react-signer';
 
 import Content from './Content/index.js';
 import Menu from './Menu/index.js';
+import BottomOverlay from './overlays/Bottom.js';
 import ConnectingOverlay from './overlays/Connecting.js';
-import DotAppsOverlay from './overlays/DotApps.js';
 import WarmUp from './WarmUp.js';
 
 export const PORTAL_ID = 'portals';
@@ -39,7 +39,7 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
             <Content />
           </Signer>
           <ConnectingOverlay />
-          <DotAppsOverlay />
+          <BottomOverlay />
           <div id={PORTAL_ID} />
         </AccountSidebar>
       </StyledDiv>

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -34,7 +34,7 @@ function KickNominees ({ className = '', controllerId, nominating, onClose, stas
   const queryInfo = useCall<DeriveStakingQuery>(api.derive.staking.query, [stashId, accountOpts]);
 
   const nominators = useMemo(
-    () => queryInfo?.exposure?.others.map(({ who }) => who.toString()),
+    () => queryInfo?.exposurePaged.isSome && queryInfo?.exposurePaged.unwrap().others.map(({ who }) => who.toString()),
     [queryInfo]
   );
 

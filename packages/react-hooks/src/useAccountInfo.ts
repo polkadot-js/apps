@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Nominations, ValidatorPrefs } from '@polkadot/types/interfaces';
@@ -40,7 +40,7 @@ const IS_NONE = {
 };
 
 function useAccountInfoImpl (value: string | null, isContract = false): UseAccountInfo {
-  const { api } = useApi();
+  const { api, apiIdentity, apiSystemPeople } = useApi();
   const { accounts: { isAccount }, addresses: { isAddress } } = useKeyring();
   const accountInfo = useDeriveAccountInfo(value);
   const accountFlags = useDeriveAccountFlags(value);
@@ -89,7 +89,7 @@ function useAccountInfoImpl (value: string | null, isContract = false): UseAccou
 
     let name;
 
-    if (isFunction(api.query.identity?.identityOf)) {
+    if (isFunction(apiIdentity.query.identity?.identityOf)) {
       if (identity?.display) {
         name = identity.display;
       }
@@ -113,7 +113,7 @@ function useAccountInfoImpl (value: string | null, isContract = false): UseAccou
     } else {
       setIdentity(undefined);
     }
-  }, [accountInfo, api]);
+  }, [accountInfo, api, apiSystemPeople, apiIdentity]);
 
   useEffect((): void => {
     if (value) {

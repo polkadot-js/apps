@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-assets authors & contributors
+// Copyright 2017-2024 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletAssetsAssetAccount } from '@polkadot/types/lookup';
@@ -49,7 +49,7 @@ function useBalancesImpl (id?: BN | null): AccountResult[] | null {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const keys = useMemo(
-    () => [allAccounts.map((a) => [id, a])],
+    () => [allAccounts.map((a) => [id, a]).filter((tup) => !!tup[0])],
     [allAccounts, id]
   );
   const query = useCall(keys && api.query.assets.account.multi, keys, OPTS);

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-collator authors & contributors
+// Copyright 2017-2024 @polkadot/app-collator authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BTreeSet } from '@polkadot/types';
@@ -74,8 +74,10 @@ function useCollatorImpl (): Collator[] | undefined {
     [state]
   );
 
+  // candidates was replaced by candidateList. This is for compatibility.
+  const candidateCall = api.query.collatorSelection.candidates || api.query.collatorSelection.candidateList;
   const invulnerables = useCall<Collator[]>(api.query.collatorSelection.invulnerables, [], OPT_INV);
-  const candidates = useCall<Collator[]>(api.query.collatorSelection.candidates, [], OPT_CAN);
+  const candidates = useCall<Collator[]>(candidateCall, [], OPT_CAN);
   const lastBlocks = useCall<Authored>(accountIds && api.query.collatorSelection.lastAuthoredBlock?.multi, [accountIds], OPT_AUT);
 
   useEffect(

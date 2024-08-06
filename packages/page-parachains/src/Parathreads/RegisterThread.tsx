@@ -1,13 +1,14 @@
-// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2024 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BalanceOf } from '@polkadot/types/interfaces';
+import type { PolkadotRuntimeParachainsConfigurationHostConfiguration } from '@polkadot/types/lookup';
 import type { OwnedId, OwnerInfo } from '../types.js';
 
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { InputAddress, InputBalance, InputFile, InputNumber, Modal, TxButton } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { BN, compactAddLength } from '@polkadot/util';
 
 import InputOwner from '../InputOwner.js';
@@ -28,6 +29,7 @@ function RegisterThread ({ className, nextParaId, onClose, ownedIds }: Props): R
   const [paraId, setParaId] = useState<BN | undefined>();
   const [wasm, setWasm] = useState<Uint8Array | null>(null);
   const [genesisState, setGenesisState] = useState<Uint8Array | null>(null);
+  const paraConfig = useCall<PolkadotRuntimeParachainsConfigurationHostConfiguration>(api.query.configuration?.activeConfig);
 
   const _setGenesisState = useCallback(
     (data: Uint8Array) => setGenesisState(compactAddLength(data)),
@@ -49,9 +51,15 @@ function RegisterThread ({ className, nextParaId, onClose, ownedIds }: Props): R
 
   const reservedDeposit = useMemo(
     () => (api.consts.registrar.paraDeposit as BalanceOf)
-      .add((api.consts.registrar.dataDepositPerByte as BalanceOf).muln(wasm ? wasm.length : 0))
+      .add((api.consts.registrar.dataDepositPerByte as BalanceOf).muln(
+        paraConfig?.maxCodeSize
+          ? paraConfig.maxCodeSize.toNumber()
+          : wasm
+            ? wasm.length
+            : 0
+      ))
       .iadd((api.consts.registrar.dataDepositPerByte as BalanceOf).muln(genesisState ? genesisState.length : 0)),
-    [api, wasm, genesisState]
+    [api, wasm, genesisState, paraConfig]
   );
 
   const isIdError = !paraId || !paraId.gt(LOWEST_INVALID_ID);

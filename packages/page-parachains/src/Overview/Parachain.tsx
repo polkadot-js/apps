@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2024 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, GroupIndex, ParaId } from '@polkadot/types/interfaces';
@@ -92,7 +92,7 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
     <StyledTr className={`${className} ${(lastBacked || lastInclusion || paraInfo.watermark) ? '' : 'isDisabled'}`}>
       <Table.Column.Id value={id} />
       <td className='badge together'>
-        {paraInfo.paraInfo?.locked?.isFalse
+        {paraInfo.paraInfo?.locked?.isSome && paraInfo.paraInfo?.locked?.unwrap().isFalse
           ? (
             <Badge
               color='orange'

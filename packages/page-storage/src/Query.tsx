@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-storage authors & contributors
+// Copyright 2017-2024 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { QueryableStorageEntry } from '@polkadot/api/types';
@@ -211,7 +211,7 @@ const StyledDiv = styled.div`
   }
 
   pre {
-    margin: 0;
+    margin: 0.5;
 
     .ui--Param-text {
       overflow: hidden;

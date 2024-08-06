@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-signer authors & contributors
+// Copyright 2017-2024 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SignerResult } from '@polkadot/api/types';
@@ -8,6 +8,7 @@ export interface AddressFlags {
   addressOffset: number;
   hardwareType?: string;
   isHardware: boolean;
+  isLocal: boolean;
   isMultisig: boolean;
   isProxied: boolean;
   isQr: boolean;

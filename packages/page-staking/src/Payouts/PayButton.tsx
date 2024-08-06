@@ -1,8 +1,10 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { BatchOptions } from '@polkadot/react-hooks/types';
+import type { u32 } from '@polkadot/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
 import type { PayoutValidator } from './types.js';
 
@@ -59,9 +61,10 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
   const [isVisible, togglePayout] = useToggle();
   const [accountId, setAccount] = useState<string | null>(null);
   const [txs, setTxs] = useState<SubmittableExtrinsic<'promise'>[] | null>(null);
-  const batchOpts = useMemo(
+  const batchOpts = useMemo<BatchOptions>(
     () => ({
-      max: 36 * 64 / (api.consts.staking.maxNominatorRewardedPerValidator?.toNumber() || 64)
+      max: 36 * 64 / ((api.consts.staking.maxNominatorRewardedPerValidator as u32)?.toNumber() || 64),
+      type: 'force'
     }),
     [api]
   );

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AddressIdentity } from '@polkadot/react-hooks/types';
@@ -27,7 +27,7 @@ const SUBS_DISPLAY_THRESHOLD = 4;
 
 function Identity ({ address, identity }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { api } = useApi();
+  const { apiIdentity } = useApi();
   const { isRegistrar, registrars } = useRegistrars();
   const [isJudgementOpen, toggleIsJudgementOpen] = useToggle();
   const subs = useSubidentities(address);
@@ -44,7 +44,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
   , [subs]
   );
 
-  if (!identity || !identity.isExistent || !api.query.identity?.identityOf) {
+  if (!identity || !identity.isExistent || !apiIdentity.query.identity?.identityOf) {
     return null;
   }
 

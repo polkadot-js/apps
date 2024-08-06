@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useMemo } from 'react';
@@ -21,12 +21,12 @@ interface Props {
 }
 
 function AddressToggle ({ address, className = '', filter, isHidden, noToggle, onChange, value }: Props): React.ReactElement<Props> | null {
-  const { api } = useApi();
+  const { apiIdentity } = useApi();
   const info = useDeriveAccountInfo(address);
 
   const isVisible = useMemo(
-    () => info ? checkVisibility(api, address, info, filter, false) : true,
-    [api, address, filter, info]
+    () => info ? checkVisibility(apiIdentity, address, info, filter, false) : true,
+    [address, filter, info, apiIdentity]
   );
 
   const _onClick = useCallback(

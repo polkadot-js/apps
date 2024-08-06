@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-preimages authors & contributors
+// Copyright 2017-2024 @polkadot/app-preimages authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Changes } from '@polkadot/react-hooks/useEventChanges';
@@ -34,11 +34,12 @@ function filter (records: EventRecord[]): Changes<Hash> {
 
 function usePreimagesImpl (): HexString[] | undefined {
   const { api } = useApi();
-  const startValue = useMapKeys(api.query.preimage.statusFor, EMPTY_PARAMS, OPT_HASH);
+  const startValueStatusFor = useMapKeys(api.query.preimage.statusFor, EMPTY_PARAMS, OPT_HASH);
+  const startvalueRequstStatusFor = useMapKeys(api.query.preimage.requestStatusFor, EMPTY_PARAMS, OPT_HASH);
   const hashes = useEventChanges([
     api.events.preimage.Cleared,
     api.events.preimage.Noted
-  ], filter, startValue);
+  ], filter, startValueStatusFor?.concat(startvalueRequstStatusFor || []));
 
   return useMemo(
     () => hashes?.map((h) => h.toHex()),

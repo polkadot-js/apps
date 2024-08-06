@@ -1,7 +1,8 @@
-// Copyright 2017-2023 @polkadot/apps authors & contributors
+// Copyright 2017-2024 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // setup these right at front
+import './initBufferHack.js';
 import './initSettings.js';
 import 'semantic-ui-css/semantic.min.css';
 import '@polkadot/react-components/i18n';

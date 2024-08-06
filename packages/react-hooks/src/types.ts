@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type React from 'react';
@@ -6,9 +6,10 @@ import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/api-derive/types';
 import type { DisplayedJudgement } from '@polkadot/react-components/types';
-import type { AccountId, Balance, BlockNumber, Call, Exposure, Hash, RewardDestination, SessionIndex, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
-import type { PalletPreimageRequestStatus } from '@polkadot/types/lookup';
-import type { ICompact, IExtrinsic, INumber, Registry } from '@polkadot/types/types';
+import type { Option, u32, u128, Vec } from '@polkadot/types';
+import type { AccountId, BlockNumber, Call, Hash, SessionIndex, ValidatorPrefs } from '@polkadot/types/interfaces';
+import type { PalletPreimageRequestStatus, PalletStakingRewardDestination, PalletStakingStakingLedger, SpStakingExposurePage, SpStakingPagedExposureMetadata } from '@polkadot/types/lookup';
+import type { ICompact, IExtrinsic, INumber } from '@polkadot/types/types';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
@@ -52,14 +53,14 @@ export interface Inflation {
 
 export interface Slash {
   accountId: AccountId;
-  amount: Balance;
+  amount: u128;
 }
 
 export interface SessionRewards {
   blockHash: Hash;
   blockNumber: BlockNumber;
   isEventsEmpty: boolean;
-  reward: Balance;
+  reward: u128;
   sessionIndex: SessionIndex;
   slashes: Slash[];
 }
@@ -142,8 +143,10 @@ export interface UseAccountInfo {
 
 export interface StakerState {
   controllerId: string | null;
-  destination?: RewardDestination;
-  exposure?: Exposure;
+  destination?: PalletStakingRewardDestination | null;
+  exposurePaged?: Option<SpStakingExposurePage>;
+  exposureMeta?: Option<SpStakingPagedExposureMetadata>
+  claimedRewardsEras?: Vec<u32>
   hexSessionIdNext: string | null;
   hexSessionIdQueue: string | null;
   isLoading: boolean;
@@ -153,7 +156,7 @@ export interface StakerState {
   isStashValidating: boolean;
   nominating?: string[];
   sessionIds: string[];
-  stakingLedger?: StakingLedger;
+  stakingLedger?: PalletStakingStakingLedger;
   stashId: string;
   validatorPrefs?: ValidatorPrefs;
 }
@@ -189,7 +192,6 @@ export interface PreimageStatus {
   isHashParam: boolean;
   proposalHash: HexString;
   proposalLength?: BN;
-  registry: Registry;
   status: PalletPreimageRequestStatus | null;
 }
 

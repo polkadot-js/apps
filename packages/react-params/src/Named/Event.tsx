@@ -1,9 +1,8 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DecodedEvent } from '@polkadot/api-contract/types';
-import type { Bytes } from '@polkadot/types';
-import type { Event } from '@polkadot/types/interfaces';
+import type { Event, EventRecord } from '@polkadot/types/interfaces';
 import type { Codec } from '@polkadot/types/types';
 
 import React, { useMemo } from 'react';
@@ -59,7 +58,7 @@ function EventDisplay ({ children, className = '', eventName, value, withExpande
           const abi = getContractAbi(accountId.toString());
 
           if (abi) {
-            const decoded = abi.decodeEvent(encoded as Bytes);
+            const decoded = abi.decodeEvent(encoded as EventRecord);
 
             return {
               ...decoded,

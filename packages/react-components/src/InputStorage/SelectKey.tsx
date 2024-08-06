@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -10,6 +10,7 @@ import React from 'react';
 import { useApi } from '@polkadot/react-hooks';
 
 import Dropdown from '../Dropdown.js';
+import { filterDropdownItems } from '../util/index.js';
 
 interface Props {
   className?: string;
@@ -41,6 +42,7 @@ function SelectKey (props: Props): React.ReactElement<Props> | null {
       className={`${className} ui--DropdownLinked-Items`}
       isError={isError}
       onChange={onChange}
+      onSearch={filterDropdownItems}
       options={options}
       transform={transform(api, props)}
       value={value.creator.method}

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-params authors & contributors
+// Copyright 2017-2024 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { I18nProps } from '@polkadot/react-components/types';
@@ -39,7 +39,7 @@ interface State {
   values?: RawParams;
 }
 
-export { Holder };
+export { createValue, Holder, ParamComp };
 
 class Params extends React.PureComponent<Props, State> {
   public override state: State = {

@@ -1,9 +1,10 @@
-// Copyright 2017-2023 @polkadot/app-assets authors & contributors
+// Copyright 2017-2024 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DropdownItemProps } from 'semantic-ui-react';
 import type { AssetInfo, AssetInfoComplete } from '../types.js';
 
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { Dropdown, styled, Table } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
@@ -22,6 +23,7 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
   const [infoIndex, setInfoIndex] = useState(0);
   const [info, setInfo] = useState<AssetInfoComplete | null>(null);
   const balances = useBalances(info?.id);
+  const maxNumLength = Number.MAX_SAFE_INTEGER.toString().length;
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('accounts'), 'start'],
@@ -39,11 +41,11 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
   );
 
   const assetOptions = useMemo(
-    () => completeInfos.map(({ id, metadata }, index) => ({
+    () => completeInfos.map(({ id, metadata }) => ({
       text: `${metadata.name.toUtf8()} (${formatNumber(id)})`,
-      value: index
+      value: id.toString().length < maxNumLength ? id.toNumber() : id.toString()
     })),
-    [completeInfos]
+    [completeInfos, maxNumLength]
   );
 
   const siFormat = useMemo(
@@ -53,10 +55,20 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
     [info]
   );
 
+  const onSearch = useCallback(
+    (options: DropdownItemProps[], value: string): DropdownItemProps[] =>
+      options.filter((options) => {
+        const { text: optText, value: optValue } = options as { text: string, value: number };
+
+        return parseInt(value) === optValue || optText.includes(value);
+      }),
+    []
+  );
+
   useEffect((): void => {
     setInfo(() =>
-      infoIndex >= 0 && infoIndex < completeInfos.length
-        ? completeInfos[infoIndex]
+      infoIndex >= 0
+        ? completeInfos.find(({ id }) => id.toString() === infoIndex.toString()) ?? null
         : null
     );
   }, [completeInfos, infoIndex]);
@@ -71,6 +83,7 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
               isFull
               label={t('the asset to query for balances')}
               onChange={setInfoIndex}
+              onSearch={onSearch}
               options={assetOptions}
               value={infoIndex}
             />

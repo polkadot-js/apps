@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-settings authors & contributors
+// Copyright 2017-2024 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/apps-config/settings/types';
@@ -20,6 +20,7 @@ interface Props {
 }
 
 const _ledgerConnOptions = settings.availableLedgerConn;
+const _ledgerAppOptions = settings.availableLedgerApp;
 
 function General ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -182,6 +183,15 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
               label={t('manage hardware connections')}
               onChange={_handleChange('ledgerConn')}
               options={ledgerConnOptions}
+            />
+          </div>
+          <div className='ui--row'>
+            <Dropdown
+              defaultValue={state.ledgerApp}
+              isDisabled={!hasLedgerChain}
+              label={t('manage ledger app')}
+              onChange={_handleChange('ledgerApp')}
+              options={_ledgerAppOptions}
             />
           </div>
           {hasWebUsb

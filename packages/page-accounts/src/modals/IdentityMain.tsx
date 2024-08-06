@@ -1,9 +1,11 @@
-// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2024 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { Data, Option } from '@polkadot/types';
-import type { IdentityInfo, Registration } from '@polkadot/types/interfaces';
+import type { Bytes, Data, Option, Struct } from '@polkadot/types';
+import type { H160, IdentityInfo, Registration } from '@polkadot/types/interfaces';
+import type { PalletIdentityRegistration } from '@polkadot/types/lookup';
+import type { ITuple } from '@polkadot/types-codec/types';
 
 import React, { useEffect, useState } from 'react';
 
@@ -22,21 +24,36 @@ interface Props {
 }
 
 interface ValueState {
-  info: Record<string, unknown>;
   okAll: boolean;
   okDiscord?: boolean;
   okDisplay?: boolean;
   okEmail?: boolean;
+  okGithub?: boolean;
   okLegal?: boolean;
+  okMatrix?: boolean;
   okRiot?: boolean;
   okTwitter?: boolean;
   okWeb?: boolean;
 }
 
+// With the Identity pallet being transferred to the people chain, the types are also changed.
+interface PeopleIdentityInfo extends Struct {
+  display: Data;
+  legal: Data;
+  web: Data;
+  matrix: Data;
+  email: Data;
+  pgpFingerprint: Option<H160>;
+  image: Data;
+  twitter: Data;
+  github: Data;
+  discord: Data;
+}
+
 const WHITESPACE = [' ', '\t'];
 
 function setData (data: Data, setActive: null | ((isActive: boolean) => void), setVal: (val: string) => void): void {
-  if (data.isRaw) {
+  if (data && data.isRaw) {
     setActive && setActive(true);
     setVal(u8aToString(data.asRaw.toU8a(true)));
   }
@@ -45,14 +62,22 @@ function setData (data: Data, setActive: null | ((isActive: boolean) => void), s
 function setAdditionalFieldData (api: ApiPromise, info: IdentityInfo, key: string, setActive: null | ((isActive: boolean) => void), setVal: (val: string) => void): Data {
   const dataKey = api.registry.createType('Data', api.registry.createType('Data', { Raw: key }));
   const dataNone = api.registry.createType('Data', '');
-
   const value = info.additional.find((v) => v[0].eq(dataKey))?.[1] || dataNone;
 
-  if (value.isRaw) {
+  if (value && value.isRaw) {
     setData(value, setActive, setVal);
   }
 
   return value;
+}
+
+function setDiscordFieldData (info: PeopleIdentityInfo, setActive: null | ((isActive: boolean) => void), setVal: (val: string) => void): Data {
+  if (info.discord && !info.discord.isNone) {
+    setActive && setActive(true);
+    setVal(u8aToString(info.discord.asRaw.toU8a(true)));
+  }
+
+  return info.discord;
 }
 
 function checkValue (hasValue: boolean, value: string | null | undefined, minLength: number, includes: string[], excludes: string[], starting: string[], notStarting: string[] = WHITESPACE, notEnding: string[] = WHITESPACE): boolean {
@@ -69,12 +94,16 @@ function checkValue (hasValue: boolean, value: string | null | undefined, minLen
 
 function IdentityMain ({ address, className = '', onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const identityOpt = useCall<Option<Registration>>(api.query.identity.identityOf, [address]);
-  const [{ info, okAll, okDiscord, okDisplay, okEmail, okLegal, okRiot, okTwitter, okWeb }, setInfo] = useState<ValueState>({ info: {}, okAll: false });
+  const { apiIdentity, enableIdentity, specName } = useApi();
+  const identityOpt = useCall<Option<ITuple<[PalletIdentityRegistration, Option<Bytes>]>>>(apiIdentity.query.identity.identityOf, [address]);
+  const [{ okAll, okDiscord, okDisplay, okEmail, okGithub, okLegal, okMatrix, okRiot, okTwitter, okWeb }, setOkInfo] = useState<ValueState>({ okAll: false });
+  const [legacyInfo, setLegacyInfo] = useState<Record<string, unknown>>({});
+  const [info, setInfo] = useState<Record<string, unknown>>({});
   const [hasEmail, setHasEmail] = useState(false);
   const [hasLegal, setHasLegal] = useState(false);
   const [hasRiot, setHasRiot] = useState(false);
+  const [hasMatrix, setHasMatrix] = useState(false);
+  const [hasGithub, setHasGithub] = useState(false);
   const [hasTwitter, setHasTwitter] = useState(false);
   const [hasDiscord, setHasDiscord] = useState(false);
   const [hasWeb, setHasWeb] = useState(false);
@@ -82,47 +111,83 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
   const [valEmail, setValEmail] = useState('');
   const [valLegal, setValLegal] = useState('');
   const [valRiot, setValRiot] = useState('');
+  const [valMatrix, setValMatrix] = useState('');
+  const [valGithub, setValGithub] = useState('');
   const [valTwitter, setValTwitter] = useState('');
   const [valDiscord, setValDiscord] = useState('');
   const [valWeb, setValWeb] = useState('');
   const [gotPreviousIdentity, setGotPreviousIdentity] = useState(false);
+  // HACK This ensures we can deal with legacy indentity information for chains while
+  // also giving support for the new identity logic inside of the Peoples chain.
+  // The new logic is specific to people system parachains.
+  const [isLegacyIdentity, setIsLegacyIdentity] = useState<boolean>(!specName.includes('people-'));
+  const [isPalletChecked, setIsPalletChecked] = useState<boolean>(false);
 
   useEffect((): void => {
     if (identityOpt && identityOpt.isSome) {
-      const { info } = identityOpt.unwrap();
+      const identity = identityOpt.unwrap();
+      const foundInfo = Array.isArray(identity) ? identity[0].info : (identity as Registration).info;
 
-      setData(info.display, null, setValDisplay);
-      setData(info.email, setHasEmail, setValEmail);
-      setData(info.legal, setHasLegal, setValLegal);
-      setData(info.riot, setHasRiot, setValRiot);
-      setData(info.twitter, setHasTwitter, setValTwitter);
-      const infoDiscord = setAdditionalFieldData(api, info, AddressIdentityOtherDiscordKey, setHasDiscord, setValDiscord);
+      // Ensure we set the state before ever jumping into the logic below.
+      if (!isPalletChecked) {
+        // riot was replaced with matrix, so if we see riot as part of the structure
+        // we know its part of the legacy identity logic
+        foundInfo.riot ? setIsLegacyIdentity(true) : setIsLegacyIdentity(false);
+        setIsPalletChecked(true);
+      } else {
+        setData(foundInfo.display, null, setValDisplay);
+        setData(foundInfo.email, setHasEmail, setValEmail);
+        setData(foundInfo.legal, setHasLegal, setValLegal);
+        setData(foundInfo.riot, setHasRiot, setValRiot);
+        setData(foundInfo.twitter, setHasTwitter, setValTwitter);
+        setData((foundInfo as unknown as PeopleIdentityInfo).matrix, setHasMatrix, setValMatrix);
+        setData((foundInfo as unknown as PeopleIdentityInfo).github, setHasGithub, setValGithub);
+        setData(foundInfo.web, setHasWeb, setValWeb);
+        const infoDiscord = isLegacyIdentity ? setAdditionalFieldData(apiIdentity, foundInfo, AddressIdentityOtherDiscordKey, setHasDiscord, setValDiscord) : setDiscordFieldData((foundInfo as unknown as PeopleIdentityInfo), setHasDiscord, setValDiscord);
 
-      setData(info.web, setHasWeb, setValWeb);
+        const previousKeys = isLegacyIdentity
+          ? [foundInfo.display, foundInfo.email, foundInfo.legal, foundInfo.riot, foundInfo.twitter, infoDiscord, foundInfo.web]
+          : [foundInfo.display, foundInfo.email, (foundInfo as unknown as PeopleIdentityInfo).github, foundInfo.legal, (foundInfo as unknown as PeopleIdentityInfo).matrix, foundInfo.twitter, infoDiscord, foundInfo.web];
 
-      [info.display, info.email, info.legal, info.riot, info.twitter, infoDiscord, info.web].some((info: Data) => {
-        if (info.isRaw) {
-          setGotPreviousIdentity(true);
+        previousKeys.some((info: Data | null) => {
+          if (info && info.isRaw) {
+            setGotPreviousIdentity(true);
 
-          return true;
-        } else {
-          return false;
-        }
-      });
+            return true;
+          } else {
+            return false;
+          }
+        });
+      }
     }
-  }, [identityOpt, api]);
+  }, [identityOpt, apiIdentity, isLegacyIdentity, isPalletChecked]);
 
   useEffect((): void => {
     const okDisplay = checkValue(true, valDisplay, 1, [], [], []);
     const okEmail = checkValue(hasEmail, valEmail, 3, ['@'], WHITESPACE, []);
     const okLegal = checkValue(hasLegal, valLegal, 1, [], [], []);
+    const okMatrix = checkValue(hasMatrix, valMatrix, 6, [':'], WHITESPACE, ['@', '~']);
     const okRiot = checkValue(hasRiot, valRiot, 6, [':'], WHITESPACE, ['@', '~']);
     const okTwitter = checkValue(hasTwitter, valTwitter, 3, [], WHITESPACE, ['@']);
     const okDiscord = checkValue(hasDiscord, valDiscord, 3, [], WHITESPACE, []);
+    const okGithub = checkValue(hasGithub, valGithub, 3, [], WHITESPACE, []);
     const okWeb = checkValue(hasWeb, valWeb, 8, ['.'], WHITESPACE, ['https://', 'http://']);
 
-    setInfo({
-      info: {
+    setOkInfo({
+      okAll: okDisplay && okEmail && okLegal && okRiot && okTwitter && okDiscord && okWeb,
+      okDiscord,
+      okDisplay,
+      okEmail,
+      okGithub,
+      okLegal,
+      okMatrix,
+      okRiot,
+      okTwitter,
+      okWeb
+    });
+
+    isLegacyIdentity
+      ? setLegacyInfo({
         additional: [
           (okDiscord && hasDiscord ? [{ raw: AddressIdentityOtherDiscordKey }, { raw: valDiscord }] : null)
         ].filter((item) => !!item),
@@ -132,17 +197,18 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
         riot: { [okRiot && hasRiot ? 'raw' : 'none']: okRiot && hasRiot ? valRiot : null },
         twitter: { [okTwitter && hasTwitter ? 'raw' : 'none']: okTwitter && hasTwitter ? valTwitter : null },
         web: { [okWeb && hasWeb ? 'raw' : 'none']: okWeb && hasWeb ? valWeb : null }
-      },
-      okAll: okDisplay && okEmail && okLegal && okRiot && okTwitter && okDiscord && okWeb,
-      okDiscord,
-      okDisplay,
-      okEmail,
-      okLegal,
-      okRiot,
-      okTwitter,
-      okWeb
-    });
-  }, [hasEmail, hasLegal, hasRiot, hasTwitter, hasDiscord, hasWeb, valDisplay, valEmail, valLegal, valRiot, valTwitter, valDiscord, valWeb]);
+      })
+      : setInfo({
+        discord: { [okDiscord && hasDiscord ? 'raw' : 'none']: okDiscord && hasDiscord ? valDiscord : null },
+        display: { [okDisplay ? 'raw' : 'none']: valDisplay || null },
+        email: { [okEmail && hasEmail ? 'raw' : 'none']: okEmail && hasEmail ? valEmail : null },
+        github: { [okGithub && hasGithub ? 'raw' : 'none']: okGithub && hasGithub ? valGithub : null },
+        legal: { [okLegal && hasLegal ? 'raw' : 'none']: okLegal && hasLegal ? valLegal : null },
+        matrix: { [okMatrix && hasMatrix ? 'raw' : 'none']: okMatrix && hasMatrix ? valMatrix : null },
+        twitter: { [okTwitter && hasTwitter ? 'raw' : 'none']: okTwitter && hasTwitter ? valTwitter : null },
+        web: { [okWeb && hasWeb ? 'raw' : 'none']: okWeb && hasWeb ? valWeb : null }
+      });
+  }, [hasEmail, hasLegal, hasRiot, hasTwitter, hasDiscord, hasWeb, hasMatrix, hasGithub, valDisplay, valEmail, valLegal, valRiot, valTwitter, valDiscord, valWeb, valMatrix, valGithub, isLegacyIdentity]);
 
   return (
     <Modal
@@ -238,24 +304,69 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
           placeholder={t('YourDiscordHandle')}
           value={hasDiscord ? valDiscord : '<none>'}
         />
-        <Input
-          isDisabled={!hasRiot}
-          isError={!okRiot}
-          label={t('riot name')}
-          labelExtra={
-            <Toggle
-              label={t('include field')}
-              onChange={setHasRiot}
-              value={hasRiot}
-            />
-          }
-          maxLength={32}
-          onChange={setValRiot}
-          placeholder={t('@yourname:matrix.org')}
-          value={hasRiot ? valRiot : '<none>'}
-        />
+        {
+          !isLegacyIdentity
+            ? (
+              <Input
+                isDisabled={!hasMatrix}
+                isError={!okMatrix}
+                label={t('matrix name')}
+                labelExtra={
+                  <Toggle
+                    label={t('include field')}
+                    onChange={setHasMatrix}
+                    value={hasMatrix}
+                  />
+                }
+                maxLength={32}
+                onChange={setValMatrix}
+                placeholder={t('@yourname:matrix.org')}
+                value={hasMatrix ? valMatrix : '<none>'}
+              />
+            )
+            : (
+              <Input
+                isDisabled={!hasRiot}
+                isError={!okRiot}
+                label={t('riot name')}
+                labelExtra={
+                  <Toggle
+                    label={t('include field')}
+                    onChange={setHasRiot}
+                    value={hasRiot}
+                  />
+                }
+                maxLength={32}
+                onChange={setValRiot}
+                placeholder={t('@yourname:matrix.org')}
+                value={hasRiot ? valRiot : '<none>'}
+              />
+            )
+        }
+        {
+          !isLegacyIdentity
+            ? (
+              <Input
+                isDisabled={!hasGithub}
+                isError={!okGithub}
+                label={t('Github name')}
+                labelExtra={
+                  <Toggle
+                    label={t('include field')}
+                    onChange={setHasGithub}
+                    value={hasGithub}
+                  />
+                }
+                maxLength={32}
+                onChange={setValGithub}
+                placeholder={t('YourGithubHandle')}
+                value={hasGithub ? valGithub : '<none>'}
+              />
+            )
+            : <div></div>
+        }
         <InputBalance
-          defaultValue={api.consts.identity?.basicDeposit}
+          defaultValue={apiIdentity.consts.identity?.basicDeposit}
           isDisabled
           label={t('total deposit')}
         />
@@ -264,18 +375,18 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
         <TxButton
           accountId={address}
           icon={'trash-alt'}
-          isDisabled={!gotPreviousIdentity}
+          isDisabled={!enableIdentity || !gotPreviousIdentity}
           label={t('Clear Identity')}
           onStart={onClose}
-          tx={api.tx.identity.clearIdentity}
+          tx={apiIdentity.tx.identity.clearIdentity}
         />
         <TxButton
           accountId={address}
-          isDisabled={!okAll}
+          isDisabled={!enableIdentity || !okAll}
           label={t('Set Identity')}
           onStart={onClose}
-          params={[info]}
-          tx={api.tx.identity.setIdentity}
+          params={[isLegacyIdentity ? legacyInfo : info]}
+          tx={apiIdentity.tx.identity.setIdentity}
         />
       </Modal.Actions>
     </Modal>

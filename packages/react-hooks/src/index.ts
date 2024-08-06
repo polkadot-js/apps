@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // we use augmented types in this tsconfig
@@ -41,7 +41,6 @@ export { useFormField } from './useFormField.js';
 export { useIncrement } from './useIncrement.js';
 export { useInflation } from './useInflation.js';
 export { useIpfs } from './useIpfs.js';
-export { useIpfsFetch } from './useIpfsFetch.js';
 export { useIpfsLink } from './useIpfsLink.js';
 export { useIsMountedRef } from './useIsMountedRef.js';
 export { useJudgements } from './useJudgements.js';
@@ -50,6 +49,7 @@ export { useLedger } from './useLedger.js';
 export { useMapEntries } from './useMapEntries.js';
 export { useMapKeys } from './useMapKeys.js';
 export { useMemoValue } from './useMemoValue.js';
+export { useMetadataFetch } from './useMetadataFetch.js';
 export { useModal } from './useModal.js';
 export { useNextTick } from './useNextTick.js';
 export { useNonEmptyString } from './useNonEmptyString.js';
@@ -61,6 +61,7 @@ export { useOwnStashInfos } from './useOwnStashInfos.js';
 export { useParaApi } from './useParaApi.js';
 export { useIsParasLinked, useParaEndpoints } from './useParaEndpoints.js';
 export { usePassword } from './usePassword.js';
+export { usePeopleEndpoint } from './usePeopleEndpoint.js';
 export { usePopupWindow } from './usePopupWindow.js';
 export { usePreimage } from './usePreimage.js';
 export { useProxies } from './useProxies.js';

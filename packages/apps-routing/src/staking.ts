@@ -1,8 +1,9 @@
-// Copyright 2017-2023 @polkadot/apps-routing authors & contributors
+// Copyright 2017-2024 @polkadot/apps-routing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { PalletStakingExposure } from '@polkadot/types/lookup';
+import type { u32, Vec } from '@polkadot/types';
+import type { SpStakingPagedExposureMetadata } from '@polkadot/types/lookup';
 import type { Route, TFunction } from './types.js';
 
 import Component from '@polkadot/app-staking';
@@ -13,12 +14,12 @@ import { assert, BN_ONE } from '@polkadot/util';
 function needsApiCheck (api: ApiPromise): boolean {
   try {
     // we need a known Exposure type
-    const { others: [{ value, who }], own, total } = api.registry.createType<PalletStakingExposure>(
-      unwrapStorageType(api.registry, api.query.staking.erasStakers.creator.meta.type),
-      { others: [{ value: BN_ONE, who: ZERO_ACCOUNT }], own: BN_ONE, total: BN_ONE }
+    const { nominatorCount, own, pageCount, total } = api.registry.createType<SpStakingPagedExposureMetadata>(
+      unwrapStorageType(api.registry, api.query.staking.erasStakersOverview.creator.meta.type),
+      { nominatorCount: BN_ONE, own: BN_ONE, pageCount: BN_ONE, total: BN_ONE }
     );
 
-    assert(total && own && value && who && total.eq(BN_ONE) && own.eq(BN_ONE) && value.eq(BN_ONE), 'Needs a known Exposure type');
+    assert(total && own && nominatorCount && pageCount && total.eq(BN_ONE) && own.eq(BN_ONE), 'Needs a known Exposure type');
   } catch {
     console.warn('Unable to create known-shape Exposure type, disabling staking route');
 
@@ -44,6 +45,20 @@ function needsApiCheck (api: ApiPromise): boolean {
     return false;
   }
 
+  // For compatibility - `api.query.staking.ledger` returns `legacyClaimedRewards` instead of `claimedRewards` as of v1.4
+  try {
+    const v = api.registry.createType<Vec<u32>>(
+      unwrapStorageType(api.registry, api.query.staking.claimedRewards.creator.meta.type),
+      [0]
+    );
+
+    assert(v.eq([0]), 'Needs a legacyClaimedRewards array');
+  } catch {
+    console.warn('No known legacyClaimedRewards or claimedRewards inside staking ledger, disabling staking route');
+
+    return false;
+  }
+
   return true;
 }
 
@@ -52,7 +67,7 @@ export default function create (t: TFunction): Route {
     Component,
     display: {
       needsApi: [
-        'query.staking.erasStakers',
+        'query.staking.erasStakersOverview',
         'tx.staking.bond'
       ],
       needsApiCheck

@@ -5,6 +5,7 @@
     "outDir": "./build",
     "rootDir": "./src",
     "module": "CommonJS",
+    "moduleResolution": "node",
     "target": "es2018",
     /* This is a cjs target, so ignore */
     "verbatimModuleSyntax": false

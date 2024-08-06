@@ -1,8 +1,8 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DropdownItemProps } from 'semantic-ui-react';
-import type { KeyringOption$Type, KeyringOptions, KeyringSectionOption, KeyringSectionOptions } from '@polkadot/ui-keyring/options/types';
+import type { KeyringOption$Type, KeyringOptions, KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 import type { Option } from './types.js';
 
 import React from 'react';
@@ -299,14 +299,14 @@ class InputAddress extends React.PureComponent<Props, State> {
     }
   };
 
-  private onSearch = (filteredOptions: KeyringSectionOptions, _query: string): DropdownItemProps[] => {
+  private onSearch = (filteredOptions: DropdownItemProps[], _query: string): DropdownItemProps[] => {
     const { isInput = true } = this.props;
     const query = _query.trim();
     const queryLower = query.toLowerCase();
     const matches = filteredOptions.filter((item): boolean =>
-      !!item.value && (
-        (item.name.toLowerCase && item.name.toLowerCase().includes(queryLower)) ||
-        item.value.toLowerCase().includes(queryLower)
+      !!item.value && typeof item.name === 'string' && (
+        (item.name.toLowerCase?.().includes(queryLower)) ||
+        item.value.toString().toLowerCase().includes(queryLower)
       )
     );
 
@@ -314,11 +314,15 @@ class InputAddress extends React.PureComponent<Props, State> {
       const accountId = transformToAccountId(query);
 
       if (accountId) {
-        matches.push(
-          keyring.saveRecent(
-            accountId.toString()
-          ).option
-        );
+        const item = keyring.saveRecent(
+          accountId.toString()
+        ).option;
+
+        matches.push({
+          key: item.key,
+          name: item.name,
+          value: item.value || undefined
+        });
       }
     }
 
@@ -333,7 +337,7 @@ class InputAddress extends React.PureComponent<Props, State> {
       const hasNext = nextItem?.value;
 
       return !(isNull(item.value) || isUndefined(item.value)) || (!isLast && !!hasNext);
-    }) as DropdownItemProps[];
+    });
   };
 }
 

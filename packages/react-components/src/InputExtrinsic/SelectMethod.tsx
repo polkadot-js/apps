@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -8,6 +8,7 @@ import type { DropdownOptions } from '../util/types.js';
 import React, { useCallback } from 'react';
 
 import Dropdown from '../Dropdown.js';
+import { filterDropdownItems } from '../util/index.js';
 
 interface Props {
   api: ApiPromise;
@@ -38,6 +39,7 @@ function SelectMethod ({ api, className = '', defaultValue, isDisabled, isError,
       isDisabled={isDisabled}
       isError={isError}
       onChange={onChange}
+      onSearch={filterDropdownItems}
       options={options}
       transform={transform}
       value={value.method}

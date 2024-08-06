@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-staking authors & contributors
+// Copyright 2017-2024 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { UnappliedSlash } from '@polkadot/types/interfaces';
@@ -34,15 +34,15 @@ function queryAddress (address: string): void {
 
 function Validator ({ allSlashes, canSelect, filterName, info: { accountId, bondOther, bondOwn, bondTotal, commissionPer, isBlocking, isElected, isFavorite, key, lastPayout, numNominators, rankOverall, stakedReturnCmp }, isNominated, isSelected, nominatedBy = [], toggleFavorite, toggleSelected }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { api } = useApi();
+  const { api, apiIdentity } = useApi();
   const accountInfo = useDeriveAccountInfo(accountId);
   const [,, time] = useBlockTime(lastPayout);
 
   const isVisible = useMemo(
     () => accountInfo
-      ? checkVisibility(api, key, accountInfo, filterName)
+      ? checkVisibility(apiIdentity, key, accountInfo, filterName)
       : true,
-    [accountInfo, api, filterName, key]
+    [accountInfo, apiIdentity, filterName, key]
   );
 
   const slashes = useMemo(

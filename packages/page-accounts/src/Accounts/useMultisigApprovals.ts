@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2024 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, StorageKey } from '@polkadot/types';
@@ -32,7 +32,7 @@ function useMultisigApprovalsImpl (address: string): [H256, Multisig][] | undefi
 
   // query all the entries for the multisig, extracting approvals with their hash
   useEffect((): void => {
-    trigger && api.query.multisig?.multisigs
+    trigger && api.query.multisig?.multisigs && api.query.multisig?.multisigs
       .entries(address)
       .then((infos: [StorageKey, Option<Multisig>][]): void => {
         mountedRef.current && setMultiInfos(

@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-components authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountIdIsh } from '../types.js';
@@ -21,7 +21,9 @@ export function getAccountCryptoType (accountId: AccountIdIsh): string {
               ? 'multisig'
               : current.meta.isProxied
                 ? 'proxied'
-                : 'qr'
+                : current.meta.isLocal
+                  ? 'chopsticks'
+                  : 'qr'
             : current.type;
     }
   } catch {

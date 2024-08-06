@@ -1,10 +1,10 @@
-// Copyright 2017-2023 @polkadot/react-signer authors & contributors
+// Copyright 2017-2024 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
 import type { SignerOptions } from '@polkadot/api/submittable/types';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
-import type { Ledger } from '@polkadot/hw-ledger';
+import type { LedgerGeneric } from '@polkadot/hw-ledger';
 import type { KeyringPair } from '@polkadot/keyring/types';
 import type { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
 import type { Option } from '@polkadot/types';
@@ -13,7 +13,7 @@ import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
 import type { AddressFlags, AddressProxy, QrState } from './types.js';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { Button, ErrorBoundary, Modal, Output, styled, Toggle } from '@polkadot/react-components';
@@ -80,11 +80,31 @@ function unlockAccount ({ isUnlockCached, signAddress, signPassword }: AddressPr
   return null;
 }
 
-async function signAndSend (queueSetTxStatus: QueueTxMessageSetStatus, currentItem: QueueTx, tx: SubmittableExtrinsic<'promise'>, pairOrAddress: KeyringPair | string, options: Partial<SignerOptions>): Promise<void> {
+async function fakeSignForChopsticks (api: ApiPromise, tx: SubmittableExtrinsic<'promise'>, sender: string): Promise<void> {
+  const account = await api.query.system.account(sender);
+  const options = {
+    blockHash: api.genesisHash,
+    genesisHash: api.genesisHash,
+    nonce: account.nonce,
+    runtimeVersion: api.runtimeVersion
+  };
+  const mockSignature = new Uint8Array(64);
+
+  mockSignature.fill(0xcd);
+  mockSignature.set([0xde, 0xad, 0xbe, 0xef]);
+  tx.signFake(sender, options);
+  tx.signature.set(mockSignature);
+}
+
+async function signAndSend (queueSetTxStatus: QueueTxMessageSetStatus, currentItem: QueueTx, tx: SubmittableExtrinsic<'promise'>, pairOrAddress: KeyringPair | string, options: Partial<SignerOptions>, api: ApiPromise, isMockSign: boolean): Promise<void> {
   currentItem.txStartCb && currentItem.txStartCb();
 
   try {
-    await tx.signAsync(pairOrAddress, options);
+    if (!isMockSign) {
+      await tx.signAsync(pairOrAddress, options);
+    } else {
+      await fakeSignForChopsticks(api, tx, pairOrAddress as string);
+    }
 
     console.info('sending', tx.toHex());
 
@@ -101,11 +121,15 @@ async function signAndSend (queueSetTxStatus: QueueTxMessageSetStatus, currentIt
   }
 }
 
-async function signAsync (queueSetTxStatus: QueueTxMessageSetStatus, { id, txFailedCb = NOOP, txStartCb = NOOP }: QueueTx, tx: SubmittableExtrinsic<'promise'>, pairOrAddress: KeyringPair | string, options: Partial<SignerOptions>): Promise<string | null> {
+async function signAsync (queueSetTxStatus: QueueTxMessageSetStatus, { id, txFailedCb = NOOP, txStartCb = NOOP }: QueueTx, tx: SubmittableExtrinsic<'promise'>, pairOrAddress: KeyringPair | string, options: Partial<SignerOptions>, api: ApiPromise, isMockSign: boolean): Promise<string | null> {
   txStartCb();
 
   try {
-    await tx.signAsync(pairOrAddress, options);
+    if (!isMockSign) {
+      await tx.signAsync(pairOrAddress, options);
+    } else {
+      await fakeSignForChopsticks(api, tx, pairOrAddress as string);
+    }
 
     return tx.toJSON();
   } catch (error) {
@@ -166,14 +190,16 @@ async function wrapTx (api: ApiPromise, currentItem: QueueTx, { isMultiCall, mul
   return tx;
 }
 
-async function extractParams (api: ApiPromise, address: string, options: Partial<SignerOptions>, getLedger: () => Ledger, setQrState: (state: QrState) => void): Promise<['qr' | 'signing', string, Partial<SignerOptions>]> {
+async function extractParams (api: ApiPromise, address: string, options: Partial<SignerOptions>, getLedger: () => LedgerGeneric, setQrState: (state: QrState) => void): Promise<['qr' | 'signing', string, Partial<SignerOptions>, boolean]> {
   const pair = keyring.getPair(address);
-  const { meta: { accountOffset, addressOffset, isExternal, isHardware, isInjected, isProxied, source } } = pair;
+  const { meta: { accountOffset, addressOffset, isExternal, isHardware, isInjected, isLocal, isProxied, source } } = pair;
 
   if (isHardware) {
-    return ['signing', address, { ...options, signer: new LedgerSigner(api.registry, getLedger, accountOffset || 0, addressOffset || 0) }];
+    return ['signing', address, { ...options, signer: new LedgerSigner(api, getLedger, accountOffset || 0, addressOffset || 0) }, false];
+  } else if (isLocal) {
+    return ['signing', address, { ...options, signer: new AccountSigner(api.registry, pair) }, true];
   } else if (isExternal && !isProxied) {
-    return ['qr', address, { ...options, signer: new QrSigner(api.registry, setQrState) }];
+    return ['qr', address, { ...options, signer: new QrSigner(api.registry, setQrState) }, false];
   } else if (isInjected) {
     if (!source) {
       throw new Error(`Unable to find injected source for ${address}`);
@@ -183,12 +209,12 @@ async function extractParams (api: ApiPromise, address: string, options: Partial
 
     assert(injected, `Unable to find a signer for ${address}`);
 
-    return ['signing', address, { ...options, signer: injected.signer }];
+    return ['signing', address, { ...options, signer: injected.signer }, false];
   }
 
   assert(addressEq(address, pair.address), `Unable to retrieve keypair for ${address}`);
 
-  return ['signing', address, { ...options, signer: new AccountSigner(api.registry, pair) }];
+  return ['signing', address, { ...options, signer: new AccountSigner(api.registry, pair) }, false];
 }
 
 function tryExtract (address: string | null): AddressFlags {
@@ -261,7 +287,7 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
         } else if (flags.isHardware) {
           try {
             const ledger = getLedger();
-            const { address } = await ledger.getAddress(false, flags.accountOffset, flags.addressOffset);
+            const { address } = await ledger.getAddress(api.consts.system.ss58Prefix.toNumber(), false, flags.accountOffset, flags.addressOffset);
 
             console.log(`Signing with Ledger address ${address}`);
           } catch (error) {
@@ -278,7 +304,7 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
 
       return !passwordError;
     },
-    [flags, getLedger, senderInfo, t]
+    [flags, getLedger, senderInfo, t, api.consts.system.ss58Prefix]
   );
 
   const _onSendPayload = useCallback(
@@ -298,14 +324,14 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
   const _onSend = useCallback(
     async (queueSetTxStatus: QueueTxMessageSetStatus, currentItem: QueueTx, senderInfo: AddressProxy): Promise<void> => {
       if (senderInfo.signAddress) {
-        const [tx, [status, pairOrAddress, options]] = await Promise.all([
+        const [tx, [status, pairOrAddress, options, isMockSign]] = await Promise.all([
           wrapTx(api, currentItem, senderInfo),
-          extractParams(api, senderInfo.signAddress, { nonce: -1, tip }, getLedger, setQrState)
+          extractParams(api, senderInfo.signAddress, { nonce: -1, tip, withSignedTransaction: true }, getLedger, setQrState)
         ]);
 
         queueSetTxStatus(currentItem.id, status);
 
-        await signAndSend(queueSetTxStatus, currentItem, tx, pairOrAddress, options);
+        await signAndSend(queueSetTxStatus, currentItem, tx, pairOrAddress, options, api, isMockSign);
       }
     },
     [api, getLedger, tip]
@@ -314,12 +340,12 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
   const _onSign = useCallback(
     async (queueSetTxStatus: QueueTxMessageSetStatus, currentItem: QueueTx, senderInfo: AddressProxy): Promise<void> => {
       if (senderInfo.signAddress) {
-        const [tx, [, pairOrAddress, options]] = await Promise.all([
+        const [tx, [, pairOrAddress, options, isMockSign]] = await Promise.all([
           wrapTx(api, currentItem, senderInfo),
-          extractParams(api, senderInfo.signAddress, { ...signedOptions, tip }, getLedger, setQrState)
+          extractParams(api, senderInfo.signAddress, { ...signedOptions, tip, withSignedTransaction: true }, getLedger, setQrState)
         ]);
 
-        setSignedTx(await signAsync(queueSetTxStatus, currentItem, tx, pairOrAddress, options));
+        setSignedTx(await signAsync(queueSetTxStatus, currentItem, tx, pairOrAddress, options, api, isMockSign));
       }
     },
     [api, getLedger, signedOptions, tip]
@@ -356,6 +382,24 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
     },
     [_onSend, _onSendPayload, _onSign, _unlock, currentItem, isSubmit, queueSetTxStatus, senderInfo]
   );
+
+  const signLabel = useMemo(() => {
+    if (flags.isQr) {
+      return t('Sign via Qr');
+    } else if (isSubmit) {
+      if (flags.isLocal) {
+        return t('Mock Sign and Submit');
+      } else {
+        return t('Sign and Submit');
+      }
+    } else {
+      if (flags.isLocal) {
+        return t('Mock Sign (no submission)');
+      } else {
+        return t('Sign (no submission)');
+      }
+    }
+  }, [flags.isQr, flags.isLocal, isSubmit, t]);
 
   const isAutoCapable = senderInfo.signAddress && (queueSize > 1) && isSubmit && !(flags.isHardware || flags.isMultisig || flags.isProxied || flags.isQr || flags.isUnlockable) && !isRenderError;
 
@@ -443,13 +487,7 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
           }
           isBusy={isBusy}
           isDisabled={!senderInfo.signAddress || isRenderError}
-          label={
-            flags.isQr
-              ? t('Sign via Qr')
-              : isSubmit
-                ? t('Sign and Submit')
-                : t('Sign (no submission)')
-          }
+          label={signLabel}
           onClick={_doStart}
           tabIndex={2}
         />

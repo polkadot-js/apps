@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2024 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
@@ -32,7 +32,7 @@ const SUPEROF_OPT = {
 };
 
 function useSuperIdsImpl (accountIds?: string[] | null): string[] | null | undefined {
-  const { api } = useApi();
+  const { apiIdentity } = useApi();
 
   // for the supplied accounts, retrieve the de-dupes parent identity
   const identityParam = useMemo(
@@ -40,17 +40,17 @@ function useSuperIdsImpl (accountIds?: string[] | null): string[] | null | undef
     [accountIds]
   );
 
-  const identities = useCall(identityParam && !!identityParam[0].length && api.query.identity?.superOf?.multi, identityParam, SUPEROF_OPT);
+  const identities = useCall(identityParam && !!identityParam[0].length && apiIdentity.query.identity?.superOf?.multi, identityParam, SUPEROF_OPT);
 
   return useMemo(
     () => identityParam
       ? identityParam[0].length
-        ? isFunction(api.query.identity?.superOf)
+        ? isFunction(apiIdentity.query.identity?.superOf)
           ? identities
           : accountIds
         : []
       : null,
-    [api, accountIds, identities, identityParam]
+    [apiIdentity, accountIds, identities, identityParam]
   );
 }
 

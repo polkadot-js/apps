@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2024 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ChartOptions, ChartTypeRegistry, TooltipItem } from 'chart.js';
@@ -141,13 +141,16 @@ function getChartResult (totalEligible: BN, isConvictionVote: boolean, info: Pal
         supx = (supn || supx !== -1) ? supx : i;
       }
 
-      const step = x[1].sub(x[0]);
+      // Bringing it to a higher precision.
+      // Otherwise, graphs with short periods (on dev chains) are invalid.
+      const stepWithPrecision = x[x.length - 1].sub(x[0]).muln(100).divn(x.length);
       const lastIndex = x.length - 1;
       const lastBlock = endConfirm?.add(track.minEnactmentPeriod);
 
       // if the confirmation end is later than shown on our graph, we extend it
       if (lastBlock?.gt(since.add(x[lastIndex]))) {
-        let currentBlock = x[lastIndex].add(since).add(step);
+        let currentBlockWithPrecision = x[lastIndex].add(since).muln(100).add(stepWithPrecision);
+        let currentBlock = currentBlockWithPrecision.divn(100);
 
         do {
           labels.push(formatNumber(currentBlock));
@@ -163,7 +166,8 @@ function getChartResult (totalEligible: BN, isConvictionVote: boolean, info: Pal
           values[1][1].push(values[1][1][lastIndex]);
           values[1][2].push(values[1][2][lastIndex]);
 
-          currentBlock = currentBlock.add(step);
+          currentBlockWithPrecision = currentBlockWithPrecision.add(stepWithPrecision);
+          currentBlock = currentBlockWithPrecision.divn(100);
         } while (currentBlock.lt(lastBlock));
       }
 

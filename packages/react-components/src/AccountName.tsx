@@ -1,4 +1,4 @@
-// Copyright 2017-2023 @polkadot/react-query authors & contributors
+// Copyright 2017-2024 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
@@ -8,7 +8,7 @@ import type { AccountId, AccountIndex, Address } from '@polkadot/types/interface
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import { statics } from '@polkadot/react-api/statics';
-import { useDeriveAccountInfo, useSystemApi } from '@polkadot/react-hooks';
+import { useApi, useDeriveAccountInfo } from '@polkadot/react-hooks';
 import { AccountSidebarCtx } from '@polkadot/react-hooks/ctx/AccountSidebar';
 import { formatNumber, isCodec, isFunction, stringToU8a, u8aEmpty, u8aEq, u8aToBn } from '@polkadot/util';
 
@@ -68,7 +68,7 @@ const MATCHERS: AddrMatcher[] = [
   // Westend
   createNumMatcher('modlpy/nopls\x00', 'Pool', 'Stash'),
   createNumMatcher('modlpy/nopls\x01', 'Pool', 'Reward'),
-  createNumMatcher('para', 'Parachain'),
+  createNumMatcher('para', 'Child'),
   createNumMatcher('sibl', 'Sibling')
 ];
 
@@ -180,7 +180,7 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
 }
 
 function AccountName ({ children, className = '', defaultName, label, onClick, override, toggle, value, withSidebar }: Props): React.ReactElement<Props> {
-  const api = useSystemApi();
+  const { apiIdentity } = useApi();
   const info = useDeriveAccountInfo(value);
   const [name, setName] = useState<React.ReactNode>(() => extractName((value || '').toString(), undefined, defaultName));
   const toggleSidebar = useContext(AccountSidebarCtx);
@@ -194,7 +194,7 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
       parentCache.set(cacheAddr, identity.parent.toString());
     }
 
-    if (api && isFunction(api.query.identity?.identityOf)) {
+    if (apiIdentity && isFunction(apiIdentity.query.identity?.identityOf)) {
       setName(() =>
         identity?.display
           ? extractIdentity(cacheAddr, identity)
@@ -205,7 +205,7 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
     } else {
       setName(defaultOrAddrNode(defaultName, cacheAddr, accountIndex));
     }
-  }, [api, defaultName, info, toggle, value]);
+  }, [apiIdentity, defaultName, info, toggle, value]);
 
   const _onNameEdit = useCallback(
     () => setName(defaultOrAddrNode(defaultName, (value || '').toString())),
