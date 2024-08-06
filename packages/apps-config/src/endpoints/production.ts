@@ -125,6 +125,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'communeai',
     providers: {
+      OnFinality: 'wss://commune.api.onfinality.io/public-ws',
       Bitconnect: 'wss://commune-api-node-1.communeai.net'
     },
     text: 'Commune AI',
