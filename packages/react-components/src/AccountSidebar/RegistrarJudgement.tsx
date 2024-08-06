@@ -35,16 +35,24 @@ const JUDGEMENT_ENUM = [
 ];
 
 const OPT_ID = {
-  transform: (optId: Option<ITuple<[PalletIdentityRegistration, Option<Bytes>]>>): HexString | null =>
-    optId.isSome
-      ? optId.unwrap()[0].info.hash.toHex()
-      : null
+  transform: (optId: Option<ITuple<[PalletIdentityRegistration, Option<Bytes>]>>): HexString | null => {
+    const id = optId.isSome
+      ? optId.unwrap()
+      : null;
+
+    // Backwards compatibility - https://github.com/polkadot-js/apps/issues/10493
+    return !id
+      ? null
+      : Array.isArray(id)
+        ? id[0].info.hash.toHex()
+        : (id as unknown as PalletIdentityRegistration).info.hash.toHex();
+  }
 };
 
 function RegistrarJudgement ({ address, registrars, toggleJudgement }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const identityHash = useCall(api.query.identity.identityOf, [address], OPT_ID);
+  const { apiIdentity, enableIdentity } = useApi();
+  const identityHash = useCall(apiIdentity.query.identity.identityOf, [address], OPT_ID);
   const [addresses] = useState(() => registrars.map(({ address }) => address));
   const [judgementAccountId, setJudgementAccountId] = useState<string | null>(null);
   const [judgementEnum, setJudgementEnum] = useState(2); // Reasonable
@@ -102,15 +110,15 @@ function RegistrarJudgement ({ address, registrars, toggleJudgement }: Props): R
         <TxButton
           accountId={judgementAccountId}
           icon='check'
-          isDisabled={!identityHash || registrarIndex === -1}
+          isDisabled={!enableIdentity || !identityHash || registrarIndex === -1}
           label={t('Judge')}
           onStart={toggleJudgement}
           params={
-            api.tx.identity.provideJudgement.meta.args.length === 4
+            apiIdentity.tx.identity.provideJudgement.meta.args.length === 4
               ? [registrarIndex, address, judgementEnum, identityHash]
               : [registrarIndex, address, judgementEnum]
           }
-          tx={api.tx.identity.provideJudgement}
+          tx={apiIdentity.tx.identity.provideJudgement}
         />
       </Modal.Actions>
     </Modal>

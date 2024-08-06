@@ -10,7 +10,6 @@ import apron from './apron.js';
 import aresGladios from './ares-gladios.js';
 import aresParachain from './ares-parachain.js';
 import astar from './astar.js';
-import automata from './automata.js';
 import bajun from './bajun.js';
 import basilisk from './basilisk.js';
 import beresheet from './beresheet.js';
@@ -26,20 +25,20 @@ import chainx from './chainx.js';
 import clover from './clover.js';
 import cloverRococo from './clover-rococo.js';
 import coinversation from './coinversation.js';
+import communeai from './communeai.js';
 import competitorsClub from './competitors-club.js';
 import contracts from './contracts.js';
-import crab from './crab.js';
 import crownSterlingChain from './crown-sterling.js';
 import crust from './crust.js';
 import testPara from './cumulus-test-parachain.js';
 import curio from './curio.js';
-import darwinia from './darwinia.js';
 import datahighwayParachain from './datahighway.js';
 import dockMainnet from './dock-mainnet.js';
 import dockTestnet from './dock-testnet.js';
 import dotmog from './dotmog.js';
 import eave from './eave.js';
 import edgeware from './edgeware.js';
+import elysium from './elysium.js';
 import encointerNodeNotee from './encointer-node-notee.js';
 import encointerNodeTeeproxy from './encointer-node-teeproxy.js';
 import encointerPara from './encointer-para.js';
@@ -56,6 +55,7 @@ import gamepower from './gamepower.js';
 import genshiro from './genshiro.js';
 import hanonycash from './hanonycash.js';
 import hydrate from './hydrate.js';
+import hyperbridge from './hyperbridge.js';
 import idavoll from './idavoll.js';
 import imbue from './imbue.js';
 import integritee from './integritee.js';
@@ -88,8 +88,6 @@ import nodle from './nodle.js';
 import oak from './oak.js';
 import opal from './opal.js';
 import opportunity from './opportunity.js';
-import pangolin from './pangolin.js';
-import pangoro from './pangoro.js';
 import parallel from './parallel.js';
 import parami from './parami.js';
 import peaq from './peaq.js';
@@ -142,14 +140,8 @@ import zero from './zero.js';
 
 // NOTE: The mapping is done from specName in state.getRuntimeVersion
 const spec: Record<string, OverrideBundleDefinition> = {
-  Crab: crab,
-  Darwinia: darwinia,
-  'Darwinia Crab PC2': pangolin,
-  'Darwinia PC2': pangolin,
   Equilibrium: equilibrium,
   Genshiro: genshiro,
-  Pangolin: pangolin,
-  Pangoro: pangoro,
   VLN: vln,
   'VLN-PC': vlnrococo,
   ...acala,
@@ -162,7 +154,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'ares-odyssey': aresParachain,
   asgard: bifrostAsgard,
   astar,
-  automata,
   bajun,
   basilisk,
   beresheet,
@@ -177,8 +168,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   clover,
   'clover-rococo': cloverRococo,
   coinversation,
+  communeai,
   'competitors-club': competitorsClub,
-  contextfree: automata,
   'continuum-runtime': bitcountryPioneer,
   contracts,
   'crown-sterling': crownSterlingChain,
@@ -195,6 +186,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'dock-pos-test-runtime': dockTestnet,
   'dotmog-node': dotmog,
   edgeware,
+  elysium,
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,
   'encointer-parachain': encointerPara,
@@ -209,11 +201,13 @@ const spec: Record<string, OverrideBundleDefinition> = {
   galital,
   'galital-collator': galitalParachain,
   gamepower,
+  gargantua: hyperbridge,
   'hack-hydra-dx': hydrate,
   halongbay: polkafoundry,
   hanonycash,
   heiko: parallel,
   'hydra-dx': hydrate,
+  hyperbridge,
   idavoll,
   imbue,
   'integritee-parachain': integritee,
@@ -242,6 +236,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'manta-node': manta,
   mathchain,
   'mathchain-galois': galois,
+  messier: hyperbridge,
   moonbase: moonbeam,
   moonbeam,
   moonriver: moonbeam,
@@ -251,6 +246,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   mythos,
   neatcoin,
   neuroweb,
+  nexus: hyperbridge,
   nftmart,
   'node-moonbeam': moonbeam,
   'node-polkadex': polkadex,

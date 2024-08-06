@@ -98,6 +98,10 @@ const StyledDiv = styled.div`
     text-align: right;
   }
 
+  .ui--Param-BTreeMap-buttons {
+    text-align: right;
+  }
+
   .ui--Param-composite {
     position: relative;
 

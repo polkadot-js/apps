@@ -8,9 +8,9 @@ import { useApi } from './useApi.js';
 import { useCall } from './useCall.js';
 
 function useSubidentitiesImpl (address: string): AccountId[] | undefined {
-  const { api } = useApi();
+  const { apiIdentity } = useApi();
 
-  return useCall<[BalanceOf, AccountId[]]>(api.query.identity?.subsOf, [address])?.[1];
+  return useCall<[BalanceOf, AccountId[]]>(apiIdentity.query.identity?.subsOf, [address])?.[1];
 }
 
 export const useSubidentities = createNamedHook('useSubidentities', useSubidentitiesImpl);
