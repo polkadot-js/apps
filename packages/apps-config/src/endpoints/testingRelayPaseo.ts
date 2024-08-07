@@ -224,7 +224,8 @@ export const testParasPaseoCommon: EndpointOption[] = [
       Dwellir: 'wss://asset-hub-paseo-rpc.dwellir.com',
       IBP1: 'wss://sys.ibp.network/asset-hub-paseo',
       IBP2: 'wss://sys.dotters.network/asset-hub-paseo',
-      StakeWorld: 'wss://pas-rpc.stakeworld.io/assethub'
+      StakeWorld: 'wss://pas-rpc.stakeworld.io/assethub',
+      TurboFlakes: 'wss://sys.turboflakes.io/asset-hub-paseo'
     },
     teleport: [-1],
     text: 'AssetHub',
