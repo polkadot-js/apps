@@ -349,7 +349,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'hyperbridge',
     paraId: 3367,
     providers: {
-      BlockOps: 'wss://hyperbridge-nexus-rpc.blockops.network',
+      // BlockOps: 'wss://hyperbridge-nexus-rpc.blockops.network', // https://github.com/polkadot-js/apps/issues/10803
       IBP1: 'wss://nexus.ibp.network',
       IBP2: 'wss://nexus.dotters.network'
     },
@@ -961,7 +961,7 @@ export const prodRelayPolkadot: EndpointOption = {
     Allnodes: 'wss://polkadot-rpc.publicnode.com',
     // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
     // 'Automata 1RPC': 'wss://1rpc.io/dot',
-    Blockops: 'wss://polkadot-public-rpc.blockops.network/ws', // https://github.com/polkadot-js/apps/issues/9840
+    // Blockops: 'wss://polkadot-public-rpc.blockops.network/ws', // https://github.com/polkadot-js/apps/issues/10803
     Dwellir: 'wss://polkadot-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://polkadot-rpc-tn.dwellir.com',
     IBP1: 'wss://rpc.ibp.network/polkadot',
