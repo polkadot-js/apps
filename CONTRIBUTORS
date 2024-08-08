@@ -1,7 +1,7 @@
     4364	Jaco                          	Disable unreachable endpoints (#10221)
       81	Thibaut Sardan                	update overrides (#10090)
       62	kwingram25                    	iadd fix (#2911)
-      58	Tarik Gul                     	Disbale unreachable endpoints (#10812)
+      59	Tarik Gul                     	Upgrade Polkadot-js deps (#10814)
       49	pan                           	update Bifrost kusama on Subsquare (#9752)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
       41	MiZiet                        	Apply styles to the unbonding icon (#6314)
