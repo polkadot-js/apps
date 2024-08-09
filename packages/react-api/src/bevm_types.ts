@@ -271,8 +271,8 @@ export const BEVM_TYPES =  {
     "selfBonded": "RpcBalance",
     "referralId": "String",
     "rewardPotAccount": "AccountId",
-    "rewardPotBtcBalance": "RpcBalance",
-    "rewardPotBevmBalance": "RpcBalance",
+    "rewardPotGasBalance": "RpcBalance",
+    "rewardPotGovBalance": "RpcBalance"
   },
   "FullPairInfo": {
     "baseCurrency": "AssetId",

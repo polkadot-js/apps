@@ -41,7 +41,6 @@ export const useGetValidators = (): { data: ValidatorInfo[]; refetch: () => Prom
     setData(getSortList(validatorInfoList))
 
     const rewardPoolData = (validatorInfoList || []).map(i => ([i.account, i.rewardPotBevmBalance]))
-    console.log('rewardPoolData', rewardPoolData)
   }
 
   useEffect(()=>{

@@ -68,8 +68,8 @@ export interface ValidatorInfo extends ValidatorInfoRank {
   stakedReturnCmp: number;
   validatorPrefs?: ValidatorPrefs | ValidatorPrefsTo196;
   withReturns?: boolean;
-  rewardPotBtcBalance?: number
-  rewardPotBevmBalance?: number
+  rewardPotGasBalance?: number
+  rewardPotGovBalance?: number
   selfBonded?: number
   totalNomination?: number
   account?: string
