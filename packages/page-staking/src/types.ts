@@ -70,6 +70,8 @@ export interface ValidatorInfo extends ValidatorInfoRank {
   withReturns?: boolean;
   rewardPotGasBalance?: number
   rewardPotGovBalance?: number
+  rewardPotBtcBalance?: number
+  rewardPotBevmBalance?: number
   selfBonded?: number
   totalNomination?: number
   account?: string
