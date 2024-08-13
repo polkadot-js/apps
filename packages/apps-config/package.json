@@ -51,6 +51,7 @@
     "@polymeshassociation/polymesh-types": "5.7.0",
     "@snowfork/snowbridge-types": "0.2.7",
     "@sora-substrate/type-definitions": "1.27.7",
+    "@storagehub/types-bundle": "^0.1.2",
     "@subsocial/definitions": "0.8.14",
     "@unique-nft/opal-testnet-types": "1003.70.0",
     "@unique-nft/quartz-mainnet-types": "1003.70.0",

@@ -1793,6 +1793,7 @@ __metadata:
     "@polymeshassociation/polymesh-types": "npm:5.7.0"
     "@snowfork/snowbridge-types": "npm:0.2.7"
     "@sora-substrate/type-definitions": "npm:1.27.7"
+    "@storagehub/types-bundle": "npm:^0.1.2"
     "@subsocial/definitions": "npm:0.8.14"
     "@unique-nft/opal-testnet-types": "npm:1003.70.0"
     "@unique-nft/quartz-mainnet-types": "npm:1003.70.0"
@@ -2321,6 +2322,35 @@ __metadata:
     react-is: "*"
   languageName: unknown
   linkType: soft
+
+"@polkadot/typegen@npm:12.3.1":
+  version: 12.3.1
+  resolution: "@polkadot/typegen@npm:12.3.1"
+  dependencies:
+    "@polkadot/api": "npm:12.3.1"
+    "@polkadot/api-augment": "npm:12.3.1"
+    "@polkadot/rpc-augment": "npm:12.3.1"
+    "@polkadot/rpc-provider": "npm:12.3.1"
+    "@polkadot/types": "npm:12.3.1"
+    "@polkadot/types-augment": "npm:12.3.1"
+    "@polkadot/types-codec": "npm:12.3.1"
+    "@polkadot/types-create": "npm:12.3.1"
+    "@polkadot/types-support": "npm:12.3.1"
+    "@polkadot/util": "npm:^13.0.2"
+    "@polkadot/util-crypto": "npm:^13.0.2"
+    "@polkadot/x-ws": "npm:^13.0.2"
+    handlebars: "npm:^4.7.8"
+    tslib: "npm:^2.6.2"
+    yargs: "npm:^17.7.2"
+  bin:
+    polkadot-types-chain-info: scripts/polkadot-types-chain-info.mjs
+    polkadot-types-from-chain: scripts/polkadot-types-from-chain.mjs
+    polkadot-types-from-defs: scripts/polkadot-types-from-defs.mjs
+    polkadot-types-internal-interfaces: scripts/polkadot-types-internal-interfaces.mjs
+    polkadot-types-internal-metadata: scripts/polkadot-types-internal-metadata.mjs
+  checksum: 10/4e4cdcc64bfa53ded6fe2d6ea17d9747a2fd15fa7e6f5a0d1b13f5260d4e49d110ef75d2c41b87f7edb7380a4a85aacf828a29484d4f11a9bb4fa504d00e73dc
+  languageName: node
+  linkType: hard
 
 "@polkadot/types-augment@npm:^12.3.1":
   version: 12.3.1
@@ -2975,6 +3005,21 @@ __metadata:
     react: ^16.8.0
     react-dom: ^16.8.0
   checksum: 10/912ec2d7ba15a85e5ccbd76b81b263fefe54f2059b17ded21c95cdeba0d4bdd205cfec323c42ccaa25e5c98302f71d28885a44f9a857b83d64ac802809d5f38b
+  languageName: node
+  linkType: hard
+
+"@storagehub/types-bundle@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "@storagehub/types-bundle@npm:0.1.2"
+  dependencies:
+    "@polkadot/api": "npm:12.3.1"
+    "@polkadot/api-base": "npm:12.3.1"
+    "@polkadot/rpc-core": "npm:12.3.1"
+    "@polkadot/typegen": "npm:12.3.1"
+    "@polkadot/types": "npm:^12.3.1"
+    "@polkadot/types-codec": "npm:12.3.1"
+    typescript: "npm:5.5.4"
+  checksum: 10/a2aa47b947d49ff4dc7c55459be0de64ac42822d283072f131c3ebde5f8d9c0a0d2f598ff8e261937264afcea72eb12e5225770543e7ef6278e02e14eb1bc5c5
   languageName: node
   linkType: hard
 
@@ -9583,6 +9628,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"handlebars@npm:^4.7.8":
+  version: 4.7.8
+  resolution: "handlebars@npm:4.7.8"
+  dependencies:
+    minimist: "npm:^1.2.5"
+    neo-async: "npm:^2.6.2"
+    source-map: "npm:^0.6.1"
+    uglify-js: "npm:^3.1.4"
+    wordwrap: "npm:^1.0.0"
+  dependenciesMeta:
+    uglify-js:
+      optional: true
+  bin:
+    handlebars: bin/handlebars
+  checksum: 10/bd528f4dd150adf67f3f857118ef0fa43ff79a153b1d943fa0a770f2599e38b25a7a0dbac1a3611a4ec86970fd2325a81310fb788b5c892308c9f8743bd02e11
+  languageName: node
+  linkType: hard
+
 "har-schema@npm:^2.0.0":
   version: 2.0.0
   resolution: "har-schema@npm:2.0.0"
@@ -15673,7 +15736,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"source-map@npm:^0.6.0, source-map@npm:~0.6.0, source-map@npm:~0.6.1":
+"source-map@npm:^0.6.0, source-map@npm:^0.6.1, source-map@npm:~0.6.0, source-map@npm:~0.6.1":
   version: 0.6.1
   resolution: "source-map@npm:0.6.1"
   checksum: 10/59ef7462f1c29d502b3057e822cdbdae0b0e565302c4dd1a95e11e793d8d9d62006cdc10e0fd99163ca33ff2071360cf50ee13f90440806e7ed57d81cba2f7ff
@@ -16946,6 +17009,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"uglify-js@npm:^3.1.4":
+  version: 3.19.2
+  resolution: "uglify-js@npm:3.19.2"
+  bin:
+    uglifyjs: bin/uglifyjs
+  checksum: 10/8b0af1fa5260e7f8bc3e9a1e08ae05023b7c96eeb8965e27f29724597389d4e703d4aa6f66e6cd87a14a84e431df73a358ee58c0afce6b615b40cc95fcbf4ec6
+  languageName: node
+  linkType: hard
+
 "uint8arrays@npm:^4.0.2":
   version: 4.0.3
   resolution: "uint8arrays@npm:4.0.3"
@@ -18061,6 +18133,13 @@ __metadata:
   version: 1.2.3
   resolution: "word-wrap@npm:1.2.3"
   checksum: 10/08a677e1578b9cc367a03d52bc51b6869fec06303f68d29439e4ed647257411f857469990c31066c1874678937dac737c9f8f20d3fd59918fb86b7d926a76b15
+  languageName: node
+  linkType: hard
+
+"wordwrap@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "wordwrap@npm:1.0.0"
+  checksum: 10/497d40beb2bdb08e6d38754faa17ce20b0bf1306327f80cb777927edb23f461ee1f6bc659b3c3c93f26b08e1cf4b46acc5bae8fda1f0be3b5ab9a1a0211034cd
   languageName: node
   linkType: hard
 
