@@ -60,7 +60,7 @@ export { nodesHanyonycashPNG } from './generated/hanyonycashPNG.js';
 export { nodesHashedPNG } from './generated/hashedPNG.js';
 export { nodesHelixstreetPNG } from './generated/helixstreetPNG.js';
 export { nodesHumanodePNG } from './generated/humanodePNG.js';
-export { nodesHyperbridgeSVG } from './generated/hyperbridgeSVG.js';
+export { nodesHyperbridgePNG } from './generated/hyperbridgePNG.js';
 export { nodesIdavollPNG } from './generated/idavollPNG.js';
 export { nodesImbuePNG } from './generated/imbuePNG.js';
 export { nodesInnovatorPNG } from './generated/innovatorPNG.js';
