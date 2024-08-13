@@ -114,7 +114,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'Hyperbridge',
     paraId: 4009,
     providers: {
-      // BlockOps: 'wss://hyperbridge-paseo-rpc.blockops.network' // https://github.com/polkadot-js/apps/issues/10803
+      BlockOps: 'wss://hyperbridge-paseo-rpc.blockops.network'
     },
     text: 'Hyperbridge (Gargantua)',
     ui: {
