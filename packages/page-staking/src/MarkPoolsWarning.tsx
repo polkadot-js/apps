@@ -28,10 +28,8 @@ function MarkPoolsWarning ({ children, className = '', withIcon = true }: Props)
         href='https://support.polkadot.network/support/solutions/articles/65000188140-changes-for-nomination-pool-members-and-opengov-participation'
         rel='noreferrer'
         target='_blank'
-      >
-      this article
-      </a>
-      on the actions you need to take as soon as possible.
+      > this article </a>
+       on the actions you need to take as soon as possible.
       {children}
     </StyledArticle>
   );
