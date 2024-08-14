@@ -15,21 +15,21 @@ interface Props {
   seedType: string;
 }
 
-const selectableNetworks = polkadotSelectableNetworks.filter(x => x.network === "polkadot").concat({
+const selectableNetworks = polkadotSelectableNetworks.filter((x) => x.network === 'polkadot').concat({
   decimals: [18],
-  displayName: "Avail network",
-  genesisHash: ["0xb91746b45e0346cc2f815a520b9c6cb4d5c0902af848db0a80f85932d2e8276a"],
+  displayName: 'Avail network',
+  genesisHash: ['0xb91746b45e0346cc2f815a520b9c6cb4d5c0902af848db0a80f85932d2e8276a'],
   hasLedgerSupport: true,
-  icon: "substrate",
+  icon: 'substrate',
   isIgnored: false,
   isTestnet: false,
-  network: "avail",
+  network: 'avail',
   prefix: 709,
   slip44: 709,
-  standardAccount: "*25519",
-  symbols: ["AVAIL"],
-  website: "https://availproject.org"
-}).reverse()
+  standardAccount: '*25519',
+  symbols: ['AVAIL'],
+  website: 'https://availproject.org'
+}).reverse();
 
 const ledgerNets = selectableNetworks.filter(({ hasLedgerSupport }) => hasLedgerSupport);
 
