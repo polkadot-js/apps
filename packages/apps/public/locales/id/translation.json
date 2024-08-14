@@ -18,6 +18,7 @@
   "<empty>": "<kosong>",
   "<none provided>": "<tidak ada yang tersedia>",
   "<unknown>": "<tidak diketahui>",
+   "rpc.header.storage-hub": "Pusat Penyimpanan",
   "@YourTwitterName": "@NamaTwitterAnda",
   "@yourname:matrix.org": "@NamaAnda:matrix.org",
   "A controller account should not be set to manage multiple stashes. The selected controller is already controlling {{stashId}}": "Akun pengontrol tidak boleh disetel untuk mengelola banyak simpanan. Pengontrol yang dipilih sudah mengontrol {{stashId}}",

@@ -18,6 +18,7 @@
   "A fee of {{creationFee}} will be deducted from the sender since the destination account does not exist": "प्रेषक के {{creationFee}} से एक कमीशन काट लिया जाएगा क्योंकि डेस्टिनेशन खाता मौजूद नहीं है।",
   "A reason (to be stored-on-chain) as to why the recipient deserves a tip payout.": " यह एक कारण (श्रृंखला पर संग्रहीत होने के लिए) है कि प्राप्तकर्ता एक टिप के भुगतान का हकदार क्यों है।",
   "ABI": "ABI",
+   "rpc.header.storage-hub": "संग्रहण हब",
   "Acceptance proposal to council": "बोर्ड स्वीकृति प्रस्ताव",
   "Account actions": "खाते की कार्रवाई",
   "Account balance:": "खाते की राशिफल",

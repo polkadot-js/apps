@@ -4,8 +4,10 @@
 import type { TFunction, TOptions } from '../types.js';
 import type { LinkOption } from './types.js';
 
+import { chainsStorageHubSVG } from '../ui/logos/chains/generated/storage-hubSVG.js';
 import { createCustom, createDev, createOwn } from './development.js';
 import { prodChains, prodRelayKusama, prodRelayPolkadot } from './production.js';
+import { storageHubChains } from './storageHub.js';
 import { testChains, testRelayRococo, testRelayWestend } from './testing.js';
 import { testRelayPaseo } from './testingRelayPaseo.js';
 import { expandEndpoints } from './util.js';
@@ -25,6 +27,19 @@ function defaultT (keyOrText: string, text?: string | TOptions, options?: TOptio
 export function createWsEndpoints (t: TFunction = defaultT, firstOnly = false, withSort = true): LinkOption[] {
   return [
     ...createCustom(t),
+    {
+      isDevelopment: false,
+      isDisabled: false,
+      isHeader: true,
+      text: t('rpc.header.storage-hub', 'Storage-Hub', { ns: 'apps-config' }),
+      textBy: '',
+      ui: {
+        color: '#F5F5F5',
+        logo: chainsStorageHubSVG
+      },
+      value: ''
+    },
+    ...expandEndpoints(t, storageHubChains, firstOnly, withSort),
     {
       isDisabled: false,
       isHeader: true,

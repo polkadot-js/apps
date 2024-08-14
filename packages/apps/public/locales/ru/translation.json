@@ -16,6 +16,7 @@
   "<none provided>": "<не предоставлено>",
   "<unknown>": "<неизвестный>",
   "@YourTwitterName": "@ВашТвиттер",
+   "rpc.header.storage-hub": "Центр Хранилища",
   "@yourname:matrix.org": "@вашеимя:matrix.org",
   "A controller account should not be set to manages multiple stashes. The selected controller is already controlling {{stashId}}": "Аккаунт контроллера не должен управлять несколькими копилками. Выбранный контроллер уже управляется {{stashId}}",
   "A controller account should not map to another stash. This selected controller is a stash, controlled by {{bondedId}}": "Аккаунт контроллера не должен управлять несколькими копилками. Выбранный контроллер уже управляется {{bondedId}}",

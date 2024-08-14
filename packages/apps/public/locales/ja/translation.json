@@ -22,6 +22,7 @@
   "Add an existing code hash": "既存のコードハッシュを追加する",
   "Add an existing contract": "既存のコントラクトを追加する",
   "Add contact": "コントラクトを追加する",
+  "rpc.header.storage-hub": "ストレージハブ",
   "Add identity judgment": "アイデンティティーを追加する",
   "Add item": "アイデムを追加",
   "Add multisig": "マルチシグを追加する",

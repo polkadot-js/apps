@@ -18,6 +18,7 @@
   "A fee of {{creationFee}} will be deducted from the sender since the destination account does not exist": "Se deducirá una comisión de {{creationFee}} del remitente, ya que la cuenta de destino no existe.",
   "A reason (to be stored-on-chain) as to why the recipient deserves a tip payout.": "Un motivo (para ser almacenado en la cadena) de por qué el destinatario merece un pago de propina.",
   "ABI": "ABI",
+    "rpc.header.storage-hub": "Centro de Almacenamiento",
   "Acceptance proposal to council": "Propuesta de aceptación al consejo",
   "Account actions": "Acciones de la cuenta",
   "Account balance:": "Balance de la cuenta",
