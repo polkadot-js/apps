@@ -3,7 +3,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
-import { selectableNetworks } from '@polkadot/networks';
+import { selectableNetworks as polkadotSelectableNetworks } from '@polkadot/networks';
 import { Dropdown, MarkError, Modal } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate.js';
@@ -15,13 +15,29 @@ interface Props {
   seedType: string;
 }
 
+const selectableNetworks = polkadotSelectableNetworks.filter(x => x.network === "polkadot").concat({
+  decimals: [18],
+  displayName: "Avail network",
+  genesisHash: ["0xb91746b45e0346cc2f815a520b9c6cb4d5c0902af848db0a80f85932d2e8276a"],
+  hasLedgerSupport: true,
+  icon: "substrate",
+  isIgnored: false,
+  isTestnet: false,
+  network: "avail",
+  prefix: 709,
+  slip44: 709,
+  standardAccount: "*25519",
+  symbols: ["AVAIL"],
+  website: "https://availproject.org"
+}).reverse()
+
 const ledgerNets = selectableNetworks.filter(({ hasLedgerSupport }) => hasLedgerSupport);
 
 function CreateSuriLedger ({ className, onChange, seedType }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [accIndex, setAccIndex] = useState(0);
   const [addIndex, setAddIndex] = useState(0);
-  const [chainType, setChainType] = useState('polkadot');
+  const [chainType, setChainType] = useState('avail');
 
   const netOpts = useRef(ledgerNets.map(({ displayName, network }) => ({
     text: displayName,
