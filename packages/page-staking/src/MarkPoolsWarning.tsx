@@ -23,16 +23,15 @@ function MarkPoolsWarning ({ children, className = '', withIcon = true }: Props)
       <br />
       You do not need to do anything, unless you are participating in a pool and also staking solo from the same account.
       <br />
-      In this case, you need to unbond the funds you are staking solo <strong>as soon as possible</strong>, in order to avail yourself from the automatic migration that will happen, and avoid migrating your pool membership manually.
-      Please check
+      In this case, please check
       <a
-        href='https://hackmd.io/@ak0n/delegate-stake-faq'
+        href='https://support.polkadot.network/support/solutions/articles/65000188140-changes-for-nomination-pool-members-and-opengov-participation'
         rel='noreferrer'
         target='_blank'
       >
       this article
       </a>
-      for more details.
+      on the actions you need to take as soon as possible.
       {children}
     </StyledArticle>
   );
