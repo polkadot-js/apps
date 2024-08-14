@@ -9,6 +9,7 @@ import React, { useMemo } from 'react';
 
 import { styled } from '@polkadot/react-components/styled';
 import { useApi } from '@polkadot/react-hooks';
+import { Null } from '@polkadot/types-codec';
 import { formatBalance, isString } from '@polkadot/util';
 
 import { useTranslation } from './translate.js';
@@ -59,6 +60,7 @@ function splitFormat (value: string, label?: LabelPost, isShort?: boolean): Reac
 }
 
 function applyFormat (value: Compact<any> | BN | string | number, [decimals, token]: [number, string], withCurrency = true, withSi?: boolean, _isShort?: boolean, labelPost?: LabelPost): React.ReactNode {
+  console.log('Value: ', value);
   const [prefix, postfix] = formatBalance(value, { decimals, forceUnit: '-', withSi: false }).split('.');
   const isShort = _isShort || (withSi && prefix.length >= K_LENGTH);
   const unitPost = withCurrency ? token : '';
@@ -93,7 +95,9 @@ function FormatBalance ({ children, className = '', format, formatIndex, isShort
       >{
           valueFormatted
             ? splitFormat(valueFormatted, labelPost, isShort)
-            : value
+            // HACK: In the rare case that the value is passed down as a Null Codec type as seen with Tangle
+            // We ensure to handle that case. ref: https://github.com/polkadot-js/apps/issues/10793
+            : value && !(value instanceof Null)
               ? value === 'all'
                 ? <>{t('everything')}{labelPost || ''}</>
                 : applyFormat(value, formatInfo, withCurrency, withSi, isShort, labelPost)
