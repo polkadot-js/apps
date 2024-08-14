@@ -1,10 +1,14 @@
 // Copyright 2017-2024 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// This is for the use of `Ledger`
+//
+/* eslint-disable deprecation/deprecation */
+
 import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveDemocracyLock, DeriveStakingAccount } from '@polkadot/api-derive/types';
-import type { LedgerGeneric } from '@polkadot/hw-ledger';
+import type { Ledger, LedgerGeneric } from '@polkadot/hw-ledger';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { Option } from '@polkadot/types';
 import type { ProxyDefinition, RecoveryConfig } from '@polkadot/types/interfaces';
@@ -17,6 +21,7 @@ import useAccountLocks from '@polkadot/app-referenda/useAccountLocks';
 import { AddressInfo, AddressSmall, Badge, Button, ChainLock, Columar, CryptoType, Forget, LinkExternal, Menu, Popup, styled, Table, Tags, TransferModal } from '@polkadot/react-components';
 import { useAccountInfo, useApi, useBalancesAll, useBestNumber, useCall, useLedger, useQueue, useStakingInfo, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
+import { settings } from '@polkadot/ui-settings';
 import { BN, BN_ZERO, formatBalance, formatNumber, isFunction } from '@polkadot/util';
 
 import Backup from '../modals/Backup.js';
@@ -136,10 +141,16 @@ function createClearReferendaTx (api: ApiPromise, address: string, ids: [BN, BN]
   return api.tx.utility.batch(inner);
 }
 
-async function showLedgerAddress (getLedger: () => LedgerGeneric, meta: KeyringJson$Meta, ss58Prefix: number): Promise<void> {
+async function showLedgerAddress (getLedger: () => LedgerGeneric | Ledger, meta: KeyringJson$Meta, ss58Prefix: number): Promise<void> {
+  const currApp = settings.get().ledgerApp;
   const ledger = getLedger();
 
-  await ledger.getAddress(ss58Prefix, true, meta.accountOffset || 0, meta.addressOffset || 0);
+  if (currApp === 'migration' || currApp === 'generic') {
+    await (ledger as LedgerGeneric).getAddress(ss58Prefix, true, meta.accountOffset || 0, meta.addressOffset || 0);
+  } else {
+    // This will always be the `chainSpecific` setting if the above condition is not met
+    await (ledger as Ledger).getAddress(true, meta.accountOffset || 0, meta.addressOffset || 0);
+  }
 }
 
 const transformRecovery = {
