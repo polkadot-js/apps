@@ -4,7 +4,6 @@
 import type { TFunction, TOptions } from '../types.js';
 import type { LinkOption } from './types.js';
 
-import { chainsStorageHubSVG } from '../ui/logos/chains/generated/storage-hubSVG.js';
 import { createCustom, createDev, createOwn } from './development.js';
 import { prodChains, prodRelayKusama, prodRelayPolkadot } from './production.js';
 import { storageHubChains } from './storageHub.js';
@@ -34,8 +33,6 @@ export function createWsEndpoints (t: TFunction = defaultT, firstOnly = false, w
       text: t('rpc.header.storage-hub', 'Storage-Hub', { ns: 'apps-config' }),
       textBy: '',
       ui: {
-        color: '#F5F5F5',
-        logo: chainsStorageHubSVG
       },
       value: ''
     },

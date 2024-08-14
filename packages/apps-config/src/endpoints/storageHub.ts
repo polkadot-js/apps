@@ -31,7 +31,7 @@ export const storageHubChains: Omit<EndpointOption, 'teleport'>[] = [
     },
     text: 'BSPNet: BSP',
     ui: {
-      color: '#EEEEEE',
+      color: '#00CCAB',
       logo: chainsStorageHubSVG
     }
   },
@@ -42,7 +42,7 @@ export const storageHubChains: Omit<EndpointOption, 'teleport'>[] = [
     },
     text: 'DevNet',
     ui: {
-      color: '#EEEEEE',
+      color: '#00CCAB',
       logo: chainsStorageHubSVG
     }
   }
