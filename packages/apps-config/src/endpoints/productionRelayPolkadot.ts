@@ -945,7 +945,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     text: 'People',
     ui: {
       color: '#e84366',
-      logo: chainsPeoplePolkadotSVG,
+      logo: chainsPeoplePolkadotSVG
     }
   }
 ];
