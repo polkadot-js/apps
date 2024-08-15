@@ -22,6 +22,7 @@ export interface LinkPath {
 
   // governance 2
   fellowshipReferenda?: string;
+  ambassadorReferenda?: string;
   rankedPolls?: string;
   referenda?: string;
 }

@@ -6,6 +6,7 @@ import type { Routes, TFunction } from './types.js';
 import accounts from './accounts.js';
 import addresses from './addresses.js';
 import alliance from './alliance.js';
+import ambassador from './ambassador.js';
 import assets from './assets.js';
 import bounties from './bounties.js';
 import calendar from './calendar.js';
@@ -64,6 +65,7 @@ export default function create (t: TFunction): Routes {
     referenda(t),
     membership(t),
     alliance(t),
+    ambassador(t),
     fellowship(t),
     ranked(t),
     preimages(t),
