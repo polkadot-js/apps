@@ -9,7 +9,6 @@ import React, { useMemo } from 'react';
 
 import { styled } from '@polkadot/react-components/styled';
 import { useApi } from '@polkadot/react-hooks';
-import { Null } from '@polkadot/types-codec';
 import { formatBalance, isString } from '@polkadot/util';
 
 import { useTranslation } from './translate.js';
@@ -95,9 +94,7 @@ function FormatBalance ({ children, className = '', format, formatIndex, isShort
       >{
           valueFormatted
             ? splitFormat(valueFormatted, labelPost, isShort)
-            // HACK: In the rare case that the value is passed down as a Null Codec type as seen with Tangle
-            // We ensure to handle that case. ref: https://github.com/polkadot-js/apps/issues/10793
-            : value && !(value instanceof Null)
+            : value
               ? value === 'all'
                 ? <>{t('everything')}{labelPost || ''}</>
                 : applyFormat(value, formatInfo, withCurrency, withSi, isShort, labelPost)
