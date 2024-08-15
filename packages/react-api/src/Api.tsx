@@ -232,14 +232,15 @@ async function createApi (apiUrl: string, signer: ApiSigner, isLocalFork: boolea
   const types = getDevTypes();
   const isLight = apiUrl.startsWith('light://');
   let provider;
-  let chopsticksFork: Blockchain | null = null;
 
-  try {
-    if (isLight) {
-      provider = await getLightProvider(apiUrl.replace('light://', ''));
-    } else if (isLocalFork) {
-      provider = await ChopsticksProvider.fromEndpoint(apiUrl);
-      chopsticksFork = provider.chain;
+  let chopsticksFork: Blockchain | null = null;
+  let chopsticksProvider;
+  let setupChopsticksSuccess = false;
+
+  if (isLocalFork) {
+    try {
+      chopsticksProvider = await ChopsticksProvider.fromEndpoint(apiUrl);
+      chopsticksFork = chopsticksProvider.chain;
       await setStorage(chopsticksFork, {
         System: {
           Account: [
@@ -247,6 +248,21 @@ async function createApi (apiUrl: string, signer: ApiSigner, isLocalFork: boolea
           ]
         }
       });
+      setupChopsticksSuccess = true;
+    } catch (error) {
+      store.set('localFork', '');
+      const msg = `Local fork failed, please refresh to switch back to default API provider. This is likely due to chain not supported by chopsticks.
+      Please consider to send an issue to https://github.com/AcalaNetwork/chopsticks.`;
+      onError(new Error(msg));
+      throw error;
+    }
+  }
+
+  try {
+    if (isLight) {
+      provider = await getLightProvider(apiUrl.replace('light://', ''));
+    } else if (isLocalFork && setupChopsticksSuccess) {
+      provider = chopsticksProvider;
     } else {
       provider = new WsProvider(apiUrl);
     }
@@ -261,7 +277,7 @@ async function createApi (apiUrl: string, signer: ApiSigner, isLocalFork: boolea
 
     // See https://github.com/polkadot-js/api/pull/4672#issuecomment-1078843960
     if (isLight) {
-      await provider.connect();
+      await provider?.connect();
     }
   } catch (error) {
     onError(error);
