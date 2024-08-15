@@ -20,6 +20,7 @@
   "<empty>": "<vuoto>",
   "<none provided>": "<non supportato>",
   "<none>": "<nessuno>",
+   "rpc.header.storage-hub": "Centro di Archiviazione",
   "<unknown>": "<ignoto>",
   "@YourTwitterName": "@IlTuoAccountTwitter",
   "@yourname:matrix.org": "@tuonome:matrix.org",

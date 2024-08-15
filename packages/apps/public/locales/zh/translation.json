@@ -16,6 +16,7 @@
   "2. Enter the ETH address from the sale.": "2. 输入参与销售的以太坊地址",
   "2. Sign ETH transaction": "2. 签名 ETH 交易",
   "<empty>": "<空的>",
+    "rpc.header.storage-hub": "存储中心",
   "<unknown>": "<未知的>",
   "@YourTwitterName": "你的推特账户 ID",
   "@yourname:matrix.org": "你的 Riot/Element 账户 ID",

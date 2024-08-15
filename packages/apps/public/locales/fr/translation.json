@@ -18,6 +18,7 @@
   "2. Sign ETH transaction": "2. Signer la transaction ETH",
   "<empty>": "<vide>",
   "<none provided>": "<non renseigné>",
+    "rpc.header.storage-hub": "Centre de Stockage",
   "<unknown>": "<inconnu>",
   "@YourTwitterName": "@NomTwitter",
   "@yourname:matrix.org": "@mon_pseudo: matrix.org",

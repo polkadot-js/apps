@@ -19,6 +19,7 @@
   "<none provided>": "<none provided>",
   "<unknown>": "<unknown>",
   "@YourTwitterName": "@트위터ID",
+  "rpc.header.storage-hub": "저장소 허브",
   "@yourname:matrix.org": "@RIOT메신저 ID:matrix.org",
   "A controller account should not be set to manage multiple stashes. The selected controller is already controlling {{stashId}}": "콘트롤러 계정은 다수의 스태시를 관리 목적으로 설정하면 안 된다. 선택된 콘트롤러는 이미 {{stashId}}를 컨트롤링 하고 있습니다",
   "A controller account should not be set to manages multiple stashes. The selected controller is already controlling {{stashId}}": "컨트롤러 계정은 다수의 스태시를 관리하라고 설정되면 안 된다. 선택된 컨트롤러는 이미 {{stashId}}를 컨트롤링 하고 있습니다",

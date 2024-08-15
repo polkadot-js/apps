@@ -114,6 +114,7 @@ import soraSubstrate from './soraSubstrate.js';
 import spanner from './spanner.js';
 import stafi from './stafi.js';
 import standard from './standard.js';
+import storagehub from './storagehub.js';
 import subdao from './subdao.js';
 import subgame from './subgame.js';
 import subsocial from './subsocial.js';
@@ -286,6 +287,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   stafi,
   standard,
   steam: eave,
+  'storage-hub-runtime': storagehub,
+  storagehub,
   subdao,
   subgame,
   subsocial,

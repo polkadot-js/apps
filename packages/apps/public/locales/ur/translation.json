@@ -16,6 +16,7 @@
   "2. Enter the ETH address from the sale.": "2.سیل سے ETH ایڈریس درج کریں۔",
   "2. Sign ETH transaction": "2. ETH ٹرانزیکشن پر دستخط کریں۔",
   "<empty>": "خالی",
+   "rpc.header.storage-hub": "اسٹوریج ہب",
   "<unknown>": "نامعلوم",
   "@YourTwitterName": "وُڑٹیِتتےڑَمې",
   "@yourname:matrix.org": "آپ کا نام: matrix.org ",

@@ -177,6 +177,7 @@
   "Detection on the input string to determine if it is hex or non-hex.": "হেক্স নাকি নন-হেক্স নির্ধারণের জন্য ইনপুট স্ট্রিং পর্যবেক্ষণ।",
   "Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use \"ed25519\".": "একাউন্টটি তৈরিতে কোন ক্রিপ্টোগ্রাফি ব্যবহৃত হবে তা নির্ধারণ করে। স্মরণীয় যে পলকাডট-এ ভেলিডেশনের জন্য সেশন একাউন্টকে অবশ্যই \"ed25519\" ব্যবহার করতে হবে।",
   "Developer": "ডেভেলপার",
+    "rpc.header.storage-hub": "স্টোরেজ হাব",
   "Development": "উন্নয়ন",
   "Dismiss all notifications": "সকল বিজ্ঞপ্তি বাতিল করুন",
   "Dispatch": "সরানো",

@@ -20,6 +20,7 @@
   "Add proxy": "Dodaj nadrzędność",
   "Add sub": "Dodaj podrzędność",
   "Add via Ledger": "Dodaj przez Ledger",
+    "rpc.header.storage-hub": "Centrum Przechowywania",
   "Add via Qr": "Dodaj przez kod QR",
   "Add via backup file": "Dodaj przez plik backup",
   "Address index {{index}}": "Index adresu {{index}}",

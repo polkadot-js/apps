@@ -70,6 +70,7 @@ export { chainsSnakenetSVG } from './generated/snakenetSVG.js';
 export { chainsSnowbridgePNG } from './generated/snowbridgePNG.js';
 export { chainsSpannerPNG } from './generated/spannerPNG.js';
 export { chainsStandardPNG } from './generated/standardPNG.js';
+export { chainsStorageHubSVG } from './generated/storage-hubSVG.js';
 export { chainsT0rnPNG } from './generated/t0rnPNG.js';
 export { chainsTanglePNG } from './generated/tanglePNG.js';
 export { chainsTinkerPNG } from './generated/tinkerPNG.js';
