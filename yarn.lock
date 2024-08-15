@@ -1303,6 +1303,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-ambassador@workspace:packages/page-ambassador":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-ambassador@workspace:packages/page-ambassador"
+  peerDependencies:
+    react: "*"
+    react-dom: "*"
+    react-is: "*"
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/app-assets@workspace:packages/page-assets":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-assets@workspace:packages/page-assets"

@@ -9,6 +9,7 @@
     { "path": "../page-accounts/tsconfig.build.json" },
     { "path": "../page-addresses/tsconfig.build.json" },
     { "path": "../page-alliance/tsconfig.build.json" },
+    { "path": "../page-ambassador/tsconfig.build.json" },
     { "path": "../page-assets/tsconfig.build.json" },
     { "path": "../page-bounties/tsconfig.build.json" },
     { "path": "../page-calendar/tsconfig.build.json" },
