@@ -253,6 +253,7 @@ async function createApi (apiUrl: string, signer: ApiSigner, isLocalFork: boolea
       store.set('localFork', '');
       const msg = `Local fork failed, please refresh to switch back to default API provider. This is likely due to chain not supported by chopsticks.
       Please consider to send an issue to https://github.com/AcalaNetwork/chopsticks.`;
+
       onError(new Error(msg));
       throw error;
     }
