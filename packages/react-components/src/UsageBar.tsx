@@ -70,8 +70,8 @@ function UsageBar ({ apiEndpoint, coreDescriptors, info }: Props): React.ReactEl
   }
 
   const total = tasks + idles + pools;
-  const taskPerc = (tasks / total) * 100;
-  const poolPerc = (pools / total) * 100;
+  const taskPerc = !!total ? (tasks / total) * 100 : 0;
+  const poolPerc = !!total ? (pools / total) * 100 : 0;
 
   const taskOffset = (taskPerc / 100) * 360;
   const poolOffset = taskOffset + (poolPerc / 100) * 360;
