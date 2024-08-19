@@ -583,10 +583,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kiltprotocol/type-definitions@npm:0.35.1":
-  version: 0.35.1
-  resolution: "@kiltprotocol/type-definitions@npm:0.35.1"
-  checksum: 10/8534af75e75e72a812ae2265e00292c3103735ec77b03df765ab9aa3ae47062203f684aa7d0b6ca7e0c2ce13835ecd72a74aeb2e53bf0ff14f0f03a1b2f9fdbe
+"@kiltprotocol/type-definitions@npm:^1.11200.0":
+  version: 1.11200.0
+  resolution: "@kiltprotocol/type-definitions@npm:1.11200.0"
+  peerDependencies:
+    "@polkadot/types": ^12.2.0
+  checksum: 10/f42517be177efb7e67ab3563c941c5cdb24162db4345b90cb3d9cae8069a5d981dd12f59870d28402ea22c69d1b3cc74bad99213324424f623994010883e7ba8
   languageName: node
   linkType: hard
 
@@ -1729,7 +1731,7 @@ __metadata:
     "@fragnova/api-augment": "npm:0.1.0-spec-1.0.4-mainnet"
     "@frequency-chain/api-augment": "npm:1.11.1"
     "@interlay/interbtc-types": "npm:1.13.0"
-    "@kiltprotocol/type-definitions": "npm:0.35.1"
+    "@kiltprotocol/type-definitions": "npm:^1.11200.0"
     "@laminar/type-definitions": "npm:0.3.1"
     "@logion/node-api": "npm:0.27.0-4"
     "@mangata-finance/type-definitions": "npm:^2.1.2"
