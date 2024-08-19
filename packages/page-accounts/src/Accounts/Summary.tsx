@@ -32,7 +32,7 @@ function Summary ({ balance, className }: Props) {
       >
         <FormatBalance
           className={balance ? '' : '--tmp'}
-          value={balance?.transferrable || 1}
+          value={balance?.transferable || 1}
         />
       </CardSummary>
       <CardSummary label={t('total locked')}>
