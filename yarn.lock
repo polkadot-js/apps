@@ -1824,7 +1824,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/apps-electron@workspace:packages/apps-electron"
   dependencies:
-    "@polkadot/dev": "npm:^0.78.4"
+    "@polkadot/dev": "npm:^0.78.13"
     "@types/tmp": "npm:^0.2.6"
     copy-webpack-plugin: "npm:^11.0.0"
     electron: "npm:28.0.0"
@@ -1856,7 +1856,7 @@ __metadata:
     "@acala-network/chopsticks-core": "npm:^0.13.3"
     "@polkadot/apps-config": "npm:^0.142.2-28-x"
     "@polkadot/apps-routing": "npm:^0.142.2-28-x"
-    "@polkadot/dev": "npm:^0.78.4"
+    "@polkadot/dev": "npm:^0.78.13"
     "@polkadot/react-api": "npm:^0.142.2-28-x"
     "@polkadot/react-components": "npm:^0.142.2-28-x"
     "@polkadot/react-hooks": "npm:^0.142.2-28-x"
@@ -1911,7 +1911,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/dev@npm:^0.78.4":
+"@polkadot/dev@npm:^0.78.13":
   version: 0.78.13
   resolution: "@polkadot/dev@npm:0.78.13"
   dependencies:
@@ -13626,7 +13626,7 @@ __metadata:
   dependencies:
     "@crustio/crust-pin": "npm:^1.0.0"
     "@pinata/sdk": "npm:^1.2.1"
-    "@polkadot/dev": "npm:^0.78.4"
+    "@polkadot/dev": "npm:^0.78.13"
     "@types/chart.js": "npm:^2.9.41"
     "@types/file-saver": "npm:^2.0.7"
     "@types/react-beautiful-dnd": "npm:^13.1.7"
