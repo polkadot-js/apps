@@ -1824,7 +1824,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/apps-electron@workspace:packages/apps-electron"
   dependencies:
-    "@polkadot/dev": "npm:^0.79.3"
+    "@polkadot/dev": "npm:^0.78.13"
     "@types/tmp": "npm:^0.2.6"
     copy-webpack-plugin: "npm:^11.0.0"
     electron: "npm:28.0.0"
@@ -1856,7 +1856,7 @@ __metadata:
     "@acala-network/chopsticks-core": "npm:^0.13.3"
     "@polkadot/apps-config": "npm:^0.142.2-28-x"
     "@polkadot/apps-routing": "npm:^0.142.2-28-x"
-    "@polkadot/dev": "npm:^0.79.3"
+    "@polkadot/dev": "npm:^0.78.13"
     "@polkadot/react-api": "npm:^0.142.2-28-x"
     "@polkadot/react-components": "npm:^0.142.2-28-x"
     "@polkadot/react-hooks": "npm:^0.142.2-28-x"
@@ -1890,34 +1890,34 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev-test@npm:^0.79.3":
-  version: 0.79.3
-  resolution: "@polkadot/dev-test@npm:0.79.3"
+"@polkadot/dev-test@npm:^0.78.13":
+  version: 0.78.13
+  resolution: "@polkadot/dev-test@npm:0.78.13"
   dependencies:
     jsdom: "npm:^24.0.0"
     tslib: "npm:^2.6.2"
-  checksum: 10/30c3145c174e09416d713bcd5eb93e13c6f90f71f2d75defbdc11aa09d87d88aad222ef8ca33e8372317692aa51eb976fbf60c9ccf0901f6db0275a550915c69
+  checksum: 10/7392e76845d50f1eb9674c94c95c8bcb7bf95ea0ba559d2be04a77e545e8fc2c5954e878228eb33624901bf5f3b1eea59d2557233b6f5d2306dfec49eefc1a7a
   languageName: node
   linkType: hard
 
-"@polkadot/dev-ts@npm:^0.79.3":
-  version: 0.79.3
-  resolution: "@polkadot/dev-ts@npm:0.79.3"
+"@polkadot/dev-ts@npm:^0.78.13":
+  version: 0.78.13
+  resolution: "@polkadot/dev-ts@npm:0.78.13"
   dependencies:
     json5: "npm:^2.2.3"
     tslib: "npm:^2.6.2"
     typescript: "npm:^5.3.3"
-  checksum: 10/097d579647abda70fe71c98c5c9aa79488a25af27a5d17c754dc70aad33770a49637a1d297aa0d50863b6db2e606dffa005c4336886b0030c73eef34180c6863
+  checksum: 10/2dd5552394f2bb40e99cbe9bd038adef97730b4a30360e68e9e0679e9af1065cb8a0e324bb90b42c449fb8273ef492335f3d204f02047d444d79ca18f97d67f0
   languageName: node
   linkType: hard
 
-"@polkadot/dev@npm:^0.79.3":
-  version: 0.79.3
-  resolution: "@polkadot/dev@npm:0.79.3"
+"@polkadot/dev@npm:^0.78.13":
+  version: 0.78.13
+  resolution: "@polkadot/dev@npm:0.78.13"
   dependencies:
     "@eslint/js": "npm:^8.56.0"
-    "@polkadot/dev-test": "npm:^0.79.3"
-    "@polkadot/dev-ts": "npm:^0.79.3"
+    "@polkadot/dev-test": "npm:^0.78.13"
+    "@polkadot/dev-ts": "npm:^0.78.13"
     "@rollup/plugin-alias": "npm:^5.1.0"
     "@rollup/plugin-commonjs": "npm:^25.0.7"
     "@rollup/plugin-dynamic-import-vars": "npm:^2.1.2"
@@ -1982,7 +1982,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 10/fa7b6834ce28e16f2287d26cad481e43ec047d015ba38ffb3b2953326e087191a7393d1d55cb5973dd3803bc07258312946dec98a2cf0956c657283a7c49341d
+  checksum: 10/21322081631f86d91b9796e28a1753bd14f25e2439b3c770a4a304db78eaa466e99a0ba1c541d3c71135c1be15eab496fa0f22c830c8b761d5c36b40bbfb2568
   languageName: node
   linkType: hard
 
@@ -13626,7 +13626,7 @@ __metadata:
   dependencies:
     "@crustio/crust-pin": "npm:^1.0.0"
     "@pinata/sdk": "npm:^1.2.1"
-    "@polkadot/dev": "npm:^0.79.3"
+    "@polkadot/dev": "npm:^0.78.13"
     "@types/chart.js": "npm:^2.9.41"
     "@types/file-saver": "npm:^2.0.7"
     "@types/react-beautiful-dnd": "npm:^13.1.7"
