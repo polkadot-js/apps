@@ -121,7 +121,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
               label={t('send from account')}
               labelExtra={
                 <Available
-                  label={t('transferrable')}
+                  label={t('transferable')}
                   params={propSenderId || senderId}
                 />
               }
@@ -136,7 +136,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
               label={t('send to address')}
               labelExtra={
                 <Available
-                  label={t('transferrable')}
+                  label={t('transferable')}
                   params={propRecipientId || recipientId}
                 />
               }
@@ -155,7 +155,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                   defaultValue={maxTransfer}
                   isDisabled
                   key={maxTransfer?.toString()}
-                  label={t('transferrable minus fees')}
+                  label={t('transferable minus fees')}
                 />
               )
               : (

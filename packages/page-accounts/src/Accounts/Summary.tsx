@@ -28,7 +28,7 @@ function Summary ({ balance, className }: Props) {
       </CardSummary>
       <CardSummary
         className='media--900'
-        label={t('total transferrable')}
+        label={t('total transferable')}
       >
         <FormatBalance
           className={balance ? '' : '--tmp'}
