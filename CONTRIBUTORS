@@ -1,6 +1,6 @@
     4364	Jaco                          	Disable unreachable endpoints (#10221)
       81	Thibaut Sardan                	update overrides (#10090)
-      69	Tarik Gul                     	0.143.1 (#10848)
+      70	Tarik Gul                     	Upgrade polkadot-js/api to 12.4.2 (#10852)
       62	kwingram25                    	iadd fix (#2911)
       49	pan                           	update Bifrost kusama on Subsquare (#9752)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
