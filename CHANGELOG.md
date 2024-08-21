@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 0.143.2 Aug 21, 2024
+
+Changes:
+
+- Upgrade polkadot-js/api to 12.4.2
+    - Fixes a bug where transferable would not populate for kusama
+
+
 ## 0.143.1 Aug 20, 2024
 
 Contributed:
