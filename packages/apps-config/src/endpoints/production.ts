@@ -148,7 +148,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'creditcoin',
     providers: {
-      // TODO: Get official endpoint.
+      'Creditcoin Foundation': 'wss://mainnet3.creditcoin.network/ws'
     },
     text: 'Creditcoin',
     ui: {
