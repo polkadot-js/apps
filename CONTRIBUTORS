@@ -338,6 +338,7 @@
        1	BOBOKaa                       	update ipfs endpoint domain (#8686)
        1	Bojian Ho                     	Added fantour network config (#5764)
        1	Boyquotes                     	Fix FR translation (#7817)
+       1	Bradley Olson                 	Changing old mainnet name before new net release (#10847)
        1	Brandon Kite                  	Support for optional usage of pallet_balance (#2578)
        1	Brendon Votteler              	feat: add derives mapping and spec records for testnet-interlay and testnet-kintsugi (#8000)
        1	Brian Wu                      	Add additional RPC endpoints for Crust Mainnet, Crust-Parachain, Crust-Shadow (#10703)
