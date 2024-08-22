@@ -929,6 +929,18 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     }
   },
   {
+    info: 'polkadotCoretime',
+    isPeopleForIdentity: true,
+    paraId: 1005,
+    providers: {
+      Parity: 'wss://polkadot-coretime-rpc.polkadot.io'
+    },
+    relayName: 'polkadot',
+    teleport: [-1],
+    text: 'Coretime',
+    ui: { }
+  },
+  {
     info: 'polkadotPeople',
     isPeople: true,
     isPeopleForIdentity: false,
