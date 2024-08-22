@@ -146,11 +146,11 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'creditcoin-classic',
+    info: 'creditcoin',
     providers: {
       'Creditcoin Foundation': 'wss://mainnet3.creditcoin.network/ws'
     },
-    text: 'Creditcoin Classic',
+    text: 'Creditcoin',
     ui: {
       color: '#2D353F',
       logo: chainsCreditcoinPNG
