@@ -191,7 +191,7 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
       : null
   );
   const [[value, valueBn, isValid], setValues] = useState<[string, BN, boolean]>(() =>
-    getValues(api, propsValue || defaultValue, si, bitLength, isLifetime || false, isSigned, isZeroable, maxValue, siDecimals)
+    getValues(api, propsValue || defaultValue, si, bitLength, !!isLifetime, isSigned, isZeroable, maxValue, siDecimals)
   );
 
   const [isPreKeyDown, setIsPreKeyDown] = useState(false);
@@ -203,7 +203,7 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
   const _onChangeWithSi = useCallback(
     (input: string, si: SiDef | null) =>
       setValues(
-        getValuesFromString(api, input, si, bitLength, isLifetime || false, isSigned, isZeroable, maxValue, siDecimals)
+        getValuesFromString(api, input, si, bitLength, !!isLifetime, isSigned, isZeroable, maxValue, siDecimals)
       ),
     [api, bitLength, isLifetime, isSigned, isZeroable, maxValue, siDecimals]
   );
