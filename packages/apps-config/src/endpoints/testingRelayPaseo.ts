@@ -210,7 +210,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     },
     text: 'Pop Network',
     ui: {
-      color: '#1C0533',
+      color: 'linear-gradient(to right, rgb(230, 0, 122), rgb(83, 15, 160))',
       logo: chainsPopNetworkSVG
     }
   }
