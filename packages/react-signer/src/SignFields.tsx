@@ -62,7 +62,6 @@ function SignFields ({ address, onChange, signedTx }: Props): React.ReactElement
         />
         <InputNumber
           isDisabled={!!signedTx}
-          isLifetime={true}
           isZeroable
           label={t('Lifetime (# of blocks)')}
           labelExtra={t('Set to 0 to make transaction immortal')}
