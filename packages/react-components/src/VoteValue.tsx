@@ -1,10 +1,10 @@
 // Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
 import type { ApiPromise } from '@polkadot/api';
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 
-import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -57,7 +57,7 @@ function getValues (api: ApiPromise, selectedId: string | null | undefined, noDe
     })
     .map(({ amount }) => amount);
 
-  const maxValue = isReferenda && api.query.convictionVoting ? allBalances.votingBalance.add(allBalances ? allBalances.reservedBalance : new BN(0)) : allBalances?.votingBalance;
+  const maxValue = isReferenda && api.query.convictionVoting ? allBalances.votingBalance.add(allBalances.reservedBalance) : allBalances.votingBalance;
   let defaultValue: BN = sortedLocks[0] || allBalances.lockedBalance;
 
   if (noDefault) {
