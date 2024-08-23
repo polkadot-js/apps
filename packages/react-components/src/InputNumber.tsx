@@ -24,7 +24,6 @@ interface Props {
   isDisabled?: boolean;
   isError?: boolean;
   isFull?: boolean;
-  isLifetime?: boolean;
   isLoading?: boolean;
   isSi?: boolean;
   isDecimal?: boolean;
@@ -95,40 +94,12 @@ function isValidNumber (bn: BN, bitLength: BitLength, isSigned: boolean, isZeroa
   return true;
 }
 
-function inputToBn (api: ApiPromise, input: string, si: SiDef | null, bitLength: BitLength, isLifetime: boolean, isSigned: boolean, isZeroable: boolean, maxValue?: BN | null, decimals?: number): [string, BN, boolean] {
+function inputToBn (api: ApiPromise, input: string, si: SiDef | null, bitLength: BitLength, isSigned: boolean, isZeroable: boolean, maxValue?: BN | null, decimals?: number): [BN, boolean] {
   const [siPower, basePower, siUnitPower] = getSiPowers(si, decimals);
 
   // eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
   const isDecimalValue = input.match(/^(\d+)\.(\d+)$/);
   let result;
-
-  if (isLifetime) {
-    const maxLifetime = new BN(api.consts.system.blockHashCount);
-
-    if (isDecimalValue) {
-      if (siUnitPower - isDecimalValue[2].length < -basePower) {
-        result = new BN(-1);
-      }
-
-      const div = new BN(input.replace(/\.\d*$/, ''));
-      const modString = input.replace(/^\d+\./, '').substring(0, api.registry.chainDecimals[0]);
-      const mod = new BN(modString);
-
-      result = BN.min(div
-        .mul(BN_TEN.pow(siPower))
-        .add(mod.mul(BN_TEN.pow(new BN(basePower + siUnitPower - modString.length)))), maxLifetime);
-    } else {
-      result = BN.min(new BN(input.replace(/[^\d]/g, ''))
-        .mul(BN_TEN.pow(siPower))
-        .muln(isSigned && input.startsWith('-') ? -1 : 1), maxLifetime);
-    }
-
-    return [
-      result.toString(),
-      result,
-      isValidNumber(result, bitLength, isSigned, isZeroable, maxValue)
-    ];
-  }
 
   if (isDecimalValue) {
     if (siUnitPower - isDecimalValue[2].length < -basePower) {
@@ -149,15 +120,15 @@ function inputToBn (api: ApiPromise, input: string, si: SiDef | null, bitLength:
   }
 
   return [
-    result.toString(),
     result,
     isValidNumber(result, bitLength, isSigned, isZeroable, maxValue)
   ];
 }
 
-function getValuesFromString (api: ApiPromise, value: string, si: SiDef | null, bitLength: BitLength, isLifetime: boolean, isSigned: boolean, isZeroable: boolean, maxValue?: BN | null, decimals?: number): [string, BN, boolean] {
+function getValuesFromString (api: ApiPromise, value: string, si: SiDef | null, bitLength: BitLength, isSigned: boolean, isZeroable: boolean, maxValue?: BN | null, decimals?: number): [string, BN, boolean] {
   return [
-    ...inputToBn(api, value, si, bitLength, isLifetime, isSigned, isZeroable, maxValue, decimals)
+    value,
+    ...inputToBn(api, value, si, bitLength, isSigned, isZeroable, maxValue, decimals)
   ];
 }
 
@@ -171,18 +142,19 @@ function getValuesFromBn (valueBn: BN, si: SiDef | null, isSigned: boolean, isZe
       ? valueBn.div(BN_TEN.pow(new BN(decimals + si.power))).toString()
       : valueBn.toString(),
     valueBn,
-    isZeroable || isSigned ? true : valueBn.gt(BN_ZERO)
-
+    isZeroable || isSigned
+      ? true
+      : valueBn.gt(BN_ZERO)
   ];
 }
 
-function getValues (api: ApiPromise, value: BN | string = BN_ZERO, si: SiDef | null, bitLength: BitLength, isLifetime: boolean, isSigned: boolean, isZeroable: boolean, maxValue?: BN | null, decimals?: number): [string, BN, boolean] {
+function getValues (api: ApiPromise, value: BN | string = BN_ZERO, si: SiDef | null, bitLength: BitLength, isSigned: boolean, isZeroable: boolean, maxValue?: BN | null, decimals?: number): [string, BN, boolean] {
   return isBn(value)
     ? getValuesFromBn(value, si, isSigned, isZeroable, decimals)
-    : getValuesFromString(api, value, si, bitLength, isLifetime, isSigned, isZeroable, maxValue, decimals);
+    : getValuesFromString(api, value, si, bitLength, isSigned, isZeroable, maxValue, decimals);
 }
 
-function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, className = '', defaultValue, isDecimal, isDisabled, isError = false, isFull, isLifetime, isLoading, isSi, isSigned = false, isWarning, isZeroable = true, label, labelExtra, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, siDecimals, siDefault, siSymbol, value: propsValue }: Props): React.ReactElement<Props> {
+function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, className = '', defaultValue, isDecimal, isDisabled, isError = false, isFull, isLoading, isSi, isSigned = false, isWarning, isZeroable = true, label, labelExtra, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, siDecimals, siDefault, siSymbol, value: propsValue }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [si] = useState<SiDef | null>(() =>
@@ -191,9 +163,8 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
       : null
   );
   const [[value, valueBn, isValid], setValues] = useState<[string, BN, boolean]>(() =>
-    getValues(api, propsValue || defaultValue, si, bitLength, !!isLifetime, isSigned, isZeroable, maxValue, siDecimals)
+    getValues(api, propsValue || defaultValue, si, bitLength, isSigned, isZeroable, maxValue, siDecimals)
   );
-
   const [isPreKeyDown, setIsPreKeyDown] = useState(false);
 
   useEffect((): void => {
@@ -201,17 +172,14 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
   }, [isValid, onChange, valueBn]);
 
   const _onChangeWithSi = useCallback(
-    (input: string, si: SiDef | null) =>
-      setValues(
-        getValuesFromString(api, input, si, bitLength, !!isLifetime, isSigned, isZeroable, maxValue, siDecimals)
-      ),
-    [api, bitLength, isLifetime, isSigned, isZeroable, maxValue, siDecimals]
+    (input: string, si: SiDef | null) => setValues(
+      getValuesFromString(api, input, si, bitLength, isSigned, isZeroable, maxValue, siDecimals)
+    ),
+    [api, bitLength, isSigned, isZeroable, maxValue, siDecimals]
   );
 
   const _onChange = useCallback(
-    (input: string) => {
-      _onChangeWithSi(input, si);
-    },
+    (input: string) => _onChangeWithSi(input, si),
     [_onChangeWithSi, si]
   );
 
