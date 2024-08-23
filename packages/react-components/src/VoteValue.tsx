@@ -1,6 +1,7 @@
 // Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
@@ -32,7 +33,7 @@ interface ValueState {
 
 const LOCKS_ORDERED = ['pyconvot', 'democrac', 'phrelect'] as const;
 
-function getValues (selectedId: string | null | undefined, noDefault: boolean | undefined, allBalances: DeriveBalancesAll, existential: BN, isReferenda: boolean): ValueState {
+function getValues (api: ApiPromise, selectedId: string | null | undefined, noDefault: boolean | undefined, allBalances: DeriveBalancesAll, existential: BN, isReferenda: boolean): ValueState {
   const sortedLocks = allBalances.lockedBreakdown
     // first sort by amount, so greatest value first
     .sort((a, b) =>
@@ -56,7 +57,7 @@ function getValues (selectedId: string | null | undefined, noDefault: boolean | 
     })
     .map(({ amount }) => amount);
 
-  const maxValue = isReferenda ? allBalances.votingBalance.add(allBalances ? allBalances.reservedBalance : new BN(0)) : allBalances?.votingBalance;
+  const maxValue = isReferenda && api.query.convictionVoting ? allBalances.votingBalance.add(allBalances ? allBalances.reservedBalance : new BN(0)) : allBalances?.votingBalance;
   let defaultValue: BN = sortedLocks[0] || allBalances.lockedBalance;
 
   if (noDefault) {
@@ -93,7 +94,7 @@ function VoteValue ({ accountId, autoFocus, isReferenda, label, noDefault, onCha
     // if the set accountId changes and the new balances is for that id, set it
     allBalances && allBalances.accountId.eq(accountId) && setValue((state) =>
       state.selectedId !== accountId
-        ? getValues(accountId, noDefault, allBalances, api.consts.balances.existentialDeposit, !!isReferenda)
+        ? getValues(api, accountId, noDefault, allBalances, api.consts.balances.existentialDeposit, !!isReferenda)
         : state
     );
   }, [allBalances, accountId, api, isReferenda, noDefault]);

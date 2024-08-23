@@ -27,7 +27,7 @@ function BalanceVoting ({ children, className = '', isReferenda, label, params }
     <FormatBalance
       className={className}
       label={label}
-      value={isReferenda ? allBalances?.votingBalance.add(allBalances ? allBalances.reservedBalance : new BN(0)) : allBalances?.votingBalance}
+      value={isReferenda && api.query.convictionVoting ? allBalances?.votingBalance.add(allBalances ? allBalances.reservedBalance : new BN(0)) : allBalances?.votingBalance}
     >
       {children}
     </FormatBalance>
