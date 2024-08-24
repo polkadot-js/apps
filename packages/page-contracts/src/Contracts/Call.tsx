@@ -175,7 +175,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
           label={t('call from account')}
           labelExtra={
             <Available
-              label={t('transferrable')}
+              label={t('transferable')}
               params={accountId}
             />
           }

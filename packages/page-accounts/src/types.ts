@@ -37,7 +37,7 @@ export interface SortedAccount {
 export interface AccountBalance {
   total: BN;
   locked: BN;
-  transferrable: BN;
+  transferable: BN;
   bonded: BN;
   redeemable: BN;
   unbonding: BN;

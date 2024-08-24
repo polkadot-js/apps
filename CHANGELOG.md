@@ -1,5 +1,50 @@
 # CHANGELOG
 
+## 0.143.2 Aug 21, 2024
+
+Changes:
+
+- Upgrade polkadot-js/api to 12.4.2
+    - Fixes a bug where transferable would not populate for kusama
+
+
+## 0.143.1 Aug 20, 2024
+
+Contributed:
+
+- Adding RadiumBlock as Polkadot People Endpoint provider (Thanks to https://github.com/radiumb)
+- Added Robonomics Network Polkadot parachain endpoint (Thanks to https://github.com/PavelSheremetev)
+- Update productionRelayPolkadot.ts to add LuckyFriday Polkadot People RPC Provider (Thanks to https://github.com/Rbdude25)
+- substitute LAOS Omega with LAOS Sigma (Thanks to https://github.com/asiniscalchi)
+- Update productionRelayPolkadot.ts fixed url of LuckyFriday Polkadot People (Thanks to https://github.com/Rbdude25)
+- Add new IBP endpoint (Thanks to https://github.com/tugytur)
+- Add RadiumBlock Bifrost wss endpoint (Thanks to https://github.com/radiumb)
+- Change the rendering of chains' Sovereign Accounts (Thanks to https://github.com/rzadp)
+- added Aventus to paseo frontend (Thanks to https://github.com/ivan-cholakov)
+- Add new RPC to Paseo AssetHub (Thanks to https://github.com/al3mart)
+- Added OnFinality CommuneAI endpoint (Thanks to https://github.com/mikespook)
+- enable blockops endpoint (Thanks to https://github.com/haroldsphinx)
+- Adds new Hyperbridge logo (Thanks to https://github.com/olahfemi)
+- Enable paseo endpoint (Thanks to https://github.com/haroldsphinx)
+- fix local fork cannot recover from failure (Thanks to https://github.com/qiweiii)
+- Update peerplays types bundle (Thanks to https://github.com/vampik33)
+- Feature - introduce ambassador Base (Members and Referenda) (Thanks to https://github.com/wirednkod)
+
+Changes:
+
+- Adjust warning message for staking pools
+- Add support for Migration Ledger App
+- feat: enable uploading rawMetadata to the extension
+- Disable unreachable endpoints
+- Update Polkadot-js deps
+- Ensure useRawMetadata checks for metadata call
+- Bump yarn to 4.4.0
+- Enable "Chain Specific App" for Ledger
+- Add people polkadot logo
+- Fix Preimage failure of Null amount for Tangle
+- Fix transferable balance
+
+
 ## 0.142.1 July 18, 2024
 
 Contributed:

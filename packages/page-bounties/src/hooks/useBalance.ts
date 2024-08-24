@@ -8,8 +8,9 @@ import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
 function useBalanceImpl (accountId: string | null): Balance | undefined {
   const { api } = useApi();
+  const balancesAll = useCall<DeriveBalancesAll>(api.derive.balances?.all, [accountId]);
 
-  return useCall<DeriveBalancesAll>(api.derive.balances?.all, [accountId])?.availableBalance;
+  return balancesAll?.transferable || balancesAll?.availableBalance;
 }
 
 export const useBalance = createNamedHook('useBalance', useBalanceImpl);

@@ -95,10 +95,10 @@ describe.skip('Addresses page', () => {
       const rows = await addressesPage.getAddressesRows();
 
       await rows[0].assertBalancesDetails([
-        { amount: balance(0), name: 'transferrable' },
+        { amount: balance(0), name: 'transferable' },
         { amount: balance(30), name: 'locked' }]);
       await rows[1].assertBalancesDetails([
-        { amount: balance(50), name: 'transferrable' },
+        { amount: balance(50), name: 'transferable' },
         { amount: balance(150), name: 'reserved' }]);
     });
 

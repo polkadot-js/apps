@@ -4,8 +4,8 @@
 import type { EndpointOption } from './types.js';
 
 import { POLKADOT_GENESIS } from '../api/constants.js';
-import { chainsAcalaSVG, chainsBitgreenPNG, chainsComposableFinancePNG, chainsEquilibriumSVG, chainsFrequencySVG, chainsGeminisPNG, chainsInvarchJPEG, chainsLaosPNG, chainsLogionPNG, chainsNeurowebPNG, chainsOakPNG, chainsPeaqPNG, chainsPendulumSVG, chainsPolkadotCircleSVG, chainsSnakenetSVG, chainsTotemSVG, chainsWatrPNG } from '../ui/logos/chains/index.js';
-import { nodesAjunaPNG, nodesAresOdysseySVG, nodesAssetHubSVG, nodesAstarPNG, nodesAventusSVG, nodesBifrostSVG, nodesBridgeHubSVG, nodesCentrifugePNG, nodesCloverSVG, nodesCoinversationPNG, nodesContinuumPNG, nodesCrustParachainSVG, nodesDarwiniaSVG, nodesEfinitySVG, nodesEwxSVG, nodesHashedPNG, nodesHyperbridgeSVG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKiltPNG, nodesKylinPNG, nodesLitentryPNG, nodesMantaPNG, nodesMoonbeamSVG, nodesMoonsamaSVG, nodesMythosPNG, nodesNodleSVG, nodesOmnibtcSVG, nodesParallelSVG, nodesPhalaSVG, nodesPolimecSVG, nodesPolkadexSVG, nodesRobonomicsSVG, nodesSoraSubstrateSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesT3rnPNG, nodesUniqueSVG, nodesZeitgeistPNG } from '../ui/logos/nodes/index.js';
+import { chainsAcalaSVG, chainsBitgreenPNG, chainsComposableFinancePNG, chainsEquilibriumSVG, chainsFrequencySVG, chainsGeminisPNG, chainsInvarchJPEG, chainsLaosPNG, chainsLogionPNG, chainsNeurowebPNG, chainsOakPNG, chainsPeaqPNG, chainsPendulumSVG, chainsPeoplePolkadotSVG, chainsPolkadotCircleSVG, chainsSnakenetSVG, chainsTotemSVG, chainsWatrPNG } from '../ui/logos/chains/index.js';
+import { nodesAjunaPNG, nodesAresOdysseySVG, nodesAssetHubSVG, nodesAstarPNG, nodesAventusSVG, nodesBifrostSVG, nodesBridgeHubSVG, nodesCentrifugePNG, nodesCloverSVG, nodesCoinversationPNG, nodesContinuumPNG, nodesCrustParachainSVG, nodesDarwiniaSVG, nodesEfinitySVG, nodesEwxSVG, nodesHashedPNG, nodesHyperbridgePNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKiltPNG, nodesKylinPNG, nodesLitentryPNG, nodesMantaPNG, nodesMoonbeamSVG, nodesMoonsamaSVG, nodesMythosPNG, nodesNodleSVG, nodesOmnibtcSVG, nodesParallelSVG, nodesPhalaSVG, nodesPolimecSVG, nodesPolkadexSVG, nodesRobonomicsSVG, nodesSoraSubstrateSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesT3rnPNG, nodesUniqueSVG, nodesZeitgeistPNG } from '../ui/logos/nodes/index.js';
 import { getTeleports } from './util.js';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -356,7 +356,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     text: 'Hyperbridge (Nexus)',
     ui: {
       color: '#ED6FF1',
-      logo: nodesHyperbridgeSVG
+      logo: nodesHyperbridgePNG
     }
   },
   {
@@ -929,6 +929,18 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     }
   },
   {
+    info: 'polkadotCoretime',
+    isPeopleForIdentity: true,
+    paraId: 1005,
+    providers: {
+      Parity: 'wss://polkadot-coretime-rpc.polkadot.io'
+    },
+    relayName: 'polkadot',
+    teleport: [-1],
+    text: 'Coretime',
+    ui: { }
+  },
+  {
     info: 'polkadotPeople',
     isPeople: true,
     isPeopleForIdentity: false,
@@ -943,7 +955,10 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     relayName: 'polkadot',
     teleport: [-1],
     text: 'People',
-    ui: {}
+    ui: {
+      color: '#e84366',
+      logo: chainsPeoplePolkadotSVG
+    }
   }
 ];
 
@@ -961,7 +976,7 @@ export const prodRelayPolkadot: EndpointOption = {
     Allnodes: 'wss://polkadot-rpc.publicnode.com',
     // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
     // 'Automata 1RPC': 'wss://1rpc.io/dot',
-    Blockops: 'wss://polkadot-public-rpc.blockops.network/ws', // https://github.com/polkadot-js/apps/issues/9840
+    Blockops: 'wss://polkadot-public-rpc.blockops.network/ws',
     Dwellir: 'wss://polkadot-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://polkadot-rpc-tn.dwellir.com',
     IBP1: 'wss://rpc.ibp.network/polkadot',

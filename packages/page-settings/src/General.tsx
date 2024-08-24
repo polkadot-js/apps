@@ -20,6 +20,7 @@ interface Props {
 }
 
 const _ledgerConnOptions = settings.availableLedgerConn;
+const _ledgerAppOptions = settings.availableLedgerApp;
 
 function General ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -184,15 +185,15 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
               options={ledgerConnOptions}
             />
           </div>
-          {/* <div className='ui--row'>
+          <div className='ui--row'>
             <Dropdown
-              defaultValue={state.ledgerApp}
+              defaultValue={'chainSpecific'} // state.ledgerApp
               isDisabled={!hasLedgerChain}
               label={t('manage ledger app')}
               onChange={_handleChange('ledgerApp')}
-              options={_ledgerAppOptions}
+              options={_ledgerAppOptions.filter((x) => x.value === 'chainSpecific')}
             />
-          </div> */}
+          </div>
           {hasWebUsb
             ? state.ledgerConn !== 'none'
               ? (
