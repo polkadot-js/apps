@@ -1,12 +1,16 @@
 // Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// This is for the use of `Ledger`
+//
+/* eslint-disable deprecation/deprecation */
+
 import type { ApiPromise } from '@polkadot/api';
 import type { TransportType } from '@polkadot/hw-ledger-transports/types';
 
 import { useCallback, useMemo } from 'react';
 
-import { Ledger } from '@polkadot/hw-ledger';
+import { Ledger, LedgerGeneric } from '@polkadot/hw-ledger';
 import { knownGenesis, knownLedger } from '@polkadot/networks/defaults';
 import { settings } from '@polkadot/ui-settings';
 import { assert } from '@polkadot/util';
@@ -22,7 +26,7 @@ interface StateBase {
 }
 
 interface State extends StateBase {
-  getLedger: () => Ledger;
+  getLedger: () => LedgerGeneric | Ledger;
 }
 
 const EMPTY_STATE: StateBase = {
@@ -57,11 +61,12 @@ const ledgerChains = Object
   .keys(newKnownGenesis)
   .filter((n) => newKnownLedger[n]);
 const ledgerHashes = ledgerChains.reduce<string[]>((all, n) => [...all, ...newKnownGenesis[n]], []);
-let ledger: Ledger | null = null;
+let ledger: LedgerGeneric | Ledger | null = null;
 let ledgerType: TransportType | null = null;
 
-function retrieveLedger (api: ApiPromise): Ledger {
+function retrieveLedger (api: ApiPromise): LedgerGeneric | Ledger {
   const currType = settings.get().ledgerConn as TransportType;
+  const currApp = 'chainSpecific' as string; // settings.get().ledgerApp;
 
   if (!ledger || ledgerType !== currType) {
     const genesisHex = api.genesisHash.toHex();
@@ -69,7 +74,18 @@ function retrieveLedger (api: ApiPromise): Ledger {
 
     assert(network, `Unable to find a known Ledger config for genesisHash ${genesisHex}`);
 
-    ledger = new Ledger(currType, network);
+    if (currApp === 'generic') {
+      // All chains use the `slip44` from polkadot in their derivation path in ledger.
+      // This interface is specific to the underlying PolkadotGenericApp.
+      ledger = new LedgerGeneric(currType, network, newKnownLedger.polkadot);
+    } else if (currApp === 'migration') {
+      ledger = new LedgerGeneric(currType, network, newKnownLedger[network]);
+    } else if (currApp === 'chainSpecific') {
+      ledger = new Ledger(currType, network);
+    } else {
+      // This will never get touched since it will always hit the above two. This satisfies the compiler.
+      ledger = new LedgerGeneric(currType, network, newKnownLedger.polkadot);
+    }
 
     ledgerType = currType;
   }

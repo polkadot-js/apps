@@ -41,7 +41,7 @@ function Deposit ({ className = '', id, palletReferenda, track }: Props): React.
                 label={t('deposit from account')}
                 labelExtra={
                   <Available
-                    label={<span className='label'>{t('transferrable')}</span>}
+                    label={<span className='label'>{t('transferable')}</span>}
                     params={accountId}
                   />
                 }

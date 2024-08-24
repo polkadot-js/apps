@@ -15,7 +15,7 @@ function useAmountErrorImpl (accountId?: string | null, amount?: BN | null, minA
   return useMemo(
     () => !amount || amount.isZero() || !minAmount || minAmount.gt(amount) || (
       !!balances &&
-      amount.gt(balances.availableBalance.sub(api.consts.balances.existentialDeposit))
+      amount.gt((balances.transferable || balances.availableBalance).sub(api.consts.balances.existentialDeposit))
     ),
     [api, amount, balances, minAmount]
   );

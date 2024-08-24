@@ -1,14 +1,19 @@
 // Copyright 2017-2024 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// This is for the use of `Ledger`
+//
+/* eslint-disable deprecation/deprecation */
+
 import type { ApiPromise } from '@polkadot/api';
-import type { Ledger } from '@polkadot/hw-ledger';
+import type { Ledger, LedgerGeneric } from '@polkadot/hw-ledger';
 
 import React, { useCallback, useRef, useState } from 'react';
 
 import { Button, Dropdown, Input, MarkError, Modal } from '@polkadot/react-components';
 import { useApi, useLedger } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
+// import { settings } from '@polkadot/ui-settings';
 import { arrayRange } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
@@ -26,8 +31,20 @@ interface Props {
 export const AVAIL_INDEXES = arrayRange(20);
 
 // query the ledger for the address, adding it to the keyring
-async function queryLedger (api: ApiPromise, getLedger: () => Ledger, name: string, accountOffset: number, addressOffset: number): Promise<void> {
-  const { address } = await getLedger().getAddress(false, accountOffset, addressOffset);
+async function queryLedger (api: ApiPromise, getLedger: () => LedgerGeneric | Ledger, name: string, accountOffset: number, addressOffset: number, ss58Prefix: number): Promise<void> {
+  let address: string;
+  const currApp = 'chainSpecific' as string; // settings.get().ledgerApp;
+
+  if (currApp === 'migration' || currApp === 'generic') {
+    const addr = await (getLedger() as LedgerGeneric).getAddress(ss58Prefix, false, accountOffset, addressOffset);
+
+    address = addr.address;
+  } else {
+    // This will always be the `chainSpecific` setting if the above condition is not met
+    const addr = await (getLedger() as Ledger).getAddress(false, accountOffset, addressOffset);
+
+    address = addr.address;
+  }
 
   keyring.addHardware(address, 'ledger', {
     accountOffset,
@@ -67,7 +84,7 @@ function LedgerModal ({ className, onClose }: Props): React.ReactElement<Props> 
       setError(null);
       setIsBusy(true);
 
-      queryLedger(api, getLedger, name, accIndex, addIndex)
+      queryLedger(api, getLedger, name, accIndex, addIndex, api.consts.system.ss58Prefix.toNumber())
         .then(() => onClose())
         .catch((error: Error): void => {
           console.error(error);
