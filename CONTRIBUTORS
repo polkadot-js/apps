@@ -1,6 +1,6 @@
     4364	Jaco                          	Disable unreachable endpoints (#10221)
       81	Thibaut Sardan                	update overrides (#10090)
-      73	Tarik Gul                     	Fix identity for live networks (#10869)
+      74	Tarik Gul                     	Allow reserved in voting balance (#10858)
       62	kwingram25                    	iadd fix (#2911)
       49	pan                           	update Bifrost kusama on Subsquare (#9752)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
