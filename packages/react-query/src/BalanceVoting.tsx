@@ -4,7 +4,6 @@
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import React from 'react';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -27,7 +26,7 @@ function BalanceVoting ({ children, className = '', isReferenda, label, params }
     <FormatBalance
       className={className}
       label={label}
-      value={isReferenda && api.query.convictionVoting ? allBalances?.votingBalance.add(allBalances ? allBalances.reservedBalance : new BN(0)) : allBalances?.votingBalance}
+      value={isReferenda && api.query.convictionVoting && allBalances ? allBalances.votingBalance.add(allBalances.reservedBalance) : allBalances?.votingBalance}
     >
       {children}
     </FormatBalance>
