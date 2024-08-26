@@ -593,6 +593,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   },
   {
     info: 'vara',
+    isPeopleForIdentity: false,
     providers: {
       Blast: 'wss://vara-mainnet.public.blastapi.io',
       Gear: 'wss://rpc.vara.network',
