@@ -1,6 +1,6 @@
     4364	Jaco                          	Disable unreachable endpoints (#10221)
       81	Thibaut Sardan                	update overrides (#10090)
-      72	Tarik Gul                     	Revert 0d59324dec3fd7b5acd048a93669cb4f34f92037 (#10865)
+      73	Tarik Gul                     	Fix identity for live networks (#10869)
       62	kwingram25                    	iadd fix (#2911)
       49	pan                           	update Bifrost kusama on Subsquare (#9752)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
