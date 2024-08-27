@@ -35,6 +35,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     homepage: 'https://ajuna.io/',
     info: 'Ajuna(paseo)',
     paraId: 2051,
+    isPeopleForIdentity: true,
     providers: {
       BajunNetwork: 'wss://rpc-paseo.ajuna.network'
     },
@@ -48,6 +49,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     homepage: 'https://www.aventus.io/',
     info: 'paseoAventus',
     paraId: 2056,
+    isPeopleForIdentity: true,
     providers: {
       Aventus: 'wss://public-rpc.testnet.aventus.network'
     },
@@ -61,6 +63,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     homepage: 'https://ajuna.io/',
     info: 'Bajun(paseo)',
     paraId: 2119,
+    isPeopleForIdentity: true,
     providers: {
       BajunNetwork: 'wss://rpc-paseo.bajun.network'
     },
@@ -74,6 +77,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     homepage: 'https://bifrost.finance',
     info: 'Bifrost(Paseo)',
     paraId: 2030,
+    isPeopleForIdentity: true,
     providers: {
       Liebi: 'wss://bifrost-rpc.paseo.liebi.com/ws'
     },
@@ -87,6 +91,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     homepage: 'https://darwinia.network/',
     info: 'Darwinia Koi',
     paraId: 2105,
+    isPeopleForIdentity: true,
     providers: {
       Darwinia: 'wss://koi-rpc.darwinia.network'
     },
@@ -100,6 +105,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     homepage: 'https://www.frequency.xyz',
     info: 'Frequency',
     paraId: 4000,
+    isPeopleForIdentity: true,
     providers: {
       'Amplica Labs': 'wss://0.rpc.testnet.amplica.io'
     },
@@ -113,6 +119,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     homepage: 'https://hyperbridge.network',
     info: 'Hyperbridge',
     paraId: 4009,
+    isPeopleForIdentity: true,
     providers: {
       BlockOps: 'wss://hyperbridge-paseo-rpc.blockops.network'
     },
@@ -126,6 +133,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     homepage: 'https://integritee.network',
     info: 'integritee',
     paraId: 2039,
+    isPeopleForIdentity: true,
     providers: {
       Integritee: 'wss://paseo.api.integritee.network'
     },
@@ -138,6 +146,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'kilt',
     paraId: 2086,
+    isPeopleForIdentity: true,
     providers: {
       BOTLabs: 'wss://peregrine.kilt.io/parachain-public-ws/'
     },
@@ -151,6 +160,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     homepage: 'https://laosnetwork.io/',
     info: 'laos-sigma',
     paraId: 4006,
+    isPeopleForIdentity: true,
     providers: {
       'freeverse.io': 'wss://rpc.laossigma.laosfoundation.io'
     },
@@ -163,6 +173,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'muse',
     paraId: 3369,
+    isPeopleForIdentity: true,
     providers: {
       Parity: 'wss://paseo-muse-rpc.polkadot.io'
     },
@@ -176,6 +187,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     homepage: 'https://mandalachain.io',
     info: 'Niskala',
     paraId: 4022,
+    isPeopleForIdentity: true,
     providers: {
       'Baliola 1': 'wss://mlg1.mandalachain.io',
       'Baliola 2': 'wss://mlg2.mandalachain.io'
@@ -190,6 +202,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     homepage: 'https://www.nodle.com/',
     info: 'NodleParadis',
     paraId: 2026,
+    isPeopleForIdentity: true,
     providers: {
       OnFinality: 'wss://node-6957502816543653888.lh.onfinality.io/ws?apikey=09b04494-3139-4b57-a5d1-e1c4c18748ce'
     },
@@ -203,6 +216,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     homepage: 'https://popnetwork.xyz/',
     info: 'Pop Network',
     paraId: 4001,
+    isPeopleForIdentity: true,
     providers: {
       'R0GUE-RPC1': 'wss://rpc1.paseo.popnetwork.xyz',
       'R0GUE-RPC2': 'wss://rpc2.paseo.popnetwork.xyz',
@@ -220,6 +234,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
   {
     info: 'PaseoAssetHub',
     paraId: 1000,
+    isPeopleForIdentity: true,
     providers: {
       Dwellir: 'wss://asset-hub-paseo-rpc.dwellir.com',
       IBP1: 'wss://sys.ibp.network/asset-hub-paseo',
@@ -240,7 +255,7 @@ export const testRelayPaseo: EndpointOption = {
   dnslink: 'paseo',
   genesisHash: PASEO_GENESIS,
   info: 'paseo',
-  isPeopleForIdentity: false,
+  isPeopleForIdentity: true,
   isRelay: true,
   linked: [
     ...testParasPaseoCommon,
