@@ -21,6 +21,7 @@ export * from './productionRelayPolkadot.js';
 export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'avail',
+    isPeopleForIdentity: false,
     providers: {
       AVAIL: config.mainnet.url
     },
@@ -28,6 +29,6 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#1B1E26',
       logo: nodesAvailPNG
-    }
+    },
   }
 ];

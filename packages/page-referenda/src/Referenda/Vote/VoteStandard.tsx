@@ -43,6 +43,7 @@ function VoteStandard ({ accountId, id, isAye, onChange, voteLockingPeriod }: Pr
       <VoteValue
         accountId={accountId}
         autoFocus
+        isReferenda={true}
         label={
           isAye
             ? t('aye vote value')
