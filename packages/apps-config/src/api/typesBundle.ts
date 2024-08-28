@@ -31280,27 +31280,6 @@ export const typesBundle = {
             },
             "version": 1
           }
-        ],
-        "AssetSwitch": [
-          {
-            "methods": {
-              "pool_account_id": {
-                "description": "Calculate the pool account address for a switch pallet instance and asset ID",
-                "params": [
-                  {
-                    "name": "pair_id",
-                    "type": "Text"
-                  },
-                  {
-                    "name": "asset_id",
-                    "type": "XcmVersionedAssetId"
-                  }
-                ],
-                "type": "Result<AccountId32, AssetSwitchApiError>"
-              }
-            },
-            "version": 1
-          }
         ]
       },
       "types": [
@@ -34608,118 +34587,6 @@ export const typesBundle = {
         {
           "minmax": [
             11200,
-            11399
-          ],
-          "types": {
-            "DidApiAccountId": "PalletDidLookupLinkableAccountLinkableAccountId",
-            "RawDidLinkedInfo": {
-              "identifier": "AccountId32",
-              "accounts": "Vec<DidApiAccountId>",
-              "w3n": "Option<Text>",
-              "serviceEndpoints": "Vec<DidServiceEndpointsDidEndpoint>",
-              "details": "DidDidDetails"
-            },
-            "PublicCredentialFilter": {
-              "_enum": {
-                "ctypeHash": "Hash",
-                "attester": "AccountId32"
-              }
-            },
-            "PublicCredentialError": {
-              "_enum": [
-                "InvalidSubjectId"
-              ]
-            },
-            "StakingRates": {
-              "collatorStakingRate": "Perquintill",
-              "collatorRewardRate": "Perquintill",
-              "delegatorStakingRate": "Perquintill",
-              "delegatorRewardRate": "Perquintill"
-            },
-            "IdentityCommitmentVersion": "u16",
-            "DipProofRequest": {
-              "identifier": "AccountId32",
-              "version": "IdentityCommitmentVersion",
-              "proofKeys": "Vec<Hash>",
-              "accounts": "Vec<PalletDidLookupLinkableAccountLinkableAccountId>",
-              "shouldIncludeWeb3Name": "bool"
-            },
-            "CompleteMerkleProof": {
-              "root": "MerkleRoot",
-              "proof": "MerkleProof"
-            },
-            "MerkleRoot": "Hash",
-            "MerkleProof": {
-              "blinded": "BlindedLeaves",
-              "revealed": "RevealedLeaves"
-            },
-            "BlindedLeaves": "Vec<BlindedValue>",
-            "BlindedValue": "Bytes",
-            "RevealedLeaves": "Vec<RevealedLeaf>",
-            "RevealedLeaf": {
-              "_enum": {
-                "DidKey": "RevealedDidKey",
-                "Web3Name": "RevealedWeb3Name",
-                "LinkedAccount": "RevealedAccountId"
-              }
-            },
-            "RevealedDidKey": {
-              "id": "Hash",
-              "relationship": "KeyRelationship",
-              "details": "DidDidDetailsDidPublicKeyDetails"
-            },
-            "KeyRelationship": {
-              "_enum": {
-                "Encryption": "Null",
-                "Verification": "VerificationRelationship"
-              }
-            },
-            "VerificationRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "RevealedWeb3Name": {
-              "web3Name": "Text",
-              "claimedAt": "BlockNumber"
-            },
-            "RevealedAccountId": "PalletDidLookupLinkableAccountLinkableAccountId",
-            "RuntimeApiDipProofError": {
-              "_enum": {
-                "IdentityProvider": "LinkedDidIdentityProviderError",
-                "MerkleProof": "DidMerkleProofError"
-              }
-            },
-            "LinkedDidIdentityProviderError": {
-              "_enum": [
-                "DidNotFound",
-                "DidDeleted",
-                "Internal"
-              ]
-            },
-            "DidIdentityProviderError": {
-              "_enum": [
-                "DidNotFound",
-                "Internal"
-              ]
-            },
-            "DidMerkleProofError": {
-              "_enum": [
-                "UnsupportedVersion",
-                "KeyNotFound",
-                "LinkedAccountNotFound",
-                "Web3NameNotFound",
-                "Internal"
-              ]
-            }
-          }
-        },
-        {
-          "minmax": [
-            11400,
             null
           ],
           "types": {
@@ -34824,13 +34691,6 @@ export const typesBundle = {
                 "KeyNotFound",
                 "LinkedAccountNotFound",
                 "Web3NameNotFound",
-                "Internal"
-              ]
-            },
-            "AssetSwitchApiError": {
-              "_enum": [
-                "InvalidInput",
-                "SwitchPoolNotFound",
                 "Internal"
               ]
             }
@@ -35053,27 +34913,6 @@ export const typesBundle = {
             },
             "version": 1
           }
-        ],
-        "AssetSwitch": [
-          {
-            "methods": {
-              "pool_account_id": {
-                "description": "Calculate the pool account address for a switch pallet instance and asset ID",
-                "params": [
-                  {
-                    "name": "pair_id",
-                    "type": "Text"
-                  },
-                  {
-                    "name": "asset_id",
-                    "type": "XcmVersionedAssetId"
-                  }
-                ],
-                "type": "Result<AccountId32, AssetSwitchApiError>"
-              }
-            },
-            "version": 1
-          }
         ]
       },
       "types": [
@@ -38381,118 +38220,6 @@ export const typesBundle = {
         {
           "minmax": [
             11200,
-            11399
-          ],
-          "types": {
-            "DidApiAccountId": "PalletDidLookupLinkableAccountLinkableAccountId",
-            "RawDidLinkedInfo": {
-              "identifier": "AccountId32",
-              "accounts": "Vec<DidApiAccountId>",
-              "w3n": "Option<Text>",
-              "serviceEndpoints": "Vec<DidServiceEndpointsDidEndpoint>",
-              "details": "DidDidDetails"
-            },
-            "PublicCredentialFilter": {
-              "_enum": {
-                "ctypeHash": "Hash",
-                "attester": "AccountId32"
-              }
-            },
-            "PublicCredentialError": {
-              "_enum": [
-                "InvalidSubjectId"
-              ]
-            },
-            "StakingRates": {
-              "collatorStakingRate": "Perquintill",
-              "collatorRewardRate": "Perquintill",
-              "delegatorStakingRate": "Perquintill",
-              "delegatorRewardRate": "Perquintill"
-            },
-            "IdentityCommitmentVersion": "u16",
-            "DipProofRequest": {
-              "identifier": "AccountId32",
-              "version": "IdentityCommitmentVersion",
-              "proofKeys": "Vec<Hash>",
-              "accounts": "Vec<PalletDidLookupLinkableAccountLinkableAccountId>",
-              "shouldIncludeWeb3Name": "bool"
-            },
-            "CompleteMerkleProof": {
-              "root": "MerkleRoot",
-              "proof": "MerkleProof"
-            },
-            "MerkleRoot": "Hash",
-            "MerkleProof": {
-              "blinded": "BlindedLeaves",
-              "revealed": "RevealedLeaves"
-            },
-            "BlindedLeaves": "Vec<BlindedValue>",
-            "BlindedValue": "Bytes",
-            "RevealedLeaves": "Vec<RevealedLeaf>",
-            "RevealedLeaf": {
-              "_enum": {
-                "DidKey": "RevealedDidKey",
-                "Web3Name": "RevealedWeb3Name",
-                "LinkedAccount": "RevealedAccountId"
-              }
-            },
-            "RevealedDidKey": {
-              "id": "Hash",
-              "relationship": "KeyRelationship",
-              "details": "DidDidDetailsDidPublicKeyDetails"
-            },
-            "KeyRelationship": {
-              "_enum": {
-                "Encryption": "Null",
-                "Verification": "VerificationRelationship"
-              }
-            },
-            "VerificationRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "RevealedWeb3Name": {
-              "web3Name": "Text",
-              "claimedAt": "BlockNumber"
-            },
-            "RevealedAccountId": "PalletDidLookupLinkableAccountLinkableAccountId",
-            "RuntimeApiDipProofError": {
-              "_enum": {
-                "IdentityProvider": "LinkedDidIdentityProviderError",
-                "MerkleProof": "DidMerkleProofError"
-              }
-            },
-            "LinkedDidIdentityProviderError": {
-              "_enum": [
-                "DidNotFound",
-                "DidDeleted",
-                "Internal"
-              ]
-            },
-            "DidIdentityProviderError": {
-              "_enum": [
-                "DidNotFound",
-                "Internal"
-              ]
-            },
-            "DidMerkleProofError": {
-              "_enum": [
-                "UnsupportedVersion",
-                "KeyNotFound",
-                "LinkedAccountNotFound",
-                "Web3NameNotFound",
-                "Internal"
-              ]
-            }
-          }
-        },
-        {
-          "minmax": [
-            11400,
             null
           ],
           "types": {
@@ -38597,13 +38324,6 @@ export const typesBundle = {
                 "KeyNotFound",
                 "LinkedAccountNotFound",
                 "Web3NameNotFound",
-                "Internal"
-              ]
-            },
-            "AssetSwitchApiError": {
-              "_enum": [
-                "InvalidInput",
-                "SwitchPoolNotFound",
                 "Internal"
               ]
             }
@@ -42094,118 +41814,6 @@ export const typesBundle = {
         {
           "minmax": [
             11200,
-            11399
-          ],
-          "types": {
-            "DidApiAccountId": "PalletDidLookupLinkableAccountLinkableAccountId",
-            "RawDidLinkedInfo": {
-              "identifier": "AccountId32",
-              "accounts": "Vec<DidApiAccountId>",
-              "w3n": "Option<Text>",
-              "serviceEndpoints": "Vec<DidServiceEndpointsDidEndpoint>",
-              "details": "DidDidDetails"
-            },
-            "PublicCredentialFilter": {
-              "_enum": {
-                "ctypeHash": "Hash",
-                "attester": "AccountId32"
-              }
-            },
-            "PublicCredentialError": {
-              "_enum": [
-                "InvalidSubjectId"
-              ]
-            },
-            "StakingRates": {
-              "collatorStakingRate": "Perquintill",
-              "collatorRewardRate": "Perquintill",
-              "delegatorStakingRate": "Perquintill",
-              "delegatorRewardRate": "Perquintill"
-            },
-            "IdentityCommitmentVersion": "u16",
-            "DipProofRequest": {
-              "identifier": "AccountId32",
-              "version": "IdentityCommitmentVersion",
-              "proofKeys": "Vec<Hash>",
-              "accounts": "Vec<PalletDidLookupLinkableAccountLinkableAccountId>",
-              "shouldIncludeWeb3Name": "bool"
-            },
-            "CompleteMerkleProof": {
-              "root": "MerkleRoot",
-              "proof": "MerkleProof"
-            },
-            "MerkleRoot": "Hash",
-            "MerkleProof": {
-              "blinded": "BlindedLeaves",
-              "revealed": "RevealedLeaves"
-            },
-            "BlindedLeaves": "Vec<BlindedValue>",
-            "BlindedValue": "Bytes",
-            "RevealedLeaves": "Vec<RevealedLeaf>",
-            "RevealedLeaf": {
-              "_enum": {
-                "DidKey": "RevealedDidKey",
-                "Web3Name": "RevealedWeb3Name",
-                "LinkedAccount": "RevealedAccountId"
-              }
-            },
-            "RevealedDidKey": {
-              "id": "Hash",
-              "relationship": "KeyRelationship",
-              "details": "DidDidDetailsDidPublicKeyDetails"
-            },
-            "KeyRelationship": {
-              "_enum": {
-                "Encryption": "Null",
-                "Verification": "VerificationRelationship"
-              }
-            },
-            "VerificationRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "RevealedWeb3Name": {
-              "web3Name": "Text",
-              "claimedAt": "BlockNumber"
-            },
-            "RevealedAccountId": "PalletDidLookupLinkableAccountLinkableAccountId",
-            "RuntimeApiDipProofError": {
-              "_enum": {
-                "IdentityProvider": "LinkedDidIdentityProviderError",
-                "MerkleProof": "DidMerkleProofError"
-              }
-            },
-            "LinkedDidIdentityProviderError": {
-              "_enum": [
-                "DidNotFound",
-                "DidDeleted",
-                "Internal"
-              ]
-            },
-            "DidIdentityProviderError": {
-              "_enum": [
-                "DidNotFound",
-                "Internal"
-              ]
-            },
-            "DidMerkleProofError": {
-              "_enum": [
-                "UnsupportedVersion",
-                "KeyNotFound",
-                "LinkedAccountNotFound",
-                "Web3NameNotFound",
-                "Internal"
-              ]
-            }
-          }
-        },
-        {
-          "minmax": [
-            11400,
             null
           ],
           "types": {
@@ -42310,13 +41918,6 @@ export const typesBundle = {
                 "KeyNotFound",
                 "LinkedAccountNotFound",
                 "Web3NameNotFound",
-                "Internal"
-              ]
-            },
-            "AssetSwitchApiError": {
-              "_enum": [
-                "InvalidInput",
-                "SwitchPoolNotFound",
                 "Internal"
               ]
             }
@@ -45793,118 +45394,6 @@ export const typesBundle = {
         {
           "minmax": [
             11200,
-            11399
-          ],
-          "types": {
-            "DidApiAccountId": "PalletDidLookupLinkableAccountLinkableAccountId",
-            "RawDidLinkedInfo": {
-              "identifier": "AccountId32",
-              "accounts": "Vec<DidApiAccountId>",
-              "w3n": "Option<Text>",
-              "serviceEndpoints": "Vec<DidServiceEndpointsDidEndpoint>",
-              "details": "DidDidDetails"
-            },
-            "PublicCredentialFilter": {
-              "_enum": {
-                "ctypeHash": "Hash",
-                "attester": "AccountId32"
-              }
-            },
-            "PublicCredentialError": {
-              "_enum": [
-                "InvalidSubjectId"
-              ]
-            },
-            "StakingRates": {
-              "collatorStakingRate": "Perquintill",
-              "collatorRewardRate": "Perquintill",
-              "delegatorStakingRate": "Perquintill",
-              "delegatorRewardRate": "Perquintill"
-            },
-            "IdentityCommitmentVersion": "u16",
-            "DipProofRequest": {
-              "identifier": "AccountId32",
-              "version": "IdentityCommitmentVersion",
-              "proofKeys": "Vec<Hash>",
-              "accounts": "Vec<PalletDidLookupLinkableAccountLinkableAccountId>",
-              "shouldIncludeWeb3Name": "bool"
-            },
-            "CompleteMerkleProof": {
-              "root": "MerkleRoot",
-              "proof": "MerkleProof"
-            },
-            "MerkleRoot": "Hash",
-            "MerkleProof": {
-              "blinded": "BlindedLeaves",
-              "revealed": "RevealedLeaves"
-            },
-            "BlindedLeaves": "Vec<BlindedValue>",
-            "BlindedValue": "Bytes",
-            "RevealedLeaves": "Vec<RevealedLeaf>",
-            "RevealedLeaf": {
-              "_enum": {
-                "DidKey": "RevealedDidKey",
-                "Web3Name": "RevealedWeb3Name",
-                "LinkedAccount": "RevealedAccountId"
-              }
-            },
-            "RevealedDidKey": {
-              "id": "Hash",
-              "relationship": "KeyRelationship",
-              "details": "DidDidDetailsDidPublicKeyDetails"
-            },
-            "KeyRelationship": {
-              "_enum": {
-                "Encryption": "Null",
-                "Verification": "VerificationRelationship"
-              }
-            },
-            "VerificationRelationship": {
-              "_enum": [
-                "Authentication",
-                "CapabilityDelegation",
-                "CapabilityInvocation",
-                "AssertionMethod"
-              ]
-            },
-            "RevealedWeb3Name": {
-              "web3Name": "Text",
-              "claimedAt": "BlockNumber"
-            },
-            "RevealedAccountId": "PalletDidLookupLinkableAccountLinkableAccountId",
-            "RuntimeApiDipProofError": {
-              "_enum": {
-                "IdentityProvider": "LinkedDidIdentityProviderError",
-                "MerkleProof": "DidMerkleProofError"
-              }
-            },
-            "LinkedDidIdentityProviderError": {
-              "_enum": [
-                "DidNotFound",
-                "DidDeleted",
-                "Internal"
-              ]
-            },
-            "DidIdentityProviderError": {
-              "_enum": [
-                "DidNotFound",
-                "Internal"
-              ]
-            },
-            "DidMerkleProofError": {
-              "_enum": [
-                "UnsupportedVersion",
-                "KeyNotFound",
-                "LinkedAccountNotFound",
-                "Web3NameNotFound",
-                "Internal"
-              ]
-            }
-          }
-        },
-        {
-          "minmax": [
-            11400,
             null
           ],
           "types": {
@@ -46009,13 +45498,6 @@ export const typesBundle = {
                 "KeyNotFound",
                 "LinkedAccountNotFound",
                 "Web3NameNotFound",
-                "Internal"
-              ]
-            },
-            "AssetSwitchApiError": {
-              "_enum": [
-                "InvalidInput",
-                "SwitchPoolNotFound",
                 "Internal"
               ]
             }
