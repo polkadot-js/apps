@@ -233,6 +233,19 @@ export const testParasPaseoCommon: EndpointOption[] = [
       color: '#77bb77',
       logo: nodesAssetHubSVG
     }
+  },
+  {
+    info: 'PaseoBridgeHub',
+    paraId: 1002,
+    providers: {
+      IBP1: 'wss://sys.ibp.network/bridge-hub-paseo'
+    },
+    teleport: [-1],
+    text: 'BridgeHub',
+    ui: {
+      color: '#77bb77',
+      logo: nodesBridgeHubSVG
+    }
   }
 ];
 
