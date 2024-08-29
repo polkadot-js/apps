@@ -181,7 +181,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     },
     text: 'Creditcoin Classic Testnet',
     ui: {
-      color: '#ffffff',
+      color: '#9cffaa',
       logo: chainsCreditcoinTestPNG
     }
   },
