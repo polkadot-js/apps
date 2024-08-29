@@ -197,7 +197,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         locked: balancesAll.lockedBalance,
         redeemable: stakingInfo?.redeemable || BN_ZERO,
         total: balancesAll.freeBalance.add(balancesAll.reservedBalance),
-        transferable: balancesAll.transferable || balancesAll.availableBalance,
+        transferable: balancesAll.availableBalance,
         unbonding: calcUnbonding(stakingInfo)
       });
 
