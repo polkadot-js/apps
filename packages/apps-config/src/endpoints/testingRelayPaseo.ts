@@ -238,7 +238,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
     info: 'PaseoBridgeHub',
     paraId: 1002,
     providers: {
-      IBP1: 'wss://sys.ibp.network/bridge-hub-paseo'
+      IBP: 'wss://sys.ibp.network/bridge-hub-paseo'
     },
     teleport: [-1],
     text: 'BridgeHub',
