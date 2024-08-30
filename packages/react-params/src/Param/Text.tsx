@@ -5,7 +5,7 @@ import type { Props } from '../types';
 
 import React, { useCallback, useState } from 'react';
 
-import { Input } from '@polkadot/react-components';
+import { CopyButton, Input } from '@polkadot/react-components';
 
 import Bare from './Bare';
 
@@ -41,7 +41,9 @@ function Text ({ className = '', defaultValue: { value }, isDisabled, isError, l
         placeholder='<any string>'
         type='text'
         withLabel={withLabel}
-      />
+      >
+        {isDisabled && <CopyButton value={defaultValue} />}
+      </Input>
     </Bare>
   );
 }
