@@ -73,7 +73,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        
+
       - name: Set up Kubectl
         uses: azure/setup-kubectl@v1
         with:
@@ -86,4 +86,5 @@ jobs:
    
       - name: Deploy to Kubernetes
         run: |
-          kubectl get pods
+          kubectl set image deployment/explorer explorer=availj/explorer:v1.12
+          
