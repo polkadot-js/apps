@@ -1,7 +1,7 @@
 name: Releaser
 on:
   push:
-    branches-ignore:
+    branches:
       - '**'
     tags:
       - '*'
@@ -9,6 +9,7 @@ on:
 jobs:
 
   build_explorer:
+    if: false
     runs-on: ubuntu-latest
     steps:
          - uses: actions/checkout@v2
@@ -64,3 +65,22 @@ jobs:
           build-args: |
             TURING_URL=wss://turing-rpc.avail.so/ws
             MAINNET_URL=wss://mainnet-rpc.avail.so/ws
+
+  deploy_release:
+    # needs: [build_explorer]
+    runs-on: ubuntu-20.04
+    environment: prod
+    steps:
+      - name: Set up Kubectl
+        uses: azure/setup-kubectl@v1
+        with:
+          version: 'v1.29.2'
+    
+      - name: Configure Kubernetes Context
+        uses: azure/k8s-set-context@v1
+        with:
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+   
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl get pods
