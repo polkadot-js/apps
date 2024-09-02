@@ -66,11 +66,14 @@ jobs:
             TURING_URL=wss://turing-rpc.avail.so/ws
             MAINNET_URL=wss://mainnet-rpc.avail.so/ws
 
-  deploy_release:
+  k8s_deployment:
     # needs: [build_explorer]
     runs-on: ubuntu-20.04
     environment: prod
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
       - name: Set up Kubectl
         uses: azure/setup-kubectl@v1
         with:
