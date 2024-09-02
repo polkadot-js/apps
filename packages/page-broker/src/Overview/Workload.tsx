@@ -2,77 +2,81 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { CoreWorkloadInfo } from '@polkadot/react-hooks/types';
-import type { PalletBrokerCoretimeInterfaceCoreAssignment } from '@polkadot/types/lookup';
+import type { CoreWorkloadInfo, CoreWorkplanInfo, RegionInfo } from '@polkadot/react-hooks/types';
+import type { InfoRow } from '../types.js';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { ExpandButton } from '@polkadot/react-components';
 import { useRegions, useToggle } from '@polkadot/react-hooks';
 
-import { hexToBin } from '../utils.js';
+import { formatWorkInfo } from '../utils.js';
+import WorkInfoRow from './WorkInfoRow.js';
+import Workplan from './Workplan.js';
 
 interface Props {
   api: ApiPromise;
   value: CoreWorkloadInfo;
   timeslice: number;
+  workplan?: CoreWorkplanInfo[] | null,
 }
 
-function Workload ({ api, timeslice, value: { core, info } }: Props): React.ReactElement<Props> {
+function Workload ({ api, timeslice, value: { core, info }, workplan }: Props): React.ReactElement<Props> {
   const [isExpanded, toggleIsExpanded] = useToggle(false);
-
-  const infoVec: [PalletBrokerCoretimeInterfaceCoreAssignment, number][] = [];
-
+  const [tableData, setTableData] = useState<InfoRow[]>();
+  const [currentRegion, setCurrentRegion] = useState<RegionInfo | undefined>();
   const regionInfo = useRegions(api);
 
-  regionInfo?.filter((v) => v.core === core && v.start >= timeslice && v.mask === info[0].mask.toHex());
+  useEffect(() => {
+    if (info) {
+      const region = regionInfo?.find((v) => v.core === core && v.start <= timeslice && v.end > timeslice);
 
-  info.forEach((data) => {
-    const trimmedHex: string = data.mask.toHex().slice(2);
-    const arr: string[] = trimmedHex.split('');
-    const buffArr: string[] = [];
+      setTableData(formatWorkInfo(info, core, region, timeslice));
+      setCurrentRegion(region);
+    }
+  }, [info, regionInfo, core, timeslice]);
 
-    arr.forEach((bit) => {
-      hexToBin(bit).split('').forEach((v) => buffArr.push(v));
-    });
-    buffArr.filter((v) => v === '1');
-    infoVec.push([data.assignment, buffArr.length / 80 * 100]);
-  });
-
-  const needsExpansion = infoVec.length > 1;
+  const hasWorkplan = !!workplan?.length;
 
   return (
     <>
       {
-        infoVec.map((data, index) => (
-          <tr key={index}>
-            <td>
-              <h5>{'Assignment'}</h5>
-              {data[0].isTask ? data[0].asTask.toString() : data[0].toString()}
-            </td>
-            <td>
-              <h5>{'Mask'}</h5>
-              {`${data[1]}%`}
-            </td>
-            {needsExpansion && index === 1 &&
-                <ExpandButton
+        tableData?.map((data) => (
+          <tr
+            className={`isExpanded isFirst ${isExpanded ? '' : 'isLast'}`}
+            key={data.core}
+          >
+            <WorkInfoRow data={data} />
+            <td style={{ paddingRight: '2rem', textAlign: 'right', verticalAlign: 'top' }}>
+              <h5 style={{ opacity: '0.6' }}>Workplan ({hasWorkplan})</h5>
+              {hasWorkplan &&
+                (<ExpandButton
                   expanded={isExpanded}
                   onClick={toggleIsExpanded}
-                />}
-            {isExpanded &&
-                <tr>
-                  <td>
-                    <h5>{'Lease start'}</h5>
-                    {regionInfo?.[0].start.toString()}
-                  </td>
-                  <td>
-                    <h5>{'Lease end'}</h5>
-                    {regionInfo?.[0].end.toString()}
-                  </td>
-                </tr>
-            }
+                />)
+              }
+              {!hasWorkplan && 'none'}
+            </td>
           </tr>
         ))
+      }
+      {isExpanded &&
+        <>
+          <tr>
+            <td style={{ fontWeight: 700, paddingTop: '2rem' }}>workplans</td>
+            <td colSpan={6}></td>
+          </tr>
+          {workplan?.map((workplanInfo) => (
+            <Workplan
+              currentTimeSlice={timeslice}
+              isExpanded={isExpanded}
+              key={workplanInfo.core}
+              region={currentRegion}
+              value={workplanInfo}
+            />
+          ))}
+
+        </>
       }
     </>
   );

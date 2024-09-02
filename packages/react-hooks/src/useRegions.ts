@@ -4,19 +4,11 @@
 import type { ApiPromise } from '@polkadot/api';
 import type { Option, StorageKey } from '@polkadot/types';
 import type { PalletBrokerRegionId, PalletBrokerRegionRecord } from '@polkadot/types/lookup';
+import type { RegionInfo } from './types.js';
 
 import { useEffect, useState } from 'react';
 
 import { createNamedHook, useCall, useMapKeys } from '@polkadot/react-hooks';
-
-interface RegionInfo {
-  core: number,
-  start: number,
-  end: number,
-  owner: string,
-  paid: string,
-  mask: `0x${string}`
-}
 
 function extractInfo (core: number, start: number, end: number, owner: string, paid: string, mask: `0x${string}`) {
   return {

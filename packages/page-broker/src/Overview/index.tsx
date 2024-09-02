@@ -8,7 +8,7 @@ import type { PalletBrokerStatusRecord } from '@polkadot/types/lookup';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { Button, Dropdown } from '@polkadot/react-components';
+import { Dropdown, Input } from '@polkadot/react-components';
 import { useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
@@ -28,10 +28,10 @@ interface Props {
 function Overview ({ api, apiEndpoint, className, isReady, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [workloadCoreSelected, setWorkloadCoreSelected] = useState(-1);
+  const [parachainId, setParachainId] = useState('');
   const [coreArr, setCoreArr] = useState<number[]>([]);
 
   useEffect(() => {
-    // Your coreArr initialization logic goes here
     const newCoreArr = Array.from({ length: workloadInfos?.length || 0 }, (_, index) => index);
 
     setCoreArr(newCoreArr);
@@ -42,7 +42,7 @@ function Overview ({ api, apiEndpoint, className, isReady, workloadInfos, workpl
       coreArr
         .map((c) => (
           {
-            text: `Core ${c}`,
+            text: `Core ${c + 1}`,
             value: c
           }
         ))
@@ -79,7 +79,7 @@ function Overview ({ api, apiEndpoint, className, isReady, workloadInfos, workpl
         apiEndpoint={apiEndpoint}
         workloadInfos={workloadInfos}
       ></Summary>
-      <Button.Group>
+      <div>
         <Dropdown
           className='start media--800'
           label={t('selected core')}
@@ -87,7 +87,15 @@ function Overview ({ api, apiEndpoint, className, isReady, workloadInfos, workpl
           options={workloadCoreOpts}
           value={workloadCoreSelected}
         />
-      </Button.Group>
+        <Input
+          autoFocus
+          label={t('parachain id')}
+          onChange={setParachainId}
+          placeholder={t('parachain id')}
+          value={parachainId}
+        />
+
+      </div>
       <CoresTable
         api={api}
         cores={workloadCoreSelected}

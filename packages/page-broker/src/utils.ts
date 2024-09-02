@@ -1,6 +1,100 @@
 // Copyright 2017-2024 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { RegionInfo } from '@polkadot/react-hooks/types';
+import type { PalletBrokerScheduleItem } from '@polkadot/types/lookup';
+import type { InfoRow } from './types.js';
+
+import { BN } from '@polkadot/util';
+
 export function hexToBin (hex: string): string {
   return parseInt(hex, 16).toString(2);
+}
+
+export function processHexMask (mask: PalletBrokerScheduleItem['mask']) {
+  const trimmedHex: string = mask.toHex().slice(2);
+  const arr: string[] = trimmedHex.split('');
+  const buffArr: string[] = [];
+
+  arr.forEach((bit) => {
+    hexToBin(bit).split('').forEach((v) => buffArr.push(v));
+  });
+  buffArr.filter((v) => v === '1');
+
+  return buffArr;
+}
+
+function formatDate (date: Date) {
+  const day = date.getDate();
+  const month = date.toLocaleString('default', { month: 'long' });
+  const year = date.getFullYear();
+
+  return `${day} ${month} ${year}`;
+}
+
+export const estimateTime = (targetBlock: string, latestBlock: number, timestamp: number): string | null => {
+  if (!timestamp || !latestBlock || !targetBlock) {
+    console.error('Invalid input: one or more inputs are missing');
+
+    return null;
+  }
+
+  try {
+    const blockTime = new BN(6000); // Average block time in milliseconds (6 seconds)
+    const timeSlice = new BN(80);
+    const targetBlockBN = new BN(targetBlock).mul(timeSlice);
+    const latestBlockBN = new BN(latestBlock);
+    const timestampBN = new BN(timestamp);
+    const blockDifference = targetBlockBN.sub((latestBlockBN)).abs().mul(blockTime);
+
+    let estTimestamp;
+
+    if (targetBlockBN.lt(latestBlockBN)) {
+      estTimestamp = timestampBN.sub(blockDifference);
+    } else {
+      estTimestamp = timestampBN.add(blockDifference);
+    }
+
+    return formatDate(new Date(estTimestamp.toNumber()));
+  } catch (error) {
+    console.error('Error in calculation:', error);
+
+    return null;
+  }
+};
+
+export function sortByCore<T extends { core: number }> (dataArray?: T | T[]): T[] {
+  if (!dataArray) {
+    return [];
+  }
+
+  const sanitized = Array.isArray(dataArray) ? dataArray : [dataArray];
+
+  return sanitized.sort((a, b) => a.core - b.core);
+}
+
+export function formatWorkInfo (info: PalletBrokerScheduleItem[], core: number, currentRegion: RegionInfo, timeslice: number) {
+  const infoVec: InfoRow[] = [];
+
+  info.forEach((data) => {
+    const maskBits: number = processHexMask(data.mask).length;
+    const isPool = data?.assignment.isPool;
+    const taskId = data?.assignment.isTask ? data?.assignment.asTask.toString() : isPool ? 'Pool' : '';
+    const item: InfoRow = { core, maskBits, taskId };
+
+    if (currentRegion) {
+      const start = currentRegion?.start?.toString() ?? 0;
+      const end = currentRegion?.end?.toString() ?? 0;
+      const blockNumber = timeslice * 80;
+
+      item.start = estimateTime(start, blockNumber, new Date().getTime());
+      item.end = estimateTime(end, blockNumber, new Date().getTime());
+      item.endBlock = Number(end) * 80;
+      item.owner = currentRegion?.owner.toString();
+    }
+
+    infoVec.push(item);
+  });
+
+  return infoVec;
 }

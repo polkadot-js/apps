@@ -9,12 +9,11 @@ import React, { useRef } from 'react';
 import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate.js';
-import Workloads from './Workloads.js';
-import Workplans from './Workplans.js';
+import Workload from './Workload.js';
 
 interface Props {
   api: ApiPromise;
-  core?: number;
+  core: number;
   workload?: CoreWorkloadInfo[],
   workplan?: CoreWorkplanInfo[],
   timeslice: number,
@@ -22,31 +21,25 @@ interface Props {
 
 function CoreTable ({ api, core, timeslice, workload, workplan }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-
-  const headerRef = useRef<([React.ReactNode?, string?] | false)[]>([
-    [t('core')],
-    [],
-    []
-  ]);
+  const headerRef = useRef<([React.ReactNode?, string?] | false)[]>([[t('core')]]);
+  const header = [[<div key={`header${core}`}>{headerRef.current} {core + 1} <span></span></div>, 'core', 8]];
 
   return (
     <Table
-      header={headerRef.current}
+      emptySpinner={true}
+      header={header}
+      isSplit={false}
+      key={core}
     >
-      <Table.Column.Id value={core || 0} />
-      <td style={{ verticalAlign: 'top' }}>
-        <Workloads
+      {workload?.map((v) => (
+        <Workload
           api={api}
+          key={v.core}
           timeslice={timeslice}
-          workloadInfos={workload}
+          value={v}
+          workplan={workplan}
         />
-      </td>
-      <td style={{ verticalAlign: 'top' }}>
-        <Workplans
-          api={api}
-          workplanInfos={workplan}
-        />
-      </td>
+      ))}
     </Table>
   );
 }

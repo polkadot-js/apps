@@ -238,3 +238,12 @@ export interface CoreWorkplanInfo {
   core: number;
   info: PalletBrokerScheduleItem[];
 }
+
+export interface RegionInfo {
+  core: number,
+  start: number,
+  end: number,
+  owner: string,
+  paid: string,
+  mask: `0x${string}`
+}

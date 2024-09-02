@@ -2,75 +2,57 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { CoreWorkplanInfo } from '@polkadot/react-hooks/types';
-import type { PalletBrokerCoretimeInterfaceCoreAssignment } from '@polkadot/types/lookup';
+import type { CoreWorkplanInfo, RegionInfo } from '@polkadot/react-hooks/types';
+import type { InfoRow } from '../types.js';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { ExpandButton } from '@polkadot/react-components';
-import { useRegions, useToggle } from '@polkadot/react-hooks';
+import { Spinner } from '@polkadot/react-components';
 
-import { hexToBin } from '../utils.js';
+import { formatWorkInfo } from '../utils.js';
+import WorkInfoRow from './WorkInfoRow.js';
 
 interface Props {
   className?: string;
   api: ApiPromise;
   value: CoreWorkplanInfo;
+  currentTimeSlice: number
+  isExpanded: boolean
+  region: RegionInfo
 }
 
-function Workplan ({ api, value: { core, info, timeslice } }: Props): React.ReactElement<Props> {
-  const [isExpanded, toggleIsExpanded] = useToggle(false);
-  const infoVec: [PalletBrokerCoretimeInterfaceCoreAssignment, number][] = [];
+function Workplan ({ currentTimeSlice, isExpanded, region, value: { core, info } }: Props): React.ReactElement<Props> {
+  const [tableData, setTableData] = useState<InfoRow[]>();
 
-  info.forEach((data) => {
-    const trimmedHex: string = data.mask.toHex().slice(2);
-    const arr: string[] = trimmedHex.split('');
-    const buffArr: string[] = [];
+  useEffect(() => {
+    setTableData(formatWorkInfo(info, core, region, currentTimeSlice));
+  }, [info, region, core, currentTimeSlice]);
 
-    arr.forEach((bit) => {
-      hexToBin(bit).split('').forEach((v) => buffArr.push(v));
-    });
-    buffArr.filter((v) => v === '1');
-    infoVec.push([data.assignment, buffArr.length / 80 * 100]);
-  });
-
-  const needsExpansion = infoVec.length > 1;
-
-  const regionInfo = useRegions(api);
-
-  regionInfo?.filter((v) => v.core === core && v.start >= timeslice);
+  if (!tableData?.length) {
+    return (
+      <tr
+        className={` ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'}`}
+        style={{ minHeight: '100px' }}
+      >
+        <td> <Spinner /> </td>
+        <td colSpan={6}></td>
+      </tr>
+    );
+  }
 
   return (
     <>
-      {infoVec.map((data, index) => (
-        <tr key={index}>
-          <td>
-            <h5>{'Assignment'}</h5>
-            {data[0].isTask ? data[0].asTask.toString() : data[0].toString()}
-          </td>
-          <td>
-            <h5>{'Mask'}</h5>
-            {`${data[1]}%`}
-          </td>
-          {needsExpansion && index === 1 &&
-            <ExpandButton
-              expanded={isExpanded}
-              onClick={toggleIsExpanded}
-            />}
-          {isExpanded &&
-            <tr>
-              <td>
-                <h5>{'Lease start'}</h5>
-                {regionInfo?.[0].start.toString()}
-              </td>
-              <td>
-                <h5>{'Lease end'}</h5>
-                {regionInfo?.[0].end.toString()}
-              </td>
-            </tr>
-          }
+      {tableData?.map((data) => (
+        <tr
+          className={` ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'}`}
+          key={data.core}
+          style={{ minHeight: '100px' }}
+        >
+          <WorkInfoRow data={data} />
+          <td />
         </tr>
       ))}
+
     </>
   );
 }

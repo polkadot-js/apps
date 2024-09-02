@@ -7,7 +7,7 @@ import type { CoreWorkloadInfo } from '@polkadot/react-hooks/types';
 import React from 'react';
 
 import { CardSummary, SummaryBox, UsageBar } from '@polkadot/react-components';
-import { useApi, useCurrentPrice, useRenewalBump } from '@polkadot/react-hooks';
+import { useApi, useBrokerStatus, useCurrentPrice, useRenewalBump } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
 import Cores from './Cores.js';
@@ -21,11 +21,38 @@ interface Props {
   workloadInfos?: CoreWorkloadInfo[] | CoreWorkloadInfo
 }
 
-function Summary ({ apiEndpoint, workloadInfos }: Props): React.ReactElement {
+interface statsType {
+  idles: number,
+  pools: number,
+  tasks: number
+}
+
+function Summary ({ workloadInfos }: Props): React.ReactElement {
   const { t } = useTranslation();
   const { api } = useApi();
   const renewalBump = useRenewalBump();
   const currentPrice = useCurrentPrice();
+  const totalCores = useBrokerStatus('coreCount');
+
+  const { idles, pools, tasks }: statsType = React.useMemo(() => {
+    if (!totalCores || !workloadInfos) {
+      return { idles: 0, pools: 0, tasks: 0 };
+    }
+
+    let [idles, pools, tasks] = [0, 0, 0];
+    const sanitized: CoreWorkloadInfo[] = Array.isArray(workloadInfos) ? workloadInfos : [workloadInfos];
+
+    sanitized.forEach((v) => {
+      if (v.info[0].assignment.isTask) {
+        ++tasks;
+      } else if (v.info[0].assignment.isPool) {
+        ++pools;
+      }
+    });
+    idles = Number(totalCores) - (pools + tasks);
+
+    return { idles, pools, tasks };
+  }, [totalCores, workloadInfos]);
 
   return (
     <SummaryBox>
@@ -54,8 +81,11 @@ function Summary ({ apiEndpoint, workloadInfos }: Props): React.ReactElement {
 
         )}
         <UsageBar
-          apiEndpoint={apiEndpoint}
-          info={workloadInfos}
+          data={[
+            { color: '#04AA6D', label: 'Pools', value: idles },
+            { color: '#FFFFFF', label: 'Idle', value: pools },
+            { color: '#f19135', label: 'Tasks', value: tasks }]
+          }
         ></UsageBar>
       </section>
     </SummaryBox>
