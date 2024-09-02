@@ -71,9 +71,6 @@ jobs:
     runs-on: ubuntu-20.04
     environment: prod
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
       - name: Set up Kubectl
         uses: azure/setup-kubectl@v1
         with:
@@ -86,5 +83,5 @@ jobs:
    
       - name: Deploy to Kubernetes
         run: |
-          kubectl set image deployment/explorer explorer=availj/explorer:v1.12
+          kubectl -v=7 set image deployment/explorer explorer=availj/explorer:v1.12
           
