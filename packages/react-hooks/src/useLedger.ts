@@ -1,12 +1,16 @@
 // Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// This is for the use of `Ledger`
+//
+/* eslint-disable deprecation/deprecation */
+
 import type { ApiPromise } from '@polkadot/api';
 import type { TransportType } from '@polkadot/hw-ledger-transports/types';
 
 import { useCallback, useMemo } from 'react';
 
-import { LedgerGeneric } from '@polkadot/hw-ledger';
+import { Ledger, LedgerGeneric } from '@polkadot/hw-ledger';
 import { knownGenesis, knownLedger } from '@polkadot/networks/defaults';
 import { settings } from '@polkadot/ui-settings';
 import { assert } from '@polkadot/util';
@@ -22,7 +26,7 @@ interface StateBase {
 }
 
 interface State extends StateBase {
-  getLedger: () => LedgerGeneric;
+  getLedger: () => LedgerGeneric | Ledger;
 }
 
 const EMPTY_STATE: StateBase = {
@@ -37,11 +41,11 @@ const ledgerChains = Object
   .keys(knownGenesis)
   .filter((n) => knownLedger[n]);
 const ledgerHashes = ledgerChains.reduce<string[]>((all, n) => [...all, ...knownGenesis[n]], []);
-let ledger: LedgerGeneric | null = null;
+let ledger: LedgerGeneric | Ledger | null = null;
 let ledgerType: TransportType | null = null;
 let ledgerApp: string | null;
 
-function retrieveLedger (api: ApiPromise): LedgerGeneric {
+function retrieveLedger (api: ApiPromise): LedgerGeneric | Ledger {
   const currType = settings.get().ledgerConn as TransportType;
   const currApp = settings.get().ledgerApp;
 
@@ -57,6 +61,8 @@ function retrieveLedger (api: ApiPromise): LedgerGeneric {
       ledger = new LedgerGeneric(currType, network, knownLedger.polkadot);
     } else if (currApp === 'migration') {
       ledger = new LedgerGeneric(currType, network, knownLedger[network]);
+    } else if (currApp === 'chainSpecific') {
+      ledger = new Ledger(currType, network);
     } else {
       // This will never get touched since it will always hit the above two. This satisfies the compiler.
       ledger = new LedgerGeneric(currType, network, knownLedger.polkadot);

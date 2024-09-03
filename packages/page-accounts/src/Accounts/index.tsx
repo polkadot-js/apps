@@ -140,7 +140,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
             locked: aggregate('locked'),
             redeemable: aggregate('redeemable'),
             total: aggregate('total'),
-            transferrable: aggregate('transferrable'),
+            transferable: aggregate('transferable'),
             unbonding: aggregate('unbonding')
           }
         };

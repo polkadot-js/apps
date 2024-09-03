@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types.js';
 
 import { chainsFrequencyPaseoSVG, chainsLaosSigmaPNG, chainsPaseoPNG, chainsPopNetworkSVG } from '@polkadot/apps-config/ui/logos/chains';
-import { nodesAjunaPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBifrostSVG, nodesDarwiniaKoiSVG, nodesHyperbridgeSVG, nodesIntegriteeSVG, nodesKiltPNG, nodesMandalaPNG, nodesMusePNG, nodesNodleSVG } from '@polkadot/apps-config/ui/logos/nodes';
+import { nodesAjunaPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBifrostSVG, nodesDarwiniaKoiSVG, nodesHyperbridgePNG, nodesIntegriteeSVG, nodesKiltPNG, nodesMandalaPNG, nodesMusePNG, nodesNodleSVG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
 // import { testnetParachainSVG } from '../ui/logos/nodes/index.js';
@@ -119,7 +119,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     text: 'Hyperbridge (Gargantua)',
     ui: {
       color: '#ED6FF1',
-      logo: nodesHyperbridgeSVG
+      logo: nodesHyperbridgePNG
     }
   },
   {
@@ -210,7 +210,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     },
     text: 'Pop Network',
     ui: {
-      color: '#1C0533',
+      color: 'linear-gradient(to right, rgb(230, 0, 122), rgb(83, 15, 160))',
       logo: chainsPopNetworkSVG
     }
   }
@@ -224,7 +224,8 @@ export const testParasPaseoCommon: EndpointOption[] = [
       Dwellir: 'wss://asset-hub-paseo-rpc.dwellir.com',
       IBP1: 'wss://sys.ibp.network/asset-hub-paseo',
       IBP2: 'wss://sys.dotters.network/asset-hub-paseo',
-      StakeWorld: 'wss://pas-rpc.stakeworld.io/assethub'
+      StakeWorld: 'wss://pas-rpc.stakeworld.io/assethub',
+      TurboFlakes: 'wss://sys.turboflakes.io/asset-hub-paseo'
     },
     teleport: [-1],
     text: 'AssetHub',

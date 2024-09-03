@@ -4,9 +4,9 @@
 import type { PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
-export type PalletReferenda = 'referenda' | 'rankedPolls' | 'fellowshipReferenda';
+export type PalletReferenda = 'referenda' | 'rankedPolls' | 'fellowshipReferenda'| 'ambassadorReferenda';
 
-export type PalletVote = 'convictionVoting' | 'rankedCollective' | 'fellowshipCollective';
+export type PalletVote = 'convictionVoting' | 'rankedCollective' | 'fellowshipCollective' | 'ambassadorCollective';
 
 export interface ReferendaGroup {
   key: string;

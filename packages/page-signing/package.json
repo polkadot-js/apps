@@ -14,9 +14,9 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.142.2-11-x",
+  "version": "0.143.3-11-x",
   "dependencies": {
-    "@polkadot/react-components": "^0.142.2-11-x"
+    "@polkadot/react-components": "^0.143.3-11-x"
   },
   "peerDependencies": {
     "react": "*",

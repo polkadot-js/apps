@@ -252,14 +252,14 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
       />
     </React.Fragment>
   );
-  balancesAll && balanceDisplay.available && deriveBalances.availableBalance && allItems.push(
+  balancesAll && balanceDisplay.available && (deriveBalances.transferable || deriveBalances.availableBalance) && allItems.push(
     <React.Fragment key={1}>
-      <Label label={t('transferrable')} />
+      <Label label={t('transferable')} />
       <FormatBalance
         className='result'
         formatIndex={formatIndex}
         labelPost={<IconVoid />}
-        value={deriveBalances.availableBalance}
+        value={deriveBalances.transferable || deriveBalances.availableBalance}
       />
     </React.Fragment>
   );

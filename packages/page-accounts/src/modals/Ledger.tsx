@@ -1,8 +1,12 @@
 // Copyright 2017-2024 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// This is for the use of `Ledger`
+//
+/* eslint-disable deprecation/deprecation */
+
 import type { ApiPromise } from '@polkadot/api';
-import type { LedgerGeneric } from '@polkadot/hw-ledger';
+import type { Ledger, LedgerGeneric } from '@polkadot/hw-ledger';
 
 import React, { useCallback, useRef, useState } from 'react';
 
@@ -28,8 +32,20 @@ interface Props {
 export const AVAIL_INDEXES = arrayRange(20);
 
 // query the ledger for the address, adding it to the keyring
-async function queryLedger (api: ApiPromise, getLedger: () => LedgerGeneric, name: string, accountOffset: number, addressOffset: number, ss58Prefix: number): Promise<void> {
-  const { address } = await getLedger().getAddress(ss58Prefix, false, accountOffset, addressOffset);
+async function queryLedger (api: ApiPromise, getLedger: () => LedgerGeneric | Ledger, name: string, accountOffset: number, addressOffset: number, ss58Prefix: number): Promise<void> {
+  let address: string;
+  const currApp = settings.get().ledgerApp;
+
+  if (currApp === 'migration' || currApp === 'generic') {
+    const addr = await (getLedger() as LedgerGeneric).getAddress(ss58Prefix, false, accountOffset, addressOffset);
+
+    address = addr.address;
+  } else {
+    // This will always be the `chainSpecific` setting if the above condition is not met
+    const addr = await (getLedger() as Ledger).getAddress(false, accountOffset, addressOffset);
+
+    address = addr.address;
+  }
 
   keyring.addHardware(address, 'ledger', {
     accountOffset,
