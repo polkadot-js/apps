@@ -15,44 +15,22 @@ import RegionLength from './RegionLength.js';
 import RenewalPrice from './RenewalPrice.js';
 import Timeslice from './Timeslice.js';
 import TimeslicePeriod from './TimeslicePeriod.js';
+import { statsType } from '../types.js';
+import { getStats } from '../utils.js';
 
 interface Props {
   apiEndpoint?: LinkOption | null;
   workloadInfos?: CoreWorkloadInfo[] | CoreWorkloadInfo
 }
 
-interface statsType {
-  idles: number,
-  pools: number,
-  tasks: number
-}
-
-function Summary ({ workloadInfos }: Props): React.ReactElement {
+function Summary({ workloadInfos }: Props): React.ReactElement {
   const { t } = useTranslation();
-  const { api } = useApi();
+  const { api, apiEndpoint } = useApi();
   const renewalBump = useRenewalBump();
   const currentPrice = useCurrentPrice();
   const totalCores = useBrokerStatus('coreCount');
-
-  const { idles, pools, tasks }: statsType = React.useMemo(() => {
-    if (!totalCores || !workloadInfos) {
-      return { idles: 0, pools: 0, tasks: 0 };
-    }
-
-    let [idles, pools, tasks] = [0, 0, 0];
-    const sanitized: CoreWorkloadInfo[] = Array.isArray(workloadInfos) ? workloadInfos : [workloadInfos];
-
-    sanitized.forEach((v) => {
-      if (v.info[0].assignment.isTask) {
-        ++tasks;
-      } else if (v.info[0].assignment.isPool) {
-        ++pools;
-      }
-    });
-    idles = Number(totalCores) - (pools + tasks);
-
-    return { idles, pools, tasks };
-  }, [totalCores, workloadInfos]);
+  const uiHighlight =  apiEndpoint?.ui.color
+  const { idles, pools, tasks }: statsType = React.useMemo(() => getStats(totalCores, workloadInfos), [totalCores, workloadInfos]);
 
   return (
     <SummaryBox>
@@ -80,13 +58,14 @@ function Summary ({ workloadInfos }: Props): React.ReactElement {
           </>
 
         )}
-        <UsageBar
+
+       {!!uiHighlight && <UsageBar
           data={[
             { color: '#04AA6D', label: 'Pools', value: idles },
             { color: '#FFFFFF', label: 'Idle', value: pools },
-            { color: '#f19135', label: 'Tasks', value: tasks }]
+            { color: uiHighlight, label: 'Tasks', value: tasks }]
           }
-        ></UsageBar>
+        ></UsageBar>}
       </section>
     </SummaryBox>
   );

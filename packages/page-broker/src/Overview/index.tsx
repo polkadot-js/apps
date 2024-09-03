@@ -27,23 +27,15 @@ interface Props {
 
 const filterLoad = (parachainId: string, load: CoreWorkloadInfo[] | CoreWorkplanInfo[], workloadCoreSelected: number) => {
   if (parachainId) {
-    return load?.filter(({ info }) => {
-      if (info?.[0]?.assignment.isTask) {
-        return info?.[0]?.assignment.isTask ? info?.[0]?.assignment.asTask.toString() === parachainId : false;
-      }
-
-      return false;
-    });
+    return load?.filter(({ info }) => info?.[0]?.assignment.isTask ? info?.[0]?.assignment.asTask.toString() === parachainId : false);
   }
-
   if (workloadCoreSelected === -1) {
     return load;
-  } else {
-    return load?.filter(({ core }) => core === workloadCoreSelected);
   }
+  return load?.filter(({ core }) => core === workloadCoreSelected);
 };
 
-function Overview ({ api, apiEndpoint, className, isReady, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
+function Overview({ api, apiEndpoint, className, isReady, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [workloadCoreSelected, setWorkloadCoreSelected] = useState(-1);
   const [_parachainId, setParachainId] = useState<string>('');
@@ -69,6 +61,7 @@ function Overview ({ api, apiEndpoint, className, isReady, workloadInfos, workpl
     ),
     [coreArr, t]
   );
+
   const filteredWLC = useMemo(
     () => workloadInfos && filterLoad(parachainId, workloadInfos, workloadCoreSelected),
     [workloadInfos, workloadCoreSelected, parachainId]
@@ -79,12 +72,12 @@ function Overview ({ api, apiEndpoint, className, isReady, workloadInfos, workpl
     [workplanInfos, workloadCoreSelected, parachainId]
   );
 
-  function onDropDownChange (v: number) {
+  function onDropDownChange(v: number) {
     setWorkloadCoreSelected(v);
     setParachainId('');
   }
 
-  function onInputChange (v: string) {
+  function onInputChange(v: string) {
     setParachainId(v);
     setWorkloadCoreSelected(-1);
   }

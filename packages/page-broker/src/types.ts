@@ -3,7 +3,7 @@
 
 import type { CoreWorkloadInfo, CoreWorkplanInfo } from '@polkadot/react-hooks/types';
 
-export interface InfoRow {
+export type InfoRow = {
   taskId: string | null,
   maskBits: number,
   core: number
@@ -15,8 +15,14 @@ export interface InfoRow {
   endBlock?: number
 }
 
-export interface CoreInfo {
+export type CoreInfo = {
   core: number,
   workload: CoreWorkloadInfo[],
   workplan: CoreWorkplanInfo[]
+}
+
+export type statsType = {
+  idles: number,
+  pools: number,
+  tasks: number
 }
