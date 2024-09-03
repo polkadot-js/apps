@@ -84,4 +84,3 @@ jobs:
       - name: Deploy to Kubernetes
         run: |
           kubectl -v=7 set image deployment/explorer explorer=availj/explorer:v1.12
-          
