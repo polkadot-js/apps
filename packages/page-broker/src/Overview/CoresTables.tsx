@@ -29,7 +29,7 @@ function CoresTable ({ api, cores, timeslice, workloadInfos, workplanInfos }: Pr
   const sanitizedPlan: CoreWorkplanInfo[] = sortByCore(workplanInfos);
 
   if (cores === -1 && !!sanitizedLoad) {
-    coreArr.push(...sanitizedPlan.map((_, index) => index));
+    coreArr.push(...sanitizedLoad.map((plan) => plan.core));
   } else if (cores !== undefined) {
     coreArr.push(cores);
   }

@@ -1,7 +1,6 @@
 // Copyright 2017-2024 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiPromise } from '@polkadot/api';
 import type { CoreWorkplanInfo, RegionInfo } from '@polkadot/react-hooks/types';
 import type { InfoRow } from '../types.js';
 
@@ -14,11 +13,10 @@ import WorkInfoRow from './WorkInfoRow.js';
 
 interface Props {
   className?: string;
-  api: ApiPromise;
   value: CoreWorkplanInfo;
   currentTimeSlice: number
   isExpanded: boolean
-  region: RegionInfo
+  region: RegionInfo | undefined
 }
 
 function Workplan ({ currentTimeSlice, isExpanded, region, value: { core, info } }: Props): React.ReactElement<Props> {

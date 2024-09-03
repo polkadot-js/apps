@@ -9,7 +9,7 @@ import type { PalletBrokerStatusRecord } from '@polkadot/types/lookup';
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { Dropdown, Input } from '@polkadot/react-components';
-import { useCall } from '@polkadot/react-hooks';
+import { useCall, useDebounce } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
 import CoresTable from './CoresTables.js';
@@ -25,10 +25,29 @@ interface Props {
   isReady: boolean;
 }
 
+const filterLoad = (parachainId: string, load: CoreWorkloadInfo[] | CoreWorkplanInfo[], workloadCoreSelected: number) => {
+  if (parachainId) {
+    return load?.filter(({ info }) => {
+      if (info?.[0]?.assignment.isTask) {
+        return info?.[0]?.assignment.isTask ? info?.[0]?.assignment.asTask.toString() === parachainId : false;
+      }
+
+      return false;
+    });
+  }
+
+  if (workloadCoreSelected === -1) {
+    return load;
+  } else {
+    return load?.filter(({ core }) => core === workloadCoreSelected);
+  }
+};
+
 function Overview ({ api, apiEndpoint, className, isReady, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [workloadCoreSelected, setWorkloadCoreSelected] = useState(-1);
-  const [parachainId, setParachainId] = useState('');
+  const [_parachainId, setParachainId] = useState<string>('');
+  const parachainId = useDebounce(_parachainId);
   const [coreArr, setCoreArr] = useState<number[]>([]);
 
   useEffect(() => {
@@ -42,7 +61,7 @@ function Overview ({ api, apiEndpoint, className, isReady, workloadInfos, workpl
       coreArr
         .map((c) => (
           {
-            text: `Core ${c + 1}`,
+            text: `Core ${c}`,
             value: c
           }
         ))
@@ -51,23 +70,24 @@ function Overview ({ api, apiEndpoint, className, isReady, workloadInfos, workpl
     [coreArr, t]
   );
   const filteredWLC = useMemo(
-    () => {
-      return workloadCoreSelected === -1 ? workloadInfos : workloadInfos?.filter(({ core }) => core === workloadCoreSelected);
-    },
-    [workloadInfos, workloadCoreSelected]
+    () => workloadInfos && filterLoad(parachainId, workloadInfos, workloadCoreSelected),
+    [workloadInfos, workloadCoreSelected, parachainId]
   );
 
   const filteredWorkplan = useMemo(
-    () => {
-      if (workloadCoreSelected === -1) {
-        return workplanInfos;
-      } else {
-        return workplanInfos?.filter(({ core }) => core === workloadCoreSelected);
-      }
-    }
-    ,
-    [workplanInfos, workloadCoreSelected]
+    () => workplanInfos && filterLoad(parachainId, workplanInfos, workloadCoreSelected),
+    [workplanInfos, workloadCoreSelected, parachainId]
   );
+
+  function onDropDownChange (v: number) {
+    setWorkloadCoreSelected(v);
+    setParachainId('');
+  }
+
+  function onInputChange (v: string) {
+    setParachainId(v);
+    setWorkloadCoreSelected(-1);
+  }
 
   const status = useCall<PalletBrokerStatusRecord>(isReady && api.query.broker?.status);
   const timeslice = status?.toHuman().lastCommittedTimeslice?.toString();
@@ -79,21 +99,22 @@ function Overview ({ api, apiEndpoint, className, isReady, workloadInfos, workpl
         apiEndpoint={apiEndpoint}
         workloadInfos={workloadInfos}
       ></Summary>
-      <div>
+      <div style={{ display: 'flex' }}>
         <Dropdown
-          className='start media--800'
+          className=''
           label={t('selected core')}
-          onChange={setWorkloadCoreSelected}
+          onChange={onDropDownChange}
           options={workloadCoreOpts}
           value={workloadCoreSelected}
         />
-        <Input
-          autoFocus
-          label={t('parachain id')}
-          onChange={setParachainId}
-          placeholder={t('parachain id')}
-          value={parachainId}
-        />
+        <div style={{ minWidth: '150px' }}>
+          <Input
+            className='full'
+            label={t('parachain id')}
+            onChange={onInputChange}
+            placeholder={t('parachain id')}
+            value={_parachainId}
+          /></div>
 
       </div>
       <CoresTable

@@ -29,7 +29,7 @@ function Workload ({ api, timeslice, value: { core, info }, workplan }: Props): 
 
   useEffect(() => {
     if (info) {
-      const region = regionInfo?.find((v) => v.core === core && v.start <= timeslice && v.end > timeslice);
+      const region: RegionInfo | undefined = regionInfo?.find((v) => v.core === core && v.start <= timeslice && v.end > timeslice);
 
       setTableData(formatWorkInfo(info, core, region, timeslice));
       setCurrentRegion(region);
@@ -48,7 +48,7 @@ function Workload ({ api, timeslice, value: { core, info }, workplan }: Props): 
           >
             <WorkInfoRow data={data} />
             <td style={{ paddingRight: '2rem', textAlign: 'right', verticalAlign: 'top' }}>
-              <h5 style={{ opacity: '0.6' }}>Workplan ({hasWorkplan})</h5>
+              <h5 style={{ opacity: '0.6' }}>Workplan ({workplan?.length})</h5>
               {hasWorkplan &&
                 (<ExpandButton
                   expanded={isExpanded}

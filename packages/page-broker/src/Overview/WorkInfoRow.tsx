@@ -10,7 +10,7 @@ import { AddressMini } from '@polkadot/react-components';
 const TableCol = ({ className, header, value }: { header: string, value: string | number | null | undefined, className?: React.CSSProperties}) =>
   <td style={{ ...className, verticalAlign: 'top' }}>
     <h5 style={{ opacity: '0.6' }}>{header}</h5>
-    <p>{value}</p>
+    <p style={{ fontSize: '16px' }}>{value}</p>
   </td>;
 
 function WorkInfoRow ({ data }: {data: InfoRow}): React.ReactElement {
