@@ -26,7 +26,7 @@ export function processHexMask (mask: PalletBrokerScheduleItem['mask']) {
 
 function formatDate (date: Date) {
   const day = date.getDate();
-  const month = date.toLocaleString('default', { month: 'long' });
+  const month = date.toLocaleString('default', { month: 'short' });
   const year = date.getFullYear();
 
   return `${day} ${month} ${year}`;
@@ -73,7 +73,7 @@ export function sortByCore<T extends { core: number }> (dataArray?: T | T[]): T[
   return sanitized.sort((a, b) => a.core - b.core);
 }
 
-export function formatWorkInfo (info: PalletBrokerScheduleItem[], core: number, currentRegion: RegionInfo, timeslice: number) {
+export function formatWorkInfo (info: PalletBrokerScheduleItem[], core: number, currentRegion: RegionInfo | undefined, timeslice: number) {
   const infoVec: InfoRow[] = [];
 
   info.forEach((data) => {

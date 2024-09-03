@@ -8,6 +8,7 @@ import React from 'react';
 
 import { sortByCore } from '../utils.js';
 import CoreTable from './CoreTable.js';
+import { CoreInfo } from '../types.js';
 
 interface Props {
   api: ApiPromise;
@@ -15,12 +16,6 @@ interface Props {
   workloadInfos?: CoreWorkloadInfo[] | CoreWorkloadInfo;
   workplanInfos?: CoreWorkplanInfo[] | CoreWorkplanInfo;
   timeslice: number;
-}
-
-interface CoreInfo {
-  core: number,
-  workload: CoreWorkloadInfo[],
-  workplan: CoreWorkplanInfo[]
 }
 
 function CoresTable ({ api, cores, timeslice, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {

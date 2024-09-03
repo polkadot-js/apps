@@ -1,6 +1,8 @@
 // Copyright 2017-2024 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CoreWorkloadInfo, CoreWorkplanInfo } from '@polkadot/react-hooks/types';
+
 export interface InfoRow {
   taskId: string | null,
   maskBits: number,
@@ -11,4 +13,10 @@ export interface InfoRow {
   owner?: string
   leaseLength?: number
   endBlock?: number
+}
+
+export interface CoreInfo {
+  core: number,
+  workload: CoreWorkloadInfo[],
+  workplan: CoreWorkplanInfo[]
 }
