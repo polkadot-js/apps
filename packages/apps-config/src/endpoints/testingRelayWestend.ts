@@ -182,7 +182,9 @@ export const testParasWestendCommon: EndpointOption[] = [
     relayName: 'westend',
     teleport: [-1],
     text: 'Coretime',
-    ui: {}
+    ui: {
+      color: '#f19135'
+    }
   },
   {
     info: 'westendPeople',

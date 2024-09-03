@@ -746,7 +746,9 @@ export const testParasRococoCommon: EndpointOption[] = [
     relayName: 'rococo',
     teleport: [-1],
     text: 'Coretime',
-    ui: {}
+    ui: {
+      color: '#f19135'
+    }
   },
   {
     homepage: 'https://encointer.org/',
