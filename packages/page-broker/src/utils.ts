@@ -7,11 +7,11 @@ import type { InfoRow } from './types.js';
 
 import { BN } from '@polkadot/util';
 
-export function hexToBin(hex: string): string {
+export function hexToBin (hex: string): string {
   return parseInt(hex, 16).toString(2);
 }
 
-export function processHexMask(mask: PalletBrokerScheduleItem['mask']) {
+export function processHexMask (mask: PalletBrokerScheduleItem['mask']) {
   const trimmedHex: string = mask.toHex().slice(2);
   const arr: string[] = trimmedHex.split('');
   const buffArr: string[] = [];
@@ -24,7 +24,7 @@ export function processHexMask(mask: PalletBrokerScheduleItem['mask']) {
   return buffArr;
 }
 
-function formatDate(date: Date) {
+function formatDate (date: Date) {
   const day = date.getDate();
   const month = date.toLocaleString('default', { month: 'short' });
   const year = date.getFullYear();
@@ -63,17 +63,15 @@ export const estimateTime = (targetBlock: string, latestBlock: number, timestamp
   }
 };
 
-export function sortByCore<T extends { core: number }>(dataArray?: T | T[]): T[] {
+export function sortByCore<T extends { core: number }> (dataArray?: T | T[]): T[] {
   if (!dataArray) {
     return [];
   }
-
   const sanitized = Array.isArray(dataArray) ? dataArray : [dataArray];
-
   return sanitized.sort((a, b) => a.core - b.core);
 }
 
-export function formatWorkInfo(info: PalletBrokerScheduleItem[], core: number, currentRegion: RegionInfo | undefined, timeslice: number) {
+export function formatWorkInfo (info: PalletBrokerScheduleItem[], core: number, currentRegion: RegionInfo | undefined, timeslice: number) {
   const infoVec: InfoRow[] = [];
 
   info.forEach((data) => {
@@ -99,11 +97,11 @@ export function formatWorkInfo(info: PalletBrokerScheduleItem[], core: number, c
   return infoVec;
 }
 
-
-export function getStats(totalCores: string | undefined, workloadInfos: CoreWorkloadInfo[] | CoreWorkloadInfo | undefined) {
+export function getStats (totalCores: string | undefined, workloadInfos: CoreWorkloadInfo[] | CoreWorkloadInfo | undefined) {
   if (!totalCores || !workloadInfos) {
     return { idles: 0, pools: 0, tasks: 0 };
   }
+
   const sanitized: CoreWorkloadInfo[] = Array.isArray(workloadInfos) ? workloadInfos : [workloadInfos];
 
   const { pools, tasks } = sanitized.reduce(
@@ -113,6 +111,7 @@ export function getStats(totalCores: string | undefined, workloadInfos: CoreWork
       } else if (info[0].assignment.isPool) {
         acc.pools += 1;
       }
+
       return acc;
     },
     { pools: 0, tasks: 0 }
@@ -120,5 +119,4 @@ export function getStats(totalCores: string | undefined, workloadInfos: CoreWork
   const idles = Number(totalCores) - (pools + tasks);
 
   return { idles, pools, tasks };
-
 }

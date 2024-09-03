@@ -3,12 +3,12 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { CoreWorkloadInfo, CoreWorkplanInfo } from '@polkadot/react-hooks/types';
+import type { CoreInfo } from '../types.js';
 
 import React from 'react';
 
 import { sortByCore } from '../utils.js';
 import CoreTable from './CoreTable.js';
-import { CoreInfo } from '../types.js';
 
 interface Props {
   api: ApiPromise;

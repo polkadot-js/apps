@@ -29,13 +29,15 @@ const filterLoad = (parachainId: string, load: CoreWorkloadInfo[] | CoreWorkplan
   if (parachainId) {
     return load?.filter(({ info }) => info?.[0]?.assignment.isTask ? info?.[0]?.assignment.asTask.toString() === parachainId : false);
   }
+
   if (workloadCoreSelected === -1) {
     return load;
   }
+
   return load?.filter(({ core }) => core === workloadCoreSelected);
 };
 
-function Overview({ api, apiEndpoint, className, isReady, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
+function Overview ({ api, apiEndpoint, className, isReady, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [workloadCoreSelected, setWorkloadCoreSelected] = useState(-1);
   const [_parachainId, setParachainId] = useState<string>('');
@@ -72,12 +74,12 @@ function Overview({ api, apiEndpoint, className, isReady, workloadInfos, workpla
     [workplanInfos, workloadCoreSelected, parachainId]
   );
 
-  function onDropDownChange(v: number) {
+  function onDropDownChange (v: number) {
     setWorkloadCoreSelected(v);
     setParachainId('');
   }
 
-  function onInputChange(v: string) {
+  function onInputChange (v: string) {
     setParachainId(v);
     setWorkloadCoreSelected(-1);
   }
