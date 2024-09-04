@@ -67,7 +67,9 @@ export function sortByCore<T extends { core: number }> (dataArray?: T | T[]): T[
   if (!dataArray) {
     return [];
   }
+
   const sanitized = Array.isArray(dataArray) ? dataArray : [dataArray];
+
   return sanitized.sort((a, b) => a.core - b.core);
 }
 

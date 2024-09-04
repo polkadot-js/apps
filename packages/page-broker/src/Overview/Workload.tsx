@@ -48,7 +48,7 @@ function Workload ({ api, timeslice, value: { core, info }, workplan }: Props): 
           >
             <WorkInfoRow data={data} />
             <td style={{ paddingRight: '2rem', textAlign: 'right', verticalAlign: 'top' }}>
-              <h5 style={{ opacity: '0.6' }}>Workplan ({workplan?.length})</h5>
+              <h5 style={{ opacity: '0.6' }}>Workplan</h5>
               {hasWorkplan &&
                 (<ExpandButton
                   expanded={isExpanded}
@@ -63,7 +63,7 @@ function Workload ({ api, timeslice, value: { core, info }, workplan }: Props): 
       {isExpanded &&
         <>
           <tr>
-            <td style={{ fontWeight: 700, paddingTop: '2rem' }}>workplans</td>
+            <td style={{ fontWeight: 700, paddingTop: '2rem', width: 150 }}>workplans</td>
             <td colSpan={6}></td>
           </tr>
           {workplan?.map((workplanInfo) => (

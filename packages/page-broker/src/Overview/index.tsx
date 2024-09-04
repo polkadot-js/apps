@@ -8,12 +8,20 @@ import type { PalletBrokerStatusRecord } from '@polkadot/types/lookup';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { Dropdown, Input } from '@polkadot/react-components';
+import { Dropdown, Input, styled } from '@polkadot/react-components';
 import { useCall, useDebounce } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
 import CoresTable from './CoresTables.js';
 import Summary from './Summary.js';
+
+const StyledDiv = styled.div`
+  @media (max-width: 768px) {
+    display: flex; 
+    flex-direction: column;
+    margin-bottom: 1rem;
+  }
+`;
 
 interface Props {
   className?: string;
@@ -94,7 +102,7 @@ function Overview ({ api, apiEndpoint, className, isReady, workloadInfos, workpl
         apiEndpoint={apiEndpoint}
         workloadInfos={workloadInfos}
       ></Summary>
-      <div style={{ display: 'flex' }}>
+      <StyledDiv style={{ display: 'flex' }}>
         <Dropdown
           className=''
           label={t('selected core')}
@@ -110,8 +118,7 @@ function Overview ({ api, apiEndpoint, className, isReady, workloadInfos, workpl
             placeholder={t('parachain id')}
             value={_parachainId}
           /></div>
-
-      </div>
+      </StyledDiv>
       <CoresTable
         api={api}
         cores={workloadCoreSelected}
