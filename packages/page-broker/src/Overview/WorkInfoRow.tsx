@@ -5,31 +5,31 @@ import type { InfoRow } from '../types.js';
 import React from 'react';
 import { AddressMini, styled } from '@polkadot/react-components';
 
-const StyledTableCol = styled.td<{ hideOn?: 'mobile' | 'tablet' | 'both' }>`
+const StyledTableCol = styled.td<{ hide?: 'mobile' | 'tablet' | 'both' }>`
   width: 150px;
   vertical-align: top;
 
   @media (max-width: 768px) {
     /* Mobile */
-    ${(props) => props.hideOn === 'mobile' || props.hideOn === 'both' ? 'display: none;' : ''}
+    ${(props) => props.hide === 'mobile' || props.hide === 'both' ? 'display: none;' : ''}
   }
 
   @media (min-width: 769px) and (max-width: 1024px) {
     /* Tablet */
-    ${(props) => props.hideOn === 'tablet' || props.hideOn === 'both' ? 'display: none;' : ''}
+    ${(props) => props.hide === 'tablet' || props.hide === 'both' ? 'display: none;' : ''}
   }
 `;
 
 const TableCol = ({
   header,
   value,
-  hideOn,
+  hide,
 }: {
   header: string;
   value: string | number | null | undefined;
-  hideOn?: 'mobile' | 'tablet' | 'both';
+  hide?: 'mobile' | 'tablet' | 'both';
 }) => (
-  <StyledTableCol hideOn={hideOn}>
+  <StyledTableCol hide={hide}>
     <h5 style={{ opacity: '0.6' }}>{header}</h5>
     <p>{value || <>&nbsp;</>}</p>
   </StyledTableCol>
@@ -59,18 +59,18 @@ function WorkInfoRow({ data }: { data: InfoRow }): React.ReactElement {
       <TableCol
         header='Lease start'
         value={data.start}
-        hideOn='both'
+        hide='both'
       />
       <TableCol
         header='Lease end'
         value={data.end}
-        hideOn='both'
+        hide='both'
       />
       <TableCol
         header='Last block'
         value={data.endBlock}
       />
-      <StyledTableCol hideOn='tablet'>
+      <StyledTableCol hide='mobile'>
           <h5 style={{ opacity: '0.6' }}>{'Owner'}</h5>
           {!!data.owner ? <AddressMini
             isPadded={false}

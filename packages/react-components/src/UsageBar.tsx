@@ -46,6 +46,10 @@ function UsageBar ({ data }: PieChartProps): React.ReactElement<PieChartProps> {
 
   let cumulativeOffset = 0;
 
+  if (!total) {
+    return <></>
+  }
+
   return (
     <Container>
       <GraphContainer>

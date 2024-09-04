@@ -17,9 +17,7 @@ import Summary from './Summary.js';
 
 const StyledDiv = styled.div`
   @media (max-width: 768px) {
-    display: flex; 
-    flex-direction: column;
-    margin-bottom: 1rem;
+    max-width: 100%:
   }
 `;
 
@@ -102,9 +100,9 @@ function Overview ({ api, apiEndpoint, className, isReady, workloadInfos, workpl
         apiEndpoint={apiEndpoint}
         workloadInfos={workloadInfos}
       ></Summary>
-      <StyledDiv style={{ display: 'flex' }}>
+      <StyledDiv style={{ display: 'flex',flexDirection: 'column', gap: '1rem', marginBottom:'1.5rem', maxWidth: '300px' }}>
         <Dropdown
-          className=''
+          className='isSmall'
           label={t('selected core')}
           onChange={onDropDownChange}
           options={workloadCoreOpts}
@@ -112,7 +110,7 @@ function Overview ({ api, apiEndpoint, className, isReady, workloadInfos, workpl
         />
         <div style={{ minWidth: '150px' }}>
           <Input
-            className='full'
+            className='full isSmall'
             label={t('parachain id')}
             onChange={onInputChange}
             placeholder={t('parachain id')}
