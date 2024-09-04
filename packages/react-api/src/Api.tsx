@@ -232,14 +232,15 @@ async function createApi (apiUrl: string, signer: ApiSigner, isLocalFork: boolea
   const types = getDevTypes();
   const isLight = apiUrl.startsWith('light://');
   let provider;
-  let chopsticksFork: Blockchain | null = null;
 
-  try {
-    if (isLight) {
-      provider = await getLightProvider(apiUrl.replace('light://', ''));
-    } else if (isLocalFork) {
-      provider = await ChopsticksProvider.fromEndpoint(apiUrl);
-      chopsticksFork = provider.chain;
+  let chopsticksFork: Blockchain | null = null;
+  let chopsticksProvider;
+  let setupChopsticksSuccess = false;
+
+  if (isLocalFork) {
+    try {
+      chopsticksProvider = await ChopsticksProvider.fromEndpoint(apiUrl);
+      chopsticksFork = chopsticksProvider.chain;
       await setStorage(chopsticksFork, {
         System: {
           Account: [
@@ -247,6 +248,22 @@ async function createApi (apiUrl: string, signer: ApiSigner, isLocalFork: boolea
           ]
         }
       });
+      setupChopsticksSuccess = true;
+    } catch (error) {
+      store.set('localFork', '');
+      const msg = `Local fork failed, please refresh to switch back to default API provider. This is likely due to chain not supported by chopsticks.
+      Please consider to send an issue to https://github.com/AcalaNetwork/chopsticks.`;
+
+      onError(new Error(msg));
+      throw error;
+    }
+  }
+
+  try {
+    if (isLight) {
+      provider = await getLightProvider(apiUrl.replace('light://', ''));
+    } else if (isLocalFork && setupChopsticksSuccess) {
+      provider = chopsticksProvider;
     } else {
       provider = new WsProvider(apiUrl);
     }
@@ -261,7 +278,7 @@ async function createApi (apiUrl: string, signer: ApiSigner, isLocalFork: boolea
 
     // See https://github.com/polkadot-js/api/pull/4672#issuecomment-1078843960
     if (isLight) {
-      await provider.connect();
+      await provider?.connect();
     }
   } catch (error) {
     onError(error);
@@ -298,11 +315,9 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store: keyringStore 
     () => makeCreateLink(apiUrl, isElectron),
     [apiUrl, isElectron]
   );
-  // TODO: Once the people migration is complete for polkadot, we can remove the polkadot check at the end.
-  const enableIdentity = apiEndpoint?.isPeople || (isNumber(apiEndpoint?.paraId) && (apiEndpoint?.paraId >= 2000)) || apiEndpoint?.info?.toLowerCase() === 'polkadot' || apiEndpoint?.info?.toLowerCase() === 'paseo';
-  // TODO remove `(apiEndpoint?.relayName === 'polkadot' && !apiEndpoint?.isRelay && apiRelay)` once polkadot is migrated over to the people chain for identities.
+  const enableIdentity = apiEndpoint?.isPeople || (isNumber(apiEndpoint?.paraId) && (apiEndpoint?.paraId >= 2000)) || (typeof apiEndpoint?.isPeopleForIdentity === 'boolean' && !apiEndpoint?.isPeopleForIdentity);
   const value = useMemo<ApiProps>(
-    () => objectSpread({}, state, { api: statics.api, apiEndpoint, apiError, apiIdentity: (apiEndpoint?.relayName === 'polkadot' && !apiEndpoint?.isRelay && apiRelay) || ((apiEndpoint?.isPeopleForIdentity && apiSystemPeople) || statics.api), apiRelay, apiSystemPeople, apiUrl, createLink, enableIdentity, extensions, isApiConnected, isApiInitialized, isElectron, isLocalFork, isWaitingInjected: !extensions }),
+    () => objectSpread({}, state, { api: statics.api, apiEndpoint, apiError, apiIdentity: ((apiEndpoint?.isPeopleForIdentity && apiSystemPeople) || statics.api), apiRelay, apiSystemPeople, apiUrl, createLink, enableIdentity, extensions, isApiConnected, isApiInitialized, isElectron, isLocalFork, isWaitingInjected: !extensions }),
     [apiError, createLink, extensions, isApiConnected, isApiInitialized, isElectron, isLocalFork, state, apiEndpoint, apiRelay, apiUrl, apiSystemPeople, enableIdentity]
   );
 

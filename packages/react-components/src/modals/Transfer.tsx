@@ -3,6 +3,7 @@
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { AccountInfoWithProviders, AccountInfoWithRefCount } from '@polkadot/types/interfaces';
+import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { BN } from '@polkadot/util';
 
 import React, { useEffect, useState } from 'react';
@@ -10,6 +11,7 @@ import React, { useEffect, useState } from 'react';
 import { checkAddress } from '@polkadot/phishing';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
+import { settings } from '@polkadot/ui-settings';
 import { BN_HUNDRED, BN_ZERO, isFunction, nextTick } from '@polkadot/util';
 
 import InputAddress from '../InputAddress/index.js';
@@ -21,6 +23,7 @@ import { styled } from '../styled.js';
 import Toggle from '../Toggle.js';
 import { useTranslation } from '../translate.js';
 import TxButton from '../TxButton.js';
+import { getAddressMeta } from '../util/getAddressMeta.js';
 
 interface Props {
   className?: string;
@@ -53,6 +56,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
   const [hasAvailable] = useState(true);
   const [isProtected, setIsProtected] = useState(true);
   const [isAll, setIsAll] = useState(false);
+  const [senderIdMeta, setSenderIdMeta] = useState<KeyringJson$Meta>();
   const [[maxTransfer, noFees], setMaxTransfer] = useState<[BN | null, boolean]>([null, false]);
   const [recipientId, setRecipientId] = useState<string | null>(null);
   const [senderId, setSenderId] = useState<string | null>(null);
@@ -64,13 +68,15 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
     const fromId = propSenderId || senderId;
     const toId = propRecipientId || recipientId;
 
+    fromId && setSenderIdMeta(getAddressMeta(fromId));
+
     if (balances && balances.accountId?.eq(fromId) && fromId && toId && api.call.transactionPaymentApi && api.tx.balances) {
       nextTick(async (): Promise<void> => {
         try {
-          const extrinsic = (api.tx.balances.transferAllowDeath || api.tx.balances.transfer)(toId, balances.availableBalance);
+          const extrinsic = (api.tx.balances.transferAllowDeath || api.tx.balances.transfer)(toId, (balances.transferable || balances.availableBalance));
           const { partialFee } = await extrinsic.paymentInfo(fromId);
           const adjFee = partialFee.muln(110).div(BN_HUNDRED);
-          const maxTransfer = balances.availableBalance.sub(adjFee);
+          const maxTransfer = (balances.transferable || balances.availableBalance).sub(adjFee);
 
           setMaxTransfer(
             api.consts.balances && maxTransfer.gt(api.consts.balances.existentialDeposit)
@@ -115,7 +121,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
               label={t('send from account')}
               labelExtra={
                 <Available
-                  label={t('transferrable')}
+                  label={t('transferable')}
                   params={propSenderId || senderId}
                 />
               }
@@ -130,7 +136,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
               label={t('send to address')}
               labelExtra={
                 <Available
-                  label={t('transferrable')}
+                  label={t('transferable')}
                   params={propRecipientId || recipientId}
                 />
               }
@@ -149,7 +155,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                   defaultValue={maxTransfer}
                   isDisabled
                   key={maxTransfer?.toString()}
-                  label={t('transferrable minus fees')}
+                  label={t('transferable minus fees')}
                 />
               )
               : (
@@ -191,6 +197,9 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                 onChange={setIsAll}
                 value={isAll}
               />
+            )}
+            {senderIdMeta && senderIdMeta.isHardware && (
+              <MarkWarning content={t(`You are using the Ledger ${settings.ledgerApp.toUpperCase()} App. If you would like to switch it, please go the "manage ledger app" in the settings.`)} />
             )}
             {!isProtected && !noReference && (
               <MarkWarning content={t('There is an existing reference count on the sender account. As such the account cannot be reaped from the state.')} />

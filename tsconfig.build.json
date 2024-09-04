@@ -16,6 +16,7 @@
     { "path": "./packages/page-addresses/tsconfig.spec.json" },
     { "path": "./packages/page-addresses/tsconfig.test.json" },
     { "path": "./packages/page-alliance/tsconfig.build.json" },
+    { "path": "./packages/page-ambassador/tsconfig.build.json" },
     { "path": "./packages/page-assets/tsconfig.build.json" },
     { "path": "./packages/page-bounties/tsconfig.build.json" },
     { "path": "./packages/page-bounties/tsconfig.spec.json" },

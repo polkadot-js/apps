@@ -1,8 +1,9 @@
 // Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type BN from 'bn.js';
+import type { ApiPromise } from '@polkadot/api';
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
-import type { BN } from '@polkadot/util';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
@@ -17,6 +18,7 @@ interface Props {
   accountId?: string | null;
   autoFocus?: boolean;
   isCouncil?: boolean;
+  isReferenda?: boolean;
   label?: string;
   noDefault?: boolean;
   onChange: (value: BN) => void;
@@ -31,7 +33,7 @@ interface ValueState {
 
 const LOCKS_ORDERED = ['pyconvot', 'democrac', 'phrelect'] as const;
 
-function getValues (selectedId: string | null | undefined, noDefault: boolean | undefined, allBalances: DeriveBalancesAll, existential: BN): ValueState {
+function getValues (api: ApiPromise, selectedId: string | null | undefined, noDefault: boolean | undefined, allBalances: DeriveBalancesAll, existential: BN, isReferenda: boolean): ValueState {
   const sortedLocks = allBalances.lockedBreakdown
     // first sort by amount, so greatest value first
     .sort((a, b) =>
@@ -55,7 +57,7 @@ function getValues (selectedId: string | null | undefined, noDefault: boolean | 
     })
     .map(({ amount }) => amount);
 
-  const maxValue = allBalances.votingBalance;
+  const maxValue = isReferenda && api.query.convictionVoting ? allBalances.votingBalance.add(allBalances.reservedBalance) : allBalances.votingBalance;
   let defaultValue: BN = sortedLocks[0] || allBalances.lockedBalance;
 
   if (noDefault) {
@@ -82,7 +84,7 @@ function getValues (selectedId: string | null | undefined, noDefault: boolean | 
   };
 }
 
-function VoteValue ({ accountId, autoFocus, label, noDefault, onChange }: Props): React.ReactElement<Props> | null {
+function VoteValue ({ accountId, autoFocus, isReferenda, label, noDefault, onChange }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const allBalances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [accountId]);
@@ -92,10 +94,10 @@ function VoteValue ({ accountId, autoFocus, label, noDefault, onChange }: Props)
     // if the set accountId changes and the new balances is for that id, set it
     allBalances && allBalances.accountId.eq(accountId) && setValue((state) =>
       state.selectedId !== accountId
-        ? getValues(accountId, noDefault, allBalances, api.consts.balances.existentialDeposit)
+        ? getValues(api, accountId, noDefault, allBalances, api.consts.balances.existentialDeposit, !!isReferenda)
         : state
     );
-  }, [allBalances, accountId, api, noDefault]);
+  }, [allBalances, accountId, api, isReferenda, noDefault]);
 
   // only do onChange to parent when the BN value comes in, not our formatted version
   useEffect((): void => {
@@ -126,6 +128,7 @@ function VoteValue ({ accountId, autoFocus, label, noDefault, onChange }: Props)
       label={label || t('vote value')}
       labelExtra={
         <BalanceVoting
+          isReferenda={isReferenda}
           label={<label>{t('voting balance')}</label>}
           params={accountId}
         />

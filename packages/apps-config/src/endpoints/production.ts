@@ -67,13 +67,24 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'bittensor',
     providers: {
-      Dwellir: 'wss://bittensor-mainnet-rpc.dwellir.com',
+      // Dwellir: 'wss://bittensor-mainnet-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/10728
       'Opentensor Fdn (Archive)': 'wss://entrypoint-finney.opentensor.ai:443'
     },
     text: 'Bittensor',
     ui: {
       color: '#252525',
       logo: chainsBittensorPNG
+    }
+  },
+  {
+    info: 'creditcoin-classic',
+    providers: {
+      'Creditcoin Foundation': 'wss://mainnet.creditcoin.network/ws'
+    },
+    text: 'CC Enterprise',
+    ui: {
+      color: '#2D353F',
+      logo: chainsCreditcoinPNG
     }
   },
   {
@@ -125,7 +136,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'communeai',
     providers: {
-      Bitconnect: 'wss://commune-api-node-1.communeai.net'
+      Bitconnect: 'wss://commune-api-node-1.communeai.net',
+      OnFinality: 'wss://commune.api.onfinality.io/public-ws'
     },
     text: 'Commune AI',
     ui: {
@@ -147,7 +159,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'creditcoin',
     providers: {
-      'Creditcoin Foundation': 'wss://mainnet.creditcoin.network/ws'
+      'Creditcoin Foundation': 'wss://mainnet3.creditcoin.network'
     },
     text: 'Creditcoin',
     ui: {
@@ -170,6 +182,9 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'crust',
     providers: {
       'Crust Network': 'wss://rpc.crust.network',
+      'Crust Network APP': 'wss://rpc.crustnetwork.app',
+      'Crust Network CC': 'wss://rpc.crustnetwork.cc',
+      'Crust Network XYZ': 'wss://rpc.crustnetwork.xyz',
       Dwellir: 'wss://crust-mainnet-rpc.dwellir.com',
       OnFinality: 'wss://crust.api.onfinality.io/public-ws'
     },
@@ -589,10 +604,11 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   },
   {
     info: 'vara',
+    isPeopleForIdentity: false,
     providers: {
       Blast: 'wss://vara-mainnet.public.blastapi.io',
       Gear: 'wss://rpc.vara.network',
-      dPRC: 'wss://vara.drpc.org'
+      'P2P.org': 'wss://vara.substrate-rpc.p2p.org/'
     },
     text: 'Vara',
     ui: {

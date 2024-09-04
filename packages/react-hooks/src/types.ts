@@ -9,7 +9,7 @@ import type { DisplayedJudgement } from '@polkadot/react-components/types';
 import type { Option, u32, u128, Vec } from '@polkadot/types';
 import type { AccountId, BlockNumber, Call, Hash, SessionIndex, ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { PalletBrokerScheduleItem, PalletPreimageRequestStatus, PalletStakingRewardDestination, PalletStakingStakingLedger, PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor, SpStakingExposurePage, SpStakingPagedExposureMetadata } from '@polkadot/types/lookup';
-import type { ICompact, IExtrinsic, INumber, Registry } from '@polkadot/types/types';
+import type { ICompact, IExtrinsic, INumber } from '@polkadot/types/types';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
@@ -192,7 +192,6 @@ export interface PreimageStatus {
   isHashParam: boolean;
   proposalHash: HexString;
   proposalLength?: BN;
-  registry: Registry;
   status: PalletPreimageRequestStatus | null;
 }
 

@@ -19,7 +19,6 @@ export const ethereumChains = [
   'frontier-template',
   'innovatorchain',
   'jaz',
-  'klaos',
   'laos',
   'masverse',
   'moonbase',

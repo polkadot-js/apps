@@ -65,6 +65,7 @@ import jupiter from './jupiter.js';
 import jupiterRococo from './jupiter-rococo.js';
 import jur from './jur.js';
 import khala from './khala.js';
+import kilt from './kilt.js';
 import konomi from './konomi.js';
 import kpron from './kpron.js';
 import kulupu from './kulupu.js';
@@ -221,6 +222,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'jur-node': jur,
   kerria: parallel,
   khala,
+  ...kilt,
   'kintsugi-parachain': interbtc,
   konomi,
   kpron,

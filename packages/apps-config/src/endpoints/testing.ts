@@ -130,6 +130,17 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    info: 'creditcoin-classic-testnet',
+    providers: {
+      'Creditcoin Foundation': 'wss://rpc.testnet.creditcoin.network/ws'
+    },
+    text: 'CC Enterprise Testnet',
+    ui: {
+      color: '#9cffaa',
+      logo: chainsCreditcoinTestPNG
+    }
+  },
+  {
     info: 'cere',
     providers: {
       // 'Cere Network': 'wss://archive.testnet.cere.network/ws' // https://github.com/polkadot-js/apps/issues/9712
@@ -172,17 +183,6 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: 'linear-gradient(to right, #52ad75, #7cc773)',
       logo: nodesCloverSVG
-    }
-  },
-  {
-    info: 'creditcoin-classic-testnet',
-    providers: {
-      'Creditcoin Foundation': 'wss://rpc.testnet.creditcoin.network/ws'
-    },
-    text: 'Creditcoin Classic Testnet',
-    ui: {
-      color: '#ffffff',
-      logo: chainsCreditcoinTestPNG
     }
   },
   {

@@ -5,7 +5,7 @@ import type { EndpointOption } from './types.js';
 
 import { KUSAMA_GENESIS } from '../api/constants.js';
 import { chainsAbandPNG, chainsAcurastPNG, chainsAltairSVG, chainsAmplitudeSVG, chainsAssethubKusamaSVG, chainsCoretimeKusamaSVG, chainsDorafactoryPNG, chainsGenshiroSVG, chainsGmJPEG, chainsKaruraSVG, chainsKicoPNG, chainsKintsugiPNG, chainsKreivoSVG, chainsKusamaSVG, chainsListenPNG, chainsMangataPNG, chainsPeopleKusamaSVG, chainsQpnPNG, chainsRiodefiPNG, chainsShidenPNG, chainsTinkerPNG, chainsTuringPNG, chainsUnorthodoxPNG } from '../ui/logos/chains/index.js';
-import { nodesApronPNG, nodesAresMarsPNG, nodesBajunPNG, nodesBasiliskPNG, nodesBifrostSVG, nodesBitcountryPNG, nodesBridgeHubBlackSVG, nodesCalamariPNG, nodesCrabSVG, nodesCurioSVG, nodesDatahighwayPNG, nodesEncointerBlueSVG, nodesHyperbridgeSVG, nodesImbuePNG, nodesIntegriteeSVG, nodesIpciSVG, nodesKabochaSVG, nodesKhalaSVG, nodesKlaosPNG, nodesKrestPNG, nodesLitmusPNG, nodesLoomNetworkPNG, nodesMoonriverSVG, nodesParallelSVG, nodesPicassoPNG, nodesPichiuPNG, nodesPolkasmithSVG, nodesQuartzPNG, nodesRobonomicsSVG, nodesSakuraSVG, nodesShadowSVG, nodesSnowPNG, nodesSoraSubstrateSVG, nodesSubgameSVG, nodesSubsocialXSVG, nodesT1rnPNG, nodesTrustbasePNG, nodesXodePNG, nodesYerbanetworkPNG, nodesZeroSVG } from '../ui/logos/nodes/index.js';
+import { nodesApronPNG, nodesAresMarsPNG, nodesBajunPNG, nodesBasiliskPNG, nodesBifrostSVG, nodesBitcountryPNG, nodesBridgeHubBlackSVG, nodesCalamariPNG, nodesCrabSVG, nodesCurioSVG, nodesDatahighwayPNG, nodesEncointerBlueSVG, nodesHyperbridgePNG, nodesImbuePNG, nodesIntegriteeSVG, nodesIpciSVG, nodesKabochaSVG, nodesKhalaSVG, nodesKrestPNG, nodesLitmusPNG, nodesLoomNetworkPNG, nodesMoonriverSVG, nodesParallelSVG, nodesPicassoPNG, nodesPichiuPNG, nodesPolkasmithSVG, nodesQuartzPNG, nodesRobonomicsSVG, nodesSakuraSVG, nodesShadowSVG, nodesSnowPNG, nodesSoraSubstrateSVG, nodesSubgameSVG, nodesSubsocialXSVG, nodesT1rnPNG, nodesTrustbasePNG, nodesXodePNG, nodesYerbanetworkPNG, nodesZeroSVG } from '../ui/logos/nodes/index.js';
 import { getTeleports } from './util.js';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -150,7 +150,10 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'shadow',
     paraId: 2012,
     providers: {
-      Crust: 'wss://rpc-shadow.crust.network/'
+      Crust: 'wss://rpc-shadow.crust.network/',
+      'Crust APP': 'wss://rpc-shadow.crustnetwork.app',
+      'Crust CC': 'wss://rpc-shadow.crustnetwork.cc',
+      'Crust XYZ': 'wss://rpc-shadow.crustnetwork.xyz'
     },
     text: 'Crust Shadow',
     ui: {
@@ -263,7 +266,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     text: 'Hyperbridge (Messier)',
     ui: {
       color: '#ED6FF1',
-      logo: nodesHyperbridgeSVG
+      logo: nodesHyperbridgePNG
     }
   },
   {
@@ -311,19 +314,6 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://laosnetwork.io/',
-    info: 'k-laos',
-    paraId: 3336,
-    providers: {
-      Freeverse: 'wss://rpc.klaos.laosfoundation.io'
-    },
-    text: 'K-Laos',
-    ui: {
-      color: 'linear-gradient(158deg, rgba(226,157,0,1) 0%, rgba(234,55,203,1) 100%)',
-      logo: nodesKlaosPNG
-    }
-  },
-  {
     homepage: 'https://kabocha.network',
     info: 'kabocha',
     paraId: 2113,
@@ -365,8 +355,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
       Helikon: 'wss://rpc.helikon.io/khala',
       OnFinality: 'wss://khala.api.onfinality.io/public-ws',
       Phala: 'wss://khala-api.phala.network/ws',
-      RadiumBlock: 'wss://khala.public.curie.radiumblock.co/ws',
-      Rockx: 'wss://rockx-khala.w3node.com/polka-public-khala/ws'
+      RadiumBlock: 'wss://khala.public.curie.radiumblock.co/ws'
+      // Rockx: 'wss://rockx-khala.w3node.com/polka-public-khala/ws' // https://github.com/polkadot-js/apps/issues/10728
     },
     text: 'Khala Network',
     ui: {
@@ -895,7 +885,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'zero',
     paraId: 2236,
     providers: {
-      'Zero Network': 'wss://rpc-1.kusama.node.zero.io'
+      // 'Zero Network': 'wss://rpc-1.kusama.node.zero.io' // https://github.com/polkadot-js/apps/issues/10803
     },
     text: 'ZERO Canary',
     ui: {
@@ -959,6 +949,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       Dwellir: 'wss://coretime-kusama-rpc.dwellir.com',
       IBP1: 'wss://sys.ibp.network/coretime-kusama',
       IBP2: 'wss://sys.dotters.network/coretime-kusama',
+      LuckyFriday: 'wss://rpc-coretime-kusama.luckyfriday.io',
       Parity: 'wss://kusama-coretime-rpc.polkadot.io',
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/coretime'
     },
@@ -1000,6 +991,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       Dwellir: 'wss://people-kusama-rpc.dwellir.com',
       IBP1: 'wss://sys.ibp.network/people-kusama',
       IBP2: 'wss://sys.dotters.network/people-kusama',
+      LuckyFriday: 'wss://rpc-people-kusama.luckyfriday.io',
       Parity: 'wss://kusama-people-rpc.polkadot.io',
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/people'
     },

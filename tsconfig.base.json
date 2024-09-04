@@ -23,6 +23,7 @@
       "@polkadot/app-accounts": ["page-accounts/src/index.tsx"],
       "@polkadot/app-addresses": ["page-addresses/src/index.tsx"],
       "@polkadot/app-alliance": ["page-alliance/src/index.tsx"],
+      "@polkadot/app-ambassador": ["page-ambassador/src/index.tsx"],
       "@polkadot/app-assets": ["page-assets/src/index.tsx"],
       "@polkadot/app-coretime": ["page-coretime/src/index.tsx"],
       "@polkadot/app-broker": ["page-broker/src/index.tsx"],
