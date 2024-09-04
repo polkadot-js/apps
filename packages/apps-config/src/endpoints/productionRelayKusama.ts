@@ -191,7 +191,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'ipci',
     paraId: 2222,
     providers: {
-      Airalab: 'wss://kusama.rpc.ipci.io'
+      Airalab: 'wss://ipci.rpc.robonomics.network'
     },
     text: 'DAO IPCI',
     ui: {
