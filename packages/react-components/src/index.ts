@@ -66,6 +66,7 @@ export { default as LinkExternal } from './LinkExternal.js';
 export { default as LockedVote } from './LockedVote.js';
 export { default as MarkError } from './MarkError.js';
 export { default as MarkWarning } from './MarkWarning.js';
+export { default as MaskCoverage } from './MaskCoverage.js';
 export { default as Menu } from './Menu/index.js';
 export { default as Modal } from './Modal/index.js';
 export { default as NextTick } from './NextTick.js';
@@ -96,6 +97,7 @@ export { default as Toggle } from './Toggle.js';
 export { default as ToggleGroup } from './ToggleGroup.js';
 export { default as Tooltip } from './Tooltip.js';
 export { default as TxButton } from './TxButton.js';
+export { default as UsageBar } from './UsageBar.js';
 export { default as VoteAccount } from './VoteAccount.js';
 export { default as VoteValue } from './VoteValue.js';
 
