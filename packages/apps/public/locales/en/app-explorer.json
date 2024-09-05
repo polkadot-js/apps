@@ -57,6 +57,7 @@
   "parent": "parent",
   "peer best": "peer best",
   "pending extrinsics": "pending extrinsics",
+  "proof size": "proof size",
   "queued tx": "queued tx",
   "recent blocks": "recent blocks",
   "recent events": "recent events",
