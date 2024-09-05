@@ -77,6 +77,17 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    info: 'creditcoin-classic',
+    providers: {
+      'Creditcoin Foundation': 'wss://mainnet.creditcoin.network/ws'
+    },
+    text: 'CC Enterprise',
+    ui: {
+      color: '#2D353F',
+      logo: chainsCreditcoinPNG
+    }
+  },
+  {
     info: 'centrifuge',
     providers: {
       // Centrifuge: 'wss://fullnode.centrifuge.io' // https://github.com/polkadot-js/apps/issues/8012
@@ -146,11 +157,11 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'creditcoin-classic',
+    info: 'creditcoin',
     providers: {
-      'Creditcoin Foundation': 'wss://mainnet.creditcoin.network/ws'
+      'Creditcoin Foundation': 'wss://mainnet3.creditcoin.network'
     },
-    text: 'Creditcoin Classic',
+    text: 'Creditcoin',
     ui: {
       color: '#2D353F',
       logo: chainsCreditcoinPNG
