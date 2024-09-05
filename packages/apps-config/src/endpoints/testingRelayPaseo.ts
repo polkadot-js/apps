@@ -34,7 +34,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   {
     homepage: 'https://ajuna.io/',
     info: 'Ajuna(paseo)',
-    isPeopleForIdentity: true,
     paraId: 2051,
     providers: {
       BajunNetwork: 'wss://rpc-paseo.ajuna.network'
@@ -48,7 +47,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   {
     homepage: 'https://www.aventus.io/',
     info: 'paseoAventus',
-    isPeopleForIdentity: true,
     paraId: 2056,
     providers: {
       Aventus: 'wss://public-rpc.testnet.aventus.network'
@@ -62,7 +60,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   {
     homepage: 'https://ajuna.io/',
     info: 'Bajun(paseo)',
-    isPeopleForIdentity: true,
     paraId: 2119,
     providers: {
       BajunNetwork: 'wss://rpc-paseo.bajun.network'
@@ -76,7 +73,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   {
     homepage: 'https://bifrost.finance',
     info: 'Bifrost(Paseo)',
-    isPeopleForIdentity: true,
     paraId: 2030,
     providers: {
       Liebi: 'wss://bifrost-rpc.paseo.liebi.com/ws'
@@ -90,7 +86,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   {
     homepage: 'https://darwinia.network/',
     info: 'Darwinia Koi',
-    isPeopleForIdentity: true,
     paraId: 2105,
     providers: {
       Darwinia: 'wss://koi-rpc.darwinia.network'
@@ -104,7 +99,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   {
     homepage: 'https://www.frequency.xyz',
     info: 'Frequency',
-    isPeopleForIdentity: true,
     paraId: 4000,
     providers: {
       'Amplica Labs': 'wss://0.rpc.testnet.amplica.io'
@@ -118,7 +112,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   {
     homepage: 'https://hyperbridge.network',
     info: 'Hyperbridge',
-    isPeopleForIdentity: true,
     paraId: 4009,
     providers: {
       BlockOps: 'wss://hyperbridge-paseo-rpc.blockops.network'
@@ -132,7 +125,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   {
     homepage: 'https://integritee.network',
     info: 'integritee',
-    isPeopleForIdentity: true,
     paraId: 2039,
     providers: {
       Integritee: 'wss://paseo.api.integritee.network'
@@ -145,7 +137,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   },
   {
     info: 'kilt',
-    isPeopleForIdentity: true,
     paraId: 2086,
     providers: {
       BOTLabs: 'wss://peregrine.kilt.io/parachain-public-ws/'
@@ -159,7 +150,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   {
     homepage: 'https://laosnetwork.io/',
     info: 'laos-sigma',
-    isPeopleForIdentity: true,
     paraId: 4006,
     providers: {
       'freeverse.io': 'wss://rpc.laossigma.laosfoundation.io'
@@ -172,7 +162,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   },
   {
     info: 'muse',
-    isPeopleForIdentity: true,
     paraId: 3369,
     providers: {
       Parity: 'wss://paseo-muse-rpc.polkadot.io'
@@ -186,7 +175,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   {
     homepage: 'https://mandalachain.io',
     info: 'Niskala',
-    isPeopleForIdentity: true,
     paraId: 4022,
     providers: {
       'Baliola 1': 'wss://mlg1.mandalachain.io',
@@ -201,7 +189,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   {
     homepage: 'https://www.nodle.com/',
     info: 'NodleParadis',
-    isPeopleForIdentity: true,
     paraId: 2026,
     providers: {
       OnFinality: 'wss://node-6957502816543653888.lh.onfinality.io/ws?apikey=09b04494-3139-4b57-a5d1-e1c4c18748ce'
@@ -215,7 +202,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   {
     homepage: 'https://popnetwork.xyz/',
     info: 'Pop Network',
-    isPeopleForIdentity: true,
     paraId: 4001,
     providers: {
       'R0GUE-RPC1': 'wss://rpc1.paseo.popnetwork.xyz',
