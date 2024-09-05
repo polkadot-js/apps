@@ -16,7 +16,7 @@ interface Props {
   value: CoreDescription;
 }
 
-function CoreDescriptor ({ value: { core, info }, className }: Props): React.ReactElement<Props> {
+function CoreDescriptor ({ className, value: { core, info } }: Props): React.ReactElement<Props> {
   let sanitized: PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor[] = [];
 
   if (Array.isArray(info)) {

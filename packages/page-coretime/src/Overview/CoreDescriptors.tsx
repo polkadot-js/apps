@@ -56,7 +56,10 @@ function CoreDescriptors ({ className, coreInfos }: Props): React.ReactElement<P
       headerChildren={headerChildren}
       key={key}
     >
-      {coreInfos && <CoreDescriptor value={coreInfos} className={className}/>}
+      {coreInfos && <CoreDescriptor
+        className={className}
+        value={coreInfos}
+      />}
     </Table>
   );
 }

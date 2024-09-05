@@ -75,11 +75,6 @@ function Overview ({ api, apiEndpoint, className, isReady, workloadInfos, workpl
     [workloadInfos, workloadCoreSelected, parachainId]
   );
 
-  const filteredWorkplan = useMemo(
-    () => workplanInfos && filterLoad(parachainId, workplanInfos, workloadCoreSelected),
-    [workplanInfos, workloadCoreSelected, parachainId]
-  );
-
   function onDropDownChange (v: number) {
     setWorkloadCoreSelected(v);
     setParachainId('');
@@ -100,7 +95,7 @@ function Overview ({ api, apiEndpoint, className, isReady, workloadInfos, workpl
         apiEndpoint={apiEndpoint}
         workloadInfos={workloadInfos}
       ></Summary>
-      <StyledDiv style={{ display: 'flex',flexDirection: 'column', gap: '1rem', marginBottom:'1.5rem', maxWidth: '300px' }}>
+      <StyledDiv style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '1.5rem', maxWidth: '300px' }}>
         <Dropdown
           className='isSmall'
           label={t('selected core')}
@@ -122,7 +117,7 @@ function Overview ({ api, apiEndpoint, className, isReady, workloadInfos, workpl
         cores={workloadCoreSelected}
         timeslice={Number(timesliceAsString)}
         workloadInfos={filteredWLC}
-        workplanInfos={filteredWorkplan}
+        workplanInfos={workplanInfos}
       />
     </div>
   );

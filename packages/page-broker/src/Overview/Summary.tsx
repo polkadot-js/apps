@@ -7,7 +7,7 @@ import type { statsType } from '../types.js';
 
 import React from 'react';
 
-import { CardSummary, SummaryBox, UsageBar, styled } from '@polkadot/react-components';
+import { CardSummary, styled, SummaryBox, UsageBar } from '@polkadot/react-components';
 import { defaultHighlight } from '@polkadot/react-components/styles';
 import { useApi, useBrokerStatus, useCurrentPrice, useRenewalBump } from '@polkadot/react-hooks';
 
@@ -18,7 +18,6 @@ import RegionLength from './RegionLength.js';
 import RenewalPrice from './RenewalPrice.js';
 import Timeslice from './Timeslice.js';
 import TimeslicePeriod from './TimeslicePeriod.js';
-
 
 const StyledDiv = styled.div`
   display: flex;
@@ -40,7 +39,7 @@ interface Props {
   workloadInfos?: CoreWorkloadInfo[] | CoreWorkloadInfo
 }
 
-function Summary({ workloadInfos }: Props): React.ReactElement {
+function Summary ({ workloadInfos }: Props): React.ReactElement {
   const { t } = useTranslation();
   const { api, apiEndpoint } = useApi();
   const renewalBump = useRenewalBump();
