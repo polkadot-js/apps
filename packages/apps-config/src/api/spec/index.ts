@@ -9,6 +9,7 @@ import altair from './altair.js';
 import apron from './apron.js';
 import aresGladios from './ares-gladios.js';
 import aresParachain from './ares-parachain.js';
+import argon from './argon.js';
 import astar from './astar.js';
 import bajun from './bajun.js';
 import basilisk from './basilisk.js';
@@ -153,6 +154,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'ares-gladios': aresGladios,
   'ares-mars': aresParachain,
   'ares-odyssey': aresParachain,
+  argon,
   asgard: bifrostAsgard,
   astar,
   bajun,
