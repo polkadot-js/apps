@@ -14002,60 +14002,6 @@ export const typesBundle = {
         }
       ]
     },
-    "argon": {
-      "types": [
-        {
-          "minmax": [
-            0,
-            null
-          ],
-          "types": {
-            "Satoshis": "u64"
-          }
-        }
-      ],
-      "runtime": {
-        "MiningSlotApi": [
-          {
-            "methods": {
-              "next_slot_era": {
-                "description": "Get the next slot block start and end",
-                "params": [],
-                "type": "(BlockNumber, BlockNumber)"
-              }
-            },
-            "version": 1
-          }
-        ],
-        "BitcoinApis": [
-          {
-            "methods": {
-              "redemption_rate": {
-                "description": "Get the current redemption rate for a given number of satoshis",
-                "params": [
-                  {
-                    "name": "satoshis",
-                    "type": "Satoshis"
-                  }
-                ],
-                "type": "Balance"
-              },
-              "market_rate": {
-                "description": "Get the current market rate for a given number of satoshis",
-                "params": [
-                  {
-                    "name": "satoshis",
-                    "type": "Satoshis"
-                  }
-                ],
-                "type": "Balance"
-              }
-            },
-            "version": 1
-          }
-        ]
-      }
-    },
     "ares-gladios": {
       "types": [
         {
@@ -14664,6 +14610,60 @@ export const typesBundle = {
           }
         }
       ]
+    },
+    "argon": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "Satoshis": "u64"
+          }
+        }
+      ],
+      "runtime": {
+        "MiningSlotApi": [
+          {
+            "methods": {
+              "next_slot_era": {
+                "description": "Get the next slot block start and end",
+                "params": [],
+                "type": "(BlockNumber, BlockNumber)"
+              }
+            },
+            "version": 1
+          }
+        ],
+        "BitcoinApis": [
+          {
+            "methods": {
+              "redemption_rate": {
+                "description": "Get the current redemption rate for a given number of satoshis",
+                "params": [
+                  {
+                    "name": "satoshis",
+                    "type": "Satoshis"
+                  }
+                ],
+                "type": "Balance"
+              },
+              "market_rate": {
+                "description": "Get the current market rate for a given number of satoshis",
+                "params": [
+                  {
+                    "name": "satoshis",
+                    "type": "Satoshis"
+                  }
+                ],
+                "type": "Balance"
+              }
+            },
+            "version": 1
+          }
+        ]
+      }
     },
     "asgard": {
       "rpc": {
