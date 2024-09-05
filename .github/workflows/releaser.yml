@@ -1,15 +1,13 @@
 name: Releaser
 on:
   push:
-    branches:
+    branches-ignore:
       - '**'
     tags:
       - '*'
 
 jobs:
-
   build_explorer:
-    if: false
     runs-on: ubuntu-latest
     steps:
          - uses: actions/checkout@v2
@@ -67,7 +65,7 @@ jobs:
             MAINNET_URL=wss://mainnet-rpc.avail.so/ws
 
   k8s_deployment:
-    # needs: [build_explorer]
+    needs: [docker_build_push]
     runs-on: ubuntu-20.04
     environment: prod
     steps:
