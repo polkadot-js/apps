@@ -3,6 +3,7 @@
 
 import type { HeaderExtended } from '@polkadot/api-derive/types';
 import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
+import type { V2Weight } from '@polkadot/react-hooks/useWeight';
 import type { EventRecord, RuntimeVersionPartial, SignedBlock } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useMemo, useState } from 'react';
@@ -59,7 +60,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
   const [isVersionCurrent, maxBlockWeight] = useMemo(
     () => [
       !!runtimeVersion && api.runtimeVersion.specName.eq(runtimeVersion.specName) && api.runtimeVersion.specVersion.eq(runtimeVersion.specVersion),
-      api.consts.system.blockWeights && api.consts.system.blockWeights.maxBlock && convertWeight(api.consts.system.blockWeights.maxBlock).v1Weight
+      api.consts.system.blockWeights && api.consts.system.blockWeights.maxBlock && convertWeight(api.consts.system.blockWeights.maxBlock).v2Weight
     ],
     [api, runtimeVersion]
   );
@@ -123,7 +124,8 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
     <div className={className}>
       <Summary
         events={events}
-        maxBlockWeight={maxBlockWeight}
+        maxBlockWeight={(maxBlockWeight as V2Weight).refTime.toBn()}
+        maxProofSize={(maxBlockWeight as V2Weight).proofSize.toBn()}
         signedBlock={getBlock}
       />
       <Table header={header}>
@@ -167,7 +169,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
           <Extrinsics
             blockNumber={blockNumber}
             events={events}
-            maxBlockWeight={maxBlockWeight}
+            maxBlockWeight={(maxBlockWeight as V2Weight).refTime.toBn()}
             value={getBlock.block.extrinsics}
             withLink={isVersionCurrent}
           />
