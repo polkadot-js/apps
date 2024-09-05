@@ -196,7 +196,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoHyperbridge',
     paraId: 4374,
     providers: {
-      BlockOps: 'wss://hyperbridge-gargantua-rpc.blockops.network'
+      // BlockOps: 'wss://hyperbridge-gargantua-rpc.blockops.network' // https://github.com/polkadot-js/apps/issues/10890
     },
     text: 'Hyperbridge (Gargantua)',
     ui: {
@@ -641,7 +641,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoYerba',
     paraId: 4292,
     providers: {
-      Yerba: 'wss://rpc.dev.yerba.network'
+      // Yerba: 'wss://rpc.dev.yerba.network' // https://github.com/polkadot-js/apps/issues/10890
     },
     text: 'Yerba Network',
     ui: {
