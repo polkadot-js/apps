@@ -465,6 +465,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'laos',
     paraId: 3370,
     providers: {
+      Dwellir: 'wss://laos-rpc.dwellir.com',
       'freeverse.io': 'wss://rpc.laos.laosfoundation.io'
     },
     text: 'Laos',
