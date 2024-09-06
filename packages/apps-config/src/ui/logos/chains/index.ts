@@ -12,6 +12,7 @@ export { chainsAllfeatSVG } from './generated/allfeatSVG.js';
 export { chainsAltairSVG } from './generated/altairSVG.js';
 export { chainsAmplitudeSVG } from './generated/amplitudeSVG.js';
 export { chainsAnalogSVG } from './generated/analogSVG.js';
+export { chainsArgonSVG } from './generated/argonSVG.js';
 export { chainsAssethubKusamaSVG } from './generated/assethub-kusamaSVG.js';
 export { chainsBitgreenPNG } from './generated/bitgreenPNG.js';
 export { chainsBittensorPNG } from './generated/bittensorPNG.js';

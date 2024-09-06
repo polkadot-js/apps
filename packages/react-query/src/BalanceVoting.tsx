@@ -13,11 +13,12 @@ import FormatBalance from './FormatBalance.js';
 interface Props {
   children?: React.ReactNode;
   className?: string;
+  isReferenda?: boolean;
   label?: React.ReactNode;
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null;
 }
 
-function BalanceVoting ({ children, className = '', label, params }: Props): React.ReactElement<Props> {
+function BalanceVoting ({ children, className = '', isReferenda, label, params }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const allBalances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [params]);
 
@@ -25,7 +26,7 @@ function BalanceVoting ({ children, className = '', label, params }: Props): Rea
     <FormatBalance
       className={className}
       label={label}
-      value={allBalances?.votingBalance}
+      value={isReferenda && api.query.convictionVoting && allBalances ? allBalances.votingBalance.add(allBalances.reservedBalance) : allBalances?.votingBalance}
     >
       {children}
     </FormatBalance>

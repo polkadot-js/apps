@@ -288,8 +288,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Dwellir: 'wss://frequency-rpc.dwellir.com',
       'Frequency 0': 'wss://0.rpc.frequency.xyz',
-      'Frequency 1': 'wss://1.rpc.frequency.xyz',
-      OnFinality: 'wss://frequency-polkadot.api.onfinality.io/public-ws'
+      'Frequency 1': 'wss://1.rpc.frequency.xyz'
+      // OnFinality: 'wss://frequency-polkadot.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/10890
     },
     text: 'Frequency',
     ui: {
@@ -439,8 +439,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       BOTLabs: 'wss://spiritnet.kilt.io/',
       Dwellir: 'wss://kilt-rpc.dwellir.com',
       IBP1: 'wss://kilt.ibp.network',
-      IBP2: 'wss://kilt.dotters.network',
-      OnFinality: 'wss://spiritnet.api.onfinality.io/public-ws'
+      IBP2: 'wss://kilt.dotters.network'
     },
     text: 'KILT Spiritnet',
     ui: {
@@ -494,8 +493,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'logion',
     paraId: 3354,
     providers: {
-      'Logion 1': 'wss://para-rpc01.logion.network',
-      'Logion 2': 'wss://para-rpc02.logion.network'
+      'Logion 1': 'wss://para-rpc01.logion.network'
+      // 'Logion 2': 'wss://para-rpc02.logion.network' // https://github.com/polkadot-js/apps/issues/10890
     },
     text: 'Logion',
     ui: {
@@ -733,7 +732,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'robonomics',
     paraId: 3388,
     providers: {
-      Airalab: 'wss://polkadot.rpc.robonomics.network/'
+      // Airalab: 'wss://polkadot.rpc.robonomics.network/' // https://github.com/polkadot-js/apps/issues/10890
     },
     text: 'Robonomics',
     ui: {
@@ -834,8 +833,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'watr',
     paraId: 2058,
     providers: {
-      RadiumBlock: 'wss://watr.public.curie.radiumblock.co/ws',
-      Watr: 'wss://watr-rpc.watr-api.network'
+      RadiumBlock: 'wss://watr.public.curie.radiumblock.co/ws'
+      // Watr: 'wss://watr-rpc.watr-api.network' // https://github.com/polkadot-js/apps/issues/10890
     },
     text: 'Watr Network',
     ui: {
@@ -986,7 +985,7 @@ export const prodRelayPolkadot: EndpointOption = {
     RadiumBlock: 'wss://polkadot.public.curie.radiumblock.co/ws',
     RockX: 'wss://rockx-dot.w3node.com/polka-public-dot/ws',
     Stakeworld: 'wss://dot-rpc.stakeworld.io',
-    // SubQuery: 'wss://polkadot.rpc.subquery.network/public/ws', // https://github.com/polkadot-js/apps/issues/10762
+    SubQuery: 'wss://polkadot.rpc.subquery.network/public/ws',
     'light client': 'light://substrate-connect/polkadot'
   },
   teleport: getTeleports(prodParasPolkadotCommon),
