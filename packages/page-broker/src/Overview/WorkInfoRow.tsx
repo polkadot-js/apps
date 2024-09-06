@@ -1,11 +1,11 @@
 // Copyright 2017-2024 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Occupancy, type InfoRow } from '../types.js';
-
 import React from 'react';
 
 import { AddressMini, styled } from '@polkadot/react-components';
+
+import { type InfoRow, Occupancy } from '../types.js';
 
 const StyledTableCol = styled.td<{ hide?: 'mobile' | 'tablet' | 'both' }>`
   width: 150px;
@@ -25,17 +25,17 @@ const StyledTableCol = styled.td<{ hide?: 'mobile' | 'tablet' | 'both' }>`
 const TableCol = ({ header,
   hide,
   value }: {
-    header: string;
-    value: string | number | null | undefined;
-    hide?: 'mobile' | 'tablet' | 'both';
-  }) => (
+  header: string;
+  value: string | number | null | undefined;
+  hide?: 'mobile' | 'tablet' | 'both';
+}) => (
   <StyledTableCol hide={hide}>
     <h5 style={{ opacity: '0.6' }}>{header}</h5>
     <p>{value || <>&nbsp;</>}</p>
   </StyledTableCol>
 );
 
-function WorkInfoRow({ data }: { data: InfoRow }): React.ReactElement {
+function WorkInfoRow ({ data }: { data: InfoRow }): React.ReactElement {
   const NoTaskAssigned = !data.taskId;
 
   if (NoTaskAssigned) {
@@ -59,36 +59,44 @@ function WorkInfoRow({ data }: { data: InfoRow }): React.ReactElement {
             value={data.maskBits}
           />
           <TableCol
-            header="type"
+            header='type'
             value={'Reservation'}
           />
           <td colSpan={3} />
         </>
-      )
+      );
     }
 
     case (Occupancy.Lease): {
-      return ( 
-      <>
-        <TableCol
-          header='TaskId'
-          value={data.taskId}
-        />
-        <TableCol
-          header='Block/timeslice'
-          value={data.maskBits}
-        />
-        <TableCol
-          header="type"
-          value={'Legacy Lease'}
-        />
-        <TableCol
-          header='End'
-          hide='both'
-          value={data.end}
-        />
-        <td colSpan={2} />
-      </>)
+      return (
+        <>
+          <TableCol
+            header='TaskId'
+            value={data.taskId}
+          />
+          <TableCol
+            header='Block/timeslice'
+            value={data.maskBits}
+          />
+          <TableCol
+            header='Start'
+            hide='both'
+            value={data.start}
+          />
+          <TableCol
+            header='End'
+            hide='both'
+            value={data.end}
+          />
+          <TableCol
+            header='Last block'
+            value={data.endBlock}
+          />
+          <TableCol
+            header='type'
+            value={'Legacy Lease'}
+          />
+        </>);
     }
 
     default: {
@@ -124,9 +132,9 @@ function WorkInfoRow({ data }: { data: InfoRow }): React.ReactElement {
               value={data.owner}
             />
             : <p>&nbsp;</p>}
-        </StyledTableCol></>
+        </StyledTableCol></>;
     }
   }
 }
 
-  export default React.memo(WorkInfoRow);
+export default React.memo(WorkInfoRow);

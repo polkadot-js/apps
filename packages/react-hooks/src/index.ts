@@ -22,6 +22,8 @@ export { useBlockEvents } from './useBlockEvents.js';
 export { useBlockInterval } from './useBlockInterval.js';
 export { useBlocksPerDays } from './useBlocksPerDays.js';
 export { useBlockTime } from './useBlockTime.js';
+export { useBrokerLeases } from './useBrokerLeases.js';
+export { useBrokerReservations } from './useBrokerReservations.js';
 export { useBrokerStatus } from './useBrokerStatus.js';
 export { useCacheKey } from './useCacheKey.js';
 export { useCall } from './useCall.js';
@@ -92,5 +94,3 @@ export { useWindowColumns } from './useWindowColumns.js';
 export { useWindowSize } from './useWindowSize.js';
 export { useWorkloadInfos } from './useWorkloadInfos.js';
 export { useWorkplanInfos } from './useWorkplanInfos.js';
-export { useBrokerReservations } from './useBrokerReservations.js'
-export { useBrokerLeases } from './useBrokerLeases.js'

@@ -6,31 +6,35 @@ import type { Vec } from '@polkadot/types';
 import type { PalletBrokerLeaseRecordItem } from '@polkadot/types/lookup';
 
 import { useEffect, useState } from 'react';
+
 import { createNamedHook, useCall } from '@polkadot/react-hooks';
 
-type Lease = {
-  core: number, 
-  until: number, 
+interface Lease {
+  core: number,
+  until: number,
   task: string
 }
 
-function useBrokerLeasesImpl(api: ApiPromise, ready: boolean): Lease[] | undefined {
+function useBrokerLeasesImpl (api: ApiPromise, ready: boolean): Lease[] | undefined {
   const leases = useCall<[any, Vec<Vec<PalletBrokerLeaseRecordItem>>[]]>(ready && api.query.broker.leases);
   const [state, setState] = useState<Lease[]>();
 
   useEffect((): void => {
     if (!leases) {
-      return
+      return;
     }
+
     setState(
       leases.map((info: PalletBrokerLeaseRecordItem[], index: number) => {
         return {
           core: index,
           until: info.until.toNumber(),
           task: info.task.toString()
-        }}
-    ))
+        };
+      }
+      ));
   }, [leases]);
+
   return state;
 }
 

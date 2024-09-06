@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TabItem } from '@polkadot/react-components/types';
+import type { Lease, Reservation } from './types.js';
 
 import React, { useRef } from 'react';
 
@@ -10,7 +11,6 @@ import { useApi, useBrokerLeases, useBrokerReservations, useWorkloadInfos, useWo
 
 import Overview from './Overview/index.js';
 import { useTranslation } from './translate.js';
-import { Lease, Reservation } from './types.js';
 
 interface Props {
   basePath: string;
@@ -33,8 +33,8 @@ function BrokerApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { api, apiEndpoint, isApiReady } = useApi();
   const workloadInfos = useWorkloadInfos(api, isApiReady);
   const workplanInfos = useWorkplanInfos(api, isApiReady);
-  const reservations = useBrokerReservations(api, isApiReady) as unknown as Reservation[]
-  const leases = useBrokerLeases(api, isApiReady) as unknown as Lease[]
+  const reservations = useBrokerReservations(api, isApiReady) as unknown as Reservation[];
+  const leases = useBrokerLeases(api, isApiReady) as unknown as Lease[];
 
   return (
     <main className={className}>
@@ -46,10 +46,10 @@ function BrokerApp ({ basePath, className }: Props): React.ReactElement<Props> {
         api={api}
         apiEndpoint={apiEndpoint}
         isReady={isApiReady}
+        leases={leases}
+        reservations={reservations}
         workloadInfos={workloadInfos}
         workplanInfos={workplanInfos}
-        reservations={reservations}
-        leases={leases}
       />
     </main>
   );

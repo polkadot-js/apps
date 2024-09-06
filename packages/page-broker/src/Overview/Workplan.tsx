@@ -13,17 +13,17 @@ import WorkInfoRow from './WorkInfoRow.js';
 
 interface Props {
   className?: string;
-  value: CoreWorkplanInfo & {type: Occupancy};
+  value: CoreWorkplanInfo & {type: Occupancy, lastBlock: number};
   currentTimeSlice: number
   isExpanded: boolean
   region: RegionInfo | undefined
 }
 
-function Workplan ({ currentTimeSlice, isExpanded, region, value: { core, info, type } }: Props): React.ReactElement<Props> {
+function Workplan ({ currentTimeSlice, isExpanded, region, value: { core, info, lastBlock, type } }: Props): React.ReactElement<Props> {
   const [tableData, setTableData] = useState<InfoRow[]>();
 
   useEffect(() => {
-    setTableData(formatWorkInfo(info, core, region, currentTimeSlice, type));
+    setTableData(formatWorkInfo(info, core, region, currentTimeSlice, type, lastBlock));
   }, [info, region, core, currentTimeSlice]);
 
   if (!tableData?.length) {

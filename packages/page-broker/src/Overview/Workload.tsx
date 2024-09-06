@@ -16,12 +16,12 @@ import Workplan from './Workplan.js';
 
 interface Props {
   api: ApiPromise;
-  value: CoreWorkloadInfo & {type: Occupancy};
+  value: CoreWorkloadInfo & {type: Occupancy, lastBlock: number};
   timeslice: number;
   workplan?: CoreWorkplanInfo[] | null
 }
 
-function Workload ({ api, timeslice, value: { core, info, type }, workplan }: Props): React.ReactElement<Props> {
+function Workload ({ api, timeslice, value: { core, info, lastBlock, type }, workplan }: Props): React.ReactElement<Props> {
   const [isExpanded, toggleIsExpanded] = useToggle(false);
   const [tableData, setTableData] = useState<InfoRow[]>();
   const [currentRegion, setCurrentRegion] = useState<RegionInfo | undefined>();
@@ -30,7 +30,8 @@ function Workload ({ api, timeslice, value: { core, info, type }, workplan }: Pr
   useEffect(() => {
     if (info) {
       const region: RegionInfo | undefined = regionInfo?.find((v) => v.core === core && v.start <= timeslice && v.end > timeslice);
-      setTableData(formatWorkInfo(info, core, region, timeslice, type));
+
+      setTableData(formatWorkInfo(info, core, region, timeslice, type, lastBlock));
       setCurrentRegion(region);
     }
   }, [info, regionInfo, core, timeslice]);
