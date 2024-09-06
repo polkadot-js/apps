@@ -98,19 +98,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   },
 
   {
-    homepage: 'https://xcavate.io/',
-    info: 'Xcavate',
-    paraId: 4003,
-    providers: {
-      Xcavate: 'wss://rpc-paseo.xcavate.io:443'
-    },
-    text: 'Xcavate',
-    ui: {
-      color: '#FF0083',
-      logo: chainsXcavatePNG
-    }
-  },
-  {
     homepage: 'https://www.frequency.xyz',
     info: 'Frequency',
     paraId: 4000,
@@ -226,6 +213,19 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: 'linear-gradient(to right, rgb(230, 0, 122), rgb(83, 15, 160))',
       logo: chainsPopNetworkSVG
+    }
+  },
+  {
+    homepage: 'https://xcavate.io/',
+    info: 'Xcavate',
+    paraId: 4003,
+    providers: {
+      Xcavate: 'wss://rpc-paseo.xcavate.io:443'
+    },
+    text: 'Xcavate',
+    ui: {
+      color: '#FF0083',
+      logo: chainsXcavatePNG
     }
   }
 ];
