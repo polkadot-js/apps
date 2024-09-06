@@ -66,7 +66,6 @@ export { default as LinkExternal } from './LinkExternal.js';
 export { default as LockedVote } from './LockedVote.js';
 export { default as MarkError } from './MarkError.js';
 export { default as MarkWarning } from './MarkWarning.js';
-export { default as MaskCoverage } from './MaskCoverage.js';
 export { default as Menu } from './Menu/index.js';
 export { default as Modal } from './Modal/index.js';
 export { default as NextTick } from './NextTick.js';

@@ -25,7 +25,6 @@
       "@polkadot/app-alliance": ["page-alliance/src/index.tsx"],
       "@polkadot/app-ambassador": ["page-ambassador/src/index.tsx"],
       "@polkadot/app-assets": ["page-assets/src/index.tsx"],
-      "@polkadot/app-coretime": ["page-coretime/src/index.tsx"],
       "@polkadot/app-broker": ["page-broker/src/index.tsx"],
       "@polkadot/app-bounties": ["page-bounties/src/index.tsx"],
       "@polkadot/app-calendar": ["page-calendar/src/index.tsx"],

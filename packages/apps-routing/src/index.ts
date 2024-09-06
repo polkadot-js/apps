@@ -14,7 +14,6 @@ import calendar from './calendar.js';
 import claims from './claims.js';
 import collator from './collator.js';
 import contracts from './contracts.js';
-import coretime from './coretime.js';
 import council from './council.js';
 import democracy from './democracy.js';
 import explorer from './explorer.js';
