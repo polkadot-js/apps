@@ -3,7 +3,7 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { CoreWorkloadInfo, CoreWorkplanInfo, RegionInfo } from '@polkadot/react-hooks/types';
-import type { InfoRow } from '../types.js';
+import type { InfoRow, Occupancy, Reservation } from '../types.js';
 
 import React, { useEffect, useState } from 'react';
 
@@ -16,12 +16,12 @@ import Workplan from './Workplan.js';
 
 interface Props {
   api: ApiPromise;
-  value: CoreWorkloadInfo;
+  value: CoreWorkloadInfo & {type: Occupancy};
   timeslice: number;
-  workplan?: CoreWorkplanInfo[] | null,
+  workplan?: CoreWorkplanInfo[] | null
 }
 
-function Workload ({ api, timeslice, value: { core, info }, workplan }: Props): React.ReactElement<Props> {
+function Workload ({ api, timeslice, value: { core, info, type }, workplan }: Props): React.ReactElement<Props> {
   const [isExpanded, toggleIsExpanded] = useToggle(false);
   const [tableData, setTableData] = useState<InfoRow[]>();
   const [currentRegion, setCurrentRegion] = useState<RegionInfo | undefined>();
@@ -30,8 +30,7 @@ function Workload ({ api, timeslice, value: { core, info }, workplan }: Props): 
   useEffect(() => {
     if (info) {
       const region: RegionInfo | undefined = regionInfo?.find((v) => v.core === core && v.start <= timeslice && v.end > timeslice);
-
-      setTableData(formatWorkInfo(info, core, region, timeslice));
+      setTableData(formatWorkInfo(info, core, region, timeslice, type));
       setCurrentRegion(region);
     }
   }, [info, regionInfo, core, timeslice]);

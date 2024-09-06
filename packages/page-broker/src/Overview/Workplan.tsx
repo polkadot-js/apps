@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CoreWorkplanInfo, RegionInfo } from '@polkadot/react-hooks/types';
-import type { InfoRow } from '../types.js';
+import type { InfoRow, Occupancy } from '../types.js';
 
 import React, { useEffect, useState } from 'react';
 
@@ -13,17 +13,17 @@ import WorkInfoRow from './WorkInfoRow.js';
 
 interface Props {
   className?: string;
-  value: CoreWorkplanInfo;
+  value: CoreWorkplanInfo & {type: Occupancy};
   currentTimeSlice: number
   isExpanded: boolean
   region: RegionInfo | undefined
 }
 
-function Workplan ({ currentTimeSlice, isExpanded, region, value: { core, info } }: Props): React.ReactElement<Props> {
+function Workplan ({ currentTimeSlice, isExpanded, region, value: { core, info, type } }: Props): React.ReactElement<Props> {
   const [tableData, setTableData] = useState<InfoRow[]>();
 
   useEffect(() => {
-    setTableData(formatWorkInfo(info, core, region, currentTimeSlice));
+    setTableData(formatWorkInfo(info, core, region, currentTimeSlice, type));
   }, [info, region, core, currentTimeSlice]);
 
   if (!tableData?.length) {

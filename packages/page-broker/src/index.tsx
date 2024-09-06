@@ -6,7 +6,7 @@ import type { TabItem } from '@polkadot/react-components/types';
 import React, { useRef } from 'react';
 
 import { Tabs } from '@polkadot/react-components';
-import { useApi, useWorkloadInfos, useWorkplanInfos } from '@polkadot/react-hooks';
+import { useApi, useBrokerReservations, useWorkloadInfos, useWorkplanInfos } from '@polkadot/react-hooks';
 
 import Overview from './Overview/index.js';
 import { useTranslation } from './translate.js';
@@ -32,6 +32,7 @@ function BrokerApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { api, apiEndpoint, isApiReady } = useApi();
   const workloadInfos = useWorkloadInfos(api, isApiReady);
   const workplanInfos = useWorkplanInfos(api, isApiReady);
+  const reservations = useBrokerReservations(api, isApiReady)
 
   return (
     <main className={className}>
@@ -45,6 +46,7 @@ function BrokerApp ({ basePath, className }: Props): React.ReactElement<Props> {
         isReady={isApiReady}
         workloadInfos={workloadInfos}
         workplanInfos={workplanInfos}
+        reservations={reservations}
       />
     </main>
   );

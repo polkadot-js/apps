@@ -3,7 +3,7 @@
 
 import type { CoreWorkloadInfo, RegionInfo } from '@polkadot/react-hooks/types';
 import type { PalletBrokerScheduleItem } from '@polkadot/types/lookup';
-import type { InfoRow } from './types.js';
+import { Occupancy, type InfoRow } from './types.js';
 
 import { BN } from '@polkadot/util';
 
@@ -73,7 +73,7 @@ export function sortByCore<T extends { core: number }> (dataArray?: T | T[]): T[
   return sanitized.sort((a, b) => a.core - b.core);
 }
 
-export function formatWorkInfo (info: PalletBrokerScheduleItem[], core: number, currentRegion: RegionInfo | undefined, timeslice: number) {
+export function formatWorkInfo (info: PalletBrokerScheduleItem[], core: number, currentRegion: RegionInfo | undefined, timeslice: number, type: Occupancy) {
   const infoVec: InfoRow[] = [];
 
   info.forEach((data) => {
@@ -92,6 +92,7 @@ export function formatWorkInfo (info: PalletBrokerScheduleItem[], core: number, 
       item.endBlock = Number(end) * 80;
       item.owner = currentRegion?.owner.toString();
     }
+    item.type = type
 
     infoVec.push(item);
   });

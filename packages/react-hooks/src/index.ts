@@ -92,3 +92,4 @@ export { useWindowColumns } from './useWindowColumns.js';
 export { useWindowSize } from './useWindowSize.js';
 export { useWorkloadInfos } from './useWorkloadInfos.js';
 export { useWorkplanInfos } from './useWorkplanInfos.js';
+export { useBrokerReservations } from './useBrokerReservations.js'

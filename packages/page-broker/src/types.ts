@@ -13,6 +13,7 @@ export interface InfoRow {
   owner?: string
   leaseLength?: number
   endBlock?: number
+  type?: Occupancy
 }
 
 export interface CoreInfo {
@@ -25,4 +26,13 @@ export interface statsType {
   idles: number,
   pools: number,
   tasks: number
+}
+
+
+export type Reservation = {core: number, task: string, mask: number}
+
+export enum Occupancy {
+  'Reservation',
+  'Lease',
+  'Rent'
 }
