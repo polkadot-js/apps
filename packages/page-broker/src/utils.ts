@@ -1,7 +1,7 @@
 // Copyright 2017-2024 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CoreWorkloadInfo, RegionInfo } from '@polkadot/react-hooks/types';
+import type { CoreWorkloadInfo, CoreWorkplanInfo, RegionInfo } from '@polkadot/react-hooks/types';
 import type { PalletBrokerScheduleItem } from '@polkadot/types/lookup';
 import { Occupancy, type InfoRow } from './types.js';
 
@@ -35,7 +35,6 @@ function formatDate (date: Date) {
 export const estimateTime = (targetBlock: string, latestBlock: number, timestamp: number): string | null => {
   if (!timestamp || !latestBlock || !targetBlock) {
     console.error('Invalid input: one or more inputs are missing');
-
     return null;
   }
 
@@ -78,8 +77,7 @@ export function formatWorkInfo (info: PalletBrokerScheduleItem[], core: number, 
 
   info.forEach((data) => {
     const maskBits: number = processHexMask(data.mask).length;
-    const isPool = data?.assignment.isPool;
-    const taskId = data?.assignment.isTask ? data?.assignment.asTask.toString() : isPool ? 'Pool' : '';
+    const taskId = getTaskId(data)
     const item: InfoRow = { core, maskBits, taskId };
 
     if (currentRegion) {
@@ -93,7 +91,6 @@ export function formatWorkInfo (info: PalletBrokerScheduleItem[], core: number, 
       item.owner = currentRegion?.owner.toString();
     }
     item.type = type
-
     infoVec.push(item);
   });
 
@@ -123,3 +120,6 @@ export function getStats (totalCores: string | undefined, workloadInfos: CoreWor
 
   return { idles, pools, tasks };
 }
+
+export const getTaskId = (info: PalletBrokerScheduleItem): string => 
+  info?.assignment?.isTask ? info?.assignment?.asTask.toString() : info?.assignment?.isPool ? 'Pool' : ''

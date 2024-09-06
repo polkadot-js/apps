@@ -67,9 +67,28 @@ function WorkInfoRow({ data }: { data: InfoRow }): React.ReactElement {
       )
     }
 
-
     case (Occupancy.Lease): {
-      return <></>
+      return ( 
+      <>
+        <TableCol
+          header='TaskId'
+          value={data.taskId}
+        />
+        <TableCol
+          header='Block/timeslice'
+          value={data.maskBits}
+        />
+        <TableCol
+          header="type"
+          value={'Legacy Lease'}
+        />
+        <TableCol
+          header='End'
+          hide='both'
+          value={data.end}
+        />
+        <td colSpan={2} />
+      </>)
     }
 
     default: {

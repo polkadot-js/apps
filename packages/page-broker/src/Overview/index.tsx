@@ -14,7 +14,8 @@ import { useCall, useDebounce } from '@polkadot/react-hooks';
 import { useTranslation } from '../translate.js';
 import CoresTable from './CoresTables.js';
 import Summary from './Summary.js';
-import { Occupancy, Reservation } from '../types.js';
+import { Lease, Occupancy, Reservation } from '../types.js';
+import { getTaskId } from '../utils.js';
 
 const StyledDiv = styled.div`
   @media (max-width: 768px) {
@@ -27,6 +28,7 @@ interface Props {
   workloadInfos?: CoreWorkloadInfo[];
   workplanInfos?: CoreWorkplanInfo[];
   reservations: Reservation[],
+  leases: Lease[],
   coreInfos?: CoreDescription[];
   apiEndpoint?: LinkOption | null;
   api: ApiPromise;
@@ -35,7 +37,7 @@ interface Props {
 
 const filterLoad = (parachainId: string, load: CoreWorkloadInfo[] | CoreWorkplanInfo[], workloadCoreSelected: number) => {
   if (parachainId) {
-    return load?.filter(({ info }) => info?.[0]?.assignment.isTask ? info?.[0]?.assignment.asTask.toString() === parachainId : false);
+    return load?.filter(({ info }) => getTaskId(info?.[0]) === parachainId);
   }
   if (workloadCoreSelected === -1) {
     return load;
@@ -43,7 +45,12 @@ const filterLoad = (parachainId: string, load: CoreWorkloadInfo[] | CoreWorkplan
   return load?.filter(({ core }) => core === workloadCoreSelected);
 };
 
-function Overview ({ api, apiEndpoint, className, isReady, workloadInfos, workplanInfos, reservations }: Props): React.ReactElement<Props> {
+const getOccupancyType = (core: number, taskId: string, leases: Lease[], reservations: Reservation[]) => {
+  return !!reservations.find(c => c.core === core) ? Occupancy.Reservation :
+    !!leases.find(c => c.task === taskId) ? Occupancy.Lease : Occupancy.Rent
+}
+
+function Overview({ api, apiEndpoint, className, isReady, workloadInfos, workplanInfos, reservations, leases }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [workloadCoreSelected, setWorkloadCoreSelected] = useState(-1);
   const [workLoad, setWorkLoad] = useState<Array<CoreWorkloadInfo>>();
@@ -55,7 +62,7 @@ function Overview ({ api, apiEndpoint, className, isReady, workloadInfos, workpl
   useEffect(() => {
     setWorkPlan(workplanInfos?.map(w => ({
       ...w,
-      type: !!reservations.find(c => c.core === w.core) ? Occupancy.Reservation : Occupancy.Rent
+      type: getOccupancyType(w.core, getTaskId(w.info[0]), leases, reservations)
     })))
   }, [workplanInfos]);
 
@@ -64,10 +71,9 @@ function Overview ({ api, apiEndpoint, className, isReady, workloadInfos, workpl
     setCoreArr(newCoreArr);
     setWorkLoad(workloadInfos?.map(w => ({
       ...w,
-      type: !!reservations.find(c => c.core === w.core) ? Occupancy.Reservation : Occupancy.Rent
+      type: getOccupancyType(w.core, getTaskId(w.info[0]), leases, reservations)
     })))
   }, [workloadInfos]);
-  
 
   const workloadCoreOpts = useMemo(
     () => [{ text: t('All active/available cores'), value: -1 }].concat(
@@ -88,12 +94,12 @@ function Overview ({ api, apiEndpoint, className, isReady, workloadInfos, workpl
     [workLoad, workloadCoreSelected, parachainId]
   );
 
-  function onDropDownChange (v: number) {
+  function onDropDownChange(v: number) {
     setWorkloadCoreSelected(v);
     setParachainId('');
   }
 
-  function onInputChange (v: string) {
+  function onInputChange(v: string) {
     setParachainId(v);
     setWorkloadCoreSelected(-1);
   }
