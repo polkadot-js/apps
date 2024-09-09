@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CoreWorkload, CoreWorkloadInfo, RegionInfo } from '@polkadot/react-hooks/types';
-import type { PalletBrokerScheduleItem } from '@polkadot/types/lookup';
 import type { InfoRow, Occupancy } from './types.js';
 
 import { BN } from '@polkadot/util';
@@ -50,7 +49,9 @@ export function sortByCore<T extends { core: number }> (dataArray?: T | T[]): T[
   if (!dataArray) {
     return [];
   }
+
   const sanitized = Array.isArray(dataArray) ? dataArray : [dataArray];
+
   return sanitized.sort((a, b) => a.core - b.core);
 }
 

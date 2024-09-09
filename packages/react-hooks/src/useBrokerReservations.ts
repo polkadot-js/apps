@@ -1,21 +1,16 @@
-// Copyright 2017-2024 @polkadot/app-coretime authors & contributors
+// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
 import type { Vec } from '@polkadot/types';
 import type { PalletBrokerScheduleItem } from '@polkadot/types/lookup';
+import type { Reservation } from './types.js';
 
 import { useEffect, useState } from 'react';
 
 import { createNamedHook, useCall } from '@polkadot/react-hooks';
 
 import { processHexMask } from './utils/dataProcessing.js';
-
-interface Reservation {
-  assignment: string
-  core: number,
-  mask: number,
-}
 
 function useBrokerReservationsImpl (api: ApiPromise, ready: boolean): Reservation[] | undefined {
   const reservations = useCall<[any, Vec<Vec<PalletBrokerScheduleItem>>[]]>(ready && api.query.broker.reservations);
@@ -27,11 +22,10 @@ function useBrokerReservationsImpl (api: ApiPromise, ready: boolean): Reservatio
     }
 
     setState(
-      reservations.map((info: PalletBrokerScheduleItem[], index: number) => {
+      reservations.map((info: PalletBrokerScheduleItem[]) => {
         return {
-          assignment: info[0]?.assignment?.isTask ? info[0]?.assignment?.asTask.toString() : info[0]?.assignment?.isPool ? 'Pool' : '',
-          core: index,
           mask: processHexMask(info[0]?.mask)?.length ?? 0,
+          task: info[0]?.assignment?.isTask ? info[0]?.assignment?.asTask.toString() : info[0]?.assignment?.isPool ? 'Pool' : ''
         };
       }
       ));

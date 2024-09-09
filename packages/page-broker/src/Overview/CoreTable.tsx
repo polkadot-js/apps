@@ -19,7 +19,7 @@ interface Props {
   timeslice: number,
 }
 
-function CoreTable({ api, core, timeslice, workload, workplan }: Props): React.ReactElement<Props> {
+function CoreTable ({ api, core, timeslice, workload, workplan }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const headerRef = useRef<([React.ReactNode?, string?] | false)[]>([[t('core')]]);
   const header = [[<div key={`header${core}`}>{headerRef.current} {core} <span></span></div>, 'core', 8]];

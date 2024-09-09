@@ -1,8 +1,8 @@
-// Copyright 2017-2024 @polkadot/app-coretime authors & contributors
+// Copyright 2017-2024 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TabItem } from '@polkadot/react-components/types';
-import type { Lease, Reservation } from './types.js';
+import type { CoreWorkload, LegacyLease, Reservation } from '@polkadot/react-hooks/types';
 
 import React, { useRef } from 'react';
 
@@ -11,14 +11,13 @@ import { useApi, useBrokerLeases, useBrokerReservations, useWorkloadInfos, useWo
 
 import Overview from './Overview/index.js';
 import { useTranslation } from './translate.js';
-import { CoreWorkload } from '@polkadot/react-hooks/types';
 
 interface Props {
   basePath: string;
   className?: string;
 }
 
-function createItemsRef(t: (key: string, options?: { replace: Record<string, unknown> }) => string): TabItem[] {
+function createItemsRef (t: (key: string, options?: { replace: Record<string, unknown> }) => string): TabItem[] {
   return [
     {
       isRoot: true,
@@ -28,14 +27,14 @@ function createItemsRef(t: (key: string, options?: { replace: Record<string, unk
   ];
 }
 
-function BrokerApp({ basePath, className }: Props): React.ReactElement<Props> {
+function BrokerApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const itemsRef = useRef(createItemsRef(t));
   const { api, apiEndpoint, isApiReady } = useApi();
   const workloadInfos: CoreWorkload[] | undefined = useWorkloadInfos(api, isApiReady);
   const workplanInfos = useWorkplanInfos(api, isApiReady);
-  const reservations = useBrokerReservations(api, isApiReady) as unknown as Reservation[];
-  const leases = useBrokerLeases(api, isApiReady) as unknown as Lease[];
+  const reservations: Reservation[] = useBrokerReservations(api, isApiReady);
+  const leases: LegacyLease[] = useBrokerLeases(api, isApiReady);
 
   return (
     <main className={className}>

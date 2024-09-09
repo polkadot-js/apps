@@ -39,7 +39,7 @@ interface Props {
   workloadInfos?: CoreWorkload[] | CoreWorkload
 }
 
-function Summary({ workloadInfos }: Props): React.ReactElement {
+function Summary ({ workloadInfos }: Props): React.ReactElement {
   const { t } = useTranslation();
   const { api, apiEndpoint } = useApi();
   const renewalBump = useRenewalBump();

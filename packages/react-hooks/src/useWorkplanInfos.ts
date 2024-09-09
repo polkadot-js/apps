@@ -1,31 +1,33 @@
-// Copyright 2017-2024 @polkadot/app-coretime authors & contributors
+// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
 import type { Option, StorageKey, u16, u32, Vec } from '@polkadot/types';
 import type { PalletBrokerScheduleItem } from '@polkadot/types/lookup';
-import type { CoreWorkplan } from './types.js';
 import type { BN } from '@polkadot/util';
+import type { CoreWorkplan } from './types.js';
 
 import { useEffect, useState } from 'react';
 
 import { createNamedHook, useCall, useMapKeys } from '@polkadot/react-hooks';
+
 import { processHexMask } from './utils/dataProcessing.js';
 
 function extractInfo (info: Vec<PalletBrokerScheduleItem>, core: number, timeslice: number): CoreWorkplan {
   const mask: string[] = processHexMask(info[0]?.mask);
-  const assignment = info[0].assignment
+  const assignment = info[0].assignment;
+
   return {
     core,
-    timeslice,
     info: {
+      isPool: assignment.isPool,
+      isTask: assignment.isTask,
       mask,
       maskBits: mask.length,
-      task: assignment.isTask ? assignment.asTask.toString() : assignment.isPool ? 'Pool' : '',
-      isTask: assignment.isTask,
-      isPool: assignment.isPool
-    }
-  }
+      task: assignment.isTask ? assignment.asTask.toString() : assignment.isPool ? 'Pool' : ''
+    },
+    timeslice
+  };
 }
 
 const OPT_KEY = {
@@ -45,15 +47,18 @@ function useWorkplanInfosImpl (api: ApiPromise, ready: boolean): CoreWorkplan[] 
   const [state, setState] = useState<CoreWorkplan[] | undefined>();
 
   useEffect(() => {
-    if (!workplanInfo || !workplanInfo?.[1] || !workplanInfo[0]?.[0]) return
+    if (!workplanInfo?.[1] || !workplanInfo[0]?.[0]) {
+      return;
+    }
+
     const coreInfo = workplanInfo[0][0];
+
     setState(
-      coreInfo.map((core: Array<BN>, index) => 
+      coreInfo.map((core: BN[], index) =>
         extractInfo(workplanInfo[1][index].unwrap(), core[1].toNumber(), core[0].toNumber())
       )
-    )
-    
-  }, [workplanInfo])
+    );
+  }, [workplanInfo]);
 
   return state;
 }

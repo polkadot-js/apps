@@ -18,7 +18,7 @@ interface Props {
   timeslice: number;
 }
 
-function CoresTable({ api, cores, timeslice, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
+function CoresTable ({ api, cores, timeslice, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
   const coreArr = [];
   const sanitizedLoad: CoreWorkload[] = sortByCore(workloadInfos);
   const sanitizedPlan: CoreWorkplan[] = sortByCore(workplanInfos);

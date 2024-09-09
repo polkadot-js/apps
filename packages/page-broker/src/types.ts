@@ -28,13 +28,6 @@ export interface statsType {
   tasks: number
 }
 
-export interface Reservation {core: number, task: string, mask: number}
-export interface Lease {
-  core: number,
-  until: number,
-  task: string
-}
-
 export enum Occupancy {
   'Reservation',
   'Lease',

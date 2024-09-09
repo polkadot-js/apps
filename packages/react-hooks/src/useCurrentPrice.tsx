@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-coretime authors & contributors
+// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletBrokerSaleInfoRecord } from '@polkadot/types/lookup';

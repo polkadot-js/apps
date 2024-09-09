@@ -8,7 +8,7 @@ import type { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/ap
 import type { DisplayedJudgement } from '@polkadot/react-components/types';
 import type { Option, u32, u128, Vec } from '@polkadot/types';
 import type { AccountId, BlockNumber, Call, Hash, SessionIndex, ValidatorPrefs } from '@polkadot/types/interfaces';
-import type { PalletBrokerScheduleItem, PalletPreimageRequestStatus, PalletStakingRewardDestination, PalletStakingStakingLedger, PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor, SpStakingExposurePage, SpStakingPagedExposureMetadata } from '@polkadot/types/lookup';
+import type { PalletPreimageRequestStatus, PalletStakingRewardDestination, PalletStakingStakingLedger, PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor, SpStakingExposurePage, SpStakingPagedExposureMetadata } from '@polkadot/types/lookup';
 import type { ICompact, IExtrinsic, INumber } from '@polkadot/types/types';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { BN } from '@polkadot/util';
@@ -260,4 +260,15 @@ export interface RegionInfo {
   owner: string,
   paid: string,
   mask: `0x${string}`
+}
+
+export interface Reservation {
+  task: string
+  mask: number,
+}
+
+export interface LegacyLease {
+  core: number,
+  until: number,
+  task: string
 }
