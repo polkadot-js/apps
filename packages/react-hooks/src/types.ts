@@ -227,15 +227,30 @@ export interface OnDemandQueueStatus {
   freedIndices: [string, u32][];
 }
 
+export interface CoreWorkload {
+  core: number,
+  info: CoreWorkloadInfo
+}
+
 export interface CoreWorkloadInfo {
+  task: number | string,
+  isTask: boolean
+  isPool: boolean
+  mask: string[]
+  maskBits: number
+}
+export interface CoreWorkplan {
   core: number;
-  info: PalletBrokerScheduleItem[];
+  info: CoreWorkplanInfo
+  timeslice: number;
 }
 
 export interface CoreWorkplanInfo {
-  timeslice: number;
-  core: number;
-  info: PalletBrokerScheduleItem[];
+  task: number | string,
+  isTask: boolean
+  isPool: boolean
+  mask: string[]
+  maskBits: number
 }
 
 export interface RegionInfo {

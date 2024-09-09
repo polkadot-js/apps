@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { CoreWorkloadInfo, CoreWorkplanInfo } from '@polkadot/react-hooks/types';
+import type { CoreWorkload, CoreWorkplan } from '@polkadot/react-hooks/types';
 import type { CoreInfo } from '../types.js';
 
 import React from 'react';
@@ -13,15 +13,15 @@ import CoreTable from './CoreTable.js';
 interface Props {
   api: ApiPromise;
   cores?: number;
-  workloadInfos?: CoreWorkloadInfo[] | CoreWorkloadInfo;
-  workplanInfos?: CoreWorkplanInfo[] | CoreWorkplanInfo;
+  workloadInfos?: CoreWorkload[] | CoreWorkload;
+  workplanInfos?: CoreWorkplan[] | CoreWorkplan;
   timeslice: number;
 }
 
-function CoresTable ({ api, cores, timeslice, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
+function CoresTable({ api, cores, timeslice, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
   const coreArr = [];
-  const sanitizedLoad: CoreWorkloadInfo[] = sortByCore(workloadInfos);
-  const sanitizedPlan: CoreWorkplanInfo[] = sortByCore(workplanInfos);
+  const sanitizedLoad: CoreWorkload[] = sortByCore(workloadInfos);
+  const sanitizedPlan: CoreWorkplan[] = sortByCore(workplanInfos);
 
   if (cores === -1 && !!sanitizedLoad) {
     coreArr.push(...sanitizedLoad.map((plan) => plan.core));

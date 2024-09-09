@@ -4,18 +4,28 @@
 import type { ApiPromise } from '@polkadot/api';
 import type { Option, StorageKey, u16, u32, Vec } from '@polkadot/types';
 import type { PalletBrokerScheduleItem } from '@polkadot/types/lookup';
-import type { CoreWorkplanInfo } from './types.js';
+import type { CoreWorkplan } from './types.js';
+import type { BN } from '@polkadot/util';
 
 import { useEffect, useState } from 'react';
 
 import { createNamedHook, useCall, useMapKeys } from '@polkadot/react-hooks';
+import { processHexMask } from './utils/dataProcessing.js';
 
-function extractInfo (info: Vec<PalletBrokerScheduleItem>, timeslice: number, core: number) {
+function extractInfo (info: Vec<PalletBrokerScheduleItem>, core: number, timeslice: number): CoreWorkplan {
+  const mask: string[] = processHexMask(info[0]?.mask);
+  const assignment = info[0].assignment
   return {
     core,
-    info,
-    timeslice
-  };
+    timeslice,
+    info: {
+      mask,
+      maskBits: mask.length,
+      task: assignment.isTask ? assignment.asTask.toString() : assignment.isPool ? 'Pool' : '',
+      isTask: assignment.isTask,
+      isPool: assignment.isPool
+    }
+  }
 }
 
 const OPT_KEY = {
@@ -23,7 +33,7 @@ const OPT_KEY = {
     keys.map(({ args: [timeslice, core] }) => [timeslice, core])
 };
 
-function useWorkplanInfosImpl (api: ApiPromise, ready: boolean): CoreWorkplanInfo[] | undefined {
+function useWorkplanInfosImpl (api: ApiPromise, ready: boolean): CoreWorkplan[] | undefined {
   const workplanKeys = useMapKeys(ready && api.query.broker.workplan, [], OPT_KEY);
 
   const sanitizedKeys = workplanKeys?.map((value) => {
@@ -32,16 +42,18 @@ function useWorkplanInfosImpl (api: ApiPromise, ready: boolean): CoreWorkplanInf
 
   const workplanInfo = useCall<[[[u32, u16][]], Option<Vec<PalletBrokerScheduleItem>>[]]>(ready && api.query.broker.workplan.multi, [sanitizedKeys], { withParams: true });
 
-  const [state, setState] = useState<CoreWorkplanInfo[] | undefined>();
+  const [state, setState] = useState<CoreWorkplan[] | undefined>();
 
-  useEffect((): void => {
-    workplanInfo?.[1] &&
-      setState(
-        workplanInfo[0][0].map((info, index) =>
-          extractInfo(workplanInfo[1][index].unwrap(), info[0].toNumber(), info[1].toNumber())
-        )
-      );
-  }, [workplanInfo]);
+  useEffect(() => {
+    if (!workplanInfo || !workplanInfo?.[1] || !workplanInfo[0]?.[0]) return
+    const coreInfo = workplanInfo[0][0];
+    setState(
+      coreInfo.map((core: Array<BN>, index) => 
+        extractInfo(workplanInfo[1][index].unwrap(), core[1].toNumber(), core[0].toNumber())
+      )
+    )
+    
+  }, [workplanInfo])
 
   return state;
 }

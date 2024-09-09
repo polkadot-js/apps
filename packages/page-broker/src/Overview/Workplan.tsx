@@ -13,13 +13,13 @@ import WorkInfoRow from './WorkInfoRow.js';
 
 interface Props {
   className?: string;
-  value: CoreWorkplanInfo & {type: Occupancy, lastBlock: number};
+  value: CoreWorkplanInfo & { type: Occupancy, lastBlock: number };
   currentTimeSlice: number
   isExpanded: boolean
   region: RegionInfo | undefined
 }
 
-function Workplan ({ currentTimeSlice, isExpanded, region, value: { core, info, lastBlock, type } }: Props): React.ReactElement<Props> {
+function Workplan({ currentTimeSlice, isExpanded, region, value: { core, info, lastBlock, type } }: Props): React.ReactElement<Props> {
   const [tableData, setTableData] = useState<InfoRow[]>();
 
   useEffect(() => {

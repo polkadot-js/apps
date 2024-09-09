@@ -7,11 +7,10 @@ export function hexToBin (hex: string): string {
   return parseInt(hex, 16).toString(2);
 }
 
-export function processHexMask (mask: PalletBrokerScheduleItem['mask'] | undefined) {
+export function processHexMask (mask: PalletBrokerScheduleItem['mask'] | undefined): Array<string> {
   if (!mask) {
-    return;
+    return [];
   }
-
   const trimmedHex: string = mask.toHex().slice(2);
   const arr: string[] = trimmedHex.split('');
   const buffArr: string[] = [];

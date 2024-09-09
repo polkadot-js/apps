@@ -11,13 +11,14 @@ import { useApi, useBrokerLeases, useBrokerReservations, useWorkloadInfos, useWo
 
 import Overview from './Overview/index.js';
 import { useTranslation } from './translate.js';
+import { CoreWorkload } from '@polkadot/react-hooks/types';
 
 interface Props {
   basePath: string;
   className?: string;
 }
 
-function createItemsRef (t: (key: string, options?: { replace: Record<string, unknown> }) => string): TabItem[] {
+function createItemsRef(t: (key: string, options?: { replace: Record<string, unknown> }) => string): TabItem[] {
   return [
     {
       isRoot: true,
@@ -27,11 +28,11 @@ function createItemsRef (t: (key: string, options?: { replace: Record<string, un
   ];
 }
 
-function BrokerApp ({ basePath, className }: Props): React.ReactElement<Props> {
+function BrokerApp({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const itemsRef = useRef(createItemsRef(t));
   const { api, apiEndpoint, isApiReady } = useApi();
-  const workloadInfos = useWorkloadInfos(api, isApiReady);
+  const workloadInfos: CoreWorkload[] | undefined = useWorkloadInfos(api, isApiReady);
   const workplanInfos = useWorkplanInfos(api, isApiReady);
   const reservations = useBrokerReservations(api, isApiReady) as unknown as Reservation[];
   const leases = useBrokerLeases(api, isApiReady) as unknown as Lease[];

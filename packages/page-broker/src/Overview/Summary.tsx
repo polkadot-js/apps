@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
-import type { CoreWorkloadInfo } from '@polkadot/react-hooks/types';
+import type { CoreWorkload } from '@polkadot/react-hooks/types';
 import type { statsType } from '../types.js';
 
 import React from 'react';
@@ -36,10 +36,10 @@ const StyledSection = styled.section`
 
 interface Props {
   apiEndpoint?: LinkOption | null;
-  workloadInfos?: CoreWorkloadInfo[] | CoreWorkloadInfo
+  workloadInfos?: CoreWorkload[] | CoreWorkload
 }
 
-function Summary ({ workloadInfos }: Props): React.ReactElement {
+function Summary({ workloadInfos }: Props): React.ReactElement {
   const { t } = useTranslation();
   const { api, apiEndpoint } = useApi();
   const renewalBump = useRenewalBump();

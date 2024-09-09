@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { CoreWorkloadInfo, CoreWorkplanInfo, RegionInfo } from '@polkadot/react-hooks/types';
-import type { InfoRow, Occupancy, Reservation } from '../types.js';
+import type { CoreWorkload, CoreWorkplan, RegionInfo } from '@polkadot/react-hooks/types';
+import type { InfoRow, Occupancy } from '../types.js';
 
 import React, { useEffect, useState } from 'react';
 
@@ -16,12 +16,12 @@ import Workplan from './Workplan.js';
 
 interface Props {
   api: ApiPromise;
-  value: CoreWorkloadInfo & {type: Occupancy, lastBlock: number};
+  value: CoreWorkload & { type: Occupancy, lastBlock: number };
   timeslice: number;
-  workplan?: CoreWorkplanInfo[] | null
+  workplan?: CoreWorkplan[] | null
 }
 
-function Workload ({ api, timeslice, value: { core, info, lastBlock, type }, workplan }: Props): React.ReactElement<Props> {
+function Workload({ api, timeslice, value: { core, info, lastBlock, type }, workplan }: Props): React.ReactElement<Props> {
   const [isExpanded, toggleIsExpanded] = useToggle(false);
   const [tableData, setTableData] = useState<InfoRow[]>();
   const [currentRegion, setCurrentRegion] = useState<RegionInfo | undefined>();

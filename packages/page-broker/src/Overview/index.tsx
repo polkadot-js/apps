@@ -3,7 +3,7 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
-import type { CoreDescription, CoreWorkloadInfo, CoreWorkplanInfo } from '@polkadot/react-hooks/types';
+import type { CoreDescription, CoreWorkload, CoreWorkplan } from '@polkadot/react-hooks/types';
 import type { PalletBrokerStatusRecord } from '@polkadot/types/lookup';
 import type { Lease, Reservation } from '../types.js';
 
@@ -14,7 +14,6 @@ import { useCall, useDebounce } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
 import { Occupancy } from '../types.js';
-import { getTaskId } from '../utils.js';
 import CoresTable from './CoresTables.js';
 import Summary from './Summary.js';
 
@@ -26,8 +25,8 @@ const StyledDiv = styled.div`
 
 interface Props {
   className?: string;
-  workloadInfos?: CoreWorkloadInfo[];
-  workplanInfos?: CoreWorkplanInfo[];
+  workloadInfos?: CoreWorkload[];
+  workplanInfos?: CoreWorkplan[];
   reservations: Reservation[],
   leases: Lease[],
   coreInfos?: CoreDescription[];
@@ -36,9 +35,9 @@ interface Props {
   isReady: boolean;
 }
 
-const filterLoad = (parachainId: string, load: CoreWorkloadInfo[] | CoreWorkplanInfo[], workloadCoreSelected: number) => {
+const filterLoad = (parachainId: string, load: CoreWorkload[] | CoreWorkplan[], workloadCoreSelected: number) => {
   if (parachainId) {
-    return load?.filter(({ info }) => getTaskId(info?.[0]) === parachainId);
+    return load?.filter(({ info }) => info.task === parachainId);
   }
 
   if (workloadCoreSelected === -1) {
@@ -55,16 +54,15 @@ const getOccupancyType = (lease: Lease | undefined, reservation: Reservation | u
 function Overview({ api, apiEndpoint, className, isReady, leases, reservations, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [workloadCoreSelected, setWorkloadCoreSelected] = useState(-1);
-  const [workLoad, setWorkLoad] = useState<CoreWorkloadInfo[]>();
-  const [workPlan, setWorkPlan] = useState<CoreWorkplanInfo[]>();
+  const [workLoad, setWorkLoad] = useState<CoreWorkload[]>();
+  const [workPlan, setWorkPlan] = useState<CoreWorkplan[]>();
   const [_parachainId, setParachainId] = useState<string>('');
   const parachainId = useDebounce(_parachainId);
   const [coreArr, setCoreArr] = useState<number[]>([]);
 
   useEffect(() => {
     setWorkPlan(workplanInfos?.map((w) => {
-      const taskId = getTaskId(w.info[0]);
-      const lease = leases.find((c) => c.task === taskId);
+      const lease = leases.find((c) => c.task === w.info.task);
       const reservation = reservations.find((c) => c.core === w.core);
 
       return {
@@ -80,8 +78,7 @@ function Overview({ api, apiEndpoint, className, isReady, leases, reservations, 
 
     setCoreArr(newCoreArr);
     setWorkLoad(workloadInfos?.map((w) => {
-      const taskId = getTaskId(w.info[0]);
-      const lease = leases.find((c) => c.task === taskId);
+      const lease = leases.find((c) => c.task === w.info.task);
       const reservation = reservations.find((c) => c.core === w.core);
 
       return {
