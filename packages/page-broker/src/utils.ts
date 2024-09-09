@@ -1,10 +1,18 @@
 // Copyright 2017-2024 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CoreWorkload, CoreWorkloadInfo, RegionInfo } from '@polkadot/react-hooks/types';
-import type { InfoRow, Occupancy } from './types.js';
+import type { CoreWorkload, CoreWorkloadInfo, LegacyLease, RegionInfo, Reservation } from '@polkadot/react-hooks/types';
+import type { InfoRow } from './types.js';
 
 import { BN } from '@polkadot/util';
+
+import { Occupancy } from './types.js';
+
+const CoreTimeConsts = {
+  BlockTime: 6000,
+  BlocksPerTimeslice: 80,
+  DefaultRegion: 5040
+};
 
 function formatDate (date: Date) {
   const day = date.getDate();
@@ -22,20 +30,16 @@ export const estimateTime = (targetBlock: string, latestBlock: number, timestamp
   }
 
   try {
-    const blockTime = new BN(6000); // Average block time in milliseconds (6 seconds)
-    const timeSlice = new BN(80);
+    const blockTime = new BN(CoreTimeConsts.BlockTime); // Average block time in milliseconds (6 seconds)
+    const timeSlice = new BN(CoreTimeConsts.BlocksPerTimeslice);
     const targetBlockBN = new BN(targetBlock).mul(timeSlice);
     const latestBlockBN = new BN(latestBlock);
     const timestampBN = new BN(timestamp);
     const blockDifference = targetBlockBN.sub((latestBlockBN)).abs().mul(blockTime);
 
-    let estTimestamp;
-
-    if (targetBlockBN.lt(latestBlockBN)) {
-      estTimestamp = timestampBN.sub(blockDifference);
-    } else {
-      estTimestamp = timestampBN.add(blockDifference);
-    }
+    const estTimestamp = targetBlockBN.lt(latestBlockBN)
+      ? timestampBN.sub(blockDifference)
+      : timestampBN.add(blockDifference);
 
     return formatDate(new Date(estTimestamp.toNumber()));
   } catch (error) {
@@ -45,19 +49,8 @@ export const estimateTime = (targetBlock: string, latestBlock: number, timestamp
   }
 };
 
-export function sortByCore<T extends { core: number }> (dataArray?: T | T[]): T[] {
-  if (!dataArray) {
-    return [];
-  }
-
-  const sanitized = Array.isArray(dataArray) ? dataArray : [dataArray];
-
-  return sanitized.sort((a, b) => a.core - b.core);
-}
-
-export function formatWorkInfo (info: CoreWorkloadInfo, core: number, currentRegion: RegionInfo | undefined, timeslice: number, type: Occupancy, lastBlock: number, regionLength = 5040) {
-  const infoVec: InfoRow[] = [];
-  const item: InfoRow = { core, maskBits: info.maskBits, taskId: info.task };
+export function formatRowInfo (info: CoreWorkloadInfo, core: number, currentRegion: RegionInfo | undefined, timeslice: number, type: Occupancy, lastBlock: number, regionLength = CoreTimeConsts.DefaultRegion): InfoRow {
+  const item: InfoRow = { core, maskBits: info.maskBits, task: info.task };
 
   if (currentRegion) {
     const start = currentRegion?.start?.toString() ?? 0;
@@ -82,9 +75,7 @@ export function formatWorkInfo (info: CoreWorkloadInfo, core: number, currentReg
     item.endBlock = Number(end) * 80;
   }
 
-  infoVec.push(item);
-
-  return infoVec;
+  return item;
 }
 
 export function getStats (totalCores: string | undefined, workloadInfos: CoreWorkload[] | CoreWorkload | undefined) {
@@ -110,3 +101,15 @@ export function getStats (totalCores: string | undefined, workloadInfos: CoreWor
 
   return { idles, pools, tasks };
 }
+
+export const createTaskMap = <T extends { task: string }>(items: T[]): Record<number, T> => {
+  return (items || []).reduce((acc, item) => {
+    acc[Number(item.task)] = item;
+
+    return acc;
+  }, {} as Record<number, T>);
+};
+
+export const getOccupancyType = (lease: LegacyLease | undefined, reservation: Reservation | undefined): Occupancy => {
+  return reservation ? Occupancy.Reservation : lease ? Occupancy.Lease : Occupancy.Rent;
+};

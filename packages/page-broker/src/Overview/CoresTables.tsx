@@ -7,32 +7,29 @@ import type { CoreInfo } from '../types.js';
 
 import React from 'react';
 
-import { sortByCore } from '../utils.js';
 import CoreTable from './CoreTable.js';
 
 interface Props {
   api: ApiPromise;
   cores?: number;
-  workloadInfos?: CoreWorkload[] | CoreWorkload;
-  workplanInfos?: CoreWorkplan[] | CoreWorkplan;
+  workloadInfos?: CoreWorkload[];
+  workplanInfos?: CoreWorkplan[];
   timeslice: number;
 }
 
-function CoresTable ({ api, cores, timeslice, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
+function CoresTable({ api, cores, timeslice, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
   const coreArr = [];
-  const sanitizedLoad: CoreWorkload[] = sortByCore(workloadInfos);
-  const sanitizedPlan: CoreWorkplan[] = sortByCore(workplanInfos);
 
-  if (cores === -1 && !!sanitizedLoad) {
-    coreArr.push(...sanitizedLoad.map((plan) => plan.core));
+  if (cores === -1 && !!workloadInfos) {
+    coreArr.push(...workloadInfos.map((plan) => plan.core));
   } else if (cores !== undefined) {
     coreArr.push(cores);
   }
 
   const filteredList: CoreInfo[] = coreArr.map((c) => ({
     core: c,
-    workload: sanitizedLoad.filter((v) => v.core === c),
-    workplan: sanitizedPlan.filter((v) => v.core === c)
+    workload: workloadInfos?.filter((v) => v.core === c),
+    workplan: workplanInfos?.filter((v) => v.core === c)
   }));
 
   return (

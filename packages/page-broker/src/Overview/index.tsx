@@ -9,10 +9,10 @@ import type { PalletBrokerStatusRecord } from '@polkadot/types/lookup';
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { Dropdown, Input, styled } from '@polkadot/react-components';
-import { useCall, useDebounce } from '@polkadot/react-hooks';
+import { useApi, useBrokerLeases, useBrokerReservations, useCall, useDebounce, useWorkloadInfos, useWorkplanInfos } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
-import { Occupancy } from '../types.js';
+import { createTaskMap, getOccupancyType } from '../utils.js';
 import CoresTable from './CoresTables.js';
 import Summary from './Summary.js';
 
@@ -26,8 +26,8 @@ interface Props {
   className?: string;
   workloadInfos?: CoreWorkload[];
   workplanInfos?: CoreWorkplan[];
-  reservations: Reservation[],
-  leases: LegacyLease[],
+  reservations?: Reservation[],
+  leases?: LegacyLease[],
   coreInfos?: CoreDescription[];
   apiEndpoint?: LinkOption | null;
   api: ApiPromise;
@@ -46,47 +46,56 @@ const filterLoad = (parachainId: string, load: CoreWorkload[] | CoreWorkplan[], 
   return load?.filter(({ core }) => core === workloadCoreSelected);
 };
 
-const getOccupancyType = (lease: LegacyLease | undefined, reservation: Reservation | undefined): Occupancy => {
-  return reservation ? Occupancy.Reservation : lease ? Occupancy.Lease : Occupancy.Rent;
+const formatLoad = (data: CoreWorkplan[] | CoreWorkload[] | undefined, leaseMap: Record<number, LegacyLease>, reservationMap: Record<number, Reservation>) => {
+  if (!data) {
+    return [];
+  }
+
+  return data?.map((w: CoreWorkload | CoreWorkplan) =>
+  ({
+    ...w,
+    lastBlock: !!leaseMap && leaseMap[w.info.task as number]?.until,
+    type: getOccupancyType(leaseMap[w.info.task as number], reservationMap[w.info.task as number])
+  })
+  );
 };
 
-function Overview ({ api, apiEndpoint, className, isReady, leases, reservations, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
+function Overview({ api, apiEndpoint, className, isReady }: Props): React.ReactElement<Props> {
   const [workloadCoreSelected, setWorkloadCoreSelected] = useState(-1);
-  const [workLoad, setWorkLoad] = useState<CoreWorkload[]>();
+  const [workLoad, setWorkLoad] = useState<CoreWorkload[] | undefined>();
   const [workPlan, setWorkPlan] = useState<CoreWorkplan[]>();
   const [_parachainId, setParachainId] = useState<string>('');
-  const parachainId = useDebounce(_parachainId);
   const [coreArr, setCoreArr] = useState<number[]>([]);
+  const { isApiReady } = useApi();
+
+  const { t } = useTranslation();
+  const status = useCall<PalletBrokerStatusRecord>(isReady && api.query.broker?.status);
+  const parachainId = useDebounce(_parachainId);
+  const workloadInfos: CoreWorkload[] | undefined = useWorkloadInfos(api, isApiReady);
+  const workplanInfos: CoreWorkplan[] | undefined = useWorkplanInfos(api, isApiReady);
+  const reservations: Reservation[] | undefined = useBrokerReservations(api, isApiReady);
+  const leases: LegacyLease[] | undefined = useBrokerLeases(api, isApiReady);
+
+  const leaseMap = useMemo(() => leases && createTaskMap(leases), [leases]);
+  const reservationMap = useMemo(() => reservations && createTaskMap(reservations), [reservations]);
+
+  const timesliceAsString = useMemo(() => {
+    const timeslice = status?.toHuman().lastCommittedTimeslice?.toString();
+
+    return timeslice === undefined ? '' : timeslice.toString().split(',').join('');
+  }, [status]);
 
   useEffect(() => {
-    setWorkPlan(workplanInfos?.map((w) => {
-      const lease = leases.find((c) => c.task === w.info.task);
-      const reservation: Reservation | undefined = reservations.find((c) => c.task === w.info.task);
-
-      return {
-        ...w,
-        lastBlock: lease?.until,
-        type: getOccupancyType(lease, reservation)
-      };
-    }));
-  }, [workplanInfos, leases, reservations]);
+    console.log(workplanInfos);
+    setWorkPlan(formatLoad(workplanInfos, leaseMap, reservationMap));
+  }, [workplanInfos, leaseMap, reservationMap]);
 
   useEffect(() => {
     const newCoreArr = Array.from({ length: workloadInfos?.length || 0 }, (_, index) => index);
 
     setCoreArr(newCoreArr);
-    setWorkLoad(workloadInfos?.map((w) => {
-      const lease = leases.find((c) => c.task === w.info.task);
-      const reservation = reservations.find((c) => c.task === w.info.task);
-
-      return {
-        ...w,
-        lastBlock: lease?.until,
-        type: getOccupancyType(lease, reservation)
-      };
-    }));
-  }, [workloadInfos, leases, reservations]);
+    setWorkLoad(formatLoad(workloadInfos, leaseMap, reservationMap));
+  }, [workloadInfos, leaseMap, reservationMap]);
 
   const workloadCoreOpts = useMemo(
     () => [{ text: t('All active/available cores'), value: -1 }].concat(
@@ -102,24 +111,17 @@ function Overview ({ api, apiEndpoint, className, isReady, leases, reservations,
     [coreArr, t]
   );
 
-  const filteredWLC = useMemo(
-    () => workLoad && filterLoad(parachainId, workLoad, workloadCoreSelected),
-    [workLoad, workloadCoreSelected, parachainId]
-  );
+  const filteredWLC = useMemo(() => workLoad && filterLoad(parachainId, workLoad, workloadCoreSelected), [workLoad, workloadCoreSelected, parachainId]);
 
-  function onDropDownChange (v: number) {
+  function onDropDownChange(v: number) {
     setWorkloadCoreSelected(v);
     setParachainId('');
   }
 
-  function onInputChange (v: string) {
+  function onInputChange(v: string) {
     setParachainId(v);
     setWorkloadCoreSelected(-1);
   }
-
-  const status = useCall<PalletBrokerStatusRecord>(isReady && api.query.broker?.status);
-  const timeslice = status?.toHuman().lastCommittedTimeslice?.toString();
-  const timesliceAsString = timeslice === undefined ? '' : timeslice.toString().split(',').join('');
 
   return (
     <div className={className}>

@@ -4,7 +4,7 @@
 import type { CoreWorkload, CoreWorkplan } from '@polkadot/react-hooks/types';
 
 export interface InfoRow {
-  taskId: string | null,
+  task: string | number,
   maskBits: number,
   core: number
   mask?: string
@@ -18,8 +18,8 @@ export interface InfoRow {
 
 export interface CoreInfo {
   core: number,
-  workload: CoreWorkload[],
-  workplan: CoreWorkplan[]
+  workload: CoreWorkload[] | undefined,
+  workplan: CoreWorkplan[] | undefined
 }
 
 export interface statsType {

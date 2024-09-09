@@ -36,9 +36,7 @@ const TableCol = ({ header,
 );
 
 function WorkInfoRow ({ data }: { data: InfoRow }): React.ReactElement {
-  const NoTaskAssigned = !data.taskId;
-
-  if (NoTaskAssigned) {
+  if (!data.task) {
     return (
       <>
         <td style={{ width: 200 }}>no task assigned</td>
@@ -51,8 +49,8 @@ function WorkInfoRow ({ data }: { data: InfoRow }): React.ReactElement {
       return (
         <>
           <TableCol
-            header='TaskId'
-            value={data.taskId}
+            header='Task'
+            value={data.task}
           />
           <TableCol
             header='Block/timeslice'
@@ -71,8 +69,8 @@ function WorkInfoRow ({ data }: { data: InfoRow }): React.ReactElement {
       return (
         <>
           <TableCol
-            header='TaskId'
-            value={data.taskId}
+            header='Task'
+            value={data.task}
           />
           <TableCol
             header='Block/timeslice'
@@ -102,8 +100,8 @@ function WorkInfoRow ({ data }: { data: InfoRow }): React.ReactElement {
     default: {
       return <>
         <TableCol
-          header='TaskId'
-          value={data.taskId}
+          header='Task'
+          value={data.task}
         />
         <TableCol
           header='Block/timeslice'

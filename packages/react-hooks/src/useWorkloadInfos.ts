@@ -13,6 +13,16 @@ import { createNamedHook, useCall, useMapKeys } from '@polkadot/react-hooks';
 
 import { processHexMask } from './utils/dataProcessing.js';
 
+export function sortByCore<T extends { core: number }> (dataArray?: T | T[]): T[] {
+  if (!dataArray) {
+    return [];
+  }
+
+  const sanitized = Array.isArray(dataArray) ? dataArray : [dataArray];
+
+  return sanitized.sort((a, b) => a.core - b.core);
+}
+
 function extractInfo (info: PalletBrokerScheduleItem[], core: number): CoreWorkload {
   const mask: string[] = processHexMask(info[0]?.mask);
   const assignment = info[0].assignment;
@@ -47,7 +57,7 @@ function useWorkloadInfosImpl (api: ApiPromise, ready: boolean): CoreWorkload[] 
     const cores = workloadInfo[0][0];
 
     setState(
-      cores.map((core, index) => extractInfo(workloadInfo[1][index], core.toNumber()))
+      sortByCore(cores.map((core, index) => extractInfo(workloadInfo[1][index], core.toNumber())))
     );
   }, [workloadInfo]);
 

@@ -13,11 +13,11 @@ import { useApi, useBrokerStatus, useCurrentPrice, useRenewalBump } from '@polka
 
 import { useTranslation } from '../translate.js';
 import { getStats } from '../utils.js';
-import Cores from './Cores.js';
-import RegionLength from './RegionLength.js';
-import RenewalPrice from './RenewalPrice.js';
-import Timeslice from './Timeslice.js';
-import TimeslicePeriod from './TimeslicePeriod.js';
+import Cores from './Summary/Cores.js';
+import RegionLength from './Summary/RegionLength.js';
+import RenewalPrice from './Summary/RenewalPrice.js';
+import Timeslice from './Summary/Timeslice.js';
+import TimeslicePeriod from './Summary/TimeslicePeriod.js';
 
 const StyledDiv = styled.div`
   display: flex;

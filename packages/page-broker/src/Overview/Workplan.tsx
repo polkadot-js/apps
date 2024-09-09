@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Spinner } from '@polkadot/react-components';
 
-import { formatWorkInfo } from '../utils.js';
+import { formatRowInfo } from '../utils.js';
 import WorkInfoRow from './WorkInfoRow.js';
 
 interface Props {
@@ -19,14 +19,14 @@ interface Props {
   region: RegionInfo | undefined
 }
 
-function Workplan ({ currentTimeSlice, isExpanded, region, value: { core, info, lastBlock, type } }: Props): React.ReactElement<Props> {
-  const [tableData, setTableData] = useState<InfoRow[]>();
+function Workplan({ currentTimeSlice, isExpanded, region, value: { core, info, lastBlock, type } }: Props): React.ReactElement<Props> {
+  const [tableData, setTableData] = useState<InfoRow>();
 
   useEffect(() => {
-    setTableData(formatWorkInfo(info, core, region, currentTimeSlice, type, lastBlock));
+    setTableData(formatRowInfo(info, core, region, currentTimeSlice, type, lastBlock));
   }, [info, region, core, currentTimeSlice, lastBlock, type]);
 
-  if (!tableData?.length) {
+  if (!tableData) {
     return (
       <tr
         className={` ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'}`}
@@ -40,16 +40,16 @@ function Workplan ({ currentTimeSlice, isExpanded, region, value: { core, info, 
 
   return (
     <>
-      {tableData?.map((data) => (
+      {tableData && (
         <tr
           className={` ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'}`}
-          key={data.core}
+          key={tableData.core}
           style={{ minHeight: '100px' }}
         >
-          <WorkInfoRow data={data} />
+          <WorkInfoRow data={tableData} />
           <td />
         </tr>
-      ))}
+      )}
 
     </>
   );
