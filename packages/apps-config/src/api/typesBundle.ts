@@ -16393,6 +16393,16 @@ export const typesBundle = {
             "Cell": {
               "row": "BlockLengthRows",
               "col": "BlockLengthColumns"
+            },
+            "ProxyType": {
+              "_enum": [
+                "Any",
+                "NonTransfer",
+                "Governance",
+                "Staking",
+                "IdentityJudgement",
+                "NominationPools"
+              ]
             }
           }
         }
