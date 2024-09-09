@@ -14,7 +14,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.143.3-11-x",
+  "version": "0.143.3-21-x",
   "devDependencies": {
     "chart.js": "^4.4.1"
   },

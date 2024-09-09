@@ -3,8 +3,8 @@
 
 import type { EndpointOption } from './types.js';
 
-import { chainsFrequencyPaseoSVG, chainsLaosSigmaPNG, chainsPaseoPNG, chainsPopNetworkSVG } from '@polkadot/apps-config/ui/logos/chains';
-import { nodesAjunaPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBifrostSVG, nodesDarwiniaKoiSVG, nodesHyperbridgePNG, nodesIntegriteeSVG, nodesKiltPNG, nodesMandalaPNG, nodesMusePNG, nodesNodleSVG } from '@polkadot/apps-config/ui/logos/nodes';
+import { chainsFrequencyPaseoSVG, chainsLaosSigmaPNG, chainsPaseoPNG, chainsPeoplePolkadotSVG, chainsPopNetworkSVG } from '@polkadot/apps-config/ui/logos/chains';
+import { nodesAjunaPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBifrostSVG, nodesBridgeHubSVG, nodesDarwiniaKoiSVG, nodesHyperbridgePNG, nodesIntegriteeSVG, nodesKiltPNG, nodesMandalaPNG, nodesMusePNG, nodesNodleSVG, nodesRexSVG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
 // import { testnetParachainSVG } from '../ui/logos/nodes/index.js';
@@ -200,6 +200,18 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    info: 'paseoEwx',
+    paraId: 3345,
+    providers: {
+      'Energy Web': 'wss://public-rpc.testnet.energywebx.com/'
+    },
+    text: 'PEX',
+    ui: {
+      color: '#452E66',
+      logo: nodesRexSVG
+    }
+  },
+  {
     homepage: 'https://popnetwork.xyz/',
     info: 'Pop Network',
     paraId: 4001,
@@ -219,6 +231,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
 export const testParasPaseoCommon: EndpointOption[] = [
   {
     info: 'PaseoAssetHub',
+    isPeopleForIdentity: true,
     paraId: 1000,
     providers: {
       Dwellir: 'wss://asset-hub-paseo-rpc.dwellir.com',
@@ -227,11 +240,43 @@ export const testParasPaseoCommon: EndpointOption[] = [
       StakeWorld: 'wss://pas-rpc.stakeworld.io/assethub',
       TurboFlakes: 'wss://sys.turboflakes.io/asset-hub-paseo'
     },
+    relayName: 'paseo',
     teleport: [-1],
     text: 'AssetHub',
     ui: {
       color: '#77bb77',
       logo: nodesAssetHubSVG
+    }
+  },
+  {
+    info: 'BridgeHub',
+    isPeopleForIdentity: true,
+    paraId: 1002,
+    providers: {
+      IBP1: 'wss://sys.ibp.network/bridge-hub-paseo'
+    },
+    relayName: 'paseo',
+    teleport: [-1],
+    text: 'BridgeHub',
+    ui: {
+      color: '#AAADD7',
+      logo: nodesBridgeHubSVG
+    }
+  },
+  {
+    info: 'PeopleChain',
+    isPeople: true,
+    isPeopleForIdentity: false,
+    paraId: 1004,
+    providers: {
+      Amforc: 'wss://people-paseo.rpc.amforc.com'
+    },
+    relayName: 'paseo',
+    teleport: [-1],
+    text: 'People',
+    ui: {
+      color: '#e84366',
+      logo: chainsPeoplePolkadotSVG
     }
   }
 ];
@@ -240,7 +285,7 @@ export const testRelayPaseo: EndpointOption = {
   dnslink: 'paseo',
   genesisHash: PASEO_GENESIS,
   info: 'paseo',
-  isPeopleForIdentity: false,
+  isPeopleForIdentity: true,
   isRelay: true,
   linked: [
     ...testParasPaseoCommon,
