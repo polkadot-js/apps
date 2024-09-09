@@ -7,7 +7,6 @@ on:
       - '*'
 
 jobs:
-
   build_explorer:
     runs-on: ubuntu-latest
     steps:
@@ -64,3 +63,22 @@ jobs:
           build-args: |
             TURING_URL=wss://turing-rpc.avail.so/ws
             MAINNET_URL=wss://mainnet-rpc.avail.so/ws
+
+  k8s_deployment:
+    needs: [docker_build_push]
+    runs-on: ubuntu-20.04
+    environment: prod
+    steps:
+      - name: Set up Kubectl
+        uses: azure/setup-kubectl@v1
+        with:
+          version: 'v1.29.2'
+    
+      - name: Configure Kubernetes Context
+        uses: azure/k8s-set-context@v1
+        with:
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+   
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl -v=7 set image deployment/explorer explorer=availj/explorer:${{ github.ref_name }}

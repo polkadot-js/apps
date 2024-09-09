@@ -20,6 +20,7 @@ import config from '../variables/config.js';
 export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'avail',
+    isPeopleForIdentity: false,
     providers: {
       AVAIL: config.turing.url
     },
