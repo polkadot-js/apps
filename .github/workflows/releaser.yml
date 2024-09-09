@@ -10,7 +10,7 @@ jobs:
   build_explorer:
     runs-on: ubuntu-latest
     steps:
-         - uses: actions/checkout@v2
+         - uses: actions/checkout@v4
          - name: build avail explorer via yarn
            shell: bash
            run: |
@@ -19,7 +19,7 @@ jobs:
             pushd /home/runner/work/avail-apps/avail-apps/packages/apps/
             tar czf avail-explorer.tar.gz build/
             popd
-         - uses: actions/upload-artifact@v2
+         - uses: actions/upload-artifact@v4
            with:
              name: avail-explorer
              path: /home/runner/work/avail-apps/avail-apps/packages/apps/avail-explorer.tar.gz
