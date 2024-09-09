@@ -20,8 +20,8 @@
     "file-saver": "^2.0.5"
   },
   "devDependencies": {
-    "@testing-library/react": "^14.1.2",
-    "testcontainers": "^10.11.0"
+    "@testing-library/react": "^14.3.1",
+    "testcontainers": "^10.13.0"
   },
   "peerDependencies": {
     "react": "*",

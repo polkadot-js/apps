@@ -18,14 +18,14 @@
   "version": "0.142.2-18-x",
   "main": "build/electron.js",
   "dependencies": {
-    "electron-log": "^5.1.7",
-    "electron-updater": "^6.1.7"
+    "electron-log": "^5.2.0",
+    "electron-updater": "^6.3.4"
   },
   "devDependencies": {
-    "@polkadot/dev": "^0.79.3",
+    "@polkadot/dev": "^0.80.1",
     "@types/tmp": "^0.2.6",
     "copy-webpack-plugin": "^11.0.0",
-    "electron": "28.0.0",
+    "electron": "28.3.3",
     "electron-builder": "24.13.3",
     "electron-builder-notarize": "^1.5.2",
     "html-webpack-plugin": "^5.6.0",

@@ -19,7 +19,7 @@
     "@polkadot/apps-config": "^0.142.2-18-x",
     "@polkadot/react-components": "^0.142.2-18-x",
     "@polkadot/react-query": "^0.142.2-18-x",
-    "query-string": "^8.1.0"
+    "query-string": "^8.2.0"
   },
   "peerDependencies": {
     "react": "*",
