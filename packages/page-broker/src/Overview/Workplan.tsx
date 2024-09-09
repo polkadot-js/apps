@@ -4,7 +4,7 @@
 import type { CoreWorkload, RegionInfo } from '@polkadot/react-hooks/types';
 import type { InfoRow, Occupancy } from '../types.js';
 
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 
 import { Spinner } from '@polkadot/react-components';
 
@@ -20,11 +20,9 @@ interface Props {
 }
 
 function Workplan ({ currentTimeSlice, isExpanded, region, value: { core, info, lastBlock, type } }: Props): React.ReactElement<Props> {
-  const [tableData, setTableData] = useState<InfoRow>();
-
-  useEffect(() => {
-    setTableData(formatRowInfo(info, core, region, currentTimeSlice, type, lastBlock));
-  }, [info, region, core, currentTimeSlice, lastBlock, type]);
+  const tableData: InfoRow = useMemo(() => {
+    return formatRowInfo(info, core, region, currentTimeSlice, type, lastBlock);
+  }, [info, core, region, currentTimeSlice, type, lastBlock]);
 
   if (!tableData) {
     return (

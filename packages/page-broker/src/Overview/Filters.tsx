@@ -36,7 +36,12 @@ const filterLoad = (parachainId: string, load: CoreWorkload[] | CoreWorkplan[], 
 function Filters ({ onFilter, workLoad }: Props): React.ReactElement<Props> {
   const [workloadCoreSelected, setWorkloadCoreSelected] = useState(-1);
   const [_parachainId, setParachainId] = useState<string>('');
-  const [coreArr, setCoreArr] = useState<number[]>([]);
+
+  const coreArr: number[] = useMemo(() =>
+    workLoad?.length
+      ? Array.from({ length: workLoad?.length || 0 }, (_, index) => index)
+      : []
+  , [workLoad]);
 
   const { t } = useTranslation();
   const parachainId = useDebounce(_parachainId);
@@ -54,14 +59,6 @@ function Filters ({ onFilter, workLoad }: Props): React.ReactElement<Props> {
     ),
     [coreArr, t]
   );
-
-  useEffect(() => {
-    if (!coreArr.length && !!workLoad?.length) {
-      const newCoreArr = Array.from({ length: workLoad?.length || 0 }, (_, index) => index);
-
-      setCoreArr(newCoreArr);
-    }
-  }, [workLoad, coreArr]);
 
   useEffect(() => {
     if (!workLoad) {

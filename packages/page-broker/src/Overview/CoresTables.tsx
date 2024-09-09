@@ -5,30 +5,24 @@ import type { ApiPromise } from '@polkadot/api';
 import type { CoreWorkload, CoreWorkplan } from '@polkadot/react-hooks/types';
 import type { CoreInfo } from '../types.js';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import CoreTable from './CoreTable.js';
 
 interface Props {
   api: ApiPromise;
-  // cores?: number;
   workloadInfos?: CoreWorkload[];
   workplanInfos?: CoreWorkplan[];
   timeslice: number;
 }
 
 function CoresTable ({ api, timeslice, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
-  const coreArr = [];
-
-  if (workloadInfos) {
-    coreArr.push(...workloadInfos.map((plan) => plan.core));
-  }
-
-  const filteredList: CoreInfo[] = coreArr.map((c) => ({
+  const coreArr: number[] = useMemo(() => workloadInfos ? [...workloadInfos.map((plan) => plan.core)] : [], [workloadInfos]);
+  const filteredList: CoreInfo[] = useMemo(() => coreArr.map((c) => ({
     core: c,
     workload: workloadInfos?.filter((v) => v.core === c),
     workplan: workplanInfos?.filter((v) => v.core === c)
-  }));
+  })), [workloadInfos, workplanInfos, coreArr]);
 
   return (
     <>
