@@ -20,15 +20,11 @@ function useBrokerLeasesImpl (api: ApiPromise, ready: boolean): LegacyLease[] | 
     }
 
     setState(
-      leases.map((info, index: number) => {
-        console.log('info ', info);
-
-        return {
-          core: index,
-          task: info.task.toString(),
-          until: info.until.toNumber()
-        };
-      }
+      leases.map((info, index: number) => ({
+        core: index,
+        task: info.task.toString(),
+        until: info.until.toNumber()
+      })
       ));
   }, [leases]);
 

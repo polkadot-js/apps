@@ -11,19 +11,17 @@ import CoreTable from './CoreTable.js';
 
 interface Props {
   api: ApiPromise;
-  cores?: number;
+  // cores?: number;
   workloadInfos?: CoreWorkload[];
   workplanInfos?: CoreWorkplan[];
   timeslice: number;
 }
 
-function CoresTable({ api, cores, timeslice, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
+function CoresTable ({ api, timeslice, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
   const coreArr = [];
 
-  if (cores === -1 && !!workloadInfos) {
+  if (workloadInfos) {
     coreArr.push(...workloadInfos.map((plan) => plan.core));
-  } else if (cores !== undefined) {
-    coreArr.push(cores);
   }
 
   const filteredList: CoreInfo[] = coreArr.map((c) => ({

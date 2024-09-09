@@ -19,7 +19,7 @@ interface Props {
   region: RegionInfo | undefined
 }
 
-function Workplan({ currentTimeSlice, isExpanded, region, value: { core, info, lastBlock, type } }: Props): React.ReactElement<Props> {
+function Workplan ({ currentTimeSlice, isExpanded, region, value: { core, info, lastBlock, type } }: Props): React.ReactElement<Props> {
   const [tableData, setTableData] = useState<InfoRow>();
 
   useEffect(() => {

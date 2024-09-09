@@ -21,7 +21,7 @@ interface Props {
   workplan?: CoreWorkplan[] | null
 }
 
-function Workload({ api, timeslice, value: { core, info, lastBlock, type }, workplan }: Props): React.ReactElement<Props> {
+function Workload ({ api, timeslice, value: { core, info, lastBlock, type }, workplan }: Props): React.ReactElement<Props> {
   const [isExpanded, toggleIsExpanded] = useToggle(false);
   const [tableData, setTableData] = useState<InfoRow>();
   const [currentRegion, setCurrentRegion] = useState<RegionInfo | undefined>();
@@ -30,6 +30,7 @@ function Workload({ api, timeslice, value: { core, info, lastBlock, type }, work
   useEffect(() => {
     if (info) {
       const region: RegionInfo | undefined = regionInfo?.find((v) => v.core === core && v.start <= timeslice && v.end > timeslice);
+
       setTableData(formatRowInfo(info, core, region, timeslice, type, lastBlock));
       setCurrentRegion(region);
     }
