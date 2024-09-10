@@ -25,17 +25,17 @@ const StyledTableCol = styled.td<{ hide?: 'mobile' | 'tablet' | 'both' }>`
 const TableCol = ({ header,
   hide,
   value }: {
-    header: string;
-    value: string | number | null | undefined;
-    hide?: 'mobile' | 'tablet' | 'both';
-  }) => (
+  header: string;
+  value: string | number | null | undefined;
+  hide?: 'mobile' | 'tablet' | 'both';
+}) => (
   <StyledTableCol hide={hide}>
     <h5 style={{ opacity: '0.6' }}>{header}</h5>
     <p>{value || <>&nbsp;</>}</p>
   </StyledTableCol>
 );
 
-function WorkInfoRow({ data }: { data: InfoRow }): React.ReactElement {
+function WorkInfoRow ({ data }: { data: InfoRow }): React.ReactElement {
   if (!data.task) {
     return (
       <>
@@ -124,11 +124,14 @@ function WorkInfoRow({ data }: { data: InfoRow }): React.ReactElement {
         <StyledTableCol hide='mobile'>
           <h5 style={{ opacity: '0.6' }}>{'Owner'}</h5>
           {data.owner
-            ? <AddressMini
-              isPadded={false}
-              key={data.owner}
-              value={data.owner}
-            />
+            ? (
+              <AddressMini
+                isPadded={false}
+                key={data.owner}
+                value={data.owner}
+              />
+            )
+
             : <p>&nbsp;</p>}
         </StyledTableCol></>;
     }

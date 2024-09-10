@@ -1,7 +1,7 @@
 // Copyright 2017-2024 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CoreWorkload, RegionInfo } from '@polkadot/react-hooks/types';
+import type { CoreWorkplan, RegionInfo } from '@polkadot/react-hooks/types';
 import type { InfoRow, Occupancy } from '../types.js';
 
 import React, { useMemo } from 'react';
@@ -13,7 +13,7 @@ import WorkInfoRow from './WorkInfoRow.js';
 
 interface Props {
   className?: string;
-  value: CoreWorkload & { type: Occupancy, lastBlock: number };
+  value: CoreWorkplan & { type: Occupancy, lastBlock: number };
   currentTimeSlice: number
   isExpanded: boolean
   region: RegionInfo | undefined

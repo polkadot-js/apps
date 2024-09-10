@@ -16,7 +16,7 @@ import Workplan from './Workplan.js';
 
 interface Props {
   api: ApiPromise;
-  value: CoreWorkload & { type: Occupancy, lastBlock: number };
+  value: CoreWorkload & { type: Occupancy, lastBlock: number }
   timeslice: number;
   workplan?: CoreWorkplan[] | null
 }
@@ -49,10 +49,11 @@ function Workload ({ api, timeslice, value: { core, info, lastBlock, type }, wor
           <td style={{ paddingRight: '2rem', textAlign: 'right', verticalAlign: 'top' }}>
             <h5 style={{ opacity: '0.6' }}>Workplan ({workplan?.length})</h5>
             {hasWorkplan &&
-              (<ExpandButton
-                expanded={isExpanded}
-                onClick={toggleIsExpanded}
-              />
+              (
+                <ExpandButton
+                  expanded={isExpanded}
+                  onClick={toggleIsExpanded}
+                />
               )
             }
             {!hasWorkplan && 'none'}

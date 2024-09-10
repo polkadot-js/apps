@@ -3,7 +3,7 @@
 
 import type { CoreWorkload, CoreWorkplan } from '@polkadot/react-hooks/types';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { Dropdown, Input, styled } from '@polkadot/react-components';
 import { useDebounce } from '@polkadot/react-hooks';
@@ -70,15 +70,15 @@ function Filters ({ onFilter, workLoad }: Props): React.ReactElement<Props> {
     onFilter(filtered);
   }, [workLoad, workloadCoreSelected, parachainId, onFilter]);
 
-  function onDropDownChange (v: number) {
+  const onDropDownChange = useCallback((v: number) => {
     setWorkloadCoreSelected(v);
     setParachainId('');
-  }
+  }, []);
 
-  function onInputChange (v: string) {
+  const onInputChange = useCallback((v: string) => {
     setParachainId(v);
     setWorkloadCoreSelected(-1);
-  }
+  }, []);
 
   return (
     <StyledDiv style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '1.5rem', maxWidth: '300px' }}>
