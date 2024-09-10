@@ -957,6 +957,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     teleport: [-1],
     text: 'Coretime',
     ui: {
+      color: '#113911',
       logo: chainsCoretimeKusamaSVG
     }
   },

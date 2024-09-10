@@ -9,6 +9,7 @@ import alliance from './alliance.js';
 import ambassador from './ambassador.js';
 import assets from './assets.js';
 import bounties from './bounties.js';
+import broker from './broker.js';
 import calendar from './calendar.js';
 import claims from './claims.js';
 import collator from './collator.js';
@@ -61,6 +62,7 @@ export default function create (t: TFunction): Routes {
     // Legacy staking Pre v14 pallet version.
     stakingLegacy(t),
     collator(t),
+    broker(t),
     // governance v2
     referenda(t),
     membership(t),

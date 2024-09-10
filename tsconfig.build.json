@@ -21,6 +21,7 @@
     { "path": "./packages/page-bounties/tsconfig.build.json" },
     { "path": "./packages/page-bounties/tsconfig.spec.json" },
     { "path": "./packages/page-bounties/tsconfig.test.json" },
+    { "path": "./packages/page-broker/tsconfig.build.json" },
     { "path": "./packages/page-calendar/tsconfig.build.json" },
     { "path": "./packages/page-claims/tsconfig.build.json" },
     { "path": "./packages/page-claims/tsconfig.spec.json" },
