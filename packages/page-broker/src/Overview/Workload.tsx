@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { CoreWorkload, CoreWorkplan, RegionInfo } from '@polkadot/react-hooks/types';
-import type { InfoRow, Occupancy } from '../types.js';
+import type { RegionInfo } from '@polkadot/react-hooks/types';
+import type { CoreWorkloadType, CoreWorkplanType, InfoRow } from '../types.js';
 
 import React, { useEffect, useState } from 'react';
 
@@ -16,9 +16,9 @@ import Workplan from './Workplan.js';
 
 interface Props {
   api: ApiPromise;
-  value: CoreWorkload & { type: Occupancy, lastBlock: number }
+  value: CoreWorkloadType
   timeslice: number;
-  workplan?: CoreWorkplan[] | null
+  workplan?: CoreWorkplanType[] | null
 }
 
 function Workload ({ api, timeslice, value: { core, info, lastBlock, type }, workplan }: Props): React.ReactElement<Props> {

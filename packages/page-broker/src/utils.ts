@@ -1,8 +1,8 @@
 // Copyright 2017-2024 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CoreWorkload, CoreWorkloadInfo, LegacyLease, RegionInfo, Reservation } from '@polkadot/react-hooks/types';
-import type { InfoRow } from './types.js';
+import type { CoreWorkloadInfo, LegacyLease, RegionInfo, Reservation } from '@polkadot/react-hooks/types';
+import type { CoreWorkloadType, InfoRow } from './types.js';
 
 import { BN } from '@polkadot/util';
 
@@ -78,12 +78,12 @@ export function formatRowInfo (info: CoreWorkloadInfo, core: number, currentRegi
   return item;
 }
 
-export function getStats (totalCores: string | undefined, workloadInfos: CoreWorkload[] | CoreWorkload | undefined) {
+export function getStats (totalCores: string | undefined, workloadInfos: CoreWorkloadType[] | CoreWorkloadType | undefined) {
   if (!totalCores || !workloadInfos) {
     return { idles: 0, pools: 0, tasks: 0 };
   }
 
-  const sanitized: CoreWorkload[] = Array.isArray(workloadInfos) ? workloadInfos : [workloadInfos];
+  const sanitized: CoreWorkloadType[] = Array.isArray(workloadInfos) ? workloadInfos : [workloadInfos];
 
   const { pools, tasks } = sanitized.reduce(
     (acc, { info }) => {

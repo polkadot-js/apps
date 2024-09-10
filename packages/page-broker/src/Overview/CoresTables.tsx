@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { CoreWorkload, CoreWorkplan } from '@polkadot/react-hooks/types';
-import type { CoreInfo } from '../types.js';
+import type { CoreInfo, CoreWorkloadType, CoreWorkplanType } from '../types.js';
 
 import React, { useMemo } from 'react';
 
@@ -11,8 +10,8 @@ import CoreTable from './CoreTable.js';
 
 interface Props {
   api: ApiPromise;
-  workloadInfos?: CoreWorkload[];
-  workplanInfos?: CoreWorkplan[];
+  workloadInfos?: CoreWorkloadType[];
+  workplanInfos?: CoreWorkplanType[];
   timeslice: number;
 }
 

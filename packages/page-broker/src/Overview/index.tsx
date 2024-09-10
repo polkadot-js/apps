@@ -10,6 +10,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { useApi, useBrokerLeases, useBrokerReservations, useCall, useWorkloadInfos, useWorkplanInfos } from '@polkadot/react-hooks';
 
+import { type CoreWorkloadType, type CoreWorkplanType } from '../types.js';
 import { createTaskMap, getOccupancyType } from '../utils.js';
 import CoresTable from './CoresTables.js';
 import Filters from './Filters.js';
@@ -22,24 +23,30 @@ interface Props {
   isReady: boolean;
 }
 
-const formatLoad = (data: CoreWorkplan[] | CoreWorkload[] | undefined, leaseMap: Record<number, LegacyLease>, reservationMap: Record<number, Reservation>) => {
+const formatLoad = (data: CoreWorkplan[] | CoreWorkload[] | undefined, leaseMap: Record<number, LegacyLease>, reservationMap: Record<number, Reservation>): CoreWorkloadType[] | CoreWorkplanType[] => {
   if (!data) {
     return [];
   }
 
-  return data?.map((w: CoreWorkload | CoreWorkplan) =>
-    ({
+  return data.map((w: CoreWorkload | CoreWorkplan) => {
+    const result = {
       ...w,
-      lastBlock: !!leaseMap && leaseMap[w.info.task as number]?.until,
+      lastBlock: leaseMap[w.info.task as number]?.until || 0,
       type: getOccupancyType(leaseMap[w.info.task as number], reservationMap[w.info.task as number])
-    })
-  );
+    };
+
+    if ('timeslice' in w) {
+      return result as CoreWorkplanType;
+    } else {
+      return result as CoreWorkloadType;
+    }
+  });
 };
 
 function Overview ({ api, apiEndpoint, className, isReady }: Props): React.ReactElement<Props> {
-  const [workLoad, setWorkLoad] = useState<CoreWorkload[] | undefined>();
-  const [workPlan, setWorkPlan] = useState<CoreWorkplan[]>();
-  const [filtered, setFiltered] = useState<CoreWorkload[]>();
+  const [workLoad, setWorkLoad] = useState<CoreWorkloadType[] | undefined>();
+  const [workPlan, setWorkPlan] = useState<CoreWorkplanType[]>();
+  const [filtered, setFiltered] = useState<CoreWorkloadType[]>();
   const { isApiReady } = useApi();
 
   const status = useCall<PalletBrokerStatusRecord>(isReady && api.query.broker?.status);
@@ -69,7 +76,7 @@ function Overview ({ api, apiEndpoint, className, isReady }: Props): React.React
     <div className={className}>
       <Summary
         apiEndpoint={apiEndpoint}
-        workloadInfos={workloadInfos}
+        workloadInfos={workLoad}
       ></Summary>
       <Filters
         onFilter={setFiltered}

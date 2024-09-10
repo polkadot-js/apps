@@ -1,14 +1,13 @@
 // Copyright 2017-2024 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CoreWorkload, CoreWorkplan } from '@polkadot/react-hooks/types';
-
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { Dropdown, Input, styled } from '@polkadot/react-components';
 import { useDebounce } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
+import { type CoreWorkloadType, type CoreWorkplanType } from '../types.js';
 
 const StyledDiv = styled.div`
   @media (max-width: 768px) {
@@ -17,11 +16,11 @@ const StyledDiv = styled.div`
 `;
 
 interface Props {
-  workLoad?: CoreWorkload[];
-  onFilter: (data: CoreWorkload[]) => void
+  workLoad?: CoreWorkloadType[];
+  onFilter: (data: CoreWorkloadType[]) => void
 }
 
-const filterLoad = (parachainId: string, load: CoreWorkload[] | CoreWorkplan[], workloadCoreSelected: number) => {
+const filterLoad = (parachainId: string, load: CoreWorkloadType[] | CoreWorkplanType[], workloadCoreSelected: number): CoreWorkloadType[] | CoreWorkplanType[] => {
   if (parachainId) {
     return load?.filter(({ info }) => info.task === parachainId);
   }
