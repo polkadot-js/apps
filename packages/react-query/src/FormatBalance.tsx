@@ -64,7 +64,7 @@ function splitFormat (value: string, label?: LabelPost, isShort?: boolean): Reac
 }
 
 function applyFormat (value: Compact<any> | BN | string | number, [decimals, token]: [number, string], withCurrency = true, withSi?: boolean, _isShort?: boolean, labelPost?: LabelPost, useTicker?: boolean): React.ReactNode {
-  const [prefix, postfix, ticker] = formatBalance(value, { decimals }).split(/[.\s]+/);
+  const [prefix, postfix, ticker] = formatBalance(value, { decimals, forceUnit: '-', withSi: false }).split('.');
   const isShort = _isShort || (withSi && prefix.length >= K_LENGTH);
   const unitPost = withCurrency ? token : '';
 
