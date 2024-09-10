@@ -1,6 +1,6 @@
     4364	Jaco                          	Disable unreachable endpoints (#10221)
       81	Thibaut Sardan                	update overrides (#10090)
-      77	Tarik Gul                     	Bump yarn to 4.4.1 (#10895)
+      78	Tarik Gul                     	Fix format balance issue (#10908)
       62	kwingram25                    	iadd fix (#2911)
       49	pan                           	update Bifrost kusama on Subsquare (#9752)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
