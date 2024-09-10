@@ -3,7 +3,7 @@
 
 import type { EndpointOption } from './types.js';
 
-import { chainsFrequencyPaseoSVG, chainsLaosSigmaPNG, chainsPaseoPNG, chainsPeoplePolkadotSVG, chainsPopNetworkSVG } from '@polkadot/apps-config/ui/logos/chains';
+import { chainsFrequencyPaseoSVG, chainsLaosSigmaPNG, chainsPaseoPNG, chainsPeoplePolkadotSVG, chainsPopNetworkSVG, chainsXcavatePNG } from '@polkadot/apps-config/ui/logos/chains';
 import { nodesAjunaPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBifrostSVG, nodesBridgeHubSVG, nodesDarwiniaKoiSVG, nodesHyperbridgePNG, nodesIntegriteeSVG, nodesKiltPNG, nodesMandalaPNG, nodesMusePNG, nodesNodleSVG, nodesRexSVG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
@@ -224,6 +224,19 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: 'linear-gradient(to right, rgb(230, 0, 122), rgb(83, 15, 160))',
       logo: chainsPopNetworkSVG
+    }
+  },
+  {
+    homepage: 'https://xcavate.io/',
+    info: 'Xcavate',
+    paraId: 4003,
+    providers: {
+      Xcavate: 'wss://rpc-paseo.xcavate.io:443'
+    },
+    text: 'Xcavate',
+    ui: {
+      color: '#FF0083',
+      logo: chainsXcavatePNG
     }
   }
 ];
