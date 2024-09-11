@@ -22,8 +22,7 @@ function getParam ([{ name, type }]: ParamDef[], index: number): ParamDef {
 }
 
 export function getParams (inputParams: ParamDef[], prev: ParamDef[], max: number): ParamDef[] {
-  // HACK: I don't know why `max` changes to `undefined`.
-  if (prev.length === max || isUndefined(max)) {
+  if (prev.length === max) {
     return prev;
   }
 
@@ -61,9 +60,9 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
   useEffect((): void => {
     inputParams.length &&
       setParams((prev) =>
-        getParams(inputParams, prev, isDisabled ? (defaultValue.value as RawParam[] || []).length : count)
+        getParams(inputParams, prev, isDisabled ? values.length : count)
       );
-  }, [count, defaultValue, isDisabled, inputParams]);
+  }, [count, values, isDisabled, inputParams]);
 
   // when !isDisable, generating an input list based on count
   useEffect((): void => {

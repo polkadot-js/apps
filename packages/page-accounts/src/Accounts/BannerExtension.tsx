@@ -42,8 +42,8 @@ function BannerExtension (): React.ReactElement | null {
         <Banner type='warning'>
           <p>
             {upgradableCount === 1
-              ? t('You have 1 extension that needs to be updated with the latest chain properties in order to display the correct information for the chain you are connected to.')
-              : t('You have {{upgradableCount}} extensions that need to be updated with the latest chain properties in order to display the correct information for the chain you are connected to.', { replace: { upgradableCount } })
+              ? t('You have 1 extension that needs to be updated with the latest chain properties in order to display the correct information for the chain you are connected to and to use a Ledger device.')
+              : t('You have {{upgradableCount}} extensions that need to be updated with the latest chain properties in order to display the correct information for the chain you are connected to and to use a Ledger device.', { replace: { upgradableCount } })
             }
             {t(' This update includes chain metadata and chain properties.')}
           </p>

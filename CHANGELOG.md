@@ -1,5 +1,147 @@
 # CHANGELOG
 
+## 0.143.2 Aug 21, 2024
+
+Changes:
+
+- Upgrade polkadot-js/api to 12.4.2
+    - Fixes a bug where transferable would not populate for kusama
+
+
+## 0.143.1 Aug 20, 2024
+
+Contributed:
+
+- Adding RadiumBlock as Polkadot People Endpoint provider (Thanks to https://github.com/radiumb)
+- Added Robonomics Network Polkadot parachain endpoint (Thanks to https://github.com/PavelSheremetev)
+- Update productionRelayPolkadot.ts to add LuckyFriday Polkadot People RPC Provider (Thanks to https://github.com/Rbdude25)
+- substitute LAOS Omega with LAOS Sigma (Thanks to https://github.com/asiniscalchi)
+- Update productionRelayPolkadot.ts fixed url of LuckyFriday Polkadot People (Thanks to https://github.com/Rbdude25)
+- Add new IBP endpoint (Thanks to https://github.com/tugytur)
+- Add RadiumBlock Bifrost wss endpoint (Thanks to https://github.com/radiumb)
+- Change the rendering of chains' Sovereign Accounts (Thanks to https://github.com/rzadp)
+- added Aventus to paseo frontend (Thanks to https://github.com/ivan-cholakov)
+- Add new RPC to Paseo AssetHub (Thanks to https://github.com/al3mart)
+- Added OnFinality CommuneAI endpoint (Thanks to https://github.com/mikespook)
+- enable blockops endpoint (Thanks to https://github.com/haroldsphinx)
+- Adds new Hyperbridge logo (Thanks to https://github.com/olahfemi)
+- Enable paseo endpoint (Thanks to https://github.com/haroldsphinx)
+- fix local fork cannot recover from failure (Thanks to https://github.com/qiweiii)
+- Update peerplays types bundle (Thanks to https://github.com/vampik33)
+- Feature - introduce ambassador Base (Members and Referenda) (Thanks to https://github.com/wirednkod)
+
+Changes:
+
+- Adjust warning message for staking pools
+- Add support for Migration Ledger App
+- feat: enable uploading rawMetadata to the extension
+- Disable unreachable endpoints
+- Update Polkadot-js deps
+- Ensure useRawMetadata checks for metadata call
+- Bump yarn to 4.4.0
+- Enable "Chain Specific App" for Ledger
+- Add people polkadot logo
+- Fix Preimage failure of Null amount for Tangle
+- Fix transferable balance
+
+
+## 0.142.1 July 18, 2024
+
+Contributed:
+
+- Remove Giedi (Thanks to https://github.com/ccubu)
+- Use forceBatch in Staking Payout (Thanks to https://github.com/rzadp)
+- Update polkaassembly.ts networks (Thanks to https://github.com/KanishkaRajputd)
+- Disable enableIdentity for polkadot (Thanks to https://github.com/kaichaosun)
+- Add Polkadot People parachain (Thanks to https://github.com/BulatSaif)
+- Try decoding a preimage as a transaction (Thanks to https://github.com/rzadp)
+- Add muse paseo (Thanks to https://github.com/Moliholy)
+- Update productionRelayKusama.ts adding LuckyFriday provider to UI (Thanks to https://github.com/Rbdude25)
+- Change Vara endpoint (Thanks to https://github.com/EugenWay)
+- Add Niskala testnet to paseo (Thanks to https://github.com/zianksm)
+- Remove Klaos (Thanks to https://github.com/ccubu)
+
+Changes:
+
+- Disable unreachable endpoints
+- Enable apiIdentity for polkadot
+- Ledger support for PolkadotGenericApp
+    - This fixes ledger support in the UI to be up to date with the most recent breaking changes
+- Add pools warning for staking to staking page
+
+
+## 0.141.1 July 1, 2024
+
+Contributed:
+
+- Add Zondax paseo rpc endpoint (Thanks to https://github.com/emmanuelm41)
+- Higher precision of referenda graphs (Thanks to https://github.com/rzadp)
+- Add additional RPC endpoint for Crust Mainnet, Crust Parachain, Crust Shadow (Thanks to https://github.com/wuhaixian1984)
+- Add RegionX Cocos (Thanks to https://github.com/Szegoo)
+- Remove Dwellir Zeitgeist endpoint (Thanks to https://github.com/abbaahmad)
+
+Changes:
+
+- Enable `withSignedTransaction` for signing and sending payloads
+
+
+## 0.140.1 June 27, 2024
+
+Contributed:
+
+- BlockOps remove public endpoint support for Kusama and Westend
+
+Changes:
+
+- Fix confusing param naming in execute
+- Update polkadot-js deps
+    - Api: 12.0.2
+    - Phishing: 0.22.10
+    - Tools: 0.56.14
+    - Extension: 0.48.1
+
+
+## 0.139.1 June 20, 2024
+
+Contributed:
+
+- Remove Dwellir Peaq RPC endpoint (Thanks to https://github.com/abbaahmad)
+- Remove Pangoro (Thanks to https://github.com/AurevoirXavier)
+- Add IBP endpoints to `people-kusama` and HydraDX (Thanks to https://github.com/miloskriz)
+- Add statescan external link for Kusama People (Thanks to https://github.com/wliyongfeng)
+- Update Aventus Public RPC endpoints (Thanks to https://github.com/RuiSMagalhaes)
+- Added Paseo Bajun RPC, and Remove bajun Rococo, and Ajuna Test (Thanks to https://github.com/darkfriend77)
+- Add Dwellir Coretime Kusama Endpoint (Thanks to https://github.com/jakobilobi)
+- Adjusted some Dwellir Endpoints (Thanks to https://github.com/awnns)
+- Update Dwellir Bridge Hub and Collectives endpoints (Thanks to https://github.com/jakobilobi)
+- Add Dwellir People Westend and People Kusama Endpoints (Thanks to https://github.com/jakobilobi)
+- Remove Frequency on Rococo (Thanks to https://github.com/wilwade)
+- Add Dwellir Coretime Westend endpoint (Thanks to https://github.com/jakobilobi)
+- Fix Paseo relay for identity (Thanks to https://github.com/al3mart)
+- Add New Koi testnet to replace Pangolin (Thanks to https://github.com/AurevoirXavier)
+- Add Ajuna Paseo RPC (Thanks to https://github.com/darkfriend77)
+- Add support for BTreeMap and fix optional rpc (Thanks to https://github.com/Neopallium)
+- Updated Moonbase Alpha Logo and dApp Logo (Thanks to https://github.com/albertov19)
+- Add communeai (Thanks to https://github.com/EdSDR)
+- Add Magnet to Rococo (Thanks to https://github.com/sulijia)
+- Add SubQuery endpoint to Kusama (Thanks to https://github.com/deverka)
+- Add SubQuery endpoint to Polkadot (Thanks to https://github.com/deverka)
+- Add Kinera Logo and wss (Thanks to https://github.com/antonioarieiro)
+- Increase Alive Balance - Chopsticks (Thanks to https://github.com/DrW3RK)
+- Add Dcdao (Thanks to https://github.com/fewensa)
+- Dwellir: Update Neuroweb endpoint (Thanks to https://github.com/jakobilobi)
+- Add RadiumBlock Khala and Ajuna endpoints in Curie (Thanks to https://github.com/radiumb)
+- Fix SubQeury endpoint for Kusama (Thanks to https://github.com/deverka)
+- Fix SubQuery endpoint for Polkadot (Thanks to https://github.com/deverka)
+- Update Peerplays types bundle (Thanks to https://github.com/serkixenos)
+- Update Acurast Canary (Thanks to https://github.com/bb4L)
+
+Changes:
+
+- Fix wasm.length to use parasConfig.maxCodeSize (Thanks to https://github.com/TarikGul)
+- Disable unreachable endpoints
+- Bump all Polkadot-js deps 
+
 ## 0.138.1 May 24, 2024
 
 Contributed:

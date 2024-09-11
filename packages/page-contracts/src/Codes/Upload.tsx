@@ -163,7 +163,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
               label={t('deployment account')}
               labelExtra={
                 <Available
-                  label={t('transferrable')}
+                  label={t('transferable')}
                   params={accountId}
                 />
               }

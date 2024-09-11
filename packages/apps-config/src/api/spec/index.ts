@@ -9,6 +9,7 @@ import altair from './altair.js';
 import apron from './apron.js';
 import aresGladios from './ares-gladios.js';
 import aresParachain from './ares-parachain.js';
+import argon from './argon.js';
 import astar from './astar.js';
 import bajun from './bajun.js';
 import basilisk from './basilisk.js';
@@ -25,14 +26,13 @@ import chainx from './chainx.js';
 import clover from './clover.js';
 import cloverRococo from './clover-rococo.js';
 import coinversation from './coinversation.js';
+import communeai from './communeai.js';
 import competitorsClub from './competitors-club.js';
 import contracts from './contracts.js';
-import crab from './crab.js';
 import crownSterlingChain from './crown-sterling.js';
 import crust from './crust.js';
 import testPara from './cumulus-test-parachain.js';
 import curio from './curio.js';
-import darwinia from './darwinia.js';
 import datahighwayParachain from './datahighway.js';
 import dockMainnet from './dock-mainnet.js';
 import dockTestnet from './dock-testnet.js';
@@ -66,6 +66,7 @@ import jupiter from './jupiter.js';
 import jupiterRococo from './jupiter-rococo.js';
 import jur from './jur.js';
 import khala from './khala.js';
+import kilt from './kilt.js';
 import konomi from './konomi.js';
 import kpron from './kpron.js';
 import kulupu from './kulupu.js';
@@ -89,7 +90,6 @@ import nodle from './nodle.js';
 import oak from './oak.js';
 import opal from './opal.js';
 import opportunity from './opportunity.js';
-import pangolin from './pangolin.js';
 import parallel from './parallel.js';
 import parami from './parami.js';
 import peaq from './peaq.js';
@@ -142,13 +142,8 @@ import zero from './zero.js';
 
 // NOTE: The mapping is done from specName in state.getRuntimeVersion
 const spec: Record<string, OverrideBundleDefinition> = {
-  Crab: crab,
-  Darwinia: darwinia,
-  'Darwinia Crab PC2': pangolin,
-  'Darwinia PC2': pangolin,
   Equilibrium: equilibrium,
   Genshiro: genshiro,
-  Pangolin: pangolin,
   VLN: vln,
   'VLN-PC': vlnrococo,
   ...acala,
@@ -159,6 +154,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'ares-gladios': aresGladios,
   'ares-mars': aresParachain,
   'ares-odyssey': aresParachain,
+  argon,
   asgard: bifrostAsgard,
   astar,
   bajun,
@@ -175,6 +171,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   clover,
   'clover-rococo': cloverRococo,
   coinversation,
+  communeai,
   'competitors-club': competitorsClub,
   'continuum-runtime': bitcountryPioneer,
   contracts,
@@ -227,6 +224,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'jur-node': jur,
   kerria: parallel,
   khala,
+  ...kilt,
   'kintsugi-parachain': interbtc,
   konomi,
   kpron,

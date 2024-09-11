@@ -4,8 +4,8 @@
 import type { EndpointOption } from './types.js';
 
 import { ROCOCO_GENESIS } from '../api/constants.js';
-import { chainsAcurastPNG, chainsAmplitudeSVG, chainsBitgreenPNG, chainsFrequencySVG, chainsGenshiroSVG, chainsIdiyanaleLogoWhiteSVG, chainsJurPNG, chainsMangataPNG, chainsMoonsamaPNG, chainsNeurowebTestnetPNG, chainsRococoSVG, chainsSnowbridgePNG, chainsT0rnPNG, chainsTinkerPNG, chainsTotemSVG, chainsTuringPNG, chainsVirtoPNG, chainsWatrPNG } from '../ui/logos/chains/index.js';
-import { nodesArcticPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBasiliskPNG, nodesBasiliskRococoBgPNG, nodesBridgeHubBlackSVG, nodesCentrifugePNG, nodesConftiSVG, nodesCrustParachainSVG, nodesCurioSVG, nodesDatahighwayPNG, nodesDolphinSVG, nodesEncointerBlueSVG, nodesGiantPNG, nodesGiediPNG, nodesHelixstreetPNG, nodesHyperbridgeSVG, nodesImbuePNG, nodesIntegriteeSVG, nodesInvoPNG, nodesKabochaSVG, nodesKiltPNG, nodesLitentryRococoPNG, nodesMd5PNG, nodesMusePNG, nodesOliSVG, nodesOzPNG, nodesPangolinSVG, nodesPhalaSVG, nodesPicassoPNG, nodesPolkadexSVG, nodesRexSVG, nodesRobonomicsSVG, nodesRocfinitySVG, nodesSocietalSVG, nodesSoonsocialXPNG, nodesSoraSubstrateSVG, nodesSubstrateContractsNodePNG, nodesUnitnetworkPNG, nodesYerbanetworkPNG, nodesZeitgeistPNG, nodesZeroSVG } from '../ui/logos/nodes/index.js';
+import { chainsAcurastPNG, chainsAmplitudeSVG, chainsBitgreenPNG, chainsGenshiroSVG, chainsIdiyanaleLogoWhiteSVG, chainsJurPNG, chainsMangataPNG, chainsMoonsamaPNG, chainsNeurowebTestnetPNG, chainsRococoSVG, chainsSnowbridgePNG, chainsT0rnPNG, chainsTinkerPNG, chainsTotemSVG, chainsTuringPNG, chainsVirtoPNG, chainsWatrPNG } from '../ui/logos/chains/index.js';
+import { nodesArcticPNG, nodesAssetHubSVG, nodesBasiliskPNG, nodesBasiliskRococoBgPNG, nodesBridgeHubBlackSVG, nodesCentrifugePNG, nodesConftiSVG, nodesCrustParachainSVG, nodesCurioSVG, nodesDatahighwayPNG, nodesDolphinSVG, nodesEncointerBlueSVG, nodesGiantPNG, nodesHelixstreetPNG, nodesHyperbridgePNG, nodesImbuePNG, nodesIntegriteeSVG, nodesInvoPNG, nodesKabochaSVG, nodesKiltPNG, nodesKineraPNG, nodesLitentryRococoPNG, nodesMagnetPNG, nodesMd5PNG, nodesMusePNG, nodesOliSVG, nodesOzPNG, nodesPhalaSVG, nodesPicassoPNG, nodesPolkadexSVG, nodesRegionxCocosPNG, nodesRobonomicsSVG, nodesRocfinitySVG, nodesSocietalSVG, nodesSoonsocialXPNG, nodesSoraSubstrateSVG, nodesSubstrateContractsNodePNG, nodesUnitnetworkPNG, nodesYerbanetworkPNG, nodesZeitgeistPNG, nodesZeroSVG } from '../ui/logos/nodes/index.js';
 import { getTeleports } from './util.js';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -50,31 +50,6 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     text: 'Arctic',
     ui: {
       logo: nodesArcticPNG
-    }
-  },
-  {
-    homepage: 'https://www.aventus.io/',
-    info: 'rococoAventus',
-    paraId: 2056,
-    providers: {
-      Aventus: 'wss://public-rpc.public-testnet.aventus.io'
-    },
-    text: 'Aventus',
-    ui: {
-      color: '#E6E6FA',
-      logo: nodesAventusSVG
-    }
-  },
-  {
-    info: 'rococoBajun',
-    paraId: 2119,
-    providers: {
-      // 'AjunaNetwork': 'wss://rpc-rococo.bajun.network' // moved to paseo
-    },
-    text: 'Bajun Network',
-    ui: {
-      color: '#161212',
-      logo: nodesBajunPNG
     }
   },
   {
@@ -170,19 +145,6 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'rococoFrequency',
-    paraId: 4044,
-    providers: {
-      Dwellir: 'wss://frequency-rococo-rpc.dwellir.com',
-      Frequency: 'wss://rpc.rococo.frequency.xyz'
-    },
-    text: 'Frequency',
-    ui: {
-      color: '#544974',
-      logo: chainsFrequencySVG
-    }
-  },
-  {
     info: 'rococoGenshiro',
     paraId: 2024,
     providers: {
@@ -207,19 +169,6 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://laosnetwork.io/',
-    info: 'rorocoLaos',
-    paraId: 4343,
-    providers: {
-      'Freeverse.io': 'wss://rpc.giedi.laosfoundation.io'
-    },
-    text: 'Giedi',
-    ui: {
-      color: '#dffe77',
-      logo: nodesGiediPNG
-    }
-  },
-  {
     info: 'helixstreet',
     paraId: 3025,
     providers: {
@@ -235,12 +184,12 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoHyperbridge',
     paraId: 4374,
     providers: {
-      BlockOps: 'wss://hyperbridge-gargantua-rpc.blockops.network'
+      // BlockOps: 'wss://hyperbridge-gargantua-rpc.blockops.network' // https://github.com/polkadot-js/apps/issues/10890
     },
     text: 'Hyperbridge (Gargantua)',
     ui: {
       color: '#ED6FF1',
-      logo: nodesHyperbridgeSVG
+      logo: nodesHyperbridgePNG
     }
   },
   {
@@ -318,6 +267,19 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    info: 'rococoKinera',
+    isPeopleForIdentity: true,
+    paraId: 4437,
+    providers: {
+      'Kinera Node': 'wss://node.kinera.network'
+    },
+    text: 'Kinera Testnet',
+    ui: {
+      color: '#000000',
+      logo: nodesKineraPNG
+    }
+  },
+  {
     homepage: 'https://www.litentry.com/',
     info: 'rococoLitentry',
     paraId: 2106,
@@ -328,6 +290,19 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#ECDA38',
       logo: nodesLitentryRococoPNG
+    }
+  },
+  {
+    homepage: 'https://magnet.magport.io/',
+    info: 'rococoMagnet',
+    paraId: 4361,
+    providers: {
+      Magnet: 'wss://magnet-rpc.magport.io/ws'
+    },
+    text: 'Magnet',
+    ui: {
+      color: '#58BFAB',
+      logo: nodesMagnetPNG
     }
   },
   {
@@ -413,18 +388,6 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'rococoPangolin',
-    paraId: 2105,
-    providers: {
-      'Darwinia Network': 'wss://pangolin-rpc.darwinia.network'
-    },
-    text: 'Pangolin2',
-    ui: {
-      color: '#4B30DD',
-      logo: nodesPangolinSVG
-    }
-  },
-  {
     info: 'rococoPicasso',
     paraId: 2087,
     providers: {
@@ -437,15 +400,15 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'rococoEwx',
-    paraId: 3345,
+    info: 'regionxCocos',
+    paraId: 4459,
     providers: {
-      'Energy Web': 'wss://public-rpc.testnet.energywebx.com/'
+      RegionX: 'wss://cocos-node.regionx.tech'
     },
-    text: 'REX',
+    text: 'RegionX Cocos',
     ui: {
-      color: '#452E66',
-      logo: nodesRexSVG
+      color: '#0CC184',
+      logo: nodesRegionxCocosPNG
     }
   },
   {
@@ -594,7 +557,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 't0rn',
     paraId: 3333,
     providers: {
-      t3rn: 'wss://rpc.t0rn.io'
+      // t3rn: 'wss://rpc.t0rn.io' // https://github.com/polkadot-js/apps/issues/10728
     },
     text: 't0rn',
     ui: {
@@ -666,7 +629,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoYerba',
     paraId: 4292,
     providers: {
-      Yerba: 'wss://rpc.dev.yerba.network'
+      // Yerba: 'wss://rpc.dev.yerba.network' // https://github.com/polkadot-js/apps/issues/10890
     },
     text: 'Yerba Network',
     ui: {
@@ -710,7 +673,7 @@ export const testParasRococoCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1013,
     providers: {
-      Dwellir: 'wss://rococo-bridge-hub-rpc.dwellir.com',
+      Dwellir: 'wss://bridge-hub-rococo-rpc.dwellir.com',
       Parity: 'wss://rococo-bridge-hub-rpc.polkadot.io'
     },
     relayName: 'rococo',
@@ -745,7 +708,9 @@ export const testParasRococoCommon: EndpointOption[] = [
     relayName: 'rococo',
     teleport: [-1],
     text: 'Coretime',
-    ui: {}
+    ui: {
+      color: '#f19135'
+    }
   },
   {
     homepage: 'https://encointer.org/',

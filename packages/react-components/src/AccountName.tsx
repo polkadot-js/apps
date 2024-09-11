@@ -68,7 +68,7 @@ const MATCHERS: AddrMatcher[] = [
   // Westend
   createNumMatcher('modlpy/nopls\x00', 'Pool', 'Stash'),
   createNumMatcher('modlpy/nopls\x01', 'Pool', 'Reward'),
-  createNumMatcher('para', 'Parachain'),
+  createNumMatcher('para', 'Child'),
   createNumMatcher('sibl', 'Sibling')
 ];
 
