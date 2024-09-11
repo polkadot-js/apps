@@ -59,9 +59,13 @@ function Overview ({ api, apiEndpoint, className, isReady }: Props): React.React
   const reservationMap = useMemo(() => reservations ? createTaskMap(reservations) : [], [reservations]);
 
   const timesliceAsString = useMemo(() => {
-    const timeslice = status?.toHuman().lastCommittedTimeslice?.toString();
+    if (!!status && !!status?.toHuman()) {
+      const timeslice = status?.toHuman().lastCommittedTimeslice?.toString();
 
-    return timeslice === undefined ? '' : timeslice.toString().split(',').join('');
+      return timeslice === undefined ? '' : timeslice.toString().split(',').join('');
+    }
+
+    return '0';
   }, [status]);
 
   useEffect(() =>
@@ -78,16 +82,21 @@ function Overview ({ api, apiEndpoint, className, isReady }: Props): React.React
         apiEndpoint={apiEndpoint}
         workloadInfos={workLoad}
       ></Summary>
-      <Filters
-        onFilter={setFiltered}
-        workLoad={workLoad}
-      />
-      <CoresTable
-        api={api}
-        timeslice={Number(timesliceAsString)}
-        workloadInfos={filtered || workLoad}
-        workplanInfos={workPlan}
-      />
+      {!!workPlan?.length &&
+        (<>
+          <Filters
+            onFilter={setFiltered}
+            workLoad={workLoad}
+          />
+          <CoresTable
+            api={api}
+            timeslice={Number(timesliceAsString)}
+            workloadInfos={filtered || workLoad}
+            workplanInfos={workPlan}
+          />
+        </>)
+      }
+      {!workPlan?.length && <p style={{ marginLeft: '22px', marginTop: '3rem', opacity: 0.7 }}> No data currently available</p>}
     </div>
   );
 }
