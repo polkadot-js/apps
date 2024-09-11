@@ -15,11 +15,11 @@ interface Props {
 function RegionLength ({ children, className }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const config = useCall<PalletBrokerConfigRecord>(api.query.broker?.configuration);
-  const length = config?.toJSON().regionLength;
+  const length = config?.toJSON()?.regionLength;
 
   return (
     <div className={className}>
-      {length?.toString()}
+      {length?.toString() || '-'}
       {children}
     </div>
   );

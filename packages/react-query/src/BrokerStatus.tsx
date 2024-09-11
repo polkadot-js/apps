@@ -12,7 +12,7 @@ interface Props {
 }
 
 function BrokerStatus ({ children, className = '', query }: Props): React.ReactElement<Props> {
-  const info = useBrokerStatus(query);
+  const info = useBrokerStatus(query) || '-';
 
   return (
     <div className={className}>

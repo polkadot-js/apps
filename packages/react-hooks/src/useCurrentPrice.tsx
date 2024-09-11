@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
 function extractCurrentPrice (saleInfo: PalletBrokerSaleInfoRecord) {
-  return saleInfo.toJSON().price?.toString();
+  return saleInfo.toJSON()?.price?.toString();
 }
 
 function useCurrentPriceImpl () {
