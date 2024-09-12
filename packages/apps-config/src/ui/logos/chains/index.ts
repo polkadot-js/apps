@@ -56,6 +56,7 @@ export { chainsMyriadPNG } from './generated/myriadPNG.js';
 export { chainsMyxcavPNG } from './generated/myxcavPNG.js';
 export { chainsNeurowebTestnetPNG } from './generated/neuroweb-testnetPNG.js';
 export { chainsNeurowebPNG } from './generated/neurowebPNG.js';
+export { chainsNewxcavPNG } from './generated/newxcavPNG.js';
 export { chainsOakPNG } from './generated/oakPNG.js';
 export { chainsPaseoPNG } from './generated/paseoPNG.js';
 export { chainsPeaqPNG } from './generated/peaqPNG.js';
