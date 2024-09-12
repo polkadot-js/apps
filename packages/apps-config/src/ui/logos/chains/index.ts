@@ -53,7 +53,6 @@ export { chainsMangataPNG } from './generated/mangataPNG.js';
 export { chainsMangataxPNG } from './generated/mangataxPNG.js';
 export { chainsMoonsamaPNG } from './generated/moonsamaPNG.js';
 export { chainsMyriadPNG } from './generated/myriadPNG.js';
-export { chainsMyxcavPNG } from './generated/myxcavPNG.js';
 export { chainsNeurowebTestnetPNG } from './generated/neuroweb-testnetPNG.js';
 export { chainsNeurowebPNG } from './generated/neurowebPNG.js';
 export { chainsNewxcavPNG } from './generated/newxcavPNG.js';
