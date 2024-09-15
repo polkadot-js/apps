@@ -50,7 +50,7 @@
     "@polkadot/x-ws": "^13.0.2",
     "@polymeshassociation/polymesh-types": "5.12.0",
     "@snowfork/snowbridge-types": "0.2.7",
-    "@sora-substrate/type-definitions": "1.40.0",
+    "@sora-substrate/type-definitions": "1.40.1",
     "@storagehub/types-bundle": "^0.1.2",
     "@subsocial/definitions": "0.8.14",
     "@unique-nft/opal-testnet-types": "1003.70.0",
