@@ -4,8 +4,8 @@
 import type { EndpointOption } from './types.js';
 
 import { ROCOCO_GENESIS } from '../api/constants.js';
-import { chainsAcurastPNG, chainsAmplitudeSVG, chainsBitgreenPNG, chainsGenshiroSVG, chainsHydratePNG, chainsIdiyanaleLogoWhiteSVG, chainsJurPNG, chainsMangataPNG, chainsMoonsamaPNG, chainsNeurowebTestnetPNG, chainsRococoSVG, chainsSnowbridgePNG, chainsT0rnPNG, chainsTinkerPNG, chainsTotemSVG, chainsTuringPNG, chainsVirtoPNG, chainsWatrPNG } from '../ui/logos/chains/index.js';
-import { nodesArcticPNG, nodesAssetHubSVG, nodesBasiliskPNG, nodesBasiliskRococoBgPNG, nodesBridgeHubBlackSVG, nodesCentrifugePNG, nodesConftiSVG, nodesCrustParachainSVG, nodesCurioSVG, nodesDatahighwayPNG, nodesDolphinSVG, nodesEncointerBlueSVG, nodesGiantPNG, nodesHelixstreetPNG, nodesHyperbridgeSVG, nodesImbuePNG, nodesIntegriteeSVG, nodesInvoPNG, nodesKabochaSVG, nodesKiltPNG, nodesKineraPNG, nodesLitentryRococoPNG, nodesMagnetPNG, nodesMd5PNG, nodesMusePNG, nodesOliSVG, nodesOzPNG, nodesPhalaSVG, nodesPicassoPNG, nodesPolkadexSVG, nodesRegionxCocosPNG, nodesRexSVG, nodesRobonomicsSVG, nodesRocfinitySVG, nodesSocietalSVG, nodesSoonsocialXPNG, nodesSoraSubstrateSVG, nodesSubstrateContractsNodePNG, nodesUnitnetworkPNG, nodesYerbanetworkPNG, nodesZeitgeistPNG, nodesZeroSVG } from '../ui/logos/nodes/index.js';
+import { chainsAcurastPNG, chainsAmplitudeSVG, chainsBitgreenPNG, chainsGenshiroSVG, chainsIdiyanaleLogoWhiteSVG, chainsJurPNG, chainsMangataPNG, chainsMoonsamaPNG, chainsNeurowebTestnetPNG, chainsRococoSVG, chainsSnowbridgePNG, chainsT0rnPNG, chainsTinkerPNG, chainsTotemSVG, chainsTuringPNG, chainsVirtoPNG, chainsWatrPNG } from '../ui/logos/chains/index.js';
+import { nodesArcticPNG, nodesAssetHubSVG, nodesBasiliskPNG, nodesBasiliskRococoBgPNG, nodesBridgeHubBlackSVG, nodesCentrifugePNG, nodesConftiSVG, nodesCrustParachainSVG, nodesCurioSVG, nodesDatahighwayPNG, nodesDolphinSVG, nodesEncointerBlueSVG, nodesGiantPNG, nodesHelixstreetPNG, nodesHyperbridgePNG, nodesImbuePNG, nodesIntegriteeSVG, nodesInvoPNG, nodesKabochaSVG, nodesKiltPNG, nodesKineraPNG, nodesLitentryRococoPNG, nodesMagnetPNG, nodesMd5PNG, nodesMusePNG, nodesOliSVG, nodesOzPNG, nodesPhalaSVG, nodesPicassoPNG, nodesPolkadexSVG, nodesRegionxCocosPNG, nodesRobonomicsSVG, nodesRocfinitySVG, nodesSocietalSVG, nodesSoonsocialXPNG, nodesSoraSubstrateSVG, nodesSubstrateContractsNodePNG, nodesUnitnetworkPNG, nodesYerbanetworkPNG, nodesZeitgeistPNG, nodesZeroSVG } from '../ui/logos/nodes/index.js';
 import { getTeleports } from './util.js';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -180,28 +180,16 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'rococoHydraDX',
-    paraId: 2034,
-    providers: {
-      // 'Galactic Council': 'wss://hydradx-rococo-rpc.play.hydration.cloud' // https://github.com/polkadot-js/apps/issues/10667
-    },
-    text: 'HydraDX',
-    ui: {
-      color: '#f653a2',
-      logo: chainsHydratePNG
-    }
-  },
-  {
     homepage: 'https://hyperbridge.network',
     info: 'rococoHyperbridge',
     paraId: 4374,
     providers: {
-      // BlockOps: 'wss://hyperbridge-gargantua-rpc.blockops.network' // https://github.com/polkadot-js/apps/issues/10667
+      // BlockOps: 'wss://hyperbridge-gargantua-rpc.blockops.network' // https://github.com/polkadot-js/apps/issues/10890
     },
     text: 'Hyperbridge (Gargantua)',
     ui: {
       color: '#ED6FF1',
-      logo: nodesHyperbridgeSVG
+      logo: nodesHyperbridgePNG
     }
   },
   {
@@ -333,7 +321,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoMd5',
     paraId: 2093,
     providers: {
-      'Hashed Systems': 'wss://c1md5.hashed.network'
+      // 'Hashed Systems': 'wss://c1md5.hashed.network' // https://github.com/polkadot-js/apps/issues/10912
     },
     text: 'MD5 Network',
     ui: {
@@ -421,18 +409,6 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#0CC184',
       logo: nodesRegionxCocosPNG
-    }
-  },
-  {
-    info: 'rococoEwx',
-    paraId: 3345,
-    providers: {
-      'Energy Web': 'wss://public-rpc.testnet.energywebx.com/'
-    },
-    text: 'REX',
-    ui: {
-      color: '#452E66',
-      logo: nodesRexSVG
     }
   },
   {
@@ -653,7 +629,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoYerba',
     paraId: 4292,
     providers: {
-      Yerba: 'wss://rpc.dev.yerba.network'
+      // Yerba: 'wss://rpc.dev.yerba.network' // https://github.com/polkadot-js/apps/issues/10890
     },
     text: 'Yerba Network',
     ui: {
@@ -732,7 +708,9 @@ export const testParasRococoCommon: EndpointOption[] = [
     relayName: 'rococo',
     teleport: [-1],
     text: 'Coretime',
-    ui: {}
+    ui: {
+      color: '#f19135'
+    }
   },
   {
     homepage: 'https://encointer.org/',

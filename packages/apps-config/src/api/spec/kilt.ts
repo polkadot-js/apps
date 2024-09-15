@@ -3,8 +3,8 @@
 
 import { typesBundle } from '@kiltprotocol/type-definitions';
 
-if (!typesBundle.chain) {
-  throw new Error('Unable to find chain defintions');
+if (!typesBundle.spec) {
+  throw new Error('Unable to find chain definitions');
 }
 
-export default typesBundle.chain;
+export default typesBundle.spec;

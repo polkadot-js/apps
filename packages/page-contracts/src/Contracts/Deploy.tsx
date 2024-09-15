@@ -128,7 +128,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
           label={t('deployment account')}
           labelExtra={
             <Available
-              label={t('transferrable')}
+              label={t('transferable')}
               params={accountId}
             />
           }

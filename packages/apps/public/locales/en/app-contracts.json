@@ -63,7 +63,7 @@
   "read": "read",
   "read contract only, no execution": "read contract only, no execution",
   "status": "status",
-  "transferrable": "transferrable",
+  "transferable": "transferable",
   "unique deployment salt": "unique deployment salt",
   "use deployment salt": "use deployment salt",
   "use estimated gas": "use estimated gas",
