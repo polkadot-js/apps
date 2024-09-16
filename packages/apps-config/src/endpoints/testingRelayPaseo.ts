@@ -3,7 +3,7 @@
 
 import type { EndpointOption } from './types.js';
 
-import { chainsFrequencyPaseoSVG, chainsHydrationPaseoSVG, chainsLaosSigmaPNG, chainsPaseoPNG, chainsPeoplePolkadotSVG, chainsPopNetworkSVG, chainsXcavatePNG } from '@polkadot/apps-config/ui/logos/chains';
+import { chainsCoretimeKusamaSVG, chainsFrequencyPaseoSVG, chainsHydrationPaseoSVG, chainsLaosSigmaPNG, chainsPaseoPNG, chainsPeoplePolkadotSVG, chainsPopNetworkSVG, chainsXcavatePNG } from '@polkadot/apps-config/ui/logos/chains';
 import { nodesAjunaPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBifrostSVG, nodesBridgeHubSVG, nodesDarwiniaKoiSVG, nodesHyperbridgePNG, nodesIntegriteeSVG, nodesKiltPNG, nodesMandalaPNG, nodesMusePNG, nodesNodleSVG, nodesRexSVG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
@@ -287,6 +287,21 @@ export const testParasPaseoCommon: EndpointOption[] = [
     ui: {
       color: '#AAADD7',
       logo: nodesBridgeHubSVG
+    }
+  },
+  {
+    info: 'Coretime',
+    isPeopleForIdentity: true,
+    paraId: 1005,
+    providers: {
+      ParaNodes: 'wss://paseo-coretime.paranodes.io'
+    },
+    relayName: 'paseo',
+    teleport: [-1],
+    text: 'Coretime',
+    ui: {
+      color: '#113911',
+      logo: chainsCoretimeKusamaSVG
     }
   },
   {
