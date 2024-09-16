@@ -254,9 +254,8 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   },
   {
     homepage: 'https://idealabs.network/',
-    info: 'rococoIDN',
-    isPeopleForIdentity: true,
-    paraId: 4506,
+    info: 'Ideal Network',
+    paraId: 4502,
     providers: {
       'IDN Node': 'wss://idn0-testnet.idealabs.network'
     },
