@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types.js';
 
 import { chainsCoretimeKusamaSVG, chainsFrequencyPaseoSVG, chainsHydrationPaseoSVG, chainsLaosSigmaPNG, chainsPaseoPNG, chainsPeoplePolkadotSVG, chainsPopNetworkSVG, chainsXcavatePNG } from '@polkadot/apps-config/ui/logos/chains';
-import { nodesAjunaPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBifrostSVG, nodesBridgeHubSVG, nodesDarwiniaKoiSVG, nodesHyperbridgePNG, nodesIntegriteeSVG, nodesKiltPNG, nodesMandalaPNG, nodesMusePNG, nodesNodleSVG, nodesRexSVG } from '@polkadot/apps-config/ui/logos/nodes';
+import { nodesAjunaPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBifrostSVG, nodesBridgeHubSVG, nodesDarwiniaKoiSVG, nodesHyperbridgePNG, nodesIntegriteeSVG, nodesKiltPNG, nodesMandalaPNG, nodesMusePNG, nodesNodleSVG, nodesRexSVG, nodesZeitgeistPNG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
 // import { testnetParachainSVG } from '../ui/logos/nodes/index.js';
@@ -250,6 +250,19 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#FF0083',
       logo: chainsXcavatePNG
+    }
+  },
+  {
+    homepage: 'zeitgeist.pm',
+    info: 'ZeitgeistBatteryStation',
+    paraId: 2101,
+    providers: {
+      Zeitgeist: 'wss://bsr.zeitgeist.pm'
+    },
+    text: 'Zeitgeist Battery Station',
+    ui: {
+      color: 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)',
+      logo: nodesZeitgeistPNG
     }
   }
 ];
