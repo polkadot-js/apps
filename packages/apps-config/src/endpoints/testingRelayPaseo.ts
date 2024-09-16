@@ -3,7 +3,7 @@
 
 import type { EndpointOption } from './types.js';
 
-import { chainsFrequencyPaseoSVG, chainsLaosSigmaPNG, chainsPaseoPNG, chainsPeoplePolkadotSVG, chainsPopNetworkSVG } from '@polkadot/apps-config/ui/logos/chains';
+import { chainsCoretimeKusamaSVG, chainsFrequencyPaseoSVG, chainsHydrationPaseoSVG, chainsLaosSigmaPNG, chainsPaseoPNG, chainsPeoplePolkadotSVG, chainsPopNetworkSVG, chainsXcavatePNG } from '@polkadot/apps-config/ui/logos/chains';
 import { nodesAjunaPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBifrostSVG, nodesBridgeHubSVG, nodesDarwiniaKoiSVG, nodesHyperbridgePNG, nodesIntegriteeSVG, nodesKiltPNG, nodesMandalaPNG, nodesMusePNG, nodesNodleSVG, nodesRexSVG, nodesZeitgeistPNG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
@@ -107,6 +107,19 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#19455E',
       logo: chainsFrequencyPaseoSVG
+    }
+  },
+  {
+    homepage: 'https://hydration.net',
+    info: 'rococoHydraDX',
+    paraId: 2034,
+    providers: {
+      'Galactic Council': 'wss://paseo-rpc.play.hydration.cloud'
+    },
+    text: 'Hydration (Paseo)',
+    ui: {
+      color: '#b3d7fa',
+      logo: chainsHydrationPaseoSVG
     }
   },
   {
@@ -238,6 +251,19 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
       color: 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)',
       logo: nodesZeitgeistPNG
     }
+  },
+  {
+    homepage: 'https://xcavate.io/',
+    info: 'Xcavate',
+    paraId: 4003,
+    providers: {
+      Xcavate: 'wss://rpc-paseo.xcavate.io:443'
+    },
+    text: 'Xcavate',
+    ui: {
+      color: '#FF0083',
+      logo: chainsXcavatePNG
+    }
   }
 ];
 
@@ -274,6 +300,21 @@ export const testParasPaseoCommon: EndpointOption[] = [
     ui: {
       color: '#AAADD7',
       logo: nodesBridgeHubSVG
+    }
+  },
+  {
+    info: 'Coretime',
+    isPeopleForIdentity: true,
+    paraId: 1005,
+    providers: {
+      ParaNodes: 'wss://paseo-coretime.paranodes.io'
+    },
+    relayName: 'paseo',
+    teleport: [-1],
+    text: 'Coretime',
+    ui: {
+      color: '#113911',
+      logo: chainsCoretimeKusamaSVG
     }
   },
   {

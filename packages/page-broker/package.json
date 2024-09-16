@@ -1,0 +1,27 @@
+{
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "engines": {
+    "node": ">=18"
+  },
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-broker#readme",
+  "license": "Apache-2.0",
+  "name": "@polkadot/app-broker",
+  "private": true,
+  "repository": {
+    "directory": "packages/page-broker",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "0.143.3-28-x",
+  "dependencies": {
+    "@polkadot/react-components": "0.143.3-28-x",
+    "@polkadot/react-query": "0.143.3-28-x"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*",
+    "react-is": "*"
+  }
+}
