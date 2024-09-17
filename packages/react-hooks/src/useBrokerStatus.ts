@@ -19,7 +19,7 @@ function useBrokerStatusImpl (query: string): string | undefined {
             );
   }, [status]);
 
-  return state?.toJSON()[query]?.toString();
+  return state?.toJSON()?.[query]?.toString();
 }
 
 export const useBrokerStatus = createNamedHook('useBrokerStatus', useBrokerStatusImpl);

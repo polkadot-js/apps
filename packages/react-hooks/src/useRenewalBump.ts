@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
 function extractRenewalBump (config: PalletBrokerConfigRecord) {
-  return config.toJSON().renewalBump?.toString();
+  return config.toJSON()?.renewalBump?.toString();
 }
 
 function useRenewalBumpImpl () {

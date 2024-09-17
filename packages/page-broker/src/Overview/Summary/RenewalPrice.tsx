@@ -21,7 +21,7 @@ function RenewalPrice ({ currentPrice, renewalBump }: Props): React.ReactElement
 
   return (
     <div className='ui--balance-value'>
-      {formatBalance(renewalPrice)}
+      {formatBalance(renewalPrice) || '-'}
     </div>
 
   );
