@@ -465,15 +465,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@frequency-chain/api-augment@npm:1.13.0-rc4":
-  version: 1.13.0-rc4
-  resolution: "@frequency-chain/api-augment@npm:1.13.0-rc4"
+"@frequency-chain/api-augment@npm:1.13.0":
+  version: 1.13.0
+  resolution: "@frequency-chain/api-augment@npm:1.13.0"
   dependencies:
-    "@polkadot/api": "npm:^12.2.3"
-    "@polkadot/rpc-provider": "npm:^12.2.3"
-    "@polkadot/types": "npm:^12.2.3"
+    "@polkadot/api": "npm:^12.3.1"
+    "@polkadot/rpc-provider": "npm:^12.3.1"
+    "@polkadot/types": "npm:^12.3.1"
     globals: "npm:^15.9.0"
-  checksum: 10/3e38c235a41716fd919aebc1c0ac6ec784e28dddb370e1d1dac7e54e603ccc1ff8bd22924551d17847bf7fc5949581731b63c427ee6f9f773b28229445793fa6
+  checksum: 10/8c876a7edeb518b4d76100093be571c98a93e093fdf75faaa37cb18262817ac31e1f94d37e144a9b53e3f6a0b9cbf560ba05c4009aad26344b04886ff634665a
   languageName: node
   linkType: hard
 
@@ -1874,7 +1874,7 @@ __metadata:
     "@edgeware/node-types": "npm:3.6.2-wako"
     "@equilab/definitions": "npm:1.4.18"
     "@fragnova/api-augment": "npm:0.1.0-spec-1.0.4-mainnet"
-    "@frequency-chain/api-augment": "npm:1.13.0-rc4"
+    "@frequency-chain/api-augment": "npm:1.13.0"
     "@interlay/interbtc-types": "npm:1.13.0"
     "@kiltprotocol/type-definitions": "npm:^1.11200.0"
     "@laminar/type-definitions": "npm:0.3.1"
@@ -1885,20 +1885,20 @@ __metadata:
     "@peaqnetwork/type-definitions": "npm:0.0.4"
     "@pendulum-chain/type-definitions": "npm:0.3.8"
     "@phala/typedefs": "npm:0.2.33"
-    "@polkadot/api": "npm:^12.4.2"
-    "@polkadot/api-derive": "npm:^12.4.2"
+    "@polkadot/api": "npm:^13.0.1"
+    "@polkadot/api-derive": "npm:^13.0.1"
     "@polkadot/networks": "npm:^13.0.2"
     "@polkadot/react-identicon": "npm:^3.9.1"
-    "@polkadot/types": "npm:^12.4.2"
-    "@polkadot/types-codec": "npm:^12.4.2"
+    "@polkadot/types": "npm:^13.0.1"
+    "@polkadot/types-codec": "npm:^13.0.1"
     "@polkadot/util": "npm:^13.0.2"
     "@polkadot/util-crypto": "npm:^13.0.2"
     "@polkadot/wasm-util": "npm:^7.3.2"
     "@polkadot/x-fetch": "npm:^13.0.2"
     "@polkadot/x-ws": "npm:^13.0.2"
-    "@polymeshassociation/polymesh-types": "npm:5.11.1"
+    "@polymeshassociation/polymesh-types": "npm:5.12.1"
     "@snowfork/snowbridge-types": "npm:0.2.7"
-    "@sora-substrate/type-definitions": "npm:1.40.0"
+    "@sora-substrate/type-definitions": "npm:1.40.3"
     "@storagehub/types-bundle": "npm:^0.1.2"
     "@subsocial/definitions": "npm:0.8.14"
     "@unique-nft/opal-testnet-types": "npm:1003.70.0"
@@ -2784,10 +2784,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polymeshassociation/polymesh-types@npm:5.11.1":
-  version: 5.11.1
-  resolution: "@polymeshassociation/polymesh-types@npm:5.11.1"
-  checksum: 10/a522d005555cd01f65c000d2b88e088fbb19113367e2233ab1e72151c831ad24361ad9f8d90e2eb1c9667e823fb8e6849a3992d0e5874518a5cef7dbe1371869
+"@polymeshassociation/polymesh-types@npm:5.12.1":
+  version: 5.12.1
+  resolution: "@polymeshassociation/polymesh-types@npm:5.12.1"
+  checksum: 10/db12176936a71024f2d028ac41fbff085740876bacfdbb8c434d48b77f56f25b81003281b02dea812f42c18fb005e58bd31523e94461505e95798c294226fa44
   languageName: node
   linkType: hard
 
@@ -3106,12 +3106,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sora-substrate/type-definitions@npm:1.40.0":
-  version: 1.40.0
-  resolution: "@sora-substrate/type-definitions@npm:1.40.0"
+"@sora-substrate/type-definitions@npm:1.40.3":
+  version: 1.40.3
+  resolution: "@sora-substrate/type-definitions@npm:1.40.3"
   dependencies:
     "@open-web3/orml-type-definitions": "npm:1.1.4"
-  checksum: 10/9c24d822c6f1564025a60da1755143fda3c3f484c411a8012a7009770158bff8a58b370b7629f93b4affbd9ea945265089bafe0486662c8a2e4e8215f7518258
+  checksum: 10/b9178109b92d822afa14663de112023074604212ac52fd027fbec2179febca1a3bf41b5fd9406d78c3305ddd0bb03186d98d4fba3bdf049f947fc1af42a28a8d
   languageName: node
   linkType: hard
 
