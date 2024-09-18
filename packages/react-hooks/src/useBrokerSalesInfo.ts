@@ -10,9 +10,7 @@ import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
 import { stringToBN } from './utils/dataProcessing.js';
 
-function parsePalletBrokerSaleInfoRecord(
-  record: PalletBrokerSaleInfoRecord
-): SimplifiedPalletBrokerSaleInfoRecord {
+function parsePalletBrokerSaleInfoRecord (record: PalletBrokerSaleInfoRecord): SimplifiedPalletBrokerSaleInfoRecord {
   const rec = record?.toJSON();
 
   return {
@@ -29,7 +27,7 @@ function parsePalletBrokerSaleInfoRecord(
   };
 }
 
-function useBrokerSalesInfoImpl() {
+function useBrokerSalesInfoImpl () {
   const { api, isApiReady } = useApi();
 
   const saleInfo = useCall<PalletBrokerSaleInfoRecord>(isApiReady && api.query.broker.saleInfo);
