@@ -5,9 +5,9 @@ import type { PalletBrokerSaleInfoRecord } from '@polkadot/types/lookup';
 import type { PalletBrokerSaleInfoRecord as SimplifiedPalletBrokerSaleInfoRecord } from './types.js';
 
 import { useEffect, useState } from 'react';
-import { BN } from '@polkadot/util'
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
+import { BN } from '@polkadot/util';
 
 function parsePalletBrokerSaleInfoRecord (record: PalletBrokerSaleInfoRecord): SimplifiedPalletBrokerSaleInfoRecord {
   return {
