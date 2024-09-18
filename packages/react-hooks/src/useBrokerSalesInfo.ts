@@ -5,6 +5,7 @@ import type { PalletBrokerSaleInfoRecord } from '@polkadot/types/lookup';
 import type { PalletBrokerSaleInfoRecord as SimplifiedPalletBrokerSaleInfoRecord } from './types.js';
 
 import { useEffect, useState } from 'react';
+import { BN } from '@polkadot/util'
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
@@ -19,7 +20,7 @@ function parsePalletBrokerSaleInfoRecord (record: PalletBrokerSaleInfoRecord): S
     regionBegin: record.regionBegin.toNumber(),
     regionEnd: record.regionEnd.toNumber(),
     saleStart: record.saleStart.toNumber(),
-    selloutPrice: record.selloutPrice.isSome ? record.selloutPrice.unwrap() : 0
+    selloutPrice: record.selloutPrice.isSome ? record.selloutPrice.unwrap() : new BN(0)
   };
 }
 
