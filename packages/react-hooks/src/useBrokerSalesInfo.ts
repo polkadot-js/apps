@@ -8,20 +8,18 @@ import { useEffect, useState } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
-import { stringToBN } from './utils/dataProcessing.js';
-
 function parsePalletBrokerSaleInfoRecord (record: PalletBrokerSaleInfoRecord): SimplifiedPalletBrokerSaleInfoRecord {
   return {
     coresOffered: record.coresOffered.toNumber(),
     coresSold: record.coresSold.toNumber(),
-    endPrice: stringToBN(record?.endPrice?.toString()),
-    firstCore: record?.firstCore.toNumber(),
+    endPrice: record.endPrice,
+    firstCore: record.firstCore.toNumber(),
     idealCoresSold: record.idealCoresSold.toNumber(),
     leadinLength: record.leadinLength.toNumber(),
     regionBegin: record.regionBegin.toNumber(),
     regionEnd: record.regionEnd.toNumber(),
     saleStart: record.saleStart.toNumber(),
-    selloutPrice: stringToBN(record.selloutPrice?.toString())
+    selloutPrice: record.selloutPrice.isSome ? record.selloutPrice.unwrap() : 0
   };
 }
 

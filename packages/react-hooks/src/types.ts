@@ -282,7 +282,7 @@ export interface PalletBrokerSaleInfoRecord {
   idealCoresSold: number;
   coresOffered: number;
   firstCore: number;
-  selloutPrice: BN;
+  selloutPrice: number | u128;
   coresSold: number;
 }
 
