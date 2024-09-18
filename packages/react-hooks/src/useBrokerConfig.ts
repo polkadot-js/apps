@@ -11,17 +11,15 @@ import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 import { stringToBN } from './utils/dataProcessing.js';
 
 function parseConfig (config: PalletBrokerConfigRecord): SimplifiedPalletBrokerConfigRecord {
-  const c = config?.toJSON();
-
   return {
-    advanceNotice: c?.advanceNotice as number || 0,
-    contributionTimeout: c?.contributionTimeout as number || 0,
-    idealBulkProportion: stringToBN(c?.idealBulkProportion?.toString()) || 0,
-    interludeLength: c?.interludeLength as number || 0,
-    leadinLength: c?.leadinLength as number || 0,
-    limitCoresOffered: c?.limitCoresOffered as number || 0,
-    regionLength: c?.regionLength as number || 0,
-    renewalBump: stringToBN(c?.renewalBump?.toString()) || 0
+    advanceNotice: config.advanceNotice.toNumber(),
+    contributionTimeout: config.contributionTimeout.toNumber(),
+    idealBulkProportion: stringToBN(config.idealBulkProportion?.toString()),
+    interludeLength: config.interludeLength.toNumber(),
+    leadinLength: config.leadinLength.toNumber(),
+    limitCoresOffered: config.limitCoresOffered.isSome ? config.limitCoresOffered.unwrap().toNumber() : 0,
+    regionLength: config.regionLength.toNumber(),
+    renewalBump: stringToBN(config.renewalBump?.toString())
   };
 }
 
@@ -33,7 +31,7 @@ function useBrokerConfigImpl () {
   const [state, setState] = useState<SimplifiedPalletBrokerConfigRecord>();
 
   useEffect((): void => {
-    config &&
+    !!config && !!config.toJSON() &&
       setState(
         parseConfig(config)
       );
