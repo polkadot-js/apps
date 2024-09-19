@@ -1,6 +1,7 @@
 // Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Option } from '@polkadot/types';
 import type { PalletBrokerConfigRecord } from '@polkadot/types/lookup';
 import type { PalletBrokerConfigRecord as SimplifiedPalletBrokerConfigRecord } from './types.js';
 
@@ -8,30 +9,32 @@ import { useEffect, useState } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 
-function parseConfig (config: PalletBrokerConfigRecord): SimplifiedPalletBrokerConfigRecord {
+function extractInfo (config: Option<PalletBrokerConfigRecord>): SimplifiedPalletBrokerConfigRecord {
+  const c = config.unwrap();
+
   return {
-    advanceNotice: config.advanceNotice.toNumber(),
-    contributionTimeout: config.contributionTimeout.toNumber(),
-    idealBulkProportion: config.idealBulkProportion,
-    interludeLength: config.interludeLength.toNumber(),
-    leadinLength: config.leadinLength.toNumber(),
-    limitCoresOffered: config.limitCoresOffered.isSome ? config.limitCoresOffered.unwrap().toNumber() : 0,
-    regionLength: config.regionLength.toNumber(),
-    renewalBump: config.renewalBump
+    advanceNotice: c.advanceNotice?.toNumber(),
+    contributionTimeout: c.contributionTimeout?.toNumber(),
+    idealBulkProportion: c.idealBulkProportion,
+    interludeLength: c.interludeLength?.toNumber(),
+    leadinLength: c.leadinLength?.toNumber(),
+    limitCoresOffered: c.limitCoresOffered?.isSome ? c.limitCoresOffered?.unwrap().toNumber() : 0,
+    regionLength: c.regionLength?.toNumber(),
+    renewalBump: c.renewalBump
   };
 }
 
 function useBrokerConfigImpl () {
   const { api, isApiReady } = useApi();
 
-  const config = useCall<PalletBrokerConfigRecord>(isApiReady && api.query.broker.configuration);
+  const config = useCall<Option<PalletBrokerConfigRecord>>(isApiReady && api.query.broker.configuration);
 
-  const [state, setState] = useState<SimplifiedPalletBrokerConfigRecord>();
+  const [state, setState] = useState<SimplifiedPalletBrokerConfigRecord | undefined>();
 
   useEffect((): void => {
     !!config && !!config.toJSON() &&
       setState(
-        parseConfig(config)
+        extractInfo(config)
       );
   }, [config]);
 
