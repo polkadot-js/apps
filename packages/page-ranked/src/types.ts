@@ -3,9 +3,9 @@
 
 import type { PalletRankedCollectiveMemberRecord } from '@polkadot/types/lookup';
 
-export type PalletColl = 'rankedCollective' | 'fellowshipCollective';
+export type PalletColl = 'rankedCollective' | 'fellowshipCollective' | 'ambassadorCollective';
 
-export type PalletPoll = 'rankedPolls' | 'fellowshipReferenda';
+export type PalletPoll = 'rankedPolls' | 'fellowshipReferenda' | 'ambassadorReferenda';
 
 export interface Member {
   accountId: string;

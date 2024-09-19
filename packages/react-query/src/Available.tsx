@@ -25,7 +25,7 @@ function AvailableDisplay ({ children, className = '', label, params }: Props): 
     <FormatBalance
       className={className}
       label={label}
-      value={allBalances?.availableBalance}
+      value={allBalances?.transferable || allBalances?.availableBalance}
     >
       {children}
     </FormatBalance>

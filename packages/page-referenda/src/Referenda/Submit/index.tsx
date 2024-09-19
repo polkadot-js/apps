@@ -166,7 +166,7 @@ function Submit ({ className = '', isMember, members, palletReferenda, tracks }:
                 label={t('propose from account')}
                 labelExtra={
                   <Available
-                    label={<span className='label'>{t('transferrable')}</span>}
+                    label={<span className='label'>{t('transferable')}</span>}
                     params={accountId}
                   />
                 }

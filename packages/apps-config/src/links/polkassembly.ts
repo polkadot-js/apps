@@ -20,7 +20,7 @@ export const PolkassemblyIo: ExternalDef = {
     Collectives: 'collectives',
     'Equilibrium parachain': 'equilibrium',
     'Hashed Network': 'hashed',
-    HydraDX: 'hydradx',
+    Hydration: 'hydradx',
     'Integritee Network (Kusama)': 'integritee',
     Khala: 'khala',
     Kintsugi: 'kintsugi',

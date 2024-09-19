@@ -139,7 +139,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
             label={t('send from account')}
             labelExtra={
               <Available
-                label={t('transferrable')}
+                label={t('transferable')}
                 params={senderId}
               />
             }

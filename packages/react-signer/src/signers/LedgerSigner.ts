@@ -1,11 +1,16 @@
 // Copyright 2017-2024 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// This is for the use of `Ledger`
+//
+/* eslint-disable deprecation/deprecation */
+
 import type { ApiPromise } from '@polkadot/api';
 import type { Signer, SignerResult } from '@polkadot/api/types';
-import type { LedgerGeneric } from '@polkadot/hw-ledger';
+import type { Ledger, LedgerGeneric } from '@polkadot/hw-ledger';
 import type { Registry, SignerPayloadJSON } from '@polkadot/types/types';
 
+import { settings } from '@polkadot/ui-settings';
 import { objectSpread, u8aToHex } from '@polkadot/util';
 import { merkleizeMetadata } from '@polkadot-api/merkleize-metadata';
 
@@ -14,11 +19,11 @@ let id = 0;
 export class LedgerSigner implements Signer {
   readonly #accountIndex: number;
   readonly #addressOffset: number;
-  readonly #getLedger: () => LedgerGeneric;
+  readonly #getLedger: () => LedgerGeneric | Ledger;
   readonly #registry: Registry;
   readonly #api: ApiPromise;
 
-  constructor (api: ApiPromise, getLedger: () => LedgerGeneric, accountIndex: number, addressOffset: number) {
+  constructor (api: ApiPromise, getLedger: () => LedgerGeneric | Ledger, accountIndex: number, addressOffset: number) {
     this.#accountIndex = accountIndex;
     this.#addressOffset = addressOffset;
     this.#getLedger = getLedger;
@@ -47,25 +52,35 @@ export class LedgerSigner implements Signer {
   }
 
   public async signPayload (payload: SignerPayloadJSON): Promise<SignerResult> {
-    const { address } = await this.#getLedger().getAddress(
-      this.#api.consts.system.ss58Prefix.toNumber(),
-      false,
-      this.#accountIndex,
-      this.#addressOffset
-    );
-    const { raw, txMetadata } = await this.getMetadataProof(payload);
+    const currApp = settings.get().ledgerApp;
 
-    const buff = Buffer.from(txMetadata);
-    const { signature } = await this.#getLedger().signWithMetadata(raw.toU8a(true), this.#accountIndex, this.#addressOffset, { metadata: buff });
+    if (currApp === 'migration' || currApp === 'generic') {
+      const { address } = await (this.#getLedger() as LedgerGeneric).getAddress(
+        this.#api.consts.system.ss58Prefix.toNumber(),
+        false,
+        this.#accountIndex,
+        this.#addressOffset
+      );
+      const { raw, txMetadata } = await this.getMetadataProof(payload);
 
-    const extrinsic = this.#registry.createType(
-      'Extrinsic',
-      { method: raw.method },
-      { version: 4 }
-    );
+      const buff = Buffer.from(txMetadata);
+      const { signature } = await (this.#getLedger() as LedgerGeneric).signWithMetadata(raw.toU8a(true), this.#accountIndex, this.#addressOffset, { metadata: buff });
 
-    extrinsic.addSignature(address, signature, raw.toHex());
+      const extrinsic = this.#registry.createType(
+        'Extrinsic',
+        { method: raw.method },
+        { version: 4 }
+      );
 
-    return { id: ++id, signature, signedTransaction: extrinsic.toHex() };
+      extrinsic.addSignature(address, signature, raw.toHex());
+
+      return { id: ++id, signature, signedTransaction: extrinsic.toHex() };
+    } else {
+      // This is when the option is `chainSpecific`
+      const raw = this.#registry.createType('ExtrinsicPayload', payload, { version: payload.version });
+      const { signature } = await this.#getLedger().sign(raw.toU8a(true), this.#accountIndex, this.#addressOffset);
+
+      return { id: ++id, signature };
+    }
   }
 }

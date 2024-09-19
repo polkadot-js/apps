@@ -96,6 +96,7 @@ export { default as Toggle } from './Toggle.js';
 export { default as ToggleGroup } from './ToggleGroup.js';
 export { default as Tooltip } from './Tooltip.js';
 export { default as TxButton } from './TxButton.js';
+export { default as UsageBar } from './UsageBar.js';
 export { default as VoteAccount } from './VoteAccount.js';
 export { default as VoteValue } from './VoteValue.js';
 
