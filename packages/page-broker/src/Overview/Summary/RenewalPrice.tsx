@@ -3,6 +3,7 @@
 
 import React from 'react';
 
+import { useBrokerSalesInfo } from '@polkadot/react-hooks';
 import { formatBalance } from '@polkadot/util';
 
 interface Props {
@@ -12,18 +13,13 @@ interface Props {
   currentPrice?: string;
 }
 
-function RenewalPrice ({ currentPrice, renewalBump }: Props): React.ReactElement<Props> | null {
-  const percentage = renewalBump ? Number.parseInt(renewalBump) / 1000000000 : 0;
-
-  const price = currentPrice ? Number.parseInt(currentPrice) : 0;
-
-  const renewalPrice = price * percentage + price;
+function RenewalPrice (): React.ReactElement<Props> | null {
+  const salesInfo = useBrokerSalesInfo();
 
   return (
     <div className='ui--balance-value'>
-      {formatBalance(renewalPrice) || '-'}
+      {formatBalance(salesInfo?.endPrice) || '-'}
     </div>
-
   );
 }
 
