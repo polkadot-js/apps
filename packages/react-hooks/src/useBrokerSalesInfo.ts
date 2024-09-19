@@ -35,7 +35,7 @@ function useBrokerSalesInfoImpl () {
   const [state, setState] = useState<SimplifiedPalletBrokerSaleInfoRecord | undefined>();
 
   useEffect((): void => {
-    !!record && !!record.toJSON() &&
+    !!record && !!record.isSome && !!record.toJSON() &&
       setState(
         extractInfo(record)
       );

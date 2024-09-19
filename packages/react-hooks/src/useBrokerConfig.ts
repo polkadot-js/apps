@@ -32,7 +32,7 @@ function useBrokerConfigImpl () {
   const [state, setState] = useState<SimplifiedPalletBrokerConfigRecord | undefined>();
 
   useEffect((): void => {
-    !!config && !!config.toJSON() &&
+    !!config && !!config.isSome && !!config.toJSON() &&
       setState(
         extractInfo(config)
       );
