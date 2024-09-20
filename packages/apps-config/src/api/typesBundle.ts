@@ -102919,18 +102919,33 @@ export const typesBundle = {
           },
           "getForestRoot": {
             "description": "Get the root of the forest trie.",
-            "params": [],
+            "params": [
+              {
+                "name": "key",
+                "type": "Option<String>"
+              }
+            ],
             "type": "H256"
           },
-          "rotateBcsvKeys": {
-            "description": "Rotate (generate and insert) new keys of BCSV type for the Blockchain Service.",
+          "insertBcsvKeys": {
+            "description": "Generate and insert new keys of type BCSV into the keystore.",
             "params": [
               {
                 "name": "seed",
-                "type": "String"
+                "type": "Option<String>"
               }
             ],
             "type": "String"
+          },
+          "removeBcsvKeys": {
+            "description": "Remove keys of BCSV type for the Blockchain Service.",
+            "params": [
+              {
+                "name": "keystore_path",
+                "type": "String"
+              }
+            ],
+            "type": "()"
           }
         }
       },
@@ -102997,6 +103012,16 @@ export const typesBundle = {
                   }
                 ],
                 "type": "Result<Vec<(Key, Option<TrieRemoveMutation>)>, GetCheckpointChallengesError>"
+              },
+              "get_challenge_seed": {
+                "description": "Get the seed for a given challenge tick.",
+                "params": [
+                  {
+                    "name": "tick",
+                    "type": "BlockNumber"
+                  }
+                ],
+                "type": "Result<RandomnessOutput, GetChallengeSeedError>"
               },
               "get_challenge_period": {
                 "description": "Get the challenge period for a given Provider.",
@@ -103076,6 +103101,47 @@ export const typesBundle = {
                   }
                 ],
                 "type": "Result<BackupStorageProvider, GetBspInfoError>"
+              },
+              "get_storage_provider_id": {
+                "description": "Get the Storage Provider ID for a given Account ID.",
+                "params": [
+                  {
+                    "name": "who",
+                    "type": "AccountId"
+                  }
+                ],
+                "type": "Option<StorageProviderId>"
+              }
+            },
+            "version": 1
+          }
+        ],
+        "PaymentStreamsApi": [
+          {
+            "methods": {
+              "get_users_with_debt_over_threshold": {
+                "description": "Get the users that have a debt to the provider greater than the threshold.",
+                "params": [
+                  {
+                    "name": "providerId",
+                    "type": "ProviderId"
+                  },
+                  {
+                    "name": "threshold",
+                    "type": "Balance"
+                  }
+                ],
+                "type": "Result<Vec<AccountId>, GetUsersWithDebtOverThresholdError>"
+              },
+              "get_users_of_payment_streams_of_provider": {
+                "description": "Get the payment streams of a provider.",
+                "params": [
+                  {
+                    "name": "providerId",
+                    "type": "ProviderId"
+                  }
+                ],
+                "type": "Vec<AccountId>"
               }
             },
             "version": 1
@@ -103113,6 +103179,7 @@ export const typesBundle = {
             "RandomnessOutput": "H256",
             "TrieRemoveMutation": {},
             "BackupStorageProviderId": "H256",
+            "MainStorageProviderId": "H256",
             "StorageData": "u32",
             "MerklePatriciaRoot": "H256",
             "ChunkId": "u64",
@@ -103124,6 +103191,12 @@ export const typesBundle = {
               "last_capacity_change": "BlockNumber",
               "owner_account": "AccountId",
               "payment_account": "AccountId"
+            },
+            "StorageProviderId": {
+              "_enum": {
+                "BackupStorageProvider": "BackupStorageProviderId",
+                "MainStorageProvider": "MainStorageProviderId"
+              }
             },
             "GetLastTickProviderSubmittedProofError": {
               "_enum": {
@@ -103139,9 +103212,17 @@ export const typesBundle = {
                 "InternalApiError": null
               }
             },
+            "GetChallengeSeedError": {
+              "_enum": {
+                "TickBeyondLastSeedStored": null,
+                "TickIsInTheFuture": null,
+                "InternalApiError": null
+              }
+            },
             "GetChallengePeriodError": {
               "_enum": {
-                "ProviderNotRegistered": null
+                "ProviderNotRegistered": null,
+                "InternalApiError": null
               }
             },
             "GetBspInfoError": {
@@ -103171,6 +103252,15 @@ export const typesBundle = {
               "_enum": {
                 "StorageRequestNotFound": null,
                 "InternalError": null
+              }
+            },
+            "GetUsersWithDebtOverThresholdError": {
+              "_enum": {
+                "ProviderNotRegistered": null,
+                "ProviderWithoutPaymentStreams": null,
+                "AmountToChargeOverflow": null,
+                "DebtOverflow": null,
+                "InternalApiError": null
               }
             }
           }
@@ -103218,18 +103308,33 @@ export const typesBundle = {
           },
           "getForestRoot": {
             "description": "Get the root of the forest trie.",
-            "params": [],
+            "params": [
+              {
+                "name": "key",
+                "type": "Option<String>"
+              }
+            ],
             "type": "H256"
           },
-          "rotateBcsvKeys": {
-            "description": "Rotate (generate and insert) new keys of BCSV type for the Blockchain Service.",
+          "insertBcsvKeys": {
+            "description": "Generate and insert new keys of type BCSV into the keystore.",
             "params": [
               {
                 "name": "seed",
-                "type": "String"
+                "type": "Option<String>"
               }
             ],
             "type": "String"
+          },
+          "removeBcsvKeys": {
+            "description": "Remove keys of BCSV type for the Blockchain Service.",
+            "params": [
+              {
+                "name": "keystore_path",
+                "type": "String"
+              }
+            ],
+            "type": "()"
           }
         }
       },
@@ -103296,6 +103401,16 @@ export const typesBundle = {
                   }
                 ],
                 "type": "Result<Vec<(Key, Option<TrieRemoveMutation>)>, GetCheckpointChallengesError>"
+              },
+              "get_challenge_seed": {
+                "description": "Get the seed for a given challenge tick.",
+                "params": [
+                  {
+                    "name": "tick",
+                    "type": "BlockNumber"
+                  }
+                ],
+                "type": "Result<RandomnessOutput, GetChallengeSeedError>"
               },
               "get_challenge_period": {
                 "description": "Get the challenge period for a given Provider.",
@@ -103375,6 +103490,47 @@ export const typesBundle = {
                   }
                 ],
                 "type": "Result<BackupStorageProvider, GetBspInfoError>"
+              },
+              "get_storage_provider_id": {
+                "description": "Get the Storage Provider ID for a given Account ID.",
+                "params": [
+                  {
+                    "name": "who",
+                    "type": "AccountId"
+                  }
+                ],
+                "type": "Option<StorageProviderId>"
+              }
+            },
+            "version": 1
+          }
+        ],
+        "PaymentStreamsApi": [
+          {
+            "methods": {
+              "get_users_with_debt_over_threshold": {
+                "description": "Get the users that have a debt to the provider greater than the threshold.",
+                "params": [
+                  {
+                    "name": "providerId",
+                    "type": "ProviderId"
+                  },
+                  {
+                    "name": "threshold",
+                    "type": "Balance"
+                  }
+                ],
+                "type": "Result<Vec<AccountId>, GetUsersWithDebtOverThresholdError>"
+              },
+              "get_users_of_payment_streams_of_provider": {
+                "description": "Get the payment streams of a provider.",
+                "params": [
+                  {
+                    "name": "providerId",
+                    "type": "ProviderId"
+                  }
+                ],
+                "type": "Vec<AccountId>"
               }
             },
             "version": 1
@@ -103412,6 +103568,7 @@ export const typesBundle = {
             "RandomnessOutput": "H256",
             "TrieRemoveMutation": {},
             "BackupStorageProviderId": "H256",
+            "MainStorageProviderId": "H256",
             "StorageData": "u32",
             "MerklePatriciaRoot": "H256",
             "ChunkId": "u64",
@@ -103423,6 +103580,12 @@ export const typesBundle = {
               "last_capacity_change": "BlockNumber",
               "owner_account": "AccountId",
               "payment_account": "AccountId"
+            },
+            "StorageProviderId": {
+              "_enum": {
+                "BackupStorageProvider": "BackupStorageProviderId",
+                "MainStorageProvider": "MainStorageProviderId"
+              }
             },
             "GetLastTickProviderSubmittedProofError": {
               "_enum": {
@@ -103438,9 +103601,17 @@ export const typesBundle = {
                 "InternalApiError": null
               }
             },
+            "GetChallengeSeedError": {
+              "_enum": {
+                "TickBeyondLastSeedStored": null,
+                "TickIsInTheFuture": null,
+                "InternalApiError": null
+              }
+            },
             "GetChallengePeriodError": {
               "_enum": {
-                "ProviderNotRegistered": null
+                "ProviderNotRegistered": null,
+                "InternalApiError": null
               }
             },
             "GetBspInfoError": {
@@ -103470,6 +103641,15 @@ export const typesBundle = {
               "_enum": {
                 "StorageRequestNotFound": null,
                 "InternalError": null
+              }
+            },
+            "GetUsersWithDebtOverThresholdError": {
+              "_enum": {
+                "ProviderNotRegistered": null,
+                "ProviderWithoutPaymentStreams": null,
+                "AmountToChargeOverflow": null,
+                "DebtOverflow": null,
+                "InternalApiError": null
               }
             }
           }
