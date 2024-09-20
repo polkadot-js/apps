@@ -103,6 +103,7 @@ export { nodesMoonsamaSVG } from './generated/moonsamaSVG.js';
 export { nodesMoonshadowPNG } from './generated/moonshadowPNG.js';
 export { nodesMusePNG } from './generated/musePNG.js';
 export { nodesMybankPNG } from './generated/mybankPNG.js';
+export { nodesMyriadPaseoSVG } from './generated/myriadPaseoSVG.js';
 export { nodesMythosPNG } from './generated/mythosPNG.js';
 export { nodesNftmartPNG } from './generated/nftmartPNG.js';
 export { nodesNodleSVG } from './generated/nodleSVG.js';
