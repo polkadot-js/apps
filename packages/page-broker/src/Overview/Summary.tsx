@@ -8,7 +8,7 @@ import React from 'react';
 
 import { CardSummary, styled, SummaryBox, UsageBar } from '@polkadot/react-components';
 import { defaultHighlight } from '@polkadot/react-components/styles';
-import { useApi, useBrokerStatus, useCurrentPrice, useRenewalBump } from '@polkadot/react-hooks';
+import { useApi, useBrokerStatus } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
 import { getStats } from '../utils.js';
@@ -41,8 +41,6 @@ interface Props {
 function Summary ({ workloadInfos }: Props): React.ReactElement {
   const { t } = useTranslation();
   const { api, apiEndpoint } = useApi();
-  const renewalBump = useRenewalBump();
-  const currentPrice = useCurrentPrice();
   const totalCores = useBrokerStatus('coreCount');
   const uiHighlight = apiEndpoint?.ui.color || defaultHighlight;
   const { idles, pools, tasks }: statsType = React.useMemo(() => getStats(totalCores, workloadInfos), [totalCores, workloadInfos]);
@@ -66,10 +64,7 @@ function Summary ({ workloadInfos }: Props): React.ReactElement {
                 <RegionLength />
               </CardSummary>
               <CardSummary label={t('estimated bulk price')}>
-                <RenewalPrice
-                  currentPrice={currentPrice}
-                  renewalBump={renewalBump}
-                />
+                <RenewalPrice />
               </CardSummary>
             </StyledDiv>
           </>

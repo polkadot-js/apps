@@ -16,9 +16,9 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.143.3-27-x",
+  "version": "0.143.3-35-x",
   "versions": {
-    "git": "0.143.3-27-x",
+    "git": "0.143.3-35-x",
     "npm": "0.143.2"
   },
   "workspaces": [
@@ -42,7 +42,7 @@
     "build:release:ipfs": "node scripts/ipfsUpload.mjs",
     "build:release:www": "yarn polkadot-ci-ghact-build && yarn build:release:ghpages && yarn build:release:ipfs",
     "build:robohash": "node scripts/robohash.cjs",
-    "build:typesBundle": "polkadot-dev-run-test --env node --loader extensionless typesBundle",
+    "build:typesBundle": "yarn tsx packages/apps-config/src/api/bundleGen.ts ",
     "build:www": "rm -rf packages/apps/build && mkdir -p packages/apps/build && yarn run build:i18n && cd packages/apps && yarn polkadot-exec-webpack --config webpack.config.cjs",
     "ci:chainEndpoints": "polkadot-dev-run-test --env node --logfile .github/chain-endpoints.md packages/apps-config/src/ci/chainEndpoints",
     "ci:chainTypes": "echo ok",
@@ -65,6 +65,9 @@
     "test:all": "polkadot-dev-run-test --env browser ^chainEndpoints ^chainTypes",
     "test:one": "polkadot-dev-run-test --env browser",
     "test:skipped": "echo 'tests skipped'"
+  },
+  "dependencies": {
+    "tsx": "^4.19.1"
   },
   "devDependencies": {
     "@crustio/crust-pin": "^1.0.0",

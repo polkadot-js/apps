@@ -272,3 +272,27 @@ export interface LegacyLease {
   until: number,
   task: string
 }
+
+export interface PalletBrokerSaleInfoRecord {
+  saleStart: number;
+  leadinLength: number;
+  endPrice: BN;
+  regionBegin: number;
+  regionEnd: number;
+  idealCoresSold: number;
+  coresOffered: number;
+  firstCore: number;
+  selloutPrice: BN;
+  coresSold: number;
+}
+
+export interface PalletBrokerConfigRecord {
+  advanceNotice: number;
+  interludeLength: number;
+  leadinLength: number;
+  regionLength: number;
+  idealBulkProportion: BN;
+  limitCoresOffered: number;
+  renewalBump: BN;
+  contributionTimeout: number;
+}
