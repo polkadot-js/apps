@@ -3,7 +3,7 @@
 
 import type { EndpointOption } from './types.js';
 
-import { chainsCoretimeKusamaSVG, chainsFrequencyPaseoSVG, chainsHydrationPaseoSVG, chainsLaosSigmaPNG, chainsPaseoPNG, chainsPeoplePolkadotSVG, chainsPopNetworkSVG, chainsXcavatePNG } from '@polkadot/apps-config/ui/logos/chains';
+import { chainsCoretimeKusamaSVG, chainsFrequencyPaseoSVG, chainsHydrationPaseoSVG, chainsLaosSigmaPNG, chainsMyxcavPNG, chainsPaseoPNG, chainsPeoplePolkadotSVG, chainsPopNetworkSVG } from '@polkadot/apps-config/ui/logos/chains';
 import { nodesAjunaPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBifrostSVG, nodesBridgeHubSVG, nodesDarwiniaKoiSVG, nodesHyperbridgePNG, nodesIntegriteeSVG, nodesKiltPNG, nodesMandalaPNG, nodesMusePNG, nodesNodleSVG, nodesRexSVG, nodesZeitgeistPNG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
@@ -249,7 +249,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     text: 'Xcavate',
     ui: {
       color: '#FF0083',
-      logo: chainsXcavatePNG
+      logo: chainsMyxcavPNG
     }
   },
   {
