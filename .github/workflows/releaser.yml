@@ -61,8 +61,8 @@ jobs:
           push: true
           tags: availj/explorer:${{ steps.prepare.outputs.tag_name }}
           build-args: |
-            TURING_URL=wss://turing-rpc.avail.so/ws
-            MAINNET_URL=wss://mainnet-rpc.avail.so/ws
+            TURING_URL=wss://turing-rpc.avail.sh/ws
+            MAINNET_URL=wss://mainnet-rpc.avail.sh/ws
 
   k8s_deployment:
     needs: [docker_build_push]
