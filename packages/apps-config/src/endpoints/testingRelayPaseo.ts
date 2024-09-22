@@ -308,7 +308,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1005,
     providers: {
-      'IBP2': 'wss://coretime-paseo.dotters.network',
+      IBP2: 'wss://coretime-paseo.dotters.network',
       ParaNodes: 'wss://paseo-coretime.paranodes.io'
     },
     relayName: 'paseo',
