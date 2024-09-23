@@ -8,7 +8,9 @@ import type { CoreWorkloadType, CoreWorkplanType, InfoRow } from '../types.js';
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { ExpandButton } from '@polkadot/react-components';
-import { useRegions, useToggle } from '@polkadot/react-hooks';
+import { useApi, useBrokerSalesInfo, useCall, useRegions, useToggle } from '@polkadot/react-hooks';
+import type { PalletBrokerStatusRecord } from '@polkadot/types/lookup';
+import { Option } from '@polkadot/types';
 
 import { formatRowInfo } from '../utils.js';
 import WorkInfoRow from './WorkInfoRow.js';
@@ -17,31 +19,42 @@ import Workplan from './Workplan.js';
 interface Props {
   api: ApiPromise;
   core: number;
-  timeslice: number;
-  workload: CoreWorkloadType[]
-  workplan?: CoreWorkplanType[] | null
+  workload: CoreWorkloadType[] | undefined
+  workplan?: CoreWorkplanType[] | undefined
 }
 
-function Workload({ api, core, timeslice, workload, workplan }: Props): React.ReactElement<Props> {
+function Workload({ api, core, workload, workplan }: Props): React.ReactElement<Props> {
+  const { isApiReady } = useApi();
+  const salesInfo = useBrokerSalesInfo();
+
+  const status = useCall<Option<PalletBrokerStatusRecord>>(isApiReady && api.query.broker?.status);
   const [isExpanded, toggleIsExpanded] = useToggle(false);
   const [workloadData, setWorkloadData] = useState<InfoRow[]>();
   const [workplanData, setWorkplanData] = useState<InfoRow[]>();
 
+  const currentTimeSlice = useMemo(() => {
+    if (!!status && !!status?.toHuman()) {
+      return status.unwrap().lastCommittedTimeslice.toNumber()
+    }
+    return 0
+  }, [status]);
+
   const regionInfo = useRegions(api);
-  const region: RegionInfo | undefined = useMemo(() => regionInfo?.find((v) => v.core === core && v.start <= timeslice && v.end > timeslice), [regionInfo, core, timeslice]);
+  const region: RegionInfo | undefined = useMemo(() => regionInfo?.find((v) => v.core === core && v.start <= currentTimeSlice && v.end > currentTimeSlice), [regionInfo, core, currentTimeSlice]);
 
   useEffect(() => {
-    if (!workload?.length) {
+    if (!!workload?.length) {
+      setWorkloadData(formatRowInfo(workload, core, region, currentTimeSlice, salesInfo));
+    } else {
       return setWorkloadData([{ core }]);
     }
 
-    setWorkloadData(formatRowInfo(workload, core, region, timeslice));
-  }, [workload, region, timeslice, core]);
+  }, [workload, region, currentTimeSlice, core, salesInfo]);
 
   useEffect(() => {
-    setWorkplanData(formatRowInfo(workplan, core, region, timeslice));
+    setWorkplanData(formatRowInfo(workplan, core, region, currentTimeSlice, salesInfo));
   }
-    , [workplan, region, timeslice, core]);
+    , [workplan, region, currentTimeSlice, core, salesInfo]);
 
   const hasWorkplan = workplan?.length;
 
@@ -54,7 +67,7 @@ function Workload({ api, core, timeslice, workload, workplan }: Props): React.Re
         >
           {workloadData?.map((one) => {
             return (
-              <React.Fragment key={one.owner + one.core}>
+              <React.Fragment key={`${one.endBlock}${one.core}`}>
                 <WorkInfoRow data={one} />
                 <td style={{ paddingRight: '2rem', textAlign: 'right', verticalAlign: 'top' }}>
                   <h5 style={{ opacity: '0.6' }}>Workplan {workplan?.length ? `(${workplan?.length})` : ''}</h5>
@@ -82,7 +95,7 @@ function Workload({ api, core, timeslice, workload, workplan }: Props): React.Re
           </tr>
           {workplanData?.map((workplanInfo) => (
             <Workplan
-              currentTimeSlice={timeslice}
+              currentTimeSlice={currentTimeSlice}
               isExpanded={isExpanded}
               key={workplanInfo.core}
               region={region}

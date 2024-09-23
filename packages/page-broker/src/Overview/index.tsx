@@ -18,9 +18,6 @@ import Summary from './Summary.js';
 
 interface Props {
   className?: string;
-  apiEndpoint?: LinkOption | null;
-  api: ApiPromise;
-  isReady: boolean;
 }
 
 const formatData = (coreCount: number, workplan: CoreWorkplan[], workload: CoreWorkload[], leaseMap: Record<number, LegacyLease>, reservationMap: Record<number, Reservation>): CoreInfo[] => {
@@ -33,7 +30,7 @@ const formatData = (coreCount: number, workplan: CoreWorkplan[], workload: CoreW
           lastBlock: leaseMap[one?.info.task as number]?.until || 0,
           maskBits: one.info.maskBits,
           task: one.info.task,
-          type: getOccupancyType(leaseMap[one.info.task] as LegacyLease, reservationMap[one.info.task] as Reservation)
+          type: getOccupancyType(leaseMap[one.info.task as number] as LegacyLease, reservationMap[one.info.task as number] as Reservation)
         }));
     };
 
@@ -47,14 +44,14 @@ const formatData = (coreCount: number, workplan: CoreWorkplan[], workload: CoreW
   });
 };
 
-function Overview({ api, apiEndpoint, className, isReady }: Props): React.ReactElement<Props> {
+function Overview({ className }: Props): React.ReactElement<Props> {
+
+  const { api, apiEndpoint, isApiReady } = useApi();
   const [data, setData] = useState<CoreInfo[]>();
 
   const [filtered, setFiltered] = useState<CoreWorkloadType[]>();
-  const { isApiReady } = useApi();
   const coreCount = useBrokerStatus('coreCount') || '-';
 
-  const status = useCall<PalletBrokerStatusRecord>(isReady && api.query.broker?.status);
   const workloadInfos: CoreWorkload[] | undefined = useWorkloadInfos(api, isApiReady);
   const workplanInfos: CoreWorkplan[] | undefined = useWorkplanInfos(api, isApiReady);
   const reservations: Reservation[] | undefined = useBrokerReservations(api, isApiReady);
@@ -63,15 +60,6 @@ function Overview({ api, apiEndpoint, className, isReady }: Props): React.ReactE
   const leaseMap = useMemo(() => leases ? createTaskMap(leases) : [], [leases]);
   const reservationMap = useMemo(() => reservations ? createTaskMap(reservations) : [], [reservations]);
 
-  const timesliceAsString = useMemo(() => {
-    if (!!status && !!status?.toHuman()) {
-      const timeslice = status?.toHuman().lastCommittedTimeslice?.toString();
-
-      return timeslice === undefined ? '' : timeslice.toString().split(',').join('');
-    }
-
-    return '0';
-  }, [status]);
 
   useEffect(() => {
     setData(formatData(Number(coreCount), workplanInfos, workloadInfos, leaseMap, reservationMap));
@@ -93,7 +81,6 @@ function Overview({ api, apiEndpoint, className, isReady }: Props): React.ReactE
           <CoresTable
             api={api}
             data={data}
-            timeslice={Number(timesliceAsString)}
           />
         </>)
       }

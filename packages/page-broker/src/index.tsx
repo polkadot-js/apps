@@ -16,7 +16,7 @@ interface Props {
   className?: string;
 }
 
-function createItemsRef (t: (key: string, options?: { replace: Record<string, unknown> }) => string): TabItem[] {
+function createItemsRef(t: (key: string, options?: { replace: Record<string, unknown> }) => string): TabItem[] {
   return [
     {
       isRoot: true,
@@ -26,10 +26,9 @@ function createItemsRef (t: (key: string, options?: { replace: Record<string, un
   ];
 }
 
-function BrokerApp ({ basePath, className }: Props): React.ReactElement<Props> {
+function BrokerApp({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const itemsRef = useRef(createItemsRef(t));
-  const { api, apiEndpoint, isApiReady } = useApi();
 
   return (
     <main className={className}>
@@ -37,11 +36,7 @@ function BrokerApp ({ basePath, className }: Props): React.ReactElement<Props> {
         basePath={basePath}
         items={itemsRef.current}
       />
-      <Overview
-        api={api}
-        apiEndpoint={apiEndpoint}
-        isReady={isApiReady}
-      />
+      <Overview />
     </main>
   );
 }

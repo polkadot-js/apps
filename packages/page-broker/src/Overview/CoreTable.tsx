@@ -16,10 +16,9 @@ interface Props {
   core: number;
   workload?: CoreWorkloadType[],
   workplan?: CoreWorkplanType[],
-  timeslice: number,
 }
 
-function CoreTable ({ api, core, timeslice, workload, workplan }: Props): React.ReactElement<Props> {
+function CoreTable({ api, core, workload, workplan }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const headerRef = useRef<([React.ReactNode?, string?] | false)[]>([[t('core')]]);
   const header: [React.ReactNode?, string?, number?, (() => void)?][] = [
@@ -42,7 +41,6 @@ function CoreTable ({ api, core, timeslice, workload, workplan }: Props): React.
         api={api}
         core={core}
         key={core}
-        timeslice={timeslice}
         workload={workload}
         workplan={workplan}
       />

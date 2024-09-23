@@ -49,33 +49,33 @@ export const estimateTime = (targetBlock: string | number, latestBlock: number, 
   }
 };
 
-export function formatRowInfo (data: CoreWorkloadType[] | CoreWorkplanType[], core: number, currentRegion: RegionInfo | undefined, timeslice: number, regionLength = CoreTimeConsts.DefaultRegion): InfoRow[] {
+export function formatRowInfo (data: CoreWorkloadType[] | CoreWorkplanType[], core: number, currentRegion: RegionInfo | undefined, timeslice: number, salesInfo, regionLength = CoreTimeConsts.DefaultRegion): InfoRow[] {
   return data.map((one: CoreWorkloadType | CoreWorkplanType) => {
     const item: InfoRow = { core, maskBits: one?.info?.maskBits, task: one?.info?.task, type: one?.type };
-
-    if (currentRegion) {
-      const start = currentRegion?.start?.toString() ?? 0;
-      const end = currentRegion?.end?.toString() ?? 0;
-      const blockNumber = timeslice * 80;
-
-      item.start = start ? estimateTime(start, blockNumber, new Date().getTime()) : '-';
-      item.end = end ? estimateTime(end, blockNumber, new Date().getTime()) : '-';
-      item.endBlock = end ? Number(end) * 80 : '-';
-      item.owner = currentRegion?.owner.toString();
-    }
+    const blockNumber = timeslice * 80;
+    const now = new Date().getTime()
 
     item.type = one.type;
+    let end, start = null
 
-    if (one.lastBlock) {
-      const blockNumber = timeslice * 80;
+    if (one.type === Occupancy.Lease) {
       const period = Math.floor(one.lastBlock / regionLength);
-      const end = period * regionLength;
-
-      item.start = ' - ';
-      item.end = estimateTime(end.toString(), blockNumber, new Date().getTime());
-      item.endBlock = Number(end) * 80;
+      end = period * regionLength;
+    } else {
+      // not :100 about this regionLength offset
+      start = currentRegion?.start?.toString() ?? salesInfo?.regionBegin - regionLength;
+      end = currentRegion?.end?.toString() ?? salesInfo?.regionEnd - regionLength
     }
 
+    if ('timeslice' in one) {
+      start = estimateTime(one.timeslice, blockNumber, now) ?? null;
+    }
+
+    item.owner = currentRegion?.owner.toString();
+    item.start = start ? estimateTime(start, blockNumber, now) : null;
+    item.end = end ? estimateTime(end, blockNumber, now) : null;
+    item.endBlock = end ? Number(end) * 80 : null;
+  
     return item;
   });
 }

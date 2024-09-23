@@ -11,10 +11,9 @@ import CoreTable from './CoreTable.js';
 interface Props {
   api: ApiPromise;
   data: CoreInfo[];
-  timeslice: number;
 }
 
-function CoresTable ({ api, data, timeslice }: Props): React.ReactElement<Props> {
+function CoresTable({ api, data }: Props): React.ReactElement<Props> {
   return (
     <>
       {data?.map((coreData) => {
@@ -23,7 +22,6 @@ function CoresTable ({ api, data, timeslice }: Props): React.ReactElement<Props>
             api={api}
             core={coreData?.core}
             key={coreData?.core}
-            timeslice={timeslice}
             workload={coreData?.workload}
             workplan={coreData?.workplan}
           />
