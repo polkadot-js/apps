@@ -38,7 +38,7 @@ interface Props {
   workloadInfos?: CoreWorkloadType[] | CoreWorkloadType
 }
 
-function Summary ({ coreCount, workloadInfos }: Props): React.ReactElement {
+function Summary({ coreCount, workloadInfos }: Props): React.ReactElement {
   const { t } = useTranslation();
   const { api, apiEndpoint } = useApi();
   const totalCores = useBrokerStatus('coreCount');
@@ -73,8 +73,8 @@ function Summary ({ coreCount, workloadInfos }: Props): React.ReactElement {
         <div style={{ marginLeft: '2rem' }}>
           <UsageBar
             data={[
-              { color: '#04AA6D', label: 'Pools', value: idles },
-              { color: '#FFFFFF', label: 'Idle', value: pools },
+              { color: '#FFFFFF', label: 'Idle', value: idles },
+              { color: '#04AA6D', label: 'Pools', value: pools },
               { color: uiHighlight, label: 'Tasks', value: tasks }]
             }
           ></UsageBar>
