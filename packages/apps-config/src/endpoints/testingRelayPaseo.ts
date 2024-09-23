@@ -136,6 +136,19 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://idealabs.network/',
+    info: 'Ideal Network',
+    paraId: 4502,
+    providers: {
+      'IDN Node': 'wss://idn0-testnet.idealabs.network'
+    },
+    text: 'Ideal Network',
+    ui: {
+      color: 'rgb(17, 35, 77)',
+      logo: nodesIdealNetworkSVG
+    }
+  },
+  {
     homepage: 'https://integritee.network',
     info: 'integritee',
     paraId: 2039,
@@ -250,19 +263,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#FF0083',
       logo: chainsMyxcavPNG
-    }
-  },
-  {
-    homepage: 'https://idealabs.network/',
-    info: 'Ideal Network',
-    paraId: 4502,
-    providers: {
-      'IDN Node': 'wss://idn0-testnet.idealabs.network'
-    },
-    text: 'Ideal Network',
-    ui: {
-      color: 'rgb(17, 35, 77)',
-      logo: nodesIdealNetworkSVG
     }
   },
   {
