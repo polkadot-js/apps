@@ -11,8 +11,8 @@ interface Props {
   query: string;
 }
 
-function BrokerStatus ({ children, className = '', query }: Props): React.ReactElement<Props> {
-  const info = useBrokerStatus(query);
+function BrokerStatus({ children, className = '', query }: Props): React.ReactElement<Props> {
+  const info = useBrokerStatus(query) || '-';
 
   return (
     <div className={className}>

@@ -3,122 +3,100 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
-import type { CoreDescription, CoreWorkloadInfo, CoreWorkplanInfo } from '@polkadot/react-hooks/types';
+import type { CoreWorkload, CoreWorkplan, LegacyLease, Reservation } from '@polkadot/react-hooks/types';
 import type { PalletBrokerStatusRecord } from '@polkadot/types/lookup';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { Dropdown, Input, styled } from '@polkadot/react-components';
-import { useCall, useDebounce } from '@polkadot/react-hooks';
+import { useApi, useBrokerLeases, useBrokerReservations, useCall, useWorkloadInfos, useWorkplanInfos } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate.js';
+import { type CoreWorkloadType, type CoreWorkplanType } from '../types.js';
+import { createTaskMap, getOccupancyType } from '../utils.js';
 import CoresTable from './CoresTables.js';
+import Filters from './Filters.js';
 import Summary from './Summary.js';
-
-const StyledDiv = styled.div`
-  @media (max-width: 768px) {
-    max-width: 100%:
-  }
-`;
 
 interface Props {
   className?: string;
-  workloadInfos?: CoreWorkloadInfo[];
-  workplanInfos?: CoreWorkplanInfo[];
-  coreInfos?: CoreDescription[];
   apiEndpoint?: LinkOption | null;
   api: ApiPromise;
   isReady: boolean;
 }
 
-const filterLoad = (parachainId: string, load: CoreWorkloadInfo[] | CoreWorkplanInfo[], workloadCoreSelected: number) => {
-  if (parachainId) {
-    return load?.filter(({ info }) => info?.[0]?.assignment.isTask ? info?.[0]?.assignment.asTask.toString() === parachainId : false);
+const formatLoad = (data: CoreWorkplan[] | CoreWorkload[] | undefined, leaseMap: Record<number, LegacyLease>, reservationMap: Record<number, Reservation>): CoreWorkloadType[] | CoreWorkplanType[] => {
+  if (!data) {
+    return [];
   }
 
-  if (workloadCoreSelected === -1) {
-    return load;
-  }
+  return data.map((w: CoreWorkload | CoreWorkplan) => {
+    const result = {
+      ...w,
+      lastBlock: leaseMap[w.info.task as number]?.until || 0,
+      type: getOccupancyType(leaseMap[w.info.task as number], reservationMap[w.info.task as number])
+    };
 
-  return load?.filter(({ core }) => core === workloadCoreSelected);
+    if ('timeslice' in w) {
+      return result as CoreWorkplanType;
+    } else {
+      return result as CoreWorkloadType;
+    }
+  });
 };
 
-function Overview ({ api, apiEndpoint, className, isReady, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
-  const [workloadCoreSelected, setWorkloadCoreSelected] = useState(-1);
-  const [_parachainId, setParachainId] = useState<string>('');
-  const parachainId = useDebounce(_parachainId);
-  const [coreArr, setCoreArr] = useState<number[]>([]);
-
-  useEffect(() => {
-    const newCoreArr = Array.from({ length: workloadInfos?.length || 0 }, (_, index) => index);
-
-    setCoreArr(newCoreArr);
-  }, [workloadInfos]);
-
-  const workloadCoreOpts = useMemo(
-    () => [{ text: t('All active/available cores'), value: -1 }].concat(
-      coreArr
-        .map((c) => (
-          {
-            text: `Core ${c}`,
-            value: c
-          }
-        ))
-        .filter((v): v is { text: string, value: number } => !!v.text)
-    ),
-    [coreArr, t]
-  );
-
-  const filteredWLC = useMemo(
-    () => workloadInfos && filterLoad(parachainId, workloadInfos, workloadCoreSelected),
-    [workloadInfos, workloadCoreSelected, parachainId]
-  );
-
-  function onDropDownChange (v: number) {
-    setWorkloadCoreSelected(v);
-    setParachainId('');
-  }
-
-  function onInputChange (v: string) {
-    setParachainId(v);
-    setWorkloadCoreSelected(-1);
-  }
+function Overview({ api, apiEndpoint, className, isReady }: Props): React.ReactElement<Props> {
+  const [workLoad, setWorkLoad] = useState<CoreWorkloadType[] | undefined>();
+  const [workPlan, setWorkPlan] = useState<CoreWorkplanType[]>();
+  const [filtered, setFiltered] = useState<CoreWorkloadType[]>();
+  const { isApiReady } = useApi();
 
   const status = useCall<PalletBrokerStatusRecord>(isReady && api.query.broker?.status);
-  const timeslice = status?.toHuman().lastCommittedTimeslice?.toString();
-  const timesliceAsString = timeslice === undefined ? '' : timeslice.toString().split(',').join('');
+  const workloadInfos: CoreWorkload[] | undefined = useWorkloadInfos(api, isApiReady);
+  const workplanInfos: CoreWorkplan[] | undefined = useWorkplanInfos(api, isApiReady);
+  const reservations: Reservation[] | undefined = useBrokerReservations(api, isApiReady);
+  const leases: LegacyLease[] | undefined = useBrokerLeases(api, isApiReady);
+
+  const leaseMap = useMemo(() => leases ? createTaskMap(leases) : [], [leases]);
+  const reservationMap = useMemo(() => reservations ? createTaskMap(reservations) : [], [reservations]);
+
+  const timesliceAsString = useMemo(() => {
+    if (!!status && !!status?.toHuman()) {
+      const timeslice = status?.toHuman().lastCommittedTimeslice?.toString();
+
+      return timeslice === undefined ? '' : timeslice.toString().split(',').join('');
+    }
+
+    return '0';
+  }, [status]);
+
+  useEffect(() =>
+    setWorkPlan(formatLoad(workplanInfos, leaseMap, reservationMap))
+    , [workplanInfos, leaseMap, reservationMap]);
+
+  useEffect(() => {
+    setWorkLoad(formatLoad(workloadInfos, leaseMap, reservationMap));
+  }, [workloadInfos, leaseMap, reservationMap]);
 
   return (
     <div className={className}>
       <Summary
         apiEndpoint={apiEndpoint}
-        workloadInfos={workloadInfos}
+        workloadInfos={workLoad}
       ></Summary>
-      <StyledDiv style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '1.5rem', maxWidth: '300px' }}>
-        <Dropdown
-          className='isSmall'
-          label={t('selected core')}
-          onChange={onDropDownChange}
-          options={workloadCoreOpts}
-          value={workloadCoreSelected}
-        />
-        <div style={{ minWidth: '150px' }}>
-          <Input
-            className='full isSmall'
-            label={t('parachain id')}
-            onChange={onInputChange}
-            placeholder={t('parachain id')}
-            value={_parachainId}
-          /></div>
-      </StyledDiv>
-      <CoresTable
-        api={api}
-        cores={workloadCoreSelected}
-        timeslice={Number(timesliceAsString)}
-        workloadInfos={filteredWLC}
-        workplanInfos={workplanInfos}
-      />
+      {!!workPlan?.length &&
+        (<>
+          <Filters
+            onFilter={setFiltered}
+            workLoad={workLoad}
+          />
+          <CoresTable
+            api={api}
+            timeslice={Number(timesliceAsString)}
+            workloadInfos={filtered || workLoad}
+            workplanInfos={workPlan}
+          />
+        </>)
+      }
+      {!workPlan?.length && <p style={{ marginLeft: '22px', marginTop: '3rem', opacity: 0.7 }}> No data currently available</p>}
     </div>
   );
 }

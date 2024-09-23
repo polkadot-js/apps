@@ -15,7 +15,7 @@ export default function create (t: TFunction): Route {
       needsApiInstances: true
     },
     group: 'network',
-    icon: 'calendar-clock',
+    icon: 'flask',
     name: 'broker',
     text: t('nav.broker', 'Coretime Broker (Experimental)', { ns: 'app-broker' })
   };

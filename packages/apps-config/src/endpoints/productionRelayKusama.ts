@@ -191,7 +191,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'ipci',
     paraId: 2222,
     providers: {
-      Airalab: 'wss://kusama.rpc.ipci.io'
+      Airalab: 'wss://ipci.rpc.robonomics.network'
     },
     text: 'DAO IPCI',
     ui: {
@@ -470,7 +470,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'litmus',
     paraId: 2106,
     providers: {
-      Litentry: 'wss://rpc.litmus-parachain.litentry.io'
+      // Litentry: 'wss://rpc.litmus-parachain.litentry.io' // https://github.com/polkadot-js/apps/issues/10912
     },
     text: 'Litmus',
     ui: {
@@ -666,7 +666,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2048,
     providers: {
       Airalab: 'wss://kusama.rpc.robonomics.network/',
-      Dwellir: 'wss://robonomics-rpc.dwellir.com',
+      // Dwellir: 'wss://robonomics-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/10912
       // Leemo: 'wss://robonomics.leemo.me', // https://github.com/polkadot-js/apps/issues/9817
       // OnFinality: 'wss://robonomics.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9824
       Samsara: 'wss://robonomics.0xsamsara.com'

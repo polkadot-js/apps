@@ -1,32 +1,30 @@
 // Copyright 2017-2024 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CoreWorkplanInfo, RegionInfo } from '@polkadot/react-hooks/types';
-import type { InfoRow } from '../types.js';
+import type { RegionInfo } from '@polkadot/react-hooks/types';
+import type { CoreWorkplanType, InfoRow } from '../types.js';
 
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 
 import { Spinner } from '@polkadot/react-components';
 
-import { formatWorkInfo } from '../utils.js';
+import { formatRowInfo } from '../utils.js';
 import WorkInfoRow from './WorkInfoRow.js';
 
 interface Props {
   className?: string;
-  value: CoreWorkplanInfo;
+  value: CoreWorkplanType;
   currentTimeSlice: number
   isExpanded: boolean
   region: RegionInfo | undefined
 }
 
-function Workplan ({ currentTimeSlice, isExpanded, region, value: { core, info } }: Props): React.ReactElement<Props> {
-  const [tableData, setTableData] = useState<InfoRow[]>();
+function Workplan({ currentTimeSlice, isExpanded, region, value: { core, info, lastBlock, type } }: Props): React.ReactElement<Props> {
+  const tableData: InfoRow = useMemo(() => {
+    return formatRowInfo(info, core, region, currentTimeSlice, type, lastBlock);
+  }, [info, core, region, currentTimeSlice, type, lastBlock]);
 
-  useEffect(() => {
-    setTableData(formatWorkInfo(info, core, region, currentTimeSlice));
-  }, [info, region, core, currentTimeSlice]);
-
-  if (!tableData?.length) {
+  if (!tableData) {
     return (
       <tr
         className={` ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'}`}
@@ -40,16 +38,16 @@ function Workplan ({ currentTimeSlice, isExpanded, region, value: { core, info }
 
   return (
     <>
-      {tableData?.map((data) => (
+      {tableData && (
         <tr
           className={` ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'}`}
-          key={data.core}
+          key={tableData.core}
           style={{ minHeight: '100px' }}
         >
-          <WorkInfoRow data={data} />
+          <WorkInfoRow data={tableData} />
           <td />
         </tr>
-      ))}
+      )}
 
     </>
   );

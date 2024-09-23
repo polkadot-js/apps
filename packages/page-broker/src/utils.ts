@@ -1,28 +1,18 @@
 // Copyright 2017-2024 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CoreWorkloadInfo, RegionInfo } from '@polkadot/react-hooks/types';
-import type { PalletBrokerScheduleItem } from '@polkadot/types/lookup';
-import type { InfoRow } from './types.js';
+import type { CoreWorkloadInfo, LegacyLease, RegionInfo, Reservation } from '@polkadot/react-hooks/types';
+import type { CoreWorkloadType, InfoRow } from './types.js';
 
 import { BN } from '@polkadot/util';
 
-export function hexToBin (hex: string): string {
-  return parseInt(hex, 16).toString(2);
-}
+import { Occupancy } from './types.js';
 
-export function processHexMask (mask: PalletBrokerScheduleItem['mask']) {
-  const trimmedHex: string = mask.toHex().slice(2);
-  const arr: string[] = trimmedHex.split('');
-  const buffArr: string[] = [];
-
-  arr.forEach((bit) => {
-    hexToBin(bit).split('').forEach((v) => buffArr.push(v));
-  });
-  buffArr.filter((v) => v === '1');
-
-  return buffArr;
-}
+const CoreTimeConsts = {
+  BlockTime: 6000,
+  BlocksPerTimeslice: 80,
+  DefaultRegion: 5040
+};
 
 function formatDate (date: Date) {
   const day = date.getDate();
@@ -40,20 +30,16 @@ export const estimateTime = (targetBlock: string, latestBlock: number, timestamp
   }
 
   try {
-    const blockTime = new BN(6000); // Average block time in milliseconds (6 seconds)
-    const timeSlice = new BN(80);
+    const blockTime = new BN(CoreTimeConsts.BlockTime); // Average block time in milliseconds (6 seconds)
+    const timeSlice = new BN(CoreTimeConsts.BlocksPerTimeslice);
     const targetBlockBN = new BN(targetBlock).mul(timeSlice);
     const latestBlockBN = new BN(latestBlock);
     const timestampBN = new BN(timestamp);
     const blockDifference = targetBlockBN.sub((latestBlockBN)).abs().mul(blockTime);
 
-    let estTimestamp;
-
-    if (targetBlockBN.lt(latestBlockBN)) {
-      estTimestamp = timestampBN.sub(blockDifference);
-    } else {
-      estTimestamp = timestampBN.add(blockDifference);
-    }
+    const estTimestamp = targetBlockBN.lt(latestBlockBN)
+      ? timestampBN.sub(blockDifference)
+      : timestampBN.add(blockDifference);
 
     return formatDate(new Date(estTimestamp.toNumber()));
   } catch (error) {
@@ -63,54 +49,47 @@ export const estimateTime = (targetBlock: string, latestBlock: number, timestamp
   }
 };
 
-export function sortByCore<T extends { core: number }> (dataArray?: T | T[]): T[] {
-  if (!dataArray) {
-    return [];
+export function formatRowInfo (info: CoreWorkloadInfo, core: number, currentRegion: RegionInfo | undefined, timeslice: number, type: Occupancy, lastBlock: number, regionLength = CoreTimeConsts.DefaultRegion): InfoRow {
+  const item: InfoRow = { core, maskBits: info.maskBits, task: info.task };
+
+  if (currentRegion) {
+    const start = currentRegion?.start?.toString() ?? 0;
+    const end = currentRegion?.end?.toString() ?? 0;
+    const blockNumber = timeslice * 80;
+
+    item.start = estimateTime(start, blockNumber, new Date().getTime());
+    item.end = estimateTime(end, blockNumber, new Date().getTime());
+    item.endBlock = Number(end) * 80;
+    item.owner = currentRegion?.owner.toString();
   }
 
-  const sanitized = Array.isArray(dataArray) ? dataArray : [dataArray];
+  item.type = type;
 
-  return sanitized.sort((a, b) => a.core - b.core);
+  if (lastBlock) {
+    const blockNumber = timeslice * 80;
+    const period = Math.floor(lastBlock / regionLength);
+    const end = period * regionLength;
+
+    item.start = ' - ';
+    item.end = estimateTime(end.toString(), blockNumber, new Date().getTime());
+    item.endBlock = Number(end) * 80;
+  }
+
+  return item;
 }
 
-export function formatWorkInfo (info: PalletBrokerScheduleItem[], core: number, currentRegion: RegionInfo | undefined, timeslice: number) {
-  const infoVec: InfoRow[] = [];
-
-  info.forEach((data) => {
-    const maskBits: number = processHexMask(data.mask).length;
-    const isPool = data?.assignment.isPool;
-    const taskId = data?.assignment.isTask ? data?.assignment.asTask.toString() : isPool ? 'Pool' : '';
-    const item: InfoRow = { core, maskBits, taskId };
-
-    if (currentRegion) {
-      const start = currentRegion?.start?.toString() ?? 0;
-      const end = currentRegion?.end?.toString() ?? 0;
-      const blockNumber = timeslice * 80;
-
-      item.start = estimateTime(start, blockNumber, new Date().getTime());
-      item.end = estimateTime(end, blockNumber, new Date().getTime());
-      item.endBlock = Number(end) * 80;
-      item.owner = currentRegion?.owner.toString();
-    }
-
-    infoVec.push(item);
-  });
-
-  return infoVec;
-}
-
-export function getStats (totalCores: string | undefined, workloadInfos: CoreWorkloadInfo[] | CoreWorkloadInfo | undefined) {
+export function getStats (totalCores: string | undefined, workloadInfos: CoreWorkloadType[] | CoreWorkloadType | undefined) {
   if (!totalCores || !workloadInfos) {
     return { idles: 0, pools: 0, tasks: 0 };
   }
 
-  const sanitized: CoreWorkloadInfo[] = Array.isArray(workloadInfos) ? workloadInfos : [workloadInfos];
+  const sanitized: CoreWorkloadType[] = Array.isArray(workloadInfos) ? workloadInfos : [workloadInfos];
 
   const { pools, tasks } = sanitized.reduce(
     (acc, { info }) => {
-      if (info[0].assignment.isTask) {
+      if (info.isTask) {
         acc.tasks += 1;
-      } else if (info[0].assignment.isPool) {
+      } else if (info.isPool) {
         acc.pools += 1;
       }
 
@@ -122,3 +101,15 @@ export function getStats (totalCores: string | undefined, workloadInfos: CoreWor
 
   return { idles, pools, tasks };
 }
+
+export const createTaskMap = <T extends { task: string }>(items: T[]): Record<number, T> => {
+  return (items || []).reduce((acc, item) => {
+    acc[Number(item.task)] = item;
+
+    return acc;
+  }, {} as Record<number, T>);
+};
+
+export const getOccupancyType = (lease: LegacyLease | undefined, reservation: Reservation | undefined): Occupancy => {
+  return reservation ? Occupancy.Reservation : lease ? Occupancy.Lease : Occupancy.Rent;
+};

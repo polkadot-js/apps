@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-coretime authors & contributors
+// Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -33,11 +33,11 @@ const LegendItem = styled.div`
 const ColorBox = styled.div<{ color: string }>`
   width: 20px;
   height: 20px;
-  background-color: ${(props: {color: string}) => props.color};
+  background-color: ${(props: { color: string }) => props.color};
   margin-right: 10px;
 `;
 
-function UsageBar ({ data }: PieChartProps): React.ReactElement<PieChartProps> {
+function UsageBar({ data }: PieChartProps): React.ReactElement<PieChartProps> {
   const radius = 50;
   const strokeWidth = 15;
   const circumference = 2 * Math.PI * radius;

@@ -34,7 +34,7 @@ const K_LENGTH = 3 + 1;
 
 type LabelPost = string | React.ReactNode
 
-function getFormat (registry: Registry, formatIndex = 0): [number, string] {
+function getFormat(registry: Registry, formatIndex = 0): [number, string] {
   const decimals = registry.chainDecimals;
   const tokens = registry.chainTokens;
 
@@ -48,7 +48,7 @@ function getFormat (registry: Registry, formatIndex = 0): [number, string] {
   ];
 }
 
-function createElement (prefix: string, postfix: string, unit: string, label: LabelPost = '', isShort = false, ticker?: string): React.ReactNode {
+function createElement(prefix: string, postfix: string, unit: string, label: LabelPost = '', isShort = false, ticker?: string): React.ReactNode {
   if (ticker) {
     return <>{`${prefix}${isShort ? '' : '.'}`}{!isShort && <span className='ui--FormatBalance-postfix'>{`${postfix || ''}`.slice(-4)}</span>}<span className='ui--FormatBalance-unit'> {ticker}</span>{label}</>;
   } else {
@@ -56,15 +56,15 @@ function createElement (prefix: string, postfix: string, unit: string, label: La
   }
 }
 
-function splitFormat (value: string, label?: LabelPost, isShort?: boolean): React.ReactNode {
+function splitFormat(value: string, label?: LabelPost, isShort?: boolean): React.ReactNode {
   const [prefix, postfixFull] = value.split('.');
   const [postfix, unit] = postfixFull.split(' ');
 
   return createElement(prefix, postfix, unit, label, isShort);
 }
 
-function applyFormat (value: Compact<any> | BN | string | number, [decimals, token]: [number, string], withCurrency = true, withSi?: boolean, _isShort?: boolean, labelPost?: LabelPost, useTicker?: boolean): React.ReactNode {
-  const [prefix, postfix, ticker] = formatBalance(value, { decimals }).split(/[.\s]+/);
+function applyFormat(value: Compact<any> | BN | string | number, [decimals, token]: [number, string], withCurrency = true, withSi?: boolean, _isShort?: boolean, labelPost?: LabelPost, useTicker?: boolean): React.ReactNode {
+  const [prefix, postfix, ticker] = formatBalance(value, { decimals, forceUnit: '-', withSi: false }).split('.');
   const isShort = _isShort || (withSi && prefix.length >= K_LENGTH);
   const unitPost = withCurrency ? token : '';
 
@@ -83,7 +83,7 @@ function applyFormat (value: Compact<any> | BN | string | number, [decimals, tok
   }
 }
 
-function FormatBalance ({ children, className = '', format, formatIndex, isShort, label, labelPost, useTicker, value, valueFormatted, withCurrency, withSi }: Props): React.ReactElement<Props> {
+function FormatBalance({ children, className = '', format, formatIndex, isShort, label, labelPost, useTicker, value, valueFormatted, withCurrency, withSi }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
 
