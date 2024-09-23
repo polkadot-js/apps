@@ -39,7 +39,7 @@ function WorkInfoRow ({ data }: { data: InfoRow }): React.ReactElement {
   if (!data.task) {
     return (
       <>
-        <td style={{ width: 200 }}>no task assigned</td>
+        <td style={{ width: 200 }}>no task</td>
         <td colSpan={5} />
       </>);
   }
@@ -120,6 +120,10 @@ function WorkInfoRow ({ data }: { data: InfoRow }): React.ReactElement {
         <TableCol
           header='Last block'
           value={data.endBlock}
+        />
+        <TableCol
+          header='type'
+          value={'Bulk Coretime'}
         />
         <StyledTableCol hide='mobile'>
           <h5 style={{ opacity: '0.6' }}>{'Owner'}</h5>

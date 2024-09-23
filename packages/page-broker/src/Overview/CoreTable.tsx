@@ -38,15 +38,15 @@ function CoreTable ({ api, core, timeslice, workload, workplan }: Props): React.
       isSplit={false}
       key={core}
     >
-      {workload?.map((v) => (
-        <Workload
-          api={api}
-          key={v.core}
-          timeslice={timeslice}
-          value={v}
-          workplan={workplan}
-        />
-      ))}
+      <Workload
+        api={api}
+        core={core}
+        key={core}
+        timeslice={timeslice}
+        workload={workload}
+        workplan={workplan}
+      />
+
     </Table>
   );
 }

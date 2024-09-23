@@ -12,7 +12,6 @@ import { useApi, useBrokerStatus } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
 import { getStats } from '../utils.js';
-import Cores from './Summary/Cores.js';
 import RegionLength from './Summary/RegionLength.js';
 import RenewalPrice from './Summary/RenewalPrice.js';
 import Timeslice from './Summary/Timeslice.js';
@@ -34,11 +33,12 @@ const StyledSection = styled.section`
 `;
 
 interface Props {
+  coreCount?: string
   apiEndpoint?: LinkOption | null;
   workloadInfos?: CoreWorkloadType[] | CoreWorkloadType
 }
 
-function Summary ({ workloadInfos }: Props): React.ReactElement {
+function Summary ({ coreCount, workloadInfos }: Props): React.ReactElement {
   const { t } = useTranslation();
   const { api, apiEndpoint } = useApi();
   const totalCores = useBrokerStatus('coreCount');
@@ -55,7 +55,7 @@ function Summary ({ workloadInfos }: Props): React.ReactElement {
                 <Timeslice />
               </CardSummary>
               <CardSummary label={t('core count')}>
-                <Cores />
+                {coreCount}
               </CardSummary>
               <CardSummary label={t('timeslice period')}>
                 <TimeslicePeriod />

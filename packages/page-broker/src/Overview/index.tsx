@@ -5,12 +5,12 @@ import type { ApiPromise } from '@polkadot/api';
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { CoreWorkload, CoreWorkplan, LegacyLease, Reservation } from '@polkadot/react-hooks/types';
 import type { PalletBrokerStatusRecord } from '@polkadot/types/lookup';
+import type { CoreInfo, CoreWorkloadType } from '../types.js';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { useApi, useBrokerLeases, useBrokerReservations, useCall, useWorkloadInfos, useWorkplanInfos } from '@polkadot/react-hooks';
+import { useApi, useBrokerLeases, useBrokerReservations, useBrokerStatus, useCall, useWorkloadInfos, useWorkplanInfos } from '@polkadot/react-hooks';
 
-import { type CoreWorkloadType, type CoreWorkplanType } from '../types.js';
 import { createTaskMap, getOccupancyType } from '../utils.js';
 import CoresTable from './CoresTables.js';
 import Filters from './Filters.js';
@@ -23,31 +23,36 @@ interface Props {
   isReady: boolean;
 }
 
-const formatLoad = (data: CoreWorkplan[] | CoreWorkload[] | undefined, leaseMap: Record<number, LegacyLease>, reservationMap: Record<number, Reservation>): CoreWorkloadType[] | CoreWorkplanType[] => {
-  if (!data) {
-    return [];
-  }
-
-  return data.map((w: CoreWorkload | CoreWorkplan) => {
-    const result = {
-      ...w,
-      lastBlock: leaseMap[w.info.task as number]?.until || 0,
-      type: getOccupancyType(leaseMap[w.info.task as number], reservationMap[w.info.task as number])
+const formatData = (coreCount: number, workplan: CoreWorkplan[], workload: CoreWorkload[], leaseMap: Record<number, LegacyLease>, reservationMap: Record<number, Reservation>): CoreInfo[] => {
+  return Array.from({ length: coreCount }, (_, coreNumber) => {
+    const process = (data: CoreWorkload[] | CoreWorkplan[]) => {
+      return data
+        .filter((load) => load.core === coreNumber)
+        .map((one) => ({
+          ...one,
+          lastBlock: leaseMap[one?.info.task as number]?.until || 0,
+          maskBits: one.info.maskBits,
+          task: one.info.task,
+          type: getOccupancyType(leaseMap[one.info.task] as LegacyLease, reservationMap[one.info.task] as Reservation)
+        }));
     };
 
-    if ('timeslice' in w) {
-      return result as CoreWorkplanType;
-    } else {
-      return result as CoreWorkloadType;
-    }
+    const coreData = {
+      core: coreNumber,
+      workload: workload?.length ? process(workload) : [],
+      workplan: workplan?.length ? process(workplan) : []
+    };
+
+    return coreData;
   });
 };
 
-function Overview ({ api, apiEndpoint, className, isReady }: Props): React.ReactElement<Props> {
-  const [workLoad, setWorkLoad] = useState<CoreWorkloadType[] | undefined>();
-  const [workPlan, setWorkPlan] = useState<CoreWorkplanType[]>();
+function Overview({ api, apiEndpoint, className, isReady }: Props): React.ReactElement<Props> {
+  const [data, setData] = useState<CoreInfo[]>();
+
   const [filtered, setFiltered] = useState<CoreWorkloadType[]>();
   const { isApiReady } = useApi();
+  const coreCount = useBrokerStatus('coreCount') || '-';
 
   const status = useCall<PalletBrokerStatusRecord>(isReady && api.query.broker?.status);
   const workloadInfos: CoreWorkload[] | undefined = useWorkloadInfos(api, isApiReady);
@@ -68,35 +73,31 @@ function Overview ({ api, apiEndpoint, className, isReady }: Props): React.React
     return '0';
   }, [status]);
 
-  useEffect(() =>
-    setWorkPlan(formatLoad(workplanInfos, leaseMap, reservationMap))
-  , [workplanInfos, leaseMap, reservationMap]);
-
   useEffect(() => {
-    setWorkLoad(formatLoad(workloadInfos, leaseMap, reservationMap));
-  }, [workloadInfos, leaseMap, reservationMap]);
+    setData(formatData(Number(coreCount), workplanInfos, workloadInfos, leaseMap, reservationMap));
+  }, [workplanInfos, workloadInfos, leaseMap, reservationMap, coreCount]);
 
   return (
     <div className={className}>
       <Summary
         apiEndpoint={apiEndpoint}
-        workloadInfos={workLoad}
+        coreCount={coreCount}
+        workloadInfos={workloadInfos}
       ></Summary>
-      {!!workPlan?.length &&
+      {!!data?.length &&
         (<>
-          <Filters
+          {/* <Filters
             onFilter={setFiltered}
-            workLoad={workLoad}
-          />
+            workLoad={[]}
+          /> */}
           <CoresTable
             api={api}
+            data={data}
             timeslice={Number(timesliceAsString)}
-            workloadInfos={filtered || workLoad}
-            workplanInfos={workPlan}
           />
         </>)
       }
-      {!workPlan?.length && <p style={{ marginLeft: '22px', marginTop: '3rem', opacity: 0.7 }}> No data currently available</p>}
+      {!data?.length && <p style={{ marginLeft: '22px', marginTop: '3rem', opacity: 0.7 }}> No data currently available</p>}
     </div>
   );
 }

@@ -5,7 +5,7 @@ import type { ApiPromise } from '@polkadot/api';
 import type { RegionInfo } from '@polkadot/react-hooks/types';
 import type { CoreWorkloadType, CoreWorkplanType, InfoRow } from '../types.js';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { ExpandButton } from '@polkadot/react-components';
 import { useRegions, useToggle } from '@polkadot/react-hooks';
@@ -16,63 +16,77 @@ import Workplan from './Workplan.js';
 
 interface Props {
   api: ApiPromise;
-  value: CoreWorkloadType
+  core: number;
   timeslice: number;
+  workload: CoreWorkloadType[]
   workplan?: CoreWorkplanType[] | null
 }
 
-function Workload ({ api, timeslice, value: { core, info, lastBlock, type }, workplan }: Props): React.ReactElement<Props> {
+function Workload({ api, core, timeslice, workload, workplan }: Props): React.ReactElement<Props> {
   const [isExpanded, toggleIsExpanded] = useToggle(false);
-  const [tableData, setTableData] = useState<InfoRow>();
-  const [currentRegion, setCurrentRegion] = useState<RegionInfo | undefined>();
+  const [workloadData, setWorkloadData] = useState<InfoRow[]>();
+  const [workplanData, setWorkplanData] = useState<InfoRow[]>();
+
   const regionInfo = useRegions(api);
+  const region: RegionInfo | undefined = useMemo(() => regionInfo?.find((v) => v.core === core && v.start <= timeslice && v.end > timeslice), [regionInfo, core, timeslice]);
 
   useEffect(() => {
-    if (info) {
-      const region: RegionInfo | undefined = regionInfo?.find((v) => v.core === core && v.start <= timeslice && v.end > timeslice);
-
-      setTableData(formatRowInfo(info, core, region, timeslice, type, lastBlock));
-      setCurrentRegion(region);
+    if (!workload?.length) {
+      return setWorkloadData([{ core }]);
     }
-  }, [info, regionInfo, core, timeslice, lastBlock, type]);
 
-  const hasWorkplan = !!workplan?.length;
+    setWorkloadData(formatRowInfo(workload, core, region, timeslice));
+  }, [workload, region, timeslice, core]);
+
+  useEffect(() => {
+    setWorkplanData(formatRowInfo(workplan, core, region, timeslice));
+  }
+    , [workplan, region, timeslice, core]);
+
+  const hasWorkplan = workplan?.length;
 
   return (
     <>
-      {tableData &&
+      {!!workloadData &&
         <tr
           className={`isExpanded isFirst ${isExpanded ? '' : 'isLast'}`}
-          key={tableData.core}
+          key={core}
         >
-          <WorkInfoRow data={tableData} />
-          <td style={{ paddingRight: '2rem', textAlign: 'right', verticalAlign: 'top' }}>
-            <h5 style={{ opacity: '0.6' }}>Workplan ({workplan?.length})</h5>
-            {hasWorkplan &&
-              (
-                <ExpandButton
-                  expanded={isExpanded}
-                  onClick={toggleIsExpanded}
-                />
-              )
-            }
-            {!hasWorkplan && 'none'}
-          </td>
+          {workloadData?.map((one) => {
+            return (
+              <React.Fragment key={one.owner + one.core}>
+                <WorkInfoRow data={one} />
+                <td style={{ paddingRight: '2rem', textAlign: 'right', verticalAlign: 'top' }}>
+                  <h5 style={{ opacity: '0.6' }}>Workplan {workplan?.length ? `(${workplan?.length})` : ''}</h5>
+                  {!!hasWorkplan &&
+                    (
+                      <ExpandButton
+                        expanded={isExpanded}
+                        onClick={toggleIsExpanded}
+                      />
+                    )
+                  }
+                  {!hasWorkplan && 'none'}
+                </td>
+              </React.Fragment>
+            );
+          })}
+
         </tr>
       }
       {isExpanded &&
         <>
           <tr>
             <td style={{ fontWeight: 700, paddingTop: '2rem', width: 150 }}>workplans</td>
-            <td colSpan={6}></td>
+            <td colSpan={7}></td>
           </tr>
-          {workplan?.map((workplanInfo) => (
+          {workplanData?.map((workplanInfo) => (
             <Workplan
               currentTimeSlice={timeslice}
               isExpanded={isExpanded}
               key={workplanInfo.core}
-              region={currentRegion}
-              value={workplanInfo}
+              region={region}
+              workplanData={workplanInfo}
             />
           ))}
 

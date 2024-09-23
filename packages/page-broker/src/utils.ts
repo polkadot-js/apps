@@ -1,8 +1,8 @@
 // Copyright 2017-2024 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CoreWorkloadInfo, LegacyLease, RegionInfo, Reservation } from '@polkadot/react-hooks/types';
-import type { CoreWorkloadType, InfoRow } from './types.js';
+import type { LegacyLease, RegionInfo, Reservation } from '@polkadot/react-hooks/types';
+import type { CoreWorkloadType, CoreWorkplanType, InfoRow } from './types.js';
 
 import { BN } from '@polkadot/util';
 
@@ -22,7 +22,7 @@ function formatDate (date: Date) {
   return `${day} ${month} ${year}`;
 }
 
-export const estimateTime = (targetBlock: string, latestBlock: number, timestamp: number): string | null => {
+export const estimateTime = (targetBlock: string | number, latestBlock: number, timestamp: number): string | null => {
   if (!timestamp || !latestBlock || !targetBlock) {
     console.error('Invalid input: one or more inputs are missing');
 
@@ -49,33 +49,35 @@ export const estimateTime = (targetBlock: string, latestBlock: number, timestamp
   }
 };
 
-export function formatRowInfo (info: CoreWorkloadInfo, core: number, currentRegion: RegionInfo | undefined, timeslice: number, type: Occupancy, lastBlock: number, regionLength = CoreTimeConsts.DefaultRegion): InfoRow {
-  const item: InfoRow = { core, maskBits: info.maskBits, task: info.task };
+export function formatRowInfo (data: CoreWorkloadType[] | CoreWorkplanType[], core: number, currentRegion: RegionInfo | undefined, timeslice: number, regionLength = CoreTimeConsts.DefaultRegion): InfoRow[] {
+  return data.map((one: CoreWorkloadType | CoreWorkplanType) => {
+    const item: InfoRow = { core, maskBits: one?.info?.maskBits, task: one?.info?.task, type: one?.type };
 
-  if (currentRegion) {
-    const start = currentRegion?.start?.toString() ?? 0;
-    const end = currentRegion?.end?.toString() ?? 0;
-    const blockNumber = timeslice * 80;
+    if (currentRegion) {
+      const start = currentRegion?.start?.toString() ?? 0;
+      const end = currentRegion?.end?.toString() ?? 0;
+      const blockNumber = timeslice * 80;
 
-    item.start = estimateTime(start, blockNumber, new Date().getTime());
-    item.end = estimateTime(end, blockNumber, new Date().getTime());
-    item.endBlock = Number(end) * 80;
-    item.owner = currentRegion?.owner.toString();
-  }
+      item.start = start ? estimateTime(start, blockNumber, new Date().getTime()) : '-';
+      item.end = end ? estimateTime(end, blockNumber, new Date().getTime()) : '-';
+      item.endBlock = end ? Number(end) * 80 : '-';
+      item.owner = currentRegion?.owner.toString();
+    }
 
-  item.type = type;
+    item.type = one.type;
 
-  if (lastBlock) {
-    const blockNumber = timeslice * 80;
-    const period = Math.floor(lastBlock / regionLength);
-    const end = period * regionLength;
+    if (one.lastBlock) {
+      const blockNumber = timeslice * 80;
+      const period = Math.floor(one.lastBlock / regionLength);
+      const end = period * regionLength;
 
-    item.start = ' - ';
-    item.end = estimateTime(end.toString(), blockNumber, new Date().getTime());
-    item.endBlock = Number(end) * 80;
-  }
+      item.start = ' - ';
+      item.end = estimateTime(end.toString(), blockNumber, new Date().getTime());
+      item.endBlock = Number(end) * 80;
+    }
 
-  return item;
+    return item;
+  });
 }
 
 export function getStats (totalCores: string | undefined, workloadInfos: CoreWorkloadType[] | CoreWorkloadType | undefined) {
@@ -111,5 +113,5 @@ export const createTaskMap = <T extends { task: string }>(items: T[]): Record<nu
 };
 
 export const getOccupancyType = (lease: LegacyLease | undefined, reservation: Reservation | undefined): Occupancy => {
-  return reservation ? Occupancy.Reservation : lease ? Occupancy.Lease : Occupancy.Rent;
+  return reservation ? Occupancy.Reservation : lease ? Occupancy.Lease : Occupancy['Bulk Coretime'];
 };
