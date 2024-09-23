@@ -64,6 +64,7 @@ export default function create (t: TFunction): Routes {
     stakingLegacy(t),
     collator(t),
     broker(t),
+    coretime(t),
     // governance v2
     referenda(t),
     membership(t),
