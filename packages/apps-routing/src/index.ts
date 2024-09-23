@@ -63,10 +63,6 @@ export default function create (t: TFunction): Routes {
     // Legacy staking Pre v14 pallet version.
     stakingLegacy(t),
     collator(t),
-<<<<<<< HEAD
-    coretime(t),
-=======
->>>>>>> master
     broker(t),
     // governance v2
     referenda(t),
