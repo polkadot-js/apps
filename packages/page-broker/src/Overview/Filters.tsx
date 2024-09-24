@@ -1,13 +1,14 @@
 // Copyright 2017-2024 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CoreInfo } from '../types.js';
+
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { Dropdown, Input, styled } from '@polkadot/react-components';
 import { useDebounce } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
-import { CoreInfo, type CoreWorkloadType, type CoreWorkplanType } from '../types.js';
 
 const StyledDiv = styled.div`
   @media (max-width: 768px) {
@@ -16,7 +17,7 @@ const StyledDiv = styled.div`
 `;
 
 interface Props {
-  data?: CoreInfo[];
+  data: CoreInfo[];
   onFilter: (data: CoreInfo[]) => void
 }
 
@@ -29,18 +30,18 @@ const filterLoad = (parachainId: string, data: CoreInfo[], workloadCoreSelected:
     return data;
   }
 
-  return data.filter(one => one.core === workloadCoreSelected);
+  return data.filter((one) => one.core === workloadCoreSelected);
 };
 
-function Filters({ onFilter, data }: Props): React.ReactElement<Props> {
+function Filters ({ data, onFilter }: Props): React.ReactElement<Props> {
   const [workloadCoreSelected, setWorkloadCoreSelected] = useState(-1);
   const [_parachainId, setParachainId] = useState<string>('');
 
   const coreArr: number[] = useMemo(() =>
-    !!data?.length
+    data?.length
       ? Array.from({ length: data?.length || 0 }, (_, index) => index)
       : []
-    , [data]);
+  , [data]);
 
   const { t } = useTranslation();
   const parachainId = useDebounce(_parachainId);
@@ -65,6 +66,7 @@ function Filters({ onFilter, data }: Props): React.ReactElement<Props> {
     }
 
     const filtered = filterLoad(parachainId, data, workloadCoreSelected);
+
     onFilter(filtered);
   }, [data, workloadCoreSelected, parachainId, onFilter]);
 

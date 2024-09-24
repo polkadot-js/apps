@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CoreWorkload, CoreWorkplan, LegacyLease, Reservation } from '@polkadot/react-hooks/types';
-import type { CoreInfo, CoreWorkloadType } from '../types.js';
+import type { CoreInfo } from '../types.js';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
@@ -17,33 +17,43 @@ interface Props {
   className?: string;
 }
 
-const formatData = (coreCount: number, workplan: CoreWorkplan[], workload: CoreWorkload[], leaseMap: Record<number, LegacyLease>, reservationMap: Record<number, Reservation>): CoreInfo[] => {
+type LeaseMapType = Record<number, LegacyLease>
+type ReservationMapType = Record<number, Reservation>
+
+const formatDataObject = (one: CoreWorkplan | CoreWorkload, leaseMap: LeaseMapType, reservationMap: ReservationMapType) => ({
+  ...one,
+  lastBlock: leaseMap[one?.info.task as number]?.until || 0,
+  maskBits: one.info.maskBits,
+  task: one.info.task,
+  type: getOccupancyType(leaseMap[one.info.task as number], reservationMap[one.info.task as number])
+});
+
+const formatData = (coreCount: number, workplan: CoreWorkplan[], workload: CoreWorkload[], leaseMap: LeaseMapType, reservationMap: ReservationMapType): CoreInfo[] => {
   return Array.from({ length: coreCount }, (_, coreNumber) => {
-    const process = (data: CoreWorkload[] | CoreWorkplan[]) => {
-      return data
-        .filter((load) => load.core === coreNumber)
-        .map((one) => ({
-          ...one,
-          lastBlock: leaseMap[one?.info.task as number]?.until || 0,
-          maskBits: one.info.maskBits,
-          task: one.info.task,
-          type: getOccupancyType(leaseMap[one.info.task as number] as LegacyLease, reservationMap[one.info.task as number] as Reservation)
-        }));
-    };
+    const processWorkload = (data: CoreWorkload[]) => data
+      .filter((load) => load.core === coreNumber)
+      .map((one) => (formatDataObject(one, leaseMap, reservationMap)));
+
+    const processWorkplan = (data: CoreWorkplan[]) => data
+      .filter((load) => load.core === coreNumber)
+      .map((one) => ({
+        ...formatDataObject(one, leaseMap, reservationMap),
+        timeslice: one.timeslice
+      }));
 
     const coreData = {
       core: coreNumber,
-      workload: workload?.length ? process(workload) : [],
-      workplan: workplan?.length ? process(workplan) : []
+      workload: workload?.length ? processWorkload(workload) : [],
+      workplan: workplan?.length ? processWorkplan(workplan) : []
     };
 
     return coreData;
   });
 };
 
-function Overview({ className }: Props): React.ReactElement<Props> {
+function Overview ({ className }: Props): React.ReactElement<Props> {
   const { api, apiEndpoint, isApiReady } = useApi();
-  const [data, setData] = useState<CoreInfo[]>();
+  const [data, setData] = useState<CoreInfo[]>([]);
 
   const [filtered, setFiltered] = useState<CoreInfo[]>();
   const coreCount = useBrokerStatus('coreCount') || '-';
@@ -53,8 +63,8 @@ function Overview({ className }: Props): React.ReactElement<Props> {
   const reservations: Reservation[] | undefined = useBrokerReservations(api, isApiReady);
   const leases: LegacyLease[] | undefined = useBrokerLeases(api, isApiReady);
 
-  const leaseMap = useMemo(() => leases ? createTaskMap(leases) : [], [leases]);
-  const reservationMap = useMemo(() => reservations ? createTaskMap(reservations) : [], [reservations]);
+  const leaseMap: LeaseMapType = useMemo(() => leases ? createTaskMap(leases) : [], [leases]);
+  const reservationMap: ReservationMapType = useMemo(() => reservations ? createTaskMap(reservations) : [], [reservations]);
 
   useEffect(() => {
     !!workplanInfos && !!workloadInfos && !!coreCount && !!leaseMap && !!reservationMap &&
@@ -71,13 +81,15 @@ function Overview({ className }: Props): React.ReactElement<Props> {
       {!!data?.length &&
         (<>
           <Filters
-            onFilter={setFiltered}
             data={data}
+            onFilter={setFiltered}
           />
-          <CoresTable
-            api={api}
-            data={filtered}
-          />
+          {!!filtered && (
+            <CoresTable
+              api={api}
+              data={filtered}
+            />
+          )}
         </>)
       }
       {!data?.length && <p style={{ marginLeft: '22px', marginTop: '3rem', opacity: 0.7 }}> No data currently available</p>}

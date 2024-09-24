@@ -18,7 +18,7 @@ interface Props {
   region: RegionInfo | undefined
 }
 
-function Workplan({ isExpanded, workplanData }: Props): React.ReactElement<Props> {
+function Workplan ({ isExpanded, workplanData }: Props): React.ReactElement<Props> {
   if (!workplanData) {
     return (
       <tr

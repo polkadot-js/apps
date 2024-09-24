@@ -2,20 +2,21 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
-import type { CoreWorkloadType, statsType } from '../types.js';
+import type { statsType } from '../types.js';
 
 import React from 'react';
 
 import { CardSummary, styled, SummaryBox, UsageBar } from '@polkadot/react-components';
 import { defaultHighlight } from '@polkadot/react-components/styles';
 import { useApi, useBrokerSalesInfo, useBrokerStatus } from '@polkadot/react-hooks';
+import { type CoreWorkload } from '@polkadot/react-hooks/types';
+import { formatBalance } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
 import { getStats } from '../utils.js';
 import RegionLength from './Summary/RegionLength.js';
 import Timeslice from './Summary/Timeslice.js';
 import TimeslicePeriod from './Summary/TimeslicePeriod.js';
-import { formatBalance } from '@polkadot/util';
 
 const StyledDiv = styled.div`
   display: flex;
@@ -35,10 +36,10 @@ const StyledSection = styled.section`
 interface Props {
   coreCount?: string
   apiEndpoint?: LinkOption | null;
-  workloadInfos?: CoreWorkloadType[] | CoreWorkloadType
+  workloadInfos?: CoreWorkload[]
 }
 
-function Summary({ coreCount, workloadInfos }: Props): React.ReactElement {
+function Summary ({ coreCount, workloadInfos }: Props): React.ReactElement {
   const { t } = useTranslation();
   const { api, apiEndpoint } = useApi();
   const totalCores = useBrokerStatus('coreCount');

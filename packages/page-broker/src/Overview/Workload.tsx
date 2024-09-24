@@ -3,14 +3,14 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { RegionInfo } from '@polkadot/react-hooks/types';
+import type { Option } from '@polkadot/types';
+import type { PalletBrokerStatusRecord } from '@polkadot/types/lookup';
 import type { CoreWorkloadType, CoreWorkplanType, InfoRow } from '../types.js';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { ExpandButton } from '@polkadot/react-components';
 import { useApi, useBrokerSalesInfo, useCall, useRegions, useToggle } from '@polkadot/react-hooks';
-import type { PalletBrokerStatusRecord } from '@polkadot/types/lookup';
-import { Option } from '@polkadot/types';
 
 import { formatRowInfo } from '../utils.js';
 import WorkInfoRow from './WorkInfoRow.js';
@@ -23,7 +23,7 @@ interface Props {
   workplan?: CoreWorkplanType[] | undefined
 }
 
-function Workload({ api, core, workload, workplan }: Props): React.ReactElement<Props> {
+function Workload ({ api, core, workload, workplan }: Props): React.ReactElement<Props> {
   const { isApiReady } = useApi();
   const salesInfo = useBrokerSalesInfo();
 
@@ -34,27 +34,29 @@ function Workload({ api, core, workload, workplan }: Props): React.ReactElement<
 
   const currentTimeSlice = useMemo(() => {
     if (!!status && !!status?.toHuman()) {
-      return status.unwrap().lastCommittedTimeslice.toNumber()
+      return status.unwrap().lastCommittedTimeslice.toNumber();
     }
-    return 0
+
+    return 0;
   }, [status]);
 
   const regionInfo = useRegions(api);
   const region: RegionInfo | undefined = useMemo(() => regionInfo?.find((v) => v.core === core && v.start <= currentTimeSlice && v.end > currentTimeSlice), [regionInfo, core, currentTimeSlice]);
 
   useEffect(() => {
-    if (!!workload?.length) {
+    if (!!workload?.length && !!salesInfo) {
       setWorkloadData(formatRowInfo(workload, core, region, currentTimeSlice, salesInfo));
     } else {
       return setWorkloadData([{ core }]);
     }
-
   }, [workload, region, currentTimeSlice, core, salesInfo]);
 
   useEffect(() => {
-    setWorkplanData(formatRowInfo(workplan, core, region, currentTimeSlice, salesInfo));
+    if (!!workplan?.length && !!salesInfo) {
+      setWorkplanData(formatRowInfo(workplan, core, region, currentTimeSlice, salesInfo));
+    }
   }
-    , [workplan, region, currentTimeSlice, core, salesInfo]);
+  , [workplan, region, currentTimeSlice, core, salesInfo]);
 
   const hasWorkplan = workplan?.length;
 

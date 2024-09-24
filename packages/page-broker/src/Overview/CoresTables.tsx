@@ -13,7 +13,7 @@ interface Props {
   data: CoreInfo[];
 }
 
-function CoresTable({ api, data }: Props): React.ReactElement<Props> {
+function CoresTable ({ api, data }: Props): React.ReactElement<Props> {
   return (
     <>
       {data?.map((coreData) => {

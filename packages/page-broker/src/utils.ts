@@ -1,7 +1,7 @@
 // Copyright 2017-2024 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { LegacyLease, RegionInfo, Reservation } from '@polkadot/react-hooks/types';
+import type { CoreWorkload, LegacyLease, RegionInfo, Reservation } from '@polkadot/react-hooks/types';
 import type { CoreWorkloadType, CoreWorkplanType, InfoRow } from './types.js';
 
 import { BN } from '@polkadot/util';
@@ -22,14 +22,14 @@ function formatDate (date: Date) {
   return `${day} ${month} ${year}`;
 }
 
-  /**
+/**
    * blockTime = 6000 ms
    * BlocksPerTimeslice = 80
    * Default Regoin = 5040 timeslices
    * TargetBlock = TargetTimeslice * BlocksPerTimeslice
    * Block Time Difference = |TargetBlock - latest Block| * blockTime
-   * 
-   * Estimate timestamp = 
+   *
+   * Estimate timestamp =
    * if targetBlock is before the latestBlock
    *    now minus block time difference
    * else
@@ -41,7 +41,8 @@ export const estimateTime = (targetTimeslice: string | number, latestBlock: numb
 
     return null;
   }
-  const now = new Date().getTime()
+
+  const now = new Date().getTime();
 
   try {
     const blockTime = new BN(CoreTimeConsts.BlockTime); // Average block time in milliseconds (6 seconds)
@@ -60,43 +61,42 @@ export const estimateTime = (targetTimeslice: string | number, latestBlock: numb
   }
 };
 
-export function formatRowInfo (data: CoreWorkloadType[] | CoreWorkplanType[], core: number, currentRegion: RegionInfo | undefined, timeslice: number, salesInfo, regionLength = CoreTimeConsts.DefaultRegion): InfoRow[] {
+export function formatRowInfo (data: CoreWorkloadType[] | CoreWorkplanType[], core: number, currentRegion: RegionInfo | undefined, timeslice: number, { regionBegin, regionEnd }: { regionBegin: number, regionEnd: number }, regionLength = CoreTimeConsts.DefaultRegion): InfoRow[] {
   return data.map((one: CoreWorkloadType | CoreWorkplanType) => {
     const item: InfoRow = { core, maskBits: one?.info?.maskBits, task: one?.info?.task, type: one?.type };
     const blockNumber = timeslice * 80;
 
     item.type = one.type;
-    let end, start = null
+    let end; let start = null;
 
     if (one.type === Occupancy.Lease) {
       const period = Math.floor(one.lastBlock / regionLength);
+
       end = period * regionLength;
     } else {
-      start = currentRegion?.start?.toString() ?? salesInfo?.regionBegin;
-      end = currentRegion?.end?.toString() ?? salesInfo?.regionEnd;
+      start = currentRegion?.start?.toString() ?? regionBegin;
+      end = currentRegion?.end?.toString() ?? regionEnd;
     }
 
     item.owner = currentRegion?.owner.toString();
     item.start = start ? estimateTime(start, blockNumber) : null;
     item.end = end ? estimateTime(end, blockNumber) : null;
-    item.endBlock = end ? Number(end) * 80 : null;
+    item.endBlock = end ? Number(end) * 80 : 0;
 
     if ('timeslice' in one && !start) {
       start = estimateTime(one.timeslice, blockNumber) ?? null;
     }
-  
+
     return item;
   });
 }
 
-export function getStats (totalCores: string | undefined, workloadInfos: CoreWorkloadType[] | CoreWorkloadType | undefined) {
+export function getStats (totalCores: string | undefined, workloadInfos: CoreWorkload[] | undefined) {
   if (!totalCores || !workloadInfos) {
     return { idles: 0, pools: 0, tasks: 0 };
   }
 
-  const sanitized: CoreWorkloadType[] = Array.isArray(workloadInfos) ? workloadInfos : [workloadInfos];
-
-  const { pools, tasks } = sanitized.reduce(
+  const { pools, tasks } = workloadInfos.reduce(
     (acc, { info }) => {
       if (info.isTask) {
         acc.tasks += 1;
