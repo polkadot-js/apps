@@ -301,7 +301,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
     providers: {
       Dwellir: 'wss://asset-hub-paseo-rpc.dwellir.com',
       IBP1: 'wss://sys.ibp.network/asset-hub-paseo',
-      IBP2: 'wss://sys.dotters.network/asset-hub-paseo',
+      IBP2: 'wss://asset-hub-paseo.dotters.network',
       StakeWorld: 'wss://pas-rpc.stakeworld.io/assethub',
       TurboFlakes: 'wss://sys.turboflakes.io/asset-hub-paseo'
     },
@@ -318,7 +318,8 @@ export const testParasPaseoCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1002,
     providers: {
-      IBP1: 'wss://sys.ibp.network/bridge-hub-paseo'
+      IBP1: 'wss://sys.ibp.network/bridge-hub-paseo',
+      IBP2: 'wss://bridge-hub-paseo.dotters.network'
     },
     relayName: 'paseo',
     teleport: [-1],
@@ -333,6 +334,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1005,
     providers: {
+      IBP2: 'wss://coretime-paseo.dotters.network',
       ParaNodes: 'wss://paseo-coretime.paranodes.io'
     },
     relayName: 'paseo',
@@ -349,7 +351,8 @@ export const testParasPaseoCommon: EndpointOption[] = [
     isPeopleForIdentity: false,
     paraId: 1004,
     providers: {
-      Amforc: 'wss://people-paseo.rpc.amforc.com'
+      Amforc: 'wss://people-paseo.rpc.amforc.com',
+      IBP2: 'wss://people-paseo.dotters.network'
     },
     relayName: 'paseo',
     teleport: [-1],
@@ -375,7 +378,7 @@ export const testRelayPaseo: EndpointOption = {
     Amforc: 'wss://paseo.rpc.amforc.com',
     Dwellir: 'wss://paseo-rpc.dwellir.com',
     IBP1: 'wss://rpc.ibp.network/paseo',
-    IBP2: 'wss://rpc.dotters.network/paseo',
+    IBP2: 'wss://paseo.dotters.network',
     StakeWorld: 'wss://pas-rpc.stakeworld.io',
     Zondax: 'wss://api2.zondax.ch/pas/node/rpc'
     // 'light client': 'light://substrate-connect/paseo'
