@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types.js';
 
 import { chainsCoretimeKusamaSVG, chainsFrequencyPaseoSVG, chainsHydrationPaseoSVG, chainsLaosSigmaPNG, chainsMyxcavPNG, chainsPaseoPNG, chainsPeoplePolkadotSVG, chainsPopNetworkSVG } from '@polkadot/apps-config/ui/logos/chains';
-import { nodesAjunaPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBifrostSVG, nodesBridgeHubSVG, nodesDarwiniaKoiSVG, nodesHyperbridgePNG, nodesIntegriteeSVG, nodesKiltPNG, nodesMandalaPNG, nodesMusePNG, nodesMyriadPaseoSVG, nodesNodleSVG, nodesRexSVG, nodesZeitgeistPNG } from '@polkadot/apps-config/ui/logos/nodes';
+import { nodesAjunaPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBifrostSVG, nodesBridgeHubSVG, nodesMyriadPaseoSVG, nodesDarwiniaKoiSVG, nodesHyperbridgePNG, nodesIdealNetworkSVG, nodesIntegriteeSVG, nodesKiltPNG, nodesMandalaPNG, nodesMusePNG, nodesNodleSVG, nodesRexSVG, nodesZeitgeistPNG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
 // import { testnetParachainSVG } from '../ui/logos/nodes/index.js';
@@ -136,6 +136,19 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://idealabs.network/',
+    info: 'Ideal Network',
+    paraId: 4502,
+    providers: {
+      'IDN Node': 'wss://idn0-testnet.idealabs.network'
+    },
+    text: 'Ideal Network',
+    ui: {
+      color: 'rgb(17, 35, 77)',
+      logo: nodesIdealNetworkSVG
+    }
+  },
+  {
     homepage: 'https://integritee.network',
     info: 'integritee',
     paraId: 2039,
@@ -183,6 +196,19 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#110ff9',
       logo: nodesMusePNG
+    }
+  },
+  {
+    homepage: 'https://myriad.social',
+    info: 'Myriad Social',
+    paraId: 4005,
+    providers: {
+      myriadPaseo: 'wss://ws-rpc.paseo.myriad.social'
+    },
+    text: 'Myriad Social Testnet',
+    ui: {
+      color: '#d5e3e4',
+      logo: nodesMyriadPaseoSVG
     }
   },
   {
@@ -250,19 +276,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#FF0083',
       logo: chainsMyxcavPNG
-    }
-  },
-  {
-    homepage: 'https://myriad.social',
-    info: 'Myriad Social',
-    paraId: 4005,
-    providers: {
-      myriadPaseo: 'wss://ws-rpc.paseo.myriad.social'
-    },
-    text: 'Myriad Social Testnet',
-    ui: {
-      color: '#d5e3e4',
-      logo: nodesMyriadPaseoSVG
     }
   },
   {
