@@ -1,15 +1,12 @@
 // Copyright 2017-2024 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiPromise } from '@polkadot/api';
-import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { CoreWorkload, CoreWorkplan, LegacyLease, Reservation } from '@polkadot/react-hooks/types';
-import type { PalletBrokerStatusRecord } from '@polkadot/types/lookup';
 import type { CoreInfo, CoreWorkloadType } from '../types.js';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { useApi, useBrokerLeases, useBrokerReservations, useBrokerStatus, useCall, useWorkloadInfos, useWorkplanInfos } from '@polkadot/react-hooks';
+import { useApi, useBrokerLeases, useBrokerReservations, useBrokerStatus, useWorkloadInfos, useWorkplanInfos } from '@polkadot/react-hooks';
 
 import { createTaskMap, getOccupancyType } from '../utils.js';
 import CoresTable from './CoresTables.js';
@@ -45,11 +42,10 @@ const formatData = (coreCount: number, workplan: CoreWorkplan[], workload: CoreW
 };
 
 function Overview({ className }: Props): React.ReactElement<Props> {
-
   const { api, apiEndpoint, isApiReady } = useApi();
   const [data, setData] = useState<CoreInfo[]>();
 
-  const [filtered, setFiltered] = useState<CoreWorkloadType[]>();
+  const [filtered, setFiltered] = useState<CoreInfo[]>();
   const coreCount = useBrokerStatus('coreCount') || '-';
 
   const workloadInfos: CoreWorkload[] | undefined = useWorkloadInfos(api, isApiReady);
@@ -60,9 +56,9 @@ function Overview({ className }: Props): React.ReactElement<Props> {
   const leaseMap = useMemo(() => leases ? createTaskMap(leases) : [], [leases]);
   const reservationMap = useMemo(() => reservations ? createTaskMap(reservations) : [], [reservations]);
 
-
   useEffect(() => {
-    setData(formatData(Number(coreCount), workplanInfos, workloadInfos, leaseMap, reservationMap));
+    !!workplanInfos && !!workloadInfos && !!coreCount && !!leaseMap && !!reservationMap &&
+      setData(formatData(Number(coreCount), workplanInfos, workloadInfos, leaseMap, reservationMap));
   }, [workplanInfos, workloadInfos, leaseMap, reservationMap, coreCount]);
 
   return (
@@ -74,13 +70,13 @@ function Overview({ className }: Props): React.ReactElement<Props> {
       ></Summary>
       {!!data?.length &&
         (<>
-          {/* <Filters
+          <Filters
             onFilter={setFiltered}
-            workLoad={[]}
-          /> */}
+            data={data}
+          />
           <CoresTable
             api={api}
-            data={data}
+            data={filtered}
           />
         </>)
       }
