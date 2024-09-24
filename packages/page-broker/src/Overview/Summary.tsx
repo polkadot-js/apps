@@ -8,14 +8,14 @@ import React from 'react';
 
 import { CardSummary, styled, SummaryBox, UsageBar } from '@polkadot/react-components';
 import { defaultHighlight } from '@polkadot/react-components/styles';
-import { useApi, useBrokerStatus } from '@polkadot/react-hooks';
+import { useApi, useBrokerSalesInfo, useBrokerStatus } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
 import { getStats } from '../utils.js';
 import RegionLength from './Summary/RegionLength.js';
-import RenewalPrice from './Summary/RenewalPrice.js';
 import Timeslice from './Summary/Timeslice.js';
 import TimeslicePeriod from './Summary/TimeslicePeriod.js';
+import { formatBalance } from '@polkadot/util';
 
 const StyledDiv = styled.div`
   display: flex;
@@ -45,26 +45,35 @@ function Summary({ coreCount, workloadInfos }: Props): React.ReactElement {
   const uiHighlight = apiEndpoint?.ui.color || defaultHighlight;
   const { idles, pools, tasks }: statsType = React.useMemo(() => getStats(totalCores, workloadInfos), [totalCores, workloadInfos]);
 
+  const salesInfo = useBrokerSalesInfo();
+
   return (
     <SummaryBox>
       <StyledSection style={{ display: 'flex' }}>
         {api.query.broker && (
           <>
             <StyledDiv>
-              <CardSummary label={t('current timeslice')}>
+              <CardSummary label={t('timeslice (ts)')}>
                 <Timeslice />
               </CardSummary>
-              <CardSummary label={t('core count')}>
-                {coreCount}
-              </CardSummary>
-              <CardSummary label={t('timeslice period')}>
+              <CardSummary label={t('block per ts')}>
                 <TimeslicePeriod />
               </CardSummary>
-              <CardSummary label={t('region length')}>
+              <CardSummary label={t('region (ts)')}>
                 <RegionLength />
               </CardSummary>
               <CardSummary label={t('estimated bulk price')}>
-                <RenewalPrice />
+                <div className='ui--balance-value'>
+                  {formatBalance(salesInfo?.endPrice) || '-'}
+                </div>
+              </CardSummary>
+              <CardSummary label={t('total cores')}>
+                {coreCount}
+              </CardSummary>
+              <CardSummary label={t('cores sold/offered')}>
+                <div>
+                  {salesInfo?.coresSold} / {salesInfo?.coresOffered}
+                </div>
               </CardSummary>
             </StyledDiv>
           </>
