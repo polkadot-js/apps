@@ -22,24 +22,35 @@ function formatDate (date: Date) {
   return `${day} ${month} ${year}`;
 }
 
-export const estimateTime = (targetBlock: string | number, latestBlock: number, timestamp: number): string | null => {
-  if (!timestamp || !latestBlock || !targetBlock) {
+  /**
+   * blockTime = 6000 ms
+   * BlocksPerTimeslice = 80
+   * Default Regoin = 5040 timeslices
+   * TargetBlock = TargetTimeslice * BlocksPerTimeslice
+   * Block Time Difference = |TargetBlock - latest Block| * blockTime
+   * 
+   * Estimate timestamp = 
+   * if targetBlock is before the latestBlock
+   *    now minus block time difference
+   * else
+   *    now plus block time difference
+   */
+export const estimateTime = (targetTimeslice: string | number, latestBlock: number): string | null => {
+  if (!latestBlock || !targetTimeslice) {
     console.error('Invalid input: one or more inputs are missing');
 
     return null;
   }
+  const now = new Date().getTime()
 
   try {
     const blockTime = new BN(CoreTimeConsts.BlockTime); // Average block time in milliseconds (6 seconds)
     const timeSlice = new BN(CoreTimeConsts.BlocksPerTimeslice);
-    const targetBlockBN = new BN(targetBlock).mul(timeSlice);
     const latestBlockBN = new BN(latestBlock);
-    const timestampBN = new BN(timestamp);
-    const blockDifference = targetBlockBN.sub((latestBlockBN)).abs().mul(blockTime);
-
-    const estTimestamp = targetBlockBN.lt(latestBlockBN)
-      ? timestampBN.sub(blockDifference)
-      : timestampBN.add(blockDifference);
+    const timestampBN = new BN(now);
+    const targetBlockBN = new BN(targetTimeslice).mul(timeSlice);
+    const blockTimeDifference = targetBlockBN.sub(latestBlockBN).mul(blockTime);
+    const estTimestamp = timestampBN.add(blockTimeDifference);
 
     return formatDate(new Date(estTimestamp.toNumber()));
   } catch (error) {
@@ -53,7 +64,6 @@ export function formatRowInfo (data: CoreWorkloadType[] | CoreWorkplanType[], co
   return data.map((one: CoreWorkloadType | CoreWorkplanType) => {
     const item: InfoRow = { core, maskBits: one?.info?.maskBits, task: one?.info?.task, type: one?.type };
     const blockNumber = timeslice * 80;
-    const now = new Date().getTime()
 
     item.type = one.type;
     let end, start = null
@@ -62,19 +72,18 @@ export function formatRowInfo (data: CoreWorkloadType[] | CoreWorkplanType[], co
       const period = Math.floor(one.lastBlock / regionLength);
       end = period * regionLength;
     } else {
-      // not :100 about this regionLength offset
-      start = currentRegion?.start?.toString() ?? salesInfo?.regionBegin - regionLength;
-      end = currentRegion?.end?.toString() ?? salesInfo?.regionEnd - regionLength
-    }
-
-    if ('timeslice' in one) {
-      start = estimateTime(one.timeslice, blockNumber, now) ?? null;
+      start = currentRegion?.start?.toString() ?? salesInfo?.regionBegin;
+      end = currentRegion?.end?.toString() ?? salesInfo?.regionEnd;
     }
 
     item.owner = currentRegion?.owner.toString();
-    item.start = start ? estimateTime(start, blockNumber, now) : null;
-    item.end = end ? estimateTime(end, blockNumber, now) : null;
+    item.start = start ? estimateTime(start, blockNumber) : null;
+    item.end = end ? estimateTime(end, blockNumber) : null;
     item.endBlock = end ? Number(end) * 80 : null;
+
+    if ('timeslice' in one && !start) {
+      start = estimateTime(one.timeslice, blockNumber) ?? null;
+    }
   
     return item;
   });
