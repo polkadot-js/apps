@@ -62,6 +62,7 @@ export { nodesHelixstreetPNG } from './generated/helixstreetPNG.js';
 export { nodesHumanodePNG } from './generated/humanodePNG.js';
 export { nodesHyperbridgePNG } from './generated/hyperbridgePNG.js';
 export { nodesIdavollPNG } from './generated/idavollPNG.js';
+export { nodesIdealNetworkSVG } from './generated/ideal-networkSVG.js';
 export { nodesImbuePNG } from './generated/imbuePNG.js';
 export { nodesInnovatorPNG } from './generated/innovatorPNG.js';
 export { nodesIntegriteeSVG } from './generated/integriteeSVG.js';
