@@ -45,6 +45,18 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    info: 'paseoAmplitude',
+    paraId: 2124,
+    providers: {
+      PendulumChain: 'wss://rpc-foucoco.pendulumchain.tech'
+    },
+    text: 'Amplitude testnet (Foucoco)',
+    ui: {
+      color: '#5DEFA7',
+      logo: chainsAmplitudeSVG
+    }
+  },
+  {
     homepage: 'https://www.aventus.io/',
     info: 'paseoAventus',
     paraId: 2056,
@@ -107,18 +119,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#19455E',
       logo: chainsFrequencyPaseoSVG
-    }
-  },
-  {
-    info: 'paseoAmplitude',
-    paraId: 2124,
-    providers: {
-      PendulumChain: 'wss://rpc-foucoco.pendulumchain.tech'
-    },
-    text: 'Amplitude testnet (Foucoco)',
-    ui: {
-      color: '#5DEFA7',
-      logo: chainsAmplitudeSVG
     }
   },
   {
