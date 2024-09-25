@@ -3,7 +3,7 @@
 
 import type { Option, u128 } from '@polkadot/types';
 import type { Permill } from '@polkadot/types/interfaces';
-import type { BN } from '@polkadot/util';
+import { BN } from '@polkadot/util';
 
 import React, { useMemo, useState } from 'react';
 
@@ -28,11 +28,11 @@ function Propose ({ className }: Props): React.ReactElement<Props> | null {
 
   const [bondMin, bondMax, bondPercentage] = useMemo(
     () => [
-      (api.consts.treasury.proposalBondMinimum as u128).toString(),
-      (api.consts.treasury.proposalBondMaximum as Option<u128>)?.isSome
+      api.consts.treasury.proposalBondMinimum ? (api.consts.treasury.proposalBondMinimum as u128).toString() : new BN(0),
+      api.consts.treasury.proposalBondMaximum && (api.consts.treasury.proposalBondMaximum as Option<u128>)?.isSome
         ? (api.consts.treasury.proposalBondMaximum as Option<u128>).unwrap().toString()
         : null,
-      `${(api.consts.treasury.proposalBond as Permill).mul(BN_HUNDRED).div(BN_MILLION).toNumber().toFixed(2)}%`
+      api.consts.treasury.proposalBond ? `${(api.consts.treasury.proposalBond as Permill).mul(BN_HUNDRED).div(BN_MILLION).toNumber().toFixed(2)}%` : `0%`
     ],
     [api]
   );
