@@ -8,7 +8,7 @@ import { BN } from '@polkadot/util';
 
 import { Occupancy } from './types.js';
 
-const CoreTimeConsts = {
+export const CoreTimeConsts = {
   BlockTime: 6000,
   BlocksPerTimeslice: 80,
   DefaultRegion: 5040

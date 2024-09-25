@@ -39,7 +39,7 @@ function Filters ({ data, onFilter }: Props): React.ReactElement<Props> {
 
   const coreArr: number[] = useMemo(() =>
     data?.length
-      ? Array.from({ length: data?.length || 0 }, (_, index) => index)
+      ? Array.from({ length: data.length || 0 }, (_, index) => index)
       : []
   , [data]);
 

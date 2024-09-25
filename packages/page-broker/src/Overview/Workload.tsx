@@ -33,7 +33,7 @@ function Workload ({ api, core, workload, workplan }: Props): React.ReactElement
   const [workplanData, setWorkplanData] = useState<InfoRow[]>();
 
   const currentTimeSlice = useMemo(() => {
-    if (!!status && !!status?.toHuman()) {
+    if (status?.isSome) {
       return status.unwrap().lastCommittedTimeslice.toNumber();
     }
 
@@ -67,7 +67,7 @@ function Workload ({ api, core, workload, workplan }: Props): React.ReactElement
           className={`isExpanded isFirst ${isExpanded ? '' : 'isLast'}`}
           key={core}
         >
-          {workloadData?.map((one) => {
+          {workloadData.map((one) => {
             return (
               <React.Fragment key={`${one.endBlock}${one.core}`}>
                 <WorkInfoRow data={one} />
