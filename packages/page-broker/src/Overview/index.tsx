@@ -67,7 +67,7 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
   const reservationMap: ReservationMapType = useMemo(() => reservations ? createTaskMap(reservations) : [], [reservations]);
 
   useEffect(() => {
-    !!workplanInfos && !!workloadInfos && !!coreCount && !!leaseMap && !!reservationMap &&
+    !!workplanInfos && !!workloadInfos && !!coreCount &&
       setData(formatData(Number(coreCount), workplanInfos, workloadInfos, leaseMap, reservationMap));
   }, [workplanInfos, workloadInfos, leaseMap, reservationMap, coreCount]);
 
