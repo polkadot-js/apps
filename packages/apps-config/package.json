@@ -28,7 +28,7 @@
     "@fragnova/api-augment": "0.1.0-spec-1.0.4-mainnet",
     "@frequency-chain/api-augment": "1.11.1",
     "@interlay/interbtc-types": "1.13.0",
-    "@kiltprotocol/type-definitions": "^1.11200.0",
+    "@kiltprotocol/type-definitions": "^1.11401.0",
     "@laminar/type-definitions": "0.3.1",
     "@logion/node-api": "0.27.0-4",
     "@mangata-finance/type-definitions": "^2.1.2",
