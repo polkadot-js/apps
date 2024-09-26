@@ -403,7 +403,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'regionxCocos',
     paraId: 4459,
     providers: {
-      RegionX: 'wss://cocos-node.regionx.tech'
+      // RegionX: 'wss://cocos-node.regionx.tech'  https://github.com/polkadot-js/apps/issues/10957
     },
     text: 'RegionX Cocos',
     ui: {
@@ -415,7 +415,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoPhala',
     paraId: 2004,
     providers: {
-      'Phala Network': 'wss://rhala-node.phala.network/ws'
+      // 'Phala Network': 'wss://rhala-node.phala.network/ws' https://github.com/polkadot-js/apps/issues/10957
     },
     text: 'Rhala Testnet',
     ui: {
