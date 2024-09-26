@@ -2,44 +2,31 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { CoreInfo, CoreWorkloadType, CoreWorkplanType } from '../types.js';
+import type { CoreInfo } from '../types.js';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import CoreTable from './CoreTable.js';
 
 interface Props {
   api: ApiPromise;
-  workloadInfos?: CoreWorkloadType[];
-  workplanInfos?: CoreWorkplanType[];
-  timeslice: number;
+  data: CoreInfo[];
 }
 
-function CoresTable ({ api, timeslice, workloadInfos, workplanInfos }: Props): React.ReactElement<Props> {
-  const coreArr: number[] = useMemo(() => workloadInfos ? [...workloadInfos.map((plan) => plan.core)] : [], [workloadInfos]);
-  const filteredList: CoreInfo[] = useMemo(() => coreArr.map((c) => ({
-    core: c,
-    workload: workloadInfos?.filter((v) => v.core === c),
-    workplan: workplanInfos?.filter((v) => v.core === c)
-  })), [workloadInfos, workplanInfos, coreArr]);
-
+function CoresTable ({ api, data }: Props): React.ReactElement<Props> {
   return (
     <>
-      {
-        filteredList.map((c) => {
-          return (
-            <CoreTable
-              api={api}
-              core={c.core}
-              key={`core ${c.core}`}
-              timeslice={timeslice}
-              workload={c.workload}
-              workplan={c.workplan}
-            />
-          );
-        }
-        )
-      }
+      {data?.map((coreData) => {
+        return (
+          <CoreTable
+            api={api}
+            core={coreData?.core}
+            key={coreData?.core}
+            workload={coreData?.workload}
+            workplan={coreData?.workplan}
+          />
+        );
+      })}
     </>
   );
 }

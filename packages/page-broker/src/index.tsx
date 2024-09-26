@@ -6,7 +6,6 @@ import type { TabItem } from '@polkadot/react-components/types';
 import React, { useRef } from 'react';
 
 import { Tabs } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
 
 import Overview from './Overview/index.js';
 import { useTranslation } from './translate.js';
@@ -29,7 +28,6 @@ function createItemsRef (t: (key: string, options?: { replace: Record<string, un
 function BrokerApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const itemsRef = useRef(createItemsRef(t));
-  const { api, apiEndpoint, isApiReady } = useApi();
 
   return (
     <main className={className}>
@@ -37,11 +35,7 @@ function BrokerApp ({ basePath, className }: Props): React.ReactElement<Props> {
         basePath={basePath}
         items={itemsRef.current}
       />
-      <Overview
-        api={api}
-        apiEndpoint={apiEndpoint}
-        isReady={isApiReady}
-      />
+      <Overview />
     </main>
   );
 }
