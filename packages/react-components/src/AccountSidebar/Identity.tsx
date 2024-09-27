@@ -150,11 +150,11 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
                 </div>
               </div>
             )}
-            {identity.riot && (
+            {identity.matrix && (
               <div className='tr'>
-                <div className='th'>{t('riot')}</div>
+                <div className='th'>{t('matrix')}</div>
                 <div className='td'>
-                  {identity.riot}
+                  {identity.matrix}
                 </div>
               </div>
             )}
