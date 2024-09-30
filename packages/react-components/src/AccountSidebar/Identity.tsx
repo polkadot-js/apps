@@ -1,11 +1,10 @@
 // Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AddressIdentity } from '@polkadot/react-hooks/types';
-
 import React, { useMemo } from 'react';
 
 import { useApi, useRegistrars, useSubidentities, useToggle } from '@polkadot/react-hooks';
+import { type AddressIdentity, AddressIdentityOtherDiscordKey } from '@polkadot/react-hooks/types';
 import { isHex } from '@polkadot/util';
 
 import AddressMini from '../AddressMini.js';
@@ -141,11 +140,11 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
                 </div>
               </div>
             )}
-            {identity.discord && (
+            {identity.other && AddressIdentityOtherDiscordKey in identity.other && (
               <div className='tr'>
                 <div className='th'>{t('discord')}</div>
                 <div className='td'>
-                  {identity.discord}
+                  {identity.other[AddressIdentityOtherDiscordKey]}
                 </div>
               </div>
             )}
@@ -162,6 +161,14 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
                 <div className='th'>{t('matrix')}</div>
                 <div className='td'>
                   {identity.matrix}
+                </div>
+              </div>
+            )}
+            {identity.discord && (
+              <div className='tr'>
+                <div className='th'>{t('discord')}</div>
+                <div className='td'>
+                  {identity.discord}
                 </div>
               </div>
             )}
