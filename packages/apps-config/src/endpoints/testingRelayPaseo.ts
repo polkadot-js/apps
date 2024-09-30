@@ -140,7 +140,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'Ideal Network',
     paraId: 4502,
     providers: {
-      'IDN Node': 'wss://idn0-testnet.idealabs.network'
+      // 'IDN Node': 'wss://idn0-testnet.idealabs.network' https://github.com/polkadot-js/apps/issues/10966
     },
     text: 'Ideal Network',
     ui: {
@@ -318,7 +318,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1002,
     providers: {
-      IBP1: 'wss://sys.ibp.network/bridge-hub-paseo',
+      // IBP1: 'wss://sys.ibp.network/bridge-hub-paseo', https://github.com/polkadot-js/apps/issues/10966
       IBP2: 'wss://bridge-hub-paseo.dotters.network'
     },
     relayName: 'paseo',
