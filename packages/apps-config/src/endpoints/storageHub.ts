@@ -16,7 +16,7 @@ export const storageHubChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'bspNetBsp',
     providers: {
-      Local: 'ws://127.0.0.1:9966' as `wss://${string}`
+      Local: 'ws://127.0.0.1:9666' as `wss://${string}`
     },
     text: 'BSPNet: BSP',
     ui: {
@@ -27,9 +27,42 @@ export const storageHubChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'bspNetUser',
     providers: {
-      Local: 'ws://127.0.0.1:9977' as `wss://${string}`
+      Local: 'ws://127.0.0.1:9888' as `wss://${string}`
     },
     text: 'BSPNet: User',
+    ui: {
+      color: '#F5F5F5',
+      logo: chainsStorageHubSVG
+    }
+  },
+  {
+    info: 'fullNetBsp',
+    providers: {
+      Local: 'ws://127.0.0.1:9666' as `wss://${string}`
+    },
+    text: 'FullNet: BSP',
+    ui: {
+      color: '#00CCAB',
+      logo: chainsStorageHubSVG
+    }
+  },
+  {
+    info: 'fullNetMsp',
+    providers: {
+      Local: 'ws://127.0.0.1:9777' as `wss://${string}`
+    },
+    text: 'FullNet: MSP',
+    ui: {
+      color: '#03e3fc',
+      logo: chainsStorageHubSVG
+    }
+  },
+  {
+    info: 'bspNetUser',
+    providers: {
+      Local: 'ws://127.0.0.1:9888' as `wss://${string}`
+    },
+    text: 'FullNet: User',
     ui: {
       color: '#F5F5F5',
       logo: chainsStorageHubSVG
@@ -46,5 +79,4 @@ export const storageHubChains: Omit<EndpointOption, 'teleport'>[] = [
       logo: chainsStorageHubSVG
     }
   }
-
 ];
