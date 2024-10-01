@@ -10,7 +10,8 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { statics } from '@polkadot/react-api/statics';
 import { useApi, useDeriveAccountInfo } from '@polkadot/react-hooks';
 import { AccountSidebarCtx } from '@polkadot/react-hooks/ctx/AccountSidebar';
-import { formatNumber, isCodec, isFunction, stringToU8a, u8aEmpty, u8aEq, u8aToBn } from '@polkadot/util';
+import { formatNumber, isCodec, isFunction, isU8a, stringToU8a, u8aEmpty, u8aEq, u8aToBn } from '@polkadot/util';
+import { decodeAddress } from '@polkadot/util-crypto';
 
 import { getAddressName } from './util/index.js';
 import Badge from './Badge.js';
@@ -48,9 +49,9 @@ function createNumMatcher (prefix: string, name: string, add?: string): AddrMatc
 
   return (addr: unknown): string | null => {
     try {
-      const u8a = isCodec(addr)
-        ? addr.toU8a()
-        : statics.registry.createType('AccountId', addr as string).toU8a();
+      const decoded = isU8a(addr) ? addr : isCodec(addr) ? addr.toU8a() : decodeAddress(addr?.toString() || '');
+      const type = decoded.length === 20 ? 'AccountId20' : 'AccountId';
+      const u8a = statics.registry.createType(type, decoded).toU8a();
 
       return (u8a.length >= minLength) && u8aEq(test, u8a.subarray(0, test.length)) && u8aEmpty(u8a.subarray(minLength))
         ? `${name} ${formatNumber(u8aToBn(u8a.subarray(test.length, minLength)))}${add ? ` (${add})` : ''}`
