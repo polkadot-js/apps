@@ -358,7 +358,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
     }
   },
   {
-    info: 'PeopleChain',
+    info: 'PaseoPeopleChain',
     isPeople: true,
     isPeopleForIdentity: false,
     paraId: 1004,
