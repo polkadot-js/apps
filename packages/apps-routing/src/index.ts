@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import type { Routes } from './types';
 
 import accounts from './accounts';
 import addresses from './addresses';
 import alliance from './alliance';
+import anchor from './anchor';
 import assets from './assets';
 import bounties from './bounties';
 import calendar from './calendar';
@@ -21,7 +21,9 @@ import fellowship from './fellowship';
 import files from './files';
 import gilt from './gilt';
 import js from './js';
+import masterSubmission from './master-proposals';
 import membership from './membership';
+import migration from './migration';
 import nfts from './nfts';
 import parachains from './parachains';
 import poll from './poll';
@@ -32,8 +34,6 @@ import rpc from './rpc';
 import runtime from './runtime';
 import settings from './settings';
 import signing from './signing';
-import masterSubmission from './master-proposals'
-import anchor from './anchor'
 import society from './society';
 import staking from './staking';
 import storage from './storage';
@@ -42,6 +42,7 @@ import techcomm from './techcomm';
 import teleport from './teleport';
 import transfer from './transfer';
 import treasury from './treasury';
+import type { Routes } from './types';
 import utilities from './utilities';
 import whitelist from './whitelist';
 
@@ -74,6 +75,7 @@ export default function create (t: TFunction): Routes {
     nfts(t),
     society(t),
     calendar(t),
+    migration(t),
     contracts(t),
     storage(t),
     extrinsics(t),
