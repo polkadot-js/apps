@@ -146,7 +146,7 @@ function MigrationApp ({ className }): React.ReactElement {
       <p style={{
         fontSize: '18px',
       }}>
-        By submitting this transaction you agree to the <a href="https://www.dock.io/terms-of-service">migration terms and conditions</a>.
+        By submitting this transaction you agree to the <a href="https://docs.dock.io/dock-token/dock-token-migration">migration terms and conditions</a>.
       </p>
 
       <br />
