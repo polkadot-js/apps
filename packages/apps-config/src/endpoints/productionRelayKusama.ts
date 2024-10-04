@@ -673,7 +673,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     },
     text: 'Robonomics',
     ui: {
-      color: '#2949d3',
+      color: '#000000',
       logo: nodesRobonomicsSVG
     }
   },

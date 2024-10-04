@@ -733,11 +733,11 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'robonomics',
     paraId: 3388,
     providers: {
-      Airalab: 'wss://polkadot.rpc.robonomics.network/' // https://github.com/polkadot-js/apps/issues/10890
+      Airalab: 'wss://polkadot.rpc.robonomics.network/'
     },
     text: 'Robonomics',
     ui: {
-      color: '#2949d3',
+      color: '#e6007a',
       logo: nodesRobonomicsSVG
     }
   },
