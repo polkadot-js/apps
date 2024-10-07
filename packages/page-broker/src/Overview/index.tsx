@@ -25,7 +25,7 @@ const formatDataObject = (one: CoreWorkplan | CoreWorkload, leaseMap: LeaseMapTy
   lastBlock: leaseMap[one?.info.task as number]?.until || 0,
   maskBits: one.info.maskBits,
   task: one.info.task,
-  type: getOccupancyType(leaseMap[one.info.task as number], reservationMap[one.info.task as number])
+  type: getOccupancyType(leaseMap[one.info.task as number], reservationMap[one.info.task as number], one.info.isPool)
 });
 
 const formatData = (coreCount: number, workplan: CoreWorkplan[], workload: CoreWorkload[], leaseMap: LeaseMapType, reservationMap: ReservationMapType): CoreInfo[] => {
@@ -51,12 +51,12 @@ const formatData = (coreCount: number, workplan: CoreWorkplan[], workload: CoreW
   });
 };
 
-function Overview ({ className }: Props): React.ReactElement<Props> {
+function Overview({ className }: Props): React.ReactElement<Props> {
   const { api, apiEndpoint, isApiReady } = useApi();
   const [data, setData] = useState<CoreInfo[]>([]);
 
   const [filtered, setFiltered] = useState<CoreInfo[]>();
-  const coreCount = useBrokerStatus('coreCount') || '-';
+  const coreCount = useBrokerStatus(api, isApiReady, 'coreCount') || '-';
 
   const workloadInfos: CoreWorkload[] | undefined = useWorkloadInfos(api, isApiReady);
   const workplanInfos: CoreWorkplan[] | undefined = useWorkplanInfos(api, isApiReady);

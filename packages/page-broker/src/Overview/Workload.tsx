@@ -23,9 +23,9 @@ interface Props {
   workplan?: CoreWorkplanType[] | undefined
 }
 
-function Workload ({ api, core, workload, workplan }: Props): React.ReactElement<Props> {
+function Workload({ api, core, workload, workplan }: Props): React.ReactElement<Props> {
   const { isApiReady } = useApi();
-  const salesInfo = useBrokerSalesInfo();
+  const salesInfo = useBrokerSalesInfo(api, isApiReady);
 
   const status = useCall<Option<PalletBrokerStatusRecord>>(isApiReady && api.query.broker?.status);
   const [isExpanded, toggleIsExpanded] = useToggle(false);
@@ -56,7 +56,7 @@ function Workload ({ api, core, workload, workplan }: Props): React.ReactElement
       setWorkplanData(formatRowInfo(workplan, core, region, currentTimeSlice, salesInfo));
     }
   }
-  , [workplan, region, currentTimeSlice, core, salesInfo]);
+    , [workplan, region, currentTimeSlice, core, salesInfo]);
 
   const hasWorkplan = workplan?.length;
 

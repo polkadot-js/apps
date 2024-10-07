@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import { useBrokerSalesInfo } from '@polkadot/react-hooks';
+import { useApi, useBrokerSalesInfo } from '@polkadot/react-hooks';
 import { formatBalance } from '@polkadot/util';
 
 interface Props {
@@ -13,8 +13,9 @@ interface Props {
   currentPrice?: string;
 }
 
-function RenewalPrice (): React.ReactElement<Props> | null {
-  const salesInfo = useBrokerSalesInfo();
+function RenewalPrice(): React.ReactElement<Props> | null {
+  const { api, isApiReady } = useApi();
+  const salesInfo = useBrokerSalesInfo(api, isApiReady);
 
   return (
     <div className='ui--balance-value'>
