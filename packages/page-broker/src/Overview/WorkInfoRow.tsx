@@ -3,9 +3,17 @@
 
 import React from 'react';
 
-import { AddressMini, styled } from '@polkadot/react-components';
+import { AddressMini, Tag, styled } from '@polkadot/react-components';
 
-import { type InfoRow, Occupancy } from '../types.js';
+import { type InfoRow, CoreTimeTypes } from '../types.js';
+import { FlagColor } from '@polkadot/react-components/types';
+
+const colours: Record<string, string> = {
+  [CoreTimeTypes.Reservation]: 'orange',
+  [CoreTimeTypes.Lease]: 'blue',
+  [CoreTimeTypes['Bulk Coretime']]: 'pink',
+  [CoreTimeTypes['On Demand']]: 'green',
+}
 
 const StyledTableCol = styled.td<{ hide?: 'mobile' | 'tablet' | 'both' }>`
   width: 150px;
@@ -25,17 +33,17 @@ const StyledTableCol = styled.td<{ hide?: 'mobile' | 'tablet' | 'both' }>`
 const TableCol = ({ header,
   hide,
   value }: {
-  header: string;
-  value: string | number | null | undefined;
-  hide?: 'mobile' | 'tablet' | 'both';
-}) => (
+    header: string;
+    value: string | number | null | undefined;
+    hide?: 'mobile' | 'tablet' | 'both';
+  }) => (
   <StyledTableCol hide={hide}>
     <h5 style={{ opacity: '0.6' }}>{header}</h5>
     <p>{value || <>&nbsp;</>}</p>
   </StyledTableCol>
 );
 
-function WorkInfoRow ({ data }: { data: InfoRow }): React.ReactElement {
+function WorkInfoRow({ data }: { data: InfoRow }): React.ReactElement {
   if (!data.task) {
     return (
       <>
@@ -45,7 +53,7 @@ function WorkInfoRow ({ data }: { data: InfoRow }): React.ReactElement {
   }
 
   switch (data.type) {
-    case (Occupancy.Reservation): {
+    case (CoreTimeTypes.Reservation): {
       return (
         <>
           <TableCol
@@ -56,16 +64,19 @@ function WorkInfoRow ({ data }: { data: InfoRow }): React.ReactElement {
             header='Blocks per timeslice'
             value={data.maskBits}
           />
-          <TableCol
-            header='type'
-            value={'Reservation'}
-          />
+          <td>
+            <Tag
+              color={colours[data.type] as FlagColor}
+              label={Object.values(CoreTimeTypes)[data.type]}
+            />
+          </td>
           <td colSpan={4} />
         </>
       );
     }
 
-    case (Occupancy.Lease): {
+    case (CoreTimeTypes.Lease):
+    case (CoreTimeTypes['On Demand']): {
       return (
         <>
           <TableCol
@@ -90,10 +101,13 @@ function WorkInfoRow ({ data }: { data: InfoRow }): React.ReactElement {
             header='Last block'
             value={data.endBlock}
           />
-          <TableCol
-            header='type'
-            value={'Legacy Lease'}
-          />
+          <StyledTableCol hide={'mobile'}>
+            <h5 style={{ opacity: '0.6' }}>type</h5>
+            <Tag
+              color={colours[data.type] as FlagColor}
+              label={Object.values(CoreTimeTypes)[data.type]}
+            />
+          </StyledTableCol>
           <td colSpan={1} />
         </>);
     }
@@ -123,23 +137,24 @@ function WorkInfoRow ({ data }: { data: InfoRow }): React.ReactElement {
             header='Last block'
             value={data.endBlock}
           />
-          <TableCol
-            header='type'
-            value={'Bulk Coretime'}
-          />
-          <StyledTableCol hide='mobile'>
-            <h5 style={{ opacity: '0.6' }}>{'Owner'}</h5>
-            {data.owner
-              ? (
-                <AddressMini
-                  isPadded={false}
-                  key={data.owner}
-                  value={data.owner}
-                />
-              )
-
-              : <p>&nbsp;</p>}
+          <StyledTableCol hide={'mobile'}>
+            <h5 style={{ opacity: '0.6' }}>type</h5>
+            <Tag
+              color={colours[CoreTimeTypes['Bulk Coretime']] as FlagColor}
+              label={'Bulk Coretime'}
+            />
           </StyledTableCol>
+          {data.owner ? <StyledTableCol hide='mobile'>
+            <h5 style={{ opacity: '0.6' }}>{'Owner'}</h5>
+
+            <AddressMini
+              isPadded={false}
+              key={data.owner}
+              value={data.owner}
+            />
+
+
+          </StyledTableCol> : <td></td>}
         </>);
     }
   }

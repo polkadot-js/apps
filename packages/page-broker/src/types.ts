@@ -13,7 +13,7 @@ export interface InfoRow {
   owner?: string
   leaseLength?: number
   endBlock?: number
-  type?: Occupancy
+  type?: CoreTimeTypes
 }
 
 export interface CoreInfo {
@@ -28,18 +28,19 @@ export interface statsType {
   tasks: number
 }
 
-export enum Occupancy {
+export enum CoreTimeTypes {
   'Reservation',
   'Lease',
-  'Bulk Coretime'
+  'Bulk Coretime',
+  'On Demand'
 }
 
 export interface CoreWorkplanType extends CoreWorkplan {
   lastBlock: number,
-  type: Occupancy
+  type: CoreTimeTypes
 }
 
 export interface CoreWorkloadType extends CoreWorkload {
   lastBlock: number,
-  type: Occupancy
+  type: CoreTimeTypes
 }
