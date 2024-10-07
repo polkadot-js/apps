@@ -3,13 +3,13 @@
 
 import type { PalletBrokerStatusRecord } from '@polkadot/types/lookup';
 
+import type { ApiPromise } from '@polkadot/api'
 import { useEffect, useState } from 'react';
 
-import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
+import { createNamedHook, useCall } from '@polkadot/react-hooks';
 
-function useBrokerStatusImpl (query: string): string | undefined {
-  const { api } = useApi();
-  const status = useCall<PalletBrokerStatusRecord>(api.query.broker?.status);
+function useBrokerStatusImpl (api: ApiPromise, ready: boolean, query?: string): any | undefined {
+  const status = useCall<PalletBrokerStatusRecord>(ready && api.query.broker?.status);
   const [state, setState] = useState<PalletBrokerStatusRecord | undefined>();
 
   useEffect((): void => {
@@ -19,7 +19,10 @@ function useBrokerStatusImpl (query: string): string | undefined {
             );
   }, [status]);
 
-  return state?.toJSON()?.[query]?.toString();
+  if (query) {
+    return state?.toJSON()?.[query]?.toString();
+  }
+  return state?.toJSON();
 }
 
 export const useBrokerStatus = createNamedHook('useBrokerStatus', useBrokerStatusImpl);

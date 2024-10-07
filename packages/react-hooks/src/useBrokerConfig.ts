@@ -5,6 +5,7 @@ import type { Option } from '@polkadot/types';
 import type { PalletBrokerConfigRecord } from '@polkadot/types/lookup';
 import type { PalletBrokerConfigRecord as SimplifiedPalletBrokerConfigRecord } from './types.js';
 
+import type { ApiPromise } from '@polkadot/api'
 import { useEffect, useState } from 'react';
 
 import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
@@ -24,10 +25,9 @@ function extractInfo (config: Option<PalletBrokerConfigRecord>): SimplifiedPalle
   };
 }
 
-function useBrokerConfigImpl () {
-  const { api, isApiReady } = useApi();
+function useBrokerConfigImpl (api: ApiPromise, ready: boolean) {
 
-  const config = useCall<Option<PalletBrokerConfigRecord>>(isApiReady && api.query.broker.configuration);
+  const config = useCall<Option<PalletBrokerConfigRecord>>(ready && api.query.broker.configuration);
 
   const [state, setState] = useState<SimplifiedPalletBrokerConfigRecord | undefined>();
 

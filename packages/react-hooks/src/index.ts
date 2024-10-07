@@ -68,6 +68,8 @@ export { useParaApi } from './useParaApi.js';
 export { useIsParasLinked, useParaEndpoints } from './useParaEndpoints.js';
 export { usePassword } from './usePassword.js';
 export { usePeopleEndpoint } from './usePeopleEndpoint.js';
+export { useCoretimeEndpoint } from './useCoretimeEndpoint.js'
+// export { useCoretimeInformation } from './useCoretimeInformation.js'
 export { usePopupWindow } from './usePopupWindow.js';
 export { usePreimage } from './usePreimage.js';
 export { useProxies } from './useProxies.js';

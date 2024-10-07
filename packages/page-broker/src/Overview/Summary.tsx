@@ -39,14 +39,13 @@ interface Props {
   workloadInfos?: CoreWorkload[]
 }
 
-function Summary ({ coreCount, workloadInfos }: Props): React.ReactElement {
+function Summary({ coreCount, workloadInfos }: Props): React.ReactElement {
   const { t } = useTranslation();
-  const { api, apiEndpoint } = useApi();
-  const totalCores = useBrokerStatus('coreCount');
+  const { api, apiEndpoint, isApiReady } = useApi();
   const uiHighlight = apiEndpoint?.ui.color || defaultHighlight;
-  const { idles, pools, tasks }: statsType = React.useMemo(() => getStats(totalCores, workloadInfos), [totalCores, workloadInfos]);
+  const { idles, pools, tasks }: statsType = React.useMemo(() => getStats(coreCount, workloadInfos), [coreCount, workloadInfos]);
 
-  const salesInfo = useBrokerSalesInfo();
+  const salesInfo = useBrokerSalesInfo(api, isApiReady);
 
   return (
     <SummaryBox>

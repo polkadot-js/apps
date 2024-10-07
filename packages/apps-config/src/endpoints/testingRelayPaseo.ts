@@ -326,7 +326,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
     }
   },
   {
-    info: 'BridgeHub',
+    info: 'PaseoBridgeHub',
     isPeopleForIdentity: true,
     paraId: 1002,
     providers: {
@@ -342,7 +342,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
     }
   },
   {
-    info: 'Coretime',
+    info: 'PaseoCoretime',
     isPeopleForIdentity: true,
     paraId: 1005,
     providers: {
