@@ -13,6 +13,7 @@ import type { ICompact, IExtrinsic, INumber } from '@polkadot/types/types';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
+import type { ParaId } from '@polkadot/types/interfaces';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type CallParam = any;
@@ -220,6 +221,28 @@ export interface CoreDescription {
   info: PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor[];
 }
 
+export interface CoreDescriptorAssignment {
+  task: string,
+  ratio: number,
+  remaining: number
+}
+
+export interface CoreDescriptor {
+  core: number,
+  info: {
+    currentWork: {
+      assignments: Array<CoreDescriptorAssignment>,
+      endHint: BN | null,
+      pos: number,
+      step: number
+    },
+    queue: {
+      first: BN,
+      last: BN
+    }
+  }
+}
+
 export interface OnDemandQueueStatus {
   traffic: u128;
   nextIndex: u32;
@@ -296,4 +319,37 @@ export interface PalletBrokerConfigRecord {
   limitCoresOffered: number;
   renewalBump: BN;
   contributionTimeout: number;
+}
+
+export interface CoretimeInformation {
+  chainInfo: Record<number, {
+    id: ParaId,
+    workload: CoreWorkload,
+    renewal: PotentialRenewal[],
+    renewed: boolean,
+    lease: LegacyLease,
+    reservation: Reservation
+  }>,
+  salesInfo: PalletBrokerSaleInfoRecord,
+  status: BrokerStatus,
+  region: RegionInfo[],
+  config: PalletBrokerConfigRecord
+}
+
+export interface BrokerStatus {
+  coreCount: number;
+  privatePoolSize: number;
+  systemPoolSize: number;
+  lastCommittedTimeslice: number;
+  lastTimeslice: number;
+}
+
+export interface PotentialRenewal {
+  core: number,
+  when: number,
+  price: BN,
+  completion: 'Complete' | 'Partial',
+  mask: string[]
+  maskBits: number,
+  task: string
 }

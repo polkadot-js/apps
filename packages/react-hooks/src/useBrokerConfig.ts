@@ -8,7 +8,7 @@ import type { PalletBrokerConfigRecord as SimplifiedPalletBrokerConfigRecord } f
 import type { ApiPromise } from '@polkadot/api'
 import { useEffect, useState } from 'react';
 
-import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
+import { createNamedHook, useCall } from '@polkadot/react-hooks';
 
 function extractInfo (config: Option<PalletBrokerConfigRecord>): SimplifiedPalletBrokerConfigRecord {
   const c = config.unwrap();

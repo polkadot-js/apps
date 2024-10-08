@@ -6,23 +6,28 @@ import type { PalletBrokerStatusRecord } from '@polkadot/types/lookup';
 import type { ApiPromise } from '@polkadot/api'
 import { useEffect, useState } from 'react';
 
+import type { Option } from '@polkadot/types';
+
 import { createNamedHook, useCall } from '@polkadot/react-hooks';
+import { BrokerStatus } from './types.js';
 
-function useBrokerStatusImpl (api: ApiPromise, ready: boolean, query?: string): any | undefined {
-  const status = useCall<PalletBrokerStatusRecord>(ready && api.query.broker?.status);
-  const [state, setState] = useState<PalletBrokerStatusRecord | undefined>();
-
+function useBrokerStatusImpl(api: ApiPromise, ready: boolean): BrokerStatus | undefined {
+  const status = useCall<Option<PalletBrokerStatusRecord>>(ready && api.query.broker?.status);
+  const [state, setState] = useState<BrokerStatus | undefined>();
   useEffect((): void => {
-    status &&
-            setState(
-              status
-            );
-  }, [status]);
+    if (!!status && status.isSome) {
+      const s =  status.unwrap()
+      setState({
+        coreCount: s.coreCount?.toNumber(),
+        privatePoolSize: s.privatePoolSize?.toNumber(),
+        systemPoolSize: s.systemPoolSize?.toNumber(),
+        lastCommittedTimeslice: s.lastCommittedTimeslice?.toNumber(),
+        lastTimeslice: s.lastTimeslice?.toNumber()
+      });
+    }
 
-  if (query) {
-    return state?.toJSON()?.[query]?.toString();
-  }
-  return state?.toJSON();
+  }, [status]);
+  return state;
 }
 
 export const useBrokerStatus = createNamedHook('useBrokerStatus', useBrokerStatusImpl);

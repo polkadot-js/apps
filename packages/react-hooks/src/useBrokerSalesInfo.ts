@@ -8,7 +8,7 @@ import type { PalletBrokerSaleInfoRecord as SimplifiedPalletBrokerSaleInfoRecord
 
 import { useEffect, useState } from 'react';
 
-import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
+import { createNamedHook, useCall } from '@polkadot/react-hooks';
 import { BN } from '@polkadot/util';
 
 function extractInfo (record: Option<PalletBrokerSaleInfoRecord>): SimplifiedPalletBrokerSaleInfoRecord {

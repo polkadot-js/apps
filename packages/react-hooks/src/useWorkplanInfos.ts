@@ -34,7 +34,7 @@ function extractInfo (info: Vec<PalletBrokerScheduleItem>, core: number, timesli
       isTask: assignment.isTask,
       mask,
       maskBits: mask.length,
-      task: assignment.isTask ? assignment.asTask.toString() : assignment.isPool ? 'Pool' : ''
+      task: assignment.isTask ? assignment.asTask.toString() : assignment.isPool ? 'Pool' : 'Idle'
     },
     timeslice
   };

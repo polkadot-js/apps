@@ -34,7 +34,7 @@ function extractInfo (info: PalletBrokerScheduleItem[], core: number): CoreWorkl
       isTask: assignment.isTask,
       mask,
       maskBits: mask.length,
-      task: assignment.isTask ? assignment.asTask.toString() : assignment.isPool ? 'Pool' : ''
+      task: assignment.isTask ? assignment.asTask.toString() : assignment.isPool ? 'Pool' : 'Idle'
     }
   };
 }

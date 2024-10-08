@@ -49,8 +49,7 @@ function Summary({ coreCount, workloadInfos }: Props): React.ReactElement {
   const saleInfo = useBrokerSalesInfo(api, isApiReady);
   const config = useBrokerConfig(api, isApiReady)
   const status = useBrokerStatus(api, isApiReady)
-  const currentRegionEnd = useMemo(() => saleInfo?.regionEnd - config?.regionLength, [saleInfo, config])
-
+  const currentRegionEnd = useMemo(() => saleInfo && config && saleInfo?.regionEnd - config?.regionLength, [saleInfo, config])
   return (
     <SummaryBox>
       <StyledSection style={{ display: 'flex' }}>

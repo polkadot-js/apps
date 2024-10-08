@@ -1,0 +1,54 @@
+import { BN } from '@polkadot/util';
+
+export const CoreTimeConsts = {
+    BlockTime: 6000,
+    BlocksPerTimeslice: 80,
+    DefaultRegion: 5040,
+  };
+  
+function formatDate (date: Date) {
+    const day = date.getDate();
+    const month = date.toLocaleString('default', { month: 'short' });
+    const year = date.getFullYear();
+
+    return `${day} ${month} ${year}`;
+}
+
+/**
+   * blockTime = 6000 ms
+   * BlocksPerTimeslice = 80
+   * Default Regoin = 5040 timeslices
+   * TargetBlock = TargetTimeslice * BlocksPerTimeslice
+   * Block Time Difference = |TargetBlock - latest Block| * blockTime
+   *
+   * Estimate timestamp =
+   * if targetBlock is before the latestBlock
+   *    now minus block time difference
+   * else
+   *    now plus block time difference
+   */
+export const estimateTime = (targetTimeslice: string | number, latestBlock: number): string | null => {
+    if (!latestBlock || !targetTimeslice) {
+      console.error('Invalid input: one or more inputs are missing');
+  
+      return null;
+    }
+  
+    const now = new Date().getTime();
+  
+    try {
+      const blockTime = new BN(CoreTimeConsts.BlockTime); // Average block time in milliseconds (6 seconds)
+      const timeSlice = new BN(CoreTimeConsts.BlocksPerTimeslice);
+      const latestBlockBN = new BN(latestBlock);
+      const timestampBN = new BN(now);
+      const targetBlockBN = new BN(targetTimeslice).mul(timeSlice);
+      const blockTimeDifference = targetBlockBN.sub(latestBlockBN).mul(blockTime);
+      const estTimestamp = timestampBN.add(blockTimeDifference);
+  
+      return formatDate(new Date(estTimestamp.toNumber()));
+    } catch (error) {
+      console.error('Error in calculation:', error);
+  
+      return null;
+    }
+  };

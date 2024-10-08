@@ -1,0 +1,27 @@
+{
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "engines": {
+    "node": ">=18"
+  },
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-coretime#readme",
+  "license": "Apache-2.0",
+  "name": "@polkadot/app-coretime",
+  "private": true,
+  "repository": {
+    "directory": "packages/page-coretime",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "0.144.2-2-x",
+  "dependencies": {
+    "@polkadot/react-components": "0.144.2-2-x",
+    "@polkadot/react-query": "0.144.2-2-x"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*",
+    "react-is": "*"
+  }
+}
