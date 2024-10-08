@@ -3,22 +3,22 @@
 
 import React from 'react';
 
-import { BrokerStatus } from '@polkadot/react-query';
+import { useApi, useBrokerStatus } from '@polkadot/react-hooks';
 
 interface Props {
   children?: React.ReactNode;
   className?: string;
 }
 
-function Timeslice ({ children, className }: Props): React.ReactElement<Props> | null {
+function Timeslice({ children, className }: Props): React.ReactElement<Props> | null {
+  const { api, isApiReady } = useApi()
+  const info = useBrokerStatus(api, isApiReady);
+
   return (
-    <BrokerStatus
-      className={className}
-      query='lastTimeslice'
-    >
+    <div className={className}>
+      {info?.lastTimeslice || '-'}
       {children}
-    </BrokerStatus>
-  );
+    </div>)
 }
 
 export default React.memo(Timeslice);

@@ -12,7 +12,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { ExpandButton } from '@polkadot/react-components';
 import { useApi, useBrokerSalesInfo, useCall, useRegions, useToggle } from '@polkadot/react-hooks';
 
-import { formatRowInfo } from '../utils.js';
+import { CoreTimeConsts, formatRowInfo } from '../utils.js';
 import WorkInfoRow from './WorkInfoRow.js';
 import Workplan from './Workplan.js';
 
@@ -45,7 +45,8 @@ function Workload({ api, core, workload, workplan }: Props): React.ReactElement<
 
   useEffect(() => {
     if (!!workload?.length && !!salesInfo) {
-      setWorkloadData(formatRowInfo(workload, core, region, currentTimeSlice, salesInfo));
+      // saleInfo points to a regionEnd and regionBeing in the next cycle, but we want the start and end of the current cycle
+      setWorkloadData(formatRowInfo(workload, core, region, currentTimeSlice, { regionBegin: salesInfo.regionBegin - CoreTimeConsts.DefaultRegion, regionEnd: salesInfo.regionEnd - CoreTimeConsts.DefaultRegion }));
     } else {
       return setWorkloadData([{ core }]);
     }
