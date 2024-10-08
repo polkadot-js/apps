@@ -1,5 +1,52 @@
 # CHANGELOG
 
+## 0.144.1 Sep 24, 2024
+
+Contributed:
+
+- Change Creditcoin Mainnet Name Ahead of New Mainnet Release (Thanks to https://github.com/BradleyOlson64)
+- Add polkadot coretime chain (Thanks to https://github.com/BulatSaif)
+- Refresh POP network colour and logo (Thanks to https://github.com/evilrobot-01)
+- Restore working SubQuery endpoint (Thanks to https://github.com/jamesbayly)
+- Update Kilt chain type definitions to V1 (Thanks to https://github.com/rflechtner)
+- Add new Creditcoin Mainnet (Thanks to https://github.com/BradleyOlson64)
+- Rename CreditCoin Classic  to CC enterprise (Thanks to https://github.com/beqaabu)
+- Change DAO IPCI endpoint (Thanks to https://github.com/dergudzon)
+- Add Argon Protocol testnet (Thanks to https://github.com/blakebyrnes)
+- Onfinality remove Kilt (Thanks to https://github.com/CrazySurfBoy)
+- Add Proof size summary (Thanks to https://github.com/Moliholy)
+- People for identity in paseo system chains (Thanks to https://github.com/al3mart)
+- Add Energy Web X (PEX) parachain on Paseo Relaychain (Thanks to https://github.com/royki)
+- Add Dwellir Laso endoint (Thanks to https://github.com/gflow33)
+- Add Xcavate to paseo (Thanks to https://github.com/ganesh1997oli)
+- Hydration Rebrand (Thanks to https://github.com/jak-pan)
+- Add paseo Coretime RPC (Thanks to https://github.com/al3mart)
+- Move Zeitgeist Batter station to Paseo (Thanks to https://github.com/maltekliemann)
+- Update endpoints for SORA testnet (Thanks to https://github.com/stefashkaa)
+- Re-enable OnFinality for 2091 (Thanks to https://github.com/wilwade)
+- Update XCAV logo (Thanks to https://github.com/ganesh1997oli)
+- Removal of RadiumBlock as Watr Endpoint Provider (Thanks to https://github.com/radiumb)
+- Add ideal Network testnet to Paseo (Thanks to https://github.com/juangirini)
+- Add Myriad Social testnet to Paseo (Thanks to https://github.com/agustinustheo)
+- Enable robonomics endpoint (Thanks to https://github.com/PavelSheremetev)
+- Migrate IBP2 endpoints from path to subdomains (Thanks to https://github.com/senseless)
+
+Changes:
+
+- Set current account nonce to be independent from user input
+- Fix identity for live networks
+- Allow reserved in voting balance
+- Disable unreachable endpoints
+- Add People logo to westend
+- Bump yarn to 4.4.1
+- Coretime Chain - Add Overview UI Tab
+- Fix Format Balance issue
+- Fix error in Coretime on polkadot due to no data
+- Update Broker pallet calls to be generalized, and add esimated bulk price value
+- Fix Updated parsing for brokerConfig and brokerSalesInfo
+- Upgrade polkadot-js deps
+
+
 ## 0.143.2 Aug 21, 2024
 
 Changes:

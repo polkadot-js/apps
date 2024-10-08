@@ -24,7 +24,8 @@ function useBrokerReservationsImpl (api: ApiPromise, ready: boolean): Reservatio
     setState(
       reservations.map((info: PalletBrokerScheduleItem[]) => {
         return {
-          mask: processHexMask(info[0]?.mask)?.length ?? 0,
+          mask: processHexMask(info[0]?.mask),
+          maskBits: processHexMask(info[0]?.mask)?.length ?? 0,
           task: info[0]?.assignment?.isTask ? info[0]?.assignment?.asTask.toString() : info[0]?.assignment?.isPool ? 'Pool' : ''
         };
       }

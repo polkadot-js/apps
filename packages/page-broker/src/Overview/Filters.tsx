@@ -1,13 +1,14 @@
 // Copyright 2017-2024 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CoreInfo } from '../types.js';
+
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { Dropdown, Input, styled } from '@polkadot/react-components';
 import { useDebounce } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
-import { type CoreWorkloadType, type CoreWorkplanType } from '../types.js';
 
 const StyledDiv = styled.div`
   @media (max-width: 768px) {
@@ -16,31 +17,31 @@ const StyledDiv = styled.div`
 `;
 
 interface Props {
-  workLoad?: CoreWorkloadType[];
-  onFilter: (data: CoreWorkloadType[]) => void
+  data: CoreInfo[];
+  onFilter: (data: CoreInfo[]) => void
 }
 
-const filterLoad = (parachainId: string, load: CoreWorkloadType[] | CoreWorkplanType[], workloadCoreSelected: number): CoreWorkloadType[] | CoreWorkplanType[] => {
+const filterLoad = (parachainId: string, data: CoreInfo[], workloadCoreSelected: number): CoreInfo[] => {
   if (parachainId) {
-    return load?.filter(({ info }) => info.task === parachainId);
+    return data.filter(({ workload }) => !!workload?.filter(({ info }) => info.task === parachainId).length);
   }
 
   if (workloadCoreSelected === -1) {
-    return load;
+    return data;
   }
 
-  return load?.filter(({ core }) => core === workloadCoreSelected);
+  return data.filter((one) => one.core === workloadCoreSelected);
 };
 
-function Filters ({ onFilter, workLoad }: Props): React.ReactElement<Props> {
+function Filters ({ data, onFilter }: Props): React.ReactElement<Props> {
   const [workloadCoreSelected, setWorkloadCoreSelected] = useState(-1);
   const [_parachainId, setParachainId] = useState<string>('');
 
   const coreArr: number[] = useMemo(() =>
-    workLoad?.length
-      ? Array.from({ length: workLoad?.length || 0 }, (_, index) => index)
+    data?.length
+      ? Array.from({ length: data.length || 0 }, (_, index) => index)
       : []
-  , [workLoad]);
+  , [data]);
 
   const { t } = useTranslation();
   const parachainId = useDebounce(_parachainId);
@@ -60,14 +61,14 @@ function Filters ({ onFilter, workLoad }: Props): React.ReactElement<Props> {
   );
 
   useEffect(() => {
-    if (!workLoad) {
+    if (!data) {
       return;
     }
 
-    const filtered = filterLoad(parachainId, workLoad, workloadCoreSelected);
+    const filtered = filterLoad(parachainId, data, workloadCoreSelected);
 
     onFilter(filtered);
-  }, [workLoad, workloadCoreSelected, parachainId, onFilter]);
+  }, [data, workloadCoreSelected, parachainId, onFilter]);
 
   const onDropDownChange = useCallback((v: number) => {
     setWorkloadCoreSelected(v);

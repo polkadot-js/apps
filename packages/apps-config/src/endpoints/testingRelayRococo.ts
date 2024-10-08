@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types.js';
 
 import { ROCOCO_GENESIS } from '../api/constants.js';
-import { chainsAcurastPNG, chainsAmplitudeSVG, chainsBitgreenPNG, chainsGenshiroSVG, chainsIdiyanaleLogoWhiteSVG, chainsJurPNG, chainsMangataPNG, chainsMoonsamaPNG, chainsNeurowebTestnetPNG, chainsRococoSVG, chainsSnowbridgePNG, chainsT0rnPNG, chainsTinkerPNG, chainsTotemSVG, chainsTuringPNG, chainsVirtoPNG, chainsWatrPNG } from '../ui/logos/chains/index.js';
+import { chainsAcurastPNG, chainsBitgreenPNG, chainsGenshiroSVG, chainsIdiyanaleLogoWhiteSVG, chainsJurPNG, chainsMangataPNG, chainsMoonsamaPNG, chainsNeurowebTestnetPNG, chainsRococoSVG, chainsSnowbridgePNG, chainsT0rnPNG, chainsTinkerPNG, chainsTotemSVG, chainsTuringPNG, chainsVirtoPNG, chainsWatrPNG } from '../ui/logos/chains/index.js';
 import { nodesArcticPNG, nodesAssetHubSVG, nodesBasiliskPNG, nodesBasiliskRococoBgPNG, nodesBridgeHubBlackSVG, nodesCentrifugePNG, nodesConftiSVG, nodesCrustParachainSVG, nodesCurioSVG, nodesDatahighwayPNG, nodesDolphinSVG, nodesEncointerBlueSVG, nodesGiantPNG, nodesHelixstreetPNG, nodesHyperbridgePNG, nodesImbuePNG, nodesIntegriteeSVG, nodesInvoPNG, nodesKabochaSVG, nodesKiltPNG, nodesKineraPNG, nodesLitentryRococoPNG, nodesMagnetPNG, nodesMd5PNG, nodesMusePNG, nodesOliSVG, nodesOzPNG, nodesPhalaSVG, nodesPicassoPNG, nodesPolkadexSVG, nodesRegionxCocosPNG, nodesRobonomicsSVG, nodesRocfinitySVG, nodesSocietalSVG, nodesSoonsocialXPNG, nodesSoraSubstrateSVG, nodesSubstrateContractsNodePNG, nodesUnitnetworkPNG, nodesYerbanetworkPNG, nodesZeroSVG } from '../ui/logos/nodes/index.js';
 import { getTeleports } from './util.js';
 
@@ -27,18 +27,6 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#000000',
       logo: chainsAcurastPNG
-    }
-  },
-  {
-    info: 'rococoAmplitude',
-    paraId: 2124,
-    providers: {
-      PendulumChain: 'wss://rpc-foucoco.pendulumchain.tech'
-    },
-    text: 'Amplitude testnet (Foucoco)',
-    ui: {
-      color: '#5DEFA7',
-      logo: chainsAmplitudeSVG
     }
   },
   {
@@ -403,7 +391,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'regionxCocos',
     paraId: 4459,
     providers: {
-      RegionX: 'wss://cocos-node.regionx.tech'
+      // RegionX: 'wss://cocos-node.regionx.tech'  https://github.com/polkadot-js/apps/issues/10957
     },
     text: 'RegionX Cocos',
     ui: {
@@ -415,7 +403,7 @@ export const testParasRococo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoPhala',
     paraId: 2004,
     providers: {
-      'Phala Network': 'wss://rhala-node.phala.network/ws'
+      // 'Phala Network': 'wss://rhala-node.phala.network/ws' https://github.com/polkadot-js/apps/issues/10957
     },
     text: 'Rhala Testnet',
     ui: {
