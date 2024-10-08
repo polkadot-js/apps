@@ -886,6 +886,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2236,
     providers: {
       // 'Zero Network': 'wss://rpc-1.kusama.node.zero.io' // https://github.com/polkadot-js/apps/issues/10803
+      GameDAO: 'wss://rpc-1.gamedao.net'
     },
     text: 'ZERO Canary',
     ui: {
