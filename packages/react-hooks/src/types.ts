@@ -7,13 +7,12 @@ import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/api-derive/types';
 import type { DisplayedJudgement } from '@polkadot/react-components/types';
 import type { Option, u32, u128, Vec } from '@polkadot/types';
-import type { AccountId, BlockNumber, Call, Hash, SessionIndex, ValidatorPrefs } from '@polkadot/types/interfaces';
+import type { AccountId, BlockNumber, Call, Hash, ParaId, SessionIndex, ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { PalletPreimageRequestStatus, PalletStakingRewardDestination, PalletStakingStakingLedger, PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor, SpStakingExposurePage, SpStakingPagedExposureMetadata } from '@polkadot/types/lookup';
 import type { ICompact, IExtrinsic, INumber } from '@polkadot/types/types';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { ParaId } from '@polkadot/types/interfaces';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type CallParam = any;
@@ -231,7 +230,7 @@ export interface CoreDescriptor {
   core: number,
   info: {
     currentWork: {
-      assignments: Array<CoreDescriptorAssignment>,
+      assignments: CoreDescriptorAssignment[],
       endHint: BN | null,
       pos: number,
       step: number

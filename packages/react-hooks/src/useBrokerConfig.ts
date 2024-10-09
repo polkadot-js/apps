@@ -1,11 +1,11 @@
 // Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { Option } from '@polkadot/types';
 import type { PalletBrokerConfigRecord } from '@polkadot/types/lookup';
 import type { PalletBrokerConfigRecord as SimplifiedPalletBrokerConfigRecord } from './types.js';
 
-import type { ApiPromise } from '@polkadot/api'
 import { useEffect, useState } from 'react';
 
 import { createNamedHook, useCall } from '@polkadot/react-hooks';
@@ -26,7 +26,6 @@ function extractInfo (config: Option<PalletBrokerConfigRecord>): SimplifiedPalle
 }
 
 function useBrokerConfigImpl (api: ApiPromise, ready: boolean) {
-
   const config = useCall<Option<PalletBrokerConfigRecord>>(ready && api.query.broker.configuration);
 
   const [state, setState] = useState<SimplifiedPalletBrokerConfigRecord | undefined>();

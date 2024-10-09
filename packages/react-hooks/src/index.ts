@@ -33,6 +33,8 @@ export { useCallMulti } from './useCallMulti.js';
 export { useCollectiveInstance } from './useCollectiveInstance.js';
 export { useCollectiveMembers } from './useCollectiveMembers.js';
 export { useCoreDescriptor } from './useCoreDescriptor.js';
+export { useCoretimeEndpoint } from './useCoretimeEndpoint.js';
+export { useCoretimeInformation } from './useCoretimeInformation.js';
 export { useDebounce } from './useDebounce.js';
 export { useDelegations } from './useDelegations.js';
 export { useDeriveAccountFlags } from './useDeriveAccountFlags.js';
@@ -68,8 +70,6 @@ export { useParaApi } from './useParaApi.js';
 export { useIsParasLinked, useParaEndpoints } from './useParaEndpoints.js';
 export { usePassword } from './usePassword.js';
 export { usePeopleEndpoint } from './usePeopleEndpoint.js';
-export { useCoretimeEndpoint } from './useCoretimeEndpoint.js'
-export { useCoretimeInformation } from './useCoretimeInformation.js'
 export { usePopupWindow } from './usePopupWindow.js';
 export { usePreimage } from './usePreimage.js';
 export { useProxies } from './useProxies.js';

@@ -10,7 +10,7 @@ export default function create (t: TFunction): Route {
     Component,
     display: {
       needsApi: [
-        'query.coretimeAssignmentProvider.coreDescriptors',
+        'query.coretimeAssignmentProvider.coreDescriptors'
       ],
       needsApiInstances: true
     },

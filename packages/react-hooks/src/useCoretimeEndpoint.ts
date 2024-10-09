@@ -13,7 +13,7 @@ import { createNamedHook } from './createNamedHook.js';
 const endpoints = createWsEndpoints((k, v) => v?.toString() || k);
 
 export function getCoretimeEndpoint (curApiInfo?: string): LinkOption | null {
-  return endpoints.find(({ info }) =>  isString(info) && isString(curApiInfo) && info.toLowerCase().includes('coretime') && info.toLowerCase().includes(curApiInfo.toLowerCase())) || null;
+  return endpoints.find(({ info }) => isString(info) && isString(curApiInfo) && info.toLowerCase().includes('coretime') && info.toLowerCase().includes(curApiInfo.toLowerCase())) || null;
 }
 
 function getCoretimeEndpointImpl (relayInfo?: string): LinkOption | null {

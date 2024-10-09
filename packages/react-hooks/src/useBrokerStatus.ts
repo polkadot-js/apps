@@ -1,22 +1,23 @@
 // Copyright 2017-2024 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
+import type { Option } from '@polkadot/types';
 import type { PalletBrokerStatusRecord } from '@polkadot/types/lookup';
+import type { BrokerStatus } from './types.js';
 
-import type { ApiPromise } from '@polkadot/api'
 import { useEffect, useState } from 'react';
 
-import type { Option } from '@polkadot/types';
-
 import { createNamedHook, useCall } from '@polkadot/react-hooks';
-import { BrokerStatus } from './types.js';
 
-function useBrokerStatusImpl(api: ApiPromise, ready: boolean): BrokerStatus | undefined {
+function useBrokerStatusImpl (api: ApiPromise, ready: boolean): BrokerStatus | undefined {
   const status = useCall<Option<PalletBrokerStatusRecord>>(ready && api.query.broker?.status);
   const [state, setState] = useState<BrokerStatus | undefined>();
+
   useEffect((): void => {
     if (!!status && status.isSome) {
-      const s =  status.unwrap()
+      const s = status.unwrap();
+
       setState({
         coreCount: s.coreCount?.toNumber(),
         privatePoolSize: s.privatePoolSize?.toNumber(),
@@ -25,8 +26,8 @@ function useBrokerStatusImpl(api: ApiPromise, ready: boolean): BrokerStatus | un
         lastTimeslice: s.lastTimeslice?.toNumber()
       });
     }
-
   }, [status]);
+
   return state;
 }
 

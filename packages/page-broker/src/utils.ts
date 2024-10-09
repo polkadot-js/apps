@@ -62,14 +62,14 @@ export const estimateTime = (targetTimeslice: string | number, latestBlock: numb
 };
 
 /**
- * 
+ *
  * @param data: CoreWorkloadType[]
- * @param core: core number 
- * @param currentRegion 
- * @param timeslice 
- * @param param4 
- * @param regionLength 
- * @returns 
+ * @param core: core number
+ * @param currentRegion
+ * @param timeslice
+ * @param param4
+ * @param regionLength
+ * @returns
  */
 
 export function formatRowInfo (data: CoreWorkloadType[] | CoreWorkplanType[], core: number, currentRegion: RegionInfo | undefined, currentTimeSlice: number, { regionBegin, regionEnd }: { regionBegin: number, regionEnd: number }, regionLength = CoreTimeConsts.DefaultRegion): InfoRow[] {
@@ -136,5 +136,6 @@ export const getOccupancyType = (lease: LegacyLease | undefined, reservation: Re
   if (isPool) {
     return CoreTimeTypes['On Demand'];
   }
+
   return reservation ? CoreTimeTypes.Reservation : lease ? CoreTimeTypes.Lease : CoreTimeTypes['Bulk Coretime'];
 };

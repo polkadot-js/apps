@@ -13,16 +13,14 @@ interface Props {
   coreInfos?: CoreDescription[];
 }
 
-function Overview({ className, coreInfos }: Props): React.ReactElement<Props> {
-
+function Overview ({ className, coreInfos }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
       <Summary
-        status={coreInfos.status}
         salesInfo={coretimeInfo?.salesInfo}
+        status={coreInfos.status}
 
       ></Summary>
-
 
     </div>
   );

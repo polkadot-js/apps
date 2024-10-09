@@ -1,19 +1,20 @@
 // Copyright 2017-2024 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { FlagColor } from '@polkadot/react-components/types';
+
 import React from 'react';
 
-import { AddressMini, Tag, styled } from '@polkadot/react-components';
+import { AddressMini, styled, Tag } from '@polkadot/react-components';
 
-import { type InfoRow, CoreTimeTypes } from '../types.js';
-import { FlagColor } from '@polkadot/react-components/types';
+import { CoreTimeTypes, type InfoRow } from '../types.js';
 
 const colours: Record<string, string> = {
   [CoreTimeTypes.Reservation]: 'orange',
   [CoreTimeTypes.Lease]: 'blue',
   [CoreTimeTypes['Bulk Coretime']]: 'pink',
-  [CoreTimeTypes['On Demand']]: 'green',
-}
+  [CoreTimeTypes['On Demand']]: 'green'
+};
 
 const StyledTableCol = styled.td<{ hide?: 'mobile' | 'tablet' | 'both' }>`
   width: 150px;
@@ -33,17 +34,17 @@ const StyledTableCol = styled.td<{ hide?: 'mobile' | 'tablet' | 'both' }>`
 const TableCol = ({ header,
   hide,
   value }: {
-    header: string;
-    value: string | number | null | undefined;
-    hide?: 'mobile' | 'tablet' | 'both';
-  }) => (
+  header: string;
+  value: string | number | null | undefined;
+  hide?: 'mobile' | 'tablet' | 'both';
+}) => (
   <StyledTableCol hide={hide}>
     <h5 style={{ opacity: '0.6' }}>{header}</h5>
     <p>{value || <>&nbsp;</>}</p>
   </StyledTableCol>
 );
 
-function WorkInfoRow({ data }: { data: InfoRow }): React.ReactElement {
+function WorkInfoRow ({ data }: { data: InfoRow }): React.ReactElement {
   if (!data.task) {
     return (
       <>
@@ -76,6 +77,7 @@ function WorkInfoRow({ data }: { data: InfoRow }): React.ReactElement {
     }
 
     case (CoreTimeTypes.Lease):
+
     case (CoreTimeTypes['On Demand']): {
       return (
         <>
@@ -144,17 +146,17 @@ function WorkInfoRow({ data }: { data: InfoRow }): React.ReactElement {
               label={'Bulk Coretime'}
             />
           </StyledTableCol>
-          {data.owner ? <StyledTableCol hide='mobile'>
-            <h5 style={{ opacity: '0.6' }}>{'Owner'}</h5>
+          {data.owner
+            ? <StyledTableCol hide='mobile'>
+              <h5 style={{ opacity: '0.6' }}>{'Owner'}</h5>
+              <AddressMini
+                isPadded={false}
+                key={data.owner}
+                value={data.owner}
+              />
 
-            <AddressMini
-              isPadded={false}
-              key={data.owner}
-              value={data.owner}
-            />
-
-
-          </StyledTableCol> : <td></td>}
+            </StyledTableCol>
+            : <td></td>}
         </>);
     }
   }

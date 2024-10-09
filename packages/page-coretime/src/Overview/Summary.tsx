@@ -4,9 +4,9 @@
 import type { BrokerStatus, CoreDescription, PalletBrokerConfigRecord, PalletBrokerSaleInfoRecord, RegionInfo } from '@polkadot/react-hooks/types';
 
 import React from 'react';
-import { BN } from '@polkadot/util';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
+import { BN } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
 import { estimateTime } from '../utils.js';
@@ -20,10 +20,10 @@ interface Props {
   parachainCount: number
 }
 
-function Summary({ status, region, saleInfo, config, parachainCount }: Props): React.ReactElement<Props> {
+function Summary({ config, parachainCount, region, saleInfo, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  console.log('saleInfo ', saleInfo)
-  const currentRegionEnd = saleInfo.regionEnd - config.regionLength
+  const currentRegionEnd = saleInfo.regionEnd - config.regionLength;
+
   return (
     <SummaryBox>
       <section>

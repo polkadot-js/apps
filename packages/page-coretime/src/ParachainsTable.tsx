@@ -1,18 +1,18 @@
 // Copyright 2017-2024 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { FlagColor } from '@polkadot/react-components/types';
+import type { CoretimeInformation } from '@polkadot/react-hooks/types';
+
+import { formatNumber } from 'chart.js/helpers';
 import React, { useRef } from 'react';
 
 import { ParaLink, Table, Tag } from '@polkadot/react-components';
-import { useTranslation } from './translate.js';
-import { BN } from '@polkadot/util';
 import { useApi, useCoreDescriptor } from '@polkadot/react-hooks';
-import { estimateTime } from './utils.js';
-import { CoretimeInformation } from '@polkadot/react-hooks/types';
-import { FlagColor } from '@polkadot/react-components/types';
-import { formatBalance } from '@polkadot/util';
-import { formatNumber } from 'chart.js/helpers';
+import { BN, formatBalance } from '@polkadot/util';
 
+import { useTranslation } from './translate.js';
+import { estimateTime } from './utils.js';
 
 export enum CoreTimeTypes {
   'Reservation',
@@ -29,11 +29,10 @@ interface Props {
 const colours: Record<string, string> = {
   [CoreTimeTypes.Reservation]: 'orange',
   [CoreTimeTypes.Lease]: 'blue',
-  [CoreTimeTypes['Bulk Coretime']]: 'pink',
-}
+  [CoreTimeTypes['Bulk Coretime']]: 'pink'
+};
 
-
-function ParachainsTable({ ids, coretimeInfo }: Props): React.ReactElement<Props> {
+function ParachainsTable ({ coretimeInfo, ids }: Props): React.ReactElement<Props> {
   const { api, isApiReady } = useApi();
   const coreInfos = useCoreDescriptor(api, isApiReady);
   const { t } = useTranslation();
@@ -46,11 +45,12 @@ function ParachainsTable({ ids, coretimeInfo }: Props): React.ReactElement<Props
     [t('last block'), 'start'],
     [t('end'), 'start'],
     [t('renewal'), 'start'],
-    [t('renewal price'), 'start'],
+    [t('renewal price'), 'start']
     // [t('chain'), 'no-pad-left'],
     // [t('in/out'), 'media--1700', 2],
     // [t('leases'), 'media--1100']
   ]);
+
   return (
     <Table
       emptySpinner={false}
@@ -58,17 +58,20 @@ function ParachainsTable({ ids, coretimeInfo }: Props): React.ReactElement<Props
       isSplit={false}
     >
       {ids && coretimeInfo && ids.map((id: number) => {
-        const chain = coretimeInfo.chainInfo[id]
-        const onCore = coreInfos?.some(one => one.info?.currentWork.assignments.some(value => value.task === id.toString())) ? 'yes' : 'no';
-        const type = !!chain?.lease ? CoreTimeTypes.Lease : !!chain?.reservation ? CoreTimeTypes.Reservation : CoreTimeTypes['Bulk Coretime']
-        const targetTimeslice = chain?.lease?.until || coretimeInfo.salesInfo.regionEnd
-        const showEsimates = !!targetTimeslice && type !== CoreTimeTypes.Reservation
-        // const renewBefore = 
+        const chain = coretimeInfo.chainInfo[id];
+        const onCore = coreInfos?.some((one) => one.info?.currentWork.assignments.some((value) => value.task === id.toString())) ? 'yes' : 'no';
+        const type = chain?.lease ? CoreTimeTypes.Lease : chain?.reservation ? CoreTimeTypes.Reservation : CoreTimeTypes['Bulk Coretime'];
+        const targetTimeslice = chain?.lease?.until || coretimeInfo.salesInfo.regionEnd;
+        const showEsimates = !!targetTimeslice && type !== CoreTimeTypes.Reservation;
+        // const renewBefore =
 
         return (
           <tr key={id}>
             <td>{id}</td>
-            <td><ParaLink id={new BN(id)} key={id} /></td>
+            <td><ParaLink
+              id={new BN(id)}
+              key={id}
+                /></td>
             <td>{chain?.workload?.core || onCore}</td>
             <td>
               <Tag
@@ -78,10 +81,10 @@ function ParachainsTable({ ids, coretimeInfo }: Props): React.ReactElement<Props
             </td>
             <td>{showEsimates && formatNumber(targetTimeslice * 80).toString()}</td>
             <td>{showEsimates && estimateTime(targetTimeslice, coretimeInfo.status.lastCommittedTimeslice * 80)}</td>
-            <td>{!!chain.renewal ? "renewed" : ""}</td>
-            <td>{!!chain.renewal ? formatBalance(chain.renewal?.price.toString()) : ""}</td>
+            <td>{chain.renewal ? 'renewed' : ''}</td>
+            <td>{chain.renewal ? formatBalance(chain.renewal?.price.toString()) : ''}</td>
           </tr>
-        )
+        );
       }
       )}
 

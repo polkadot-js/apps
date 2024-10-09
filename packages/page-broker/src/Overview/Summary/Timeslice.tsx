@@ -10,15 +10,15 @@ interface Props {
   className?: string;
 }
 
-function Timeslice({ children, className }: Props): React.ReactElement<Props> | null {
-  const { api, isApiReady } = useApi()
+function Timeslice ({ children, className }: Props): React.ReactElement<Props> | null {
+  const { api, isApiReady } = useApi();
   const info = useBrokerStatus(api, isApiReady);
 
   return (
     <div className={className}>
       {info?.lastTimeslice || '-'}
       {children}
-    </div>)
+    </div>);
 }
 
 export default React.memo(Timeslice);

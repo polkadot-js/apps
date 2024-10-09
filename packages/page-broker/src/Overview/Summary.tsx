@@ -3,15 +3,14 @@
 
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { statsType } from '../types.js';
-import { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
 
 import { CardSummary, styled, SummaryBox, UsageBar } from '@polkadot/react-components';
 import { defaultHighlight } from '@polkadot/react-components/styles';
 import { useApi, useBrokerConfig, useBrokerSalesInfo, useBrokerStatus } from '@polkadot/react-hooks';
-import { PalletBrokerConfigRecord, type CoreWorkload } from '@polkadot/react-hooks/types';
-import { formatBalance } from '@polkadot/util';
+import { type CoreWorkload, PalletBrokerConfigRecord } from '@polkadot/react-hooks/types';
+import { BN, formatBalance } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
 import { estimateTime, getStats } from '../utils.js';
@@ -40,16 +39,17 @@ interface Props {
   workloadInfos?: CoreWorkload[]
 }
 
-function Summary({ coreCount, workloadInfos }: Props): React.ReactElement {
+function Summary ({ coreCount, workloadInfos }: Props): React.ReactElement {
   const { t } = useTranslation();
   const { api, apiEndpoint, isApiReady } = useApi();
   const uiHighlight = apiEndpoint?.ui.color || defaultHighlight;
   const { idles, pools, tasks }: statsType = React.useMemo(() => getStats(coreCount, workloadInfos), [coreCount, workloadInfos]);
 
   const saleInfo = useBrokerSalesInfo(api, isApiReady);
-  const config = useBrokerConfig(api, isApiReady)
-  const status = useBrokerStatus(api, isApiReady)
-  const currentRegionEnd = useMemo(() => saleInfo && config && saleInfo?.regionEnd - config?.regionLength, [saleInfo, config])
+  const config = useBrokerConfig(api, isApiReady);
+  const status = useBrokerStatus(api, isApiReady);
+  const currentRegionEnd = useMemo(() => saleInfo && config && saleInfo?.regionEnd - config?.regionLength, [saleInfo, config]);
+
   return (
     <SummaryBox>
       <StyledSection style={{ display: 'flex' }}>
@@ -97,7 +97,6 @@ function Summary({ coreCount, workloadInfos }: Props): React.ReactElement {
           </>
 
         )}
-
         <div style={{ marginLeft: '2rem' }}>
           <UsageBar
             data={[
