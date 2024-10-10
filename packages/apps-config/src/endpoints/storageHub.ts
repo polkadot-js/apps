@@ -14,24 +14,13 @@ import { chainsStorageHubSVG } from '../ui/logos/chains/generated/storage-hubSVG
 // IMPORTANT: Alphabetical based on text
 export const storageHubChains: Omit<EndpointOption, 'teleport'>[] = [
   {
-    info: 'bspNetBsp',
+    info: 'bsp',
     providers: {
-      Local: 'ws://127.0.0.1:9966' as `wss://${string}`
+      Local: 'ws://127.0.0.1:9666' as `wss://${string}`
     },
-    text: 'BSPNet: BSP',
+    text: 'BSP',
     ui: {
       color: '#00CCAB',
-      logo: chainsStorageHubSVG
-    }
-  },
-  {
-    info: 'bspNetUser',
-    providers: {
-      Local: 'ws://127.0.0.1:9977' as `wss://${string}`
-    },
-    text: 'BSPNet: User',
-    ui: {
-      color: '#F5F5F5',
       logo: chainsStorageHubSVG
     }
   },
@@ -45,6 +34,27 @@ export const storageHubChains: Omit<EndpointOption, 'teleport'>[] = [
       color: '#00CCAB',
       logo: chainsStorageHubSVG
     }
+  },
+  {
+    info: 'msp',
+    providers: {
+      Local: 'ws://127.0.0.1:9777' as `wss://${string}`
+    },
+    text: 'MSP',
+    ui: {
+      color: '#03e3fc',
+      logo: chainsStorageHubSVG
+    }
+  },
+  {
+    info: 'user',
+    providers: {
+      Local: 'ws://127.0.0.1:9888' as `wss://${string}`
+    },
+    text: 'User',
+    ui: {
+      color: '#F5F5F5',
+      logo: chainsStorageHubSVG
+    }
   }
-
 ];
