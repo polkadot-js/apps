@@ -264,7 +264,8 @@ export interface RegionInfo {
 
 export interface Reservation {
   task: string
-  mask: number,
+  mask: string[],
+  maskBits: number
 }
 
 export interface LegacyLease {

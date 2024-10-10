@@ -2,29 +2,24 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { RegionInfo } from '@polkadot/react-hooks/types';
-import type { CoreWorkplanType, InfoRow } from '../types.js';
+import type { InfoRow } from '../types.js';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { Spinner } from '@polkadot/react-components';
 
-import { formatRowInfo } from '../utils.js';
 import WorkInfoRow from './WorkInfoRow.js';
 
 interface Props {
   className?: string;
-  value: CoreWorkplanType;
+  workplanData: InfoRow;
   currentTimeSlice: number
   isExpanded: boolean
   region: RegionInfo | undefined
 }
 
-function Workplan ({ currentTimeSlice, isExpanded, region, value: { core, info, lastBlock, type } }: Props): React.ReactElement<Props> {
-  const tableData: InfoRow = useMemo(() => {
-    return formatRowInfo(info, core, region, currentTimeSlice, type, lastBlock);
-  }, [info, core, region, currentTimeSlice, type, lastBlock]);
-
-  if (!tableData) {
+function Workplan ({ isExpanded, workplanData }: Props): React.ReactElement<Props> {
+  if (!workplanData) {
     return (
       <tr
         className={` ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'}`}
@@ -38,13 +33,12 @@ function Workplan ({ currentTimeSlice, isExpanded, region, value: { core, info, 
 
   return (
     <>
-      {tableData && (
+      {workplanData && (
         <tr
           className={` ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'}`}
-          key={tableData.core}
-          style={{ minHeight: '100px' }}
+          key={workplanData.core}
         >
-          <WorkInfoRow data={tableData} />
+          <WorkInfoRow data={workplanData} />
           <td />
         </tr>
       )}

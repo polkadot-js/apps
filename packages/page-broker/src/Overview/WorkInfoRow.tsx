@@ -39,8 +39,8 @@ function WorkInfoRow ({ data }: { data: InfoRow }): React.ReactElement {
   if (!data.task) {
     return (
       <>
-        <td style={{ width: 200 }}>no task assigned</td>
-        <td colSpan={5} />
+        <td style={{ width: 200 }}>no task</td>
+        <td colSpan={6} />
       </>);
   }
 
@@ -60,7 +60,7 @@ function WorkInfoRow ({ data }: { data: InfoRow }): React.ReactElement {
             header='type'
             value={'Reservation'}
           />
-          <td colSpan={3} />
+          <td colSpan={4} />
         </>
       );
     }
@@ -94,46 +94,53 @@ function WorkInfoRow ({ data }: { data: InfoRow }): React.ReactElement {
             header='type'
             value={'Legacy Lease'}
           />
+          <td colSpan={1} />
         </>);
     }
 
     default: {
-      return <>
-        <TableCol
-          header='Task'
-          value={data.task}
-        />
-        <TableCol
-          header='Blocks per timeslice'
-          value={data.maskBits}
-        />
-        <TableCol
-          header='Start'
-          hide='both'
-          value={data.start}
-        />
-        <TableCol
-          header='End'
-          hide='both'
-          value={data.end}
-        />
-        <TableCol
-          header='Last block'
-          value={data.endBlock}
-        />
-        <StyledTableCol hide='mobile'>
-          <h5 style={{ opacity: '0.6' }}>{'Owner'}</h5>
-          {data.owner
-            ? (
-              <AddressMini
-                isPadded={false}
-                key={data.owner}
-                value={data.owner}
-              />
-            )
+      return (
+        <>
+          <TableCol
+            header='Task'
+            value={data.task}
+          />
+          <TableCol
+            header='Blocks per timeslice'
+            value={data.maskBits}
+          />
+          <TableCol
+            header='Start'
+            hide='both'
+            value={data.start}
+          />
+          <TableCol
+            header='End'
+            hide='both'
+            value={data.end}
+          />
+          <TableCol
+            header='Last block'
+            value={data.endBlock}
+          />
+          <TableCol
+            header='type'
+            value={'Bulk Coretime'}
+          />
+          <StyledTableCol hide='mobile'>
+            <h5 style={{ opacity: '0.6' }}>{'Owner'}</h5>
+            {data.owner
+              ? (
+                <AddressMini
+                  isPadded={false}
+                  key={data.owner}
+                  value={data.owner}
+                />
+              )
 
-            : <p>&nbsp;</p>}
-        </StyledTableCol></>;
+              : <p>&nbsp;</p>}
+          </StyledTableCol>
+        </>);
     }
   }
 }

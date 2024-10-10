@@ -1,16 +1,13 @@
 // Copyright 2017-2024 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiPromise } from '@polkadot/api';
-import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { CoreWorkload, CoreWorkplan, LegacyLease, Reservation } from '@polkadot/react-hooks/types';
-import type { PalletBrokerStatusRecord } from '@polkadot/types/lookup';
+import type { CoreInfo } from '../types.js';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { useApi, useBrokerLeases, useBrokerReservations, useCall, useWorkloadInfos, useWorkplanInfos } from '@polkadot/react-hooks';
+import { useApi, useBrokerLeases, useBrokerReservations, useBrokerStatus, useWorkloadInfos, useWorkplanInfos } from '@polkadot/react-hooks';
 
-import { type CoreWorkloadType, type CoreWorkplanType } from '../types.js';
 import { createTaskMap, getOccupancyType } from '../utils.js';
 import CoresTable from './CoresTables.js';
 import Filters from './Filters.js';
@@ -18,85 +15,84 @@ import Summary from './Summary.js';
 
 interface Props {
   className?: string;
-  apiEndpoint?: LinkOption | null;
-  api: ApiPromise;
-  isReady: boolean;
 }
 
-const formatLoad = (data: CoreWorkplan[] | CoreWorkload[] | undefined, leaseMap: Record<number, LegacyLease>, reservationMap: Record<number, Reservation>): CoreWorkloadType[] | CoreWorkplanType[] => {
-  if (!data) {
-    return [];
-  }
+type LeaseMapType = Record<number, LegacyLease>
+type ReservationMapType = Record<number, Reservation>
 
-  return data.map((w: CoreWorkload | CoreWorkplan) => {
-    const result = {
-      ...w,
-      lastBlock: leaseMap[w.info.task as number]?.until || 0,
-      type: getOccupancyType(leaseMap[w.info.task as number], reservationMap[w.info.task as number])
+const formatDataObject = (one: CoreWorkplan | CoreWorkload, leaseMap: LeaseMapType, reservationMap: ReservationMapType) => ({
+  ...one,
+  lastBlock: leaseMap[one?.info.task as number]?.until || 0,
+  maskBits: one.info.maskBits,
+  task: one.info.task,
+  type: getOccupancyType(leaseMap[one.info.task as number], reservationMap[one.info.task as number])
+});
+
+const formatData = (coreCount: number, workplan: CoreWorkplan[], workload: CoreWorkload[], leaseMap: LeaseMapType, reservationMap: ReservationMapType): CoreInfo[] => {
+  return Array.from({ length: coreCount }, (_, coreNumber) => {
+    const processWorkload = (data: CoreWorkload[]) => data
+      .filter((load) => load.core === coreNumber)
+      .map((one) => (formatDataObject(one, leaseMap, reservationMap)));
+
+    const processWorkplan = (data: CoreWorkplan[]) => data
+      .filter((load) => load.core === coreNumber)
+      .map((one) => ({
+        ...formatDataObject(one, leaseMap, reservationMap),
+        timeslice: one.timeslice
+      }));
+
+    const coreData = {
+      core: coreNumber,
+      workload: workload?.length ? processWorkload(workload) : [],
+      workplan: workplan?.length ? processWorkplan(workplan) : []
     };
 
-    if ('timeslice' in w) {
-      return result as CoreWorkplanType;
-    } else {
-      return result as CoreWorkloadType;
-    }
+    return coreData;
   });
 };
 
-function Overview ({ api, apiEndpoint, className, isReady }: Props): React.ReactElement<Props> {
-  const [workLoad, setWorkLoad] = useState<CoreWorkloadType[] | undefined>();
-  const [workPlan, setWorkPlan] = useState<CoreWorkplanType[]>();
-  const [filtered, setFiltered] = useState<CoreWorkloadType[]>();
-  const { isApiReady } = useApi();
+function Overview ({ className }: Props): React.ReactElement<Props> {
+  const { api, apiEndpoint, isApiReady } = useApi();
+  const [data, setData] = useState<CoreInfo[]>([]);
 
-  const status = useCall<PalletBrokerStatusRecord>(isReady && api.query.broker?.status);
+  const [filtered, setFiltered] = useState<CoreInfo[]>();
+  const coreCount = useBrokerStatus('coreCount') || '-';
+
   const workloadInfos: CoreWorkload[] | undefined = useWorkloadInfos(api, isApiReady);
   const workplanInfos: CoreWorkplan[] | undefined = useWorkplanInfos(api, isApiReady);
   const reservations: Reservation[] | undefined = useBrokerReservations(api, isApiReady);
   const leases: LegacyLease[] | undefined = useBrokerLeases(api, isApiReady);
 
-  const leaseMap = useMemo(() => leases ? createTaskMap(leases) : [], [leases]);
-  const reservationMap = useMemo(() => reservations ? createTaskMap(reservations) : [], [reservations]);
-
-  const timesliceAsString = useMemo(() => {
-    if (!!status && !!status?.toHuman()) {
-      const timeslice = status?.toHuman().lastCommittedTimeslice?.toString();
-
-      return timeslice === undefined ? '' : timeslice.toString().split(',').join('');
-    }
-
-    return '0';
-  }, [status]);
-
-  useEffect(() =>
-    setWorkPlan(formatLoad(workplanInfos, leaseMap, reservationMap))
-  , [workplanInfos, leaseMap, reservationMap]);
+  const leaseMap: LeaseMapType = useMemo(() => leases ? createTaskMap(leases) : [], [leases]);
+  const reservationMap: ReservationMapType = useMemo(() => reservations ? createTaskMap(reservations) : [], [reservations]);
 
   useEffect(() => {
-    setWorkLoad(formatLoad(workloadInfos, leaseMap, reservationMap));
-  }, [workloadInfos, leaseMap, reservationMap]);
+    !!workplanInfos && !!workloadInfos && !!coreCount &&
+      setData(formatData(Number(coreCount), workplanInfos, workloadInfos, leaseMap, reservationMap));
+  }, [workplanInfos, workloadInfos, leaseMap, reservationMap, coreCount]);
 
   return (
     <div className={className}>
       <Summary
         apiEndpoint={apiEndpoint}
-        workloadInfos={workLoad}
+        coreCount={coreCount}
+        workloadInfos={workloadInfos}
       ></Summary>
-      {!!workPlan?.length &&
+      {!!data?.length &&
         (<>
           <Filters
+            data={data}
             onFilter={setFiltered}
-            workLoad={workLoad}
           />
-          <CoresTable
-            api={api}
-            timeslice={Number(timesliceAsString)}
-            workloadInfos={filtered || workLoad}
-            workplanInfos={workPlan}
-          />
+          {!!filtered && (
+            <CoresTable
+              api={api}
+              data={filtered}
+            />
+          )}
         </>)
       }
-      {!workPlan?.length && <p style={{ marginLeft: '22px', marginTop: '3rem', opacity: 0.7 }}> No data currently available</p>}
+      {!data?.length && <p style={{ marginLeft: '22px', marginTop: '3rem', opacity: 0.7 }}> No data currently available</p>}
     </div>
   );
 }
