@@ -5,7 +5,7 @@
       49	pan                           	update Bifrost kusama on Subsquare (#9752)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
       41	MiZiet                        	Apply styles to the unbonding icon (#6314)
-      34	RadiumBlock                   	Removal of RadiumBlock as Watr Endpoint Provider (#10944)
+      35	RadiumBlock                   	RadiumBlock would like to bring up our Moonbase endpoints in Curie. Our high performance, highly distributed Endpoint Delivery Network. (#10988)
       33	Joakim Nyman                  	Revert "Update productionRelayPolkadot.ts" (#10207)
       31	Stefanie Doll                 	Set higher default gas limit, switch from bitlength u32 to u128 for input fields (#2743)
       31	Yongfeng LI                   	Add statescan external link for kusama people (#10645)
