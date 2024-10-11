@@ -10,7 +10,7 @@ import type { EraIndex, Exposure, Nominations, SlashingSpans } from '@polkadot/t
 import { useEffect, useMemo, useState } from 'react';
 
 import { createNamedHook, useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
-import { BN_ZERO, isFunction } from '@polkadot/util';
+import { BN, BN_ZERO, isFunction } from '@polkadot/util';
 
 interface Inactives {
   nomsActive?: string[];
@@ -21,7 +21,10 @@ interface Inactives {
 }
 
 function extractState (api: ApiPromise, stashId: string, slashes: Option<SlashingSpans>[], nominees: string[], { activeEra }: DeriveSessionIndexes, submittedIn: EraIndex, exposures: Exposure[], allNominators: DeriveEraNominatorExposure, activeValidators: DeriveEraValidatorExposurePaged): Inactives {
-  const max = api.consts.staking?.maxNominatorRewardedPerValidator as u32;
+  // / For older non-paged exposure, a reward payout was restricted to the top
+  // / `MaxExposurePageSize` nominators. This is to limit the i/o cost for the
+  // / nominator payout.
+  const max = api.consts.staking?.maxNominatorRewardedPerValidator as u32 || new BN(512);
 
   /**
    * NOTE With the introduction of the SlashReported event, nominators are not auto-chilled on validator slash
@@ -57,9 +60,6 @@ function extractState (api: ApiPromise, stashId: string, slashes: Option<Slashin
   /**
    * Waiting validator / nomination
    * - the validator is not active, not producing blocks in this era.
-   * When you first nominate validators, all of them will be "waiting" in the current era.
-   * The nominations will take effect in the next era. One will only see active validators (and begin earning staking rewards) after two eras,
-   * so on the third day earliest.
   */
   let nomsWaiting = [];
 
@@ -78,15 +78,20 @@ function extractState (api: ApiPromise, stashId: string, slashes: Option<Slashin
   let nomsInactive = [];
 
   if (!!activeValidators && !!allNominators) {
-    if (submittedIn.eq(activeEra) || submittedIn.gte(activeEra)) {
-      nomsWaiting = inactiveValidators;
+    /**
+     * When you first nominate validators, all of them will be "waiting" in the current era.
+     * The nominations will take effect in the next era. One will only see active validators (and begin earning staking rewards) after two eras,
+     * so on the third day earliest.
+     */
+    if (submittedIn.eq(activeEra) || activeEra.sub(submittedIn).eq(new BN(1))) {
+      nomsWaiting = nominees;
       inactiveValidators = [];
+      nomsActive = [];
     } else {
       nomsWaiting = inactiveValidators.filter((inactive) => !activeValidators[inactive] && !nomsChilled.includes(inactive) && !nomsOver.includes(inactive));
       nomsInactive = inactiveValidators.filter((nominee) => !nomsWaiting.includes(nominee) && !nomsChilled.includes(nominee) && !nomsOver.includes(nominee) && !nomsActive.includes(nominee));
+      nomsActive = allNominators[stashId] ? [allNominators[stashId][0].validatorId] : [];
     }
-
-    nomsActive = allNominators[stashId] ? [allNominators[stashId][0].validatorId] : [];
   } else {
     // Keeping this for backwards compatibility, can be replaced by the top part of the "if" later
     nomsWaiting = exposures.map((exposure, index) =>
@@ -130,7 +135,7 @@ function useInactivesImpl (stashId: string, nominees?: string[]): Inactives {
   /**
    * pallet updates v14 introduces ErasStakersPaged which is used by the derive `staking.eraExposure`
    */
-  const erasStakers = useCall<DeriveEraExposure>(isFunction(api.query.staking.erasStakers) && api.derive.staking.eraExposure, [indexes?.activeEra]);
+  const erasStakers = useCall<DeriveEraExposure>(isFunction(api.query.staking.erasStakersPaged) && api.derive.staking.eraExposure, [indexes?.activeEra]);
   const activeValidators: DeriveEraValidatorExposurePaged = erasStakers?.validators;
   const allNominators: DeriveEraNominatorExposure = erasStakers?.nominators;
   const eraExposure = useMemo(() => activeValidators ? nominees?.map((id) => activeValidators[id]).filter((val) => val) : null, [activeValidators, nominees]);
