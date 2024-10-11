@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types.js';
 
 import { chainsAmplitudeSVG, chainsCoretimeKusamaSVG, chainsFrequencyPaseoSVG, chainsHydrationPaseoSVG, chainsLaosSigmaPNG, chainsMyxcavPNG, chainsPaseoPNG, chainsPeoplePolkadotSVG, chainsPopNetworkSVG } from '@polkadot/apps-config/ui/logos/chains';
-import { nodesAjunaPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBifrostSVG, nodesBridgeHubSVG, nodesDarwiniaKoiSVG, nodesHyperbridgePNG, nodesIdealNetworkSVG, nodesIntegriteeSVG, nodesKiltPNG, nodesMandalaPNG, nodesMusePNG, nodesMyriadPaseoSVG, nodesNodleSVG, nodesRegionxPNG, nodesRexSVG, nodesZeitgeistPNG,nodesLitentryPaseoPNG } from '@polkadot/apps-config/ui/logos/nodes';
+import { nodesAjunaPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBifrostSVG, nodesBridgeHubSVG, nodesDarwiniaKoiSVG, nodesHyperbridgePNG, nodesIdealNetworkSVG, nodesIntegriteeSVG, nodesKiltPNG, nodesMandalaPNG, nodesMusePNG, nodesMyriadPaseoSVG, nodesNodleSVG, nodesRegionxPNG, nodesRexSVG, nodesZeitgeistPNG, nodesLitentryPaseoPNG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
 // import { testnetParachainSVG } from '../ui/logos/nodes/index.js';
@@ -315,7 +315,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
       logo: nodesZeitgeistPNG
     }
   },
-    {
+  {
     homepage: 'https://www.litentry.com/',
     info: 'paseoLitentry',
     paraId: 2106,
@@ -327,7 +327,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
       color: '#ECDA38',
       logo: nodesLitentryPaseoPNG
     }
-  },
+  }
 ];
 
 export const testParasPaseoCommon: EndpointOption[] = [

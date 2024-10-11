@@ -86,6 +86,7 @@ export { nodesKulupuSVG } from './generated/kulupuSVG.js';
 export { nodesKusariSVG } from './generated/kusariSVG.js';
 export { nodesKylinPNG } from './generated/kylinPNG.js';
 export { nodesLaminarCircleSVG } from './generated/laminar-circleSVG.js';
+export { nodesLitentryPaseoPNG } from './generated/litentry-paseoPNG.js';
 export { nodesLitentryRococoPNG } from './generated/litentry-rococoPNG.js';
 export { nodesLitentryPNG } from './generated/litentryPNG.js';
 export { nodesLitmusPNG } from './generated/litmusPNG.js';
@@ -179,5 +180,3 @@ export { nodesZCloakSVG } from './generated/zCloakSVG.js';
 export { nodesZeitgeistPNG } from './generated/zeitgeistPNG.js';
 export { nodesZenlinkSVG } from './generated/zenlinkSVG.js';
 export { nodesZeroSVG } from './generated/zeroSVG.js';
-export { nodesLitentryPaseoPNG } from './generated/nodesLitentryPaseoPNG.js';
-
