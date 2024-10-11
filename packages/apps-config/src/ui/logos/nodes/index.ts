@@ -133,6 +133,7 @@ export { nodesPrismPNG } from './generated/prismPNG.js';
 export { nodesQuartzPNG } from './generated/quartzPNG.js';
 export { nodesRealisPNG } from './generated/realisPNG.js';
 export { nodesRegionxCocosPNG } from './generated/regionxCocosPNG.js';
+export { nodesRegionxPNG } from './generated/regionxPNG.js';
 export { nodesRexSVG } from './generated/rexSVG.js';
 export { nodesRiochainSVG } from './generated/riochainSVG.js';
 export { nodesRobonomicsSVG } from './generated/robonomicsSVG.js';
