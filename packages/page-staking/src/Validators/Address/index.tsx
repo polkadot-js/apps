@@ -202,13 +202,13 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
         </td>
         <td className='number'>
           <FormatBalance
-            value={validatorInfo?.rewardPotBevmBalance}
+            value={validatorInfo?.rewardPotBevmBalance || validatorInfo?.rewardPotGovBalance}
           />
         </td>
         <td className='number'>
           <FormatBalance
             format={[10, 'SATS']}
-            value={validatorInfo?.rewardPotBtcBalance}
+            value={validatorInfo?.rewardPotBtcBalance || validatorInfo?.rewardPotGasBalance}
           />
         </td>
         <td className='number'>
