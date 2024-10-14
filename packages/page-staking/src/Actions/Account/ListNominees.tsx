@@ -68,9 +68,9 @@ function renderNominators (stashId: string, all: string[] = [], eraExposure?: De
 function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { nomsActive, nomsChilled, nomsInactive, nomsOver, nomsWaiting } = useInactives(stashId, nominating);
   const sessionInfo = useCall<DeriveSessionIndexes>(api.query.staking && api.derive.session?.indexes);
   const eraExposure = useCall<DeriveEraExposure>(isFunction(api.query.staking.erasStakers) && api.derive.staking.eraExposure, [sessionInfo?.activeEra]);
+  const { nomsActive, nomsChilled, nomsInactive, nomsOver, nomsWaiting } = useInactives(stashId, nominating, eraExposure);
 
   const [renActive, renChilled, renInactive, renOver, renWaiting] = useMemo(
     () => [renderNominators(stashId, nomsActive, eraExposure), renderNominators(stashId, nomsChilled), renderNominators(stashId, nomsInactive), renderNominators(stashId, nomsOver), renderNominators(stashId, nomsWaiting)],
