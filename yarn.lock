@@ -828,10 +828,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ledgerhq/devices@npm:^8.4.2":
+  version: 8.4.4
+  resolution: "@ledgerhq/devices@npm:8.4.4"
+  dependencies:
+    "@ledgerhq/errors": "npm:^6.19.1"
+    "@ledgerhq/logs": "npm:^6.12.0"
+    rxjs: "npm:^7.8.1"
+    semver: "npm:^7.3.5"
+  checksum: 10/57136fc45ae2fa42b3cf93eb7cc3542fd84010390b3d0a536d342c7e92f90e475d608b1774f17a547419edddd7df0d0b1b1dbd6d2c778009ebab0fc3ec313f67
+  languageName: node
+  linkType: hard
+
 "@ledgerhq/errors@npm:^6.16.4, @ledgerhq/errors@npm:^6.17.0, @ledgerhq/errors@npm:^6.19.0":
   version: 6.19.0
   resolution: "@ledgerhq/errors@npm:6.19.0"
   checksum: 10/944d7a86f4dedd3cac611d704a36667ff66294403ab6e552b8c14ce742574a2b50fa71de89c28827fc442233af68b88ae2971e73cdb03ea98ec4e65239d76d88
+  languageName: node
+  linkType: hard
+
+"@ledgerhq/errors@npm:^6.18.0, @ledgerhq/errors@npm:^6.19.1":
+  version: 6.19.1
+  resolution: "@ledgerhq/errors@npm:6.19.1"
+  checksum: 10/8265c6d73c314a4aabbe060ec29e2feebb4e904fe811bf7a9c53cde08e713dcbceded9d927ebb2f0ffc47a7b16524379d4a7e9aa3d61945b8a832be7cd5cf69b
   languageName: node
   linkType: hard
 
@@ -872,18 +891,6 @@ __metadata:
     "@ledgerhq/hw-transport": "npm:^6.31.3"
     "@ledgerhq/logs": "npm:^6.12.0"
   checksum: 10/4cb996da011fca0ae27da43ec2fd075971957bbf4daad15e3d46959f7c083bdf42e6450ae7d6945bc18ffcaf848216ab9e5c9d7ae82fcb611105a65eda93ce1b
-  languageName: node
-  linkType: hard
-
-"@ledgerhq/hw-transport-webusb@npm:^6.29.2":
-  version: 6.29.3
-  resolution: "@ledgerhq/hw-transport-webusb@npm:6.29.3"
-  dependencies:
-    "@ledgerhq/devices": "npm:^8.4.3"
-    "@ledgerhq/errors": "npm:^6.19.0"
-    "@ledgerhq/hw-transport": "npm:^6.31.3"
-    "@ledgerhq/logs": "npm:^6.12.0"
-  checksum: 10/b553d9c9d08bab0a694b3d6796239f84ba7ea79f7ae320a9e38575daad00b8a4673be12309a03cc3b4a3ac9521f551180dbe73be7601485043163fdd31e6841b
   languageName: node
   linkType: hard
 
@@ -2099,7 +2106,7 @@ __metadata:
     "@polkadot/wasm-util": "npm:^7.3.2"
     "@polkadot/x-fetch": "npm:^13.1.1"
     "@polkadot/x-ws": "npm:^13.1.1"
-    "@polymeshassociation/polymesh-types": "npm:5.7.0"
+    "@polymeshassociation/polymesh-types": "npm:5.12.1"
     "@snowfork/snowbridge-types": "npm:0.2.7"
     "@sora-substrate/type-definitions": "npm:1.40.3"
     "@storagehub/types-bundle": "npm:^0.1.4"
@@ -2153,14 +2160,14 @@ __metadata:
     "@acala-network/chopsticks-core": "npm:^0.13.3"
     "@polkadot/apps-config": "npm:^0.144.2-18-x"
     "@polkadot/apps-routing": "npm:^0.144.2-18-x"
-    "@polkadot/dev": "npm:^0.78.13"
+    "@polkadot/dev": "npm:^0.80.1"
     "@polkadot/react-api": "npm:^0.144.2-18-x"
     "@polkadot/react-components": "npm:^0.144.2-18-x"
     "@polkadot/react-hooks": "npm:^0.144.2-18-x"
     "@polkadot/react-params": "npm:^0.144.2-18-x"
     "@polkadot/react-query": "npm:^0.144.2-18-x"
     "@polkadot/react-signer": "npm:^0.144.2-18-x"
-    "@types/punycode": "npm:^2.1.3"
+    "@types/punycode": "npm:^2.1.4"
     assert: "npm:^2.1.0"
     buffer: "npm:^6.0.3"
     copy-webpack-plugin: "npm:^11.0.0"
@@ -2438,7 +2445,7 @@ __metadata:
     "@types/owasp-password-strength-test": "npm:^1.3.2"
     "@types/react": "npm:^18.3.3"
     "@types/react-dom": "npm:^18.3.0"
-    chart.js: "npm:^4.4.3"
+    chart.js: "npm:^4.4.1"
     chartjs-plugin-annotation: "npm:^3.0.1"
     chartjs-plugin-crosshair: "npm:^2.0.0"
     codeflask: "npm:^1.4.1"
@@ -2631,6 +2638,35 @@ __metadata:
     react-is: "*"
   languageName: unknown
   linkType: soft
+
+"@polkadot/typegen@npm:12.4.2":
+  version: 12.4.2
+  resolution: "@polkadot/typegen@npm:12.4.2"
+  dependencies:
+    "@polkadot/api": "npm:12.4.2"
+    "@polkadot/api-augment": "npm:12.4.2"
+    "@polkadot/rpc-augment": "npm:12.4.2"
+    "@polkadot/rpc-provider": "npm:12.4.2"
+    "@polkadot/types": "npm:12.4.2"
+    "@polkadot/types-augment": "npm:12.4.2"
+    "@polkadot/types-codec": "npm:12.4.2"
+    "@polkadot/types-create": "npm:12.4.2"
+    "@polkadot/types-support": "npm:12.4.2"
+    "@polkadot/util": "npm:^13.0.2"
+    "@polkadot/util-crypto": "npm:^13.0.2"
+    "@polkadot/x-ws": "npm:^13.0.2"
+    handlebars: "npm:^4.7.8"
+    tslib: "npm:^2.6.3"
+    yargs: "npm:^17.7.2"
+  bin:
+    polkadot-types-chain-info: scripts/polkadot-types-chain-info.mjs
+    polkadot-types-from-chain: scripts/polkadot-types-from-chain.mjs
+    polkadot-types-from-defs: scripts/polkadot-types-from-defs.mjs
+    polkadot-types-internal-interfaces: scripts/polkadot-types-internal-interfaces.mjs
+    polkadot-types-internal-metadata: scripts/polkadot-types-internal-metadata.mjs
+  checksum: 10/8608556b776ee3af793c0858893e943b6038e8c846cd2b5f6871b8e0e9d59d32c1ebeed7a17725cdba4cf2ff9a21856dcf92bb88bccabe7b7f7232cbb3322f2e
+  languageName: node
+  linkType: hard
 
 "@polkadot/types-augment@npm:^14.0.1":
   version: 14.0.1
@@ -6316,6 +6352,15 @@ __metadata:
   version: 0.7.0
   resolution: "chardet@npm:0.7.0"
   checksum: 10/b0ec668fba5eeec575ed2559a0917ba41a6481f49063c8445400e476754e0957ee09e44dc032310f526182b8f1bf25e9d4ed371f74050af7be1383e06bc44952
+  languageName: node
+  linkType: hard
+
+"chart.js@npm:^4.4.1":
+  version: 4.4.4
+  resolution: "chart.js@npm:4.4.4"
+  dependencies:
+    "@kurkle/color": "npm:^0.3.0"
+  checksum: 10/77221dce07606c67686b31b14c3e8c56d71fadc93a5d754ef1f0abc870160253c31751edd9962a0f5bd929824ca69458b914b6c90c8a0c1e9a547d276e9ca9b0
   languageName: node
   linkType: hard
 
@@ -11389,7 +11434,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-ipfs@npm:^8.0.4":
+"is-ipfs@npm:^8.0.1":
   version: 8.0.4
   resolution: "is-ipfs@npm:8.0.4"
   dependencies:
@@ -17721,14 +17766,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.3.1, tslib@npm:^2.4.0, tslib@npm:^2.5.0, tslib@npm:^2.6.2, tslib@npm:^2.7.0":
-  version: 2.7.0
-  resolution: "tslib@npm:2.7.0"
-  checksum: 10/9a5b47ddac65874fa011c20ff76db69f97cf90c78cff5934799ab8894a5342db2d17b4e7613a087046bc1d133d21547ddff87ac558abeec31ffa929c88b7fce6
-  languageName: node
-  linkType: hard
-
-"tslib@npm:^2.7.0":
+"tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.3.1, tslib@npm:^2.4.0, tslib@npm:^2.5.0, tslib@npm:^2.6.2, tslib@npm:^2.6.3, tslib@npm:^2.7.0":
   version: 2.7.0
   resolution: "tslib@npm:2.7.0"
   checksum: 10/9a5b47ddac65874fa011c20ff76db69f97cf90c78cff5934799ab8894a5342db2d17b4e7613a087046bc1d133d21547ddff87ac558abeec31ffa929c88b7fce6
