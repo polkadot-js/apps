@@ -103475,11 +103475,63 @@ export const typesBundle = {
             "description": "Get the root of the forest trie.",
             "params": [
               {
-                "name": "key",
-                "type": "Option<String>"
+                "name": "forest_key",
+                "type": "Option<H256>"
               }
             ],
             "type": "H256"
+          },
+          "isFileInForest": {
+            "description": "Check if a file is in the forest.",
+            "params": [
+              {
+                "name": "forest_key",
+                "type": "Option<H256>"
+              },
+              {
+                "name": "file_key",
+                "type": "H256"
+              }
+            ],
+            "type": "bool"
+          },
+          "isFileInFileStorage": {
+            "description": "Check if a file is in the file storage.",
+            "params": [
+              {
+                "name": "file_key",
+                "type": "H256"
+              }
+            ],
+            "type": "GetFileFromFileStorageResult"
+          },
+          "getFileMetadata": {
+            "description": "Get the metadata of a file from the Forest storage.",
+            "params": [
+              {
+                "name": "forest_key",
+                "type": "Option<H256>"
+              },
+              {
+                "name": "file_key",
+                "type": "H256"
+              }
+            ],
+            "type": "Option<FileMetadata>"
+          },
+          "generateForestProof": {
+            "description": "Generate a SCALE-encoded proof for a group of file keys that might or might not be in the forest.",
+            "params": [
+              {
+                "name": "forest_key",
+                "type": "Option<H256>"
+              },
+              {
+                "name": "challenged_file_keys",
+                "type": "Vec<H256>"
+              }
+            ],
+            "type": "Vec<u8>"
           },
           "insertBcsvKeys": {
             "description": "Generate and insert new keys of type BCSV into the keystore.",
@@ -103507,8 +103559,8 @@ export const typesBundle = {
         "FileSystemApi": [
           {
             "methods": {
-              "query_earliest_file_volunteer_block": {
-                "description": "Query the earliest block number that a BSP can volunteer for a file.",
+              "query_earliest_file_volunteer_tick": {
+                "description": "Query the earliest tick number that a BSP can volunteer for a file.",
                 "params": [
                   {
                     "name": "bspId",
@@ -103534,6 +103586,20 @@ export const typesBundle = {
                   }
                 ],
                 "type": "Result<Vec<ChunkId>, QueryBspConfirmChunksToProveForFileError>"
+              },
+              "query_msp_confirm_chunks_to_prove_for_file": {
+                "description": "Query the chunks that a MSP needs to prove to confirm that it is storing a file.",
+                "params": [
+                  {
+                    "name": "mspId",
+                    "type": "MainStorageProviderId"
+                  },
+                  {
+                    "name": "fileKey",
+                    "type": "H256"
+                  }
+                ],
+                "type": "Result<Vec<ChunkId>, QueryMspConfirmChunksToProveForFileError>"
               }
             },
             "version": 1
@@ -103665,6 +103731,71 @@ export const typesBundle = {
                   }
                 ],
                 "type": "Option<StorageProviderId>"
+              },
+              "get_worst_case_scenario_slashable_amount": {
+                "description": "Get the worst case scenario slashable amount for a provider.",
+                "params": [
+                  {
+                    "name": "providerId",
+                    "type": "ProviderId"
+                  }
+                ],
+                "type": "Option<Balance>"
+              },
+              "get_slash_amount_per_max_file_size": {
+                "description": "Get the slashable amount corresponding to the configured max file size.",
+                "params": [],
+                "type": "Balance"
+              },
+              "query_storage_provider_capacity": {
+                "description": "Query the storage provider capacity.",
+                "params": [
+                  {
+                    "name": "providerId",
+                    "type": "ProviderId"
+                  }
+                ],
+                "type": "Result<StorageDataUnit, QueryStorageProviderCapacityError>"
+              },
+              "query_available_storage_capacity": {
+                "description": "Query the available storage capacity.",
+                "params": [
+                  {
+                    "name": "providerId",
+                    "type": "ProviderId"
+                  }
+                ],
+                "type": "Result<StorageDataUnit, QueryAvailableStorageCapacityError>"
+              },
+              "query_earliest_change_capacity_block": {
+                "description": "Query the earliest block number that a BSP can change its capacity.",
+                "params": [
+                  {
+                    "name": "providerId",
+                    "type": "BackupStorageProviderId"
+                  }
+                ],
+                "type": "Result<BlockNumber, QueryEarliestChangeCapacityBlockError>"
+              },
+              "query_msp_id_of_bucket_id": {
+                "description": "Query the MSP ID of a bucket ID.",
+                "params": [
+                  {
+                    "name": "bucketId",
+                    "type": "H256"
+                  }
+                ],
+                "type": "Result<ProviderId, QueryMspIdOfBucketIdError>"
+              },
+              "query_provider_multiaddresses": {
+                "description": "Query the provider's multiaddresses.",
+                "params": [
+                  {
+                    "name": "providerId",
+                    "type": "ProviderId"
+                  }
+                ],
+                "type": "Result<Multiaddresses, QueryProviderMultiaddressesError>"
               }
             },
             "version": 1
@@ -103728,6 +103859,14 @@ export const typesBundle = {
                 "IncompleteFile": "IncompleteFileStatus"
               }
             },
+            "GetFileFromFileStorageResult": {
+              "_enum": {
+                "FileNotFound": null,
+                "FileFound": "FileMetadata",
+                "IncompleteFile": "IncompleteFileStatus",
+                "FileFoundWithInconsistency": "FileMetadata"
+              }
+            },
             "ProviderId": "H256",
             "Key": "H256",
             "RandomnessOutput": "H256",
@@ -103737,6 +103876,8 @@ export const typesBundle = {
             "StorageData": "u32",
             "MerklePatriciaRoot": "H256",
             "ChunkId": "u64",
+            "StorageDataUnit": "u32",
+            "Multiaddresses": "BoundedVec<u8, 5>",
             "BackupStorageProvider": {
               "capacity": "StorageData",
               "data_used": "StorageData",
@@ -103805,7 +103946,26 @@ export const typesBundle = {
             "QueryBspConfirmChunksToProveForFileError": {
               "_enum": {
                 "StorageRequestNotFound": null,
+                "ConfirmChunks": "QueryConfirmChunksToProveForFileError",
                 "InternalError": null
+              }
+            },
+            "QueryMspConfirmChunksToProveForFileError": {
+              "_enum": {
+                "StorageRequestNotFound": null,
+                "ConfirmChunks": "QueryConfirmChunksToProveForFileError",
+                "InternalError": null
+              }
+            },
+            "QueryProviderMultiaddressesError": {
+              "_enum": {
+                "ProviderNotRegistered": null,
+                "InternalApiError": null
+              }
+            },
+            "QueryConfirmChunksToProveForFileError": {
+              "_enum": {
+                "ChallengedChunkToChunkIdError": null
               }
             },
             "GetUsersWithDebtOverThresholdError": {
@@ -103814,6 +103974,30 @@ export const typesBundle = {
                 "ProviderWithoutPaymentStreams": null,
                 "AmountToChargeOverflow": null,
                 "DebtOverflow": null,
+                "InternalApiError": null
+              }
+            },
+            "QueryStorageProviderCapacityError": {
+              "_enum": {
+                "ProviderNotRegistered": null,
+                "InternalApiError": null
+              }
+            },
+            "QueryAvailableStorageCapacityError": {
+              "_enum": {
+                "ProviderNotRegistered": null,
+                "InternalApiError": null
+              }
+            },
+            "QueryEarliestChangeCapacityBlockError": {
+              "_enum": {
+                "ProviderNotRegistered": null,
+                "InternalApiError": null
+              }
+            },
+            "QueryMspIdOfBucketIdError": {
+              "_enum": {
+                "BucketNotFound": null,
                 "InternalApiError": null
               }
             }
@@ -103864,11 +104048,63 @@ export const typesBundle = {
             "description": "Get the root of the forest trie.",
             "params": [
               {
-                "name": "key",
-                "type": "Option<String>"
+                "name": "forest_key",
+                "type": "Option<H256>"
               }
             ],
             "type": "H256"
+          },
+          "isFileInForest": {
+            "description": "Check if a file is in the forest.",
+            "params": [
+              {
+                "name": "forest_key",
+                "type": "Option<H256>"
+              },
+              {
+                "name": "file_key",
+                "type": "H256"
+              }
+            ],
+            "type": "bool"
+          },
+          "isFileInFileStorage": {
+            "description": "Check if a file is in the file storage.",
+            "params": [
+              {
+                "name": "file_key",
+                "type": "H256"
+              }
+            ],
+            "type": "GetFileFromFileStorageResult"
+          },
+          "getFileMetadata": {
+            "description": "Get the metadata of a file from the Forest storage.",
+            "params": [
+              {
+                "name": "forest_key",
+                "type": "Option<H256>"
+              },
+              {
+                "name": "file_key",
+                "type": "H256"
+              }
+            ],
+            "type": "Option<FileMetadata>"
+          },
+          "generateForestProof": {
+            "description": "Generate a SCALE-encoded proof for a group of file keys that might or might not be in the forest.",
+            "params": [
+              {
+                "name": "forest_key",
+                "type": "Option<H256>"
+              },
+              {
+                "name": "challenged_file_keys",
+                "type": "Vec<H256>"
+              }
+            ],
+            "type": "Vec<u8>"
           },
           "insertBcsvKeys": {
             "description": "Generate and insert new keys of type BCSV into the keystore.",
@@ -103896,8 +104132,8 @@ export const typesBundle = {
         "FileSystemApi": [
           {
             "methods": {
-              "query_earliest_file_volunteer_block": {
-                "description": "Query the earliest block number that a BSP can volunteer for a file.",
+              "query_earliest_file_volunteer_tick": {
+                "description": "Query the earliest tick number that a BSP can volunteer for a file.",
                 "params": [
                   {
                     "name": "bspId",
@@ -103923,6 +104159,20 @@ export const typesBundle = {
                   }
                 ],
                 "type": "Result<Vec<ChunkId>, QueryBspConfirmChunksToProveForFileError>"
+              },
+              "query_msp_confirm_chunks_to_prove_for_file": {
+                "description": "Query the chunks that a MSP needs to prove to confirm that it is storing a file.",
+                "params": [
+                  {
+                    "name": "mspId",
+                    "type": "MainStorageProviderId"
+                  },
+                  {
+                    "name": "fileKey",
+                    "type": "H256"
+                  }
+                ],
+                "type": "Result<Vec<ChunkId>, QueryMspConfirmChunksToProveForFileError>"
               }
             },
             "version": 1
@@ -104054,6 +104304,71 @@ export const typesBundle = {
                   }
                 ],
                 "type": "Option<StorageProviderId>"
+              },
+              "get_worst_case_scenario_slashable_amount": {
+                "description": "Get the worst case scenario slashable amount for a provider.",
+                "params": [
+                  {
+                    "name": "providerId",
+                    "type": "ProviderId"
+                  }
+                ],
+                "type": "Option<Balance>"
+              },
+              "get_slash_amount_per_max_file_size": {
+                "description": "Get the slashable amount corresponding to the configured max file size.",
+                "params": [],
+                "type": "Balance"
+              },
+              "query_storage_provider_capacity": {
+                "description": "Query the storage provider capacity.",
+                "params": [
+                  {
+                    "name": "providerId",
+                    "type": "ProviderId"
+                  }
+                ],
+                "type": "Result<StorageDataUnit, QueryStorageProviderCapacityError>"
+              },
+              "query_available_storage_capacity": {
+                "description": "Query the available storage capacity.",
+                "params": [
+                  {
+                    "name": "providerId",
+                    "type": "ProviderId"
+                  }
+                ],
+                "type": "Result<StorageDataUnit, QueryAvailableStorageCapacityError>"
+              },
+              "query_earliest_change_capacity_block": {
+                "description": "Query the earliest block number that a BSP can change its capacity.",
+                "params": [
+                  {
+                    "name": "providerId",
+                    "type": "BackupStorageProviderId"
+                  }
+                ],
+                "type": "Result<BlockNumber, QueryEarliestChangeCapacityBlockError>"
+              },
+              "query_msp_id_of_bucket_id": {
+                "description": "Query the MSP ID of a bucket ID.",
+                "params": [
+                  {
+                    "name": "bucketId",
+                    "type": "H256"
+                  }
+                ],
+                "type": "Result<ProviderId, QueryMspIdOfBucketIdError>"
+              },
+              "query_provider_multiaddresses": {
+                "description": "Query the provider's multiaddresses.",
+                "params": [
+                  {
+                    "name": "providerId",
+                    "type": "ProviderId"
+                  }
+                ],
+                "type": "Result<Multiaddresses, QueryProviderMultiaddressesError>"
               }
             },
             "version": 1
@@ -104117,6 +104432,14 @@ export const typesBundle = {
                 "IncompleteFile": "IncompleteFileStatus"
               }
             },
+            "GetFileFromFileStorageResult": {
+              "_enum": {
+                "FileNotFound": null,
+                "FileFound": "FileMetadata",
+                "IncompleteFile": "IncompleteFileStatus",
+                "FileFoundWithInconsistency": "FileMetadata"
+              }
+            },
             "ProviderId": "H256",
             "Key": "H256",
             "RandomnessOutput": "H256",
@@ -104126,6 +104449,8 @@ export const typesBundle = {
             "StorageData": "u32",
             "MerklePatriciaRoot": "H256",
             "ChunkId": "u64",
+            "StorageDataUnit": "u32",
+            "Multiaddresses": "BoundedVec<u8, 5>",
             "BackupStorageProvider": {
               "capacity": "StorageData",
               "data_used": "StorageData",
@@ -104194,7 +104519,26 @@ export const typesBundle = {
             "QueryBspConfirmChunksToProveForFileError": {
               "_enum": {
                 "StorageRequestNotFound": null,
+                "ConfirmChunks": "QueryConfirmChunksToProveForFileError",
                 "InternalError": null
+              }
+            },
+            "QueryMspConfirmChunksToProveForFileError": {
+              "_enum": {
+                "StorageRequestNotFound": null,
+                "ConfirmChunks": "QueryConfirmChunksToProveForFileError",
+                "InternalError": null
+              }
+            },
+            "QueryProviderMultiaddressesError": {
+              "_enum": {
+                "ProviderNotRegistered": null,
+                "InternalApiError": null
+              }
+            },
+            "QueryConfirmChunksToProveForFileError": {
+              "_enum": {
+                "ChallengedChunkToChunkIdError": null
               }
             },
             "GetUsersWithDebtOverThresholdError": {
@@ -104203,6 +104547,30 @@ export const typesBundle = {
                 "ProviderWithoutPaymentStreams": null,
                 "AmountToChargeOverflow": null,
                 "DebtOverflow": null,
+                "InternalApiError": null
+              }
+            },
+            "QueryStorageProviderCapacityError": {
+              "_enum": {
+                "ProviderNotRegistered": null,
+                "InternalApiError": null
+              }
+            },
+            "QueryAvailableStorageCapacityError": {
+              "_enum": {
+                "ProviderNotRegistered": null,
+                "InternalApiError": null
+              }
+            },
+            "QueryEarliestChangeCapacityBlockError": {
+              "_enum": {
+                "ProviderNotRegistered": null,
+                "InternalApiError": null
+              }
+            },
+            "QueryMspIdOfBucketIdError": {
+              "_enum": {
+                "BucketNotFound": null,
                 "InternalApiError": null
               }
             }
