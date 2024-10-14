@@ -20,6 +20,7 @@ import bifrostParachain from './bifrost-parachain.js';
 import bitcountry from './bitcountry.js';
 import bitcountryPioneer from './bitcountry-pioneer.js';
 import bitcountryParachain from './bitcountry-rococo.js';
+import bittensor from './bittensor.js';
 import centrifuge from './centrifuge.js';
 import centrifugeChain from './centrifuge-chain.js';
 import chainx from './chainx.js';
@@ -165,6 +166,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'bifrost-parachain': bifrostParachain,
   'bitcountry-node': bitcountry,
   'bitcountry-parachain': bitcountryParachain,
+  bittensor,
   centrifuge,
   'centrifuge-chain': centrifugeChain,
   chainx,

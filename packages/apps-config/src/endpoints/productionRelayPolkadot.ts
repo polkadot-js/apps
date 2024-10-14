@@ -45,8 +45,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       AjunaNetwork: 'wss://rpc-para.ajuna.network',
       IBP1: 'wss://ajuna.ibp.network',
       IBP2: 'wss://ajuna.dotters.network',
-      OnFinality: 'wss://ajuna.api.onfinality.io/public-ws',
-      RadiumBlock: 'wss://ajuna.public.curie.radiumblock.co/ws'
+      OnFinality: 'wss://ajuna.api.onfinality.io/public-ws'
+      // RadiumBlock: 'wss://ajuna.public.curie.radiumblock.co/ws' https://github.com/polkadot-js/apps/issues/10990
     },
     text: 'Ajuna Network',
     ui: {
@@ -109,7 +109,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       IBP2: 'wss://bifrost-polkadot.dotters.network',
       Liebi: 'wss://hk.p.bifrost-rpc.liebi.com/ws',
       LiebiEU: 'wss://eu.bifrost-polkadot-rpc.liebi.com/ws',
-      OnFinality: 'wss://bifrost-polkadot.api.onfinality.io/public-ws',
+      // OnFinality: 'wss://bifrost-polkadot.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://bifrost.public.curie.radiumblock.co/ws'
     },
     text: 'Bifrost',
@@ -334,7 +334,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       'Galactic Council': 'wss://rpc.hydradx.cloud',
       Helikon: 'wss://rpc.helikon.io/hydradx',
       IBP1: 'wss://hydradx.paras.ibp.network',
-      IBP2: 'wss://hydradx.paras.dotters.network'
+      IBP2: 'wss://hydration.dotters.network'
       // OnFinality: 'wss://hydradx.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9986
       // ZeePrime: 'wss://rpc-lb.data6.zp-labs.net:8443/hydradx/ws/?token=2ZGuGivPJJAxXiT1hR1Yg2MXGjMrhEBYFjgbdPi' // https://github.com/polkadot-js/apps/issues/9760
     },
@@ -626,9 +626,9 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'parallel',
     paraId: 2012,
     providers: {
-      Dwellir: 'wss://parallel-rpc.dwellir.com'
+      // Dwellir: 'wss://parallel-rpc.dwellir.com' , https://github.com/polkadot-js/apps/issues/10997
+      Parallel: 'wss://polkadot-parallel-rpc.parallel.fi'
       // OnFinality: 'wss://parallel.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9986
-      // Parallel: 'wss://polkadot-parallel-rpc.parallel.fi' // https://github.com/polkadot-js/apps/issues/10220
     },
     text: 'Parallel',
     ui: {
@@ -733,11 +733,11 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'robonomics',
     paraId: 3388,
     providers: {
-      // Airalab: 'wss://polkadot.rpc.robonomics.network/' // https://github.com/polkadot-js/apps/issues/10890
+      Airalab: 'wss://polkadot.rpc.robonomics.network/'
     },
     text: 'Robonomics',
     ui: {
-      color: '#2949d3',
+      color: '#e6007a',
       logo: nodesRobonomicsSVG
     }
   },
@@ -834,7 +834,6 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'watr',
     paraId: 2058,
     providers: {
-      RadiumBlock: 'wss://watr.public.curie.radiumblock.co/ws'
       // Watr: 'wss://watr-rpc.watr-api.network' // https://github.com/polkadot-js/apps/issues/10890
     },
     text: 'Watr Network',
@@ -868,7 +867,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       Dwellir: 'wss://asset-hub-polkadot-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://statemint-rpc-tn.dwellir.com',
       IBP1: 'wss://sys.ibp.network/asset-hub-polkadot',
-      IBP2: 'wss://sys.dotters.network/asset-hub-polkadot',
+      IBP2: 'wss://asset-hub-polkadot.dotters.network',
       LuckyFriday: 'wss://rpc-asset-hub-polkadot.luckyfriday.io',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-asset-hub-rpc.polkadot.io',
@@ -891,7 +890,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       Dwellir: 'wss://bridge-hub-polkadot-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://polkadot-bridge-hub-rpc-tn.dwellir.com',
       IBP1: 'wss://sys.ibp.network/bridgehub-polkadot',
-      IBP2: 'wss://sys.dotters.network/bridgehub-polkadot',
+      IBP2: 'wss://bridge-hub-polkadot.dotters.network',
       LuckyFriday: 'wss://rpc-bridge-hub-polkadot.luckyfriday.io',
       OnFinality: 'wss://bridgehub-polkadot.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-bridge-hub-rpc.polkadot.io',
@@ -913,7 +912,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       Dwellir: 'wss://collectives-polkadot-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://polkadot-collectives-rpc-tn.dwellir.com',
       IBP1: 'wss://sys.ibp.network/collectives-polkadot',
-      IBP2: 'wss://sys.dotters.network/collectives-polkadot',
+      IBP2: 'wss://collectives-polkadot.dotters.network',
       LuckyFriday: 'wss://rpc-collectives-polkadot.luckyfriday.io',
       OnFinality: 'wss://collectives.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-collectives-rpc.polkadot.io',
@@ -933,6 +932,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1005,
     providers: {
+      IBP2: 'wss://coretime-polkadot.dotters.network',
       Parity: 'wss://polkadot-coretime-rpc.polkadot.io'
     },
     relayName: 'polkadot',
@@ -947,7 +947,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     paraId: 1004,
     providers: {
       IBP1: 'wss://sys.ibp.network/people-polkadot',
-      IBP2: 'wss://sys.dotters.network/people-polkadot',
+      IBP2: 'wss://people-polkadot.dotters.network',
       LuckyFriday: 'wss://rpc-people-polkadot.luckyfriday.io',
       Parity: 'wss://polkadot-people-rpc.polkadot.io',
       RadiumBlock: 'wss://people-polkadot.public.curie.radiumblock.co/ws'
@@ -980,7 +980,7 @@ export const prodRelayPolkadot: EndpointOption = {
     Dwellir: 'wss://polkadot-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://polkadot-rpc-tn.dwellir.com',
     IBP1: 'wss://rpc.ibp.network/polkadot',
-    IBP2: 'wss://rpc.dotters.network/polkadot',
+    IBP2: 'wss://polkadot.dotters.network',
     LuckyFriday: 'wss://rpc-polkadot.luckyfriday.io',
     OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
     RadiumBlock: 'wss://polkadot.public.curie.radiumblock.co/ws',
