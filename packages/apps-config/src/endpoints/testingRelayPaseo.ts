@@ -186,6 +186,19 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://www.litentry.com/',
+    info: 'paseoLitentry',
+    paraId: 2106,
+    providers: {
+      Litentry: 'wss://rpc.paseo-parachain.litentry.io'
+    },
+    text: 'Litentry',
+    ui: {
+      color: '#ECDA38',
+      logo: nodesLitentryPaseoSVG
+    }
+  },
+  {
     homepage: 'https://laosnetwork.io/',
     info: 'laos-sigma',
     paraId: 4006,
@@ -313,19 +326,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)',
       logo: nodesZeitgeistPNG
-    }
-  },
-  {
-    homepage: 'https://www.litentry.com/',
-    info: 'paseoLitentry',
-    paraId: 2106,
-    providers: {
-      Litentry: 'wss://rpc.paseo-parachain.litentry.io'
-    },
-    text: 'Litentry',
-    ui: {
-      color: '#ECDA38',
-      logo: nodesLitentryPaseoSVG
     }
   }
 ];
