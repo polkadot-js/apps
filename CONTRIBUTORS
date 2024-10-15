@@ -322,6 +322,7 @@
        1	||ȼhaiɳ                       	Add Kinera logo and wss (#10664)
        1	0xrust                        	Add snow to kusama endpoint option array (#7893)
        1	0xSamsara                     	Added Samsara RPC to Robonomics parachain (#8240)
+       1	0xverin                       	Add litentry testnet to Paseo (#10999)
        1	Abdulaziz Kamil               	Update index.tsx (#10035)
        1	abhi                          	fix text and isUnreachable properties for SNOW Network (#8252)
        1	Abhishek Shah                 	Add mythical-devnet to ethereumChains (#9642)
