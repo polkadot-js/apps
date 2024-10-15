@@ -54,7 +54,7 @@ function MigrationApp ({ className }): React.ReactElement {
     <div className={`staking--Overview ${className}`}>
       <MarkWarning
         className='warning centered'
-        content={t<string>('Migrating your Dock balance to Cheqd will zero the balance on your Dock account.')}
+        content={t<string>('Migrating your Dock balance to cheqd will zero the balance on your Dock account.')}
       />
       
       <p style={{
@@ -84,7 +84,7 @@ function MigrationApp ({ className }): React.ReactElement {
         <>
           <Dropdown
             className={`ui--InputAddress ${className}`}
-            help={t<string>('The Cheqd account your tokens will be migrated to.')}
+            help={t<string>('The cheqd account your tokens will be migrated to.')}
             label={t<string>('keplr account')}
             isMultiple={false}
             onChange={setCheqdId}
@@ -102,7 +102,7 @@ function MigrationApp ({ className }): React.ReactElement {
       ) : (
         <>
           <InputAddressCheqd
-            help={t<string>('The Cheqd account your tokens will be migrated to.')}
+            help={t<string>('The cheqd account your tokens will be migrated to.')}
             label={t<string>('cheqd account')}
             value={cheqdId}
             onChange={setCheqdId}
