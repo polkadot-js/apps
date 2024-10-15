@@ -1,5 +1,31 @@
 # CHANGELOG
 
+## 0.145.1 Oct 15, 2024
+
+Contributed:
+
+- Bump KILT dep (Thanks to https://github.com/ntn-x2)
+- Remove rococoAmplitude and add paseoAmplitude (Thanks to https://github.com/gianfra-t)
+- Renamed riot to matrix while displaying identity  (Thanks to https://github.com/niklabh)
+- Update translation: Bahasa Indonesia (Thanks to https://github.com/xryoshi)
+- Change robonomics parachains colors (Thanks to https://github.com/PavelSheremetev)
+- Add the official RPC for parallel network (Thanks to https://github.com/dio-will)
+- Update Zero Canary Endpoints for productionRelayKusama.ts (Thanks to https://github.com/2075)
+- RadiumBlock would like to bring up our Moonbase endpoints in Curie. Our high performance, highly distributed Endpoint Delivery Network. (Thanks to https://github.com/radiumb)
+- Update subsquare supported chains (Thanks to https://github.com/wliyongfeng)
+- Add RegionX Paseo (Thanks to https://github.com/Szegoo)
+- Deleted OnFinality 3 endpoints (Thanks to https://github.com/FiveKG)
+
+Changes:
+- Reflecting changes to Identity pallet  
+- Patch for crashing explorer
+- H160 address parsing issues on Address book and AccountName component
+- Naming issue for Paseo People chain
+- Remove Rococo relay and parachains
+- Add bittensor types to types bundle
+- Update polkadot-js deps
+- Disable unreachable endpoints
+
 ## 0.144.1 Sep 24, 2024
 
 Contributed:
