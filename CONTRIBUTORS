@@ -1,5 +1,5 @@
     4364	Jaco                          	Disable unreachable endpoints (#10221)
-      83	Tarik Gul                     	Update polkadot-js deps (#11009)
+      84	Tarik Gul                     	Export all from Paseo in testing (#11014)
       81	Thibaut Sardan                	update overrides (#10090)
       62	kwingram25                    	iadd fix (#2911)
       49	pan                           	update Bifrost kusama on Subsquare (#9752)
