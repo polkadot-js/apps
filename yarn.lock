@@ -1431,8 +1431,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/app-coretime@workspace:packages/page-coretime"
   dependencies:
-    "@polkadot/react-components": "npm:0.144.2-11-x"
-    "@polkadot/react-query": "npm:0.144.2-11-x"
+    "@polkadot/react-components": "npm:^0.145.2-0-x"
+    "@polkadot/react-query": "npm:^0.145.2-0-x"
   peerDependencies:
     react: "*"
     react-dom: "*"
