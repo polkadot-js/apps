@@ -39,7 +39,7 @@ interface Props {
   workloadInfos?: CoreWorkload[]
 }
 
-function Summary ({ coreCount, workloadInfos }: Props): React.ReactElement {
+function Summary({ coreCount, workloadInfos }: Props): React.ReactElement {
   const { t } = useTranslation();
   const { api, apiEndpoint, isApiReady } = useApi();
   const uiHighlight = apiEndpoint?.ui.color || defaultHighlight;
@@ -49,6 +49,7 @@ function Summary ({ coreCount, workloadInfos }: Props): React.ReactElement {
   const config = useBrokerConfig(api, isApiReady);
   const status = useBrokerStatus(api, isApiReady);
   const currentRegionEnd = useMemo(() => saleInfo && config && saleInfo?.regionEnd - config?.regionLength, [saleInfo, config]);
+  const currentRegionStart = useMemo(() => currentRegionEnd && config && currentRegionEnd - config?.regionLength, [currentRegionEnd, config]);
 
   return (
     <SummaryBox>
@@ -65,11 +66,6 @@ function Summary ({ coreCount, workloadInfos }: Props): React.ReactElement {
               <CardSummary label={t('region (ts)')}>
                 <RegionLength />
               </CardSummary>
-              <CardSummary label={t('estimated bulk price')}>
-                <div className='ui--balance-value'>
-                  {formatBalance(saleInfo?.endPrice) || '-'}
-                </div>
-              </CardSummary>
               <CardSummary label={t('total cores')}>
                 {coreCount}
               </CardSummary>
@@ -78,13 +74,7 @@ function Summary ({ coreCount, workloadInfos }: Props): React.ReactElement {
                   {saleInfo?.coresSold} / {saleInfo?.coresOffered}
                 </div>
               </CardSummary>
-              {status && <CardSummary label={t('cycle end')}>
-                <div>
-                  {estimateTime(currentRegionEnd, status?.lastTimeslice * 80)}
-                </div>
-              </CardSummary>}
               <CardSummary
-                className='media--1200'
                 label={t('cycle progress')}
                 progress={{
                   isBlurred: false,
@@ -97,7 +87,7 @@ function Summary ({ coreCount, workloadInfos }: Props): React.ReactElement {
           </>
 
         )}
-        <div style={{ marginLeft: '2rem' }}>
+        <div className='media--1200' style={{ marginLeft: '2rem' }}>
           <UsageBar
             data={[
               { color: '#FFFFFF', label: 'Idle', value: idles },
@@ -108,6 +98,25 @@ function Summary ({ coreCount, workloadInfos }: Props): React.ReactElement {
 
         </div>
       </StyledSection>
+      <section>
+        {status &&
+          (<CardSummary className='media--1200' label={t('cycle dates')}>
+            <div>
+              <div style={{ fontSize: '14px' }}>{estimateTime(currentRegionStart, status?.lastTimeslice * 80)}</div>
+              <div style={{ fontSize: '14px' }}>{estimateTime(currentRegionEnd, status?.lastTimeslice * 80)}</div>
+            </div>
+          </CardSummary>)
+        }
+
+        {status &&
+          <CardSummary className='media--1200' label={t('cycle ts')}>
+            <div>
+              <div style={{ fontSize: '14px' }}>{currentRegionStart}</div>
+              <div style={{ fontSize: '14px' }}>{currentRegionEnd}</div>
+            </div>
+          </CardSummary>
+        }
+      </section>
     </SummaryBox>
   );
 }
