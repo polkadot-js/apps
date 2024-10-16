@@ -20,10 +20,10 @@ function useBrokerStatusImpl (api: ApiPromise, ready: boolean): BrokerStatus | u
 
       setState({
         coreCount: s.coreCount?.toNumber(),
-        privatePoolSize: s.privatePoolSize?.toNumber(),
-        systemPoolSize: s.systemPoolSize?.toNumber(),
         lastCommittedTimeslice: s.lastCommittedTimeslice?.toNumber(),
-        lastTimeslice: s.lastTimeslice?.toNumber()
+        lastTimeslice: s.lastTimeslice?.toNumber(),
+        privatePoolSize: s.privatePoolSize?.toNumber(),
+        systemPoolSize: s.systemPoolSize?.toNumber()
       });
     }
   }, [status]);

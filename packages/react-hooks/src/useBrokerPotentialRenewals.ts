@@ -31,14 +31,14 @@ function extractInfo (info: Option<PalletBrokerPotentialRenewalRecord>, item: Pa
   }
 
   return {
-    core: item?.core.toNumber(),
-    when: item?.when.toNumber(),
-    price: unwrapped?.price.toBn(),
     // How much of a core has been assigned or, if completely assigned, the workload itself.
     completion: completion?.type,
+    core: item?.core.toNumber(),
     mask,
     maskBits: mask?.length,
-    task
+    price: unwrapped?.price.toBn(),
+    task,
+    when: item?.when.toNumber()
   };
 }
 
@@ -47,7 +47,7 @@ const OPT_KEY = {
     keys.map(({ args: [id] }) => id)
 };
 
-function useBrokerPotentialRenewalsImpl (api: ApiPromise, ready: boolean): any | undefined {
+function useBrokerPotentialRenewalsImpl (api: ApiPromise, ready: boolean): PotentialRenewal[] | undefined {
   const keys = useMapKeys(ready && api?.query.broker.potentialRenewals, [], OPT_KEY);
   const potentialRenewals = useCall<[[PalletBrokerPotentialRenewalId[]], Option<PalletBrokerPotentialRenewalRecord>[]]>(ready && api?.query.broker.potentialRenewals.multi, [keys], { withParams: true });
 

@@ -322,15 +322,16 @@ export interface PalletBrokerConfigRecord {
   contributionTimeout: number;
 }
 
+export interface ChainInformation {
+  id: ParaId,
+  workload: CoreWorkload[] | undefined,
+  renewal: PotentialRenewal | undefined,
+  worklplan: CoreWorkplan[] | undefined,
+  lease: LegacyLease | undefined,
+  reservation: Reservation| undefined
+}
 export interface CoretimeInformation {
-  chainInfo: Record<number, {
-    id: ParaId,
-    workload: CoreWorkload,
-    renewal: PotentialRenewal[],
-    renewed: boolean,
-    lease: LegacyLease,
-    reservation: Reservation
-  }>,
+  chainInfo: Record<number, ChainInformation>,
   salesInfo: PalletBrokerSaleInfoRecord,
   status: BrokerStatus,
   region: RegionInfo[],

@@ -77,6 +77,39 @@ function WorkInfoRow ({ data }: { data: InfoRow }): React.ReactElement {
     }
 
     case (CoreTimeTypes.Lease):
+      return (
+        <>
+          <TableCol
+            header='Task'
+            value={data.task}
+          />
+          <TableCol
+            header='Blocks per timeslice'
+            value={data.maskBits}
+          />
+          <TableCol
+            header='Start'
+            hide='both'
+            value={data.start}
+          />
+          <TableCol
+            header='End'
+            hide='both'
+            value={data.end}
+          />
+          <TableCol
+            header='Last block'
+            value={data.endBlock}
+          />
+          <StyledTableCol hide={'mobile'}>
+            <h5 style={{ opacity: '0.6' }}>type</h5>
+            <Tag
+              color={colours[data.type] as FlagColor}
+              label={Object.values(CoreTimeTypes)[data.type]}
+            />
+          </StyledTableCol>
+          <td colSpan={1} />
+        </>);
 
     case (CoreTimeTypes['On Demand']): {
       return (

@@ -3,30 +3,31 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { StorageKey, u32 } from '@polkadot/types';
-import type { PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor, PalletBrokerCoretimeInterfaceCoreAssignment, PolkadotRuntimeParachainsAssignerCoretimeAssignmentState, PolkadotRuntimeParachainsAssignerCoretimeQueueDescriptor, PolkadotRuntimeParachainsAssignerCoretimeWorkState } from '@polkadot/types/lookup';
+import type { PalletBrokerCoretimeInterfaceCoreAssignment, PolkadotRuntimeParachainsAssignerCoretimeAssignmentState, PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor, PolkadotRuntimeParachainsAssignerCoretimeQueueDescriptor, PolkadotRuntimeParachainsAssignerCoretimeWorkState } from '@polkadot/types/lookup';
 import type { CoreDescriptor } from './types.js';
-import { BN } from '@polkadot/util';
+
 import { useEffect, useState } from 'react';
 
 import { createNamedHook, useCall, useMapKeys } from '@polkadot/react-hooks';
+import { BN } from '@polkadot/util';
 
-function extractInfo(info: PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor, core: number): CoreDescriptor {
-  const currentWork: PolkadotRuntimeParachainsAssignerCoretimeWorkState | null = info?.currentWork.isSome ? info.currentWork.unwrap() : null
-  const queue: PolkadotRuntimeParachainsAssignerCoretimeQueueDescriptor | null = info?.queue.isSome ? info.queue.unwrap() : null
-  const assignments = currentWork?.assignments || []
+function extractInfo (info: PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor, core: number): CoreDescriptor {
+  const currentWork: PolkadotRuntimeParachainsAssignerCoretimeWorkState | null = info?.currentWork.isSome ? info.currentWork.unwrap() : null;
+  const queue: PolkadotRuntimeParachainsAssignerCoretimeQueueDescriptor | null = info?.queue.isSome ? info.queue.unwrap() : null;
+  const assignments = currentWork?.assignments || [];
+
   return {
     core,
     info: {
       currentWork: {
         assignments: assignments?.map((one: [PalletBrokerCoretimeInterfaceCoreAssignment, PolkadotRuntimeParachainsAssignerCoretimeAssignmentState]) => {
           return ({
-            task: one[0]?.isTask ? one[0]?.asTask.toString() : one[0]?.isPool ? 'Pool' : 'Idle',
-            ratio: one[1]?.ratio.toNumber(),
-            remaining: one[1]?.remaining.toNumber(),
             isPool: one[0]?.isPool,
             isTask: one[0]?.isTask,
-
-          })
+            ratio: one[1]?.ratio.toNumber(),
+            remaining: one[1]?.remaining.toNumber(),
+            task: one[0]?.isTask ? one[0]?.asTask.toString() : one[0]?.isPool ? 'Pool' : 'Idle'
+          });
         }),
         endHint: currentWork?.endHint.isSome ? currentWork?.endHint?.unwrap().toBn() : null,
         pos: currentWork?.pos.toNumber() || 0,
@@ -45,7 +46,7 @@ const OPT_KEY = {
     keys.map(({ args: [id] }) => id)
 };
 
-function useCoreDescriptorImpl(api: ApiPromise, ready: boolean): CoreDescriptor[] | undefined {
+function useCoreDescriptorImpl (api: ApiPromise, ready: boolean): CoreDescriptor[] | undefined {
   const keys = useMapKeys(ready && api.query.coretimeAssignmentProvider.coreDescriptors, [], OPT_KEY);
 
   const sanitizedKeys = keys?.map((_, index) => {

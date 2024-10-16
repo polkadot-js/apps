@@ -9,8 +9,8 @@ import React, { useMemo } from 'react';
 import { CardSummary, styled, SummaryBox, UsageBar } from '@polkadot/react-components';
 import { defaultHighlight } from '@polkadot/react-components/styles';
 import { useApi, useBrokerConfig, useBrokerSalesInfo, useBrokerStatus } from '@polkadot/react-hooks';
-import { type CoreWorkload, PalletBrokerConfigRecord } from '@polkadot/react-hooks/types';
-import { BN, formatBalance } from '@polkadot/util';
+import { type CoreWorkload } from '@polkadot/react-hooks/types';
+import { BN } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
 import { estimateTime, getStats } from '../utils.js';
@@ -39,7 +39,7 @@ interface Props {
   workloadInfos?: CoreWorkload[]
 }
 
-function Summary({ coreCount, workloadInfos }: Props): React.ReactElement {
+function Summary ({ coreCount, workloadInfos }: Props): React.ReactElement {
   const { t } = useTranslation();
   const { api, apiEndpoint, isApiReady } = useApi();
   const uiHighlight = apiEndpoint?.ui.color || defaultHighlight;
@@ -87,7 +87,10 @@ function Summary({ coreCount, workloadInfos }: Props): React.ReactElement {
           </>
 
         )}
-        <div className='media--1200' style={{ marginLeft: '2rem' }}>
+        <div
+          className='media--1200'
+          style={{ marginLeft: '2rem' }}
+        >
           <UsageBar
             data={[
               { color: '#FFFFFF', label: 'Idle', value: idles },
@@ -100,16 +103,23 @@ function Summary({ coreCount, workloadInfos }: Props): React.ReactElement {
       </StyledSection>
       <section>
         {status &&
-          (<CardSummary className='media--1200' label={t('cycle dates')}>
-            <div>
-              <div style={{ fontSize: '14px' }}>{estimateTime(currentRegionStart, status?.lastTimeslice * 80)}</div>
-              <div style={{ fontSize: '14px' }}>{estimateTime(currentRegionEnd, status?.lastTimeslice * 80)}</div>
-            </div>
-          </CardSummary>)
+          (
+            <CardSummary
+              className='media--1200'
+              label={t('cycle dates')}
+            >
+              <div>
+                <div style={{ fontSize: '14px' }}>{estimateTime(currentRegionStart, status?.lastTimeslice * 80)}</div>
+                <div style={{ fontSize: '14px' }}>{estimateTime(currentRegionEnd, status?.lastTimeslice * 80)}</div>
+              </div>
+            </CardSummary>
+          )
         }
-
         {status &&
-          <CardSummary className='media--1200' label={t('cycle ts')}>
+          <CardSummary
+            className='media--1200'
+            label={t('cycle ts')}
+          >
             <div>
               <div style={{ fontSize: '14px' }}>{currentRegionStart}</div>
               <div style={{ fontSize: '14px' }}>{currentRegionEnd}</div>

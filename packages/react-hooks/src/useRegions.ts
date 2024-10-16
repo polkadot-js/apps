@@ -29,7 +29,7 @@ const OPT_KEY = {
 function useRegionsImpl (api: ApiPromise): RegionInfo[] | undefined {
   const regionKeys = useMapKeys(api.query.broker.regions, [], OPT_KEY);
 
-  const regionInfo = useCall<[[PalletBrokerRegionId[]], Option<PalletBrokerRegionRecord>[]]>(api.query.broker.regions.multi, [regionKeys], { withParams: true });
+  const regionInfo = useCall<[[PalletBrokerRegionId[]], Option<PalletBrokerRegionRecord>[]]>(api?.query?.broker.regions.multi, [regionKeys], { withParams: true });
 
   const [state, setState] = useState<RegionInfo[] | undefined>();
 

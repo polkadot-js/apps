@@ -1,27 +1,29 @@
 // Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BrokerStatus, CoreDescription, PalletBrokerConfigRecord, RegionInfo } from '@polkadot/react-hooks/types';
+import type { ApiPromise } from '@polkadot/api';
+import type { BrokerStatus, CoreDescription, PalletBrokerConfigRecord, PalletBrokerSaleInfoRecord, RegionInfo } from '@polkadot/react-hooks/types';
 
 import React, { useMemo } from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
-import { BN } from '@polkadot/util';
 import { useCall } from '@polkadot/react-hooks';
+import { BN } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
 import { CoreTimeConsts, estimateTime } from '../utils.js';
 
 interface Props {
+  api: ApiPromise,
   coreDscriptors?: CoreDescription[];
-  saleInfo: any
+  saleInfo: PalletBrokerSaleInfoRecord
   config: PalletBrokerConfigRecord,
   region: RegionInfo,
   status: BrokerStatus,
   parachainCount: number
 }
 
-function Summary({ api, config, parachainCount, saleInfo, status }: Props): React.ReactElement<Props> {
+function Summary ({ api, config, parachainCount, saleInfo, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const currentRegionEnd = saleInfo.regionEnd - config.regionLength;
   const currentRegionStart = saleInfo.regionEnd - config.regionLength * 2;
@@ -29,7 +31,7 @@ function Summary({ api, config, parachainCount, saleInfo, status }: Props): Reac
 
   const cycleNumber = useMemo(() =>
     chainName && currentRegionEnd && Math.floor((currentRegionEnd - CoreTimeConsts.FirstCycleStart[chainName]) / config.regionLength)
-    , [currentRegionEnd, chainName]);
+  , [currentRegionEnd, chainName, config]);
 
   return (
     <SummaryBox>
@@ -50,16 +52,18 @@ function Summary({ api, config, parachainCount, saleInfo, status }: Props): Reac
             </div>
           </CardSummary>
         }
-        {config && status && <CardSummary
-          className='media--800'
-          label={t('cycle progress')}
-          progress={{
-            isBlurred: false,
-            total: new BN(config?.regionLength),
-            value: new BN(config?.regionLength - (currentRegionEnd - status.lastTimeslice)),
-            withTime: false
-          }}
-        />}
+        {config && status &&
+          <CardSummary
+            className='media--800'
+            label={t('cycle progress')}
+            progress={{
+              isBlurred: false,
+              total: new BN(config?.regionLength),
+              value: new BN(config?.regionLength - (currentRegionEnd - status.lastTimeslice)),
+              withTime: false
+            }}
+          />
+        }
       </section>
       <section className='media--1200'>
         {status &&
@@ -70,7 +74,6 @@ function Summary({ api, config, parachainCount, saleInfo, status }: Props): Reac
             </div>
           </CardSummary>)
         }
-
         {status &&
           <CardSummary label={t('cycle ts')}>
             <div>

@@ -1,15 +1,13 @@
-// Copyright 2017-2024 @polkadot/app-broker authors & contributors
+// Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { FlagColor } from '@polkadot/react-components/types';
 import type { CoretimeInformation } from '@polkadot/react-hooks/types';
 
-import { formatNumber } from 'chart.js/helpers';
 import React, { useRef } from 'react';
 
 import { ParaLink, Table, Tag } from '@polkadot/react-components';
-import { useApi, useCoreDescriptor } from '@polkadot/react-hooks';
-import { BN, formatBalance } from '@polkadot/util';
+import { BN, formatBalance, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from './translate.js';
 import { estimateTime } from './utils.js';
@@ -32,8 +30,7 @@ const colours: Record<string, string> = {
   [CoreTimeTypes['Bulk Coretime']]: 'pink'
 };
 
-function ParachainsTable({ coretimeInfo, ids }: Props): React.ReactElement<Props> {
-  const { api, isApiReady } = useApi();
+function ParachainsTable ({ coretimeInfo, ids }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('parachains'), 'start'],
@@ -66,10 +63,12 @@ function ParachainsTable({ coretimeInfo, ids }: Props): React.ReactElement<Props
         return (
           <tr key={id}>
             <td>{id}</td>
-            <td><ParaLink
-              id={new BN(id)}
-              key={id}
-            /></td>
+            <td>
+              <ParaLink
+                id={new BN(id)}
+                key={id}
+              />
+            </td>
             <td>{chain?.workload?.core}</td>
             <td>
               <Tag

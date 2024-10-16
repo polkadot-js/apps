@@ -314,7 +314,7 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store: keyringStore 
     () => (coreTimeEndpoint?.providers)
       ? coreTimeEndpoint.providers
       : null,
-    [apiEndpoint, peopleEndpoint]
+    [coreTimeEndpoint]
   );
   const apiRelay = useApiUrl(relayUrls);
   const apiCoretime = useApiUrl(coretimeUrls);
@@ -325,8 +325,8 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store: keyringStore 
   );
   const enableIdentity = apiEndpoint?.isPeople || (isNumber(apiEndpoint?.paraId) && (apiEndpoint?.paraId >= 2000)) || (typeof apiEndpoint?.isPeopleForIdentity === 'boolean' && !apiEndpoint?.isPeopleForIdentity);
   const value = useMemo<ApiProps>(
-    () => objectSpread({}, state, { api: statics.api, apiEndpoint, apiError, apiIdentity: ((apiEndpoint?.isPeopleForIdentity && apiSystemPeople) || statics.api), apiRelay, apiCoretime, apiSystemPeople, apiUrl, createLink, enableIdentity, extensions, isApiConnected, isApiInitialized, isElectron, isLocalFork, isWaitingInjected: !extensions }),
-    [apiError, createLink, extensions, isApiConnected, isApiInitialized, isElectron, isLocalFork, state, apiEndpoint, apiRelay, apiCoretime, apiUrl, apiSystemPeople, enableIdentity]
+    () => objectSpread({}, state, { api: statics.api, apiCoretime, apiEndpoint, apiError, apiIdentity: ((apiEndpoint?.isPeopleForIdentity && apiSystemPeople) || statics.api), apiRelay, apiSystemPeople, apiUrl, createLink, enableIdentity, extensions, isApiConnected, isApiInitialized, isElectron, isLocalFork, isWaitingInjected: !extensions }),
+    [apiError, createLink, extensions, isApiConnected, isApiInitialized, isElectron, isLocalFork, state, apiEndpoint, apiCoretime, apiRelay, apiUrl, apiSystemPeople, enableIdentity]
   );
 
   // initial initialization

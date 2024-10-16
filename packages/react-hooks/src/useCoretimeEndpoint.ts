@@ -16,8 +16,8 @@ export function getCoretimeEndpoint (curApiInfo?: string): LinkOption | null {
   return endpoints.find(({ info }) => isString(info) && isString(curApiInfo) && info.toLowerCase().includes('coretime') && info.toLowerCase().includes(curApiInfo.toLowerCase())) || null;
 }
 
-function getCoretimeEndpointImpl (relayInfo?: string): LinkOption | null {
+function useCoretimeEndpointImpl (relayInfo?: string): LinkOption | null {
   return useMemo(() => getCoretimeEndpoint(relayInfo), [relayInfo]);
 }
 
-export const useCoretimeEndpoint = createNamedHook('useCoretimeEndpoint', getCoretimeEndpointImpl);
+export const useCoretimeEndpoint = createNamedHook('useCoretimeEndpoint', useCoretimeEndpointImpl);

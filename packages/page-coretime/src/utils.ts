@@ -8,8 +8,8 @@ export const CoreTimeConsts = {
   BlocksPerTimeslice: 80,
   DefaultRegion: 5040,
   FirstCycleStart: {
-    'polkadot': 282525,
-    'kusama': 285768
+    kusama: 285768,
+    polkadot: 282525
   }
 };
 
