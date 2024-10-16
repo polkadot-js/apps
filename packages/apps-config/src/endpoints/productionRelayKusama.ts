@@ -108,8 +108,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Dwellir: 'wss://bifrost-rpc.dwellir.com',
       Liebi: 'wss://bifrost-rpc.liebi.com/ws',
-      LiebiUS: 'wss://us.bifrost-rpc.liebi.com/ws',
-      OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws'
+      LiebiUS: 'wss://us.bifrost-rpc.liebi.com/ws'
+      // OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws'
     },
     text: 'Bifrost',
     ui: {
@@ -443,8 +443,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Dwellir: 'wss://krest-rpc.dwellir.com',
       Krest: 'wss://wss-krest.peaq.network/',
-      OnFinality: 'wss://krest.api.onfinality.io/public-ws',
-      UnitedBloc: 'wss://krest.unitedbloc.com/'
+      OnFinality: 'wss://krest.api.onfinality.io/public-ws'
+      // UnitedBloc: 'wss://krest.unitedbloc.com/' https://github.com/polkadot-js/apps/issues/10997
     },
     text: 'Krest',
     ui: {
