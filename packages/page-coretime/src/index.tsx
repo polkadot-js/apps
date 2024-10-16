@@ -18,7 +18,7 @@ interface Props {
   className?: string;
 }
 
-function createItemsRef (t: (key: string, options?: { replace: Record<string, unknown> }) => string): TabItem[] {
+function createItemsRef(t: (key: string, options?: { replace: Record<string, unknown> }) => string): TabItem[] {
   return [
     {
       isRoot: true,
@@ -28,7 +28,7 @@ function createItemsRef (t: (key: string, options?: { replace: Record<string, un
   ];
 }
 
-function CoretimeApp ({ basePath, className }: Props): React.ReactElement<Props> {
+function CoretimeApp({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, isApiReady } = useApi();
   const itemsRef = useRef(createItemsRef(t));
@@ -51,6 +51,7 @@ function CoretimeApp ({ basePath, className }: Props): React.ReactElement<Props>
       />
       {coretimeInfo?.salesInfo && (
         <Summary
+          api={isApiReady ? api : null}
           config={coretimeInfo?.config}
           parachainCount={paraIds?.length || 0}
           region={coretimeInfo?.region}

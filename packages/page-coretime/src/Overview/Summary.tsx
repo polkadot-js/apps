@@ -1,15 +1,16 @@
 // Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BrokerStatus, CoreDescription, PalletBrokerConfigRecord, PalletBrokerSaleInfoRecord, RegionInfo } from '@polkadot/react-hooks/types';
+import type { BrokerStatus, CoreDescription, PalletBrokerConfigRecord, RegionInfo } from '@polkadot/react-hooks/types';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { BN } from '@polkadot/util';
+import { useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
-import { estimateTime } from '../utils.js';
+import { CoreTimeConsts, estimateTime } from '../utils.js';
 
 interface Props {
   coreDscriptors?: CoreDescription[];
@@ -20,36 +21,37 @@ interface Props {
   parachainCount: number
 }
 
-function Summary({ config, parachainCount, region, saleInfo, status }: Props): React.ReactElement<Props> {
+function Summary({ api, config, parachainCount, saleInfo, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const currentRegionEnd = saleInfo.regionEnd - config.regionLength;
+  const currentRegionStart = saleInfo.regionEnd - config.regionLength * 2;
+  const chainName = useCall<string>(api?.rpc.system.chain)?.toString().toLowerCase();
+
+  const cycleNumber = useMemo(() =>
+    chainName && currentRegionEnd && Math.floor((currentRegionEnd - CoreTimeConsts.FirstCycleStart[chainName]) / config.regionLength)
+    , [currentRegionEnd, chainName]);
 
   return (
     <SummaryBox>
       <section>
-        <>
-          <CardSummary label={t('timeslice')}>
-            {status?.lastTimeslice}
-          </CardSummary>
-          <CardSummary label={t('cores sold')}>
-            {`${saleInfo?.coresSold} / ${saleInfo?.coresOffered}`}
-          </CardSummary>
-        </>
-        {/* <CardSummary label={t('current lease')}>
-          {leasePeriod
-            ? formatNumber(leasePeriod.currentPeriod)
-            : <span className='--tmp'>99</span>}
-        </CardSummary> */}
+        <CardSummary label={t('timeslice')}>
+          {status?.lastTimeslice}
+        </CardSummary>
+        <CardSummary label={t('cores sold')}>
+          {`${saleInfo?.coresSold} / ${saleInfo?.coresOffered}`}
+        </CardSummary>
         <CardSummary label={t('parachains')}>
           {parachainCount && parachainCount}
         </CardSummary>
-        {status && <CardSummary label={t('cycle end')}>
-          <div>
-            {estimateTime(currentRegionEnd, status?.lastTimeslice * 80)}
-          </div>
-        </CardSummary>}
+        {status &&
+          <CardSummary label={t('cycle number')}>
+            <div>
+              {cycleNumber}
+            </div>
+          </CardSummary>
+        }
         {config && status && <CardSummary
-          className='media--1200'
+          className='media--800'
           label={t('cycle progress')}
           progress={{
             isBlurred: false,
@@ -58,6 +60,25 @@ function Summary({ config, parachainCount, region, saleInfo, status }: Props): R
             withTime: false
           }}
         />}
+      </section>
+      <section className='media--1200'>
+        {status &&
+          (<CardSummary label={t('cycle dates')}>
+            <div>
+              <div style={{ fontSize: '14px' }}>{estimateTime(currentRegionStart, status?.lastTimeslice * 80)}</div>
+              <div style={{ fontSize: '14px' }}>{estimateTime(currentRegionEnd, status?.lastTimeslice * 80)}</div>
+            </div>
+          </CardSummary>)
+        }
+
+        {status &&
+          <CardSummary label={t('cycle ts')}>
+            <div>
+              <div style={{ fontSize: '14px' }}>{currentRegionStart}</div>
+              <div style={{ fontSize: '14px' }}>{currentRegionEnd}</div>
+            </div>
+          </CardSummary>
+        }
       </section>
     </SummaryBox>
   );

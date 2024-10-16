@@ -32,9 +32,8 @@ const colours: Record<string, string> = {
   [CoreTimeTypes['Bulk Coretime']]: 'pink'
 };
 
-function ParachainsTable ({ coretimeInfo, ids }: Props): React.ReactElement<Props> {
+function ParachainsTable({ coretimeInfo, ids }: Props): React.ReactElement<Props> {
   const { api, isApiReady } = useApi();
-  const coreInfos = useCoreDescriptor(api, isApiReady);
   const { t } = useTranslation();
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('parachains'), 'start'],
@@ -59,7 +58,6 @@ function ParachainsTable ({ coretimeInfo, ids }: Props): React.ReactElement<Prop
     >
       {ids && coretimeInfo && ids.map((id: number) => {
         const chain = coretimeInfo.chainInfo[id];
-        const onCore = coreInfos?.some((one) => one.info?.currentWork.assignments.some((value) => value.task === id.toString())) ? 'yes' : 'no';
         const type = chain?.lease ? CoreTimeTypes.Lease : chain?.reservation ? CoreTimeTypes.Reservation : CoreTimeTypes['Bulk Coretime'];
         const targetTimeslice = chain?.lease?.until || coretimeInfo.salesInfo.regionEnd;
         const showEsimates = !!targetTimeslice && type !== CoreTimeTypes.Reservation;
@@ -71,8 +69,8 @@ function ParachainsTable ({ coretimeInfo, ids }: Props): React.ReactElement<Prop
             <td><ParaLink
               id={new BN(id)}
               key={id}
-                /></td>
-            <td>{chain?.workload?.core || onCore}</td>
+            /></td>
+            <td>{chain?.workload?.core}</td>
             <td>
               <Tag
                 color={colours[type] as FlagColor}

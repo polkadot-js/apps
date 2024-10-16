@@ -6,7 +6,11 @@ import { BN } from '@polkadot/util';
 export const CoreTimeConsts = {
   BlockTime: 6000,
   BlocksPerTimeslice: 80,
-  DefaultRegion: 5040
+  DefaultRegion: 5040,
+  FirstCycleStart: {
+    'polkadot': 282525,
+    'kusama': 285768
+  }
 };
 
 function formatDate (date: Date) {
