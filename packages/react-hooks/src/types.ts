@@ -223,7 +223,9 @@ export interface CoreDescription {
 export interface CoreDescriptorAssignment {
   task: string,
   ratio: number,
-  remaining: number
+  remaining: number,
+  isTask: boolean,
+  isPool: boolean
 }
 
 export interface CoreDescriptor {

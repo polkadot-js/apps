@@ -13,7 +13,7 @@ import { createNamedHook, useCall } from '@polkadot/react-hooks';
 import { processHexMask } from './utils/dataProcessing.js';
 
 function useBrokerReservationsImpl (api: ApiPromise, ready: boolean): Reservation[] | undefined {
-  const reservations = useCall<[any, Vec<Vec<PalletBrokerScheduleItem>>[]]>(ready && api.query.broker.reservations);
+  const reservations = useCall<[any, Vec<Vec<PalletBrokerScheduleItem>>[]]>(ready && api?.query.broker.reservations);
   const [state, setState] = useState<Reservation[]>();
 
   useEffect((): void => {

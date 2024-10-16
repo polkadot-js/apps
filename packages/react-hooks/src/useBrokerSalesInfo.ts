@@ -29,7 +29,7 @@ function extractInfo (record: Option<PalletBrokerSaleInfoRecord>): SimplifiedPal
 }
 
 function useBrokerSalesInfoImpl (api: ApiPromise, ready: boolean) {
-  const record = useCall<Option<PalletBrokerSaleInfoRecord>>(ready && api.query.broker.saleInfo);
+  const record = useCall<Option<PalletBrokerSaleInfoRecord>>(ready && api?.query.broker.saleInfo);
 
   const [state, setState] = useState<SimplifiedPalletBrokerSaleInfoRecord | undefined>();
 

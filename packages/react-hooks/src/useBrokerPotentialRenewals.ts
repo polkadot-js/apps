@@ -48,8 +48,8 @@ const OPT_KEY = {
 };
 
 function useBrokerPotentialRenewalsImpl (api: ApiPromise, ready: boolean): any | undefined {
-  const keys = useMapKeys(ready && api.query.broker.potentialRenewals, [], OPT_KEY);
-  const potentialRenewals = useCall<[[PalletBrokerPotentialRenewalId[]], Option<PalletBrokerPotentialRenewalRecord>[]]>(ready && api.query.broker.potentialRenewals.multi, [keys], { withParams: true });
+  const keys = useMapKeys(ready && api?.query.broker.potentialRenewals, [], OPT_KEY);
+  const potentialRenewals = useCall<[[PalletBrokerPotentialRenewalId[]], Option<PalletBrokerPotentialRenewalRecord>[]]>(ready && api?.query.broker.potentialRenewals.multi, [keys], { withParams: true });
 
   const [state, setState] = useState<any[] | undefined>();
 

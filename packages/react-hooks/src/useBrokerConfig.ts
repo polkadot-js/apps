@@ -26,7 +26,7 @@ function extractInfo (config: Option<PalletBrokerConfigRecord>): SimplifiedPalle
 }
 
 function useBrokerConfigImpl (api: ApiPromise, ready: boolean) {
-  const config = useCall<Option<PalletBrokerConfigRecord>>(ready && api.query.broker.configuration);
+  const config = useCall<Option<PalletBrokerConfigRecord>>(ready && api?.query.broker.configuration);
 
   const [state, setState] = useState<SimplifiedPalletBrokerConfigRecord | undefined>();
 

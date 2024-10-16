@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import { createNamedHook, useCall } from '@polkadot/react-hooks';
 
 function useBrokerStatusImpl (api: ApiPromise, ready: boolean): BrokerStatus | undefined {
-  const status = useCall<Option<PalletBrokerStatusRecord>>(ready && api.query.broker?.status);
+  const status = useCall<Option<PalletBrokerStatusRecord>>(ready && api?.query.broker?.status);
   const [state, setState] = useState<BrokerStatus | undefined>();
 
   useEffect((): void => {
