@@ -2,12 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TabItem } from '@polkadot/react-components/types';
-import type { ParaId } from '@polkadot/types/interfaces';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 
 import { Tabs } from '@polkadot/react-components';
-import { useApi, useCall, useCoretimeInformation } from '@polkadot/react-hooks';
+import { useApi, useCoretimeInformation } from '@polkadot/react-hooks';
 
 import Summary from './Overview/Summary.js';
 import ParachainsTable from './ParachainsTable.js';
@@ -32,16 +31,7 @@ function CoretimeApp ({ basePath, className }: Props): React.ReactElement<Props>
   const { t } = useTranslation();
   const { api, isApiReady } = useApi();
   const itemsRef = useRef(createItemsRef(t));
-  const [parachainIds, setParachainIds] = useState<number[]>([]);
   const coretimeInfo = useCoretimeInformation(api, isApiReady);
-
-  const paraIds = useCall<ParaId[]>(api.query.paras.parachains);
-
-  useEffect(() => {
-    if (paraIds) {
-      setParachainIds(paraIds.map((a) => a.toNumber()));
-    }
-  }, [paraIds]);
 
   return (
     <main className={className}>
@@ -49,20 +39,19 @@ function CoretimeApp ({ basePath, className }: Props): React.ReactElement<Props>
         basePath={basePath}
         items={itemsRef.current}
       />
-      {coretimeInfo?.salesInfo && (
+      {coretimeInfo && (
         <Summary
           api={isApiReady ? api : null}
           config={coretimeInfo?.config}
-          parachainCount={paraIds?.length || 0}
+          parachainCount={coretimeInfo.taskIds?.length || 0}
           region={coretimeInfo?.region}
           saleInfo={coretimeInfo?.salesInfo}
           status={coretimeInfo?.status}
         />
       )}
-      {!!parachainIds &&
+      {!!coretimeInfo &&
         <ParachainsTable
           coretimeInfo={coretimeInfo}
-          ids={parachainIds}
         />
       }
 

@@ -20,7 +20,6 @@ export enum CoreTimeTypes {
 }
 
 interface Props {
-  ids: number[]
   coretimeInfo: CoretimeInformation
 }
 
@@ -30,21 +29,17 @@ const colours: Record<string, string> = {
   [CoreTimeTypes['Bulk Coretime']]: 'pink'
 };
 
-function ParachainsTable ({ coretimeInfo, ids }: Props): React.ReactElement<Props> {
+function ParachainsTable ({ coretimeInfo }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('parachains'), 'start'],
     [t('name'), 'start'],
-    // ['', 'media--1400'],
     [t('core number'), 'start'],
     [t('type'), 'start'],
     [t('last block'), 'start'],
     [t('end'), 'start'],
     [t('renewal'), 'start'],
     [t('renewal price'), 'start']
-    // [t('chain'), 'no-pad-left'],
-    // [t('in/out'), 'media--1700', 2],
-    // [t('leases'), 'media--1100']
   ]);
 
   return (
@@ -53,20 +48,18 @@ function ParachainsTable ({ coretimeInfo, ids }: Props): React.ReactElement<Prop
       header={headerRef.current}
       isSplit={false}
     >
-      {ids && coretimeInfo && ids.map((id: number) => {
-        const chain = coretimeInfo.chainInfo[id];
+      {coretimeInfo?.taskIds?.map((taskId: number) => {
+        const chain = coretimeInfo.chainInfo[taskId];
         const type = chain?.lease ? CoreTimeTypes.Lease : chain?.reservation ? CoreTimeTypes.Reservation : CoreTimeTypes['Bulk Coretime'];
         const targetTimeslice = chain?.lease?.until || coretimeInfo.salesInfo.regionEnd;
         const showEsimates = !!targetTimeslice && type !== CoreTimeTypes.Reservation;
-        // const renewBefore =
 
         return (
-          <tr key={id}>
-            <td>{id}</td>
+          <tr key={taskId}>
+            <td>{taskId}</td>
             <td>
               <ParaLink
-                id={new BN(id)}
-                key={id}
+                id={new BN(taskId)}
               />
             </td>
             <td>{chain?.workload?.core}</td>
@@ -78,8 +71,8 @@ function ParachainsTable ({ coretimeInfo, ids }: Props): React.ReactElement<Prop
             </td>
             <td>{showEsimates && formatNumber(targetTimeslice * 80).toString()}</td>
             <td>{showEsimates && estimateTime(targetTimeslice, coretimeInfo.status.lastCommittedTimeslice * 80)}</td>
-            <td>{chain.renewal ? 'renewed' : ''}</td>
-            <td>{chain.renewal ? formatBalance(chain.renewal?.price.toString()) : ''}</td>
+            <td>{chain?.renewal ? 'renewed' : ''}</td>
+            <td>{chain?.renewal ? formatBalance(chain.renewal?.price.toString()) : ''}</td>
           </tr>
         );
       }

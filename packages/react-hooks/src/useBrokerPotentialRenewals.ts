@@ -5,11 +5,11 @@ import type { ApiPromise } from '@polkadot/api';
 import type { Option, StorageKey, u32 } from '@polkadot/types';
 import type { PalletBrokerPotentialRenewalId, PalletBrokerPotentialRenewalRecord } from '@polkadot/types/lookup';
 import type { PotentialRenewal } from './types.js';
-import { BN_ZERO,  } from '@polkadot/util';
 
 import { useEffect, useState } from 'react';
 
 import { createNamedHook, useCall, useMapKeys } from '@polkadot/react-hooks';
+import { BN_ZERO } from '@polkadot/util';
 
 import { processHexMask } from './utils/dataProcessing.js';
 
@@ -19,8 +19,9 @@ function extractInfo (info: Option<PalletBrokerPotentialRenewalRecord>, item: Pa
   let task = '';
 
   if (!unwrapped) {
-    return
+    return;
   }
+
   const completion = unwrapped?.completion;
 
   if (completion?.isComplete) {
@@ -45,7 +46,6 @@ function extractInfo (info: Option<PalletBrokerPotentialRenewalRecord>, item: Pa
     task,
     when: item?.when.toNumber()
   };
-  
 }
 
 const OPT_KEY = {
@@ -61,9 +61,11 @@ function useBrokerPotentialRenewalsImpl (api: ApiPromise, ready: boolean): Poten
 
   useEffect((): void => {
     if (!potentialRenewals) {
-      return
+      return;
     }
-    const renewals = potentialRenewals[0][0].map((info, index) => extractInfo(potentialRenewals[1][index], info))
+
+    const renewals = potentialRenewals[0][0].map((info, index) => extractInfo(potentialRenewals[1][index], info));
+
     setState(renewals.filter((renewal): renewal is PotentialRenewal => !!renewal));
   }, [potentialRenewals]);
 

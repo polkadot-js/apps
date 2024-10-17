@@ -11,27 +11,27 @@ import { useCall } from '@polkadot/react-hooks';
 import { BN } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import { CoreTimeConsts, estimateTime } from '../utils.js';
+import { FirstCycleStart, estimateTime } from '../utils.js';
 
 interface Props {
-  api: ApiPromise,
+  api: ApiPromise | null,
   coreDscriptors?: CoreDescription[];
   saleInfo: PalletBrokerSaleInfoRecord
   config: PalletBrokerConfigRecord,
-  region: RegionInfo,
+  region: RegionInfo[],
   status: BrokerStatus,
   parachainCount: number
 }
 
-function Summary ({ api, config, parachainCount, saleInfo, status }: Props): React.ReactElement<Props> {
+function Summary({ api, config, parachainCount, saleInfo, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const currentRegionEnd = saleInfo.regionEnd - config.regionLength;
   const currentRegionStart = saleInfo.regionEnd - config.regionLength * 2;
   const chainName = useCall<string>(api?.rpc.system.chain)?.toString().toLowerCase();
 
   const cycleNumber = useMemo(() =>
-    chainName && currentRegionEnd && Math.floor((currentRegionEnd - CoreTimeConsts.FirstCycleStart[chainName]) / config.regionLength)
-  , [currentRegionEnd, chainName, config]);
+    chainName && currentRegionEnd && Math.floor((currentRegionEnd - FirstCycleStart[chainName]) / config.regionLength)
+    , [currentRegionEnd, chainName, config]);
 
   return (
     <SummaryBox>

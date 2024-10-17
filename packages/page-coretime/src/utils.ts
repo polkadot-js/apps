@@ -7,11 +7,12 @@ export const CoreTimeConsts = {
   BlockTime: 6000,
   BlocksPerTimeslice: 80,
   DefaultRegion: 5040,
-  FirstCycleStart: {
-    kusama: 285768,
-    polkadot: 282525
-  }
 };
+
+export const FirstCycleStart: Record<string, number>  ={
+  kusama: 285768,
+  polkadot: 282525
+}
 
 function formatDate (date: Date) {
   const day = date.getDate();

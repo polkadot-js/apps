@@ -7,7 +7,7 @@ import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/api-derive/types';
 import type { DisplayedJudgement } from '@polkadot/react-components/types';
 import type { Option, u32, u128, Vec } from '@polkadot/types';
-import type { AccountId, BlockNumber, Call, Hash, ParaId, SessionIndex, ValidatorPrefs } from '@polkadot/types/interfaces';
+import type { AccountId, BlockNumber, Call, Hash, SessionIndex, ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { PalletPreimageRequestStatus, PalletStakingRewardDestination, PalletStakingStakingLedger, PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor, SpStakingExposurePage, SpStakingPagedExposureMetadata } from '@polkadot/types/lookup';
 import type { ICompact, IExtrinsic, INumber } from '@polkadot/types/types';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
@@ -323,8 +323,8 @@ export interface PalletBrokerConfigRecord {
 }
 
 export interface ChainInformation {
-  id: ParaId,
-  workload: CoreWorkload[] | undefined,
+  id: number,
+  workload: CoreWorkload | undefined,
   renewal: PotentialRenewal | undefined,
   worklplan: CoreWorkplan[] | undefined,
   lease: LegacyLease | undefined,
@@ -336,6 +336,7 @@ export interface CoretimeInformation {
   status: BrokerStatus,
   region: RegionInfo[],
   config: PalletBrokerConfigRecord
+  taskIds: number[]
 }
 
 export interface BrokerStatus {

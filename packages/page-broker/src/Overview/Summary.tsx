@@ -39,7 +39,7 @@ interface Props {
   workloadInfos?: CoreWorkload[]
 }
 
-function Summary({ coreCount, workloadInfos }: Props): React.ReactElement {
+function Summary ({ coreCount, workloadInfos }: Props): React.ReactElement {
   const { t } = useTranslation();
   const { api, apiEndpoint, isApiReady } = useApi();
   const uiHighlight = apiEndpoint?.ui.color || defaultHighlight;
@@ -79,7 +79,7 @@ function Summary({ coreCount, workloadInfos }: Props): React.ReactElement {
                 progress={{
                   isBlurred: false,
                   total: new BN(config?.regionLength || 0),
-                  value: config?.regionLength && currentRegionEnd && status && new BN(config?.regionLength - (currentRegionEnd - status?.lastTimeslice)) || BN_ZERO,
+                  value: (config?.regionLength && currentRegionEnd && status && new BN(config?.regionLength - (currentRegionEnd - status?.lastTimeslice))) || BN_ZERO,
                   withTime: false
                 }}
               />
@@ -114,7 +114,6 @@ function Summary({ coreCount, workloadInfos }: Props): React.ReactElement {
                   <div style={{ fontSize: '14px' }}>{estimateTime(currentRegionEnd, status?.lastTimeslice * 80)}</div>
                 </div>
               </CardSummary>
-
               <CardSummary
                 className='media--1200'
                 label={t('cycle ts')}
