@@ -5,6 +5,7 @@ import type { ApiPromise } from '@polkadot/api';
 import type { Option, StorageKey, u32 } from '@polkadot/types';
 import type { PalletBrokerPotentialRenewalId, PalletBrokerPotentialRenewalRecord } from '@polkadot/types/lookup';
 import type { PotentialRenewal } from './types.js';
+import { BN_ZERO,  } from '@polkadot/util';
 
 import { useEffect, useState } from 'react';
 
@@ -12,10 +13,14 @@ import { createNamedHook, useCall, useMapKeys } from '@polkadot/react-hooks';
 
 import { processHexMask } from './utils/dataProcessing.js';
 
-function extractInfo (info: Option<PalletBrokerPotentialRenewalRecord>, item: PalletBrokerPotentialRenewalId): PotentialRenewal {
+function extractInfo (info: Option<PalletBrokerPotentialRenewalRecord>, item: PalletBrokerPotentialRenewalId): PotentialRenewal | undefined {
   const unwrapped: PalletBrokerPotentialRenewalRecord | null = info.isSome ? info.unwrap() : null;
-  let mask = [];
-  let task = null;
+  let mask: string[] = [];
+  let task = '';
+
+  if (!unwrapped) {
+    return
+  }
   const completion = unwrapped?.completion;
 
   if (completion?.isComplete) {
@@ -24,8 +29,8 @@ function extractInfo (info: Option<PalletBrokerPotentialRenewalRecord>, item: Pa
     task = complete.assignment.isTask ? complete?.assignment.asTask.toString() : complete?.assignment.isPool ? 'Pool' : 'Idle';
     mask = processHexMask(complete.mask);
   } else if (completion?.isPartial) {
-    task = null;
-    mask = completion.asPartial[0];
+    mask = processHexMask(completion?.asPartial);
+    task = '';
   } else {
     mask = [];
   }
@@ -36,10 +41,11 @@ function extractInfo (info: Option<PalletBrokerPotentialRenewalRecord>, item: Pa
     core: item?.core.toNumber(),
     mask,
     maskBits: mask?.length,
-    price: unwrapped?.price.toBn(),
+    price: unwrapped?.price.toBn() || BN_ZERO,
     task,
     when: item?.when.toNumber()
   };
+  
 }
 
 const OPT_KEY = {
@@ -51,12 +57,14 @@ function useBrokerPotentialRenewalsImpl (api: ApiPromise, ready: boolean): Poten
   const keys = useMapKeys(ready && api?.query.broker.potentialRenewals, [], OPT_KEY);
   const potentialRenewals = useCall<[[PalletBrokerPotentialRenewalId[]], Option<PalletBrokerPotentialRenewalRecord>[]]>(ready && api?.query.broker.potentialRenewals.multi, [keys], { withParams: true });
 
-  const [state, setState] = useState<any[] | undefined>();
+  const [state, setState] = useState<PotentialRenewal[] | undefined>();
 
   useEffect((): void => {
-    potentialRenewals &&
-      setState(potentialRenewals[0][0].map((info, index) => extractInfo(potentialRenewals[1][index], info))
-      );
+    if (!potentialRenewals) {
+      return
+    }
+    const renewals = potentialRenewals[0][0].map((info, index) => extractInfo(potentialRenewals[1][index], info))
+    setState(renewals.filter((renewal): renewal is PotentialRenewal => !!renewal));
   }, [potentialRenewals]);
 
   return state;

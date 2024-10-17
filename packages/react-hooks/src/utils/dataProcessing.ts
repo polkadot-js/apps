@@ -1,7 +1,7 @@
 // Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PalletBrokerScheduleItem } from '@polkadot/types/lookup';
+import type { PalletBrokerScheduleItem, PalletBrokerCoreMask } from '@polkadot/types/lookup';
 
 import { BN } from '@polkadot/util';
 
@@ -9,7 +9,7 @@ export function hexToBin (hex: string): string {
   return parseInt(hex, 16).toString(2);
 }
 
-export function processHexMask (mask: PalletBrokerScheduleItem['mask'] | undefined): string[] {
+export function processHexMask (mask: PalletBrokerScheduleItem['mask'] | PalletBrokerCoreMask | undefined): string[] {
   if (!mask) {
     return [];
   }

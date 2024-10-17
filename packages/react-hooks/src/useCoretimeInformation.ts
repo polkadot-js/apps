@@ -32,7 +32,7 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
   const coreInfos = useCoreDescriptor(api, ready);
 
   const potentialRenewalsCurrentRegion = useMemo(() => potentialRenewals?.filter((renewal: PotentialRenewal) => renewal.when === salesInfo?.regionEnd), [potentialRenewals, salesInfo]);
-  const [state, setState] = useState<CoretimeInformation[] | undefined>();
+  const [state, setState] = useState<CoretimeInformation | undefined>();
 
   useEffect(() => {
     if (workloads?.length) {
@@ -53,7 +53,7 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
         ) as CoreWorkloadInfo)
       }));
 
-      setWorkloadData(parsedCoreInfos);
+      setWorkloadData(parsedCoreInfos as unknown as CoreWorkload[]);
     }
   }, [workloads, coreInfos]);
 
@@ -79,7 +79,7 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
       };
     });
 
-    if (chainInfo) {
+    if (chainInfo && config && region && salesInfo && status) {
       setState({
         chainInfo,
         config,
