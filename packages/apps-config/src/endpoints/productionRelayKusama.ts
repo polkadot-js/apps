@@ -669,7 +669,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
       // Dwellir: 'wss://robonomics-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/10912
       // Leemo: 'wss://robonomics.leemo.me', // https://github.com/polkadot-js/apps/issues/9817
       // OnFinality: 'wss://robonomics.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9824
-      Samsara: 'wss://robonomics.0xsamsara.com'
+      // Samsara: 'wss://robonomics.0xsamsara.com'
     },
     text: 'Robonomics',
     ui: {
