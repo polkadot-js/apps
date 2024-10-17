@@ -29,7 +29,7 @@ const colours: Record<string, string> = {
   [CoreTimeTypes['Bulk Coretime']]: 'pink'
 };
 
-function ParachainsTable ({ coretimeInfo }: Props): React.ReactElement<Props> {
+function ParachainsTable({ coretimeInfo }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('parachains'), 'start'],
@@ -71,7 +71,7 @@ function ParachainsTable ({ coretimeInfo }: Props): React.ReactElement<Props> {
             </td>
             <td>{showEsimates && formatNumber(targetTimeslice * 80).toString()}</td>
             <td>{showEsimates && estimateTime(targetTimeslice, coretimeInfo.status.lastCommittedTimeslice * 80)}</td>
-            <td>{chain?.renewal ? 'renewed' : ''}</td>
+            <td>{chain?.renewal ? 'eligible' : type === CoreTimeTypes['Bulk Coretime'] ? 'renewed' : ''}</td>
             <td>{chain?.renewal ? formatBalance(chain.renewal?.price.toString()) : ''}</td>
           </tr>
         );
