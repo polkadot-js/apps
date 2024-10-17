@@ -33,6 +33,7 @@
       "@polkadot/app-collator": ["page-collator/src/index.tsx"],
       "@polkadot/app-contracts": ["page-contracts/src/index.tsx"],
       "@polkadot/app-council": ["page-council/src/index.tsx"],
+      "@polkadot/app-coretime": ["page-coretime/src/index.tsx"],
       "@polkadot/app-democracy": ["page-democracy/src/index.tsx"],
       "@polkadot/app-democracy/*": ["page-democracy/src/*.tsx"],
       "@polkadot/app-extrinsics": ["page-extrinsics/src/index.tsx"],
