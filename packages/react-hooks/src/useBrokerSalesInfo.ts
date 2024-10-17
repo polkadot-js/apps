@@ -1,13 +1,14 @@
 // Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { Option } from '@polkadot/types';
 import type { PalletBrokerSaleInfoRecord } from '@polkadot/types/lookup';
 import type { PalletBrokerSaleInfoRecord as SimplifiedPalletBrokerSaleInfoRecord } from './types.js';
 
 import { useEffect, useState } from 'react';
 
-import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
+import { createNamedHook, useCall } from '@polkadot/react-hooks';
 import { BN } from '@polkadot/util';
 
 function extractInfo (record: Option<PalletBrokerSaleInfoRecord>): SimplifiedPalletBrokerSaleInfoRecord {
@@ -27,10 +28,8 @@ function extractInfo (record: Option<PalletBrokerSaleInfoRecord>): SimplifiedPal
   };
 }
 
-function useBrokerSalesInfoImpl () {
-  const { api, isApiReady } = useApi();
-
-  const record = useCall<Option<PalletBrokerSaleInfoRecord>>(isApiReady && api.query.broker.saleInfo);
+function useBrokerSalesInfoImpl (api: ApiPromise, ready: boolean) {
+  const record = useCall<Option<PalletBrokerSaleInfoRecord>>(ready && api?.query.broker.saleInfo);
 
   const [state, setState] = useState<SimplifiedPalletBrokerSaleInfoRecord | undefined>();
 
