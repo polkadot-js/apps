@@ -45,8 +45,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       AjunaNetwork: 'wss://rpc-para.ajuna.network',
       IBP1: 'wss://ajuna.ibp.network',
       IBP2: 'wss://ajuna.dotters.network',
-      OnFinality: 'wss://ajuna.api.onfinality.io/public-ws',
-      RadiumBlock: 'wss://ajuna.public.curie.radiumblock.co/ws'
+      OnFinality: 'wss://ajuna.api.onfinality.io/public-ws'
+      // RadiumBlock: 'wss://ajuna.public.curie.radiumblock.co/ws' https://github.com/polkadot-js/apps/issues/10990
     },
     text: 'Ajuna Network',
     ui: {
@@ -109,7 +109,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       IBP2: 'wss://bifrost-polkadot.dotters.network',
       Liebi: 'wss://hk.p.bifrost-rpc.liebi.com/ws',
       LiebiEU: 'wss://eu.bifrost-polkadot-rpc.liebi.com/ws',
-      OnFinality: 'wss://bifrost-polkadot.api.onfinality.io/public-ws',
+      // OnFinality: 'wss://bifrost-polkadot.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://bifrost.public.curie.radiumblock.co/ws'
     },
     text: 'Bifrost',
@@ -626,9 +626,9 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'parallel',
     paraId: 2012,
     providers: {
-      Dwellir: 'wss://parallel-rpc.dwellir.com'
+      // Dwellir: 'wss://parallel-rpc.dwellir.com' , https://github.com/polkadot-js/apps/issues/10997
+      Parallel: 'wss://polkadot-parallel-rpc.parallel.fi'
       // OnFinality: 'wss://parallel.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9986
-      // Parallel: 'wss://polkadot-parallel-rpc.parallel.fi' // https://github.com/polkadot-js/apps/issues/10220
     },
     text: 'Parallel',
     ui: {
@@ -733,11 +733,11 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'robonomics',
     paraId: 3388,
     providers: {
-      Airalab: 'wss://polkadot.rpc.robonomics.network/' // https://github.com/polkadot-js/apps/issues/10890
+      Airalab: 'wss://polkadot.rpc.robonomics.network/'
     },
     text: 'Robonomics',
     ui: {
-      color: '#2949d3',
+      color: '#e6007a',
       logo: nodesRobonomicsSVG
     }
   },
