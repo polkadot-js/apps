@@ -25,7 +25,7 @@ const formatDataObject = (one: CoreWorkplan | CoreWorkload, leaseMap: LeaseMapTy
   lastBlock: leaseMap[one?.info.task as number]?.until || 0,
   maskBits: one.info.maskBits,
   task: one.info.task,
-  type: getOccupancyType(leaseMap[one.info.task as number], reservationMap[one.info.task as number])
+  type: getOccupancyType(leaseMap[one.info.task as number], reservationMap[one.info.task as number], one.info.isPool)
 });
 
 const formatData = (coreCount: number, workplan: CoreWorkplan[], workload: CoreWorkload[], leaseMap: LeaseMapType, reservationMap: ReservationMapType): CoreInfo[] => {
@@ -56,7 +56,7 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
   const [data, setData] = useState<CoreInfo[]>([]);
 
   const [filtered, setFiltered] = useState<CoreInfo[]>();
-  const coreCount = useBrokerStatus('coreCount') || '-';
+  const status = useBrokerStatus(api, isApiReady);
 
   const workloadInfos: CoreWorkload[] | undefined = useWorkloadInfos(api, isApiReady);
   const workplanInfos: CoreWorkplan[] | undefined = useWorkplanInfos(api, isApiReady);
@@ -67,15 +67,15 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
   const reservationMap: ReservationMapType = useMemo(() => reservations ? createTaskMap(reservations) : [], [reservations]);
 
   useEffect(() => {
-    !!workplanInfos && !!workloadInfos && !!coreCount &&
-      setData(formatData(Number(coreCount), workplanInfos, workloadInfos, leaseMap, reservationMap));
-  }, [workplanInfos, workloadInfos, leaseMap, reservationMap, coreCount]);
+    !!workplanInfos && !!workloadInfos && !!status?.coreCount &&
+      setData(formatData(Number(status?.coreCount), workplanInfos, workloadInfos, leaseMap, reservationMap));
+  }, [workplanInfos, workloadInfos, leaseMap, reservationMap, status]);
 
   return (
     <div className={className}>
       <Summary
         apiEndpoint={apiEndpoint}
-        coreCount={coreCount}
+        coreCount={status?.coreCount.toString() || '-'}
         workloadInfos={workloadInfos}
       ></Summary>
       {!!data?.length &&
@@ -88,6 +88,7 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
             <CoresTable
               api={api}
               data={filtered}
+              isApiReady={isApiReady}
             />
           )}
         </>)

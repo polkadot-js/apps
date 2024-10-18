@@ -33,6 +33,8 @@ export { useCallMulti } from './useCallMulti.js';
 export { useCollectiveInstance } from './useCollectiveInstance.js';
 export { useCollectiveMembers } from './useCollectiveMembers.js';
 export { useCoreDescriptor } from './useCoreDescriptor.js';
+export { useCoretimeEndpoint } from './useCoretimeEndpoint.js';
+export { useCoretimeInformation } from './useCoretimeInformation.js';
 export { useDebounce } from './useDebounce.js';
 export { useDelegations } from './useDelegations.js';
 export { useDeriveAccountFlags } from './useDeriveAccountFlags.js';

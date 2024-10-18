@@ -19,7 +19,7 @@ function extractInfo (value: OnDemandQueueStatus) {
 function useQueueStatusImpl (): OnDemandQueueStatus | undefined {
   const { api } = useApi();
 
-  const queue = useCall<OnDemandQueueStatus>(api.query.onDemandAssignmentProvider.queueStatus);
+  const queue = useCall<OnDemandQueueStatus>(api.query.onDemandAssignmentProvider?.queueStatus);
 
   const [state, setState] = useState<OnDemandQueueStatus | undefined>();
 

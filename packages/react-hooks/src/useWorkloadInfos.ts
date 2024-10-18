@@ -34,7 +34,7 @@ function extractInfo (info: PalletBrokerScheduleItem[], core: number): CoreWorkl
       isTask: assignment.isTask,
       mask,
       maskBits: mask.length,
-      task: assignment.isTask ? assignment.asTask.toString() : assignment.isPool ? 'Pool' : ''
+      task: assignment.isTask ? assignment.asTask.toString() : assignment.isPool ? 'Pool' : 'Idle'
     }
   };
 }
@@ -45,8 +45,8 @@ const OPT_KEY = {
 };
 
 function useWorkloadInfosImpl (api: ApiPromise, ready: boolean): CoreWorkload[] | undefined {
-  const cores = useMapKeys(ready && api.query.broker.workload, [], OPT_KEY);
-  const workloadInfo = useCall<[[BN[]], Vec<PalletBrokerScheduleItem>[]]>(ready && api.query.broker.workload.multi, [cores], { withParams: true });
+  const cores = useMapKeys(ready && api?.query.broker.workload, [], OPT_KEY);
+  const workloadInfo = useCall<[[BN[]], Vec<PalletBrokerScheduleItem>[]]>(ready && api?.query.broker.workload.multi, [cores], { withParams: true });
   const [state, setState] = useState<CoreWorkload[] | undefined>();
 
   useEffect((): void => {
