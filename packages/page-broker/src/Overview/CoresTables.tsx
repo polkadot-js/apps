@@ -21,7 +21,7 @@ function CoresTable ({ api, data, isApiReady }: Props): React.ReactElement<Props
 
   return (
     <>
-      {data?.map((coreData) => {
+      {config && data?.map((coreData) => {
         return (
           <CoreTable
             api={api}
