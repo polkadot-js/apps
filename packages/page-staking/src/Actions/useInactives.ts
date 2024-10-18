@@ -156,13 +156,11 @@ function useInactivesImpl (stashId: string, nominees?: string[], eraExposure?: D
    * pallet updates v14 introduces ErasStakersPaged which is used by the derive `staking.eraExposure`
    */
   useEffect(() => {
-    if (version && version >= 14 && !!eraExposure) {
+    if (version && version >= 14 && !eraExposure) {
       return;
     }
 
-    const exposuresData = nominees?.map((id) =>
-      eraExposure?.validators?.[id]
-    ).filter((val) => val) as Exposure[];
+    const exposuresData = nominees?.map((id) => eraExposure?.validators?.[id]).filter((val) => val) as Exposure[];
 
     mountedRef.current && exposuresData.length && nominees?.length && !!submittedIn && setState(
       extractState({
