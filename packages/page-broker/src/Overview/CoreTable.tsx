@@ -10,15 +10,17 @@ import { Table } from '@polkadot/react-components';
 import { useTranslation } from '../translate.js';
 import { type CoreWorkloadType, type CoreWorkplanType } from '../types.js';
 import Workload from './Workload.js';
+import { PalletBrokerConfigRecord } from '@polkadot/react-hooks/types';
 
 interface Props {
   api: ApiPromise;
   core: number;
+  config: PalletBrokerConfigRecord,
   workload?: CoreWorkloadType[],
   workplan?: CoreWorkplanType[],
 }
 
-function CoreTable ({ api, core, workload, workplan }: Props): React.ReactElement<Props> {
+function CoreTable({ api, core, workload, workplan, config }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const headerRef = useRef<([React.ReactNode?, string?] | false)[]>([[t('core')]]);
   const header: [React.ReactNode?, string?, number?, (() => void)?][] = [
@@ -43,6 +45,7 @@ function CoreTable ({ api, core, workload, workplan }: Props): React.ReactElemen
         key={core}
         workload={workload}
         workplan={workplan}
+        config={config}
       />
 
     </Table>

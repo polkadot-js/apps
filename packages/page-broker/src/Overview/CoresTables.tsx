@@ -7,13 +7,16 @@ import type { CoreInfo } from '../types.js';
 import React from 'react';
 
 import CoreTable from './CoreTable.js';
+import { useBrokerConfig } from '@polkadot/react-hooks';
 
 interface Props {
   api: ApiPromise;
+  isApiReady: boolean;
   data: CoreInfo[];
 }
 
-function CoresTable ({ api, data }: Props): React.ReactElement<Props> {
+function CoresTable({ api, isApiReady, data }: Props): React.ReactElement<Props> {
+  const config = useBrokerConfig(api, isApiReady);
   return (
     <>
       {data?.map((coreData) => {
@@ -24,6 +27,7 @@ function CoresTable ({ api, data }: Props): React.ReactElement<Props> {
             key={coreData?.core}
             workload={coreData?.workload}
             workplan={coreData?.workplan}
+            config={config}
           />
         );
       })}

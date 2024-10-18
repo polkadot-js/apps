@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { RegionInfo } from '@polkadot/react-hooks/types';
+import type { PalletBrokerConfigRecord, RegionInfo } from '@polkadot/react-hooks/types';
 import type { Option } from '@polkadot/types';
 import type { PalletBrokerStatusRecord } from '@polkadot/types/lookup';
 import type { CoreWorkloadType, CoreWorkplanType, InfoRow } from '../types.js';
@@ -15,15 +15,17 @@ import { useApi, useBrokerSalesInfo, useCall, useRegions, useToggle } from '@pol
 import { CoreTimeConsts, formatRowInfo } from '../utils.js';
 import WorkInfoRow from './WorkInfoRow.js';
 import Workplan from './Workplan.js';
+import RegionLength from './Summary/RegionLength.jsx';
 
 interface Props {
   api: ApiPromise;
   core: number;
   workload: CoreWorkloadType[] | undefined
   workplan?: CoreWorkplanType[] | undefined
+  config: PalletBrokerConfigRecord
 }
 
-function Workload ({ api, core, workload, workplan }: Props): React.ReactElement<Props> {
+function Workload({ api, core, workload, workplan, config }: Props): React.ReactElement<Props> {
   const { isApiReady } = useApi();
   const salesInfo = useBrokerSalesInfo(api, isApiReady);
 
@@ -46,7 +48,7 @@ function Workload ({ api, core, workload, workplan }: Props): React.ReactElement
   useEffect(() => {
     if (!!workload?.length && !!salesInfo) {
       // saleInfo points to a regionEnd and regionBeing in the next cycle, but we want the start and end of the current cycle
-      setWorkloadData(formatRowInfo(workload, core, region, currentTimeSlice, { regionBegin: salesInfo.regionBegin - CoreTimeConsts.DefaultRegion, regionEnd: salesInfo.regionEnd - CoreTimeConsts.DefaultRegion }));
+      setWorkloadData(formatRowInfo(workload, core, region, currentTimeSlice, { regionBegin: salesInfo.regionBegin - config.regionLength, regionEnd: salesInfo.regionEnd - config.regionLength }, config.regionLength));
     } else {
       return setWorkloadData([{ core }]);
     }
@@ -54,10 +56,10 @@ function Workload ({ api, core, workload, workplan }: Props): React.ReactElement
 
   useEffect(() => {
     if (!!workplan?.length && !!salesInfo) {
-      setWorkplanData(formatRowInfo(workplan, core, region, currentTimeSlice, salesInfo));
+      setWorkplanData(formatRowInfo(workplan, core, region, currentTimeSlice, salesInfo, config.regionLength));
     }
   }
-  , [workplan, region, currentTimeSlice, core, salesInfo]);
+    , [workplan, region, currentTimeSlice, core, salesInfo]);
 
   const hasWorkplan = workplan?.length;
 

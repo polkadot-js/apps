@@ -11,7 +11,6 @@ import { CoreTimeTypes } from './types.js';
 export const CoreTimeConsts = {
   BlockTime: 6000,
   BlocksPerTimeslice: 80,
-  DefaultRegion: 5040
 };
 
 function formatDate (date: Date) {
@@ -72,7 +71,7 @@ export const estimateTime = (targetTimeslice: string | number, latestBlock: numb
  * @returns
  */
 
-export function formatRowInfo (data: CoreWorkloadType[] | CoreWorkplanType[], core: number, currentRegion: RegionInfo | undefined, currentTimeSlice: number, { regionBegin, regionEnd }: { regionBegin: number, regionEnd: number }, regionLength = CoreTimeConsts.DefaultRegion): InfoRow[] {
+export function formatRowInfo (data: CoreWorkloadType[] | CoreWorkplanType[], core: number, currentRegion: RegionInfo | undefined, currentTimeSlice: number, { regionBegin, regionEnd }: { regionBegin: number, regionEnd: number }, regionLength: number): InfoRow[] {
   return data.map((one: CoreWorkloadType | CoreWorkplanType) => {
     const item: InfoRow = { core, maskBits: one?.info?.maskBits, task: one?.info?.task, type: one?.type };
     const blockNumberNow = currentTimeSlice * 80;

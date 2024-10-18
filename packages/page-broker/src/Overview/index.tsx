@@ -51,7 +51,7 @@ const formatData = (coreCount: number, workplan: CoreWorkplan[], workload: CoreW
   });
 };
 
-function Overview ({ className }: Props): React.ReactElement<Props> {
+function Overview({ className }: Props): React.ReactElement<Props> {
   const { api, apiEndpoint, isApiReady } = useApi();
   const [data, setData] = useState<CoreInfo[]>([]);
 
@@ -87,6 +87,7 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
           {!!filtered && (
             <CoresTable
               api={api}
+              isApiReady={isApiReady}
               data={filtered}
             />
           )}
