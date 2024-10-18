@@ -1,7 +1,9 @@
 // Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { LegacyLease, Reservation } from '@polkadot/react-hooks/types';
 import { BN } from '@polkadot/util';
+import { CoreTimeTypes } from './types.js';
 
 export const CoreTimeConsts = {
   BlockTime: 6000,
@@ -58,4 +60,12 @@ export const estimateTime = (targetTimeslice: string | number, latestBlock: numb
 
     return null;
   }
+};
+
+export const getOccupancyType = (lease: LegacyLease | undefined, reservation: Reservation | undefined, isPool: boolean): CoreTimeTypes => {
+  if (isPool) {
+    return CoreTimeTypes['On Demand'];
+  }
+
+  return reservation ? CoreTimeTypes.Reservation : lease ? CoreTimeTypes.Lease : CoreTimeTypes['Bulk Coretime'];
 };
