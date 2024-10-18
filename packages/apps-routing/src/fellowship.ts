@@ -9,7 +9,6 @@ export default function create (t: TFunction): Route {
   return {
     Component,
     display: {
-      needsAccounts: true,
       needsApi: [
         'tx.fellowshipCollective.vote',
         'tx.fellowshipReferenda.submit',
