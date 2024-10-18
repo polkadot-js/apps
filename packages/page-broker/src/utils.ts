@@ -10,7 +10,7 @@ import { CoreTimeTypes } from './types.js';
 
 export const CoreTimeConsts = {
   BlockTime: 6000,
-  BlocksPerTimeslice: 80,
+  BlocksPerTimeslice: 80
 };
 
 function formatDate (date: Date) {

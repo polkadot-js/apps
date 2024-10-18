@@ -1,13 +1,15 @@
 // Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { LegacyLease, Reservation } from '@polkadot/react-hooks/types';
+import type { LegacyLease, Reservation } from '@polkadot/react-hooks/types';
+
 import { BN } from '@polkadot/util';
+
 import { CoreTimeTypes } from './types.js';
 
 export const CoreTimeConsts = {
   BlockTime: 6000,
-  BlocksPerTimeslice: 80,
+  BlocksPerTimeslice: 80
 };
 
 export const FirstCycleStart: Record<string, number> = {

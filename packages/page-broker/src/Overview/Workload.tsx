@@ -12,10 +12,9 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { ExpandButton } from '@polkadot/react-components';
 import { useApi, useBrokerSalesInfo, useCall, useRegions, useToggle } from '@polkadot/react-hooks';
 
-import { CoreTimeConsts, formatRowInfo } from '../utils.js';
+import { formatRowInfo } from '../utils.js';
 import WorkInfoRow from './WorkInfoRow.js';
 import Workplan from './Workplan.js';
-import RegionLength from './Summary/RegionLength.jsx';
 
 interface Props {
   api: ApiPromise;
@@ -25,7 +24,7 @@ interface Props {
   config: PalletBrokerConfigRecord
 }
 
-function Workload({ api, core, workload, workplan, config }: Props): React.ReactElement<Props> {
+function Workload ({ api, config, core, workload, workplan }: Props): React.ReactElement<Props> {
   const { isApiReady } = useApi();
   const salesInfo = useBrokerSalesInfo(api, isApiReady);
 
@@ -52,14 +51,14 @@ function Workload({ api, core, workload, workplan, config }: Props): React.React
     } else {
       return setWorkloadData([{ core }]);
     }
-  }, [workload, region, currentTimeSlice, core, salesInfo]);
+  }, [workload, region, currentTimeSlice, core, salesInfo, config]);
 
   useEffect(() => {
     if (!!workplan?.length && !!salesInfo) {
       setWorkplanData(formatRowInfo(workplan, core, region, currentTimeSlice, salesInfo, config.regionLength));
     }
   }
-    , [workplan, region, currentTimeSlice, core, salesInfo]);
+  , [workplan, region, currentTimeSlice, core, salesInfo, config]);
 
   const hasWorkplan = workplan?.length;
 

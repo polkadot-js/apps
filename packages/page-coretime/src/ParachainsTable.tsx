@@ -10,8 +10,8 @@ import { ParaLink, Table, Tag } from '@polkadot/react-components';
 import { BN, formatBalance, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from './translate.js';
-import { estimateTime, getOccupancyType } from './utils.js';
 import { CoreTimeTypes } from './types.js';
+import { estimateTime, getOccupancyType } from './utils.js';
 
 interface Props {
   coretimeInfo: CoretimeInformation
@@ -23,7 +23,7 @@ const colours: Record<string, string> = {
   [CoreTimeTypes['Bulk Coretime']]: 'pink'
 };
 
-function ParachainsTable({ coretimeInfo }: Props): React.ReactElement<Props> {
+function ParachainsTable ({ coretimeInfo }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('parachains'), 'start'],
@@ -44,7 +44,7 @@ function ParachainsTable({ coretimeInfo }: Props): React.ReactElement<Props> {
     >
       {coretimeInfo?.taskIds?.map((taskId: number) => {
         const chain = coretimeInfo.chainInfo[taskId];
-        const type = getOccupancyType(chain?.lease, chain?.reservation, !!chain.worklplan?.find(a => a.info.isPool))
+        const type = getOccupancyType(chain?.lease, chain?.reservation, !!chain.worklplan?.find((a) => a.info.isPool));
         const targetTimeslice = chain?.lease?.until || coretimeInfo.salesInfo.regionEnd;
         const showEsimates = !!targetTimeslice && type !== CoreTimeTypes.Reservation;
 
