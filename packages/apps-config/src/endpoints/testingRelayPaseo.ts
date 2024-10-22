@@ -74,7 +74,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'Bajun(paseo)',
     paraId: 2119,
     providers: {
-      BajunNetwork: 'wss://rpc-paseo.bajun.network'
+      // BajunNetwork: 'wss://rpc-paseo.bajun.network'  https://github.com/polkadot-js/apps/issues/11026
     },
     text: 'Bajun Network (Paseo)',
     ui: {
