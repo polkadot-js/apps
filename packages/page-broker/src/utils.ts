@@ -22,18 +22,18 @@ function formatDate (date: Date) {
 }
 
 /**
-   * blockTime = 6000 ms
-   * BlocksPerTimeslice = 80
-   * Default Regoin = 5040 timeslices
-   * TargetBlock = TargetTimeslice * BlocksPerTimeslice
-   * Block Time Difference = |TargetBlock - latest Block| * blockTime
-   *
-   * Estimate timestamp =
-   * if targetBlock is before the latestBlock
-   *    now minus block time difference
-   * else
-   *    now plus block time difference
-   */
+ * blockTime = 6000 ms
+ * BlocksPerTimeslice = 80
+ * Default Regoin = 5040 timeslices
+ * TargetBlock = TargetTimeslice * BlocksPerTimeslice
+ * Block Time Difference = |TargetBlock - latest Block| * blockTime
+ *
+ * Estimate timestamp =
+ * if targetBlock is before the latestBlock
+ *    now minus block time difference
+ * else
+ *    now plus block time difference
+ */
 export const estimateTime = (targetTimeslice: string | number, latestBlock: number): string | null => {
   if (!latestBlock || !targetTimeslice) {
     console.error('Invalid input: one or more inputs are missing');
@@ -68,9 +68,7 @@ export const estimateTime = (targetTimeslice: string | number, latestBlock: numb
  * @param timeslice
  * @param param4
  * @param regionLength
- * @returns
  */
-
 export function formatRowInfo (data: CoreWorkloadType[] | CoreWorkplanType[], core: number, currentRegion: RegionInfo | undefined, currentTimeSlice: number, { regionBegin, regionEnd }: { regionBegin: number, regionEnd: number }, regionLength: number): InfoRow[] {
   return data.map((one: CoreWorkloadType | CoreWorkplanType) => {
     const item: InfoRow = { core, maskBits: one?.info?.maskBits, task: one?.info?.task, type: one?.type };
