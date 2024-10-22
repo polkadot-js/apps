@@ -610,7 +610,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
       Blast: 'wss://moonbase-alpha.public.blastapi.io',
       Dwellir: 'wss://moonbase-rpc.dwellir.com',
       'Moonbeam Foundation': 'wss://wss.api.moonbase.moonbeam.network',
-      OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
+      // OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws', https://github.com/polkadot-js/apps/issues/11026
       RadiumBlock: 'wss://moonbase.public.curie.radiumblock.co/ws',
       UnitedBloc: 'wss://moonbase.unitedbloc.com'
     },
@@ -1099,7 +1099,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     homepage: 'https://zero.io',
     info: 'ZERO Alphaville',
     providers: {
-      GameDAO: 'wss://rpc.dev.gamedao.net'
+      // GameDAO: 'wss://rpc.dev.gamedao.net' https://github.com/polkadot-js/apps/issues/11026
     },
     text: 'ZERO Alphaville',
     ui: {
