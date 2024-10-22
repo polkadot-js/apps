@@ -220,6 +220,30 @@ export interface CoreDescription {
   info: PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor[];
 }
 
+export interface CoreDescriptorAssignment {
+  task: string,
+  ratio: number,
+  remaining: number,
+  isTask: boolean,
+  isPool: boolean
+}
+
+export interface CoreDescriptor {
+  core: number,
+  info: {
+    currentWork: {
+      assignments: CoreDescriptorAssignment[],
+      endHint: BN | null,
+      pos: number,
+      step: number
+    },
+    queue: {
+      first: BN,
+      last: BN
+    }
+  }
+}
+
 export interface OnDemandQueueStatus {
   traffic: u128;
   nextIndex: u32;
@@ -296,4 +320,39 @@ export interface PalletBrokerConfigRecord {
   limitCoresOffered: number;
   renewalBump: BN;
   contributionTimeout: number;
+}
+
+export interface ChainInformation {
+  id: number,
+  workload: CoreWorkload | undefined,
+  renewal: PotentialRenewal | undefined,
+  worklplan: CoreWorkplan[] | undefined,
+  lease: LegacyLease | undefined,
+  reservation: Reservation| undefined
+}
+export interface CoretimeInformation {
+  chainInfo: Record<number, ChainInformation>,
+  salesInfo: PalletBrokerSaleInfoRecord,
+  status: BrokerStatus,
+  region: RegionInfo[],
+  config: PalletBrokerConfigRecord
+  taskIds: number[]
+}
+
+export interface BrokerStatus {
+  coreCount: number;
+  privatePoolSize: number;
+  systemPoolSize: number;
+  lastCommittedTimeslice: number;
+  lastTimeslice: number;
+}
+
+export interface PotentialRenewal {
+  core: number,
+  when: number,
+  price: BN,
+  completion: 'Complete' | 'Partial',
+  mask: string[]
+  maskBits: number,
+  task: string
 }

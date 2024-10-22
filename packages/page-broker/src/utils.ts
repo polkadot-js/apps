@@ -6,12 +6,11 @@ import type { CoreWorkloadType, CoreWorkplanType, InfoRow } from './types.js';
 
 import { BN } from '@polkadot/util';
 
-import { Occupancy } from './types.js';
+import { CoreTimeTypes } from './types.js';
 
 export const CoreTimeConsts = {
   BlockTime: 6000,
-  BlocksPerTimeslice: 80,
-  DefaultRegion: 5040
+  BlocksPerTimeslice: 80
 };
 
 function formatDate (date: Date) {
@@ -23,18 +22,18 @@ function formatDate (date: Date) {
 }
 
 /**
-   * blockTime = 6000 ms
-   * BlocksPerTimeslice = 80
-   * Default Regoin = 5040 timeslices
-   * TargetBlock = TargetTimeslice * BlocksPerTimeslice
-   * Block Time Difference = |TargetBlock - latest Block| * blockTime
-   *
-   * Estimate timestamp =
-   * if targetBlock is before the latestBlock
-   *    now minus block time difference
-   * else
-   *    now plus block time difference
-   */
+ * blockTime = 6000 ms
+ * BlocksPerTimeslice = 80
+ * Default Regoin = 5040 timeslices
+ * TargetBlock = TargetTimeslice * BlocksPerTimeslice
+ * Block Time Difference = |TargetBlock - latest Block| * blockTime
+ *
+ * Estimate timestamp =
+ * if targetBlock is before the latestBlock
+ *    now minus block time difference
+ * else
+ *    now plus block time difference
+ */
 export const estimateTime = (targetTimeslice: string | number, latestBlock: number): string | null => {
   if (!latestBlock || !targetTimeslice) {
     console.error('Invalid input: one or more inputs are missing');
@@ -61,15 +60,24 @@ export const estimateTime = (targetTimeslice: string | number, latestBlock: numb
   }
 };
 
-export function formatRowInfo (data: CoreWorkloadType[] | CoreWorkplanType[], core: number, currentRegion: RegionInfo | undefined, timeslice: number, { regionBegin, regionEnd }: { regionBegin: number, regionEnd: number }, regionLength = CoreTimeConsts.DefaultRegion): InfoRow[] {
+/**
+ *
+ * @param data: CoreWorkloadType[]
+ * @param core: core number
+ * @param currentRegion
+ * @param timeslice
+ * @param param4
+ * @param regionLength
+ */
+export function formatRowInfo (data: CoreWorkloadType[] | CoreWorkplanType[], core: number, currentRegion: RegionInfo | undefined, currentTimeSlice: number, { regionBegin, regionEnd }: { regionBegin: number, regionEnd: number }, regionLength: number): InfoRow[] {
   return data.map((one: CoreWorkloadType | CoreWorkplanType) => {
     const item: InfoRow = { core, maskBits: one?.info?.maskBits, task: one?.info?.task, type: one?.type };
-    const blockNumber = timeslice * 80;
+    const blockNumberNow = currentTimeSlice * 80;
 
     item.type = one.type;
     let end; let start = null;
 
-    if (one.type === Occupancy.Lease) {
+    if (one.type === CoreTimeTypes.Lease) {
       const period = Math.floor(one.lastBlock / regionLength);
 
       end = period * regionLength;
@@ -79,12 +87,12 @@ export function formatRowInfo (data: CoreWorkloadType[] | CoreWorkplanType[], co
     }
 
     item.owner = currentRegion?.owner.toString();
-    item.start = start ? estimateTime(start, blockNumber) : null;
-    item.end = end ? estimateTime(end, blockNumber) : null;
+    item.start = start ? estimateTime(start, blockNumberNow) : null;
+    item.end = end ? estimateTime(end, blockNumberNow) : null;
     item.endBlock = end ? Number(end) * 80 : 0;
 
     if ('timeslice' in one && !start) {
-      start = estimateTime(one.timeslice, blockNumber) ?? null;
+      start = estimateTime(one.timeslice, blockNumberNow) ?? null;
     }
 
     return item;
@@ -121,6 +129,10 @@ export const createTaskMap = <T extends { task: string }>(items: T[]): Record<nu
   }, {} as Record<number, T>);
 };
 
-export const getOccupancyType = (lease: LegacyLease | undefined, reservation: Reservation | undefined): Occupancy => {
-  return reservation ? Occupancy.Reservation : lease ? Occupancy.Lease : Occupancy['Bulk Coretime'];
+export const getOccupancyType = (lease: LegacyLease | undefined, reservation: Reservation | undefined, isPool: boolean): CoreTimeTypes => {
+  if (isPool) {
+    return CoreTimeTypes['On Demand'];
+  }
+
+  return reservation ? CoreTimeTypes.Reservation : lease ? CoreTimeTypes.Lease : CoreTimeTypes['Bulk Coretime'];
 };

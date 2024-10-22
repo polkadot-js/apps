@@ -4,16 +4,16 @@
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { statsType } from '../types.js';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { CardSummary, styled, SummaryBox, UsageBar } from '@polkadot/react-components';
 import { defaultHighlight } from '@polkadot/react-components/styles';
-import { useApi, useBrokerSalesInfo, useBrokerStatus } from '@polkadot/react-hooks';
+import { useApi, useBrokerConfig, useBrokerSalesInfo, useBrokerStatus } from '@polkadot/react-hooks';
 import { type CoreWorkload } from '@polkadot/react-hooks/types';
-import { formatBalance } from '@polkadot/util';
+import { BN, BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import { getStats } from '../utils.js';
+import { estimateTime, getStats } from '../utils.js';
 import RegionLength from './Summary/RegionLength.js';
 import Timeslice from './Summary/Timeslice.js';
 import TimeslicePeriod from './Summary/TimeslicePeriod.js';
@@ -41,12 +41,15 @@ interface Props {
 
 function Summary ({ coreCount, workloadInfos }: Props): React.ReactElement {
   const { t } = useTranslation();
-  const { api, apiEndpoint } = useApi();
-  const totalCores = useBrokerStatus('coreCount');
+  const { api, apiEndpoint, isApiReady } = useApi();
   const uiHighlight = apiEndpoint?.ui.color || defaultHighlight;
-  const { idles, pools, tasks }: statsType = React.useMemo(() => getStats(totalCores, workloadInfos), [totalCores, workloadInfos]);
+  const { idles, pools, tasks }: statsType = React.useMemo(() => getStats(coreCount, workloadInfos), [coreCount, workloadInfos]);
 
-  const salesInfo = useBrokerSalesInfo();
+  const saleInfo = useBrokerSalesInfo(api, isApiReady);
+  const config = useBrokerConfig(api, isApiReady);
+  const status = useBrokerStatus(api, isApiReady);
+  const currentRegionEnd = useMemo(() => saleInfo && config && saleInfo?.regionEnd - config?.regionLength, [saleInfo, config]);
+  const currentRegionStart = useMemo(() => currentRegionEnd && config && currentRegionEnd - config?.regionLength, [currentRegionEnd, config]);
 
   return (
     <SummaryBox>
@@ -63,24 +66,31 @@ function Summary ({ coreCount, workloadInfos }: Props): React.ReactElement {
               <CardSummary label={t('region (ts)')}>
                 <RegionLength />
               </CardSummary>
-              <CardSummary label={t('estimated bulk price')}>
-                <div className='ui--balance-value'>
-                  {formatBalance(salesInfo?.endPrice) || '-'}
-                </div>
-              </CardSummary>
               <CardSummary label={t('total cores')}>
                 {coreCount}
               </CardSummary>
               <CardSummary label={t('cores sold/offered')}>
                 <div>
-                  {salesInfo?.coresSold} / {salesInfo?.coresOffered}
+                  {saleInfo?.coresSold} / {saleInfo?.coresOffered}
                 </div>
               </CardSummary>
+              <CardSummary
+                label={t('cycle progress')}
+                progress={{
+                  isBlurred: false,
+                  total: new BN(config?.regionLength || 0),
+                  value: (config?.regionLength && currentRegionEnd && status && new BN(config?.regionLength - (currentRegionEnd - status?.lastTimeslice))) || BN_ZERO,
+                  withTime: false
+                }}
+              />
             </StyledDiv>
           </>
 
         )}
-        <div style={{ marginLeft: '2rem' }}>
+        <div
+          className='media--1400'
+          style={{ marginLeft: '2rem' }}
+        >
           <UsageBar
             data={[
               { color: '#FFFFFF', label: 'Idle', value: idles },
@@ -91,6 +101,32 @@ function Summary ({ coreCount, workloadInfos }: Props): React.ReactElement {
 
         </div>
       </StyledSection>
+      <section>
+        {status && currentRegionStart && currentRegionEnd &&
+          (
+            <>
+              <CardSummary
+                className='media--1200'
+                label={t('cycle dates')}
+              >
+                <div>
+                  <div style={{ fontSize: '14px' }}>{estimateTime(currentRegionStart, status?.lastTimeslice * 80)}</div>
+                  <div style={{ fontSize: '14px' }}>{estimateTime(currentRegionEnd, status?.lastTimeslice * 80)}</div>
+                </div>
+              </CardSummary>
+              <CardSummary
+                className='media--1200'
+                label={t('cycle ts')}
+              >
+                <div>
+                  <div style={{ fontSize: '14px' }}>{currentRegionStart}</div>
+                  <div style={{ fontSize: '14px' }}>{currentRegionEnd}</div>
+                </div>
+              </CardSummary>
+            </>
+          )
+        }
+      </section>
     </SummaryBox>
   );
 }

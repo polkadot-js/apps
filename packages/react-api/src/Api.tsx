@@ -18,7 +18,7 @@ import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
 import { ethereumChains, typesBundle } from '@polkadot/apps-config';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputConsts/units';
-import { useApiUrl, useEndpoint, usePeopleEndpoint, useQueue } from '@polkadot/react-hooks';
+import { useApiUrl, useCoretimeEndpoint, useEndpoint, usePeopleEndpoint, useQueue } from '@polkadot/react-hooks';
 import { ApiCtx } from '@polkadot/react-hooks/ctx/Api';
 import { ApiSigner } from '@polkadot/react-signer/signers';
 import { keyring } from '@polkadot/ui-keyring';
@@ -297,6 +297,7 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store: keyringStore 
   const [isLocalFork] = useState(store.get('localFork') === apiUrl);
   const apiEndpoint = useEndpoint(apiUrl);
   const peopleEndpoint = usePeopleEndpoint(apiEndpoint?.relayName || apiEndpoint?.info);
+  const coreTimeEndpoint = useCoretimeEndpoint(apiEndpoint?.relayName || apiEndpoint?.info);
   const relayUrls = useMemo(
     () => (apiEndpoint?.valueRelay && isNumber(apiEndpoint.paraId) && (apiEndpoint.paraId < 2000))
       ? apiEndpoint.valueRelay
@@ -309,7 +310,14 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store: keyringStore 
       : null,
     [apiEndpoint, peopleEndpoint]
   );
+  const coretimeUrls = useMemo(
+    () => (coreTimeEndpoint?.providers)
+      ? coreTimeEndpoint.providers
+      : null,
+    [coreTimeEndpoint]
+  );
   const apiRelay = useApiUrl(relayUrls);
+  const apiCoretime = useApiUrl(coretimeUrls);
   const apiSystemPeople = useApiUrl(peopleUrls);
   const createLink = useMemo(
     () => makeCreateLink(apiUrl, isElectron),
@@ -317,8 +325,8 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store: keyringStore 
   );
   const enableIdentity = apiEndpoint?.isPeople || (isNumber(apiEndpoint?.paraId) && (apiEndpoint?.paraId >= 2000)) || (typeof apiEndpoint?.isPeopleForIdentity === 'boolean' && !apiEndpoint?.isPeopleForIdentity);
   const value = useMemo<ApiProps>(
-    () => objectSpread({}, state, { api: statics.api, apiEndpoint, apiError, apiIdentity: ((apiEndpoint?.isPeopleForIdentity && apiSystemPeople) || statics.api), apiRelay, apiSystemPeople, apiUrl, createLink, enableIdentity, extensions, isApiConnected, isApiInitialized, isElectron, isLocalFork, isWaitingInjected: !extensions }),
-    [apiError, createLink, extensions, isApiConnected, isApiInitialized, isElectron, isLocalFork, state, apiEndpoint, apiRelay, apiUrl, apiSystemPeople, enableIdentity]
+    () => objectSpread({}, state, { api: statics.api, apiCoretime, apiEndpoint, apiError, apiIdentity: ((apiEndpoint?.isPeopleForIdentity && apiSystemPeople) || statics.api), apiRelay, apiSystemPeople, apiUrl, createLink, enableIdentity, extensions, isApiConnected, isApiInitialized, isElectron, isLocalFork, isWaitingInjected: !extensions }),
+    [apiError, createLink, extensions, isApiConnected, isApiInitialized, isElectron, isLocalFork, state, apiEndpoint, apiCoretime, apiRelay, apiUrl, apiSystemPeople, enableIdentity]
   );
 
   // initial initialization

@@ -31,6 +31,7 @@ export interface ApiProps extends ApiState {
   apiEndpoint: LinkOption | null;
   apiError: string | null;
   apiIdentity: ApiPromise;
+  apiCoretime: ApiPromise;
   enableIdentity: boolean;
   apiRelay: ApiPromise | null;
   apiSystemPeople: ApiPromise | null;
