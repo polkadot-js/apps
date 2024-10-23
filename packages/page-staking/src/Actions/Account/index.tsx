@@ -28,7 +28,6 @@ import SetRewardDestination from './SetRewardDestination';
 import SetSessionKey from './SetSessionKey';
 import Unbond from './Unbond';
 import Validate from './Validate';
-import WarnBond from './WarnBond';
 
 interface Props {
   allSlashes?: [BN, PalletStakingUnappliedSlash[]][];
@@ -211,10 +210,6 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
               withHexSessionId={hexSessionIdNext !== '0x' && [hexSessionIdQueue, hexSessionIdNext]}
               withValidatorPrefs
             />
-            <WarnBond
-              minBond={targets.minValidatorBond}
-              stakingInfo={stakingAccount}
-            />
           </td>
         )
         : (
@@ -224,10 +219,6 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                 <ListNominees
                   nominating={nominating}
                   stashId={stashId}
-                />
-                <WarnBond
-                  minBond={targets.minNominatorBond}
-                  stakingInfo={stakingAccount}
                 />
               </>
             )}
