@@ -2,14 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { BN } from '@polkadot/util';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { getProposalThreshold } from '@polkadot/apps-config';
+import { calcThreshold, getProposalThreshold } from '@polkadot/apps-config';
 import { Button, InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCollectiveInstance, useToggle } from '@polkadot/react-hooks';
 import { Extrinsic } from '@polkadot/react-params';
-import { BN, BN_ZERO } from '@polkadot/util';
+import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
 
@@ -40,7 +41,7 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> | nul
   useEffect((): void => {
     members && setThreshold({
       isThresholdValid: members.length !== 0,
-      threshold: new BN(Math.min(members.length, Math.ceil(members.length * getProposalThreshold(api))))
+      threshold: calcThreshold(members, getProposalThreshold(api))
     });
   }, [api, members]);
 

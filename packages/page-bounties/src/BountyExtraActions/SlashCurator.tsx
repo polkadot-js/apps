@@ -3,14 +3,14 @@
 
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import type { AccountId, BountyIndex } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 import type { ValidUnassignCuratorAction } from '../types.js';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
+import { calcThreshold, getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useCollectiveInstance, useCollectiveMembers } from '@polkadot/react-hooks';
-import { BN } from '@polkadot/util';
 
 import { truncateTitle } from '../helpers/index.js';
 import { useBounties } from '../hooks/index.js';
@@ -46,7 +46,7 @@ function SlashCurator ({ action, curatorId, description, index, toggleOpen }: Pr
 
   useEffect((): void => {
     members && setThreshold(
-      new BN(Math.ceil(members.length * getTreasuryProposalThreshold(api)))
+      calcThreshold(members, getTreasuryProposalThreshold(api))
     );
   }, [api, members]);
 
