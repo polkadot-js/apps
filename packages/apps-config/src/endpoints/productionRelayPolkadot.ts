@@ -226,7 +226,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Darwinia: 'wss://rpc.darwinia.network',
       Dcdao: 'wss://darwinia-rpc.dcdao.box',
-      Dwellir: 'wss://darwinia-rpc.dwellir.com'
+      Dwellir: 'wss://darwinia-rpc.dwellir.com',
+      Subquery: 'wss://darwinia.rpc.subquery.network/public/ws'
     },
     text: 'Darwinia',
     ui: {
