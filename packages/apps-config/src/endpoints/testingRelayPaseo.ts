@@ -126,7 +126,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'rococoHydraDX',
     paraId: 2034,
     providers: {
-      // 'Galactic Council': 'wss://paseo-rpc.play.hydration.cloud' https://github.com/polkadot-js/apps/issues/10997
+      'Galactic Council': 'wss://paseo-rpc.play.hydration.cloud'
     },
     text: 'Hydration (Paseo)',
     ui: {
