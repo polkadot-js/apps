@@ -30,7 +30,7 @@ function Stash ({ className = '', historyDepth, payout: { available, rewards, st
 
   useEffect((): void => {
     rewards && setEraInfo({
-      eraStr: createErasString(rewards.map(({ era }) => era)),
+      eraStr: createErasString(rewards.filter(({ isClaimed }) => !isClaimed).map(({ era }) => era)),
       oldestEra: rewards[0]?.era
     });
   }, [rewards]);

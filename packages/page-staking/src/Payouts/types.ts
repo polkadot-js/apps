@@ -8,6 +8,7 @@ import type { BN } from '@polkadot/util';
 export interface PayoutEraValidator {
   era: EraIndex;
   stashes: Record<string, Balance>;
+  isClaimed: boolean;
 }
 
 export interface PayoutValidator {
