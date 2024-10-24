@@ -43,7 +43,7 @@ const shortStr = (name: string, count = 6): string => {
 };
 
 function createUrl (f: SaveFile) {
-  const endpoint = f.UpEndpoint || 'https://ipfs.io';
+  const endpoint = 'https://cf-ipfs.com';
 
   return `${endpoint}/ipfs/${f.Hash}?filename=${f.Name}`;
 }
@@ -320,7 +320,7 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
             colSpan={1}
           >
             <a
-              href={'https://apps.crust.network/?rpc=wss%3A%2F%2Frpc.crust.network#/storage_files'}
+              href={'https://apps.crust.network/?rpc=wss%3A%2F%2Frpc.crust.network#/storage_files/status/' + f.Hash}
               rel='noreferrer'
               target='_blank'
             >{t('View status in Crust')}</a>
