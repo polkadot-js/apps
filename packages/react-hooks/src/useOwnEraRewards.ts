@@ -87,6 +87,7 @@ function getValRewards (api: ApiPromise, validatorEras: ValidatorWithEras[], era
           allRewards[stashId].push({
             era,
             eraReward: eraRewards.eraReward,
+            isClaimed: false,
             isEmpty: false,
             isValidator: true,
             nominating: [],
