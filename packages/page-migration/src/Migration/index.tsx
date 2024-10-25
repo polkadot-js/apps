@@ -45,12 +45,13 @@ function MigrationApp ({ className }): React.ReactElement {
     setSenderId(null);
   }
 
-  async function getKepirAddresses() {
+  async function getExtensionAddresses() {
     const chainId = 'cheqd-mainnet-1';
+    const walletObj = window.keplr || window.leap;
 
-    await window.keplr.enable(chainId);
+    await walletObj.enable(chainId);
 
-    const offlineSigner = window.keplr.getOfflineSigner(chainId);
+    const offlineSigner = walletObj.getOfflineSigner(chainId);
     const accounts = await offlineSigner.getAccounts();
     setCheqdAddresses([...cheqdAddresses, ...accounts.map(({ address }) => address)]);
     setSelectFromDropdown(accounts.length > 0);
@@ -58,7 +59,7 @@ function MigrationApp ({ className }): React.ReactElement {
 
   useEffect(() => {
     if (window.keplr) {
-      getKepirAddresses();
+      getExtensionAddresses();
     }
   }, []);
 
@@ -130,7 +131,7 @@ function MigrationApp ({ className }): React.ReactElement {
           Select your Dock account. If it isn't there follow <a href="https://docs.dock.io/dock-token/dock-token-migration/adding-account-to-the-dock-browser-wallet" target="_blank">these instructions</a>.
         </li>
         <li>
-        Enter your cheqd account manually or connect Keplr. Connecting Keplr will allow us to confirm that the tokens are going to the cheqd account that you control. If you cannot see your Keplr accounts in the dropdown <a href="https://docs.cheqd.io/product/network/wallets/keplr-setup" target="_blank">see how to set up your Keplr wallet for cheqd</a>.
+        Enter your cheqd account manually or connect a web browser extension wallet. Connecting an extension will allow us to confirm that the tokens are going to the cheqd account that you control.
         </li>
         <li>
           Accept T&Cs and click <strong>Submit</strong>
@@ -177,7 +178,7 @@ function MigrationApp ({ className }): React.ReactElement {
           <Dropdown
             className={`ui--InputAddress ${className}`}
             help={t<string>('The cheqd account your tokens will be migrated to.')}
-            label={t<string>('keplr account')}
+            label={t<string>('extension account')}
             isMultiple={false}
             onChange={setCheqdId}
             options={cheqdAddresses.map((cheqdAddress) => ({
