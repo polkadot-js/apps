@@ -86,7 +86,7 @@ function MigrationApp ({ className }): React.ReactElement {
         maxWidth: '70%',
         margin: '0 auto',
       }}>
-        Your token migration transaction has been submitted successfully. Migrating your Dock balance to cheqd will zero the balance on your Dock account. The migration will take up to 1-2 business days to complete, after that the converted [if possible add the converted amount in $CHEQ] $CHEQ amount will be available in the indicated cheqd wallet. 
+        Your token migration transaction has been submitted successfully. Migrating your Dock balance to cheqd will zero the balance on your Dock account. The migration will take up to 1-2 business days to complete, after that the converted $CHEQ amount will be available in the indicated cheqd wallet. 
         <br /><br />
         <Button
           icon='sync'
