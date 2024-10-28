@@ -1,27 +1,17 @@
 // Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { FlagColor } from '@polkadot/react-components/types';
-import type { CoretimeInformation } from '@polkadot/react-hooks/types';
-
 import React, { useRef } from 'react';
 
-import { ParaLink, Table, Tag } from '@polkadot/react-components';
-import { BN, formatBalance, formatNumber } from '@polkadot/util';
+import { Table } from '@polkadot/react-components';
+import { type CoretimeInformation } from '@polkadot/react-hooks/types';
 
+import ParachainTableRow from './ParachainTableRow.js';
 import { useTranslation } from './translate.js';
-import { CoreTimeTypes } from './types.js';
-import { estimateTime, getOccupancyType } from './utils.js';
 
 interface Props {
   coretimeInfo: CoretimeInformation
 }
-
-const colours: Record<string, string> = {
-  [CoreTimeTypes.Reservation]: 'orange',
-  [CoreTimeTypes.Lease]: 'blue',
-  [CoreTimeTypes['Bulk Coretime']]: 'pink'
-};
 
 function ParachainsTable ({ coretimeInfo }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -33,7 +23,8 @@ function ParachainsTable ({ coretimeInfo }: Props): React.ReactElement<Props> {
     [t('last block'), 'start'],
     [t('end'), 'start'],
     [t('renewal'), 'start'],
-    [t('renewal price'), 'start']
+    [t('renewal price'), 'start'],
+    [t('other cores'), 'other cores']
   ]);
 
   return (
@@ -44,33 +35,17 @@ function ParachainsTable ({ coretimeInfo }: Props): React.ReactElement<Props> {
     >
       {coretimeInfo?.taskIds?.map((taskId: number) => {
         const chain = coretimeInfo.chainInfo[taskId];
-        const type = getOccupancyType(chain?.lease, chain?.reservation, !!chain.worklplan?.find((a) => a.info.isPool));
-        const targetTimeslice = chain?.lease?.until || coretimeInfo.salesInfo.regionEnd;
-        const showEsimates = !!targetTimeslice && type !== CoreTimeTypes.Reservation;
 
         return (
-          <tr key={taskId}>
-            <td>{taskId}</td>
-            <td>
-              <ParaLink
-                id={new BN(taskId)}
-              />
-            </td>
-            <td>{chain?.workload?.core}</td>
-            <td>
-              <Tag
-                color={colours[type] as FlagColor}
-                label={Object.values(CoreTimeTypes)[type]}
-              />
-            </td>
-            <td>{showEsimates && formatNumber(targetTimeslice * 80).toString()}</td>
-            <td>{showEsimates && estimateTime(targetTimeslice, coretimeInfo.status.lastCommittedTimeslice * 80)}</td>
-            <td>{chain?.renewal ? 'eligible' : type === CoreTimeTypes['Bulk Coretime'] ? 'renewed' : ''}</td>
-            <td>{chain?.renewal ? formatBalance(chain.renewal?.price.toString()) : ''}</td>
-          </tr>
+          <ParachainTableRow
+            chain={chain}
+            key={chain.id}
+            lastCommittedTimeslice={coretimeInfo.status.lastCommittedTimeslice}
+            regionBegin={coretimeInfo.salesInfo.regionBegin}
+            regionEnd={coretimeInfo.salesInfo.regionEnd}
+          />
         );
-      }
-      )}
+      })}
 
     </Table>
   );

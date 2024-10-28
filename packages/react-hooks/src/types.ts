@@ -322,14 +322,21 @@ export interface PalletBrokerConfigRecord {
   contributionTimeout: number;
 }
 
+export interface ChainWorkTaskInformation {
+  renewal: PotentialRenewal | undefined
+  renewalStatus: string
+  type: CoreTimeTypes
+  workload: CoreWorkload | undefined
+  workplan: CoreWorkplan[] | undefined
+}
+
 export interface ChainInformation {
   id: number,
-  workload: CoreWorkload | undefined,
-  renewal: PotentialRenewal | undefined,
-  worklplan: CoreWorkplan[] | undefined,
   lease: LegacyLease | undefined,
   reservation: Reservation| undefined
+  workTaskInfo: ChainWorkTaskInformation[]
 }
+
 export interface CoretimeInformation {
   chainInfo: Record<number, ChainInformation>,
   salesInfo: PalletBrokerSaleInfoRecord,
@@ -356,3 +363,21 @@ export interface PotentialRenewal {
   maskBits: number,
   task: string
 }
+
+export enum CoreTimeTypes {
+  'Reservation',
+  'Lease',
+  'Bulk Coretime',
+  'On Demand'
+}
+
+export const ChainRenewalStatus = {
+  Eligible: 'eligible',
+  None: '-',
+  Renewed: 'renewed'
+};
+
+export const CoreTimeConsts = {
+  BlockTime: 6000,
+  BlocksPerTimeslice: 80
+};

@@ -2,14 +2,22 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { ParaId } from '@polkadot/types/interfaces';
-import type { ChainInformation, CoretimeInformation, CoreWorkload, CoreWorkloadInfo, PotentialRenewal } from './types.js';
+import type { ChainInformation, CoretimeInformation, CoreWorkload, CoreWorkloadInfo, LegacyLease, PotentialRenewal, Reservation } from './types.js';
 
 import { useEffect, useMemo, useState } from 'react';
 
-import { createNamedHook, useApi, useBrokerConfig, useBrokerLeases, useBrokerReservations, useBrokerSalesInfo, useBrokerStatus, useCall, useCoreDescriptor, useRegions, useWorkloadInfos, useWorkplanInfos } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useBrokerConfig, useBrokerLeases, useBrokerReservations, useBrokerSalesInfo, useBrokerStatus, useCoreDescriptor, useRegions, useWorkloadInfos, useWorkplanInfos } from '@polkadot/react-hooks';
 
+import { ChainRenewalStatus, CoreTimeTypes } from './types.js';
 import { useBrokerPotentialRenewals } from './useBrokerPotentialRenewals.js';
+
+const getOccupancyType = (lease: LegacyLease | undefined, reservation: Reservation | undefined, isPool: boolean): CoreTimeTypes => {
+  if (isPool) {
+    return CoreTimeTypes['On Demand'];
+  }
+
+  return reservation ? CoreTimeTypes.Reservation : lease ? CoreTimeTypes.Lease : CoreTimeTypes['Bulk Coretime'];
+};
 
 function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeInformation | undefined {
   const { apiCoretime, isApiReady } = useApi();
@@ -29,15 +37,17 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
   const region = useRegions(apiCoretime);
 
   /** Other APIs */
-  const paraIds = useCall<ParaId[]>(api.query.paras.parachains);
+  // const paraIds = useCall<ParaId[]>(api.query.paras.parachains);
   const coreInfos = useCoreDescriptor(api, ready);
+  const paraIds = useMemo(() => coreInfos && [...new Set(coreInfos?.map((a) => a.info.currentWork.assignments.map((ass) => ass.task)).flat().filter((id) => id !== 'Pool'))], [coreInfos]);
+
   // when - The point in time that the renewable workload on core ends and a fresh renewal may begin.
   const potentialRenewalsCurrentRegion = useMemo(() => config && salesInfo && potentialRenewals?.filter((renewal: PotentialRenewal) => renewal.when.toString() === salesInfo?.regionBegin.toString()), [potentialRenewals, salesInfo, config]);
   const [state, setState] = useState<CoretimeInformation | undefined>();
 
   useEffect(() => {
     if (paraIds?.length && potentialRenewals?.length && !taskIds.length) {
-      const simpleIds = paraIds.map((p) => p.toNumber());
+      const simpleIds = paraIds.map((p) => Number(p));
       const renewalIds = potentialRenewals?.map((r) => Number(r.task));
       const numbers = [...new Set(simpleIds.concat(renewalIds))];
 
@@ -83,17 +93,30 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
       const taskId = id.toString();
       const lease = leases?.find((lease) => lease.task === taskId);
       const reservation = reservations?.find((reservation) => reservation.task === taskId);
-      const workload = workloadData?.find((one) => one.info.task === taskId);
-      const renewal = potentialRenewalsCurrentRegion?.find((renewal) => renewal.task.toString() === taskId);
-      const worklplan = workplans?.filter((workplan) => workplan.core === workload?.core && workplan.info.task.toString() === taskId);
+      const workloads = workloadData?.filter((one) => one.info.task === taskId);
+
+      const workTaskInfo = workloads.map((workload) => {
+        const workplan = workplans?.filter((workplan) => workplan.core === workload?.core && workplan.info.task.toString() === taskId);
+        const type = getOccupancyType(lease, reservation, workload?.info.isPool ?? false);
+        const chainRenewedCore = type === CoreTimeTypes['Bulk Coretime'] && workplan?.find((a) => a.core === workload?.core);
+        const renewal = potentialRenewalsCurrentRegion?.find((renewal) => renewal.task.toString() === taskId);
+        const renewalStatus = chainRenewedCore ? ChainRenewalStatus.Renewed : renewal ? ChainRenewalStatus.Eligible : ChainRenewalStatus.None;
+
+        return {
+          chainRenewedCore,
+          renewal,
+          renewalStatus,
+          type,
+          workload,
+          workplan
+        };
+      });
 
       chainInfo[id.toString()] = {
         id,
         lease,
-        renewal,
         reservation,
-        workload,
-        worklplan
+        workTaskInfo
       };
     });
 

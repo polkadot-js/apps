@@ -1,17 +1,12 @@
 // Copyright 2017-2024 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CoreWorkload, LegacyLease, RegionInfo, Reservation } from '@polkadot/react-hooks/types';
 import type { CoreWorkloadType, CoreWorkplanType, InfoRow } from './types.js';
 
+import { CoreTimeConsts, type CoreWorkload, type LegacyLease, type RegionInfo, type Reservation } from '@polkadot/react-hooks/types';
 import { BN } from '@polkadot/util';
 
 import { CoreTimeTypes } from './types.js';
-
-export const CoreTimeConsts = {
-  BlockTime: 6000,
-  BlocksPerTimeslice: 80
-};
 
 function formatDate (date: Date) {
   const day = date.getDate();
