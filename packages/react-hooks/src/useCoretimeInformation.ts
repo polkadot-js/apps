@@ -37,7 +37,6 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
   const region = useRegions(apiCoretime);
 
   /** Other APIs */
-  // const paraIds = useCall<ParaId[]>(api.query.paras.parachains);
   const coreInfos = useCoreDescriptor(api, ready);
   const paraIds = useMemo(() => coreInfos && [...new Set(coreInfos?.map((a) => a.info.currentWork.assignments.map((ass) => ass.task)).flat().filter((id) => id !== 'Pool'))], [coreInfos]);
 

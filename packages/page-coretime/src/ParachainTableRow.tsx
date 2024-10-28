@@ -1,7 +1,7 @@
 // Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ChainInformation } from '@polkadot/react-hooks/types';
+import type { ChainInformation, ChainWorkTaskInformation } from '@polkadot/react-hooks/types';
 
 import React from 'react';
 
@@ -28,6 +28,28 @@ function ParachainTableRow ({ chain, lastCommittedTimeslice, regionBegin, region
     return <></>;
   }
 
+  const renderRow = (record: ChainWorkTaskInformation, idx: number, highlight = false) =>
+    <>
+      <Row
+        chainRecord={record}
+        highlight={highlight}
+        id={chain.id}
+        lastCommittedTimeslice={lastCommittedTimeslice}
+        lease={chain.lease}
+        regionBegin={regionBegin}
+        regionEnd={regionEnd}
+      />
+      {idx === 0 && <td style={{ paddingRight: '2rem', textAlign: 'right', verticalAlign: 'top' }}>
+
+        {!!multiple &&
+                    <ExpandButton
+                      expanded={isExpanded}
+                      onClick={toggleIsExpanded}
+                    />
+        }
+      </td>}
+    </>;
+
   return (
     <>
       <tr
@@ -35,48 +57,16 @@ function ParachainTableRow ({ chain, lastCommittedTimeslice, regionBegin, region
         key={chain.id}
       >
         <React.Fragment key={`${chain.id}`}>
-          <Row
-            chainRecord={firstRecord}
-            id={chain.id}
-            lastCommittedTimeslice={lastCommittedTimeslice}
-            lease={chain.lease}
-            regionBegin={regionBegin}
-            regionEnd={regionEnd}
-          />
-          <td style={{ paddingRight: '2rem', textAlign: 'right', verticalAlign: 'top' }}>
-
-            {!!multiple &&
-                            (
-                              <ExpandButton
-                                expanded={isExpanded}
-                                onClick={toggleIsExpanded}
-                              />
-                            )
-            }
-          </td>
+          {renderRow(firstRecord, 0)}
         </React.Fragment>
 
       </tr>
-      {isExpanded &&
-                <>
-                  {expandedContent?.map((infoRow, idx) => {
-                    return (
-                      <tr key={`${chain.id}${idx}`}>
-                        <Row
-                          chainRecord={infoRow}
-                          highlight={true}
-                          id={chain.id}
-                          lastCommittedTimeslice={lastCommittedTimeslice}
-                          lease={chain.lease}
-                          regionBegin={regionBegin}
-                          regionEnd={regionEnd}
-                        />
-                      </tr>
-                    );
-                  }
-                  )}
+      {isExpanded && expandedContent?.map((infoRow, idx) =>
+        <tr key={`${chain.id}${idx}`}>
+          {renderRow(infoRow, idx + 1, true)}
+        </tr>
 
-                </>
+      )
       }
     </>
   );

@@ -43,7 +43,10 @@ function Row ({ chainRecord, highlight = false, id, lastCommittedTimeslice, leas
   return (
     <React.Fragment key={`${id}`}>
       <StyledCell p={highlight}>{id}</StyledCell>
-      <StyledCell p={highlight}>{<ParaLink id={new BN(id)} />}</StyledCell>
+      <StyledCell
+        className='media--800'
+        p={highlight}
+      >{<ParaLink id={new BN(id)} />}</StyledCell>
       <StyledCell p={highlight}>{chainRecord?.workload?.core}</StyledCell>
       <StyledCell p={highlight}>
         <Tag
@@ -51,10 +54,22 @@ function Row ({ chainRecord, highlight = false, id, lastCommittedTimeslice, leas
           label={Object.values(CoreTimeTypes)[chainRecord.type]}
         />
       </StyledCell>
-      <StyledCell p={highlight}>{showEstimates && formatNumber(targetTimeslice * 80).toString()}</StyledCell>
-      <StyledCell p={highlight}>{showEstimates && estimateTime(targetTimeslice, lastCommittedTimeslice * 80)}</StyledCell>
-      <StyledCell p={highlight}>{chainRecord?.renewalStatus}</StyledCell>
-      <StyledCell p={highlight}>{chainRecord?.renewal ? formatBalance(chainRecord.renewal?.price.toString()) : ''}</StyledCell>
+      <StyledCell
+        className='media--800'
+        p={highlight}
+      >{showEstimates && formatNumber(targetTimeslice * 80).toString()}</StyledCell>
+      <StyledCell
+        className='media--1000'
+        p={highlight}
+      >{showEstimates && estimateTime(targetTimeslice, lastCommittedTimeslice * 80)}</StyledCell>
+      <StyledCell
+        className='media--1200'
+        p={highlight}
+      >{chainRecord?.renewalStatus}</StyledCell>
+      <StyledCell
+        className='media--1200'
+        p={highlight}
+      >{chainRecord?.renewal ? formatBalance(chainRecord.renewal?.price.toString()) : ''}</StyledCell>
       {highlight && <StyledCell p={highlight} />}
     </React.Fragment>
 
