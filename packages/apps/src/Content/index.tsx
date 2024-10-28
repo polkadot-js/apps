@@ -63,7 +63,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
       {!missingApis
         ? (
           <div className='connecting'>
-            <Spinner label={t<string>('Initializing connection')} />
+            <Spinner label={t<string>('Initializing connection, please try again later if this continues as we may be experiencing high demand')} />
           </div>
         )
         : (
