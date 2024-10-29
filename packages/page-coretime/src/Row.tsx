@@ -29,9 +29,9 @@ const colours: Record<string, string> = {
   [CoreTimeTypes['Bulk Coretime']]: 'pink'
 };
 
-const StyledCell = styled.td<{ p: boolean }>`
+const StyledCell = styled.td<{ $p: boolean }>`
   && {
-    background-color: ${({ p }) => (p ? '#F9FAFB' : '')};
+    background-color: ${({ $p }) => ($p ? '#F9FAFB' : undefined)};
   }
 `;
 
@@ -42,35 +42,35 @@ function Row ({ chainRecord, highlight = false, id, lastCommittedTimeslice, leas
 
   return (
     <React.Fragment key={`${id}`}>
-      <StyledCell p={highlight}>{id}</StyledCell>
+      <StyledCell $p={highlight}>{id}</StyledCell>
       <StyledCell
+        $p={highlight}
         className='media--800'
-        p={highlight}
       >{<ParaLink id={new BN(id)} />}</StyledCell>
-      <StyledCell p={highlight}>{chainRecord?.workload?.core}</StyledCell>
-      <StyledCell p={highlight}>
+      <StyledCell $p={highlight}>{chainRecord?.workload?.core}</StyledCell>
+      <StyledCell $p={highlight}>
         <Tag
           color={colours[chainRecord.type] as FlagColor}
           label={Object.values(CoreTimeTypes)[chainRecord.type]}
         />
       </StyledCell>
       <StyledCell
+        $p={highlight}
         className='media--800'
-        p={highlight}
       >{showEstimates && formatNumber(targetTimeslice * 80).toString()}</StyledCell>
       <StyledCell
+        $p={highlight}
         className='media--1000'
-        p={highlight}
       >{showEstimates && estimateTime(targetTimeslice, lastCommittedTimeslice * 80)}</StyledCell>
       <StyledCell
+        $p={highlight}
         className='media--1200'
-        p={highlight}
       >{chainRecord?.renewalStatus}</StyledCell>
       <StyledCell
+        $p={highlight}
         className='media--1200'
-        p={highlight}
       >{chainRecord?.renewal ? formatBalance(chainRecord.renewal?.price.toString()) : ''}</StyledCell>
-      {highlight && <StyledCell p={highlight} />}
+      {highlight && <StyledCell $p={highlight} />}
     </React.Fragment>
 
   );
