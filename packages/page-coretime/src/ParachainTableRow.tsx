@@ -56,18 +56,13 @@ function ParachainTableRow ({ chain, lastCommittedTimeslice, regionBegin, region
         className={`isExpanded isFirst ${isExpanded ? '' : 'isLast'}`}
         key={chain.id}
       >
-        <React.Fragment key={`${chain.id}`}>
-          {renderRow(firstRecord, 0)}
-        </React.Fragment>
-
+        {renderRow(firstRecord, 0)}
       </tr>
       {isExpanded && expandedContent?.map((infoRow, idx) =>
         <tr key={`${chain.id}${idx}`}>
           {renderRow(infoRow, idx + 1, true)}
         </tr>
-
-      )
-      }
+      )}
     </>
   );
 }
