@@ -7,8 +7,9 @@ import type { ChainInformation, CoretimeInformation, CoreWorkload, CoreWorkloadI
 import { useEffect, useMemo, useState } from 'react';
 
 import { createNamedHook, useApi, useBrokerConfig, useBrokerLeases, useBrokerReservations, useBrokerSalesInfo, useBrokerStatus, useCoreDescriptor, useRegions, useWorkloadInfos, useWorkplanInfos } from '@polkadot/react-hooks';
+import { BN } from '@polkadot/util';
 
-import { ChainRenewalStatus, CoreTimeTypes } from './types.js';
+import { ChainRenewalStatus, CoreTimeChainConsts, CoreTimeTypes } from './types.js';
 import { useBrokerPotentialRenewals } from './useBrokerPotentialRenewals.js';
 
 const getOccupancyType = (lease: LegacyLease | undefined, reservation: Reservation | undefined, isPool: boolean): CoreTimeTypes => {
@@ -40,8 +41,27 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
   const coreInfos = useCoreDescriptor(api, ready);
   const paraIds = useMemo(() => coreInfos && [...new Set(coreInfos?.map((a) => a.info.currentWork.assignments.map((ass) => ass.task)).flat().filter((id) => id !== 'Pool'))], [coreInfos]);
 
-  // when - The point in time that the renewable workload on core ends and a fresh renewal may begin.
-  const potentialRenewalsCurrentRegion = useMemo(() => config && salesInfo && potentialRenewals?.filter((renewal: PotentialRenewal) => renewal.when.toString() === salesInfo?.regionBegin.toString()), [potentialRenewals, salesInfo, config]);
+  const isInterludePhase = useMemo(() => {
+    if (!salesInfo || !config || !status) {
+      return false;
+    }
+
+    const currentRegionStart = new BN(salesInfo?.regionBegin).sub(new BN(config.regionLength));
+    const interludeLengthTs = new BN(config?.interludeLength).div(new BN(CoreTimeChainConsts.BlocksPerTimeslice));
+    const interludeEndTs = currentRegionStart.add(interludeLengthTs);
+
+    return interludeEndTs.gte(new BN(status?.lastCommittedTimeslice));
+  }, [status, salesInfo, config]);
+
+  const potentialRenewalsCurrentRegion = useMemo(() => {
+    if (!isInterludePhase || !config || !salesInfo) {
+      return [];
+    }
+
+    // when - The point in time that the renewable workload on core ends and a fresh renewal may begin.
+    return potentialRenewals?.filter((renewal: PotentialRenewal) => renewal.when.toString() === salesInfo?.regionBegin.toString());
+  }, [potentialRenewals, salesInfo, config, isInterludePhase]);
+
   const [state, setState] = useState<CoretimeInformation | undefined>();
 
   useEffect(() => {

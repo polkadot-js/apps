@@ -377,7 +377,12 @@ export const ChainRenewalStatus = {
   Renewed: 'renewed'
 };
 
+// RelayChain
 export const CoreTimeConsts = {
   BlockTime: 6000,
   BlocksPerTimeslice: 80
+};
+
+export const CoreTimeChainConsts = {
+  BlocksPerTimeslice: 40
 };
