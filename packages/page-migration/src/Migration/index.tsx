@@ -25,7 +25,6 @@ function MigrationApp ({ className }): React.ReactElement {
   const { t } = useTranslation();
   const [senderId, setSenderId] = useState<string | null>(null);
   const [cheqdId, setCheqdId] = useState<string>('');
-  const [success, setSuccess] = useState<boolean>(false);
   const [selectFromDropdown, setSelectFromDropdown] = useState<boolean>(false);
   const [cheqdAddresses, setCheqdAddresses] = useState<string[]>([]);
   const { api } = useApi();
@@ -36,13 +35,7 @@ function MigrationApp ({ className }): React.ReactElement {
   const isValid = senderId && cheqdId && isValidCheqdAddress(cheqdId);
 
   function handleSuccess() {
-    setSuccess(true);
-  }
-
-  function handleRestart() {
-    setSuccess(false);
-    setCheqdId('');
-    setSenderId(null);
+    window.location = 'https://www.dock.io/token-migration-success';
   }
 
   async function getExtensionAddresses() {
@@ -63,39 +56,7 @@ function MigrationApp ({ className }): React.ReactElement {
     }
   }, []);
 
-  return success ? (
-    <div className={`staking--Overview ${className}`}>
-      <MarkSuccess
-        className='success centered'
-        content={t<string>('Your token migration transaction has been submitted successfully.')}
-      />
-      
-      <p style={{
-        fontSize: '32px',
-        fontWeight: 500,
-        marginBottom: '20px',
-        textAlign: 'center',
-      }}>
-        TRANSACTION COMPLETE
-      </p>
-      
-      <p style={{
-        fontSize: '18px',
-        marginBottom: '20px',
-        textAlign: 'center',
-        maxWidth: '70%',
-        margin: '0 auto',
-      }}>
-        Your token migration transaction has been submitted successfully. Migrating your Dock balance to cheqd will zero the balance on your Dock account. The migration will take up to 1-2 business days to complete, after that the converted $CHEQ amount will be available in the indicated cheqd wallet. 
-        <br /><br />
-        <Button
-          icon='sync'
-          label={t<string>('Migrate another account')}
-          onClick={handleRestart}
-        />
-      </p>
-    </div>
-  ) : (
+  return (
     <div className={`staking--Overview ${className}`}>
       <MarkWarning
         className='warning centered'
