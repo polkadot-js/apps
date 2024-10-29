@@ -9,7 +9,9 @@ export default function create (t: TFunction): Route {
   return {
     Component,
     display: {
-      needsApi: []
+      needsApi: [
+        'query.treasury.proposals'
+      ]
     },
     group: 'governance',
     icon: 'gem',
