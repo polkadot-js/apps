@@ -69,7 +69,7 @@
   "devDependencies": {
     "@crustio/crust-pin": "^1.0.0",
     "@pinata/sdk": "^1.2.1",
-    "@polkadot/dev": "^0.78.13",
+    "@polkadot/dev": "^0.81.2",
     "@types/chart.js": "^2.9.41",
     "@types/file-saver": "^2.0.7",
     "@types/react-beautiful-dnd": "^13.1.7",
@@ -119,6 +119,6 @@
     "@polkadot/x-textdecoder": "^13.1.1",
     "@polkadot/x-textencoder": "^13.1.1",
     "@polkadot/x-ws": "^13.1.1",
-    "typescript": "^5.3.3"
+    "typescript": "^5.5.4"
   }
 }

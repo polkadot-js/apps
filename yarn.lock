@@ -1875,7 +1875,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/apps-electron@workspace:packages/apps-electron"
   dependencies:
-    "@polkadot/dev": "npm:^0.78.13"
+    "@polkadot/dev": "npm:^0.81.2"
     "@types/tmp": "npm:^0.2.6"
     copy-webpack-plugin: "npm:^11.0.0"
     electron: "npm:28.0.0"
@@ -1907,7 +1907,7 @@ __metadata:
     "@acala-network/chopsticks-core": "npm:^0.13.3"
     "@polkadot/apps-config": "npm:^0.145.2-8-x"
     "@polkadot/apps-routing": "npm:^0.145.2-8-x"
-    "@polkadot/dev": "npm:^0.78.13"
+    "@polkadot/dev": "npm:^0.81.2"
     "@polkadot/react-api": "npm:^0.145.2-8-x"
     "@polkadot/react-components": "npm:^0.145.2-8-x"
     "@polkadot/react-hooks": "npm:^0.145.2-8-x"
@@ -1941,34 +1941,34 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev-test@npm:^0.78.13":
-  version: 0.78.13
-  resolution: "@polkadot/dev-test@npm:0.78.13"
+"@polkadot/dev-test@npm:^0.81.2":
+  version: 0.81.2
+  resolution: "@polkadot/dev-test@npm:0.81.2"
   dependencies:
     jsdom: "npm:^24.0.0"
-    tslib: "npm:^2.6.2"
-  checksum: 10/7392e76845d50f1eb9674c94c95c8bcb7bf95ea0ba559d2be04a77e545e8fc2c5954e878228eb33624901bf5f3b1eea59d2557233b6f5d2306dfec49eefc1a7a
+    tslib: "npm:^2.7.0"
+  checksum: 10/1028c3b1804567128f1cc796df2285827bb8d9d54afee8c81f28821d2205e7f4522bd9659eb2e7645a080568d43b394279db12b1c2debdc447d5567317b7c2fc
   languageName: node
   linkType: hard
 
-"@polkadot/dev-ts@npm:^0.78.13":
-  version: 0.78.13
-  resolution: "@polkadot/dev-ts@npm:0.78.13"
+"@polkadot/dev-ts@npm:^0.81.2":
+  version: 0.81.2
+  resolution: "@polkadot/dev-ts@npm:0.81.2"
   dependencies:
     json5: "npm:^2.2.3"
-    tslib: "npm:^2.6.2"
-    typescript: "npm:^5.3.3"
-  checksum: 10/2dd5552394f2bb40e99cbe9bd038adef97730b4a30360e68e9e0679e9af1065cb8a0e324bb90b42c449fb8273ef492335f3d204f02047d444d79ca18f97d67f0
+    tslib: "npm:^2.7.0"
+    typescript: "npm:^5.5.4"
+  checksum: 10/cb25e9523cbad5029f7e149135aa003286d9c907677902e6a1ffe4a905d6c31f6c88a647b3be0e51b09e62528fca2a3121f12a748942ecd6eccefd8da1eb3369
   languageName: node
   linkType: hard
 
-"@polkadot/dev@npm:^0.78.13":
-  version: 0.78.13
-  resolution: "@polkadot/dev@npm:0.78.13"
+"@polkadot/dev@npm:^0.81.2":
+  version: 0.81.2
+  resolution: "@polkadot/dev@npm:0.81.2"
   dependencies:
     "@eslint/js": "npm:^8.56.0"
-    "@polkadot/dev-test": "npm:^0.78.13"
-    "@polkadot/dev-ts": "npm:^0.78.13"
+    "@polkadot/dev-test": "npm:^0.81.2"
+    "@polkadot/dev-ts": "npm:^0.81.2"
     "@rollup/plugin-alias": "npm:^5.1.0"
     "@rollup/plugin-commonjs": "npm:^25.0.7"
     "@rollup/plugin-dynamic-import-vars": "npm:^2.1.2"
@@ -2001,8 +2001,8 @@ __metadata:
     madge: "npm:^6.1.0"
     rollup: "npm:^4.9.6"
     rollup-plugin-cleanup: "npm:^3.2.1"
-    tslib: "npm:^2.6.2"
-    typescript: "npm:^5.3.3"
+    tslib: "npm:^2.7.0"
+    typescript: "npm:^5.5.4"
     webpack: "npm:^5.89.0"
     webpack-cli: "npm:^5.1.4"
     webpack-dev-server: "npm:^4.15.1"
@@ -2033,7 +2033,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 10/21322081631f86d91b9796e28a1753bd14f25e2439b3c770a4a304db78eaa466e99a0ba1c541d3c71135c1be15eab496fa0f22c830c8b761d5c36b40bbfb2568
+  checksum: 10/304d2e1e5a5669b0888026fd0fb3e82dba75e1a85c9c40481d0832b072bac9ba6f9e9755db4bdce4c2aa10c631ef7f4fba84114a1b6490d25aa5b4f6dff65299
   languageName: node
   linkType: hard
 
@@ -13677,7 +13677,7 @@ __metadata:
   dependencies:
     "@crustio/crust-pin": "npm:^1.0.0"
     "@pinata/sdk": "npm:^1.2.1"
-    "@polkadot/dev": "npm:^0.78.13"
+    "@polkadot/dev": "npm:^0.81.2"
     "@types/chart.js": "npm:^2.9.41"
     "@types/file-saver": "npm:^2.0.7"
     "@types/react-beautiful-dnd": "npm:^13.1.7"
@@ -17039,23 +17039,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5.3.3":
-  version: 5.3.3
-  resolution: "typescript@npm:5.3.3"
+"typescript@npm:^5.5.4":
+  version: 5.6.3
+  resolution: "typescript@npm:5.6.3"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10/6e4e6a14a50c222b3d14d4ea2f729e79f972fa536ac1522b91202a9a65af3605c2928c4a790a4a50aa13694d461c479ba92cedaeb1e7b190aadaa4e4b96b8e18
+  checksum: 10/c328e418e124b500908781d9f7b9b93cf08b66bf5936d94332b463822eea2f4e62973bfb3b8a745fdc038785cb66cf59d1092bac3ec2ac6a3e5854687f7833f1
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^5.3.3#optional!builtin<compat/typescript>":
-  version: 5.3.3
-  resolution: "typescript@patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"
+"typescript@patch:typescript@npm%3A^5.5.4#optional!builtin<compat/typescript>":
+  version: 5.6.3
+  resolution: "typescript@patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10/c93786fcc9a70718ba1e3819bab56064ead5817004d1b8186f8ca66165f3a2d0100fee91fa64c840dcd45f994ca5d615d8e1f566d39a7470fc1e014dbb4cf15d
+  checksum: 10/00504c01ee42d470c23495426af07512e25e6546bce7e24572e72a9ca2e6b2e9bea63de4286c3cfea644874da1467dcfca23f4f98f7caf20f8b03c0213bb6837
   languageName: node
   linkType: hard
 
