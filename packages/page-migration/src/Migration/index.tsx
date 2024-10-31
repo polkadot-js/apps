@@ -202,7 +202,7 @@ function MigrationApp ({ className }): React.ReactElement {
           {hasAvailableBalance(allBalances) ? (
             hasLockedBalance(allBalances) ? (
               <>
-              This Dock account has <strong>locked or staked</strong> funds, please unbond to migrate.
+              This Dock account has <strong>locked or staked</strong> funds, please <a href="https://docs.dock.io/dock-token/staking/how-to-unbond-and-rebond" target="_blank">unbond</a> to migrate.
               </>
             ) : ((
               <>
