@@ -12,13 +12,26 @@ import { useTranslation } from '../translate';
 import { isValidCheqdAddress, getCheqdAddressError } from '@polkadot/react-components/InputAddressCheqd';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatBalance } from '@polkadot/util';
-import MarkSuccess from '@polkadot/react-components/MarkSuccess';
 
 function convertDockToCheqd(dockBalance) {
   const swapRatio = 18.5178;
   const dockAmt = dockBalance.toNumber() / 1000000;
   const cheqdBalance = dockAmt / swapRatio;
   return cheqdBalance;
+}
+
+function hasAvailableBalance(dockBalance) {
+  if (!dockBalance) {
+    return false;
+  }
+  return !dockBalance.availableBalance.isZero();
+}
+
+function hasLockedBalance(dockBalance) {
+  if (!dockBalance) {
+    return false;
+  }
+  return !dockBalance.lockedBalance.isZero();
 }
 
 function MigrationApp ({ className }): React.ReactElement {
@@ -51,7 +64,7 @@ function MigrationApp ({ className }): React.ReactElement {
   }
 
   useEffect(() => {
-    if (window.keplr) {
+    if (window.keplr || window.leap) {
       getExtensionAddresses();
     }
   }, []);
@@ -92,7 +105,7 @@ function MigrationApp ({ className }): React.ReactElement {
           Select your Dock account. If it isn't there follow <a href="https://docs.dock.io/dock-token/dock-token-migration/adding-account-to-the-dock-browser-wallet" target="_blank">these instructions</a>.
         </li>
         <li>
-        Enter your cheqd account manually or connect a web browser extension wallet. Connecting an extension will allow us to confirm that the tokens are going to the cheqd account that you control.
+          Enter your cheqd account manually or connect a web browser extension wallet. Connecting an extension will allow us to confirm that the tokens are going to the cheqd account that you control.
         </li>
         <li>
           Accept T&Cs and click <strong>Submit</strong>
@@ -167,7 +180,7 @@ function MigrationApp ({ className }): React.ReactElement {
               <a href="#" onClick={(e) => {
                 e.preventDefault();
                 setSelectFromDropdown(true);
-              }}>Select from keplr</a>
+              }}>Select from wallet extension</a>
             </>
           )}
         </>
@@ -182,11 +195,26 @@ function MigrationApp ({ className }): React.ReactElement {
 
       <br /><br />
       
-      {(senderId && cheqdId && allBalances) ? (
+      {(senderId && allBalances) ? (
         <p style={{
           fontSize: '18px',
         }}>
-          After the migration is complete, your <strong>{formatBalance(allBalances?.freeBalance)}</strong> will be converted into <strong>{convertDockToCheqd(allBalances?.freeBalance)} CHEQD</strong>.
+          {hasAvailableBalance(allBalances) ? (
+            hasLockedBalance(allBalances) ? (
+              <>
+              This Dock account has <strong>locked or staked</strong> funds, please unbond to migrate.
+              </>
+            ) : ((
+              <>
+                After the migration is complete, your <strong>{formatBalance(allBalances.availableBalance)}</strong> will be converted into <strong>{convertDockToCheqd(allBalances?.availableBalance)} CHEQD</strong>.
+              </>
+            )
+            )
+          ) : (
+            <>
+              This Dock account has <strong>no available balance</strong> to migrate.
+            </>
+          )}
         </p>
       ) : (
         <p style={{
@@ -210,7 +238,7 @@ function MigrationApp ({ className }): React.ReactElement {
           accountId={senderId}
           extrinsic={extrinsic}
           icon='sign-in-alt'
-          isDisabled={!isValid}
+          isDisabled={!isValid || !hasAvailableBalance(allBalances?.availableBalance) || !hasLockedBalance(allBalances)}
           onSuccess={handleSuccess}
           label={t<string>('Submit Transaction')}
         />
