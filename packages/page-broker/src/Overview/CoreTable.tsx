@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
+import type { PalletBrokerConfigRecord } from '@polkadot/react-hooks/types';
 
 import React, { useRef } from 'react';
 
@@ -14,12 +15,12 @@ import Workload from './Workload.js';
 interface Props {
   api: ApiPromise;
   core: number;
+  config: PalletBrokerConfigRecord,
   workload?: CoreWorkloadType[],
   workplan?: CoreWorkplanType[],
-  timeslice: number,
 }
 
-function CoreTable ({ api, core, timeslice, workload, workplan }: Props): React.ReactElement<Props> {
+function CoreTable ({ api, config, core, workload, workplan }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const headerRef = useRef<([React.ReactNode?, string?] | false)[]>([[t('core')]]);
   const header: [React.ReactNode?, string?, number?, (() => void)?][] = [
@@ -38,15 +39,15 @@ function CoreTable ({ api, core, timeslice, workload, workplan }: Props): React.
       isSplit={false}
       key={core}
     >
-      {workload?.map((v) => (
-        <Workload
-          api={api}
-          key={v.core}
-          timeslice={timeslice}
-          value={v}
-          workplan={workplan}
-        />
-      ))}
+      <Workload
+        api={api}
+        config={config}
+        core={core}
+        key={core}
+        workload={workload}
+        workplan={workplan}
+      />
+
     </Table>
   );
 }

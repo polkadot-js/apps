@@ -220,6 +220,30 @@ export interface CoreDescription {
   info: PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor[];
 }
 
+export interface CoreDescriptorAssignment {
+  task: string,
+  ratio: number,
+  remaining: number,
+  isTask: boolean,
+  isPool: boolean
+}
+
+export interface CoreDescriptor {
+  core: number,
+  info: {
+    currentWork: {
+      assignments: CoreDescriptorAssignment[],
+      endHint: BN | null,
+      pos: number,
+      step: number
+    },
+    queue: {
+      first: BN,
+      last: BN
+    }
+  }
+}
+
 export interface OnDemandQueueStatus {
   traffic: u128;
   nextIndex: u32;
@@ -264,7 +288,8 @@ export interface RegionInfo {
 
 export interface Reservation {
   task: string
-  mask: number,
+  mask: string[],
+  maskBits: number
 }
 
 export interface LegacyLease {
@@ -296,3 +321,68 @@ export interface PalletBrokerConfigRecord {
   renewalBump: BN;
   contributionTimeout: number;
 }
+
+export interface ChainWorkTaskInformation {
+  renewal: PotentialRenewal | undefined
+  renewalStatus: string
+  type: CoreTimeTypes
+  workload: CoreWorkload | undefined
+  workplan: CoreWorkplan[] | undefined
+}
+
+export interface ChainInformation {
+  id: number,
+  lease: LegacyLease | undefined,
+  reservation: Reservation| undefined
+  workTaskInfo: ChainWorkTaskInformation[]
+}
+
+export interface CoretimeInformation {
+  chainInfo: Record<number, ChainInformation>,
+  salesInfo: PalletBrokerSaleInfoRecord,
+  status: BrokerStatus,
+  region: RegionInfo[],
+  config: PalletBrokerConfigRecord
+  taskIds: number[]
+}
+
+export interface BrokerStatus {
+  coreCount: number;
+  privatePoolSize: number;
+  systemPoolSize: number;
+  lastCommittedTimeslice: number;
+  lastTimeslice: number;
+}
+
+export interface PotentialRenewal {
+  core: number,
+  when: number,
+  price: BN,
+  completion: 'Complete' | 'Partial',
+  mask: string[]
+  maskBits: number,
+  task: string
+}
+
+export enum CoreTimeTypes {
+  'Reservation',
+  'Lease',
+  'Bulk Coretime',
+  'On Demand'
+}
+
+export const ChainRenewalStatus = {
+  Eligible: 'eligible',
+  None: '-',
+  Renewed: 'renewed'
+};
+
+// RelayChain
+export const CoreTimeConsts = {
+  BlockTime: 6000,
+  BlocksPerTimeslice: 80
+};
+
+export const CoreTimeChainConsts = {
+  BlocksPerTimeslice: 40
+};

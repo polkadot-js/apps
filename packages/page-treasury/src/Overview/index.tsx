@@ -28,9 +28,13 @@ function Overview ({ className, isMember, members }: Props): React.ReactElement<
         approvalCount={info?.approvals.length}
         proposalCount={info?.proposals.length}
       />
-      <Button.Group>
-        <ProposalCreate />
-      </Button.Group>
+      {
+        api.tx.treasury.proposeSpend
+          ? <Button.Group>
+            <ProposalCreate />
+          </Button.Group>
+          : <></>
+      }
       <Proposals
         isMember={isMember}
         members={members}

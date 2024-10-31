@@ -1,40 +1,42 @@
 // Copyright 2017-2024 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
+import type { Option } from '@polkadot/types';
 import type { PalletBrokerSaleInfoRecord } from '@polkadot/types/lookup';
 import type { PalletBrokerSaleInfoRecord as SimplifiedPalletBrokerSaleInfoRecord } from './types.js';
 
 import { useEffect, useState } from 'react';
 
-import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
+import { createNamedHook, useCall } from '@polkadot/react-hooks';
 import { BN } from '@polkadot/util';
 
-function parsePalletBrokerSaleInfoRecord (record: PalletBrokerSaleInfoRecord): SimplifiedPalletBrokerSaleInfoRecord {
+function extractInfo (record: Option<PalletBrokerSaleInfoRecord>): SimplifiedPalletBrokerSaleInfoRecord {
+  const v = record.unwrap();
+
   return {
-    coresOffered: record.coresOffered.toNumber(),
-    coresSold: record.coresSold.toNumber(),
-    endPrice: record.endPrice,
-    firstCore: record.firstCore.toNumber(),
-    idealCoresSold: record.idealCoresSold.toNumber(),
-    leadinLength: record.leadinLength.toNumber(),
-    regionBegin: record.regionBegin.toNumber(),
-    regionEnd: record.regionEnd.toNumber(),
-    saleStart: record.saleStart.toNumber(),
-    selloutPrice: record.selloutPrice.isSome ? record.selloutPrice.unwrap() : new BN(0)
+    coresOffered: v.coresOffered?.toNumber(),
+    coresSold: v.coresSold?.toNumber(),
+    endPrice: v.endPrice,
+    firstCore: v.firstCore?.toNumber(),
+    idealCoresSold: v.idealCoresSold?.toNumber(),
+    leadinLength: v.leadinLength?.toNumber(),
+    regionBegin: v.regionBegin?.toNumber(),
+    regionEnd: v.regionEnd?.toNumber(),
+    saleStart: v.saleStart?.toNumber(),
+    selloutPrice: v.selloutPrice?.isSome ? v.selloutPrice?.unwrap() : new BN(0)
   };
 }
 
-function useBrokerSalesInfoImpl () {
-  const { api, isApiReady } = useApi();
-
-  const record = useCall<PalletBrokerSaleInfoRecord>(isApiReady && api.query.broker.saleInfo);
+function useBrokerSalesInfoImpl (api: ApiPromise, ready: boolean) {
+  const record = useCall<Option<PalletBrokerSaleInfoRecord>>(ready && api?.query.broker.saleInfo);
 
   const [state, setState] = useState<SimplifiedPalletBrokerSaleInfoRecord | undefined>();
 
   useEffect((): void => {
-    !!record && !!record.toJSON() &&
+    !!record && !!record.isSome && !!record.toJSON() &&
       setState(
-        parsePalletBrokerSaleInfoRecord(record)
+        extractInfo(record)
       );
   }, [record]);
 

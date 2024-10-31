@@ -34,7 +34,7 @@ function extractInfo (info: Vec<PalletBrokerScheduleItem>, core: number, timesli
       isTask: assignment.isTask,
       mask,
       maskBits: mask.length,
-      task: assignment.isTask ? assignment.asTask.toString() : assignment.isPool ? 'Pool' : ''
+      task: assignment.isTask ? assignment.asTask.toString() : assignment.isPool ? 'Pool' : 'Idle'
     },
     timeslice
   };
@@ -46,13 +46,13 @@ const OPT_KEY = {
 };
 
 function useWorkplanInfosImpl (api: ApiPromise, ready: boolean): CoreWorkplan[] | undefined {
-  const workplanKeys = useMapKeys(ready && api.query.broker.workplan, [], OPT_KEY);
+  const workplanKeys = useMapKeys(ready && api?.query.broker.workplan, [], OPT_KEY);
 
   const sanitizedKeys = workplanKeys?.map((value) => {
     return value[0];
   });
 
-  const workplanInfo = useCall<[[[u32, u16][]], Option<Vec<PalletBrokerScheduleItem>>[]]>(ready && api.query.broker.workplan.multi, [sanitizedKeys], { withParams: true });
+  const workplanInfo = useCall<[[[u32, u16][]], Option<Vec<PalletBrokerScheduleItem>>[]]>(ready && api?.query.broker.workplan.multi, [sanitizedKeys], { withParams: true });
 
   const [state, setState] = useState<CoreWorkplan[] | undefined>();
 

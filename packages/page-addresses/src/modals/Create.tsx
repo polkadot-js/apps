@@ -5,7 +5,7 @@ import type { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { ModalProps as Props } from '../types.js';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
 import { AddressRow, Button, Input, InputAddress, Modal } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -34,7 +34,7 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
   const [{ isNameValid, name }, setName] = useState<NameState>({ isNameValid: false, name: '' });
   const [{ address, addressInput, isAddressExisting, isAddressValid }, setAddress] = useState<AddrState>({ address: '', addressInput: '', isAddressExisting: false, isAddressValid: false, isPublicKey: false });
   const info = useCall<DeriveAccountInfo>(!!address && isAddressValid && api.derive.accounts.info, [address]);
-  const isValid = (isAddressValid && isNameValid) && !!info?.accountId;
+  const isValid = useMemo(() => (isAddressValid && isNameValid) && !!info?.accountId, [isAddressValid, isNameValid, info]);
 
   const _onChangeAddress = useCallback(
     (addressInput: string): void => {
@@ -64,7 +64,6 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
 
             isAddressExisting = true;
             isAddressValid = true;
-
             setName({ isNameValid: !!(newName || '').trim(), name: newName });
           }
         }

@@ -1,11 +1,11 @@
 // Copyright 2017-2024 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CoreWorkplan } from '@polkadot/react-hooks/types';
+import type { CoreWorkload, CoreWorkplan } from '@polkadot/react-hooks/types';
 
 export interface InfoRow {
-  task: string | number,
-  maskBits: number,
+  task?: string | number,
+  maskBits?: number,
   core: number
   mask?: string
   start?: string | null,
@@ -13,7 +13,7 @@ export interface InfoRow {
   owner?: string
   leaseLength?: number
   endBlock?: number
-  type?: Occupancy
+  type?: CoreTimeTypes
 }
 
 export interface CoreInfo {
@@ -28,18 +28,19 @@ export interface statsType {
   tasks: number
 }
 
-export enum Occupancy {
+export enum CoreTimeTypes {
   'Reservation',
   'Lease',
-  'Rent'
+  'Bulk Coretime',
+  'On Demand'
 }
 
 export interface CoreWorkplanType extends CoreWorkplan {
   lastBlock: number,
-  type: Occupancy
+  type: CoreTimeTypes
 }
 
-export interface CoreWorkloadType extends CoreWorkplan {
+export interface CoreWorkloadType extends CoreWorkload {
   lastBlock: number,
-  type: Occupancy
+  type: CoreTimeTypes
 }
