@@ -105,13 +105,13 @@ function MigrationApp ({ className }): React.ReactElement {
           Select your Dock account. If it isn't there follow <a href="https://docs.dock.io/dock-token/dock-token-migration/adding-account-to-the-dock-browser-wallet" target="_blank">these instructions</a>.
         </li>
         <li>
-          Enter your cheqd account manually or connect a web browser extension wallet. Connecting an extension will allow us to confirm that the tokens are going to the cheqd account that you control.
+          Connect your cheqd wallet or enter your cheqd account manually. Connecting a Leap wallet will allow us to confirm that the tokens are going to the cheqd account that you control. 
         </li>
         <li>
           Accept T&Cs and click <strong>Submit</strong>
         </li>
         <li>
-          Authorize the transaction by entering your account password. Click Sign & Submit
+          Authorize the transaction by entering your account password. Click <strong>Sign & Submit</strong>
         </li>
       </ol>
       
@@ -128,7 +128,7 @@ function MigrationApp ({ className }): React.ReactElement {
       }}>
         The migration service will only be available until <strong>February 28, 2025</strong>.
         <br />
-        Please follow these instructions carefully and contact our team with any questions at support@dock.io.
+        Please follow these instructions carefully and contact our team with any questions at <a href="mailto:support@dock.io">support@dock.io</a>.
       </p>
 
       <InputAddress
