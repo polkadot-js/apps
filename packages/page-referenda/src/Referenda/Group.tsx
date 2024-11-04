@@ -55,7 +55,7 @@ function Group ({ activeIssuance, className, isMember, members, palletReferenda,
     (): [([React.ReactNode?, string?, number?] | null)[], string] => [
       [
         [trackName ? <>{trackName}<div className='sub'>{trackInfo?.text}</div></> : t('referenda'), 'start', 8],
-        null && [headerButton]
+        [headerButton]
       ],
       trackName
         ? `track:${trackName}`
