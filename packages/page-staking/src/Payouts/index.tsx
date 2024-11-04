@@ -60,6 +60,7 @@ function groupByValidator (allRewards: Record<string, DeriveStakerReward[]>): Pa
                 } else {
                   entry.eras.push({
                     era: reward.era,
+                    isClaimed: reward.isClaimed,
                     stashes: { [stashId]: value }
                   });
                 }
@@ -71,6 +72,7 @@ function groupByValidator (allRewards: Record<string, DeriveStakerReward[]>): Pa
                   available: value,
                   eras: [{
                     era: reward.era,
+                    isClaimed: reward.isClaimed,
                     stashes: { [stashId]: value }
                   }],
                   total,
@@ -97,6 +99,7 @@ function extractStashes (allRewards: Record<string, DeriveStakerReward[]>): Payo
       stashId
     }))
     .filter(({ available }) => !available.isZero())
+    .filter(({ rewards }) => rewards.some((r) => !r.isClaimed))
     .sort((a, b) => b.available.cmp(a.available));
 }
 
@@ -270,7 +273,7 @@ function Payouts ({ className = '', historyDepth, isInElection, ownPools, ownVal
           />
         ))}
       </Table>
-      {(myStashesIndex === 1) && !isLoadingRewards && validators && (validators.length !== 0) && (
+      {(myStashesIndex === 1) && !isLoadingRewards && validators && (validators.length !== 0) && validators.filter(({ eras }) => eras.some((e) => !e.isClaimed)).length > 0 && (
         <Table
           footer={footerVal}
           header={headerValidatorsRef.current}

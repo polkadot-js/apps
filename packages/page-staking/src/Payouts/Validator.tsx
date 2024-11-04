@@ -29,7 +29,7 @@ interface State {
 }
 
 function extractState (payout: PayoutValidator): State {
-  const eraStr = createErasString(payout.eras.map(({ era }) => era));
+  const eraStr = createErasString(payout.eras.filter(({ isClaimed }) => !isClaimed).map(({ era }) => era));
   const nominators = payout.eras.reduce((nominators: Record<string, BN>, { stashes }): Record<string, BN> => {
     Object.entries(stashes).forEach(([stashId, value]): void => {
       if (nominators[stashId]) {
