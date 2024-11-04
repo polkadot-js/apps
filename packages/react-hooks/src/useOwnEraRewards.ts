@@ -87,6 +87,8 @@ function getValRewards (api: ApiPromise, validatorEras: ValidatorWithEras[], era
           allRewards[stashId].push({
             era,
             eraReward: eraRewards.eraReward,
+            // Place holder for https://github.com/polkadot-js/apps/pull/11035
+            isClaimed: false,
             isEmpty: false,
             isValidator: true,
             nominating: [],
