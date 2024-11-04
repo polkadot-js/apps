@@ -25,7 +25,7 @@ interface ExtractStateParams {
   stashId: string;
   slashes: Option<SlashingSpans>[];
   nominees: string[];
-  activeEra: DeriveSessionIndexes['activeEra'] | undefined;
+  activeEra: EraIndex| undefined;
   submittedIn: EraIndex;
   exposures: Exposure[];
   version: number | undefined;
@@ -162,7 +162,7 @@ function useInactivesImpl (stashId: string, nominees?: string[], eraExposure?: D
 
     const exposuresData = nominees?.map((id) => eraExposure?.validators?.[id]).filter((val) => val) as Exposure[];
 
-    mountedRef.current && exposuresData.length && nominees?.length && !!submittedIn && setState(
+    mountedRef.current && exposuresData?.length && nominees?.length && !!submittedIn && setState(
       extractState({
         activeEra: indexes?.activeEra,
         activeValidators: eraExposure?.validators,
