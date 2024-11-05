@@ -14,6 +14,9 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatBalance } from '@polkadot/util';
 
 function convertDockToCheqd(dockBalance) {
+  if (!dockBalance) {
+    return 0;
+  }
   const swapRatio = 18.5178;
   const dockAmt = dockBalance.toNumber() / 1000000;
   const cheqdBalance = dockAmt / swapRatio;
@@ -21,14 +24,14 @@ function convertDockToCheqd(dockBalance) {
 }
 
 function hasAvailableBalance(dockBalance) {
-  if (!dockBalance) {
+  if (!dockBalance || !dockBalance.availableBalance) {
     return false;
   }
   return !dockBalance.availableBalance.isZero();
 }
 
 function hasLockedBalance(dockBalance) {
-  if (!dockBalance) {
+  if (!dockBalance || !dockBalance.lockedBalance) {
     return false;
   }
   return !dockBalance.lockedBalance.isZero();
