@@ -126,7 +126,7 @@ function MigrationApp ({ className }): React.ReactElement {
         fontSize: '18px',
         marginBottom: '20px',
       }}>
-        The migration service will only be available until <strong>February 28, 2025</strong>.
+        The migration service will only be available until <strong>March 15, 2025</strong>.
         <br />
         Please follow these instructions carefully and contact our team with any questions at <a href="mailto:support@dock.io">support@dock.io</a>.
       </p>
