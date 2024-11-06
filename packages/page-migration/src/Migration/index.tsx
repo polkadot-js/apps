@@ -241,7 +241,7 @@ function MigrationApp ({ className }): React.ReactElement {
           accountId={senderId}
           extrinsic={extrinsic}
           icon='sign-in-alt'
-          isDisabled={!isValid || !hasAvailableBalance(allBalances?.availableBalance) || !hasLockedBalance(allBalances)}
+          isDisabled={!isValid || !hasAvailableBalance(allBalances) || hasLockedBalance(allBalances)}
           onSuccess={handleSuccess}
           label={t<string>('Submit Transaction')}
         />
