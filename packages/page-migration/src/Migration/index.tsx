@@ -4,6 +4,7 @@
 import React, { useState, useEffect } from 'react';
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
+import type { RuntimeDispatchInfo } from '@polkadot/types/interfaces';
 
 import { Available, Dropdown, InputAddressCheqd } from '@polkadot/react-components';
 import { InputAddress, MarkError, MarkWarning, TxButton, Button } from '@polkadot/react-components';
@@ -11,7 +12,7 @@ import { InputAddress, MarkError, MarkWarning, TxButton, Button } from '@polkado
 import { useTranslation } from '../translate';
 import { isValidCheqdAddress, getCheqdAddressError } from '@polkadot/react-components/InputAddressCheqd';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { formatBalance } from '@polkadot/util';
+import { formatBalance, nextTick } from '@polkadot/util';
 
 function convertDockToCheqd(dockBalance) {
   if (!dockBalance) {
@@ -43,12 +44,25 @@ function MigrationApp ({ className }): React.ReactElement {
   const [cheqdId, setCheqdId] = useState<string>('');
   const [selectFromDropdown, setSelectFromDropdown] = useState<boolean>(false);
   const [cheqdAddresses, setCheqdAddresses] = useState<string[]>([]);
+  const [dispatchInfo, setDispatchInfo] = useState<RuntimeDispatchInfo | null>(null);
   const { api } = useApi();
   const allBalances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [senderId]);
-
   const values = [cheqdId];
   const extrinsic = api && api.tx && api.tx.cheqdMigration && api.tx.cheqdMigration.migrate(values);
   const isValid = senderId && cheqdId && isValidCheqdAddress(cheqdId);
+  const totalMigrationBalance = allBalances ? (dispatchInfo ? allBalances.availableBalance.sub(dispatchInfo.partialFee) : allBalances.availableBalance) : 0;
+
+  useEffect((): void => {
+    senderId && extrinsic && api.call.transactionPaymentApi &&
+      nextTick(async (): Promise<void> => {
+        try {
+          const info = await extrinsic.paymentInfo(senderId);
+          setDispatchInfo(info);
+        } catch (error) {
+          console.error(error);
+        }
+      });
+  }, [api, senderId, extrinsic]);
 
   function handleSuccess() {
     window.location = 'https://www.dock.io/token-migration-success';
@@ -209,7 +223,7 @@ function MigrationApp ({ className }): React.ReactElement {
               </>
             ) : ((
               <>
-                After the migration is complete, your <strong>{formatBalance(allBalances.availableBalance)}</strong> will be converted into <strong>{convertDockToCheqd(allBalances?.availableBalance)} CHEQD</strong>.
+                After the migration is complete, your <strong>{formatBalance(totalMigrationBalance)}</strong> (total available minus chain fees) will be converted into <strong>{convertDockToCheqd(totalMigrationBalance)} CHEQD</strong>.
               </>
             )
             )
