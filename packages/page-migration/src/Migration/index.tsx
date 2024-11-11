@@ -169,7 +169,7 @@ function MigrationApp ({ className }): React.ReactElement {
           <Dropdown
             className={`ui--InputAddress ${className}`}
             help={t<string>('The cheqd account your tokens will be migrated to.')}
-            label={t<string>('extension account')}
+            label={t<string>('cheqd extension account')}
             isMultiple={false}
             onChange={setCheqdId}
             options={cheqdAddresses.map((cheqdAddress) => ({
