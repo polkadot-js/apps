@@ -53,6 +53,7 @@ export { default as Input } from './Input';
 export { default as InputAddress } from './InputAddress';
 export { default as InputAddressMulti } from './InputAddressMulti';
 export { default as InputAddressSimple } from './InputAddressSimple';
+export { default as InputAddressCheqd } from './InputAddressCheqd';
 export { default as InputBalance } from './InputBalance';
 export { default as InputCalls } from './InputCalls';
 export { default as InputConsts } from './InputConsts';

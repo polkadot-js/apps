@@ -64,6 +64,8 @@
       "@polkadot/app-referenda/*": ["page-referenda/src/*"],
       "@polkadot/app-rpc": ["page-rpc/src"],
       "@polkadot/app-rpc/*": ["page-rpc/src/*"],
+      "@polkadot/app-migration": ["page-rpc/src"],
+      "@polkadot/app-migration/*": ["page-rpc/src/*"],
       "@polkadot/app-runtime": ["page-runtime/src"],
       "@polkadot/app-runtime/*": ["page-runtime/src/*"],
       "@polkadot/app-settings": ["page-settings/src"],

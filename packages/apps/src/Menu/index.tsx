@@ -94,7 +94,8 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
     files: t('Files'),
     governance: t('Governance'),
     network: t('Network'),
-    settings: t('Settings')
+    settings: t('Settings'),
+    migration: t('Migration')
   });
 
   const hasSudo = useMemo(

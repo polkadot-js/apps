@@ -1,0 +1,21 @@
+{
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-migration#readme",
+  "license": "Apache-2.0",
+  "name": "@polkadot/app-migration",
+  "private": true,
+  "repository": {
+    "directory": "packages/page-migration",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "0.122.3-0-x",
+  "dependencies": {
+    "@babel/runtime": "^7.20.1",
+    "@cosmjs/encoding": "^0.32.4",
+    "@polkadot/react-components": "^0.122.3-0-x",
+    "bech32": "^2.0.0"
+  }
+}
