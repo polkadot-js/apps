@@ -45,7 +45,7 @@ function createExtrinsics (api: ApiPromise, payout: PayoutValidator | PayoutVali
 
     return eras.length === 1
       ? [api.tx.staking.payoutStakers(validatorId, eras[0].era)]
-      : createStream(api, eras.map((era): SinglePayout => ({ era: era.era, validatorId })));
+      : createStream(api, eras.filter((era) => !era.isClaimed).map((era): SinglePayout => ({ era: era.era, validatorId })));
   } else if (payout.length === 1) {
     if (payout[0].eras.every((e) => e.isClaimed)) {
       return null;
@@ -59,8 +59,10 @@ function createExtrinsics (api: ApiPromise, payout: PayoutValidator | PayoutVali
   }
 
   return createStream(api, payout.reduce((payouts: SinglePayout[], { eras, validatorId }): SinglePayout[] => {
-    eras.forEach(({ era }): void => {
-      payouts.push({ era, validatorId });
+    eras.forEach(({ era, isClaimed }): void => {
+      if (!isClaimed) {
+        payouts.push({ era, validatorId });
+      }
     });
 
     return payouts;
@@ -88,7 +90,7 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
     );
   }, [api, payout]);
 
-  const isPayoutEmpty = !payout || (Array.isArray(payout) && !payout.some((p) => p.eras.some((e) => !e.isClaimed))) || (Array.isArray(payout) && payout.length === 0);
+  const isPayoutEmpty = !payout || (!Array.isArray(payout) && !payout.eras.some((e) => !e.isClaimed)) || (Array.isArray(payout) && payout.some((p) => !p.eras.some((e) => !e.isClaimed))) || (Array.isArray(payout) && payout.length === 0);
 
   return (
     <>
