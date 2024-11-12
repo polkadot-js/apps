@@ -821,7 +821,8 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#1b6dc1d9',
       logo: chainsShidenPNG
-    }
+    },
+    isPeople: true
   },
   {
     info: 'skyekiwi',
