@@ -7,7 +7,6 @@ import type { OverrideBundleDefinition } from '@polkadot/types/types';
 /* eslint-disable sort-keys */
 
 const definitions: OverrideBundleDefinition = {
-  isPeople: true,
   types: [
     {
       // on all versions
