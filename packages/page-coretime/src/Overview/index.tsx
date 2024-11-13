@@ -4,18 +4,19 @@
 
 import React from 'react';
 
-import { useApi, useCoretimeInformation } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 
 import Summary from './Summary.js';
 import ParachainsTable from '../ParachainsTable.js';
+import { CoretimeInformation } from '@polkadot/react-hooks/types';
 
 interface Props {
   className?: string;
+  coretimeInfo: CoretimeInformation
 }
 
-function Overview({ className }: Props): React.ReactElement<Props> {
+function Overview({ className, coretimeInfo }: Props): React.ReactElement<Props> {
   const { api, isApiReady } = useApi();
-  const coretimeInfo = useCoretimeInformation(api, isApiReady);
   return (
     <main className={className}>
       {coretimeInfo && (
@@ -33,7 +34,6 @@ function Overview({ className }: Props): React.ReactElement<Props> {
           coretimeInfo={coretimeInfo}
         />
       }
-
     </main>
   );
 }

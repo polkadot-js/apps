@@ -9,7 +9,8 @@ import { Tabs } from '@polkadot/react-components';
 import { useTranslation } from './translate.js';
 import { Route, Routes } from 'react-router-dom';
 import Overview from './Overview/index.js';
-import { Sale } from './Sale/index.js';
+import { useApi, useCoretimeInformation } from '@polkadot/react-hooks';
+import Sale from './Sale/index.js';
 
 interface Props {
   basePath: string;
@@ -33,6 +34,8 @@ function createItemsRef(t: (key: string, options?: { replace: Record<string, unk
 function CoretimeApp({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const itemsRef = useRef(createItemsRef(t));
+  const { api, isApiReady } = useApi();
+  const coretimeInfo = useCoretimeInformation(api, isApiReady);
 
   return (
     <main className={className}>
@@ -44,13 +47,13 @@ function CoretimeApp({ basePath, className }: Props): React.ReactElement<Props> 
         <Route path={basePath}>
           <Route
             element={
-              <Overview />
+              <Overview coretimeInfo={coretimeInfo} />
             }
             index
           />
           <Route
             element={
-              <Sale />
+              <Sale coretimeInfo={coretimeInfo} />
             }
             path='sale'
           />
