@@ -1867,7 +1867,7 @@ __metadata:
     moonbeam-types-bundle: "npm:2.0.10"
     pontem-types-bundle: "npm:1.0.15"
     rxjs: "npm:^7.8.1"
-    tslib: "npm:^2.6.2"
+    tslib: "npm:^2.8.1"
   languageName: unknown
   linkType: soft
 
@@ -1875,7 +1875,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/apps-electron@workspace:packages/apps-electron"
   dependencies:
-    "@polkadot/dev": "npm:^0.81.2"
+    "@polkadot/dev": "npm:^0.82.1"
     "@types/tmp": "npm:^0.2.6"
     copy-webpack-plugin: "npm:^11.0.0"
     electron: "npm:28.0.0"
@@ -1907,7 +1907,7 @@ __metadata:
     "@acala-network/chopsticks-core": "npm:^0.13.3"
     "@polkadot/apps-config": "npm:^0.145.2-19-x"
     "@polkadot/apps-routing": "npm:^0.145.2-19-x"
-    "@polkadot/dev": "npm:^0.81.2"
+    "@polkadot/dev": "npm:^0.82.1"
     "@polkadot/react-api": "npm:^0.145.2-19-x"
     "@polkadot/react-components": "npm:^0.145.2-19-x"
     "@polkadot/react-hooks": "npm:^0.145.2-19-x"
@@ -1941,34 +1941,34 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev-test@npm:^0.81.2":
-  version: 0.81.2
-  resolution: "@polkadot/dev-test@npm:0.81.2"
+"@polkadot/dev-test@npm:^0.82.1":
+  version: 0.82.1
+  resolution: "@polkadot/dev-test@npm:0.82.1"
   dependencies:
     jsdom: "npm:^24.0.0"
     tslib: "npm:^2.7.0"
-  checksum: 10/1028c3b1804567128f1cc796df2285827bb8d9d54afee8c81f28821d2205e7f4522bd9659eb2e7645a080568d43b394279db12b1c2debdc447d5567317b7c2fc
+  checksum: 10/669690400183b33187a526c9b5d5427957e30ace31635975a7b20d2cbfc4bda002f9ea71bde87e9e37d8153bc5b56b7d6059b52a3fe973fce6023595a438e3df
   languageName: node
   linkType: hard
 
-"@polkadot/dev-ts@npm:^0.81.2":
-  version: 0.81.2
-  resolution: "@polkadot/dev-ts@npm:0.81.2"
+"@polkadot/dev-ts@npm:^0.82.1":
+  version: 0.82.1
+  resolution: "@polkadot/dev-ts@npm:0.82.1"
   dependencies:
     json5: "npm:^2.2.3"
     tslib: "npm:^2.7.0"
     typescript: "npm:^5.5.4"
-  checksum: 10/cb25e9523cbad5029f7e149135aa003286d9c907677902e6a1ffe4a905d6c31f6c88a647b3be0e51b09e62528fca2a3121f12a748942ecd6eccefd8da1eb3369
+  checksum: 10/a7ac2a614bf93e2406d65e153f110d55c8b2a7eaf44672622586dd2f9bc0d6e4a36e0a05a66654370a1c66061a7668f0df93151142c7d9a281d56df4827c9418
   languageName: node
   linkType: hard
 
-"@polkadot/dev@npm:^0.81.2":
-  version: 0.81.2
-  resolution: "@polkadot/dev@npm:0.81.2"
+"@polkadot/dev@npm:^0.82.1":
+  version: 0.82.1
+  resolution: "@polkadot/dev@npm:0.82.1"
   dependencies:
     "@eslint/js": "npm:^8.56.0"
-    "@polkadot/dev-test": "npm:^0.81.2"
-    "@polkadot/dev-ts": "npm:^0.81.2"
+    "@polkadot/dev-test": "npm:^0.82.1"
+    "@polkadot/dev-ts": "npm:^0.82.1"
     "@rollup/plugin-alias": "npm:^5.1.0"
     "@rollup/plugin-commonjs": "npm:^25.0.7"
     "@rollup/plugin-dynamic-import-vars": "npm:^2.1.2"
@@ -2033,7 +2033,7 @@ __metadata:
     polkadot-exec-rollup: scripts/polkadot-exec-rollup.mjs
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.mjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.mjs
-  checksum: 10/304d2e1e5a5669b0888026fd0fb3e82dba75e1a85c9c40481d0832b072bac9ba6f9e9755db4bdce4c2aa10c631ef7f4fba84114a1b6490d25aa5b4f6dff65299
+  checksum: 10/5739c27e09db8bf09582f1016d7db83ca6c09eb9ece9b4c3df05073670dccb5ecb05464e26c4aaea846354dc6cfcea26f6dd727fc2c42bc8e04e04f9319e5321
   languageName: node
   linkType: hard
 
@@ -13677,7 +13677,7 @@ __metadata:
   dependencies:
     "@crustio/crust-pin": "npm:^1.0.0"
     "@pinata/sdk": "npm:^1.2.1"
-    "@polkadot/dev": "npm:^0.81.2"
+    "@polkadot/dev": "npm:^0.82.1"
     "@types/chart.js": "npm:^2.9.41"
     "@types/file-saver": "npm:^2.0.7"
     "@types/react-beautiful-dnd": "npm:^13.1.7"
@@ -16879,7 +16879,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.3.1, tslib@npm:^2.4.0, tslib@npm:^2.5.0, tslib@npm:^2.6.2, tslib@npm:^2.7.0, tslib@npm:^2.8.0, tslib@npm:^2.8.1":
+"tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.3.1, tslib@npm:^2.4.0, tslib@npm:^2.5.0, tslib@npm:^2.7.0, tslib@npm:^2.8.0, tslib@npm:^2.8.1":
   version: 2.8.1
   resolution: "tslib@npm:2.8.1"
   checksum: 10/3e2e043d5c2316461cb54e5c7fe02c30ef6dccb3384717ca22ae5c6b5bc95232a6241df19c622d9c73b809bea33b187f6dbc73030963e29950c2141bc32a79f7
