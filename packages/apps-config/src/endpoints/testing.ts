@@ -813,6 +813,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   },
   {
     info: 'shibuya',
+    isPeople: true,
     providers: {
       Astar: 'wss://rpc.shibuya.astar.network',
       Dwellir: 'wss://shibuya-rpc.dwellir.com'
@@ -821,8 +822,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#1b6dc1d9',
       logo: chainsShidenPNG
-    },
-    isPeople: true
+    }
   },
   {
     info: 'skyekiwi',
