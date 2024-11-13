@@ -1,5 +1,38 @@
 # CHANGELOG
 
+## 0.146.1 Nov 12, 2024
+
+Contributed:
+
+- Add Subquery rpc (Thanks to https://github.com/fewensa)
+- Re-enable Hydration Paseo rpc (Thanks to https://github.com/jak-pan)
+- Remove `needsAccounts` from fellowship and ambassador routing (Thanks to https://github.com/wirednkod)
+- Fix Api check foor treasury page (Thanks to https://github.com/sesh92)
+- Re-add IDN node provider (Thanks to https://github.com/juangirini)
+- Add watr to paseo (Thanks to https://github.com/Mrigesh901)
+- Add xode to paseo (Thanks to https://github.com/Mrigesh901)
+- Add Autonomys mainnet and Taurus testnet endpoints (Thanks to https://github.com/jfrank-summit)
+
+Changes:
+
+- Export all from Paseo Apps-config
+- Disable unreachable endpoints
+- Add Relay Chain Coretime Overview Tab
+- Fix treasury page, and disable propose button
+- Bump dev to 0.82.1 w/ typescript w/ tslib
+- Fix showing waiting, active, and inactive nomination on the accounts page
+- Fix staking payouts
+- Update polkadot-js deps
+    - @polkadot/api -> 14.3.1
+    - @polkadot/common -> 13.2.3
+    - @polkadot/phishing -> 0.24.3
+    - @polkadot/wasm-crypto -> 7.4.1
+    - @polkadot/tools -> 0.60.3
+    - @polkadot/extension -> 0.56.2
+    - @polkadot/ui -> 3.11.3
+- Remove macos from electron CI build
+
+
 ## 0.145.1 Oct 15, 2024
 
 Contributed:
