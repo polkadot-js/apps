@@ -1,0 +1,1 @@
+export const Sale = () => <h1>I am sale</h1>

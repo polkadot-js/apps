@@ -6,32 +6,33 @@ import type { TabItem } from '@polkadot/react-components/types';
 import React, { useRef } from 'react';
 
 import { Tabs } from '@polkadot/react-components';
-import { useApi, useCoretimeInformation } from '@polkadot/react-hooks';
-
-import Summary from './Overview/Summary.js';
-import ParachainsTable from './ParachainsTable.js';
 import { useTranslation } from './translate.js';
+import { Route, Routes } from 'react-router-dom';
+import Overview from './Overview/index.js';
+import { Sale } from './Sale/index.js';
 
 interface Props {
   basePath: string;
   className?: string;
 }
 
-function createItemsRef (t: (key: string, options?: { replace: Record<string, unknown> }) => string): TabItem[] {
+function createItemsRef(t: (key: string, options?: { replace: Record<string, unknown> }) => string): TabItem[] {
   return [
     {
       isRoot: true,
       name: 'overview',
       text: t('Overview')
+    },
+    {
+      name: 'sale',
+      text: t('Sale')
     }
   ];
 }
 
-function CoretimeApp ({ basePath, className }: Props): React.ReactElement<Props> {
+function CoretimeApp({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api, isApiReady } = useApi();
   const itemsRef = useRef(createItemsRef(t));
-  const coretimeInfo = useCoretimeInformation(api, isApiReady);
 
   return (
     <main className={className}>
@@ -39,22 +40,22 @@ function CoretimeApp ({ basePath, className }: Props): React.ReactElement<Props>
         basePath={basePath}
         items={itemsRef.current}
       />
-      {coretimeInfo && (
-        <Summary
-          api={isApiReady ? api : null}
-          config={coretimeInfo?.config}
-          parachainCount={coretimeInfo.taskIds?.length || 0}
-          region={coretimeInfo?.region}
-          saleInfo={coretimeInfo?.salesInfo}
-          status={coretimeInfo?.status}
-        />
-      )}
-      {!!coretimeInfo &&
-        <ParachainsTable
-          coretimeInfo={coretimeInfo}
-        />
-      }
-
+      <Routes>
+        <Route path={basePath}>
+          <Route
+            element={
+              <Overview />
+            }
+            index
+          />
+          <Route
+            element={
+              <Sale />
+            }
+            path='sale'
+          />
+        </Route>
+      </Routes>
     </main>
   );
 }
