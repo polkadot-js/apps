@@ -1,4 +1,8 @@
+// [object Object]
+// SPDX-License-Identifier: Apache-2.0
+
 import React from 'react';
+
 import { styled } from './styled.js';
 
 interface Section {
@@ -11,27 +15,40 @@ interface Props {
   sections: Section[];
 }
 
-function ProgressBar({ sections }: Props): React.ReactElement<Props> | null {
+function ProgressBar ({ sections }: Props): React.ReactElement<Props> | null {
   const overallTotal = sections.reduce((sum, section) => sum + section.total, 0);
-  console.log('overall total ', overallTotal)
+
+  console.log('overall total ', overallTotal);
+
   return (
     <StyledDiv>
-      <div className="progress-container">
+      <div className='progress-container'>
         {sections.map((section, index) => {
           const sectionWidth = (section.total / overallTotal) * 100;
           const sectionProgress = (section.value / section.total) * 100;
 
           return (
-            <div key={index} className="progress-segment" style={{ width: `${sectionWidth}%` }}>
-              <div className="progress-bar" style={{ width: `${sectionProgress}%` }} />
-              <div className="marker" />
+            <div
+              className='progress-segment'
+              key={index}
+              style={{ width: `${sectionWidth}%` }}
+            >
+              <div
+                className='progress-bar'
+                style={{ width: `${sectionProgress}%` }}
+              />
+              <div className='marker' />
             </div>
           );
         })}
       </div>
-      <div className="labels">
+      <div className='labels'>
         {sections.map((section, index) => (
-          <div key={index} className="label" style={{ width: `${100 / sections.length}%` }}>
+          <div
+            className='label'
+            key={index}
+            style={{ width: `${100 / sections.length}%` }}
+          >
             {section.label}
           </div>
         ))}

@@ -1,22 +1,23 @@
 // Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CoretimeInformation } from '@polkadot/react-hooks/types';
 
 import React from 'react';
 
 import { useApi } from '@polkadot/react-hooks';
 
-import Summary from './Summary.js';
 import ParachainsTable from '../ParachainsTable.js';
-import { CoretimeInformation } from '@polkadot/react-hooks/types';
+import Summary from './Summary.js';
 
 interface Props {
   className?: string;
   coretimeInfo: CoretimeInformation
 }
 
-function Overview({ className, coretimeInfo }: Props): React.ReactElement<Props> {
+function Overview ({ className, coretimeInfo }: Props): React.ReactElement<Props> {
   const { api, isApiReady } = useApi();
+
   return (
     <main className={className}>
       {coretimeInfo && (

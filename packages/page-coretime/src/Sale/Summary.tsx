@@ -22,7 +22,7 @@ interface Props {
   status: BrokerStatus,
 }
 
-function Summary({ api, config, saleInfo, status }: Props): React.ReactElement<Props> {
+function Summary ({ api, config, saleInfo, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const currentRegionEnd = saleInfo.regionEnd - config.regionLength;
   const currentRegionStart = saleInfo.regionEnd - config.regionLength * 2;
@@ -30,7 +30,7 @@ function Summary({ api, config, saleInfo, status }: Props): React.ReactElement<P
 
   const cycleNumber = useMemo(() =>
     chainName && currentRegionEnd && Math.floor((currentRegionEnd - FirstCycleStart[chainName]) / config.regionLength)
-    , [currentRegionEnd, chainName, config]);
+  , [currentRegionEnd, chainName, config]);
 
   return (
     <SummaryBox>
@@ -45,21 +45,15 @@ function Summary({ api, config, saleInfo, status }: Props): React.ReactElement<P
         <CardSummary label={t('sold/offered')}>
           {`${saleInfo?.coresSold} / ${saleInfo?.coresOffered}`}
         </CardSummary>
-
-
         <CardSummary label={t('sale end')}>
           <div>{estimateTime(currentRegionEnd, status?.lastTimeslice * 80)}</div>
         </CardSummary>
-
-
         <CardSummary label={t('last block')}>
           <div>{currentRegionEnd * 80}</div>
         </CardSummary>
-
         <CardSummary label={t('last timeslice')}>
           <div>{currentRegionEnd}</div>
         </CardSummary>
-
         {config && status &&
           <CardSummary
             className='media--800'
@@ -91,7 +85,7 @@ function Summary({ api, config, saleInfo, status }: Props): React.ReactElement<P
           </CardSummary>
         }
       </section>
-    </SummaryBox >
+    </SummaryBox>
   );
 }
 

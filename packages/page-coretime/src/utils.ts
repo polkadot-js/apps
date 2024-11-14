@@ -67,5 +67,5 @@ export const getOccupancyType = (lease: LegacyLease | undefined, reservation: Re
 };
 
 export const getCurrentPhase = () => {
-  
-}
+
+};

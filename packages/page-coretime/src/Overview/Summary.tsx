@@ -23,7 +23,7 @@ interface Props {
   parachainCount: number
 }
 
-function Summary({ api, config, parachainCount, saleInfo, status }: Props): React.ReactElement<Props> {
+function Summary ({ api, config, parachainCount, saleInfo, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const currentRegionEnd = saleInfo.regionEnd - config.regionLength;
   const currentRegionStart = saleInfo.regionEnd - config.regionLength * 2;
@@ -31,7 +31,7 @@ function Summary({ api, config, parachainCount, saleInfo, status }: Props): Reac
 
   const cycleNumber = useMemo(() =>
     chainName && currentRegionEnd && Math.floor((currentRegionEnd - FirstCycleStart[chainName]) / config.regionLength)
-    , [currentRegionEnd, chainName, config]);
+  , [currentRegionEnd, chainName, config]);
 
   return (
     <SummaryBox>
@@ -49,7 +49,6 @@ function Summary({ api, config, parachainCount, saleInfo, status }: Props): Reac
         <CardSummary label={t('parachains')}>
           {parachainCount && parachainCount}
         </CardSummary>
-
         {config && status &&
           <CardSummary
             className='media--800'

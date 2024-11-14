@@ -8,14 +8,14 @@ export enum CoreTimeTypes {
   'On Demand'
 }
 
-export type PhaseInfo = {
+export interface PhaseInfo {
   name: string;
   lastBlock: number;
   lastTimeslice: number
-};
+}
 
 export const PhaseName = {
   Renewals: 'Renewals',
   PriceDiscovery: 'Price Discovery',
   FixedPrice: 'Fixed Price'
-}
+};
