@@ -3,7 +3,7 @@
 
 import type { TabItem } from '@polkadot/react-components/types';
 
-import React, { useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 
 import { Tabs } from '@polkadot/react-components';
 import { useTranslation } from './translate.js';
@@ -11,6 +11,7 @@ import { Route, Routes } from 'react-router-dom';
 import Overview from './Overview/index.js';
 import { useApi, useCoretimeInformation } from '@polkadot/react-hooks';
 import Sale from './Sale/index.js';
+import { CoreTimeChainConsts } from '@polkadot/react-hooks/types';
 
 interface Props {
   basePath: string;
@@ -47,13 +48,13 @@ function CoretimeApp({ basePath, className }: Props): React.ReactElement<Props> 
         <Route path={basePath}>
           <Route
             element={
-              <Overview coretimeInfo={coretimeInfo} />
+              coretimeInfo && <Overview coretimeInfo={coretimeInfo} />
             }
             index
           />
           <Route
             element={
-              <Sale coretimeInfo={coretimeInfo} />
+              coretimeInfo && <Sale coretimeInfo={coretimeInfo} />
             }
             path='sale'
           />

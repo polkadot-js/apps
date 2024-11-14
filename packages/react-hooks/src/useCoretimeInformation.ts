@@ -6,8 +6,8 @@ import type { ChainInformation, CoretimeInformation, CoreWorkload, CoreWorkloadI
 
 import { useEffect, useMemo, useState } from 'react';
 
-import { createNamedHook, useApi, useBrokerConfig, useBrokerLeases, useBrokerReservations, useBrokerSalesInfo, useBrokerStatus, useCoreDescriptor, useRegions, useWorkloadInfos, useWorkplanInfos } from '@polkadot/react-hooks';
-import { BN } from '@polkadot/util';
+import { createNamedHook, useApi, useBlockTime, useBrokerConfig, useBrokerLeases, useBrokerReservations, useBrokerSalesInfo, useBrokerStatus, useCoreDescriptor, useRegions, useWorkloadInfos, useWorkplanInfos } from '@polkadot/react-hooks';
+import { BN, BN_ONE } from '@polkadot/util';
 
 import { ChainRenewalStatus, CoreTimeChainConsts, CoreTimeTypes } from './types.js';
 import { useBrokerPotentialRenewals } from './useBrokerPotentialRenewals.js';
@@ -38,6 +38,9 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
   const region = useRegions(apiCoretime);
 
   /** Other APIs */
+  const [blockTimeMs] = useBlockTime(BN_ONE, apiCoretime);
+  console.log('res ', blockTimeMs)
+  // const blockTimeMs = 1
   const coreInfos = useCoreDescriptor(api, ready);
   const paraIds = useMemo(() => coreInfos && [...new Set(coreInfos?.map((a) => a.info.currentWork.assignments.map((ass) => ass.task)).flat().filter((id) => id !== 'Pool'))], [coreInfos]);
 
@@ -146,10 +149,11 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
         region,
         salesInfo,
         status,
-        taskIds
+        taskIds,
+        blockTimeMs
       });
     }
-  }, [taskIds, workloadData, potentialRenewalsCurrentRegion, salesInfo, leases, reservations, region, status, config, workplans]);
+  }, [taskIds, workloadData, potentialRenewalsCurrentRegion, salesInfo, leases, reservations, region, status, config, workplans, blockTimeMs]);
 
   return state;
 }

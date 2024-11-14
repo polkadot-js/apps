@@ -65,3 +65,7 @@ export const getOccupancyType = (lease: LegacyLease | undefined, reservation: Re
 
   return reservation ? CoreTimeTypes.Reservation : lease ? CoreTimeTypes.Lease : CoreTimeTypes['Bulk Coretime'];
 };
+
+export const getCurrentPhase = () => {
+  
+}

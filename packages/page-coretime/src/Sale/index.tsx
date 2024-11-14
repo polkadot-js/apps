@@ -1,10 +1,13 @@
 import { useApi } from "@polkadot/react-hooks";
 import Summary from "./Summary.js"
-import { CoretimeInformation } from "@polkadot/react-hooks/types";
-import { Button, CardSummary, Progress, SummaryBox } from "@polkadot/react-components";
+import { CoreTimeChainConsts, CoretimeInformation } from "@polkadot/react-hooks/types";
+import { Button, CardSummary, SummaryBox } from "@polkadot/react-components";
 import { useTranslation } from "../translate.js";
 import { formatNumber } from '@polkadot/util';
 import ProgresBar from "@polkadot/react-components/ProgresBar";
+import { useMemo } from "react";
+import { PhaseName } from "../types.js";
+import { estimateTime } from "../utils.js";
 
 interface Props {
     coretimeInfo: CoretimeInformation
@@ -13,6 +16,74 @@ interface Props {
 function Sale({ coretimeInfo }: Props): React.ReactElement<Props> {
     const { api, isApiReady } = useApi();
     const { t } = useTranslation();
+    const {
+        salesInfo: { regionBegin },
+        config: { regionLength, interludeLength, leadinLength },
+        status: { lastCommittedTimeslice }
+    } = coretimeInfo;
+
+    const interludeLengthTs = interludeLength / CoreTimeChainConsts.BlocksPerTimeslice;
+    const leadInLengthTs = leadinLength / CoreTimeChainConsts.BlocksPerTimeslice;
+    const currentRegionStart = regionBegin - regionLength;
+
+    const phaseConfig = useMemo(() => {
+        if (!coretimeInfo || !coretimeInfo.blockTimeMs) {
+            return undefined;
+        }
+        return {
+            [PhaseName.Renewals]: {
+                lastTimeslice: currentRegionStart + interludeLengthTs,
+                lastBlock: (currentRegionStart + interludeLengthTs) * 80
+            },
+            [PhaseName.PriceDiscovery]: {
+                lastTimeslice: currentRegionStart + interludeLengthTs + leadInLengthTs,
+                lastBlock: (currentRegionStart + interludeLengthTs + leadInLengthTs) * 80
+            },
+            [PhaseName.FixedPrice]: {
+                lastTimeslice: regionBegin,
+                lastBlock: regionBegin * 80
+            }
+        }
+    }, [coretimeInfo])
+
+
+    const currentPhase = useMemo(() => {
+        const progress = lastCommittedTimeslice - currentRegionStart;
+        if (progress < interludeLengthTs) {
+            return PhaseName.Renewals
+        }
+        if (progress < interludeLengthTs + leadInLengthTs) {
+            return PhaseName.PriceDiscovery;
+        }
+        return PhaseName.FixedPrice
+    }, [interludeLengthTs, leadInLengthTs])
+
+    console.log('currentPhase ', currentPhase)
+
+
+    const progressValues = useMemo(() => {
+        const progress = lastCommittedTimeslice - currentRegionStart;
+        return [
+            {
+                value: Math.min(progress, interludeLengthTs),
+                total: interludeLengthTs,
+                label: PhaseName.Renewals
+            },
+            {
+                value: Math.min(Math.max(progress - interludeLengthTs, 0), leadInLengthTs),
+                total: leadInLengthTs,
+                label: PhaseName.PriceDiscovery
+            },
+            {
+                value: Math.max(progress - interludeLengthTs - leadInLengthTs, 0),
+                total: regionBegin - currentRegionStart - interludeLengthTs - leadInLengthTs,
+                label: PhaseName.FixedPrice
+            }
+        ];
+    }, [interludeLengthTs, leadInLengthTs, lastCommittedTimeslice, currentRegionStart, regionBegin]);
+
+
+
     // const available = Number(coretimeInfo?.salesInfo?.coresOffered) - Number(coretimeInfo?.salesInfo.coresSold)
     const available = 1
     return (
@@ -41,10 +112,9 @@ function Sale({ coretimeInfo }: Props): React.ReactElement<Props> {
                 <div style={{ backgroundColor: 'white', borderRadius: '4px', padding: '24px', width: 'fit-content', justifySelf: 'left', }}>
                     <SummaryBox>
                         <section>
-                            <CardSummary label="current phase">Renewals</CardSummary>
-
-                            <CardSummary label="current phase end">11th Nov 2024</CardSummary>
-                            <CardSummary label="last block">12313123123</CardSummary>
+                            <CardSummary label="current phase">{currentPhase && currentPhase}</CardSummary>
+                            <CardSummary label="current phase end">{currentPhase && phaseConfig && estimateTime(phaseConfig[currentPhase].lastTimeslice, coretimeInfo.status.lastTimeslice * 40)}</CardSummary>
+                            <CardSummary label="last block">{currentPhase && phaseConfig && phaseConfig[currentPhase].lastBlock}</CardSummary>
                             <CardSummary label="fixed price">{formatNumber(coretimeInfo?.salesInfo.endPrice)}</CardSummary>
                             <CardSummary label="sellout price">{formatNumber(coretimeInfo?.salesInfo.selloutPrice)}</CardSummary>
                         </section>
@@ -52,23 +122,7 @@ function Sale({ coretimeInfo }: Props): React.ReactElement<Props> {
 
                         </section>
                     </SummaryBox>
-                    <ProgresBar sections={[
-                        {
-                            value: 7,
-                            total: 7,
-                            label: 'Renewals'
-                        },
-                        {
-                            value: 7,
-                            total: 14,
-                            label: 'Price discovery'
-                        },
-                        {
-                            value: 0,
-                            total: 7,
-                            label: 'Fixed price'
-                        }
-                    ]} />
+                    <ProgresBar sections={progressValues} />
                 </div>
             </div>
         </div>

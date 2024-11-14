@@ -7,3 +7,15 @@ export enum CoreTimeTypes {
   'Bulk Coretime',
   'On Demand'
 }
+
+export type PhaseInfo = {
+  name: string;
+  lastBlock: number;
+  lastTimeslice: number
+};
+
+export const PhaseName = {
+  Renewals: 'Renewals',
+  PriceDiscovery: 'Price Discovery',
+  FixedPrice: 'Fixed Price'
+}
