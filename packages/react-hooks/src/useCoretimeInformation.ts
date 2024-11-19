@@ -40,8 +40,6 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
   /** Other APIs */
   const [blockTimeMs] = useBlockTime(BN_ONE, apiCoretime);
 
-  console.log('res ', blockTimeMs);
-  // const blockTimeMs = 1
   const coreInfos = useCoreDescriptor(api, ready);
   const paraIds = useMemo(() => coreInfos && [...new Set(coreInfos?.map((a) => a.info.currentWork.assignments.map((ass) => ass.task)).flat().filter((id) => id !== 'Pool'))], [coreInfos]);
 

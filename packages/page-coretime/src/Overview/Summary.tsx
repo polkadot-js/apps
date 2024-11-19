@@ -7,7 +7,6 @@ import type { BrokerStatus, CoreDescription, PalletBrokerConfigRecord, PalletBro
 import React, { useMemo } from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
-import { useCall } from '@polkadot/react-hooks';
 import { BN } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
@@ -21,13 +20,13 @@ interface Props {
   region: RegionInfo[],
   status: BrokerStatus,
   parachainCount: number
+  chainName: string
 }
 
-function Summary ({ api, config, parachainCount, saleInfo, status }: Props): React.ReactElement<Props> {
+function Summary ({ api, chainName, config, parachainCount, saleInfo, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const currentRegionEnd = saleInfo.regionEnd - config.regionLength;
   const currentRegionStart = saleInfo.regionEnd - config.regionLength * 2;
-  const chainName = useCall<string>(api?.rpc.system.chain)?.toString().toLowerCase();
 
   const cycleNumber = useMemo(() =>
     chainName && currentRegionEnd && Math.floor((currentRegionEnd - FirstCycleStart[chainName]) / config.regionLength)

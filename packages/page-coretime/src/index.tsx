@@ -7,8 +7,7 @@ import React, { useMemo, useRef } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { Tabs } from '@polkadot/react-components';
-import { useApi, useCoretimeInformation } from '@polkadot/react-hooks';
-import { CoreTimeChainConsts } from '@polkadot/react-hooks/types';
+import { useApi, useCall, useCoretimeInformation } from '@polkadot/react-hooks';
 
 import Overview from './Overview/index.js';
 import Sale from './Sale/index.js';
@@ -38,6 +37,7 @@ function CoretimeApp ({ basePath, className }: Props): React.ReactElement<Props>
   const itemsRef = useRef(createItemsRef(t));
   const { api, isApiReady } = useApi();
   const coretimeInfo = useCoretimeInformation(api, isApiReady);
+  const chainName = useCall<string>(api?.rpc.system.chain)?.toString().toLowerCase();
 
   return (
     <main className={className}>
@@ -49,13 +49,19 @@ function CoretimeApp ({ basePath, className }: Props): React.ReactElement<Props>
         <Route path={basePath}>
           <Route
             element={
-              coretimeInfo && <Overview coretimeInfo={coretimeInfo} />
+              coretimeInfo && <Overview
+                chainName={chainName}
+                coretimeInfo={coretimeInfo}
+              />
             }
             index
           />
           <Route
             element={
-              coretimeInfo && <Sale coretimeInfo={coretimeInfo} />
+              coretimeInfo && <Sale
+                chainName={chainName}
+                coretimeInfo={coretimeInfo}
+              />
             }
             path='sale'
           />

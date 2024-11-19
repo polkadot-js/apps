@@ -1,7 +1,7 @@
 // Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { CoreTimeConsts, type LegacyLease, type Reservation } from '@polkadot/react-hooks/types';
+import { CoreTimeChainConsts, CoreTimeConsts, type LegacyLease, type Reservation } from '@polkadot/react-hooks/types';
 import { BN } from '@polkadot/util';
 
 import { CoreTimeTypes } from './types.js';
@@ -66,6 +66,79 @@ export const getOccupancyType = (lease: LegacyLease | undefined, reservation: Re
   return reservation ? CoreTimeTypes.Reservation : lease ? CoreTimeTypes.Lease : CoreTimeTypes['Bulk Coretime'];
 };
 
-export const getCurrentPhase = () => {
+export function calculateSaleDetails (saleNumber: number, currentSaleNumber: number, currentRegionStart: number, latestBlock: number, chainName: string) {
+  // @todo get that from the chain!
+  const blocksPerTs = 80;
 
+  const blocksPerSaleRelay = blocksPerTs * 5040;
+
+  console.log('blocksPerSale:', blocksPerSaleRelay);
+
+  const currentSaleStartBlock = currentRegionStart * blocksPerTs;
+
+  console.log('currentSaleStartBlock:', currentSaleStartBlock);
+
+  const saleStartBlock = currentSaleStartBlock - blocksPerSaleRelay * (currentSaleNumber - saleNumber);
+
+  // CORETIME
+  const saleStartBlockCoretime = FirstCycleStart[chainName] + (saleNumber) * CoreTimeChainConsts.BlocksPerTimeslice;
+  const saleEndBlockCoretime = saleStartBlockCoretime + 5040 * CoreTimeChainConsts.BlocksPerTimeslice;
+
+  console.log('saleStartBlock:', saleStartBlock);
+
+  const saleStartTimeslice = saleStartBlock / blocksPerTs;
+
+  console.log('saleStartTimeslice:', saleStartTimeslice);
+
+  const saleEndBlock = saleStartBlock + blocksPerSaleRelay;
+
+  console.log('saleEndBlock:', saleEndBlock);
+
+  // Calculate timeslices in the sale period
+  const timeslicesPerSale = blocksPerSaleRelay / CoreTimeChainConsts.BlocksPerTimeslice;
+
+  console.log('timeslicesPerSale:', timeslicesPerSale);
+
+  // Convert block numbers to approximate dates (optional)
+  const saleStartDate = estimateTime(saleStartTimeslice, latestBlock);
+
+  console.log('saleStartDate:', saleStartDate);
+
+  const saleEndDate = estimateTime(saleStartTimeslice + 5040, latestBlock);
+
+  console.log('saleEndDate:', saleEndDate);
+
+  // Output results
+  return {
+    saleStartBlock,
+    saleEndBlock,
+    timeslicesPerSale,
+    saleStartDate,
+    saleEndDate,
+    saleStartTimeslice,
+    saleEndTimeslice: saleStartTimeslice + 5040,
+    coretime: {
+      startBlock: saleStartBlockCoretime,
+      endBlock: saleEndBlockCoretime
+    }
+  };
+}
+
+export const constructSubscanQuery = (blockStart: number, blockEnd: number, module = 'broker', call = 'purchase') => {
+  const page = 1;
+  const pageSize = 25;
+  const signed = 'all';
+  const baseURL = 'https://coretime-polkadot.subscan.io/extrinsic';
+
+  return `${baseURL}?page=${page}&time_dimension=block&page_size=${pageSize}&module=${module}&signed=${signed}&call=${call}&block_start=${blockStart}&block_end=${blockEnd}`;
+};
+
+export const getCurrentSaleNumber = (currentRegionEnd, chainName: string, config) =>
+  chainName && currentRegionEnd && Math.floor((currentRegionEnd - FirstCycleStart[chainName]) / config.regionLength);
+
+export const getRegionStartEndTs = (saleInfo, config) => {
+  return {
+    currentRegionEnd: saleInfo.regionEnd - config.regionLength,
+    currentRegionStart: saleInfo.regionEnd - config.regionLength * 2
+  };
 };

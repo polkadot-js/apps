@@ -4,14 +4,13 @@
 import type { ApiPromise } from '@polkadot/api';
 import type { BrokerStatus, CoreDescription, PalletBrokerConfigRecord, PalletBrokerSaleInfoRecord, RegionInfo } from '@polkadot/react-hooks/types';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
-import { useCall } from '@polkadot/react-hooks';
 import { BN } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import { estimateTime, FirstCycleStart } from '../utils.js';
+import { estimateTime, getRegionStartEndTs } from '../utils.js';
 
 interface Props {
   api: ApiPromise | null,
@@ -20,17 +19,12 @@ interface Props {
   config: PalletBrokerConfigRecord,
   region: RegionInfo[],
   status: BrokerStatus,
+  cycleNumber: number
 }
 
-function Summary ({ api, config, saleInfo, status }: Props): React.ReactElement<Props> {
+function Summary ({ api, config, cycleNumber, saleInfo, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const currentRegionEnd = saleInfo.regionEnd - config.regionLength;
-  const currentRegionStart = saleInfo.regionEnd - config.regionLength * 2;
-  const chainName = useCall<string>(api?.rpc.system.chain)?.toString().toLowerCase();
-
-  const cycleNumber = useMemo(() =>
-    chainName && currentRegionEnd && Math.floor((currentRegionEnd - FirstCycleStart[chainName]) / config.regionLength)
-  , [currentRegionEnd, chainName, config]);
+  const { currentRegionEnd, currentRegionStart } = getRegionStartEndTs(saleInfo, config);
 
   return (
     <SummaryBox>

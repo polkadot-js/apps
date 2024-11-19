@@ -13,9 +13,10 @@ import Summary from './Summary.js';
 interface Props {
   className?: string;
   coretimeInfo: CoretimeInformation
+  chainName: string
 }
 
-function Overview ({ className, coretimeInfo }: Props): React.ReactElement<Props> {
+function Overview ({ chainName, className, coretimeInfo }: Props): React.ReactElement<Props> {
   const { api, isApiReady } = useApi();
 
   return (
@@ -23,6 +24,7 @@ function Overview ({ className, coretimeInfo }: Props): React.ReactElement<Props
       {coretimeInfo && (
         <Summary
           api={isApiReady ? api : null}
+          chainName={chainName}
           config={coretimeInfo?.config}
           parachainCount={coretimeInfo.taskIds?.length || 0}
           region={coretimeInfo?.region}

@@ -3,9 +3,9 @@
 
 import type { CoretimeInformation } from '@polkadot/react-hooks/types';
 
-import { useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
-import { Button, CardSummary, SummaryBox } from '@polkadot/react-components';
+import { Button, CardSummary, Dropdown, Input, SummaryBox, Table } from '@polkadot/react-components';
 import ProgresBar from '@polkadot/react-components/ProgresBar';
 import { useApi } from '@polkadot/react-hooks';
 import { CoreTimeChainConsts } from '@polkadot/react-hooks/types';
@@ -13,23 +13,32 @@ import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
 import { PhaseName } from '../types.js';
-import { estimateTime } from '../utils.js';
+import { calculateSaleDetails, constructSubscanQuery, estimateTime, getCurrentSaleNumber, getRegionStartEndTs } from '../utils.js';
+import SaleTable from './SaleTable.js';
 import Summary from './Summary.js';
 
 interface Props {
   coretimeInfo: CoretimeInformation
+  chainName: string
 }
 
-function Sale ({ coretimeInfo }: Props): React.ReactElement<Props> {
+function Sale ({ chainName, coretimeInfo }: Props): React.ReactElement<Props> {
   const { api, isApiReady } = useApi();
   const { t } = useTranslation();
-  const { config: { interludeLength, leadinLength, regionLength },
+  const [saleNumber, setSaleNumber] = useState<number>(-1);
+  const [saleDetails, setSaleDetails] = useState();
+
+  const { config: { interludeLength, leadinLength },
     salesInfo: { regionBegin },
     status: { lastCommittedTimeslice } } = coretimeInfo;
 
   const interludeLengthTs = interludeLength / CoreTimeChainConsts.BlocksPerTimeslice;
   const leadInLengthTs = leadinLength / CoreTimeChainConsts.BlocksPerTimeslice;
-  const currentRegionStart = regionBegin - regionLength;
+  const { currentRegionEnd, currentRegionStart } = getRegionStartEndTs(coretimeInfo.salesInfo, coretimeInfo.config);
+
+  const cycleNumber = useMemo(() =>
+    chainName && getCurrentSaleNumber(currentRegionEnd, chainName, coretimeInfo.config)
+  , [currentRegionEnd, chainName, coretimeInfo.config]);
 
   const phaseConfig = useMemo(() => {
     if (!coretimeInfo?.blockTimeMs) {
@@ -66,8 +75,6 @@ function Sale ({ coretimeInfo }: Props): React.ReactElement<Props> {
     return PhaseName.FixedPrice;
   }, [interludeLengthTs, leadInLengthTs]);
 
-  console.log('currentPhase ', currentPhase);
-
   const progressValues = useMemo(() => {
     const progress = lastCommittedTimeslice - currentRegionStart;
 
@@ -90,8 +97,15 @@ function Sale ({ coretimeInfo }: Props): React.ReactElement<Props> {
     ];
   }, [interludeLengthTs, leadInLengthTs, lastCommittedTimeslice, currentRegionStart, regionBegin]);
 
-  // const available = Number(coretimeInfo?.salesInfo?.coresOffered) - Number(coretimeInfo?.salesInfo.coresSold)
-  const available = 1;
+  const available = Number(coretimeInfo?.salesInfo?.coresOffered) - Number(coretimeInfo?.salesInfo.coresSold);
+
+  const onDropDownChange = useCallback((v: number) => {
+    console.log(v);
+    setSaleNumber(v);
+    const details = calculateSaleDetails(v, cycleNumber, currentRegionStart, coretimeInfo.status.lastTimeslice * 80, chainName);
+
+    setSaleDetails(details);
+  }, []);
 
   return (
     <div>
@@ -99,11 +113,12 @@ function Sale ({ coretimeInfo }: Props): React.ReactElement<Props> {
                 <Summary
                   api={isApiReady ? api : null}
                   config={coretimeInfo?.config}
+                  cycleNumber={cycleNumber}
                   region={coretimeInfo?.region}
                   saleInfo={coretimeInfo?.salesInfo}
                   status={coretimeInfo?.status}
                 />}
-      <div style={{ marginTop: '4rem', display: 'grid', gap: '2rem', gridTemplateColumns: '1fr 3fr', justifyItems: 'center', alignItems: 'stretch', flexFlow: '1' }}>
+      <div style={{ marginTop: '4rem', display: 'grid', gap: '2rem', gridTemplateColumns: '1fr 3fr', gridTemplateRows: 'auto auto', alignItems: 'stretch', flexFlow: '1' }}>
 
         <div style={{ display: 'flex', flexDirection: 'column', justifyItems: 'center', justifySelf: 'right', backgroundColor: 'white', borderRadius: '4px', padding: '24px', width: 'fit-content' }}>
           <SummaryBox>
@@ -125,7 +140,7 @@ function Sale ({ coretimeInfo }: Props): React.ReactElement<Props> {
           <SummaryBox>
             <section>
               <CardSummary label='current phase'>{currentPhase && currentPhase}</CardSummary>
-              <CardSummary label='current phase end'>{currentPhase && phaseConfig && estimateTime(phaseConfig[currentPhase].lastTimeslice, coretimeInfo.status.lastTimeslice * 40)}</CardSummary>
+              <CardSummary label='current phase end'>{currentPhase && phaseConfig && estimateTime(phaseConfig[currentPhase].lastTimeslice, coretimeInfo.status.lastTimeslice * 80)}</CardSummary>
               <CardSummary label='last block'>{currentPhase && phaseConfig?.[currentPhase].lastBlock}</CardSummary>
               <CardSummary label='fixed price'>{formatNumber(coretimeInfo?.salesInfo.endPrice)}</CardSummary>
               <CardSummary label='sellout price'>{formatNumber(coretimeInfo?.salesInfo.selloutPrice)}</CardSummary>
@@ -135,6 +150,53 @@ function Sale ({ coretimeInfo }: Props): React.ReactElement<Props> {
             </section>
           </SummaryBox>
           <ProgresBar sections={progressValues} />
+        </div>
+        <div style={{ backgroundColor: 'white', borderRadius: '4px', padding: '24px', justifySelf: 'center', gridColumn: '1 / -1', width: '100%' }}>
+          <h2>Historical data</h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '1.5rem', maxWidth: '300px' }}>
+
+              <Dropdown
+                className='isSmall'
+                // label={t('sale number')}
+                onChange={onDropDownChange}
+                options={[
+                  {
+                    text: t('Pick a sale number'),
+                    value: -1
+                  },
+                  ...Array.from({ length: cycleNumber + 1 }, (_, i) => ({
+                    text: `sale #${i}`,
+                    value: i
+                  })).reverse()
+                ]}
+                value={-1}
+              />
+
+            </div>
+            {saleNumber > -1 && !!saleDetails && <div style={{ minWidth: '200px' }}>
+              <SaleTable
+                saleDetails={saleDetails}
+                saleNumber={saleNumber}
+              />
+
+            </div>}
+            {saleNumber > -1 && !!saleDetails && <div style={{ minWidth: '200px' }}>
+              <Button
+                isBasic
+                label={t('Query Subscan')}
+                onClick={() => {
+                  if (saleDetails) {
+                    window.open(constructSubscanQuery(saleDetails.coretime.startBlock, saleDetails.coretime.endBlock));
+                  } else {
+                    // error message
+                  }
+                }}
+              />
+            </div>
+
+            }
+          </div>
         </div>
       </div>
     </div>
