@@ -355,7 +355,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
       Helikon: 'wss://rpc.helikon.io/khala',
       OnFinality: 'wss://khala.api.onfinality.io/public-ws',
       Phala: 'wss://khala-api.phala.network/ws',
-      RadiumBlock: 'wss://khala.public.curie.radiumblock.co/ws'
+      // RadiumBlock: 'wss://khala.public.curie.radiumblock.co/ws' // https://github.com/polkadot-js/apps/issues/11098
       // Rockx: 'wss://rockx-khala.w3node.com/polka-public-khala/ws' // https://github.com/polkadot-js/apps/issues/10728
     },
     text: 'Khala Network',
@@ -717,7 +717,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
       Blast: 'wss://shiden.public.blastapi.io',
       Dwellir: 'wss://shiden-rpc.dwellir.com',
       OnFinality: 'wss://shiden.api.onfinality.io/public-ws',
-      RadiumBlock: 'wss://shiden.public.curie.radiumblock.co/ws',
+      // RadiumBlock: 'wss://shiden.public.curie.radiumblock.co/ws', // https://github.com/polkadot-js/apps/issues/11098
       'light client': 'light://substrate-connect/kusama/shiden'
     },
     text: 'Shiden',
@@ -835,7 +835,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2114,
     providers: {
       Dwellir: 'wss://turing-rpc.dwellir.com',
-      OAK: 'wss://rpc.turing.oak.tech'
+      // OAK: 'wss://rpc.turing.oak.tech' // https://github.com/polkadot-js/apps/issues/11098
     },
     text: 'Turing Network',
     ui: {
@@ -932,7 +932,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       LuckyFriday: 'wss://rpc-bridge-hub-kusama.luckyfriday.io',
       // OnFinality: 'wss://bridgehub-kusama.api.onfinality.io/public-ws',
       Parity: 'wss://kusama-bridge-hub-rpc.polkadot.io',
-      RadiumBlock: 'wss://bridgehub-kusama.public.curie.radiumblock.co/ws',
+      // RadiumBlock: 'wss://bridgehub-kusama.public.curie.radiumblock.co/ws', // https://github.com/polkadot-js/apps/issues/11098
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/bridgehub'
     },
     relayName: 'kusama',

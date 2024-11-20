@@ -225,7 +225,7 @@ export const testRelayWestend: EndpointOption = {
     // LuckyFriday: 'wss://rpc-westend.luckyfriday.io', // https://github.com/polkadot-js/apps/issues/10728
     OnFinality: 'wss://westend.api.onfinality.io/public-ws',
     Parity: 'wss://westend-rpc.polkadot.io',
-    RadiumBlock: 'wss://westend.public.curie.radiumblock.co/ws',
+    // RadiumBlock: 'wss://westend.public.curie.radiumblock.co/ws', // https://github.com/polkadot-js/apps/issues/11098
     // Stakeworld: 'wss://wnd-rpc.stakeworld.io',
     'light client': 'light://substrate-connect/westend'
   },
