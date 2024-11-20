@@ -294,7 +294,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'regionxCocos',
     paraId: 4509,
     providers: {
-      RegionX: 'wss://regionx-paseo.regionx.tech'
+      // RegionX: 'wss://regionx-paseo.regionx.tech' // https://github.com/polkadot-js/apps/issues/11098
     },
     text: 'RegionX(Paseo)',
     ui: {
