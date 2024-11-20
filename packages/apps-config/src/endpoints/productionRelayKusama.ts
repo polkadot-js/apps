@@ -354,7 +354,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
       Dwellir: 'wss://khala-rpc.dwellir.com',
       Helikon: 'wss://rpc.helikon.io/khala',
       OnFinality: 'wss://khala.api.onfinality.io/public-ws',
-      Phala: 'wss://khala-api.phala.network/ws',
+      Phala: 'wss://khala-api.phala.network/ws'
       // RadiumBlock: 'wss://khala.public.curie.radiumblock.co/ws' // https://github.com/polkadot-js/apps/issues/11098
       // Rockx: 'wss://rockx-khala.w3node.com/polka-public-khala/ws' // https://github.com/polkadot-js/apps/issues/10728
     },
@@ -834,7 +834,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'turing',
     paraId: 2114,
     providers: {
-      Dwellir: 'wss://turing-rpc.dwellir.com',
+      Dwellir: 'wss://turing-rpc.dwellir.com'
       // OAK: 'wss://rpc.turing.oak.tech' // https://github.com/polkadot-js/apps/issues/11098
     },
     text: 'Turing Network',
