@@ -355,7 +355,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
       Helikon: 'wss://rpc.helikon.io/khala',
       OnFinality: 'wss://khala.api.onfinality.io/public-ws',
       Phala: 'wss://khala-api.phala.network/ws'
-      // RadiumBlock: 'wss://khala.public.curie.radiumblock.co/ws' // https://github.com/polkadot-js/apps/issues/11098
+      RadiumBlock: 'wss://khala.public.curie.radiumblock.co/ws' 
       // Rockx: 'wss://rockx-khala.w3node.com/polka-public-khala/ws' // https://github.com/polkadot-js/apps/issues/10728
     },
     text: 'Khala Network',
