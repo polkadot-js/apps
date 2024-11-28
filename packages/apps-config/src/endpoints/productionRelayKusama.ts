@@ -76,7 +76,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'bajun',
     paraId: 2119,
     providers: {
-      AjunaNetwork: 'wss://rpc-parachain.bajun.network',
+      AjunaNetwork: 'wss://rpc-para.bajun.network',
       OnFinality: 'wss://bajun.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://bajun.public.curie.radiumblock.co/ws'
     },
