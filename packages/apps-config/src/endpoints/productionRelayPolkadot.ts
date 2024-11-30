@@ -26,7 +26,6 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       // 'Acala Foundation 2': 'wss://acala-rpc-2.aca-api.network/ws', // https://github.com/polkadot-js/apps/issues/6965
       'Acala Foundation 3': 'wss://acala-rpc-3.aca-api.network/ws',
       Dwellir: 'wss://acala-rpc.dwellir.com',
-      'IBP2': 'wss://acala.dotters.network',
       // LuckyFriday: 'wss://rpc-acala.luckyfriday.io', // https://github.com/polkadot-js/apps/issues/10728
       // 'Automata 1RPC': 'wss://1rpc.io/aca' // https://github.com/polkadot-js/apps/issues/8648
       OnFinality: 'wss://acala-polkadot.api.onfinality.io/public-ws'
