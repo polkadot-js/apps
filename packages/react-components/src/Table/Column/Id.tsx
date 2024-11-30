@@ -5,7 +5,7 @@ import type { BN } from '@polkadot/util';
 
 import React from 'react';
 
-import { formatNumber } from '@polkadot/util';
+import { formatNumber, isString } from '@polkadot/util';
 
 import { styled } from '../../styled.js';
 
@@ -14,7 +14,7 @@ export interface Props {
   className?: string;
   colSpan?: number;
   rowSpan?: number;
-  value: BN | number;
+  value: BN | number | string;
 }
 
 function Id ({ children, className = '', colSpan, rowSpan, value }: Props): React.ReactElement<Props> {
@@ -24,7 +24,13 @@ function Id ({ children, className = '', colSpan, rowSpan, value }: Props): Reac
       colSpan={colSpan}
       rowSpan={rowSpan}
     >
-      <h2 className='--digits'>{formatNumber(value)}</h2>
+      <h2 className='--digits'>
+        {
+          isString(value)
+            ? value
+            : formatNumber(value)
+        }
+      </h2>
       {children}
     </StyledTd>
   );
