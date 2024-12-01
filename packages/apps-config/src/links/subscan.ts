@@ -33,7 +33,7 @@ export const Subscan: ExternalDef = {
     Dock: 'dock',
     'Dolphin Parachain Testnet': 'dolphin',
     'Humanode Mainnet': 'humanode',
-    HydraDX: 'hydradx',
+    Hydration: 'hydration',
     'Integritee Network (Kusama)': 'integritee',
     Interlay: 'interlay',
     Joystream: 'joystream',
