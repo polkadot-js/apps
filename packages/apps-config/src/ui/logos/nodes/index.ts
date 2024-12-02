@@ -72,6 +72,7 @@ export { nodesInvoPNG } from './generated/invoPNG.js';
 export { nodesIpciSVG } from './generated/ipciSVG.js';
 export { nodesIpsePNG } from './generated/ipsePNG.js';
 export { nodesIpseSVG } from './generated/ipseSVG.js';
+export { nodesJamtonSVG } from './generated/jamtonSVG.js';
 export { nodesJazPNG } from './generated/jazPNG.js';
 export { nodesJoystreamSVG } from './generated/joystreamSVG.js';
 export { nodesJupiterSVG } from './generated/jupiterSVG.js';
