@@ -17,7 +17,7 @@ const definitions: OverrideBundleDefinition = {
           delegatorRewardRate: 'Perquintill'
         },
         AssetId: 'u32',
-        Balance: 'u128',
+        Balance: 'u128'
       }
     }
   ],
@@ -53,7 +53,7 @@ const definitions: OverrideBundleDefinition = {
       },
       payload: {}
     }
-  },
+  }
 };
 
 export default definitions;
