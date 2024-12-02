@@ -18,7 +18,7 @@ export const SubId: ExternalDef = {
     ChainX: 'chainx',
     'Composable Finance': 'composable',
     Edgeware: 'edgeware',
-    HydraDX: 'hydradx',
+    Hydration: 'hydration',
     Interlay: 'interlay',
     InvArch: 'invarch',
     'KILT Spiritnet': 'kilt',
