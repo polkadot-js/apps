@@ -20,10 +20,9 @@ interface Props {
   config: PalletBrokerConfigRecord,
   region: RegionInfo[],
   status: BrokerStatus,
-  parachainCount: number
 }
 
-function Summary({ api, config, parachainCount, saleInfo, status }: Props): React.ReactElement<Props> {
+function Summary({ api, config, saleInfo, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const currentRegionEnd = saleInfo.regionEnd - config.regionLength;
   const currentRegionStart = saleInfo.regionEnd - config.regionLength * 2;
@@ -43,17 +42,28 @@ function Summary({ api, config, parachainCount, saleInfo, status }: Props): Reac
             </div>
           </CardSummary>
         }
-        <CardSummary label={t('timeslice')}>
-          {status?.lastTimeslice}
+        <CardSummary label={t('sold/offered')}>
+          {`${saleInfo?.coresSold} / ${saleInfo?.coresOffered}`}
         </CardSummary>
-        <CardSummary label={t('parachains')}>
-          {parachainCount && parachainCount}
+
+
+        <CardSummary label={t('sale end')}>
+          <div>{estimateTime(currentRegionEnd, status?.lastTimeslice * 80)}</div>
+        </CardSummary>
+
+
+        <CardSummary label={t('last block')}>
+          <div>{currentRegionEnd * 80}</div>
+        </CardSummary>
+
+        <CardSummary label={t('last timeslice')}>
+          <div>{currentRegionEnd}</div>
         </CardSummary>
 
         {config && status &&
           <CardSummary
             className='media--800'
-            label={t('cycle progress')}
+            label={t('sale progress')}
             progress={{
               isBlurred: false,
               total: new BN(config?.regionLength),
@@ -81,7 +91,7 @@ function Summary({ api, config, parachainCount, saleInfo, status }: Props): Reac
           </CardSummary>
         }
       </section>
-    </SummaryBox>
+    </SummaryBox >
   );
 }
 

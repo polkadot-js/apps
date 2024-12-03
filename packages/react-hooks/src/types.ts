@@ -344,6 +344,7 @@ export interface CoretimeInformation {
   region: RegionInfo[],
   config: PalletBrokerConfigRecord
   taskIds: number[]
+  blockTimeMs: number
 }
 
 export interface BrokerStatus {
