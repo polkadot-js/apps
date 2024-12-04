@@ -11,9 +11,9 @@ import Extensions from './Extensions.js';
 import NetworkSpecs from './NetworkSpecs.js';
 
 export default function Metadata (): React.ReactElement {
+  const chainInfo = useChainInfo();
   const { isDevelopment } = useApi();
   const rawMetadata = useRawMetadata();
-  const chainInfo = useChainInfo();
 
   return (
     <>
