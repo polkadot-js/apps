@@ -380,7 +380,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1002,
     providers: {
-      // IBP1: 'wss://sys.ibp.network/bridge-hub-paseo', https://github.com/polkadot-js/apps/issues/10966
+      IBP1: 'wss://sys.ibp.network/bridgehub-paseo',
       IBP2: 'wss://bridge-hub-paseo.dotters.network'
     },
     relayName: 'paseo',
@@ -396,6 +396,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1005,
     providers: {
+      IBP1: 'wss://sys.ibp.network/coretime-paseo',
       IBP2: 'wss://coretime-paseo.dotters.network',
       ParaNodes: 'wss://paseo-coretime.paranodes.io'
     },
@@ -414,6 +415,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
     paraId: 1004,
     providers: {
       Amforc: 'wss://people-paseo.rpc.amforc.com',
+      IBP1: 'wss://sys.ibp.network/people-paseo',
       IBP2: 'wss://people-paseo.dotters.network'
     },
     relayName: 'paseo',

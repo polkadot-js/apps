@@ -118,7 +118,7 @@ export const testParasWestendCommon: EndpointOption[] = [
     providers: {
       Dwellir: 'wss://asset-hub-westend-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://westmint-rpc-tn.dwellir.com',
-      IBP1: 'wss://sys.ibp.network/westmint',
+      IBP1: 'wss://sys.ibp.network/asset-hub-westend',
       IBP2: 'wss://asset-hub-westend.dotters.network',
       // OnFinality: 'wss://westmint.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9955
       Parity: 'wss://westend-asset-hub-rpc.polkadot.io'
