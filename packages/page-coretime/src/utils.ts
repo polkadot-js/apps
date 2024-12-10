@@ -1,144 +1,173 @@
 // Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { CoreTimeChainConsts, CoreTimeConsts, type LegacyLease, type Reservation } from '@polkadot/react-hooks/types';
-import { BN } from '@polkadot/util';
 
-import { CoreTimeTypes } from './types.js';
+import {  PhaseConfig, PhaseName, PhaseProgress, RegionInfo, SaleDetails } from './types.js';
+import { estimateTime, FirstCycleStart, get, getCurrentSaleNumber, getCurrentRegionStartEndTs } from './utils/index.js';
 
-export const FirstCycleStart: Record<string, number> = {
-  kusama: 285768,
-  polkadot: 282525
-};
-
-function formatDate (date: Date) {
-  const day = date.getDate();
-  const month = date.toLocaleString('default', { month: 'short' });
-  const year = date.getFullYear();
-
-  return `${day} ${month} ${year}`;
-}
-
-/**
-   * blockTime = 6000 ms
-   * BlocksPerTimeslice = 80
-   * Default Regoin = 5040 timeslices
-   * TargetBlock = TargetTimeslice * BlocksPerTimeslice
-   * Block Time Difference = |TargetBlock - latest Block| * blockTime
-   *
-   * Estimate timestamp =
-   * if targetBlock is before the latestBlock
-   *    now minus block time difference
-   * else
-   *    now plus block time difference
-   */
-export const estimateTime = (targetTimeslice: string | number, latestBlock: number): string | null => {
-  if (!latestBlock || !targetTimeslice) {
-    console.error('Invalid input: one or more inputs are missing');
-
-    return null;
-  }
-
-  const now = new Date().getTime();
-
-  try {
-    const blockTime = new BN(CoreTimeConsts.BlockTime); // Average block time in milliseconds (6 seconds)
-    const timeSlice = new BN(CoreTimeConsts.BlocksPerTimeslice);
-    const latestBlockBN = new BN(latestBlock);
-    const timestampBN = new BN(now);
-    const targetBlockBN = new BN(targetTimeslice).mul(timeSlice);
-    const blockTimeDifference = targetBlockBN.sub(latestBlockBN).mul(blockTime);
-    const estTimestamp = timestampBN.add(blockTimeDifference);
-
-    return formatDate(new Date(estTimestamp.toNumber()));
-  } catch (error) {
-    console.error('Error in calculation:', error);
-
-    return null;
-  }
-};
-
-export const getOccupancyType = (lease: LegacyLease | undefined, reservation: Reservation | undefined, isPool: boolean): CoreTimeTypes => {
-  if (isPool) {
-    return CoreTimeTypes['On Demand'];
-  }
-
-  return reservation ? CoreTimeTypes.Reservation : lease ? CoreTimeTypes.Lease : CoreTimeTypes['Bulk Coretime'];
-};
-
-export function calculateSaleDetails (saleNumber: number, currentSaleNumber: number, currentRegionStart: number, latestBlock: number, chainName: string) {
-  // @todo get that from the chain!
-  const blocksPerTs = 80;
-
-  const blocksPerSaleRelay = blocksPerTs * 5040;
-
-  console.log('blocksPerSale:', blocksPerSaleRelay);
-
-  const currentSaleStartBlock = currentRegionStart * blocksPerTs;
-
-  console.log('currentSaleStartBlock:', currentSaleStartBlock);
-
-  const saleStartBlock = currentSaleStartBlock - blocksPerSaleRelay * (currentSaleNumber - saleNumber);
-
-  // CORETIME
-  const saleStartBlockCoretime = FirstCycleStart[chainName] + (saleNumber) * CoreTimeChainConsts.BlocksPerTimeslice;
-  const saleEndBlockCoretime = saleStartBlockCoretime + 5040 * CoreTimeChainConsts.BlocksPerTimeslice;
-
-  console.log('saleStartBlock:', saleStartBlock);
-
-  const saleStartTimeslice = saleStartBlock / blocksPerTs;
-
-  console.log('saleStartTimeslice:', saleStartTimeslice);
-
+export function calculateSaleDetails(
+  saleNumber: number,
+  currentSaleNumber: number,
+  latestBlock: number,
+  chainName: string,
+  regionLength: number,
+  saleParams: any
+): SaleDetails {
+  const blocksPerSaleRelay = get.blocks.relay(regionLength);
+  const saleStartBlock = saleParams.currentRegion.start.blocks - blocksPerSaleRelay * (currentSaleNumber - saleNumber);
   const saleEndBlock = saleStartBlock + blocksPerSaleRelay;
 
-  console.log('saleEndBlock:', saleEndBlock);
 
-  // Calculate timeslices in the sale period
-  const timeslicesPerSale = blocksPerSaleRelay / CoreTimeChainConsts.BlocksPerTimeslice;
+  const saleStartTs = get.timeslices.relay(saleStartBlock);
+  const saleEndTs = get.timeslices.relay(saleEndBlock);
 
-  console.log('timeslicesPerSale:', timeslicesPerSale);
 
-  // Convert block numbers to approximate dates (optional)
-  const saleStartDate = estimateTime(saleStartTimeslice, latestBlock);
+  const saleStartBlockCoretime = FirstCycleStart[chainName] +  get.blocks.coretime((saleNumber) * regionLength)
+  const saleEndBlockCoretime = saleStartBlockCoretime + get.blocks.coretime(regionLength)
 
-  console.log('saleStartDate:', saleStartDate);
-
-  const saleEndDate = estimateTime(saleStartTimeslice + 5040, latestBlock);
-
-  console.log('saleEndDate:', saleEndDate);
-
-  // Output results
-  return {
-    saleStartBlock,
-    saleEndBlock,
-    timeslicesPerSale,
-    saleStartDate,
-    saleEndDate,
-    saleStartTimeslice,
-    saleEndTimeslice: saleStartTimeslice + 5040,
+  const data = {
+    saleNumber,
+    relay: {
+      start: {
+        block: saleStartBlock,
+        ts: saleStartTs,
+      },
+      end: {
+        block: saleEndBlock,
+        ts: saleEndTs,
+      },
+    },
     coretime: {
-      startBlock: saleStartBlockCoretime,
-      endBlock: saleEndBlockCoretime
+      start: { block: saleStartBlockCoretime },
+      end: { block: saleEndBlockCoretime },
+    },
+    date: {
+      start: estimateTime(saleStartTs, latestBlock),
+      end: estimateTime(saleEndTs, latestBlock),
     }
-  };
+  } 
+  return data;
 }
 
-export const constructSubscanQuery = (blockStart: number, blockEnd: number, module = 'broker', call = 'purchase') => {
+export const constructSubscanQuery = (blockStart: number, blockEnd: number,chainName: string, module = 'broker', call = 'purchase', ) => {
   const page = 1;
   const pageSize = 25;
   const signed = 'all';
-  const baseURL = 'https://coretime-polkadot.subscan.io/extrinsic';
+  const baseURL = `https://coretime-${chainName}.subscan.io/extrinsic`;
 
   return `${baseURL}?page=${page}&time_dimension=block&page_size=${pageSize}&module=${module}&signed=${signed}&call=${call}&block_start=${blockStart}&block_end=${blockEnd}`;
 };
 
-export const getCurrentSaleNumber = (currentRegionEnd, chainName: string, config) =>
-  chainName && currentRegionEnd && Math.floor((currentRegionEnd - FirstCycleStart[chainName]) / config.regionLength);
+export const getSaleParameters = (
+  salesInfo: RegionInfo, 
+  config: { interludeLength: number; leadinLength: number; regionLength: number }, 
+  chainName: string, 
+  lastCommittedTimeslice: number) => {
+    // The sale is happening on the coretime chain, so we need to convert the timeslices to blocks (40 blocks per timeslice)
+  const interludeLengthTs = get.timeslices.coretime(config.interludeLength);
+  const leadInLengthTs = get.timeslices.coretime(config.leadinLength);
 
-export const getRegionStartEndTs = (saleInfo, config) => {
+  const { currentRegionEnd, currentRegionStart } = getCurrentRegionStartEndTs(salesInfo, config);
+  const phaseConfig = getPhaseConfiguration(currentRegionStart, config.regionLength, interludeLengthTs, leadInLengthTs, lastCommittedTimeslice);
+
+  const saleNumber = getCurrentSaleNumber(currentRegionEnd, chainName, config);
   return {
-    currentRegionEnd: saleInfo.regionEnd - config.regionLength,
-    currentRegionStart: saleInfo.regionEnd - config.regionLength * 2
+    cycleNumber: getCurrentSaleNumber(currentRegionEnd, chainName, config),
+    regionNumber: saleNumber - 1,
+    leadin: {
+      ts: leadInLengthTs,
+      blocks: config.leadinLength
+    },
+    interlude: {
+      ts: interludeLengthTs,
+      blocks: config.interludeLength
+    },
+    currentRegion: {
+      start: {
+        ts: currentRegionStart,
+        blocks: get.blocks.relay(currentRegionStart)
+      },
+      end: {
+        ts: currentRegionEnd,
+        blocks: get.blocks.relay(currentRegionEnd)
+      }
+    },
+    phaseConfig
   };
 };
+
+export const getPhaseConfiguration = (
+  currentRegionStart: number,
+  regionLength: number,
+  interludeLengthTs: number,
+  leadInLengthTs: number,
+  lastCommittedTimeslice: number): PhaseConfig | undefined => {
+
+    const renewalsEndTs = currentRegionStart + interludeLengthTs
+    const priceDiscoveryEndTs = renewalsEndTs + leadInLengthTs
+    const fixedPriceLenght = regionLength - interludeLengthTs - leadInLengthTs
+    const fixedPriceEndTs = priceDiscoveryEndTs + fixedPriceLenght
+
+  return {
+    currentPhaseName: determinePhaseName(lastCommittedTimeslice, currentRegionStart, interludeLengthTs, leadInLengthTs),
+    config: {
+      [PhaseName.Renewals]: {
+        lastTimeslice: renewalsEndTs,
+        lastBlock: get.blocks.relay(renewalsEndTs)
+      },
+      [PhaseName.PriceDiscovery]: {
+        lastTimeslice: priceDiscoveryEndTs,
+        lastBlock: get.blocks.relay(priceDiscoveryEndTs) 
+      },
+      [PhaseName.FixedPrice]: {
+        lastTimeslice: fixedPriceEndTs,
+        lastBlock: get.blocks.relay(fixedPriceEndTs)
+      }
+    }
+  }
+};
+
+export const determinePhaseName = (
+  lastCommittedTimeslice: number, 
+  currentRegionStart: number,
+  interludeLengthTs: number, 
+  leadInLengthTs: number): typeof PhaseName[keyof typeof PhaseName] => {
+  const progress = lastCommittedTimeslice - currentRegionStart;
+
+  if (progress < interludeLengthTs) {
+    return PhaseName.Renewals;
+  }
+
+  if (progress < interludeLengthTs + leadInLengthTs) {
+    return PhaseName.PriceDiscovery;
+  }
+
+  return PhaseName.FixedPrice;
+}
+
+export const getSaleProgress = (
+  lastCommittedTimeslice: number, 
+  currentRegionStart: number, 
+  interludeLengthTs: number, 
+  leadInLengthTs: number, 
+  regionBegin: number): PhaseProgress[] => {
+  const progress = lastCommittedTimeslice - currentRegionStart;
+
+  return [
+    {
+      value: Math.min(progress, interludeLengthTs),
+      total: interludeLengthTs,
+      label: PhaseName.Renewals
+    },
+    {
+      value: Math.min(Math.max(progress - interludeLengthTs, 0), leadInLengthTs),
+      total: leadInLengthTs,
+      label: PhaseName.PriceDiscovery
+    },
+    {
+      value: Math.max(progress - interludeLengthTs - leadInLengthTs, 0),
+      total: regionBegin - currentRegionStart - interludeLengthTs - leadInLengthTs,
+      label: PhaseName.FixedPrice
+    }
+  ];
+}

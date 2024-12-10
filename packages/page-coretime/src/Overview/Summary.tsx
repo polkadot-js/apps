@@ -10,7 +10,8 @@ import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { BN } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import { estimateTime, FirstCycleStart } from '../utils.js';
+import { estimateTime } from '../utils/index.js';
+import { FirstCycleStart } from '../utils/index.js';
 
 interface Props {
   api: ApiPromise | null,
@@ -23,14 +24,14 @@ interface Props {
   chainName: string
 }
 
-function Summary ({ api, chainName, config, parachainCount, saleInfo, status }: Props): React.ReactElement<Props> {
+function Summary({ api, chainName, config, parachainCount, saleInfo, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const currentRegionEnd = saleInfo.regionEnd - config.regionLength;
   const currentRegionStart = saleInfo.regionEnd - config.regionLength * 2;
 
   const cycleNumber = useMemo(() =>
     chainName && currentRegionEnd && Math.floor((currentRegionEnd - FirstCycleStart[chainName]) / config.regionLength)
-  , [currentRegionEnd, chainName, config]);
+    , [currentRegionEnd, chainName, config]);
 
   return (
     <SummaryBox>
