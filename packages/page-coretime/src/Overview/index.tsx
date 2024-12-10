@@ -5,8 +5,6 @@ import type { CoretimeInformation } from '@polkadot/react-hooks/types';
 
 import React from 'react';
 
-import { useApi } from '@polkadot/react-hooks';
-
 import ParachainsTable from '../ParachainsTable.js';
 import Summary from './Summary.js';
 
@@ -17,13 +15,10 @@ interface Props {
 }
 
 function Overview ({ chainName, className, coretimeInfo }: Props): React.ReactElement<Props> {
-  const { api, isApiReady } = useApi();
-
   return (
     <main className={className}>
       {coretimeInfo && (
         <Summary
-          api={isApiReady ? api : null}
           chainName={chainName}
           config={coretimeInfo?.config}
           parachainCount={coretimeInfo.taskIds?.length || 0}

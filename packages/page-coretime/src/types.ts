@@ -15,23 +15,37 @@ export interface PhaseInfo {
 }
 
 export const PhaseName = {
-  Renewals: 'Renewals',
+  FixedPrice: 'Fixed Price',
   PriceDiscovery: 'Price Discovery',
-  FixedPrice: 'Fixed Price'
+  Renewals: 'Renewals'
 } as const;
 
-export type PhaseConfig = {
-  currentPhaseName: string;
-  config: Record<typeof PhaseName[keyof typeof PhaseName], {lastTimeslice: number, lastBlock: number}>
+type PhaseNameType = typeof PhaseName[keyof typeof PhaseName];
+
+export interface PhaseConfig {
+  currentPhaseName: PhaseNameType;
+  config: Record<PhaseNameType, { lastTimeslice: number; lastBlock: number }>;
 }
 
-export type PhaseProgress = {
+export interface PhaseProgress {
   value: number;
   total: number;
   label: string;
 }
 
-export type SaleDetails = {
+export interface SaleParameters {
+  currentRegion: {
+    start: { ts: number; blocks: number };
+    end: { ts: number; blocks: number };
+  };
+  cycleNumber: number;
+  interlude: { ts: number; blocks: number };
+  leadin: { ts: number; blocks: number };
+  phaseConfig: PhaseConfig;
+  regionNumber: number;
+}
+
+export interface SaleDetails {
   saleNumber: number;
   relay: {
     start: {
@@ -58,6 +72,6 @@ export type SaleDetails = {
 }
 
 export interface RegionInfo {
-  regionEnd: number;
   regionBegin: number;
+  regionEnd: number;
 }

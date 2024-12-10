@@ -385,5 +385,6 @@ export const CoreTimeConsts = {
 };
 
 export const CoreTimeChainConsts = {
+  BlockTime: 12000,
   BlocksPerTimeslice: 40
 };

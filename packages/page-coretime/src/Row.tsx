@@ -10,8 +10,8 @@ import { ParaLink, styled, Tag } from '@polkadot/react-components';
 import { ChainRenewalStatus } from '@polkadot/react-hooks/types';
 import { BN, formatBalance, formatNumber } from '@polkadot/util';
 
-import { CoreTimeTypes } from './types.js';
 import { estimateTime } from './utils/index.js';
+import { CoreTimeTypes } from './types.js';
 
 interface Props {
   id: number
@@ -35,7 +35,7 @@ const StyledCell = styled.td<{ $p: boolean }>`
   }
 `;
 
-function Row({ chainRecord, highlight = false, id, lastCommittedTimeslice, lease, regionBegin, regionEnd }: Props): React.ReactElement<Props> {
+function Row ({ chainRecord, highlight = false, id, lastCommittedTimeslice, lease, regionBegin, regionEnd }: Props): React.ReactElement<Props> {
   const chainRegionEnd = (chainRecord.renewalStatus === ChainRenewalStatus.Renewed ? regionEnd : regionBegin);
   const targetTimeslice = lease?.until || chainRegionEnd;
   const showEstimates = !!targetTimeslice && Object.values(CoreTimeTypes)[chainRecord.type] !== CoreTimeTypes.Reservation;

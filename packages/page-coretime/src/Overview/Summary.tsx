@@ -1,7 +1,6 @@
 // Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ApiPromise } from '@polkadot/api';
 import type { BrokerStatus, CoreDescription, PalletBrokerConfigRecord, PalletBrokerSaleInfoRecord, RegionInfo } from '@polkadot/react-hooks/types';
 
 import React, { useMemo } from 'react';
@@ -10,11 +9,9 @@ import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { BN } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import { estimateTime } from '../utils/index.js';
-import { FirstCycleStart } from '../utils/index.js';
+import { estimateTime, FirstCycleStart } from '../utils/index.js';
 
 interface Props {
-  api: ApiPromise | null,
   coreDscriptors?: CoreDescription[];
   saleInfo: PalletBrokerSaleInfoRecord
   config: PalletBrokerConfigRecord,
@@ -24,14 +21,14 @@ interface Props {
   chainName: string
 }
 
-function Summary({ api, chainName, config, parachainCount, saleInfo, status }: Props): React.ReactElement<Props> {
+function Summary ({ chainName, config, parachainCount, saleInfo, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const currentRegionEnd = saleInfo.regionEnd - config.regionLength;
   const currentRegionStart = saleInfo.regionEnd - config.regionLength * 2;
 
   const cycleNumber = useMemo(() =>
     chainName && currentRegionEnd && Math.floor((currentRegionEnd - FirstCycleStart[chainName]) / config.regionLength)
-    , [currentRegionEnd, chainName, config]);
+  , [currentRegionEnd, chainName, config]);
 
   return (
     <SummaryBox>

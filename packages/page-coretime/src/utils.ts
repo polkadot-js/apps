@@ -1,11 +1,13 @@
 // Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { PalletBrokerConfigRecord } from '@polkadot/react-hooks/types';
+import type { PhaseConfig, PhaseProgress, RegionInfo, SaleDetails, SaleParameters } from './types.js';
 
-import {  PhaseConfig, PhaseName, PhaseProgress, RegionInfo, SaleDetails } from './types.js';
-import { estimateTime, FirstCycleStart, get, getCurrentSaleNumber, getCurrentRegionStartEndTs } from './utils/index.js';
+import { estimateTime, FirstCycleStart, get, getCurrentRegionStartEndTs, getCurrentSaleNumber } from './utils/index.js';
+import { PhaseName } from './types.js';
 
-export function calculateSaleDetails(
+export function calculateSaleDetails (
   saleNumber: number,
   currentSaleNumber: number,
   latestBlock: number,
@@ -17,39 +19,38 @@ export function calculateSaleDetails(
   const saleStartBlock = saleParams.currentRegion.start.blocks - blocksPerSaleRelay * (currentSaleNumber - saleNumber);
   const saleEndBlock = saleStartBlock + blocksPerSaleRelay;
 
-
   const saleStartTs = get.timeslices.relay(saleStartBlock);
   const saleEndTs = get.timeslices.relay(saleEndBlock);
 
-
-  const saleStartBlockCoretime = FirstCycleStart[chainName] +  get.blocks.coretime((saleNumber) * regionLength)
-  const saleEndBlockCoretime = saleStartBlockCoretime + get.blocks.coretime(regionLength)
+  const saleStartBlockCoretime = FirstCycleStart[chainName] + get.blocks.coretime((saleNumber) * regionLength);
+  const saleEndBlockCoretime = saleStartBlockCoretime + get.blocks.coretime(regionLength);
 
   const data = {
-    saleNumber,
-    relay: {
-      start: {
-        block: saleStartBlock,
-        ts: saleStartTs,
-      },
-      end: {
-        block: saleEndBlock,
-        ts: saleEndTs,
-      },
-    },
     coretime: {
-      start: { block: saleStartBlockCoretime },
       end: { block: saleEndBlockCoretime },
+      start: { block: saleStartBlockCoretime }
     },
     date: {
-      start: estimateTime(saleStartTs, latestBlock),
       end: estimateTime(saleEndTs, latestBlock),
-    }
-  } 
+      start: estimateTime(saleStartTs, latestBlock)
+    },
+    relay: {
+      end: {
+        block: saleEndBlock,
+        ts: saleEndTs
+      },
+      start: {
+        block: saleStartBlock,
+        ts: saleStartTs
+      }
+    },
+    saleNumber
+  };
+
   return data;
 }
 
-export const constructSubscanQuery = (blockStart: number, blockEnd: number,chainName: string, module = 'broker', call = 'purchase', ) => {
+export const constructSubscanQuery = (blockStart: number, blockEnd: number, chainName: string, module = 'broker', call = 'purchase') => {
   const page = 1;
   const pageSize = 25;
   const signed = 'all';
@@ -59,11 +60,12 @@ export const constructSubscanQuery = (blockStart: number, blockEnd: number,chain
 };
 
 export const getSaleParameters = (
-  salesInfo: RegionInfo, 
-  config: { interludeLength: number; leadinLength: number; regionLength: number }, 
-  chainName: string, 
-  lastCommittedTimeslice: number) => {
-    // The sale is happening on the coretime chain, so we need to convert the timeslices to blocks (40 blocks per timeslice)
+  salesInfo: RegionInfo,
+  config: Pick<PalletBrokerConfigRecord, 'interludeLength' | 'leadinLength' | 'regionLength'>,
+  chainName: string,
+  lastCommittedTimeslice: number
+): SaleParameters => {
+  // The sale is happening on the coretime chain, so we need to convert the timeslices to blocks (40 blocks per timeslice)
   const interludeLengthTs = get.timeslices.coretime(config.interludeLength);
   const leadInLengthTs = get.timeslices.coretime(config.leadinLength);
 
@@ -71,28 +73,29 @@ export const getSaleParameters = (
   const phaseConfig = getPhaseConfiguration(currentRegionStart, config.regionLength, interludeLengthTs, leadInLengthTs, lastCommittedTimeslice);
 
   const saleNumber = getCurrentSaleNumber(currentRegionEnd, chainName, config);
+
   return {
-    cycleNumber: getCurrentSaleNumber(currentRegionEnd, chainName, config),
-    regionNumber: saleNumber - 1,
-    leadin: {
-      ts: leadInLengthTs,
-      blocks: config.leadinLength
-    },
-    interlude: {
-      ts: interludeLengthTs,
-      blocks: config.interludeLength
-    },
     currentRegion: {
-      start: {
-        ts: currentRegionStart,
-        blocks: get.blocks.relay(currentRegionStart)
-      },
       end: {
-        ts: currentRegionEnd,
-        blocks: get.blocks.relay(currentRegionEnd)
+        blocks: get.blocks.relay(currentRegionEnd),
+        ts: currentRegionEnd
+      },
+      start: {
+        blocks: get.blocks.relay(currentRegionStart),
+        ts: currentRegionStart
       }
     },
-    phaseConfig
+    cycleNumber: getCurrentSaleNumber(currentRegionEnd, chainName, config),
+    interlude: {
+      blocks: config.interludeLength,
+      ts: interludeLengthTs
+    },
+    leadin: {
+      blocks: config.leadinLength,
+      ts: leadInLengthTs
+    },
+    phaseConfig,
+    regionNumber: saleNumber - 1
   };
 };
 
@@ -102,35 +105,34 @@ export const getPhaseConfiguration = (
   interludeLengthTs: number,
   leadInLengthTs: number,
   lastCommittedTimeslice: number): PhaseConfig | undefined => {
-
-    const renewalsEndTs = currentRegionStart + interludeLengthTs
-    const priceDiscoveryEndTs = renewalsEndTs + leadInLengthTs
-    const fixedPriceLenght = regionLength - interludeLengthTs - leadInLengthTs
-    const fixedPriceEndTs = priceDiscoveryEndTs + fixedPriceLenght
+  const renewalsEndTs = currentRegionStart + interludeLengthTs;
+  const priceDiscoveryEndTs = renewalsEndTs + leadInLengthTs;
+  const fixedPriceLenght = regionLength - interludeLengthTs - leadInLengthTs;
+  const fixedPriceEndTs = priceDiscoveryEndTs + fixedPriceLenght;
 
   return {
-    currentPhaseName: determinePhaseName(lastCommittedTimeslice, currentRegionStart, interludeLengthTs, leadInLengthTs),
     config: {
       [PhaseName.Renewals]: {
-        lastTimeslice: renewalsEndTs,
-        lastBlock: get.blocks.relay(renewalsEndTs)
+        lastBlock: get.blocks.relay(renewalsEndTs),
+        lastTimeslice: renewalsEndTs
       },
       [PhaseName.PriceDiscovery]: {
-        lastTimeslice: priceDiscoveryEndTs,
-        lastBlock: get.blocks.relay(priceDiscoveryEndTs) 
+        lastBlock: get.blocks.relay(priceDiscoveryEndTs),
+        lastTimeslice: priceDiscoveryEndTs
       },
       [PhaseName.FixedPrice]: {
-        lastTimeslice: fixedPriceEndTs,
-        lastBlock: get.blocks.relay(fixedPriceEndTs)
+        lastBlock: get.blocks.relay(fixedPriceEndTs),
+        lastTimeslice: fixedPriceEndTs
       }
-    }
-  }
+    },
+    currentPhaseName: determinePhaseName(lastCommittedTimeslice, currentRegionStart, interludeLengthTs, leadInLengthTs)
+  };
 };
 
 export const determinePhaseName = (
-  lastCommittedTimeslice: number, 
+  lastCommittedTimeslice: number,
   currentRegionStart: number,
-  interludeLengthTs: number, 
+  interludeLengthTs: number,
   leadInLengthTs: number): typeof PhaseName[keyof typeof PhaseName] => {
   const progress = lastCommittedTimeslice - currentRegionStart;
 
@@ -143,31 +145,31 @@ export const determinePhaseName = (
   }
 
   return PhaseName.FixedPrice;
-}
+};
 
 export const getSaleProgress = (
-  lastCommittedTimeslice: number, 
-  currentRegionStart: number, 
-  interludeLengthTs: number, 
-  leadInLengthTs: number, 
+  lastCommittedTimeslice: number,
+  currentRegionStart: number,
+  interludeLengthTs: number,
+  leadInLengthTs: number,
   regionBegin: number): PhaseProgress[] => {
   const progress = lastCommittedTimeslice - currentRegionStart;
 
   return [
     {
-      value: Math.min(progress, interludeLengthTs),
+      label: PhaseName.Renewals,
       total: interludeLengthTs,
-      label: PhaseName.Renewals
+      value: Math.min(progress, interludeLengthTs)
     },
     {
-      value: Math.min(Math.max(progress - interludeLengthTs, 0), leadInLengthTs),
+      label: PhaseName.PriceDiscovery,
       total: leadInLengthTs,
-      label: PhaseName.PriceDiscovery
+      value: Math.min(Math.max(progress - interludeLengthTs, 0), leadInLengthTs)
     },
     {
-      value: Math.max(progress - interludeLengthTs - leadInLengthTs, 0),
+      label: PhaseName.FixedPrice,
       total: regionBegin - currentRegionStart - interludeLengthTs - leadInLengthTs,
-      label: PhaseName.FixedPrice
+      value: Math.max(progress - interludeLengthTs - leadInLengthTs, 0)
     }
   ];
-}
+};

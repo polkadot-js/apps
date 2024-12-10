@@ -143,13 +143,13 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
 
     if (chainInfo && config && region && salesInfo && status) {
       setState({
+        blockTimeMs,
         chainInfo,
         config,
         region,
         salesInfo,
         status,
-        taskIds,
-        blockTimeMs
+        taskIds
       });
     }
   }, [taskIds, workloadData, potentialRenewalsCurrentRegion, salesInfo, leases, reservations, region, status, config, workplans, blockTimeMs]);

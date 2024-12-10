@@ -1,6 +1,8 @@
 // Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { SaleDetails } from '../types.js';
+
 import React, { useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
@@ -8,17 +10,17 @@ import { Table } from '@polkadot/react-components';
 import { useTranslation } from '../translate.js';
 
 interface Props {
-  saleDetails: any
+  saleDetails: SaleDetails
 }
 
-function SaleTable({ saleDetails }: Props): React.ReactElement<Props> {
+function SaleTable ({ saleDetails }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t(`details for sale ${saleDetails.saleNumber}`), 'start'],
     [t('Dates'), 'start media--800'],
     [t('Blocks (relay)'), 'start'],
     [t('Blocks(coretime)'), 'start'],
-    [t('Timeslices'), 'start'],
+    [t('Timeslices'), 'start']
   ]);
 
   return (
@@ -41,7 +43,6 @@ function SaleTable({ saleDetails }: Props): React.ReactElement<Props> {
         <td>{saleDetails.coretime.end.block}</td>
         <td>{saleDetails.relay.end.ts}</td>
       </tr>
-
 
     </Table>
   );
