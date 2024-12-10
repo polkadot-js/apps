@@ -3,7 +3,7 @@
 
 import type { TabItem } from '@polkadot/react-components/types';
 
-import React, { useMemo, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { Tabs } from '@polkadot/react-components';
@@ -18,7 +18,7 @@ interface Props {
   className?: string;
 }
 
-function createItemsRef (t: (key: string, options?: { replace: Record<string, unknown> }) => string): TabItem[] {
+function createItemsRef(t: (key: string, options?: { replace: Record<string, unknown> }) => string): TabItem[] {
   return [
     {
       isRoot: true,
@@ -32,7 +32,7 @@ function createItemsRef (t: (key: string, options?: { replace: Record<string, un
   ];
 }
 
-function CoretimeApp ({ basePath, className }: Props): React.ReactElement<Props> {
+function CoretimeApp({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const itemsRef = useRef(createItemsRef(t));
   const { api, isApiReady } = useApi();

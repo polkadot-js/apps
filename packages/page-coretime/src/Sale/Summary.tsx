@@ -10,7 +10,8 @@ import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { BN } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import { estimateTime, getRegionStartEndTs } from '../utils.js';
+import { getCurrentRegionStartEndTs } from '../utils/index.js';
+import { estimateTime } from '../utils/index.js';
 
 interface Props {
   api: ApiPromise | null,
@@ -22,9 +23,9 @@ interface Props {
   cycleNumber: number
 }
 
-function Summary ({ api, config, cycleNumber, saleInfo, status }: Props): React.ReactElement<Props> {
+function Summary({ api, config, cycleNumber, saleInfo, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { currentRegionEnd, currentRegionStart } = getRegionStartEndTs(saleInfo, config);
+  const { currentRegionEnd, currentRegionStart } = getCurrentRegionStartEndTs(saleInfo, config);
 
   return (
     <SummaryBox>

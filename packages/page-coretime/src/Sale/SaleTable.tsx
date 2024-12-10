@@ -9,15 +9,16 @@ import { useTranslation } from '../translate.js';
 
 interface Props {
   saleDetails: any
-  saleNumber: number
 }
 
-function SaleTable ({ saleDetails, saleNumber }: Props): React.ReactElement<Props> {
+function SaleTable({ saleDetails }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t(`details for sale ${saleNumber}`), 'start'],
-    [t('start'), 'start media--800'],
-    [t('end'), 'start']
+    [t(`details for sale ${saleDetails.saleNumber}`), 'start'],
+    [t('Dates'), 'start media--800'],
+    [t('Blocks (relay)'), 'start'],
+    [t('Blocks(coretime)'), 'start'],
+    [t('Timeslices'), 'start'],
   ]);
 
   return (
@@ -27,25 +28,20 @@ function SaleTable ({ saleDetails, saleNumber }: Props): React.ReactElement<Prop
       isSplit={false}
     >
       <tr>
-        <td>Dates</td>
-        <td>{saleDetails.saleStartDate}</td>
-        <td>{saleDetails.saleEndDate}</td>
+        <td>Start</td>
+        <td>{saleDetails.date.start}</td>
+        <td>{saleDetails.relay.start.block}</td>
+        <td>{saleDetails.coretime.start.block}</td>
+        <td>{saleDetails.relay.start.ts}</td>
       </tr>
       <tr>
-        <td>Blocks(relay)</td>
-        <td>{saleDetails.saleStartBlock}</td>
-        <td>{saleDetails.saleEndBlock}</td>
+        <td>End</td>
+        <td>{saleDetails.date.end}</td>
+        <td>{saleDetails.relay.end.block}</td>
+        <td>{saleDetails.coretime.end.block}</td>
+        <td>{saleDetails.relay.end.ts}</td>
       </tr>
-      <tr>
-        <td>Blocks(coretime)</td>
-        <td>{saleDetails.coretime.startBlock}</td>
-        <td>{saleDetails.coretime.endBlock}</td>
-      </tr>
-      <tr>
-        <td>Timeslices(coretime)</td>
-        <td>{saleDetails.saleStartTimeslice}</td>
-        <td>{saleDetails.saleEndTimeslice}</td>
-      </tr>
+
 
     </Table>
   );
