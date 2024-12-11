@@ -2,18 +2,19 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CoretimeInformation } from '@polkadot/react-hooks/types';
-import type { ChainName } from '../types.js';
 
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { Button, CardSummary, Dropdown, SummaryBox } from '@polkadot/react-components';
 import ProgresBar from '@polkadot/react-components/ProgresBar';
 import { useApi } from '@polkadot/react-hooks';
-import { formatNumber } from '@polkadot/util';
+import { formatBalance, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
+import { type ChainName, PhaseName } from '../types.js';
 import { calculateSaleDetails, constructSubscanQuery, getSaleParameters, getSaleProgress } from '../utils.js';
 import { estimateTime, getAvailableNumberOfCores } from '../utils/index.js';
+import { getCorePriceAt } from '../utils/sale.js';
 import SaleTable from './SaleTable.js';
 import Summary from './Summary.js';
 
@@ -28,6 +29,7 @@ function Sale ({ chainName, coretimeInfo }: Props): React.ReactElement<Props> {
   const { salesInfo: { regionBegin },
     status: { lastCommittedTimeslice } } = coretimeInfo;
 
+  const coretimePrice = useMemo(() => getCorePriceAt(lastCommittedTimeslice * 80, coretimeInfo.salesInfo), [lastCommittedTimeslice, coretimeInfo.salesInfo]);
   const saleParams = coretimeInfo && getSaleParameters(coretimeInfo.salesInfo, coretimeInfo.config, chainName, lastCommittedTimeslice);
   const phaseName = useMemo(() => saleParams?.phaseConfig?.currentPhaseName, [saleParams]);
   const [chosenSaleNumber, setChosenSaleNumber] = useState<number>(-1);
@@ -75,8 +77,14 @@ function Sale ({ chainName, coretimeInfo }: Props): React.ReactElement<Props> {
       <div style={{ alignItems: 'stretch', display: 'grid', flexFlow: '1', gap: '2rem', gridTemplateColumns: '1fr 3fr', gridTemplateRows: 'auto auto', marginTop: '4rem' }}>
 
         <div style={{ backgroundColor: 'white', borderRadius: '4px', display: 'flex', flexDirection: 'column', justifyItems: 'center', justifySelf: 'right', padding: '24px', width: 'fit-content' }}>
-          <SummaryBox>
-            <CardSummary label='current price'>100 DOT</CardSummary>
+          <SummaryBox className='isSmall'>
+            {phaseName === PhaseName.Renewals
+              ? (
+                <b>Cores cannot be purchased now</b>
+              )
+              : (
+                <CardSummary label='current price'>{formatBalance(coretimePrice)}</CardSummary>
+              )}
             {/* {!!available && <CardSummary label="cores avaiable">{available}</CardSummary>}
                         {!available && <p style={{ fontSize: '12px' }}> Currently there are no cores available for purchase</p>} */}
 
@@ -84,7 +92,7 @@ function Sale ({ chainName, coretimeInfo }: Props): React.ReactElement<Props> {
           {!!available && <div style={{ marginTop: '8px' }}>
             <Button
               isBasic
-              isDisabled={!available}
+              isDisabled={!available || phaseName === PhaseName.Renewals}
               label={t('Purchase a core')}
               onClick={() => window.alert('yo')}
             />
@@ -95,9 +103,9 @@ function Sale ({ chainName, coretimeInfo }: Props): React.ReactElement<Props> {
             <section>
               <CardSummary label='current phase'>{phaseName && phaseName}</CardSummary>
               <CardSummary label='current phase end'>{phaseName && saleParams?.phaseConfig && estimateTime(saleParams.phaseConfig.config[phaseName].lastTimeslice, coretimeInfo.status.lastTimeslice * 80)}</CardSummary>
-              <CardSummary label='last block'>{phaseName && saleParams?.phaseConfig?.config[phaseName].lastBlock}</CardSummary>
-              <CardSummary label='fixed price'>{formatNumber(coretimeInfo?.salesInfo.endPrice)}</CardSummary>
-              <CardSummary label='sellout price'>{formatNumber(coretimeInfo?.salesInfo.selloutPrice)}</CardSummary>
+              <CardSummary label='last block'>{phaseName && formatNumber(saleParams?.phaseConfig?.config[phaseName].lastBlock)}</CardSummary>
+              <CardSummary label='fixed price'>{formatBalance(coretimeInfo?.salesInfo.endPrice)}</CardSummary>
+              <CardSummary label='sellout price'>{formatBalance(coretimeInfo?.salesInfo.selloutPrice)}</CardSummary>
             </section>
             <section>
 

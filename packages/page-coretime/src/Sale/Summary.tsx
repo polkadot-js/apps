@@ -4,6 +4,7 @@
 import type { ApiPromise } from '@polkadot/api';
 import type { BrokerStatus, CoreDescription, PalletBrokerConfigRecord, PalletBrokerSaleInfoRecord, RegionInfo } from '@polkadot/react-hooks/types';
 
+import { formatNumber } from 'chart.js/helpers';
 import React from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
@@ -22,7 +23,7 @@ interface Props {
   cycleNumber: number
 }
 
-function Summary ({ config, cycleNumber, saleInfo, status }: Props): React.ReactElement<Props> {
+function Summary({ config, cycleNumber, saleInfo, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { currentRegionEnd, currentRegionStart } = getCurrentRegionStartEndTs(saleInfo, config);
 
@@ -43,10 +44,10 @@ function Summary ({ config, cycleNumber, saleInfo, status }: Props): React.React
           <div>{estimateTime(currentRegionEnd, status?.lastTimeslice * 80)}</div>
         </CardSummary>
         <CardSummary label={t('last block')}>
-          <div>{currentRegionEnd * 80}</div>
+          <div>{formatNumber(currentRegionEnd * 80)}</div>
         </CardSummary>
         <CardSummary label={t('last timeslice')}>
-          <div>{currentRegionEnd}</div>
+          <div>{formatNumber(currentRegionEnd)}</div>
         </CardSummary>
         {config && status &&
           <CardSummary
