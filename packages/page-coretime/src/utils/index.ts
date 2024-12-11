@@ -1,7 +1,7 @@
 // Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CoretimeInformation, PalletBrokerConfigRecord } from '@polkadot/react-hooks/types';
+import type { CoretimeInformation } from '@polkadot/react-hooks/types';
 import type { ChainName, RegionInfo } from '../types.js';
 
 import { CoreTimeChainConsts, CoreTimeConsts } from '@polkadot/react-hooks/types';
@@ -87,27 +87,6 @@ export const estimateTime = (targetTimeslice: string | number, latestBlock: numb
 };
 
 /**
- * Get the current sale number
- *
- * @param currentRegionEnd - The end of the current region
- * @param chainName - The name of the chain
- * @param config - broker.configuration call response
- *
- * @returns The current sale number
- */
-export const getCurrentSaleNumber = (
-  currentRegionEnd: number,
-  chainName: ChainName,
-  config: Pick<PalletBrokerConfigRecord, 'interludeLength' | 'leadinLength' | 'regionLength'>
-): number => {
-  if (!chainName || !currentRegionEnd) {
-    return -1;
-  }
-
-  return Math.ceil((currentRegionEnd - FirstCycleStart.timeslice.coretime[chainName]) / config.regionLength);
-};
-
-/**
  * Helper functions to convert timeslices to blocks and vice versa
  */
 export const get = {
@@ -149,3 +128,12 @@ export const getCurrentRegionStartEndTs = (saleInfo: RegionInfo, regionLength: n
 
 export const getAvailableNumberOfCores = (coretimeInfo: CoretimeInformation) =>
   Number(coretimeInfo?.salesInfo?.coresOffered) - Number(coretimeInfo?.salesInfo.coresSold);
+
+export const constructSubscanQuery = (blockStart: number, blockEnd: number, chainName: string, module = 'broker', call = 'purchase') => {
+  const page = 1;
+  const pageSize = 25;
+  const signed = 'all';
+  const baseURL = `https://coretime-${chainName}.subscan.io/extrinsic`;
+
+  return `${baseURL}?page=${page}&time_dimension=block&page_size=${pageSize}&module=${module}&signed=${signed}&call=${call}&block_start=${blockStart}&block_end=${blockEnd}`;
+};

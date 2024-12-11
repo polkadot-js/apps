@@ -12,9 +12,8 @@ import { formatBalance, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
 import { type ChainName, PhaseName } from '../types.js';
-import { calculateSaleDetails, constructSubscanQuery, getSaleParameters, getSaleProgress } from '../utils.js';
-import { estimateTime, get } from '../utils/index.js';
-import { getCorePriceAt } from '../utils/sale.js';
+import { constructSubscanQuery, estimateTime, get } from '../utils/index.js';
+import { calculateSaleDetails, getCorePriceAt, getSaleParameters, getSaleProgress } from '../utils/sale.js';
 import SaleTable from './SaleTable.js';
 import Summary from './Summary.js';
 
