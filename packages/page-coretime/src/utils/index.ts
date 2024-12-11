@@ -140,10 +140,10 @@ export const get = {
  *
  * @returns The start and end of the current region
  */
-export const getCurrentRegionStartEndTs = (saleInfo: RegionInfo, config: PalletBrokerConfigRecord) => {
+export const getCurrentRegionStartEndTs = (saleInfo: RegionInfo, regionLength: number) => {
   return {
     currentRegionEnd: saleInfo.regionBegin,
-    currentRegionStart: saleInfo.regionBegin - config.regionLength
+    currentRegionStart: saleInfo.regionBegin - regionLength
   };
 };
 

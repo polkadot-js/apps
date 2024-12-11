@@ -24,7 +24,7 @@ interface Props {
 
 function Summary ({ config, cycleNumber, saleInfo, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { currentRegionEnd, currentRegionStart } = getCurrentRegionStartEndTs(saleInfo, config);
+  const { currentRegionEnd, currentRegionStart } = getCurrentRegionStartEndTs(saleInfo, config.regionLength);
 
   return (
     <SummaryBox>

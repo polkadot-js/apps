@@ -73,8 +73,14 @@ export const getSaleParameters = (
   const interludeLengthTs = get.timeslices.coretime(config.interludeLength);
   const leadInLengthTs = get.timeslices.coretime(config.leadinLength);
 
-  const { currentRegionEnd, currentRegionStart } = getCurrentRegionStartEndTs(salesInfo, config);
-  const phaseConfig = getPhaseConfiguration(currentRegionStart, config.regionLength, interludeLengthTs, leadInLengthTs, lastCommittedTimeslice);
+  const { currentRegionEnd, currentRegionStart } = getCurrentRegionStartEndTs(salesInfo, config.regionLength);
+  const phaseConfig = getPhaseConfiguration(
+    currentRegionStart,
+    config.regionLength,
+    interludeLengthTs,
+    leadInLengthTs,
+    lastCommittedTimeslice
+  );
 
   const saleNumber = getCurrentSaleNumber(currentRegionEnd, chainName, config);
 
@@ -108,7 +114,7 @@ export const getPhaseConfiguration = (
   regionLength: number,
   interludeLengthTs: number,
   leadInLengthTs: number,
-  lastCommittedTimeslice: number): PhaseConfig | undefined => {
+  lastCommittedTimeslice: number): PhaseConfig => {
   const renewalsEndTs = currentRegionStart + interludeLengthTs;
   const priceDiscoveryEndTs = renewalsEndTs + leadInLengthTs;
   const fixedPriceLenght = regionLength - interludeLengthTs - leadInLengthTs;
