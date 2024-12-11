@@ -109,6 +109,17 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    info: 'autonomys-taurus-evm',
+    providers: {
+      Labs: 'wss://auto-evm.taurus.autonomys.xyz/ws'
+    },
+    text: 'Autonomys Taurus EVM',
+    ui: {
+      color: '#5870B3',
+      logo: nodesAutonomysPNG
+    }
+  },
+  {
     info: 'autonomys-taurus-testnet',
     providers: {
       'Labs 1': 'wss://rpc-0.taurus.subspace.network/ws',
