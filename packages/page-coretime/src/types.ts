@@ -76,4 +76,4 @@ export interface RegionInfo {
   regionEnd: number;
 }
 
-export type ChainName = 'kusama' | 'polkadot';
+export type ChainName = 'kusama' | 'polkadot' | 'paseo testnet' | 'westend'

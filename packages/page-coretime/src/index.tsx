@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TabItem } from '@polkadot/react-components/types';
+import type { ChainName } from './types.js';
 
 import React, { useRef } from 'react';
 import { Route, Routes } from 'react-router-dom';
@@ -37,7 +38,8 @@ function CoretimeApp ({ basePath, className }: Props): React.ReactElement<Props>
   const itemsRef = useRef(createItemsRef(t));
   const { api, isApiReady } = useApi();
   const coretimeInfo = useCoretimeInformation(api, isApiReady);
-  const chainName = useCall<string>(api?.rpc.system.chain)?.toString().toLowerCase();
+
+  const chainName = useCall<string>(api?.rpc.system.chain)?.toString().toLowerCase() as ChainName;
 
   return (
     <main className={className}>

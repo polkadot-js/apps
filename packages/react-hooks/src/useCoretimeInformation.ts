@@ -67,16 +67,21 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
   const [state, setState] = useState<CoretimeInformation | undefined>();
 
   useEffect(() => {
-    if (paraIds?.length && potentialRenewals?.length && !taskIds.length) {
+    if (paraIds?.length && !taskIds.length) {
       const simpleIds = paraIds.map((p) => Number(p));
       const renewalIds = potentialRenewals?.map((r) => Number(r.task));
-      const numbers = [...new Set(simpleIds.concat(renewalIds))];
 
-      if (numbers?.length > simpleIds.length) {
-        setTaskIds(numbers.sort((a, b) => a - b));
-      } else {
-        setTaskIds(simpleIds);
+      if (renewalIds) {
+        const numbers = [...new Set(simpleIds.concat(renewalIds))];
+
+        if (numbers?.length > simpleIds.length) {
+          setTaskIds(numbers.sort((a, b) => a - b));
+
+          return;
+        }
       }
+
+      setTaskIds(simpleIds);
     }
   }, [potentialRenewals, paraIds, taskIds]);
 
@@ -104,7 +109,7 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
   }, [workloads, coreInfos]);
 
   useEffect((): void => {
-    if (!workloadData?.length || !leases?.length || !reservations?.length) {
+    if (!workloadData?.length || !reservations?.length) {
       return;
     }
 
@@ -112,7 +117,7 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
 
     taskIds?.forEach((id) => {
       const taskId = id.toString();
-      const lease = leases?.find((lease) => lease.task === taskId);
+      const lease = leases?.length ? leases?.find((lease) => lease.task === taskId) : undefined;
       const reservation = reservations?.find((reservation) => reservation.task === taskId);
       const workloads = workloadData?.filter((one) => one.info.task === taskId);
 

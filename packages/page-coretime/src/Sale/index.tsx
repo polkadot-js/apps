@@ -13,7 +13,7 @@ import { formatBalance, formatNumber } from '@polkadot/util';
 import { useTranslation } from '../translate.js';
 import { type ChainName, PhaseName } from '../types.js';
 import { calculateSaleDetails, constructSubscanQuery, getSaleParameters, getSaleProgress } from '../utils.js';
-import { estimateTime, getAvailableNumberOfCores } from '../utils/index.js';
+import { estimateTime } from '../utils/index.js';
 import { getCorePriceAt } from '../utils/sale.js';
 import SaleTable from './SaleTable.js';
 import Summary from './Summary.js';
@@ -51,7 +51,8 @@ function Sale ({ chainName, coretimeInfo }: Props): React.ReactElement<Props> {
   const progressValues = useMemo(() => getSaleProgress(lastCommittedTimeslice, saleParams.currentRegion.start.ts, saleParams.interlude.ts, saleParams.leadin.ts, regionBegin),
     [saleParams, lastCommittedTimeslice, regionBegin]);
 
-  const available = getAvailableNumberOfCores(coretimeInfo);
+  // TODO: uncomment when introducing core purchase functionality
+  // const available = getAvailableNumberOfCores(coretimeInfo);
 
   const onDropDownChange = useCallback((value: number) => {
     setChosenSaleNumber(value);
@@ -85,18 +86,17 @@ function Sale ({ chainName, coretimeInfo }: Props): React.ReactElement<Props> {
               : (
                 <CardSummary label='current price'>{formatBalance(coretimePrice)}</CardSummary>
               )}
-            {/* {!!available && <CardSummary label="cores avaiable">{available}</CardSummary>}
-                        {!available && <p style={{ fontSize: '12px' }}> Currently there are no cores available for purchase</p>} */}
 
           </SummaryBox>
-          {!!available && <div style={{ marginTop: '8px' }}>
-            <Button
-              isBasic
-              isDisabled={!available || phaseName === PhaseName.Renewals}
-              label={t('Purchase a core')}
-              onClick={() => window.alert('yo')}
-            />
-          </div>}
+          {/* TODO: Add core purchase functionality */}
+          {/* {<div style={{ marginTop: '8px' }}>
+                        <Button
+                            isBasic
+                            isDisabled={!available || phaseName === PhaseName.Renewals}
+                            label={t('Purchase a core')}
+                            onClick={() => window.alert('yo')}
+                        />
+                    </div>} */}
         </div>
         <div style={{ backgroundColor: 'white', borderRadius: '4px', justifySelf: 'left', padding: '24px', width: 'fit-content' }}>
           <SummaryBox>

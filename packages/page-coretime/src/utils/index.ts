@@ -7,20 +7,30 @@ import type { ChainName, RegionInfo } from '../types.js';
 import { CoreTimeChainConsts, CoreTimeConsts } from '@polkadot/react-hooks/types';
 import { BN } from '@polkadot/util';
 
-type FirstCycleStartType = Record<'block' | 'timeslice', Record<'coretime', Record<'kusama' | 'polkadot', number>>>;
+type FirstCycleStartType = Record<
+'block' | 'timeslice',
+Record<
+'coretime',
+Record<ChainName, number>
+>
+>;
 
 // Blocks on the Coretime Chain
 export const FirstCycleStart: FirstCycleStartType = {
   block: {
     coretime: {
       kusama: 86947,
-      polkadot: 100988
+      'paseo testnet': 22316,
+      polkadot: 100988,
+      westend: 7363
     }
   },
   timeslice: {
     coretime: {
       kusama: 285768,
-      polkadot: 282525
+      'paseo testnet': 38469,
+      polkadot: 282525,
+      westend: 245402
     }
   }
 };

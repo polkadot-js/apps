@@ -4,11 +4,10 @@
 import type { ApiPromise } from '@polkadot/api';
 import type { BrokerStatus, CoreDescription, PalletBrokerConfigRecord, PalletBrokerSaleInfoRecord, RegionInfo } from '@polkadot/react-hooks/types';
 
-import { formatNumber } from 'chart.js/helpers';
 import React from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
-import { BN } from '@polkadot/util';
+import { BN, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
 import { estimateTime, getCurrentRegionStartEndTs } from '../utils/index.js';
@@ -23,7 +22,7 @@ interface Props {
   cycleNumber: number
 }
 
-function Summary({ config, cycleNumber, saleInfo, status }: Props): React.ReactElement<Props> {
+function Summary ({ config, cycleNumber, saleInfo, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { currentRegionEnd, currentRegionStart } = getCurrentRegionStartEndTs(saleInfo, config);
 

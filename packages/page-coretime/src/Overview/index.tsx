@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CoretimeInformation } from '@polkadot/react-hooks/types';
+import type { ChainName } from '../types.js';
 
 import React from 'react';
 
@@ -11,7 +12,7 @@ import Summary from './Summary.js';
 interface Props {
   className?: string;
   coretimeInfo: CoretimeInformation
-  chainName: string
+  chainName: ChainName
 }
 
 function Overview ({ chainName, className, coretimeInfo }: Props): React.ReactElement<Props> {
