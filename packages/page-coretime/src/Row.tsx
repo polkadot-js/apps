@@ -10,7 +10,7 @@ import { ParaLink, styled, Tag } from '@polkadot/react-components';
 import { ChainRenewalStatus } from '@polkadot/react-hooks/types';
 import { BN, formatBalance, formatNumber } from '@polkadot/util';
 
-import { estimateTime } from './utils/index.js';
+import { estimateTime, get } from './utils/index.js';
 import { CoreTimeTypes } from './types.js';
 
 interface Props {
@@ -57,11 +57,11 @@ function Row ({ chainRecord, highlight = false, id, lastCommittedTimeslice, leas
       <StyledCell
         $p={highlight}
         className='media--800'
-      >{showEstimates && formatNumber(targetTimeslice * 80).toString()}</StyledCell>
+      >{showEstimates && formatNumber(get.blocks.relay(targetTimeslice)).toString()}</StyledCell>
       <StyledCell
         $p={highlight}
         className='media--1000'
-      >{showEstimates && estimateTime(targetTimeslice, lastCommittedTimeslice * 80)}</StyledCell>
+      >{showEstimates && estimateTime(targetTimeslice, get.blocks.relay(lastCommittedTimeslice))}</StyledCell>
       <StyledCell
         $p={highlight}
         className='media--1200'

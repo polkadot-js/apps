@@ -10,7 +10,7 @@ import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { BN } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import { estimateTime, FirstCycleStart } from '../utils/index.js';
+import { estimateTime, FirstCycleStart, get } from '../utils/index.js';
 
 interface Props {
   coreDscriptors?: CoreDescription[];
@@ -70,8 +70,8 @@ function Summary ({ chainName, config, parachainCount, saleInfo, status }: Props
         {status &&
           (<CardSummary label={t('cycle dates')}>
             <div>
-              <div style={{ fontSize: '14px' }}>{estimateTime(currentRegionStart, status?.lastTimeslice * 80)}</div>
-              <div style={{ fontSize: '14px' }}>{estimateTime(currentRegionEnd, status?.lastTimeslice * 80)}</div>
+              <div style={{ fontSize: '14px' }}>{estimateTime(currentRegionStart, get.blocks.relay(status?.lastTimeslice))}</div>
+              <div style={{ fontSize: '14px' }}>{estimateTime(currentRegionEnd, get.blocks.relay(status?.lastTimeslice))}</div>
             </div>
           </CardSummary>)
         }

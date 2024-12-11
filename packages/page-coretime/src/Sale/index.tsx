@@ -13,7 +13,7 @@ import { formatBalance, formatNumber } from '@polkadot/util';
 import { useTranslation } from '../translate.js';
 import { type ChainName, PhaseName } from '../types.js';
 import { calculateSaleDetails, constructSubscanQuery, getSaleParameters, getSaleProgress } from '../utils.js';
-import { estimateTime } from '../utils/index.js';
+import { estimateTime, get } from '../utils/index.js';
 import { getCorePriceAt } from '../utils/sale.js';
 import SaleTable from './SaleTable.js';
 import Summary from './Summary.js';
@@ -29,7 +29,7 @@ function Sale ({ chainName, coretimeInfo }: Props): React.ReactElement<Props> {
   const { salesInfo: { regionBegin },
     status: { lastCommittedTimeslice } } = coretimeInfo;
 
-  const coretimePrice = useMemo(() => getCorePriceAt(lastCommittedTimeslice * 80, coretimeInfo.salesInfo), [lastCommittedTimeslice, coretimeInfo.salesInfo]);
+  const coretimePrice = useMemo(() => getCorePriceAt(get.blocks.relay(lastCommittedTimeslice), coretimeInfo.salesInfo), [lastCommittedTimeslice, coretimeInfo.salesInfo]);
   const saleParams = coretimeInfo && getSaleParameters(coretimeInfo.salesInfo, coretimeInfo.config, chainName, lastCommittedTimeslice);
   const phaseName = useMemo(() => saleParams?.phaseConfig?.currentPhaseName, [saleParams]);
   const [chosenSaleNumber, setChosenSaleNumber] = useState<number>(-1);
@@ -47,7 +47,7 @@ function Sale ({ chainName, coretimeInfo }: Props): React.ReactElement<Props> {
     ]
   , [saleParams, t]);
 
-  const saleDetails = useMemo(() => chosenSaleNumber !== -1 ? calculateSaleDetails(chosenSaleNumber, saleParams?.cycleNumber, coretimeInfo.status.lastTimeslice * 80, chainName, coretimeInfo.config.regionLength, saleParams) : null, [chosenSaleNumber, saleParams, coretimeInfo, chainName]);
+  const saleDetails = useMemo(() => chosenSaleNumber !== -1 ? calculateSaleDetails(chosenSaleNumber, saleParams?.cycleNumber, get.blocks.relay(coretimeInfo.status.lastTimeslice), chainName, coretimeInfo.config.regionLength, saleParams) : null, [chosenSaleNumber, saleParams, coretimeInfo, chainName]);
   const progressValues = useMemo(() => getSaleProgress(lastCommittedTimeslice, saleParams.currentRegion.start.ts, saleParams.interlude.ts, saleParams.leadin.ts, regionBegin),
     [saleParams, lastCommittedTimeslice, regionBegin]);
 
@@ -102,7 +102,7 @@ function Sale ({ chainName, coretimeInfo }: Props): React.ReactElement<Props> {
           <SummaryBox>
             <section>
               <CardSummary label='current phase'>{phaseName && phaseName}</CardSummary>
-              <CardSummary label='current phase end'>{phaseName && saleParams?.phaseConfig && estimateTime(saleParams.phaseConfig.config[phaseName].lastTimeslice, coretimeInfo.status.lastTimeslice * 80)}</CardSummary>
+              <CardSummary label='current phase end'>{phaseName && saleParams?.phaseConfig && estimateTime(saleParams.phaseConfig.config[phaseName].lastTimeslice, get.blocks.relay(coretimeInfo.status.lastTimeslice))}</CardSummary>
               <CardSummary label='last block'>{phaseName && formatNumber(saleParams?.phaseConfig?.config[phaseName].lastBlock)}</CardSummary>
               <CardSummary label='fixed price'>{formatBalance(coretimeInfo?.salesInfo.endPrice)}</CardSummary>
               <CardSummary label='sellout price'>{formatBalance(coretimeInfo?.salesInfo.selloutPrice)}</CardSummary>

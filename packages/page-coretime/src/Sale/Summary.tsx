@@ -10,7 +10,7 @@ import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { BN, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-import { estimateTime, getCurrentRegionStartEndTs } from '../utils/index.js';
+import { estimateTime, get, getCurrentRegionStartEndTs } from '../utils/index.js';
 
 interface Props {
   api: ApiPromise | null,
@@ -40,10 +40,10 @@ function Summary ({ config, cycleNumber, saleInfo, status }: Props): React.React
           {`${saleInfo?.coresSold} / ${saleInfo?.coresOffered}`}
         </CardSummary>
         <CardSummary label={t('sale end')}>
-          <div>{estimateTime(currentRegionEnd, status?.lastTimeslice * 80)}</div>
+          <div>{estimateTime(currentRegionEnd, get.blocks.relay(status?.lastTimeslice))}</div>
         </CardSummary>
         <CardSummary label={t('last block')}>
-          <div>{formatNumber(currentRegionEnd * 80)}</div>
+          <div>{formatNumber(get.blocks.relay(currentRegionEnd))}</div>
         </CardSummary>
         <CardSummary label={t('last timeslice')}>
           <div>{formatNumber(currentRegionEnd)}</div>
@@ -65,8 +65,8 @@ function Summary ({ config, cycleNumber, saleInfo, status }: Props): React.React
         {status &&
           (<CardSummary label={t('cycle dates')}>
             <div>
-              <div style={{ fontSize: '14px' }}>{estimateTime(currentRegionStart, status?.lastTimeslice * 80)}</div>
-              <div style={{ fontSize: '14px' }}>{estimateTime(currentRegionEnd, status?.lastTimeslice * 80)}</div>
+              <div style={{ fontSize: '14px' }}>{estimateTime(currentRegionStart, get.blocks.relay(status?.lastTimeslice))}</div>
+              <div style={{ fontSize: '14px' }}>{estimateTime(currentRegionEnd, get.blocks.relay(status?.lastTimeslice))}</div>
             </div>
           </CardSummary>)
         }
