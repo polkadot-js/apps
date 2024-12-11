@@ -32,7 +32,7 @@ function Summary ({ config, cycleNumber, saleInfo, status }: Props): React.React
         {status &&
           <CardSummary label={t('sale number')}>
             <div>
-              {cycleNumber}
+              {cycleNumber > -1 ? cycleNumber : '-'}
             </div>
           </CardSummary>
         }

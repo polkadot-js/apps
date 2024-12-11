@@ -2,15 +2,27 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CoretimeInformation, PalletBrokerConfigRecord } from '@polkadot/react-hooks/types';
-import type { RegionInfo } from '../types.js';
+import type { ChainName, RegionInfo } from '../types.js';
 
 import { CoreTimeChainConsts, CoreTimeConsts } from '@polkadot/react-hooks/types';
 import { BN } from '@polkadot/util';
 
+type FirstCycleStartType = Record<'block' | 'timeslice', Record<'coretime', Record<'kusama' | 'polkadot', number>>>;
+
 // Blocks on the Coretime Chain
-export const FirstCycleStart: Record<string, number> = {
-  kusama: 285768,
-  polkadot: 282525
+export const FirstCycleStart: FirstCycleStartType = {
+  block: {
+    coretime: {
+      kusama: 86947,
+      polkadot: 100988
+    }
+  },
+  timeslice: {
+    coretime: {
+      kusama: 285768,
+      polkadot: 282525
+    }
+  }
 };
 
 export function formatDate (date: Date) {
@@ -75,14 +87,14 @@ export const estimateTime = (targetTimeslice: string | number, latestBlock: numb
  */
 export const getCurrentSaleNumber = (
   currentRegionEnd: number,
-  chainName: string,
+  chainName: ChainName,
   config: Pick<PalletBrokerConfigRecord, 'interludeLength' | 'leadinLength' | 'regionLength'>
 ): number => {
   if (!chainName || !currentRegionEnd) {
-    return 0;
+    return -1;
   }
 
-  return Math.floor((currentRegionEnd - FirstCycleStart[chainName]) / config.regionLength) + 1;
+  return Math.ceil((currentRegionEnd - FirstCycleStart.timeslice.coretime[chainName]) / config.regionLength);
 };
 
 /**

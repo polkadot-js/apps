@@ -16,7 +16,7 @@ interface Props {
 function SaleTable ({ saleDetails }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t(`details for sale ${saleDetails.saleNumber}`), 'start'],
+    [],
     [t('Dates'), 'start media--800'],
     [t('Blocks (relay)'), 'start'],
     [t('Blocks(coretime)'), 'start'],

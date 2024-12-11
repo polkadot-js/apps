@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CoretimeInformation } from '@polkadot/react-hooks/types';
+import type { ChainName } from '../types.js';
 
 import React, { useCallback, useMemo, useState } from 'react';
 
@@ -18,7 +19,7 @@ import Summary from './Summary.js';
 
 interface Props {
   coretimeInfo: CoretimeInformation
-  chainName: string
+  chainName: ChainName
 }
 
 function Sale ({ chainName, coretimeInfo }: Props): React.ReactElement<Props> {
@@ -44,7 +45,7 @@ function Sale ({ chainName, coretimeInfo }: Props): React.ReactElement<Props> {
     ]
   , [saleParams, t]);
 
-  const saleDetails = useMemo(() => calculateSaleDetails(chosenSaleNumber, saleParams?.cycleNumber, coretimeInfo.status.lastTimeslice * 80, chainName, coretimeInfo.config.regionLength, saleParams), [chosenSaleNumber, saleParams, coretimeInfo, chainName]);
+  const saleDetails = useMemo(() => chosenSaleNumber !== -1 ? calculateSaleDetails(chosenSaleNumber, saleParams?.cycleNumber, coretimeInfo.status.lastTimeslice * 80, chainName, coretimeInfo.config.regionLength, saleParams) : null, [chosenSaleNumber, saleParams, coretimeInfo, chainName]);
   const progressValues = useMemo(() => getSaleProgress(lastCommittedTimeslice, saleParams.currentRegion.start.ts, saleParams.interlude.ts, saleParams.leadin.ts, regionBegin),
     [saleParams, lastCommittedTimeslice, regionBegin]);
 
@@ -129,7 +130,7 @@ function Sale ({ chainName, coretimeInfo }: Props): React.ReactElement<Props> {
                                 The button below will open a new tab with the correct query parameters for the chosen sale.</p>
               <Button
                 isBasic
-                label={t(`Query Subscan for sale #${chosenSaleNumber}`)}
+                label={t(`Query Subscan for sale #${chosenSaleNumber + 1}`)}
                 onClick={onQuerySaleClick}
               />
             </div>

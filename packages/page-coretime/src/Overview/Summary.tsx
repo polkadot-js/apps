@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BrokerStatus, CoreDescription, PalletBrokerConfigRecord, PalletBrokerSaleInfoRecord, RegionInfo } from '@polkadot/react-hooks/types';
+import type { ChainName } from '../types.js';
 
 import React, { useMemo } from 'react';
 
@@ -18,7 +19,7 @@ interface Props {
   region: RegionInfo[],
   status: BrokerStatus,
   parachainCount: number
-  chainName: string
+  chainName: ChainName
 }
 
 function Summary ({ chainName, config, parachainCount, saleInfo, status }: Props): React.ReactElement<Props> {
@@ -26,9 +27,15 @@ function Summary ({ chainName, config, parachainCount, saleInfo, status }: Props
   const currentRegionEnd = saleInfo.regionEnd - config.regionLength;
   const currentRegionStart = saleInfo.regionEnd - config.regionLength * 2;
 
-  const cycleNumber = useMemo(() =>
-    chainName && currentRegionEnd && Math.floor((currentRegionEnd - FirstCycleStart[chainName]) / config.regionLength)
-  , [currentRegionEnd, chainName, config]);
+  const cycleNumber = useMemo(() => {
+    if (chainName && currentRegionEnd) {
+      return Math.floor(
+        (currentRegionEnd - FirstCycleStart.timeslice.coretime[chainName]) / config.regionLength
+      );
+    }
+
+    return undefined;
+  }, [currentRegionEnd, chainName, config]);
 
   return (
     <SummaryBox>

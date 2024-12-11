@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletBrokerConfigRecord } from '@polkadot/react-hooks/types';
-import type { PhaseConfig, PhaseProgress, RegionInfo, SaleDetails, SaleParameters } from './types.js';
+import type { ChainName, PhaseConfig, PhaseProgress, RegionInfo, SaleDetails, SaleParameters } from './types.js';
 
 import { estimateTime, FirstCycleStart, get, getCurrentRegionStartEndTs, getCurrentSaleNumber } from './utils/index.js';
 import { PhaseName } from './types.js';
@@ -11,18 +11,22 @@ export function calculateSaleDetails (
   saleNumber: number,
   currentSaleNumber: number,
   latestBlock: number,
-  chainName: string,
+  chainName: ChainName,
   regionLength: number,
-  saleParams: any
-): SaleDetails {
+  saleParams: SaleParameters
+): SaleDetails | null {
+  if (saleNumber === -1) {
+    return null;
+  }
+
   const blocksPerSaleRelay = get.blocks.relay(regionLength);
-  const saleStartBlock = saleParams.currentRegion.start.blocks - blocksPerSaleRelay * (currentSaleNumber - saleNumber);
+  const saleStartBlock = saleParams.currentRegion.start.blocks - blocksPerSaleRelay * (currentSaleNumber - saleNumber - 1);
   const saleEndBlock = saleStartBlock + blocksPerSaleRelay;
 
   const saleStartTs = get.timeslices.relay(saleStartBlock);
   const saleEndTs = get.timeslices.relay(saleEndBlock);
 
-  const saleStartBlockCoretime = FirstCycleStart[chainName] + get.blocks.coretime((saleNumber) * regionLength);
+  const saleStartBlockCoretime = FirstCycleStart.block.coretime[chainName] + get.blocks.coretime((saleNumber) * regionLength);
   const saleEndBlockCoretime = saleStartBlockCoretime + get.blocks.coretime(regionLength);
 
   const data = {
@@ -62,7 +66,7 @@ export const constructSubscanQuery = (blockStart: number, blockEnd: number, chai
 export const getSaleParameters = (
   salesInfo: RegionInfo,
   config: Pick<PalletBrokerConfigRecord, 'interludeLength' | 'leadinLength' | 'regionLength'>,
-  chainName: string,
+  chainName: ChainName,
   lastCommittedTimeslice: number
 ): SaleParameters => {
   // The sale is happening on the coretime chain, so we need to convert the timeslices to blocks (40 blocks per timeslice)

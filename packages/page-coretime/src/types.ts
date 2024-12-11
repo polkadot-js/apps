@@ -75,3 +75,5 @@ export interface RegionInfo {
   regionBegin: number;
   regionEnd: number;
 }
+
+export type ChainName = 'kusama' | 'polkadot';
