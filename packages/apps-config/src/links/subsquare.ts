@@ -9,7 +9,9 @@ import { externalSubsquareSVG } from '../ui/logos/external/index.js';
 export const Subsquare: ExternalDef = {
   chains: {
     Acala: 'acala',
+    'Ajuna Polkadot': 'ajuna',
     Altair: 'altair',
+    Astar: 'astar',
     Basilisk: 'basilisk',
     Bifrost: 'bifrost-kusama',
     'Bifrost Polkadot': 'bifrost-polkadot',
@@ -22,9 +24,9 @@ export const Subsquare: ExternalDef = {
     Khala: 'khala',
     Kusama: 'kusama',
     Litentry: 'litentry',
+    'Paseo Testnet': 'paseo',
     Phala: 'phala',
     Polkadot: 'polkadot',
-    Rococo: 'rococo',
     'Shibuya Testnet': 'shibuya',
     'Vara Network': 'vara',
     Westend: 'westend',
