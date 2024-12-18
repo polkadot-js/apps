@@ -33,6 +33,7 @@ function ParachainsTable ({ coretimeInfo }: Props): React.ReactElement<Props> {
       header={headerRef.current}
       isSplit={false}
     >
+
       {coretimeInfo?.taskIds?.map((taskId: number) => {
         const chain = coretimeInfo.chainInfo[taskId];
 
