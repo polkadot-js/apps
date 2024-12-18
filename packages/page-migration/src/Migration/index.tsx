@@ -92,6 +92,11 @@ function MigrationApp ({ className }): React.ReactElement {
         className='warning centered'
         content={t<string>('Migrating your Dock balance to cheqd will zero the balance on your Dock account.')}
       />
+
+      <MarkWarning
+        className='warning centered'
+        content={t<string>('During the holiday period migrations will be delayed and will resume back to normal frequency on the 6th of January, 2025')}
+      />
       
       <p style={{
         fontSize: '18px',
