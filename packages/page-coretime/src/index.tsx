@@ -2,14 +2,16 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TabItem } from '@polkadot/react-components/types';
+import type { ChainName } from './types.js';
 
 import React, { useRef } from 'react';
+import { Route, Routes } from 'react-router-dom';
 
 import { Tabs } from '@polkadot/react-components';
-import { useApi, useCoretimeInformation } from '@polkadot/react-hooks';
+import { useApi, useCall, useCoretimeInformation } from '@polkadot/react-hooks';
 
-import Summary from './Overview/Summary.js';
-import ParachainsTable from './ParachainsTable.js';
+import Overview from './Overview/index.js';
+import Sale from './Sale/index.js';
 import { useTranslation } from './translate.js';
 
 interface Props {
@@ -23,15 +25,21 @@ function createItemsRef (t: (key: string, options?: { replace: Record<string, un
       isRoot: true,
       name: 'overview',
       text: t('Overview')
+    },
+    {
+      name: 'sale',
+      text: t('Sale')
     }
   ];
 }
 
 function CoretimeApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api, isApiReady } = useApi();
   const itemsRef = useRef(createItemsRef(t));
+  const { api, isApiReady } = useApi();
   const coretimeInfo = useCoretimeInformation(api, isApiReady);
+
+  const chainName = useCall<string>(api?.rpc.system.chain)?.toString().toLowerCase() as ChainName;
 
   return (
     <main className={className}>
@@ -39,22 +47,32 @@ function CoretimeApp ({ basePath, className }: Props): React.ReactElement<Props>
         basePath={basePath}
         items={itemsRef.current}
       />
-      {coretimeInfo && (
-        <Summary
-          api={isApiReady ? api : null}
-          config={coretimeInfo?.config}
-          parachainCount={coretimeInfo.taskIds?.length || 0}
-          region={coretimeInfo?.region}
-          saleInfo={coretimeInfo?.salesInfo}
-          status={coretimeInfo?.status}
-        />
-      )}
-      {!!coretimeInfo &&
-        <ParachainsTable
-          coretimeInfo={coretimeInfo}
-        />
-      }
-
+      <Routes>
+        <Route path={basePath}>
+          <Route
+            element={
+              coretimeInfo && (
+                <Overview
+                  chainName={chainName}
+                  coretimeInfo={coretimeInfo}
+                />
+              )
+            }
+            index
+          />
+          <Route
+            element={
+              coretimeInfo && (
+                <Sale
+                  chainName={chainName}
+                  coretimeInfo={coretimeInfo}
+                />
+              )
+            }
+            path='sale'
+          />
+        </Route>
+      </Routes>
     </main>
   );
 }

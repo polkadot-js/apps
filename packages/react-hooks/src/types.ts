@@ -344,6 +344,7 @@ export interface CoretimeInformation {
   region: RegionInfo[],
   config: PalletBrokerConfigRecord
   taskIds: number[]
+  blockTimeMs: number
 }
 
 export interface BrokerStatus {
@@ -384,5 +385,6 @@ export const CoreTimeConsts = {
 };
 
 export const CoreTimeChainConsts = {
+  BlockTime: 12000,
   BlocksPerTimeslice: 40
 };

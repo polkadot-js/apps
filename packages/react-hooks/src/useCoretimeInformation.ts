@@ -6,8 +6,8 @@ import type { ChainInformation, CoretimeInformation, CoreWorkload, CoreWorkloadI
 
 import { useEffect, useMemo, useState } from 'react';
 
-import { createNamedHook, useApi, useBrokerConfig, useBrokerLeases, useBrokerReservations, useBrokerSalesInfo, useBrokerStatus, useCoreDescriptor, useRegions, useWorkloadInfos, useWorkplanInfos } from '@polkadot/react-hooks';
-import { BN } from '@polkadot/util';
+import { createNamedHook, useApi, useBlockTime, useBrokerConfig, useBrokerLeases, useBrokerReservations, useBrokerSalesInfo, useBrokerStatus, useCoreDescriptor, useRegions, useWorkloadInfos, useWorkplanInfos } from '@polkadot/react-hooks';
+import { BN, BN_ONE } from '@polkadot/util';
 
 import { ChainRenewalStatus, CoreTimeChainConsts, CoreTimeTypes } from './types.js';
 import { useBrokerPotentialRenewals } from './useBrokerPotentialRenewals.js';
@@ -38,6 +38,8 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
   const region = useRegions(apiCoretime);
 
   /** Other APIs */
+  const [blockTimeMs] = useBlockTime(BN_ONE, apiCoretime);
+
   const coreInfos = useCoreDescriptor(api, ready);
   const paraIds = useMemo(() => coreInfos && [...new Set(coreInfos?.map((a) => a.info.currentWork.assignments.map((ass) => ass.task)).flat().filter((id) => id !== 'Pool'))], [coreInfos]);
 
@@ -65,16 +67,21 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
   const [state, setState] = useState<CoretimeInformation | undefined>();
 
   useEffect(() => {
-    if (paraIds?.length && potentialRenewals?.length && !taskIds.length) {
+    if (paraIds?.length && !taskIds.length) {
       const simpleIds = paraIds.map((p) => Number(p));
       const renewalIds = potentialRenewals?.map((r) => Number(r.task));
-      const numbers = [...new Set(simpleIds.concat(renewalIds))];
 
-      if (numbers?.length > simpleIds.length) {
-        setTaskIds(numbers.sort((a, b) => a - b));
-      } else {
-        setTaskIds(simpleIds);
+      if (renewalIds) {
+        const numbers = [...new Set(simpleIds.concat(renewalIds))];
+
+        if (numbers?.length > simpleIds.length) {
+          setTaskIds(numbers.sort((a, b) => a - b));
+
+          return;
+        }
       }
+
+      setTaskIds(simpleIds);
     }
   }, [potentialRenewals, paraIds, taskIds]);
 
@@ -102,7 +109,7 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
   }, [workloads, coreInfos]);
 
   useEffect((): void => {
-    if (!workloadData?.length || !leases?.length || !reservations?.length) {
+    if (!workloadData?.length || !reservations?.length) {
       return;
     }
 
@@ -110,7 +117,7 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
 
     taskIds?.forEach((id) => {
       const taskId = id.toString();
-      const lease = leases?.find((lease) => lease.task === taskId);
+      const lease = leases?.length ? leases?.find((lease) => lease.task === taskId) : undefined;
       const reservation = reservations?.find((reservation) => reservation.task === taskId);
       const workloads = workloadData?.filter((one) => one.info.task === taskId);
 
@@ -141,6 +148,7 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
 
     if (chainInfo && config && region && salesInfo && status) {
       setState({
+        blockTimeMs,
         chainInfo,
         config,
         region,
@@ -149,7 +157,7 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
         taskIds
       });
     }
-  }, [taskIds, workloadData, potentialRenewalsCurrentRegion, salesInfo, leases, reservations, region, status, config, workplans]);
+  }, [taskIds, workloadData, potentialRenewalsCurrentRegion, salesInfo, leases, reservations, region, status, config, workplans, blockTimeMs]);
 
   return state;
 }
