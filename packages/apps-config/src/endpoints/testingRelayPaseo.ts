@@ -237,6 +237,19 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://neuroweb.ai',
+    info: 'NeuroWeb',
+    paraId: 2043,
+    providers: {
+      TraceLabs: 'wss://parachain-testnet-rpc.origin-trail.network/'
+    },
+    text: 'NeuroWeb Testnet',
+    ui: {
+      color: '#646566',
+      logo: chainsNeurowebTestnetPNG
+    }
+  },
+  {
     homepage: 'https://mandalachain.io',
     info: 'Niskala',
     paraId: 4022,
@@ -248,19 +261,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#0036ac',
       logo: nodesMandalaPNG
-    }
-  },
-  {
-    homepage: 'https://neuroweb.ai',
-    info: 'NeuroWeb',
-    paraId: 2043,
-    providers: {
-      TraceLabs: 'wss://parachain-testnet-rpc.origin-trail.network/'
-    },
-    text: 'NeuroWeb Testnet',
-    ui: {
-      color: '#646566',
-      logo: chainsNeurowebTestnetPNG
     }
   },
   {
