@@ -27,7 +27,7 @@ export const CustomTheme = createGlobalStyle`
     .apps--SideBar-logo-inner {
       width: 160px;
       height: 60px;
-      background: url('./assets/images/logo.png') no-repeat left center;
+      background: url('./assets/images/logo.svg') no-repeat left center;
       background-size: 36px;
 
       img, .info, svg {
@@ -196,6 +196,10 @@ export const CustomTheme = createGlobalStyle`
     .ui--Button.isBasic:not(.isDisabled):not(.isIcon):not(.isSelected) .ui--Icon {
       color: ${primaryColor} !important;
     }
+  }
+
+  .ui--NodeInfo {
+    display: none;
   }
 
 `; 
