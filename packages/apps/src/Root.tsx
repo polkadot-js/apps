@@ -13,6 +13,7 @@ import { ApiStatsCtxRoot, BlockAuthorsCtxRoot, BlockEventsCtxRoot, KeyringCtxRoo
 import { settings } from '@polkadot/ui-settings';
 
 import Apps from './Apps.js';
+import { QNFTheme } from './ QNFTheme.js';
 
 interface Props {
   isElectron: boolean;
@@ -40,6 +41,7 @@ function Root ({ isElectron, store }: Props): React.ReactElement<Props> {
   // i.e. Block* depends on Api. Certainly no cross-deps allowed
   return (
     <Suspense fallback='...'>
+      <QNFTheme />
       <ThemeProvider theme={theme}>
         <QueueCtxRoot>
           <ApiCtxRoot
