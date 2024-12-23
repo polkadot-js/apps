@@ -10,7 +10,7 @@ const headerTextColor = '#000000';
 const menuSeparatorColor = '#A8A8A8';
 const menuActiveColor = '#565050';
 
-export const QNFTheme = createGlobalStyle`
+export const QFNTheme = createGlobalStyle`
   #root {
 
     a {
