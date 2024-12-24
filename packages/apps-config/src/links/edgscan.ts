@@ -10,7 +10,7 @@ export const Edgscan: ExternalDef = {
   chains: {
     Edgeware: 'edgeware'
   },
-  create: (path: string, data: BN | number | string): string =>
+  create: (_chain: string, path: string, data: BN | number | string): string =>
     `https://edgscan.ink/#/${path}/${data.toString()}`,
   homepage: 'https://edgscan.ink/',
   isActive: true,
