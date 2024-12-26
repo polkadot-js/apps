@@ -198,8 +198,11 @@ export const QFNTheme = createGlobalStyle`
     }
   }
 
-  .ui--NodeInfo {
-    display: none;
+  // HIDE NOT NEEDED COMPONENTS
+  .ui--NodeInfo,
+  .ui--Sidebar,
+  .menuSection.media--1200 {
+    display: none !important;
   }
 
 `; 

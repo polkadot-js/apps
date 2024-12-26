@@ -15,6 +15,10 @@ interface Props {
   className?: string;
 }
 
+function goToHome () {
+  window.location.href = '/';
+}
+
 function ChainInfo ({ className }: Props): React.ReactElement<Props> {
   const { api, isApiReady } = useApi();
   const runtimeVersion = useCall<RuntimeVersion>(isApiReady && api.rpc.state.subscribeRuntimeVersion);
@@ -26,7 +30,8 @@ function ChainInfo ({ className }: Props): React.ReactElement<Props> {
     <StyledDiv className={className}>
       <div
         className={`apps--SideBar-logo-inner${canToggle ? ' isClickable' : ''} highlight--color-contrast`}
-        onClick={toggleEndpoints}
+        // onClick={toggleEndpoints} Commented left sidebar toggle
+        onClick={goToHome}
       >
         <ChainImg />
         <div className='info media--1000'>
