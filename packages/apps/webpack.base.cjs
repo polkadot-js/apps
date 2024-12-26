@@ -136,7 +136,7 @@ function createWebpack (context, mode = 'production') {
         'process.env': {
           NODE_ENV: JSON.stringify(mode),
           //TODO: replace to ENV JSON.stringify(process.env.WS_URL)
-          WS_URL: 'wss://dev.qfnetwork.xyz/'
+          WS_URL: JSON.stringify('wss://dev.qfnetwork.xyz')
         }
       }),
       new webpack.optimize.SplitChunksPlugin(),
