@@ -205,4 +205,33 @@ export const QFNTheme = createGlobalStyle`
     display: none !important;
   }
 
+  // NOTICE ON THE TOP RIGHT SIDE
+  .apps--notice {
+    display: none;
+
+    @media (min-width: 1150px) {
+      display: block;
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      min-width: 315px;
+      padding: 4px 4px 4px 20px;
+      background: ${primaryColor};
+      color: ${menuItemColor};
+      border: 1px solid ${secondaryColor};
+      font-size: 12px;
+      min-height: 63px;
+      opacity: 0.7;
+      z-index: 1000;
+    }
+
+    strong {
+      font-weight: normal;
+      color: ${secondaryColor};
+      display: block;
+      padding: 0;
+      margin: 2px 0 4px 0;
+    }
+  }
+
 `; 
