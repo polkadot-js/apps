@@ -10,14 +10,20 @@ const baseConfig = require('./webpack.base.cjs');
 module.exports = merge(
   baseConfig(__dirname, 'development'),
   {
-    allowedHosts: [
-      'localhost',
-      'dev.qfnetwork.xyz',
-      '.qfnetwork.xyz'
-    ],
     devServer: {
+      // [[[
+      bonjour: false,
+      allowedHosts: [
+        'localhost',
+        'dev.qfnetwork.xyz',
+        '.qfnetwork.xyz'
+      ],
       host: '127.0.0.1',
-      hot: true,
+      hot: false,
+      client: {
+        logging: 'info',
+      },
+      // ]]]
       open: false,
       port: 3000,
       static: path.resolve(__dirname, 'build')
