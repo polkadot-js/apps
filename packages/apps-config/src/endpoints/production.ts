@@ -336,7 +336,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'kulupu',
     providers: {
-      Kulupu: 'wss://rpc.kulupu.corepaper.org/ws'
+      // Kulupu: 'wss://rpc.kulupu.corepaper.org/ws' https://github.com/polkadot-js/apps/issues/11157
     },
     text: 'Kulupu',
     ui: {
@@ -416,7 +416,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'neatcoin',
     providers: {
-      Neatcoin: 'wss://rpc.neatcoin.org/ws'
+      // Neatcoin: 'wss://rpc.neatcoin.org/ws' https://github.com/polkadot-js/apps/issues/11157
     },
     text: 'Neatcoin',
     ui: {}

@@ -442,7 +442,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'interlay-testnet',
     providers: {
-      Interlay: 'wss://api-testnet.interlay.io/parachain/'
+      // Interlay: 'wss://api-testnet.interlay.io/parachain/' https://github.com/polkadot-js/apps/issues/11157
     },
     text: 'Interlay Testnet',
     ui: {
