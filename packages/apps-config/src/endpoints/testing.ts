@@ -109,6 +109,17 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    info: 'autonomys-taurus-evm',
+    providers: {
+      Labs: 'wss://auto-evm.taurus.autonomys.xyz/ws'
+    },
+    text: 'Autonomys Taurus EVM',
+    ui: {
+      color: '#5870B3',
+      logo: nodesAutonomysPNG
+    }
+  },
+  {
     info: 'autonomys-taurus-testnet',
     providers: {
       'Labs 1': 'wss://rpc-0.taurus.subspace.network/ws',
@@ -813,6 +824,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   },
   {
     info: 'shibuya',
+    isPeople: true,
     providers: {
       Astar: 'wss://rpc.shibuya.astar.network',
       Dwellir: 'wss://shibuya-rpc.dwellir.com'
@@ -939,8 +951,8 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'subspace-gemini-3h',
     providers: {
-      US: 'wss://rpc-0.gemini-3h.subspace.network/ws',
-      US2: 'wss://rpc-1.gemini-3h.subspace.network/ws'
+      US: 'wss://rpc-0.gemini-3h.subspace.network/ws'
+      // US2: 'wss://rpc-1.gemini-3h.subspace.network/ws' // https://github.com/polkadot-js/apps/issues/11098
     },
     text: 'Subspace Gemini 3h',
     ui: {
@@ -951,8 +963,8 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'subspace-gemini-3h-nova',
     providers: {
-      EU1: 'wss://nova-0.gemini-3h.subspace.network/ws',
-      EU2: 'wss://nova-1.gemini-3h.subspace.network/ws'
+      // EU1: 'wss://nova-0.gemini-3h.subspace.network/ws', // https://github.com/polkadot-js/apps/issues/11098
+      // EU2: 'wss://nova-1.gemini-3h.subspace.network/ws' // https://github.com/polkadot-js/apps/issues/11098
     },
     text: 'Subspace Gemini 3h Nova',
     ui: {
