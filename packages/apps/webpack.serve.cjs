@@ -11,6 +11,7 @@ module.exports = merge(
   baseConfig(__dirname, 'development'),
   {
     devServer: {
+      host: '127.0.0.1',
       hot: true,
       open: false,
       port: 3000,
