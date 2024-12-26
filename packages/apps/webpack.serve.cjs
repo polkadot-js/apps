@@ -12,7 +12,8 @@ module.exports = merge(
   {
     allowedHosts: [
       'localhost',
-      'dev.qfnetwork.xyz'
+      'dev.qfnetwork.xyz',
+      '.qfnetwork.xyz'
     ],
     devServer: {
       host: '127.0.0.1',
