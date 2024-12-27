@@ -76,7 +76,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'bajun',
     paraId: 2119,
     providers: {
-      AjunaNetwork: 'wss://rpc-parachain.bajun.network',
+      AjunaNetwork: 'wss://rpc-para.bajun.network',
       OnFinality: 'wss://bajun.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://bajun.public.curie.radiumblock.co/ws'
     },
@@ -92,7 +92,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2090,
     providers: {
       Basilisk: 'wss://rpc.basilisk.cloud',
-      Dwellir: 'wss://basilisk-rpc.dwellir.com'
+      Dwellir: 'wss://basilisk-rpc.n.dwellir.com'
       // OnFinality: 'wss://basilisk.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9414
     },
     text: 'Basilisk',
@@ -108,8 +108,9 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Dwellir: 'wss://bifrost-rpc.dwellir.com',
       Liebi: 'wss://bifrost-rpc.liebi.com/ws',
-      LiebiUS: 'wss://us.bifrost-rpc.liebi.com/ws'
+      LiebiUS: 'wss://us.bifrost-rpc.liebi.com/ws',
       // OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws'
+      RadiumBlock: 'wss://bifrost.public.curie.radiumblock.co/ws'
     },
     text: 'Bifrost',
     ui: {
@@ -424,11 +425,13 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
   {
     homepage: 'https://virto.network/',
     info: 'kreivo',
+    isPeopleForIdentity: true,
     paraId: 2281,
     providers: {
       Kippu: 'wss://kreivo.kippu.rocks/',
       Virto: 'wss://kreivo.io/'
     },
+    relayName: 'kusama',
     text: 'Kreivo - By Virto',
     ui: {
       color: '#294940',
@@ -524,7 +527,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Allnodes: 'wss://moonriver-rpc.publicnode.com',
       Blast: 'wss://moonriver.public.blastapi.io',
-      Dwellir: 'wss://moonriver-rpc.dwellir.com',
+      Dwellir: 'wss://moonriver-rpc.n.dwellir.com',
       'Moonbeam Foundation': 'wss://wss.api.moonriver.moonbeam.network',
       OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://moonriver.public.curie.radiumblock.co/ws',
@@ -834,8 +837,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'turing',
     paraId: 2114,
     providers: {
-      Dwellir: 'wss://turing-rpc.dwellir.com',
-      OAK: 'wss://rpc.turing.oak.tech'
+      Dwellir: 'wss://turing-rpc.dwellir.com'
+      // OAK: 'wss://rpc.turing.oak.tech' // https://github.com/polkadot-js/apps/issues/11098
     },
     text: 'Turing Network',
     ui: {
@@ -904,7 +907,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     providers: {
       Dwellir: 'wss://asset-hub-kusama-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://statemine-rpc-tn.dwellir.com',
-      IBP1: 'wss://sys.ibp.network/statemine',
+      IBP1: 'wss://sys.ibp.network/asset-hub-kusama',
       IBP2: 'wss://asset-hub-kusama.dotters.network',
       LuckyFriday: 'wss://rpc-asset-hub-kusama.luckyfriday.io',
       // OnFinality: 'wss://statemine.api.onfinality.io/public-ws',

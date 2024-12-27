@@ -63,6 +63,7 @@ import imbue from './imbue.js';
 import integritee from './integritee.js';
 import interbtc from './interbtc.js';
 import ipse from './ipse.js';
+import jamton from './jamton.js';
 import jupiter from './jupiter.js';
 import jupiterRococo from './jupiter-rococo.js';
 import jur from './jur.js';
@@ -220,6 +221,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'interbtc-standalone': interbtc,
   'interlay-parachain': interbtc,
   'ipse-node': ipse,
+  'jamton-runtime': jamton,
   'jupiter-prep': jupiter,
   'jupiter-rococo': jupiterRococo,
   'jur-chain': jur,
