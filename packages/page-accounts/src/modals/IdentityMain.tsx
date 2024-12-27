@@ -12,7 +12,7 @@ import React, { useEffect, useState } from 'react';
 import { Input, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { getAddressMeta } from '@polkadot/react-components/util';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { AddressIdentityOtherDiscordKey } from '@polkadot/react-hooks/types';
+import { AddressIdentityOtherDiscordKey } from '@polkadot/react-hooks/constants';
 import { u8aToString } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';

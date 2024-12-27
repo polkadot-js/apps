@@ -7,11 +7,10 @@ import type { ChainWorkTaskInformation, LegacyLease } from '@polkadot/react-hook
 import React from 'react';
 
 import { ParaLink, styled, Tag } from '@polkadot/react-components';
-import { ChainRenewalStatus } from '@polkadot/react-hooks/types';
+import { ChainRenewalStatus, CoreTimeTypes } from '@polkadot/react-hooks/constants';
 import { BN, formatBalance, formatNumber } from '@polkadot/util';
 
 import { estimateTime, get } from './utils/index.js';
-import { CoreTimeTypes } from './types.js';
 
 interface Props {
   id: number

@@ -13,6 +13,7 @@ import type { ICompact, IExtrinsic, INumber } from '@polkadot/types/types';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
+import type { CoreTimeTypes } from './constants.js';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type CallParam = any;
@@ -108,8 +109,6 @@ export interface AddressFlags extends DeriveAccountFlags {
   isValidator: boolean;
   isNominator: boolean;
 }
-
-export const AddressIdentityOtherDiscordKey = 'Discord';
 
 export interface AddressIdentity extends DeriveAccountRegistration {
   isExistent: boolean;
@@ -364,27 +363,3 @@ export interface PotentialRenewal {
   maskBits: number,
   task: string
 }
-
-export enum CoreTimeTypes {
-  'Reservation',
-  'Lease',
-  'Bulk Coretime',
-  'On Demand'
-}
-
-export const ChainRenewalStatus = {
-  Eligible: 'eligible',
-  None: '-',
-  Renewed: 'renewed'
-};
-
-// RelayChain
-export const CoreTimeConsts = {
-  BlockTime: 6000,
-  BlocksPerTimeslice: 80
-};
-
-export const CoreTimeChainConsts = {
-  BlockTime: 12000,
-  BlocksPerTimeslice: 40
-};

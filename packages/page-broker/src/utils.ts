@@ -3,10 +3,9 @@
 
 import type { CoreWorkloadType, CoreWorkplanType, InfoRow } from './types.js';
 
-import { CoreTimeConsts, type CoreWorkload, type LegacyLease, type RegionInfo, type Reservation } from '@polkadot/react-hooks/types';
+import { CoreTimeConsts, CoreTimeTypes } from '@polkadot/react-hooks/constants';
+import { type CoreWorkload, type LegacyLease, type RegionInfo, type Reservation } from '@polkadot/react-hooks/types';
 import { BN } from '@polkadot/util';
-
-import { CoreTimeTypes } from './types.js';
 
 function formatDate (date: Date) {
   const day = date.getDate();

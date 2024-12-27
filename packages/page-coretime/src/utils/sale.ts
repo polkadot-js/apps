@@ -6,7 +6,7 @@ import type { ChainName, PhaseConfig, PhaseProgress, RegionInfo, SaleDetails, Sa
 
 import { BN } from '@polkadot/util';
 
-import { PhaseName } from '../types.js';
+import { PhaseName } from '../constants.js';
 import { estimateTime, FirstCycleStart, get, getCurrentRegionStartEndTs } from './index.js';
 
 // We are scaling everything to avoid floating point precision issues.

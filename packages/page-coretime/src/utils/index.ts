@@ -4,7 +4,7 @@
 import type { CoretimeInformation } from '@polkadot/react-hooks/types';
 import type { ChainName, RegionInfo } from '../types.js';
 
-import { CoreTimeChainConsts, CoreTimeConsts } from '@polkadot/react-hooks/types';
+import { CoreTimeChainConsts, CoreTimeConsts } from '@polkadot/react-hooks/constants';
 import { BN } from '@polkadot/util';
 
 type FirstCycleStartType = Record<

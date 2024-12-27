@@ -9,7 +9,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { createNamedHook, useApi, useBlockTime, useBrokerConfig, useBrokerLeases, useBrokerReservations, useBrokerSalesInfo, useBrokerStatus, useCoreDescriptor, useRegions, useWorkloadInfos, useWorkplanInfos } from '@polkadot/react-hooks';
 import { BN, BN_ONE } from '@polkadot/util';
 
-import { ChainRenewalStatus, CoreTimeChainConsts, CoreTimeTypes } from './types.js';
+import { ChainRenewalStatus, CoreTimeChainConsts, CoreTimeTypes } from './constants.js';
 import { useBrokerPotentialRenewals } from './useBrokerPotentialRenewals.js';
 
 const getOccupancyType = (lease: LegacyLease | undefined, reservation: Reservation | undefined, isPool: boolean): CoreTimeTypes => {

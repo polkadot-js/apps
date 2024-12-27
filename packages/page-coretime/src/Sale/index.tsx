@@ -10,8 +10,9 @@ import ProgresBar from '@polkadot/react-components/ProgresBar';
 import { useApi } from '@polkadot/react-hooks';
 import { formatBalance, formatNumber } from '@polkadot/util';
 
+import { PhaseName } from '../constants.js';
 import { useTranslation } from '../translate.js';
-import { type ChainName, PhaseName } from '../types.js';
+import { type ChainName } from '../types.js';
 import { constructSubscanQuery, estimateTime, get } from '../utils/index.js';
 import { calculateSaleDetails, getCorePriceAt, getSaleParameters, getSaleProgress } from '../utils/sale.js';
 import SaleTable from './SaleTable.js';

@@ -1,24 +1,13 @@
 // Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-export enum CoreTimeTypes {
-  'Reservation',
-  'Lease',
-  'Bulk Coretime',
-  'On Demand'
-}
+import type { PhaseName } from './constants.js';
 
 export interface PhaseInfo {
   name: string;
   lastBlock: number;
   lastTimeslice: number
 }
-
-export const PhaseName = {
-  FixedPrice: 'Fixed Price',
-  PriceDiscovery: 'Price Discovery',
-  Renewals: 'Renewals'
-} as const;
 
 type PhaseNameType = typeof PhaseName[keyof typeof PhaseName];
 
