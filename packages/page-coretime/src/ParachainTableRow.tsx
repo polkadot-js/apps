@@ -42,10 +42,10 @@ function ParachainTableRow ({ chain, lastCommittedTimeslice, regionBegin, region
       {idx === 0 && <td style={{ paddingRight: '2rem', textAlign: 'right', verticalAlign: 'top' }}>
 
         {!!multiple &&
-                    <ExpandButton
-                      expanded={isExpanded}
-                      onClick={toggleIsExpanded}
-                    />
+          <ExpandButton
+            expanded={isExpanded}
+            onClick={toggleIsExpanded}
+          />
         }
       </td>}
     </>;

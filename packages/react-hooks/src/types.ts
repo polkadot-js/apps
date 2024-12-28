@@ -335,15 +335,24 @@ export interface ChainInformation {
   reservation: Reservation| undefined
   workTaskInfo: ChainWorkTaskInformation[]
 }
+export interface ChainBlockConstants {
+  blocksPerTimeslice: number,
+  blocktimeMs: number
+}
+
+export interface ChainConstants {
+  coretime: ChainBlockConstants,
+  relay: ChainBlockConstants
+}
 
 export interface CoretimeInformation {
+  constants: ChainConstants,
   chainInfo: Record<number, ChainInformation>,
   salesInfo: PalletBrokerSaleInfoRecord,
   status: BrokerStatus,
   region: RegionInfo[],
   config: PalletBrokerConfigRecord
   taskIds: number[]
-  blockTimeMs: number
 }
 
 export interface BrokerStatus {

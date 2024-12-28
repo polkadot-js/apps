@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { ChainInformation, CoretimeInformation, CoreWorkload, CoreWorkloadInfo, LegacyLease, PotentialRenewal, Reservation } from './types.js';
+import type { ChainConstants, ChainInformation, CoretimeInformation, CoreWorkload, CoreWorkloadInfo, LegacyLease, PotentialRenewal, Reservation } from './types.js';
 
 import { useEffect, useMemo, useState } from 'react';
 
 import { createNamedHook, useApi, useBlockTime, useBrokerConfig, useBrokerLeases, useBrokerReservations, useBrokerSalesInfo, useBrokerStatus, useCoreDescriptor, useRegions, useWorkloadInfos, useWorkplanInfos } from '@polkadot/react-hooks';
-import { BN, BN_ONE } from '@polkadot/util';
+import { BN, BN_ONE, BN_ZERO } from '@polkadot/util';
 
-import { ChainRenewalStatus, CoreTimeChainConsts, CoreTimeTypes } from './constants.js';
+import { ChainRenewalStatus, CoreTimeTypes } from './constants.js';
 import { useBrokerPotentialRenewals } from './useBrokerPotentialRenewals.js';
 
 const getOccupancyType = (lease: LegacyLease | undefined, reservation: Reservation | undefined, isPool: boolean): CoreTimeTypes => {
@@ -25,6 +25,8 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
 
   const [workloadData, setWorkloadData] = useState<CoreWorkload[]>([]);
   const [taskIds, setTaskIds] = useState<number[]>([]);
+  const [coretimeConstants, setCoretimeConstants] = useState<ChainConstants | undefined>();
+  const [blocksPerTimesliceCoretimeChain, setBlocksPerTimesliceCoretimeChain] = useState<BN | undefined>();
 
   /** coretime API calls */
   const status = useBrokerStatus(apiCoretime, isApiReady);
@@ -38,22 +40,47 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
   const region = useRegions(apiCoretime);
 
   /** Other APIs */
-  const [blockTimeMs] = useBlockTime(BN_ONE, apiCoretime);
+  const [blockTimeMsRelayChain] = useBlockTime(BN_ONE, api);
+
+  /** Coretime constants */
+  useEffect(() => {
+    if (!apiCoretime || !blockTimeMsRelayChain) {
+      return;
+    }
+
+    const blockTimeMsCoretimeChain = new BN(apiCoretime?.consts.aura?.slotDuration.toString());
+    const relationConstant = blockTimeMsCoretimeChain.div(new BN(blockTimeMsRelayChain));
+    const blocksPerTimesliceRelayChain = new BN(apiCoretime?.consts.broker?.timeslicePeriod);
+    const blocksPerTimesliceCoretimeChain = blocksPerTimesliceRelayChain.div(relationConstant);
+
+    setBlocksPerTimesliceCoretimeChain(blocksPerTimesliceCoretimeChain);
+    setCoretimeConstants({
+      coretime: {
+        blocksPerTimeslice: blocksPerTimesliceCoretimeChain.toNumber(),
+        blocktimeMs: blockTimeMsCoretimeChain.toNumber()
+      },
+      relay: {
+        blocksPerTimeslice: blocksPerTimesliceRelayChain.toNumber(),
+        blocktimeMs: blockTimeMsRelayChain
+      }
+    });
+  }, [apiCoretime, blockTimeMsRelayChain]);
+  /** *******************/
 
   const coreInfos = useCoreDescriptor(api, ready);
   const paraIds = useMemo(() => coreInfos && [...new Set(coreInfos?.map((a) => a.info.currentWork.assignments.map((ass) => ass.task)).flat().filter((id) => id !== 'Pool'))], [coreInfos]);
 
   const isInterludePhase = useMemo(() => {
-    if (!salesInfo || !config || !status) {
+    if (!salesInfo || !config || !status || !blocksPerTimesliceCoretimeChain) {
       return false;
     }
 
     const currentRegionStart = new BN(salesInfo?.regionBegin).sub(new BN(config.regionLength));
-    const interludeLengthTs = new BN(config?.interludeLength).div(new BN(CoreTimeChainConsts.BlocksPerTimeslice));
+    const interludeLengthTs = blocksPerTimesliceCoretimeChain.gt(BN_ZERO) ? new BN(config?.interludeLength).div(blocksPerTimesliceCoretimeChain) : BN_ZERO;
     const interludeEndTs = currentRegionStart.add(interludeLengthTs);
 
     return interludeEndTs.gte(new BN(status?.lastCommittedTimeslice));
-  }, [status, salesInfo, config]);
+  }, [status, salesInfo, config, blocksPerTimesliceCoretimeChain]);
 
   const potentialRenewalsCurrentRegion = useMemo(() => {
     if (!isInterludePhase || !config || !salesInfo) {
@@ -146,18 +173,30 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
       };
     });
 
-    if (chainInfo && config && region && salesInfo && status) {
+    if (chainInfo && config && region && salesInfo && status && coretimeConstants) {
       setState({
-        blockTimeMs,
         chainInfo,
         config,
+        constants: coretimeConstants,
         region,
         salesInfo,
         status,
         taskIds
       });
     }
-  }, [taskIds, workloadData, potentialRenewalsCurrentRegion, salesInfo, leases, reservations, region, status, config, workplans, blockTimeMs]);
+  }, [
+    config,
+    coretimeConstants,
+    taskIds,
+    workloadData,
+    potentialRenewalsCurrentRegion,
+    salesInfo,
+    leases,
+    reservations,
+    region,
+    status,
+    workplans
+  ]);
 
   return state;
 }

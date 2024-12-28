@@ -16,6 +16,9 @@ export const ChainRenewalStatus = {
   Renewed: 'renewed'
 };
 
+// block time on coretime chain is 2 x slower than on relay chain
+export const BlockTimeCoretimeToRelayConstant = 2;
+
 // RelayChain
 export const CoreTimeConsts = {
   BlockTime: 6000,

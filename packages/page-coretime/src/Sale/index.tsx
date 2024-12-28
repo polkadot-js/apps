@@ -1,45 +1,47 @@
 // Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CoretimeInformation } from '@polkadot/react-hooks/types';
+import type { ChainName, SaleDetails } from '../types.js';
 
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { Button, CardSummary, Dropdown, SummaryBox } from '@polkadot/react-components';
-import ProgresBar from '@polkadot/react-components/ProgresBar';
+import ProgressBar from '@polkadot/react-components/ProgressBar';
+import { type ProgressBarSection } from '@polkadot/react-components/types';
 import { useApi } from '@polkadot/react-hooks';
 import { formatBalance, formatNumber } from '@polkadot/util';
 
 import { PhaseName } from '../constants.js';
+import { useCoretimeContext } from '../CoretimeContext.js';
 import { useTranslation } from '../translate.js';
-import { type ChainName } from '../types.js';
-import { constructSubscanQuery, estimateTime, get } from '../utils/index.js';
+import { constructSubscanQuery, estimateTime } from '../utils/index.js';
 import { calculateSaleDetails, getCorePriceAt, getSaleParameters, getSaleProgress } from '../utils/sale.js';
 import SaleTable from './SaleTable.js';
 import Summary from './Summary.js';
 
 interface Props {
-  coretimeInfo: CoretimeInformation
   chainName: ChainName
 }
 
-function Sale ({ chainName, coretimeInfo }: Props): React.ReactElement<Props> {
+function Sale ({ chainName }: Props): React.ReactElement<Props> {
+  const { coretimeInfo, get } = useCoretimeContext();
   const { api, isApiReady } = useApi();
   const { t } = useTranslation();
-  const { salesInfo: { regionBegin },
-    status: { lastCommittedTimeslice } } = coretimeInfo;
+  const regionBegin = coretimeInfo?.salesInfo?.regionBegin;
+  const lastCommittedTimeslice = coretimeInfo?.status?.lastCommittedTimeslice;
 
-  const coretimePrice = useMemo(() => getCorePriceAt(get.blocks.relay(lastCommittedTimeslice), coretimeInfo.salesInfo), [lastCommittedTimeslice, coretimeInfo.salesInfo]);
-  const saleParams = coretimeInfo && getSaleParameters(coretimeInfo.salesInfo, coretimeInfo.config, chainName, lastCommittedTimeslice);
+  const coretimePrice = useMemo(() => get && getCorePriceAt(get?.blocks.relay(lastCommittedTimeslice ?? 0), coretimeInfo?.salesInfo), [lastCommittedTimeslice, coretimeInfo?.salesInfo, get]);
+  const saleParams = coretimeInfo && getSaleParameters(coretimeInfo.salesInfo, coretimeInfo.config, chainName, lastCommittedTimeslice ?? 0, coretimeInfo.constants);
   const phaseName = useMemo(() => saleParams?.phaseConfig?.currentPhaseName, [saleParams]);
   const [chosenSaleNumber, setChosenSaleNumber] = useState<number>(-1);
+  const [saleDetails, setSaleDetails] = useState<SaleDetails | null>(null);
   const saleNumberOptions = useMemo(() =>
     [
       {
         text: t('Pick a sale number'),
         value: -1
       },
-      ...Array.from({ length: saleParams?.cycleNumber }, (_, i) => ({
+      ...Array.from({ length: saleParams?.cycleNumber ?? 0 }, (_, i) => ({
         text: `sale #${i + 1}`,
         value: i
       })).reverse()
@@ -47,8 +49,7 @@ function Sale ({ chainName, coretimeInfo }: Props): React.ReactElement<Props> {
     ]
   , [saleParams, t]);
 
-  const saleDetails = useMemo(() => chosenSaleNumber !== -1 ? calculateSaleDetails(chosenSaleNumber, saleParams?.cycleNumber, get.blocks.relay(coretimeInfo.status.lastTimeslice), chainName, coretimeInfo.config.regionLength, saleParams) : null, [chosenSaleNumber, saleParams, coretimeInfo, chainName]);
-  const progressValues = useMemo(() => getSaleProgress(lastCommittedTimeslice, saleParams.currentRegion.start.ts, saleParams.interlude.ts, saleParams.leadin.ts, regionBegin),
+  const progressValues = useMemo(() => saleParams && regionBegin && getSaleProgress(lastCommittedTimeslice, saleParams.currentRegion.start.ts, saleParams.interlude.ts, saleParams.leadin.ts, regionBegin),
     [saleParams, lastCommittedTimeslice, regionBegin]);
 
   // TODO: uncomment when introducing core purchase functionality
@@ -56,7 +57,21 @@ function Sale ({ chainName, coretimeInfo }: Props): React.ReactElement<Props> {
 
   const onDropDownChange = useCallback((value: number) => {
     setChosenSaleNumber(value);
-  }, []);
+
+    if (value === -1) {
+      setSaleDetails(null);
+    } else {
+      get && saleParams && setSaleDetails(calculateSaleDetails(
+        value,
+        saleParams?.cycleNumber,
+        get.blocks.relay(coretimeInfo.status.lastTimeslice),
+        chainName,
+        coretimeInfo.config.regionLength,
+        saleParams,
+        coretimeInfo.constants
+      ));
+    }
+  }, [get, saleParams, coretimeInfo, chainName]);
 
   const onQuerySaleClick = useCallback(() => {
     if (saleDetails) {
@@ -66,10 +81,11 @@ function Sale ({ chainName, coretimeInfo }: Props): React.ReactElement<Props> {
 
   return (
     <div>
-      {coretimeInfo &&
+      {coretimeInfo && saleParams &&
                 <Summary
                   api={isApiReady ? api : null}
                   config={coretimeInfo?.config}
+                  constants={coretimeInfo?.constants}
                   cycleNumber={saleParams?.cycleNumber}
                   region={coretimeInfo?.region}
                   saleInfo={coretimeInfo?.salesInfo}
@@ -84,7 +100,7 @@ function Sale ({ chainName, coretimeInfo }: Props): React.ReactElement<Props> {
                 <b>Cores cannot be purchased now</b>
               )
               : (
-                <CardSummary label='current price'>{formatBalance(coretimePrice)}</CardSummary>
+                <CardSummary label='current price'>{coretimePrice && formatBalance(coretimePrice)}</CardSummary>
               )}
 
           </SummaryBox>
@@ -101,23 +117,23 @@ function Sale ({ chainName, coretimeInfo }: Props): React.ReactElement<Props> {
         <div style={{ backgroundColor: 'white', borderRadius: '4px', justifySelf: 'left', padding: '24px', width: 'fit-content' }}>
           <SummaryBox>
             <section>
-              <CardSummary label='current phase'>{phaseName && phaseName}</CardSummary>
-              <CardSummary label='current phase end'>{phaseName && saleParams?.phaseConfig && estimateTime(saleParams.phaseConfig.config[phaseName].lastTimeslice, get.blocks.relay(coretimeInfo.status.lastTimeslice))}</CardSummary>
-              <CardSummary label='last block'>{phaseName && formatNumber(saleParams?.phaseConfig?.config[phaseName].lastBlock)}</CardSummary>
+              {phaseName && <>
+                <CardSummary label='current phase'>{phaseName}</CardSummary>
+                <CardSummary label='current phase end'>{get && coretimeInfo && saleParams?.phaseConfig && estimateTime(saleParams.phaseConfig.config[phaseName].lastTimeslice, get.blocks.relay(coretimeInfo?.status.lastTimeslice), coretimeInfo.constants.relay)}</CardSummary>
+                <CardSummary label='last block'>{formatNumber(saleParams?.phaseConfig?.config[phaseName].lastBlock)}</CardSummary>
+              </>}
               <CardSummary label='fixed price'>{formatBalance(coretimeInfo?.salesInfo.endPrice)}</CardSummary>
-              <CardSummary label='sellout price'>{formatBalance(coretimeInfo?.salesInfo.selloutPrice)}</CardSummary>
             </section>
             <section>
 
             </section>
           </SummaryBox>
-          <ProgresBar sections={progressValues} />
+          <ProgressBar sections={progressValues as ProgressBarSection[]} />
         </div>
         <div style={{ backgroundColor: 'white', borderRadius: '4px', gridColumn: '1 / -1', justifySelf: 'center', padding: '24px', width: '100%' }}>
           <h2>Interlude + sale data</h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '1.5rem', maxWidth: '300px' }}>
-
               <Dropdown
                 className='isSmall'
                 onChange={onDropDownChange}

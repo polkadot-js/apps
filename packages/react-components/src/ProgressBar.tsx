@@ -1,24 +1,18 @@
 // Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ProgressBarSection } from './types.js';
+
 import React from 'react';
 
 import { styled } from './styled.js';
 
-interface Section {
-  value: number;
-  total: number;
-  label: string;
-}
-
 interface Props {
-  sections: Section[];
+  sections: ProgressBarSection[];
 }
 
 function ProgressBar ({ sections }: Props): React.ReactElement<Props> | null {
   const overallTotal = sections.reduce((sum, section) => sum + section.total, 0);
-
-  console.log('overall total ', overallTotal);
 
   return (
     <StyledDiv>

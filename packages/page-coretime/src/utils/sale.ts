@@ -1,13 +1,14 @@
 // Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PalletBrokerConfigRecord, PalletBrokerSaleInfoRecord } from '@polkadot/react-hooks/types';
-import type { ChainName, PhaseConfig, PhaseProgress, RegionInfo, SaleDetails, SaleParameters } from '../types.js';
+import type { ChainConstants, PalletBrokerConfigRecord, PalletBrokerSaleInfoRecord } from '@polkadot/react-hooks/types';
+import type { ChainName, PhaseConfig, RegionInfo, SaleDetails, SaleParameters } from '../types.js';
 
+import { type ProgressBarSection } from '@polkadot/react-components/types';
 import { BN } from '@polkadot/util';
 
 import { PhaseName } from '../constants.js';
-import { estimateTime, FirstCycleStart, get, getCurrentRegionStartEndTs } from './index.js';
+import { createGet, estimateTime, FirstCycleStart, getCurrentRegionStartEndTs } from './index.js';
 
 // We are scaling everything to avoid floating point precision issues.
 const SCALE = new BN(10000);
@@ -24,7 +25,11 @@ export const leadinFactorAt = (scaledWhen: BN): BN => {
   }
 };
 
-export const getCorePriceAt = (blockNow: number, saleInfo: PalletBrokerSaleInfoRecord): BN => {
+export const getCorePriceAt = (blockNow: number | null, saleInfo: PalletBrokerSaleInfoRecord | undefined): BN => {
+  if (!saleInfo || !blockNow) {
+    return new BN(0);
+  }
+
   const { endPrice, leadinLength, saleStart } = saleInfo;
 
   // Explicit conversion to BN
@@ -93,11 +98,15 @@ export const determinePhaseName = (
 };
 
 export const getSaleProgress = (
-  lastCommittedTimeslice: number,
+  lastCommittedTimeslice: number | undefined,
   currentRegionStart: number,
   interludeLengthTs: number,
   leadInLengthTs: number,
-  regionBegin: number): PhaseProgress[] => {
+  regionBegin: number): ProgressBarSection[] => {
+  if (!lastCommittedTimeslice || !currentRegionStart || !interludeLengthTs || !leadInLengthTs || !regionBegin) {
+    return [];
+  }
+
   const progress = lastCommittedTimeslice - currentRegionStart;
 
   return [
@@ -124,12 +133,14 @@ const getPhaseConfiguration = (
   regionLength: number,
   interludeLengthTs: number,
   leadInLengthTs: number,
-  lastCommittedTimeslice: number
+  lastCommittedTimeslice: number,
+  constants: ChainConstants
 ): PhaseConfig => {
   const renewalsEndTs = currentRegionStart + interludeLengthTs;
   const priceDiscoveryEndTs = renewalsEndTs + leadInLengthTs;
   const fixedPriceLenght = regionLength - interludeLengthTs - leadInLengthTs;
   const fixedPriceEndTs = priceDiscoveryEndTs + fixedPriceLenght;
+  const get = createGet(constants);
 
   return {
     config: {
@@ -154,9 +165,11 @@ export const getSaleParameters = (
   salesInfo: RegionInfo,
   config: Pick<PalletBrokerConfigRecord, 'interludeLength' | 'leadinLength' | 'regionLength'>,
   chainName: ChainName,
-  lastCommittedTimeslice: number
+  lastCommittedTimeslice: number,
+  constants: ChainConstants
 ): SaleParameters => {
   // The sale is happening on the coretime chain, so we need to convert the timeslices to blocks (40 blocks per timeslice)
+  const get = createGet(constants);
   const interludeLengthTs = get.timeslices.coretime(config.interludeLength);
   const leadInLengthTs = get.timeslices.coretime(config.leadinLength);
 
@@ -166,7 +179,8 @@ export const getSaleParameters = (
     config.regionLength,
     interludeLengthTs,
     leadInLengthTs,
-    lastCommittedTimeslice
+    lastCommittedTimeslice,
+    constants
   );
 
   const saleNumber = getCurrentSaleNumber(currentRegionEnd, chainName, config);
@@ -202,11 +216,14 @@ export function calculateSaleDetails (
   latestBlock: number,
   chainName: ChainName,
   regionLength: number,
-  saleParams: SaleParameters
+  saleParams: SaleParameters,
+  constants: ChainConstants
 ): SaleDetails | null {
   if (saleNumber === -1) {
     return null;
   }
+
+  const get = createGet(constants);
 
   const blocksPerSaleRelay = get.blocks.relay(regionLength);
   const saleStartBlock = saleParams.currentRegion.start.blocks - blocksPerSaleRelay * (currentSaleNumber - saleNumber - 1);
@@ -224,8 +241,8 @@ export function calculateSaleDetails (
       start: { block: saleStartBlockCoretime }
     },
     date: {
-      end: estimateTime(saleEndTs, latestBlock),
-      start: estimateTime(saleStartTs, latestBlock)
+      end: estimateTime(saleEndTs, latestBlock, constants.relay),
+      start: estimateTime(saleStartTs, latestBlock, constants.relay)
     },
     relay: {
       end: {

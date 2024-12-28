@@ -10,7 +10,8 @@ import { ParaLink, styled, Tag } from '@polkadot/react-components';
 import { ChainRenewalStatus, CoreTimeTypes } from '@polkadot/react-hooks/constants';
 import { BN, formatBalance, formatNumber } from '@polkadot/util';
 
-import { estimateTime, get } from './utils/index.js';
+import { estimateTime } from './utils/index.js';
+import { useCoretimeContext } from './CoretimeContext.js';
 
 interface Props {
   id: number
@@ -39,6 +40,8 @@ function Row ({ chainRecord, highlight = false, id, lastCommittedTimeslice, leas
   const targetTimeslice = lease?.until || chainRegionEnd;
   const showEstimates = !!targetTimeslice && Object.values(CoreTimeTypes)[chainRecord.type] !== CoreTimeTypes.Reservation;
 
+  const { coretimeInfo, get } = useCoretimeContext();
+
   return (
     <React.Fragment key={`${id}`}>
       <StyledCell $p={highlight}>{id}</StyledCell>
@@ -56,11 +59,11 @@ function Row ({ chainRecord, highlight = false, id, lastCommittedTimeslice, leas
       <StyledCell
         $p={highlight}
         className='media--800'
-      >{showEstimates && formatNumber(get.blocks.relay(targetTimeslice)).toString()}</StyledCell>
+      >{showEstimates && get && formatNumber(get.blocks.relay(targetTimeslice)).toString()}</StyledCell>
       <StyledCell
         $p={highlight}
         className='media--1000'
-      >{showEstimates && estimateTime(targetTimeslice, get.blocks.relay(lastCommittedTimeslice))}</StyledCell>
+      >{showEstimates && get && coretimeInfo && estimateTime(targetTimeslice, get.blocks.relay(lastCommittedTimeslice), coretimeInfo?.constants?.relay)}</StyledCell>
       <StyledCell
         $p={highlight}
         className='media--1200'

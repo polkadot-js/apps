@@ -1,10 +1,9 @@
 // Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CoretimeInformation } from '@polkadot/react-hooks/types';
+import type { ChainBlockConstants, ChainConstants, CoretimeInformation } from '@polkadot/react-hooks/types';
 import type { ChainName, RegionInfo } from '../types.js';
 
-import { CoreTimeChainConsts, CoreTimeConsts } from '@polkadot/react-hooks/constants';
 import { BN } from '@polkadot/util';
 
 type FirstCycleStartType = Record<
@@ -61,7 +60,11 @@ export function formatDate (date: Date) {
  * else
  *    now plus block time difference
  */
-export const estimateTime = (targetTimeslice: string | number, latestBlock: number): string | null => {
+export const estimateTime = (
+  targetTimeslice: string | number,
+  latestBlock: number,
+  { blocksPerTimeslice: blocksPerTs, blocktimeMs }: ChainBlockConstants
+): string | null => {
   if (!latestBlock || !targetTimeslice) {
     console.error('Invalid input: one or more inputs are missing');
 
@@ -70,8 +73,8 @@ export const estimateTime = (targetTimeslice: string | number, latestBlock: numb
 
   try {
     const now = new BN(Date.now());
-    const blockTime = new BN(CoreTimeConsts.BlockTime); // Average block time in milliseconds (6 seconds)
-    const blocksPerTimeslice = new BN(CoreTimeConsts.BlocksPerTimeslice);
+    const blockTime = new BN(blocktimeMs); // Average block time in milliseconds (6 seconds)
+    const blocksPerTimeslice = new BN(blocksPerTs);
     const targetBlock = new BN(Number(targetTimeslice)).mul(blocksPerTimeslice);
     const latestBlockBN = new BN(latestBlock);
     const blockDifference = targetBlock.sub(latestBlockBN);
@@ -87,26 +90,52 @@ export const estimateTime = (targetTimeslice: string | number, latestBlock: numb
 };
 
 /**
- * Helper functions to convert timeslices to blocks and vice versa
+ * Factory function to create helper functions for converting timeslices to blocks and vice versa.
+ *
+ * @returns An object containing blocks and timeslices conversion functions.
  */
-export const get = {
+export const createGet = (constants: ChainConstants) => ({
   blocks: {
+    /**
+     * Convert timeslices to Coretime blocks.
+     *
+     * @param ts - Number of timeslices.
+     * @returns Number of Coretime blocks.
+     */
     coretime: (ts: number) => {
-      return ts * CoreTimeChainConsts.BlocksPerTimeslice;
+      return ts * constants.coretime.blocksPerTimeslice;
     },
+    /**
+     * Convert timeslices to Relay blocks.
+     *
+     * @param ts - Number of timeslices.
+     * @returns Number of Relay blocks.
+     */
     relay: (ts: number) => {
-      return ts * CoreTimeConsts.BlocksPerTimeslice;
+      return ts * constants.relay.blocksPerTimeslice;
     }
   },
   timeslices: {
+    /**
+     * Convert Coretime blocks to timeslices.
+     *
+     * @param blocks - Number of Coretime blocks.
+     * @returns Number of timeslices.
+     */
     coretime: (blocks: number) => {
-      return blocks / CoreTimeChainConsts.BlocksPerTimeslice;
+      return blocks / constants.coretime.blocksPerTimeslice;
     },
+    /**
+     * Convert Relay blocks to timeslices.
+     *
+     * @param blocks - Number of Relay blocks.
+     * @returns Number of timeslices.
+     */
     relay: (blocks: number) => {
-      return blocks / CoreTimeConsts.BlocksPerTimeslice;
+      return blocks / constants.relay.blocksPerTimeslice;
     }
   }
-};
+});
 
 /**
  * Get the start and end of the current region

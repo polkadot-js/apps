@@ -1,7 +1,7 @@
 // Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BrokerStatus, CoreDescription, PalletBrokerConfigRecord, PalletBrokerSaleInfoRecord, RegionInfo } from '@polkadot/react-hooks/types';
+import type { BrokerStatus, ChainConstants, CoreDescription, PalletBrokerConfigRecord, PalletBrokerSaleInfoRecord, RegionInfo } from '@polkadot/react-hooks/types';
 import type { ChainName } from '../types.js';
 
 import React, { useMemo } from 'react';
@@ -9,8 +9,9 @@ import React, { useMemo } from 'react';
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { BN } from '@polkadot/util';
 
+import { useCoretimeContext } from '../CoretimeContext.js';
 import { useTranslation } from '../translate.js';
-import { estimateTime, FirstCycleStart, get } from '../utils/index.js';
+import { estimateTime, FirstCycleStart } from '../utils/index.js';
 
 interface Props {
   coreDscriptors?: CoreDescription[];
@@ -19,13 +20,15 @@ interface Props {
   region: RegionInfo[],
   status: BrokerStatus,
   parachainCount: number
-  chainName: ChainName
+  chainName: ChainName,
+  constants: ChainConstants
 }
 
-function Summary ({ chainName, config, parachainCount, saleInfo, status }: Props): React.ReactElement<Props> {
+function Summary ({ chainName, config, constants, parachainCount, saleInfo, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const currentRegionEnd = saleInfo.regionEnd - config.regionLength;
   const currentRegionStart = saleInfo.regionEnd - config.regionLength * 2;
+  const { get } = useCoretimeContext();
 
   const cycleNumber = useMemo(() => {
     if (chainName && currentRegionEnd) {
@@ -70,8 +73,8 @@ function Summary ({ chainName, config, parachainCount, saleInfo, status }: Props
         {status &&
           (<CardSummary label={t('cycle dates')}>
             <div>
-              <div style={{ fontSize: '14px' }}>{estimateTime(currentRegionStart, get.blocks.relay(status?.lastTimeslice))}</div>
-              <div style={{ fontSize: '14px' }}>{estimateTime(currentRegionEnd, get.blocks.relay(status?.lastTimeslice))}</div>
+              <div style={{ fontSize: '14px' }}>{get && estimateTime(currentRegionStart, get.blocks.relay(status?.lastTimeslice), constants.relay)}</div>
+              <div style={{ fontSize: '14px' }}>{get && estimateTime(currentRegionEnd, get.blocks.relay(status?.lastTimeslice), constants.relay)}</div>
             </div>
           </CardSummary>)
         }
