@@ -1,14 +1,15 @@
 // Copyright 2017-2024 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ProgressBarSection } from '@polkadot/react-components/types';
+import type { BlockNumber } from '@polkadot/types/interfaces';
 import type { ChainName, SaleDetails } from '../types.js';
 
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { Button, CardSummary, Dropdown, SummaryBox } from '@polkadot/react-components';
 import ProgressBar from '@polkadot/react-components/ProgressBar';
-import { type ProgressBarSection } from '@polkadot/react-components/types';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatBalance, formatNumber } from '@polkadot/util';
 
 import { PhaseName } from '../constants.js';
@@ -25,12 +26,13 @@ interface Props {
 
 function Sale ({ chainName }: Props): React.ReactElement<Props> {
   const { coretimeInfo, get } = useCoretimeContext();
-  const { api, isApiReady } = useApi();
+  const { api, apiCoretime, isApiReady } = useApi();
   const { t } = useTranslation();
   const regionBegin = coretimeInfo?.salesInfo?.regionBegin;
-  const lastCommittedTimeslice = coretimeInfo?.status?.lastCommittedTimeslice;
+  const lastCommittedTimeslice = coretimeInfo?.status?.lastTimeslice;
+  const bestNumberFinalized = useCall<BlockNumber>(apiCoretime.derive.chain.bestNumberFinalized);
 
-  const coretimePrice = useMemo(() => get && getCorePriceAt(get?.blocks.relay(lastCommittedTimeslice ?? 0), coretimeInfo?.salesInfo), [lastCommittedTimeslice, coretimeInfo?.salesInfo, get]);
+  const coretimePrice = useMemo(() => get && bestNumberFinalized && getCorePriceAt(bestNumberFinalized.toNumber(), coretimeInfo?.salesInfo), [coretimeInfo?.salesInfo, get, bestNumberFinalized]);
   const saleParams = coretimeInfo && getSaleParameters(coretimeInfo.salesInfo, coretimeInfo.config, chainName, lastCommittedTimeslice ?? 0, coretimeInfo.constants);
   const phaseName = useMemo(() => saleParams?.phaseConfig?.currentPhaseName, [saleParams]);
   const [chosenSaleNumber, setChosenSaleNumber] = useState<number>(-1);
