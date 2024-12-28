@@ -12,12 +12,12 @@ interface Props {
 }
 
 function ProgressBar ({ sections }: Props): React.ReactElement<Props> | null {
-  const overallTotal = sections.reduce((sum, section) => sum + section.total, 0);
+  const overallTotal = sections?.reduce((sum, section) => sum + section.total, 0);
 
   return (
     <StyledDiv>
       <div className='progress-container'>
-        {sections.map((section, index) => {
+        {sections?.map((section, index) => {
           const sectionWidth = (section.total / overallTotal) * 100;
           const sectionProgress = (section.value / section.total) * 100;
 

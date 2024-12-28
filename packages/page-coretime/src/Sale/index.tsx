@@ -128,7 +128,7 @@ function Sale ({ chainName }: Props): React.ReactElement<Props> {
 
             </section>
           </SummaryBox>
-          <ProgressBar sections={progressValues as ProgressBarSection[]} />
+          <ProgressBar sections={progressValues as ProgressBarSection[] ?? []} />
         </div>
         <div style={{ backgroundColor: 'white', borderRadius: '4px', gridColumn: '1 / -1', justifySelf: 'center', padding: '24px', width: '100%' }}>
           <h2>Interlude + sale data</h2>

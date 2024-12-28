@@ -2,15 +2,16 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { ChainConstants, ChainInformation, CoretimeInformation, CoreWorkload, CoreWorkloadInfo, LegacyLease, PotentialRenewal, Reservation } from './types.js';
+import type { ChainInformation, CoretimeInformation, CoreWorkload, CoreWorkloadInfo, LegacyLease, PotentialRenewal, Reservation } from './types.js';
 
 import { useEffect, useMemo, useState } from 'react';
 
-import { createNamedHook, useApi, useBlockTime, useBrokerConfig, useBrokerLeases, useBrokerReservations, useBrokerSalesInfo, useBrokerStatus, useCoreDescriptor, useRegions, useWorkloadInfos, useWorkplanInfos } from '@polkadot/react-hooks';
-import { BN, BN_ONE, BN_ZERO } from '@polkadot/util';
+import { createNamedHook, useApi, useBrokerConfig, useBrokerLeases, useBrokerReservations, useBrokerSalesInfo, useBrokerStatus, useCoreDescriptor, useRegions, useWorkloadInfos, useWorkplanInfos } from '@polkadot/react-hooks';
+import { BN, BN_ZERO } from '@polkadot/util';
 
 import { ChainRenewalStatus, CoreTimeTypes } from './constants.js';
 import { useBrokerPotentialRenewals } from './useBrokerPotentialRenewals.js';
+import { useCoretimeConsts } from './useCoretimeConsts.js';
 
 const getOccupancyType = (lease: LegacyLease | undefined, reservation: Reservation | undefined, isPool: boolean): CoreTimeTypes => {
   if (isPool) {
@@ -25,7 +26,6 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
 
   const [workloadData, setWorkloadData] = useState<CoreWorkload[]>([]);
   const [taskIds, setTaskIds] = useState<number[]>([]);
-  const [coretimeConstants, setCoretimeConstants] = useState<ChainConstants | undefined>();
   const [blocksPerTimesliceCoretimeChain, setBlocksPerTimesliceCoretimeChain] = useState<BN | undefined>();
 
   /** coretime API calls */
@@ -38,33 +38,16 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
   const config = useBrokerConfig(apiCoretime, isApiReady);
   const potentialRenewals = useBrokerPotentialRenewals(apiCoretime, isApiReady);
   const region = useRegions(apiCoretime);
-
-  /** Other APIs */
-  const [blockTimeMsRelayChain] = useBlockTime(BN_ONE, api);
+  const coretimeConstants = useCoretimeConsts();
 
   /** Coretime constants */
   useEffect(() => {
-    if (!apiCoretime || !blockTimeMsRelayChain) {
+    if (!coretimeConstants?.coretime.blocksPerTimeslice) {
       return;
     }
 
-    const blockTimeMsCoretimeChain = new BN(apiCoretime?.consts.aura?.slotDuration.toString());
-    const relationConstant = blockTimeMsCoretimeChain.div(new BN(blockTimeMsRelayChain));
-    const blocksPerTimesliceRelayChain = new BN(apiCoretime?.consts.broker?.timeslicePeriod);
-    const blocksPerTimesliceCoretimeChain = blocksPerTimesliceRelayChain.div(relationConstant);
-
-    setBlocksPerTimesliceCoretimeChain(blocksPerTimesliceCoretimeChain);
-    setCoretimeConstants({
-      coretime: {
-        blocksPerTimeslice: blocksPerTimesliceCoretimeChain.toNumber(),
-        blocktimeMs: blockTimeMsCoretimeChain.toNumber()
-      },
-      relay: {
-        blocksPerTimeslice: blocksPerTimesliceRelayChain.toNumber(),
-        blocktimeMs: blockTimeMsRelayChain
-      }
-    });
-  }, [apiCoretime, blockTimeMsRelayChain]);
+    setBlocksPerTimesliceCoretimeChain(new BN(coretimeConstants.coretime.blocksPerTimeslice));
+  }, [coretimeConstants]);
   /** *******************/
 
   const coreInfos = useCoreDescriptor(api, ready);
