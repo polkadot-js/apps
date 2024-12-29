@@ -4,7 +4,8 @@
 import React, { useMemo } from 'react';
 
 import { useApi, useRegistrars, useSubidentities, useToggle } from '@polkadot/react-hooks';
-import { type AddressIdentity, AddressIdentityOtherDiscordKey } from '@polkadot/react-hooks/types';
+import { AddressIdentityOtherDiscordKey } from '@polkadot/react-hooks/constants';
+import { type AddressIdentity } from '@polkadot/react-hooks/types';
 import { isHex } from '@polkadot/util';
 
 import AddressMini from '../AddressMini.js';

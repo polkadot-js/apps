@@ -10,6 +10,7 @@ import { CardSummary, styled, SummaryBox, UsageBar } from '@polkadot/react-compo
 import { defaultHighlight } from '@polkadot/react-components/styles';
 import { useApi, useBrokerConfig, useBrokerSalesInfo, useBrokerStatus } from '@polkadot/react-hooks';
 import { type CoreWorkload } from '@polkadot/react-hooks/types';
+import { useCoretimeConsts } from '@polkadot/react-hooks/useCoretimeConsts';
 import { BN, BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
@@ -42,6 +43,7 @@ interface Props {
 function Summary ({ coreCount, workloadInfos }: Props): React.ReactElement {
   const { t } = useTranslation();
   const { api, apiEndpoint, isApiReady } = useApi();
+  const coretimeConstants = useCoretimeConsts();
   const uiHighlight = apiEndpoint?.ui.color || defaultHighlight;
   const { idles, pools, tasks }: statsType = React.useMemo(() => getStats(coreCount, workloadInfos), [coreCount, workloadInfos]);
 
@@ -110,8 +112,8 @@ function Summary ({ coreCount, workloadInfos }: Props): React.ReactElement {
                 label={t('cycle dates')}
               >
                 <div>
-                  <div style={{ fontSize: '14px' }}>{estimateTime(currentRegionStart, status?.lastTimeslice * 80)}</div>
-                  <div style={{ fontSize: '14px' }}>{estimateTime(currentRegionEnd, status?.lastTimeslice * 80)}</div>
+                  <div style={{ fontSize: '14px' }}>{estimateTime(currentRegionStart, status?.lastTimeslice * 80, coretimeConstants?.relay)}</div>
+                  <div style={{ fontSize: '14px' }}>{estimateTime(currentRegionEnd, status?.lastTimeslice * 80, coretimeConstants?.relay)}</div>
                 </div>
               </CardSummary>
               <CardSummary

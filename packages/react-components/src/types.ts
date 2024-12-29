@@ -95,3 +95,9 @@ export interface TabItem {
   name: string;
   text: React.ReactNode;
 }
+
+export interface ProgressBarSection {
+  value: number;
+  total: number;
+  label: string;
+}
