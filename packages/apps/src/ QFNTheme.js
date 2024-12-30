@@ -23,7 +23,7 @@ export const QFNTheme = createGlobalStyle`
       background-size: 100%;
     }
 
-    // LOGO
+    // LOGO AND INFO
     .apps--SideBar-logo-inner {
       width: 160px;
       height: 60px;
