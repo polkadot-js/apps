@@ -204,6 +204,20 @@ export const testParasWestendCommon: EndpointOption[] = [
       color: '#ec03fc',
       logo: chainsPeoplePolkadotSVG
     }
+  },
+  {
+    info: 'westendPenpal',
+    isPeopleForIdentity: true,
+    paraId: 2042,
+    providers: {
+      Parity: 'wss://westend-penpal-rpc.polkadot.io'
+    },
+    relayName: 'westend',
+    teleport: [-1],
+    text: 'Penpal',
+    ui: {
+      color: '#964b00'
+    }
   }
 ];
 
