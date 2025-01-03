@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/test-support authors & contributors
+// Copyright 2017-2025 @polkadot/test-support authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyringPair } from '@polkadot/keyring/types';

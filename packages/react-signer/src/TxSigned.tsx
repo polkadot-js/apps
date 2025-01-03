@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/react-signer authors & contributors
+// Copyright 2017-2025 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // This is for the use of `Ledger`
