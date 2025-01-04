@@ -76,6 +76,7 @@ export { chainsStandardPNG } from './generated/standardPNG.js';
 export { chainsT0rnPNG } from './generated/t0rnPNG.js';
 export { chainsTanglePNG } from './generated/tanglePNG.js';
 export { chainsTinkerPNG } from './generated/tinkerPNG.js';
+export { chainsTorusPNG } from './generated/torusPNG.js';
 export { chainsTotemSVG } from './generated/totemSVG.js';
 export { chainsTuringPNG } from './generated/turingPNG.js';
 export { chainsUnorthodoxPNG } from './generated/unorthodoxPNG.js';

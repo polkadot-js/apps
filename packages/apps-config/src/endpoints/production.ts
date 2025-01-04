@@ -662,5 +662,16 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
       color: 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)',
       logo: nodesDatahighwayPNG
     }
+  },
+  {
+    info: 'torus',
+    providers: {
+      mainnet: 'wss://api.torus.network'
+    },
+    text: 'Torus',
+    ui: {
+      color: '#070A0E',
+      logo: chainsTorusPNG
+    }
   }
 ];
