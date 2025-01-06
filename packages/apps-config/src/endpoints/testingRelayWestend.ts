@@ -63,6 +63,19 @@ export const testParasWestend: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    info: 'westendPenpal',
+    isPeopleForIdentity: true,
+    paraId: 2042,
+    providers: {
+      Parity: 'wss://westend-penpal-rpc.polkadot.io'
+    },
+    relayName: 'westend',
+    text: 'Penpal',
+    ui: {
+      color: '#964b00'
+    }
+  },
+  {
     homepage: 'https://kylin.network/',
     info: 'westendPichiu',
     paraId: 2112,
@@ -203,20 +216,6 @@ export const testParasWestendCommon: EndpointOption[] = [
     ui: {
       color: '#ec03fc',
       logo: chainsPeoplePolkadotSVG
-    }
-  },
-  {
-    info: 'westendPenpal',
-    isPeopleForIdentity: true,
-    paraId: 2042,
-    providers: {
-      Parity: 'wss://westend-penpal-rpc.polkadot.io'
-    },
-    relayName: 'westend',
-    teleport: [-1],
-    text: 'Penpal',
-    ui: {
-      color: '#964b00'
     }
   }
 ];
