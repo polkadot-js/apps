@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-collator authors & contributors
+// Copyright 2017-2025 @polkadot/app-collator authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Collator as CollatorType } from './types.js';
