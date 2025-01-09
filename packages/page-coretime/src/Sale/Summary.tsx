@@ -20,11 +20,11 @@ interface Props {
   config: PalletBrokerConfigRecord,
   region: RegionInfo[],
   status: BrokerStatus,
-  cycleNumber: number,
+  saleNumber: number,
   constants: ChainConstants
 }
 
-function Summary ({ config, constants, cycleNumber, saleInfo, status }: Props): React.ReactElement<Props> {
+function Summary ({ config, constants, saleInfo, saleNumber, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { currentRegionEnd, currentRegionStart } = getCurrentRegionStartEndTs(saleInfo, config.regionLength);
   const { get } = useCoretimeContext();
@@ -37,7 +37,7 @@ function Summary ({ config, constants, cycleNumber, saleInfo, status }: Props): 
         {status &&
           <CardSummary label={t('sale number')}>
             <div>
-              {cycleNumber > -1 ? cycleNumber : '-'}
+              {saleNumber > -1 ? saleNumber : '-'}
             </div>
           </CardSummary>
         }
@@ -68,7 +68,7 @@ function Summary ({ config, constants, cycleNumber, saleInfo, status }: Props): 
       </section>
       <section className='media--1200'>
         {status &&
-          (<CardSummary label={t('cycle dates')}>
+          (<CardSummary label={t('current region dates')}>
             <div>
               <div style={{ fontSize: '14px' }}>{cycleStart}</div>
               <div style={{ fontSize: '14px' }}>{cycleEnd}</div>
@@ -76,7 +76,7 @@ function Summary ({ config, constants, cycleNumber, saleInfo, status }: Props): 
           </CardSummary>)
         }
         {status &&
-          <CardSummary label={t('cycle ts')}>
+          <CardSummary label={t('region ts')}>
             <div>
               <div style={{ fontSize: '14px' }}>{currentRegionStart}</div>
               <div style={{ fontSize: '14px' }}>{currentRegionEnd}</div>

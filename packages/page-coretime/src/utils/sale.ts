@@ -134,7 +134,8 @@ const getPhaseConfiguration = (
   interludeLengthTs: number,
   leadInLengthTs: number,
   lastCommittedTimeslice: number,
-  constants: ChainConstants
+  constants: ChainConstants,
+  lastBlock: number
 ): PhaseConfig => {
   const renewalsEndTs = currentRegionStart + interludeLengthTs;
   const priceDiscoveryEndTs = renewalsEndTs + leadInLengthTs;
@@ -142,19 +143,70 @@ const getPhaseConfiguration = (
   const fixedPriceEndTs = priceDiscoveryEndTs + fixedPriceLenght;
   const get = createGet(constants);
 
+  const getDate = (ts: number) => {
+    const res = estimateTime(ts, lastBlock ?? 0, constants.relay);
+
+    return res;
+  };
+
   return {
     config: {
-      [PhaseName.Renewals]: {
-        lastBlock: get.blocks.relay(renewalsEndTs),
-        lastTimeslice: renewalsEndTs
+      [PhaseName.FixedPrice]: {
+        end: {
+          blocks: {
+            coretime: 0,
+            relay: get.blocks.relay(fixedPriceEndTs)
+          },
+          date: getDate(fixedPriceEndTs),
+          ts: fixedPriceEndTs
+        },
+        name: PhaseName.FixedPrice,
+        start: {
+          blocks: {
+            coretime: 0,
+            relay: get.blocks.relay(priceDiscoveryEndTs)
+          },
+          date: getDate(priceDiscoveryEndTs),
+          ts: priceDiscoveryEndTs
+        }
       },
       [PhaseName.PriceDiscovery]: {
-        lastBlock: get.blocks.relay(priceDiscoveryEndTs),
-        lastTimeslice: priceDiscoveryEndTs
+        end: {
+          blocks: {
+            coretime: 0,
+            relay: get.blocks.relay(priceDiscoveryEndTs)
+          },
+          date: getDate(priceDiscoveryEndTs),
+          ts: priceDiscoveryEndTs
+        },
+        name: PhaseName.PriceDiscovery,
+        start: {
+          blocks: {
+            coretime: 0,
+            relay: get.blocks.relay(renewalsEndTs)
+          },
+          date: getDate(renewalsEndTs),
+          ts: renewalsEndTs
+        }
       },
-      [PhaseName.FixedPrice]: {
-        lastBlock: get.blocks.relay(fixedPriceEndTs),
-        lastTimeslice: fixedPriceEndTs
+      [PhaseName.Renewals]: {
+        end: {
+          blocks: {
+            coretime: 0,
+            relay: get.blocks.relay(renewalsEndTs)
+          },
+          date: getDate(renewalsEndTs),
+          ts: renewalsEndTs
+        },
+        name: PhaseName.Renewals,
+        start: {
+          blocks: {
+            coretime: 0,
+            relay: get.blocks.relay(currentRegionStart)
+          },
+          date: getDate(currentRegionStart),
+          ts: currentRegionStart
+        }
       }
     },
     currentPhaseName: determinePhaseName(lastCommittedTimeslice, currentRegionStart, interludeLengthTs, leadInLengthTs)
@@ -180,23 +232,26 @@ export const getSaleParameters = (
     interludeLengthTs,
     leadInLengthTs,
     lastCommittedTimeslice,
-    constants
+    constants,
+    get.blocks.relay(lastCommittedTimeslice)
   );
 
   const saleNumber = getCurrentSaleNumber(currentRegionEnd, chainName, config);
+  const currentRegionInfo = {
+    end: {
+      blocks: get.blocks.relay(currentRegionEnd),
+      date: estimateTime(currentRegionEnd, get.blocks.relay(lastCommittedTimeslice), constants.relay),
+      ts: currentRegionEnd
+    },
+    start: {
+      blocks: get.blocks.relay(currentRegionStart),
+      date: estimateTime(currentRegionStart, get.blocks.relay(lastCommittedTimeslice), constants.relay),
+      ts: currentRegionStart
+    }
+  };
 
   return {
-    currentRegion: {
-      end: {
-        blocks: get.blocks.relay(currentRegionEnd),
-        ts: currentRegionEnd
-      },
-      start: {
-        blocks: get.blocks.relay(currentRegionStart),
-        ts: currentRegionStart
-      }
-    },
-    cycleNumber: getCurrentSaleNumber(currentRegionEnd, chainName, config),
+    currentRegion: currentRegionInfo,
     interlude: {
       blocks: config.interludeLength,
       ts: interludeLengthTs
@@ -206,7 +261,20 @@ export const getSaleParameters = (
       ts: leadInLengthTs
     },
     phaseConfig,
-    regionNumber: saleNumber - 1
+    regionForSale: {
+      end: {
+        blocks: currentRegionInfo.end.blocks + get.blocks.relay(config.regionLength),
+        date: estimateTime(currentRegionInfo.end.ts + config.regionLength, get.blocks.relay(lastCommittedTimeslice), constants.relay),
+        ts: currentRegionInfo.start.ts + config.regionLength
+      },
+      start: {
+        blocks: currentRegionInfo.end.blocks,
+        date: currentRegionInfo.end.date,
+        ts: currentRegionInfo.end.ts
+      }
+    },
+    regionNumber: saleNumber - 1,
+    saleNumber: getCurrentSaleNumber(currentRegionEnd, chainName, config)
   };
 };
 
