@@ -3,7 +3,7 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
-import type { PalletBountiesBounty } from '@polkadot/types/lookup';
+import type { PalletBountiesBounty, PalletBountiesBountyStatus } from '@polkadot/types/lookup';
 import type { Registry } from '@polkadot/types/types';
 
 import { balanceOf } from './balance.js';
@@ -39,8 +39,10 @@ export class BountyFactory {
   };
 
   public bountyWith = ({ status = 'Proposed', value = 1 } = {}): PalletBountiesBounty =>
-    this.aBounty({ status: this.aBountyStatus(status), value: balanceOf(value) });
+    // FIXME: https://github.com/polkadot-js/apps/issues/11192
+    this.aBounty({ status: this.aBountyStatus(status) as unknown as PalletBountiesBountyStatus, value: balanceOf(value) });
 
-  public aBounty = ({ fee = balanceOf(10), status = this.aBountyStatus('Proposed'), value = balanceOf(500) }: Partial<PalletBountiesBounty> = {}): PalletBountiesBounty =>
+  // FIXME: https://github.com/polkadot-js/apps/issues/11192
+  public aBounty = ({ fee = balanceOf(10), status = this.aBountyStatus('Proposed') as unknown as PalletBountiesBountyStatus, value = balanceOf(500) }: Partial<PalletBountiesBounty> = {}): PalletBountiesBounty =>
     this.#registry.createType<PalletBountiesBounty>('Bounty', { fee, status, value });
 }
