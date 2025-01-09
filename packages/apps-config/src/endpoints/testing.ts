@@ -321,7 +321,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'encointer',
     providers: {
-      'Encointer Association': 'wss://gesell.encointer.org'
+      // 'Encointer Association': 'wss://gesell.encointer.org' // https://github.com/polkadot-js/apps/issues/11186
     },
     text: 'Encointer Gesell',
     ui: {
@@ -499,7 +499,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'jur',
     providers: {
-      Jur: 'wss://testnet.jur.io'
+      // Jur: 'wss://testnet.jur.io' // https://github.com/polkadot-js/apps/issues/11186
     },
     text: 'Jur Testnet',
     ui: {
