@@ -38,8 +38,8 @@ export interface PhaseProgress {
 
 export interface SaleParameters {
   currentRegion: {
-    start: { date: string, ts: number; blocks: number };
-    end: { date: string, ts: number; blocks: number };
+    start: { date: string, ts: number; blocks: { coretime: number, relay: number } };
+    end: { date: string, ts: number; blocks: { coretime: number, relay: number } };
   };
   regionForSale: {
     start: { date: string, ts: number; blocks: number };
@@ -83,3 +83,14 @@ export interface RegionInfo {
 }
 
 export type ChainName = 'kusama' | 'polkadot' | 'paseo testnet' | 'westend'
+
+export interface GetResponse {
+  blocks: {
+    coretime: (ts: number) => number;
+    relay: (ts: number) => number;
+  };
+  timeslices: {
+    coretime: (blocks: number) => number;
+    relay: (blocks: number) => number;
+  };
+}

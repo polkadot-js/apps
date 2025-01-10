@@ -1,8 +1,15 @@
-import { styled } from "@polkadot/react-components";
-import { PhaseName } from "../constants.js";
-import PhaseTable from "./PhaseTable.js";
-import { ChainName, SaleParameters } from "../types.js";
-import { SubScanButton } from "./SubScanButton.js";
+// Copyright 2017-2025 @polkadot/app-coretime authors & contributors
+// SPDX-License-Identifier: Apache-2.0
+
+import type { ChainName, SaleParameters } from '../types.js';
+
+import React from 'react';
+
+import { styled } from '@polkadot/react-components';
+
+import { PhaseName } from '../constants.js';
+import PhaseTable from './PhaseTable.js';
+import { SubScanButton } from './SubScanButton.js';
 
 const ResponsiveContainer = styled.div`
   display: flex;
@@ -19,88 +26,101 @@ const Title = styled.h3`
   margin-bottom: 1rem;
 `;
 
-const LinkWithLogo = ({ href, logo, alt }: { href: string, logo: string, alt: string }) => {
-    return (
-        <a href={href} rel='noopener noreferrer' target='_blank'><img alt={alt} height={25} src={logo} /></a>
-    )
-}
-
-const providers = {
-    regionx: {
-        href: 'https://app.regionx.tech/?network=${chainName}',
-        logo: 'https://app.regionx.tech/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.8f0fd171.png&w=3840&q=75',
-        alt: 'RegionX'
-    },
-    subscan: {
-        href: 'https://coretime-${chainName}.subscan.io/coretime_dashboard',
-        logo: 'https://www.subscan.io/_next/image?url=%2Fwebsite%2Flogo-light.png&w=256&q=75',
-        alt: 'Subscan'
-    },
-    lastic: {
-        href: 'https://www.lastic.xyz/${chainName}/bulkcore1',
-        logo: 'https://www.lastic.xyz/_next/image?url=%2Fassets%2FImages%2FLogos%2Flastic-logo.png&w=384&q=100',
-        alt: 'Lastic'
-    }
-}
-
-const phases = {
-    [PhaseName.Renewals]: {
-        name: 'Interlude/Renewals phase',
-        description: 'In this phase, core owners can renew existing cores at a fixed price to ensure continued operation in the next region. No new core purchases are permitted.'
-    },
-    [PhaseName.PriceDiscovery]: {
-        name: 'Price Discovery phase',
-        description: 'The period during which cores are available for both purchase and renewal. The price is linearly declining price.'
-    },
-    [PhaseName.FixedPrice]: {
-        name: 'Fixed price phase',
-        description: 'The period during which cores are available for both purchase and renewal. The price is fixed price towards the end of the sales period.'
-    }
-}
-
-const SaleDetailsView = ({ saleParams, chosenSaleNumber, chainName }: { saleParams: SaleParameters, chosenSaleNumber: number, chainName: ChainName }) => {
-
-    if (chosenSaleNumber === -1 || !saleParams) {
-        return null;
-    }
-
-    return (
-        <ResponsiveContainer>
-            <div>
-                <Title>Sale #{chosenSaleNumber + 1} phases</Title>
-                <div style={{ display: 'grid', gap: '1rem', gridTemplateRows: '1fr 1fr 1fr', minWidth: '200px' }}>
-                    {Object.entries(phases).map(([phase, { name, description }]) => (
-                        <div>
-                            <h4>{name}</h4>
-                            <p style={{ maxWidth: '600px', opacity: '0.8' }}>{description}</p>
-                            {saleParams?.phaseConfig &&
-                                <PhaseTable
-                                    phaseInfo={saleParams?.phaseConfig.config[phase as keyof typeof saleParams.phaseConfig.config]}
-                                />}
-                        </div>
-                    ))}
-                </div>
-            </div>
-
-            <div>
-                <Title>Sale #{chosenSaleNumber + 1} Transactions</Title>
-                <SubScanButton chosenSaleNumber={chosenSaleNumber} currentRegion={saleParams.currentRegion} chainName={chainName} />
-
-                <Title>Region for sale #${chosenSaleNumber + 1} </Title>
-                <p style={{ maxWidth: '600px', opacity: '0.8' }}>Region is an asset of Coretime. It signifies the upcoming sales period within which a core can be secured by purchasing coretime. Acquiring coretime grants access to a core for the duration of that specific region.</p>
-                {saleParams?.regionForSale && <PhaseTable phaseInfo={saleParams?.regionForSale} />}
-
-                <Title>Coretime providers</Title>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', paddingTop: '2rem' }}>
-                    {Object.entries(providers).map(([provider, { href, logo, alt }]) => (
-                        <LinkWithLogo href={href} logo={logo} alt={alt} />
-                    ))}
-                </div>
-            </div>
-        </ResponsiveContainer>
-    )
+const LinkWithLogo = ({ alt, href, logo }: { href: string, logo: string, alt: string }) => {
+  return (
+    <a
+      href={href}
+      rel='noopener noreferrer'
+      target='_blank'
+    >
+      <img
+        alt={alt}
+        height={25}
+        src={logo}
+      />
+    </a>
+  );
 };
 
+const providers = {
+  lastic: {
+    alt: 'Lastic',
+    href: (chainName: string) => `https://www.lastic.xyz/${chainName}/bulkcore1`,
+    logo: 'https://www.lastic.xyz/_next/image?url=%2Fassets%2FImages%2FLogos%2Flastic-logo.png&w=384&q=100'
+  },
+  regionx: {
+    alt: 'RegionX',
+    href: (chainName: string) => `https://app.regionx.tech/?network=${chainName}`,
+    logo: 'https://app.regionx.tech/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.8f0fd171.png&w=3840&q=75'
+  },
+  subscan: {
+    alt: 'Subscan',
+    href: (chainName: string) => `https://coretime-${chainName}.subscan.io/coretime_dashboard`,
+    logo: 'https://www.subscan.io/_next/image?url=%2Fwebsite%2Flogo-light.png&w=256&q=75'
+  }
+};
 
+const phases = {
+  [PhaseName.Renewals]: {
+    description: 'In this phase, core owners can renew existing cores at a fixed price to ensure continued operation in the next region. No new core purchases are permitted.',
+    name: 'Interlude/Renewals phase'
+  },
+  [PhaseName.PriceDiscovery]: {
+    description: 'The period during which cores are available for both purchase and renewal. The price is linearly declining price.',
+    name: 'Price Discovery phase'
+  },
+  [PhaseName.FixedPrice]: {
+    description: 'The period during which cores are available for both purchase and renewal. The price is fixed price towards the end of the sales period.',
+    name: 'Fixed price phase'
+  }
+};
+
+const SaleDetailsView = ({ chainName, chosenSaleNumber, saleParams }: { saleParams: SaleParameters, chosenSaleNumber: number, chainName: ChainName }) => {
+  if (chosenSaleNumber === -1 || !saleParams) {
+    return null;
+  }
+
+  return (
+    <ResponsiveContainer>
+      <div>
+        <Title>Sale #{chosenSaleNumber + 1} phases</Title>
+        <div style={{ display: 'grid', gap: '1rem', gridTemplateRows: '1fr 1fr 1fr', minWidth: '200px' }}>
+          {Object.entries(phases).map(([phase, { description, name }]) => (
+            <div key={phase}>
+              <h4>{name}</h4>
+              <p style={{ maxWidth: '600px', opacity: '0.8' }}>{description}</p>
+              {saleParams?.phaseConfig &&
+                                <PhaseTable
+                                  phaseInfo={saleParams?.phaseConfig.config[phase as keyof typeof saleParams.phaseConfig.config]}
+                                />}
+            </div>
+          ))}
+        </div>
+      </div>
+      <div>
+        <Title>Sale #{chosenSaleNumber + 1} Transactions</Title>
+        <SubScanButton
+          chainName={chainName}
+          chosenSaleNumber={chosenSaleNumber}
+          currentRegion={saleParams.currentRegion}
+        />
+        <Title>Region for sale #${chosenSaleNumber + 1} </Title>
+        <p style={{ maxWidth: '600px', opacity: '0.8' }}>Region is an asset of Coretime. It signifies the upcoming sales period within which a core can be secured by purchasing coretime. Acquiring coretime grants access to a core for the duration of that specific region.</p>
+        {saleParams?.regionForSale && <PhaseTable phaseInfo={saleParams?.regionForSale} />}
+        <Title>Coretime providers</Title>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', paddingTop: '2rem' }}>
+          {Object.entries(providers).map(([provider, { alt, href, logo }]) => (
+            <LinkWithLogo
+              alt={alt}
+              href={href(chainName)}
+              key={provider}
+              logo={logo}
+            />
+          ))}
+        </div>
+      </div>
+    </ResponsiveContainer>
+  );
+};
 
 export default SaleDetailsView;

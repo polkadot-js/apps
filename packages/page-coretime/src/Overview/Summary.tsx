@@ -24,7 +24,7 @@ interface Props {
   constants: ChainConstants
 }
 
-function Summary({ chainName, config, constants, parachainCount, saleInfo, status }: Props): React.ReactElement<Props> {
+function Summary ({ chainName, config, constants, parachainCount, saleInfo, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const currentRegionEnd = saleInfo.regionEnd - config.regionLength;
   const currentRegionStart = saleInfo.regionEnd - config.regionLength * 2;

@@ -109,7 +109,7 @@ function Summary ({ coreCount, workloadInfos }: Props): React.ReactElement {
             <>
               <CardSummary
                 className='media--1200'
-                label={t('cycle dates')}
+                label={t('sale dates')}
               >
                 <div>
                   <div style={{ fontSize: '14px' }}>{estimateTime(currentRegionStart, status?.lastTimeslice * 80, coretimeConstants?.relay)}</div>
@@ -118,7 +118,7 @@ function Summary ({ coreCount, workloadInfos }: Props): React.ReactElement {
               </CardSummary>
               <CardSummary
                 className='media--1200'
-                label={t('cycle ts')}
+                label={t('sale ts')}
               >
                 <div>
                   <div style={{ fontSize: '14px' }}>{currentRegionStart}</div>

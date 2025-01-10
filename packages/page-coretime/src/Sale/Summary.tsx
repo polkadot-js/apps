@@ -24,7 +24,7 @@ interface Props {
   constants: ChainConstants
 }
 
-function Summary({ config, constants, saleInfo, saleNumber, status }: Props): React.ReactElement<Props> {
+function Summary ({ config, constants, saleInfo, saleNumber, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { currentRegionEndTs, currentRegionStartTs } = getCurrentRegionStartEndTs(saleInfo, config.regionLength);
   const { get } = useCoretimeContext();

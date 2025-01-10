@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ChainBlockConstants, ChainConstants, CoretimeInformation } from '@polkadot/react-hooks/types';
-import type { ChainName, RegionInfo } from '../types.js';
+import type { ChainName, GetResponse, RegionInfo } from '../types.js';
 
 import { BN } from '@polkadot/util';
 
@@ -94,7 +94,7 @@ export const estimateTime = (
  *
  * @returns An object containing blocks and timeslices conversion functions.
  */
-export const createGet = (constants: ChainConstants) => ({
+export const createGet = (constants: ChainConstants): GetResponse => ({
   blocks: {
     /**
      * Convert timeslices to Coretime blocks.
