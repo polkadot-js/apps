@@ -49,7 +49,6 @@ export interface SaleParameters {
   interlude: { ts: number; blocks: number };
   leadin: { ts: number; blocks: number };
   phaseConfig: PhaseConfig;
-  regionNumber: number;
 }
 
 export interface SaleDetails {

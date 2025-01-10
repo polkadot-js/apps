@@ -150,8 +150,8 @@ export const createGet = (constants: ChainConstants) => ({
  */
 export const getCurrentRegionStartEndTs = (saleInfo: RegionInfo, regionLength: number) => {
   return {
-    currentRegionEnd: saleInfo.regionBegin,
-    currentRegionStart: saleInfo.regionBegin - regionLength
+    currentRegionEndTs: saleInfo.regionBegin,
+    currentRegionStartTs: saleInfo.regionBegin - regionLength
   };
 };
 

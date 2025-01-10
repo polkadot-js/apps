@@ -24,10 +24,10 @@ const CoretimeContext = createContext<CoretimeContextProps>({
 export const CoretimeProvider = ({ api,
   children,
   isApiReady }: {
-  children: ReactNode;
-  api: ApiPromise;
-  isApiReady: boolean;
-}) => {
+    children: ReactNode;
+    api: ApiPromise;
+    isApiReady: boolean;
+  }) => {
   const coretimeInfo = useCoretimeInformation(api, isApiReady);
   const get = useMemo(() => {
     if (coretimeInfo?.constants) {

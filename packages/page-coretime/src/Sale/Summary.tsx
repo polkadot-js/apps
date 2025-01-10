@@ -24,12 +24,12 @@ interface Props {
   constants: ChainConstants
 }
 
-function Summary ({ config, constants, saleInfo, saleNumber, status }: Props): React.ReactElement<Props> {
+function Summary({ config, constants, saleInfo, saleNumber, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { currentRegionEnd, currentRegionStart } = getCurrentRegionStartEndTs(saleInfo, config.regionLength);
+  const { currentRegionEndTs, currentRegionStartTs } = getCurrentRegionStartEndTs(saleInfo, config.regionLength);
   const { get } = useCoretimeContext();
-  const cycleEnd = get && estimateTime(currentRegionEnd, get.blocks.relay(status?.lastTimeslice), constants.relay);
-  const cycleStart = get && estimateTime(currentRegionStart, get.blocks.relay(status?.lastTimeslice), constants.relay);
+  const cycleEnd = get && estimateTime(currentRegionEndTs, get.blocks.relay(status?.lastTimeslice), constants.relay);
+  const cycleStart = get && estimateTime(currentRegionStartTs, get.blocks.relay(status?.lastTimeslice), constants.relay);
 
   return (
     <SummaryBox>
@@ -48,10 +48,10 @@ function Summary ({ config, constants, saleInfo, saleNumber, status }: Props): R
           <div>{cycleEnd}</div>
         </CardSummary>
         <CardSummary label={t('last block')}>
-          <div>{get && formatNumber(get.blocks.relay(currentRegionEnd))}</div>
+          <div>{get && formatNumber(get.blocks.relay(currentRegionEndTs))}</div>
         </CardSummary>
         <CardSummary label={t('last timeslice')}>
-          <div>{formatNumber(currentRegionEnd)}</div>
+          <div>{formatNumber(currentRegionEndTs)}</div>
         </CardSummary>
         {config && status &&
           <CardSummary
@@ -60,7 +60,7 @@ function Summary ({ config, constants, saleInfo, saleNumber, status }: Props): R
             progress={{
               isBlurred: false,
               total: new BN(config?.regionLength),
-              value: new BN(config?.regionLength - (currentRegionEnd - status.lastTimeslice)),
+              value: new BN(config?.regionLength - (currentRegionEndTs - status.lastTimeslice)),
               withTime: false
             }}
           />
@@ -78,8 +78,8 @@ function Summary ({ config, constants, saleInfo, saleNumber, status }: Props): R
         {status &&
           <CardSummary label={t('region ts')}>
             <div>
-              <div style={{ fontSize: '14px' }}>{currentRegionStart}</div>
-              <div style={{ fontSize: '14px' }}>{currentRegionEnd}</div>
+              <div style={{ fontSize: '14px' }}>{currentRegionStartTs}</div>
+              <div style={{ fontSize: '14px' }}>{currentRegionEndTs}</div>
             </div>
           </CardSummary>
         }
