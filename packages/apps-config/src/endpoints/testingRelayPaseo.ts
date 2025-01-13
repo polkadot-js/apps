@@ -456,8 +456,8 @@ export const testRelayPaseo: EndpointOption = {
     Dwellir: 'wss://paseo-rpc.dwellir.com',
     IBP1: 'wss://rpc.ibp.network/paseo',
     IBP2: 'wss://paseo.dotters.network',
-    StakeWorld: 'wss://pas-rpc.stakeworld.io',
-    Zondax: 'wss://api2.zondax.ch/pas/node/rpc'
+    StakeWorld: 'wss://pas-rpc.stakeworld.io'
+    // Zondax: 'wss://api2.zondax.ch/pas/node/rpc' // https://github.com/polkadot-js/apps/issues/11199
     // 'light client': 'light://substrate-connect/paseo'
   },
   teleport: getTeleports(testParasPaseoCommon),
