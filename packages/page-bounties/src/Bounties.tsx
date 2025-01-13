@@ -1,6 +1,8 @@
 // Copyright 2017-2025 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Bounty as BountyType } from '@polkadot/types/interfaces';
+
 import React, { useMemo, useRef } from 'react';
 
 import { Button, styled, Table } from '@polkadot/react-components';
@@ -46,7 +48,10 @@ function Bounties ({ className }: Props): React.ReactElement {
         {sorted && bestNumber && sorted.map(({ bounty, description, index, proposals }) => (
           <Bounty
             bestNumber={bestNumber}
-            bounty={bounty}
+            // TODO: The bounty type here is now expected as PalletBountiesBounty type in the latest substrate release.
+            // This will require forward and backwards compatibility with the older Bounty type and the newer lookup type.
+            // ref: https://github.com/polkadot-js/apps/issues/11192
+            bounty={bounty as unknown as BountyType}
             description={description}
             index={index}
             key={index.toNumber()}

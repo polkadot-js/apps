@@ -9,7 +9,7 @@ import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
-import type { PalletBountiesBounty } from '@polkadot/types/lookup';
+import type { PalletBountiesBounty, PalletBountiesBountyStatus } from '@polkadot/types/lookup';
 
 import { fireEvent } from '@testing-library/react';
 
@@ -347,7 +347,8 @@ describe('Bounties', () => {
 
   describe('Reject curator modal', () => {
     it('creates extrinsic', async () => {
-      const bounty = aBounty({ status: bountyStatusWith({ curator: bob, status: 'CuratorProposed' }) });
+      // FIXME: https://github.com/polkadot-js/apps/issues/11192
+      const bounty = aBounty({ status: bountyStatusWith({ curator: bob, status: 'CuratorProposed' }) as unknown as PalletBountiesBountyStatus });
 
       bountiesPage.renderOne(bounty);
 
@@ -358,7 +359,8 @@ describe('Bounties', () => {
     });
 
     it('shows options for all roles', async () => {
-      const bounty = aBounty({ status: bountyStatusWith({ curator: bob, status: 'Active' }) });
+      // FIXME: https://github.com/polkadot-js/apps/issues/11192
+      const bounty = aBounty({ status: bountyStatusWith({ curator: bob, status: 'Active' }) as unknown as PalletBountiesBountyStatus });
 
       bountiesPage.renderOne(bounty);
 
@@ -372,7 +374,8 @@ describe('Bounties', () => {
     it('creates extrinsic', async () => {
       const bounty = aBounty({
         fee: balanceOf(20),
-        status: bountyStatusWith({ curator: bob, status: 'CuratorProposed' })
+        // FIXME: https://github.com/polkadot-js/apps/issues/11192
+        status: bountyStatusWith({ curator: bob, status: 'CuratorProposed' }) as unknown as PalletBountiesBountyStatus
       });
 
       bountiesPage.renderOne(bounty);
@@ -390,7 +393,8 @@ describe('Bounties', () => {
 
   describe('extend bounty expiry action modal', () => {
     it('queues extend bounty expiry extrinsic on submit', async () => {
-      const bounty = aBounty({ status: bountyStatusWith({ curator: alice }) });
+      // FIXME: https://github.com/polkadot-js/apps/issues/11192
+      const bounty = aBounty({ status: bountyStatusWith({ curator: alice }) as unknown as PalletBountiesBountyStatus });
 
       bountiesPage.renderOne(bounty);
       await bountiesPage.openExtendExpiry();
@@ -405,7 +409,8 @@ describe('Bounties', () => {
 
   describe('give up curator modal', () => {
     it('gives up on the Curator role of an Active bounty', async () => {
-      const bounty = aBounty({ status: bountyStatusWith({ curator: alice }) });
+      // FIXME: https://github.com/polkadot-js/apps/issues/11192
+      const bounty = aBounty({ status: bountyStatusWith({ curator: alice }) as unknown as PalletBountiesBountyStatus });
 
       bountiesPage.renderOne(bounty);
       await bountiesPage.openGiveUpCuratorsRole();
@@ -434,7 +439,8 @@ describe('Bounties', () => {
 
   describe('award beneficiary action modal', () => {
     it('awards the beneficiary', async () => {
-      const bounty = aBounty({ status: bountyStatusWith({ curator: alice }) });
+      // FIXME: https://github.com/polkadot-js/apps/issues/11192
+      const bounty = aBounty({ status: bountyStatusWith({ curator: alice }) as unknown as PalletBountiesBountyStatus });
 
       bountiesPage.renderOne(bounty);
 
@@ -454,7 +460,8 @@ describe('Bounties', () => {
           curator: alice,
           status: 'Active',
           updateDue: defaultBountyUpdatePeriod.muln(BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING).divn(100).toNumber() - 1
-        }) });
+          // FIXME: https://github.com/polkadot-js/apps/issues/11192
+        }) as unknown as PalletBountiesBountyStatus });
 
       bountiesPage.renderOne(bounty);
 
@@ -467,7 +474,8 @@ describe('Bounties', () => {
           curator: alice,
           status: 'Active',
           updateDue: mockBountyHooks.bountyApi.bestNumber?.toNumber()
-        }) });
+          // FIXME: https://github.com/polkadot-js/apps/issues/11192
+        }) as unknown as PalletBountiesBountyStatus });
 
       bountiesPage.renderOne(bounty);
 
@@ -503,7 +511,8 @@ describe('Bounties', () => {
         curator: alice,
         status: 'Active',
         updateDue: defaultBountyUpdatePeriod.muln(BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING).divn(100).toNumber() + 1
-      }) });
+        // FIXME: https://github.com/polkadot-js/apps/issues/11192
+      }) as unknown as PalletBountiesBountyStatus });
 
       bountiesPage.renderOne(bounty);
       await bountiesPage.rendered();
