@@ -81,7 +81,7 @@ function Summary ({ events, maxBlockWeight, maxProofSize, signedBlock }: Props):
       </section>
       <section>
         <CardSummary
-          label={t('block weight')}
+          label={t('ref time')}
           progress={{
             hideValue: true,
             isBlurred: !(maxBlockWeight && weight),
