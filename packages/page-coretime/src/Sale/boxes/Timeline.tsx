@@ -15,17 +15,17 @@ import { WhiteBox } from '../../WhiteBox.js';
 
 export const Timeline = ({ coretimeInfo: { salesInfo, status }, phaseName, saleParams }: { phaseName: string, saleParams: SaleParameters, coretimeInfo: { salesInfo: CoretimeInformation['salesInfo'], status: CoretimeInformation['status'] } }) => {
   const progressValues = useMemo(() => saleParams && salesInfo.regionBegin &&
-        getSaleProgress(
-          status.lastTimeslice,
-          saleParams.currentRegion.start.ts,
-          saleParams.interlude.ts,
-          saleParams.leadin.ts,
-          salesInfo.regionBegin),
-  [saleParams, status.lastTimeslice, salesInfo.regionBegin]);
+    getSaleProgress(
+      status.lastTimeslice,
+      saleParams.currentRegion.start.ts,
+      saleParams.interlude.ts,
+      saleParams.leadin.ts,
+      salesInfo.regionBegin),
+    [saleParams, status.lastTimeslice, salesInfo.regionBegin]);
 
   return (
-    <WhiteBox>
-      <p style={{ fontSize: '14px', opacity: '0.8' }}>Sale timeline</p>
+    <WhiteBox style={{ justifySelf: 'flex-start' }}>
+      <p style={{ fontSize: '16px', fontWeight: 'bold' }}>Sale timeline</p>
       <SummaryBox>
         <section>
           {phaseName && <>

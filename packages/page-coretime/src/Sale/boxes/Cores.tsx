@@ -23,7 +23,7 @@ export const Cores = ({ phaseName, salesInfo }: { phaseName: string, salesInfo: 
 
   return (
     <WhiteBox>
-      <p style={{ fontSize: '14px', opacity: '0.8' }}>Cores sale</p>
+      <p style={{ fontSize: '16px', fontWeight: 'bold' }}>Cores</p>
       {phaseName === PhaseName.Renewals
         ? (
           <h4>{t('Cores cannot be purchased now')}</h4>
@@ -34,23 +34,20 @@ export const Cores = ({ phaseName, salesInfo }: { phaseName: string, salesInfo: 
               <h4>{t('All cores are sold out')}</h4>
             )}
             {!soldOut && (
-              <div>
-                <p style={{ fontSize: '14px', marginBottom: '0.25rem' }}>{t('current price')}</p>
-                <p style={{ fontSize: '20px' }}> {coretimePrice && formatBalance(coretimePrice)}</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <div>
+                  <p style={{ fontSize: '14px', marginBottom: '0.15rem', opacity: '0.8' }}>{t('current price')}</p>
+                  <p style={{ fontSize: '20px' }}> {coretimePrice && formatBalance(coretimePrice)}</p>
+                </div>
+                <div>
+                  <p style={{ fontSize: '14px', marginBottom: '0.15rem', opacity: '0.8' }}>{t('available cores')}</p>
+                  <p style={{ fontSize: '20px' }}> {salesInfo.coresOffered - salesInfo.coresSold}</p>
+                </div>
               </div>
             )}
           </div>
         )}
-      {/* TODO: Add core purchase functionality */}
-      {/* {<div style={{ marginTop: '8px' }}>
-                <Button
-                    isBasic
-                    // isDisabled={!available || phaseName === PhaseName.Renewals}
-                    isDisabled={true}
-                    label={t('Purchase a core')}
-                    onClick={() => window.alert('yo')}
-                />
-                </div>} */}
+
     </WhiteBox>
   );
 };
