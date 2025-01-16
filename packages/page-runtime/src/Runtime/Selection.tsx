@@ -22,6 +22,8 @@ interface State {
   values: RawParam[];
 }
 
+const SECTION = ['transactionPaymentApi'];
+
 function Selection ({ onSubmit }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [{ isValid, method, values }, setState] = useState<State>({
@@ -82,6 +84,7 @@ function Selection ({ onSubmit }: Props): React.ReactElement<Props> {
           key={`${method.section}.${method.method}:params` /* force re-render on change */}
           onChange={_onChangeValues}
           params={params}
+          withLength={!SECTION.includes(method.section)}
         />
       )}
       <Button.Group>
