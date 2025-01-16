@@ -43,6 +43,7 @@ export interface Props {
   registry: Registry;
   type: TypeDefExt;
   withLabel?: boolean;
+  withLength?: boolean;
 }
 
 export type Size = 'full' | 'large' | 'medium' | 'small';
