@@ -22,7 +22,7 @@ interface State {
   values: RawParam[];
 }
 
-const SECTION = ['transactionPaymentApi'];
+const WITHOUT_LENGTH = ['transactionPaymentApi'];
 
 function Selection ({ onSubmit }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -84,7 +84,7 @@ function Selection ({ onSubmit }: Props): React.ReactElement<Props> {
           key={`${method.section}.${method.method}:params` /* force re-render on change */}
           onChange={_onChangeValues}
           params={params}
-          withLength={!SECTION.includes(method.section)}
+          withLength={!WITHOUT_LENGTH.includes(method.section)}
         />
       )}
       <Button.Group>
