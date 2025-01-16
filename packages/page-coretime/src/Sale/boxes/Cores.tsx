@@ -13,6 +13,7 @@ import { PhaseName } from '../../constants.js';
 import { useTranslation } from '../../translate.js';
 import { getCorePriceAt } from '../../utils/sale.js';
 import { WhiteBox } from '../../WhiteBox.js';
+import { styled } from '@polkadot/react-components';
 
 export const Cores = ({ phaseName, salesInfo }: { phaseName: string, salesInfo: CoretimeInformation['salesInfo'] }) => {
   const { t } = useTranslation();
@@ -21,8 +22,15 @@ export const Cores = ({ phaseName, salesInfo }: { phaseName: string, salesInfo: 
   const soldOut = useMemo(() => salesInfo.coresOffered === salesInfo.coresSold, [salesInfo.coresOffered, salesInfo.coresSold]);
   const coretimePrice = useMemo(() => bestNumberFinalized && getCorePriceAt(bestNumberFinalized.toNumber(), salesInfo), [salesInfo, bestNumberFinalized]);
 
+  const CoresWrapper = styled(WhiteBox)`
+    justify-self: flex-end;
+
+    @media (max-width: 1150px) {
+      width: 100%;
+    }
+  `;
   return (
-    <WhiteBox>
+    <CoresWrapper>
       <p style={{ fontSize: '16px', fontWeight: 'bold' }}>Cores</p>
       {phaseName === PhaseName.Renewals
         ? (
@@ -48,6 +56,6 @@ export const Cores = ({ phaseName, salesInfo }: { phaseName: string, salesInfo: 
           </div>
         )}
 
-    </WhiteBox>
+    </CoresWrapper>
   );
 };

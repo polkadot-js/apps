@@ -5,7 +5,7 @@ import type { ChainName, SaleParameters } from '../types.js';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { Dropdown } from '@polkadot/react-components';
+import { Dropdown, styled } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
 import { useCoretimeContext } from '../CoretimeContext.js';
@@ -17,11 +17,36 @@ import { Timeline } from './boxes/Timeline.js';
 import SaleDetailsView from './SaleDetailsView.js';
 import Summary from './Summary.js';
 
+
 interface Props {
   chainName: ChainName
 }
 
-function Sale ({ chainName }: Props): React.ReactElement<Props> {
+const ResponsiveGrid = styled.div`
+  display: grid;
+  align-items: stretch;
+  gap: 2rem;
+  grid-template-rows: auto auto;
+  margin-top: 4rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 769px) and (max-width: 1150px) {
+    grid-template-columns: 1fr 1fr;
+    
+    > *:nth-child(3) {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (min-width: 1150px) {
+    grid-template-columns: 1fr 1fr 3fr;
+  }
+`;
+
+function Sale({ chainName }: Props): React.ReactElement<Props> {
   const { coretimeInfo } = useCoretimeContext();
   const { api, isApiReady } = useApi();
   const { t } = useTranslation();
@@ -48,7 +73,7 @@ function Sale ({ chainName }: Props): React.ReactElement<Props> {
       })).reverse()
 
     ]
-  , [saleParams, t]);
+    , [saleParams, t]);
 
   useEffect(() => {
     if (saleNumberOptions.length > 1 && chosenSaleNumber === -1) {
@@ -83,8 +108,7 @@ function Sale ({ chainName }: Props): React.ReactElement<Props> {
           saleNumber={saleParams?.saleNumber}
           status={coretimeInfo?.status}
         />}
-      <div style={{ alignItems: 'stretch', display: 'grid', flexFlow: '1', gap: '2rem', gridTemplateColumns: '1fr 1fr 3fr', gridTemplateRows: 'auto auto', marginTop: '4rem' }}>
-
+      <ResponsiveGrid>
         {phaseName &&
           <Cores
             phaseName={phaseName}
@@ -98,7 +122,7 @@ function Sale ({ chainName }: Props): React.ReactElement<Props> {
             saleParams={saleParams}
           />}
         <div style={{ backgroundColor: 'white', borderRadius: '4px', gridColumn: '1 / -1', justifySelf: 'center', padding: '24px', width: '100%' }}>
-          <h2>Sale information</h2>
+          <p style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '1rem' }}>Sale information</p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <div style={{ maxWidth: '300px' }}>
               <Dropdown
@@ -117,7 +141,7 @@ function Sale ({ chainName }: Props): React.ReactElement<Props> {
               />}
           </div>
         </div>
-      </div>
+      </ResponsiveGrid>
     </div>
   );
 }

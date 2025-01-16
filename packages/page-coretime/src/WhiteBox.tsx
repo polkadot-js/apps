@@ -4,7 +4,7 @@
 import React, { type ReactNode } from 'react';
 
 export const WhiteBox = ({ children, style }: { children: ReactNode, style?: React.CSSProperties }) => {
-  return <div style={{ backgroundColor: 'white', borderRadius: '4px', display: 'flex', flexDirection: 'column', justifyItems: 'center', justifySelf: 'right', minWidth: '250px', padding: '24px', ...style }}>
+  return <div style={{ backgroundColor: 'white', borderRadius: '4px', display: 'flex', flexDirection: 'column', justifyItems: 'center', minWidth: '250px', padding: '24px', ...style }}>
     {children}
   </div>;
 };

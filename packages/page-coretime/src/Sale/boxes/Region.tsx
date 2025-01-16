@@ -8,10 +8,19 @@ import React from 'react';
 import { formatNumber } from '@polkadot/util';
 
 import { WhiteBox } from '../../WhiteBox.js';
+import { styled } from '@polkadot/react-components';
 
+
+const RegionWrapper = styled(WhiteBox)`
+  justify-self: center;
+
+  @media (min-width: 1150px) {
+    width: 100%;
+  }
+`;
 export const Region = ({ regionForSale }: { regionForSale: SaleParameters['regionForSale'] }) => {
   return (
-    <WhiteBox style={{ justifySelf: 'center' }}>
+    <RegionWrapper>
       <p style={{ fontSize: '16px', fontWeight: 'bold' }}>Region for sale</p>
       {regionForSale &&
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -25,6 +34,6 @@ export const Region = ({ regionForSale }: { regionForSale: SaleParameters['regio
           </div>
 
         </div>}
-    </WhiteBox>
+    </RegionWrapper>
   );
 };

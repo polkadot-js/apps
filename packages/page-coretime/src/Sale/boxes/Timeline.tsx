@@ -7,11 +7,19 @@ import type { CoretimeInformation } from '@polkadot/react-hooks/types';
 
 import React, { useMemo } from 'react';
 
-import { CardSummary, ProgressBar, SummaryBox } from '@polkadot/react-components';
+import { CardSummary, ProgressBar, styled, SummaryBox } from '@polkadot/react-components';
 import { formatBalance, formatNumber } from '@polkadot/util';
 
 import { getSaleProgress } from '../../utils/sale.js';
 import { WhiteBox } from '../../WhiteBox.js';
+
+const TimelineWrapper = styled(WhiteBox)`
+  justify-self: flex-start;
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    width: 100%;
+  }
+`;
 
 export const Timeline = ({ coretimeInfo: { salesInfo, status }, phaseName, saleParams }: { phaseName: string, saleParams: SaleParameters, coretimeInfo: { salesInfo: CoretimeInformation['salesInfo'], status: CoretimeInformation['status'] } }) => {
   const progressValues = useMemo(() => saleParams && salesInfo.regionBegin &&
@@ -24,7 +32,7 @@ export const Timeline = ({ coretimeInfo: { salesInfo, status }, phaseName, saleP
     [saleParams, status.lastTimeslice, salesInfo.regionBegin]);
 
   return (
-    <WhiteBox style={{ justifySelf: 'flex-start' }}>
+    <TimelineWrapper>
       <p style={{ fontSize: '16px', fontWeight: 'bold' }}>Sale timeline</p>
       <SummaryBox>
         <section>
@@ -40,6 +48,6 @@ export const Timeline = ({ coretimeInfo: { salesInfo, status }, phaseName, saleP
         </section>
       </SummaryBox>
       <ProgressBar sections={progressValues as ProgressBarSection[] ?? []} />
-    </WhiteBox>
+    </TimelineWrapper>
   );
 };
