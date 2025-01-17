@@ -19,7 +19,7 @@
     "@acala-network/chopsticks-core": "^1.0.1",
     "@polkadot/apps-config": "^0.147.2-6-x",
     "@polkadot/apps-routing": "^0.147.2-6-x",
-    "@polkadot/dev": "^0.82.1",
+    "@polkadot/dev": "^0.83.2",
     "@polkadot/react-api": "^0.147.2-6-x",
     "@polkadot/react-components": "^0.147.2-6-x",
     "@polkadot/react-hooks": "^0.147.2-6-x",
