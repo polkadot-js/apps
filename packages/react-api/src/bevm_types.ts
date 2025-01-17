@@ -274,7 +274,8 @@ export const BEVM_TYPES =  {
     "rewardPotGasBalance": "RpcBalance",
     "rewardPotGovBalance": "RpcBalance",
     "rewardPotBtcBalance": "RpcBalance",
-    "rewardPotBevmBalance": "RpcBalance"
+    "rewardPotBevmBalance": "RpcBalance",
+    "evmAccount": "Option<H160>",
   },
   "FullPairInfo": {
     "baseCurrency": "AssetId",

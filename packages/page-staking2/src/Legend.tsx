@@ -30,8 +30,8 @@ function Legend ({ className, isRelay, minCommission }: Props): React.ReactEleme
       {minCommission && (
         <span>
           <Badge
-            color='red'
-            icon='cancel'
+            color="red"
+            icon="cancel"
           />
           <span>{t('Chilled')}</span>
         </span>
@@ -68,24 +68,31 @@ function Legend ({ className, isRelay, minCommission }: Props): React.ReactEleme
       {/*</span>*/}
       <span>
         <Badge
-          color='red'
-          icon='balance-scale-right'
+          color="red"
+          icon="balance-scale-right"
         />
         <span>{t('Not yet a candidate')}</span>
       </span>
       <span>
         <Badge
-          color='red'
-          icon='user-slash'
+          color="red"
+          icon="user-slash"
         />
         <span>{t('Below minimum stake')}</span>
       </span>
       <span>
         <Badge
-          color='red'
-          icon='skull-crossbones'
+          color="red"
+          icon="skull-crossbones"
         />
         <span>{t('Session key not set')}</span>
+      </span>
+      <span>
+        <Badge
+          color="orange"
+          icon="user-xmark"
+        />
+        <span>{t('Evm account not set')}</span>
       </span>
       {/*<span>*/}
       {/*  <Tag*/}

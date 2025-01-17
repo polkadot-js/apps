@@ -148,7 +148,7 @@ const StyledDiv = styled.div`
   }
 
   &.orangeColor {
-    background: darkorange;
+    background: #FFA34A;
   }
 
   &.purpleColor {

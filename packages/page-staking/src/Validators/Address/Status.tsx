@@ -61,6 +61,16 @@ function Status ({ isChilled, isElected, isMain, isPara, isRelay, nominators = N
           />
         )
       }
+
+      {/*todo*/}
+      {accountStatuses && Number(api.runtimeVersion.specVersion.toString()) >= 48 && !accountStatuses?.toJSON()?.[3] &&
+        (
+          <Badge
+            color="orange"
+            icon="user-xmark"
+          />
+        )
+      }
       {/*{isNominating*/}
       {/*  ? (*/}
       {/*    <Badge*/}
