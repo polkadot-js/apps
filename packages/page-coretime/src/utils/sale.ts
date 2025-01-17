@@ -216,7 +216,7 @@ export const getSaleParameters = (
     currentRegionInfo = {
       end: {
         blocks: {
-          // the coretime blocks cannot be calculated as historically the regions are not 201,600 blocks long, they diviate from 2,212 to 1,417 blocks
+          // the coretime blocks cannot be calculated as historically the regions are not 201,600 blocks long, they deviate from 2,212 to 1,417 blocks
           coretime: 0,
           relay: get.blocks.relay(currentRegionEndTs)
         },

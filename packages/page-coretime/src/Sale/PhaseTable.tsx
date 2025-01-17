@@ -18,7 +18,7 @@ const StyledTable = styled(Table)`
   border-collapse: collapse;
 
   tr:last-child {
-    border-bottom: 1px solid #e6e6e6; /* Adjust the color and style as needed */
+    border-bottom: 1px solid #e6e6e6;
   }
 `;
 

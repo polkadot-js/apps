@@ -10,6 +10,7 @@ import React, { useMemo } from 'react';
 import { CardSummary, ProgressBar, styled, SummaryBox } from '@polkadot/react-components';
 import { formatBalance, formatNumber } from '@polkadot/util';
 
+import { useTranslation } from '../../translate.js';
 import { getSaleProgress } from '../../utils/sale.js';
 import { WhiteBox } from '../../WhiteBox.js';
 
@@ -32,6 +33,7 @@ interface TimelineProps {
 }
 
 export const Timeline = ({ color, coretimeInfo: { salesInfo, status }, phaseName, saleParams }: TimelineProps) => {
+  const { t } = useTranslation();
   const progressValues = useMemo(() => saleParams && salesInfo.regionBegin &&
     getSaleProgress(
       status.lastTimeslice,
@@ -43,7 +45,7 @@ export const Timeline = ({ color, coretimeInfo: { salesInfo, status }, phaseName
 
   return (
     <TimelineWrapper>
-      <p style={{ fontSize: '16px', fontWeight: 'bold' }}>Sale timeline</p>
+      <p style={{ fontSize: '16px', fontWeight: 'bold' }}>{t('Sale timeline')}</p>
       <SummaryBox>
         <section>
           {phaseName && <>
