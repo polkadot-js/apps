@@ -15,7 +15,7 @@ import { useTranslation } from '../../translate.js';
 import { getCorePriceAt } from '../../utils/sale.js';
 import { WhiteBox } from '../../WhiteBox.js';
 
-export const Cores = ({ phaseName, salesInfo }: { phaseName: string, salesInfo: CoretimeInformation['salesInfo'] }) => {
+export const Cores = ({ color, phaseName, salesInfo }: { phaseName: string, salesInfo: CoretimeInformation['salesInfo'], color: string }) => {
   const { t } = useTranslation();
   const { apiCoretime } = useApi();
   const bestNumberFinalized = useCall<BlockNumber>(apiCoretime?.derive.chain.bestNumberFinalized);
@@ -46,7 +46,7 @@ export const Cores = ({ phaseName, salesInfo }: { phaseName: string, salesInfo: 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <div>
                   <p style={{ fontSize: '14px', marginBottom: '0.15rem', opacity: '0.8' }}>{t('current price')}</p>
-                  <p style={{ color: '#007bff', fontSize: '20px' }}> {coretimePrice && formatBalance(coretimePrice)}</p>
+                  <p style={{ color: `${color}`, fontSize: '20px' }}> {coretimePrice && formatBalance(coretimePrice)}</p>
                 </div>
                 <div>
                   <p style={{ fontSize: '14px', marginBottom: '0.15rem', opacity: '0.8' }}>{t('available cores')}</p>

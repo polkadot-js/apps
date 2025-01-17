@@ -6,6 +6,7 @@ import type { ChainName, SaleParameters } from '../types.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { Dropdown, styled } from '@polkadot/react-components';
+import { defaultHighlight } from '@polkadot/react-components/styles';
 import { useApi } from '@polkadot/react-hooks';
 
 import { useCoretimeContext } from '../CoretimeContext.js';
@@ -47,12 +48,13 @@ const ResponsiveGrid = styled.div`
 
 function Sale ({ chainName }: Props): React.ReactElement<Props> {
   const { coretimeInfo } = useCoretimeContext();
-  const { api, isApiReady } = useApi();
+  const { api, apiEndpoint, isApiReady } = useApi();
   const { t } = useTranslation();
   const lastCommittedTimeslice = coretimeInfo?.status?.lastTimeslice;
   const [chosenSaleNumber, setChosenSaleNumber] = useState<number>(-1);
   const [saleParams, setSaleParams] = useState<SaleParameters | null>(null);
   const [selectedSaleParams, setSelectedSaleParams] = useState<SaleParameters | null>(null);
+  const apiColor = apiEndpoint?.ui.color || defaultHighlight;
 
   const saleNumberOptions = useMemo(() => [
     {
@@ -104,12 +106,14 @@ function Sale ({ chainName }: Props): React.ReactElement<Props> {
       <ResponsiveGrid>
         {phaseName && coretimeInfo &&
           <Cores
+            color={apiColor}
             phaseName={phaseName}
             salesInfo={coretimeInfo?.salesInfo}
           />}
         {saleParams?.regionForSale && <Region regionForSale={saleParams.regionForSale} />}
         {phaseName && coretimeInfo && saleParams &&
           <Timeline
+            color={apiColor}
             coretimeInfo={coretimeInfo}
             phaseName={phaseName}
             saleParams={saleParams}

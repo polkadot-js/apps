@@ -21,7 +21,17 @@ const TimelineWrapper = styled(WhiteBox)`
   }
 `;
 
-export const Timeline = ({ coretimeInfo: { salesInfo, status }, phaseName, saleParams }: { phaseName: string, saleParams: SaleParameters, coretimeInfo: { salesInfo: CoretimeInformation['salesInfo'], status: CoretimeInformation['status'] } }) => {
+interface TimelineProps {
+  phaseName: string;
+  saleParams: SaleParameters;
+  coretimeInfo: {
+    salesInfo: CoretimeInformation['salesInfo'];
+    status: CoretimeInformation['status'];
+  };
+  color: string;
+}
+
+export const Timeline = ({ color, coretimeInfo: { salesInfo, status }, phaseName, saleParams }: TimelineProps) => {
   const progressValues = useMemo(() => saleParams && salesInfo.regionBegin &&
     getSaleProgress(
       status.lastTimeslice,
@@ -47,7 +57,10 @@ export const Timeline = ({ coretimeInfo: { salesInfo, status }, phaseName, saleP
 
         </section>
       </SummaryBox>
-      <ProgressBar sections={progressValues as ProgressBarSection[] ?? []} />
+      <ProgressBar
+        color={color}
+        sections={progressValues as ProgressBarSection[] ?? []}
+      />
     </TimelineWrapper>
   );
 };
