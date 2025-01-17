@@ -51,15 +51,8 @@ function Sale({ chainName }: Props): React.ReactElement<Props> {
   const { api, isApiReady } = useApi();
   const { t } = useTranslation();
   const lastCommittedTimeslice = coretimeInfo?.status?.lastTimeslice;
-
-  const saleParams = coretimeInfo && getSaleParameters(
-    coretimeInfo,
-    chainName,
-    lastCommittedTimeslice ?? 0
-  );
-
-  const phaseName = useMemo(() => saleParams?.phaseConfig?.currentPhaseName, [saleParams]);
   const [chosenSaleNumber, setChosenSaleNumber] = useState<number>(-1);
+  const [saleParams, setSaleParams] = useState<SaleParameters | null>(null);
   const [selectedSaleParams, setSelectedSaleParams] = useState<SaleParameters | null>(null);
   const saleNumberOptions = useMemo(() =>
     [
@@ -75,16 +68,25 @@ function Sale({ chainName }: Props): React.ReactElement<Props> {
     ]
     , [saleParams, t]);
 
-  useEffect(() => {
-    if (saleNumberOptions.length > 1 && chosenSaleNumber === -1) {
-      setChosenSaleNumber(saleNumberOptions[1].value);
-    }
-  }, [saleNumberOptions, chosenSaleNumber]);
 
   // TODO: uncomment when introducing core purchase functionality
   // const available = getAvailableNumberOfCores(coretimeInfo);
 
-  const onDropDownChange = useCallback((value: number) => {
+  useEffect(() => {
+    if (coretimeInfo && !saleParams) {
+      setSaleParams(getSaleParameters(
+        coretimeInfo,
+        chainName,
+        lastCommittedTimeslice ?? 0
+      ));
+    }
+  }, [coretimeInfo, saleParams]);
+
+
+  const phaseName = useMemo(() => saleParams?.phaseConfig?.currentPhaseName, [saleParams]);
+
+  const onDropDownChange = (value: number) => {
+    console.log('dropdown changed', value);
     setChosenSaleNumber(value);
 
     if (value !== -1) {
@@ -94,7 +96,7 @@ function Sale({ chainName }: Props): React.ReactElement<Props> {
 
       setSelectedSaleParams(getSaleParameters(coretimeInfo, chainName, lastCommittedTimeslice ?? 0, value));
     }
-  }, [coretimeInfo, chainName, lastCommittedTimeslice]);
+  }
 
   return (
     <div>

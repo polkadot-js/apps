@@ -89,7 +89,14 @@ const SaleDetailsView = ({ chainName, chosenSaleNumber, saleParams }: { salePara
       <div>
         <Title>Sale phases</Title>
         <div style={{ display: 'grid', gap: '1rem', gridTemplateRows: '1fr 1fr 1fr', minWidth: '200px' }}>
-          {Object.entries(phases).map(([phase, { description, name }]) => (
+          {!saleParams?.phaseConfig &&
+            <div>
+              <p>This sale is of unsual length of {saleParams.currentRegion.end.ts - saleParams.currentRegion.start.ts} timeslices, hence the regular phases are not applicable.</p>
+              <p>Sale start timeslice: {saleParams.currentRegion.start.ts}</p>
+              <p>Sale end timeslice: {saleParams.currentRegion.end.ts}</p>
+            </div>
+          }
+          {saleParams?.phaseConfig && Object.entries(phases).map(([phase, { description, name }]) => (
             <div key={phase}>
               <h4>{name}</h4>
               <p style={{ maxWidth: '600px', opacity: '0.8' }}>{description}</p>

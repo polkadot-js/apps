@@ -48,7 +48,7 @@ export interface SaleParameters {
   saleNumber: number;
   interlude: { ts: number; blocks: number };
   leadin: { ts: number; blocks: number };
-  phaseConfig: PhaseConfig;
+  phaseConfig: PhaseConfig | null;
 }
 
 export interface SaleDetails {

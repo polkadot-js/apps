@@ -45,7 +45,7 @@ export const Cores = ({ phaseName, salesInfo }: { phaseName: string, salesInfo: 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <div>
                   <p style={{ fontSize: '14px', marginBottom: '0.15rem', opacity: '0.8' }}>{t('current price')}</p>
-                  <p style={{ fontSize: '20px' }}> {coretimePrice && formatBalance(coretimePrice)}</p>
+                  <p style={{ fontSize: '20px', color: '#007bff' }}> {coretimePrice && formatBalance(coretimePrice)}</p>
                 </div>
                 <div>
                   <p style={{ fontSize: '14px', marginBottom: '0.15rem', opacity: '0.8' }}>{t('available cores')}</p>

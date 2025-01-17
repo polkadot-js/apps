@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ChainConstants, PalletBrokerConfigRecord, PalletBrokerSaleInfoRecord } from '@polkadot/react-hooks/types';
-import type { ChainName, PhaseConfig, RegionInfo, SaleParameters } from '../types.js';
-import type { GetResponse } from './index.js';
+import type { ChainName, GetResponse, PhaseConfig, RegionInfo, SaleParameters } from '../types.js';
 
 import { type ProgressBarSection } from '@polkadot/react-components/types';
 import { BN } from '@polkadot/util';
@@ -181,65 +180,75 @@ export const getSaleParameters = (
   { config, constants, salesInfo }: {salesInfo: RegionInfo, config: Pick<PalletBrokerConfigRecord, 'interludeLength' | 'leadinLength' | 'regionLength'>, constants: ChainConstants},
   chainName: ChainName,
   lastCommittedTimeslice: number,
-  chosenSaleNumber?: number
+  chosenSaleNumber: number = -1
 ): SaleParameters => {
-  // The sale is happening on the coretime chain, so we need to convert the timeslices to blocks (40 blocks per timeslice)
   const get = createGet(constants);
   const interludeLengthTs = get.timeslices.coretime(config.interludeLength);
   const leadInLengthTs = get.timeslices.coretime(config.leadinLength);
-  const { currentRegionEndTs, currentRegionStartTs } = getCurrentRegionStartEndTs(salesInfo, config.regionLength);
+  let { currentRegionEndTs, currentRegionStartTs } = getCurrentRegionStartEndTs(salesInfo, config.regionLength);
   const getDate = (ts: number) => estimateTime(ts, get.blocks.relay(lastCommittedTimeslice), constants.relay) || '';
-
-  let regionStartTs = currentRegionStartTs;
-  let regionEndTs = currentRegionEndTs;
   const saleNumber = getCurrentSaleNumber(currentRegionEndTs, chainName, config);
 
   let currentRegionInfo: SaleParameters['currentRegion'];
 
-  if (chosenSaleNumber) {
-    const blocksPerSaleRelay = get.blocks.relay(config.regionLength);
-    const saleStartBlock = get.blocks.relay(salesInfo.regionBegin) - blocksPerSaleRelay * (saleNumber - chosenSaleNumber - 1);
-    const saleEndBlock = saleStartBlock + blocksPerSaleRelay;
-
-    const saleStartTs = get.timeslices.relay(saleStartBlock);
-    const saleEndTs = get.timeslices.relay(saleEndBlock);
-
-    const saleStartBlockCoretime = FirstCycleStart.block.coretime[chainName] + get.blocks.coretime((chosenSaleNumber) * config.regionLength);
-    const saleEndBlockCoretime = saleStartBlockCoretime + get.blocks.coretime(config.regionLength);
-
-    regionStartTs = currentRegionStartTs + get.blocks.coretime(config.regionLength * (chosenSaleNumber - 1));
-    regionEndTs = regionStartTs + get.blocks.coretime(config.regionLength);
+  if (chosenSaleNumber !== -1) {
+    // A hack for Kusama as one of the sales had an unusual length
+    // checked against Subscan historical sales
+    if (chainName === 'kusama') {
+      const irregularRegionLength = 848;
+      if (chosenSaleNumber === 0) {
+        currentRegionStartTs = FirstCycleStart.timeslice.coretime[chainName];
+        currentRegionEndTs = currentRegionStartTs + config.regionLength;
+      } else if (chosenSaleNumber === 1) {
+        currentRegionStartTs = FirstCycleStart.timeslice.coretime[chainName] + config.regionLength;
+        // that particular sale #2 was only 848 blocks long
+        currentRegionEndTs = currentRegionStartTs + irregularRegionLength;
+      } else {
+        currentRegionStartTs = FirstCycleStart.timeslice.coretime[chainName] + config.regionLength * (chosenSaleNumber - 1) + irregularRegionLength;
+        currentRegionEndTs = currentRegionStartTs + config.regionLength;
+      }
+    } else {
+      currentRegionStartTs = FirstCycleStart.timeslice.coretime[chainName] + config.regionLength * chosenSaleNumber;
+      currentRegionEndTs = currentRegionStartTs + config.regionLength;
+    }
 
     currentRegionInfo = {
       end: {
         blocks: {
-          coretime: saleEndBlockCoretime,
-          relay: get.blocks.relay(regionEndTs)
+          // the coretime blocks cannot be calculated as historically the regions are not 201,600 blocks long, they diviate from 2,212 to 1,417 blocks
+          coretime: 0,
+          relay: get.blocks.relay(currentRegionEndTs)
         },
-        date: getDate(regionEndTs),
-        ts: saleEndTs
+        date: getDate(currentRegionEndTs),
+        ts: currentRegionEndTs
       },
       start: {
         blocks: {
-          coretime: saleStartBlockCoretime,
-          relay: get.blocks.relay(regionStartTs)
+
+          coretime: 0,
+          relay: get.blocks.relay(currentRegionStartTs)
         },
-        date: getDate(regionStartTs),
-        ts: saleStartTs
+        date: getDate(currentRegionStartTs),
+        ts: currentRegionStartTs
       }
     };
   } else {
-    currentRegionInfo = makeConfig(regionStartTs, regionEndTs, get, getDate) as SaleParameters['currentRegion'];
+    currentRegionInfo = makeConfig(currentRegionStartTs, currentRegionEndTs, get, getDate) as SaleParameters['currentRegion'];
   }
 
-  const phaseConfig = getPhaseConfiguration(
-    regionStartTs,
-    config.regionLength,
-    interludeLengthTs,
-    leadInLengthTs,
-    lastCommittedTimeslice,
-    constants
-  );
+  let phaseConfig: PhaseConfig | null = null;
+
+  if (currentRegionEndTs - currentRegionStartTs === config.regionLength) {
+    phaseConfig = getPhaseConfiguration(
+      currentRegionStartTs,
+      config.regionLength,
+      interludeLengthTs,
+      leadInLengthTs,
+      lastCommittedTimeslice,
+      constants
+    );
+  }
+ 
 
   return {
     currentRegion: currentRegionInfo,
@@ -256,7 +265,7 @@ export const getSaleParameters = (
       end: {
         blocks: currentRegionInfo.end.blocks.relay + get.blocks.relay(config.regionLength),
         date: estimateTime(currentRegionInfo.end.ts + config.regionLength, get.blocks.relay(lastCommittedTimeslice), constants.relay),
-        ts: currentRegionInfo.start.ts + config.regionLength
+        ts: currentRegionInfo.end.ts + config.regionLength
       },
       start: {
         blocks: currentRegionInfo.end.blocks.relay,

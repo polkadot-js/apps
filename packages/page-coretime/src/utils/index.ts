@@ -18,7 +18,7 @@ Record<ChainName, number>
 export const FirstCycleStart: FirstCycleStartType = {
   block: {
     coretime: {
-      kusama: 86947,
+      kusama: 53793,
       'paseo testnet': 22316,
       polkadot: 100988,
       westend: 7363
@@ -26,7 +26,7 @@ export const FirstCycleStart: FirstCycleStartType = {
   },
   timeslice: {
     coretime: {
-      kusama: 285768,
+      kusama: 284920,
       'paseo testnet': 38469,
       polkadot: 282525,
       westend: 245402
