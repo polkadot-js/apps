@@ -36,7 +36,7 @@ function findOpenId (ids?: BN[]): BN {
   );
 
   return lastTaken
-    ? lastTaken.sub(BN_ONE)
+    ? lastTaken.add(BN_ONE)
     : ids[ids.length - 1].add(BN_ONE);
 }
 
