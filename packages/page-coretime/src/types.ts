@@ -4,7 +4,7 @@
 import type { PhaseName } from './constants.js';
 
 export interface PhaseInfo {
-  name: string;
+  name?: string;
   start: {
     date: string | null;
     blocks: {
@@ -42,8 +42,8 @@ export interface SaleParameters {
     end: { date: string, ts: number; blocks: { coretime: number, relay: number } };
   };
   regionForSale: {
-    start: { date: string, ts: number; blocks: number };
-    end: { date: string, ts: number; blocks: number };
+    start: { date: string, ts: number; blocks: { coretime: number, relay: number } };
+    end: { date: string | null, ts: number; blocks: { coretime: number, relay: number } };
   };
   saleNumber: number;
   interlude: { ts: number; blocks: number };

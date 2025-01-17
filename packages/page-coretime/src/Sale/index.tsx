@@ -17,7 +17,6 @@ import { Timeline } from './boxes/Timeline.js';
 import SaleDetailsView from './SaleDetailsView.js';
 import Summary from './Summary.js';
 
-
 interface Props {
   chainName: ChainName
 }
@@ -46,7 +45,7 @@ const ResponsiveGrid = styled.div`
   }
 `;
 
-function Sale({ chainName }: Props): React.ReactElement<Props> {
+function Sale ({ chainName }: Props): React.ReactElement<Props> {
   const { coretimeInfo } = useCoretimeContext();
   const { api, isApiReady } = useApi();
   const { t } = useTranslation();
@@ -54,23 +53,17 @@ function Sale({ chainName }: Props): React.ReactElement<Props> {
   const [chosenSaleNumber, setChosenSaleNumber] = useState<number>(-1);
   const [saleParams, setSaleParams] = useState<SaleParameters | null>(null);
   const [selectedSaleParams, setSelectedSaleParams] = useState<SaleParameters | null>(null);
-  const saleNumberOptions = useMemo(() =>
-    [
-      {
-        text: t('Pick a sale number'),
-        value: -1
-      },
-      ...Array.from({ length: saleParams?.saleNumber ?? 0 }, (_, i) => ({
-        text: `sale #${i + 1}`,
-        value: i
-      })).reverse()
 
-    ]
-    , [saleParams, t]);
-
-
-  // TODO: uncomment when introducing core purchase functionality
-  // const available = getAvailableNumberOfCores(coretimeInfo);
+  const saleNumberOptions = useMemo(() => [
+    {
+      text: t('Pick a sale number'),
+      value: -1
+    },
+    ...Array.from({ length: saleParams?.saleNumber ?? 0 }, (_, i) => ({
+      text: `sale #${i + 1}`,
+      value: i
+    })).reverse()
+  ], [saleParams?.saleNumber, t]);
 
   useEffect(() => {
     if (coretimeInfo && !saleParams) {
@@ -80,13 +73,11 @@ function Sale({ chainName }: Props): React.ReactElement<Props> {
         lastCommittedTimeslice ?? 0
       ));
     }
-  }, [coretimeInfo, saleParams]);
-
+  }, [coretimeInfo, saleParams, lastCommittedTimeslice, chainName]);
 
   const phaseName = useMemo(() => saleParams?.phaseConfig?.currentPhaseName, [saleParams]);
 
-  const onDropDownChange = (value: number) => {
-    console.log('dropdown changed', value);
+  const onDropDownChange = useCallback((value: number) => {
     setChosenSaleNumber(value);
 
     if (value !== -1) {
@@ -96,11 +87,11 @@ function Sale({ chainName }: Props): React.ReactElement<Props> {
 
       setSelectedSaleParams(getSaleParameters(coretimeInfo, chainName, lastCommittedTimeslice ?? 0, value));
     }
-  }
+  }, [coretimeInfo, chainName, lastCommittedTimeslice]);
 
   return (
     <div>
-      {coretimeInfo && saleParams &&
+      {coretimeInfo && !!saleParams?.saleNumber &&
         <Summary
           api={isApiReady ? api : null}
           config={coretimeInfo?.config}
@@ -111,13 +102,13 @@ function Sale({ chainName }: Props): React.ReactElement<Props> {
           status={coretimeInfo?.status}
         />}
       <ResponsiveGrid>
-        {phaseName &&
+        {phaseName && coretimeInfo &&
           <Cores
             phaseName={phaseName}
             salesInfo={coretimeInfo?.salesInfo}
           />}
         {saleParams?.regionForSale && <Region regionForSale={saleParams.regionForSale} />}
-        {phaseName && coretimeInfo &&
+        {phaseName && coretimeInfo && saleParams &&
           <Timeline
             coretimeInfo={coretimeInfo}
             phaseName={phaseName}
@@ -135,7 +126,7 @@ function Sale({ chainName }: Props): React.ReactElement<Props> {
                 value={chosenSaleNumber}
               />
             </div>
-            {saleParams &&
+            {saleParams && selectedSaleParams &&
               <SaleDetailsView
                 chainName={chainName}
                 chosenSaleNumber={chosenSaleNumber}

@@ -8,7 +8,7 @@ import type { ChainName } from './types.js';
 import React, { useRef } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import { Tabs } from '@polkadot/react-components';
+import { Spinner, Tabs } from '@polkadot/react-components';
 import { useCall } from '@polkadot/react-hooks';
 
 import Overview from './Overview/index.js';
@@ -47,18 +47,21 @@ function CoretimePage ({ api, basePath, className, isApiReady }: Props): React.R
         basePath={basePath}
         items={itemsRef.current}
       />
-      <Routes>
-        <Route path={basePath}>
-          <Route
-            element={<Overview chainName={chainName} />}
-            index
-          />
-          <Route
-            element={<Sale chainName={chainName} />}
-            path='sale'
-          />
-        </Route>
-      </Routes>
+      {!chainName
+        ? <div><Spinner /></div>
+        : <Routes>
+          <Route path={basePath}>
+            <Route
+              element={<Overview chainName={chainName} />}
+              index
+            />
+            <Route
+              element={<Sale chainName={chainName} />}
+              path='sale'
+            />
+          </Route>
+        </Routes>
+      }
     </main>
   );
 }

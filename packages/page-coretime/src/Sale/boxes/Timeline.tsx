@@ -29,7 +29,7 @@ export const Timeline = ({ coretimeInfo: { salesInfo, status }, phaseName, saleP
       saleParams.interlude.ts,
       saleParams.leadin.ts,
       salesInfo.regionBegin),
-    [saleParams, status.lastTimeslice, salesInfo.regionBegin]);
+  [saleParams, status.lastTimeslice, salesInfo.regionBegin]);
 
   return (
     <TimelineWrapper>

@@ -5,11 +5,10 @@ import type { SaleParameters } from 'page-coretime/src/types.js';
 
 import React from 'react';
 
+import { styled } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 import { WhiteBox } from '../../WhiteBox.js';
-import { styled } from '@polkadot/react-components';
-
 
 const RegionWrapper = styled(WhiteBox)`
   justify-self: center;
@@ -18,6 +17,7 @@ const RegionWrapper = styled(WhiteBox)`
     width: 100%;
   }
 `;
+
 export const Region = ({ regionForSale }: { regionForSale: SaleParameters['regionForSale'] }) => {
   return (
     <RegionWrapper>
@@ -30,7 +30,7 @@ export const Region = ({ regionForSale }: { regionForSale: SaleParameters['regio
           </div>
           <div style={{ marginTop: '0.5rem' }}>
             <p style={{ fontSize: '14px', marginBottom: '0.15rem', opacity: '0.8' }}>relay chain blocks</p>
-            <p style={{ fontSize: '20px' }}>{formatNumber(regionForSale.start.blocks)} - {formatNumber(regionForSale.end.blocks)}</p>
+            <p style={{ fontSize: '20px' }}>{formatNumber(regionForSale.start.blocks.relay)} - {formatNumber(regionForSale.end.blocks.relay)}</p>
           </div>
 
         </div>}

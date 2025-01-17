@@ -6,6 +6,7 @@ import type { BlockNumber } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
 
+import { styled } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatBalance } from '@polkadot/util';
 
@@ -13,7 +14,6 @@ import { PhaseName } from '../../constants.js';
 import { useTranslation } from '../../translate.js';
 import { getCorePriceAt } from '../../utils/sale.js';
 import { WhiteBox } from '../../WhiteBox.js';
-import { styled } from '@polkadot/react-components';
 
 export const Cores = ({ phaseName, salesInfo }: { phaseName: string, salesInfo: CoretimeInformation['salesInfo'] }) => {
   const { t } = useTranslation();
@@ -29,6 +29,7 @@ export const Cores = ({ phaseName, salesInfo }: { phaseName: string, salesInfo: 
       width: 100%;
     }
   `;
+
   return (
     <CoresWrapper>
       <p style={{ fontSize: '16px', fontWeight: 'bold' }}>Cores</p>
@@ -45,7 +46,7 @@ export const Cores = ({ phaseName, salesInfo }: { phaseName: string, salesInfo: 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <div>
                   <p style={{ fontSize: '14px', marginBottom: '0.15rem', opacity: '0.8' }}>{t('current price')}</p>
-                  <p style={{ fontSize: '20px', color: '#007bff' }}> {coretimePrice && formatBalance(coretimePrice)}</p>
+                  <p style={{ color: '#007bff', fontSize: '20px' }}> {coretimePrice && formatBalance(coretimePrice)}</p>
                 </div>
                 <div>
                   <p style={{ fontSize: '14px', marginBottom: '0.15rem', opacity: '0.8' }}>{t('available cores')}</p>

@@ -180,7 +180,7 @@ export const getSaleParameters = (
   { config, constants, salesInfo }: {salesInfo: RegionInfo, config: Pick<PalletBrokerConfigRecord, 'interludeLength' | 'leadinLength' | 'regionLength'>, constants: ChainConstants},
   chainName: ChainName,
   lastCommittedTimeslice: number,
-  chosenSaleNumber: number = -1
+  chosenSaleNumber = -1
 ): SaleParameters => {
   const get = createGet(constants);
   const interludeLengthTs = get.timeslices.coretime(config.interludeLength);
@@ -196,6 +196,7 @@ export const getSaleParameters = (
     // checked against Subscan historical sales
     if (chainName === 'kusama') {
       const irregularRegionLength = 848;
+
       if (chosenSaleNumber === 0) {
         currentRegionStartTs = FirstCycleStart.timeslice.coretime[chainName];
         currentRegionEndTs = currentRegionStartTs + config.regionLength;
@@ -248,7 +249,6 @@ export const getSaleParameters = (
       constants
     );
   }
- 
 
   return {
     currentRegion: currentRegionInfo,
@@ -263,12 +263,18 @@ export const getSaleParameters = (
     phaseConfig,
     regionForSale: {
       end: {
-        blocks: currentRegionInfo.end.blocks.relay + get.blocks.relay(config.regionLength),
+        blocks: {
+          coretime: 0,
+          relay: currentRegionInfo.end.blocks.relay + get.blocks.relay(config.regionLength)
+        },
         date: estimateTime(currentRegionInfo.end.ts + config.regionLength, get.blocks.relay(lastCommittedTimeslice), constants.relay),
         ts: currentRegionInfo.end.ts + config.regionLength
       },
       start: {
-        blocks: currentRegionInfo.end.blocks.relay,
+        blocks: {
+          coretime: 0,
+          relay: currentRegionInfo.end.blocks.relay
+        },
         date: currentRegionInfo.end.date,
         ts: currentRegionInfo.end.ts
       }

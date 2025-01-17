@@ -3,14 +3,14 @@
 
 import type { ChainName, SaleParameters } from '../types.js';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import { Button, styled } from '@polkadot/react-components';
 
 import { PhaseName } from '../constants.js';
+import { useTranslation } from '../translate.js';
 import PhaseTable from './PhaseTable.js';
 import { SubScanButton } from './SubScanButton.js';
-import { useTranslation } from '../translate.js';
 
 const ResponsiveContainer = styled.div`
   display: flex;
@@ -80,6 +80,15 @@ const phases = {
 
 const SaleDetailsView = ({ chainName, chosenSaleNumber, saleParams }: { saleParams: SaleParameters, chosenSaleNumber: number, chainName: ChainName }) => {
   const { t } = useTranslation();
+
+  const openCoretimeDashboard = useCallback(() => {
+    window.open('https://data.parity.io/coretime');
+  }, []);
+
+  const openSubscanSalePriceGraph = useCallback(() => {
+    window.open(`https://coretime-${chainName}.subscan.io/coretime_dashboard`);
+  }, [chainName]);
+
   if (chosenSaleNumber === -1 || !saleParams) {
     return null;
   }
@@ -115,8 +124,8 @@ const SaleDetailsView = ({ chainName, chosenSaleNumber, saleParams }: { salePara
         <Title>Price graph</Title>
         <Button
           isBasic
-          label={t(`Open Subscan Sale Price graph`)}
-          onClick={() => { window.open(`https://coretime-${chainName}.subscan.io/coretime_dashboard`); }}
+          label={t('Open Subscan Sale Price graph')}
+          onClick={openSubscanSalePriceGraph}
         />
         <Title>Core Purchase Transactions</Title>
         <SubScanButton
@@ -127,8 +136,8 @@ const SaleDetailsView = ({ chainName, chosenSaleNumber, saleParams }: { salePara
         <Title>DotLake Coretime Dashboard</Title>
         <Button
           isBasic
-          label={t(`DotLake Coretime Dashboard`)}
-          onClick={() => { window.open(`https://data.parity.io/coretime`); }}
+          label={t('DotLake Coretime Dashboard')}
+          onClick={openCoretimeDashboard}
         />
         <Title>Coretime providers</Title>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
