@@ -8,6 +8,7 @@ import React from 'react';
 import { Badge, styled, Tag } from '@polkadot/react-components';
 
 import { useTranslation } from './translate.js';
+import {useApi} from '@polkadot/react-hooks'
 
 interface Props {
   className?: string;
@@ -17,6 +18,7 @@ interface Props {
 
 function Legend ({ className, isRelay, minCommission }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi()
 
   return (
     <StyledDiv className={className}>
@@ -87,13 +89,15 @@ function Legend ({ className, isRelay, minCommission }: Props): React.ReactEleme
         />
         <span>{t('Session key not set')}</span>
       </span>
-      <span>
-        <Badge
-          color="orange"
-          icon="user-xmark"
-        />
-        <span>{t('Evm account not set')}</span>
-      </span>
+      {Number(api.runtimeVersion.specVersion.toString()) >= 48 && (
+        <span>
+          <Badge
+            color="orange"
+            icon="user-xmark"
+          />
+          <span>{t('Evm account not set')}</span>
+        </span>
+      )}
       {/*<span>*/}
       {/*  <Tag*/}
       {/*    color='lightgrey'*/}
