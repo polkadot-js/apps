@@ -606,6 +606,17 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    info: 'torus',
+    providers: {
+      mainnet: 'wss://api.torus.network'
+    },
+    text: 'Torus',
+    ui: {
+      color: '#070A0E',
+      logo: chainsTorusPNG
+    }
+  },
+  {
     info: 'uniarts',
     providers: {
       // UniArts: 'wss://mainnet.uniarts.vip:9443' // https://github.com/polkadot-js/apps/issues/9059
@@ -661,17 +672,6 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: 'linear-gradient(-90deg, #9400D3 0%, #5A5CA9 50%, #00BFFF 100%)',
       logo: nodesDatahighwayPNG
-    }
-  },
-  {
-    info: 'torus',
-    providers: {
-      mainnet: 'wss://api.torus.network'
-    },
-    text: 'Torus',
-    ui: {
-      color: '#070A0E',
-      logo: chainsTorusPNG
     }
   }
 ];
