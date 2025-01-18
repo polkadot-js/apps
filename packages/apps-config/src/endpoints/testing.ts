@@ -28,6 +28,17 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
       logo: chainsBevmSVG
     }
   },
+  {
+    info: 'bevm-signet',
+    providers: {
+      'BEVM': 'wss://signet.bevm.io/ws',
+    },
+    text: 'Bevm Signet',
+    ui: {
+      color: '#CDA164',
+      logo: chainsBevmSVG
+    }
+  },
   // {
   //   info: '3dpass-testnet',
   //   providers: {
