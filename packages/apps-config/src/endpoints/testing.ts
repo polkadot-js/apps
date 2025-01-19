@@ -440,13 +440,13 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'harmonie',
+    info: 'melodie',
     providers: {
-      'Allfeat labs': 'wss://harmonie-endpoint-02.allfeat.io'
+      'Allfeat labs': 'wss://melodie-rpc.allfeat.io'
     },
-    text: 'Harmonie Testnet',
+    text: 'Melodie | Allfeat Testnet',
     ui: {
-      color: '#000000',
+      color: '#ff4a5f',
       logo: chainsAllfeatSVG
     }
   },
