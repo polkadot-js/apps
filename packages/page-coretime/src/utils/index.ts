@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ChainBlockConstants, ChainConstants, CoretimeInformation } from '@polkadot/react-hooks/types';
-import type { ChainName, RegionInfo } from '../types.js';
+import type { ChainName, GetResponse, RegionInfo } from '../types.js';
 
 import { BN } from '@polkadot/util';
 
@@ -18,7 +18,7 @@ Record<ChainName, number>
 export const FirstCycleStart: FirstCycleStartType = {
   block: {
     coretime: {
-      kusama: 86947,
+      kusama: 53793,
       'paseo testnet': 22316,
       polkadot: 100988,
       westend: 7363
@@ -26,7 +26,7 @@ export const FirstCycleStart: FirstCycleStartType = {
   },
   timeslice: {
     coretime: {
-      kusama: 285768,
+      kusama: 284920,
       'paseo testnet': 38469,
       polkadot: 282525,
       westend: 245402
@@ -94,7 +94,7 @@ export const estimateTime = (
  *
  * @returns An object containing blocks and timeslices conversion functions.
  */
-export const createGet = (constants: ChainConstants) => ({
+export const createGet = (constants: ChainConstants): GetResponse => ({
   blocks: {
     /**
      * Convert timeslices to Coretime blocks.
@@ -150,8 +150,8 @@ export const createGet = (constants: ChainConstants) => ({
  */
 export const getCurrentRegionStartEndTs = (saleInfo: RegionInfo, regionLength: number) => {
   return {
-    currentRegionEnd: saleInfo.regionBegin,
-    currentRegionStart: saleInfo.regionBegin - regionLength
+    currentRegionEndTs: saleInfo.regionBegin,
+    currentRegionStartTs: saleInfo.regionBegin - regionLength
   };
 };
 

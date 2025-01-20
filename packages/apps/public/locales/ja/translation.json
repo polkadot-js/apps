@@ -487,6 +487,7 @@
   "recover this account": "このアカウントを復旧する",
   "recovery block delay": "ブロックの遅延を復旧する",
   "recovery threshold": "出発点を復旧する",
+  "ref time": "基準時間",
   "registrar account": "アカウントを登録する",
   "registrar index": "indexを登録する",
   "relay dispatch queue": "リレーディスパッチキュー",

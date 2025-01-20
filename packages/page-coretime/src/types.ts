@@ -4,16 +4,30 @@
 import type { PhaseName } from './constants.js';
 
 export interface PhaseInfo {
-  name: string;
-  lastBlock: number;
-  lastTimeslice: number
+  name?: string;
+  start: {
+    date: string | null;
+    blocks: {
+      relay: number;
+      coretime: number;
+    };
+    ts: number;
+  }
+  end: {
+    date: string | null;
+    blocks: {
+      relay: number;
+      coretime: number;
+    };
+    ts: number;
+  }
 }
 
 type PhaseNameType = typeof PhaseName[keyof typeof PhaseName];
 
 export interface PhaseConfig {
   currentPhaseName: PhaseNameType;
-  config: Record<PhaseNameType, { lastTimeslice: number; lastBlock: number }>;
+  config: Record<PhaseNameType, PhaseInfo >;
 }
 
 export interface PhaseProgress {
@@ -24,14 +38,17 @@ export interface PhaseProgress {
 
 export interface SaleParameters {
   currentRegion: {
-    start: { ts: number; blocks: number };
-    end: { ts: number; blocks: number };
+    start: { date: string, ts: number; blocks: { coretime: number, relay: number } };
+    end: { date: string, ts: number; blocks: { coretime: number, relay: number } };
   };
-  cycleNumber: number;
+  regionForSale: {
+    start: { date: string, ts: number; blocks: { coretime: number, relay: number } };
+    end: { date: string | null, ts: number; blocks: { coretime: number, relay: number } };
+  };
+  saleNumber: number;
   interlude: { ts: number; blocks: number };
   leadin: { ts: number; blocks: number };
-  phaseConfig: PhaseConfig;
-  regionNumber: number;
+  phaseConfig: PhaseConfig | null;
 }
 
 export interface SaleDetails {
@@ -66,3 +83,14 @@ export interface RegionInfo {
 }
 
 export type ChainName = 'kusama' | 'polkadot' | 'paseo testnet' | 'westend'
+
+export interface GetResponse {
+  blocks: {
+    coretime: (ts: number) => number;
+    relay: (ts: number) => number;
+  };
+  timeslices: {
+    coretime: (blocks: number) => number;
+    relay: (blocks: number) => number;
+  };
+}

@@ -15,14 +15,14 @@
     "url": "https://github.com/polkadot-js/apps.git"
   },
   "sideEffects": false,
-  "version": "0.147.2-1-x",
+  "version": "0.147.2-9-x",
   "main": "build/electron.js",
   "dependencies": {
     "electron-log": "^5.0.1",
     "electron-updater": "^6.1.7"
   },
   "devDependencies": {
-    "@polkadot/dev": "^0.82.1",
+    "@polkadot/dev": "^0.83.2",
     "@types/tmp": "^0.2.6",
     "copy-webpack-plugin": "^11.0.0",
     "electron": "28.0.0",
