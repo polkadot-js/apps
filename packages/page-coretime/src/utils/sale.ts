@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ChainConstants, PalletBrokerConfigRecord, PalletBrokerSaleInfoRecord } from '@polkadot/react-hooks/types';
-import type { ChainName, PhaseConfig, RegionInfo, SaleDetails, SaleParameters } from '../types.js';
+import type { ChainName, GetResponse, PhaseConfig, RegionInfo, SaleParameters } from '../types.js';
 
 import { type ProgressBarSection } from '@polkadot/react-components/types';
 import { BN } from '@polkadot/util';
@@ -99,15 +99,15 @@ export const determinePhaseName = (
 
 export const getSaleProgress = (
   lastCommittedTimeslice: number | undefined,
-  currentRegionStart: number,
+  currentRegionStartTs: number,
   interludeLengthTs: number,
   leadInLengthTs: number,
   regionBegin: number): ProgressBarSection[] => {
-  if (!lastCommittedTimeslice || !currentRegionStart || !interludeLengthTs || !leadInLengthTs || !regionBegin) {
+  if (!lastCommittedTimeslice || !currentRegionStartTs || !interludeLengthTs || !leadInLengthTs || !regionBegin) {
     return [];
   }
 
-  const progress = lastCommittedTimeslice - currentRegionStart;
+  const progress = lastCommittedTimeslice - currentRegionStartTs;
 
   return [
     {
@@ -122,10 +122,33 @@ export const getSaleProgress = (
     },
     {
       label: PhaseName.FixedPrice,
-      total: regionBegin - currentRegionStart - interludeLengthTs - leadInLengthTs,
+      total: regionBegin - currentRegionStartTs - interludeLengthTs - leadInLengthTs,
       value: Math.max(progress - interludeLengthTs - leadInLengthTs, 0)
     }
   ];
+};
+
+const makeConfig = (startTs: number, endTs: number, get: GetResponse, getDate: (ts: number) => string | null, phaseName?: typeof PhaseName[keyof typeof PhaseName]) => {
+  return {
+    end: {
+      blocks: {
+        coretime: get.blocks.coretime(endTs),
+        relay: get.blocks.relay(endTs)
+      },
+      date: getDate(endTs),
+      ts: endTs
+    },
+    name: phaseName ?? '',
+    start: {
+      blocks: {
+        coretime: get.blocks.coretime(startTs),
+        relay: get.blocks.relay(startTs)
+      },
+      date: getDate(startTs),
+      ts: startTs
+    }
+
+  };
 };
 
 const getPhaseConfiguration = (
@@ -138,65 +161,97 @@ const getPhaseConfiguration = (
 ): PhaseConfig => {
   const renewalsEndTs = currentRegionStart + interludeLengthTs;
   const priceDiscoveryEndTs = renewalsEndTs + leadInLengthTs;
-  const fixedPriceLenght = regionLength - interludeLengthTs - leadInLengthTs;
-  const fixedPriceEndTs = priceDiscoveryEndTs + fixedPriceLenght;
+  const fixedPriceLengthTs = regionLength - interludeLengthTs - leadInLengthTs;
+  const fixedPriceEndTs = priceDiscoveryEndTs + fixedPriceLengthTs;
   const get = createGet(constants);
+  const getDate = (ts: number) => estimateTime(ts, get.blocks.relay(lastCommittedTimeslice) ?? 0, constants.relay);
 
   return {
     config: {
-      [PhaseName.Renewals]: {
-        lastBlock: get.blocks.relay(renewalsEndTs),
-        lastTimeslice: renewalsEndTs
-      },
-      [PhaseName.PriceDiscovery]: {
-        lastBlock: get.blocks.relay(priceDiscoveryEndTs),
-        lastTimeslice: priceDiscoveryEndTs
-      },
-      [PhaseName.FixedPrice]: {
-        lastBlock: get.blocks.relay(fixedPriceEndTs),
-        lastTimeslice: fixedPriceEndTs
-      }
+      [PhaseName.FixedPrice]: makeConfig(fixedPriceEndTs, fixedPriceEndTs, get, getDate, PhaseName.FixedPrice),
+      [PhaseName.PriceDiscovery]: makeConfig(renewalsEndTs, priceDiscoveryEndTs, get, getDate, PhaseName.PriceDiscovery),
+      [PhaseName.Renewals]: makeConfig(currentRegionStart, renewalsEndTs, get, getDate, PhaseName.Renewals)
     },
     currentPhaseName: determinePhaseName(lastCommittedTimeslice, currentRegionStart, interludeLengthTs, leadInLengthTs)
   };
 };
 
 export const getSaleParameters = (
-  salesInfo: RegionInfo,
-  config: Pick<PalletBrokerConfigRecord, 'interludeLength' | 'leadinLength' | 'regionLength'>,
+  { config, constants, salesInfo }: {salesInfo: RegionInfo, config: Pick<PalletBrokerConfigRecord, 'interludeLength' | 'leadinLength' | 'regionLength'>, constants: ChainConstants},
   chainName: ChainName,
   lastCommittedTimeslice: number,
-  constants: ChainConstants
+  chosenSaleNumber = -1
 ): SaleParameters => {
-  // The sale is happening on the coretime chain, so we need to convert the timeslices to blocks (40 blocks per timeslice)
   const get = createGet(constants);
   const interludeLengthTs = get.timeslices.coretime(config.interludeLength);
   const leadInLengthTs = get.timeslices.coretime(config.leadinLength);
+  let { currentRegionEndTs, currentRegionStartTs } = getCurrentRegionStartEndTs(salesInfo, config.regionLength);
+  const getDate = (ts: number) => estimateTime(ts, get.blocks.relay(lastCommittedTimeslice), constants.relay) || '';
+  const saleNumber = getCurrentSaleNumber(currentRegionEndTs, chainName, config);
 
-  const { currentRegionEnd, currentRegionStart } = getCurrentRegionStartEndTs(salesInfo, config.regionLength);
-  const phaseConfig = getPhaseConfiguration(
-    currentRegionStart,
-    config.regionLength,
-    interludeLengthTs,
-    leadInLengthTs,
-    lastCommittedTimeslice,
-    constants
-  );
+  let currentRegionInfo: SaleParameters['currentRegion'];
 
-  const saleNumber = getCurrentSaleNumber(currentRegionEnd, chainName, config);
+  if (chosenSaleNumber !== -1) {
+    // A hack for Kusama as one of the sales had an unusual length
+    // checked against Subscan historical sales
+    if (chainName === 'kusama') {
+      const irregularRegionLength = 848;
 
-  return {
-    currentRegion: {
+      if (chosenSaleNumber === 0) {
+        currentRegionStartTs = FirstCycleStart.timeslice.coretime[chainName];
+        currentRegionEndTs = currentRegionStartTs + config.regionLength;
+      } else if (chosenSaleNumber === 1) {
+        currentRegionStartTs = FirstCycleStart.timeslice.coretime[chainName] + config.regionLength;
+        // that particular sale #2 was only 848 blocks long
+        currentRegionEndTs = currentRegionStartTs + irregularRegionLength;
+      } else {
+        currentRegionStartTs = FirstCycleStart.timeslice.coretime[chainName] + config.regionLength * (chosenSaleNumber - 1) + irregularRegionLength;
+        currentRegionEndTs = currentRegionStartTs + config.regionLength;
+      }
+    } else {
+      currentRegionStartTs = FirstCycleStart.timeslice.coretime[chainName] + config.regionLength * chosenSaleNumber;
+      currentRegionEndTs = currentRegionStartTs + config.regionLength;
+    }
+
+    currentRegionInfo = {
       end: {
-        blocks: get.blocks.relay(currentRegionEnd),
-        ts: currentRegionEnd
+        blocks: {
+          // the coretime blocks cannot be calculated as historically the regions are not 201,600 blocks long, they deviate from 2,212 to 1,417 blocks
+          coretime: 0,
+          relay: get.blocks.relay(currentRegionEndTs)
+        },
+        date: getDate(currentRegionEndTs),
+        ts: currentRegionEndTs
       },
       start: {
-        blocks: get.blocks.relay(currentRegionStart),
-        ts: currentRegionStart
+        blocks: {
+
+          coretime: 0,
+          relay: get.blocks.relay(currentRegionStartTs)
+        },
+        date: getDate(currentRegionStartTs),
+        ts: currentRegionStartTs
       }
-    },
-    cycleNumber: getCurrentSaleNumber(currentRegionEnd, chainName, config),
+    };
+  } else {
+    currentRegionInfo = makeConfig(currentRegionStartTs, currentRegionEndTs, get, getDate) as SaleParameters['currentRegion'];
+  }
+
+  let phaseConfig: PhaseConfig | null = null;
+
+  if (currentRegionEndTs - currentRegionStartTs === config.regionLength) {
+    phaseConfig = getPhaseConfiguration(
+      currentRegionStartTs,
+      config.regionLength,
+      interludeLengthTs,
+      leadInLengthTs,
+      lastCommittedTimeslice,
+      constants
+    );
+  }
+
+  return {
+    currentRegion: currentRegionInfo,
     interlude: {
       blocks: config.interludeLength,
       ts: interludeLengthTs
@@ -206,56 +261,24 @@ export const getSaleParameters = (
       ts: leadInLengthTs
     },
     phaseConfig,
-    regionNumber: saleNumber - 1
-  };
-};
-
-export function calculateSaleDetails (
-  saleNumber: number,
-  currentSaleNumber: number,
-  latestBlock: number,
-  chainName: ChainName,
-  regionLength: number,
-  saleParams: SaleParameters,
-  constants: ChainConstants
-): SaleDetails | null {
-  if (saleNumber === -1) {
-    return null;
-  }
-
-  const get = createGet(constants);
-
-  const blocksPerSaleRelay = get.blocks.relay(regionLength);
-  const saleStartBlock = saleParams.currentRegion.start.blocks - blocksPerSaleRelay * (currentSaleNumber - saleNumber - 1);
-  const saleEndBlock = saleStartBlock + blocksPerSaleRelay;
-
-  const saleStartTs = get.timeslices.relay(saleStartBlock);
-  const saleEndTs = get.timeslices.relay(saleEndBlock);
-
-  const saleStartBlockCoretime = FirstCycleStart.block.coretime[chainName] + get.blocks.coretime((saleNumber) * regionLength);
-  const saleEndBlockCoretime = saleStartBlockCoretime + get.blocks.coretime(regionLength);
-
-  const data = {
-    coretime: {
-      end: { block: saleEndBlockCoretime },
-      start: { block: saleStartBlockCoretime }
-    },
-    date: {
-      end: estimateTime(saleEndTs, latestBlock, constants.relay),
-      start: estimateTime(saleStartTs, latestBlock, constants.relay)
-    },
-    relay: {
+    regionForSale: {
       end: {
-        block: saleEndBlock,
-        ts: saleEndTs
+        blocks: {
+          coretime: 0,
+          relay: currentRegionInfo.end.blocks.relay + get.blocks.relay(config.regionLength)
+        },
+        date: estimateTime(currentRegionInfo.end.ts + config.regionLength, get.blocks.relay(lastCommittedTimeslice), constants.relay),
+        ts: currentRegionInfo.end.ts + config.regionLength
       },
       start: {
-        block: saleStartBlock,
-        ts: saleStartTs
+        blocks: {
+          coretime: 0,
+          relay: currentRegionInfo.end.blocks.relay
+        },
+        date: currentRegionInfo.end.date,
+        ts: currentRegionInfo.end.ts
       }
     },
     saleNumber
   };
-
-  return data;
-}
+};
