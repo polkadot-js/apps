@@ -71,7 +71,7 @@ const phases = {
   [PhaseName.PriceDiscovery]: {
     description: 'The period during which cores are available for both purchase and renewal. The price decreases linearly over time.',
     name: 'Price Discovery phase'
-  }, q
+  },
   [PhaseName.FixedPrice]: {
     description: 'The period during which cores are available for both purchase and renewal. The price remains fixed towards the end of the sales period.',
     name: 'Fixed price phase'
