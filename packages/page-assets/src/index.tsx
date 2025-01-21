@@ -34,7 +34,7 @@ function findOpenId (genesisHash: HexString, ids?: BN[]): BN {
     return BN_ONE;
   }
 
-  if (GENESIS_HASHES.map((e) => e.toLowerCase()).includes(genesisHash)) {
+  if (GENESIS_HASHES.includes(genesisHash)) {
     return ids.sort((a, b) => a.cmp(b))[ids.length - 1].add(BN_ONE);
   }
 
@@ -76,7 +76,7 @@ function AssetApp ({ basePath, className }: Props): React.ReactElement<Props> {
   );
 
   const openId = useMemo(
-    () => findOpenId(api.genesisHash.toHex().toLowerCase() as HexString, ids),
+    () => findOpenId(api.genesisHash.toHex(), ids),
     [api.genesisHash, ids]
   );
 
