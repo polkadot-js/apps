@@ -86,11 +86,13 @@ function Propose ({ className }: Props): React.ReactElement<Props> | null {
               >
                 {bondPercentage}
               </Static>
-              <InputBalance
-                defaultValue={bondMin}
-                isDisabled
-                label={t('minimum bond')}
-              />
+              {bondMin && (
+                <InputBalance
+                  defaultValue={bondMin}
+                  isDisabled
+                  label={t('minimum bond')}
+                />
+              )}
               {bondMax && (
                 <InputBalance
                   defaultValue={bondMax}
