@@ -646,8 +646,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2012,
     providers: {
       // Dwellir: 'wss://parallel-rpc.dwellir.com' , https://github.com/polkadot-js/apps/issues/10997
-      Gatotech: 'wss://parallel.gatotech.network',
-      Parallel: 'wss://polkadot-parallel-rpc.parallel.fi'
+      Gatotech: 'wss://parallel.gatotech.network'
+      // Parallel: 'wss://polkadot-parallel-rpc.parallel.fi' // https://github.com/polkadot-js/apps/issues/11221
       // OnFinality: 'wss://parallel.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9986
     },
     text: 'Parallel',
@@ -867,8 +867,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'zeitgeist',
     paraId: 2092,
     providers: {
-      OnFinality: 'wss://zeitgeist.api.onfinality.io/public-ws',
-      ZeitgeistPM: 'wss://main.rpc.zeitgeist.pm/ws'
+      OnFinality: 'wss://zeitgeist.api.onfinality.io/public-ws'
+      // ZeitgeistPM: 'wss://main.rpc.zeitgeist.pm/ws' // https://github.com/polkadot-js/apps/issues/11215
     },
     text: 'Zeitgeist',
     ui: {
