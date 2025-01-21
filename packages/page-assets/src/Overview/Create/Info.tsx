@@ -1,6 +1,7 @@
 // Copyright 2017-2025 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { BitLength } from '@polkadot/react-components/types';
 import type { BN } from '@polkadot/util';
 import type { InfoState } from './types.js';
 
@@ -20,7 +21,7 @@ interface Props {
   openId: BN;
 }
 
-const ASSET_ID_BIT_LENGTH = 128;
+const ASSET_ID_BIT_LENGTH: BitLength = 128;
 
 function Info ({ assetIds, className = '', defaultValue, onChange, openId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
