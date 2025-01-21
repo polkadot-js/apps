@@ -5,12 +5,14 @@
 import '@polkadot/api-augment/substrate';
 
 import type { BN } from '@polkadot/util';
+import type { HexString } from '@polkadot/util/types';
 
 import React, { useMemo, useRef } from 'react';
 import { Route, Routes } from 'react-router';
 
+import { getGenesis } from '@polkadot/apps-config';
 import { Tabs } from '@polkadot/react-components';
-import { useAccounts } from '@polkadot/react-hooks';
+import { useAccounts, useApi } from '@polkadot/react-hooks';
 import { BN_ONE } from '@polkadot/util';
 
 import Balances from './Balances/index.js';
@@ -24,9 +26,16 @@ interface Props {
   className?: string;
 }
 
-function findOpenId (ids?: BN[]): BN {
+// Chains in which next asset id should be incremented from 1
+const GENESIS_HASHES = [getGenesis('statemint'), getGenesis('statemine')];
+
+function findOpenId (genesisHash: HexString, ids?: BN[]): BN {
   if (!ids?.length) {
     return BN_ONE;
+  }
+
+  if (GENESIS_HASHES.map((e) => e.toLowerCase()).includes(genesisHash)) {
+    return ids.sort((a, b) => a.cmp(b))[ids.length - 1].add(BN_ONE);
   }
 
   const lastTaken = ids.find((id, index) =>
@@ -42,6 +51,7 @@ function findOpenId (ids?: BN[]): BN {
 
 function AssetApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const { hasAccounts } = useAccounts();
   const ids = useAssetIds();
   const infos = useAssetInfos(ids);
@@ -66,8 +76,8 @@ function AssetApp ({ basePath, className }: Props): React.ReactElement<Props> {
   );
 
   const openId = useMemo(
-    () => findOpenId(ids),
-    [ids]
+    () => findOpenId(api.genesisHash.toHex().toLowerCase() as HexString, ids),
+    [api.genesisHash, ids]
   );
 
   return (
