@@ -440,17 +440,6 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'harmonie',
-    providers: {
-      'Allfeat labs': 'wss://harmonie-endpoint-02.allfeat.io'
-    },
-    text: 'Harmonie Testnet',
-    ui: {
-      color: '#000000',
-      logo: chainsAllfeatSVG
-    }
-  },
-  {
     info: 'interlay-testnet',
     providers: {
       // Interlay: 'wss://api-testnet.interlay.io/parachain/' https://github.com/polkadot-js/apps/issues/11157
@@ -614,6 +603,17 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#2070a6',
       logo: nodesMantaPNG
+    }
+  },
+  {
+    info: 'melodie',
+    providers: {
+      'Allfeat labs': 'wss://melodie-rpc.allfeat.io'
+    },
+    text: 'Melodie | Allfeat Testnet',
+    ui: {
+      color: '#ff4a5f',
+      logo: chainsAllfeatSVG
     }
   },
   {
