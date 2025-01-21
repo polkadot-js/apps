@@ -20,6 +20,8 @@ interface Props {
   openId: BN;
 }
 
+const ASSET_ID_BIT_LENGTH = 128;
+
 function Info ({ assetIds, className = '', defaultValue, onChange, openId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -114,6 +116,7 @@ function Info ({ assetIds, className = '', defaultValue, onChange, openId }: Pro
       </Modal.Columns>
       <Modal.Columns hint={t('The selected id for the asset. This should not match an already-existing asset id.')}>
         <InputNumber
+          bitLength={ASSET_ID_BIT_LENGTH}
           defaultValue={initial?.assetId || initialId}
           isError={!isValidId}
           isZeroable={false}
