@@ -1,5 +1,5 @@
     4364	Jaco                          	Disable unreachable endpoints (#10221)
-     103	Tarik Gul                     	Bump dev to 0.83.2 (#11210)
+     104	Tarik Gul                     	Add check for proposeSend (#11227)
       81	Thibaut Sardan                	update overrides (#10090)
       62	kwingram25                    	iadd fix (#2911)
       49	pan                           	update Bifrost kusama on Subsquare (#9752)
