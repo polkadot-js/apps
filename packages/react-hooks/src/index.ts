@@ -13,6 +13,8 @@ export { useAddresses } from './useAddresses.js';
 export { useApi } from './useApi.js';
 export { useApiStats } from './useApiStats.js';
 export { useApiUrl } from './useApiUrl.js';
+export { useAssetIds } from './useAssetIds.js';
+export { useAssetInfos } from './useAssetInfos.js';
 export { useAvailableSlashes } from './useAvailableSlashes.js';
 export { useBalancesAll } from './useBalancesAll.js';
 export { useBestHash } from './useBestHash.js';

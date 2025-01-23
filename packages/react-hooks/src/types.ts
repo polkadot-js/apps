@@ -8,7 +8,7 @@ import type { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/ap
 import type { DisplayedJudgement } from '@polkadot/react-components/types';
 import type { Option, u32, u128, Vec } from '@polkadot/types';
 import type { AccountId, BlockNumber, Call, Hash, SessionIndex, ValidatorPrefs } from '@polkadot/types/interfaces';
-import type { PalletPreimageRequestStatus, PalletStakingRewardDestination, PalletStakingStakingLedger, PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor, SpStakingExposurePage, SpStakingPagedExposureMetadata } from '@polkadot/types/lookup';
+import type { PalletAssetsAssetDetails, PalletAssetsAssetMetadata, PalletPreimageRequestStatus, PalletStakingRewardDestination, PalletStakingStakingLedger, PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor, SpStakingExposurePage, SpStakingPagedExposureMetadata } from '@polkadot/types/lookup';
 import type { ICompact, IExtrinsic, INumber } from '@polkadot/types/types';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { BN } from '@polkadot/util';
@@ -50,6 +50,22 @@ export interface Inflation {
   inflation: number;
   stakedFraction: number;
   stakedReturn: number;
+}
+
+export interface AssetInfo {
+  details: PalletAssetsAssetDetails | null;
+  id: BN;
+  isAdminMe: boolean;
+  isIssuerMe: boolean;
+  isFreezerMe: boolean;
+  isOwnerMe: boolean;
+  key: string;
+  metadata: PalletAssetsAssetMetadata | null;
+}
+
+export interface AssetInfoComplete extends AssetInfo {
+  details: PalletAssetsAssetDetails;
+  metadata: PalletAssetsAssetMetadata;
 }
 
 export interface Slash {
