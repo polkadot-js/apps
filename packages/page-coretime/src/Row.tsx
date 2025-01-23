@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-coretime authors & contributors
+// Copyright 2017-2025 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { FlagColor } from '@polkadot/react-components/types';
@@ -7,11 +7,11 @@ import type { ChainWorkTaskInformation, LegacyLease } from '@polkadot/react-hook
 import React from 'react';
 
 import { ParaLink, styled, Tag } from '@polkadot/react-components';
-import { ChainRenewalStatus } from '@polkadot/react-hooks/types';
+import { ChainRenewalStatus, CoreTimeTypes } from '@polkadot/react-hooks/constants';
 import { BN, formatBalance, formatNumber } from '@polkadot/util';
 
-import { CoreTimeTypes } from './types.js';
-import { estimateTime } from './utils.js';
+import { estimateTime } from './utils/index.js';
+import { useCoretimeContext } from './CoretimeContext.js';
 
 interface Props {
   id: number
@@ -40,6 +40,8 @@ function Row ({ chainRecord, highlight = false, id, lastCommittedTimeslice, leas
   const targetTimeslice = lease?.until || chainRegionEnd;
   const showEstimates = !!targetTimeslice && Object.values(CoreTimeTypes)[chainRecord.type] !== CoreTimeTypes.Reservation;
 
+  const { coretimeInfo, get } = useCoretimeContext();
+
   return (
     <React.Fragment key={`${id}`}>
       <StyledCell $p={highlight}>{id}</StyledCell>
@@ -57,11 +59,11 @@ function Row ({ chainRecord, highlight = false, id, lastCommittedTimeslice, leas
       <StyledCell
         $p={highlight}
         className='media--800'
-      >{showEstimates && formatNumber(targetTimeslice * 80).toString()}</StyledCell>
+      >{showEstimates && get && formatNumber(get.blocks.relay(targetTimeslice)).toString()}</StyledCell>
       <StyledCell
         $p={highlight}
         className='media--1000'
-      >{showEstimates && estimateTime(targetTimeslice, lastCommittedTimeslice * 80)}</StyledCell>
+      >{showEstimates && get && coretimeInfo && estimateTime(targetTimeslice, get.blocks.relay(lastCommittedTimeslice), coretimeInfo?.constants?.relay)}</StyledCell>
       <StyledCell
         $p={highlight}
         className='media--1200'

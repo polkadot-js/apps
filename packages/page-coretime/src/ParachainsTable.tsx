@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-coretime authors & contributors
+// Copyright 2017-2025 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useRef } from 'react';
@@ -33,6 +33,7 @@ function ParachainsTable ({ coretimeInfo }: Props): React.ReactElement<Props> {
       header={headerRef.current}
       isSplit={false}
     >
+
       {coretimeInfo?.taskIds?.map((taskId: number) => {
         const chain = coretimeInfo.chainInfo[taskId];
 

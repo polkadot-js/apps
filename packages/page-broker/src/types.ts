@@ -1,6 +1,7 @@
-// Copyright 2017-2024 @polkadot/app-broker authors & contributors
+// Copyright 2017-2025 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { CoreTimeTypes } from '@polkadot/react-hooks/constants';
 import type { CoreWorkload, CoreWorkplan } from '@polkadot/react-hooks/types';
 
 export interface InfoRow {
@@ -26,13 +27,6 @@ export interface statsType {
   idles: number,
   pools: number,
   tasks: number
-}
-
-export enum CoreTimeTypes {
-  'Reservation',
-  'Lease',
-  'Bulk Coretime',
-  'On Demand'
 }
 
 export interface CoreWorkplanType extends CoreWorkplan {

@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-broker authors & contributors
+// Copyright 2017-2025 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { FlagColor } from '@polkadot/react-components/types';
@@ -6,8 +6,9 @@ import type { FlagColor } from '@polkadot/react-components/types';
 import React from 'react';
 
 import { AddressMini, styled, Tag } from '@polkadot/react-components';
+import { CoreTimeTypes } from '@polkadot/react-hooks/constants';
 
-import { CoreTimeTypes, type InfoRow } from '../types.js';
+import { type InfoRow } from '../types.js';
 
 const colours: Record<string, string> = {
   [CoreTimeTypes.Reservation]: 'orange',

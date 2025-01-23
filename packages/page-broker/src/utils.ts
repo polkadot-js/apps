@@ -1,12 +1,11 @@
-// Copyright 2017-2024 @polkadot/app-broker authors & contributors
+// Copyright 2017-2025 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ChainBlockConstants, CoreWorkload, LegacyLease, RegionInfo, Reservation } from '@polkadot/react-hooks/types';
 import type { CoreWorkloadType, CoreWorkplanType, InfoRow } from './types.js';
 
-import { CoreTimeConsts, type CoreWorkload, type LegacyLease, type RegionInfo, type Reservation } from '@polkadot/react-hooks/types';
+import { CoreTimeTypes } from '@polkadot/react-hooks/constants';
 import { BN } from '@polkadot/util';
-
-import { CoreTimeTypes } from './types.js';
 
 function formatDate (date: Date) {
   const day = date.getDate();
@@ -29,7 +28,11 @@ function formatDate (date: Date) {
  * else
  *    now plus block time difference
  */
-export const estimateTime = (targetTimeslice: string | number, latestBlock: number): string | null => {
+export const estimateTime = (
+  targetTimeslice: string | number,
+  latestBlock: number,
+  { blocksPerTimeslice: blocksPerTs, blocktimeMs }: ChainBlockConstants = { blocksPerTimeslice: 0, blocktimeMs: 0 }
+): string | null => {
   if (!latestBlock || !targetTimeslice) {
     console.error('Invalid input: one or more inputs are missing');
 
@@ -39,8 +42,8 @@ export const estimateTime = (targetTimeslice: string | number, latestBlock: numb
   const now = new Date().getTime();
 
   try {
-    const blockTime = new BN(CoreTimeConsts.BlockTime); // Average block time in milliseconds (6 seconds)
-    const timeSlice = new BN(CoreTimeConsts.BlocksPerTimeslice);
+    const blockTime = new BN(blocktimeMs); // Average block time in milliseconds (6 seconds)
+    const timeSlice = new BN(blocksPerTs);
     const latestBlockBN = new BN(latestBlock);
     const timestampBN = new BN(now);
     const targetBlockBN = new BN(targetTimeslice).mul(timeSlice);
@@ -64,7 +67,15 @@ export const estimateTime = (targetTimeslice: string | number, latestBlock: numb
  * @param param4
  * @param regionLength
  */
-export function formatRowInfo (data: CoreWorkloadType[] | CoreWorkplanType[], core: number, currentRegion: RegionInfo | undefined, currentTimeSlice: number, { regionBegin, regionEnd }: { regionBegin: number, regionEnd: number }, regionLength: number): InfoRow[] {
+export function formatRowInfo (
+  data: CoreWorkloadType[] | CoreWorkplanType[],
+  core: number,
+  currentRegion: RegionInfo | undefined,
+  currentTimeSlice: number,
+  { regionBegin, regionEnd }: { regionBegin: number, regionEnd: number },
+  regionLength: number,
+  coretimeRelayConstants: ChainBlockConstants = { blocksPerTimeslice: 0, blocktimeMs: 0 }
+): InfoRow[] {
   return data.map((one: CoreWorkloadType | CoreWorkplanType) => {
     const item: InfoRow = { core, maskBits: one?.info?.maskBits, task: one?.info?.task, type: one?.type };
     const blockNumberNow = currentTimeSlice * 80;
@@ -82,12 +93,12 @@ export function formatRowInfo (data: CoreWorkloadType[] | CoreWorkplanType[], co
     }
 
     item.owner = currentRegion?.owner.toString();
-    item.start = start ? estimateTime(start, blockNumberNow) : null;
-    item.end = end ? estimateTime(end, blockNumberNow) : null;
+    item.start = start ? estimateTime(start, blockNumberNow, coretimeRelayConstants) : null;
+    item.end = end ? estimateTime(end, blockNumberNow, coretimeRelayConstants) : null;
     item.endBlock = end ? Number(end) * 80 : 0;
 
     if ('timeslice' in one && !start) {
-      start = estimateTime(one.timeslice, blockNumberNow) ?? null;
+      start = estimateTime(one.timeslice, blockNumberNow, coretimeRelayConstants) ?? null;
     }
 
     return item;

@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-assets authors & contributors
+// Copyright 2017-2025 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DropdownItemProps } from 'semantic-ui-react';
@@ -66,11 +66,17 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
   );
 
   useEffect((): void => {
-    setInfo(() =>
-      infoIndex >= 0
-        ? completeInfos.find(({ id }) => id.toString() === infoIndex.toString()) ?? null
-        : null
-    );
+    const info = infoIndex >= 0
+      ? completeInfos.find(({ id }) => id.toString() === infoIndex.toString()) ?? null
+      : null;
+
+    // if no info found (usually happens on first load), select the first one automatically
+    if (!info) {
+      setInfo(completeInfos.at(0) ?? null);
+      setInfoIndex(completeInfos.at(0)?.id?.toNumber() ?? 0);
+    } else {
+      setInfo(info);
+    }
   }, [completeInfos, infoIndex]);
 
   return (

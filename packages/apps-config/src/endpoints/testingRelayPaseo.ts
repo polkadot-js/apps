@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/apps-config authors & contributors
+// Copyright 2017-2025 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EndpointOption } from './types.js';
@@ -61,7 +61,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'paseoAventus',
     paraId: 2056,
     providers: {
-      Aventus: 'wss://public-rpc.testnet.aventus.network'
+      Aventus: 'wss://public-rpc.testnet.aventus.io'
     },
     text: 'Aventus',
     ui: {
@@ -268,7 +268,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'NodleParadis',
     paraId: 2026,
     providers: {
-      OnFinality: 'wss://node-6957502816543653888.lh.onfinality.io/ws?apikey=09b04494-3139-4b57-a5d1-e1c4c18748ce'
+      OnFinality: 'wss://node-7273232234617282560.nv.onfinality.io/ws?apikey=b937a7d7-7395-49b9-b745-60a0342fa365'
     },
     text: 'Nodle',
     ui: {
@@ -456,8 +456,8 @@ export const testRelayPaseo: EndpointOption = {
     Dwellir: 'wss://paseo-rpc.dwellir.com',
     IBP1: 'wss://rpc.ibp.network/paseo',
     IBP2: 'wss://paseo.dotters.network',
-    StakeWorld: 'wss://pas-rpc.stakeworld.io',
-    Zondax: 'wss://api2.zondax.ch/pas/node/rpc'
+    StakeWorld: 'wss://pas-rpc.stakeworld.io'
+    // Zondax: 'wss://api2.zondax.ch/pas/node/rpc' // https://github.com/polkadot-js/apps/issues/11199
     // 'light client': 'light://substrate-connect/paseo'
   },
   teleport: getTeleports(testParasPaseoCommon),

@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-coretime authors & contributors
+// Copyright 2017-2025 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ChainInformation, ChainWorkTaskInformation } from '@polkadot/react-hooks/types';
@@ -42,10 +42,10 @@ function ParachainTableRow ({ chain, lastCommittedTimeslice, regionBegin, region
       {idx === 0 && <td style={{ paddingRight: '2rem', textAlign: 'right', verticalAlign: 'top' }}>
 
         {!!multiple &&
-                    <ExpandButton
-                      expanded={isExpanded}
-                      onClick={toggleIsExpanded}
-                    />
+          <ExpandButton
+            expanded={isExpanded}
+            onClick={toggleIsExpanded}
+          />
         }
       </td>}
     </>;

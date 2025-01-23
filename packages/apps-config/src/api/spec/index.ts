@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/apps-config authors & contributors
+// Copyright 2017-2025 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
@@ -126,6 +126,7 @@ import substrateContractsNode from './substrateContractsNode.js';
 import swapdex from './swapdex.js';
 import t0rn from './t0rn.js';
 import ternoa from './ternoa.js';
+import torus from './torus.js';
 import trustbase from './trustbase.js';
 import turing from './turing.js';
 import uart from './uart.js';
@@ -305,6 +306,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   ternoa,
   'testnet-interlay': interbtc,
   'testnet-kintsugi': interbtc,
+  torus,
   trustbase,
   turing,
   uart,

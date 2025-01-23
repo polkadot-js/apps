@@ -25,6 +25,8 @@
   "pool size": "pool size",
   "region (ts)": "region (ts)",
   "region length": "region length",
+  "sale dates": "sale dates",
+  "sale ts": "sale ts",
   "selected core": "selected core",
   "selected core for workload": "selected core for workload",
   "selected core for workplan": "selected core for workplan",

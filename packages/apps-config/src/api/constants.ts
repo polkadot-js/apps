@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/apps-config authors & contributors
+// Copyright 2017-2025 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
@@ -6,7 +6,7 @@ import type { HexString } from '@polkadot/util/types';
 import { knownGenesis } from '@polkadot/networks/defaults';
 import { assert, BN } from '@polkadot/util';
 
-function getGenesis (name: string): HexString {
+export function getGenesis (name: string): HexString {
   const network = Object.entries(knownGenesis).find(([network]) => network === name);
 
   assert(network?.[1][0], `Unable to find genesisHash for ${name}`);
@@ -40,3 +40,5 @@ export const CERE_NETWORK_TESTNET_GENESIS = '0x42b9b44b4950b6c1edae543a7696caf8d
 export const VARA_NETWORK_GENESIS = '0xfe1b4c55fd4d668101126434206571a7838a8b6b93a6d1b95d607e78e6c53763';
 
 export const VARA_NETWORK_TESTNET_GENESIS = '0x525639f713f397dcf839bd022cd821f367ebcf179de7b9253531f8adbe5436d6';
+
+export const JOYSTREAM_GENESIS = '0x6b5e488e0fa8f9821110d5c13f4c468abcd43ce5e297e62b34c53c3346465956';

@@ -1,8 +1,9 @@
-// Copyright 2017-2024 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2025 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import type { Bounty as BountyType, BountyIndex } from '@polkadot/types/interfaces';
+import type { BountyIndex } from '@polkadot/types/interfaces';
+import type { PalletBountiesBounty } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
@@ -25,7 +26,7 @@ import VotersColumn from './VotersColumn.js';
 
 interface Props {
   bestNumber: BN;
-  bounty: BountyType;
+  bounty: PalletBountiesBounty;
   className?: string;
   description: string;
   index: BountyIndex;

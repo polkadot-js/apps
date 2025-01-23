@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/apps-config authors & contributors
+// Copyright 2017-2025 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EndpointOption } from './types.js';
@@ -321,7 +321,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'encointer',
     providers: {
-      'Encointer Association': 'wss://gesell.encointer.org'
+      // 'Encointer Association': 'wss://gesell.encointer.org' // https://github.com/polkadot-js/apps/issues/11186
     },
     text: 'Encointer Gesell',
     ui: {
@@ -440,20 +440,9 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'harmonie',
-    providers: {
-      'Allfeat labs': 'wss://harmonie-endpoint-02.allfeat.io'
-    },
-    text: 'Harmonie Testnet',
-    ui: {
-      color: '#000000',
-      logo: chainsAllfeatSVG
-    }
-  },
-  {
     info: 'interlay-testnet',
     providers: {
-      Interlay: 'wss://api-testnet.interlay.io/parachain/'
+      // Interlay: 'wss://api-testnet.interlay.io/parachain/' https://github.com/polkadot-js/apps/issues/11157
     },
     text: 'Interlay Testnet',
     ui: {
@@ -499,7 +488,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'jur',
     providers: {
-      Jur: 'wss://testnet.jur.io'
+      // Jur: 'wss://testnet.jur.io' // https://github.com/polkadot-js/apps/issues/11186
     },
     text: 'Jur Testnet',
     ui: {
@@ -614,6 +603,17 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#2070a6',
       logo: nodesMantaPNG
+    }
+  },
+  {
+    info: 'melodie',
+    providers: {
+      'Allfeat labs': 'wss://melodie-rpc.allfeat.io'
+    },
+    text: 'Melodie | Allfeat Testnet',
+    ui: {
+      color: '#ff4a5f',
+      logo: chainsAllfeatSVG
     }
   },
   {

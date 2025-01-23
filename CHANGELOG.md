@@ -1,5 +1,55 @@
 # CHANGELOG
 
+## 0.147.1 Jan 9, 2025
+
+Contributed:
+
+- Allow identity on Shibuya ([#11081](https://github.com/polkadot-js/apps/pull/11081)) (Thanks to https://github.com/Dinonard)
+- Re-adding Radiumblock as Khala endpoint provider ([#11102](https://github.com/polkadot-js/apps/pull/11102)) (Thanks to https://github.com/radiumb)
+- Re-adding Radiumblock as Bridgehub Kusama and Polkadot Assethub endpoint provider ([#11104](https://github.com/polkadot-js/apps/pull/11104)) (Thanks to https://github.com/radiumb)
+- Update testingRelayWestend.ts ([#11105](https://github.com/polkadot-js/apps/pull/11105)) (Thanks to https://github.com/radiumb)
+- Enable Zondax paseo rpc node ([#11110](https://github.com/polkadot-js/apps/pull/11110)) (Thanks to https://github.com/emmanuelm41)
+- Fix Files(IPFS) module status link and download link ([#10181](https://github.com/polkadot-js/apps/pull/10181)) (Thanks to https://github.com/XueMoMo)
+- Re-adding Radiumblock as Shiden and Bifrost Polkadot endpoint ([#11112](https://github.com/polkadot-js/apps/pull/11112)) (Thanks to https://github.com/radiumb)
+- Updated to load balanced RPC bajun ([#11114](https://github.com/polkadot-js/apps/pull/11114)) (Thanks to https://github.com/darkfriend77)
+- Fix explorer links for Hydration ([#11120](https://github.com/polkadot-js/apps/pull/11120)) (Thanks to https://github.com/jak-pan)
+- Add IBP2 endpoint for invarch & acala ([#11119](https://github.com/polkadot-js/apps/pull/11119)) (Thanks to https://github.com/senseless)
+- Additional IBP endpoints for miscallaneous maintenance ([#11127](https://github.com/polkadot-js/apps/pull/11127)) (Thanks to https://github.com/miloskriz)
+- Update edgeware nodes ([#11134](https://github.com/polkadot-js/apps/pull/11134)) (Thanks to https://github.com/JelliedOwl)
+- Add Jamton ([#11123](https://github.com/polkadot-js/apps/pull/11123)) (Thanks to https://github.com/alexxxkny)
+- Add Autonomys Taurus EVM testnet endpoints ([#11135](https://github.com/polkadot-js/apps/pull/11135)) (Thanks to https://github.com/jfrank-summit)
+- Update statescan/subsquare external links ([#11143](https://github.com/polkadot-js/apps/pull/11143)) (Thanks to https://github.com/wliyongfeng)
+- Updated Dwellir endpoints for Moonriver, Moonbeam, Basilisk and Hydration ([#11149](https://github.com/polkadot-js/apps/pull/11149)) (Thanks to https://github.com/Maharacha)
+- Add NeuroWeb Testnet endpoint for Paseo ([#11151](https://github.com/polkadot-js/apps/pull/11151)) (Thanks to https://github.com/NZT48)
+- Fix links to edgescan.ink for Edgeware ([#11154](https://github.com/polkadot-js/apps/pull/11154)) (Thanks to https://github.com/JelliedOwl)
+- Add Helikon public RPC endpoint for Mythos ([#11141](https://github.com/polkadot-js/apps/pull/11141)) (Thanks to https://github.com/kukabi)
+- Set Kusama People as identity provider for Kreivo ([#10609](https://github.com/polkadot-js/apps/pull/10609)) (Thanks to https://github.com/pandres95)
+- Deleted the OnFinality Bajun endpoints ([](https://github.com/polkadot-js/apps/pull/11183)) (Thanks to https://github.com/FiveKG)
+- Add Analog mainnet ([#11179](https://github.com/polkadot-js/apps/pull/11179)) (Thanks to https://github.com/FlorianFranzen)
+- Add westend penpal to the list of networks ([#11171](https://github.com/polkadot-js/apps/pull/11171)) (Thanks to https://github.com/franciscoaguirre)
+- Updated the Onfinality Nodle endpoints ([#11189](https://github.com/polkadot-js/apps/pull/11189)) (Thanks to https://github.com/FiveKG)
+
+
+Changes:
+
+- Relay Chain Coretime Sales UI ([#11091](https://github.com/polkadot-js/apps/pull/11091))
+- Allow for parachains with `isPeopleForIdentity` to access identity from the people chain ([#11160](https://github.com/polkadot-js/apps/pull/11160))
+- Upgrade chopsticks to 1.0.1 ([#11163](https://github.com/polkadot-js/apps/pull/11163))
+- Upgrade polkadot-js deps ([#11191](https://github.com/polkadot-js/apps/pull/11191))
+    - @polkadot/api -> 15.2.1
+    - @polkadot/common -> 13.3.1
+    - @polkadot/ui -> 3.12.1
+    - @polkadot/tools -> 0.62.1
+    - @polkadot/extension -> 0.58.1
+    - @polkadot/phishing -> 0.25.1
+- Disable Unreachable Endpoints ([#11099](https://github.com/polkadot-js/apps/pull/11099)) ([#11161](https://github.com/polkadot-js/apps/pull/11161)) ([#11187](https://github.com/polkadot-js/apps/pull/11187))
+- Update Headers to 2025 ([#11172](https://github.com/polkadot-js/apps/pull/11172))
+- Update Scripts to correctly write headers ([#11176](https://github.com/polkadot-js/apps/pull/11176))
+- Fix test that writes to typesbundle ([#11180](https://github.com/polkadot-js/apps/pull/11180))
+- Bump yarn to 4.6.0 ([#11193](https://github.com/polkadot-js/apps/pull/11193))
+
+
+
 ## 0.146.1 Nov 12, 2024
 
 Contributed:

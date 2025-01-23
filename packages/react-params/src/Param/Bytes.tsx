@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/react-params authors & contributors
+// Copyright 2017-2025 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Props } from '../types.js';
@@ -12,7 +12,7 @@ import { useTranslation } from '../translate.js';
 import BaseBytes from './BaseBytes.js';
 import File from './File.js';
 
-function Bytes ({ className = '', defaultValue, isDisabled, isError, label, name, onChange, onEnter, onEscape, type, withLabel }: Props): React.ReactElement<Props> {
+function Bytes ({ className = '', defaultValue, isDisabled, isError, label, name, onChange, onEnter, onEscape, type, withLabel, withLength = true }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isValid, setIsValid] = useState(false);
   const [isFileDrop, setFileInput] = useState(false);
@@ -66,7 +66,7 @@ function Bytes ({ className = '', defaultValue, isDisabled, isError, label, name
             onEscape={onEscape}
             type={type}
             withLabel={withLabel}
-            withLength
+            withLength={withLength}
           />
         )
       }

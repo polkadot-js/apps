@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/apps-config authors & contributors
+// Copyright 2017-2025 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EndpointOption } from './types.js';
@@ -60,6 +60,19 @@ export const testParasWestend: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#53cbc9',
       logo: nodesMoonshadowPNG
+    }
+  },
+  {
+    info: 'westendPenpal',
+    isPeopleForIdentity: true,
+    paraId: 2042,
+    providers: {
+      Parity: 'wss://westend-penpal-rpc.polkadot.io'
+    },
+    relayName: 'westend',
+    text: 'Penpal',
+    ui: {
+      color: '#964b00'
     }
   },
   {

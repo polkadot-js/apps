@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/apps-config authors & contributors
+// Copyright 2017-2025 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EndpointOption } from './types.js';
@@ -93,7 +93,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'aventus',
     paraId: 2056,
     providers: {
-      Aventus: 'wss://public-rpc.mainnet.aventus.network'
+      Aventus: 'wss://public-rpc.mainnet.aventus.io'
     },
     text: 'Aventus',
     ui: {
@@ -227,7 +227,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2046,
     providers: {
       Darwinia: 'wss://rpc.darwinia.network',
-      Dcdao: 'wss://darwinia-rpc.dcdao.box',
+      // Dcdao: 'wss://darwinia-rpc.dcdao.box', https://github.com/polkadot-js/apps/issues/11157
       Dwellir: 'wss://darwinia-rpc.dwellir.com',
       Subquery: 'wss://darwinia.rpc.subquery.network/public/ws'
     },
@@ -646,8 +646,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2012,
     providers: {
       // Dwellir: 'wss://parallel-rpc.dwellir.com' , https://github.com/polkadot-js/apps/issues/10997
-      Gatotech: 'wss://parallel.gatotech.network',
-      Parallel: 'wss://polkadot-parallel-rpc.parallel.fi'
+      Gatotech: 'wss://parallel.gatotech.network'
+      // Parallel: 'wss://polkadot-parallel-rpc.parallel.fi' // https://github.com/polkadot-js/apps/issues/11221
       // OnFinality: 'wss://parallel.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9986
     },
     text: 'Parallel',
@@ -821,7 +821,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 't3rn',
     paraId: 3333,
     providers: {
-      t3rn: 'wss://ws.t3rn.io'
+      // t3rn: 'wss://ws.t3rn.io' https://github.com/polkadot-js/apps/issues/11157
     },
     text: 't3rn',
     ui: {
@@ -867,8 +867,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'zeitgeist',
     paraId: 2092,
     providers: {
-      OnFinality: 'wss://zeitgeist.api.onfinality.io/public-ws',
-      ZeitgeistPM: 'wss://main.rpc.zeitgeist.pm/ws'
+      OnFinality: 'wss://zeitgeist.api.onfinality.io/public-ws'
+      // ZeitgeistPM: 'wss://main.rpc.zeitgeist.pm/ws' // https://github.com/polkadot-js/apps/issues/11215
     },
     text: 'Zeitgeist',
     ui: {
@@ -959,7 +959,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     relayName: 'polkadot',
     teleport: [-1],
     text: 'Coretime',
-    ui: { }
+    ui: {}
   },
   {
     info: 'polkadotPeople',

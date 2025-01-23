@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2025 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HeaderExtended } from '@polkadot/api-derive/types';
@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import { AddressSmall, Columar, LinkExternal, MarkError, Table } from '@polkadot/react-components';
 import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { convertWeight } from '@polkadot/react-hooks/useWeight';
-import { formatNumber } from '@polkadot/util';
+import { formatNumber, isBn } from '@polkadot/util';
 
 import Events from '../Events.js';
 import { useTranslation } from '../translate.js';
@@ -125,7 +125,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
       <Summary
         events={events}
         maxBlockWeight={(maxBlockWeight as V2Weight).refTime.toBn()}
-        maxProofSize={(maxBlockWeight as V2Weight).proofSize.toBn()}
+        maxProofSize={isBn(maxBlockWeight.proofSize) ? maxBlockWeight.proofSize : (maxBlockWeight as V2Weight).proofSize.toBn()}
         signedBlock={getBlock}
       />
       <Table header={header}>

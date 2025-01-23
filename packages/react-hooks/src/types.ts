@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2025 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type React from 'react';
@@ -13,6 +13,7 @@ import type { ICompact, IExtrinsic, INumber } from '@polkadot/types/types';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
+import type { CoreTimeTypes } from './constants.js';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type CallParam = any;
@@ -108,8 +109,6 @@ export interface AddressFlags extends DeriveAccountFlags {
   isValidator: boolean;
   isNominator: boolean;
 }
-
-export const AddressIdentityOtherDiscordKey = 'Discord';
 
 export interface AddressIdentity extends DeriveAccountRegistration {
   isExistent: boolean;
@@ -336,8 +335,18 @@ export interface ChainInformation {
   reservation: Reservation| undefined
   workTaskInfo: ChainWorkTaskInformation[]
 }
+export interface ChainBlockConstants {
+  blocksPerTimeslice: number,
+  blocktimeMs: number
+}
+
+export interface ChainConstants {
+  coretime: ChainBlockConstants,
+  relay: ChainBlockConstants
+}
 
 export interface CoretimeInformation {
+  constants: ChainConstants,
   chainInfo: Record<number, ChainInformation>,
   salesInfo: PalletBrokerSaleInfoRecord,
   status: BrokerStatus,
@@ -363,26 +372,3 @@ export interface PotentialRenewal {
   maskBits: number,
   task: string
 }
-
-export enum CoreTimeTypes {
-  'Reservation',
-  'Lease',
-  'Bulk Coretime',
-  'On Demand'
-}
-
-export const ChainRenewalStatus = {
-  Eligible: 'eligible',
-  None: '-',
-  Renewed: 'renewed'
-};
-
-// RelayChain
-export const CoreTimeConsts = {
-  BlockTime: 6000,
-  BlocksPerTimeslice: 80
-};
-
-export const CoreTimeChainConsts = {
-  BlocksPerTimeslice: 40
-};
