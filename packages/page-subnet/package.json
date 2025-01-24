@@ -3,12 +3,12 @@
   "engines": {
     "node": ">=18"
   },
-  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/apps-routing#readme",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-subnet#readme",
   "license": "Apache-2.0",
-  "name": "@polkadot/apps-routing",
+  "name": "@polkadot/page-subnet",
   "private": true,
   "repository": {
-    "directory": "packages/apps-routing",
+    "directory": "packages/page-subnet",
     "type": "git",
     "url": "https://github.com/polkadot-js/apps.git"
   },
@@ -19,8 +19,5 @@
     "react": "*",
     "react-dom": "*",
     "react-is": "*"
-  },
-  "dependencies": {
-    "@polkadot/page-subnet": "workspace:*"
   }
 }
