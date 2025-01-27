@@ -5,17 +5,17 @@ import type { ApiPromise } from '@polkadot/api';
 import type { AnyNumber } from '@polkadot/types-codec/types';
 import type { AssetInfoComplete } from '../types.js';
 
-import { ALLOWED_CHAINS } from '../constants.js';
+import { CHAINS_WITH_FEE_ASSET } from '../constants.js';
 
-export const getFeeAssetLocation = (api: ApiPromise, selectedFeeAsset: AssetInfoComplete | null): AnyNumber | object | undefined => {
+export const getFeeAssetLocation = (api: ApiPromise, feeAsset: AssetInfoComplete | null): AnyNumber | object | undefined => {
   const genesis = api.genesisHash.toHex();
 
-  if (!ALLOWED_CHAINS.includes(genesis) || !selectedFeeAsset) {
+  if (!CHAINS_WITH_FEE_ASSET.includes(genesis) || !feeAsset?.id) {
     return undefined;
   }
 
   switch (genesis) {
-    case ALLOWED_CHAINS[0]: {
+    case CHAINS_WITH_FEE_ASSET[0]: {
       return {
         interior: {
           X2: [
@@ -23,7 +23,7 @@ export const getFeeAssetLocation = (api: ApiPromise, selectedFeeAsset: AssetInfo
               PalletInstance: 50
             },
             {
-              GeneralIndex: selectedFeeAsset.id.toString()
+              GeneralIndex: feeAsset.id.toString()
             }
           ]
         },

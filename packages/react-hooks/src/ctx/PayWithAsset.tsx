@@ -10,7 +10,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useApi, useAssetIds, useAssetInfos } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
-import { ALLOWED_CHAINS } from '../constants.js';
+import { CHAINS_WITH_FEE_ASSET } from '../constants.js';
 
 interface Props {
   children?: React.ReactNode;
@@ -62,7 +62,7 @@ export function PayWithAssetCtxRoot ({ children }: Props): React.ReactElement<Pr
     cb?.();
   }, [completeInfos]);
 
-  const isDisabled = useMemo(() => !ALLOWED_CHAINS.includes(api.genesisHash.toHex()) || completeInfos.length === 0, [api.genesisHash, completeInfos.length]);
+  const isDisabled = useMemo(() => !CHAINS_WITH_FEE_ASSET.includes(api.genesisHash.toHex()) || completeInfos.length === 0, [api.genesisHash, completeInfos.length]);
 
   const values: PayWithAsset = useMemo(() => {
     return {

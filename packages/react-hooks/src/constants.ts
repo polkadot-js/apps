@@ -22,4 +22,4 @@ export const ChainRenewalStatus = {
 export const BlockTimeCoretimeToRelayConstant = 2;
 
 // list of chains which support sufficient non-native assets to pay fee
-export const ALLOWED_CHAINS = [getGenesis('statemint')];
+export const CHAINS_WITH_FEE_ASSET = [getGenesis('statemint')];
