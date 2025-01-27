@@ -1000,6 +1000,7 @@ export const prodRelayPolkadot: EndpointOption = {
     Blockops: 'wss://polkadot-public-rpc.blockops.network/ws',
     Dwellir: 'wss://polkadot-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://polkadot-rpc-tn.dwellir.com',
+    Helixstreet: 'wss://rpc-polkadot.helixstreet.io',
     IBP1: 'wss://rpc.ibp.network/polkadot',
     IBP2: 'wss://polkadot.dotters.network',
     LuckyFriday: 'wss://rpc-polkadot.luckyfriday.io',
