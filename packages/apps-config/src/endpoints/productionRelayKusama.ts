@@ -137,7 +137,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2105,
     providers: {
       Darwinia: 'wss://crab-rpc.darwinia.network/',
-      Dcdao: 'wss://crab-rpc.dcdao.box',
+      // Dcdao: 'wss://crab-rpc.dcdao.box', // https://github.com/polkadot-js/apps/issues/11232
       Dwellir: 'wss://darwiniacrab-rpc.dwellir.com'
     },
     text: 'Crab',
@@ -427,8 +427,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     isPeopleForIdentity: true,
     paraId: 2281,
     providers: {
-      Kippu: 'wss://kreivo.kippu.rocks/',
-      Virto: 'wss://kreivo.io/'
+      Kippu: 'wss://kreivo.kippu.rocks/'
+      // Virto: 'wss://kreivo.io/' // https://github.com/polkadot-js/apps/issues/11232
     },
     relayName: 'kusama',
     text: 'Kreivo - By Virto',
