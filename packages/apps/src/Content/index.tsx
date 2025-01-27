@@ -8,7 +8,7 @@ import { useLocation } from 'react-router-dom';
 
 import createRoutes from '@polkadot/apps-routing';
 import { ErrorBoundary, Spinner, styled } from '@polkadot/react-components';
-import { useApi, useQueue } from '@polkadot/react-hooks';
+import { PayWithAssetCtxRoot, useApi, useQueue } from '@polkadot/react-hooks';
 import { TabsCtx } from '@polkadot/react-hooks/ctx/Tabs';
 
 import { findMissingApis } from '../endpoint.js';
@@ -71,23 +71,25 @@ function Content ({ className }: Props): React.ReactElement<Props> {
             <Suspense fallback='...'>
               <ErrorBoundary trigger={name}>
                 <TabsCtx.Provider value={{ icon, text }}>
-                  {missingApis.length
-                    ? (
-                      <NotFound
-                        basePath={`/${name}`}
-                        location={location}
-                        missingApis={missingApis}
-                        onStatusChange={queueAction}
-                      />
-                    )
-                    : (
-                      <Component
-                        basePath={`/${name}`}
-                        location={location}
-                        onStatusChange={queueAction}
-                      />
-                    )
-                  }
+                  <PayWithAssetCtxRoot>
+                    {missingApis.length
+                      ? (
+                        <NotFound
+                          basePath={`/${name}`}
+                          location={location}
+                          missingApis={missingApis}
+                          onStatusChange={queueAction}
+                        />
+                      )
+                      : (
+                        <Component
+                          basePath={`/${name}`}
+                          location={location}
+                          onStatusChange={queueAction}
+                        />
+                      )
+                    }
+                  </PayWithAssetCtxRoot>
                 </TabsCtx.Provider>
               </ErrorBoundary>
             </Suspense>
