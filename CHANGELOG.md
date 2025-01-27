@@ -1,5 +1,33 @@
 # CHANGELOG
 
+## 0.148.1 Jan 23, 2025
+
+Contributed:
+
+- Remove Dwellir Tinkernet endpoint ([#11196](https://github.com/polkadot-js/apps/pull/11196)) (Thanks to https://github.com/jonathanudd)
+- Update Joystream staking inflation parameters ([#11206](https://github.com/polkadot-js/apps/pull/11206)) (Thanks to https://github.com/DzhideX)
+- Add torus network chain ([#11175](https://github.com/polkadot-js/apps/pull/11175)) (Thanks to https://github.com/EdSDR)
+- Change Aventus public rpc endpoints ([#11220](https://github.com/polkadot-js/apps/pull/11220)) (Thanks to https://github.com/vukomir)
+- Update allfeat testnet ([#11214](https://github.com/polkadot-js/apps/pull/11214)) (Thanks to https://github.com/SailorSnoW)
+- 
+
+
+Changes:
+
+- Fix broken balances page ([#11230](https://github.com/polkadot-js/apps/pull/11230))
+- Fixed broken Block Details for blocks/chains with V1 Weight ([#11225](https://github.com/polkadot-js/apps/pull/11225))
+- Fix get next asset Id ([#11213](https://github.com/polkadot-js/apps/pull/11213))
+- Restore submit proposal button for `proposeSend` ([#11218](https://github.com/polkadot-js/apps/pull/11218))
+- Fix default asset selection ([#11222](https://github.com/polkadot-js/apps/pull/11222))
+- Add more sale details to coretime plus region info ([#11188](https://github.com/polkadot-js/apps/pull/11188))
+- Fix transactionPaymentApi issue ([#11208](https://github.com/polkadot-js/apps/pull/11208))
+- Fix card title and related translations ([#11205](https://github.com/polkadot-js/apps/pull/11205))
+- Fix BountyType with new PalletBountiesBounty ([#11204](https://github.com/polkadot-js/apps/pull/11204))
+- Added missing types description to docs ([#11197](https://github.com/polkadot-js/apps/pull/11197))
+- Disable unreachable endpoints ([#11201](https://github.com/polkadot-js/apps/pull/11201)) ([#11216](https://github.com/polkadot-js/apps/pull/11216))
+- Bump dev to 0.83.2 ([#11210](https://github.com/polkadot-js/apps/pull/11210))
+
+
 ## 0.147.1 Jan 9, 2025
 
 Contributed:
