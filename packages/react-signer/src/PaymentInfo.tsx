@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
+import type { SignerOptions } from '@polkadot/api/types';
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { RuntimeDispatchInfo } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
@@ -22,9 +23,10 @@ interface Props {
   isHeader?: boolean;
   onChange?: (hasAvailable: boolean) => void;
   tip?: BN;
+  signerOptions?: Partial<SignerOptions>
 }
 
-function PaymentInfo ({ accountId, className = '', extrinsic, isHeader }: Props): React.ReactElement<Props> | null {
+function PaymentInfo ({ accountId, className = '', extrinsic, isHeader, signerOptions }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [dispatchInfo, setDispatchInfo] = useState<RuntimeDispatchInfo | null>(null);
@@ -35,14 +37,14 @@ function PaymentInfo ({ accountId, className = '', extrinsic, isHeader }: Props)
     accountId && extrinsic && extrinsic.hasPaymentInfo &&
       nextTick(async (): Promise<void> => {
         try {
-          const info = await extrinsic.paymentInfo(accountId);
+          const info = await extrinsic.paymentInfo(accountId, signerOptions);
 
           mountedRef.current && setDispatchInfo(info);
         } catch (error) {
           console.error(error);
         }
       });
-  }, [api, accountId, extrinsic, mountedRef]);
+  }, [api, accountId, extrinsic, mountedRef, signerOptions]);
 
   if (!dispatchInfo || !extrinsic) {
     return null;
