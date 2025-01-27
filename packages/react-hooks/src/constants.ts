@@ -1,6 +1,8 @@
 // Copyright 2017-2025 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { getGenesis } from '@polkadot/apps-config';
+
 export const AddressIdentityOtherDiscordKey = 'Discord';
 
 export enum CoreTimeTypes {
@@ -18,3 +20,6 @@ export const ChainRenewalStatus = {
 
 // block time on coretime chain is 2 x slower than on relay chain
 export const BlockTimeCoretimeToRelayConstant = 2;
+
+// list of chains which support sufficient non-native assets to pay fee
+export const ALLOWED_CHAINS = [getGenesis('statemint')];

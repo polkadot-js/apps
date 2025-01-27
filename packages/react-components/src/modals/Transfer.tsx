@@ -9,7 +9,7 @@ import type { BN } from '@polkadot/util';
 import React, { useEffect, useState } from 'react';
 
 import { checkAddress } from '@polkadot/phishing';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { PayWithAssetCtxRoot, useApi, useCall } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { settings } from '@polkadot/ui-settings';
 import { BN_HUNDRED, BN_ZERO, isFunction, nextTick } from '@polkadot/util';
@@ -149,7 +149,9 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
             )}
           </Modal.Columns>
           <Modal.Columns hint={t('By selecting this option, the transaction fee will be automatically deducted from the specified asset, ensuring a seamless and efficient payment process.')}>
-            <PayWithAsset />
+            <PayWithAssetCtxRoot>
+              <PayWithAsset />
+            </PayWithAssetCtxRoot>
           </Modal.Columns>
           <Modal.Columns hint={t('If the recipient account is new, the balance needs to be more than the existential deposit. Likewise if the sending account balance drops below the same value, the account will be removed from the state.')}>
             {canToggleAll && isAll

@@ -71,6 +71,7 @@ export { useOwnStashInfos } from './useOwnStashInfos.js';
 export { useParaApi } from './useParaApi.js';
 export { useIsParasLinked, useParaEndpoints } from './useParaEndpoints.js';
 export { usePassword } from './usePassword.js';
+export { usePayWithAsset } from './usePayWithAsset.js';
 export { usePeopleEndpoint } from './usePeopleEndpoint.js';
 export { usePopupWindow } from './usePopupWindow.js';
 export { usePreimage } from './usePreimage.js';

@@ -2,47 +2,25 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DropdownItemProps } from 'semantic-ui-react';
-import type { AssetInfoComplete } from '@polkadot/react-hooks/types';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { getGenesis } from '@polkadot/apps-config';
 import { Dropdown } from '@polkadot/react-components';
-import { useApi, useAssetIds, useAssetInfos } from '@polkadot/react-hooks';
-import { formatNumber } from '@polkadot/util';
+import { useApi, usePayWithAsset } from '@polkadot/react-hooks';
+import { BN } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
-
-const ALLOWED_CHAINS = [getGenesis('statemint')];
 
 const PayWithAsset = () => {
   const { t } = useTranslation();
   const { api } = useApi();
-  const ids = useAssetIds();
-  const assetInfos = useAssetInfos(ids);
-  const [infoIndex, setInfoIndex] = useState('0');
+  const [selectedAssetValue, setSelectedAssetValue] = useState('0');
+
+  const { assetOptions, isDisabled, onChange } = usePayWithAsset();
 
   const nativeAsset = useMemo(
     () => api.registry.chainTokens[0],
     [api]
-  );
-
-  const completeInfos = useMemo(
-    () => (assetInfos
-      ?.filter((i): i is AssetInfoComplete =>
-        !!(i.details && i.metadata) && !i.details.supply.isZero() && !!i.details?.toJSON().isSufficient)
-      .sort((a, b) => a.id.cmp(b.id))) || [],
-    [assetInfos]
-  );
-
-  const assetOptions = useMemo(
-    () => [
-      { text: `${nativeAsset} (Native)`, value: nativeAsset },
-      ...completeInfos.map(({ id, metadata }) => ({
-        text: `${metadata.name.toUtf8()} (${formatNumber(id)})`,
-        value: id.toString()
-      }))],
-    [completeInfos, nativeAsset]
   );
 
   const onSearch = useCallback(
@@ -55,23 +33,27 @@ const PayWithAsset = () => {
     []
   );
 
+  const onSelect = useCallback((value: string) => {
+    onChange(value === nativeAsset ? new BN(-1) : new BN(value), () => setSelectedAssetValue(value));
+  }, [nativeAsset, onChange]);
+
   useEffect((): void => {
-    const info = assetOptions.find(({ value }) => value === infoIndex);
+    const info = assetOptions.find(({ value }) => value === selectedAssetValue);
 
     // if no info found (usually happens on first load), select the first one automatically
     if (!info) {
-      setInfoIndex(assetOptions.at(0)?.value ?? nativeAsset);
+      setSelectedAssetValue(assetOptions.at(0)?.value ?? nativeAsset);
     }
-  }, [assetOptions, infoIndex, nativeAsset]);
+  }, [assetOptions, selectedAssetValue, nativeAsset]);
 
   return (
     <Dropdown
-      isDisabled={!ALLOWED_CHAINS.includes(api.genesisHash.toHex()) || completeInfos.length === 0}
+      isDisabled={isDisabled}
       label={t('asset to pay the fee')}
-      onChange={setInfoIndex}
+      onChange={onSelect}
       onSearch={onSearch}
       options={assetOptions}
-      value={infoIndex}
+      value={selectedAssetValue}
     />
   );
 };
