@@ -14,7 +14,7 @@ interface Props {
   coretimeInfo: CoretimeInformation
 }
 
-function ParachainsTable ({ coretimeInfo }: Props): React.ReactElement<Props> {
+function ParachainsTable({ coretimeInfo }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('parachains'), 'start'],
@@ -41,9 +41,9 @@ function ParachainsTable ({ coretimeInfo }: Props): React.ReactElement<Props> {
     <>
       <Filters
         data={coretimeInfo?.taskIds}
-        onFilter={(filteredData) => {
-          setTaskIds(filteredData);
-        }}
+        onFilter={(filteredData) =>
+          setTaskIds(filteredData)
+        }
       />
       <Table
         emptySpinner={false}
@@ -53,6 +53,9 @@ function ParachainsTable ({ coretimeInfo }: Props): React.ReactElement<Props> {
         {taskIds?.map((taskId: number) => {
           const chain = coretimeInfo.chainInfo[taskId];
 
+          if (!chain) {
+            return null;
+          }
           return (
             <ParachainTableRow
               chain={chain}
