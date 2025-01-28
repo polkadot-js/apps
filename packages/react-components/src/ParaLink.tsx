@@ -5,12 +5,12 @@ import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
 
+import { Subscan } from '@polkadot/apps-config/links/subscan';
 import { useParaEndpoints } from '@polkadot/react-hooks';
 
 import ChainImg from './ChainImg.js';
-import { styled } from './styled.js';
 import Icon from './Icon.js';
-import { Subscan } from '@polkadot/apps-config/links/subscan';
+import { styled } from './styled.js';
 
 export enum ParaLinkType {
   PJS = 'pjs',
@@ -25,21 +25,22 @@ interface Props {
   type?: ParaLinkType;
 }
 
-function ParaLink({ className, id, type = ParaLinkType.PJS, showLogo = true }: Props): React.ReactElement<Props> | null {
+function ParaLink ({ className, id, showLogo = true, type = ParaLinkType.PJS }: Props): React.ReactElement<Props> | null {
   const endpoints = useParaEndpoints(id);
   const links = useMemo(
     () => endpoints.filter(({ isDisabled, isUnreachable }) => !isDisabled && !isUnreachable),
     [endpoints]
   );
+
   if (!endpoints.length) {
     return null;
   }
 
-  const { text, ui, value, homepage } = links.length
+  const { homepage, text, ui, value } = links.length
     ? links[links.length - 1]
     : endpoints[0];
 
-  const subscanUrl = text && Subscan.chains[text?.toString()] && Subscan.create(Subscan.chains[text?.toString()], '', '').toString()
+  const subscanUrl = text && Subscan.chains[text?.toString()] && Subscan.create(Subscan.chains[text?.toString()], '', '').toString();
 
   return (
     <StyledDiv className={className}>
@@ -49,13 +50,25 @@ function ParaLink({ className, id, type = ParaLinkType.PJS, showLogo = true }: P
         withoutHl
       />
       }
-      {links.length ?
-        (
+      {links.length
+        ? (
           <>
-            {type === ParaLinkType.SUBSCAN && !!subscanUrl && <a target='_blank' rel='noopener noreferrer' href={subscanUrl}>
-              <img height="20" src={Subscan.ui.logo} alt="Subscan" />
+            {type === ParaLinkType.SUBSCAN && !!subscanUrl && <a
+              href={subscanUrl}
+              rel='noopener noreferrer'
+              target='_blank'
+            >
+              <img
+                alt='Subscan'
+                height='20'
+                src={Subscan.ui.logo}
+              />
             </a>}
-            {type === ParaLinkType.HOME && homepage && <a target='_blank' rel='noopener noreferrer' href={homepage}>
+            {type === ParaLinkType.HOME && homepage && <a
+              href={homepage}
+              rel='noopener noreferrer'
+              target='_blank'
+            >
               <Icon
                 className='parent-icon'
                 icon='house'
@@ -66,7 +79,8 @@ function ParaLink({ className, id, type = ParaLinkType.PJS, showLogo = true }: P
               href={`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(value)}`}
             >{text}</a>}
           </>
-        ) : type === ParaLinkType.PJS ? text : null
+        )
+        : type === ParaLinkType.PJS ? text : null
       }
     </StyledDiv>
   );

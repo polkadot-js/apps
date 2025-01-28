@@ -7,13 +7,12 @@ import type { ChainWorkTaskInformation, LegacyLease } from '@polkadot/react-hook
 import React, { useMemo } from 'react';
 
 import { MarkWarning, ParaLink, styled, Tag } from '@polkadot/react-components';
+import { ParaLinkType } from '@polkadot/react-components/ParaLink';
 import { ChainRenewalStatus, CoreTimeTypes } from '@polkadot/react-hooks/constants';
 import { BN, formatBalance, formatNumber } from '@polkadot/util';
 
-
 import { estimateTime } from './utils/index.js';
 import { useCoretimeContext } from './CoretimeContext.js';
-import { ParaLinkType } from '@polkadot/react-components/ParaLink';
 
 interface Props {
   id: number
@@ -49,14 +48,14 @@ const StyledMarkWarning = styled(MarkWarning)`
   }
 `;
 
-const EXPIRES_IN_DAYS = 7
+const EXPIRES_IN_DAYS = 7;
 
-function Row({ chainRecord, highlight = false, id, lastCommittedTimeslice, lease, regionBegin, regionEnd }: Props): React.ReactElement<Props> {
+function Row ({ chainRecord, highlight = false, id, lastCommittedTimeslice, lease, regionBegin, regionEnd }: Props): React.ReactElement<Props> {
   const chainRegionEnd = (chainRecord.renewalStatus === ChainRenewalStatus.Renewed ? regionEnd : regionBegin);
   const targetTimeslice = lease?.until || chainRegionEnd;
   const showEstimates = !!targetTimeslice && Object.values(CoreTimeTypes)[chainRecord.type] !== CoreTimeTypes.Reservation;
   const { coretimeInfo, get } = useCoretimeContext();
-  const lastBlock = useMemo(() => get?.blocks.relay(targetTimeslice), [get, targetTimeslice])
+  const lastBlock = useMemo(() => get?.blocks.relay(targetTimeslice), [get, targetTimeslice]);
 
   const estimatedTime = showEstimates && get && coretimeInfo &&
     estimateTime(targetTimeslice, get.blocks.relay(lastCommittedTimeslice), coretimeInfo?.constants?.relay);
@@ -81,7 +80,11 @@ function Row({ chainRecord, highlight = false, id, lastCommittedTimeslice, lease
       <StyledCell
         $p={highlight}
         className='media--800'
-      >{showEstimates && lastBlock && <a target='_blank' rel='noreferrer' href={`https://polkadot.subscan.io/block/${lastBlock}`}>{formatNumber(lastBlock)}</a>}</StyledCell>
+      >{showEstimates && lastBlock && <a
+          href={`https://polkadot.subscan.io/block/${lastBlock}`}
+          rel='noreferrer'
+          target='_blank'
+        >{formatNumber(lastBlock)}</a>}</StyledCell>
       <StyledCell
         $p={highlight}
         className='media--1000'
@@ -108,12 +111,19 @@ function Row({ chainRecord, highlight = false, id, lastCommittedTimeslice, lease
         $p={highlight}
         className='media--800'
       >{<div style={{ display: 'flex', flexDirection: 'row', columnGap: '12px', alignItems: 'center', justifyContent: 'left' }}>
-        <ParaLink id={new BN(id)} showLogo={false} type={ParaLinkType.SUBSCAN} />
-        <div style={{ marginBottom: '2px' }}>
-          <ParaLink id={new BN(id)} showLogo={false} type={ParaLinkType.HOME} />
-        </div>
-      </div>}</StyledCell>
-
+          <ParaLink
+            id={new BN(id)}
+            showLogo={false}
+            type={ParaLinkType.SUBSCAN}
+          />
+          <div style={{ marginBottom: '2px' }}>
+            <ParaLink
+              id={new BN(id)}
+              showLogo={false}
+              type={ParaLinkType.HOME}
+            />
+          </div>
+        </div>}</StyledCell>
       {highlight && <StyledCell $p={highlight} />}
     </React.Fragment>
 
