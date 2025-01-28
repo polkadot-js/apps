@@ -7,7 +7,7 @@ import type { PalletAssetsAssetDetails, PalletAssetsAssetMetadata } from '@polka
 import type { BN } from '@polkadot/util';
 import type { AssetInfo } from './types.js';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { createNamedHook, useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
@@ -51,8 +51,11 @@ function extractInfo (allAccounts: string[], id: BN, optDetails: Option<PalletAs
 function useAssetInfosImpl (ids?: BN[]): AssetInfo[] | undefined {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const metadata = useCall<[[BN[]], PalletAssetsAssetMetadata[]]>(api.query.assets.metadata.multi, [ids], QUERY_OPTS);
-  const details = useCall<[[BN[]], Option<PalletAssetsAssetDetails>[]]>(api.query.assets.asset.multi, [ids], QUERY_OPTS);
+
+  const isReady = useMemo(() => !!api.tx.assets?.setMetadata && !!api.tx.assets?.transferKeepAlive, [api.tx.assets?.setMetadata, api.tx.assets?.transferKeepAlive]);
+
+  const metadata = useCall<[[BN[]], PalletAssetsAssetMetadata[]]>(isReady && api.query.assets.metadata.multi, [ids], QUERY_OPTS);
+  const details = useCall<[[BN[]], Option<PalletAssetsAssetDetails>[]]>(isReady && api.query.assets.asset.multi, [ids], QUERY_OPTS);
   const [state, setState] = useState<AssetInfo[] | undefined>();
 
   useEffect((): void => {

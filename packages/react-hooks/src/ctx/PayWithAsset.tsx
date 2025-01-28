@@ -27,6 +27,16 @@ const EMPTY_STATE: PayWithAsset = {
 export const PayWithAssetCtx = React.createContext<PayWithAsset>(EMPTY_STATE);
 
 export function PayWithAssetCtxRoot ({ children }: Props): React.ReactElement<Props> {
+  const { isApiReady } = useApi();
+
+  if (!isApiReady) {
+    return <>{children}</>;
+  }
+
+  return <PayWithAssetProvider>{children}</PayWithAssetProvider>;
+}
+
+function PayWithAssetProvider ({ children }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const ids = useAssetIds();
   const assetInfos = useAssetInfos(ids);

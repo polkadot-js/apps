@@ -8,7 +8,7 @@ import { useLocation } from 'react-router-dom';
 
 import createRoutes from '@polkadot/apps-routing';
 import { ErrorBoundary, Spinner, styled } from '@polkadot/react-components';
-import { PayWithAssetCtxRoot, useApi, useQueue } from '@polkadot/react-hooks';
+import { useApi, useQueue } from '@polkadot/react-hooks';
 import { TabsCtx } from '@polkadot/react-hooks/ctx/Tabs';
 
 import { findMissingApis } from '../endpoint.js';
@@ -71,7 +71,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
             <Suspense fallback='...'>
               <ErrorBoundary trigger={name}>
                 <TabsCtx.Provider value={{ icon, text }}>
-                  <PayWithAssetCtxRoot>
+                  <>
                     {missingApis.length
                       ? (
                         <NotFound
@@ -89,7 +89,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
                         />
                       )
                     }
-                  </PayWithAssetCtxRoot>
+                  </>
                 </TabsCtx.Provider>
               </ErrorBoundary>
             </Suspense>
