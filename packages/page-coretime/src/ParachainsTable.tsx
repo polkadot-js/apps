@@ -41,6 +41,7 @@ function ParachainsTable({ coretimeInfo }: Props): React.ReactElement<Props> {
     <>
       <Filters
         data={coretimeInfo?.taskIds}
+        chainInfo={coretimeInfo?.chainInfo}
         onFilter={(filteredData) =>
           setTaskIds(filteredData)
         }
