@@ -13,7 +13,7 @@ interface Props {
   coretimeInfo: CoretimeInformation
 }
 
-function ParachainsTable ({ coretimeInfo }: Props): React.ReactElement<Props> {
+function ParachainsTable({ coretimeInfo }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('parachains'), 'start'],
@@ -24,6 +24,7 @@ function ParachainsTable ({ coretimeInfo }: Props): React.ReactElement<Props> {
     [t('end'), 'start media--1000'],
     [t('renewal'), 'start media--1200'],
     [t('renewal price'), 'start media--1200'],
+    [t('links'), 'start media--800'],
     [t('other cores'), 'end']
   ]);
 
