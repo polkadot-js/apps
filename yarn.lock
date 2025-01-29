@@ -1111,9 +1111,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@moonbeam-network/types-bundle@npm:1.0.1":
-  version: 1.0.1
-  resolution: "@moonbeam-network/types-bundle@npm:1.0.1"
+"@moonbeam-network/types-bundle@npm:1.0.2":
+  version: 1.0.2
+  resolution: "@moonbeam-network/types-bundle@npm:1.0.2"
   dependencies:
     "@biomejs/biome": "npm:*"
     "@polkadot/api": "npm:*"
@@ -1124,7 +1124,7 @@ __metadata:
     "@polkadot/types-codec": "npm:*"
     tsup: "npm:*"
     typescript: "npm:*"
-  checksum: 10/ef5a1877cd15ed4e43854ed16aeb297fe6ea05934c1c7c02d49fc677c5cf1e171dfda3b36567f1c8ffb4d1fe0451d8855c35d75919fa66f89940e96aace6116e
+  checksum: 10/994927e345515684ca067ab23b10b4d4a70a5ef1fa5e282dcc3b86d143eae103bbc4b19bc5526f3b850e92732b1b3e292527b868ecd095a40a5346a979d2b30c
   languageName: node
   linkType: hard
 
@@ -2185,7 +2185,7 @@ __metadata:
     "@logion/node-api": "npm:0.27.0-4"
     "@mangata-finance/type-definitions": "npm:^2.1.2"
     "@metaverse-network-sdk/type-definitions": "npm:0.0.1-16"
-    "@moonbeam-network/types-bundle": "npm:1.0.1"
+    "@moonbeam-network/types-bundle": "npm:1.0.2"
     "@parallel-finance/type-definitions": "npm:2.0.1"
     "@peaqnetwork/type-definitions": "npm:0.0.4"
     "@pendulum-chain/type-definitions": "npm:0.3.8"
