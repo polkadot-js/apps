@@ -538,6 +538,7 @@
        1	sulijia                       	add magnet to rococo (#10670)
        1	tarrball                      	Grammar fix in staking tooltip (#6727)
        1	Teddy Rogers                  	Add CESS Testnet to TEST NETWORK (#7908)
+       1	Tim B                         	fix: 🐛 Update `moonbeam-types-bundle` to latest (#11240)
        1	Tom                           	Add IBP endpoints to Paseo (#10231)
        1	Tommy                         	Remove OnFinality from Efinity providers (#8744)
        1	Tore19                        	Added Stafi Network logos & endpoints (#3683)
