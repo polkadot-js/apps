@@ -33,6 +33,7 @@
     "@logion/node-api": "0.27.0-4",
     "@mangata-finance/type-definitions": "^2.1.2",
     "@metaverse-network-sdk/type-definitions": "0.0.1-16",
+    "@moonbeam-network/types-bundle": "1.0.2",
     "@parallel-finance/type-definitions": "2.0.1",
     "@peaqnetwork/type-definitions": "0.0.4",
     "@pendulum-chain/type-definitions": "0.3.8",
@@ -58,7 +59,6 @@
     "@unique-nft/unique-mainnet-types": "1001.63.0",
     "@zeitgeistpm/type-defs": "1.0.0",
     "@zeroio/type-definitions": "0.0.14",
-    "moonbeam-types-bundle": "2.0.10",
     "pontem-types-bundle": "1.0.15",
     "rxjs": "^7.8.1",
     "tslib": "^2.8.1"
