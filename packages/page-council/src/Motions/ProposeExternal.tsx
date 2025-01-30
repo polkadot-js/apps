@@ -7,7 +7,7 @@ import type { HexString } from '@polkadot/util/types';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { getProposalThreshold } from '@polkadot/apps-config';
+import { calcThreshold, getProposalThreshold } from '@polkadot/apps-config';
 import { Button, Input, InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCollectiveInstance, usePreimage, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO, isFunction, isHex } from '@polkadot/util';
@@ -47,7 +47,10 @@ function ProposeExternal ({ className = '', isMember, members }: Props): React.R
   const modLocation = useCollectiveInstance('council');
   const preimage = usePreimage(hash);
 
-  const threshold = Math.min(members.length, Math.ceil((members.length || 0) * getProposalThreshold(api)));
+  const threshold = useMemo(
+    () => calcThreshold(members || [], getProposalThreshold(api)),
+    [api, members]
+  );
 
   const isCurrentPreimage = useMemo(
     () => isFunction(api.tx.preimage?.notePreimage) && !isFunction(api.tx.democracy?.notePreimage),

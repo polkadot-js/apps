@@ -5,7 +5,7 @@ import type { SubmittableExtrinsic } from '@polkadot/api/types';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { getSlashProposalThreshold } from '@polkadot/apps-config';
+import { calcThreshold, getSlashProposalThreshold } from '@polkadot/apps-config';
 import { Button, Dropdown, Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useAvailableSlashes, useCollectiveInstance, useToggle } from '@polkadot/react-hooks';
 
@@ -37,7 +37,10 @@ function Slashing ({ className = '', isMember, members }: Props): React.ReactEle
   const [selectedEra, setSelectedEra] = useState(0);
   const modLocation = useCollectiveInstance('council');
 
-  const threshold = Math.ceil((members.length || 0) * getSlashProposalThreshold(api));
+  const threshold = useMemo(
+    () => calcThreshold(members || [], getSlashProposalThreshold(api)),
+    [api, members]
+  );
 
   const eras = useMemo(
     () => (slashes || []).map(([era, slashes]): Option => ({

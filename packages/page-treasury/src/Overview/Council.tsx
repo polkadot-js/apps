@@ -4,9 +4,9 @@
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { ProposalIndex } from '@polkadot/types/interfaces';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
-import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
+import { calcThreshold, getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { Button, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCollectiveInstance, useToggle } from '@polkadot/react-hooks';
 
@@ -32,7 +32,10 @@ function Council ({ id, isDisabled, members }: Props): React.ReactElement<Props>
   const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>(() => ({ proposalLength: 0 }));
   const modCouncil = useCollectiveInstance('council');
 
-  const threshold = Math.ceil((members?.length || 0) * getTreasuryProposalThreshold(api));
+  const threshold = useMemo(
+    () => calcThreshold(members || [], getTreasuryProposalThreshold(api)),
+    [api, members]
+  );
 
   const councilTypeOptRef = useRef([
     { text: t('Acceptance proposal to council'), value: 'accept' },
