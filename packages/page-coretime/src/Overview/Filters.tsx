@@ -1,16 +1,16 @@
 // Copyright 2017-2025 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useCallback, useEffect, useState, useMemo } from 'react';
-
-import { Button, Dropdown, Input, Tag } from '@polkadot/react-components';
-
+import React, { useState, useCallback } from 'react';
+import { Button, Dropdown, Input } from '@polkadot/react-components';
 import { useTranslation } from '../translate.js';
-import { useRelayEndpoints } from '@polkadot/react-hooks/useParaEndpoints';
-import { CoreTimeTypes } from '@polkadot/react-hooks/constants';
-import { coretimeTypeColours } from '../utils/index.js';
-import { FlagColor } from '@polkadot/react-components/types';
 import { ChainInformation } from '@polkadot/react-hooks/types';
+import {
+    useSearchFilter,
+    useTypeFilter,
+    useBlocksSort
+} from './filters/index.js';
+import { sortByBlocks } from './filters/useBlockSort.js';
 
 interface Props {
     data: number[];
@@ -18,160 +18,64 @@ interface Props {
     onFilter: (data: number[]) => void;
 }
 
-function Filters({ data, chainInfo, onFilter }: Props): React.ReactElement<Props> {
+function Filters({ data: initialData, chainInfo, onFilter }: Props): React.ReactElement<Props> {
     const { t } = useTranslation();
-    const [searchValue, setSearchValue] = useState('');
-    const endpoints = useRelayEndpoints();
-    const [endPointsMap, setEndPointsMap] = useState<Record<string, number>>({});
-    const [selectedType, setSelectedType] = useState<string>('');
-    const [selectedCore, setSelectedCore] = useState<string>('');
-    const coretimeTypes = Object.keys(CoreTimeTypes)
-        .filter(key => isNaN(Number(key)));
+    const [activeFilters, setActiveFilters] = useState({
+        search: [],
+        type: []
+    });
 
-    const onCoreChange = useCallback((v: string) => {
-        setSelectedCore(v);
-        if (v === 'All') {
-            onFilter(data);
-            return;
-        }
-        const filteredData = data.filter((paraId) => {
-            const taskInfo = chainInfo[paraId]?.workTaskInfo;
-            return taskInfo?.length > 0 && taskInfo[0]?.workload?.core?.toString() === v;
-        });
-        onFilter(filteredData);
-    }, [chainInfo, data, onFilter]);
+    const { blocksSort, setBlocksSort, getNextSortState, resetSort } = useBlocksSort({
+        data: initialData,
+        chainInfo,
+        onFilter: (data) => handleFilter(data, 'blocks')
+    });
 
-    const coreOptions = useMemo(() => {
-        const cores = new Set<string>();
+    const handleFilter = useCallback((filteredData: number[], filterType: 'search' | 'type' | 'blocks') => {
+        let resultData = filteredData;
 
-        // Collect all unique cores from workTaskInfo
-        Object.values(chainInfo).forEach((info) => {
-            console.log('info', info);
-            if (info?.workTaskInfo?.length > 0 && info.workTaskInfo[0]?.workload?.core) {
-                console.log('core: ', info.workTaskInfo[0].workload.core.toString());
-                cores.add(info.workTaskInfo[0].workload.core.toString());
-            }
-        });
-        return [
-            {
-                text: t('All cores'),
-                value: 'All'
-            },
-            ...Array.from(cores).sort((a, b) => parseInt(a) - parseInt(b)).map((core) => ({
-                text: t('Core {{core}}', { replace: { core } }),
-                value: core
-            }))
-        ];
-    }, [chainInfo, t]);
-
-    const [blocksSort, setBlocksSort] = useState<'DESC' | 'ASC' | ''>('');
-
-    const getNextSortState = useCallback((current: 'DESC' | 'ASC' | ''): 'DESC' | 'ASC' | '' => {
-        if (current === 'DESC') return 'ASC';
-        if (current === 'ASC') return '';
-        return 'DESC';
-    }, []);
-
-    const typeOptions = useMemo(() => {
-        return [
-            {
-                value: 'All',
-                text: 'All'
-            },
-            ...coretimeTypes.map((type) => ({
-                value: CoreTimeTypes[type as keyof typeof CoreTimeTypes].toString(),
-                text: (
-                    <Tag
-                        color={coretimeTypeColours[CoreTimeTypes[type as keyof typeof CoreTimeTypes]] as FlagColor}
-                        label={type}
-                    />
-                )
-            }))
-        ];
-    }, [coretimeTypes]);
-
-    useEffect(() => {
-        const endPointsMap = endpoints.reduce((acc: Record<string, number>, endpoint) => {
-            if (endpoint?.text && endpoint.paraId) {
-                acc[endpoint.text.toString()] = endpoint.paraId;
-            }
-            return acc;
-        }, {});
-        setEndPointsMap(endPointsMap);
-    }, [endpoints]);
-
-
-    useEffect(() => {
-        if (!data || !chainInfo) {
-            return;
-        }
-        if (blocksSort === '') {
-            onFilter(data);
-            return;
+        if (activeFilters.search.length > 0 && filterType !== 'search') {
+            resultData = resultData.filter(id => activeFilters.search.includes(id));
         }
 
-        const sortedData = [...data].sort((a, b) => {
-            const aInfo = chainInfo[a]?.workTaskInfo[0];
-            const bInfo = chainInfo[b]?.workTaskInfo[0];
-
-            if (!aInfo) return blocksSort === 'DESC' ? 1 : -1;
-            if (!bInfo) return blocksSort === 'DESC' ? -1 : 1;
-
-            return blocksSort === 'DESC'
-                ? bInfo.lastBlock - aInfo.lastBlock
-                : aInfo.lastBlock - bInfo.lastBlock;
-        });
-
-        if (blocksSort && JSON.stringify(sortedData) !== JSON.stringify(data)) {
-            onFilter(sortedData);
-        }
-    }, [blocksSort, data, chainInfo]);
-
-
-    const onInputChange = useCallback((v: string) => {
-        setSearchValue(v);
-
-        if (!v.trim()) {
-            onFilter(data);
-            return;
+        if (activeFilters.type.length > 0 && filterType !== 'type') {
+            resultData = resultData.filter(id => activeFilters.type.includes(id));
         }
 
-        const searchLower = v.toLowerCase();
-        const filteredData = [...new Set([
-            ...data.filter((item) => item.toString().toLowerCase().includes(searchLower)),
-            ...Object.entries(endPointsMap)
-                .filter(([key]) => key.toLowerCase().includes(searchLower))
-                .map(([, value]) => value)
-        ])];
-
-        onFilter(filteredData);
-    }, [data, endPointsMap, onFilter]);
-
-    const onDropDownChange = useCallback((v: string) => {
-        setSelectedType(v);
-        if (v === 'All') {
-            onFilter(data);
-            return;
+        if (blocksSort && filterType !== 'blocks') {
+            resultData = sortByBlocks(resultData, chainInfo, blocksSort);
         }
-        const filteredData = data
-            .filter((paraId) => {
-                const taskInfo = chainInfo[paraId].workTaskInfo;
-                if (taskInfo.length > 0) {
-                    return taskInfo[0].type.toString() === v
-                }
-                return false;
-            })
-        onFilter(filteredData);
-    }, [chainInfo, data, onFilter]);
 
-    // const resetFilters = useCallback(() => {
-    //     setSearchValue('');
-    //     setSelectedType('');
-    //     setSelectedCore('');
-    //     setBlocksSort('');
-    //     console.log('data', data);
-    //     onFilter(data);
-    // }, [data, onFilter]);
+        if (filterType !== 'blocks') {
+            setActiveFilters((prev) => ({
+                ...prev,
+                [filterType]: filteredData.length === initialData.length ? [] : filteredData
+            }));
+        }
+
+        onFilter(resultData);
+    }, [initialData, onFilter, activeFilters, blocksSort, chainInfo]);
+
+    const { searchValue, onInputChange, resetSearch } = useSearchFilter({
+        data: initialData,
+        onFilter: (data) => handleFilter(data, 'search')
+    });
+
+    const { selectedType, onDropDownChange, typeOptions, resetType } = useTypeFilter({
+        data: initialData,
+        chainInfo,
+        onFilter: (data) => handleFilter(data, 'type')
+    });
+
+    const resetAllFilters = useCallback(() => {
+        resetSearch();
+        resetType();
+        resetSort();
+        setActiveFilters({ search: [], type: [] });
+        onFilter(initialData);
+    }, [initialData, onFilter, resetSearch, resetType, resetSort]);
+
+    const hasActiveFilters = searchValue || selectedType || blocksSort;
 
     return (
         <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', alignItems: 'center' }}>
@@ -193,30 +97,24 @@ function Filters({ data, chainInfo, onFilter }: Props): React.ReactElement<Props
                 placeholder='select type'
                 value={selectedType}
             />
-            <Dropdown
-                className='isSmall'
-                onChange={onCoreChange}
-                options={coreOptions}
-                placeholder={t('select core')}
-                value={selectedCore}
-            />
-            <div
-                style={{ height: '20px' }}>
+            <div style={{ height: '20px' }}>
                 <Button
                     icon={blocksSort ? (blocksSort === 'DESC' ? 'arrow-down' : 'arrow-up') : 'sort'}
                     onClick={() => setBlocksSort(getNextSortState(blocksSort))}
                     label={t('blocks')}
                 />
             </div>
-            {/* {(searchValue || selectedType || selectedCore || blocksSort) && (
-                <Button
-                    className='isSmall'
-                    icon='times'
-                    onClick={resetFilters}
-                    label={t('Reset filters')}
-                />
-            )} */}
-        </div >);
+            {hasActiveFilters && (
+                <div style={{ height: '20px' }}>
+                    <Button
+                        icon='times'
+                        label={t('Reset filters')}
+                        onClick={resetAllFilters}
+                    />
+                </div>
+            )}
+        </div>
+    );
 }
 
 export default Filters;
