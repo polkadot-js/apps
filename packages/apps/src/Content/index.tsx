@@ -71,25 +71,23 @@ function Content ({ className }: Props): React.ReactElement<Props> {
             <Suspense fallback='...'>
               <ErrorBoundary trigger={name}>
                 <TabsCtx.Provider value={{ icon, text }}>
-                  <>
-                    {missingApis.length
-                      ? (
-                        <NotFound
-                          basePath={`/${name}`}
-                          location={location}
-                          missingApis={missingApis}
-                          onStatusChange={queueAction}
-                        />
-                      )
-                      : (
-                        <Component
-                          basePath={`/${name}`}
-                          location={location}
-                          onStatusChange={queueAction}
-                        />
-                      )
-                    }
-                  </>
+                  {missingApis.length
+                    ? (
+                      <NotFound
+                        basePath={`/${name}`}
+                        location={location}
+                        missingApis={missingApis}
+                        onStatusChange={queueAction}
+                      />
+                    )
+                    : (
+                      <Component
+                        basePath={`/${name}`}
+                        location={location}
+                        onStatusChange={queueAction}
+                      />
+                    )
+                  }
                 </TabsCtx.Provider>
               </ErrorBoundary>
             </Suspense>

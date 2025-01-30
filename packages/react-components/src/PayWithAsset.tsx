@@ -9,7 +9,7 @@ import { Dropdown } from '@polkadot/react-components';
 import { useApi, usePayWithAsset } from '@polkadot/react-hooks';
 import { BN } from '@polkadot/util';
 
-import { useTranslation } from '../translate.js';
+import { useTranslation } from './translate.js';
 
 const PayWithAsset = () => {
   const { t } = useTranslation();

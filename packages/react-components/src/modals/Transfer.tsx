@@ -19,7 +19,7 @@ import InputBalance from '../InputBalance.js';
 import MarkError from '../MarkError.js';
 import MarkWarning from '../MarkWarning.js';
 import Modal from '../Modal/index.js';
-import PayWithAsset from '../PayWithAsset/index.js';
+import PayWithAsset from '../PayWithAsset.js';
 import { styled } from '../styled.js';
 import Toggle from '../Toggle.js';
 import { useTranslation } from '../translate.js';
