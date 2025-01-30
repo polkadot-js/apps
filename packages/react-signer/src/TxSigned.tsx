@@ -111,8 +111,6 @@ async function signAndSend (queueSetTxStatus: QueueTxMessageSetStatus, currentIt
       await fakeSignForChopsticks(api, tx, pairOrAddress as string);
     }
 
-    console.info('sending', tx.toHex());
-
     queueSetTxStatus(currentItem.id, 'sending');
 
     const unsubscribe = await tx.send(handleTxResults('signAndSend', queueSetTxStatus, currentItem, (): void => {

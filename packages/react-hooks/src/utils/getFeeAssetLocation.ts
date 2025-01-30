@@ -16,17 +16,11 @@ export const getFeeAssetLocation = (api: ApiPromise, feeAsset: AssetInfoComplete
 
   switch (genesis) {
     case CHAINS_WITH_FEE_ASSET[0]: {
+      const palletInstance = { PalletInstance: 50 };
+      const generalIndex = { GeneralIndex: feeAsset.id };
+
       return {
-        interior: {
-          X2: [
-            {
-              PalletInstance: 50
-            },
-            {
-              GeneralIndex: feeAsset.id.toString()
-            }
-          ]
-        },
+        interior: { X2: [palletInstance, generalIndex] },
         parents: 0
       };
     }

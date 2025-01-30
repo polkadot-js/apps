@@ -1,11 +1,11 @@
 // Copyright 2017-2025 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Changes } from '@polkadot/react-hooks/useEventChanges';
 import type { StorageKey, u32 } from '@polkadot/types';
 import type { EventRecord } from '@polkadot/types/interfaces';
+import type { Changes } from './useEventChanges.js';
 
-import { createNamedHook, useApi, useEventChanges, useMapKeys } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useEventChanges, useMapKeys } from './index.js';
 
 const EMPTY_PARAMS: unknown[] = [];
 
