@@ -137,7 +137,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2105,
     providers: {
       Darwinia: 'wss://crab-rpc.darwinia.network/',
-      Dcdao: 'wss://crab-rpc.dcdao.box',
+      // Dcdao: 'wss://crab-rpc.dcdao.box', // https://github.com/polkadot-js/apps/issues/11232
       Dwellir: 'wss://darwiniacrab-rpc.dwellir.com'
     },
     text: 'Crab',
@@ -427,8 +427,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     isPeopleForIdentity: true,
     paraId: 2281,
     providers: {
-      Kippu: 'wss://kreivo.kippu.rocks/',
-      Virto: 'wss://kreivo.io/'
+      Kippu: 'wss://kreivo.kippu.rocks/'
+      // Virto: 'wss://kreivo.io/' // https://github.com/polkadot-js/apps/issues/11232
     },
     relayName: 'kusama',
     text: 'Kreivo - By Virto',
@@ -1024,6 +1024,7 @@ export const prodRelayKusama: EndpointOption = {
     Allnodes: 'wss://kusama-rpc.publicnode.com',
     Dwellir: 'wss://kusama-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://kusama-rpc-tn.dwellir.com',
+    Helixstreet: 'wss://rpc-kusama.helixstreet.io',
     IBP1: 'wss://rpc.ibp.network/kusama',
     IBP2: 'wss://kusama.dotters.network',
     LuckyFriday: 'wss://rpc-kusama.luckyfriday.io',
