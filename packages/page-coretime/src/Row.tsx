@@ -4,7 +4,7 @@
 import type { FlagColor } from '@polkadot/react-components/types';
 import type { ChainWorkTaskInformation, LegacyLease } from '@polkadot/react-hooks/types';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { MarkWarning, ParaLink, styled, Tag } from '@polkadot/react-components';
 import { ParaLinkType } from '@polkadot/react-components/ParaLink';
@@ -24,9 +24,15 @@ interface Props {
   highlight?: boolean
 }
 
-const StyledCell = styled.td<{ $p: boolean }>`
+interface StyledCellProps {
+  $p: boolean;
+  $width?: string;
+}
+
+const StyledCell = styled.td<StyledCellProps>`
   && {
     background-color: ${({ $p }) => ($p ? '#F9FAFB' : undefined)};
+    width: ${({ $width }) => $width};
   }
   height: 55px;
 `;
@@ -49,7 +55,7 @@ function Row({ chainRecord, highlight = false, id, lastCommittedTimeslice, lease
   const targetTimeslice = lease?.until || chainRegionEnd;
   const showEstimates = !!targetTimeslice && Object.values(CoreTimeTypes)[chainRecord.type] !== CoreTimeTypes.Reservation;
   const { coretimeInfo, get } = useCoretimeContext();
-  const lastBlock = useMemo(() => get?.blocks.relay(targetTimeslice), [get, targetTimeslice]);
+  // const lastBlock = useMemo(() => get?.blocks.relay(targetTimeslice), [get, targetTimeslice]);
 
   const estimatedTime = showEstimates && get && coretimeInfo &&
     estimateTime(targetTimeslice, get.blocks.relay(lastCommittedTimeslice), coretimeInfo?.constants?.relay);
@@ -59,8 +65,9 @@ function Row({ chainRecord, highlight = false, id, lastCommittedTimeslice, lease
 
   return (
     <React.Fragment key={`${id}`}>
-      <StyledCell $p={highlight}>{id}</StyledCell>
+      <StyledCell $width='150px' $p={highlight}>{id}</StyledCell>
       <StyledCell
+        $width='150px'
         $p={highlight}
         className='media--800'
       >{<ParaLink id={new BN(id)} />}</StyledCell>
@@ -74,11 +81,11 @@ function Row({ chainRecord, highlight = false, id, lastCommittedTimeslice, lease
       <StyledCell
         $p={highlight}
         className='media--800'
-      >{showEstimates && lastBlock && <a
-        href={`https://polkadot.subscan.io/block/${lastBlock}`}
+      >{showEstimates && chainRecord?.lastBlock && <a
+        href={`https://polkadot.subscan.io/block/${chainRecord?.lastBlock}`}
         rel='noreferrer'
         target='_blank'
-      >{formatNumber(lastBlock)}</a>}</StyledCell>
+      >{formatNumber(chainRecord?.lastBlock)}</a>}</StyledCell>
       <StyledCell
         $p={highlight}
         className='media--1000'

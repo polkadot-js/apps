@@ -119,7 +119,7 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
   }, [workloads, coreInfos]);
 
   useEffect((): void => {
-    if (!workloadData?.length || !reservations?.length) {
+    if (!workloadData?.length || !reservations?.length || !coretimeConstants) {
       return;
     }
 
@@ -137,14 +137,19 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
         const chainRenewedCore = type === CoreTimeTypes['Bulk Coretime'] && workplan?.find((a) => a.core === workload?.core);
         const renewal = potentialRenewalsCurrentRegion?.find((renewal) => renewal.task.toString() === taskId);
         const renewalStatus = chainRenewedCore ? ChainRenewalStatus.Renewed : renewal ? ChainRenewalStatus.Eligible : ChainRenewalStatus.None;
-
+        const chainRegionEnd = (renewalStatus === ChainRenewalStatus.Renewed ? salesInfo?.regionEnd : salesInfo?.regionBegin);
+        const targetTimeslice = lease?.until || chainRegionEnd;
+  
+        const lastBlock =  targetTimeslice ? targetTimeslice * coretimeConstants?.relay.blocksPerTimeslice : 0;
+  
         return {
           chainRenewedCore,
           renewal,
           renewalStatus,
           type,
           workload,
-          workplan
+          workplan,
+          lastBlock
         };
       });
 
