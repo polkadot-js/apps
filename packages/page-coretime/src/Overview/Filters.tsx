@@ -10,7 +10,12 @@ import {
     useTypeFilter,
     useBlocksSort
 } from './filters/index.js';
-import { sortByBlocks } from './filters/useBlockSort.js';
+type FilterType = 'search' | 'type' | 'blocks';
+
+interface ActiveFilters {
+    search: number[];
+    type: number[];
+}
 
 interface Props {
     data: number[];
@@ -20,30 +25,44 @@ interface Props {
 
 function Filters({ data: initialData, chainInfo, onFilter }: Props): React.ReactElement<Props> {
     const { t } = useTranslation();
-    const [activeFilters, setActiveFilters] = useState({
+    const [activeFilters, setActiveFilters] = useState<ActiveFilters>({
         search: [],
         type: []
     });
 
-    const { blocksSort, setBlocksSort, getNextSortState, resetSort } = useBlocksSort({
+    const { blocksSort, setBlocksSort, getNextSortState, resetSort, applyBlocksSort } = useBlocksSort({
         data: initialData,
         chainInfo,
         onFilter: (data) => handleFilter(data, 'blocks')
     });
 
-    const handleFilter = useCallback((filteredData: number[], filterType: 'search' | 'type' | 'blocks') => {
+    const { searchValue, onInputChange, resetSearch, applySearchFilter } = useSearchFilter({
+        data: initialData,
+        onFilter: (data) => handleFilter(data, 'search')
+    });
+
+    const { selectedType, onDropDownChange, typeOptions, resetType, applyTypeFilter } = useTypeFilter({
+        data: initialData,
+        chainInfo,
+        onFilter: (data) => handleFilter(data, 'type')
+    });
+
+    const handleFilter = useCallback((
+        filteredData: number[],
+        filterType: FilterType
+    ): void => {
         let resultData = filteredData;
 
-        if (activeFilters.search.length > 0 && filterType !== 'search') {
-            resultData = resultData.filter(id => activeFilters.search.includes(id));
+        if (filterType !== 'search') {
+            resultData = applySearchFilter(resultData, activeFilters.search);
         }
 
-        if (activeFilters.type.length > 0 && filterType !== 'type') {
-            resultData = resultData.filter(id => activeFilters.type.includes(id));
+        if (filterType !== 'type') {
+            resultData = applyTypeFilter(resultData, activeFilters.type);
         }
 
-        if (blocksSort && filterType !== 'blocks') {
-            resultData = sortByBlocks(resultData, chainInfo, blocksSort);
+        if (filterType !== 'blocks' && blocksSort) {
+            resultData = applyBlocksSort(resultData, blocksSort);
         }
 
         if (filterType !== 'blocks') {
@@ -56,16 +75,6 @@ function Filters({ data: initialData, chainInfo, onFilter }: Props): React.React
         onFilter(resultData);
     }, [initialData, onFilter, activeFilters, blocksSort, chainInfo]);
 
-    const { searchValue, onInputChange, resetSearch } = useSearchFilter({
-        data: initialData,
-        onFilter: (data) => handleFilter(data, 'search')
-    });
-
-    const { selectedType, onDropDownChange, typeOptions, resetType } = useTypeFilter({
-        data: initialData,
-        chainInfo,
-        onFilter: (data) => handleFilter(data, 'type')
-    });
 
     const resetAllFilters = useCallback(() => {
         resetSearch();

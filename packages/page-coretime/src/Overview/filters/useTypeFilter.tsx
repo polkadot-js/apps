@@ -28,14 +28,24 @@ const typeOptions = [
 
 export function useTypeFilter({ data, chainInfo, onFilter }: ChainInfoFilterProps) {
     const [selectedType, setSelectedType] = useState<string>('');
+    const [activeType, setActiveType] = useState<number[]>([]);
+
+    const applyTypeFilter = useCallback((data: number[], activeType: number[]): number[] => {
+        return activeType.length > 0
+            ? data.filter(id => activeType.includes(id))
+            : data;
+    }, []);
 
     const resetType = useCallback(() => {
         setSelectedType('');
-    }, []);
+        setActiveType([]);
+        onFilter(data);
+    }, [data, onFilter]);
 
     const onDropDownChange = useCallback((v: string) => {
         setSelectedType(v);
         if (!v || v === 'All') {
+            setActiveType([]);
             onFilter(data);
             return;
         }
@@ -50,13 +60,17 @@ export function useTypeFilter({ data, chainInfo, onFilter }: ChainInfoFilterProp
             }
             return false;
         });
-        onFilter(filteredData);
-    }, [chainInfo, data, onFilter]);
+
+        setActiveType(filteredData);
+        onFilter(applyTypeFilter(data, filteredData));
+    }, [chainInfo, data, onFilter, applyTypeFilter]);
 
     return {
         selectedType,
         onDropDownChange,
         typeOptions,
-        resetType
+        resetType,
+        activeType,
+        applyTypeFilter
     };
 }
