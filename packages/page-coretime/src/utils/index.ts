@@ -4,8 +4,8 @@
 import type { ChainBlockConstants, ChainConstants, CoretimeInformation } from '@polkadot/react-hooks/types';
 import type { ChainName, GetResponse, RegionInfo } from '../types.js';
 
-import { BN } from '@polkadot/util';
 import { CoreTimeTypes } from '@polkadot/react-hooks/constants';
+import { BN } from '@polkadot/util';
 
 type FirstCycleStartType = Record<
 'block' | 'timeslice',

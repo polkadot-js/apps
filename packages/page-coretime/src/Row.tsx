@@ -50,7 +50,7 @@ const StyledMarkWarning = styled(MarkWarning)`
 
 const EXPIRES_IN_DAYS = 7;
 
-function Row({ chainRecord, highlight = false, id, lastCommittedTimeslice, lease, regionBegin, regionEnd }: Props): React.ReactElement<Props> {
+function Row ({ chainRecord, highlight = false, id, lastCommittedTimeslice, lease, regionBegin, regionEnd }: Props): React.ReactElement<Props> {
   const chainRegionEnd = (chainRecord.renewalStatus === ChainRenewalStatus.Renewed ? regionEnd : regionBegin);
   const targetTimeslice = lease?.until || chainRegionEnd;
   const showEstimates = !!targetTimeslice && Object.values(CoreTimeTypes)[chainRecord.type] !== CoreTimeTypes.Reservation;
@@ -65,10 +65,13 @@ function Row({ chainRecord, highlight = false, id, lastCommittedTimeslice, lease
 
   return (
     <React.Fragment key={`${id}`}>
-      <StyledCell $width='150px' $p={highlight}>{id}</StyledCell>
       <StyledCell
-        $width='150px'
         $p={highlight}
+        $width='150px'
+      >{id}</StyledCell>
+      <StyledCell
+        $p={highlight}
+        $width='150px'
         className='media--800'
       >{<ParaLink id={new BN(id)} />}</StyledCell>
       <StyledCell $p={highlight}>{chainRecord?.workload?.core}</StyledCell>
@@ -81,11 +84,14 @@ function Row({ chainRecord, highlight = false, id, lastCommittedTimeslice, lease
       <StyledCell
         $p={highlight}
         className='media--800'
-      >{showEstimates && chainRecord?.lastBlock && <a
-        href={`https://polkadot.subscan.io/block/${chainRecord?.lastBlock}`}
-        rel='noreferrer'
-        target='_blank'
-      >{formatNumber(chainRecord?.lastBlock)}</a>}</StyledCell>
+      >{showEstimates && chainRecord?.lastBlock &&
+        <a
+          href={`https://polkadot.subscan.io/block/${chainRecord?.lastBlock}`}
+          rel='noreferrer'
+          target='_blank'
+        >{formatNumber(chainRecord?.lastBlock)}
+        </a>}
+      </StyledCell>
       <StyledCell
         $p={highlight}
         className='media--1000'
@@ -111,20 +117,21 @@ function Row({ chainRecord, highlight = false, id, lastCommittedTimeslice, lease
       <StyledCell
         $p={highlight}
         className='media--800'
-      >{<div style={{ display: 'flex', flexDirection: 'row', columnGap: '12px', alignItems: 'center', justifyContent: 'left' }}>
-        <ParaLink
-          id={new BN(id)}
-          showLogo={false}
-          type={ParaLinkType.SUBSCAN}
-        />
-        <div style={{ marginBottom: '2px' }}>
+      >{<div style={{ alignItems: 'center', columnGap: '12px', display: 'flex', flexDirection: 'row', justifyContent: 'left' }}>
           <ParaLink
             id={new BN(id)}
             showLogo={false}
-            type={ParaLinkType.HOME}
+            type={ParaLinkType.SUBSCAN}
           />
-        </div>
-      </div>}</StyledCell>
+          <div style={{ marginBottom: '2px' }}>
+            <ParaLink
+              id={new BN(id)}
+              showLogo={false}
+              type={ParaLinkType.HOME}
+            />
+          </div>
+        </div>}
+      </StyledCell>
       {highlight && <StyledCell $p={highlight} />}
     </React.Fragment>
 

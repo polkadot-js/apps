@@ -1,7 +1,7 @@
 // Copyright 2017-2025 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Table } from '@polkadot/react-components';
 import { type CoretimeInformation } from '@polkadot/react-hooks/types';
@@ -14,7 +14,7 @@ interface Props {
   coretimeInfo: CoretimeInformation
 }
 
-function ParachainsTable({ coretimeInfo }: Props): React.ReactElement<Props> {
+function ParachainsTable ({ coretimeInfo }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('parachains'), 'start'],
@@ -31,6 +31,10 @@ function ParachainsTable({ coretimeInfo }: Props): React.ReactElement<Props> {
 
   const [taskIds, setTaskIds] = useState<number[]>([]);
 
+  const onFilter = useCallback((filteredData: number[]) => {
+    setTaskIds(filteredData);
+  }, []);
+
   useEffect(() => {
     if (coretimeInfo?.taskIds) {
       setTaskIds(coretimeInfo?.taskIds);
@@ -40,11 +44,9 @@ function ParachainsTable({ coretimeInfo }: Props): React.ReactElement<Props> {
   return (
     <>
       <Filters
-        data={coretimeInfo?.taskIds}
         chainInfo={coretimeInfo?.chainInfo}
-        onFilter={(filteredData) =>
-          setTaskIds(filteredData)
-        }
+        data={coretimeInfo?.taskIds}
+        onFilter={onFilter}
       />
       <Table
         emptySpinner={false}
@@ -57,6 +59,7 @@ function ParachainsTable({ coretimeInfo }: Props): React.ReactElement<Props> {
           if (!chain) {
             return null;
           }
+
           return (
             <ParachainTableRow
               chain={chain}

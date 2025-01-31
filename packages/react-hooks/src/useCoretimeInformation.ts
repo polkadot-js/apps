@@ -139,17 +139,17 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
         const renewalStatus = chainRenewedCore ? ChainRenewalStatus.Renewed : renewal ? ChainRenewalStatus.Eligible : ChainRenewalStatus.None;
         const chainRegionEnd = (renewalStatus === ChainRenewalStatus.Renewed ? salesInfo?.regionEnd : salesInfo?.regionBegin);
         const targetTimeslice = lease?.until || chainRegionEnd;
-  
-        const lastBlock =  targetTimeslice ? targetTimeslice * coretimeConstants?.relay.blocksPerTimeslice : 0;
-  
+
+        const lastBlock = targetTimeslice ? targetTimeslice * coretimeConstants?.relay.blocksPerTimeslice : 0;
+
         return {
           chainRenewedCore,
+          lastBlock,
           renewal,
           renewalStatus,
           type,
           workload,
-          workplan,
-          lastBlock
+          workplan
         };
       });
 
