@@ -17,6 +17,6 @@ export default function create (t: TFunction): Route {
     group: 'network',
     icon: 'flask',
     name: 'broker',
-    text: t('nav.broker', 'Coretime Broker (Experimental)', { ns: 'app-broker' })
+    text: t('nav.broker', 'Coretime Broker', { ns: 'app-broker' })
   };
 }
