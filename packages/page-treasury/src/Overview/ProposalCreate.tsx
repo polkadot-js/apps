@@ -111,7 +111,7 @@ function Propose ({ className }: Props): React.ReactElement<Props> | null {
               label={t('Submit proposal')}
               onStart={toggleOpen}
               params={[value, beneficiary]}
-              tx={api.tx.treasury.spendLocal}
+              tx={api.tx.treasury.spendLocal ?? api.tx.treasury.proposeSpend}
             />
           </Modal.Actions>
         </Modal>
