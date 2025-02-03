@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ChainInformation } from '@polkadot/react-hooks/types';
+import type { ActiveFilters } from '../types.js';
 
 import React, { useCallback, useState } from 'react';
 
@@ -10,20 +11,18 @@ import { Button, Dropdown, Input } from '@polkadot/react-components';
 import { useTranslation } from '../translate.js';
 import { FilterType, useBlocksSort, useSearchFilter, useTypeFilter } from './filters/index.js';
 
-import type { ActiveFilters } from '../types.js';
-
 interface Props {
   chainInfo: Record<number, ChainInformation>;
   data: number[];
   onFilter: (data: number[]) => void;
 }
 
-function Filters({ chainInfo, data: initialData, onFilter }: Props): React.ReactElement<Props> {
+function Filters ({ chainInfo, data: initialData, onFilter }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [activeFilters, setActiveFilters] = useState<ActiveFilters>({
+    blocks: [],
     search: [],
-    type: [],
-    blocks: []
+    type: []
   });
 
   const { apply: applyBlocksSort, direction, onApply: onApplySort, reset: resetSort } = useBlocksSort({
@@ -79,7 +78,7 @@ function Filters({ chainInfo, data: initialData, onFilter }: Props): React.React
     resetSearch();
     resetType();
     resetSort();
-    setActiveFilters({ search: [], type: [], blocks: [] });
+    setActiveFilters({ blocks: [], search: [], type: [] });
     onFilter(initialData);
   }, [initialData, onFilter, resetSearch, resetType, resetSort]);
 

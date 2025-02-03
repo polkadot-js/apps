@@ -29,7 +29,7 @@ const typeOptions = [
   }))
 ];
 
-export function useTypeFilter({ chainInfo, data, onFilter }: ChainInfoFilterProps) {
+export function useTypeFilter ({ chainInfo, data, onFilter }: ChainInfoFilterProps) {
   const [selectedType, setSelectedType] = useState<string>('');
   const [activeType, setActiveType] = useState<number[]>([]);
 
@@ -57,6 +57,7 @@ export function useTypeFilter({ chainInfo, data, onFilter }: ChainInfoFilterProp
 
     const filteredData = data.filter((paraId) => {
       const taskInfo = chainInfo[paraId]?.workTaskInfo;
+
       return taskInfo?.length > 0 && taskInfo[0].type.toString() === v;
     });
 

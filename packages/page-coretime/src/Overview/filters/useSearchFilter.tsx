@@ -10,7 +10,7 @@ interface UseSearchFilterProps {
   onFilter: (data: number[]) => void;
 }
 
-export function useSearchFilter({ data, onFilter }: UseSearchFilterProps) {
+export function useSearchFilter ({ data, onFilter }: UseSearchFilterProps) {
   const [searchValue, setSearchValue] = useState('');
   const endpoints = useRelayEndpoints();
   const endPointsMap = useMemo(() =>
@@ -22,7 +22,7 @@ export function useSearchFilter({ data, onFilter }: UseSearchFilterProps) {
           e.paraId
         ])
     ),
-    [endpoints]
+  [endpoints]
   );
 
   const apply = useCallback((data: number[], activeSearch: number[]): number[] => {
@@ -65,6 +65,7 @@ export function useSearchFilter({ data, onFilter }: UseSearchFilterProps) {
     }
 
     const filteredData = Array.from(matchingIds);
+
     onFilter(apply(data, filteredData));
   }, [data, endPointsMap, onFilter, apply]);
 

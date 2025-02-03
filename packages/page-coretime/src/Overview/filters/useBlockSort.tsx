@@ -6,7 +6,7 @@ import type { ChainInfoFilterProps, SortDirection } from '../../types.js';
 
 import { useCallback, useState } from 'react';
 
-export function sortByBlocks(data: number[], chainInfo: Record<number, ChainInformation>, direction: SortDirection): number[] {
+export function sortByBlocks (data: number[], chainInfo: Record<number, ChainInformation>, direction: SortDirection): number[] {
   if (!data || !chainInfo || !direction) {
     return data || [];
   }
@@ -16,6 +16,7 @@ export function sortByBlocks(data: number[], chainInfo: Record<number, ChainInfo
   return [...filteredData].sort((a, b) => {
     const aInfo = chainInfo[a]?.workTaskInfo[0];
     const bInfo = chainInfo[b]?.workTaskInfo[0];
+
     return direction === 'DESC'
       ? bInfo.lastBlock - aInfo.lastBlock
       : aInfo.lastBlock - bInfo.lastBlock;
@@ -23,9 +24,9 @@ export function sortByBlocks(data: number[], chainInfo: Record<number, ChainInfo
 }
 
 const getNextSortState = (current: SortDirection): SortDirection =>
-  ({ DESC: 'ASC', ASC: '', '': 'DESC' } as const)[current];
+  ({ '': 'DESC', ASC: '', DESC: 'ASC' } as const)[current];
 
-export function useBlocksSort({ chainInfo, data, onFilter }: ChainInfoFilterProps) {
+export function useBlocksSort ({ chainInfo, data, onFilter }: ChainInfoFilterProps) {
   const [direction, setDirection] = useState<SortDirection>('');
 
   const apply = useCallback((data: number[], sort: SortDirection): number[] => {
@@ -36,10 +37,10 @@ export function useBlocksSort({ chainInfo, data, onFilter }: ChainInfoFilterProp
 
   const onApply = useCallback(() => {
     const nextDirection = getNextSortState(direction);
-    console.log('nextDirection', nextDirection);
+
     setDirection(nextDirection);
     onFilter(nextDirection ? sortByBlocks(data, chainInfo, nextDirection) : data);
-  }, [data, chainInfo, onFilter]);
+  }, [data, chainInfo, onFilter, direction]);
 
   const reset = useCallback(() => {
     setDirection('');
@@ -50,6 +51,6 @@ export function useBlocksSort({ chainInfo, data, onFilter }: ChainInfoFilterProp
     apply,
     direction,
     onApply,
-    reset,
+    reset
   };
 }
