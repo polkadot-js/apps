@@ -20,7 +20,6 @@ interface Props {
 function Filters ({ chainInfo, data: initialData, onFilter }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [activeFilters, setActiveFilters] = useState<ActiveFilters>({
-    blocks: [],
     search: [],
     type: []
   });
@@ -78,7 +77,7 @@ function Filters ({ chainInfo, data: initialData, onFilter }: Props): React.Reac
     resetSearch();
     resetType();
     resetSort();
-    setActiveFilters({ blocks: [], search: [], type: [] });
+    setActiveFilters({ search: [], type: [] });
     onFilter(initialData);
   }, [initialData, onFilter, resetSearch, resetType, resetSort]);
 

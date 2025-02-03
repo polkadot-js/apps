@@ -116,5 +116,4 @@ export enum FilterType {
 export interface ActiveFilters {
   search: number[];
   type: number[];
-  blocks: number[];
 }

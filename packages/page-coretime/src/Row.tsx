@@ -55,7 +55,6 @@ function Row ({ chainRecord, highlight = false, id, lastCommittedTimeslice, leas
   const targetTimeslice = lease?.until || chainRegionEnd;
   const showEstimates = !!targetTimeslice && Object.values(CoreTimeTypes)[chainRecord.type] !== CoreTimeTypes.Reservation;
   const { coretimeInfo, get } = useCoretimeContext();
-  // const lastBlock = useMemo(() => get?.blocks.relay(targetTimeslice), [get, targetTimeslice]);
 
   const estimatedTime = showEstimates && get && coretimeInfo &&
     estimateTime(targetTimeslice, get.blocks.relay(lastCommittedTimeslice), coretimeInfo?.constants?.relay);
