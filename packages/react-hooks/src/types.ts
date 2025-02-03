@@ -1,11 +1,12 @@
 // Copyright 2017-2025 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import '@polkadot/api-augment';
+
 import type React from 'react';
 import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/api-derive/types';
-import type { DisplayedJudgement } from '@polkadot/react-components/types';
 import type { Option, u32, u128, Vec } from '@polkadot/types';
 import type { AccountId, BlockNumber, Call, Hash, SessionIndex, ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { PalletAssetsAssetDetails, PalletAssetsAssetMetadata, PalletPreimageRequestStatus, PalletStakingRewardDestination, PalletStakingStakingLedger, PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor, SpStakingExposurePage, SpStakingPagedExposureMetadata } from '@polkadot/types/lookup';
@@ -14,6 +15,12 @@ import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
 import type { CoreTimeTypes } from './constants.js';
+
+/*
+ * Ideally, it should be imported from `@polkadot/react-components/types`, but it causes build errors if we do so.
+ * To avoid this, it is redefined here. It's redundant, but there is no better alternative for now.
+ */
+type DisplayedJudgement = 'Erroneous' | 'Low quality' | 'Known good' | 'Reasonable';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type CallParam = any;

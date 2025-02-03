@@ -1,6 +1,8 @@
 // Copyright 2017-2025 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import '@polkadot/api-augment';
+
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
 import type React from 'react';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
