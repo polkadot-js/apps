@@ -144,14 +144,8 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
           renewalStatus = `${ChainRenewalStatus.Renewed} on ${workplan[0].core}`;
         }
 
-        const chainRegionEnd = (renewalStatus === ChainRenewalStatus.Renewed ? salesInfo?.regionEnd : salesInfo?.regionBegin);
-        const targetTimeslice = lease?.until || chainRegionEnd;
-
-        const lastBlock = targetTimeslice && coretimeConstants?.relay.blocksPerTimeslice ? targetTimeslice * coretimeConstants?.relay.blocksPerTimeslice : 0;
-
         return {
           chainRenewedCore,
-          lastBlock,
           renewal: potentialRenewal,
           renewalStatus,
           type,
