@@ -8,14 +8,9 @@ import React, { useCallback, useState } from 'react';
 import { Button, Dropdown, Input } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate.js';
-import { useBlocksSort, useSearchFilter, useTypeFilter } from './filters/index.js';
+import { FilterType, useBlocksSort, useSearchFilter, useTypeFilter } from './filters/index.js';
 
-type FilterType = 'search' | 'type' | 'blocks';
-
-interface ActiveFilters {
-  search: number[];
-  type: number[];
-}
+import type { ActiveFilters } from '../types.js';
 
 interface Props {
   chainInfo: Record<number, ChainInformation>;
@@ -23,49 +18,53 @@ interface Props {
   onFilter: (data: number[]) => void;
 }
 
-function Filters ({ chainInfo, data: initialData, onFilter }: Props): React.ReactElement<Props> {
+function Filters({ chainInfo, data: initialData, onFilter }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [activeFilters, setActiveFilters] = useState<ActiveFilters>({
     search: [],
     type: []
   });
 
-  const { applyBlocksSort, blocksSort, handleBlocksSortClick, resetSort } = useBlocksSort({
+  const { apply: applyBlocksSort, direction, onApply: onApplySort, reset: resetSort } = useBlocksSort({
     chainInfo,
     data: initialData,
-    onFilter: (data) => handleFilter(data, 'blocks')
+    onFilter: (data) => handleFilter(data, FilterType.BLOCKS)
   });
 
-  const { applySearchFilter, onInputChange, resetSearch, searchValue } = useSearchFilter({
+  const { apply: applySearchFilter, onApply: onApplySearch, reset: resetSearch, searchValue } = useSearchFilter({
     data: initialData,
-    onFilter: (data) => handleFilter(data, 'search')
+    onFilter: (data) => handleFilter(data, FilterType.SEARCH)
   });
 
-  const { applyTypeFilter, onDropDownChange, resetType, selectedType, typeOptions } = useTypeFilter({
+  const { apply: applyTypeFilter, onApply: onApplyType, reset: resetType, selectedType, typeOptions } = useTypeFilter({
     chainInfo,
     data: initialData,
-    onFilter: (data) => handleFilter(data, 'type')
+    onFilter: (data) => handleFilter(data, FilterType.TYPE)
   });
 
+  /**
+   * 1. Applies additional filtering already present in the filters
+   * 2. Performs filtering based on the filter type
+   */
   const handleFilter = useCallback((
     filteredData: number[],
     filterType: FilterType
   ): void => {
     let resultData = filteredData;
 
-    if (filterType !== 'search') {
+    if (filterType !== FilterType.SEARCH) {
       resultData = applySearchFilter(resultData, activeFilters.search);
     }
 
-    if (filterType !== 'type') {
+    if (filterType !== FilterType.TYPE) {
       resultData = applyTypeFilter(resultData, activeFilters.type);
     }
 
-    if (filterType !== 'blocks' && blocksSort) {
-      resultData = applyBlocksSort(resultData, blocksSort);
+    if (filterType !== FilterType.BLOCKS && direction) {
+      resultData = applyBlocksSort(resultData, direction);
     }
 
-    if (filterType !== 'blocks') {
+    if (filterType !== FilterType.BLOCKS) {
       setActiveFilters((prev) => ({
         ...prev,
         [filterType]: filteredData.length === initialData.length ? [] : filteredData
@@ -73,7 +72,7 @@ function Filters ({ chainInfo, data: initialData, onFilter }: Props): React.Reac
     }
 
     onFilter(resultData);
-  }, [initialData, onFilter, activeFilters, blocksSort, applyBlocksSort, applyTypeFilter, applySearchFilter]);
+  }, [initialData, onFilter, activeFilters, direction, applyBlocksSort, applyTypeFilter, applySearchFilter]);
 
   const resetAllFilters = useCallback(() => {
     resetSearch();
@@ -83,7 +82,7 @@ function Filters ({ chainInfo, data: initialData, onFilter }: Props): React.Reac
     onFilter(initialData);
   }, [initialData, onFilter, resetSearch, resetType, resetSort]);
 
-  const hasActiveFilters = searchValue || selectedType || blocksSort;
+  const hasActiveFilters = searchValue || selectedType || direction;
 
   return (
     <div style={{ alignItems: 'center', display: 'flex', flexDirection: 'row', gap: '10px' }}>
@@ -92,7 +91,7 @@ function Filters ({ chainInfo, data: initialData, onFilter }: Props): React.Reac
           aria-label={t('Search by parachain id or name')}
           className='full isSmall'
           label={t('Search')}
-          onChange={onInputChange}
+          onChange={onApplySearch}
           placeholder={t('parachain id or name')}
           value={searchValue}
         />
@@ -100,16 +99,16 @@ function Filters ({ chainInfo, data: initialData, onFilter }: Props): React.Reac
       <Dropdown
         className='isSmall'
         label={t('type')}
-        onChange={onDropDownChange}
+        onChange={onApplyType}
         options={typeOptions}
         placeholder='select type'
         value={selectedType}
       />
       <div style={{ height: '20px' }}>
         <Button
-          icon={blocksSort ? (blocksSort === 'DESC' ? 'arrow-down' : 'arrow-up') : 'sort'}
+          icon={direction ? (direction === 'DESC' ? 'arrow-down' : 'arrow-up') : 'sort'}
           label={t('blocks')}
-          onClick={handleBlocksSortClick}
+          onClick={onApplySort}
         />
       </div>
       {hasActiveFilters && (

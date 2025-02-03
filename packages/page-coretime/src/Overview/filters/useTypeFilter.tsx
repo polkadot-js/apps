@@ -29,17 +29,17 @@ const typeOptions = [
   }))
 ];
 
-export function useTypeFilter ({ chainInfo, data, onFilter }: ChainInfoFilterProps) {
+export function useTypeFilter({ chainInfo, data, onFilter }: ChainInfoFilterProps) {
   const [selectedType, setSelectedType] = useState<string>('');
   const [activeType, setActiveType] = useState<number[]>([]);
 
-  const applyTypeFilter = useCallback((data: number[], activeType: number[]): number[] => {
+  const apply = useCallback((data: number[], activeType: number[]): number[] => {
     return activeType.length > 0
       ? data.filter((id) => activeType.includes(id))
       : data;
   }, []);
 
-  const resetType = useCallback(() => {
+  const reset = useCallback(() => {
     setSelectedType('');
     setActiveType([]);
     onFilter(data);
@@ -56,28 +56,19 @@ export function useTypeFilter ({ chainInfo, data, onFilter }: ChainInfoFilterPro
     }
 
     const filteredData = data.filter((paraId) => {
-      if (!chainInfo[paraId]) {
-        return false;
-      }
-
-      const taskInfo = chainInfo[paraId].workTaskInfo;
-
-      if (taskInfo.length > 0) {
-        return taskInfo[0].type.toString() === v;
-      }
-
-      return false;
+      const taskInfo = chainInfo[paraId]?.workTaskInfo;
+      return taskInfo?.length > 0 && taskInfo[0].type.toString() === v;
     });
 
     setActiveType(filteredData);
-    onFilter(applyTypeFilter(data, filteredData));
-  }, [chainInfo, data, onFilter, applyTypeFilter]);
+    onFilter(apply(data, filteredData));
+  }, [chainInfo, data, onFilter, apply]);
 
   return {
     activeType,
-    applyTypeFilter,
-    onDropDownChange,
-    resetType,
+    apply,
+    onApply: onDropDownChange,
+    reset,
     selectedType,
     typeOptions
   };

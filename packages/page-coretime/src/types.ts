@@ -106,3 +106,14 @@ export interface ChainInfoFilterProps extends BaseFilterProps {
 }
 
 export type SortDirection = 'DESC' | 'ASC' | '';
+
+export enum FilterType {
+  BLOCKS = 'blocks',
+  SEARCH = 'search',
+  TYPE = 'type'
+}
+
+export interface ActiveFilters {
+  search: number[];
+  type: number[];
+}
