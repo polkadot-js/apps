@@ -7,6 +7,7 @@ import type { IconName } from '@fortawesome/fontawesome-svg-core';
 import type React from 'react';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { Abi } from '@polkadot/api-contract';
+import type { Registrar } from '@polkadot/react-hooks/types';
 import type { AccountId, AccountIndex, Address, Index } from '@polkadot/types/interfaces';
 import type { ActionStatus, TxCallback, TxFailedCallback } from './Status/types.js';
 
@@ -86,6 +87,13 @@ export type FlagColor = 'blue' | 'black' | 'green' | 'grey' | 'lightgrey' | 'ora
 export type AccountIdIsh = AccountId | AccountIndex | Address | string | Uint8Array | null;
 
 export type DisplayedJudgement = 'Erroneous' | 'Low quality' | 'Known good' | 'Reasonable';
+
+export interface Judgement {
+  judgementName: DisplayedJudgement;
+  registrars: (Registrar | undefined)[];
+}
+
+export type UseJudgements = Judgement[]
 
 export interface TabItem {
   alias?: string;

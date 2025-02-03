@@ -16,12 +16,6 @@ import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
 import type { CoreTimeTypes } from './constants.js';
 
-/*
- * Ideally, it should be imported from `@polkadot/react-components/types`, but it causes build errors if we do so.
- * To avoid this, it is redefined here. It's redundant, but there is no better alternative for now.
- */
-type DisplayedJudgement = 'Erroneous' | 'Low quality' | 'Known good' | 'Reasonable';
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type CallParam = any;
 
@@ -187,13 +181,6 @@ export interface Registrar {
   address: string;
   index: number;
 }
-
-export interface Judgement {
-  judgementName: DisplayedJudgement;
-  registrars: (Registrar | undefined)[];
-}
-
-export type UseJudgements = Judgement[]
 
 export type BatchType = 'all' | 'default' | 'force';
 
