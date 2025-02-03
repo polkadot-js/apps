@@ -360,6 +360,7 @@
        1	Brendon Votteler              	feat: add derives mapping and spec records for testnet-interlay and testnet-kintsugi (#8000)
        1	Brian Wu                      	Add additional RPC endpoints for Crust Mainnet, Crust-Parachain, Crust-Shadow (#10703)
        1	BuddyGlas                     	Re-add Asia and Geo balancer endpoints for Unique (#10022)
+       1	Burnww                        	WeTEE added to Paseo (#11254)
        1	Carl                          	Update Subscan link config (#6194)
        1	CCBro                         	add `armonia-eva` and `armonia-wall-e` for ethereumChains (#7732)
        1	CherryLiang                   	show play/stop button (#1804)
