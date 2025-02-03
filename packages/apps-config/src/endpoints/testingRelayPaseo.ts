@@ -328,6 +328,19 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://wetee.app/',
+    info: 'TEE cloud',
+    paraId: 4545,
+    providers: {
+      WeTEEDAO: 'wss://paseo.asyou.me/ws'
+    },
+    text: 'WeTEE (Paseo)',
+    ui: {
+      color: '#000',
+      logo: chainsWeTEESVG
+    }
+  },
+  {
     homepage: 'https://xcavate.io/',
     info: 'Xcavate',
     paraId: 4003,
@@ -351,19 +364,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#ed1f7a',
       logo: nodesXodePNG
-    }
-  },
-  {
-    homepage: 'https://wetee.app/',
-    info: 'TEE cloud',
-    paraId: 4545,
-    providers: {
-      WeTEEDAO: 'wss://paseo.asyou.me/ws'
-    },
-    text: 'WeTEE (Paseo)',
-    ui: {
-      color: '#000',
-      logo: chainsWeTEESVG
     }
   },
   {
