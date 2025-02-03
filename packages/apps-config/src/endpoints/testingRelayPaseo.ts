@@ -369,7 +369,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   {
     homepage: 'https://wetee.app/',
     info: 'TEE cloud',
-    paraId: 2101,
+    paraId: 4545,
     providers: {
       WeTEEDAO: 'wss://paseo.asyou.me/ws'
     },
