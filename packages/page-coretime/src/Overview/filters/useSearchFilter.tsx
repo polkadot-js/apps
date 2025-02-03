@@ -12,13 +12,12 @@ interface UseSearchFilterProps {
 
 export function useSearchFilter({ data, onFilter }: UseSearchFilterProps) {
   const [searchValue, setSearchValue] = useState('');
-  const [activeSearch, setActiveSearch] = useState<number[]>([]);
   const endpoints = useRelayEndpoints();
   const endPointsMap = useMemo(() =>
     Object.fromEntries(
       endpoints
-        .filter(e => e?.text && e.paraId)
-        .map(e => [
+        .filter((e) => e?.text && e.paraId)
+        .map((e) => [
           React.isValidElement(e.text) ? '' : String(e.text),
           e.paraId
         ])
@@ -34,7 +33,6 @@ export function useSearchFilter({ data, onFilter }: UseSearchFilterProps) {
 
   const reset = useCallback(() => {
     setSearchValue('');
-    setActiveSearch([]);
     onFilter(data);
   }, [data, onFilter]);
 
@@ -43,8 +41,8 @@ export function useSearchFilter({ data, onFilter }: UseSearchFilterProps) {
     const searchLower = v.trim().toLowerCase();
 
     if (!searchLower) {
-      setActiveSearch(data);
       onFilter(data);
+
       return;
     }
 
@@ -67,7 +65,6 @@ export function useSearchFilter({ data, onFilter }: UseSearchFilterProps) {
     }
 
     const filteredData = Array.from(matchingIds);
-    setActiveSearch(filteredData);
     onFilter(apply(data, filteredData));
   }, [data, endPointsMap, onFilter, apply]);
 
