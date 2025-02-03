@@ -79,9 +79,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
           accountId: accountId?.toString(),
           extrinsic,
           isUnsigned,
-          signerOptions: {
-            assetId: getFeeAssetLocation(api, selectedFeeAsset)
-          },
+          signerOptions: { assetId: getFeeAssetLocation(api, selectedFeeAsset), feeAsset: selectedFeeAsset },
           txFailedCb: withSpinner ? _onFailed : onFailed,
           txStartCb: _onStart,
           txSuccessCb: withSpinner ? _onSuccess : onSuccess,

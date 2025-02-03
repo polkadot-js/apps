@@ -2,17 +2,16 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import type { SignerOptions } from '@polkadot/api/types';
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
+import type { QueueTx } from '@polkadot/react-components/Status/types';
 import type { RuntimeDispatchInfo } from '@polkadot/types/interfaces';
-import type { BN } from '@polkadot/util';
 
 import React, { useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
 
 import { Expander, MarkWarning } from '@polkadot/react-components';
 import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
-import { formatBalance, nextTick } from '@polkadot/util';
+import { BN, formatBalance, nextTick } from '@polkadot/util';
 
 import { useTranslation } from './translate.js';
 
@@ -23,7 +22,7 @@ interface Props {
   isHeader?: boolean;
   onChange?: (hasAvailable: boolean) => void;
   tip?: BN;
-  signerOptions?: Partial<SignerOptions>
+  signerOptions?: QueueTx['signerOptions'];
 }
 
 function PaymentInfo ({ accountId, className = '', extrinsic, isHeader, signerOptions }: Props): React.ReactElement<Props> | null {
@@ -39,7 +38,23 @@ function PaymentInfo ({ accountId, className = '', extrinsic, isHeader, signerOp
         try {
           const info = await extrinsic.paymentInfo(accountId, signerOptions);
 
-          mountedRef.current && setDispatchInfo(info);
+          if (signerOptions?.assetId) {
+            const convertedFee = new BN((await api.call.assetConversionApi.quotePriceTokensForExactTokens(
+              signerOptions?.assetId as string,
+              {
+                interior: 'Here',
+                parents: 1
+              } as unknown as string,
+              info.partialFee,
+              true
+            )).toString());
+
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            mountedRef.current && setDispatchInfo({ ...info, partialFee: convertedFee });
+          } else {
+            mountedRef.current && setDispatchInfo(info);
+          }
         } catch (error) {
           console.error(error);
         }
@@ -62,7 +77,10 @@ function PaymentInfo ({ accountId, className = '', extrinsic, isHeader, signerOp
         isHeader={isHeader}
         summary={
           <Trans i18nKey='feesForSubmission'>
-            Fees of <span className='highlight'>{formatBalance(dispatchInfo.partialFee, { withSiFull: true })}</span> will be applied to the submission
+            Fees of <span className='highlight'>
+              {formatBalance(dispatchInfo.partialFee, { decimals: signerOptions?.feeAsset?.metadata.decimals.toNumber() ?? api.registry.chainDecimals.at(0), withSiFull: true }).split(' ').slice(0, -1).join(' ')}{' '}
+              {signerOptions?.feeAsset?.metadata.symbol.toHuman()?.toString() ?? api.registry.chainTokens.at(0) }
+            </span> will be applied to the submission
           </Trans>
         }
       />
