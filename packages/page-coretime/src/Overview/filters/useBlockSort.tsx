@@ -11,18 +11,11 @@ export function sortByBlocks(data: number[], chainInfo: Record<number, ChainInfo
     return data || [];
   }
 
-  return [...data].sort((a, b) => {
+  const filteredData = data.filter((block) => !!chainInfo[block]?.workTaskInfo[0]);
+
+  return [...filteredData].sort((a, b) => {
     const aInfo = chainInfo[a]?.workTaskInfo[0];
     const bInfo = chainInfo[b]?.workTaskInfo[0];
-
-    if (!aInfo) {
-      return direction === 'DESC' ? 1 : -1;
-    }
-
-    if (!bInfo) {
-      return direction === 'DESC' ? -1 : 1;
-    }
-
     return direction === 'DESC'
       ? bInfo.lastBlock - aInfo.lastBlock
       : aInfo.lastBlock - bInfo.lastBlock;
@@ -42,8 +35,10 @@ export function useBlocksSort({ chainInfo, data, onFilter }: ChainInfoFilterProp
   }, [chainInfo]);
 
   const onApply = useCallback(() => {
-    setDirection(getNextSortState(direction));
-    onFilter(direction ? sortByBlocks(data, chainInfo, direction) : data);
+    const nextDirection = getNextSortState(direction);
+    console.log('nextDirection', nextDirection);
+    setDirection(nextDirection);
+    onFilter(nextDirection ? sortByBlocks(data, chainInfo, nextDirection) : data);
   }, [data, chainInfo, onFilter]);
 
   const reset = useCallback(() => {

@@ -22,7 +22,8 @@ function Filters({ chainInfo, data: initialData, onFilter }: Props): React.React
   const { t } = useTranslation();
   const [activeFilters, setActiveFilters] = useState<ActiveFilters>({
     search: [],
-    type: []
+    type: [],
+    blocks: []
   });
 
   const { apply: applyBlocksSort, direction, onApply: onApplySort, reset: resetSort } = useBlocksSort({
@@ -78,7 +79,7 @@ function Filters({ chainInfo, data: initialData, onFilter }: Props): React.React
     resetSearch();
     resetType();
     resetSort();
-    setActiveFilters({ search: [], type: [] });
+    setActiveFilters({ search: [], type: [], blocks: [] });
     onFilter(initialData);
   }, [initialData, onFilter, resetSearch, resetType, resetSort]);
 
@@ -106,7 +107,7 @@ function Filters({ chainInfo, data: initialData, onFilter }: Props): React.React
       />
       <div style={{ height: '20px' }}>
         <Button
-          icon={direction ? (direction === 'DESC' ? 'arrow-down' : 'arrow-up') : 'sort'}
+          icon={direction ? (direction === 'DESC' ? 'arrow-up' : 'arrow-down') : 'sort'}
           label={t('blocks')}
           onClick={onApplySort}
         />
