@@ -354,19 +354,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'zeitgeist.pm',
-    info: 'ZeitgeistBatteryStation',
-    paraId: 2101,
-    providers: {
-      Zeitgeist: 'wss://bsr.zeitgeist.pm'
-    },
-    text: 'Zeitgeist Battery Station',
-    ui: {
-      color: 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)',
-      logo: nodesZeitgeistPNG
-    }
-  },
-  {
     homepage: 'https://wetee.app/',
     info: 'TEE cloud',
     paraId: 4545,
@@ -377,6 +364,19 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#000',
       logo: chainsWeTEESVG
+    }
+  },
+  {
+    homepage: 'zeitgeist.pm',
+    info: 'ZeitgeistBatteryStation',
+    paraId: 2101,
+    providers: {
+      Zeitgeist: 'wss://bsr.zeitgeist.pm'
+    },
+    text: 'Zeitgeist Battery Station',
+    ui: {
+      color: 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)',
+      logo: nodesZeitgeistPNG
     }
   }
 ];
