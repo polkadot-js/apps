@@ -141,7 +141,7 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
         const chainRenewedCore = type === CoreTimeTypes['Bulk Coretime'] && !!workplan?.length;
 
         if (chainRenewedCore) {
-          renewalStatus = `${ChainRenewalStatus.Renewed} on ${workplan[0].core}`;
+          renewalStatus = `Next cycle on core ${workplan[0].core}`;
         }
 
         return {
