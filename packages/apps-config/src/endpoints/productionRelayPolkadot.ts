@@ -1006,6 +1006,7 @@ export const prodRelayPolkadot: EndpointOption = {
     IBP2: 'wss://polkadot.dotters.network',
     LuckyFriday: 'wss://rpc-polkadot.luckyfriday.io',
     OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
+    'Permanence DAO EU': 'wss://polkadot.rpc.permanence.io',
     RadiumBlock: 'wss://polkadot.public.curie.radiumblock.co/ws',
     RockX: 'wss://rockx-dot.w3node.com/polka-public-dot/ws',
     Stakeworld: 'wss://dot-rpc.stakeworld.io',
