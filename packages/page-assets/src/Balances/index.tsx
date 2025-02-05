@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DropdownItemProps } from 'semantic-ui-react';
-import type { AssetInfo, AssetInfoComplete } from '../types.js';
+import type { AssetInfo, AssetInfoComplete } from '@polkadot/react-hooks/types';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 

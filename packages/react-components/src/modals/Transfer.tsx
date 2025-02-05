@@ -19,6 +19,7 @@ import InputBalance from '../InputBalance.js';
 import MarkError from '../MarkError.js';
 import MarkWarning from '../MarkWarning.js';
 import Modal from '../Modal/index.js';
+import PayWithAsset from '../PayWithAsset.js';
 import { styled } from '../styled.js';
 import Toggle from '../Toggle.js';
 import { useTranslation } from '../translate.js';
@@ -146,6 +147,9 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
             {recipientPhish && (
               <MarkError content={t('The recipient is associated with a known phishing site on {{url}}', { replace: { url: recipientPhish } })} />
             )}
+          </Modal.Columns>
+          <Modal.Columns hint={t('By selecting this option, the transaction fee will be automatically deducted from the specified asset, ensuring a seamless and efficient payment process.')}>
+            <PayWithAsset />
           </Modal.Columns>
           <Modal.Columns hint={t('If the recipient account is new, the balance needs to be more than the existential deposit. Likewise if the sending account balance drops below the same value, the account will be removed from the state.')}>
             {canToggleAll && isAll

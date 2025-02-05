@@ -12,14 +12,12 @@ import { Route, Routes } from 'react-router';
 
 import { getGenesis } from '@polkadot/apps-config';
 import { Tabs } from '@polkadot/react-components';
-import { useAccounts, useApi } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useAssetIds, useAssetInfos } from '@polkadot/react-hooks';
 import { BN_ONE } from '@polkadot/util';
 
 import Balances from './Balances/index.js';
 import Overview from './Overview/index.js';
 import { useTranslation } from './translate.js';
-import useAssetIds from './useAssetIds.js';
-import useAssetInfos from './useAssetInfos.js';
 
 interface Props {
   basePath: string;
