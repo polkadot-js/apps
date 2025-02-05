@@ -10,8 +10,6 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useApi, useAssetIds, useAssetInfos } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
-import { CHAINS_WITH_FEE_ASSET } from '../constants.js';
-
 interface Props {
   children?: React.ReactNode;
 }
@@ -43,7 +41,7 @@ function PayWithAssetProvider ({ children }: Props): React.ReactElement<Props> {
     [api]
   );
 
-  const completeInfos = useMemo(
+  const completeAssetInfos = useMemo(
     () => (assetInfos
       ?.filter((i): i is AssetInfoComplete =>
         !!(i.details && i.metadata) && !i.details.supply.isZero() && !!i.details?.toJSON().isSufficient)
@@ -54,30 +52,36 @@ function PayWithAssetProvider ({ children }: Props): React.ReactElement<Props> {
   const assetOptions = useMemo(
     () => [
       { text: `${nativeAsset} (Native)`, value: nativeAsset },
-      ...completeInfos.map(({ id, metadata }) => ({
+      ...completeAssetInfos.map(({ id, metadata }) => ({
         text: `${metadata.name.toUtf8()} (${formatNumber(id)})`,
         value: id.toString()
       }))],
-    [completeInfos, nativeAsset]
+    [completeAssetInfos, nativeAsset]
   );
 
   const onChange = useCallback((assetId: BN, cb?: () => void) => {
-    const selectedFeeAsset = completeInfos.find((a) => a.id.toString() === assetId.toString());
+    const selectedFeeAsset = completeAssetInfos.find((a) => a.id.toString() === assetId.toString());
 
     setSelectedFeeAsset(selectedFeeAsset ?? null);
     cb?.();
-  }, [completeInfos]);
+  }, [completeAssetInfos]);
 
-  const isDisabled = useMemo(() => !CHAINS_WITH_FEE_ASSET.includes(api.genesisHash.toHex()) || completeInfos.length === 0, [api.genesisHash, completeInfos.length]);
+  const isEnabled = useMemo(() =>
+    api.registry.metadata.extrinsic.signedExtensions.some(
+      (a) => a.identifier.toString() === 'ChargeAssetTxPayment'
+    ) &&
+    api.tx.assetConversion && completeAssetInfos.length > 0,
+  [api.registry.metadata.extrinsic.signedExtensions, api.tx.assetConversion, completeAssetInfos.length]
+  );
 
   const values: PayWithAsset = useMemo(() => {
     return {
       assetOptions,
-      isDisabled,
+      isDisabled: !isEnabled,
       onChange,
       selectedFeeAsset
     };
-  }, [assetOptions, isDisabled, onChange, selectedFeeAsset]);
+  }, [assetOptions, isEnabled, onChange, selectedFeeAsset]);
 
   return (
     <PayWithAssetCtx.Provider value={values}>
