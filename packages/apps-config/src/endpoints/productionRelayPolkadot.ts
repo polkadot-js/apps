@@ -493,7 +493,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://www.heima.network/',
+    homepage: 'https://heima.network/',
     info: 'heima',
     paraId: 2013,
     providers: {

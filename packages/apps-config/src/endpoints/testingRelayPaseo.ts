@@ -199,7 +199,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://www.heima.network/',
+    homepage: 'https://heima.network/',
     info: 'heima-paseo',
     paraId: 2106,
     providers: {
