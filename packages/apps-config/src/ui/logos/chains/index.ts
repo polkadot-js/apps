@@ -85,3 +85,4 @@ export { chainsVaraPNG } from './generated/varaPNG.js';
 export { chainsVirtoPNG } from './generated/virtoPNG.js';
 export { chainsVtbPNG } from './generated/vtbPNG.js';
 export { chainsWatrPNG } from './generated/watrPNG.js';
+export { chainsWeTEESVG } from './generated/WeTEESVG.js';
