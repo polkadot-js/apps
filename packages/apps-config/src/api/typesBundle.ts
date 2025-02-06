@@ -47691,7 +47691,7 @@ export const typesBundle = {
         }
       ]
     },
-    "litentry": {
+    "heima": {
       "types": [
         {
           "minmax": [
