@@ -103,7 +103,7 @@
     "@polkadot/rpc-augment": "^15.2.1",
     "@polkadot/rpc-core": "^15.2.1",
     "@polkadot/rpc-provider": "^15.2.1",
-    "@polkadot/types": "^15.2.1",
+    "@polkadot/types": "^15.2.2",
     "@polkadot/types-augment": "^15.2.1",
     "@polkadot/types-codec": "^15.2.1",
     "@polkadot/types-create": "^15.2.1",
