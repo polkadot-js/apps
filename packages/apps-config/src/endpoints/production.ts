@@ -418,7 +418,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'myriad',
     providers: {
       // Myriad: 'wss://ws-rpc.myriad.social', // https://github.com/polkadot-js/apps/issues/10172
-      Octopus: 'wss://gateway.mainnet.octopus.network/myriad/a4cb0a6e30ff5233a3567eb4e8cb71e0'
+      // Octopus: 'wss://gateway.mainnet.octopus.network/myriad/a4cb0a6e30ff5233a3567eb4e8cb71e0' // https://github.com/polkadot-js/apps/issues/11263
     },
     text: 'Myriad',
     ui: {

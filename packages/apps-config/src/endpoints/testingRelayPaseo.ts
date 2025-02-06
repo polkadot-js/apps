@@ -48,7 +48,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'paseoAmplitude',
     paraId: 2124,
     providers: {
-      PendulumChain: 'wss://rpc-foucoco.pendulumchain.tech'
+      // PendulumChain: 'wss://rpc-foucoco.pendulumchain.tech' // https://github.com/polkadot-js/apps/issues/11267
     },
     text: 'Amplitude testnet (Foucoco)',
     ui: {
@@ -152,7 +152,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'Ideal Network',
     paraId: 4502,
     providers: {
-      'IDN Node': 'wss://idn0-testnet.idealabs.network'
+      // 'IDN Node': 'wss://idn0-testnet.idealabs.network' // https://github.com/polkadot-js/apps/issues/11263
     },
     text: 'Ideal Network',
     ui: {
