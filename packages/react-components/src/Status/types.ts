@@ -3,7 +3,8 @@
 
 import type { SubmittableResult } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import type { SignerResult } from '@polkadot/api/types';
+import type { SignerOptions, SignerResult } from '@polkadot/api/types';
+import type { AssetInfoComplete } from '@polkadot/react-hooks/types';
 import type { AccountId, Address } from '@polkadot/types/interfaces';
 import type { DefinitionRpcExt, Registry, SignerPayloadJSON } from '@polkadot/types/types';
 
@@ -51,6 +52,7 @@ export interface QueueTx extends AccountInfo {
   txUpdateCb?: TxCallback;
   values?: unknown[];
   status: QueueTxStatus;
+  signerOptions?: Partial<SignerOptions & { feeAsset: AssetInfoComplete | null }>;
 }
 
 export interface QueueStatus extends ActionStatus {
@@ -87,6 +89,7 @@ export interface PartialQueueTxExtrinsic extends PartialAccountInfo {
   txStartCb?: () => void;
   txUpdateCb?: TxCallback;
   isUnsigned?: boolean;
+  signerOptions?: Partial<SignerOptions & { feeAsset: AssetInfoComplete | null }>;
 }
 
 export interface PartialQueueTxRpc extends PartialAccountInfo {

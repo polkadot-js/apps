@@ -339,7 +339,7 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
       if (senderInfo.signAddress) {
         const [tx, [status, pairOrAddress, options, isMockSign]] = await Promise.all([
           wrapTx(api, currentItem, senderInfo),
-          extractParams(api, senderInfo.signAddress, { nonce: -1, tip, withSignedTransaction: true }, getLedger, setQrState)
+          extractParams(api, senderInfo.signAddress, { nonce: -1, tip, withSignedTransaction: true, ...currentItem.signerOptions }, getLedger, setQrState)
         ]);
 
         queueSetTxStatus(currentItem.id, status);
