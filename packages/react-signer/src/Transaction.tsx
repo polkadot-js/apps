@@ -20,7 +20,7 @@ interface Props {
   tip?: BN;
 }
 
-function Transaction ({ accountId, className, currentItem: { extrinsic, isUnsigned, payload }, onError, tip }: Props): React.ReactElement<Props> | null {
+function Transaction ({ accountId, className, currentItem: { extrinsic, isUnsigned, payload, signerOptions }, onError, tip }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   if (!extrinsic) {
@@ -43,6 +43,7 @@ function Transaction ({ accountId, className, currentItem: { extrinsic, isUnsign
           className='paymentInfo'
           extrinsic={extrinsic}
           isHeader
+          signerOptions={signerOptions}
           tip={tip}
         />
       )}
