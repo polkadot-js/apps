@@ -1,8 +1,11 @@
 // Copyright 2017-2025 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ReactNode } from 'react';
+
 import React from 'react';
 
+import LabelHelp from './LabelHelp.js';
 import { styled } from './styled.js';
 
 interface Props {
@@ -16,11 +19,13 @@ interface Props {
   children: React.ReactNode;
   withEllipsis?: boolean;
   withLabel?: boolean;
+  withTooltip?: boolean;
+  toolTip?: ReactNode;
 }
 
 const defaultLabel: React.ReactNode = <div>&nbsp;</div>;
 
-function Labelled ({ children, className = '', isFull, isHidden, isOuter, isSmall, label = defaultLabel, labelExtra, withEllipsis, withLabel = true }: Props): React.ReactElement<Props> | null {
+function Labelled ({ children, className = '', isFull, isHidden, isOuter, isSmall, label = defaultLabel, labelExtra, toolTip, withEllipsis, withLabel = true, withTooltip = false }: Props): React.ReactElement<Props> | null {
   if (isHidden) {
     return null;
   } else if (!withLabel) {
@@ -34,7 +39,9 @@ function Labelled ({ children, className = '', isFull, isHidden, isOuter, isSmal
       <label>{withEllipsis
         ? <div className='withEllipsis'>{label}</div>
         : label
-      }</label>
+      }
+      {withTooltip && <LabelHelp help={toolTip} />}
+      </label>
       {labelExtra && <div className='labelExtra'>{labelExtra}</div>}
       <div className='ui--Labelled-content'>
         {children}

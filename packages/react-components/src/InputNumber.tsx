@@ -5,7 +5,7 @@ import type { ApiPromise } from '@polkadot/api';
 import type { SiDef } from '@polkadot/util/types';
 import type { BitLength } from './types.js';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useApi } from '@polkadot/react-hooks';
 import { BN, BN_ONE, BN_TEN, BN_TWO, BN_ZERO, formatBalance, isBn, isUndefined } from '@polkadot/util';
@@ -232,6 +232,16 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
   // so this is more-or-less the lesser of evils without a max-value check)
   const maxValueLength = getGlobalMaxValue(bitLength).toString().length;
 
+  const [withTooltip, toolTip] = useMemo(() => {
+    const nativeSymbol = api.registry.chainTokens.at(0);
+
+    if (!!si && nativeSymbol === (siSymbol || TokenUnit.abbr) && !isDisabled) {
+      return [true, t('Enter value in standard units (not in Planck units)')];
+    }
+
+    return [false, undefined];
+  }, [si, siSymbol, api.registry, isDisabled, t]);
+
   return (
     <StyledInput
       autoFocus={autoFocus}
@@ -255,8 +265,10 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
           ? t('Valid number')
           : t('Positive number')
       )}
+      toolTip={toolTip}
       type='text'
       value={value}
+      withTooltip={withTooltip}
     >
       {si && (
         <div className='siUnit'>
