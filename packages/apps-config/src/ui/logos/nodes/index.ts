@@ -91,7 +91,6 @@ export { nodesLaminarCircleSVG } from './generated/laminar-circleSVG.js';
 export { nodesLitentryPaseoSVG } from './generated/litentry-paseoSVG.js';
 export { nodesLitentryRococoPNG } from './generated/litentry-rococoPNG.js';
 export { nodesLitentryPNG } from './generated/litentryPNG.js';
-export { nodesLitmusPNG } from './generated/litmusPNG.js';
 export { nodesLoomNetworkPNG } from './generated/loom_networkPNG.js';
 export { nodesMagnetPNG } from './generated/magnetPNG.js';
 export { nodesMandalaPNG } from './generated/mandalaPNG.js';
