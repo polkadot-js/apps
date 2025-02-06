@@ -5,27 +5,21 @@ import type { ApiPromise } from '@polkadot/api';
 import type { AnyNumber } from '@polkadot/types-codec/types';
 import type { AssetInfoComplete } from '../types.js';
 
-import { CHAINS_WITH_FEE_ASSET } from '../constants.js';
-
 export const getFeeAssetLocation = (api: ApiPromise, feeAsset: AssetInfoComplete | null): AnyNumber | object | undefined => {
-  const genesis = api.genesisHash.toHex();
-
-  if (!CHAINS_WITH_FEE_ASSET.includes(genesis) || !feeAsset?.id) {
+  if (!feeAsset?.id) {
     return undefined;
   }
 
-  switch (genesis) {
-    case CHAINS_WITH_FEE_ASSET[0]: {
-      const palletInstance = { PalletInstance: 50 };
-      const generalIndex = { GeneralIndex: feeAsset.id };
+  const metadata = api.registry.metadata;
 
-      return {
-        interior: { X2: [palletInstance, generalIndex] },
-        parents: 0
-      };
-    }
+  const palletIndex = metadata.pallets.filter((a) => a.name.toString() === 'Assets')[0].index.toString();
 
-    default:
-      return undefined;
-  }
+  // FIX ME: Might have to fix it later as it may not be applicable for all chains
+  const palletInstance = { PalletInstance: palletIndex };
+  const generalIndex = { GeneralIndex: feeAsset.id };
+
+  return {
+    interior: { X2: [palletInstance, generalIndex] },
+    parents: 0
+  };
 };
