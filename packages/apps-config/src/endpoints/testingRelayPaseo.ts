@@ -205,7 +205,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Heima: 'wss://rpc.paseo-parachain.litentry.io'
     },
-    text: 'Heima',
+    text: 'Heima paseo',
     ui: {
       color: '#ECDA38',
       logo: nodesHeimaPaseoPNG
