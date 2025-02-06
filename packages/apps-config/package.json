@@ -42,7 +42,7 @@
     "@polkadot/api-derive": "^15.2.1",
     "@polkadot/networks": "^13.3.1",
     "@polkadot/react-identicon": "^3.12.1",
-    "@polkadot/types": "^15.2.1",
+    "@polkadot/types": "^15.5.2",
     "@polkadot/types-codec": "^15.2.1",
     "@polkadot/util": "^13.3.1",
     "@polkadot/util-crypto": "^13.3.1",
