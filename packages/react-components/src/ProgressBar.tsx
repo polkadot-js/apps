@@ -9,13 +9,14 @@ import { styled } from './styled.js';
 
 interface Props {
   sections: ProgressBarSection[];
+  color: string;
 }
 
-function ProgressBar ({ sections }: Props): React.ReactElement<Props> | null {
+function ProgressBar ({ color, sections }: Props): React.ReactElement<Props> | null {
   const overallTotal = sections?.reduce((sum, section) => sum + section.total, 0);
 
   return (
-    <StyledDiv>
+    <StyledDiv $color={color}>
       <div className='progress-container'>
         {sections?.map((section, index) => {
           const sectionWidth = (section.total / overallTotal) * 100;
@@ -51,7 +52,7 @@ function ProgressBar ({ sections }: Props): React.ReactElement<Props> | null {
   );
 }
 
-const StyledDiv = styled.div`
+const StyledDiv = styled.div<{ $color: string }>`
   width: 100%;
   .progress-container {
     display: flex;
@@ -71,7 +72,7 @@ const StyledDiv = styled.div`
   }
 
   .progress-bar {
-    background-color: #007bff;
+    background-color: ${({ $color }) => $color};
     height: 100%;
     transition: width 0.3s ease;
   }
@@ -82,7 +83,7 @@ const StyledDiv = styled.div`
     top: -0.5rem;
     width: 2px;
     height: 1.5rem;
-    background-color: #000000;
+    background-color: #FFFFFF;
   }
 
   .labels {

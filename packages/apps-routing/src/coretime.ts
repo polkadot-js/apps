@@ -17,6 +17,6 @@ export default function create (t: TFunction): Route {
     group: 'network',
     icon: 'flask',
     name: 'coretime',
-    text: t('nav.coretime', 'Coretime (Experimental)', { ns: 'apps-routing' })
+    text: t('nav.coretime', 'Coretime', { ns: 'apps-routing' })
   };
 }

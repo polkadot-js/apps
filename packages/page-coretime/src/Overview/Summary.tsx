@@ -30,7 +30,7 @@ function Summary ({ chainName, config, constants, parachainCount, saleInfo, stat
   const currentRegionStart = saleInfo.regionEnd - config.regionLength * 2;
   const { get } = useCoretimeContext();
 
-  const cycleNumber = useMemo(() => {
+  const saleNumber = useMemo(() => {
     if (chainName && currentRegionEnd) {
       return Math.floor(
         (currentRegionEnd - FirstCycleStart.timeslice.coretime[chainName]) / config.regionLength
@@ -46,7 +46,7 @@ function Summary ({ chainName, config, constants, parachainCount, saleInfo, stat
         {status &&
           <CardSummary label={t('sale number')}>
             <div>
-              {cycleNumber}
+              {saleNumber}
             </div>
           </CardSummary>
         }
@@ -71,7 +71,7 @@ function Summary ({ chainName, config, constants, parachainCount, saleInfo, stat
       </section>
       <section className='media--1200'>
         {status &&
-          (<CardSummary label={t('cycle dates')}>
+          (<CardSummary label={t('sale dates')}>
             <div>
               <div style={{ fontSize: '14px' }}>{get && estimateTime(currentRegionStart, get.blocks.relay(status?.lastTimeslice), constants.relay)}</div>
               <div style={{ fontSize: '14px' }}>{get && estimateTime(currentRegionEnd, get.blocks.relay(status?.lastTimeslice), constants.relay)}</div>
@@ -79,7 +79,7 @@ function Summary ({ chainName, config, constants, parachainCount, saleInfo, stat
           </CardSummary>)
         }
         {status &&
-          <CardSummary label={t('cycle ts')}>
+          <CardSummary label={t('sale ts')}>
             <div>
               <div style={{ fontSize: '14px' }}>{currentRegionStart}</div>
               <div style={{ fontSize: '14px' }}>{currentRegionEnd}</div>

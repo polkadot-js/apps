@@ -20,10 +20,9 @@ interface Props {
 
 function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [infoIndex, setInfoIndex] = useState(0);
+  const [selectedAssetValue, setSelectedAssetValue] = useState('0');
   const [info, setInfo] = useState<AssetInfoComplete | null>(null);
   const balances = useBalances(info?.id);
-  const maxNumLength = Number.MAX_SAFE_INTEGER.toString().length;
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('accounts'), 'start'],
@@ -43,9 +42,9 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
   const assetOptions = useMemo(
     () => completeInfos.map(({ id, metadata }) => ({
       text: `${metadata.name.toUtf8()} (${formatNumber(id)})`,
-      value: id.toString().length < maxNumLength ? id.toNumber() : id.toString()
+      value: id.toString()
     })),
-    [completeInfos, maxNumLength]
+    [completeInfos]
   );
 
   const siFormat = useMemo(
@@ -66,12 +65,16 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
   );
 
   useEffect((): void => {
-    setInfo(() =>
-      infoIndex >= 0
-        ? completeInfos.find(({ id }) => id.toString() === infoIndex.toString()) ?? null
-        : null
-    );
-  }, [completeInfos, infoIndex]);
+    const info = completeInfos.find(({ id }) => id.toString() === selectedAssetValue);
+
+    // if no info found (usually happens on first load), select the first one automatically
+    if (!info) {
+      setInfo(completeInfos.at(0) ?? null);
+      setSelectedAssetValue(completeInfos.at(0)?.id?.toString() ?? '0');
+    } else {
+      setInfo(info);
+    }
+  }, [completeInfos, selectedAssetValue]);
 
   return (
     <StyledDiv className={className}>
@@ -82,10 +85,10 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
             <Dropdown
               isFull
               label={t('the asset to query for balances')}
-              onChange={setInfoIndex}
+              onChange={setSelectedAssetValue}
               onSearch={onSearch}
               options={assetOptions}
-              value={infoIndex}
+              value={selectedAssetValue}
             />
           )
           : undefined
