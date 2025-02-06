@@ -79,7 +79,7 @@ export { nodesJupiterSVG } from './generated/jupiterSVG.js';
 export { nodesKabochaSVG } from './generated/kabochaSVG.js';
 export { nodesKarmachainSVG } from './generated/karmachainSVG.js';
 export { nodesKhalaSVG } from './generated/khalaSVG.js';
-export { nodesKiltIconBlackSVG } from './generated/KILT-icon-blackSVG.js';
+export { nodesKiltIconSVG } from './generated/kilt-iconSVG.js';
 export { nodesKineraPNG } from './generated/kineraPNG.js';
 export { nodesKlugPNG } from './generated/klugPNG.js';
 export { nodesKonomiPNG } from './generated/konomiPNG.js';
