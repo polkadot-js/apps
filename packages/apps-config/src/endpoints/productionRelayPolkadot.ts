@@ -329,6 +329,20 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://heima.network/',
+    info: 'heima',
+    paraId: 2013,
+    providers: {
+      Dwellir: 'wss://litentry-rpc.dwellir.com',
+      Heima: 'wss://rpc.litentry-parachain.litentry.io'
+    },
+    text: 'Heima',
+    ui: {
+      color: '#7ed495',
+      logo: nodesHeimaSVG
+    }
+  },
+  {
     homepage: 'https://hydration.net/',
     info: 'hydradx',
     paraId: 2034,
@@ -490,20 +504,6 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: 'linear-gradient(90deg, #25143B 0%, #613D93 29.69%, #EF9365 69.79%, #E2CF61 100%)',
       logo: chainsLaosPNG
-    }
-  },
-  {
-    homepage: 'https://heima.network/',
-    info: 'heima',
-    paraId: 2013,
-    providers: {
-      Dwellir: 'wss://litentry-rpc.dwellir.com',
-      Heima: 'wss://rpc.litentry-parachain.litentry.io'
-    },
-    text: 'Heima',
-    ui: {
-      color: '#7ed495',
-      logo: nodesHeimaSVG
     }
   },
   {

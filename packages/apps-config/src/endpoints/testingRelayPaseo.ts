@@ -122,6 +122,19 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://heima.network/',
+    info: 'heima-paseo',
+    paraId: 2106,
+    providers: {
+      Heima: 'wss://rpc.paseo-parachain.litentry.io'
+    },
+    text: 'Heima paseo',
+    ui: {
+      color: '#ECDA38',
+      logo: nodesHeimaPaseoPNG
+    }
+  },
+  {
     homepage: 'https://hydration.net',
     info: 'rococoHydraDX',
     paraId: 2034,
@@ -196,19 +209,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#363435',
       logo: chainsLaosSigmaPNG
-    }
-  },
-  {
-    homepage: 'https://heima.network/',
-    info: 'heima-paseo',
-    paraId: 2106,
-    providers: {
-      Heima: 'wss://rpc.paseo-parachain.litentry.io'
-    },
-    text: 'Heima paseo',
-    ui: {
-      color: '#ECDA38',
-      logo: nodesHeimaPaseoPNG
     }
   },
   {
