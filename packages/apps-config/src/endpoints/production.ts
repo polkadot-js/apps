@@ -93,6 +93,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'bittensor',
     providers: {
       // Dwellir: 'wss://bittensor-mainnet-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/10728
+      'Latent Holdings (Lite)': 'wss://lite.sub.latent.to:443',
       'Opentensor Fdn (Archive)': 'wss://entrypoint-finney.opentensor.ai:443'
     },
     text: 'Bittensor',
