@@ -233,9 +233,13 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
   const maxValueLength = getGlobalMaxValue(bitLength).toString().length;
 
   const [withTooltip, toolTip] = useMemo(() => {
+    if (isDisabled) {
+      return [false, undefined];
+    }
+
     const nativeSymbol = api.registry.chainTokens.at(0);
 
-    if (!!si && nativeSymbol === (siSymbol || TokenUnit.abbr) && !isDisabled) {
+    if (!!si && nativeSymbol === (siSymbol || TokenUnit.abbr)) {
       return [true, t('Enter value in standard units (not in Planck units)')];
     }
 
