@@ -1,11 +1,12 @@
 // Copyright 2017-2025 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ReactNode } from 'react';
 import type { ApiPromise } from '@polkadot/api';
 import type { SiDef } from '@polkadot/util/types';
 import type { BitLength } from './types.js';
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { useApi } from '@polkadot/react-hooks';
 import { BN, BN_ONE, BN_TEN, BN_TWO, BN_ZERO, formatBalance, isBn, isUndefined } from '@polkadot/util';
@@ -45,6 +46,8 @@ interface Props {
   withEllipsis?: boolean;
   withLabel?: boolean;
   withMax?: boolean;
+  withTooltip?: boolean;
+  toolTip?: ReactNode;
 }
 
 const DEFAULT_BITLENGTH = 32;
@@ -154,7 +157,7 @@ function getValues (api: ApiPromise, value: BN | string = BN_ZERO, si: SiDef | n
     : getValuesFromString(api, value, si, bitLength, isSigned, isZeroable, maxValue, decimals);
 }
 
-function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, className = '', defaultValue, isDecimal, isDisabled, isError = false, isFull, isLoading, isSi, isSigned = false, isWarning, isZeroable = true, label, labelExtra, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, siDecimals, siDefault, siSymbol, value: propsValue }: Props): React.ReactElement<Props> {
+function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, className = '', defaultValue, isDecimal, isDisabled, isError = false, isFull, isLoading, isSi, isSigned = false, isWarning, isZeroable = true, label, labelExtra, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, siDecimals, siDefault, siSymbol, toolTip, value: propsValue, withTooltip }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [si] = useState<SiDef | null>(() =>
@@ -231,20 +234,6 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
   // for u8 we allow 3, which could be 999 (however 2 digits will limit to only 99,
   // so this is more-or-less the lesser of evils without a max-value check)
   const maxValueLength = getGlobalMaxValue(bitLength).toString().length;
-
-  const [withTooltip, toolTip] = useMemo(() => {
-    if (isDisabled) {
-      return [false, undefined];
-    }
-
-    const nativeSymbol = api.registry.chainTokens.at(0);
-
-    if (!!si && nativeSymbol === (siSymbol || TokenUnit.abbr)) {
-      return [true, t('Enter value in standard units (not in Planck units)')];
-    }
-
-    return [false, undefined];
-  }, [si, siSymbol, api.registry, isDisabled, t]);
 
   return (
     <StyledInput

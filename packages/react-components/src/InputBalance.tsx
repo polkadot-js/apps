@@ -4,10 +4,11 @@
 import type { BN } from '@polkadot/util';
 import type { SiDef } from '@polkadot/util/types';
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { formatBalance, isUndefined } from '@polkadot/util';
 
+import { TokenUnit } from './InputConsts/units.js';
 import InputNumber from './InputNumber.js';
 
 interface Props {
@@ -69,6 +70,24 @@ function InputBalance ({ autoFocus, children, className = '', defaultValue: inDe
     [inDefault, isDisabled, siDecimals]
   );
 
+  const [si] = useState<SiDef | null>(() =>
+    siDefault || formatBalance.findSi('-')
+  );
+
+  const [withTooltip, toolTip] = useMemo(() => {
+    if (isDisabled) {
+      return [false, undefined];
+    }
+
+    if (!!si && (siSymbol || TokenUnit.abbr)) {
+      return [true, 'enter value in standard units'];
+    }
+
+    return [
+      false, undefined
+    ];
+  }, [isDisabled, si, siSymbol]);
+
   return (
     <InputNumber
       autoFocus={autoFocus}
@@ -92,10 +111,12 @@ function InputBalance ({ autoFocus, children, className = '', defaultValue: inDe
       siDecimals={siDecimals}
       siDefault={siDefault}
       siSymbol={siSymbol}
+      toolTip={toolTip}
       value={value}
       withEllipsis={withEllipsis}
       withLabel={withLabel}
       withMax={withMax}
+      withTooltip={withTooltip}
     >
       {children}
     </InputNumber>
