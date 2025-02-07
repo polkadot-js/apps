@@ -16,9 +16,9 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.148.2-19-x",
+  "version": "0.148.2-20-x",
   "versions": {
-    "git": "0.148.2-19-x",
+    "git": "0.148.2-20-x",
     "npm": "0.148.1"
   },
   "workspaces": [
@@ -92,7 +92,6 @@
   },
   "resolutions": {
     "@polkadot/api": "^15.2.2",
-    "@polkadot/typegen": "^15.2.2",
     "@polkadot/api-augment": "^15.2.2",
     "@polkadot/api-base": "^15.2.2",
     "@polkadot/api-contract": "^15.2.2",
@@ -104,6 +103,7 @@
     "@polkadot/rpc-augment": "^15.2.2",
     "@polkadot/rpc-core": "^15.2.2",
     "@polkadot/rpc-provider": "^15.2.2",
+    "@polkadot/typegen": "^15.2.2",
     "@polkadot/types": "^15.2.2",
     "@polkadot/types-augment": "^15.2.2",
     "@polkadot/types-codec": "^15.2.2",
