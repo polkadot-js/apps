@@ -29,6 +29,7 @@ Changes:
 - Update @polkadot/types dep ([#11272](https://github.com/polkadot-js/apps/pull/11272))
 - Upgraded polkadot-js deps ([#11277](https://github.com/polkadot-js/apps/pull/11277))
 - Fee payment with any sufficient asset ([#11229](https://github.com/polkadot-js/apps/pull/11229))
+- 0.148.1 ([#11231](https://github.com/polkadot-js/apps/pull/11231))
 
 ## 0.148.1 Jan 23, 2025
 
