@@ -33,7 +33,7 @@ function SubnetPaticpants ({ className }: Props): React.ReactElement<Props> {
             label={t('Register')}
             onStart={() => {}}
             params={['1', allAccounts[0]]}
-            tx={api.tx['xAgere'].burnedRegister}
+            tx={api.tx['xAgere']['burnedRegister']}
           />
         </div>
         <p>{t('Register as a validator/miner for any subnet, safeguard specific mainnets, and share in BEVM rewards.')}</p>
