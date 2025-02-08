@@ -32,7 +32,7 @@ function SubnetPaticpants ({ className }: Props): React.ReactElement<Props> {
             icon='plus'
             label={t('Register')}
             onStart={() => {}}
-            params={['1', allAccounts[0]]}
+            params={['1', hasAccounts ? allAccounts[0] : '']}
             tx={api.tx['xAgere']['burnedRegister']}
           />
         </div>
