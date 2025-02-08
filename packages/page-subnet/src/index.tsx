@@ -11,6 +11,7 @@ import { useTranslation } from './translate.js';
 import { Route, Routes } from 'react-router';
 import { isFunction } from '@polkadot/util';
 import Subnet from './Subnet.js';
+import User from './User/User.js';
 
 interface Props {
   basePath: string;
@@ -25,12 +26,8 @@ function createItemsRef (t: (key: string, options?: { replace: Record<string, un
       text: t('Subnet')
     },
     {
-      name: 'validator',
-      text: t('Validator')
-    },
-    {
-      name: 'use',
-      text: t('Use')
+      name: 'user',
+      text: t('User')
     }
   ];
 }
@@ -54,7 +51,9 @@ function App ({ basePath, className }: Props): React.ReactElement<Props> {
         items={itemsRef.current}
       />
       <Routes>
-        <Route path={'subnet'} element={<Subnet />}/>
+        <Route path={`${basePath}`} element={<Subnet />} />
+        <Route path={`${basePath}/subnet`} element={<Subnet />} />
+        <Route path={`${basePath}/user`} element={<User />} />
       </Routes>
     </main>
   );

@@ -1,0 +1,108 @@
+.user-dashboard {
+  padding: 1.5rem;
+}
+
+.user-dashboard h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--color-text);
+}
+
+.user-dashboard p {
+  color: var(--color-text-light);
+  margin-bottom: 2rem;
+}
+
+.user-dashboard .current-account {
+  margin: 1rem 0;
+  padding: 1.5rem;
+  background: var(--bg-table);
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-table);
+}
+
+.user-dashboard .current-account h3 {
+  color: var(--color-label);
+  margin-bottom: 0.5rem;
+}
+
+.user-dashboard .tabs {
+  margin: 2rem 0;
+  border-bottom: 1px solid var(--border-table);
+  padding-bottom: 1rem;
+}
+
+.user-dashboard .register-section {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: var(--bg-table);
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-table);
+}
+
+.user-dashboard .register-section .register-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.user-dashboard .register-section .register-header h2 {
+  font-size: 1.5rem;
+  color: var(--color-text);
+}
+
+.user-dashboard .register-section p {
+  margin: 0;
+  color: var(--color-text-light);
+}
+
+.user-dashboard .status-section {
+  margin: 2rem 0;
+}
+
+.user-dashboard .status-section h2 {
+  font-size: 1.5rem;
+  color: var(--color-text);
+  margin-bottom: 1rem;
+}
+
+.user-dashboard .status-section table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.user-dashboard .status-section table th {
+  padding: 1rem;
+  background: var(--bg-table);
+  border-bottom: 1px solid var(--border-table);
+}
+
+.user-dashboard .status-section table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-table);
+}
+
+.user-dashboard .status-section table tr:hover {
+  background: var(--bg-table-hover);
+}
+
+.user-dashboard .qa-section {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: var(--bg-table);
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-table);
+}
+
+.user-dashboard .qa-section h2 {
+  font-size: 1.5rem;
+  color: var(--color-text);
+  margin-bottom: 1rem;
+}
+
+.user-dashboard .button-group {
+  display: flex;
+  gap: 0.5rem;
+}

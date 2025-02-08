@@ -17,7 +17,6 @@ function useBlockCountsImpl (accountId: string, sessionRewards: SessionRewards[]
   const current = useCall<u32>(api.query.imOnline?.authoredBlocks, [indexes?.currentIndex, accountId]);
   const [counts, setCounts] = useState<u32[]>([]);
   const [historic, setHistoric] = useState<u32[]>([]);
-
   useEffect((): void => {
     if (isFunction(api.query.imOnline?.authoredBlocks) && sessionRewards?.length) {
       const filtered = sessionRewards.filter(({ sessionIndex }): boolean => sessionIndex.gt(BN_ZERO));

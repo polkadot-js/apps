@@ -53,6 +53,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
     (): void => {
       let extrinsics: SubmittableExtrinsic<'promise'>[] | undefined;
 
+      console.log('params', params)
       if (propsExtrinsic) {
         extrinsics = Array.isArray(propsExtrinsic)
           ? propsExtrinsic
