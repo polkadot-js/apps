@@ -354,6 +354,19 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://xcavate.io/',
+    info: 'Xcavate',
+    paraId: 4605,
+    providers: {
+      Xcavate: 'wss://rpc2-paseo.xcavate.io'
+    },
+    text: 'Xcavate',
+    ui: {
+      color: '#FF0083',
+      logo: chainsMyxcavPNG
+    }
+  },
+  {
     homepage: 'https://xode.net',
     info: 'paseoXode',
     paraId: 4607,
