@@ -12,6 +12,7 @@ import { BN } from '@polkadot/util';
 import { useCoretimeContext } from '../CoretimeContext.js';
 import { useTranslation } from '../translate.js';
 import { estimateTime, FirstCycleStart } from '../utils/index.js';
+import Countdown from '@polkadot/react-components/Countdown';
 
 interface Props {
   coreDscriptors?: CoreDescription[];
@@ -24,11 +25,19 @@ interface Props {
   constants: ChainConstants
 }
 
-function Summary ({ chainName, config, constants, parachainCount, saleInfo, status }: Props): React.ReactElement<Props> {
+function Summary({ chainName, config, constants, parachainCount, saleInfo, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const currentRegionEnd = saleInfo.regionEnd - config.regionLength;
   const currentRegionStart = saleInfo.regionEnd - config.regionLength * 2;
   const { get } = useCoretimeContext();
+
+  const saleStartDate = useMemo(() => {
+    return get && estimateTime(currentRegionStart, get.blocks.relay(status?.lastTimeslice), constants.relay);
+  }, [currentRegionStart, status?.lastTimeslice, constants.relay, get]);
+
+  const saleEndDate = useMemo(() => {
+    return get && estimateTime(currentRegionEnd, get.blocks.relay(status?.lastTimeslice), constants.relay);
+  }, [currentRegionEnd, status?.lastTimeslice, constants.relay, get]);
 
   const saleNumber = useMemo(() => {
     if (chainName && currentRegionEnd) {
@@ -57,24 +66,42 @@ function Summary ({ chainName, config, constants, parachainCount, saleInfo, stat
           {parachainCount && parachainCount}
         </CardSummary>
         {config && status &&
-          <CardSummary
-            className='media--800'
-            label={t('cycle progress')}
-            progress={{
-              isBlurred: false,
-              total: new BN(config?.regionLength),
-              value: new BN(config?.regionLength - (currentRegionEnd - status.lastTimeslice)),
-              withTime: false
-            }}
-          />
+          <>
+            <CardSummary
+              className='media--800'
+              label={t('cycle time progress')}
+              progress={{
+                isBlurred: false,
+                total: new BN(config?.regionLength),
+                value: new BN(config?.regionLength - (currentRegionEnd - status.lastTimeslice)),
+                withTime: false,
+                hideValue: true
+              }}
+            >
+              <Countdown start={new Date(saleStartDate)} current={new Date()} end={new Date(saleEndDate)} />
+            </CardSummary>
+            <CardSummary
+              className='media--800'
+              label={t('timeslice progress')}
+              progress={{
+                isBlurred: false,
+                total: new BN(config?.regionLength),
+                value: new BN(config?.regionLength - (currentRegionEnd - status.lastTimeslice)),
+                withTime: false,
+                hideValue: false,
+                hideGraph: true
+              }}
+            />
+          </>
+
         }
       </section>
       <section className='media--1200'>
         {status &&
           (<CardSummary label={t('sale dates')}>
             <div>
-              <div style={{ fontSize: '14px' }}>{get && estimateTime(currentRegionStart, get.blocks.relay(status?.lastTimeslice), constants.relay)}</div>
-              <div style={{ fontSize: '14px' }}>{get && estimateTime(currentRegionEnd, get.blocks.relay(status?.lastTimeslice), constants.relay)}</div>
+              <div style={{ fontSize: '14px' }}>{saleStartDate}</div>
+              <div style={{ fontSize: '14px' }}>{saleEndDate}</div>
             </div>
           </CardSummary>)
         }
