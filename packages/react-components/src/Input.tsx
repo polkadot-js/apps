@@ -1,8 +1,6 @@
 // Copyright 2017-2025 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ReactNode } from 'react';
-
 import React, { useCallback, useEffect, useState } from 'react';
 import { Input as SUIInput } from 'semantic-ui-react';
 
@@ -51,8 +49,6 @@ interface Props {
   value?: string | null;
   withLabel?: boolean;
   withEllipsis?: boolean;
-  withTooltip?: boolean;
-  toolTip?: ReactNode;
 }
 
 // // Find decimal separator used in current locale
@@ -96,7 +92,7 @@ const isSelectAll = (key: string, isPreKeyDown: boolean): boolean =>
 
 let counter = 0;
 
-function Input ({ autoFocus = false, children, className, defaultValue, icon, inputClassName, isAction = false, isDisabled = false, isDisabledError = false, isEditable = false, isError = false, isFull = false, isHidden = false, isInPlaceEditor = false, isLoading = false, isReadOnly = false, isWarning = false, label, labelExtra, max, maxLength, min, name, onBlur, onChange, onEnter, onEscape, onKeyDown, onKeyUp, onPaste, placeholder, tabIndex, toolTip, type = 'text', value, withEllipsis, withLabel, withTooltip }: Props): React.ReactElement<Props> {
+function Input ({ autoFocus = false, children, className, defaultValue, icon, inputClassName, isAction = false, isDisabled = false, isDisabledError = false, isEditable = false, isError = false, isFull = false, isHidden = false, isInPlaceEditor = false, isLoading = false, isReadOnly = false, isWarning = false, label, labelExtra, max, maxLength, min, name, onBlur, onChange, onEnter, onEscape, onKeyDown, onKeyUp, onPaste, placeholder, tabIndex, type = 'text', value, withEllipsis, withLabel }: Props): React.ReactElement<Props> {
   const [stateName] = useState(() => `in_${counter++}_at_${Date.now()}`);
   const [initialValue] = useState(() => defaultValue);
 
@@ -152,10 +148,8 @@ function Input ({ autoFocus = false, children, className, defaultValue, icon, in
       isFull={isFull}
       label={label}
       labelExtra={labelExtra}
-      toolTip={toolTip}
       withEllipsis={withEllipsis}
       withLabel={withLabel}
-      withTooltip={withTooltip}
     >
       <SUIInput
         action={isAction}

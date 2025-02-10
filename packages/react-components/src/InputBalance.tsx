@@ -10,6 +10,8 @@ import { formatBalance, isUndefined } from '@polkadot/util';
 
 import { TokenUnit } from './InputConsts/units.js';
 import InputNumber from './InputNumber.js';
+import { styled } from './styled.js';
+import { useTranslation } from './translate.js';
 
 interface Props {
   autoFocus?: boolean;
@@ -65,6 +67,8 @@ function reformat (value?: string | BN | null, isDisabled = false, siDecimals?: 
 }
 
 function InputBalance ({ autoFocus, children, className = '', defaultValue: inDefault, isDisabled, isError, isFull, isLoading, isWarning, isZeroable, label, labelExtra, maxValue, onChange, onEnter, onEscape, placeholder, siDecimals, siSymbol, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   const { defaultValue, siDefault } = useMemo(
     () => reformat(inDefault, isDisabled, siDecimals),
     [inDefault, isDisabled, siDecimals]
@@ -73,20 +77,6 @@ function InputBalance ({ autoFocus, children, className = '', defaultValue: inDe
   const [si] = useState<SiDef | null>(() =>
     siDefault || formatBalance.findSi('-')
   );
-
-  const [withTooltip, toolTip] = useMemo(() => {
-    if (isDisabled) {
-      return [false, undefined];
-    }
-
-    if (!!si && (siSymbol || TokenUnit.abbr)) {
-      return [true, 'enter value in standard units'];
-    }
-
-    return [
-      false, undefined
-    ];
-  }, [isDisabled, si, siSymbol]);
 
   return (
     <InputNumber
@@ -102,7 +92,16 @@ function InputBalance ({ autoFocus, children, className = '', defaultValue: inDe
       isWarning={isWarning}
       isZeroable={isZeroable}
       label={label}
-      labelExtra={labelExtra}
+      labelExtra={
+        <LabelledExtra>
+          {labelExtra}
+          {!!si && (siSymbol || TokenUnit.abbr) &&
+          <p>
+            {t('(enter value in standard units)')}
+          </p>
+          }
+        </LabelledExtra>
+      }
       maxValue={maxValue}
       onChange={onChange}
       onEnter={onEnter}
@@ -111,16 +110,25 @@ function InputBalance ({ autoFocus, children, className = '', defaultValue: inDe
       siDecimals={siDecimals}
       siDefault={siDefault}
       siSymbol={siSymbol}
-      toolTip={toolTip}
       value={value}
       withEllipsis={withEllipsis}
       withLabel={withLabel}
       withMax={withMax}
-      withTooltip={withTooltip}
     >
       {children}
     </InputNumber>
   );
 }
+
+const LabelledExtra = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.1rem;
+
+  p {
+    font-size: var(--font-size-tiny);
+    font-weight: var(--font-weight-normal);
+  }
+`;
 
 export default React.memo(InputBalance);

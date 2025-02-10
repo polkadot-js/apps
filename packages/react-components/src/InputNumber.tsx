@@ -1,7 +1,6 @@
 // Copyright 2017-2025 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ReactNode } from 'react';
 import type { ApiPromise } from '@polkadot/api';
 import type { SiDef } from '@polkadot/util/types';
 import type { BitLength } from './types.js';
@@ -46,8 +45,6 @@ interface Props {
   withEllipsis?: boolean;
   withLabel?: boolean;
   withMax?: boolean;
-  withTooltip?: boolean;
-  toolTip?: ReactNode;
 }
 
 const DEFAULT_BITLENGTH = 32;
@@ -157,7 +154,7 @@ function getValues (api: ApiPromise, value: BN | string = BN_ZERO, si: SiDef | n
     : getValuesFromString(api, value, si, bitLength, isSigned, isZeroable, maxValue, decimals);
 }
 
-function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, className = '', defaultValue, isDecimal, isDisabled, isError = false, isFull, isLoading, isSi, isSigned = false, isWarning, isZeroable = true, label, labelExtra, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, siDecimals, siDefault, siSymbol, toolTip, value: propsValue, withTooltip }: Props): React.ReactElement<Props> {
+function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, className = '', defaultValue, isDecimal, isDisabled, isError = false, isFull, isLoading, isSi, isSigned = false, isWarning, isZeroable = true, label, labelExtra, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, siDecimals, siDefault, siSymbol, value: propsValue }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [si] = useState<SiDef | null>(() =>
@@ -258,10 +255,8 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
           ? t('Valid number')
           : t('Positive number')
       )}
-      toolTip={toolTip}
       type='text'
       value={value}
-      withTooltip={withTooltip}
     >
       {si && (
         <div className='siUnit'>
