@@ -135,7 +135,7 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
         // parachain can be renewed on a different core
         const workplan = workplans?.filter((workplan) => workplan.info.task.toString() === taskId);
         const type = getOccupancyType(lease, reservation, workload?.info.isPool ?? false);
-        
+
         const potentialRenewal = potentialRenewalsCurrentRegion?.find((renewal) => renewal.task.toString() === taskId);
 
         let renewalStatus = potentialRenewal ? ChainRenewalStatus.Eligible : ChainRenewalStatus.None;
@@ -165,7 +165,7 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
         id,
         lease,
         reservation,
-        workTaskInfo,
+        workTaskInfo
       };
     });
 
