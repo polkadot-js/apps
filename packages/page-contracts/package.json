@@ -14,9 +14,9 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.147.2-9-x",
+  "version": "0.149.1",
   "dependencies": {
-    "@polkadot/api-contract": "15.2.1",
+    "@polkadot/api-contract": "15.5.2",
     "eventemitter3": "^5.0.1"
   },
   "peerDependencies": {

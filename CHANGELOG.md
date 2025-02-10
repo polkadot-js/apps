@@ -1,5 +1,64 @@
 # CHANGELOG
 
+## 0.149.1 Feb 7, 2025
+
+Contributed:
+
+- Add Helixstreet Endpoints ([#11237](https://github.com/polkadot-js/apps/pull/11237)) (Thanks to https://github.com/helixstreet)
+- Update moonbeam-types-bundle to latest ([#11240](https://github.com/polkadot-js/apps/pull/11240)) (Thanks to https://github.com/timbrinded)
+- Update new paraId ([#11245](https://github.com/polkadot-js/apps/pull/11245)) (Thanks to https://github.com/ganesh1997oli)
+- Add IBP endpoint to Mythos ([#11249](https://github.com/polkadot-js/apps/pull/11249)) (Thanks to https://github.com/miloskriz)
+- Restore `wss://kreivo.io` provider to the list of providers ([#11250](https://github.com/polkadot-js/apps/pull/11250)) (Thanks to https://github.com/pandres95)
+- Add Permanence DAO Europe public RPC endpoints for Polkadot and Westend Asset Hub ([#11252](https://github.com/polkadot-js/apps/pull/11252)) (Thanks to https://github.com/kukabi)
+- WeTEE added to Paseo ([#11254](https://github.com/polkadot-js/apps/pull/11254)) (Thanks to https://github.com/BurnWW)
+- Update xode paraid in Paseo ([#11264](https://github.com/polkadot-js/apps/pull/11264)) (Thanks to https://github.com/Mrigesh901)
+- Add blockops assethub rpc endpoint ([#11266](https://github.com/polkadot-js/apps/pull/11266)) (Thanks to https://github.com/haroldsphinx)
+- Deleted OnFinality 2 endpoints ([#11270](https://github.com/polkadot-js/apps/pull/11270)) (Thanks to https://github.com/FiveKG)
+- [KILT] Design change and node operator rename ([#11271](https://github.com/polkadot-js/apps/pull/11271)) (Thanks to https://github.com/rflechtner)
+- Add LH ws to bittensor ([#11273](https://github.com/polkadot-js/apps/pull/11273)) (Thanks to https://github.com/camfairchild)
+
+
+Changes: 
+
+- Disable unreachable endpoints ([#11236](https://github.com/polkadot-js/apps/pull/11236) [#11258](https://github.com/polkadot-js/apps/pull/11258) [#11268](https://github.com/polkadot-js/apps/pull/11268))
+- Make use of `spendLocal` in treasury ([#11243](https://github.com/polkadot-js/apps/pull/11243))
+- Remove Experimental from Coretime ([#11246](https://github.com/polkadot-js/apps/pull/11246))
+- Ensure safeguard against treasury spendLocal functions ([#11247](https://github.com/polkadot-js/apps/pull/11247))
+- Showing what core the chain is renewed on ([#11256](https://github.com/polkadot-js/apps/pull/11256))
+- Treasury Spend Params Issue ([#11265](https://github.com/polkadot-js/apps/pull/11265))
+- Update @polkadot/types dep ([#11272](https://github.com/polkadot-js/apps/pull/11272))
+- Upgraded polkadot-js deps ([#11277](https://github.com/polkadot-js/apps/pull/11277))
+- Fee payment with any sufficient asset ([#11229](https://github.com/polkadot-js/apps/pull/11229))
+- 0.148.1 ([#11231](https://github.com/polkadot-js/apps/pull/11231))
+
+## 0.148.1 Jan 23, 2025
+
+Contributed:
+
+- Remove Dwellir Tinkernet endpoint ([#11196](https://github.com/polkadot-js/apps/pull/11196)) (Thanks to https://github.com/jonathanudd)
+- Update Joystream staking inflation parameters ([#11206](https://github.com/polkadot-js/apps/pull/11206)) (Thanks to https://github.com/DzhideX)
+- Add torus network chain ([#11175](https://github.com/polkadot-js/apps/pull/11175)) (Thanks to https://github.com/EdSDR)
+- Change Aventus public rpc endpoints ([#11220](https://github.com/polkadot-js/apps/pull/11220)) (Thanks to https://github.com/vukomir)
+- Update allfeat testnet ([#11214](https://github.com/polkadot-js/apps/pull/11214)) (Thanks to https://github.com/SailorSnoW)
+- 
+
+
+Changes:
+
+- Fix broken balances page ([#11230](https://github.com/polkadot-js/apps/pull/11230))
+- Fixed broken Block Details for blocks/chains with V1 Weight ([#11225](https://github.com/polkadot-js/apps/pull/11225))
+- Fix get next asset Id ([#11213](https://github.com/polkadot-js/apps/pull/11213))
+- Restore submit proposal button for `proposeSend` ([#11218](https://github.com/polkadot-js/apps/pull/11218))
+- Fix default asset selection ([#11222](https://github.com/polkadot-js/apps/pull/11222))
+- Add more sale details to coretime plus region info ([#11188](https://github.com/polkadot-js/apps/pull/11188))
+- Fix transactionPaymentApi issue ([#11208](https://github.com/polkadot-js/apps/pull/11208))
+- Fix card title and related translations ([#11205](https://github.com/polkadot-js/apps/pull/11205))
+- Fix BountyType with new PalletBountiesBounty ([#11204](https://github.com/polkadot-js/apps/pull/11204))
+- Added missing types description to docs ([#11197](https://github.com/polkadot-js/apps/pull/11197))
+- Disable unreachable endpoints ([#11201](https://github.com/polkadot-js/apps/pull/11201)) ([#11216](https://github.com/polkadot-js/apps/pull/11216))
+- Bump dev to 0.83.2 ([#11210](https://github.com/polkadot-js/apps/pull/11210))
+
+
 ## 0.147.1 Jan 9, 2025
 
 Contributed:

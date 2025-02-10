@@ -440,17 +440,6 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'harmonie',
-    providers: {
-      'Allfeat labs': 'wss://harmonie-endpoint-02.allfeat.io'
-    },
-    text: 'Harmonie Testnet',
-    ui: {
-      color: '#000000',
-      logo: chainsAllfeatSVG
-    }
-  },
-  {
     info: 'interlay-testnet',
     providers: {
       // Interlay: 'wss://api-testnet.interlay.io/parachain/' https://github.com/polkadot-js/apps/issues/11157
@@ -614,6 +603,17 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#2070a6',
       logo: nodesMantaPNG
+    }
+  },
+  {
+    info: 'melodie',
+    providers: {
+      'Allfeat labs': 'wss://melodie-rpc.allfeat.io'
+    },
+    text: 'Melodie | Allfeat Testnet',
+    ui: {
+      color: '#ff4a5f',
+      logo: chainsAllfeatSVG
     }
   },
   {
@@ -929,7 +929,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'subspace-gemini-3g',
     providers: {
       // Europe: 'wss://rpc-1.gemini-3g.subspace.network/ws', // https://github.com/polkadot-js/apps/issues/10912
-      US: 'wss://rpc-0.gemini-3g.subspace.network/ws'
+      // US: 'wss://rpc-0.gemini-3g.subspace.network/ws' // https://github.com/polkadot-js/apps/issues/11263
     },
     text: 'Subspace Gemini 3g',
     ui: {

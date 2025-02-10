@@ -3,8 +3,8 @@
 
 import type { EndpointOption } from './types.js';
 
-import { chainsAmplitudeSVG, chainsCoretimeKusamaSVG, chainsFrequencyPaseoSVG, chainsHydrationPaseoSVG, chainsLaosSigmaPNG, chainsMyxcavPNG, chainsNeurowebTestnetPNG, chainsPaseoPNG, chainsPeoplePolkadotSVG, chainsPopNetworkSVG, chainsWatrPNG } from '@polkadot/apps-config/ui/logos/chains';
-import { nodesAjunaPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBifrostSVG, nodesBridgeHubSVG, nodesDarwiniaKoiSVG, nodesHyperbridgePNG, nodesIdealNetworkSVG, nodesIntegriteeSVG, nodesKiltPNG, nodesLitentryPaseoSVG, nodesMandalaPNG, nodesMusePNG, nodesMyriadPaseoSVG, nodesNodleSVG, nodesRegionxPNG, nodesRexSVG, nodesXodePNG, nodesZeitgeistPNG } from '@polkadot/apps-config/ui/logos/nodes';
+import { chainsAmplitudeSVG, chainsCoretimeKusamaSVG, chainsFrequencyPaseoSVG, chainsHydrationPaseoSVG, chainsLaosSigmaPNG, chainsMyxcavPNG, chainsNeurowebTestnetPNG, chainsPaseoPNG, chainsPeoplePolkadotSVG, chainsPopNetworkSVG, chainsWatrPNG, chainsWeTEESVG } from '@polkadot/apps-config/ui/logos/chains';
+import { nodesAjunaPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBifrostSVG, nodesBridgeHubSVG, nodesDarwiniaKoiSVG, nodesHyperbridgePNG, nodesIdealNetworkSVG, nodesIntegriteeSVG, nodesKiltIconSVG, nodesLitentryPaseoSVG, nodesMandalaPNG, nodesMusePNG, nodesMyriadPaseoSVG, nodesNodleSVG, nodesRegionxPNG, nodesRexSVG, nodesXodePNG, nodesZeitgeistPNG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
 // import { testnetParachainSVG } from '../ui/logos/nodes/index.js';
@@ -48,7 +48,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'paseoAmplitude',
     paraId: 2124,
     providers: {
-      PendulumChain: 'wss://rpc-foucoco.pendulumchain.tech'
+      // PendulumChain: 'wss://rpc-foucoco.pendulumchain.tech' // https://github.com/polkadot-js/apps/issues/11267
     },
     text: 'Amplitude testnet (Foucoco)',
     ui: {
@@ -61,7 +61,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'paseoAventus',
     paraId: 2056,
     providers: {
-      Aventus: 'wss://public-rpc.testnet.aventus.network'
+      Aventus: 'wss://public-rpc.testnet.aventus.io'
     },
     text: 'Aventus',
     ui: {
@@ -152,7 +152,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'Ideal Network',
     paraId: 4502,
     providers: {
-      'IDN Node': 'wss://idn0-testnet.idealabs.network'
+      // 'IDN Node': 'wss://idn0-testnet.idealabs.network' // https://github.com/polkadot-js/apps/issues/11263
     },
     text: 'Ideal Network',
     ui: {
@@ -177,12 +177,12 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'kilt',
     paraId: 2086,
     providers: {
-      BOTLabs: 'wss://peregrine.kilt.io/parachain-public-ws/'
+      'KILT Foundation': 'wss://peregrine.kilt.io/parachain-public-ws/'
     },
     text: 'KILT Peregrine',
     ui: {
-      color: 'linear-gradient(45deg, #f05a27 0%, #8c145a 100%)',
-      logo: nodesKiltPNG
+      color: 'linear-gradient(45deg, #D73D80 0%, #161B3B 100%)',
+      logo: nodesKiltIconSVG
     }
   },
   {
@@ -328,9 +328,22 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://wetee.app/',
+    info: 'TEE cloud',
+    paraId: 4545,
+    providers: {
+      WeTEEDAO: 'wss://paseo.asyou.me/ws'
+    },
+    text: 'WeTEE (Paseo)',
+    ui: {
+      color: '#000',
+      logo: chainsWeTEESVG
+    }
+  },
+  {
     homepage: 'https://xcavate.io/',
     info: 'Xcavate',
-    paraId: 4003,
+    paraId: 4603,
     providers: {
       Xcavate: 'wss://rpc-paseo.xcavate.io:443'
     },
@@ -343,7 +356,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   {
     homepage: 'https://xode.net',
     info: 'paseoXode',
-    paraId: 4389,
+    paraId: 4607,
     providers: {
       XodeCommunity: 'wss://testrpcnodea01.xode.net/aRoyklGrhl9m2LlhX8NP/rpc'
     },

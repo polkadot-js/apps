@@ -29,7 +29,7 @@ function Overview ({ className, isMember, members }: Props): React.ReactElement<
         proposalCount={info?.proposals.length}
       />
       {
-        api.tx.treasury.proposeSpend
+        api.tx.treasury.proposeSpend || !!api.tx.treasury.spendLocal
           ? <Button.Group>
             <ProposalCreate />
           </Button.Group>
