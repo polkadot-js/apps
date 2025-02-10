@@ -332,6 +332,7 @@ export interface PalletBrokerConfigRecord {
 }
 
 export interface ChainWorkTaskInformation {
+  lastBlock: number
   renewal: PotentialRenewal | undefined
   renewalStatus: string
   type: CoreTimeTypes

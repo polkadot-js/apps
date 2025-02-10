@@ -4,6 +4,7 @@
 import type { ChainBlockConstants, ChainConstants, CoretimeInformation } from '@polkadot/react-hooks/types';
 import type { ChainName, GetResponse, RegionInfo } from '../types.js';
 
+import { CoreTimeTypes } from '@polkadot/react-hooks/constants';
 import { BN } from '@polkadot/util';
 
 type FirstCycleStartType = Record<
@@ -32,6 +33,12 @@ export const FirstCycleStart: FirstCycleStartType = {
       westend: 245402
     }
   }
+};
+
+export const coretimeTypeColours: Record<string, string> = {
+  [CoreTimeTypes.Reservation]: 'orange',
+  [CoreTimeTypes.Lease]: 'blue',
+  [CoreTimeTypes['Bulk Coretime']]: 'pink'
 };
 
 export function formatDate (date: Date) {

@@ -119,7 +119,7 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
   }, [workloads, coreInfos]);
 
   useEffect((): void => {
-    if (!workloadData?.length || !reservations?.length) {
+    if (!workloadData?.length || !reservations?.length || !coretimeConstants) {
       return;
     }
 
@@ -135,9 +135,15 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
         // parachain can be renewed on a different core
         const workplan = workplans?.filter((workplan) => workplan.info.task.toString() === taskId);
         const type = getOccupancyType(lease, reservation, workload?.info.isPool ?? false);
+
         const potentialRenewal = potentialRenewalsCurrentRegion?.find((renewal) => renewal.task.toString() === taskId);
 
         let renewalStatus = potentialRenewal ? ChainRenewalStatus.Eligible : ChainRenewalStatus.None;
+        const chainRegionEnd = (renewalStatus === ChainRenewalStatus.Renewed ? salesInfo?.regionEnd : salesInfo?.regionBegin);
+        const targetTimeslice = lease?.until || chainRegionEnd;
+
+        const lastBlock = targetTimeslice ? targetTimeslice * coretimeConstants?.relay.blocksPerTimeslice : 0;
+
         const chainRenewedCore = type === CoreTimeTypes['Bulk Coretime'] && !!workplan?.length;
 
         if (chainRenewedCore) {
@@ -146,6 +152,7 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
 
         return {
           chainRenewedCore,
+          lastBlock,
           renewal: potentialRenewal,
           renewalStatus,
           type,
