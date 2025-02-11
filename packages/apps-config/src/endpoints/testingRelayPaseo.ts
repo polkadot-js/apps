@@ -100,7 +100,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'Darwinia Koi',
     paraId: 2105,
     providers: {
-      Darwinia: 'wss://koi-rpc.darwinia.network'
+      // Darwinia: 'wss://koi-rpc.darwinia.network' // https://github.com/polkadot-js/apps/issues/11279
     },
     text: 'Darwinia Koi',
     ui: {
