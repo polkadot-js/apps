@@ -577,6 +577,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Helikon: 'wss://rpc.helikon.io/mythos',
       IBP1: 'wss://mythos.ibp.network',
+      IBP2: 'wss://mythos.dotters.network',
       parity: 'wss://polkadot-mythos-rpc.polkadot.io'
     },
     text: 'Mythos',
