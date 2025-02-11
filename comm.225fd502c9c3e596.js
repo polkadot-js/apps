@@ -2705,7 +2705,7 @@
   }
 
   table {
-    border-collapse: collapse;
+    *border-collapse: collapse;
     border-spacing: 0;
     max-width: 100%;
     overflow: hidden;
