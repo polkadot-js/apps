@@ -10,29 +10,32 @@ import { InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-com
 import BN from 'bn.js';
 
 interface Props {
+  modelName: string
   toggleOpen: ()=>void;
   hotAddress: string
   type: string
   name: string
+  account: string
 }
 
-function StakingModal ({ toggleOpen, hotAddress, type, name }: Props): React.ReactElement<Props> {
+function StakingModal ({ modelName, toggleOpen, hotAddress, type, name, account }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { allAccounts, hasAccounts } = useAccounts();
   const [amount, setAmount] = useState<BN | undefined>();
-
+  const [selectedAccount, setSelectedAccount] = useState<string>(account);
 
   return (
     <Modal
-      header={t('Vote on proposal')}
+      header={t(modelName)}
       onClose={toggleOpen}
       size='small'
     >
       <Modal.Content>
         <Modal.Columns>
           <InputAddress
-            label={t('setHotAddress')}
+            defaultValue={account}
+            label={t('Address')}
+            onChange={(value: string | null) => setSelectedAccount(value || '')}
             type='account'
             withLabel
           />
@@ -42,7 +45,7 @@ function StakingModal ({ toggleOpen, hotAddress, type, name }: Props): React.Rea
             defaultValue={hotAddress}
             isDisabled={!!hotAddress}
             hideAddress={true}
-            label={t('Vote for validator')}
+            label={t('Stake for executor')}
             labelExtra={
               <span> </span>
             }
@@ -52,7 +55,7 @@ function StakingModal ({ toggleOpen, hotAddress, type, name }: Props): React.Rea
         <Modal.Columns>
           <InputBalance
             autoFocus
-            label={t('setAmount')}
+            label={t(`${modelName} amount`)}
             onChange={setAmount}
           />
         </Modal.Columns>
@@ -60,7 +63,7 @@ function StakingModal ({ toggleOpen, hotAddress, type, name }: Props): React.Rea
 
       <Modal.Actions>
         <TxButton
-          accountId={hasAccounts ? allAccounts[0] : ''}
+          accountId={selectedAccount}
           icon='sign-in-alt'
           label={t(name)}
           params={[hotAddress, amount]}

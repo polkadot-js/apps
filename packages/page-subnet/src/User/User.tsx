@@ -1,27 +1,18 @@
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { useTranslation } from '../translate.js';
-import { useAccounts, useApi } from '@polkadot/react-hooks';
 import { Button, Table, ToggleGroup, TxButton } from '@polkadot/react-components';
 import UserInfo from './UserInfo.tsx';
 import SubnetPaticpants from './SubnetPaticpants.tsx';
+import AccountSelector from './AccountSelector.tsx';
 interface Props {
   className?: string;
 }
 
-interface ParticipantInfo {
-  pos: number;
-  subnetName: string;
-  participantsName: string;
-  yourStake: string;
-  yourNominator: string;
-  minerStatus: string;
-}
-
 function User({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const { allAccounts, hasAccounts } = useAccounts();
   const [typeIndex, setTypeIndex] = useState(0);
+
+  const [selectedAccount, setSelectedAccount] = useState<string>('');
 
   const stashTypes = useRef([
     { text: t('User'), value: 'User' },
@@ -31,22 +22,27 @@ function User({ className }: Props): React.ReactElement<Props> {
   const renderContent = () => {
     switch (stashTypes.current[typeIndex].value) {
       case 'User':
-        return <UserInfo />;
+        return <UserInfo account={selectedAccount} />;
       case 'Paticipants':
-        return <SubnetPaticpants />;
+        return <SubnetPaticpants account={selectedAccount} />;
       default:
         return null;
     }
   };
 
   return (
-    <div className={`user-dashboard ${className}`}>
-      <h1>{t('User Dashboard')}</h1>
+    <div className={`${className}`}>
+      <h3>{'User Dashboard'}</h3>
       <p>{t('Here displays five different roles for participating in the subnet. You can switch Tabs to view the operations corresponding to each role.')}</p>
 
-      <div className='current-account'>
+      <div className='current-account' style={{display:'flex', justifyItems:'center', flexDirection:'row', alignItems:'center'}}>
         <h3>{t('Current Account')}</h3>
-        {hasAccounts && allAccounts[0]}
+        <div className='account-section'>
+          <AccountSelector
+            onChange={(address) => setSelectedAccount(address)}
+            selectedAddress={selectedAccount}
+          />
+        </div>
       </div>
 
       <div className='tabs'>
@@ -58,8 +54,9 @@ function User({ className }: Props): React.ReactElement<Props> {
           />
         </Button.Group>
       </div>
-
-      {renderContent()}
+      <div style={{ background:'white', padding:'12px'}}>
+        {renderContent()}
+      </div>
     </div>
   );
 }

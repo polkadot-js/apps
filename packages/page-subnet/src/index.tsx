@@ -12,6 +12,7 @@ import { Route, Routes } from 'react-router';
 import { isFunction } from '@polkadot/util';
 import Subnet from './Subnet.js';
 import User from './User/User.js';
+import Validator from './Validator/Validator.js';
 
 interface Props {
   basePath: string;
@@ -24,6 +25,10 @@ function createItemsRef (t: (key: string, options?: { replace: Record<string, un
       isRoot: true,
       name: 'subnet',
       text: t('Subnet')
+    },
+    {
+      name: 'validator',
+      text: t('Validator')
     },
     {
       name: 'user',
@@ -53,6 +58,7 @@ function App ({ basePath, className }: Props): React.ReactElement<Props> {
       <Routes>
         <Route path={`${basePath}`} element={<Subnet />} />
         <Route path={`${basePath}/subnet`} element={<Subnet />} />
+        <Route path={`${basePath}/validator`} element={<Validator />} />
         <Route path={`${basePath}/user`} element={<User />} />
       </Routes>
     </main>

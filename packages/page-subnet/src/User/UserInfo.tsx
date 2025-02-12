@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from '../translate.js';
 import { Button, Table, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
+import { useToggle } from '@polkadot/react-hooks';
 import { callXAgereRpc } from '../callXAgereRpc.js';
 import StakingModal from './StakingModal.tsx';
 
 interface Props {
   className?: string;
+  account: string;
 }
 
 interface DelegateInfo {
@@ -22,10 +23,9 @@ interface DelegateInfo {
 
 type DelegateData = [DelegateInfo, number];
 
-function UserInfo ({ className }: Props): React.ReactElement<Props> {
+function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const { allAccounts, hasAccounts } = useAccounts();
+  // const { allAccounts, hasAccounts } = useAccounts();
   const [isStakingOpen, toggleIsStakingOpen] = useToggle();
   const [isUnStakingOpen, toggleIsUnStakingOpen] = useToggle();
   const [isDelegateOpen, toggleIsDelegateOpen] = useToggle();
@@ -35,7 +35,7 @@ function UserInfo ({ className }: Props): React.ReactElement<Props> {
   // 格式化 BEVM 数量，添加千分位并截断到合适的小数位
   const formatBEVM = (amount: number): string => {
     // 将数值除以 1e9 (假设 9 位小数)
-    const value = amount / 1_000_000_000;
+    const value = amount/Math.pow(10,8);
     return new Intl.NumberFormat('en-US', {
       minimumFractionDigits: 0,
       maximumFractionDigits: 2,
@@ -52,6 +52,7 @@ function UserInfo ({ className }: Props): React.ReactElement<Props> {
     return nominators.reduce((sum, [_, amount]) => sum + amount, 0);
   };
 
+
   const header = [
     [t('Delegator'), 'start'],
     [t('Total Daily Return'), 'start'],
@@ -61,7 +62,7 @@ function UserInfo ({ className }: Props): React.ReactElement<Props> {
   ];
 
   useEffect((): void => {
-    callXAgereRpc('xagere_getStakeInfoForColdkey', [hasAccounts ? allAccounts[0] : ''])  // 例如，查询最新区块号
+    callXAgereRpc('xagere_getStakeInfoForColdkey', [account])  // 例如，查询最新区块号
       .then(response => {
         console.log('xagere_getStakeInfoForColdkey Response:', response);
       })
@@ -81,7 +82,7 @@ function UserInfo ({ className }: Props): React.ReactElement<Props> {
   }, []);
 
   useEffect((): void => {
-    callXAgereRpc('xagere_getDelegated', [hasAccounts ? allAccounts[0] : ''])
+    callXAgereRpc('xagere_getDelegated', [account])
       .then(response => {
         console.log('xagere_getDelegated Response:', response);
         if (response && Array.isArray(response)) {
@@ -95,24 +96,24 @@ function UserInfo ({ className }: Props): React.ReactElement<Props> {
         console.error('xagere_getDelegates calling RPC:', error);
         setDelegateData([]);
       });
-  }, []);
+  }, [account]);
 
   return (
     <div className={className}>
       <div className='delegate-section'>
-        <div className='delegate-header'>
-          <h2>{t('Delegate Your BEVM')}</h2>
+        <h2>{t('Delegate Your BEVM')}</h2>
+        <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
+          <p>{t('Delegate to the registrant you believe is suitable, and you can share a portion of their rewards. Please click the button to proceed with your staking!')}</p>
           <Button
             icon='paper-plane'
-            isDisabled={!hasAccounts}
+            isDisabled={!account}
             label={t('Delegate BEVM')}
             onClick={toggleIsDelegateOpen}
           />
           {isDelegateOpen && (
-            <StakingModal  toggleOpen={toggleIsDelegateOpen} hotAddress={hasAccounts ? allAccounts[0] : ''} type={'addStake'} name={'Stake'}/>
+            <StakingModal modelName={'Stake'} toggleOpen={toggleIsDelegateOpen} hotAddress={hasAccounts ? allAccounts[0] : ''} type={'addStake'} name={'Stake'}/>
           )}
         </div>
-        <p>{t('Delegate to the registrant you believe is suitable, and you can share a portion of their rewards. Please click the button to proceed with your staking!')}</p>
       </div>
 
       <div className='position-section'>
@@ -131,21 +132,21 @@ function UserInfo ({ className }: Props): React.ReactElement<Props> {
                 <Button.Group>
                   <Button
                     icon='paper-plane'
-                    isDisabled={!hasAccounts}
+                    isDisabled={!account}
                     label={t('Stake')}
                     onClick={toggleIsStakingOpen}
                   />
                   {isStakingOpen && (
-                    <StakingModal  toggleOpen={toggleIsStakingOpen} hotAddress={info.delegate_ss58} type={'addStake'} name={'Stake'}/>
+                    <StakingModal modelName={'Stake'} toggleOpen={toggleIsStakingOpen} hotAddress={info.delegate_ss58} type={'addStake'} name={'Stake'}/>
                   )}
                   <Button
                     icon='paper-plane'
-                    isDisabled={!hasAccounts}
+                    isDisabled={!account}
                     label={t('UnStake')}
                     onClick={toggleIsUnStakingOpen}
                   />
                   {isUnStakingOpen && (
-                    <StakingModal  toggleOpen={toggleIsUnStakingOpen} hotAddress={info.delegate_ss58} type={'removeStake'} name={'UnStake'}/>
+                    <StakingModal modelName={'UnStake'}  toggleOpen={toggleIsUnStakingOpen} hotAddress={info.delegate_ss58} type={'removeStake'} name={'UnStake'}/>
                   )}
                 </Button.Group>
               </td>
