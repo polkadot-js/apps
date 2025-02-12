@@ -51,7 +51,6 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
       />
       <Table
         empty={t('No accounts with balances found for the asset')}
-        emptySpinner={false}
         header={headerRef.current}
       >
         {completeAssets.map((asset) => {
