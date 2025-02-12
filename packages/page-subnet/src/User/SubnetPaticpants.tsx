@@ -36,20 +36,29 @@ interface DelegateInfo {
 function SubnetParticipants ({ className, account }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  // const { allAccounts, hasAccounts } = useAccounts();
-  const [delegateData, setDelegateData] = useState<DelegateInfo[]>([]);
+  const [delegateData, setDelegateData] = useState<[DelegateInfo, number][]>([]);
   const [isStakingOpen, toggleIsStakingOpen] = useToggle();
   const [isUnStakingOpen, toggleIsUnStakingOpen] = useToggle();
 
+  const header = [
+    [t('Subnet ID'), 'start'],
+    [t('POS'), 'start'],
+    [t('Subnet Name'), 'start'],
+    [t('Participants name'), 'start'],
+    [t('Your Stake'), 'start'],
+    [t('Your Nominator'), 'start'],
+    [t('Miner Status'), 'start'],
+    [t('Operation'), 'start']
+  ];
 
   useEffect((): void => {
-    callXAgereRpc('xagere_getDelegate', [account])
+    callXAgereRpc('xagere_getDelegated', [account])
       .then(response => {
-        console.log('xagere_getDelegate Response:', response);
-        setDelegateData([response]);
+        console.log('xagere_getDelegated Response:', response);
+        setDelegateData(response);
       })
       .catch(error => {
-        console.error('xagere_getDelegate calling RPC:', error);
+        console.error('xagere_getDelegated calling RPC:', error);
         setDelegateData([]);
       });
   }, [account]);
@@ -75,18 +84,9 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
         <h2>{t('Your Subnet Participants Status')}</h2>
         <Table
           empty={t('No participants found')}
-          header={[
-            [t('Subnet ID'), 'start'],
-            [t('POS'), 'start'],
-            [t('Subnet Name'), 'start'],
-            [t('Participants name'), 'start'],
-            [t('Your Stake'), 'start'],
-            [t('Your Nominator'), 'start'],
-            [t('Miner Status'), 'start'],
-            [t('Operation'), 'start']
-          ]}
+          header={header}
         >
-          {delegateData.map((info) => (
+          {delegateData.map(([info, stakeAmount]) => (
             info.registrations.map((subnetId, index) => (
               <tr key={`${info.delegate_ss58}-${subnetId}`}>
                 <td>{subnetId}</td>
@@ -98,14 +98,6 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
                 <td>{info.actives[index] ? t('Active') : t('Inactive')}</td>
                 <td>
                   <Button.Group>
-                    {/*<TxButton*/}
-                    {/*  accountId={hasAccounts ? allAccounts[0] : ''}*/}
-                    {/*  icon='cog'*/}
-                    {/*  label={t('Setting')}*/}
-                    {/*  onStart={() => {}}*/}
-                    {/*  params={[subnetId]}*/}
-                    {/*  tx={api.tx['xAgere'].updateSettings}*/}
-                    {/*/>*/}
                     <Button.Group>
                       <Button
                         icon='paper-plane'
@@ -114,7 +106,14 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
                         onClick={toggleIsStakingOpen}
                       />
                       {isStakingOpen && (
-                        <StakingModal modelName={'Stake'} toggleOpen={toggleIsStakingOpen} hotAddress={info.delegate_ss58} type={'addStake'} name={'Stake'}/>
+                        <StakingModal 
+                          account={account}
+                          modelName={'Stake'} 
+                          toggleOpen={toggleIsStakingOpen} 
+                          hotAddress={info.delegate_ss58} 
+                          type={'addStake'} 
+                          name={'Stake'}
+                        />
                       )}
                       <Button
                         icon='paper-plane'
