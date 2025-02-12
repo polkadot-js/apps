@@ -3,9 +3,9 @@
 
 import type { AssetInfo, AssetInfoComplete } from '@polkadot/react-hooks/types';
 
-import React, { useMemo, useRef } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 
-import { styled, Table } from '@polkadot/react-components';
+import { Input, styled, Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate.js';
 import Asset from './Asset.js';
@@ -17,6 +17,7 @@ interface Props {
 
 function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const [{ searchValue }, onApplySearch] = useState({ searchValue: '' });
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('asset'), 'start'],
@@ -27,6 +28,10 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
     []
   ]);
 
+  const onChangeInput = useCallback((e: string) => {
+    onApplySearch({ searchValue: e });
+  }, []);
+
   const completeAssets = useMemo(
     () => infos
       .filter((i): i is AssetInfoComplete => !!(i.details && i.metadata) && !i.details.supply.isZero())
@@ -36,8 +41,17 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
 
   return (
     <StyledDiv className={className}>
+      <Input
+        aria-label={t('Search by asset id or name')}
+        className='full isSmall'
+        label={t('Search')}
+        onChange={onChangeInput}
+        placeholder={t('Search by asset id or name')}
+        value={searchValue}
+      />
       <Table
         empty={t('No accounts with balances found for the asset')}
+        emptySpinner={false}
         header={headerRef.current}
       >
         {completeAssets.map((asset) => {
@@ -45,6 +59,7 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
             <Asset
               asset={asset}
               key={asset.id.toString()}
+              searchValue={searchValue.toLowerCase()}
             />
           );
         })}
@@ -54,6 +69,10 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
 }
 
 const StyledDiv = styled.div`
+  input {
+    max-width: 250px !important;
+  }
+
   table {
     overflow: auto;
   }

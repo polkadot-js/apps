@@ -14,10 +14,10 @@ import useBalances from './useBalances.js';
 interface Props {
   asset: AssetInfoComplete,
   className?: string;
-
+  searchValue: string;
 }
 
-const Asset = ({ asset: { details, id, metadata }, className }: Props) => {
+const Asset = ({ asset: { details, id, metadata }, className, searchValue }: Props) => {
   const balances = useBalances(id);
 
   const siFormat = useMemo(
@@ -27,7 +27,10 @@ const Asset = ({ asset: { details, id, metadata }, className }: Props) => {
     [metadata]
   );
 
-  if (!balances?.length) {
+  const shouldShowAsset = useMemo(() => metadata.name.toUtf8().toLowerCase().includes(searchValue) ||
+  formatNumber(id).toString().replaceAll(',', '').includes(searchValue), [id, metadata.name, searchValue]);
+
+  if (!balances?.length || !shouldShowAsset) {
     return <></>;
   }
 
