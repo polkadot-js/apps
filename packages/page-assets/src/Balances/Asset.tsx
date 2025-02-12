@@ -5,6 +5,7 @@ import type { AssetInfoComplete } from '@polkadot/react-hooks/types';
 
 import React, { useMemo } from 'react';
 
+import { styled } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 import Account from './Account.js';
@@ -30,25 +31,50 @@ const Asset = ({ asset: { details, id, metadata }, className }: Props) => {
     return <></>;
   }
 
-  return (
-    <tr className={className}>
-      <td className='all'>
-        {metadata.name.toUtf8()} ({formatNumber(id)})
-      </td>
-      <tr>
-        {balances?.map(({ account, accountId }) => (
-          <Account
-            account={account}
-            accountId={accountId}
-            assetId={id}
-            key={accountId}
-            minBalance={details.minBalance}
-            siFormat={siFormat}
-          />
-        ))}
-      </tr>
-    </tr>
-  );
+  return balances.map(({ account, accountId }, index) => {
+    return (
+      <StyledTr
+        className={`isExpanded ${className}`}
+        isFirstItem={index === 0}
+        isLastItem={index === balances.length - 1}
+        key={accountId}
+      >
+        <td className='all'>
+          {index === 0 && <>{metadata.name.toUtf8()} ({formatNumber(id)})</>}
+        </td>
+        <Account
+          account={account}
+          accountId={accountId}
+          assetId={id}
+          key={accountId}
+          minBalance={details.minBalance}
+          siFormat={siFormat}
+        />
+      </StyledTr>
+    );
+  });
 };
+
+const BASE_BORDER = 0.125;
+const BORDER_TOP = `${BASE_BORDER * 3}rem solid var(--bg-page)`;
+const BORDER_RADIUS = `${BASE_BORDER * 4}rem`;
+
+const StyledTr = styled.tr<{isFirstItem: boolean; isLastItem: boolean}>`
+  td {
+    border-top: ${(props) => props.isFirstItem && BORDER_TOP};
+    border-radius: 0rem !important;
+    
+      &:first-child {
+        padding-block: 1rem !important;
+        border-top-left-radius: ${(props) => props.isFirstItem ? BORDER_RADIUS : '0rem'}!important;
+        border-bottom-left-radius: ${(props) => props.isLastItem ? BORDER_RADIUS : '0rem'}!important;
+      }
+
+      &:last-child {
+        border-top-right-radius: ${(props) => props.isFirstItem ? BORDER_RADIUS : '0rem'}!important;
+        border-bottom-right-radius: ${(props) => props.isLastItem ? BORDER_RADIUS : '0rem'}!important;
+      }
+  }
+`;
 
 export default Asset;
