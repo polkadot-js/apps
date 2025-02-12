@@ -4,6 +4,7 @@ import { Button, Table, TxButton } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 import { callXAgereRpc } from '../callXAgereRpc.js';
 import StakingModal from './StakingModal.tsx';
+import { formatAddress, formatBEVM } from '../utils/formatBEVM.ts';
 
 interface Props {
   className?: string;
@@ -32,22 +33,6 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
 
   const [delegateData, setDelegateData] = useState<DelegateData[]>([]);
 
-  // 格式化 BEVM 数量，添加千分位并截断到合适的小数位
-  const formatBEVM = (amount: number): string => {
-    // 将数值除以 1e9 (假设 9 位小数)
-    const value = amount/Math.pow(10,8);
-    return new Intl.NumberFormat('en-US', {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 2,
-    }).format(value);
-  };
-
-  // 格式化地址，显示前6位和后4位
-  const formatAddress = (address: string): string => {
-    if (address.length <= 10) return address;
-    return `${address.slice(0, 6)}...${address.slice(-4)}`;
-  };
-
   const calculateTotalStake = (nominators: [string, number][]): number => {
     return nominators.reduce((sum, [_, amount]) => sum + amount, 0);
   };
@@ -62,24 +47,14 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
   ];
 
   useEffect((): void => {
-    callXAgereRpc('xagere_getStakeInfoForColdkey', [account])  // 例如，查询最新区块号
+    callXAgereRpc('xagere_getStakeInfoForColdkey', [account])
       .then(response => {
         console.log('xagere_getStakeInfoForColdkey Response:', response);
       })
       .catch(error => {
         console.error('xagere_getStakeInfoForColdkey calling RPC:', error);
       });
-  }, []);
-
-  useEffect((): void => {
-    callXAgereRpc('xagere_getDelegates', [])  // 例如，查询最新区块号
-      .then(response => {
-        console.log('xagere_getDelegates Response:', response);
-      })
-      .catch(error => {
-        console.error('xagere_getDelegates calling RPC:', error);
-      });
-  }, []);
+  }, [account]);
 
   useEffect((): void => {
     callXAgereRpc('xagere_getDelegated', [account])
@@ -111,7 +86,7 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
             onClick={toggleIsDelegateOpen}
           />
           {isDelegateOpen && (
-            <StakingModal modelName={'Stake'} toggleOpen={toggleIsDelegateOpen} hotAddress={hasAccounts ? allAccounts[0] : ''} type={'addStake'} name={'Stake'}/>
+            <StakingModal modelName={'Stake'} toggleOpen={toggleIsDelegateOpen} hotAddress={account} type={'addStake'} name={'Stake'}/>
           )}
         </div>
       </div>

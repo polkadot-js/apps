@@ -43,18 +43,16 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
 
 
   useEffect((): void => {
-    callXAgereRpc('xagere_getDelegates', [])
+    callXAgereRpc('xagere_getDelegate', [account])
       .then(response => {
-        console.log('xagere_getDelegates Response:', response);
-        if (response && Array.isArray(response)) {
-          setDelegateData(response);
-        }
+        console.log('xagere_getDelegate Response:', response);
+        setDelegateData([response]);
       })
       .catch(error => {
-        console.error('xagere_getDelegates calling RPC:', error);
+        console.error('xagere_getDelegate calling RPC:', error);
         setDelegateData([]);
       });
-  }, []);
+  }, [account]);
 
   return (
     <div className={className}>

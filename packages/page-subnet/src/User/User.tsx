@@ -1,9 +1,11 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { useTranslation } from '../translate.js';
 import { Button, Table, ToggleGroup, TxButton } from '@polkadot/react-components';
+import { useAccounts } from '@polkadot/react-hooks';
 import UserInfo from './UserInfo.tsx';
 import SubnetPaticpants from './SubnetPaticpants.tsx';
 import AccountSelector from './AccountSelector.tsx';
+
 interface Props {
   className?: string;
 }
@@ -11,8 +13,8 @@ interface Props {
 function User({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [typeIndex, setTypeIndex] = useState(0);
-
-  const [selectedAccount, setSelectedAccount] = useState<string>('');
+  const { allAccounts, hasAccounts } = useAccounts()
+  const [selectedAccount, setSelectedAccount] = useState<string>(hasAccounts ? allAccounts[0] : '');
 
   const stashTypes = useRef([
     { text: t('User'), value: 'User' },
