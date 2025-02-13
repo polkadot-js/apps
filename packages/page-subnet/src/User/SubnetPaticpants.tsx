@@ -134,9 +134,8 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
                 <td className='number' style={{textAlign:'start'}}>{formatBEVM(Number(info.stakes[index]))}</td>
                 <td className='address' style={{textAlign:'start'}}>{formatAddress(info.nominators[0]?.[0] || '-')}</td>
                 <td className='status' style={{textAlign:'start'}}>{info.actives[index] ? t('Active') : t('Inactive')}</td>
-                <td className='button' style={{display:'flex'}}>
-                  <Button.Group>
-                    <Button.Group>
+                <td>
+                  <div style={{textAlign:'start'}}>
                       <Button
                         icon='paper-plane'
                         isDisabled={!account}
@@ -162,8 +161,7 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
                       {isUnStakingOpen && (
                         <StakingModal modelName={'UnStake'}  toggleOpen={toggleIsUnStakingOpen} hotAddress={info.delegate_ss58} type={'removeStake'} name={'UnStake'}/>
                       )}
-                    </Button.Group>
-                  </Button.Group>
+                    </div>
                 </td>
               </tr>
             ))

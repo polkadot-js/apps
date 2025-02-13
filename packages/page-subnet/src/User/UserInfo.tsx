@@ -147,8 +147,8 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
                 <td>{formatBEVM(info.total_daily_return)} BEVM</td>
                 <td>{formatBEVM(calculateTotalStake(info.nominators))} BEVM</td>
                 <td>{formatBEVM(stakeAmount)} BEVM</td>
-                <td style={{display:'flex'}}>
-                  <Button.Group>
+                <td>
+                  <div style={{textAlign:'start'}}>
                     <Button
                       icon='paper-plane'
                       isDisabled={!account}
@@ -167,7 +167,7 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
                     {isUnStakingOpen && (
                       <StakingModal modelName={'UnStake'}  toggleOpen={toggleIsUnStakingOpen} hotAddress={info.delegate_ss58} type={'removeStake'} name={'UnStake'}/>
                     )}
-                  </Button.Group>
+                  </div>
                 </td>
               </tr>
             ))}
