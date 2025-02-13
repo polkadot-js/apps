@@ -41,6 +41,7 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
   const [delegateData, setDelegateData] = useState<[DelegateInfo, number][]>([]);
   const [isStakingOpen, toggleIsStakingOpen] = useToggle();
   const [isUnStakingOpen, toggleIsUnStakingOpen] = useToggle();
+  const [openStakeHotAddress, setOpenStakeHotAddress] = useState<string>('');
 
   const header = [
     [t('Subnet ID'), 'start'],
@@ -139,27 +140,16 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
                         icon='paper-plane'
                         isDisabled={!account}
                         label={t('Stake')}
-                        onClick={toggleIsStakingOpen}
+                      onClick={()=>{toggleIsStakingOpen();setOpenStakeHotAddress(info.delegate_ss58)}}
                       />
-                      {isStakingOpen && (
-                        <StakingModal 
-                          account={account}
-                          modelName={'Stake'} 
-                          toggleOpen={toggleIsStakingOpen} 
-                          hotAddress={info.delegate_ss58} 
-                          type={'addStake'} 
-                          name={'Stake'}
-                        />
-                      )}
+                      
                       <Button
                         icon='paper-plane'
                         isDisabled={!account}
                         label={t('UnStake')}
-                        onClick={toggleIsUnStakingOpen}
+                        onClick={()=>{toggleIsUnStakingOpen();setOpenStakeHotAddress(info.delegate_ss58)}}
                       />
-                      {isUnStakingOpen && (
-                        <StakingModal account={account} modelName={'UnStake'}  toggleOpen={toggleIsUnStakingOpen} hotAddress={info.delegate_ss58} type={'removeStake'} name={'UnStake'}/>
-                      )}
+                      
                     </div>
                 </td>
               </tr>
@@ -175,6 +165,19 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
           subnetId='1'
         />
       )}
+      {isStakingOpen && (
+                        <StakingModal 
+                          account={account}
+                          modelName={'Stake'} 
+                          toggleOpen={toggleIsStakingOpen} 
+                          hotAddress={openStakeHotAddress} 
+                          type={'addStake'} 
+                          name={'Stake'}
+                        />
+                      )}
+                      {isUnStakingOpen && (
+                        <StakingModal account={account} modelName={'UnStake'}  toggleOpen={toggleIsUnStakingOpen} hotAddress={openStakeHotAddress} type={'removeStake'} name={'UnStake'}/>
+                      )}
     </div>
   );
 }
