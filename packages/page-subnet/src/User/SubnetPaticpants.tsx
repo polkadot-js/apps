@@ -4,6 +4,7 @@ import { Button, Table, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 import { callXAgereRpc } from '../callXAgereRpc.js';
 import StakingModal from './StakingModal.js';
+import RegisterModal from './RegisterModal.tsx';
 import { asciiToString, formatAddress, formatBEVM } from '../utils/formatBEVM.js';
 
 interface Props {
@@ -36,6 +37,7 @@ interface DelegateInfo {
 function SubnetParticipants ({ className, account }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const [isRegisterOpen, toggleIsRegisterOpen] = useToggle();
   const [delegateData, setDelegateData] = useState<[DelegateInfo, number][]>([]);
   const [isStakingOpen, toggleIsStakingOpen] = useToggle();
   const [isUnStakingOpen, toggleIsUnStakingOpen] = useToggle();
@@ -91,13 +93,10 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
             paddingRight: '2rem'
           }}>{t('Register as a validator/miner for any subnet, safeguard specific mainnets, and share in BEVM rewards.')}</p>
           
-          <TxButton
-            accountId={account}
+          <Button
             icon='plus'
             label={t('Register')}
-            onStart={() => {}}
-            params={['1', account]}
-            tx={api.tx['xAgere']['burnedRegister']}
+            onClick={toggleIsRegisterOpen}
           />
         </div>
       </div>
@@ -169,6 +168,13 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
         </Table>
         </div>
       </div>
+      {isRegisterOpen && (
+        <RegisterModal
+          account={account}
+          toggleOpen={toggleIsRegisterOpen}
+          subnetId='1'
+        />
+      )}
     </div>
   );
 }
