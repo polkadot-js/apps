@@ -5,6 +5,7 @@ import { callXAgereRpc } from '../callXAgereRpc.js';
 import { formatBEVM } from '../utils/formatBEVM.js';
 
 interface Props {
+  className?: string;
 }
 
 interface SubnetInfo {
@@ -34,10 +35,10 @@ interface SubnetInfo {
   };
 }
 
-function Subnet({ }: Props): React.ReactElement<Props> {
+function Subnet({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [selectedId, setSelectedId] = useState<number | null>(null);
-  const [filter, setFilter] = useState<string>('');
+  const [filter, setFilter] = useState('');
   const [subnets, setSubnets] = useState<SubnetInfo[]>([]);
 
   useEffect((): void => {
@@ -54,20 +55,44 @@ function Subnet({ }: Props): React.ReactElement<Props> {
   }, []);
 
   const header = [
-    [t('Subnet ID'), 'start'],
-    [t('Subnet Name'), 'start'],
-    [t('Subnet Owner'), 'start'],
-    [t('Emissions'), 'start'],
-    [t('Recycled (Total)'), 'start'],
-    // [t('Difficulty'), 'start']
-  ];
+    [t('Subnet ID'), 'start', undefined],
+    [t('Subnet Name'), 'start', undefined],
+    [t('Subnet Owner'), 'start', undefined],
+    [t('Emissions'), 'start', undefined],
+    [t('Recycled (Total)'), 'start', undefined],
+    [t('Difficulty'), 'start', undefined]
+  ] as [React.ReactNode?, string?, number?, (() => void)?][];
 
   const asciiToString = (ascii: number[]): string => {
     return ascii ? ascii.map(code => String.fromCharCode(code)).join('') : '-';
   };
 
+  const filterSubnets = (data: SubnetInfo[]): SubnetInfo[] => {
+    if (!filter) return data;
+    
+    const searchTerm = filter.toLowerCase();
+    return data.filter((subnet) => {
+      const searchableFields = [
+        subnet.netuid.toString(),
+        asciiToString(subnet.identity?.subnet_name),
+        subnet.owner,
+        formatBEVM(subnet.emission_values),
+        formatBEVM(subnet.recycled),
+        subnet.difficulty.toString()
+      ];
+
+      return searchableFields.some(field => 
+        field.toLowerCase().includes(searchTerm)
+      );
+    });
+  };
+
+  const handleFilterChange = (value: string) => {
+    setFilter(value);
+  };
+
   return (
-    <div>
+    <div className={className}>
       <div style={{
         background: 'white',
         borderRadius: '0.25rem',
@@ -77,8 +102,9 @@ function Subnet({ }: Props): React.ReactElement<Props> {
         <Input
           autoFocus
           isFull
-          onChange={(e) => setFilter(e.target.value)}
-          label={t('filter by Subnet ID, Subnet Name, Subnet Owner')}
+          onChange={handleFilterChange}
+          label={t('Filter by any field')}
+          placeholder={t('Type to search...')}
           value={filter}
         />
       </div>
@@ -99,30 +125,20 @@ function Subnet({ }: Props): React.ReactElement<Props> {
             }
           }}
         >
-          {subnets
-            .filter(s =>
-              filter === '' ||
-              [
-                s.netuid.toString(),
-                asciiToString(s.identity?.subnet_name),
-                s.owner
-              ].some(v => v.toLowerCase().includes(filter.toLowerCase()))
-            )
-            .map((subnet) => (
-              <tr
-                key={subnet.netuid}
-                onClick={() => setSelectedId(subnet.netuid === selectedId ? null : subnet.netuid)}
-                style={{ height: '70px' }}
-              >
-                <td>{subnet.netuid}</td>
-                <td>{asciiToString(subnet.identity?.subnet_name)}</td>
-                <td><AddressSmall value={subnet.owner} /></td>
-                <td>{formatBEVM(subnet.emission_values)}</td>
-                <td>{formatBEVM(subnet.recycled)}</td>
-                {/* <td>{subnet.difficulty}</td> */}
-              </tr>
-            ))
-          }
+          {filterSubnets(subnets).map((subnet) => (
+            <tr
+              key={subnet.netuid}
+              onClick={() => setSelectedId(subnet.netuid === selectedId ? null : subnet.netuid)}
+              style={{ height: '70px' }}
+            >
+              <td>{subnet.netuid}</td>
+              <td>{asciiToString(subnet.identity?.subnet_name)}</td>
+              <td><AddressSmall value={subnet.owner} /></td>
+              <td>{formatBEVM(subnet.emission_values)}</td>
+              <td>{formatBEVM(subnet.recycled)}</td>
+              <td>{subnet.difficulty}</td>
+            </tr>
+          ))}
         </Table>
       </div>
     </div>
