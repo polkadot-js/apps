@@ -30,6 +30,7 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
   const [isStakingOpen, toggleIsStakingOpen] = useToggle();
   const [isUnStakingOpen, toggleIsUnStakingOpen] = useToggle();
   const [isDelegateOpen, toggleIsDelegateOpen] = useToggle();
+  const [openStakeHotAddress, setOpenStakeHotAddress] = useState<string>('');
 
   const [delegateData, setDelegateData] = useState<DelegateData[]>([]);
 
@@ -153,25 +154,33 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
                       icon='paper-plane'
                       isDisabled={!account}
                       label={t('Stake')}
-                      onClick={toggleIsStakingOpen}
+                      onClick={()=>{toggleIsStakingOpen();setOpenStakeHotAddress(info.delegate_ss58)}}
                     />
-                    {isStakingOpen && (
-                      <StakingModal modelName={'Stake'} toggleOpen={toggleIsStakingOpen} hotAddress={info.delegate_ss58} type={'addStake'} name={'Stake'}/>
-                    )}
                     <Button
                       icon='paper-plane'
                       isDisabled={!account}
                       label={t('UnStake')}
-                      onClick={toggleIsUnStakingOpen}
+                      onClick={()=>{toggleIsUnStakingOpen();setOpenStakeHotAddress(info.delegate_ss58)}}
                     />
-                    {isUnStakingOpen && (
-                      <StakingModal modelName={'UnStake'}  toggleOpen={toggleIsUnStakingOpen} hotAddress={info.delegate_ss58} type={'removeStake'} name={'UnStake'}/>
-                    )}
+                    
                   </div>
                 </td>
               </tr>
             ))}
           </Table>
+          {isStakingOpen && (
+                      <StakingModal 
+                        account={account}
+                        modelName={'Stake'} 
+                        toggleOpen={toggleIsStakingOpen} 
+                        hotAddress={openStakeHotAddress} 
+                        type={'addStake'} 
+                        name={'Stake'}
+                      />
+                    )}
+                    {isUnStakingOpen && (
+                      <StakingModal account={account} modelName={'UnStake'} toggleOpen={toggleIsUnStakingOpen} hotAddress={openStakeHotAddress} type={'removeStake'} name={'UnStake'}/>
+                    )}
         </div>
       </div>
 

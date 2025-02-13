@@ -159,7 +159,7 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
                         onClick={toggleIsUnStakingOpen}
                       />
                       {isUnStakingOpen && (
-                        <StakingModal modelName={'UnStake'}  toggleOpen={toggleIsUnStakingOpen} hotAddress={info.delegate_ss58} type={'removeStake'} name={'UnStake'}/>
+                        <StakingModal account={account} modelName={'UnStake'}  toggleOpen={toggleIsUnStakingOpen} hotAddress={info.delegate_ss58} type={'removeStake'} name={'UnStake'}/>
                       )}
                     </div>
                 </td>

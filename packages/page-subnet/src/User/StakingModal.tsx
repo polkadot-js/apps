@@ -3,11 +3,10 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
-import { Button, Input, InputAddress, InputBalance, Modal } from '@polkadot/react-components';
-import { Available } from '@polkadot/react-query';
+import { Input, InputAddress, InputAddressMulti, InputBalance, Modal } from '@polkadot/react-components';
 import { BN } from '@polkadot/util';
 import { TxButton } from '@polkadot/react-components';
 import { callXAgereRpc } from '../callXAgereRpc.js';
@@ -26,7 +25,6 @@ interface DelegateInfo {
   take: number;
   nominators: [string, string][];
   owner_ss58: string;
-  // ... other fields if needed
 }
 
 function StakingModal({ account, modelName, toggleOpen, hotAddress, type, name }: Props): React.ReactElement<Props> {
@@ -34,14 +32,13 @@ function StakingModal({ account, modelName, toggleOpen, hotAddress, type, name }
   const { api } = useApi();
   const [amount, setAmount] = useState<BN | undefined>();
   const [selectedAccount, setSelectedAccount] = useState<string>(account);
+  const [selectedValidator, setSelectedValidator] = useState<string>(hotAddress);
   const [validators, setValidators] = useState<string[]>([]);
 
-  // 获取验证者列表
   useEffect((): void => {
     callXAgereRpc('xagere_getDelegates', [])
       .then(response => {
         if (Array.isArray(response)) {
-          // 提取所有验证者地址
           const validatorAddresses = response.map((info: DelegateInfo) => info.delegate_ss58);
           setValidators(validatorAddresses);
         }
@@ -69,17 +66,17 @@ function StakingModal({ account, modelName, toggleOpen, hotAddress, type, name }
         </Modal.Columns>
         <Modal.Columns>
           <InputAddress
-            defaultValue={hotAddress}
-            help={t('Select a validator to stake to')}
             isDisabled={false}
             label={t('Stake for executor')}
-            onChange={(value: string | null) => setSelectedAccount(value || '')}
+            onChange={(value: string | null) => setSelectedValidator(value || '')}
             options={validators.map(address => ({
               key: address,
+              name: address,
               value: address,
               text: address
             }))}
             type='allPlus'
+            value={selectedValidator}
             withLabel
           />
         </Modal.Columns>
@@ -97,7 +94,7 @@ function StakingModal({ account, modelName, toggleOpen, hotAddress, type, name }
           accountId={selectedAccount}
           icon='sign-in-alt'
           label={t(name)}
-          params={[hotAddress, amount]}
+          params={[selectedValidator, amount]}
           tx={api.tx['xAgere'][type]}
           onStart={toggleOpen}
           onSuccess={toggleOpen}
