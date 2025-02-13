@@ -355,12 +355,12 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   },
   {
     homepage: 'https://xcavate.io/',
-    info: 'Xcavate',
+    info: 'Xcavate guessing property price game ',
     paraId: 4605,
     providers: {
       Xcavate: 'wss://rpc2-paseo.xcavate.io'
     },
-    text: 'Xcavate',
+    text: 'Xcavate realXdeal',
     ui: {
       color: '#FF0083',
       logo: chainsMyxcavPNG
