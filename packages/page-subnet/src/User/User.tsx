@@ -4,7 +4,6 @@ import { AddressSmall, Button, InputAddress, ToggleGroup } from '@polkadot/react
 import { useAccounts } from '@polkadot/react-hooks';
 import UserInfo from './UserInfo.tsx';
 import SubnetPaticpants from './SubnetPaticpants.tsx';
-import AccountSelector from './AccountSelector.tsx';
 
 interface Props {
   className?: string;
@@ -34,12 +33,12 @@ function User({ className }: Props): React.ReactElement<Props> {
 
   return (
     <div className={`${className}`} style={{ padding: '1rem' }}>
-      <h3 style={{ 
+      <h3 style={{
         fontSize: '24px',
         fontWeight: 'normal',
-        marginBottom: '0.5rem' 
+        marginBottom: '0.5rem'
       }}>{'User Dashboard'}</h3>
-      
+
       <p style={{
         color: 'var(--color-text-light)',
         marginBottom: '2rem'
@@ -56,14 +55,14 @@ function User({ className }: Props): React.ReactElement<Props> {
           marginBottom: '1rem',
           color: 'var(--color-text)'
         }}>{t('Current Account')}</h3>
-        
+
         <InputAddress
           defaultValue={hasAccounts ? allAccounts[0] : ''}
           label={t('accountId: AccountId')}
           labelExtra={
-            <span style={{ 
+            <span style={{
               color: 'var(--color-text-light)',
-              fontSize: '14px' 
+              fontSize: '14px'
             }}>CHAINX_HUIZI (EXTENSION)</span>
           }
           onChange={(value: string | null) => setSelectedAccount(value || '')}

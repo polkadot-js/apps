@@ -59,7 +59,7 @@ function Subnet({ }: Props): React.ReactElement<Props> {
     [t('Subnet Owner'), 'start'],
     [t('Emissions'), 'start'],
     [t('Recycled (Total)'), 'start'],
-    [t('Difficulty'), 'start']
+    // [t('Difficulty'), 'start']
   ];
 
   const asciiToString = (ascii: number[]): string => {
@@ -119,7 +119,7 @@ function Subnet({ }: Props): React.ReactElement<Props> {
                 <td><AddressSmall value={subnet.owner} /></td>
                 <td>{formatBEVM(subnet.emission_values)}</td>
                 <td>{formatBEVM(subnet.recycled)}</td>
-                <td>{subnet.difficulty}</td>
+                {/* <td>{subnet.difficulty}</td> */}
               </tr>
             ))
           }
