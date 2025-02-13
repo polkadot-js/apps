@@ -65,10 +65,32 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
 
   return (
     <div className={className}>
-      <div className='register-section'>
-        <h2>{t('Register as a Subnet Participants')}</h2>
-        <div style={{display:'flex', justifyContent:'space-between', flexDirection:'row', alignItems:'center'}}>
-          <p>{t('Register as a validator/miner for any subnet, safeguard specific mainnets, and share in BEVM rewards.')}</p>
+      <div style={{
+        background: 'white',
+        borderRadius: '0.25rem',
+        marginBottom: '1.5rem'
+      }}>
+        <h2 style={{
+          fontSize: '20px',
+          fontWeight: 'normal',
+          padding: '1rem',
+          borderBottom: '1px solid var(--border-table)'
+        }}>{t('Register as a Subnet Participants')}</h2>
+
+        <div style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '1rem'
+        }}>
+          <p style={{
+            color: 'var(--color-text-light)',
+            margin: 0,
+            flex: 1,
+            paddingRight: '2rem'
+          }}>{t('Register as a validator/miner for any subnet, safeguard specific mainnets, and share in BEVM rewards.')}</p>
+          
           <TxButton
             accountId={account}
             icon='plus'
@@ -79,24 +101,40 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
           />
         </div>
       </div>
+      <div style={{
+        background: 'white',
+        borderRadius: '0.25rem'
+      }}>
+        <h2 style={{
+          fontSize: '20px',
+          fontWeight: 'normal',
+          padding: '1rem',
+          borderBottom: '1px solid var(--border-table)'
+        }}>{t('Your Subnet Participants Status')}</h2>
 
-      <div className='status-section'>
-        <h2>{t('Your Subnet Participants Status')}</h2>
+        <div style={{ padding: '1rem' }}>
         <Table
           empty={t('No participants found')}
           header={header}
+          style={{
+            '& td': {
+              padding: '1rem',
+              borderBottom: '1px solid var(--border-table)',
+              textAlign: 'start'
+            },
+          }}
         >
           {delegateData.map(([info, stakeAmount]) => (
             info.registrations.map((subnetId, index) => (
-              <tr key={`${info.delegate_ss58}-${subnetId}`}>
-                <td>{subnetId}</td>
-                <td>{info.ranks[index]}</td>
-                <td>{info.identities[index] ? asciiToString(info.identities[index]?.subnet_name || []) : '-'}</td>
-                <td>{info.identities[index] ? asciiToString(info.identities[index]?.subnet_contact || []) : '-'}</td>
-                <td>{formatBEVM(Number(info.stakes[index]))}</td>
-                <td>{formatAddress(info.nominators[0]?.[0] || '-')}</td>
-                <td>{info.actives[index] ? t('Active') : t('Inactive')}</td>
-                <td>
+              <tr key={`${info.delegate_ss58}-${subnetId}`} className='ui--Table-Body' style={{height:'70px'}}>
+                <td className='number' style={{textAlign:'start'}}>{subnetId}</td>
+                <td className='number' style={{textAlign:'start'}}>{info.ranks[index]}</td>
+                <td className='text' style={{textAlign:'start'}}>{info.identities[index] ? asciiToString(info.identities[index]?.subnet_name || []) : '-'}</td>
+                <td className='text' style={{textAlign:'start'}}>{info.identities[index] ? asciiToString(info.identities[index]?.subnet_contact || []) : '-'}</td>
+                <td className='number' style={{textAlign:'start'}}>{formatBEVM(Number(info.stakes[index]))}</td>
+                <td className='address' style={{textAlign:'start'}}>{formatAddress(info.nominators[0]?.[0] || '-')}</td>
+                <td className='status' style={{textAlign:'start'}}>{info.actives[index] ? t('Active') : t('Inactive')}</td>
+                <td className='button' style={{display:'flex'}}>
                   <Button.Group>
                     <Button.Group>
                       <Button
@@ -131,12 +169,8 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
             ))
           ))}
         </Table>
+        </div>
       </div>
-
-      {/*<div className='qa-section'>*/}
-      {/*  <h2>{t('Subnet Miner Registration Q&A')}</h2>*/}
-      {/*  /!* Q&A 部分可以使用折叠面板组件 *!/*/}
-      {/*</div>*/}
     </div>
   );
 }

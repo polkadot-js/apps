@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from '../translate.js';
-import {  Table } from '@polkadot/react-components';
+import { AddressSmall, Table } from '@polkadot/react-components';
 import { callXAgereRpc } from '../callXAgereRpc.js';
 import { formatBEVM } from '../utils/formatBEVM.js';
-
+import { Input } from '@polkadot/react-components';
 interface Props {
   className?: string;
 }
@@ -58,10 +58,12 @@ function Validator({ className }: Props): React.ReactElement<Props> {
 
   return (
     <div className={className}>
-      <div className='filter-section'>
-        <input
+      <div className='filter'>
+        <Input
+          autoFocus
+          isFull
           onChange={(e) => setFilter(e.target.value)}
-          placeholder={t('filter by Subnet ID, Subnet Name, Subnet Owner')}
+          label={t('filter by Subnet ID, Subnet Name, Subnet Owner')}
           value={filter}
         />
       </div>
@@ -79,13 +81,13 @@ function Validator({ className }: Props): React.ReactElement<Props> {
             )
           ).map((info) => (
             info.registrations.map((subnetId, index) => (
-              <tr key={`${info.delegate_ss58}-${subnetId}`}>
-                <td>{info.ranks[index]}</td>
-                <td>{info.owner_ss58}</td>
-                <td>{info.take}</td>
-                <td>{formatBEVM(Number(info.total_stake))}</td>
-                <td>{info.nominators.length}</td>
-                <td>{info.total_daily_return}</td>
+              <tr key={`${info.delegate_ss58}-${subnetId}`} className='ui--Table-Body' style={{height:'70px'}}>
+                <td className='number' style={{textAlign:'start'}}>{info.ranks[index]}</td>
+                <td className='address' style={{textAlign:'start'}}><AddressSmall value={info.owner_ss58} /></td>
+                <td className='number' style={{textAlign:'start'}}>{info.take}</td>
+                <td className='number' style={{textAlign:'start'}}>{formatBEVM(Number(info.total_stake))}</td>
+                <td className='number' style={{textAlign:'start'}}>{info.nominators.length}</td>
+                <td className='number' style={{textAlign:'start'}}>{formatBEVM(Number(info.total_daily_return))}</td>
               </tr>
             ))
           ))}
@@ -94,4 +96,4 @@ function Validator({ className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(Validator); 
+export default React.memo(Validator);

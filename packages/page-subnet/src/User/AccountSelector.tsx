@@ -1,7 +1,7 @@
 // AccountSelector.tsx
 import React, { useCallback } from 'react';
 import { useAccounts, useApi } from '@polkadot/react-hooks';
-import { Dropdown } from '@polkadot/react-components';
+import { AddressSmall, Dropdown } from '@polkadot/react-components';
 
 interface Props {
   className?: string;
@@ -10,10 +10,8 @@ interface Props {
 }
 
 function AccountSelector ({ className, onChange, selectedAddress }: Props): React.ReactElement<Props> {
-  const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
 
-  // 将账户地址转换为下拉菜单选项格式
   const accountOptions = allAccounts.map((address) => ({
     key: address,
     text: address,
@@ -37,7 +35,8 @@ function AccountSelector ({ className, onChange, selectedAddress }: Props): Reac
         label='Account'
         onChange={_onChange}
         options={accountOptions}
-        value={selectedAddress || (hasAccounts ? allAccounts[0] : '')}
+        // value={selectedAddress || (hasAccounts ? allAccounts[0] : '')}
+        value={()=><AddressSmall value={selectedAddress || (hasAccounts ? allAccounts[0] : '')}/>}
       />
     </div>
   );

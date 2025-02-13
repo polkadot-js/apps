@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { useTranslation } from '../translate.js';
-import { Button, Table, ToggleGroup, TxButton } from '@polkadot/react-components';
+import { AddressSmall, Button, InputAddress, ToggleGroup } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 import UserInfo from './UserInfo.tsx';
 import SubnetPaticpants from './SubnetPaticpants.tsx';
@@ -33,21 +33,46 @@ function User({ className }: Props): React.ReactElement<Props> {
   };
 
   return (
-    <div className={`${className}`}>
-      <h3>{'User Dashboard'}</h3>
-      <p>{t('Here displays five different roles for participating in the subnet. You can switch Tabs to view the operations corresponding to each role.')}</p>
+    <div className={`${className}`} style={{ padding: '1rem' }}>
+      <h3 style={{ 
+        fontSize: '24px',
+        fontWeight: 'normal',
+        marginBottom: '0.5rem' 
+      }}>{'User Dashboard'}</h3>
+      
+      <p style={{
+        color: 'var(--color-text-light)',
+        marginBottom: '2rem'
+      }}>{t('Here displays five different roles for participating in the subnet. You can switch Tabs to view the operations corresponding to each role.')}</p>
 
-      <div className='current-account' style={{display:'flex', justifyItems:'center', flexDirection:'row', alignItems:'center'}}>
-        <h3>{t('Current Account')}</h3>
-        <div className='account-section'>
-          <AccountSelector
-            onChange={(address) => setSelectedAccount(address)}
-            selectedAddress={selectedAccount}
-          />
-        </div>
+      <div style={{
+        background: 'white',
+        padding: '1.5rem',
+        borderRadius: '0.25rem',
+        marginBottom: '1rem'
+      }}>
+        <h3 style={{
+          fontSize: '16px',
+          marginBottom: '1rem',
+          color: 'var(--color-text)'
+        }}>{t('Current Account')}</h3>
+        
+        <InputAddress
+          defaultValue={hasAccounts ? allAccounts[0] : ''}
+          label={t('accountId: AccountId')}
+          labelExtra={
+            <span style={{ 
+              color: 'var(--color-text-light)',
+              fontSize: '14px' 
+            }}>CHAINX_HUIZI (EXTENSION)</span>
+          }
+          onChange={(value: string | null) => setSelectedAccount(value || '')}
+          type='account'
+          withLabel
+        />
       </div>
 
-      <div className='tabs'>
+      <div className='tabs' style={{ marginBottom: '1rem' }}>
         <Button.Group>
           <ToggleGroup
             onChange={setTypeIndex}
@@ -56,9 +81,7 @@ function User({ className }: Props): React.ReactElement<Props> {
           />
         </Button.Group>
       </div>
-      <div style={{ background:'white', padding:'12px'}}>
-        {renderContent()}
-      </div>
+      {renderContent()}
     </div>
   );
 }

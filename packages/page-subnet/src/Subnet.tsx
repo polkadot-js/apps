@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, FilterInput } from '@polkadot/react-components';
+import { Table, Input } from '@polkadot/react-components';
 import { useTranslation } from './translate.js';
 import { callXAgereRpc } from './callXAgereRpc.js';
 
@@ -22,7 +22,7 @@ function Subnet({ }: Props): React.ReactElement<Props> {
   const [filter, setFilter] = useState<string>('');
   const [subnets, setSubnets] = useState<SubnetInfo[]>([]);
   useEffect((): void => {
-    callXAgereRpc('xagere_getSubnetsInfo_v2', [])  // 例如，查询最新区块号
+    callXAgereRpc('xagere_getSubnetsInfo_v2', [])
       .then(response => {
         console.log('RPC Response:', response);
       })
@@ -52,11 +52,13 @@ function Subnet({ }: Props): React.ReactElement<Props> {
 
   return (
     <div>
-      <FilterInput
-        // placeholder={t('filter by Subnet ID, Subnet Name, Subnet Owner')}
-        value={filter}
-        onChange={setFilter}
-      />
+      <Input
+          autoFocus
+          isFull
+          onChange={setFilter}
+          label={t('filter by Subnet ID, Subnet Name, Subnet Owner')}
+          value={filter}
+        />
       <Table
         empty={t('No subnets found')}
         header={header}

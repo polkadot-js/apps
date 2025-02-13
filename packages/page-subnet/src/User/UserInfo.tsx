@@ -75,60 +75,116 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
 
   return (
     <div className={className}>
-      <div className='delegate-section'>
-        <h2>{t('Delegate Your BEVM')}</h2>
-        <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
-          <p>{t('Delegate to the registrant you believe is suitable, and you can share a portion of their rewards. Please click the button to proceed with your staking!')}</p>
+      <div style={{
+        background: 'white',
+        borderRadius: '0.25rem',
+        marginBottom: '1.5rem'
+      }}>
+        <h2 style={{
+          fontSize: '20px',
+          fontWeight: 'normal',
+          padding: '1rem',
+          borderBottom: '1px solid var(--border-table)'
+        }}>{t('Delegate Your BEVM')}</h2>
+
+        <div style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '1rem'
+        }}>
+          <p style={{
+            color: 'var(--color-text-light)',
+            margin: 0,
+            flex: 1,
+            paddingRight: '2rem'
+          }}>{t('Delegate to the registrant you believe is suitable, and you can share a portion of their rewards. Please click the button to proceed with your staking!')}</p>
+          
           <Button
             icon='paper-plane'
             isDisabled={!account}
             label={t('Delegate BEVM')}
             onClick={toggleIsDelegateOpen}
+            style={{
+              backgroundColor: 'var(--bg-table)',
+              borderRadius: '0.25rem'
+            }}
           />
-          {isDelegateOpen && (
-            <StakingModal modelName={'Stake'} toggleOpen={toggleIsDelegateOpen} hotAddress={account} type={'addStake'} name={'Stake'}/>
-          )}
         </div>
       </div>
 
-      <div className='position-section'>
-        <h2>{t('Your delegation position')}</h2>
-        <Table
-          header={header}
-          empty={t('No delegation data available')}
-        >
-          {delegateData?.map(([info, stakeAmount], index) => (
-            <tr key={index}>
-              <td>{formatAddress(info.delegate_ss58)}</td>
-              <td>{formatBEVM(info.total_daily_return)} BEVM</td>
-              <td>{formatBEVM(calculateTotalStake(info.nominators))} BEVM</td>
-              <td>{formatBEVM(stakeAmount)} BEVM</td>
-              <td>
-                <Button.Group>
-                  <Button
-                    icon='paper-plane'
-                    isDisabled={!account}
-                    label={t('Stake')}
-                    onClick={toggleIsStakingOpen}
-                  />
-                  {isStakingOpen && (
-                    <StakingModal modelName={'Stake'} toggleOpen={toggleIsStakingOpen} hotAddress={info.delegate_ss58} type={'addStake'} name={'Stake'}/>
-                  )}
-                  <Button
-                    icon='paper-plane'
-                    isDisabled={!account}
-                    label={t('UnStake')}
-                    onClick={toggleIsUnStakingOpen}
-                  />
-                  {isUnStakingOpen && (
-                    <StakingModal modelName={'UnStake'}  toggleOpen={toggleIsUnStakingOpen} hotAddress={info.delegate_ss58} type={'removeStake'} name={'UnStake'}/>
-                  )}
-                </Button.Group>
-              </td>
-            </tr>
-          ))}
-        </Table>
+      <div style={{
+        background: 'white',
+        borderRadius: '0.25rem'
+      }}>
+        <h2 style={{
+          fontSize: '20px',
+          fontWeight: 'normal',
+          padding: '1rem',
+          borderBottom: '1px solid var(--border-table)'
+        }}>{t('Your delegation position')}</h2>
+
+        <div style={{ padding: '1rem' }}>
+          <Table
+            empty={t('No delegation data available')}
+            header={header}
+            style={{
+              '& td': {
+                padding: '1rem',
+                borderBottom: '1px solid var(--border-table)',
+                textAlign: 'left'
+              },
+              '& td.number': {
+                fontFamily: 'var(--font-mono)',
+                textAlign: 'right'
+              }
+            }}
+          >
+            {delegateData?.map(([info, stakeAmount], index) => (
+              <tr key={index}>
+                <td>{formatAddress(info.delegate_ss58)}</td>
+                <td>{formatBEVM(info.total_daily_return)} BEVM</td>
+                <td>{formatBEVM(calculateTotalStake(info.nominators))} BEVM</td>
+                <td>{formatBEVM(stakeAmount)} BEVM</td>
+                <td style={{display:'flex'}}>
+                  <Button.Group>
+                    <Button
+                      icon='paper-plane'
+                      isDisabled={!account}
+                      label={t('Stake')}
+                      onClick={toggleIsStakingOpen}
+                    />
+                    {isStakingOpen && (
+                      <StakingModal modelName={'Stake'} toggleOpen={toggleIsStakingOpen} hotAddress={info.delegate_ss58} type={'addStake'} name={'Stake'}/>
+                    )}
+                    <Button
+                      icon='paper-plane'
+                      isDisabled={!account}
+                      label={t('UnStake')}
+                      onClick={toggleIsUnStakingOpen}
+                    />
+                    {isUnStakingOpen && (
+                      <StakingModal modelName={'UnStake'}  toggleOpen={toggleIsUnStakingOpen} hotAddress={info.delegate_ss58} type={'removeStake'} name={'UnStake'}/>
+                    )}
+                  </Button.Group>
+                </td>
+              </tr>
+            ))}
+          </Table>
+        </div>
       </div>
+
+      {isDelegateOpen && (
+        <StakingModal 
+          account={account}
+          modelName={'Stake'} 
+          toggleOpen={toggleIsDelegateOpen} 
+          hotAddress={account} 
+          type={'addStake'} 
+          name={'Stake'}
+        />
+      )}
     </div>
   );
 }
