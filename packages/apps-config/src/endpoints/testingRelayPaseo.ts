@@ -354,7 +354,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://xcavate.io/',
+    homepage: 'https://realxdeal.xcavate.io/',
     info: 'Xcavate guessing property price game ',
     paraId: 4605,
     providers: {
