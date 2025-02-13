@@ -1,28 +1,55 @@
 // Copyright 2017-2024 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { useAccounts, useApi } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
-import { InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import BN from 'bn.js';
+import { Button, Input, InputAddress, InputBalance, Modal } from '@polkadot/react-components';
+import { Available } from '@polkadot/react-query';
+import { BN } from '@polkadot/util';
+import { TxButton } from '@polkadot/react-components';
+import { callXAgereRpc } from '../callXAgereRpc.js';
 
 interface Props {
-  modelName: string
-  toggleOpen: ()=>void;
-  hotAddress: string
-  type: string
-  name: string
-  account: string
+  account: string;
+  modelName: string;
+  toggleOpen: () => void;
+  hotAddress: string;
+  type: 'addStake' | 'removeStake';
+  name: string;
 }
 
-function StakingModal ({ modelName, toggleOpen, hotAddress, type, name, account }: Props): React.ReactElement<Props> {
+interface DelegateInfo {
+  delegate_ss58: string;
+  take: number;
+  nominators: [string, string][];
+  owner_ss58: string;
+  // ... other fields if needed
+}
+
+function StakingModal({ account, modelName, toggleOpen, hotAddress, type, name }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [amount, setAmount] = useState<BN | undefined>();
   const [selectedAccount, setSelectedAccount] = useState<string>(account);
+  const [validators, setValidators] = useState<string[]>([]);
+
+  // 获取验证者列表
+  useEffect((): void => {
+    callXAgereRpc('xagere_getDelegates', [])
+      .then(response => {
+        if (Array.isArray(response)) {
+          // 提取所有验证者地址
+          const validatorAddresses = response.map((info: DelegateInfo) => info.delegate_ss58);
+          setValidators(validatorAddresses);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching validators:', error);
+      });
+  }, []);
 
   return (
     <Modal
@@ -43,13 +70,17 @@ function StakingModal ({ modelName, toggleOpen, hotAddress, type, name, account 
         <Modal.Columns>
           <InputAddress
             defaultValue={hotAddress}
-            isDisabled={!!hotAddress}
-            hideAddress={true}
+            help={t('Select a validator to stake to')}
+            isDisabled={false}
             label={t('Stake for executor')}
-            labelExtra={
-              <span> </span>
-            }
+            onChange={(value: string | null) => setSelectedAccount(value || '')}
+            options={validators.map(address => ({
+              key: address,
+              value: address,
+              text: address
+            }))}
             type='allPlus'
+            withLabel
           />
         </Modal.Columns>
         <Modal.Columns>
