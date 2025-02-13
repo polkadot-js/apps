@@ -10,9 +10,9 @@ import type { TabItem } from '@polkadot/react-components/types';
 import { useTranslation } from './translate.js';
 import { Route, Routes } from 'react-router';
 import { isFunction } from '@polkadot/util';
-import Subnet from './Subnet.js';
-import User from './User/User.js';
-import Validator from './Validator/Validator.js';
+import Subnet from './Subnet/Subnet.tsx';
+import User from './User/User.tsx';
+import Validator from './Validator/Validator.tsx';
 
 interface Props {
   basePath: string;

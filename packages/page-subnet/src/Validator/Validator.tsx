@@ -83,7 +83,7 @@ function Validator({ className }: Props): React.ReactElement<Props> {
             info.registrations.map((subnetId, index) => (
               <tr key={`${info.delegate_ss58}-${subnetId}`} className='ui--Table-Body' style={{height:'70px'}}>
                 <td className='number' style={{textAlign:'start'}}>{info.ranks[index]}</td>
-                <td className='address' style={{textAlign:'start'}}><AddressSmall value={info.owner_ss58} /></td>
+                <td className='address' style={{textAlign:'start'}}><AddressSmall value={info.delegate_ss58} /></td>
                 <td className='number' style={{textAlign:'start'}}>{info.take}</td>
                 <td className='number' style={{textAlign:'start'}}>{formatBEVM(Number(info.total_stake))}</td>
                 <td className='number' style={{textAlign:'start'}}>{info.nominators.length}</td>

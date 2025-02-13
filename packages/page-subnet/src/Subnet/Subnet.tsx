@@ -1,0 +1,132 @@
+import React, { useState, useEffect } from 'react';
+import { Table, Input, AddressSmall } from '@polkadot/react-components';
+import { useTranslation } from '../translate.js';
+import { callXAgereRpc } from '../callXAgereRpc.js';
+import { formatBEVM } from '../utils/formatBEVM.js';
+
+interface Props {
+}
+
+interface SubnetInfo {
+  netuid: number;
+  rho: number;
+  kappa: number;
+  difficulty: number;
+  immunity_period: number;
+  max_allowed_validators: number;
+  min_allowed_weights: number;
+  max_weights_limit: number;
+  scaling_law_power: number;
+  subnetwork_n: number;
+  max_allowed_uids: number;
+  blocks_since_last_step: number;
+  tempo: number;
+  network_modality: number;
+  network_connect: any[];
+  emission_values: number;
+  burn: number;
+  recycled: number;
+  owner: string;
+  identity: {
+    subnet_name: number[];
+    github_repo: number[];
+    subnet_contact: number[];
+  };
+}
+
+function Subnet({ }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [filter, setFilter] = useState<string>('');
+  const [subnets, setSubnets] = useState<SubnetInfo[]>([]);
+
+  useEffect((): void => {
+    callXAgereRpc('xagere_getSubnetsInfo_v2', [])
+      .then(response => {
+        console.log('xagere_getSubnetsInfo_v2 Response:', response);
+        if (Array.isArray(response)) {
+          setSubnets(response);
+        }
+      })
+      .catch(error => {
+        console.error('xagere_getSubnetsInfo_v2 Error:', error);
+      });
+  }, []);
+
+  const header = [
+    [t('Subnet ID'), 'start'],
+    [t('Subnet Name'), 'start'],
+    [t('Subnet Owner'), 'start'],
+    [t('Emissions'), 'start'],
+    [t('Recycled (Total)'), 'start'],
+    [t('Difficulty'), 'start']
+  ];
+
+  const asciiToString = (ascii: number[]): string => {
+    return ascii ? ascii.map(code => String.fromCharCode(code)).join('') : '-';
+  };
+
+  return (
+    <div>
+      <div style={{
+        background: 'white',
+        borderRadius: '0.25rem',
+        marginBottom: '1.5rem',
+        padding: '1rem'
+      }}>
+        <Input
+          autoFocus
+          isFull
+          onChange={(e) => setFilter(e.target.value)}
+          label={t('filter by Subnet ID, Subnet Name, Subnet Owner')}
+          value={filter}
+        />
+      </div>
+
+      <div style={{
+        background: 'white',
+        borderRadius: '0.25rem',
+        padding: '1rem'
+      }}>
+        <Table
+          empty={t('No subnets found')}
+          header={header}
+          style={{
+            '& td': {
+              padding: '1rem',
+              borderBottom: '1px solid var(--border-table)',
+              textAlign: 'start'
+            }
+          }}
+        >
+          {subnets
+            .filter(s =>
+              filter === '' ||
+              [
+                s.netuid.toString(),
+                asciiToString(s.identity?.subnet_name),
+                s.owner
+              ].some(v => v.toLowerCase().includes(filter.toLowerCase()))
+            )
+            .map((subnet) => (
+              <tr
+                key={subnet.netuid}
+                onClick={() => setSelectedId(subnet.netuid === selectedId ? null : subnet.netuid)}
+                style={{ height: '70px' }}
+              >
+                <td>{subnet.netuid}</td>
+                <td>{asciiToString(subnet.identity?.subnet_name)}</td>
+                <td><AddressSmall value={subnet.owner} /></td>
+                <td>{formatBEVM(subnet.emission_values)}</td>
+                <td>{formatBEVM(subnet.recycled)}</td>
+                <td>{subnet.difficulty}</td>
+              </tr>
+            ))
+          }
+        </Table>
+      </div>
+    </div>
+  );
+}
+
+export default React.memo(Subnet);
