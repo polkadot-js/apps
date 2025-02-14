@@ -28197,6 +28197,20 @@ export const typesBundle = {
         }
       }
     },
+    "heima": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "Address": "AccountId",
+            "LookupSource": "AccountId"
+          }
+        }
+      ]
+    },
     "hydra-dx": {
       "types": [
         {
@@ -47687,20 +47701,6 @@ export const typesBundle = {
               "is_safe": "boolean"
             },
             "Keys": "SessionKeys2"
-          }
-        }
-      ]
-    },
-    "litentry": {
-      "types": [
-        {
-          "minmax": [
-            0,
-            null
-          ],
-          "types": {
-            "Address": "AccountId",
-            "LookupSource": "AccountId"
           }
         }
       ]
