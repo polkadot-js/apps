@@ -351,11 +351,11 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'khala',
     paraId: 2004,
     providers: {
-      Dwellir: 'wss://khala-rpc.dwellir.com',
-      Helikon: 'wss://rpc.helikon.io/khala',
+      // Dwellir: 'wss://khala-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/11274
+      Helikon: 'wss://rpc.helikon.io/khala'
       // OnFinality: 'wss://khala.api.onfinality.io/public-ws',
       // Phala: 'wss://khala-api.phala.network/ws', // https://github.com/polkadot-js/apps/issues/11178
-      RadiumBlock: 'wss://khala.public.curie.radiumblock.co/ws'
+      // RadiumBlock: 'wss://khala.public.curie.radiumblock.co/ws'// https://github.com/polkadot-js/apps/issues/11274
       // Rockx: 'wss://rockx-khala.w3node.com/polka-public-khala/ws' // https://github.com/polkadot-js/apps/issues/10728
     },
     text: 'Khala Network',

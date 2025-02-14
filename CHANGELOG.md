@@ -1,5 +1,36 @@
 # CHANGELOG
 
+## 0.149.1 Feb 7, 2025
+
+Contributed:
+
+- Add Helixstreet Endpoints ([#11237](https://github.com/polkadot-js/apps/pull/11237)) (Thanks to https://github.com/helixstreet)
+- Update moonbeam-types-bundle to latest ([#11240](https://github.com/polkadot-js/apps/pull/11240)) (Thanks to https://github.com/timbrinded)
+- Update new paraId ([#11245](https://github.com/polkadot-js/apps/pull/11245)) (Thanks to https://github.com/ganesh1997oli)
+- Add IBP endpoint to Mythos ([#11249](https://github.com/polkadot-js/apps/pull/11249)) (Thanks to https://github.com/miloskriz)
+- Restore `wss://kreivo.io` provider to the list of providers ([#11250](https://github.com/polkadot-js/apps/pull/11250)) (Thanks to https://github.com/pandres95)
+- Add Permanence DAO Europe public RPC endpoints for Polkadot and Westend Asset Hub ([#11252](https://github.com/polkadot-js/apps/pull/11252)) (Thanks to https://github.com/kukabi)
+- WeTEE added to Paseo ([#11254](https://github.com/polkadot-js/apps/pull/11254)) (Thanks to https://github.com/BurnWW)
+- Update xode paraid in Paseo ([#11264](https://github.com/polkadot-js/apps/pull/11264)) (Thanks to https://github.com/Mrigesh901)
+- Add blockops assethub rpc endpoint ([#11266](https://github.com/polkadot-js/apps/pull/11266)) (Thanks to https://github.com/haroldsphinx)
+- Deleted OnFinality 2 endpoints ([#11270](https://github.com/polkadot-js/apps/pull/11270)) (Thanks to https://github.com/FiveKG)
+- [KILT] Design change and node operator rename ([#11271](https://github.com/polkadot-js/apps/pull/11271)) (Thanks to https://github.com/rflechtner)
+- Add LH ws to bittensor ([#11273](https://github.com/polkadot-js/apps/pull/11273)) (Thanks to https://github.com/camfairchild)
+
+
+Changes: 
+
+- Disable unreachable endpoints ([#11236](https://github.com/polkadot-js/apps/pull/11236) [#11258](https://github.com/polkadot-js/apps/pull/11258) [#11268](https://github.com/polkadot-js/apps/pull/11268))
+- Make use of `spendLocal` in treasury ([#11243](https://github.com/polkadot-js/apps/pull/11243))
+- Remove Experimental from Coretime ([#11246](https://github.com/polkadot-js/apps/pull/11246))
+- Ensure safeguard against treasury spendLocal functions ([#11247](https://github.com/polkadot-js/apps/pull/11247))
+- Showing what core the chain is renewed on ([#11256](https://github.com/polkadot-js/apps/pull/11256))
+- Treasury Spend Params Issue ([#11265](https://github.com/polkadot-js/apps/pull/11265))
+- Update @polkadot/types dep ([#11272](https://github.com/polkadot-js/apps/pull/11272))
+- Upgraded polkadot-js deps ([#11277](https://github.com/polkadot-js/apps/pull/11277))
+- Fee payment with any sufficient asset ([#11229](https://github.com/polkadot-js/apps/pull/11229))
+- 0.148.1 ([#11231](https://github.com/polkadot-js/apps/pull/11231))
+
 ## 0.148.1 Jan 23, 2025
 
 Contributed:

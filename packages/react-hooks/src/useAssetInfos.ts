@@ -52,7 +52,7 @@ function useAssetInfosImpl (ids?: BN[]): AssetInfo[] | undefined {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
 
-  const isReady = useMemo(() => !!api.tx.assets?.setMetadata && !!api.tx.assets?.transferKeepAlive, [api.tx.assets?.setMetadata, api.tx.assets?.transferKeepAlive]);
+  const isReady = useMemo(() => !!ids?.length && !!api.tx.assets?.setMetadata && !!api.tx.assets?.transferKeepAlive, [api.tx.assets?.setMetadata, api.tx.assets?.transferKeepAlive, ids?.length]);
 
   const metadata = useCall<[[BN[]], PalletAssetsAssetMetadata[]]>(isReady && api.query.assets.metadata.multi, [ids], QUERY_OPTS);
   const details = useCall<[[BN[]], Option<PalletAssetsAssetDetails>[]]>(isReady && api.query.assets.asset.multi, [ids], QUERY_OPTS);
