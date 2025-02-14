@@ -7,12 +7,12 @@ import type { ChainName } from '../types.js';
 import React, { useMemo } from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
+import Countdown from '@polkadot/react-components/Countdown';
 import { BN } from '@polkadot/util';
 
 import { useCoretimeContext } from '../CoretimeContext.js';
 import { useTranslation } from '../translate.js';
 import { estimateTime, FirstCycleStart } from '../utils/index.js';
-import Countdown from '@polkadot/react-components/Countdown';
 
 interface Props {
   coreDscriptors?: CoreDescription[];
@@ -25,7 +25,7 @@ interface Props {
   constants: ChainConstants
 }
 
-function Summary({ chainName, config, constants, parachainCount, saleInfo, status }: Props): React.ReactElement<Props> {
+function Summary ({ chainName, config, constants, parachainCount, saleInfo, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const currentRegionEnd = saleInfo.regionEnd - config.regionLength;
   const currentRegionStart = saleInfo.regionEnd - config.regionLength * 2;
@@ -69,27 +69,31 @@ function Summary({ chainName, config, constants, parachainCount, saleInfo, statu
           <>
             <CardSummary
               className='media--800'
-              label={t('cycle time progress')}
+              label={t('cycle time left')}
               progress={{
+                hideGraph: true,
+                hideValue: true,
                 isBlurred: false,
                 total: new BN(config?.regionLength),
                 value: new BN(config?.regionLength - (currentRegionEnd - status.lastTimeslice)),
-                withTime: false,
-                hideValue: true
+                withTime: false
               }}
             >
-              <Countdown start={new Date(saleStartDate)} current={new Date()} end={new Date(saleEndDate)} />
+              <Countdown
+                current={new Date()}
+                end={new Date(saleEndDate)}
+                start={new Date(saleStartDate)}
+              />
             </CardSummary>
             <CardSummary
               className='media--800'
               label={t('timeslice progress')}
               progress={{
+                hideValue: false,
                 isBlurred: false,
                 total: new BN(config?.regionLength),
                 value: new BN(config?.regionLength - (currentRegionEnd - status.lastTimeslice)),
-                withTime: false,
-                hideValue: false,
-                hideGraph: true
+                withTime: false
               }}
             />
           </>

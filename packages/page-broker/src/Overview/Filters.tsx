@@ -33,7 +33,7 @@ const filterLoad = (parachainId: string, data: CoreInfo[], workloadCoreSelected:
   return data.filter((one) => one.core === workloadCoreSelected);
 };
 
-function Filters({ data, onFilter }: Props): React.ReactElement<Props> {
+function Filters ({ data, onFilter }: Props): React.ReactElement<Props> {
   const [workloadCoreSelected, setWorkloadCoreSelected] = useState(-1);
   const [_parachainId, setParachainId] = useState<string>('');
 
@@ -41,7 +41,7 @@ function Filters({ data, onFilter }: Props): React.ReactElement<Props> {
     data?.length
       ? Array.from({ length: data.length || 0 }, (_, index) => index)
       : []
-    , [data]);
+  , [data]);
 
   const { t } = useTranslation();
   const parachainId = useDebounce(_parachainId);
