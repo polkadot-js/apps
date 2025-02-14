@@ -22,7 +22,6 @@ function Overview ({ className, relayName }: Props): React.ReactElement<Props> {
       {coretimeInfo && (
         <Summary
           config={coretimeInfo?.config}
-          constants={coretimeInfo?.constants}
           parachainCount={coretimeInfo.taskIds?.length || 0}
           region={coretimeInfo?.region}
           relayName={relayName}

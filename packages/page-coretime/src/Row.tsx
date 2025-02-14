@@ -59,7 +59,7 @@ function Row ({ chainRecord, highlight = false, id, lastCommittedTimeslice, leas
   const { coretimeInfo, get } = useCoretimeContext();
 
   const estimatedTime = showEstimates && get && coretimeInfo &&
-    estimateTime(targetTimeslice, get.blocks.relay(lastCommittedTimeslice), coretimeInfo?.constants?.relay);
+    estimateTime(targetTimeslice, get.blocks.relay(lastCommittedTimeslice), coretimeInfo?.constants?.relay, chainRecord?.lastBlock);
 
   const isWithinWeek = estimatedTime && new Date(estimatedTime).getTime() - Date.now() < EXPIRES_IN_DAYS * 24 * 60 * 60 * 1000;
   const isReservation = chainRecord.type === CoreTimeTypes.Reservation;
@@ -89,7 +89,7 @@ function Row ({ chainRecord, highlight = false, id, lastCommittedTimeslice, leas
         className='media--800'
       >{showEstimates && chainRecord?.lastBlock && relayName &&
         <a
-          href={`https://${relayName}.subscan.io/block/${chainRecord?.lastBlock}`}
+          href={`https://${relayName.split(' ')[0]}.subscan.io/block/${chainRecord?.lastBlock}`}
           rel='noreferrer'
           target='_blank'
         >{formatNumber(chainRecord?.lastBlock)}

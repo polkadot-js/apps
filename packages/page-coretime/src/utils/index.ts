@@ -45,8 +45,10 @@ export function formatDate (date: Date) {
   const day = date.getDate();
   const month = date.toLocaleString('default', { month: 'short' });
   const year = date.getFullYear();
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
 
-  return `${day} ${month} ${year}`;
+  return `${day} ${month} ${year}, ${hours}:${minutes}`;
 }
 
 /**
@@ -70,7 +72,8 @@ export function formatDate (date: Date) {
 export const estimateTime = (
   targetTimeslice: string | number,
   latestBlock: number,
-  { blocksPerTimeslice: blocksPerTs, blocktimeMs }: ChainBlockConstants
+  { blocksPerTimeslice: blocksPerTs, blocktimeMs }: ChainBlockConstants,
+  targetBlockParam?: number
 ): string | null => {
   if (!latestBlock || !targetTimeslice) {
     console.error('Invalid input: one or more inputs are missing');
@@ -82,7 +85,7 @@ export const estimateTime = (
     const now = new BN(Date.now());
     const blockTime = new BN(blocktimeMs); // Average block time in milliseconds (6 seconds)
     const blocksPerTimeslice = new BN(blocksPerTs);
-    const targetBlock = new BN(Number(targetTimeslice)).mul(blocksPerTimeslice);
+    const targetBlock = targetBlockParam ? new BN(targetBlockParam) : new BN(Number(targetTimeslice)).mul(blocksPerTimeslice);
     const latestBlockBN = new BN(latestBlock);
     const blockDifference = targetBlock.sub(latestBlockBN);
     const timeDifference = blockDifference.mul(blockTime);

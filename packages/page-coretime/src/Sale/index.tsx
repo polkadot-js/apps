@@ -97,7 +97,6 @@ function Sale ({ relayName }: Props): React.ReactElement<Props> {
         <Summary
           api={isApiReady ? api : null}
           config={coretimeInfo?.config}
-          constants={coretimeInfo?.constants}
           region={coretimeInfo?.region}
           saleInfo={coretimeInfo?.salesInfo}
           saleNumber={saleParams?.saleNumber}

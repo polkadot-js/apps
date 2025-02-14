@@ -1,7 +1,7 @@
 // Copyright 2017-2025 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BrokerStatus, ChainConstants, CoreDescription, PalletBrokerConfigRecord, PalletBrokerSaleInfoRecord, RegionInfo } from '@polkadot/react-hooks/types';
+import type { BrokerStatus, CoreDescription, PalletBrokerConfigRecord, PalletBrokerSaleInfoRecord, RegionInfo } from '@polkadot/react-hooks/types';
 import type { RelayName } from '../types.js';
 
 import React, { useMemo } from 'react';
@@ -12,7 +12,7 @@ import { BN } from '@polkadot/util';
 
 import { useCoretimeContext } from '../CoretimeContext.js';
 import { useTranslation } from '../translate.js';
-import { estimateTime, FirstCycleStart } from '../utils/index.js';
+import { FirstCycleStart } from '../utils/index.js';
 
 interface Props {
   coreDscriptors?: CoreDescription[];
@@ -22,22 +22,11 @@ interface Props {
   status: BrokerStatus,
   parachainCount: number
   relayName: RelayName,
-  constants: ChainConstants
 }
 
-function Summary ({ config, constants, parachainCount, relayName, saleInfo, status }: Props): React.ReactElement<Props> {
+function Summary ({ config, parachainCount, relayName, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const currentRegionEnd = saleInfo.regionEnd - config.regionLength;
-  const currentRegionStart = saleInfo.regionEnd - config.regionLength * 2;
-  const { get } = useCoretimeContext();
-
-  const saleStartDate = useMemo(() => {
-    return get && estimateTime(currentRegionStart, get.blocks.relay(status?.lastTimeslice), constants.relay);
-  }, [currentRegionStart, status?.lastTimeslice, constants.relay, get]);
-
-  const saleEndDate = useMemo(() => {
-    return get && estimateTime(currentRegionEnd, get.blocks.relay(status?.lastTimeslice), constants.relay);
-  }, [currentRegionEnd, status?.lastTimeslice, constants.relay, get]);
+  const { currentRegionEnd, currentRegionStart, saleEndDate, saleStartDate } = useCoretimeContext();
 
   const saleNumber = useMemo(() => {
     if (relayName && currentRegionEnd) {
