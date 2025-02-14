@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BrokerStatus, ChainConstants, CoreDescription, PalletBrokerConfigRecord, PalletBrokerSaleInfoRecord, RegionInfo } from '@polkadot/react-hooks/types';
-import type { ChainName } from '../types.js';
+import type { RelayName } from '../types.js';
 
 import React, { useMemo } from 'react';
 
@@ -21,11 +21,11 @@ interface Props {
   region: RegionInfo[],
   status: BrokerStatus,
   parachainCount: number
-  chainName: ChainName,
+  relayName: RelayName,
   constants: ChainConstants
 }
 
-function Summary ({ chainName, config, constants, parachainCount, saleInfo, status }: Props): React.ReactElement<Props> {
+function Summary ({ config, constants, parachainCount, relayName, saleInfo, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const currentRegionEnd = saleInfo.regionEnd - config.regionLength;
   const currentRegionStart = saleInfo.regionEnd - config.regionLength * 2;
@@ -40,14 +40,14 @@ function Summary ({ chainName, config, constants, parachainCount, saleInfo, stat
   }, [currentRegionEnd, status?.lastTimeslice, constants.relay, get]);
 
   const saleNumber = useMemo(() => {
-    if (chainName && currentRegionEnd) {
+    if (relayName && currentRegionEnd) {
       return Math.floor(
-        (currentRegionEnd - FirstCycleStart.timeslice.coretime[chainName]) / config.regionLength
+        (currentRegionEnd - FirstCycleStart.timeslice.coretime[relayName]) / config.regionLength
       );
     }
 
     return undefined;
-  }, [currentRegionEnd, chainName, config]);
+  }, [currentRegionEnd, relayName, config]);
 
   return (
     <SummaryBox>

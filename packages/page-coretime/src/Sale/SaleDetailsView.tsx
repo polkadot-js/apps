@@ -1,7 +1,7 @@
 // Copyright 2017-2025 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ChainName, SaleParameters } from '../types.js';
+import type { RelayName, SaleParameters } from '../types.js';
 
 import React, { useCallback } from 'react';
 
@@ -78,7 +78,7 @@ const phases = {
   }
 };
 
-const SaleDetailsView = ({ chainName, chosenSaleNumber, saleParams }: { saleParams: SaleParameters, chosenSaleNumber: number, chainName: ChainName }) => {
+const SaleDetailsView = ({ chosenSaleNumber, relayName, saleParams }: { saleParams: SaleParameters, chosenSaleNumber: number, relayName: RelayName }) => {
   const { t } = useTranslation();
 
   const openCoretimeDashboard = useCallback(() => {
@@ -86,8 +86,8 @@ const SaleDetailsView = ({ chainName, chosenSaleNumber, saleParams }: { salePara
   }, []);
 
   const openSubscanSalePriceGraph = useCallback(() => {
-    window.open(`https://coretime-${chainName}.subscan.io/coretime_dashboard`);
-  }, [chainName]);
+    window.open(`https://coretime-${relayName}.subscan.io/coretime_dashboard`);
+  }, [relayName]);
 
   if (chosenSaleNumber === -1 || !saleParams) {
     return null;
@@ -129,7 +129,7 @@ const SaleDetailsView = ({ chainName, chosenSaleNumber, saleParams }: { salePara
         />
         <Title>{t('Core Purchase Transactions')}</Title>
         <SubScanButton
-          chainName={chainName}
+          chainName={relayName}
           chosenSaleNumber={chosenSaleNumber}
           currentRegion={saleParams.currentRegion}
         />
@@ -144,7 +144,7 @@ const SaleDetailsView = ({ chainName, chosenSaleNumber, saleParams }: { salePara
           {Object.entries(providers).map(([provider, { alt, href, logo }]) => (
             <LinkWithLogo
               alt={alt}
-              href={href(chainName)}
+              href={href(relayName)}
               key={provider}
               logo={logo}
             />

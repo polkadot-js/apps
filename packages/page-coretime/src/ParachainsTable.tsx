@@ -1,6 +1,8 @@
 // Copyright 2017-2025 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { RelayName } from './types.js';
+
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Table } from '@polkadot/react-components';
@@ -12,9 +14,10 @@ import { useTranslation } from './translate.js';
 
 interface Props {
   coretimeInfo: CoretimeInformation
+  relayName: RelayName
 }
 
-function ParachainsTable ({ coretimeInfo }: Props): React.ReactElement<Props> {
+function ParachainsTable ({ coretimeInfo, relayName }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('parachains'), 'start'],
@@ -67,6 +70,7 @@ function ParachainsTable ({ coretimeInfo }: Props): React.ReactElement<Props> {
               lastCommittedTimeslice={coretimeInfo.status.lastCommittedTimeslice}
               regionBegin={coretimeInfo.salesInfo.regionBegin}
               regionEnd={coretimeInfo.salesInfo.regionEnd}
+              relayName={relayName}
             />
           );
         })}

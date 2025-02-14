@@ -83,7 +83,7 @@ export interface RegionInfo {
   regionEnd: number;
 }
 
-export type ChainName = 'kusama' | 'polkadot' | 'paseo testnet' | 'westend'
+export type RelayName = 'kusama' | 'polkadot' | 'paseo testnet' | 'westend'
 
 export interface GetResponse {
   blocks: {

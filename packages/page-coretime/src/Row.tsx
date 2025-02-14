@@ -3,6 +3,7 @@
 
 import type { FlagColor } from '@polkadot/react-components/types';
 import type { ChainWorkTaskInformation, LegacyLease } from '@polkadot/react-hooks/types';
+import type { RelayName } from './types.js';
 
 import React from 'react';
 
@@ -22,6 +23,7 @@ interface Props {
   lastCommittedTimeslice: number
   lease: LegacyLease | undefined
   highlight?: boolean
+  relayName: RelayName
 }
 
 interface StyledCellProps {
@@ -50,7 +52,7 @@ const StyledMarkWarning = styled(MarkWarning)`
 
 const EXPIRES_IN_DAYS = 7;
 
-function Row ({ chainRecord, highlight = false, id, lastCommittedTimeslice, lease, regionBegin, regionEnd }: Props): React.ReactElement<Props> {
+function Row ({ chainRecord, highlight = false, id, lastCommittedTimeslice, lease, regionBegin, regionEnd, relayName }: Props): React.ReactElement<Props> {
   const chainRegionEnd = (chainRecord.renewalStatus === ChainRenewalStatus.Renewed ? regionEnd : regionBegin);
   const targetTimeslice = lease?.until || chainRegionEnd;
   const showEstimates = !!targetTimeslice && Object.values(CoreTimeTypes)[chainRecord.type] !== CoreTimeTypes.Reservation;
@@ -61,6 +63,8 @@ function Row ({ chainRecord, highlight = false, id, lastCommittedTimeslice, leas
 
   const isWithinWeek = estimatedTime && new Date(estimatedTime).getTime() - Date.now() < EXPIRES_IN_DAYS * 24 * 60 * 60 * 1000;
   const isReservation = chainRecord.type === CoreTimeTypes.Reservation;
+
+  console.log('chain ', relayName);
 
   return (
     <React.Fragment key={`${id}`}>
@@ -83,9 +87,9 @@ function Row ({ chainRecord, highlight = false, id, lastCommittedTimeslice, leas
       <StyledCell
         $p={highlight}
         className='media--800'
-      >{showEstimates && chainRecord?.lastBlock &&
+      >{showEstimates && chainRecord?.lastBlock && relayName &&
         <a
-          href={`https://polkadot.subscan.io/block/${chainRecord?.lastBlock}`}
+          href={`https://${relayName}.subscan.io/block/${chainRecord?.lastBlock}`}
           rel='noreferrer'
           target='_blank'
         >{formatNumber(chainRecord?.lastBlock)}
