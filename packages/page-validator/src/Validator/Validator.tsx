@@ -1,0 +1,1 @@
+              <td className='number' style={{textAlign:'start'}}>{(info.take/65535*100).toFixed(2)}%</td> 

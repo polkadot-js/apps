@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from '../translate.js';
-import { Button, Table, TxButton } from '@polkadot/react-components';
+import { AddressSmall, Button, Table, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 import { callXAgereRpc } from '../callXAgereRpc.js';
 import StakingModal from './StakingModal.js';
@@ -93,7 +93,7 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
             flex: 1,
             paddingRight: '2rem'
           }}>{t('Register as a validator/miner for any subnet, safeguard specific mainnets, and share in BEVM rewards.')}</p>
-          
+
           <Button
             icon='plus'
             label={t('Register')}
@@ -130,7 +130,7 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
                 <td className='number' style={{textAlign:'start'}}>{subnetId}</td>
                 <td className='number' style={{textAlign:'start'}}>{info.ranks[index]}</td>
                 <td className='text' style={{textAlign:'start'}}>{info.identities[index] ? asciiToString(info.identities[index]?.subnet_name || []) : '-'}</td>
-                <td className='text' style={{textAlign:'start'}}>{formatAddress(info.delegate_ss58)}</td>
+                <td className='text' style={{textAlign:'start'}}>{<AddressSmall value={info.delegate_ss58} />}</td>
                 <td className='number' style={{textAlign:'start'}}>{formatBEVM(Number(info.stakes[index]))} BEVM</td>
                 <td className='address' style={{textAlign:'start'}}>{info.nominators.length}</td>
                 <td className='status' style={{textAlign:'start'}}>{info.actives[index] ? t('Active') : t('Inactive')}</td>
@@ -142,14 +142,14 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
                         label={t('Stake')}
                       onClick={()=>{toggleIsStakingOpen();setOpenStakeHotAddress(info.delegate_ss58)}}
                       />
-                      
+
                       <Button
                         icon='paper-plane'
                         isDisabled={!account}
                         label={t('UnStake')}
                         onClick={()=>{toggleIsUnStakingOpen();setOpenStakeHotAddress(info.delegate_ss58)}}
                       />
-                      
+
                     </div>
                 </td>
               </tr>
@@ -166,12 +166,12 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
         />
       )}
       {isStakingOpen && (
-                        <StakingModal 
+                        <StakingModal
                           account={account}
-                          modelName={'Stake'} 
-                          toggleOpen={toggleIsStakingOpen} 
-                          hotAddress={openStakeHotAddress} 
-                          type={'addStake'} 
+                          modelName={'Stake'}
+                          toggleOpen={toggleIsStakingOpen}
+                          hotAddress={openStakeHotAddress}
+                          type={'addStake'}
                           name={'Stake'}
                         />
                       )}

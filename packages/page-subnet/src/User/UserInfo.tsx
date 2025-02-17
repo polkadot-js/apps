@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from '../translate.js';
-import { Button, Table, TxButton } from '@polkadot/react-components';
+import { AddressSmall, Button, Table, TxButton } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 import { callXAgereRpc } from '../callXAgereRpc.js';
 import StakingModal from './StakingModal.tsx';
@@ -101,7 +101,7 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
             flex: 1,
             paddingRight: '2rem'
           }}>{t('Delegate to the registrant you believe is suitable, and you can share a portion of their rewards. Please click the button to proceed with your staking!')}</p>
-          
+
           <Button
             icon='paper-plane'
             isDisabled={!account}
@@ -144,7 +144,7 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
           >
             {delegateData?.map(([info, stakeAmount], index) => (
               <tr key={index}>
-                <td>{formatAddress(info.delegate_ss58)}</td>
+                <td>{<AddressSmall value={info.delegate_ss58} />}</td>
                 <td>{formatBEVM(info.total_daily_return)} BEVM</td>
                 <td>{formatBEVM(calculateTotalStake(info.nominators))} BEVM</td>
                 <td>{formatBEVM(stakeAmount)} BEVM</td>
@@ -162,19 +162,19 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
                       label={t('UnStake')}
                       onClick={()=>{toggleIsUnStakingOpen();setOpenStakeHotAddress(info.delegate_ss58)}}
                     />
-                    
+
                   </div>
                 </td>
               </tr>
             ))}
           </Table>
           {isStakingOpen && (
-                      <StakingModal 
+                      <StakingModal
                         account={account}
-                        modelName={'Stake'} 
-                        toggleOpen={toggleIsStakingOpen} 
-                        hotAddress={openStakeHotAddress} 
-                        type={'addStake'} 
+                        modelName={'Stake'}
+                        toggleOpen={toggleIsStakingOpen}
+                        hotAddress={openStakeHotAddress}
+                        type={'addStake'}
                         name={'Stake'}
                       />
                     )}
@@ -185,12 +185,12 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
       </div>
 
       {isDelegateOpen && (
-        <StakingModal 
+        <StakingModal
           account={account}
-          modelName={'Stake'} 
-          toggleOpen={toggleIsDelegateOpen} 
-          hotAddress={account} 
-          type={'addStake'} 
+          modelName={'Stake'}
+          toggleOpen={toggleIsDelegateOpen}
+          hotAddress={account}
+          type={'addStake'}
           name={'Stake'}
         />
       )}
