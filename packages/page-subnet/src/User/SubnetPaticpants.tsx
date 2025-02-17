@@ -47,10 +47,10 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
     [t('Subnet ID'), 'start'],
     [t('POS'), 'start'],
     [t('Subnet Name'), 'start'],
-    [t('Participants name'), 'start'],
+    [t('Hot Address'), 'start'],
     [t('Your Stake'), 'start'],
     [t('Your Nominator'), 'start'],
-    [t('Miner Status'), 'start'],
+    [t('Participants Status'), 'start'],
     [t('Operation'), 'start']
   ];
 
@@ -130,9 +130,9 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
                 <td className='number' style={{textAlign:'start'}}>{subnetId}</td>
                 <td className='number' style={{textAlign:'start'}}>{info.ranks[index]}</td>
                 <td className='text' style={{textAlign:'start'}}>{info.identities[index] ? asciiToString(info.identities[index]?.subnet_name || []) : '-'}</td>
-                <td className='text' style={{textAlign:'start'}}>{info.identities[index] ? asciiToString(info.identities[index]?.subnet_contact || []) : '-'}</td>
-                <td className='number' style={{textAlign:'start'}}>{formatBEVM(Number(info.stakes[index]))}</td>
-                <td className='address' style={{textAlign:'start'}}>{formatAddress(info.nominators[0]?.[0] || '-')}</td>
+                <td className='text' style={{textAlign:'start'}}>{formatAddress(info.delegate_ss58)}</td>
+                <td className='number' style={{textAlign:'start'}}>{formatBEVM(Number(info.stakes[index]))} BEVM</td>
+                <td className='address' style={{textAlign:'start'}}>{info.nominators.length}</td>
                 <td className='status' style={{textAlign:'start'}}>{info.actives[index] ? t('Active') : t('Inactive')}</td>
                 <td>
                   <div style={{textAlign:'start'}}>

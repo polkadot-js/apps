@@ -39,7 +39,7 @@ function Validator({ className }: Props): React.ReactElement<Props> {
       .then(response => {
         console.log('Subnets Response:', response);
         if (response && Array.isArray(response)) {
-          const sortedDelegates = response.sort((a, b) => 
+          const sortedDelegates = response.sort((a, b) =>
             Number(b.total_stake) - Number(a.total_stake)
           );
           setSubnets(sortedDelegates);
@@ -87,9 +87,9 @@ function Validator({ className }: Props): React.ReactElement<Props> {
               <td className='number' style={{textAlign:'start'}}>{index}</td>
               <td className='address' style={{textAlign:'start'}}><AddressSmall value={info.delegate_ss58} /></td>
               <td className='number' style={{textAlign:'start'}}>{info.take}</td>
-              <td className='number' style={{textAlign:'start'}}>{formatBEVM(Number(info.total_stake))}</td>
+              <td className='number' style={{textAlign:'start'}}>{formatBEVM(Number(info.total_stake))} BEVM</td>
               <td className='number' style={{textAlign:'start'}}>{info.nominators.length}</td>
-              <td className='number' style={{textAlign:'start'}}>{formatBEVM(Number(info.total_daily_return))}</td>
+              <td className='number' style={{textAlign:'start'}}>{formatBEVM(Number(info.total_daily_return))} BEVM</td>
             </tr>
           ))}
       </Table>
