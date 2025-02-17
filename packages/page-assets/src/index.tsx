@@ -18,6 +18,7 @@ import { BN_ONE } from '@polkadot/util';
 import Balances from './Balances/index.js';
 import Overview from './Overview/index.js';
 import { useTranslation } from './translate.js';
+import { useForeignAssets } from './useForeignAssets.js';
 
 interface Props {
   basePath: string;
@@ -54,6 +55,8 @@ function AssetApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const ids = useAssetIds();
   const infos = useAssetInfos(ids);
 
+  const foreignAssets = useForeignAssets();
+
   const tabsRef = useRef([
     {
       isRoot: true,
@@ -61,16 +64,22 @@ function AssetApp ({ basePath, className }: Props): React.ReactElement<Props> {
       text: t('Overview')
     },
     {
+      name: 'foreignAssets',
+      text: t('Foreign assets')
+    },
+    {
       name: 'balances',
       text: t('Balances')
     }
   ]);
 
+  const showForeignAssetsTab = useMemo(() => !!foreignAssets.length, [foreignAssets.length]);
+  const showBalancesTab = useMemo(() => hasAccounts && infos && infos.some(({ details, metadata }) => !!(details && metadata)), [hasAccounts, infos]);
+
   const hidden = useMemo(
-    () => (hasAccounts && infos && infos.some(({ details, metadata }) => !!(details && metadata)))
-      ? []
-      : ['balances'],
-    [hasAccounts, infos]
+    () =>
+      [!showForeignAssetsTab && 'foreignAssets', !showBalancesTab && 'balances'].filter((a) => typeof a === 'string'),
+    [showBalancesTab, showForeignAssetsTab]
   );
 
   const openId = useMemo(
