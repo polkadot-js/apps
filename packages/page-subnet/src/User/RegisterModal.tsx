@@ -85,7 +85,6 @@ function RegisterModal({ account, toggleOpen, subnetId }: Props): React.ReactEle
           label={t('Register')}
           params={[selectedSubnetId, selectedValidator]}
           tx={api.tx['xAgere']['burnedRegister']}
-          onStart={toggleOpen}
           onSuccess={toggleOpen}
         />
       </Modal.Actions>

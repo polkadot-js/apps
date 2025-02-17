@@ -96,7 +96,6 @@ function StakingModal({ account, modelName, toggleOpen, hotAddress, type, name }
           label={t(name)}
           params={[selectedValidator, amount]}
           tx={api.tx['xAgere'][type]}
-          onStart={toggleOpen}
           onSuccess={toggleOpen}
         />
       </Modal.Actions>
