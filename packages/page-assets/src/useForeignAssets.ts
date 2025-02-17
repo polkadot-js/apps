@@ -4,7 +4,7 @@
 import type { StorageKey, u32 } from '@polkadot/types';
 import type { AnyJson } from '@polkadot/types-codec/types';
 
-import { createNamedHook, useApi, useMapEntries } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useMapKeys } from '@polkadot/react-hooks';
 
 const EMPTY_PARAMS: unknown[] = [];
 
@@ -16,7 +16,7 @@ const OPT_KEY = {
 function useForeignAssetsImpl () {
   const { api, isApiReady } = useApi();
 
-  const values = useMapEntries(isApiReady && api.query.foreignAssets?.asset, EMPTY_PARAMS, OPT_KEY) || [];
+  const values = useMapKeys(isApiReady && api.query.foreignAssets?.asset, EMPTY_PARAMS, OPT_KEY) || [];
 
   return values;
 }
