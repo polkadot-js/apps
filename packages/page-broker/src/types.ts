@@ -10,6 +10,7 @@ export interface InfoRow {
   core: number
   mask?: string
   start?: string | null,
+  startTimeslice?: number | null
   end?: string | null
   owner?: string
   leaseLength?: number
@@ -37,4 +38,11 @@ export interface CoreWorkplanType extends CoreWorkplan {
 export interface CoreWorkloadType extends CoreWorkload {
   lastBlock: number,
   type: CoreTimeTypes
+}
+
+export interface CurrentRegion {
+  begin: number | null,
+  beginDate: Date | null,
+  end: string | null,
+  endDate: Date | null
 }

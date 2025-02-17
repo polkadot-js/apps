@@ -6,8 +6,9 @@ import type { CoreInfo } from '../types.js';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { useApi, useBrokerLeases, useBrokerReservations, useBrokerStatus, useWorkloadInfos, useWorkplanInfos } from '@polkadot/react-hooks';
+import { useApi, useBrokerLeases, useBrokerReservations, useWorkloadInfos, useWorkplanInfos } from '@polkadot/react-hooks';
 
+import { useBrokerContext } from '../BrokerContext.js';
 import { createTaskMap, getOccupancyType } from '../utils.js';
 import CoresTable from './CoresTables.js';
 import Filters from './Filters.js';
@@ -53,10 +54,10 @@ const formatData = (coreCount: number, workplan: CoreWorkplan[], workload: CoreW
 
 function Overview ({ className }: Props): React.ReactElement<Props> {
   const { api, apiEndpoint, isApiReady } = useApi();
-  const [data, setData] = useState<CoreInfo[]>([]);
+  const { currentRegion, status } = useBrokerContext();
 
+  const [data, setData] = useState<CoreInfo[]>([]);
   const [filtered, setFiltered] = useState<CoreInfo[]>();
-  const status = useBrokerStatus(api, isApiReady);
 
   const workloadInfos: CoreWorkload[] | undefined = useWorkloadInfos(api, isApiReady);
   const workplanInfos: CoreWorkplan[] | undefined = useWorkplanInfos(api, isApiReady);
@@ -71,13 +72,16 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
       setData(formatData(Number(status?.coreCount), workplanInfos, workloadInfos, leaseMap, reservationMap));
   }, [workplanInfos, workloadInfos, leaseMap, reservationMap, status]);
 
+  const showSummary = currentRegion.beginDate && currentRegion.endDate;
+
   return (
     <div className={className}>
-      <Summary
-        apiEndpoint={apiEndpoint}
-        coreCount={status?.coreCount.toString() || '-'}
-        workloadInfos={workloadInfos}
-      ></Summary>
+      {!!showSummary &&
+        <Summary
+          apiEndpoint={apiEndpoint}
+          coreCount={status?.coreCount.toString() || '-'}
+          workloadInfos={workloadInfos}
+        />}
       {!!data?.length &&
         (<>
           <Filters

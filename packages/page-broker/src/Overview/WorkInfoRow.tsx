@@ -66,13 +66,32 @@ function WorkInfoRow ({ data }: { data: InfoRow }): React.ReactElement {
             header='Blocks per timeslice'
             value={data.maskBits}
           />
-          <td>
+          <TableCol
+            header='Start ts'
+            hide='both'
+            value={data.startTimeslice}
+          />
+          <TableCol
+            header='Start date'
+            hide='both'
+            value={data.start}
+          />
+          <TableCol
+            header='End date'
+            hide='both'
+            value={data.end}
+          />
+          <TableCol
+            header='Last block (relay)'
+            value={data.endBlock}
+          />
+          <StyledTableCol hide={'mobile'}>
+            <h5 style={{ opacity: '0.6' }}>type</h5>
             <Tag
               color={colours[data.type] as FlagColor}
               label={Object.values(CoreTimeTypes)[data.type]}
             />
-          </td>
-          <td colSpan={4} />
+          </StyledTableCol>
         </>
       );
     }
@@ -89,17 +108,22 @@ function WorkInfoRow ({ data }: { data: InfoRow }): React.ReactElement {
             value={data.maskBits}
           />
           <TableCol
-            header='Start'
+            header='Start ts'
+            hide='both'
+            value={data.startTimeslice}
+          />
+          <TableCol
+            header='Start date'
             hide='both'
             value={data.start}
           />
           <TableCol
-            header='End'
+            header='End date'
             hide='both'
             value={data.end}
           />
           <TableCol
-            header='Last block'
+            header='Last block (relay)'
             value={data.endBlock}
           />
           <StyledTableCol hide={'mobile'}>
@@ -109,7 +133,6 @@ function WorkInfoRow ({ data }: { data: InfoRow }): React.ReactElement {
               label={Object.values(CoreTimeTypes)[data.type]}
             />
           </StyledTableCol>
-          <td colSpan={1} />
         </>);
 
     case (CoreTimeTypes['On Demand']): {
@@ -124,17 +147,22 @@ function WorkInfoRow ({ data }: { data: InfoRow }): React.ReactElement {
             value={data.maskBits}
           />
           <TableCol
-            header='Start'
+            header='Start ts'
+            hide='both'
+            value={data.startTimeslice}
+          />
+          <TableCol
+            header='Start date'
             hide='both'
             value={data.start}
           />
           <TableCol
-            header='End'
+            header='End date'
             hide='both'
             value={data.end}
           />
           <TableCol
-            header='Last block'
+            header='Last block (relay)'
             value={data.endBlock}
           />
           <StyledTableCol hide={'mobile'}>
@@ -144,7 +172,6 @@ function WorkInfoRow ({ data }: { data: InfoRow }): React.ReactElement {
               label={Object.values(CoreTimeTypes)[data.type]}
             />
           </StyledTableCol>
-          <td colSpan={1} />
         </>);
     }
 
@@ -160,17 +187,22 @@ function WorkInfoRow ({ data }: { data: InfoRow }): React.ReactElement {
             value={data.maskBits}
           />
           <TableCol
-            header='Start'
+            header='Start ts'
+            hide='both'
+            value={data.startTimeslice}
+          />
+          <TableCol
+            header='Start date'
             hide='both'
             value={data.start}
           />
           <TableCol
-            header='End'
+            header='End date'
             hide='both'
             value={data.end}
           />
           <TableCol
-            header='Last block'
+            header='Last block (relay)'
             value={data.endBlock}
           />
           <StyledTableCol hide={'mobile'}>
