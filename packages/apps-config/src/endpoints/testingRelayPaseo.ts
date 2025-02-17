@@ -345,7 +345,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'Xcavate',
     paraId: 4603,
     providers: {
-      Xcavate: 'wss://rpc-paseo.xcavate.io:443'
+      // Xcavate: 'wss://rpc-paseo.xcavate.io:443' // https://github.com/polkadot-js/apps/issues/11299
     },
     text: 'Xcavate',
     ui: {
