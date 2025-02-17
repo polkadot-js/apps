@@ -69,7 +69,7 @@ function Subnet({ className }: Props): React.ReactElement<Props> {
 
   const filterSubnets = (data: SubnetInfo[]): SubnetInfo[] => {
     if (!filter) return data;
-    
+
     const searchTerm = filter.toLowerCase();
     return data.filter((subnet) => {
       const searchableFields = [
@@ -81,7 +81,7 @@ function Subnet({ className }: Props): React.ReactElement<Props> {
         subnet.difficulty.toString()
       ];
 
-      return searchableFields.some(field => 
+      return searchableFields.some(field =>
         field.toLowerCase().includes(searchTerm)
       );
     });
@@ -103,8 +103,8 @@ function Subnet({ className }: Props): React.ReactElement<Props> {
           autoFocus
           isFull
           onChange={handleFilterChange}
-          label={t('Filter by any field')}
-          placeholder={t('Type to search...')}
+          label={t('filter by Subnet ID, Subnet Name, Subnet Owner')}
+          // placeholder={t('Type to search...')}
           value={filter}
         />
       </div>

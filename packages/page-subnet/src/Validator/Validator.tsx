@@ -39,7 +39,10 @@ function Validator({ className }: Props): React.ReactElement<Props> {
       .then(response => {
         console.log('Subnets Response:', response);
         if (response && Array.isArray(response)) {
-          setSubnets(response);
+          const sortedDelegates = response.sort((a, b) => 
+            Number(b.total_stake) - Number(a.total_stake)
+          );
+          setSubnets(sortedDelegates);
         }
       })
       .catch(error => {
@@ -63,7 +66,7 @@ function Validator({ className }: Props): React.ReactElement<Props> {
           autoFocus
           isFull
           onChange={(e) => setFilter(e.target.value)}
-          label={t('filter by Subnet ID, Subnet Name, Subnet Owner')}
+          label={t('filter by Hot Address')}
           value={filter}
         />
       </div>
@@ -79,17 +82,15 @@ function Validator({ className }: Props): React.ReactElement<Props> {
             Object.values(s).some(v =>
               String(v).toLowerCase().includes(filter.toLowerCase())
             )
-          ).map((info) => (
-            info.registrations.map((subnetId, index) => (
-              <tr key={`${info.delegate_ss58}-${subnetId}`} className='ui--Table-Body' style={{height:'70px'}}>
-                <td className='number' style={{textAlign:'start'}}>{info.ranks[index]}</td>
-                <td className='address' style={{textAlign:'start'}}><AddressSmall value={info.delegate_ss58} /></td>
-                <td className='number' style={{textAlign:'start'}}>{info.take}</td>
-                <td className='number' style={{textAlign:'start'}}>{formatBEVM(Number(info.total_stake))}</td>
-                <td className='number' style={{textAlign:'start'}}>{info.nominators.length}</td>
-                <td className='number' style={{textAlign:'start'}}>{formatBEVM(Number(info.total_daily_return))}</td>
-              </tr>
-            ))
+          ).map((info, index) => (
+            <tr key={`${info.delegate_ss58}`} className='ui--Table-Body' style={{height:'70px'}}>
+              <td className='number' style={{textAlign:'start'}}>{index}</td>
+              <td className='address' style={{textAlign:'start'}}><AddressSmall value={info.delegate_ss58} /></td>
+              <td className='number' style={{textAlign:'start'}}>{info.take}</td>
+              <td className='number' style={{textAlign:'start'}}>{formatBEVM(Number(info.total_stake))}</td>
+              <td className='number' style={{textAlign:'start'}}>{info.nominators.length}</td>
+              <td className='number' style={{textAlign:'start'}}>{formatBEVM(Number(info.total_daily_return))}</td>
+            </tr>
           ))}
       </Table>
     </div>
