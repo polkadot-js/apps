@@ -16,7 +16,7 @@ import { useAccounts, useApi, useAssetIds, useAssetInfos } from '@polkadot/react
 import { BN_ONE } from '@polkadot/util';
 
 import Balances from './Balances/index.js';
-import ForeignAssets from './foreignAssets/index.js';
+import ForeignAssets from './ForeignAssets/index.js';
 import Overview from './Overview/index.js';
 import { useTranslation } from './translate.js';
 import { useForeignAssetLocations } from './useForeignAssetLocations.js';
