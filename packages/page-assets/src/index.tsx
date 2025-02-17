@@ -18,7 +18,7 @@ import { BN_ONE } from '@polkadot/util';
 import Balances from './Balances/index.js';
 import Overview from './Overview/index.js';
 import { useTranslation } from './translate.js';
-import { useForeignAssets } from './useForeignAssets.js';
+import { useForeignAssetLocations } from './useForeignAssetLocations.js';
 
 interface Props {
   basePath: string;
@@ -55,7 +55,7 @@ function AssetApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const ids = useAssetIds();
   const infos = useAssetInfos(ids);
 
-  const foreignAssets = useForeignAssets();
+  const foreignAssetLocations = useForeignAssetLocations();
 
   const tabsRef = useRef([
     {
@@ -73,7 +73,7 @@ function AssetApp ({ basePath, className }: Props): React.ReactElement<Props> {
     }
   ]);
 
-  const showForeignAssetsTab = useMemo(() => !!foreignAssets.length, [foreignAssets.length]);
+  const showForeignAssetsTab = useMemo(() => !!foreignAssetLocations.length, [foreignAssetLocations.length]);
   const showBalancesTab = useMemo(() => hasAccounts && infos && infos.some(({ details, metadata }) => !!(details && metadata)), [hasAccounts, infos]);
 
   const hidden = useMemo(
@@ -101,6 +101,12 @@ function AssetApp ({ basePath, className }: Props): React.ReactElement<Props> {
               <Balances infos={infos} />
             }
             path='balances'
+          />
+          <Route
+            element={
+              <Balances infos={infos} />
+            }
+            path='foreignAssets'
           />
           <Route
             element={

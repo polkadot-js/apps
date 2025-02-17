@@ -13,7 +13,7 @@ const OPT_KEY = {
     keys.map((entry) => entry.toHuman())
 };
 
-function useForeignAssetsImpl () {
+function useForeignAssetLocationsImpl () {
   const { api, isApiReady } = useApi();
 
   const values = useMapKeys(isApiReady && api.query.foreignAssets?.asset, EMPTY_PARAMS, OPT_KEY) || [];
@@ -21,4 +21,4 @@ function useForeignAssetsImpl () {
   return values;
 }
 
-export const useForeignAssets = createNamedHook('useForeignAssets', useForeignAssetsImpl);
+export const useForeignAssetLocations = createNamedHook('useForeignAssetLocations', useForeignAssetLocationsImpl);
