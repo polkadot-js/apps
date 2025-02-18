@@ -66,7 +66,7 @@ function RegisterModal({ account, toggleOpen, subnetId, onSuccess:refreshData }:
             defaultValue={selectedValidator}
             label={t('hot key')}
             onChange={(value: string | null) => setSelectedValidator(value || '')}
-            type='account'
+            type='allPlus'
             withLabel
           />
         </Modal.Columns>
