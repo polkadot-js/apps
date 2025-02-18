@@ -59,12 +59,6 @@ function User({ className }: Props): React.ReactElement<Props> {
         <InputAddress
           defaultValue={hasAccounts ? allAccounts[0] : ''}
           label={t('accountId: AccountId')}
-          labelExtra={
-            <span style={{
-              color: 'var(--color-text-light)',
-              fontSize: '14px'
-            }}>CHAINX_HUIZI (EXTENSION)</span>
-          }
           onChange={(value: string | null) => setSelectedAccount(value || '')}
           type='account'
           withLabel
