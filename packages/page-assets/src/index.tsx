@@ -19,6 +19,7 @@ import Balances from './Balances/index.js';
 import ForeignAssets from './ForeignAssets/index.js';
 import Overview from './Overview/index.js';
 import { useTranslation } from './translate.js';
+import { useForeignAssetInfos } from './useForeignAssetInfos.js';
 import { useForeignAssetLocations } from './useForeignAssetLocations.js';
 
 interface Props {
@@ -57,6 +58,7 @@ function AssetApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const infos = useAssetInfos(ids);
 
   const foreignAssetLocations = useForeignAssetLocations();
+  const foreignAssetInfos = useForeignAssetInfos(foreignAssetLocations);
 
   const tabsRef = useRef([
     {
@@ -105,7 +107,10 @@ function AssetApp ({ basePath, className }: Props): React.ReactElement<Props> {
           />
           <Route
             element={
-              <ForeignAssets locations={foreignAssetLocations} />
+              <ForeignAssets
+                foreignAssetInfos={foreignAssetInfos}
+                locations={foreignAssetLocations}
+              />
             }
             path='foreignAssets'
           />

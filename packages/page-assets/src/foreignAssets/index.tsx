@@ -1,22 +1,25 @@
 // Copyright 2017-2025 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AnyJson } from '@polkadot/types-codec/types';
+import type { StagingXcmV3MultiLocation } from '@polkadot/types/lookup';
+import type { ForeignAssetInfo } from '../useForeignAssetInfos.js';
 
 import React from 'react';
 
+import Assets from './Assets.js';
 import Summary from './Summary.js';
 
 interface Props {
   className?: string;
-  locations?: AnyJson[];
+  foreignAssetInfos?: ForeignAssetInfo[]
+  locations?: StagingXcmV3MultiLocation[];
 }
 
-const ForeignAssets = ({ className, locations }: Props) => {
+const ForeignAssets = ({ className, foreignAssetInfos, locations }: Props) => {
   return (
     <div className={className}>
       <Summary numAssets={locations?.length} />
-      {/* <Assets infos={filteredInfos} /> */}
+      <Assets infos={foreignAssetInfos} />
     </div>
   );
 };
