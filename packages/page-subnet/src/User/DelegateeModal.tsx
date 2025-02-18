@@ -4,21 +4,19 @@
 import React, { useState } from 'react';
 import { useApi } from '@polkadot/react-hooks';
 import { useTranslation } from '../translate.js';
-import { InputAddress, Modal, Input } from '@polkadot/react-components';
+import { InputAddress, Modal } from '@polkadot/react-components';
 import { TxButton } from '@polkadot/react-components';
 
 interface Props {
   account: string;
   toggleOpen: () => void;
-  subnetId: string;
   onSuccess: () => void;
 }
 
-function RegisterModal({ account, toggleOpen, subnetId, onSuccess:refreshData }: Props): React.ReactElement<Props> {
+function DelegateeModal({ account, toggleOpen, onSuccess:refreshData }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [selectedAccount, setSelectedAccount] = useState<string>(account);
-  const [selectedSubnetId, setSelectedSubnetId] = useState<string>(subnetId);
   const [selectedValidator, setSelectedValidator] = useState<string>('');
 
   return (
@@ -38,15 +36,6 @@ function RegisterModal({ account, toggleOpen, subnetId, onSuccess:refreshData }:
           />
         </Modal.Columns>
         <Modal.Columns>
-          <Input
-            defaultValue={subnetId}
-            label={t('Subnet ID')}
-            onChange={(value) => setSelectedSubnetId(value)}
-            type='number'
-            value={selectedSubnetId}
-          />
-        </Modal.Columns>
-        <Modal.Columns>
           <InputAddress
             defaultValue={selectedValidator}
             label={t('hot key')}
@@ -61,9 +50,9 @@ function RegisterModal({ account, toggleOpen, subnetId, onSuccess:refreshData }:
         <TxButton
           accountId={selectedAccount}
           icon='plus'
-          label={t('Register')}
-          params={[selectedSubnetId, selectedValidator]}
-          tx={api.tx['xAgere']['burnedRegister']}
+          label={t('Delegatee')}
+          params={[selectedValidator]}
+          tx={api.tx['xAgere']['becomeDelegate']}
           onSuccess={()=>{
             toggleOpen()
             refreshData()
@@ -74,4 +63,4 @@ function RegisterModal({ account, toggleOpen, subnetId, onSuccess:refreshData }:
   );
 }
 
-export default React.memo(RegisterModal);
+export default React.memo(DelegateeModal);

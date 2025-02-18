@@ -4,8 +4,9 @@ import { AddressSmall, Button, Table, TxButton } from '@polkadot/react-component
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 import { callXAgereRpc } from '../callXAgereRpc.js';
 import StakingModal from './StakingModal.js';
-import RegisterModal from './RegisterModal.tsx';
 import { asciiToString, formatAddress, formatBEVM } from '../utils/formatBEVM.js';
+import DelegateeInfo from './DelegateeInfo.tsx';
+import RegisterInfo from './RegisterInfo.tsx';
 
 interface Props {
   className?: string;
@@ -37,7 +38,6 @@ interface DelegateInfo {
 function SubnetParticipants ({ className, account }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [isRegisterOpen, toggleIsRegisterOpen] = useToggle();
   const [delegateData, setDelegateData] = useState<[DelegateInfo, number][]>([]);
   const [isStakingOpen, toggleIsStakingOpen] = useToggle();
   const [isUnStakingOpen, toggleIsUnStakingOpen] = useToggle();
@@ -72,39 +72,8 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
 
   return (
     <div className={className}>
-      <div style={{
-        background: 'white',
-        borderRadius: '0.25rem',
-        marginBottom: '1.5rem'
-      }}>
-        <h2 style={{
-          fontSize: '20px',
-          fontWeight: 'normal',
-          padding: '1rem',
-          borderBottom: '1px solid var(--border-table)'
-        }}>{t('Register as a Subnet Participants')}</h2>
-
-        <div style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: '1rem'
-        }}>
-          <p style={{
-            color: 'var(--color-text-light)',
-            margin: 0,
-            flex: 1,
-            paddingRight: '2rem'
-          }}>{t('Register as a validator/miner for any subnet, safeguard specific mainnets, and share in BEVM rewards.')}</p>
-
-          <Button
-            icon='plus'
-            label={t('Register')}
-            onClick={toggleIsRegisterOpen}
-          />
-        </div>
-      </div>
+      <RegisterInfo account={account} onSuccess={()=>fetchDelegateData(account)}/> 
+      <DelegateeInfo account={account} onSuccess={()=>fetchDelegateData(account)}/> 
       <div style={{
         background: 'white',
         borderRadius: '0.25rem'
@@ -163,14 +132,6 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
         </Table>
         </div>
       </div>
-      {isRegisterOpen && (
-        <RegisterModal
-          account={account}
-          toggleOpen={toggleIsRegisterOpen}
-          subnetId='1'
-          onSuccess={()=>fetchDelegateData(account)}
-        />
-      )}
       {isStakingOpen && (
                         <StakingModal
                           account={account}
