@@ -15,13 +15,13 @@ interface Props {
   locations?: StagingXcmV3MultiLocation[];
 }
 
-const ForeignAssets = ({ className, foreignAssetInfos, locations }: Props) => {
+function ForeignAssets ({ className, foreignAssetInfos, locations }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
       <Summary numAssets={locations?.length} />
       <Assets infos={foreignAssetInfos} />
     </div>
   );
-};
+}
 
 export default React.memo(ForeignAssets);
