@@ -21,27 +21,12 @@ function RegisterModal({ account, toggleOpen, subnetId, onSuccess:refreshData }:
   const [selectedAccount, setSelectedAccount] = useState<string>(account);
   const [selectedSubnetId, setSelectedSubnetId] = useState<string>(subnetId);
   const [selectedValidator, setSelectedValidator] = useState<string>('');
-  const [validators, setValidators] = useState<string[]>([]);
-  const [modalOpen, setModalOpen] = useState(true)
-  useEffect((): void => {
-    callXAgereRpc('xagere_getDelegates', [])
-      .then(response => {
-        if (Array.isArray(response)) {
-          const validatorAddresses = response.map((info: { delegate_ss58: string }) => info.delegate_ss58);
-          setValidators(validatorAddresses);
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching validators:', error);
-      });
-  }, []);
 
   return (
     <Modal
       header={t('register as a participant')}
       onClose={toggleOpen}
       size='small'
-      open={modalOpen}
     >
       <Modal.Content>
         <Modal.Columns>
@@ -63,7 +48,7 @@ function RegisterModal({ account, toggleOpen, subnetId, onSuccess:refreshData }:
           />
         </Modal.Columns>
         <Modal.Columns>
-          <InputAddress
+          {/* <InputAddress
             isDisabled={false}
             label={t('hot key')}
             onChange={(value: string | null) => setSelectedValidator(value || '')}
@@ -75,6 +60,13 @@ function RegisterModal({ account, toggleOpen, subnetId, onSuccess:refreshData }:
             }))}
             type='allPlus'
             value={selectedValidator}
+            withLabel
+          /> */}
+          <InputAddress
+            defaultValue={selectedValidator}
+            label={t('hot key')}
+            onChange={(value: string | null) => setSelectedValidator(value || '')}
+            type='account'
             withLabel
           />
         </Modal.Columns>
