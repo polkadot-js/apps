@@ -18,6 +18,7 @@ interface Props {
   hotAddress: string;
   type: 'addStake' | 'removeStake';
   name: string;
+  onSuccess: () => void;
 }
 
 interface DelegateInfo {
@@ -27,7 +28,7 @@ interface DelegateInfo {
   owner_ss58: string;
 }
 
-function StakingModal({ account, modelName, toggleOpen, hotAddress, type, name }: Props): React.ReactElement<Props> {
+function StakingModal({ account, modelName, toggleOpen, hotAddress, type, name, onSuccess:refreshData }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [amount, setAmount] = useState<BN | undefined>();
@@ -96,8 +97,11 @@ function StakingModal({ account, modelName, toggleOpen, hotAddress, type, name }
           label={t(name)}
           params={[selectedValidator, amount]}
           tx={api.tx['xAgere'][type]}
-          onSuccess={toggleOpen}
-        />
+          onSuccess={()=>{
+            toggleOpen()
+            refreshData()
+          }}
+          />
       </Modal.Actions>
     </Modal>
   );

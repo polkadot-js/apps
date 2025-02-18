@@ -54,17 +54,21 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
     [t('Operation'), 'start']
   ];
 
-  useEffect((): void => {
+  const fetchDelegateData = (account: string) => {
     callXAgereRpc('xagere_getDelegated', [account])
-      .then(response => {
-        console.log('xagere_getDelegated Response:', response);
-        setDelegateData(response);
-      })
-      .catch(error => {
-        console.error('xagere_getDelegated calling RPC:', error);
-        setDelegateData([]);
-      });
+    .then(response => {
+      console.log('xagere_getDelegated Response:', response);
+      setDelegateData(response);
+    })
+    .catch(error => {
+      console.error('xagere_getDelegated calling RPC:', error);
+      setDelegateData([]);
+    });
+  }
+  useEffect((): void => {
+    fetchDelegateData(account)
   }, [account]);
+
 
   return (
     <div className={className}>
@@ -128,7 +132,6 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
             ?.filter(([info]) => info.owner_ss58 === account)
             ?.map(([info, stakeAmount]) => {
               const yourStake = info.nominators.find(([addr]) => addr === account)?.[1] || 0;
-              
               return info.registrations.map((subnetId, index) => (
                 <tr key={`${info.delegate_ss58}-${subnetId}`} className='ui--Table-Body' style={{height:'70px'}}>
                   <td className='number' style={{textAlign:'start'}}>{subnetId}</td>
@@ -165,6 +168,7 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
           account={account}
           toggleOpen={toggleIsRegisterOpen}
           subnetId='1'
+          onSuccess={()=>fetchDelegateData(account)}
         />
       )}
       {isStakingOpen && (
@@ -175,10 +179,12 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
                           hotAddress={openStakeHotAddress}
                           type={'addStake'}
                           name={'Stake'}
+                          onSuccess={()=>fetchDelegateData(account)}
                         />
                       )}
                       {isUnStakingOpen && (
-                        <StakingModal account={account} modelName={'UnStake'}  toggleOpen={toggleIsUnStakingOpen} hotAddress={openStakeHotAddress} type={'removeStake'} name={'UnStake'}/>
+                        <StakingModal account={account} modelName={'UnStake'} onSuccess={()=>fetchDelegateData(account)}
+    toggleOpen={toggleIsUnStakingOpen} hotAddress={openStakeHotAddress} type={'removeStake'} name={'UnStake'}/>
                       )}
     </div>
   );

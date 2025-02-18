@@ -12,9 +12,10 @@ interface Props {
   account: string;
   toggleOpen: () => void;
   subnetId: string;
+  onSuccess: () => void;
 }
 
-function RegisterModal({ account, toggleOpen, subnetId }: Props): React.ReactElement<Props> {
+function RegisterModal({ account, toggleOpen, subnetId, onSuccess:refreshData }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [selectedAccount, setSelectedAccount] = useState<string>(account);
@@ -86,7 +87,10 @@ function RegisterModal({ account, toggleOpen, subnetId }: Props): React.ReactEle
           label={t('Register')}
           params={[selectedSubnetId, selectedValidator]}
           tx={api.tx['xAgere']['burnedRegister']}
-          onSuccess={toggleOpen}
+          onSuccess={()=>{
+            toggleOpen()
+            refreshData()
+          }}
         />
       </Modal.Actions>
     </Modal>

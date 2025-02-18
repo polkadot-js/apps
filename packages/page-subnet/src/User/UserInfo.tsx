@@ -47,6 +47,23 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
     [t('Operation'), 'start']
   ];
 
+  const fetchDelegatedData = (account: string) => {
+    callXAgereRpc('xagere_getDelegated', [account])
+    .then(response => {
+      console.log('xagere_getDelegated Response:', response);
+      if (response && Array.isArray(response)) {
+        setDelegateData(response as DelegateData[]);
+      } else {
+        console.error('xagere_getDelegated response format:', response);
+        setDelegateData([]);
+      }
+    })
+    .catch(error => {
+      console.error('xagere_getDelegates calling RPC:', error);
+      setDelegateData([]);
+    });
+  }
+
   useEffect((): void => {
     callXAgereRpc('xagere_getStakeInfoForColdkey', [account])
       .then(response => {
@@ -58,20 +75,7 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
   }, [account]);
 
   useEffect((): void => {
-    callXAgereRpc('xagere_getDelegated', [account])
-      .then(response => {
-        console.log('xagere_getDelegated Response:', response);
-        if (response && Array.isArray(response)) {
-          setDelegateData(response as DelegateData[]);
-        } else {
-          console.error('xagere_getDelegated response format:', response);
-          setDelegateData([]);
-        }
-      })
-      .catch(error => {
-        console.error('xagere_getDelegates calling RPC:', error);
-        setDelegateData([]);
-      });
+    fetchDelegatedData(account)
   }, [account]);
 
   return (
@@ -176,10 +180,11 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
                         hotAddress={openStakeHotAddress}
                         type={'addStake'}
                         name={'Stake'}
+                        onSuccess={()=> fetchDelegatedData(account)}
                       />
                     )}
                     {isUnStakingOpen && (
-                      <StakingModal account={account} modelName={'UnStake'} toggleOpen={toggleIsUnStakingOpen} hotAddress={openStakeHotAddress} type={'removeStake'} name={'UnStake'}/>
+                      <StakingModal account={account} modelName={'UnStake'} onSuccess={()=> fetchDelegatedData(account)} toggleOpen={toggleIsUnStakingOpen} hotAddress={openStakeHotAddress} type={'removeStake'} name={'UnStake'}/>
                     )}
         </div>
       </div>
@@ -192,6 +197,7 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
           hotAddress={account}
           type={'addStake'}
           name={'Stake'}
+          onSuccess={()=> fetchDelegatedData(account)}
         />
       )}
     </div>
