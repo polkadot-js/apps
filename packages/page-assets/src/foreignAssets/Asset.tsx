@@ -5,7 +5,7 @@ import type { ForeignAssetInfo } from '../useForeignAssetInfos.js';
 
 import React, { useMemo } from 'react';
 
-import { AddressSmall, styled } from '@polkadot/react-components';
+import { AddressSmall, CopyButton, styled } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 
 interface Props {
@@ -24,16 +24,18 @@ function Asset ({ className, value: { details, location, metadata } }: Props): R
   return (
     <tr className={className}>
       <Location>
-        <pre>
-          {JSON.stringify(location?.toJSON(), null, 2)}
-        </pre>
+        <CopyButton
+          value={JSON.stringify(location?.toJSON(), null, 2)}
+        >
+          {JSON.stringify(location?.toJSON()).substring(0, 40)}
+        </CopyButton>
       </Location>
       <td className='together'>{metadata?.name.toUtf8()}</td>
       <td className='address media--1000'>{details && <AddressSmall value={details.owner} />}</td>
       <td className='address media--1300'>{details && <AddressSmall value={details.admin} />}</td>
       <td className='address media--1600'>{details && <AddressSmall value={details.issuer} />}</td>
       <td className='address media--1900'>{details && <AddressSmall value={details.freezer} />}</td>
-      <td className='number'>{details && (
+      <td className='number media--800'>{details && (
         <FormatBalance
           format={format}
           value={details.supply}
@@ -45,17 +47,13 @@ function Asset ({ className, value: { details, location, metadata } }: Props): R
 }
 
 const Location = styled.td`
-  pre {
-    max-width: 20rem;
-    max-height: 6rem;
-    white-space: pre-wrap;
-    overflow-wrap: break-word;
-    overflow: hidden;
-
-    &:hover {
-      overflow: auto;
-    }
-  }
+  .copyContainer {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-style: italic;
+    white-space: nowrap;
+  } 
 `;
 
 export default React.memo(Asset);
