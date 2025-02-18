@@ -145,9 +145,9 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
             {delegateData?.map(([info, stakeAmount], index) => (
               <tr key={index}>
                 <td>{<AddressSmall value={info.delegate_ss58} />}</td>
-                <td>{formatBEVM(info.total_daily_return)} BEVM</td>
-                <td>{formatBEVM(calculateTotalStake(info.nominators))} BEVM</td>
-                <td>{formatBEVM(stakeAmount)} BEVM</td>
+                <td>{formatBEVM(info.total_daily_return)}</td>
+                <td>{formatBEVM(calculateTotalStake(info.nominators))}</td>
+                <td>{formatBEVM(stakeAmount)}</td>
                 <td>
                   <div style={{textAlign:'start'}}>
                     <Button

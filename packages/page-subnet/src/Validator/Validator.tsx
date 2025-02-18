@@ -82,14 +82,14 @@ function Validator({ className }: Props): React.ReactElement<Props> {
             Object.values(s).some(v =>
               String(v).toLowerCase().includes(filter.toLowerCase())
             )
-          ).map((info, index) => (
+          )?.map((info, index) => (
             <tr key={`${info.delegate_ss58}`} className='ui--Table-Body' style={{height:'70px'}}>
               <td className='number' style={{textAlign:'start'}}>{index}</td>
               <td className='address' style={{textAlign:'start'}}><AddressSmall value={info.delegate_ss58} /></td>
               <td className='number' style={{textAlign:'start'}}>{(info.take/65535*100).toFixed(2)}%</td>
-              <td className='number' style={{textAlign:'start'}}>{formatBEVM(Number(info.total_stake))} BEVM</td>
+              <td className='number' style={{textAlign:'start'}}>{formatBEVM(Number(info.total_stake))}</td>
               <td className='number' style={{textAlign:'start'}}>{info.nominators.length}</td>
-              <td className='number' style={{textAlign:'start'}}>{formatBEVM(Number(info.total_daily_return))} BEVM</td>
+              <td className='number' style={{textAlign:'start'}}>{formatBEVM(Number(info.total_daily_return))}</td>
             </tr>
           ))}
       </Table>

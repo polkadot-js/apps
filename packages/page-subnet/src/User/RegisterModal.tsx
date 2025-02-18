@@ -21,7 +21,7 @@ function RegisterModal({ account, toggleOpen, subnetId }: Props): React.ReactEle
   const [selectedSubnetId, setSelectedSubnetId] = useState<string>(subnetId);
   const [selectedValidator, setSelectedValidator] = useState<string>('');
   const [validators, setValidators] = useState<string[]>([]);
-
+  const [modalOpen, setModalOpen] = useState(true)
   useEffect((): void => {
     callXAgereRpc('xagere_getDelegates', [])
       .then(response => {
@@ -40,6 +40,7 @@ function RegisterModal({ account, toggleOpen, subnetId }: Props): React.ReactEle
       header={t('register as a participant')}
       onClose={toggleOpen}
       size='small'
+      open={modalOpen}
     >
       <Modal.Content>
         <Modal.Columns>
@@ -63,7 +64,7 @@ function RegisterModal({ account, toggleOpen, subnetId }: Props): React.ReactEle
         <Modal.Columns>
           <InputAddress
             isDisabled={false}
-            label={t('Stake for executor')}
+            label={t('hot key')}
             onChange={(value: string | null) => setSelectedValidator(value || '')}
             options={validators.map(address => ({
               key: address,

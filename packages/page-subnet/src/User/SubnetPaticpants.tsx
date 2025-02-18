@@ -124,37 +124,39 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
             },
           }}
         >
-          {delegateData.map(([info, stakeAmount]) => (
-            info.registrations.map((subnetId, index) => (
-              <tr key={`${info.delegate_ss58}-${subnetId}`} className='ui--Table-Body' style={{height:'70px'}}>
-                <td className='number' style={{textAlign:'start'}}>{subnetId}</td>
-                <td className='number' style={{textAlign:'start'}}>{info.ranks[index]}</td>
-                <td className='text' style={{textAlign:'start'}}>{info.identities[index] ? asciiToString(info.identities[index]?.subnet_name || []) : '-'}</td>
-                <td className='text' style={{textAlign:'start'}}>{<AddressSmall value={info.delegate_ss58} />}</td>
-                <td className='number' style={{textAlign:'start'}}>{formatBEVM(Number(info.stakes[index]))} BEVM</td>
-                <td className='address' style={{textAlign:'start'}}>{info.nominators.length}</td>
-                <td className='status' style={{textAlign:'start'}}>{info.actives[index] ? t('Active') : t('Inactive')}</td>
-                <td>
-                  <div style={{textAlign:'start'}}>
+          {delegateData
+            ?.filter(([info]) => info.owner_ss58 === account)
+            ?.map(([info, stakeAmount]) => {
+              const yourStake = info.nominators.find(([addr]) => addr === account)?.[1] || 0;
+              
+              return info.registrations.map((subnetId, index) => (
+                <tr key={`${info.delegate_ss58}-${subnetId}`} className='ui--Table-Body' style={{height:'70px'}}>
+                  <td className='number' style={{textAlign:'start'}}>{subnetId}</td>
+                  <td className='number' style={{textAlign:'start'}}>{info.ranks[index]}</td>
+                  <td className='text' style={{textAlign:'start'}}>{info.identities[index] ? asciiToString(info.identities[index]?.subnet_name || []) : '-'}</td>
+                  <td className='text' style={{textAlign:'start'}}>{<AddressSmall value={info.delegate_ss58} />}</td>
+                  <td className='number' style={{textAlign:'start'}}>{formatBEVM(Number(yourStake))}</td>
+                  <td className='address' style={{textAlign:'start'}}>{info.nominators.length}</td>
+                  <td className='status' style={{textAlign:'start'}}>{info.actives[index] ? t('Active') : t('Inactive')}</td>
+                  <td>
+                    <div style={{textAlign:'start'}}>
                       <Button
                         icon='paper-plane'
                         isDisabled={!account}
                         label={t('Stake')}
-                      onClick={()=>{toggleIsStakingOpen();setOpenStakeHotAddress(info.delegate_ss58)}}
+                        onClick={()=>{toggleIsStakingOpen();setOpenStakeHotAddress(info.delegate_ss58)}}
                       />
-
                       <Button
                         icon='paper-plane'
                         isDisabled={!account}
                         label={t('UnStake')}
                         onClick={()=>{toggleIsUnStakingOpen();setOpenStakeHotAddress(info.delegate_ss58)}}
                       />
-
                     </div>
-                </td>
-              </tr>
-            ))
-          ))}
+                  </td>
+                </tr>
+              ));
+            })}
         </Table>
         </div>
       </div>

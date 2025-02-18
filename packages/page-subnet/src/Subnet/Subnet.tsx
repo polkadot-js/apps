@@ -60,7 +60,9 @@ function Subnet({ className }: Props): React.ReactElement<Props> {
     [t('Subnet Owner'), 'start', undefined],
     [t('Emissions'), 'start', undefined],
     [t('Recycled (Total)'), 'start', undefined],
-    [t('Difficulty'), 'start', undefined]
+    [t('Register Fee'), 'start', undefined],
+    [t('Participants'), 'start', undefined]
+
   ] as [React.ReactNode?, string?, number?, (() => void)?][];
 
   const asciiToString = (ascii: number[]): string => {
@@ -125,7 +127,7 @@ function Subnet({ className }: Props): React.ReactElement<Props> {
             }
           }}
         >
-          {filterSubnets(subnets).map((subnet) => (
+          {filterSubnets(subnets)?.map((subnet) => (
             <tr
               key={subnet.netuid}
               onClick={() => setSelectedId(subnet.netuid === selectedId ? null : subnet.netuid)}
@@ -136,7 +138,8 @@ function Subnet({ className }: Props): React.ReactElement<Props> {
               <td><AddressSmall value={subnet.owner} /></td>
               <td>{formatBEVM(subnet.emission_values)}</td>
               <td>{formatBEVM(subnet.recycled)}</td>
-              <td>{subnet.difficulty}</td>
+              <td>{formatBEVM(subnet.burn)}</td>
+              <td>{subnet.subnetwork_n + "/" + subnet.max_allowed_uids}</td>
             </tr>
           ))}
         </Table>
