@@ -12,7 +12,7 @@ interface Props {
 }
 
 
-function DelegateeInfo({ className, account, onSuccess }: Props): React.ReactElement<Props> {
+function DelegateInfo({ className, account, onSuccess }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isDelegateeOpen, toggleIsDelegateeOpen] = useToggle();
 
@@ -28,7 +28,7 @@ function DelegateeInfo({ className, account, onSuccess }: Props): React.ReactEle
         fontWeight: 'normal',
         padding: '1rem',
         borderBottom: '1px solid var(--border-table)'
-      }}>{t('Register as a Delegatee')}</h2>
+      }}>{t('Register as a Delegate')}</h2>
 
       <div style={{
         display: 'flex',
@@ -42,10 +42,10 @@ function DelegateeInfo({ className, account, onSuccess }: Props): React.ReactEle
           margin: 0,
           flex: 1,
           paddingRight: '2rem'
-        }}>{t('Before becoming a delegatee, you need to complete one more step of registration, which will allow you to receive staking from community users.')}</p>
+        }}>{t('Before becoming a delegate, you must first register as a subnet participant. Once this prerequisite is fulfilled, you need to complete an additional registration step, which will enable you to receive staking from community users.')}</p>
         <Button
           icon='plus'
-          label={t('Delegatee')}
+          label={t('Delegate')}
           onClick={toggleIsDelegateeOpen}
         />
       </div>
@@ -62,4 +62,4 @@ function DelegateeInfo({ className, account, onSuccess }: Props): React.ReactEle
   );
 }
 
-export default React.memo(DelegateeInfo);
+export default React.memo(DelegateInfo);

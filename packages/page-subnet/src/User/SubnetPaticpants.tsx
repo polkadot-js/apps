@@ -5,7 +5,7 @@ import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 import { callXAgereRpc } from '../callXAgereRpc.js';
 import StakingModal from './StakingModal.js';
 import { asciiToString, formatAddress, formatBEVM } from '../utils/formatBEVM.js';
-import DelegateeInfo from './DelegateeInfo.tsx';
+import DelegateeInfo from './DelegateInfo.tsx';
 import RegisterInfo from './RegisterInfo.tsx';
 
 interface Props {
@@ -72,8 +72,8 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
 
   return (
     <div className={className}>
-      <RegisterInfo account={account} onSuccess={()=>fetchDelegateData(account)}/> 
-      <DelegateeInfo account={account} onSuccess={()=>fetchDelegateData(account)}/> 
+      <RegisterInfo account={account} onSuccess={()=>fetchDelegateData(account)}/>
+      <DelegateeInfo account={account} onSuccess={()=>fetchDelegateData(account)}/>
       <div style={{
         background: 'white',
         borderRadius: '0.25rem'
