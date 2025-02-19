@@ -14,7 +14,7 @@ export default function create (t: TFunction): Route {
       ]
     },
     group: 'network',
-    icon: 'clock',
+    icon: 'network-wired',
     name: 'subnet',
     text: t('nav.subnet', 'Subnet', { ns: 'apps-routing' })
   };
