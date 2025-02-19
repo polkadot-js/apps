@@ -11,7 +11,7 @@
       31	Stefanie Doll                 	Set higher default gas limit, switch from bitlength u32 to u128 for input fields (#2743)
       30	brenzi                        	make encointer teleporter again (#10484)
       29	Ewa Kowalska                  	Style badges in accounts list (#6208)
-      27	Arjun Porwal                  	fix: disable unreachable endpoints (#11303)
+      28	Arjun Porwal                  	Show Multilocation for Foreign Assets <> Assets Page (#11306)
       27	Yiwei Li                      	Re-add OnFinality endpoints for Parallel and Unique (#9641)
       25	Aleksandr Krupenkin           	Added Shiden Crowdloan 2 (#7426)
       25	Krzysztof Jelski              	Increase UI test timeouts and mark interBTC unreachable (#6247)
