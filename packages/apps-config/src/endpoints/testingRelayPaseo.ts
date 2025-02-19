@@ -343,7 +343,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   {
     homepage: 'https://xcavate.io/',
     info: 'Xcavate',
-    paraId: 4605,
+    paraId: 4603,
     providers: {
       Xcavate: 'wss://rpc2-paseo.xcavate.io'
     },
