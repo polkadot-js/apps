@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from '../translate.js';
 import { AddressSmall, Button, Table, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
+import { useApi, useToggle } from '@polkadot/react-hooks';
 import { callXAgereRpc } from '../callXAgereRpc.js';
 import StakingModal from './StakingModal.js';
 import { asciiToString, formatAddress, formatBEVM } from '../utils/formatBEVM.js';
@@ -19,26 +19,35 @@ interface SubnetIdentity {
   subnet_contact: number[];
 }
 
-interface DelegateInfo {
-  delegate_ss58: string;
-  take: number;
-  nominators: [string, string][];
-  owner_ss58: string;
-  registrations: number[];
-  identities: (SubnetIdentity | null)[];
-  actives: boolean[];
-  stakes: string[];
-  ranks: number[];
-  validator_permits: number[];
-  return_per_1000: string;
-  total_daily_return: string;
-  total_stake: string;
+interface HotkeyInfo {
+  hotkey: string;
+  coldkey: string;
+  uid: number;
+  netuid: number;
+  active: boolean;
+  stake: number;
+  nominators: [string, number][];
+  rank: number;
+  rank_score: number;
+  emission: number;
+  incentive: number;
+  consensus: number;
+  trust: number;
+  validator_trust: number;
+  dividends: number;
+  last_update: number;
+  validator_permit: boolean;
+  pruning_score: number;
+  total_stake: number;
+  return_per_1000: number;
+  total_daily_return: number;
+  subnet_identity: SubnetIdentity | null;
 }
 
 function SubnetParticipants ({ className, account }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [delegateData, setDelegateData] = useState<[DelegateInfo, number][]>([]);
+  const [delegateData, setDelegateData] = useState<HotkeyInfo[]>([]);
   const [isStakingOpen, toggleIsStakingOpen] = useToggle();
   const [isUnStakingOpen, toggleIsUnStakingOpen] = useToggle();
   const [openStakeHotAddress, setOpenStakeHotAddress] = useState<string>('');
@@ -49,26 +58,29 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
     [t('Subnet Name'), 'start'],
     [t('Hot Address'), 'start'],
     [t('Your Stake'), 'start'],
-    [t('Your Nominator'), 'start'],
+    [t('Validator Run'), 'start'],
+    [t('Validator Permit'), 'start'],
     [t('Participants Status'), 'start'],
     [t('Operation'), 'start']
   ];
 
   const fetchDelegateData = (account: string) => {
-    callXAgereRpc('xagere_getDelegated', [account])
-    .then(response => {
-      console.log('xagere_getDelegated Response:', response);
-      setDelegateData(response);
-    })
-    .catch(error => {
-      console.error('xagere_getDelegated calling RPC:', error);
-      setDelegateData([]);
-    });
-  }
+    callXAgereRpc('xagere_getColdkeyOwnedHotkeysInfo', [account])
+      .then(response => {
+        console.log('xagere_getColdkeyOwnedHotkeysInfo Response:', response);
+        if (Array.isArray(response)) {
+          setDelegateData(response);
+        }
+      })
+      .catch(error => {
+        console.error('xagere_getColdkeyOwnedHotkeysInfo calling RPC:', error);
+        setDelegateData([]);
+      });
+  };
+
   useEffect((): void => {
     fetchDelegateData(account)
   }, [account]);
-
 
   return (
     <div className={className}>
@@ -98,37 +110,35 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
           }}
         >
           {delegateData
-            ?.filter(([info]) => info.owner_ss58 === account)
-            ?.map(([info, stakeAmount]) => {
-              const yourStake = info.nominators.find(([addr]) => addr === account)?.[1] || 0;
-              return info.registrations.map((subnetId, index) => (
-                <tr key={`${info.delegate_ss58}-${subnetId}`} className='ui--Table-Body' style={{height:'70px'}}>
-                  <td className='number' style={{textAlign:'start'}}>{subnetId}</td>
-                  <td className='number' style={{textAlign:'start'}}>{info.ranks[index]}</td>
-                  <td className='text' style={{textAlign:'start'}}>{info.identities[index] ? asciiToString(info.identities[index]?.subnet_name || []) : '-'}</td>
-                  <td className='text' style={{textAlign:'start'}}>{<AddressSmall value={info.delegate_ss58} />}</td>
-                  <td className='number' style={{textAlign:'start'}}>{formatBEVM(Number(yourStake))}</td>
-                  <td className='address' style={{textAlign:'start'}}>{info.nominators.length}</td>
-                  <td className='status' style={{textAlign:'start'}}>{info.actives[index] ? t('Active') : t('Inactive')}</td>
-                  <td>
-                    <div style={{textAlign:'start'}}>
-                      <Button
-                        icon='paper-plane'
-                        isDisabled={!account}
-                        label={t('Stake')}
-                        onClick={()=>{toggleIsStakingOpen();setOpenStakeHotAddress(info.delegate_ss58)}}
-                      />
-                      <Button
-                        icon='paper-plane'
-                        isDisabled={!account}
-                        label={t('UnStake')}
-                        onClick={()=>{toggleIsUnStakingOpen();setOpenStakeHotAddress(info.delegate_ss58)}}
-                      />
-                    </div>
-                  </td>
-                </tr>
-              ));
-            })}
+            ?.filter((info) => info.coldkey === account)
+            ?.map((info) => (
+              <tr key={`${info.hotkey}-${info.netuid}`} className='ui--Table-Body' style={{height:'70px'}}>
+                <td className='number' style={{textAlign:'start'}}>{info.netuid}</td>
+                <td className='number' style={{textAlign:'start'}}>{info.rank}</td>
+                <td className='text' style={{textAlign:'start'}}>{info.subnet_identity ? asciiToString(info.subnet_identity.subnet_name) : '-'}</td>
+                <td className='text' style={{textAlign:'start'}}>{<AddressSmall value={info.hotkey} />}</td>
+                <td className='number' style={{textAlign:'start'}}>{formatBEVM(info.stake)}</td>
+                <td className='address' style={{textAlign:'start'}}>{info.validator_trust > 0 ? t('Yes') : t('No')}</td>
+                <td className='address' style={{textAlign:'start'}}>{info.validator_permit ? t('Yes') : t('No')}</td>
+                <td className='status' style={{textAlign:'start'}}>{info.active ? t('Active') : t('Inactive')}</td>
+                <td>
+                  <div style={{textAlign:'start'}}>
+                    <Button
+                      icon='plus'
+                      isDisabled={!account}
+                      label={t('Stake')}
+                      onClick={()=>{toggleIsStakingOpen();setOpenStakeHotAddress(info.hotkey)}}
+                    />
+                    <Button
+                      icon='minus'
+                      isDisabled={!account}
+                      label={t('UnStake')}
+                      onClick={()=>{toggleIsUnStakingOpen();setOpenStakeHotAddress(info.hotkey)}}
+                    />
+                  </div>
+                </td>
+              </tr>
+            ))}
         </Table>
         </div>
       </div>
