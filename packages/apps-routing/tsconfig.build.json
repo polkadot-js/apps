@@ -34,6 +34,7 @@
     { "path": "../page-rpc/tsconfig.build.json" },
     { "path": "../page-runtime/tsconfig.build.json" },
     { "path": "../page-scheduler/tsconfig.build.json" },
+    { "path": "../page-subnet/tsconfig.build.json" },
     { "path": "../page-settings/tsconfig.build.json" },
     { "path": "../page-signing/tsconfig.build.json" },
     { "path": "../page-society/tsconfig.build.json" },

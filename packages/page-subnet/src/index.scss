@@ -1,0 +1,25 @@
+.user-dashboard {
+  padding: 1.5rem;
+}
+
+.filter-section {
+  margin-bottom: 1rem;
+
+  .ui--Input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--border-table);
+    border-radius: 0.25rem;
+    background: var(--bg-input);
+    color: var(--color-text);
+
+    &::placeholder {
+      color: var(--color-placeholder);
+    }
+
+    &:focus {
+      border-color: var(--border-table-hover);
+      outline: none;
+    }
+  }
+}

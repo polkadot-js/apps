@@ -31,6 +31,7 @@ import referenda from './referenda.js';
 import rpc from './rpc.js';
 import runtime from './runtime.js';
 import scheduler from './scheduler.js';
+import subnet from './subnet.js';
 import settings from './settings.js';
 import signing from './signing.js';
 import society from './society.js';
@@ -80,6 +81,7 @@ export default function create (t: TFunction): Routes {
     nis(t),
     gilt(t),
     scheduler(t),
+    subnet(t),
     calendar(t),
     contracts(t),
     storage(t),
