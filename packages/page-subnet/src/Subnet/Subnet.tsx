@@ -111,39 +111,33 @@ function Subnet({ className }: Props): React.ReactElement<Props> {
         />
       </div>
 
-      <div style={{
-        background: 'white',
-        borderRadius: '0.25rem',
-        padding: '1rem'
-      }}>
-        <Table
-          empty={t('No subnets found')}
-          header={header}
-          style={{
-            '& td': {
-              padding: '1rem',
-              borderBottom: '1px solid var(--border-table)',
-              textAlign: 'start'
-            }
-          }}
-        >
-          {filterSubnets(subnets)?.map((subnet) => (
-            <tr
-              key={subnet.netuid}
-              onClick={() => setSelectedId(subnet.netuid === selectedId ? null : subnet.netuid)}
-              style={{ height: '70px' }}
-            >
-              <td>{subnet.netuid}</td>
-              <td>{asciiToString(subnet.identity?.subnet_name)}</td>
-              <td><AddressSmall value={subnet.owner} /></td>
-              <td>{formatBEVM(subnet.emission_values)}</td>
-              <td>{formatBEVM(subnet.recycled)}</td>
-              <td>{formatBEVM(subnet.burn)}</td>
-              <td>{subnet.subnetwork_n + "/" + subnet.max_allowed_uids}</td>
-            </tr>
-          ))}
-        </Table>
-      </div>
+      <Table
+        empty={t('No subnets found')}
+        header={header}
+        style={{
+          '& td': {
+            padding: '1rem',
+            borderBottom: '1px solid var(--border-table)',
+            textAlign: 'start'
+          }
+        }}
+      >
+        {filterSubnets(subnets)?.map((subnet) => (
+          <tr
+            key={subnet.netuid}
+            onClick={() => setSelectedId(subnet.netuid === selectedId ? null : subnet.netuid)}
+            style={{ height: '70px' }}
+          >
+            <td>{subnet.netuid}</td>
+            <td>{asciiToString(subnet.identity?.subnet_name)}</td>
+            <td><AddressSmall value={subnet.owner} /></td>
+            <td>{formatBEVM(subnet.emission_values)}</td>
+            <td>{formatBEVM(subnet.recycled)}</td>
+            <td>{formatBEVM(subnet.burn)}</td>
+            <td>{subnet.subnetwork_n + "/" + subnet.max_allowed_uids}</td>
+          </tr>
+        ))}
+      </Table>
     </div>
   );
 }

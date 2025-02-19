@@ -127,10 +127,9 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
           fontSize: '20px',
           fontWeight: 'normal',
           padding: '1rem',
-          borderBottom: '1px solid var(--border-table)'
         }}>{t('Your delegation position')}</h2>
 
-        <div style={{ padding: '1rem' }}>
+        <div style={{ background: 'transparent' }}>
           <Table
             empty={t('No delegation data available')}
             header={header}
