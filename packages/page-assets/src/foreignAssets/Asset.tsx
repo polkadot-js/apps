@@ -5,7 +5,7 @@ import type { ForeignAssetInfo } from '../useForeignAssetInfos.js';
 
 import React, { useMemo } from 'react';
 
-import { AddressSmall, CopyButton, styled } from '@polkadot/react-components';
+import { AddressSmall, CopyButton, Expander, styled } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 
 interface Props {
@@ -24,11 +24,15 @@ function Asset ({ className, value: { details, location, metadata } }: Props): R
   return (
     <tr className={className}>
       <Location>
-        <CopyButton
-          value={JSON.stringify(location?.toJSON(), null, 2)}
+        <Expander
+          isLeft
+          summary={JSON.stringify(location?.toJSON()).substring(0, 40)}
         >
-          {JSON.stringify(location?.toJSON()).substring(0, 40)}
-        </CopyButton>
+          <pre>
+            {JSON.stringify(location?.toJSON(), null, 2)}
+          </pre>
+        </Expander>
+        <CopyButton value={JSON.stringify(location?.toJSON(), null, 2)} />
       </Location>
       <td className='together'>{metadata?.name.toUtf8()}</td>
       <td className='address media--1000'>{details && <AddressSmall value={details.owner} />}</td>
@@ -47,13 +51,21 @@ function Asset ({ className, value: { details, location, metadata } }: Props): R
 }
 
 const Location = styled.td`
-  .copyContainer {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    font-style: italic;
-    white-space: nowrap;
-  } 
+  display: flex;
+  align-items: start;
+  gap: 0.6rem;
+  white-space: nowrap;
+  font-style: italic;
+  pre {
+    overflow: visible;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+  .ui--Expander-summary svg {
+    padding: 0.3rem 0.4rem;
+    border-radius: 0.25rem;
+    border: 1px solid var(--border-input);
+  }
 `;
 
 export default React.memo(Asset);
