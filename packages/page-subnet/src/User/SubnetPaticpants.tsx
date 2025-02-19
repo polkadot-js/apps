@@ -67,7 +67,7 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
   const fetchDelegateData = (account: string) => {
     callXAgereRpc('xagere_getColdkeyOwnedHotkeysInfo', [account])
       .then(response => {
-        console.log('xagere_getColdkeyOwnedHotkeysInfo Response:', response);
+        // console.log('xagere_getColdkeyOwnedHotkeysInfo Response:', response);
         if (Array.isArray(response)) {
           setDelegateData(response);
         }

@@ -50,7 +50,6 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
   const fetchDelegatedData = (account: string) => {
     callXAgereRpc('xagere_getDelegated', [account])
     .then(response => {
-      console.log('xagere_getDelegated Response:', response);
       if (response && Array.isArray(response)) {
         setDelegateData(response as DelegateData[]);
       } else {
@@ -67,7 +66,7 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
   useEffect((): void => {
     callXAgereRpc('xagere_getStakeInfoForColdkey', [account])
       .then(response => {
-        console.log('xagere_getStakeInfoForColdkey Response:', response);
+        // console.log('xagere_getStakeInfoForColdkey Response:', response);
       })
       .catch(error => {
         console.error('xagere_getStakeInfoForColdkey calling RPC:', error);

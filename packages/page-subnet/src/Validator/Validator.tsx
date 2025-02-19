@@ -37,7 +37,7 @@ function Validator({ className }: Props): React.ReactElement<Props> {
   useEffect((): void => {
     callXAgereRpc('xagere_getDelegates', [])
       .then(response => {
-        console.log('Subnets Response:', response);
+        // console.log('Subnets Response:', response);
         if (response && Array.isArray(response)) {
           const sortedDelegates = response.sort((a, b) =>
             Number(b.total_stake) - Number(a.total_stake)
