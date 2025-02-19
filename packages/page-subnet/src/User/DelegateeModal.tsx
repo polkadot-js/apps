@@ -21,7 +21,7 @@ function DelegateeModal({ account, toggleOpen, onSuccess:refreshData }: Props): 
 
   return (
     <Modal
-      header={t('register as a participant')}
+      header={t('register as a delegate')}
       onClose={toggleOpen}
       size='small'
     >
@@ -50,7 +50,7 @@ function DelegateeModal({ account, toggleOpen, onSuccess:refreshData }: Props): 
         <TxButton
           accountId={selectedAccount}
           icon='plus'
-          label={t('Delegatee')}
+          label={t('Delegate')}
           params={[selectedValidator]}
           tx={api.tx['xAgere']['becomeDelegate']}
           onSuccess={()=>{

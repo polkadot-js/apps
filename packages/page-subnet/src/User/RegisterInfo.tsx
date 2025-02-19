@@ -28,7 +28,7 @@ function RegisterInfo({ className, account, onSuccess }: Props): React.ReactElem
           fontWeight: 'normal',
           padding: '1rem',
           borderBottom: '1px solid var(--border-table)'
-        }}>{t('register as a delegate')}</h2>
+        }}>{t('Register as a participant')}</h2>
 
         <div style={{
           display: 'flex',
@@ -46,7 +46,7 @@ function RegisterInfo({ className, account, onSuccess }: Props): React.ReactElem
 
           <Button
             icon='plus'
-            label={t('Delegate')}
+            label={t('Register')}
             onClick={toggleIsRegisterOpen}
           />
         </div>
