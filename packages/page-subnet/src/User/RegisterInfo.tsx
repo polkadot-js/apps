@@ -28,7 +28,7 @@ function RegisterInfo({ className, account, onSuccess }: Props): React.ReactElem
           fontWeight: 'normal',
           padding: '1rem',
           borderBottom: '1px solid var(--border-table)'
-        }}>{t('Register as a Subnet Participants')}</h2>
+        }}>{t('register as a delegate')}</h2>
 
         <div style={{
           display: 'flex',
@@ -42,11 +42,11 @@ function RegisterInfo({ className, account, onSuccess }: Props): React.ReactElem
             margin: 0,
             flex: 1,
             paddingRight: '2rem'
-          }}>{t('Register as a validator/executor for any subnet, safeguard specific mainnets, and share in BEVM rewards.')}</p>
+          }}>{t('If you are unable to register as a subnet participant through the script of the subnet you wish to join, please use this feature to register as a validator/executor for any subnet.')}</p>
 
           <Button
             icon='plus'
-            label={t('Register')}
+            label={t('Delegate')}
             onClick={toggleIsRegisterOpen}
           />
         </div>
