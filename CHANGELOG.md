@@ -18,6 +18,7 @@ Changes:
 - Input Number component ([#11275](https://github.com/polkadot-js/apps/pull/11275))
 - Refactor Assets Page <> Improve Non-Native Asset Balance Display ([#11290](https://github.com/polkadot-js/apps/pull/11290))
 - Show Multilocation for Foreign Assets <> Assets Page ([#11306](https://github.com/polkadot-js/apps/pull/11306))
+- Upgraded polkadot dependencies ([#11309](https://github.com/polkadot-js/apps/pull/11309))
 
 ## 0.149.1 Feb 7, 2025
 
