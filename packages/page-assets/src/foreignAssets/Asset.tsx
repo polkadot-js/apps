@@ -52,7 +52,7 @@ function Asset ({ className, value: { details, location, metadata } }: Props): R
 
 const Location = styled.td`
   display: flex;
-  align-items: start;
+  align-items: center;
   gap: 0.6rem;
   white-space: nowrap;
   font-style: italic;
