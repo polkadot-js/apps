@@ -1,10 +1,18 @@
-export async function callXAgereRpc(method: string, params: any[] = []): Promise<any> {
-  const url = 'https://signet.bevm.io';  // RPC 服务器的 URL
+export async function callXAgereRpc(method: string, params: any[] = [], systemChain?: string): Promise<any> {
+  let url = 'https://rpc-mainnet-1.bevm.io';
+  
+  if (systemChain === 'BEVM Mainnet') {
+    url = 'https://rpc-mainnet-1.bevm.io';
+  } else if (systemChain === 'BEVM Testnet') {
+    url = 'https://testnet.bevm.io';
+  }else if (systemChain === 'Bevm Stack Testnet'){
+    url = 'https://signet.bevm.io';
+  }
 
   const body = JSON.stringify({
     jsonrpc: "2.0",
-    method: method,
-    params: params,
+    method,
+    params,
     id: 1
   });
 
@@ -13,7 +21,7 @@ export async function callXAgereRpc(method: string, params: any[] = []): Promise
     headers: {
       'Content-Type': 'application/json',
     },
-    body: body
+    body
   });
 
   const { result } = await response.json();

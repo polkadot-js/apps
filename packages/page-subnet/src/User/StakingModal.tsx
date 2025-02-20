@@ -30,14 +30,14 @@ interface DelegateInfo {
 
 function StakingModal({ account, modelName, toggleOpen, hotAddress, type, name, onSuccess:refreshData }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
+  const { api, systemChain } = useApi();
   const [amount, setAmount] = useState<BN | undefined>();
   const [selectedAccount, setSelectedAccount] = useState<string>(account);
   const [selectedValidator, setSelectedValidator] = useState<string>(hotAddress);
   const [validators, setValidators] = useState<string[]>([]);
 
   useEffect((): void => {
-    callXAgereRpc('xagere_getDelegates', [])
+    callXAgereRpc('xagere_getDelegates', [], systemChain)
       .then(response => {
         if (Array.isArray(response)) {
           const validatorAddresses = response.map((info: DelegateInfo) => info.delegate_ss58);
@@ -47,7 +47,7 @@ function StakingModal({ account, modelName, toggleOpen, hotAddress, type, name, 
       .catch(error => {
         console.error('Error fetching validators:', error);
       });
-  }, []);
+  }, [systemChain]);
 
   return (
     <Modal

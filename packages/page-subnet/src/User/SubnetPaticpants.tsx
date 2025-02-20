@@ -46,7 +46,7 @@ interface HotkeyInfo {
 
 function SubnetParticipants ({ className, account }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
+  const { systemChain } = useApi();
   const [delegateData, setDelegateData] = useState<HotkeyInfo[]>([]);
   const [isStakingOpen, toggleIsStakingOpen] = useToggle();
   const [isUnStakingOpen, toggleIsUnStakingOpen] = useToggle();
@@ -64,8 +64,8 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
     [t('Operation'), 'start']
   ];
 
-  const fetchDelegateData = (account: string) => {
-    callXAgereRpc('xagere_getColdkeyOwnedHotkeysInfo', [account])
+  const fetchDelegateData = (account: string, systemChain: string) => {
+    callXAgereRpc('xagere_getColdkeyOwnedHotkeysInfo', [account], systemChain)
       .then(response => {
         // console.log('xagere_getColdkeyOwnedHotkeysInfo Response:', response);
         if (Array.isArray(response)) {
@@ -79,13 +79,13 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
   };
 
   useEffect((): void => {
-    fetchDelegateData(account)
-  }, [account]);
+    fetchDelegateData(account, systemChain)
+  }, [account, systemChain]);
 
   return (
     <div className={className}>
-      <RegisterInfo account={account} onSuccess={()=>fetchDelegateData(account)}/>
-      <DelegateeInfo account={account} onSuccess={()=>fetchDelegateData(account)}/>
+      <RegisterInfo account={account} onSuccess={()=>fetchDelegateData(account, systemChain)}/>
+      <DelegateeInfo account={account} onSuccess={()=>fetchDelegateData(account, systemChain)}/>
       <div style={{
         background: 'white',
         borderRadius: '0.25rem'
@@ -149,11 +149,11 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
                           hotAddress={openStakeHotAddress}
                           type={'addStake'}
                           name={'Stake'}
-                          onSuccess={()=>fetchDelegateData(account)}
+                          onSuccess={()=>fetchDelegateData(account, systemChain)}
                         />
                       )}
                       {isUnStakingOpen && (
-                        <StakingModal account={account} modelName={'UnStake'} onSuccess={()=>fetchDelegateData(account)}
+                        <StakingModal account={account} modelName={'UnStake'} onSuccess={()=>fetchDelegateData(account, systemChain)}
     toggleOpen={toggleIsUnStakingOpen} hotAddress={openStakeHotAddress} type={'removeStake'} name={'UnStake'}/>
                       )}
     </div>
