@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from '../translate.js';
 import { AddressSmall, Button, Table, TxButton } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
+import { useApi, useToggle } from '@polkadot/react-hooks';
 import { callXAgereRpc } from '../callXAgereRpc.js';
 import StakingModal from './StakingModal.tsx';
 import { formatAddress, formatBEVM } from '../utils/formatBEVM.ts';
@@ -26,6 +26,7 @@ type DelegateData = [DelegateInfo, number];
 
 function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { systemChain } = useApi();
   // const { allAccounts, hasAccounts } = useAccounts();
   const [isStakingOpen, toggleIsStakingOpen] = useToggle();
   const [isUnStakingOpen, toggleIsUnStakingOpen] = useToggle();
@@ -47,8 +48,8 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
     [t('Operation'), 'start']
   ];
 
-  const fetchDelegatedData = (account: string) => {
-    callXAgereRpc('xagere_getDelegated', [account])
+  const fetchDelegatedData = (account: string, systemChain: string) => {
+    callXAgereRpc('xagere_getDelegated', [account], systemChain)
     .then(response => {
       if (response && Array.isArray(response)) {
         setDelegateData(response as DelegateData[]);
@@ -64,7 +65,7 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
   }
 
   useEffect((): void => {
-    callXAgereRpc('xagere_getStakeInfoForColdkey', [account])
+    callXAgereRpc('xagere_getStakeInfoForColdkey', [account], systemChain)
       .then(response => {
         // console.log('xagere_getStakeInfoForColdkey Response:', response);
       })
@@ -74,8 +75,8 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
   }, [account]);
 
   useEffect((): void => {
-    fetchDelegatedData(account)
-  }, [account]);
+    fetchDelegatedData(account, systemChain)
+  }, [account, systemChain]);
 
   return (
     <div className={className}>
@@ -178,11 +179,11 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
                         hotAddress={openStakeHotAddress}
                         type={'addStake'}
                         name={'Stake'}
-                        onSuccess={()=> fetchDelegatedData(account)}
+                        onSuccess={()=> fetchDelegatedData(account, systemChain)}
                       />
                     )}
                     {isUnStakingOpen && (
-                      <StakingModal account={account} modelName={'UnStake'} onSuccess={()=> fetchDelegatedData(account)} toggleOpen={toggleIsUnStakingOpen} hotAddress={openStakeHotAddress} type={'removeStake'} name={'UnStake'}/>
+                      <StakingModal account={account} modelName={'UnStake'} onSuccess={()=> fetchDelegatedData(account, systemChain)} toggleOpen={toggleIsUnStakingOpen} hotAddress={openStakeHotAddress} type={'removeStake'} name={'UnStake'}/>
                     )}
         </div>
       </div>
@@ -195,7 +196,7 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
           hotAddress={account}
           type={'addStake'}
           name={'Stake'}
-          onSuccess={()=> fetchDelegatedData(account)}
+          onSuccess={()=> fetchDelegatedData(account, systemChain)}
         />
       )}
     </div>

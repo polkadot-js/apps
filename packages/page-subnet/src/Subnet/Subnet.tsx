@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Input, AddressSmall } from '@polkadot/react-components';
 import { useTranslation } from '../translate.js';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { callXAgereRpc } from '../callXAgereRpc.js';
 import { formatBEVM } from '../utils/formatBEVM.js';
 
@@ -37,12 +38,13 @@ interface SubnetInfo {
 
 function Subnet({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { systemChain } = useApi();
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [filter, setFilter] = useState('');
   const [subnets, setSubnets] = useState<SubnetInfo[]>([]);
 
   useEffect((): void => {
-    callXAgereRpc('xagere_getSubnetsInfo_v2', [])
+    callXAgereRpc('xagere_getSubnetsInfo_v2', [], systemChain)
       .then(response => {
         console.log('xagere_getSubnetsInfo_v2 Response:', response);
         if (Array.isArray(response)) {
@@ -52,7 +54,7 @@ function Subnet({ className }: Props): React.ReactElement<Props> {
       .catch(error => {
         console.error('xagere_getSubnetsInfo_v2 Error:', error);
       });
-  }, []);
+  }, [systemChain]);
 
   const header = [
     [t('Subnet ID'), 'start', undefined],
@@ -62,7 +64,6 @@ function Subnet({ className }: Props): React.ReactElement<Props> {
     [t('Recycled (Total)'), 'start', undefined],
     [t('Register Fee'), 'start', undefined],
     [t('Participants'), 'start', undefined]
-
   ] as [React.ReactNode?, string?, number?, (() => void)?][];
 
   const asciiToString = (ascii: number[]): string => {
@@ -94,11 +95,12 @@ function Subnet({ className }: Props): React.ReactElement<Props> {
   };
 
   return (
-    <div className={className}>
+    <>
+     <div className={className}>
       <div style={{
         background: 'white',
         borderRadius: '0.25rem',
-        marginBottom: '1.5rem',
+        marginBottom: '1rem',
         padding: '1rem'
       }}>
         <Input
@@ -106,7 +108,6 @@ function Subnet({ className }: Props): React.ReactElement<Props> {
           isFull
           onChange={handleFilterChange}
           label={t('filter by Subnet ID, Subnet Name, Subnet Owner')}
-          // placeholder={t('Type to search...')}
           value={filter}
         />
       </div>
@@ -139,6 +140,13 @@ function Subnet({ className }: Props): React.ReactElement<Props> {
         ))}
       </Table>
     </div>
+    {/* {selectedId && (
+        <SubnetDetail
+          subnetId={selectedId.toString()}
+          onClose={() => setSelectedId(null)}
+        />
+      )} */}
+    </>
   );
 }
 

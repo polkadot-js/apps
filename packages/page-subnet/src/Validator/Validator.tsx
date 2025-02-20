@@ -4,6 +4,7 @@ import { AddressSmall, Table } from '@polkadot/react-components';
 import { callXAgereRpc } from '../callXAgereRpc.js';
 import { formatBEVM } from '../utils/formatBEVM.js';
 import { Input } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 interface Props {
   className?: string;
 }
@@ -31,11 +32,12 @@ interface DelegateInfo {
   }
 function Validator({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { systemChain } = useApi();
   const [subnets, setSubnets] = useState<DelegateInfo[]>([]);
   const [filter, setFilter] = useState<string>('');
 
   useEffect((): void => {
-    callXAgereRpc('xagere_getDelegates', [])
+    callXAgereRpc('xagere_getDelegates', [], systemChain)
       .then(response => {
         // console.log('Subnets Response:', response);
         if (response && Array.isArray(response)) {
@@ -48,7 +50,7 @@ function Validator({ className }: Props): React.ReactElement<Props> {
       .catch(error => {
         console.error('Error fetching subnets:', error);
       });
-  }, []);
+  }, [systemChain]);
 
   const header = [
     [t('Pos'), 'start'],
