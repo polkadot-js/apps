@@ -82,7 +82,8 @@ export const Subscan: ExternalDef = {
     'Polymesh Mainnet': 'polymesh',
     'Polymesh Testnet': 'polymesh-testnet',
     'QUARTZ by UNIQUE': 'quartz',
-    Robonomics: 'robonomics',
+    'Robonomics Polkadot': 'robonomics',
+    'Robonomics Kusama': 'robonomics-freemium',
     Rococo: 'rococo',
     'Rococo Asset Hub': 'assethub-rococo',
     'Rococo BridgeHub': 'bridgeHub-rococo',
@@ -123,3 +124,4 @@ export const Subscan: ExternalDef = {
     logo: externalSubscanPNG
   }
 };
+
