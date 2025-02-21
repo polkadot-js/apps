@@ -31,7 +31,7 @@ function createWebpack (context, mode = 'production') {
 
   return {
     context,
-    entry: './src/index.ts',
+    entry: './src/index.tsx',
     mode,
     module: {
       rules: [
