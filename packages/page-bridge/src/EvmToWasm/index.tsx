@@ -8,9 +8,9 @@ import InputBalance from '@polkadot/react-components/InputBalance'
 import type { BN } from '@polkadot/util';
 import { BN_ZERO } from '@polkadot/util';
 import {useApi, useCall} from '@polkadot/react-hooks'
-import {SYSTEM_BRIDGE_ADDRESSES, SystemBridgeAbi} from '../contract/index.js'
+import {BEVM_ADDRESSES, Erc20Abi, SYSTEM_BRIDGE_ADDRESSES, SystemBridgeAbi} from '../contract/index.js'
 import type {ActionStatus} from '@polkadot/react-components/Status/types'
-import { waitForTransactionReceipt } from "wagmi/actions";
+import {readContract, waitForTransactionReceipt } from "wagmi/actions";
 import {wagmiConfig} from '@polkadot/react-hooks/ctx/Wagmi'
 import { decodeAddress } from '@polkadot/util-crypto';
 import { u8aToHex } from '@polkadot/util';
@@ -53,6 +53,7 @@ const EvmToWasm = ({ onStatusChange }: Props) => {
   const chainInfo = useCall(api.rpc.system.chain)
   const chainId = getChainId(chainInfo as string)
   const systemBridgeAddress = SYSTEM_BRIDGE_ADDRESSES[chainId as number]
+  const bevmTokenAddress = BEVM_ADDRESSES[chainId as number]
   const { writeContractAsync } = useWriteContract()
   const { switchChainAsync } = useSwitchChain()
 
@@ -61,6 +62,26 @@ const EvmToWasm = ({ onStatusChange }: Props) => {
     try {
       setIsInTx(true)
       await switchChainAsync({ chainId })
+
+      //判断是否需要approve
+      const allowance: any = await readContract(wagmiConfig, {
+        chainId,
+        address: bevmTokenAddress as `0x${string}`,
+        abi: Erc20Abi,
+        functionName: 'allowance',
+        args: [address, systemBridgeAddress],
+      })
+      if (Number(allowance) < amount.toNumber()) {
+        const hash = await writeContractAsync({
+          chainId,
+          address: bevmTokenAddress as `0x${string}`,
+          abi: Erc20Abi,
+          functionName: 'approve',
+          args: [systemBridgeAddress, BigInt(amount.toNumber())]
+        })
+
+        await waitForTransactionReceipt(wagmiConfig, { hash, chainId, confirmations: 2 })
+      }
 
       const pubkey = decodeAddress(accountId);
 
