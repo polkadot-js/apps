@@ -5,6 +5,8 @@ import { callXAgereRpc } from '../callXAgereRpc.js';
 import { formatBEVM } from '../utils/formatBEVM.js';
 import { Input } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
+import Icon from '@polkadot/react-components/Icon';
+import Tooltip from '@polkadot/react-components/Tooltip';
 interface Props {
   className?: string;
 }
@@ -55,7 +57,7 @@ function Validator({ className }: Props): React.ReactElement<Props> {
   const header = [
     [t('Pos'), 'start'],
     [t('Hot Address'), 'start'],
-    [t('Take'), 'start'],
+    [t('Commission'), 'start'],
     [t('Total Stake'), 'start'],
     [t('Nominator'), 'start'],
     [t('Total Daily Return'), 'start'],
@@ -91,7 +93,20 @@ function Validator({ className }: Props): React.ReactElement<Props> {
               <td className='number' style={{textAlign:'start'}}>{(info.take/65535*100).toFixed(2)}%</td>
               <td className='number' style={{textAlign:'start'}}>{formatBEVM(Number(info.total_stake))}</td>
               <td className='number' style={{textAlign:'start'}}>{info.nominators.length}</td>
-              <td className='number' style={{textAlign:'start'}}>{formatBEVM(Number(info.total_daily_return))}</td>
+              <td className='number' style={{textAlign:'start'}}>
+                <div style={{display:'flex', flexDirection: 'row', alignItems:'center', gap:'8px'}}>
+                  <span>{formatBEVM(Number(info.total_daily_return) * 24)}</span>
+                  <>
+                    <Icon
+                      icon='info-circle'
+                      tooltip={`${info.delegate_ss58}-locks-trigger`}
+                    />
+                    <Tooltip trigger={`${info.delegate_ss58}-locks-trigger`}>
+                      <span>For every hour, 24 minutes will display as 0, which is determined by the chain. If you need to calculate your own profits, you can observe the changes in the amount of your personal staked tokens, and the rewards will automatically become part of your stake.</span>
+                    </Tooltip>
+                  </>
+                </div>
+                </td>
             </tr>
           ))}
       </Table>
