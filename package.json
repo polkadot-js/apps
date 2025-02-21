@@ -122,6 +122,10 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "bignumber.js": "^9.1.2"
+    "@rainbow-me/rainbowkit": "^2.2.3",
+    "@tanstack/react-query": "^5.66.7",
+    "bignumber.js": "^9.1.2",
+    "viem": "2.x",
+    "wagmi": "^2.14.11"
   }
 }

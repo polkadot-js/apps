@@ -13,6 +13,7 @@ import { ApiStatsCtxRoot, BlockAuthorsCtxRoot, BlockEventsCtxRoot, KeyringCtxRoo
 import { settings } from '@polkadot/ui-settings';
 
 import Apps from './Apps.js';
+import {WagmiProvider} from '@polkadot/react-hooks'
 
 interface Props {
   isElectron: boolean;
@@ -53,7 +54,9 @@ function Root ({ isElectron, store }: Props): React.ReactElement<Props> {
                   <BlockEventsCtxRoot>
                     <HashRouter>
                       <WindowSizeCtxRoot>
-                        <Apps />
+                        <WagmiProvider>
+                          <Apps />
+                        </WagmiProvider>
                       </WindowSizeCtxRoot>
                     </HashRouter>
                   </BlockEventsCtxRoot>

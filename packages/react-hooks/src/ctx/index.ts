@@ -7,3 +7,4 @@ export { BlockEventsCtxRoot } from './BlockEvents.js';
 export { KeyringCtxRoot } from './Keyring.js';
 export { QueueCtxRoot } from './Queue.js';
 export { WindowSizeCtxRoot } from './WindowSize.js';
+export { WagmiProvider } from './Wagmi.js'
