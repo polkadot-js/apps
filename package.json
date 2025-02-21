@@ -66,6 +66,13 @@
     "test:one": "polkadot-dev-run-test --env browser",
     "test:skipped": "echo 'tests skipped'"
   },
+  "dependencies": {
+    "@rainbow-me/rainbowkit": "^2.2.3",
+    "@tanstack/react-query": "^5.66.7",
+    "bignumber.js": "^9.1.2",
+    "viem": "2.x",
+    "wagmi": "^2.14.11"
+  },
   "devDependencies": {
     "@crustio/crust-pin": "^1.0.0",
     "@pinata/sdk": "^1.2.1",
@@ -124,12 +131,5 @@
     "@polkadot/x-textencoder": "^12.6.2",
     "@polkadot/x-ws": "^12.6.2",
     "typescript": "^5.3.3"
-  },
-  "dependencies": {
-    "@rainbow-me/rainbowkit": "^2.2.3",
-    "@tanstack/react-query": "^5.66.7",
-    "bignumber.js": "^9.1.2",
-    "viem": "2.x",
-    "wagmi": "^2.14.11"
   }
 }
