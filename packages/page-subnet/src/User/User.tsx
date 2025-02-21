@@ -4,6 +4,7 @@ import { AddressSmall, Button, InputAddress, ToggleGroup } from '@polkadot/react
 import { useAccounts } from '@polkadot/react-hooks';
 import UserInfo from './UserInfo.tsx';
 import SubnetPaticpants from './SubnetPaticpants.tsx';
+import { Available } from '@polkadot/react-query';
 
 interface Props {
   className?: string;
@@ -61,6 +62,12 @@ function User({ className }: Props): React.ReactElement<Props> {
           label={t('accountId: AccountId')}
           onChange={(value: string | null) => setSelectedAccount(value || '')}
           type='account'
+          labelExtra={
+            <Available
+              label={t('transferrable')}
+              params={hasAccounts ? allAccounts[0] : ''}
+            />
+          }
           withLabel
         />
       </div>

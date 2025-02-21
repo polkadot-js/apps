@@ -10,6 +10,7 @@ import { InputAddress, InputBalance, Modal } from '@polkadot/react-components';
 import { BN } from '@polkadot/util';
 import { TxButton } from '@polkadot/react-components';
 import { callXAgereRpc } from '../callXAgereRpc.js';
+import { Available } from '@polkadot/react-query';
 
 interface Props {
   account: string;
@@ -62,6 +63,12 @@ function StakingModal({ account, modelName, toggleOpen, hotAddress, type, name, 
             label={t('Address')}
             onChange={(value: string | null) => setSelectedAccount(value || '')}
             type='account'
+            labelExtra={
+              <Available
+                label={t('transferrable')}
+                params={account}
+              />
+            }
             withLabel
           />
         </Modal.Columns>

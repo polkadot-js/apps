@@ -6,6 +6,7 @@ import { useApi } from '@polkadot/react-hooks';
 import { useTranslation } from '../translate.js';
 import { InputAddress, Modal, Input } from '@polkadot/react-components';
 import { TxButton } from '@polkadot/react-components';
+import { Available } from '@polkadot/react-query';
 
 interface Props {
   account: string;
@@ -34,6 +35,12 @@ function RegisterModal({ account, toggleOpen, subnetId, onSuccess:refreshData }:
             label={t('Address')}
             onChange={(value: string | null) => setSelectedAccount(value || '')}
             type='account'
+            labelExtra={
+              <Available
+                label={t('transferrable')}
+                params={account}
+              />
+            }
             withLabel
           />
         </Modal.Columns>
