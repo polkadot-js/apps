@@ -62,7 +62,7 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
     [t('Hot Address'), 'start'],
     [t('Your Stake'), 'start'],
     [t('Earn(24h)'), 'start'],
-    [t('Validator Run'), 'start'],
+    [t('Validator status'), 'start'],
     [t('Validator Permit'), 'start'],
     [t('Executor status'), 'start'],
     [t('Operation'), 'start']
@@ -124,7 +124,7 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
                 <td className='number' style={{textAlign:'start'}}>
                   <TotalReturnWithTips key={`${info.hotkey}-${info.netuid}`} value={formatBEVM(info.emission * 24)}/>
                 </td>
-                <td style={{textAlign:'start'}}>{info.validator_trust > 0 ? t('Yes') : t('No')}</td>
+                <td style={{textAlign:'start'}}>{info.validator_trust > 0 ? t('Active') : t('Inactive')}</td>
                 <td style={{textAlign:'start'}}>{info.validator_permit ? t('Yes') : t('No')}</td>
                 <td className='status' style={{textAlign:'start'}}>{info.trust > 0 ? t('Active') : t('Inactive')}</td>
                 <td>
