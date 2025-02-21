@@ -4,12 +4,12 @@ import { AddressSmall, Button, Table, TxButton } from '@polkadot/react-component
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { callXAgereRpc } from '../callXAgereRpc.js';
 import StakingModal from './StakingModal.js';
-import { asciiToString, formatAddress, formatBEVM } from '../utils/formatBEVM.js';
+import { asciiToString, formatAddress, formatBEVM } from '../Utils/formatBEVM.js';
 import DelegateeInfo from './DelegateInfo.tsx';
 import RegisterInfo from './RegisterInfo.tsx';
 import Icon from '@polkadot/react-components/Icon';
 import Tooltip from '@polkadot/react-components/Tooltip';
-import { formatBalance } from '@polkadot/util';
+import TotalReturnWithTips from '../Utils/TotalReturnWithTips.js';
 
 interface Props {
   className?: string;
@@ -61,7 +61,7 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
     [t('Subnet Name'), 'start'],
     [t('Hot Address'), 'start'],
     [t('Your Stake'), 'start'],
-    [t('Emission(24h)'), 'start'],
+    [t('Earn(24h)'), 'start'],
     [t('Validator Run'), 'start'],
     [t('Validator Permit'), 'start'],
     [t('Executor status'), 'start'],
@@ -122,18 +122,7 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
                 <td className='text' style={{textAlign:'start'}}>{<AddressSmall value={info.hotkey} />}</td>
                 <td className='number' style={{textAlign:'start'}}>{formatBEVM(info.stake)}</td>
                 <td className='number' style={{textAlign:'start'}}>
-                  <div style={{display:'flex', flexDirection: 'row', alignItems:'center', gap:'8px'}}>
-                    <span>{(info.emission * 24)}</span>
-                    <>
-                      <Icon
-                        icon='info-circle'
-                        tooltip={`${info.hotkey}-${info.netuid}-locks-trigger`}
-                      />
-                      <Tooltip trigger={`${info.hotkey}-${info.netuid}-locks-trigger`}>
-                        <span>For every hour, 24 minutes will display as 0, which is determined by the chain. If you need to calculate your own profits, you can observe the changes in the amount of your personal staked tokens, and the rewards will automatically become part of your stake.</span>
-                      </Tooltip>
-                    </>
-                  </div>
+                  <TotalReturnWithTips key={`${info.hotkey}-${info.netuid}`} value={formatBEVM(info.emission * 24)}/>
                 </td>
                 <td style={{textAlign:'start'}}>{info.validator_trust > 0 ? t('Yes') : t('No')}</td>
                 <td style={{textAlign:'start'}}>{info.validator_permit ? t('Yes') : t('No')}</td>
