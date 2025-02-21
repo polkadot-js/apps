@@ -6,10 +6,11 @@ import React, { useEffect, useState } from 'react';
 import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
-import { Input, InputAddress, InputAddressMulti, InputBalance, Modal } from '@polkadot/react-components';
+import { InputAddress, InputBalance, Modal } from '@polkadot/react-components';
 import { BN } from '@polkadot/util';
 import { TxButton } from '@polkadot/react-components';
 import { callXAgereRpc } from '../callXAgereRpc.js';
+import { Available } from '@polkadot/react-query';
 
 interface Props {
   account: string;
@@ -62,22 +63,38 @@ function StakingModal({ account, modelName, toggleOpen, hotAddress, type, name, 
             label={t('Address')}
             onChange={(value: string | null) => setSelectedAccount(value || '')}
             type='account'
+            labelExtra={
+              <Available
+                label={t('transferrable')}
+                params={account}
+              />
+            }
             withLabel
           />
         </Modal.Columns>
         <Modal.Columns>
           <InputAddress
-            isDisabled={false}
             label={t('Stake for executor')}
             onChange={(value: string | null) => setSelectedValidator(value || '')}
-            options={validators.map(address => ({
-              key: address,
-              name: address,
-              value: address,
-              text: address
-            }))}
+            options={[
+              ...validators.map(address => ({
+                key: address,
+                name: address,
+                value: address,
+                text: address
+              })),
+              {
+                key: selectedValidator,
+                name: selectedValidator,
+                value: selectedValidator,
+                text: selectedValidator
+              }
+            ].filter((option, index, self) =>
+              index === self.findIndex((t) => t.value === option.value)
+            )}
             type='allPlus'
             value={selectedValidator}
+            // defaultValue={selectedValidator}
             withLabel
           />
         </Modal.Columns>

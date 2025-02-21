@@ -32,7 +32,7 @@ function createItemsRef (t: (key: string, options?: { replace: Record<string, un
     },
     {
       name: 'user',
-      text: t('User')
+      text: t('User Dashboard')
     }
   ];
 }

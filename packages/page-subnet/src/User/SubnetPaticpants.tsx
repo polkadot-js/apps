@@ -4,9 +4,12 @@ import { AddressSmall, Button, Table, TxButton } from '@polkadot/react-component
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { callXAgereRpc } from '../callXAgereRpc.js';
 import StakingModal from './StakingModal.js';
-import { asciiToString, formatAddress, formatBEVM } from '../utils/formatBEVM.js';
+import { asciiToString, formatAddress, formatBEVM } from '../Utils/formatBEVM.js';
 import DelegateeInfo from './DelegateInfo.tsx';
 import RegisterInfo from './RegisterInfo.tsx';
+import Icon from '@polkadot/react-components/Icon';
+import Tooltip from '@polkadot/react-components/Tooltip';
+import TotalReturnWithTips from '../Utils/TotalReturnWithTips.js';
 
 interface Props {
   className?: string;
@@ -58,16 +61,17 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
     [t('Subnet Name'), 'start'],
     [t('Hot Address'), 'start'],
     [t('Your Stake'), 'start'],
-    [t('Validator Run'), 'start'],
+    [t('Earn(24h)'), 'start'],
+    [t('Validator status'), 'start'],
     [t('Validator Permit'), 'start'],
-    [t('Participants Status'), 'start'],
+    [t('Executor status'), 'start'],
     [t('Operation'), 'start']
   ];
 
   const fetchDelegateData = (account: string, systemChain: string) => {
     callXAgereRpc('xagere_getColdkeyOwnedHotkeysInfo', [account], systemChain)
       .then(response => {
-        // console.log('xagere_getColdkeyOwnedHotkeysInfo Response:', response);
+        console.log('xagere_getColdkeyOwnedHotkeysInfo Response:', response);
         if (Array.isArray(response)) {
           setDelegateData(response);
         }
@@ -117,9 +121,12 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
                 <td className='text' style={{textAlign:'start'}}>{info.subnet_identity ? asciiToString(info.subnet_identity.subnet_name) : '-'}</td>
                 <td className='text' style={{textAlign:'start'}}>{<AddressSmall value={info.hotkey} />}</td>
                 <td className='number' style={{textAlign:'start'}}>{formatBEVM(info.stake)}</td>
-                <td className='address' style={{textAlign:'start'}}>{info.validator_trust > 0 ? t('Yes') : t('No')}</td>
-                <td className='address' style={{textAlign:'start'}}>{info.validator_permit ? t('Yes') : t('No')}</td>
-                <td className='status' style={{textAlign:'start'}}>{info.active ? t('Active') : t('Inactive')}</td>
+                <td className='number' style={{textAlign:'start'}}>
+                  <TotalReturnWithTips key={`${info.hotkey}-${info.netuid}`} value={formatBEVM(info.emission * 24)}/>
+                </td>
+                <td style={{textAlign:'start'}}>{info.validator_trust > 0 ? t('Active') : t('Inactive')}</td>
+                <td style={{textAlign:'start'}}>{info.validator_permit ? t('Yes') : t('No')}</td>
+                <td className='status' style={{textAlign:'start'}}>{info.trust > 0 ? t('Active') : t('Inactive')}</td>
                 <td>
                   <div style={{textAlign:'start'}}>
                     <Button

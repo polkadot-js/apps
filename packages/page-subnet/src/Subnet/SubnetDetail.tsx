@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from '../translate.js';
 import { AddressSmall, Button, Table } from '@polkadot/react-components';
 import { callXAgereRpc } from '../callXAgereRpc.js';
-import { formatBEVM } from '../utils/formatBEVM.js';
+import { formatBEVM } from '../Utils/formatBEVM.js';
 import { useApi } from '@polkadot/react-hooks';
 
 interface Props {
   className?: string;
-  subnetId: string;
+  subnetId: number;
   onClose: () => void;
 }
 
@@ -50,6 +50,7 @@ function SubnetDetail({ className, subnetId, onClose }: Props): React.ReactEleme
   useEffect(() => {
     callXAgereRpc('xagere_getNeuronsLite', [subnetId], systemChain)
       .then((response) => {
+        console.log('response', response);
         if (Array.isArray(response)) {
           setNeurons(response);
         }
@@ -115,4 +116,4 @@ function SubnetDetail({ className, subnetId, onClose }: Props): React.ReactEleme
   );
 }
 
-export default React.memo(SubnetDetail); 
+export default React.memo(SubnetDetail);
