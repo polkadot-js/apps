@@ -12,7 +12,7 @@ export default function create (t: TFunction): Route {
       needsApi: ["tx.xAssetsBridge.depositGovTokenToEvm"]
     },
     group: 'accounts',
-    icon: 'address-card',
+    icon: 'paper-plane',
     name: 'bridge',
     text: t('Transfer(EVM ↔ WASM)', 'Transfer(EVM ↔ WASM)', { ns: 'apps-routing' })
   };

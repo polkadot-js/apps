@@ -55,7 +55,7 @@ export default function create (t: TFunction): Routes {
     explorer(t),
     claims(t),
     poll(t),
-    transfer(t),
+    // transfer(t),
     teleport(t),
     staking(t),
     staking2(t),
