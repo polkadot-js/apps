@@ -47,6 +47,7 @@ const WasmToEvm = () => {
       />
       <Button.Group>
         <TxButton
+          isDisabled={!evmAccount || Number(amount) <= 0 || !accountId}
           accountId={accountId}
           params={[evmAccount, amount]}
           tx={api.tx.xAssetsBridge.depositGovTokenToEvm}

@@ -146,7 +146,7 @@ const EvmToWasm = ({ onStatusChange }: Props) => {
       />
       <Button.Group>
         <Button
-          isDisabled={!systemBridgeAddress || Number(amount) <= 0 || isInTx}
+          isDisabled={!systemBridgeAddress || Number(amount) <= 0 || isInTx || !accountId || !address}
           isReadOnly={false}
           icon='sign-in-alt'
           label={t('Submit Transaction')}
