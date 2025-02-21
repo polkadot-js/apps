@@ -1,5 +1,6 @@
 // Copyright 2017-2024 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+import '@rainbow-me/rainbowkit/styles.css';
 
 // setup these right at front
 import './initBufferHack.js';

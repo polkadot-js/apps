@@ -1,7 +1,7 @@
 // Copyright 2017-2024 @polkadot/app-addresses authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type {AppProps as Props, TabItem} from '@polkadot/react-components/types';
+import type {AppProps as Props} from '@polkadot/react-components/types';
 
 import React, { useRef } from 'react';
 import { Route, Routes } from 'react-router';
@@ -10,9 +10,11 @@ import { Tabs } from '@polkadot/react-components';
 
 import { useTranslation } from './translate.js';
 import WasmToEvm from './WasmToEvm/index.js'
+import EvmToWasm from './EvmToWasm/index.js'
 
-function createItemsRef (t: (key: string, options?: { replace: Record<string, unknown> }) => string): TabItem[] {
-  return [
+function BridgeApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const itemsRef = useRef([
     {
       isRoot: true,
       name: 'WasmToEVM',
@@ -22,12 +24,7 @@ function createItemsRef (t: (key: string, options?: { replace: Record<string, un
       name: 'EVMToWasm',
       text: 'EVM To Wasm'
     }
-  ];
-}
-
-function AddressesApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
-  const itemsRef = useRef(createItemsRef(t));
+  ]);
 
   return (
     <main>
@@ -38,11 +35,11 @@ function AddressesApp ({ basePath, onStatusChange }: Props): React.ReactElement<
       <Routes>
         <Route path={basePath}>
           <Route path={`${basePath}`} element={<WasmToEvm />} />
-          <Route path={`${basePath}/evmToWasm`} element={<div>2</div>} />
+          <Route path={`${basePath}/evmToWasm`} element={<EvmToWasm onStatusChange={onStatusChange} />} />
         </Route>
       </Routes>
     </main>
   );
 }
 
-export default React.memo(AddressesApp);
+export default React.memo(BridgeApp);
