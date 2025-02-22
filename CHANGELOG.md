@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 0.150.2 Feb 22, 2025
+
+Changes:
+
+- Fix TracksInfo values being undefined and causing a whitescreen ([#11320](https://github.com/polkadot-js/apps/pull/11320))
+
+
 ## 0.150.1 Feb 19, 2025
 
 Contributed:
