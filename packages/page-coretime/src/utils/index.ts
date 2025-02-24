@@ -41,14 +41,19 @@ export const coretimeTypeColours: Record<string, string> = {
   [CoreTimeTypes['Bulk Coretime']]: 'pink'
 };
 
-export function formatDate (date: Date) {
+export function formatDate (date: Date, time = false) {
   const day = date.getDate();
   const month = date.toLocaleString('default', { month: 'short' });
   const year = date.getFullYear();
-  const hours = date.getHours().toString().padStart(2, '0');
-  const minutes = date.getMinutes().toString().padStart(2, '0');
 
-  return `${day} ${month} ${year}, ${hours}:${minutes}`;
+  if (time) {
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+
+    return `${day} ${month} ${year}, ${hours}:${minutes}`;
+  }
+
+  return `${day} ${month} ${year}`;
 }
 
 /**
@@ -72,9 +77,8 @@ export function formatDate (date: Date) {
 export const estimateTime = (
   targetTimeslice: string | number,
   latestBlock: number,
-  { blocksPerTimeslice: blocksPerTs, blocktimeMs }: ChainBlockConstants,
-  targetBlockParam?: number
-): string | null => {
+  { blocksPerTimeslice: blocksPerTs, blocktimeMs }: ChainBlockConstants
+): number | null => {
   if (!latestBlock || !targetTimeslice) {
     console.error('Invalid input: one or more inputs are missing');
 
@@ -85,13 +89,13 @@ export const estimateTime = (
     const now = new BN(Date.now());
     const blockTime = new BN(blocktimeMs); // Average block time in milliseconds (6 seconds)
     const blocksPerTimeslice = new BN(blocksPerTs);
-    const targetBlock = targetBlockParam ? new BN(targetBlockParam) : new BN(Number(targetTimeslice)).mul(blocksPerTimeslice);
+    const targetBlock = new BN(Number(targetTimeslice)).mul(blocksPerTimeslice);
     const latestBlockBN = new BN(latestBlock);
     const blockDifference = targetBlock.sub(latestBlockBN);
     const timeDifference = blockDifference.mul(blockTime);
     const estTimestamp = now.add(timeDifference);
 
-    return formatDate(new Date(estTimestamp.toNumber()));
+    return estTimestamp.toNumber();
   } catch (error) {
     console.error('Error in calculation:', error);
 

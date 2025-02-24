@@ -3,18 +3,16 @@
 
 import type { FlagColor } from '@polkadot/react-components/types';
 import type { ChainWorkTaskInformation, LegacyLease } from '@polkadot/react-hooks/types';
-import type { BlockNumber } from '@polkadot/types/interfaces';
 import type { RelayName } from './types.js';
 
 import React from 'react';
 
 import { MarkWarning, ParaLink, styled, Tag } from '@polkadot/react-components';
 import { ParaLinkType } from '@polkadot/react-components/ParaLink';
-import { useApi, useCall } from '@polkadot/react-hooks';
 import { ChainRenewalStatus, CoreTimeTypes } from '@polkadot/react-hooks/constants';
 import { BN, formatBalance, formatNumber } from '@polkadot/util';
 
-import { coretimeTypeColours, estimateTime } from './utils/index.js';
+import { coretimeTypeColours, estimateTime, formatDate } from './utils/index.js';
 import { useCoretimeContext } from './CoretimeContext.js';
 
 interface Props {
@@ -54,22 +52,17 @@ const StyledMarkWarning = styled(MarkWarning)`
 
 const EXPIRES_IN_DAYS = 7;
 
-function Row ({ chainRecord, highlight = false, id, lease, regionBegin, regionEnd, relayName }: Props): React.ReactElement<Props> {
+function Row ({ chainRecord, highlight = false, id, lastCommittedTimeslice, lease, regionBegin, regionEnd, relayName }: Props): React.ReactElement<Props> {
   const chainRegionEnd = (chainRecord.renewalStatus === ChainRenewalStatus.Renewed ? regionEnd : regionBegin);
   const targetTimeslice = lease?.until || chainRegionEnd;
   const showEstimates = !!targetTimeslice && Object.values(CoreTimeTypes)[chainRecord.type] !== CoreTimeTypes.Reservation;
   const { coretimeInfo, get } = useCoretimeContext();
-  const { apiCoretime } = useApi();
 
-  const bestNumberFinalized = useCall<BlockNumber>(apiCoretime?.derive.chain.bestNumberFinalized);
-
-  const estimatedTime = showEstimates && get && coretimeInfo && bestNumberFinalized &&
-    estimateTime(targetTimeslice, bestNumberFinalized.toNumber(), coretimeInfo?.constants?.relay, chainRecord?.lastBlock);
+  const estimatedTime = showEstimates && get && coretimeInfo &&
+    formatDate(new Date(estimateTime(targetTimeslice, get.blocks.relay(lastCommittedTimeslice), coretimeInfo?.constants?.relay) ?? ''));
 
   const isWithinWeek = estimatedTime && new Date(estimatedTime).getTime() - Date.now() < EXPIRES_IN_DAYS * 24 * 60 * 60 * 1000;
   const isReservation = chainRecord.type === CoreTimeTypes.Reservation;
-
-  console.log('chain ', relayName);
 
   return (
     <React.Fragment key={`${id}`}>

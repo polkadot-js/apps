@@ -9,7 +9,7 @@ import React, { createContext, useContext, useMemo } from 'react';
 
 import { useCoretimeInformation } from '@polkadot/react-hooks';
 
-import { createGet, estimateTime } from './utils/index.js';
+import { createGet, estimateTime, formatDate } from './utils/index.js';
 
 interface CoretimeContextProps {
   coretimeInfo: CoretimeInformation | null;
@@ -49,11 +49,11 @@ export const CoretimeProvider = ({ api,
   const currentRegionStart = useMemo(() => coretimeInfo ? coretimeInfo.salesInfo.regionEnd - coretimeInfo?.config.regionLength * 2 : 0, [coretimeInfo]);
 
   const saleStartDate = useMemo(() => {
-    return get && coretimeInfo && estimateTime(currentRegionStart, get.blocks.relay(coretimeInfo?.status?.lastTimeslice), coretimeInfo.constants.relay);
+    return get && coretimeInfo && formatDate(new Date(estimateTime(currentRegionStart, get.blocks.relay(coretimeInfo?.status?.lastTimeslice), coretimeInfo.constants.relay) ?? ''), true);
   }, [currentRegionStart, coretimeInfo, get]);
 
   const saleEndDate = useMemo(() => {
-    return get && coretimeInfo && estimateTime(currentRegionEnd, get.blocks.relay(coretimeInfo?.status?.lastTimeslice), coretimeInfo.constants.relay);
+    return get && coretimeInfo && formatDate(new Date(estimateTime(currentRegionEnd, get.blocks.relay(coretimeInfo?.status?.lastTimeslice), coretimeInfo.constants.relay) ?? ''), true);
   }, [currentRegionEnd, coretimeInfo, get]);
 
   const value = useMemo(() => ({

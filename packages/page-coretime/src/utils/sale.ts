@@ -5,7 +5,7 @@ import type { ChainConstants, PalletBrokerConfigRecord, PalletBrokerSaleInfoReco
 import type { GetResponse, PhaseConfig, RegionInfo, RelayName, SaleParameters } from '../types.js';
 
 import { type ProgressBarSection } from '@polkadot/react-components/types';
-import { BN } from '@polkadot/util';
+import { BN, formatDate } from '@polkadot/util';
 
 import { PhaseName } from '../constants.js';
 import { createGet, estimateTime, FirstCycleStart, getCurrentRegionStartEndTs } from './index.js';
@@ -164,7 +164,7 @@ const getPhaseConfiguration = (
   const fixedPriceLengthTs = regionLength - interludeLengthTs - leadInLengthTs;
   const fixedPriceEndTs = priceDiscoveryEndTs + fixedPriceLengthTs;
   const get = createGet(constants);
-  const getDate = (ts: number) => estimateTime(ts, get.blocks.relay(lastCommittedTimeslice) ?? 0, constants.relay);
+  const getDate = (ts: number) => formatDate(new Date(estimateTime(ts, get.blocks.relay(lastCommittedTimeslice) ?? 0, constants.relay) ?? ''));
 
   return {
     config: {

@@ -25,7 +25,7 @@ function ParachainsTable ({ coretimeInfo, relayName }: Props): React.ReactElemen
     [t('core number'), 'start'],
     [t('type'), 'start'],
     [t('last block'), 'start media--800'],
-    [t('end date'), 'start media--1000'],
+    [t('end date (approx)'), 'start media--1000'],
     [t('renewal'), 'start media--1200'],
     [t('renewal price'), 'start media--1200'],
     [t('links'), 'start media--800'],
