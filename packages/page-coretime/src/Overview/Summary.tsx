@@ -54,7 +54,7 @@ function Summary ({ config, parachainCount, relayName, status }: Props): React.R
         <CardSummary label={t('parachains')}>
           {parachainCount && parachainCount}
         </CardSummary>
-        {config && status &&
+        {config && status && currentRegionEnd && saleEndDate && saleStartDate &&
           <>
             <CardSummary
               className='media--800'

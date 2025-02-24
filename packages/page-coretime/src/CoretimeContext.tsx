@@ -20,14 +20,16 @@ interface CoretimeContextProps {
   currentRegionStart: number | null
 }
 
-const CoretimeContext = createContext<CoretimeContextProps>({
+const initState = {
   coretimeInfo: null,
   currentRegionEnd: null,
   currentRegionStart: null,
   get: null,
   saleEndDate: null,
   saleStartDate: null
-});
+};
+
+const CoretimeContext = createContext<CoretimeContextProps>(initState);
 
 export const CoretimeProvider = ({ api,
   children,
@@ -56,20 +58,20 @@ export const CoretimeProvider = ({ api,
     return get && coretimeInfo && formatDate(new Date(estimateTime(currentRegionEnd, get.blocks.relay(coretimeInfo?.status?.lastTimeslice), coretimeInfo.constants.relay) ?? ''), true);
   }, [currentRegionEnd, coretimeInfo, get]);
 
-  const value = useMemo(() => ({
-    coretimeInfo: coretimeInfo ?? null,
-    currentRegionEnd,
-    currentRegionStart,
-    get,
-    saleEndDate,
-    saleStartDate
-  }), [
-    coretimeInfo,
-    currentRegionEnd,
-    currentRegionStart,
-    get,
-    saleEndDate,
-    saleStartDate]);
+  const value = useMemo(() => {
+    if (!coretimeInfo || !currentRegionEnd || !currentRegionStart || !get || !saleEndDate || !saleStartDate) {
+      return initState;
+    }
+
+    return {
+      coretimeInfo: coretimeInfo ?? null,
+      currentRegionEnd,
+      currentRegionStart,
+      get,
+      saleEndDate,
+      saleStartDate
+    };
+  }, [coretimeInfo, currentRegionEnd, currentRegionStart, get, saleEndDate, saleStartDate]);
 
   return (
     <CoretimeContext.Provider value={value}>

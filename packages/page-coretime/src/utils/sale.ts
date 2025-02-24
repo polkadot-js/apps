@@ -186,7 +186,7 @@ export const getSaleParameters = (
   const interludeLengthTs = get.timeslices.coretime(config.interludeLength);
   const leadInLengthTs = get.timeslices.coretime(config.leadinLength);
   let { currentRegionEndTs, currentRegionStartTs } = getCurrentRegionStartEndTs(salesInfo, config.regionLength);
-  const getDate = (ts: number) => estimateTime(ts, get.blocks.relay(lastCommittedTimeslice), constants.relay) || '';
+  const getDate = (ts: number) => formatDate(new Date(estimateTime(ts, get.blocks.relay(lastCommittedTimeslice), constants.relay) ?? ''));
   const saleNumber = getCurrentSaleNumber(currentRegionEndTs, relayName, config);
 
   let currentRegionInfo: SaleParameters['currentRegion'];
@@ -267,7 +267,7 @@ export const getSaleParameters = (
           coretime: 0,
           relay: currentRegionInfo.end.blocks.relay + get.blocks.relay(config.regionLength)
         },
-        date: estimateTime(currentRegionInfo.end.ts + config.regionLength, get.blocks.relay(lastCommittedTimeslice), constants.relay),
+        date: formatDate(new Date(estimateTime(currentRegionInfo.end.ts + config.regionLength, get.blocks.relay(lastCommittedTimeslice), constants.relay) ?? '')),
         ts: currentRegionInfo.end.ts + config.regionLength
       },
       start: {
