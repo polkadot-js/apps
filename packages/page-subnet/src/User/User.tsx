@@ -43,7 +43,7 @@ function User({ className }: Props): React.ReactElement<Props> {
       <p style={{
         color: 'var(--color-text-light)',
         marginBottom: '2rem'
-      }}>{t('Here displays five different roles for participating in the subnet. You can switch Tabs to view the operations corresponding to each role.')}</p>
+      }}>{t('This panel primarily displays information about user staking and users becoming subnet participants.')}</p>
 
       <div style={{
         background: 'white',
@@ -58,14 +58,14 @@ function User({ className }: Props): React.ReactElement<Props> {
         }}>{t('Current Account')}</h3>
 
         <InputAddress
-          defaultValue={hasAccounts ? allAccounts[0] : ''}
+          defaultValue={selectedAccount}
           label={t('accountId: AccountId')}
           onChange={(value: string | null) => setSelectedAccount(value || '')}
           type='account'
           labelExtra={
             <Available
               label={t('transferrable')}
-              params={hasAccounts ? allAccounts[0] : ''}
+              params={selectedAccount}
             />
           }
           withLabel
@@ -81,7 +81,9 @@ function User({ className }: Props): React.ReactElement<Props> {
           />
         </Button.Group>
       </div>
-      {renderContent()}
+      {stashTypes.current[typeIndex].value === 'User' && <UserInfo account={selectedAccount} />}
+      {stashTypes.current[typeIndex].value ===  'Paticipants'&& <SubnetPaticpants account={selectedAccount} />}
+      {/*{renderContent()}*/}
     </div>
   );
 }

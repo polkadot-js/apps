@@ -66,7 +66,7 @@ function StakingModal({ account, modelName, toggleOpen, hotAddress, type, name, 
             labelExtra={
               <Available
                 label={t('transferrable')}
-                params={account}
+                params={selectedAccount}
               />
             }
             withLabel

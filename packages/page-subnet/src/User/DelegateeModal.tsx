@@ -36,7 +36,7 @@ function DelegateeModal({ account, toggleOpen, onSuccess:refreshData }: Props): 
             labelExtra={
               <Available
                 label={t('transferrable')}
-                params={account}
+                params={selectedAccount}
               />
             }
             withLabel

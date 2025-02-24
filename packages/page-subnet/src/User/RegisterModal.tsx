@@ -38,7 +38,7 @@ function RegisterModal({ account, toggleOpen, subnetId, onSuccess:refreshData }:
             labelExtra={
               <Available
                 label={t('transferrable')}
-                params={account}
+                params={selectedAccount}
               />
             }
             withLabel
