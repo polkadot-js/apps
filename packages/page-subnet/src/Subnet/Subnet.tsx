@@ -98,55 +98,6 @@ function Subnet({ className }: Props): React.ReactElement<Props> {
 
   return (
     <>
-      <div className={className}>
-        <div style={{
-          background: 'white',
-          borderRadius: '0.25rem',
-          marginBottom: '1rem',
-          padding: '1rem'
-        }}>
-          <Input
-            autoFocus
-            isFull
-            onChange={handleFilterChange}
-            label={t('filter by Subnet ID, Subnet Name, Subnet Owner')}
-            value={filter}
-          />
-        </div>
-
-        <Table
-          empty={t('No subnets found')}
-          header={header}
-          style={{
-            '& td': {
-              padding: '1rem',
-              borderBottom: '1px solid var(--border-table)',
-              textAlign: 'start'
-            }
-          }}
-        >
-          {filterSubnets(subnets)?.map((subnet) => (
-            <tr
-              key={subnet.netuid}
-              onClick={() => setSelectedId(subnet.netuid.toString())}
-              style={{
-                height: '70px',
-                cursor: 'pointer'
-              }}
-            >
-              <td>{subnet.netuid}</td>
-              <td>{asciiToString(subnet.identity?.subnet_name)}</td>
-              <td><AddressSmall value={subnet.owner} /></td>
-              <td>
-                <TotalReturnWithTips key={`${subnet.netuid}`} value={formatBEVM(subnet.emission_values * 24)}/>
-              </td>
-              <td>{formatBEVM(subnet.recycled)}</td>
-              <td>{formatBEVM(subnet.burn)}</td>
-              <td>{subnet.subnetwork_n + "/" + subnet.max_allowed_uids}</td>
-            </tr>
-          ))}
-        </Table>
-      </div>
       {/*{!selectedId ? (*/}
       {/*  <div className={className}>*/}
       {/*    <div style={{*/}
@@ -203,6 +154,55 @@ function Subnet({ className }: Props): React.ReactElement<Props> {
       {/*    onClose={() => setSelectedId(null)}*/}
       {/*  />*/}
       {/*)}*/}
+      <div className={className}>
+        <div style={{
+          background: 'white',
+          borderRadius: '0.25rem',
+          marginBottom: '1rem',
+          padding: '1rem'
+        }}>
+          <Input
+            autoFocus
+            isFull
+            onChange={handleFilterChange}
+            label={t('filter by Subnet ID, Subnet Name, Subnet Owner')}
+            value={filter}
+          />
+        </div>
+
+        <Table
+          empty={t('No subnets found')}
+          header={header}
+          style={{
+            '& td': {
+              padding: '1rem',
+              borderBottom: '1px solid var(--border-table)',
+              textAlign: 'start'
+            }
+          }}
+        >
+          {filterSubnets(subnets)?.map((subnet) => (
+            <tr
+              key={subnet.netuid}
+              onClick={() => setSelectedId(subnet.netuid.toString())}
+              style={{
+                height: '70px',
+                cursor: 'pointer'
+              }}
+            >
+              <td>{subnet.netuid}</td>
+              <td>{asciiToString(subnet.identity?.subnet_name)}</td>
+              <td><AddressSmall value={subnet.owner} /></td>
+              <td>
+                <TotalReturnWithTips key={`${subnet.netuid}`} value={formatBEVM(subnet.emission_values * 24)}/>
+              </td>
+              <td>{formatBEVM(subnet.recycled)}</td>
+              <td>{formatBEVM(subnet.burn)}</td>
+              <td>{subnet.subnetwork_n + "/" + subnet.max_allowed_uids}</td>
+            </tr>
+          ))}
+        </Table>
+      </div>
     </>
   );
 }

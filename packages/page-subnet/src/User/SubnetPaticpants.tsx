@@ -114,37 +114,40 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
         >
           {delegateData
             ?.filter((info) => info.coldkey === account)
-            ?.map((info) => (
-              <tr key={`${info.hotkey}-${info.netuid}`} className='ui--Table-Body' style={{height:'70px'}}>
-                <td className='number' style={{textAlign:'start'}}>{info.netuid}</td>
-                <td className='number' style={{textAlign:'start'}}>{info.rank}</td>
-                <td className='text' style={{textAlign:'start'}}>{info.subnet_identity ? asciiToString(info.subnet_identity.subnet_name) : '-'}</td>
-                <td className='text' style={{textAlign:'start'}}>{<AddressSmall value={info.hotkey} />}</td>
-                <td className='number' style={{textAlign:'start'}}>{formatBEVM(info.stake)}</td>
-                <td className='number' style={{textAlign:'start'}}>
-                  <TotalReturnWithTips key={`${info.hotkey}-${info.netuid}`} value={formatBEVM(info.emission * 24)}/>
-                </td>
-                <td style={{textAlign:'start'}}>{info.validator_trust > 0 ? t('Active') : t('Inactive')}</td>
-                <td style={{textAlign:'start'}}>{info.validator_permit ? t('Yes') : t('No')}</td>
-                <td className='status' style={{textAlign:'start'}}>{info.trust > 0 ? t('Active') : t('Inactive')}</td>
-                <td>
-                  <div style={{textAlign:'start'}}>
-                    <Button
-                      icon='plus'
-                      isDisabled={!account}
-                      label={t('Stake')}
-                      onClick={()=>{toggleIsStakingOpen();setOpenStakeHotAddress(info.hotkey)}}
-                    />
-                    <Button
-                      icon='minus'
-                      isDisabled={!account}
-                      label={t('UnStake')}
-                      onClick={()=>{toggleIsUnStakingOpen();setOpenStakeHotAddress(info.hotkey)}}
-                    />
-                  </div>
-                </td>
-              </tr>
-            ))}
+            ?.map(
+              (info)=>{
+                const yourStake = info.nominators.find(([addr]) => addr === account)?.[1] || 0;
+                return <tr key={`${info.hotkey}-${info.netuid}`} className='ui--Table-Body' style={{height:'70px'}}>
+                  <td className='number' style={{textAlign:'start'}}>{info.netuid}</td>
+                  <td className='number' style={{textAlign:'start'}}>{info.rank}</td>
+                  <td className='text' style={{textAlign:'start'}}>{info.subnet_identity ? asciiToString(info.subnet_identity.subnet_name) : '-'}</td>
+                  <td className='text' style={{textAlign:'start'}}>{<AddressSmall value={info.hotkey} />}</td>
+                  <td className='number' style={{textAlign:'start'}}>{formatBEVM(yourStake)}</td>
+                  <td className='number' style={{textAlign:'start'}}>
+                    <TotalReturnWithTips key={`${info.hotkey}-${info.netuid}`} value={formatBEVM(info.emission * 24)}/>
+                  </td>
+                  <td style={{textAlign:'start'}}>{info.validator_trust > 0 ? t('Active') : t('Inactive')}</td>
+                  <td style={{textAlign:'start'}}>{info.validator_permit ? t('Yes') : t('No')}</td>
+                  <td className='status' style={{textAlign:'start'}}>{info.trust > 0 ? t('Active') : t('Inactive')}</td>
+                  <td>
+                    <div style={{textAlign:'start'}}>
+                      <Button
+                        icon='plus'
+                        isDisabled={!account}
+                        label={t('Stake')}
+                        onClick={()=>{toggleIsStakingOpen();setOpenStakeHotAddress(info.hotkey)}}
+                      />
+                      <Button
+                        icon='minus'
+                        isDisabled={!account}
+                        label={t('UnStake')}
+                        onClick={()=>{toggleIsUnStakingOpen();setOpenStakeHotAddress(info.hotkey)}}
+                      />
+                    </div>
+                  </td>
+                </tr>
+              }
+            )}
         </Table>
         </div>
       </div>
