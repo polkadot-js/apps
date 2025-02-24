@@ -1,7 +1,7 @@
 import { useConnectModal } from "@rainbow-me/rainbowkit"
 import React, { useState } from "react"
 import {Button, Input, InputAddress, styled} from '@polkadot/react-components'
-import { useAccount, useDisconnect, useSwitchChain, useWriteContract } from "wagmi";
+import { useAccount, useBalance, useDisconnect, useSwitchChain, useWriteContract } from "wagmi";
 import {BalanceFree} from '@polkadot/react-query'
 import {useTranslation} from '../translate.js'
 import InputBalance from '@polkadot/react-components/InputBalance'
@@ -56,6 +56,11 @@ const EvmToWasm = ({ onStatusChange }: Props) => {
   const bevmTokenAddress = BEVM_ADDRESSES[chainId as number]
   const { writeContractAsync } = useWriteContract()
   const { switchChainAsync } = useSwitchChain()
+  const { data: bevmBalance } = useBalance({
+    chainId,
+    address: address && bevmTokenAddress ? address : undefined,
+    token: bevmTokenAddress as `0x${string}`
+  })
 
   const handleTx = async () => {
     if (!systemBridgeAddress || !amount || !chainId) return
@@ -128,6 +133,8 @@ const EvmToWasm = ({ onStatusChange }: Props) => {
           autoFocus
           label={'Evm Address'}
           value={address}
+          // @ts-ignore
+          labelExtra={<span style={{ 'text-transform': 'uppercase'}}>{bevmBalance?.formatted || 0} BEVM</span>}
         />
         {address ? (
           <Button
