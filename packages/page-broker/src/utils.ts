@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CoreWorkload, LegacyLease, RegionInfo, Reservation } from '@polkadot/react-hooks/types';
-import type { CoreWorkloadType, CoreWorkplanType, CurrentRegion, InfoRow } from './types.js';
+import type { CoreWorkloadType, CoreWorkplanType, InfoRow } from './types.js';
 
 import { CoreTimeTypes } from '@polkadot/react-hooks/constants';
 import { BN } from '@polkadot/util';
@@ -71,7 +71,7 @@ export function formatRowInfo (
   core: number,
   regionOwnerInfo: RegionInfo | undefined,
   currentTimeSlice: number,
-  currentRegion: CurrentRegion,
+  currentRegion: { begin: number, end: number }, // in timeslices
   regionLength: number
 ): InfoRow[] {
   return data.map((one: CoreWorkloadType | CoreWorkplanType) => {

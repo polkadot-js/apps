@@ -42,7 +42,7 @@ export interface CoreWorkloadType extends CoreWorkload {
 
 export interface CurrentRegion {
   begin: number | null,
-  beginDate: Date | null,
-  end: string | null,
-  endDate: Date | null
+  beginDate: string | null,
+  end: number | null,
+  endDate: string | null
 }

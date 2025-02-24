@@ -22,10 +22,6 @@ interface BrokerProviderProps {
 interface BrokerContextProps {
   config: PalletBrokerConfigRecord | null,
   coretimeConsts: {
-    coretime: {
-      blockTimeMs: number | null
-      blocksPerTimeslice: number | null
-    }
     relay: {
       blockTimeMs: number | null
       blocksPerTimeslice: number | null
@@ -36,13 +32,9 @@ interface BrokerContextProps {
   status: BrokerStatus | null,
 }
 
-export const BrokerContext = createContext<BrokerContextProps>({
+const initialState = {
   config: null,
   coretimeConsts: {
-    coretime: {
-      blockTimeMs: null,
-      blocksPerTimeslice: null
-    },
     relay: {
       blockTimeMs: null,
       blocksPerTimeslice: null
@@ -56,23 +48,24 @@ export const BrokerContext = createContext<BrokerContextProps>({
   },
   saleInfo: null,
   status: null
-});
+};
+
+export const BrokerContext = createContext<BrokerContextProps>(initialState);
 
 export const BrokerProvider = ({ api, children, isApiReady }: BrokerProviderProps) => {
   const [blockTimeMs] = useBlockTime(BN_ONE, api);
-  // on relay chain
-  const blocksPerTimesliceRelay = 80;
 
   const coretimeConsts = useMemo(() => ({
-    coretime: {
-      blockTimeMs: 12000,
-      blocksPerTimeslice: 40
-    },
+    // on the relay chain
+    // we cannot easily retrieve this information while on the coretime chain
+    // it will change only very rarely
     relay: {
       blockTimeMs,
-      blocksPerTimeslice: blocksPerTimesliceRelay
+      blocksPerTimeslice: 80
     }
-  }), [blockTimeMs, blocksPerTimesliceRelay]);
+  }), [blockTimeMs]);
+
+  console.log(coretimeConsts);
 
   const config = useBrokerConfig(api, isApiReady);
   const saleInfo = useBrokerSalesInfo(api, isApiReady);
@@ -83,15 +76,19 @@ export const BrokerProvider = ({ api, children, isApiReady }: BrokerProviderProp
 
   const currentRegionEndDate = useMemo(() => currentRegionEnd && status && estimateTime(
     Number(currentRegionEnd),
-    status.lastTimeslice * 80
-  ), [currentRegionEnd, status]);
+    status.lastTimeslice * coretimeConsts.relay.blocksPerTimeslice
+  ), [currentRegionEnd, status, coretimeConsts]);
 
   const currentRegionBeginDate = useMemo(() => currentRegionBegin && status && estimateTime(
     Number(currentRegionBegin),
-    status.lastTimeslice * 80
-  ), [currentRegionBegin, status]);
+    status.lastTimeslice * coretimeConsts.relay.blocksPerTimeslice
+  ), [currentRegionBegin, status, coretimeConsts]);
 
   const value = useMemo(() => {
+    if (!config || !saleInfo || !status || !currentRegionBegin || !currentRegionBeginDate || !currentRegionEnd || !currentRegionEndDate) {
+      return initialState;
+    }
+
     return ({
       config,
       coretimeConsts,

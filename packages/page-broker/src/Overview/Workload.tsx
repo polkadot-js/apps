@@ -48,7 +48,7 @@ function Workload ({ api, config, core, workload, workplan }: Props): React.Reac
         core,
         regionOwnerInfo,
         currentTimeSlice,
-        currentRegion,
+        { begin: currentRegion.begin || 0, end: currentRegion.end || 0 },
         config.regionLength
       ));
     } else {
@@ -64,8 +64,8 @@ function Workload ({ api, config, core, workload, workplan }: Props): React.Reac
         regionOwnerInfo,
         currentTimeSlice,
         {
-          begin: currentRegion.end,
-          end: currentRegion?.end + config.regionLength
+          begin: currentRegion.end || 0,
+          end: currentRegion.end ? currentRegion?.end + config.regionLength : 0
         },
         config.regionLength
       ));
