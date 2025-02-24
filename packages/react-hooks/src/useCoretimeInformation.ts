@@ -139,9 +139,7 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
         const potentialRenewal = potentialRenewalsCurrentRegion?.find((renewal) => renewal.task.toString() === taskId);
 
         let renewalStatus = potentialRenewal ? ChainRenewalStatus.Eligible : ChainRenewalStatus.None;
-        // ???? will always be regionEnd
-        const chainRegionEnd = (renewalStatus === ChainRenewalStatus.Renewed ? salesInfo?.regionEnd : salesInfo?.regionBegin);
-        const targetTimeslice = lease?.until || chainRegionEnd;
+        const targetTimeslice = lease?.until || salesInfo?.regionBegin;
 
         const lastBlock = targetTimeslice ? targetTimeslice * coretimeConstants?.relay.blocksPerTimeslice : 0;
 

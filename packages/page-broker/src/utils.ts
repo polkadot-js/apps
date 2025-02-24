@@ -99,11 +99,11 @@ export function formatRowInfo (
     item.end = end ? estimateTime(end, blockNumberNow) : null;
     item.endBlock = end ? Number(end) * 80 : 0;
 
+    item.startTimeslice = start;
+
     if ('timeslice' in one && !start) {
       start = estimateTime(one.timeslice, blockNumberNow) ?? null;
     }
-
-    item.startTimeslice = start;
 
     return item;
   });
