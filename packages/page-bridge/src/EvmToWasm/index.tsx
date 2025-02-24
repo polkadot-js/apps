@@ -14,6 +14,7 @@ import {readContract, waitForTransactionReceipt } from "wagmi/actions";
 import {wagmiConfig} from '@polkadot/react-hooks/ctx/Wagmi'
 import { decodeAddress } from '@polkadot/util-crypto';
 import { u8aToHex } from '@polkadot/util';
+import BigNumber from 'bignumber.js'
 
 const AddressWrapper = styled.div`
   display: flex;
@@ -133,13 +134,17 @@ const EvmToWasm = ({ onStatusChange }: Props) => {
           autoFocus
           label={'Evm Address'}
           value={address}
-          // @ts-ignore
-          labelExtra={<span style={{ 'text-transform': 'uppercase'}}>{bevmBalance?.formatted || 0} BEVM</span>}
+          labelExtra={(
+            <span>
+              {/*@ts-ignore*/}
+              Balance: <span style={{'text-transform': 'uppercase'}}>{new BigNumber(bevmBalance?.formatted || 0).toFixed(4)} BEVM</span>
+            </span>
+          )}
         />
         {address ? (
           <Button
             isReadOnly={false}
-            icon='plus'
+            icon="link-slash"
             label={'Disconnect'}
             onClick={disconnect}
           />
