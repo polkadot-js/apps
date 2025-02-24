@@ -72,11 +72,9 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
       setData(formatData(Number(status?.coreCount), workplanInfos, workloadInfos, leaseMap, reservationMap));
   }, [workplanInfos, workloadInfos, leaseMap, reservationMap, status]);
 
-  const showSummary = currentRegion.beginDate && currentRegion.endDate;
-
   return (
     <div className={className}>
-      {!!showSummary &&
+      {!!currentRegion.beginDate && !!currentRegion.endDate &&
         <Summary
           apiEndpoint={apiEndpoint}
           coreCount={status?.coreCount.toString() || '-'}

@@ -90,22 +90,19 @@ function Summary ({ config, parachainCount, relayName, status }: Props): React.R
         }
       </section>
       <section className='media--1200'>
-        {status &&
-          (<CardSummary label={t('sale dates')}>
-            <div>
-              <div style={{ fontSize: '14px' }}>{saleStartDate}</div>
-              <div style={{ fontSize: '14px' }}>{saleEndDate}</div>
-            </div>
-          </CardSummary>)
-        }
-        {status &&
-          <CardSummary label={t('sale ts')}>
-            <div>
-              <div style={{ fontSize: '14px' }}>{currentRegionStart}</div>
-              <div style={{ fontSize: '14px' }}>{currentRegionEnd}</div>
-            </div>
-          </CardSummary>
-        }
+        <CardSummary label={t('sale dates')}>
+          <div>
+            <div style={{ fontSize: '14px' }}>{saleStartDate}</div>
+            <div style={{ fontSize: '14px' }}>{saleEndDate}</div>
+          </div>
+        </CardSummary>
+        <CardSummary label={t('sale ts')}>
+          <div>
+            <div style={{ fontSize: '14px' }}>{currentRegionStart}</div>
+            <div style={{ fontSize: '14px' }}>{currentRegionEnd}</div>
+          </div>
+        </CardSummary>
+
       </section>
     </SummaryBox>
   );

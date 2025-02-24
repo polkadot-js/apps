@@ -46,186 +46,62 @@ const TableCol = ({ header,
 );
 
 function WorkInfoRow ({ data }: { data: InfoRow }): React.ReactElement {
-  if (!data.task) {
+  if (!data.task || data.type === undefined) {
     return (
       <>
         <td style={{ width: 200 }}>no task</td>
-        <td colSpan={6} />
+        <td colSpan={7} />
       </>);
   }
 
-  switch (data.type) {
-    case (CoreTimeTypes.Reservation): {
-      return (
-        <>
-          <TableCol
-            header='Task'
-            value={data.task}
+  return (
+    <>
+      <TableCol
+        header='Task'
+        value={data.task}
+      />
+      <TableCol
+        header='Blocks per timeslice'
+        value={data.maskBits}
+      />
+      <TableCol
+        header='Start ts'
+        hide='both'
+        value={data.startTimeslice}
+      />
+      <TableCol
+        header='Start date'
+        hide='both'
+        value={data.start}
+      />
+      <TableCol
+        header='End date'
+        hide='both'
+        value={data.end}
+      />
+      <TableCol
+        header='Last block (relay)'
+        value={data.endBlock}
+      />
+      <StyledTableCol hide={'mobile'}>
+        <h5 style={{ opacity: '0.6' }}>type</h5>
+        <Tag
+          color={colours[data.type] as FlagColor}
+          label={Object.values(CoreTimeTypes)[data.type]}
+        />
+      </StyledTableCol>
+      {data.owner
+        ? <StyledTableCol hide='mobile'>
+          <h5 style={{ opacity: '0.6' }}>{'Owner'}</h5>
+          <AddressMini
+            isPadded={false}
+            key={data.owner}
+            value={data.owner}
           />
-          <TableCol
-            header='Blocks per timeslice'
-            value={data.maskBits}
-          />
-          <TableCol
-            header='Start ts'
-            hide='both'
-            value={data.startTimeslice}
-          />
-          <TableCol
-            header='Start date'
-            hide='both'
-            value={data.start}
-          />
-          <TableCol
-            header='End date'
-            hide='both'
-            value={data.end}
-          />
-          <TableCol
-            header='Last block (relay)'
-            value={data.endBlock}
-          />
-          <StyledTableCol hide={'mobile'}>
-            <h5 style={{ opacity: '0.6' }}>type</h5>
-            <Tag
-              color={colours[data.type] as FlagColor}
-              label={Object.values(CoreTimeTypes)[data.type]}
-            />
-          </StyledTableCol>
-        </>
-      );
-    }
 
-    case (CoreTimeTypes.Lease):
-      return (
-        <>
-          <TableCol
-            header='Task'
-            value={data.task}
-          />
-          <TableCol
-            header='Blocks per timeslice'
-            value={data.maskBits}
-          />
-          <TableCol
-            header='Start ts'
-            hide='both'
-            value={data.startTimeslice}
-          />
-          <TableCol
-            header='Start date'
-            hide='both'
-            value={data.start}
-          />
-          <TableCol
-            header='End date'
-            hide='both'
-            value={data.end}
-          />
-          <TableCol
-            header='Last block (relay)'
-            value={data.endBlock}
-          />
-          <StyledTableCol hide={'mobile'}>
-            <h5 style={{ opacity: '0.6' }}>type</h5>
-            <Tag
-              color={colours[data.type] as FlagColor}
-              label={Object.values(CoreTimeTypes)[data.type]}
-            />
-          </StyledTableCol>
-        </>);
-
-    case (CoreTimeTypes['On Demand']): {
-      return (
-        <>
-          <TableCol
-            header='Task'
-            value={data.task}
-          />
-          <TableCol
-            header='Blocks per timeslice'
-            value={data.maskBits}
-          />
-          <TableCol
-            header='Start ts'
-            hide='both'
-            value={data.startTimeslice}
-          />
-          <TableCol
-            header='Start date'
-            hide='both'
-            value={data.start}
-          />
-          <TableCol
-            header='End date'
-            hide='both'
-            value={data.end}
-          />
-          <TableCol
-            header='Last block (relay)'
-            value={data.endBlock}
-          />
-          <StyledTableCol hide={'mobile'}>
-            <h5 style={{ opacity: '0.6' }}>type</h5>
-            <Tag
-              color={colours[data.type] as FlagColor}
-              label={Object.values(CoreTimeTypes)[data.type]}
-            />
-          </StyledTableCol>
-        </>);
-    }
-
-    default: {
-      return (
-        <>
-          <TableCol
-            header='Task'
-            value={data.task}
-          />
-          <TableCol
-            header='Blocks per timeslice'
-            value={data.maskBits}
-          />
-          <TableCol
-            header='Start ts'
-            hide='both'
-            value={data.startTimeslice}
-          />
-          <TableCol
-            header='Start date'
-            hide='both'
-            value={data.start}
-          />
-          <TableCol
-            header='End date'
-            hide='both'
-            value={data.end}
-          />
-          <TableCol
-            header='Last block (relay)'
-            value={data.endBlock}
-          />
-          <StyledTableCol hide={'mobile'}>
-            <h5 style={{ opacity: '0.6' }}>type</h5>
-            <Tag
-              color={colours[CoreTimeTypes['Bulk Coretime']] as FlagColor}
-              label={'Bulk Coretime'}
-            />
-          </StyledTableCol>
-          {data.owner
-            ? <StyledTableCol hide='mobile'>
-              <h5 style={{ opacity: '0.6' }}>{'Owner'}</h5>
-              <AddressMini
-                isPadded={false}
-                key={data.owner}
-                value={data.owner}
-              />
-
-            </StyledTableCol>
-            : <td></td>}
-        </>);
-    }
-  }
+        </StyledTableCol>
+        : <td></td>}
+    </>);
 }
 
 export default React.memo(WorkInfoRow);

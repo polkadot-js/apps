@@ -1,7 +1,7 @@
 // Copyright 2017-2025 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { CoreWorkload, LegacyLease, RegionInfo, Reservation } from '@polkadot/react-hooks/types';
+import type { ChainBlockConstants, CoreWorkload, LegacyLease, RegionInfo, Reservation } from '@polkadot/react-hooks/types';
 import type { CoreWorkloadType, CoreWorkplanType, InfoRow } from './types.js';
 
 import { CoreTimeTypes } from '@polkadot/react-hooks/constants';
@@ -72,11 +72,12 @@ export function formatRowInfo (
   regionOwnerInfo: RegionInfo | undefined,
   currentTimeSlice: number,
   currentRegion: { begin: number, end: number }, // in timeslices
-  regionLength: number
+  regionLength: number,
+  coretimeRelayConstants: ChainBlockConstants = { blocksPerTimeslice: 0, blocktimeMs: 0 }
 ): InfoRow[] {
   return data.map((one: CoreWorkloadType | CoreWorkplanType) => {
     const item: InfoRow = { core, maskBits: one?.info?.maskBits, task: one?.info?.task, type: one?.type };
-    // const blockNumberNow = currentTimeSlice * 40;
+    const blockNumberNow = currentTimeSlice * coretimeRelayConstants.blocksPerTimeslice;
 
     item.type = one.type;
     let end; let start = null;
@@ -93,11 +94,10 @@ export function formatRowInfo (
     }
 
     item.owner = regionOwnerInfo?.owner.toString();
-    const blockNumberNow = currentTimeSlice * 80;
 
     item.start = start ? estimateTime(start, blockNumberNow) : null;
     item.end = end ? estimateTime(end, blockNumberNow) : null;
-    item.endBlock = end ? Number(end) * 80 : 0;
+    item.endBlock = end ? Number(end) * coretimeRelayConstants.blocksPerTimeslice : 0;
 
     item.startTimeslice = start;
 

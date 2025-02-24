@@ -6,10 +6,9 @@ import type { GetResponse, PhaseConfig, RegionInfo, RelayName, SaleParameters } 
 
 import { type ProgressBarSection } from '@polkadot/react-components/types';
 import { BN } from '@polkadot/util';
-import { formatDate } from './index.js';
 
 import { PhaseName } from '../constants.js';
-import { createGet, estimateTime, FirstCycleStart, getCurrentRegionStartEndTs } from './index.js';
+import { createGet, estimateTime, FirstCycleStart, formatDate, getCurrentRegionStartEndTs } from './index.js';
 
 // We are scaling everything to avoid floating point precision issues.
 const SCALE = new BN(10000);

@@ -3,13 +3,12 @@
 
 import type { ReactNode } from 'react';
 import type { ApiPromise } from '@polkadot/api';
-import type { BrokerStatus, PalletBrokerConfigRecord, PalletBrokerSaleInfoRecord } from '@polkadot/react-hooks/types';
+import type { BrokerStatus, ChainConstants, PalletBrokerConfigRecord, PalletBrokerSaleInfoRecord } from '@polkadot/react-hooks/types';
 import type { CurrentRegion } from './types.js';
 
 import React, { createContext, useContext, useMemo } from 'react';
 
-import { useBlockTime, useBrokerConfig, useBrokerSalesInfo, useBrokerStatus } from '@polkadot/react-hooks';
-import { BN_ONE } from '@polkadot/util';
+import { useBrokerConfig, useBrokerSalesInfo, useBrokerStatus, useCoretimeConsts } from '@polkadot/react-hooks';
 
 import { estimateTime } from './utils.js';
 
@@ -21,12 +20,7 @@ interface BrokerProviderProps {
 
 interface BrokerContextProps {
   config: PalletBrokerConfigRecord | null,
-  coretimeConsts: {
-    relay: {
-      blockTimeMs: number | null
-      blocksPerTimeslice: number | null
-    }
-  },
+  coretimeConsts: ChainConstants | null,
   currentRegion: CurrentRegion,
   saleInfo: PalletBrokerSaleInfoRecord | null,
   status: BrokerStatus | null,
@@ -34,12 +28,7 @@ interface BrokerContextProps {
 
 const initialState = {
   config: null,
-  coretimeConsts: {
-    relay: {
-      blockTimeMs: null,
-      blocksPerTimeslice: null
-    }
-  },
+  coretimeConsts: null,
   currentRegion: {
     begin: null,
     beginDate: null,
@@ -53,39 +42,20 @@ const initialState = {
 export const BrokerContext = createContext<BrokerContextProps>(initialState);
 
 export const BrokerProvider = ({ api, children, isApiReady }: BrokerProviderProps) => {
-  const [blockTimeMs] = useBlockTime(BN_ONE, api);
-
-  const coretimeConsts = useMemo(() => ({
-    // on the relay chain
-    // we cannot easily retrieve this information while on the coretime chain
-    // it will change only very rarely
-    relay: {
-      blockTimeMs,
-      blocksPerTimeslice: 80
-    }
-  }), [blockTimeMs]);
-
-  console.log(coretimeConsts);
-
+  const coretimeConsts = useCoretimeConsts();
   const config = useBrokerConfig(api, isApiReady);
   const saleInfo = useBrokerSalesInfo(api, isApiReady);
   const status = useBrokerStatus(api, isApiReady);
 
   const currentRegionEnd = useMemo(() => saleInfo?.regionBegin, [saleInfo]);
   const currentRegionBegin = useMemo(() => saleInfo && config && saleInfo?.regionBegin - config?.regionLength, [saleInfo, config]);
+  const lastBlock = useMemo(() => status && coretimeConsts && status.lastTimeslice * coretimeConsts.relay.blocksPerTimeslice, [status, coretimeConsts]);
 
-  const currentRegionEndDate = useMemo(() => currentRegionEnd && status && estimateTime(
-    Number(currentRegionEnd),
-    status.lastTimeslice * coretimeConsts.relay.blocksPerTimeslice
-  ), [currentRegionEnd, status, coretimeConsts]);
-
-  const currentRegionBeginDate = useMemo(() => currentRegionBegin && status && estimateTime(
-    Number(currentRegionBegin),
-    status.lastTimeslice * coretimeConsts.relay.blocksPerTimeslice
-  ), [currentRegionBegin, status, coretimeConsts]);
+  const currentRegionEndDate = useMemo(() => currentRegionEnd && lastBlock && estimateTime(Number(currentRegionEnd), lastBlock), [currentRegionEnd, lastBlock]);
+  const currentRegionBeginDate = useMemo(() => currentRegionBegin && lastBlock && estimateTime(Number(currentRegionBegin), lastBlock), [currentRegionBegin, lastBlock]);
 
   const value = useMemo(() => {
-    if (!config || !saleInfo || !status || !currentRegionBegin || !currentRegionBeginDate || !currentRegionEnd || !currentRegionEndDate) {
+    if (!config || !saleInfo || !status || !currentRegionBegin || !currentRegionBeginDate || !currentRegionEnd || !currentRegionEndDate || !coretimeConsts) {
       return initialState;
     }
 
