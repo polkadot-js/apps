@@ -95,7 +95,7 @@ function InputBalance ({ autoFocus, children, className = '', defaultValue: inDe
       labelExtra={
         <LabelledExtra>
           {labelExtra}
-          {!!si && (siSymbol || TokenUnit.abbr) &&
+          {!!si && (siSymbol || TokenUnit.abbr) && !isDisabled &&
           <p>
             {t('(enter value in standard units)')}
           </p>
