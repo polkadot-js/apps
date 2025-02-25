@@ -27,7 +27,7 @@ function CoreTable ({ api, config, core, workload, workplan }: Props): React.Rea
     [
       <div key={`header${core}`}>{headerRef.current} {core} <span></span></div>,
       'core',
-      8,
+      9,
       undefined
     ]
   ];
