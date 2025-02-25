@@ -35,7 +35,7 @@ function Balances ({ className, infos = [] }: Props): React.ReactElement<Props> 
   const completeAssets = useMemo(
     () => infos
       .filter((i): i is AssetInfoComplete => !!(i.details && i.metadata) && !i.details.supply.isZero())
-      .sort((a, b) => a.id.cmp(b.id)),
+    ,
     [infos]
   );
 

@@ -86,7 +86,10 @@ function AssetApp ({ basePath, className }: Props): React.ReactElement<Props> {
   );
 
   const openId = useMemo(
-    () => findOpenId(api.genesisHash.toHex(), ids),
+    () => findOpenId(
+      api.genesisHash.toHex(),
+      // Check if id is valid digit
+      ids?.filter((id) => /^\d{1,3}(,\d{3})*$/.test(id.toString()))),
     [api.genesisHash, ids]
   );
 
