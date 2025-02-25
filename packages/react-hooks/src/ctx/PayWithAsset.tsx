@@ -44,8 +44,8 @@ function PayWithAssetProvider ({ children }: Props): React.ReactElement<Props> {
   const completeAssetInfos = useMemo(
     () => (assetInfos
       ?.filter((i): i is AssetInfoComplete =>
-        !!(i.details && i.metadata) && !i.details.supply.isZero() && !!i.details?.toJSON().isSufficient)
-      .sort((a, b) => a.id.cmp(b.id))) || [],
+        !!(i.details && i.metadata) && !i.details.supply.toHuman() && !!i.details?.toJSON().isSufficient)
+    ) || [],
     [assetInfos]
   );
 
