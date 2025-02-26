@@ -47,7 +47,7 @@ function RegisterModal({ account, toggleOpen, subnetId, onSuccess:refreshData }:
         <Modal.Columns>
           <Input
             defaultValue={subnetId}
-            label={t('Subnet ID')}
+            label={t('Agere ID')}
             onChange={(value) => setSelectedSubnetId(value)}
             type='number'
             value={selectedSubnetId}

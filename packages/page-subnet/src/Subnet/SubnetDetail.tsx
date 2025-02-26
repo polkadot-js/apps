@@ -81,7 +81,7 @@ function SubnetDetail({ className, subnetId, onClose }: Props): React.ReactEleme
         alignItems: 'center',
         marginBottom: '1rem'
       }}>
-        <h2 style={{ margin: 0 }}>{t('Subnet Details')}</h2>
+        <h2 style={{ margin: 0 }}>{t('Agere Details')}</h2>
         <Button
           icon='times'
           onClick={onClose}
