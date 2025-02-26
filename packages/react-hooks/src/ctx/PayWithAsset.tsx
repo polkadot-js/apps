@@ -5,10 +5,9 @@ import type { BN } from '@polkadot/util';
 import type { AssetInfoComplete } from '../types.js';
 import type { PayWithAsset } from './types.js';
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useApi, useAssetIds, useAssetInfos } from '@polkadot/react-hooks';
-import { formatNumber } from '@polkadot/util';
 
 interface Props {
   children?: React.ReactNode;
@@ -44,7 +43,7 @@ function PayWithAssetProvider ({ children }: Props): React.ReactElement<Props> {
   const completeAssetInfos = useMemo(
     () => (assetInfos
       ?.filter((i): i is AssetInfoComplete =>
-        !!(i.details && i.metadata) && !i.details.supply.toHuman() && !!i.details?.toJSON().isSufficient)
+        !!(i.details && i.metadata) && !i.details.supply.isZero() && !!i.details?.toJSON().isSufficient)
     ) || [],
     [assetInfos]
   );
@@ -53,7 +52,7 @@ function PayWithAssetProvider ({ children }: Props): React.ReactElement<Props> {
     () => [
       { text: `${nativeAsset} (Native)`, value: nativeAsset },
       ...completeAssetInfos.map(({ id, metadata }) => ({
-        text: `${metadata.name.toUtf8()} (${formatNumber(id)})`,
+        text: `${metadata.name.toUtf8()} (${id.toString()})`,
         value: id.toString()
       }))],
     [completeAssetInfos, nativeAsset]
@@ -73,6 +72,10 @@ function PayWithAssetProvider ({ children }: Props): React.ReactElement<Props> {
     api.tx.assetConversion && completeAssetInfos.length > 0,
   [api.registry.metadata.extrinsic.signedExtensions, api.tx.assetConversion, completeAssetInfos.length]
   );
+
+  useEffect(() => {
+    return () => setSelectedFeeAsset(null);
+  });
 
   const values: PayWithAsset = useMemo(() => {
     return {

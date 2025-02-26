@@ -74,7 +74,6 @@ export { default as Output } from './Output.js';
 export { default as ParaLink } from './ParaLink.js';
 export { default as Password } from './Password.js';
 export { default as PasswordStrength } from './PasswordStrength.js';
-export { default as PayWithAsset } from './PayWithAsset.js';
 export { default as Popup } from './Popup/index.js';
 export { default as Progress } from './Progress.js';
 export { default as ProgressBar } from './ProgressBar.js';

@@ -3,8 +3,8 @@
 
 import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
-import type { QueueTx } from '@polkadot/react-components/Status/types';
 import type { RuntimeDispatchInfo } from '@polkadot/types/interfaces';
+import type { ExtendedSignerOptions } from './types.js';
 
 import React, { useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
@@ -22,7 +22,7 @@ interface Props {
   isHeader?: boolean;
   onChange?: (hasAvailable: boolean) => void;
   tip?: BN;
-  signerOptions?: QueueTx['signerOptions'];
+  signerOptions: ExtendedSignerOptions;
 }
 
 function PaymentInfo ({ accountId, className = '', extrinsic, isHeader, signerOptions }: Props): React.ReactElement<Props> | null {
@@ -35,6 +35,8 @@ function PaymentInfo ({ accountId, className = '', extrinsic, isHeader, signerOp
   useEffect((): void => {
     accountId && extrinsic && extrinsic.hasPaymentInfo &&
       nextTick(async (): Promise<void> => {
+        setDispatchInfo(null);
+
         try {
           const info = await extrinsic.paymentInfo(accountId, signerOptions);
 
