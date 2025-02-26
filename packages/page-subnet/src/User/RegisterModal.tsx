@@ -24,7 +24,7 @@ function RegisterModal({ account, toggleOpen, subnetId, onSuccess:refreshData }:
 
   return (
     <Modal
-      header={t('register as a participant')}
+      header={t('Register as a participant')}
       onClose={toggleOpen}
       size='small'
     >
