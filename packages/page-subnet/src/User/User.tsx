@@ -18,7 +18,7 @@ function User({ className }: Props): React.ReactElement<Props> {
 
   const stashTypes = useRef([
     { text: t('User'), value: 'User' },
-    { text: t('Agere Paticipants'), value: 'Paticipants' },
+    { text: t('Agere Participants'), value: 'Paticipants' },
   ]);
 
   const renderContent = () => {
