@@ -4,10 +4,11 @@ import { Button, Table } from '@polkadot/react-components';
 import { callXAgereRpc } from '../callXAgereRpc.js';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import SubnetInfoTr from './SubnetInfoTr.js';
+import { SubnetInfo } from './Subnet.js';
 
 interface Props {
   className?: string;
-  subnetId: string;
+  selectedInfo: SubnetInfo;
   onClose: () => void;
 }
 
@@ -42,14 +43,14 @@ interface NeuronInfo {
   pruning_score: number;
 }
 
-function SubnetDetail({ className, subnetId, onClose }: Props): React.ReactElement<Props> {
+function SubnetDetail({ className, selectedInfo, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [neurons, setNeurons] = useState<NeuronInfo[]>([]);
   const { systemChain } = useApi();
   const [isExpanded, toggleIsExpanded] = useToggle(false);
 
   useEffect(() => {
-    callXAgereRpc('xagere_getNeuronsLite', [Number(subnetId)], systemChain)
+    callXAgereRpc('xagere_getNeuronsLite', [selectedInfo.netuid], systemChain)
       .then((response) => {
         console.log('response', response);
         if (Array.isArray(response)) {
@@ -57,16 +58,18 @@ function SubnetDetail({ className, subnetId, onClose }: Props): React.ReactEleme
         }
       })
       .catch(console.error);
-  }, [subnetId, systemChain]);
+  }, [selectedInfo, systemChain]);
 
   const header = [
+    [t('Pos'), 'start'],
+    [t('User Type'), 'start'],
+    [t('User UID'), 'start'],
+    [t('Stake'), 'start'],
+    [t('VTrust'), 'start'],
+    [t('Trust'), 'start'],
     [t('Hot Key'), 'start'],
     [t('Cold Key'), 'start'],
-    [t('Stake'), 'start'],
-    [t('Rank'), 'start'],
-    [t('Emission'), 'start'],
-    [t('Status'), 'start'],
-    []  // 为展开按钮预留列
+    []
   ];
 
   return (
@@ -85,8 +88,14 @@ function SubnetDetail({ className, subnetId, onClose }: Props): React.ReactEleme
         <Button
           icon='times'
           onClick={onClose}
-          label={t('Close')}
+          label={t('Back to homepage')}
         />
+      </div>
+      <div>{`Owner:${selectedInfo.owner}`}</div>
+      <div>{`Github Repo:${selectedInfo.owner}`}</div>
+      <div>{`Contract:${selectedInfo.recycled}`}</div>
+      <div>
+        {'info'}
       </div>
 
       <Table
