@@ -38,7 +38,7 @@ function User({ className }: Props): React.ReactElement<Props> {
         fontSize: '24px',
         fontWeight: 'normal',
         marginBottom: '0.5rem'
-      }}>{'User Dashboard'}</h3>
+      }}>{t('User Dashboard')}</h3>
 
       <p style={{
         color: 'var(--color-text-light)',
