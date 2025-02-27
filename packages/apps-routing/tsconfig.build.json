@@ -11,6 +11,7 @@
     { "path": "../page-alliance/tsconfig.build.json" },
     { "path": "../page-assets/tsconfig.build.json" },
     { "path": "../page-bounties/tsconfig.build.json" },
+    { "path": "../page-bridge/tsconfig.build.json" },
     { "path": "../page-calendar/tsconfig.build.json" },
     { "path": "../page-claims/tsconfig.build.json" },
     { "path": "../page-collator/tsconfig.build.json" },

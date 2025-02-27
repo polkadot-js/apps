@@ -3,19 +3,17 @@
 
 import type { Route, TFunction } from './types.js';
 
-import Component from '../../page-subnet/src/index.js';
+import Component from '@polkadot/app-bridge';
 
 export default function create (t: TFunction): Route {
   return {
     Component,
     display: {
-      needsApi: [
-        'query.scheduler.agenda'
-      ]
+      needsApi: ["tx.xAssetsBridge.depositGovTokenToEvm"]
     },
-    group: 'network',
-    icon: 'network-wired',
-    name: 'agere',
-    text: t('nav.agere', 'Agere', { ns: 'apps-routing' })
+    group: 'accounts',
+    icon: 'paper-plane',
+    name: 'bridge',
+    text: t('Transfer(EVM ↔ WASM)', 'Transfer(EVM ↔ WASM)', { ns: 'apps-routing' })
   };
 }

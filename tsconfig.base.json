@@ -25,6 +25,7 @@
       "@polkadot/app-alliance": ["page-alliance/src/index.tsx"],
       "@polkadot/app-assets": ["page-assets/src/index.tsx"],
       "@polkadot/app-bounties": ["page-bounties/src/index.tsx"],
+      "@polkadot/app-bridge": ["page-bridge/src/index.tsx"],
       "@polkadot/app-calendar": ["page-calendar/src/index.tsx"],
       "@polkadot/app-claims": ["page-claims/src/index.tsx"],
       "@polkadot/app-claims/useCounter": ["page-claims/src/useCounter.ts"],

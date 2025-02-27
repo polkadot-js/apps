@@ -1,0 +1,22 @@
+{
+  "0x...": "0x...",
+  "Add an address": "Add an address",
+  "Add contact": "Add contact",
+  "Forget this address": "Forget this address",
+  "Save": "Save",
+  "Submit Transaction": "Submit Transaction",
+  "To Evm Address": "To Evm Address",
+  "address": "address",
+  "address created": "address created",
+  "address edited": "address edited",
+  "address forgotten": "address forgotten",
+  "amount": "amount",
+  "contacts": "contacts",
+  "filter by name or tags": "filter by name or tags",
+  "free balance": "free balance",
+  "name": "name",
+  "new address": "new address",
+  "no addresses saved yet, add any existing address": "no addresses saved yet, add any existing address",
+  "send": "send",
+  "using the selected account": "using the selected account"
+}

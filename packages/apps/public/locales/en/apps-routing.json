@@ -1,4 +1,5 @@
 {
+  "Transfer(EVM ↔ WASM)": "Transfer(EVM ↔ WASM)",
   "nav.accounts": "Accounts",
   "nav.addresses": "Address book",
   "nav.alliance": "Alliance",
@@ -33,6 +34,7 @@
   "nav.society": "Society",
   "nav.staking": "Staking",
   "nav.storage": "Chain state",
+  "nav.agere": "Agere",
   "nav.sudo": "Sudo",
   "nav.tech-comm": "Tech. comm.",
   "nav.teleport": "Teleport",

@@ -18,7 +18,7 @@ function User({ className }: Props): React.ReactElement<Props> {
 
   const stashTypes = useRef([
     { text: t('User'), value: 'User' },
-    { text: t('Subnet Paticipants'), value: 'Paticipants' },
+    { text: t('Agere Participants'), value: 'Paticipants' },
   ]);
 
   const renderContent = () => {
@@ -38,12 +38,12 @@ function User({ className }: Props): React.ReactElement<Props> {
         fontSize: '24px',
         fontWeight: 'normal',
         marginBottom: '0.5rem'
-      }}>{'User Dashboard'}</h3>
+      }}>{t('User Dashboard')}</h3>
 
       <p style={{
         color: 'var(--color-text-light)',
         marginBottom: '2rem'
-      }}>{t('This panel primarily displays information about user staking and users becoming subnet participants.')}</p>
+      }}>{t('This panel primarily displays information about user staking and users becoming agere participants.')}</p>
 
       <div style={{
         background: 'white',

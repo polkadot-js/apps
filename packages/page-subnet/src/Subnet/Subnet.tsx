@@ -11,7 +11,7 @@ interface Props {
   className?: string;
 }
 
-export interface SubnetInfo {
+interface SubnetInfo {
   netuid: number;
   rho: number;
   kappa: number;
@@ -59,9 +59,9 @@ function Subnet({ className }: Props): React.ReactElement<Props> {
   }, [systemChain]);
 
   const header = [
-    [t('Subnet ID'), 'start', undefined],
-    [t('Subnet Name'), 'start', undefined],
-    [t('Subnet Owner'), 'start', undefined],
+    [t('Agere ID'), 'start', undefined],
+    [t('Agere Name'), 'start', undefined],
+    [t('Agere Owner'), 'start', undefined],
     [t('Earn(24h)'), 'start', undefined],
     [t('Recycled (Total)'), 'start', undefined],
     [t('Register Fee'), 'start', undefined],
@@ -110,13 +110,13 @@ function Subnet({ className }: Props): React.ReactElement<Props> {
               autoFocus
               isFull
               onChange={handleFilterChange}
-              label={t('filter by Subnet ID, Subnet Name, Subnet Owner')}
+              label={t('filter by Agere ID, Agere Name, Agere Owner')}
               value={filter}
             />
           </div>
 
           <Table
-            empty={t('No subnets found')}
+            empty={t('No ageres found')}
             header={header}
             style={{
               '& td': {

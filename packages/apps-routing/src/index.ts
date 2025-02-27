@@ -8,6 +8,7 @@ import addresses from './addresses.js';
 import alliance from './alliance.js';
 import assets from './assets.js';
 import bounties from './bounties.js';
+import bridge from './bridge.js'
 import calendar from './calendar.js';
 import claims from './claims.js';
 import collator from './collator.js';
@@ -50,10 +51,11 @@ export default function create (t: TFunction): Routes {
   return [
     accounts(t),
     addresses(t),
+    bridge(t),
     explorer(t),
     claims(t),
     poll(t),
-    transfer(t),
+    // transfer(t),
     teleport(t),
     staking(t),
     staking2(t),

@@ -1,0 +1,31 @@
+{
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "engines": {
+    "node": ">=18"
+  },
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-bridge#readme",
+  "license": "Apache-2.0",
+  "name": "@polkadot/app-bridge",
+  "private": true,
+  "repository": {
+    "directory": "packages/page-bridge",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "0.133.2-80-x",
+  "dependencies": {
+    "@polkadot/react-components": "^0.133.2-80-x",
+    "file-saver": "^2.0.5"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^14.1.2",
+    "testcontainers": "^10.4.0"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*",
+    "react-is": "*"
+  }
+}

@@ -85,7 +85,7 @@ export { default as StakingRedeemable } from './StakingRedeemable.js';
 export { default as StakingUnbonding } from './StakingUnbonding.js';
 export { default as Static } from './Static.js';
 export { default as Status } from './Status/index.js';
-export { styled } from './styled.js';
+export { styled, createGlobalStyle } from './styled.js';
 export { default as SummaryBox } from './SummaryBox.js';
 export { default as Table } from './Table/index.js';
 export { default as Tabs } from './Tabs/index.js';

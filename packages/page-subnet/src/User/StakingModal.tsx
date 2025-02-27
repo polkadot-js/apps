@@ -74,7 +74,7 @@ function StakingModal({ account, modelName, toggleOpen, hotAddress, type, name, 
         </Modal.Columns>
         <Modal.Columns>
           <InputAddress
-            label={t('Stake for executor')}
+            label={t('Stake for participant')}
             onChange={(value: string | null) => setSelectedValidator(value || '')}
             options={[
               ...validators.map(address => ({

@@ -3,6 +3,7 @@
     "composite": true
   },
   "files": [],
+  "skipLibCheck": true,
   "references": [
     { "path": "./packages/apps/tsconfig.build.json" },
     { "path": "./packages/apps-config/tsconfig.build.json" },

@@ -42,7 +42,7 @@ function DelegateInfo({ className, account, onSuccess }: Props): React.ReactElem
           margin: 0,
           flex: 1,
           paddingRight: '2rem'
-        }}>{t('Before becoming a delegate, you must first register as a subnet participant. Once this prerequisite is fulfilled, you need to complete an additional registration step, which will enable you to receive staking from community users.')}</p>
+        }}>{t('Before becoming a delegate, you must first register as a agere participant. Once this prerequisite is fulfilled, you need to complete an additional registration step, which will enable you to receive staking from community users.')}</p>
         <Button
           icon='plus'
           label={t('Delegate')}
