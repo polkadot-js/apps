@@ -56,9 +56,9 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
   const [openStakeHotAddress, setOpenStakeHotAddress] = useState<string>('');
 
   const header = [
-    [t('Subnet ID'), 'start'],
+    [t('Agere ID'), 'start'],
     [t('POS'), 'start'],
-    [t('Subnet Name'), 'start'],
+    [t('Agere Name'), 'start'],
     [t('Hot Address'), 'start'],
     [t('Your Stake'), 'start'],
     [t('Earn(24h)'), 'start'],
@@ -98,7 +98,7 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
           fontSize: '20px',
           fontWeight: 'normal',
           padding: '1rem',
-        }}>{t('Your Subnet Participants Status')}</h2>
+        }}>{t('Your Agere Participants Status')}</h2>
 
         <div style={{ background: 'transparent' }}>
         <Table

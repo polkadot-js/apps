@@ -51,7 +51,7 @@ function Validator({ className }: Props): React.ReactElement<Props> {
         }
       })
       .catch(error => {
-        console.error('Error fetching subnets:', error);
+        console.error('Error fetching ageres:', error);
       });
   }, [systemChain]);
 
@@ -79,7 +79,7 @@ function Validator({ className }: Props): React.ReactElement<Props> {
 
 
       <Table
-        empty={t('No subnets found')}
+        empty={t('No ageres found')}
         header={header}
       >
           {subnets.filter(s =>
