@@ -1460,5 +1460,6 @@
   "This panel primarily displays information about user staking and users becoming agere participants.": "此面板主要显示有关用户质押和用户成为agere参与者的信息。",
   "Your Agere Participants Status": "你的Agere参与者状态",
   "Register as a Delegate": "注册为被委托人",
-  "Your delegation position": "你的委托仓位"
+  "Your delegation position": "你的委托仓位",
+  "UnStake": "解除质押"
 }
