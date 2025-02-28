@@ -531,7 +531,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2085,
     providers: {
       // OnFinality: 'wss://parallel-heiko.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9964
-      Parallel: 'wss://heiko-rpc.parallel.fi'
+      // Parallel: 'wss://heiko-rpc.parallel.fi' // https://github.com/polkadot-js/apps/issues/11337
     },
     text: 'Parallel Heiko',
     ui: {
