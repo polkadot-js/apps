@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from '../translate.js';
-import { Button, Table } from '@polkadot/react-components';
+import { Button, CardSummary, Input, SummaryBox, Table } from '@polkadot/react-components';
 import { callXAgereRpc } from '../callXAgereRpc.js';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import SubnetInfoTr from './SubnetInfoTr.js';
 import { SubnetInfo } from './Subnet.js';
+import { FormatBalance } from '@polkadot/react-query';
+import { asciiToString } from '../Utils/formatBEVM.js';
 
 interface Props {
   className?: string;
@@ -72,6 +74,11 @@ function SubnetDetail({ className, selectedInfo, onClose }: Props): React.ReactE
     []
   ];
 
+
+  const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
+    [t('chain specifications'), 'start', 2]
+  ]);
+
   return (
     <div style={{
       background: 'white',
@@ -91,12 +98,52 @@ function SubnetDetail({ className, selectedInfo, onClose }: Props): React.ReactE
           label={t('Back to homepage')}
         />
       </div>
-      <div>{`Owner:${selectedInfo.owner}`}</div>
-      <div>{`Github Repo:${selectedInfo.owner}`}</div>
-      <div>{`Contract:${selectedInfo.recycled}`}</div>
-      <div>
-        {'info'}
-      </div>
+      <Table
+        className={className}
+        header={headerRef.current}
+      >
+        <tr>
+          <td>
+            <Input
+              className='full'
+              isDisabled
+              label={t('Owner')}
+              value={selectedInfo?.owner ?? '-'}
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <Input
+              className='full'
+              isDisabled
+              label={t('Github Repo')}
+              value={selectedInfo?.identity?.github_repo ? asciiToString(selectedInfo.identity.github_repo) : '-'}
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <Input
+              className='full'
+              isDisabled
+              label={t('Github Repo')}
+              value={selectedInfo?.identity?.subnet_contact ? asciiToString(selectedInfo.identity.subnet_contact) : '-'}
+            />
+          </td>
+        </tr>
+      </Table>
+      <SummaryBox className={className}>
+        <CardSummary label={t('Emissions')}>
+          <span>{selectedInfo.emission_values}</span>
+        </CardSummary>
+        <CardSummary label={t('Validator')}>
+          <span>{selectedInfo.max_allowed_validators}</span>
+        </CardSummary>
+        <CardSummary label={t('Miner')}>
+          <span>{selectedInfo.min_allowed_weights}</span>
+        </CardSummary>
+      </SummaryBox>
 
       <Table
         empty={t('No neurons found')}
