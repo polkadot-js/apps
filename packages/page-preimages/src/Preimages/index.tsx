@@ -2,14 +2,16 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
+import type { Preimage as TPreimage } from '@polkadot/react-hooks/types';
 
-import React, { useRef } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 
 import { Button, styled, Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate.js';
 import usePreimages from '../usePreimages.js';
 import Add from './Add/index.js';
+import { UserPreimages } from './userPreimages/index.js';
 import Preimage from './Preimage.js';
 import Summary from './Summary.js';
 
@@ -21,7 +23,28 @@ interface Props {
 
 function Hashes ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const [allPreImagesInfo, setAllPreImagesInfo] = useState<TPreimage[]>([]);
   const hashes = usePreimages();
+
+  // HACK to concat all preimages info without creating a new hook, just for multiple hashes
+  const onSetAllPreImagesInfo = useCallback((info: TPreimage) => {
+    setAllPreImagesInfo((preimages) => ([
+      ...preimages.filter((e) => e.proposalHash !== info.proposalHash),
+      info
+    ]));
+  }, []);
+
+  const groupedByDepositor = useMemo(() => {
+    return allPreImagesInfo.reduce((result: Record<string, TPreimage[]>, current) => {
+      if (current.deposit?.who) {
+        const newItems = [...(result[current.deposit?.who] || []), current];
+
+        result[current.deposit?.who] = newItems;
+      }
+
+      return result;
+    }, {} as Record<string, TPreimage[]>);
+  }, [allPreImagesInfo]);
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('preimages'), 'start', 2],
@@ -36,6 +59,7 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
       <Button.Group>
         <Add />
       </Button.Group>
+      <UserPreimages userPreimages={groupedByDepositor} />
       <Table
         className={className}
         empty={hashes && t('No hashes found')}
@@ -43,6 +67,7 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
       >
         {hashes?.map((h) => (
           <Preimage
+            cb={onSetAllPreImagesInfo}
             key={h}
             value={h}
           />
