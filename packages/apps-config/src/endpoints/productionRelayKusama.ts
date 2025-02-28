@@ -1011,7 +1011,7 @@ export const prodRelayKusama: EndpointOption = {
     Allnodes: 'wss://kusama-rpc.publicnode.com',
     Dwellir: 'wss://kusama-rpc.dwellir.com',
     'Dwellir Tunisia': 'wss://kusama-rpc-tn.dwellir.com',
-    // Helixstreet: 'wss://rpc-kusama.helixstreet.io', // https://github.com/polkadot-js/apps/issues/11335
+    Helixstreet: 'wss://rpc-kusama.helixstreet.io',
     IBP1: 'wss://rpc.ibp.network/kusama',
     IBP2: 'wss://kusama.dotters.network',
     LuckyFriday: 'wss://rpc-kusama.luckyfriday.io',
