@@ -69,8 +69,10 @@ function PayWithAssetProvider ({ children }: Props): React.ReactElement<Props> {
     api.registry.metadata.extrinsic.signedExtensions.some(
       (a) => a.identifier.toString() === 'ChargeAssetTxPayment'
     ) &&
-    api.tx.assetConversion && completeAssetInfos.length > 0,
-  [api.registry.metadata.extrinsic.signedExtensions, api.tx.assetConversion, completeAssetInfos.length]
+    !!api.tx.assetConversion &&
+    !!api.call.assetConversionApi &&
+    completeAssetInfos.length > 0,
+  [api.call.assetConversionApi, api.registry.metadata.extrinsic.signedExtensions, api.tx.assetConversion, completeAssetInfos.length]
   );
 
   useEffect(() => {

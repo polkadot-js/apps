@@ -20,7 +20,7 @@ interface Props {
 const PayWithAsset = ({ onChangeFeeAsset }: Props) => {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [selectedAssetValue, setSelectedAssetValue] = useState('0');
+  const [selectedAssetValue, setSelectedAssetValue] = useState('-1');
 
   const { assetOptions, isDisabled, onChange, selectedFeeAsset } = usePayWithAsset();
 
@@ -55,7 +55,6 @@ const PayWithAsset = ({ onChangeFeeAsset }: Props) => {
   useEffect(() => {
     if (selectedFeeAsset) {
       onChangeFeeAsset((e) =>
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         ({
           ...e,
           assetId: getFeeAssetLocation(api, selectedFeeAsset),
