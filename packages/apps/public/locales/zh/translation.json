@@ -1461,5 +1461,6 @@
   "Your Agere Participants Status": "你的Agere参与者状态",
   "Register as a Delegate": "注册为被委托人",
   "Your delegation position": "你的委托仓位",
-  "UnStake": "解除质押"
+  "UnStake": "解除质押",
+  "The minimum self-staking amount is fixed at 100 BEVM, and accounts with a transferable balance of less than 200.002 BEVM will not be able to successfully register as validator nodes.": "最低自抵押金额固定为100 BEVM，且可转账余额少于200.002 BEVM的账户将无法成功注册为验证节点。"
 }
