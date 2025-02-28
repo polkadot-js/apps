@@ -5,7 +5,7 @@ import type { Preimage as TPreimage } from '@polkadot/react-hooks/types';
 
 import React from 'react';
 
-import { AddressMini } from '@polkadot/react-components';
+import { AddressMini, styled } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 import Call from '../Call.js';
@@ -22,8 +22,10 @@ const Preimage = ({ className, depositor, preimageInfos }: Props) => {
     <>
       {preimageInfos.map((info, index) => {
         return (
-          <tr
-            className={className}
+          <StyledTr
+            className={`isExpanded ${className}`}
+            isFirstItem={index === 0}
+            isLastItem={index === preimageInfos.length - 1}
             key={info.proposalHash}
           >
             <td
@@ -48,11 +50,33 @@ const Preimage = ({ className, depositor, preimageInfos }: Props) => {
                 )
                 : <span className='--tmp'>Unrequested</span>}
             </td>
-          </tr>
+          </StyledTr>
         );
       })}
     </>
   );
 };
+
+const BASE_BORDER = 0.125;
+const BORDER_TOP = `${BASE_BORDER * 3}rem solid var(--bg-page)`;
+const BORDER_RADIUS = `${BASE_BORDER * 4}rem`;
+
+const StyledTr = styled.tr<{isFirstItem: boolean; isLastItem: boolean}>`
+  td {
+    border-top: ${(props) => props.isFirstItem && BORDER_TOP};
+    border-radius: 0rem !important;
+    
+      &:first-child {
+        padding-block: 1rem !important;
+        border-top-left-radius: ${(props) => props.isFirstItem ? BORDER_RADIUS : '0rem'}!important;
+        border-bottom-left-radius: ${(props) => props.isLastItem ? BORDER_RADIUS : '0rem'}!important;
+      }
+
+      &:last-child {
+        border-top-right-radius: ${(props) => props.isFirstItem ? BORDER_RADIUS : '0rem'}!important;
+        border-bottom-right-radius: ${(props) => props.isLastItem ? BORDER_RADIUS : '0rem'}!important;
+      }
+  }
+`;
 
 export default React.memo(Preimage);
