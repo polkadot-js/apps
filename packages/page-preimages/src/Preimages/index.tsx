@@ -7,11 +7,12 @@ import type { Preimage as TPreimage } from '@polkadot/react-hooks/types';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 
 import { Button, styled, Table } from '@polkadot/react-components';
+import { useAccounts } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
 import usePreimages from '../usePreimages.js';
 import Add from './Add/index.js';
-import { UserPreimages } from './userPreimages/index.js';
+import UserPreimages from './userPreimages/index.js';
 import Preimage from './Preimage.js';
 import Summary from './Summary.js';
 
@@ -23,6 +24,7 @@ interface Props {
 
 function Hashes ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { allAccounts } = useAccounts();
   const [allPreImagesInfo, setAllPreImagesInfo] = useState<TPreimage[]>([]);
   const hashes = usePreimages();
 
@@ -34,9 +36,9 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
     ]));
   }, []);
 
-  const groupedByDepositor = useMemo(() => {
+  const groupedUserPreimages = useMemo(() => {
     return allPreImagesInfo.reduce((result: Record<string, TPreimage[]>, current) => {
-      if (current.deposit?.who) {
+      if (current.deposit?.who && allAccounts.includes(current.deposit?.who)) {
         const newItems = [...(result[current.deposit?.who] || []), current];
 
         result[current.deposit?.who] = newItems;
@@ -44,7 +46,7 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
 
       return result;
     }, {} as Record<string, TPreimage[]>);
-  }, [allPreImagesInfo]);
+  }, [allAccounts, allPreImagesInfo]);
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('preimages'), 'start', 2],
@@ -59,7 +61,7 @@ function Hashes ({ className }: Props): React.ReactElement<Props> {
       <Button.Group>
         <Add />
       </Button.Group>
-      <UserPreimages userPreimages={groupedByDepositor} />
+      <UserPreimages userPreimages={groupedUserPreimages} />
       <Table
         className={className}
         empty={hashes && t('No hashes found')}

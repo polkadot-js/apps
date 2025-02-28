@@ -8,21 +8,22 @@ import React, { useRef } from 'react';
 import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../../translate.js';
+import Preimage from './Preimage.js';
 
 interface Props {
   className?: string;
   userPreimages: Record<string, TPreimage[]>
 }
 
-export const UserPreimages = ({ className, userPreimages }: Props) => {
+const UserPreimages = ({ className, userPreimages }: Props) => {
   const { t } = useTranslation();
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('my preimages'), 'start', 2],
-    [t('hash'), 'media--1000'],
-    [undefined, 'media--1000'],
+    [undefined, 'media--1300'],
+    [t('hash'), 'start'],
     [t('length'), 'media--1000'],
-    [t('status'), 'start media--1200']
+    [t('status'), 'start media--1100']
   ]);
 
   return (
@@ -31,13 +32,15 @@ export const UserPreimages = ({ className, userPreimages }: Props) => {
       empty={Object.values(userPreimages) && t('No hashes found')}
       header={headerRef.current}
     >
-      {/* {hashes?.map((h) => (
+      {Object.keys(userPreimages)?.map((depositor) => (
         <Preimage
-          cb={onSetAllPreImagesInfo}
-          key={h}
-          value={h}
+          depositor={depositor}
+          key={depositor}
+          preimageInfos={userPreimages[depositor]}
         />
-      ))} */}
+      ))}
     </Table>
   );
 };
+
+export default React.memo(UserPreimages);
