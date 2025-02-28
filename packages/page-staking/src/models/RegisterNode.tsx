@@ -44,9 +44,19 @@ function RegisterNewNode({ nodeslist, onClose, onSuccess }: Props): React.ReactE
 
   // 处理金额变化
   const handleAmountChange = (value: BN | undefined) => {
-    if (value && availableBalance) {  // 添加 availableBalance 检查
+    if (value && availableBalance) {
       const minStake = new BN('10000000000');  // 100 BEVM
-      setIsTransferUnable(value.lt(minStake) || availableBalance.lt(value));
+      const minRemain = new BN('10002000000');  // 100.02 BEVM
+      
+      // 检查：
+      // 1. 质押金额是否小于最小要求(100)
+      // 2. 质押金额是否大于可用余额
+      // 3. 剩余金额是否小于100.02
+      setIsTransferUnable(
+        value.lt(minStake) || 
+        availableBalance.lt(value) || 
+        availableBalance.sub(value).lt(minRemain)
+      );
     }
     setAmount(value);
   };
