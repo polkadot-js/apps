@@ -2,12 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import BN from 'bn.js';
-import React, { useState } from 'react';
-import {Input, InputAddress, InputBalance, Modal, Row, TxButton} from '@polkadot/react-components';
+import React, { useEffect, useState } from 'react';
+import {Input, InputAddress, InputBalance, Modal, TxButton} from '@polkadot/react-components';
 import { useTranslation } from '../translate';
 import { Available } from '@polkadot/react-query';
 import { TxCallback } from '@polkadot/react-components/Status/types';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
+import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
+
 
 interface Props {
   nodeslist?: string[],
@@ -17,11 +19,37 @@ interface Props {
 
 function RegisterNewNode({ nodeslist, onClose, onSuccess }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const [nodeName, setNodeName] = useState<string | null | undefined>();
   const [amount, setAmount] = useState<BN | undefined>();
   const [accountId, setAccount] = useState<string | null | undefined>();
+  const [availableBalance, setAvailableBalance] = useState<BN | undefined>();
+  const [isTransferUnable, setIsTransferUnable] = useState<boolean>(true);
   const transferrable = <span className='label'>{t('transferrable')}</span>;
-  const { api } = useApi()
+  
+  // 移到组件顶部
+  const allBalances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [accountId]);
+
+  useEffect(() => {
+    if (accountId) {
+      const available = allBalances?.availableBalance;
+      setAvailableBalance(available);
+      
+      if (available) {
+        const minRequired = new BN('20002000000');  // 200.02 BEVM
+        setIsTransferUnable(available.lt(minRequired));
+      }
+    }
+  }, [accountId, allBalances]);
+
+  // 处理金额变化
+  const handleAmountChange = (value: BN | undefined) => {
+    if (value && availableBalance) {  // 添加 availableBalance 检查
+      const minStake = new BN('10000000000');  // 100 BEVM
+      setIsTransferUnable(value.lt(minStake) || availableBalance.lt(value));
+    }
+    setAmount(value);
+  };
 
   return (
     <Modal
@@ -53,17 +81,19 @@ function RegisterNewNode({ nodeslist, onClose, onSuccess }: Props): React.ReactE
           {/*<p>{t('Unique and unchangeable, non-transferable after registration')}</p>*/}
         </Modal.Columns>
 
-        <Modal.Columns>
+        <Modal.Columns hint={t('The minimum self-staking amount is fixed at 100 BEVM, and accounts with a transferable balance of less than 200.002 BEVM will not be able to successfully register as validator nodes.')}>
           <InputBalance
             autoFocus
             label={t('The number of tokens that the validator needs to stake')}
-            onChange={setAmount}
+            onChange={handleAmountChange}
+            // help={t('Minimum stake amount is 100 BEVM')}
           />
-          {/*<p>{t('Number of node mortgages')}</p>*/}
+          {/* <p>{t('Number of node mortgages')}</p> */}
         </Modal.Columns>
       </Modal.Content>
       <Modal.Actions>
         <TxButton
+          isDisabled={isTransferUnable || !amount || !nodeName || !accountId}
           accountId={accountId}
           icon='sign-in-alt'
           label={t('Register')}
