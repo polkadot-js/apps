@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from '../translate.js';
-import { Button, Table } from '@polkadot/react-components';
+import { Button, CardSummary, Input, SummaryBox, Table } from '@polkadot/react-components';
 import { callXAgereRpc } from '../callXAgereRpc.js';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import SubnetInfoTr from './SubnetInfoTr.js';
+import { SubnetInfo } from './Subnet.js';
+import { FormatBalance } from '@polkadot/react-query';
+import { asciiToString } from '../Utils/formatBEVM.js';
 
 interface Props {
   className?: string;
-  subnetId: string;
+  selectedInfo: SubnetInfo;
   onClose: () => void;
 }
 
@@ -42,14 +45,14 @@ interface NeuronInfo {
   pruning_score: number;
 }
 
-function SubnetDetail({ className, subnetId, onClose }: Props): React.ReactElement<Props> {
+function SubnetDetail({ className, selectedInfo, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [neurons, setNeurons] = useState<NeuronInfo[]>([]);
   const { systemChain } = useApi();
   const [isExpanded, toggleIsExpanded] = useToggle(false);
 
   useEffect(() => {
-    callXAgereRpc('xagere_getNeuronsLite', [Number(subnetId)], systemChain)
+    callXAgereRpc('xagere_getNeuronsLite', [selectedInfo.netuid], systemChain)
       .then((response) => {
         console.log('response', response);
         if (Array.isArray(response)) {
@@ -57,17 +60,24 @@ function SubnetDetail({ className, subnetId, onClose }: Props): React.ReactEleme
         }
       })
       .catch(console.error);
-  }, [subnetId, systemChain]);
+  }, [selectedInfo, systemChain]);
 
   const header = [
+    [t('Pos'), 'start'],
+    [t('User Type'), 'start'],
+    [t('User UID'), 'start'],
+    [t('Stake'), 'start'],
+    [t('VTrust'), 'start'],
+    [t('Trust'), 'start'],
     [t('Hot Key'), 'start'],
     [t('Cold Key'), 'start'],
-    [t('Stake'), 'start'],
-    [t('Rank'), 'start'],
-    [t('Emission'), 'start'],
-    [t('Status'), 'start'],
-    []  // 为展开按钮预留列
+    []
   ];
+
+
+  const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
+    [t('chain specifications'), 'start', 2]
+  ]);
 
   return (
     <div style={{
@@ -85,9 +95,55 @@ function SubnetDetail({ className, subnetId, onClose }: Props): React.ReactEleme
         <Button
           icon='times'
           onClick={onClose}
-          label={t('Close')}
+          label={t('Back to homepage')}
         />
       </div>
+      <Table
+        className={className}
+        header={headerRef.current}
+      >
+        <tr>
+          <td>
+            <Input
+              className='full'
+              isDisabled
+              label={t('Owner')}
+              value={selectedInfo?.owner ?? '-'}
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <Input
+              className='full'
+              isDisabled
+              label={t('Github Repo')}
+              value={selectedInfo?.identity?.github_repo ? asciiToString(selectedInfo.identity.github_repo) : '-'}
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <Input
+              className='full'
+              isDisabled
+              label={t('Github Repo')}
+              value={selectedInfo?.identity?.subnet_contact ? asciiToString(selectedInfo.identity.subnet_contact) : '-'}
+            />
+          </td>
+        </tr>
+      </Table>
+      <SummaryBox className={className}>
+        <CardSummary label={t('Emissions')}>
+          <span>{selectedInfo.emission_values}</span>
+        </CardSummary>
+        <CardSummary label={t('Validator')}>
+          <span>{selectedInfo.max_allowed_validators}</span>
+        </CardSummary>
+        <CardSummary label={t('Miner')}>
+          <span>{selectedInfo.min_allowed_weights}</span>
+        </CardSummary>
+      </SummaryBox>
 
       <Table
         empty={t('No neurons found')}

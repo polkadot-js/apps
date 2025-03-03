@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from '../translate.js';
 import { AddressSmall, Button, Table, TxButton } from '@polkadot/react-components';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 import { callXAgereRpc } from '../callXAgereRpc.js';
 import StakingModal from './StakingModal.tsx';
 import { formatAddress, formatBEVM } from '../Utils/formatBEVM.ts';
@@ -28,7 +28,7 @@ type DelegateData = [DelegateInfo, number];
 function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { systemChain } = useApi();
-  // const { allAccounts, hasAccounts } = useAccounts();
+  // const { allAccounts, hasAccounts} = useAccounts();
   const [isStakingOpen, toggleIsStakingOpen] = useToggle();
   const [isUnStakingOpen, toggleIsUnStakingOpen] = useToggle();
   const [isDelegateOpen, toggleIsDelegateOpen] = useToggle();
@@ -76,6 +76,7 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
   }, [account]);
 
   useEffect((): void => {
+    console.log('account', account)
     fetchDelegatedData(account, systemChain)
   }, [account, systemChain]);
 

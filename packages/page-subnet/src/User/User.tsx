@@ -21,17 +21,6 @@ function User({ className }: Props): React.ReactElement<Props> {
     { text: t('Agere Participants'), value: 'Paticipants' },
   ]);
 
-  const renderContent = () => {
-    switch (stashTypes.current[typeIndex].value) {
-      case 'User':
-        return <UserInfo account={selectedAccount} />;
-      case 'Paticipants':
-        return <SubnetPaticpants account={selectedAccount} />;
-      default:
-        return null;
-    }
-  };
-
   return (
     <div className={`${className}`} style={{ padding: '1rem' }}>
       <h3 style={{
@@ -83,7 +72,6 @@ function User({ className }: Props): React.ReactElement<Props> {
       </div>
       {stashTypes.current[typeIndex].value === 'User' && <UserInfo account={selectedAccount} />}
       {stashTypes.current[typeIndex].value ===  'Paticipants'&& <SubnetPaticpants account={selectedAccount} />}
-      {/*{renderContent()}*/}
     </div>
   );
 }
