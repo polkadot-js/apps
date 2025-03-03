@@ -152,12 +152,12 @@ function UserTable({ accountId, nomination, userInterest, onSuccess, validatorIn
         />
         <Button
           icon='paper-plane'
-          label={t('UnBound')}
+          label={t('Unbind')}
           onClick={toggleUnbound}
         />
         <Button
           icon='paper-plane'
-          label={t('ReBound')}
+          label={t('Rebind')}
           onClick={toggleRebound}
         />
         {

@@ -200,11 +200,11 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
             value={validatorInfo?.totalNomination}
           />
         </td>
-        <td className='number'>
-          <FormatBalance
-            value={validatorInfo?.rewardPotBevmBalance || validatorInfo?.rewardPotGovBalance}
-          />
-        </td>
+        {/*<td className='number'>*/}
+        {/*  <FormatBalance*/}
+        {/*    value={validatorInfo?.rewardPotBevmBalance || validatorInfo?.rewardPotGovBalance}*/}
+        {/*  />*/}
+        {/*</td>*/}
         <td className='number'>
           <FormatBalance
             format={[10, 'SATS']}
