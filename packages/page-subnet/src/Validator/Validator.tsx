@@ -32,6 +32,7 @@ interface DelegateInfo {
     total_daily_return: string;
     total_stake: string;
   }
+
 function Validator({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { systemChain } = useApi();
@@ -70,7 +71,7 @@ function Validator({ className }: Props): React.ReactElement<Props> {
 
   function fetchDelegatedData(selectedAccount: string, systemChain: string): void {
         throw new Error('Function not implemented.');
-    }
+  }
 
   return (
     <div className={className}>

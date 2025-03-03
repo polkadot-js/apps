@@ -97,8 +97,8 @@ function Subnet({ className }: Props): React.ReactElement<Props> {
   };
 
   return (
-    <>
-      {!selectedInfo ? (
+    // <>
+    //   {!selectedInfo ? (
         <div className={className}>
           <div style={{
             background: 'white',
@@ -148,13 +148,13 @@ function Subnet({ className }: Props): React.ReactElement<Props> {
             ))}
           </Table>
         </div>
-      ) : (
-        <SubnetDetail
-          selectedInfo={selectedInfo}
-          onClose={() => setSelectedInfo(null)}
-        />
-      )}
-    </>
+    //   ) : (
+    //     <SubnetDetail
+    //       selectedInfo={selectedInfo}
+    //       onClose={() => setSelectedInfo(null)}
+    //     />
+    //   )}
+    // </>
   );
 }
 
