@@ -22,6 +22,10 @@ interface Props {
 function createItemsRef (t: (key: string, options?: { replace: Record<string, unknown> }) => string): TabItem[] {
   return [
     {
+      name: 'user',
+      text: t('User Dashboard')
+    },
+    {
       isRoot: true,
       name: 'agere',
       text: t('Agere')
@@ -29,10 +33,6 @@ function createItemsRef (t: (key: string, options?: { replace: Record<string, un
     {
       name: 'validator',
       text: t('Validator')
-    },
-    {
-      name: 'user',
-      text: t('User Dashboard')
     }
   ];
 }
