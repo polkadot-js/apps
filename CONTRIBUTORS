@@ -6,7 +6,7 @@
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
       41	MiZiet                        	Apply styles to the unbonding icon (#6314)
       39	RadiumBlock                   	Re-adding RadiumBlock as Shiden and Bifrost Polkadot Endpoint provider (#11112)
-      37	Arjun Porwal                  	fix: update voting method to support runtime upgrade and prevent app breakage (#11344)
+      38	Arjun Porwal                  	Improve Address Book Search (#11350)
       34	Joakim Nyman                  	Updated Dwellir endpoints for Moonriver, Moonbeam, Basilisk and Hydration (#11149)
       34	Yongfeng LI                   	Update subsquare and statescan external links (#11295)
       31	Stefanie Doll                 	Set higher default gas limit, switch from bitlength u32 to u128 for input fields (#2743)
