@@ -19,7 +19,9 @@ interface Props {
   className?: string;
   filter: string;
   isFavorite: boolean;
+  isVisible: boolean;
   toggleFavorite: (address: string) => void;
+  toggleVisible: (address: string, isVisible: boolean) => void
 }
 
 const isEditable = true;
@@ -47,7 +49,7 @@ const BAL_OPTS_EXPANDED = {
   vested: true
 };
 
-function Address ({ address, className = '', filter, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function Address ({ address, className = '', filter, isFavorite, isVisible, toggleFavorite, toggleVisible }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const api = useApi();
   const info = useDeriveAccountInfo(address);
@@ -58,7 +60,6 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   const [genesisHash, setGenesisHash] = useState<string | null>(null);
   const [isForgetOpen, setIsForgetOpen] = useState(false);
   const [isTransferOpen, setIsTransferOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
   const [isExpanded, toggleIsExpanded] = useToggle(false);
 
   const _setTags = useCallback(
@@ -105,8 +106,8 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
       }, accName.toLowerCase().includes(_filter));
     }
 
-    setIsVisible(isVisible);
-  }, [accName, address, filter, tags]);
+    toggleVisible(address, isVisible);
+  }, [accName, address, filter, tags, toggleVisible]);
 
   const _onGenesisChange = useCallback(
     (genesisHash: HexString | null): void => {
