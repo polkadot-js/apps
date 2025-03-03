@@ -3,7 +3,7 @@
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Button, FilterInput, styled, SummaryBox, Table } from '@polkadot/react-components';
 import { useAddresses, useFavorites, useNextTick, useToggle } from '@polkadot/react-hooks';
@@ -12,7 +12,7 @@ import CreateModal from '../modals/Create.js';
 import { useTranslation } from '../translate.js';
 import Address from './Address.js';
 
-interface SortedAddress { address: string; isFavorite: boolean }
+interface SortedAddress { address: string; isFavorite: boolean, isVisible: boolean }
 
 interface Props {
   className?: string;
@@ -37,7 +37,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   useEffect((): void => {
     setSortedAddresses(
       allAddresses
-        .map((address): SortedAddress => ({ address, isFavorite: favorites.includes(address) }))
+        .map((address): SortedAddress => ({ address, isFavorite: favorites.includes(address), isVisible: true }))
         .sort((a, b): number =>
           a.isFavorite === b.isFavorite
             ? 0
@@ -47,6 +47,13 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         )
     );
   }, [allAddresses, favorites]);
+
+  const toggleVisible = useCallback((address: string, isVisible: boolean) => {
+    setSortedAddresses((account) => account
+      ?.map((e) => e.address === address ? { ...e, isVisible } : e)
+      .sort((a, b) => a.isVisible === b.isVisible ? 0 : b.isVisible ? 1 : -1)
+    );
+  }, []);
 
   return (
     <StyledDiv className={className}>
@@ -78,13 +85,15 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         header={headerRef.current}
         isSplit
       >
-        {isNextTick && sortedAddresses?.map(({ address, isFavorite }): React.ReactNode => (
+        {isNextTick && sortedAddresses?.map(({ address, isFavorite, isVisible }): React.ReactNode => (
           <Address
             address={address}
             filter={filterOn}
             isFavorite={isFavorite}
+            isVisible={isVisible}
             key={address}
             toggleFavorite={toggleFavorite}
+            toggleVisible={toggleVisible}
           />
         ))}
       </Table>
