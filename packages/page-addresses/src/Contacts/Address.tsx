@@ -94,18 +94,19 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   }, [_setTags, address]);
 
   useEffect((): void => {
-    if (filter.length === 0) {
-      setIsVisible(true);
-    } else {
-      const _filter = filter.toLowerCase();
+    const _filter = filter.trim().toLowerCase();
+    let isVisible = true;
 
-      setIsVisible(
-        tags.reduce((result: boolean, tag: string): boolean => {
-          return result || tag.toLowerCase().includes(_filter);
-        }, accName.toLowerCase().includes(_filter))
-      );
+    if (_filter.length !== 0) {
+      isVisible = keyring.encodeAddress(address, 0).toLowerCase().includes(_filter) ||
+      address.toLowerCase().includes(_filter) ||
+      tags.reduce((result: boolean, tag: string): boolean => {
+        return result || tag.toLowerCase().includes(_filter);
+      }, accName.toLowerCase().includes(_filter));
     }
-  }, [accName, filter, tags]);
+
+    setIsVisible(isVisible);
+  }, [accName, address, filter, tags]);
 
   const _onGenesisChange = useCallback(
     (genesisHash: HexString | null): void => {
