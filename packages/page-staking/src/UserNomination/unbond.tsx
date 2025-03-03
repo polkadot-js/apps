@@ -34,7 +34,7 @@ function UnBond({ account, onClose, options, value, onSuccess, unamount }: Props
 
   return (
     <Modal
-      header={t('UnBound')}
+      header={t('Unbind')}
       size='large'
       onClose={onClose}
     >
@@ -61,7 +61,7 @@ function UnBond({ account, onClose, options, value, onSuccess, unamount }: Props
 
             // help={t<string>('UnBound for validator')}
             hideAddress={true}
-            label={t('UnBound for validator')}
+            label={t('Unbind for validator')}
             labelExtra={
               <span> </span>
             }
@@ -79,12 +79,12 @@ function UnBond({ account, onClose, options, value, onSuccess, unamount }: Props
         <Modal.Columns>
           <InputBalance
             autoFocus
-            // help={t<string>('UnBound Amount')}
-            label={t('UnBound Amount')}
+            // help={t<string>('Unbind Amount')}
+            label={t('Unbind Amount')}
             onChange={setAmount}
           />
           {/* <Modal.Column>
-            <p>{t<string>('UnBound Amount')}</p>
+            <p>{t<string>('Unbind Amount')}</p>
           </Modal.Column> */}
         </Modal.Columns>
       </Modal.Content>
@@ -93,7 +93,7 @@ function UnBond({ account, onClose, options, value, onSuccess, unamount }: Props
         <TxButton
           accountId={account}
           icon='sign-in-alt'
-          label={t('UnBound')}
+          label={t('Unbind')}
           onStart={onClose}
           params={[validatorId, amount]}
           onSuccess={onSuccess}
