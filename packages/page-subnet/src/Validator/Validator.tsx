@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from '../translate.js';
 import { AddressSmall, Table } from '@polkadot/react-components';
 import { callXAgereRpc } from '../callXAgereRpc.js';
-import { formatBEVM } from '../utils/formatBEVM.js';
+import { formatBEVM } from '../Utils/formatBEVM.js';
 import { Input } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
+import Icon from '@polkadot/react-components/Icon';
+import Tooltip from '@polkadot/react-components/Tooltip';
+import TotalReturnWithTips from '../Utils/TotalReturnWithTips.js';
 interface Props {
   className?: string;
 }
@@ -48,17 +51,17 @@ function Validator({ className }: Props): React.ReactElement<Props> {
         }
       })
       .catch(error => {
-        console.error('Error fetching subnets:', error);
+        console.error('Error fetching ageres:', error);
       });
   }, [systemChain]);
 
   const header = [
     [t('Pos'), 'start'],
     [t('Hot Address'), 'start'],
-    [t('Take'), 'start'],
+    [t('Commission'), 'start'],
     [t('Total Stake'), 'start'],
     [t('Nominator'), 'start'],
-    [t('Total Daily Return'), 'start'],
+    [t('Earn(24h)'), 'start'],
   ];
 
   return (
@@ -76,7 +79,7 @@ function Validator({ className }: Props): React.ReactElement<Props> {
 
 
       <Table
-        empty={t('No subnets found')}
+        empty={t('No ageres found')}
         header={header}
       >
           {subnets.filter(s =>
@@ -91,7 +94,7 @@ function Validator({ className }: Props): React.ReactElement<Props> {
               <td className='number' style={{textAlign:'start'}}>{(info.take/65535*100).toFixed(2)}%</td>
               <td className='number' style={{textAlign:'start'}}>{formatBEVM(Number(info.total_stake))}</td>
               <td className='number' style={{textAlign:'start'}}>{info.nominators.length}</td>
-              <td className='number' style={{textAlign:'start'}}>{formatBEVM(Number(info.total_daily_return))}</td>
+              <td className='number' style={{textAlign:'start'}}><TotalReturnWithTips key={`${info.delegate_ss58}-${index}`} value={formatBEVM(Number(info.total_daily_return))}/></td>
             </tr>
           ))}
       </Table>

@@ -6,6 +6,7 @@ import { useApi } from '@polkadot/react-hooks';
 import { useTranslation } from '../translate.js';
 import { InputAddress, Modal } from '@polkadot/react-components';
 import { TxButton } from '@polkadot/react-components';
+import { Available } from '@polkadot/react-query';
 
 interface Props {
   account: string;
@@ -32,6 +33,12 @@ function DelegateeModal({ account, toggleOpen, onSuccess:refreshData }: Props): 
             label={t('Address')}
             onChange={(value: string | null) => setSelectedAccount(value || '')}
             type='account'
+            labelExtra={
+              <Available
+                label={t('transferrable')}
+                params={selectedAccount}
+              />
+            }
             withLabel
           />
         </Modal.Columns>

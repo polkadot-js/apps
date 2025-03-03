@@ -1,9 +1,16 @@
 {
   "Active": "Active",
   "Address": "Address",
+  "Agere": "Agere",
+  "Agere Details": "Agere Details",
+  "Agere ID": "Agere ID",
+  "Agere Name": "Agere Name",
+  "Agere Owner": "Agere Owner",
+  "Agere Participants": "Agere Participants",
   "Before becoming a delegate, you must first register as a subnet participant. Once this prerequisite is fulfilled, you need to complete an additional registration step, which will enable you to receive staking from community users.": "Before becoming a delegate, you must first register as a subnet participant. Once this prerequisite is fulfilled, you need to complete an additional registration step, which will enable you to receive staking from community users.",
   "Close": "Close",
   "Cold Key": "Cold Key",
+  "Commission": "Commission",
   "Consensus": "Consensus",
   "Current Account": "Current Account",
   "Delegate": "Delegate",
@@ -52,6 +59,7 @@
   "Trust": "Trust",
   "UnStake": "UnStake",
   "User": "User",
+  "User Dashboard": "User Dashboard",
   "Validator": "Validator",
   "Validator Permit": "Validator Permit",
   "Validator Run": "Validator Run",
@@ -66,5 +74,8 @@
   "filter by Subnet ID, Subnet Name, Subnet Owner": "filter by Subnet ID, Subnet Name, Subnet Owner",
   "hot key": "hot key",
   "register as a delegate": "register as a delegate",
-  "register as a participant": "register as a participant"
+  "register as a participant": "register as a participant",
+  "delegate": "delegate",
+  "register": "register",
+  "Stake for participant": "Stake for participant"
 }

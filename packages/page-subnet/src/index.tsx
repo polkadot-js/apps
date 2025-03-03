@@ -22,17 +22,17 @@ interface Props {
 function createItemsRef (t: (key: string, options?: { replace: Record<string, unknown> }) => string): TabItem[] {
   return [
     {
+      name: 'user',
+      text: t('User Dashboard')
+    },
+    {
       isRoot: true,
-      name: 'subnet',
-      text: t('Subnet')
+      name: 'agere',
+      text: t('Agere')
     },
     {
       name: 'validator',
       text: t('Validator')
-    },
-    {
-      name: 'user',
-      text: t('User')
     }
   ];
 }
@@ -57,7 +57,7 @@ function App ({ basePath, className }: Props): React.ReactElement<Props> {
       />
       <Routes>
         <Route path={`${basePath}`} element={<Subnet />} />
-        <Route path={`${basePath}/subnet`} element={<Subnet />} />
+        <Route path={`${basePath}/agere`} element={<Subnet />} />
         <Route path={`${basePath}/validator`} element={<Validator />} />
         <Route path={`${basePath}/user`} element={<User />} />
       </Routes>

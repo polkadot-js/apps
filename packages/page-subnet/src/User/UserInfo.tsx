@@ -4,7 +4,8 @@ import { AddressSmall, Button, Table, TxButton } from '@polkadot/react-component
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { callXAgereRpc } from '../callXAgereRpc.js';
 import StakingModal from './StakingModal.tsx';
-import { formatAddress, formatBEVM } from '../utils/formatBEVM.ts';
+import { formatAddress, formatBEVM } from '../Utils/formatBEVM.ts';
+import TotalReturnWithTips from '../Utils/TotalReturnWithTips.js';
 
 interface Props {
   className?: string;
@@ -42,7 +43,7 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
 
   const header = [
     [t('Delegator'), 'start'],
-    [t('Total Daily Return'), 'start'],
+    [t('Earn(24h)'), 'start'],
     [t('Total Stake Amount'), 'start'],
     [t('Your Stake Amount'), 'start'],
     [t('Operation'), 'start']
@@ -148,7 +149,7 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
             {delegateData?.map(([info, stakeAmount], index) => (
               <tr key={index}>
                 <td>{<AddressSmall value={info.delegate_ss58} />}</td>
-                <td>{formatBEVM(info.total_daily_return)}</td>
+                <td><TotalReturnWithTips key={`${info.delegate_ss58}`} value={formatBEVM(info.total_daily_return)}/></td>
                 <td>{formatBEVM(calculateTotalStake(info.nominators))}</td>
                 <td>{formatBEVM(stakeAmount)}</td>
                 <td>

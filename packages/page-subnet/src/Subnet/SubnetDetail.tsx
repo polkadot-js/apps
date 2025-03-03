@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from '../translate.js';
-import { AddressSmall, Button, Table } from '@polkadot/react-components';
+import { Button, Table } from '@polkadot/react-components';
 import { callXAgereRpc } from '../callXAgereRpc.js';
-import { formatBEVM } from '../utils/formatBEVM.js';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useToggle } from '@polkadot/react-hooks';
+import SubnetInfoTr from './SubnetInfoTr.js';
 
 interface Props {
   className?: string;
@@ -46,10 +46,12 @@ function SubnetDetail({ className, subnetId, onClose }: Props): React.ReactEleme
   const { t } = useTranslation();
   const [neurons, setNeurons] = useState<NeuronInfo[]>([]);
   const { systemChain } = useApi();
+  const [isExpanded, toggleIsExpanded] = useToggle(false);
 
   useEffect(() => {
-    callXAgereRpc('xagere_getNeuronsLite', [subnetId], systemChain)
+    callXAgereRpc('xagere_getNeuronsLite', [Number(subnetId)], systemChain)
       .then((response) => {
+        console.log('response', response);
         if (Array.isArray(response)) {
           setNeurons(response);
         }
@@ -63,56 +65,44 @@ function SubnetDetail({ className, subnetId, onClose }: Props): React.ReactEleme
     [t('Stake'), 'start'],
     [t('Rank'), 'start'],
     [t('Emission'), 'start'],
-    [t('Incentive'), 'start'],
-    [t('Consensus'), 'start'],
-    [t('Trust'), 'start'],
-    [t('Validator Trust'), 'start'],
-    [t('Status'), 'start']
+    [t('Status'), 'start'],
+    []  // 为展开按钮预留列
   ];
 
   return (
-    <div className={className}>
+    <div style={{
+      background: 'white',
+      borderRadius: '0.25rem',
+      padding: '1rem'
+    }}>
       <div style={{
-        background: 'white',
-        borderRadius: '0.25rem',
-        padding: '1rem'
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: '1rem'
       }}>
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '1rem'
-        }}>
-          <h2 style={{ margin: 0 }}>{t('Subnet Details')}</h2>
-          <Button
-            icon='times'
-            onClick={onClose}
-            label={t('Close')}
-          />
-        </div>
-
-        <Table
-          empty={t('No neurons found')}
-          header={header}
-        >
-          {neurons.map((info) => (
-            <tr key={info.hotkey}>
-              <td><AddressSmall value={info.hotkey} /></td>
-              <td><AddressSmall value={info.coldkey} /></td>
-              <td>{formatBEVM(info.stake.reduce((sum, [_, amount]) => sum + Number(amount), 0))}</td>
-              <td>{info.rank}</td>
-              <td>{formatBEVM(Number(info.emission))}</td>
-              <td>{info.incentive}%</td>
-              <td>{info.consensus}%</td>
-              <td>{info.trust}%</td>
-              <td>{info.validator_trust}%</td>
-              <td>{info.active ? t('Active') : t('Inactive')}</td>
-            </tr>
-          ))}
-        </Table>
+        <h2 style={{ margin: 0 }}>{t('Agere Details')}</h2>
+        <Button
+          icon='times'
+          onClick={onClose}
+          label={t('Close')}
+        />
       </div>
+
+      <Table
+        empty={t('No neurons found')}
+        header={header}
+      >
+        {neurons.map((info) => (
+          <SubnetInfoTr
+            key={info.hotkey}
+            className={className}
+            info={info}
+          />
+        ))}
+      </Table>
     </div>
   );
 }
 
-export default React.memo(SubnetDetail); 
+export default React.memo(SubnetDetail);
