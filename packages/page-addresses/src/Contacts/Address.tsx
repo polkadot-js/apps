@@ -8,6 +8,7 @@ import type { HexString } from '@polkadot/util/types';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { AddressInfo, AddressSmall, Button, ChainLock, Columar, Forget, LinkExternal, Menu, Popup, Table, Tags, TransferModal } from '@polkadot/react-components';
+import { MATCHERS } from '@polkadot/react-components/AccountName';
 import { useApi, useBalancesAll, useDeriveAccountInfo, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { isFunction } from '@polkadot/util';
@@ -76,16 +77,26 @@ function Address ({ address, className = '', filter, isFavorite, isVisible, togg
   }, []);
 
   useEffect((): void => {
-    const { identity, nickname } = info || {};
+    let known: string | null = null;
 
-    if (isFunction(api.apiIdentity.query.identity?.identityOf)) {
-      if (identity?.display) {
-        setAccName(identity.display);
-      }
-    } else if (nickname) {
-      setAccName(nickname);
+    for (let i = 0; known === null && i < MATCHERS.length; i++) {
+      known = MATCHERS[i](address);
     }
-  }, [api, info]);
+
+    if (known) {
+      setAccName(known);
+    } else {
+      const { identity, nickname } = info || {};
+
+      if (isFunction(api.apiIdentity.query.identity?.identityOf)) {
+        if (identity?.display) {
+          setAccName(identity.display);
+        }
+      } else if (nickname) {
+        setAccName(nickname);
+      }
+    }
+  }, [address, api, info]);
 
   useEffect((): void => {
     const account = keyring.getAddress(address);
