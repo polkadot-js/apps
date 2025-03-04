@@ -6,6 +6,7 @@ import { callXAgereRpc } from '../callXAgereRpc.js';
 import StakingModal from './StakingModal.tsx';
 import { formatAddress, formatBEVM } from '../Utils/formatBEVM.ts';
 import TotalReturnWithTips from '../Utils/TotalReturnWithTips.js';
+import { FormatBalance } from '@polkadot/react-query';
 
 interface Props {
   className?: string;
@@ -33,6 +34,8 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
   const [isUnStakingOpen, toggleIsUnStakingOpen] = useToggle();
   const [isDelegateOpen, toggleIsDelegateOpen] = useToggle();
   const [openStakeHotAddress, setOpenStakeHotAddress] = useState<string>('');
+  const [unStakeAmount, setUnStakeAmount] = useState<string>();
+
 
   const [delegateData, setDelegateData] = useState<DelegateData[]>([]);
 
@@ -161,7 +164,7 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
                       icon='paper-plane'
                       isDisabled={!account}
                       label={t('UnStake')}
-                      onClick={()=>{toggleIsUnStakingOpen();setOpenStakeHotAddress(info.delegate_ss58)}}
+                      onClick={()=>{toggleIsUnStakingOpen();setOpenStakeHotAddress(info.delegate_ss58);setUnStakeAmount(formatBEVM(stakeAmount))}}
                     />
 
                   </div>
@@ -181,7 +184,19 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
                       />
                     )}
                     {isUnStakingOpen && (
-                      <StakingModal account={account} modelName={'UnStake'} onSuccess={()=> fetchDelegatedData(account, systemChain)} toggleOpen={toggleIsUnStakingOpen} hotAddress={openStakeHotAddress} type={'removeStake'} name={'UnStake'}/>
+                      <StakingModal
+                        account={account}
+                        modelName={'UnStake'}
+                        onSuccess={()=> fetchDelegatedData(account, systemChain)}
+                        toggleOpen={toggleIsUnStakingOpen}
+                        hotAddress={openStakeHotAddress}
+                        type={'removeStake'}
+                        name={'UnStake'}
+                        showAmountInfo={ <FormatBalance
+                          className={className}
+                          label={'stake amount'}
+                        >{unStakeAmount}</FormatBalance>}
+                      />
                     )}
         </div>
       </div>
