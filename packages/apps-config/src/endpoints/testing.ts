@@ -1123,7 +1123,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'zkVerify-testnet',
     providers: {
-      'zkVerify': 'wss://testnet-rpc.zkverify.io',
+      zkVerify: 'wss://testnet-rpc.zkverify.io'
     },
     text: 'zkVerify Testnet',
     ui: {
