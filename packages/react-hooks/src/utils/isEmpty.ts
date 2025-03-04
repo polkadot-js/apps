@@ -4,9 +4,11 @@
 import type { Struct } from '@polkadot/types-codec';
 
 export const isEmpty = (struct: Struct) => {
-  for (const v of struct.values()) {
-    if (!v.isEmpty) {
-      return false;
+  if (struct.values) {
+    for (const v of struct.values()) {
+      if (!v.isEmpty) {
+        return false;
+      }
     }
   }
 
