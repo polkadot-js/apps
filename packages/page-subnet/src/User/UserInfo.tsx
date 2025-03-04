@@ -112,11 +112,7 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
             icon='paper-plane'
             isDisabled={!account}
             label={t('Delegate BEVM')}
-            onClick={toggleIsDelegateOpen}
-            style={{
-              backgroundColor: 'var(--bg-table)',
-              borderRadius: '0.25rem'
-            }}
+            onClick={() => window.location.href = '/#/agere/validator'}
           />
         </div>
       </div>
