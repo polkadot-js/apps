@@ -20,6 +20,7 @@ const CustomCrosshairPlugin = function (plugin: any) {
 };
 Chart.register(CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, annotationPlugin, CustomCrosshairPlugin(crosshairPlugin));
 
+
 export default {
   Doughnut,
   HorizBar,
