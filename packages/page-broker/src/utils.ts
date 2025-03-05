@@ -20,6 +20,7 @@ function formatDate (date: Date) {
  *
  * blockTime = 6000 ms
  * BlocksPerTimeslice = 80
+ * Default Region = 5040 timeslices
  * TargetBlock = TargetTimeslice * BlocksPerTimeslice
  * Block Time Difference = |TargetBlock - latest Block| * blockTime
  *
@@ -31,7 +32,8 @@ function formatDate (date: Date) {
  */
 export const estimateTime = (
   targetTimeslice: string | number,
-  latestBlock: number
+  latestBlock: number,
+  { blocksPerTimeslice: blocksPerTs, blocktimeMs }: ChainBlockConstants = { blocksPerTimeslice: 80, blocktimeMs: 6000 }
 ): string | null => {
   if (!latestBlock || !targetTimeslice) {
     console.error('Invalid input: one or more inputs are missing');
@@ -39,10 +41,11 @@ export const estimateTime = (
     return null;
   }
 
+  const now = new BN(Date.now());
+
   try {
-    const now = new BN(Date.now());
-    const blockTime = new BN(6000);
-    const blocksPerTimeslice = new BN(80);
+    const blockTime = new BN(blocktimeMs); // Average block time in milliseconds (6 seconds)
+    const blocksPerTimeslice = new BN(blocksPerTs);
     const targetBlock = new BN(Number(targetTimeslice)).mul(blocksPerTimeslice);
     const latestBlockBN = new BN(latestBlock);
     const blockDifference = targetBlock.sub(latestBlockBN);
@@ -95,14 +98,14 @@ export function formatRowInfo (
 
     item.owner = regionOwnerInfo?.owner.toString();
 
-    item.start = start ? estimateTime(start, blockNumberNow) : null;
-    item.end = end ? estimateTime(end, blockNumberNow) : null;
+    item.start = start ? estimateTime(start, blockNumberNow, coretimeRelayConstants) : null;
+    item.end = end ? estimateTime(end, blockNumberNow, coretimeRelayConstants) : null;
     item.endBlock = end ? Number(end) * coretimeRelayConstants.blocksPerTimeslice : 0;
 
     item.startTimeslice = start;
 
     if ('timeslice' in one && !start) {
-      start = estimateTime(one.timeslice, blockNumberNow) ?? null;
+      start = estimateTime(one.timeslice, blockNumberNow, coretimeRelayConstants) ?? null;
     }
 
     return item;
