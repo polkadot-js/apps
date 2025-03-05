@@ -181,17 +181,18 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
 
   useEffect((): void => {
     if (balancesAll) {
+      const agereTotalBalance = new BN(
+        Number(agereInfo?.toJSON().reduce((sum, item) => sum + BigInt(item.stake), 0n)) || 0
+      )
       setBalance(address, {
         // some chains don't have "active" in the Ledger
         bonded: stakingInfo?.stakingLedger.active?.unwrap() || BN_ZERO,
         locked: balancesAll.lockedBalance,
         redeemable: stakingInfo?.redeemable || BN_ZERO,
-        total: balancesAll.freeBalance.add(balancesAll.reservedBalance),
+        total: balancesAll.freeBalance.add(balancesAll.reservedBalance).add(agereTotalBalance),
         transferrable: balancesAll.availableBalance,
         unbonding: calcUnbonding(stakingInfo),
-        agereTotalBalance: new BN(
-          Number(agereInfo?.toJSON().reduce((sum, item) => sum + BigInt(item.stake), 0n)) || 0
-        )
+        agereTotalBalance
       });
 
       api.api.tx.vesting?.vest && setVestingTx(() =>

@@ -5,7 +5,7 @@ import type { DeriveBalancesAccountData, DeriveBalancesAll, DeriveDemocracyLock,
 import type { Raw } from '@polkadot/types';
 import type { BlockNumber, ValidatorPrefsTo145, Voting } from '@polkadot/types/interfaces';
 import type { PalletBalancesReserveData } from '@polkadot/types/lookup';
-import type { BN } from '@polkadot/util';
+import { BN } from '@polkadot/util';
 
 import React, { useRef, useMemo } from 'react';
 
@@ -251,7 +251,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
         className={`result ${balancesAll ? '' : '--tmp'}`}
         formatIndex={formatIndex}
         labelPost={<IconVoid />}
-        value={balancesAll ? balancesAll.freeBalance.add(balancesAll.reservedBalance) : 1}
+        value={balancesAll ? balancesAll.freeBalance.add(balancesAll.reservedBalance).add(new BN(deriveBalances?.agereBalance || 0)) : 1}
       />
     </React.Fragment>
   );
