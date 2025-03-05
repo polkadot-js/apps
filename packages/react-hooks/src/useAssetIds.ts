@@ -11,7 +11,7 @@ const EMPTY_PARAMS: unknown[] = [];
 
 const OPT_KEY = {
   transform: (keys: StorageKey<[u32]>[]): u32[] =>
-    keys.map(({ args: [id] }) => id)
+    keys.map(({ args: [id] }) => id).filter((id) => id !== undefined)
 };
 
 function filter (records: EventRecord[]): Changes<u32> {
