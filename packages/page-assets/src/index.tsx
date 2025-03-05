@@ -16,8 +16,11 @@ import { useAccounts, useApi, useAssetIds, useAssetInfos } from '@polkadot/react
 import { BN_ONE } from '@polkadot/util';
 
 import Balances from './Balances/index.js';
+import ForeignAssets from './foreignAssets/index.js';
 import Overview from './Overview/index.js';
 import { useTranslation } from './translate.js';
+import { useForeignAssetInfos } from './useForeignAssetInfos.js';
+import { useForeignAssetLocations } from './useForeignAssetLocations.js';
 
 interface Props {
   basePath: string;
@@ -54,6 +57,9 @@ function AssetApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const ids = useAssetIds();
   const infos = useAssetInfos(ids);
 
+  const foreignAssetLocations = useForeignAssetLocations();
+  const foreignAssetInfos = useForeignAssetInfos(foreignAssetLocations);
+
   const tabsRef = useRef([
     {
       isRoot: true,
@@ -61,20 +67,29 @@ function AssetApp ({ basePath, className }: Props): React.ReactElement<Props> {
       text: t('Overview')
     },
     {
+      name: 'foreignAssets',
+      text: t('Foreign assets')
+    },
+    {
       name: 'balances',
       text: t('Balances')
     }
   ]);
 
+  const showForeignAssetsTab = useMemo(() => !!foreignAssetLocations.length, [foreignAssetLocations.length]);
+  const showBalancesTab = useMemo(() => hasAccounts && infos && infos.some(({ details, metadata }) => !!(details && metadata)), [hasAccounts, infos]);
+
   const hidden = useMemo(
-    () => (hasAccounts && infos && infos.some(({ details, metadata }) => !!(details && metadata)))
-      ? []
-      : ['balances'],
-    [hasAccounts, infos]
+    () =>
+      [!showForeignAssetsTab && 'foreignAssets', !showBalancesTab && 'balances'].filter((a) => typeof a === 'string'),
+    [showBalancesTab, showForeignAssetsTab]
   );
 
   const openId = useMemo(
-    () => findOpenId(api.genesisHash.toHex(), ids),
+    () => findOpenId(
+      api.genesisHash.toHex(),
+      // Check if id is valid digit
+      ids?.filter((id) => /^\d{1,3}(,\d{3})*$/.test(id.toString()))),
     [api.genesisHash, ids]
   );
 
@@ -92,6 +107,15 @@ function AssetApp ({ basePath, className }: Props): React.ReactElement<Props> {
               <Balances infos={infos} />
             }
             path='balances'
+          />
+          <Route
+            element={
+              <ForeignAssets
+                foreignAssetInfos={foreignAssetInfos}
+                locations={foreignAssetLocations}
+              />
+            }
+            path='foreignAssets'
           />
           <Route
             element={

@@ -7,8 +7,7 @@ import type { TxButtonProps as Props } from './types.js';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { useApi, useIsMountedRef, usePayWithAsset, useQueue } from '@polkadot/react-hooks';
-import { getFeeAssetLocation } from '@polkadot/react-hooks/utils/getFeeAssetLocation';
+import { useIsMountedRef, useQueue } from '@polkadot/react-hooks';
 import { assert, isFunction } from '@polkadot/util';
 
 import Button from './Button/index.js';
@@ -16,10 +15,8 @@ import { useTranslation } from './translate.js';
 
 function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon, isBasic, isBusy, isDisabled, isIcon, isToplevel, isUnsigned, label, onClick, onFailed, onSendRef, onStart, onSuccess, onUpdate, params, tooltip, tx, withSpinner, withoutLink }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const { queueExtrinsic } = useQueue();
-  const { selectedFeeAsset } = usePayWithAsset();
   const [isSending, setIsSending] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
 
@@ -79,7 +76,6 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
           accountId: accountId?.toString(),
           extrinsic,
           isUnsigned,
-          signerOptions: { assetId: getFeeAssetLocation(api, selectedFeeAsset), feeAsset: selectedFeeAsset },
           txFailedCb: withSpinner ? _onFailed : onFailed,
           txStartCb: _onStart,
           txSuccessCb: withSpinner ? _onSuccess : onSuccess,
@@ -89,7 +85,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
 
       onClick && onClick();
     },
-    [_onFailed, _onStart, _onSuccess, accountId, api, isUnsigned, mountedRef, onClick, onFailed, onSuccess, onUpdate, params, propsExtrinsic, queueExtrinsic, selectedFeeAsset, tx, withSpinner]
+    [_onFailed, _onStart, _onSuccess, accountId, isUnsigned, mountedRef, onClick, onFailed, onSuccess, onUpdate, params, propsExtrinsic, queueExtrinsic, tx, withSpinner]
   );
 
   if (onSendRef) {

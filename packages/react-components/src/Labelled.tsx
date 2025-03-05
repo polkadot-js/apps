@@ -34,7 +34,8 @@ function Labelled ({ children, className = '', isFull, isHidden, isOuter, isSmal
       <label>{withEllipsis
         ? <div className='withEllipsis'>{label}</div>
         : label
-      }</label>
+      }
+      </label>
       {labelExtra && <div className='labelExtra'>{labelExtra}</div>}
       <div className='ui--Labelled-content'>
         {children}

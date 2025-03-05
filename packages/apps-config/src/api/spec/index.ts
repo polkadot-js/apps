@@ -56,6 +56,7 @@ import galois from './galois.js';
 import gamepower from './gamepower.js';
 import genshiro from './genshiro.js';
 import hanonycash from './hanonycash.js';
+import heima from './heima.js';
 import hydrate from './hydrate.js';
 import hyperbridge from './hyperbridge.js';
 import idavoll from './idavoll.js';
@@ -75,7 +76,6 @@ import kulupu from './kulupu.js';
 import kusari from './kusari.js';
 import kylin from './kylin.js';
 import laminar from './laminar.js';
-import litentry from './litentry.js';
 import logion from './logion.js';
 import logionParachain from './logion-parachain.js';
 import mangata from './mangata.js';
@@ -213,6 +213,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   halongbay: polkafoundry,
   hanonycash,
   heiko: parallel,
+  heima,
   'hydra-dx': hydrate,
   hyperbridge,
   idavoll,
@@ -237,7 +238,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   kusari,
   kylin,
   laminar,
-  litentry,
   logion,
   'logion-parachain': logionParachain,
   mangata,

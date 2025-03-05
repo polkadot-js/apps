@@ -1,5 +1,32 @@
 # CHANGELOG
 
+## 0.150.2 Feb 22, 2025
+
+Changes:
+
+- Fix TracksInfo values being undefined and causing a whitescreen ([#11320](https://github.com/polkadot-js/apps/pull/11320))
+
+
+## 0.150.1 Feb 19, 2025
+
+Contributed:
+
+- Add IBP2 as mythos RPC provider ([#11288](https://github.com/polkadot-js/apps/pull/11288)) (Thanks to https://github.com/senseless)
+- Update subsquare and statescan external links ([#11295](https://github.com/polkadot-js/apps/pull/11295)) (Thanks to https://github.com/wliyongfeng)
+- Enable Helixstreet Endpoints ([#11293](https://github.com/polkadot-js/apps/pull/11293)) (Thanks to https://github.com/helixstreet)
+- Rebrand litentry to heima ([#11276](https://github.com/polkadot-js/apps/pull/11276)) (Thanks to https://github.com/Kailai-Wang)
+- Remove Helikon Khala RPC endpoint ([#11301](https://github.com/polkadot-js/apps/pull/11301)) (Thanks to https://github.com/kukabi)
+
+Changes:
+
+- Adding Filters for the Coretime - Overview Tab according to feedback ([#11217](https://github.com/polkadot-js/apps/pull/11217))
+- Fixed Table Spacing in Firefox ([#11287](https://github.com/polkadot-js/apps/pull/11287))
+- Disable unreachable endpoints ([#11286](https://github.com/polkadot-js/apps/pull/11286) [#11303](https://github.com/polkadot-js/apps/pull/11303))
+- Input Number component ([#11275](https://github.com/polkadot-js/apps/pull/11275))
+- Refactor Assets Page <> Improve Non-Native Asset Balance Display ([#11290](https://github.com/polkadot-js/apps/pull/11290))
+- Show Multilocation for Foreign Assets <> Assets Page ([#11306](https://github.com/polkadot-js/apps/pull/11306))
+- Upgraded polkadot dependencies ([#11309](https://github.com/polkadot-js/apps/pull/11309))
+
 ## 0.149.1 Feb 7, 2025
 
 Contributed:

@@ -100,7 +100,7 @@ function Row ({ chainRecord, highlight = false, id, lastCommittedTimeslice, leas
       >
         <span>
           {estimatedTime}
-          {!!isWithinWeek && !isReservation && (
+          {!!isWithinWeek && !isReservation && chainRecord?.renewalStatus !== ChainRenewalStatus.Renewed && (
             <StyledMarkWarning
               content='Expires Soon'
             />
@@ -110,7 +110,7 @@ function Row ({ chainRecord, highlight = false, id, lastCommittedTimeslice, leas
       <StyledCell
         $p={highlight}
         className='media--1200'
-      >{chainRecord?.renewalStatus}</StyledCell>
+      >{chainRecord?.renewalStatus === ChainRenewalStatus.Renewed ? chainRecord.renewalStatusMessage : chainRecord.renewalStatus}</StyledCell>
       <StyledCell
         $p={highlight}
         className='media--1200'

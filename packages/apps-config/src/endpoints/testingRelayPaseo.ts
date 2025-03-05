@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types.js';
 
 import { chainsAmplitudeSVG, chainsCoretimeKusamaSVG, chainsFrequencyPaseoSVG, chainsHydrationPaseoSVG, chainsLaosSigmaPNG, chainsMyxcavPNG, chainsNeurowebTestnetPNG, chainsPaseoPNG, chainsPeoplePolkadotSVG, chainsPopNetworkSVG, chainsWatrPNG, chainsWeTEESVG } from '@polkadot/apps-config/ui/logos/chains';
-import { nodesAjunaPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBifrostSVG, nodesBridgeHubSVG, nodesDarwiniaKoiSVG, nodesHyperbridgePNG, nodesIdealNetworkSVG, nodesIntegriteeSVG, nodesKiltIconSVG, nodesLitentryPaseoSVG, nodesMandalaPNG, nodesMusePNG, nodesMyriadPaseoSVG, nodesNodleSVG, nodesRegionxPNG, nodesRexSVG, nodesXodePNG, nodesZeitgeistPNG } from '@polkadot/apps-config/ui/logos/nodes';
+import { nodesAjunaPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBifrostSVG, nodesBridgeHubSVG, nodesDarwiniaKoiSVG, nodesHeimaPaseoPNG, nodesHyperbridgePNG, nodesIdealNetworkSVG, nodesIntegriteeSVG, nodesKiltIconSVG, nodesMandalaPNG, nodesMusePNG, nodesMyriadPaseoSVG, nodesNodleSVG, nodesRegionxPNG, nodesRexSVG, nodesXodePNG, nodesZeitgeistPNG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
 // import { testnetParachainSVG } from '../ui/logos/nodes/index.js';
@@ -100,7 +100,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'Darwinia Koi',
     paraId: 2105,
     providers: {
-      Darwinia: 'wss://koi-rpc.darwinia.network'
+      // Darwinia: 'wss://koi-rpc.darwinia.network' // https://github.com/polkadot-js/apps/issues/11279
     },
     text: 'Darwinia Koi',
     ui: {
@@ -119,6 +119,19 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#19455E',
       logo: chainsFrequencyPaseoSVG
+    }
+  },
+  {
+    homepage: 'https://heima.network/',
+    info: 'heima-paseo',
+    paraId: 2106,
+    providers: {
+      Heima: 'wss://rpc.paseo-parachain.litentry.io'
+    },
+    text: 'Heima paseo',
+    ui: {
+      color: '#ECDA38',
+      logo: nodesHeimaPaseoPNG
     }
   },
   {
@@ -196,19 +209,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#363435',
       logo: chainsLaosSigmaPNG
-    }
-  },
-  {
-    homepage: 'https://www.litentry.com/',
-    info: 'paseoLitentry',
-    paraId: 2106,
-    providers: {
-      Litentry: 'wss://rpc.paseo-parachain.litentry.io'
-    },
-    text: 'Litentry',
-    ui: {
-      color: '#ECDA38',
-      logo: nodesLitentryPaseoSVG
     }
   },
   {
@@ -343,9 +343,9 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   {
     homepage: 'https://xcavate.io/',
     info: 'Xcavate',
-    paraId: 4603,
+    paraId: 4683,
     providers: {
-      Xcavate: 'wss://rpc-paseo.xcavate.io:443'
+      Xcavate: 'wss://rpc2-paseo.xcavate.io'
     },
     text: 'Xcavate',
     ui: {
