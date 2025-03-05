@@ -5,7 +5,7 @@
       49	pan                           	update Bifrost kusama on Subsquare (#9752)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
       41	MiZiet                        	Apply styles to the unbonding icon (#6314)
-      39	Arjun Porwal                  	fix: replace isEmpty checks with utility function in account info hooks (#11355)
+      40	Arjun Porwal                  	Enhance Preimages Page with Improved Usability (#11342)
       39	RadiumBlock                   	Re-adding RadiumBlock as Shiden and Bifrost Polkadot Endpoint provider (#11112)
       34	Joakim Nyman                  	Updated Dwellir endpoints for Moonriver, Moonbeam, Basilisk and Hydration (#11149)
       34	Yongfeng LI                   	Update subsquare and statescan external links (#11295)
