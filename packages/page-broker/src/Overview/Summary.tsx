@@ -4,17 +4,17 @@
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { statsType } from '../types.js';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { CardSummary, styled, SummaryBox, UsageBar } from '@polkadot/react-components';
 import { defaultHighlight } from '@polkadot/react-components/styles';
-import { useApi, useBrokerConfig, useBrokerSalesInfo, useBrokerStatus } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 import { type CoreWorkload } from '@polkadot/react-hooks/types';
-import { useCoretimeConsts } from '@polkadot/react-hooks/useCoretimeConsts';
 import { BN, BN_ZERO } from '@polkadot/util';
 
+import { useBrokerContext } from '../BrokerContext.js';
 import { useTranslation } from '../translate.js';
-import { estimateTime, getStats } from '../utils.js';
+import { getStats } from '../utils.js';
 import RegionLength from './Summary/RegionLength.js';
 import Timeslice from './Summary/Timeslice.js';
 import TimeslicePeriod from './Summary/TimeslicePeriod.js';
@@ -35,23 +35,17 @@ const StyledSection = styled.section`
 `;
 
 interface Props {
-  coreCount?: string
   apiEndpoint?: LinkOption | null;
+  coreCount?: string
   workloadInfos?: CoreWorkload[]
 }
 
 function Summary ({ coreCount, workloadInfos }: Props): React.ReactElement {
   const { t } = useTranslation();
-  const { api, apiEndpoint, isApiReady } = useApi();
-  const coretimeConstants = useCoretimeConsts();
+  const { api, apiEndpoint } = useApi();
   const uiHighlight = apiEndpoint?.ui.color || defaultHighlight;
   const { idles, pools, tasks }: statsType = React.useMemo(() => getStats(coreCount, workloadInfos), [coreCount, workloadInfos]);
-
-  const saleInfo = useBrokerSalesInfo(api, isApiReady);
-  const config = useBrokerConfig(api, isApiReady);
-  const status = useBrokerStatus(api, isApiReady);
-  const currentRegionEnd = useMemo(() => saleInfo && config && saleInfo?.regionEnd - config?.regionLength, [saleInfo, config]);
-  const currentRegionStart = useMemo(() => currentRegionEnd && config && currentRegionEnd - config?.regionLength, [currentRegionEnd, config]);
+  const { config, currentRegion, saleInfo, status } = useBrokerContext();
 
   return (
     <SummaryBox>
@@ -81,7 +75,7 @@ function Summary ({ coreCount, workloadInfos }: Props): React.ReactElement {
                 progress={{
                   isBlurred: false,
                   total: new BN(config?.regionLength || 0),
-                  value: (config?.regionLength && currentRegionEnd && status && new BN(config?.regionLength - (currentRegionEnd - status?.lastTimeslice))) || BN_ZERO,
+                  value: (config?.regionLength && currentRegion.end && status && new BN(config?.regionLength - (currentRegion.end - status?.lastTimeslice))) || BN_ZERO,
                   withTime: false
                 }}
               />
@@ -104,7 +98,7 @@ function Summary ({ coreCount, workloadInfos }: Props): React.ReactElement {
         </div>
       </StyledSection>
       <section>
-        {status && currentRegionStart && currentRegionEnd &&
+        {currentRegion.begin && currentRegion.end &&
           (
             <>
               <CardSummary
@@ -112,8 +106,8 @@ function Summary ({ coreCount, workloadInfos }: Props): React.ReactElement {
                 label={t('sale dates')}
               >
                 <div>
-                  <div style={{ fontSize: '14px' }}>{estimateTime(currentRegionStart, status?.lastTimeslice * 80, coretimeConstants?.relay)}</div>
-                  <div style={{ fontSize: '14px' }}>{estimateTime(currentRegionEnd, status?.lastTimeslice * 80, coretimeConstants?.relay)}</div>
+                  <div style={{ fontSize: '14px' }}>{currentRegion.beginDate}</div>
+                  <div style={{ fontSize: '14px' }}>{currentRegion.endDate}</div>
                 </div>
               </CardSummary>
               <CardSummary
@@ -121,8 +115,8 @@ function Summary ({ coreCount, workloadInfos }: Props): React.ReactElement {
                 label={t('sale ts')}
               >
                 <div>
-                  <div style={{ fontSize: '14px' }}>{currentRegionStart}</div>
-                  <div style={{ fontSize: '14px' }}>{currentRegionEnd}</div>
+                  <div style={{ fontSize: '14px' }}>{currentRegion.begin}</div>
+                  <div style={{ fontSize: '14px' }}>{currentRegion.end}</div>
                 </div>
               </CardSummary>
             </>
