@@ -11,7 +11,18 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { Button, FilterInput, SortDropdown, styled, SummaryBox, Table } from '@polkadot/react-components';
 import { getAccountCryptoType } from '@polkadot/react-components/util';
-import { useAccounts, useApi, useDelegations, useFavorites, useIpfs, useLedger, useNextTick, useProxies, useToggle } from '@polkadot/react-hooks';
+import {
+  useAccounts,
+  useApi,
+  useCall,
+  useDelegations,
+  useFavorites,
+  useIpfs,
+  useLedger,
+  useNextTick,
+  useProxies,
+  useToggle
+} from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { BN_ZERO, isFunction } from '@polkadot/util';
@@ -136,7 +147,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
             redeemable: aggregate('redeemable'),
             total: aggregate('total'),
             transferrable: aggregate('transferrable'),
-            unbonding: aggregate('unbonding')
+            unbonding: aggregate('unbonding'),
+            agereTotalBalance: aggregate('agereTotalBalance')
           }
         };
       }),

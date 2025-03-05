@@ -177,17 +177,22 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const [isTransferOpen, toggleTransfer] = useToggle();
   const [isDelegateOpen, toggleDelegate] = useToggle();
   const [isUndelegateOpen, toggleUndelegate] = useToggle();
+  const agereInfo = useCall(api.api.rpc?.xagere?.getStakeInfoForColdkey, [address]);
 
   useEffect((): void => {
     if (balancesAll) {
+      const agereTotalBalance = new BN(
+        Number(agereInfo?.toJSON().reduce((sum, item) => sum + BigInt(item.stake), 0n)) || 0
+      )
       setBalance(address, {
         // some chains don't have "active" in the Ledger
         bonded: stakingInfo?.stakingLedger.active?.unwrap() || BN_ZERO,
         locked: balancesAll.lockedBalance,
         redeemable: stakingInfo?.redeemable || BN_ZERO,
-        total: balancesAll.freeBalance.add(balancesAll.reservedBalance),
+        total: balancesAll.freeBalance.add(balancesAll.reservedBalance).add(agereTotalBalance),
         transferrable: balancesAll.availableBalance,
-        unbonding: calcUnbonding(stakingInfo)
+        unbonding: calcUnbonding(stakingInfo),
+        agereTotalBalance
       });
 
       api.api.tx.vesting?.vest && setVestingTx(() =>
@@ -196,7 +201,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           : api.api.tx.vesting.vest()
       );
     }
-  }, [address, api, balancesAll, setBalance, stakingInfo]);
+  }, [address, api, balancesAll, setBalance, stakingInfo, agereInfo]);
 
   useEffect((): void => {
     bestNumber && democracyLocks && setDemocracyUnlock(

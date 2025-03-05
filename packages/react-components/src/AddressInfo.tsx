@@ -5,9 +5,9 @@ import type { DeriveBalancesAccountData, DeriveBalancesAll, DeriveDemocracyLock,
 import type { Raw } from '@polkadot/types';
 import type { BlockNumber, ValidatorPrefsTo145, Voting } from '@polkadot/types/interfaces';
 import type { PalletBalancesReserveData } from '@polkadot/types/lookup';
-import type { BN } from '@polkadot/util';
+import { BN } from '@polkadot/util';
 
-import React, { useRef } from 'react';
+import React, { useRef, useMemo } from 'react';
 
 import { withCalls, withMulti } from '@polkadot/react-api/hoc';
 import {useApi, useBestNumber, useCall} from '@polkadot/react-hooks';
@@ -242,7 +242,7 @@ function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Prop
 
 function createBalanceItems (formatIndex: number, lookup: Record<string, string>, t: TFunction, { address, balanceDisplay, balancesAll, bestNumber, convictionLocks, democracyLocks, isAllLocked, otherBonded, ownBonded, stakingInfo, votingOf, withBalanceToggle, withLabel }: { address: string; balanceDisplay: BalanceActiveType; balancesAll?: DeriveBalancesAll | DeriveBalancesAccountData; bestNumber?: BlockNumber; convictionLocks?: RefLock[]; democracyLocks?: DeriveDemocracyLock[]; isAllLocked: boolean; otherBonded: BN[]; ownBonded: BN; stakingInfo?: DeriveStakingAccount; votingOf?: Voting; withBalanceToggle: boolean, withLabel: boolean }): React.ReactNode {
   const allItems: React.ReactNode[] = [];
-  const deriveBalances = balancesAll as (DeriveBalancesAll & { btcBalance: any });
+  const deriveBalances = balancesAll as (DeriveBalancesAll & { btcBalance: any; agereBalance: any });
 
   !withBalanceToggle && balanceDisplay.total && allItems.push(
     <React.Fragment key={0}>
@@ -251,7 +251,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
         className={`result ${balancesAll ? '' : '--tmp'}`}
         formatIndex={formatIndex}
         labelPost={<IconVoid />}
-        value={balancesAll ? balancesAll.freeBalance.add(balancesAll.reservedBalance) : 1}
+        value={balancesAll ? balancesAll.freeBalance.add(balancesAll.reservedBalance).add(new BN(deriveBalances?.agereBalance || 0)) : 1}
       />
     </React.Fragment>
   );
@@ -276,6 +276,18 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
         labelPost={<IconVoid />}
         format={[10, 'SATS']}
         value={deriveBalances.btcBalance}
+      />
+    </React.Fragment>
+  );
+
+  balancesAll && balanceDisplay.vested && deriveBalances.agereBalance && allItems.push(
+    <React.Fragment key={22}>
+      <Label label={`agere ${t('locked')}`} />
+      <FormatBalance
+        className='result'
+        formatIndex={formatIndex}
+        labelPost={<IconVoid />}
+        value={deriveBalances.agereBalance}
       />
     </React.Fragment>
   );
@@ -544,8 +556,8 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
 }
 
 function renderBalances (props: Props, lookup: Record<string, string>, bestNumber: BlockNumber | undefined, t: TFunction): React.ReactNode[] {
-  const { address, balancesAll, convictionLocks, democracyLocks, stakingInfo, votingOf, btcBalance, withBalance = true, withBalanceToggle = false, withLabel = false } = props;
-  const balancesAllWithBtc = balancesAll && btcBalance !== undefined ? { ...balancesAll, btcBalance } : undefined
+  const { address, balancesAll, convictionLocks, democracyLocks, stakingInfo, votingOf, btcBalance, agereBalance, withBalance = true, withBalanceToggle = false, withLabel = false } = props;
+  const balancesAllWithBtc = balancesAll && btcBalance !== undefined ? { ...balancesAll, btcBalance, agereBalance } : undefined
   const balanceDisplay = withBalance === true
     ? DEFAULT_BALANCES
     : withBalance || false;
@@ -572,6 +584,7 @@ function AddressInfo (props: Props): React.ReactElement<Props> {
   const { children, className = '', extraInfo, withBalanceToggle, withHexSessionId, address } = props;
   const { api } = useApi()
   const btcBalance = useCall<{ free: number }>(api.query.xBtcLedger.accountStore, [address])
+  const agereInfo = useCall(api.rpc.xagere?.getStakeInfoForColdkey, [address]);
 
   const lookup = useRef<Record<string, string>>({
     democrac: t('via Democracy/Vote'),
@@ -581,10 +594,17 @@ function AddressInfo (props: Props): React.ReactElement<Props> {
     'vesting ': t('via Vesting')
   });
 
+  const totalAgereBalance: number = useMemo(() => {
+    if (agereInfo) {
+      return Number(agereInfo.toJSON().reduce((sum, item) => sum + BigInt(item.stake), 0n));
+    }
+    return 0
+  }, [agereInfo])
+
   return (
     <div className={`${className} ui--AddressInfo ${withBalanceToggle ? 'ui--AddressInfo-expander' : ''}`}>
       <div className={`column${withBalanceToggle ? ' column--expander' : ''}`}>
-        {renderBalances({ ...props, btcBalance: btcBalance?.free }, lookup.current, bestNumber, t)}
+        {renderBalances({ ...props, btcBalance: btcBalance?.free, agereBalance: totalAgereBalance }, lookup.current, bestNumber, t)}
         {withHexSessionId?.[0] && (
           <>
             <Label label={t('session keys')} />
