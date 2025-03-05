@@ -426,5 +426,37 @@ export const BEVM_RPC = {
       ],
       "type": "RpcFeeDetails"
     }
-  }
+  },
+  "xagere": {
+    "getStakeInfoForColdkey": {
+      "description": "Get the staking information for a cold key",
+      "params": [
+        {
+          "name": "coldkey_account",
+          "type": "AccountId"
+        },
+        {
+          "name": "at",
+          "type": "Hash",
+          "isOptional": true
+        }
+      ],
+      "type": "Vec<StakeInfo<AccountId>>"
+    },
+    "getStakeInfoForColdkeys": {
+      "description": "Get the staking information for a list of cold keys",
+      "params": [
+        {
+          "name": "coldkey_accounts",
+          "type": "Vec<AccountId>"
+        },
+        {
+          "name": "at",
+          "type": "Hash",
+          "isOptional": true
+        }
+      ],
+      "type": "Vec<ColdkeyStakeInfoPair>"
+    }
+  },
 }

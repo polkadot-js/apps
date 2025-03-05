@@ -41,6 +41,7 @@ export interface AccountBalance {
   bonded: BN;
   redeemable: BN;
   unbonding: BN;
+  agereTotalBalance: BN;
 }
 
 export type PairType = 'ecdsa' | 'ed25519' | 'ed25519-ledger' | 'ethereum' | 'sr25519';

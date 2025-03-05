@@ -41,6 +41,12 @@ function Summary ({ balance, className }: Props) {
           value={balance?.locked || 1}
         />
       </CardSummary>
+      <CardSummary label={t('total agere locked')}>
+        <FormatBalance
+          className={balance ? '' : '--tmp'}
+          value={balance?.agereTotalBalance || 1}
+        />
+      </CardSummary>
       {balance?.bonded.gtn(0) &&
         <CardSummary
           className='media--1100'

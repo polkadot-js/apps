@@ -540,5 +540,11 @@ export const BEVM_TYPES =  {
       "Canceled"
     ]
   },
-  "ReferralId": "Text"
+  "ReferralId": "Text",
+  "StakeInfo": {
+    "hotkey": "AccountId",
+    "coldkey": "AccountId",
+    "stake": "u64"
+  },
+  "ColdkeyStakeInfoPair": "(AccountId, Vec<StakeInfo>)"
 }
