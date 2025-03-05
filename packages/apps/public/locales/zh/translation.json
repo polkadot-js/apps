@@ -124,7 +124,7 @@
   "Changing the key only takes effect at the start of the next session. The input here is generated from the author_rotateKeys command": "更改密钥只能在下一个 session 开始时生效。这里的输入是从 author_rotateKeys 命令生成的",
   "Chilled ({{count}})": "冻结 ({{count}})",
   "Chilled nominations ({{count}})": "冻结提名 ({{count}})",
-  "Claim": "映射",
+  "Claim": "领取",
   "Claim Interest": "提息",
   "Claim tokens": "映射代币",
   "Claim tokens...": "认领代币...",
