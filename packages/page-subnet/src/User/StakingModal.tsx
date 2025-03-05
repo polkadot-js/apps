@@ -60,6 +60,7 @@ function StakingModal({ account, modelName, toggleOpen, hotAddress, type, name, 
       <Modal.Content>
         <Modal.Columns>
           <InputAddress
+            isDisabled={name==='UnStake'}
             defaultValue={account}
             label={t('Address')}
             onChange={(value: string | null) => setSelectedAccount(value || '')}
@@ -76,6 +77,7 @@ function StakingModal({ account, modelName, toggleOpen, hotAddress, type, name, 
         </Modal.Columns>
         <Modal.Columns>
           <InputAddress
+            isDisabled={name==='UnStake'}
             label={t('Stake for participant')}
             onChange={(value: string | null) => setSelectedValidator(value || '')}
             options={[
