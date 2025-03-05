@@ -19,7 +19,7 @@ export const Cores = ({ color, phaseName, salesInfo }: { phaseName: string, sale
   const { t } = useTranslation();
   const { apiCoretime } = useApi();
   const bestNumberFinalized = useCall<BlockNumber>(apiCoretime?.derive.chain.bestNumberFinalized);
-  const coretimePrice = useMemo(() => bestNumberFinalized && getCorePriceAt(bestNumberFinalized.toNumber(), salesInfo), [salesInfo, bestNumberFinalized]);
+  const coretimePrice = useMemo(() => bestNumberFinalized && salesInfo && getCorePriceAt(bestNumberFinalized.toNumber(), salesInfo), [salesInfo, bestNumberFinalized]);
 
   const CoresWrapper = styled(WhiteBox)`
     justify-self: flex-end;
