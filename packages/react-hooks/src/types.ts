@@ -335,6 +335,7 @@ export interface ChainWorkTaskInformation {
   lastBlock: number
   renewal: PotentialRenewal | undefined
   renewalStatus: string
+  renewalStatusMessage: string
   type: CoreTimeTypes
   workload: CoreWorkload | undefined
   workplan: CoreWorkplan[] | undefined
