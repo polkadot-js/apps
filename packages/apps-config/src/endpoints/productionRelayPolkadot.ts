@@ -957,6 +957,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     providers: {
       IBP1: 'wss://sys.ibp.network/coretime-polkadot',
       IBP2: 'wss://coretime-polkadot.dotters.network',
+      LuckyFriday: 'wss://rpc-coretime-polkadot.luckyfriday.io',
       Parity: 'wss://polkadot-coretime-rpc.polkadot.io'
     },
     relayName: 'polkadot',
