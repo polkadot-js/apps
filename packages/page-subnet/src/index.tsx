@@ -22,11 +22,11 @@ interface Props {
 function createItemsRef (t: (key: string, options?: { replace: Record<string, unknown> }) => string): TabItem[] {
   return [
     {
+      isRoot: true,
       name: 'user',
       text: t('User Dashboard')
     },
     {
-      isRoot: true,
       name: 'agere',
       text: t('Agere')
     },
@@ -56,10 +56,10 @@ function App ({ basePath, className }: Props): React.ReactElement<Props> {
         items={itemsRef.current}
       />
       <Routes>
-        <Route path={`${basePath}`} element={<Subnet />} />
+        <Route path={`${basePath}`} element={<User />} />
         <Route path={`${basePath}/agere`} element={<Subnet />} />
         <Route path={`${basePath}/validator`} element={<Validator />} />
-        <Route path={`${basePath}/user`} element={<User />} />
+        {/*<Route path={`${basePath}/user`} element={} />*/}
       </Routes>
     </main>
   );

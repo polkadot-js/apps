@@ -20,7 +20,6 @@ interface Props {
   type: 'addStake' | 'removeStake';
   name: string;
   onSuccess: () => void;
-  showAmountInfo?:React.ReactNode
 }
 
 interface DelegateInfo {
@@ -30,7 +29,7 @@ interface DelegateInfo {
   owner_ss58: string;
 }
 
-function StakingModal({ account, modelName, toggleOpen, hotAddress, type, name, onSuccess:refreshData, showAmountInfo }: Props): React.ReactElement<Props> {
+function StakingModal({ account, modelName, toggleOpen, hotAddress, type, name, onSuccess:refreshData }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, systemChain } = useApi();
   const [amount, setAmount] = useState<BN | undefined>();
@@ -60,13 +59,11 @@ function StakingModal({ account, modelName, toggleOpen, hotAddress, type, name, 
       <Modal.Content>
         <Modal.Columns>
           <InputAddress
-            isDisabled={name==='UnStake'}
             defaultValue={account}
             label={t('Address')}
             onChange={(value: string | null) => setSelectedAccount(value || '')}
             type='account'
             labelExtra={
-              showAmountInfo ??
               <Available
                 label={t('transferrable')}
                 params={selectedAccount}
@@ -77,7 +74,6 @@ function StakingModal({ account, modelName, toggleOpen, hotAddress, type, name, 
         </Modal.Columns>
         <Modal.Columns>
           <InputAddress
-            isDisabled={name==='UnStake'}
             label={t('Stake for participant')}
             onChange={(value: string | null) => setSelectedValidator(value || '')}
             options={[

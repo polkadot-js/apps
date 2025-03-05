@@ -7,6 +7,7 @@ import StakingModal from './StakingModal.tsx';
 import { formatAddress, formatBEVM } from '../Utils/formatBEVM.ts';
 import TotalReturnWithTips from '../Utils/TotalReturnWithTips.js';
 import { FormatBalance } from '@polkadot/react-query';
+import UnStakingModal from './UnStakingModal.tsx';
 
 interface Props {
   className?: string;
@@ -184,7 +185,7 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
                       />
                     )}
                     {isUnStakingOpen && (
-                      <StakingModal
+                      <UnStakingModal
                         account={account}
                         modelName={'UnStake'}
                         onSuccess={()=> fetchDelegatedData(account, systemChain)}
