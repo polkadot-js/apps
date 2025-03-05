@@ -9,7 +9,16 @@ import Doughnut from './Doughnut.js';
 import HorizBar from './HorizBar.js';
 import Line from './Line.js';
 
-Chart.register(CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, annotationPlugin, crosshairPlugin);
+const CustomCrosshairPlugin = function (plugin: any) {  
+  const originalAfterDraw = plugin.afterDraw;  
+  plugin.afterDraw = function(chart:any, easing: any) {  
+      if (chart && chart.crosshair) {  
+        originalAfterDraw.call(this, chart, easing);  
+      }  
+  };  
+  return plugin;  
+};
+Chart.register(CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, annotationPlugin, CustomCrosshairPlugin(crosshairPlugin));
 
 export default {
   Doughnut,
