@@ -6,7 +6,7 @@ import { useApi, useToggle } from '@polkadot/react-hooks';
 import SubnetInfoTr from './SubnetInfoTr.js';
 import { SubnetInfo } from './Subnet.js';
 import { FormatBalance } from '@polkadot/react-query';
-import { asciiToString } from '../Utils/formatBEVM.js';
+import { asciiToString, formatBEVM } from '../Utils/formatBEVM.js';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
 interface Props {
@@ -133,7 +133,7 @@ function SubnetDetail({ className, selectedInfo, onClose }: Props): React.ReactE
      </Table>
      <SummaryBox className={className}>
        <CardSummary label={t('Emissions')}>
-         <span>{selectedInfo.emission_values}</span>
+         <span>{formatBEVM(selectedInfo.emission_values)}</span>
        </CardSummary>
        <CardSummary label={t('Validator')}>
          <span>{selectedInfo.max_allowed_validators}</span>
