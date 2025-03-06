@@ -16,9 +16,11 @@ function formatDate (date: Date) {
 }
 
 /**
+ * Calculation on the Relay chain
+ *
  * blockTime = 6000 ms
  * BlocksPerTimeslice = 80
- * Default Regoin = 5040 timeslices
+ * Default Region = 5040 timeslices
  * TargetBlock = TargetTimeslice * BlocksPerTimeslice
  * Block Time Difference = |TargetBlock - latest Block| * blockTime
  *
@@ -31,7 +33,7 @@ function formatDate (date: Date) {
 export const estimateTime = (
   targetTimeslice: string | number,
   latestBlock: number,
-  { blocksPerTimeslice: blocksPerTs, blocktimeMs }: ChainBlockConstants = { blocksPerTimeslice: 0, blocktimeMs: 0 }
+  { blocksPerTimeslice: blocksPerTs, blocktimeMs }: ChainBlockConstants = { blocksPerTimeslice: 80, blocktimeMs: 6000 }
 ): string | null => {
   if (!latestBlock || !targetTimeslice) {
     console.error('Invalid input: one or more inputs are missing');
@@ -39,16 +41,16 @@ export const estimateTime = (
     return null;
   }
 
-  const now = new Date().getTime();
+  const now = new BN(Date.now());
 
   try {
     const blockTime = new BN(blocktimeMs); // Average block time in milliseconds (6 seconds)
-    const timeSlice = new BN(blocksPerTs);
+    const blocksPerTimeslice = new BN(blocksPerTs);
+    const targetBlock = new BN(Number(targetTimeslice)).mul(blocksPerTimeslice);
     const latestBlockBN = new BN(latestBlock);
-    const timestampBN = new BN(now);
-    const targetBlockBN = new BN(targetTimeslice).mul(timeSlice);
-    const blockTimeDifference = targetBlockBN.sub(latestBlockBN).mul(blockTime);
-    const estTimestamp = timestampBN.add(blockTimeDifference);
+    const blockDifference = targetBlock.sub(latestBlockBN);
+    const timeDifference = blockDifference.mul(blockTime);
+    const estTimestamp = now.add(timeDifference);
 
     return formatDate(new Date(estTimestamp.toNumber()));
   } catch (error) {
@@ -70,15 +72,15 @@ export const estimateTime = (
 export function formatRowInfo (
   data: CoreWorkloadType[] | CoreWorkplanType[],
   core: number,
-  currentRegion: RegionInfo | undefined,
+  regionOwnerInfo: RegionInfo | undefined,
   currentTimeSlice: number,
-  { regionBegin, regionEnd }: { regionBegin: number, regionEnd: number },
+  currentRegion: { begin: number, end: number }, // in timeslices
   regionLength: number,
   coretimeRelayConstants: ChainBlockConstants = { blocksPerTimeslice: 0, blocktimeMs: 0 }
 ): InfoRow[] {
   return data.map((one: CoreWorkloadType | CoreWorkplanType) => {
     const item: InfoRow = { core, maskBits: one?.info?.maskBits, task: one?.info?.task, type: one?.type };
-    const blockNumberNow = currentTimeSlice * 80;
+    const blockNumberNow = currentTimeSlice * coretimeRelayConstants.blocksPerTimeslice;
 
     item.type = one.type;
     let end; let start = null;
@@ -87,15 +89,20 @@ export function formatRowInfo (
       const period = Math.floor(one.lastBlock / regionLength);
 
       end = period * regionLength;
-    } else {
-      start = currentRegion?.start?.toString() ?? regionBegin;
-      end = currentRegion?.end?.toString() ?? regionEnd;
     }
 
-    item.owner = currentRegion?.owner.toString();
+    if ([CoreTimeTypes['Bulk Coretime'], CoreTimeTypes.Reservation, CoreTimeTypes['On Demand']].includes(one.type)) {
+      start = currentRegion.begin;
+      end = currentRegion.end;
+    }
+
+    item.owner = regionOwnerInfo?.owner.toString();
+
     item.start = start ? estimateTime(start, blockNumberNow, coretimeRelayConstants) : null;
     item.end = end ? estimateTime(end, blockNumberNow, coretimeRelayConstants) : null;
-    item.endBlock = end ? Number(end) * 80 : 0;
+    item.endBlock = end ? Number(end) * coretimeRelayConstants.blocksPerTimeslice : 0;
+
+    item.startTimeslice = start;
 
     if ('timeslice' in one && !start) {
       start = estimateTime(one.timeslice, blockNumberNow, coretimeRelayConstants) ?? null;

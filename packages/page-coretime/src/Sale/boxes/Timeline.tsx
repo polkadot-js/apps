@@ -11,7 +11,7 @@ import { CardSummary, ProgressBar, styled, SummaryBox } from '@polkadot/react-co
 import { formatBalance, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../../translate.js';
-import { getSaleProgress } from '../../utils/sale.js';
+import { getCorePriceAt, getSaleProgress } from '../../utils/sale.js';
 import { WhiteBox } from '../../WhiteBox.js';
 
 const TimelineWrapper = styled(WhiteBox)`
@@ -43,6 +43,8 @@ export const Timeline = ({ color, coretimeInfo: { salesInfo, status }, phaseName
       salesInfo.regionBegin),
   [saleParams, status.lastTimeslice, salesInfo.regionBegin]);
 
+  const coretimePriceStart = useMemo(() => salesInfo && getCorePriceAt(salesInfo.saleStart, salesInfo), [salesInfo]);
+
   return (
     <TimelineWrapper>
       <p style={{ fontSize: '16px', fontWeight: 'bold' }}>{t('Sale timeline')}</p>
@@ -53,6 +55,7 @@ export const Timeline = ({ color, coretimeInfo: { salesInfo, status }, phaseName
             <CardSummary label='current phase end'>{saleParams?.phaseConfig?.config[phaseName as keyof typeof saleParams.phaseConfig.config].end.date}</CardSummary>
             <CardSummary label='last phase block'>{formatNumber(saleParams?.phaseConfig?.config[phaseName as keyof typeof saleParams.phaseConfig.config].end.blocks.relay)}</CardSummary>
           </>}
+          <CardSummary label='start price'>{formatBalance(coretimePriceStart)}</CardSummary>
           <CardSummary label='fixed price'>{formatBalance(salesInfo.endPrice)}</CardSummary>
         </section>
         <section>
