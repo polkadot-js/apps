@@ -20,10 +20,10 @@
     "path": false
   },
   "dependencies": {
-    "@polkadot/api": "^15.6.1",
-    "@polkadot/extension-compat-metamask": "^0.58.4",
-    "@polkadot/extension-dapp": "^0.58.4",
-    "@polkadot/rpc-provider": "^15.6.1",
+    "@polkadot/api": "^15.7.2",
+    "@polkadot/extension-compat-metamask": "^0.58.5",
+    "@polkadot/extension-dapp": "^0.58.5",
+    "@polkadot/rpc-provider": "^15.7.2",
     "fflate": "^0.8.1",
     "rxjs": "^7.8.1"
   },
