@@ -1,5 +1,31 @@
 # CHANGELOG
 
+## 0.151.1 Mar 6, 2025
+
+Contributed:
+
+- Add light client for LAOS parachain ([#11284](https://github.com/polkadot-js/apps/pull/11284)) (Thanks to https://github.com/asiniscalchi)
+- Update para id and providers ([#11326](https://github.com/polkadot-js/apps/pull/11326)) (Thanks to https://github.com/ganesh1997oli)
+- Add zkVerify Testnet ([#11356](https://github.com/polkadot-js/apps/pull/11356)) (Thanks to https://github.com/DanieleDiBenedetto)
+
+
+Changes:
+
+- Ensure useReferenda doesnt cause a white screen ([#11328](https://github.com/polkadot-js/apps/pull/11328))
+- Improve parameter handling in Option ([#11330](https://github.com/polkadot-js/apps/pull/11330))
+- Maximum transfer value while teleport ([#11332](https://github.com/polkadot-js/apps/pull/11332))
+- Fix Asset Id Parsing ([#11334](https://github.com/polkadot-js/apps/pull/11334))
+- Enhancement: Fee Payment with Sufficient Assets ([#11336](https://github.com/polkadot-js/apps/pull/11336))
+- Enhancement: Improve Fee Token Verification & Asset ID Handling ([#11341](https://github.com/polkadot-js/apps/pull/11341))
+- Disable unreachable endpoints ([#11338](https://github.com/polkadot-js/apps/pull/11338))
+- Fix: Voting on referenda breaks Apps ([#11344](https://github.com/polkadot-js/apps/pull/11344))
+- Improve Address Book Search ([#11350](https://github.com/polkadot-js/apps/pull/11350))
+- Replace `isEmpty` checks with utility function ([#11355](https://github.com/polkadot-js/apps/pull/11355))
+- Ensure safety check on isEmpty ([#11358](https://github.com/polkadot-js/apps/pull/11358))
+- Fix for not showing expires if the chain renewed ([#11353](https://github.com/polkadot-js/apps/pull/11353))
+- Enhance Preimages Page with Improved Usability ([#11342](https://github.com/polkadot-js/apps/pull/11342))
+- Upgraded polkadot deps ([#11365](https://github.com/polkadot-js/apps/pull/11365))
+
 ## 0.150.2 Feb 22, 2025
 
 Changes:
