@@ -13,7 +13,7 @@ export default function create (t: TFunction): Route {
         'query.scheduler.agenda'
       ]
     },
-    group: 'network',
+    group: 'agere',
     icon: 'network-wired',
     name: 'agere',
     text: t('nav.agere', 'Agere', { ns: 'apps-routing' })
