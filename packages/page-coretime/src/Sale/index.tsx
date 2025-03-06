@@ -118,7 +118,7 @@ function Sale ({ chainName }: Props): React.ReactElement<Props> {
             phaseName={phaseName}
             saleParams={saleParams}
           />}
-        <div style={{ backgroundColor: 'white', borderRadius: '4px', gridColumn: '1 / -1', justifySelf: 'center', padding: '24px', width: '100%' }}>
+        <div style={{ borderRadius: '4px', gridColumn: '1 / -1', justifySelf: 'center', padding: '24px', width: '100%' }}>
           <p style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '1rem' }}>{t('Sale information')}</p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <div style={{ maxWidth: '300px' }}>
