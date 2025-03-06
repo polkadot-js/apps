@@ -65,7 +65,7 @@ function SubnetInfoTr({ className, info }: Props): React.ReactElement<Props> {
       </tr>
       {isExpanded && (
         <tr className={`${className} isExpanded details-row`}>
-          <td colSpan={7}>
+          <td colSpan={8}>
             <div style={{
               display: 'flex',
               gap: '10rem',
