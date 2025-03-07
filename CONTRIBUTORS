@@ -4,7 +4,7 @@
       62	kwingram25                    	iadd fix (#2911)
       49	pan                           	update Bifrost kusama on Subsquare (#9752)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
-      42	Arjun Porwal                  	0.151.1 (#11369)
+      43	Arjun Porwal                  	chore: disable unreachable endpoints (#11371)
       41	MiZiet                        	Apply styles to the unbonding icon (#6314)
       39	RadiumBlock                   	Re-adding RadiumBlock as Shiden and Bifrost Polkadot Endpoint provider (#11112)
       34	Joakim Nyman                  	Updated Dwellir endpoints for Moonriver, Moonbeam, Basilisk and Hydration (#11149)
