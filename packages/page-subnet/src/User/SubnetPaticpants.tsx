@@ -101,7 +101,7 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
                   <td className='number' style={{textAlign:'start'}}>{info.rank}</td>
                   <td className='text' style={{textAlign:'start'}}>{info.subnetIdentity}</td>
                   <td className='text' style={{textAlign:'start'}}>{<AddressSmall value={info.hotKey} />}</td>
-                  <td className='number' style={{textAlign:'start'}}>{info.yourStakeAmount}</td>
+                  <td className='number' style={{textAlign:'start'}}>{formatBEVM(info.yourStakeAmount)}</td>
                   <td className='number' style={{textAlign:'start'}}>
                     <TotalReturnWithTips key={`${info.hotKey}-${info.netuid}`} value={formatBEVM(info.totalDailyReturn)}/>
                   </td>

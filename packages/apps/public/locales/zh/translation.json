@@ -1455,7 +1455,7 @@
   "delegate": "委托",
   "register": "注册",
   "Stake for participant": "质押给参与者",
-  "If you are unable to register as a agere participant through the script of the agere you wish to join, please use this feature to register as a validator/executor for any agere.":"若您无法通过您希望加入的agere的脚本注册成为agere参与者，请使用此功能注册为任意agere的验证者/执行者。",
+  "If you are unable to register as a agere participant through the script of the agere you wish to join, please use this feature to register as an auditor/executor for any agere.":"若您无法通过您希望加入的agere的脚本注册成为agere参与者，请使用此功能注册为任意agere的审计者/执行者。",
   "Before becoming a delegate, you must first register as a agere participant. Once this prerequisite is fulfilled, you need to complete an additional registration step, which will enable you to receive staking from community users.": "在成为委派代表之前，您必须首先注册成为agere参与者。一旦满足这一先决条件，您需要完成一个额外的注册步骤，这将使您能够接收来自社区用户的质押。",
   "This panel primarily displays information about user staking and users becoming agere participants.": "此面板主要显示有关用户质押和用户成为agere参与者的信息。",
   "Your Agere Participants Status": "你的Agere参与者状态",

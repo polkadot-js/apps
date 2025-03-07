@@ -122,14 +122,14 @@ function Subnet({ className }: Props): React.ReactElement<Props> {
                 }}
               >
                 <td>{subnet.netuid}</td>
-                <td>{asciiToString(subnet.identity?.subnet_name)}</td>
+                <td>{subnet.agereName}</td>
                 <td><AddressSmall value={subnet.owner} /></td>
                 <td>
-                  <TotalReturnWithTips key={`${subnet.netuid}`} value={formatBEVM(subnet.emission_values * 24)}/>
+                  <TotalReturnWithTips key={`${subnet.netuid}`} value={formatBEVM(subnet.totalDailyReturn)}/>
                 </td>
                 <td>{formatBEVM(subnet.recycled)}</td>
                 <td>{formatBEVM(subnet.burn)}</td>
-                <td>{subnet.subnetwork_n + "/" + subnet.max_allowed_uids}</td>
+                <td>{subnet.subnetworkNumber + "/" + subnet.maxAllowedUids}</td>
               </tr>
             ))}
           </Table>
