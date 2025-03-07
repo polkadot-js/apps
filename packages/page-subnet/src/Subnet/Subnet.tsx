@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Input, AddressSmall } from '@polkadot/react-components';
 import { useTranslation } from '../translate.js';
-import { useApi, useCall } from '@polkadot/react-hooks';
-import { callXAgereRpc } from '../callXAgereRpc.js';
+import { useApi } from '@polkadot/react-hooks';
 import { formatBEVM } from '../Utils/formatBEVM.js';
 import SubnetDetail from './SubnetDetail.js';
 import TotalReturnWithTips from '../Utils/TotalReturnWithTips.js';
@@ -48,15 +47,12 @@ function Subnet({ className }: Props): React.ReactElement<Props> {
     [t('Agere ID'), 'start', undefined],
     [t('Agere Name'), 'start', undefined],
     [t('Agere Owner'), 'start', undefined],
-    [t('Earn(24h)'), 'start', undefined],
+    [<TotalReturnWithTips value={t('Earn(24h)')}/>, 'start'],
+    // [t('Earn(24h)'), 'start', undefined],
     [t('Recycled (Total)'), 'start', undefined],
     [t('Register Fee'), 'start', undefined],
     [t('Participants'), 'start', undefined]
-  ] as [React.ReactNode?, string?, number?, (() => void)?][];
-
-  const asciiToString = (ascii: number[]): string => {
-    return ascii ? ascii.map(code => String.fromCharCode(code)).join('') : '-';
-  };
+  ];
 
   const filterSubnets = (data: SubnetInfo[]): SubnetInfo[] => {
     if (!filter) return data;
@@ -65,13 +61,9 @@ function Subnet({ className }: Props): React.ReactElement<Props> {
     return data.filter((subnet) => {
       const searchableFields = [
         subnet.netuid.toString(),
-        asciiToString(subnet.identity?.subnet_name),
+        subnet.agereName,
         subnet.owner,
-        formatBEVM(subnet.emission_values),
-        formatBEVM(subnet.recycled),
-        subnet.difficulty.toString()
       ];
-
       return searchableFields.some(field =>
         field.toLowerCase().includes(searchTerm)
       );
@@ -83,64 +75,114 @@ function Subnet({ className }: Props): React.ReactElement<Props> {
   };
 
   return (
-    <>
-      {!selectedInfo ? (
-        <div className={className}>
-          <div style={{
-            background: 'white',
-            borderRadius: '0.25rem',
-            marginBottom: '1rem',
-            padding: '1rem'
-          }}>
-            <Input
-              autoFocus
-              isFull
-              onChange={handleFilterChange}
-              label={t('filter by Agere ID, Agere Name, Agere Owner')}
-              value={filter}
-            />
-          </div>
+    // <>
+    //   {!selectedInfo ? (
+    //     <div className={className}>
+    //       <div style={{
+    //         background: 'white',
+    //         borderRadius: '0.25rem',
+    //         marginBottom: '1rem',
+    //         padding: '1rem'
+    //       }}>
+    //         <Input
+    //           autoFocus
+    //           isFull
+    //           onChange={handleFilterChange}
+    //           label={t('filter by Agere ID, Agere Name, Agere Owner')}
+    //           value={filter}
+    //         />
+    //       </div>
+    //
+    //       <Table
+    //         empty={t('No ageres found')}
+    //         header={header}
+    //         style={{
+    //           '& td': {
+    //             padding: '1rem',
+    //             borderBottom: '1px solid var(--border-table)',
+    //             textAlign: 'start'
+    //           }
+    //         }}
+    //       >
+    //         {filterSubnets(subnets)?.map((subnet) => (
+    //           <tr
+    //             key={subnet.netuid}
+    //             onClick={() => setSelectedInfo(subnet)}
+    //             style={{
+    //               height: '70px',
+    //               cursor: 'pointer'
+    //             }}
+    //           >
+    //             <td>{subnet.netuid}</td>
+    //             <td>{subnet.agereName}</td>
+    //             <td><AddressSmall value={subnet.owner} /></td>
+    //             <td>
+    //               <TotalReturnWithTips key={`${subnet.netuid}`} value={formatBEVM(subnet.totalDailyReturn)}/>
+    //             </td>
+    //             <td>{formatBEVM(subnet.recycled)}</td>
+    //             <td>{formatBEVM(subnet.burn)}</td>
+    //             <td>{subnet.subnetworkNumber + "/" + subnet.maxAllowedUids}</td>
+    //           </tr>
+    //         ))}
+    //       </Table>
+    //     </div>
+    //   ) : (
+    //     <SubnetDetail
+    //       selectedInfo={selectedInfo}
+    //       onClose={() => setSelectedInfo(null)}
+    //     />
+    //   )}
+    // </>
+    <div className={className}>
+      <div style={{
+        background: 'white',
+        borderRadius: '0.25rem',
+        marginBottom: '1rem',
+        padding: '1rem'
+      }}>
+        <Input
+          autoFocus
+          isFull
+          onChange={handleFilterChange}
+          label={t('filter by Agere ID, Agere Name, Agere Owner')}
+          value={filter}
+        />
+      </div>
 
-          <Table
-            empty={t('No ageres found')}
-            header={header}
+      <Table
+        empty={t('No ageres found')}
+        header={header}
+        style={{
+          '& td': {
+            padding: '1rem',
+            borderBottom: '1px solid var(--border-table)',
+            textAlign: 'start'
+          }
+        }}
+      >
+        {filterSubnets(subnets)?.map((subnet) => (
+          <tr
+            key={subnet.netuid}
+            onClick={() => setSelectedInfo(subnet)}
             style={{
-              '& td': {
-                padding: '1rem',
-                borderBottom: '1px solid var(--border-table)',
-                textAlign: 'start'
-              }
+              height: '70px',
+              cursor: 'pointer'
             }}
           >
-            {filterSubnets(subnets)?.map((subnet) => (
-              <tr
-                key={subnet.netuid}
-                onClick={() => setSelectedInfo(subnet)}
-                style={{
-                  height: '70px',
-                  cursor: 'pointer'
-                }}
-              >
-                <td>{subnet.netuid}</td>
-                <td>{subnet.agereName}</td>
-                <td><AddressSmall value={subnet.owner} /></td>
-                <td>
-                  <TotalReturnWithTips key={`${subnet.netuid}`} value={formatBEVM(subnet.totalDailyReturn)}/>
-                </td>
-                <td>{formatBEVM(subnet.recycled)}</td>
-                <td>{formatBEVM(subnet.burn)}</td>
-                <td>{subnet.subnetworkNumber + "/" + subnet.maxAllowedUids}</td>
-              </tr>
-            ))}
-          </Table>
-        </div>
-      ) : (
-        <SubnetDetail
-          selectedInfo={selectedInfo}
-          onClose={() => setSelectedInfo(null)}
-        />
-      )}
-    </>
+            <td>{subnet.netuid}</td>
+            <td>{subnet.agereName}</td>
+            <td><AddressSmall value={subnet.owner} /></td>
+            <td>
+              {formatBEVM(subnet.totalDailyReturn)}
+              {/*<TotalReturnWithTips key={`${subnet.netuid}`} value={formatBEVM(subnet.totalDailyReturn)}/>*/}
+            </td>
+            <td>{formatBEVM(subnet.recycled)}</td>
+            <td>{formatBEVM(subnet.burn)}</td>
+            <td>{subnet.subnetworkNumber + "/" + subnet.maxAllowedUids}</td>
+          </tr>
+        ))}
+      </Table>
+    </div>
   );
 }
 

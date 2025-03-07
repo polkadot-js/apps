@@ -43,7 +43,8 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
     [t('Agere Name'), 'start'],
     [t('Hot Address'), 'start'],
     [t('Your Stake'), 'start'],
-    [t('Earn(24h)'), 'start'],
+    [<TotalReturnWithTips value={t('Your Earn(24h)')}/>, 'start'],
+    // [t('Your Earn(24h)'), 'start'],
     [t('Auditor status'), 'start'],
     [t('Auditor Permit'), 'start'],
     [t('Executor status'), 'start'],
@@ -103,7 +104,8 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
                   <td className='text' style={{textAlign:'start'}}>{<AddressSmall value={info.hotKey} />}</td>
                   <td className='number' style={{textAlign:'start'}}>{formatBEVM(info.yourStakeAmount)}</td>
                   <td className='number' style={{textAlign:'start'}}>
-                    <TotalReturnWithTips key={`${info.hotKey}-${info.netuid}`} value={formatBEVM(info.totalDailyReturn)}/>
+                    {formatBEVM(info.yourDailyReturn)}
+                    {/*<TotalReturnWithTips key={`${info.hotKey}-${info.netuid}`} value={formatBEVM(info.yourDailyReturn)}/>*/}
                   </td>
                   <td style={{textAlign:'start'}}>{info.validatorTrust > 0 ? t('Active') : t('Inactive')}</td>
                   <td style={{textAlign:'start'}}>{info.validatorPermit ? t('Yes') : t('No')}</td>

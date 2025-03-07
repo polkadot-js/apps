@@ -27,7 +27,7 @@ function createItemsRef (t: (key: string, options?: { replace: Record<string, un
       text: t('User Dashboard')
     },
     {
-      name: 'agere',
+      name: 'info',
       text: t('Agere')
     },
     {
@@ -57,7 +57,7 @@ function App ({ basePath, className }: Props): React.ReactElement<Props> {
       />
       <Routes>
         <Route path={`${basePath}`} element={<User />} />
-        <Route path={`${basePath}/agere`} element={<Subnet />} />
+        <Route path={`${basePath}/info`} element={<Subnet />} />
         <Route path={`${basePath}/auditor`} element={<Validator />} />
         {/*<Route path={`${basePath}/user`} element={} />*/}
       </Routes>

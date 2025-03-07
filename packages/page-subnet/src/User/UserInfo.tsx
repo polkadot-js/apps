@@ -37,7 +37,7 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
 
   const header = [
     [t('Delegator'), 'start'],
-    [t('Earn(24h)'), 'start'],
+    [<TotalReturnWithTips value={t('Your Earn(24h)')}/>, 'start'],
     [t('Total Stake Amount'), 'start'],
     [t('Your Stake Amount'), 'start'],
     [t('Operation'), 'start']
@@ -132,7 +132,8 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
             {delegateData?.map((info, index) => (
               <tr key={index}>
                 <td>{<AddressSmall value={info.delegator} />}</td>
-                <td><TotalReturnWithTips key={`${info.delegator}`} value={formatBEVM(info.totalDailyReturn)}/></td>
+                <td>{formatBEVM(info.yourDailyReturn)}</td>
+                {/*<td><TotalReturnWithTips key={`${info.delegator}`} value={formatBEVM(info.yourDailyReturn)}/></td>*/}
                 <td>{formatBEVM(info.totalStakeAmount)}</td>
                 <td>{formatBEVM(info.yourStakeAmount)}</td>
                 <td>
