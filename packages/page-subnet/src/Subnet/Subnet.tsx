@@ -6,6 +6,7 @@ import { callXAgereRpc } from '../callXAgereRpc.js';
 import { formatBEVM } from '../Utils/formatBEVM.js';
 import SubnetDetail from './SubnetDetail.js';
 import TotalReturnWithTips from '../Utils/TotalReturnWithTips.js';
+import { axiosXAgereRpc } from '../axiosXAgereRpc.js';
 
 interface Props {
   className?: string;
@@ -13,29 +14,13 @@ interface Props {
 
 interface SubnetInfo {
   netuid: number;
-  rho: number;
-  kappa: number;
-  difficulty: number;
-  immunity_period: number;
-  max_allowed_validators: number;
-  min_allowed_weights: number;
-  max_weights_limit: number;
-  scaling_law_power: number;
-  subnetwork_n: number;
-  max_allowed_uids: number;
-  blocks_since_last_step: number;
-  tempo: number;
-  network_modality: number;
-  network_connect: any[];
-  emission_values: number;
-  burn: number;
-  recycled: number;
+  agereName: string;
   owner: string;
-  identity: {
-    subnet_name: number[];
-    github_repo: number[];
-    subnet_contact: number[];
-  };
+  totalDailyReturn: number;
+  recycled: number;
+  burn: number;
+  subnetworkNumber: number;
+  maxAllowedUids: number;
 }
 
 function Subnet({ className }: Props): React.ReactElement<Props> {
@@ -46,17 +31,18 @@ function Subnet({ className }: Props): React.ReactElement<Props> {
   const [subnets, setSubnets] = useState<SubnetInfo[]>([]);
 
   useEffect((): void => {
-    callXAgereRpc('xagere_getSubnetsInfo_v2', [], systemChain)
-      .then(response => {
-        console.log('xagere_getSubnetsInfo_v2 Response:', response);
-        if (Array.isArray(response)) {
-          setSubnets(response);
-        }
-      })
-      .catch(error => {
-        console.error('xagere_getSubnetsInfo_v2 Error:', error);
-      });
+    axiosXAgereRpc('/xagere/getSubnetsInfo_v2', {}, systemChain)
+    .then(response => {
+      console.log('xagere_getSubnetsInfo_v2 Response:', response);
+      if (Array.isArray(response)) {
+        setSubnets(response);
+      }
+    })
+    .catch(error => {
+      console.error('xagere_getSubnetsInfo_v2 Error:', error);
+    });
   }, [systemChain]);
+
 
   const header = [
     [t('Agere ID'), 'start', undefined],

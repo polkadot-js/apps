@@ -2,49 +2,31 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from '../translate.js';
 import { AddressSmall, Button, Table, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
-import { callXAgereRpc } from '../callXAgereRpc.js';
 import StakingModal from './StakingModal.js';
-import { asciiToString, formatAddress, formatBEVM } from '../Utils/formatBEVM.js';
+import { formatBEVM } from '../Utils/formatBEVM.js';
 import DelegateeInfo from './DelegateInfo.tsx';
 import RegisterInfo from './RegisterInfo.tsx';
-import Icon from '@polkadot/react-components/Icon';
-import Tooltip from '@polkadot/react-components/Tooltip';
 import TotalReturnWithTips from '../Utils/TotalReturnWithTips.js';
+import { axiosXAgereRpc } from '../axiosXAgereRpc.js';
 
 interface Props {
   className?: string;
   account: string;
 }
 
-interface SubnetIdentity {
-  subnet_name: number[];
-  github_repo: number[];
-  subnet_contact: number[];
-}
-
 interface HotkeyInfo {
-  hotkey: string;
+  netuid: number,
+  rank: number,
+  subnetIdentity: string;
+  hotKey: string;
   coldkey: string;
-  uid: number;
-  netuid: number;
-  active: boolean;
-  stake: number;
-  nominators: [string, number][];
-  rank: number;
-  rank_score: number;
-  emission: number;
-  incentive: number;
-  consensus: number;
+  totalDailyReturn: number;
+  totalStakeAmount: number;
+  yourStakeAmount: number;
+  yourDailyReturn: number;
+  validatorTrust: number;
+  validatorPermit: boolean;
   trust: number;
-  validator_trust: number;
-  dividends: number;
-  last_update: number;
-  validator_permit: boolean;
-  pruning_score: number;
-  total_stake: number;
-  return_per_1000: number;
-  total_daily_return: number;
-  subnet_identity: SubnetIdentity | null;
 }
 
 function SubnetParticipants ({ className, account }: Props): React.ReactElement<Props> {
@@ -69,7 +51,7 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
   ];
 
   const fetchDelegateData = (account: string, systemChain: string) => {
-    callXAgereRpc('xagere_getColdkeyOwnedHotkeysInfo', [account], systemChain)
+    axiosXAgereRpc('/xagere/getColdkeyOwnedHotkeysInfo', {address: account}, systemChain)
       .then(response => {
         console.log('xagere_getColdkeyOwnedHotkeysInfo Response:', response);
         if (Array.isArray(response)) {
@@ -112,22 +94,19 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
             },
           }}
         >
-          {delegateData
-            ?.filter((info) => info.coldkey === account)
-            ?.map(
+          {delegateData?.map(
               (info)=>{
-                const yourStake = info.nominators.find(([addr]) => addr === account)?.[1] || 0;
-                return <tr key={`${info.hotkey}-${info.netuid}`} className='ui--Table-Body' style={{height:'70px'}}>
+                return <tr key={`${info.hotKey}-${info.netuid}`} className='ui--Table-Body' style={{height:'70px'}}>
                   <td className='number' style={{textAlign:'start'}}>{info.netuid}</td>
                   <td className='number' style={{textAlign:'start'}}>{info.rank}</td>
-                  <td className='text' style={{textAlign:'start'}}>{info.subnet_identity ? asciiToString(info.subnet_identity.subnet_name) : '-'}</td>
-                  <td className='text' style={{textAlign:'start'}}>{<AddressSmall value={info.hotkey} />}</td>
-                  <td className='number' style={{textAlign:'start'}}>{formatBEVM(yourStake)}</td>
+                  <td className='text' style={{textAlign:'start'}}>{info.subnetIdentity}</td>
+                  <td className='text' style={{textAlign:'start'}}>{<AddressSmall value={info.hotKey} />}</td>
+                  <td className='number' style={{textAlign:'start'}}>{info.yourStakeAmount}</td>
                   <td className='number' style={{textAlign:'start'}}>
-                    <TotalReturnWithTips key={`${info.hotkey}-${info.netuid}`} value={formatBEVM(info.emission * 24)}/>
+                    <TotalReturnWithTips key={`${info.hotKey}-${info.netuid}`} value={formatBEVM(info.totalDailyReturn)}/>
                   </td>
-                  <td style={{textAlign:'start'}}>{info.validator_trust > 0 ? t('Active') : t('Inactive')}</td>
-                  <td style={{textAlign:'start'}}>{info.validator_permit ? t('Yes') : t('No')}</td>
+                  <td style={{textAlign:'start'}}>{info.validatorTrust > 0 ? t('Active') : t('Inactive')}</td>
+                  <td style={{textAlign:'start'}}>{info.validatorPermit ? t('Yes') : t('No')}</td>
                   <td className='status' style={{textAlign:'start'}}>{info.trust > 0 ? t('Active') : t('Inactive')}</td>
                   <td>
                     <div style={{textAlign:'start'}}>
@@ -135,13 +114,13 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
                         icon='plus'
                         isDisabled={!account}
                         label={t('Stake')}
-                        onClick={()=>{toggleIsStakingOpen();setOpenStakeHotAddress(info.hotkey)}}
+                        onClick={()=>{toggleIsStakingOpen();setOpenStakeHotAddress(info.hotKey)}}
                       />
                       <Button
                         icon='minus'
                         isDisabled={!account}
                         label={t('UnStake')}
-                        onClick={()=>{toggleIsUnStakingOpen();setOpenStakeHotAddress(info.hotkey)}}
+                        onClick={()=>{toggleIsUnStakingOpen();setOpenStakeHotAddress(info.hotKey)}}
                       />
                     </div>
                   </td>
