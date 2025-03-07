@@ -275,7 +275,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'imbue',
     paraId: 2121,
     providers: {
-      'Imbue Network 0': 'wss://kusama.imbuenetwork.com'
+      // 'Imbue Network 0': 'wss://kusama.imbuenetwork.com' // https://github.com/polkadot-js/apps/issues/11364
       // 'Imbue Network 1': 'wss://collator.production.imbue.network' // https://github.com/polkadot-js/apps/issues/9848
     },
     text: 'Imbue Network',
