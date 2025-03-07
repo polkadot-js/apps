@@ -110,13 +110,13 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
             margin: 0,
             flex: 1,
             paddingRight: '2rem'
-          }}>{t('Delegate to the registrant you believe is suitable, and you can share a portion of their rewards. Please click the button to proceed with your staking!')}</p>
+          }}>{t('Delegate to the auditor, and you can share a portion of BEVM rewards. Please click the button to proceed with your staking!')}</p>
 
           <Button
             icon='paper-plane'
             isDisabled={!account}
             label={t('Delegate BEVM')}
-            onClick={() => window.location.href = '/#/agere/validator'}
+            onClick={() => window.location.href = '/#/agere/auditor'}
           />
         </div>
       </div>

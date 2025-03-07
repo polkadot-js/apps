@@ -1,13 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from '../translate.js';
-import { AddressSmall, Button, CardSummary, Input, InputAddress, SummaryBox, Table } from '@polkadot/react-components';
+import { Button, CardSummary, Input, InputAddress, SummaryBox, Table } from '@polkadot/react-components';
 import { callXAgereRpc } from '../callXAgereRpc.js';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import SubnetInfoTr from './SubnetInfoTr.js';
 import { SubnetInfo } from './Subnet.js';
-import { FormatBalance } from '@polkadot/react-query';
 import { asciiToString, formatBEVM } from '../Utils/formatBEVM.js';
-import CopyToClipboard from 'react-copy-to-clipboard';
 
 interface Props {
   className?: string;
@@ -135,7 +133,7 @@ function SubnetDetail({ className, selectedInfo, onClose }: Props): React.ReactE
        <CardSummary label={t('Emissions')}>
          <span>{formatBEVM(selectedInfo.emission_values)}</span>
        </CardSummary>
-       <CardSummary label={t('Validator')}>
+       <CardSummary label={t('Auditor')}>
          <span>{selectedInfo.max_allowed_validators}</span>
        </CardSummary>
        <CardSummary label={t('Miner')}>

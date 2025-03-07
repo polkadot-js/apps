@@ -62,8 +62,8 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
     [t('Hot Address'), 'start'],
     [t('Your Stake'), 'start'],
     [t('Earn(24h)'), 'start'],
-    [t('Validator status'), 'start'],
-    [t('Validator Permit'), 'start'],
+    [t('Auditor status'), 'start'],
+    [t('Auditor Permit'), 'start'],
     [t('Executor status'), 'start'],
     [t('Operation'), 'start']
   ];

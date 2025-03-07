@@ -1462,5 +1462,9 @@
   "Register as a Delegate": "注册为被委托人",
   "Your delegation position": "你的委托仓位",
   "UnStake": "解除质押",
-  "The minimum self-staking amount is fixed at 100 BEVM, and accounts with a transferable balance of less than 200.002 BEVM will not be able to successfully register as validator nodes.": "最低自抵押金额固定为100 BEVM，且可转账余额少于200.002 BEVM的账户将无法成功注册为验证节点。"
+  "The minimum self-staking amount is fixed at 100 BEVM, and accounts with a transferable balance of less than 200.002 BEVM will not be able to successfully register as validator nodes.": "最低自抵押金额固定为100 BEVM，且可转账余额少于200.002 BEVM的账户将无法成功注册为验证节点。",
+  "auditor": "审计者",
+  "Delegate to the auditor, and you can share a portion of BEVM rewards. Please click the button to proceed with your staking! ": "委托给审计者，你可以获得一部分的BEVM奖励。点击按钮开启你的质押吧！",
+  "Auditor status": "审计者状态",
+  "Auditor Permit": "审计者许可"
 }
