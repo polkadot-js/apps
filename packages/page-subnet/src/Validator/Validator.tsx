@@ -28,7 +28,7 @@ function Validator({ className }: Props): React.ReactElement<Props> {
   const [selectedAccount, setSelectedAccount] = useState<string>(hasAccounts ? allAccounts[0] : '');
   const [isStakingOpen, toggleIsStakingOpen] = useToggle();
   const [openStakeHotAddress, setOpenStakeHotAddress] = useState<string>('');
-  
+
 
   useEffect((): void => {
     axiosXAgereRpc('/xagere/getDelegates', {}, systemChain)
@@ -51,7 +51,7 @@ function Validator({ className }: Props): React.ReactElement<Props> {
     [t('Commission'), 'start'],
     [t('Total Stake'), 'start'],
     [t('Nominator'), 'start'],
-    [t('Earn(24h)'), 'start'],
+    [<TotalReturnWithTips value={t('Earn(24h)')}/>, 'start'],
     [t('Operation'), 'start']
   ];
 
@@ -89,7 +89,7 @@ function Validator({ className }: Props): React.ReactElement<Props> {
               <td className='number' style={{textAlign:'start'}}>{info.commission}</td>
               <td className='number' style={{textAlign:'start'}}>{formatBEVM(info.totalStake)}</td>
               <td className='number' style={{textAlign:'start'}}>{info.nominatorsCount}</td>
-              <td className='number' style={{textAlign:'start'}}><TotalReturnWithTips key={`${info.delegateAddress}-${index}`} value={formatBEVM(info.totalDailyReturn)}/></td>
+              <td className='number' style={{textAlign:'start'}}>{formatBEVM(info.totalDailyReturn)}</td>
               <td>
                 <Button
                   icon='paper-plane'
