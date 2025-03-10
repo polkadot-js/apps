@@ -52,6 +52,7 @@ function SubnetParticipants ({ className, account }: Props): React.ReactElement<
   ];
 
   const fetchDelegateData = (account: string, systemChain: string) => {
+    if(!account || !systemChain) return
     axiosXAgereRpc('/xagere/getColdkeyOwnedHotkeysInfo', {address: account}, systemChain)
       .then(response => {
         console.log('xagere_getColdkeyOwnedHotkeysInfo Response:', response);

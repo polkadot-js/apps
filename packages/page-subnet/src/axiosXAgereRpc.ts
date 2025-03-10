@@ -10,14 +10,21 @@ export async function axiosXAgereRpc(method: string, params: any, systemChain?: 
     url = 'https://api-pre.bevm.io';
   }
 
-  const response = await axios({
-    method: 'GET',
-    url: url.concat(method),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    params: params
-  });
+  try {
+    if(!axios) return []
+    const response =  await axios({
+      method: 'GET',
+      url: url.concat(method),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      params: params
+    });
 
-  return response.data.data;
+    return response.data.data;
+  }catch (e) {
+    console.error(e)
+    return [];
+  }
+
 }

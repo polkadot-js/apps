@@ -30,6 +30,7 @@ function Subnet({ className }: Props): React.ReactElement<Props> {
   const [subnets, setSubnets] = useState<SubnetInfo[]>([]);
 
   useEffect((): void => {
+    if(!systemChain) return
     axiosXAgereRpc('/xagere/getSubnetsInfo_v2', {}, systemChain)
     .then(response => {
       console.log('xagere_getSubnetsInfo_v2 Response:', response);
@@ -48,7 +49,6 @@ function Subnet({ className }: Props): React.ReactElement<Props> {
     [t('Agere Name'), 'start', undefined],
     [t('Agere Owner'), 'start', undefined],
     [<TotalReturnWithTips value={t('Earn(24h)')}/>, 'start'],
-    // [t('Earn(24h)'), 'start', undefined],
     [t('Recycled (Total)'), 'start', undefined],
     [t('Register Fee'), 'start', undefined],
     [t('Participants'), 'start', undefined]

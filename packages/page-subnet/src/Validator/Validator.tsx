@@ -31,6 +31,7 @@ function Validator({ className }: Props): React.ReactElement<Props> {
 
 
   useEffect((): void => {
+    if(!systemChain) return
     axiosXAgereRpc('/xagere/getDelegates', {}, systemChain)
     .then(response => {
       if (response && Array.isArray(response)) {

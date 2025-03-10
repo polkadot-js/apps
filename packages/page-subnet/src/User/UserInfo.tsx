@@ -44,6 +44,7 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
   ];
 
   const fetchDelegatedData = (account: string, systemChain: string) => {
+    if(!account || !systemChain) return
     axiosXAgereRpc('/xagere/getDelegated', {
       address: account
     }, systemChain)
