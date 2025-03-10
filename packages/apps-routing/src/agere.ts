@@ -8,12 +8,8 @@ import Component from '../../page-subnet/src/index.js';
 export default function create (t: TFunction): Route {
   return {
     Component,
-    display: {
-      needsApi: [
-        'query.scheduler.agenda'
-      ]
-    },
-    group: 'network',
+    display: {},
+    group: 'agere',
     icon: 'network-wired',
     name: 'agere',
     text: t('nav.agere', 'Agere', { ns: 'apps-routing' })

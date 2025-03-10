@@ -102,6 +102,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
     developer: t('Developer'),
     files: t('Files'),
     governance: t('Governance'),
+    agere: t('Agere'),
     network: t('Network'),
     settings: t('Settings')
   });

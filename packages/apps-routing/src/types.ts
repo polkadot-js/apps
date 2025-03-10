@@ -6,7 +6,7 @@ import type React from 'react';
 import type { ApiPromise } from '@polkadot/api';
 import type { AppProps, BareProps } from '@polkadot/react-components/types';
 
-export type RouteGroup = 'accounts' | 'developer' | 'governance' | 'network' | 'files' | 'settings';
+export type RouteGroup = 'accounts' | 'developer' | 'governance' | 'network' | 'files' | 'settings' | 'agere';
 
 export interface RouteProps extends AppProps, BareProps {
   location: any;

@@ -42,7 +42,7 @@ function RegisterInfo({ className, account, onSuccess }: Props): React.ReactElem
             margin: 0,
             flex: 1,
             paddingRight: '2rem'
-          }}>{t('If you are unable to register as a agere participant through the script of the agere you wish to join, please use this feature to register as a validator/executor for any agere.')}</p>
+          }}>{t('If you are unable to register as a agere participant through the script of the agere you wish to join, please use this feature to register as an auditor/executor for any agere.')}</p>
 
           <Button
             icon='plus'
