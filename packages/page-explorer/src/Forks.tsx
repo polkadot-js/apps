@@ -5,7 +5,6 @@ import type { Header } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-
 import { CardSummary, IdentityIcon, styled, SummaryBox } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
@@ -135,8 +134,6 @@ function isSingleRow (cols: Col[]): boolean {
 }
 
 function renderCol ({ author, hash, isEmpty, isFinalized, parent, width }: Col, index: number): React.ReactNode {
- 
-  
   return (
     <td
       className={`header ${isEmpty ? 'isEmpty' : ''} ${isFinalized ? 'isFinalized' : 'isNotFinal'}`}
@@ -447,9 +444,8 @@ const StyledDiv = styled.div`
         }
         
         &.isNotFinal {
-        color: rgba(0,0,0);
+          color: rgba(0,0,0);
         }
-        
 
         &.isLink {
           background: transparent;
