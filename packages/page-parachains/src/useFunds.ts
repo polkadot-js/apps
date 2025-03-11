@@ -160,7 +160,7 @@ function useFundsImpl (): Campaigns {
   const trigger = useEventTrigger([api.events.crowdloan?.Created]);
   const paraIds = useMapKeys(api.query.crowdloan?.funds, [], OPT_FUNDS, trigger.blockHash);
   const campaigns = useCall<Campaign[]>(api.query.crowdloan?.funds.multi, [paraIds], OPT_FUNDS_MULTI);
-  const leases = useCall<ParaId[]>(api.query.slots.leases.multi, [paraIds], OPT_LEASE);
+  const leases = useCall<ParaId[]>(api.query.slots?.leases.multi, [paraIds], OPT_LEASE);
   const [result, setResult] = useState<Campaigns>(EMPTY);
 
   // here we manually add the actual ending status and calculate the totals

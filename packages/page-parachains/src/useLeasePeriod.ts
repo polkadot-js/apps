@@ -14,12 +14,12 @@ function useLeasePeriodImpl (): LeasePeriod | undefined {
   const bestNumber = useBestNumber();
 
   return useMemo((): LeasePeriod | undefined => {
-    if (!api.consts.slots.leasePeriod || !bestNumber) {
+    if (!api.consts.slots?.leasePeriod || !bestNumber) {
       return;
     }
 
-    const length = api.consts.slots.leasePeriod as BlockNumber;
-    const startNumber = bestNumber.sub((api.consts.slots.leaseOffset as BlockNumber) || BN_ZERO);
+    const length = api.consts.slots?.leasePeriod as BlockNumber;
+    const startNumber = bestNumber.sub((api.consts.slots?.leaseOffset as BlockNumber) || BN_ZERO);
     const progress = startNumber.mod(length);
 
     return {
