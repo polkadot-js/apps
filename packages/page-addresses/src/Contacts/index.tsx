@@ -55,6 +55,31 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     );
   }, []);
 
+  const onExport = useCallback(() => {
+    const accounts = sortedAddresses?.map(({ address, isFavorite }) => {
+      // Get account name here
+      return { address, isFavorite, name: '' };
+    });
+
+    /** **************** Export accounts as JSON ******************/
+
+    const jsonData = JSON.stringify(accounts, null, 2); // Pretty-print JSON
+    const blob = new Blob([jsonData], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+
+    a.href = url;
+    a.download = `batch_exported_address_book_${new Date().getTime()}.json`; // File name
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    URL.revokeObjectURL(url); // Clean up
+
+    /** ********************* ************** ************************/
+  }, [sortedAddresses]);
+
   return (
     <StyledDiv className={className}>
       {isCreateOpen && (
@@ -73,6 +98,19 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           />
         </section>
         <Button.Group>
+          <Button
+            icon='file-arrow-down'
+            label={t('Import')}
+          />
+          {!!sortedAddresses?.length &&
+            (
+              <Button
+                icon='file-arrow-up'
+                label={t('Export')}
+                onClick={onExport}
+              />
+            )
+          }
           <Button
             icon='plus'
             label={t('Add contact')}
