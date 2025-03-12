@@ -1,23 +1,30 @@
 // Copyright 2017-2025 @polkadot/app-addresses authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import type { ActionStatus, ActionStatusBase } from '@polkadot/react-components/Status/types';
 import type { FunInputFile, SaveFile } from './types.js';
 
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useRef } from 'react';
 
-import { Button } from '@polkadot/react-components';
+import { Button, InputAddress } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
+import keyring from '@polkadot/ui-keyring';
+import { hexToU8a } from '@polkadot/util';
+import { ethereumEncode } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate.js';
 
 interface Props {
-  onStatusChange: (status: ActionStatus) => void
+  favorites: string[];
+  onStatusChange: (status: ActionStatus) => void;
+  toggleFavorite: (address: string) => void;
 }
 
-function Import ({ onStatusChange }: Props): React.ReactElement<Props> {
+function Import ({ favorites, onStatusChange, toggleFavorite }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api, isEthereum } = useApi();
   const importInputRef = useRef<HTMLInputElement>(null);
-  const [files, setFiles] = useState<SaveFile[]>([]);
 
   const _onImportResult = useCallback<(m: string, s?: ActionStatusBase['status']) => void>(
     (message, status = 'queued') => {
@@ -30,6 +37,75 @@ function Import ({ onStatusChange }: Props): React.ReactElement<Props> {
   [onStatusChange, t]
   );
 
+  const validateAccountInfo = useCallback(({ address: addressInput, name }: SaveFile) => {
+    let address = '';
+    let isAddressValid = true;
+    let isAddressExisting = false;
+    let isPublicKey = false;
+    let isNameValid = !!name.trim();
+
+    try {
+      if (isEthereum) {
+        const rawAddress = hexToU8a(addressInput);
+
+        address = ethereumEncode(rawAddress);
+        isPublicKey = rawAddress.length === 20;
+      } else {
+        const publicKey = keyring.decodeAddress(addressInput);
+
+        address = keyring.encodeAddress(publicKey);
+        isPublicKey = publicKey.length === 32;
+      }
+
+      if (!isAddressValid) {
+        const old = keyring.getAddress(address);
+
+        if (old) {
+          const newName = old.meta.name || name;
+
+          isAddressExisting = true;
+          isAddressValid = true;
+          isNameValid = !!(newName || '').trim();
+        }
+      }
+    } catch {
+      isAddressValid = false;
+    }
+
+    return {
+      address,
+      isAddressExisting,
+      isAddressValid,
+      isNameValid,
+      isPublicKey
+    };
+  }, [isEthereum]);
+
+  const _onAddAccount = useCallback(
+    async (account: SaveFile): Promise<void> => {
+      const { address, name } = account;
+      const info: DeriveAccountInfo = await api.derive.accounts.info(address);
+      const { isAddressExisting, isAddressValid, isNameValid } = validateAccountInfo(account);
+      const isValid = (isAddressValid && isNameValid) && !!info?.accountId;
+
+      if (!isValid || !info?.accountId || isAddressExisting) {
+        return;
+      }
+
+      try {
+        const address = info.accountId.toString();
+
+        keyring.saveAddress(address, { genesisHash: keyring.genesisHash, name: name.trim(), tags: [] });
+        InputAddress.setLastValue('address', address);
+
+        if (account.isFavorite && !favorites.includes(address)) {
+          toggleFavorite(address);
+        }
+      } catch (_) { }
+    },
+    [api.derive.accounts, favorites, toggleFavorite, validateAccountInfo]
+  );
+
   const onImport = useCallback(() => {
     if (!importInputRef.current) {
       return;
@@ -40,6 +116,7 @@ function Import ({ onStatusChange }: Props): React.ReactElement<Props> {
 
   const _onInputImportFile = useCallback<FunInputFile>((e) => {
     try {
+      _onImportResult(t('Importing'));
       const fileReader = new FileReader();
       const files = e.target.files;
 
@@ -54,30 +131,34 @@ function Import ({ onStatusChange }: Props): React.ReactElement<Props> {
       }
 
       fileReader.onload = (e) => {
-        const _list = JSON.parse(e.target?.result as string) as SaveFile[];
+        try {
+          const _list = JSON.parse(e.target?.result as string) as SaveFile[];
 
-        if (!Array.isArray(_list)) {
-          return _onImportResult(t('file content error'), 'error');
-        }
-
-        const fitter: SaveFile[] = [];
-
-        for (const item of _list) {
-          if (item.name && item.address) {
-            fitter.push(item);
+          if (!Array.isArray(_list)) {
+            return _onImportResult(t('file content error'), 'error');
           }
+
+          const fitter: SaveFile[] = [];
+
+          for (const item of _list) {
+            if (item.name && item.address) {
+              fitter.push(item);
+            }
+          }
+
+          fitter.forEach((account) => {
+            _onAddAccount(account).catch(console.error);
+          });
+
+          _onImportResult(t('Success'), 'success');
+        } catch {
+          _onImportResult(t('file content error'), 'error');
         }
-
-        setFiles(fitter);
-
-        _onImportResult(t('Import Success'), 'success');
       };
     } catch {
       _onImportResult(t('file content error'), 'error');
     }
-  }, [_onImportResult, t]);
-
-  console.log(files);
+  }, [_onAddAccount, _onImportResult, t]);
 
   return (
     <>
