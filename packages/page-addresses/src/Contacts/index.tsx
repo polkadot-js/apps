@@ -3,6 +3,7 @@
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 
+import FileSaver from 'file-saver';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Button, FilterInput, styled, SummaryBox, Table } from '@polkadot/react-components';
@@ -119,19 +120,10 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
     /** **************** Export accounts as JSON ******************/
 
-    const jsonData = JSON.stringify(accounts, null, 2); // Pretty-print JSON
-    const blob = new Blob([jsonData], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
+    const blob = new Blob([JSON.stringify(accounts, null, 2)], { type: 'application/json; charset=utf-8' });
 
-    const a = document.createElement('a');
-
-    a.href = url;
-    a.download = `batch_exported_address_book_${new Date().getTime()}.json`; // File name
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-
-    URL.revokeObjectURL(url); // Clean up
+    // eslint-disable-next-line deprecation/deprecation
+    FileSaver.saveAs(blob, `batch_exported_address_book_${new Date().getTime()}.json`);
 
     /** ********************* ************** ************************/
   }, [sortedAddresses]);
