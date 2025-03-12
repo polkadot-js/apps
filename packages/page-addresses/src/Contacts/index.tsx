@@ -1,13 +1,13 @@
 // Copyright 2017-2025 @polkadot/app-addresses authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { ActionStatus, ActionStatusBase } from '@polkadot/react-components/Status/types';
 
 import FileSaver from 'file-saver';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Button, FilterInput, styled, SummaryBox, Table } from '@polkadot/react-components';
-import { useAddresses, useFavorites, useNextTick, useToggle } from '@polkadot/react-hooks';
+import { useAddresses, useFavorites, useNextTick, useQueue, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 
 import CreateModal from '../modals/Create.js';
@@ -15,6 +15,7 @@ import { useTranslation } from '../translate.js';
 import Address from './Address.js';
 
 interface SortedAddress { address: string; isFavorite: boolean, isVisible: boolean }
+interface SaveFile { address: string; isFavorite: boolean, name: string }
 
 interface Props {
   className?: string;
@@ -27,6 +28,8 @@ const STORE_FAVS = 'accounts:favorites';
 
 function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { queueAction } = useQueue();
+  const [files, setFiles] = useState<SaveFile[]>([]);
   const { allAddresses } = useAddresses();
   const [isCreateOpen, toggleCreate] = useToggle(false);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
@@ -60,6 +63,17 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     );
   }, []);
 
+  const _onImportResult = useCallback<(m: string, s?: ActionStatusBase['status']) => void>(
+    (message, status = 'queued') => {
+      queueAction?.({
+        action: t('Import file'),
+        message,
+        status
+      });
+    },
+  [queueAction, t]
+  );
+
   const onImport = useCallback(() => {
     if (!importInputRef.current) {
       return;
@@ -70,46 +84,42 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
   const _onInputImportFile = useCallback<FunInputFile>((e) => {
     try {
-      // _onImportResult(t('Importing'));
       const fileReader = new FileReader();
       const files = e.target.files;
 
       if (!files) {
-        return;
+        return _onImportResult(t('no file choosen'), 'error');
       }
 
       fileReader.readAsText(files[0], 'UTF-8');
 
-      // if (!(/(.json)$/i.test(e.target.value))) {
-      //   return _onImportResult(t('file error'), 'error');
-      // }
+      if (!(/(.json)$/i.test(e.target.value))) {
+        return _onImportResult(t('file error'), 'error');
+      }
 
-      // fileReader.onload = (e) => {
-      //   const _list = JSON.parse(e.target?.result as string) as SaveFile[];
+      fileReader.onload = (e) => {
+        const _list = JSON.parse(e.target?.result as string) as SaveFile[];
 
-      //   if (!Array.isArray(_list)) {
-      //     return _onImportResult(t('file content error'), 'error');
-      //   }
+        if (!Array.isArray(_list)) {
+          return _onImportResult(t('file content error'), 'error');
+        }
 
-      //   const fitter: SaveFile[] = [];
-      //   const mapImport: Record<string, boolean> = {};
+        const fitter: SaveFile[] = [];
 
-      //   for (const item of _list) {
-      //     if (item.Hash && item.Name && item.UpEndpoint && item.PinEndpoint) {
-      //       fitter.push(item);
-      //       mapImport[item.Hash] = true;
-      //     }
-      //   }
+        for (const item of _list) {
+          if (item.name && item.address) {
+            fitter.push(item);
+          }
+        }
 
-      //   const filterOld = wFiles.files.filter((item) => !mapImport[item.Hash]);
+        setFiles(fitter);
 
-      //   wFiles.setFiles([...fitter, ...filterOld]);
-      //   _onImportResult(t('Import Success'), 'success');
-      // };
+        _onImportResult(t('Import Success'), 'success');
+      };
     } catch {
-      // _onImportResult(t('file content error'), 'error');
+      _onImportResult(t('file content error'), 'error');
     }
-  }, []);
+  }, [_onImportResult, t]);
 
   const onExport = useCallback(() => {
     const accounts = sortedAddresses?.map(({ address, isFavorite }) => {
