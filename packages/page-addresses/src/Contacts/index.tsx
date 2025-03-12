@@ -7,6 +7,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Button, FilterInput, styled, SummaryBox, Table } from '@polkadot/react-components';
 import { useAddresses, useFavorites, useNextTick, useToggle } from '@polkadot/react-hooks';
+import { keyring } from '@polkadot/ui-keyring';
 
 import CreateModal from '../modals/Create.js';
 import { useTranslation } from '../translate.js';
@@ -57,8 +58,9 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
   const onExport = useCallback(() => {
     const accounts = sortedAddresses?.map(({ address, isFavorite }) => {
-      // Get account name here
-      return { address, isFavorite, name: '' };
+      const account = keyring.getAddress(address);
+
+      return { address, isFavorite, name: account?.meta.name || address };
     });
 
     /** **************** Export accounts as JSON ******************/
