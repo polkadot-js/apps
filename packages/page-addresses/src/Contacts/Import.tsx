@@ -57,16 +57,14 @@ function Import ({ favorites, onStatusChange, toggleFavorite }: Props): React.Re
         isPublicKey = publicKey.length === 32;
       }
 
-      if (!isAddressValid) {
-        const old = keyring.getAddress(address);
+      const old = keyring.getAddress(address);
 
-        if (old) {
-          const newName = old.meta.name || name;
+      if (old) {
+        const newName = old.meta.name || name;
 
-          isAddressExisting = true;
-          isAddressValid = true;
-          isNameValid = !!(newName || '').trim();
-        }
+        isAddressExisting = true;
+        isAddressValid = true;
+        isNameValid = !!(newName || '').trim();
       }
     } catch {
       isAddressValid = false;
@@ -82,14 +80,14 @@ function Import ({ favorites, onStatusChange, toggleFavorite }: Props): React.Re
   }, [isEthereum]);
 
   const _onAddAccount = useCallback(
-    async (account: SaveFile): Promise<void> => {
+    async (account: SaveFile): Promise<boolean> => {
       const { address, name } = account;
       const info: DeriveAccountInfo = await api.derive.accounts.info(address);
       const { isAddressExisting, isAddressValid, isNameValid } = validateAccountInfo(account);
       const isValid = (isAddressValid && isNameValid) && !!info?.accountId;
 
       if (!isValid || !info?.accountId || isAddressExisting) {
-        return;
+        return false;
       }
 
       try {
@@ -101,7 +99,11 @@ function Import ({ favorites, onStatusChange, toggleFavorite }: Props): React.Re
         if (account.isFavorite && !favorites.includes(address)) {
           toggleFavorite(address);
         }
-      } catch (_) { }
+
+        return true;
+      } catch (_) {
+        return false;
+      }
     },
     [api.derive.accounts, favorites, toggleFavorite, validateAccountInfo]
   );
@@ -111,12 +113,13 @@ function Import ({ favorites, onStatusChange, toggleFavorite }: Props): React.Re
       return;
     }
 
+    importInputRef.current.value = '';
     importInputRef.current.click();
   }, []);
 
   const _onInputImportFile = useCallback<FunInputFile>((e) => {
     try {
-      _onImportResult(t('Importing'));
+      _onImportResult(t('Importing'), 'queued');
       const fileReader = new FileReader();
       const files = e.target.files;
 
@@ -130,7 +133,7 @@ function Import ({ favorites, onStatusChange, toggleFavorite }: Props): React.Re
         return _onImportResult(t('file error'), 'error');
       }
 
-      fileReader.onload = (e) => {
+      fileReader.onload = async (e) => {
         try {
           const _list = JSON.parse(e.target?.result as string) as SaveFile[];
 
@@ -146,11 +149,21 @@ function Import ({ favorites, onStatusChange, toggleFavorite }: Props): React.Re
             }
           }
 
-          fitter.forEach((account) => {
-            _onAddAccount(account).catch(console.error);
-          });
+          let importedAccounts = 0;
 
-          _onImportResult(t('Success'), 'success');
+          for (const account of fitter) {
+            try {
+              const flag = await _onAddAccount(account);
+
+              importedAccounts += Number(flag);
+            } catch { }
+          }
+
+          if (importedAccounts > 0) {
+            _onImportResult(t('Success'), 'success');
+          } else {
+            _onImportResult(t('no account imported'), 'eventWarn');
+          }
         } catch {
           _onImportResult(t('file content error'), 'error');
         }
