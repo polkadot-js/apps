@@ -20,6 +20,8 @@ interface Props {
   onStatusChange: (status: ActionStatus) => void;
 }
 
+type FunInputFile = (e: React.ChangeEvent<HTMLInputElement>) => void
+
 const STORE_FAVS = 'accounts:favorites';
 
 function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
@@ -30,6 +32,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const [sortedAddresses, setSortedAddresses] = useState<SortedAddress[] | undefined>();
   const [filterOn, setFilter] = useState<string>('');
   const isNextTick = useNextTick();
+  const importInputRef = useRef<HTMLInputElement>(null);
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
     [t('contacts'), 'start', 4]
@@ -54,6 +57,57 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       ?.map((e) => e.address === address ? { ...e, isVisible } : e)
       .sort((a, b) => a.isVisible === b.isVisible ? 0 : b.isVisible ? 1 : -1)
     );
+  }, []);
+
+  const onImport = useCallback(() => {
+    if (!importInputRef.current) {
+      return;
+    }
+
+    importInputRef.current.click();
+  }, []);
+
+  const _onInputImportFile = useCallback<FunInputFile>((e) => {
+    try {
+      // _onImportResult(t('Importing'));
+      const fileReader = new FileReader();
+      const files = e.target.files;
+
+      if (!files) {
+        return;
+      }
+
+      fileReader.readAsText(files[0], 'UTF-8');
+
+      // if (!(/(.json)$/i.test(e.target.value))) {
+      //   return _onImportResult(t('file error'), 'error');
+      // }
+
+      // fileReader.onload = (e) => {
+      //   const _list = JSON.parse(e.target?.result as string) as SaveFile[];
+
+      //   if (!Array.isArray(_list)) {
+      //     return _onImportResult(t('file content error'), 'error');
+      //   }
+
+      //   const fitter: SaveFile[] = [];
+      //   const mapImport: Record<string, boolean> = {};
+
+      //   for (const item of _list) {
+      //     if (item.Hash && item.Name && item.UpEndpoint && item.PinEndpoint) {
+      //       fitter.push(item);
+      //       mapImport[item.Hash] = true;
+      //     }
+      //   }
+
+      //   const filterOld = wFiles.files.filter((item) => !mapImport[item.Hash]);
+
+      //   wFiles.setFiles([...fitter, ...filterOld]);
+      //   _onImportResult(t('Import Success'), 'success');
+      // };
+    } catch {
+      // _onImportResult(t('file content error'), 'error');
+    }
   }, []);
 
   const onExport = useCallback(() => {
@@ -84,6 +138,13 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
   return (
     <StyledDiv className={className}>
+      <input
+        accept='application/json'
+        onChange={_onInputImportFile}
+        ref={importInputRef}
+        style={{ display: 'none' }}
+        type={'file'}
+      />
       {isCreateOpen && (
         <CreateModal
           onClose={toggleCreate}
@@ -101,13 +162,14 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         </section>
         <Button.Group>
           <Button
-            icon='file-arrow-down'
+            icon='file-import'
             label={t('Import')}
+            onClick={onImport}
           />
           {!!sortedAddresses?.length &&
             (
               <Button
-                icon='file-arrow-up'
+                icon='file-export'
                 label={t('Export')}
                 onClick={onExport}
               />
