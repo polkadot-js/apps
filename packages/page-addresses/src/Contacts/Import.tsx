@@ -1,34 +1,33 @@
 // Copyright 2017-2025 @polkadot/app-addresses authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ActionStatusBase } from '@polkadot/react-components/Status/types';
+import type { ActionStatus, ActionStatusBase } from '@polkadot/react-components/Status/types';
 import type { FunInputFile, SaveFile } from './types.js';
 
 import React, { useCallback, useRef, useState } from 'react';
 
 import { Button } from '@polkadot/react-components';
-import { useQueue } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
 
 interface Props {
+  onStatusChange: (status: ActionStatus) => void
 }
 
-function Import (): React.ReactElement<Props> {
+function Import ({ onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const importInputRef = useRef<HTMLInputElement>(null);
-  const { queueAction } = useQueue();
   const [files, setFiles] = useState<SaveFile[]>([]);
 
   const _onImportResult = useCallback<(m: string, s?: ActionStatusBase['status']) => void>(
     (message, status = 'queued') => {
-      queueAction?.({
+      onStatusChange?.({
         action: t('Import file'),
         message,
         status
       });
     },
-  [queueAction, t]
+  [onStatusChange, t]
   );
 
   const onImport = useCallback(() => {

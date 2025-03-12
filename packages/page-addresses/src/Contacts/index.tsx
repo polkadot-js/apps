@@ -75,7 +75,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           />
         </section>
         <Button.Group>
-          <Import />
+          <Import onStatusChange={onStatusChange} />
           <Export sortedAddresses={sortedAddresses} />
           <Button
             icon='plus'
