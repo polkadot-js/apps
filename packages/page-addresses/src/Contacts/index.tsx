@@ -2,27 +2,22 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus, ActionStatusBase } from '@polkadot/react-components/Status/types';
+import type { FunInputFile, SaveFile, SortedAddress } from './types.js';
 
-import FileSaver from 'file-saver';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Button, FilterInput, styled, SummaryBox, Table } from '@polkadot/react-components';
 import { useAddresses, useFavorites, useNextTick, useQueue, useToggle } from '@polkadot/react-hooks';
-import { keyring } from '@polkadot/ui-keyring';
 
 import CreateModal from '../modals/Create.js';
 import { useTranslation } from '../translate.js';
 import Address from './Address.js';
-
-interface SortedAddress { address: string; isFavorite: boolean, isVisible: boolean }
-interface SaveFile { address: string; isFavorite: boolean, name: string }
+import Export from './Export.jsx';
 
 interface Props {
   className?: string;
   onStatusChange: (status: ActionStatus) => void;
 }
-
-type FunInputFile = (e: React.ChangeEvent<HTMLInputElement>) => void
 
 const STORE_FAVS = 'accounts:favorites';
 
@@ -121,23 +116,6 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     }
   }, [_onImportResult, t]);
 
-  const onExport = useCallback(() => {
-    const accounts = sortedAddresses?.map(({ address, isFavorite }) => {
-      const account = keyring.getAddress(address);
-
-      return { address, isFavorite, name: account?.meta.name || address };
-    });
-
-    /** **************** Export accounts as JSON ******************/
-
-    const blob = new Blob([JSON.stringify(accounts, null, 2)], { type: 'application/json; charset=utf-8' });
-
-    // eslint-disable-next-line deprecation/deprecation
-    FileSaver.saveAs(blob, `batch_exported_address_book_${new Date().getTime()}.json`);
-
-    /** ********************* ************** ************************/
-  }, [sortedAddresses]);
-
   return (
     <StyledDiv className={className}>
       <input
@@ -168,15 +146,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
             label={t('Import')}
             onClick={onImport}
           />
-          {!!sortedAddresses?.length &&
-            (
-              <Button
-                icon='file-export'
-                label={t('Export')}
-                onClick={onExport}
-              />
-            )
-          }
+          <Export sortedAddresses={sortedAddresses} />
           <Button
             icon='plus'
             label={t('Add contact')}
