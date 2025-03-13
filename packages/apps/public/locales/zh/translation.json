@@ -1465,7 +1465,7 @@
   "UnStake": "解除质押",
   "The minimum self-staking amount is fixed at 100 GEB, and accounts with a transferable balance of less than 200.002 GEB will not be able to successfully register as validator nodes.": "最低自抵押金额固定为100 GEB，且可转账余额少于200.002 GEB的账户将无法成功注册为验证节点。",
   "auditor": "审计者",
-  "Delegate to the auditor, and you can share a portion of BEVM rewards. Please click the button to proceed with your staking!": "委托给审计者，你可以获得一部分的BEVM奖励。点击按钮开启你的质押吧！",
+  "Delegate to the auditor, and you can share a portion of GEB rewards. Please click the button to proceed with your staking!": "委托给审计者，你可以获得一部分的GEB奖励。点击按钮开启你的质押吧！",
   "Auditor status": "审计者状态",
   "Auditor Permit": "审计者许可",
   "The data provided is 24-hour estimated values and may have discrepancies from actual earnings. Your realized profits will be directly added to your staked amount. The stake can be released at any time without a lock-up period.": "该数据为24h预估数据与真实获得存在偏差，您的实际盈利会直接加到您的质押额度中，质押可随时解除没有锁定。"

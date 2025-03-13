@@ -93,7 +93,7 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
             margin: 0,
             flex: 1,
             paddingRight: '2rem'
-          }}>{t('Delegate to the auditor, and you can share a portion of BEVM rewards. Please click the button to proceed with your staking!')}</p>
+          }}>{t('Delegate to the auditor, and you can share a portion of GEB rewards. Please click the button to proceed with your staking!')}</p>
 
           <Button
             icon='paper-plane'
