@@ -1,12 +1,13 @@
 import React, { useState } from "react"
-import {BalanceFree} from '@polkadot/react-query'
 import {Button, Input, InputAddress, TxButton} from '@polkadot/react-components'
 import { useTranslation } from '../translate.js';
 import { isAddress } from "viem"
-import {useApi} from '@polkadot/react-hooks'
+import {useApi, useCall} from '@polkadot/react-hooks'
 import InputBalance from '@polkadot/react-components/InputBalance'
 import type { BN } from '@polkadot/util';
 import { BN_ZERO } from '@polkadot/util';
+import {FormatBalance} from '@polkadot/react-query'
+import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 
 const WasmToEvm = () => {
   const { t } = useTranslation();
@@ -14,15 +15,16 @@ const WasmToEvm = () => {
   const [evmAccount, setEvmAccount] = useState<string>('')
   const { api } = useApi()
   const [amount, setAmount] = useState<BN | undefined>(BN_ZERO);
+  const allBalances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [accountId]);
 
   return (
     <div>
       <InputAddress
         label={t('using the selected account')}
         labelExtra={
-          <BalanceFree
+          <FormatBalance
             label={<label>{t('free balance')}</label>}
-            params={accountId}
+            value={allBalances?.availableBalance}
           />
         }
         onChange={setAccountId}
