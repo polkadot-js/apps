@@ -18,7 +18,7 @@ import { useTranslation } from '../translate.js';
 import ChainInfo from './ChainInfo.js';
 import Grouping from './Grouping.js';
 import Item from './Item.js';
-// import NodeInfo from './NodeInfo.js';
+import NodeInfo from './NodeInfo.js';
 
 interface Props {
   className?: string;
@@ -152,7 +152,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
             ))}
           </ul>
         </div>
-        {/*<NodeInfo className='media--1400' />*/}
+        <NodeInfo className='media--1400' />
       </div>
     </StyledDiv>
   );
