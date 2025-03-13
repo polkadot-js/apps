@@ -18,7 +18,7 @@ const SHA_COL = 'rgba(34, 36, 38, 0.12)';
 const SHA_OFF = '5px';
 
 function Grouping ({ className = '', isActive, name, routes }: Props): React.ReactElement<Props> {
-  if (routes.length === 1 && routes[0].group === 'settings') {
+  if (routes.length === 1 && (routes[0].group === 'settings' || routes[0].group === 'agere')) {
     return (
       <Item
         className={isActive ? 'isActive' : ''}

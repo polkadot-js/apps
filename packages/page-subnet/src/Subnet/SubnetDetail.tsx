@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from '../translate.js';
-import { Button, Table } from '@polkadot/react-components';
+import { Button, CardSummary, Input, InputAddress, SummaryBox, Table } from '@polkadot/react-components';
 import { callXAgereRpc } from '../callXAgereRpc.js';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import SubnetInfoTr from './SubnetInfoTr.js';
+import { SubnetInfo } from './Subnet.js';
+import { asciiToString, formatBEVM } from '../Utils/formatBEVM.js';
 
 interface Props {
   className?: string;
-  subnetId: string;
+  selectedInfo: SubnetInfo;
   onClose: () => void;
 }
 
@@ -42,66 +44,116 @@ interface NeuronInfo {
   pruning_score: number;
 }
 
-function SubnetDetail({ className, subnetId, onClose }: Props): React.ReactElement<Props> {
+function SubnetDetail({ className, selectedInfo, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [neurons, setNeurons] = useState<NeuronInfo[]>([]);
   const { systemChain } = useApi();
-  const [isExpanded, toggleIsExpanded] = useToggle(false);
+  const GITHUB_REPO = selectedInfo?.identity?.github_repo ? asciiToString(selectedInfo.identity.github_repo) : '-'
 
   useEffect(() => {
-    callXAgereRpc('xagere_getNeuronsLite', [Number(subnetId)], systemChain)
+    callXAgereRpc('xagere_getNeuronsLite', [selectedInfo.netuid], systemChain)
       .then((response) => {
         console.log('response', response);
+        // Sort neurons by total stake from high to low
+
         if (Array.isArray(response)) {
-          setNeurons(response);
+          const formatRep = response.sort((a, b) => {
+          const totalStakeA = a.stake.reduce((sum, [_, amount]) => sum + Number(amount), 0);
+          const totalStakeB = b.stake.reduce((sum, [_, amount]) => sum + Number(amount), 0);
+          return totalStakeB - totalStakeA;
+        });
+        setNeurons(formatRep);
         }
       })
       .catch(console.error);
-  }, [subnetId, systemChain]);
+  }, [selectedInfo, systemChain]);
 
   const header = [
+    [t('Pos'), 'start'],
+    [t('User Type'), 'start'],
+    [t('User UID'), 'start'],
+    [t('Stake'), 'start'],
+    [t('VTrust'), 'start'],
+    [t('Trust'), 'start'],
     [t('Hot Key'), 'start'],
     [t('Cold Key'), 'start'],
-    [t('Stake'), 'start'],
-    [t('Rank'), 'start'],
-    [t('Emission'), 'start'],
-    [t('Status'), 'start'],
-    []  // 为展开按钮预留列
+    []
   ];
 
-  return (
-    <div style={{
-      background: 'white',
-      borderRadius: '0.25rem',
-      padding: '1rem'
-    }}>
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: '1rem'
-      }}>
-        <h2 style={{ margin: 0 }}>{t('Agere Details')}</h2>
-        <Button
-          icon='times'
-          onClick={onClose}
-          label={t('Close')}
-        />
-      </div>
 
-      <Table
-        empty={t('No neurons found')}
-        header={header}
-      >
-        {neurons.map((info) => (
-          <SubnetInfoTr
-            key={info.hotkey}
-            className={className}
-            info={info}
+  const headerRef = useRef<[React.ReactNode?, string?, number?][]>([
+    [t(`${asciiToString(selectedInfo.identity?.subnet_name)} Details`), 'start', 1],
+    [<Button
+      icon='times'
+      onClick={onClose}
+      label={t('Back to homepage')}
+    />, 'end', 1]
+
+  ]);
+
+  return (
+   <>
+     <Table
+       className={className}
+       header={headerRef.current}
+     >
+       <tr>
+         <td colSpan={2}>
+           <InputAddress
+            label={t('Owner')}
+            value={selectedInfo?.owner ?? '-'}
+            isDisabled={true}
+            type='allPlus'
+            defaultValue={selectedInfo?.owner ?? '-'}
           />
-        ))}
-      </Table>
-    </div>
+         </td>
+       </tr>
+       <tr>
+         <td colSpan={2}>
+         <Input
+             className='full'
+             isDisabled
+             label={t('Github Repo')}
+             value={GITHUB_REPO}
+           />
+         </td>
+       </tr>
+       <tr>
+         <td colSpan={2}>
+           <Input
+             className='full'
+             isDisabled
+             label={t('Contact')}
+             value={selectedInfo?.identity?.subnet_contact ? asciiToString(selectedInfo.identity.subnet_contact) : '-'}
+           />
+         </td>
+       </tr>
+     </Table>
+     <SummaryBox className={className}>
+       <CardSummary label={t('Emissions')}>
+         <span>{formatBEVM(selectedInfo.emission_values)}</span>
+       </CardSummary>
+       <CardSummary label={t('Auditor')}>
+         <span>{selectedInfo.max_allowed_validators}</span>
+       </CardSummary>
+       <CardSummary label={t('Miner')}>
+         <span>{selectedInfo.min_allowed_weights}</span>
+       </CardSummary>
+     </SummaryBox>
+
+     <Table
+       empty={t('No neurons found')}
+       header={header}
+     >
+       {neurons.map((info) => (
+         <SubnetInfoTr
+           key={info.hotkey}
+           className={className}
+           info={info}
+         />
+       ))}
+     </Table>
+   </>
   );
 }
 
