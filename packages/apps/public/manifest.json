@@ -1,6 +1,6 @@
 {
-  "short_name": "Polkadot Apps",
-  "name": "Apps for interacting with a Polkadot node",
+  "short_name": "GEB Wallet",
+  "name": "Apps for interacting with a GEB node",
   "icons": [
     {
       "src": "favicon.ico",

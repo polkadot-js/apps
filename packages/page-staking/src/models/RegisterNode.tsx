@@ -26,7 +26,7 @@ function RegisterNewNode({ nodeslist, onClose, onSuccess }: Props): React.ReactE
   const [availableBalance, setAvailableBalance] = useState<BN | undefined>();
   const [isTransferUnable, setIsTransferUnable] = useState<boolean>(true);
   const transferrable = <span className='label'>{t('transferrable')}</span>;
-  
+
   // 移到组件顶部
   const allBalances = useCall<DeriveBalancesAll>(api.derive.balances?.all, [accountId]);
 
@@ -34,7 +34,7 @@ function RegisterNewNode({ nodeslist, onClose, onSuccess }: Props): React.ReactE
     if (accountId) {
       const available = allBalances?.availableBalance;
       setAvailableBalance(available);
-      
+
       if (available) {
         const minRequired = new BN('20002000000');  // 200.02 BEVM
         setIsTransferUnable(available.lt(minRequired));
@@ -47,14 +47,14 @@ function RegisterNewNode({ nodeslist, onClose, onSuccess }: Props): React.ReactE
     if (value && availableBalance) {
       const minStake = new BN('10000000000');  // 100 BEVM
       const minRemain = new BN('10002000000');  // 100.02 BEVM
-      
+
       // 检查：
       // 1. 质押金额是否小于最小要求(100)
       // 2. 质押金额是否大于可用余额
       // 3. 剩余金额是否小于100.02
       setIsTransferUnable(
-        value.lt(minStake) || 
-        availableBalance.lt(value) || 
+        value.lt(minStake) ||
+        availableBalance.lt(value) ||
         availableBalance.sub(value).lt(minRemain)
       );
     }
@@ -91,7 +91,7 @@ function RegisterNewNode({ nodeslist, onClose, onSuccess }: Props): React.ReactE
           {/*<p>{t('Unique and unchangeable, non-transferable after registration')}</p>*/}
         </Modal.Columns>
 
-        <Modal.Columns hint={t('The minimum self-staking amount is fixed at 100 BEVM, and accounts with a transferable balance of less than 200.002 BEVM will not be able to successfully register as validator nodes.')}>
+        <Modal.Columns hint={t('The minimum self-staking amount is fixed at 100 GEB, and accounts with a transferable balance of less than 200.002 GEB will not be able to successfully register as validator nodes.')}>
           <InputBalance
             autoFocus
             label={t('The number of tokens that the validator needs to stake')}

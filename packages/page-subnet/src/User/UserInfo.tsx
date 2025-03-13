@@ -91,7 +91,7 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
           fontWeight: 'normal',
           padding: '1rem',
           borderBottom: '1px solid var(--border-table)'
-        }}>{t('Delegate Your BEVM')}</h2>
+        }}>{t('Delegate Your GEB')}</h2>
 
         <div style={{
           display: 'flex',
@@ -110,7 +110,7 @@ function UserInfo ({ className, account }: Props): React.ReactElement<Props> {
           <Button
             icon='paper-plane'
             isDisabled={!account}
-            label={t('Delegate BEVM')}
+            label={t('Delegate GEB')}
             onClick={toggleIsDelegateOpen}
             style={{
               backgroundColor: 'var(--bg-table)',

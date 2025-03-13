@@ -25,6 +25,7 @@ export { chainsEquilibriumSVG } from './generated/equilibriumSVG.js';
 export { chainsFerrumPNG } from './generated/ferrumPNG.js';
 export { chainsFragnovaPNG } from './generated/fragnovaPNG.js';
 export { chainsFrequencySVG } from './generated/frequencySVG.js';
+export { chainsGebSVG } from './generated/gebSVG.js';
 export { chainsGeminisPNG } from './generated/geminisPNG.js';
 export { chainsGenshiroSVG } from './generated/genshiroSVG.js';
 export { chainsGmJPEG } from './generated/gmJPEG.js';

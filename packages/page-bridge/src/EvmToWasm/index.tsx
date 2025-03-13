@@ -137,7 +137,7 @@ const EvmToWasm = ({ onStatusChange }: Props) => {
           labelExtra={(
             <span>
               {/*@ts-ignore*/}
-              Balance: <span style={{'text-transform': 'uppercase'}}>{new BigNumber(bevmBalance?.formatted || 0).toFixed(4)} BEVM</span>
+              Balance: <span style={{'text-transform': 'uppercase'}}>{new BigNumber(bevmBalance?.formatted || 0).toFixed(4)} GEB</span>
             </span>
           )}
         />

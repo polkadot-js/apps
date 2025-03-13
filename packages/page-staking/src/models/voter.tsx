@@ -32,7 +32,7 @@ function Voter({ onClose, validatorId, onSuccess, remainingVotesData }: Props): 
     {t('Remaining Votes')}
     {'： '}
     {remainingVotesData && Number(remainingVotesData) > 0 ? <span> {remainingVotesData}</span> :<span className='warning'>0</span>}
-    {'  BEVM'}
+    {'  GEB'}
   </VoteData>)
 
   return (

@@ -1427,8 +1427,8 @@
   "Before becoming a delegate, you must first register as a subnet participant. Once this prerequisite is fulfilled, you need to complete an additional registration step, which will enable you to receive staking from community users.": "在成为委派代表之前，您必须首先注册成为agere参与者。一旦满足这一先决条件，您需要完成一个额外的注册步骤，这将使您能够接收来自社区用户的质押。",
   "Commission": "分成",
   "Current Account": "当前账户",
-  "Delegate BEVM": "委托 BEVM",
-  "Delegate Your BEVM": "委托你的 BEVM",
+  "Delegate GEB": "委托 GEB",
+  "Delegate Your GEB": "委托你的 GEB",
   "Delegate to the registrant you believe is suitable, and you can share a portion of their rewards. Please click the button to proceed with your staking!": "委派给您认为合适的注册者，您可以分享他们的一部分奖励。请点击按钮继续您的质押操作！",
   "Delegator": "被委托人",
   "Earn": "赚取",
@@ -1462,5 +1462,5 @@
   "Register as a Delegate": "注册为被委托人",
   "Your delegation position": "你的委托仓位",
   "UnStake": "解除质押",
-  "The minimum self-staking amount is fixed at 100 BEVM, and accounts with a transferable balance of less than 200.002 BEVM will not be able to successfully register as validator nodes.": "最低自抵押金额固定为100 BEVM，且可转账余额少于200.002 BEVM的账户将无法成功注册为验证节点。"
+  "The minimum self-staking amount is fixed at 100 GEB, and accounts with a transferable balance of less than 200.002 GEB will not be able to successfully register as validator nodes.": "最低自抵押金额固定为100 GEB，且可转账余额少于200.002 GEB的账户将无法成功注册为验证节点。"
 }

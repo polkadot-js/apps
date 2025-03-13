@@ -2248,20 +2248,19 @@ export const RainbowKitStyles = createGlobalStyle`
 
 export const BEVM_MAINNET = defineChain({
   id: 11501,
-  name: 'BEVM Mainnet',
-  // iconUrl: IconBevm,
+  name: 'GEB Mainnet',
   nativeCurrency: {
-    name: 'BEVM',
+    name: 'GEB',
     symbol: 'BTC',
     decimals: 18,
   },
   rpcUrls: {
     default: {
-      http: ['https://rpc-mainnet-1.bevm.io', 'https://rpc-mainnet-2.bevm.io'],
+      http: ['https://rpc-mainnet-1.geb.network', 'https://rpc-mainnet-2.geb.network'],
     },
   },
   blockExplorers: {
-    default: { name: 'BEVM Mainnet Explorer', url: 'https://scan-mainnet.bevm.io'}
+    default: { name: 'GEB Mainnet Explorer', url: 'https://scan.geb.network'}
   },
   contracts: {
     multicall3: {
@@ -2272,20 +2271,19 @@ export const BEVM_MAINNET = defineChain({
 
 export const BEVM_SIGNET = defineChain({
   id: 11504,
-  name: 'BEVM signet',
-  // iconUrl: IconBevm,
+  name: 'GEB signet',
   nativeCurrency: {
-    name: 'BEVM',
+    name: 'GEB',
     symbol: 'BTC',
     decimals: 18,
   },
   rpcUrls: {
     default: {
-      http: ['https://signet.bevm.io/rpc'],
+      http: ['https://signet.geb.network'],
     },
   },
   blockExplorers: {
-    default: { name: 'BEVM Signet Explorer', url: 'https://scan-signet.bevm.io'}
+    default: { name: 'GEB Signet Explorer', url: 'https://scan-signet.geb.network'}
   },
   contracts: {
     multicall3: {
@@ -2294,29 +2292,11 @@ export const BEVM_SIGNET = defineChain({
   },
 })
 
-export const BEVM_TESTNET = defineChain({
-  id: 11503,
-  name: 'BEVM testnet',
-  // iconUrl: IconBevm,
-  nativeCurrency: {
-    name: 'BEVM',
-    symbol: 'BTC',
-    decimals: 18,
-  },
-  rpcUrls: {
-    default: {
-      http: ['https://testnet.bevm.io/rpc'],
-    },
-  },
-  blockExplorers: {
-    default: { name: 'BEVM Testnet Explorer', url: 'https://scan-testnet.bevm.io'}
-  },
-})
 
 const { wallets } = getDefaultWallets();
 
 export const wagmiConfig = getDefaultConfig({
-  appName: 'BEVM Wallet',
+  appName: 'GEB Wallet',
   projectId: '0a044cdac8adede634b1be7f0516509e',
   wallets: [
     ...wallets,
@@ -2325,7 +2305,7 @@ export const wagmiConfig = getDefaultConfig({
       wallets: [okxWallet, bybitWallet, bitgetWallet],
     },
   ],
-  chains: [BEVM_MAINNET, BEVM_SIGNET, BEVM_TESTNET],
+  chains: [BEVM_MAINNET, BEVM_SIGNET],
   ssr: true, // If your dApp uses server side rendering (SSR)
   // transports: {
   //   [BEVM_MAINNET.id]: fallback([

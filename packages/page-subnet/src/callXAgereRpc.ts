@@ -1,12 +1,10 @@
 export async function callXAgereRpc(method: string, params: any[] = [], systemChain?: string): Promise<any> {
-  let url = 'https://rpc-mainnet-1.bevm.io';
-  
-  if (systemChain === 'BEVM Mainnet') {
-    url = 'https://rpc-mainnet-1.bevm.io';
-  } else if (systemChain === 'BEVM Testnet') {
-    url = 'https://testnet.bevm.io';
-  }else if (systemChain === 'Bevm Stack Testnet'){
-    url = 'https://signet.bevm.io';
+  let url = 'https://rpc-mainnet-1.geb.network';
+
+  if (systemChain === 'GEB') {
+    url = 'https://rpc-mainnet-1.geb.network';
+  } else if (systemChain === 'GEB Signet'){
+    url = 'https://signet.geb.network';
   }
 
   const body = JSON.stringify({

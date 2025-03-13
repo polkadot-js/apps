@@ -6,12 +6,12 @@ import type { EndpointOption } from './types.js';
 import {
   chains3dpassSVG,
   chainsAlephSVG,
-  chainsBevmSVG,
   chainsBittensorPNG,
   chainsChainflipPNG,
   chainsCreditcoinPNG,
   chainsDebioSVG,
   chainsFragnovaPNG,
+  chainsGebSVG,
   chainsJurPNG,
   chainsLogionPNG,
   chainsMyriadPNG,
@@ -33,14 +33,14 @@ export * from './productionRelayPolkadot.js';
 // IMPORTANT: Alphabetical based on text
 export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
-    info: 'bevm-mainnet',
+    info: 'geb-mainnet',
     providers: {
-      'BEVM': 'wss://rpc-mainnet-1.bevm.io/ws',
+      'GEB': 'wss://rpc-mainnet-1.geb.network/ws',
     },
-    text: 'Bevm Mainnet',
+    text: 'GEB',
     ui: {
       color: '#CDA164',
-      logo: chainsBevmSVG
+      logo: chainsGebSVG
     }
   },
   // {
