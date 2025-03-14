@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { SortedAddress } from './types.js';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
@@ -11,8 +12,8 @@ import { useAddresses, useFavorites, useNextTick, useToggle } from '@polkadot/re
 import CreateModal from '../modals/Create.js';
 import { useTranslation } from '../translate.js';
 import Address from './Address.js';
-
-interface SortedAddress { address: string; isFavorite: boolean, isVisible: boolean }
+import Export from './Export.js';
+import Import from './Import.js';
 
 interface Props {
   className?: string;
@@ -23,6 +24,7 @@ const STORE_FAVS = 'accounts:favorites';
 
 function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+
   const { allAddresses } = useAddresses();
   const [isCreateOpen, toggleCreate] = useToggle(false);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
@@ -73,6 +75,12 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           />
         </section>
         <Button.Group>
+          <Import
+            favorites={favorites}
+            onStatusChange={onStatusChange}
+            toggleFavorite={toggleFavorite}
+          />
+          <Export sortedAddresses={sortedAddresses} />
           <Button
             icon='plus'
             label={t('Add contact')}
