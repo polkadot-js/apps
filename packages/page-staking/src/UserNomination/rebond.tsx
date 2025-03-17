@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import BN from 'bn.js';
-import React, { useState } from 'react';
+import React, {useMemo, useState } from 'react';
 import {InputAddress, InputBalance, Modal, TxButton} from '@polkadot/react-components';
 import { useTranslation } from '../translate';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
@@ -11,6 +11,7 @@ import { TxCallback } from '@polkadot/react-components/Status/types';
 import { ValidatorInfo } from '../types';
 import styled from 'styled-components';
 import {useApi} from '@polkadot/react-hooks'
+import {useRemainingVotes} from '../useRemainingVotes.js'
 
 interface Props {
   account?: string;
@@ -22,7 +23,6 @@ interface Props {
 //   rebond: boolean;
 //   hoursafter: BN | undefined;
   unamount?:  string | null | undefined;
-  remainingVotesData?: string;
 }
 
 const Wrapper = styled(Modal)`
@@ -44,7 +44,7 @@ const Wrapper = styled(Modal)`
   }
 `;
 
-function ReBond({ account, onClose, options, value, onSuccess, validatorInfoList, unamount, remainingVotesData }: Props): React.ReactElement<Props> {
+function ReBond({ account, onClose, options, value, onSuccess, validatorInfoList, unamount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi()
 
@@ -68,6 +68,12 @@ function ReBond({ account, onClose, options, value, onSuccess, validatorInfoList
     }}>{t<string>('Switchable Amount')}</span>
     <FormatBalance value={unamount}></FormatBalance>
   </div> ;
+
+  const targetValidatorInfo = useMemo(() => {
+    return validatorInfoList.find(i => i.account?.toLowerCase() === validatorTo?.toLowerCase())
+  }, [validatorTo])
+
+  const { data: remainingVotesData } = useRemainingVotes(targetValidatorInfo)
 
   return (
     <Wrapper

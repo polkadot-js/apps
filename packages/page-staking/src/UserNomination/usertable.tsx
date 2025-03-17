@@ -148,7 +148,6 @@ function UserTable({ accountId, nomination, userInterest, onSuccess, validatorIn
               }}
               // rebond={rebonds}
               unamount={nomination?.nomination}
-              remainingVotesData={remainingVotesData}
               // hoursafter={hoursafter}
             />
           )
