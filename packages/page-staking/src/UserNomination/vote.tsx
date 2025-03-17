@@ -4,11 +4,11 @@
 import BN from 'bn.js';
 import React, { useState } from 'react';
 import {InputAddress, InputBalance, Modal, TxButton} from '@polkadot/react-components';
-import { useTranslation } from '../translate';
+import { useTranslation } from '../translate.js';
 import { TxCallback } from '@polkadot/react-components/Status/types';
 
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
-import { Available } from '@polkadot/react-query';
+import {Available, FormatBalance} from '@polkadot/react-query';
 import {useApi} from '@polkadot/react-hooks'
 
 interface Props {
@@ -17,13 +17,13 @@ interface Props {
   value?: string | null | undefined;
   onClose: () => void;
   onSuccess?: TxCallback;
+  remainingVotesData?: string;
 }
 
-function VoteNode({ account, onClose, options, value, onSuccess }: Props): React.ReactElement<Props> {
+function VoteNode({ account, onClose, options, value, onSuccess, remainingVotesData }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [validatorId, setValidatorId] = useState<string | null | undefined>();
   const [amount, setAmount] = useState<BN | undefined>();
-  const [accountId, setAccount] = useState<string | null | undefined>();
   const { api } = useApi()
 
   const transferrable = <span className='label'>{t('voteable')}</span>;
@@ -57,14 +57,20 @@ function VoteNode({ account, onClose, options, value, onSuccess }: Props): React
             isDisabled={!!value}
             hideAddress={true}
             label={t('Vote for validator')}
-            labelExtra={
-              <span> </span>
-            }
+            labelExtra={value?.toLowerCase() !== account?.toLowerCase() && (
+              <span className="label">
+                {t('Remaining Votes')}
+                {'： '}
+                {remainingVotesData && Number(remainingVotesData) > 0 ? <span> {remainingVotesData}</span> :
+                  <span style={{color: 'red'}}>0</span>}
+                {'  GEB'}
+              </span>
+            )}
             onChange={setValidatorId}
             options={
               options
             }
-            type='allPlus'
+            type="allPlus"
           />
         </Modal.Columns>
 

@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Button } from '@polkadot/react-components';
 import { AddressSmall } from '@polkadot/react-components';
 import Vote from './vote';
@@ -13,6 +13,8 @@ import Claim from './claim';
 import { useTranslation } from '../translate';
 import { ValidatorInfo } from '../types';
 import {Nomination} from '../useAllNominationData'
+import useMemberInfo from '@polkadot/app-alliance/src/useMemberInfo.js'
+import {useRemainingVotes} from '../useRemainingVotes.js'
 
 interface Props {
   accountId?: string;
@@ -50,6 +52,12 @@ function UserTable({ accountId, nomination, userInterest, onSuccess, validatorIn
     });
   }) : {};
 
+  const validatorInfo = useMemo(() => {
+    return validatorInfoList.find(i => i.account?.toLowerCase() === nomination?.validatorId.toLowerCase())
+  }, [validatorInfoList, nomination])
+
+  const { data: remainingVotesData, refetch: refetchRemainingVotesData } = useRemainingVotes(validatorInfo)
+
   return (
     <tr>
       <td>
@@ -68,10 +76,20 @@ function UserTable({ accountId, nomination, userInterest, onSuccess, validatorIn
         <FormatBalance value={nomination?.nomination} />
       </td>
       <td>
-        <FormatBalance
-          // userInterest 第一项是 BTC，第二项是 BEVM，投票人的奖励是 BTC，验证人是奖励的BEVM，
-          value={(isNominatorList ? userInterest?.[0] : userInterest?.[1]) ?? '0'}
-          format={isNominatorList ? [10, 'SATS']: undefined} />
+        {
+          isNominatorList ? (
+            <FormatBalance
+              // 投票人的奖励是 BTC
+              value={(userInterest?.[0] ?? '0')}
+              format={[10, 'SATS']}
+            />
+          ) : (
+            <FormatBalance
+              // 验证人是奖励的 GEB，
+              value={userInterest?.[1] ?? '0'}
+            />
+          )
+        }
       </td>
       <td>
         <FormatBalance value={chunks > 0 ? chunks : '0'} />
@@ -96,6 +114,7 @@ function UserTable({ accountId, nomination, userInterest, onSuccess, validatorIn
             onClose={toggleVote}
             value={nomination?.validatorId}
             onSuccess={onSuccess}
+            remainingVotesData={remainingVotesData}
           />
         )}
 
@@ -132,9 +151,13 @@ function UserTable({ accountId, nomination, userInterest, onSuccess, validatorIn
               onClose={toggleRebound}
               validatorInfoList={validatorInfoList}
               value={nomination?.validatorId}
-              onSuccess={onSuccess}
+              onSuccess={() => {
+                onSuccess?.()
+                refetchRemainingVotesData()
+              }}
               // rebond={rebonds}
               unamount={nomination?.nomination}
+              remainingVotesData={remainingVotesData}
               // hoursafter={hoursafter}
             />
           )
@@ -152,12 +175,12 @@ function UserTable({ accountId, nomination, userInterest, onSuccess, validatorIn
         />
         <Button
           icon='paper-plane'
-          label={t('Unbind')}
+          label={t('Unbond')}
           onClick={toggleUnbound}
         />
         <Button
           icon='paper-plane'
-          label={t('Rebind')}
+          label={t('Rebond')}
           onClick={toggleRebound}
         />
         {

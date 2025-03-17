@@ -22,6 +22,7 @@ interface Props {
 //   rebond: boolean;
 //   hoursafter: BN | undefined;
   unamount?:  string | null | undefined;
+  remainingVotesData?: string;
 }
 
 const Wrapper = styled(Modal)`
@@ -43,7 +44,7 @@ const Wrapper = styled(Modal)`
   }
 `;
 
-function ReBond({ account, onClose, options, value, onSuccess, validatorInfoList, unamount }: Props): React.ReactElement<Props> {
+function ReBond({ account, onClose, options, value, onSuccess, validatorInfoList, unamount, remainingVotesData }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi()
 
@@ -116,9 +117,15 @@ function ReBond({ account, onClose, options, value, onSuccess, validatorInfoList
             // help={t<string>('To Validator')}
             hideAddress={true}
             label={t('To Validator')}
-            labelExtra={
-              <span> </span>
-            }
+            labelExtra={value?.toLowerCase() !== account?.toLowerCase() && (
+              <span className="label">
+                {t('Remaining Votes')}
+                {'： '}
+                {remainingVotesData && Number(remainingVotesData) > 0 ? <span> {remainingVotesData}</span> :
+                  <span style={{color: 'red'}}>0</span>}
+                {'  GEB'}
+              </span>
+            )}
             onChange={setValidatorTo}
             options={
               validatorOptionsArray
