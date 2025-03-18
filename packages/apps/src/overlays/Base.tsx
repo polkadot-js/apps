@@ -37,7 +37,7 @@ function BaseOverlay ({ children, className = '', icon, isBottom = false, isDev,
 
       date.setMonth(date.getMonth() + 1);
 
-      // 1 month has passed - remove the localStorage 
+      // 1 month has passed - remove the localStorage
       // and resume the notification
 
       if (date.getTime() <= new Date().getTime()) {
