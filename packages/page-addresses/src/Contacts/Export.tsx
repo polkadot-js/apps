@@ -20,7 +20,7 @@ function Export ({ sortedAddresses }: Props): React.ReactElement<Props> {
 
   const onExport = useCallback(() => {
     const accounts = sortedAddresses?.map(({ address, isFavorite }) => {
-      const account = keyring.getAddress(address);
+      const account = keyring.getAddress(address); // get account info
 
       return { address, isFavorite, name: account?.meta.name || address };
     });

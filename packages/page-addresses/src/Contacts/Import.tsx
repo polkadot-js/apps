@@ -93,6 +93,7 @@ function Import ({ favorites, onStatusChange, toggleFavorite }: Props): React.Re
       try {
         const address = info.accountId.toString();
 
+        // Save address
         keyring.saveAddress(address, { genesisHash: keyring.genesisHash, name: name.trim(), tags: [] });
         InputAddress.setLastValue('address', address);
 
@@ -127,14 +128,18 @@ function Import ({ favorites, onStatusChange, toggleFavorite }: Props): React.Re
         return _onImportResult(t('no file choosen'), 'error');
       }
 
+      // Read uploaded file
       fileReader.readAsText(files[0], 'UTF-8');
 
+      // Check if the selected file does not have a .json extension.
+      // If invalid, return error message.
       if (!(/(.json)$/i.test(e.target.value))) {
         return _onImportResult(t('file error'), 'error');
       }
 
       fileReader.onload = async (e) => {
         try {
+          // Try parsing file data
           const _list = JSON.parse(e.target?.result as string) as SaveFile[];
 
           if (!Array.isArray(_list)) {
@@ -143,6 +148,7 @@ function Import ({ favorites, onStatusChange, toggleFavorite }: Props): React.Re
 
           const fitter: SaveFile[] = [];
 
+          // Filter out items that match the required schema, ensuring only valid entries are retained.
           for (const item of _list) {
             if (item.name && item.address) {
               fitter.push(item);
@@ -151,6 +157,7 @@ function Import ({ favorites, onStatusChange, toggleFavorite }: Props): React.Re
 
           let importedAccounts = 0;
 
+          // Add each valid account
           for (const account of fitter) {
             try {
               const flag = await _onAddAccount(account);
