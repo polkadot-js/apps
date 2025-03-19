@@ -1,24 +1,33 @@
 // Copyright 2017-2025 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { HeaderExtended } from '@polkadot/api-derive/types';
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { AddressSmall } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
+import type { AccountId32, Header } from '@polkadot/types/interfaces';
+
+import { useBlockAuthor } from '@polkadot/react-hooks/useBlockAuthor';
 
 interface Props {
   value: HeaderExtended;
 }
 
-function BlockHeader ({ value }: Props): React.ReactElement<Props> | null {
+interface HeaderExtended extends Header {
+  readonly author: AccountId32 | undefined;
+}
+
+
+function BlockHeader({ value }: Props): React.ReactElement<Props> | null {
+  let author = useBlockAuthor(value)
+
+
   if (!value) {
     return null;
   }
 
   const hashHex = value.hash.toHex();
+  const authorHuman = author?.toHuman();
 
   return (
     <tr>
@@ -28,9 +37,11 @@ function BlockHeader ({ value }: Props): React.ReactElement<Props> | null {
         </h4>
       </td>
       <td className='all hash overflow'>{hashHex}</td>
-      <td className='address'>
-        {value.author && (
-          <AddressSmall value={value.author} />
+      <td className='address' >
+        {!!authorHuman && (
+          <div title={`author: ${authorHuman}`}>
+            {`${authorHuman.slice(0, 21)}...`}
+          </div>
         )}
       </td>
     </tr>
