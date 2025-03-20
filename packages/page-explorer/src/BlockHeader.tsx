@@ -5,13 +5,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { formatNumber } from '@polkadot/util';
-import type { Header } from '@polkadot/types/interfaces';
+import type { HeaderExtended } from '@polkadot/api-derive/types';
 
 import { useBlockAuthor } from '@polkadot/react-hooks/useBlockAuthor';
 import { AddressSmall } from '@polkadot/react-components';
 
 interface Props {
-  value: Header;
+  value: HeaderExtended;
 }
 
 function BlockHeader({ value }: Props): React.ReactElement<Props> | null {
@@ -23,7 +23,6 @@ function BlockHeader({ value }: Props): React.ReactElement<Props> | null {
 
   const hashHex = value.hash.toHex();
 
-  const authorHuman = author?.toHuman();
 
   return (
     <tr>
@@ -34,7 +33,7 @@ function BlockHeader({ value }: Props): React.ReactElement<Props> | null {
       </td>
       <td className='all hash overflow'>{hashHex}</td>
       <td className='address' >
-        {!!authorHuman && <AddressSmall value={author} />}
+        {!!author && <AddressSmall value={author} />}
       </td>
     </tr>
   );

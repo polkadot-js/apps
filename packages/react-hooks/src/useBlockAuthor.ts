@@ -1,11 +1,13 @@
-import { AccountId32, Header } from "@polkadot/types/interfaces";
+import { AccountId32 } from "@polkadot/types/interfaces";
+import type { HeaderExtended } from '@polkadot/api-derive/types';
+
 import { useApi } from "./useApi.js";
 import { useEffect, useState } from "react";
 import { U32 } from "@polkadot/types-codec";
 
 type AuxData = [AccountId32[], U32];
 
-export function useBlockAuthor(header: Header) {
+export function useBlockAuthor(header: HeaderExtended) {
     const [author, setAuthor] = useState<AccountId32 | undefined>(undefined);
     let { api } = useApi();
 
