@@ -4,6 +4,7 @@
 import type { ChainBlockConstants, ChainConstants, CoretimeInformation } from '@polkadot/react-hooks/types';
 import type { ChainName, GetResponse, RegionInfo } from '../types.js';
 
+import { CoreTimeTypes } from '@polkadot/react-hooks/constants';
 import { BN } from '@polkadot/util';
 
 type FirstCycleStartType = Record<
@@ -32,6 +33,12 @@ export const FirstCycleStart: FirstCycleStartType = {
       westend: 245402
     }
   }
+};
+
+export const coretimeTypeColours: Record<string, string> = {
+  [CoreTimeTypes.Reservation]: 'orange',
+  [CoreTimeTypes.Lease]: 'blue',
+  [CoreTimeTypes['Bulk Coretime']]: 'pink'
 };
 
 export function formatDate (date: Date) {
@@ -158,11 +165,11 @@ export const getCurrentRegionStartEndTs = (saleInfo: RegionInfo, regionLength: n
 export const getAvailableNumberOfCores = (coretimeInfo: CoretimeInformation) =>
   Number(coretimeInfo?.salesInfo?.coresOffered) - Number(coretimeInfo?.salesInfo.coresSold);
 
-export const constructSubscanQuery = (blockStart: number, blockEnd: number, chainName: string, module = 'broker', call = 'purchase') => {
+export const constructSubscanQuery = (dateStart: string, dateEnd: string, chainName: string, module = 'broker', call = 'purchase') => {
   const page = 1;
   const pageSize = 25;
   const signed = 'all';
   const baseURL = `https://coretime-${chainName}.subscan.io/extrinsic`;
 
-  return `${baseURL}?page=${page}&time_dimension=block&page_size=${pageSize}&module=${module}&signed=${signed}&call=${call}&block_start=${blockStart}&block_end=${blockEnd}`;
+  return `${baseURL}?page=${page}&time_dimension=date&page_size=${pageSize}&module=${module}&signed=${signed}&call=${call}&date_start=${dateStart}&date_end=${dateEnd}`;
 };

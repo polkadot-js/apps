@@ -11,6 +11,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { keyring } from '@polkadot/ui-keyring';
 import { isFunction, isHex } from '@polkadot/util';
 
+import { isEmpty } from './utils/isEmpty.js';
 import { createNamedHook } from './createNamedHook.js';
 import { useApi } from './useApi.js';
 import { useCall } from './useCall.js';
@@ -59,14 +60,14 @@ function useAccountInfoImpl (value: string | null, isContract = false): UseAccou
   useEffect((): void => {
     validator && setFlags((flags) => ({
       ...flags,
-      isValidator: !validator.isEmpty
+      isValidator: !isEmpty(validator)
     }));
   }, [validator]);
 
   useEffect((): void => {
     nominator && setFlags((flags) => ({
       ...flags,
-      isNominator: !nominator.isEmpty
+      isNominator: !isEmpty(nominator)
     }));
   }, [nominator]);
 

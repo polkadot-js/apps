@@ -86,7 +86,7 @@ function group (tracks: TrackDescription[], totalIssuance?: BN, referenda?: Refe
 
     // only ongoing have tracks
     const trackInfo = ref.info.isOngoing
-      ? tracks.find(({ id }) => id.eq(ref.info.asOngoing.track))
+      ? tracks.find(({ id }) => id?.eq && id.eq(ref.info.asOngoing.track))
       : undefined;
 
     if (trackInfo) {

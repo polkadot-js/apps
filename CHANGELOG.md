@@ -1,5 +1,89 @@
 # CHANGELOG
 
+## 0.151.1 Mar 6, 2025
+
+Contributed:
+
+- Add light client for LAOS parachain ([#11284](https://github.com/polkadot-js/apps/pull/11284)) (Thanks to https://github.com/asiniscalchi)
+- Update para id and providers ([#11326](https://github.com/polkadot-js/apps/pull/11326)) (Thanks to https://github.com/ganesh1997oli)
+- Add zkVerify Testnet ([#11356](https://github.com/polkadot-js/apps/pull/11356)) (Thanks to https://github.com/DanieleDiBenedetto)
+
+
+Changes:
+
+- Ensure useReferenda doesnt cause a white screen ([#11328](https://github.com/polkadot-js/apps/pull/11328))
+- Improve parameter handling in Option ([#11330](https://github.com/polkadot-js/apps/pull/11330))
+- Maximum transfer value while teleport ([#11332](https://github.com/polkadot-js/apps/pull/11332))
+- Fix Asset Id Parsing ([#11334](https://github.com/polkadot-js/apps/pull/11334))
+- Enhancement: Fee Payment with Sufficient Assets ([#11336](https://github.com/polkadot-js/apps/pull/11336))
+- Enhancement: Improve Fee Token Verification & Asset ID Handling ([#11341](https://github.com/polkadot-js/apps/pull/11341))
+- Disable unreachable endpoints ([#11338](https://github.com/polkadot-js/apps/pull/11338))
+- Fix: Voting on referenda breaks Apps ([#11344](https://github.com/polkadot-js/apps/pull/11344))
+- Improve Address Book Search ([#11350](https://github.com/polkadot-js/apps/pull/11350))
+- Replace `isEmpty` checks with utility function ([#11355](https://github.com/polkadot-js/apps/pull/11355))
+- Ensure safety check on isEmpty ([#11358](https://github.com/polkadot-js/apps/pull/11358))
+- Fix for not showing expires if the chain renewed ([#11353](https://github.com/polkadot-js/apps/pull/11353))
+- Enhance Preimages Page with Improved Usability ([#11342](https://github.com/polkadot-js/apps/pull/11342))
+- Upgraded polkadot deps ([#11365](https://github.com/polkadot-js/apps/pull/11365))
+
+## 0.150.2 Feb 22, 2025
+
+Changes:
+
+- Fix TracksInfo values being undefined and causing a whitescreen ([#11320](https://github.com/polkadot-js/apps/pull/11320))
+
+
+## 0.150.1 Feb 19, 2025
+
+Contributed:
+
+- Add IBP2 as mythos RPC provider ([#11288](https://github.com/polkadot-js/apps/pull/11288)) (Thanks to https://github.com/senseless)
+- Update subsquare and statescan external links ([#11295](https://github.com/polkadot-js/apps/pull/11295)) (Thanks to https://github.com/wliyongfeng)
+- Enable Helixstreet Endpoints ([#11293](https://github.com/polkadot-js/apps/pull/11293)) (Thanks to https://github.com/helixstreet)
+- Rebrand litentry to heima ([#11276](https://github.com/polkadot-js/apps/pull/11276)) (Thanks to https://github.com/Kailai-Wang)
+- Remove Helikon Khala RPC endpoint ([#11301](https://github.com/polkadot-js/apps/pull/11301)) (Thanks to https://github.com/kukabi)
+
+Changes:
+
+- Adding Filters for the Coretime - Overview Tab according to feedback ([#11217](https://github.com/polkadot-js/apps/pull/11217))
+- Fixed Table Spacing in Firefox ([#11287](https://github.com/polkadot-js/apps/pull/11287))
+- Disable unreachable endpoints ([#11286](https://github.com/polkadot-js/apps/pull/11286) [#11303](https://github.com/polkadot-js/apps/pull/11303))
+- Input Number component ([#11275](https://github.com/polkadot-js/apps/pull/11275))
+- Refactor Assets Page <> Improve Non-Native Asset Balance Display ([#11290](https://github.com/polkadot-js/apps/pull/11290))
+- Show Multilocation for Foreign Assets <> Assets Page ([#11306](https://github.com/polkadot-js/apps/pull/11306))
+- Upgraded polkadot dependencies ([#11309](https://github.com/polkadot-js/apps/pull/11309))
+
+## 0.149.1 Feb 7, 2025
+
+Contributed:
+
+- Add Helixstreet Endpoints ([#11237](https://github.com/polkadot-js/apps/pull/11237)) (Thanks to https://github.com/helixstreet)
+- Update moonbeam-types-bundle to latest ([#11240](https://github.com/polkadot-js/apps/pull/11240)) (Thanks to https://github.com/timbrinded)
+- Update new paraId ([#11245](https://github.com/polkadot-js/apps/pull/11245)) (Thanks to https://github.com/ganesh1997oli)
+- Add IBP endpoint to Mythos ([#11249](https://github.com/polkadot-js/apps/pull/11249)) (Thanks to https://github.com/miloskriz)
+- Restore `wss://kreivo.io` provider to the list of providers ([#11250](https://github.com/polkadot-js/apps/pull/11250)) (Thanks to https://github.com/pandres95)
+- Add Permanence DAO Europe public RPC endpoints for Polkadot and Westend Asset Hub ([#11252](https://github.com/polkadot-js/apps/pull/11252)) (Thanks to https://github.com/kukabi)
+- WeTEE added to Paseo ([#11254](https://github.com/polkadot-js/apps/pull/11254)) (Thanks to https://github.com/BurnWW)
+- Update xode paraid in Paseo ([#11264](https://github.com/polkadot-js/apps/pull/11264)) (Thanks to https://github.com/Mrigesh901)
+- Add blockops assethub rpc endpoint ([#11266](https://github.com/polkadot-js/apps/pull/11266)) (Thanks to https://github.com/haroldsphinx)
+- Deleted OnFinality 2 endpoints ([#11270](https://github.com/polkadot-js/apps/pull/11270)) (Thanks to https://github.com/FiveKG)
+- [KILT] Design change and node operator rename ([#11271](https://github.com/polkadot-js/apps/pull/11271)) (Thanks to https://github.com/rflechtner)
+- Add LH ws to bittensor ([#11273](https://github.com/polkadot-js/apps/pull/11273)) (Thanks to https://github.com/camfairchild)
+
+
+Changes: 
+
+- Disable unreachable endpoints ([#11236](https://github.com/polkadot-js/apps/pull/11236) [#11258](https://github.com/polkadot-js/apps/pull/11258) [#11268](https://github.com/polkadot-js/apps/pull/11268))
+- Make use of `spendLocal` in treasury ([#11243](https://github.com/polkadot-js/apps/pull/11243))
+- Remove Experimental from Coretime ([#11246](https://github.com/polkadot-js/apps/pull/11246))
+- Ensure safeguard against treasury spendLocal functions ([#11247](https://github.com/polkadot-js/apps/pull/11247))
+- Showing what core the chain is renewed on ([#11256](https://github.com/polkadot-js/apps/pull/11256))
+- Treasury Spend Params Issue ([#11265](https://github.com/polkadot-js/apps/pull/11265))
+- Update @polkadot/types dep ([#11272](https://github.com/polkadot-js/apps/pull/11272))
+- Upgraded polkadot-js deps ([#11277](https://github.com/polkadot-js/apps/pull/11277))
+- Fee payment with any sufficient asset ([#11229](https://github.com/polkadot-js/apps/pull/11229))
+- 0.148.1 ([#11231](https://github.com/polkadot-js/apps/pull/11231))
+
 ## 0.148.1 Jan 23, 2025
 
 Contributed:
