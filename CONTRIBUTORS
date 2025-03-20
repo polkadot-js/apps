@@ -3,7 +3,7 @@
       81	Thibaut Sardan                	update overrides (#10090)
       62	kwingram25                    	iadd fix (#2911)
       49	pan                           	update Bifrost kusama on Subsquare (#9752)
-      47	Arjun Porwal                  	refactor: remove unused useEffect and clean up fee asset handling (#11397)
+      48	Arjun Porwal                  	fix: improve multisig approval modal layout and functionality (#11403)
       46	Antoine Estienne              	Update moonbeam endpoints and moonbase logo and color (#6890)
       41	MiZiet                        	Apply styles to the unbonding icon (#6314)
       39	RadiumBlock                   	Re-adding RadiumBlock as Shiden and Bifrost Polkadot Endpoint provider (#11112)
