@@ -8,6 +8,7 @@ import { formatNumber } from '@polkadot/util';
 import type { Header } from '@polkadot/types/interfaces';
 
 import { useBlockAuthor } from '@polkadot/react-hooks/useBlockAuthor';
+import { AddressSmall } from '@polkadot/react-components';
 
 interface Props {
   value: Header;
@@ -33,11 +34,7 @@ function BlockHeader({ value }: Props): React.ReactElement<Props> | null {
       </td>
       <td className='all hash overflow'>{hashHex}</td>
       <td className='address' >
-        {!!authorHuman && (
-          <div title={`author: ${authorHuman}`}>
-            {`${authorHuman.slice(0, 21)}...`}
-          </div>
-        )}
+        {!!authorHuman && <AddressSmall value={author} />}
       </td>
     </tr>
   );
