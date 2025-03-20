@@ -5,28 +5,23 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { formatNumber } from '@polkadot/util';
-import type { AccountId32, Header } from '@polkadot/types/interfaces';
+import type { Header } from '@polkadot/types/interfaces';
 
 import { useBlockAuthor } from '@polkadot/react-hooks/useBlockAuthor';
 
 interface Props {
-  value: HeaderExtended;
+  value: Header;
 }
-
-interface HeaderExtended extends Header {
-  readonly author: AccountId32 | undefined;
-}
-
 
 function BlockHeader({ value }: Props): React.ReactElement<Props> | null {
   let author = useBlockAuthor(value)
-
 
   if (!value) {
     return null;
   }
 
   const hashHex = value.hash.toHex();
+
   const authorHuman = author?.toHuman();
 
   return (
