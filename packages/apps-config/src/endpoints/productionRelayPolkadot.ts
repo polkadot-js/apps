@@ -496,7 +496,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'laos',
     paraId: 3370,
     providers: {
-      Dwellir: 'wss://laos-rpc.dwellir.com',
+      Dwellir: 'wss://laos-rpc.n.dwellir.com',
       'freeverse.io': 'wss://rpc.laos.laosfoundation.io',
       'light client': 'light://substrate-connect/polkadot/laos'
     },
@@ -835,7 +835,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'unique',
     paraId: 2037,
     providers: {
-      Dwellir: 'wss://unique-rpc.dwellir.com',
+      Dwellir: 'wss://unique-rpc.n.dwellir.com',
       'Geo Load Balancer': 'wss://ws.unique.network',
       IBP1: 'wss://unique.ibp.network',
       IBP2: 'wss://unique.dotters.network',
