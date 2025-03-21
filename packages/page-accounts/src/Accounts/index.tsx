@@ -235,6 +235,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           filter={filterOn}
           isFavorite={isFavorite}
           key={address}
+          onStatusChange={onStatusChange}
           proxy={proxies?.[index]}
           setBalance={setBalance}
           toggleFavorite={toggleFavorite}
@@ -243,7 +244,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
       return all;
     }, {}),
-    [accountsMap, filterOn, proxies, setBalance, toggleFavorite]
+    [accountsMap, filterOn, proxies, setBalance, toggleFavorite, onStatusChange]
   );
 
   const groups = useMemo(
