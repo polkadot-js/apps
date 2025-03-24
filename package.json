@@ -16,7 +16,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.151.2-19-x",
+  "version": "0.152.1",
   "versions": {
     "git": "0.151.2-19-x",
     "npm": "0.151.1"
