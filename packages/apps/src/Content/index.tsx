@@ -16,6 +16,8 @@ import { useTranslation } from '../translate.js';
 import NotFound from './NotFound.js';
 import Status from './Status.js';
 
+console.log('abcd');
+
 interface Props {
   className?: string;
 }
