@@ -22,7 +22,7 @@ export function useBlockAuthor(header: HeaderExtended) {
         extractAuthor().then((a) => setAuthor(a))
     }, [])
 
-    const extractAuthor = async (): Promise<AccountId32> => { 
+    const extractAuthor = async (): Promise<AccountId32> => {
         let [authorities, session_length]: AuxData = await api.call.spinApi.auxData();
         let session_idx = Math.floor(slot?.[0] as any / session_length.toNumber());
         let author_idx = session_idx % authorities.length;
