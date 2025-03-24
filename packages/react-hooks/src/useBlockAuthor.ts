@@ -26,7 +26,6 @@ export function useBlockAuthor(header: HeaderExtended) {
         let [authorities, session_length]: AuxData = await api.call.spinApi.auxData();
         let session_idx = Math.floor(slot?.[0] as any / session_length.toNumber());
         let author_idx = session_idx % authorities.length;
-    
 
         return authorities[author_idx];
     }
