@@ -1,3 +1,6 @@
+// [object Object]
+// SPDX-License-Identifier: Apache-2.0
+
 import { createGlobalStyle } from 'styled-components';
 
 const primaryColor = '#3C3C3C';
@@ -234,4 +237,4 @@ export const QFNTheme = createGlobalStyle`
     }
   }
 
-`; 
+`;
