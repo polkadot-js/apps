@@ -15,21 +15,22 @@ function MarkPoolsWarning ({ children, className = '', withIcon = true }: Props)
   return (
     <StyledArticle className={`${className} mark warning`}>
       {withIcon && <Icon icon='exclamation-triangle' />}
-      <strong>Nomination Pools are evolving!</strong>
+      <strong>Nomination Pools have evolved!</strong>
       <br />
       <br />
-      Soon you will be able to participate in a pool and in OpenGov with your pooled funds!
+      You can now participate in both a nomination pool and OpenGov using your pooled funds!
       <br />
       <br />
-      You do not need to do anything, unless you are participating in a pool and also staking solo from the same account.
+      However, if you&apos;re staking solo from the same account while being part of a nomination pool, you might encounter the <strong>NotMigrated</strong> error.
       <br />
-      In this case, please check
+      To resolve this, please refer to{' '}
       <a
-        href='https://support.polkadot.network/support/solutions/articles/65000188140-changes-for-nomination-pool-members-and-opengov-participation'
+        href='https://support.polkadot.network/support/solutions/articles/65000188140'
         rel='noreferrer'
         target='_blank'
-      > this article </a>
-       on the actions you need to take as soon as possible.
+      >
+      this article
+      </a> for the necessary steps to take.
       {children}
     </StyledArticle>
   );

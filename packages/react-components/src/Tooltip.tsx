@@ -60,7 +60,7 @@ function Tooltip ({ children, className = '', isClickable = false, place, text, 
 // upgraded to latest, we probably don't want to start digging...
 const StyledReactTooltip = styled(ReactTooltip as unknown as React.ComponentType<any>)`
   .tooltipSpacer {
-    padding: 0.375rem;
+    padding-bottom: 0.1rem;
   }
 
   > div {

@@ -93,6 +93,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'bittensor',
     providers: {
       // Dwellir: 'wss://bittensor-mainnet-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/10728
+      'Latent Holdings (Lite)': 'wss://lite.sub.latent.to:443',
       'Opentensor Fdn (Archive)': 'wss://entrypoint-finney.opentensor.ai:443'
     },
     text: 'Bittensor',
@@ -223,7 +224,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'debio',
     providers: {
       // DeBio: 'wss://ws-rpc.debio.network', // https://github.com/polkadot-js/apps/issues/10118
-      Octopus: 'wss://gateway.mainnet.octopus.network/debionetwork/ae48005a0c7ecb4053394559a7f4069e'
+      // Octopus: 'wss://gateway.mainnet.octopus.network/debionetwork/ae48005a0c7ecb4053394559a7f4069e' // https://github.com/polkadot-js/apps/issues/11234
     },
     text: 'DeBio',
     ui: {
@@ -418,7 +419,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'myriad',
     providers: {
       // Myriad: 'wss://ws-rpc.myriad.social', // https://github.com/polkadot-js/apps/issues/10172
-      Octopus: 'wss://gateway.mainnet.octopus.network/myriad/a4cb0a6e30ff5233a3567eb4e8cb71e0'
+      // Octopus: 'wss://gateway.mainnet.octopus.network/myriad/a4cb0a6e30ff5233a3567eb4e8cb71e0' // https://github.com/polkadot-js/apps/issues/11263
     },
     text: 'Myriad',
     ui: {
@@ -437,7 +438,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'nftmart',
     providers: {
-      NFTMart: 'wss://mainnet.nftmart.io/rpc/ws'
+      // NFTMart: 'wss://mainnet.nftmart.io/rpc/ws' // https://github.com/polkadot-js/apps/issues/11302
     },
     text: 'NFTMart',
     ui: {
@@ -643,8 +644,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     isPeopleForIdentity: false,
     providers: {
       Blast: 'wss://vara-mainnet.public.blastapi.io',
-      Gear: 'wss://rpc.vara.network',
-      'P2P.org': 'wss://vara.substrate-rpc.p2p.org/'
+      Gear: 'wss://rpc.vara.network'
+      // 'P2P.org': 'wss://vara.substrate-rpc.p2p.org/' // https://github.com/polkadot-js/apps/issues/11337
     },
     text: 'Vara',
     ui: {

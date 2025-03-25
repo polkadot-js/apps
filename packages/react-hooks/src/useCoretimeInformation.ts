@@ -119,7 +119,7 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
   }, [workloads, coreInfos]);
 
   useEffect((): void => {
-    if (!workloadData?.length || !reservations?.length) {
+    if (!workloadData?.length || !reservations?.length || !coretimeConstants) {
       return;
     }
 
@@ -132,16 +132,36 @@ function useCoretimeInformationImpl (api: ApiPromise, ready: boolean): CoretimeI
       const workloads = workloadData?.filter((one) => one.info.task === taskId);
 
       const workTaskInfo = workloads.map((workload) => {
-        const workplan = workplans?.filter((workplan) => workplan.core === workload?.core && workplan.info.task.toString() === taskId);
+        // parachain can be renewed on a different core
+        const workplan = workplans?.filter((workplan) => workplan.info.task.toString() === taskId);
         const type = getOccupancyType(lease, reservation, workload?.info.isPool ?? false);
-        const chainRenewedCore = type === CoreTimeTypes['Bulk Coretime'] && workplan?.find((a) => a.core === workload?.core);
-        const renewal = potentialRenewalsCurrentRegion?.find((renewal) => renewal.task.toString() === taskId);
-        const renewalStatus = chainRenewedCore ? ChainRenewalStatus.Renewed : renewal ? ChainRenewalStatus.Eligible : ChainRenewalStatus.None;
+
+        const potentialRenewal = potentialRenewalsCurrentRegion?.find((renewal) => renewal.task.toString() === taskId);
+
+        const chainRenewedCore = type === CoreTimeTypes['Bulk Coretime'] && !!workplan?.length;
+
+        let renewalStatus = ChainRenewalStatus.None;
+        let renewalStatusMessage = '';
+
+        if (potentialRenewal) {
+          renewalStatus = ChainRenewalStatus.Eligible;
+        }
+
+        if (chainRenewedCore) {
+          renewalStatus = ChainRenewalStatus.Renewed;
+          renewalStatusMessage = `Next cycle on core ${workplan[0].core}`;
+        }
+
+        const chainRegionEnd = (renewalStatus === ChainRenewalStatus.Renewed ? salesInfo?.regionEnd : salesInfo?.regionBegin);
+        const targetTimeslice = lease?.until || chainRegionEnd;
+
+        const lastBlock = targetTimeslice ? targetTimeslice * coretimeConstants?.relay.blocksPerTimeslice : 0;
 
         return {
-          chainRenewedCore,
-          renewal,
+          lastBlock,
+          renewal: potentialRenewal,
           renewalStatus,
+          renewalStatusMessage,
           type,
           workload,
           workplan

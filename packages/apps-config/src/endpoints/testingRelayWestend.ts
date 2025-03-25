@@ -134,7 +134,8 @@ export const testParasWestendCommon: EndpointOption[] = [
       IBP1: 'wss://sys.ibp.network/asset-hub-westend',
       IBP2: 'wss://asset-hub-westend.dotters.network',
       // OnFinality: 'wss://westmint.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9955
-      Parity: 'wss://westend-asset-hub-rpc.polkadot.io'
+      Parity: 'wss://westend-asset-hub-rpc.polkadot.io',
+      'Permanence DAO EU': 'wss://asset-hub-westend.rpc.permanence.io'
       // Stakeworld: 'wss://wnd-rpc.stakeworld.io/assethub'
     },
     relayName: 'westend',
@@ -187,7 +188,7 @@ export const testParasWestendCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1005,
     providers: {
-      Dwellir: 'wss://coretime-westend-rpc.dwellir.com',
+      Dwellir: 'wss://coretime-westend-rpc.n.dwellir.com',
       IBP1: 'wss://sys.ibp.network/coretime-westend',
       IBP2: 'wss://coretime-westend.dotters.network',
       Parity: 'wss://westend-coretime-rpc.polkadot.io'
@@ -205,7 +206,7 @@ export const testParasWestendCommon: EndpointOption[] = [
     isPeopleForIdentity: false,
     paraId: 1004,
     providers: {
-      Dwellir: 'wss://people-westend-rpc.dwellir.com',
+      Dwellir: 'wss://people-westend-rpc.n.dwellir.com',
       IBP1: 'wss://sys.ibp.network/people-westend',
       IBP2: 'wss://people-westend.dotters.network',
       Parity: 'wss://westend-people-rpc.polkadot.io'

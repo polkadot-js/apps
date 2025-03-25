@@ -4,14 +4,14 @@
 import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { RuntimeDispatchInfo } from '@polkadot/types/interfaces';
-import type { BN } from '@polkadot/util';
+import type { ExtendedSignerOptions } from './types.js';
 
 import React, { useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
 
 import { Expander, MarkWarning } from '@polkadot/react-components';
 import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
-import { formatBalance, nextTick } from '@polkadot/util';
+import { BN, formatBalance, nextTick } from '@polkadot/util';
 
 import { useTranslation } from './translate.js';
 
@@ -22,9 +22,10 @@ interface Props {
   isHeader?: boolean;
   onChange?: (hasAvailable: boolean) => void;
   tip?: BN;
+  signerOptions: ExtendedSignerOptions;
 }
 
-function PaymentInfo ({ accountId, className = '', extrinsic, isHeader }: Props): React.ReactElement<Props> | null {
+function PaymentInfo ({ accountId, className = '', extrinsic, isHeader, signerOptions }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [dispatchInfo, setDispatchInfo] = useState<RuntimeDispatchInfo | null>(null);
@@ -34,15 +35,33 @@ function PaymentInfo ({ accountId, className = '', extrinsic, isHeader }: Props)
   useEffect((): void => {
     accountId && extrinsic && extrinsic.hasPaymentInfo &&
       nextTick(async (): Promise<void> => {
-        try {
-          const info = await extrinsic.paymentInfo(accountId);
+        setDispatchInfo(null);
 
-          mountedRef.current && setDispatchInfo(info);
+        try {
+          const info = await extrinsic.paymentInfo(accountId, signerOptions);
+
+          if (signerOptions?.assetId) {
+            const convertedFee = new BN((await api.call.assetConversionApi.quotePriceTokensForExactTokens(
+              signerOptions?.assetId as string,
+              {
+                interior: 'Here',
+                parents: 1
+              } as unknown as string,
+              info.partialFee,
+              true
+            )).toString());
+
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            mountedRef.current && setDispatchInfo({ ...info, partialFee: convertedFee });
+          } else {
+            mountedRef.current && setDispatchInfo(info);
+          }
         } catch (error) {
           console.error(error);
         }
       });
-  }, [api, accountId, extrinsic, mountedRef]);
+  }, [api, accountId, extrinsic, mountedRef, signerOptions]);
 
   if (!dispatchInfo || !extrinsic) {
     return null;
@@ -60,7 +79,10 @@ function PaymentInfo ({ accountId, className = '', extrinsic, isHeader }: Props)
         isHeader={isHeader}
         summary={
           <Trans i18nKey='feesForSubmission'>
-            Fees of <span className='highlight'>{formatBalance(dispatchInfo.partialFee, { withSiFull: true })}</span> will be applied to the submission
+            Fees of <span className='highlight'>
+              {formatBalance(dispatchInfo.partialFee, { decimals: signerOptions?.feeAsset?.metadata.decimals.toNumber() ?? api.registry.chainDecimals.at(0), withSiFull: true }).split(' ').slice(0, -1).join(' ')}{' '}
+              {signerOptions?.feeAsset?.metadata.symbol.toHuman()?.toString() ?? api.registry.chainTokens.at(0) }
+            </span> will be applied to the submission
           </Trans>
         }
       />
