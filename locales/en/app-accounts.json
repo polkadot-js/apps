@@ -58,6 +58,7 @@
   "Ensure you are using a strong password for proper account protection.": "Ensure you are using a strong password for proper account protection.",
   "Evaluated {{count}} keys in {{elapsed}}s ({{avg}} keys/s)": "Evaluated {{count}} keys in {{elapsed}}s ({{avg}} keys/s)",
   "Existing approvals ({{approvals}}/{{threshold}})": "Existing approvals ({{approvals}}/{{threshold}})",
+  "Export JSON file with signatories": "Export JSON file with signatories",
   "For approvals outstanding approvers will be shown, for hashes that should be cancelled the first approver is required.": "For approvals outstanding approvers will be shown, for hashes that should be cancelled the first approver is required.",
   "Forget this account": "Forget this account",
   "From JSON": "From JSON",
