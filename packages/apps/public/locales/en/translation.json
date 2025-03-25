@@ -281,6 +281,7 @@
   "Execute named scheduled task {{id}}": "",
   "Existing approvals ({{approvals}}/{{threshold}})": "",
   "Export": "",
+  "Export JSON file with signatories": "",
   "Extend expiry": "",
   "Extensions": "",
   "External": "",
