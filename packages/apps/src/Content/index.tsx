@@ -2,15 +2,20 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Route } from '@polkadot/apps-routing/types';
+import type { MetadataDef } from '@polkadot/extension-inject/types';
 
-import React, { Suspense, useMemo } from 'react';
+import React, { Suspense, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import createRoutes from '@polkadot/apps-routing';
 import { ErrorBoundary, Spinner, styled } from '@polkadot/react-components';
 import { useApi, useQueue } from '@polkadot/react-hooks';
 import { TabsCtx } from '@polkadot/react-hooks/ctx/Tabs';
+import { objectSpread } from '@polkadot/util';
 
+import useChainInfo from '../../../page-settings/src/useChainInfo.js';
+import useExtensions from '../../../page-settings/src/useExtensions.js';
+import useRawMetadata from '../../../page-settings/src/useRawMetadata.js';
 import { findMissingApis } from '../endpoint.js';
 import { useTranslation } from '../translate.js';
 import NotFound from './NotFound.js';
@@ -35,6 +40,12 @@ function Content ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, isApiConnected, isApiReady, isDevelopment } = useApi();
   const { queueAction } = useQueue();
+  const rawMetadata = useRawMetadata();
+  const chainInfo = useChainInfo();
+  const isMetadataReady = rawMetadata !== null;
+  const [updating, setUpdating] = useState(false);
+
+  const { extensions } = useExtensions();
 
   const { Component, display: { needsApi, needsApiCheck, needsApiInstances }, icon, name, text } = useMemo(
     (): Route => {
@@ -56,6 +67,20 @@ function Content ({ className }: Props): React.ReactElement<Props> {
         : null
       : [],
     [api, isApiConnected, isApiReady, needsApi, needsApiCheck, needsApiInstances]
+  );
+
+  useEffect((): void => {
+    if (chainInfo && isMetadataReady && !isDevelopment && !updating) {
+      const rawDef: MetadataDef = objectSpread<MetadataDef>({}, { ...chainInfo, rawMetadata });
+
+      extensions.forEach((extension) => {
+        extension.update(rawDef)
+          .catch(console.error);
+      });
+      setUpdating(true);
+    }
+  },
+  [chainInfo, isDevelopment, isMetadataReady, extensions, rawMetadata, updating]
   );
 
   return (
