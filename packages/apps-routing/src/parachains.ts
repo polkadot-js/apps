@@ -11,7 +11,8 @@ export default function create (t: TFunction): Route {
     display: {
       needsApi: [
         // children - parachainInfo.arachainId / parachainUpgrade.didSetValidationCode
-        ['query.paras.parachains']
+        ['query.paras.parachains'],
+        'query.slots'
       ]
     },
     group: 'network',
