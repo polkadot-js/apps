@@ -13,6 +13,7 @@ import { AddressSmall, Columar, LinkExternal, MarkError, Table } from '@polkadot
 import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { convertWeight } from '@polkadot/react-hooks/useWeight';
 import { formatNumber, isBn } from '@polkadot/util';
+import { useBlockAuthor } from '@polkadot/react-hooks/useBlockAuthor';
 
 import Events from '../Events.js';
 import { useTranslation } from '../translate.js';
@@ -119,6 +120,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
   const blockNumber = getHeader?.number.unwrap();
   const parentHash = getHeader?.parentHash.toHex();
   const hasParent = !getHeader?.parentHash.isEmpty;
+  const authorVal = getHeader ? useBlockAuthor(getHeader) : undefined;
 
   return (
     <div className={className}>
@@ -140,8 +142,8 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
           : getBlock && getHeader && !getBlock.isEmpty && !getHeader.isEmpty && (
             <tr>
               <td className='address'>
-                {getHeader.author && (
-                  <AddressSmall value={getHeader.author} />
+                {authorVal && (
+                  <AddressSmall value={authorVal} />
                 )}
               </td>
               <td className='hash overflow'>{getHeader.hash.toHex()}</td>
