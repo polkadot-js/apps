@@ -123,7 +123,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
   const parentHash = getHeader?.parentHash.toHex();
   const hasParent = !getHeader?.parentHash.isEmpty;
 
-  const author = useBlockAuthor(getHeader);
+  let author = useBlockAuthor(getHeader);
 
   return (
     <div className={className}>
