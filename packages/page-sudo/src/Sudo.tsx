@@ -22,11 +22,11 @@ function Sudo ({ className, isMine, sudoKey }: Props): React.ReactElement<Props>
   const { t } = useTranslation();
   const { api } = useApi();
   const [withWeight, toggleWithWeight] = useToggle();
-  const [method, setMethod] = useState<SubmittableExtrinsic<'promise'> | null>(null);
+  const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
 
   const _onChangeExtrinsic = useCallback(
     (method?: SubmittableExtrinsic<'promise'>) => {
-      setMethod(() => method || null);
+      setExtrinsic(() => method || null);
     },
     []
   );
@@ -52,9 +52,9 @@ function Sudo ({ className, isMine, sudoKey }: Props): React.ReactElement<Props>
         <Button.Group>
           <TxButton
             accountId={sudoKey}
-            extrinsic={method}
+            extrinsic={extrinsic}
             icon='sign-in-alt'
-            isDisabled={!method}
+            isDisabled={!extrinsic}
             label={
               withWeight
                 ? t('Submit Sudo Unchecked')
