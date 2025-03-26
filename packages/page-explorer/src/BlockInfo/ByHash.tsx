@@ -122,6 +122,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
   const blockNumber = getHeader?.number.unwrap();
   const parentHash = getHeader?.parentHash.toHex();
   const hasParent = !getHeader?.parentHash.isEmpty;
+  const authorVal = getHeader ? useBlockAuthor(getHeader) : undefined;
 
   let author = useBlockAuthor(getHeader);
 
@@ -145,8 +146,8 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
           : getBlock && getHeader && !getBlock.isEmpty && !getHeader.isEmpty && (
             <tr>
               <td className='address'>
-                {author && (
-                  <AddressSmall value={author} />
+                {authorVal && (
+                  <AddressSmall value={authorVal} />
                 )}
               </td>
               <td className='hash overflow'>{getHeader.hash.toHex()}</td>
