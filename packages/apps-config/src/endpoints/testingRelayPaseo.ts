@@ -126,7 +126,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'heima-paseo',
     paraId: 2106,
     providers: {
-      Heima: 'wss://rpc.paseo-parachain.litentry.io'
+      Heima: 'wss://rpc.paseo-parachain.heima.network'
     },
     text: 'Heima paseo',
     ui: {
