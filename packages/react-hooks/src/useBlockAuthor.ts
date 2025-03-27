@@ -11,11 +11,11 @@ import { useApi } from './useApi.js';
 
 type AuxData = [AccountId32[], U32];
 
-export function useBlockAuthor (header: HeaderExtended) {
+export function useBlockAuthor (header: HeaderExtended | undefined) {
   const [author, setAuthor] = useState<AccountId32 | undefined>(undefined);
   const { api } = useApi();
 
-  const slot = header.digest.logs.map((log) => {
+  const slot = header?.digest.logs.map((log) => {
     if (log.isPreRuntime) {
       const [_, data] = log.asPreRuntime;
 
