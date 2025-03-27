@@ -53,7 +53,7 @@ function transformResult ([[runtimeVersion, events], getBlock, getHeader]: [[Run
 function BlockByHash ({ className = '', error, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  
+
   const mountedRef = useIsMountedRef();
   const [{ events, getBlock, getHeader, runtimeVersion }, setState] = useState<State>({});
   const [blkError, setBlkError] = useState<Error | null | undefined>(error);
@@ -121,7 +121,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
   const blockNumber = getHeader?.number.unwrap();
   const parentHash = getHeader?.parentHash.toHex();
   const hasParent = !getHeader?.parentHash.isEmpty;
-  const authorVal = getHeader ? useBlockAuthor(getHeader) : undefined;
+  const authorVal = useBlockAuthor(getHeader);
 
   return (
     <div className={className}>
