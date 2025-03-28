@@ -203,6 +203,10 @@ function Address ({ currentItem, onChange, onEnter, passwordError, requestAddres
 
   const [signAddress, flags] = useMemo(
     (): [string | null, AddressFlags] => {
+      // Always check for possibility for multisig first,
+      // --- if it's multisig proxy account, it will sign with one of it's signatories
+      // --- else with it's own signatories
+      // if it's not a multisig, user can sign with proxy or native account
       const signAddress = (multiInfo && multiAddress) ||
         (isProxyActive && proxyInfo && proxyAddress) ||
         requestAddress;
