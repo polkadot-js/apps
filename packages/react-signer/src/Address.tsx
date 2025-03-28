@@ -149,7 +149,7 @@ async function queryForMultisig (api: ApiPromise, requestAddress: string | null,
   if (isFunction(api.query[multiModule]?.multisigs)) {
     const address = requestAddress;
     const { threshold, who } = extractExternal(address);
-    const isProxyPalletAvailable = api.tx.proxy !== undefined;
+    const isProxyPalletAvailable = isFunction(api.tx.proxy?.proxy);
     const hash = (address && isProxyPalletAvailable ? api.tx.proxy.proxy(requestAddress || '', null, tx) : tx).method.hash;
 
     const optMulti = await api.query[multiModule].multisigs<Option<Multisig>>(address, hash);
