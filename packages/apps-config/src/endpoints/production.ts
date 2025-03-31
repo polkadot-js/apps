@@ -620,7 +620,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'tscs-mainnet',
     providers: {
-      'SuperEx': 'wss://testnetrpc.scschain.com',
+      'SuperEx': 'wss://testnetrpc.scschain.com'
     },
     text: 'TSCS Network',
     ui: {
