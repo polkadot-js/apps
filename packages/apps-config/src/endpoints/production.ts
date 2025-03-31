@@ -89,19 +89,6 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
       logo: nodesThebifrostPNG
     }
   },
-
-  {
-    info: 'tscs-mainnet',
-    providers: {
-      'SuperEx': 'wss://testnetrpc.scschain.com',
-    },
-    text: 'TSCS Network',
-    ui: {
-      color: '#FFAB75',
-      logo: nodesTscsPNG
-    }
-  },
-
   {
     info: 'bittensor',
     providers: {
@@ -628,6 +615,17 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#070A0E',
       logo: chainsTorusPNG
+    }
+  },
+  {
+    info: 'tscs-mainnet',
+    providers: {
+      'SuperEx': 'wss://testnetrpc.scschain.com',
+    },
+    text: 'TSCS Network',
+    ui: {
+      color: '#FFAB75',
+      logo: nodesTscsPNG
     }
   },
   {
