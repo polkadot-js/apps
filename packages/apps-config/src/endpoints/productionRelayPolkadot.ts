@@ -1010,7 +1010,7 @@ export const prodRelayPolkadot: EndpointOption = {
     OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
     'Permanence DAO EU': 'wss://polkadot.rpc.permanence.io',
     RadiumBlock: 'wss://polkadot.public.curie.radiumblock.co/ws',
-    RockX: 'wss://rockx-dot.w3node.com/polka-public-dot/ws',
+    // RockX: 'wss://rockx-dot.w3node.com/polka-public-dot/ws', // https://github.com/polkadot-js/apps/issues/11439
     Stakeworld: 'wss://dot-rpc.stakeworld.io',
     SubQuery: 'wss://polkadot.rpc.subquery.network/public/ws',
     'light client': 'light://substrate-connect/polkadot'
