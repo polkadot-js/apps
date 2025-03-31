@@ -332,7 +332,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'heima',
     paraId: 2013,
     providers: {
-      Dwellir: 'wss://litentry-rpc.dwellir.com',
+      Dwellir: 'wss://heima-rpc.n.dwellir.com',
       Heima: 'wss://rpc.heima-parachain.heima.network'
     },
     text: 'Heima',
