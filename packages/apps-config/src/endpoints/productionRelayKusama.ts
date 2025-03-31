@@ -106,7 +106,6 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'bifrost',
     paraId: 2001,
     providers: {
-      Dwellir: 'wss://bifrost-rpc.dwellir.com',
       Liebi: 'wss://bifrost-rpc.liebi.com/ws',
       LiebiUS: 'wss://us.bifrost-rpc.liebi.com/ws',
       // OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws'
@@ -275,7 +274,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'imbue',
     paraId: 2121,
     providers: {
-      'Imbue Network 0': 'wss://kusama.imbuenetwork.com'
+      // 'Imbue Network 0': 'wss://kusama.imbuenetwork.com' // https://github.com/polkadot-js/apps/issues/11364
       // 'Imbue Network 1': 'wss://collator.production.imbue.network' // https://github.com/polkadot-js/apps/issues/9848
     },
     text: 'Imbue Network',
@@ -556,8 +555,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'picasso',
     paraId: 2087,
     providers: {
-      Composable: 'wss://rpc.composablenodes.tech',
-      Dwellir: 'wss://picasso-rpc.dwellir.com'
+      Composable: 'wss://rpc.composablenodes.tech'
+      // Dwellir: 'wss://picasso-rpc.dwellir.com' // https://github.com/polkadot-js/apps/issues/11393
       // LuckyFriday: 'wss://rpc-picasso.luckyfriday.io' // https://github.com/polkadot-js/apps/issues/9947
     },
     text: 'Picasso',
@@ -623,7 +622,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'quartz',
     paraId: 2095,
     providers: {
-      Dwellir: 'wss://quartz-rpc.dwellir.com',
+      Dwellir: 'wss://quartz-rpc.n.dwellir.com',
       // OnFinality: 'wss://quartz.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9972
       'Geo Load Balancer': 'wss://ws-quartz.unique.network',
       'Unique America': 'wss://us-ws-quartz.unique.network',
@@ -960,7 +959,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       Dwellir: 'wss://encointer-kusama-rpc.dwellir.com',
       'Encointer Association': 'wss://kusama.api.encointer.org',
       IBP1: 'wss://sys.ibp.network/encointer-kusama',
-      IBP2: 'wss://encointer-kusama.dotters.network'
+      IBP2: 'wss://encointer-kusama.dotters.network',
+      LuckyFriday: 'wss://rpc-encointer-kusama.luckyfriday.io'
       // OnFinality: 'wss://encointer.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9986
       // Stakeworld: 'wss://ksm-rpc.stakeworld.io/encointer'
     },
@@ -978,7 +978,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     isPeopleForIdentity: false,
     paraId: 1004,
     providers: {
-      Dwellir: 'wss://people-kusama-rpc.dwellir.com',
+      Dwellir: 'wss://people-kusama-rpc.n.dwellir.com',
       IBP1: 'wss://sys.ibp.network/people-kusama',
       IBP2: 'wss://people-kusama.dotters.network',
       LuckyFriday: 'wss://rpc-people-kusama.luckyfriday.io',
