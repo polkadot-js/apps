@@ -28,6 +28,7 @@ function BlockHeaders ({ headers }: Props): React.ReactElement<Props> {
     >
       {headers
         .filter((header) => !!header)
+        .sort((a, b) => a.number.toNumber() > b.number.toNumber() ? -1 : 1)
         .map((header): React.ReactNode => (
           <BlockHeader
             key={header.number.toString()}
