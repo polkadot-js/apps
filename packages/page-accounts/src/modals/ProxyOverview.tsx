@@ -124,7 +124,7 @@ function NewProxy ({ index, onChangeAccount, onChangeType, onRemove, proxiedAcco
           isError={!accountId}
           label={t('proxy account')}
           onChange={_onChangeAccount}
-          type='account'
+          type='allPlus'
           value={accountId}
         />
         {accountId && accountId.eq(proxiedAccount) && (
