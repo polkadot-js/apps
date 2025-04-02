@@ -7,7 +7,6 @@ import type { RelayName } from '../types.js';
 import React, { useMemo } from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
-import Countdown from '@polkadot/react-components/Countdown';
 import { BN } from '@polkadot/util';
 
 import { useCoretimeContext } from '../CoretimeContext.js';
@@ -24,9 +23,9 @@ interface Props {
   relayName: RelayName,
 }
 
-function Summary ({ config, parachainCount, relayName, status }: Props): React.ReactElement<Props> {
+function Summary({ config, parachainCount, relayName, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { currentRegionEnd, currentRegionStart, saleEndDate, saleStartDate } = useCoretimeContext();
+  const { coretimeInfo, currentRegionEnd, currentRegionStart, saleEndDate, saleStartDate } = useCoretimeContext();
 
   const saleNumber = useMemo(() => {
     if (relayName && currentRegionEnd) {
@@ -37,6 +36,8 @@ function Summary ({ config, parachainCount, relayName, status }: Props): React.R
 
     return undefined;
   }, [currentRegionEnd, relayName, config]);
+
+  const timeslicesSinceCycleStart = useMemo(() => currentRegionEnd && new BN(config?.regionLength).sub((new BN(currentRegionEnd)).sub(new BN(status.lastTimeslice))), [status, config, currentRegionEnd]);
 
   return (
     <SummaryBox>
@@ -54,26 +55,8 @@ function Summary ({ config, parachainCount, relayName, status }: Props): React.R
         <CardSummary label={t('parachains')}>
           {parachainCount && parachainCount}
         </CardSummary>
-        {config && status && currentRegionEnd && saleEndDate && saleStartDate &&
+        {config && status && currentRegionEnd && saleEndDate && saleStartDate && timeslicesSinceCycleStart && coretimeInfo?.constants &&
           <>
-            <CardSummary
-              className='media--800'
-              label={t('cycle time left')}
-              progress={{
-                hideGraph: true,
-                hideValue: true,
-                isBlurred: false,
-                total: new BN(config?.regionLength),
-                value: new BN(config?.regionLength - (currentRegionEnd - status.lastTimeslice)),
-                withTime: false
-              }}
-            >
-              <Countdown
-                current={new Date()}
-                end={new Date(saleEndDate)}
-                start={new Date(saleStartDate)}
-              />
-            </CardSummary>
             <CardSummary
               className='media--800'
               label={t('timeslice progress')}
@@ -81,8 +64,17 @@ function Summary ({ config, parachainCount, relayName, status }: Props): React.R
                 hideValue: false,
                 isBlurred: false,
                 total: new BN(config?.regionLength),
-                value: new BN(config?.regionLength - (currentRegionEnd - status.lastTimeslice)),
-                withTime: false
+                value: timeslicesSinceCycleStart,
+                withTime: false,
+                hideGraph: true
+              }}
+            />
+            <CardSummary
+              label={t('cycle')}
+              progress={{
+                total: new BN(config.regionLength).mul(new BN(coretimeInfo?.constants.relay.blocksPerTimeslice)),
+                value: timeslicesSinceCycleStart.mul(new BN(coretimeInfo?.constants.relay.blocksPerTimeslice)),
+                withTime: true
               }}
             />
           </>
