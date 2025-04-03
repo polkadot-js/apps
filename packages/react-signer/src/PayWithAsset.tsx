@@ -53,16 +53,19 @@ const PayWithAsset = ({ onChangeFeeAsset }: Props) => {
   }, [assetOptions, selectedAssetValue, nativeAsset]);
 
   useEffect(() => {
-    if (selectedFeeAsset) {
-      onChangeFeeAsset((e) =>
-        ({
-          ...e,
-          assetId: getFeeAssetLocation(api, selectedFeeAsset),
-          feeAsset: selectedFeeAsset
-        })
-      );
-    }
+    onChangeFeeAsset((e) =>
+      ({
+        ...e,
+        assetId: getFeeAssetLocation(api, selectedFeeAsset),
+        feeAsset: selectedFeeAsset
+      })
+    );
   }, [api, onChangeFeeAsset, selectedFeeAsset]);
+
+  useEffect(() => {
+    // Reselect native asset on component unmount
+    return () => onSelect(nativeAsset);
+  }, [nativeAsset, onSelect]);
 
   return (
     <Modal.Columns hint={t('By selecting this option, the transaction fee will be automatically deducted from the specified asset, ensuring a seamless and efficient payment process.')}>

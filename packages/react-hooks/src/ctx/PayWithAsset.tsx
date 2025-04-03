@@ -5,7 +5,7 @@ import type { BN } from '@polkadot/util';
 import type { AssetInfoComplete } from '../types.js';
 import type { PayWithAsset } from './types.js';
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
 import { useApi, useAssetIds, useAssetInfos } from '@polkadot/react-hooks';
 
@@ -74,10 +74,6 @@ function PayWithAssetProvider ({ children }: Props): React.ReactElement<Props> {
     completeAssetInfos.length > 0,
   [api.call.assetConversionApi, api.registry.metadata.extrinsic.signedExtensions, api.tx.assetConversion, completeAssetInfos.length]
   );
-
-  useEffect(() => {
-    return () => setSelectedFeeAsset(null);
-  });
 
   const values: PayWithAsset = useMemo(() => {
     return {
