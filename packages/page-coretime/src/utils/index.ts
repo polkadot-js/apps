@@ -78,10 +78,9 @@ export const estimateTime = (
   targetTimeslice: string | number,
   latestBlock: number,
   { blocksPerTimeslice: blocksPerTs, blocktimeMs }: ChainBlockConstants
-): number | null => {
+): { timestamp: number, formattedDate: string } | null => {
   if (!latestBlock || !targetTimeslice) {
     console.error('Invalid input: one or more inputs are missing');
-
     return null;
   }
 
@@ -94,11 +93,12 @@ export const estimateTime = (
     const blockDifference = targetBlock.sub(latestBlockBN);
     const timeDifference = blockDifference.mul(blockTime);
     const estTimestamp = now.add(timeDifference);
-
-    return estTimestamp.toNumber();
+    return  {
+      timestamp: estTimestamp.toNumber(),
+      formattedDate: formatDate(new Date(estTimestamp.toNumber()))
+    }
   } catch (error) {
     console.error('Error in calculation:', error);
-
     return null;
   }
 };

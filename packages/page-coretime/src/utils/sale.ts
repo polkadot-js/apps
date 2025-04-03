@@ -5,7 +5,7 @@ import type { ChainConstants, PalletBrokerConfigRecord, PalletBrokerSaleInfoReco
 import type { GetResponse, PhaseConfig, RegionInfo, RelayName, SaleParameters } from '../types.js';
 
 import { type ProgressBarSection } from '@polkadot/react-components/types';
-import { BN } from '@polkadot/util';
+import { BN, formatBalance } from '@polkadot/util';
 
 import { PhaseName } from '../constants.js';
 import { createGet, estimateTime, FirstCycleStart, formatDate, getCurrentRegionStartEndTs } from './index.js';
@@ -164,7 +164,7 @@ const getPhaseConfiguration = (
   const fixedPriceLengthTs = regionLength - interludeLengthTs - leadInLengthTs;
   const fixedPriceEndTs = priceDiscoveryEndTs + fixedPriceLengthTs;
   const get = createGet(constants);
-  const getDate = (ts: number) => formatDate(new Date(estimateTime(ts, get.blocks.relay(lastCommittedTimeslice) ?? 0, constants.relay) ?? ''));
+  const getDate = (ts: number) => estimateTime(ts, get.blocks.relay(lastCommittedTimeslice), constants.relay)?.formattedDate ?? null;
 
   return {
     config: {
@@ -186,7 +186,7 @@ export const getSaleParameters = (
   const interludeLengthTs = get.timeslices.coretime(config.interludeLength);
   const leadInLengthTs = get.timeslices.coretime(config.leadinLength);
   let { currentRegionEndTs, currentRegionStartTs } = getCurrentRegionStartEndTs(salesInfo, config.regionLength);
-  const getDate = (ts: number) => formatDate(new Date(estimateTime(ts, get.blocks.relay(lastCommittedTimeslice), constants.relay) ?? ''));
+  const getDate = (ts: number) => estimateTime(ts, get.blocks.relay(lastCommittedTimeslice), constants.relay)?.formattedDate ?? null;
   const saleNumber = getCurrentSaleNumber(currentRegionEndTs, relayName, config);
 
   let currentRegionInfo: SaleParameters['currentRegion'];
@@ -267,7 +267,7 @@ export const getSaleParameters = (
           coretime: 0,
           relay: currentRegionInfo.end.blocks.relay + get.blocks.relay(config.regionLength)
         },
-        date: formatDate(new Date(estimateTime(currentRegionInfo.end.ts + config.regionLength, get.blocks.relay(lastCommittedTimeslice), constants.relay) ?? '')),
+        date: estimateTime(currentRegionInfo.end.ts + config.regionLength, get.blocks.relay(lastCommittedTimeslice), constants.relay)?.formattedDate ?? null,
         ts: currentRegionInfo.end.ts + config.regionLength
       },
       start: {

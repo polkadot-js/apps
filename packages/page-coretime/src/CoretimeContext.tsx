@@ -9,7 +9,7 @@ import React, { createContext, useContext, useMemo } from 'react';
 
 import { useCoretimeInformation } from '@polkadot/react-hooks';
 
-import { createGet, estimateTime, formatDate } from './utils/index.js';
+import { createGet, estimateTime } from './utils/index.js';
 
 interface CoretimeContextProps {
   coretimeInfo: CoretimeInformation | null;
@@ -34,10 +34,10 @@ const CoretimeContext = createContext<CoretimeContextProps>(initState);
 export const CoretimeProvider = ({ api,
   children,
   isApiReady }: {
-  children: ReactNode;
-  api: ApiPromise;
-  isApiReady: boolean;
-}) => {
+    children: ReactNode;
+    api: ApiPromise;
+    isApiReady: boolean;
+  }) => {
   const coretimeInfo = useCoretimeInformation(api, isApiReady);
   const get = useMemo(() => {
     if (coretimeInfo?.constants) {
@@ -50,13 +50,10 @@ export const CoretimeProvider = ({ api,
   const currentRegionEnd = useMemo(() => coretimeInfo ? coretimeInfo?.salesInfo.regionEnd - coretimeInfo?.config.regionLength : 0, [coretimeInfo]);
   const currentRegionStart = useMemo(() => coretimeInfo ? coretimeInfo.salesInfo.regionEnd - coretimeInfo?.config.regionLength * 2 : 0, [coretimeInfo]);
 
-  const saleStartDate = useMemo(() => {
-    return get && coretimeInfo && formatDate(new Date(estimateTime(currentRegionStart, get.blocks.relay(coretimeInfo?.status?.lastTimeslice), coretimeInfo.constants.relay) ?? ''), true);
-  }, [currentRegionStart, coretimeInfo, get]);
+  const saleStartDate = useMemo(() => get && coretimeInfo && estimateTime(currentRegionStart, get.blocks.relay(coretimeInfo?.status?.lastTimeslice), coretimeInfo.constants.relay)?.formattedDate, [currentRegionStart, coretimeInfo, get]);
+  const saleEndDate = useMemo(() => get && coretimeInfo && estimateTime(currentRegionEnd, get.blocks.relay(coretimeInfo?.status?.lastTimeslice), coretimeInfo.constants.relay)?.formattedDate, [currentRegionEnd, coretimeInfo, get]);
 
-  const saleEndDate = useMemo(() => {
-    return get && coretimeInfo && formatDate(new Date(estimateTime(currentRegionEnd, get.blocks.relay(coretimeInfo?.status?.lastTimeslice), coretimeInfo.constants.relay) ?? ''), true);
-  }, [currentRegionEnd, coretimeInfo, get]);
+
 
   const value = useMemo(() => {
     if (!coretimeInfo || !currentRegionEnd || !currentRegionStart || !get || !saleEndDate || !saleStartDate) {
