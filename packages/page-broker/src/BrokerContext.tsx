@@ -51,8 +51,8 @@ export const BrokerProvider = ({ api, children, isApiReady }: BrokerProviderProp
   const currentRegionBegin = useMemo(() => saleInfo && config && saleInfo?.regionBegin - config?.regionLength, [saleInfo, config]);
   const lastBlock = useMemo(() => status && coretimeConsts && status.lastTimeslice * coretimeConsts.relay.blocksPerTimeslice, [status, coretimeConsts]);
 
-  const currentRegionEndDate = useMemo(() => currentRegionEnd && lastBlock && estimateTime(Number(currentRegionEnd), lastBlock), [currentRegionEnd, lastBlock]);
-  const currentRegionBeginDate = useMemo(() => currentRegionBegin && lastBlock && estimateTime(Number(currentRegionBegin), lastBlock), [currentRegionBegin, lastBlock]);
+  const currentRegionEndDate = useMemo(() => currentRegionEnd && lastBlock && estimateTime(Number(currentRegionEnd), lastBlock)?.formattedDate, [currentRegionEnd, lastBlock]);
+  const currentRegionBeginDate = useMemo(() => currentRegionBegin && lastBlock && estimateTime(Number(currentRegionBegin), lastBlock)?.formattedDate, [currentRegionBegin, lastBlock]);
 
   const value = useMemo(() => {
     if (!config || !saleInfo || !status || !currentRegionBegin || !currentRegionBeginDate || !currentRegionEnd || !currentRegionEndDate || !coretimeConsts) {

@@ -34,7 +34,7 @@ export const estimateTime = (
   targetTimeslice: string | number,
   latestBlock: number,
   { blocksPerTimeslice: blocksPerTs, blocktimeMs }: ChainBlockConstants = { blocksPerTimeslice: 80, blocktimeMs: 6000 }
-): string | null => {
+): { timestamp: number, formattedDate: string } | null => {
   if (!latestBlock || !targetTimeslice) {
     console.error('Invalid input: one or more inputs are missing');
 
@@ -52,7 +52,10 @@ export const estimateTime = (
     const timeDifference = blockDifference.mul(blockTime);
     const estTimestamp = now.add(timeDifference);
 
-    return formatDate(new Date(estTimestamp.toNumber()));
+    return {
+      timestamp: estTimestamp.toNumber(),
+      formattedDate: formatDate(new Date(estTimestamp.toNumber()))
+    };
   } catch (error) {
     console.error('Error in calculation:', error);
 
@@ -74,39 +77,37 @@ export function formatRowInfo (
   core: number,
   regionOwnerInfo: RegionInfo | undefined,
   currentTimeSlice: number,
-  currentRegion: { begin: number, end: number }, // in timeslices
+  currentRegion: { begin: number, beginDate: string, end: number, endDate: string },
   regionLength: number,
   coretimeRelayConstants: ChainBlockConstants = { blocksPerTimeslice: 0, blocktimeMs: 0 }
 ): InfoRow[] {
+  const blockNumberNow = currentTimeSlice * coretimeRelayConstants.blocksPerTimeslice;
+
   return data.map((one: CoreWorkloadType | CoreWorkplanType) => {
-    const item: InfoRow = { core, maskBits: one?.info?.maskBits, task: one?.info?.task, type: one?.type };
-    const blockNumberNow = currentTimeSlice * coretimeRelayConstants.blocksPerTimeslice;
+    const item: InfoRow = { 
+      core, 
+      maskBits: one?.info?.maskBits, 
+      task: one?.info?.task, 
+      type: one?.type 
+    };
 
-    item.type = one.type;
-    let end; let start = null;
-
-    if (one.type === CoreTimeTypes.Lease) {
-      const period = Math.floor(one.lastBlock / regionLength);
-
-      end = period * regionLength;
-    }
-
+    // For region-based types, use the provided dates
     if ([CoreTimeTypes['Bulk Coretime'], CoreTimeTypes.Reservation, CoreTimeTypes['On Demand']].includes(one.type)) {
-      start = currentRegion.begin;
-      end = currentRegion.end;
+      item.start = currentRegion.beginDate;
+      item.end = currentRegion.endDate;
+      item.startTimeslice = currentRegion.begin;
+      item.endBlock = currentRegion.end * coretimeRelayConstants.blocksPerTimeslice;
+    } 
+    // For lease type, calculate the end
+    else if (one.type === CoreTimeTypes.Lease) {
+      const period = Math.floor(one.lastBlock / regionLength);
+      const endTs = period * regionLength;
+      const endEstimate = estimateTime(endTs, blockNumberNow, coretimeRelayConstants);
+      item.end = endEstimate?.formattedDate ?? null;
+      item.endBlock = endTs * coretimeRelayConstants.blocksPerTimeslice;
     }
 
     item.owner = regionOwnerInfo?.owner.toString();
-
-    item.start = start ? estimateTime(start, blockNumberNow, coretimeRelayConstants) : null;
-    item.end = end ? estimateTime(end, blockNumberNow, coretimeRelayConstants) : null;
-    item.endBlock = end ? Number(end) * coretimeRelayConstants.blocksPerTimeslice : 0;
-
-    item.startTimeslice = start;
-
-    if ('timeslice' in one && !start) {
-      start = estimateTime(one.timeslice, blockNumberNow, coretimeRelayConstants) ?? null;
-    }
 
     return item;
   });

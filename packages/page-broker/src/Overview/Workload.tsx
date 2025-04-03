@@ -12,7 +12,7 @@ import { useRegions, useToggle } from '@polkadot/react-hooks';
 import { useCoretimeConsts } from '@polkadot/react-hooks/useCoretimeConsts';
 
 import { useBrokerContext } from '../BrokerContext.js';
-import { formatRowInfo } from '../utils.js';
+import { estimateTime, formatRowInfo } from '../utils.js';
 import WorkInfoRow from './WorkInfoRow.js';
 import Workplan from './Workplan.js';
 
@@ -24,7 +24,7 @@ interface Props {
   config: PalletBrokerConfigRecord
 }
 
-function Workload ({ api, config, core, workload, workplan }: Props): React.ReactElement<Props> {
+function Workload({ api, config, core, workload, workplan }: Props): React.ReactElement<Props> {
   const coretimeConstants = useCoretimeConsts();
 
   const [isExpanded, toggleIsExpanded] = useToggle(false);
@@ -35,7 +35,7 @@ function Workload ({ api, config, core, workload, workplan }: Props): React.Reac
 
   const currentTimeSlice = useMemo(() =>
     status?.lastTimeslice ?? 0
-  , [status]);
+    , [status]);
 
   const regionInfo = useRegions(api);
   const regionOwnerInfo: RegionInfo | undefined = useMemo(() => regionInfo?.find((v) => v.core === core && v.start <= currentTimeSlice && v.end > currentTimeSlice), [regionInfo, core, currentTimeSlice]);
@@ -48,7 +48,12 @@ function Workload ({ api, config, core, workload, workplan }: Props): React.Reac
         core,
         regionOwnerInfo,
         currentTimeSlice,
-        { begin: currentRegion.begin || 0, end: currentRegion.end || 0 },
+        {
+          begin: currentRegion.begin || 0,
+          beginDate: currentRegion.beginDate || '',
+          end: currentRegion.end || 0,
+          endDate: currentRegion.endDate || ''
+        },
         config.regionLength,
         coretimeConstants?.relay
       ));
@@ -58,22 +63,27 @@ function Workload ({ api, config, core, workload, workplan }: Props): React.Reac
   }, [workload, regionOwnerInfo, currentTimeSlice, core, config, coretimeConstants, currentRegion]);
 
   useEffect(() => {
-    if (workplan?.length) {
+    if (workplan?.length && status && coretimeConstants && currentRegion.endDate) {
+      const futureRegionStart = currentRegion.end || 0;
+      const futureRegionEnd = futureRegionStart + config.regionLength;
+      const lastBlock = status.lastTimeslice * coretimeConstants?.relay.blocksPerTimeslice;
+
       setWorkplanData(formatRowInfo(
         workplan,
         core,
         regionOwnerInfo,
-        currentTimeSlice,
+        status.lastTimeslice,
         {
-          begin: currentRegion.end || 0,
-          end: currentRegion.end ? currentRegion?.end + config.regionLength : 0
+          begin: futureRegionStart,
+          end: futureRegionEnd,
+          beginDate: currentRegion.endDate,
+          endDate: estimateTime(futureRegionEnd, lastBlock)?.formattedDate ?? ""
         },
         config.regionLength,
         coretimeConstants?.relay
       ));
     }
-  }
-  , [workplan, regionOwnerInfo, currentTimeSlice, core, config, coretimeConstants, currentRegion]);
+  }, [workplan, regionOwnerInfo, status, core, config, coretimeConstants, currentRegion]);
 
   const hasWorkplan = workplan?.length;
 
