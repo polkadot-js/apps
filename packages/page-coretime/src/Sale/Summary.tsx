@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { BrokerStatus, ChainConstants, CoreDescription, PalletBrokerConfigRecord, PalletBrokerSaleInfoRecord, RegionInfo } from '@polkadot/react-hooks/types';
+import type { BrokerStatus, CoreDescription, PalletBrokerConfigRecord, PalletBrokerSaleInfoRecord, RegionInfo } from '@polkadot/react-hooks/types';
 
 import React from 'react';
 
@@ -11,7 +11,7 @@ import { BN, formatNumber } from '@polkadot/util';
 
 import { useCoretimeContext } from '../CoretimeContext.js';
 import { useTranslation } from '../translate.js';
-import { estimateTime, getCurrentRegionStartEndTs } from '../utils/index.js';
+import { getCurrentRegionStartEndTs } from '../utils/index.js';
 
 interface Props {
   api: ApiPromise | null,
@@ -21,15 +21,12 @@ interface Props {
   region: RegionInfo[],
   status: BrokerStatus,
   saleNumber: number,
-  constants: ChainConstants
 }
 
-function Summary ({ config, constants, saleInfo, saleNumber, status }: Props): React.ReactElement<Props> {
+function Summary ({ config, saleInfo, saleNumber, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { currentRegionEndTs, currentRegionStartTs } = getCurrentRegionStartEndTs(saleInfo, config.regionLength);
-  const { get } = useCoretimeContext();
-  const cycleEnd = get && estimateTime(currentRegionEndTs, get.blocks.relay(status?.lastTimeslice), constants.relay);
-  const cycleStart = get && estimateTime(currentRegionStartTs, get.blocks.relay(status?.lastTimeslice), constants.relay);
+  const { get, saleEndDate, saleStartDate } = useCoretimeContext();
 
   return (
     <SummaryBox>
@@ -45,7 +42,7 @@ function Summary ({ config, constants, saleInfo, saleNumber, status }: Props): R
           {`${saleInfo?.coresSold} / ${saleInfo?.coresOffered}`}
         </CardSummary>
         <CardSummary label={t('sale end')}>
-          <div>{cycleEnd}</div>
+          <div>{saleEndDate}</div>
         </CardSummary>
         <CardSummary label={t('last block')}>
           <div>{get && formatNumber(get.blocks.relay(currentRegionEndTs))}</div>
@@ -70,8 +67,8 @@ function Summary ({ config, constants, saleInfo, saleNumber, status }: Props): R
         {status &&
           (<CardSummary label={t('current region dates')}>
             <div>
-              <div style={{ fontSize: '14px' }}>{cycleStart}</div>
-              <div style={{ fontSize: '14px' }}>{cycleEnd}</div>
+              <div style={{ fontSize: '14px' }}>{saleStartDate}</div>
+              <div style={{ fontSize: '14px' }}>{saleEndDate}</div>
             </div>
           </CardSummary>)
         }

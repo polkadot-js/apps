@@ -6,8 +6,7 @@ import type { CoreInfo } from '../types.js';
 
 import React from 'react';
 
-import { useBrokerConfig } from '@polkadot/react-hooks';
-
+import { useBrokerContext } from '../BrokerContext.js';
 import CoreTable from './CoreTable.js';
 
 interface Props {
@@ -16,8 +15,8 @@ interface Props {
   data: CoreInfo[];
 }
 
-function CoresTable ({ api, data, isApiReady }: Props): React.ReactElement<Props> {
-  const config = useBrokerConfig(api, isApiReady);
+function CoresTable ({ api, data }: Props): React.ReactElement<Props> {
+  const { config } = useBrokerContext();
 
   return (
     <>

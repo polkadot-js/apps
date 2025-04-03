@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ChainBlockConstants, ChainConstants, CoretimeInformation } from '@polkadot/react-hooks/types';
-import type { ChainName, GetResponse, RegionInfo } from '../types.js';
+import type { GetResponse, RegionInfo, RelayName } from '../types.js';
 
 import { CoreTimeTypes } from '@polkadot/react-hooks/constants';
 import { BN } from '@polkadot/util';
@@ -11,7 +11,7 @@ type FirstCycleStartType = Record<
 'block' | 'timeslice',
 Record<
 'coretime',
-Record<ChainName, number>
+Record<RelayName, number>
 >
 >;
 
@@ -41,10 +41,17 @@ export const coretimeTypeColours: Record<string, string> = {
   [CoreTimeTypes['Bulk Coretime']]: 'pink'
 };
 
-export function formatDate (date: Date) {
+export function formatDate (date: Date, time = false) {
   const day = date.getDate();
   const month = date.toLocaleString('default', { month: 'short' });
   const year = date.getFullYear();
+
+  if (time) {
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+
+    return `${day} ${month} ${year}, ${hours}:${minutes}`;
+  }
 
   return `${day} ${month} ${year}`;
 }
@@ -71,7 +78,7 @@ export const estimateTime = (
   targetTimeslice: string | number,
   latestBlock: number,
   { blocksPerTimeslice: blocksPerTs, blocktimeMs }: ChainBlockConstants
-): string | null => {
+): { timestamp: number, formattedDate: string } | null => {
   if (!latestBlock || !targetTimeslice) {
     console.error('Invalid input: one or more inputs are missing');
 
@@ -88,7 +95,10 @@ export const estimateTime = (
     const timeDifference = blockDifference.mul(blockTime);
     const estTimestamp = now.add(timeDifference);
 
-    return formatDate(new Date(estTimestamp.toNumber()));
+    return {
+      formattedDate: formatDate(new Date(estTimestamp.toNumber())),
+      timestamp: estTimestamp.toNumber()
+    };
   } catch (error) {
     console.error('Error in calculation:', error);
 

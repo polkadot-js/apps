@@ -19,8 +19,7 @@ export const Cores = ({ color, phaseName, salesInfo }: { phaseName: string, sale
   const { t } = useTranslation();
   const { apiCoretime } = useApi();
   const bestNumberFinalized = useCall<BlockNumber>(apiCoretime?.derive.chain.bestNumberFinalized);
-  const soldOut = useMemo(() => salesInfo.coresOffered === salesInfo.coresSold, [salesInfo.coresOffered, salesInfo.coresSold]);
-  const coretimePrice = useMemo(() => bestNumberFinalized && getCorePriceAt(bestNumberFinalized.toNumber(), salesInfo), [salesInfo, bestNumberFinalized]);
+  const coretimePrice = useMemo(() => bestNumberFinalized && salesInfo && getCorePriceAt(bestNumberFinalized.toNumber(), salesInfo), [salesInfo, bestNumberFinalized]);
 
   const CoresWrapper = styled(WhiteBox)`
     justify-self: flex-end;
@@ -39,10 +38,7 @@ export const Cores = ({ color, phaseName, salesInfo }: { phaseName: string, sale
         )
         : (
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {soldOut && (
-              <h4>{t('All cores are sold out')}</h4>
-            )}
-            {!soldOut && (
+            {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <div>
                   <p style={{ fontSize: '14px', marginBottom: '0.15rem', opacity: '0.8' }}>{t('current price')}</p>
@@ -53,7 +49,7 @@ export const Cores = ({ color, phaseName, salesInfo }: { phaseName: string, sale
                   <p style={{ fontSize: '20px' }}> {salesInfo.coresOffered - salesInfo.coresSold}</p>
                 </div>
               </div>
-            )}
+            }
           </div>
         )}
 

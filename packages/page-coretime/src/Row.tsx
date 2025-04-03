@@ -3,6 +3,7 @@
 
 import type { FlagColor } from '@polkadot/react-components/types';
 import type { ChainWorkTaskInformation, LegacyLease } from '@polkadot/react-hooks/types';
+import type { RelayName } from './types.js';
 
 import React from 'react';
 
@@ -22,6 +23,7 @@ interface Props {
   lastCommittedTimeslice: number
   lease: LegacyLease | undefined
   highlight?: boolean
+  relayName: RelayName
 }
 
 interface StyledCellProps {
@@ -50,16 +52,34 @@ const StyledMarkWarning = styled(MarkWarning)`
 
 const EXPIRES_IN_DAYS = 7;
 
-function Row ({ chainRecord, highlight = false, id, lastCommittedTimeslice, lease, regionBegin, regionEnd }: Props): React.ReactElement<Props> {
-  const chainRegionEnd = (chainRecord.renewalStatus === ChainRenewalStatus.Renewed ? regionEnd : regionBegin);
+function Row ({ chainRecord, highlight = false, id, lastCommittedTimeslice, lease, regionBegin, regionEnd, relayName }: Props): React.ReactElement<Props> {
+  // Group status checks
+  const { renewalStatus } = chainRecord;
+  const isRenewed = renewalStatus === ChainRenewalStatus.Renewed;
+  const isEligible = renewalStatus === ChainRenewalStatus.Eligible;
+  const chainRegionEnd = isRenewed ? regionEnd : regionBegin;
+
+  const renewalLink = isEligible && (
+    <a
+      href={`https://app.regionx.tech/renew?network=${relayName}&paraId=${id}&core=${chainRecord?.workload?.core}`}
+      rel='noopener noreferrer'
+      target='_blank'
+    >
+      Renew on RegionX
+    </a>
+  );
+
+  const renewalValue = isRenewed
+    ? chainRecord.renewalStatusMessage
+    : (isEligible ? renewalLink : '-');
+
   const targetTimeslice = lease?.until || chainRegionEnd;
   const showEstimates = !!targetTimeslice && Object.values(CoreTimeTypes)[chainRecord.type] !== CoreTimeTypes.Reservation;
   const { coretimeInfo, get } = useCoretimeContext();
 
-  const estimatedTime = showEstimates && get && coretimeInfo &&
-    estimateTime(targetTimeslice, get.blocks.relay(lastCommittedTimeslice), coretimeInfo?.constants?.relay);
+  const estimatedTime = showEstimates && get && coretimeInfo && estimateTime(targetTimeslice, get.blocks.relay(lastCommittedTimeslice), coretimeInfo?.constants?.relay);
 
-  const isWithinWeek = estimatedTime && new Date(estimatedTime).getTime() - Date.now() < EXPIRES_IN_DAYS * 24 * 60 * 60 * 1000;
+  const isWithinWeek = !!estimatedTime && new Date(estimatedTime.timestamp).getTime() - Date.now() < EXPIRES_IN_DAYS * 24 * 60 * 60 * 1000;
   const isReservation = chainRecord.type === CoreTimeTypes.Reservation;
 
   return (
@@ -83,9 +103,9 @@ function Row ({ chainRecord, highlight = false, id, lastCommittedTimeslice, leas
       <StyledCell
         $p={highlight}
         className='media--800'
-      >{showEstimates && chainRecord?.lastBlock &&
+      >{showEstimates && chainRecord?.lastBlock && relayName &&
         <a
-          href={`https://polkadot.subscan.io/block/${chainRecord?.lastBlock}`}
+          href={`https://${relayName.split(' ')[0]}.subscan.io/block/${chainRecord?.lastBlock}`}
           rel='noreferrer'
           target='_blank'
         >{formatNumber(chainRecord?.lastBlock)}
@@ -97,7 +117,7 @@ function Row ({ chainRecord, highlight = false, id, lastCommittedTimeslice, leas
         style={{ whiteSpace: 'nowrap' }}
       >
         <span>
-          {estimatedTime}
+          {estimatedTime && estimatedTime?.formattedDate}
           {!!isWithinWeek && !isReservation && chainRecord?.renewalStatus !== ChainRenewalStatus.Renewed && (
             <StyledMarkWarning
               content='Expires Soon'
@@ -108,7 +128,7 @@ function Row ({ chainRecord, highlight = false, id, lastCommittedTimeslice, leas
       <StyledCell
         $p={highlight}
         className='media--1200'
-      >{chainRecord?.renewalStatus === ChainRenewalStatus.Renewed ? chainRecord.renewalStatusMessage : chainRecord.renewalStatus}</StyledCell>
+      >{renewalValue}</StyledCell>
       <StyledCell
         $p={highlight}
         className='media--1200'

@@ -3,7 +3,7 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { TabItem } from '@polkadot/react-components/types';
-import type { ChainName } from './types.js';
+import type { RelayName } from './types.js';
 
 import React, { useRef } from 'react';
 import { Route, Routes } from 'react-router-dom';
@@ -39,7 +39,7 @@ function createItemsRef (t: (key: string, options?: { replace: Record<string, un
 function CoretimePage ({ api, basePath, className, isApiReady }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const itemsRef = useRef(createItemsRef(t));
-  const chainName = useCall<string>(isApiReady && api?.rpc.system.chain)?.toString().toLowerCase() as ChainName;
+  const relayName = useCall<string>(isApiReady && api?.rpc.system.chain)?.toString().toLowerCase() as RelayName;
 
   return (
     <main className={className}>
@@ -47,16 +47,16 @@ function CoretimePage ({ api, basePath, className, isApiReady }: Props): React.R
         basePath={basePath}
         items={itemsRef.current}
       />
-      {!chainName
+      {!relayName
         ? <div><Spinner /></div>
         : <Routes>
           <Route path={basePath}>
             <Route
-              element={<Overview chainName={chainName} />}
+              element={<Overview relayName={relayName} />}
               index
             />
             <Route
-              element={<Sale chainName={chainName} />}
+              element={<Sale relayName={relayName} />}
               path='sale'
             />
           </Route>
