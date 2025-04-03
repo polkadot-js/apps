@@ -1,5 +1,27 @@
 # CHANGELOG
 
+## 0.153.1 Apr 3, 2025
+
+Contributed:
+
+- Update logo for Robonomics parachains ([#11318](https://github.com/polkadot-js/apps/pull/11318)) (Thanks to https://github.com/PavelSheremetev)
+- Fix multisig when the proxy pallet is not available ([#11435](https://github.com/polkadot-js/apps/pull/11435)) (Thanks to https://github.com/MOZGIII)
+- fix: update 3dpass rpc endpoint ([#11442](https://github.com/polkadot-js/apps/pull/11442)) (Thanks to https://github.com/fedosov)
+- Update Dwellirs Litentry endpoint to Heima ([#11443](https://github.com/polkadot-js/apps/pull/11443)) (Thanks to https://github.com/Maharacha)
+- Update Dwellirs Moonbase endpoint ([#11444](https://github.com/polkadot-js/apps/pull/11444)) (Thanks to https://github.com/Maharacha)
+- Add zkVerify Volta inflation parameters ([#11448](https://github.com/polkadot-js/apps/pull/11448)) (Thanks to https://github.com/drgora)
+
+Changes:
+
+- Export Multisig as JSON ([#11408](https://github.com/polkadot-js/apps/pull/11408))
+- Disable unreachable endpoints ([#11424](https://github.com/polkadot-js/apps/pull/11424) [#11440](https://github.com/polkadot-js/apps/pull/11440))
+- Fix: Multisig calls linked to a proxy account ([#11412](https://github.com/polkadot-js/apps/pull/11412))
+- FIX: Unwanted Errors on Sudo Page When Submitting Calls ([#11426](https://github.com/polkadot-js/apps/pull/11426))
+- Improve signing with multisig proxy ([#11433](https://github.com/polkadot-js/apps/pull/11433))
+- Allow anonymous proxy ([#11450](https://github.com/polkadot-js/apps/pull/11450))
+- Upgraded polkadot dependencies ([#11453](https://github.com/polkadot-js/apps/pull/11453))
+
+
 ## 0.152.1 Mar 24, 2025
 
 Contributed:
