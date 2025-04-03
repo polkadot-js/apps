@@ -17,7 +17,7 @@
   "version": "0.152.2-12-x",
   "dependencies": {
     "@polkadot/hw-ledger": "^13.4.3",
-    "@polkadot/phishing": "^0.25.6",
+    "@polkadot/phishing": "^0.25.7",
     "@polkadot/react-components": "^0.152.2-12-x",
     "@polkadot/react-hooks": "^0.152.2-12-x",
     "@polkadot/util": "^13.4.3",

@@ -1619,7 +1619,7 @@ __metadata:
   resolution: "@polkadot/app-accounts@workspace:packages/page-accounts"
   dependencies:
     "@polkadot/hw-ledger": "npm:^13.4.3"
-    "@polkadot/phishing": "npm:^0.25.6"
+    "@polkadot/phishing": "npm:^0.25.7"
     "@polkadot/react-components": "npm:^0.152.2-12-x"
     "@polkadot/react-hooks": "npm:^0.152.2-12-x"
     "@polkadot/test-support": "npm:0.152.2-12-x"
