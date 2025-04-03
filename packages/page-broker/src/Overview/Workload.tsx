@@ -24,7 +24,7 @@ interface Props {
   config: PalletBrokerConfigRecord
 }
 
-function Workload({ api, config, core, workload, workplan }: Props): React.ReactElement<Props> {
+function Workload ({ api, config, core, workload, workplan }: Props): React.ReactElement<Props> {
   const coretimeConstants = useCoretimeConsts();
 
   const [isExpanded, toggleIsExpanded] = useToggle(false);
@@ -35,7 +35,7 @@ function Workload({ api, config, core, workload, workplan }: Props): React.React
 
   const currentTimeSlice = useMemo(() =>
     status?.lastTimeslice ?? 0
-    , [status]);
+  , [status]);
 
   const regionInfo = useRegions(api);
   const regionOwnerInfo: RegionInfo | undefined = useMemo(() => regionInfo?.find((v) => v.core === core && v.start <= currentTimeSlice && v.end > currentTimeSlice), [regionInfo, core, currentTimeSlice]);
@@ -75,9 +75,9 @@ function Workload({ api, config, core, workload, workplan }: Props): React.React
         status.lastTimeslice,
         {
           begin: futureRegionStart,
-          end: futureRegionEnd,
           beginDate: currentRegion.endDate,
-          endDate: estimateTime(futureRegionEnd, lastBlock)?.formattedDate ?? ""
+          end: futureRegionEnd,
+          endDate: estimateTime(futureRegionEnd, lastBlock)?.formattedDate ?? ''
         },
         config.regionLength,
         coretimeConstants?.relay

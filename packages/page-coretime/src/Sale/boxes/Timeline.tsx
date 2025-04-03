@@ -8,7 +8,7 @@ import type { CoretimeInformation } from '@polkadot/react-hooks/types';
 import React, { useMemo } from 'react';
 
 import { CardSummary, ProgressBar, styled, SummaryBox } from '@polkadot/react-components';
-import { BN, formatBalance, formatNumber } from '@polkadot/util';
+import { formatBalance, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../../translate.js';
 import { getCorePriceAt, getSaleProgress } from '../../utils/sale.js';

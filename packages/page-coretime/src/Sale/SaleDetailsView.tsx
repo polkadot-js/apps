@@ -80,12 +80,12 @@ const phases = {
 
 const dotLakeUrl = 'https://data.parity.io/coretime';
 
-const SaleDetailsView = ({ relayName, chosenSaleNumber, saleParams }: { saleParams: SaleParameters, chosenSaleNumber: number, relayName: RelayName }) => {
+const SaleDetailsView = ({ chosenSaleNumber, relayName, saleParams }: { saleParams: SaleParameters, chosenSaleNumber: number, relayName: RelayName }) => {
   const { t } = useTranslation();
 
   const subscanPriceGraphUrl = useMemo(() =>
     `https://coretime-${relayName}.subscan.io/coretime_dashboard`
-    , [relayName]);
+  , [relayName]);
 
   if (chosenSaleNumber === -1 || !saleParams) {
     return null;

@@ -53,8 +53,8 @@ export const estimateTime = (
     const estTimestamp = now.add(timeDifference);
 
     return {
-      timestamp: estTimestamp.toNumber(),
-      formattedDate: formatDate(new Date(estTimestamp.toNumber()))
+      formattedDate: formatDate(new Date(estTimestamp.toNumber())),
+      timestamp: estTimestamp.toNumber()
     };
   } catch (error) {
     console.error('Error in calculation:', error);
@@ -84,11 +84,11 @@ export function formatRowInfo (
   const blockNumberNow = currentTimeSlice * coretimeRelayConstants.blocksPerTimeslice;
 
   return data.map((one: CoreWorkloadType | CoreWorkplanType) => {
-    const item: InfoRow = { 
-      core, 
-      maskBits: one?.info?.maskBits, 
-      task: one?.info?.task, 
-      type: one?.type 
+    const item: InfoRow = {
+      core,
+      maskBits: one?.info?.maskBits,
+      task: one?.info?.task,
+      type: one?.type
     };
 
     // For region-based types, use the provided dates
@@ -97,12 +97,11 @@ export function formatRowInfo (
       item.end = currentRegion.endDate;
       item.startTimeslice = currentRegion.begin;
       item.endBlock = currentRegion.end * coretimeRelayConstants.blocksPerTimeslice;
-    } 
-    // For lease type, calculate the end
-    else if (one.type === CoreTimeTypes.Lease) {
+    } else if (one.type === CoreTimeTypes.Lease) { // For lease type, calculate the end
       const period = Math.floor(one.lastBlock / regionLength);
       const endTs = period * regionLength;
       const endEstimate = estimateTime(endTs, blockNumberNow, coretimeRelayConstants);
+
       item.end = endEstimate?.formattedDate ?? null;
       item.endBlock = endTs * coretimeRelayConstants.blocksPerTimeslice;
     }

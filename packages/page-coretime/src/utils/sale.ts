@@ -5,10 +5,10 @@ import type { ChainConstants, PalletBrokerConfigRecord, PalletBrokerSaleInfoReco
 import type { GetResponse, PhaseConfig, RegionInfo, RelayName, SaleParameters } from '../types.js';
 
 import { type ProgressBarSection } from '@polkadot/react-components/types';
-import { BN, formatBalance } from '@polkadot/util';
+import { BN } from '@polkadot/util';
 
 import { PhaseName } from '../constants.js';
-import { createGet, estimateTime, FirstCycleStart, formatDate, getCurrentRegionStartEndTs } from './index.js';
+import { createGet, estimateTime, FirstCycleStart, getCurrentRegionStartEndTs } from './index.js';
 
 // We are scaling everything to avoid floating point precision issues.
 const SCALE = new BN(10000);
@@ -220,7 +220,7 @@ export const getSaleParameters = (
           coretime: 0,
           relay: get.blocks.relay(currentRegionEndTs)
         },
-        date: getDate(currentRegionEndTs),
+        date: getDate(currentRegionEndTs) ?? "",
         ts: currentRegionEndTs
       },
       start: {
@@ -229,7 +229,7 @@ export const getSaleParameters = (
           coretime: 0,
           relay: get.blocks.relay(currentRegionStartTs)
         },
-        date: getDate(currentRegionStartTs),
+        date: getDate(currentRegionStartTs) ?? "",
         ts: currentRegionStartTs
       }
     };

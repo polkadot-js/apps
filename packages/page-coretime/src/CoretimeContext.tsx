@@ -34,10 +34,10 @@ const CoretimeContext = createContext<CoretimeContextProps>(initState);
 export const CoretimeProvider = ({ api,
   children,
   isApiReady }: {
-    children: ReactNode;
-    api: ApiPromise;
-    isApiReady: boolean;
-  }) => {
+  children: ReactNode;
+  api: ApiPromise;
+  isApiReady: boolean;
+}) => {
   const coretimeInfo = useCoretimeInformation(api, isApiReady);
   const get = useMemo(() => {
     if (coretimeInfo?.constants) {
@@ -52,8 +52,6 @@ export const CoretimeProvider = ({ api,
 
   const saleStartDate = useMemo(() => get && coretimeInfo && estimateTime(currentRegionStart, get.blocks.relay(coretimeInfo?.status?.lastTimeslice), coretimeInfo.constants.relay)?.formattedDate, [currentRegionStart, coretimeInfo, get]);
   const saleEndDate = useMemo(() => get && coretimeInfo && estimateTime(currentRegionEnd, get.blocks.relay(coretimeInfo?.status?.lastTimeslice), coretimeInfo.constants.relay)?.formattedDate, [currentRegionEnd, coretimeInfo, get]);
-
-
 
   const value = useMemo(() => {
     if (!coretimeInfo || !currentRegionEnd || !currentRegionStart || !get || !saleEndDate || !saleStartDate) {

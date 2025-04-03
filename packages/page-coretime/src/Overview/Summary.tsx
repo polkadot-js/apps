@@ -23,7 +23,7 @@ interface Props {
   relayName: RelayName,
 }
 
-function Summary({ config, parachainCount, relayName, status }: Props): React.ReactElement<Props> {
+function Summary ({ config, parachainCount, relayName, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { coretimeInfo, currentRegionEnd, currentRegionStart, saleEndDate, saleStartDate } = useCoretimeContext();
 
@@ -61,12 +61,12 @@ function Summary({ config, parachainCount, relayName, status }: Props): React.Re
               className='media--800'
               label={t('timeslice progress')}
               progress={{
+                hideGraph: true,
                 hideValue: false,
                 isBlurred: false,
                 total: new BN(config?.regionLength),
                 value: timeslicesSinceCycleStart,
-                withTime: false,
-                hideGraph: true
+                withTime: false
               }}
             />
             <CardSummary

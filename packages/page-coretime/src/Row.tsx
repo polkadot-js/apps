@@ -12,7 +12,7 @@ import { ParaLinkType } from '@polkadot/react-components/ParaLink';
 import { ChainRenewalStatus, CoreTimeTypes } from '@polkadot/react-hooks/constants';
 import { BN, formatBalance, formatNumber } from '@polkadot/util';
 
-import { coretimeTypeColours, estimateTime, formatDate } from './utils/index.js';
+import { coretimeTypeColours, estimateTime } from './utils/index.js';
 import { useCoretimeContext } from './CoretimeContext.js';
 
 interface Props {
@@ -52,13 +52,13 @@ const StyledMarkWarning = styled(MarkWarning)`
 
 const EXPIRES_IN_DAYS = 7;
 
-function Row({ chainRecord, highlight = false, id, lastCommittedTimeslice, lease, regionBegin, regionEnd, relayName }: Props): React.ReactElement<Props> {
+function Row ({ chainRecord, highlight = false, id, lastCommittedTimeslice, lease, regionBegin, regionEnd, relayName }: Props): React.ReactElement<Props> {
   const chainRegionEnd = (chainRecord.renewalStatus === ChainRenewalStatus.Renewed ? regionEnd : regionBegin);
   const targetTimeslice = lease?.until || chainRegionEnd;
   const showEstimates = !!targetTimeslice && Object.values(CoreTimeTypes)[chainRecord.type] !== CoreTimeTypes.Reservation;
   const { coretimeInfo, get } = useCoretimeContext();
 
-  const estimatedTime = showEstimates && get && coretimeInfo && estimateTime(targetTimeslice, get.blocks.relay(lastCommittedTimeslice), coretimeInfo?.constants?.relay)
+  const estimatedTime = showEstimates && get && coretimeInfo && estimateTime(targetTimeslice, get.blocks.relay(lastCommittedTimeslice), coretimeInfo?.constants?.relay);
 
   const isWithinWeek = !!estimatedTime && new Date(estimatedTime.timestamp).getTime() - Date.now() < EXPIRES_IN_DAYS * 24 * 60 * 60 * 1000;
   const isReservation = chainRecord.type === CoreTimeTypes.Reservation;
@@ -118,19 +118,19 @@ function Row({ chainRecord, highlight = false, id, lastCommittedTimeslice, lease
         $p={highlight}
         className='media--800'
       >{<div style={{ alignItems: 'center', columnGap: '12px', display: 'flex', flexDirection: 'row', justifyContent: 'left' }}>
-        <ParaLink
-          id={new BN(id)}
-          showLogo={false}
-          type={ParaLinkType.SUBSCAN}
-        />
-        <div style={{ marginBottom: '2px' }}>
           <ParaLink
             id={new BN(id)}
             showLogo={false}
-            type={ParaLinkType.HOME}
+            type={ParaLinkType.SUBSCAN}
           />
-        </div>
-      </div>}
+          <div style={{ marginBottom: '2px' }}>
+            <ParaLink
+              id={new BN(id)}
+              showLogo={false}
+              type={ParaLinkType.HOME}
+            />
+          </div>
+        </div>}
       </StyledCell>
       {highlight && <StyledCell $p={highlight} />}
     </React.Fragment>
