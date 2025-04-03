@@ -68,6 +68,7 @@ i18next
       'app-signing',
       'app-society',
       'app-staking',
+      'app-staking-next',
       'app-staking-legacy',
       'app-storage',
       'app-sudo',

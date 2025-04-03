@@ -38,6 +38,7 @@ import settings from './settings.js';
 import signing from './signing.js';
 import society from './society.js';
 import staking from './staking.js';
+import stakingNext from './staking-next.js';
 import staking2 from './staking2.js';
 import stakingLegacy from './stakingLegacy.js';
 import storage from './storage.js';
@@ -58,6 +59,8 @@ export default function create (t: TFunction): Routes {
     poll(t),
     transfer(t),
     teleport(t),
+    // Staking for AssetHub Migration
+    stakingNext(t),
     staking(t),
     staking2(t),
     // Legacy staking Pre v14 pallet version.
