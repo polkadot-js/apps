@@ -3,16 +3,67 @@
 
 import type { AppProps as Props } from '@polkadot/react-components/types';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Route, Routes } from 'react-router';
 
 import { styled, Tabs } from '@polkadot/react-components';
-import { useAccounts } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useAvailableSlashes, useOwnStashInfos } from '@polkadot/react-hooks';
+import { isFunction } from '@polkadot/util';
+
+import { useTranslation } from './translate.js';
 
 const HIDDEN_ACC = ['actions', 'payout'];
 
 function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const { api } = useApi();
   const { areAccountsLoaded, hasAccounts } = useAccounts();
+  const ownStashes = useOwnStashInfos();
+  const slashes = useAvailableSlashes();
+
+  const hasStashes = useMemo(
+    () => hasAccounts && !!ownStashes && (ownStashes.length !== 0),
+    [hasAccounts, ownStashes]
+  );
+
+  const items = useMemo(() => [
+    {
+      isRoot: true,
+      name: 'overview',
+      text: t('Overview')
+    },
+    {
+      name: 'actions',
+      text: t('Accounts')
+    },
+    hasStashes && isFunction(api.query.staking.activeEra) && {
+      name: 'payout',
+      text: t('Payouts')
+    },
+    isFunction(api.query.nominationPools?.minCreateBond) && {
+      name: 'pools',
+      text: t('Pools')
+    },
+    {
+      alias: 'returns',
+      name: 'targets',
+      text: t('Targets')
+    },
+    hasStashes && isFunction((api.query.voterBagsList || api.query.bagsList || api.query.voterList)?.counterForListNodes) && {
+      name: 'bags',
+      text: t('Bags')
+    },
+    {
+      count: slashes.reduce((count, [, unapplied]) => count + unapplied.length, 0),
+      name: 'slashes',
+      text: t('Slashes')
+    },
+    {
+      hasParams: true,
+      name: 'query',
+      text: t('Validator stats')
+    }
+  ].filter((q): q is { name: string; text: string } => !!q), [api, hasStashes, slashes, t]);
 
   return (
     <StyledMain className={`${className} staking--App`}>
@@ -23,24 +74,18 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
             ? HIDDEN_ACC
             : undefined
         }
-        items={[]}
-      >
-        <Routes>
-          <Route path={basePath}>
-            <Route
-              element={
-                <p>Staking Next Page</p>
-                // <Bags ownStashes={ownStashes} />
-              }
-              index
-              // path='bags'
-            />
-          </Route>
-
-        </Routes>
-      </Tabs>
-
-    </StyledMain>);
+        items={items}
+      />
+      <Routes>
+        <Route path={basePath}>
+          <Route
+            element={<h1>Root Page</h1>}
+            index
+          />
+        </Route>
+      </Routes>
+    </StyledMain>
+  );
 }
 
 const StyledMain = styled.main`
