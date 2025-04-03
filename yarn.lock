@@ -2365,28 +2365,28 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/extension-compat-metamask@npm:^0.58.6":
-  version: 0.58.6
-  resolution: "@polkadot/extension-compat-metamask@npm:0.58.6"
+"@polkadot/extension-compat-metamask@npm:^0.58.7":
+  version: 0.58.7
+  resolution: "@polkadot/extension-compat-metamask@npm:0.58.7"
   dependencies:
     "@metamask/detect-provider": "npm:^2.0.0"
-    "@polkadot/extension-inject": "npm:0.58.6"
-    "@polkadot/types": "npm:^15.8.1"
+    "@polkadot/extension-inject": "npm:0.58.7"
+    "@polkadot/types": "npm:^15.9.1"
     "@polkadot/util": "npm:^13.4.3"
     tslib: "npm:^2.8.1"
     web3: "npm:^4.7.0"
   peerDependencies:
     "@polkadot/api": "*"
     "@polkadot/util": "*"
-  checksum: 10/ecbdf406387c1d5efdcefcb82d0c6a22dfe66fe420444918d415202b8784e82a8635fa7f734e65c5b34aebeff171787cf470d9b2a03761621c979c94c6caf6c3
+  checksum: 10/d72259dc4dcf27464da2cb92d394aa97567c601d83ba679a377167b76fa50bdffdeb1a2c2932535e25a9e15cc7d1eed9279c0ad5084762effaeba1b175244c0f
   languageName: node
   linkType: hard
 
-"@polkadot/extension-dapp@npm:^0.58.6":
-  version: 0.58.6
-  resolution: "@polkadot/extension-dapp@npm:0.58.6"
+"@polkadot/extension-dapp@npm:^0.58.7":
+  version: 0.58.7
+  resolution: "@polkadot/extension-dapp@npm:0.58.7"
   dependencies:
-    "@polkadot/extension-inject": "npm:0.58.6"
+    "@polkadot/extension-inject": "npm:0.58.7"
     "@polkadot/util": "npm:^13.4.3"
     "@polkadot/util-crypto": "npm:^13.4.3"
     tslib: "npm:^2.8.1"
@@ -2394,17 +2394,17 @@ __metadata:
     "@polkadot/api": "*"
     "@polkadot/util": "*"
     "@polkadot/util-crypto": "*"
-  checksum: 10/1c8081265af464ab3df1a3d7609f807f0446eced59430ba0d241fa909931d854cedf4b0400f5fc33073e4303fcc09d6f280a356eba0aaaf76625dc7d421b185f
+  checksum: 10/a7bf3b8f1cd4791ca97f592e0a3acf43e5f08599bd58cdff6a0dcc39b8e584e33d16f1ef7faf3ade958716b17c0478b21f92fd0b2c796121faa6a1e5ecfaa660
   languageName: node
   linkType: hard
 
-"@polkadot/extension-inject@npm:0.58.6":
-  version: 0.58.6
-  resolution: "@polkadot/extension-inject@npm:0.58.6"
+"@polkadot/extension-inject@npm:0.58.7":
+  version: 0.58.7
+  resolution: "@polkadot/extension-inject@npm:0.58.7"
   dependencies:
-    "@polkadot/api": "npm:^15.8.1"
-    "@polkadot/rpc-provider": "npm:^15.8.1"
-    "@polkadot/types": "npm:^15.8.1"
+    "@polkadot/api": "npm:^15.9.1"
+    "@polkadot/rpc-provider": "npm:^15.9.1"
+    "@polkadot/types": "npm:^15.9.1"
     "@polkadot/util": "npm:^13.4.3"
     "@polkadot/util-crypto": "npm:^13.4.3"
     "@polkadot/x-global": "npm:^13.4.3"
@@ -2412,7 +2412,7 @@ __metadata:
   peerDependencies:
     "@polkadot/api": "*"
     "@polkadot/util": "*"
-  checksum: 10/53b2224c85ad83474741956b99c3f45c59ef3c85b081aedb4d7b44d86f00fc23406a7277ea3a6f9ea820521aec4c316da6aa1514bd64b5d80606d9c4d36625a8
+  checksum: 10/4bad79802ff221e2a8d6a9f04c9cb8710f40b1aaa42c4fb446ade0c0bb27737396bc543794c3b927b7c718da5517e3cf1c724522cb1b3f2dcc0c9295358e5394
   languageName: node
   linkType: hard
 
@@ -2487,8 +2487,8 @@ __metadata:
   resolution: "@polkadot/react-api@workspace:packages/react-api"
   dependencies:
     "@polkadot/api": "npm:^15.9.1"
-    "@polkadot/extension-compat-metamask": "npm:^0.58.6"
-    "@polkadot/extension-dapp": "npm:^0.58.6"
+    "@polkadot/extension-compat-metamask": "npm:^0.58.7"
+    "@polkadot/extension-dapp": "npm:^0.58.7"
     "@polkadot/rpc-provider": "npm:^15.9.1"
     fflate: "npm:^0.8.1"
     rxjs: "npm:^7.8.1"
