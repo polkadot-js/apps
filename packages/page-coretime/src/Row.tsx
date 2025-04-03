@@ -53,7 +53,26 @@ const StyledMarkWarning = styled(MarkWarning)`
 const EXPIRES_IN_DAYS = 7;
 
 function Row ({ chainRecord, highlight = false, id, lastCommittedTimeslice, lease, regionBegin, regionEnd, relayName }: Props): React.ReactElement<Props> {
-  const chainRegionEnd = (chainRecord.renewalStatus === ChainRenewalStatus.Renewed ? regionEnd : regionBegin);
+  // Group status checks
+  const { renewalStatus } = chainRecord;
+  const isRenewed = renewalStatus === ChainRenewalStatus.Renewed;
+  const isEligible = renewalStatus === ChainRenewalStatus.Eligible;
+  const chainRegionEnd = isRenewed ? regionEnd : regionBegin;
+
+  const renewalLink = isEligible && (
+    <a
+      href={`https://app.regionx.tech/renew?network=${relayName}&paraId=${id}&core=${chainRecord?.workload?.core}`}
+      rel='noopener noreferrer'
+      target='_blank'
+    >
+      Renew on RegionX
+    </a>
+  );
+
+  const renewalValue = isRenewed
+    ? chainRecord.renewalStatusMessage
+    : (isEligible ? renewalLink : '-');
+
   const targetTimeslice = lease?.until || chainRegionEnd;
   const showEstimates = !!targetTimeslice && Object.values(CoreTimeTypes)[chainRecord.type] !== CoreTimeTypes.Reservation;
   const { coretimeInfo, get } = useCoretimeContext();
@@ -109,7 +128,7 @@ function Row ({ chainRecord, highlight = false, id, lastCommittedTimeslice, leas
       <StyledCell
         $p={highlight}
         className='media--1200'
-      >{chainRecord?.renewalStatus === ChainRenewalStatus.Renewed ? chainRecord.renewalStatusMessage : chainRecord.renewalStatus}</StyledCell>
+      >{renewalValue}</StyledCell>
       <StyledCell
         $p={highlight}
         className='media--1200'

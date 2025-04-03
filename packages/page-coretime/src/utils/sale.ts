@@ -220,7 +220,7 @@ export const getSaleParameters = (
           coretime: 0,
           relay: get.blocks.relay(currentRegionEndTs)
         },
-        date: getDate(currentRegionEndTs) ?? "",
+        date: getDate(currentRegionEndTs) ?? '',
         ts: currentRegionEndTs
       },
       start: {
@@ -229,7 +229,7 @@ export const getSaleParameters = (
           coretime: 0,
           relay: get.blocks.relay(currentRegionStartTs)
         },
-        date: getDate(currentRegionStartTs) ?? "",
+        date: getDate(currentRegionStartTs) ?? '',
         ts: currentRegionStartTs
       }
     };
