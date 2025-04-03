@@ -391,6 +391,7 @@
        1	Dominik Fedor                 	Search/filter functionality of selection dropdowns (#9766)
        1	DorianSternVukotic            	Add Liberland network (#10266)
        1	Douglas Acosta                	Update new testnet wss url for Nodle - testingRelayRococo.ts (#10005)
+       1	drgora                        	Add zkVerify Volta inflation parameters (#11448)
        1	Eddie Machado                 	not truncating the address (#4311)
        1	Edvin Dzidic                  	Update Joystream staking inflation parameters (#11206)
        1	Eericxu                       	Fix Files(IPFS) module status link and download link (#10181)
