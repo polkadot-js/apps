@@ -34,5 +34,6 @@ export const ethereumChains = [
   'subspace-evm-domain',
   'thebifrost-dev',
   'thebifrost-mainnet',
-  'thebifrost-testnet'
+  'thebifrost-testnet',
+  'tscs-mainnet'
 ];
