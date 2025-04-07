@@ -11,30 +11,19 @@ import Doughnut from './Doughnut.js';
 import HorizBar from './HorizBar.js';
 import Line from './Line.js';
 
-function CustomCrosshairPlugin (plugin: Record<string, unknown>): Record<string, unknown> {
-  const originalAfterDraw = plugin.afterDraw as (chart: unknown, easing: unknown) => void;
+const CustomCrosshairPlugin = function (plugin: any) {
+  const originalAfterDraw = plugin.afterDraw;
 
-  plugin.afterDraw = function (chart: unknown, easing: unknown): void {
-    const chartWithCrosshair = chart as { crosshair?: unknown };
-
-    if (chartWithCrosshair.crosshair) {
+  plugin.afterDraw = function (chart: any, easing: any) {
+    if (chart?.crosshair) {
       originalAfterDraw.call(this, chart, easing);
     }
   };
 
   return plugin;
-}
+};
 
-Chart.register(
-  CategoryScale,
-  LinearScale,
-  LineElement,
-  PointElement,
-  Title,
-  Tooltip,
-  annotationPlugin,
-  CustomCrosshairPlugin(crosshairPlugin) as unknown as ChartComponentLike
-);
+Chart.register(CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, annotationPlugin, CustomCrosshairPlugin(crosshairPlugin));
 
 export default {
   Doughnut,
