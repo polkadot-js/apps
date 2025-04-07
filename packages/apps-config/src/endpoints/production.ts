@@ -235,7 +235,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'dock-pos-mainnet',
     providers: {
-      'Dock Association': 'wss://mainnet-node.dock.io'
+      // 'Dock Association': 'wss://mainnet-node.dock.io' // https://github.com/polkadot-js/apps/issues/11460
     },
     text: 'Dock',
     ui: {
