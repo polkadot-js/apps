@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types.js';
 
 import { POLKADOT_GENESIS } from '../api/constants.js';
-import { chainsAcalaSVG, chainsBitgreenPNG, chainsComposableFinancePNG, chainsEquilibriumSVG, chainsFrequencySVG, chainsGeminisPNG, chainsHydrationSVG, chainsInvarchJPEG, chainsLaosPNG, chainsLogionPNG, chainsNeurowebPNG, chainsOakPNG, chainsPeaqPNG, chainsPendulumSVG, chainsPeoplePolkadotSVG, chainsPolkadotCircleSVG, chainsTotemSVG, chainsWatrPNG } from '../ui/logos/chains/index.js';
+import { chainsAcalaSVG, chainsBitgreenPNG, chainsComposableFinancePNG, chainsEquilibriumSVG, chainsFrequencySVG, chainsGeminisPNG, chainsHydrationSVG, chainsInvarchJPEG, chainsLaosPNG, chainsLogionPNG, chainsMyxcavPNG, chainsNeurowebPNG, chainsOakPNG, chainsPeaqPNG, chainsPendulumSVG, chainsPeoplePolkadotSVG, chainsPolkadotCircleSVG, chainsTotemSVG, chainsWatrPNG } from '../ui/logos/chains/index.js';
 import { nodesAjunaPNG, nodesAresOdysseySVG, nodesAssetHubSVG, nodesAstarPNG, nodesAventusSVG, nodesBifrostSVG, nodesBridgeHubSVG, nodesCentrifugePNG, nodesCloverSVG, nodesCoinversationPNG, nodesContinuumPNG, nodesCrustParachainSVG, nodesDarwiniaSVG, nodesEfinitySVG, nodesEwxSVG, nodesHashedPNG, nodesHeimaSVG, nodesHyperbridgePNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesJamtonSVG, nodesKiltIconSVG, nodesKylinPNG, nodesMantaPNG, nodesMoonbeamSVG, nodesMoonsamaSVG, nodesMythosPNG, nodesNodleSVG, nodesOmnibtcSVG, nodesParallelSVG, nodesPhalaSVG, nodesPolimecSVG, nodesPolkadexSVG, nodesRobonomicsSVG, nodesSoraSubstrateSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesT3rnPNG, nodesUniqueSVG, nodesZeitgeistPNG } from '../ui/logos/nodes/index.js';
 import { getTeleports } from './util.js';
 
@@ -982,6 +982,19 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     ui: {
       color: '#e84366',
       logo: chainsPeoplePolkadotSVG
+    }
+  },
+  {
+    homepage: 'https://xcavate.io/',
+    info: 'Xcavate',
+    paraId: 3413,
+    providers: {
+      Xcavate: 'wss://rpc1-polkadot.xcavate.io'
+    },
+    text: 'Xcavate',
+    ui: {
+      color: '#FF0083',
+      logo: chainsMyxcavPNG
     }
   }
 ];
