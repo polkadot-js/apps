@@ -398,6 +398,7 @@
        1	Emilio Silva Schlenker        	[#943] Make hash/number query available globally to explorer (#1111)
        1	Emmanuel Thomas               	add kaizen endpoint to apps-ui (#9022)
        1	equilibrium-de                	updates genshiro info (#6412)
+       1	Ernesto                       	chore: fixed bug on chart and ui issue in sale page (#11354)
        1	fadomire                      	Fix translations loading for ever (#5282)
        1	falconexe                     	return DAO IPCI endpoint (#10194)
        1	Femi Olah                     	Adds new Hyperbridge logo (#10822)
