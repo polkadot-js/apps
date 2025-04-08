@@ -871,7 +871,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       Xcavate: 'wss://rpc1-polkadot.xcavate.io'
     },
     relayName: 'polkadot',
-    text: 'xcavate',
+    text: 'Xcavate',
     ui: {
       color: '#FF0083',
       logo: chainsMyxcavPNG
