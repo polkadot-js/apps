@@ -986,14 +986,14 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
   },
   {
     homepage: 'https://xcavate.io/',
-    info: 'Xcavate',
+    info: 'xcavate',
     paraId: 3413,
     providers: {
       Xcavate: 'wss://rpc1-polkadot.xcavate.io'
     },
     relayName: 'polkadot',
     teleport: [-1],
-    text: 'Xcavate',
+    text: 'xcavate',
     ui: {
       color: '#FF0083',
       logo: chainsMyxcavPNG
