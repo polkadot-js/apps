@@ -864,6 +864,20 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://xcavate.io/',
+    info: 'xcavate',
+    paraId: 3413,
+    providers: {
+      Xcavate: 'wss://rpc1-polkadot.xcavate.io'
+    },
+    relayName: 'polkadot',
+    text: 'xcavate',
+    ui: {
+      color: '#FF0083',
+      logo: chainsMyxcavPNG
+    }
+  },
+  {
     homepage: 'https://zeitgeist.pm',
     info: 'zeitgeist',
     paraId: 2092,
@@ -982,21 +996,6 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     ui: {
       color: '#e84366',
       logo: chainsPeoplePolkadotSVG
-    }
-  },
-  {
-    homepage: 'https://xcavate.io/',
-    info: 'xcavate',
-    paraId: 3413,
-    providers: {
-      Xcavate: 'wss://rpc1-polkadot.xcavate.io'
-    },
-    relayName: 'polkadot',
-    teleport: [-1],
-    text: 'xcavate',
-    ui: {
-      color: '#FF0083',
-      logo: chainsMyxcavPNG
     }
   }
 ];
