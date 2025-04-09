@@ -245,6 +245,7 @@ function DissolveCrowdloan ({ hasEnded, isDepositor, isEnded, paraId }: IDissolv
     )}
     <Button
       icon='times'
+      isDisabled={!(isDepositor || hasEnded)}
       label={
         isEnded
           ? t('Close')
