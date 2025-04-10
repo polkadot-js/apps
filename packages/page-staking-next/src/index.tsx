@@ -2,28 +2,62 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AppProps as Props } from '@polkadot/react-components/types';
+import type { ElectionStatus, ParaValidatorIndex, ValidatorId } from '@polkadot/types/interfaces';
+import type { BN } from '@polkadot/util';
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Route, Routes } from 'react-router';
 
+import Payouts from '@polkadot/app-staking/Payouts';
+import useSortedTargets from '@polkadot/app-staking/useSortedTargets';
+import useOwnPools from '@polkadot/app-staking2/Pools/useOwnPools';
 import { styled, Tabs } from '@polkadot/react-components';
-import { useAccounts, useApi, useAvailableSlashes, useOwnStashInfos } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useAvailableSlashes, useCallMulti, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
+import { STORE_FAVS_BASE } from './constants.js';
 import { useTranslation } from './translate.js';
 
 const HIDDEN_ACC = ['actions', 'payout'];
 
+const OPT_MULTI = {
+  defaultValue: [false, undefined, {}] as [boolean, BN | undefined, Record<string, boolean>],
+  transform: ([eraElectionStatus, minValidatorBond, validators, activeValidatorIndices]: [ElectionStatus | null, BN | undefined, ValidatorId[] | null, ParaValidatorIndex[] | null]): [boolean, BN | undefined, Record<string, boolean>] => [
+    !!eraElectionStatus && eraElectionStatus.isOpen,
+    minValidatorBond && !minValidatorBond.isZero()
+      ? minValidatorBond
+      : undefined,
+    validators && activeValidatorIndices
+      ? activeValidatorIndices.reduce((all, index) => ({ ...all, [validators[index.toNumber()].toString()]: true }), {})
+      : {}
+  ]
+};
+
 function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const [withLedger, setWithLedger] = useState(false);
+  const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const { areAccountsLoaded, hasAccounts } = useAccounts();
   const ownStashes = useOwnStashInfos();
   const slashes = useAvailableSlashes();
+  const targets = useSortedTargets(favorites, withLedger);
+  const [isInElection, minCommission, paraValidators] = useCallMulti<[boolean, BN | undefined, Record<string, boolean>]>([
+    api.query.staking.eraElectionStatus,
+    api.query.staking.minCommission,
+    api.query.session.validators,
+    (api.query.parasShared || api.query.shared)?.activeValidatorIndices
+  ], OPT_MULTI);
+  const ownPools = useOwnPools();
 
   const hasStashes = useMemo(
     () => hasAccounts && !!ownStashes && (ownStashes.length !== 0),
     [hasAccounts, ownStashes]
+  );
+
+  const ownValidators = useMemo(
+    () => (ownStashes || []).filter(({ isStashValidating }) => isStashValidating),
+    [ownStashes]
   );
 
   const items = useMemo(() => [
@@ -78,6 +112,17 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       />
       <Routes>
         <Route path={basePath}>
+          <Route
+            element={
+              <Payouts
+                historyDepth={targets.historyDepth}
+                isInElection={isInElection}
+                ownPools={ownPools}
+                ownValidators={ownValidators}
+              />
+            }
+            path='payout'
+          />
           <Route
             element={<h1>Root Page</h1>}
             index

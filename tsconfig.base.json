@@ -70,6 +70,8 @@
       "@polkadot/app-signing": ["page-signing/src/index.tsx"],
       "@polkadot/app-society": ["page-society/src/index.tsx"],
       "@polkadot/app-staking": ["page-staking/src/index.tsx"],
+      "@polkadot/app-staking/Payouts": ["page-staking/src/Payouts/index.tsx"],
+      "@polkadot/app-staking/*": ["page-staking/src/*.ts"],
       "@polkadot/app-staking-next": ["page-staking-next/src/index.tsx"],
       "@polkadot/app-staking2": ["page-staking2/src/index.tsx"],
       "@polkadot/app-staking2/Legend": ["page-staking2/src/Legend.tsx"],
