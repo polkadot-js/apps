@@ -10,6 +10,7 @@ import { Route, Routes } from 'react-router';
 
 import Payouts from '@polkadot/app-staking/Payouts';
 import useSortedTargets from '@polkadot/app-staking/useSortedTargets';
+import Pools from '@polkadot/app-staking2/Pools';
 import useOwnPools from '@polkadot/app-staking2/Pools/useOwnPools';
 import { styled, Tabs } from '@polkadot/react-components';
 import { useAccounts, useApi, useAvailableSlashes, useCallMulti, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
@@ -112,6 +113,12 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       />
       <Routes>
         <Route path={basePath}>
+          <Route
+            element={
+              <Pools ownPools={ownPools} />
+            }
+            path='pools'
+          />
           <Route
             element={
               <Payouts
