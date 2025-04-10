@@ -37,7 +37,7 @@ export const ValidatorSlashed = () => {
                   {i.balance > 0
                     ? (
                       <FormatBalance
-                        // format={[8, 'BEVM']}
+                        format={[10, 'SATS']}
                         value={i.balance}
                       />
                     ) : i.balance}
