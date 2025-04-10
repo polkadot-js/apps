@@ -1123,9 +1123,9 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'zkVerify-testnet',
     providers: {
-      zkVerify: 'wss://testnet-rpc.zkverify.io'
+      zkVerify: 'wss://volta-rpc.zkverify.io'
     },
-    text: 'zkVerify Testnet',
+    text: 'zkVerify Volta Testnet',
     ui: {
       color: '#15AA6A',
       logo: nodesZkVerifyPNG
