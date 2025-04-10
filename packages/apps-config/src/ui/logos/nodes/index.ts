@@ -29,6 +29,7 @@ export { nodesCessPNG } from './generated/cessPNG.js';
 export { nodesChainxSVG } from './generated/chainxSVG.js';
 export { nodesCloverSVG } from './generated/cloverSVG.js';
 export { nodesCoinversationPNG } from './generated/coinversationPNG.js';
+export { nodesCollectivesSVG } from './generated/collectivesSVG.js';
 export { nodesCompetitorsClubPNG } from './generated/competitors-clubPNG.js';
 export { nodesConftiSVG } from './generated/conftiSVG.js';
 export { nodesContinuumPNG } from './generated/continuumPNG.js';
