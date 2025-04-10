@@ -8,6 +8,7 @@ import type { BN } from '@polkadot/util';
 import React, { useMemo, useState } from 'react';
 import { Route, Routes } from 'react-router';
 
+import Bags from '@polkadot/app-staking/Bags';
 import Payouts from '@polkadot/app-staking/Payouts';
 import useSortedTargets from '@polkadot/app-staking/useSortedTargets';
 import Pools from '@polkadot/app-staking2/Pools';
@@ -115,9 +116,9 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         <Route path={basePath}>
           <Route
             element={
-              <Pools ownPools={ownPools} />
+              <Bags ownStashes={ownStashes} />
             }
-            path='pools'
+            path='bags'
           />
           <Route
             element={
@@ -129,6 +130,12 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
               />
             }
             path='payout'
+          />
+          <Route
+            element={
+              <Pools ownPools={ownPools} />
+            }
+            path='pools'
           />
           <Route
             element={<h1>Root Page</h1>}
