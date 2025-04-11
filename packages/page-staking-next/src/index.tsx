@@ -2,147 +2,37 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AppProps as Props } from '@polkadot/react-components/types';
-import type { ElectionStatus, ParaValidatorIndex, ValidatorId } from '@polkadot/types/interfaces';
-import type { BN } from '@polkadot/util';
 
-import React, { useMemo, useState } from 'react';
-import { Route, Routes } from 'react-router';
+import React from 'react';
 
-import Bags from '@polkadot/app-staking/Bags';
-import Payouts from '@polkadot/app-staking/Payouts';
-import useSortedTargets from '@polkadot/app-staking/useSortedTargets';
-import Pools from '@polkadot/app-staking2/Pools';
-import useOwnPools from '@polkadot/app-staking2/Pools/useOwnPools';
-import { styled, Tabs } from '@polkadot/react-components';
-import { useAccounts, useApi, useAvailableSlashes, useCallMulti, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
-import { isFunction } from '@polkadot/util';
+import { styled } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 
-import { STORE_FAVS_BASE } from './constants.js';
-import { useTranslation } from './translate.js';
+import StakingRelayApp from './relay/index.js';
+import StakingSystemApp from './system/index.js';
 
-const HIDDEN_ACC = ['actions', 'payout'];
+function StakingApp ({ basePath, className = '', onStatusChange }: Props): React.ReactElement<Props> {
+  const { api, apiEndpoint } = useApi();
 
-const OPT_MULTI = {
-  defaultValue: [false, undefined, {}] as [boolean, BN | undefined, Record<string, boolean>],
-  transform: ([eraElectionStatus, minValidatorBond, validators, activeValidatorIndices]: [ElectionStatus | null, BN | undefined, ValidatorId[] | null, ParaValidatorIndex[] | null]): [boolean, BN | undefined, Record<string, boolean>] => [
-    !!eraElectionStatus && eraElectionStatus.isOpen,
-    minValidatorBond && !minValidatorBond.isZero()
-      ? minValidatorBond
-      : undefined,
-    validators && activeValidatorIndices
-      ? activeValidatorIndices.reduce((all, index) => ({ ...all, [validators[index.toNumber()].toString()]: true }), {})
-      : {}
-  ]
-};
-
-function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
-  const { api } = useApi();
-  const [withLedger, setWithLedger] = useState(false);
-  const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
-  const { areAccountsLoaded, hasAccounts } = useAccounts();
-  const ownStashes = useOwnStashInfos();
-  const slashes = useAvailableSlashes();
-  const targets = useSortedTargets(favorites, withLedger);
-  const [isInElection, minCommission, paraValidators] = useCallMulti<[boolean, BN | undefined, Record<string, boolean>]>([
-    api.query.staking.eraElectionStatus,
-    api.query.staking.minCommission,
-    api.query.session.validators,
-    (api.query.parasShared || api.query.shared)?.activeValidatorIndices
-  ], OPT_MULTI);
-  const ownPools = useOwnPools();
-
-  const hasStashes = useMemo(
-    () => hasAccounts && !!ownStashes && (ownStashes.length !== 0),
-    [hasAccounts, ownStashes]
-  );
-
-  const ownValidators = useMemo(
-    () => (ownStashes || []).filter(({ isStashValidating }) => isStashValidating),
-    [ownStashes]
-  );
-
-  const items = useMemo(() => [
-    {
-      isRoot: true,
-      name: 'overview',
-      text: t('Overview')
-    },
-    {
-      name: 'actions',
-      text: t('Accounts')
-    },
-    hasStashes && isFunction(api.query.staking.activeEra) && {
-      name: 'payout',
-      text: t('Payouts')
-    },
-    isFunction(api.query.nominationPools?.minCreateBond) && {
-      name: 'pools',
-      text: t('Pools')
-    },
-    {
-      alias: 'returns',
-      name: 'targets',
-      text: t('Targets')
-    },
-    hasStashes && isFunction((api.query.voterBagsList || api.query.bagsList || api.query.voterList)?.counterForListNodes) && {
-      name: 'bags',
-      text: t('Bags')
-    },
-    {
-      count: slashes.reduce((count, [, unapplied]) => count + unapplied.length, 0),
-      name: 'slashes',
-      text: t('Slashes')
-    },
-    {
-      hasParams: true,
-      name: 'query',
-      text: t('Validator stats')
-    }
-  ].filter((q): q is { name: string; text: string } => !!q), [api, hasStashes, slashes, t]);
+  // TODO: Must be removed in production
+  const isRelayGenesis = (api.genesisHash.toHex()) === '0x0e268177d92e92c5fa1a2374e4224da33bc9600c0318a9c25389a35f91238986';
 
   return (
     <StyledMain className={`${className} staking--App`}>
-      <Tabs
-        basePath={basePath}
-        hidden={
-          areAccountsLoaded && !hasAccounts
-            ? HIDDEN_ACC
-            : undefined
-        }
-        items={items}
-      />
-      <Routes>
-        <Route path={basePath}>
-          <Route
-            element={
-              <Bags ownStashes={ownStashes} />
-            }
-            path='bags'
+      {apiEndpoint?.isRelay || isRelayGenesis
+        ? (
+          <StakingRelayApp
+            basePath={basePath}
+            onStatusChange={onStatusChange}
           />
-          <Route
-            element={
-              <Payouts
-                historyDepth={targets.historyDepth}
-                isInElection={isInElection}
-                ownPools={ownPools}
-                ownValidators={ownValidators}
-              />
-            }
-            path='payout'
+        )
+        : (
+          <StakingSystemApp
+            basePath={basePath}
+            onStatusChange={onStatusChange}
           />
-          <Route
-            element={
-              <Pools ownPools={ownPools} />
-            }
-            path='pools'
-          />
-          <Route
-            element={<h1>Root Page</h1>}
-            index
-          />
-        </Route>
-      </Routes>
+        )
+      }
     </StyledMain>
   );
 }
