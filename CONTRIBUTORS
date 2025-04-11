@@ -561,6 +561,7 @@
        1	Vladyslav Samchuk             	Enable sub.id link (#7806)
        1	Vucomir Ianculov              	Change Aventus public rpc endpoints (#11220)
        1	Wasif-Jamal                   	Add VTB Network Mainnet (#10117)
+       1	weimeme                       	add tscs network (#11438)
        1	willeslau                     	Add Konomi Network chain info to Rococo (#5171)
        1	wimel                         	25 modules translated from ES_es (#2969)
        1	Witek                         	Add Efinity parachain (#6571)
