@@ -9,6 +9,7 @@ import type { BN } from '@polkadot/util';
 import React, { useCallback, useMemo, useState } from 'react';
 import { Route, Routes } from 'react-router';
 
+import Actions from '@polkadot/app-staking/Actions';
 import Bags from '@polkadot/app-staking/Bags';
 import Payouts from '@polkadot/app-staking/Payouts';
 import useNominations from '@polkadot/app-staking/useNominations';
@@ -152,6 +153,18 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
               <Pools ownPools={ownPools} />
             }
             path='pools'
+          />
+          <Route
+            element={
+              <Actions
+                isInElection={isInElection}
+                minCommission={minCommission}
+                ownPools={ownPools}
+                ownStashes={ownStashes}
+                targets={targets}
+              />
+            }
+            path='actions'
           />
           <Route
             element={
