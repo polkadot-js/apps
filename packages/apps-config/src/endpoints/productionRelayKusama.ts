@@ -122,7 +122,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'calamari',
     paraId: 2084,
     providers: {
-      'Manta Network': 'wss://calamari.systems'
+      // 'Manta Network': 'wss://calamari.systems' // https://github.com/polkadot-js/apps/issues/11439
     },
     text: 'Calamari',
     ui: {
@@ -622,7 +622,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'quartz',
     paraId: 2095,
     providers: {
-      Dwellir: 'wss://quartz-rpc.dwellir.com',
+      Dwellir: 'wss://quartz-rpc.n.dwellir.com',
       // OnFinality: 'wss://quartz.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9972
       'Geo Load Balancer': 'wss://ws-quartz.unique.network',
       'Unique America': 'wss://us-ws-quartz.unique.network',
@@ -978,7 +978,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     isPeopleForIdentity: false,
     paraId: 1004,
     providers: {
-      Dwellir: 'wss://people-kusama-rpc.dwellir.com',
+      Dwellir: 'wss://people-kusama-rpc.n.dwellir.com',
       IBP1: 'wss://sys.ibp.network/people-kusama',
       IBP2: 'wss://people-kusama.dotters.network',
       LuckyFriday: 'wss://rpc-people-kusama.luckyfriday.io',

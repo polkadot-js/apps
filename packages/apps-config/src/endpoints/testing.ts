@@ -620,7 +620,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'moonbaseAlpha',
     providers: {
       Blast: 'wss://moonbase-alpha.public.blastapi.io',
-      Dwellir: 'wss://moonbase-rpc.dwellir.com',
+      Dwellir: 'wss://moonbase-rpc.n.dwellir.com',
       'Moonbeam Foundation': 'wss://wss.api.moonbase.moonbeam.network',
       // OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws', https://github.com/polkadot-js/apps/issues/11026
       RadiumBlock: 'wss://moonbase.public.curie.radiumblock.co/ws',
@@ -940,7 +940,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'subspace-gemini-3h',
     providers: {
-      US: 'wss://rpc-0.gemini-3h.subspace.network/ws'
+      // US: 'wss://rpc-0.gemini-3h.subspace.network/ws' // https://github.com/polkadot-js/apps/issues/11423
       // US2: 'wss://rpc-1.gemini-3h.subspace.network/ws' // https://github.com/polkadot-js/apps/issues/11098
     },
     text: 'Subspace Gemini 3h',
@@ -986,7 +986,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'ternoa-alphanet',
     providers: {
-      CapsuleCorp: 'wss://alphanet.ternoa.com'
+      // CapsuleCorp: 'wss://alphanet.ternoa.com' // https://github.com/polkadot-js/apps/issues/11406
     },
     text: 'Ternoa Alphanet',
     ui: {

@@ -20,7 +20,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: '3dpass',
     providers: {
-      '3dpass': 'wss://rpc.3dpscan.io'
+      '3dpass': 'wss://rpc.3dpass.org'
     },
     text: '3DPass',
     ui: {
@@ -235,7 +235,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'dock-pos-mainnet',
     providers: {
-      'Dock Association': 'wss://mainnet-node.dock.io'
+      // 'Dock Association': 'wss://mainnet-node.dock.io' // https://github.com/polkadot-js/apps/issues/11460
     },
     text: 'Dock',
     ui: {

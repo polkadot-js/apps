@@ -1,8 +1,8 @@
 // Copyright 2017-2025 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BrokerStatus, ChainConstants, CoreDescription, PalletBrokerConfigRecord, PalletBrokerSaleInfoRecord, RegionInfo } from '@polkadot/react-hooks/types';
-import type { ChainName } from '../types.js';
+import type { BrokerStatus, CoreDescription, PalletBrokerConfigRecord, PalletBrokerSaleInfoRecord, RegionInfo } from '@polkadot/react-hooks/types';
+import type { RelayName } from '../types.js';
 
 import React, { useMemo } from 'react';
 
@@ -11,7 +11,7 @@ import { BN } from '@polkadot/util';
 
 import { useCoretimeContext } from '../CoretimeContext.js';
 import { useTranslation } from '../translate.js';
-import { estimateTime, FirstCycleStart } from '../utils/index.js';
+import { FirstCycleStart } from '../utils/index.js';
 
 interface Props {
   coreDscriptors?: CoreDescription[];
@@ -20,25 +20,24 @@ interface Props {
   region: RegionInfo[],
   status: BrokerStatus,
   parachainCount: number
-  chainName: ChainName,
-  constants: ChainConstants
+  relayName: RelayName,
 }
 
-function Summary ({ chainName, config, constants, parachainCount, saleInfo, status }: Props): React.ReactElement<Props> {
+function Summary ({ config, parachainCount, relayName, status }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const currentRegionEnd = saleInfo.regionEnd - config.regionLength;
-  const currentRegionStart = saleInfo.regionEnd - config.regionLength * 2;
-  const { get } = useCoretimeContext();
+  const { coretimeInfo, currentRegionEnd, currentRegionStart, saleEndDate, saleStartDate } = useCoretimeContext();
 
   const saleNumber = useMemo(() => {
-    if (chainName && currentRegionEnd) {
+    if (relayName && currentRegionEnd) {
       return Math.floor(
-        (currentRegionEnd - FirstCycleStart.timeslice.coretime[chainName]) / config.regionLength
+        (currentRegionEnd - FirstCycleStart.timeslice.coretime[relayName]) / config.regionLength
       );
     }
 
     return undefined;
-  }, [currentRegionEnd, chainName, config]);
+  }, [currentRegionEnd, relayName, config]);
+
+  const timeslicesSinceCycleStart = useMemo(() => currentRegionEnd && new BN(config?.regionLength).sub((new BN(currentRegionEnd)).sub(new BN(status.lastTimeslice))), [status, config, currentRegionEnd]);
 
   return (
     <SummaryBox>
@@ -56,36 +55,46 @@ function Summary ({ chainName, config, constants, parachainCount, saleInfo, stat
         <CardSummary label={t('parachains')}>
           {parachainCount && parachainCount}
         </CardSummary>
-        {config && status &&
-          <CardSummary
-            className='media--800'
-            label={t('cycle progress')}
-            progress={{
-              isBlurred: false,
-              total: new BN(config?.regionLength),
-              value: new BN(config?.regionLength - (currentRegionEnd - status.lastTimeslice)),
-              withTime: false
-            }}
-          />
+        {config && status && currentRegionEnd && saleEndDate && saleStartDate && timeslicesSinceCycleStart && coretimeInfo?.constants &&
+          <>
+            <CardSummary
+              className='media--800'
+              label={t('timeslice progress')}
+              progress={{
+                hideGraph: true,
+                hideValue: false,
+                isBlurred: false,
+                total: new BN(config?.regionLength),
+                value: timeslicesSinceCycleStart,
+                withTime: false
+              }}
+            />
+            <CardSummary
+              label={t('cycle')}
+              progress={{
+                total: new BN(config.regionLength).mul(new BN(coretimeInfo?.constants.relay.blocksPerTimeslice)),
+                value: timeslicesSinceCycleStart.mul(new BN(coretimeInfo?.constants.relay.blocksPerTimeslice)),
+                withTime: true
+              }}
+            />
+          </>
+
         }
       </section>
       <section className='media--1200'>
-        {status &&
-          (<CardSummary label={t('sale dates')}>
-            <div>
-              <div style={{ fontSize: '14px' }}>{get && estimateTime(currentRegionStart, get.blocks.relay(status?.lastTimeslice), constants.relay)}</div>
-              <div style={{ fontSize: '14px' }}>{get && estimateTime(currentRegionEnd, get.blocks.relay(status?.lastTimeslice), constants.relay)}</div>
-            </div>
-          </CardSummary>)
-        }
-        {status &&
-          <CardSummary label={t('sale ts')}>
-            <div>
-              <div style={{ fontSize: '14px' }}>{currentRegionStart}</div>
-              <div style={{ fontSize: '14px' }}>{currentRegionEnd}</div>
-            </div>
-          </CardSummary>
-        }
+        <CardSummary label={t('sale dates')}>
+          <div>
+            <div style={{ fontSize: '14px' }}>{saleStartDate}</div>
+            <div style={{ fontSize: '14px' }}>{saleEndDate}</div>
+          </div>
+        </CardSummary>
+        <CardSummary label={t('sale ts')}>
+          <div>
+            <div style={{ fontSize: '14px' }}>{currentRegionStart}</div>
+            <div style={{ fontSize: '14px' }}>{currentRegionEnd}</div>
+          </div>
+        </CardSummary>
+
       </section>
     </SummaryBox>
   );

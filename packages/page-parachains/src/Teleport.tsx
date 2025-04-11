@@ -221,6 +221,22 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
             label={t('destination existential deposit')}
           />
         </Modal.Columns>
+        <Modal.Columns>
+          <MarkWarning
+            className='warning'
+            withIcon={false}
+          >
+            <p>{t('To ensure a successful XCM transaction, please make sure the following conditions are met:')}</p>
+            <ol>
+              <li>
+                {t('The source account must retain a balance greater than the existential deposit after covering the fee.')}
+              </li>
+              <li>
+                {t('The destination account must hold at least the minimum existential deposit after receiving the transfer and paying any applicable destination fees.')}
+              </li>
+            </ol>
+          </MarkWarning>
+        </Modal.Columns>
       </Modal.Content>
       <Modal.Actions>
         <TxButton

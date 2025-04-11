@@ -16,10 +16,10 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.151.2-13-x",
+  "version": "0.153.2-8-x",
   "versions": {
-    "git": "0.151.2-13-x",
-    "npm": "0.151.1"
+    "git": "0.153.2-8-x",
+    "npm": "0.153.1"
   },
   "workspaces": [
     "packages/*"
@@ -91,25 +91,25 @@
     "source-map-explorer": "^2.5.3"
   },
   "resolutions": {
-    "@polkadot/api": "^15.7.2",
+    "@polkadot/api": "^15.9.1",
     "@polkadot/api-augment": "^15.6.1",
     "@polkadot/api-base": "^15.6.1",
-    "@polkadot/api-contract": "^15.7.2",
-    "@polkadot/api-derive": "^15.7.2",
+    "@polkadot/api-contract": "^15.9.1",
+    "@polkadot/api-derive": "^15.9.1",
     "@polkadot/hw-ledger": "^13.4.3",
     "@polkadot/keyring": "^13.4.3",
     "@polkadot/networks": "^13.4.3",
-    "@polkadot/phishing": "^0.25.5",
+    "@polkadot/phishing": "^0.25.7",
     "@polkadot/rpc-augment": "^15.6.1",
     "@polkadot/rpc-core": "^15.6.1",
-    "@polkadot/rpc-provider": "^15.7.2",
+    "@polkadot/rpc-provider": "^15.9.1",
     "@polkadot/typegen": "^15.6.1",
-    "@polkadot/types": "^15.7.2",
+    "@polkadot/types": "^15.9.1",
     "@polkadot/types-augment": "^15.6.1",
-    "@polkadot/types-codec": "^15.7.2",
+    "@polkadot/types-codec": "^15.9.1",
     "@polkadot/types-create": "^15.6.1",
     "@polkadot/types-known": "^15.6.1",
-    "@polkadot/types-support": "^15.7.2",
+    "@polkadot/types-support": "^15.9.1",
     "@polkadot/util": "^13.4.3",
     "@polkadot/util-crypto": "^13.4.3",
     "@polkadot/wasm-crypto": "^7.4.1",

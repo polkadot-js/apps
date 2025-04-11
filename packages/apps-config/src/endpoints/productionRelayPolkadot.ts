@@ -4,8 +4,8 @@
 import type { EndpointOption } from './types.js';
 
 import { POLKADOT_GENESIS } from '../api/constants.js';
-import { chainsAcalaSVG, chainsBitgreenPNG, chainsComposableFinancePNG, chainsEquilibriumSVG, chainsFrequencySVG, chainsGeminisPNG, chainsHydrationSVG, chainsInvarchJPEG, chainsLaosPNG, chainsLogionPNG, chainsNeurowebPNG, chainsOakPNG, chainsPeaqPNG, chainsPendulumSVG, chainsPeoplePolkadotSVG, chainsPolkadotCircleSVG, chainsTotemSVG, chainsWatrPNG } from '../ui/logos/chains/index.js';
-import { nodesAjunaPNG, nodesAresOdysseySVG, nodesAssetHubSVG, nodesAstarPNG, nodesAventusSVG, nodesBifrostSVG, nodesBridgeHubSVG, nodesCentrifugePNG, nodesCloverSVG, nodesCoinversationPNG, nodesContinuumPNG, nodesCrustParachainSVG, nodesDarwiniaSVG, nodesEfinitySVG, nodesEwxSVG, nodesHashedPNG, nodesHeimaSVG, nodesHyperbridgePNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesJamtonSVG, nodesKiltIconSVG, nodesKylinPNG, nodesMantaPNG, nodesMoonbeamSVG, nodesMoonsamaSVG, nodesMythosPNG, nodesNodleSVG, nodesOmnibtcSVG, nodesParallelSVG, nodesPhalaSVG, nodesPolimecSVG, nodesPolkadexSVG, nodesRobonomicsSVG, nodesSoraSubstrateSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesT3rnPNG, nodesUniqueSVG, nodesZeitgeistPNG } from '../ui/logos/nodes/index.js';
+import { chainsAcalaSVG, chainsBitgreenPNG, chainsComposableFinancePNG, chainsEquilibriumSVG, chainsFrequencySVG, chainsGeminisPNG, chainsHydrationSVG, chainsInvarchJPEG, chainsLaosPNG, chainsLogionPNG, chainsMyxcavPNG, chainsNeurowebPNG, chainsOakPNG, chainsPeaqPNG, chainsPendulumSVG, chainsPeoplePolkadotSVG, chainsPolkadotCircleSVG, chainsTotemSVG, chainsWatrPNG } from '../ui/logos/chains/index.js';
+import { nodesAjunaPNG, nodesAresOdysseySVG, nodesAssetHubSVG, nodesAstarPNG, nodesAventusSVG, nodesBifrostSVG, nodesBridgeHubSVG, nodesCentrifugePNG, nodesCloverSVG, nodesCoinversationPNG, nodesCollectivesSVG, nodesContinuumPNG, nodesCrustParachainSVG, nodesDarwiniaSVG, nodesEfinitySVG, nodesEwxSVG, nodesHashedPNG, nodesHeimaSVG, nodesHyperbridgePNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesJamtonSVG, nodesKiltIconSVG, nodesKylinPNG, nodesMantaPNG, nodesMoonbeamSVG, nodesMoonsamaSVG, nodesMythosPNG, nodesNodleSVG, nodesOmnibtcSVG, nodesParallelSVG, nodesPhalaSVG, nodesPolimecSVG, nodesPolkadexSVG, nodesRobonomicsSVG, nodesSoraSubstrateSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesT3rnPNG, nodesUniqueSVG, nodesZeitgeistPNG } from '../ui/logos/nodes/index.js';
 import { getTeleports } from './util.js';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -317,7 +317,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'hashed',
     paraId: 2093,
     providers: {
-      'Hashed Systems 1': 'wss://c1.hashed.network'
+      // 'Hashed Systems 1': 'wss://c1.hashed.network' // https://github.com/polkadot-js/apps/issues/11423
       // 'Hashed Systems 2': 'wss://c2.hashed.network', // https://github.com/polkadot-js/apps/issues/10912
       // 'Hashed Systems 3': 'wss://c3.hashed.network' // https://github.com/polkadot-js/apps/issues/10912
     },
@@ -332,7 +332,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'heima',
     paraId: 2013,
     providers: {
-      Dwellir: 'wss://litentry-rpc.dwellir.com',
+      Dwellir: 'wss://heima-rpc.n.dwellir.com',
       Heima: 'wss://rpc.heima-parachain.heima.network'
     },
     text: 'Heima',
@@ -496,8 +496,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'laos',
     paraId: 3370,
     providers: {
-      Dwellir: 'wss://laos-rpc.dwellir.com',
-      'freeverse.io': 'wss://rpc.laos.laosfoundation.io',
+      Dwellir: 'wss://laos-rpc.n.dwellir.com',
+      'laosfoundation.io': 'wss://rpc.laos.laosfoundation.io',
       'light client': 'light://substrate-connect/polkadot/laos'
     },
     text: 'Laos',
@@ -739,8 +739,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'polkadex',
     paraId: 2040,
     providers: {
-      Dwellir: 'wss://polkadex-parachain-rpc.dwellir.com',
-      OnFinality: 'wss://polkadex-parachain.api.onfinality.io/public-ws',
+      // Dwellir: 'wss://polkadex-parachain-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/11460
+      // OnFinality: 'wss://polkadex-parachain.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://polkadex-parachain.public.curie.radiumblock.co/ws'
     },
     text: 'Polkadex',
@@ -835,7 +835,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'unique',
     paraId: 2037,
     providers: {
-      Dwellir: 'wss://unique-rpc.dwellir.com',
+      Dwellir: 'wss://unique-rpc.n.dwellir.com',
       'Geo Load Balancer': 'wss://ws.unique.network',
       IBP1: 'wss://unique.ibp.network',
       IBP2: 'wss://unique.dotters.network',
@@ -861,6 +861,20 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#373b39',
       logo: chainsWatrPNG
+    }
+  },
+  {
+    homepage: 'https://xcavate.io/',
+    info: 'xcavate',
+    paraId: 3413,
+    providers: {
+      Xcavate: 'wss://rpc1-polkadot.xcavate.io'
+    },
+    relayName: 'polkadot',
+    text: 'Xcavate',
+    ui: {
+      color: '#FF0083',
+      logo: chainsMyxcavPNG
     }
   },
   {
@@ -946,7 +960,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     text: 'Collectives',
     ui: {
       color: '#e6777a',
-      logo: 'fa;people-group'
+      logo: nodesCollectivesSVG
     }
   },
   {
@@ -1010,7 +1024,7 @@ export const prodRelayPolkadot: EndpointOption = {
     OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
     'Permanence DAO EU': 'wss://polkadot.rpc.permanence.io',
     RadiumBlock: 'wss://polkadot.public.curie.radiumblock.co/ws',
-    RockX: 'wss://rockx-dot.w3node.com/polka-public-dot/ws',
+    // RockX: 'wss://rockx-dot.w3node.com/polka-public-dot/ws', // https://github.com/polkadot-js/apps/issues/11439
     Stakeworld: 'wss://dot-rpc.stakeworld.io',
     SubQuery: 'wss://polkadot.rpc.subquery.network/public/ws',
     'light client': 'light://substrate-connect/polkadot'

@@ -1,7 +1,7 @@
 // Copyright 2017-2025 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ChainName, SaleParameters } from '../types.js';
+import type { RelayName, SaleParameters } from '../types.js';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -19,7 +19,7 @@ import SaleDetailsView from './SaleDetailsView.js';
 import Summary from './Summary.js';
 
 interface Props {
-  chainName: ChainName
+  relayName: RelayName
 }
 
 const ResponsiveGrid = styled.div`
@@ -46,7 +46,7 @@ const ResponsiveGrid = styled.div`
   }
 `;
 
-function Sale ({ chainName }: Props): React.ReactElement<Props> {
+function Sale ({ relayName }: Props): React.ReactElement<Props> {
   const { coretimeInfo } = useCoretimeContext();
   const { api, apiEndpoint, isApiReady } = useApi();
   const { t } = useTranslation();
@@ -71,11 +71,11 @@ function Sale ({ chainName }: Props): React.ReactElement<Props> {
     if (coretimeInfo && !saleParams) {
       setSaleParams(getSaleParameters(
         coretimeInfo,
-        chainName,
+        relayName,
         lastCommittedTimeslice ?? 0
       ));
     }
-  }, [coretimeInfo, saleParams, lastCommittedTimeslice, chainName]);
+  }, [coretimeInfo, saleParams, lastCommittedTimeslice, relayName]);
 
   const phaseName = useMemo(() => saleParams?.phaseConfig?.currentPhaseName, [saleParams]);
 
@@ -87,9 +87,9 @@ function Sale ({ chainName }: Props): React.ReactElement<Props> {
         return;
       }
 
-      setSelectedSaleParams(getSaleParameters(coretimeInfo, chainName, lastCommittedTimeslice ?? 0, value));
+      setSelectedSaleParams(getSaleParameters(coretimeInfo, relayName, lastCommittedTimeslice ?? 0, value));
     }
-  }, [coretimeInfo, chainName, lastCommittedTimeslice]);
+  }, [coretimeInfo, relayName, lastCommittedTimeslice]);
 
   return (
     <div>
@@ -97,7 +97,6 @@ function Sale ({ chainName }: Props): React.ReactElement<Props> {
         <Summary
           api={isApiReady ? api : null}
           config={coretimeInfo?.config}
-          constants={coretimeInfo?.constants}
           region={coretimeInfo?.region}
           saleInfo={coretimeInfo?.salesInfo}
           saleNumber={saleParams?.saleNumber}
@@ -118,8 +117,8 @@ function Sale ({ chainName }: Props): React.ReactElement<Props> {
             phaseName={phaseName}
             saleParams={saleParams}
           />}
-        <div style={{ backgroundColor: 'white', borderRadius: '4px', gridColumn: '1 / -1', justifySelf: 'center', padding: '24px', width: '100%' }}>
-          <p style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '1rem' }}>{t('Sale history information')}</p>
+        <div style={{ borderRadius: '4px', gridColumn: '1 / -1', justifySelf: 'center', padding: '24px', width: '100%' }}>
+          <p style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '1rem' }}>{t('Sale information')}</p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <div style={{ maxWidth: '300px' }}>
               <Dropdown
@@ -132,8 +131,8 @@ function Sale ({ chainName }: Props): React.ReactElement<Props> {
             </div>
             {saleParams && selectedSaleParams &&
               <SaleDetailsView
-                chainName={chainName}
                 chosenSaleNumber={chosenSaleNumber}
+                relayName={relayName}
                 saleParams={selectedSaleParams}
               />}
           </div>
