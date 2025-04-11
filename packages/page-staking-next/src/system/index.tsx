@@ -1,20 +1,23 @@
 // Copyright 2017-2025 @polkadot/app-staking-next authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import type { AppProps as Props } from '@polkadot/react-components/types';
 import type { ElectionStatus, ParaValidatorIndex, ValidatorId } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Route, Routes } from 'react-router';
 
 import Bags from '@polkadot/app-staking/Bags';
 import Payouts from '@polkadot/app-staking/Payouts';
+import useNominations from '@polkadot/app-staking/useNominations';
 import useSortedTargets from '@polkadot/app-staking/useSortedTargets';
+import Validators from '@polkadot/app-staking/Validators';
 import Pools from '@polkadot/app-staking2/Pools';
 import useOwnPools from '@polkadot/app-staking2/Pools/useOwnPools';
 import { Tabs } from '@polkadot/react-components';
-import { useAccounts, useApi, useAvailableSlashes, useCallMulti, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useAvailableSlashes, useCall, useCallMulti, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
 import { STORE_FAVS_BASE } from '../constants.js';
@@ -40,6 +43,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const { api } = useApi();
   const [withLedger, setWithLedger] = useState(false);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
+  const [loadNominations, setLoadNominations] = useState(false);
   const { areAccountsLoaded, hasAccounts } = useAccounts();
   const ownStashes = useOwnStashInfos();
   const slashes = useAvailableSlashes();
@@ -50,7 +54,19 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
     api.query.session.validators,
     (api.query.parasShared || api.query.shared)?.activeValidatorIndices
   ], OPT_MULTI);
+  const nominatedBy = useNominations(loadNominations);
   const ownPools = useOwnPools();
+  const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview);
+
+  const toggleNominatedBy = useCallback(
+    () => setLoadNominations(true),
+    []
+  );
+
+  const hasQueries = useMemo(
+    () => hasAccounts && !!(api.query.imOnline?.authoredBlocks) && !!(api.query.staking.activeEra),
+    [api, hasAccounts]
+  );
 
   const hasStashes = useMemo(
     () => hasAccounts && !!ownStashes && (ownStashes.length !== 0),
@@ -138,7 +154,21 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
             path='pools'
           />
           <Route
-            element={<h1>Root Page</h1>}
+            element={
+              <Validators
+                favorites={favorites}
+                hasAccounts={hasAccounts}
+                hasQueries={hasQueries}
+                minCommission={minCommission}
+                nominatedBy={nominatedBy}
+                ownStashes={ownStashes}
+                paraValidators={paraValidators}
+                stakingOverview={stakingOverview}
+                targets={targets}
+                toggleFavorite={toggleFavorite}
+                toggleNominatedBy={toggleNominatedBy}
+              />
+            }
             index
           />
         </Route>
