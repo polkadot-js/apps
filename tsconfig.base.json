@@ -75,6 +75,7 @@
       "@polkadot/app-staking/Validators": ["page-staking/src/Validators/index.tsx"],
       "@polkadot/app-staking/Actions": ["page-staking/src/Actions/index.tsx"],
       "@polkadot/app-staking/Targets": ["page-staking/src/Targets/index.tsx"],
+      "@polkadot/app-staking/Query": ["page-staking/src/Query/index.tsx"],
       "@polkadot/app-staking/*": ["page-staking/src/*.ts"],
       "@polkadot/app-staking-next": ["page-staking-next/src/index.tsx"],
       "@polkadot/app-staking2": ["page-staking2/src/index.tsx"],
