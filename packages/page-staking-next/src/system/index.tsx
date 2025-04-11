@@ -12,6 +12,7 @@ import { Route, Routes } from 'react-router';
 import Actions from '@polkadot/app-staking/Actions';
 import Bags from '@polkadot/app-staking/Bags';
 import Payouts from '@polkadot/app-staking/Payouts';
+import Targets from '@polkadot/app-staking/Targets';
 import useNominations from '@polkadot/app-staking/useNominations';
 import useSortedTargets from '@polkadot/app-staking/useSortedTargets';
 import Validators from '@polkadot/app-staking/Validators';
@@ -39,7 +40,7 @@ const OPT_MULTI = {
   ]
 };
 
-function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
+function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [withLedger, setWithLedger] = useState(false);
@@ -61,6 +62,11 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
 
   const toggleNominatedBy = useCallback(
     () => setLoadNominations(true),
+    []
+  );
+
+  const toggleLedger = useCallback(
+    () => setWithLedger(true),
     []
   );
 
@@ -165,6 +171,21 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
               />
             }
             path='actions'
+          />
+          <Route
+            element={
+              <Targets
+                isInElection={isInElection}
+                nominatedBy={nominatedBy}
+                ownStashes={ownStashes}
+                stakingOverview={stakingOverview}
+                targets={targets}
+                toggleFavorite={toggleFavorite}
+                toggleLedger={toggleLedger}
+                toggleNominatedBy={toggleNominatedBy}
+              />
+            }
+            path='targets'
           />
           <Route
             element={
