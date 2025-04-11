@@ -25,9 +25,10 @@ interface Props {
   withBorder?: boolean;
   withHash?: boolean;
   withSignature?: boolean;
+  isExpanded?: boolean
 }
 
-function CallExpander ({ children, className = '', isHeader, labelHash, labelSignature, mortality, onError, stringId, tip, value, withBorder, withHash, withSignature }: Props): React.ReactElement<Props> | null {
+function CallExpander ({ children, className = '', isExpanded, isHeader, labelHash, labelSignature, mortality, onError, stringId, tip, value, withBorder, withHash, withSignature }: Props): React.ReactElement<Props> | null {
   const call = useMemo(
     () => value?.callIndex
       ? value.registry.findMetaCall(value.callIndex)
@@ -47,6 +48,7 @@ function CallExpander ({ children, className = '', isHeader, labelHash, labelSig
       <Expander
         isHeader={isHeader}
         isLeft
+        isOpen={isExpanded}
         summaryHead={
           <>{stringId && `#${stringId}: `}{callName}</>
         }
