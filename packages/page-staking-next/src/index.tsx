@@ -8,8 +8,8 @@ import React from 'react';
 import { styled } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import StakingRelayApp from './relay/index.js';
-import StakingSystemApp from './system/index.js';
+import StakingRelayApp from './Relay/index.js';
+import StakingSystemApp from './System/index.js';
 
 function StakingApp ({ basePath, className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { api, apiEndpoint } = useApi();
