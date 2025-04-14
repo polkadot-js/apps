@@ -15,6 +15,8 @@ import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
 
+const MAX_EVENTS = 5;
+
 // const getApi = async (url: string) => {
 //   const api = await ApiPromise.create({
 //     provider: new WsProvider(url)
@@ -92,7 +94,7 @@ const commandCenterHandler = async (rcApi: ApiPromise, setRcOutout: React.Dispat
             isBlocked: isBlocked.toHuman() !== 'Not'
           }
         },
-        ...prev];
+        ...prev.slice(0, MAX_EVENTS - 1)];
     });
 
     // rcOutput = [
@@ -263,8 +265,8 @@ function CommandCenter () {
 
 const StyledSection = styled.section`
   margin-block: 1rem;
-  max-height: 40vh;
-  overflow: auto;
+  // max-height: 40vh;
+  // overflow: auto;
 
   .relay__chain {
     display: grid;
