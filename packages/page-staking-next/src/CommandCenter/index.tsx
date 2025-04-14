@@ -15,7 +15,7 @@ import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
 
-const MAX_EVENTS = 5;
+const MAX_EVENTS = 10;
 
 // const getApi = async (url: string) => {
 //   const api = await ApiPromise.create({
@@ -57,7 +57,7 @@ const commandCenterHandler = async (rcApi: ApiPromise, setRcOutout: React.Dispat
     const isBlocked = await rcApi.query.stakingNextAhClient.isBlocked();
 
     // Events that we are interested in from RC:
-    const eventsOfInterest = (await rcApi.query.system.events())
+    const eventsOfInterest = (await (await rcApi.at(header.hash.toHex())).query.system.events())
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       .map((e) => e.event)
@@ -216,11 +216,11 @@ function CommandCenter () {
               className='relay__chain'
               key={rc.finalizedBlock}
             >
-              <div>
-                <h4 className='--digits'>
-                  <Link to={`/explorer/query/${rc.finalizedBlock}`}>#{formatNumber(rc.finalizedBlock)}</Link>
-                </h4>
+              <div className='details'>
                 <div className='session__summary'>
+                  <h4 className='--digits'>
+                    <Link to={`/explorer/query/${rc.finalizedBlock}`}>#{formatNumber(rc.finalizedBlock)}</Link>
+                  </h4>
                   <CardSummary label={t('session')}>
                       #{formatNumber(rc.session.index)}
                   </CardSummary>
@@ -229,6 +229,19 @@ function CommandCenter () {
                       [{rc.session.historicalRange?.[0]}, {rc.session.historicalRange?.[1]}]
                   </CardSummary>
                   }
+                </div>
+                <div className='stakingNextAhClient__summary'>
+                  {rc.stakingNextAhClient.isBlocked && <MarkWarning content={t('Asset Hub client pallet(AhClient) is blocked currently, useful for migration signal from the fellowship.')} />}
+                  {rc.stakingNextAhClient.hasQueuedInClient &&
+                  <div className='stakingNextAhClient__hasQueuedInClient'>
+                    <MarkWarning content={t('There is a validator set queued in ah-client.')} />
+                    <CardSummary label={t('id')}>
+                      {rc.stakingNextAhClient.hasQueuedInClient[0]}
+                    </CardSummary>
+                    <CardSummary label={t('number of validators')}>
+                      {rc.stakingNextAhClient.hasQueuedInClient[1].length}
+                    </CardSummary>
+                  </div>}
                 </div>
               </div>
               <div className='events__summary'>
@@ -265,8 +278,18 @@ function CommandCenter () {
 
 const StyledSection = styled.section`
   margin-block: 1rem;
-  // max-height: 40vh;
-  // overflow: auto;
+  max-height: 40vh;
+  overflow: auto;
+
+  .warning {
+    max-width: fit-content;
+    margin-left: 0;
+  }
+
+  .ui--Labelled-content {
+    font-size: var(--font-size-h3);
+    font-weight: var(--font-weight-normal);
+  }
 
   .relay__chain {
     display: grid;
@@ -276,24 +299,26 @@ const StyledSection = styled.section`
     padding: 0.8rem 1rem;
     border-radius: 0.5rem;
 
-    > div {
-      &:first-child{
+    .details {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+
+      .session__summary {
         display: flex;
         align-items: center;
+
+        h4 {
+          font-weight: 400;
+          font-size: medium;
+        }
       }
-    }
 
-    h4 {
-      font-weight: 400;
-      font-size: medium;
-    }
-
-    .session__summary {
-      display: flex;
-
-      .ui--Labelled-content {
-        font-size: var(--font-size-h3);
-        font-weight: var(--font-weight-normal);
+      .stakingNextAhClient__summary {
+        .stakingNextAhClient__hasQueuedInClient {
+          display: flex;
+          justify-content: space-evenly;
+        }
       }
     }
 
