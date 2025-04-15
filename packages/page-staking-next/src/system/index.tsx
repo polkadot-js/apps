@@ -23,6 +23,7 @@ import { Tabs } from '@polkadot/react-components';
 import { useAccounts, useApi, useAvailableSlashes, useCall, useCallMulti, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
+import CommandCenter from '../CommandCenter/index.js';
 import { STORE_FAVS_BASE } from '../constants.js';
 import { useTranslation } from '../translate.js';
 
@@ -122,6 +123,10 @@ function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
       hasParams: true,
       name: 'query',
       text: t('Validator stats')
+    },
+    {
+      name: 'command-center',
+      text: t('Command Center')
     }
   ].filter((q): q is { name: string; text: string } => !!q), [api, hasStashes, slashes, t]);
 
@@ -193,6 +198,10 @@ function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
               />
             }
             path='targets'
+          />
+          <Route
+            element={<CommandCenter />}
+            path='command-center'
           />
           <Route
             element={

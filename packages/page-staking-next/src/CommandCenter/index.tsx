@@ -4,16 +4,18 @@
 import type { AccountId32, Event } from '@polkadot/types/interfaces';
 import type { IEventData } from '@polkadot/types/types';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
+import { prodParasPolkadotCommon, prodRelayPolkadot } from '@polkadot/apps-config';
 import { useApi } from '@polkadot/react-hooks';
 
+import AssetHubSection from './ah.js';
 import RelaySection from './relay.js';
 
 const MAX_EVENTS = 10;
 
-const getApi = async (url: string) => {
+const getApi = async (url: string[]) => {
   const api = await ApiPromise.create({
     provider: new WsProvider(url)
   });
@@ -145,13 +147,15 @@ const commandCenterHandler = async (
       });
 
     setAhOutout((prev) => {
+      const parsedQueuedScore = ahApi.createType('Option<SpNposElectionsElectionScore>', queuedScore);
+
       return [
         {
           events: eventsOfInterest,
           finalizedBlock: header.number.toNumber(),
           multiblock: {
             phase: phase.toString(),
-            queuedScore: ahApi.createType('Option<SpNposElectionsElectionScore>', queuedScore).unwrap().toString(),
+            queuedScore: parsedQueuedScore.isSome ? parsedQueuedScore.unwrap().toString() : null,
             round: ahApi.createType('u32', round).toNumber(),
             signedSubmissions: ahApi.createType('Vec<(AccountId32,SpNposElectionsElectionScore)>', signedSubmissions).length,
             snapshotRange: snapshotRange.map((a) => a.toString())
@@ -213,32 +217,42 @@ export interface IAhOutput {
     phase: string,
     round: number,
     snapshotRange: string[]
-    queuedScore: string,
+    queuedScore: string|null,
     signedSubmissions: number
   },
   events: Event[]
 }
 
 function CommandCenter () {
-  const { api } = useApi();
+  const { api, apiEndpoint } = useApi();
   const [rcOutput, setRcOutput] = useState<IRcOutput[]>([]);
-  const [_ahOutput, setAhOutput] = useState<IAhOutput[]>([]);
-
-  const rcApi = useMemo(() => api, [api]);
-
+  const [ahOutput, setAhOutput] = useState<IAhOutput[]>([]);
   const [ahApi, setAhApi] = useState<ApiPromise>();
+  const [rcApi, setRcApi] = useState<ApiPromise>();
 
   useEffect(() => {
-    getApi('ws://127.0.0.1:57357').then((ahApi) => setAhApi(ahApi)).catch((e) => console.log(e));
-  }, []);
+    // Check if it is relay chain
+    if (api.tx.stakingNextAhClient) {
+      setRcApi(api);
+      const ahEndpoint = Object.values(prodParasPolkadotCommon[0].providers) as string[];
+
+      getApi(ahEndpoint).then((ahApi) => setAhApi(ahApi)).catch((e) => console.log(e));
+    } else if (api.tx.staking && api.tx.stakingNextRcClient) { // Check if Asset Hub chain
+      setAhApi(api);
+      const rcEndpoint = Object.values(prodRelayPolkadot.providers).filter((e) => e.startsWith('ws'));
+
+      getApi(rcEndpoint).then((rcApi) => setRcApi(rcApi)).catch((e) => console.log(e));
+    }
+  }, [api, apiEndpoint?.paraId]);
 
   useEffect(() => {
-    ahApi && commandCenterHandler(rcApi, ahApi, setRcOutput, setAhOutput).catch((e) => console.log(e));
+    ahApi && rcApi && commandCenterHandler(rcApi, ahApi, setRcOutput, setAhOutput).catch((e) => console.log(e));
   }, [ahApi, rcApi]);
 
   return (
     <>
       <RelaySection rcOutput={rcOutput} />
+      <AssetHubSection ahOutput={ahOutput} />
     </>
   );
 }
