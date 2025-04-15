@@ -51,8 +51,6 @@ const commandCenterHandler = async (
 
     // Events that we are interested in from RC:
     const eventsOfInterest = (await (await rcApi.at(header.hash.toHex())).query.system.events())
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       .map((e) => e.event)
       .filter((e) => {
         const ahClientEvents = (e: IEventData) =>
@@ -62,12 +60,6 @@ const commandCenterHandler = async (
 
         return ahClientEvents(e.data) || sessionEvents(e.data);
       });
-      // .map(
-      //   (e) =>
-      //     `${e.section.toString()}::${e.method.toString()}(${e.data.toString()})`
-      // );
-
-    // rcEvents.push(...eventsOfInterest);
 
     setRcOutout((prev) => {
       const parsedHasQueuedInClient = rcApi.createType('Option<(u32,Vec<AccountId32>)>', hasQueuedInClient);
@@ -89,18 +81,6 @@ const commandCenterHandler = async (
         },
         ...prev.slice(0, MAX_EVENTS - 1)];
     });
-
-    // rcOutput = [
-    //   'RC:',
-    //   `finalized block ${header.number.toNumber()}`,
-    //   `RC.session: index=${index.toNumber()}, hasQueuedInSession=${hasQueuedInSession.toString()}, historicalRange=${historicalRange.toString()}`,
-    //   `RC.stakingNextAhClient: hasQueuedInClient=${hasQueuedInClient.toString()}, hasNextActiveId=${hasNextActiveId.toString()}, isBlocked=${isBlocked.toString()}`,
-    //   `RC.events: ${JSON.stringify(rcEvents)}`,
-    //   '----'
-    // ];
-
-    // manager.update(rcOutput.concat(ahOutput));
-    // rcOutput.concat(ahOutput);
   });
 
   await ahApi.rpc.chain.subscribeFinalizedHeads(async (header) => {
@@ -109,10 +89,7 @@ const commandCenterHandler = async (
     // the active era
     const activeEra = await ahApi.query.staking.activeEra();
     // the starting index of the active era
-    const erasStartSessionIndex =
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      await ahApi.query.staking.erasStartSessionIndex(activeEra.unwrap().index);
+    const erasStartSessionIndex = await ahApi.query.staking.erasStartSessionIndex(activeEra.unwrap().index);
 
     // the basic state of the election provider
     const phase = await ahApi.query.multiBlock.currentPhase();
@@ -172,22 +149,6 @@ const commandCenterHandler = async (
         ...prev.slice(0, MAX_EVENTS - 1)
       ];
     });
-
-    // ahEvents.push(...eventsOfInterest);
-
-    // ahOutput = [
-    //   'AH:',
-    //   `finalized block ${header.number.toNumber()}`,
-    //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //   // @ts-ignore
-    //   `AH.staking: currentEra=${currentEra.unwrap().toNumber()}, activeEra=${activeEra.unwrap().toString()}, erasStartSessionIndex(${activeEra.unwrap().index.toNumber()})=${erasStartSessionIndex.unwrap().toNumber()}`,
-    //   `multiBlock: phase=${phase.toString()}, round=${round.toString()}, snapshotRange=${JSON.stringify(snapshotRange)}, queuedScore=${queuedScore.toString()}, signedSubmissions=${signedSubmissions.toString()}`,
-    //   `AH.events: ${JSON.stringify(ahEvents)}`,
-    //   '----'
-    // ];
-
-    // manager.update(rcOutput.concat(ahOutput));
-    // rcOutput.concat(ahOutput);
   });
 };
 

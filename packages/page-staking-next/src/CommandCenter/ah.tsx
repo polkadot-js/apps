@@ -1,7 +1,7 @@
 // Copyright 2017-2025 @polkadot/app-staking-next authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { IRcOutput } from './index.js';
+import type { IAhOutput } from './index.js';
 
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -12,52 +12,35 @@ import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
 
-function RelaySection ({ rcOutput }: {rcOutput: IRcOutput[]}) {
+function AssetHubSection ({ ahOutput }: {ahOutput: IAhOutput[]}) {
   const { t } = useTranslation();
 
   return (
-    <div>
+    <div style={{ marginTop: 20 }}>
       <h1 style={{ textTransform: 'capitalize' }}>
-        {t('Relay chain')}
+        {t('Asset Hub chain')}
       </h1>
       <StyledSection>
-        {rcOutput.map((rc) => {
+        {ahOutput.map((ah) => {
           return (
             <div
               className='relay__chain'
-              key={rc.finalizedBlock}
+              key={ah.finalizedBlock}
             >
               <div className='details'>
                 <div className='session__summary'>
                   <h4 className='--digits'>
-                    <Link to={`/explorer/query/${rc.finalizedBlock}`}>#{formatNumber(rc.finalizedBlock)}</Link>
+                    <Link to={`/explorer/query/${ah.finalizedBlock}`}>#{formatNumber(ah.finalizedBlock)}</Link>
                   </h4>
-                  <CardSummary label={t('session')}>
-                          #{formatNumber(rc.session.index)}
-                  </CardSummary>
-                  {rc.session.historicalRange &&
-                      <CardSummary label={t('historical range')}>
-                          [{rc.session.historicalRange?.[0]}, {rc.session.historicalRange?.[1]}]
-                      </CardSummary>
-                  }
+
                 </div>
                 <div className='stakingNextAhClient__summary'>
-                  {rc.stakingNextAhClient.isBlocked && <MarkWarning content={t('Asset Hub client pallet(AhClient) is blocked currently, useful for migration signal from the fellowship.')} />}
-                  {rc.stakingNextAhClient.hasQueuedInClient &&
-                      <div className='stakingNextAhClient__hasQueuedInClient'>
-                        <MarkWarning content={t('There is a validator set queued in ah-client.')} />
-                        <CardSummary label={t('id')}>
-                          {rc.stakingNextAhClient.hasQueuedInClient[0]}
-                        </CardSummary>
-                        <CardSummary label={t('number of validators')}>
-                          {rc.stakingNextAhClient.hasQueuedInClient[1].length}
-                        </CardSummary>
-                      </div>}
+
                 </div>
               </div>
               <div className='events__summary'>
                 <h3>{t('events')}</h3>
-                {rc.events.map((event) => {
+                {ah.events.map((event) => {
                   const eventName = `${event.section}.${event.method}`;
 
                   return (
@@ -77,7 +60,7 @@ function RelaySection ({ rcOutput }: {rcOutput: IRcOutput[]}) {
 
                   );
                 })}
-                {rc.events.length === 0 && <MarkWarning content={t('No events available')} />}
+                {ah.events.length === 0 && <MarkWarning content={t('No events available')} />}
               </div>
             </div>
           );
@@ -141,4 +124,4 @@ const StyledSection = styled.section`
   }
 `;
 
-export default React.memo(RelaySection);
+export default React.memo(AssetHubSection);
