@@ -1,10 +1,20 @@
 {
   "Accounts": "Accounts",
+  "Asset Hub client pallet(AhClient) is blocked currently, useful for migration signal from the fellowship.": "Asset Hub client pallet(AhClient) is blocked currently, useful for migration signal from the fellowship.",
   "Bags": "Bags",
+  "Command Center": "Command Center",
+  "No events available": "No events available",
   "Overview": "Overview",
   "Payouts": "Payouts",
   "Pools": "Pools",
+  "Relay chain": "Relay chain",
   "Slashes": "Slashes",
   "Targets": "Targets",
-  "Validator stats": "Validator stats"
+  "There is a validator set queued in ah-client.": "There is a validator set queued in ah-client.",
+  "Validator stats": "Validator stats",
+  "events": "events",
+  "historical range": "historical range",
+  "id": "id",
+  "number of validators": "number of validators",
+  "session": "session"
 }
