@@ -25,6 +25,38 @@ const getApi = async (url: string[]) => {
   return api;
 };
 
+export interface IRcOutput {
+  finalizedBlock: number,
+  session: {
+    index: number,
+    hasQueuedInSession: boolean,
+    historicalRange?: [number, number]
+  },
+  stakingNextAhClient: {
+    isBlocked: boolean
+    hasNextActiveId?: number,
+    hasQueuedInClient?: [number, AccountId32[]]
+  },
+  events: Event[]
+}
+
+export interface IAhOutput {
+  finalizedBlock: number,
+  staking: {
+    currentEra: number,
+    activeEra: {index: number, start: string},
+    erasStartSessionIndex: number
+  },
+  multiblock: {
+    phase: string,
+    round: number,
+    snapshotRange: string[]
+    queuedScore: string|null,
+    signedSubmissions: number
+  },
+  events: Event[]
+}
+
 const commandCenterHandler = async (
   rcApi: ApiPromise,
   ahApi: ApiPromise,
@@ -151,38 +183,6 @@ const commandCenterHandler = async (
     });
   });
 };
-
-export interface IRcOutput {
-  finalizedBlock: number,
-  session: {
-    index: number,
-    hasQueuedInSession: boolean,
-    historicalRange?: [number, number]
-  },
-  stakingNextAhClient: {
-    isBlocked: boolean
-    hasNextActiveId?: number,
-    hasQueuedInClient?: [number, AccountId32[]]
-  },
-  events: Event[]
-}
-
-export interface IAhOutput {
-  finalizedBlock: number,
-  staking: {
-    currentEra: number,
-    activeEra: {index: number, start: string},
-    erasStartSessionIndex: number
-  },
-  multiblock: {
-    phase: string,
-    round: number,
-    snapshotRange: string[]
-    queuedScore: string|null,
-    signedSubmissions: number
-  },
-  events: Event[]
-}
 
 function CommandCenter () {
   const { api, apiEndpoint } = useApi();

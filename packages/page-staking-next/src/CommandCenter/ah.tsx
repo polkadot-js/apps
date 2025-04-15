@@ -32,10 +32,35 @@ function AssetHubSection ({ ahOutput }: {ahOutput: IAhOutput[]}) {
                   <h4 className='--digits'>
                     <Link to={`/explorer/query/${ah.finalizedBlock}`}>#{formatNumber(ah.finalizedBlock)}</Link>
                   </h4>
-
                 </div>
-                <div className='stakingNextAhClient__summary'>
-
+                <div>
+                  <div className='staking__summary'>
+                    <CardSummary label={t('current era')}>
+                      {ah.staking.currentEra}
+                    </CardSummary>
+                    <CardSummary label={t('era session index')}>
+                      {ah.staking.erasStartSessionIndex}
+                    </CardSummary>
+                    <CardSummary label={t('active era')}>
+                      {ah.staking.activeEra.index}
+                    </CardSummary>
+                  </div>
+                  <div className='multiblock__summary'>
+                    <CardSummary label={t('multiblock phase')}>
+                      {ah.multiblock.phase}
+                    </CardSummary>
+                    {ah.multiblock.queuedScore &&
+                    <CardSummary label={t('multiblock queued score')}>
+                      {ah.multiblock.queuedScore}
+                    </CardSummary>}
+                    <CardSummary label={t('signed submissions')}>
+                      {ah.multiblock.signedSubmissions}
+                    </CardSummary>
+                    {!!ah.multiblock.snapshotRange.length &&
+                    <CardSummary label={t('snapshot range')}>
+                      {ah.multiblock.snapshotRange}
+                    </CardSummary>}
+                  </div>
                 </div>
               </div>
               <div className='events__summary'>
@@ -94,7 +119,7 @@ const StyledSection = styled.section`
 
     .details {
       display: flex;
-      flex-direction: column;
+      align-items: center;
       gap: 0.8rem;
 
       .session__summary {
@@ -107,11 +132,15 @@ const StyledSection = styled.section`
         }
       }
 
-      .stakingNextAhClient__summary {
-        .stakingNextAhClient__hasQueuedInClient {
-          display: flex;
-          justify-content: space-evenly;
-        }
+      .staking__summary {
+        display: flex;
+        justify-content: end;
+      }
+
+      .multiblock__summary {
+        display: flex;
+        justify-content: end;
+        margin-top: 1.5rem;
       }
     }
 
