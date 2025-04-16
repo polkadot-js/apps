@@ -13,9 +13,16 @@
   "Targets": "Targets",
   "There is a validator set queued in ah-client.": "There is a validator set queued in ah-client.",
   "Validator stats": "Validator stats",
+  "active era": "active era",
+  "current era": "current era",
+  "era session index": "era session index",
   "events": "events",
   "historical range": "historical range",
   "id": "id",
+  "multiblock phase": "multiblock phase",
+  "multiblock queued score": "multiblock queued score",
   "number of validators": "number of validators",
-  "session": "session"
+  "session": "session",
+  "signed submissions": "signed submissions",
+  "snapshot range": "snapshot range"
 }
