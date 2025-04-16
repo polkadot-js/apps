@@ -10,7 +10,6 @@ import { Edgscan } from './edgscan.js';
 import { KodaDot } from './kodadot.js';
 import { MoonbeamApps } from './moonbeamApps.js';
 import { PolkassemblyIo, PolkassemblyNetwork } from './polkassembly.js';
-import { Singular } from './singular.js';
 import { Statescan } from './statescan.js';
 import { SubId } from './subid.js';
 import { Subscan } from './subscan.js';
@@ -25,7 +24,6 @@ export const externalLinks: Record<string, ExternalDef> = {
   MoonbeamApps,
   PolkassemblyIo,
   PolkassemblyNetwork,
-  'Singular (NFTs)': Singular,
   Statescan,
   SubId,
   Subscan,
