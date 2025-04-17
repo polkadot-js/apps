@@ -24,7 +24,7 @@ function defaultT (keyOrText: string, text?: string | TOptions, options?: TOptio
 
 export function createWsEndpoints (t: TFunction = defaultT, firstOnly = false, withSort = true): LinkOption[] {
   return [
-    ...createCustom(t),
+    // ...createCustom(t),
     // {
     //   isDisabled: true,
     //   isHeader: true,
