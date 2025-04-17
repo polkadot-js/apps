@@ -54,7 +54,7 @@ export const QFNTheme = createGlobalStyle`
       }
     }
 
-    .theme--dark .ui--Tabs .active .tabLinkText::after, 
+    .theme--dark .ui--Tabs .active .tabLinkText::after,
     .theme--light .ui--Tabs .active .tabLinkText::after {
       background: ${activeTabColor} !important;
     }
@@ -202,11 +202,11 @@ export const QFNTheme = createGlobalStyle`
   }
 
   // HIDE NOT NEEDED COMPONENTS
-  .ui--NodeInfo,
-  .ui--Sidebar,
-  .menuSection.media--1200 {
-    display: none !important;
-  }
+  //.ui--NodeInfo,
+  //.ui--Sidebar,
+  //.menuSection.media--1200 {
+  //  display: none !important;
+  //}
 
   // NOTICE ON THE TOP RIGHT SIDE
   .apps--notice {
