@@ -30,8 +30,8 @@ function ChainInfo ({ className }: Props): React.ReactElement<Props> {
     <StyledDiv className={className}>
       <div
         className={`apps--SideBar-logo-inner${canToggle ? ' isClickable' : ''} highlight--color-contrast`}
-        // onClick={toggleEndpoints} Commented left sidebar toggle
-        onClick={goToHome}
+        onClick={toggleEndpoints}
+
       >
         <ChainImg />
         <div className='info media--1000'>
