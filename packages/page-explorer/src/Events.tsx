@@ -51,23 +51,28 @@ function Events ({ className = '', emptyLabel, error, eventClassName, events, la
   );
 
   return (
-    <Table
-      className={className}
-      empty={emptyLabel || t('No events available')}
-      header={header}
-    >
-      {error
-        ? (
-          <tr
-            className={eventClassName}
-            key='error'
-          >
-            <td><MarkError content={t('Unable to decode the block events. {{error}}', { replace: { error: error.message } })} /></td>
-          </tr>
-        )
-        : events?.map((e) => renederEvent(eventClassName, e))
-      }
-    </Table>
+    <div>
+      <Table
+        bs={"5px"}
+        className={className}
+        empty={emptyLabel || t('No events available')}
+        header={header}
+      >
+
+        {error
+          ? (
+            <tr
+              className={eventClassName}
+              key='error'
+            >
+              <td><MarkError
+                content={t('Unable to decode the block events. {{error}}', {replace: {error: error.message}})}/></td>
+            </tr>
+          )
+          : events?.map((e) => renederEvent(eventClassName, e))
+        }
+      </Table>
+    </div>
   );
 }
 

@@ -27,6 +27,7 @@ interface Props {
   legend?: React.ReactNode;
   maxColumns?: 2 | 3;
   noBodyTag?: boolean;
+  bs?: string
 }
 
 const COLUMN_INDEXES = {
@@ -34,7 +35,7 @@ const COLUMN_INDEXES = {
   3: [0, 1, 2]
 } as const;
 
-function TableBase ({ children, className = '', empty, emptySpinner, filter, footer, header, headerChildren, isFixed, isInline, isSplit, legend, maxColumns, noBodyTag }: Props): React.ReactElement<Props> {
+function TableBase ({ children, className = '', empty, emptySpinner, filter, footer, header, headerChildren, isFixed, isInline, isSplit, legend, maxColumns, noBodyTag, bs }: Props): React.ReactElement<Props> {
   const numColumns = useWindowColumns(maxColumns);
   const isArray = Array.isArray(children);
   const isEmpty = !children || (isArray && children.length === 0);
@@ -53,7 +54,7 @@ function TableBase ({ children, className = '', empty, emptySpinner, filter, foo
     return (
       <StyledDiv className={`${className} ui--Table isSplit`}>
         {legend}
-        <table>
+        <table style={{borderSpacing: bs}}>
           {headerNode}
         </table>
         <div className='ui--Table-Split'>
@@ -62,7 +63,7 @@ function TableBase ({ children, className = '', empty, emptySpinner, filter, foo
               className={`ui--Table-Split-${numColumns}`}
               key={column}
             >
-              <table className='noMargin'>
+              <table style={{borderSpacing: bs}} className='noMargin'>
                 <tbody className='ui--Table-Body'>
                   {children.filter((_, i) => (i % numColumns) === column)}
                 </tbody>
@@ -77,7 +78,7 @@ function TableBase ({ children, className = '', empty, emptySpinner, filter, foo
   return (
     <StyledDiv className={`${className} ui--Table`}>
       {legend}
-      <table className={`${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} ${isInline ? 'isInline' : ''}`}>
+      <table style={{borderSpacing: bs}} className={`${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} ${isInline ? 'isInline' : ''}`}>
         {headerNode}
         <Body
           empty={empty}
@@ -158,9 +159,9 @@ const StyledDiv = styled.div`
           padding-left: 1.5rem;
         }
 
-        &:last-child {
-          padding-right: 0.75rem;
-        }
+        //&:last-child {
+        //  padding-right: 0.75rem;
+        //}
 
         &.all {
           width: 100%;
@@ -519,7 +520,7 @@ const StyledDiv = styled.div`
 
       &:last-child {
         th {
-          padding-top: 1rem;
+          //padding-top: 1rem;
 
           &:first-child {
             border-bottom-left-radius: ${BORDER_RADIUS};

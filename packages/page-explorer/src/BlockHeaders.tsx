@@ -23,6 +23,7 @@ function BlockHeaders ({ headers }: Props): React.ReactElement<Props> {
 
   return (
     <Table
+      bs={"5px"}
       empty={t('No blocks available')}
       header={headerRef.current}
     >
