@@ -28,7 +28,7 @@ export const QFNTheme = createGlobalStyle`
 
     // LOGO AND INFO
     .apps--SideBar-logo-inner {
-      width: 160px;
+      width: 190px;
       height: 60px;
       background: url('./assets/images/logo.svg') no-repeat left center;
       background-size: 36px;
@@ -76,12 +76,16 @@ export const QFNTheme = createGlobalStyle`
 
       th {
        background: #F5F5F5 !important;
+        border-radius: 5px;
+        overflow: hidden;
       }
 
       td {
         border-top: none;
         border-bottom: none;
-        background: #f5f5f5;
+        background: #F5F5F5 !important;
+        border-radius: 5px;
+        overflow: hidden;
       }
 
       td:first-child {
@@ -214,18 +218,14 @@ export const QFNTheme = createGlobalStyle`
 
     @media (min-width: 1150px) {
       display: block;
-      position: absolute;
-      top: 85vh;
-      right: 30px;
-      min-width: 315px;
-      padding: 4px 4px 4px 20px;
+      padding: 4px 6px;
       background: #3C3C3C;
       color: #FFFFFF;
       border: 1px solid #CFC289;
       font-size: 12px;
       min-height: 63px;
       opacity: 0.7;
-      z-index: 1000;
+      border-radius: 3px;
     }
 
     strong {

@@ -127,9 +127,9 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
     <StyledDiv className={`${className}${(!apiProps.isApiReady || !apiProps.isApiConnected) ? ' isLoading' : ''} highlight--bg`}>
       <div className='menuContainer'>
         <div className='menuSection'>
-          <ChainInfo />
+          <ChainInfo/>
           <ul className='menuItems'>
-            {visibleGroups.map(({ name, routes }): React.ReactNode => (
+            {visibleGroups.map(({name, routes}): React.ReactNode => (
               <Grouping
                 isActive={!!activeRoute && activeRoute.group === name.toLowerCase()}
                 key={name}
@@ -151,7 +151,12 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
             ))}
           </ul>
         </div>
-        <NodeInfo className='media--1400' />
+        <div className='apps--notice'>
+          <strong>QF networks are under active development:</strong>
+          - Expect instability and data loss. <br/>
+          - State may be wiped without notice.
+        </div>
+        <NodeInfo className='media--1400'/>
       </div>
     </StyledDiv>
   );

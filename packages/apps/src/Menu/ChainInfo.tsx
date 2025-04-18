@@ -33,11 +33,13 @@ function ChainInfo ({ className }: Props): React.ReactElement<Props> {
         onClick={toggleEndpoints}
 
       >
-        <ChainImg />
+        {/*<ChainImg/>*/}
         <div className='info media--1000'>
-          <Chain className='chain' />
+          <Chain className='chain'/>
+
           {runtimeVersion && (
-            <div className='runtimeVersion'>{runtimeVersion.specName.toString()}/{runtimeVersion.specVersion.toNumber()}</div>
+            <div
+              className='runtimeVersion'>{runtimeVersion.specName.toString()}/{runtimeVersion.specVersion.toNumber()}</div>
           )}
           <BestNumber
             className='bestNumber'
@@ -52,13 +54,8 @@ function ChainInfo ({ className }: Props): React.ReactElement<Props> {
         )}
       </div>
       {isEndpointsVisible && (
-        <Endpoints onClose={toggleEndpoints} />
+        <Endpoints onClose={toggleEndpoints}/>
       )}
-      <div className='apps--notice'>
-        <strong>QF networks are under active development:</strong>
-        - Expect instability and data loss. <br />
-        - State may be wiped without notice.
-      </div>
     </StyledDiv>
   );
 }
