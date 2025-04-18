@@ -33,7 +33,7 @@ export const QFNTheme = createGlobalStyle`
       background: url('./assets/images/logo.svg') no-repeat left center;
       background-size: 36px;
 
-      img, .info, svg {
+      img {
         display: none;
       }
     }
@@ -73,23 +73,23 @@ export const QFNTheme = createGlobalStyle`
 
     .ui--Table table {
       border-collapse: separate !important;  // Important for margins
-      border-spacing: 0 10px !important;    // Vertical spacing between rows
 
       th {
        background: #F5F5F5 !important;
       }
 
       td {
-        border-top: 1px solid ${borderColor};
-        border-bottom: 1px solid ${borderColor};
+        border-top: none;
+        border-bottom: none;
+        background: #f5f5f5;
       }
 
       td:first-child {
-        border-left: 1px solid ${borderColor};
+        border-left: none;
       }
 
       td:last-child {
-        border-right: 1px solid ${borderColor};
+        border-right: none;
       }
     }
 
@@ -113,9 +113,9 @@ export const QFNTheme = createGlobalStyle`
     .ui--Button {
       &:not(.isDisabled):not(.isIcon):not(.isBasic),
       &.withoutLink:not(.isDisabled) {
-        .ui--Icon {
-          background: ${primaryColor} !important;
-        }
+        // .ui--Icon {
+        //   background: ${primaryColor} !important;
+        // }
       }
 
       &:hover:not(.isDisabled):not(.isReadOnly),
@@ -215,13 +215,13 @@ export const QFNTheme = createGlobalStyle`
     @media (min-width: 1150px) {
       display: block;
       position: absolute;
-      top: 5px;
-      right: 5px;
+      top: 85vh;
+      right: 30px;
       min-width: 315px;
       padding: 4px 4px 4px 20px;
-      background: ${primaryColor};
-      color: ${menuItemColor};
-      border: 1px solid ${secondaryColor};
+      background: #3C3C3C;
+      color: #FFFFFF;
+      border: 1px solid #CFC289;
       font-size: 12px;
       min-height: 63px;
       opacity: 0.7;

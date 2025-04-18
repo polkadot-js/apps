@@ -53,7 +53,7 @@ function TableBase ({ children, className = '', empty, emptySpinner, filter, foo
     return (
       <StyledDiv className={`${className} ui--Table isSplit`}>
         {legend}
-        <table className='noMargin'>
+        <table>
           {headerNode}
         </table>
         <div className='ui--Table-Split'>
@@ -109,15 +109,18 @@ const StyledDiv = styled.div`
     display: flex;
     flex-wrap: nowrap;
     margin-bottom: 1.5rem;
+    align-items: flex-start;
 
     > .ui--Table-Split-3 {
-      max-width: 33.3%;
-      min-width: 33.3%;
+      max-width: 33%;
+      min-width: 33%;
+      margin: 0 auto;
     }
 
     > .ui--Table-Split-2 {
-      max-width: 50%;
-      min-width: 50%;
+      max-width: 49.5%;
+      min-width: 49.5%;
+      margin: 0 auto;
     }
   }
 
@@ -415,15 +418,15 @@ const StyledDiv = styled.div`
         td {
           border-top: ${BORDER_TOP};
 
-          &:first-child {
-            border-top-left-radius: ${BORDER_RADIUS};
-            border-bottom-left-radius: ${BORDER_RADIUS};
-          }
-
-          &:last-child {
-            border-top-right-radius: ${BORDER_RADIUS};
-            border-bottom-right-radius: ${BORDER_RADIUS};
-          }
+          // &:first-child {
+          //   border-top-left-radius: ${BORDER_RADIUS};
+          //   border-bottom-left-radius: ${BORDER_RADIUS};
+          // }
+          //
+          // &:last-child {
+          //   border-top-right-radius: ${BORDER_RADIUS};
+          //   border-bottom-right-radius: ${BORDER_RADIUS};
+          // }
         }
       }
 
@@ -432,13 +435,13 @@ const StyledDiv = styled.div`
           td {
             border-top: ${BORDER_TOP};
 
-            &:first-child {
-              border-top-left-radius: ${BORDER_RADIUS};
-            }
-
-            &:last-child {
-              border-top-right-radius: ${BORDER_RADIUS};
-            }
+            // &:first-child {
+            //   border-top-left-radius: ${BORDER_RADIUS};
+            // }
+            //
+            // &:last-child {
+            //   border-top-right-radius: ${BORDER_RADIUS};
+            // }
           }
         }
 
@@ -504,13 +507,13 @@ const StyledDiv = styled.div`
         th {
           border-top: ${BORDER_TOP};
 
-          &:first-child {
-            border-top-left-radius: ${BORDER_RADIUS};
-          }
-
-          &:last-child {
-            border-top-right-radius: ${BORDER_RADIUS};
-          }
+          // &:first-child {
+          //   border-top-left-radius: ${BORDER_RADIUS};
+          // }
+          //
+          // &:last-child {
+          //   border-top-right-radius: ${BORDER_RADIUS};
+          // }
         }
       }
 

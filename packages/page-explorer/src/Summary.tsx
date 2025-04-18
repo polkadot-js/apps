@@ -27,12 +27,12 @@ function Summary ({ eventCount }: Props): React.ReactElement {
             <CardSummary label={t('last block')}>
               <TimeNow />
             </CardSummary>
-            <CardSummary
-              className='media--800'
-              label={t('target')}
-            >
-              <BlockToTime value={BN_ONE} />
-            </CardSummary>
+            {/*<CardSummary*/}
+            {/*  className='media--800'*/}
+            {/*  label={t('target')}*/}
+            {/*>*/}
+            {/*  <BlockToTime value={BN_ONE} />*/}
+            {/*</CardSummary>*/}
           </>
         )}
         {api.query.balances && (
