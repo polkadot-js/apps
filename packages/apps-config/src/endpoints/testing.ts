@@ -70,8 +70,9 @@ export const devParaChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'qf',
     providers: {
-      'Quantum Fusion': 'wss://para.dev.qfnetwork.xyz'
+      'Quantum Fusion': 'wss://para-dev.qfnetwork.xyz'
     },
+    isDisabled: true,
     text: 'QF Devnet Parachain (Paseo)',
     ui: {
       color: '#000000',
@@ -84,7 +85,7 @@ export const testParaChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'qf',
     providers: {
-      'Quantum Fusion': 'wss://para.test.qfnetwork.xyz'
+      'Quantum Fusion': 'wss://para-test.qfnetwork.xyz'
     },
     text: 'QF Testnet Parachain (Paseo)',
     ui: {

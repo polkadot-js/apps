@@ -428,6 +428,10 @@ const StyledDiv = styled.div`
     width: 15rem;
   }
 
+  table {
+    border-radius: 5px!important;
+  }
+
   .header-box {
     .dropdown-section {
       display: flex;

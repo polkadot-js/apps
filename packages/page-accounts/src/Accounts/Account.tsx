@@ -509,7 +509,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   }
 
   return (
-    <>
+    <StyledDiv>
       <StyledTr className={`${className} isExpanded isFirst packedBottom`}>
         <Table.Column.Favorite
           address={address}
@@ -623,7 +623,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           )}
           <div className='absolute'>
             {meta.genesisHash
-              ? <Badge color='transparent' />
+              ? <Badge color='transparent'/>
               : isDevelopment
                 ? (
                   <Badge
@@ -661,18 +661,18 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                     </div>
                     <table>
                       <tbody>
-                        <tr>
-                          <td>{t('threshold')}</td>
-                          <td>{formatNumber(recoveryInfo.threshold)}</td>
-                        </tr>
-                        <tr>
-                          <td>{t('delay')}</td>
-                          <td>{formatNumber(recoveryInfo.delayPeriod)}</td>
-                        </tr>
-                        <tr>
-                          <td>{t('deposit')}</td>
-                          <td>{formatBalance(recoveryInfo.deposit)}</td>
-                        </tr>
+                      <tr>
+                        <td>{t('threshold')}</td>
+                        <td>{formatNumber(recoveryInfo.threshold)}</td>
+                      </tr>
+                      <tr>
+                        <td>{t('delay')}</td>
+                        <td>{formatNumber(recoveryInfo.delayPeriod)}</td>
+                      </tr>
+                      <tr>
+                        <td>{t('deposit')}</td>
+                        <td>{formatBalance(recoveryInfo.deposit)}</td>
+                      </tr>
                       </tbody>
                     </table>
                   </div>
@@ -713,7 +713,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                 hover={
                   proxy[0].length === 1
                     ? t('This account has a proxy set')
-                    : t('This account has {{proxyNumber}} proxies set', { replace: { proxyNumber: proxy[0].length } })
+                    : t('This account has {{proxyNumber}} proxies set', {replace: {proxyNumber: proxy[0].length}})
                 }
                 hoverAction={t('Manage proxies')}
                 icon='sitemap'
@@ -747,22 +747,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           toggle={toggleIsExpanded}
         />
       </StyledTr>
-      <StyledTr className={`${className} isExpanded ${isExpanded ? '' : 'isLast'} packedTop`}>
-        <td />
-        <td
-          className='balance all'
-          colSpan={2}
-        >
-          <AddressInfo
-            address={address}
-            balancesAll={balancesAll}
-            withBalance={BAL_OPTS_DEFAULT}
-          />
-        </td>
-        <td />
-      </StyledTr>
       <StyledTr className={`${className} ${isExpanded ? 'isExpanded isLast' : 'isCollapsed'} packedTop`}>
-        <td />
+        <td/>
         <td
           className='balance columar'
           colSpan={2}
@@ -784,7 +770,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             </Columar.Column>
             <Columar.Column>
               <h5>{t('account type')}</h5>
-              <CryptoType accountId={address} />
+              <CryptoType accountId={address}/>
             </Columar.Column>
           </Columar>
           <Columar is100>
@@ -797,9 +783,9 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             </Columar.Column>
           </Columar>
         </td>
-        <td />
+        <td/>
       </StyledTr>
-    </>
+    </StyledDiv>
   );
 }
 
@@ -808,5 +794,13 @@ const StyledTr = styled.tr`
     opacity: var(--opacity-light);
   }
 `;
+
+const StyledDiv = styled.div`
+    margin-top: 5px;
+    border-radius: 5px;
+    overflow: hidden;
+    padding-bottom: 6px;
+    background: #f5f5f5;
+`
 
 export default React.memo(Account);

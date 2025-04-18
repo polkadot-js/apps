@@ -55,9 +55,9 @@ function ChainInfo ({ className }: Props): React.ReactElement<Props> {
         <Endpoints onClose={toggleEndpoints} />
       )}
       <div className='apps--notice'>
-        <strong>This DevNet is under active development:</strong>
-        - Expect instability and data loss<br />
-        - State may be wiped without notice
+        <strong>QF networks are under active development:</strong>
+        - Expect instability and data loss. <br />
+        - State may be wiped without notice.
       </div>
     </StyledDiv>
   );
