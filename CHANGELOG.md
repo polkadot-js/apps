@@ -1,5 +1,29 @@
 # CHANGELOG
 
+## 0.154.1 Apr 18, 2025
+
+Contributed:
+
+- [LAOS] update bootnodes and hosting name ([#11452](https://github.com/polkadot-js/apps/pull/11452)) (Thanks to https://github.com/asiniscalchi)
+- chore: fixed bug on chart and ui issue in sale page ([#11354](https://github.com/polkadot-js/apps/pull/11354)) (Thanks to https://github.com/Ernesto-tha-great)
+- adding xcav into polkadot ([#11463](https://github.com/polkadot-js/apps/pull/11463)) (Thanks to https://github.com/ganesh1997oli)
+- fix: add logo image of collectives ([#11467](https://github.com/polkadot-js/apps/pull/11467)) (Thanks to https://github.com/quinn-gaoo)
+- Update zkVerify testnet endpoint and name ([#11472](https://github.com/polkadot-js/apps/pull/11472)) (Thanks to https://github.com/drgora)
+- add tscs network ([#11438](https://github.com/polkadot-js/apps/pull/11438)) (Thanks to https://github.com/weimeme)
+
+
+Changes:
+
+- Feedback/#11253 ([#11304](https://github.com/polkadot-js/apps/pull/11304))
+- Enable Extrinsic Page Access Without Accounts ([#11441](https://github.com/polkadot-js/apps/pull/11441))
+- Disable unreachable endpoints ([#11461](https://github.com/polkadot-js/apps/pull/11461) [#11478](https://github.com/polkadot-js/apps/pull/11478))
+- Added warning message for XCM (teleport) ([#11462](https://github.com/polkadot-js/apps/pull/11462))
+- Suspended candidates query ([#11469](https://github.com/polkadot-js/apps/pull/11469))
+- Improved behavior for dissolving crowdloan ([#11470](https://github.com/polkadot-js/apps/pull/11470))
+- Fix External Links ([#11485](https://github.com/polkadot-js/apps/pull/11485))
+- Upgraded polkadot dependencies ([#11489](https://github.com/polkadot-js/apps/pull/11489))
+
+
 ## 0.153.1 Apr 3, 2025
 
 Contributed:
