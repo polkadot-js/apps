@@ -424,7 +424,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'invarch',
     paraId: 3340,
     providers: {
-      Dwellir: 'wss://invarch-rpc.dwellir.com',
+      // Dwellir: 'wss://invarch-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/11477
       IBP1: 'wss://invarch.ibp.network',
       IBP2: 'wss://invarch.dotters.network'
     },

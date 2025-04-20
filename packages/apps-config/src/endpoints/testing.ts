@@ -31,8 +31,8 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'aleph-testnet',
     providers: {
-      'Aleph Zero Foundation': 'wss://ws.test.azero.dev',
-      Dwellir: 'wss://aleph-zero-testnet-rpc.dwellir.com'
+      'Aleph Zero Foundation': 'wss://ws.test.azero.dev'
+      // Dwellir: 'wss://aleph-zero-testnet-rpc.dwellir.com' // https://github.com/polkadot-js/apps/issues/11477
       // OnFinality: 'wss://aleph-zero.api.onfinality.io/public-ws'
     },
     text: 'Aleph Zero Testnet',
@@ -1123,9 +1123,9 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'zkVerify-testnet',
     providers: {
-      zkVerify: 'wss://testnet-rpc.zkverify.io'
+      zkVerify: 'wss://volta-rpc.zkverify.io'
     },
-    text: 'zkVerify Testnet',
+    text: 'zkVerify Volta Testnet',
     ui: {
       color: '#15AA6A',
       logo: nodesZkVerifyPNG

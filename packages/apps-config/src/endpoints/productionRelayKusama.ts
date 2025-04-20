@@ -625,7 +625,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
       Dwellir: 'wss://quartz-rpc.n.dwellir.com',
       // OnFinality: 'wss://quartz.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9972
       'Geo Load Balancer': 'wss://ws-quartz.unique.network',
-      'Unique America': 'wss://us-ws-quartz.unique.network',
+      // 'Unique America': 'wss://us-ws-quartz.unique.network', // https://github.com/polkadot-js/apps/issues/11477
       'Unique Asia': 'wss://asia-ws-quartz.unique.network',
       'Unique Europe': 'wss://eu-ws-quartz.unique.network'
     },
@@ -1017,7 +1017,7 @@ export const prodRelayKusama: EndpointOption = {
     LuckyFriday: 'wss://rpc-kusama.luckyfriday.io',
     OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
     RadiumBlock: 'wss://kusama.public.curie.radiumblock.co/ws',
-    RockX: 'wss://rockx-ksm.w3node.com/polka-public-ksm/ws',
+    // RockX: 'wss://rockx-ksm.w3node.com/polka-public-ksm/ws', // https://github.com/polkadot-js/apps/issues/11477
     Stakeworld: 'wss://ksm-rpc.stakeworld.io',
     // SubQuery: 'wss://kusama.rpc.subquery.network/public/ws', https://github.com/polkadot-js/apps/issues/11026
     'light client': 'light://substrate-connect/kusama'
