@@ -62,7 +62,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'amplitude',
     paraId: 2124,
     providers: {
-      Dwellir: 'wss://amplitude-rpc.dwellir.com',
+      // Dwellir: 'wss://amplitude-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/11495
       PendulumChain: 'wss://rpc-amplitude.pendulumchain.tech'
     },
     text: 'Amplitude',
@@ -442,7 +442,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'krest',
     paraId: 2241,
     providers: {
-      Dwellir: 'wss://krest-rpc.dwellir.com',
+      // Dwellir: 'wss://krest-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/11495
       Krest: 'wss://wss-krest.peaq.network/',
       OnFinality: 'wss://krest.api.onfinality.io/public-ws'
       // UnitedBloc: 'wss://krest.unitedbloc.com/' https://github.com/polkadot-js/apps/issues/10997

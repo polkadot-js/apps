@@ -139,8 +139,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'chainflip',
     providers: {
-      chainflip: 'wss://mainnet-archive.chainflip.io',
-      dwellir: 'wss://chainflip-rpc.dwellir.com'
+      chainflip: 'wss://mainnet-archive.chainflip.io'
+      // dwellir: 'wss://chainflip-rpc.dwellir.com' // https://github.com/polkadot-js/apps/issues/11495
     },
     text: 'Chainflip',
     ui: {

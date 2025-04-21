@@ -496,7 +496,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'laos',
     paraId: 3370,
     providers: {
-      Dwellir: 'wss://laos-rpc.n.dwellir.com',
+      // Dwellir: 'wss://laos-rpc.n.dwellir.com', // https://github.com/polkadot-js/apps/issues/11495
       'laosfoundation.io': 'wss://rpc.laos.laosfoundation.io',
       'light client': 'light://substrate-connect/polkadot/laos'
     },
@@ -590,7 +590,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'neuroweb',
     paraId: 2043,
     providers: {
-      Dwellir: 'wss://neuroweb-rpc.dwellir.com',
+      // Dwellir: 'wss://neuroweb-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/11495
       TraceLabs: 'wss://parachain-rpc.origin-trail.network'
     },
     text: 'NeuroWeb',
