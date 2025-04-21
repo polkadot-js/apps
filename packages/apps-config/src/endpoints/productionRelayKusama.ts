@@ -979,6 +979,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     paraId: 1004,
     providers: {
       Dwellir: 'wss://people-kusama-rpc.n.dwellir.com',
+      Helixstreet: 'wss://rpc-people-kusama.helixstreet.io',
       IBP1: 'wss://sys.ibp.network/people-kusama',
       IBP2: 'wss://people-kusama.dotters.network',
       LuckyFriday: 'wss://rpc-people-kusama.luckyfriday.io',
