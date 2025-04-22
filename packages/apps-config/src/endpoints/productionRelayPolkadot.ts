@@ -878,6 +878,19 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://xode.net',
+    info: 'xode',
+    paraId: 3417,
+    providers: {
+      XodeCommunity: 'wss://polkadot-bootnode03.xode.net/rpc'
+    },
+    text: 'Xode',
+    ui: {
+      color: '#ed1f7a',
+      logo: nodesXodePNG
+    }
+  },
+  {
     homepage: 'https://zeitgeist.pm',
     info: 'zeitgeist',
     paraId: 2092,
@@ -890,20 +903,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       color: 'linear-gradient(180deg, rgba(32,90,172,1) 0%, rgba(26,72,138,1) 50%, rgba(13,36,69,1) 100%)',
       logo: nodesZeitgeistPNG
     }
-  },
-  {
-    homepage: 'https://xode.net',
-    info: 'xode',
-    paraId: 3417,
-    providers: {
-      XodeCommunity: 'wss://polkadot-bootnode03.xode.net/rpc'
-    },
-    text: 'Xode',
-    ui: {
-      color: '#ed1f7a',
-      logo: nodesXodePNG
-    }
   }
+
 ];
 
 export const prodParasPolkadotCommon: EndpointOption[] = [
