@@ -352,6 +352,7 @@
        1	Andrew Jones                  	Fix upload and deploy contract(s) after rename (#1346)
        1	Andy Bell                     	Dali to Picasso (#9102)
        1	Anthony Chan                  	fix the cess testnet logo wrong bug (#8649)
+       1	Arneil Paul Polican           	Add XODE endpoint for Polkadot (#11486)
        1	Assem                         	chore: update `chainflip-perseverance` archive endpoint 🚀 (#10352)
        1	Bart200c                      	add kylin network (#7865)
        1	Beqa Abuladze                 	Rename Creditcoin Classic to CC Enterprise (#10878)
