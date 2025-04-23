@@ -6,7 +6,7 @@ import type { OwnedId, OwnerInfo } from '../types.js';
 import BN from 'bn.js';
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
+import { InputAddress, InputNumber, MarkWarning, Modal, styled, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { CallExpander } from '@polkadot/react-params';
 
@@ -85,6 +85,18 @@ function DeregisterId ({ className, nextParaId, onClose, ownedIds }: Props): Rea
             value={extrinsic}
           />
         </Modal.Columns>
+        <Modal.Columns>
+          <MarkWarning withIcon={false}>
+            <strong>{t('Deregistering a paraID will:')}</strong>
+            <WarningList>
+              <WarningItem>{t('Remove it from the active parachain/parathread set.')}</WarningItem>
+              <WarningItem>{t('Exclude it from future auctions and onboarding.')}</WarningItem>
+              <WarningItem>{t('Potentially release any reserved deposits linked to it.')}</WarningItem>
+              <WarningItem>{t('Require re-registration if you wish to use it again.')}</WarningItem>
+            </WarningList>
+            <p><strong>{t('This action is permanent.')}</strong> {t('Please ensure this is your intended action before continuing.')}</p>
+          </MarkWarning>
+        </Modal.Columns>
       </Modal.Content>
       <Modal.Actions>
         <TxButton
@@ -99,5 +111,14 @@ function DeregisterId ({ className, nextParaId, onClose, ownedIds }: Props): Rea
     </Modal>
   );
 }
+
+const WarningList = styled.ul`
+  padding-left: 20px;
+  margin: 8px 0;
+`;
+
+const WarningItem = styled.li`
+  margin-bottom: 2px;
+`;
 
 export default React.memo(DeregisterId);
