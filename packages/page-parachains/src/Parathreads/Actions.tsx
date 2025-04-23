@@ -40,7 +40,7 @@ function Actions ({ className, ownedIds }: Props): React.ReactElement<Props> {
     <Button.Group className={className}>
       <Button
         icon='minus'
-        isDisabled={!api.tx.registrar.deregister}
+        isDisabled={api.tx.registrar.deregister ? !ownedIds.length : false}
         label={t('Deregister')}
         onClick={toggleDeregisterOpen}
       />
