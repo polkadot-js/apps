@@ -29,6 +29,7 @@ type File = FileAccount[]
 
 const acceptedFormats = ['application/json'];
 
+// Check if file is valid
 function isValidFile (fileContent: string, setError: Dispatch<SetStateAction<string | null>>): boolean {
   setError(null);
 

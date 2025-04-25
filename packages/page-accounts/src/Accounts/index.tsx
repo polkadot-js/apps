@@ -324,7 +324,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       )}
       {isExportAll && (
         <ExportAll
-          accountsByGroup={groups}
+          accountsByGroup={grouped}
           onClose={toggleExportAll}
           onStatusChange={onStatusChange}
         />

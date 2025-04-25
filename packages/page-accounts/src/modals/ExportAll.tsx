@@ -7,8 +7,7 @@ import type { ModalProps } from '../types.js';
 import FileSaver from 'file-saver';
 import React, { useCallback, useState } from 'react';
 
-import { Button, MarkWarning, Modal } from '@polkadot/react-components';
-import { useAccounts } from '@polkadot/react-hooks';
+import { Button, Checkbox, MarkWarning, Modal, styled } from '@polkadot/react-components';
 import { keyring } from '@polkadot/ui-keyring';
 import { nextTick } from '@polkadot/util';
 
@@ -17,14 +16,23 @@ import { useTranslation } from '../translate.js';
 interface Props extends ModalProps {
   className?: string;
   onClose: () => void;
-  accountsByGroup: Record<string, React.ReactNode[]>;
+  accountsByGroup: Record<string, string[]>;
   onStatusChange: (status: ActionStatus) => void;
 }
 
 function ExportAll ({ accountsByGroup, className, onClose, onStatusChange }: Props): React.ReactElement | null {
   const { t } = useTranslation();
-  const { allAccounts } = useAccounts();
   const [isBusy, setIsBusy] = useState(false);
+  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+
+  // toggle checkboxes
+  const onChangeCheckBox = useCallback((group: string) => {
+    if (!selectedTypes.includes(group)) {
+      setSelectedTypes([...selectedTypes, group]);
+    } else {
+      setSelectedTypes(selectedTypes.filter((prev) => prev !== group));
+    }
+  }, [selectedTypes]);
 
   const _onExportButtonClick = useCallback(() => {
     setIsBusy(true);
@@ -33,6 +41,13 @@ function ExportAll ({ accountsByGroup, className, onClose, onStatusChange }: Pro
       const status: Partial<ActionStatus> = { action: 'export' };
 
       try {
+        let allAccounts: string[] = [];
+
+        // get all accounts for selected groups
+        selectedTypes.forEach((group) => {
+          allAccounts = [...allAccounts, ...accountsByGroup[group]];
+        });
+
         const accounts = allAccounts.map((account) => {
           const keyringAccount = keyring.getPair(account);
 
@@ -62,7 +77,7 @@ function ExportAll ({ accountsByGroup, className, onClose, onStatusChange }: Pro
         onClose();
       }
     });
-  }, [allAccounts, onClose, onStatusChange, t]);
+  }, [accountsByGroup, onClose, onStatusChange, selectedTypes, t]);
 
   return (
     <Modal
@@ -72,24 +87,52 @@ function ExportAll ({ accountsByGroup, className, onClose, onStatusChange }: Pro
       size='large'
     >
       <Modal.Content>
-        <MarkWarning content={<>{t('Consider storing your account in a signer such as a browser extension, hardware device, QR-capable phone wallet (non-connected) or desktop application for optimal account security.')}&nbsp;{t('Future versions of the web-only interface will drop support for non-external accounts, much like the IPFS version.')}</>} />
-        <Modal.Columns hint={t('Choose type of accounts you want to export')}>
-          <div>
-            {Object.keys(accountsByGroup).map((group) => <p key={group}>{group}</p>)}
-          </div>
-        </Modal.Columns>
+        <MarkWarning
+          content={t('You can export all your accounts metadata for the selected types')}
+          withIcon={false}
+        />
+        <StyledCheckBoxGroup>
+          {Object.keys(accountsByGroup)
+            .filter((group) => accountsByGroup[group].length > 0)
+            .map((group) => {
+              const isSelected = selectedTypes.includes(group);
+
+              return (
+                <Checkbox
+                  key={group}
+                  label={`${group} (${accountsByGroup[group].length})`}
+                  // eslint-disable-next-line react/jsx-no-bind
+                  onChange={() => onChangeCheckBox(group)}
+                  value={isSelected}
+                />
+              );
+            })}
+        </StyledCheckBoxGroup>
       </Modal.Content>
       <Modal.Actions>
         <Button
           icon='sync'
           isBusy={isBusy}
+          isDisabled={!selectedTypes.length}
           label={t('Export')}
           onClick={_onExportButtonClick}
         />
       </Modal.Actions>
     </Modal>
-
   );
 }
+
+const StyledCheckBoxGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-inline: 2rem;
+
+  label, .ui--Icon {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+`;
 
 export default React.memo(ExportAll);
