@@ -983,6 +983,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1005,
     providers: {
+      Dwellir: 'wss://coretime-polkadot-rpc.n.dwellir.com',
       IBP1: 'wss://sys.ibp.network/coretime-polkadot',
       IBP2: 'wss://coretime-polkadot.dotters.network',
       LuckyFriday: 'wss://rpc-coretime-polkadot.luckyfriday.io',
@@ -1001,6 +1002,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     isPeopleForIdentity: false,
     paraId: 1004,
     providers: {
+      Dwellir: 'wss://people-polkadot-rpc.n.dwellir.com',
       IBP1: 'wss://sys.ibp.network/people-polkadot',
       IBP2: 'wss://people-polkadot.dotters.network',
       LuckyFriday: 'wss://rpc-people-polkadot.luckyfriday.io',
