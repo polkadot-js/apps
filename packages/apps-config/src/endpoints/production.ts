@@ -211,7 +211,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
       'Crust Network APP': 'wss://rpc.crustnetwork.app',
       'Crust Network CC': 'wss://rpc.crustnetwork.cc',
       'Crust Network XYZ': 'wss://rpc.crustnetwork.xyz',
-      Dwellir: 'wss://crust-mainnet-rpc.dwellir.com',
+      // Dwellir: 'wss://crust-mainnet-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/11513
       OnFinality: 'wss://crust.api.onfinality.io/public-ws'
     },
     text: 'Crust Network',
@@ -460,7 +460,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'polkadex',
     providers: {
-      Dwellir: 'wss://polkadex-mainnet-rpc.dwellir.com',
+      // Dwellir: 'wss://polkadex-mainnet-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/11513
       OnFinality: 'wss://polkadex.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://polkadex.public.curie.radiumblock.co/ws'
     },
