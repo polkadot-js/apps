@@ -883,7 +883,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'xode',
     paraId: 3417,
     providers: {
-      XodeCommunity: 'wss://polkadot-bootnode03.xode.net/rpc'
+      XodeCommunity: 'wss://polkadot-rpcnode.xode.net'
     },
     text: 'Xode',
     ui: {
