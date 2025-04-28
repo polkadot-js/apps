@@ -3,7 +3,7 @@
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
 
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import { Button, Icon, styled } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
@@ -15,10 +15,38 @@ interface Props {
   isBottom?: boolean;
   isFull?: boolean;
   type: 'error' | 'info';
+  isDev?: boolean;
 }
 
-function BaseOverlay ({ children, className = '', icon, isBottom = false, isFull = false, type }: Props): React.ReactElement<Props> | null {
+function BaseOverlay ({ children, className = '', icon, isBottom = false, isDev, isFull = false, type }: Props): React.ReactElement<Props> | null {
   const [isHidden, toggleHidden] = useToggle();
+
+  const checkLcValue = useCallback(() => {
+    if (isDev) {
+      localStorage.setItem('dev:notification', new Date().toString());
+    }
+
+    toggleHidden();
+  }, [isDev, toggleHidden]);
+
+  useEffect(() => {
+    const item = localStorage.getItem('dev:notification');
+
+    if (item) {
+      const date = new Date(item);
+
+      date.setMonth(date.getMonth() + 1);
+
+      // 1 month has passed - remove the localStorage
+      // and resume the notification
+
+      if (date.getTime() <= new Date().getTime()) {
+        localStorage.removeItem('dev:notification');
+      } else {
+        toggleHidden();
+      }
+    }
+  }, [toggleHidden]);
 
   if (isHidden) {
     return null;
@@ -40,7 +68,7 @@ function BaseOverlay ({ children, className = '', icon, isBottom = false, isFull
           icon='times'
           isBasic
           isCircular
-          onClick={toggleHidden}
+          onClick={checkLcValue}
         />
       </div>
     </StyledDiv>

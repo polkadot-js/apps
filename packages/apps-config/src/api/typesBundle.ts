@@ -28197,6 +28197,20 @@ export const typesBundle = {
         }
       }
     },
+    "heima": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "Address": "AccountId",
+            "LookupSource": "AccountId"
+          }
+        }
+      ]
+    },
     "hydra-dx": {
       "types": [
         {
@@ -47691,20 +47705,6 @@ export const typesBundle = {
         }
       ]
     },
-    "litentry": {
-      "types": [
-        {
-          "minmax": [
-            0,
-            null
-          ],
-          "types": {
-            "Address": "AccountId",
-            "LookupSource": "AccountId"
-          }
-        }
-      ]
-    },
     "logion": {
       "alias": {
         "loAuthorityList": {
@@ -61024,6 +61024,18 @@ export const typesBundle = {
     },
     "peerplays": {
       "rpc": {
+        "techcommitteemanager": {
+          "candiadtes": {
+            "description": "Get the list of technical committee candidates",
+            "params": [],
+            "type": "Vec<AccountId>"
+          },
+          "selectedCandidates": {
+            "description": "Get the list of selected technical committee candidates",
+            "params": [],
+            "type": "Vec<AccountId>"
+          }
+        },
         "validatormanager": {
           "activeValidators": {
             "description": "Get the list of active validators",

@@ -5,7 +5,7 @@ import type { AssetInfo } from '@polkadot/react-hooks/types';
 
 import React, { useMemo } from 'react';
 
-import { AddressSmall, Table } from '@polkadot/react-components';
+import { AddressSmall } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 
 import Mint from './Mint/index.js';
@@ -25,8 +25,12 @@ function Asset ({ className, value: { details, id, isIssuerMe, metadata } }: Pro
 
   return (
     <tr className={className}>
-      <Table.Column.Id value={id} />
-      <td className='together'>{metadata?.name.toUtf8()}</td>
+      <td></td>
+      <td className='together'>
+        <span style={{ fontSize: 18, marginRight: 10 }}>
+          {id.toString()}
+        </span>
+        {metadata?.name.toUtf8()}</td>
       <td className='address media--1000'>{details && <AddressSmall value={details.owner} />}</td>
       <td className='address media--1300'>{details && <AddressSmall value={details.admin} />}</td>
       <td className='address media--1600'>{details && <AddressSmall value={details.issuer} />}</td>

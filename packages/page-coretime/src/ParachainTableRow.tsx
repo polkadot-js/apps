@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ChainInformation, ChainWorkTaskInformation } from '@polkadot/react-hooks/types';
+import type { RelayName } from './types.js';
 
 import React from 'react';
 
@@ -15,9 +16,10 @@ interface Props {
   regionEnd: number
   regionBegin: number
   lastCommittedTimeslice: number
+  relayName: RelayName
 }
 
-function ParachainTableRow ({ chain, lastCommittedTimeslice, regionBegin, regionEnd }: Props): React.ReactElement<Props> {
+function ParachainTableRow ({ chain, lastCommittedTimeslice, regionBegin, regionEnd, relayName }: Props): React.ReactElement<Props> {
   const [isExpanded, toggleIsExpanded] = useToggle(false);
   const info = chain.workTaskInfo;
   const firstRecord = chain.workTaskInfo[0];
@@ -38,6 +40,7 @@ function ParachainTableRow ({ chain, lastCommittedTimeslice, regionBegin, region
         lease={chain.lease}
         regionBegin={regionBegin}
         regionEnd={regionEnd}
+        relayName={relayName}
       />
       {idx === 0 && <td style={{ paddingRight: '2rem', textAlign: 'right', verticalAlign: 'top' }}>
 

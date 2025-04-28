@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types.js';
 
 import { chains3dpassSVG, chainsAlephSVG, chainsAnalogSVG, chainsBittensorPNG, chainsChainflipPNG, chainsCommuneaiPNG, chainsCreditcoinPNG, chainsDebioSVG, chainsFragnovaPNG, chainsJurPNG, chainsLiberlandPNG, chainsLogionPNG, chainsMyriadPNG, chainsSpannerPNG, chainsTanglePNG, chainsTorusPNG, chainsVaraPNG, chainsVtbPNG } from '../ui/logos/chains/index.js';
-import { nodesAresOdysseySVG, nodesAutonomysPNG, nodesCentrifugePNG, nodesCereSVG, nodesChainxSVG, nodesCompetitorsClubPNG, nodesCrownSterlingPNG, nodesCrustSVG, nodesDatahighwayPNG, nodesDockPNG, nodesEdgewareWhitePNG, nodesEfinitySVG, nodesElysiumPNG, nodesHanyonycashPNG, nodesHumanodePNG, nodesInnovatorPNG, nodesJoystreamSVG, nodesKulupuSVG, nodesKusariSVG, nodesMathSVG, nodesMinixPNG, nodesNftmartPNG, nodesNodleSVG, nodesPolkadexSVG, nodesPolymeshSVG, nodesRiochainSVG, nodesRobonomicsSVG, nodesSherpaxPNG, nodesSoraSubstrateSVG, nodesStafiPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesSwapdexSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesUniartsPNG, nodesUnitnetworkPNG } from '../ui/logos/nodes/index.js';
+import { nodesAresOdysseySVG, nodesAutonomysPNG, nodesCentrifugePNG, nodesCereSVG, nodesChainxSVG, nodesCompetitorsClubPNG, nodesCrownSterlingPNG, nodesCrustSVG, nodesDatahighwayPNG, nodesDockPNG, nodesEdgewareWhitePNG, nodesEfinitySVG, nodesElysiumPNG, nodesHanyonycashPNG, nodesHumanodePNG, nodesInnovatorPNG, nodesJoystreamSVG, nodesKulupuSVG, nodesKusariSVG, nodesMathSVG, nodesMinixPNG, nodesNftmartPNG, nodesNodleSVG, nodesPolkadexSVG, nodesPolymeshSVG, nodesRiochainSVG, nodesRobonomicsSVG, nodesSherpaxPNG, nodesSoraSubstrateSVG, nodesStafiPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesSwapdexSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesTscsPNG, nodesUniartsPNG, nodesUnitnetworkPNG } from '../ui/logos/nodes/index.js';
 
 export * from './productionRelayKusama.js';
 export * from './productionRelayPolkadot.js';
@@ -20,7 +20,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: '3dpass',
     providers: {
-      '3dpass': 'wss://rpc.3dpscan.io'
+      '3dpass': 'wss://rpc.3dpass.org'
     },
     text: '3DPass',
     ui: {
@@ -32,7 +32,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'aleph',
     providers: {
       'Aleph Zero Foundation': 'wss://ws.azero.dev',
-      Dwellir: 'wss://aleph-zero-rpc.dwellir.com',
+      // Dwellir: 'wss://aleph-zero-rpc.dwellir.com', https://github.com/polkadot-js/apps/issues/11477
       OnFinality: 'wss://aleph-zero.api.onfinality.io/public-ws'
     },
     text: 'Aleph Zero',
@@ -139,8 +139,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'chainflip',
     providers: {
-      chainflip: 'wss://mainnet-archive.chainflip.io',
-      dwellir: 'wss://chainflip-rpc.dwellir.com'
+      chainflip: 'wss://mainnet-archive.chainflip.io'
+      // dwellir: 'wss://chainflip-rpc.dwellir.com' // https://github.com/polkadot-js/apps/issues/11495
     },
     text: 'Chainflip',
     ui: {
@@ -235,7 +235,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'dock-pos-mainnet',
     providers: {
-      'Dock Association': 'wss://mainnet-node.dock.io'
+      // 'Dock Association': 'wss://mainnet-node.dock.io' // https://github.com/polkadot-js/apps/issues/11460
     },
     text: 'Dock',
     ui: {
@@ -438,7 +438,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'nftmart',
     providers: {
-      NFTMart: 'wss://mainnet.nftmart.io/rpc/ws'
+      // NFTMart: 'wss://mainnet.nftmart.io/rpc/ws' // https://github.com/polkadot-js/apps/issues/11302
     },
     text: 'NFTMart',
     ui: {
@@ -618,6 +618,17 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    info: 'tscs-mainnet',
+    providers: {
+      SuperEX: 'wss://testnetrpc.scschain.com'
+    },
+    text: 'TSCS Network',
+    ui: {
+      color: '#FFAB75',
+      logo: nodesTscsPNG
+    }
+  },
+  {
     info: 'uniarts',
     providers: {
       // UniArts: 'wss://mainnet.uniarts.vip:9443' // https://github.com/polkadot-js/apps/issues/9059
@@ -644,8 +655,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     isPeopleForIdentity: false,
     providers: {
       Blast: 'wss://vara-mainnet.public.blastapi.io',
-      Gear: 'wss://rpc.vara.network',
-      'P2P.org': 'wss://vara.substrate-rpc.p2p.org/'
+      Gear: 'wss://rpc.vara.network'
+      // 'P2P.org': 'wss://vara.substrate-rpc.p2p.org/' // https://github.com/polkadot-js/apps/issues/11337
     },
     text: 'Vara',
     ui: {

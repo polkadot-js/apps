@@ -35,6 +35,7 @@ export { useCallMulti } from './useCallMulti.js';
 export { useCollectiveInstance } from './useCollectiveInstance.js';
 export { useCollectiveMembers } from './useCollectiveMembers.js';
 export { useCoreDescriptor } from './useCoreDescriptor.js';
+export { useCoretimeConsts } from './useCoretimeConsts.js';
 export { useCoretimeEndpoint } from './useCoretimeEndpoint.js';
 export { useCoretimeInformation } from './useCoretimeInformation.js';
 export { useDebounce } from './useDebounce.js';

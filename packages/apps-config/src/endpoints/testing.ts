@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types.js';
 
 import { chains3dpassSVG, chainsAcalaSVG, chainsAlephSVG, chainsAllfeatSVG, chainsAnalogSVG, chainsArgonSVG, chainsBrainstormPNG, chainsChainflipPNG, chainsCreditcoinTestPNG, chainsDebioSVG, chainsEquilibriumSVG, chainsFerrumPNG, chainsFragnovaPNG, chainsJurPNG, chainsKintsugiPNG, chainsLiberlandPNG, chainsLogionPNG, chainsMyriadPNG, chainsShidenPNG, chainsSkyekiwiPNG, chainsTanglePNG, chainsVaraTestnetPNG } from '../ui/logos/chains/index.js';
-import { nodesArcticPNG, nodesAresGladiosSVG, nodesAutonomysPNG, nodesBifrostSVG, nodesBitcountryPNG, nodesCereSVG, nodesCessPNG, nodesCloverSVG, nodesCrustMaxwellSVG, nodesCurioSVG, nodesDanceboxSVG, nodesDatahighwayPNG, nodesDockPNG, nodesDolphinSVG, nodesDotmogSVG, nodesEdgewareWhitePNG, nodesEncointerBlueSVG, nodesFantourPNG, nodesGalitalLogoPNG, nodesGamepowerSVG, nodesGeekSVG, nodesInterlaySVG, nodesIpsePNG, nodesJazPNG, nodesJupiterSVG, nodesKarmachainSVG, nodesKhalaSVG, nodesKlugPNG, nodesKylinPNG, nodesLaminarCircleSVG, nodesLitentryPNG, nodesMantaPNG, nodesMathSVG, nodesMinixPNG, nodesMoonbaseAlphaSVG, nodesMybankPNG, nodesNftmartPNG, nodesNodleSVG, nodesOpalLogoPNG, nodesOpportunityPNG, nodesPhalaSVG, nodesPhoenixPNG, nodesPhykenNetworkPNG, nodesPichiuPNG, nodesPolkadexSVG, nodesPolkafoundrySVG, nodesPolymeshSVG, nodesPontemSVG, nodesPrismPNG, nodesRealisPNG, nodesRiochainSVG, nodesSherpaxPNG, nodesSoonsocialPNG, nodesSoraSubstrateSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesSubspacePNG, nodesSubstrateHexagonSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesUniartsPNG, nodesUniqueSVG, nodesUnitnetworkPNG, nodesWeb3gamesSVG, nodesZCloakSVG, nodesZeroSVG } from '../ui/logos/nodes/index.js';
+import { nodesArcticPNG, nodesAresGladiosSVG, nodesAutonomysPNG, nodesBifrostSVG, nodesBitcountryPNG, nodesCereSVG, nodesCessPNG, nodesCloverSVG, nodesCrustMaxwellSVG, nodesCurioSVG, nodesDanceboxSVG, nodesDatahighwayPNG, nodesDockPNG, nodesDolphinSVG, nodesDotmogSVG, nodesEdgewareWhitePNG, nodesEncointerBlueSVG, nodesFantourPNG, nodesGalitalLogoPNG, nodesGamepowerSVG, nodesGeekSVG, nodesInterlaySVG, nodesIpsePNG, nodesJazPNG, nodesJupiterSVG, nodesKarmachainSVG, nodesKhalaSVG, nodesKlugPNG, nodesKylinPNG, nodesLaminarCircleSVG, nodesMantaPNG, nodesMathSVG, nodesMinixPNG, nodesMoonbaseAlphaSVG, nodesMybankPNG, nodesNftmartPNG, nodesNodleSVG, nodesOpalLogoPNG, nodesOpportunityPNG, nodesPhalaSVG, nodesPhoenixPNG, nodesPhykenNetworkPNG, nodesPichiuPNG, nodesPolkadexSVG, nodesPolkafoundrySVG, nodesPolymeshSVG, nodesPontemSVG, nodesPrismPNG, nodesRealisPNG, nodesRiochainSVG, nodesSherpaxPNG, nodesSoonsocialPNG, nodesSoraSubstrateSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesSubspacePNG, nodesSubstrateHexagonSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesUniartsPNG, nodesUniqueSVG, nodesUnitnetworkPNG, nodesWeb3gamesSVG, nodesZCloakSVG, nodesZeroSVG, nodesZkVerifyPNG } from '../ui/logos/nodes/index.js';
 
 export * from './testingRelayPaseo.js';
 export * from './testingRelayWestend.js';
@@ -31,8 +31,8 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'aleph-testnet',
     providers: {
-      'Aleph Zero Foundation': 'wss://ws.test.azero.dev',
-      Dwellir: 'wss://aleph-zero-testnet-rpc.dwellir.com'
+      'Aleph Zero Foundation': 'wss://ws.test.azero.dev'
+      // Dwellir: 'wss://aleph-zero-testnet-rpc.dwellir.com' // https://github.com/polkadot-js/apps/issues/11477
       // OnFinality: 'wss://aleph-zero.api.onfinality.io/public-ws'
     },
     text: 'Aleph Zero Testnet',
@@ -562,17 +562,6 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'litentry',
-    providers: {
-      // Litentry: 'wss://testnet.litentry.io' // https://github.com/polkadot-js/apps/issues/9059
-    },
-    text: 'Litentry Testnet',
-    ui: {
-      color: 'linear-gradient(45deg, #5cc27c 0%, #6de98f 100%)',
-      logo: nodesLitentryPNG
-    }
-  },
-  {
     info: 'logion',
     providers: {
       Logion: 'wss://test-para-rpc01.logion.network'
@@ -631,7 +620,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'moonbaseAlpha',
     providers: {
       Blast: 'wss://moonbase-alpha.public.blastapi.io',
-      Dwellir: 'wss://moonbase-rpc.dwellir.com',
+      Dwellir: 'wss://moonbase-rpc.n.dwellir.com',
       'Moonbeam Foundation': 'wss://wss.api.moonbase.moonbeam.network',
       // OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws', https://github.com/polkadot-js/apps/issues/11026
       RadiumBlock: 'wss://moonbase.public.curie.radiumblock.co/ws',
@@ -894,7 +883,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'subspace-gemini-1',
     providers: {
-      Europe: 'wss://eu.gemini-1b.subspace.network/ws'
+      // Europe: 'wss://eu.gemini-1b.subspace.network/ws' // https://github.com/polkadot-js/apps/issues/11393
     },
     text: 'Subspace Gemini 1',
     ui: {
@@ -951,7 +940,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'subspace-gemini-3h',
     providers: {
-      US: 'wss://rpc-0.gemini-3h.subspace.network/ws'
+      // US: 'wss://rpc-0.gemini-3h.subspace.network/ws' // https://github.com/polkadot-js/apps/issues/11423
       // US2: 'wss://rpc-1.gemini-3h.subspace.network/ws' // https://github.com/polkadot-js/apps/issues/11098
     },
     text: 'Subspace Gemini 3h',
@@ -997,7 +986,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'ternoa-alphanet',
     providers: {
-      CapsuleCorp: 'wss://alphanet.ternoa.com'
+      // CapsuleCorp: 'wss://alphanet.ternoa.com' // https://github.com/polkadot-js/apps/issues/11406
     },
     text: 'Ternoa Alphanet',
     ui: {
@@ -1129,6 +1118,17 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#00ffcc',
       logo: nodesZeroSVG
+    }
+  },
+  {
+    info: 'zkVerify-testnet',
+    providers: {
+      zkVerify: 'wss://volta-rpc.zkverify.io'
+    },
+    text: 'zkVerify Volta Testnet',
+    ui: {
+      color: '#15AA6A',
+      logo: nodesZkVerifyPNG
     }
   }
 ];

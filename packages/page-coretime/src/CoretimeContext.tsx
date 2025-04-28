@@ -9,17 +9,27 @@ import React, { createContext, useContext, useMemo } from 'react';
 
 import { useCoretimeInformation } from '@polkadot/react-hooks';
 
-import { createGet } from './utils/index.js';
+import { createGet, estimateTime } from './utils/index.js';
 
 interface CoretimeContextProps {
   coretimeInfo: CoretimeInformation | null;
   get: ReturnType<typeof createGet> | null;
+  saleStartDate: string | null
+  saleEndDate: string | null
+  currentRegionEnd: number | null
+  currentRegionStart: number | null
 }
 
-const CoretimeContext = createContext<CoretimeContextProps>({
+const initState = {
   coretimeInfo: null,
-  get: null
-});
+  currentRegionEnd: null,
+  currentRegionStart: null,
+  get: null,
+  saleEndDate: null,
+  saleStartDate: null
+};
+
+const CoretimeContext = createContext<CoretimeContextProps>(initState);
 
 export const CoretimeProvider = ({ api,
   children,
@@ -37,7 +47,26 @@ export const CoretimeProvider = ({ api,
     return null;
   }, [coretimeInfo?.constants]);
 
-  const value = useMemo(() => ({ coretimeInfo: coretimeInfo ?? null, get }), [coretimeInfo, get]);
+  const currentRegionEnd = useMemo(() => coretimeInfo ? coretimeInfo?.salesInfo.regionEnd - coretimeInfo?.config.regionLength : 0, [coretimeInfo]);
+  const currentRegionStart = useMemo(() => coretimeInfo ? coretimeInfo.salesInfo.regionEnd - coretimeInfo?.config.regionLength * 2 : 0, [coretimeInfo]);
+
+  const saleStartDate = useMemo(() => get && coretimeInfo && estimateTime(currentRegionStart, get.blocks.relay(coretimeInfo?.status?.lastTimeslice), coretimeInfo.constants.relay)?.formattedDate, [currentRegionStart, coretimeInfo, get]);
+  const saleEndDate = useMemo(() => get && coretimeInfo && estimateTime(currentRegionEnd, get.blocks.relay(coretimeInfo?.status?.lastTimeslice), coretimeInfo.constants.relay)?.formattedDate, [currentRegionEnd, coretimeInfo, get]);
+
+  const value = useMemo(() => {
+    if (!coretimeInfo || !currentRegionEnd || !currentRegionStart || !get || !saleEndDate || !saleStartDate) {
+      return initState;
+    }
+
+    return {
+      coretimeInfo: coretimeInfo ?? null,
+      currentRegionEnd,
+      currentRegionStart,
+      get,
+      saleEndDate,
+      saleStartDate
+    };
+  }, [coretimeInfo, currentRegionEnd, currentRegionStart, get, saleEndDate, saleStartDate]);
 
   return (
     <CoretimeContext.Provider value={value}>
