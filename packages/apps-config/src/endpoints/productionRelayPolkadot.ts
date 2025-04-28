@@ -139,7 +139,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2031,
     providers: {
       Centrifuge: 'wss://fullnode.centrifuge.io',
-      Dwellir: 'wss://centrifuge-rpc.dwellir.com',
+      // Dwellir: 'wss://centrifuge-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/11513
       LuckyFriday: 'wss://rpc-centrifuge.luckyfriday.io',
       OnFinality: 'wss://centrifuge-parachain.api.onfinality.io/public-ws'
     },
@@ -181,8 +181,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'composable',
     paraId: 2019,
     providers: {
-      Composable: 'wss://rpc.composable.finance',
-      Dwellir: 'wss://composable-rpc.dwellir.com'
+      Composable: 'wss://rpc.composable.finance'
+      // Dwellir: 'wss://composable-rpc.dwellir.com' // https://github.com/polkadot-js/apps/issues/11513
       // OnFinality: 'wss://composable.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9986
     },
     text: 'Composable Finance',
@@ -288,7 +288,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'frequency',
     paraId: 2091,
     providers: {
-      Dwellir: 'wss://frequency-rpc.dwellir.com',
+      // Dwellir: 'wss://frequency-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/11513
       'Frequency 0': 'wss://0.rpc.frequency.xyz',
       'Frequency 1': 'wss://1.rpc.frequency.xyz',
       OnFinality: 'wss://frequency-polkadot.api.onfinality.io/public-ws'
@@ -380,7 +380,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'integritee',
     paraId: 3359,
     providers: {
-      Dwellir: 'wss://integritee-rpc.dwellir.com',
+      // Dwellir: 'wss://integritee-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/11513
       Integritee: 'wss://polkadot.api.integritee.network'
     },
     text: 'Integritee Network',
@@ -408,7 +408,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'interlay',
     paraId: 2032,
     providers: {
-      Dwellir: 'wss://interlay-rpc.dwellir.com',
+      // Dwellir: 'wss://interlay-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/11513
       'Kintsugi Labs': 'wss://api.interlay.io/parachain',
       LuckyFriday: 'wss://rpc-interlay.luckyfriday.io/'
       // OnFinality: 'wss://interlay.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9986
@@ -467,7 +467,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'kilt',
     paraId: 2086,
     providers: {
-      Dwellir: 'wss://kilt-rpc.dwellir.com',
+      // Dwellir: 'wss://kilt-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/11513
       IBP1: 'wss://kilt.ibp.network',
       IBP2: 'wss://kilt.dotters.network',
       'KILT Foundation': 'wss://spiritnet.kilt.io/'
@@ -807,8 +807,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'subsocial',
     paraId: 2101,
     providers: {
-      Dappforce: 'wss://para.subsocial.network',
-      Dwellir: 'wss://subsocial-rpc.dwellir.com'
+      Dappforce: 'wss://para.subsocial.network'
+      // Dwellir: 'wss://subsocial-rpc.dwellir.com' // https://github.com/polkadot-js/apps/issues/11513
       // OnFinality: 'wss://subsocial-polkadot.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9977
     },
     text: 'Subsocial',
@@ -896,7 +896,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'zeitgeist',
     paraId: 2092,
     providers: {
-      OnFinality: 'wss://zeitgeist.api.onfinality.io/public-ws'
+      // OnFinality: 'wss://zeitgeist.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/11513
       // ZeitgeistPM: 'wss://main.rpc.zeitgeist.pm/ws' // https://github.com/polkadot-js/apps/issues/11215
     },
     text: 'Zeitgeist',

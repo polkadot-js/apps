@@ -894,7 +894,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'subspace-gemini-2a',
     providers: {
-      Europe: 'wss://eu-0.gemini-2a.subspace.network/ws'
+      // Europe: 'wss://eu-0.gemini-2a.subspace.network/ws' // https://github.com/polkadot-js/apps/issues/11513
     },
     text: 'Subspace Gemini 2a',
     ui: {
