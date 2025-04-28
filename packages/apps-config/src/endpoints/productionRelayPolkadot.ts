@@ -867,6 +867,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 3413,
     providers: {
       IBP1: 'wss://xcavate.ibp.network',
+      IBP2: 'wss://xcavate.dotters.network',
       Xcavate: 'wss://rpc1-polkadot.xcavate.io'
     },
     relayName: 'polkadot',
