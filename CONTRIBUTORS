@@ -385,6 +385,7 @@
        1	ddorgan                       	Initial commit of kubernetes deployment (#616)
        1	Dean                          	mybank.network (#5024)
        1	Denis Drozhzhin               	Genshiro on Rococo Testnet (#7423)
+       1	Derek Colley                  	Update productionRelayPolkadot.ts (#11509)
        1	Dino Pačandi                  	Allow identity on Shibuya (#11081)
        1	dio                           	Add the official RPC for parallel network (#10980)
        1	divdeploy                     	remove repetitive words in comment (#10438)
