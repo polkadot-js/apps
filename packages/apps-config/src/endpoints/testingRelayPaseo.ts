@@ -187,6 +187,22 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://virto.network/',
+    info: 'kreivo',
+    isPeopleForIdentity: true,
+    paraId: 2281,
+    providers: {
+      Kippu: 'wss://testnet.kreivo.kippu.rocks/',
+    },
+    relayName: 'paseo',
+    text: 'Kreivo de Paseo - By Virto',
+    ui: {
+      color: '#294940',
+      identityIcon: 'polkadot',
+      logo: chainsKreivoSVG
+    }
+  },
+  {
     info: 'kilt',
     paraId: 2086,
     providers: {
