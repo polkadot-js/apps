@@ -19,6 +19,13 @@ const THRESHOLD = BN_THOUSAND.div(BN_TWO);
 const DEFAULT_TIME = new BN(6_000);
 
 function calcInterval (api: ApiPromise): BN {
+
+  const spinBlockTime = api.consts?.spin?.slotDuration;
+
+  if(!!spinBlockTime && !spinBlockTime?.isEmpty) {
+    return spinBlockTime
+  }
+
   return bnMin(A_DAY, (
     // Babe, e.g. Relay chains (Substrate defaults)
     api.consts.babe?.expectedBlockTime ||
@@ -32,7 +39,7 @@ function calcInterval (api: ApiPromise): BN {
         ? api.consts.timestamp.minimumPeriod.mul(BN_TWO)
         : api.query.parachainSystem
           // default guess for a parachain
-          ? api.consts.aura?.slotDuration ?? DEFAULT_TIME.mul(BN_TWO)
+          ? api.consts.spin?.slotDuration ?? DEFAULT_TIME.mul(BN_TWO)
           // default guess for others
           : DEFAULT_TIME
     )
