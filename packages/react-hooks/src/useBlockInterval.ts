@@ -22,7 +22,7 @@ function calcInterval (api: ApiPromise): BN {
 
   const spinBlockTime = api.consts?.spin?.slotDuration;
 
-  if(!!spinBlockTime && !spinBlockTime?.isEmpty) {
+  if(spinBlockTime && !spinBlockTime?.isEmpty) {
     return spinBlockTime
   }
 
@@ -39,7 +39,7 @@ function calcInterval (api: ApiPromise): BN {
         ? api.consts.timestamp.minimumPeriod.mul(BN_TWO)
         : api.query.parachainSystem
           // default guess for a parachain
-          ? api.consts.spin?.slotDuration ?? DEFAULT_TIME.mul(BN_TWO)
+          ? spinBlockTime ?? DEFAULT_TIME.mul(BN_TWO)
           // default guess for others
           : DEFAULT_TIME
     )
