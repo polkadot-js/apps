@@ -72,6 +72,7 @@ function Pool ({ className = '', members, ownAccounts, params, poolId }: Props):
           withLoading
         />
         <td className='number media--1400'>{info && !info.rewardClaimable.isZero() && <FormatBalance value={info.rewardClaimable} />}</td>
+        <td className='number'>{info && info.bonded.commission.current.value && <div>{info.bonded.commission.current.value[0]?.toHuman()}</div>}</td>
         <td className='number'>
           {info && info.nominating.length !== 0 && (
             <ExpanderScroll
