@@ -187,6 +187,18 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    info: 'kilt',
+    paraId: 2086,
+    providers: {
+      'KILT Foundation': 'wss://peregrine.kilt.io/parachain-public-ws/'
+    },
+    text: 'KILT Peregrine',
+    ui: {
+      color: 'linear-gradient(45deg, #D73D80 0%, #161B3B 100%)',
+      logo: nodesKiltIconSVG
+    }
+  },
+  {
     homepage: 'https://virto.network/',
     info: 'kreivo',
     isPeopleForIdentity: true,
@@ -200,18 +212,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
       color: '#294940',
       identityIcon: 'polkadot',
       logo: chainsKreivoSVG
-    }
-  },
-  {
-    info: 'kilt',
-    paraId: 2086,
-    providers: {
-      'KILT Foundation': 'wss://peregrine.kilt.io/parachain-public-ws/'
-    },
-    text: 'KILT Peregrine',
-    ui: {
-      color: 'linear-gradient(45deg, #D73D80 0%, #161B3B 100%)',
-      logo: nodesKiltIconSVG
     }
   },
   {
