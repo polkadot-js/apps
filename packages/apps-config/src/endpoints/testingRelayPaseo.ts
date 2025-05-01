@@ -192,7 +192,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     isPeopleForIdentity: true,
     paraId: 2281,
     providers: {
-      Kippu: 'wss://testnet.kreivo.kippu.rocks/',
+      Kippu: 'wss://testnet.kreivo.kippu.rocks/'
     },
     relayName: 'paseo',
     text: 'Kreivo de Paseo - By Virto',
