@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/apps-config authors & contributors
+// Copyright 2017-2025 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -25,14 +25,14 @@ export const SubId: ExternalDef = {
     Karura: 'karura',
     Khala: 'khala',
     Kusama: 'kusama',
+    'Kusama Asset Hub': 'statemine',
     Nodle: 'nodle',
     Picasso: 'picasso',
     'Pioneer Network': 'pioneer',
     Polkadot: 'polkadot',
+    'Polkadot Asset Hub': 'statemint',
     SORA: 'sora-substrate',
     Shiden: 'shiden',
-    Statemine: 'statemine',
-    Statemint: 'statemint',
     Subsocial: 'subsocial',
     Zeitgeist: 'zeitgeist'
   },

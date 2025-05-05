@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/apps-config authors & contributors
+// Copyright 2017-2025 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -11,19 +11,25 @@ export const Statescan: ExternalDef = {
     Collectives: 'Collectives',
     Crust: 'crust-parachain',
     'Crust Shadow': 'shadow',
+    Heima: 'heima',
+    'Hyperbridge (Nexus)': 'nexus',
+    'Hyperbridge (gargantua)': 'gargantua',
+    'InvArch Network': 'invarch',
     Kusama: 'kusama',
-    'Kusama Asset Hub': 'statemine',
+    'Kusama Asset Hub': 'assethub-kusama',
+    'Kusama BridgeHub': 'bridgehub-kusama',
+    'Kusama Coretime': 'coretime-kusama',
     'Kusama People': 'people-kusama',
-    Litentry: 'litentry',
-    Litmus: 'litmus',
-    Parallel: 'parallel',
-    'Parallel Heiko': 'heiko',
+    'Laos Network': 'laos',
+    'Paseo Testnet': 'paseo',
+    'Polimec Polkadot': 'polimec',
     Polkadot: 'polkadot',
-    'Polkadot Asset Hub': 'statemint',
+    'Polkadot Asset Hub': 'assethub-polkadot',
+    'Polkadot BridgeHub': 'bridgehub-polkadot',
+    'Polkadot Coretime': 'coretime-polkadot',
+    'Polkadot People': 'people-polkadot',
     'Tangle Mainnet': 'tangle',
-    'Tangle Testnet': 'tangle-testnet',
-    'Westend Collectives': 'westend-collectives',
-    Westmint: 'westmint'
+    'Westend Asset Hub': 'assethub-westend'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.statescan.io/#/${path}/${data.toString()}`,

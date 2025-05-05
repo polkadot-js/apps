@@ -1,8 +1,8 @@
-// Copyright 2017-2024 @polkadot/react-params authors & contributors
+// Copyright 2017-2025 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Codec, TypeDef } from '@polkadot/types/types';
-import type { Props, RawParamOnChangeValue } from '../types.js';
+import type { ParamDef, Props, RawParamOnChangeValue } from '../types.js';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
@@ -15,12 +15,19 @@ import { useTranslation } from '../translate.js';
 import Base from './Base.js';
 import Param from './index.js';
 import Static from './Static.js';
+import useParamDefs from './useParamDefs.js';
+import { getParams } from './Vector.js';
 
 const DEF_VALUE = { isValid: true, value: undefined };
 const OPT_PREFIX = new Uint8Array([1]);
 
-function OptionDisplay ({ className = '', defaultValue: _defaultValue, isDisabled, label, onChange, onEnter, onEscape, registry, type: { sub, withOptionActive }, withLabel }: Props): React.ReactElement<Props> {
+function OptionDisplay ({ className = '', defaultValue: _defaultValue, isDisabled, label, onChange, onEnter, onEscape, registry, type, withLabel }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const inputParams = useParamDefs(registry, type);
+  const [params] = useState<ParamDef[]>(() => getParams(inputParams, [], (inputParams[0].length || 1)));
+
+  const { sub, withOptionActive } = type;
+
   const [isActive, setIsActive] = useState(() => withOptionActive || !!(_defaultValue && _defaultValue.value instanceof Option && _defaultValue.value.isSome) || false);
 
   const [defaultValue] = useState(
@@ -76,7 +83,7 @@ function OptionDisplay ({ className = '', defaultValue: _defaultValue, isDisable
                 onEnter={onEnter}
                 onEscape={onEscape}
                 registry={registry}
-                type={sub as TypeDef}
+                type={(sub ?? params.at(0)?.type) as TypeDef}
               />
             )
             : (

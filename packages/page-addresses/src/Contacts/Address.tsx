@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-addresses authors & contributors
+// Copyright 2017-2025 @polkadot/app-addresses authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
@@ -8,6 +8,7 @@ import type { HexString } from '@polkadot/util/types';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { AddressInfo, AddressSmall, Button, ChainLock, Columar, Forget, LinkExternal, Menu, Popup, Table, Tags, TransferModal } from '@polkadot/react-components';
+import { MATCHERS } from '@polkadot/react-components/AccountName';
 import { useApi, useBalancesAll, useDeriveAccountInfo, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { isFunction } from '@polkadot/util';
@@ -19,7 +20,9 @@ interface Props {
   className?: string;
   filter: string;
   isFavorite: boolean;
+  isVisible: boolean;
   toggleFavorite: (address: string) => void;
+  toggleVisible: (address: string, isVisible: boolean) => void
 }
 
 const isEditable = true;
@@ -47,7 +50,7 @@ const BAL_OPTS_EXPANDED = {
   vested: true
 };
 
-function Address ({ address, className = '', filter, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function Address ({ address, className = '', filter, isFavorite, isVisible, toggleFavorite, toggleVisible }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const api = useApi();
   const info = useDeriveAccountInfo(address);
@@ -58,7 +61,6 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   const [genesisHash, setGenesisHash] = useState<string | null>(null);
   const [isForgetOpen, setIsForgetOpen] = useState(false);
   const [isTransferOpen, setIsTransferOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
   const [isExpanded, toggleIsExpanded] = useToggle(false);
 
   const _setTags = useCallback(
@@ -75,16 +77,26 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   }, []);
 
   useEffect((): void => {
-    const { identity, nickname } = info || {};
+    let known: string | null = null;
 
-    if (isFunction(api.apiIdentity.query.identity?.identityOf)) {
-      if (identity?.display) {
-        setAccName(identity.display);
-      }
-    } else if (nickname) {
-      setAccName(nickname);
+    for (let i = 0; known === null && i < MATCHERS.length; i++) {
+      known = MATCHERS[i](address);
     }
-  }, [api, info]);
+
+    if (known) {
+      setAccName(known);
+    } else {
+      const { identity, nickname } = info || {};
+
+      if (isFunction(api.apiIdentity.query.identity?.identityOf)) {
+        if (identity?.display) {
+          setAccName(identity.display);
+        }
+      } else if (nickname) {
+        setAccName(nickname);
+      }
+    }
+  }, [address, api, info]);
 
   useEffect((): void => {
     const account = keyring.getAddress(address);
@@ -94,18 +106,19 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   }, [_setTags, address]);
 
   useEffect((): void => {
-    if (filter.length === 0) {
-      setIsVisible(true);
-    } else {
-      const _filter = filter.toLowerCase();
+    const _filter = filter.trim().toLowerCase();
+    let isVisible = true;
 
-      setIsVisible(
-        tags.reduce((result: boolean, tag: string): boolean => {
-          return result || tag.toLowerCase().includes(_filter);
-        }, accName.toLowerCase().includes(_filter))
-      );
+    if (_filter.length !== 0) {
+      isVisible = keyring.encodeAddress(address, 0).toLowerCase().includes(_filter) ||
+      address.toLowerCase().includes(_filter) ||
+      tags.reduce((result: boolean, tag: string): boolean => {
+        return result || tag.toLowerCase().includes(_filter);
+      }, accName.toLowerCase().includes(_filter));
     }
-  }, [accName, filter, tags]);
+
+    toggleVisible(address, isVisible);
+  }, [accName, address, filter, tags, toggleVisible]);
 
   const _onGenesisChange = useCallback(
     (genesisHash: HexString | null): void => {

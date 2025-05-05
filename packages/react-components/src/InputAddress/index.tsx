@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/react-components authors & contributors
+// Copyright 2017-2025 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DropdownItemProps } from 'semantic-ui-react';
@@ -314,15 +314,25 @@ class InputAddress extends React.PureComponent<Props, State> {
       const accountId = transformToAccountId(query);
 
       if (accountId) {
-        const item = keyring.saveRecent(
-          accountId.toString()
-        ).option;
+        const account = keyring.getAccount(accountId);
 
-        matches.push({
-          key: item.key,
-          name: item.name,
-          value: item.value || undefined
-        });
+        if (account) {
+          matches.push({
+            key: account.address,
+            name: account.meta.name,
+            value: account.address
+          });
+        } else {
+          const item = keyring.saveRecent(
+            accountId.toString()
+          ).option;
+
+          matches.push({
+            key: item.key,
+            name: item.name,
+            value: item.value || undefined
+          });
+        }
       }
     }
 

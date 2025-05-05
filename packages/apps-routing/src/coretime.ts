@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/apps-routing authors & contributors
+// Copyright 2017-2025 @polkadot/apps-routing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Route, TFunction } from './types.js';
@@ -17,6 +17,6 @@ export default function create (t: TFunction): Route {
     group: 'network',
     icon: 'flask',
     name: 'coretime',
-    text: t('nav.coretime', 'Coretime (Experimental)', { ns: 'apps-routing' })
+    text: t('nav.coretime', 'Coretime', { ns: 'apps-routing' })
   };
 }

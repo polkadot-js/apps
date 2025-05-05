@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-runtime authors & contributors
+// Copyright 2017-2025 @polkadot/app-runtime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParamDef, RawParam } from '@polkadot/react-params/types';
@@ -21,6 +21,12 @@ interface State {
   method: DefinitionCallNamed | null;
   values: RawParam[];
 }
+
+/**
+ * Declares the Runtime APIs that do not require extrinsic length to be prefixed when converting them to a u8 array.
+ * REF: https://github.com/polkadot-js/apps/blob/master/packages/react-params/src/Param/BaseBytes.tsx#L99
+*/
+const WITHOUT_LENGTH = ['transactionPaymentApi'];
 
 function Selection ({ onSubmit }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -82,6 +88,7 @@ function Selection ({ onSubmit }: Props): React.ReactElement<Props> {
           key={`${method.section}.${method.method}:params` /* force re-render on change */}
           onChange={_onChangeValues}
           params={params}
+          withLength={!WITHOUT_LENGTH.includes(method.section)}
         />
       )}
       <Button.Group>

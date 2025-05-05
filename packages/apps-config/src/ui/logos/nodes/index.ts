@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/apps authors & contributors
+// Copyright 2017-2025 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // Do not edit. Auto-generated via node scripts/imgConvert.mjs
@@ -29,6 +29,7 @@ export { nodesCessPNG } from './generated/cessPNG.js';
 export { nodesChainxSVG } from './generated/chainxSVG.js';
 export { nodesCloverSVG } from './generated/cloverSVG.js';
 export { nodesCoinversationPNG } from './generated/coinversationPNG.js';
+export { nodesCollectivesSVG } from './generated/collectivesSVG.js';
 export { nodesCompetitorsClubPNG } from './generated/competitors-clubPNG.js';
 export { nodesConftiSVG } from './generated/conftiSVG.js';
 export { nodesContinuumPNG } from './generated/continuumPNG.js';
@@ -59,6 +60,8 @@ export { nodesGeekSVG } from './generated/geekSVG.js';
 export { nodesGiantPNG } from './generated/giantPNG.js';
 export { nodesHanyonycashPNG } from './generated/hanyonycashPNG.js';
 export { nodesHashedPNG } from './generated/hashedPNG.js';
+export { nodesHeimaPaseoPNG } from './generated/heima-paseoPNG.js';
+export { nodesHeimaSVG } from './generated/heimaSVG.js';
 export { nodesHelixstreetPNG } from './generated/helixstreetPNG.js';
 export { nodesHumanodePNG } from './generated/humanodePNG.js';
 export { nodesHyperbridgePNG } from './generated/hyperbridgePNG.js';
@@ -79,7 +82,7 @@ export { nodesJupiterSVG } from './generated/jupiterSVG.js';
 export { nodesKabochaSVG } from './generated/kabochaSVG.js';
 export { nodesKarmachainSVG } from './generated/karmachainSVG.js';
 export { nodesKhalaSVG } from './generated/khalaSVG.js';
-export { nodesKiltPNG } from './generated/kiltPNG.js';
+export { nodesKiltIconSVG } from './generated/kilt-iconSVG.js';
 export { nodesKineraPNG } from './generated/kineraPNG.js';
 export { nodesKlugPNG } from './generated/klugPNG.js';
 export { nodesKonomiPNG } from './generated/konomiPNG.js';
@@ -88,10 +91,6 @@ export { nodesKulupuSVG } from './generated/kulupuSVG.js';
 export { nodesKusariSVG } from './generated/kusariSVG.js';
 export { nodesKylinPNG } from './generated/kylinPNG.js';
 export { nodesLaminarCircleSVG } from './generated/laminar-circleSVG.js';
-export { nodesLitentryPaseoSVG } from './generated/litentry-paseoSVG.js';
-export { nodesLitentryRococoPNG } from './generated/litentry-rococoPNG.js';
-export { nodesLitentryPNG } from './generated/litentryPNG.js';
-export { nodesLitmusPNG } from './generated/litmusPNG.js';
 export { nodesLoomNetworkPNG } from './generated/loom_networkPNG.js';
 export { nodesMagnetPNG } from './generated/magnetPNG.js';
 export { nodesMandalaPNG } from './generated/mandalaPNG.js';
@@ -168,6 +167,7 @@ export { nodesT3rnPNG } from './generated/t3rnPNG.js';
 export { nodesTernoaSVG } from './generated/ternoaSVG.js';
 export { nodesThebifrostPNG } from './generated/thebifrostPNG.js';
 export { nodesTrustbasePNG } from './generated/trustbasePNG.js';
+export { nodesTscsPNG } from './generated/tscsPNG.js';
 export { nodesUniartsPNG } from './generated/uniartsPNG.js';
 export { nodesUniqueSVG } from './generated/uniqueSVG.js';
 export { nodesUnitnetworkPNG } from './generated/unitnetworkPNG.js';
@@ -182,3 +182,4 @@ export { nodesZCloakSVG } from './generated/zCloakSVG.js';
 export { nodesZeitgeistPNG } from './generated/zeitgeistPNG.js';
 export { nodesZenlinkSVG } from './generated/zenlinkSVG.js';
 export { nodesZeroSVG } from './generated/zeroSVG.js';
+export { nodesZkVerifyPNG } from './generated/zkVerifyPNG.js';

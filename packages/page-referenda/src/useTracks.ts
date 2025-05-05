@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2025 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PalletReferendaTrackInfo } from '@polkadot/types/lookup';
@@ -8,12 +8,15 @@ import type { PalletReferenda, TrackDescription } from './types.js';
 import { useMemo } from 'react';
 
 import { createNamedHook, useApi } from '@polkadot/react-hooks';
+import { BN_ZERO } from '@polkadot/util';
 
 import { calcCurves } from './util.js';
 
+const zeroGraph = { approval: [BN_ZERO], support: [BN_ZERO], x: [BN_ZERO] };
+
 function expandTracks (tracks: [BN, PalletReferendaTrackInfo][]): TrackDescription[] {
   return tracks.map(([id, info]) => ({
-    graph: calcCurves(info),
+    graph: info.decisionDeposit && info.minApproval && info.minSupport ? calcCurves(info) : zeroGraph,
     id,
     info
   }));

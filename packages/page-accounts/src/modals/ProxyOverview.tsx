@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-staking authors & contributors
+// Copyright 2017-2025 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -124,7 +124,7 @@ function NewProxy ({ index, onChangeAccount, onChangeType, onRemove, proxiedAcco
           isError={!accountId}
           label={t('proxy account')}
           onChange={_onChangeAccount}
-          type='account'
+          type='allPlus'
           value={accountId}
         />
         {accountId && accountId.eq(proxiedAccount) && (

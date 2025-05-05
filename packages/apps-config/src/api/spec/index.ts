@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/apps-config authors & contributors
+// Copyright 2017-2025 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
@@ -56,6 +56,7 @@ import galois from './galois.js';
 import gamepower from './gamepower.js';
 import genshiro from './genshiro.js';
 import hanonycash from './hanonycash.js';
+import heima from './heima.js';
 import hydrate from './hydrate.js';
 import hyperbridge from './hyperbridge.js';
 import idavoll from './idavoll.js';
@@ -75,7 +76,6 @@ import kulupu from './kulupu.js';
 import kusari from './kusari.js';
 import kylin from './kylin.js';
 import laminar from './laminar.js';
-import litentry from './litentry.js';
 import logion from './logion.js';
 import logionParachain from './logion-parachain.js';
 import mangata from './mangata.js';
@@ -126,6 +126,7 @@ import substrateContractsNode from './substrateContractsNode.js';
 import swapdex from './swapdex.js';
 import t0rn from './t0rn.js';
 import ternoa from './ternoa.js';
+import torus from './torus.js';
 import trustbase from './trustbase.js';
 import turing from './turing.js';
 import uart from './uart.js';
@@ -212,6 +213,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   halongbay: polkafoundry,
   hanonycash,
   heiko: parallel,
+  heima,
   'hydra-dx': hydrate,
   hyperbridge,
   idavoll,
@@ -236,7 +238,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   kusari,
   kylin,
   laminar,
-  litentry,
   logion,
   'logion-parachain': logionParachain,
   mangata,
@@ -245,10 +246,10 @@ const spec: Record<string, OverrideBundleDefinition> = {
   mathchain,
   'mathchain-galois': galois,
   messier: hyperbridge,
-  moonbase: moonbeam as OverrideBundleDefinition,
-  moonbeam: moonbeam as OverrideBundleDefinition,
-  moonriver: moonbeam as OverrideBundleDefinition,
-  moonshadow: moonbeam as OverrideBundleDefinition,
+  moonbase: moonbeam,
+  moonbeam,
+  moonriver: moonbeam,
+  moonshadow: moonbeam,
   muse,
   'mybank.network Testnet': mybank,
   mythos,
@@ -256,7 +257,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   neuroweb,
   nexus: hyperbridge,
   nftmart,
-  'node-moonbeam': moonbeam as OverrideBundleDefinition,
+  'node-moonbeam': moonbeam,
   'node-polkadex': polkadex,
   'nodle-chain': nodle,
   oak,
@@ -305,6 +306,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   ternoa,
   'testnet-interlay': interbtc,
   'testnet-kintsugi': interbtc,
+  torus,
   trustbase,
   turing,
   uart,

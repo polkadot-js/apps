@@ -1,7 +1,9 @@
 {
+  "(enter value in standard units)": "(enter value in standard units)",
   "0.1x voting balance, no lockup period": "0.1x voting balance, no lockup period",
   "<unknown>": "<unknown>",
   "Add identity judgment": "Add identity judgment",
+  "By selecting this option, the transaction fee will be automatically deducted from the specified asset, ensuring a seamless and efficient payment process.": "By selecting this option, the transaction fee will be automatically deducted from the specified asset, ensuring a seamless and efficient payment process.",
   "Cancel": "Cancel",
   "Confirm account removal": "Confirm account removal",
   "Confirm address removal": "Confirm address removal",
@@ -62,6 +64,7 @@
   "You are about to remove this contract from your list of available contracts. Once completed, should you need to access it again, you will have to manually add the contract's address in the Instantiate tab.": "You are about to remove this contract from your list of available contracts. Once completed, should you need to access it again, you will have to manually add the contract's address in the Instantiate tab.",
   "address copied": "address copied",
   "amount": "amount",
+  "asset to pay the fee": "asset to pay the fee",
   "available to be unlocked": "available to be unlocked",
   "balance": "balance",
   "beneficiary": "beneficiary",

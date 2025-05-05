@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-assets authors & contributors
+// Copyright 2017-2025 @polkadot/app-assets authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // augment package
@@ -32,11 +32,11 @@ interface Props {
   siFormat: [number, string];
 }
 
-function Account ({ account: { balance, isFrozen, reason, sufficient }, accountId, assetId, className, minBalance, siFormat }: Props): React.ReactElement<Props> {
+function Account ({ account: { balance, isFrozen, reason, sufficient }, accountId, assetId, minBalance, siFormat }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
-    <tr className={className}>
+    <>
       <td className='address'>
         <AddressSmall value={accountId} />
       </td>
@@ -62,7 +62,7 @@ function Account ({ account: { balance, isFrozen, reason, sufficient }, accountI
           siFormat={siFormat}
         />
       </td>
-    </tr>
+    </>
   );
 }
 

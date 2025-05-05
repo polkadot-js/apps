@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/apps-config authors & contributors
+// Copyright 2017-2025 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EndpointOption } from './types.js';
@@ -63,6 +63,19 @@ export const testParasWestend: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    info: 'westendPenpal',
+    isPeopleForIdentity: true,
+    paraId: 2042,
+    providers: {
+      Parity: 'wss://westend-penpal-rpc.polkadot.io'
+    },
+    relayName: 'westend',
+    text: 'Penpal',
+    ui: {
+      color: '#964b00'
+    }
+  },
+  {
     homepage: 'https://kylin.network/',
     info: 'westendPichiu',
     paraId: 2112,
@@ -118,10 +131,11 @@ export const testParasWestendCommon: EndpointOption[] = [
     providers: {
       Dwellir: 'wss://asset-hub-westend-rpc.dwellir.com',
       'Dwellir Tunisia': 'wss://westmint-rpc-tn.dwellir.com',
-      IBP1: 'wss://sys.ibp.network/westmint',
+      IBP1: 'wss://sys.ibp.network/asset-hub-westend',
       IBP2: 'wss://asset-hub-westend.dotters.network',
       // OnFinality: 'wss://westmint.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9955
-      Parity: 'wss://westend-asset-hub-rpc.polkadot.io'
+      Parity: 'wss://westend-asset-hub-rpc.polkadot.io',
+      'Permanence DAO EU': 'wss://asset-hub-westend.rpc.permanence.io'
       // Stakeworld: 'wss://wnd-rpc.stakeworld.io/assethub'
     },
     relayName: 'westend',
@@ -174,7 +188,7 @@ export const testParasWestendCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1005,
     providers: {
-      Dwellir: 'wss://coretime-westend-rpc.dwellir.com',
+      Dwellir: 'wss://coretime-westend-rpc.n.dwellir.com',
       IBP1: 'wss://sys.ibp.network/coretime-westend',
       IBP2: 'wss://coretime-westend.dotters.network',
       Parity: 'wss://westend-coretime-rpc.polkadot.io'
@@ -192,7 +206,7 @@ export const testParasWestendCommon: EndpointOption[] = [
     isPeopleForIdentity: false,
     paraId: 1004,
     providers: {
-      Dwellir: 'wss://people-westend-rpc.dwellir.com',
+      Dwellir: 'wss://people-westend-rpc.n.dwellir.com',
       IBP1: 'wss://sys.ibp.network/people-westend',
       IBP2: 'wss://people-westend.dotters.network',
       Parity: 'wss://westend-people-rpc.polkadot.io'

@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2025 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -12,7 +12,7 @@ import React, { useEffect, useState } from 'react';
 import { Input, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { getAddressMeta } from '@polkadot/react-components/util';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { AddressIdentityOtherDiscordKey } from '@polkadot/react-hooks/types';
+import { AddressIdentityOtherDiscordKey } from '@polkadot/react-hooks/constants';
 import { u8aToString } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';

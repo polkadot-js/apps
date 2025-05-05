@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-broker authors & contributors
+// Copyright 2017-2025 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CoreInfo } from '../types.js';
@@ -23,7 +23,7 @@ interface Props {
 
 const filterLoad = (parachainId: string, data: CoreInfo[], workloadCoreSelected: number): CoreInfo[] => {
   if (parachainId) {
-    return data.filter(({ workload }) => !!workload?.filter(({ info }) => info.task === parachainId).length);
+    return data.filter(({ workload, workplan }) => !!workload?.filter(({ info }) => info.task === parachainId).length || !!workplan?.filter(({ info }) => info.task === parachainId).length);
   }
 
   if (workloadCoreSelected === -1) {

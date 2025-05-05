@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-broker authors & contributors
+// Copyright 2017-2025 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -27,7 +27,7 @@ function CoreTable ({ api, config, core, workload, workplan }: Props): React.Rea
     [
       <div key={`header${core}`}>{headerRef.current} {core} <span></span></div>,
       'core',
-      8,
+      9,
       undefined
     ]
   ];

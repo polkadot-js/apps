@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2025 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
@@ -235,6 +235,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           filter={filterOn}
           isFavorite={isFavorite}
           key={address}
+          onStatusChange={onStatusChange}
           proxy={proxies?.[index]}
           setBalance={setBalance}
           toggleFavorite={toggleFavorite}
@@ -243,7 +244,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
       return all;
     }, {}),
-    [accountsMap, filterOn, proxies, setBalance, toggleFavorite]
+    [accountsMap, filterOn, proxies, setBalance, toggleFavorite, onStatusChange]
   );
 
   const groups = useMemo(

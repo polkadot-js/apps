@@ -1,14 +1,16 @@
-// Copyright 2017-2024 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2025 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ParaId } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 import type { Campaign, LeasePeriod } from '../types.js';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { AddressMini, Expander, Icon, ParaLink, Table, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useParaEndpoints } from '@polkadot/react-hooks';
-import { BlockToTime, FormatBalance } from '@polkadot/react-query';
+import { AddressMini, Button, Expander, Icon, InputAddress, Modal, ParaLink, Table, TxButton } from '@polkadot/react-components';
+import { useAccounts, useApi, useParaEndpoints, useToggle } from '@polkadot/react-hooks';
+import { CallExpander } from '@polkadot/react-params';
+import { Available, BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
@@ -32,7 +34,6 @@ interface LastChange {
 
 function Fund ({ bestHash, bestNumber, className = '', isOngoing, leasePeriod, value: { info: { cap, depositor, end, firstPeriod, lastPeriod, raised, verifier }, isCapped, isEnded, isWinner, paraId } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
   const { isAccount } = useAccounts();
   const endpoints = useParaEndpoints(paraId);
   const { blockHash, contributorsHex, hasLoaded, myAccounts, myAccountsHex, myContributions } = useContributions(paraId);
@@ -156,18 +157,11 @@ function Fund ({ bestHash, bestNumber, className = '', isOngoing, leasePeriod, v
           <Refund paraId={paraId} />
         )}
         {canDissolve && (
-          <TxButton
-            accountId={depositor}
-            className='media--1400'
-            icon='times'
-            isDisabled={!(isDepositor || hasEnded)}
-            label={
-              isEnded
-                ? t('Close')
-                : t('Cancel')
-            }
-            params={[paraId]}
-            tx={api.tx.crowdloan.dissolve}
+          <DissolveCrowdloan
+            hasEnded={hasEnded}
+            isDepositor={isDepositor}
+            isEnded={isEnded}
+            paraId={paraId}
           />
         )}
         {isOngoing && canContribute && (
@@ -190,6 +184,76 @@ function Fund ({ bestHash, bestNumber, className = '', isOngoing, leasePeriod, v
       </td>
     </tr>
   );
+}
+
+interface IDissolveCrowdloan{
+  isEnded?: boolean;
+  paraId: ParaId;
+  isDepositor: boolean;
+  hasEnded: boolean;
+}
+
+function DissolveCrowdloan ({ hasEnded, isDepositor, isEnded, paraId }: IDissolveCrowdloan) {
+  const { t } = useTranslation();
+  const { api } = useApi();
+  const [isDissolveOpen, toggleDissolveOpen] = useToggle();
+  const [accountId, setAccountId] = useState<string | null>(null);
+
+  const extrinsic = useMemo(() => api.tx.crowdloan.dissolve(paraId), [api.tx.crowdloan, paraId]);
+
+  return <>
+    {isDissolveOpen && (
+      <Modal
+        header={t('dissolve crowdloan')}
+        onClose={toggleDissolveOpen}
+        size='large'
+      >
+        <Modal.Content>
+          <Modal.Columns hint={t('This account will pay the fees for the dissolving crowdloan')}>
+            <InputAddress
+              label={t('send from account')}
+              labelExtra={
+                <Available
+                  label={<span className='label'>{t('transferable')}</span>}
+                  params={accountId}
+                />
+              }
+              onChange={setAccountId}
+              type='account'
+            />
+          </Modal.Columns>
+          <Modal.Columns>
+            <CallExpander
+              isExpanded
+              isHeader
+              value={extrinsic}
+              withHash
+            />
+          </Modal.Columns>
+        </Modal.Content>
+        <Modal.Actions>
+          <TxButton
+            accountId={accountId}
+            extrinsic={extrinsic}
+            icon='check'
+            isDisabled={!(isDepositor || hasEnded)}
+            label={t('Submit')}
+            onStart={toggleDissolveOpen}
+          />
+        </Modal.Actions>
+      </Modal>
+    )}
+    <Button
+      icon='times'
+      isDisabled={!(isDepositor || hasEnded)}
+      label={
+        isEnded
+          ? t('Close')
+          : t('Cancel')
+      }
+      onClick={toggleDissolveOpen}
+    />
+  </>;
 }
 
 export default React.memo(Fund);

@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2025 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /// <reference types="@polkadot/dev-test/globals.d.ts" />
@@ -8,8 +8,8 @@
 import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import type { BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
-import type { PalletBountiesBounty } from '@polkadot/types/lookup';
+import type { BountyIndex } from '@polkadot/types/interfaces';
+import type { PalletBountiesBounty, PalletBountiesBountyStatus } from '@polkadot/types/lookup';
 
 import { fireEvent } from '@testing-library/react';
 
@@ -55,7 +55,7 @@ let aProposal: (extrinsic: SubmittableExtrinsic<'promise'>, ayes?: string[], nay
 let augmentedApi: ApiPromise;
 let aBounty: ({ status, value }?: Partial<PalletBountiesBounty>) => PalletBountiesBounty;
 let aBountyIndex: (index?: number) => BountyIndex;
-let bountyStatusWith: ({ curator, status, updateDue }: { curator?: string, status?: string, updateDue?: number}) => BountyStatus;
+let bountyStatusWith: ({ curator, status, updateDue }: { curator?: string, status?: string, updateDue?: number}) => PalletBountiesBountyStatus;
 let bountyWith: ({ status, value }: { status?: string, value?: number }) => PalletBountiesBounty;
 
 describe('Bounties', () => {

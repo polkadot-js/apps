@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2025 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
@@ -86,7 +86,7 @@ function group (tracks: TrackDescription[], totalIssuance?: BN, referenda?: Refe
 
     // only ongoing have tracks
     const trackInfo = ref.info.isOngoing
-      ? tracks.find(({ id }) => id.eq(ref.info.asOngoing.track))
+      ? tracks.find(({ id }) => id?.eq && id.eq(ref.info.asOngoing.track))
       : undefined;
 
     if (trackInfo) {

@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/apps-config authors & contributors
+// Copyright 2017-2025 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
@@ -8,6 +8,18 @@ import type { OverrideBundleDefinition } from '@polkadot/types/types';
 
 const definitions: OverrideBundleDefinition = {
   rpc: {
+    techcommitteemanager: {
+      candiadtes: {
+        description: 'Get the list of technical committee candidates',
+        params: [],
+        type: 'Vec<AccountId>'
+      },
+      selectedCandidates: {
+        description: 'Get the list of selected technical committee candidates',
+        params: [],
+        type: 'Vec<AccountId>'
+      }
+    },
     validatormanager: {
       activeValidators: {
         description: 'Get the list of active validators',

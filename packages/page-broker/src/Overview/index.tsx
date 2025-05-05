@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-broker authors & contributors
+// Copyright 2017-2025 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CoreWorkload, CoreWorkplan, LegacyLease, Reservation } from '@polkadot/react-hooks/types';
@@ -6,8 +6,9 @@ import type { CoreInfo } from '../types.js';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { useApi, useBrokerLeases, useBrokerReservations, useBrokerStatus, useWorkloadInfos, useWorkplanInfos } from '@polkadot/react-hooks';
+import { useApi, useBrokerLeases, useBrokerReservations, useWorkloadInfos, useWorkplanInfos } from '@polkadot/react-hooks';
 
+import { useBrokerContext } from '../BrokerContext.js';
 import { createTaskMap, getOccupancyType } from '../utils.js';
 import CoresTable from './CoresTables.js';
 import Filters from './Filters.js';
@@ -53,10 +54,10 @@ const formatData = (coreCount: number, workplan: CoreWorkplan[], workload: CoreW
 
 function Overview ({ className }: Props): React.ReactElement<Props> {
   const { api, apiEndpoint, isApiReady } = useApi();
-  const [data, setData] = useState<CoreInfo[]>([]);
+  const { currentRegion, status } = useBrokerContext();
 
+  const [data, setData] = useState<CoreInfo[]>([]);
   const [filtered, setFiltered] = useState<CoreInfo[]>();
-  const status = useBrokerStatus(api, isApiReady);
 
   const workloadInfos: CoreWorkload[] | undefined = useWorkloadInfos(api, isApiReady);
   const workplanInfos: CoreWorkplan[] | undefined = useWorkplanInfos(api, isApiReady);
@@ -73,11 +74,12 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
 
   return (
     <div className={className}>
-      <Summary
-        apiEndpoint={apiEndpoint}
-        coreCount={status?.coreCount.toString() || '-'}
-        workloadInfos={workloadInfos}
-      ></Summary>
+      {!!currentRegion.beginDate && !!currentRegion.endDate &&
+        <Summary
+          apiEndpoint={apiEndpoint}
+          coreCount={status?.coreCount.toString() || '-'}
+          workloadInfos={workloadInfos}
+        />}
       {!!data?.length &&
         (<>
           <Filters
