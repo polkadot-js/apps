@@ -21,8 +21,8 @@
   },
   "dependencies": {
     "@polkadot/api": "^15.9.2",
-    "@polkadot/extension-compat-metamask": "^0.58.8",
-    "@polkadot/extension-dapp": "^0.58.8",
+    "@polkadot/extension-compat-metamask": "^0.58.9",
+    "@polkadot/extension-dapp": "^0.58.9",
     "@polkadot/rpc-provider": "^15.9.2",
     "fflate": "^0.8.1",
     "rxjs": "^7.8.1"

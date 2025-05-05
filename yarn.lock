@@ -1619,7 +1619,7 @@ __metadata:
   resolution: "@polkadot/app-accounts@workspace:packages/page-accounts"
   dependencies:
     "@polkadot/hw-ledger": "npm:^13.4.4"
-    "@polkadot/phishing": "npm:^0.25.8"
+    "@polkadot/phishing": "npm:^0.25.9"
     "@polkadot/react-components": "npm:^0.154.2-16-x"
     "@polkadot/react-hooks": "npm:^0.154.2-16-x"
     "@polkadot/test-support": "npm:0.154.2-16-x"
@@ -2365,12 +2365,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/extension-compat-metamask@npm:^0.58.8":
-  version: 0.58.8
-  resolution: "@polkadot/extension-compat-metamask@npm:0.58.8"
+"@polkadot/extension-compat-metamask@npm:^0.58.9":
+  version: 0.58.9
+  resolution: "@polkadot/extension-compat-metamask@npm:0.58.9"
   dependencies:
     "@metamask/detect-provider": "npm:^2.0.0"
-    "@polkadot/extension-inject": "npm:0.58.8"
+    "@polkadot/extension-inject": "npm:0.58.9"
     "@polkadot/types": "npm:^15.9.2"
     "@polkadot/util": "npm:^13.4.4"
     tslib: "npm:^2.8.1"
@@ -2378,15 +2378,15 @@ __metadata:
   peerDependencies:
     "@polkadot/api": "*"
     "@polkadot/util": "*"
-  checksum: 10/d292b14302bb91b7671a147155cf5e7b4daffa79fb65e154171ec4386069ce9d371b8aa104259bdb7388155a4017242a3f741e30349fca113606e522764efb04
+  checksum: 10/5961f2a396936c626eb5bfd0c434d4a6559ee5b1893ec71f8ff228c276a0060c6929b974f35c787831ce0842ff14bac270f08100fd8c858ba0e0dcc65277c4fc
   languageName: node
   linkType: hard
 
-"@polkadot/extension-dapp@npm:^0.58.8":
-  version: 0.58.8
-  resolution: "@polkadot/extension-dapp@npm:0.58.8"
+"@polkadot/extension-dapp@npm:^0.58.9":
+  version: 0.58.9
+  resolution: "@polkadot/extension-dapp@npm:0.58.9"
   dependencies:
-    "@polkadot/extension-inject": "npm:0.58.8"
+    "@polkadot/extension-inject": "npm:0.58.9"
     "@polkadot/util": "npm:^13.4.4"
     "@polkadot/util-crypto": "npm:^13.4.4"
     tslib: "npm:^2.8.1"
@@ -2394,13 +2394,13 @@ __metadata:
     "@polkadot/api": "*"
     "@polkadot/util": "*"
     "@polkadot/util-crypto": "*"
-  checksum: 10/bc380011ed6025d66abedceb6fde03a9e746ec8ec7862a2a51cf382fb43e54232dfcab82dccb99e23f9bd2df6669d513f5641eb4bac43f970256b35e13988075
+  checksum: 10/08f3e588400f1bdd047c877fd6106e983305ddb236741e1f6bf20d2a36abfa43cc54dacaeb3a7988ee1630ffc93280855dc8b5de430e45ad95c7a65b578a3bec
   languageName: node
   linkType: hard
 
-"@polkadot/extension-inject@npm:0.58.8":
-  version: 0.58.8
-  resolution: "@polkadot/extension-inject@npm:0.58.8"
+"@polkadot/extension-inject@npm:0.58.9":
+  version: 0.58.9
+  resolution: "@polkadot/extension-inject@npm:0.58.9"
   dependencies:
     "@polkadot/api": "npm:^15.9.2"
     "@polkadot/rpc-provider": "npm:^15.9.2"
@@ -2412,7 +2412,7 @@ __metadata:
   peerDependencies:
     "@polkadot/api": "*"
     "@polkadot/util": "*"
-  checksum: 10/bb594fcd50c40626d3bd6d21acb644551e083eb3f9012b05faceaf2d35f6b725ca86c77a724664bf3efed4fa9d94efa9af939f6f5f0766409267b3da794ba37c
+  checksum: 10/af52a0bda1bc1ac92f11d1fb1de09eff0f08ff21a4746b8b81144583907d8bd08b4f5eb78a659c06508864067c6df2e770b3709b2350f91b30c6bef59137fab9
   languageName: node
   linkType: hard
 
@@ -2470,15 +2470,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/phishing@npm:^0.25.8":
-  version: 0.25.8
-  resolution: "@polkadot/phishing@npm:0.25.8"
+"@polkadot/phishing@npm:^0.25.9":
+  version: 0.25.9
+  resolution: "@polkadot/phishing@npm:0.25.9"
   dependencies:
     "@polkadot/util": "npm:^13.4.4"
     "@polkadot/util-crypto": "npm:^13.4.4"
     "@polkadot/x-fetch": "npm:^13.4.4"
     tslib: "npm:^2.8.1"
-  checksum: 10/de1beed58a430d7913a9a7274e4779c0e2e5424fa685de752df372ddf3204c60a4dc493a2a356bc27bfae7a2bc0d12a1e0ce0033b504f8078ff9d154ba5ffdb2
+  checksum: 10/0f880b4961dd3be02f2487375088ae5e7a24c40bb85b4edb415797fdda8b800fd09ed1c907284e6d85df10d67cd35371da76c4cb1daf4e95102c3d5f1691cea2
   languageName: node
   linkType: hard
 
@@ -2487,8 +2487,8 @@ __metadata:
   resolution: "@polkadot/react-api@workspace:packages/react-api"
   dependencies:
     "@polkadot/api": "npm:^15.9.2"
-    "@polkadot/extension-compat-metamask": "npm:^0.58.8"
-    "@polkadot/extension-dapp": "npm:^0.58.8"
+    "@polkadot/extension-compat-metamask": "npm:^0.58.9"
+    "@polkadot/extension-dapp": "npm:^0.58.9"
     "@polkadot/rpc-provider": "npm:^15.9.2"
     fflate: "npm:^0.8.1"
     rxjs: "npm:^7.8.1"

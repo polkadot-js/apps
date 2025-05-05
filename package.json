@@ -99,7 +99,7 @@
     "@polkadot/hw-ledger": "^13.4.4",
     "@polkadot/keyring": "^13.4.4",
     "@polkadot/networks": "^13.4.4",
-    "@polkadot/phishing": "^0.25.8",
+    "@polkadot/phishing": "^0.25.9",
     "@polkadot/rpc-augment": "^15.9.2",
     "@polkadot/rpc-core": "^15.9.2",
     "@polkadot/rpc-provider": "^15.9.2",
