@@ -61,9 +61,7 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> | null {
     (): BN | undefined => {
       const location = api.consts.elections || api.consts.phragmenElection || api.consts.electionsPhragmen;
 
-      return location &&
-        location.votingBondBase &&
-        location.votingBondBase.add(location.votingBondFactor.muln(votes.length));
+      return location?.votingBondBase?.add(location.votingBondFactor.muln(votes.length));
     },
     [api, votes]
   );

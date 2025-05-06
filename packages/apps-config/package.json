@@ -27,6 +27,7 @@
     "@equilab/definitions": "1.4.18",
     "@fragnova/api-augment": "0.1.0-spec-1.0.4-mainnet",
     "@frequency-chain/api-augment": "1.11.1",
+    "@jamton/parachain-ts-interfaces": "1.10.4",
     "@interlay/interbtc-types": "1.13.0",
     "@kiltprotocol/type-definitions": "^1.11401.0",
     "@laminar/type-definitions": "0.3.1",
