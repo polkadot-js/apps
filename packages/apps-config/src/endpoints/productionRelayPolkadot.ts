@@ -196,7 +196,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'continuum',
     paraId: 3346,
     providers: {
-      MNet: 'wss://continuum-rpc-1.metaverse.network/wss'
+      // MNet: 'wss://continuum-rpc-1.metaverse.network/wss' // https://github.com/polkadot-js/apps/issues/11531
     },
     text: 'Continuum',
     ui: {
@@ -832,7 +832,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'unique',
     paraId: 2037,
     providers: {
-      Dwellir: 'wss://unique-rpc.n.dwellir.com',
+      // Dwellir: 'wss://unique-rpc.n.dwellir.com', // https://github.com/polkadot-js/apps/issues/11531
       'Geo Load Balancer': 'wss://ws.unique.network',
       IBP1: 'wss://unique.ibp.network',
       IBP2: 'wss://unique.dotters.network',
