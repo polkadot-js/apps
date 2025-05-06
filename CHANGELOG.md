@@ -1,5 +1,31 @@
 # CHANGELOG
 
+## 0.155.1 May 5, 2025
+
+Contributed:
+
+- Kusama People Chain -> Helixstreet RPC Endpoint added ([#11497](https://github.com/polkadot-js/apps/pull/11497)) (Thanks to https://github.com/helixstreet)
+- Add XODE endpoint for Polkadot ([#11486](https://github.com/polkadot-js/apps/pull/11486)) (Thanks to https://github.com/ArneilPaulPolican)
+- Added onfinality 4 endpoints ([#11494](https://github.com/polkadot-js/apps/pull/11494)) (Thanks to https://github.com/FiveKG)
+- Add DataHaven Stagenet to Ethereum Chains ([#11501](https://github.com/polkadot-js/apps/pull/11501)) (Thanks to https://github.com/stiiifff)
+- Add IBP endpoint to Xcavate Polkadot ([#11503](https://github.com/polkadot-js/apps/pull/11503)) (Thanks to https://github.com/miloskriz)
+- Stakeworld endpoints for polkadot coretime and polkadot people ([#11505](https://github.com/polkadot-js/apps/pull/11505)) (Thanks to https://github.com/stakeworld)
+- Added Dwellir endpoints for Coretime and People on Polkadot and Kusama ([#11508](https://github.com/polkadot-js/apps/pull/11508)) (Thanks to https://github.com/Maharacha)
+- fix: change Xode RPC Endpoint under Polkadot ([#11512](https://github.com/polkadot-js/apps/pull/11512)) (Thanks to https://github.com/ArneilPaulPolican)
+- Update productionRelayPolkadot.ts ([#11509](https://github.com/polkadot-js/apps/pull/11509)) (Thanks to https://github.com/dcolley)
+- Add IBP2 to PJS XCavate endpoint ([#11514](https://github.com/polkadot-js/apps/pull/11514)) (Thanks to https://github.com/senseless)
+- Restore Kippu's node in Kreivo provider ([#11518](https://github.com/polkadot-js/apps/pull/11518)) (Thanks to https://github.com/pandres95)
+- add: Zeeve RPC Endpoint for Xode Polkadot ([#11516](https://github.com/polkadot-js/apps/pull/11516)) (Thanks to https://github.com/ArneilPaulPolican)
+- Remove support to parallel ([#11525](https://github.com/polkadot-js/apps/pull/11525)) (Thanks to https://github.com/miloskriz)
+
+
+Changes:
+
+- Disable unreachable endpoints ([#11496](https://github.com/polkadot-js/apps/pull/11496) [#11515](https://github.com/polkadot-js/apps/pull/11515) [#11529](https://github.com/polkadot-js/apps/pull/11529))
+- Add Deregister ParaId component and integrate into Actions ([#11499](https://github.com/polkadot-js/apps/pull/11499))
+- Displaying the commission set by a nomination pool on the staking pools page ([#11517](https://github.com/polkadot-js/apps/pull/11517))
+
+
 ## 0.154.1 Apr 18, 2025
 
 Contributed:

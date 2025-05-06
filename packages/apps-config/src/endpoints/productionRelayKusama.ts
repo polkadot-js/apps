@@ -317,7 +317,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'kabocha',
     paraId: 2113,
     providers: {
-      JelliedOwl: 'wss://kabocha.jelliedowl.net'
+      // JelliedOwl: 'wss://kabocha.jelliedowl.net' // https://github.com/polkadot-js/apps/issues/11531
     },
     text: 'Kabocha',
     ui: {
@@ -583,7 +583,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'pioneer',
     paraId: 2096,
     providers: {
-      MetaverseNetwork: 'wss://pioneer-rpc-3.bit.country/wss'
+      // MetaverseNetwork: 'wss://pioneer-rpc-3.bit.country/wss' // https://github.com/polkadot-js/apps/issues/11531
       // OnFinality: 'wss://pioneer.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9955
     },
     text: 'Pioneer',
