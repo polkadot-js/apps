@@ -111,6 +111,7 @@ const StyledSection = styled.section`
   .relay__chain {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    place-items: start;
     background: var(--bg-table);
     margin-bottom: 0.35rem;
     padding: 0.8rem 1rem;
@@ -144,6 +145,8 @@ const StyledSection = styled.section`
     }
 
     .events__summary {
+      display: grid;
+      gap: 1rem;
       justify-self: center;
       h3 {
         font-weight: 500;
