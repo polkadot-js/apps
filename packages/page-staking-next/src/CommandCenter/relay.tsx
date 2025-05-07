@@ -88,7 +88,6 @@ function RelaySection ({ rcOutput }: {rcOutput: IRcOutput[]}) {
 
 const StyledSection = styled.section`
   margin-block: 1rem;
-  max-height: 40vh;
   overflow: auto;
 
   .warning {

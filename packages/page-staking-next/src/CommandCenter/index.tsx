@@ -8,12 +8,13 @@ import React, { useEffect, useState } from 'react';
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { prodParasPolkadotCommon, prodRelayPolkadot } from '@polkadot/apps-config';
+import { styled } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
 import AssetHubSection from './ah.js';
 import RelaySection from './relay.js';
 
-const MAX_EVENTS = 10;
+const MAX_EVENTS = 25;
 
 const getApi = async (url: string[]) => {
   const api = await ApiPromise.create({
@@ -211,11 +212,21 @@ function CommandCenter () {
   }, [ahApi, rcApi]);
 
   return (
-    <>
+    <StyledDiv>
       <RelaySection rcOutput={rcOutput} />
       <AssetHubSection ahOutput={ahOutput} />
-    </>
+    </StyledDiv>
   );
 }
+
+const StyledDiv = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  
+  @media screen and (max-width: 1200px){
+    grid-template-columns: repeat(1, 1fr);
+  }
+`;
 
 export default React.memo(CommandCenter);

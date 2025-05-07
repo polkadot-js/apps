@@ -16,7 +16,7 @@ function AssetHubSection ({ ahOutput }: {ahOutput: IAhOutput[]}) {
   const { t } = useTranslation();
 
   return (
-    <div style={{ marginTop: 20 }}>
+    <div>
       <h1 style={{ textTransform: 'capitalize' }}>
         {t('Asset Hub chain')}
       </h1>
@@ -96,7 +96,6 @@ function AssetHubSection ({ ahOutput }: {ahOutput: IAhOutput[]}) {
 
 const StyledSection = styled.section`
   margin-block: 1rem;
-  max-height: 40vh;
   overflow: auto;
 
   .warning {
@@ -145,6 +144,7 @@ const StyledSection = styled.section`
     }
 
     .events__summary {
+      justify-self: center;
       h3 {
         font-weight: 500;
         font-size: var(--font-size-h2);
