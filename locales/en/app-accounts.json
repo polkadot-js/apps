@@ -190,7 +190,7 @@
   "You have {{upgradableCount}} extensions that need to be updated with the latest chain properties in order to display the correct information for the chain you are connected to and to use a Ledger device.": "You have {{upgradableCount}} extensions that need to be updated with the latest chain properties in order to display the correct information for the chain you are connected to and to use a Ledger device.",
   "You have {{upgradableCount}} extensions that need to be updated with the latest chain properties in order to display the correct information for the chain you are connected to.": "You have {{upgradableCount}} extensions that need to be updated with the latest chain properties in order to display the correct information for the chain you are connected to.",
   "You should not setup proxies to act as a self-proxy.": "You should not setup proxies to act as a self-proxy.",
-  "You will remove any delegation made by this acccount": "You will remove any delegation made by this acccount",
+  "You will remove any delegation made by this account": "You will remove any delegation made by this account",
   "Your password contains at least one \"/\" character. Disregard this warning if it is intended.": "Your password contains at least one \"/\" character. Disregard this warning if it is intended.",
   "YourDiscordHandle": "YourDiscordHandle",
   "YourGithubHandle": "YourGithubHandle",
