@@ -532,6 +532,7 @@
        1	Sephiroth                     	Add Allnodes endpoints for Polkadot, Kusama, Moonbeam, Moonriver (#10520)
        1	Sergei Lonshakov              	Robonomics ParaID 2077 added (#5706)
        1	SesH92                        	API check for treasury page (#11047)
+       1	Seun Ayodele                  	Fix typos in translation JSON files (#11536)
        1	Shailesh B Nair               	Add KlugDossier (#5456)
        1	Shamil                        	Move Vara from Live networks to Test networks (#8295)
        1	Shannon Wells                 	update @frequency/api-augment to v1.9.0 (#10062)
