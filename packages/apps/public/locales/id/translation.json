@@ -986,7 +986,7 @@
   "You should not setup proxies to act as a self-proxy.": "Anda seharusnya tidak mengatur proxy untuk bertindak sebagai self-proxy",
   "You should trust your nominations to act competently and honest; basing your decision purely on their current profitability could lead to reduced profits or even loss of funds.": "Anda harus memercayai nominasi anda untuk bertindak secara kompeten dan jujur; mendasarkan keputusan anda hanya pada profitabilitas mereka saat ini dapat menyebabkan berkurangnya keuntungan atau bahkan hilangnya dana.",
   "You will no longer have sudo access": "Anda tidak akan lagi memiliki akses sudo",
-  "You will remove any delegation made by this acccount": "Anda akan menghapus semua delegasi yang telah dibuat oleh akun ini",
+  "You will remove any delegation made by this account": "Anda akan menghapus semua delegasi yang telah dibuat oleh akun ini",
   "Your Ethereum account": "Akun ethereum anda",
   "Your candidate/bid account. Once accepted this account will become a member.": "Akun canidate / bid anda. Setelah diterima, akun ini akan menjadi anggota.",
   "Your close will be applied for this council account.": "Penutupan Anda akan diterapkan untuk akun dewan ini.",

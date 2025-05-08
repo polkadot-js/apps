@@ -125,7 +125,7 @@ function Import ({ favorites, onStatusChange, toggleFavorite }: Props): React.Re
       const files = e.target.files;
 
       if (!files) {
-        return _onImportResult(t('no file choosen'), 'error');
+        return _onImportResult(t('no file chosen'), 'error');
       }
 
       // Read uploaded file

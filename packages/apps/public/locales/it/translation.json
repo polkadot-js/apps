@@ -1229,7 +1229,7 @@
   "You should not setup proxies to act as a self-proxy.": "Non dovresti configurare proxy in grado di agire come self-proxy (proxy di se stesso)",
   "You should trust your nominations to act competently and honest; basing your decision purely on their current profitability could lead to reduced profits or even loss of funds.": "Dovresti fidarti delle tue nomine affinchè essi non abbiano comportamenti disonesti o malevoli; basare le tue decisioni solo sul profitto può portarti a perdere fondi o a ricompense ridotte.",
   "You will no longer have sudo access": "Non avrai più i diritti di sudo",
-  "You will remove any delegation made by this acccount": "Rimuoverai ogni delega generata con questo account",
+  "You will remove any delegation made by this account": "Rimuoverai ogni delega generata con questo account",
   "Your Ethereum account": "Il tuo account Ethereum",
   "Your bonded amount is below the on-chain minimum threshold of {{minBond}} and may be chilled. Bond extra funds to increase the bonded amount.": "",
   "Your candidate/bid account. Once accepted this account will become a member.": "Il tuo account usato per candidatura/offera. Una volta approvato, esso acquisirà una membership",
