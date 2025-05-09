@@ -20,6 +20,7 @@ function Vote ({ className = '', defaultValue: { value }, isDisabled, isError, o
 
   // Derive aye and conviction from the value prop
   const { aye, conviction } = useMemo(() => {
+    // Logic sucks here, but to be honest, can not find other way to do it
     const resolvedAye = value instanceof GenericVote
       ? value.isAye
       : isBn(value)
