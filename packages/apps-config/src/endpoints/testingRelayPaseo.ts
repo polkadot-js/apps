@@ -3,7 +3,7 @@
 
 import type { EndpointOption } from './types.js';
 
-import { chainsAmplitudeSVG, chainsCoretimeKusamaSVG, chainsFrequencyPaseoSVG, chainsHydrationPaseoSVG, chainsLaosSigmaPNG, chainsMyxcavPNG, chainsNeurowebTestnetPNG, chainsPaseoPNG, chainsPeoplePolkadotSVG, chainsPopNetworkSVG, chainsWatrPNG, chainsWeTEESVG } from '@polkadot/apps-config/ui/logos/chains';
+import { chainsAmplitudeSVG, chainsCoretimeKusamaSVG, chainsFrequencyPaseoSVG, chainsHydrationPaseoSVG, chainsKreivoSVG, chainsLaosSigmaPNG, chainsMyxcavPNG, chainsNeurowebTestnetPNG, chainsPaseoPNG, chainsPeoplePolkadotSVG, chainsPopNetworkSVG, chainsWatrPNG, chainsWeTEESVG } from '@polkadot/apps-config/ui/logos/chains';
 import { nodesAjunaPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBifrostSVG, nodesBridgeHubSVG, nodesDarwiniaKoiSVG, nodesHeimaPaseoPNG, nodesHyperbridgePNG, nodesIdealNetworkSVG, nodesIntegriteeSVG, nodesKiltIconSVG, nodesMandalaPNG, nodesMusePNG, nodesMyriadPaseoSVG, nodesNodleSVG, nodesRegionxPNG, nodesRexSVG, nodesXodePNG, nodesZeitgeistPNG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
@@ -196,6 +196,22 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: 'linear-gradient(45deg, #D73D80 0%, #161B3B 100%)',
       logo: nodesKiltIconSVG
+    }
+  },
+  {
+    homepage: 'https://virto.network/',
+    info: 'kreivo',
+    isPeopleForIdentity: true,
+    paraId: 2281,
+    providers: {
+      Kippu: 'wss://testnet.kreivo.kippu.rocks/'
+    },
+    relayName: 'paseo',
+    text: 'Kreivo de Paseo - By Virto',
+    ui: {
+      color: '#294940',
+      identityIcon: 'polkadot',
+      logo: chainsKreivoSVG
     }
   },
   {
