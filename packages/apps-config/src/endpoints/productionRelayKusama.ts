@@ -76,7 +76,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'bajun',
     paraId: 2119,
     providers: {
-      AjunaNetwork: 'wss://rpc-para.bajun.network'
+      // AjunaNetwork: 'wss://rpc-para.bajun.network' // https://github.com/polkadot-js/apps/issues/11544
       // OnFinality: 'wss://bajun.api.onfinality.io/public-ws'
       // RadiumBlock: 'wss://bajun.public.curie.radiumblock.co/ws' https://github.com/polkadot-js/apps/issues/11157
     },
@@ -426,8 +426,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     isPeopleForIdentity: true,
     paraId: 2281,
     providers: {
-      Kippu: 'wss://kreivo.kippu.rocks/',
-      Virto: 'wss://kreivo.io/'
+      Kippu: 'wss://kreivo.kippu.rocks/'
+      // Virto: 'wss://kreivo.io/' // https://github.com/polkadot-js/apps/issues/11544
     },
     relayName: 'kusama',
     text: 'Kreivo - By Virto',

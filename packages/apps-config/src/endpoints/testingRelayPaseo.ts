@@ -190,7 +190,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'kilt',
     paraId: 2086,
     providers: {
-      'KILT Foundation': 'wss://peregrine.kilt.io/parachain-public-ws/'
+      // 'KILT Foundation': 'wss://peregrine.kilt.io/parachain-public-ws/' // https://github.com/polkadot-js/apps/issues/11544
     },
     text: 'KILT Peregrine',
     ui: {
