@@ -13,6 +13,7 @@ import Actions from '@polkadot/app-staking/Actions';
 import Bags from '@polkadot/app-staking/Bags';
 import Payouts from '@polkadot/app-staking/Payouts';
 import Query from '@polkadot/app-staking/Query';
+import Slashes from '@polkadot/app-staking/Slashes';
 import Targets from '@polkadot/app-staking/Targets';
 import useNominations from '@polkadot/app-staking/useNominations';
 import useSortedTargets from '@polkadot/app-staking/useSortedTargets';
@@ -198,6 +199,15 @@ function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
               />
             }
             path='targets'
+          />
+          <Route
+            element={
+              <Slashes
+                ownStashes={ownStashes}
+                slashes={slashes}
+              />
+            }
+            path='slashes'
           />
           <Route
             element={<CommandCenter />}

@@ -12,14 +12,11 @@ import StakingRelayApp from './Relay/index.js';
 import StakingSystemApp from './System/index.js';
 
 function StakingApp ({ basePath, className = '', onStatusChange }: Props): React.ReactElement<Props> {
-  const { api, apiEndpoint } = useApi();
-
-  // TODO: Must be removed in production
-  const isRelayGenesis = (api.genesisHash.toHex()) === '0x0e268177d92e92c5fa1a2374e4224da33bc9600c0318a9c25389a35f91238986';
+  const { apiEndpoint } = useApi();
 
   return (
     <StyledMain className={`${className} staking--App`}>
-      {apiEndpoint?.isRelay || isRelayGenesis
+      {apiEndpoint?.isRelay
         ? (
           <StakingRelayApp
             basePath={basePath}
