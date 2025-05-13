@@ -377,7 +377,7 @@ const StyledMain = styled.main`
   .uploadMenu {
     z-index: 200;
     display: none;
-    background-color: white;
+    background-color: var(--bg-table);
     position: absolute;
     top: 43px;
     left: 0;
