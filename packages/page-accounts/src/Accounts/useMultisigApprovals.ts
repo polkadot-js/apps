@@ -31,6 +31,7 @@ function useMultisigApprovalsImpl (address: string): [H256, Multisig][] | undefi
 
     if (multisigEvents.length) {
       const eventsHash = JSON.stringify(multisigEvents.map((e) => e.key));
+
       if (eventsHash !== prevEventsRef.current) {
         prevEventsRef.current = eventsHash;
         incTrigger();
