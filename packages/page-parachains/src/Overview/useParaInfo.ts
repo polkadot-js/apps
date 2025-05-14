@@ -71,7 +71,7 @@ function useParaInfoImpl (id: ParaId): Result {
     [(api.query.parasHrmp || api.query.paraHrmp || api.query.hrmp)?.hrmpWatermarks, id],
     [(api.query.parasInclusion || api.query.paraInclusion || api.query.inclusion)?.pendingAvailability, id],
     [api.query.registrar.paras, id],
-    [api.query.slots.leases, id]
+    [api.query.slots?.leases, id]
   ], MULTI_OPTS);
 }
 
