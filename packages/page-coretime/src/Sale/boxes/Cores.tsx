@@ -21,6 +21,14 @@ export const Cores = ({ color, phaseName, salesInfo }: { phaseName: string, sale
   const bestNumberFinalized = useCall<BlockNumber>(apiCoretime?.derive.chain.bestNumberFinalized);
   const coretimePrice = useMemo(() => bestNumberFinalized && salesInfo && getCorePriceAt(bestNumberFinalized.toNumber(), salesInfo), [salesInfo, bestNumberFinalized]);
 
+  const formattedCoretimePrice = useMemo(() => {
+    if (!coretimePrice) {
+      return null;
+    }
+
+    return `${(coretimePrice.toNumber() / 10 ** formatBalance.getDefaults().decimals)} ${formatBalance.getDefaults().unit}`;
+  }, [coretimePrice]);
+
   const CoresWrapper = styled(WhiteBox)`
     justify-self: flex-end;
 
@@ -42,7 +50,7 @@ export const Cores = ({ color, phaseName, salesInfo }: { phaseName: string, sale
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <div>
                   <p style={{ fontSize: '14px', marginBottom: '0.15rem', opacity: '0.8' }}>{t('current price')}</p>
-                  <p style={{ color: `${color}`, fontSize: '20px' }}> {coretimePrice && formatBalance(coretimePrice)}</p>
+                  <p style={{ color: `${color}`, fontSize: '20px' }}>{formattedCoretimePrice}</p>
                 </div>
                 <div>
                   <p style={{ fontSize: '14px', marginBottom: '0.15rem', opacity: '0.8' }}>{t('available cores')}</p>

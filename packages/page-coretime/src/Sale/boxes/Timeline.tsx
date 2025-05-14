@@ -45,9 +45,8 @@ export const Timeline = ({ color, coretimeInfo: { salesInfo, status }, phaseName
 
   const coretimePriceStart = useMemo(() => salesInfo && getCorePriceAt(salesInfo.saleStart, salesInfo), [salesInfo]);
 
-  const endPrice = useMemo(() => salesInfo.endPrice.toNumber() < 10 ** formatBalance.getDefaults().decimals
-    ? `${salesInfo.endPrice.toNumber() / 10 ** formatBalance.getDefaults().decimals} ${formatBalance.getDefaults().unit}`
-    : formatBalance(salesInfo.endPrice), [salesInfo.endPrice]);
+  const startPrice = useMemo(() => `${(coretimePriceStart.toNumber() / 10 ** formatBalance.getDefaults().decimals)} ${formatBalance.getDefaults().unit}`, [coretimePriceStart]);
+  const endPrice = useMemo(() => `${(salesInfo.endPrice.toNumber() / 10 ** formatBalance.getDefaults().decimals)} ${formatBalance.getDefaults().unit}`, [salesInfo.endPrice]);
 
   return (
     <TimelineWrapper>
@@ -59,7 +58,7 @@ export const Timeline = ({ color, coretimeInfo: { salesInfo, status }, phaseName
             <CardSummary label='current phase end'>{saleParams?.phaseConfig?.config[phaseName as keyof typeof saleParams.phaseConfig.config].end.date}</CardSummary>
             <CardSummary label='last phase block'>{formatNumber(saleParams?.phaseConfig?.config[phaseName as keyof typeof saleParams.phaseConfig.config].end.blocks.relay)}</CardSummary>
           </>}
-          <CardSummary label='start price'>{formatBalance(coretimePriceStart)}</CardSummary>
+          <CardSummary label='start price'>{startPrice}</CardSummary>
           <CardSummary label='fixed price'>{endPrice}</CardSummary>
         </section>
         <section>
