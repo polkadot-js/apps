@@ -8,11 +8,10 @@ import React, { useMemo } from 'react';
 
 import { styled } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { formatBalance } from '@polkadot/util';
 
 import { PhaseName } from '../../constants.js';
 import { useTranslation } from '../../translate.js';
-import { getCorePriceAt } from '../../utils/sale.js';
+import { formatBNToBalance, getCorePriceAt } from '../../utils/sale.js';
 import { WhiteBox } from '../../WhiteBox.js';
 
 export const Cores = ({ color, phaseName, salesInfo }: { phaseName: string, salesInfo: CoretimeInformation['salesInfo'], color: string }) => {
@@ -22,11 +21,7 @@ export const Cores = ({ color, phaseName, salesInfo }: { phaseName: string, sale
   const coretimePrice = useMemo(() => bestNumberFinalized && salesInfo && getCorePriceAt(bestNumberFinalized.toNumber(), salesInfo), [salesInfo, bestNumberFinalized]);
 
   const formattedCoretimePrice = useMemo(() => {
-    if (!coretimePrice) {
-      return null;
-    }
-
-    return `${(coretimePrice.toNumber() / 10 ** formatBalance.getDefaults().decimals)} ${formatBalance.getDefaults().unit}`;
+    return !coretimePrice ? null : formatBNToBalance(coretimePrice);
   }, [coretimePrice]);
 
   const CoresWrapper = styled(WhiteBox)`
