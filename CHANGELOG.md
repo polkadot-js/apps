@@ -1,5 +1,27 @@
 # CHANGELOG
 
+## 0.156.1 May 15, 2025
+
+Contributed:
+
+- chore: update Subscan links for Paseo chains ([#11535](https://github.com/polkadot-js/apps/pull/11535)) (Thanks to https://github.com/carlhong)
+- Fix typos in translation JSON files ([#11536](https://github.com/polkadot-js/apps/pull/11536)) (Thanks to https://github.com/seun556)
+- Add Kreivo testnet endpoint to testingRelayPaseo.ts ([#11519](https://github.com/polkadot-js/apps/pull/11519)) (Thanks to https://github.com/pandres95)
+- fix: update upload menu background color to use theme variable ([#11548](https://github.com/polkadot-js/apps/pull/11548)) (Thanks to https://github.com/rajk93)
+- Update peerplays types bundle ([#11550](https://github.com/polkadot-js/apps/pull/11550)) (Thanks to https://github.com/vampik33)
+- chore: reenable peregrine RPC ([#11557](https://github.com/polkadot-js/apps/pull/11557)) (Thanks to https://github.com/ggera)
+- fix: multisig data disappears while signing multiple multisig tx's from same account ([#11552](https://github.com/polkadot-js/apps/pull/11552)) (Thanks to https://github.com/rajk93)
+
+
+Changes:
+
+- Import and export of addresses to the My Accounts Tab ([#11507](https://github.com/polkadot-js/apps/pull/11507))
+- Disable unreachable endpoints ([#11532](https://github.com/polkadot-js/apps/pull/11532) [#11545](https://github.com/polkadot-js/apps/pull/11545))
+- Refactor: Vote component ([#11540](https://github.com/polkadot-js/apps/pull/11540))
+- Update delegated account input type ([#11553](https://github.com/polkadot-js/apps/pull/11553))
+- Upgraded polkadot dependencies ([#11556](https://github.com/polkadot-js/apps/pull/11556))
+
+
 ## 0.155.1 May 5, 2025
 
 Contributed:
