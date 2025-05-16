@@ -30142,18 +30142,113 @@ export const typesBundle = {
             null
           ],
           "types": {
+            "Amount": "i128",
+            "Balance": "u128",
+            "BlockNumber": "u64",
+            "CurrencyId": {
+              "_enum": {
+                "Native": "u32",
+                "DexShare": "(DexShare, DexShare)",
+                "ForeignAsset": "u32"
+              }
+            },
+            "DexShare": {
+              "_enum": {
+                "Native": "u32",
+                "ForeignAsset": "u32"
+              }
+            },
+            "TradingPair": "(CurrencyId,  CurrencyId)",
+            "ProvisionParameters": {
+              "minContribution": "(Balance, Balance)",
+              "targetProvision": "(Balance, Balance)",
+              "accumulatedProvision": "(Balance, Balance)",
+              "notBefore": "u32"
+            },
+            "TradingPairStatus": {
+              "_enum": {
+                "Disabled": "Null",
+                "Provisioning": "ProvisionParameters",
+                "Enabled": "Null"
+              }
+            },
             "StakingRates": {
               "collatorStakingRate": "Perquintill",
               "collatorRewardRate": "Perquintill",
               "delegatorStakingRate": "Perquintill",
               "delegatorRewardRate": "Perquintill"
-            },
-            "AssetId": "u32",
-            "Balance": "u128"
+            }
           }
         }
       ],
       "runtime": {
+        "Doton": [
+          {
+            "methods": {
+              "doton_mint_amount_with_dot": {
+                "description": "Amount of DOTON that expected to be minted from passed DOT amount.",
+                "params": [
+                  {
+                    "name": "amount",
+                    "type": "Balance"
+                  }
+                ],
+                "type": "Result<Balance, DispatchError>"
+              },
+              "dot_redeem_amount_with_doton": {
+                "description": "Amount of DOT that expected to be redeemed with passed amount of DOTON.",
+                "params": [
+                  {
+                    "name": "amount",
+                    "type": "Balance"
+                  }
+                ],
+                "type": "Result<Balance, DispatchError>"
+              },
+              "min_mint_from_dot_amount": {
+                "description": "Minimal amount of DOT to stake through DOTON module.",
+                "params": [],
+                "type": "Result<Balance, DispatchError>"
+              },
+              "min_redeem_to_dot_amount": {
+                "description": "Minimal amount of DOTON to redeem DOT.",
+                "params": [],
+                "type": "Result<Balance, DispatchError>"
+              },
+              "doton_mint_amount_with_jamton": {
+                "description": "Amount of DOTON that expected to be minted from passed jamTON amount.",
+                "params": [
+                  {
+                    "name": "amount",
+                    "type": "Balance"
+                  }
+                ],
+                "type": "Result<Balance, DispatchError>"
+              },
+              "jamton_redeem_amount_with_doton": {
+                "description": "Amount of jamTON that expected to be redeemed with passed amount of DOTON.",
+                "params": [
+                  {
+                    "name": "amount",
+                    "type": "Balance"
+                  }
+                ],
+                "type": "Result<Balance, DispatchError>"
+              },
+              "max_doton_amount_to_redeem_into_dot": {
+                "description": "Maximum amount of DOTON to request redeem to DOT due to the vault state.",
+                "params": [],
+                "type": "Result<Balance, DispatchError>"
+              },
+              "max_doton_amount_to_redeem_into_jamton": {
+                "description": "Maximum amount of DOTON to redeem to jamTON due to the vault state.",
+                "params": [],
+                "type": "Result<Balance, DispatchError>"
+              }
+            },
+            "version": 1
+          }
+        ],
         "ParachainStaking": [
           {
             "methods": {
@@ -30171,21 +30266,51 @@ export const typesBundle = {
                   }
                 ],
                 "type": "Balance"
+              },
+              "get_sorted_proposed_candidates": {
+                "description": "Provides a sorted list of collators most suited for given delegator's stake amount determined with some heuristic algorithm.",
+                "params": [
+                  {
+                    "name": "balance",
+                    "type": "Balance"
+                  }
+                ],
+                "type": "Vec<AccountId>"
+              }
+            },
+            "version": 1
+          }
+        ],
+        "Limits": [
+          {
+            "methods": {
+              "maybe_remaining_dot_stake_limit": {
+                "description": "Remaining DOT amount that account allowed to stake. Returns None if no limit.",
+                "params": [
+                  {
+                    "name": "account",
+                    "type": "AccountId"
+                  }
+                ],
+                "type": "Option<Balance>"
+              },
+              "maybe_remaining_issue_allowance": {
+                "description": "Remaining amount of currency that could be minted. Returns None if no limit.",
+                "params": [
+                  {
+                    "name": "currency_id",
+                    "type": "CurrencyId"
+                  }
+                ],
+                "type": "Option<Balance>"
               }
             },
             "version": 1
           }
         ]
       },
-      "signedExtensions": {
-        "ChargeAssetTxPayment": {
-          "extrinsic": {
-            "tip": "Compact<Balance>",
-            "assetId": "Option<AssetId>"
-          },
-          "payload": {}
-        }
-      }
+      "rpc": {},
+      "signedExtensions": {}
     },
     "jupiter-prep": {
       "types": [
