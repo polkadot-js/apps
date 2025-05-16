@@ -5,13 +5,21 @@ import type { ChainConstants, PalletBrokerConfigRecord, PalletBrokerSaleInfoReco
 import type { GetResponse, PhaseConfig, RegionInfo, RelayName, SaleParameters } from '../types.js';
 
 import { type ProgressBarSection } from '@polkadot/react-components/types';
-import { BN } from '@polkadot/util';
+import { BN, formatBalance } from '@polkadot/util';
 
 import { PhaseName } from '../constants.js';
 import { createGet, estimateTime, FirstCycleStart, getCurrentRegionStartEndTs } from './index.js';
 
 // We are scaling everything to avoid floating point precision issues.
 const SCALE = new BN(10000);
+
+/**
+ * Formats a BN value to a human-readable balance string with proper units
+ *
+ * @param num - The BN value to format
+ * @returns A formatted string with the balance value and unit
+ */
+export const formatBNToBalance = (num: BN) => formatBalance(num, { forceUnit: formatBalance.getDefaults().unit, withAll: true, withUnit: true });
 
 export const leadinFactorAt = (scaledWhen: BN): BN => {
   const scaledHalf = SCALE.div(new BN(2)); // 0.5 scaled to 10000
