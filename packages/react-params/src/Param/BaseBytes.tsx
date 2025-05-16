@@ -48,7 +48,7 @@ function convertInput (value: string): [boolean, boolean, Uint8Array] {
     return [true, false, new Uint8Array([])];
   } else if (value.startsWith('0x')) {
     try {
-      return [true, false, hexToU8a(value)];
+      return [true, false, isHex(value) ? hexToU8a(value) : stringToU8a(value)];
     } catch {
       return [false, false, new Uint8Array([])];
     }
