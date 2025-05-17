@@ -895,7 +895,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'zeitgeist',
     paraId: 2092,
     providers: {
-      // OnFinality: 'wss://zeitgeist.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/11513
+      OnFinality: 'wss://zeitgeist.api.onfinality.io/public-ws'
       // ZeitgeistPM: 'wss://main.rpc.zeitgeist.pm/ws' // https://github.com/polkadot-js/apps/issues/11215
     },
     text: 'Zeitgeist',
