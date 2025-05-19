@@ -44,20 +44,15 @@ export const Timeline = ({ color, coretimeInfo: { salesInfo, status }, phaseName
     <TimelineWrapper>
       <p style={{ fontSize: '16px', fontWeight: 'bold' }}>{t('Sale timeline')}</p>
       <StyledSummaryBox>
-        <section>
-          <GridLayout>
-            {phaseName && <>
-              <CardSummary label='current phase'>{phaseName}</CardSummary>
-              <CardSummary label='current phase end'>{saleParams?.phaseConfig?.config[phaseName as keyof typeof saleParams.phaseConfig.config].end.date}</CardSummary>
-              <CardSummary label='last phase block'>{formatNumber(saleParams?.phaseConfig?.config[phaseName as keyof typeof saleParams.phaseConfig.config].end.blocks.relay)}</CardSummary>
-            </>}
-            <CardSummary label='start price'>{startPrice}</CardSummary>
-            <CardSummary label='fixed price'>{endPrice}</CardSummary>
-          </GridLayout>
-        </section>
-        <section>
-
-        </section>
+        <GridLayout>
+          {phaseName && <>
+            <CardSummary label='current phase'>{phaseName}</CardSummary>
+            <CardSummary label='current phase end'>{saleParams?.phaseConfig?.config[phaseName as keyof typeof saleParams.phaseConfig.config].end.date}</CardSummary>
+            <CardSummary label='last phase block'>{formatNumber(saleParams?.phaseConfig?.config[phaseName as keyof typeof saleParams.phaseConfig.config].end.blocks.relay)}</CardSummary>
+          </>}
+          <CardSummary label='start price'>{startPrice}</CardSummary>
+          <CardSummary label='fixed price'>{endPrice}</CardSummary>
+        </GridLayout>
       </StyledSummaryBox>
       <ProgressBar
         color={color}
@@ -81,7 +76,7 @@ const StyledSummaryBox = styled(SummaryBox)`
 
 const GridLayout = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   column-gap: 0.5rem;
   row-gap: 1rem;
   width: 100%;
