@@ -223,15 +223,17 @@ function CommandCenter () {
 
   const _onSelectAhUrl = useCallback((newAhUrl: string) => {
     if (newAhUrl !== ahUrl) {
+      ahApi?.disconnect().catch(console.log);
       setAhUrl(newAhUrl);
     }
-  }, [ahUrl]);
+  }, [ahApi, ahUrl]);
 
   const _onSelectRcUrl = useCallback((newRcUrl: string) => {
     if (newRcUrl !== rcUrl) {
+      rcApi?.disconnect().catch(console.log);
       setRcUrl(newRcUrl);
     }
-  }, [rcUrl]);
+  }, [rcApi, rcUrl]);
 
   useEffect(() => {
     if (isRelayChain) {
@@ -250,6 +252,8 @@ function CommandCenter () {
   useEffect(() => {
     setRcApi(undefined);
     setAhApi(undefined);
+    setRcOutput([]);
+    setAhOutput([]);
 
     if (isRelayChain) {
       setRcApi(api);
@@ -307,6 +311,10 @@ const StyledDiv = styled.div`
   
   @media screen and (max-width: 1200px){
     grid-template-columns: repeat(1, 1fr);
+  }
+
+  .ui--Spinner {
+    margin-top: 4rem;
   }
 
   .ui {
