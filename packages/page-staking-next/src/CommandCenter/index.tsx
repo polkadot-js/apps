@@ -4,19 +4,19 @@
 import type { AccountId32, Event } from '@polkadot/types/interfaces';
 import type { IEventData } from '@polkadot/types/types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
-import { prodParasPolkadotCommon, prodRelayPolkadot } from '@polkadot/apps-config';
 import { styled } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useParaEndpoints } from '@polkadot/react-hooks';
+import { useRelayEndpoints } from '@polkadot/react-hooks/useParaEndpoints';
 
 import AssetHubSection from './ah.js';
 import RelaySection from './relay.js';
 
 const MAX_EVENTS = 25;
 
-const getApi = async (url: string[]) => {
+const getApi = async (url: string[]|string) => {
   const api = await ApiPromise.create({
     provider: new WsProvider(url)
   });
@@ -186,26 +186,54 @@ const commandCenterHandler = async (
 };
 
 function CommandCenter () {
-  const { api, apiEndpoint } = useApi();
+  const { api, apiUrl } = useApi();
+  const rcEndPoints = useRelayEndpoints();
+  const ahEndPoints = useParaEndpoints(1000);
+
   const [rcOutput, setRcOutput] = useState<IRcOutput[]>([]);
   const [ahOutput, setAhOutput] = useState<IAhOutput[]>([]);
+
+  const [rcUrl, setRcUrl] = useState<string|undefined>(undefined);
+  const [ahUrl, setAhUrl] = useState<string|undefined>(undefined);
+
   const [ahApi, setAhApi] = useState<ApiPromise>();
   const [rcApi, setRcApi] = useState<ApiPromise>();
 
-  useEffect(() => {
-    // Check if it is relay chain
-    if (api.tx.stakingNextAhClient) {
-      setRcApi(api);
-      const ahEndpoint = Object.values(prodParasPolkadotCommon[0].providers) as string[];
+  // Check if it is relay chain
+  const isRelayChain = useMemo(() => api.tx.stakingNextAhClient, [api.tx.stakingNextAhClient]);
 
-      getApi(ahEndpoint).then((ahApi) => setAhApi(ahApi)).catch((e) => console.log(e));
+  useEffect(() => {
+    if (isRelayChain) {
+      setRcUrl(apiUrl);
+      const ahUrl = ahEndPoints.at(0)?.providers?.at(0);
+
+      setAhUrl(ahUrl);
+    } else {
+      setAhUrl(apiUrl);
+      const rcUrl = rcEndPoints.at(0)?.valueRelay?.at(0);
+
+      setRcUrl(rcUrl);
+    }
+  }, [ahEndPoints, apiUrl, isRelayChain, rcEndPoints]);
+
+  useEffect(() => {
+    setRcApi(undefined);
+    setAhApi(undefined);
+
+    if (isRelayChain) {
+      setRcApi(api);
+
+      if (ahUrl) {
+        getApi(ahUrl).then((ahApi) => setAhApi(ahApi)).catch((e) => console.log(e));
+      }
     } else if (api.tx.staking && api.tx.stakingNextRcClient) { // Check if Asset Hub chain
       setAhApi(api);
-      const rcEndpoint = Object.values(prodRelayPolkadot.providers).filter((e) => e.startsWith('ws'));
 
-      getApi(rcEndpoint).then((rcApi) => setRcApi(rcApi)).catch((e) => console.log(e));
+      if (rcUrl) {
+        getApi(rcUrl).then((rcApi) => setRcApi(rcApi)).catch((e) => console.log(e));
+      }
     }
-  }, [api, apiEndpoint?.paraId]);
+  }, [ahUrl, api, isRelayChain, rcUrl]);
 
   useEffect(() => {
     ahApi && rcApi && commandCenterHandler(rcApi, ahApi, setRcOutput, setAhOutput).catch((e) => console.log(e));
