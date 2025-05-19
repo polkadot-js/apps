@@ -1,18 +1,19 @@
 // Copyright 2017-2025 @polkadot/app-staking-next authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { IRcOutput } from './index.js';
 
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { CardSummary, Expander, MarkWarning, styled } from '@polkadot/react-components';
+import { CardSummary, Expander, MarkWarning, Spinner, styled } from '@polkadot/react-components';
 import { Event as EventDisplay } from '@polkadot/react-params';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
 
-function RelaySection ({ rcOutput }: {rcOutput: IRcOutput[]}) {
+function RelaySection ({ rcApi, rcOutput }: {rcApi?: ApiPromise, rcOutput: IRcOutput[]}) {
   const { t } = useTranslation();
 
   return (
@@ -20,6 +21,7 @@ function RelaySection ({ rcOutput }: {rcOutput: IRcOutput[]}) {
       <h1 style={{ textTransform: 'capitalize' }}>
         {t('Relay chain')}
       </h1>
+      {!rcApi && <Spinner label='Connecting to Relay chain' />}
       <StyledSection>
         {rcOutput.map((rc) => {
           return (

@@ -257,8 +257,14 @@ function CommandCenter () {
 
   return (
     <StyledDiv>
-      <RelaySection rcOutput={rcOutput} />
-      <AssetHubSection ahOutput={ahOutput} />
+      <RelaySection
+        rcApi={rcApi}
+        rcOutput={rcOutput}
+      />
+      <AssetHubSection
+        ahApi={ahApi}
+        ahOutput={ahOutput}
+      />
     </StyledDiv>
   );
 }

@@ -1,18 +1,19 @@
 // Copyright 2017-2025 @polkadot/app-staking-next authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { IAhOutput } from './index.js';
 
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { CardSummary, Expander, MarkWarning, styled } from '@polkadot/react-components';
+import { CardSummary, Expander, MarkWarning, Spinner, styled } from '@polkadot/react-components';
 import { Event as EventDisplay } from '@polkadot/react-params';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
 
-function AssetHubSection ({ ahOutput }: {ahOutput: IAhOutput[]}) {
+function AssetHubSection ({ ahApi, ahOutput }: { ahApi?: ApiPromise, ahOutput: IAhOutput[]}) {
   const { t } = useTranslation();
 
   return (
@@ -20,6 +21,7 @@ function AssetHubSection ({ ahOutput }: {ahOutput: IAhOutput[]}) {
       <h1 style={{ textTransform: 'capitalize' }}>
         {t('Asset Hub chain')}
       </h1>
+      {!ahApi && <Spinner label='Connecting to Asset Hub' />}
       <StyledSection>
         {ahOutput.map((ah) => {
           return (
