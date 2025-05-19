@@ -7,12 +7,14 @@ import type { IEventData } from '@polkadot/types/types';
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
+import { createWsEndpoints } from '@polkadot/apps-config';
 import { styled } from '@polkadot/react-components';
-import { useApi, useParaEndpoints } from '@polkadot/react-hooks';
-import { useRelayEndpoints } from '@polkadot/react-hooks/useParaEndpoints';
+import { useApi } from '@polkadot/react-hooks';
 
 import AssetHubSection from './ah.js';
 import RelaySection from './relay.js';
+
+const allEndPoints = createWsEndpoints((k, v) => v?.toString() || k);
 
 const MAX_EVENTS = 25;
 
@@ -186,9 +188,7 @@ const commandCenterHandler = async (
 };
 
 function CommandCenter () {
-  const { api, apiUrl } = useApi();
-  const rcEndPoints = useRelayEndpoints();
-  const ahEndPoints = useParaEndpoints(1000);
+  const { api, apiEndpoint, apiUrl } = useApi();
 
   const [rcOutput, setRcOutput] = useState<IRcOutput[]>([]);
   const [ahOutput, setAhOutput] = useState<IAhOutput[]>([]);
@@ -202,15 +202,31 @@ function CommandCenter () {
   // Check if it is relay chain
   const isRelayChain = useMemo(() => api.tx.stakingNextAhClient, [api.tx.stakingNextAhClient]);
 
+  const rcEndPoints = useMemo(() => {
+    return (isRelayChain
+      ? apiEndpoint?.providers
+      : apiEndpoint?.valueRelay) || [];
+  }, [apiEndpoint?.providers, apiEndpoint?.valueRelay, isRelayChain]);
+
+  const ahEndPoints = useMemo(() => {
+    if (isRelayChain) {
+      return allEndPoints.filter(({ paraId }) =>
+        paraId === 1000
+      ).at(0)?.providers || [];
+    }
+
+    return apiEndpoint?.providers || [];
+  }, [apiEndpoint?.providers, isRelayChain]);
+
   useEffect(() => {
     if (isRelayChain) {
       setRcUrl(apiUrl);
-      const ahUrl = ahEndPoints.at(0)?.providers?.at(0);
+      const ahUrl = ahEndPoints.at(0);
 
       setAhUrl(ahUrl);
     } else {
       setAhUrl(apiUrl);
-      const rcUrl = rcEndPoints.at(0)?.valueRelay?.at(0);
+      const rcUrl = rcEndPoints.at(0);
 
       setRcUrl(rcUrl);
     }
