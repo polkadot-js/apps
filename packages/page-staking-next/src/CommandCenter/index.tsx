@@ -4,11 +4,11 @@
 import type { AccountId32, Event } from '@polkadot/types/interfaces';
 import type { IEventData } from '@polkadot/types/types';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { createWsEndpoints } from '@polkadot/apps-config';
-import { styled } from '@polkadot/react-components';
+import { Dropdown, styled } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
 import AssetHubSection from './ah.js';
@@ -208,7 +208,7 @@ function CommandCenter () {
       : apiEndpoint?.valueRelay) || [];
   }, [apiEndpoint?.providers, apiEndpoint?.valueRelay, isRelayChain]);
 
-  const ahEndPoints = useMemo(() => {
+  const ahEndPoints: string[] = useMemo(() => {
     if (isRelayChain) {
       return allEndPoints.filter(({ paraId }) =>
         paraId === 1000
@@ -217,6 +217,21 @@ function CommandCenter () {
 
     return apiEndpoint?.providers || [];
   }, [apiEndpoint?.providers, isRelayChain]);
+
+  const rcEndPointOptions = useRef(rcEndPoints.map((e) => ({ text: e, value: e })));
+  const ahEndPointOptions = useRef(ahEndPoints.map((e) => ({ text: e, value: e })));
+
+  const _onSelectAhUrl = useCallback((newAhUrl: string) => {
+    if (newAhUrl !== ahUrl) {
+      setAhUrl(newAhUrl);
+    }
+  }, [ahUrl]);
+
+  const _onSelectRcUrl = useCallback((newRcUrl: string) => {
+    if (newRcUrl !== rcUrl) {
+      setRcUrl(newRcUrl);
+    }
+  }, [rcUrl]);
 
   useEffect(() => {
     if (isRelayChain) {
@@ -240,19 +255,19 @@ function CommandCenter () {
       setRcApi(api);
 
       if (ahUrl) {
-        getApi(ahUrl).then((ahApi) => setAhApi(ahApi)).catch((e) => console.log(e));
+        getApi(ahUrl).then((ahApi) => setAhApi(ahApi)).catch(console.log);
       }
     } else if (api.tx.staking && api.tx.stakingNextRcClient) { // Check if Asset Hub chain
       setAhApi(api);
 
       if (rcUrl) {
-        getApi(rcUrl).then((rcApi) => setRcApi(rcApi)).catch((e) => console.log(e));
+        getApi(rcUrl).then((rcApi) => setRcApi(rcApi)).catch(console.log);
       }
     }
   }, [ahUrl, api, isRelayChain, rcUrl]);
 
   useEffect(() => {
-    ahApi && rcApi && commandCenterHandler(rcApi, ahApi, setRcOutput, setAhOutput).catch((e) => console.log(e));
+    ahApi && rcApi && commandCenterHandler(rcApi, ahApi, setRcOutput, setAhOutput).catch(console.log);
   }, [ahApi, rcApi]);
 
   return (
@@ -260,11 +275,27 @@ function CommandCenter () {
       <RelaySection
         rcApi={rcApi}
         rcOutput={rcOutput}
-      />
+      >
+        <Dropdown
+          defaultValue={rcUrl}
+          isButton
+          isDisabled={!!isRelayChain}
+          onChange={_onSelectRcUrl}
+          options={rcEndPointOptions.current}
+        />
+      </RelaySection>
       <AssetHubSection
         ahApi={ahApi}
         ahOutput={ahOutput}
-      />
+      >
+        <Dropdown
+          defaultValue={ahUrl}
+          isButton
+          isDisabled={!isRelayChain}
+          onChange={_onSelectAhUrl}
+          options={ahEndPointOptions.current}
+        />
+      </AssetHubSection>
     </StyledDiv>
   );
 }
@@ -276,6 +307,11 @@ const StyledDiv = styled.div`
   
   @media screen and (max-width: 1200px){
     grid-template-columns: repeat(1, 1fr);
+  }
+
+  .ui {
+    margin-left: 0.5rem !important;
+    width: 20rem !important;
   }
 `;
 

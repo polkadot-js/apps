@@ -1,6 +1,7 @@
 // Copyright 2017-2025 @polkadot/app-staking-next authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ReactNode } from 'react';
 import type { ApiPromise } from '@polkadot/api';
 import type { IAhOutput } from './index.js';
 
@@ -13,20 +14,33 @@ import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
 
-function AssetHubSection ({ ahApi, ahOutput }: { ahApi?: ApiPromise, ahOutput: IAhOutput[]}) {
+interface Props {
+  children: ReactNode;
+  ahApi?: ApiPromise;
+  ahOutput: IAhOutput[];
+}
+
+function AssetHubSection ({ ahApi, ahOutput, children }: Props) {
   const { t } = useTranslation();
 
   return (
     <div>
-      <h1 style={{ textTransform: 'capitalize' }}>
+      <h1
+        style={{
+          alignItems: 'center',
+          display: 'flex',
+          textTransform: 'capitalize'
+        }}
+      >
         {t('Asset Hub chain')}
+        {children}
       </h1>
       {!ahApi && <Spinner label='Connecting to Asset Hub' />}
       <StyledSection>
         {ahOutput.map((ah) => {
           return (
             <div
-              className='relay__chain'
+              className='assethub__chain'
               key={ah.finalizedBlock}
             >
               <div className='details'>
@@ -110,7 +124,7 @@ const StyledSection = styled.section`
     font-weight: var(--font-weight-normal);
   }
 
-  .relay__chain {
+  .assethub__chain {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     place-items: start;

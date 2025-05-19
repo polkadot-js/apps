@@ -1,6 +1,7 @@
 // Copyright 2017-2025 @polkadot/app-staking-next authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ReactNode } from 'react';
 import type { ApiPromise } from '@polkadot/api';
 import type { IRcOutput } from './index.js';
 
@@ -13,13 +14,26 @@ import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
 
-function RelaySection ({ rcApi, rcOutput }: {rcApi?: ApiPromise, rcOutput: IRcOutput[]}) {
+interface Props {
+  children: ReactNode;
+  rcApi?: ApiPromise;
+  rcOutput: IRcOutput[];
+}
+
+function RelaySection ({ children, rcApi, rcOutput }: Props) {
   const { t } = useTranslation();
 
   return (
     <div>
-      <h1 style={{ textTransform: 'capitalize' }}>
+      <h1
+        style={{
+          alignItems: 'center',
+          display: 'flex',
+          textTransform: 'capitalize'
+        }}
+      >
         {t('Relay chain')}
+        {children}
       </h1>
       {!rcApi && <Spinner label='Connecting to Relay chain' />}
       <StyledSection>
