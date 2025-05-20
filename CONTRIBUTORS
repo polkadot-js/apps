@@ -12,7 +12,7 @@
       31	Stefanie Doll                 	Set higher default gas limit, switch from bitlength u32 to u128 for input fields (#2743)
       30	brenzi                        	make encointer teleporter again (#10484)
       29	Ewa Kowalska                  	Style badges in accounts list (#6208)
-      27	Daria                         	Feedback/#11253 (#11304)
+      28	Daria                         	CoretimeTypes is an enum, and Reservation type has index 0 (#11567)
       27	Yiwei Li                      	Re-add OnFinality endpoints for Parallel and Unique (#9641)
       25	Aleksandr Krupenkin           	Added Shiden Crowdloan 2 (#7426)
       25	Krzysztof Jelski              	Increase UI test timeouts and mark interBTC unreachable (#6247)
