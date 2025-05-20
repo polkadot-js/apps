@@ -8,19 +8,11 @@ import type { CoretimeInformation } from '@polkadot/react-hooks/types';
 import React, { useMemo } from 'react';
 
 import { CardSummary, ProgressBar, styled, SummaryBox } from '@polkadot/react-components';
-import { formatBalance, formatNumber } from '@polkadot/util';
+import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../../translate.js';
-import { getCorePriceAt, getSaleProgress } from '../../utils/sale.js';
+import { formatBNToBalance, getCorePriceAt, getSaleProgress } from '../../utils/sale.js';
 import { WhiteBox } from '../../WhiteBox.js';
-
-const TimelineWrapper = styled(WhiteBox)`
-  justify-self: flex-start;
-
-  @media (min-width: 769px) and (max-width: 1024px) {
-    width: 100%;
-  }
-`;
 
 interface TimelineProps {
   phaseName: string;
@@ -45,27 +37,23 @@ export const Timeline = ({ color, coretimeInfo: { salesInfo, status }, phaseName
 
   const coretimePriceStart = useMemo(() => salesInfo && getCorePriceAt(salesInfo.saleStart, salesInfo), [salesInfo]);
 
-  const endPrice = useMemo(() => salesInfo.endPrice.toNumber() < 10 ** formatBalance.getDefaults().decimals
-    ? `${salesInfo.endPrice.toNumber() / 10 ** formatBalance.getDefaults().decimals} ${formatBalance.getDefaults().unit}`
-    : formatBalance(salesInfo.endPrice), [salesInfo.endPrice]);
+  const startPrice = useMemo(() => coretimePriceStart && formatBNToBalance(coretimePriceStart), [coretimePriceStart]);
+  const endPrice = useMemo(() => salesInfo?.endPrice && formatBNToBalance(salesInfo.endPrice), [salesInfo?.endPrice]);
 
   return (
     <TimelineWrapper>
       <p style={{ fontSize: '16px', fontWeight: 'bold' }}>{t('Sale timeline')}</p>
-      <SummaryBox>
-        <section>
+      <StyledSummaryBox>
+        <GridLayout>
           {phaseName && <>
             <CardSummary label='current phase'>{phaseName}</CardSummary>
             <CardSummary label='current phase end'>{saleParams?.phaseConfig?.config[phaseName as keyof typeof saleParams.phaseConfig.config].end.date}</CardSummary>
             <CardSummary label='last phase block'>{formatNumber(saleParams?.phaseConfig?.config[phaseName as keyof typeof saleParams.phaseConfig.config].end.blocks.relay)}</CardSummary>
           </>}
-          <CardSummary label='start price'>{formatBalance(coretimePriceStart)}</CardSummary>
+          <CardSummary label='start price'>{startPrice}</CardSummary>
           <CardSummary label='fixed price'>{endPrice}</CardSummary>
-        </section>
-        <section>
-
-        </section>
-      </SummaryBox>
+        </GridLayout>
+      </StyledSummaryBox>
       <ProgressBar
         color={color}
         sections={progressValues as ProgressBarSection[] ?? []}
@@ -73,3 +61,33 @@ export const Timeline = ({ color, coretimeInfo: { salesInfo, status }, phaseName
     </TimelineWrapper>
   );
 };
+
+const TimelineWrapper = styled(WhiteBox)`
+  justify-self: flex-start;
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    width: 100%;
+  }
+`;
+
+const StyledSummaryBox = styled(SummaryBox)`
+  margin-top: 0;
+`;
+
+const GridLayout = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 0.5rem;
+  row-gap: 1rem;
+  width: 100%;
+  
+  /* Override CardSummary styling to align text left and remove padding */
+  article {
+    justify-content: flex-start;
+    padding: 0;
+    
+    > .ui--Labelled {
+      text-align: left;
+    }
+  }
+`;
