@@ -148,6 +148,7 @@ const StyledSection = styled.section`
     }
 
     .events__summary {
+      justify-self: center;
       h3 {
         font-weight: 500;
         font-size: var(--font-size-h2);

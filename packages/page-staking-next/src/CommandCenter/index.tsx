@@ -82,7 +82,7 @@ const commandCenterHandler = async (
     const hasNextActiveId =
       await rcApi.query.stakingNextAhClient.nextSessionChangesValidators();
       // whether the AhClient pallet is blocked or not, useful for migration signal from the fellowship.
-    const isBlocked = await rcApi.query.stakingNextAhClient.isBlocked();
+    const isBlocked = await rcApi.query.stakingNextAhClient?.isBlocked?.();
 
     // Events that we are interested in from RC:
     const eventsOfInterest = (await (await rcApi.at(header.hash.toHex())).query.system.events())
@@ -111,7 +111,7 @@ const commandCenterHandler = async (
           stakingNextAhClient: {
             hasNextActiveId: hasNextActiveId.isEmpty ? undefined : rcApi.createType('Option<u32>', hasNextActiveId).unwrap().toNumber(),
             hasQueuedInClient: parsedHasQueuedInClient.isNone ? undefined : [parsedHasQueuedInClient.unwrap()[0].toNumber(), parsedHasQueuedInClient.unwrap()[1]],
-            isBlocked: isBlocked.toHuman() !== 'Not'
+            isBlocked: isBlocked?.toHuman() !== 'Not'
           }
         },
         ...prev.slice(0, MAX_EVENTS - 1)];
@@ -210,13 +210,13 @@ function CommandCenter () {
 
   const ahEndPoints: string[] = useMemo(() => {
     if (isRelayChain) {
-      return allEndPoints.filter(({ paraId }) =>
-        paraId === 1000
-      ).at(0)?.providers || [];
+      return allEndPoints.find(({ genesisHashRelay, paraId }) =>
+        paraId === 1000 && genesisHashRelay === api.genesisHash.toHex()
+      )?.providers || [];
     }
 
     return apiEndpoint?.providers || [];
-  }, [apiEndpoint?.providers, isRelayChain]);
+  }, [api.genesisHash, apiEndpoint?.providers, isRelayChain]);
 
   const rcEndPointOptions = useRef(rcEndPoints.map((e) => ({ text: e, value: e })));
   const ahEndPointOptions = useRef(ahEndPoints.map((e) => ({ text: e, value: e })));
