@@ -58,7 +58,7 @@ function RelaySection ({ children, rcApi, rcOutput }: Props) {
                   }
                 </div>
                 <div className='stakingNextAhClient__summary'>
-                  {rc.stakingNextAhClient.isBlocked && <MarkWarning content={t('Asset Hub client pallet(AhClient) is blocked currently, useful for migration signal from the fellowship.')} />}
+                  {rc.stakingNextAhClient.isBlocked && <MarkWarning content={t('Asset Hub client pallet (AhClient) is blocked currently, useful for migration signal from the fellowship.')} />}
                   {rc.stakingNextAhClient.hasQueuedInClient &&
                       <div className='stakingNextAhClient__hasQueuedInClient'>
                         <MarkWarning content={t('There is a validator set queued in ah-client.')} />

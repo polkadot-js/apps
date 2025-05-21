@@ -198,7 +198,7 @@ function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
                 toggleNominatedBy={toggleNominatedBy}
               />
             }
-            path='targets'
+            path='all-validators'
           />
           <Route
             element={
