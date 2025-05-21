@@ -32,7 +32,7 @@ async function manageEvents (api: ApiPromise, prev: PrevHashes, records: Vec<Eve
   const newEvents: IndexedEvent[] = records
     .map((record, index) => ({ indexes: [index], record }))
     .filter(({ record: { event: { method, section } } }) =>
-      section !== 'system' &&
+      // section !== 'system' &&
       (
         !['balances', 'treasury'].includes(section) ||
         !['Deposit', 'UpdatedInactive', 'Withdraw'].includes(method)
