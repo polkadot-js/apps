@@ -91,8 +91,8 @@ function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
   const items = useMemo(() => [
     {
       isRoot: true,
-      name: 'overview',
-      text: t('Overview')
+      name: 'active-validators',
+      text: t('Active Validators')
     },
     {
       name: 'actions',
@@ -108,8 +108,8 @@ function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
     },
     {
       alias: 'returns',
-      name: 'targets',
-      text: t('Targets')
+      name: 'all-validators',
+      text: t('All Validators')
     },
     hasStashes && isFunction((api.query.voterBagsList || api.query.bagsList || api.query.voterList)?.counterForListNodes) && {
       name: 'bags',
