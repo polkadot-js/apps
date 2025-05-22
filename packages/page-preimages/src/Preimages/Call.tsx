@@ -3,9 +3,9 @@
 
 import type { Preimage } from '@polkadot/react-hooks/types';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
-import { AddressMini, MarkError, MarkWarning } from '@polkadot/react-components';
+import { AddressMini, CopyButton, MarkError, MarkWarning, styled } from '@polkadot/react-components';
 import { ZERO_ACCOUNT } from '@polkadot/react-hooks/useWeight';
 import { CallExpander } from '@polkadot/react-params';
 import { Null } from '@polkadot/types-codec';
@@ -21,6 +21,14 @@ interface Props {
 function PreimageCall ({ className = '', value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
+  const link = useMemo(
+    () =>
+      value?.proposal
+        ? `#/extrinsics/decode/${value?.proposal?.toHex()}`
+        : null,
+    [value]
+  );
+
   return (
     <>
       <td className={`${className} all`}>
@@ -32,6 +40,16 @@ function PreimageCall ({ className = '', value }: Props): React.ReactElement<Pro
                   labelHash={t('call')}
                   value={value.proposal}
                 />
+              )}
+              {link && (
+                <StyledDiv>
+                  <a
+                    className='isDecoded'
+                    href={link}
+                    rel='noreferrer'
+                  >{link.slice(0, 30)}...</a>
+                  <CopyButton value={value.proposal?.toHex()} />
+                </StyledDiv>
               )}
               {value.proposalError
                 ? <MarkError content={value.proposalError} />
@@ -67,5 +85,11 @@ function PreimageCall ({ className = '', value }: Props): React.ReactElement<Pro
     </>
   );
 }
+
+const StyledDiv = styled.div`
+  display: flex;
+  align-items: center;
+  margin: -0.4rem 0rem -0.4rem 1rem;
+`;
 
 export default React.memo(PreimageCall);
