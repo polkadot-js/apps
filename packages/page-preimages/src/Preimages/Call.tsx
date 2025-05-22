@@ -90,6 +90,7 @@ const StyledDiv = styled.div`
   display: flex;
   align-items: center;
   margin: -0.4rem 0rem -0.4rem 1rem;
+  white-space: nowrap;
 `;
 
 export default React.memo(PreimageCall);
