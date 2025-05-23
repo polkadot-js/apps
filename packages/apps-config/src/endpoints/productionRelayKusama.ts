@@ -48,7 +48,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'altair',
     paraId: 2088,
     providers: {
-      Centrifuge: 'wss://fullnode.altair.centrifuge.io',
+      // Centrifuge: 'wss://fullnode.altair.centrifuge.io', // https://github.com/polkadot-js/apps/issues/11566
       OnFinality: 'wss://altair.api.onfinality.io/public-ws'
     },
     text: 'Altair',
