@@ -36,7 +36,7 @@ export function BlockAuthorsCtxRoot ({ children }: Props): React.ReactElement<Pr
       let lastBlockNumber = '';
 
       // subscribe to new headers
-      api.derive.chain.subscribeNewHeads((lastHeader: HeaderExtended): void => {
+      api.rpc.chain.subscribeNewHeads((lastHeader: HeaderExtended): void => {
         if (lastHeader?.number) {
           const blockNumber = lastHeader.number.unwrap();
           let thisBlockAuthor = '';
