@@ -1,6 +1,6 @@
     4364	Jaco                          	Disable unreachable endpoints (#10221)
      111	Tarik Gul                     	Ensure safety check on isEmpty (#11358)
-      85	Arjun Porwal                  	fix: improve amount error calculation by considering OpenGov-related locks (#11578)
+      86	Arjun Porwal                  	Enhance Preimage Page with Decodable Call Link (#11570)
       81	Thibaut Sardan                	update overrides (#10090)
       62	kwingram25                    	iadd fix (#2911)
       49	pan                           	update Bifrost kusama on Subsquare (#9752)
