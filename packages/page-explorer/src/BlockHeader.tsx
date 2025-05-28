@@ -32,11 +32,12 @@ function BlockHeader({value}: Props): React.ReactElement<Props> | null {
       </td>
       <td className='all hash overflow'>
         {hashHex}</td>
-      {!!author &&
+      {/* TODO Find issue with block author address and uncomment it */}
+      {/* {!!author &&
         <td className='address'>
           <AddressSmall value={author}/>
         </td>
-      }
+      } */}
     </tr>
   );
 }
