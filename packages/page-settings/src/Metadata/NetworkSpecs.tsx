@@ -242,6 +242,15 @@ const StyledTable = styled(Table)`
     }
   }
 
+  @media (max-width: 900px) {
+    tr {
+      &:first-child {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+
   .settings--networkSpecs-name {
     position: relative;
 
