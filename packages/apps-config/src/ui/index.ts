@@ -13,4 +13,6 @@ export function getSystemIcon (systemName: string, specName: string): 'beachball
   ) as 'substrate';
 }
 
-export { packageInfo };
+export function getPackageVersion () {
+  return `apps v${packageInfo.version.replace('-x', '')}`;
+}

@@ -5,7 +5,7 @@ import type { BareProps as Props } from '@polkadot/react-components/types';
 
 import React, { useRef } from 'react';
 
-import { packageInfo } from '@polkadot/apps-config';
+import { getPackageVersion } from '@polkadot/apps-config';
 import { Input, Spinner, styled, Table } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
@@ -55,7 +55,7 @@ function SystemVersion ({ className }: Props): React.ReactElement<Props> {
             className='full'
             isDisabled
             label={t('Apps Version')}
-            value={`v${packageInfo.version.replace('-x', '')}`}
+            value={`${getPackageVersion().replace('apps ', '')}`}
           />
         </td>
       </tr>

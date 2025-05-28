@@ -5,13 +5,10 @@ import type { BareProps as Props } from '@polkadot/react-components/types';
 
 import React from 'react';
 
+import { getPackageVersion } from '@polkadot/apps-config';
 import { styled } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { NodeName, NodeVersion } from '@polkadot/react-query';
-
-import { packageInfo } from '../packageInfo.js';
-
-const uiInfo = `apps v${packageInfo.version.replace('-x', '')}`;
 
 function NodeInfo ({ className = '' }: Props): React.ReactElement<Props> {
   const { api, isApiReady } = useApi();
@@ -25,7 +22,7 @@ function NodeInfo ({ className = '' }: Props): React.ReactElement<Props> {
         </div>
       )}
       <div>{api.libraryInfo.replace('@polkadot/', '')}</div>
-      <div>{uiInfo}</div>
+      <div>{getPackageVersion()}</div>
     </StyledDiv>
   );
 }
