@@ -11,6 +11,8 @@ import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
 
+const appsVersion = getPackageVersion();
+
 function SystemVersion ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, isApiReady, systemName, systemVersion } = useApi();
@@ -55,7 +57,7 @@ function SystemVersion ({ className }: Props): React.ReactElement<Props> {
             className='full'
             isDisabled
             label={t('Apps Version')}
-            value={`${getPackageVersion().replace('apps ', '')}`}
+            value={`${appsVersion.replace('apps ', '')}`}
           />
         </td>
       </tr>
