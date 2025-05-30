@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Blockchain } from '@acala-network/chopsticks-core';
+import type { KeypairType } from '@polkadot/util-crypto/types';
 import type React from 'react';
 import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/promise/types';
@@ -23,6 +24,7 @@ export interface InjectedAccountExt {
     source: string;
     whenCreated: number;
   };
+  type: KeypairType;
 }
 
 export interface ApiState {
