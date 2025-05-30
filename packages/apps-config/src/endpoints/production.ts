@@ -654,7 +654,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'vara',
     isPeopleForIdentity: false,
     providers: {
-      Blast: 'wss://vara-mainnet.public.blastapi.io',
+      // Blast: 'wss://vara-mainnet.public.blastapi.io', // https://github.com/polkadot-js/apps/issues/11577
       Gear: 'wss://rpc.vara.network'
       // 'P2P.org': 'wss://vara.substrate-rpc.p2p.org/' // https://github.com/polkadot-js/apps/issues/11337
     },
