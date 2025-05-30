@@ -244,7 +244,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'Myriad Social',
     paraId: 4005,
     providers: {
-      myriadPaseo: 'wss://ws-rpc.paseo.myriad.social'
+      // myriadPaseo: 'wss://ws-rpc.paseo.myriad.social' // https://github.com/polkadot-js/apps/issues/11589
     },
     text: 'Myriad Social Testnet',
     ui: {
@@ -439,8 +439,8 @@ export const testParasPaseoCommon: EndpointOption[] = [
     paraId: 1005,
     providers: {
       IBP1: 'wss://sys.ibp.network/coretime-paseo',
-      IBP2: 'wss://coretime-paseo.dotters.network',
-      ParaNodes: 'wss://paseo-coretime.paranodes.io'
+      IBP2: 'wss://coretime-paseo.dotters.network'
+      // ParaNodes: 'wss://paseo-coretime.paranodes.io', // https://github.com/polkadot-js/apps/issues/11587
     },
     relayName: 'paseo',
     teleport: [-1],
