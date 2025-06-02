@@ -1,5 +1,30 @@
 # CHANGELOG
 
+## 0.157.1 Jun 2, 2025
+
+Contributed:
+
+- Add ZeitgeistPM OnFinality provider to production relay polkadot endpoints ([#11558](https://github.com/polkadot-js/apps/pull/11558)) (Thanks to https://github.com/Chralt98)
+- Updates Dancebox for Dancelight ([#11559](https://github.com/polkadot-js/apps/pull/11559)) (Thanks to https://github.com/albertov19)
+- Update jamton definitions ([#11538](https://github.com/polkadot-js/apps/pull/11538)) (Thanks to https://github.com/alexxxkny)
+- chore: display prices as full number on sales page ([#11554](https://github.com/polkadot-js/apps/pull/11554)) (Thanks to https://github.com/rajk93)
+- chore: re-enable rpc3 for Pop Network ([#11571](https://github.com/polkadot-js/apps/pull/11571)) (Thanks to https://github.com/al3mart)
+- Auto suggestion for proxy based on transaction type ([#11579](https://github.com/polkadot-js/apps/pull/11579)) (Thanks to https://github.com/rajk93)
+- chore(passet-hub): add PAssetHub endpoint to Paseo ([#11591](https://github.com/polkadot-js/apps/pull/11591)) (Thanks to https://github.com/al3mart)
+
+
+Changes:
+
+- Improve input conversion logic in BaseBytes component ([#11562](https://github.com/polkadot-js/apps/pull/11562))
+- Small fix for non-showing tag for Reservation type on Coretime Broker - Coretime Chain ([#11567](https://github.com/polkadot-js/apps/pull/11567))
+- Disable unreachable endpoints ([#11574](https://github.com/polkadot-js/apps/pull/11574) [#11590](https://github.com/polkadot-js/apps/pull/11590))
+- Improve amount error calculation by considering OpenGov-related locks ([#11578](https://github.com/polkadot-js/apps/pull/11578))
+- Enhance Preimage Page with Decodable Call Link ([#11570](https://github.com/polkadot-js/apps/pull/11570))
+- Enable Manual Address in Account Input When No Accounts Are Present ([#11583](https://github.com/polkadot-js/apps/pull/11583))
+- Display Basic Chain Info, Apps, API, and Metadata in Settings ([#11584](https://github.com/polkadot-js/apps/pull/11584))
+- Upgraded polkadot dependencies ([#11597](https://github.com/polkadot-js/apps/pull/11597))
+
+
 ## 0.156.1 May 16, 2025
 
 Contributed:
