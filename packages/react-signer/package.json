@@ -14,11 +14,11 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.156.2-15-x",
+  "version": "0.157.1",
   "dependencies": {
     "@polkadot-api/merkleize-metadata": "^1.1.13",
     "@polkadot/hw-ledger": "^13.5.1",
-    "@polkadot/react-components": "^0.156.2-15-x"
+    "@polkadot/react-components": "^0.157.1"
   },
   "peerDependencies": {
     "react": "*",
