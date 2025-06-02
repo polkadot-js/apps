@@ -16,7 +16,7 @@
   "type": "module",
   "version": "0.156.2-14-x",
   "dependencies": {
-    "@polkadot/api-contract": "15.10.2",
+    "@polkadot/api-contract": "16.0.1",
     "eventemitter3": "^5.0.1"
   },
   "peerDependencies": {
