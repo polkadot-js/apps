@@ -10,10 +10,9 @@ import { styled } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { NodeName, NodeVersion } from '@polkadot/react-query';
 
-const appsVersion = getPackageVersion();
-
 function NodeInfo ({ className = '' }: Props): React.ReactElement<Props> {
   const { api, isApiReady } = useApi();
+  const appsVersion = getPackageVersion();
 
   return (
     <StyledDiv className={`${className} media--1400 highlight--color-contrast ui--NodeInfo`}>
