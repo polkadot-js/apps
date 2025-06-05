@@ -4,7 +4,7 @@
 import type { HeaderExtended } from '@polkadot/api-derive/types';
 import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
 import type { V2Weight } from '@polkadot/react-hooks/useWeight';
-import type { EventRecord, RuntimeVersionPartial, SignedBlock } from '@polkadot/types/interfaces';
+import type { EventRecord, Hash, RuntimeVersionPartial, SignedBlock } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -31,6 +31,7 @@ interface State {
   events?: KeyedEvent[] | null;
   getBlock?: SignedBlock;
   getHeader?: HeaderExtended;
+  nextBlockHash?: Hash | null;
   runtimeVersion?: RuntimeVersionPartial;
 }
 
@@ -53,7 +54,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
   const { t } = useTranslation();
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
-  const [{ events, getBlock, getHeader, runtimeVersion }, setState] = useState<State>({});
+  const [{ events, getBlock, getHeader, nextBlockHash, runtimeVersion }, setState] = useState<State>({});
   const [blkError, setBlkError] = useState<Error | null | undefined>(error);
   const [evtError, setEvtError] = useState<Error | null | undefined>();
 
@@ -102,12 +103,53 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
       });
   }, [api, mountedRef, value]);
 
+  useEffect((): (() => void) | undefined => {
+    if (!mountedRef.current || !getHeader?.number) {
+      return;
+    }
+
+    const nextBlockNumber = getHeader.number.unwrap().addn(1);
+    let unsub: (() => void) | undefined;
+
+    api.rpc.chain.getBlockHash(nextBlockNumber)
+      .then((hash) => {
+        if (!hash.isEmpty) {
+          setState((prev) => ({
+            ...prev,
+            nextBlockHash: hash
+          }));
+        } else {
+          api.derive.chain.subscribeNewHeads((header: HeaderExtended): void => {
+            if (mountedRef.current && header.number.unwrap().eq(nextBlockNumber)) {
+              setState((prev) => ({
+                ...prev,
+                nextBlockHash: header.hash
+              }));
+              unsub && unsub();
+            }
+          }).then((_unsub) => {
+            unsub = _unsub;
+          }).catch((error: Error) => {
+            mountedRef.current && setBlkError(error);
+          });
+        }
+      })
+      .catch((error: Error) => {
+        mountedRef.current && setBlkError(error);
+      });
+
+    return (): void => {
+      unsub && unsub();
+    };
+  }, [api, getHeader?.number, mountedRef]);
+
   const header = useMemo<[React.ReactNode?, string?, number?][]>(
     () => getHeader
       ? [
         [formatNumber(getHeader.number.unwrap()), 'start --digits', 1],
         [t('hash'), 'start'],
         [t('parent'), 'start'],
+        [t('next'), 'start'],
         [t('extrinsics'), 'start media--1300'],
         [t('state'), 'start media--1200'],
         [runtimeVersion ? `${runtimeVersion.specName.toString()}/${runtimeVersion.specVersion.toString()}` : undefined, 'media--1000']
@@ -149,6 +191,11 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
                 hasParent
                   ? <Link to={`/explorer/query/${parentHash || ''}`}>{parentHash}</Link>
                   : parentHash
+              }</td>
+              <td className='hash overflow'>{
+                nextBlockHash
+                  ? <Link to={`/explorer/query/${nextBlockHash.toHex()}`}>{nextBlockHash.toHex()}</Link>
+                  : t('Waiting for next block...')
               }</td>
               <td className='hash overflow media--1300'>{getHeader.extrinsicsRoot.toHex()}</td>
               <td className='hash overflow media--1200'>{getHeader.stateRoot.toHex()}</td>
