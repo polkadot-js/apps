@@ -9,7 +9,7 @@ import type { EventRecord, Hash, RuntimeVersionPartial, SignedBlock } from '@pol
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { AddressSmall, Columar, LinkExternal, MarkError, Table } from '@polkadot/react-components';
+import { AddressSmall, Columar, CopyButton, LinkExternal, MarkError, styled, Table } from '@polkadot/react-components';
 import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { convertWeight } from '@polkadot/react-hooks/useWeight';
 import { formatNumber, isBn } from '@polkadot/util';
@@ -170,7 +170,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
         maxProofSize={isBn(maxBlockWeight.proofSize) ? maxBlockWeight.proofSize : (maxBlockWeight as V2Weight).proofSize.toBn()}
         signedBlock={getBlock}
       />
-      <Table header={header}>
+      <StyledTable header={header}>
         {blkError
           ? (
             <tr>
@@ -189,12 +189,22 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
               <td className='hash overflow'>{getHeader.hash.toHex()}</td>
               <td className='hash overflow'>{
                 hasParent
-                  ? <Link to={`/explorer/query/${parentHash || ''}`}>{parentHash}</Link>
+                  ? (
+                    <span className='inline-hash-copy'>
+                      <Link to={`/explorer/query/${parentHash || ''}`}>{parentHash}</Link>
+                      <CopyButton value={parentHash} />
+                    </span>
+                  )
                   : parentHash
               }</td>
               <td className='hash overflow'>{
                 nextBlockHash
-                  ? <Link to={`/explorer/query/${nextBlockHash.toHex()}`}>{nextBlockHash.toHex()}</Link>
+                  ? (
+                    <span className='inline-hash-copy'>
+                      <Link to={`/explorer/query/${nextBlockHash.toHex()}`}>{nextBlockHash.toHex()}</Link>
+                      <CopyButton value={nextBlockHash.toHex()} />
+                    </span>
+                  )
                   : t('Waiting for next block...')
               }</td>
               <td className='hash overflow media--1300'>{getHeader.extrinsicsRoot.toHex()}</td>
@@ -210,7 +220,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
             </tr>
           )
         }
-      </Table>
+      </StyledTable>
       {getBlock && getHeader && (
         <>
           <Extrinsics
@@ -239,5 +249,22 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
     </div>
   );
 }
+
+const StyledTable = styled(Table)`
+  .inline-hash-copy {
+    align-items: center;
+    display: inline-flex;
+    gap: 0.25em;
+    width: 100%;
+
+    a {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+`;
 
 export default React.memo(BlockByHash);
