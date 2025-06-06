@@ -32,7 +32,6 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'aleph',
     providers: {
       'Aleph Zero Foundation': 'wss://ws.azero.dev',
-      // Dwellir: 'wss://aleph-zero-rpc.dwellir.com', https://github.com/polkadot-js/apps/issues/11477
       OnFinality: 'wss://aleph-zero.api.onfinality.io/public-ws'
     },
     text: 'Aleph Zero',
@@ -92,7 +91,6 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'bittensor',
     providers: {
-      // Dwellir: 'wss://bittensor-mainnet-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/10728
       'Latent Holdings (Lite)': 'wss://lite.sub.latent.to:443',
       'Opentensor Fdn (Archive)': 'wss://entrypoint-finney.opentensor.ai:443'
     },
@@ -140,7 +138,6 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'chainflip',
     providers: {
       chainflip: 'wss://mainnet-archive.chainflip.io'
-      // dwellir: 'wss://chainflip-rpc.dwellir.com' // https://github.com/polkadot-js/apps/issues/11495
     },
     text: 'Chainflip',
     ui: {
@@ -211,7 +208,6 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
       'Crust Network APP': 'wss://rpc.crustnetwork.app',
       'Crust Network CC': 'wss://rpc.crustnetwork.cc',
       'Crust Network XYZ': 'wss://rpc.crustnetwork.xyz',
-      // Dwellir: 'wss://crust-mainnet-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/11513
       OnFinality: 'wss://crust.api.onfinality.io/public-ws'
     },
     text: 'Crust Network',
@@ -372,7 +368,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'Liberland',
     providers: {
-      Dwellir: 'wss://liberland-rpc.dwellir.com',
+      Dwellir: 'wss://liberland-rpc.n.dwellir.com',
       'Liberland Government': 'wss://mainnet.liberland.org'
     },
     text: 'Liberland mainnet',
@@ -460,7 +456,6 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'polkadex',
     providers: {
-      // Dwellir: 'wss://polkadex-mainnet-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/11513
       OnFinality: 'wss://polkadex.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://polkadex.public.curie.radiumblock.co/ws'
     },
@@ -586,7 +581,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'tangle',
     providers: {
-      Dwellir: 'wss://tangle-mainnet-rpc.dwellir.com',
+      Dwellir: 'wss://tangle-mainnet-rpc.n.dwellir.com',
       Webb: 'wss://rpc.tangle.tools'
     },
     text: 'Tangle',
