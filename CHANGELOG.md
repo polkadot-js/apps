@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## 0.158.1 Jun 6, 2025
+
+Contributed:
+
+- Re-enable Kabocha RPC (JelliedOwl) ([#11599](https://github.com/polkadot-js/apps/pull/11599)) (Thanks to https://github.com/JelliedOwl)
+- NFTMart is available ([#11606](https://github.com/polkadot-js/apps/pull/11606)) (Thanks to https://github.com/blackjooohn)
+
+
+Changes:
+
+- Move appsVersion initialization inside component ([#11600](https://github.com/polkadot-js/apps/pull/11600))
+- Upgraded polkadot dependencies ([#11611](https://github.com/polkadot-js/apps/pull/11611))
+
+
 ## 0.157.1 Jun 2, 2025
 
 Contributed:

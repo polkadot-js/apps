@@ -14,12 +14,12 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.157.2-3-x",
+  "version": "0.158.1",
   "dependencies": {
-    "@polkadot/react-components": "^0.157.2-3-x"
+    "@polkadot/react-components": "^0.158.1"
   },
   "devDependencies": {
-    "@polkadot/test-support": "0.157.2-3-x"
+    "@polkadot/test-support": "0.158.1"
   },
   "peerDependencies": {
     "react": "*",
