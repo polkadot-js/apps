@@ -348,7 +348,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'TEE cloud',
     paraId: 4545,
     providers: {
-      WeTEEDAO: 'wss://paseo.asyou.me/ws'
+      // WeTEEDAO: 'wss://paseo.asyou.me/ws' // https://github.com/polkadot-js/apps/issues/11610
     },
     text: 'WeTEE (Paseo)',
     ui: {
