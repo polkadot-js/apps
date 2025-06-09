@@ -2034,13 +2034,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/app-staking-legacy@workspace:packages/page-staking-legacy":
+"@polkadot/app-staking-async@workspace:packages/page-staking-async":
   version: 0.0.0-use.local
-  resolution: "@polkadot/app-staking-legacy@workspace:packages/page-staking-legacy"
-  dependencies:
-    "@polkadot/app-explorer": "npm:^0.152.2-11-x"
-    "@polkadot/react-components": "npm:^0.152.2-11-x"
-    "@polkadot/react-query": "npm:^0.152.2-11-x"
+  resolution: "@polkadot/app-staking-async@workspace:packages/page-staking-async"
   peerDependencies:
     react: "*"
     react-dom: "*"
@@ -2048,9 +2044,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/app-staking-next@workspace:packages/page-staking-next":
+"@polkadot/app-staking-legacy@workspace:packages/page-staking-legacy":
   version: 0.0.0-use.local
-  resolution: "@polkadot/app-staking-next@workspace:packages/page-staking-next"
+  resolution: "@polkadot/app-staking-legacy@workspace:packages/page-staking-legacy"
+  dependencies:
+    "@polkadot/app-explorer": "npm:^0.152.2-11-x"
+    "@polkadot/react-components": "npm:^0.152.2-11-x"
+    "@polkadot/react-query": "npm:^0.152.2-11-x"
   peerDependencies:
     react: "*"
     react-dom: "*"

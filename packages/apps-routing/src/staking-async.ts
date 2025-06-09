@@ -4,7 +4,7 @@
 import type { ApiPromise } from '@polkadot/api';
 import type { Route, TFunction } from './types.js';
 
-import Component from '@polkadot/app-staking-next';
+import Component from '@polkadot/app-staking-async';
 
 function needsApiCheck (api: ApiPromise): boolean {
   try {
@@ -23,7 +23,7 @@ export default function create (t: TFunction): Route {
     },
     group: 'network',
     icon: 'certificate',
-    name: 'staking-next',
-    text: t('nav.staking-next', 'Staking Next', { ns: 'apps-routing' })
+    name: 'staking-async',
+    text: t('nav.staking-async', 'Staking Async', { ns: 'apps-routing' })
   };
 }

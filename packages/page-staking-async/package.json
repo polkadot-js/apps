@@ -3,12 +3,12 @@
   "engines": {
     "node": ">=18"
   },
-  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-staking-next#readme",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-staking-async#readme",
   "license": "Apache-2.0",
-  "name": "@polkadot/app-staking-next",
+  "name": "@polkadot/app-staking-async",
   "private": true,
   "repository": {
-    "directory": "packages/page-staking-next",
+    "directory": "packages/page-staking-async",
     "type": "git",
     "url": "https://github.com/polkadot-js/apps.git"
   },
