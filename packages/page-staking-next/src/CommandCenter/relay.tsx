@@ -57,16 +57,16 @@ function RelaySection ({ children, rcApi, rcOutput }: Props) {
                       </CardSummary>
                   }
                 </div>
-                <div className='stakingNextAhClient__summary'>
-                  {rc.stakingNextAhClient.isBlocked && <MarkWarning content={t('Asset Hub client pallet (AhClient) is blocked currently, useful for migration signal from the fellowship.')} />}
-                  {rc.stakingNextAhClient.hasQueuedInClient &&
-                      <div className='stakingNextAhClient__hasQueuedInClient'>
+                <div className='assetHubStakingClient__summary'>
+                  <MarkWarning content={rc.assetHubStakingClient.mode} />
+                  {rc.assetHubStakingClient.hasQueuedInClient &&
+                      <div className='assetHubStakingClient__hasQueuedInClient'>
                         <MarkWarning content={t('There is a validator set queued in ah-client.')} />
                         <CardSummary label={t('id')}>
-                          {rc.stakingNextAhClient.hasQueuedInClient[0]}
+                          {rc.assetHubStakingClient.hasQueuedInClient[0]}
                         </CardSummary>
                         <CardSummary label={t('number of validators')}>
-                          {rc.stakingNextAhClient.hasQueuedInClient[1].length}
+                          {rc.assetHubStakingClient.hasQueuedInClient[1].length}
                         </CardSummary>
                       </div>}
                 </div>
@@ -139,8 +139,8 @@ const StyledSection = styled.section`
         }
       }
 
-      .stakingNextAhClient__summary {
-        .stakingNextAhClient__hasQueuedInClient {
+      .assetHubStakingClient__summary {
+        .assetHubStakingClient__hasQueuedInClient {
           display: flex;
           justify-content: space-evenly;
         }

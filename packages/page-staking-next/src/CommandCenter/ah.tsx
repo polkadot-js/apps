@@ -77,6 +77,11 @@ function AssetHubSection ({ ahApi, ahOutput, children }: Props) {
                       {ah.multiblock.snapshotRange}
                     </CardSummary>}
                   </div>
+                  <div className='rcClient__summary'>
+                    <CardSummary label={t('Last Session Report End Index')}>
+                      {ah.rcClient.lastSessionReportEndIndex}
+                    </CardSummary>
+                  </div>
                 </div>
               </div>
               <div className='events__summary'>
@@ -113,6 +118,7 @@ function AssetHubSection ({ ahApi, ahOutput, children }: Props) {
 const StyledSection = styled.section`
   margin-block: 1rem;
   overflow: auto;
+  white-space: nowrap;
 
   .warning {
     max-width: fit-content;
@@ -153,7 +159,7 @@ const StyledSection = styled.section`
         justify-content: end;
       }
 
-      .multiblock__summary {
+      .multiblock__summary, .rcClient__summary {
         display: flex;
         justify-content: end;
         margin-top: 1.5rem;

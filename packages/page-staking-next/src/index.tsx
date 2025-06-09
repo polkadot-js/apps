@@ -12,11 +12,11 @@ import StakingRelayApp from './Relay/index.js';
 import StakingSystemApp from './System/index.js';
 
 function StakingApp ({ basePath, className = '', onStatusChange }: Props): React.ReactElement<Props> {
-  const { apiEndpoint } = useApi();
+  const { api } = useApi();
 
   return (
     <StyledMain className={`${className} staking--App`}>
-      {apiEndpoint?.isRelay
+      {api?.tx?.assetHubStakingClient
         ? (
           <StakingRelayApp
             basePath={basePath}
