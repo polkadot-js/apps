@@ -507,7 +507,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2023,
     providers: {
       Allnodes: 'wss://moonriver-rpc.publicnode.com',
-      Blast: 'wss://moonriver.public.blastapi.io',
+      // Blast: 'wss://moonriver.public.blastapi.io', // https://github.com/polkadot-js/apps/issues/11608
       Dwellir: 'wss://moonriver-rpc.n.dwellir.com',
       'Moonbeam Foundation': 'wss://wss.api.moonriver.moonbeam.network',
       OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
@@ -696,7 +696,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2007,
     providers: {
       Astar: 'wss://rpc.shiden.astar.network',
-      Blast: 'wss://shiden.public.blastapi.io',
+      // Blast: 'wss://shiden.public.blastapi.io', // https://github.com/polkadot-js/apps/issues/11610
       Dwellir: 'wss://shiden-rpc.n.dwellir.com',
       OnFinality: 'wss://shiden.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://shiden.public.curie.radiumblock.co/ws',

@@ -1110,6 +1110,7 @@
   "Waiting for Curator's acceptance": "",
   "Waiting for authorization from the extension. Please open the installed extension and approve or reject access.": "",
   "Waiting for implementer to claim": "",
+  "Waiting for next block...": "",
   "Waiting nominations ({{count}})": "",
   "Waiting to complete metadata retrieval from remote endpoint.": "",
   "Waiting to establish a connection with the remote endpoint.": "",

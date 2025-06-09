@@ -348,7 +348,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'TEE cloud',
     paraId: 4545,
     providers: {
-      WeTEEDAO: 'wss://paseo.asyou.me/ws'
+      // WeTEEDAO: 'wss://paseo.asyou.me/ws' // https://github.com/polkadot-js/apps/issues/11610
     },
     text: 'WeTEE (Paseo)',
     ui: {
@@ -455,6 +455,8 @@ export const testParasPaseoCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1111,
     providers: {
+      IBP1: 'wss://passet-hub-paseo.ibp.network',
+      // IBP2: 'wss://passet-hub-paseo.dotters.network', // finishing deployment
       Parity: 'wss://testnet-passet-hub.polkadot.io'
     },
     relayName: 'paseo',
