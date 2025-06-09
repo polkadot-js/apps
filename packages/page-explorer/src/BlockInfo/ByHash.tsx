@@ -119,6 +119,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
             nextBlockHash: hash
           }));
         } else {
+          // Subscribe to new block headers until the next block is found, then unsubscribes.
           api.derive.chain.subscribeNewHeads((header: HeaderExtended): void => {
             if (mountedRef.current && header.number.unwrap().eq(nextBlockNumber)) {
               setState((prev) => ({
