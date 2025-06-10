@@ -403,7 +403,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1000,
     providers: {
-      Dwellir: 'wss://asset-hub-paseo-rpc.dwellir.com',
+      Dwellir: 'wss://asset-hub-paseo-rpc.n.dwellir.com',
       IBP1: 'wss://sys.ibp.network/asset-hub-paseo',
       IBP2: 'wss://asset-hub-paseo.dotters.network',
       StakeWorld: 'wss://pas-rpc.stakeworld.io/assethub',
@@ -499,7 +499,7 @@ export const testRelayPaseo: EndpointOption = {
   ],
   providers: {
     Amforc: 'wss://paseo.rpc.amforc.com',
-    Dwellir: 'wss://paseo-rpc.dwellir.com',
+    Dwellir: 'wss://paseo-rpc.n.dwellir.com',
     IBP1: 'wss://rpc.ibp.network/paseo',
     IBP2: 'wss://paseo.dotters.network',
     StakeWorld: 'wss://pas-rpc.stakeworld.io'

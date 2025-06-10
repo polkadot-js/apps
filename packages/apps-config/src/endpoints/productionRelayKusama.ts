@@ -62,7 +62,6 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'amplitude',
     paraId: 2124,
     providers: {
-      // Dwellir: 'wss://amplitude-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/11495
       PendulumChain: 'wss://rpc-amplitude.pendulumchain.tech'
     },
     text: 'Amplitude',
@@ -137,7 +136,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Darwinia: 'wss://crab-rpc.darwinia.network/',
       // Dcdao: 'wss://crab-rpc.dcdao.box', // https://github.com/polkadot-js/apps/issues/11232
-      Dwellir: 'wss://darwiniacrab-rpc.dwellir.com'
+      Dwellir: 'wss://darwiniacrab-rpc.n.dwellir.com'
     },
     text: 'Crab',
     ui: {
@@ -334,7 +333,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
       'Acala Foundation 1': 'wss://karura-rpc-1.aca-api.network',
       'Acala Foundation 2': 'wss://karura-rpc-2.aca-api.network/ws',
       'Acala Foundation 3': 'wss://karura-rpc-3.aca-api.network/ws',
-      Dwellir: 'wss://karura-rpc.dwellir.com',
+      Dwellir: 'wss://karura-rpc.n.dwellir.com',
       // LuckyFriday: 'wss://rpc-karura.luckyfriday.io',  // https://github.com/polkadot-js/apps/issues/10663
       OnFinality: 'wss://karura.api.onfinality.io/public-ws'
       // 'Polkawallet 0': 'wss://karura.polkawallet.io' // https://github.com/polkadot-js/apps/issues/9383
@@ -350,7 +349,6 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'khala',
     paraId: 2004,
     providers: {
-      // Dwellir: 'wss://khala-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/11274
       // Helikon: 'wss://rpc.helikon.io/khala'
       // OnFinality: 'wss://khala.api.onfinality.io/public-ws',
       // Phala: 'wss://khala-api.phala.network/ws', // https://github.com/polkadot-js/apps/issues/11178
@@ -395,7 +393,6 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'kintsugi',
     paraId: 2092,
     providers: {
-      // Dwellir: 'wss://kintsugi-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/11513
       'Kintsugi Labs': 'wss://api-kusama.interlay.io/parachain',
       // LuckyFriday: 'wss://rpc-kintsugi.luckyfriday.io/', // https://github.com/polkadot-js/apps/issues/9947
       OnFinality: 'wss://kintsugi.api.onfinality.io/public-ws'
@@ -442,7 +439,6 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'krest',
     paraId: 2241,
     providers: {
-      // Dwellir: 'wss://krest-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/11495
       Krest: 'wss://wss-krest.peaq.network/',
       OnFinality: 'wss://krest.api.onfinality.io/public-ws'
       // UnitedBloc: 'wss://krest.unitedbloc.com/' https://github.com/polkadot-js/apps/issues/10997
@@ -556,7 +552,6 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2087,
     providers: {
       Composable: 'wss://rpc.composablenodes.tech'
-      // Dwellir: 'wss://picasso-rpc.dwellir.com' // https://github.com/polkadot-js/apps/issues/11393
       // LuckyFriday: 'wss://rpc-picasso.luckyfriday.io' // https://github.com/polkadot-js/apps/issues/9947
     },
     text: 'Picasso',
@@ -654,7 +649,6 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2048,
     providers: {
       Airalab: 'wss://kusama.rpc.robonomics.network/'
-      // Dwellir: 'wss://robonomics-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/10912
       // Leemo: 'wss://robonomics.leemo.me', // https://github.com/polkadot-js/apps/issues/9817
       // OnFinality: 'wss://robonomics.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9824
       // Samsara: 'wss://robonomics.0xsamsara.com' https://github.com/polkadot-js/apps/issues/11026
@@ -703,7 +697,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Astar: 'wss://rpc.shiden.astar.network',
       // Blast: 'wss://shiden.public.blastapi.io', // https://github.com/polkadot-js/apps/issues/11610
-      Dwellir: 'wss://shiden-rpc.dwellir.com',
+      Dwellir: 'wss://shiden-rpc.n.dwellir.com',
       OnFinality: 'wss://shiden.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://shiden.public.curie.radiumblock.co/ws',
       'light client': 'light://substrate-connect/kusama/shiden'
@@ -822,7 +816,6 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'turing',
     paraId: 2114,
     providers: {
-      // Dwellir: 'wss://turing-rpc.dwellir.com' // https://github.com/polkadot-js/apps/issues/11513
       // OAK: 'wss://rpc.turing.oak.tech' // https://github.com/polkadot-js/apps/issues/11098
     },
     text: 'Turing Network',
@@ -890,7 +883,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1000,
     providers: {
-      Dwellir: 'wss://asset-hub-kusama-rpc.dwellir.com',
+      Dwellir: 'wss://asset-hub-kusama-rpc.n.dwellir.com',
       'Dwellir Tunisia': 'wss://statemine-rpc-tn.dwellir.com',
       IBP1: 'wss://sys.ibp.network/asset-hub-kusama',
       IBP2: 'wss://asset-hub-kusama.dotters.network',
@@ -913,7 +906,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1002,
     providers: {
-      Dwellir: 'wss://bridge-hub-kusama-rpc.dwellir.com',
+      Dwellir: 'wss://bridge-hub-kusama-rpc.n.dwellir.com',
       'Dwellir Tunisia': 'wss://kusama-bridge-hub-rpc-tn.dwellir.com',
       IBP1: 'wss://sys.ibp.network/bridgehub-kusama',
       IBP2: 'wss://bridge-hub-kusama.dotters.network',
@@ -957,7 +950,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1001,
     providers: {
-      Dwellir: 'wss://encointer-kusama-rpc.dwellir.com',
+      Dwellir: 'wss://encointer-kusama-rpc.n.dwellir.com',
       'Encointer Association': 'wss://kusama.api.encointer.org',
       IBP1: 'wss://sys.ibp.network/encointer-kusama',
       IBP2: 'wss://encointer-kusama.dotters.network',
@@ -1012,7 +1005,7 @@ export const prodRelayKusama: EndpointOption = {
     // 'Geometry Labs': 'wss://kusama.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
     // 'Automata 1RPC': 'wss://1rpc.io/ksm',
     Allnodes: 'wss://kusama-rpc.publicnode.com',
-    Dwellir: 'wss://kusama-rpc.dwellir.com',
+    Dwellir: 'wss://kusama-rpc.n.dwellir.com',
     'Dwellir Tunisia': 'wss://kusama-rpc-tn.dwellir.com',
     Helixstreet: 'wss://rpc-kusama.helixstreet.io',
     IBP1: 'wss://rpc.ibp.network/kusama',
