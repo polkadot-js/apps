@@ -232,8 +232,8 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'Mandala',
     paraId: 4818,
     providers: {
-      'Autobot': 'wss://rpc1.paseo.mandalachain.io',
-      'Bumblebee': 'wss://rpc2.paseo.mandalachain.io'
+      Autobot: 'wss://rpc1.paseo.mandalachain.io',
+      Bumblebee: 'wss://rpc2.paseo.mandalachain.io'
     },
     text: 'Mandala',
     ui: {
