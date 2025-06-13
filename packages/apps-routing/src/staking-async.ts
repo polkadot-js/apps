@@ -8,7 +8,7 @@ import Component from '@polkadot/app-staking-async';
 
 function needsApiCheck (api: ApiPromise): boolean {
   try {
-    return !!((api.tx.assetHubStakingClient) || (api.tx.staking && api.tx.stakingNextRcClient));
+    return !!((api.tx.stakingAhClient) || (api.tx.staking && api.tx.stakingRcClient));
   } catch {
     return false;
   }

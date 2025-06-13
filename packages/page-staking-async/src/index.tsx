@@ -16,7 +16,7 @@ function StakingApp ({ basePath, className = '', onStatusChange }: Props): React
 
   return (
     <StyledMain className={`${className} staking--App`}>
-      {api?.tx?.assetHubStakingClient
+      {api?.tx?.stakingAhClient
         ? (
           <StakingRelayApp
             basePath={basePath}

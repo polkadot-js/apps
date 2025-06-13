@@ -36,7 +36,7 @@ export interface IRcOutput {
     hasQueuedInSession: boolean,
     historicalRange?: [number, number]
   },
-  assetHubStakingClient: {
+  stakingAhClient: {
     mode: string
     hasNextActiveId?: number,
     hasQueuedInClient?: [number, AccountId32[]]
@@ -82,19 +82,19 @@ const commandCenterHandler = async (
 
     // whether there is a validator set queued in ah-client. for this we need to display only the id and the length of the set.
     const hasQueuedInClient =
-      await rcApi.query.assetHubStakingClient.validatorSet();
+      await rcApi.query.stakingAhClient.validatorSet();
       // whether we have already passed a new validator set to session, and therefore in the next session rotation we want to pass this id to AH.
     const hasNextActiveId =
-      await rcApi.query.assetHubStakingClient.nextSessionChangesValidators();
+      await rcApi.query.stakingAhClient.nextSessionChangesValidators();
     // Operating mode of the client.
-    const mode = await rcApi.query.assetHubStakingClient.mode();
+    const mode = await rcApi.query.stakingAhClient.mode();
 
     // Events that we are interested in from RC:
     const eventsOfInterest = (await (await rcApi.at(header.hash.toHex())).query.system.events())
       .map((e) => e.event)
       .filter((e) => {
         const ahClientEvents = (e: IEventData) =>
-          e.section === 'assetHubStakingClient';
+          e.section === 'stakingAhClient';
         const sessionEvents = (e: IEventData) =>
           e.section === 'session' || e.section === 'historical';
 
@@ -106,17 +106,17 @@ const commandCenterHandler = async (
 
       return [
         {
-          assetHubStakingClient: {
-            hasNextActiveId: hasNextActiveId.isEmpty ? undefined : rcApi.createType('Option<u32>', hasNextActiveId).unwrap().toNumber(),
-            hasQueuedInClient: parsedHasQueuedInClient.isNone ? undefined : [parsedHasQueuedInClient.unwrap()[0].toNumber(), parsedHasQueuedInClient.unwrap()[1]],
-            mode: mode.toString()
-          },
           events: eventsOfInterest,
           finalizedBlock: header.number.toNumber(),
           session: {
             hasQueuedInSession: hasQueuedInSession.isTrue,
             historicalRange: historicalRange.isSome ? [historicalRange.unwrap()[0].toNumber(), historicalRange.unwrap()[1].toNumber()] : undefined,
             index: index.toNumber()
+          },
+          stakingAhClient: {
+            hasNextActiveId: hasNextActiveId.isEmpty ? undefined : rcApi.createType('Option<u32>', hasNextActiveId).unwrap().toNumber(),
+            hasQueuedInClient: parsedHasQueuedInClient.isNone ? undefined : [parsedHasQueuedInClient.unwrap()[0].toNumber(), parsedHasQueuedInClient.unwrap()[1]],
+            mode: mode.toString()
           }
         },
         ...prev.slice(0, MAX_EVENTS - 1)];
@@ -135,27 +135,27 @@ const commandCenterHandler = async (
     // const erasStartSessionIndex = await ahApi.query.staking.erasStartSessionIndex(activeEra.unwrap().index);
 
     // the basic state of the election provider
-    const phase = await ahApi.query.multiBlock.currentPhase();
-    const round = await ahApi.query.multiBlock.round();
+    const phase = await ahApi.query.multiBlockElection.currentPhase();
+    const round = await ahApi.query.multiBlockElection.round();
     const snapshotRange = (
-      await ahApi.query.multiBlock.pagedVoterSnapshotHash.entries()
+      await ahApi.query.multiBlockElection.pagedVoterSnapshotHash.entries()
     )
       .map(([k]) => k.args[0])
       .sort();
     const queuedScore =
-      await ahApi.query.multiBlockVerifier.queuedSolutionScore(round);
+      await ahApi.query.multiBlockElectionVerifier.queuedSolutionScore(round);
     const signedSubmissions =
-      await ahApi.query.multiBlockSigned.sortedScores(round);
+      await ahApi.query.multiBlockElectionSigned.sortedScores(round);
 
     // The client
-    const lastSessionReportEndIndex = await ahApi.query.stakingNextRcClient.lastSessionReportEndingIndex();
+    const lastSessionReportEndIndex = await ahApi.query.stakingRcClient.lastSessionReportEndingIndex();
 
     // Events that we are interested in from RC:
     const eventsOfInterest = (await (await ahApi.at(header.hash.toHex())).query.system.events())
       .map((e) => e.event)
       .filter((e) => {
-        const election = (e: IEventData) => e.section === 'multiBlock' || e.section === 'multiBlockVerifier' || e.section === 'multiBlockSigned' || e.section === 'multiBlockUnsigned';
-        const rcClient = (e: IEventData) => e.section === 'stakingNextRcClient' || e.section === 'StakingNextRcClient';
+        const election = (e: IEventData) => e.section === 'multiBlockElection' || e.section === 'multiBlockElectionVerifier' || e.section === 'multiBlockElectionSigned' || e.section === 'multiBlockElectionUnsigned';
+        const rcClient = (e: IEventData) => e.section === 'stakingRcClient';
         const staking = (e: IEventData) => e.section === 'staking' && (e.method === 'EraPaid' || e.method === 'SessionRotated' || e.method === 'PagedElectionProceeded');
 
         return election(e.data) || rcClient(e.data) || staking(e.data);
@@ -205,7 +205,7 @@ function CommandCenter () {
   const [rcApi, setRcApi] = useState<ApiPromise>();
 
   // Check if it is relay chain
-  const isRelayChain = useMemo(() => api.tx.assetHubStakingClient, [api.tx.assetHubStakingClient]);
+  const isRelayChain = useMemo(() => api.tx.stakingAhClient, [api.tx.stakingAhClient]);
 
   const rcEndPoints = useMemo(() => {
     return (isRelayChain
@@ -266,7 +266,7 @@ function CommandCenter () {
       if (ahUrl) {
         getApi(ahUrl).then((ahApi) => setAhApi(ahApi)).catch(console.log);
       }
-    } else if (api.tx.staking && api.tx.stakingNextRcClient) { // Check if Asset Hub chain
+    } else if (api.tx.staking && api.tx.stakingRcClient) { // Check if Asset Hub chain
       setAhApi(api);
 
       if (rcUrl) {

@@ -57,16 +57,16 @@ function RelaySection ({ children, rcApi, rcOutput }: Props) {
                       </CardSummary>
                   }
                 </div>
-                <div className='assetHubStakingClient__summary'>
-                  <MarkWarning content={rc.assetHubStakingClient.mode} />
-                  {rc.assetHubStakingClient.hasQueuedInClient &&
-                      <div className='assetHubStakingClient__hasQueuedInClient'>
+                <div className='stakingAhClient__summary'>
+                  <MarkWarning content={rc.stakingAhClient.mode} />
+                  {rc.stakingAhClient.hasQueuedInClient &&
+                      <div className='stakingAhClient__hasQueuedInClient'>
                         <MarkWarning content={t('There is a validator set queued in ah-client.')} />
                         <CardSummary label={t('id')}>
-                          {rc.assetHubStakingClient.hasQueuedInClient[0]}
+                          {rc.stakingAhClient.hasQueuedInClient[0]}
                         </CardSummary>
                         <CardSummary label={t('number of validators')}>
-                          {rc.assetHubStakingClient.hasQueuedInClient[1].length}
+                          {rc.stakingAhClient.hasQueuedInClient[1].length}
                         </CardSummary>
                       </div>}
                 </div>
@@ -139,8 +139,8 @@ const StyledSection = styled.section`
         }
       }
 
-      .assetHubStakingClient__summary {
-        .assetHubStakingClient__hasQueuedInClient {
+      .stakingAhClient__summary {
+        .stakingAhClient__hasQueuedInClient {
           display: flex;
           justify-content: space-evenly;
         }
