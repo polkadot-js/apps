@@ -282,8 +282,10 @@ function CommandCenter () {
   return (
     <StyledDiv>
       <RelaySection
+        isRelayChain={!!isRelayChain}
         rcApi={rcApi}
         rcOutput={rcOutput}
+        rcUrl={rcUrl || ''}
       >
         <Dropdown
           defaultValue={rcUrl}
@@ -296,6 +298,8 @@ function CommandCenter () {
       <AssetHubSection
         ahApi={ahApi}
         ahOutput={ahOutput}
+        ahUrl={ahUrl || ''}
+        isRelayChain={!!isRelayChain}
       >
         <Dropdown
           defaultValue={ahUrl}

@@ -18,9 +18,11 @@ interface Props {
   children: ReactNode;
   ahApi?: ApiPromise;
   ahOutput: IAhOutput[];
+  ahUrl: string;
+  isRelayChain: boolean
 }
 
-function AssetHubSection ({ ahApi, ahOutput, children }: Props) {
+function AssetHubSection ({ ahApi, ahOutput, ahUrl, children, isRelayChain }: Props) {
   const { t } = useTranslation();
 
   return (
@@ -46,7 +48,17 @@ function AssetHubSection ({ ahApi, ahOutput, children }: Props) {
               <div className='details'>
                 <div className='session__summary'>
                   <h4 className='--digits'>
-                    <Link to={`/explorer/query/${ah.finalizedBlock}`}>#{formatNumber(ah.finalizedBlock)}</Link>
+                    {!isRelayChain
+                      ? <Link to={`/explorer/query/${ah.finalizedBlock}`}>#{formatNumber(ah.finalizedBlock)}</Link>
+                      : (
+                        <Link
+                          target='_blank'
+                          to={`${window.location.origin}/?rpc=${ahUrl}#/explorer/query/${ah.finalizedBlock}`}
+                        >
+                          #{formatNumber(ah.finalizedBlock)}
+                        </Link>)
+                    }
+
                   </h4>
                 </div>
                 <div>

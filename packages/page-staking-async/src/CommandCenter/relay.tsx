@@ -18,9 +18,11 @@ interface Props {
   children: ReactNode;
   rcApi?: ApiPromise;
   rcOutput: IRcOutput[];
+  rcUrl: string;
+  isRelayChain: boolean
 }
 
-function RelaySection ({ children, rcApi, rcOutput }: Props) {
+function RelaySection ({ children, isRelayChain, rcApi, rcOutput, rcUrl }: Props) {
   const { t } = useTranslation();
 
   return (
@@ -46,7 +48,16 @@ function RelaySection ({ children, rcApi, rcOutput }: Props) {
               <div className='details'>
                 <div className='session__summary'>
                   <h4 className='--digits'>
-                    <Link to={`/explorer/query/${rc.finalizedBlock}`}>#{formatNumber(rc.finalizedBlock)}</Link>
+                    {isRelayChain
+                      ? <Link to={`/explorer/query/${rc.finalizedBlock}`}>#{formatNumber(rc.finalizedBlock)}</Link>
+                      : (
+                        <Link
+                          target='_blank'
+                          to={`${window.location.origin}/?rpc=${rcUrl}#/explorer/query/${rc.finalizedBlock}`}
+                        >
+                          #{formatNumber(rc.finalizedBlock)}
+                        </Link>)
+                    }
                   </h4>
                   <CardSummary label={t('session')}>
                           #{formatNumber(rc.session.index)}
