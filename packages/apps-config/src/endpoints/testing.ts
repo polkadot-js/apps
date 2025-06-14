@@ -520,7 +520,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'kintsugi-testnet',
     providers: {
-      Interlay: 'wss://api-dev-kintsugi.interlay.io/parachain'
+      // Interlay: 'wss://api-dev-kintsugi.interlay.io/parachain' // https://github.com/polkadot-js/apps/issues/11620
     },
     text: 'Kintsugi Testnet',
     ui: {
