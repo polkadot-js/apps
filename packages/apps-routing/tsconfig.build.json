@@ -41,6 +41,7 @@
     { "path": "../page-signing/tsconfig.build.json" },
     { "path": "../page-society/tsconfig.build.json" },
     { "path": "../page-staking/tsconfig.build.json" },
+    { "path": "../page-staking-async/tsconfig.build.json" },
     { "path": "../page-staking2/tsconfig.build.json" },
     { "path": "../page-staking-legacy/tsconfig.build.json" },
     { "path": "../page-storage/tsconfig.build.json" },
