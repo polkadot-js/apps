@@ -117,7 +117,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     },
     text: 'Frequency',
     ui: {
-      color: '#19455E',
+      color: '#bc86b7',
       logo: chainsFrequencyPaseoSVG
     }
   },

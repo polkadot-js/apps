@@ -291,7 +291,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     },
     text: 'Frequency',
     ui: {
-      color: '#00b6af',
+      color: '#790e70',
       logo: chainsFrequencySVG
     }
   },
