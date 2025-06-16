@@ -25,8 +25,6 @@ export function createWindow (environment: string): Promise<unknown> {
   }
 
   win.webContents.setWindowOpenHandler(({ url }) => {
-    console.log('coming here');
-
     // Open all http/https URLs externally
     if (url.startsWith('http://') || url.startsWith('https://')) {
       shell.openExternal(url).catch(console.log);
@@ -38,8 +36,6 @@ export function createWindow (environment: string): Promise<unknown> {
   });
 
   win.webContents.on('will-navigate', (event, url) => {
-    console.log('coming here');
-
     if (url.startsWith('http://') || url.startsWith('https://')) {
       event.preventDefault();
       shell.openExternal(url).catch(console.log);
