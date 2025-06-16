@@ -24,6 +24,7 @@ export function createWindow (environment: string): Promise<unknown> {
     return win.loadURL('http://127.0.0.1:3000/');
   }
 
+  // Handle attempts to open a new window via window.open()
   win.webContents.setWindowOpenHandler(({ url }) => {
     // Open all http/https URLs externally
     if (url.startsWith('http://') || url.startsWith('https://')) {
@@ -35,6 +36,7 @@ export function createWindow (environment: string): Promise<unknown> {
     return { action: 'allow' };
   });
 
+  // Handle in-app navigation attempts, such as clicking on <a href="...">
   win.webContents.on('will-navigate', (event, url) => {
     if (url.startsWith('http://') || url.startsWith('https://')) {
       event.preventDefault();
