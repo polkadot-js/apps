@@ -375,6 +375,7 @@
        1	chiefbiiko                    	Add t0rn Rococo parachain (#7443)
        1	Chralt                        	add zeitgeist onfinality provider to production relay polkadot (#11558)
        1	Chris Ganga                   	use selected theme in the validator stats page (#5391)
+       1	Claire Olmstead Clark         	update frequency svgs (mainnet and testnet paseo). update ui colors. (#11624)
        1	clangenb                      	Add custom signed extension for the enconter chains and update encointer types. (#8425)
        1	composerpeter                 	Added Composable Finance (#6685)
        1	cr4pt0                        	Update Pendulum chain logo (#8530)
