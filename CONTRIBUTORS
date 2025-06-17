@@ -1,6 +1,6 @@
     4364	Jaco                          	Disable unreachable endpoints (#10221)
      111	Tarik Gul                     	Ensure safety check on isEmpty (#11358)
-      92	Arjun Porwal                  	0.158.1 (#11615)
+      93	Arjun Porwal                  	Handle External URL Navigation in Electron App (#11630)
       81	Thibaut Sardan                	update overrides (#10090)
       62	kwingram25                    	iadd fix (#2911)
       49	pan                           	update Bifrost kusama on Subsquare (#9752)
