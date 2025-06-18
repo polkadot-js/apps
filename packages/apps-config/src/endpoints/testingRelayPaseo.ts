@@ -334,7 +334,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       'Quantum Fusion': 'wss://para.test.qfnetwork.xyz'
     },
-    text: 'QF (Paseo)',
+    text: 'Quantum Fusion (Paseo)',
     ui: {
       color: '#000000',
       logo: chainsQuantumFusionPNG
