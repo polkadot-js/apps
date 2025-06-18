@@ -590,10 +590,10 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
       logo: chainsTanglePNG
     }
   },
-    {
+  {
     info: 'tanssi',
     providers: {
-      "Tanssi Foundation": 'wss://tanssi.tanssi-mainnet.network',
+      'Tanssi Foundation': 'wss://tanssi.tanssi-mainnet.network'
     },
     text: 'Tanssi',
     ui: {
