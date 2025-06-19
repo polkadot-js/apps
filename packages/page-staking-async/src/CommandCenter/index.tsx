@@ -102,24 +102,38 @@ const commandCenterHandler = async (
       });
 
     setRcOutout((prev) => {
-      const parsedHasQueuedInClient = rcApi.createType('Option<(u32,Vec<AccountId32>)>', hasQueuedInClient);
-
-      return [
-        {
-          events: eventsOfInterest,
-          finalizedBlock: header.number.toNumber(),
-          session: {
-            hasQueuedInSession: hasQueuedInSession.isTrue,
-            historicalRange: historicalRange.isSome ? [historicalRange.unwrap()[0].toNumber(), historicalRange.unwrap()[1].toNumber()] : undefined,
-            index: index.toNumber()
-          },
-          stakingAhClient: {
-            hasNextActiveId: hasNextActiveId.isEmpty ? undefined : rcApi.createType('Option<u32>', hasNextActiveId).unwrap().toNumber(),
-            hasQueuedInClient: parsedHasQueuedInClient.isNone ? undefined : [parsedHasQueuedInClient.unwrap()[0].toNumber(), parsedHasQueuedInClient.unwrap()[1]],
-            mode: mode.toString()
-          }
+      const newItem = {
+        events: eventsOfInterest,
+        finalizedBlock: header.number.toNumber(),
+        session: {
+          hasQueuedInSession: hasQueuedInSession.isTrue,
+          historicalRange: historicalRange.isSome
+            ? [historicalRange.unwrap()[0].toNumber(), historicalRange.unwrap()[1].toNumber()] as [number, number]
+            : undefined,
+          index: index.toNumber()
         },
-        ...prev.slice(0, MAX_EVENTS - 1)];
+        stakingAhClient: {
+          hasNextActiveId: hasNextActiveId.isEmpty
+            ? undefined
+            : rcApi.createType('Option<u32>', hasNextActiveId).unwrap().toNumber(),
+          hasQueuedInClient: (() => {
+            const parsed = rcApi.createType('Option<(u32,Vec<AccountId32>)>', hasQueuedInClient);
+
+            return parsed.isNone ? undefined : [parsed.unwrap()[0].toNumber(), parsed.unwrap()[1]] as [number, AccountId32[]];
+          })(),
+          mode: mode.toString()
+        }
+      };
+
+      return [newItem, ...prev]
+        .reduce((acc, curr) => {
+          if (!acc.find((item) => item.finalizedBlock === curr.finalizedBlock)) {
+            acc.push(curr);
+          }
+
+          return acc;
+        }, [] as typeof prev)
+        .slice(0, MAX_EVENTS);
     });
   });
 
@@ -164,30 +178,40 @@ const commandCenterHandler = async (
     setAhOutout((prev) => {
       const parsedQueuedScore = ahApi.createType('Option<SpNposElectionsElectionScore>', queuedScore);
 
-      return [
-        {
-          events: eventsOfInterest,
-          finalizedBlock: header.number.toNumber(),
-          multiblock: {
-            phase: phase.toString(),
-            queuedScore: parsedQueuedScore.isSome ? parsedQueuedScore.unwrap().toString() : null,
-            round: ahApi.createType('u32', round).toNumber(),
-            signedSubmissions: ahApi.createType('Vec<(AccountId32,SpNposElectionsElectionScore)>', signedSubmissions).length,
-            snapshotRange: snapshotRange.map((a) => a.toString())
-          },
-          rcClient: { lastSessionReportEndIndex: lastSessionReportEndIndex.toString() },
-          staking: {
-            activeEra: {
-              index: activeEra.index.toNumber(),
-              start: activeEra.toString()
-            },
-            bondedEras,
-            currentEra: currentEra.toNumber(),
-            erasStartSessionIndex: activeEraStartSessionIndex?.toNumber()
-          }
+      const newItem = {
+        events: eventsOfInterest,
+        finalizedBlock: header.number.toNumber(),
+        multiblock: {
+          phase: phase.toString(),
+          queuedScore: parsedQueuedScore.isSome ? parsedQueuedScore.unwrap().toString() : null,
+          round: ahApi.createType('u32', round).toNumber(),
+          signedSubmissions: ahApi.createType(
+            'Vec<(AccountId32,SpNposElectionsElectionScore)>',
+            signedSubmissions
+          ).length,
+          snapshotRange: snapshotRange.map((a) => a.toString())
         },
-        ...prev.slice(0, MAX_EVENTS - 1)
-      ];
+        rcClient: { lastSessionReportEndIndex: lastSessionReportEndIndex.toString() },
+        staking: {
+          activeEra: {
+            index: activeEra.index.toNumber(),
+            start: activeEra.toString()
+          },
+          bondedEras,
+          currentEra: currentEra.toNumber(),
+          erasStartSessionIndex: activeEraStartSessionIndex?.toNumber()
+        }
+      };
+
+      return [newItem, ...prev]
+        .reduce((acc, curr) => {
+          if (!acc.find((item) => item.finalizedBlock === curr.finalizedBlock)) {
+            acc.push(curr);
+          }
+
+          return acc;
+        }, [] as typeof prev)
+        .slice(0, MAX_EVENTS);
     });
   });
 };
