@@ -783,7 +783,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       'Quantum Fusion': 'wss://test.qfnetwork.xyz'
     },
-    text: 'QF',
+    text: 'Quantum Fusion',
     ui: {
       color: '#000000',
       logo: chainsQuantumFusionPNG
