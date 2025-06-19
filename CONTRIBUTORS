@@ -1,6 +1,6 @@
     4364	Jaco                          	Disable unreachable endpoints (#10221)
      111	Tarik Gul                     	Ensure safety check on isEmpty (#11358)
-      97	Arjun Porwal                  	0.159.1 (#11641)
+      98	Arjun Porwal                  	fix: improve regex for weight formatting in formatMeta function (#11640)
       81	Thibaut Sardan                	update overrides (#10090)
       62	kwingram25                    	iadd fix (#2911)
       49	pan                           	update Bifrost kusama on Subsquare (#9752)
