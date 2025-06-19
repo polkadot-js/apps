@@ -16,8 +16,8 @@
   "type": "module",
   "version": "0.158.2-10-x",
   "dependencies": {
-    "@polkadot/hw-ledger": "^13.5.1",
-    "@polkadot/hw-ledger-transports": "^13.5.1",
+    "@polkadot/hw-ledger": "^13.5.2",
+    "@polkadot/hw-ledger-transports": "^13.5.2",
     "is-ipfs": "^8.0.1"
   },
   "peerDependencies": {
