@@ -1,5 +1,26 @@
 # CHANGELOG
 
+## 0.159.1 Jun 19, 2025
+
+Contributed:
+
+- fix: disable unreachable endpoints ([#11612](https://github.com/polkadot-js/apps/pull/11612) [#11626](https://github.com/polkadot-js/apps/pull/11626)) (Thanks to https://github.com/rajk93)
+- Add passet-hub Paseo endpoint by IBP ([#11618](https://github.com/polkadot-js/apps/pull/11618)) (Thanks to https://github.com/miloskriz)
+- Enhance BlockByHash with next block navigation and copy functionality ([#11614](https://github.com/polkadot-js/apps/pull/11614)) (Thanks to https://github.com/rajk93)
+- Clean up and renaming of Dwellir endpoints ([#11609](https://github.com/polkadot-js/apps/pull/11609)) (Thanks to https://github.com/Maharacha)
+- Update Mandala testnet config ([#11621](https://github.com/polkadot-js/apps/pull/11621)) (Thanks to https://github.com/fewForce)
+- Adds Tansi ([#11636](https://github.com/polkadot-js/apps/pull/11636)) (Thanks to https://github.com/albertov19)
+- update frequency svgs (mainnet and testnet paseo). update ui colors. ([#11624](https://github.com/polkadot-js/apps/pull/11624)) (Thanks to https://github.com/claireclark1)
+
+
+Changes:
+
+- Handle External URL Navigation in Electron App ([#11630](https://github.com/polkadot-js/apps/pull/11630))
+- Add security headers to disallow iframe embedding ([#11632](https://github.com/polkadot-js/apps/pull/11632))
+- Staking Next Page ([#11483](https://github.com/polkadot-js/apps/pull/11483))
+- Upgraded polkadot dependencies ([#11639](https://github.com/polkadot-js/apps/pull/11639))
+
+
 ## 0.158.1 Jun 6, 2025
 
 Contributed:
