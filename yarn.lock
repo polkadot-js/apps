@@ -2019,6 +2019,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-staking-async@workspace:packages/page-staking-async":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-staking-async@workspace:packages/page-staking-async"
+  peerDependencies:
+    react: "*"
+    react-dom: "*"
+    react-is: "*"
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/app-staking-legacy@workspace:packages/page-staking-legacy":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-staking-legacy@workspace:packages/page-staking-legacy"
