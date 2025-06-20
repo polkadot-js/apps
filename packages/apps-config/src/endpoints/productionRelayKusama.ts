@@ -106,9 +106,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2001,
     providers: {
       Liebi: 'wss://bifrost-rpc.liebi.com/ws',
-      LiebiUS: 'wss://us.bifrost-rpc.liebi.com/ws',
+      LiebiUS: 'wss://us.bifrost-rpc.liebi.com/ws'
       // OnFinality: 'wss://bifrost-parachain.api.onfinality.io/public-ws'
-      RadiumBlock: 'wss://bifrost.public.curie.radiumblock.co/ws'
     },
     text: 'Bifrost',
     ui: {
