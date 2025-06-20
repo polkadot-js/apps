@@ -101,7 +101,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://ksm.vtoken.io/?ref=polkadotjs',
+    homepage: 'https://bifrost.io/',
     info: 'bifrost',
     paraId: 2001,
     providers: {
