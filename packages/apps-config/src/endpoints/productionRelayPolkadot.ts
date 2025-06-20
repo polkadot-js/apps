@@ -102,16 +102,16 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://crowdloan.bifrost.app',
+    homepage: 'https://bifrost.io/',
     info: 'bifrost',
     paraId: 2030,
     providers: {
       IBP1: 'wss://bifrost-polkadot.ibp.network',
       IBP2: 'wss://bifrost-polkadot.dotters.network',
       Liebi: 'wss://hk.p.bifrost-rpc.liebi.com/ws',
-      LiebiEU: 'wss://eu.bifrost-polkadot-rpc.liebi.com/ws'
+      LiebiEU: 'wss://eu.bifrost-polkadot-rpc.liebi.com/ws',
       // OnFinality: 'wss://bifrost-polkadot.api.onfinality.io/public-ws',
-      // RadiumBlock: 'wss://bifrost.public.curie.radiumblock.co/ws' // https://github.com/polkadot-js/apps/issues/11098
+      RadiumBlock: 'wss://bifrost.public.curie.radiumblock.co/ws' // https://github.com/polkadot-js/apps/issues/11098
     },
     text: 'Bifrost',
     ui: {
