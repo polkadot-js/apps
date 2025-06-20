@@ -310,7 +310,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 4001,
     providers: {
       'R0GUE-RPC1': 'wss://rpc1.paseo.popnetwork.xyz',
-      'R0GUE-RPC2': 'wss://rpc2.paseo.popnetwork.xyz',
+      // 'R0GUE-RPC2': 'wss://rpc2.paseo.popnetwork.xyz', // https://github.com/polkadot-js/apps/issues/11629
       'R0GUE-RPC3': 'wss://rpc3.paseo.popnetwork.xyz'
     },
     text: 'Pop Network',
