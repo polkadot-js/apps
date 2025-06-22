@@ -334,7 +334,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
       'Acala Foundation 3': 'wss://karura-rpc-3.aca-api.network/ws',
       Dwellir: 'wss://karura-rpc.n.dwellir.com',
       // LuckyFriday: 'wss://rpc-karura.luckyfriday.io',  // https://github.com/polkadot-js/apps/issues/10663
-      OnFinality: 'wss://karura.api.onfinality.io/public-ws'
+      // OnFinality: 'wss://karura.api.onfinality.io/public-ws'
       // 'Polkawallet 0': 'wss://karura.polkawallet.io' // https://github.com/polkadot-js/apps/issues/9383
     },
     text: 'Karura',
@@ -887,7 +887,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       IBP1: 'wss://sys.ibp.network/asset-hub-kusama',
       IBP2: 'wss://asset-hub-kusama.dotters.network',
       LuckyFriday: 'wss://rpc-asset-hub-kusama.luckyfriday.io',
-      // OnFinality: 'wss://statemine.api.onfinality.io/public-ws',
+      OnFinality: 'wss://assethub-kusama.api.onfinality.io/public-ws',
       Parity: 'wss://kusama-asset-hub-rpc.polkadot.io',
       RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws',
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/assethub'
@@ -910,7 +910,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       IBP1: 'wss://sys.ibp.network/bridgehub-kusama',
       IBP2: 'wss://bridge-hub-kusama.dotters.network',
       LuckyFriday: 'wss://rpc-bridge-hub-kusama.luckyfriday.io',
-      // OnFinality: 'wss://bridgehub-kusama.api.onfinality.io/public-ws',
+      OnFinality: 'wss://bridgehub-kusama.api.onfinality.io/public-ws',
       Parity: 'wss://kusama-bridge-hub-rpc.polkadot.io',
       RadiumBlock: 'wss://bridgehub-kusama.public.curie.radiumblock.co/ws',
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/bridgehub'
