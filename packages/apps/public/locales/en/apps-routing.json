@@ -34,6 +34,7 @@
   "nav.signing": "Sign and verify",
   "nav.society": "Society",
   "nav.staking": "Staking",
+  "nav.staking-async": "Staking Async",
   "nav.storage": "Chain state",
   "nav.sudo": "Sudo",
   "nav.tech-comm": "Tech. comm.",

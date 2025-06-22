@@ -25,7 +25,7 @@ function Undelegate ({ accountDelegating, onClose }: Props): React.ReactElement<
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns hint={t('You will remove any delegation made by this acccount')}>
+        <Modal.Columns hint={t('You will remove any delegation made by this account')}>
           <InputAddress
             defaultValue={accountDelegating}
             isDisabled

@@ -237,7 +237,7 @@
   "You have {{claimCount}} accounts that need attestations. Use the Claim Tokens app on the navigation bar to complete the process. Until you do, your balances for those accounts will not be reflected.": "Masz {{claimCount}} kont, które wymagają zaświadczeń. Użyj aplikacji Odbierz Tokeny na pasku nawigacyjnym, aby zakończyć proces. Dopóki tego nie zrobisz, Twoje salda na tych kontach nie zostaną uwzględnione.",
   "You have {{upgradableCount}} extensions that need to be updated with the latest chain properties in order to display the correct information for the chain you are connected to. This update includes chain metadata and chain properties.": "Masz {{upgradableCount}} rozszerzeń, które muszą zostać zaktualizowane o najnowsze właściwości łańcucha, aby wyświetlić poprawne informacje o łańcuchu, z którym jesteś połączony. Ta aktualizacja zawiera metadane łańcucha i właściwości łańcucha.",
   "You should not setup proxies to act as a self-proxy.": "Nie należy konfigurować proxy, aby działały jako własne proxy.",
-  "You will remove any delegation made by this acccount": "Usuniesz wszystkie delegacje dokonane z tego konta",
+  "You will remove any delegation made by this account": "Usuniesz wszystkie delegacje dokonane z tego konta",
   "Your ethereum key pair is derived from your private key. Don't divulge this key.": "Twoja para kluczy ethereum pochodzi z twojego klucza prywatnego. Nie ujawniaj tego klucza.",
   "Your password contains at least one \"/\" character. Disregard this warning if it is intended.": "Twoje hasło zawiera co najmniej jeden znak \"/\". Zignoruj to ostrzeżenie, jeśli jest zamierzone.",
   "a riot name linked to this identity": "Nazwa konta riot powiązana z tą tożsamośćią",

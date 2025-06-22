@@ -56,7 +56,7 @@ function Account (props: Props): React.ReactElement<Props> {
         isInput
         label={label}
         onChange={_onChange}
-        placeholder='5...'
+        placeholder='5GLFK...'
         type='allPlus'
         withEllipsis
         withLabel={withLabel}

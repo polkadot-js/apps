@@ -194,7 +194,7 @@ const definitions: OverrideBundleDefinition = {
     },
     referral: {
       activeReferralsCount: {
-        description: 'Get the count of active referrals for an account',
+        description: 'Get count of active referrals for an account',
         params: [
           {
             name: 'account',
@@ -204,7 +204,7 @@ const definitions: OverrideBundleDefinition = {
         type: 'u32'
       },
       referrer: {
-        description: 'Get the referrer of an account',
+        description: 'Get referrer of an account',
         params: [
           {
             name: 'account',
@@ -214,7 +214,7 @@ const definitions: OverrideBundleDefinition = {
         type: 'Option<AccountId>'
       },
       activeReferrals: {
-        description: 'Get the active referrals of an account',
+        description: 'Get active referrals of an account',
         params: [
           {
             name: 'account',
@@ -222,6 +222,21 @@ const definitions: OverrideBundleDefinition = {
           }
         ],
         type: 'Option<TreeNode<AccountId>>'
+      },
+      blockProducers: {
+        description: 'Get block producers',
+        params: [],
+        type: 'Vec<AccountId>'
+      },
+      pendingReferrals: {
+        description: 'Get pending referrals of an account',
+        params: [
+          {
+            name: 'account',
+            type: 'AccountId'
+          }
+        ],
+        type: 'Vec<AccountId>'
       }
     }
   },

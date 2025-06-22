@@ -121,6 +121,8 @@ const BORDER_TOP = `${BASE_BORDER * 3}rem solid var(--bg-page)`;
 const BORDER_RADIUS = `${BASE_BORDER * 4}rem`;
 
 const StyledTr = styled.tr<{isFirstItem: boolean; isLastItem: boolean}>`
+  background: var(--bg-table);
+  
   .ui--Icon {
     border-width: 2px;
   }
