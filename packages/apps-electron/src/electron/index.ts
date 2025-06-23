@@ -21,7 +21,7 @@ app
     // eslint-disable-next-line deprecation/deprecation
     protocol.registerFileProtocol('app', (request, callback) => {
       const url = request.url.slice(6); // strip off "app://"
-      const resolvedPath = path.join(__dirname, 'build', url); // adjust "build" as needed
+      const resolvedPath = path.join(__dirname, '..', 'build', url); // adjust "build" as needed
 
       callback({ path: resolvedPath });
     });

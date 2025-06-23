@@ -11,7 +11,7 @@ export function setupContentSecurityPolicy (_: string): void {
       responseHeaders: {
         ...details.responseHeaders,
         'Content-Security-Policy': [
-          "default-src 'none';" +
+          "default-src 'self';" +
           " style-src-elem 'self' https://fonts.googleapis.com/css 'unsafe-inline';" +
           " font-src data: 'self' https://fonts.gstatic.com;" +
           " style-src 'unsafe-inline';" +
@@ -21,7 +21,7 @@ export function setupContentSecurityPolicy (_: string): void {
           " worker-src 'self' blob:;" +
           // unsafe-eval is needed for the WASM content - same as the extension
           // script hashes here are for the window.top script (not technically needed)
-          " script-src app: 'unsafe-eval' 'sha256-02/ejyoV/iwRdJ4NAsxjzF6WVUtLMPM6Nv96EbAm6u8=' 'sha256-wW/WsLudCDaPo/ibpeK0KslHqYpCzcAKNFxFBXwCHJg='"
+          " script-src 'self' app: 'unsafe-eval' 'sha256-02/ejyoV/iwRdJ4NAsxjzF6WVUtLMPM6Nv96EbAm6u8=' 'sha256-wW/WsLudCDaPo/ibpeK0KslHqYpCzcAKNFxFBXwCHJg='"
         ]
       }
     });
