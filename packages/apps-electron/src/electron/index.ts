@@ -3,7 +3,6 @@
 
 import { app, protocol } from 'electron';
 import path from 'path';
-import { URL } from 'url';
 
 import { registerAccountStoreHandlers } from '../main/account-store.js';
 import { setupAutoUpdater } from './autoUpdater.js';
@@ -21,10 +20,10 @@ app
   .then(async (): Promise<void> => {
     // eslint-disable-next-line deprecation/deprecation
     protocol.registerFileProtocol('app', (request, callback) => {
-      const url = new URL(request.url);
-      const filePath = path.normalize(path.join(__dirname, url.pathname));
+      const url = request.url.slice(6); // strip off "app://"
+      const resolvedPath = path.join(__dirname, 'build', url); // adjust "build" as needed
 
-      callback({ path: filePath });
+      callback({ path: resolvedPath });
     });
 
     registerAccountStoreHandlers();
