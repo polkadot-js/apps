@@ -52,25 +52,17 @@ function sortGroups (a: ReferendaGroupKnown, b: ReferendaGroupKnown): number {
 
 const OPT_MULTI = {
   transform: ([[ids], all]: [[BN[]], Option<Referendum['info']>[]]) =>
-    ids
-      .map((id, i) => {
-        const infoOpt = all[i];
+    ids.map((id, i) => {
+      const infoOpt = all[i];
+      const info = infoOpt?.isSome ? infoOpt.unwrap() : undefined;
 
-        if (infoOpt?.isSome) {
-          const info = infoOpt.unwrap();
-
-          return {
-            id,
-            info,
-            isConvictionVote: isConvictionVote(info),
-            key: id.toString()
-          };
-        }
-
-        // Skip if info is not present
-        return null;
-      })
-      .filter((ref): ref is Referendum => ref !== null),
+      return {
+        id,
+        info,
+        isConvictionVote: info ? isConvictionVote(info) : false,
+        key: id.toString()
+      };
+    }).filter((r) => r.info !== undefined),
   withParamsTransform: true
 };
 
@@ -90,17 +82,22 @@ function group (tracks: TrackDescription[], totalIssuance?: BN, referenda?: Refe
   for (let i = 0, count = referenda.length; i < count; i++) {
     const ref = referenda[i];
 
-    // only ongoing have tracks
-    const trackInfo = ref.info.isOngoing
-      ? tracks.find(({ id }) => id?.eq && id.eq(ref.info.asOngoing.track))
-      : undefined;
+    if (!ref.info || !ref.info.isOngoing) {
+    // info is undefined or not ongoing — can't get track
+      other.referenda.push(ref);
+      continue;
+    }
+
+    const trackInfo = tracks.find(({ id }) =>
+      id?.eq && id.eq(ref.info.asOngoing.track)
+    );
 
     if (trackInfo) {
       ref.trackGraph = trackInfo.graph;
       ref.trackId = trackInfo.id;
       ref.track = trackInfo.info;
 
-      if (ref.isConvictionVote && ref.info.isOngoing) {
+      if (ref.isConvictionVote) {
         const { deciding, tally } = ref.info.asOngoing;
 
         if (deciding.isSome) {
@@ -157,7 +154,7 @@ function useReferendaImpl (palletReferenda: PalletReferenda): [ReferendaGroup[],
     () => [
       (ids && ids.length === 0)
         ? [{ key: 'referenda', referenda: [] }]
-        : group(tracks, totalIssuance, referenda),
+        : group(tracks, totalIssuance, (referenda as Referendum[])),
       tracks
     ],
     [ids, referenda, totalIssuance, tracks]
