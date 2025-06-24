@@ -52,19 +52,25 @@ function sortGroups (a: ReferendaGroupKnown, b: ReferendaGroupKnown): number {
 
 const OPT_MULTI = {
   transform: ([[ids], all]: [[BN[]], Option<Referendum['info']>[]]) =>
-    all
-      .map((o, i) =>
-        o.isSome
-          ? [ids[i], o.unwrap()]
-          : null
-      )
-      .filter((r): r is [BN, Referendum['info']] => !!r)
-      .map(([id, info]): Referendum => ({
-        id,
-        info,
-        isConvictionVote: isConvictionVote(info),
-        key: id.toString()
-      })),
+    ids
+      .map((id, i) => {
+        const infoOpt = all[i];
+
+        if (infoOpt?.isSome) {
+          const info = infoOpt.unwrap();
+
+          return {
+            id,
+            info,
+            isConvictionVote: isConvictionVote(info),
+            key: id.toString()
+          };
+        }
+
+        // Skip if info is not present
+        return null;
+      })
+      .filter((ref): ref is Referendum => ref !== null),
   withParamsTransform: true
 };
 
