@@ -3,7 +3,7 @@
 
 import { constsStakingParameters } from './consts-examples.js';
 import { extrinsicMakeTransfer } from './extrinsics-examples.js';
-import { rpcNetworkAuthoring, rpcNewHead, rpcQueryState, rpcSysthemInfo } from './rpc-examples.js';
+import { rpcNetworkAuthoring, rpcNewHead, rpcQueryState, rpcSystemInfo } from './rpc-examples.js';
 import { storageGetInfo, storageKeys, storageListenToBalanceChange, storageListenToMultipleBalancesChange, storageRetrieveInfoOnQueryKeys, storageSystemEvents } from './storage-examples.js';
 
 export { makeWrapper } from './wrapping.js';
@@ -12,7 +12,7 @@ export const allSnippets = [
   rpcNetworkAuthoring,
   rpcNewHead,
   rpcQueryState,
-  rpcSysthemInfo,
+  rpcSystemInfo,
   storageGetInfo,
   storageSystemEvents,
   storageListenToBalanceChange,
