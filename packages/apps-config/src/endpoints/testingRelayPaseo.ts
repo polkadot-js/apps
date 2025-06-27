@@ -309,9 +309,9 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'Pop Network',
     paraId: 4001,
     providers: {
-      'R0GUE-RPC1': 'wss://rpc1.paseo.popnetwork.xyz',
+      'R0GUE-RPC1': 'wss://rpc1.paseo.popnetwork.xyz'
       // 'R0GUE-RPC2': 'wss://rpc2.paseo.popnetwork.xyz', // https://github.com/polkadot-js/apps/issues/11629
-      'R0GUE-RPC3': 'wss://rpc3.paseo.popnetwork.xyz'
+      // 'R0GUE-RPC3': 'wss://rpc3.paseo.popnetwork.xyz' // https://github.com/polkadot-js/apps/issues/11657
     },
     text: 'Pop Network',
     ui: {
@@ -335,7 +335,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'paseoWatr',
     paraId: 2058,
     providers: {
-      Watr: 'wss://rpc.dev.watr.org'
+      // Watr: 'wss://rpc.dev.watr.org' // https://github.com/polkadot-js/apps/issues/11648
     },
     text: 'Watr Network',
     ui: {
