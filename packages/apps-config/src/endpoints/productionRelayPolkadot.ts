@@ -30,7 +30,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       IBP2: 'wss://acala.dotters.network'
       // LuckyFriday: 'wss://rpc-acala.luckyfriday.io', // https://github.com/polkadot-js/apps/issues/10728
       // 'Automata 1RPC': 'wss://1rpc.io/aca' // https://github.com/polkadot-js/apps/issues/8648
-      // OnFinality: 'wss://acala-polkadot.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/11634
+      // OnFinality: 'wss://acala-polkadot.api.onfinality.io/public-ws'
       // 'Polkawallet 0': 'wss://acala.polkawallet.io' // https://github.com/polkadot-js/apps/issues/9760
     },
     text: 'Acala',
