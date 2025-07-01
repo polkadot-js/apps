@@ -92,8 +92,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'bittensor',
     providers: {
       'Latent Holdings (Lite)': 'wss://lite.sub.latent.to:443',
-      'Opentensor Fdn (Archive)': 'wss://entrypoint-finney.opentensor.ai:443',
-      'OnFinality (Archive)': 'wss://bittensor-finney.api.onfinality.io/public-ws'
+      'OnFinality (Archive)': 'wss://bittensor-finney.api.onfinality.io/public-ws',
+      'Opentensor Fdn (Archive)': 'wss://entrypoint-finney.opentensor.ai:443'
     },
     text: 'Bittensor',
     ui: {
@@ -458,8 +458,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'polkadex',
     providers: {
       PolkadexSup: 'wss://so.polkadex.ee',
-      RadiumBlock: 'wss://polkadex.public.curie.radiumblock.co/ws',
-      OnFinality: 'wss://polkadex.api.onfinality.io/public-ws'
+      OnFinality: 'wss://polkadex.api.onfinality.io/public-ws',
+      RadiumBlock: 'wss://polkadex.public.curie.radiumblock.co/ws'
     },
     text: 'Polkadex',
     ui: {
