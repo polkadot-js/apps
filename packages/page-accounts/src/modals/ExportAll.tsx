@@ -198,7 +198,12 @@ const BrowserAccountsDiv = styled.div`
   margin-top: 1.5rem;
   padding-inline: 2rem;
 
-  div:nth-child(2) {width: 100%;}
+  div:nth-child(2) { 
+    width: 100%;
+    label { 
+      font-size: var(--font-size-label);
+    }
+  }  
 `;
 
 export default React.memo(ExportAll);
