@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Dispatch, SetStateAction } from 'react';
-import type { KeyringPair$Meta } from '@polkadot/keyring/types';
+import type { KeyringPair, KeyringPair$Json } from '@polkadot/keyring/types';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { ModalProps } from '../types.js';
 
 import React, { useCallback, useState } from 'react';
 
-import { Button, InputFile, MarkError, Modal } from '@polkadot/react-components';
+import { AddressRow, Button, InputFile, MarkError, Modal, Password, styled } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 import { nextTick, u8aToString } from '@polkadot/util';
 
@@ -20,14 +20,19 @@ interface Props extends ModalProps {
   onStatusChange: (status: ActionStatus) => void;
 }
 
-interface FileAccount {
-  address: string;
-  meta: KeyringPair$Meta;
+interface TPassword {
+  account: string, isPassTouched: boolean, password: string
 }
+
+type FileAccount = (KeyringPair$Json | KeyringPair);
 
 type File = FileAccount[]
 
 const acceptedFormats = ['application/json'];
+
+function isInBrowserAccount (pair: FileAccount): boolean {
+  return !pair.meta.isInjected && !pair.meta.isHardware && !pair.meta.isMultisig && !!(pair as KeyringPair$Json).encoded && !!(pair as KeyringPair$Json).encoding;
+}
 
 // Check if file is valid
 function isValidFile (fileContent: string, setError: Dispatch<SetStateAction<string | null>>): boolean {
@@ -64,6 +69,7 @@ function ImportAll ({ className, onClose, onStatusChange }: Props): React.ReactE
   const [isBusy, setIsBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
+  const [allBrowserAccountPassword, setAllBrowserAccountPassword] = useState<TPassword[]>([]);
 
   const _onChangeFile = useCallback(
     (file: Uint8Array) => {
@@ -80,9 +86,16 @@ function ImportAll ({ className, onClose, onStatusChange }: Props): React.ReactE
       const status: Partial<ActionStatus> = { action: 'import' };
 
       try {
-        file?.map((pair) =>
-          keyring.addExternal(pair.address, pair.meta)
-        );
+        file?.forEach((pair) => {
+          if (isInBrowserAccount(pair)) {
+            const keyringPair = keyring.createFromJson(pair as KeyringPair$Json);
+            const password = allBrowserAccountPassword.find((e) => e.account === pair.address)?.password || '';
+
+            keyring.addPair(keyringPair, password);
+          } else {
+            keyring.addExternal(pair.address, pair.meta);
+          }
+        });
 
         status.status = 'success';
         status.message = t('all accounts imported');
@@ -99,7 +112,7 @@ function ImportAll ({ className, onClose, onStatusChange }: Props): React.ReactE
         onClose();
       }
     });
-  }, [file, onClose, onStatusChange, t]);
+  }, [allBrowserAccountPassword, file, onClose, onStatusChange, t]);
 
   return (
     <Modal
@@ -119,6 +132,15 @@ function ImportAll ({ className, onClose, onStatusChange }: Props): React.ReactE
             withLabel
           />
         </Modal.Columns>
+        {file && file.some(isInBrowserAccount) &&
+          <Modal.Columns hint={t('Provide password for browser accounts')}>
+            <BrowserAccounts
+              allPassword={allBrowserAccountPassword}
+              pairs={file}
+              setAllPassword={setAllBrowserAccountPassword}
+            />
+          </Modal.Columns>
+        }
         <Modal.Columns>
           {error && (
             <MarkError content={error} />
@@ -138,5 +160,53 @@ function ImportAll ({ className, onClose, onStatusChange }: Props): React.ReactE
     </Modal>
   );
 }
+
+const BrowserAccounts = ({ allPassword, pairs, setAllPassword }: { pairs: FileAccount[], allPassword: TPassword[], setAllPassword: React.Dispatch<React.SetStateAction<TPassword[]>> }) => {
+  const { t } = useTranslation();
+
+  const _onChangePass = useCallback(
+    (account: string, password: string): void => {
+      setAllPassword((prev) => {
+        return [
+          ...prev.filter((e) => e.account !== account),
+          { account, isPassTouched: true, password }
+        ];
+      });
+    },
+    [setAllPassword]
+  );
+
+  return pairs.map((pair) => {
+    const { address: account } = pair;
+    const { isPassTouched, password } = allPassword.find((a) => a.account === account) || { isPassTouched: false, password: '' };
+    const isPassValid = keyring.isPassValid(password);
+
+    return isInBrowserAccount(pair) && <BrowserAccountsDiv key={account}>
+      <AddressRow
+        defaultName={pair?.meta.name || null}
+        noDefaultNameOpacity
+        value={pair?.address || null}
+      />
+      <Password
+        autoFocus
+        isError={isPassTouched && !isPassValid}
+        label={t('password')}
+        // eslint-disable-next-line react/jsx-no-bind
+        onChange={(password) => _onChangePass(account, password)}
+        value={password}
+      />
+    </BrowserAccountsDiv>;
+  });
+};
+
+const BrowserAccountsDiv = styled.div`
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-inline: 2rem;
+
+  div:nth-child(2) {width: 100%;}
+`;
 
 export default React.memo(ImportAll);
