@@ -69,6 +69,9 @@ const StyledReactTooltip = styled(ReactTooltip as unknown as React.ComponentType
 
   &.ui--Tooltip {
     z-index: 1002;
+    word-break: break-word;       /* Fallback for older browsers */
+    overflow-wrap: break-word;    /* Modern standard */
+    hyphens: auto;                /* Enables automatic hyphenation */
   }
 
   table {

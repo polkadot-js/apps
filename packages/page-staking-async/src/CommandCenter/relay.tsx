@@ -8,7 +8,7 @@ import type { IRcOutput } from './index.js';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { CardSummary, Expander, MarkWarning, Spinner, styled } from '@polkadot/react-components';
+import { CardSummary, Expander, Icon, MarkWarning, Spinner, styled, Tooltip } from '@polkadot/react-components';
 import { Event as EventDisplay } from '@polkadot/react-params';
 import { formatNumber } from '@polkadot/util';
 
@@ -60,7 +60,7 @@ function RelaySection ({ children, isRelayChain, rcApi, rcOutput, rcUrl }: Props
                     }
                   </h4>
                   <CardSummary label={t('session')}>
-                          #{formatNumber(rc.session.index)}
+                    #{formatNumber(rc.session.index)}
                   </CardSummary>
                   {rc.session.historicalRange &&
                       <CardSummary label={t('historical range')}>
@@ -69,7 +69,17 @@ function RelaySection ({ children, isRelayChain, rcApi, rcOutput, rcUrl }: Props
                   }
                 </div>
                 <div className='stakingAhClient__summary'>
-                  <MarkWarning content={rc.stakingAhClient.mode} />
+                  <div className='warning__tooltip'>
+                    <MarkWarning content={rc.stakingAhClient.mode} />
+                    <Icon
+                      icon='info-circle'
+                      tooltip={'stakingAhClient-mode'}
+                    />
+                    <Tooltip
+                      text={'Current operating mode of stakingAhClient pallet'}
+                      trigger={'stakingAhClient-mode'}
+                    />
+                  </div>
                   {rc.stakingAhClient.hasQueuedInClient &&
                       <div className='stakingAhClient__hasQueuedInClient'>
                         <MarkWarning content={t('There is a validator set queued in ah-client.')} />
@@ -104,7 +114,19 @@ function RelaySection ({ children, isRelayChain, rcApi, rcOutput, rcUrl }: Props
 
                   );
                 })}
-                {rc.events.length === 0 && <MarkWarning content={t('No events available')} />}
+                {rc.events.length === 0 &&
+                  <div className='warning__tooltip'>
+                    <MarkWarning content={t('No events available')} />
+                    <Icon
+                      icon='info-circle'
+                      tooltip={`${rc.finalizedBlock}-rc-no-events`}
+                    />
+                    <Tooltip
+                      text={'No relevant events found for stakingAhClient, session, or historical in the current block.'}
+                      trigger={`${rc.finalizedBlock}-rc-no-events`}
+                    />
+                  </div>
+                }
               </div>
             </div>
           );
@@ -125,6 +147,12 @@ const StyledSection = styled.section`
   .ui--Labelled-content {
     font-size: var(--font-size-h3);
     font-weight: var(--font-weight-normal);
+  }
+
+  .warning__tooltip {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
   .relay__chain {

@@ -8,7 +8,7 @@ import type { IAhOutput } from './index.js';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { CardSummary, Expander, MarkWarning, Spinner, styled } from '@polkadot/react-components';
+import { CardSummary, Expander, Icon, MarkWarning, Spinner, styled, Tooltip } from '@polkadot/react-components';
 import { Event as EventDisplay } from '@polkadot/react-params';
 import { formatNumber } from '@polkadot/util';
 
@@ -118,7 +118,19 @@ function AssetHubSection ({ ahApi, ahOutput, ahUrl, children, isRelayChain }: Pr
 
                   );
                 })}
-                {ah.events.length === 0 && <MarkWarning content={t('No events available')} />}
+                {ah.events.length === 0 &&
+                  <div className='warning__tooltip'>
+                    <MarkWarning content={t('No events available')} />
+                    <Icon
+                      icon='info-circle'
+                      tooltip={`${ah.finalizedBlock}-ah-no-events`}
+                    />
+                    <Tooltip
+                      text={'No relevant events found for multiBlockElection, multiBlockElectionVerifier, multiBlockElectionUnsigned, stakingRcClient or staking in the current block.'}
+                      trigger={`${ah.finalizedBlock}-ah-no-events`}
+                    />
+                  </div>
+                }
               </div>
             </div>
           );
@@ -185,6 +197,11 @@ const StyledSection = styled.section`
       h3 {
         font-weight: 500;
         font-size: var(--font-size-h2);
+      }
+      .warning__tooltip {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
       }
     }
   }
