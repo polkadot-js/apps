@@ -69,17 +69,6 @@ function RelaySection ({ children, isRelayChain, rcApi, rcOutput, rcUrl }: Props
                   }
                 </div>
                 <div className='stakingAhClient__summary'>
-                  <div className='warning__tooltip'>
-                    <MarkWarning content={rc.stakingAhClient.mode} />
-                    <Icon
-                      icon='info-circle'
-                      tooltip={'stakingAhClient-mode'}
-                    />
-                    <Tooltip
-                      text={'Current operating mode of stakingAhClient pallet'}
-                      trigger={'stakingAhClient-mode'}
-                    />
-                  </div>
                   {rc.stakingAhClient.hasQueuedInClient &&
                       <div className='stakingAhClient__hasQueuedInClient'>
                         <MarkWarning content={t('There is a validator set queued in ah-client.')} />
