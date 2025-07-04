@@ -66,10 +66,10 @@ function AssetHubSection ({ ahApi, ahOutput, ahUrl, children, isRelayChain }: Pr
                     <CardSummary label={t('current era')}>
                       {ah.staking.currentEra}
                     </CardSummary>
-                    <CardSummary label={t('era session index')}>
+                    <CardSummary label={t('Relay Session Index')}>
                       {ah.staking.erasStartSessionIndex}
                     </CardSummary>
-                    <CardSummary label={t('active era')}>
+                    <CardSummary label={t('Relay Active Era Index')}>
                       {ah.staking.activeEra.index}
                     </CardSummary>
                   </div>

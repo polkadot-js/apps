@@ -139,7 +139,7 @@ const commandCenterHandler = async (
 
   await ahApi.rpc.chain.subscribeFinalizedHeads(async (header) => {
     // the current planned era
-    const currentEra = (await ahApi.query.staking.currentEra()).unwrap();
+    const currentEra = await rcApi.query.session.currentIndex();
     // the active era
     const activeEra = (await ahApi.query.staking.activeEra()).unwrap();
     // the starting index of the active era
