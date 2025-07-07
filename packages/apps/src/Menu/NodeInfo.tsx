@@ -5,14 +5,15 @@ import type { BareProps as Props } from '@polkadot/react-components/types';
 
 import React from 'react';
 
-import { getPackageVersion } from '@polkadot/apps-config';
+import { packageInfo } from '@polkadot/apps-config';
 import { styled } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { NodeName, NodeVersion } from '@polkadot/react-query';
 
+const appsVersion = `apps v${packageInfo.version.replace('-x', '')}`;
+
 function NodeInfo ({ className = '' }: Props): React.ReactElement<Props> {
   const { api, isApiReady } = useApi();
-  const appsVersion = getPackageVersion();
 
   return (
     <StyledDiv className={`${className} media--1400 highlight--color-contrast ui--NodeInfo`}>
