@@ -1,33 +1,21 @@
 // Copyright 2017-2025 @polkadot/app-staking-async authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { AccountId32, Event } from '@polkadot/types/interfaces';
 import type { IEventData, ITuple } from '@polkadot/types/types';
 import type { u32, Vec } from '@polkadot/types-codec';
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { ApiPromise, WsProvider } from '@polkadot/api';
-import { createWsEndpoints } from '@polkadot/apps-config';
 import { Dropdown, styled } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
+import { getApi } from '../utils.js';
 import AssetHubSection from './ah.js';
 import RelaySection from './relay.js';
 
-const allEndPoints = createWsEndpoints((k, v) => v?.toString() || k);
-
 const MAX_EVENTS = 25;
-
-const getApi = async (url: string[]|string) => {
-  const api = await ApiPromise.create({
-    provider: new WsProvider(url)
-  });
-
-  await api.isReadyOrError;
-
-  return api;
-};
 
 export interface IRcOutput {
   finalizedBlock: number,
@@ -216,8 +204,16 @@ const commandCenterHandler = async (
   });
 };
 
-function CommandCenter () {
-  const { api, apiEndpoint, apiUrl } = useApi();
+interface Props {
+  ahApi?: ApiPromise
+  rcApi?: ApiPromise
+  isRelayChain: boolean
+  rcEndPoints: string[]
+  ahEndPoints: string[]
+}
+
+function CommandCenter ({ ahApi: initialAhApi, ahEndPoints, isRelayChain, rcApi: initialRcApi, rcEndPoints }: Props) {
+  const { api, apiUrl } = useApi();
 
   const [rcOutput, setRcOutput] = useState<IRcOutput[]>([]);
   const [ahOutput, setAhOutput] = useState<IAhOutput[]>([]);
@@ -225,27 +221,8 @@ function CommandCenter () {
   const [rcUrl, setRcUrl] = useState<string|undefined>(undefined);
   const [ahUrl, setAhUrl] = useState<string|undefined>(undefined);
 
-  const [ahApi, setAhApi] = useState<ApiPromise>();
-  const [rcApi, setRcApi] = useState<ApiPromise>();
-
-  // Check if it is relay chain
-  const isRelayChain = useMemo(() => api.tx.stakingAhClient, [api.tx.stakingAhClient]);
-
-  const rcEndPoints = useMemo(() => {
-    return (isRelayChain
-      ? apiEndpoint?.providers
-      : apiEndpoint?.valueRelay) || [];
-  }, [apiEndpoint?.providers, apiEndpoint?.valueRelay, isRelayChain]);
-
-  const ahEndPoints: string[] = useMemo(() => {
-    if (isRelayChain) {
-      return allEndPoints.find(({ genesisHashRelay, paraId }) =>
-        paraId === 1000 && genesisHashRelay === api.genesisHash.toHex()
-      )?.providers || [];
-    }
-
-    return apiEndpoint?.providers || [];
-  }, [api.genesisHash, apiEndpoint?.providers, isRelayChain]);
+  const [ahApi, setAhApi] = useState<ApiPromise|undefined>(initialAhApi);
+  const [rcApi, setRcApi] = useState<ApiPromise|undefined>(initialRcApi);
 
   const rcEndPointOptions = useRef(rcEndPoints.map((e) => ({ text: e, value: e })));
   const ahEndPointOptions = useRef(ahEndPoints.map((e) => ({ text: e, value: e })));

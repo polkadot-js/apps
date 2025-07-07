@@ -1,12 +1,13 @@
 // Copyright 2017-2025 @polkadot/app-staking-async authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import type { AppProps as Props } from '@polkadot/react-components/types';
 import type { ElectionStatus, ParaValidatorIndex, ValidatorId } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Route, Routes } from 'react-router';
 
 import Actions from '@polkadot/app-staking/Actions';
@@ -20,6 +21,7 @@ import useSortedTargets from '@polkadot/app-staking/useSortedTargets';
 import Validators from '@polkadot/app-staking/Validators';
 import Pools from '@polkadot/app-staking2/Pools';
 import useOwnPools from '@polkadot/app-staking2/Pools/useOwnPools';
+import { createWsEndpoints } from '@polkadot/apps-config';
 import { Tabs } from '@polkadot/react-components';
 import { useAccounts, useApi, useAvailableSlashes, useCall, useCallMulti, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
@@ -27,6 +29,7 @@ import { isFunction } from '@polkadot/util';
 import CommandCenter from '../CommandCenter/index.js';
 import { STORE_FAVS_BASE } from '../constants.js';
 import { useTranslation } from '../translate.js';
+import { getApi } from '../utils.js';
 
 const HIDDEN_ACC = ['actions', 'payout'];
 
@@ -43,9 +46,15 @@ const OPT_MULTI = {
   ]
 };
 
+const allEndPoints = createWsEndpoints((k, v) => v?.toString() || k);
+
 function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
+  const { api, apiEndpoint } = useApi();
+
+  const [ahApi, setAhApi] = useState<ApiPromise>();
+  const [rcApi, setRcApi] = useState<ApiPromise>();
+
   const [withLedger, setWithLedger] = useState(false);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const [loadNominations, setLoadNominations] = useState(false);
@@ -61,7 +70,7 @@ function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
   ], OPT_MULTI);
   const nominatedBy = useNominations(loadNominations);
   const ownPools = useOwnPools();
-  const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview);
+  const stakingOverview = useCall<DeriveStakingOverview>(rcApi?.derive.staking.overview);
 
   const toggleNominatedBy = useCallback(
     () => setLoadNominations(true),
@@ -87,6 +96,36 @@ function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
     () => (ownStashes || []).filter(({ isStashValidating }) => isStashValidating),
     [ownStashes]
   );
+
+  const isRelayChain = useMemo(() => !!api.tx.stakingAhClient, [api.tx.stakingAhClient]);
+
+  const rcEndPoints = useMemo(() => {
+    return (isRelayChain
+      ? apiEndpoint?.providers
+      : apiEndpoint?.valueRelay) || [];
+  }, [apiEndpoint?.providers, apiEndpoint?.valueRelay, isRelayChain]);
+
+  const ahEndPoints: string[] = useMemo(() => {
+    if (isRelayChain) {
+      return allEndPoints.find(({ genesisHashRelay, paraId }) =>
+        paraId === 1000 && genesisHashRelay === api.genesisHash.toHex()
+      )?.providers || [];
+    }
+
+    return apiEndpoint?.providers || [];
+  }, [api.genesisHash, apiEndpoint?.providers, isRelayChain]);
+
+  useEffect(() => {
+    if (isRelayChain) {
+      const ahUrl = ahEndPoints.at(0);
+
+      !!ahUrl && getApi(ahUrl).then((ahApi) => setAhApi(ahApi)).catch(console.log);
+    } else {
+      const rcUrl = rcEndPoints.at(0);
+
+      !!rcUrl && getApi(rcUrl).then((rcApi) => setRcApi(rcApi)).catch(console.log);
+    }
+  }, [ahEndPoints, isRelayChain, rcEndPoints]);
 
   const items = useMemo(() => [
     {
@@ -210,7 +249,15 @@ function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
             path='slashes'
           />
           <Route
-            element={<CommandCenter />}
+            element={
+              <CommandCenter
+                ahApi={ahApi}
+                ahEndPoints={ahEndPoints}
+                isRelayChain={isRelayChain}
+                rcApi={rcApi}
+                rcEndPoints={rcEndPoints}
+              />
+            }
             path='command-center'
           />
           <Route
