@@ -14,6 +14,7 @@ import { useApi, useBlockAuthors, useCall } from '@polkadot/react-hooks';
 import { useTranslation } from '../translate.js';
 import ActionsBanner from './ActionsBanner.js';
 import CurrentList from './CurrentList.js';
+import StakingAsyncOverview from './StakingAsyncOverview.js';
 import Summary from './Summary.js';
 
 interface Props {
@@ -75,6 +76,7 @@ function Overview ({ className = '', favorites, hasAccounts, hasQueries, minComm
 
   return (
     <div className={`${className} staking--Overview`}>
+      <StakingAsyncOverview withIcon />
       <Summary
         stakingOverview={stakingOverview}
         targets={targets}
