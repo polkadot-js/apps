@@ -1,7 +1,8 @@
 // Copyright 2017-2025 @polkadot/app-staking-async authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AppProps as Props } from '@polkadot/react-components/types';
+import type { ApiPromise } from '@polkadot/api';
+import type { AppProps } from '@polkadot/react-components/types';
 
 import React, { useMemo } from 'react';
 import { Route, Routes } from 'react-router-dom';
@@ -11,7 +12,15 @@ import { Tabs } from '@polkadot/react-components';
 import CommandCenter from '../CommandCenter/index.js';
 import { useTranslation } from '../translate.js';
 
-function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
+interface Props extends AppProps {
+  ahApi?: ApiPromise
+  rcApi?: ApiPromise
+  isRelayChain: boolean
+  rcEndPoints: string[]
+  ahEndPoints: string[]
+}
+
+function StakingApp ({ ahApi, ahEndPoints, basePath, isRelayChain, rcApi, rcEndPoints }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const items = useMemo(() => [
@@ -29,7 +38,15 @@ function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
     <Routes>
       <Route path={basePath}>
         <Route
-          element={<CommandCenter />}
+          element={
+            <CommandCenter
+              ahApi={ahApi}
+              ahEndPoints={ahEndPoints}
+              isRelayChain={isRelayChain}
+              rcApi={rcApi}
+              rcEndPoints={rcEndPoints}
+            />
+          }
           index
         />
       </Route>
