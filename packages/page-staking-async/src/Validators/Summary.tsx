@@ -3,11 +3,14 @@
 
 import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import type { SortedTargets } from '@polkadot/app-staking/types';
+import type { Option, u32 } from '@polkadot/types-codec';
+import type { BN } from '@polkadot/util';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import SummarySession from '@polkadot/app-explorer/SummarySession';
 import { CardSummary, styled, SummaryBox } from '@polkadot/react-components';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
@@ -19,8 +22,38 @@ interface Props {
   targets: SortedTargets;
 }
 
-function Summary ({ className = '', stakingOverview, targets: { counterForNominators, inflation: { idealStake, inflation, stakedFraction }, nominators, waitingIds } }: Props): React.ReactElement<Props> {
+const OPT_CURRENTERA = {
+  transform: (currentEra: Option<u32>): BN | null =>
+    currentEra.unwrapOr(null)
+};
+
+const useActiveNominators = () => {
+  const { api } = useApi();
+  const currentEra = useCall(api.query.staking.currentEra, undefined, OPT_CURRENTERA);
+  const [exposedNominators, setExposedNominators] = useState<string[]>([]);
+
+  useEffect(() => {
+    const getExposedNominators = async () => {
+      const exposedNominators = (await api.query.staking.erasStakersPaged.entries(currentEra)).map(([_, value]) => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+        return (value).unwrap().others.map((x) => x.who.toString());
+      }).flat();
+
+      setExposedNominators([...new Set(exposedNominators)]);
+    };
+
+    getExposedNominators().catch(console.log);
+  }, [api.query.staking.erasStakersPaged, currentEra]);
+
+  return exposedNominators;
+};
+
+function Summary ({ className = '', stakingOverview, targets: { counterForNominators, inflation: { idealStake, inflation, stakedFraction }, waitingIds } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+
+  const activeNominators = useActiveNominators();
 
   const percent = <span className='percent'>%</span>;
 
@@ -50,10 +83,10 @@ function Summary ({ className = '', stakingOverview, targets: { counterForNomina
               : t('nominators')
           }
         >
-          {nominators
+          {activeNominators
             ? (
               <>
-                {formatNumber(nominators.length)}
+                {formatNumber(activeNominators.length)}
                 {counterForNominators && (
                   <>&nbsp;/&nbsp;{formatNumber(counterForNominators)}</>
                 )}
