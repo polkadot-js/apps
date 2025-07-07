@@ -1,5 +1,26 @@
 # CHANGELOG
 
+## 0.160.1 July 7, 2025
+
+Contributed:
+
+- Fix radiumblock bifrost endpoint ([#11642](https://github.com/polkadot-js/apps/pull/11642)) (Thanks to https://github.com/TomatoAres)
+- Polkadex updated end point ([#11635](https://github.com/polkadot-js/apps/pull/11635)) (Thanks to https://github.com/charanks030)
+- Updated Onfinality endpoints ([#11647](https://github.com/polkadot-js/apps/pull/11647)) (Thanks to https://github.com/FiveKG)
+- docs: fix dead link in apps-config/README.md ([#11672](https://github.com/polkadot-js/apps/pull/11672)) (Thanks to https://github.com/seun556)
+- Added onfinality endpoints ([#11664](https://github.com/polkadot-js/apps/pull/11664)) (Thanks to https://github.com/FiveKG)
+- chore: fix spelling issues ([#11656](https://github.com/polkadot-js/apps/pull/11656)) (Thanks to https://github.com/Bvegas882)
+
+
+Changes:
+
+- Improve regex for weight formatting in formatMeta function ([#11640](https://github.com/polkadot-js/apps/pull/11640))
+- fix: disable unreachable endpoints ([#11644](https://github.com/polkadot-js/apps/pull/11644) [#11658](https://github.com/polkadot-js/apps/pull/11658))
+- Preserve referenda with missing info during grouping ([#11651](https://github.com/polkadot-js/apps/pull/11651))
+- Upgraded polkadot dependencies ([#11676](https://github.com/polkadot-js/apps/pull/11676))
+
+
+
 ## 0.159.1 Jun 19, 2025
 
 Contributed:
