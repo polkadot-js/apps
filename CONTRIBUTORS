@@ -340,6 +340,7 @@
        1	0xSamsara                     	Added Samsara RPC to Robonomics parachain (#8240)
        1	0xverin                       	Add litentry testnet to Paseo (#10999)
        1	Abdulaziz Kamil               	Update index.tsx (#10035)
+       1	Abdulrahim Al Methiab         	chore: Bump Kilt dep (#11679)
        1	abhi                          	fix text and isUnreachable properties for SNOW Network (#8252)
        1	Abhishek Shah                 	Add mythical-devnet to ethereumChains (#9642)
        1	Adam                          	new edeware logo and color (#6249)
