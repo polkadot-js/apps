@@ -823,6 +823,7 @@
   "Upload WASM": "Загрузить WASM",
   "Use an automatic selection of the currently most profitable validators": "Использовать автоселекцию наиболее доходных в данный момент валидаторов",
   "Use this account to request the tip from. This can be a normal or council account.": "Использовать этот аккаунт чтобы запросить чаевые. Это может быть обычный или аккаунт члена Совета",
+  "The parachain can be modified, replaced, or removed - it's neither protected nor in a transitional state": "Параллельная цепь может быть изменена, заменена или удалена - она не защищена и не находится в переходном состоянии",
   "Validate": "Валидировать",
   "Validator": "Валидатор",
   "Validator stats": "Статистика валидатора",

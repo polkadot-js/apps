@@ -841,6 +841,7 @@
   "Use a proxy for this call": "এই কলের জন্য একটি প্রক্সি ব্যবহার করুন",
   "Use an automatic selection of the currently most profitable validators": "বর্তমানে সবচেয়ে লাভজনক যাচাইকারীদের স্বয়ংক্রিয় নির্বাচন ব্যবহার করুন",
   "Use this account to request the tip from. This can be a normal or council account.": "এই অ্যাকাউন্ট থেকে টিপ অনুরোধ করতে এটি ব্যবহার করুন। এটি হতে পারে একটি সাধারণ বা একটি কাউন্সিল অ্যাকাউন্ট।",
+  "The parachain can be modified, replaced, or removed - it's neither protected nor in a transitional state": "প্যারাচেইনটি পরিবর্তন, প্রতিস্থাপন বা অপসারণ করা যেতে পারে - এটি সুরক্ষিত নয় বা কোনও পরিবর্তনশীল অবস্থায়ও নেই।",
   "Validate": "যাচাই করুন",
   "Validator": "যাচাইকারী",
   "Validator stats": "যাচাইকারী পরিসংখ্যান",

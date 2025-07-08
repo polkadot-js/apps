@@ -1160,6 +1160,7 @@
   "Use custom address index": "Usa indice personalizzato degli indirizzi",
   "Use custom derivation path": "Usa una path di derivazione personalizzata",
   "Use the account actions to create a new validator/nominator stash and bond it to participate in staking. Do not send funds directly via a transfer to a validator.": "",
+  "The parachain can be modified, replaced, or removed - it's neither protected nor in a transitional state": "La parachain può essere modificata, sostituita o rimossa - non è né protetta né in una fase di transizione",
   "Use this account to request the tip from. This can be a normal or council account.": "Usa questo account per proporre una mancia.",
   "Val. Group {{group}} ({{count}})": "",
   "Validate": "Valida",

@@ -664,6 +664,7 @@
   "Upload WASM": "Cargar WASM",
   "Use an automatic selection of the currently most profitable validators": "Utilizar una selección automática de los validadores más rentables actualmente",
   "Use this account to request the tip from. This can be a normal or council account.": "Utilice esta cuenta para solicitar la propina de. Esta puede ser una cuenta normal o del consejo.",
+  "The parachain can be modified, replaced, or removed - it's neither protected nor in a transitional state": "La paracadena se puede modificar, reemplazar o eliminar: no está protegida ni en un estado de transición.",
   "Validate": "Validar",
   "Validator": "Validador",
   "Validator stats": "Estadísticas del validador",

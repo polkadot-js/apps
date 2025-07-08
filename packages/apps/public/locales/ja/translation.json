@@ -359,6 +359,7 @@
   "You have {{claimCount}} accounts that need attestations. Use the Claim Tokens app on the navigation bar to complete the process. Until you do, your balances for those accounts will not be reflected.": "認証が必要な{{{claimCount}}}アカウントがあります。左のナビゲーションバーのClaim Tokensアプリを使用して、プロセスを完了させてください。このプロセスを完了するまで、これらのアカウントの残高は反映されません。",
   "You need to sign an attestation for the following account:": "下記のアカウントの証明書にサインが必要です。",
   "You need to sign an attestation for the following accounts:": "下記のアカウントの証明書にサインが必要です。",
+  "The parachain can be modified, replaced, or removed - it's neither protected nor in a transitional state": "パラチェーンは変更、置き換え、または削除されることができます。これは保護されていないか、過渡的な状態にありません。",
   "You will no longer have sudo access": "sudoへのアクセスがもうできません",
   "Your Ethereum account": "Ethereumアカウント",
   "Your custom types have been added": "カスタムタイプが追加されました",

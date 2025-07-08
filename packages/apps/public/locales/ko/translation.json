@@ -877,6 +877,7 @@
   "Upload WASM": "WASM 업로드",
   "Use a proxy for this call": "콜의 프록시를 사용한다",
   "Use this account to request the tip from. This can be a normal or council account.": "이 계정을 이용해서 팁을 요청하세요. 이거는 정상적인 계정 아니면 의회 계정일 수도 있습니다",
+  "The parachain can be modified, replaced, or removed - it's neither protected nor in a transitional state": "파라체인은 수정, 교체 또는 제거될 수 있습니다. 파라체인은 보호되지 않으며 전환 상태도 아닙니다",
   "Validate": "검사하다",
   "Validator": "검사기",
   "Validator stats": "검사기 통계",
