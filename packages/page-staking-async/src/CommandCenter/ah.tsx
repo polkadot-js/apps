@@ -40,6 +40,9 @@ function AssetHubSection ({ ahApi, ahOutput, ahUrl, children, isRelayChain }: Pr
       {!ahApi && <Spinner label='Connecting to Asset Hub' />}
       <StyledSection>
         {ahOutput.map((ah) => {
+          const uniquePages = Array.from(new Set(ah.multiblock.snapshotRange.map((p) => Number(p.toString())))).sort((a, b) => a - b);
+          const [minPage, maxPage] = [uniquePages[0], uniquePages[uniquePages.length - 1]];
+
           return (
             <div
               className='assethub__chain'
@@ -86,7 +89,7 @@ function AssetHubSection ({ ahApi, ahOutput, ahUrl, children, isRelayChain }: Pr
                     </CardSummary>
                     {!!ah.multiblock.snapshotRange.length &&
                     <CardSummary label={t('snapshot range')}>
-                      {ah.multiblock.snapshotRange}
+                      {`${minPage} → ${maxPage}`}
                     </CardSummary>}
                   </div>
                   <div className='rcClient__summary'>

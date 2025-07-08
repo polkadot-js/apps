@@ -42,11 +42,13 @@ function StakingApp ({ basePath, className = '', onStatusChange }: Props): React
 
   useEffect(() => {
     if (isRelayChain) {
-      const ahUrl = ahEndPoints.at(0);
+      // Pick random endpoint
+      const ahUrl = ahEndPoints.at(Math.floor(Math.random() * ahEndPoints.length));
 
       !!ahUrl && getApi(ahUrl).then((ahApi) => setAhApi(ahApi)).catch(console.log);
     } else {
-      const rcUrl = rcEndPoints.at(0);
+      // Pick random endpoint
+      const rcUrl = rcEndPoints.at(Math.floor(Math.random() * rcEndPoints.length));
 
       !!rcUrl && getApi(rcUrl).then((rcApi) => setRcApi(rcApi)).catch(console.log);
     }

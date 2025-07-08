@@ -244,12 +244,12 @@ function CommandCenter ({ ahApi: initialAhApi, ahEndPoints, isRelayChain, rcApi:
   useEffect(() => {
     if (isRelayChain) {
       setRcUrl(apiUrl);
-      const ahUrl = ahEndPoints.at(0);
+      const ahUrl = ahEndPoints.at(Math.floor(Math.random() * ahEndPoints.length));
 
       setAhUrl(ahUrl);
     } else {
       setAhUrl(apiUrl);
-      const rcUrl = rcEndPoints.at(0);
+      const rcUrl = rcEndPoints.at(Math.floor(Math.random() * rcEndPoints.length));
 
       setRcUrl(rcUrl);
     }
@@ -318,6 +318,10 @@ const StyledDiv = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
+
+  .dropdown {
+    min-width: max-content !important;
+  }
   
   @media screen and (max-width: 1200px){
     grid-template-columns: repeat(1, 1fr);

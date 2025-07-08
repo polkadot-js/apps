@@ -63,9 +63,9 @@ function RelaySection ({ children, isRelayChain, rcApi, rcOutput, rcUrl }: Props
                     #{formatNumber(rc.session.index)}
                   </CardSummary>
                   {rc.session.historicalRange &&
-                      <CardSummary label={t('historical range')}>
-                          [{rc.session.historicalRange?.[0]}, {rc.session.historicalRange?.[1]}]
-                      </CardSummary>
+                    <CardSummary label={t('historical range')}>
+                      {`${rc.session.historicalRange?.[0]} → ${rc.session.historicalRange?.[1]}`}
+                    </CardSummary>
                   }
                 </div>
                 <div className='stakingAhClient__summary'>
