@@ -165,7 +165,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'Ideal Network',
     paraId: 4502,
     providers: {
-      // 'IDN Node': 'wss://idn0-testnet.idealabs.network' // https://github.com/polkadot-js/apps/issues/11263
+      'IDN Node': 'wss://idn0-testnet.idealabs.network'
     },
     text: 'Ideal Network',
     ui: {
