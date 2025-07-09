@@ -756,17 +756,6 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'quantum-fusion-testnet',
-    providers: {
-      'Quantum Fusion': 'wss://test.qfnetwork.xyz'
-    },
-    text: 'Quantum Fusion Testnet',
-    ui: {
-      color: '#2E2E5C',
-      logo: chainsQuantumFusionPNG
-    }
-  },
-  {
     info: 'pontem',
     providers: {
       // Pontem: 'wss://testnet.pontem.network/ws', // https://github.com/polkadot-js/apps/issues/7652
@@ -786,6 +775,17 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: 'linear-gradient(45deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)',
       logo: nodesPrismPNG
+    }
+  },
+  {
+    info: 'quantum-fusion-testnet',
+    providers: {
+      'Quantum Fusion': 'wss://test.qfnetwork.xyz'
+    },
+    text: 'Quantum Fusion Testnet',
+    ui: {
+      color: '#2E2E5C',
+      logo: chainsQuantumFusionPNG
     }
   },
   {
