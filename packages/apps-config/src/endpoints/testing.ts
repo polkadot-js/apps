@@ -758,7 +758,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'quantum-fusion-testnet',
     providers: {
-      'Quantum Fusion': 'wss://rpc.testnet.quantumfusion.io'
+      'Quantum Fusion': 'wss://test.qfnetwork.xyz'
     },
     text: 'Quantum Fusion Testnet',
     ui: {
