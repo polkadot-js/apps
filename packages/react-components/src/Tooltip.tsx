@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/react-components authors & contributors
+// Copyright 2017-2025 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useEffect, useState } from 'react';
@@ -60,7 +60,7 @@ function Tooltip ({ children, className = '', isClickable = false, place, text, 
 // upgraded to latest, we probably don't want to start digging...
 const StyledReactTooltip = styled(ReactTooltip as unknown as React.ComponentType<any>)`
   .tooltipSpacer {
-    padding: 0.375rem;
+    padding-bottom: 0.1rem;
   }
 
   > div {

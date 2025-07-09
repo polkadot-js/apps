@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-staking authors & contributors
+// Copyright 2017-2025 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveEraExposure, DeriveSessionIndexes } from '@polkadot/api-derive/types';
@@ -6,7 +6,7 @@ import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
 
-import { AddressMini, ExpanderScroll, MarkWarning } from '@polkadot/react-components';
+import { AddressMini, ExpanderScroll, MarkWarning, Spinner } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { isFunction, isToBn } from '@polkadot/util';
 
@@ -68,14 +68,23 @@ function renderNominators (stashId: string, all: string[] = [], eraExposure?: De
 function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { nomsActive, nomsChilled, nomsInactive, nomsOver, nomsWaiting } = useInactives(stashId, nominating);
   const sessionInfo = useCall<DeriveSessionIndexes>(api.query.staking && api.derive.session?.indexes);
   const eraExposure = useCall<DeriveEraExposure>(isFunction(api.query.staking.erasStakers) && api.derive.staking.eraExposure, [sessionInfo?.activeEra]);
+  const { nomsActive, nomsChilled, nomsInactive, nomsOver, nomsWaiting } = useInactives(stashId, nominating, eraExposure);
 
   const [renActive, renChilled, renInactive, renOver, renWaiting] = useMemo(
     () => [renderNominators(stashId, nomsActive, eraExposure), renderNominators(stashId, nomsChilled), renderNominators(stashId, nomsInactive), renderNominators(stashId, nomsOver), renderNominators(stashId, nomsWaiting)],
     [eraExposure, nomsActive, nomsChilled, nomsInactive, nomsOver, nomsWaiting, stashId]
   );
+
+  if (!nomsInactive && !nomsWaiting) {
+    return (
+      <Spinner
+        label='Checking validators'
+        variant='app'
+      />
+    );
+  }
 
   return (
     <>

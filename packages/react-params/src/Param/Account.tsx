@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/react-params authors & contributors
+// Copyright 2017-2025 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { MultiAddress } from '@polkadot/types/interfaces';
@@ -56,7 +56,7 @@ function Account (props: Props): React.ReactElement<Props> {
         isInput
         label={label}
         onChange={_onChange}
-        placeholder='5...'
+        placeholder='5GLFK...'
         type='allPlus'
         withEllipsis
         withLabel={withLabel}

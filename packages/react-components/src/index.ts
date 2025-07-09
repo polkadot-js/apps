@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/react-components authors & contributors
+// Copyright 2017-2025 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // named exports
@@ -76,6 +76,7 @@ export { default as Password } from './Password.js';
 export { default as PasswordStrength } from './PasswordStrength.js';
 export { default as Popup } from './Popup/index.js';
 export { default as Progress } from './Progress.js';
+export { default as ProgressBar } from './ProgressBar.js';
 export { default as Row } from './Row.js';
 export { default as Sidebar } from './Sidebar.js';
 export { default as SortDropdown } from './SortDropdown.js';
@@ -99,7 +100,6 @@ export { default as TxButton } from './TxButton.js';
 export { default as UsageBar } from './UsageBar.js';
 export { default as VoteAccount } from './VoteAccount.js';
 export { default as VoteValue } from './VoteValue.js';
-
 // star exports
 export * from './modals/index.js';
 export * from './themes.js';

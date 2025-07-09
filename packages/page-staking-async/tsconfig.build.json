@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "outDir": "./build",
+    "rootDir": "./src"
+  },
+  "references": [
+    { "path": "../react-components/tsconfig.build.json" },
+    { "path": "../react-hooks/tsconfig.build.json" },
+    { "path": "../page-staking2/tsconfig.build.json" },
+    { "path": "../page-staking/tsconfig.build.json" },
+  ]
+}

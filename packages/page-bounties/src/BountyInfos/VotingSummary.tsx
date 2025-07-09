@@ -1,8 +1,8 @@
-// Copyright 2017-2024 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2025 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import type { BountyStatus } from '@polkadot/types/interfaces';
+import type { PalletBountiesBountyStatus } from '@polkadot/types/lookup';
 
 import React, { useMemo } from 'react';
 
@@ -16,7 +16,7 @@ import VotingLink from './VotingLink.js';
 interface Props {
   className?: string;
   proposal: DeriveCollectiveProposal;
-  status: BountyStatus;
+  status: PalletBountiesBountyStatus;
 }
 
 function VotingSummary ({ className, proposal, status }: Props): React.ReactElement<Props> {

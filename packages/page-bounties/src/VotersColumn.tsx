@@ -1,9 +1,9 @@
-// Copyright 2017-2024 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2025 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import type { BountyStatus } from '@polkadot/types/interfaces';
+import type { PalletBountiesBountyStatus } from '@polkadot/types/lookup';
 
 import React, { useMemo } from 'react';
 
@@ -16,7 +16,7 @@ interface Props {
   className?: string;
   option: 'ayes' | 'nays';
   proposals: DeriveCollectiveProposal[];
-  status: BountyStatus;
+  status: PalletBountiesBountyStatus;
 }
 
 const icons: Record<string, IconName> = {

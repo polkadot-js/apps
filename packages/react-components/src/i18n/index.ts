@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/react-components authors & contributors
+// Copyright 2017-2025 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LanguageDetectorModule, Newable } from 'i18next';
@@ -68,6 +68,7 @@ i18next
       'app-signing',
       'app-society',
       'app-staking',
+      'app-staking-async',
       'app-staking-legacy',
       'app-storage',
       'app-sudo',

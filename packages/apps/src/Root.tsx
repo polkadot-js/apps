@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/apps authors & contributors
+// Copyright 2017-2025 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ThemeDef } from '@polkadot/react-components/types';
@@ -9,7 +9,7 @@ import { HashRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 import { ApiCtxRoot } from '@polkadot/react-api';
-import { ApiStatsCtxRoot, BlockAuthorsCtxRoot, BlockEventsCtxRoot, KeyringCtxRoot, QueueCtxRoot, WindowSizeCtxRoot } from '@polkadot/react-hooks';
+import { ApiStatsCtxRoot, BlockAuthorsCtxRoot, BlockEventsCtxRoot, KeyringCtxRoot, PayWithAssetCtxRoot, QueueCtxRoot, WindowSizeCtxRoot } from '@polkadot/react-hooks';
 import { settings } from '@polkadot/ui-settings';
 
 import Apps from './Apps.js';
@@ -53,7 +53,9 @@ function Root ({ isElectron, store }: Props): React.ReactElement<Props> {
                   <BlockEventsCtxRoot>
                     <HashRouter>
                       <WindowSizeCtxRoot>
-                        <Apps />
+                        <PayWithAssetCtxRoot>
+                          <Apps />
+                        </PayWithAssetCtxRoot>
                       </WindowSizeCtxRoot>
                     </HashRouter>
                   </BlockEventsCtxRoot>

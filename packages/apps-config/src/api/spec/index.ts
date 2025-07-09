@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/apps-config authors & contributors
+// Copyright 2017-2025 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
@@ -56,6 +56,7 @@ import galois from './galois.js';
 import gamepower from './gamepower.js';
 import genshiro from './genshiro.js';
 import hanonycash from './hanonycash.js';
+import heima from './heima.js';
 import hydrate from './hydrate.js';
 import hyperbridge from './hyperbridge.js';
 import idavoll from './idavoll.js';
@@ -63,6 +64,7 @@ import imbue from './imbue.js';
 import integritee from './integritee.js';
 import interbtc from './interbtc.js';
 import ipse from './ipse.js';
+import jamton from './jamton.js';
 import jupiter from './jupiter.js';
 import jupiterRococo from './jupiter-rococo.js';
 import jur from './jur.js';
@@ -74,7 +76,6 @@ import kulupu from './kulupu.js';
 import kusari from './kusari.js';
 import kylin from './kylin.js';
 import laminar from './laminar.js';
-import litentry from './litentry.js';
 import logion from './logion.js';
 import logionParachain from './logion-parachain.js';
 import mangata from './mangata.js';
@@ -125,6 +126,7 @@ import substrateContractsNode from './substrateContractsNode.js';
 import swapdex from './swapdex.js';
 import t0rn from './t0rn.js';
 import ternoa from './ternoa.js';
+import torus from './torus.js';
 import trustbase from './trustbase.js';
 import turing from './turing.js';
 import uart from './uart.js';
@@ -211,6 +213,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   halongbay: polkafoundry,
   hanonycash,
   heiko: parallel,
+  heima,
   'hydra-dx': hydrate,
   hyperbridge,
   idavoll,
@@ -220,6 +223,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'interbtc-standalone': interbtc,
   'interlay-parachain': interbtc,
   'ipse-node': ipse,
+  'jamton-runtime': jamton,
   'jupiter-prep': jupiter,
   'jupiter-rococo': jupiterRococo,
   'jur-chain': jur,
@@ -234,7 +238,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   kusari,
   kylin,
   laminar,
-  litentry,
   logion,
   'logion-parachain': logionParachain,
   mangata,
@@ -273,7 +276,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'pioneer-runtime': bitcountryPioneer,
   polymesh_mainnet: polymeshMainnet,
   polymesh_testnet: polymeshTestnet,
-  'pontem-node': pontem,
+  'pontem-node': pontem as OverrideBundleDefinition,
   prism,
   'quantum-portal-network-parachain': ferrum,
   quartz,
@@ -284,7 +287,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   sapphire,
   shibuya,
   shiden,
-  snowbridge,
+  snowbridge: snowbridge as OverrideBundleDefinition,
   'sora-substrate': soraSubstrate,
   sora_ksm: soraSubstrate,
   'spacewalk-standalone': pendulum,
@@ -294,7 +297,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   steam: eave,
   subdao,
   subgame,
-  subsocial,
+  subsocial: subsocial as OverrideBundleDefinition,
   subspace,
   'substrate-contracts-node': substrateContractsNode,
   subzero: zero,
@@ -303,6 +306,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   ternoa,
   'testnet-interlay': interbtc,
   'testnet-kintsugi': interbtc,
+  torus,
   trustbase,
   turing,
   uart,

@@ -14,10 +14,10 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.145.2-9-x",
+  "version": "0.160.2-1-x",
   "dependencies": {
-    "@polkadot/hw-ledger": "^13.1.1",
-    "@polkadot/hw-ledger-transports": "^13.1.1",
+    "@polkadot/hw-ledger": "^13.5.3",
+    "@polkadot/hw-ledger-transports": "^13.5.3",
     "is-ipfs": "^8.0.1"
   },
   "peerDependencies": {

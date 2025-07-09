@@ -1,1 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="background-color:#00b6af"><circle shape-rendering="geometricPrecision" fill="#19455e" cx="256" cy="256" r="256"/><polygon fill="#00b6af" points="170 123 170 407 220 407 220 318 319 276 319 225 220 267 220 170 347 170 347 123 170 123"/></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 200 200">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #772570;
+      }
+
+      .cls-2 {
+        fill: url(#radial-gradient);
+      }
+    </style>
+    <radialGradient id="radial-gradient" cx="-39.02" cy="-9.6" fx="-39.02" fy="-9.6" r="288.88" gradientUnits="userSpaceOnUse">
+      <stop offset=".3" stop-color="#ffd02f"/>
+      <stop offset=".58" stop-color="#f99f32"/>
+      <stop offset=".94" stop-color="#f15c37"/>
+    </radialGradient>
+  </defs>
+  <circle class="cls-2" cx="100" cy="100" r="100"/>
+  <path class="cls-1" d="M157.39,42.5H42.44c-3.97,0-7.2,3.22-7.2,7.2v100.56c-.02,2.51,1.26,4.84,3.39,6.17,2.12,1.31,4.76,1.42,6.99.31l86.26-43.29c6.1-3.64,3.8-12.97-3.29-13.37h-55.72l87.8-43.91c6.96-3.37,4.44-13.84-3.29-13.68h0Z"/>
+</svg>

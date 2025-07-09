@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-staking authors & contributors
+// Copyright 2017-2025 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -51,6 +51,7 @@ function Pools ({ className, ids, ownPools, params }: Props): React.ReactElement
       [t('state'), 'media--1100'],
       [t('points')],
       [t('claimable'), 'media--1400'],
+      [t('commission')],
       [undefined, undefined, 3]
     ],
     [t]

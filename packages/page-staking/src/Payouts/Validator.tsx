@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-staking authors & contributors
+// Copyright 2017-2025 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -29,7 +29,7 @@ interface State {
 }
 
 function extractState (payout: PayoutValidator): State {
-  const eraStr = createErasString(payout.eras.map(({ era }) => era));
+  const eraStr = createErasString(payout.eras.filter(({ isClaimed }) => !isClaimed).map(({ era }) => era));
   const nominators = payout.eras.reduce((nominators: Record<string, BN>, { stashes }): Record<string, BN> => {
     Object.entries(stashes).forEach(([stashId, value]): void => {
       if (nominators[stashId]) {

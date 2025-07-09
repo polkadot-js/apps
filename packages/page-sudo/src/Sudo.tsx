@@ -1,15 +1,14 @@
-// Copyright 2017-2024 @polkadot/app-js authors & contributors
+// Copyright 2017-2025 @polkadot/app-js authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
-import type { BN } from '@polkadot/util';
 
 import React, { useCallback, useState } from 'react';
 
-import { Button, Icon, InputNumber, styled, Toggle, TxButton } from '@polkadot/react-components';
+import { Button, Icon, styled, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { Extrinsic } from '@polkadot/react-params';
-import { BN_ZERO, isFunction } from '@polkadot/util';
+import { isFunction } from '@polkadot/util';
 
 import { useTranslation } from './translate.js';
 
@@ -21,18 +20,14 @@ interface Props {
 
 function Sudo ({ className, isMine, sudoKey }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api, apiDefaultTxSudo } = useApi();
+  const { api } = useApi();
   const [withWeight, toggleWithWeight] = useToggle();
-  const [method, setMethod] = useState<SubmittableExtrinsic<'promise'> | null>(null);
-  const [weight, setWeight] = useState<BN>(BN_ZERO);
+  const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
 
   const _onChangeExtrinsic = useCallback(
-    (method: SubmittableExtrinsic<'promise'> | null = null) => setMethod(() => method),
-    []
-  );
-
-  const _onChangeWeight = useCallback(
-    (weight: BN = BN_ZERO) => setWeight(weight),
+    (method?: SubmittableExtrinsic<'promise'>) => {
+      setExtrinsic(() => method || null);
+    },
     []
   );
 
@@ -40,47 +35,30 @@ function Sudo ({ className, isMine, sudoKey }: Props): React.ReactElement<Props>
     ? (
       <StyledSection className={className}>
         <Extrinsic
-          defaultValue={apiDefaultTxSudo}
+          defaultValue={withWeight ? api.tx.sudo.sudoUncheckedWeight : api.tx.sudo.sudo}
+          isDisabled
+          key={String(withWeight)}
           label={t('submit the following change')}
           onChange={_onChangeExtrinsic}
         />
         {isFunction(api.tx.sudo.sudoUncheckedWeight) && (
-          <InputNumber
-            isDisabled={!withWeight}
-            isError={weight.eq(BN_ZERO)}
-            isZeroable={false}
-            label={t('unchecked weight for this call')}
-            labelExtra={
-              <Toggle
-                className='sudoToggle'
-                label={t('with weight override')}
-                onChange={toggleWithWeight}
-                value={withWeight}
-              />
-            }
-            onChange={_onChangeWeight}
-            value={weight}
+          <Toggle
+            className='sudoToggle'
+            label={t('with weight override')}
+            onChange={toggleWithWeight}
+            value={withWeight}
           />
         )}
         <Button.Group>
           <TxButton
             accountId={sudoKey}
+            extrinsic={extrinsic}
             icon='sign-in-alt'
-            isDisabled={!method || (withWeight ? weight.eq(BN_ZERO) : false)}
+            isDisabled={!extrinsic}
             label={
               withWeight
                 ? t('Submit Sudo Unchecked')
                 : t('Submit Sudo')
-            }
-            params={
-              withWeight
-                ? [method, weight]
-                : [method]
-            }
-            tx={
-              withWeight
-                ? api.tx.sudo.sudoUncheckedWeight
-                : api.tx.sudo.sudo
             }
           />
         </Button.Group>
@@ -100,6 +78,7 @@ const StyledSection = styled.section`
   .sudoToggle {
     width: 100%;
     text-align: right;
+    padding-top: 1rem;
   }
 `;
 

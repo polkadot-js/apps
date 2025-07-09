@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2025 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CombinatorFunction } from '@polkadot/api/promise/Combinator';
@@ -11,6 +11,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { u8aConcat, u8aToHex } from '@polkadot/util';
 
+import { isEmpty } from './utils/isEmpty.js';
 import { createNamedHook } from './createNamedHook.js';
 import { useAccounts } from './useAccounts.js';
 import { useApi } from './useApi.js';
@@ -36,7 +37,7 @@ const QUERY_OPTS = {
 
 function getStakerState (stashId: string, allAccounts: string[], [isOwnStash, { claimedRewardsEras, controllerId: _controllerId, exposureMeta, exposurePaged, nextSessionIds: _nextSessionIds, nominators, rewardDestination, sessionIds: _sessionIds, stakingLedger, validatorPrefs }, validateInfo]: [boolean, DeriveStakingAccount, ValidatorInfo]): StakerState {
   const isStashNominating = !!(nominators?.length);
-  const isStashValidating = !(Array.isArray(validateInfo) ? validateInfo[1].isEmpty : validateInfo.isEmpty);
+  const isStashValidating = !(Array.isArray(validateInfo) ? isEmpty(validateInfo[1] as ValidatorPrefs) : isEmpty(validateInfo));
   const nextSessionIds = _nextSessionIds instanceof Map
     ? [..._nextSessionIds.values()]
     : _nextSessionIds;

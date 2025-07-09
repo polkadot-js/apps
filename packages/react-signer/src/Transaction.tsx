@@ -1,8 +1,9 @@
-// Copyright 2017-2024 @polkadot/react-signer authors & contributors
+// Copyright 2017-2025 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { QueueTx } from '@polkadot/react-components/Status/types';
 import type { BN } from '@polkadot/util';
+import type { ExtendedSignerOptions } from './types.js';
 
 import React from 'react';
 
@@ -18,9 +19,10 @@ interface Props {
   currentItem: QueueTx;
   onError: () => void;
   tip?: BN;
+  signerOptions?: ExtendedSignerOptions;
 }
 
-function Transaction ({ accountId, className, currentItem: { extrinsic, isUnsigned, payload }, onError, tip }: Props): React.ReactElement<Props> | null {
+function Transaction ({ accountId, className, currentItem: { extrinsic, isUnsigned, payload }, onError, signerOptions, tip }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   if (!extrinsic) {
@@ -43,6 +45,7 @@ function Transaction ({ accountId, className, currentItem: { extrinsic, isUnsign
           className='paymentInfo'
           extrinsic={extrinsic}
           isHeader
+          signerOptions={signerOptions}
           tip={tip}
         />
       )}

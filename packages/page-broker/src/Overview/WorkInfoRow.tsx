@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-broker authors & contributors
+// Copyright 2017-2025 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { FlagColor } from '@polkadot/react-components/types';
@@ -6,8 +6,9 @@ import type { FlagColor } from '@polkadot/react-components/types';
 import React from 'react';
 
 import { AddressMini, styled, Tag } from '@polkadot/react-components';
+import { CoreTimeTypes } from '@polkadot/react-hooks/constants';
 
-import { CoreTimeTypes, type InfoRow } from '../types.js';
+import { type InfoRow } from '../types.js';
 
 const colours: Record<string, string> = {
   [CoreTimeTypes.Reservation]: 'orange',
@@ -49,150 +50,60 @@ function WorkInfoRow ({ data }: { data: InfoRow }): React.ReactElement {
     return (
       <>
         <td style={{ width: 200 }}>no task</td>
-        <td colSpan={6} />
+        <td colSpan={7} />
       </>);
   }
 
-  switch (data.type) {
-    case (CoreTimeTypes.Reservation): {
-      return (
-        <>
-          <TableCol
-            header='Task'
-            value={data.task}
+  return (
+    <>
+      <TableCol
+        header='Task'
+        value={data.task}
+      />
+      <TableCol
+        header='Blocks per timeslice'
+        value={data.maskBits}
+      />
+      <TableCol
+        header='Start ts'
+        hide='both'
+        value={data.startTimeslice}
+      />
+      <TableCol
+        header='Start date'
+        hide='both'
+        value={data.start}
+      />
+      <TableCol
+        header='End date'
+        hide='both'
+        value={data.end}
+      />
+      <TableCol
+        header='Last block (relay)'
+        value={data.endBlock}
+      />
+      <StyledTableCol hide={'mobile'}>
+        <h5 style={{ opacity: '0.6' }}>type</h5>
+        {typeof data.type === 'number' && data.type in CoreTimeTypes && (
+          <Tag
+            color={colours[data.type] as FlagColor}
+            label={Object.values(CoreTimeTypes)[data.type]}
           />
-          <TableCol
-            header='Blocks per timeslice'
-            value={data.maskBits}
+        )}
+      </StyledTableCol>
+      {data.owner
+        ? <StyledTableCol hide='mobile'>
+          <h5 style={{ opacity: '0.6' }}>{'Owner'}</h5>
+          <AddressMini
+            isPadded={false}
+            key={data.owner}
+            value={data.owner}
           />
-          <td>
-            <Tag
-              color={colours[data.type] as FlagColor}
-              label={Object.values(CoreTimeTypes)[data.type]}
-            />
-          </td>
-          <td colSpan={4} />
-        </>
-      );
-    }
 
-    case (CoreTimeTypes.Lease):
-      return (
-        <>
-          <TableCol
-            header='Task'
-            value={data.task}
-          />
-          <TableCol
-            header='Blocks per timeslice'
-            value={data.maskBits}
-          />
-          <TableCol
-            header='Start'
-            hide='both'
-            value={data.start}
-          />
-          <TableCol
-            header='End'
-            hide='both'
-            value={data.end}
-          />
-          <TableCol
-            header='Last block'
-            value={data.endBlock}
-          />
-          <StyledTableCol hide={'mobile'}>
-            <h5 style={{ opacity: '0.6' }}>type</h5>
-            <Tag
-              color={colours[data.type] as FlagColor}
-              label={Object.values(CoreTimeTypes)[data.type]}
-            />
-          </StyledTableCol>
-          <td colSpan={1} />
-        </>);
-
-    case (CoreTimeTypes['On Demand']): {
-      return (
-        <>
-          <TableCol
-            header='Task'
-            value={data.task}
-          />
-          <TableCol
-            header='Blocks per timeslice'
-            value={data.maskBits}
-          />
-          <TableCol
-            header='Start'
-            hide='both'
-            value={data.start}
-          />
-          <TableCol
-            header='End'
-            hide='both'
-            value={data.end}
-          />
-          <TableCol
-            header='Last block'
-            value={data.endBlock}
-          />
-          <StyledTableCol hide={'mobile'}>
-            <h5 style={{ opacity: '0.6' }}>type</h5>
-            <Tag
-              color={colours[data.type] as FlagColor}
-              label={Object.values(CoreTimeTypes)[data.type]}
-            />
-          </StyledTableCol>
-          <td colSpan={1} />
-        </>);
-    }
-
-    default: {
-      return (
-        <>
-          <TableCol
-            header='Task'
-            value={data.task}
-          />
-          <TableCol
-            header='Blocks per timeslice'
-            value={data.maskBits}
-          />
-          <TableCol
-            header='Start'
-            hide='both'
-            value={data.start}
-          />
-          <TableCol
-            header='End'
-            hide='both'
-            value={data.end}
-          />
-          <TableCol
-            header='Last block'
-            value={data.endBlock}
-          />
-          <StyledTableCol hide={'mobile'}>
-            <h5 style={{ opacity: '0.6' }}>type</h5>
-            <Tag
-              color={colours[CoreTimeTypes['Bulk Coretime']] as FlagColor}
-              label={'Bulk Coretime'}
-            />
-          </StyledTableCol>
-          {data.owner
-            ? <StyledTableCol hide='mobile'>
-              <h5 style={{ opacity: '0.6' }}>{'Owner'}</h5>
-              <AddressMini
-                isPadded={false}
-                key={data.owner}
-                value={data.owner}
-              />
-
-            </StyledTableCol>
-            : <td></td>}
-        </>);
-    }
-  }
+        </StyledTableCol>
+        : <td></td>}
+    </>);
 }
 
 export default React.memo(WorkInfoRow);

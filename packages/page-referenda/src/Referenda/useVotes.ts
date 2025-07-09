@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-preimages authors & contributors
+// Copyright 2017-2025 @polkadot/app-preimages authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -44,7 +44,12 @@ function filterEvents (records: EventRecord[], _: ApiPromise, id?: BN): Changes<
 
 function useVotesImpl (palletVote: PalletVote, id: BN, isConvictionVote: boolean): Record<string, PalletRankedCollectiveVoteRecord> | undefined {
   const { api } = useApi();
-  const startAccounts = useMapKeys(isConvictionVote === false && api.query[palletVote].voting, [id], OPT_ACCOUNTID);
+
+  // After v1.4.0 runtime upgrade, Relay chains i.e. Kusama and Polkadot, or other parachains chains, replaced `voting` method with `votingFor`.
+  // Adding a safety check here so that app doesn't break
+  const query = useMemo(() => api.query[palletVote].voting ?? api.query[palletVote].votingFor, [api.query, palletVote]);
+
+  const startAccounts = useMapKeys(isConvictionVote === false && query, [id], OPT_ACCOUNTID);
   const allAccounts = useEventChanges([
     api.events[palletVote].Voted
   ], filterEvents, startAccounts, id);
@@ -54,7 +59,7 @@ function useVotesImpl (palletVote: PalletVote, id: BN, isConvictionVote: boolean
     [allAccounts, id]
   );
 
-  return useCall(params && api.query[palletVote].voting.multi, [params], OPT_VOTES);
+  return useCall(params && query?.multi, [params], OPT_VOTES);
 }
 
 export default createNamedHook('useVotes', useVotesImpl);

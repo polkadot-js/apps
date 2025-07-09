@@ -1,10 +1,10 @@
-// Copyright 2017-2024 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2025 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
 import type { SignedBlockExtended } from '@polkadot/api-derive/types';
 import type { Event } from '@polkadot/types/interfaces';
-import type { PolkadotPrimitivesV6CandidateReceipt } from '@polkadot/types/lookup';
+import type { PolkadotPrimitivesVstagingCandidateReceiptV2 } from '@polkadot/types/lookup';
 import type { IEvent } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 import type { EventMapInfo } from './types.js';
@@ -26,7 +26,7 @@ const EMPTY_EVENTS: Result = { lastBacked: {}, lastIncluded: {}, lastTimeout: {}
 
 function includeEntry (map: EventMap, event: Event, blockHash: string, blockNumber: BN): void {
   try {
-    const { descriptor } = (event as unknown as IEvent<[PolkadotPrimitivesV6CandidateReceipt]>).data[0];
+    const { descriptor } = (event as unknown as IEvent<[PolkadotPrimitivesVstagingCandidateReceiptV2]>).data[0];
 
     if (descriptor?.paraId) {
       map[descriptor.paraId.toString()] = {

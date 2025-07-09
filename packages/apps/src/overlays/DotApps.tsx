@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/apps authors & contributors
+// Copyright 2017-2025 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useMemo } from 'react';
@@ -45,6 +45,7 @@ function DotApps ({ className }: Props): React.ReactElement<Props> | null {
         className={className}
         icon='link'
         isBottom
+        isDev
         isFull
         type='info'
       >

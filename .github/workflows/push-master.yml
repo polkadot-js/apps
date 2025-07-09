@@ -20,6 +20,8 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: 'lts/*'
+    - name: Set Execute Permissions
+      run: chmod +x ./scripts/*
     - name: ${{ matrix.step }}
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
@@ -44,6 +46,8 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: 'lts/*'
+    - name: Set Execute Permissions
+      run: chmod +x ./docker/*
     - name: docker
       env:
         DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
@@ -55,7 +59,9 @@ jobs:
     if: "startsWith(github.event.head_commit.message, '[CI Skip] release/stable')"
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        # Removed `macos-latest` since notarization errors.
+        # ref: https://github.com/polkadot-js/apps/issues/10486
+        os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4
@@ -64,12 +70,16 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: 'lts/*'
-    - name: Prepare for app notarization (macOS)
-      if: startsWith(matrix.os, 'macos')
-      # Import Apple API key for app notarization on macOS
-      run: |
-        mkdir -p ~/private_keys/
-        echo '${{ secrets.API_KEY }}' > ~/private_keys/AuthKey_${{ secrets.API_KEY_ID }}.p8
+    # Removed `macos-latest` since notarization errors.
+    # ref: https://github.com/polkadot-js/apps/issues/10486
+    # - name: Prepare for app notarization (macOS)
+    #   if: startsWith(matrix.os, 'macos')
+    #   # Import Apple API key for app notarization on macOS
+    #   run: |
+    #     mkdir -p ~/private_keys/
+    #     echo '${{ secrets.API_KEY }}' > ~/private_keys/AuthKey_${{ secrets.API_KEY_ID }}.p8
+    - name: Set Execute Permissions
+      run: chmod +x ./scripts/*
     - name: Build/release Electron app
       uses: samuelmeuli/action-electron-builder@v1
       with:

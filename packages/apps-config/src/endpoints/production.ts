@@ -1,10 +1,10 @@
-// Copyright 2017-2024 @polkadot/apps-config authors & contributors
+// Copyright 2017-2025 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EndpointOption } from './types.js';
 
-import { chains3dpassSVG, chainsAlephSVG, chainsBittensorPNG, chainsChainflipPNG, chainsCommuneaiPNG, chainsCreditcoinPNG, chainsDebioSVG, chainsFragnovaPNG, chainsJurPNG, chainsLiberlandPNG, chainsLogionPNG, chainsMyriadPNG, chainsSpannerPNG, chainsTanglePNG, chainsVaraPNG, chainsVtbPNG } from '../ui/logos/chains/index.js';
-import { nodesAresOdysseySVG, nodesCentrifugePNG, nodesCereSVG, nodesChainxSVG, nodesCompetitorsClubPNG, nodesCrownSterlingPNG, nodesCrustSVG, nodesDatahighwayPNG, nodesDockPNG, nodesEdgewareWhitePNG, nodesEfinitySVG, nodesElysiumPNG, nodesHanyonycashPNG, nodesHumanodePNG, nodesInnovatorPNG, nodesJoystreamSVG, nodesKulupuSVG, nodesKusariSVG, nodesMathSVG, nodesMinixPNG, nodesNftmartPNG, nodesNodleSVG, nodesPolkadexSVG, nodesPolymeshSVG, nodesRiochainSVG, nodesRobonomicsSVG, nodesSherpaxPNG, nodesSoraSubstrateSVG, nodesStafiPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesSwapdexSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesUniartsPNG, nodesUnitnetworkPNG } from '../ui/logos/nodes/index.js';
+import { chains3dpassSVG, chainsAlephSVG, chainsAnalogSVG, chainsBittensorPNG, chainsChainflipPNG, chainsCommuneaiPNG, chainsCreditcoinPNG, chainsDebioSVG, chainsFragnovaPNG, chainsJurPNG, chainsLiberlandPNG, chainsLogionPNG, chainsMyriadPNG, chainsSpannerPNG, chainsTanglePNG, chainsTorusPNG, chainsVaraPNG, chainsVtbPNG } from '../ui/logos/chains/index.js';
+import { nodesAresOdysseySVG, nodesAutonomysPNG, nodesCentrifugePNG, nodesCereSVG, nodesChainxSVG, nodesCompetitorsClubPNG, nodesCrownSterlingPNG, nodesCrustSVG, nodesDatahighwayPNG, nodesDockPNG, nodesEdgewareWhitePNG, nodesEfinitySVG, nodesElysiumPNG, nodesHanyonycashPNG, nodesHumanodePNG, nodesInnovatorPNG, nodesJoystreamSVG, nodesKulupuSVG, nodesKusariSVG, nodesMathSVG, nodesMinixPNG, nodesNftmartPNG, nodesNodleSVG, nodesPolkadexSVG, nodesPolymeshSVG, nodesRiochainSVG, nodesRobonomicsSVG, nodesSherpaxPNG, nodesSoraSubstrateSVG, nodesStafiPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesSwapdexSVG, nodesTanssiSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesTscsPNG, nodesUniartsPNG, nodesUnitnetworkPNG } from '../ui/logos/nodes/index.js';
 
 export * from './productionRelayKusama.js';
 export * from './productionRelayPolkadot.js';
@@ -20,7 +20,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: '3dpass',
     providers: {
-      '3dpass': 'wss://rpc.3dpscan.io'
+      '3dpass': 'wss://rpc.3dpass.org'
     },
     text: '3DPass',
     ui: {
@@ -32,13 +32,25 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'aleph',
     providers: {
       'Aleph Zero Foundation': 'wss://ws.azero.dev',
-      Dwellir: 'wss://aleph-zero-rpc.dwellir.com',
       OnFinality: 'wss://aleph-zero.api.onfinality.io/public-ws'
     },
     text: 'Aleph Zero',
     ui: {
       color: '#00CCAB',
       logo: chainsAlephSVG
+    }
+  },
+  {
+    homepage: 'https://analog.one',
+    info: 'analog-timechain',
+    providers: {
+      'Analog One': 'wss://rpc.timechain.analog.one'
+    },
+    text: 'Analog Timechain',
+    ui: {
+      color: '#5d3ef8',
+      identityIcon: 'beachball',
+      logo: chainsAnalogSVG
     }
   },
   {
@@ -50,6 +62,18 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#1295F0',
       logo: nodesAresOdysseySVG
+    }
+  },
+  {
+    info: 'autonomys-mainnet',
+    providers: {
+      Foundation: 'wss://rpc.mainnet.subspace.foundation/ws',
+      Labs: 'wss://rpc-0.mainnet.autonomys.xyz/ws'
+    },
+    text: 'Autonomys',
+    ui: {
+      color: '#5870B3',
+      logo: nodesAutonomysPNG
     }
   },
   {
@@ -67,7 +91,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'bittensor',
     providers: {
-      // Dwellir: 'wss://bittensor-mainnet-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/10728
+      'Latent Holdings (Lite)': 'wss://lite.sub.latent.to:443',
+      'OnFinality (Archive)': 'wss://bittensor-finney.api.onfinality.io/public-ws',
       'Opentensor Fdn (Archive)': 'wss://entrypoint-finney.opentensor.ai:443'
     },
     text: 'Bittensor',
@@ -113,8 +138,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'chainflip',
     providers: {
-      chainflip: 'wss://mainnet-archive.chainflip.io',
-      dwellir: 'wss://chainflip-rpc.dwellir.com'
+      chainflip: 'wss://mainnet-archive.chainflip.io'
     },
     text: 'Chainflip',
     ui: {
@@ -185,7 +209,6 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
       'Crust Network APP': 'wss://rpc.crustnetwork.app',
       'Crust Network CC': 'wss://rpc.crustnetwork.cc',
       'Crust Network XYZ': 'wss://rpc.crustnetwork.xyz',
-      Dwellir: 'wss://crust-mainnet-rpc.dwellir.com',
       OnFinality: 'wss://crust.api.onfinality.io/public-ws'
     },
     text: 'Crust Network',
@@ -198,7 +221,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'debio',
     providers: {
       // DeBio: 'wss://ws-rpc.debio.network', // https://github.com/polkadot-js/apps/issues/10118
-      Octopus: 'wss://gateway.mainnet.octopus.network/debionetwork/ae48005a0c7ecb4053394559a7f4069e'
+      // Octopus: 'wss://gateway.mainnet.octopus.network/debionetwork/ae48005a0c7ecb4053394559a7f4069e' // https://github.com/polkadot-js/apps/issues/11234
     },
     text: 'DeBio',
     ui: {
@@ -209,7 +232,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'dock-pos-mainnet',
     providers: {
-      'Dock Association': 'wss://mainnet-node.dock.io'
+      // 'Dock Association': 'wss://mainnet-node.dock.io' // https://github.com/polkadot-js/apps/issues/11460
     },
     text: 'Dock',
     ui: {
@@ -220,8 +243,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'edgeware',
     providers: {
       // 'Commonwealth Labs': 'wss://mainnet2.edgewa.re', // https://github.com/polkadot-js/apps/issues/10373
+      'JelliedOwl Bangalore': 'wss://edgeware-rpc3.jelliedowl.net',
       'JelliedOwl London': 'wss://edgeware-rpc1.jelliedowl.net',
-      'JelliedOwl Los Angeles': 'wss://edgeware-rpc3.jelliedowl.net',
       'JelliedOwl New York': 'wss://edgeware-rpc0.jelliedowl.net',
       'JelliedOwl Singapore': 'wss://edgeware-rpc2.jelliedowl.net'
       // OnFinality: 'wss://edgeware.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9795
@@ -324,7 +347,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'kulupu',
     providers: {
-      Kulupu: 'wss://rpc.kulupu.corepaper.org/ws'
+      // Kulupu: 'wss://rpc.kulupu.corepaper.org/ws' https://github.com/polkadot-js/apps/issues/11157
     },
     text: 'Kulupu',
     ui: {
@@ -346,7 +369,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'Liberland',
     providers: {
-      Dwellir: 'wss://liberland-rpc.dwellir.com',
+      Dwellir: 'wss://liberland-rpc.n.dwellir.com',
       'Liberland Government': 'wss://mainnet.liberland.org'
     },
     text: 'Liberland mainnet',
@@ -393,7 +416,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'myriad',
     providers: {
       // Myriad: 'wss://ws-rpc.myriad.social', // https://github.com/polkadot-js/apps/issues/10172
-      Octopus: 'wss://gateway.mainnet.octopus.network/myriad/a4cb0a6e30ff5233a3567eb4e8cb71e0'
+      // Octopus: 'wss://gateway.mainnet.octopus.network/myriad/a4cb0a6e30ff5233a3567eb4e8cb71e0' // https://github.com/polkadot-js/apps/issues/11263
     },
     text: 'Myriad',
     ui: {
@@ -404,7 +427,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'neatcoin',
     providers: {
-      Neatcoin: 'wss://rpc.neatcoin.org/ws'
+      // Neatcoin: 'wss://rpc.neatcoin.org/ws' https://github.com/polkadot-js/apps/issues/11157
     },
     text: 'Neatcoin',
     ui: {}
@@ -434,8 +457,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'polkadex',
     providers: {
-      Dwellir: 'wss://polkadex-mainnet-rpc.dwellir.com',
       OnFinality: 'wss://polkadex.api.onfinality.io/public-ws',
+      PolkadexSup: 'wss://so.polkadex.ee',
       RadiumBlock: 'wss://polkadex.public.curie.radiumblock.co/ws'
     },
     text: 'Polkadex',
@@ -560,13 +583,24 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'tangle',
     providers: {
-      Dwellir: 'wss://tangle-mainnet-rpc.dwellir.com',
+      Dwellir: 'wss://tangle-mainnet-rpc.n.dwellir.com',
       Webb: 'wss://rpc.tangle.tools'
     },
     text: 'Tangle',
     ui: {
       color: '#7578fb',
       logo: chainsTanglePNG
+    }
+  },
+  {
+    info: 'tanssi',
+    providers: {
+      'Tanssi Foundation': 'wss://tanssi.tanssi-mainnet.network'
+    },
+    text: 'Tanssi',
+    ui: {
+      color: '#149b9bff',
+      logo: nodesTanssiSVG
     }
   },
   {
@@ -578,6 +612,28 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#d622ff',
       logo: nodesTernoaSVG
+    }
+  },
+  {
+    info: 'torus',
+    providers: {
+      mainnet: 'wss://api.torus.network'
+    },
+    text: 'Torus',
+    ui: {
+      color: '#070A0E',
+      logo: chainsTorusPNG
+    }
+  },
+  {
+    info: 'tscs-mainnet',
+    providers: {
+      SuperEX: 'wss://testnetrpc.scschain.com'
+    },
+    text: 'TSCS Network',
+    ui: {
+      color: '#FFAB75',
+      logo: nodesTscsPNG
     }
   },
   {
@@ -606,9 +662,9 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'vara',
     isPeopleForIdentity: false,
     providers: {
-      Blast: 'wss://vara-mainnet.public.blastapi.io',
-      Gear: 'wss://rpc.vara.network',
-      'P2P.org': 'wss://vara.substrate-rpc.p2p.org/'
+      // Blast: 'wss://vara-mainnet.public.blastapi.io', // https://github.com/polkadot-js/apps/issues/11577
+      Gear: 'wss://rpc.vara.network'
+      // 'P2P.org': 'wss://vara.substrate-rpc.p2p.org/' // https://github.com/polkadot-js/apps/issues/11337
     },
     text: 'Vara',
     ui: {

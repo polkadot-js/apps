@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-staking authors & contributors
+// Copyright 2017-2025 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -30,7 +30,7 @@ function Stash ({ className = '', historyDepth, payout: { available, rewards, st
 
   useEffect((): void => {
     rewards && setEraInfo({
-      eraStr: createErasString(rewards.map(({ era }) => era)),
+      eraStr: createErasString(rewards.filter(({ isClaimed }) => !isClaimed).map(({ era }) => era)),
       oldestEra: rewards[0]?.era
     });
   }, [rewards]);

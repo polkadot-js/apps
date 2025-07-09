@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-society authors & contributors
+// Copyright 2017-2025 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, StorageKey } from '@polkadot/types';
@@ -46,7 +46,7 @@ const OPT_ACC = {
 function Suspended ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const candidates = useCall<CandidateSuspend[]>(api.query.society.suspendedCandidates.entries, undefined, OPT_CAN);
+  const candidates = useCall<CandidateSuspend[]>(api.query.society.suspendedCandidates?.entries, undefined, OPT_CAN) ?? [];
   const members = useCall<AccountId[]>(api.query.society.suspendedMembers.keys, undefined, OPT_ACC);
 
   const headerRef = useRef({

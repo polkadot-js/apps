@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2025 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 /* global jest, expect */
@@ -8,8 +8,8 @@ import type { ApiPromise } from '@polkadot/api';
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { ApiProps } from '@polkadot/react-api/types';
 import type { PartialQueueTxExtrinsic, QueueProps, QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
-import type { BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
-import type { PalletBountiesBounty } from '@polkadot/types/lookup';
+import type { BountyIndex } from '@polkadot/types/interfaces';
+import type { PalletBountiesBounty, PalletBountiesBountyStatus } from '@polkadot/types/lookup';
 import type { BountyApi } from '../../src/hooks/index.js';
 
 import { fireEvent, render, within } from '@testing-library/react';
@@ -59,8 +59,8 @@ interface RenderedBountiesPage {
 export class BountiesPage {
   aBounty: ({ status, value }?: Partial<PalletBountiesBounty>) => PalletBountiesBounty;
   aBountyIndex: (index?: number) => BountyIndex;
-  aBountyStatus: (status: string) => BountyStatus;
-  bountyStatusWith: ({ curator, status }: { curator?: string, status?: string, }) => BountyStatus;
+  aBountyStatus: (status: string) => PalletBountiesBountyStatus;
+  bountyStatusWith: ({ curator, status }: { curator?: string, status?: string, }) => PalletBountiesBountyStatus;
   bountyWith: ({ status, value }: { status?: string, value?: number }) => PalletBountiesBounty;
 
   findByRole?: FindOne;

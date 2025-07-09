@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/react-params authors & contributors
+// Copyright 2017-2025 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry, TypeDef } from '@polkadot/types/types';
@@ -21,9 +21,10 @@ interface Props {
   registry: Registry;
   type: TypeDef;
   values?: RawParams | null;
+  withLength?: boolean;
 }
 
-function ParamComp ({ defaultValue, index, isDisabled, isError, name, onChange, onEnter, onEscape, overrides, registry, type }: Props): React.ReactElement<Props> {
+function ParamComp ({ defaultValue, index, isDisabled, isError, name, onChange, onEnter, onEscape, overrides, registry, type, withLength = true }: Props): React.ReactElement<Props> {
   const _onChange = useCallback(
     (value: RawParamOnChangeValue): void =>
       onChange(index, value),
@@ -44,6 +45,7 @@ function ParamComp ({ defaultValue, index, isDisabled, isError, name, onChange, 
         overrides={overrides}
         registry={registry}
         type={type}
+        withLength={withLength}
       />
     </div>
   );

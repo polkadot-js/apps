@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-staking authors & contributors
+// Copyright 2017-2025 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Conviction } from '@polkadot/types/interfaces';
@@ -69,7 +69,7 @@ function Delegate ({ onClose, previousAmount, previousConviction, previousDelega
           <InputAddress
             label={t('delegated account')}
             onChange={setDelegatedAccount}
-            type='account'
+            type='allPlus'
             value={delegatedAccount}
           />
         </Modal.Columns>

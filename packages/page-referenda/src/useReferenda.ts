@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2025 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
@@ -52,19 +52,17 @@ function sortGroups (a: ReferendaGroupKnown, b: ReferendaGroupKnown): number {
 
 const OPT_MULTI = {
   transform: ([[ids], all]: [[BN[]], Option<Referendum['info']>[]]) =>
-    all
-      .map((o, i) =>
-        o.isSome
-          ? [ids[i], o.unwrap()]
-          : null
-      )
-      .filter((r): r is [BN, Referendum['info']] => !!r)
-      .map(([id, info]): Referendum => ({
+    ids.map((id, i) => {
+      const infoOpt = all[i];
+      const info = infoOpt?.isSome ? infoOpt.unwrap() : undefined;
+
+      return {
         id,
         info,
-        isConvictionVote: isConvictionVote(info),
+        isConvictionVote: info ? isConvictionVote(info) : false,
         key: id.toString()
-      })),
+      };
+    }).filter((r) => r.info !== undefined),
   withParamsTransform: true
 };
 
@@ -84,17 +82,22 @@ function group (tracks: TrackDescription[], totalIssuance?: BN, referenda?: Refe
   for (let i = 0, count = referenda.length; i < count; i++) {
     const ref = referenda[i];
 
-    // only ongoing have tracks
-    const trackInfo = ref.info.isOngoing
-      ? tracks.find(({ id }) => id.eq(ref.info.asOngoing.track))
-      : undefined;
+    if (!ref.info || !ref.info.isOngoing) {
+    // info is undefined or not ongoing — can't get track
+      other.referenda.push(ref);
+      continue;
+    }
+
+    const trackInfo = tracks.find(({ id }) =>
+      id?.eq && id.eq(ref.info.asOngoing.track)
+    );
 
     if (trackInfo) {
       ref.trackGraph = trackInfo.graph;
       ref.trackId = trackInfo.id;
       ref.track = trackInfo.info;
 
-      if (ref.isConvictionVote && ref.info.isOngoing) {
+      if (ref.isConvictionVote) {
         const { deciding, tally } = ref.info.asOngoing;
 
         if (deciding.isSome) {
@@ -151,7 +154,7 @@ function useReferendaImpl (palletReferenda: PalletReferenda): [ReferendaGroup[],
     () => [
       (ids && ids.length === 0)
         ? [{ key: 'referenda', referenda: [] }]
-        : group(tracks, totalIssuance, referenda),
+        : group(tracks, totalIssuance, (referenda as Referendum[])),
       tracks
     ],
     [ids, referenda, totalIssuance, tracks]

@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/apps-config authors & contributors
+// Copyright 2017-2025 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -9,22 +9,24 @@ import { externalSubsquareSVG } from '../ui/logos/external/index.js';
 export const Subsquare: ExternalDef = {
   chains: {
     Acala: 'acala',
+    'Ajuna Polkadot': 'ajuna',
     Altair: 'altair',
+    Astar: 'astar',
     Basilisk: 'basilisk',
     Bifrost: 'bifrost-kusama',
     'Bifrost Polkadot': 'bifrost-polkadot',
     Centrifuge: 'centrifuge',
     Collectives: 'collectives',
     Crust: 'crust',
-    HydraDX: 'hydradx',
+    Heima: 'heima',
+    Hydration: 'hydration',
     Interlay: 'interlay',
     Karura: 'karura',
     Khala: 'khala',
     Kusama: 'kusama',
-    Litentry: 'litentry',
+    'Paseo Testnet': 'paseo',
     Phala: 'phala',
     Polkadot: 'polkadot',
-    Rococo: 'rococo',
     'Shibuya Testnet': 'shibuya',
     'Vara Network': 'vara',
     Westend: 'westend',

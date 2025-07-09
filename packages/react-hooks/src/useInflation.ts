@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2025 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -24,13 +24,15 @@ function calcInflation (api: ApiPromise, totalStaked: BN, totalIssuance: BN, num
   // Ideal is less based on the actual auctions, see
   // https://github.com/paritytech/polkadot/blob/816cb64ea16102c6c79f6be2a917d832d98df757/runtime/kusama/src/lib.rs#L531
   const idealStake = stakeTarget - (Math.min(auctionMax, numAuctions.toNumber()) * auctionAdjust);
-  const idealInterest = maxInflation / idealStake;
+  const idealInterest = idealStake === 0
+    ? 0
+    : maxInflation / idealStake;
   // inflation calculations, see
   // https://github.com/paritytech/substrate/blob/0ba251c9388452c879bfcca425ada66f1f9bc802/frame/staking/reward-fn/src/lib.rs#L28-L54
   const inflation = 100 * (minInflation + (
     stakedFraction <= idealStake
       ? (stakedFraction * (idealInterest - (minInflation / idealStake)))
-      : (((idealInterest * idealStake) - minInflation) * Math.pow(2, (idealStake - stakedFraction) / falloff))
+      : ((maxInflation - minInflation) * Math.pow(2, (idealStake - stakedFraction) / falloff))
   ));
 
   return {

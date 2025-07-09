@@ -1,18 +1,20 @@
-// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2025 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import '@polkadot/api-augment';
 
 import type React from 'react';
 import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/api-derive/types';
-import type { DisplayedJudgement } from '@polkadot/react-components/types';
 import type { Option, u32, u128, Vec } from '@polkadot/types';
 import type { AccountId, BlockNumber, Call, Hash, SessionIndex, ValidatorPrefs } from '@polkadot/types/interfaces';
-import type { PalletPreimageRequestStatus, PalletStakingRewardDestination, PalletStakingStakingLedger, PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor, SpStakingExposurePage, SpStakingPagedExposureMetadata } from '@polkadot/types/lookup';
+import type { PalletAssetsAssetDetails, PalletAssetsAssetMetadata, PalletPreimageRequestStatus, PalletStakingRewardDestination, PalletStakingStakingLedger, PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor, SpStakingExposurePage, SpStakingPagedExposureMetadata } from '@polkadot/types/lookup';
 import type { ICompact, IExtrinsic, INumber } from '@polkadot/types/types';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
+import type { CoreTimeTypes } from './constants.js';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type CallParam = any;
@@ -49,6 +51,22 @@ export interface Inflation {
   inflation: number;
   stakedFraction: number;
   stakedReturn: number;
+}
+
+export interface AssetInfo {
+  details: PalletAssetsAssetDetails | null;
+  id: BN;
+  isAdminMe: boolean;
+  isIssuerMe: boolean;
+  isFreezerMe: boolean;
+  isOwnerMe: boolean;
+  key: string;
+  metadata: PalletAssetsAssetMetadata | null;
+}
+
+export interface AssetInfoComplete extends AssetInfo {
+  details: PalletAssetsAssetDetails;
+  metadata: PalletAssetsAssetMetadata;
 }
 
 export interface Slash {
@@ -109,8 +127,6 @@ export interface AddressFlags extends DeriveAccountFlags {
   isNominator: boolean;
 }
 
-export const AddressIdentityOtherDiscordKey = 'Discord';
-
 export interface AddressIdentity extends DeriveAccountRegistration {
   isExistent: boolean;
   isKnownGood: boolean;
@@ -165,13 +181,6 @@ export interface Registrar {
   address: string;
   index: number;
 }
-
-export interface Judgement {
-  judgementName: DisplayedJudgement;
-  registrars: (Registrar | undefined)[];
-}
-
-export type UseJudgements = Judgement[]
 
 export type BatchType = 'all' | 'default' | 'force';
 
@@ -323,8 +332,10 @@ export interface PalletBrokerConfigRecord {
 }
 
 export interface ChainWorkTaskInformation {
+  lastBlock: number
   renewal: PotentialRenewal | undefined
   renewalStatus: string
+  renewalStatusMessage: string
   type: CoreTimeTypes
   workload: CoreWorkload | undefined
   workplan: CoreWorkplan[] | undefined
@@ -336,8 +347,18 @@ export interface ChainInformation {
   reservation: Reservation| undefined
   workTaskInfo: ChainWorkTaskInformation[]
 }
+export interface ChainBlockConstants {
+  blocksPerTimeslice: number,
+  blocktimeMs: number
+}
+
+export interface ChainConstants {
+  coretime: ChainBlockConstants,
+  relay: ChainBlockConstants
+}
 
 export interface CoretimeInformation {
+  constants: ChainConstants,
   chainInfo: Record<number, ChainInformation>,
   salesInfo: PalletBrokerSaleInfoRecord,
   status: BrokerStatus,
@@ -363,26 +384,3 @@ export interface PotentialRenewal {
   maskBits: number,
   task: string
 }
-
-export enum CoreTimeTypes {
-  'Reservation',
-  'Lease',
-  'Bulk Coretime',
-  'On Demand'
-}
-
-export const ChainRenewalStatus = {
-  Eligible: 'eligible',
-  None: '-',
-  Renewed: 'renewed'
-};
-
-// RelayChain
-export const CoreTimeConsts = {
-  BlockTime: 6000,
-  BlocksPerTimeslice: 80
-};
-
-export const CoreTimeChainConsts = {
-  BlocksPerTimeslice: 40
-};

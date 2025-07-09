@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright 2017-2024 @polkadot/apps authors & contributors
+# Copyright 2017-2025 @polkadot/apps authors & contributors
 # SPDX-License-Identifier: Apache-2.0
 
 # This script is used when the docker container starts and does the magic to

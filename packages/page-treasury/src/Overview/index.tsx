@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-treasury authors & contributors
+// Copyright 2017-2025 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveTreasuryProposals } from '@polkadot/api-derive/types';
@@ -29,7 +29,7 @@ function Overview ({ className, isMember, members }: Props): React.ReactElement<
         proposalCount={info?.proposals.length}
       />
       {
-        api.tx.treasury.proposeSpend
+        api.tx.treasury.proposeSpend || !!api.tx.treasury.spendLocal
           ? <Button.Group>
             <ProposalCreate />
           </Button.Group>

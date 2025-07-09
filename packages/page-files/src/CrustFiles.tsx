@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-files authors & contributors
+// Copyright 2017-2025 @polkadot/app-files authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatusBase } from '@polkadot/react-components/Status/types';
@@ -43,7 +43,7 @@ const shortStr = (name: string, count = 6): string => {
 };
 
 function createUrl (f: SaveFile) {
-  const endpoint = f.UpEndpoint || 'https://ipfs.io';
+  const endpoint = 'https://cf-ipfs.com';
 
   return `${endpoint}/ipfs/${f.Hash}?filename=${f.Name}`;
 }
@@ -320,7 +320,7 @@ function CrustFiles ({ className }: Props): React.ReactElement<Props> {
             colSpan={1}
           >
             <a
-              href={'https://apps.crust.network/?rpc=wss%3A%2F%2Frpc.crust.network#/storage_files'}
+              href={'https://apps.crust.network/?rpc=wss%3A%2F%2Frpc.crust.network#/storage_files/status/' + f.Hash}
               rel='noreferrer'
               target='_blank'
             >{t('View status in Crust')}</a>
@@ -377,7 +377,7 @@ const StyledMain = styled.main`
   .uploadMenu {
     z-index: 200;
     display: none;
-    background-color: white;
+    background-color: var(--bg-table);
     position: absolute;
     top: 43px;
     left: 0;
