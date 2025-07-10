@@ -243,10 +243,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'edgeware',
     providers: {
       // 'Commonwealth Labs': 'wss://mainnet2.edgewa.re', // https://github.com/polkadot-js/apps/issues/10373
-      'JelliedOwl Bangalore': 'wss://edgeware-rpc3.jelliedowl.net',
-      'JelliedOwl London': 'wss://edgeware-rpc1.jelliedowl.net',
-      'JelliedOwl New York': 'wss://edgeware-rpc0.jelliedowl.net',
-      'JelliedOwl Singapore': 'wss://edgeware-rpc2.jelliedowl.net'
+      'JelliedOwl Bangalore': 'wss://edgeware-rpc3.jelliedowl.net'
       // OnFinality: 'wss://edgeware.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9795
     },
     text: 'Edgeware',
