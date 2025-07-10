@@ -749,6 +749,7 @@
   "The new account password. Once set, all future account unlocks will be performed with this new password.": "Le nouveau mot de passe du compte. Une fois défini, tous les futurs déverrouillages de compte seront effectués avec ce nouveau mot de passe.",
   "The on-chain percentage for the treasury": "Le pourcentage en chaîne pour la trésorerie",
   "The operation type to apply. For approvals both non-final and final approvals are supported.": "Le type d'opération à appliquer. Pour les approbations non définitives et les approbations finales sont prises en charge.",
+  "The parachain can be modified, replaced, or removed - it's neither protected nor in a transitional state": "La parachain peut être modifiée, remplacée ou supprimée - elle n'est ni protégée ni dans un état de transition",
   "The password and password confirmation for this account. This is required to authenticate any transactions made and to encrypt the keypair.": "Le mot de passe et la confirmation du mot de passe pour ce compte. Ceci est requis pour authentifier les transactions effectuées et pour chiffrer la paire de clés.",
   "The password previously used to encrypt this account.": "Le mot de passe précédemment utilisé pour chiffrer ce compte.",
   "The password to unlock the selected account.": "Le mot de passe pour déverrouiller le compte sélectionné.",

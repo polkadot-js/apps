@@ -958,6 +958,7 @@
   "The number of periods this bid is to be freezed for, less than the maximum period": "Il numero di periodi per i quali l'offerta sarà congelata, minore del periodo massimo",
   "The on-chain percentage for the treasury": "La percentuale on-chain della tesoreria",
   "The operation type to apply. For approvals both non-final and final approvals are supported.": "Il tipo di operazione da eseguire. Per le approvazioni, sono supportate sia quelle intermedie che quelle finali.",
+  "The parachain can be modified, replaced, or removed - it's neither protected nor in a transitional state": "La parachain può essere modificata, sostituita o rimossa - non è né protetta né in una fase di transizione",
   "The parachain id is associated with the selected account via parathread registration.": "L'ID della parachain è associata con l'account selezionato attraverso la registrazione della parathread",
   "The password and password confirmation for this account. This is required to authenticate any transactions made and to encrypt the keypair.": "La password e la conferma (ripetizione) della password di questo account. E' richiesta per autenticare ogni transazione, e per decrittare la coppia di chiavi pubblica-privata.",
   "The password previously used to encrypt this account.": "La password precedentemente utilizzata per decrittare questo account",

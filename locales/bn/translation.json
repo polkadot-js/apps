@@ -700,6 +700,7 @@
   "The new account password. Once set, all future account unlocks will be performed with this new password.": "অ্যাকাউন্টের নতুন পাসওয়ার্ড। একবার সেট হয়ে গেলে, ভবিষ্যতে অ্যাকাউন্ট আনলকের সবকিছু এই নতুন পাসওয়ার্ড দিয়ে করা যাবে৷",
   "The on-chain percentage for the treasury": "রেজারির জন্য অন-চেইন শতাংশ",
   "The operation type to apply. For approvals both non-final and final approvals are supported.": "প্রয়োগের জন্য অপারেশনের ধরণ। চূড়ান্ত ও চূড়ান্ত নয় এমন উভয় ধরণের অনুমোদন সমর্থনযোগ্য।",
+  "The parachain can be modified, replaced, or removed - it's neither protected nor in a transitional state": "প্যারাচেইনটি পরিবর্তন, প্রতিস্থাপন বা অপসারণ করা যেতে পারে - এটি সুরক্ষিত নয় বা কোনও পরিবর্তনশীল অবস্থায়ও নেই।",
   "The password and password confirmation for this account. This is required to authenticate any transactions made and to encrypt the keypair.": "এই অ্যাকাউন্টের জন্য পাসওয়ার্ড এবং পাসওয়ার্ড নিশ্চিতকরণ। কোন লেনদেনকে প্রমাণীকরণ করতে এবং কী-পেয়ার এনক্রিপ্ট করতে এটি প্রয়োজন।",
   "The password previously used to encrypt this account.": "এই অ্যাকাউন্ট এনক্রিপ্ট করার জন্য পূর্বে ব্যবহৃত পাসওয়ার্ড।",
   "The password to unlock the selected account.": "নির্বাচিত অ্যাকাউন্ট আনলক করার পাসওয়ার্ড।",

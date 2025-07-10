@@ -547,6 +547,7 @@
   "The name that will be displayed in your accounts list.": "O nome que será exibido na sua lista de contas.",
   "The new account password. Once set, all future account unlocks will be performed with this new password.": "A nova senha da conta. Depois de definido, todos os futuros desbloqueios de conta serão executados com essa nova senha.",
   "The on-chain percentage for the treasury": "A porcentagem na cadeia para o tesouro",
+  "The parachain can be modified, replaced, or removed - it's neither protected nor in a transitional state": "A parachain pode ser modificada, substituída ou removida - não é protegida nem em estado de transição",
   "The password and password confirmation for this account. This is required to authenticate any transactions made and to encrypt the keypair.": "A senha e a confirmação da senha desta conta. Isso é necessário para autenticar todas as transações realizadas e criptografar o par de chaves.",
   "The password previously used to encrypt this account.": "A senha usada anteriormente para criptografar esta conta.",
   "The password to unlock the selected account.": "A senha para desbloquear a conta selecionada.",
