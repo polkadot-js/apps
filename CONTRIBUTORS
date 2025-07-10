@@ -532,6 +532,7 @@
        1	roiLeo                        	fix: update kodadot link & logo (#10060)
        1	ROY                           	Add: Energy Web X (PEX) parachain on Paseo Relaychain (#10891)
        1	Rui Dos Santos Magalhães      	changed Aventus public rpc endpoints (#10647)
+       1	Rusinskiy Vsevolod            	Add RPC endpoints for Quantum Fusion testnet (replaces #11454) (#11687)
        1	RXRD                          	Octopus Provider for Myriad and Debio (#10110)
        1	Saad                          	Reskinning Composable Finance/Picasso Portal Colors (#7696)
        1	Sam Hellawell                 	Fix dock logos being blurry/low res (#4427)
