@@ -645,6 +645,7 @@
   "Upload WASM": " अपलोड WASM",
   "Use an automatic selection of the currently most profitable validators": "आज सबसे लाभदायक सत्यापनकर्ताओं के स्वचालित चयन का उपयोग करें",
   "Use this account to request the tip from. This can be a normal or council account.": "टिप का अनुरोध करने के लिए इस खाते का उपयोग करें। यह एक सामान्य या परिषद खाता हो सकता है।",
+  "The parachain can be modified, replaced, or removed - it's neither protected nor in a transitional state": "पैराचेन को संशोधित, प्रतिस्थापित या हटाया जा सकता है - यह न तो संरक्षित है और न ही संक्रमणकालीन अवस्था में है",
   "Validate": "मान्य",
   "Validator": "सत्यापनकर्ता",
   "Validator stats": "सत्यापनकर्ता आंकड़े",

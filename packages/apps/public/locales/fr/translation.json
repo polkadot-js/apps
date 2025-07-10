@@ -902,6 +902,7 @@
   "Use a proxy for this call": "Utiliser un proxy pour cet appel",
   "Use an automatic selection of the currently most profitable validators": "Utilisez une sélection automatique des validateurs actuellement les plus rentables",
   "Use this account to request the tip from. This can be a normal or council account.": "Utilisez ce compte pour demander le conseil. Il peut s'agir d'un compte normal ou d'un compte de conseil.",
+  "The parachain can be modified, replaced, or removed - it's neither protected nor in a transitional state": "La parachain peut être modifiée, remplacée ou supprimée - elle n'est ni protégée ni dans un état de transition",
   "Validate": "Valider",
   "Validator": "Validateur",
   "Validator stats": "Statistiques du validateur",

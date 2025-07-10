@@ -794,6 +794,7 @@
   "Use a proxy for this call": "إستخدام بروكسي لهذا الاتصال",
   "Use an automatic selection of the currently most profitable validators": "استخدم مجموعة مختارة تلقائية من أدوات التحقق الأكثر ربحًا حاليًا",
   "Use this account to request the tip from. This can be a normal or council account.": "استخدم هذا الحساب لطلب البقشيش  منه. قد يكون هذا حسابًا طبيعيًا أو حسابًا في المجلس",
+  "The parachain can be modified, replaced, or removed - it's neither protected nor in a transitional state": "يمكن تعديل السلسلة الفرعية أو استبدالها أو إزالتها - فهي ليست محمية ولا في حالة انتقالية",
   "Validate": "التحقق من الصحة",
   "Validator": "المتحقق",
   "Validator stats": "إحصائيات التحقق",

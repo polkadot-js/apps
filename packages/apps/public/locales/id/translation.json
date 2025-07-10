@@ -928,6 +928,7 @@
   "Use custom address index": "Gunakan indeks alamat kustom",
   "Use custom derivation path": "Gunakan jalur derivasi kustom",
   "Use this account to request the tip from. This can be a normal or council account.": "Gunakan akun ini untuk meminta tip dari. Ini bisa menjadi akun normal atau dewan.",
+  "The parachain can be modified, replaced, or removed - it's neither protected nor in a transitional state": "Parachain dapat dimodifikasi, diganti, atau dihapus - tidak dilindungi atau dalam keadaan transisi",
   "Validate": "Validasi",
   "Validator": "Validator",
   "Validator stats": "Statistik validator",

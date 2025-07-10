@@ -856,6 +856,7 @@
   "Use a proxy for this call": "对这个调用使用代理",
   "Use an automatic selection of the currently most profitable validators": "自动选择当前收益最高的验证者",
   "Use this account to request the tip from. This can be a normal or council account.": "使用此帐户申请小费。这可以是一个普通帐户或理事会帐户",
+  "The parachain can be modified, replaced, or removed - it's neither protected nor in a transitional state": "平行链可以修改、替换或删除 - 它既不受保护，也不是过渡状态",
   "Validate": "验证",
   "Validator": "验证人",
   "Validator stats": "验证人统计数据",
