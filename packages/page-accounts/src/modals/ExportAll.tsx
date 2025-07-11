@@ -7,7 +7,7 @@ import type { ModalProps } from '../types.js';
 import FileSaver from 'file-saver';
 import React, { useCallback, useState } from 'react';
 
-import { Button, Checkbox, MarkWarning, Modal, styled } from '@polkadot/react-components';
+import { AddressRow, Button, Checkbox, MarkWarning, Modal, Password, styled } from '@polkadot/react-components';
 import { keyring } from '@polkadot/ui-keyring';
 import { nextTick } from '@polkadot/util';
 
@@ -20,10 +20,17 @@ interface Props extends ModalProps {
   onStatusChange: (status: ActionStatus) => void;
 }
 
+interface TPassword {
+  account: string, isPassTouched: boolean, password: string
+}
+
+const ALLOWED_CATEGORIES = ['accounts', 'multisig', 'qr'];
+
 function ExportAll ({ accountsByGroup, className, onClose, onStatusChange }: Props): React.ReactElement | null {
   const { t } = useTranslation();
   const [isBusy, setIsBusy] = useState(false);
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+  const [allBrowserAccountPassword, setAllBrowserAccountPassword] = useState<TPassword[]>([]);
 
   // toggle checkboxes
   const onChangeCheckBox = useCallback((group: string) => {
@@ -51,10 +58,12 @@ function ExportAll ({ accountsByGroup, className, onClose, onStatusChange }: Pro
         const accounts = allAccounts.map((account) => {
           const keyringAccount = keyring.getPair(account);
 
-          return {
-            address: account,
-            meta: keyringAccount.meta
-          };
+          // Handle In-Browser Accounts explicitly
+          if (accountsByGroup.accounts.includes(account)) {
+            return keyring.backupAccount(keyringAccount, allBrowserAccountPassword.find((a) => a.account === account)?.password || '');
+          } else {
+            return keyringAccount;
+          }
         });
 
         const blob = new Blob([JSON.stringify(accounts, null, 2)], { type: 'application/json; charset=utf-8' });
@@ -77,7 +86,7 @@ function ExportAll ({ accountsByGroup, className, onClose, onStatusChange }: Pro
         onClose();
       }
     });
-  }, [accountsByGroup, onClose, onStatusChange, selectedTypes, t]);
+  }, [accountsByGroup, allBrowserAccountPassword, onClose, onStatusChange, selectedTypes, t]);
 
   return (
     <Modal
@@ -88,23 +97,30 @@ function ExportAll ({ accountsByGroup, className, onClose, onStatusChange }: Pro
     >
       <Modal.Content>
         <MarkWarning
-          content={t('You can export all your accounts metadata for the selected types')}
+          content={t('You can batch export accounts, but only for in-browser, QR, and multisig types.')}
           withIcon={false}
         />
         <StyledCheckBoxGroup>
           {Object.keys(accountsByGroup)
-            .filter((group) => accountsByGroup[group].length > 0)
+            .filter((group) => ALLOWED_CATEGORIES.includes(group) && accountsByGroup[group].length > 0)
             .map((group) => {
               const isSelected = selectedTypes.includes(group);
 
               return (
-                <Checkbox
-                  key={group}
-                  label={`${group} (${accountsByGroup[group].length})`}
-                  // eslint-disable-next-line react/jsx-no-bind
-                  onChange={() => onChangeCheckBox(group)}
-                  value={isSelected}
-                />
+                <section key={group}>
+                  <Checkbox
+                    label={`${group === 'accounts' ? 'in-browser' : group} accounts (${accountsByGroup[group].length})`}
+                    // eslint-disable-next-line react/jsx-no-bind
+                    onChange={() => onChangeCheckBox(group)}
+                    value={isSelected}
+                  />
+                  {group === 'accounts' && isSelected &&
+                  <BrowserAccounts
+                    accounts={accountsByGroup[group]}
+                    allPassword={allBrowserAccountPassword}
+                    setAllPassword={setAllBrowserAccountPassword}
+                  />}
+                </section>
               );
             })}
         </StyledCheckBoxGroup>
@@ -122,10 +138,46 @@ function ExportAll ({ accountsByGroup, className, onClose, onStatusChange }: Pro
   );
 }
 
+const BrowserAccounts = ({ accounts, allPassword, setAllPassword }: {accounts: string[], allPassword: TPassword[], setAllPassword: React.Dispatch<React.SetStateAction<TPassword[]>>}) => {
+  const { t } = useTranslation();
+
+  const _onChangePass = useCallback(
+    (account: string, password: string): void => {
+      setAllPassword((prev) => {
+        return [
+          ...prev.filter((e) => e.account !== account),
+          { account, isPassTouched: true, password }
+        ];
+      });
+    },
+    [setAllPassword]
+  );
+
+  return accounts.map((account) => {
+    const { isPassTouched, password } = allPassword.find((a) => a.account === account) || { isPassTouched: false, password: '' };
+    const isPassValid = keyring.isPassValid(password);
+
+    return <BrowserAccountsDiv key={account}>
+      <AddressRow
+        isInline
+        value={account}
+      />
+      <Password
+        autoFocus
+        isError={isPassTouched && !isPassValid}
+        label={t('password')}
+        // eslint-disable-next-line react/jsx-no-bind
+        onChange={(password) => _onChangePass(account, password)}
+        value={password}
+      />
+    </BrowserAccountsDiv>;
+  });
+};
+
 const StyledCheckBoxGroup = styled.div`
   display: flex;
-  align-items: center;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 1.5rem;
   margin-top: 1.5rem;
   padding-inline: 2rem;
 
@@ -133,6 +185,25 @@ const StyledCheckBoxGroup = styled.div`
     font-size: 1rem;
     font-weight: 500;
   }
+
+  section > div > label {
+    text-transform: capitalize;
+  }
+`;
+
+const BrowserAccountsDiv = styled.div`
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-inline: 2rem;
+
+  div:nth-child(2) { 
+    width: 100%;
+    label { 
+      font-size: var(--font-size-label);
+    }
+  }  
 `;
 
 export default React.memo(ExportAll);
