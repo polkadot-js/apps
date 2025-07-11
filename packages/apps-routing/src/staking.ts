@@ -7,12 +7,18 @@ import type { SpStakingPagedExposureMetadata } from '@polkadot/types/lookup';
 import type { Route, TFunction } from './types.js';
 
 import Component from '@polkadot/app-staking';
+import { getGenesis } from '@polkadot/apps-config';
 import { ZERO_ACCOUNT } from '@polkadot/react-hooks/useWeight';
 import { unwrapStorageType } from '@polkadot/types/util';
 import { assert, BN_ONE } from '@polkadot/util';
 
 function needsApiCheck (api: ApiPromise): boolean {
   try {
+    // Hide it always for Westend relay
+    if (api.genesisHash.toHex() === getGenesis('westend')) {
+      return false;
+    }
+
     // we need a known Exposure type
     const { nominatorCount, own, pageCount, total } = api.registry.createType<SpStakingPagedExposureMetadata>(
       unwrapStorageType(api.registry, api.query.staking.erasStakersOverview.creator.meta.type),
