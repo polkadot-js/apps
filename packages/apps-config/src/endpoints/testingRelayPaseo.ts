@@ -87,7 +87,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'Bifrost(Paseo)',
     paraId: 2030,
     providers: {
-      Liebi: 'wss://bifrost-rpc.paseo.liebi.com/ws'
+      // Liebi: 'wss://bifrost-rpc.paseo.liebi.com/ws' // https://github.com/polkadot-js/apps/issues/11692
     },
     text: 'Bifrost',
     ui: {
