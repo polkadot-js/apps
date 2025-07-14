@@ -139,7 +139,7 @@ export const testParasWestendCommon: EndpointOption[] = [
       // Stakeworld: 'wss://wnd-rpc.stakeworld.io/assethub'
     },
     relayName: 'westend',
-    teleport: [-1],
+    teleport: [-1, 1002, 1001, 1005, 1004],
     text: 'AssetHub',
     ui: {
       color: '#77bb77',
