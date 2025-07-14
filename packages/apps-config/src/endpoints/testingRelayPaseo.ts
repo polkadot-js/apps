@@ -439,7 +439,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
       IBP2: 'wss://bridge-hub-paseo.dotters.network'
     },
     relayName: 'paseo',
-    teleport: [-1],
+    teleport: [-1, 1000],
     text: 'BridgeHub',
     ui: {
       color: '#AAADD7',
@@ -473,7 +473,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
       Parity: 'wss://testnet-passet-hub.polkadot.io'
     },
     relayName: 'paseo',
-    teleport: [-1],
+    teleport: [-1, 1000],
     text: 'PAssetHub - Contracts',
     ui: {
       color: '#77bb77',

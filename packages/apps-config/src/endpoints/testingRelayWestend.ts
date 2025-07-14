@@ -159,7 +159,7 @@ export const testParasWestendCommon: EndpointOption[] = [
       Parity: 'wss://westend-bridge-hub-rpc.polkadot.io'
     },
     relayName: 'westend',
-    teleport: [-1],
+    teleport: [-1, 1000],
     text: 'BridgeHub',
     ui: {
       logo: nodesBridgeHubSVG
@@ -177,7 +177,7 @@ export const testParasWestendCommon: EndpointOption[] = [
       Parity: 'wss://westend-collectives-rpc.polkadot.io'
     },
     relayName: 'westend',
-    teleport: [-1],
+    teleport: [-1, 1000],
     text: 'Collectives',
     ui: {
       color: '#e6777a',
@@ -195,7 +195,7 @@ export const testParasWestendCommon: EndpointOption[] = [
       Parity: 'wss://westend-coretime-rpc.polkadot.io'
     },
     relayName: 'westend',
-    teleport: [-1],
+    teleport: [-1, 1000],
     text: 'Coretime',
     ui: {
       color: '#f19135'
@@ -213,7 +213,7 @@ export const testParasWestendCommon: EndpointOption[] = [
       Parity: 'wss://westend-people-rpc.polkadot.io'
     },
     relayName: 'westend',
-    teleport: [-1],
+    teleport: [-1, 1000],
     text: 'People',
     ui: {
       color: '#ec03fc',
