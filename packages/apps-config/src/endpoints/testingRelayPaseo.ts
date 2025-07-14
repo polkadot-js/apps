@@ -423,7 +423,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
       TurboFlakes: 'wss://sys.turboflakes.io/asset-hub-paseo'
     },
     relayName: 'paseo',
-    teleport: [-1],
+    teleport: [-1, 1002, 1111],
     text: 'AssetHub',
     ui: {
       color: '#77bb77',
