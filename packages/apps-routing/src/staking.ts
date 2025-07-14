@@ -19,6 +19,11 @@ function needsApiCheck (api: ApiPromise): boolean {
       return false;
     }
 
+    // Hide for every Asset Hub chain
+    if (api.tx.stakingRcClient) {
+      return false;
+    }
+
     // we need a known Exposure type
     const { nominatorCount, own, pageCount, total } = api.registry.createType<SpStakingPagedExposureMetadata>(
       unwrapStorageType(api.registry, api.query.staking.erasStakersOverview.creator.meta.type),
