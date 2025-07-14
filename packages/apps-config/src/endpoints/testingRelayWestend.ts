@@ -159,6 +159,7 @@ export const testParasWestendCommon: EndpointOption[] = [
       Parity: 'wss://westend-bridge-hub-rpc.polkadot.io'
     },
     relayName: 'westend',
+    teleport: [-1],
     text: 'BridgeHub',
     ui: {
       logo: nodesBridgeHubSVG
