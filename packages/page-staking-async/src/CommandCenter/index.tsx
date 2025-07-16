@@ -142,7 +142,7 @@ const commandCenterHandler = async (
     const snapshotRange = (
       await ahApi.query.multiBlockElection.pagedVoterSnapshotHash.entries()
     )
-      .map(([k]) => k.args[0])
+      .map(([k]) => k.args[1])
       .sort();
     const queuedScore =
       await ahApi.query.multiBlockElectionVerifier.queuedSolutionScore(round);
