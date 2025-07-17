@@ -23,6 +23,36 @@ interface Props {
 const INVALID_PARAID = Number.MAX_SAFE_INTEGER;
 const XCM_LOC = ['xcm', 'xcmPallet', 'polkadotXcm'];
 
+function getDestMultilocation (isParaTeleport: boolean | undefined, recipientParaId: number) {
+  if (isParaTeleport) {
+    if (recipientParaId === -1) { // para -> relay
+      return {
+        interior: 'Here',
+        parents: 1
+      };
+    } else { // para -> para
+      return {
+        interior: {
+          X1: {
+            ParaChain: recipientParaId
+          }
+        },
+        parents: 1
+      };
+    }
+  }
+
+  // relay -> para
+  return {
+    interior: {
+      X1: {
+        ParaChain: recipientParaId
+      }
+    },
+    parents: 0
+  };
+}
+
 function createOption ({ paraId, text, ui }: LinkOption): Option {
   return {
     text: (
@@ -79,21 +109,7 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
 
   const params = useMemo(
     () => [
-      {
-        V3: isParaTeleport
-          ? {
-            interior: 'Here',
-            parents: 1
-          }
-          : {
-            interior: {
-              X1: {
-                ParaChain: recipientParaId
-              }
-            },
-            parents: 0
-          }
-      },
+      { V3: getDestMultilocation(isParaTeleport, recipientParaId) },
       {
         V3: {
           interior: {

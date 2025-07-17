@@ -893,7 +893,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/assethub'
     },
     relayName: 'kusama',
-    teleport: [-1],
+    teleport: [-1, 1002, 1005, 1001, 1004],
     text: 'AssetHub',
     ui: {
       color: '#113911',
@@ -916,7 +916,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/bridgehub'
     },
     relayName: 'kusama',
-    teleport: [-1],
+    teleport: [-1, 1000],
     text: 'BridgeHub',
     ui: {
       logo: nodesBridgeHubBlackSVG
@@ -936,7 +936,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/coretime'
     },
     relayName: 'kusama',
-    teleport: [-1],
+    teleport: [-1, 1000],
     text: 'Coretime',
     ui: {
       color: '#113911',
@@ -958,7 +958,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       // Stakeworld: 'wss://ksm-rpc.stakeworld.io/encointer'
     },
     relayName: 'kusama',
-    teleport: [-1],
+    teleport: [-1, 1000],
     text: 'Encointer Network',
     ui: {
       color: '#0000cc',
@@ -981,7 +981,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/people'
     },
     relayName: 'kusama',
-    teleport: [-1],
+    teleport: [-1, 1000],
     text: 'People',
     ui: {
       color: '#36454F',
