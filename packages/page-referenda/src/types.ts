@@ -1,7 +1,7 @@
 // Copyright 2017-2025 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
+import type { PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletReferendaTrackDetails } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
 export type PalletReferenda = 'referenda' | 'rankedPolls' | 'fellowshipReferenda'| 'ambassadorReferenda';
@@ -10,7 +10,7 @@ export type PalletVote = 'convictionVoting' | 'rankedCollective' | 'fellowshipCo
 
 export interface ReferendaGroup {
   key: string;
-  track?: PalletReferendaTrackInfo;
+  track?: PalletReferendaTrackDetails;
   trackGraph?: CurveGraph;
   trackId?: BN;
   trackName?: string;
@@ -27,7 +27,7 @@ export interface Referendum {
   info: PalletReferendaReferendumInfoConvictionVotingTally | PalletReferendaReferendumInfoRankedCollectiveTally;
   isConvictionVote: boolean;
   key: string;
-  track?: PalletReferendaTrackInfo;
+  track?: PalletReferendaTrackDetails;
   trackId?: BN;
   trackGraph?: CurveGraph;
 }
@@ -60,7 +60,7 @@ export interface CurveGraph {
 export interface TrackDescription {
   graph: CurveGraph;
   id: BN;
-  info: PalletReferendaTrackInfo;
+  info: PalletReferendaTrackDetails;
 }
 
 export interface TrackInfo {
