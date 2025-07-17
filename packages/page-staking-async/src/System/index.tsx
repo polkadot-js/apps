@@ -1,8 +1,9 @@
 // Copyright 2017-2025 @polkadot/app-staking-async authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
-import type { AppProps as Props } from '@polkadot/react-components/types';
+import type { AppProps } from '@polkadot/react-components/types';
 import type { ElectionStatus, ParaValidatorIndex, ValidatorId } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
@@ -17,7 +18,6 @@ import Slashes from '@polkadot/app-staking/Slashes';
 import Targets from '@polkadot/app-staking/Targets';
 import useNominations from '@polkadot/app-staking/useNominations';
 import useSortedTargets from '@polkadot/app-staking/useSortedTargets';
-import Validators from '@polkadot/app-staking/Validators';
 import Pools from '@polkadot/app-staking2/Pools';
 import useOwnPools from '@polkadot/app-staking2/Pools/useOwnPools';
 import { Tabs } from '@polkadot/react-components';
@@ -27,6 +27,7 @@ import { isFunction } from '@polkadot/util';
 import CommandCenter from '../CommandCenter/index.js';
 import { STORE_FAVS_BASE } from '../constants.js';
 import { useTranslation } from '../translate.js';
+import Validators from '../Validators/index.js';
 
 const HIDDEN_ACC = ['actions', 'payout'];
 
@@ -43,9 +44,18 @@ const OPT_MULTI = {
   ]
 };
 
-function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
+interface Props extends AppProps {
+  ahApi?: ApiPromise
+  rcApi?: ApiPromise
+  isRelayChain: boolean
+  rcEndPoints: string[]
+  ahEndPoints: string[]
+}
+
+function StakingApp ({ ahApi, ahEndPoints, basePath, isRelayChain, rcApi, rcEndPoints }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+
   const [withLedger, setWithLedger] = useState(false);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const [loadNominations, setLoadNominations] = useState(false);
@@ -61,7 +71,7 @@ function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
   ], OPT_MULTI);
   const nominatedBy = useNominations(loadNominations);
   const ownPools = useOwnPools();
-  const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview);
+  const stakingOverview = useCall<DeriveStakingOverview>(rcApi?.derive.staking.overview);
 
   const toggleNominatedBy = useCallback(
     () => setLoadNominations(true),
@@ -210,7 +220,15 @@ function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
             path='slashes'
           />
           <Route
-            element={<CommandCenter />}
+            element={
+              <CommandCenter
+                ahApi={ahApi}
+                ahEndPoints={ahEndPoints}
+                isRelayChain={isRelayChain}
+                rcApi={rcApi}
+                rcEndPoints={rcEndPoints}
+              />
+            }
             path='command-center'
           />
           <Route
