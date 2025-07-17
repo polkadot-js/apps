@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletReferendaCurve, PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
+import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletReferendaCurve, PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletReferendaTrackDetails } from '@polkadot/types/lookup';
 import type { CurveGraph, TrackDescription, TrackInfoExt } from './types.js';
 
 import { getGovernanceTracks } from '@polkadot/apps-config';
@@ -10,7 +10,7 @@ import { BN, BN_BILLION, BN_ONE, BN_ZERO, bnMax, bnMin, formatNumber, objectSpre
 
 const CURVE_LENGTH = 500;
 
-export function getTrackName (trackId: BN, { name }: PalletReferendaTrackInfo): string {
+export function getTrackName (trackId: BN, { name }: PalletReferendaTrackDetails): string {
   return `${
     formatNumber(trackId)
   } / ${
@@ -206,7 +206,7 @@ export function curveDelay (curve: PalletReferendaCurve, input: BN, div: BN): BN
   throw new Error(`Unknown curve found ${curve.type}`);
 }
 
-export function calcDecidingEnd (totalEligible: BN, tally: PalletRankedCollectiveTally | PalletConvictionVotingTally, { decisionPeriod, minApproval, minSupport }: PalletReferendaTrackInfo, since: BN): BN | undefined {
+export function calcDecidingEnd (totalEligible: BN, tally: PalletRankedCollectiveTally | PalletConvictionVotingTally, { decisionPeriod, minApproval, minSupport }: PalletReferendaTrackDetails, since: BN): BN | undefined {
   const support = isConvictionTally(tally)
     ? tally.support
     : tally.bareAyes;
@@ -223,7 +223,7 @@ export function calcDecidingEnd (totalEligible: BN, tally: PalletRankedCollectiv
   );
 }
 
-export function calcCurves ({ decisionPeriod, minApproval, minSupport }: PalletReferendaTrackInfo): CurveGraph {
+export function calcCurves ({ decisionPeriod, minApproval, minSupport }: PalletReferendaTrackDetails): CurveGraph {
   const approval = new Array<BN>(CURVE_LENGTH);
   const support = new Array<BN>(CURVE_LENGTH);
   const x = new Array<BN>(CURVE_LENGTH);
