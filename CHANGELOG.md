@@ -1,5 +1,24 @@
 # CHANGELOG
 
+## 0.161.1 July 17, 2025
+
+Contributed:
+
+- chore: Bump Kilt dep ([#11679](https://github.com/polkadot-js/apps/pull/11679)) (Thanks to https://github.com/abdulmth)
+- re-add IDN node provider to Paseo ([#11688](https://github.com/polkadot-js/apps/pull/11688)) (Thanks to https://github.com/juangirini)
+- Remove some JelliedOwl node - cutting costs ([#11686](https://github.com/polkadot-js/apps/pull/11686)) (Thanks to https://github.com/JelliedOwl)
+- Add RPC endpoints for Quantum Fusion testnet (replaces #11454) ([#11687](https://github.com/polkadot-js/apps/pull/11687)) (Thanks to https://github.com/Vsevolod-Rusinskiy)
+
+
+Changes:
+
+- fix(ui): resolve apps version caching issue ([#11678](https://github.com/polkadot-js/apps/pull/11678))
+- feat: add hover tooltip to Badge on Parachain page for unlock icon ([#11683](https://github.com/polkadot-js/apps/pull/11683))
+- fix: disable unreachable endpoints ([#11693](https://github.com/polkadot-js/apps/pull/11693))
+- Handle Import/Export of In-browser accounts gracefully ([#11669](https://github.com/polkadot-js/apps/pull/11669))
+- Upgraded polkadot dependencies ([#11702](https://github.com/polkadot-js/apps/pull/11702))
+
+
 ## 0.160.1 July 7, 2025
 
 Contributed:
@@ -18,7 +37,6 @@ Changes:
 - fix: disable unreachable endpoints ([#11644](https://github.com/polkadot-js/apps/pull/11644) [#11658](https://github.com/polkadot-js/apps/pull/11658))
 - Preserve referenda with missing info during grouping ([#11651](https://github.com/polkadot-js/apps/pull/11651))
 - Upgraded polkadot dependencies ([#11676](https://github.com/polkadot-js/apps/pull/11676))
-
 
 
 ## 0.159.1 Jun 19, 2025
