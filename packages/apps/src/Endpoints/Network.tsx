@@ -5,7 +5,7 @@ import type { Network } from './types.js';
 
 import React, { useCallback, useMemo } from 'react';
 
-import { ChainImg, styled } from '@polkadot/react-components';
+import { ChainImg, Icon, styled } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate.js';
 import Url from './Url.js';
@@ -42,29 +42,35 @@ function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { isChild, 
   return (
     <StyledDiv className={`${className}${isSelected ? ' isSelected highlight--border' : ''}${isUnreachable ? ' isUnreachable' : ''}`}>
       <div
-        className={`endpointSection${isChild ? ' isChild' : ''}`}
+        className={`markFavoriteSection${isChild ? ' isChild' : ''}`}
         onClick={isUnreachable ? undefined : _selectUrl}
       >
-        <ChainImg
-          className='endpointIcon'
-          isInline
-          logo={ui.logo || 'empty'}
-          withoutHl
+        <Icon
+          className='starIcon orangeColor'
+          icon='star'
         />
-        <div className='endpointValue'>
-          <div>{name}</div>
-          {isSelected && (isRelay || !!paraId) && (
-            <div className='endpointExtra'>
-              {isRelay
-                ? t('Relay chain')
-                : paraId && paraId < 1000
-                  ? t('{{relay}} System', { replace: { relay } })
-                  : paraId && paraId < 2000
-                    ? t('{{relay}} Common', { replace: { relay } })
-                    : t('{{relay}} Parachain', { replace: { relay } })
-              }
-            </div>
-          )}
+        <div className='endpointSection'>
+          <ChainImg
+            className='endpointIcon'
+            isInline
+            logo={ui.logo || 'empty'}
+            withoutHl
+          />
+          <div className='endpointValue'>
+            <div>{name}</div>
+            {isSelected && (isRelay || !!paraId) && (
+              <div className='endpointExtra'>
+                {isRelay
+                  ? t('Relay chain')
+                  : paraId && paraId < 1000
+                    ? t('{{relay}} System', { replace: { relay } })
+                    : paraId && paraId < 2000
+                      ? t('{{relay}} Common', { replace: { relay } })
+                      : t('{{relay}} Parachain', { replace: { relay } })
+                }
+              </div>
+            )}
+          </div>
         </div>
       </div>
       {isSelected && providers.map(({ name, url }): React.ReactNode => (
@@ -97,6 +103,27 @@ const StyledDiv = styled.div`
     background: var(--bg-table);
   }
 
+  &.isSelected {
+    .markFavoriteSection {
+      gap: 1rem;
+    }
+  }
+
+  .markFavoriteSection {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+
+    &.isChild .starIcon {
+      margin-left: 1.25rem;
+    }
+
+    .starIcon {
+      scale: 1.1;
+    }
+  }
+
   .endpointSection {
     align-items: center;
     display: flex;
@@ -105,10 +132,6 @@ const StyledDiv = styled.div`
 
     &+.ui--Toggle {
       margin-top: 1rem;
-    }
-
-    &.isChild .endpointIcon {
-      margin-left: 1.25rem;
     }
 
     &+.endpointProvider {
