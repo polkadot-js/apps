@@ -16,10 +16,11 @@ interface Props {
   className?: string;
   setApiUrl: (network: string, apiUrl: string) => void;
   value: Network;
+  isFavorite: boolean;
   toggleFavoriteChain: (chainName: string) => void;
 }
 
-function NetworkDisplay ({ apiUrl, className = '', setApiUrl, toggleFavoriteChain, value: { isChild, isRelay, isUnreachable, name, nameRelay: relay, paraId, providers, ui } }: Props): React.ReactElement<Props> {
+function NetworkDisplay ({ apiUrl, className = '', isFavorite, setApiUrl, toggleFavoriteChain, value: { isChild, isRelay, isUnreachable, name, nameRelay: relay, paraId, providers, ui } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const isSelected = useMemo(
     () => providers.some(({ url }) => url === apiUrl),
@@ -77,6 +78,7 @@ function NetworkDisplay ({ apiUrl, className = '', setApiUrl, toggleFavoriteChai
           </div>
         </div>
         <Icon
+          className={isFavorite ? 'isFavorite' : ''}
           icon='star'
           onClick={_toggleFavoriteChain}
         />
@@ -119,26 +121,32 @@ const StyledDiv = styled.div`
     justify-content: space-between;
     gap: 1rem;
 
+    &:hover .ui--Icon {
+      opacity: 0.5;
+    }
+
     .ui--Icon {
       scale: 1.1;
       opacity: 0;
+      transition: opacity 0.2s ease, color 0.2s ease;
+
+      &:hover {
+        opacity: 0.5;
+        stroke: darkorange;
+        color: darkorange;
+      }
+
+      &.isFavorite {
+        opacity: 1;
+        stroke: darkorange;
+        color: darkorange;
+      }
     }
   }
 
   &.isSelected,
   &:hover {
     background: var(--bg-table);
-
-    .ui--Icon {
-      opacity: 100;
-      stroke-width: 4rem;
-      stroke: #8B8B8B;
-      color: transparent;
-      &:hover {
-        stroke: darkorange; 
-        color: darkorange;
-      }
-    }
   }
 
   .endpointSection {

@@ -23,7 +23,7 @@ interface Props {
 }
 
 function GroupDisplay ({ affinities, apiUrl, children, className = '', index, isSelected, setApiUrl, setGroup, value: { header, isSpaced, networks } }: Props): React.ReactElement<Props> {
-  const [_favoriteChains, setFavoriteChains] = useState(() => getFavoriteChains());
+  const [favoriteChains, setFavoriteChains] = useState(() => getFavoriteChains());
 
   const _setGroup = useCallback(
     () => setGroup(isSelected ? -1 : index),
@@ -56,6 +56,7 @@ function GroupDisplay ({ affinities, apiUrl, children, className = '', index, is
               <Network
                 affinity={affinities[network.name]}
                 apiUrl={apiUrl}
+                isFavorite={favoriteChains.includes(network.name)}
                 key={index}
                 setApiUrl={setApiUrl}
                 toggleFavoriteChain={_toggleFavoriteChain}
