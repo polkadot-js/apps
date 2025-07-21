@@ -10,17 +10,16 @@ import { ChainImg, Icon, styled } from '@polkadot/react-components';
 import { useTranslation } from '../translate.js';
 import Url from './Url.js';
 
-export const FAVORITE_CHAINS_KEY = 'polkadot-app-favorite-chains';
-
 interface Props {
   affinity?: string; // unused - previous selection
   apiUrl: string;
   className?: string;
   setApiUrl: (network: string, apiUrl: string) => void;
   value: Network;
+  toggleFavoriteChain: (chainName: string) => void;
 }
 
-function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { isChild, isRelay, isUnreachable, name, nameRelay: relay, paraId, providers, ui } }: Props): React.ReactElement<Props> {
+function NetworkDisplay ({ apiUrl, className = '', setApiUrl, toggleFavoriteChain, value: { isChild, isRelay, isUnreachable, name, nameRelay: relay, paraId, providers, ui } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const isSelected = useMemo(
     () => providers.some(({ url }) => url === apiUrl),
@@ -40,6 +39,13 @@ function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { isChild, 
     (apiUrl: string) => setApiUrl(name, apiUrl),
     [name, setApiUrl]
   );
+
+  const _toggleFavoriteChain = useCallback((e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleFavoriteChain(name);
+  },
+  [name, toggleFavoriteChain]);
 
   return (
     <StyledDiv className={`${className}${isSelected ? ' isSelected highlight--border' : ''}${isUnreachable ? ' isUnreachable' : ''}`}>
@@ -70,7 +76,10 @@ function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { isChild, 
             )}
           </div>
         </div>
-        <Icon icon='star' />
+        <Icon
+          icon='star'
+          onClick={_toggleFavoriteChain}
+        />
       </div>
       {isSelected && providers.map(({ name, url }): React.ReactNode => (
         <Url
