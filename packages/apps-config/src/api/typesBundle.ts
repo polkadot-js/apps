@@ -63153,7 +63153,7 @@ export const typesBundle = {
           "wildcardDistributionMap": {
             "description": "Get the wildcard distribution map",
             "params": [],
-            "type": "Vec<(BlockNumber, ItemId)"
+            "type": "Vec<(BlockNumber, ItemId)>"
           },
           "totalFnftsMinted": {
             "description": "Get the total fNFTs minted",
