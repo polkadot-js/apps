@@ -10,6 +10,8 @@ import { ChainImg, Icon, styled } from '@polkadot/react-components';
 import { useTranslation } from '../translate.js';
 import Url from './Url.js';
 
+export const FAVORITE_CHAINS_KEY = 'polkadot-app-favorite-chains';
+
 interface Props {
   affinity?: string; // unused - previous selection
   apiUrl: string;
@@ -45,10 +47,6 @@ function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { isChild, 
         className={`markFavoriteSection${isChild ? ' isChild' : ''}`}
         onClick={isUnreachable ? undefined : _selectUrl}
       >
-        <Icon
-          className='starIcon orangeColor'
-          icon='star'
-        />
         <div className='endpointSection'>
           <ChainImg
             className='endpointIcon'
@@ -72,6 +70,7 @@ function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { isChild, 
             )}
           </div>
         </div>
+        <Icon icon='star' />
       </div>
       {isSelected && providers.map(({ name, url }): React.ReactNode => (
         <Url
@@ -98,29 +97,38 @@ const StyledDiv = styled.div`
     opacity: var(--opacity-light);
   }
 
-  &.isSelected,
-  &:hover {
-    background: var(--bg-table);
-  }
-
   &.isSelected {
     .markFavoriteSection {
       gap: 1rem;
+      padding-bottom: 1rem;
     }
   }
 
   .markFavoriteSection {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
     gap: 1rem;
 
-    &.isChild .starIcon {
-      margin-left: 1.25rem;
-    }
-
-    .starIcon {
+    .ui--Icon {
       scale: 1.1;
+      opacity: 0;
+    }
+  }
+
+  &.isSelected,
+  &:hover {
+    background: var(--bg-table);
+
+    .ui--Icon {
+      opacity: 100;
+      stroke-width: 4rem;
+      stroke: #8B8B8B;
+      color: transparent;
+      &:hover {
+        stroke: darkorange; 
+        color: darkorange;
+      }
     }
   }
 
