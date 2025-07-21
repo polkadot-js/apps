@@ -29,6 +29,15 @@ export function createWsEndpoints (t: TFunction = defaultT, firstOnly = false, w
       isDisabled: false,
       isHeader: true,
       isSpaced: true,
+      text: t('rpc.header.favorite', 'Favorite chains', { ns: 'apps-config' }),
+      textBy: '',
+      ui: {},
+      value: ''
+    },
+    {
+      isDisabled: false,
+      isHeader: true,
+      isSpaced: true,
       text: t('rpc.header.polkadot.relay', 'Polkadot & parachains', { ns: 'apps-config' }),
       textBy: '',
       ui: {},

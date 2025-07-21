@@ -5,6 +5,7 @@ import type { TFunction } from '../types.js';
 import type { LinkOption } from './types.js';
 
 export const CUSTOM_ENDPOINT_KEY = 'polkadot-app-custom-endpoints';
+export const FAVORITE_CHAINS_KEY = 'polkadot-app-favorite-chains';
 
 interface EnvWindow {
   // eslint-disable-next-line camelcase
