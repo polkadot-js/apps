@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
-import type { Group } from './types.js';
+import type { Group, IFavoriteChainProps } from './types.js';
 
 // ok, this seems to be an eslint bug, this _is_ a package import
 import punycode from 'punycode/';
@@ -17,7 +17,7 @@ import { isAscii } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
 import GroupDisplay from './Group.js';
-import { getFavoriteChains, toggleFavoriteChain } from './utils.js';
+import { getFavoriteChains, isFavoriteChain, toggleFavoriteChain } from './utils.js';
 
 interface Props {
   className?: string;
@@ -61,7 +61,10 @@ function combineEndpoints (endpoints: LinkOption[]): Group[] {
       const prev = result[result.length - 1];
       const prov = { isLightClient: e.isLightClient, name: e.textBy, url: e.value };
 
-      const isFavorite = favoriteChains.includes(e.text?.toString() || '');
+      const isFavorite = isFavoriteChain(favoriteChains,
+        { chainName: e.text?.toString() ?? '',
+          paraId: e.paraId,
+          relay: e.textRelay?.toString() });
 
       if (isFavorite && favoriteGroupIndex !== -1 && !e.isUnreachable) {
         const favGroup = result[favoriteGroupIndex];
@@ -231,8 +234,8 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
     []
   );
 
-  const _toggleFavoriteChain = useCallback((chainName: string) => {
-    toggleFavoriteChain(chainName);
+  const _toggleFavoriteChain = useCallback((chainInfo: IFavoriteChainProps) => {
+    toggleFavoriteChain(chainInfo);
     setFavoriteChains(getFavoriteChains());
     setGroups(combineEndpoints(createWsEndpoints(t)));
   }, [t]);

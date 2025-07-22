@@ -1,7 +1,7 @@
 // Copyright 2017-2025 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Network } from './types.js';
+import type { IFavoriteChainProps, Network } from './types.js';
 
 import React, { useCallback, useMemo } from 'react';
 
@@ -17,7 +17,7 @@ interface Props {
   setApiUrl: (network: string, apiUrl: string) => void;
   value: Network;
   isFavorite: boolean;
-  toggleFavoriteChain: (chainName: string) => void;
+  toggleFavoriteChain: (chainInfo: IFavoriteChainProps) => void;
 }
 
 function NetworkDisplay ({ apiUrl, className = '', isFavorite, setApiUrl, toggleFavoriteChain, value: { isChild, isRelay, isUnreachable, name, nameRelay: relay, paraId, providers, ui } }: Props): React.ReactElement<Props> {
@@ -44,9 +44,8 @@ function NetworkDisplay ({ apiUrl, className = '', isFavorite, setApiUrl, toggle
   const _toggleFavoriteChain = useCallback((e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     e.preventDefault();
     e.stopPropagation();
-    toggleFavoriteChain(name);
-  },
-  [name, toggleFavoriteChain]);
+    toggleFavoriteChain({ chainName: name, paraId, relay });
+  }, [name, paraId, relay, toggleFavoriteChain]);
 
   return (
     <StyledDiv className={`${className}${isSelected ? ' isSelected highlight--border' : ''}${isUnreachable ? ' isUnreachable' : ''}`}>

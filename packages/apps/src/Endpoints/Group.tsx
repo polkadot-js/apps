@@ -1,13 +1,14 @@
 // Copyright 2017-2025 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Group } from './types.js';
+import type { Group, IFavoriteChainProps, IFavoriteChainsStorage } from './types.js';
 
 import React, { useCallback, useMemo } from 'react';
 
 import { Icon, styled } from '@polkadot/react-components';
 
 import Network from './Network.js';
+import { isFavoriteChain } from './utils.js';
 
 interface Props {
   affinities: Record<string, string>;
@@ -16,8 +17,8 @@ interface Props {
   className?: string;
   index: number;
   isSelected: boolean;
-  favoriteChains: string[],
-  toggleFavoriteChain: (chainName: string) => void;
+  favoriteChains: IFavoriteChainsStorage,
+  toggleFavoriteChain: (chainInfo: IFavoriteChainProps) => void;
   setApiUrl: (network: string, apiUrl: string) => void;
   setGroup: (groupIndex: number) => void;
   value: Group;
@@ -50,7 +51,11 @@ function GroupDisplay ({ affinities, apiUrl, children, className = '', favoriteC
               <Network
                 affinity={affinities[network.name]}
                 apiUrl={apiUrl}
-                isFavorite={favoriteChains.includes(network.name)}
+                isFavorite={isFavoriteChain(favoriteChains, {
+                  chainName: network.name,
+                  paraId: network.paraId,
+                  relay: network.nameRelay
+                })}
                 key={index}
                 setApiUrl={setApiUrl}
                 toggleFavoriteChain={toggleFavoriteChain}
