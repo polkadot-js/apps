@@ -3,12 +3,11 @@
 
 import type { Group } from './types.js';
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import { Icon, styled } from '@polkadot/react-components';
 
 import Network from './Network.js';
-import { getFavoriteChains, toggleFavoriteChain } from './utils.js';
 
 interface Props {
   affinities: Record<string, string>;
@@ -17,23 +16,18 @@ interface Props {
   className?: string;
   index: number;
   isSelected: boolean;
+  favoriteChains: string[],
+  toggleFavoriteChain: (chainName: string) => void;
   setApiUrl: (network: string, apiUrl: string) => void;
   setGroup: (groupIndex: number) => void;
   value: Group;
 }
 
-function GroupDisplay ({ affinities, apiUrl, children, className = '', index, isSelected, setApiUrl, setGroup, value: { header, isSpaced, networks } }: Props): React.ReactElement<Props> {
-  const [favoriteChains, setFavoriteChains] = useState(() => getFavoriteChains());
-
+function GroupDisplay ({ affinities, apiUrl, children, className = '', favoriteChains, index, isSelected, setApiUrl, setGroup, toggleFavoriteChain, value: { header, isSpaced, networks } }: Props): React.ReactElement<Props> {
   const _setGroup = useCallback(
     () => setGroup(isSelected ? -1 : index),
     [index, isSelected, setGroup]
   );
-
-  const _toggleFavoriteChain = useCallback((chainName: string) => {
-    toggleFavoriteChain(chainName);
-    setFavoriteChains(getFavoriteChains());
-  }, []);
 
   const filtered = useMemo(
     () => networks.filter(({ isUnreachable }) => !isUnreachable),
@@ -59,7 +53,7 @@ function GroupDisplay ({ affinities, apiUrl, children, className = '', index, is
                 isFavorite={favoriteChains.includes(network.name)}
                 key={index}
                 setApiUrl={setApiUrl}
-                toggleFavoriteChain={_toggleFavoriteChain}
+                toggleFavoriteChain={toggleFavoriteChain}
                 value={network}
               />
             ))}
