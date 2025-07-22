@@ -70,7 +70,7 @@ function combineEndpoints (endpoints: LinkOption[]): Group[] {
         const favGroup = result[favoriteGroupIndex];
         const lastFav = favGroup.networks[favGroup.networks.length - 1];
 
-        if (lastFav && lastFav.name === e.text) {
+        if (lastFav && lastFav.name === e.text && lastFav.nameRelay === e.textRelay && lastFav.paraId === e.paraId) {
           lastFav.providers.push(prov);
         } else {
           favGroup.networks.push({
