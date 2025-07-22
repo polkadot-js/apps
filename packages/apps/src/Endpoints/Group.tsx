@@ -35,6 +35,10 @@ function GroupDisplay ({ affinities, apiUrl, children, className = '', favoriteC
     [networks]
   );
 
+  if (header?.toString().includes('Favorite') && Object.keys(favoriteChains).length === 0) {
+    return <></>;
+  }
+
   return (
     <StyledDiv className={`${className}${isSelected ? ' isSelected' : ''}`}>
       <div
