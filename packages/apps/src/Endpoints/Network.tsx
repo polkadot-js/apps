@@ -128,7 +128,7 @@ const StyledDiv = styled.div`
     .ui--Icon {
       scale: 1.1;
       opacity: 0;
-      transition: opacity 0.2s ease, color 0.2s ease;
+      transition: color 0.2s ease;
 
       &:hover {
         opacity: 0.5;

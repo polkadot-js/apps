@@ -27,6 +27,7 @@ export const getFavoriteChains = (): string[] => {
       return JSON.parse(favoriteChains) as string[];
     }
   } catch (e) {
+    localStorage.removeItem(FAVORITE_CHAINS_KEY);
     console.error(e);
     // ignore error
   }
