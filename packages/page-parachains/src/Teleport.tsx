@@ -33,9 +33,9 @@ function getDestMultilocation (isParaTeleport: boolean | undefined, recipientPar
     } else { // para -> para
       return {
         interior: {
-          X1: {
+          X1: [{
             ParaChain: recipientParaId
-          }
+          }]
         },
         parents: 1
       };
@@ -45,9 +45,9 @@ function getDestMultilocation (isParaTeleport: boolean | undefined, recipientPar
   // relay -> para
   return {
     interior: {
-      X1: {
+      X1: [{
         ParaChain: recipientParaId
-      }
+      }]
     },
     parents: 0
   };
@@ -109,32 +109,30 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
 
   const params = useMemo(
     () => [
-      { V3: getDestMultilocation(isParaTeleport, recipientParaId) },
+      { V4: getDestMultilocation(isParaTeleport, recipientParaId) },
       {
-        V3: {
+        V4: {
           interior: {
-            X1: {
+            X1: [{
               AccountId32: {
                 id: api.createType('AccountId32', recipientId).toHex(),
                 network: null
               }
-            }
+            }]
           },
           parents: 0
         }
       },
       {
-        V3: [{
+        V4: [{
           fun: {
             Fungible: amount
           },
           id: {
-            Concrete: {
-              interior: 'Here',
-              parents: isParaTeleport
-                ? 1
-                : 0
-            }
+            interior: 'Here',
+            parents: isParaTeleport
+              ? 1
+              : 0
           }
         }]
       },
