@@ -23,6 +23,36 @@ interface Props {
 const INVALID_PARAID = Number.MAX_SAFE_INTEGER;
 const XCM_LOC = ['xcm', 'xcmPallet', 'polkadotXcm'];
 
+function getDestMultilocation (isParaTeleport: boolean | undefined, recipientParaId: number) {
+  if (isParaTeleport) {
+    if (recipientParaId === -1) { // para -> relay
+      return {
+        interior: 'Here',
+        parents: 1
+      };
+    } else { // para -> para
+      return {
+        interior: {
+          X1: [{
+            ParaChain: recipientParaId
+          }]
+        },
+        parents: 1
+      };
+    }
+  }
+
+  // relay -> para
+  return {
+    interior: {
+      X1: [{
+        ParaChain: recipientParaId
+      }]
+    },
+    parents: 0
+  };
+}
+
 function createOption ({ paraId, text, ui }: LinkOption): Option {
   return {
     text: (
@@ -79,46 +109,30 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
 
   const params = useMemo(
     () => [
+      { V4: getDestMultilocation(isParaTeleport, recipientParaId) },
       {
-        V3: isParaTeleport
-          ? {
-            interior: 'Here',
-            parents: 1
-          }
-          : {
-            interior: {
-              X1: {
-                ParaChain: recipientParaId
-              }
-            },
-            parents: 0
-          }
-      },
-      {
-        V3: {
+        V4: {
           interior: {
-            X1: {
+            X1: [{
               AccountId32: {
                 id: api.createType('AccountId32', recipientId).toHex(),
                 network: null
               }
-            }
+            }]
           },
           parents: 0
         }
       },
       {
-        V3: [{
+        V4: [{
           fun: {
             Fungible: amount
           },
           id: {
-            Concrete: {
-              interior: 'Here',
-              parents: isParaTeleport
-                ? 1
-                : 0
-            }
+            interior: 'Here',
+            parents: isParaTeleport
+              ? 1
+              : 0
           }
         }]
       },
