@@ -909,7 +909,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       Stakeworld: 'wss://dot-rpc.stakeworld.io/assethub'
     },
     relayName: 'polkadot',
-    teleport: [-1],
+    teleport: [-1, 1002, 1001, 1005, 1004],
     text: 'AssetHub',
     ui: {
       color: '#86e62a',
@@ -932,7 +932,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       Stakeworld: 'wss://dot-rpc.stakeworld.io/bridgehub'
     },
     relayName: 'polkadot',
-    teleport: [-1],
+    teleport: [-1, 1000],
     text: 'BridgeHub',
     ui: {
       logo: nodesBridgeHubSVG
@@ -954,7 +954,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       Stakeworld: 'wss://dot-rpc.stakeworld.io/collectives'
     },
     relayName: 'polkadot',
-    teleport: [-1],
+    teleport: [-1, 1000],
     text: 'Collectives',
     ui: {
       color: '#e6777a',
@@ -975,7 +975,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       Stakeworld: 'wss://dot-rpc.stakeworld.io/coretime'
     },
     relayName: 'polkadot',
-    teleport: [-1],
+    teleport: [-1, 1000],
     text: 'Coretime',
     ui: {}
   },
@@ -995,7 +995,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       Stakeworld: 'wss://dot-rpc.stakeworld.io/people'
     },
     relayName: 'polkadot',
-    teleport: [-1],
+    teleport: [-1, 1000],
     text: 'People',
     ui: {
       color: '#e84366',
