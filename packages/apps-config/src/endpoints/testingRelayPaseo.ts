@@ -469,7 +469,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
     paraId: 1111,
     providers: {
       IBP1: 'wss://passet-hub-paseo.ibp.network',
-      // IBP2: 'wss://passet-hub-paseo.dotters.network', // finishing deployment
+      IBP2: 'wss://passet-hub-paseo.dotters.network',
       Parity: 'wss://testnet-passet-hub.polkadot.io'
     },
     relayName: 'paseo',
