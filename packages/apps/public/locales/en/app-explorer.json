@@ -10,6 +10,7 @@
   "No justifications available": "No justifications available",
   "No logs available": "No logs available",
   "Node info": "Node info",
+  "Show my events": "Show my events",
   "Unable to decode the block events. {{error}}": "Unable to decode the block events. {{error}}",
   "Unable to retrieve the specified block details. {{error}}": "Unable to retrieve the specified block details. {{error}}",
   "Waiting for next block...": "Waiting for next block...",
