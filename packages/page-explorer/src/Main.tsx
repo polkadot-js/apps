@@ -29,7 +29,10 @@ function Main ({ eventCount, events, headers }: Props): React.ReactElement<Props
           <BlockHeaders headers={headers} />
         </Columar.Column>
         <Columar.Column>
-          <Events events={events} />
+          <Events
+            events={events}
+            showToggle
+          />
         </Columar.Column>
       </Columar>
     </>
