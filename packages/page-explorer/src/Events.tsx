@@ -17,7 +17,7 @@ import { formatNumber } from '@polkadot/util';
 import Event from './Event.js';
 import { useTranslation } from './translate.js';
 
-const MAX_CACHE = 100;
+const MAX_CACHE = 200;
 const blockCache = new Map<string, { author: AccountId | undefined; extrinsics: Vec<GenericExtrinsic<AnyTuple>>}>();
 
 interface Props {
