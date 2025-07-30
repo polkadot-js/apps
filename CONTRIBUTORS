@@ -386,6 +386,7 @@
        1	cuardaigh                     	add virto-network parachain to rococo (#7582)
        1	Damian Straszak               	change aleph testnet name to make it unique (#9329)
        1	Dan Forbes                    	Add block number to events on explorer page (#2759)
+       1	Daniel Magro                  	Added Simply Staking endpoint for Polkadot in productionRelayPolkadot.ts (#11731)
        1	Daniel Maricic                	add idiyanale to testing relay rococo (#9000)
        1	dastan                        	Update ethereumChains.ts (#10367)
        1	DDB                           	Add zkVerify Testnet (#11356)
