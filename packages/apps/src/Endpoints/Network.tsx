@@ -82,7 +82,7 @@ function NetworkDisplay ({ apiUrl, className = '', isFavorite, setApiUrl, toggle
           onClick={_toggleFavoriteChain}
         />
       </div>
-      {isSelected && providers.map(({ name, url }): React.ReactNode => (
+      {/* {isSelected && providers.map(({ name, url }): React.ReactNode => (
         <Url
           apiUrl={apiUrl}
           key={url}
@@ -90,7 +90,7 @@ function NetworkDisplay ({ apiUrl, className = '', isFavorite, setApiUrl, toggle
           setApiUrl={_setApiUrl}
           url={url}
         />
-      ))}
+      ))} */}
     </StyledDiv>
   );
 }
