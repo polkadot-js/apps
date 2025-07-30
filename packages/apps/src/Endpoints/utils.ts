@@ -40,10 +40,7 @@ export const toggleFavoriteChain = (
     }
 
     localStorage.setItem(FAVORITE_CHAINS_KEY, JSON.stringify(updatedChains));
-  } catch (e) {
-    console.error(e);
-    // ignore error
-  }
+  } catch {}
 };
 
 export const getFavoriteChains = (): IFavoriteChainsStorage => {
