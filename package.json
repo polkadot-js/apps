@@ -18,8 +18,8 @@
   "type": "module",
   "version": "0.162.1",
   "versions": {
-    "git": "0.161.2-8-x",
-    "npm": "0.161.1"
+    "git": "0.162.1",
+    "npm": "0.162.1"
   },
   "workspaces": [
     "packages/*"
