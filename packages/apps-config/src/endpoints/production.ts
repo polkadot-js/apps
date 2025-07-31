@@ -592,7 +592,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'tanssi',
     providers: {
-      'Tanssi Foundation': 'wss://tanssi.tanssi-mainnet.network'
+      'Tanssi Foundation': 'wss://services.tanssi-mainnet.network/tanssi'
     },
     text: 'Tanssi',
     ui: {
