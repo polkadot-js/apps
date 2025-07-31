@@ -1,5 +1,24 @@
 # CHANGELOG
 
+## 0.162.1 July 31, 2025
+
+Contributed:
+
+- Update peerplays types bundle ([#11712](https://github.com/polkadot-js/apps/pull/11712)) (Thanks to https://github.com/serkixenos)
+- Remove IBP endpoints on westend ([#11711](https://github.com/polkadot-js/apps/pull/11711)) (Thanks to https://github.com/senseless)
+- Update peerplays types bundle, hotfix ([#11715](https://github.com/polkadot-js/apps/pull/11715)) (Thanks to https://github.com/serkixenos)
+- Activate IBP2 Passet Hub Paseo ([#11722](https://github.com/polkadot-js/apps/pull/11722)) (Thanks to https://github.com/senseless)
+- Added Simply Staking endpoint for Polkadot in productionRelayPolkadot.ts ([#11731](https://github.com/polkadot-js/apps/pull/11731)) (Thanks to https://github.com/DanielMagro97)
+
+
+Changes:
+
+- Teleport Feature Enhancement ([#11699](https://github.com/polkadot-js/apps/pull/11699))
+- Remove pools warning for staking ([#11730](https://github.com/polkadot-js/apps/pull/11730))
+- fix: disable unreachable endpoints ([#11714](https://github.com/polkadot-js/apps/pull/11714))
+- Upgraded polkadot dependencies ([#11736](https://github.com/polkadot-js/apps/pull/11736))
+
+
 ## 0.161.1 July 17, 2025
 
 Contributed:
