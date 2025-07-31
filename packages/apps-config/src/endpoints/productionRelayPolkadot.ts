@@ -1011,7 +1011,7 @@ export const prodRelayPolkadot: EndpointOption = {
   },
   text: 'ESX Testnet',
   ui: {
-    color: '#4B0082',
+    color: '#011a22',
     logo: 'substrate'
   }
 };

@@ -19,14 +19,6 @@ if (typeof window !== 'undefined') {
 if (typeof document !== 'undefined') {
   const style = document.createElement('style');
   style.textContent = `
-    /* ESX Custom Theme - Dark Banner */
-    .apps--Wrapper header,
-    .apps--navbar,
-    .ui--Menu,
-    .apps--Menu {
-      background-color: #021419 !important;
-    }
-    
     /* Hide GitHub and Wiki buttons */
     .app--SideBar-Scroll a[href*="github.com"],
     .app--SideBar-Scroll a[href*="wiki.polkadot"],
