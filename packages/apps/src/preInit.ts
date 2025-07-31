@@ -11,7 +11,7 @@ if (typeof window !== 'undefined') {
   keysToRemove.forEach(key => localStorage.removeItem(key));
   
   // Set ESX endpoint
-  window.localStorage.setItem('settings.apiUrl', 'wss://rpc1-weu-testnet.esx.network');
+  window.localStorage.setItem('settings.apiUrl', 'wss://rpc1-weu-testnet.esx.network:443');
   console.log('Pre-init: Set ESX endpoint');
 }
 
