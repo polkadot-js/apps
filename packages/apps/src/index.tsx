@@ -14,6 +14,13 @@ import { createRoot } from 'react-dom/client';
 import Root from './Root.js';
 
 if (typeof window !== 'undefined') {
+  // Remove any old endpoints
+  const customEndpoints = localStorage.getItem('polkadot-apps-custom-endpoints');
+  if (customEndpoints && customEndpoints.includes('108.143.71.208')) {
+    localStorage.removeItem('polkadot-apps-custom-endpoints');
+  }
+  
+  // Always set the secure endpoint
   window.localStorage.setItem('settings.apiUrl', 'wss://rpc1-weu-testnet.esx.network');
 }
 
