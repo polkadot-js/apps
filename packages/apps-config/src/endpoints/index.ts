@@ -52,7 +52,7 @@ export function createWsEndpoints (t: TFunction = defaultT, firstOnly = false, w
     textBy: 'ESX Network',
     value: 'wss://rpc1-weu-testnet.esx.network',
     ui: {
-      color: '#4B0082',
+      color: '#011a22',
       logo: 'substrate'
     }
   }];
