@@ -254,7 +254,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'Dancelight',
     providers: {
-      Tanssi: 'wss://dancelight.tanssi-api.network'
+      'Tanssi Foundation': 'wss://services.tanssi-testnet.network/dancelight'
     },
     text: 'Dancelight',
     ui: {
