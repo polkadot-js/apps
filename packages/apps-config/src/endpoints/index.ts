@@ -14,7 +14,7 @@ const ESX: EndpointOption = {
   info: 'ESX Testnet',
   text: 'ESX Testnet',
   providers: {
-    'ESX': 'ws://108.143.71.208:9944'
+    'ESX': 'wss://rpc1-weu-testnet.esx.network'
   }
 };
 

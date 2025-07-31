@@ -14,7 +14,7 @@ import { createRoot } from 'react-dom/client';
 import Root from './Root.js';
 
 if (typeof window !== 'undefined') {
-  window.localStorage.setItem('settings.apiUrl', 'ws://108.143.71.208:9944');
+  window.localStorage.setItem('settings.apiUrl', 'wss://rpc1-weu-testnet.esx.network');
 }
 
 const rootId = 'root';
