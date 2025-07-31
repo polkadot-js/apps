@@ -37,6 +37,12 @@ function NetworkDisplay ({ apiUrl, className = '', isFavorite, setApiUrl, toggle
     () => {
       const filteredProviders = providers.filter(({ url }) => !url.startsWith('light://'));
 
+      if (filteredProviders.length === 0) {
+        alert('No WebSocket (wss://) provider available');
+
+        return;
+      }
+
       return setApiUrl(name, filteredProviders[Math.floor(Math.random() * filteredProviders.length)].url);
     },
     [name, providers, setApiUrl]
