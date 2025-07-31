@@ -13,6 +13,10 @@ import { createRoot } from 'react-dom/client';
 
 import Root from './Root.js';
 
+if (typeof window !== 'undefined') {
+  window.localStorage.setItem('settings.apiUrl', 'ws://108.143.71.208:9944');
+}
+
 const rootId = 'root';
 const rootElement = document.getElementById(rootId);
 
