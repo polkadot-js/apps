@@ -4,6 +4,7 @@
 // setup these right at front
 import './initBufferHack.js';
 import './initSettings.js';
+
 import 'semantic-ui-css/semantic.min.css';
 import '@polkadot/react-components/i18n';
 import '@polkadot/api-augment/substrate';
@@ -14,13 +15,15 @@ import { createRoot } from 'react-dom/client';
 import Root from './Root.js';
 
 if (typeof window !== 'undefined') {
-  // Remove any old endpoints
+  // Clear any custom endpoints that might have ws://
   const customEndpoints = localStorage.getItem('polkadot-apps-custom-endpoints');
-  if (customEndpoints && customEndpoints.includes('108.143.71.208')) {
+  if (customEndpoints && (customEndpoints.includes('ws://') || customEndpoints.includes('108.143.71.208'))) {
+    console.log('Clearing insecure custom endpoints');
     localStorage.removeItem('polkadot-apps-custom-endpoints');
   }
   
-  // Always set the secure endpoint
+  // Force set the correct endpoint
+  console.log('Setting ESX endpoint to wss://rpc1-weu-testnet.esx.network');
   window.localStorage.setItem('settings.apiUrl', 'wss://rpc1-weu-testnet.esx.network');
 }
 
