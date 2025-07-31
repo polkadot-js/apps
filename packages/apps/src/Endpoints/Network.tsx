@@ -5,10 +5,9 @@ import type { IFavoriteChainProps, Network } from './types.js';
 
 import React, { useCallback, useMemo } from 'react';
 
-import { ChainImg, Icon, styled } from '@polkadot/react-components';
+import { ChainImg, Dropdown, Icon, styled } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate.js';
-import Url from './Url.js';
 
 interface Props {
   affinity?: string; // unused - previous selection
@@ -26,6 +25,13 @@ function NetworkDisplay ({ apiUrl, className = '', isFavorite, setApiUrl, toggle
     () => providers.some(({ url }) => url === apiUrl),
     [apiUrl, providers]
   );
+
+  const providersOptions = useMemo(() => {
+    return providers.map(({ name, url }) => ({
+      text: name,
+      value: url
+    }));
+  }, [providers]);
 
   const _selectUrl = useCallback(
     () => {
@@ -82,15 +88,15 @@ function NetworkDisplay ({ apiUrl, className = '', isFavorite, setApiUrl, toggle
           onClick={_toggleFavoriteChain}
         />
       </div>
-      {/* {isSelected && providers.map(({ name, url }): React.ReactNode => (
-        <Url
-          apiUrl={apiUrl}
-          key={url}
-          label={name}
-          setApiUrl={_setApiUrl}
-          url={url}
+      {isSelected &&
+        <Dropdown
+          className='isSmall'
+          onChange={_setApiUrl}
+          options={providersOptions}
+          value={apiUrl}
+          withLabel={false}
         />
-      ))} */}
+      }
     </StyledDiv>
   );
 }
