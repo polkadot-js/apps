@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 // setup these right at front
+import './preInit.js';
 import './initBufferHack.js';
 import './initSettings.js';
 
