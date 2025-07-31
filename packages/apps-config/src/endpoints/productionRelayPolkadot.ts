@@ -1005,40 +1005,13 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
 ];
 
 export const prodRelayPolkadot: EndpointOption = {
-  dnslink: 'polkadot',
-  genesisHash: POLKADOT_GENESIS,
-  info: 'polkadot',
-  isPeopleForIdentity: true,
-  isRelay: true,
-  linked: [
-    ...prodParasPolkadotCommon,
-    ...prodParasPolkadot
-  ],
+  info: 'esx',
   providers: {
-    Allnodes: 'wss://polkadot-rpc.publicnode.com',
-    // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
-    // 'Automata 1RPC': 'wss://1rpc.io/dot',
-    Blockops: 'wss://polkadot-public-rpc.blockops.network/ws',
-    Dwellir: 'wss://polkadot-rpc.n.dwellir.com',
-    'Dwellir Tunisia': 'wss://polkadot-rpc-tn.dwellir.com',
-    Helixstreet: 'wss://rpc-polkadot.helixstreet.io',
-    IBP1: 'wss://rpc.ibp.network/polkadot',
-    IBP2: 'wss://polkadot.dotters.network',
-    LuckyFriday: 'wss://rpc-polkadot.luckyfriday.io',
-    OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
-    'Permanence DAO EU': 'wss://polkadot.rpc.permanence.io',
-    RadiumBlock: 'wss://polkadot.public.curie.radiumblock.co/ws',
-    // RockX: 'wss://rockx-dot.w3node.com/polka-public-dot/ws', // https://github.com/polkadot-js/apps/issues/11439
-    'Simply Staking': 'wss://spectrum-01.simplystaking.xyz/cG9sa2Fkb3QtMDEtOTFkMmYwZGYtcG9sa2Fkb3Q/uj77qtNEPueW1w/polkadot/mainnet/',
-    Stakeworld: 'wss://dot-rpc.stakeworld.io',
-    SubQuery: 'wss://polkadot.rpc.subquery.network/public/ws',
-    'light client': 'light://substrate-connect/polkadot'
+    ESX: 'wss://rpc1-weu-testnet.esx.network'
   },
-  teleport: getTeleports(prodParasPolkadotCommon),
-  text: 'Polkadot',
+  text: 'ESX Testnet',
   ui: {
-    color: '#e6007a',
-    identityIcon: 'polkadot',
-    logo: chainsPolkadotCircleSVG
+    color: '#4B0082',
+    logo: 'substrate'
   }
 };
