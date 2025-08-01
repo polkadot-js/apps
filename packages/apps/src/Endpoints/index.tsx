@@ -269,7 +269,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
 
         return newValue;
       });
-      setApiUrl(extractUrlState(apiUrl, groups));
+      setApiUrl((state) => ({ ...extractUrlState(apiUrl, groups), groupIndex: state.groupIndex }));
     },
     [groups]
   );
@@ -280,7 +280,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
         apiUrl = punycode.toASCII(apiUrl);
       }
 
-      setApiUrl(extractUrlState(apiUrl, groups));
+      setApiUrl((state) => ({ ...extractUrlState(apiUrl, groups), groupIndex: state.groupIndex }));
     },
     [groups]
   );
