@@ -11,6 +11,7 @@ import store from 'store';
 
 import { createWsEndpoints, CUSTOM_ENDPOINT_KEY } from '@polkadot/apps-config';
 import { Button, Input, Sidebar, styled } from '@polkadot/react-components';
+import { defaultHighlight } from '@polkadot/react-components/styles';
 import { useApi } from '@polkadot/react-hooks';
 import { settings } from '@polkadot/ui-settings';
 import { isAscii } from '@polkadot/util';
@@ -189,7 +190,7 @@ function isLocalForkDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid
 function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const linkOptions = createWsEndpoints(t);
-  const { isLocalFork } = useApi();
+  const { apiEndpoint, isLocalFork } = useApi();
   const [favoriteChains, setFavoriteChains] = useState(() => getFavoriteChains());
   const [groups, setGroups] = useState(() => combineEndpoints(linkOptions));
   const [{ apiUrl, groupIndex, hasUrlChanged, isUrlValid }, setApiUrl] = useState<UrlState>(() => extractUrlState(settings.get().apiUrl, groups));
@@ -368,6 +369,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
           affinities={affinities}
           apiUrl={apiUrl}
           favoriteChains={favoriteChains}
+          highlightColor={apiEndpoint?.ui.color || defaultHighlight}
           index={index}
           isSelected={groupIndex === index}
           key={index}

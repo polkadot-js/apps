@@ -22,27 +22,33 @@ interface Props {
   setApiUrl: (network: string, apiUrl: string) => void;
   setGroup: (groupIndex: number) => void;
   value: Group;
+  highlightColor: string;
 }
 
-function GroupDisplay ({ affinities, apiUrl, children, className = '', favoriteChains, index, isSelected, setApiUrl, setGroup, toggleFavoriteChain, value: { header, isSpaced, networks } }: Props): React.ReactElement<Props> {
+function GroupDisplay ({ affinities, apiUrl, children, className = '', favoriteChains, highlightColor, index, isSelected, setApiUrl, setGroup, toggleFavoriteChain, value: { header, isSpaced, networks } }: Props): React.ReactElement<Props> {
   const _setGroup = useCallback(
     () => setGroup(isSelected ? -1 : index),
     [index, isSelected, setGroup]
   );
+
+  const isFavoriteHeader = useMemo(() => header?.toString().includes('Favorite'), [header]);
 
   const filtered = useMemo(
     () => networks.filter(({ isUnreachable }) => !isUnreachable),
     [networks]
   );
 
-  if (header?.toString().includes('Favorite') && Object.keys(favoriteChains).length === 0) {
+  if (isFavoriteHeader && Object.keys(favoriteChains).length === 0) {
     return <></>;
   }
 
   return (
-    <StyledDiv className={`${className}${isSelected ? ' isSelected' : ''}`}>
+    <StyledDiv
+      className={`${className}${isSelected ? ' isSelected' : ''}`}
+      highlightColor={highlightColor}
+    >
       <div
-        className={`groupHeader${isSpaced ? ' isSpaced' : ''}`}
+        className={`groupHeader${isSpaced ? ' isSpaced' : ''}${isFavoriteHeader ? ' isFavoriteHeader' : ''}`}
         onClick={_setGroup}
       >
         <Icon icon={isSelected ? 'caret-up' : 'caret-down'} />
@@ -74,7 +80,7 @@ function GroupDisplay ({ affinities, apiUrl, children, className = '', favoriteC
   );
 }
 
-const StyledDiv = styled.div`
+const StyledDiv = styled.div<{ highlightColor: string; }>`
   .groupHeader {
     border-radius: 0.25rem;
     cursor: pointer;
@@ -93,6 +99,22 @@ const StyledDiv = styled.div`
 
     .ui--Icon {
       margin-right: 0.5rem;
+    }
+
+    &.isFavoriteHeader {
+      &:hover {
+        background: linear-gradient(
+          135deg,
+          ${(props) => props.highlightColor}f2 0%,
+          ${(props) => props.highlightColor}99 100%
+        );
+      }
+
+      &::after {
+        content: '⭐';
+        margin-left: 8px;
+        font-size: 16px;
+      }
     }
   }
 
