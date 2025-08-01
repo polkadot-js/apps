@@ -112,3 +112,31 @@ export const isFavoriteChain = (
     return false;
   }
 };
+
+export function getContrastingColor (hexColor: string): string {
+  if (typeof hexColor !== 'string') {
+    return '#000000';
+  }
+
+  let hex = hexColor.replace('#', '').trim();
+
+  if (hex.length === 3) {
+    hex = hex.split('').map((c) => c + c).join('');
+  }
+
+  if (hex.length !== 6 || /[^0-9a-f]/i.test(hex)) {
+    return '#000000';
+  }
+
+  try {
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+
+    return luminance > 0.5 ? '#000000' : '#FFFFFF';
+  } catch {
+    return '#000000';
+  }
+}

@@ -8,7 +8,7 @@ import React, { useCallback, useMemo } from 'react';
 import { Icon, styled } from '@polkadot/react-components';
 
 import Network from './Network.js';
-import { isFavoriteChain } from './utils.js';
+import { getContrastingColor, isFavoriteChain } from './utils.js';
 
 interface Props {
   affinities: Record<string, string>;
@@ -108,6 +108,7 @@ const StyledDiv = styled.div<{ highlightColor: string; }>`
           ${(props) => props.highlightColor}f2 0%,
           ${(props) => props.highlightColor}99 100%
         );
+        color: ${(props) => getContrastingColor(props.highlightColor)};
       }
 
       &::after {
