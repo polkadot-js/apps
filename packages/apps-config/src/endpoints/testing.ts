@@ -133,7 +133,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'edgeware',
     providers: {
-      JelliedOwl: 'wss://beresheet.jelliedowl.net'
+      // JelliedOwl: 'wss://beresheet.jelliedowl.net' // https://github.com/polkadot-js/apps/issues/11696
     },
     text: 'Beresheet (Edgeware)',
     ui: {
@@ -254,7 +254,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'Dancelight',
     providers: {
-      Tanssi: 'wss://dancelight.tanssi-api.network'
+      'Tanssi Foundation': 'wss://services.tanssi-testnet.network/dancelight'
     },
     text: 'Dancelight',
     ui: {

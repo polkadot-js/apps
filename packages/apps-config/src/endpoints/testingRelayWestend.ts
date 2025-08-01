@@ -131,15 +131,13 @@ export const testParasWestendCommon: EndpointOption[] = [
     providers: {
       Dwellir: 'wss://asset-hub-westend-rpc.n.dwellir.com',
       'Dwellir Tunisia': 'wss://westmint-rpc-tn.dwellir.com',
-      IBP1: 'wss://sys.ibp.network/asset-hub-westend',
-      IBP2: 'wss://asset-hub-westend.dotters.network',
       // OnFinality: 'wss://westmint.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9955
       Parity: 'wss://westend-asset-hub-rpc.polkadot.io',
       'Permanence DAO EU': 'wss://asset-hub-westend.rpc.permanence.io'
       // Stakeworld: 'wss://wnd-rpc.stakeworld.io/assethub'
     },
     relayName: 'westend',
-    teleport: [-1],
+    teleport: [-1, 1002, 1001, 1005, 1004],
     text: 'AssetHub',
     ui: {
       color: '#77bb77',
@@ -153,12 +151,11 @@ export const testParasWestendCommon: EndpointOption[] = [
     providers: {
       Dwellir: 'wss://bridge-hub-westend-rpc.n.dwellir.com',
       'Dwellir Tunisia': 'wss://westend-bridge-hub-rpc-tn.dwellir.com',
-      IBP1: 'wss://sys.ibp.network/bridgehub-westend',
-      IBP2: 'wss://bridge-hub-westend.dotters.network',
       // OnFinality: 'wss://bridgehub-westend.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9960
       Parity: 'wss://westend-bridge-hub-rpc.polkadot.io'
     },
     relayName: 'westend',
+    teleport: [-1, 1000],
     text: 'BridgeHub',
     ui: {
       logo: nodesBridgeHubSVG
@@ -171,12 +168,10 @@ export const testParasWestendCommon: EndpointOption[] = [
     providers: {
       Dwellir: 'wss://collectives-westend-rpc.n.dwellir.com',
       'Dwellir Tunisia': 'wss://westend-collectives-rpc-tn.dwellir.com',
-      IBP1: 'wss://sys.ibp.network/collectives-westend',
-      IBP2: 'wss://collectives-westend.dotters.network',
       Parity: 'wss://westend-collectives-rpc.polkadot.io'
     },
     relayName: 'westend',
-    teleport: [-1],
+    teleport: [-1, 1000],
     text: 'Collectives',
     ui: {
       color: '#e6777a',
@@ -189,12 +184,10 @@ export const testParasWestendCommon: EndpointOption[] = [
     paraId: 1005,
     providers: {
       Dwellir: 'wss://coretime-westend-rpc.n.dwellir.com',
-      IBP1: 'wss://sys.ibp.network/coretime-westend',
-      IBP2: 'wss://coretime-westend.dotters.network',
       Parity: 'wss://westend-coretime-rpc.polkadot.io'
     },
     relayName: 'westend',
-    teleport: [-1],
+    teleport: [-1, 1000],
     text: 'Coretime',
     ui: {
       color: '#f19135'
@@ -207,12 +200,10 @@ export const testParasWestendCommon: EndpointOption[] = [
     paraId: 1004,
     providers: {
       Dwellir: 'wss://people-westend-rpc.n.dwellir.com',
-      IBP1: 'wss://sys.ibp.network/people-westend',
-      IBP2: 'wss://people-westend.dotters.network',
       Parity: 'wss://westend-people-rpc.polkadot.io'
     },
     relayName: 'westend',
-    teleport: [-1],
+    teleport: [-1, 1000],
     text: 'People',
     ui: {
       color: '#ec03fc',
@@ -234,8 +225,6 @@ export const testRelayWestend: EndpointOption = {
   providers: {
     Dwellir: 'wss://westend-rpc.n.dwellir.com',
     'Dwellir Tunisia': 'wss://westend-rpc-tn.dwellir.com',
-    IBP1: 'wss://rpc.ibp.network/westend',
-    IBP2: 'wss://westend.dotters.network',
     // LuckyFriday: 'wss://rpc-westend.luckyfriday.io', // https://github.com/polkadot-js/apps/issues/10728
     OnFinality: 'wss://westend.api.onfinality.io/public-ws',
     Parity: 'wss://westend-rpc.polkadot.io',

@@ -423,7 +423,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
       TurboFlakes: 'wss://sys.turboflakes.io/asset-hub-paseo'
     },
     relayName: 'paseo',
-    teleport: [-1],
+    teleport: [-1, 1002, 1111],
     text: 'AssetHub',
     ui: {
       color: '#77bb77',
@@ -439,7 +439,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
       IBP2: 'wss://bridge-hub-paseo.dotters.network'
     },
     relayName: 'paseo',
-    teleport: [-1],
+    teleport: [-1, 1000],
     text: 'BridgeHub',
     ui: {
       color: '#AAADD7',
@@ -469,11 +469,11 @@ export const testParasPaseoCommon: EndpointOption[] = [
     paraId: 1111,
     providers: {
       IBP1: 'wss://passet-hub-paseo.ibp.network',
-      // IBP2: 'wss://passet-hub-paseo.dotters.network', // finishing deployment
+      IBP2: 'wss://passet-hub-paseo.dotters.network',
       Parity: 'wss://testnet-passet-hub.polkadot.io'
     },
     relayName: 'paseo',
-    teleport: [-1],
+    teleport: [-1, 1000],
     text: 'PAssetHub - Contracts',
     ui: {
       color: '#77bb77',
