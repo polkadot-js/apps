@@ -57,8 +57,12 @@ const StyledNavLink = styled(NavLink)`
     color: #8B8B8B;
 
     .tabLinkText::after {
-      background-color: #8B8B8B;
+      background-color: var(--primary-estate);
     }
+  }
+
+  &.active .tabLinkText::after {
+    background: var(--primary-estate) !important;
   }
 
   &.active, &:hover {

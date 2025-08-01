@@ -222,7 +222,7 @@ export default createGlobalStyle<Props>(({ uiHighlight }: Props) => `
 
     &:hover:not(.isDisabled):not(.isReadOnly),
     &.isSelected {
-      background: ${getHighlight(uiHighlight)};
+      background: #0d4c60d9;
       color: ${getContrast(uiHighlight)};
       text-shadow: none;
 

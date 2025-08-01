@@ -56,8 +56,9 @@ const StyledLi = styled.li`
   position: relative;
 
   .groupHdr {
+    background: none !important;
     border-radius: 0.25rem;
-    padding: 0.857rem 1.375rem;
+    padding: 0rem 1.375rem;
     font-weight: var(--font-weight-normal);
     line-height: 1.214rem;
 
@@ -67,9 +68,9 @@ const StyledLi = styled.li`
   }
 
   &.isActive .groupHdr {
-    background-color: var(--bg-tabs);
-    font-weight: var(--font-weight-normal);
-    margin-bottom: 0;
+    // background-color: var(--bg-tabs);
+    //font-weight: var(--font-weight-normal);
+    // margin-bottom: 0;
   }
 
   .groupMenu {
@@ -113,7 +114,7 @@ const StyledLi = styled.li`
       display: block;
 
       > li:hover {
-        background: var(--bg-menu-hover);
+        //background: var(--bg-menu-hover);
       }
     }
   }

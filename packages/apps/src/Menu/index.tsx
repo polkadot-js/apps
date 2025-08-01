@@ -15,10 +15,10 @@ import { useAccounts, useApi, useCall, useTeleport } from '@polkadot/react-hooks
 
 import { findMissingApis } from '../endpoint.js';
 import { useTranslation } from '../translate.js';
-import ChainInfo from './ChainInfo.js';
 import Grouping from './Grouping.js';
 import Item from './Item.js';
 import NodeInfo from './NodeInfo.js';
+import Logo from './Logo.js';
 
 interface Props {
   className?: string;
@@ -124,14 +124,17 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   );
 
   return (
-    <StyledDiv className={`${className}${(!apiProps.isApiReady || !apiProps.isApiConnected) ? ' isLoading' : ''} highlight--bg`}>
+    <StyledDiv className={`${className}${(!apiProps.isApiReady || !apiProps.isApiConnected) ? ' isLoading' : ''}`}>
       <div className='menuContainer'>
+        <Logo />
         <div className='menuSection'>
+{/*
           <ChainInfo />
+*/}
           <ul className='menuItems'>
             {visibleGroups.map(({ name, routes }): React.ReactNode => (
               <Grouping
-                isActive={!!activeRoute && activeRoute.group === name.toLowerCase()}
+                isActive={!!activeRoute && activeRoute?.group === name?.toLowerCase()}
                 key={name}
                 name={name}
                 routes={routes}
@@ -162,6 +165,10 @@ const StyledDiv = styled.div`
   padding: 0;
   z-index: 220;
   position: relative;
+  background: var(--primary-estate);
+  min-height: 50px;
+  display: flex;
+  align-items: center;
 
   .smallShow {
     display: none;

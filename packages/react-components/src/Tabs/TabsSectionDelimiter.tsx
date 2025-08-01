@@ -22,7 +22,7 @@ function TabsSectionDelimiter ({ className = '' }: TabsSectionDelimiterProps): R
         <path
           className='highlight--stroke'
           d='M1 1L16 32.5L1 64'
-          stroke='#D1D1D1'
+          stroke='#0d4c60d9'
         />
       </svg>
     </StyledDiv>

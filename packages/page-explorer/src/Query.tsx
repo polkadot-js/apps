@@ -3,7 +3,7 @@
 
 import React, { useCallback, useState } from 'react';
 
-import { Button, FilterOverlay, Input, styled } from '@polkadot/react-components';
+import { FilterOverlay, Input, styled } from '@polkadot/react-components';
 import { isHex } from '@polkadot/util';
 
 import { useTranslation } from './translate.js';
@@ -54,10 +54,13 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
         placeholder={t('block hash or number to query')}
         withLabel={false}
       >
-        <Button
+{/*        <Button
           icon='play'
           onClick={_onQuery}
-        />
+        />*/}
+        <button onClick={_onQuery} className={'searchBtn'}>
+          Search
+        </button>
       </Input>
     </StyledFilterOverlay>
   );
@@ -66,6 +69,15 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
 const StyledFilterOverlay = styled(FilterOverlay)`
   .explorer--query {
     width: 20em;
+  }
+
+  .searchBtn {
+    margin-left: -3px;
+    background: var(--primary-estate);
+    color: var(--color-header);
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
   }
 `;
 
