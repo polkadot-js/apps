@@ -57,7 +57,7 @@ export function formatDate (date: Date, time = false) {
 }
 
 /**
- * Gives you a date for the traget timeslice
+ * Gives you a date for the target timeslice
  *
  * Relay chain info:
  * blockTime = 6000 ms
