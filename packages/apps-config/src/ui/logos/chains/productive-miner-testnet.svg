@@ -1,0 +1,36 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Gradient Definitions -->
+  <defs>
+    <!-- Purple gradient matching frontend tabs -->
+    <radialGradient id="spaceGradient" cx="0.5" cy="0.5" r="0.8">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#6b7ce8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Main circular area with purple gradient -->
+  <circle cx="200" cy="200" r="180" fill="url(#spaceGradient)"/>
+  
+  <!-- Outline pickaxe that follows emoji shape - much bigger -->
+  <g transform="translate(200,200)" stroke="white" stroke-width="12" fill="none">
+    <!-- Left blade (pointed side) - much bigger -->
+    <path d="M -50,-30 L -110,-55 L -125,-30 L -110,-5 L -50,-30 Z"/>
+    
+    <!-- Right blade (flat side) - much bigger -->
+    <rect x="50" y="-40" width="40" height="35" rx="3"/>
+    
+    <!-- Center block where handle connects - much bigger -->
+    <rect x="-40" y="-45" width="80" height="40" rx="4"/>
+    
+    <!-- Handle - much bigger -->
+    <rect x="-12" y="-5" width="24" height="140" rx="10"/>
+    
+    <!-- Handle grip bands - much bigger -->
+    <rect x="-12" y="15" width="24" height="4" fill="white"/>
+    <rect x="-12" y="35" width="24" height="4" fill="white"/>
+    <rect x="-12" y="55" width="24" height="4" fill="white"/>
+    <rect x="-12" y="75" width="24" height="4" fill="white"/>
+    <rect x="-12" y="95" width="24" height="4" fill="white"/>
+  </g>
+</svg> 

@@ -99,6 +99,7 @@ import peerplays from './peerplays.js';
 import pendulum from './pendulum.js';
 import phoenix from './phoenix.js';
 import pichiu from './pichiu.js';
+import productiveMinerTestnet from './productive-miner-testnet.js';
 import polkadex from './polkadex.js';
 import polkafoundry from './polkafoundry.js';
 import polymeshMainnet from './polymesh-mainnet.js';
@@ -277,6 +278,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   polymesh_mainnet: polymeshMainnet,
   polymesh_testnet: polymeshTestnet,
   'pontem-node': pontem as OverrideBundleDefinition,
+  'productive-miner-testnet': productiveMinerTestnet,
   prism,
   'quantum-portal-network-parachain': ferrum,
   quartz,
